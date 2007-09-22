@@ -233,13 +233,24 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual const csVector3& GetUp () const = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use SetTargetPositionOffset() instead")
+  virtual void SetPositionOffset (const csVector3& offset) = 0;
+
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
    * the camera.
    * \param offset the offset from the center of the mesh to the camera
    *        position.
    */
-  virtual void SetPositionOffset (const csVector3& offset) = 0;
+  virtual void SetTargetPositionOffset (const csVector3& offset) = 0;
+
+  /**
+   * Sets the offset from the center of the mesh's iMovable to the position of
+   * the camera.
+   * \param offset the offset from the center of the mesh to the camera
+   *        position.
+   */
+  virtual void SetCameraPositionOffset (const csVector3& offset) = 0;
 
   /**
    * Returns whether the camera will use collision detection to avoid moving

@@ -142,6 +142,7 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   lastIdealPos.Set (0.0f, 0.0f, 0.0f);
   lastIdealTarget.Set (0.0f, 0.0f, 0.0f);
   lastIdealUp.Set (0.0f, 0.0f, 0.0f);
+  camera_offset.Set (0, 0, 0);
 
   currMode = (size_t)-1;
 
@@ -408,7 +409,16 @@ const csVector3& celPcNewCamera::GetUp () const
 
 void celPcNewCamera::SetPositionOffset (const csVector3& offset)
 {
+  SetTargetPositionOffset (offset);
+}
+void celPcNewCamera::SetTargetPositionOffset (const csVector3& offset)
+{
   basePosOffset = offset;
+}
+
+void celPcNewCamera::SetCameraPositionOffset (const csVector3& offset)
+{
+  camera_offset = offset;
 }
 
 bool celPcNewCamera::DetectCollisions () const
@@ -567,8 +577,8 @@ void celPcNewCamera::UpdateCamera ()
     return;
   }
 
-  basePos = baseTrans.GetOrigin () +
-  	baseTrans.This2OtherRelative (basePosOffset);
+  basePos = baseTrans.GetOrigin ()
+    + baseTrans.This2OtherRelative (basePosOffset);
   baseDir = baseTrans.This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
   baseUp  = baseTrans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
 
@@ -609,8 +619,16 @@ void celPcNewCamera::UpdateCamera ()
   csVector3 desiredCamTarget = mode->GetTarget ();
   csVector3 desiredCamUp = mode->GetUp ();
 
+  // build the desired transform so that we can calculate the desired
+  // offset that we want
+  csReversibleTransform desired_camtrans;
+  desired_camtrans.SetOrigin(desiredCamPos);
+  desired_camtrans.LookAt (desiredCamTarget - desiredCamPos, csVector3 (0,1,0));
+  // then apply the desired offset to the desired position
+  desiredCamPos += desired_camtrans.This2OtherRelative (camera_offset);
+
   // perform collision detection
-  if (DetectCollisions () && mode->AllowCollisionDetection ())
+  if (false && DetectCollisions () && mode->AllowCollisionDetection ())
   {
     csVector3 beamDirection = basePos - desiredCamPos;
     beamDirection.Normalize ();
@@ -653,7 +671,7 @@ void celPcNewCamera::UpdateCamera ()
 
   // Adjust camera transform for relative position and lookat position.
   csReversibleTransform camTrans;
-  camTrans.SetOrigin(baseTrans.GetOrigin ());
+  camTrans.SetOrigin(camPos);
   camTrans.LookAt (camTarget - camPos, camUp);
 
   iCamera* c = view->GetCamera ();
@@ -663,12 +681,6 @@ void celPcNewCamera::UpdateCamera ()
     c->SetSector (baseSector);
   c->SetTransform (camTrans);
   c->OnlyPortals (true);
-
-  // to increase the chances of the camera being in the correct sector, first
-  // move to from the attached mesh origin to the camera's base position, then
-  // move to the desired position traversing portals as we go
-  c->MoveWorld (basePos - c->GetTransform ().GetOrigin (), false);
-  c->MoveWorld (camPos - c->GetTransform ().GetOrigin (), false);
 
   lastIdealPos = desiredCamPos;
   lastIdealTarget = desiredCamTarget;
