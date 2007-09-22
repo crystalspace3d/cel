@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-Sep-2007
+	- Genjix made ActorAnalog just update every frame - you will always
+	  have some minor artifact otherwise and like this is smoooth...
 20-Sep-2007
 	- sueastside fixed a typo causing MSVC problems.
 	- caedes added swig renames for 

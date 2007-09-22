@@ -48,8 +48,6 @@ csStringID celPcActorAnalog::id_value = csInvalidStringID;
 
 PropertyHolder celPcActorAnalog::propinfo;
 
-const csTicks wakeup = 100;
-
 celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
@@ -87,7 +85,7 @@ celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
     &turnspeed);
 
   // Tick every so often so we can update the state
-  pl->CallbackOnce ((iCelTimerListener*)this, wakeup, CEL_EVENT_PRE);
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
   turnspeed = 8.0f;
   movespeed = 10;
@@ -207,15 +205,10 @@ void celPcActorAnalog::FindSiblingPropertyClasses ()
   }
 }
 
-void celPcActorAnalog::TickOnce ()
+void celPcActorAnalog::TickEveryFrame ()
 {
   UpdateMovement ();
-  pl->CallbackOnce ((iCelTimerListener*)this, wakeup, CEL_EVENT_PRE);
 }
-/*void celPcActorAnalog::TickEveryFrame ()
-{
-  UpdateMovement ();
-}*/
 
 void celPcActorAnalog::UpdateMovement ()
 {
@@ -265,5 +258,10 @@ void celPcActorAnalog::UpdateMovement ()
     pclinmove->SetVelocity (csVector3 (0, 0, -movespeed));
     pcmesh->SetAnimation ("walk", true);
   }
-  // we could do else SetAnimation "turning" or something here...
+  else
+  {
+    // we could also slow down forward velocity gradually ...
+    // ... more conditionals :)
+    //pcmesh->SetAnimation ("turning", true);
+  }
 }

@@ -57,8 +57,7 @@ public:
       iCelParameterBlock* params, celData& ret);
 
   // Callback to update the character
-  virtual void TickOnce ();
-  //virtual void TickEveryFrame ();
+  virtual void TickEveryFrame ();
 
   virtual void SetAxis (size_t axis, float value);
   virtual void AddAxis (size_t axis, float value);
