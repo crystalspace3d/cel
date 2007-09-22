@@ -107,6 +107,11 @@ float celCameraMode::GetSpringCoefficient () const
   return spring;
 }
 
+void celCameraMode::SetSpringCoefficient (float s)
+{
+  spring = s;
+}
+
 const csVector3& celCameraMode::GetPosition () const
 {
   return pos;
