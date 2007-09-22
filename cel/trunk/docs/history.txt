@@ -6,6 +6,10 @@ The history order is reversed so that new features are at the top.
 22-Sep-2007
 	- Genjix made ActorAnalog just update every frame - you will always
 	  have some minor artifact otherwise and like this is smoooth...
+	- Genjix added SetSpringCoefficient (float) to new camera mode interface,
+	  unfortunately this will break things for people who have implemented
+	  their own new camera mode interface as this is a missing function
+	  that would need to be added to their code.
 20-Sep-2007
 	- sueastside fixed a typo causing MSVC problems.
 	- caedes added swig renames for 

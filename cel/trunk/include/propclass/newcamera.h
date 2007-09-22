@@ -107,6 +107,12 @@ struct General : public virtual iBase
   virtual float GetSpringCoefficient () const = 0;
 
   /**
+   * Sets the spring coefficient to use for the spring physics.
+   * @param s The spring coefficient of this camera mode.
+   */
+  virtual void SetSpringCoefficient (float s) = 0;
+
+  /**
    * Gets the desired camera position.
    * \return The desired camera position.
    */

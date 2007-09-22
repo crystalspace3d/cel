@@ -88,6 +88,10 @@ public:
   {
     return celCameraMode::GetSpringCoefficient ();
   }
+  virtual void SetSpringCoefficient (float s)
+  {
+    return celCameraMode::SetSpringCoefficient (s);
+  }
   virtual const csVector3 &GetPosition () const
   {
     return celCameraMode::GetPosition ();
