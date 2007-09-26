@@ -3,9 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
-26Sep-2007
+26-Sep-2007
 	- Darek added optional 'name' instead of 'id' for blxml action/par 
 	  and call/par.
+	- Darek added optional 'name' instead of 'id' for blxml property.
 23-Sep-2007
 	- Genjix fixed camera SetPositionOffset (offset) to do what it actually
 	  says, and added old behaviour as SetPositionTargetOffset (offset).
