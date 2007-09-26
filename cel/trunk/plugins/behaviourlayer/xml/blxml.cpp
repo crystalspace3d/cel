@@ -2442,7 +2442,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
             return false;
           }
           celXmlScriptEventHandler* handler = superscript->GetEventHandler (
-                  h->GetName ());
+          	h->GetName ());
           while (!handler)
           {
             superscript = superscript->GetSuperScript ();
@@ -2452,9 +2452,9 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           if (!handler)
           {
             synldr->ReportError (
-                "cel.behaviour.xml", child,
-                "The superscript has no method called '%s'!",
-                h->GetName ());
+            	"cel.behaviour.xml", child,
+            	"The superscript has no method called '%s'!",
+            	h->GetName ());
             return false;
           }
           h->AddOperation (CEL_OPERATION_CALL_I);
@@ -2490,7 +2490,6 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           else if (cnt > 0)
           {
             h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
-
             child_it = child->GetNodes ();
             cnt = 0;
             while (child_it->HasNext ())
@@ -2500,8 +2499,20 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
               csStringID child_id = xmltokens.Request (c->GetValue ());
               if (child_id != XMLTOKEN_RETURN)
               {
-                if (!ParseExpression (local_vars, c, h, "id", "call/par"))
-                  return false;
+                if (c->GetAttributeValue ("id"))
+                {
+                  if (!ParseExpression (local_vars, c, h, "id", "call/par"))
+                    return false;
+                }
+                else if (c->GetAttributeValue ("name"))
+                {
+                  csString parid = "cel.parameter.";
+                  parid += c->GetAttributeValue ("name");
+                  csStringID pid = pl->FetchStringID (parid);
+                  h->AddOperation (CEL_OPERATION_PUSH);
+                  h->GetArgument ().SetID (pid);
+                }
+
                 if (!ParseExpression (local_vars, c, h, "value", "call/par"))
                   return false;
                 h->AddOperation (CEL_OPERATION_ACTIONPARAM);
@@ -2522,10 +2533,10 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
             return false;
           if (return_node)
             h->AddOperation (entname ? CEL_OPERATION_CALL_ER :
-                    CEL_OPERATION_CALL_R);
+            	CEL_OPERATION_CALL_R);
           else
             h->AddOperation (entname ? CEL_OPERATION_CALL_E :
-                    CEL_OPERATION_CALL);
+            	CEL_OPERATION_CALL);
         }
         break;
       case XMLTOKEN_ACTION:
@@ -2542,15 +2553,25 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           if (cnt > 0)
           {
             h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
-
             child_it = child->GetNodes ();
             cnt = 0;
             while (child_it->HasNext ())
             {
               csRef<iDocumentNode> c = child_it->Next ();
               if (c->GetType () != CS_NODE_ELEMENT) continue;
-              if (!ParseExpression (local_vars, c, h, "id", "action/par"))
-                return false;
+              if (c->GetAttributeValue ("id"))
+              {
+                if (!ParseExpression (local_vars, c, h, "id", "action/par"))
+                  return false;
+              }
+              else if (c->GetAttributeValue ("name"))
+              {
+                csString parid = "cel.parameter.";
+                parid += c->GetAttributeValue ("name");
+                csStringID pid = pl->FetchStringID (parid);
+                h->AddOperation (CEL_OPERATION_PUSH);
+                h->GetArgument ().SetID (pid);
+              }
               if (!ParseExpression (local_vars, c, h, "value", "action/par"))
                 return false;
               h->AddOperation (CEL_OPERATION_ACTIONPARAM);
@@ -2558,9 +2579,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
               cnt++;
             }
           }
-
           if (!ParseExpression (local_vars, child, h, "propclass", "action",
-                  CEL_DATA_PCLASS))
+          	CEL_DATA_PCLASS))
             return false;
           if (child->GetAttributeValue ("id"))
           {
@@ -2577,7 +2597,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           }
           else
             synldr->ReportError ("cel.behaviour.xml", child,
-                    "Missing attribute id or name!");
+            	"Missing attribute id or name!");
           h->AddOperation (CEL_OPERATION_ACTION);
         }
         break;
@@ -2586,7 +2606,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           if (child->GetAttributeValue ("name"))
           {
             if (!ParseExpression (local_vars, child, h, "name",
-                    "destroyentity"))
+            	"destroyentity"))
               return false;
             h->AddOperation (CEL_OPERATION_DESTROYENTITY);
             break;
@@ -2594,7 +2614,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           else if (child->GetAttributeValue ("class"))
           {
             if (!ParseExpression (local_vars, child, h, "class",
-                    "destroyentity"))
+            	"destroyentity"))
               return false;
             h->AddOperation (CEL_OPERATION_DESTROYENTITY_CLASS);
             break;
@@ -2628,10 +2648,10 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           }
 
           if (!ParseExpression (local_vars, child, h, "name",
-                                  "createentity", CEL_DATA_STRING))
+          	"createentity", CEL_DATA_STRING))
             return false;
           if (!ParseExpression (local_vars, child, h, "template",
-                                  "createentity"))
+          	"createentity"))
             return false;
           h->AddOperation (CEL_OPERATION_CREATEENTITYTPL);
         }
@@ -2640,12 +2660,12 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           if (!ParseExpression (local_vars, child, h, "name", "createentity"))
             return false;
           if (!ParseExpression (local_vars, child, h, "behaviour",
-                                  "createentity", CEL_DATA_STRING))
+          	"createentity", CEL_DATA_STRING))
             return false;
           if (child->GetAttributeValue ("layer"))
           {
             if (!ParseExpression (local_vars, child, h, "layer",
-                                    "createentity"))
+            	"createentity"))
               return false;
             h->AddOperation (CEL_OPERATION_CREATEENTITYL);
           }
@@ -2656,16 +2676,16 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         }
         break;
       case XMLTOKEN_EXPR:
-	if (child->GetAttributeValue ("eval"))
-	{
+        if (child->GetAttributeValue ("eval"))
+        {
           if (!ParseExpression (local_vars, child, h, "eval", "expr"))
             return false;
-	}
-	else
-	{
+        }
+        else
+        {
           if (!ParseExpressionContents (local_vars, child, h, "expr"))
             return false;
-	}
+        }
         h->AddOperation (CEL_OPERATION_CLEARSTACK);
         break;
       case XMLTOKEN_LVAR:

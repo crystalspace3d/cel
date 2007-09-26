@@ -3937,50 +3937,50 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         break;
       case CEL_OPERATION_RETURN:
         {
-	  CHECK_STACK(1)
-	  celXmlArg a_val = stack.Pop ();
-	  DUMP_EXEC ((":%04d: return val=%s\n", i-1, A2S (a_val)));
-	  switch (a_val.type)
-	  {
-	    case CEL_DATA_ENTITY: ret.Set (a_val.arg.entity); break;
-	    case CEL_DATA_IBASE: ret.SetIBase (a_val.arg.ref); break;
-	    case CEL_DATA_PCLASS: ret.Set (a_val.arg.pc); break;
-	    case CEL_DATA_LONG: ret.Set (a_val.arg.i); break;
-	    case CEL_DATA_ULONG: ret.Set (a_val.arg.ui); break;
-	    case CEL_DATA_BOOL: ret.Set (a_val.arg.b); break;
-	    case CEL_DATA_FLOAT: ret.Set (a_val.arg.f); break;
-	    case CEL_DATA_STRING: ret.Set (a_val.arg.str.s); break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v;
-		v.x = a_val.arg.vec.x;
-		v.y = a_val.arg.vec.y;
-	        ret.Set (v);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v;
-		v.x = a_val.arg.vec.x;
-		v.y = a_val.arg.vec.y;
-		v.z = a_val.arg.vec.z;
-	        ret.Set (v);
-	      }
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor v;
-		v.red = a_val.arg.col.red;
-		v.green = a_val.arg.col.green;
-		v.blue = a_val.arg.col.blue;
-	        ret.Set (v);
-	      }
-	      break;
-	    default:
-	      return ReportError (cbl, "Bad type of value for return!");
-	  }
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg a_val = stack.Pop ();
+          DUMP_EXEC ((":%04d: return val=%s\n", i-1, A2S (a_val)));
+          switch (a_val.type)
+          {
+            case CEL_DATA_ENTITY: ret.Set (a_val.arg.entity); break;
+            case CEL_DATA_IBASE: ret.SetIBase (a_val.arg.ref); break;
+            case CEL_DATA_PCLASS: ret.Set (a_val.arg.pc); break;
+            case CEL_DATA_LONG: ret.Set (a_val.arg.i); break;
+            case CEL_DATA_ULONG: ret.Set (a_val.arg.ui); break;
+            case CEL_DATA_BOOL: ret.Set (a_val.arg.b); break;
+            case CEL_DATA_FLOAT: ret.Set (a_val.arg.f); break;
+            case CEL_DATA_STRING: ret.Set (a_val.arg.str.s); break;
+            case CEL_DATA_VECTOR2:
+              {
+                csVector2 v;
+                v.x = a_val.arg.vec.x;
+                v.y = a_val.arg.vec.y;
+                ret.Set (v);
+              }
+              break;
+            case CEL_DATA_VECTOR3:
+              {
+                csVector3 v;
+                v.x = a_val.arg.vec.x;
+                v.y = a_val.arg.vec.y;
+                v.z = a_val.arg.vec.z;
+                ret.Set (v);
+              }
+              break;
+            case CEL_DATA_COLOR:
+              {
+                csColor v;
+                v.red = a_val.arg.col.red;
+                v.green = a_val.arg.col.green;
+                v.blue = a_val.arg.col.blue;
+                ret.Set (v);
+              }
+              break;
+            default:
+              return ReportError (cbl, "Bad type of value for return!");
+          }
+        }
+        break;
       case CEL_OPERATION_QUIT:
         {
           DUMP_EXEC ((":%04d: quit\n", i-1));
@@ -3998,7 +3998,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           if (!pc) pc = default_pc;
           if (!pc)
             return ReportError (cbl,
-                "No valid property class for 'action'!");
+            	"No valid property class for 'action'!");
           csStringID id = ArgToID (a_id);
           csRef<iCelParameterBlock> ref = action_params;
           celData ret;
