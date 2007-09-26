@@ -4820,77 +4820,77 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_DEFAULTPC:
         {
-	  CHECK_STACK(1)
-	  celXmlArg a_pc = stack.Pop ();
-	  DUMP_EXEC ((":%04d: defaultpc pc=%s\n", i-1, A2S (a_pc)));
-	  iCelPropertyClass* pc = ArgToPClass (a_pc);
-	  if (!pc)
-	    return ReportError (cbl, "Property class is 0 for default pc!");
-	  default_pc = pc;
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg a_pc = stack.Pop ();
+          DUMP_EXEC ((":%04d: defaultpc pc=%s\n", i-1, A2S (a_pc)));
+          iCelPropertyClass* pc = ArgToPClass (a_pc);
+          if (!pc)
+            return ReportError (cbl, "Property class is 0 for default pc!");
+          default_pc = pc;
+        }
+        break;
       case CEL_OPERATION_PROPERTY:
         {
-	  CHECK_STACK(3)
-	  celXmlArg a_val = stack.Pop ();
-	  celXmlArg a_id = stack.Pop ();
-	  celXmlArg a_pc = stack.Pop ();
+          CHECK_STACK(3)
+          celXmlArg a_val = stack.Pop ();
+          celXmlArg a_id = stack.Pop ();
+          celXmlArg a_pc = stack.Pop ();
           DUMP_EXEC ((":%04d: property pc=%s id=%s val=%s\n", i-1, A2S (a_pc),
-	  	A2S (a_id), A2S (a_val)));
-	  if (varprop_trace)
-	  {
-	    printf (":%s/%04lu: property pc=%s id=%s val=%s\n",
-	    	cbl->call_stack.Top (),
-		(unsigned long)i-1, A2S (a_pc), A2S (a_id), A2S (a_val));
-	    fflush (stdout);
-	  }
-	  iCelPropertyClass* pc = ArgToPClass (a_pc);
-	  if (!pc) pc = default_pc;
-	  if (!pc)
-	    return ReportError (cbl,
-	    	  "No valid property class for 'property'!");
-	  csStringID id = ArgToID (a_id);
-	  celDataType t = pc->GetPropertyOrActionType (id);
-	  switch (t)
-	  {
-	    case CEL_DATA_LONG:
-	      pc->SetProperty (id, (long)ArgToInt32 (a_val));
-	      break;
-	    case CEL_DATA_ULONG:
-	      pc->SetProperty (id, (long)ArgToUInt32 (a_val));
-	      break;
-	    case CEL_DATA_FLOAT:
-	      pc->SetProperty (id, ArgToFloat (a_val));
-	      break;
-	    case CEL_DATA_BOOL:
-	      pc->SetProperty (id, ArgToBool (a_val));
-	      break;
-	    case CEL_DATA_STRING:
-	      pc->SetProperty (id, ArgToString (a_val));
-	      break;
-	    case CEL_DATA_VECTOR2:
-	      pc->SetProperty (id, ArgToVector2 (a_val));
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      pc->SetProperty (id, ArgToVector3 (a_val));
-	      break;
-	    case CEL_DATA_COLOR:
-	      pc->SetProperty (id, ArgToColor (a_val));
-	      break;
-	    case CEL_DATA_PCLASS:
-	      pc->SetProperty (id, ArgToPClass (a_val));
-	      break;
-	    case CEL_DATA_ENTITY:
-	      pc->SetProperty (id, a_val.arg.entity);
-	      break;
-	    case CEL_DATA_IBASE:
-	      pc->SetProperty (id, a_val.arg.ref);
-	      break;
-	    default:
-	      return ReportError (cbl,
-	      	"Bad type for setting property value!");
-	  }
-	}
+          	A2S (a_id), A2S (a_val)));
+          if (varprop_trace)
+          {
+            printf (":%s/%04lu: property pc=%s id=%s val=%s\n",
+            	cbl->call_stack.Top (),
+            	(unsigned long)i-1, A2S (a_pc), A2S (a_id), A2S (a_val));
+           fflush (stdout);
+          }
+          iCelPropertyClass* pc = ArgToPClass (a_pc);
+          if (!pc) pc = default_pc;
+          if (!pc)
+            return ReportError (cbl,
+            	"No valid property class for 'property'!");
+          csStringID id = ArgToID (a_id);
+          celDataType t = pc->GetPropertyOrActionType (id);
+          switch (t)
+          {
+            case CEL_DATA_LONG:
+              pc->SetProperty (id, (long)ArgToInt32 (a_val));
+              break;
+            case CEL_DATA_ULONG:
+              pc->SetProperty (id, (long)ArgToUInt32 (a_val));
+              break;
+            case CEL_DATA_FLOAT:
+              pc->SetProperty (id, ArgToFloat (a_val));
+              break;
+            case CEL_DATA_BOOL:
+              pc->SetProperty (id, ArgToBool (a_val));
+              break;
+            case CEL_DATA_STRING:
+              pc->SetProperty (id, ArgToString (a_val));
+              break;
+            case CEL_DATA_VECTOR2:
+              pc->SetProperty (id, ArgToVector2 (a_val));
+              break;
+            case CEL_DATA_VECTOR3:
+              pc->SetProperty (id, ArgToVector3 (a_val));
+              break;
+            case CEL_DATA_COLOR:
+              pc->SetProperty (id, ArgToColor (a_val));
+              break;
+            case CEL_DATA_PCLASS:
+              pc->SetProperty (id, ArgToPClass (a_val));
+              break;
+            case CEL_DATA_ENTITY:
+              pc->SetProperty (id, a_val.arg.entity);
+              break;
+            case CEL_DATA_IBASE:
+              pc->SetProperty (id, a_val.arg.ref);
+              break;
+            default:
+              return ReportError (cbl,
+              	"Bad type for setting property value!");
+          }
+        }
         break;
       case CEL_OPERATION_CHDIRAUTO:
         {

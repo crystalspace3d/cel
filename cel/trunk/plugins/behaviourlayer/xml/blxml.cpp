@@ -3001,10 +3001,21 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
       case XMLTOKEN_PROPERTY:
         {
           if (!ParseExpression (local_vars, child, h, "propclass", "property",
-                  CEL_DATA_PCLASS))
+          	CEL_DATA_PCLASS))
             return false;
-          if (!ParseExpression (local_vars, child, h, "id", "property"))
-            return false;
+          if (child->GetAttributeValue ("id"))
+          {
+            if (!ParseExpression (local_vars, child, h, "id", "property"))
+              return false;
+          }
+          else if (child->GetAttributeValue ("name"))
+          {
+            csString proid = "cel.property.";
+            proid += child->GetAttributeValue ("name");
+            csStringID id = pl->FetchStringID (proid);
+            h->AddOperation (CEL_OPERATION_PUSH);
+            h->GetArgument ().SetID (id);
+          }
           if (!ParseExpression (local_vars, child, h, "value", "property"))
             return false;
           h->AddOperation (CEL_OPERATION_PROPERTY);
