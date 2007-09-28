@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+28-Sep-2007
+	- caedes updated commandinput manual section to reflect changes in
+	  config specification (new system was introduced some time ago,
+	  and the old one deprecated, but docs where never updated).
 26-Sep-2007
 	- Darek added optional 'name' instead of 'id' for blxml action/par 
 	  and call/par.
