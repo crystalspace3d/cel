@@ -91,6 +91,8 @@ csStringID celPcActorMove::id_x = csInvalidStringID;
 csStringID celPcActorMove::id_y = csInvalidStringID;
 csStringID celPcActorMove::id_animation = csInvalidStringID;
 csStringID celPcActorMove::id_anicycle = csInvalidStringID;
+csStringID celPcActorMove::id_animationid = csInvalidStringID;
+csStringID celPcActorMove::id_animationname = csInvalidStringID;
 
 PropertyHolder celPcActorMove::propinfo;
 
@@ -109,6 +111,8 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     id_y = pl->FetchStringID ("cel.parameter.y");
     id_animation = pl->FetchStringID ("cel.parameter.animation");
     id_anicycle = pl->FetchStringID ("cel.parameter.cycle");
+    id_animationid = pl->FetchStringID ("cel.parameter.mapping");
+    id_animationname = pl->FetchStringID ("cel.parameter.name");
   }
 
   movement_speed = 2.0f;
@@ -167,6 +171,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     AddAction (action_jump, "cel.action.Jump");
     AddAction (action_togglecameramode, "cel.action.ToggleCameraMode");
     AddAction (action_setanimation, "cel.action.SetAnimation");
+    AddAction (action_setanimationname, "cel.action.SetAnimationName");
   }
 
   // For properties.
@@ -184,6 +189,12 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   AddProperty (propid_mousemove_yfactor, "cel.property.mousemove_yfactor",
   	CEL_DATA_FLOAT, false, "Mouse movement y speed factor.",
   	&mousemove_vert_factor);
+
+  // For animations.
+  SetAnimationMapping (CEL_ANIM_IDLE, "stand");
+  SetAnimationMapping (CEL_ANIM_WALK, "walk");
+  SetAnimationMapping (CEL_ANIM_RUN, "run");
+  SetAnimationMapping (CEL_ANIM_JUMP, "jump");
 }
 
 celPcActorMove::~celPcActorMove ()
@@ -252,9 +263,9 @@ void celPcActorMove::TickEveryFrame ()
       if (sprcal3d) sprcal3d->SetVelocity (-FindVelocity().z);
       else {
         if (IsMovingForward ())
-	  SetAnimation ("walk",true);
+	  SetAnimation (anim_name_walk.GetData(),true);
         else
-	  SetAnimation ("stand",true);
+	  SetAnimation (anim_name_idle.GetData(),true);
       }
       if (!mousemove)
         pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
@@ -289,19 +300,19 @@ void celPcActorMove::TickEveryFrame ()
     {
       if (mousemove_accelerated)
       {
-        if (abs_x > .25) abs_x += .25;
-        if (abs_x > .20) abs_x += .20;
-        if (abs_x > .15) abs_x += .15;
-        if (abs_x > .10) abs_x += .10;
-        if (abs_x > .05) abs_x += .05;
+        if (abs_x > .25) abs_x += .25f;
+        if (abs_x > .20) abs_x += .20f;
+        if (abs_x > .15) abs_x += .15f;
+        if (abs_x > .10) abs_x += .10f;
+        if (abs_x > .05) abs_x += .05f;
 
-        if (abs_y > .25) abs_y += .25;
-        if (abs_y > .20) abs_y += .20;
-        if (abs_y > .15) abs_y += .15;
-        if (abs_y > .10) abs_y += .10;
-        if (abs_y > .05) abs_y += .05;
+        if (abs_y > .25) abs_y += .25f;
+        if (abs_y > .20) abs_y += .20f;
+        if (abs_y > .15) abs_y += .15f;
+        if (abs_y > .10) abs_y += .10f;
+        if (abs_y > .05) abs_y += .05f;
       }
-  
+
       // Limit the maximum amount of mouse movement.
       if (abs_x > 0.5) abs_x = 0.5f;
       if (abs_y > 0.5) abs_y = 0.5f;
@@ -345,6 +356,18 @@ void celPcActorMove::SetAnimation (const char *name, bool cycle)
 {
   if (pcmesh)
     pcmesh->SetAnimation (name, cycle);
+}
+
+void celPcActorMove::SetAnimationMapping (celAnimationName idx, const char *name)
+{
+  if (idx == CEL_ANIM_IDLE)
+    anim_name_idle = name;
+  else if (idx == CEL_ANIM_WALK)
+    anim_name_walk = name;
+  else if (idx == CEL_ANIM_RUN)
+    anim_name_run = name;
+  else if (idx == CEL_ANIM_JUMP)
+    anim_name_jump = name;
 }
 
 #define ACTORMOVE_SERIAL 1
@@ -480,6 +503,26 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       SetAnimation (animation, anicycle);
       return true;
     }
+    case action_setanimationname:
+    {
+      CEL_FETCH_STRING_PAR (animationid,params,id_animationid);
+      if (!p_animationid) return false;
+      CEL_FETCH_STRING_PAR (animationname,params,id_animationname);
+      if (!p_animationname) return false;
+
+      celAnimationName animid;
+      if (strcmp(animationid,"idle") == 0)
+        animid = CEL_ANIM_IDLE;
+      else if (strcmp(animationid,"walk") == 0)
+        animid = CEL_ANIM_WALK;
+      else if (strcmp(animationid,"run") == 0)
+        animid = CEL_ANIM_RUN;
+      else if (strcmp(animationid,"jump") == 0)
+        animid = CEL_ANIM_JUMP;
+
+      SetAnimationMapping (animid, animationname);
+      return true;
+    }
     default:
       return false;
   }
@@ -548,6 +591,7 @@ void celPcActorMove::RotateTo (float yrot)
   {
     rotateright = false;
     rotateleft = false;
+    HandleMovement (false);
     return;
   }
 
@@ -687,11 +731,12 @@ void celPcActorMove::Forward (bool start)
   if (pcmesh && !sprcal3d && pclinmove->IsOnGround())
   {
     if (start && !IsMovingForward ())
-      SetAnimation ("walk",true);
+      SetAnimation (anim_name_walk.GetData(),true);
     else if (!start && IsMovingForward())
-      SetAnimation ("stand",true);
+      SetAnimation (anim_name_idle.GetData(),true);
   }
   forward = start;
+  if (!start) running = false;
   HandleMovement (false);
 }
 bool celPcActorMove::IsMovingForward ()
@@ -708,6 +753,11 @@ bool celPcActorMove::IsMovingBackward ()
 {
   HandleMovement (false);
   return backward;
+}
+bool celPcActorMove::IsMoving ()
+{
+  HandleMovement (false);
+  return (forward || backward);
 }
 void celPcActorMove::StrafeLeft (bool start)
 {
@@ -753,6 +803,16 @@ bool celPcActorMove::IsRotatingRight ()
 }
 void celPcActorMove::Run (bool start)
 {
+  if (pcmesh && !sprcal3d && pclinmove->IsOnGround())
+  {
+    if (start && !IsRunning ())
+      SetAnimation (anim_name_run.GetData(),true);
+    else if (!start && IsMoving())
+      SetAnimation (anim_name_walk.GetData(),true);
+    else if (!start && !IsMoving())
+      SetAnimation (anim_name_idle.GetData(),true);
+  }
+
   if (!autorun) running = start;
   HandleMovement (false);
 }
@@ -774,7 +834,7 @@ bool celPcActorMove::IsAutoRunning ()
 void celPcActorMove::Jump ()
 {
   if (pcmesh)
-    SetAnimation ("jump", false);
+    SetAnimation (anim_name_jump.GetData(), false);
   if (!jumping && !mousemove)
       pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
   jumping = true;

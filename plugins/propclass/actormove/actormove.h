@@ -123,6 +123,8 @@ private:
   static csStringID id_y;
   static csStringID id_animation;
   static csStringID id_anicycle;
+  static csStringID id_animationid;
+  static csStringID id_animationname;
 
   csVector3 FindVelocity();
   void HandleMovement (bool jump);
@@ -146,7 +148,8 @@ private:
     action_clear,
     action_jump,
     action_togglecameramode,
-    action_setanimation
+    action_setanimation,
+    action_setanimationname
   };
 
   // For properties.
@@ -160,6 +163,12 @@ private:
   };
   static PropertyHolder propinfo;
 
+  // For animations.
+  csString anim_name_walk;
+  csString anim_name_idle;
+  csString anim_name_run;
+  csString anim_name_jump;
+
 public:
   celPcActorMove (iObjectRegistry* object_reg);
   virtual ~celPcActorMove ();
@@ -168,6 +177,7 @@ public:
   virtual bool IsMovingForward ();
   virtual void Backward (bool start);
   virtual bool IsMovingBackward ();
+  virtual bool IsMoving ();
   virtual void StrafeLeft (bool start);
   virtual bool IsStrafingLeft ();
   virtual void StrafeRight (bool start);
@@ -212,6 +222,8 @@ public:
   virtual float GetJumpingVelocity () const { return jumping_velocity; }
 
   virtual void SetAnimation (const char *name, bool cycle=true);
+
+  virtual void SetAnimationMapping (celAnimationName idx, const char *name);
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
