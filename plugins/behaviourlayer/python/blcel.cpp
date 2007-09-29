@@ -42520,6 +42520,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcActorMove_IsMoving(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcActorMove *arg1 = (iPcActorMove *) 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcActorMove_IsMoving",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcActorMove, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcActorMove_IsMoving" "', argument " "1"" of type '" "iPcActorMove *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcActorMove * >(argp1);
+  result = (bool)(arg1)->IsMoving();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcActorMove_StrafeLeft(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcActorMove *arg1 = (iPcActorMove *) 0 ;
@@ -43510,6 +43532,48 @@ SWIGINTERN PyObject *_wrap_iPcActorMove_SetAnimation(PyObject *self, PyObject *a
   
 fail:
   SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'iPcActorMove_SetAnimation'.\n  Possible C/C++ prototypes are:\n    SetAnimation(char const *,bool)\n    SetAnimation(char const *)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcActorMove_SetAnimationMapping(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcActorMove *arg1 = (iPcActorMove *) 0 ;
+  celAnimationName arg2 ;
+  char *arg3 = (char *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:iPcActorMove_SetAnimationMapping",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcActorMove, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcActorMove_SetAnimationMapping" "', argument " "1"" of type '" "iPcActorMove *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcActorMove * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcActorMove_SetAnimationMapping" "', argument " "2"" of type '" "celAnimationName""'");
+  } 
+  arg2 = static_cast< celAnimationName >(val2);
+  res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "iPcActorMove_SetAnimationMapping" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = reinterpret_cast< char * >(buf3);
+  (arg1)->SetAnimationMapping(arg2,(char const *)arg3);
+  resultobj = SWIG_Py_Void();
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  return resultobj;
+fail:
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
   return NULL;
 }
 
@@ -88202,6 +88266,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcActorMove_IsMovingForward", _wrap_iPcActorMove_IsMovingForward, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_Backward", _wrap_iPcActorMove_Backward, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_IsMovingBackward", _wrap_iPcActorMove_IsMovingBackward, METH_VARARGS, NULL},
+	 { (char *)"iPcActorMove_IsMoving", _wrap_iPcActorMove_IsMoving, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_StrafeLeft", _wrap_iPcActorMove_StrafeLeft, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_IsStrafingLeft", _wrap_iPcActorMove_IsStrafingLeft, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_StrafeRight", _wrap_iPcActorMove_StrafeRight, METH_VARARGS, NULL},
@@ -88236,6 +88301,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcActorMove_SetJumpingVelocity", _wrap_iPcActorMove_SetJumpingVelocity, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_GetJumpingVelocity", _wrap_iPcActorMove_GetJumpingVelocity, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_SetAnimation", _wrap_iPcActorMove_SetAnimation, METH_VARARGS, NULL},
+	 { (char *)"iPcActorMove_SetAnimationMapping", _wrap_iPcActorMove_SetAnimationMapping, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_MovingForward_set", _wrap_iPcActorMove_MovingForward_set, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_MovingForward_get", _wrap_iPcActorMove_MovingForward_get, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_MovingBackward_set", _wrap_iPcActorMove_MovingBackward_set, METH_VARARGS, NULL},
@@ -93012,6 +93078,10 @@ SWIGEXPORT void SWIG_init(void) {
   SWIG_Python_SetConstant(d, "CEL_KEY_STATE_UP",SWIG_From_int(static_cast< int >(CEL_KEY_STATE_UP)));
   SWIG_Python_SetConstant(d, "CEL_KEY_STATE_DOWN",SWIG_From_int(static_cast< int >(CEL_KEY_STATE_DOWN)));
   SWIG_Python_SetConstant(d, "CEL_KEY_STATE_REPEAT",SWIG_From_int(static_cast< int >(CEL_KEY_STATE_REPEAT)));
+  SWIG_Python_SetConstant(d, "CEL_ANIM_IDLE",SWIG_From_int(static_cast< int >(CEL_ANIM_IDLE)));
+  SWIG_Python_SetConstant(d, "CEL_ANIM_WALK",SWIG_From_int(static_cast< int >(CEL_ANIM_WALK)));
+  SWIG_Python_SetConstant(d, "CEL_ANIM_RUN",SWIG_From_int(static_cast< int >(CEL_ANIM_RUN)));
+  SWIG_Python_SetConstant(d, "CEL_ANIM_JUMP",SWIG_From_int(static_cast< int >(CEL_ANIM_JUMP)));
   SWIG_Python_SetConstant(d, "iPcDefaultCamera_freelook",SWIG_From_int(static_cast< int >(iPcDefaultCamera::freelook)));
   SWIG_Python_SetConstant(d, "iPcDefaultCamera_firstperson",SWIG_From_int(static_cast< int >(iPcDefaultCamera::firstperson)));
   SWIG_Python_SetConstant(d, "iPcDefaultCamera_thirdperson",SWIG_From_int(static_cast< int >(iPcDefaultCamera::thirdperson)));
