@@ -23,6 +23,15 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
+// For animations.
+enum celAnimationName
+{
+  CEL_ANIM_IDLE = 0,
+  CEL_ANIM_WALK,
+  CEL_ANIM_RUN,
+  CEL_ANIM_JUMP
+};
+
 /**
  * ActorMove property class. This property class makes a connection
  * between pclinmove and pccamera and makes it easier to control
@@ -63,41 +72,43 @@
  */
 struct iPcActorMove : public virtual iBase
 {
-  SCF_INTERFACE (iPcActorMove, 0, 0, 1);
+  SCF_INTERFACE (iPcActorMove, 1, 0, 0);
 
   /// Start/stop going forward.
   virtual void Forward (bool start) = 0;
-  /// Returns the toogle value of moving forward.
+  /// Returns the toggle value of moving forward.
   virtual bool IsMovingForward () = 0;
   /// Start/stop going backward.
   virtual void Backward (bool start) = 0;
-  /// Returns the toogle value of moving backward.
+  /// Returns the toggle value of moving backward.
   virtual bool IsMovingBackward () = 0;
+  /// Returns the toggle value of moving.
+  virtual bool IsMoving () = 0;
   /// Start/stop strafing left.
   virtual void StrafeLeft (bool start) = 0;
-  /// Returns the toogle value of strafing left.
+  /// Returns the toggle value of strafing left.
   virtual bool IsStrafingLeft () = 0;
   /// Start/stop strafing right.
   virtual void StrafeRight (bool start) = 0;
-  /// Returns the toogle value of strafing right.
+  /// Returns the toggle value of strafing right.
   virtual bool IsStrafingRight () = 0;
   /// Start/stop rotating left.
   virtual void RotateLeft (bool start) = 0;
-  /// Returns the toogle value of rotating left.
+  /// Returns the toggle value of rotating left.
   virtual bool IsRotatingLeft () = 0;
   /// Start/stop rotating right.
   virtual void RotateRight (bool start) = 0;
-  /// Returns the toogle value of rotating right.
+  /// Returns the toggle value of rotating right.
   virtual bool IsRotatingRight () = 0;
   /// Rotate to a specified angle.
   virtual void RotateTo (float yrot) = 0;
   /// Start/stop running.
   virtual void Run (bool start) = 0;
-  /// Returns the toogle value of running.
+  /// Returns the toggle value of running.
   virtual bool IsRunning () = 0;
   /// Start/stop auto-running.
   virtual void AutoRun (bool start) = 0;
-  /// Returns the toogle value of autorunning.
+  /// Returns the toggle value of autorunning.
   virtual bool IsAutoRunning () = 0;
   /**
    * Handle mouse movement. Use this in combination with EnableMouseMove().
@@ -167,6 +178,8 @@ struct iPcActorMove : public virtual iBase
   virtual float GetJumpingVelocity () const = 0;
   /// Set current animation on underlying pcmesh.
   virtual void SetAnimation (const char *name, bool cycle = true) = 0;
+  /// Set the mesh's animationname for internally used animations.
+  virtual void SetAnimationMapping (celAnimationName idx, const char *name) = 0;
 };
 
 #endif // __CEL_PF_ACTORMOVE__

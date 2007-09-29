@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+29-Sep-2007
+	- Sueastside added SetAnimationMapping() which allows you to
+          change the previously hardcoded animation names.
+
 28-Sep-2007
 	- caedes updated commandinput manual section to reflect changes in
 	  config specification (new system was introduced some time ago,
