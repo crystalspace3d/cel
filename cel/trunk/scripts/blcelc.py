@@ -2277,6 +2277,10 @@ iPcLinearMovement_swigregister = _blcelc.iPcLinearMovement_swigregister
 iPcLinearMovement_swigregister(iPcLinearMovement)
 
 scfQuery_iPcLinearMovement = _blcelc.scfQuery_iPcLinearMovement
+CEL_ANIM_IDLE = _blcelc.CEL_ANIM_IDLE
+CEL_ANIM_WALK = _blcelc.CEL_ANIM_WALK
+CEL_ANIM_RUN = _blcelc.CEL_ANIM_RUN
+CEL_ANIM_JUMP = _blcelc.CEL_ANIM_JUMP
 class iPcActorMove(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -2290,6 +2294,7 @@ class iPcActorMove(cspace.iBase):
     def IsMovingForward(*args): return _blcelc.iPcActorMove_IsMovingForward(*args)
     def Backward(*args): return _blcelc.iPcActorMove_Backward(*args)
     def IsMovingBackward(*args): return _blcelc.iPcActorMove_IsMovingBackward(*args)
+    def IsMoving(*args): return _blcelc.iPcActorMove_IsMoving(*args)
     def StrafeLeft(*args): return _blcelc.iPcActorMove_StrafeLeft(*args)
     def IsStrafingLeft(*args): return _blcelc.iPcActorMove_IsStrafingLeft(*args)
     def StrafeRight(*args): return _blcelc.iPcActorMove_StrafeRight(*args)
@@ -2324,6 +2329,7 @@ class iPcActorMove(cspace.iBase):
     def SetJumpingVelocity(*args): return _blcelc.iPcActorMove_SetJumpingVelocity(*args)
     def GetJumpingVelocity(*args): return _blcelc.iPcActorMove_GetJumpingVelocity(*args)
     def SetAnimation(*args): return _blcelc.iPcActorMove_SetAnimation(*args)
+    def SetAnimationMapping(*args): return _blcelc.iPcActorMove_SetAnimationMapping(*args)
     __swig_setmethods__["MovingForward"] = _blcelc.iPcActorMove_MovingForward_set
     MovingForward = property(_blcelc.iPcActorMove_MovingForward_get, _blcelc.iPcActorMove_MovingForward_set, None,
                     "iPcActorMove.MovingForward -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsMovingForward()\n\tset: void iPcActorMove::Forward(bool)")
