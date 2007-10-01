@@ -113,8 +113,12 @@
  * - currentgearforce (float, read): Force of current gear.
  * - averagewheelspin (float, read): Average spin of wheels.
  * - differential (bool, read/write): Whether to use a differential
-                                        between wheels.
- */
+                                      between wheels.
+ * - antisway (bool, read/write): Whether to apply forces to prevent the car
+                                      from swaying.
+ * - antiswayfactor (float, read/write): How hard to act on anti-sway.
+ * - antiswaylimit (float, read/write): Maximum anti-sway force on a wheel.
+*/
 
 struct iCelEntity;
 struct iBodyGroup;
@@ -175,12 +179,46 @@ struct iPcWheeled : public virtual iBase
    *  \param enabled Whether differential is enabled.
    */
   virtual void SetDifferential(bool enabled) = 0;
+
+  /**
+   * If enabled, causes the system to apply forces to wheels in an effort
+   * to stop the car from tipping. This simulates the roll bar of a vehicle
+   *  \param enabled Whether anti-sway
+   */
+  virtual void SetAntiSway(bool enabled) = 0;
+
+  /**
+   * How hard to act on each wheel for anti-sway.
+   *  \param antiswayfactor Anti-sway factor
+   */
+  virtual void SetAntiSwayFactor(float antiswayfactor) = 0;
+
+  /**
+   * Maximum force anti-sway will apply to each wheel.
+   *  \param antiswaylimit Anti-sway limit.
+   */
+  virtual void SetAntiSwayLimit(float antiswaylimit) = 0;
+
   
   /**
    * Get if the vehicle uses a differential between left and right wheels.
    */
   virtual bool GetDifferential() = 0;
 
+  /**
+   * Get if the vehicle is using anti-sway
+   */
+  virtual bool GetAntiSway() = 0;
+
+  /**
+   * Get the vehicle's anti-sway factor
+   */
+  virtual float GetAntiSwayFactor() = 0;
+
+  /**
+   * Get the vehicle's anti-sway limit
+   */
+  virtual float GetAntiSwayLimit() = 0;
   
   /**
    * Set if the vehicle uses anti-lock braking.
