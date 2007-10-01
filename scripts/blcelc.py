@@ -305,6 +305,7 @@ class celEntityTemplateParams(_object):
     def In(*args): return _blcelc.celEntityTemplateParams_In(*args)
     def GetElementPointer(*args): return _blcelc.celEntityTemplateParams_GetElementPointer(*args)
     def Get(*args): return _blcelc.celEntityTemplateParams_Get(*args)
+    def GetOrCreate(*args): return _blcelc.celEntityTemplateParams_GetOrCreate(*args)
     def Empty(*args): return _blcelc.celEntityTemplateParams_Empty(*args)
     def DeleteAll(*args): return _blcelc.celEntityTemplateParams_DeleteAll(*args)
     def Delete(*args): return _blcelc.celEntityTemplateParams_Delete(*args)

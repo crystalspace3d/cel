@@ -9707,6 +9707,7 @@ SWIGINTERN PyObject *_wrap_celEntityTemplateParams_Put(PyObject *SWIGUNUSEDPARM(
   csHash<csStringFast<12 >,csStringFast<12 > > *arg1 = (csHash<csStringFast<12 >,csStringFast<12 > > *) 0 ;
   csStringFast<12 > *arg2 = 0 ;
   csStringFast<12 > *arg3 = 0 ;
+  csStringFast<12 > *result = 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
@@ -9725,8 +9726,11 @@ SWIGINTERN PyObject *_wrap_celEntityTemplateParams_Put(PyObject *SWIGUNUSEDPARM(
   {
     arg3 = new csStringFast<(12)> (PyString_AsString(obj2));
   }
-  (arg1)->Put((csStringFast<12 > const &)*arg2,(csStringFast<12 > const &)*arg3);
-  resultobj = SWIG_Py_Void();
+  {
+    csStringFast<12 > &_result_ref = (arg1)->Put((csStringFast<12 > const &)*arg2,(csStringFast<12 > const &)*arg3);
+    result = (csStringFast<12 > *) &_result_ref;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_csStringFastT12_t, 0 |  0 );
   {
     delete arg2;
   }
@@ -9783,6 +9787,7 @@ SWIGINTERN PyObject *_wrap_celEntityTemplateParams_PutUnique(PyObject *SWIGUNUSE
   csHash<csStringFast<12 >,csStringFast<12 > > *arg1 = (csHash<csStringFast<12 >,csStringFast<12 > > *) 0 ;
   csStringFast<12 > *arg2 = 0 ;
   csStringFast<12 > *arg3 = 0 ;
+  csStringFast<12 > *result = 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
@@ -9801,8 +9806,11 @@ SWIGINTERN PyObject *_wrap_celEntityTemplateParams_PutUnique(PyObject *SWIGUNUSE
   {
     arg3 = new csStringFast<(12)> (PyString_AsString(obj2));
   }
-  (arg1)->PutUnique((csStringFast<12 > const &)*arg2,(csStringFast<12 > const &)*arg3);
-  resultobj = SWIG_Py_Void();
+  {
+    csStringFast<12 > &_result_ref = (arg1)->PutUnique((csStringFast<12 > const &)*arg2,(csStringFast<12 > const &)*arg3);
+    result = (csStringFast<12 > *) &_result_ref;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_csStringFastT12_t, 0 |  0 );
   {
     delete arg2;
   }
@@ -10048,6 +10056,136 @@ fail:
   {
     delete arg3;
   }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celEntityTemplateParams_GetOrCreate__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  csHash<csStringFast<12 >,csStringFast<12 > > *arg1 = (csHash<csStringFast<12 >,csStringFast<12 > > *) 0 ;
+  csStringFast<12 > *arg2 = 0 ;
+  csStringFast<12 > *arg3 = 0 ;
+  csStringFast<12 > *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:celEntityTemplateParams_GetOrCreate",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_csHashTcsStringFastT12_t_csStringFastT12_t_CS__Memory__AllocatorMalloc_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celEntityTemplateParams_GetOrCreate" "', argument " "1"" of type '" "csHash<csStringFast<12 >,csStringFast<12 > > *""'"); 
+  }
+  arg1 = reinterpret_cast< csHash<csStringFast<12 >,csStringFast<12 > > * >(argp1);
+  {
+    arg2 = new csStringFast<(12)> (PyString_AsString(obj1));
+  }
+  {
+    arg3 = new csStringFast<(12)> (PyString_AsString(obj2));
+  }
+  {
+    csStringFast<12 > &_result_ref = (arg1)->GetOrCreate((csStringFast<12 > const &)*arg2,(csStringFast<12 > const &)*arg3);
+    result = (csStringFast<12 > *) &_result_ref;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_csStringFastT12_t, 0 |  0 );
+  {
+    delete arg2;
+  }
+  {
+    delete arg3;
+  }
+  return resultobj;
+fail:
+  {
+    delete arg2;
+  }
+  {
+    delete arg3;
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celEntityTemplateParams_GetOrCreate__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  csHash<csStringFast<12 >,csStringFast<12 > > *arg1 = (csHash<csStringFast<12 >,csStringFast<12 > > *) 0 ;
+  csStringFast<12 > *arg2 = 0 ;
+  csStringFast<12 > *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:celEntityTemplateParams_GetOrCreate",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_csHashTcsStringFastT12_t_csStringFastT12_t_CS__Memory__AllocatorMalloc_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celEntityTemplateParams_GetOrCreate" "', argument " "1"" of type '" "csHash<csStringFast<12 >,csStringFast<12 > > *""'"); 
+  }
+  arg1 = reinterpret_cast< csHash<csStringFast<12 >,csStringFast<12 > > * >(argp1);
+  {
+    arg2 = new csStringFast<(12)> (PyString_AsString(obj1));
+  }
+  {
+    csStringFast<12 > &_result_ref = (arg1)->GetOrCreate((csStringFast<12 > const &)*arg2);
+    result = (csStringFast<12 > *) &_result_ref;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_csStringFastT12_t, 0 |  0 );
+  {
+    delete arg2;
+  }
+  return resultobj;
+fail:
+  {
+    delete arg2;
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celEntityTemplateParams_GetOrCreate(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_csHashTcsStringFastT12_t_csStringFastT12_t_CS__Memory__AllocatorMalloc_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_csStringFastT12_t, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_celEntityTemplateParams_GetOrCreate__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_csHashTcsStringFastT12_t_csStringFastT12_t_CS__Memory__AllocatorMalloc_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_csStringFastT12_t, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_csStringFastT12_t, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_celEntityTemplateParams_GetOrCreate__SWIG_0(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'celEntityTemplateParams_GetOrCreate'.\n  Possible C/C++ prototypes are:\n    GetOrCreate(csStringFast<12 > const &,csStringFast<12 > const &)\n    GetOrCreate(csStringFast<12 > const &)\n");
   return NULL;
 }
 
@@ -87439,6 +87577,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"celEntityTemplateParams_In", _wrap_celEntityTemplateParams_In, METH_VARARGS, NULL},
 	 { (char *)"celEntityTemplateParams_GetElementPointer", _wrap_celEntityTemplateParams_GetElementPointer, METH_VARARGS, NULL},
 	 { (char *)"celEntityTemplateParams_Get", _wrap_celEntityTemplateParams_Get, METH_VARARGS, NULL},
+	 { (char *)"celEntityTemplateParams_GetOrCreate", _wrap_celEntityTemplateParams_GetOrCreate, METH_VARARGS, NULL},
 	 { (char *)"celEntityTemplateParams_Empty", _wrap_celEntityTemplateParams_Empty, METH_VARARGS, NULL},
 	 { (char *)"celEntityTemplateParams_DeleteAll", _wrap_celEntityTemplateParams_DeleteAll, METH_VARARGS, NULL},
 	 { (char *)"celEntityTemplateParams_Delete", _wrap_celEntityTemplateParams_Delete, METH_VARARGS, NULL},
