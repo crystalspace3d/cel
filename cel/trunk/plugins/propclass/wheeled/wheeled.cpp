@@ -1180,12 +1180,10 @@ void celPcWheeled::AntiSway()
         csVector3 axis = csVector3(0, 1, 0);
         csVector3 anchor2y = wheels[iy].WheelJoint->GetHingeAnchor2();
         csVector3 anchor1y = wheels[iy].WheelJoint->GetHingeAnchor1();
-        float displacement = bodyMech->GetBody()->GetTransform().
-        Other2ThisRelative(anchor1x-anchor2x).y - 
-        bodyMech->GetBody()->GetTransform().
-        Other2ThisRelative(anchor1y-anchor2y).y;
-        wheels[ix].RigidBody->AddForce(-displacement * antiswayfactor);
-        wheels[iy].RigidBody->AddForce(displacement * antiswayfactor);
+        float displacement = (anchor1x-anchor2x).y - (anchor1y-anchor2y).y;
+        csVector3 force = displacement * antiswayfactor;
+        wheels[ix].RigidBody->AddForce(-force);
+        wheels[iy].RigidBody->AddForce(force);
     }
 }
 
