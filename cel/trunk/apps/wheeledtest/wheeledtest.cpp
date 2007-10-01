@@ -237,7 +237,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
       iPcMechanicsObject);
   //The mass of the vehicle
   pcmech->SetMass(1000.0);
-  pcmech->SetDensity(1.0);
+  //pcmech->SetDensity(1.0);
   pcmech->SetFriction(0.04f);
   pcmech->AttachColliderBoundingBox();
 
@@ -252,11 +252,11 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
     to modify car handling.
     Settings are: steersensitivity, enginepower, suspensionsoftness,
                   suspensiondamping, friction, mass */
-  pcwheeled->SetFrontWheelPreset(1.0f,0.8f, 0.000125, 0.125, 0.07f, 10.0f);
+  pcwheeled->SetFrontWheelPreset(1.0f,0.8f, 0.000225, 0.125, 0.07f, 10.0f);
 
   /*By letting the rear wheels steer a small amount, and giving them most power,
     the vehicle's handling becomes much more twitchy. */
-  pcwheeled->SetRearWheelPreset(0.2f, 1.0f, 0.000125, 0.125, 0.09f, 15.0f);
+  pcwheeled->SetRearWheelPreset(0.2f, 1.0f, 0.000225, 0.125, 0.09f, 15.0f);
 
   //Making the outer wheels steer a wider arc also improves traction while turning.
   pcwheeled->SetOuterWheelSteerPreset(0.7f);
@@ -265,14 +265,14 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->SetABS(true);
   pcwheeled->SetSteerAmount(0.7f);
 
-  pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.7f));
-  pcwheeled->AddWheelAuto(csVector3(0.5,0,-0.7f));
+  pcwheeled->AddWheelAuto(csVector3(-0.5,-0.1f,-0.7f));
+  pcwheeled->AddWheelAuto(csVector3(0.5,-0.1f,-0.7f));
 //   pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.25f));
 //   pcwheeled->AddWheelAuto(csVector3(0.5,0,-0.25f));
 //   pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.25f));
 //   pcwheeled->AddWheelAuto(csVector3(0.5,0,0.25f));
-  pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.7f));
-  pcwheeled->AddWheelAuto(csVector3(0.5,0,0.7f));
+  pcwheeled->AddWheelAuto(csVector3(-0.5,-0.1f,0.7f));
+  pcwheeled->AddWheelAuto(csVector3(0.5,-0.1f,0.7f));
 
   //Setup gear speeds. settings are gear, speed, force. note that gear -1
   //is reverse, and the speed is negative.

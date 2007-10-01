@@ -151,6 +151,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfinv
     pflight
     pfmechanics
+    pfmeshdeform
     pfhover
     pfmesh
     pfmeshdeform

@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+02-Oct-2007
+	- cfraz89 added anti-sway ability to pcwheeled.
 29-Sep-2007
 	- Sueastside added SetAnimationMapping() which allows you to
           change the previously hardcoded animation names.
