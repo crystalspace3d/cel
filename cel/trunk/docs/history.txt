@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	- caedes adapted blpython and cel bindings to account for bindingsplit
 	  branch merge into trunk. Side effect is now pure python cel
 	  applications are possible.
+	- caedes synced swig.jam file from cs, and adapted configure check to
+	  account for libcrystalspace-python not existing any more.
 29-Sep-2007
 	- Sueastside added SetAnimationMapping() which allows you to
           change the previously hardcoded animation names.
