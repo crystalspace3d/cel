@@ -193,7 +193,7 @@ AS_IF([test $cs_cv_prog_cxx_visibility_inlines_hidden_buggy != yes],
 # Check for external libraries.
 #----------------------------------------------------------------------------
 CS_CHECK_CSWIN32LIBS
-CS_CHECK_PYTHON([])
+CS_CHECK_PYTHON([emit])
 CS_CHECK_CPPUNIT([emit])
 CS_CHECK_PTHREAD([cygwin*])
 
@@ -224,9 +224,7 @@ AC_ARG_WITH([cs], [AC_HELP_STRING([--without-cs],
 AS_IF([test -z "$with_cs"], [with_cs=yes])
 
 AS_IF([test $with_cs != no],
-    [AS_IF([test $cs_cv_python != no],
-	[cs_opt_libs="crystalspace_python"], [cs_opt_libs=''])
-    CS_PATH_CRYSTAL_EMIT([1.1], [],
+    [CS_PATH_CRYSTAL_EMIT([1.1], [],
 	[AC_MSG_ERROR([
 *** Crystal Space could not be found or was unusable. The latest version is
 *** always available from http://www.crystalspace3d.org/
@@ -240,17 +238,17 @@ AS_IF([test $with_cs != no],
 # CS was built with Python support, which we can only know at this point (after
 # running the CS test).
 #----------------------------------------------------------------------------
-AS_IF([test $with_cs != no && test $cs_cv_python != no],
-    [AC_MSG_CHECKING([for Crystal Space Python support])
-    cel_do_python=no
-    for m in $CRYSTAL_AVAILABLE_LIBS; do
-	AS_IF([test crystalspace_python = "$m"],
-	    [cel_do_python=yes
-	    break])
-    done
-    AC_MSG_RESULT([$cel_do_python])
-    AS_IF([test $cel_do_python = yes],
-	[CS_EMIT_BUILD_RESULT([cs_cv_python], [PYTHON])])])
+#AS_IF([test $with_cs != no && test $cs_cv_python != no],
+#    [AC_MSG_CHECKING([for Crystal Space Python support])
+#    cel_do_python=no
+#    for m in $CRYSTAL_AVAILABLE_LIBS; do
+#	AS_IF([test crystalspace_python = "$m"],
+#	    [cel_do_python=yes
+#	    break])
+#    done
+#    AC_MSG_RESULT([$cel_do_python])
+#    AS_IF([test $cel_do_python = yes],
+#	[CS_EMIT_BUILD_RESULT([cs_cv_python], [PYTHON])])])
 
 #----------------------------------------------------------------------------
 # Check if the Crystal Space static plugins lib was built.
