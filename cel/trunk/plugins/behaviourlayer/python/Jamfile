@@ -35,10 +35,6 @@ if $(PYTHON.AVAILABLE) = yes
     else
     {
       SEARCH on $(blcelcpp) = $(SEARCH_SOURCE) ;
-      local frozenpy = $(blcelpy:G=frozenblcelpy) ;
-      SEARCH on $(frozenpy) = [ ConcatDirs $(TOP) scripts ] ;
-      Copy $(blcelpy) : $(frozenpy) ;
-      Depends $(blcelpy) : $(frozenpy) ;
     }
   }
   Clean blpythonclean : $(blcelpy) ;
@@ -73,11 +69,29 @@ if $(PYTHON.AVAILABLE) = yes
   #--------
   # blpython plugin.
   #--------
+  local swigruntime = swigpyruntime.h ;
+  if $(CMD.SWIG)
+  {
+    SwigExternalRuntime $(swigruntime) :
+      python :
+      -c++ -shadow :
+      $(SEARCH_SOURCE) [ ConcatDirs $(TOP) scripts python ] :
+      blpython ;
+    Depends blpythonclean : blpythonswigclean ;
+  }
+  else
+  {
+    SEARCH on $(swigruntime) = $(SEARCH_SOURCE) ;
+  }
+
+  save_HDRS = $(HDRS) ;
+  HDRS = [ on $(swigruntime) GetVar LOCATE ] $(HDRS) ;
   Plugin blpython : blpython.cpp blpython.h pytocel.cpp PYCEL_py.cpp ;
   LinkWith blpython : cel_python ;
   ExternalLibs blpython : PYTHON CRYSTAL ; 
   CFlags blpython : $(CELPYTHON.CFLAGS) ;
-  
+  HDRS = $(save_HDRS) ;
+
   #--------
   # blcelmod -- Pure Python module
   #--------

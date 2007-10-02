@@ -5,6 +5,9 @@ The history order is reversed so that new features are at the top.
 
 02-Oct-2007
 	- cfraz89 added anti-sway ability to pcwheeled.
+	- caedes adapted blpython and cel bindings to account for bindingsplit
+	  branch merge into trunk. Side effect is now pure python cel
+	  applications are possible.
 29-Sep-2007
 	- Sueastside added SetAnimationMapping() which allows you to
           change the previously hardcoded animation names.
