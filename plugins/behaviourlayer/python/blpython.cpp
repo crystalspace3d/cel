@@ -35,6 +35,12 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/pl.h"
 
+extern "C"
+{
+  #include "swigpyruntime.h"
+}
+
+
 extern unsigned char pycel_py_wrapper[]; // pycel.py file compiled and marshalled
 extern size_t pycel_py_wrapper_size;
 
@@ -106,6 +112,8 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   if (!LoadModule ("cspace")) return false;
   if (!LoadModule ("blcelc")) return false;
 
+  Store("cspace.__corecvar_iSCF_SCF", iSCF::SCF, (void*)"iSCF *");
+  RunText("cspace.SetSCFPointer(cspace.__corecvar_iSCF_SCF)");
   // Store the object registry pointer in 'blcel.object_reg'.
   Store ("blcelc.object_reg_ptr", object_reg, (void *) "iObjectRegistry *");
   // Store the object registry pointer in 'blcel.object_reg'.
@@ -151,6 +159,14 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
     queue->RegisterListener(this, csevCommandLineHelp(object_reg));
 
   return true;
+}
+
+PyObject* csWrapTypedObject(void* objectptr, const char *typetag,
+		  int own)
+{
+    swig_type_info *ti = SWIG_TypeQuery (typetag);
+    PyObject *obj = SWIG_NewPointerObj (objectptr, ti, own);
+    return obj;
 }
 
 

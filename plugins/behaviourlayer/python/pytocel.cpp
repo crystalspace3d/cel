@@ -56,15 +56,8 @@ PyMethodDef PytocelMethods[]={
   {0, 0, 0, ""}
 };
 
-extern "C" void SWIG_init_cspace();
-extern "C" void SWIG_init_blcelc();
-//TODO temporary
-
 void InitPytocel ()
 {
   Py_InitModule ("pytocel", PytocelMethods);
-  SWIG_init_cspace();
-  SWIG_init_blcelc();
-//TODO temporary
 }
 

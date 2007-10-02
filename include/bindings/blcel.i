@@ -3,6 +3,7 @@
 %import "bindings/cspace.i"
 %include "celproperties.i" // all property accessors
 CS_PROPERTY_HELPERS
+
 %{
 #include <crystalspace.h>
 #include "celtool/initapp.h"
@@ -55,6 +56,13 @@ CS_PROPERTY_HELPERS
 
 
 %}
+
+/* Funtions to set the modules global SCF pointer, this is needed
+   when working on a pure scripting environment, as then this code
+   lives in a non-cs dll, thus the pointer isnt initialized
+   by cs itself, and scf stuff wont work unless the pointer is
+   initialized manually. Use it after CreateEnvironment call. */
+INLINE_FUNCTIONS
 
 //=============================================================================
 // Interfaces that need csRef,csPtr,csRefArray
@@ -616,21 +624,6 @@ iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
 {
   csRef<iCelConsole> bl = csQueryRegistry<iCelConsole> (object_reg);
   return bl;
-}
-
-/* Funtions to set the modules global SCF pointer, this is needed
-   when working on a pure scripting environment, as then this code
-   lives in a non-cs dll, thus the pointer isnt initialized
-   by cs itself, and scf stuff wont work unless the pointer is
-   initialized manually. Use it after CreateEnvironment call. */
-void SetSCFPointer(iSCF* pscf)
-{
-  iSCF::SCF = pscf;
-}
-
-iSCF* GetSCFPointer()
-{
-  return iSCF::SCF;
 }
 
 %}
