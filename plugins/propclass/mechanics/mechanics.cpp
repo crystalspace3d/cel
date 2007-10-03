@@ -1521,9 +1521,10 @@ void celPcMechanicsObject::AttachColliderBoundingBox (const csVector3& sizeadjus
   if (!GetBody ()) return;
   FindMeshLightCamera ();
   if(!pcmesh) return;
+  csBox3 boundingbox;
   csRef<iObjectModel> meshobjmodel;
   meshobjmodel=pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ();
-  csBox3 boundingbox = meshobjmodel->GetObjectBoundingBox();
+  meshobjmodel->GetObjectBoundingBox(boundingbox);
   csOrthoTransform t;
   t.SetOrigin(boundingbox.GetCenter());
   csVector3 size = boundingbox.GetSize() + sizeadjustment;

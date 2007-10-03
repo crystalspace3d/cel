@@ -191,21 +191,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libaddon_celgraph_staticreg.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libaddon_celgraph_staticreg.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libaddon_celgraph_staticreg.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\msvc\libaddon_questdef_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -296,21 +281,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libcelgraph_staticreg.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libcelgraph_staticreg.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libcelgraph_staticreg.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\msvc\libcpersist_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -353,21 +323,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libmgr_quests_staticreg.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\msvc\libpfactoranalog_staticreg.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -626,21 +581,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libpfpathfinder_staticreg.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfpathfinder_staticreg.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfpathfinder_staticreg.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\msvc\libpfportal_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -728,21 +668,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfsound_staticreg.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\msvc\libpfsteer_staticreg.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfsteer_staticreg.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfsteer_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -893,21 +818,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_addons_celentitytpl_celentitytpl.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\addons\celgraph\celgraph.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_addons_celgraph_celgraph.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_addons_celgraph_celgraph.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1073,21 +983,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_persist_xml_xmlpersist.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1466,21 +1361,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\modes\horizontal.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_newcamera_modes_horizontal.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_newcamera_modes_horizontal.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1496,21 +1376,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\newcamera\newcam.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1523,21 +1388,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_newcamera_newcam.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\pathfinder\pathfinderfact.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_pathfinder_pathfinderfact.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_pathfinder_pathfinderfact.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1628,21 +1478,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_sound_soundfact.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\steer\steerfact.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_steer_steerfact.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_steer_steerfact.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1913,21 +1748,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_celconsole_celconsole.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\celgraph\celgraph.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2316,9 +2136,6 @@
 				RelativePath="..\..\plugins\addons\celentitytpl\celentitytpl.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\addons\celgraph\celgraph.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\addons\questdef\questdef.h">
 			</File>
 			<File
@@ -2350,9 +2167,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\persist\xml\xmlpersist.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.h">
@@ -2439,19 +2253,10 @@
 				RelativePath="..\..\plugins\propclass\newcamera\modes\firstperson.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\modes\horizontal.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\newcamera\newcam.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\pathfinder\pathfinderfact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\portal\portalfact.h">
@@ -2470,9 +2275,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\sound\soundfact.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\steer\steerfact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\test\testfact.h">
@@ -2524,9 +2326,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\celconsole\celconsole.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\celgraph\celgraph.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\quests.h">

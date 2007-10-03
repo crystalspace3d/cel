@@ -353,9 +353,7 @@ Set a variable for this (or optionally another) entity to the given value.
 Set a local variable to the given value.
 @item @strong{expr}
 @emph{Attributes}: @samp{eval}.@*
-Evaluate an expression and do nothing with the result. The @samp{eval}
-attribute is optional. You can also embed the expression as text inside
-the @samp{expr} node.
+Evaluate an expression and do nothing with the result.
 @end table
 
 @subsubheading Program Flow

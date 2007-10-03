@@ -121,6 +121,8 @@ void celBillboard::TranslateScreenToTexture (int sx, int sy, int& tx, int& ty)
 
 bool celBillboard::GetFromClickMap (int tx, int ty)
 {
+  if (!has_clickmap)
+    SetupMaterial ();
   if (!clickmap) return true;
   uint8 c = clickmap[ty*(1 + image_w/8) + tx/8];
   return (c & (1<<(tx%8))) != 0;
@@ -270,7 +272,7 @@ void celBillboard::SetupMaterial ()
     }
     image = 0;	// We no longer need the image.
   }
-  if (image_w != -1 && bb_w != -1 && material)
+  if (image_w != -1 && has_clickmap && bb_w != -1 && material)
     material_ok = true;
 }
 
@@ -638,10 +640,10 @@ bool celBillboard::HasFullClickmap ()
 
 bool celBillboard::In (int sx, int sy)
 {
-  if (bb_w == -1 || !material_ok)
+  if (bb_w == -1 || !has_clickmap)
   {
     SetupMaterial ();
-    if (bb_w == -1 || !material_ok)
+    if (bb_w == -1 || !has_clickmap)
       return false;
   }
   csRect r;

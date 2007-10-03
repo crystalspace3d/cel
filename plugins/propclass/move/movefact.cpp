@@ -21,7 +21,6 @@
 #include "csqsqrt.h"
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
-#include "csgeom/trimesh.h"
 #include "plugins/propclass/move/movefact.h"
 #include "propclass/mesh.h"
 #include "physicallayer/pl.h"
@@ -47,6 +46,8 @@
 #include "imap/loader.h"
 #include "ivaria/reporter.h"
 #include "ivaria/collider.h"
+#include "csgeom/polymesh.h"
+#include "igeom/polymesh.h"
 #include "imesh/objmodel.h"
 #include "imesh/object.h"
 
@@ -317,7 +318,7 @@ void celPcSolid::SetupBox (const csBox3& box)
     return;
   }
   CS_ASSERT (pcmesh != 0);
-  csTriangleMeshBox pmbox (box);
+  csPolygonMeshBox pmbox (box);
   csRef<iCollideSystem> cdsys = 
     	csQueryRegistry<iCollideSystem> (object_reg);
   collider_wrap.AttachNew (new csColliderWrapper (
@@ -378,37 +379,42 @@ bool celPcSolid::PerformActionIndexed (int idx,
 
 //---------------------------------------------------------------------------
 
-// Private class implementing iTriangleMesh for one triangle.
+// Private class implementing iPolygonMesh for one triangle.
 // This will be used for detecting collision in the movement
 // vector.
-class celTriangleMeshTriangle : public scfImplementation1<
-	celTriangleMeshTriangle, iTriangleMesh>
+class celPolygonMeshTriangle : public scfImplementation1<
+	celPolygonMeshTriangle, iPolygonMesh>
 {
 private:
   csVector3 vertices[3];
-  csTriangle triangle;
+  csMeshedPolygon polygons[1];
+  int vertex_indices[3];
   csFlags flags;
 
 public:
-  celTriangleMeshTriangle (const csVector3& start, const csVector3& end) :
+  celPolygonMeshTriangle (const csVector3& start, const csVector3& end) :
   	scfImplementationType (this)
   {
     vertices[0] = start;
     vertices[1] = start;
     vertices[2] = end;
-    triangle.a = 0;
-    triangle.b = 0;
-    triangle.c = 0;
-    flags.Set (CS_TRIMESH_CONVEX);
+    polygons[0].num_vertices = 3;
+    polygons[0].vertices = vertex_indices;
+    vertex_indices[0] = 0;
+    vertex_indices[1] = 1;
+    vertex_indices[2] = 2;
+    flags.Set (CS_POLYMESH_CONVEX);
   }
-  virtual ~celTriangleMeshTriangle ()
+  virtual ~celPolygonMeshTriangle ()
   {
   }
 
-  virtual size_t GetVertexCount () { return 3; }
+  virtual int GetVertexCount () { return 3; }
   virtual csVector3* GetVertices () { return vertices; }
-  virtual size_t GetTriangleCount () { return 1; }
-  virtual csTriangle* GetTriangles () { return &triangle; }
+  virtual int GetPolygonCount () { return 1; }
+  virtual csMeshedPolygon* GetPolygons () { return polygons; }
+  virtual int GetTriangleCount () { return 1; }
+  virtual csTriangle* GetTriangles () { return (csTriangle*)vertex_indices; }
   virtual void Lock () { }
   virtual void Unlock () { }
   virtual csFlags& GetFlags () { return flags; }
@@ -468,9 +474,8 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
     csReversibleTransform path_trans;	// Identity
     if (!single_point)
     {
-      csRef<celTriangleMeshTriangle> pmtri =
-      	csPtr<celTriangleMeshTriangle> (new celTriangleMeshTriangle (
-	      start,end));
+      csRef<celPolygonMeshTriangle> pmtri =
+      	csPtr<celPolygonMeshTriangle> (new celPolygonMeshTriangle (start,end));
       path_collider = cdsys->CreateCollider (pmtri);
     }
 
@@ -648,7 +653,7 @@ void celPcGravity::CreateGravityCollider (const csVector3& dim,
 
   csVector3 d = dim * .5;
   csBox3 box (-d + offs, d + offs);
-  csTriangleMeshBox* pmcube = new csTriangleMeshBox (box);
+  csPolygonMeshBox* pmcube = new csPolygonMeshBox (box);
   gravity_collider = cdsys->CreateCollider (pmcube);
   pmcube->DecRef ();
 }

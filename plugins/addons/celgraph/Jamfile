@@ -1,7 +1,0 @@
-SubDir TOP plugins addons celgraph ;
-
-Plugin addon_celgraph
-	: celgraph.cpp celgraph.h
-;
-ExternalLibs addon_celgraph : CRYSTAL ;
-LinkWith addon_celgraph : celtool ;

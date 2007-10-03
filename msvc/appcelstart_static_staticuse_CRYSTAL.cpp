@@ -88,7 +88,6 @@ SCF_USE_STATIC_PLUGIN(glshader_ps1)
 SCF_USE_STATIC_PLUGIN(sndmanager)
 SCF_USE_STATIC_PLUGIN(sndsyssoft)
 SCF_USE_STATIC_PLUGIN(sndsysloader)
-SCF_USE_STATIC_PLUGIN(sndsysnull)
 SCF_USE_STATIC_PLUGIN(sndsysogg)
 SCF_USE_STATIC_PLUGIN(sndsyswav)
 
