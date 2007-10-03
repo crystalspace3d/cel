@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- tcpnetwork.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.network.tcp</name>
+        <implementation>celTCPGameFactory</implementation>
+	<description>CEL TCP network layer</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

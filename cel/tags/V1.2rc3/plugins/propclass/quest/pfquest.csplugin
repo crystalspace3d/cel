@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- pfquest.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <!-- @@@ to be deprecated -->
+      <class>
+        <name>cel.pcfactory.quest</name>
+        <implementation>celPfQuest</implementation>
+        <description>CEL Quest Property Class Factory</description>
+      </class>
+
+      <class>
+        <name>cel.pcfactory.logic.quest</name>
+        <implementation>celPfQuest</implementation>
+        <description>CEL Quest Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
