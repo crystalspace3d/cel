@@ -58,6 +58,13 @@ def fix_args(funct):
         return funct(*args)
     return _inner
 
+_SetSCFPointer = _blcelc._SetSCFPointer
+_GetSCFPointer = _blcelc._GetSCFPointer
+if not "core" in dir():
+    core = __import__("cspace").__dict__["core"]
+core.AddSCFLink(_SetSCFPointer)
+CSMutableArrayHelper = core.CSMutableArrayHelper
+
 _csRef_to_Python = _blcelc._csRef_to_Python
 class celInitializer(cspace.csInitializer):
     __swig_setmethods__ = {}
@@ -311,12 +318,6 @@ class celEntityTemplateParams(_object):
     def Delete(*args): return _blcelc.celEntityTemplateParams_Delete(*args)
     def GetSize(*args): return _blcelc.celEntityTemplateParams_GetSize(*args)
     def IsEmpty(*args): return _blcelc.celEntityTemplateParams_IsEmpty(*args)
-    def __getitem__(*args): return _blcelc.celEntityTemplateParams___getitem__(*args)
-    def __delitem__(*args): return _blcelc.celEntityTemplateParams___delitem__(*args)
-    def clear(*args): return _blcelc.celEntityTemplateParams_clear(*args)
-    def __nonzero__(*args): return _blcelc.celEntityTemplateParams___nonzero__(*args)
-    def __setitem__(*args): return _blcelc.celEntityTemplateParams___setitem__(*args)
-    def __len__(*args): return _blcelc.celEntityTemplateParams___len__(*args)
     __swig_destroy__ = _blcelc.delete_celEntityTemplateParams
     __del__ = lambda self : None;
 celEntityTemplateParams_swigregister = _blcelc.celEntityTemplateParams_swigregister
@@ -5313,8 +5314,6 @@ iCelConsole_swigregister = _blcelc.iCelConsole_swigregister
 iCelConsole_swigregister(iCelConsole)
 
 csQueryRegistry_iCelConsole = _blcelc.csQueryRegistry_iCelConsole
-SetSCFPointer = _blcelc.SetSCFPointer
-GetSCFPointer = _blcelc.GetSCFPointer
 class CelConsoleOut:
 	"""Class that can be assigned to sys.stdout or sys.stderr"""
 	def __init__(self,oreg):
