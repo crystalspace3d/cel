@@ -9,7 +9,7 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 # Don't forget to update include/celversion.h, docs/texinfo/version.txi
 # and mk/autoconf/cel.m4 when changing this version number.
-AC_INIT([cel], [1.2rc3], [cel-main@lists.sourceforge.net])
+AC_INIT([cel], [1.2], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
     [Copyright (C)2002-2007 Jorrit Tyberghein and others.],
     [http://cel.crystalspace3d.org/])
