@@ -59,7 +59,7 @@ CEL_DECLARE_FACTORY(Trigger)
  * This is the trigger property class.
  */
 class celPcTrigger : public scfImplementationExt1<
-	celPcTrigger, celPcCommon, iPcTrigger>
+		     celPcTrigger, celPcCommon, iPcTrigger>
 {
 private:
   csWeakRef<iEngine> engine;
@@ -107,7 +107,7 @@ private:
   // sectors near it.
   csHash<csVector3,csPtrKey<iSector> > relevant_sectors;
   void UpdateRelevantSectors ();
-
+  
   // Sphere to use for checking.
   iSector* sphere_sector;
   csVector3 sphere_center;
@@ -136,8 +136,7 @@ private:
     propid_jitter,
     propid_monitor,
     propid_invisible,
-    propid_follow,
-    propid_enabled
+    propid_follow
   };
   static PropertyHolder propinfo;
 

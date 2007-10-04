@@ -223,8 +223,9 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
 
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
         iPcMechanicsObject);
-  csBox3 bbox = pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->
-      GetObjectBoundingBox();
+  csBox3 bbox;
+  pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->
+      GetObjectBoundingBox(bbox);
   //pcmechobj->GetBody ()->AttachColliderBox (bbox.GetSize (), csOrthoTransform (), 0.5, 3.0f, 1.0, 0.8);
   pcmechobj->SetFriction (0.05f);
   //pcmechobj->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
