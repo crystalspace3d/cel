@@ -1367,8 +1367,8 @@ void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
 void celPcLinearMovement::SetFullPosition (const char* center_name, float yrot,
 	iSector* sector)
 {
-  csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
-  	sector->QueryObject (), iMapNode, center_name);
+  csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
+  	sector->QueryObject (), center_name);
   if (mapnode)
   {
     SetFullPosition (mapnode->GetPosition (), yrot, sector);
@@ -1398,8 +1398,8 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
 void celPcLinearMovement::SetPosition (const char* center_name, float yrot,
 	iSector* sector)
 {
-  csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
-  	sector->QueryObject (), iMapNode, center_name);
+  csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
+  	sector->QueryObject (), center_name);
   if (mapnode)
   {
     SetPosition (mapnode->GetPosition (), yrot, sector);

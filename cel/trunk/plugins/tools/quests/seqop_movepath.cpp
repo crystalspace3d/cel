@@ -170,8 +170,8 @@ celMovePathSeqOp::celMovePathSeqOp (
       }
     }
 
-    csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
-  	sector->QueryObject (), iMapNode, nodes[i]);
+    csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
+  	sector->QueryObject (), nodes[i]);
     if (!mapnode)
     {
       delete path;
