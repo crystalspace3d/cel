@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass zone ;
+
+Plugin pfzone
+	: zone.cpp zone.h
+;
+ExternalLibs pfzone : CRYSTAL ;
+LinkWith pfzone : celtool ;
+

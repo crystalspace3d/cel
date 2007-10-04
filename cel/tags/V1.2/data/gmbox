@@ -1,0 +1,29 @@
+<library>
+    <textures>
+        <texture name="stone2">
+            <file>/lib/stdtex/stone2.jpg</file>
+        </texture>
+        <texture name="stone2dot">
+            <file>/lib/stdtex/stone2DOT3.png</file>
+            <class>normalmap</class>
+        </texture>
+    </textures>
+    <materials>
+        <material name="stone2">
+            <texture>stone2</texture>
+	    <shader type="ambient">ambient</shader>
+	    <shader type="diffuse">light_bumpmap</shader>
+        </material>
+    </materials>
+<meshfact name="gmbox">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+        <material>stone2</material>
+            <box>
+                <min x="-0.2" y="-0.15" z="-0.15" />
+                <max x="0.2" y="0.17" z="0.15" />
+            </box>
+	<autonormals />
+    </params>
+</meshfact>
+</library>
