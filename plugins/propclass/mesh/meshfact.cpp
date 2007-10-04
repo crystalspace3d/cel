@@ -1062,8 +1062,8 @@ void celPcMesh::MoveMesh (iSector* sector, const char* node)
   if (sector)
   {
     mesh->GetMovable ()->SetSector (sector);
-    mapnode = CS_GET_NAMED_CHILD_OBJECT (
-    	sector->QueryObject (), iMapNode, node);
+    mapnode = CS::GetNamedChildObject<iMapNode> (
+    	sector->QueryObject (), node);
   }
   else
   {
@@ -1071,8 +1071,8 @@ void celPcMesh::MoveMesh (iSector* sector, const char* node)
     if (mesh && mesh->GetMovable ()->GetSectors ()->GetCount () > 0)
     {
       sect = mesh->GetMovable ()->GetSectors ()->Get (0);
-      mapnode = CS_GET_NAMED_CHILD_OBJECT (
-      	sect->QueryObject (), iMapNode, node);
+      mapnode = CS::GetNamedChildObject<iMapNode> (
+      	sect->QueryObject (), node);
     }
     else
     {

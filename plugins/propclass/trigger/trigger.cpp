@@ -407,8 +407,8 @@ void celPcTrigger::SetupTriggerSphere (iSector* sector,
   beam_sector = 0;
   above_mesh = 0;
 
-  csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
-  	sector->QueryObject (), iMapNode, center_name);
+  csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
+  	sector->QueryObject (), center_name);
   if (!mapnode)
   {
     Report (object_reg, "Can't find node '%s' for trigger!",

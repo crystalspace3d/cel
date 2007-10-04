@@ -5492,8 +5492,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           if (!nodename)
             return ReportError (cbl,
             	"Illegal 'node' variable for 'navigationinfo'!");
-          csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
-          	sector->QueryObject (), iMapNode, nodename);
+          csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
+		sector->QueryObject (), nodename);
           if (!mapnode)
             return ReportError (cbl,
             	"Can't find node '%s' for 'navigationinfo'!",
@@ -5551,8 +5551,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           if (!sector)
             return ReportError (cbl,
             	"Can't find sector '%s' for 'key_node'!", sector_name);
-          csRef<iMapNode> map_node = CS_GET_NAMED_CHILD_OBJECT (
-          	sector->QueryObject (), iMapNode, node_name);
+          csRef<iMapNode> map_node = CS::GetNamedChildObject<iMapNode> (
+          	sector->QueryObject (), node_name);
           if (!map_node)
              return ReportError (cbl,
              	"Can't find node '%s' for 'key_node'!",
@@ -5608,8 +5608,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           if (!sector)
             return ReportError (cbl,
             	"Can't find sector '%s' for 'key_node'!", sector_name);
-          csRef<iMapNode> map_node = CS_GET_NAMED_CHILD_OBJECT (
-          	sector->QueryObject (), iMapNode, node_name);
+          csRef<iMapNode> map_node = CS::GetNamedChildObject<iMapNode> (
+          	sector->QueryObject (), node_name);
           if (!map_node)
              return ReportError (cbl,
              	"Can't find node '%s' for 'key_node'!",

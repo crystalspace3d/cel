@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+04-Oct-2007
+	- caedes changed cel to use CS::GetNamedChildObject instead of
+	  deprecated CS_GET_NAMED_CHILD_OBJECT.
 02-Oct-2007
 	- cfraz89 added anti-sway ability to pcwheeled.
 	- caedes adapted blpython and cel bindings to account for bindingsplit

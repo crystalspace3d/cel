@@ -445,9 +445,8 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
         csVector3 pos;
         if (!spawnposition[number].node.IsEmpty ())
         {
-          csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
-              sect->QueryObject (), iMapNode,
-              spawnposition[number].node);
+          csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
+              sect->QueryObject (), spawnposition[number].node);
           if (mapnode)
             pos = mapnode->GetPosition ();
           else
