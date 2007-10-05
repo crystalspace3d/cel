@@ -66,7 +66,9 @@ celCameraMode::celCameraMode ()
   pos = csVector3 (0.0f, 0.0f, 0.0f);
   target = csVector3 (0.0f, 0.0f, 0.0f);
   up = csVector3 (0.0f, 1.0f, 0.0f);
-  spring = 2.0f;
+  cameraSpring = 2.0f;
+  targetSpring = 2.0f;
+  upSpring = 2.0f;
 }
 
 celCameraMode::~celCameraMode ()
@@ -105,12 +107,44 @@ bool celCameraMode::DrawAttachedMesh () const
 
 float celCameraMode::GetSpringCoefficient () const
 {
-  return spring;
+  return cameraSpring;
 }
 
 void celCameraMode::SetSpringCoefficient (float s)
 {
-  spring = s;
+  cameraSpring = s;
+  targetSpring = s;
+  upSpring = s;
+}
+
+float celCameraMode::GetCameraSpringCoefficient () const
+{
+  return cameraSpring;
+}
+
+void celCameraMode::SetCameraSpringCoefficient (float s)
+{
+  cameraSpring = s;
+}
+
+float celCameraMode::GetTargetSpringCoefficient () const
+{
+  return targetSpring;
+}
+
+void celCameraMode::SetTargetSpringCoefficient (float s)
+{
+  targetSpring = s;
+}
+
+float celCameraMode::GetUpSpringCoefficient () const
+{
+  return upSpring;
+}
+
+void celCameraMode::SetUpSpringCoefficient (float s)
+{
+  upSpring = s;
 }
 
 const csVector3& celCameraMode::GetPosition () const
@@ -136,7 +170,9 @@ bool celCameraMode::DecideCameraState ()
   pos = parent->GetBasePos ();
   target = pos + parent->GetBaseDir ();
   up  = parent->GetBaseUp ();
-  spring = parent->GetCameraSpringCoefficient ();
+  cameraSpring = parent->GetCameraSpringCoefficient ();
+  targetSpring = parent->GetTargetSpringCoefficient ();
+  upSpring = parent->GetUpSpringCoefficient ();
   return true;
 }
 

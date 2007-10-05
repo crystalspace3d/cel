@@ -139,7 +139,6 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_VIEW);
 
   basePosOffset.Set (0.0f, 0.0f, 0.0f);
-
   lastIdealPos.Set (0.0f, 0.0f, 0.0f);
   lastIdealTarget.Set (0.0f, 0.0f, 0.0f);
   lastIdealUp.Set (0.0f, 0.0f, 0.0f);
@@ -186,15 +185,23 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
     AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
   }
 
-  propinfo.SetCount (6);
+  propinfo.SetCount (9);
   AddProperty (propid_colldet, "cel.property.colldet",
   	CEL_DATA_BOOL, false, "Camera will use collision detection.", 0);
   AddProperty (propid_offset, "cel.property.offset",
   	CEL_DATA_VECTOR3, false, "Offset from the center of the mesh.",
   	&basePosOffset);
   AddProperty (propid_spring, "cel.property.spring",
-  	CEL_DATA_FLOAT, false, "Spring coefficient.",
-  	&camSpringCoef);
+  	CEL_DATA_FLOAT, false, "Common spring coefficient.", 0);
+  AddProperty (propid_spring_camera, "cel.property.spring_camera",
+  	CEL_DATA_FLOAT, false, "Spring coefficient for camera.",
+  	&cameraSpringCoef);
+  AddProperty (propid_spring_target, "cel.property.spring_target",
+  	CEL_DATA_FLOAT, false, "Spring coefficient for target.",
+  	&targetSpringCoef);
+  AddProperty (propid_spring_up, "cel.property.spring_up",
+  	CEL_DATA_FLOAT, false, "Spring coefficient for up vector.",
+  	&upSpringCoef);
   AddProperty (propid_trans_spring, "cel.property.transition_spring",
   	CEL_DATA_FLOAT, false,
   	"Springyness of the transition to a new camera mode.",
@@ -339,6 +346,22 @@ bool celPcNewCamera::SetPropertyIndexed (int idx, bool val)
   }
 }
 
+bool celPcNewCamera::SetPropertyIndexed (int idx, float val)
+{
+  switch (idx)
+  {
+    case propid_spring:
+      {
+        cameraSpringCoef = val;
+        targetSpringCoef = val;
+        upSpringCoef = val;
+        return true;
+      }
+    default:
+      return false;
+  }
+}
+
 bool celPcNewCamera::GetPropertyIndexed (int idx, bool& val)
 {
   switch (idx)
@@ -346,6 +369,25 @@ bool celPcNewCamera::GetPropertyIndexed (int idx, bool& val)
     case propid_colldet:
       {
         val = DetectCollisions ();
+        return true;
+      }
+    case propid_spring:
+      {
+        val = cameraSpringCoef;
+        return true;
+      }
+    default:
+      return false;
+  }
+}
+
+bool celPcNewCamera::GetPropertyIndexed (int idx, float& val)
+{
+  switch (idx)
+  {
+    case propid_spring:
+      {
+        val = cameraSpringCoef;
         return true;
       }
     default:
@@ -423,14 +465,44 @@ void celPcNewCamera::SetCameraPositionOffset (const csVector3& offset)
   camOffset = offset;
 }
 
+void celPcNewCamera::SetSpringCoefficient (float springCoef)
+{
+  cameraSpringCoef = springCoef;
+}
+
+float celPcNewCamera::GetSpringCoefficient () const
+{
+  return cameraSpringCoef;
+}
+
 void celPcNewCamera::SetCameraSpringCoefficient (float springCoef)
 {
-  camSpringCoef = springCoef;
+  cameraSpringCoef = springCoef;
 }
 
 float celPcNewCamera::GetCameraSpringCoefficient () const
 {
-  return camSpringCoef;
+  return cameraSpringCoef;
+}
+
+void celPcNewCamera::SetTargetSpringCoefficient (float springCoef)
+{
+  targetSpringCoef = springCoef;
+}
+
+float celPcNewCamera::GetTargetSpringCoefficient () const
+{
+  return targetSpringCoef;
+}
+
+void celPcNewCamera::SetUpSpringCoefficient (float springCoef)
+{
+  upSpringCoef = springCoef;
+}
+
+float celPcNewCamera::GetUpSpringCoefficient () const
+{
+  return upSpringCoef;
 }
 
 bool celPcNewCamera::DetectCollisions () const
@@ -621,11 +693,17 @@ void celPcNewCamera::UpdateCamera ()
   if (!mode->DecideCameraState ())
     return;
 
-  float springCoef = mode->GetSpringCoefficient ();
+  float modeCameraSpringCoef = mode->GetCameraSpringCoefficient ();
+  float modeTargetSpringCoef = mode->GetTargetSpringCoefficient ();
+  float modeUpSpringCoef = mode->GetUpSpringCoefficient ();
 
   // if we're in a transition, then use the transition spring settings
   if (inTransition)
-    springCoef = transitionSpringCoef;
+  {
+    modeCameraSpringCoef = transitionSpringCoef;
+    modeTargetSpringCoef = transitionSpringCoef;
+    modeUpSpringCoef = transitionSpringCoef;
+  }
 
   csVector3 desiredCamPos = mode->GetPosition ();
   csVector3 desiredCamTarget = mode->GetTarget ();
@@ -651,22 +729,25 @@ void celPcNewCamera::UpdateCamera ()
     {
       desiredCamPos = beam.closest_isect;
       desiredCamTarget =  basePos + (beamDirection * baseRadius * 4.0f);
-      springCoef = collisionSpringCoef;
+      modeCameraSpringCoef = collisionSpringCoef;
+      modeTargetSpringCoef = collisionSpringCoef;
+      modeUpSpringCoef = collisionSpringCoef;
     }
   }
 
   if (inTransition || mode->UseSpringPos ())
-    CalcElasticVec (camPos, desiredCamPos, elapsedSecs, springCoef);
+    CalcElasticVec (camPos, desiredCamPos, elapsedSecs, modeCameraSpringCoef);
   else
     camPos = desiredCamPos;
 
   if (inTransition || mode->UseSpringTarget ())
-    CalcElasticVec (camTarget, desiredCamTarget, elapsedSecs, springCoef);
+    CalcElasticVec (camTarget, desiredCamTarget, elapsedSecs,
+    	modeTargetSpringCoef);
   else
     camTarget = mode->GetTarget ();
 
   if (inTransition || mode->UseSpringUp ())
-    CalcElasticVec (camUp, desiredCamUp, elapsedSecs, springCoef);
+    CalcElasticVec (camUp, desiredCamUp, elapsedSecs, modeUpSpringCoef);
   else
     camUp = mode->GetUp ();
 

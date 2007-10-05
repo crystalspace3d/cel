@@ -74,7 +74,9 @@ bool Horizontal::DecideCameraState ()
   	->GetBaseTrans().This2OtherRelative (posoffset);
   target = parent->GetBasePos();
   target.y = pos.y;
-  spring = parent->GetCollisionSpringCoefficient ();
+  cameraSpring = parent->GetCameraSpringCoefficient ();
+  targetSpring = parent->GetTargetSpringCoefficient ();
+  upSpring = parent->GetUpSpringCoefficient ();
   return true;
 }
 

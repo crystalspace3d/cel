@@ -81,7 +81,7 @@ private:
   // it is set to after first pass.
   csVector3 camPos, camTarget, camUp, camOffset;
   csVector3 lastIdealPos, lastIdealTarget, lastIdealUp;
-  float camSpringCoef;
+  float cameraSpringCoef, targetSpringCoef, upSpringCoef;
 
   csWeakRef<iPcMesh> pcmesh;
   iSector* lastActorSector;
@@ -138,6 +138,9 @@ private:
     propid_colldet = 0,
     propid_offset,
     propid_spring,
+    propid_spring_camera,
+    propid_spring_target,
+    propid_spring_up,
     propid_trans_spring,
     propid_trans_cutoffpos,
     propid_trans_cutofftarget
@@ -160,6 +163,8 @@ public:
   	celData& ret);
   virtual bool SetPropertyIndexed (int, bool);
   virtual bool GetPropertyIndexed (int, bool&);
+  virtual bool SetPropertyIndexed (int, float);
+  virtual bool GetPropertyIndexed (int, float&);
   void PropertyClassesHaveChanged ();
 
   /**
@@ -228,16 +233,56 @@ public:
   virtual void SetCameraPositionOffset (const csVector3& offset);
 
   /**
-   * Sets the spring coefficient that will be used for attached camera mode.
+   * Sets the common spring coefficient that will be used for attached
+   * camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetSpringCoefficient (float springCoef);
+
+  /**
+   * Returns the common spring coefficient that will be used for attached
+   * camera mode.
+   */
+  virtual float GetSpringCoefficient () const;
+
+  /**
+   * Sets the camera spring coefficient that will be used for attached
+   * camera mode.
    * \param springCoef The new spring coefficient.
    */
   virtual void SetCameraSpringCoefficient (float springCoef);
 
   /**
-   * Returns the spring coefficient that will be used for attached camera mode.
-   * \param springCoef The new spring coefficient.
+   * Returns the camera spring coefficient that will be used for attached
+   * camera mode.
    */
   virtual float GetCameraSpringCoefficient () const;
+
+  /**
+   * Sets the target spring coefficient that will be used for attached
+   * camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetTargetSpringCoefficient (float springCoef);
+
+  /**
+   * Returns the target spring coefficient that will be used for attached
+   * camera mode.
+   */
+  virtual float GetTargetSpringCoefficient () const;
+
+  /**
+   * Sets the up vector spring coefficient that will be used for attached
+   * camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetUpSpringCoefficient (float springCoef);
+
+  /**
+   * Returns the up vector spring coefficient that will be used for attached
+   * camera mode.
+   */
+  virtual float GetUpSpringCoefficient () const;
 
   /**
    * Returns whether the camera will use collision detection to avoid
