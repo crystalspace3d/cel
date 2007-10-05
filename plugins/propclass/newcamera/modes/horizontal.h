@@ -92,6 +92,30 @@ public:
   {
     return celCameraMode::SetSpringCoefficient (s);
   }
+  virtual float GetCameraSpringCoefficient () const
+  {
+    return celCameraMode::GetCameraSpringCoefficient ();
+  }
+  virtual void SetCameraSpringCoefficient (float s)
+  {
+    return celCameraMode::SetCameraSpringCoefficient (s);
+  }
+  virtual float GetTargetSpringCoefficient () const
+  {
+    return celCameraMode::GetTargetSpringCoefficient ();
+  }
+  virtual void SetTargetSpringCoefficient (float s)
+  {
+    return celCameraMode::SetTargetSpringCoefficient (s);
+  }
+  virtual float GetUpSpringCoefficient () const
+  {
+    return celCameraMode::GetUpSpringCoefficient ();
+  }
+  virtual void SetUpSpringCoefficient (float s)
+  {
+    return celCameraMode::SetUpSpringCoefficient (s);
+  }
   virtual const csVector3 &GetPosition () const
   {
     return celCameraMode::GetPosition ();

@@ -74,6 +74,9 @@ bool ThirdPerson::DecideCameraState ()
   	->GetBaseTrans ().This2OtherRelative (posoffset);
   target = parent->GetBasePos ();
   up  = parent->GetBaseUp ();
+  cameraSpring = parent->GetCameraSpringCoefficient ();
+  targetSpring = parent->GetTargetSpringCoefficient ();
+  upSpring = parent->GetUpSpringCoefficient ();
   return true;
 }
 

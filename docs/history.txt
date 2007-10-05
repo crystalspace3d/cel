@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- andres added the python wrapper for cross compilation formerly added for
 	  CS also to cel.
 	- Darek made new fixes for spring and collisions in newcamera.
+	- Darek splitted newcamera's spring to 3: spring_camera, spring_target and
+	  spring_up. Old spring functionality sets that three at once.
 04-Oct-2007
 	- caedes changed cel to use CS::GetNamedChildObject instead of
 	  deprecated CS_GET_NAMED_CHILD_OBJECT.

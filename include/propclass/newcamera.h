@@ -114,6 +114,45 @@ struct General : public virtual iBase
   virtual void SetSpringCoefficient (float s) = 0;
 
   /**
+   * Sets the camera spring coefficient that will be used for attached
+   * camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetCameraSpringCoefficient (float springCoef) = 0;
+
+  /**
+   * Returns the camera spring coefficient that will be used for attached
+   * camera mode.
+   */
+  virtual float GetCameraSpringCoefficient () const = 0;
+
+  /**
+   * Sets the target spring coefficient that will be used for attached
+   * camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetTargetSpringCoefficient (float springCoef) = 0;
+
+  /**
+   * Returns the target spring coefficient that will be used for attached
+   * camera mode.
+   */
+  virtual float GetTargetSpringCoefficient () const = 0;
+
+  /**
+   * Sets the up vector spring coefficient that will be used for attached
+   * camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetUpSpringCoefficient (float springCoef) = 0;
+
+  /**
+   * Returns the up vector spring coefficient that will be used for attached
+   * camera mode.
+   */
+  virtual float GetUpSpringCoefficient () const = 0;
+
+  /**
    * Gets the desired camera position.
    * \return The desired camera position.
    */
@@ -259,16 +298,56 @@ struct iPcNewCamera : public virtual iPcCamera
   virtual void SetCameraPositionOffset (const csVector3& offset) = 0;
 
   /**
-   * Sets the spring coefficient that will be used for attached camera mode.
+   * Sets the common spring coefficient that will be used for attached
+   * camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetSpringCoefficient (float springCoef) = 0;
+
+  /**
+   * Returns the common spring coefficient that will be used for attached
+   * camera mode.
+   */
+  virtual float GetSpringCoefficient () const = 0;
+
+  /**
+   * Sets the camera spring coefficient that will be used for attached
+   * camera mode.
    * \param springCoef The new spring coefficient.
    */
   virtual void SetCameraSpringCoefficient (float springCoef) = 0;
 
   /**
-   * Returns the spring coefficient that will be used for attached camera mode.
-   * \param springCoef The new spring coefficient.
+   * Returns the camera spring coefficient that will be used for attached
+   * camera mode.
    */
   virtual float GetCameraSpringCoefficient () const = 0;
+
+  /**
+   * Sets the target spring coefficient that will be used for attached
+   * camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetTargetSpringCoefficient (float springCoef) = 0;
+
+  /**
+   * Returns the target spring coefficient that will be used for attached
+   * camera mode.
+   */
+  virtual float GetTargetSpringCoefficient () const = 0;
+
+  /**
+   * Sets the up vector spring coefficient that will be used for attached
+   * camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetUpSpringCoefficient (float springCoef) = 0;
+
+  /**
+   * Returns the up vector spring coefficient that will be used for attached
+   * camera mode.
+   */
+  virtual float GetUpSpringCoefficient () const = 0;
 
   /**
    * Returns whether the camera will use collision detection to avoid moving

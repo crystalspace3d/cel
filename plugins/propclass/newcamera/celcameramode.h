@@ -47,7 +47,7 @@ protected:
   iPcNewCamera* parent;
 
   csVector3 pos, target, up;
-  float spring;
+  float cameraSpring, targetSpring, upSpring;
 
 public:
   celCameraMode ();
@@ -95,16 +95,52 @@ public:
   virtual bool DrawAttachedMesh () const;
 
   /**
-   * Gets the spring coefficient to use for the spring physics.
+   * Gets the common spring coefficient to use for the spring physics.
    * \return The spring coefficient of this camera mode.
    */
   virtual float GetSpringCoefficient () const;
 
   /**
-   * Sets the spring coefficient to use for the spring physics.
+   * Sets the common spring coefficient to use for the spring physics.
    * @param s The spring coefficient of this camera mode.
    */
   virtual void SetSpringCoefficient (float s);
+
+  /**
+   * Gets the camera spring coefficient to use for the spring physics.
+   * \return The spring coefficient of this camera mode.
+   */
+  virtual float GetCameraSpringCoefficient () const;
+
+  /**
+   * Sets the camera spring coefficient to use for the spring physics.
+   * @param s The spring coefficient of this camera mode.
+   */
+  virtual void SetCameraSpringCoefficient (float s);
+
+  /**
+   * Gets the target spring coefficient to use for the spring physics.
+   * \return The spring coefficient of this camera mode.
+   */
+  virtual float GetTargetSpringCoefficient () const;
+
+  /**
+   * Sets the target spring coefficient to use for the spring physics.
+   * @param s The spring coefficient of this camera mode.
+   */
+  virtual void SetTargetSpringCoefficient (float s);
+
+  /**
+   * Gets the up vector spring coefficient to use for the spring physics.
+   * \return The spring coefficient of this camera mode.
+   */
+  virtual float GetUpSpringCoefficient () const;
+
+  /**
+   * Sets the up vector spring coefficient to use for the spring physics.
+   * @param s The spring coefficient of this camera mode.
+   */
+  virtual void SetUpSpringCoefficient (float s);
 
   /**
    * Gets the desired camera position.
