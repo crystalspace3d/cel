@@ -1,6 +1,7 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2007 by Dariusz Dawidowski
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -37,7 +38,7 @@ public:
 
   /**
    * Sets the position as an offset from the camera's base position.
-   * \offset  The offset from the camera's base position to the 
+   * \offset  The offset from the camera's base position to the
    * desired position.
    */
   void SetPositionOffset (const csVector3& offset);

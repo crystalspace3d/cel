@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 05-Oct-2007
 	- andres added the python wrapper for cross compilation formerly added for
 	  CS also to cel.
+	- Darek made new fixes for spring and collisions in newcamera.
 04-Oct-2007
 	- caedes changed cel to use CS::GetNamedChildObject instead of
 	  deprecated CS_GET_NAMED_CHILD_OBJECT.

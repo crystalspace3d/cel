@@ -1,6 +1,7 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2007 by Dariusz Dawidowski
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -142,7 +143,7 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   lastIdealPos.Set (0.0f, 0.0f, 0.0f);
   lastIdealTarget.Set (0.0f, 0.0f, 0.0f);
   lastIdealUp.Set (0.0f, 0.0f, 0.0f);
-  camera_offset.Set (0, 0, 0);
+  camOffset.Set (0.0f, 0.0f, 0.0f);
 
   currMode = (size_t)-1;
 
@@ -193,7 +194,7 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   	&basePosOffset);
   AddProperty (propid_spring, "cel.property.spring",
   	CEL_DATA_FLOAT, false, "Spring coefficient.",
-  	&collisionSpringCoef);
+  	&camSpringCoef);
   AddProperty (propid_trans_spring, "cel.property.transition_spring",
   	CEL_DATA_FLOAT, false,
   	"Springyness of the transition to a new camera mode.",
@@ -411,6 +412,7 @@ void celPcNewCamera::SetPositionOffset (const csVector3& offset)
 {
   SetTargetPositionOffset (offset);
 }
+
 void celPcNewCamera::SetTargetPositionOffset (const csVector3& offset)
 {
   basePosOffset = offset;
@@ -418,7 +420,17 @@ void celPcNewCamera::SetTargetPositionOffset (const csVector3& offset)
 
 void celPcNewCamera::SetCameraPositionOffset (const csVector3& offset)
 {
-  camera_offset = offset;
+  camOffset = offset;
+}
+
+void celPcNewCamera::SetCameraSpringCoefficient (float springCoef)
+{
+  camSpringCoef = springCoef;
+}
+
+float celPcNewCamera::GetCameraSpringCoefficient () const
+{
+  return camSpringCoef;
 }
 
 bool celPcNewCamera::DetectCollisions () const
@@ -578,7 +590,7 @@ void celPcNewCamera::UpdateCamera ()
   }
 
   basePos = baseTrans.GetOrigin ()
-    + baseTrans.This2OtherRelative (basePosOffset);
+  	+ baseTrans.This2OtherRelative (basePosOffset);
   baseDir = baseTrans.This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
   baseUp  = baseTrans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
 
@@ -623,12 +635,13 @@ void celPcNewCamera::UpdateCamera ()
   // offset that we want
   csReversibleTransform desired_camtrans;
   desired_camtrans.SetOrigin(desiredCamPos);
-  desired_camtrans.LookAt (desiredCamTarget - desiredCamPos, csVector3 (0,1,0));
+  desired_camtrans.LookAt (desiredCamTarget - desiredCamPos,
+  	csVector3 (0.0f, 1.0f, 0.0f));
   // then apply the desired offset to the desired position
-  desiredCamPos += desired_camtrans.This2OtherRelative (camera_offset);
+  desiredCamPos += desired_camtrans.This2OtherRelative (camOffset);
 
   // perform collision detection
-  if (false && DetectCollisions () && mode->AllowCollisionDetection ())
+  if (DetectCollisions () && mode->AllowCollisionDetection ())
   {
     csVector3 beamDirection = basePos - desiredCamPos;
     beamDirection.Normalize ();
@@ -707,7 +720,7 @@ void celPcNewCamera::TickEveryFrame ()
   Draw ();
 }
 
-const csOrthoTransform &celPcNewCamera::GetTransform ()
+const csOrthoTransform& celPcNewCamera::GetTransform ()
 {
   return view->GetCamera ()->GetTransform ();
 }

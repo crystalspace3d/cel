@@ -1,6 +1,7 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2007 by Dariusz Dawidowski
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -135,7 +136,7 @@ bool celCameraMode::DecideCameraState ()
   pos = parent->GetBasePos ();
   target = pos + parent->GetBaseDir ();
   up  = parent->GetBaseUp ();
-  spring = parent->GetCollisionSpringCoefficient ();
+  spring = parent->GetCameraSpringCoefficient ();
   return true;
 }
 
