@@ -1,6 +1,7 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2007 by Dariusz Dawidowski
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -234,6 +235,11 @@ struct iPcNewCamera : public virtual iPcCamera
   virtual const csVector3& GetUp () const = 0;
 
   CS_DEPRECATED_METHOD_MSG("Use SetTargetPositionOffset() instead")
+  /**
+   * Sets the offset from the center of the mesh's iMovable
+   * (deprecated).
+   * \param offset the offset from the center of the mesh
+   */
   virtual void SetPositionOffset (const csVector3& offset) = 0;
 
   /**
@@ -251,6 +257,18 @@ struct iPcNewCamera : public virtual iPcCamera
    *        position.
    */
   virtual void SetCameraPositionOffset (const csVector3& offset) = 0;
+
+  /**
+   * Sets the spring coefficient that will be used for attached camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetCameraSpringCoefficient (float springCoef) = 0;
+
+  /**
+   * Returns the spring coefficient that will be used for attached camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual float GetCameraSpringCoefficient () const = 0;
 
   /**
    * Returns whether the camera will use collision detection to avoid moving

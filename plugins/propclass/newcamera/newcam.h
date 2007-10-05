@@ -1,6 +1,7 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2007 by Dariusz Dawidowski
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -76,10 +77,12 @@ private:
   csReversibleTransform baseTrans;
   iSector* baseSector;
   float baseRadius;
-  // camera_offset is where to transform the camera along the direction
+  // camOffset is where to transform the camera along the direction
   // it is set to after first pass.
-  csVector3 camPos, camTarget, camUp, camera_offset;
+  csVector3 camPos, camTarget, camUp, camOffset;
   csVector3 lastIdealPos, lastIdealTarget, lastIdealUp;
+  float camSpringCoef;
+
   csWeakRef<iPcMesh> pcmesh;
   iSector* lastActorSector;
 
@@ -100,7 +103,7 @@ private:
    *  \param springCoef   The spring coefficient to use in our calculations.
    */
   static void CalcElasticVec (csVector3& curr, const csVector3& ideal,
-    float deltaTime, float springCoef);
+  	float deltaTime, float springCoef);
 
   // action parameters
   static csStringID id_name;
@@ -149,7 +152,7 @@ public:
   {
     return 0;
   }
-  virtual bool Load (iCelDataBuffer * databuf)
+  virtual bool Load (iCelDataBuffer* databuf)
   {
     return true;
   }
@@ -203,9 +206,17 @@ public:
 
   /**
    * Sets the offset from the center of the mesh's iMovable
+   * (deprecated).
    * \param offset the offset from the center of the mesh
    */
   virtual void SetPositionOffset (const csVector3& offset);
+
+  /**
+   * Sets the offset from the center of the mesh's iMovable to the position of
+   * the camera.
+   * \param offset the offset from the center of the mesh to the camera
+   *        position.
+   */
   virtual void SetTargetPositionOffset (const csVector3& offset);
 
   /**
@@ -215,6 +226,18 @@ public:
    *        position.
    */
   virtual void SetCameraPositionOffset (const csVector3& offset);
+
+  /**
+   * Sets the spring coefficient that will be used for attached camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetCameraSpringCoefficient (float springCoef);
+
+  /**
+   * Returns the spring coefficient that will be used for attached camera mode.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual float GetCameraSpringCoefficient () const;
 
   /**
    * Returns whether the camera will use collision detection to avoid
@@ -445,4 +468,3 @@ public:
 };
 
 #endif // __CEL_PF_NEW_CAMERA_FACTORY__
-
