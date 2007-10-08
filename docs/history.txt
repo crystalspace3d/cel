@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 08-Oct-2007
 	- cfraz89 optimised the wheeled collision callback.
 	- cfraz89 fixed up meshdeform for the genmesh changes.
+	- caedes synced swig.jam file from cs (this time correctly).
 05-Oct-2007
 	- andres added the python wrapper for cross compilation formerly added for
 	  CS also to cel.
