@@ -40,6 +40,7 @@ struct iObjectRegistry;
 class csVector3;
 struct iMeshFactoryWrapper;
 struct iEngine;
+class WheeledCollisionCallback;
 
 struct celWheel
 {
@@ -67,6 +68,7 @@ struct celWheel
   float ABSBrake;
   //Used for steering
   float CurrentStop;
+  WheeledCollisionCallback* Callback;
 };
 /**
  * Factory for test.
@@ -446,28 +448,8 @@ public:
 
   virtual size_t GetWheelCount() { return wheels.GetSize(); }
 
-  struct WheeledCollisionCallback : public scfImplementation1<
-	WheeledCollisionCallback, iDynamicsCollisionCallback>
-  {
-    celPcWheeled* parent;
-    WheeledCollisionCallback (celPcWheeled* parent) :
-      scfImplementationType (this)
-    {
-      WheeledCollisionCallback::parent = parent;
-    }
-    virtual ~WheeledCollisionCallback ()
-    {
-    }
-
-    virtual void Execute (iRigidBody *thisbody, iRigidBody *otherbody,
-	const csVector3& pos, const csVector3& normal, float depth)
-    {
-      parent->Collision (thisbody, otherbody, pos, normal, depth);
-    }
-  } *scfiWheeledCollisionCallback;
-
-  void Collision (iRigidBody *thisbody, iRigidBody *otherbody,
-	const csVector3& pos, const csVector3& normal, float depth);
+  void WheelCollision (iRigidBody *thisbody, iRigidBody *otherbody,
+	const csVector3& pos, const csVector3& normal, float depth, size_t index);
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
