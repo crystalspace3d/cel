@@ -175,6 +175,9 @@
 			<File
 				RelativePath="..\..\plugins\propclass\wheeled\wheeled.h">
 			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\wheeled\wheeledcb.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
