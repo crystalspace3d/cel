@@ -229,7 +229,7 @@ typedef iPcmNewCamera::General iCelCameraMode;
  */
 struct iPcNewCamera : public virtual iPcCamera
 {
-  SCF_INTERFACE (iPcNewCamera, 0, 0, 3);
+  SCF_INTERFACE (iPcNewCamera, 0, 0, 4);
 
   /**
    * Gets the base position of the camera in world coordinates.
@@ -508,6 +508,11 @@ struct iPcNewCamera : public virtual iPcCamera
       return 0;
     return scfQueryInterface<T> (cmode);
   }
+
+  /**
+   * Reset the camera position.
+   */
+  virtual bool Reset () = 0;
 };
 
 #endif // __CEL_PF_NEW_CAMERA__
