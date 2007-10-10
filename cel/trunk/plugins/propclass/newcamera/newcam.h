@@ -94,6 +94,9 @@ private:
   float transitionCutoffPosDist;
   float transitionCutoffTargetDist;
 
+  // Has this camera been initialised yet?
+  bool init_reset;
+
   void UpdateMeshVisibility ();
 
   /** Calculates an elastic vector based on an ideal vector and a current one.
@@ -136,6 +139,7 @@ private:
   enum propids
   {
     propid_colldet = 0,
+    propid_colldet_spring,
     propid_offset,
     propid_spring,
     propid_spring_camera,
@@ -165,7 +169,6 @@ public:
   virtual bool GetPropertyIndexed (int, bool&);
   virtual bool SetPropertyIndexed (int, float);
   virtual bool GetPropertyIndexed (int, float&);
-  void PropertyClassesHaveChanged ();
 
   /**
    * Gets the base position of the camera in world coordinates.
@@ -415,6 +418,11 @@ public:
    * \return The current camera mode.
    */
   virtual iCelCameraMode* GetCameraMode (int idx = -1);
+
+  /**
+   * Reset the camera position.
+   */
+  virtual bool Reset ();
 
   void UpdateCamera ();
   int GetDrawFlags ();

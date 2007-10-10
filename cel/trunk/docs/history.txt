@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+10-Oct-2007
+	- Darek fixed newcamera initialization and added new property
+	  colldet_spring.
 08-Oct-2007
 	- cfraz89 optimised the wheeled collision callback.
 	- cfraz89 fixed up meshdeform for the genmesh changes.

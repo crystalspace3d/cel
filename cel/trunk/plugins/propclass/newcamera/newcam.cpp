@@ -138,6 +138,8 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_VIEW);
 
+  init_reset = false;
+
   basePosOffset.Set (0.0f, 0.0f, 0.0f);
   lastIdealPos.Set (0.0f, 0.0f, 0.0f);
   lastIdealTarget.Set (0.0f, 0.0f, 0.0f);
@@ -147,10 +149,10 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   currMode = (size_t)-1;
 
   detectCollisions = false;
-  collisionSpringCoef = 5.0f;
+  collisionSpringCoef = 3.0f;
 
   inTransition = true;
-  transitionSpringCoef = 5.0f;
+  transitionSpringCoef = 2.0f;
   transitionCutoffPosDist = 1.0f;
   transitionCutoffTargetDist = 1.0f;
 
@@ -185,9 +187,13 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
     AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
   }
 
-  propinfo.SetCount (9);
+  propinfo.SetCount (10);
   AddProperty (propid_colldet, "cel.property.colldet",
   	CEL_DATA_BOOL, false, "Camera will use collision detection.", 0);
+  AddProperty (propid_colldet_spring, "cel.property.colldet_spring",
+  	CEL_DATA_FLOAT, false,
+  	"Springyness in case of collision.",
+  	&collisionSpringCoef);
   AddProperty (propid_offset, "cel.property.offset",
   	CEL_DATA_VECTOR3, false, "Offset from the center of the mesh.",
   	&basePosOffset);
@@ -395,13 +401,9 @@ bool celPcNewCamera::GetPropertyIndexed (int idx, float& val)
   }
 }
 
-void celPcNewCamera::PropertyClassesHaveChanged ()
+bool celPcNewCamera::Reset ()
 {
-  celPcCommon::PropertyClassesHaveChanged ();
-
   pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
-
-  // reset the camera values
   if (pcmesh && pcmesh->GetMesh ())
   {
     iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
@@ -413,6 +415,7 @@ void celPcNewCamera::PropertyClassesHaveChanged ()
   }
 
   UpdateMeshVisibility ();
+  return true;
 }
 
 const csVector3& celPcNewCamera::GetBasePos () const
@@ -642,6 +645,9 @@ void celPcNewCamera::PrevCameraMode ()
 
 void celPcNewCamera::UpdateCamera ()
 {
+  if (!init_reset)
+    init_reset = Reset ();
+
   csTicks elapsedTime = vc->GetElapsedTicks ();
   float elapsedSecs = elapsedTime / 1000.0f;
 
