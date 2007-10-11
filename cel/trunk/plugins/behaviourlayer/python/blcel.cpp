@@ -51684,6 +51684,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcNewCamera_Reset(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcNewCamera *arg1 = (iPcNewCamera *) 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcNewCamera_Reset",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcNewCamera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcNewCamera_Reset" "', argument " "1"" of type '" "iPcNewCamera *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcNewCamera * >(argp1);
+  result = (bool)(arg1)->Reset();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_delete_iPcNewCamera(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcNewCamera *arg1 = (iPcNewCamera *) 0 ;
@@ -89143,6 +89165,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcNewCamera_Draw", _wrap_iPcNewCamera_Draw, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetTransform", _wrap_iPcNewCamera_GetTransform, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetCameraMode", _wrap_iPcNewCamera_GetCameraMode, METH_VARARGS, NULL},
+	 { (char *)"iPcNewCamera_Reset", _wrap_iPcNewCamera_Reset, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcNewCamera", _wrap_delete_iPcNewCamera, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_swigregister", iPcNewCamera_swigregister, METH_VARARGS, NULL},
 	 { (char *)"celCreateNewCamera", _wrap_celCreateNewCamera, METH_VARARGS, NULL},
