@@ -2873,6 +2873,7 @@ class iPcNewCamera(iPcCamera):
     def Draw(*args): return _blcelc.iPcNewCamera_Draw(*args)
     def GetTransform(*args): return _blcelc.iPcNewCamera_GetTransform(*args)
     def GetCameraMode(*args): return _blcelc.iPcNewCamera_GetCameraMode(*args)
+    def Reset(*args): return _blcelc.iPcNewCamera_Reset(*args)
     _PC = None
     def __getattr__(self,attr):
          try:
