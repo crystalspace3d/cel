@@ -63,10 +63,10 @@ namespace celCameraMode
 celCameraMode::celCameraMode ()
 {
   parent = 0;
-  pos = csVector3 (0.0f, 0.0f, 0.0f);
+  origin = csVector3 (0.0f, 0.0f, 0.0f);
   target = csVector3 (0.0f, 0.0f, 0.0f);
   up = csVector3 (0.0f, 1.0f, 0.0f);
-  cameraSpring = 2.0f;
+  originSpring = 2.0f;
   targetSpring = 2.0f;
   upSpring = 2.0f;
 }
@@ -81,6 +81,11 @@ void celCameraMode::SetParentCamera (iPcNewCamera* camera)
 }
 
 bool celCameraMode::UseSpringPos () const
+{
+  return true;
+}
+
+bool celCameraMode::UseSpringOrigin () const
 {
   return true;
 }
@@ -100,6 +105,11 @@ bool celCameraMode::AllowCollisionDetection () const
   return true;
 }
 
+bool celCameraMode::GetCollisionDetection () const
+{
+  return true;
+}
+
 bool celCameraMode::DrawAttachedMesh () const
 {
   return false;
@@ -107,24 +117,24 @@ bool celCameraMode::DrawAttachedMesh () const
 
 float celCameraMode::GetSpringCoefficient () const
 {
-  return cameraSpring;
+  return originSpring;
 }
 
 void celCameraMode::SetSpringCoefficient (float s)
 {
-  cameraSpring = s;
+  originSpring = s;
   targetSpring = s;
   upSpring = s;
 }
 
-float celCameraMode::GetCameraSpringCoefficient () const
+float celCameraMode::GetOriginSpringCoefficient () const
 {
-  return cameraSpring;
+  return originSpring;
 }
 
-void celCameraMode::SetCameraSpringCoefficient (float s)
+void celCameraMode::SetOriginSpringCoefficient (float s)
 {
-  cameraSpring = s;
+  originSpring = s;
 }
 
 float celCameraMode::GetTargetSpringCoefficient () const
@@ -149,7 +159,12 @@ void celCameraMode::SetUpSpringCoefficient (float s)
 
 const csVector3& celCameraMode::GetPosition () const
 {
-  return pos;
+  return origin;
+}
+
+const csVector3& celCameraMode::GetOrigin () const
+{
+  return origin;
 }
 
 const csVector3& celCameraMode::GetTarget () const
@@ -167,10 +182,10 @@ bool celCameraMode::DecideCameraState ()
   if (!parent)
     return false;
 
-  pos = parent->GetBasePos ();
-  target = pos + parent->GetBaseDir ();
-  up  = parent->GetBaseUp ();
-  cameraSpring = parent->GetCameraSpringCoefficient ();
+  origin = parent->GetBasePos ();
+  target = origin + parent->GetBaseDir ();
+  up = parent->GetBaseUp ();
+  originSpring = parent->GetOriginSpringCoefficient ();
   targetSpring = parent->GetTargetSpringCoefficient ();
   upSpring = parent->GetUpSpringCoefficient ();
   return true;

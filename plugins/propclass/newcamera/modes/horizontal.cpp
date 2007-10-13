@@ -50,6 +50,11 @@ bool Horizontal::UseSpringPos () const
   return true;
 }
 
+bool Horizontal::UseSpringOrigin () const
+{
+  return true;
+}
+
 bool Horizontal::UseSpringTarget () const
 {
   return true;
@@ -70,11 +75,11 @@ bool Horizontal::DecideCameraState ()
   if (!parent)
     return false;
 
-  pos = parent->GetBasePos () + parent
+  origin = parent->GetBasePos () + parent
   	->GetBaseTrans().This2OtherRelative (posoffset);
   target = parent->GetBasePos();
-  target.y = pos.y;
-  cameraSpring = parent->GetCameraSpringCoefficient ();
+  target.y = origin.y;
+  originSpring = parent->GetOriginSpringCoefficient ();
   targetSpring = parent->GetTargetSpringCoefficient ();
   upSpring = parent->GetUpSpringCoefficient ();
   return true;

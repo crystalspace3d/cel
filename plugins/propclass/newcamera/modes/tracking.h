@@ -83,6 +83,10 @@ public:
   {
     return celCameraMode::UseSpringPos ();
   }
+  virtual bool UseSpringOrigin () const
+  {
+    return celCameraMode::UseSpringOrigin ();
+  }
   virtual bool UseSpringTarget () const
   {
     return celCameraMode::UseSpringTarget ();
@@ -95,6 +99,10 @@ public:
   {
     return celCameraMode::AllowCollisionDetection ();
   }
+  virtual bool GetCollisionDetection () const
+  {
+    return celCameraMode::GetCollisionDetection ();
+  }
   virtual float GetSpringCoefficient () const
   {
     return celCameraMode::GetSpringCoefficient ();
@@ -103,13 +111,13 @@ public:
   {
     return celCameraMode::SetSpringCoefficient (s);
   }
-  virtual float GetCameraSpringCoefficient () const
+  virtual float GetOriginSpringCoefficient () const
   {
-    return celCameraMode::GetCameraSpringCoefficient ();
+    return celCameraMode::GetOriginSpringCoefficient ();
   }
-  virtual void SetCameraSpringCoefficient (float s)
+  virtual void SetOriginSpringCoefficient (float s)
   {
-    return celCameraMode::SetCameraSpringCoefficient (s);
+    return celCameraMode::SetOriginSpringCoefficient (s);
   }
   virtual float GetTargetSpringCoefficient () const
   {
@@ -130,6 +138,10 @@ public:
   virtual const csVector3 &GetPosition () const
   {
     return celCameraMode::GetPosition ();
+  }
+  virtual const csVector3& GetOrigin () const
+  {
+    return celCameraMode::GetOrigin ();
   }
   virtual const csVector3 &GetTarget () const
   {

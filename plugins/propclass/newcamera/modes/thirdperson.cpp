@@ -50,6 +50,11 @@ bool ThirdPerson::UseSpringPos () const
   return true;
 }
 
+bool ThirdPerson::UseSpringOrigin () const
+{
+  return true;
+}
+
 bool ThirdPerson::UseSpringTarget () const
 {
   return true;
@@ -70,11 +75,11 @@ bool ThirdPerson::DecideCameraState ()
   if (!parent)
     return false;
 
-  pos = parent->GetBasePos () + parent
+  origin = parent->GetBasePos () + parent
   	->GetBaseTrans ().This2OtherRelative (posoffset);
   target = parent->GetBasePos ();
   up  = parent->GetBaseUp ();
-  cameraSpring = parent->GetCameraSpringCoefficient ();
+  originSpring = parent->GetOriginSpringCoefficient ();
   targetSpring = parent->GetTargetSpringCoefficient ();
   upSpring = parent->GetUpSpringCoefficient ();
   return true;

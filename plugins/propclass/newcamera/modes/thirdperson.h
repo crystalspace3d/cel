@@ -52,6 +52,13 @@ public:
 
   /**
    * Decides if this camera mode should use spring physics for the camera's
+   * origin.
+   * \return True if this camera mode uses spring physics.
+   */
+  virtual bool UseSpringOrigin () const;
+
+  /**
+   * Decides if this camera mode should use spring physics for the camera's
    * target.
    * \return True if this camera mode uses spring physics.
    */
@@ -86,6 +93,10 @@ public:
   {
     return celCameraMode::AllowCollisionDetection ();
   }
+  virtual bool GetCollisionDetection () const
+  {
+    return celCameraMode::GetCollisionDetection ();
+  }
   virtual float GetSpringCoefficient () const
   {
     return celCameraMode::GetSpringCoefficient ();
@@ -94,13 +105,13 @@ public:
   {
     return celCameraMode::SetSpringCoefficient (s);
   }
-  virtual float GetCameraSpringCoefficient () const
+  virtual float GetOriginSpringCoefficient () const
   {
-    return celCameraMode::GetCameraSpringCoefficient ();
+    return celCameraMode::GetOriginSpringCoefficient ();
   }
-  virtual void SetCameraSpringCoefficient (float s)
+  virtual void SetOriginSpringCoefficient (float s)
   {
-    return celCameraMode::SetCameraSpringCoefficient (s);
+    return celCameraMode::SetOriginSpringCoefficient (s);
   }
   virtual float GetTargetSpringCoefficient () const
   {
@@ -121,6 +132,10 @@ public:
   virtual const csVector3& GetPosition () const
   {
     return celCameraMode::GetPosition ();
+  }
+  virtual const csVector3& GetOrigin () const
+  {
+    return celCameraMode::GetOrigin ();
   }
   virtual const csVector3& GetTarget () const
   {
