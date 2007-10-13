@@ -70,18 +70,18 @@ private:
 
   size_t currMode;
 
-  csVector3 basePos;
-  csVector3 baseDir;
-  csVector3 baseUp;
+  csVector3 baseOrigin, baseDir, baseUp;
   csVector3 basePosOffset;
   csReversibleTransform baseTrans;
   iSector* baseSector;
   float baseRadius;
+  csVector3 camOrigin, camTarget, camUp;
+  float originSpringCoef, targetSpringCoef, upSpringCoef;
+
   // camOffset is where to transform the camera along the direction
   // it is set to after first pass.
-  csVector3 camPos, camTarget, camUp, camOffset;
-  csVector3 lastIdealPos, lastIdealTarget, lastIdealUp;
-  float cameraSpringCoef, targetSpringCoef, upSpringCoef;
+  csVector3 camOffset;
+  csVector3 offsetOrigin, offsetTarget;
 
   csWeakRef<iPcMesh> pcmesh;
   iSector* lastActorSector;
@@ -91,7 +91,7 @@ private:
 
   bool inTransition;
   float transitionSpringCoef;
-  float transitionCutoffPosDist;
+  float transitionCutoffOriginDist;
   float transitionCutoffTargetDist;
 
   // Has this camera been initialised yet?
@@ -142,11 +142,11 @@ private:
     propid_colldet_spring,
     propid_offset,
     propid_spring,
-    propid_spring_camera,
+    propid_spring_origin,
     propid_spring_target,
     propid_spring_up,
     propid_trans_spring,
-    propid_trans_cutoffpos,
+    propid_trans_cutofforigin,
     propid_trans_cutofftarget
   };
   static PropertyHolder propinfo;
@@ -177,6 +177,12 @@ public:
   virtual const csVector3& GetBasePos () const;
 
   /**
+   * Gets the base origin of the camera in world coordinates.
+   * \return The base origin of the camera in world coordinates.
+   */
+  virtual const csVector3& GetBaseOrigin () const;
+
+  /**
    * Gets the base direction of the camera.
    * \return The base direction of the camera.
    */
@@ -199,6 +205,12 @@ public:
    * \return The current position of the camera.
    */
   virtual const csVector3& GetPos () const;
+
+  /**
+   * Gets the current origin of the camera.
+   * \return The current origin of the camera.
+   */
+  virtual const csVector3& GetOrigin () const;
 
   /**
    * Gets the current target of the camera.
@@ -249,17 +261,17 @@ public:
   virtual float GetSpringCoefficient () const;
 
   /**
-   * Sets the camera spring coefficient that will be used for attached
+   * Sets the origin spring coefficient that will be used for attached
    * camera mode.
    * \param springCoef The new spring coefficient.
    */
-  virtual void SetCameraSpringCoefficient (float springCoef);
+  virtual void SetOriginSpringCoefficient (float springCoef);
 
   /**
-   * Returns the camera spring coefficient that will be used for attached
+   * Returns the origin spring coefficient that will be used for attached
    * camera mode.
    */
-  virtual float GetCameraSpringCoefficient () const;
+  virtual float GetOriginSpringCoefficient () const;
 
   /**
    * Sets the target spring coefficient that will be used for attached
@@ -302,6 +314,13 @@ public:
   virtual void SetCollisionDetection (bool detectCollisions);
 
   /**
+   * Returns whether the camera will use collision detection to avoid
+   * moving through walls.
+   * \return True if collision detection is enabled.
+   */
+  virtual bool GetCollisionDetection () const;
+
+  /**
    * Sets the spring coefficient that will be used when a collision is detected.
    * \param springCoef The new spring coefficient.
    */
@@ -338,12 +357,12 @@ public:
    * If the distance between the current camera position and the new camera
    * mode is within this cutoff distance, then the camera will cease to be
    * in a transition and be in the new camera mode.
-   * \param cutOffPosDist The camera transition mode cutoff distance from
-   * position to position.
+   * \param cutOffOriginDist The camera transition mode cutoff distance from
+   * origin to origin.
    * \param cutOffTargetDist The camera transition mode cutoff distance
    * from target to target.
    */
-  virtual void SetTransitionCutoffDistance (float cutOffPosDist,
+  virtual void SetTransitionCutoffDistance (float cutOffOriginDist,
   	float cutOffTargetDist);
 
   /**
@@ -352,6 +371,13 @@ public:
    * \return The camera transition cutoff distance from target to target.
    */
   virtual float GetTransitionCutoffPosDistance () const;
+
+  /**
+   * Grabs the camera transition cutoff distance from origin to origin
+   * between the camera and the camera mode.
+   * \return The camera transition cutoff distance from target to target.
+   */
+  virtual float GetTransitionCutoffOriginDistance () const;
 
   /**
    * Grabs the camera transition cutoff distance from target to target

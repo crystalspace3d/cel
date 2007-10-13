@@ -58,7 +58,7 @@ namespace iPcmNewCamera
 {
 struct General : public virtual iBase
 {
-  SCF_INTERFACE (General, 0, 0, 1);
+  SCF_INTERFACE (General, 0, 1, 0);
 
   /**
    * Tells the camera mode what camera has it attached.
@@ -66,12 +66,20 @@ struct General : public virtual iBase
    */
   virtual void SetParentCamera (iPcNewCamera* camera) = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use UseSpringOrigin () instead")
   /**
    * Decides if this camera mode should use spring physics for the camera's
    * position.
    * \return True if this camera mode uses spring physics.
    */
   virtual bool UseSpringPos () const = 0;
+
+  /**
+   * Decides if this camera mode should use spring physics for the camera's
+   * origin.
+   * \return True if this camera mode uses spring physics.
+   */
+  virtual bool UseSpringOrigin () const = 0;
 
   /**
    * Decides if this camera mode should use spring physics for the camera's
@@ -87,12 +95,20 @@ struct General : public virtual iBase
    */
   virtual bool UseSpringUp () const = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use GetCollisionDetection () instead")
   /**
    * Decides if collision detection should be allowed if for this mode the
    * camera wants it.
    * \return True if this camera mode allows collision detection.
    */
   virtual bool AllowCollisionDetection () const = 0;
+
+  /**
+   * Decides if collision detection should be allowed if for this mode the
+   * camera wants it.
+   * \return True if this camera mode allows collision detection.
+   */
+  virtual bool GetCollisionDetection () const = 0;
 
   /**
    * Decides if the mesh the camera is attached to should be drawn or not in
@@ -114,17 +130,17 @@ struct General : public virtual iBase
   virtual void SetSpringCoefficient (float s) = 0;
 
   /**
-   * Sets the camera spring coefficient that will be used for attached
+   * Sets the origin spring coefficient that will be used for attached
    * camera mode.
    * \param springCoef The new spring coefficient.
    */
-  virtual void SetCameraSpringCoefficient (float springCoef) = 0;
+  virtual void SetOriginSpringCoefficient (float springCoef) = 0;
 
   /**
-   * Returns the camera spring coefficient that will be used for attached
+   * Returns the origin spring coefficient that will be used for attached
    * camera mode.
    */
-  virtual float GetCameraSpringCoefficient () const = 0;
+  virtual float GetOriginSpringCoefficient () const = 0;
 
   /**
    * Sets the target spring coefficient that will be used for attached
@@ -152,11 +168,18 @@ struct General : public virtual iBase
    */
   virtual float GetUpSpringCoefficient () const = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use GetOrigin () instead")
   /**
    * Gets the desired camera position.
    * \return The desired camera position.
    */
   virtual const csVector3& GetPosition () const = 0;
+
+  /**
+   * Gets the desired camera origin.
+   * \return The desired camera origin.
+   */
+  virtual const csVector3& GetOrigin () const = 0;
 
   /**
    * Gets the desired camera target.
@@ -171,7 +194,7 @@ struct General : public virtual iBase
   virtual const csVector3& GetUp () const = 0;
 
   /**
-   * Informs the camera mode that it should compute the desired position,
+   * Informs the camera mode that it should compute the desired origin,
    * target, up, etc. of the camera now.
    * \return True on success.
    */
@@ -229,13 +252,20 @@ typedef iPcmNewCamera::General iCelCameraMode;
  */
 struct iPcNewCamera : public virtual iPcCamera
 {
-  SCF_INTERFACE (iPcNewCamera, 0, 0, 4);
+  SCF_INTERFACE (iPcNewCamera, 0, 1, 0);
 
+  CS_DEPRECATED_METHOD_MSG("Use GetBaseOrigin () instead")
   /**
    * Gets the base position of the camera in world coordinates.
    * \return The base position of the camera in world coordinates.
    */
   virtual const csVector3& GetBasePos () const = 0;
+
+  /**
+   * Gets the base origin of the camera in world coordinates.
+   * \return The base origin of the camera in world coordinates.
+   */
+  virtual const csVector3& GetBaseOrigin () const = 0;
 
   /**
    * Gets the base direction of the camera.
@@ -255,11 +285,18 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual const csReversibleTransform& GetBaseTrans () const = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use GetOrigin () instead")
   /**
    * Gets the current position of the camera.
    * \return The current position of the camera.
    */
   virtual const csVector3& GetPos () const = 0;
+
+  /**
+   * Gets the current origin of the camera.
+   * \return The current origin of the camera.
+   */
+  virtual const csVector3& GetOrigin () const = 0;
 
   /**
    * Gets the current target of the camera.
@@ -273,7 +310,7 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual const csVector3& GetUp () const = 0;
 
-  CS_DEPRECATED_METHOD_MSG("Use SetTargetPositionOffset() instead")
+  CS_DEPRECATED_METHOD_MSG("Use SetTargetPositionOffset () instead")
   /**
    * Sets the offset from the center of the mesh's iMovable
    * (deprecated).
@@ -311,17 +348,17 @@ struct iPcNewCamera : public virtual iPcCamera
   virtual float GetSpringCoefficient () const = 0;
 
   /**
-   * Sets the camera spring coefficient that will be used for attached
+   * Sets the origin spring coefficient that will be used for attached
    * camera mode.
    * \param springCoef The new spring coefficient.
    */
-  virtual void SetCameraSpringCoefficient (float springCoef) = 0;
+  virtual void SetOriginSpringCoefficient (float springCoef) = 0;
 
   /**
-   * Returns the camera spring coefficient that will be used for attached
+   * Returns the origin spring coefficient that will be used for attached
    * camera mode.
    */
-  virtual float GetCameraSpringCoefficient () const = 0;
+  virtual float GetOriginSpringCoefficient () const = 0;
 
   /**
    * Sets the target spring coefficient that will be used for attached
@@ -349,6 +386,7 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual float GetUpSpringCoefficient () const = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use GetCollisionDetection () instead")
   /**
    * Returns whether the camera will use collision detection to avoid moving
    * through walls.
@@ -362,6 +400,13 @@ struct iPcNewCamera : public virtual iPcCamera
    * \param detectCollisions True if the camera should detect collisions.
    */
   virtual void SetCollisionDetection (bool detectCollisions) = 0;
+
+  /**
+   * Returns whether the camera will use collision detection to avoid moving
+   * through walls.
+   * \return True if collision detection is enabled.
+   */
+  virtual bool GetCollisionDetection () const = 0;
 
   /**
    * Sets the spring coefficient that will be used when a collision is detected.
@@ -400,20 +445,28 @@ struct iPcNewCamera : public virtual iPcCamera
    * If the distance between the current camera position and the new camera
    * mode is within this cutoff distance, then the camera will cease to be
    * in a transition and be in the new camera mode.
-   * \param cutOffPosDist The camera transition mode cutoff distance from
-   * position to position.
+   * \param cutOffOriginDist The camera transition mode cutoff distance from
+   * origin to origin.
    * \param cutOffTargetDist The camera transition mode cutoff distance from
    * target to target.
    */
-  virtual void SetTransitionCutoffDistance (float cutOffPosDist,
+  virtual void SetTransitionCutoffDistance (float cutOffOriginDist,
   	float cutOffTargetDist) = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use GetTransitionCutoffOriginDistance () instead")
   /**
    * Grabs the camera transition cutoff distance from position to position
    * between the camera and the camera mode.
    * \return The camera transition cutoff distance from target to target.
    */
   virtual float GetTransitionCutoffPosDistance () const = 0;
+
+  /**
+   * Grabs the camera transition cutoff distance from origin to origin
+   * between the camera and the camera mode.
+   * \return The camera transition cutoff distance from target to target.
+   */
+  virtual float GetTransitionCutoffOriginDistance () const = 0;
 
   /**
    * Grabs the camera transition cutoff distance from target to target

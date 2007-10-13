@@ -121,7 +121,7 @@ bool Tracking::DecideCameraState ()
   // since the camera transform exists in the same plane as the anchor
   // and up is fixed to (0,1,0) (our assumptions), then offset in y
   // (we ignore posoffset.x totally)
-  pos = camtrans.GetOrigin () + csVector3 (0,posoffset.y,0);
+  origin = camtrans.GetOrigin () + csVector3 (0,posoffset.y,0);
   // from transform, recompute target
   target = camtrans.This2Other (csVector3 (0,0,posoffset.z));
   target.y += targetyoffset;

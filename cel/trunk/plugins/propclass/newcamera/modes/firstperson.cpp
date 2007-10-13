@@ -38,6 +38,11 @@ bool FirstPerson::UseSpringPos () const
   return false;
 }
 
+bool FirstPerson::UseSpringOrigin () const
+{
+  return false;
+}
+
 bool FirstPerson::UseSpringTarget () const
 {
   return false;

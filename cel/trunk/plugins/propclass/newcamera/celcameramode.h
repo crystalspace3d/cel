@@ -46,8 +46,8 @@ class celCameraMode
 protected:
   iPcNewCamera* parent;
 
-  csVector3 pos, target, up;
-  float cameraSpring, targetSpring, upSpring;
+  csVector3 origin, target, up;
+  float originSpring, targetSpring, upSpring;
 
 public:
   celCameraMode ();
@@ -65,6 +65,13 @@ public:
    * \return True if this camera mode uses spring physics.
    */
   virtual bool UseSpringPos () const;
+
+  /**
+   * Decides if this camera mode should use spring physics for the camera's
+   * origin.
+   * \return True if this camera mode uses spring physics.
+   */
+  virtual bool UseSpringOrigin () const;
 
   /**
    * Decides if this camera mode should use spring physics for the camera's
@@ -88,6 +95,13 @@ public:
   virtual bool AllowCollisionDetection () const;
 
   /**
+   * Decides if collision detection should be allowed if for this mode the
+   * camera wants it.
+   * \return True if this camera mode allows collision detection.
+   */
+  virtual bool GetCollisionDetection () const;
+
+  /**
    * Decides if the mesh the camera is attached to should be drawn or not in
    * this mode.
    * \return True if the attached mesh should be drawn.
@@ -107,16 +121,16 @@ public:
   virtual void SetSpringCoefficient (float s);
 
   /**
-   * Gets the camera spring coefficient to use for the spring physics.
+   * Gets the origin spring coefficient to use for the spring physics.
    * \return The spring coefficient of this camera mode.
    */
-  virtual float GetCameraSpringCoefficient () const;
+  virtual float GetOriginSpringCoefficient () const;
 
   /**
-   * Sets the camera spring coefficient to use for the spring physics.
+   * Sets the origin spring coefficient to use for the spring physics.
    * @param s The spring coefficient of this camera mode.
    */
-  virtual void SetCameraSpringCoefficient (float s);
+  virtual void SetOriginSpringCoefficient (float s);
 
   /**
    * Gets the target spring coefficient to use for the spring physics.
@@ -147,6 +161,12 @@ public:
    * \return The desired camera position.
    */
   virtual const csVector3& GetPosition () const;
+
+  /**
+   * Gets the desired camera origin.
+   * \return The desired camera origin.
+   */
+  virtual const csVector3& GetOrigin () const;
 
   /**
    * Gets the desired camera target.

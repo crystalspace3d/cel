@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Oct-2007
+	- Darek cleaned newcamera API, made logical Set/Get and one
+	  name for origin of the camera ('pos', 'camera' before).
 10-Oct-2007
 	- Darek fixed newcamera initialization and added new property
 	  colldet_spring.
