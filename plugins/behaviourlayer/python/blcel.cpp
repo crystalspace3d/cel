@@ -49987,6 +49987,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_General_UseSpringOrigin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcmNewCamera::General *arg1 = (iPcmNewCamera::General *) 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:General_UseSpringOrigin",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcmNewCamera__General, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "General_UseSpringOrigin" "', argument " "1"" of type '" "iPcmNewCamera::General const *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcmNewCamera::General * >(argp1);
+  result = (bool)((iPcmNewCamera::General const *)arg1)->UseSpringOrigin();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_General_UseSpringTarget(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcmNewCamera::General *arg1 = (iPcmNewCamera::General *) 0 ;
@@ -50046,6 +50068,28 @@ SWIGINTERN PyObject *_wrap_General_AllowCollisionDetection(PyObject *SWIGUNUSEDP
   }
   arg1 = reinterpret_cast< iPcmNewCamera::General * >(argp1);
   result = (bool)((iPcmNewCamera::General const *)arg1)->AllowCollisionDetection();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_General_GetCollisionDetection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcmNewCamera::General *arg1 = (iPcmNewCamera::General *) 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:General_GetCollisionDetection",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcmNewCamera__General, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "General_GetCollisionDetection" "', argument " "1"" of type '" "iPcmNewCamera::General const *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcmNewCamera::General * >(argp1);
+  result = (bool)((iPcmNewCamera::General const *)arg1)->GetCollisionDetection();
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -50127,7 +50171,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_General_SetCameraSpringCoefficient(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_General_SetOriginSpringCoefficient(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcmNewCamera::General *arg1 = (iPcmNewCamera::General *) 0 ;
   float arg2 ;
@@ -50138,18 +50182,18 @@ SWIGINTERN PyObject *_wrap_General_SetCameraSpringCoefficient(PyObject *SWIGUNUS
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:General_SetCameraSpringCoefficient",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:General_SetOriginSpringCoefficient",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcmNewCamera__General, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "General_SetCameraSpringCoefficient" "', argument " "1"" of type '" "iPcmNewCamera::General *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "General_SetOriginSpringCoefficient" "', argument " "1"" of type '" "iPcmNewCamera::General *""'"); 
   }
   arg1 = reinterpret_cast< iPcmNewCamera::General * >(argp1);
   ecode2 = SWIG_AsVal_float(obj1, &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "General_SetCameraSpringCoefficient" "', argument " "2"" of type '" "float""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "General_SetOriginSpringCoefficient" "', argument " "2"" of type '" "float""'");
   } 
   arg2 = static_cast< float >(val2);
-  (arg1)->SetCameraSpringCoefficient(arg2);
+  (arg1)->SetOriginSpringCoefficient(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -50157,7 +50201,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_General_GetCameraSpringCoefficient(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_General_GetOriginSpringCoefficient(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcmNewCamera::General *arg1 = (iPcmNewCamera::General *) 0 ;
   float result;
@@ -50165,13 +50209,13 @@ SWIGINTERN PyObject *_wrap_General_GetCameraSpringCoefficient(PyObject *SWIGUNUS
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:General_GetCameraSpringCoefficient",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:General_GetOriginSpringCoefficient",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcmNewCamera__General, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "General_GetCameraSpringCoefficient" "', argument " "1"" of type '" "iPcmNewCamera::General const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "General_GetOriginSpringCoefficient" "', argument " "1"" of type '" "iPcmNewCamera::General const *""'"); 
   }
   arg1 = reinterpret_cast< iPcmNewCamera::General * >(argp1);
-  result = (float)((iPcmNewCamera::General const *)arg1)->GetCameraSpringCoefficient();
+  result = (float)((iPcmNewCamera::General const *)arg1)->GetOriginSpringCoefficient();
   resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
@@ -50299,6 +50343,31 @@ SWIGINTERN PyObject *_wrap_General_GetPosition(PyObject *SWIGUNUSEDPARM(self), P
   arg1 = reinterpret_cast< iPcmNewCamera::General * >(argp1);
   {
     csVector3 const &_result_ref = ((iPcmNewCamera::General const *)arg1)->GetPosition();
+    result = (csVector3 *) &_result_ref;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_csVector3, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_General_GetOrigin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcmNewCamera::General *arg1 = (iPcmNewCamera::General *) 0 ;
+  csVector3 *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:General_GetOrigin",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcmNewCamera__General, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "General_GetOrigin" "', argument " "1"" of type '" "iPcmNewCamera::General const *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcmNewCamera::General * >(argp1);
+  {
+    csVector3 const &_result_ref = ((iPcmNewCamera::General const *)arg1)->GetOrigin();
     result = (csVector3 *) &_result_ref;
   }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_csVector3, 0 |  0 );
@@ -50601,6 +50670,31 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcNewCamera_GetBaseOrigin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcNewCamera *arg1 = (iPcNewCamera *) 0 ;
+  csVector3 *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcNewCamera_GetBaseOrigin",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcNewCamera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcNewCamera_GetBaseOrigin" "', argument " "1"" of type '" "iPcNewCamera const *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcNewCamera * >(argp1);
+  {
+    csVector3 const &_result_ref = ((iPcNewCamera const *)arg1)->GetBaseOrigin();
+    result = (csVector3 *) &_result_ref;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_csVector3, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcNewCamera_GetBaseDir(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcNewCamera *arg1 = (iPcNewCamera *) 0 ;
@@ -50692,6 +50786,31 @@ SWIGINTERN PyObject *_wrap_iPcNewCamera_GetPos(PyObject *SWIGUNUSEDPARM(self), P
   arg1 = reinterpret_cast< iPcNewCamera * >(argp1);
   {
     csVector3 const &_result_ref = ((iPcNewCamera const *)arg1)->GetPos();
+    result = (csVector3 *) &_result_ref;
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_csVector3, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcNewCamera_GetOrigin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcNewCamera *arg1 = (iPcNewCamera *) 0 ;
+  csVector3 *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcNewCamera_GetOrigin",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcNewCamera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcNewCamera_GetOrigin" "', argument " "1"" of type '" "iPcNewCamera const *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcNewCamera * >(argp1);
+  {
+    csVector3 const &_result_ref = ((iPcNewCamera const *)arg1)->GetOrigin();
     result = (csVector3 *) &_result_ref;
   }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_csVector3, 0 |  0 );
@@ -50902,7 +51021,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_iPcNewCamera_SetCameraSpringCoefficient(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_iPcNewCamera_SetOriginSpringCoefficient(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcNewCamera *arg1 = (iPcNewCamera *) 0 ;
   float arg2 ;
@@ -50913,18 +51032,18 @@ SWIGINTERN PyObject *_wrap_iPcNewCamera_SetCameraSpringCoefficient(PyObject *SWI
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:iPcNewCamera_SetCameraSpringCoefficient",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcNewCamera_SetOriginSpringCoefficient",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcNewCamera, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcNewCamera_SetCameraSpringCoefficient" "', argument " "1"" of type '" "iPcNewCamera *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcNewCamera_SetOriginSpringCoefficient" "', argument " "1"" of type '" "iPcNewCamera *""'"); 
   }
   arg1 = reinterpret_cast< iPcNewCamera * >(argp1);
   ecode2 = SWIG_AsVal_float(obj1, &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcNewCamera_SetCameraSpringCoefficient" "', argument " "2"" of type '" "float""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcNewCamera_SetOriginSpringCoefficient" "', argument " "2"" of type '" "float""'");
   } 
   arg2 = static_cast< float >(val2);
-  (arg1)->SetCameraSpringCoefficient(arg2);
+  (arg1)->SetOriginSpringCoefficient(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -50932,7 +51051,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_iPcNewCamera_GetCameraSpringCoefficient(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_iPcNewCamera_GetOriginSpringCoefficient(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcNewCamera *arg1 = (iPcNewCamera *) 0 ;
   float result;
@@ -50940,13 +51059,13 @@ SWIGINTERN PyObject *_wrap_iPcNewCamera_GetCameraSpringCoefficient(PyObject *SWI
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:iPcNewCamera_GetCameraSpringCoefficient",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcNewCamera_GetOriginSpringCoefficient",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcNewCamera, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcNewCamera_GetCameraSpringCoefficient" "', argument " "1"" of type '" "iPcNewCamera const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcNewCamera_GetOriginSpringCoefficient" "', argument " "1"" of type '" "iPcNewCamera const *""'"); 
   }
   arg1 = reinterpret_cast< iPcNewCamera * >(argp1);
-  result = (float)((iPcNewCamera const *)arg1)->GetCameraSpringCoefficient();
+  result = (float)((iPcNewCamera const *)arg1)->GetOriginSpringCoefficient();
   resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
@@ -51104,6 +51223,28 @@ SWIGINTERN PyObject *_wrap_iPcNewCamera_SetCollisionDetection(PyObject *SWIGUNUS
   arg2 = static_cast< bool >(val2);
   (arg1)->SetCollisionDetection(arg2);
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcNewCamera_GetCollisionDetection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcNewCamera *arg1 = (iPcNewCamera *) 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcNewCamera_GetCollisionDetection",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcNewCamera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcNewCamera_GetCollisionDetection" "', argument " "1"" of type '" "iPcNewCamera const *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcNewCamera * >(argp1);
+  result = (bool)((iPcNewCamera const *)arg1)->GetCollisionDetection();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
   return NULL;
@@ -51290,6 +51431,28 @@ SWIGINTERN PyObject *_wrap_iPcNewCamera_GetTransitionCutoffPosDistance(PyObject 
   }
   arg1 = reinterpret_cast< iPcNewCamera * >(argp1);
   result = (float)((iPcNewCamera const *)arg1)->GetTransitionCutoffPosDistance();
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcNewCamera_GetTransitionCutoffOriginDistance(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcNewCamera *arg1 = (iPcNewCamera *) 0 ;
+  float result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcNewCamera_GetTransitionCutoffOriginDistance",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcNewCamera, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcNewCamera_GetTransitionCutoffOriginDistance" "', argument " "1"" of type '" "iPcNewCamera const *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcNewCamera * >(argp1);
+  result = (float)((iPcNewCamera const *)arg1)->GetTransitionCutoffOriginDistance();
   resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
@@ -89103,19 +89266,22 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"scfQuery_iPcSimpleCamera", _wrap_scfQuery_iPcSimpleCamera, METH_VARARGS, NULL},
 	 { (char *)"General_SetParentCamera", _wrap_General_SetParentCamera, METH_VARARGS, NULL},
 	 { (char *)"General_UseSpringPos", _wrap_General_UseSpringPos, METH_VARARGS, NULL},
+	 { (char *)"General_UseSpringOrigin", _wrap_General_UseSpringOrigin, METH_VARARGS, NULL},
 	 { (char *)"General_UseSpringTarget", _wrap_General_UseSpringTarget, METH_VARARGS, NULL},
 	 { (char *)"General_UseSpringUp", _wrap_General_UseSpringUp, METH_VARARGS, NULL},
 	 { (char *)"General_AllowCollisionDetection", _wrap_General_AllowCollisionDetection, METH_VARARGS, NULL},
+	 { (char *)"General_GetCollisionDetection", _wrap_General_GetCollisionDetection, METH_VARARGS, NULL},
 	 { (char *)"General_DrawAttachedMesh", _wrap_General_DrawAttachedMesh, METH_VARARGS, NULL},
 	 { (char *)"General_GetSpringCoefficient", _wrap_General_GetSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"General_SetSpringCoefficient", _wrap_General_SetSpringCoefficient, METH_VARARGS, NULL},
-	 { (char *)"General_SetCameraSpringCoefficient", _wrap_General_SetCameraSpringCoefficient, METH_VARARGS, NULL},
-	 { (char *)"General_GetCameraSpringCoefficient", _wrap_General_GetCameraSpringCoefficient, METH_VARARGS, NULL},
+	 { (char *)"General_SetOriginSpringCoefficient", _wrap_General_SetOriginSpringCoefficient, METH_VARARGS, NULL},
+	 { (char *)"General_GetOriginSpringCoefficient", _wrap_General_GetOriginSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"General_SetTargetSpringCoefficient", _wrap_General_SetTargetSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"General_GetTargetSpringCoefficient", _wrap_General_GetTargetSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"General_SetUpSpringCoefficient", _wrap_General_SetUpSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"General_GetUpSpringCoefficient", _wrap_General_GetUpSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"General_GetPosition", _wrap_General_GetPosition, METH_VARARGS, NULL},
+	 { (char *)"General_GetOrigin", _wrap_General_GetOrigin, METH_VARARGS, NULL},
 	 { (char *)"General_GetTarget", _wrap_General_GetTarget, METH_VARARGS, NULL},
 	 { (char *)"General_GetUp", _wrap_General_GetUp, METH_VARARGS, NULL},
 	 { (char *)"General_DecideCameraState", _wrap_General_DecideCameraState, METH_VARARGS, NULL},
@@ -89129,10 +89295,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_Tracking", _wrap_delete_Tracking, METH_VARARGS, NULL},
 	 { (char *)"Tracking_swigregister", Tracking_swigregister, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetBasePos", _wrap_iPcNewCamera_GetBasePos, METH_VARARGS, NULL},
+	 { (char *)"iPcNewCamera_GetBaseOrigin", _wrap_iPcNewCamera_GetBaseOrigin, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetBaseDir", _wrap_iPcNewCamera_GetBaseDir, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetBaseUp", _wrap_iPcNewCamera_GetBaseUp, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetBaseTrans", _wrap_iPcNewCamera_GetBaseTrans, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetPos", _wrap_iPcNewCamera_GetPos, METH_VARARGS, NULL},
+	 { (char *)"iPcNewCamera_GetOrigin", _wrap_iPcNewCamera_GetOrigin, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetTarget", _wrap_iPcNewCamera_GetTarget, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetUp", _wrap_iPcNewCamera_GetUp, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_SetPositionOffset", _wrap_iPcNewCamera_SetPositionOffset, METH_VARARGS, NULL},
@@ -89140,14 +89308,15 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcNewCamera_SetCameraPositionOffset", _wrap_iPcNewCamera_SetCameraPositionOffset, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_SetSpringCoefficient", _wrap_iPcNewCamera_SetSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetSpringCoefficient", _wrap_iPcNewCamera_GetSpringCoefficient, METH_VARARGS, NULL},
-	 { (char *)"iPcNewCamera_SetCameraSpringCoefficient", _wrap_iPcNewCamera_SetCameraSpringCoefficient, METH_VARARGS, NULL},
-	 { (char *)"iPcNewCamera_GetCameraSpringCoefficient", _wrap_iPcNewCamera_GetCameraSpringCoefficient, METH_VARARGS, NULL},
+	 { (char *)"iPcNewCamera_SetOriginSpringCoefficient", _wrap_iPcNewCamera_SetOriginSpringCoefficient, METH_VARARGS, NULL},
+	 { (char *)"iPcNewCamera_GetOriginSpringCoefficient", _wrap_iPcNewCamera_GetOriginSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_SetTargetSpringCoefficient", _wrap_iPcNewCamera_SetTargetSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetTargetSpringCoefficient", _wrap_iPcNewCamera_GetTargetSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_SetUpSpringCoefficient", _wrap_iPcNewCamera_SetUpSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetUpSpringCoefficient", _wrap_iPcNewCamera_GetUpSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_DetectCollisions", _wrap_iPcNewCamera_DetectCollisions, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_SetCollisionDetection", _wrap_iPcNewCamera_SetCollisionDetection, METH_VARARGS, NULL},
+	 { (char *)"iPcNewCamera_GetCollisionDetection", _wrap_iPcNewCamera_GetCollisionDetection, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_SetCollisionSpringCoefficient", _wrap_iPcNewCamera_SetCollisionSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetCollisionSpringCoefficient", _wrap_iPcNewCamera_GetCollisionSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_InCameraTransition", _wrap_iPcNewCamera_InCameraTransition, METH_VARARGS, NULL},
@@ -89155,6 +89324,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcNewCamera_GetTransitionSpringCoefficient", _wrap_iPcNewCamera_GetTransitionSpringCoefficient, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_SetTransitionCutoffDistance", _wrap_iPcNewCamera_SetTransitionCutoffDistance, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetTransitionCutoffPosDistance", _wrap_iPcNewCamera_GetTransitionCutoffPosDistance, METH_VARARGS, NULL},
+	 { (char *)"iPcNewCamera_GetTransitionCutoffOriginDistance", _wrap_iPcNewCamera_GetTransitionCutoffOriginDistance, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetTransitionCutoffTargetDistance", _wrap_iPcNewCamera_GetTransitionCutoffTargetDistance, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_AttachCameraMode", _wrap_iPcNewCamera_AttachCameraMode, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_GetCurrentCameraModeIndex", _wrap_iPcNewCamera_GetCurrentCameraModeIndex, METH_VARARGS, NULL},
