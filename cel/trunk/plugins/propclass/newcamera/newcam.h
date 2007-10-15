@@ -74,7 +74,6 @@ private:
   csVector3 basePosOffset;
   csReversibleTransform baseTrans;
   iSector* baseSector;
-  float baseRadius;
   csVector3 camOrigin, camTarget, camUp;
   float originSpringCoef, targetSpringCoef, upSpringCoef;
 
@@ -88,6 +87,7 @@ private:
 
   bool detectCollisions;
   float collisionSpringCoef;
+  float collisionOriginOffset, collisionTargetOffset;
 
   bool inTransition;
   float transitionSpringCoef;
@@ -140,6 +140,8 @@ private:
   {
     propid_colldet = 0,
     propid_colldet_spring,
+    propid_colldet_origin_offset,
+    propid_colldet_target_offset,
     propid_offset,
     propid_spring,
     propid_spring_origin,

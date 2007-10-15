@@ -53,6 +53,7 @@
 #include "iengine/sector.h"
 #include "cstool/csview.h"
 #include "cstool/collider.h"
+#include "csgeom/poly3d.h"
 #include "csgeom/transfrm.h"
 #include "csgeom/sphere.h"
 #include "ivaria/view.h"
@@ -147,11 +148,14 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
 
   detectCollisions = false;
   collisionSpringCoef = 3.0f;
+  collisionOriginOffset = 1.0f;
+  collisionTargetOffset = 2.0f;
 
   inTransition = true;
   transitionSpringCoef = 2.0f;
   transitionCutoffOriginDist = 1.0f;
   transitionCutoffTargetDist = 1.0f;
+
 
   if (id_name == csInvalidStringID)
   {
@@ -184,13 +188,23 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
     AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
   }
 
-  propinfo.SetCount (10);
+  propinfo.SetCount (12);
   AddProperty (propid_colldet, "cel.property.colldet",
   	CEL_DATA_BOOL, false, "Camera will use collision detection.", 0);
   AddProperty (propid_colldet_spring, "cel.property.colldet_spring",
   	CEL_DATA_FLOAT, false,
   	"Springyness in case of collision.",
   	&collisionSpringCoef);
+  AddProperty (propid_colldet_origin_offset,
+  	"cel.property.colldet_origin_offset",
+  	CEL_DATA_FLOAT, false,
+  	"Space between wall and camera origin in case of collision.",
+  	&collisionOriginOffset);
+  AddProperty (propid_colldet_target_offset,
+  	"cel.property.colldet_target_offset",
+  	CEL_DATA_FLOAT, false,
+  	"Offset for target collision detection.",
+  	&collisionTargetOffset);
   AddProperty (propid_offset, "cel.property.offset",
   	CEL_DATA_VECTOR3, false, "Offset from the center of the mesh.",
   	&basePosOffset);
@@ -675,7 +689,6 @@ void celPcNewCamera::UpdateCamera ()
     iMovable* movable = mesh->GetMovable ();
     baseTrans = movable->GetFullTransform ();
     baseSector = movable->GetSectors ()->Get (0);
-    baseRadius = mesh->GetRadius ().GetRadius ();
   }
   else
   {
@@ -700,7 +713,7 @@ void celPcNewCamera::UpdateCamera ()
         // so we just align the camera's pos and dir with
         // the attached mesh
         csReversibleTransform camTrans;
-        camTrans.SetOrigin(baseTrans.GetOrigin ());
+        camTrans.SetOrigin (baseTrans.GetOrigin ());
         camTrans.LookAt (baseDir, baseUp);
         iCamera* c = view->GetCamera ();
         // needs to be in the right sector
@@ -728,30 +741,34 @@ void celPcNewCamera::UpdateCamera ()
     modeUpSpringCoef = transitionSpringCoef;
   }
 
-  csVector3 desiredCamPos = mode->GetPosition ();
-  csVector3 desiredCamTarget = mode->GetTarget ();
-  csVector3 desiredCamUp = mode->GetUp ();
+  csVector3 desiredOrigin = mode->GetOrigin ();
+  csVector3 desiredTarget = mode->GetTarget ();
+  csVector3 desiredUp = mode->GetUp ();
 
   // build the desired transform so that we can calculate the desired
   // offset that we want
   csReversibleTransform desired_camtrans;
-  desired_camtrans.SetOrigin(desiredCamPos);
-  desired_camtrans.LookAt (desiredCamTarget - desiredCamPos,
+  desired_camtrans.SetOrigin (desiredOrigin);
+  desired_camtrans.LookAt (desiredTarget - desiredOrigin,
   	csVector3 (0.0f, 1.0f, 0.0f));
   // then apply the desired offset to the desired position
-  desiredCamPos += desired_camtrans.This2OtherRelative (camOffset);
+  desiredOrigin += desired_camtrans.This2OtherRelative (camOffset);
 
   // perform collision detection
   if (GetCollisionDetection () && mode->AllowCollisionDetection ())
   {
-    csVector3 beamDirection = baseOrigin - desiredCamPos;
+    csVector3 beamDirection = desiredTarget - desiredOrigin;
     beamDirection.Normalize ();
     csTraceBeamResult beam = csColliderHelper::TraceBeam (cdsys, baseSector,
-    	baseOrigin + (beamDirection * baseRadius * 2.0f), desiredCamPos, true);
+    	desiredTarget + (beamDirection * collisionTargetOffset), desiredOrigin, true);
     if (beam.closest_mesh)
     {
-      desiredCamPos = beam.closest_isect;
-      desiredCamTarget =  baseOrigin + (beamDirection * baseRadius * 4.0f);
+      csPoly3D tri;
+      tri.AddVertex (beam.closest_tri.a);
+      tri.AddVertex (beam.closest_tri.b);
+      tri.AddVertex (beam.closest_tri.c);
+      desiredOrigin = beam.closest_isect - (tri.ComputeNormal () * collisionOriginOffset);
+      desiredTarget =  desiredOrigin + beamDirection;
       modeOriginSpringCoef = collisionSpringCoef;
       modeTargetSpringCoef = collisionSpringCoef;
       modeUpSpringCoef = collisionSpringCoef;
@@ -759,25 +776,25 @@ void celPcNewCamera::UpdateCamera ()
   }
 
   if (inTransition || mode->UseSpringOrigin ())
-    CalcElasticVec (camOrigin, desiredCamPos, elapsedSecs, modeOriginSpringCoef);
+    CalcElasticVec (camOrigin, desiredOrigin, elapsedSecs, modeOriginSpringCoef);
   else
-    camOrigin = desiredCamPos;
+    camOrigin = desiredOrigin;
 
   if (inTransition || mode->UseSpringTarget ())
-    CalcElasticVec (camTarget, desiredCamTarget, elapsedSecs,
+    CalcElasticVec (camTarget, desiredTarget, elapsedSecs,
     	modeTargetSpringCoef);
   else
     camTarget = mode->GetTarget ();
 
   if (inTransition || mode->UseSpringUp ())
-    CalcElasticVec (camUp, desiredCamUp, elapsedSecs, modeUpSpringCoef);
+    CalcElasticVec (camUp, desiredUp, elapsedSecs, modeUpSpringCoef);
   else
     camUp = mode->GetUp ();
 
   // if we're in a transition then see if this latest camera movement
   // has push us into the next camera mode
   if (inTransition
-  	&& (camOrigin - desiredCamPos).SquaredNorm ()
+  	&& (camOrigin - desiredOrigin).SquaredNorm ()
   	<= transitionCutoffOriginDist * transitionCutoffOriginDist
   	&& (camTarget - mode->GetTarget ()).SquaredNorm ()
   	<= transitionCutoffTargetDist * transitionCutoffTargetDist)

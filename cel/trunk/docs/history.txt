@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+15-Oct-2007
+	- Darek added for newcamera - collision offset for origin and target,
+	  now it doesn't sink into objects at all.
 14-Oct-2007
 	- Darek cleaned newcamera API, made logical Set/Get and one
 	  name for origin of the camera ('pos', 'camera' before).
