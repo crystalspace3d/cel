@@ -66,7 +66,7 @@ bool Tracking::DrawAttachedMesh () const
 
 const csVector3 &Tracking::GetAnchorPosition ()
 {
-  return parent->GetBasePos ();
+  return parent->GetBaseOrigin ();
 }
 const csVector3 &Tracking::GetAnchorDirection ()
 {
@@ -137,7 +137,7 @@ bool Tracking::ResetCamera ()
     return true;
   // get the transform and position of our anchor object...
   const csReversibleTransform &basetrans = parent->GetBaseTrans ();
-  const csVector3 &basepos (parent->GetBasePos ());
+  const csVector3 &basepos (parent->GetBaseOrigin ());
   // compute our z offset from it, back along from its direction
   csVector3 offset (basetrans.This2OtherRelative (
   	csVector3 (0,0,-posoffset.z)));

@@ -159,7 +159,7 @@ void celCameraMode::SetUpSpringCoefficient (float s)
 
 const csVector3& celCameraMode::GetPosition () const
 {
-  return origin;
+  return GetOrigin ();
 }
 
 const csVector3& celCameraMode::GetOrigin () const

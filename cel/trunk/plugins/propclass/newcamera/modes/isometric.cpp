@@ -19,69 +19,90 @@
 
 #include "cssysdef.h"
 #include <math.h>
-#include <csgeom/transfrm.h>
+#include "csgeom/transfrm.h"
+#include "cstool/csview.h"
+#include "iengine/camera.h"
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
 #include "propclass/zone.h"
-#include "plugins/propclass/newcamera/modes/horizontal.h"
+#include "plugins/propclass/newcamera/modes/isometric.h"
 #include "propclass/newcamera.h"
 
 namespace celCameraMode
 {
 
-Horizontal::Horizontal ()
+Isometric::Isometric ()
 	: scfImplementationType (this)
 {
-  posoffset.Set (0.0f, 0.5f, 4.0f);
   up = csVector3 (0.0f, 1.0f, 0.0f);
 }
 
-Horizontal::~Horizontal ()
+Isometric::~Isometric ()
 {
 }
 
-void Horizontal::SetPositionOffset (const csVector3& offset)
+const csVector3& Isometric::GetPosition () const
 {
-  posoffset = offset;
+  return GetOrigin ();
 }
 
-bool Horizontal::UseSpringPos () const
+const csVector3& Isometric::GetOrigin () const
 {
-  return true;
+  return origin;
 }
 
-bool Horizontal::UseSpringOrigin () const
+const csVector3& Isometric::GetTarget () const
 {
-  return true;
+  return target;
 }
 
-bool Horizontal::UseSpringTarget () const
+const csVector3& Isometric::GetUp () const
 {
-  return true;
+  return up;
 }
 
-bool Horizontal::UseSpringUp () const
-{
-  return true;
-}
-
-bool Horizontal::DrawAttachedMesh () const
+bool Isometric::UseSpringPos () const
 {
   return true;
 }
 
-bool Horizontal::DecideCameraState ()
+bool Isometric::UseSpringOrigin () const
+{
+  return true;
+}
+
+bool Isometric::UseSpringTarget () const
+{
+  return true;
+}
+
+bool Isometric::UseSpringUp () const
+{
+  return false;
+}
+
+bool Isometric::DrawAttachedMesh () const
+{
+  return true;
+}
+
+bool Isometric::DecideCameraState ()
 {
   if (!parent)
     return false;
-
-  origin = parent->GetBaseOrigin () + parent
-  	->GetBaseTrans().This2OtherRelative (posoffset);
+/*
+  iView* view = parent->GetView ();
+  if (view)
+  {
+    iCamera* cam = view->GetCamera ();
+    if (cam)
+      cam->SetFOVAngle (10.0f, 800);
+  }
+*/
+  origin = parent->GetBaseOrigin () + csVector3 (0.0f, 10.0f, 10.0f);
   target = parent->GetBaseOrigin ();
-  target.y = origin.y;
   originSpring = parent->GetOriginSpringCoefficient ();
   targetSpring = parent->GetTargetSpringCoefficient ();
-  upSpring = parent->GetUpSpringCoefficient ();
   return true;
 }
 

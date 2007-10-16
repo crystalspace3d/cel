@@ -488,6 +488,7 @@ struct iPcNewCamera : public virtual iPcCamera
     CCM_THIRD_PERSON,
     CCM_TRACKING,
     CCM_HORIZONTAL,
+    CCM_ISOMETRIC,
     CCM_COUNT
   };
 
