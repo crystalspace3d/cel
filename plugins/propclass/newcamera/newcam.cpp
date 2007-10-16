@@ -28,6 +28,7 @@
 #include "plugins/propclass/newcamera/modes/thirdperson.h"
 #include "plugins/propclass/newcamera/modes/tracking.h"
 #include "plugins/propclass/newcamera/modes/horizontal.h"
+#include "plugins/propclass/newcamera/modes/isometric.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
@@ -248,7 +249,7 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
     case action_attachcameramode:
       {
         CEL_FETCH_STRING_PAR (name,params,id_name);
-        if (!p_name) return false;
+        if (!p_name) return true;
         if (!strcmp (name, "camera_firstperson"))
         {
           AttachCameraMode (iPcNewCamera::CCM_FIRST_PERSON);
@@ -269,10 +270,15 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
           AttachCameraMode (iPcNewCamera::CCM_HORIZONTAL);
           return true;
         }
+        if (!strcmp (name, "camera_isometric"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_ISOMETRIC);
+          return true;
+        }
         csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
         	"cel.camera.standard",
         	"Unknown camera mode");
-        return false;
+        return true;
       }
     case action_setcameramode:
       {
@@ -612,6 +618,8 @@ size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
       return AttachCameraMode (new celCameraMode::Tracking (pl));
     case iPcNewCamera::CCM_HORIZONTAL:
       return AttachCameraMode (new celCameraMode::Horizontal ());
+    case iPcNewCamera::CCM_ISOMETRIC:
+      return AttachCameraMode (new celCameraMode::Isometric ());
     default:
       return (size_t)-1;
   }
@@ -702,10 +710,10 @@ void celPcNewCamera::UpdateCamera ()
   baseDir = baseTrans.This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
   baseUp  = baseTrans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
 
+  // basic camera mode in case of no modes attached
   if (currMode >= cameraModes.GetSize ())
   {
     SetCurrentCameraMode (cameraModes.GetSize () - 1);
-    // no camera mode is attached.
     if (currMode >= cameraModes.GetSize ())
     {
       if (pcmesh)
@@ -805,7 +813,7 @@ void celPcNewCamera::UpdateCamera ()
 
   // Adjust camera transform for relative position and lookat position.
   csReversibleTransform camTrans;
-  camTrans.SetOrigin(camOrigin);
+  camTrans.SetOrigin (camOrigin);
   camTrans.LookAt (camTarget - camOrigin, camUp);
 
   iCamera* c = view->GetCamera ();
