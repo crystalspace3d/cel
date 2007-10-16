@@ -71,23 +71,23 @@ private:
   size_t currMode;
 
   csVector3 baseOrigin, baseDir, baseUp;
-  csVector3 basePosOffset;
   csReversibleTransform baseTrans;
   iSector* baseSector;
   csVector3 camOrigin, camTarget, camUp;
   float originSpringCoef, targetSpringCoef, upSpringCoef;
 
-  // camOffset is where to transform the camera along the direction
+  // offsetOrigin is where to transform the camera along the direction
   // it is set to after first pass.
-  csVector3 camOffset;
-  csVector3 offsetOrigin, offsetTarget;
+  csVector3 offsetOrigin;
+  csVector3 offsetTarget;
+//  csVector3 offsetOrigin, offsetTarget;
 
   csWeakRef<iPcMesh> pcmesh;
   iSector* lastActorSector;
 
   bool detectCollisions;
   float collisionSpringCoef;
-  float collisionOriginOffset, collisionTargetOffset;
+  float collisionOriginRadius, collisionTargetRadius;
 
   bool inTransition;
   float transitionSpringCoef;
@@ -140,9 +140,11 @@ private:
   {
     propid_colldet = 0,
     propid_colldet_spring,
-    propid_colldet_origin_offset,
-    propid_colldet_target_offset,
+    propid_colldet_origin_radius,
+    propid_colldet_target_radius,
     propid_offset,
+    propid_offset_origin,
+    propid_offset_target,
     propid_spring,
     propid_spring_origin,
     propid_spring_target,
