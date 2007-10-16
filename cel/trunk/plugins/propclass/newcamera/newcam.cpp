@@ -142,15 +142,15 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
 
   init_reset = false;
 
-  basePosOffset.Set (0.0f, 0.0f, 0.0f);
-  camOffset.Set (0.0f, 0.0f, 0.0f);
+  offsetTarget.Set (0.0f, 0.0f, 0.0f);
+  offsetOrigin.Set (0.0f, 0.0f, 0.0f);
 
   currMode = (size_t)-1;
 
   detectCollisions = false;
   collisionSpringCoef = 3.0f;
-  collisionOriginOffset = 1.0f;
-  collisionTargetOffset = 2.0f;
+  collisionOriginRadius = 1.0f;
+  collisionTargetRadius = 2.0f;
 
   inTransition = true;
   transitionSpringCoef = 2.0f;
@@ -189,26 +189,34 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
     AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
   }
 
-  propinfo.SetCount (12);
+  propinfo.SetCount (14);
   AddProperty (propid_colldet, "cel.property.colldet",
   	CEL_DATA_BOOL, false, "Camera will use collision detection.", 0);
   AddProperty (propid_colldet_spring, "cel.property.colldet_spring",
   	CEL_DATA_FLOAT, false,
   	"Springyness in case of collision.",
   	&collisionSpringCoef);
-  AddProperty (propid_colldet_origin_offset,
-  	"cel.property.colldet_origin_offset",
+  AddProperty (propid_colldet_origin_radius,
+  	"cel.property.colldet_origin_radius",
   	CEL_DATA_FLOAT, false,
   	"Space between wall and camera origin in case of collision.",
-  	&collisionOriginOffset);
-  AddProperty (propid_colldet_target_offset,
-  	"cel.property.colldet_target_offset",
+  	&collisionOriginRadius);
+  AddProperty (propid_colldet_target_radius,
+  	"cel.property.colldet_target_radius",
   	CEL_DATA_FLOAT, false,
   	"Offset for target collision detection.",
-  	&collisionTargetOffset);
+  	&collisionTargetRadius);
   AddProperty (propid_offset, "cel.property.offset",
   	CEL_DATA_VECTOR3, false, "Offset from the center of the mesh.",
-  	&basePosOffset);
+  	&offsetTarget);
+  AddProperty (propid_offset_origin, "cel.property.offset_origin",
+  	CEL_DATA_VECTOR3, false,
+  	"Offset of the camera origin point from the center of the mesh.",
+  	&offsetOrigin);
+  AddProperty (propid_offset_target, "cel.property.offset_target",
+  	CEL_DATA_VECTOR3, false,
+  	"Offset of the target point from the center of the mesh.",
+  	&offsetTarget);
   AddProperty (propid_spring, "cel.property.spring",
   	CEL_DATA_FLOAT, false, "Common spring coefficient.", 0);
   AddProperty (propid_spring_origin, "cel.property.spring_origin",
@@ -487,12 +495,12 @@ void celPcNewCamera::SetPositionOffset (const csVector3& offset)
 
 void celPcNewCamera::SetTargetPositionOffset (const csVector3& offset)
 {
-  basePosOffset = offset;
+  offsetTarget = offset;
 }
 
 void celPcNewCamera::SetCameraPositionOffset (const csVector3& offset)
 {
-  camOffset = offset;
+  offsetOrigin = offset;
 }
 
 void celPcNewCamera::SetSpringCoefficient (float springCoef)
@@ -706,7 +714,7 @@ void celPcNewCamera::UpdateCamera ()
   }
 
   baseOrigin = baseTrans.GetOrigin ()
-  	+ baseTrans.This2OtherRelative (basePosOffset);
+  	+ baseTrans.This2OtherRelative (offsetTarget);
   baseDir = baseTrans.This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
   baseUp  = baseTrans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
 
@@ -760,7 +768,7 @@ void celPcNewCamera::UpdateCamera ()
   desired_camtrans.LookAt (desiredTarget - desiredOrigin,
   	csVector3 (0.0f, 1.0f, 0.0f));
   // then apply the desired offset to the desired position
-  desiredOrigin += desired_camtrans.This2OtherRelative (camOffset);
+  desiredOrigin += desired_camtrans.This2OtherRelative (offsetOrigin);
 
   // perform collision detection
   if (GetCollisionDetection () && mode->AllowCollisionDetection ())
@@ -768,14 +776,14 @@ void celPcNewCamera::UpdateCamera ()
     csVector3 beamDirection = desiredTarget - desiredOrigin;
     beamDirection.Normalize ();
     csTraceBeamResult beam = csColliderHelper::TraceBeam (cdsys, baseSector,
-    	desiredTarget + (beamDirection * collisionTargetOffset), desiredOrigin, true);
+    	desiredTarget + (beamDirection * collisionTargetRadius), desiredOrigin, true);
     if (beam.closest_mesh)
     {
       csPoly3D tri;
       tri.AddVertex (beam.closest_tri.a);
       tri.AddVertex (beam.closest_tri.b);
       tri.AddVertex (beam.closest_tri.c);
-      desiredOrigin = beam.closest_isect - (tri.ComputeNormal () * collisionOriginOffset);
+      desiredOrigin = beam.closest_isect - (tri.ComputeNormal () * collisionOriginRadius);
       desiredTarget =  desiredOrigin + beamDirection;
       modeOriginSpringCoef = collisionSpringCoef;
       modeTargetSpringCoef = collisionSpringCoef;
