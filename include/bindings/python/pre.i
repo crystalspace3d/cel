@@ -14,18 +14,14 @@
    %pythoncode %{
    _PC = None
    def __getattr__(self,attr):
-        try:
-            return _swig_getattr(self, pcType, attr)
-        except:
-            pass
         if hasattr(iCelPropertyClass,attr):
             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
             return getattr(_PC,attr)
         else:
             return self.GetterFallback(attr)
    def __setattr__(self,attr,value):
-        if attr in pcType.__swig_setmethods__.keys():
-            return _swig_setattr(self,pcType,attr,value)
+        if hasattr(pcType,attr):
+            return object.__setattr__(self,attr,value)
         elif hasattr(iCelPropertyClass,attr):
             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
             setattr(_PC,attr,value)

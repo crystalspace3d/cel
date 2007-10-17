@@ -30,10 +30,10 @@
 	def GetEntityTemplates(self): return iCelEntityTemplatePlFakeArray(self)
 	def GetPcFactories(self): return iCelPropertyClassFactoryPlFakeArray(self)
 	def GetBehaviourLayers(self): return iCelBlLayerPlFakeArray(self)
-	__swig_getmethods__["EntityTemplates"] = lambda self: self.GetEntityTemplates()
-	__swig_getmethods__["PcFactories"] = lambda self: self.GetPcFactories()
-	__swig_getmethods__["BehaviourLayers"] = lambda self: self.GetBehaviourLayers()
-	__swig_getmethods__["Entities"] = lambda self: self.GetEntities() %}
+	EntityTemplates = _swig_property(GetEntityTemplates)
+	PcFactories = _swig_property(GetPcFactories)
+	BehaviourLayers = _swig_property(GetBehaviourLayers)
+	Entities = _swig_property(GetEntities) %}
 }
 
 //-----------------------------------------------------------------------------
@@ -66,7 +66,7 @@
 %extend iPcInventory {
 	%pythoncode %{
 	def GetEntities(self): return iCelEntityInvFakeArray(self)
-	__swig_getmethods__["Entities"] = lambda self: self.GetEntities() %}
+	Entities = _swig_property(GetEntities) %}
 }
 
 //-----------------------------------------------------------------------------

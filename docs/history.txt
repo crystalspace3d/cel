@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Oct-2007
+	- caedes made python bindings use -modern swig flag. This instructs
+          swig to use modern python features only (and generates somewhat less
+          convoluted code).
 16-Oct-2007
 	- Darek added isometric mode for newcamera.
 	- Darek added new properties for newcamera offset_origin and offset_target.
