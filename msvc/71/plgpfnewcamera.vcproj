@@ -175,6 +175,9 @@
 				RelativePath="..\..\plugins\propclass\newcamera\modes\horizontal.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\isometric.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.cpp">
 			</File>
 			<File
@@ -195,6 +198,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\horizontal.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\isometric.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.h">
