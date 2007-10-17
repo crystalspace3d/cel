@@ -104,3 +104,7 @@ class CelConsoleOutOverride:
 		sys.stdout = self.oldstdout
 		sys.stderr = self.oldstderr
 %}
+
+//-----------------------------------------------------------------------------
+
+%include "bindings/python/pcdirector.i"

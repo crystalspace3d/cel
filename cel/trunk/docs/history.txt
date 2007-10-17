@@ -12,6 +12,7 @@ The history order is reversed so that new features are at the top.
 	  behaviours, this allows for the following syntax:
 	  > celentity.Behaviour.foo = 10
 	  > celentity.Behaviour.do_something(something,somethingelse)
+	- caedes added initial support for creating python property classes.
 16-Oct-2007
 	- Darek added isometric mode for newcamera.
 	- Darek added new properties for newcamera offset_origin and offset_target.
