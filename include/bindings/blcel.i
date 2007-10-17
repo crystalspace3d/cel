@@ -1,5 +1,5 @@
 #define __CEL__
-%module blcelc
+%module(directors="1") blcelc
 %import "bindings/cspace.i"
 %include "celproperties.i" // all property accessors
 CS_PROPERTY_HELPERS
@@ -358,7 +358,7 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 
 //-----------------------------------------------------------------------------
 
-%ignore iCelPropertyClass::SetProperty;
+//%ignore iCelPropertyClass::SetProperty;
 %include "physicallayer/propfact.h"
 
 /* Some typemaps so values are appropiately returned */
@@ -629,6 +629,8 @@ iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
 %}
 
 //-----------------------------------------------------------------------------
+
+%include "bindings/pfdirector.i"
 
 #undef INTERFACE_APPLY
 #define INTERFACE_APPLY(x) INTERFACE_POST(x)
