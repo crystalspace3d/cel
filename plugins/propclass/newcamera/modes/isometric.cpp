@@ -86,19 +86,21 @@ bool Isometric::DrawAttachedMesh () const
   return true;
 }
 
+bool Isometric::AllowCollisionDetection () const
+{
+  return GetCollisionDetection ();
+}
+
+bool Isometric::GetCollisionDetection () const
+{
+  return false;
+}
+
 bool Isometric::DecideCameraState ()
 {
   if (!parent)
     return false;
-/*
-  iView* view = parent->GetView ();
-  if (view)
-  {
-    iCamera* cam = view->GetCamera ();
-    if (cam)
-      cam->SetFOVAngle (10.0f, 800);
-  }
-*/
+
   origin = parent->GetBaseOrigin () + csVector3 (0.0f, 10.0f, 10.0f);
   target = parent->GetBaseOrigin ();
   originSpring = parent->GetOriginSpringCoefficient ();
