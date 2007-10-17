@@ -98,17 +98,23 @@ public:
    */
   virtual const csVector3& GetUp () const;
 
+  /**
+   * Decides if collision detection should be allowed if for this mode the
+   * camera wants it.
+   * \return True if this camera mode allows collision detection.
+   */
+  virtual bool AllowCollisionDetection () const;
+
+  /**
+   * Decides if collision detection should be allowed if for this mode the
+   * camera wants it.
+   * \return True if this camera mode allows collision detection.
+   */
+  virtual bool GetCollisionDetection () const;
+
   virtual void SetParentCamera (iPcNewCamera* camera)
   {
     celCameraMode::SetParentCamera (camera);
-  }
-  virtual bool AllowCollisionDetection () const
-  {
-    return celCameraMode::AllowCollisionDetection ();
-  }
-  virtual bool GetCollisionDetection () const
-  {
-    return celCameraMode::GetCollisionDetection ();
   }
   virtual float GetSpringCoefficient () const
   {

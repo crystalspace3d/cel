@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 16-Oct-2007
 	- Darek added isometric mode for newcamera.
 	- Darek added new properties for newcamera offset_origin and offset_target.
+	- Darek disabled collisions in isometric mode.
 15-Oct-2007
 	- Darek added for newcamera - collision offset for origin and target,
 	  now it doesn't sink into objects at all.

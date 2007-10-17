@@ -102,7 +102,7 @@ bool celCameraMode::UseSpringUp () const
 
 bool celCameraMode::AllowCollisionDetection () const
 {
-  return true;
+  return GetCollisionDetection ();
 }
 
 bool celCameraMode::GetCollisionDetection () const
