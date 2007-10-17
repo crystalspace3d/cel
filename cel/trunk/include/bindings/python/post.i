@@ -59,6 +59,12 @@
          Py_INCREF(Py_None);
 	 return Py_None;
   }
+  %pythoncode %{
+     def __getattr__(self,attr):
+       return getattr(self.GetPythonObject(),attr)
+     def __setattr__(self,attr,value):
+       return setattr(self.GetPythonObject(),attr,value)
+  %}
 }
 
 //-----------------------------------------------------------------------------
