@@ -1481,6 +1481,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\isometric.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_isometric.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_isometric.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -2440,6 +2455,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\horizontal.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\isometric.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.h">

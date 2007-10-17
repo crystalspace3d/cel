@@ -2870,6 +2870,7 @@ class iPcNewCamera(iPcCamera):
     CCM_THIRD_PERSON = _blcelc.iPcNewCamera_CCM_THIRD_PERSON
     CCM_TRACKING = _blcelc.iPcNewCamera_CCM_TRACKING
     CCM_HORIZONTAL = _blcelc.iPcNewCamera_CCM_HORIZONTAL
+    CCM_ISOMETRIC = _blcelc.iPcNewCamera_CCM_ISOMETRIC
     CCM_COUNT = _blcelc.iPcNewCamera_CCM_COUNT
     def AttachCameraMode(*args): return _blcelc.iPcNewCamera_AttachCameraMode(*args)
     def GetCurrentCameraModeIndex(*args): return _blcelc.iPcNewCamera_GetCurrentCameraModeIndex(*args)
