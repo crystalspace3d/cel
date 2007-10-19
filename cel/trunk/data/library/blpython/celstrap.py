@@ -62,10 +62,10 @@ class celstrap:
 
 	def loadMovieRecorder(self):
 		# load the movierecorder
-		self.mr = CS_QUERY_REGISTRY(oreg,iMovieRecorder)
+		self.mr = oreg.Get(iMovieRecorder)
 		if not self.mr:
-			plugmgr = CS_QUERY_REGISTRY(object_reg_ptr,iPluginManager)
-			self.mr = CS_LOAD_PLUGIN (plugmgr, "crystalspace.utilities.movierecorder",iMovieRecorder)
+			plugmgr = object_reg_ptr.Get(iPluginManager)
+			self.mr = plugmgr.LoadPlugin("crystalspace.utilities.movierecorder",iMovieRecorder)
 			if self.mr:
 				object_reg_ptr.Register (self.mr, "iMovieRecorder")
 			else:

@@ -40,20 +40,20 @@ PcFactories = pl.PcFactories
 PhysicalLayer = physicallayer_ptr
 
 # Some plugins ready to use
-Engine = CS_QUERY_REGISTRY(oreg,iEngine)
-View = CS_QUERY_REGISTRY(oreg,iView)
-Vfs = CS_QUERY_REGISTRY(oreg,iVFS)
-Clock = CS_QUERY_REGISTRY(oreg,iVirtualClock)
-Graphics2D = CS_QUERY_REGISTRY(oreg,iGraphics2D)
-Graphics3D = CS_QUERY_REGISTRY(oreg,iGraphics3D)
-Config = CS_QUERY_REGISTRY(oreg,iConfigManager)
-Loader = CS_QUERY_REGISTRY(oreg,iLoader)
-FontServer = CS_QUERY_REGISTRY(oreg,iFontServer)
-KeyboardDriver = CS_QUERY_REGISTRY(oreg,iKeyboardDriver)
-MouseDriver = CS_QUERY_REGISTRY(oreg,iMouseDriver)
-JoystickDriver = CS_QUERY_REGISTRY(oreg,iJoystickDriver)
-PluginManager = CS_QUERY_REGISTRY(oreg,iPluginManager)
-StringSet = CS_QUERY_REGISTRY_TAG_INTERFACE (oreg,"crystalspace.shared.stringset", iStringSet)
+Engine = oreg.Get(iEngine)
+View = oreg.Get(iView)
+Vfs = oreg.Get(iVFS)
+Clock = oreg.Get(iVirtualClock)
+Graphics2D = oreg.Get(iGraphics2D)
+Graphics3D = oreg.Get(iGraphics3D)
+Config = oreg.Get(iConfigManager)
+Loader = oreg.Get(iLoader)
+FontServer = oreg.Get(iFontServer)
+KeyboardDriver = oreg.Get(iKeyboardDriver)
+MouseDriver = oreg.Get(iMouseDriver)
+JoystickDriver = oreg.Get(iJoystickDriver)
+PluginManager = oreg.Get(iPluginManager)
+StringSet = oreg.Get("crystalspace.shared.stringset", iStringSet)
 
 # Helper class to buffer cel ids for faster access.
 # This works by only requesting ids from cel the first time the string is
@@ -157,4 +157,50 @@ for pcaccessor in dir():
                 AddPlArg(getattr(pycel,pcaccessor)))
         setattr(pycel,"celAdd"+pcname,
                 AddPlArg(getattr(pycel,"celCreate"+pcname)))
+
+# python property classes helpers
+class PcFinder:
+    def __init__(self,name):
+        self.name = name
+    def __call__(self,entity,tag=None):
+        if tag:
+            pc = entity.PropertyClassList.FindByNameAndTag(self.name,tag)
+        else:
+            pc = entity.PropertyClassList.FindByName(self.name)
+        if not pc:
+            pc = pl.CreatePropertyClass(entity,self.name)
+        if pc:
+            return pc.QueryInterface(iPcPython).GetPythonObject()
+
+class pyPcCommonFactory(PcCommonFactory):
+    """
+    base factory for python property factories
+    you dont need to use this class, simply use
+    pycel.CEL_IMPLEMENT_FACTORY on your pcclass.
+    """
+    def __init__(self,cls,name):
+        PcCommonFactory.__init__(self)
+        self.name = name
+        self.cls = cls
+        self.__disown__() # give control to c++
+    def GetName(self):
+        return self.name
+    def CreateScriptPropertyClass(self,name):
+        a = self.cls(oreg)
+        a.SetPythonObject(a)
+        a.SetName(name)
+        a.__disown__() # give control to c++
+        return a
+
+def CEL_IMPLEMENT_FACTORY(cls,name):
+    """
+    Create and register a factory for a PropertyClass class.
+    Also creates a wrapper in the form cel<clsname> to query or
+    create the pcclass from an entity.
+    """ 
+    fact = pyPcCommonFactory(cls,name)
+    pl.RegisterPropertyClassFactory(fact)
+    setattr(pycel,"cel"+cls.__name__,PcFinder(name))
+
+
 
