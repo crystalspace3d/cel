@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Oct-2007
+	- caedes changed celPcDefaultCamera::GetLastFullPosition to be more
+	  robust against not positioned entities (it would crash if pcmesh was
+	  not positioned), also refactored the functions code to be a bit
+	  clearer.
 17-Oct-2007
 	- caedes made python bindings use -modern swig flag. This instructs
           swig to use modern python features only (and generates somewhat less

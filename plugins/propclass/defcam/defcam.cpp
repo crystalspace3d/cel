@@ -667,48 +667,52 @@ static float GetAngle (float x, float y)
 void celPcDefaultCamera::GetLastFullPosition (csVector3& actor_pos,
 	float& actor_yrot, iSector*& actor_sector)
 {
-  // Try to get position and sector from either linmove or mesh if
-  // linmove is not used.
+  // Try to get position and sector from either linmove, mechobj
+  //  or mesh.
   FindSiblingPropertyClasses ();
   if (pclinmove)
   {
     pclinmove->GetLastFullPosition (actor_pos, actor_yrot, actor_sector);
     actor_yrot = FixAngle (actor_yrot);
+    return;
   }
-  else if (pcmechobj)
+  // No linmove then we check pcmechobj or pcmesh for position info.
+  iMovable* movable = 0;
+  if (pcmechobj)
   {
     iPcMesh* pcmesh = pcmechobj->GetMesh();
-    iMeshWrapper* mesh = 0;
-    if (pcmesh) mesh = pcmesh->GetMesh ();
-    if (!mesh)
+    if (pcmesh)
     {
-      actor_pos.Set (0, 0, 0);
-      actor_yrot = 0;
-      actor_sector = 0;
-      return;
+      iMeshWrapper* mesh = 0;
+      mesh = pcmesh->GetMesh ();
+      if (mesh)
+        movable = mesh->GetMovable();
     }
-    iMovable* movable = mesh->GetMovable();
-    actor_pos = movable->GetFullPosition ();
-    actor_sector = movable->GetSectors ()->Get (0);
-    csVector3 fwd = movable->GetFullTransform ().GetFront ();
-    float a = GetAngle (fwd.z, fwd.x);
-    actor_yrot = FixAngle (a);
   }
   else if (pcmesh)
   {
-    iMovable* movable = pcmesh->GetMesh()->GetMovable();
-    actor_pos = movable->GetFullPosition ();
-    actor_sector = movable->GetSectors ()->Get (0);
-    csVector3 fwd = movable->GetFullTransform ().GetFront ();
-    float a = GetAngle (fwd.z, fwd.x);
-    actor_yrot = FixAngle (a);
+    movable = pcmesh->GetMesh()->GetMovable();
   }
-  else
+  // now get info from movable
+  if (movable)
   {
-    actor_pos.Set (0, 0, 0);
-    actor_yrot = 0;
-    actor_sector = 0;
+    // no sectors in movable sectors list means the object has
+    // not been positioned yet, so we should not return any info.
+    if (movable->GetSectors ()->GetCount())
+    {
+      actor_pos = movable->GetFullPosition ();
+      actor_sector = movable->GetSectors ()->Get (0);
+      csVector3 fwd = movable->GetFullTransform ().GetFront ();
+      float a = GetAngle (fwd.z, fwd.x);
+      actor_yrot = FixAngle (a);
+      return;
+    }
   }
+  // if we get here means we could find no position information,
+  // so set all values to 0.
+  actor_pos.Set (0, 0, 0);
+  actor_yrot = 0;
+  actor_sector = 0;
 }
 
 void celPcDefaultCamera::CalculateFromYawPitchRoll (int mode)
@@ -927,7 +931,8 @@ void celPcDefaultCamera::UpdateCamera ()
   GetLastFullPosition (actor_pos, actor_yrot, actor_sector);
   if (!actor_sector)
   {
-    // We have no actor, so just keep current camera settings.
+    // We have no actor, or it is not yet positioned,
+    // so just keep current camera settings.
     return;	// Can't do anything.
   }
 
