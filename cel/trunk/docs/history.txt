@@ -14,6 +14,8 @@ The history order is reversed so that new features are at the top.
 	  (previously was undefined).
 	- caedes fixed PcRegion being incorrectly declared in blcel.i.
 	- caedes adapted smallgame example to use pycel and new python syntax.
+	- caedes replaced data/ball with a new factory (was using old ball
+	  mesh object).
 17-Oct-2007
 	- caedes made python bindings use -modern swig flag. This instructs
           swig to use modern python features only (and generates somewhat less
