@@ -1,11 +1,12 @@
-from cspace import *
-from blcelc import *
+from pycel import *
 
 class actor:
+	api_version = 2 # use new version of message callbacks.
 	def __init__(self,celEntity):
 		print "Initializing actor..."
+		self.entity = celEntity
 
-	def real_init(self,celEntity,region):
+	def real_init(self,region):
 		self.forward = 0
 		self.backward = 0
 		self.straferight = 0
@@ -15,15 +16,15 @@ class actor:
 		self.autorun = 0
 		self.running = 0
 
-		input = celCreateCommandInput(physicallayer_ptr,celEntity)
-		self.camera = celCreateDefaultCamera(physicallayer_ptr,celEntity)
-		#self.actormove = celCreateActorMove(physicallayer_ptr,celEntity)
-		mesh = celCreateMesh(physicallayer_ptr,celEntity)
+		input = celCommandInput(self.entity)
+		self.camera = celDefaultCamera(self.entity)
+		#self.actormove = celActorMove(self.entity)
+		mesh = celMesh(self.entity)
 
-		self.linmove = celCreateLinearMovement(physicallayer_ptr,celEntity)
+		self.linmove = celLinearMovement(self.entity)
 		self.camera.SetRegion(region)
 		self.camera.SetMode(self.camera.firstperson)
-		#self.solid = celCreateSolid(physicallayer_ptr,celEntity)
+		#self.solid = celSolid(self.entity)
 		#self.actormove.SetMovementSpeed(2.0)
 		#self.actormove.SetRunningSpeed (5.0)
 		#self.actormove.SetRotationSpeed (1.75)
@@ -105,62 +106,62 @@ class actor:
 			velocity.y = 6.31
 			self.linmove.SetVelocity(velocity)
 
-	def pccommandinput_forward1(self,celentity,args):
+	def pccommandinput_forward1(self,pc,args):
 		self.forward = 1
 		self.handle_movement(0)
-	def pccommandinput_forward0(self,celentity,args):
+	def pccommandinput_forward0(self,pc,args):
 		self.forward = 0
 		self.handle_movement(0)
 
-	def pccommandinput_backward1(self,celEntity,args):
+	def pccommandinput_backward1(self,pc,args):
 		self.backward = 1
 		self.handle_movement(0)
-	def pccommandinput_backward0(self,celEntity,args):
+	def pccommandinput_backward0(self,pc,args):
 		self.backward = 0
 		self.handle_movement(0)
 
-	def pccommandinput_rotateleft1(self,celEntity,args):
+	def pccommandinput_rotateleft1(self,pc,args):
 		self.rotateleft = 1
 		self.handle_movement(0)
-	def pccommandinput_rotateleft0(self,celEntity,args):
+	def pccommandinput_rotateleft0(self,pc,args):
 		self.rotateleft = 0
 		self.handle_movement(0)
 
-	def pccommandinput_rotateright1(self,celEntity,args):
+	def pccommandinput_rotateright1(self,pc,args):
 		self.rotateright = 1
 		self.handle_movement(0)
-	def pccommandinput_rotateright0(self,celEntity,args):
+	def pccommandinput_rotateright0(self,pc,args):
 		self.rotateright = 0
 		self.handle_movement(0)
 
-	def pccommandinput_strafeleft1(self,celEntity,args):
+	def pccommandinput_strafeleft1(self,pc,args):
 		self.strafeleft = 1
 		self.handle_movement(0)
-	def pccommandinput_strafeleft0(self,celEntity,args):
+	def pccommandinput_strafeleft0(self,pc,args):
 		self.strafeleft = 0
 		self.handle_movement(0)
 
-	def pccommandinput_straferight1(self,celEntity,args):
+	def pccommandinput_straferight1(self,pc,args):
 		self.straferight = 1
 		self.handle_movement(0)
-	def pccommandinput_straferight0(self,celEntity,args):
+	def pccommandinput_straferight0(self,pc,args):
 		self.straferight = 0
 		self.handle_movement(0)
 
-	def pccommandinput_jump1(self,celEntity,args):
+	def pccommandinput_jump1(self,pc,args):
 		self.handle_movement(1)
-	def pccommandinput_jump0(self,celEntity,args):
+	def pccommandinput_jump0(self,pc,args):
 		dummy = 0
 
-	def pccommandinput_run1(self,celEntity,args):
+	def pccommandinput_run1(self,pc,args):
 		if not self.autorun:
 			self.running = 1
 		self.handle_movement(0)
-	def pccommandinput_run0(self,celEntity,args):
+	def pccommandinput_run0(self,pc,args):
 		if not self.autorun:
 			self.running = 0
 		self.handle_movement(0)
 
-	def pccommandinput_cammode1(self,celEntity,args):
+	def pccommandinput_cammode1(self,pc,args):
 		self.camera.SetMode(self.camera.GetNextMode ())
 
