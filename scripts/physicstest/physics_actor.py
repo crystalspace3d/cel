@@ -1,80 +1,54 @@
-from blcelc import *
+from pycel import *
 
 class physics_actor:
+	api_version = 2 # use new version of message callbacks.
 	def __init__(self,celEntity):
 		print "Initializing actor..."
+		self.entity = celEntity
 
-	def real_init(self,celEntity,region,dynsys):
-		self.forward = 0
-		self.backward = 0
-		self.straferight = 0
-		self.strafeleft = 0
-		self.rotateright = 0
-		self.rotateleft = 0
-		self.autorun = 0
-		self.running = 0
-
+	def real_init(self,sector,dynsys):
 		self.angle = 0
-
-		mesh = celCreateMesh(physicallayer_ptr,celEntity)
+		pcmesh = celMesh(self.entity)
 		# @@@ Ugly hardcoding of path!
-		mesh.LoadMesh("ball", "/cellib/objects/ball")
-		ballstate = SCF_QUERY_INTERFACE(mesh.GetMesh().GetMeshObject(),
-			iBallState)
-		ballstate.SetRadius(.5,.5,.5)
-		engine = CS_QUERY_REGISTRY(object_reg, iEngine)
-		material = engine.GetMaterialList().FindByName("wood")
-		ballstate.SetMaterialWrapper(material)
+		pcmesh.SetMesh("ball", "/cellib/objects/ball")
+		material = Engine.GetMaterialList().FindByName("wood")
+		pcmesh.Mesh.GetMeshObject().SetMaterialWrapper(material)
 
 		pos = csVector3 (0, 2, 0)
-		room = region.GetStartSector()
-		mesh.MoveMesh(room,pos)
+		pcmesh.MoveMesh(sector,pos)
 
-		self.dynbody = celCreateDynamicBody(physicallayer_ptr,celEntity)
-		self.dynbody.SetDynamicSystem(dynsys)
-		self.dynbody.SetParameters(0.9,1.0,0.0,0.0,5.0)
-		trans = mesh.GetMesh().GetMovable().GetFullTransform()
+		self.dynbody = celMechanicsObject(self.entity)
+		self.dynbody.SetMechanicsSystem(dynsys)
 		self.dynbody.AttachColliderSphere(.5, csVector3(0,0,0))
-		input = celCreateCommandInput(physicallayer_ptr,celEntity)
 
-		self.camera = celCreateCamera(physicallayer_ptr,celEntity)
-		self.camera.SetRegion(region)
-		self.camera.SetMode(self.camera.thirdperson)
+		self.camera = celDefaultCamera(self.entity)
+		self.camera.SetMode(self.camera.freelook)
 		self.camera.SetClearScreen(1)
 		self.camera.SetClearZBuffer(1)
 
+		input = celCommandInput(self.entity)
 		input.Bind("up", "forward")
 		input.Bind("down", "backward")
-		input.Bind("left", "rotateleft")
-		input.Bind("right", "rotateright")
-		input.Bind("a", "strafeleft")
-		input.Bind("d", "straferight")
+		input.Bind("left", "strafeleft")
+		input.Bind("right", "straferight")
 		input.Bind("shift", "run")
 		input.Bind("m", "cammode")
 		input.Bind(" ", "jump")
 
-	def pccommandinput_forward1(self,celentity,args):
-		self.dynbody.AddForceDuration(csVector3(0,0,50),10000000)
-	def pccommandinput_forward0(self,celentity,args):
+	def pccommandinput_forward1(self,pc,args):
+		self.dynbody.AddForceDuration(csVector3(0,0,-50),False,csVector3(0),10000000)
+	def pccommandinput_forward0(self,pc,args):
 		self.dynbody.ClearForces()
 
-	def pccommandinput_backward1(self,celEntity,args):
-		self.dynbody.AddForceDuration(csVector3(0,0,-50),10000000)
-	def pccommandinput_backward0(self,celEntity,args):
+	def pccommandinput_backward1(self,pc,args):
+		self.dynbody.AddForceDuration(csVector3(0,0,50),False,csVector3(0),10000000)
+	def pccommandinput_backward0(self,pc,args):
 		self.dynbody.ClearForces()
 
-	def pccommandinput_strafeleft1(self,celEntity,args):
-		self.dynbody.AddForceFrame(csVector3(-50,0,0))
-	def pccommandinput_strafeleft0(self,celEntity,args):
-		dummy = 0
-
-	def pccommandinput_straferight1(self,celEntity,args):
-		self.dynbody.AddForceFrame(csVector3(50,0,0))
-	def pccommandinput_straferight0(self,celEntity,args):
-		dummy = 0
-
-	def pccommandinput_jump1(self,celEntity,args):
-		self.dynbody.AddForceDuration(csVector3(0,100,0),0.5)
-	def pccommandinput_jump0(self,celEntity,args):
-		dummy = 0
+	def pccommandinput_strafeleft1(self,pc,args):
+		self.dynbody.AddForceDuration(csVector3(20,0,0),False,csVector3(0),0.5)
+	def pccommandinput_straferight1(self,pc,args):
+		self.dynbody.AddForceDuration(csVector3(-20,0,0),False,csVector3(0),0.5)
+	def pccommandinput_jump1(self,pc,args):
+		self.dynbody.AddForceDuration(csVector3(0,100,0),False,csVector3(0),0.5)
 
