@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
 	  clearer.
 	- caedes fixed python behaviours in cel library and pycel.py to use
 	  new syntax for SCF_QUERY_INTERFACE and CS_QUERY_REGISTRY.
+	- caedes added ObjectRegistry name in pycel for the object registry
+	  (previously was undefined).
 17-Oct-2007
 	- caedes made python bindings use -modern swig flag. This instructs
           swig to use modern python features only (and generates somewhat less

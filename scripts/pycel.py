@@ -38,6 +38,7 @@ PcFactories = pl.PcFactories
 
 # Pretty physical layer
 PhysicalLayer = physicallayer_ptr
+ObjectRegistry = object_reg_ptr
 
 # Some plugins ready to use
 Engine = oreg.Get(iEngine)
