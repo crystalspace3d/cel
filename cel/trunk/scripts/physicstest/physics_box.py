@@ -1,18 +1,19 @@
-from blcelc import *
+from pycel import *
 
 class physics_box:
+	api_version = 2 # use new version of message callbacks.
 	def __init__(self,celEntity):
 		print "Initializing box..."
-	def real_init(self,celEntity,room,dynsys):
-		mesh = celCreateMesh(physicallayer_ptr,celEntity)
+		self.entity = celEntity
+	def real_init(self,sector,dynsys):
+		pcmesh = celMesh(self.entity)
 		# @@@ Ugly hardcoding of path!
-		mesh.LoadMesh("box", "/cellib/objects/box")
+		pcmesh.SetMesh("box", "/cellib/objects/box")
 		pos = csVector3 (1, 3, 5)
-		mesh.MoveMesh(room,pos)
+		pcmesh.MoveMesh(sector,pos)
 
-		self.dynbody = celCreateDynamicBody(physicallayer_ptr,celEntity)
-		self.dynbody.SetDynamicSystem(dynsys)
-		self.dynbody.SetParameters(0.9,1.0,0.0,0.0,5.0)
+		self.dynbody = celMechanicsObject(self.entity)
+		self.dynbody.SetMechanicsSystem(dynsys)
 		self.dynbody.AttachColliderBox(csVector3(.5,.5,.5),
 			csOrthoTransform())
 
