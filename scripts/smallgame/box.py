@@ -1,11 +1,12 @@
-from cspace import *
-from blcelc import *
+from pycel import *
 
 class box:
+	api_version = 2 # use new version of message callbacks.
 	def __init__(self,celEntity):
 		print "Initializing box..."
-	def real_init(self,celEntity,room):
-		gravity = celGetGravity(celEntity)
+		self.entity = celEntity
+	def real_init(self,room):
+		gravity = celGravity(self.entity)
 		gravity.SetWeight (1)
 		v = csVector3 (0, -9.8, 0)
 		gravity.ApplyPermanentForce (v)
