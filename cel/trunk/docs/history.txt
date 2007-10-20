@@ -3,6 +3,15 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-Oct-2007
+	- caedes advanced python property class implementation. It now
+	  provides default behaviour for running actions, getting and
+	  setting properties and querying their type (by working directly
+	  on the python object).
+	- caedes made scripting iCelPropertyClassList::FindByInterface and
+	  iCelPropertyClassList::FindByInterfaceAndTag return correctly
+	  wrapped objects for the interfaces requested.
+	- caedes really fixed PcRegion being incorrectly declared in blcel.i.
 19-Oct-2007
 	- caedes changed celPcDefaultCamera::GetLastFullPosition to be more
 	  robust against not positioned entities (it would crash if pcmesh was

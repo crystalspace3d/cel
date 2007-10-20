@@ -1,8 +1,13 @@
-%inline %{
-  extern CS_IMPORT_SYM PyObject *    // from crystalspace_python
-  _csRef_to_Python (const csRef<iBase> & ref, void * ptr, const char * name);
+//=============================================================================
+// celWrapPtr
+//=============================================================================
 
-%}
+CS_WRAP_PTR_TYPEMAP(celWrapPtr)
+
+%typemap(out) celWrapPtr
+{
+  $result = _celWrapPtr_to_Python($1);
+}
 
 //=============================================================================
 // Helper macros.

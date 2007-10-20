@@ -3,6 +3,7 @@
 */
 
 %template(PcCommonBase) scfImplementation2<celPcCommon, iCelPropertyClass, iCelTimerListener>;
+%immutable Property::desc;
 %include "celtool/stdpcimp.h"
 
 %warnfilter(473) PcCommonFactory;    // avoid warnings on returning pointers from directors.
@@ -53,9 +54,9 @@ struct PcCommonFactory : public scfImplementation1<PcCommonFactory, iCelProperty
 {
     PcCommonFactory() : scfImplementationType(this) {}
     virtual ~PcCommonFactory() {}
-    virtual const char* GetName() const {};
+    virtual const char* GetName() const { return ""; };
     virtual csPtr<iCelPropertyClass> CreatePropertyClass (const char* name) { return CreateScriptPropertyClass(name); } ;
-    virtual iCelPropertyClass *CreateScriptPropertyClass (const char* name) { } ;
+    virtual iCelPropertyClass *CreateScriptPropertyClass (const char* name) { return 0; } ;
 };
 
 %}
