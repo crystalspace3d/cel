@@ -86,6 +86,8 @@ INLINE_FUNCTIONS
 #define CEL_FAKE_ARRAY(pref,contenttype,countmethod,getmethod,findmethod,delmethod,addmethod)
 #define CEL_PC_FIX_INHERITANCE(pcType)
 
+CS_WRAP_PTR_IMPLEMENT(celWrapPtr)
+
 //=============================================================================
 // Language specific part
 //=============================================================================
@@ -198,6 +200,7 @@ CEL_PC_GETSET(pcType, celGetSet ## funcBaseName, pcname)
 CEL_PC_GET(pcType, celGet ## funcBaseName)
 CEL_PC_QUERY(pcType)
 CEL_PC_FIX_INHERITANCE(pcType)
+INTERFACE_POST(pcType)
 %enddef
 
 //=============================================================================
@@ -375,6 +378,8 @@ APPLY_TYPEMAP_ARGOUT_PTR(csColor, csColor& v)
 %rename(GetPropertyVector3ByID) iCelPropertyClass::GetPropertyVectorByID (csStringID propertyID, csVector3& v);
 %rename(GetPropertyVector2ByID) iCelPropertyClass::GetPropertyVectorByID (csStringID propertyID, csVector2& v);
 
+%ignore iCelPropertyClassList::FindByInterface(scfInterfaceID id, int version) const;
+%ignore iCelPropertyClassList::FindByInterfaceAndTag(scfInterfaceID id, int version, const char* tag) const;
 %include "physicallayer/propclas.h"
 %extend iCelPropertyClass {
   bool SetPropertyLong (csStringID id, long l )
@@ -393,6 +398,18 @@ APPLY_TYPEMAP_ARGOUT_PTR(csColor, csColor& v)
   { return self->SetProperty (id, col); }
   bool SetPropertyEntity (csStringID id, const iCelEntity* ent)
   { return self->SetProperty (id, ent); }
+}
+%extend iCelPropertyClassList {
+  celWrapPtr FindByInterface (const char *iface, int iface_ver)
+  {
+    return celWrapPtr (iface, iface_ver, csRef<iBase> (
+      self->FindByInterface(iSCF::SCF->GetInterfaceID (iface), iface_ver)));
+  }
+  celWrapPtr FindByInterfaceAndTag (const char *iface, int iface_ver, const char* tag)
+  {
+    return celWrapPtr (iface, iface_ver, csRef<iBase> (
+      self->FindByInterfaceAndTag(iSCF::SCF->GetInterfaceID (iface), iface_ver, tag)));
+  }
 }
 /* Clear Typemaps */
 %clear csVector3& v;
@@ -432,23 +449,7 @@ CEL_PC_QUERY_CLASSLIST(iPcBillboard)
   }
 }
 
-%inline %{
-iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
-	const char *name)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcworld.region");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcRegion> pcregion = scfQueryInterface<iPcRegion>(pc);
-  if (!pcregion.IsValid()) return 0;
-  pcregion->SetRegionName (name);
-  return pcregion;
-}
-%}
-
-CEL_PC_GET(iPcRegion, Region)
-CEL_PC_QUERY(iPcRegion)
-CEL_PC_QUERY_CLASSLIST(iPcRegion)
-
+CEL_PC(iPcRegion, Region, pcworld.region)
 //-----------------------------------------------------------------------------
 
 // TODO these need pseudo-dict like interfaces for some stuff
