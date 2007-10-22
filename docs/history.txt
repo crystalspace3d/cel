@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-Oct-2007
+	- caedes added manual section for spawn property class.
 20-Oct-2007
 	- caedes advanced python property class implementation. It now
 	  provides default behaviour for running actions, getting and
