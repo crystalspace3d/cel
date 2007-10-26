@@ -230,24 +230,6 @@ class celData_value_v(object):
 celData_value_v_swigregister = _blcelc.celData_value_v_swigregister
 celData_value_v_swigregister(celData_value_v)
 
-class csStringFast12(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_csStringFast12(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_csStringFast12
-    __del__ = lambda self : None;
-    def assign(*args): return _blcelc.csStringFast12_assign(*args)
-    def GetData(*args): return _blcelc.csStringFast12_GetData(*args)
-    def GetCapacity(*args): return _blcelc.csStringFast12_GetCapacity(*args)
-    def ShrinkBestFit(*args): return _blcelc.csStringFast12_ShrinkBestFit(*args)
-    def Free(*args): return _blcelc.csStringFast12_Free(*args)
-    def Detach(*args): return _blcelc.csStringFast12_Detach(*args)
-csStringFast12_swigregister = _blcelc.csStringFast12_swigregister
-csStringFast12_swigregister(csStringFast12)
-
 class celEntityTemplateParams(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
