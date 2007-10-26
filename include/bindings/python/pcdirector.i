@@ -105,10 +105,10 @@ INTERFACE_POST(iPcPython)
 #define GET_PROPERTY_BODY(NotValue)                                         \
            csString propname(pl->FetchString(id));                          \
            size_t dot_pos = propname.FindLast('.');                         \
-           if(!PyObject_HasAttrString(pySelf,propname.GetData()+dot_pos+1)) \
+           if(!PyObject_HasAttrString(pySelf,const_cast<char*>(propname.GetData()+dot_pos+1))) \
                return NotValue;                                             \
            PyObject *py_attr = PyObject_GetAttrString(pySelf,               \
-                                        propname.GetData()+dot_pos+1);      \
+                                        const_cast<char*>(propname.GetData()+dot_pos+1));      \
            Py_DECREF(py_attr);
 
 /*
@@ -118,7 +118,7 @@ INTERFACE_POST(iPcPython)
 #define SET_PROPERTY_BODY                                                   \
            csString propname(pl->FetchString(id));                          \
            size_t dot_pos = propname.FindLast('.');                         \
-           PyObject_SetAttrString(pySelf,propname.GetData()+dot_pos+1,      \
+           PyObject_SetAttrString(pySelf,const_cast<char*>(propname.GetData()+dot_pos+1),      \
                                         py_value);                          \
            PyObject_Print(py_value,stdout,Py_PRINT_RAW);                    \
            printf("\n");                                                    \
