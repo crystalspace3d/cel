@@ -263,7 +263,12 @@ void celPcActorMove::TickEveryFrame ()
       if (sprcal3d) sprcal3d->SetVelocity (-FindVelocity().z);
       else {
         if (IsMovingForward ())
-	  SetAnimation (anim_name_walk.GetData(),true);
+        {
+          if (IsRunning ())
+	    SetAnimation (anim_name_run.GetData(),true);
+          else
+            SetAnimation (anim_name_walk.GetData(),true);
+        }
         else
 	  SetAnimation (anim_name_idle.GetData(),true);
       }

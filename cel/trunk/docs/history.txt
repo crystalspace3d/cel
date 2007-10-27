@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Oct-2007
+	- Sueastside restored proper animation when landing after jumping.
 26-Oct-2007
 	- caedes added some const_casts to pcdirector.i to account for
 	  some incorrect python 2.4 function prototypes.
