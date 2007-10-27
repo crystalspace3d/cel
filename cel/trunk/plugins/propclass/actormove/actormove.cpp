@@ -261,10 +261,11 @@ void celPcActorMove::TickEveryFrame ()
     {
       jumping = false;
       if (sprcal3d) sprcal3d->SetVelocity (-FindVelocity().z);
-      else {
-        if (IsMovingForward ())
+      else
+      {
+        if (forward || backward)
         {
-          if (IsRunning ())
+          if (running)
 	    SetAnimation (anim_name_run.GetData(),true);
           else
             SetAnimation (anim_name_walk.GetData(),true);
@@ -272,6 +273,7 @@ void celPcActorMove::TickEveryFrame ()
         else
 	  SetAnimation (anim_name_idle.GetData(),true);
       }
+
       if (!mousemove)
         pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
     }
@@ -695,6 +697,21 @@ void celPcActorMove::HandleMovement (bool jump)
   pclinmove->SetVelocity (velocity);
   if (sprcal3d) sprcal3d->SetVelocity (-velocity.z);
 
+  // Since spr3d and genmesh don't handle animation
+  // automatically by velocity, set it here.
+  if (pcmesh && !sprcal3d && pclinmove->IsOnGround())
+  {
+    if (forward || backward)
+    {
+      if (running)
+        SetAnimation (anim_name_run.GetData(),true);
+      else
+        SetAnimation (anim_name_walk.GetData(),true);
+    }
+    else
+      SetAnimation (anim_name_idle.GetData(),true);
+  }
+
   float actual_rotating_speed = 0.0f;
   if (rotateright)
     actual_rotating_speed = -rotating_speed;
@@ -711,7 +728,9 @@ void celPcActorMove::HandleMovement (bool jump)
     csVector3 velocity (0.0f, jumping_velocity, 0.0f);
     pclinmove->AddVelocity (velocity);
     if (sprcal3d) sprcal3d->SetVelocity (-velocity.z);
-    // @@@ do spr3d!
+    // spr3d and genmesh
+    else
+      SetAnimation (anim_name_jump.GetData(), false);
   }
 }
 
@@ -733,15 +752,7 @@ void celPcActorMove::ToggleCameraMode ()
 
 void celPcActorMove::Forward (bool start)
 {
-  if (pcmesh && !sprcal3d && pclinmove->IsOnGround())
-  {
-    if (start && !IsMovingForward ())
-      SetAnimation (anim_name_walk.GetData(),true);
-    else if (!start && IsMovingForward())
-      SetAnimation (anim_name_idle.GetData(),true);
-  }
   forward = start;
-  if (!start) running = false;
   HandleMovement (false);
 }
 bool celPcActorMove::IsMovingForward ()
@@ -808,16 +819,6 @@ bool celPcActorMove::IsRotatingRight ()
 }
 void celPcActorMove::Run (bool start)
 {
-  if (pcmesh && !sprcal3d && pclinmove->IsOnGround())
-  {
-    if (start && !IsRunning ())
-      SetAnimation (anim_name_run.GetData(),true);
-    else if (!start && IsMoving())
-      SetAnimation (anim_name_walk.GetData(),true);
-    else if (!start && !IsMoving())
-      SetAnimation (anim_name_idle.GetData(),true);
-  }
-
   if (!autorun) running = start;
   HandleMovement (false);
 }
@@ -838,8 +839,6 @@ bool celPcActorMove::IsAutoRunning ()
 }
 void celPcActorMove::Jump ()
 {
-  if (pcmesh)
-    SetAnimation (anim_name_jump.GetData(), false);
   if (!jumping && !mousemove)
       pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
   jumping = true;
