@@ -78,7 +78,7 @@ csDeformControl::csDeformControl(iBase* parent)
   radius = 0.0f;
 }
 
-void csDeformControl::Update(csTicks current, int num_verts, uint32 version_id)
+void csDeformControl::Update(csTicks current)
 {
 }
 
