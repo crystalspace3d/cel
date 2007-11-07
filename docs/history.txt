@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+07-Nov-2007
+	- Sueastside fixed csDeformControl for CS rev 28117
+          (iGenMeshAnimationControl::Update() change).
 27-Oct-2007
 	- Sueastside restored proper animation when landing after jumping.
 	- Sueastside cleaned up some code in pcactormove.
