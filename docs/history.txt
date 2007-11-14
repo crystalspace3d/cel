@@ -23,6 +23,8 @@ The history order is reversed so that new features are at the top.
 	  External projects should avoid modifying the stock *.jam files from
 	  CS. This allows projects to upgrade to the latest master *.jam files
 	  from CS/mk/jam without hassle via a simple copy operation.
+	- Eric Sunshine upgraded the Autoconf, Jam, and msvcgen support files
+	  from the master copies in CS/mk.
 07-Nov-2007
 	- Sueastside fixed csDeformControl for CS rev 28117
           (iGenMeshAnimationControl::Update() change).
