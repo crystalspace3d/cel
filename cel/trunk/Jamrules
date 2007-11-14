@@ -48,3 +48,12 @@ appdatadir = [ ConcatDirs $(datadir) $(PACKAGE_NAME)-$(PACKAGE_VERSION_SIGNIFICA
 appconfdir = [ ConcatDirs $(sysconfdir) $(PACKAGE_NAME)-$(PACKAGE_VERSION_SIGNIFICANT) ] ;
 appincdir = [ ConcatDirs $(includedir) $(PACKAGE_NAME)-$(PACKAGE_VERSION_SIGNIFICANT) ] ;
 plugindir = [ ConcatDirs $(libdir) $(PACKAGE_NAME)-$(PACKAGE_VERSION_SIGNIFICANT) ] ;
+
+# Set up a property which clients can query to determine if the build directory
+# differs from source directory.  This allows clients to perform conditional
+# actions based upon this knowledge.
+local standalonecheck = [ GLOB [ ConcatDirs $(BUILDTOP) include ] : *.h ] ;
+if ! [ IsElem celversion.h : $(standalonecheck:BS) ]
+{
+  SetProperty build : standalone ;
+}
