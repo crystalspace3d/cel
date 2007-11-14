@@ -1321,6 +1321,8 @@ Optional Features:
   --enable-as-needed      Utilize --as-needed linker flag, if supported by
                           linker and if the used binutils version is recent
                           enough to support it properly (default YES)
+  --enable-gc-sections    Utilize --gc-sections linker flag for some targets
+                          (default YES)
   --enable-separate-debug-info
                           split debug information into separate files.
                           (default YES if binutils >= 2.16 detected and not on
@@ -1351,12 +1353,12 @@ Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --without-python        do not use Python
-  --with-cppunit=dir      specify location of libcppunit if not detected
-                          automatically; searches dir/include, dir/lib, and
-                          dir
-  --with-NL=dir           specify location of libNL if not detected
-                          automatically; searches dir/include, dir/lib, and
-                          dir
+  --with-cppunit=dir      specify additional location to search libcppunit if
+                          not detected automatically; directories searched
+                          include dir/include, dir/lib, and dir
+  --with-NL=dir           specify additional location to search libNL if not
+                          detected automatically; directories searched include
+                          dir/include, dir/lib, and dir
   --without-cs            do not look for an installed Crystal Space SDK; this
                           option is useful only if you need to perform routine
                           maintenance tasks, such as generating project files
@@ -1365,9 +1367,9 @@ Optional Packages:
   --with-cs-prefix=CRYSTAL_PREFIX
                           specify location of Crystal Space installation; this
                           is the \$prefix value used when installing the SDK
-  --with-bfd=dir          specify location of libbfd if not detected
-                          automatically; searches dir/include, dir/lib, and
-                          dir
+  --with-bfd=dir          specify additional location to search libbfd if not
+                          detected automatically; directories searched include
+                          dir/include, dir/lib, and dir
 
 Some influential environment variables:
   CC          C compiler command
@@ -5204,6 +5206,180 @@ fi
 fi
 { echo "$as_me:$LINENO: result: $cs_cv_prog_link_no_as_needed_ok" >&5
 echo "${ECHO_T}$cs_cv_prog_link_no_as_needed_ok" >&6; }
+
+fi
+
+fi
+
+
+    # Check if linker supports --gc-sections.
+    # Check whether --enable-gc-sections was given.
+if test "${enable_gc_sections+set}" = set; then
+  enableval=$enable_gc_sections;
+fi
+
+    if test -z "$enable_gc_sections"; then
+  enable_gc_sections=yes
+fi
+
+    if test "$enable_gc_sections" != "no"; then
+  { echo "$as_me:$LINENO: checking if --gc-sections is supported" >&5
+echo $ECHO_N "checking if --gc-sections is supported... $ECHO_C" >&6; }
+if test "${cs_cv_prog_link_gc_sections_ok+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+    cs_cflags_save="$CXXFLAGS"
+    cs_lflags_save="$LDFLAGS"
+    cs_libs_save="$LIBS"
+    cs_build_ok=no
+
+
+    for cs_build_item in `echo @-Wl,--gc-sections@@ | sed 'y% %#%'`
+    do
+
+    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
+	{ for (i=1; i <= NF; ++i)
+	    { if ($i == "") print "filler"; else print $i } }'`
+    shift
+    if test $# -eq 0; then
+  cs_dummy=''
+else
+  if test "$1" = filler; then
+  cs_dummy=''
+else
+  cs_dummy=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_cflags_test=''
+else
+  if test "$1" = filler; then
+  cs_cflags_test=''
+else
+  cs_cflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_lflags_test=''
+else
+  if test "$1" = filler; then
+  cs_lflags_test=''
+else
+  cs_lflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_libs_test=''
+else
+  if test "$1" = filler; then
+  cs_libs_test=''
+else
+  cs_libs_test=$1
+fi
+
+	shift
+fi
+
+    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
+    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
+    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
+
+	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
+	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
+	LIBS="$cs_libs_test  $cs_libs_save"
+	cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+  (eval "$ac_link") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext &&
+       $as_test_x conftest$ac_exeext; then
+  cs_build_ok=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
+      conftest$ac_exeext conftest.$ac_ext
+	if test $cs_build_ok = yes; then
+  break
+fi
+
+    done
+
+
+    CXXFLAGS=$cs_cflags_save
+    LDFLAGS=$cs_lflags_save
+    LIBS=$cs_libs_save
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+    if test $cs_build_ok = yes; then
+  cs_build_cflags=`echo x$cs_cflags_test | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_libs=`echo x$cs_libs_test | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_cv_prog_link_gc_sections=`echo x$cs_build_cflags $cs_build_lflags $cs_build_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	    cs_cv_prog_link_gc_sections_ok="$cs_cv_prog_link_gc_sections"
+else
+  cs_cv_prog_link_gc_sections=''
+	    cs_cv_prog_link_gc_sections_ok=no
+fi
+
+fi
+{ echo "$as_me:$LINENO: result: $cs_cv_prog_link_gc_sections_ok" >&5
+echo "${ECHO_T}$cs_cv_prog_link_gc_sections_ok" >&6; }
+    if test "$cs_cv_prog_link_gc_sections_ok" != no; then
+  cs_build_prop_val="$cs_cv_prog_link_gc_sections"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}LINK.GC_SECTIONS ?= \"$cs_build_prop_val\" ;
+"
+fi
 
 fi
 
@@ -9225,7 +9401,9 @@ fi
 #----------------------------------------------------------------------------
 # Check for external libraries.
 #----------------------------------------------------------------------------
-PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR/opt/local/lib/pkgconfig$PATH_SEPARATOR/opt/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
+PKG_CONFIG_PATH_SAVE_1="$PKG_CONFIG_PATH"
+    PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR/opt/local/lib/pkgconfig$PATH_SEPARATOR/opt/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
+    PKG_CONFIG_PATH="$PKG_CONFIG_PATH"
     export PKG_CONFIG_PATH
 
     # ensure PKGCONFIG is set since we may meddle with it
@@ -10212,6 +10390,14 @@ else
   (exit $ac_status); }`
 	    cs_cv_pybase="python${cs_pyver}"
 
+	    cs_build_prop_val="$cs_pyver"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.VERSION ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+
 	    cs_cv_pybase_cflags=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
 		'import distutils.sysconfig; \\
 		print \"-I\" + distutils.sysconfig.get_python_inc()'") >&5
@@ -10695,7 +10881,8 @@ fi
 fi
 
     if test "$with_cppunit" != no; then
-  # If --with-cppunit value is same as cached value, then assume other
+
+	# If --with-cppunit value is same as cached value, then assume other
 	 # cached values are also valid; otherwise, ignore all cached values.
 	if test "$with_cppunit" != "$cs_cv_with_cppunit"; then
   cs_ignore_cache=yes
@@ -10704,9 +10891,19 @@ else
 fi
 
 
+	# Put relevant subdirs of the library directory into PATH and PKGCONFIG
+	PATH_SAVE="$PATH"
+	if test $with_cppunit != yes; then
+  PATH="$with_cppunit/bin$PATH_SEPARATOR$PATH"
+	    PKG_CONFIG_PATH_SAVE_1="$PKG_CONFIG_PATH"
+    PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR/opt/local/lib/pkgconfig$PATH_SEPARATOR/opt/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
+    PKG_CONFIG_PATH="$with_cppunit$PATH_SEPARATOR$with_cppunit/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
+    export PKG_CONFIG_PATH
+fi
+
+
 	cs_check_lib_flags=''
-	if test $with_cppunit = yes; then
-  if test "$cs_prog_pkg_config_checked" != yes; then
+	if test "$cs_prog_pkg_config_checked" != yes; then
 
     if test "$cs_prog_path_prepared" != yes; then
   cs_prog_path_prepared=yes
@@ -10818,8 +11015,6 @@ esac
   fi
 fi
 
-	PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR/opt/local/lib/pkgconfig$PATH_SEPARATOR/opt/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
-    export PKG_CONFIG_PATH
 	cs_prog_pkg_config_checked=yes
 fi
 
@@ -11015,8 +11210,6 @@ fi
 
 fi
 
-
-fi
 
 
 	if test $with_cppunit != yes; then
@@ -11444,6 +11637,14 @@ else
 	cs_cv_libcppunit_libs=''
 
 fi
+
+
+	PATH="$PATH_SAVE"
+	if test $with_cppunit != yes; then
+  PKG_CONFIG_PATH="$PKG_CONFIG_PATH_SAVE_1"
+    export PKG_CONFIG_PATH
+fi
+
 
 else
   cs_cv_libcppunit=no
@@ -12307,7 +12508,8 @@ fi
 fi
 
     if test "$with_NL" != no; then
-  # If --with-NL value is same as cached value, then assume other
+
+	# If --with-NL value is same as cached value, then assume other
 	 # cached values are also valid; otherwise, ignore all cached values.
 	if test "$with_NL" != "$cs_cv_with_NL"; then
   cs_ignore_cache=yes
@@ -12316,9 +12518,19 @@ else
 fi
 
 
+	# Put relevant subdirs of the library directory into PATH and PKGCONFIG
+	PATH_SAVE="$PATH"
+	if test $with_NL != yes; then
+  PATH="$with_NL/bin$PATH_SEPARATOR$PATH"
+	    PKG_CONFIG_PATH_SAVE_1="$PKG_CONFIG_PATH"
+    PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR/opt/local/lib/pkgconfig$PATH_SEPARATOR/opt/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
+    PKG_CONFIG_PATH="$with_NL$PATH_SEPARATOR$with_NL/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
+    export PKG_CONFIG_PATH
+fi
+
+
 	cs_check_lib_flags=''
-	if test $with_NL = yes; then
-  if test "$cs_prog_pkg_config_checked" != yes; then
+	if test "$cs_prog_pkg_config_checked" != yes; then
 
     if test "$cs_prog_path_prepared" != yes; then
   cs_prog_path_prepared=yes
@@ -12430,8 +12642,6 @@ esac
   fi
 fi
 
-	PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR/opt/local/lib/pkgconfig$PATH_SEPARATOR/opt/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
-    export PKG_CONFIG_PATH
 	cs_prog_pkg_config_checked=yes
 fi
 
@@ -12627,8 +12837,6 @@ fi
 
 fi
 
-
-fi
 
 
 	if test $with_NL != yes; then
@@ -13057,6 +13265,14 @@ else
 
 fi
 
+
+	PATH="$PATH_SAVE"
+	if test $with_NL != yes; then
+  PKG_CONFIG_PATH="$PKG_CONFIG_PATH_SAVE_1"
+    export PKG_CONFIG_PATH
+fi
+
+
 else
   cs_cv_libNL=no
 fi
@@ -13151,7 +13367,7 @@ fi
 # Split the DESIRED-VERSION into the major and minor version number
 # components.
 cs_version_desired=1.1
-sed_expr_base=\\\([0-9]\\\+\\\)\.\\\([0-9]\\\+\\\).*
+sed_expr_base='\([0-9][0-9]*\)\.\([0-9][0-9]*\).*'
 cs_version_major=`echo $cs_version_desired | sed "s/$sed_expr_base/\1/"`
 cs_version_minor=`echo $cs_version_desired | sed "s/$sed_expr_base/\2/"`
 
@@ -15108,7 +15324,8 @@ fi
 fi
 
     if test "$with_bfd" != no; then
-  # If --with-bfd value is same as cached value, then assume other
+
+	# If --with-bfd value is same as cached value, then assume other
 	 # cached values are also valid; otherwise, ignore all cached values.
 	if test "$with_bfd" != "$cs_cv_with_bfd"; then
   cs_ignore_cache=yes
@@ -15117,9 +15334,19 @@ else
 fi
 
 
+	# Put relevant subdirs of the library directory into PATH and PKGCONFIG
+	PATH_SAVE="$PATH"
+	if test $with_bfd != yes; then
+  PATH="$with_bfd/bin$PATH_SEPARATOR$PATH"
+	    PKG_CONFIG_PATH_SAVE_1="$PKG_CONFIG_PATH"
+    PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR/opt/local/lib/pkgconfig$PATH_SEPARATOR/opt/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
+    PKG_CONFIG_PATH="$with_bfd$PATH_SEPARATOR$with_bfd/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
+    export PKG_CONFIG_PATH
+fi
+
+
 	cs_check_lib_flags=''
-	if test $with_bfd = yes; then
-  if test "$cs_prog_pkg_config_checked" != yes; then
+	if test "$cs_prog_pkg_config_checked" != yes; then
 
     if test "$cs_prog_path_prepared" != yes; then
   cs_prog_path_prepared=yes
@@ -15231,8 +15458,6 @@ esac
   fi
 fi
 
-	PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR/opt/local/lib/pkgconfig$PATH_SEPARATOR/opt/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
-    export PKG_CONFIG_PATH
 	cs_prog_pkg_config_checked=yes
 fi
 
@@ -15428,8 +15653,6 @@ fi
 
 fi
 
-
-fi
 
 
 	if test $with_bfd != yes; then
@@ -15857,6 +16080,14 @@ else
 	cs_cv_libbfd_libs=''
 
 fi
+
+
+	PATH="$PATH_SAVE"
+	if test $with_bfd != yes; then
+  PKG_CONFIG_PATH="$PKG_CONFIG_PATH_SAVE_1"
+    export PKG_CONFIG_PATH
+fi
+
 
 else
   cs_cv_libbfd=no
