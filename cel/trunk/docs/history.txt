@@ -10,6 +10,14 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine fixed Jamfile.in so that, when the build directory
 	  differs from the source directory, 'jam distclean' removes the newly
 	  empty and temporary $(BUILDTOP)/scripts/autopackage directory.
+	- Eric Sunshine removed CEL-specific customizations from
+	  mk/msvcgen/control.tlib and relocated them to
+	  mk/msvcgen/custom.cellib.  External projects should never modify the
+	  msvcgen *.tlib files. Instead, project-specific customizations should
+	  be placed either in Jamfile or in a separate customization file (such
+	  as custom.cellib). This allows projects to upgrade to the latest
+	  master *.tlib files from CS/mk/msvcgen without hassle via a simple
+	  copy operation.
 07-Nov-2007
 	- Sueastside fixed csDeformControl for CS rev 28117
           (iGenMeshAnimationControl::Update() change).
