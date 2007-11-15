@@ -95,7 +95,7 @@ if $(PYTHON.AVAILABLE) = yes
   #--------
   # blcelmod -- Pure Python module
   #--------
-  PythMod blcelmod : _blcelc : celmod.cpp : cel_python : CRYSTAL
-                : "pure Python module" ;
+  PythMod blcelmod : _blcelc : celmod.cpp : bindings python : cel_python :
+    CRYSTAL : "pure Python module" ;
   CFlags blcelmod : $(CELPYTHON.CFLAGS) ;
 }
