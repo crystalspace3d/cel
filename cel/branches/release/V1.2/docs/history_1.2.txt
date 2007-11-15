@@ -2,6 +2,9 @@
 
 The history order is reversed so that new features are at the top.
 
+15-Nov-2007
+	- Vincent updated crystal.m4 from CS 1.2 branch (POSIX-compliant sed
+	  command fix).
 8-Sep-2007
 	- Vincent merged r2973 into 1.2 (celstart_static plugins addition).
 1-Sep-2007
