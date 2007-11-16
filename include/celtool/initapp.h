@@ -30,13 +30,15 @@
 #  endif
 #endif
 
+#include "celtool/celtoolextern.h"
+
 /**
  * This class contains static member functions which can help set up an
  * application to use the Crystal Entity Layer. It is possible to do all the
  * setup on your own but using these utility methods will considerably simplify
  * the task.
  */
-class celInitializer : public csInitializer
+class CEL_CELTOOL_EXPORT celInitializer : public csInitializer
 {
 private:
   typedef csInitializer superclass;

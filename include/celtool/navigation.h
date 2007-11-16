@@ -24,6 +24,8 @@
 #include "cssysdef.h"
 #include "csgeom/vector3.h"
 
+#include "celtool/celtoolextern.h"
+
 struct iSector;
 struct iMapNode;
 struct iCelEntity;
@@ -47,7 +49,7 @@ struct celNavigationInfo
 /**
  * Helplers for navigation.
  */
-struct celNavigationTools
+struct CEL_CELTOOL_EXPORT celNavigationTools
 {
   /**
    * Returns navigation result between navigator entity and target vector.
