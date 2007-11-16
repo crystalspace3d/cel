@@ -318,6 +318,9 @@
 				RelativePath="..\..\libs\celtool\persisthelper.cpp">
 			</File>
 			<File
+				RelativePath="..\..\libs\celtool\staticvarcleanup.cpp">
+			</File>
+			<File
 				RelativePath="..\..\libs\celtool\stdpcimp.cpp">
 			</File>
 		</Filter>
@@ -326,6 +329,9 @@
 			Filter="">
 			<File
 				RelativePath="..\..\libs\celtool\..\..\include\celtool\camera.h">
+			</File>
+			<File
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\celtoolextern.h">
 			</File>
 			<File
 				RelativePath="..\..\libs\celtool\..\..\include\celtool\initapp.h">
