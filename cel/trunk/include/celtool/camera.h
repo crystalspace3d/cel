@@ -20,6 +20,7 @@
 #ifndef __CEL_PF_CAMFACT__
 #define __CEL_PF_CAMFACT__
 
+#include "celtool/celtoolextern.h"
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "physicallayer/propclas.h"
@@ -43,7 +44,7 @@ class csView;
 /**
  * The representation of a camera.
  */
-struct celPcCameraCommon : public celPcCommon
+struct CEL_CELTOOL_EXPORT celPcCameraCommon : public celPcCommon
 {
 protected:
   csRef<iGraphics3D> g3d;

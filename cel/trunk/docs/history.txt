@@ -9,6 +9,7 @@ The history order is reversed so that new features are at the top.
 	  after update of Jam files from master CS copies in r3067. The problem
 	  was caused by an API-breaking change to the 'PythMod' rule in
 	  CS/mk/jam/pythmod.jam in CS:r27769. Resolves issue #45.
+	- res fixed celtool to properly build as a library.
 14-Nov-2007
 	- Eric Sunshine fixed Jamfile.in so that 'jam distclean' removes the
 	  scripts/autopackage/celstart_static.apspec file created by the

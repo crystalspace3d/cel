@@ -26,6 +26,10 @@
 #include "csutil/scf_implementation.h"
 #include "csutil/refarr.h"
 #include "csutil/weakref.h"
+
+#include "celtool/celtoolextern.h"
+
+#include "physicallayer/propchg.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/pl.h"
@@ -77,8 +81,10 @@ struct PropertyHolder
  * from which all other property classes can inherit.
  * This makes it easier to write a property class.
  */
-class celPcCommon : public scfImplementation2<
-	celPcCommon, iCelPropertyClass, iCelTimerListener>
+class CEL_CELTOOL_EXPORT celPcCommon : 
+  public scfImplementation2<celPcCommon, 
+			     iCelPropertyClass, 
+			     iCelTimerListener>
 {
 private:
   csRefArray<iCelPropertyChangeCallback> callbacks;
