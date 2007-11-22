@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-# Visual C++ Express 2005
+
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appbootstrap_static", "appbootstrap_static.vcproj", "{DD04D25A-F07A-B898-EE22-A2B028901531}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appcelstart_static", "appcelstart_static.vcproj", "{7340D8F8-9361-9CB3-124C-E1358E91B6B0}"
