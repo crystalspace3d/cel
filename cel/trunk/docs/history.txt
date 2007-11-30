@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- caedes fixed swig problems with CEL_CELTOOL_EXPORT.
 	- caedes made pfdirector stuff not be included on SWIGIMPORTED to
 	  avoid problems with modules importing blcel.i.
+	- vknecht fixed eol style for mk/jam/debuginfo.jam. This was
+	  generating lots of errors on building the project.
 15-Nov-2007
 	- Eric Sunshine fixed build problem with 'blcelmod' ("don't know how to
 	  make CRYSTAL" followed by "cssysdef.h: No such file") which arose
