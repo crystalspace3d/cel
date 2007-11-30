@@ -64,6 +64,10 @@ CS_PROPERTY_HELPERS
    initialized manually. Use it after CreateEnvironment call. */
 INLINE_FUNCTIONS
 
+/* Ignored Macros */
+#undef CEL_CELTOOL_EXPORT
+#define CEL_CELTOOL_EXPORT
+
 //=============================================================================
 // Interfaces that need csRef,csPtr,csRefArray
 // uses INTERFACE_POST and INTERFACE_PRE from cspace.i
@@ -631,7 +635,9 @@ iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
 
 //-----------------------------------------------------------------------------
 
+#ifndef SWIGIMPORTED
 %include "bindings/pfdirector.i"
+#endif
 
 #undef INTERFACE_APPLY
 #define INTERFACE_APPLY(x) INTERFACE_POST(x)
