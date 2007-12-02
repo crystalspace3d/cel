@@ -57,7 +57,6 @@ INTERFACE_POST(iPcPython)
 %feature("nodirector") pyPcCommon::GetInterfaceMetadata;
 %feature("nodirector") pyPcCommon::Save;
 %feature("nodirector") pyPcCommon::Load;
-%feature("nodirector") pyPcCommon::SetEntity;
 %feature("nodirector") pyPcCommon::GetPersistentData;
 %feature("nodirector") pyPcCommon::SaveFirstPass;
 %feature("nodirector") pyPcCommon::SetName;
@@ -245,7 +244,6 @@ class pyPcCommon : public scfImplementationExt1<pyPcCommon, PcCommon, iPcPython>
            Py_DECREF(py_result);
            return true;
         }
-
         /* GetProperty*ByID Implementation */
         virtual long GetPropertyLongByID(csStringID id)
         {
