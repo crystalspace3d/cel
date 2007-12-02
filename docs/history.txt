@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+02-Dec-2007
+	- caedes added the possibility of overriding SetEntity in python
+	  property classes.
 30-Nov-2007
 	- caedes fixed swig problems with CEL_CELTOOL_EXPORT.
 	- caedes made pfdirector stuff not be included on SWIGIMPORTED to
