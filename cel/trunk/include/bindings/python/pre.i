@@ -20,7 +20,7 @@ CS_WRAP_PTR_TYPEMAP(celWrapPtr)
    _PC = None
    def __getattr__(self,attr):
         if hasattr(iCelPropertyClass,attr):
-            _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+            _PC = self.QueryInterface(iCelPropertyClass)
             return getattr(_PC,attr)
         else:
             return self.GetterFallback(attr)
@@ -28,7 +28,7 @@ CS_WRAP_PTR_TYPEMAP(celWrapPtr)
         if hasattr(pcType,attr):
             return object.__setattr__(self,attr,value)
         elif hasattr(iCelPropertyClass,attr):
-            _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+            _PC = self.QueryInterface(iCelPropertyClass)
             setattr(_PC,attr,value)
         else:
             return self.SetterFallback(attr,value)
@@ -85,7 +85,7 @@ class contenttype ## pref ## FakeArray:
   def Remove(self,propclass):
     if not (isinstance(propclass,int) or isinstance(propclass,
             iCelPropertyClass)):
-      propclass = cspace.SCF_QUERY_INTERFACE(propclass,iCelPropertyClass)
+      propclass = propclass.QueryInterface(iCelPropertyClass)
     return _blcelc.iCelPropertyClassList_Remove(self,propclass)
 %}
 
