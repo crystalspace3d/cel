@@ -96,11 +96,26 @@ class celWrapPtr(object):
 celWrapPtr_swigregister = _blcelc.celWrapPtr_swigregister
 celWrapPtr_swigregister(celWrapPtr)
 
-LoadCelVFS = _blcelc.LoadCelVFS
-LoadMountsFromFile = _blcelc.LoadMountsFromFile
-setup_plugin_dirs = _blcelc.setup_plugin_dirs
-SetupCelPluginDirs = _blcelc.SetupCelPluginDirs
-RequestPluginsV = _blcelc.RequestPluginsV
+class celInitializer(cspace.csInitializer):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    SetupCelPluginDirs = staticmethod(_blcelc.celInitializer_SetupCelPluginDirs)
+    _RequestPlugins = staticmethod(_blcelc.celInitializer__RequestPlugins)
+    SetupVFS = staticmethod(_blcelc.celInitializer_SetupVFS)
+    SetupConfigManager = staticmethod(_blcelc.celInitializer_SetupConfigManager)
+    def __init__(self, *args): 
+        this = _blcelc.new_celInitializer(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celInitializer
+    __del__ = lambda self : None;
+celInitializer_swigregister = _blcelc.celInitializer_swigregister
+celInitializer_swigregister(celInitializer)
+celInitializer_SetupCelPluginDirs = _blcelc.celInitializer_SetupCelPluginDirs
+celInitializer__RequestPlugins = _blcelc.celInitializer__RequestPlugins
+celInitializer_SetupVFS = _blcelc.celInitializer_SetupVFS
+celInitializer_SetupConfigManager = _blcelc.celInitializer_SetupConfigManager
+
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
 CEL_DATA_BYTE = _blcelc.CEL_DATA_BYTE
@@ -141,9 +156,6 @@ class celData(object):
     value = _swig_property(_blcelc.celData_value_get)
 celData_swigregister = _blcelc.celData_swigregister
 celData_swigregister(celData)
-RequestPlugins = _blcelc.RequestPlugins
-SetupVFS = _blcelc.SetupVFS
-SetupConfigManager = _blcelc.SetupConfigManager
 
 class celData_value(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -966,7 +978,7 @@ class iCelPropertyClassList(cspace.iBase):
     def Remove(self,propclass):
       if not (isinstance(propclass,int) or isinstance(propclass,
               iCelPropertyClass)):
-        propclass = cspace.SCF_QUERY_INTERFACE(propclass,iCelPropertyClass)
+        propclass = propclass.QueryInterface(iCelPropertyClass)
       return _blcelc.iCelPropertyClassList_Remove(self,propclass)
 
 
@@ -1040,7 +1052,7 @@ class iPcMechanicsSystem(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -1048,7 +1060,7 @@ class iPcMechanicsSystem(cspace.iBase):
          if hasattr(iPcMechanicsSystem,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -1178,7 +1190,7 @@ class iPcMechanicsObject(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -1186,7 +1198,7 @@ class iPcMechanicsObject(cspace.iBase):
          if hasattr(iPcMechanicsObject,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -1209,7 +1221,7 @@ class iPcMechanicsJoint(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -1217,7 +1229,7 @@ class iPcMechanicsJoint(cspace.iBase):
          if hasattr(iPcMechanicsJoint,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -1486,7 +1498,7 @@ class iPcBillboard(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -1494,7 +1506,7 @@ class iPcBillboard(cspace.iBase):
          if hasattr(iPcBillboard,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -1542,7 +1554,7 @@ class iPcRegion(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -1550,7 +1562,7 @@ class iPcRegion(cspace.iBase):
          if hasattr(iPcRegion,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -1714,7 +1726,7 @@ class iPcZoneManager(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -1722,7 +1734,7 @@ class iPcZoneManager(cspace.iBase):
          if hasattr(iPcZoneManager,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -1776,7 +1788,7 @@ class iPcCommandInput(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -1784,7 +1796,7 @@ class iPcCommandInput(cspace.iBase):
          if hasattr(iPcCommandInput,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -1918,7 +1930,7 @@ class iPcLinearMovement(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -1926,7 +1938,7 @@ class iPcLinearMovement(cspace.iBase):
          if hasattr(iPcLinearMovement,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2057,7 +2069,7 @@ class iPcActorMove(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2065,7 +2077,7 @@ class iPcActorMove(cspace.iBase):
          if hasattr(iPcActorMove,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2092,7 +2104,7 @@ class iPcActorAnalog(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2100,7 +2112,7 @@ class iPcActorAnalog(cspace.iBase):
          if hasattr(iPcActorAnalog,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2285,7 +2297,7 @@ class iPcDefaultCamera(iPcCamera):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2293,7 +2305,7 @@ class iPcDefaultCamera(iPcCamera):
          if hasattr(iPcDefaultCamera,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2330,7 +2342,7 @@ class iPcSimpleCamera(iPcCamera):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2338,7 +2350,7 @@ class iPcSimpleCamera(iPcCamera):
          if hasattr(iPcSimpleCamera,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2459,7 +2471,7 @@ class iPcNewCamera(iPcCamera):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2467,7 +2479,7 @@ class iPcNewCamera(iPcCamera):
          if hasattr(iPcNewCamera,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2566,7 +2578,7 @@ class iPcMeshSelect(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2574,7 +2586,7 @@ class iPcMeshSelect(cspace.iBase):
          if hasattr(iPcMeshSelect,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2631,7 +2643,7 @@ class iPcMesh(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2639,7 +2651,7 @@ class iPcMesh(cspace.iBase):
          if hasattr(iPcMesh,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2665,7 +2677,7 @@ class iPcTimer(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2673,7 +2685,7 @@ class iPcTimer(cspace.iBase):
          if hasattr(iPcTimer,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2728,7 +2740,7 @@ class iPcTrigger(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2736,7 +2748,7 @@ class iPcTrigger(cspace.iBase):
          if hasattr(iPcTrigger,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2762,7 +2774,7 @@ class iPcProjectile(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2770,7 +2782,7 @@ class iPcProjectile(cspace.iBase):
          if hasattr(iPcProjectile,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2805,7 +2817,7 @@ class iPcSolid(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2813,7 +2825,7 @@ class iPcSolid(cspace.iBase):
          if hasattr(iPcSolid,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2874,7 +2886,7 @@ class iPcGravity(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2882,7 +2894,7 @@ class iPcGravity(cspace.iBase):
          if hasattr(iPcGravity,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -2919,7 +2931,7 @@ class iPcMovable(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -2927,7 +2939,7 @@ class iPcMovable(cspace.iBase):
          if hasattr(iPcMovable,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3050,7 +3062,7 @@ class iPcInventory(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3058,7 +3070,7 @@ class iPcInventory(cspace.iBase):
          if hasattr(iPcInventory,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3117,7 +3129,7 @@ class iPcCharacteristics(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3125,7 +3137,7 @@ class iPcCharacteristics(cspace.iBase):
          if hasattr(iPcCharacteristics,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3177,7 +3189,7 @@ class iPcTooltip(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3185,7 +3197,7 @@ class iPcTooltip(cspace.iBase):
          if hasattr(iPcTooltip,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3212,7 +3224,7 @@ class iPcSoundListener(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3220,7 +3232,7 @@ class iPcSoundListener(cspace.iBase):
          if hasattr(iPcSoundListener,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3254,7 +3266,7 @@ class iPcSoundSource(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3262,7 +3274,7 @@ class iPcSoundSource(cspace.iBase):
          if hasattr(iPcSoundSource,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3328,7 +3340,7 @@ class iPcProperties(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3336,7 +3348,7 @@ class iPcProperties(cspace.iBase):
          if hasattr(iPcProperties,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3400,7 +3412,7 @@ class iPcMover(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3408,7 +3420,7 @@ class iPcMover(cspace.iBase):
          if hasattr(iPcMover,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3461,7 +3473,7 @@ class iPcHover(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3469,7 +3481,7 @@ class iPcHover(cspace.iBase):
          if hasattr(iPcHover,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3553,7 +3565,7 @@ class iPcCraftController(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3561,7 +3573,7 @@ class iPcCraftController(cspace.iBase):
          if hasattr(iPcCraftController,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3716,7 +3728,7 @@ class iPcWheeled(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3724,7 +3736,7 @@ class iPcWheeled(cspace.iBase):
          if hasattr(iPcWheeled,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3779,7 +3791,7 @@ class iPcMeshDeform(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3787,7 +3799,7 @@ class iPcMeshDeform(cspace.iBase):
          if hasattr(iPcMeshDeform,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -3849,7 +3861,7 @@ class iPcDamage(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -3857,7 +3869,7 @@ class iPcDamage(cspace.iBase):
          if hasattr(iPcDamage,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -4386,7 +4398,7 @@ class iPcQuest(cspace.iBase):
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
@@ -4394,7 +4406,7 @@ class iPcQuest(cspace.iBase):
          if hasattr(iPcQuest,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             _PC = self.QueryInterface(iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
@@ -4495,48 +4507,61 @@ class PropertyHolder(object):
 PropertyHolder_swigregister = _blcelc.PropertyHolder_swigregister
 PropertyHolder_swigregister(PropertyHolder)
 
-FirePropertyChangeCallback = _blcelc.FirePropertyChangeCallback
-AddAction = _blcelc.AddAction
-AddProperty = _blcelc.AddProperty
-HavePropertyClassesChanged = _blcelc.HavePropertyClassesChanged
-SetTag = _blcelc.SetTag
-GetTag = _blcelc.GetTag
-SetName = _blcelc.SetName
-GetName = _blcelc.GetName
-GetEntity = _blcelc.GetEntity
-SetEntity = _blcelc.SetEntity
-AddPropertyChangeCallback = _blcelc.AddPropertyChangeCallback
-RemovePropertyChangeCallback = _blcelc.RemovePropertyChangeCallback
-GetPropertyLongByID = _blcelc.GetPropertyLongByID
-GetPropertyFloatByID = _blcelc.GetPropertyFloatByID
-GetPropertyBoolByID = _blcelc.GetPropertyBoolByID
-GetPropertyStringByID = _blcelc.GetPropertyStringByID
-GetPropertyColorByID = _blcelc.GetPropertyColorByID
-GetPropertyPClassByID = _blcelc.GetPropertyPClassByID
-GetPropertyEntityByID = _blcelc.GetPropertyEntityByID
-GetPropertyIBaseByID = _blcelc.GetPropertyIBaseByID
-GetPropertyLong = _blcelc.GetPropertyLong
-GetPropertyFloat = _blcelc.GetPropertyFloat
-GetPropertyBool = _blcelc.GetPropertyBool
-GetPropertyString = _blcelc.GetPropertyString
-GetPropertyColor = _blcelc.GetPropertyColor
-GetPropertyPClass = _blcelc.GetPropertyPClass
-GetPropertyEntity = _blcelc.GetPropertyEntity
-GetPropertyIBase = _blcelc.GetPropertyIBase
-PerformAction = _blcelc.PerformAction
-PerformActionIndexed = _blcelc.PerformActionIndexed
-GetPropertyOrActionDescription = _blcelc.GetPropertyOrActionDescription
-GetPropertyAndActionCount = _blcelc.GetPropertyAndActionCount
-GetPropertyOrActionID = _blcelc.GetPropertyOrActionID
-PropertyClassesHaveChanged = _blcelc.PropertyClassesHaveChanged
-GetPropertyOrActionType = _blcelc.GetPropertyOrActionType
-IsPropertyReadOnly = _blcelc.IsPropertyReadOnly
-SaveFirstPass = _blcelc.SaveFirstPass
-LoadFirstPass = _blcelc.LoadFirstPass
-GetPersistentData = _blcelc.GetPersistentData
-SetPersistentData = _blcelc.SetPersistentData
-TickEveryFrame = _blcelc.TickEveryFrame
-TickOnce = _blcelc.TickOnce
+class celPcCommon(PcCommonBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    __swig_destroy__ = _blcelc.delete_celPcCommon
+    __del__ = lambda self : None;
+    def HavePropertyClassesChanged(*args): return _blcelc.celPcCommon_HavePropertyClassesChanged(*args)
+    def SetTag(*args): return _blcelc.celPcCommon_SetTag(*args)
+    def GetTag(*args): return _blcelc.celPcCommon_GetTag(*args)
+    def SetName(*args): return _blcelc.celPcCommon_SetName(*args)
+    def GetName(*args): return _blcelc.celPcCommon_GetName(*args)
+    def GetEntity(*args): return _blcelc.celPcCommon_GetEntity(*args)
+    def SetEntity(*args): return _blcelc.celPcCommon_SetEntity(*args)
+    def AddPropertyChangeCallback(*args): return _blcelc.celPcCommon_AddPropertyChangeCallback(*args)
+    def RemovePropertyChangeCallback(*args): return _blcelc.celPcCommon_RemovePropertyChangeCallback(*args)
+    def SetPropertyIndexed(*args): return _blcelc.celPcCommon_SetPropertyIndexed(*args)
+    def SetProperty(*args): return _blcelc.celPcCommon_SetProperty(*args)
+    def GetPropertyIndexed(*args): return _blcelc.celPcCommon_GetPropertyIndexed(*args)
+    def GetPropertyLongByID(*args): return _blcelc.celPcCommon_GetPropertyLongByID(*args)
+    def GetPropertyFloatByID(*args): return _blcelc.celPcCommon_GetPropertyFloatByID(*args)
+    def GetPropertyBoolByID(*args): return _blcelc.celPcCommon_GetPropertyBoolByID(*args)
+    def GetPropertyStringByID(*args): return _blcelc.celPcCommon_GetPropertyStringByID(*args)
+    def GetPropertyVector2ByID(*args): return _blcelc.celPcCommon_GetPropertyVector2ByID(*args)
+    def GetPropertyVector3ByID(*args): return _blcelc.celPcCommon_GetPropertyVector3ByID(*args)
+    def GetPropertyColorByID(*args): return _blcelc.celPcCommon_GetPropertyColorByID(*args)
+    def GetPropertyPClassByID(*args): return _blcelc.celPcCommon_GetPropertyPClassByID(*args)
+    def GetPropertyEntityByID(*args): return _blcelc.celPcCommon_GetPropertyEntityByID(*args)
+    def GetPropertyIBaseByID(*args): return _blcelc.celPcCommon_GetPropertyIBaseByID(*args)
+    def GetPropertyLong(*args): return _blcelc.celPcCommon_GetPropertyLong(*args)
+    def GetPropertyFloat(*args): return _blcelc.celPcCommon_GetPropertyFloat(*args)
+    def GetPropertyBool(*args): return _blcelc.celPcCommon_GetPropertyBool(*args)
+    def GetPropertyString(*args): return _blcelc.celPcCommon_GetPropertyString(*args)
+    def GetPropertyVector2(*args): return _blcelc.celPcCommon_GetPropertyVector2(*args)
+    def GetPropertyVector3(*args): return _blcelc.celPcCommon_GetPropertyVector3(*args)
+    def GetPropertyColor(*args): return _blcelc.celPcCommon_GetPropertyColor(*args)
+    def GetPropertyPClass(*args): return _blcelc.celPcCommon_GetPropertyPClass(*args)
+    def GetPropertyEntity(*args): return _blcelc.celPcCommon_GetPropertyEntity(*args)
+    def GetPropertyIBase(*args): return _blcelc.celPcCommon_GetPropertyIBase(*args)
+    def PerformAction(*args): return _blcelc.celPcCommon_PerformAction(*args)
+    def PerformActionIndexed(*args): return _blcelc.celPcCommon_PerformActionIndexed(*args)
+    def GetPropertyOrActionDescription(*args): return _blcelc.celPcCommon_GetPropertyOrActionDescription(*args)
+    def GetPropertyAndActionCount(*args): return _blcelc.celPcCommon_GetPropertyAndActionCount(*args)
+    def GetPropertyOrActionID(*args): return _blcelc.celPcCommon_GetPropertyOrActionID(*args)
+    def PropertyClassesHaveChanged(*args): return _blcelc.celPcCommon_PropertyClassesHaveChanged(*args)
+    def GetPropertyOrActionType(*args): return _blcelc.celPcCommon_GetPropertyOrActionType(*args)
+    def IsPropertyReadOnly(*args): return _blcelc.celPcCommon_IsPropertyReadOnly(*args)
+    def SaveFirstPass(*args): return _blcelc.celPcCommon_SaveFirstPass(*args)
+    def LoadFirstPass(*args): return _blcelc.celPcCommon_LoadFirstPass(*args)
+    def GetPersistentData(*args): return _blcelc.celPcCommon_GetPersistentData(*args)
+    def SetPersistentData(*args): return _blcelc.celPcCommon_SetPersistentData(*args)
+    def TickEveryFrame(*args): return _blcelc.celPcCommon_TickEveryFrame(*args)
+    def TickOnce(*args): return _blcelc.celPcCommon_TickOnce(*args)
+celPcCommon_swigregister = _blcelc.celPcCommon_swigregister
+celPcCommon_swigregister(celPcCommon)
+
 class swigPcCommonFactory(iCelPropertyClassFactory):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
@@ -4550,15 +4575,10 @@ class swigPcCommonFactory(iCelPropertyClassFactory):
     def GetInterfaceMetadata(*args): return _blcelc.swigPcCommonFactory_GetInterfaceMetadata(*args)
 swigPcCommonFactory_swigregister = _blcelc.swigPcCommonFactory_swigregister
 swigPcCommonFactory_swigregister(swigPcCommonFactory)
-cvar = _blcelc.cvar
-SetPropertyIndexed = _blcelc.SetPropertyIndexed
-SetProperty = _blcelc.SetProperty
-GetPropertyIndexed = _blcelc.GetPropertyIndexed
-GetPropertyVectorByID = _blcelc.GetPropertyVectorByID
-GetPropertyVector = _blcelc.GetPropertyVector
 
-class swigPcCommon(object):
+class swigPcCommon(celPcCommon):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def IncRef(*args): return _blcelc.swigPcCommon_IncRef(*args)
     def DecRef(*args): return _blcelc.swigPcCommon_DecRef(*args)
@@ -4567,10 +4587,6 @@ class swigPcCommon(object):
     def AddRefOwner(*args): return _blcelc.swigPcCommon_AddRefOwner(*args)
     def RemoveRefOwner(*args): return _blcelc.swigPcCommon_RemoveRefOwner(*args)
     def GetInterfaceMetadata(*args): return _blcelc.swigPcCommon_GetInterfaceMetadata(*args)
-    def __init__(self, *args): 
-        this = _blcelc.new_swigPcCommon(*args)
-        try: self.this.append(this)
-        except: self.this = this
 swigPcCommon_swigregister = _blcelc.swigPcCommon_swigregister
 swigPcCommon_swigregister(swigPcCommon)
 
@@ -4679,7 +4695,8 @@ class pyPcCommon(swigPyPcCommon):
     def GetPropertyFloatByID(*args): return _blcelc.pyPcCommon_GetPropertyFloatByID(*args)
     def GetPropertyBoolByID(*args): return _blcelc.pyPcCommon_GetPropertyBoolByID(*args)
     def GetPropertyStringByID(*args): return _blcelc.pyPcCommon_GetPropertyStringByID(*args)
-    def GetPropertyVectorByID(*args): return _blcelc.pyPcCommon_GetPropertyVectorByID(*args)
+    def GetPropertyVector2ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector2ByID(*args)
+    def GetPropertyVector3ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector3ByID(*args)
     def GetPropertyColorByID(*args): return _blcelc.pyPcCommon_GetPropertyColorByID(*args)
     def GetPropertyEntityByID(*args): return _blcelc.pyPcCommon_GetPropertyEntityByID(*args)
     def GetPropertyPClassByID(*args): return _blcelc.pyPcCommon_GetPropertyPClassByID(*args)
