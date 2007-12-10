@@ -31,6 +31,11 @@ Currently it has only one method to move to a certain point in the map,
 and another one to stop it, but it is possible that later other methods 
 will be added.
 
+@subsubheading Dependencies on other Property Classes
+
+PcMover depends on PcLinearMovement and PcActorMove property classes, so you
+need to create these on the entity or PcMover won't work.
+
 @subsubheading MoveTo
 
 With MoveTo an entity can be pointed to a certain point in some

@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+10-Dec-2007
+	- caedes updated pcmover manual section to warn about dependencies on
+	  linmove and actormove.
 02-Dec-2007
 	- caedes added the possibility of overriding SetEntity in python
 	  property classes.
