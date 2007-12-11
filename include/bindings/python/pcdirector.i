@@ -263,6 +263,12 @@ class pyPcCommon : public scfImplementationExt1<pyPcCommon, PcCommon, iPcPython>
            else
              return true;
         }
+        /* Implement SetEntity to avoid infinite loops calling this
+        function from python code (to get the default behaviour) */
+        virtual void SetEntity(iCelEntity* entity)
+        {
+                PcCommon::SetEntity(entity);
+        }
         virtual const char* GetPropertyStringByID(csStringID id)
         {
            GET_PROPERTY_BODY(0)
