@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Dec-2007
+	- caedes implemented SetEntity in pyPcCommon (base for python property
+	  classes), as otherwise calling pyPcCommon.SetEntity from python
+	  implementation of SetEntity will make the code get into an infinite
+	  loop as the python code gets again and again.
 10-Dec-2007
 	- caedes updated pcmover manual section to warn about dependencies on
 	  linmove and actormove.
