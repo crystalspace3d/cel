@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Dec-2007
+	- Vincent added back bindings for thruster related interfaces which
+	  were wrongly removed in r2676 & r2678, and forgotten in r2693.
 11-Dec-2007
 	- caedes implemented SetEntity in pyPcCommon (base for python property
 	  classes), as otherwise calling pyPcCommon.SetEntity from python
