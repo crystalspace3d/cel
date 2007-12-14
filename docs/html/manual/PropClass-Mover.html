@@ -91,6 +91,12 @@ and another one to stop it, but it is possible that later other methods
 will be added.
 </p>
 <a name="3"></a>
+<h4 class="subsubheading"> Dependencies on other Property Classes </h4>
+
+<p>PcMover depends on PcLinearMovement and PcActorMove property classes, so you
+need to create these on the entity or PcMover won't work.
+</p>
+<a name="4"></a>
 <h4 class="subsubheading"> MoveTo </h4>
 
 <p>With MoveTo an entity can be pointed to a certain point in some
@@ -107,7 +113,7 @@ example).
 </p>
 <p>You can use MoveTo from API or as a cel action.
 </p>
-<a name="4"></a>
+<a name="5"></a>
 <h4 class="subsubheading"> Interrupt </h4>
 
 <p>This method allows to manually interrupt some movement. After calling this,
@@ -115,7 +121,7 @@ the mover will forget about what it was doing.
 </p>
 <p>You can use Interrupt from API or as a cel action.
 </p>
-<a name="5"></a>
+<a name="6"></a>
 <h4 class="subsubheading"> Message Callbacks </h4>
 
 <p>This property class can send the following messages to the behaviour.
@@ -126,7 +132,7 @@ the mover will forget about what it was doing.
 </p>
 <p><code>pcmover_interrupted</code>: Sent if a new movement is started while another one is under way, or movement is manually interrupted using interrupt.
 </p>
-<a name="6"></a>
+<a name="7"></a>
 <h4 class="subsubheading"> Defining a mover for an entity in map xml. </h4>
 
 <p>To define an entity that uses this property class we add a &lt;propclass&gt; stance
