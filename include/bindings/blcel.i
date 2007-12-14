@@ -38,6 +38,7 @@ CS_PROPERTY_HELPERS
 #include "propclass/billboard.h"
 #include "propclass/mechsys.h"
 #include "propclass/sound.h"
+#include "propclass/mechthruster.h"
 #include "propclass/mover.h"
 #include "propclass/tooltip.h"
 #include "propclass/prop.h"
@@ -433,6 +434,16 @@ CEL_PC_QUERY_CLASSLIST(iPcMechanicsObject)
 
 CEL_PC_QUERY_CLASSLIST(iPcMechanicsJoint)
 CEL_PC(iPcMechanicsJoint, MechanicsJoint, pcphysics.joint)
+
+%include "propclass/mechthruster.h"
+CEL_PC(iPcMechanicsThruster, MechanicsThrusterReactionary,
+        pcmechthrustreactionary)
+CEL_PC_QUERY_CLASSLIST(iPcMechanicsThruster)
+CEL_PC(iPcMechanicsBalancedGroup, MechanicsBalancedGroup, pcmechbalancedgroup)
+CEL_PC_QUERY_CLASSLIST(iPcMechanicsBalancedGroup)
+CEL_PC(iPcMechanicsThrusterController, MechanicsThrusterController,
+        pcmechthrustercontroller)
+CEL_PC_QUERY_CLASSLIST(iPcMechanicsThrusterController)
 
 //-----------------------------------------------------------------------------
 
