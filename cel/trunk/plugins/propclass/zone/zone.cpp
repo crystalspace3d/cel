@@ -695,7 +695,7 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
         CEL_FETCH_STRING_PAR (startname,params,id_startname);
         if (!p_startname)
 	  return Report (object_reg, "Start name missing for PointCamera action!");;
-        if (!PointCamera (entityname, regionname, startname))
+        if (PointCamera (entityname, regionname, startname) != CEL_ZONEERROR_OK)
           return Report (object_reg, "PointCamera failed!");
         return true;
       }

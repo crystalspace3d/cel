@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-Dec-2007
+	- caedes fixed zonemanager checking wrongly for PointCamera error,
+	  thus emmiting errors when the action was correctly executed.
 17-Dec-2007
 	- Vincent updated mk/jam/debuginfo.jam from CS copy.
 14-Dec-2007
