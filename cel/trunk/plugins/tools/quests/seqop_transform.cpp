@@ -269,6 +269,7 @@ void celTransformSeqOp::Do (float time)
       }
       mesh->GetMovable ()->GetTransform ().SetO2T (m);
     }
+    mesh->PlaceMesh ();
     mesh->GetMovable ()->UpdateMove ();
   }
 }

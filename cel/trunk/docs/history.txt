@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+1-Jan-2008
+	- Jorrit added PlaceMesh() to the transform and movepath rewards.
+	  That way moving objects will correctly be placed in the
+	  correct sectors.
 22-Dec-2007
 	- caedes fixed zonemanager checking wrongly for PointCamera error,
 	  thus emmiting errors when the action was correctly executed.
