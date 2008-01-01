@@ -236,6 +236,7 @@ void celMovePathSeqOp::Do (float time)
     path->GetInterpolatedForward (forward);
     mesh->GetMovable ()->GetTransform ().SetOrigin (pos);
     mesh->GetMovable ()->GetTransform ().LookAt (forward, up);
+    mesh->PlaceMesh ();
     mesh->GetMovable ()->UpdateMove ();
   }
 }
