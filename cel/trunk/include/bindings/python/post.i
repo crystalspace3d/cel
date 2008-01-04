@@ -107,4 +107,6 @@ class CelConsoleOutOverride:
 
 //-----------------------------------------------------------------------------
 
+#ifndef SWIGIMPORTED
 %include "bindings/python/pcdirector.i"
+#endif

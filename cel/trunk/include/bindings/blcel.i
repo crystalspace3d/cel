@@ -63,7 +63,9 @@ CS_PROPERTY_HELPERS
    lives in a non-cs dll, thus the pointer isnt initialized
    by cs itself, and scf stuff wont work unless the pointer is
    initialized manually. Use it after CreateEnvironment call. */
+#ifndef SWIGIMPORTED
 INLINE_FUNCTIONS
+#endif
 
 /* Ignored Macros */
 #undef CEL_CELTOOL_EXPORT
@@ -120,6 +122,7 @@ CS_WRAP_PTR_IMPLEMENT(celWrapPtr)
 %inline %{
 pcType *funcName(iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0 ) 
 {
+  CS_ASSERT (entity != 0);
   csRef<iCelPropertyClass> pc;
   if (tagname)
     pc = pl->CreateTaggedPropertyClass(entity, #pcname, tagname);
@@ -137,6 +140,7 @@ pcType *funcName(iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0 )
 %inline %{
 pcType * funcName (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
 {
+  CS_ASSERT (entity != 0);
   csRef<pcType> pclm;
   if (tagname)
     pclm = CEL_QUERY_PROPCLASS_TAG (
@@ -162,6 +166,7 @@ pcType * funcName (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
 %inline %{
 pcType * funcName (iCelEntity *entity, const char* tagname = 0 )
 {
+  CS_ASSERT (entity != 0);
   csRef<pcType> pc;
   if (tagname)
     pc = CEL_QUERY_PROPCLASS_TAG (
