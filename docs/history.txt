@@ -15,6 +15,8 @@ The history order is reversed so that new features are at the top.
 	  on install so python can automatically find the module.
 	- caedes added missing comments to some of the functions in linmove 
 	  interface.
+	- Vincent changed pcsound.* to not use software-specific interfaces,
+	  so that they're compatible with OpenAL sound renderer.
 4-Jan-2008
 	- caedes added some SWIGIMPORTED guards to swig files, and some
 	  asserts to check input pointers to property class handling
