@@ -13,7 +13,7 @@ if $(PYTHON.AVAILABLE) = yes
   #--------
   local blcelcpp = blcel.cpp ;
   local blcelpy = [ DoSourceGrist blcelc.py ] ;
-  MakeLocate $(blcelpy) : $(LOCATE.TARGETS) ;
+  MakeLocate $(blcelpy) : [ ConcatDirs $(LOCATE.OBJECTS) bindings python ] ;
 
   if ! [ Property build : projgen ]
   {
@@ -90,4 +90,26 @@ if $(PYTHON.AVAILABLE) = yes
   ExternalLibs blcelmod : PYTHON CRYSTAL ;
   LinkWith blcelmod : celtool ;
   CFlags blcelmod : $(CELPYTHON.CFLAGS) ;
+
+actions CelPthGen bind PACKAGEPATH
+{
+  echo $(PACKAGEPATH) > $(<)
+}
+
+rule InstallCelPth
+{
+  local blcelc_pth = blcelc.pth ;
+  MakeLocate $(blcelc_pth) : [ ConcatDirs $(DESTDIR) $(libdir) python$(PYTHON.VERSION) site-packages ] ;
+  local destdir = [ ConcatDirs $(appdatadir) bindings python ] ;
+  NotFile $(destdir) ;
+  PACKAGEPATH on $(blcelc_pth) = $(destdir) ;
+  CelPthGen $(blcelc_pth) ;
+  Depends install_bindings : $(blcelc_pth) ;
+}
+
+if $(PYTHON.AVAILABLE) = "yes"
+{
+  InstallCelPth ;
+}
+
 }

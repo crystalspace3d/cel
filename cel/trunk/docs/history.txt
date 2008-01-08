@@ -10,6 +10,9 @@ The history order is reversed so that new features are at the top.
 	- caedes changed blpython jamfile to not use an intermediate
 	  cel_python library, as this causes problems with shared libraries
 	  build, and is not necessary any more.
+	- caedes changed blpython jamfile so both .so and .py files end in
+	  out/.../bindings/python, and also made a .pth file be generated
+	  on install so python can automatically find the module.
 4-Jan-2008
 	- caedes added some SWIGIMPORTED guards to swig files, and some
 	  asserts to check input pointers to property class handling
