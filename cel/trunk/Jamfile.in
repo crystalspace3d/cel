@@ -13,7 +13,8 @@ CleanDir clean : out ;
 Clean distclean : configure.lineno config.status config.status.lineno
 		  config.log config.cache aclocal.m4
 		  Jamconfig Jamfile
-		  scripts/autopackage/celstart_static.apspec ;
+		  scripts/autopackage/celstart_static.apspec 
+		  include/celconfig.h ;
 CleanDir distclean : autom4te.cache ;
 Depends distclean : clean ;
 Help distclean : "Remove configuration information and built targets" ;
@@ -96,8 +97,13 @@ VfsCfgGen $(VFS_CONFIGFILE) : $(SUBDIR)/vfs.cfg.template ;
 Depends install_config : [ DoInstall $(VFS_CONFIGFILE) : $(appconfdir) ] ;
 
 # When build directory differs from source directory, also arrange for
-# 'distclean' to remove the $(BUILDDIR)/scripts directory created by configure.
+# 'distclean' to remove the $(BUILDDIR)/scripts and $(BUILDDIR)/include
+# directories created by configure.  Also ensure that 'install' installs the 
+# generated $(BUILDDIR)/include/celconfig.h.
 if [ Property build : standalone ]
 {
-  CleanDir distclean : scripts ;
+  CleanDir distclean : include scripts ;
+  
+  local SUBDIR = [ ConcatDirs $(BUILDTOP) include ] ; # Temporary for Recurse.
+  Recurse InstallHeader : .h ;
 }

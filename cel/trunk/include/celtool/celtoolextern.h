@@ -20,10 +20,40 @@
 #ifndef __CELTOOL_CELTOOLEXTERN_H__
 #define __CELTOOL_CELTOOLEXTERN_H__
 
-#ifdef CEL_CELTOOL_LIB
-  #define CEL_CELTOOL_EXPORT CS_EXPORT_SYM
+#include "cssysdef.h"
+/* Currently, the only thing provided by celconfig.h is CEL_BUILD_SHARED_LIBS.
+   On MSVC, this is set in the project options.
+   Also, this file is the only user of celconfig.h. So go with the cheap
+   solution and conditionally include celconfig.h if not on MSVC.
+   If either more files start to use celconfig.h or more settings are stored
+   in it, a better solution, such as the one used by CS to wrap csconfig.h,
+   should be sought.
+ */
+#if !defined(CS_COMPILER_MSVC)
+#include "celconfig.h"
+#endif
+
+#if defined(CS_PLATFORM_WIN32)
+  #if defined(CEL_BUILD_SHARED_LIBS)
+    #define CEL_EXPORT_SYM CS_EXPORT_SYM_DLL
+    #define CEL_IMPORT_SYM CS_IMPORT_SYM_DLL
+  #else
+    #define CEL_EXPORT_SYM
+    #define CEL_IMPORT_SYM
+  #endif // CEL_BUILD_SHARED_LIBS
 #else
-  #define CEL_CELTOOL_EXPORT CS_IMPORT_SYM
+  #if defined(CEL_BUILD_SHARED_LIBS)
+    #define CEL_EXPORT_SYM CS_VISIBILITY_DEFAULT
+  #else
+    #define CEL_EXPORT_SYM
+  #endif
+  #define CEL_IMPORT_SYM
+#endif
+
+#ifdef CEL_CELTOOL_LIB
+  #define CEL_CELTOOL_EXPORT CEL_EXPORT_SYM
+#else
+  #define CEL_CELTOOL_EXPORT CEL_IMPORT_SYM
 #endif
 
 #endif // __CELTOOL_CELTOOLEXTERN_H__
