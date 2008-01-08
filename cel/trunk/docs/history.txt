@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- caedes fixed some pc2d.billboard properties being declared as
 	  write only in the docs, read only in the code, while actually
 	  being both read and write.
+	- caedes changed blpython jamfile to not use an intermediate
+	  cel_python library, as this causes problems with shared libraries
+	  build, and is not necessary any more.
 4-Jan-2008
 	- caedes added some SWIGIMPORTED guards to swig files, and some
 	  asserts to check input pointers to property class handling
