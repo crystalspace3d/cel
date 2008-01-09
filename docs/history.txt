@@ -12,6 +12,7 @@ The history order is reversed so that new features are at the top.
           i.e. not standing still. Feel free to change if anyone disagrees
           with these limitations, but they seem sane to me and are a good
           example of the max_vel feature.
+	- Eric Sunshine updated *.m4 and *.jam files from CS master copies.
 8-Jan-2008
 	- caedes fixed some pc2d.billboard properties being declared as
 	  write only in the docs, read only in the code, while actually
