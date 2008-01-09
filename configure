@@ -1347,6 +1347,8 @@ Optional Features:
                           not available, enable this option on Unix only if
                           you are certain you want a GPL-licensed library
                           infecting your project
+  --enable-shared         enable creation of shared libraries (default YES on
+                          Win32 and Linux, NO otherwise)
   --enable-debug          build in debugging mode (default NO)
 
 Optional Packages:
@@ -2917,6 +2919,26 @@ fi
 "
 fi
 
+	if test "$ac_compiler_gnu" = yes; then
+  cs_compiler_name_c=GCC
+else
+  cs_compiler_name_c=`echo "$CC" | $as_tr_cpp`
+fi
+
+    cs_build_prop_val="$cs_compiler_name_c"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C.TYPE ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+    cs_build_prop_val="$cs_compiler_name_c"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}COMPILER.TYPE = \"$cs_build_prop_val\" ;
+"
+fi
+
 
 	# Check if compiler recognizes -pipe directive.
 	{ echo "$as_me:$LINENO: checking if $CC accepts -pipe" >&5
@@ -3460,11 +3482,30 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 "
 fi
 
-
 	cs_build_prop_val="$CPPFLAGS $CXXFLAGS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++FLAGS += \"$cs_build_prop_val\" ;
+"
+fi
+
+	if test "$ac_compiler_gnu" = yes; then
+  cs_compiler_name_cxx=GCC
+else
+  cs_compiler_name_cxx=`echo "$CXX" | $as_tr_cpp`
+fi
+
+    cs_build_prop_val="$cs_compiler_name_cxx"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++.TYPE ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+    cs_build_prop_val="$cs_compiler_name_cxx"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}COMPILER.TYPE = \"$cs_build_prop_val\" ;
 "
 fi
 
@@ -16495,6 +16536,40 @@ fi
 fi
 
 
+
+#------------------------------------------------------------------------------
+# Determine whether link libraries should be static or shared.
+#------------------------------------------------------------------------------
+{ echo "$as_me:$LINENO: checking whether to build shared libraries" >&5
+echo $ECHO_N "checking whether to build shared libraries... $ECHO_C" >&6; }
+case $host_os in
+    mingw*|cygwin*|linux*) enable_shared_default=yes ;;
+    *) enable_shared_default=no ;;
+esac
+# Check whether --enable-shared was given.
+if test "${enable_shared+set}" = set; then
+  enableval=$enable_shared;
+else
+  enable_shared=$enable_shared_default
+fi
+
+{ echo "$as_me:$LINENO: result: $enable_shared" >&5
+echo "${ECHO_T}$enable_shared" >&6; }
+cs_build_prop_val="$enable_shared"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}BUILD_SHARED_LIBS ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+if test $enable_shared = yes; then
+  cs_header_text="${cs_header_text}#define CEL_BUILD_SHARED_LIBS
+"
+fi
+
+
+
+
 #----------------------------------------------------------------------------
 # Package configuration switches
 #----------------------------------------------------------------------------
@@ -16596,6 +16671,8 @@ cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_NAME ?= \"$PACKAGE_NAME\" ;
 # Output generated files.  Also create a Jamfile when compiling outside
 # source directory.
 #----------------------------------------------------------------------------
+ac_config_commands="$ac_config_commands include/celconfig.h"
+
 ac_config_commands="$ac_config_commands Jamconfig"
 
 ac_config_files="$ac_config_files Jamfile scripts/autopackage/celstart_static.apspec"
@@ -17168,6 +17245,66 @@ cat >>$CONFIG_STATUS <<_ACEOF
 #
 # INIT-COMMANDS
 #
+cs_header_text='$cs_header_text'
+	cs_dir=`$as_dirname -- include/celconfig.h ||
+$as_expr Xinclude/celconfig.h : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 Xinclude/celconfig.h : 'X\(//\)[^/]' \| \
+	 Xinclude/celconfig.h : 'X\(//\)$' \| \
+	 Xinclude/celconfig.h : 'X\(/\)' \| . 2>/dev/null ||
+echo Xinclude/celconfig.h |
+    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\/\)[^/].*/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\/\)$/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\).*/{
+	    s//\1/
+	    q
+	  }
+	  s/.*/./; q'`
+	{ if test -n "\$as_mkdir_p"; then
+    \$as_mkdir_p \$cs_dir
+  else
+    as_dir=\$cs_dir
+    as_dirs=
+    while test ! -d "\$as_dir"; do
+      as_dirs="\$as_dir \$as_dirs"
+      as_dir=\`\$as_dirname -- "\$as_dir" ||
+\$as_expr X"\$as_dir" : 'X\\(.*^/\\)//*^/^/*/*\$' \\| \\
+	 X"\$as_dir" : 'X\\(//\\)^/' \\| \\
+	 X"\$as_dir" : 'X\\(//\\)\$' \\| \\
+	 X"\$as_dir" : 'X\\(/\\)' \\| . 2>/dev/null ||
+echo X"\$as_dir" |
+    sed '/^X\\(.*^/\\)\\/\\/*^/^/*\\/*\$/{
+	    s//\\1/
+	    q
+	  }
+	  /^X\\(\\/\\/\\)^/.*/{
+	    s//\\1/
+	    q
+	  }
+	  /^X\\(\\/\\/\\)\$/{
+	    s//\\1/
+	    q
+	  }
+	  /^X\\(\\/\\).*/{
+	    s//\\1/
+	    q
+	  }
+	  s/.*/./; q'\`
+    done
+    test ! -n "\$as_dirs" || mkdir \$as_dirs
+  fi || { { echo "\$as_me:\$LINENO: error: cannot create directory \$cs_dir" >&5
+echo "\$as_me: error: cannot create directory \$cs_dir" >&2;}
+   { (exit 1); exit 1; }; }; }
+
 cs_jamconfig_text='$cs_jamconfig_text'
 	cs_dir=`$as_dirname -- Jamconfig ||
 $as_expr XJamconfig : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
@@ -17237,6 +17374,7 @@ cat >>$CONFIG_STATUS <<\_ACEOF
 for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
+    "include/celconfig.h") CONFIG_COMMANDS="$CONFIG_COMMANDS include/celconfig.h" ;;
     "Jamconfig") CONFIG_COMMANDS="$CONFIG_COMMANDS Jamconfig" ;;
     "Jamfile") CONFIG_FILES="$CONFIG_FILES Jamfile" ;;
     "scripts/autopackage/celstart_static.apspec") CONFIG_FILES="$CONFIG_FILES scripts/autopackage/celstart_static.apspec" ;;
@@ -17752,6 +17890,16 @@ echo "$as_me: executing $ac_file commands" >&6;}
 
 
   case $ac_file$ac_mode in
+    "include/celconfig.h":C) echo $ECHO_N "$cs_header_text$ECHO_C" > $tmp/tcache
+	if diff include/celconfig.h $tmp/tcache >/dev/null 2>&1; then
+  { echo "$as_me:$LINENO: include/celconfig.h is unchanged" >&5
+echo "$as_me: include/celconfig.h is unchanged" >&6;}
+else
+  rm -f include/celconfig.h
+	    cp $tmp/tcache include/celconfig.h
+fi
+
+	rm -f $tmp/tcache ;;
     "Jamconfig":C) echo $ECHO_N "$cs_jamconfig_text$ECHO_C" > $tmp/tcache
 	if diff Jamconfig $tmp/tcache >/dev/null 2>&1; then
   { echo "$as_me:$LINENO: Jamconfig is unchanged" >&5
