@@ -3,6 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+10-Jan-2008
+	- Eric Sunshine updated mk/autoconf/*.m4 files from CS master copies.
+	- Eric Sunshine upgraded configure.ac to take advantage of the new
+	  CS_VISIBILITY_FLAG_INLINES_HIDDEN() and CS_VISIBILITY_FLAG_HIDDEN()
+	  macros from mk/autoconf/visibility.m4 in place of old and outdated
+	  visibility checks which had been copy/pasted from CS/configure.ac.
 9-Jan-2008
         - Mike Gist updated cally.cal3d for the recent sprcal3d changes
           in CS. This ensures that waving will always be played 
