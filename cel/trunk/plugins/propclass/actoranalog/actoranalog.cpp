@@ -87,6 +87,7 @@ celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
   // Tick every so often so we can update the state
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
+  target_axis.Set (0.0f);
   turnspeed = 8.0f;
   movespeed = 10;
 }
