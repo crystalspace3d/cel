@@ -180,7 +180,7 @@ void celInventoryReward::Reward ()
   iCelEntity* child_ent = pl->FindEntity (child_entity);
   if (!child_ent)
   {
-    Report (type->object_reg, "Can't create entity '%s' in inventory reward!",
+    Report (type->object_reg, "Can't find entity '%s' in inventory reward!",
     	(const char*)child_entity);
     return;
   }
