@@ -27,6 +27,8 @@
 #include "csutil/util.h"
 #include "iutil/csinput.h"
 #include "behaviourlayer/behave.h"
+#include "physicallayer/pl.h"
+#include "physicallayer/messaging.h"
 #include "tools/billboard.h"
 
 struct iCelEntity;
@@ -39,12 +41,13 @@ class celXmlScript;
 /**
  * General behaviour class.
  */
-class celBehaviourXml : public scfImplementation1<
-	celBehaviourXml, iCelBehaviour>
+class celBehaviourXml : public scfImplementation2<
+	celBehaviourXml, iCelBehaviour, iMessageReceiver>
 {
 protected:
   iCelEntity* entity;
   iCelBlLayer* bl;
+  csWeakRef<iCelPlLayer> pl;
   csWeakRef<iPcProperties> props;	// Optimization.
   csWeakRef<iPcRules> rules;		// Optimization.
   csWeakRef<iPcBillboard> billboard;	// Optimization.
@@ -85,6 +88,10 @@ public:
   	iCelPropertyClass* pc,
   	celData& ret, iCelParameterBlock* params, va_list arg);
   virtual void* GetInternalObject () { return 0; }
+
+  //--- For iMessageReceiver -----------------------------------------------
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params);
 };
 
 /**

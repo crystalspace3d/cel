@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scfstr.h"
+#include "csutil/scfarray.h"
 #include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
 #include "csgeom/vector4.h"
@@ -212,6 +213,16 @@ struct celData
     value.par.partype = t;
   }
   csString GetDebugInfo ();
+};
+
+struct iCelDataArrayReadOnly : public iArrayReadOnly<celData>
+{
+  SCF_IARRAYREADONLY_INTERFACE(iCelDataArrayReadOnly);
+};
+
+struct iCelDataArray : public iArrayChangeAll<celData>
+{
+  SCF_IARRAYCHANGEALL_INTERFACE(iCelDataArrayReadOnly);
 };
 
 #endif // __CEL_PL_DATATYPE__

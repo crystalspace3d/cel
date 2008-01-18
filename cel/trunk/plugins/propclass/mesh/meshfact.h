@@ -368,6 +368,10 @@ private:
 #define MSSM_TYPE_MOVE 2
   void SendMessage (int t, iCelEntity* ent, int x, int y, int but);
 
+  csRef<iMessageDispatcher> dispatcher_down;
+  csRef<iMessageDispatcher> dispatcher_up;
+  csRef<iMessageDispatcher> dispatcher_move;
+
   csRef<celMeshSelectListener> handler;
 
   void TryGetCamera ();

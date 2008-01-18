@@ -23,7 +23,11 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "csutil/util.h"
+#include "csutil/weakref.h"
 #include "behaviourlayer/behave.h"
+#include "physicallayer/messaging.h"
+#include "physicallayer/pl.h"
+#include "propclass/meshdeform.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -33,13 +37,14 @@ struct iPcMeshDeform;
 /**
  * General behaviour class.
  */
-class celBehaviourGeneral : public scfImplementation1<
-	celBehaviourGeneral, iCelBehaviour>
+class celBehaviourGeneral : public scfImplementation2<
+	celBehaviourGeneral, iCelBehaviour, iMessageReceiver>
 {
 protected:
   iCelEntity* entity;
   iCelBlLayer* bl;
   iObjectRegistry* object_reg;
+  csWeakRef<iCelPlLayer> pl;
   char* name;
 
 public:
@@ -56,8 +61,14 @@ public:
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
   virtual bool SendMessage (const char* msg_id,
   	iCelPropertyClass* pc,
-  	celData& ret, iCelParameterBlock* msg_info, ...);
+  	celData& ret, iCelParameterBlock* msg_info, ...) { return false; }
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* msg_info, va_list arg) { return false; }
   virtual void* GetInternalObject () { return 0; }
+
+  virtual bool ReceiveMessage (csStringID /*msg_id*/, iMessageSender* /*sender*/,
+      celData& /*ret*/, iCelParameterBlock* /*params*/) { return false; }
 };
 
 /**
@@ -67,10 +78,6 @@ class celBehaviourPrinter : public celBehaviourGeneral
 {
 public:
   celBehaviourPrinter (iCelEntity* entity, iObjectRegistry* object_reg);
-
-  virtual bool SendMessageV (const char* msg_id,
-  	iCelPropertyClass* pc,
-  	celData& ret, iCelParameterBlock* params, va_list arg);
 };
 
 /**
@@ -78,12 +85,14 @@ public:
  */
 class celBehaviourBox : public celBehaviourGeneral
 {
+private:
+  csStringID msgid_meshsel_down;
+  csStringID msgid_pctimer_wakeup;
+
 public:
   celBehaviourBox (iCelEntity* entity, iObjectRegistry* object_reg);
-
-  virtual bool SendMessageV (const char* msg_id,
-  	iCelPropertyClass* pc,
-  	celData& ret, iCelParameterBlock* params, va_list arg);
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params);
 };
 
 /**
@@ -93,10 +102,6 @@ class celBehaviourRoom : public celBehaviourGeneral
 {
 public:
   celBehaviourRoom (iCelEntity* entity, iObjectRegistry* object_reg);
-
-  virtual bool SendMessageV (const char* msg_id,
-  	iCelPropertyClass* pc,
-  	celData& ret, iCelParameterBlock* params, va_list arg);
 };
 
 /**
@@ -106,10 +111,6 @@ class celBehaviourQuest : public celBehaviourGeneral
 {
 public:
   celBehaviourQuest (iCelEntity* entity, iObjectRegistry* object_reg);
-
-  virtual bool SendMessageV (const char* msg_id,
-  	iCelPropertyClass* pc,
-  	celData& ret, iCelParameterBlock* params, va_list arg);
 };
 
 /**
@@ -118,17 +119,16 @@ public:
 class celBehaviourActor : public celBehaviourGeneral
 {
 private:
-  csRef<iCelPlLayer> pl;
   int fpscam;
   float speed;
   csRef<celBehaviourRoom> bhroom;
+
 public:
   celBehaviourActor (iCelEntity* entity, iObjectRegistry* object_reg);
   virtual ~celBehaviourActor();
 
-  virtual bool SendMessageV (const char* msg_id,
-  	iCelPropertyClass* pc,
-  	celData& ret, iCelParameterBlock* params, va_list arg);
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params);
 };
 
 /**
@@ -138,11 +138,10 @@ class celBehaviourDynActor : public celBehaviourGeneral
 {
 public:
   celBehaviourDynActor (iCelEntity* entity, iObjectRegistry* object_reg);
-  virtual ~celBehaviourDynActor();
+  virtual ~celBehaviourDynActor() { }
 
-  virtual bool SendMessageV (const char* msg_id,
-  	iCelPropertyClass* pc,
-  	celData& ret, iCelParameterBlock* params, va_list arg);
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params);
 };
 
 /**
@@ -151,15 +150,14 @@ public:
 class celBehaviourWheeled : public celBehaviourGeneral
 {
 private:
-  csRef<iCelPlLayer> pl;
   csRef<iPcMeshDeform> pcmeshdeform;
+
 public:
   celBehaviourWheeled (iCelEntity* entity, iObjectRegistry* object_reg);
-  virtual ~celBehaviourWheeled();
+  virtual ~celBehaviourWheeled() { }
 
-  virtual bool SendMessageV (const char* msg_id,
-  	iCelPropertyClass* pc,
-  	celData& ret, iCelParameterBlock* params, va_list arg);
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params);
 };
 
 #endif // __CEL_BLTEST_BEHAVE__

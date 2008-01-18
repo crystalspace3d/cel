@@ -55,6 +55,7 @@ struct TimeEvent
   csTicks amount;	// Amount to fire on again (in case of repeat).
   bool repeat;
   csString name;	// Name of this timer (or "wakeup" for anonymous).
+  csRef<iMessageDispatcher> dispatcher;
 };
 
 /**
@@ -85,6 +86,8 @@ private:
   static csStringID id_repeat;
   static csStringID id_name;
   celGenericParameterBlock* params;
+
+  csRef<iMessageDispatcher> dispatcher_wakeupframe;
 
 public:
   celPcTimer (iObjectRegistry* object_reg);

@@ -22,12 +22,15 @@
 #include <Python.h>
 
 #include "csutil/scf_implementation.h"
+#include "csutil/weakref.h"
 #include "iutil/eventh.h"
 #include "iutil/comp.h"
 #include "ivaria/script.h"
 #include "csutil/csinput.h"
 #include "behaviourlayer/bl.h"
 #include "behaviourlayer/behave.h"
+#include "physicallayer/pl.h"
+#include "physicallayer/messaging.h"
 
 extern "C" {
   extern void init_cspace ();
@@ -43,11 +46,13 @@ public:
 
   static celBlPython* shared_instance;
   iObjectRegistry* object_reg;
+  csWeakRef<iCelPlLayer> pl;
   bool use_debugger;
   bool do_verbose;
   bool deprecation_warning;
   virtual const char* GetName () const { return "blpython"; }
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
+  iCelPlLayer* GetPL ();
 
   bool Store (const char* name, void* data, void* tag);
   void ShowError ();
@@ -67,14 +72,16 @@ public:
     @@@ New functions not yet implemented
   */
   bool LoadModuleNative(const char*, const char*) { return false; }
-  csPtr<iScriptValue> Call(const char*, const csRefArray<iScriptValue, CS::Memory::AllocatorMalloc>&) { return 0 ;}
+  csPtr<iScriptValue> Call(const char*, const csRefArray<iScriptValue,
+      CS::Memory::AllocatorMalloc>&) { return 0 ;}
   csPtr<iScriptValue> RValue(int) { return 0; }
   csPtr<iScriptValue> RValue(float) { return 0; }
   csPtr<iScriptValue> RValue(double) { return 0; }
   csPtr<iScriptValue> RValue(const char*) { return 0; }
   csPtr<iScriptValue> RValue(bool) { return 0; }
   csPtr<iScriptValue> RValue(iScriptObject*) { return 0; }
-  csPtr<iScriptObject> New(const char*, const csRefArray<iScriptValue, CS::Memory::AllocatorMalloc>&) { return 0; }
+  csPtr<iScriptObject> New(const char*, const csRefArray<iScriptValue,
+      CS::Memory::AllocatorMalloc>&) { return 0; }
   bool Store(const char*, iScriptValue*) { return false; }
   csPtr<iScriptValue> Retrieve(const char*) { return 0; }
 
@@ -135,8 +142,8 @@ public:
   CS_EVENTHANDLER_NIL_CONSTRAINTS
 };
 
-class celPythonBehaviour : public scfImplementation1<
-	celPythonBehaviour, iCelBehaviour>
+class celPythonBehaviour : public scfImplementation2<
+	celPythonBehaviour, iCelBehaviour, iMessageReceiver>
 {
 private:
   celBlPython* scripter;
@@ -159,6 +166,10 @@ public:
   	iCelPropertyClass* pc, celData& ret,
   	iCelParameterBlock* params, va_list arg);
   virtual void* GetInternalObject () { return (void*)py_object; }
+
+  //--- For iMessageReceiver -----------------------------------------------
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params);
 };
 
 void InitPytocel();
