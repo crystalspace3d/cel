@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+18-Jan-2008
+	- Genjix corrected name of error message in quests.
 17-Jan-2008
 	- Genjix added initialiser for variable- causes bugs on platforms
 	  where it doesn't init variables to 0. Thanks Jorrit and others!
