@@ -400,17 +400,17 @@ celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name) :
 
 const char* celQuestFactory::GetDefaultParameter (const char* name) const
 {
-  return defaults.Get(name, (const char*)0);
+  return defaults.Get (name, (const char*)0);
 }
 
 void celQuestFactory::SetDefaultParameter (const char* name,const char* value)
 {
-  defaults.PutUnique(name,value);
+  defaults.PutUnique (name,value);
 }
 
 void celQuestFactory::ClearDefaultParameters ()
 {
-  defaults.DeleteAll();
+  defaults.DeleteAll ();
 }
 
 csPtr<iQuest> celQuestFactory::CreateQuest (
@@ -422,22 +422,23 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
   celQuestParams result_params;
   if (params.GetSize() && defaults.GetSize())
   {
-     result_params=params;
-     celQuestParams::GlobalIterator def_it = defaults.GetIterator ();
-     csStringBase it_key;
-     const char* name;
-     while (def_it.HasNext ())
-     {
-        name = def_it.Next (it_key);
-        if (!params.Contains(it_key))
-          result_params.PutUnique(it_key,name);
-     }
-     p_params=&result_params;
+    result_params=params;
+    celQuestParams::GlobalIterator def_it = defaults.GetIterator ();
+    csStringBase it_key;
+    const char* name;
+    while (def_it.HasNext ())
+    {
+       name = def_it.Next (it_key);
+       if (!params.Contains(it_key))
+         result_params.PutUnique(it_key,name);
+    }
+    p_params=&result_params;
   }
   else if (defaults.GetSize())
-    p_params=&defaults;
+    p_params = &defaults;
   else
-    p_params=&params;
+    p_params = &params;
+
   // Set states
   celQuestFactoryStates::GlobalIterator sta_it = states.GetIterator ();
   while (sta_it.HasNext ())
@@ -620,7 +621,7 @@ bool celQuestFactory::Load (iDocumentNode* node)
 		"'value' missing for default quest parameter!");
 	    }
 	  }
-	  SetDefaultParameter(name,value);
+	  SetDefaultParameter (name,value);
 	}
         break;
       case XMLTOKEN_STATE:

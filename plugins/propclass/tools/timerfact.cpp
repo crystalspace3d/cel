@@ -211,14 +211,19 @@ void celPcTimer::TickEveryFrame ()
   if (wakeupframe)
   {
     ref = entity;
+
+    params->GetParameter (0).Set ((int32)vc->GetElapsedTicks ());
+    params->GetParameter (1).Set ((int32)vc->GetCurrentTicks ());
     iCelBehaviour* bh = entity->GetBehaviour ();
     if (bh)
     {
-      params->GetParameter (0).Set ((int32)vc->GetElapsedTicks ());
-      params->GetParameter (1).Set ((int32)vc->GetCurrentTicks ());
       celData ret;
       bh->SendMessage ("pctimer_wakeupframe", this, ret, params);
     }
+    if (!dispatcher_wakeupframe)
+      dispatcher_wakeupframe = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	    this, pl->FetchStringID ("cel.timer.wakeup.frame"));
+    dispatcher_wakeupframe->SendMessage (0, params);
   }
 }
 
@@ -246,6 +251,14 @@ void celPcTimer::TickOnce ()
       msg += te.name;
       bh->SendMessage ((const char*)msg, this, ret, 0);
     }
+    if (!te.dispatcher)
+    {
+      csString msg = "cel.timer.";
+      msg += te.name;
+      te.dispatcher = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	    this, pl->FetchStringID (msg));
+    }
+    te.dispatcher->SendMessage (0, 0);
   }
   if (timer_events.GetSize () > 0)
     pl->CallbackOnce ((iCelTimerListener*)this,

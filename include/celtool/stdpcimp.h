@@ -33,6 +33,7 @@
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/pl.h"
+#include "physicallayer/messaging.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -82,9 +83,10 @@ struct PropertyHolder
  * This makes it easier to write a property class.
  */
 class CEL_CELTOOL_EXPORT celPcCommon : 
-  public scfImplementation2<celPcCommon, 
+  public scfImplementation3<celPcCommon, 
 			     iCelPropertyClass, 
-			     iCelTimerListener>
+			     iCelTimerListener,
+			     iMessageSender>
 {
 private:
   csRefArray<iCelPropertyChangeCallback> callbacks;
@@ -292,6 +294,10 @@ public:
   // --- For iCelTimerListener -----------------------------------------
   virtual void TickEveryFrame () { }
   virtual void TickOnce () { }
+
+  // --- For iMessageSender --------------------------------------------
+  virtual void MessageDispatcherRemoved (
+      iMessageDispatcher* dispatcher) { }
 };
 
 #endif // __CEL_CELTOOL_STDPC__

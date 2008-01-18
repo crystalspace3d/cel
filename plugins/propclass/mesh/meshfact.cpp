@@ -1638,31 +1638,48 @@ void celPcMeshSelect::FireListenersMove (int x, int y, int button,
 void celPcMeshSelect::SendMessage (int t, iCelEntity* ent,
 	int x, int y, int but)
 {
+  iMessageDispatcher* dispatcher = 0;
   const char* msg = "pcmeshsel_invalid";
   switch (t)
   {
     case MSSM_TYPE_DOWN:
       FireListenersDown (x, y, but, ent);
       msg = "pcmeshsel_down";
+      if (!dispatcher_down)
+        dispatcher_down = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	  this, pl->FetchStringID ("cel.mesh.select.down"));
+      dispatcher = dispatcher_down;
       break;
     case MSSM_TYPE_UP:
       FireListenersUp (x, y, but, ent);
       msg = "pcmeshsel_up";
+      if (!dispatcher_up)
+        dispatcher_up = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	  this, pl->FetchStringID ("cel.mesh.select.up"));
+      dispatcher = dispatcher_up;
       break;
     case MSSM_TYPE_MOVE:
       FireListenersUp (x, y, but, ent);
       msg = "pcmeshsel_move";
+      if (!dispatcher_move)
+        dispatcher_move = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	  this, pl->FetchStringID ("cel.mesh.select.move"));
+      dispatcher = dispatcher_move;
       break;
   }
 
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (!bh) return;
   params->GetParameter (0).Set ((int32)x);
   params->GetParameter (1).Set ((int32)y);
   params->GetParameter (2).Set ((int32)but);
   params->GetParameter (3).Set (ent);
-  celData ret;
-  bh->SendMessage (msg, this, ret, params);
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+  {
+    celData ret;
+    bh->SendMessage (msg, this, ret, params);
+  }
+  if (dispatcher)
+    dispatcher->SendMessage (0, params);
 }
 
 void celPcMeshSelect::TryGetCamera ()

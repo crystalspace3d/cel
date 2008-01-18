@@ -136,13 +136,18 @@ void celPcTest::Print (const char* msg)
 {
   printf ("Print: %s\n", msg);
   fflush (stdout);
+  params->GetParameter (0).Set (msg);
   iCelBehaviour* ble = entity->GetBehaviour ();
   if (ble)
   {
     celData ret;
-    params->GetParameter (0).Set (msg);
     ble->SendMessage ("pcmisc.test_print", this, ret, params);
   }
+
+  if (!dispatcher_print)
+    dispatcher_print = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	  this, pl->FetchStringID ("cel.test.print"));
+  dispatcher_print->SendMessage (0, params);
 
   counter++;
   size_t l = strlen (msg);

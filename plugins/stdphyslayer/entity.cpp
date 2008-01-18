@@ -32,6 +32,7 @@ celEntity::celEntity (celPlLayer* pl) : scfImplementationType (this)
   plist = new celPropertyClassList (this);
   behaviour = 0;
   celEntity::pl = pl;
+  channel.SetPL (pl);
   entity_ID = 0;
 }
 

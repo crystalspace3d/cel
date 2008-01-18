@@ -107,7 +107,6 @@ private:
   bool handleKeyboard;
   bool handleMouse;
   bool handleJoystick;
-  int nameoffset;
 
   celGenericParameterBlock* mouse_params;
   celGenericParameterBlock* key_params;
@@ -202,6 +201,8 @@ protected:
   	uint32 modifiers) const;
   void SendKeyMessage (celKeyMap* p, utf32_char key,
   	csKeyModifiers key_modifiers, celKeyState keystate);
+  // 'updown' is '1' for down, '0' for up, '_' for repeat, or ' ' for nothing.
+  void SendMessage (const char* command, char updown, iCelParameterBlock* params);
 };
 
 }

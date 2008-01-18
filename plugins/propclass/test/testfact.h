@@ -67,6 +67,8 @@ private:
   int counter;
   size_t max;
 
+  csRef<iMessageDispatcher> dispatcher_print;
+
 public:
   celPcTest (iObjectRegistry* object_reg);
   virtual ~celPcTest ();

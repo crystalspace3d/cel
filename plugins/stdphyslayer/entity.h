@@ -22,10 +22,14 @@
 
 #include "csutil/csobject.h"
 #include "csutil/refarr.h"
+#include "csutil/weakref.h"
+#include "csutil/weakrefarr.h"
 #include "csutil/set.h"
 #include "csutil/leakguard.h"
 #include "physicallayer/entity.h"
+#include "physicallayer/messaging.h"
 #include "plugins/stdphyslayer/pl.h"
+#include "celtool/stdmsgchannel.h"
 
 class celPropertyClassList;
 class celPlLayer;
@@ -33,15 +37,17 @@ class celPlLayer;
 /**
  * Implementation of iCelEntity.
  */
-class celEntity : public scfImplementationExt1<celEntity,csObject,
-  iCelEntity>
+class celEntity : public scfImplementationExt2<celEntity,csObject,
+  iCelEntity, iMessageChannel>
 {
 private:
   celPropertyClassList* plist;
   csRef<iCelBehaviour> behaviour;
   uint entity_ID;
-  celPlLayer *pl;
+  celPlLayer* pl;
   csSet<csStringID> classes;
+
+  celMessageChannel channel;
 
 public:
   CS_LEAKGUARD_DECLARE (celEntity);
@@ -49,10 +55,8 @@ public:
   celEntity (celPlLayer* pl);
   virtual ~celEntity ();
 
-  uint GetEntityID ()
-  { return entity_ID; }
-  void SetEntityID (uint ID)
-  { entity_ID = ID; }
+  uint GetEntityID () { return entity_ID; }
+  void SetEntityID (uint ID) { entity_ID = ID; }
 
   virtual void SetName (const char *name);
   virtual const char* GetName () const { return csObject::GetName (); }
@@ -73,6 +77,29 @@ public:
   virtual iObject* QueryObject () { return this; }
   virtual void SetID  (uint n) { SetEntityID (n); }
   virtual uint GetID () const { return entity_ID; }
+
+  //------- For iMessageChannel ---------------------------------------------
+  virtual iMessageChannel* QueryMessageChannel ()
+  {
+    return static_cast<iMessageChannel*> (this);
+  }
+  virtual csRef<iMessageDispatcher> CreateMessageDispatcher (
+      iMessageSender* sender, csStringID msg_id)
+  {
+    return channel.CreateMessageDispatcher (sender, msg_id);
+  }
+  virtual void RemoveMessageDispatcher (iMessageDispatcher* msgdisp)
+  {
+    channel.RemoveMessageDispatcher (msgdisp);
+  }
+  virtual void Subscribe (iMessageReceiver* receiver, const char* mask)
+  {
+    channel.Subscribe (receiver, mask);
+  }
+  virtual void Unsubscribe (iMessageReceiver* receiver, const char* mask = 0)
+  {
+    channel.Unsubscribe (receiver, mask);
+  }
 };
 
 /**

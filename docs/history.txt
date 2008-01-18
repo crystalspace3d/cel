@@ -4,6 +4,29 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 18-Jan-2008
+	- Jorrit started work on the new messaging system in CEL:
+	    - Added iMessageChannel, iMessageDispatcher, iMessageReceiver, and
+	      iMessageSender interfaces.
+	    - Added celMessageChannel conveniance class in celtool. This
+	      is a quick way to set up a messaging channel.
+	    - Changed the three standard behaviour layers as follows:
+	        - blpython: new messages are ignored for now. Depends on
+		  property classes sending out old message through the
+		  behaviour SendMessage function.
+		- blxml: both new and old messages are mapped to XML events.
+		  The XML script itself can decide which one to catch since
+		  old and new message have different strings (old is
+		  something like pcmeshselect_bla and new is something like
+		  cel.mesh.select.bla).
+		- test behaviour: only new messages are supported now.
+	    - Changed the following property classes to keep sending old
+	      messages to the attached behaviour but in addition send new
+	      messages (with new ID's) to the entity messaging system.
+	        - test: now sends cel.test.print
+		- mesh select: cel.mesh.select.down/up/move
+		- timer: cel.timer.wakeup.frame, cel.timer.<generic>
+		- commandinput: cel.input.<binding>.down/up/repeat
+18-Jan-2008
 	- Genjix corrected name of error message in quests.
 17-Jan-2008
 	- Genjix added initialiser for variable- causes bugs on platforms

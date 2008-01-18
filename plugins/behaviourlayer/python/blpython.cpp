@@ -34,6 +34,7 @@
 #include "ivaria/reporter.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/pl.h"
+#include "physicallayer/propclas.h"
 
 extern "C"
 {
@@ -159,6 +160,13 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
     queue->RegisterListener(this, csevCommandLineHelp(object_reg));
 
   return true;
+}
+
+iCelPlLayer* celBlPython::GetPL ()
+{
+  if (!pl)
+    pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  return pl;
 }
 
 PyObject* csWrapTypedObject(void* objectptr, const char *typetag,
@@ -372,6 +380,19 @@ bool celPythonBehaviour::SendMessage (const char* msg_id,
   bool rc = SendMessageV (msg_id, pc, ret, params, arg);
   va_end (arg);
   return rc;
+}
+
+bool celPythonBehaviour::ReceiveMessage (csStringID msg_id,
+    iMessageSender* sender, celData& ret, iCelParameterBlock* params)
+{
+  // @@@ For now we ignore new messages unless we decide what to do with
+  // the 'dots' in them.
+  //va_list arg;
+  //csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (
+      //sender);
+  //bool rc = SendMessageV (scripter->GetPL ()->FetchString (msg_id), pc, ret, params, arg);
+  //return rc;
+  return false;
 }
 
 bool celPythonBehaviour::SendMessageV (const char* msg_id,

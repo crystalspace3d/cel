@@ -56,8 +56,10 @@ celBehaviourXml::celBehaviourXml (iCelEntity* entity,
 {
   celBehaviourXml::entity = entity;
   celBehaviourXml::object_reg = object_reg;
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
   name = 0;
   script = 0;
+  entity->QueryMessageChannel ()->Subscribe (this, "cel.");
 }
 
 iPcBillboard* celBehaviourXml::GetBillboard ()
@@ -67,7 +69,6 @@ iPcBillboard* celBehaviourXml::GetBillboard ()
     csRef<iPcBillboard> b = CEL_QUERY_PROPCLASS_ENT (entity, iPcBillboard);
     if (!b)
     {
-      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcbillboard");
       if (pc)
 	b = scfQueryInterface<iPcBillboard> (pc);
@@ -84,7 +85,6 @@ iPcRules* celBehaviourXml::GetRules ()
     csRef<iPcRules> p = CEL_QUERY_PROPCLASS_ENT (entity, iPcRules);
     if (!p)
     {
-      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcrules");
       if (pc)
 	p = scfQueryInterface<iPcRules> (pc);
@@ -103,7 +103,6 @@ iPcProperties* celBehaviourXml::GetProperties ()
     	iPcProperties);
     if (!p)
     {
-      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity,
 	  "pctools.properties");
       if (pc)
@@ -127,6 +126,14 @@ bool celBehaviourXml::SendMessage (const char* msg_id,
   va_start (arg, params);
   bool rc = SendMessageV (msg_id, pc, ret, params, arg);
   va_end (arg);
+  return rc;
+}
+
+bool celBehaviourXml::ReceiveMessage (csStringID msg_id,
+    iMessageSender* /*sender*/, celData& ret, iCelParameterBlock* params)
+{
+  va_list arg;
+  bool rc = SendMessageV (pl->FetchString (msg_id), 0, ret, params, arg);
   return rc;
 }
 
