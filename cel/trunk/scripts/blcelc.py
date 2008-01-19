@@ -230,6 +230,30 @@ class celData_value_v(object):
 celData_value_v_swigregister = _blcelc.celData_value_v_swigregister
 celData_value_v_swigregister(celData_value_v)
 
+class iCelDataArrayReadOnly(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_iCelDataArrayReadOnly(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_iCelDataArrayReadOnly
+    __del__ = lambda self : None;
+iCelDataArrayReadOnly_swigregister = _blcelc.iCelDataArrayReadOnly_swigregister
+iCelDataArrayReadOnly_swigregister(iCelDataArrayReadOnly)
+
+class iCelDataArray(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_iCelDataArray(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_iCelDataArray
+    __del__ = lambda self : None;
+iCelDataArray_swigregister = _blcelc.iCelDataArray_swigregister
+iCelDataArray_swigregister(iCelDataArray)
+
 class celEntityTemplateParams(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
@@ -525,6 +549,7 @@ class iCelEntity(cspace.iBase):
     def RemoveClass(*args): return _blcelc.iCelEntity_RemoveClass(*args)
     def HasClass(*args): return _blcelc.iCelEntity_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntity_GetClasses(*args)
+    def QueryMessageChannel(*args): return _blcelc.iCelEntity_QueryMessageChannel(*args)
     Object = _swig_property(_blcelc.iCelEntity_Object_get, None, None,
                     "iCelEntity.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntity::QueryObject()")
 
@@ -4661,10 +4686,13 @@ class PropertyHolder(object):
 PropertyHolder_swigregister = _blcelc.PropertyHolder_swigregister
 PropertyHolder_swigregister(PropertyHolder)
 
-class celPcCommon(PcCommonBase):
+class celPcCommon(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_celPcCommon(*args)
+        try: self.this.append(this)
+        except: self.this = this
     __swig_destroy__ = _blcelc.delete_celPcCommon
     __del__ = lambda self : None;
     def HavePropertyClassesChanged(*args): return _blcelc.celPcCommon_HavePropertyClassesChanged(*args)
@@ -4683,8 +4711,7 @@ class celPcCommon(PcCommonBase):
     def GetPropertyFloatByID(*args): return _blcelc.celPcCommon_GetPropertyFloatByID(*args)
     def GetPropertyBoolByID(*args): return _blcelc.celPcCommon_GetPropertyBoolByID(*args)
     def GetPropertyStringByID(*args): return _blcelc.celPcCommon_GetPropertyStringByID(*args)
-    def GetPropertyVector2ByID(*args): return _blcelc.celPcCommon_GetPropertyVector2ByID(*args)
-    def GetPropertyVector3ByID(*args): return _blcelc.celPcCommon_GetPropertyVector3ByID(*args)
+    def GetPropertyVectorByID(*args): return _blcelc.celPcCommon_GetPropertyVectorByID(*args)
     def GetPropertyColorByID(*args): return _blcelc.celPcCommon_GetPropertyColorByID(*args)
     def GetPropertyPClassByID(*args): return _blcelc.celPcCommon_GetPropertyPClassByID(*args)
     def GetPropertyEntityByID(*args): return _blcelc.celPcCommon_GetPropertyEntityByID(*args)
@@ -4693,8 +4720,7 @@ class celPcCommon(PcCommonBase):
     def GetPropertyFloat(*args): return _blcelc.celPcCommon_GetPropertyFloat(*args)
     def GetPropertyBool(*args): return _blcelc.celPcCommon_GetPropertyBool(*args)
     def GetPropertyString(*args): return _blcelc.celPcCommon_GetPropertyString(*args)
-    def GetPropertyVector2(*args): return _blcelc.celPcCommon_GetPropertyVector2(*args)
-    def GetPropertyVector3(*args): return _blcelc.celPcCommon_GetPropertyVector3(*args)
+    def GetPropertyVector(*args): return _blcelc.celPcCommon_GetPropertyVector(*args)
     def GetPropertyColor(*args): return _blcelc.celPcCommon_GetPropertyColor(*args)
     def GetPropertyPClass(*args): return _blcelc.celPcCommon_GetPropertyPClass(*args)
     def GetPropertyEntity(*args): return _blcelc.celPcCommon_GetPropertyEntity(*args)
@@ -4713,6 +4739,7 @@ class celPcCommon(PcCommonBase):
     def SetPersistentData(*args): return _blcelc.celPcCommon_SetPersistentData(*args)
     def TickEveryFrame(*args): return _blcelc.celPcCommon_TickEveryFrame(*args)
     def TickOnce(*args): return _blcelc.celPcCommon_TickOnce(*args)
+    def MessageDispatcherRemoved(*args): return _blcelc.celPcCommon_MessageDispatcherRemoved(*args)
 celPcCommon_swigregister = _blcelc.celPcCommon_swigregister
 celPcCommon_swigregister(celPcCommon)
 
@@ -4850,8 +4877,7 @@ class pyPcCommon(swigPyPcCommon):
     def GetPropertyBoolByID(*args): return _blcelc.pyPcCommon_GetPropertyBoolByID(*args)
     def SetEntity(*args): return _blcelc.pyPcCommon_SetEntity(*args)
     def GetPropertyStringByID(*args): return _blcelc.pyPcCommon_GetPropertyStringByID(*args)
-    def GetPropertyVector2ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector2ByID(*args)
-    def GetPropertyVector3ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector3ByID(*args)
+    def GetPropertyVectorByID(*args): return _blcelc.pyPcCommon_GetPropertyVectorByID(*args)
     def GetPropertyColorByID(*args): return _blcelc.pyPcCommon_GetPropertyColorByID(*args)
     def GetPropertyEntityByID(*args): return _blcelc.pyPcCommon_GetPropertyEntityByID(*args)
     def GetPropertyPClassByID(*args): return _blcelc.pyPcCommon_GetPropertyPClassByID(*args)
