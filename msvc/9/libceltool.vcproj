@@ -322,6 +322,9 @@
 				RelativePath="..\..\libs\celtool\staticvarcleanup.cpp">
 			</File>
 			<File
+				RelativePath="..\..\libs\celtool\stdmsgchannel.cpp">
+			</File>
+			<File
 				RelativePath="..\..\libs\celtool\stdpcimp.cpp">
 			</File>
 		</Filter>
@@ -342,6 +345,9 @@
 			</File>
 			<File
 				RelativePath="..\..\libs\celtool\..\..\include\celtool\persisthelper.h">
+			</File>
+			<File
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdmsgchannel.h">
 			</File>
 			<File
 				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdparams.h">
