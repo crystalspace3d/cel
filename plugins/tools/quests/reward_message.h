@@ -29,6 +29,7 @@
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
 #include "physicallayer/entity.h"
+#include "physicallayer/messaging.h"
 #include "propclass/quest.h"
 
 struct iObjectRegistry;
@@ -74,14 +75,16 @@ public:
 /**
  * The 'message' reward.
  */
-class celMessageReward : public scfImplementation1<
-	celMessageReward, iQuestReward>
+class celMessageReward : public scfImplementation2<
+	celMessageReward, iQuestReward, iMessageSender>
 {
 private:
   celMessageRewardType* type;
   char* entity;
   char* id;
+  csStringID msg_id;
   csWeakRef<iCelEntity> ent;
+  csRef<iMessageDispatcher> dispatcher;
   celVariableParameterBlock* msg_params;
 
 public:
@@ -93,6 +96,10 @@ public:
   virtual ~celMessageReward ();
 
   virtual void Reward ();
+
+  // --- For iMessageSender --------------------------------------------
+  virtual void MessageDispatcherRemoved (
+      iMessageDispatcher* dispatcher) { }
 };
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_MESSAGE__

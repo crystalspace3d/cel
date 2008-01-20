@@ -646,6 +646,8 @@ struct iQuestManager : public virtual iBase
    *   See iSequenceFinishQuestTriggerFactory.
    * - cel.questtrigger.trigger: triggers when a pctrigger fires.
    *   See iTriggerQuestTriggerFactory.
+   * - cel.questtrigger.message: triggers when a message is received.
+   *   See iMessageQuestTriggerFactory.
    * - cel.questtrigger.inventory: triggers when an object enters inventory.
    *   See iInventoryQuestTriggerFactory.
    * - cel.questtrigger.meshselect: triggers when a mesh is selected.
@@ -1139,6 +1141,40 @@ struct iTriggerQuestTriggerFactory : public virtual iBase
    * instead of 'enters'.
    */
   virtual void EnableLeave () = 0;
+};
+
+/**
+ * This interface is implemented by the trigger that fires
+ * when a message is sent. You can query this interface
+ * from the trigger factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ *
+ * The predefined name of this trigger type is 'cel.questtrigger.message'.
+ *
+ * In XML, factories recognize the following attributes on the 'fireon' node:
+ * - <em>entity</em>: the name of the entity from which we want to listen
+ *   to messages.
+ * - <em>mask</em>: the message mask to listen too.
+ */
+struct iMessageQuestTriggerFactory : public virtual iBase
+{
+  SCF_INTERFACE (iMessageQuestTriggerFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the entity from which we want to listen to messages.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the message mask that we want to receive messages
+   * for.
+   * \param mask is the message mask or a parameter (starts
+   * with '$').
+   */
+  virtual void SetMaskParameter (const char* mask) = 0;
 };
 
 /**
