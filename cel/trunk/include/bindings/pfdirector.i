@@ -2,7 +2,7 @@
  This file has base classes for scripting pcclasses.
 */
 
-%template(PcCommonBase) scfImplementation2<celPcCommon, iCelPropertyClass, iCelTimerListener>;
+%template(PcCommonBase) scfImplementation3<celPcCommon, iCelPropertyClass, iCelTimerListener, iMessageSender>;
 %immutable Property::desc;
 %include "celtool/stdpcimp.h"
 

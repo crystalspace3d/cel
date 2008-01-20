@@ -15,6 +15,7 @@ CS_PROPERTY_HELPERS
 #include "physicallayer/entity.h"
 #include "physicallayer/entitytpl.h"
 #include "physicallayer/persist.h"
+#include "physicallayer/messaging.h"
 #include "behaviourlayer/bl.h"
 #include "behaviourlayer/behave.h"
 #include "propclass/region.h"
@@ -224,7 +225,10 @@ INTERFACE_POST(pcType)
 //-----------------------------------------------------------------------------
 
 %ignore celData::GetDebugInfo;
+ARRAY_CHANGE_ALL_TEMPLATE(celData)
 %include "physicallayer/datatype.h"
+
+%include "physicallayer/messaging.h"
 
 //-----------------------------------------------------------------------------
 
