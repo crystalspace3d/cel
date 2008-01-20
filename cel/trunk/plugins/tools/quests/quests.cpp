@@ -36,6 +36,7 @@
 #include "plugins/tools/quests/trig_propertychange.h"
 #include "plugins/tools/quests/trig_sequencefinish.h"
 #include "plugins/tools/quests/trig_trigger.h"
+#include "plugins/tools/quests/trig_message.h"
 #include "plugins/tools/quests/trig_inventory.h"
 #include "plugins/tools/quests/trig_meshsel.h"
 #include "plugins/tools/quests/trig_watch.h"
@@ -991,6 +992,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 
   {
     celWatchTriggerType* type = new celWatchTriggerType (
+  	object_reg);
+    RegisterTriggerType (type);
+    type->DecRef ();
+  }
+
+  {
+    celMessageTriggerType* type = new celMessageTriggerType (
   	object_reg);
     RegisterTriggerType (type);
     type->DecRef ();

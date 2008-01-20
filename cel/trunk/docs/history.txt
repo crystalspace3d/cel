@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-Jan-2008
+	- Jorrit extended the message reward so that it now also sends
+	  messages the new way using the messaging system.
+	- Jorrit added a new message trigger so that quests can now also
+	  listen to messages using the new messaging system.
 18-Jan-2008
 	- Jorrit started work on the new messaging system in CEL:
 	    - Added iMessageChannel, iMessageDispatcher, iMessageReceiver, and
