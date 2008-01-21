@@ -146,8 +146,8 @@ void celPcTest::Print (const char* msg)
 
   if (!dispatcher_print)
     dispatcher_print = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, pl->FetchStringID ("cel.test.print"));
-  dispatcher_print->SendMessage (0, params);
+	  this, "cel.test.print");
+  dispatcher_print->SendMessage (params);
 
   counter++;
   size_t l = strlen (msg);

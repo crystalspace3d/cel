@@ -84,7 +84,7 @@ public:
     return static_cast<iMessageChannel*> (this);
   }
   virtual csRef<iMessageDispatcher> CreateMessageDispatcher (
-      iMessageSender* sender, csStringID msg_id)
+      iMessageSender* sender, const char* msg_id)
   {
     return channel.CreateMessageDispatcher (sender, msg_id);
   }

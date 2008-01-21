@@ -50,11 +50,11 @@ struct iMessageChannel : public virtual iBase
    * Create a message dispatcher. If you are a message sender
    * (iMessageSender) then you can use this method to get handles
    * for sending messages for a specific message ID. This ID should
-   * represent a fully qualified message ID (and not a message ID mask).
+   * be a fully qualified message ID (and not a message ID mask).
    * For example 'cel.object.mesh.select.down'.
    */
   virtual csRef<iMessageDispatcher> CreateMessageDispatcher (
-      iMessageSender* sender, csStringID msg_id) = 0;
+      iMessageSender* sender, const char* msg_id) = 0;
 
   /**
    * Remove a message dispatcher. Use this if you are no longer
@@ -128,15 +128,16 @@ struct iMessageDispatcher : public virtual iBase
 
   /**
    * Send a message for a specific message id.
+   * \param params contains the parameters for this message.
    * \param ret if this is not 0 then it can be used to collect information
    * from the receivers. If 0 then information from the receivers is simply
    * ignored.
-   * \param params contains the parameters for this message.
    * \return false if this message was not handled or recognized by any
    * message receiver. If it was handled by at least one receiver then
    * this will return true.
    */
-  virtual bool SendMessage (iCelDataArray* ret, iCelParameterBlock* params) = 0;
+  virtual bool SendMessage (iCelParameterBlock* params,
+      iCelDataArray* ret = 0) = 0;
 };
 
 

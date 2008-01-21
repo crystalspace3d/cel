@@ -1646,24 +1646,24 @@ void celPcMeshSelect::SendMessage (int t, iCelEntity* ent,
       FireListenersDown (x, y, but, ent);
       msg = "pcmeshsel_down";
       if (!dispatcher_down)
-        dispatcher_down = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, pl->FetchStringID ("cel.mesh.select.down"));
+        dispatcher_down = entity->QueryMessageChannel ()
+	  ->CreateMessageDispatcher (this, "cel.mesh.select.down");
       dispatcher = dispatcher_down;
       break;
     case MSSM_TYPE_UP:
       FireListenersUp (x, y, but, ent);
       msg = "pcmeshsel_up";
       if (!dispatcher_up)
-        dispatcher_up = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, pl->FetchStringID ("cel.mesh.select.up"));
+        dispatcher_up = entity->QueryMessageChannel ()
+	  ->CreateMessageDispatcher (this, "cel.mesh.select.up");
       dispatcher = dispatcher_up;
       break;
     case MSSM_TYPE_MOVE:
       FireListenersUp (x, y, but, ent);
       msg = "pcmeshsel_move";
       if (!dispatcher_move)
-        dispatcher_move = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, pl->FetchStringID ("cel.mesh.select.move"));
+        dispatcher_move = entity->QueryMessageChannel ()
+	  ->CreateMessageDispatcher (this, "cel.mesh.select.move");
       dispatcher = dispatcher_move;
       break;
   }
@@ -1679,7 +1679,7 @@ void celPcMeshSelect::SendMessage (int t, iCelEntity* ent,
     bh->SendMessage (msg, this, ret, params);
   }
   if (dispatcher)
-    dispatcher->SendMessage (0, params);
+    dispatcher->SendMessage (params);
 }
 
 void celPcMeshSelect::TryGetCamera ()
