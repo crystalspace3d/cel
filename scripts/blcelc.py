@@ -116,6 +116,55 @@ celInitializer__RequestPlugins = _blcelc.celInitializer__RequestPlugins
 celInitializer_SetupVFS = _blcelc.celInitializer_SetupVFS
 celInitializer_SetupConfigManager = _blcelc.celInitializer_SetupConfigManager
 
+class celDataArrayReadOnly(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def GetSize(*args): return _blcelc.celDataArrayReadOnly_GetSize(*args)
+    def Get(*args): return _blcelc.celDataArrayReadOnly_Get(*args)
+    def Top(*args): return _blcelc.celDataArrayReadOnly_Top(*args)
+    def Find(*args): return _blcelc.celDataArrayReadOnly_Find(*args)
+    def GetIndex(*args): return _blcelc.celDataArrayReadOnly_GetIndex(*args)
+    def IsEmpty(*args): return _blcelc.celDataArrayReadOnly_IsEmpty(*args)
+    def GetAll(*args): return _blcelc.celDataArrayReadOnly_GetAll(*args)
+    __swig_destroy__ = _blcelc.delete_celDataArrayReadOnly
+    __del__ = lambda self : None;
+celDataArrayReadOnly_swigregister = _blcelc.celDataArrayReadOnly_swigregister
+celDataArrayReadOnly_swigregister(celDataArrayReadOnly)
+
+class celDataArrayChangeElements(celDataArrayReadOnly):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def Get(*args): return _blcelc.celDataArrayChangeElements_Get(*args)
+    def Top(*args): return _blcelc.celDataArrayChangeElements_Top(*args)
+    __swig_destroy__ = _blcelc.delete_celDataArrayChangeElements
+    __del__ = lambda self : None;
+celDataArrayChangeElements_swigregister = _blcelc.celDataArrayChangeElements_swigregister
+celDataArrayChangeElements_swigregister(celDataArrayChangeElements)
+
+class celDataArrayChangeAll(celDataArrayChangeElements):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetSize(*args): return _blcelc.celDataArrayChangeAll_SetSize(*args)
+    def GetExtend(*args): return _blcelc.celDataArrayChangeAll_GetExtend(*args)
+    def Put(*args): return _blcelc.celDataArrayChangeAll_Put(*args)
+    def Push(*args): return _blcelc.celDataArrayChangeAll_Push(*args)
+    def PushSmart(*args): return _blcelc.celDataArrayChangeAll_PushSmart(*args)
+    def Pop(*args): return _blcelc.celDataArrayChangeAll_Pop(*args)
+    def Insert(*args): return _blcelc.celDataArrayChangeAll_Insert(*args)
+    def DeleteAll(*args): return _blcelc.celDataArrayChangeAll_DeleteAll(*args)
+    def Truncate(*args): return _blcelc.celDataArrayChangeAll_Truncate(*args)
+    def Empty(*args): return _blcelc.celDataArrayChangeAll_Empty(*args)
+    def DeleteIndex(*args): return _blcelc.celDataArrayChangeAll_DeleteIndex(*args)
+    def DeleteIndexFast(*args): return _blcelc.celDataArrayChangeAll_DeleteIndexFast(*args)
+    def Delete(*args): return _blcelc.celDataArrayChangeAll_Delete(*args)
+    __swig_destroy__ = _blcelc.delete_celDataArrayChangeAll
+    __del__ = lambda self : None;
+celDataArrayChangeAll_swigregister = _blcelc.celDataArrayChangeAll_swigregister
+celDataArrayChangeAll_swigregister(celDataArrayChangeAll)
+
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
 CEL_DATA_BYTE = _blcelc.CEL_DATA_BYTE
@@ -230,29 +279,66 @@ class celData_value_v(object):
 celData_value_v_swigregister = _blcelc.celData_value_v_swigregister
 celData_value_v_swigregister(celData_value_v)
 
-class iCelDataArrayReadOnly(object):
+class iCelDataArrayReadOnly(celDataArrayReadOnly):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_iCelDataArrayReadOnly(*args)
-        try: self.this.append(this)
-        except: self.this = this
     __swig_destroy__ = _blcelc.delete_iCelDataArrayReadOnly
     __del__ = lambda self : None;
 iCelDataArrayReadOnly_swigregister = _blcelc.iCelDataArrayReadOnly_swigregister
 iCelDataArrayReadOnly_swigregister(iCelDataArrayReadOnly)
 
-class iCelDataArray(object):
+class iCelDataArray(celDataArrayChangeAll):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_iCelDataArray(*args)
-        try: self.this.append(this)
-        except: self.this = this
     __swig_destroy__ = _blcelc.delete_iCelDataArray
     __del__ = lambda self : None;
 iCelDataArray_swigregister = _blcelc.iCelDataArray_swigregister
 iCelDataArray_swigregister(iCelDataArray)
+
+class iMessageChannel(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def CreateMessageDispatcher(*args): return _blcelc.iMessageChannel_CreateMessageDispatcher(*args)
+    def RemoveMessageDispatcher(*args): return _blcelc.iMessageChannel_RemoveMessageDispatcher(*args)
+    def Subscribe(*args): return _blcelc.iMessageChannel_Subscribe(*args)
+    def Unsubscribe(*args): return _blcelc.iMessageChannel_Unsubscribe(*args)
+    __swig_destroy__ = _blcelc.delete_iMessageChannel
+    __del__ = lambda self : None;
+iMessageChannel_swigregister = _blcelc.iMessageChannel_swigregister
+iMessageChannel_swigregister(iMessageChannel)
+
+class iMessageReceiver(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def ReceiveMessage(*args): return _blcelc.iMessageReceiver_ReceiveMessage(*args)
+    __swig_destroy__ = _blcelc.delete_iMessageReceiver
+    __del__ = lambda self : None;
+iMessageReceiver_swigregister = _blcelc.iMessageReceiver_swigregister
+iMessageReceiver_swigregister(iMessageReceiver)
+
+class iMessageSender(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def MessageDispatcherRemoved(*args): return _blcelc.iMessageSender_MessageDispatcherRemoved(*args)
+    __swig_destroy__ = _blcelc.delete_iMessageSender
+    __del__ = lambda self : None;
+iMessageSender_swigregister = _blcelc.iMessageSender_swigregister
+iMessageSender_swigregister(iMessageSender)
+
+class iMessageDispatcher(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SendMessage(*args): return _blcelc.iMessageDispatcher_SendMessage(*args)
+    __swig_destroy__ = _blcelc.delete_iMessageDispatcher
+    __del__ = lambda self : None;
+iMessageDispatcher_swigregister = _blcelc.iMessageDispatcher_swigregister
+iMessageDispatcher_swigregister(iMessageDispatcher)
 
 class celEntityTemplateParams(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -4387,6 +4473,17 @@ class iTriggerQuestTriggerFactory(cspace.iBase):
 iTriggerQuestTriggerFactory_swigregister = _blcelc.iTriggerQuestTriggerFactory_swigregister
 iTriggerQuestTriggerFactory_swigregister(iTriggerQuestTriggerFactory)
 
+class iMessageQuestTriggerFactory(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetEntityParameter(*args): return _blcelc.iMessageQuestTriggerFactory_SetEntityParameter(*args)
+    def SetMaskParameter(*args): return _blcelc.iMessageQuestTriggerFactory_SetMaskParameter(*args)
+    __swig_destroy__ = _blcelc.delete_iMessageQuestTriggerFactory
+    __del__ = lambda self : None;
+iMessageQuestTriggerFactory_swigregister = _blcelc.iMessageQuestTriggerFactory_swigregister
+iMessageQuestTriggerFactory_swigregister(iMessageQuestTriggerFactory)
+
 class iWatchQuestTriggerFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
@@ -4639,7 +4736,7 @@ iCelConsole_swigregister = _blcelc.iCelConsole_swigregister
 iCelConsole_swigregister(iCelConsole)
 
 csQueryRegistry_iCelConsole = _blcelc.csQueryRegistry_iCelConsole
-class PcCommonBase(iCelPropertyClass,iCelTimerListener):
+class PcCommonBase(iCelPropertyClass,iCelTimerListener,iMessageSender):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
@@ -4686,13 +4783,10 @@ class PropertyHolder(object):
 PropertyHolder_swigregister = _blcelc.PropertyHolder_swigregister
 PropertyHolder_swigregister(PropertyHolder)
 
-class celPcCommon(object):
+class celPcCommon(PcCommonBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_celPcCommon(*args)
-        try: self.this.append(this)
-        except: self.this = this
     __swig_destroy__ = _blcelc.delete_celPcCommon
     __del__ = lambda self : None;
     def HavePropertyClassesChanged(*args): return _blcelc.celPcCommon_HavePropertyClassesChanged(*args)
@@ -4711,7 +4805,8 @@ class celPcCommon(object):
     def GetPropertyFloatByID(*args): return _blcelc.celPcCommon_GetPropertyFloatByID(*args)
     def GetPropertyBoolByID(*args): return _blcelc.celPcCommon_GetPropertyBoolByID(*args)
     def GetPropertyStringByID(*args): return _blcelc.celPcCommon_GetPropertyStringByID(*args)
-    def GetPropertyVectorByID(*args): return _blcelc.celPcCommon_GetPropertyVectorByID(*args)
+    def GetPropertyVector2ByID(*args): return _blcelc.celPcCommon_GetPropertyVector2ByID(*args)
+    def GetPropertyVector3ByID(*args): return _blcelc.celPcCommon_GetPropertyVector3ByID(*args)
     def GetPropertyColorByID(*args): return _blcelc.celPcCommon_GetPropertyColorByID(*args)
     def GetPropertyPClassByID(*args): return _blcelc.celPcCommon_GetPropertyPClassByID(*args)
     def GetPropertyEntityByID(*args): return _blcelc.celPcCommon_GetPropertyEntityByID(*args)
@@ -4720,7 +4815,8 @@ class celPcCommon(object):
     def GetPropertyFloat(*args): return _blcelc.celPcCommon_GetPropertyFloat(*args)
     def GetPropertyBool(*args): return _blcelc.celPcCommon_GetPropertyBool(*args)
     def GetPropertyString(*args): return _blcelc.celPcCommon_GetPropertyString(*args)
-    def GetPropertyVector(*args): return _blcelc.celPcCommon_GetPropertyVector(*args)
+    def GetPropertyVector2(*args): return _blcelc.celPcCommon_GetPropertyVector2(*args)
+    def GetPropertyVector3(*args): return _blcelc.celPcCommon_GetPropertyVector3(*args)
     def GetPropertyColor(*args): return _blcelc.celPcCommon_GetPropertyColor(*args)
     def GetPropertyPClass(*args): return _blcelc.celPcCommon_GetPropertyPClass(*args)
     def GetPropertyEntity(*args): return _blcelc.celPcCommon_GetPropertyEntity(*args)
@@ -4877,7 +4973,8 @@ class pyPcCommon(swigPyPcCommon):
     def GetPropertyBoolByID(*args): return _blcelc.pyPcCommon_GetPropertyBoolByID(*args)
     def SetEntity(*args): return _blcelc.pyPcCommon_SetEntity(*args)
     def GetPropertyStringByID(*args): return _blcelc.pyPcCommon_GetPropertyStringByID(*args)
-    def GetPropertyVectorByID(*args): return _blcelc.pyPcCommon_GetPropertyVectorByID(*args)
+    def GetPropertyVector2ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector2ByID(*args)
+    def GetPropertyVector3ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector3ByID(*args)
     def GetPropertyColorByID(*args): return _blcelc.pyPcCommon_GetPropertyColorByID(*args)
     def GetPropertyEntityByID(*args): return _blcelc.pyPcCommon_GetPropertyEntityByID(*args)
     def GetPropertyPClassByID(*args): return _blcelc.pyPcCommon_GetPropertyPClassByID(*args)
