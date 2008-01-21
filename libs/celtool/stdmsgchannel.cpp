@@ -142,3 +142,33 @@ void celMessageChannel::Unsubscribe (iMessageReceiver* receiver,
   }
 }
 
+bool celMessageChannel::SendMessage (const char* msgid,
+      iMessageSender* sender, iCelParameterBlock* params,
+      iCelDataArray* ret)
+{
+  csString message = msgid;
+  csStringID id = pl->FetchStringID (msgid);
+  size_t i = 0;
+  bool handled = false;
+  while (i < messageSubscriptions.GetSize ())
+  {
+    iMessageReceiver* receiver = messageSubscriptions[i].receiver;
+    if (receiver && Match (messageSubscriptions[i].mask, message))
+    {
+      celData ret1;
+      bool rc = receiver->ReceiveMessage (id, sender, ret1, params);
+      if (rc)
+      {
+	handled = true;
+	if (ret1.type != CEL_DATA_NONE && ret) ret->Push (ret1);
+      }
+      i++;
+    }
+    else
+    {
+      messageSubscriptions.DeleteIndex (i);
+    }
+  }
+  return handled;
+}
+

@@ -100,6 +100,12 @@ public:
   {
     channel.Unsubscribe (receiver, mask);
   }
+  virtual bool SendMessage (const char* msgid,
+      iMessageSender* sender, iCelParameterBlock* params,
+      iCelDataArray* ret = 0)
+  {
+    return channel.SendMessage (msgid, sender, params, ret);
+  }
 };
 
 /**

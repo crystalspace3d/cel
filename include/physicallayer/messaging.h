@@ -78,6 +78,25 @@ struct iMessageChannel : public virtual iBase
    */
   virtual void Unsubscribe (iMessageReceiver* receiver,
     const char* mask = 0) = 0;
+
+  /**
+   * Send a message for a specific message id. Use this if you only want
+   * to send a message once. You don't have to create a message dispatcher
+   * if you do this but note that this is less optimal when you have to
+   * send multiple messages.
+   * \param msgid is the message ID.
+   * \param sender is the sender from this message.
+   * \param params contains the parameters for this message.
+   * \param ret if this is not 0 then it can be used to collect information
+   * from the receivers. If 0 then information from the receivers is simply
+   * ignored.
+   * \return false if this message was not handled or recognized by any
+   * message receiver. If it was handled by at least one receiver then
+   * this will return true.
+   */
+  virtual bool SendMessage (const char* msgid,
+      iMessageSender* sender, iCelParameterBlock* params,
+      iCelDataArray* ret = 0) = 0;
 };
 
 /**

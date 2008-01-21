@@ -12,6 +12,20 @@ The history order is reversed so that new features are at the top.
 	    - Changed iMessageChannel->CreateMessageDispatcher() so that
 	      it accepts a message id of type const char* instead of
 	      csStringID. That's more conveniant for the user.
+	    - Added a new SendMessage() to iMessageChannel. This method
+	      allows direct sending of a message without having to create
+	      a dispatcher. It is less optimal than through the dispatching
+	      system but useful if you only want to send a message once.
+	    - Added a new version of iCelPlLayer->SendMessage() that works
+	      with the new message system.
+	    - Deprecated the old iCelPlLayer->SendMessage() versions that
+	      work only on behaviours.
+	    - The standard physical layer now implements iMessageSender.
+	      Added iCelPlLayer->QueryMessageSender(). This is useful in case
+	      you want to send messages but are not interested in keeping
+	      track of your own message sender pointer.
+	    - The celentity addon now also sends messages to the message
+	      channel with the 'message' tag.
 20-Jan-2008
 	- Jorrit extended the message reward so that it now also sends
 	  messages the new way using the messaging system.

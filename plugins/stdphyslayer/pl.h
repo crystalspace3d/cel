@@ -64,8 +64,8 @@ struct CallbackInfo
 /**
  * Implementation of the physical layer.
  */
-class celPlLayer : public scfImplementation2<
-	celPlLayer, iCelPlLayer, iComponent>
+class celPlLayer : public scfImplementation3<
+	celPlLayer, iCelPlLayer, iComponent, iMessageSender>
 {
 private:
   csRefArray<iCelPropertyClassFactory> pf_list;
@@ -240,6 +240,14 @@ public:
         iCelParameterBlock* params, ...);
   virtual int SendMessageV (iCelEntityList *entlist, const char* msgname, 
         iCelParameterBlock* params, va_list arg);
+  virtual int SendMessage (const char* msgid, iMessageSender* sender,
+      iCelEntityList *entlist, iCelParameterBlock* params,
+      iCelDataArray* ret = 0);
+  virtual void MessageDispatcherRemoved (iMessageDispatcher*) { }
+  virtual iMessageSender* QueryMessageSender ()
+  {
+    return static_cast<iMessageSender*> (this);
+  }
 
   // Not an embedded interface to avoid circular references!!!
   class EventHandler : public scfImplementation1<
