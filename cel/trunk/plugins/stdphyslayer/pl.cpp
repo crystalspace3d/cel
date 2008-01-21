@@ -1482,13 +1482,27 @@ int celPlLayer::SendMessageV (iCelEntityList *entlist, const char* msgname,
   while (it->HasNext())
   {
     iCelEntity *ent = it->Next();
-    iCelBehaviour *beh = ent->GetBehaviour();
+    iCelBehaviour *beh = ent->GetBehaviour ();
     if (beh)
     {
-      responses+=beh->SendMessageV(msgname, 0, ret, params, arg);
+      responses += beh->SendMessageV (msgname, 0, ret, params, arg);
     }
   }
   return responses;
 }
 
+int celPlLayer::SendMessage (const char* msgid, iMessageSender* sender,
+      iCelEntityList *entlist, iCelParameterBlock* params,
+      iCelDataArray* ret)
+{
+  csRef<iCelEntityIterator> it = entlist->GetIterator();
+  int responses = 0;
+  while (it->HasNext())
+  {
+    iCelEntity* ent = it->Next();
+    responses += ent->QueryMessageChannel ()->SendMessage (msgid, sender,
+	params, ret);
+  }
+  return responses;
+}
 

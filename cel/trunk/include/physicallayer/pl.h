@@ -25,6 +25,7 @@
 #include "csutil/strset.h"
 #include "csutil/ref.h"
 #include "csutil/csstring.h"
+#include "physicallayer/messaging.h"
 
 struct iObject;
 struct iCelEntity;
@@ -86,7 +87,7 @@ struct iCelEntityRemoveCallback : public virtual iBase
  */
 struct iCelTimerListener : public virtual iBase
 {
-  SCF_INTERFACE (iCelTimerListener, 0, 0, 1);
+  SCF_INTERFACE (iCelTimerListener, 0, 0, 2);
 
   /**
    * This function is called by the physical layer when a broadcast
@@ -106,7 +107,7 @@ struct iCelTimerListener : public virtual iBase
  */
 struct iCelPlLayer : public virtual iBase
 {
-  SCF_INTERFACE (iCelPlLayer, 0, 4, 0);
+  SCF_INTERFACE (iCelPlLayer, 0, 4, 1);
 
   /**
    * Create a new physical layer entity. The physical layer
@@ -543,16 +544,49 @@ struct iCelPlLayer : public virtual iBase
   /*
    * Send a message to all entities in an entity list. Returns the number
    * of entities that understood and handled the message.
+   * Note that this version of SendMessage only sends a message to the
+   * behaviour of the entity and not the channel. Use the new messaging
+   * system for sending a message to the channel.
+   * \deprecated Use SendMessage() for new message system instead.
    */
+  CS_DEPRECATED_METHOD_MSG("Use SendMessage() for new message system instead.")
   virtual int SendMessage (iCelEntityList *entlist, const char* msgname,
 	iCelParameterBlock* params, ...) = 0;
 
   /*
    * Send a message to all entities in an entity list. Returns the number
    * of entities that understood and handled the message.
+   * Note that this version of SendMessage only sends a message to the
+   * behaviour of the entity and not the channel. Use the new messaging
+   * system for sending a message to the channel.
+   * \deprecated Use SendMessage() for new message system instead.
    */
+  CS_DEPRECATED_METHOD_MSG("Use SendMessage() for new message system instead.")
   virtual int SendMessageV (iCelEntityList *entlist, const char* msgname,
 	iCelParameterBlock* params, va_list arg) = 0;
+
+  /*
+   * Send a message to all entities in an entity list. Returns the number
+   * of entities that understood and handled the message.
+   * Note that this version of SendMessage() sends a message to the channel
+   * of the entity only and not the behaviour (unless the behaviour also
+   * happens to subscribe to the channel).
+   * \param msgid is the message ID.
+   * \param sender is the sender from this message.
+   * \param params contains the parameters for this message.
+   * \param ret if this is not 0 then it can be used to collect information
+   * from the receivers. If 0 then information from the receivers is simply
+   * ignored.
+   */
+  virtual int SendMessage (const char* msgid, iMessageSender* sender,
+      iCelEntityList *entlist, iCelParameterBlock* params,
+      iCelDataArray* ret = 0) = 0;
+
+  /**
+   * Query a pointer to the message sender representation of this
+   * physical layer.
+   */
+  virtual iMessageSender* QueryMessageSender () = 0;
 };
 
 /**

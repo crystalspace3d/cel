@@ -104,8 +104,8 @@ public:
 /**
  * Helper class for a message channel.
  */
-class CEL_CELTOOL_EXPORT celMessageChannel : public scfImplementation1<celMessageChannel,
-  iMessageChannel>
+class CEL_CELTOOL_EXPORT celMessageChannel : public scfImplementation1<
+					     celMessageChannel, iMessageChannel>
 {
 private:
   csWeakRef<iCelPlLayer> pl;
@@ -125,6 +125,9 @@ public:
   virtual void RemoveMessageDispatcher (iMessageDispatcher* msgdisp);
   virtual void Subscribe (iMessageReceiver* receiver, const char* mask);
   virtual void Unsubscribe (iMessageReceiver* receiver, const char* mask = 0);
+  virtual bool SendMessage (const char* msgid,
+      iMessageSender* sender, iCelParameterBlock* params,
+      iCelDataArray* ret = 0);
   void RemoveMessageDispatchers ();
   void SetPL (iCelPlLayer* pl) { celMessageChannel::pl = pl; }
 };
