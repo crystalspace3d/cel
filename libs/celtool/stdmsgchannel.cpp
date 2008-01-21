@@ -30,12 +30,12 @@ static bool Match (const csString& mask, const csString& msg)
 }
 
 csRef<iMessageDispatcher> celMessageChannel::CreateMessageDispatcher (
-      iMessageSender* sender, csStringID msg_id)
+      iMessageSender* sender, const char* msg_id)
 {
   csRef<celMessageDispatcher> msgdisp;
-  csString message = pl->FetchString (msg_id);
-  msgdisp.AttachNew (new celMessageDispatcher (msg_id, (const char*)message,
-	sender));
+  csString message = msg_id;
+  csStringID id = pl->FetchStringID (msg_id);
+  msgdisp.AttachNew (new celMessageDispatcher (id, msg_id, sender));
   messageDispatchers.Push (msgdisp);
 
   // Check all subscriptions and see if this new message dispatcher should
@@ -93,7 +93,8 @@ void celMessageChannel::Subscribe (iMessageReceiver* receiver, const char* mask)
   }
 }
 
-void celMessageChannel::Unsubscribe (iMessageReceiver* receiver, const char* mask)
+void celMessageChannel::Unsubscribe (iMessageReceiver* receiver,
+    const char* mask)
 {
   csString maskStr = mask;
   size_t i = 0;

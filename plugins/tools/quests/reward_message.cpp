@@ -201,7 +201,7 @@ celMessageReward::celMessageReward (
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   id = csStrNew (qm->ResolveParameter (params, id_par));
-  msg_id = type->pl->FetchStringID (id);
+  msg_id = id;
   msg_params = new celVariableParameterBlock ();
   size_t i;
   for (i = 0 ; i < parameters.GetSize () ; i++)
@@ -288,7 +288,7 @@ void celMessageReward::Reward ()
   if (!dispatcher)
     dispatcher = ent->QueryMessageChannel ()->CreateMessageDispatcher (
 	this, msg_id);
-  dispatcher->SendMessage (0, msg_params);
+  dispatcher->SendMessage (msg_params);
 }
 
 //---------------------------------------------------------------------------

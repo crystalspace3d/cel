@@ -82,7 +82,7 @@ private:
   celMessageRewardType* type;
   char* entity;
   char* id;
-  csStringID msg_id;
+  csString msg_id;
   csWeakRef<iCelEntity> ent;
   csRef<iMessageDispatcher> dispatcher;
   celVariableParameterBlock* msg_params;

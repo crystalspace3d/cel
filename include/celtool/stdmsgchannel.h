@@ -46,13 +46,14 @@ private:
   csWeakRefArray<iMessageReceiver> receivers;
 
 public:
-  celMessageDispatcher (csStringID msg_id, const char* message, iMessageSender* sender)
+  celMessageDispatcher (csStringID msg_id, const char* message,
+      iMessageSender* sender)
     	: scfImplementationType (this),
 	  msg_id (msg_id),
 	  message (message),
 	  sender (sender) { }
   virtual ~celMessageDispatcher () { }
-  virtual bool SendMessage (iCelDataArray* ret, iCelParameterBlock* params)
+  virtual bool SendMessage (iCelParameterBlock* params, iCelDataArray* ret)
   {
     size_t i = 0;
     bool handled = false;
@@ -120,7 +121,7 @@ public:
     return static_cast<iMessageChannel*> (this);
   }
   virtual csRef<iMessageDispatcher> CreateMessageDispatcher (
-      iMessageSender* sender, csStringID msg_id);
+      iMessageSender* sender, const char* msg_id);
   virtual void RemoveMessageDispatcher (iMessageDispatcher* msgdisp);
   virtual void Subscribe (iMessageReceiver* receiver, const char* mask);
   virtual void Unsubscribe (iMessageReceiver* receiver, const char* mask = 0);

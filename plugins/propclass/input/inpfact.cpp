@@ -868,8 +868,8 @@ void celPcCommandInput::SendMessage (const char* command, char updown,
   else if (updown == '0') cmd += ".up";
   else if (updown == '_') cmd += ".repeat";
   csRef<iMessageDispatcher> dispatcher = entity->QueryMessageChannel ()
-    	->CreateMessageDispatcher (this, pl->FetchStringID (cmd));
-  dispatcher->SendMessage (0, params);
+    	->CreateMessageDispatcher (this, cmd);
+  dispatcher->SendMessage (params);
 }
 
 void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,
