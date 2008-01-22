@@ -305,6 +305,7 @@ class iMessageChannel(cspace.iBase):
     def RemoveMessageDispatcher(*args): return _blcelc.iMessageChannel_RemoveMessageDispatcher(*args)
     def Subscribe(*args): return _blcelc.iMessageChannel_Subscribe(*args)
     def Unsubscribe(*args): return _blcelc.iMessageChannel_Unsubscribe(*args)
+    def SendMessage(*args): return _blcelc.iMessageChannel_SendMessage(*args)
     __swig_destroy__ = _blcelc.delete_iMessageChannel
     __del__ = lambda self : None;
 iMessageChannel_swigregister = _blcelc.iMessageChannel_swigregister
@@ -459,6 +460,7 @@ class iCelPlLayer(cspace.iBase):
     def AddScope(*args): return _blcelc.iCelPlLayer_AddScope(*args)
     def GetClassEntitiesList(*args): return _blcelc.iCelPlLayer_GetClassEntitiesList(*args)
     def SendMessage(*args): return _blcelc.iCelPlLayer_SendMessage(*args)
+    def QueryMessageSender(*args): return _blcelc.iCelPlLayer_QueryMessageSender(*args)
     EntityTemplateCount = _swig_property(_blcelc.iCelPlLayer_EntityTemplateCount_get, None, None,
                     "iCelPlLayer.EntityTemplateCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetEntityTemplateCount()")
 
