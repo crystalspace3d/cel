@@ -221,8 +221,11 @@ void celPcTimer::TickEveryFrame ()
       bh->SendMessage ("pctimer_wakeupframe", this, ret, params);
     }
     if (!dispatcher_wakeupframe)
+    {
       dispatcher_wakeupframe = entity->QueryMessageChannel ()
         ->CreateMessageDispatcher (this, "cel.timer.wakeup.frame");
+      if (!dispatcher_wakeupframe) return;
+    }
     dispatcher_wakeupframe->SendMessage (params);
   }
 }
@@ -257,6 +260,7 @@ void celPcTimer::TickOnce ()
       msg += te.name;
       te.dispatcher = entity->QueryMessageChannel ()->CreateMessageDispatcher (
 	    this, msg);
+      if (!te.dispatcher) return;
     }
     te.dispatcher->SendMessage (0, 0);
   }

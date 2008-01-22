@@ -1072,6 +1072,13 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
       {
         celData ret;
         behaviour->SendMessage ("pclinearmovement_arrived", this, ret, 0);
+	if (!dispatcher_arrived)
+	{
+	  dispatcher_arrived = entity->QueryMessageChannel ()->
+	    CreateMessageDispatcher (this, "cel.move.arrived");
+	  if (!dispatcher_arrived) return;
+	}
+	dispatcher_arrived->SendMessage (0);
       }
     }
   }
@@ -1089,6 +1096,27 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
           behaviour->SendMessage ("pclinearmovement_stuck", this, ret, 0);
         if (move_result==CEL_MOVE_PARTIAL)
           behaviour->SendMessage ("pclinearmovement_collision", this, ret, 0);
+      }
+      if (move_result==CEL_MOVE_FAIL)
+      {
+	// @@@ Possible to add 'meshname' parameter here?
+	if (!dispatcher_impossible)
+	{
+	  dispatcher_impossible = entity->QueryMessageChannel ()->
+	    CreateMessageDispatcher (this, "cel.move.impossible");
+	  if (!dispatcher_impossible) return;
+	}
+	dispatcher_impossible->SendMessage (0);
+      }
+      if (move_result==CEL_MOVE_PARTIAL)
+      {
+	if (!dispatcher_interrupted)
+	{
+	  dispatcher_interrupted = entity->QueryMessageChannel ()->
+	    CreateMessageDispatcher (this, "cel.move.interrupted");
+	  if (!dispatcher_interrupted) return;
+	}
+	dispatcher_interrupted->SendMessage (0);
       }
     }
     //if (rc)

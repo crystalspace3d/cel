@@ -203,6 +203,24 @@ static int ComparePriorityRule (celActiveRule* const& r1,
   else return 0;
 }
 
+void celPcRules::SendModifyPar (const char* rulevar)
+{
+  params->GetParameter (0).Set (rulevar);
+  iCelBehaviour* ble = entity->GetBehaviour ();
+  if (ble)
+  {
+    celData ret;
+    ble->SendMessage ("pcrules_modifypar", this, ret, params);
+  }
+  if (!dispatcher_modifypar)
+  {
+    dispatcher_modifypar = entity->QueryMessageChannel ()->
+      CreateMessageDispatcher (this, "cel.rules.modifypar");
+    if (!dispatcher_modifypar) return;
+  }
+  dispatcher_modifypar->SendMessage (params);
+}
+
 void celPcRules::AddRule (iCelRule* rule)
 {
   celActiveRule* active_rule = new celActiveRule ();
@@ -218,13 +236,7 @@ void celPcRules::AddRule (iCelRule* rule)
   av->active_rules.InsertSorted (active_rule, ComparePriorityRule);
   active_rule->DecRef ();
 
-  iCelBehaviour* ble = entity->GetBehaviour ();
-  if (ble)
-  {
-    celData ret;
-    params->GetParameter (0).Set (rule->GetVariable ());
-    ble->SendMessage ("pcrules_modifypar", this, ret, params);
-  }
+  SendModifyPar (rule->GetVariable ());
 }
 
 void celPcRules::TickEveryFrame ()
@@ -262,13 +274,7 @@ void celPcRules::AddRule (iCelRule* rule, csTicks time)
   timed_rules.InsertSorted (timed_rule, CompareTime);
   active_rule->DecRef ();
 
-  iCelBehaviour* ble = entity->GetBehaviour ();
-  if (ble)
-  {
-    celData ret;
-    params->GetParameter (0).Set (rule->GetVariable ());
-    ble->SendMessage ("pcrules_modifypar", this, ret, params);
-  }
+  SendModifyPar (rule->GetVariable ());
 }
 
 void celPcRules::DeleteRule (celActiveRule* rule)
@@ -288,13 +294,7 @@ void celPcRules::DeleteRule (celActiveRule* rule)
       }
     }
 
-    iCelBehaviour* ble = entity->GetBehaviour ();
-    if (ble)
-    {
-      celData ret;
-      params->GetParameter (0).Set (rule->rule->GetVariable ());
-      ble->SendMessage ("pcrules_modifypar", this, ret, params);
-    }
+    SendModifyPar (rule->rule->GetVariable ());
   }
 }
 
@@ -314,13 +314,7 @@ void celPcRules::DeleteRule (iCelRule* rule)
       }
     }
 
-    iCelBehaviour* ble = entity->GetBehaviour ();
-    if (ble)
-    {
-      celData ret;
-      params->GetParameter (0).Set (rule->GetVariable ());
-      ble->SendMessage ("pcrules_modifypar", this, ret, params);
-    }
+    SendModifyPar (rule->GetVariable ());
   }
 }
 
@@ -338,32 +332,14 @@ void celPcRules::DeleteAllRules ()
 
   active_rules_for_variable.DeleteAll ();
 
-  iCelBehaviour* ble = entity->GetBehaviour ();
-  if (ble)
-  {
-    celData ret;
-    for (size_t i = 0 ; i < vars.GetSize () ; i++)
-    {
-      params->GetParameter (0).Set (vars[i]);
-      ble->SendMessage ("pcrules_modifypar", this, ret, params);
-    }
-  }
+  for (size_t i = 0 ; i < vars.GetSize () ; i++)
+    SendModifyPar (vars[i]);
 }
 
 void celPcRules::PropertyChanged (iPcProperties* pcprop, size_t idx)
 {
-  iCelBehaviour* ble = entity->GetBehaviour ();
-  if (ble)
-  {
-    celData ret;
-    const char* var = pcprop->GetPropertyName (idx);
-    celActiveRulesForVariable* av = active_rules_for_variable.Get (var, 0);
-    if (av)
-    {
-      params->GetParameter (0).Set (var);
-      ble->SendMessage ("pcrules_modifypar", this, ret, params);
-    }
-  }
+  const char* var = pcprop->GetPropertyName (idx);
+  SendModifyPar (var);
 }
 
 void celPcRules::GetProperties ()

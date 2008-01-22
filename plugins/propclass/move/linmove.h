@@ -91,6 +91,10 @@ protected:
   csWeakRef<iPcMesh> anchor;
   bool anchor_needsinit;
 
+  csRef<iMessageDispatcher> dispatcher_arrived;
+  csRef<iMessageDispatcher> dispatcher_impossible;
+  csRef<iMessageDispatcher> dispatcher_interrupted;
+
   // Linear vars
   float angDelta;
   bool stationary;

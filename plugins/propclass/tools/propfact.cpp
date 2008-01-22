@@ -534,6 +534,25 @@ size_t celPcProperties::GetPropertyIndex (const char* name)
   return properties_hash.Get (name,0) - 1;
 }
 
+void celPcProperties::HandlePropertyChange (size_t index)
+{
+  FirePropertyListeners (index);
+  params->GetParameter (0).Set ((int32)index);
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+  {
+    celData ret;
+    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
+  }
+  if (!dispatcher_set)
+  {
+    dispatcher_set = entity->QueryMessageChannel ()->
+      CreateMessageDispatcher (this, "cel.properties.set");
+    if (!dispatcher_set) return;
+  }
+  dispatcher_set->SendMessage (params);
+}
+
 void celPcProperties::SetPropertyIndex (size_t index, float value)
 {
   CS_ASSERT ((index != csArrayItemNotFound) && index < properties.GetSize ());
@@ -541,14 +560,7 @@ void celPcProperties::SetPropertyIndex (size_t index, float value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_FLOAT;
   p->v.f = value;
-  FirePropertyListeners (index);
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    params->GetParameter (0).Set ((int32)index);
-    celData ret;
-    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
-  }
+  HandlePropertyChange (index);
 }
 
 void celPcProperties::SetPropertyIndex (size_t index, long value)
@@ -558,14 +570,7 @@ void celPcProperties::SetPropertyIndex (size_t index, long value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_LONG;
   p->v.l = value;
-  FirePropertyListeners (index);
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    params->GetParameter (0).Set ((int32)index);
-    celData ret;
-    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
-  }
+  HandlePropertyChange (index);
 }
 
 void celPcProperties::SetPropertyIndex (size_t index, bool value)
@@ -575,14 +580,7 @@ void celPcProperties::SetPropertyIndex (size_t index, bool value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_BOOL;
   p->v.b = value;
-  FirePropertyListeners (index);
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    params->GetParameter (0).Set ((int32)index);
-    celData ret;
-    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
-  }
+  HandlePropertyChange (index);
 }
 
 void celPcProperties::SetPropertyIndex (size_t index, const csVector2& value)
@@ -593,14 +591,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const csVector2& value)
   p->type = CEL_DATA_VECTOR2;
   p->v.vec.x = value.x;
   p->v.vec.y = value.y;
-  FirePropertyListeners (index);
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    params->GetParameter (0).Set ((int32)index);
-    celData ret;
-    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
-  }
+  HandlePropertyChange (index);
 }
 
 void celPcProperties::SetPropertyIndex (size_t index, const csVector3& value)
@@ -612,14 +603,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const csVector3& value)
   p->v.vec.x = value.x;
   p->v.vec.y = value.y;
   p->v.vec.z = value.z;
-  FirePropertyListeners (index);
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    params->GetParameter (0).Set ((int32)index);
-    celData ret;
-    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
-  }
+  HandlePropertyChange (index);
 }
 
 void celPcProperties::SetPropertyIndex (size_t index, const csColor& value)
@@ -631,14 +615,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const csColor& value)
   p->v.col.red = value.red;
   p->v.col.green = value.green;
   p->v.col.blue = value.blue;
-  FirePropertyListeners (index);
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    params->GetParameter (0).Set ((int32)index);
-    celData ret;
-    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
-  }
+  HandlePropertyChange (index);
 }
 
 void celPcProperties::SetPropertyIndex (size_t index, const char* value)
@@ -648,14 +625,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const char* value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_STRING;
   p->v.s = csStrNew (value);
-  FirePropertyListeners (index);
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    params->GetParameter (0).Set ((int32)index);
-    celData ret;
-    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
-  }
+  HandlePropertyChange (index);
 }
 
 void celPcProperties::SetPropertyIndex (size_t index, iCelPropertyClass* value)
@@ -665,14 +635,7 @@ void celPcProperties::SetPropertyIndex (size_t index, iCelPropertyClass* value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_PCLASS;
   p->pclass = value;
-  FirePropertyListeners (index);
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    params->GetParameter (0).Set ((int32)index);
-    celData ret;
-    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
-  }
+  HandlePropertyChange (index);
 }
 
 void celPcProperties::SetPropertyIndex (size_t index, iCelEntity* value)
@@ -682,14 +645,7 @@ void celPcProperties::SetPropertyIndex (size_t index, iCelEntity* value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_ENTITY;
   p->entity = value;
-  FirePropertyListeners (index);
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    params->GetParameter (0).Set ((int32)index);
-    celData ret;
-    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
-  }
+  HandlePropertyChange (index);
 }
 
 void celPcProperties::SetPropertyIndex (size_t index, iBase* value)
@@ -699,14 +655,7 @@ void celPcProperties::SetPropertyIndex (size_t index, iBase* value)
   ClearPropertyValue (p);
   p->type = CEL_DATA_IBASE;
   p->ref = value;
-  FirePropertyListeners (index);
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    params->GetParameter (0).Set ((int32)index);
-    celData ret;
-    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
-  }
+  HandlePropertyChange (index);
 }
 
 celDataType celPcProperties::GetPropertyType (size_t index) const
@@ -834,13 +783,20 @@ void celPcProperties::ClearProperty (size_t index)
 {
   CS_ASSERT (index >= 0 && index < properties.GetSize ());
   FirePropertyListeners (index);
+  params->GetParameter (0).Set ((int32)index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
-    params->GetParameter (0).Set ((int32)index);
     celData ret;
     bh->SendMessage ("pcproperties_clearproperty", this, ret, params, index);
   }
+  if (!dispatcher_clear)
+  {
+    dispatcher_clear = entity->QueryMessageChannel ()->
+      CreateMessageDispatcher (this, "cel.properties.clear");
+    if (!dispatcher_clear) return;
+  }
+  dispatcher_clear->SendMessage (params);
   property* p = properties[index];
   ClearPropertyValue (p);
   properties.DeleteIndex (index);

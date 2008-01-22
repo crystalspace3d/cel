@@ -305,6 +305,8 @@ private:
 
   celGenericParameterBlock* params;
 
+  csRef<iMessageDispatcher> dispatcher_cd;
+
   // Last assigned force id for this object
   uint32 forceidseed;
   // Last used tag for AddForceTagged() (only set through

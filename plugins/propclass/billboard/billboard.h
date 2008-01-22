@@ -56,6 +56,12 @@ private:
   static csStringID id_x, id_y, id_button;
   celGenericParameterBlock* params;
 
+  csRef<iMessageDispatcher> dispatcher_select;
+  csRef<iMessageDispatcher> dispatcher_selectup;
+  csRef<iMessageDispatcher> dispatcher_selectdbl;
+  csRef<iMessageDispatcher> dispatcher_move;
+  csRef<iMessageDispatcher> dispatcher_moveaway;
+
   // For actions.
   enum actionids
   {

@@ -276,7 +276,8 @@ bool celRegion::Load (bool allow_entity_addon)
     	engine, cur_region);
   }
 
-  mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_addregion");
+  mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_addregion",
+      "cel.region.add", mgr->dispatcher_add);
 
   loaded = true;
   return true;
@@ -286,7 +287,8 @@ void celRegion::Unload ()
 {
   if (!loaded) return;
 
-  mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_remregion");
+  mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_remregion",
+      "cel.region.remove", mgr->dispatcher_remove);
 
   iEngine* engine = mgr->GetEngine ();
   iRegion* cur_region = engine->CreateRegion (csregionname);
@@ -845,12 +847,21 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
   }
 }
 
-void celPcZoneManager::SendZoneMessage (iCelRegion* region, const char* msgid)
+void celPcZoneManager::SendZoneMessage (iCelRegion* region,
+    const char* msgidold, const char* msgid,
+    csRef<iMessageDispatcher>& dispatcher)
 {
   if (region) params->GetParameter (0).SetIBase (region);
   celData ret;
   if (entity->GetBehaviour ())
-    entity->GetBehaviour ()->SendMessage (msgid, this, ret, params);
+    entity->GetBehaviour ()->SendMessage (msgidold, this, ret, params);
+  if (!dispatcher)
+  {
+    dispatcher = entity->QueryMessageChannel ()->
+      CreateMessageDispatcher (this, msgid);
+    if (!dispatcher) return;
+  }
+  dispatcher->SendMessage (params);
 }
 
 bool celPcZoneManager::ParseRegion (iDocumentNode* regionnode,
@@ -1191,11 +1202,13 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
         if (first)
         {
           first = false;
-          SendZoneMessage (0, "pczonemanager_startloading");
+          SendZoneMessage (0, "pczonemanager_startloading",
+	      "cel.region.load.start", dispatcher_loadstart);
         }
         if (!r->Load (allow_entity_addon))
         {
-          SendZoneMessage ((iCelRegion*)r, "pczonemanager_errorloading");
+          SendZoneMessage ((iCelRegion*)r, "pczonemanager_errorloading",
+	      "cel.region.load.error", dispatcher_loaderror);
           return false;
         }
       }
@@ -1211,7 +1224,8 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
   // started. So we have to send a message indicating that loading finished
   // too.
   if (!first)
-    SendZoneMessage (0, "pczonemanager_stoploading");
+    SendZoneMessage (0, "pczonemanager_stoploading",
+	"cel.region.load.stop", dispatcher_loadstop);
 
   return true;
 }

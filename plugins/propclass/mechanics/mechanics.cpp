@@ -1230,7 +1230,6 @@ void celPcMechanicsObject::Collision (iRigidBody *thisbody,
 {
   if (!cd_enabled) return;
   iCelBehaviour* behaviour = entity->GetBehaviour ();
-  if (!behaviour) return;
   celData ret;
   // Find the other body's iPcMechanicsObject.
   params->GetParameter (0).Set (0);
@@ -1247,7 +1246,16 @@ void celPcMechanicsObject::Collision (iRigidBody *thisbody,
   params->GetParameter (1).Set (pos);
   params->GetParameter (2).Set (normal);
   params->GetParameter (3).Set (depth);
-  behaviour->SendMessage ("pcdynamicbody_collision", this, ret, params);
+  if (behaviour)
+    behaviour->SendMessage ("pcdynamicbody_collision", this, ret, params);
+
+  if (!dispatcher_cd)
+  {
+    dispatcher_cd = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	  this, "cel.mechanics.collision");
+    if (!dispatcher_cd) return;
+  }
+  dispatcher_cd->SendMessage (params);
 }
 
 void celPcMechanicsObject::GetMechSystem ()

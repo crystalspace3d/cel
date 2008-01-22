@@ -113,17 +113,27 @@ bool celPcMover::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-void celPcMover::SendMessage (const char* msg, const char* meshname)
+void celPcMover::SendMessage (const char* msgold,
+    const char* msg, csRef<iMessageDispatcher>& dispatcher,
+    const char* meshname)
 {
+  csRef<iCelEntity> ref = (iCelEntity*)entity;
+  if (meshname)
+    params->GetParameter (0).Set (meshname);
+
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
-    csRef<iCelEntity> ref = (iCelEntity*)entity;
-    if (meshname)
-      params->GetParameter (0).Set (meshname);
     celData ret;
-    bh->SendMessage (msg, this, ret, meshname ? params : 0);
+    bh->SendMessage (msgold, this, ret, meshname ? params : 0);
   }
+  if (!dispatcher)
+  {
+    dispatcher = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	this, msg);
+    if (!dispatcher) return;
+  }
+  dispatcher->SendMessage (params);
 }
 
 static float GetAngle (const csVector3& v1, const csVector3& v2)
@@ -176,7 +186,8 @@ bool celPcMover::MoveTo (iSector* sector, const csVector3& position,
   if (sqlen < sqradius)
   {
     StopMovement ();
-    SendMessage ("pcmover_arrived");
+    SendMessage ("pcmover_arrived", "cel.move.arrived",
+	dispatcher_arrived);
     return true;
   }
 
@@ -190,7 +201,8 @@ bool celPcMover::MoveTo (iSector* sector, const csVector3& position,
 	position+csVector3 (0,1,0));
     if (rc.mesh)
     {
-      SendMessage ("pcmover_impossible", rc.mesh->QueryObject ()->GetName ());
+      SendMessage ("pcmover_impossible", "cel.move.impossible",
+	  dispatcher_impossible, rc.mesh->QueryObject ()->GetName ());
       return false;
     }
   }
@@ -220,7 +232,8 @@ void celPcMover::Interrupt ()
   if (is_moving)
   {
     StopMovement ();
-    SendMessage ("pcmover_interrupted");
+    SendMessage ("pcmover_interrupted", "cel.move.interrupted",
+	dispatcher_interrupted);
   }
 }
 
@@ -277,7 +290,8 @@ void celPcMover::TickOnce ()
   if (sqlen < sqradius)
   {
     StopMovement ();
-    SendMessage ("pcmover_arrived");
+    SendMessage ("pcmover_arrived", "cel.move.arrived",
+	dispatcher_arrived);
     return;
   }
 

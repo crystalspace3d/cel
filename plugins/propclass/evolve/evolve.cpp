@@ -214,7 +214,15 @@ void celPcEvolve::Evolve()
     params->GetParameter(1).Set(minFitness);
     params->GetParameter(2).Set(avgFitness);
     celData ret;
-    entity->GetBehaviour()->SendMessage("pcevolve_result", this, ret, params);
+    if (entity->GetBehaviour ())
+      entity->GetBehaviour()->SendMessage("pcevolve_result", this, ret, params);
+    if (!dispatcher_result)
+    {
+      dispatcher_result = entity->QueryMessageChannel ()
+	->CreateMessageDispatcher (this, "cel.evolve.result");
+      if (!dispatcher_result) return;
+    }
+    dispatcher_result->SendMessage (params);
   }
 }
 
@@ -240,7 +248,15 @@ void celPcEvolve::EvaluateFitness(size_t genome)
   population[genome]->Store(); // Store the genome in the subject propclass.
 
   celData ret;
-  entity->GetBehaviour()->SendMessage("pcevolve_fitness", this, ret, 0);
+  if (entity->GetBehaviour ())
+    entity->GetBehaviour()->SendMessage("pcevolve_fitness", this, ret, 0);
+  if (!dispatcher_fitness)
+  {
+    dispatcher_fitness = entity->QueryMessageChannel ()
+      ->CreateMessageDispatcher (this, "cel.evolve.fitness");
+    if (!dispatcher_fitness) return;
+  }
+  dispatcher_fitness->SendMessage (params);
 }
 
 void celPcEvolve::FitnessCallback(float fitness)

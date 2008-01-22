@@ -32,6 +32,7 @@ static bool Match (const csString& mask, const csString& msg)
 csRef<iMessageDispatcher> celMessageChannel::CreateMessageDispatcher (
       iMessageSender* sender, const char* msg_id)
 {
+  if (!pl) return 0;
   csRef<celMessageDispatcher> msgdisp;
   csString message = msg_id;
   csStringID id = pl->FetchStringID (msg_id);

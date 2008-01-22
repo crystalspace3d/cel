@@ -100,6 +100,9 @@ class celPcEvolve
   static PropertyHolder propinfo;
   csRef<celGenericParameterBlock> params;
 
+  csRef<iMessageDispatcher> dispatcher_result;
+  csRef<iMessageDispatcher> dispatcher_fitness;
+
   /// The property class that will be evolved.
   iCelPropertyClass *subject;
 

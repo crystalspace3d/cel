@@ -54,6 +54,9 @@ private:
   static csStringID id_meshname;
   csRef<celVariableParameterBlock> params;
 
+  csRef<iMessageDispatcher> dispatcher_collision;
+  csRef<iMessageDispatcher> dispatcher_interrupted;
+
   // For actions.
   // id_message is shared.
   static csStringID id_direction;
@@ -75,9 +78,11 @@ private:
   static PropertyHolder propinfo;
 
   void FindSiblingPropertyClasses ();
-  void SendMessage (const char* msg);
-  void SendMessage (const char* msg, iCelEntity* hitent,
-  	const csVector3& isect, const char* meshname);
+  void SendMessage (const char* msgold, const char* msg,
+      csRef<iMessageDispatcher>& dispatcher);
+  void SendMessage (const char* msgold, const char* msg,
+      csRef<iMessageDispatcher>& dispatcher, iCelEntity* hitent,
+      const csVector3& isect, const char* meshname);
 
   csRef<iVirtualClock> vc;
   csWeakRef<iPcLinearMovement> pclinmove;

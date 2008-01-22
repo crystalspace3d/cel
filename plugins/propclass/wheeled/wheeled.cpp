@@ -1386,9 +1386,8 @@ void celPcWheeled::WheelCollision (iRigidBody *thisbody,
   if (cd_enabled)
   {
     iCelBehaviour* behaviour = entity->GetBehaviour ();
-    if (!behaviour) return;
     celData ret;
-// Find the other body's entity
+    // Find the other body's entity
     params->GetParameter (0).Set (0);
     if (otherbody)
     {
@@ -1404,7 +1403,15 @@ void celPcWheeled::WheelCollision (iRigidBody *thisbody,
     params->GetParameter (2).Set (normal);
     params->GetParameter (3).Set (depth);
     params->GetParameter (4).Set ((int)index);
-    behaviour->SendMessage ("pcwheeled_collision", this, ret, params);
+    if (behaviour)
+      behaviour->SendMessage ("pcwheeled_collision", this, ret, params);
+    if (!dispatcher_collision)
+    {
+      dispatcher_collision = entity->QueryMessageChannel ()->
+        CreateMessageDispatcher (this, "cel.mechanics.collision");
+      if (!dispatcher_collision) return;
+    }
+    dispatcher_collision->SendMessage (params);
   }
 }
 

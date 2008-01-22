@@ -58,6 +58,8 @@ private:
   csWeakRef<iCelGraph> celgraph;
   csWeakRef<iPcSteer> pcsteer;
 
+  csRef<iMessageDispatcher> dispatcher_interrupted;
+
   // For actions.
   static csStringID id_sectorname;
   static csStringID id_position;
@@ -103,7 +105,8 @@ private:
   csRandomGen random;
 
   void FindSiblingPropertyClasses ();
-  void SendMessage (const char* msg, const char* meshname = 0);
+  void SendMessage (const char* msgold, const char* msg,
+      csRef<iMessageDispatcher>& dispatcher, const char* meshname = 0);
   virtual bool FollowPath ();    
 
   static csStringID id_meshname;
