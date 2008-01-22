@@ -98,6 +98,8 @@ private:
   // For SendMessage parameters.
   celOneParameterBlock* params;
 
+  csRef<iMessageDispatcher> dispatcher_modifypar;
+
   // For actions.
   static csStringID id_name;
   static csStringID id_time;
@@ -125,6 +127,8 @@ private:
 
   // Rules that time out. This array is sorted on ticks.
   csArray<celTimedRule> timed_rules;
+
+  void SendModifyPar (const char* rulevar);
 
 public:
   celPcRules (iObjectRegistry* object_reg);

@@ -181,6 +181,8 @@ private:
   static csStringID param_steerinverted;
   static csStringID param_handbrakeaffected;
 
+  csRef<iMessageDispatcher> dispatcher_collision;
+
   static PropertyHolder propinfo;
 
   float speed;          //Current speed

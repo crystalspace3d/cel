@@ -342,13 +342,15 @@ void celPcTrigger::LeaveAllEntities ()
       {
         FireTriggersEntityLeaves (entities_in_trigger[i]);
         SendTriggerMessage (entity, entities_in_trigger[i],
-        	"pctrigger_entityleaves");
+        	"pctrigger_entityleaves", "cel.trigger.entity.leave",
+		&dispatcher_leave);
       }
       if (send_to_others)
       {
         FireTriggersLeaveTrigger (entities_in_trigger[i]);
         SendTriggerMessage (entities_in_trigger[i], entity,
-        	"pctrigger_leavetrigger");
+        	"pctrigger_leavetrigger",
+		"cel.trigger.entity.leave.this", 0);
       }
     }
   entities_in_trigger.SetSize (0);
@@ -622,13 +624,15 @@ void celPcTrigger::TickOnce ()
           {
             FireTriggersEntityEnters (monitoring_entity);
             SendTriggerMessage (entity, monitoring_entity,
-            	"pctrigger_entityenters");
+            	"pctrigger_entityenters",
+		"cel.trigger.entity.enter", &dispatcher_enter);
           }
           if (send_to_others)
           {
             FireTriggersEnterTrigger (monitoring_entity);
             SendTriggerMessage (monitoring_entity, entity,
-            	"pctrigger_entertrigger");
+            	"pctrigger_entertrigger",
+		"cel.trigger.entity.enter.this", 0);
           }
         }
       }
@@ -643,13 +647,16 @@ void celPcTrigger::TickOnce ()
           {
             FireTriggersEntityLeaves (monitoring_entity);
             SendTriggerMessage (entity, monitoring_entity,
-            	"pctrigger_entityleaves");
+            	"pctrigger_entityleaves",
+		"cel.trigger.entity.leave",
+		&dispatcher_leave);
           }
           if (send_to_others)
           {
             FireTriggersLeaveTrigger (monitoring_entity);
             SendTriggerMessage (monitoring_entity, entity,
-            	"pctrigger_leavetrigger");
+            	"pctrigger_leavetrigger",
+		"cel.trigger.entity.leave.this", 0);
           }
         }
       }
@@ -722,12 +729,14 @@ void celPcTrigger::TickOnce ()
         if (send_to_self)
         {
           FireTriggersEntityEnters (ent);
-          SendTriggerMessage (entity, ent, "pctrigger_entityenters");
+          SendTriggerMessage (entity, ent, "pctrigger_entityenters",
+	      "cel.trigger.entity.enter", &dispatcher_enter);
         }
         if (send_to_others)
         {
           FireTriggersEnterTrigger (ent);
-          SendTriggerMessage (ent, entity, "pctrigger_entertrigger");
+          SendTriggerMessage (ent, entity, "pctrigger_entertrigger",
+	      "cel.trigger.entity.enter.this", 0);
         }
       }
       // Delete from the set.
@@ -744,12 +753,14 @@ void celPcTrigger::TickOnce ()
       if (send_to_self)
       {
         FireTriggersEntityLeaves (ent);
-        SendTriggerMessage (entity, ent, "pctrigger_entityleaves");
+        SendTriggerMessage (entity, ent, "pctrigger_entityleaves",
+	    "cel.trigger.entity.leave", &dispatcher_leave);
       }
       if (send_to_others)
       {
         FireTriggersLeaveTrigger (ent);
-        SendTriggerMessage (ent, entity, "pctrigger_leavetrigger");
+        SendTriggerMessage (ent, entity, "pctrigger_leavetrigger",
+	    "cel.trigger.entity.leave.this", 0);
       }
     }
   }
@@ -1018,14 +1029,30 @@ bool celPcTrigger::PerformActionIndexed (int idx,
 }
 
 void celPcTrigger::SendTriggerMessage (iCelEntity* destentity,
-	iCelEntity* ent, const char* msgid)
+	iCelEntity* ent, const char* msgidold, const char* msg,
+	csRef<iMessageDispatcher>* dispatcher)
 {
   if (ent) params->GetParameter (0).Set (ent);
   iCelBehaviour* bh = destentity->GetBehaviour ();
   if (bh)
   {
     celData ret;
-    bh->SendMessage (msgid, this, ret, params);
+    bh->SendMessage (msgidold, this, ret, params);
+  }
+  if (!dispatcher)
+  {
+    // Use direct message.
+    destentity->QueryMessageChannel ()->SendMessage (msg, this, params);
+  }
+  else
+  {
+    if (!*dispatcher)
+    {
+      *dispatcher = destentity->QueryMessageChannel ()->
+        CreateMessageDispatcher (this, msg);
+      if (!*dispatcher) return;
+    }
+    (*dispatcher)->SendMessage (params);
   }
 }
 

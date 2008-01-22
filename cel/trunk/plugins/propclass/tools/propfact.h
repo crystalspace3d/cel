@@ -87,6 +87,9 @@ private:
 
   celOneParameterBlock* params;
 
+  csRef<iMessageDispatcher> dispatcher_set;
+  csRef<iMessageDispatcher> dispatcher_clear;
+
   static csStringID id_index;
   static csStringID id_name;
   static csStringID id_value;
@@ -97,6 +100,8 @@ private:
   };
 
   static PropertyHolder propinfo;
+
+  void HandlePropertyChange (size_t idx);
 
 public:
   celPcProperties (iObjectRegistry* object_reg);

@@ -440,11 +440,20 @@ void celPcNeuralNet::SendMessage()
   for (size_t i = 0; i < size_t(numOutputs); i++)
     params->GetParameter(i) = outputs[i];
   celData ret;
-  entity->GetBehaviour()->SendMessage("pcneuralnet_outputs", this, ret, params);
+  if (entity->GetBehaviour ())
+    entity->GetBehaviour()->SendMessage("pcneuralnet_outputs",
+	this, ret, params);
+  if (!dispatcher_outputs)
+  {
+    dispatcher_outputs = entity->QueryMessageChannel ()->
+      CreateMessageDispatcher (this, "cel.neuralnet.outputs");
+    if (!dispatcher_outputs) return;
+  }
+  dispatcher_outputs->SendMessage (params);
 }
 
 celPcNeuralNet::Weights::Weights(const csArray<HiddenLayer> &tpl)
-: scfImplementationType (this)
+  : scfImplementationType (this)
 {
   data.SetSize(tpl.GetSize());
 

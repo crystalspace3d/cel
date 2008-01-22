@@ -188,21 +188,31 @@ bool celPcInventory::AddEntity (iCelEntity* child)
   iCelBehaviour* bh;
   if (entity)
   {
+    params->GetParameter (0).Set (child);
     bh = entity->GetBehaviour ();
     if (bh)
     {
-      params->GetParameter (0).Set (child);
       celData ret;
       bh->SendMessage ("pcinventory_addchild", this, ret, params);
     }
+    if (!dispatcher_add)
+      dispatcher_add = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	    this, "cel.entity.add");
+    if (dispatcher_add)
+      dispatcher_add->SendMessage (params);
   }
+
+  params->GetParameter (0).Set (entity);
   bh = child->GetBehaviour ();
   if (bh)
   {
-    params->GetParameter (0).Set (entity);
     celData ret;
     bh->SendMessage ("pcinventory_added", this, ret, params);
   }
+  // Direct message since the child is always different so we can't
+  // easily cache the dispatcher.
+  child->QueryMessageChannel ()->SendMessage ("cel.entity.add.this", this,
+      params);
 
   return true;
 }
@@ -247,21 +257,30 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
   iCelBehaviour* bh;
   if (entity)
   {
+    params->GetParameter (0).Set (child);
     bh = entity->GetBehaviour ();
     if (bh)
     {
-      params->GetParameter (0).Set (child);
       celData ret;
       bh->SendMessage ("pcinventory_addchild", this, ret, params);
     }
+    if (!dispatcher_add)
+      dispatcher_add = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	    this, "cel.entity.add");
+    if (dispatcher_add)
+      dispatcher_add->SendMessage (params);
   }
+  params->GetParameter (0).Set (entity);
   bh = child->GetBehaviour ();
   if (bh)
   {
-    params->GetParameter (0).Set (entity);
     celData ret;
     bh->SendMessage ("pcinventory_added", this, ret, params);
   }
+  // Direct message since the child is always different so we can't
+  // easily cache the dispatcher.
+  child->QueryMessageChannel ()->SendMessage ("cel.entity.add.this", this,
+      params);
 
   return true;
 }
@@ -307,21 +326,30 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   iCelBehaviour* bh;
   if (entity)
   {
+    params->GetParameter (0).Set (child);
     bh = entity->GetBehaviour ();
     if (bh)
     {
-      params->GetParameter (0).Set (child);
       celData ret;
       bh->SendMessage ("pcinventory_removechild", this, ret, params);
     }
+    if (!dispatcher_remove)
+      dispatcher_remove = entity->QueryMessageChannel ()
+	->CreateMessageDispatcher (this, "cel.entity.remove");
+    if (dispatcher_remove)
+      dispatcher_remove->SendMessage (params);
   }
+  params->GetParameter (0).Set (entity);
   bh = child->GetBehaviour ();
   if (bh)
   {
-    params->GetParameter (0).Set (entity);
     celData ret;
     bh->SendMessage ("pcinventory_removed", this, ret, params);
   }
+  // Direct message since the child is always different so we can't
+  // easily cache the dispatcher.
+  child->QueryMessageChannel ()->SendMessage ("cel.entity.remove.this",
+      this, params);
 
   return true;
 }
@@ -373,21 +401,30 @@ bool celPcInventory::RemoveEntity (iCelParameterBlock* pparams)
   iCelBehaviour* bh;
   if (entity)
   {
+    params->GetParameter (0).Set (child);
     bh = entity->GetBehaviour ();
     if (bh)
     {
-      params->GetParameter (0).Set (child);
       celData ret;
       bh->SendMessage ("pcinventory_removechild", this, ret, params);
     }
+    if (!dispatcher_remove)
+      dispatcher_remove = entity->QueryMessageChannel ()
+	->CreateMessageDispatcher (this, "cel.entity.remove");
+    if (dispatcher_remove)
+      dispatcher_remove->SendMessage (params);
   }
+  params->GetParameter (0).Set (entity);
   bh = child->GetBehaviour ();
   if (bh)
   {
-    params->GetParameter (0).Set (entity);
     celData ret;
     bh->SendMessage ("pcinventory_removed", this, ret, params);
   }
+  // Direct message since the child is always different so we can't
+  // easily cache the dispatcher.
+  child->QueryMessageChannel ()->SendMessage ("cel.entity.remove.this",
+      this, params);
 
   return true;
 }

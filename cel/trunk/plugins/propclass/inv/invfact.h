@@ -66,6 +66,9 @@ private:
   csPDelArray<constraint> constraints;
   csRefArray<iPcInventoryListener> listeners;
 
+  csRef<iMessageDispatcher> dispatcher_add;
+  csRef<iMessageDispatcher> dispatcher_remove;
+
   constraint* FindConstraint (const char* name) const;
   constraint* NewConstraint (const char* name);
   bool TestLocalConstraints (const char* charName);

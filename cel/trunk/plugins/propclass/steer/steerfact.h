@@ -54,6 +54,10 @@ private:
   csWeakRef<iPcActorMove> pcactormove;
   csWeakRef<iPcMesh> pcmesh;
 
+  csRef<iMessageDispatcher> dispatcher_arrived;
+  csRef<iMessageDispatcher> dispatcher_avoiding_collision;
+  csRef<iMessageDispatcher> dispatcher_interrupted;
+
   // For actions.
   static csStringID id_sectorname;
   static csStringID id_cur_sector;
@@ -131,7 +135,8 @@ private:
   csRandomGen random;
 
   void FindSiblingPropertyClasses ();
-  void SendMessage (const char* msg, const char* meshname = 0);
+  void SendMessage (const char* msgold, const char* msg,
+     csRef<iMessageDispatcher>& dispatcher, const char* meshname = 0);
   void StopMovement ();
   virtual bool CheckArrival();
   virtual bool CollisionAvoidance();

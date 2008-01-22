@@ -54,6 +54,10 @@ private:
   csWeakRef<iPcActorMove> pcactormove;
   csWeakRef<iPcMesh> pcmesh;
 
+  csRef<iMessageDispatcher> dispatcher_arrived;
+  csRef<iMessageDispatcher> dispatcher_impossible;
+  csRef<iMessageDispatcher> dispatcher_interrupted;
+
   // For actions.
   static csStringID id_sectorname;
   static csStringID id_position;
@@ -86,7 +90,9 @@ private:
   bool is_moving;
 
   void FindSiblingPropertyClasses ();
-  void SendMessage (const char* msg, const char* meshname = 0);
+  void SendMessage (const char* msgold,
+      const char* msg, csRef<iMessageDispatcher>& dispatcher,
+      const char* meshname = 0);
   void StopMovement ();
 
   static csStringID id_meshname;

@@ -93,6 +93,9 @@ private:
   static csStringID id_maxdistance;
   celOneParameterBlock* params;
 
+  csRef<iMessageDispatcher> dispatcher_leave;
+  csRef<iMessageDispatcher> dispatcher_enter;
+
   enum actionids
   {
     action_setuptriggersphere = 0,
@@ -176,7 +179,8 @@ public:
   virtual bool GetPropertyIndexed (int, const char*&);
 
   virtual void SendTriggerMessage (iCelEntity* destentity,
-  	iCelEntity* entity, const char* msgid);
+  	iCelEntity* entity, const char* msgidold, const char* msg,
+	csRef<iMessageDispatcher>* dispatcher);
 
   virtual void SetupTriggerSphere (iSector* sector,
   	const csVector3& center, float radius);

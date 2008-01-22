@@ -186,18 +186,26 @@ bool celPcSteer::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-void celPcSteer::SendMessage (const char* msg, const char* meshname)
+void celPcSteer::SendMessage (const char* msgold, const char* msg,
+    csRef<iMessageDispatcher>& dispatcher, const char* meshname)
 {
+  csRef<iCelEntity> ref = (iCelEntity*)entity;
+  if (meshname)
+    params->GetParameter (0).Set (meshname);
+
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
-    csRef<iCelEntity> ref = (iCelEntity*)entity;
-    if (meshname)
-      params->GetParameter (0).Set (meshname);
     celData ret;
-    bh->SendMessage (msg, this, ret, meshname ? params : 0);
-
+    bh->SendMessage (msgold, this, ret, meshname ? params : 0);
   }
+  if (!dispatcher)
+  {
+    dispatcher = entity->QueryMessageChannel ()->
+      CreateMessageDispatcher (this, msg);
+    if (!dispatcher) return;
+  }
+  dispatcher->SendMessage (meshname ? params : 0);
 }
 
 float celPcSteer::RandomBinomial (float rate)
@@ -335,7 +343,8 @@ bool celPcSteer::CheckArrival (){
     if (sqlen < arrival_radius)
     {
       StopMovement ();
-      SendMessage ("pcsteer_arrived");
+      SendMessage ("pcsteer_arrived", "cel.move.arrived",
+	  dispatcher_arrived);
       return true;
     }
   }
@@ -374,8 +383,8 @@ bool celPcSteer::CollisionAvoidance ()
     csVector3 direction = cur_position - position;
     //direction = direction*ca_weight;
     cur_direction = cur_position - position;
-    SendMessage ("pcsteer_avoiding_collision", 
-      rc.mesh->QueryObject ()->GetName ());
+    SendMessage ("pcsteer_avoiding_collision", "cel.move.avoiding_collision",
+	dispatcher_avoiding_collision, rc.mesh->QueryObject ()->GetName ());
     return true;
   }
   return false;
@@ -560,7 +569,8 @@ void celPcSteer::Interrupt ()
   if (is_moving)
   {
     StopMovement ();
-    SendMessage ("pcsteer_interrupted");
+    SendMessage ("pcsteer_interrupted", "cel.move.interrupted",
+	dispatcher_interrupted);
   }
 }
 

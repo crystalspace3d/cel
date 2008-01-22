@@ -693,6 +693,13 @@ void celPcBillboard::Select (iBillboard* billboard, int mouse_button,
     bh->SendMessage ("pcbillboard_select", this, ret, params,
   	mouse_button, mousex, mousey);
   }
+  if (!dispatcher_select)
+  {
+    dispatcher_select = entity->QueryMessageChannel ()
+      ->CreateMessageDispatcher (this, "cel.billboard.select.down");
+    if (!dispatcher_select) return;
+  }
+  dispatcher_select->SendMessage (params);
 }
 
 void celPcBillboard::MouseMove (iBillboard* billboard, int mouse_button,
@@ -708,6 +715,13 @@ void celPcBillboard::MouseMove (iBillboard* billboard, int mouse_button,
     bh->SendMessage ("pcbillboard_move", this, ret, params,
   	mouse_button, mousex, mousey);
   }
+  if (!dispatcher_move)
+  {
+    dispatcher_move = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	  this, "cel.billboard.select.move");
+    if (!dispatcher_move) return;
+  }
+  dispatcher_move->SendMessage (params);
 }
 
 void celPcBillboard::MouseMoveAway (iBillboard* billboard, int mouse_button,
@@ -723,6 +737,13 @@ void celPcBillboard::MouseMoveAway (iBillboard* billboard, int mouse_button,
     bh->SendMessage ("pcbillboard_moveaway", this, ret, params,
   	mouse_button, mousex, mousey);
   }
+  if (!dispatcher_moveaway)
+  {
+    dispatcher_moveaway = entity->QueryMessageChannel ()
+      ->CreateMessageDispatcher (this, "cel.billboard.select.moveaway");
+    if (!dispatcher_moveaway) return;
+  }
+  dispatcher_moveaway->SendMessage (params);
 }
 
 void celPcBillboard::Unselect (iBillboard* billboard, int mouse_button,
@@ -738,6 +759,13 @@ void celPcBillboard::Unselect (iBillboard* billboard, int mouse_button,
     bh->SendMessage ("pcbillboard_unselect", this, ret, params,
   	mouse_button, mousex, mousey);
   }
+  if (!dispatcher_selectup)
+  {
+    dispatcher_selectup = entity->QueryMessageChannel ()
+      ->CreateMessageDispatcher (this, "cel.billboard.select.select.up");
+    if (!dispatcher_selectup) return;
+  }
+  dispatcher_selectup->SendMessage (params);
 }
 
 void celPcBillboard::DoubleClick (iBillboard* billboard, int mouse_button,
@@ -753,6 +781,13 @@ void celPcBillboard::DoubleClick (iBillboard* billboard, int mouse_button,
     bh->SendMessage ("pcbillboard_doubleclick", this, ret, params,
   	mouse_button, mousex, mousey);
   }
+  if (!dispatcher_selectdbl)
+  {
+    dispatcher_selectdbl = entity->QueryMessageChannel ()
+      ->CreateMessageDispatcher (this, "cel.billboard.select.select.double");
+    if (!dispatcher_selectdbl) return;
+  }
+  dispatcher_selectdbl->SendMessage (params);
 }
 
 #define BILLBOARD_SERIAL 2

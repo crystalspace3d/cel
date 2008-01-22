@@ -120,6 +120,8 @@ private:
   static csStringID id_entity;
   static csStringID id_behaviour;
 
+  csRef<iMessageDispatcher> dispatcher_new;
+
   enum actionids
   {
     action_addentitytype = 0,

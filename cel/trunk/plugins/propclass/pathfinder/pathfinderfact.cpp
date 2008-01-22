@@ -126,17 +126,25 @@ bool celPcPathFinder::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-void celPcPathFinder::SendMessage (const char* msg, const char* meshname)
+void celPcPathFinder::SendMessage (const char* msgold, const char* msg,
+    csRef<iMessageDispatcher>& dispatcher, const char* meshname)
 {
+  csRef<iCelEntity> ref = (iCelEntity*)entity;
+  if (meshname)
+    params->GetParameter (0).Set (meshname);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
-    csRef<iCelEntity> ref = (iCelEntity*)entity;
-    if (meshname)
-      params->GetParameter (0).Set (meshname);
     celData ret;
-    bh->SendMessage (msg, this, ret, meshname ? params : 0);
+    bh->SendMessage (msgold, this, ret, meshname ? params : 0);
   }
+  if (!dispatcher)
+  {
+    dispatcher = entity->QueryMessageChannel ()->
+      CreateMessageDispatcher (this, msg);
+    if (!dispatcher) return;
+  }
+  dispatcher->SendMessage (params);
 }
 
 void celPcPathFinder:: SetDelayRecheck (int delay)
@@ -392,7 +400,8 @@ void celPcPathFinder::Interrupt ()
   if (is_active)
   {
     StopTracking ();
-    SendMessage ("pcpathfinder_interrupted");
+    SendMessage ("pcpathfinder_interrupted", "cel.move.interrupted",
+	dispatcher_interrupted);
   }
 }
 
