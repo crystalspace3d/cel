@@ -88,7 +88,7 @@ celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
   target_axis.Set (0.0f);
-  turnspeed = 8.0f;
+  turnspeed = 30.0f;
   movespeed = 10;
 }
 
@@ -263,6 +263,6 @@ void celPcActorAnalog::UpdateMovement ()
   {
     // we could also slow down forward velocity gradually ...
     // ... more conditionals :)
-    //pcmesh->SetAnimation ("turning", true);
+    pcmesh->SetAnimation ("turning", true);
   }
 }
