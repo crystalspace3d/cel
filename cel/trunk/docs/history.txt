@@ -5,6 +5,22 @@ The history order is reversed so that new features are at the top.
 
 23-Jan-2008
 	- Genjix sped up turn speed for analog movement.
+	- Jorrit changed the inventory trigger to use csString instead
+	  of char*.
+	- Jorrit changed the meshselect trigger to use csString instead
+	  of char*.
+	- Jorrit did the following changes related to the new messaging
+	  system:
+	    - Fixed a big bug in the new direct SendMessage(). It would
+	      automatically unsubscribe every receiver that didn't match
+	      with the given mask.
+	    - Changed the array of subscribers in celMessageChannel to
+	      a csHash. That makes a few operations faster and also allows
+	      for checking if something is already subscribed.
+	    - Changed the mesh select trigger to use the new messaging
+	      system. That way it is no longer bound to a specific
+	      mesh select implementation but can work with anything that
+	      sends 'cel.mesh.select.down' messages.
 22-Jan-2008
 	- Jorrit implemented the new message system in all remaining
 	  property classes.

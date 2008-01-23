@@ -41,10 +41,10 @@ csRef<iMessageDispatcher> celMessageChannel::CreateMessageDispatcher (
 
   // Check all subscriptions and see if this new message dispatcher should
   // already get some receivers.
-  size_t i;
-  for (i = 0 ; i < messageSubscriptions.GetSize () ; i++)
+  celSubscriptions::GlobalIterator it = messageSubscriptions.GetIterator ();
+  while (it.HasNext ())
   {
-    celMessageSubscription& sub = messageSubscriptions[i];
+    celMessageSubscription& sub = it.Next ();
     if (sub.receiver && Match (sub.mask, message))
       msgdisp->AddReceiver (sub.receiver);
   }
@@ -77,10 +77,26 @@ void celMessageChannel::RemoveMessageDispatchers ()
 
 void celMessageChannel::Subscribe (iMessageReceiver* receiver, const char* mask)
 {
-  celMessageSubscription sub;
-  sub.receiver = receiver;
-  sub.mask = mask;
-  messageSubscriptions.Push (sub);
+  celMessageSubscription newsub;
+  newsub.receiver = receiver;
+  newsub.mask = mask;
+
+  // First check all subscriptions for this receiver and see if we
+  // are already subscribed.
+  celSubscriptions::Iterator it = messageSubscriptions.GetIterator (
+      receiver);
+  while (it.HasNext ())
+  {
+    celMessageSubscription& sub = it.Next ();
+    if (sub.mask == newsub.mask)
+    {
+      // There is a subscription that completely matches this subscription
+      // so we do nothing.
+      return;
+    }
+  }
+
+  messageSubscriptions.Put (receiver, newsub);
 
   // Check all message dispatchers and see if this new subscription should
   // update some of those message dispatchers.
@@ -89,32 +105,40 @@ void celMessageChannel::Subscribe (iMessageReceiver* receiver, const char* mask)
   {
     celMessageDispatcher* msgdisp = messageDispatchers[i];
     const csString& message = msgdisp->GetMessage ();
-    if (Match (sub.mask, message))
-      msgdisp->AddReceiver (sub.receiver);
+    if (Match (newsub.mask, message))
+      msgdisp->AddReceiver (newsub.receiver);
   }
 }
 
 void celMessageChannel::Unsubscribe (iMessageReceiver* receiver,
     const char* mask)
 {
+  size_t i;
   csString maskStr = mask;
-  size_t i = 0;
-  // Keep track of subscription masks with this receiver that were not removed
-  // (because this mask didn't match).
   csStringArray retained_masks;
-  while (i < messageSubscriptions.GetSize ())
+ 
+  if (maskStr.IsEmpty ())
   {
-    celMessageSubscription& sub = messageSubscriptions[i];
-    i++;
-    if (sub.receiver == receiver)
+    // If mask is empty then we can just remove all subscriptions for
+    // this receiver.
+    messageSubscriptions.DeleteAll (receiver);
+  }
+  else
+  {
+    // Keep track of subscription masks with this receiver that were not removed
+    // (because this mask didn't match).
+    csArray<celMessageSubscription> subscriptions = messageSubscriptions.
+      GetAll (receiver);
+    for (i = 0 ; i < subscriptions.GetSize () ; i++)
     {
-      if (mask == 0 || Match (maskStr, sub.mask))
+      celMessageSubscription& sub = subscriptions[i];
+      if (sub.receiver == receiver)
       {
-	i--;
-	messageSubscriptions.DeleteIndex (i);
+        if (mask == 0 || Match (maskStr, sub.mask))
+	  messageSubscriptions.Delete (receiver, sub);
+        else
+	  retained_masks.Push (sub.mask);
       }
-      else
-	retained_masks.Push (sub.mask);
     }
   }
 
@@ -149,12 +173,13 @@ bool celMessageChannel::SendMessage (const char* msgid,
 {
   csString message = msgid;
   csStringID id = pl->FetchStringID (msgid);
-  size_t i = 0;
   bool handled = false;
-  while (i < messageSubscriptions.GetSize ())
+  celSubscriptions::GlobalIterator it = messageSubscriptions.GetIterator ();
+  while (it.HasNext ())
   {
-    iMessageReceiver* receiver = messageSubscriptions[i].receiver;
-    if (receiver && Match (messageSubscriptions[i].mask, message))
+    celMessageSubscription& sub = it.Next ();
+    iMessageReceiver* receiver = sub.receiver;
+    if (receiver && Match (sub.mask, message))
     {
       celData ret1;
       bool rc = receiver->ReceiveMessage (id, sender, ret1, params);
@@ -163,11 +188,6 @@ bool celMessageChannel::SendMessage (const char* msgid,
 	handled = true;
 	if (ret1.type != CEL_DATA_NONE && ret) ret->Push (ret1);
       }
-      i++;
-    }
-    else
-    {
-      messageSubscriptions.DeleteIndex (i);
     }
   }
   return handled;

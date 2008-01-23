@@ -124,13 +124,12 @@ void celMessageTrigger::ClearCallback ()
   callback = 0;
 }
 
-void celMessageTrigger::FindEntities ()
+void celMessageTrigger::FindEntity ()
 {
   if (!ent)
   {
     iCelPlLayer* pl = type->pl;
     ent = pl->FindEntity (entity);
-    if (!ent) return;
   }
 }
 
@@ -145,7 +144,7 @@ bool celMessageTrigger::ReceiveMessage (csStringID /*msgid*/,
 
 void celMessageTrigger::ActivateTrigger ()
 {
-  FindEntities ();
+  FindEntity ();
   if (ent)
     ent->QueryMessageChannel ()->Subscribe (this, mask);
 }

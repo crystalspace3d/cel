@@ -219,7 +219,6 @@ bool celPcInventory::AddEntity (iCelEntity* child)
 
 bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
 {
-
   if (contents.Find (child) != csArrayItemNotFound) return true;
 
   if(space)

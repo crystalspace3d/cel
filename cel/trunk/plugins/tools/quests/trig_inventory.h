@@ -49,9 +49,9 @@ class celInventoryTriggerFactory : public scfImplementation2<
 {
 private:
   celInventoryTriggerType* type;
-  char* entity_par;
-  char* tag_par;
-  char* child_entity_par;
+  csString entity_par;
+  csString tag_par;
+  csString child_entity_par;
 
 public:
   celInventoryTriggerFactory (celInventoryTriggerType* type);
@@ -77,9 +77,9 @@ private:
   celInventoryTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
   csWeakRef<iPcInventory> inventory;
-  char* entity;
-  char* tag;
-  char* child_entity;
+  csString entity;
+  csString tag;
+  csString child_entity;
 
   void FindInventory ();
 

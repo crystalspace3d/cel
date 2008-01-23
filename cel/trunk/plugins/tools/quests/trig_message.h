@@ -81,7 +81,7 @@ private:
   csString mask;
   csWeakRef<iCelEntity> ent;
 
-  void FindEntities ();
+  void FindEntity ();
 
 public:
   celMessageTrigger (celMessageTriggerType* type,
