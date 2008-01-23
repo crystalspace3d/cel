@@ -88,38 +88,26 @@ bool celInventoryTriggerFactory::Load (iDocumentNode* node)
   delete[] tag_par; tag_par = 0;
   delete[] child_entity_par; child_entity_par = 0;
 
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
-  if (!entity_par)
+  entity_par = node->GetAttributeValue ("entity");
+  tag_par = node->GetAttributeValue ("entity_tag");
+  if (entity_par.IsEmpty ())
     return Report (type->object_reg,
       "'entity' attribute is missing for the inventory trigger!");
-  child_entity_par = csStrNew (node->GetAttributeValue ("child_entity"));
+  child_entity_par = node->GetAttributeValue ("child_entity");
   return true;
 }
 
 void celInventoryTriggerFactory::SetEntityParameter (
 	const char* entity, const char* tag)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
-  if (tag_par != tag)
-  {
-    delete[] tag_par;
-    tag_par = csStrNew (tag);
-  }
+  entity_par = entity;
+  tag_par = tag;
 }
 
 void celInventoryTriggerFactory::SetChildEntityParameter (
 	const char* entity)
 {
-  if (child_entity_par != entity)
-  {
-    delete[] child_entity_par;
-    child_entity_par = csStrNew (entity);
-  }
+  child_entity_par = entity;
 }
 
 //---------------------------------------------------------------------------
@@ -132,20 +120,15 @@ celInventoryTrigger::celInventoryTrigger (
 {
   celInventoryTrigger::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  tag = csStrNew (qm->ResolveParameter (params, tag_par));
+  entity = qm->ResolveParameter (params, entity_par);
+  tag = qm->ResolveParameter (params, tag_par);
   if (child_entity_par)
-    child_entity = csStrNew (qm->ResolveParameter (params, child_entity_par));
-  else
-    child_entity = 0;
+    child_entity = qm->ResolveParameter (params, child_entity_par);
 }
 
 celInventoryTrigger::~celInventoryTrigger ()
 {
   DeactivateTrigger ();
-  delete[] entity;
-  delete[] child_entity;
-  delete[] tag;
 }
 
 void celInventoryTrigger::RegisterCallback (iQuestTriggerCallback* callback)

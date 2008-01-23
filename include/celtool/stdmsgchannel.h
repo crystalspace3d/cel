@@ -23,7 +23,7 @@
 #include "csutil/refarr.h"
 #include "csutil/weakref.h"
 #include "csutil/weakrefarr.h"
-#include "csutil/set.h"
+#include "csutil/hash.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/messaging.h"
 #include "celtool/celtoolextern.h"
@@ -34,6 +34,11 @@ class celMessageSubscription
 public:
   csWeakRef<iMessageReceiver> receiver;
   csString mask;
+  inline friend bool operator< (const celMessageSubscription& sub1,
+      const celMessageSubscription& sub2)
+  {
+    return sub1.mask < sub2.mask;
+  }
 };
 
 class celMessageDispatcher : public scfImplementation1<celMessageDispatcher,
@@ -101,6 +106,9 @@ public:
   iMessageSender* GetSender () const { return sender; }
 };
 
+typedef csHash<celMessageSubscription,csPtrKey<iMessageReceiver> >
+  celSubscriptions;
+
 /**
  * Helper class for a message channel.
  */
@@ -110,7 +118,7 @@ class CEL_CELTOOL_EXPORT celMessageChannel : public scfImplementation1<
 private:
   csWeakRef<iCelPlLayer> pl;
   csRefArray<celMessageDispatcher> messageDispatchers;
-  csArray<celMessageSubscription> messageSubscriptions;
+  celSubscriptions messageSubscriptions;
 
 public:
   celMessageChannel () : scfImplementationType (this) { }

@@ -62,14 +62,10 @@ celMeshSelectTriggerFactory::celMeshSelectTriggerFactory (
 	celMeshSelectTriggerType* type) : scfImplementationType (this)
 {
   celMeshSelectTriggerFactory::type = type;
-  entity_par = 0;
-  tag_par = 0;
 }
 
 celMeshSelectTriggerFactory::~celMeshSelectTriggerFactory ()
 {
-  delete[] entity_par;
-  delete[] tag_par;
 }
 
 csPtr<iQuestTrigger> celMeshSelectTriggerFactory::CreateTrigger (
@@ -82,12 +78,9 @@ csPtr<iQuestTrigger> celMeshSelectTriggerFactory::CreateTrigger (
 
 bool celMeshSelectTriggerFactory::Load (iDocumentNode* node)
 {
-  delete[] entity_par; entity_par = 0;
-  delete[] tag_par; tag_par = 0;
-
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
-  if (!entity_par)
+  entity_par = node->GetAttributeValue ("entity");
+  tag_par = node->GetAttributeValue ("entity_tag");
+  if (entity_par.IsEmpty ())
     return Report (type->object_reg,
       "'entity' attribute is missing for the inventory trigger!");
   return true;
@@ -96,16 +89,8 @@ bool celMeshSelectTriggerFactory::Load (iDocumentNode* node)
 void celMeshSelectTriggerFactory::SetEntityParameter (
 	const char* entity, const char* tag)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
-  if (tag_par != tag)
-  {
-    delete[] tag_par;
-    tag_par = csStrNew (tag);
-  }
+  entity_par = entity;
+  tag_par = tag;
 }
 
 //---------------------------------------------------------------------------
@@ -118,15 +103,13 @@ celMeshSelectTrigger::celMeshSelectTrigger (
 {
   celMeshSelectTrigger::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  tag = csStrNew (qm->ResolveParameter (params, tag_par));
+  entity = qm->ResolveParameter (params, entity_par);
+  tag = qm->ResolveParameter (params, tag_par);
 }
 
 celMeshSelectTrigger::~celMeshSelectTrigger ()
 {
   DeactivateTrigger ();
-  delete[] entity;
-  delete[] tag;
 }
 
 void celMeshSelectTrigger::RegisterCallback (iQuestTriggerCallback* callback)
@@ -139,27 +122,33 @@ void celMeshSelectTrigger::ClearCallback ()
   callback = 0;
 }
 
-void celMeshSelectTrigger::FindMeshSelect ()
+void celMeshSelectTrigger::FindEntity ()
 {
-  if (meshselect) return;
-  iCelPlLayer* pl = type->pl;
-  iCelEntity* ent = pl->FindEntity (entity);
-  if (!ent) return;
-  meshselect = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMeshSelect, tag);
+  if (!ent)
+  {
+    iCelPlLayer* pl = type->pl;
+    ent = pl->FindEntity (entity);
+  }
+}
+
+bool celMeshSelectTrigger::ReceiveMessage (csStringID /*msgid*/,
+	iMessageSender* /*sender*/,
+	celData& /*ret*/, iCelParameterBlock* /*params*/)
+{
+  DeactivateTrigger ();
+  callback->TriggerFired ((iQuestTrigger*)this);
+  return true;
 }
 
 void celMeshSelectTrigger::ActivateTrigger ()
 {
-  FindMeshSelect ();
-  if (!meshselect)
+  FindEntity ();
+  if (!ent)
   {
-    Report (type->object_reg, "Can't find pcmeshselect for meshsel trigger!");
+    Report (type->object_reg, "Can't find entity '%s'!", (const char*)entity);
     return;
   }
-  // First remove to make sure we don't register ourselves multiple
-  // times.
-  meshselect->RemoveMeshSelectListener ((iPcMeshSelectListener*)this);
-  meshselect->AddMeshSelectListener ((iPcMeshSelectListener*)this);
+  ent->QueryMessageChannel ()->Subscribe (this, "cel.mesh.select.down");
 }
 
 bool celMeshSelectTrigger::Check ()
@@ -169,8 +158,8 @@ bool celMeshSelectTrigger::Check ()
 
 void celMeshSelectTrigger::DeactivateTrigger ()
 {
-  if (!meshselect) return;
-  meshselect->RemoveMeshSelectListener ((iPcMeshSelectListener*)this);
+  if (!ent) return;
+  ent->QueryMessageChannel ()->Unsubscribe (this, "cel.mesh.select.down");
 }
 
 bool celMeshSelectTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
@@ -180,23 +169,6 @@ bool celMeshSelectTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
 }
 
 void celMeshSelectTrigger::SaveTriggerState (iCelDataBuffer*)
-{
-}
-
-void celMeshSelectTrigger::MouseDown (iPcMeshSelect*,
-  	int, int, int, iCelEntity*)
-{
-  DeactivateTrigger ();
-  callback->TriggerFired ((iQuestTrigger*)this);
-}
-
-void celMeshSelectTrigger::MouseUp (iPcMeshSelect*,
-  	int, int, int, iCelEntity*)
-{
-}
-
-void celMeshSelectTrigger::MouseMove (iPcMeshSelect*,
-  	int, int, int, iCelEntity*)
 {
 }
 
