@@ -28,7 +28,7 @@
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
-#include "physicallayer/messaging.h"
+#include "propclass/meshsel.h"
 
 struct iObjectRegistry;
 struct iEvent;
@@ -69,16 +69,16 @@ public:
  */
 class celMeshSelectTrigger : public scfImplementation2<
 	celMeshSelectTrigger, iQuestTrigger,
-	iMessageReceiver>
+	iPcMeshSelectListener>
 {
 private:
   celMeshSelectTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
+  csWeakRef<iPcMeshSelect> meshselect;
   csString entity;
   csString tag;
-  csWeakRef<iCelEntity> ent;
 
-  void FindEntity ();
+  void FindMeshSelect ();
 
 public:
   celMeshSelectTrigger (celMeshSelectTriggerType* type,
@@ -94,9 +94,13 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
-  //------------------------- iMessageReceiver ------------------------------
-  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
-      celData& ret, iCelParameterBlock* params);
+  //----------------------- iPcMeshSelectListener --------------------------
+  virtual void MouseDown (iPcMeshSelect* meshsel,
+  	int x, int y, int button, iCelEntity* entity);
+  virtual void MouseUp (iPcMeshSelect* meshsel,
+  	int x, int y, int button, iCelEntity* entity);
+  virtual void MouseMove (iPcMeshSelect* meshsel,
+  	int x, int y, int button, iCelEntity* entity);
 };
 
 #endif // __CEL_TOOLS_QUESTS_TRIG_MESHSELECT__
