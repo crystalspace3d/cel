@@ -25,6 +25,8 @@ The history order is reversed so that new features are at the top.
 	  is that with the message system it is not possible to select
 	  from which 'tagged property class' you want to receive messages.
 	  We have to think about a better way to solve this.
+	- caedes fixed newstate reward to actually use entity and tag
+	  parameters, it was always changing state on the own quest.
 22-Jan-2008
 	- Jorrit implemented the new message system in all remaining
 	  property classes.

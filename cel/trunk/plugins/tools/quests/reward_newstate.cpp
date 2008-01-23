@@ -119,7 +119,8 @@ celNewStateReward::celNewStateReward (
   state = csStrNew (qm->ResolveParameter (params, state_par));
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
-  quest = q;
+  if (!entity && !tag)
+    quest = q;
 }
 
 celNewStateReward::~celNewStateReward ()
