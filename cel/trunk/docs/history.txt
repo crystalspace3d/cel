@@ -27,6 +27,9 @@ The history order is reversed so that new features are at the top.
 	  We have to think about a better way to solve this.
 	- caedes fixed newstate reward to actually use entity and tag
 	  parameters, it was always changing state on the own quest.
+	- caedes added blcel.h file to python behaviour layer. This file
+	  is a new swig generated file that appeared due to swig directors
+	  usage.
 22-Jan-2008
 	- Jorrit implemented the new message system in all remaining
 	  property classes.
