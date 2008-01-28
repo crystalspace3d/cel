@@ -66,6 +66,7 @@ INTERFACE_POST(iPcPython)
 %feature("nodirector") pyPcCommon::GetEntity;
 %feature("nodirector") pyPcCommon::LoadFirstPass;
 %feature("nodirector") pyPcCommon::AddPropertyChangeCallback;
+%feature("nodirector") pyPcCommon::PropertyClassesHaveChanged;
 %feature("nodirector") pyPcCommon::RemovePropertyChangeCallback;
 %feature("nodirector") pyPcCommon::GetPersistentData;
 %feature("nodirector") pyPcCommon::SetPersistentData;
@@ -183,6 +184,7 @@ class pyPcCommon : public scfImplementationExt1<pyPcCommon, PcCommon, iPcPython>
         }
         virtual PyObject *GetPythonObject()
         {
+           Py_INCREF(pySelf);
            return pySelf;
         }
 

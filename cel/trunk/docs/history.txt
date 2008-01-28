@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+28-Jan-2008
+	- caedes added swig nodirector declaration for 
+	  PcCommon::PropertyClassesHaveChanged, and fixed a reference count
+	  problem for python property classes.
 23-Jan-2008
 	- Genjix sped up turn speed for analog movement.
 	- Jorrit changed the inventory trigger to use csString instead
