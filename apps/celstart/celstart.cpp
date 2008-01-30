@@ -673,6 +673,11 @@ bool CelStart::StartDemoSelector (int argc, const char* const argv[])
   // Check for commandline help.
   if (csCommandLineHelper::CheckHelp (object_reg))
   {
+    csPrintf ("Usage: celstart [OPTION]... [FILE]\n");
+    csPrintf ("Run the specified celzip FILE, or open a menu for .celzip\n");
+    csPrintf ("files present in current dir.\n\n");
+    csPrintf ("Options for Celstart:\n");
+    csPrintf ("  -version           print celstart version and exit.\n");
     csCommandLineHelper::Help (object_reg);
     return false;
   }
