@@ -5,6 +5,7 @@ The history order is reversed so that new features are at the top.
 
 30-Jan-2008
 	- caedes added a version command line option to celstart.
+	- caedes bumped celstart version to 8.
 29-Jan-2008
 	- Vincent set native svn:eol for debuginfo.jam (should fix #49) and
 	  upload.jam.
