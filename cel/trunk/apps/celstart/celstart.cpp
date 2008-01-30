@@ -729,6 +729,16 @@ bool CelStart::Initialize (int argc, const char* const argv[])
 
   csRef<iCommandLineParser> cmdline = 
   	csQueryRegistry<iCommandLineParser> (object_reg);
+
+  // Check for version request
+  if (cmdline->GetBoolOption("version"))
+  {
+    csPrintf("%d\n",CELSTART_VERSION);
+    return false;
+  }
+
+  // Check to see if user provided a map file, else start the demo
+  // selector.
   const char* arg = cmdline->GetName (0);
   if (!arg)
   {
