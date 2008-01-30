@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	- caedes bumped celstart version to 8.
 	- caedes bumped celstart version to 9 (previous was for merging with
 	  1.2).
+	- caedes added usage and specific options info to --help output for
+	  celstart.
 29-Jan-2008
 	- Vincent set native svn:eol for debuginfo.jam (should fix #49) and
 	  upload.jam.
