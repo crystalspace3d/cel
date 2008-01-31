@@ -689,6 +689,8 @@ struct iQuestManager : public virtual iBase
    *   on an entity. See iActionQuestRewardFactory.
    * - cel.questreward.destroyentity: remove an entity from the physical.
    *   layer. See iDestroyEntityQuestRewardFactory.
+   * - cel.questreward.createentity: create an entity from a template.
+   *   See iCreateEntityQuestRewardFactory.
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
 
@@ -1692,6 +1694,53 @@ struct iDestroyEntityQuestRewardFactory : public virtual iBase
   virtual void SetEntityParameter (const char* entity) = 0;
 };
 
+/**
+ * This interface is implemented by the createentity reward, which can create
+ * entities from entity templates.
+ *
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ *
+ * The predefined name of this reward type is 'cel.questreward.createentity'.
+ *
+ * In XML, factories recognize the following attribute on the 'op' node:
+ * - <em>template</em>: the name of the template that will be used to create
+ *   the entity from. It can be a parameter if starting with '$'.
+ * - <em>name</em>: optional name for the entity that will be created. It
+ *   can be a parameter if starting with '$'.
+ * Also, the following subnodes are supported:
+ * - <em>par</em>: a parameter for the template. It needs 'name' and 'value'
+ *   attributes. The value can be a parameter if starting with '$'. As many
+ *   par nodes as needed can be used.
+ */
+struct iCreateEntityQuestRewardFactory : public virtual iBase
+{
+  SCF_INTERFACE (iCreateEntityQuestRewardFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the template that will be used to create a new entity
+   * from.
+   * \param entity_tpl is the name of the entity template or a parameter 
+   * (starts with '$').
+   */
+  virtual void SetEntityTemplateParameter (const char* entity_tpl) = 0;
+
+  /**
+   * Set the name of the entity that will be created.
+   * \param name is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetNameParameter (const char* name) = 0;
+
+  /**
+   * Add a parameter for the template.
+   * \param name is the name for the parameter.
+   * \param value is the value for the parameter or a quest manager parameter 
+   * (starts with '$').
+   */
+  virtual void AddParameter (const char* name, const char* value) = 0;
+};
 
 //-------------------------------------------------------------------------
 // Specific sequence operation implementations.

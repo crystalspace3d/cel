@@ -49,6 +49,7 @@
 #include "plugins/tools/quests/reward_sequencefinish.h"
 #include "plugins/tools/quests/reward_message.h"
 #include "plugins/tools/quests/reward_action.h"
+#include "plugins/tools/quests/reward_createentity.h"
 #include "plugins/tools/quests/reward_destroyentity.h"
 #include "plugins/tools/quests/seqop_debugprint.h"
 #include "plugins/tools/quests/seqop_transform.h"
@@ -1071,6 +1072,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 
   {
     celDestroyEntityRewardType* type = new celDestroyEntityRewardType (
+    	object_reg);
+    RegisterRewardType (type);
+    type->DecRef ();
+  }
+
+  {
+    celCreateEntityRewardType* type = new celCreateEntityRewardType (
     	object_reg);
     RegisterRewardType (type);
     type->DecRef ();
