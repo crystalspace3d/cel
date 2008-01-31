@@ -101,6 +101,8 @@ This manipulates the inventory. See
 This fires a sequence. See @code{iSequenceQuestRewardFactory}.
 @item @samp{cel.questreward.sequencefinish}:
 Finishes a sequence. See @code{iSequenceFinishQuestRewardFactory}.
+@item @samp{cel.questreward.createentity}:
+Creates an entity from a template. See @code{iCreateEntityQuestRewardFactory}.
 @item @samp{cel.questreward.destroyentity}:
 This destroys an entity. See @code{iDestroyEntityQuestRewardFactory}.
 @item @samp{cel.questreward.cssequence}:
