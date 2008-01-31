@@ -54,6 +54,7 @@
 #include "plugins/tools/quests/seqop_transform.h"
 #include "plugins/tools/quests/seqop_movepath.h"
 #include "plugins/tools/quests/seqop_light.h"
+#include "plugins/tools/quests/seqop_property.h"
 
 //---------------------------------------------------------------------------
 
@@ -1099,6 +1100,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 
   {
     celLightSeqOpType* type = new celLightSeqOpType (
+    	object_reg);
+    RegisterSeqOpType (type);
+    type->DecRef ();
+  }
+
+  {
+    celPropertySeqOpType* type = new celPropertySeqOpType (
     	object_reg);
     RegisterSeqOpType (type);
     type->DecRef ();

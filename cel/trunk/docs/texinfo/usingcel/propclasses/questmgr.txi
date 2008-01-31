@@ -146,6 +146,8 @@ Transforms a mesh. See @code{iTransformQuestSeqOpFactory}.
 Moves a mesh along a path. See @code{iMovePathQuestSeqOpFactory}.
 @item @samp{cel.questseqop.light}:
 Animates a light color. See @code{iLightQuestSeqOpFactory}.
+@item @samp{cel.questseqop.property}:
+Animates a property class property. See @code{iLightPropertySeqOpFactory}.
 @end itemize
 
 You can define your own sequence operations for the quest manager.
