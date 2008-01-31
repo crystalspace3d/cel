@@ -9,6 +9,7 @@ The history order is reversed so that new features are at the top.
 	- caedes added a createentity reward to the quest manager. It allows
 	  to create an entity from an existing entity template.
 	- caedes really bumped celstart version to 8.
+	- caedes really bumped celstart version to 9.
 30-Jan-2008
 	- caedes added a version command line option to celstart.
 	- caedes bumped celstart version to 8.
