@@ -714,6 +714,8 @@ struct iQuestManager : public virtual iBase
    *   See iMovePathQuestSeqOpFactory.
    * - cel.questseqop.light: animate a light color.
    *   See iLightQuestSeqOpFactory.
+   * - cel.questseqop.property: animate a property class property.
+   *   See iPropertyQuestSeqOpFactory.
    */
   virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop) = 0;
 
@@ -1855,6 +1857,105 @@ struct iLightQuestSeqOpFactory : public virtual iBase
   virtual void SetAbsColorParameter (const char* red, const char* green,
   	const char* blue) = 0;
 };
+
+/**
+ * This interface is implemented by the seqop that transforms property
+ * class properties. Assuming it is read and write, and of the appropriate type
+ * any property can be controlled using this sequence.
+ *
+ * You can query this interface from the seqop factory if
+ * you want to manually control this factory as opposed to loading
+ * its definition from an XML document.
+ *
+ * The predefined name of this seqop type is 'cel.questseqop.property'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>entity</em>: the name of the entity containing the affected property
+ *   class.
+ * - <em>pc</em>: name for the property class holding the property.
+ * - <em>tag</em>: optional tag used to find the right property class 
+ *   from the entity.
+ * - <em>relative</em>: whether the sequence is relative (default false).
+ * - <em>float</em>: optional end value as a float.
+ * - <em>long</em>: optional end value as an integer.
+ * And the following sub nodes:
+ * - <em>v</em>: optional end value as a vector.
+ *   This node has 'x', 'y, and (optionally for vector3) 'z' attributes. 
+ *
+ * Note you must only provide one of 'v', 'float' and 'long' parameters to the
+ * sequence, otherwise the result will be undefined. Also, the parameter
+ * must fit the actual property type.
+ */
+struct iPropertyQuestSeqOpFactory : public virtual iBase
+{
+  SCF_INTERFACE (iPropertyQuestSeqOpFactory, 0, 0, 1);
+
+  /**
+   * Set the entity containing the property (either entity name
+   * or a parameter if it starts with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the property class and tag to search for.
+   * \param pc is the property class name or a parameter (starts with a '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetPCParameter (const char* pc, const char* tag = 0) = 0;
+
+  /**
+   * Set the property name for this sequence.
+   * \param property_name is the property name (like cel.property.gravity).
+   * It can also be a parameter if it starts with '$'.
+   */
+  virtual void SetPropertyParameter (const char* property_name) = 0;
+
+  /**
+   * Set the end value for the property as a float.
+   * \param pfloat is the value to be set.
+   * It can also be a parameter if it starts with '$'.
+   */
+  virtual void SetFloatParameter (const char* pfloat) = 0;
+
+  /**
+   * Set the end value for the property as a long.
+   * \param plong is the value to be set.
+   * It can also be a parameter if it starts with '$'.
+   */
+  virtual void SetLongParameter (const char* plong) = 0;
+
+  /**
+   * Set the end value for the property as a vector2.
+   * \param pvectorx is the x component for the vector.
+   * \param pvectory is the y component for the vector.
+   * Both pvectorx and pvectory can be parameters if they start with '$'.
+   */
+  virtual void SetVector2Parameter (const char* vectorx, 
+	const char* vectory) = 0;
+
+  /**
+   * Set the end value for the property as a vector3.
+   * \param pvectorx is the x component for the vector.
+   * \param pvectory is the y component for the vector.
+   * \param pvectorz is the z component for the vector.
+   * Both pvectorx, pvectory and pvectorz can be a parameters if they 
+   * start with '$'.
+   */
+  virtual void SetVector3Parameter (const char* vectorx, const char* vectory,
+        const char* vectorz) = 0;
+
+   /**
+   * Set whether the sequence will be relative:
+   *  (end value = specified value + starting value)
+   * or absolute.
+   *  (end value = specified value)
+   * \param is_relative whether the sequence is relative. can't be a parameter.
+   */
+  virtual void SetRelative (bool is_relative) = 0;
+};
+
+
 
 //-------------------------------------------------------------------------
 
