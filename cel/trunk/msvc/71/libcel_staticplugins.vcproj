@@ -3351,6 +3351,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\reward_createentity.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_tools_quests_reward_createentity.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_tools_quests_reward_createentity.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_tools_quests_reward_createentity.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_tools_quests_reward_createentity.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\reward_cssequence.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -3623,6 +3648,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_tools_quests_seqop_movepath.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\seqop_property.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_tools_quests_seqop_property.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_tools_quests_seqop_property.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_tools_quests_seqop_property.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_tools_quests_seqop_property.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -4164,6 +4214,9 @@
 				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\reward_createentity.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\reward_cssequence.h">
 			</File>
 			<File
@@ -4195,6 +4248,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\seqop_movepath.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\seqop_property.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\seqop_transform.h">
