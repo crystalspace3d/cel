@@ -4620,6 +4620,18 @@ class iDestroyEntityQuestRewardFactory(cspace.iBase):
 iDestroyEntityQuestRewardFactory_swigregister = _blcelc.iDestroyEntityQuestRewardFactory_swigregister
 iDestroyEntityQuestRewardFactory_swigregister(iDestroyEntityQuestRewardFactory)
 
+class iCreateEntityQuestRewardFactory(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetEntityTemplateParameter(*args): return _blcelc.iCreateEntityQuestRewardFactory_SetEntityTemplateParameter(*args)
+    def SetNameParameter(*args): return _blcelc.iCreateEntityQuestRewardFactory_SetNameParameter(*args)
+    def AddParameter(*args): return _blcelc.iCreateEntityQuestRewardFactory_AddParameter(*args)
+    __swig_destroy__ = _blcelc.delete_iCreateEntityQuestRewardFactory
+    __del__ = lambda self : None;
+iCreateEntityQuestRewardFactory_swigregister = _blcelc.iCreateEntityQuestRewardFactory_swigregister
+iCreateEntityQuestRewardFactory_swigregister(iCreateEntityQuestRewardFactory)
+
 class iDebugPrintQuestSeqOpFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
@@ -4664,6 +4676,23 @@ class iLightQuestSeqOpFactory(cspace.iBase):
     __del__ = lambda self : None;
 iLightQuestSeqOpFactory_swigregister = _blcelc.iLightQuestSeqOpFactory_swigregister
 iLightQuestSeqOpFactory_swigregister(iLightQuestSeqOpFactory)
+
+class iPropertyQuestSeqOpFactory(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetEntityParameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetEntityParameter(*args)
+    def SetPCParameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetPCParameter(*args)
+    def SetPropertyParameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetPropertyParameter(*args)
+    def SetFloatParameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetFloatParameter(*args)
+    def SetLongParameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetLongParameter(*args)
+    def SetVector2Parameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetVector2Parameter(*args)
+    def SetVector3Parameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetVector3Parameter(*args)
+    def SetRelative(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetRelative(*args)
+    __swig_destroy__ = _blcelc.delete_iPropertyQuestSeqOpFactory
+    __del__ = lambda self : None;
+iPropertyQuestSeqOpFactory_swigregister = _blcelc.iPropertyQuestSeqOpFactory_swigregister
+iPropertyQuestSeqOpFactory_swigregister(iPropertyQuestSeqOpFactory)
 
 class iPcQuest(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')

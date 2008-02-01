@@ -328,6 +328,9 @@
 				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\reward_createentity.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\reward_cssequence.cpp">
 			</File>
 			<File
@@ -359,6 +362,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\seqop_movepath.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\seqop_property.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\seqop_transform.cpp">
@@ -407,6 +413,9 @@
 				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\reward_createentity.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\reward_cssequence.h">
 			</File>
 			<File
@@ -438,6 +447,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\seqop_movepath.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\seqop_property.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\seqop_transform.h">
