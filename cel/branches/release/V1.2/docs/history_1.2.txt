@@ -22,6 +22,8 @@ The history order is reversed so that new features are at the top.
 	  for the object registry (previously was undefined)).
 	- Vincent merged r3052 into 1.2 (added manual section for spawn
 	  property class).
+	- Vincent merged r3063 into 1.2 ('jam distclean' fixes wrt.
+	  autopackage-related stuff removal).
 15-Nov-2007
 	- Vincent updated crystal.m4 from CS 1.2 branch (POSIX-compliant sed
 	  command fix).
