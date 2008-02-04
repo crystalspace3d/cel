@@ -18,6 +18,8 @@ The history order is reversed so that new features are at the top.
 	  compilation).
 	- Vincent merged r3042 into 1.2 (changed
 	  celPcDefaultCamera::GetLastFullPosition() to be more robust).
+	- Vincent merged r3044 into 1.2 (added ObjectRegistry name in pycel
+	  for the object registry (previously was undefined)).
 15-Nov-2007
 	- Vincent updated crystal.m4 from CS 1.2 branch (POSIX-compliant sed
 	  command fix).
