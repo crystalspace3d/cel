@@ -59,50 +59,50 @@ Also for joystick/mouse move events @samp{_centered} can be appended to the bind
 
 Message callbacks received when a bind is fullfilled always start with @samp{pccommandinput_}, with the specified command code appended afterwards. 
 
-For example, for a bind defined as @code{MouseY = pitch}, the message would be @samp{pccommandinput_pitch}.
+For example, for a bind defined as @code{pitch = MouseY}, the message would be @samp{pccommandinput_pitch}.
 
-Also for key/button messages the key state can be included in the message name, so for example a bind defined as @code{up = forward}, the received messages would be @samp{pccommandinput_forward1} (key down), @samp{pccommandinput_forward0} (key press) and @samp{pccommandinput_forward_} (key autorepeat).
+Also for key/button messages the key state can be included in the message name, so for example a bind defined as @code{forward = up}, the received messages would be @samp{pccommandinput_forward1} (key down), @samp{pccommandinput_forward0} (key press) and @samp{pccommandinput_forward_} (key autorepeat).
 
 Note this the default behaviour but can be turned off to get only one message for all states. 
-For this @samp{.args} must be appended to the command name, so for example a bind defined as @code{up = forward.args} would receive only @samp{pccommandinput_forward} message, with @samp{state} parameter holding the state.
+For this @samp{.args} must be appended to the command name, so for example a bind defined as @code{forward.args = up} would receive only @samp{pccommandinput_forward} message, with @samp{state} parameter holding the state.
 
 @subsubheading Config file.
 
 Config files can hold binds, by using the following notation:
 
-@code{<section>.CommandInput.Bind.<bindcode> = <commandcode>}
+@code{<section>.Input.Bind.<commandcode> = <bindcode> [bindcode2] ... [bindcodeN]}
 
 This would be an example config file:
 @example
 ; this is a command definition for a spaceship.
-Ecksdee.CommandInput.Bind.JoystickButton0 = fire
-Ecksdee.CommandInput.Bind.JoystickButton1 = forward
-Ecksdee.CommandInput.Bind.JoystickButton2 = turbo
-Ecksdee.CommandInput.Bind.JoystickButton3 = brake
-Ecksdee.CommandInput.Bind.JoystickButton4 = slide
-Ecksdee.CommandInput.Bind.JoystickButton5 = afterburner
-Ecksdee.CommandInput.Bind.JoystickAxis0 = yaw
-Ecksdee.CommandInput.Bind.JoystickAxis1 = pitch
-Ecksdee.CommandInput.Bind.JoystickAxis2 = yaw
-Ecksdee.CommandInput.Bind.JoystickAxis3 = pitch
+Ecksdee.Input.Bind.fire = JoystickButton0
+Ecksdee.Input.Bind.forward = JoystickButton1
+Ecksdee.Input.Bind.turbo = JoystickButton2
+Ecksdee.Input.Bind.brake = JoystickButton3
+Ecksdee.Input.Bind.slide = JoystickButton4
+Ecksdee.Input.Bind.afterburner = JoystickButton5
+Ecksdee.Input.Bind.yaw = JoystickAxis0
+Ecksdee.Input.Bind.pitch = JoystickAxis1
+Ecksdee.Input.Bind.yaw = JoystickAxis2
+Ecksdee.Input.Bind.pitch = JoystickAxis3
 
-Ecksdee.CommandInput.Bind.up    = rotateup
-Ecksdee.CommandInput.Bind.down  = rotatedown
+Ecksdee.Input.Bind.rotateup = up
+Ecksdee.Input.Bind.rotatedown = down
 
-Ecksdee.CommandInput.Bind.left  = rotateleft
-Ecksdee.CommandInput.Bind.right = rotateright
+Ecksdee.Input.Bind.rotateleft = left
+Ecksdee.Input.Bind.rotateright = right
 
-Ecksdee.CommandInput.Bind.c     = fire
-Ecksdee.CommandInput.Bind.x     = forward
-Ecksdee.CommandInput.Bind.space = turbo
-Ecksdee.CommandInput.Bind.shift = brake
-Ecksdee.CommandInput.Bind.alt   = slide
-Ecksdee.CommandInput.Bind.ctrl  = afterburner
+Ecksdee.Input.Bind.fire = c
+Ecksdee.Input.Bind.forward = x
+Ecksdee.Input.Bind.turbo = space
+Ecksdee.Input.Bind.brake = shift
+Ecksdee.Input.Bind.slide = alt
+Ecksdee.Input.Bind.afterburner = ctrl
 
-Ecksdee.CommandInput.Bind.i   = dumpinventory
-Ecksdee.CommandInput.Bind.tab = cammode
-Ecksdee.CommandInput.Bind.r   = resetpos
-Ecksdee.CommandInput.Bind.t   = nextreg
+Ecksdee.Input.Bind.dumpinventory = i
+Ecksdee.Input.Bind.cammode = tab
+Ecksdee.Input.Bind.resetpos = r
+Ecksdee.Input.Bind.nextreg = t
 @end example
 
 The binds can then be loaded from the property class by doing LoadConfig(<section>), note for this the config file must already be loaded. LoadConfig is available both as xml action for blxml/map files, and from iPcCommandInput api for c++ and python.
