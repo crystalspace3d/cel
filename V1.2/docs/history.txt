@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Nov-2007
+	- Eric Sunshine fixed Jamfile.in so that 'jam distclean' removes the
+	  scripts/autopackage/celstart_static.apspec file created by the
+	  configure script.
+	- Eric Sunshine fixed Jamfile.in so that, when the build directory
+	  differs from the source directory, 'jam distclean' removes the newly
+	  empty and temporary $(BUILDTOP)/scripts/autopackage directory.
 22-Oct-2007
 	- caedes added manual section for spawn property class.
 19-Oct-2007
