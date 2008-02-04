@@ -11,6 +11,7 @@ The history order is reversed so that new features are at the top.
 	  mode is attached).
 	- Vincent merged r2992 into 1.2 (swig renames
 	  iCelPropertyClass::SetPropertyVectorByID functions).
+	- Vincent froze blcel following r3144.
 15-Nov-2007
 	- Vincent updated crystal.m4 from CS 1.2 branch (POSIX-compliant sed
 	  command fix).
