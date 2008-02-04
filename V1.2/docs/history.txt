@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 1-Sep-2007
         - Vincent fixed celtest requesting pccamera.standard instead of
           pccamera.old in CreateActor() while still using iPcDefaultCamera.
+	- Genjix replaced call to GetLastPosition(...) in actormove with
+	  GetYRotation().
 22-Aug-2007
 	- Vincent fixed INVISIBLE flag setting and restoring in default
 	  camera 1st person mode. The saved flags were being overwritten
