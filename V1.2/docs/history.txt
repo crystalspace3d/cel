@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+28-Sep-2007
+	- caedes updated commandinput manual section to reflect changes in
+	  config specification (new system was introduced some time ago,
+	  and the old one deprecated, but docs where never updated).
 20-Sep-2007
 	- Genjix fixed bug in Camera when no mode is attached and it is
 	  rendering as just black.
