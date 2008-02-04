@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Sep-2007
+	- Genjix made seg fault bug fix to GetCameraMode() when newcamera
+	  has none.
 8-Sep-2007
 	- Vincent added a few plugins to the list for celstart_static.
 1-Sep-2007

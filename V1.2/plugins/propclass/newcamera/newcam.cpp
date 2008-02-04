@@ -498,7 +498,7 @@ iCelCameraMode* celPcNewCamera::GetCurrentCameraMode ()
 iCelCameraMode* celPcNewCamera::GetCameraMode (int idx)
 {
   if (idx < 0)
-    return cameraModes.Top ();
+    return cameraModes.GetSize () > 0 ? cameraModes.Top () : 0;
   if (static_cast<size_t> (idx) >= cameraModes.GetSize ())
     return 0;
   return cameraModes[idx];
