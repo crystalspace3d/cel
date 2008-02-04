@@ -546,14 +546,6 @@ void celPcNewCamera::UpdateCamera ()
   csTicks elapsedTime = vc->GetElapsedTicks ();
   float elapsedSecs = elapsedTime / 1000.0f;
 
-  if (currMode >= cameraModes.GetSize ())
-  {
-    SetCurrentCameraMode (cameraModes.GetSize () - 1);
-    if (currMode >= cameraModes.GetSize ())
-      return;
-  }
-  iCelCameraMode * mode = cameraModes[currMode];
-
   GetActorTransform ();
   if (!baseSector)
     return;
@@ -563,6 +555,30 @@ void celPcNewCamera::UpdateCamera ()
   baseDir = baseTrans.This2OtherRelative (csVector3 (0,0,-1));
   baseUp  = baseTrans.This2OtherRelative (csVector3 (0,1,0));
 
+  if (currMode >= cameraModes.GetSize ())
+  {
+    SetCurrentCameraMode (cameraModes.GetSize () - 1);
+    // no camera mode is attached.
+    if (currMode >= cameraModes.GetSize ())
+    {
+      if (pcmesh)
+      {
+        // so we just align the camera's pos and dir with
+        // the attached mesh
+        csReversibleTransform camTrans;
+        camTrans.SetOrigin(baseTrans.GetOrigin ());
+        camTrans.LookAt (baseDir, baseUp);
+        iCamera* c = view->GetCamera ();
+        // needs to be in the right sector
+        if (c->GetSector () != baseSector)
+          c->SetSector (baseSector);
+        c->SetTransform (camTrans);
+      }
+      return;
+    }
+  }
+
+  iCelCameraMode* mode = cameraModes[currMode];
   if (!mode->DecideCameraState ())
     return;
 

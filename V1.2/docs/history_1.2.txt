@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	  actormove with GetYRotation()).
 	- Vincent merged r2987 into 1.2 (prevent potential crash when
 	  requesting camera modes from iPcNewCamera).
+	- Vincent merged r2989:2990 into 1.2 (fix iPcNewCamera bug when no
+	  mode is attached).
 15-Nov-2007
 	- Vincent updated crystal.m4 from CS 1.2 branch (POSIX-compliant sed
 	  command fix).
