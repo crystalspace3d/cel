@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+05-Oct-2007
+	- andres added the python wrapper for cross compilation formerly added
+	  for CS also to cel.
 28-Sep-2007
 	- caedes updated commandinput manual section to reflect changes in
 	  config specification (new system was introduced some time ago,
