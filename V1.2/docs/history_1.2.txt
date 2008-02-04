@@ -16,6 +16,8 @@ The history order is reversed so that new features are at the top.
 	  trigger/action binding syntax).
 	- Vincent merged r3022 into 1.2 (python wrapper for cross
 	  compilation).
+	- Vincent merged r3042 into 1.2 (changed
+	  celPcDefaultCamera::GetLastFullPosition() to be more robust).
 15-Nov-2007
 	- Vincent updated crystal.m4 from CS 1.2 branch (POSIX-compliant sed
 	  command fix).
