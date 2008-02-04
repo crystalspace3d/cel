@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-Oct-2007
+	- caedes added manual section for spawn property class.
 19-Oct-2007
 	- caedes changed celPcDefaultCamera::GetLastFullPosition to be more
 	  robust against not positioned entities (it would crash if pcmesh was
