@@ -6,6 +6,9 @@ The history order is reversed so that new features are at the top.
 20-Sep-2007
 	- Genjix fixed bug in Camera when no mode is attached and it is
 	  rendering as just black.
+	- caedes added swig renames for 
+	  iCelPropertyClass::SetPropertyVectorByID functions so the vector2
+	  variant doesnt get shadowed.
 19-Sep-2007
 	- Genjix made seg fault bug fix to GetCameraMode() when newcamera
 	  has none.
