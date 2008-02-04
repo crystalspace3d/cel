@@ -94,6 +94,7 @@ sections.
 * PropClass Mover:: Mover
 * PropClass Projectile:: Projectile
 * PropClass Quest Manager:: Quest Manager
+* PropClass Spawn:: Spawn
 * PropClass Timer:: Timer
 * PropClass Trigger:: Trigger
 * PropClass ZoneMgr:: Zone Manager
@@ -107,6 +108,7 @@ sections.
 @importss{usingcel,propclasses,mover.txi}
 @importss{usingcel,propclasses,projectile.txi}
 @importss{usingcel,propclasses,questmgr.txi}
+@importss{usingcel,propclasses,spawn.txi}
 @importss{usingcel,propclasses,timer.txi}
 @importss{usingcel,propclasses,trigger.txi}
 @importss{usingcel,propclasses,zonemgr.txi}
