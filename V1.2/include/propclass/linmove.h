@@ -337,21 +337,45 @@ struct iPcLinearMovement : public virtual iBase
    */
   virtual void SetPathSector (const char *sectorname) = 0;
 
+  /**
+   * Check if mesh is on ground.
+   */
   virtual bool IsOnGround () const = 0;
 
+  /**
+   * Set mesh onground flag (will assume it is on ground until it moves).
+   */
   virtual void SetOnGround (bool onground) = 0;
 
-  /// Set if pcmesh should be transformed to follow the contour of the ground
+  /**
+   * Set if pcmesh should be transformed to follow the contour of the ground
+   */
   virtual void SetHugGround (bool hugGround) = 0;
 
+  /*
+   * Set maximum time delta to use when extrapolating positions.
+   */
   virtual void SetDeltaLimit (float deltaLimit) = 0;
 
+  /*
+   * Rotates the mesh by a certain amount. This function is intended to be
+   * used internally and should not be used.
+   */ 
   virtual bool RotateV (float delta) = 0;
 
+  /*
+   * Set value of gravity affecting this object.
+   */
   virtual void SetGravity (float grav) = 0;
 
+  /*
+   * Get current value of gravity affecting this object.
+   */
   virtual float GetGravity () = 0;
 
+  /*
+   * Reset gravity to default (19.6f) for this object.
+   */
   virtual void ResetGravity () = 0;
 
   /**
