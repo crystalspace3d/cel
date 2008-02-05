@@ -15,6 +15,8 @@ The history order is reversed so that new features are at the top.
 	  being documented as read-write).
 	- Vincent merged r3099 into 1.2 (added missing comments to some of the
 	  functions in iPcLinearMovement interface).
+	- Vincent merged r3112 into 1.2 (fixed an error description in
+	  inventory reward).
 4-Feb-2008
 	- Vincent merged r2976 into 1.2 (replaced call to GetLastPosition() in
 	  actormove with GetYRotation()).
