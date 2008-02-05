@@ -71,19 +71,19 @@ struct iBillboard;
  * - uv_botright (vector2, read/write): botright uv coordinate in material.
  * - layer (string, read/write): layer name.
  * - text (string, read/write): optional text on billboard.
- * - text_offset (vector2, write): offset for text in billboard space.
- * - text_fg_color (color, write): foreground color.
- * - text_bg_color (color, write): background color.
- * - text_font_size (float, write): font size. Set this before setting
+ * - text_offset (vector2, read/write): offset for text in billboard space.
+ * - text_fg_color (color, read/write): foreground color.
+ * - text_bg_color (color, read/write): background color.
+ * - text_font_size (float, read/write): font size. Set this before setting
  *     text_font. Otherwise default is 10.
- * - text_font (string, write): font.
- * - text_default_fg_color (color, write): default foreground color (for
+ * - text_font (string, read/write): font.
+ * - text_default_fg_color (color, read/write): default foreground color (for
  *     all billboards).
- * - text_default_bg_color (color, write): default background color (for
+ * - text_default_bg_color (color, read/write): default background color (for
  *     all billboards).
- * - text_default_font_size (float, write): font size. Set this before
+ * - text_default_font_size (float, read/write): font size. Set this before
  *     setting text_default_font. Otherwise default is 10.
- * - text_default_font (string, write): default font (for
+ * - text_default_font (string, read/write): default font (for
  *     all billboards).
  */
 struct iPcBillboard : public virtual iBase

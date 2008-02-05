@@ -11,6 +11,8 @@ The history order is reversed so that new features are at the top.
 	- Vincent froze blcel following r3156.
 	- Vincent merged r3091 into 1.2 (fixed zonemanager checking wrongly
 	  for PointCamera() error).
+	- Vincent merged r3096 into 1.2 (fixed pc2d.billboard properties not
+	  being documented as read-write).
 4-Feb-2008
 	- Vincent merged r2976 into 1.2 (replaced call to GetLastPosition() in
 	  actormove with GetYRotation()).
