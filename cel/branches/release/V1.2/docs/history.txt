@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-Jan-2008
+	- caedes fixed newstate reward to actually use entity and tag
+	  parameters, it was always changing state on the own quest.
 18-Jan-2008
 	- Genjix corrected name of error message in quests.
 8-Jan-2008
