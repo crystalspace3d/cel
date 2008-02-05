@@ -63,11 +63,11 @@ namespace celCameraMode
 celCameraMode::celCameraMode ()
 {
   parent = 0;
-  origin = csVector3 (0.0f, 0.0f, 0.0f);
-  target = csVector3 (0.0f, 0.0f, 0.0f);
+  origin = csVector3 (0);
+  target = csVector3 (0);
   up = csVector3 (0.0f, 1.0f, 0.0f);
-  originSpring = 2.0f;
-  targetSpring = 2.0f;
+  originSpring = 5.0f;
+  targetSpring = 5.0f;
   upSpring = 2.0f;
 }
 
