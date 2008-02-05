@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-Dec-2007
+	- caedes fixed zonemanager checking wrongly for PointCamera error,
+	  thus emmiting errors when the action was correctly executed.
 14-Dec-2007
 	- Vincent added back bindings for thruster related interfaces which
 	  were wrongly removed in r2676 & r2678, and forgotten in r2693.
