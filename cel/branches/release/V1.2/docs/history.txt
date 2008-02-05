@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+31-Jan-2008
+	- caedes really bumped celstart version to 8.
 30-Jan-2008
 	- caedes added a version command line option to celstart.
 	- caedes added usage and specific options info to --help output for
