@@ -4,6 +4,8 @@ The history order is reversed so that new features are at the top.
 
 5-Feb-2008
 	- Vincent merged r3153 into 1.2 (svn:ignore list for top dir).
+	- Vincent merged r3086 into 1.2 (added note in manual about pcmover
+	  dependency on linmove and actormove).
 4-Feb-2008
 	- Vincent merged r2976 into 1.2 (replaced call to GetLastPosition() in
 	  actormove with GetYRotation()).
