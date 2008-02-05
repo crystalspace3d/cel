@@ -1473,6 +1473,187 @@ scfQuery_iPcMechanicsObject = _blcelc.scfQuery_iPcMechanicsObject
 scfQueryPC_iPcMechanicsObject = _blcelc.scfQueryPC_iPcMechanicsObject
 scfQueryPC_iPcMechanicsJoint = _blcelc.scfQueryPC_iPcMechanicsJoint
 scfQuery_iPcMechanicsJoint = _blcelc.scfQuery_iPcMechanicsJoint
+class iPcMechanicsThruster(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsThruster, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsThruster, name)
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetMechanicsObject(*args): return _blcelc.iPcMechanicsThruster_SetMechanicsObject(*args)
+    def GetMechanicsObject(*args): return _blcelc.iPcMechanicsThruster_GetMechanicsObject(*args)
+    def SetPosition(*args): return _blcelc.iPcMechanicsThruster_SetPosition(*args)
+    def GetPosition(*args): return _blcelc.iPcMechanicsThruster_GetPosition(*args)
+    def SetOrientation(*args): return _blcelc.iPcMechanicsThruster_SetOrientation(*args)
+    def GetOrientation(*args): return _blcelc.iPcMechanicsThruster_GetOrientation(*args)
+    def SetMaxThrust(*args): return _blcelc.iPcMechanicsThruster_SetMaxThrust(*args)
+    def GetMaxThrust(*args): return _blcelc.iPcMechanicsThruster_GetMaxThrust(*args)
+    def GetThrustForce(*args): return _blcelc.iPcMechanicsThruster_GetThrustForce(*args)
+    def AvailableThrust(*args): return _blcelc.iPcMechanicsThruster_AvailableThrust(*args)
+    def ThrustChange(*args): return _blcelc.iPcMechanicsThruster_ThrustChange(*args)
+    __swig_setmethods__["MechanicsObject"] = _blcelc.iPcMechanicsThruster_MechanicsObject_set
+    MechanicsObject = property(_blcelc.iPcMechanicsThruster_MechanicsObject_get, _blcelc.iPcMechanicsThruster_MechanicsObject_set, None,
+                    "iPcMechanicsThruster.MechanicsObject -> iPcMechanicsObject*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMechanicsObject* iPcMechanicsThruster::GetMechanicsObject()\n\tset: void iPcMechanicsThruster::SetMechanicsObject(iPcMechanicsObject*)")
+
+
+    __swig_setmethods__["Position"] = _blcelc.iPcMechanicsThruster_Position_set
+    Position = property(_blcelc.iPcMechanicsThruster_Position_get, _blcelc.iPcMechanicsThruster_Position_set, None,
+                    "iPcMechanicsThruster.Position -> const csVector3&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector3& iPcMechanicsThruster::GetPosition()\n\tset: void iPcMechanicsThruster::SetPosition(const csVector3&)")
+
+
+    __swig_setmethods__["Orientation"] = _blcelc.iPcMechanicsThruster_Orientation_set
+    Orientation = property(_blcelc.iPcMechanicsThruster_Orientation_get, _blcelc.iPcMechanicsThruster_Orientation_set, None,
+                    "iPcMechanicsThruster.Orientation -> const csVector3&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector3& iPcMechanicsThruster::GetOrientation()\n\tset: void iPcMechanicsThruster::SetOrientation(const csVector3&)")
+
+
+    __swig_setmethods__["MaxThrust"] = _blcelc.iPcMechanicsThruster_MaxThrust_set
+    MaxThrust = property(_blcelc.iPcMechanicsThruster_MaxThrust_get, _blcelc.iPcMechanicsThruster_MaxThrust_set, None,
+                    "iPcMechanicsThruster.MaxThrust -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMechanicsThruster::GetMaxThrust()\n\tset: void iPcMechanicsThruster::SetMaxThrust(float)")
+
+
+    _PC = None
+    def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMechanicsThruster, attr)
+         except:
+             pass
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if attr in iPcMechanicsThruster.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsThruster,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
+    __swig_destroy__ = _blcelc.delete_iPcMechanicsThruster
+    __del__ = lambda self : None;
+iPcMechanicsThruster_swigregister = _blcelc.iPcMechanicsThruster_swigregister
+iPcMechanicsThruster_swigregister(iPcMechanicsThruster)
+celCreateMechanicsSystem = _blcelc.celCreateMechanicsSystem
+celGetSetMechanicsSystem = _blcelc.celGetSetMechanicsSystem
+celGetMechanicsSystem = _blcelc.celGetMechanicsSystem
+celCreateMechanicsObject = _blcelc.celCreateMechanicsObject
+celGetSetMechanicsObject = _blcelc.celGetSetMechanicsObject
+celGetMechanicsObject = _blcelc.celGetMechanicsObject
+celCreateMechanicsJoint = _blcelc.celCreateMechanicsJoint
+celGetSetMechanicsJoint = _blcelc.celGetSetMechanicsJoint
+celGetMechanicsJoint = _blcelc.celGetMechanicsJoint
+
+CEL_AT_NONE = _blcelc.CEL_AT_NONE
+CEL_AT_ROTATION = _blcelc.CEL_AT_ROTATION
+CEL_AT_TRANSLATION = _blcelc.CEL_AT_TRANSLATION
+class iPcMechanicsBalancedGroup(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsBalancedGroup, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsBalancedGroup, name)
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetType(*args): return _blcelc.iPcMechanicsBalancedGroup_SetType(*args)
+    def GetType(*args): return _blcelc.iPcMechanicsBalancedGroup_GetType(*args)
+    def AddThruster(*args): return _blcelc.iPcMechanicsBalancedGroup_AddThruster(*args)
+    def RemoveThruster(*args): return _blcelc.iPcMechanicsBalancedGroup_RemoveThruster(*args)
+    def GetThruster(*args): return _blcelc.iPcMechanicsBalancedGroup_GetThruster(*args)
+    def AvailableThrust(*args): return _blcelc.iPcMechanicsBalancedGroup_AvailableThrust(*args)
+    def AvailableThrustForce(*args): return _blcelc.iPcMechanicsBalancedGroup_AvailableThrustForce(*args)
+    def ChangeThrust(*args): return _blcelc.iPcMechanicsBalancedGroup_ChangeThrust(*args)
+    __swig_setmethods__["Type"] = _blcelc.iPcMechanicsBalancedGroup_Type_set
+    Type = property(_blcelc.iPcMechanicsBalancedGroup_Type_get, _blcelc.iPcMechanicsBalancedGroup_Type_set, None,
+                    "iPcMechanicsBalancedGroup.Type -> celAxisType\n\nThis is equivalent to calling the C++ cs methods:\n\tget: celAxisType iPcMechanicsBalancedGroup::GetType()\n\tset: void iPcMechanicsBalancedGroup::SetType(celAxisType)")
+
+
+    _PC = None
+    def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMechanicsBalancedGroup, attr)
+         except:
+             pass
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if attr in iPcMechanicsBalancedGroup.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsBalancedGroup,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
+    __swig_destroy__ = _blcelc.delete_iPcMechanicsBalancedGroup
+    __del__ = lambda self : None;
+iPcMechanicsBalancedGroup_swigregister = _blcelc.iPcMechanicsBalancedGroup_swigregister
+iPcMechanicsBalancedGroup_swigregister(iPcMechanicsBalancedGroup)
+
+class iPcMechanicsThrusterController(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsThrusterController, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsThrusterController, name)
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetMechanicsObject(*args): return _blcelc.iPcMechanicsThrusterController_SetMechanicsObject(*args)
+    def GetMechanicsObject(*args): return _blcelc.iPcMechanicsThrusterController_GetMechanicsObject(*args)
+    def AddAxis(*args): return _blcelc.iPcMechanicsThrusterController_AddAxis(*args)
+    def GetAxis(*args): return _blcelc.iPcMechanicsThrusterController_GetAxis(*args)
+    def GetAxisType(*args): return _blcelc.iPcMechanicsThrusterController_GetAxisType(*args)
+    def GetAxisVelocity(*args): return _blcelc.iPcMechanicsThrusterController_GetAxisVelocity(*args)
+    def GetAxisMaxForce(*args): return _blcelc.iPcMechanicsThrusterController_GetAxisMaxForce(*args)
+    def GetAxisMaxThrust(*args): return _blcelc.iPcMechanicsThrusterController_GetAxisMaxThrust(*args)
+    def AddBalancedGroup(*args): return _blcelc.iPcMechanicsThrusterController_AddBalancedGroup(*args)
+    def RemoveBalancedGroup(*args): return _blcelc.iPcMechanicsThrusterController_RemoveBalancedGroup(*args)
+    def ApplyThrust(*args): return _blcelc.iPcMechanicsThrusterController_ApplyThrust(*args)
+    def CancelThrust(*args): return _blcelc.iPcMechanicsThrusterController_CancelThrust(*args)
+    __swig_setmethods__["MechanicsObject"] = _blcelc.iPcMechanicsThrusterController_MechanicsObject_set
+    MechanicsObject = property(_blcelc.iPcMechanicsThrusterController_MechanicsObject_get, _blcelc.iPcMechanicsThrusterController_MechanicsObject_set, None,
+                    "iPcMechanicsThrusterController.MechanicsObject -> iPcMechanicsObject*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMechanicsObject* iPcMechanicsThrusterController::GetMechanicsObject()\n\tset: void iPcMechanicsThrusterController::SetMechanicsObject(iPcMechanicsObject*)")
+
+
+    _PC = None
+    def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMechanicsThrusterController, attr)
+         except:
+             pass
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if attr in iPcMechanicsThrusterController.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsThrusterController,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
+    __swig_destroy__ = _blcelc.delete_iPcMechanicsThrusterController
+    __del__ = lambda self : None;
+iPcMechanicsThrusterController_swigregister = _blcelc.iPcMechanicsThrusterController_swigregister
+iPcMechanicsThrusterController_swigregister(iPcMechanicsThrusterController)
+
+scfQuery_iPcMechanicsThruster = _blcelc.scfQuery_iPcMechanicsThruster
+scfQueryPC_iPcMechanicsThruster = _blcelc.scfQueryPC_iPcMechanicsThruster
+scfQuery_iPcMechanicsBalancedGroup = _blcelc.scfQuery_iPcMechanicsBalancedGroup
+scfQueryPC_iPcMechanicsBalancedGroup = _blcelc.scfQueryPC_iPcMechanicsBalancedGroup
+scfQuery_iPcMechanicsThrusterController = _blcelc.scfQuery_iPcMechanicsThrusterController
+scfQueryPC_iPcMechanicsThrusterController = _blcelc.scfQueryPC_iPcMechanicsThrusterController
 class iBillboardLayer(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -1493,15 +1674,15 @@ class iBillboardLayer(cspace.iBase):
     __del__ = lambda self : None;
 iBillboardLayer_swigregister = _blcelc.iBillboardLayer_swigregister
 iBillboardLayer_swigregister(iBillboardLayer)
-celCreateMechanicsSystem = _blcelc.celCreateMechanicsSystem
-celGetSetMechanicsSystem = _blcelc.celGetSetMechanicsSystem
-celGetMechanicsSystem = _blcelc.celGetMechanicsSystem
-celCreateMechanicsObject = _blcelc.celCreateMechanicsObject
-celGetSetMechanicsObject = _blcelc.celGetSetMechanicsObject
-celGetMechanicsObject = _blcelc.celGetMechanicsObject
-celCreateMechanicsJoint = _blcelc.celCreateMechanicsJoint
-celGetSetMechanicsJoint = _blcelc.celGetSetMechanicsJoint
-celGetMechanicsJoint = _blcelc.celGetMechanicsJoint
+celCreateMechanicsThrusterReactionary = _blcelc.celCreateMechanicsThrusterReactionary
+celGetSetMechanicsThrusterReactionary = _blcelc.celGetSetMechanicsThrusterReactionary
+celGetMechanicsThrusterReactionary = _blcelc.celGetMechanicsThrusterReactionary
+celCreateMechanicsBalancedGroup = _blcelc.celCreateMechanicsBalancedGroup
+celGetSetMechanicsBalancedGroup = _blcelc.celGetSetMechanicsBalancedGroup
+celGetMechanicsBalancedGroup = _blcelc.celGetMechanicsBalancedGroup
+celCreateMechanicsThrusterController = _blcelc.celCreateMechanicsThrusterController
+celGetSetMechanicsThrusterController = _blcelc.celGetSetMechanicsThrusterController
+celGetMechanicsThrusterController = _blcelc.celGetMechanicsThrusterController
 
 class iBillboardEventHandler(cspace.iBase):
     __swig_setmethods__ = {}

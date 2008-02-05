@@ -8,6 +8,7 @@ The history order is reversed so that new features are at the top.
 	  dependency on linmove and actormove).
 	- Vincent merged r3088 into 1.2 (added back bindings for thruster
 	  related interfaces).
+	- Vincent froze blcel following r3156.
 4-Feb-2008
 	- Vincent merged r2976 into 1.2 (replaced call to GetLastPosition() in
 	  actormove with GetYRotation()).
