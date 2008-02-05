@@ -41,7 +41,7 @@ Tracking::Tracking (iBase* p)
 Tracking::Tracking (csWeakRef<iCelPlLayer> pl)
 	: scfImplementationType (this), pl (pl)
 {
-  posoffset.Set (0, 3, 3);
+  posoffset.Set (0, 3, 5);
 
   init_reset = false;
   up.Set (0,1,0);
@@ -118,13 +118,14 @@ bool Tracking::DecideCameraState ()
     camtrans.LookAt (tarpos - camtrans.GetOrigin (), up);
   }
 
+  const float player_y = GetAnchorPosition ().y;
   // since the camera transform exists in the same plane as the anchor
   // and up is fixed to (0,1,0) (our assumptions), then offset in y
   // (we ignore posoffset.x totally)
-  origin = camtrans.GetOrigin () + csVector3 (0,posoffset.y,0);
+  origin = camtrans.GetOrigin () + csVector3 (0,player_y + posoffset.y,0);
   // from transform, recompute target
   target = camtrans.This2Other (csVector3 (0,0,posoffset.z));
-  target.y += targetyoffset;
+  target.y = player_y + targetyoffset;
   return true;
 }
 
