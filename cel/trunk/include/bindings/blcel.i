@@ -26,6 +26,7 @@ CS_PROPERTY_HELPERS
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 #include "propclass/timer.h"
+#include "propclass/spawn.h"
 #include "propclass/projectile.h"
 #include "propclass/solid.h"
 #include "propclass/gravity.h"
@@ -551,6 +552,11 @@ CEL_PC(iPcTimer, Timer, pctools.timer)
 
 %include "propclass/trigger.h"
 CEL_PC(iPcTrigger, Trigger, pclogic.trigger)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/spawn.h"
+CEL_PC(iPcSpawn, Spawn, pclogic.spawn)
 
 //-----------------------------------------------------------------------------
 %include "propclass/projectile.h"
