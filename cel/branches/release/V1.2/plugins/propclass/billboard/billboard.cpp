@@ -125,26 +125,26 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   AddProperty (propid_text, "cel.property.text",
 	CEL_DATA_STRING, false, "Text placed on the billboard.", 0);
   AddProperty (propid_text_offset, "cel.property.text_offset",
-	CEL_DATA_VECTOR2, true, "Offset for the text in bb space.", 0);
+	CEL_DATA_VECTOR2, false, "Offset for the text in bb space.", 0);
   AddProperty (propid_text_fg_color, "cel.property.text_fg_color",
-	CEL_DATA_COLOR, true, "Foreground text color", 0);
+	CEL_DATA_COLOR, false, "Foreground text color", 0);
   AddProperty (propid_text_bg_color, "cel.property.text_bg_color",
-	CEL_DATA_COLOR, true, "Background text color.", 0);
+	CEL_DATA_COLOR, false, "Background text color.", 0);
   AddProperty (propid_text_font_size, "cel.property.text_font_size",
-	CEL_DATA_FLOAT, true, "Text font size.", 0);
+	CEL_DATA_FLOAT, false, "Text font size.", 0);
   AddProperty (propid_text_font, "cel.property.text_font",
-	CEL_DATA_STRING, true, "Text font.", 0);
+	CEL_DATA_STRING, false, "Text font.", 0);
   AddProperty (propid_text_default_fg_color,
         "cel.property.text_default_fg_color",
-	CEL_DATA_COLOR, true, "Default foreground text color.", 0);
+	CEL_DATA_COLOR, false, "Default foreground text color.", 0);
   AddProperty (propid_text_default_bg_color,
         "cel.property.text_default_bg_color",
-	CEL_DATA_COLOR, true, "Default background text color.", 0);
+	CEL_DATA_COLOR, false, "Default background text color.", 0);
   AddProperty (propid_text_default_font_size,
         "cel.property.text_default_font_size",
-	CEL_DATA_FLOAT, true, "Default text font size.", 0);
+	CEL_DATA_FLOAT, false, "Default text font size.", 0);
   AddProperty (propid_text_default_font, "cel.property.text_default_font",
-	CEL_DATA_STRING, true, "Default text font.", 0);
+	CEL_DATA_STRING, false, "Default text font.", 0);
 
   font_size = 10.0f;
   default_font_size = 10.0f;

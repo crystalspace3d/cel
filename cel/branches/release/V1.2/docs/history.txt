@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+8-Jan-2008
+	- caedes fixed some pc2d.billboard properties being declared as
+	  write only in the docs, read only in the code, while actually
+	  being both read and write.
 22-Dec-2007
 	- caedes fixed zonemanager checking wrongly for PointCamera error,
 	  thus emmiting errors when the action was correctly executed.
