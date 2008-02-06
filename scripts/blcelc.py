@@ -3028,6 +3028,51 @@ iPcTrigger_swigregister(iPcTrigger)
 iPcTrigger_scfGetVersion = _blcelc.iPcTrigger_scfGetVersion
 
 scfQuery_iPcTrigger = _blcelc.scfQuery_iPcTrigger
+class iPcSpawn(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetEnabled(*args): return _blcelc.iPcSpawn_SetEnabled(*args)
+    def IsEnabled(*args): return _blcelc.iPcSpawn_IsEnabled(*args)
+    def AddEntityType(*args): return _blcelc.iPcSpawn_AddEntityType(*args)
+    def AddEntityTemplateType(*args): return _blcelc.iPcSpawn_AddEntityTemplateType(*args)
+    def ClearEntityList(*args): return _blcelc.iPcSpawn_ClearEntityList(*args)
+    def SetTiming(*args): return _blcelc.iPcSpawn_SetTiming(*args)
+    def ResetTiming(*args): return _blcelc.iPcSpawn_ResetTiming(*args)
+    def SetEntityNameCounter(*args): return _blcelc.iPcSpawn_SetEntityNameCounter(*args)
+    def IsEntityNameCounterCounter(*args): return _blcelc.iPcSpawn_IsEntityNameCounterCounter(*args)
+    def EnableSpawnUnique(*args): return _blcelc.iPcSpawn_EnableSpawnUnique(*args)
+    def IsSpawnUniqueEnabled(*args): return _blcelc.iPcSpawn_IsSpawnUniqueEnabled(*args)
+    def InhibitCount(*args): return _blcelc.iPcSpawn_InhibitCount(*args)
+    def Spawn(*args): return _blcelc.iPcSpawn_Spawn(*args)
+    def AddSpawnPosition(*args): return _blcelc.iPcSpawn_AddSpawnPosition(*args)
+    _PC = None
+    def __getattr__(self,attr):
+         if hasattr(iCelPropertyClass,attr):
+             _PC = self.QueryInterface(iCelPropertyClass)
+             return getattr(_PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if hasattr(iPcSpawn,attr):
+             return object.__setattr__(self,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = self.QueryInterface(iCelPropertyClass)
+             setattr(_PC,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
+    scfGetVersion = staticmethod(_blcelc.iPcSpawn_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iPcSpawn
+    __del__ = lambda self : None;
+iPcSpawn_swigregister = _blcelc.iPcSpawn_swigregister
+iPcSpawn_swigregister(iPcSpawn)
+celCreateTrigger = _blcelc.celCreateTrigger
+celGetSetTrigger = _blcelc.celGetSetTrigger
+celGetTrigger = _blcelc.celGetTrigger
+iPcSpawn_scfGetVersion = _blcelc.iPcSpawn_scfGetVersion
+
+scfQuery_iPcSpawn = _blcelc.scfQuery_iPcSpawn
 class iPcProjectile(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
@@ -3059,9 +3104,9 @@ class iPcProjectile(cspace.iBase):
     __del__ = lambda self : None;
 iPcProjectile_swigregister = _blcelc.iPcProjectile_swigregister
 iPcProjectile_swigregister(iPcProjectile)
-celCreateTrigger = _blcelc.celCreateTrigger
-celGetSetTrigger = _blcelc.celGetSetTrigger
-celGetTrigger = _blcelc.celGetTrigger
+celCreateSpawn = _blcelc.celCreateSpawn
+celGetSetSpawn = _blcelc.celGetSetSpawn
+celGetSpawn = _blcelc.celGetSpawn
 iPcProjectile_scfGetVersion = _blcelc.iPcProjectile_scfGetVersion
 
 scfQuery_iPcProjectile = _blcelc.scfQuery_iPcProjectile
