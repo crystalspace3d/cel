@@ -4499,19 +4499,41 @@ SWIGINTERN bool iPcRegion_LoadWorld(iPcRegion *self,char const *vfsdir,char cons
     return self->Load ();
   }
 
-iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
-	const char *name)
+iPcRegion *celCreateRegion(iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0 ) 
 {
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcworld.region");
+  csRef<iCelPropertyClass> pc;
+  if (tagname)
+    pc = pl->CreateTaggedPropertyClass(entity,"pcworld.region", tagname);
+  else
+    pc = pl->CreatePropertyClass(entity,"pcworld.region" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcRegion> pcregion = scfQueryInterface<iPcRegion>(pc);
-  if (!pcregion.IsValid()) return 0;
-  pcregion->SetRegionName (name);
-  return pcregion;
+  csRef<iPcRegion> pclm = scfQueryInterface<iPcRegion>(pc);
+  if (!pclm.IsValid()) return 0;
+  return pclm;
 }
 
 
-iPcRegion * Region (iCelEntity *entity, const char* tagname = 0 )
+iPcRegion * celGetSetRegion (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
+{
+  csRef<iPcRegion> pclm;
+  if (tagname)
+    pclm =    (celQueryPropertyClassTag<iPcRegion> (entity->GetPropertyClassList (),tagname));
+  else
+    pclm =    (celQueryPropertyClass<iPcRegion> (entity->GetPropertyClassList ()));
+  if (pclm.IsValid()) return pclm;
+  csRef<iCelPropertyClass> pc;
+  if (tagname)
+    pc = pl->CreateTaggedPropertyClass(entity,"pcworld.region", tagname );
+  else
+    pc = pl->CreatePropertyClass(entity,"pcworld.region" );
+  if (!pc.IsValid()) return 0;
+  pclm = scfQueryInterface<iPcRegion>(pc);
+  if (!pclm.IsValid()) return 0;
+  return pclm;
+}
+
+
+iPcRegion * celGetRegion (iCelEntity *entity, const char* tagname = 0 )
 {
   csRef<iPcRegion> pc;
   if (tagname)
@@ -4526,14 +4548,6 @@ iPcRegion * Region (iCelEntity *entity, const char* tagname = 0 )
 iPcRegion *scfQuery_iPcRegion (iCelPropertyClass *pc)
 {
   csRef<iPcRegion> iface = scfQueryInterface<iPcRegion>(pc);
-  if (iface) iface->IncRef ();
-  return iface;
-}
-
-
-iPcRegion *scfQueryPC_iPcRegion (iCelPropertyClassList *pclist)
-{
-  csRef<iPcRegion> iface = scfQueryInterface<iPcRegion>(pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -37203,7 +37217,7 @@ SWIGINTERN PyObject *iPcRegion_swigregister(PyObject *SWIGUNUSEDPARM(self), PyOb
   return SWIG_Py_Void();
 }
 
-SWIGINTERN PyObject *_wrap_celCreateRegion(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_celCreateRegion__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
   iCelEntity *arg2 = (iCelEntity *) 0 ;
@@ -37246,7 +37260,210 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Region__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_celCreateRegion__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+  iCelEntity *arg2 = (iCelEntity *) 0 ;
+  iPcRegion *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:celCreateRegion",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celCreateRegion" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntity, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celCreateRegion" "', argument " "2"" of type '" "iCelEntity *""'"); 
+  }
+  arg2 = reinterpret_cast< iCelEntity * >(argp2);
+  result = (iPcRegion *)celCreateRegion(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcRegion, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celCreateRegion(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelPlLayer, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_iCelEntity, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_celCreateRegion__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelPlLayer, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_iCelEntity, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_AsCharPtrAndSize(argv[2], 0, NULL, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_celCreateRegion__SWIG_0(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'celCreateRegion'.\n  Possible C/C++ prototypes are:\n    celCreateRegion(iCelPlLayer *,iCelEntity *,char const *)\n    celCreateRegion(iCelPlLayer *,iCelEntity *)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celGetSetRegion__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+  iCelEntity *arg2 = (iCelEntity *) 0 ;
+  char *arg3 = (char *) 0 ;
+  iPcRegion *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:celGetSetRegion",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetSetRegion" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntity, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celGetSetRegion" "', argument " "2"" of type '" "iCelEntity *""'"); 
+  }
+  arg2 = reinterpret_cast< iCelEntity * >(argp2);
+  res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "celGetSetRegion" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = reinterpret_cast< char * >(buf3);
+  result = (iPcRegion *)celGetSetRegion(arg1,arg2,(char const *)arg3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcRegion, 0 |  0 );
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  return resultobj;
+fail:
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celGetSetRegion__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+  iCelEntity *arg2 = (iCelEntity *) 0 ;
+  iPcRegion *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:celGetSetRegion",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetSetRegion" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntity, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celGetSetRegion" "', argument " "2"" of type '" "iCelEntity *""'"); 
+  }
+  arg2 = reinterpret_cast< iCelEntity * >(argp2);
+  result = (iPcRegion *)celGetSetRegion(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcRegion, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celGetSetRegion(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelPlLayer, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_iCelEntity, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_celGetSetRegion__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelPlLayer, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_iCelEntity, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_AsCharPtrAndSize(argv[2], 0, NULL, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_celGetSetRegion__SWIG_0(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'celGetSetRegion'.\n  Possible C/C++ prototypes are:\n    celGetSetRegion(iCelPlLayer *,iCelEntity *,char const *)\n    celGetSetRegion(iCelPlLayer *,iCelEntity *)\n");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celGetRegion__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelEntity *arg1 = (iCelEntity *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -37259,18 +37476,18 @@ SWIGINTERN PyObject *_wrap_Region__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObje
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:Region",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:celGetRegion",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelEntity, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Region" "', argument " "1"" of type '" "iCelEntity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetRegion" "', argument " "1"" of type '" "iCelEntity *""'"); 
   }
   arg1 = reinterpret_cast< iCelEntity * >(argp1);
   res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Region" "', argument " "2"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celGetRegion" "', argument " "2"" of type '" "char const *""'");
   }
   arg2 = reinterpret_cast< char * >(buf2);
-  result = (iPcRegion *)Region(arg1,(char const *)arg2);
+  result = (iPcRegion *)celGetRegion(arg1,(char const *)arg2);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcRegion, 0 |  0 );
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return resultobj;
@@ -37280,7 +37497,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Region__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_celGetRegion__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelEntity *arg1 = (iCelEntity *) 0 ;
   iPcRegion *result = 0 ;
@@ -37288,13 +37505,13 @@ SWIGINTERN PyObject *_wrap_Region__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObje
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:Region",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:celGetRegion",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelEntity, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Region" "', argument " "1"" of type '" "iCelEntity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetRegion" "', argument " "1"" of type '" "iCelEntity *""'"); 
   }
   arg1 = reinterpret_cast< iCelEntity * >(argp1);
-  result = (iPcRegion *)Region(arg1);
+  result = (iPcRegion *)celGetRegion(arg1);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcRegion, 0 |  0 );
   return resultobj;
 fail:
@@ -37302,7 +37519,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Region(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_celGetRegion(PyObject *self, PyObject *args) {
   int argc;
   PyObject *argv[3];
   int ii;
@@ -37318,7 +37535,7 @@ SWIGINTERN PyObject *_wrap_Region(PyObject *self, PyObject *args) {
     int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelEntity, 0);
     _v = SWIG_CheckState(res);
     if (_v) {
-      return _wrap_Region__SWIG_1(self, args);
+      return _wrap_celGetRegion__SWIG_1(self, args);
     }
   }
   if (argc == 2) {
@@ -37330,13 +37547,13 @@ SWIGINTERN PyObject *_wrap_Region(PyObject *self, PyObject *args) {
       int res = SWIG_AsCharPtrAndSize(argv[1], 0, NULL, 0);
       _v = SWIG_CheckState(res);
       if (_v) {
-        return _wrap_Region__SWIG_0(self, args);
+        return _wrap_celGetRegion__SWIG_0(self, args);
       }
     }
   }
   
 fail:
-  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'Region'.\n  Possible C/C++ prototypes are:\n    Region(iCelEntity *,char const *)\n    Region(iCelEntity *)\n");
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'celGetRegion'.\n  Possible C/C++ prototypes are:\n    celGetRegion(iCelEntity *,char const *)\n    celGetRegion(iCelEntity *)\n");
   return NULL;
 }
 
@@ -37356,28 +37573,6 @@ SWIGINTERN PyObject *_wrap_scfQuery_iPcRegion(PyObject *SWIGUNUSEDPARM(self), Py
   }
   arg1 = reinterpret_cast< iCelPropertyClass * >(argp1);
   result = (iPcRegion *)scfQuery_iPcRegion(arg1);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcRegion, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_scfQueryPC_iPcRegion(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  iCelPropertyClassList *arg1 = (iCelPropertyClassList *) 0 ;
-  iPcRegion *result = 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:scfQueryPC_iPcRegion",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPropertyClassList, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "scfQueryPC_iPcRegion" "', argument " "1"" of type '" "iCelPropertyClassList *""'"); 
-  }
-  arg1 = reinterpret_cast< iCelPropertyClassList * >(argp1);
-  result = (iPcRegion *)scfQueryPC_iPcRegion(arg1);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcRegion, 0 |  0 );
   return resultobj;
 fail:
@@ -89644,9 +89839,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_iPcRegion", _wrap_delete_iPcRegion, METH_VARARGS, NULL},
 	 { (char *)"iPcRegion_swigregister", iPcRegion_swigregister, METH_VARARGS, NULL},
 	 { (char *)"celCreateRegion", _wrap_celCreateRegion, METH_VARARGS, NULL},
-	 { (char *)"Region", _wrap_Region, METH_VARARGS, NULL},
+	 { (char *)"celGetSetRegion", _wrap_celGetSetRegion, METH_VARARGS, NULL},
+	 { (char *)"celGetRegion", _wrap_celGetRegion, METH_VARARGS, NULL},
 	 { (char *)"scfQuery_iPcRegion", _wrap_scfQuery_iPcRegion, METH_VARARGS, NULL},
-	 { (char *)"scfQueryPC_iPcRegion", _wrap_scfQueryPC_iPcRegion, METH_VARARGS, NULL},
 	 { (char *)"iCelMapFile_SetName", _wrap_iCelMapFile_SetName, METH_VARARGS, NULL},
 	 { (char *)"iCelMapFile_SetPath", _wrap_iCelMapFile_SetPath, METH_VARARGS, NULL},
 	 { (char *)"iCelMapFile_SetFile", _wrap_iCelMapFile_SetFile, METH_VARARGS, NULL},

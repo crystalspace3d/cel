@@ -2010,6 +2010,26 @@ class iPcRegion(cspace.iBase):
                     "iPcRegion.Region -> iRegion*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iRegion* iPcRegion::GetRegion()")
 
     def LoadWorld(*args): return _blcelc.iPcRegion_LoadWorld(*args)
+    _PC = None
+    def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcRegion, attr)
+         except:
+             pass
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if attr in iPcRegion.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcRegion,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcRegion
     __del__ = lambda self : None;
 iPcRegion_swigregister = _blcelc.iPcRegion_swigregister
@@ -2018,9 +2038,7 @@ celCreateBillboard = _blcelc.celCreateBillboard
 celGetSetBillboard = _blcelc.celGetSetBillboard
 celGetBillboard = _blcelc.celGetBillboard
 
-celCreateRegion = _blcelc.celCreateRegion
 scfQuery_iPcRegion = _blcelc.scfQuery_iPcRegion
-scfQueryPC_iPcRegion = _blcelc.scfQueryPC_iPcRegion
 class iCelMapFile(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -2057,7 +2075,9 @@ class iCelMapFile(cspace.iBase):
     __del__ = lambda self : None;
 iCelMapFile_swigregister = _blcelc.iCelMapFile_swigregister
 iCelMapFile_swigregister(iCelMapFile)
-Region = _blcelc.Region
+celCreateRegion = _blcelc.celCreateRegion
+celGetSetRegion = _blcelc.celGetSetRegion
+celGetRegion = _blcelc.celGetRegion
 
 class iCelRegion(cspace.iBase):
     __swig_setmethods__ = {}
