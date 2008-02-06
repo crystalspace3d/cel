@@ -5,6 +5,8 @@ The history order is reversed so that new features are at the top.
 6-Feb-2008
 	- Vincent partially merged r3050 into 1.2 (fixed PcRegion being
 	  incorrectly declared in blcel.i).
+	- Vincent merged r3065 into 1.2 (removed CEL-specific customizations
+	  from mk/msvcgen/control.tlib).
 5-Feb-2008
 	- Vincent merged r3153 into 1.2 (svn:ignore list for top dir).
 	- Vincent merged r3086 into 1.2 (added note in manual about pcmover

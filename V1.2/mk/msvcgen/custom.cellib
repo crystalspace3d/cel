@@ -20,7 +20,8 @@
 #==============================================================================
 
 #------------------------------------------------------------------------------
-# Search the default 'debug' build configuration to add the CS_DEBUG define
+# Search the default 'debug' build configuration to add the CEL-specific
+# defines.
 #------------------------------------------------------------------------------
 builddebug = {};
 FOREACH build IN builds;
@@ -29,15 +30,14 @@ FOREACH build IN builds;
     BREAK;
   END;
 END;
-# Add CS_DEBUG define
 builddebug.import({defines => builddebug.defines.merge(['CS_DEBUG'])});
 
 #------------------------------------------------------------------------------
-# Go over all configurations and add CS-specific defines needed by all
+# Go over all configurations and add CEL-specific defines needed by all
 # configurations.
 #------------------------------------------------------------------------------
 FOREACH build IN builds;
-  build.defines = build.defines.merge(['CS_WIN32_CSCONFIG','__CRYSTAL_SPACE__']);
+  build.defines = build.defines.merge(['CS_WIN32_CSCONFIG','__CRYSTAL_SPACE__','PACKAGE_NAME=CEL']);
 END;
 
 END %]
