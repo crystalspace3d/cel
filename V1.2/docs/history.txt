@@ -44,6 +44,11 @@ The history order is reversed so that new features are at the top.
 	  as custom.cellib). This allows projects to upgrade to the latest
 	  master *.tlib files from CS/mk/msvcgen without hassle via a simple
 	  copy operation.
+	- Eric Sunshine removed CEL-specific customizations from
+	  mk/jam/build.jam and relocated them to the CEL-specific Jamrules.
+	  External projects should avoid modifying the stock *.jam files from
+	  CS. This allows projects to upgrade to the latest master *.jam files
+	  from CS/mk/jam without hassle via a simple copy operation.
 22-Oct-2007
 	- caedes added manual section for spawn property class.
 20-Oct-2007
