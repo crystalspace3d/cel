@@ -434,23 +434,7 @@ CEL_PC_QUERY_CLASSLIST(iPcBillboard)
   }
 }
 
-%inline %{
-iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
-	const char *name)
-{
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcworld.region");
-  if (!pc.IsValid()) return 0;
-  csRef<iPcRegion> pcregion = scfQueryInterface<iPcRegion>(pc);
-  if (!pcregion.IsValid()) return 0;
-  pcregion->SetRegionName (name);
-  return pcregion;
-}
-%}
-
-CEL_PC_GET(iPcRegion, Region)
-CEL_PC_QUERY(iPcRegion)
-CEL_PC_QUERY_CLASSLIST(iPcRegion)
-
+CEL_PC(iPcRegion, Region, pcworld.region)
 //-----------------------------------------------------------------------------
 
 // TODO these need pseudo-dict like interfaces for some stuff

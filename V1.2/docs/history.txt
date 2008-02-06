@@ -38,6 +38,8 @@ The history order is reversed so that new features are at the top.
 	  empty and temporary $(BUILDTOP)/scripts/autopackage directory.
 22-Oct-2007
 	- caedes added manual section for spawn property class.
+20-Oct-2007
+	- caedes really fixed PcRegion being incorrectly declared in blcel.i.
 19-Oct-2007
 	- caedes changed celPcDefaultCamera::GetLastFullPosition to be more
 	  robust against not positioned entities (it would crash if pcmesh was
