@@ -18,6 +18,7 @@ AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_HOST
 CS_CHECK_MNO_CYGWIN
 
+
 #----------------------------------------------------------------------------
 # Check for tools.
 #----------------------------------------------------------------------------
@@ -41,10 +42,12 @@ AS_IF([test -n "$SWIG"],
     [CS_CHECK_PROG_VERSION([swig], [$SWIG -version 2>&1], [1.3.22],
 	[9.9|.9], [CS_EMIT_BUILD_PROPERTY([CMD.SWIG], [$SWIG])])])
 
+
 #----------------------------------------------------------------------------
 # Determine system type.
 #----------------------------------------------------------------------------
 CS_CHECK_HOST
+
 
 #------------------------------------------------------------------------------
 # Check how to enable and disable compilation warnings, and how to promote
@@ -63,7 +66,6 @@ CS_COMPILER_IGNORE_UNINITIALIZED([C++], [cs_cv_prog_cxx_ignore_uninitialized],
 	[$cs_cv_prog_cxx_ignore_uninitialized])])
 
 
-
 #------------------------------------------------------------------------------
 # Check for option to disable strict-aliasing (enabled by gcc on higher 
 # optimization levels). This is needed for some code we don't have
@@ -76,7 +78,6 @@ CS_CHECK_BUILD_FLAGS([for flag to disable string-aliasing],
 AS_IF([test $cs_cv_prog_cxx_no_strict_aliasing != no],
     [CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS.STRICTALIASING.DISABLE],
 	[$cs_cv_prog_cxx_no_strict_aliasing], [+])])
-
 
 
 #------------------------------------------------------------------------------
@@ -125,68 +126,17 @@ AS_IF([test "$enable_optimize_mode_debug_info" != "no"],
         [CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS.optimize],
             [$cs_cv_prog_cxx_debug_symbols_normal], [+])])])
 
-#------------------------------------------------------------------------------
-# Check how to set default symbol visibility, and how to override the setting
-# in code.
-#------------------------------------------------------------------------------
-CS_CHECK_BUILD_FLAGS([for symbol visibility flag],
-    [cs_cv_prog_cc_visibility_hidden],
-    [CS_CREATE_TUPLE([-fvisibility=hidden])])
-AS_IF([test -n "$cs_cv_prog_cc_visibility_hidden"],
-    [CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS], 
-	[$cs_cv_prog_cc_visibility_hidden], [+])])
 
 #------------------------------------------------------------------------------
-# Check if "hidden" visibilty for inline functions is supported.
-#
-# IMPLEMENTATION NOTES
-#
-# There is an obscure bug in gcc 3.4.x and 4.0.x where
-# -fvisibility-inlines-hidden on AMD64 in combination with -fPIC and -shared
-# flags causes the linker to fail with a bogus error stating that the target
-# library needs to be built with -fPIC even when it has been built using that
-# option. On such installations, if Crystal Space is built with
-# -fvisibility-inlines-hidden, then clients liking against Crystal Space
-# experience this bogus error.  Normally, we would test for this anomaly by
-# manipulating a std::basic_string<> in a test program, and avoid
-# -fvisibility-inlines-hidden if the test program fails to link, however,
-# practical experience has shown that this test is not 100% reliable for all
-# such installations. Instead, for simplicity, we disable this flag presently
-# for all versions of gcc on AMD64.  References:
-#
-#     http://dev.gentoo.org/~kugelfang/pappy-visibility.txt
-#     http://www.gnu.org/software/gcc/gcc-4.0/changes.html#visibility
-#     http://www.nedprod.com/programs/gccvisibility.html
-#     http://bugs.gentoo.org/show_bug.cgi?id=78720
-#
-# Furthermore, there seems to be a bug on MacOS/X with gcc 4.0.x where use of
-# -fvisibility-inlines-hidden causes link problems with external clients which
-# do not specify this flag.  For this reason, we also disable this flag on
-# MacOS/X.  In particular, clients receive errors of this sort:
-#
-#    /usr/bin/ld: libcrystalspace.a(scf.o) malformed object, illegal
-#        reference for -dynamic code (reference to a coalesced section
-#        (__TEXT,__textcoal_nt) from section (__TEXT,__text) relocation
-#        entry (1))
+# Check how to declare symbol visibility.
 #------------------------------------------------------------------------------
-CS_CHECK_BUILD_FLAGS([for inline visibility flag],
-    [cs_cv_prog_cxx_visibility_inlines_hidden],
-    [CS_CREATE_TUPLE([-fvisibility-inlines-hidden])],[C++])
-
-AS_IF([test -n "$cs_cv_prog_cxx_visibility_inlines_hidden"],
-    [AC_CACHE_CHECK([if $cs_cv_prog_cxx_visibility_inlines_hidden is buggy],
-	[cs_cv_prog_cxx_visibility_inlines_hidden_buggy],
-	[AS_IF([test $ac_compiler_gnu = yes],
-	    [AS_IF([test $host_cpu = x86_64 || test x$cs_host_macosx = xyes],
-		[cs_cv_prog_cxx_visibility_inlines_hidden_buggy=yes],
-		[cs_cv_prog_cxx_visibility_inlines_hidden_buggy=no])],
-	    [cs_cv_prog_cxx_visibility_inlines_hidden_buggy=no])])],
-    [cs_cv_prog_cxx_visibility_inlines_hidden_buggy=no])
-
-AS_IF([test $cs_cv_prog_cxx_visibility_inlines_hidden_buggy != yes],
+CS_VISIBILITY_FLAG_INLINES_HIDDEN(
     [CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS],
-	[$cs_cv_prog_cxx_visibility_inlines_hidden], [+])])
+	[$cs_prog_cxx_visibility_inlines_hidden], [+])])
 
+CS_VISIBILITY_FLAG_HIDDEN([C], [],
+    [CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS], 
+	[$cs_cv_prog_c_visibility_hidden], [+])])
 
 
 #----------------------------------------------------------------------------
@@ -205,6 +155,7 @@ CS_CHECK_LIB_WITH([NL],
     [$cs_cv_sys_pthread_lflags],
     [$cs_cv_sys_pthread_libs])
 
+
 #------------------------------------------------------------------------------
 # Use the CPPFLAGS, CXXFLAGS, CFLAGS, and LDFLAGS passed to configure, as well
 # as any additional flags provided by cs-win32libs.
@@ -212,6 +163,7 @@ CS_CHECK_LIB_WITH([NL],
 CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS], [$CPPFLAGS $CFLAGS], [+])
 CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS], [$CPPFLAGS $CXXFLAGS], [+])
 CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS], [$LDFLAGS], [+])
+
 
 #----------------------------------------------------------------------------
 # Check for Crystal Space (CS)
@@ -266,6 +218,7 @@ AS_IF([test $with_cs != no],
     AC_MSG_RESULT([$cel_have_crystal_static])
     CS_EMIT_BUILD_PROPERTY([HAVE_STATIC_PLUGINS], [$cel_have_crystal_static])])
 
+
 #------------------------------------------------------------------------------
 # Determine if plugin meta-information should be embedded directly into plugin
 # modules or if it should exist in stand-alone .csplugin files.
@@ -276,6 +229,7 @@ AS_IF([test $enable_meta_info_embedding = yes],
 	[AS_ESCAPE([$(EMBED_META.CFLAGS)])], [+])
     CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS],
 	[AS_ESCAPE([$(EMBED_META.LFLAGS)])], [+])])
+
 
 #----------------------------------------------------------------------------
 # Package configuration switches
@@ -288,11 +242,13 @@ AS_VAR_SET_IF([cs_build_mode], [], [cs_build_mode=optimize])
 AC_MSG_RESULT([$cs_build_mode])
 CS_EMIT_BUILD_PROPERTY([MODE], [$cs_build_mode])
 
+
 #-----------------------------------------------------------------------------
 # Output Installpaths/package info
 #-----------------------------------------------------------------------------
 CS_OUTPUT_INSTALLDIRS
 CS_EMIT_PACKAGEINFO
+
 
 #----------------------------------------------------------------------------
 # Output generated files.  Also create a Jamfile when compiling outside

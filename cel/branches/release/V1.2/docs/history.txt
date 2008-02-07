@@ -14,6 +14,11 @@ The history order is reversed so that new features are at the top.
 	  parameters, it was always changing state on the own quest.
 18-Jan-2008
 	- Genjix corrected name of error message in quests.
+10-Jan-2008
+	- Eric Sunshine upgraded configure.ac to take advantage of the new
+	  CS_VISIBILITY_FLAG_INLINES_HIDDEN() and CS_VISIBILITY_FLAG_HIDDEN()
+	  macros from mk/autoconf/visibility.m4 in place of old and outdated
+	  visibility checks which had been copy/pasted from CS/configure.ac.
 8-Jan-2008
 	- caedes fixed some pc2d.billboard properties being declared as
 	  write only in the docs, read only in the code, while actually
