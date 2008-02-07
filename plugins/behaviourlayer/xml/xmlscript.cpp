@@ -5144,6 +5144,18 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  sound_source->GetStream ()->Unpause ();
 	}
 	break;
+      case CEL_OPERATION_CHDIR:
+	{
+	  CHECK_STACK(1)
+	  celXmlArg a_dir = stack.Pop ();
+	  DUMP_EXEC ((":%04d: chdir dir=%s\n",
+		i-1, A2S (a_dir)));
+		//puts (A2S (a_dir));
+	  csRef<iVFS> vfs =
+	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
+	  vfs->ChDir (ArgToString (a_dir));
+	}
+	break;
       case CEL_OPERATION_SOUND_VOLUME:
 	{
 	  CHECK_STACK(2)
@@ -5228,6 +5240,18 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           else
             return ReportError (cbl, "Error! Can't find sound '%s'!",
             	A2S (a_name));
+        }
+        break;
+      case CEL_OPERATION_MOUNT:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg a_real = stack.Pop ();
+	  celXmlArg a_vfs = stack.Pop ();
+	  DUMP_EXEC ((":%04d: mount vfs=%s real=%s\n",
+		i-1, A2S (a_vfs), A2S (a_real)));
+	  csRef<iVFS> vfs =
+	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
+	  	vfs->Mount (ArgToString (a_vfs), ArgToString (a_real));
         }
         break;
       case CEL_OPERATION_HITBEAM:

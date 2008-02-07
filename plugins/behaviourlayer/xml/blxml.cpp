@@ -71,6 +71,8 @@ enum
   XMLTOKEN_INVENTORY,
   XMLTOKEN_INVENTORY_ADD,
   XMLTOKEN_INVENTORY_REM,
+  XMLTOKEN_MOUNT,
+  XMLTOKEN_CHDIR,
   XMLTOKEN_SOUND,
   XMLTOKEN_SOUND_STOP,
   XMLTOKEN_SOUND_PAUSE,
@@ -234,6 +236,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("print", XMLTOKEN_PRINT);
   xmltokens.Register ("call", XMLTOKEN_CALL);
   xmltokens.Register ("case", XMLTOKEN_CASE);
+  xmltokens.Register ("mount", XMLTOKEN_MOUNT);
   xmltokens.Register ("hitbeam", XMLTOKEN_HITBEAM);
   xmltokens.Register ("inherit", XMLTOKEN_INHERIT);
   xmltokens.Register ("destroyentity", XMLTOKEN_DESTROYENTITY);
@@ -244,6 +247,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("inventory", XMLTOKEN_INVENTORY);
   xmltokens.Register ("inventory_add", XMLTOKEN_INVENTORY_ADD);
   xmltokens.Register ("inventory_rem", XMLTOKEN_INVENTORY_REM);
+  xmltokens.Register ("chdir", XMLTOKEN_CHDIR);
   xmltokens.Register ("sound", XMLTOKEN_SOUND);
   xmltokens.Register ("sound_stop", XMLTOKEN_SOUND_STOP);
   xmltokens.Register ("sound_pause", XMLTOKEN_SOUND_PAUSE);
@@ -2247,6 +2251,11 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           return false;
         h->AddOperation (CEL_OPERATION_REPORTERROR);
         break;
+      case XMLTOKEN_CHDIR:
+        if (!ParseExpression (local_vars, child, h, "dir", "chdir"))
+          return false;
+        h->AddOperation (CEL_OPERATION_CHDIR);
+        break;
       case XMLTOKEN_SOUND:
         if (!ParseExpression (local_vars, child, h, "name", "sound"))
           return false;
@@ -2741,6 +2750,17 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
                     ? CEL_OPERATION_VARENT
                 : CEL_OPERATION_VAR);
           }
+        }
+        break;
+      case XMLTOKEN_MOUNT:
+        {
+          if (!ParseExpression (local_vars, child, h, "vfs",
+                "mount"))
+            return false;
+          if (!ParseExpression (local_vars, child, h, "real",
+                "mount"))
+            return false;
+          h->AddOperation (CEL_OPERATION_MOUNT);
         }
         break;
       case XMLTOKEN_HITBEAM:
