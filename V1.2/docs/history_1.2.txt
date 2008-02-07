@@ -2,6 +2,8 @@
 
 The history order is reversed so that new features are at the top.
 
+7-Feb-2008
+	- Vincent updated *.m4, *.jam and macros.tlib from CS 1.2 (r28633).
 6-Feb-2008
 	- Vincent partially merged r3050 into 1.2 (fixed PcRegion being
 	  incorrectly declared in blcel.i).
