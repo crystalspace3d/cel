@@ -85,6 +85,7 @@ INLINE_FUNCTIONS
   INTERFACE_APPLY(iCelPropertyClass)
   INTERFACE_APPLY(iQuestManager)
   INTERFACE_APPLY(iCelEntityList)
+  INTERFACE_APPLY(iBillboardManager)
 %enddef
 
 //=============================================================================
