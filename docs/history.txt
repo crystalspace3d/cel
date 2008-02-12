@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+12-Feb-2008
+        - Jorrit added support for the iBillboardManager plugin to
+          cel python.
 7-Feb-2008
 	- Genjix added some extensions to Xml behaviour layer- mounting and
 	  chdir.
