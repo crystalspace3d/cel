@@ -447,6 +447,10 @@ public:
   	const char* entity_par, const char* target_entity_par,
 	const char* checktime_par,
 	const char* radius_par);
+  virtual iQuestTriggerFactory* SetOperationTrigger (
+        iQuestTriggerResponseFactory* response,
+        const char* operation_par,
+        csRefArray<iQuestTriggerFactory> &trigger_factories);
 };
 
 #endif // __CEL_TOOLS_QUESTS__
