@@ -25,6 +25,7 @@
 #include "csutil/weakref.h"
 #include "csutil/hash.h"
 #include "csgeom/vector3.h"
+#include "csutil/refarr.h"
 
 struct iDocumentNode;
 struct iChangePropertyQuestRewardFactory;
@@ -654,6 +655,9 @@ struct iQuestManager : public virtual iBase
    *   See iMeshSelectQuestTriggerFactory.
    * - cel.questtrigger.watch: triggers when a mesh becomes visible.
    *   See iWatchQuestTriggerFactory.
+   * - cel.questtrigger.operation: perform a logical operation on several
+   *   child nodes.
+   *   See iOperationQuestTriggerFactory.
    */
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
 
@@ -873,6 +877,15 @@ struct iQuestManager : public virtual iBase
   	const char* entity_par, const char* target_entity_par,
 	const char* checktime_par,
 	const char* radius_par) = 0;
+
+  /**
+   * Convenience method to set a 'operation' trigger factory
+   * to a response factory.
+   */
+  virtual iQuestTriggerFactory* SetOperationTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* operation_par, 
+	csRefArray<iQuestTriggerFactory> &trigger_factories) = 0;
 };
 
 //-------------------------------------------------------------------------
@@ -1068,6 +1081,47 @@ struct iEnterSectorQuestTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetSectorParameter (const char* sector) = 0;
+};
+
+/**
+ * This interface is implemented by the operation trigger, that allows
+ * to combine several triggers using a logical operation.
+ * You can query this interface from the trigger factory if you want to
+ * manually control this factory as opposed to loading its definition from an
+ * XML document.
+ *
+ * The predefined name of this trigger type is 'cel.questtrigger.operation'.
+ *
+ * In XML, factories recognize the following attributes on the 'fireon' node:
+ * - <em>operation</em>: the logical operation to perform. Can be one of
+ *   'or', 'and', or 'xor', see below for a more detailed description.
+ *
+ * Fireon node can also hold any number of child 'trigger' nodes, which are
+ * defined just as usual.
+ *
+ * Operations:
+ * - <em>and</em>: Trigger will fire when all the child triggers are true.
+ * - <em>or</em>: Trigger will fire when at least one of the child triggers
+ *   is true.
+ * - <em>xor</em>: Trigger will fire when one and only one of the child 
+ *   triggers is true.
+ */
+struct iOperationQuestTriggerFactory : public virtual iBase
+{
+  SCF_INTERFACE (iOperationQuestTriggerFactory, 0, 0, 1);
+
+  /**
+   * Set the operation this trigger will use to combine child triggers.
+   * \param operation is the name of the operation or a parameter (starts
+   * with '$').
+   * Operation must be one of 'or', 'and', or 'xor'.
+   */
+  virtual void SetOperationParameter (const char* operation) = 0;
+  /**
+   * Return the trigger factory list so that user can add new ones, remove
+   * them or clear the list.
+   */
+  virtual csRefArray<iQuestTriggerFactory> &GetTriggerFactories () = 0;
 };
 
 /**

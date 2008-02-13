@@ -72,6 +72,9 @@ This triggers when a mesh is selected. See
 @item @samp{cel.questtrigger.watch}:
 This triggers when a mesh becomes visible. See
 @code{iWatchQuestTriggerFactory}.
+@item @samp{cel.questtrigger.operation}:
+This allows to combine several triggers with one simple logical operation. See
+@code{iOperationQuestTriggerFactory}.
 @end itemize
 
 It is of course possible to define your own triggers and register them to
