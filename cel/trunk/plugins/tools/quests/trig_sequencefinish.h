@@ -86,6 +86,8 @@ private:
 
   void FindSequence ();
 
+  bool finished;
+
 public:
   celSequenceFinishTrigger (celSequenceFinishTriggerType* type,
   	const celQuestParams& params,

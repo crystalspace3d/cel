@@ -127,6 +127,8 @@ celSequenceFinishTrigger::celSequenceFinishTrigger (
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
   sequence = csStrNew (qm->ResolveParameter (params, sequence_par));
+
+  finished = false;
 }
 
 celSequenceFinishTrigger::~celSequenceFinishTrigger ()
@@ -149,6 +151,7 @@ void celSequenceFinishTrigger::ClearCallback ()
 
 void celSequenceFinishTrigger::SequenceFinished (iQuestSequence* seq)
 {
+  finished = true;
   DeactivateTrigger ();
   callback->TriggerFired ((iQuestTrigger*)this);
 }
@@ -177,7 +180,7 @@ void celSequenceFinishTrigger::ActivateTrigger ()
 
 bool celSequenceFinishTrigger::Check ()
 {
-  return false;
+  return finished;
 }
 
 void celSequenceFinishTrigger::DeactivateTrigger ()

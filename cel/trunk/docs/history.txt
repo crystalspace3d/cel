@@ -13,6 +13,8 @@ The history order is reversed so that new features are at the top.
 	- caedes 'fixed' pycel to work also when the python environment has been
 	  initialized by cspython instead of blpython (accounting for different
 	  way of making the object registry available to python).
+        - caedes fixed sequencefinish trigger to report correctly to Check (it
+          also assumed it would get destroyed after becoming true).
 12-Feb-2008
         - Jorrit added support for the iBillboardManager plugin to
           cel python.
