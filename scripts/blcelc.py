@@ -1741,10 +1741,12 @@ class iBillboardManager(cspace.iBase):
     Showroom = _swig_property(_blcelc.iBillboardManager_Showroom_get, None, None,
                     "iBillboardManager.Showroom -> iSector*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSector* iBillboardManager::GetShowroom()")
 
+    scfGetVersion = staticmethod(_blcelc.iBillboardManager_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iBillboardManager
     __del__ = lambda self : None;
 iBillboardManager_swigregister = _blcelc.iBillboardManager_swigregister
 iBillboardManager_swigregister(iBillboardManager)
+iBillboardManager_scfGetVersion = _blcelc.iBillboardManager_scfGetVersion
 
 class iPcBillboard(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
