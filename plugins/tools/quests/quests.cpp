@@ -40,6 +40,7 @@
 #include "plugins/tools/quests/trig_inventory.h"
 #include "plugins/tools/quests/trig_meshsel.h"
 #include "plugins/tools/quests/trig_watch.h"
+#include "plugins/tools/quests/trig_operation.h"
 #include "plugins/tools/quests/reward_debugprint.h"
 #include "plugins/tools/quests/reward_newstate.h"
 #include "plugins/tools/quests/reward_changeproperty.h"
@@ -1006,6 +1007,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     type->DecRef ();
   }
 
+  {
+    celOperationTriggerType* type = new celOperationTriggerType (
+  	object_reg);
+    RegisterTriggerType (type);
+    type->DecRef ();
+  }
+
   //--- Rewards ------------------------------------------------------
   {
     celDebugPrintRewardType* type = new celDebugPrintRewardType (
@@ -1445,4 +1453,24 @@ iQuestTriggerFactory* celQuestManager::SetWatchTrigger (
   return trigfact;
 }
 
+iQuestTriggerFactory* celQuestManager::SetOperationTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* operation_par,
+	csRefArray<iQuestTriggerFactory> &trigger_factories)
+{
+  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.operation");
+  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iOperationQuestTriggerFactory> newstate = 
+  	scfQueryInterface<iOperationQuestTriggerFactory> (trigfact);
+  newstate->SetOperationParameter (operation_par);
+  csRefArray<iQuestTriggerFactory> trigger_factories_list = 
+	newstate->GetTriggerFactories();
+  csRefArray<iQuestTriggerFactory>::Iterator iter = 
+	trigger_factories.GetIterator();
+  while (iter.HasNext())
+  {
+    trigger_factories_list.Push(iter.Next());
+  }
+  return trigfact;
+}
 //---------------------------------------------------------------------------
