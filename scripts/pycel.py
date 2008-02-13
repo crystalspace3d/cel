@@ -17,8 +17,15 @@ from blcelc import *
 import _blcelc
 
 # Pointers
-oreg = object_reg_ptr
-pl = physicallayer_ptr
+try:
+	# from cspython
+	oreg = object_reg
+except:
+	# from blpython
+	oreg = object_reg_ptr
+pl = oreg.Get(iCelPlLayer)
+if not pl:
+  print "pycel error: Can't find the PhysicalLayer!"
 
 # Fast functions from the pl
 getid = lambda s: _blcelc.iCelPlLayer_FetchStringID(pl,s)
@@ -37,8 +44,8 @@ BehaviourLayers = pl.BehaviourLayers
 PcFactories = pl.PcFactories
 
 # Pretty physical layer
-PhysicalLayer = physicallayer_ptr
-ObjectRegistry = object_reg_ptr
+PhysicalLayer = pl
+ObjectRegistry = oreg
 
 # Some plugins ready to use
 Engine = oreg.Get(iEngine)
@@ -202,6 +209,5 @@ def CEL_IMPLEMENT_FACTORY(cls,name):
     fact = pyPcCommonFactory(cls,name)
     pl.RegisterPropertyClassFactory(fact)
     setattr(pycel,"cel"+cls.__name__,PcFinder(name))
-
 
 
