@@ -104,9 +104,7 @@ bool celOperationTriggerFactory::Load (iDocumentNode* node)
     iQuestTriggerType *ttype = qm->GetTriggerType(csString("cel.questtrigger.")+csString(node->GetAttributeValue("type")));
     if (ttype)
     {
-      printf(" * trigger %s\n",node->GetAttributeValue("type"));
       csRef<iQuestTriggerFactory> newfact = ttype->CreateTriggerFactory();
-      //csRef<iDocumentNode> fireon_node = node->GetNode("fireon");
       newfact->Load(node->GetNode("fireon"));
       triggers.Push(newfact);
     }
