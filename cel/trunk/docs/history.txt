@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+13-Feb-2008
+	- caedes added an operation trigger to the quest manager. This allows 
+	  to combine several triggers with a simple logical operation (or, and
+	  or xor).
 12-Feb-2008
         - Jorrit added support for the iBillboardManager plugin to
           cel python.
