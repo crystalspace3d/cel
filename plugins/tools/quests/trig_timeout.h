@@ -76,7 +76,7 @@ private:
   csRef<iQuestTriggerCallback> callback;
   csTicks timeout;
   csEventTimer* timer;
-
+  bool fired;
 public:
   celTimeoutTrigger (celTimeoutTriggerType* type,
   	const celQuestParams& params, const char* timeout_par);

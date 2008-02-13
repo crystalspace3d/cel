@@ -96,6 +96,7 @@ celTimeoutTrigger::celTimeoutTrigger (
   timer = new csEventTimer (type->object_reg);
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   const char* to = qm->ResolveParameter (params, timeout_par);
+  fired = false;
   if (!to)
     timeout = 1;
   else
@@ -126,7 +127,7 @@ void celTimeoutTrigger::ActivateTrigger ()
 
 bool celTimeoutTrigger::Check ()
 {
-  return false;
+  return fired;
 }
 
 void celTimeoutTrigger::DeactivateTrigger ()
@@ -136,6 +137,7 @@ void celTimeoutTrigger::DeactivateTrigger ()
 
 bool celTimeoutTrigger::Perform (iTimerEvent* ev)
 {
+  fired = true;
   if (callback) callback->TriggerFired ((iQuestTrigger*)this);
   return false;
 }

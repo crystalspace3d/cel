@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- caedes added an operation trigger to the quest manager. This allows 
 	  to combine several triggers with a simple logical operation (or, and
 	  or xor).
+        - caedes fixed timeout trigger to report correctly to Check (it was
+          assuming it would get destroyed after becoming true, so always reported
+          false on Check).
 12-Feb-2008
         - Jorrit added support for the iBillboardManager plugin to
           cel python.
