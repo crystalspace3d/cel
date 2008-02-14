@@ -78,15 +78,21 @@ public:
   virtual void SetID  (uint n) { SetEntityID (n); }
   virtual uint GetID () const { return entity_ID; }
 
+  virtual csRef<iMessageDispatcher> CreateTaggedMessageDispatcher (
+      iMessageSender* sender, const char* msg_id,
+      const char* tag);
+
   //------- For iMessageChannel ---------------------------------------------
   virtual iMessageChannel* QueryMessageChannel ()
   {
     return static_cast<iMessageChannel*> (this);
   }
   virtual csRef<iMessageDispatcher> CreateMessageDispatcher (
-      iMessageSender* sender, const char* msg_id)
+      iMessageSender* sender, const char* msg_id,
+      iMessageReceiverFilter* receiver_filter = 0)
   {
-    return channel.CreateMessageDispatcher (sender, msg_id);
+    return channel.CreateMessageDispatcher (sender, msg_id,
+	receiver_filter);
   }
   virtual void RemoveMessageDispatcher (iMessageDispatcher* msgdisp)
   {

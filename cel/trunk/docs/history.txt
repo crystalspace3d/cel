@@ -3,13 +3,22 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Feb-2008
+	- Jorrit added a new iMessageReceiverFilter interface for the
+	  messaging system. By implementing this interface you can create
+	  message dispatchers that only operate on certain message
+	  receivers.
+	- Jorrit added iCelEntity->CreateTaggedMessageDispatcher(). This
+	  special version of CreateMessageDispatcher() will use the
+	  iMessageReceiverFilter to create a message dispatcher that only
+	  sends messages to property classes that have a certain tag.
 13-Feb-2008
 	- caedes added an operation trigger to the quest manager. This allows 
 	  to combine several triggers with a simple logical operation (or, and
 	  or xor).
         - caedes fixed timeout trigger to report correctly to Check (it was
-          assuming it would get destroyed after becoming true, so always reported
-          false on Check).
+          assuming it would get destroyed after becoming true, so always
+	  reported false on Check).
 	- caedes 'fixed' pycel to work also when the python environment has been
 	  initialized by cspython instead of blpython (accounting for different
 	  way of making the object registry available to python).

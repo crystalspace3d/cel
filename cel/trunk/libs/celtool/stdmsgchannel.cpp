@@ -24,19 +24,29 @@
 
 //---------------------------------------------------------------------------
 
+void celMessageDispatcher::AddReceiver (iMessageReceiver* receiver)
+{
+  if ((!receiver_filter) || receiver_filter->IsValidReceiver (receiver))
+    receivers.Push (receiver);
+}
+
+//---------------------------------------------------------------------------
+
 static bool Match (const csString& mask, const csString& msg)
 {
   return msg.StartsWith (mask);
 }
 
 csRef<iMessageDispatcher> celMessageChannel::CreateMessageDispatcher (
-      iMessageSender* sender, const char* msg_id)
+      iMessageSender* sender, const char* msg_id,
+      iMessageReceiverFilter* receiver_filter)
 {
   if (!pl) return 0;
   csRef<celMessageDispatcher> msgdisp;
   csString message = msg_id;
   csStringID id = pl->FetchStringID (msg_id);
-  msgdisp.AttachNew (new celMessageDispatcher (id, msg_id, sender));
+  msgdisp.AttachNew (new celMessageDispatcher (id, msg_id, sender,
+	receiver_filter));
   messageDispatchers.Push (msgdisp);
 
   // Check all subscriptions and see if this new message dispatcher should

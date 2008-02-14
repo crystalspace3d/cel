@@ -30,6 +30,7 @@
 struct iCelParameterBlock;
 struct iMessageDispatcher;
 struct iMessageReceiver;
+struct iMessageReceiverFilter;
 struct iMessageSender;
 
 /**
@@ -52,9 +53,12 @@ struct iMessageChannel : public virtual iBase
    * for sending messages for a specific message ID. This ID should
    * be a fully qualified message ID (and not a message ID mask).
    * For example 'cel.object.mesh.select.down'.
+   * The optional receiver_filter can be used to ignore certain
+   * receivers that don't match some external criterium.
    */
   virtual csRef<iMessageDispatcher> CreateMessageDispatcher (
-      iMessageSender* sender, const char* msg_id) = 0;
+      iMessageSender* sender, const char* msg_id,
+      iMessageReceiverFilter* receiver_filter = 0) = 0;
 
   /**
    * Remove a message dispatcher. Use this if you are no longer
@@ -134,6 +138,21 @@ struct iMessageSender : public virtual iBase
    */
   virtual void MessageDispatcherRemoved (
       iMessageDispatcher* dispatcher) = 0;
+};
+
+/**
+ * This is a filter used for a message dispatcher.
+ * It allows a message dispatcher to ignore certain receivers.
+ * Message channels using celMessageChannel can implement this
+ * interface to get support for message dispatcher that only
+ * handle certain types of receivers.
+ */
+struct iMessageReceiverFilter : public virtual iBase
+{
+  SCF_INTERFACE (iMessageReceiverFilter, 0, 0, 1);
+
+  /// Return true if this receiver is ok for receiving messages.
+  virtual bool IsValidReceiver (iMessageReceiver* receiver) = 0;
 };
 
 /**

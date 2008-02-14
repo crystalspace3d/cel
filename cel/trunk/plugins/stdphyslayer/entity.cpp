@@ -90,6 +90,33 @@ bool celEntity::HasClass (csStringID cls)
   return classes.In (cls);
 }
 
+class celMessageReceiverFilterWithTag : public scfImplementation1<
+	celMessageReceiverFilterWithTag,iMessageReceiverFilter>
+{
+private:
+  csString tag;
+
+public:
+  celMessageReceiverFilterWithTag (const char* tag)
+    : scfImplementationType (this), tag (tag) { }
+  virtual bool IsValidReceiver (iMessageReceiver* receiver)
+  {
+    csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (
+	receiver);
+    if (!pc) return false;
+    return tag == pc->GetTag ();
+  }
+};
+
+csRef<iMessageDispatcher> celEntity::CreateTaggedMessageDispatcher (
+      iMessageSender* sender, const char* msg_id,
+      const char* tag)
+{
+  csRef<iMessageReceiverFilter> filter;
+  filter.AttachNew (new celMessageReceiverFilterWithTag (tag));
+  return channel.CreateMessageDispatcher (sender, msg_id, filter);
+}
+
 //---------------------------------------------------------------------------
 
 celEntityList::celEntityList () : scfImplementationType (this)
