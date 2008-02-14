@@ -903,7 +903,7 @@ void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
 
 void celPlLayer::UnattachEntity (iObject* object, iCelEntity* entity)
 {
-  csRef<celEntityFinder> cef (CS_GET_CHILD_OBJECT (object, celEntityFinder));
+  csRef<celEntityFinder> cef (CS::GetChildObject<celEntityFinder> (object));
   if (cef)
   {
     if (cef->GetEntity () != entity)
@@ -915,7 +915,7 @@ void celPlLayer::UnattachEntity (iObject* object, iCelEntity* entity)
 
 iCelEntity* celPlLayer::FindAttachedEntity (iObject* object)
 {
-  csRef<celEntityFinder> cef (CS_GET_CHILD_OBJECT (object, celEntityFinder));
+  csRef<celEntityFinder> cef (CS::GetChildObject<celEntityFinder> (object));
   if (cef)
     return cef->GetEntity ();
   return 0;
