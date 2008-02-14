@@ -29,6 +29,8 @@ struct iCelPropertyClassList;
 struct iCelBehaviour;
 struct iCelEntityIterator;
 struct iMessageChannel;
+struct iMessageDispatcher;
+struct iMessageSender;
 struct iObject;
 
 /**
@@ -44,7 +46,7 @@ struct iObject;
  */
 struct iCelEntity : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntity, 0, 0, 2);
+  SCF_INTERFACE (iCelEntity, 0, 0, 3);
   /**
    * Get the iObject for this entity (if supported).
    * \return A pointer to the iObject for this entity if supported,
@@ -126,6 +128,15 @@ struct iCelEntity : public virtual iBase
    * fetch the message channel you can also use this function.
    */
   virtual iMessageChannel* QueryMessageChannel () = 0;
+
+  /**
+   * This is a special version of CreateMessageDispatcher() as it can
+   * be found in the channel. This version only allows receivers that
+   * are property classes that have a certain tag.
+   */
+  virtual csRef<iMessageDispatcher> CreateTaggedMessageDispatcher (
+      iMessageSender* sender, const char* msg_id,
+      const char* tag) = 0;
 };
 
 /**

@@ -28,7 +28,6 @@
 #include "physicallayer/messaging.h"
 #include "celtool/celtoolextern.h"
 
-
 class celMessageSubscription
 {
 public:
@@ -49,14 +48,16 @@ private:
   csString message;
   csWeakRef<iMessageSender> sender;
   csWeakRefArray<iMessageReceiver> receivers;
+  csRef<iMessageReceiverFilter> receiver_filter;
 
 public:
   celMessageDispatcher (csStringID msg_id, const char* message,
-      iMessageSender* sender)
+      iMessageSender* sender, iMessageReceiverFilter* receiver_filter)
     	: scfImplementationType (this),
 	  msg_id (msg_id),
 	  message (message),
-	  sender (sender) { }
+	  sender (sender),
+	  receiver_filter (receiver_filter) { }
   virtual ~celMessageDispatcher () { }
   virtual bool SendMessage (iCelParameterBlock* params, iCelDataArray* ret)
   {
@@ -86,10 +87,7 @@ public:
   csStringID GetMessageID () const { return msg_id; }
   const csString& GetMessage () const { return message; }
 
-  void AddReceiver (iMessageReceiver* receiver)
-  {
-    receivers.Push (receiver);
-  }
+  void AddReceiver (iMessageReceiver* receiver);
 
   void RemoveReceiver (iMessageReceiver* receiver)
   {
@@ -128,8 +126,10 @@ public:
   {
     return static_cast<iMessageChannel*> (this);
   }
+  /// Create a message dispatcher that supports a receiver filter.
   virtual csRef<iMessageDispatcher> CreateMessageDispatcher (
-      iMessageSender* sender, const char* msg_id);
+      iMessageSender* sender, const char* msg_id,
+      iMessageReceiverFilter* receiver_filter = 0);
   virtual void RemoveMessageDispatcher (iMessageDispatcher* msgdisp);
   virtual void Subscribe (iMessageReceiver* receiver, const char* mask);
   virtual void Unsubscribe (iMessageReceiver* receiver, const char* mask = 0);
