@@ -121,6 +121,7 @@ void celTimeoutTrigger::ClearCallback ()
 
 void celTimeoutTrigger::ActivateTrigger ()
 {
+  fired = false;
   timer->RemoveAllTimerEvents ();
   timer->AddTimerEvent ((iTimerEvent*)this, timeout);
 }

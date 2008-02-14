@@ -13,6 +13,8 @@ The history order is reversed so that new features are at the top.
 	  iMessageReceiverFilter to create a message dispatcher that only
 	  sends messages to property classes that have a certain tag.
 	- caedes replaced use of CS_GET_CHILD_OBJECT by CS::GetChildObject.
+	- caedes fixed timeout and sequencefinish triggers. Yesterday's 
+	  changes broke reactivation for both.
 13-Feb-2008
 	- caedes added an operation trigger to the quest manager. This allows 
 	  to combine several triggers with a simple logical operation (or, and

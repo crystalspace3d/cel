@@ -170,6 +170,7 @@ void celSequenceFinishTrigger::FindSequence ()
 
 void celSequenceFinishTrigger::ActivateTrigger ()
 {
+  finished = false;
   FindSequence ();
   if (!seq) return;
   // First remove to make sure we don't register ourselves multiple
