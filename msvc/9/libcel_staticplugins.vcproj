@@ -3826,6 +3826,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\trig_operation.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_tools_quests_trig_operation.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_tools_quests_trig_operation.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_tools_quests_trig_operation.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_tools_quests_trig_operation.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\trig_propertychange.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -4269,6 +4294,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\trig_message.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\trig_operation.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\trig_propertychange.h">
