@@ -4439,6 +4439,7 @@ class iQuestManager(cspace.iBase):
     def SetPropertyChangeTrigger(*args): return _blcelc.iQuestManager_SetPropertyChangeTrigger(*args)
     def SetTriggerTrigger(*args): return _blcelc.iQuestManager_SetTriggerTrigger(*args)
     def SetWatchTrigger(*args): return _blcelc.iQuestManager_SetWatchTrigger(*args)
+    def SetOperationTrigger(*args): return _blcelc.iQuestManager_SetOperationTrigger(*args)
     scfGetVersion = staticmethod(_blcelc.iQuestManager_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iQuestManager
     __del__ = lambda self : None;
@@ -4499,6 +4500,17 @@ class iEnterSectorQuestTriggerFactory(cspace.iBase):
     __del__ = lambda self : None;
 iEnterSectorQuestTriggerFactory_swigregister = _blcelc.iEnterSectorQuestTriggerFactory_swigregister
 iEnterSectorQuestTriggerFactory_swigregister(iEnterSectorQuestTriggerFactory)
+
+class iOperationQuestTriggerFactory(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetOperationParameter(*args): return _blcelc.iOperationQuestTriggerFactory_SetOperationParameter(*args)
+    def GetTriggerFactories(*args): return _blcelc.iOperationQuestTriggerFactory_GetTriggerFactories(*args)
+    __swig_destroy__ = _blcelc.delete_iOperationQuestTriggerFactory
+    __del__ = lambda self : None;
+iOperationQuestTriggerFactory_swigregister = _blcelc.iOperationQuestTriggerFactory_swigregister
+iOperationQuestTriggerFactory_swigregister(iOperationQuestTriggerFactory)
 
 class iSequenceFinishQuestTriggerFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')

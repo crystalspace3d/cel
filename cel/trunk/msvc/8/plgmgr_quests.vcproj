@@ -385,6 +385,9 @@
 				RelativePath="..\..\plugins\tools\quests\trig_message.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\trig_operation.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\trig_propertychange.cpp">
 			</File>
 			<File
@@ -468,6 +471,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\trig_message.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\trig_operation.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\trig_propertychange.h">
