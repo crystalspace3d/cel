@@ -331,6 +331,16 @@ class iMessageSender(cspace.iBase):
 iMessageSender_swigregister = _blcelc.iMessageSender_swigregister
 iMessageSender_swigregister(iMessageSender)
 
+class iMessageReceiverFilter(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def IsValidReceiver(*args): return _blcelc.iMessageReceiverFilter_IsValidReceiver(*args)
+    __swig_destroy__ = _blcelc.delete_iMessageReceiverFilter
+    __del__ = lambda self : None;
+iMessageReceiverFilter_swigregister = _blcelc.iMessageReceiverFilter_swigregister
+iMessageReceiverFilter_swigregister(iMessageReceiverFilter)
+
 class iMessageDispatcher(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
@@ -638,6 +648,7 @@ class iCelEntity(cspace.iBase):
     def HasClass(*args): return _blcelc.iCelEntity_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntity_GetClasses(*args)
     def QueryMessageChannel(*args): return _blcelc.iCelEntity_QueryMessageChannel(*args)
+    def CreateTaggedMessageDispatcher(*args): return _blcelc.iCelEntity_CreateTaggedMessageDispatcher(*args)
     Object = _swig_property(_blcelc.iCelEntity_Object_get, None, None,
                     "iCelEntity.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntity::QueryObject()")
 
