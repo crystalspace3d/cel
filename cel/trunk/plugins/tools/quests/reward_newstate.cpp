@@ -43,35 +43,33 @@ celNewStateRewardFactory::celNewStateRewardFactory (
 	celNewStateRewardType* type) : scfImplementationType (this)
 {
   celNewStateRewardFactory::type = type;
-  state_par = 0;
-  entity_par = 0;
-  tag_par = 0;
-}
-
-celNewStateRewardFactory::~celNewStateRewardFactory ()
-{
-  delete[] state_par;
-  delete[] entity_par;
-  delete[] tag_par;
 }
 
 csPtr<iQuestReward> celNewStateRewardFactory::CreateReward (
     iQuest* q, const celQuestParams& params)
 {
-  celNewStateReward* trig = new celNewStateReward (type,
+  iQuestReward* reward;
+  if (!class_par.IsEmpty())
+  {
+    reward = new celClassNewStateReward (type,
+  	params, state_par, class_par, tag_par);
+  }
+  else
+  {
+    reward = new celNewStateReward (type,
   	q, params, state_par, entity_par, tag_par);
-  return trig;
+  }
+  return reward;
 }
 
 bool celNewStateRewardFactory::Load (iDocumentNode* node)
 {
-  delete[] state_par; state_par = 0;
-  delete[] entity_par; entity_par = 0;
-  state_par = csStrNew (node->GetAttributeValue ("state"));
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
+  state_par = node->GetAttributeValue ("state");
+  entity_par = node->GetAttributeValue ("entity");
+  class_par = node->GetAttributeValue ("class");
+  tag_par = node->GetAttributeValue ("entity_tag");
 
-  if (!state_par)
+  if (state_par.IsEmpty())
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
       "cel.questreward.debugprint",
@@ -83,26 +81,14 @@ bool celNewStateRewardFactory::Load (iDocumentNode* node)
 
 void celNewStateRewardFactory::SetStateParameter (const char* state)
 {
-  if (state_par == state) 
-    return;
-
-  delete[] state_par;
-  state_par = csStrNew (state);
+  state_par = state;
 }
 
 void celNewStateRewardFactory::SetEntityParameter (const char* entity,
 	const char* tag)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
-  if (tag_par != tag)
-  {
-    delete[] tag_par;
-    tag_par = csStrNew (tag);
-  }
+  entity_par = entity;
+  tag_par = tag;
 }
 
 //---------------------------------------------------------------------------
@@ -116,18 +102,11 @@ celNewStateReward::celNewStateReward (
 {
   celNewStateReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  state = csStrNew (qm->ResolveParameter (params, state_par));
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  tag = csStrNew (qm->ResolveParameter (params, tag_par));
+  state = qm->ResolveParameter (params, state_par);
+  entity = qm->ResolveParameter (params, entity_par);
+  tag = qm->ResolveParameter (params, tag_par);
   if (!entity && !tag)
     quest = q;
-}
-
-celNewStateReward::~celNewStateReward ()
-{
-  delete[] state;
-  delete[] entity;
-  delete[] tag;
 }
 
 void celNewStateReward::Reward ()
@@ -147,6 +126,39 @@ void celNewStateReward::Reward ()
     if (!quest) return;
   }
   quest->SwitchState (state);
+}
+
+//---------------------------------------------------------------------------
+
+celClassNewStateReward::celClassNewStateReward (
+	celNewStateRewardType* type,
+  	const celQuestParams& params,
+	const char* state_par,
+	const char* class_par, const char* tag_par)
+	: scfImplementationType (this)
+{
+  csPrintf("new class state reward %s\n!",state_par);
+  celClassNewStateReward::type = type;
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+
+  csStringID classid = 
+	type->pl->FetchStringID(qm->ResolveParameter (params, class_par));
+  entlist = type->pl->GetClassEntitiesList(classid);
+
+  state = qm->ResolveParameter (params, state_par);
+  tag = qm->ResolveParameter (params, tag_par);
+}
+
+void celClassNewStateReward::Reward ()
+{
+  iCelEntity *ent;
+  for (int i = entlist->GetCount()-1; i>=0; i--)
+  {
+    ent = entlist->Get(i);
+    csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest,tag);
+    if (pcquest)
+      pcquest->GetQuest()->SwitchState (state);
+  }
 }
 
 //---------------------------------------------------------------------------

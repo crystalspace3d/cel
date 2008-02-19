@@ -43,6 +43,7 @@ class celDestroyEntityRewardFactory : public scfImplementation2<
 private:
   celDestroyEntityRewardType* type;
   char* entity_par;
+  char* class_par;
 
 public:
   celDestroyEntityRewardFactory (celDestroyEntityRewardType* type);
@@ -54,10 +55,11 @@ public:
 
   //----------------- iDestroyEntityQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
+  virtual void SetClassParameter (const char* ent_class);
 };
 
 /**
- * The 'destroyentity' reward.
+ * The 'destroyentity' reward that works on entities.
  */
 class celDestroyEntityReward : public scfImplementation1<
 	celDestroyEntityReward, iQuestReward>
@@ -74,6 +76,26 @@ public:
 
   virtual void Reward ();
 };
+
+/**
+ * The 'destroyentity' reward that works on classes.
+ */
+class celDestroyClassReward : public scfImplementation1<
+	celDestroyClassReward, iQuestReward>
+{
+private:
+  celDestroyEntityRewardType* type;
+  csStringID ent_class;
+
+public:
+  celDestroyClassReward (celDestroyEntityRewardType* type,
+  	const celQuestParams& params,
+	const char* class_par);
+  virtual ~celDestroyClassReward ();
+
+  virtual void Reward ();
+};
+
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_DESTROYENTITY__
 

@@ -63,38 +63,36 @@ celSequenceFinishRewardFactory::celSequenceFinishRewardFactory (
 	scfImplementationType (this)
 {
   celSequenceFinishRewardFactory::type = type;
-  entity_par = 0;
-  tag_par = 0;
-  sequence_par = 0;
-}
-
-celSequenceFinishRewardFactory::~celSequenceFinishRewardFactory ()
-{
-  delete[] entity_par;
-  delete[] tag_par;
-  delete[] sequence_par;
 }
 
 csPtr<iQuestReward> celSequenceFinishRewardFactory::CreateReward (
     iQuest*, const celQuestParams& params)
 {
-  celSequenceFinishReward* trig = new celSequenceFinishReward (type,
-  	params, entity_par, tag_par, sequence_par);
-  return trig;
+  iQuestReward *reward;
+  if (!class_par.IsEmpty())
+  {
+    reward = new celClassSequenceFinishReward (type,
+  	params, class_par, tag_par, sequence_par); 
+  }
+  else
+  {
+    reward = new celSequenceFinishReward (type,
+  	params, entity_par, tag_par, sequence_par); 
+  }
+  return reward;
 }
 
 bool celSequenceFinishRewardFactory::Load (iDocumentNode* node)
 {
-  delete[] entity_par; entity_par = 0;
-  delete[] tag_par; tag_par = 0;
-  delete[] sequence_par; sequence_par = 0;
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
-  sequence_par = csStrNew (node->GetAttributeValue ("sequence"));
-  if (!entity_par)
+  entity_par = node->GetAttributeValue ("entity");
+  class_par = node->GetAttributeValue ("class");
+  tag_par = node->GetAttributeValue ("entity_tag");
+  sequence_par = node->GetAttributeValue ("sequence");
+
+  if (entity_par.IsEmpty() && class_par.IsEmpty())
     return Report (type->object_reg,
-      "'entity' attribute is missing for the sequencefinish reward!");
-  if (!sequence_par)
+      "'entity' or 'class' attribute is required for the sequencefinish reward!");
+  if (sequence_par.IsEmpty())
     return Report (type->object_reg,
       "'sequence' attribute is missing for the sequencefinish reward!");
   return true;
@@ -103,24 +101,14 @@ bool celSequenceFinishRewardFactory::Load (iDocumentNode* node)
 void celSequenceFinishRewardFactory::SetEntityParameter (
 	const char* entity, const char* tag)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
-  if (tag_par != tag)
-  {
-    delete[] tag_par;
-    tag_par = csStrNew (tag);
-  }
+  entity_par = entity;
+  tag_par = tag;
 }
 
 void celSequenceFinishRewardFactory::SetSequenceParameter (
 	const char* sequence)
 {
-  if (sequence_par == sequence) return;
-  delete[] sequence_par;
-  sequence_par = csStrNew (sequence);
+  sequence_par = sequence;
 }
 
 //---------------------------------------------------------------------------
@@ -133,16 +121,10 @@ celSequenceFinishReward::celSequenceFinishReward (
 {
   celSequenceFinishReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  tag = csStrNew (qm->ResolveParameter (params, tag_par));
-  sequence = csStrNew (qm->ResolveParameter (params, sequence_par));
-}
 
-celSequenceFinishReward::~celSequenceFinishReward ()
-{
-  delete[] entity;
-  delete[] tag;
-  delete[] sequence;
+  entity = qm->ResolveParameter (params, entity_par);
+  tag = qm->ResolveParameter (params, tag_par);
+  sequence = qm->ResolveParameter (params, sequence_par);
 }
 
 void celSequenceFinishReward::Reward ()
@@ -173,6 +155,52 @@ void celSequenceFinishReward::Reward ()
     return;
   }
   seq->Finish ();
+}
+
+//---------------------------------------------------------------------------
+
+celClassSequenceFinishReward::celClassSequenceFinishReward (
+	celSequenceFinishRewardType* type,
+  	const celQuestParams& params,
+	const char* class_par, const char* tag_par,
+	const char* sequence_par) : scfImplementationType (this)
+{
+  celClassSequenceFinishReward::type = type;
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+
+  csStringID classid =
+        type->pl->FetchStringID(qm->ResolveParameter (params, class_par));
+  entlist = type->pl->GetClassEntitiesList(classid);
+
+  tag = qm->ResolveParameter (params, tag_par);
+  sequence = qm->ResolveParameter (params, sequence_par);
+}
+
+void celClassSequenceFinishReward::Reward ()
+{
+
+  iCelEntity *ent;
+  csRef<iPcQuest> quest;
+  for (int i = entlist->GetCount()-1; i>=0; i--)
+  {
+    ent = entlist->Get(i);
+    quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, tag);
+    if (quest)
+    {
+      iQuestSequence* seq = quest->GetQuest()->FindSequence (sequence);
+      if (!seq)
+      {
+        if (tag)
+          Report (type->object_reg,
+      	    "Can't find sequence '%s' in entity '%s' and tag '%s'!",
+	     (const char*)sequence, (const char*)entity, (const char*)tag);
+        else
+          Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!",
+    	   (const char*)sequence, (const char*)entity);
+      }
+      seq->Finish ();
+    }
+  }
 }
 
 //---------------------------------------------------------------------------

@@ -5,6 +5,11 @@ The history order is reversed so that new features are at the top.
 
 19-Feb-2008
 	- Eric Sunshine updated mk/autoconf/*.m4 files from CS master copies.
+	- caedes added class support to rewards. This means they can now
+	  reference whole classes of entities, instead of just one entity.
+	  Affected rewards are: destroyentity, newstate, changeproperty,
+	  sequencefinish, action, sequence, message (class support is not
+	  applicable to other rewards).
 14-Feb-2008
 	- Jorrit added a new iMessageReceiverFilter interface for the
 	  messaging system. By implementing this interface you can create

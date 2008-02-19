@@ -66,36 +66,39 @@ celMessageRewardFactory::celMessageRewardFactory (
 	celMessageRewardType* type) : scfImplementationType (this)
 {
   celMessageRewardFactory::type = type;
-  entity_par = 0;
-  id_par = 0;
-}
-
-celMessageRewardFactory::~celMessageRewardFactory ()
-{
-  delete[] entity_par;
-  delete[] id_par;
 }
 
 csPtr<iQuestReward> celMessageRewardFactory::CreateReward (
     iQuest*, const celQuestParams& params)
 {
-  celMessageReward* trig = new celMessageReward (type,
+  iQuestReward* reward;
+  if (!entity_par.IsEmpty())
+  {
+    reward = new celMessageReward (type,
   	params, entity_par, id_par, parameters);
-  return trig;
+  }
+  else
+  {
+    reward = new celClassMessageReward (type,
+  	params, class_par, id_par, parameters);
+  }
+  return reward;
 }
 
 bool celMessageRewardFactory::Load (iDocumentNode* node)
 {
-  delete[] entity_par; entity_par = 0;
-  delete[] id_par; id_par = 0;
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  id_par = csStrNew (node->GetAttributeValue ("id"));
-  if (!entity_par)
+  parameters.DeleteAll();
+  entity_par = node->GetAttributeValue ("entity");
+  class_par = node->GetAttributeValue ("class");
+  id_par = node->GetAttributeValue ("id");
+
+  if (entity_par.IsEmpty() && class_par.IsEmpty())
     return Report (type->object_reg,
-      "'entity' attribute is missing for the message reward!");
-  if (!id_par)
+      "'entity' or 'class' attribute required for the message reward!");
+  if (id_par.IsEmpty())
     Report (type->object_reg,
       "'id' attribute is missing for the message reward!");
+
   iCelPlLayer* pl = type->pl;
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -163,19 +166,19 @@ bool celMessageRewardFactory::Load (iDocumentNode* node)
 void celMessageRewardFactory::SetEntityParameter (
 	const char* entity)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
+  entity_par = entity;
+}
+
+void celMessageRewardFactory::SetClassParameter (
+	const char* ent_class)
+{
+  class_par = ent_class;
 }
 
 void celMessageRewardFactory::SetIDParameter (
 	const char* id)
 {
-  if (id_par == id) return;
-  delete[] id_par;
-  id_par = csStrNew (id);
+  id_par = id;
 }
 
 void celMessageRewardFactory::AddParameter (celDataType type,
@@ -190,83 +193,23 @@ void celMessageRewardFactory::AddParameter (celDataType type,
 
 //---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
+
 celMessageReward::celMessageReward (
 	celMessageRewardType* type,
   	const celQuestParams& params,
 	const char* entity_par,
 	const char* id_par,
-	const csArray<parSpec>& parameters) : scfImplementationType (this)
+	const csArray<parSpec>& parameters) 
+	: scfImplementationType (this)
 {
   celMessageReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  id = csStrNew (qm->ResolveParameter (params, id_par));
-  msg_id = id;
-  msg_params = new celVariableParameterBlock ();
-  size_t i;
-  for (i = 0 ; i < parameters.GetSize () ; i++)
-  {
-    csString v = qm->ResolveParameter (params, parameters[i].value);
-    msg_params->SetParameterDef (i, parameters[i].id, parameters[i].name);
-    switch (parameters[i].type)
-    {
-      case CEL_DATA_STRING:
-	msg_params->GetParameter (i).Set ((const char*)v);
-	break;
-      case CEL_DATA_LONG:
-	{
-	  long f;
-	  csScanStr (v, "%d", &f);
-	  msg_params->GetParameter (i).Set ((int32)f);
-	}
-	break;
-      case CEL_DATA_FLOAT:
-	{
-	  float f;
-	  csScanStr (v, "%f", &f);
-	  msg_params->GetParameter (i).Set (f);
-	}
-	break;
-      case CEL_DATA_BOOL:
-	{
-	  bool f;
-	  csScanStr (v, "%b", &f);
-	  msg_params->GetParameter (i).Set (f);
-	}
-	break;
-      case CEL_DATA_VECTOR2:
-	{
-	  csVector2 vec;
-	  csScanStr (v, "%f,%f", &vec.x, &vec.y);
-	  msg_params->GetParameter (i).Set (vec);
-	}
-	break;
-      case CEL_DATA_VECTOR3:
-	{
-	  csVector3 vec;
-	  csScanStr (v, "%f,%f,%f", &vec.x, &vec.y, &vec.z);
-	  msg_params->GetParameter (i).Set (vec);
-	}
-	break;
-      case CEL_DATA_COLOR:
-	{
-	  csColor vec;
-	  csScanStr (v, "%f,%f,%f", &vec.red, &vec.green, &vec.blue);
-	  msg_params->GetParameter (i).Set (vec);
-	}
-	break;
-      default:
-	//@@@?
-	break;
-    }
-  }
-}
 
-celMessageReward::~celMessageReward ()
-{
-  delete[] entity;
-  delete[] id;
-  delete msg_params;
+  msg_id = qm->ResolveParameter (params, id_par);
+  msg_params = qm->ResolveParameterBlock(params,parameters);
+
+  entity = qm->ResolveParameter (params, entity_par);
 }
 
 void celMessageReward::Reward ()
@@ -283,7 +226,7 @@ void celMessageReward::Reward ()
   if (behave)
   {
     celData ret;
-    behave->SendMessage (id, 0, ret, msg_params);
+    behave->SendMessage (msg_id, 0, ret, msg_params);
   }
   if (!dispatcher)
     dispatcher = ent->QueryMessageChannel ()->CreateMessageDispatcher (
@@ -293,3 +236,32 @@ void celMessageReward::Reward ()
 
 //---------------------------------------------------------------------------
 
+celClassMessageReward::celClassMessageReward (
+	celMessageRewardType* type,
+  	const celQuestParams& params,
+	const char* class_par,
+	const char* id_par,
+	const csArray<parSpec>& parameters)
+	: scfImplementationType (this)
+{
+  celClassMessageReward::type = type;
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+
+  // message id and parameters
+  msg_id = qm->ResolveParameter (params, id_par);
+  msg_params = qm->ResolveParameterBlock(params,parameters);
+
+  // get the entity class list pointer.
+  csStringID ent_class = 
+    type->pl->FetchStringID(qm->ResolveParameter (params, class_par));
+  entlist = type->pl->GetClassEntitiesList(ent_class);
+}
+
+void celClassMessageReward::Reward ()
+{
+  // old method for behaviours
+  type->pl->SendMessage(entlist,msg_id,msg_params);
+
+  // new method for pclasses
+  type->pl->SendMessage(msg_id, 0, entlist,msg_params);
+}

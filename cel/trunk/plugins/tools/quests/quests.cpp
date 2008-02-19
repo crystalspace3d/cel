@@ -22,6 +22,8 @@
 #include "csutil/dirtyaccessarray.h"
 #include "csutil/util.h"
 #include "csutil/xmltiny.h"
+#include "csutil/scanstr.h"
+
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
@@ -1204,6 +1206,71 @@ const char* celQuestManager::ResolveParameter (
 		"Can't resolve parameter %s", param);
   }
   return val;
+}
+
+csPtr<celVariableParameterBlock> celQuestManager::ResolveParameterBlock (
+  	const celQuestParams& params,
+	const csArray<parSpec>& parameters)
+{
+  celVariableParameterBlock *act_params = new celVariableParameterBlock ();
+  size_t i;
+  for (i = 0 ; i < parameters.GetSize () ; i++)
+  {
+    csString v = ResolveParameter (params, parameters[i].value);
+    act_params->SetParameterDef (i, parameters[i].id, parameters[i].name);
+    switch (parameters[i].type)
+    {
+      case CEL_DATA_STRING:
+	act_params->GetParameter (i).Set ((const char*)v);
+	break;
+      case CEL_DATA_LONG:
+	{
+	  long f;
+	  csScanStr (v, "%d", &f);
+	  act_params->GetParameter (i).Set ((int32)f);
+	}
+	break;
+      case CEL_DATA_FLOAT:
+	{
+	  float f;
+	  csScanStr (v, "%f", &f);
+	  act_params->GetParameter (i).Set (f);
+	}
+	break;
+      case CEL_DATA_BOOL:
+	{
+	  bool f;
+	  csScanStr (v, "%b", &f);
+	  act_params->GetParameter (i).Set (f);
+	}
+	break;
+      case CEL_DATA_VECTOR2:
+	{
+	  csVector2 vec;
+	  csScanStr (v, "%f,%f", &vec.x, &vec.y);
+	  act_params->GetParameter (i).Set (vec);
+	}
+	break;
+      case CEL_DATA_VECTOR3:
+	{
+	  csVector3 vec;
+	  csScanStr (v, "%f,%f,%f", &vec.x, &vec.y, &vec.z);
+	  act_params->GetParameter (i).Set (vec);
+	}
+	break;
+      case CEL_DATA_COLOR:
+	{
+	  csColor vec;
+	  csScanStr (v, "%f,%f,%f", &vec.red, &vec.green, &vec.blue);
+	  act_params->GetParameter (i).Set (vec);
+	}
+	break;
+      default:
+	//@@@?
+	break;
+    }
+  }
+  return act_params;
 }
 
 bool celQuestManager::Load (iDocumentNode* node)
