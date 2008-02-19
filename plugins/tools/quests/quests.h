@@ -32,6 +32,7 @@
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
 
+#include "celtool/stdparams.h"
 #include "physicallayer/pl.h"
 
 struct iObjectRegistry;
@@ -399,6 +400,10 @@ public:
   virtual const char* ResolveParameter (
   	const celQuestParams& params,
 	const char* param);
+  virtual csPtr<celVariableParameterBlock> ResolveParameterBlock (
+	const celQuestParams& params,
+  	const csArray<parSpec>& parameters);
+
   virtual bool Load (iDocumentNode* node);
 
   virtual iQuestRewardFactory* AddNewStateReward (

@@ -85,7 +85,7 @@ private:
   char* entity;
   char* id;
   csWeakRef<iCelEntity> ent;
-  celVariableParameterBlock* act_params;
+  csRef<celVariableParameterBlock> act_params;
 
 public:
   celActionReward (celActionRewardType* type,

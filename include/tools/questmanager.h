@@ -78,6 +78,8 @@ typedef csHash<csStringBase,csStringBase> celQuestParams;
 //-------------------------------------------------------------------------
 
 struct iQuestTrigger;
+struct parSpec;
+struct celVariableParameterBlock;
 
 /**
  * A quest trigger will get pointers to call back the quest when
@@ -625,7 +627,7 @@ struct iQuestFactory : public virtual iBase
  */
 struct iQuestManager : public virtual iBase
 {
-  SCF_INTERFACE (iQuestManager, 0, 0, 1);
+  SCF_INTERFACE (iQuestManager, 1, 0, 0);
 
   /**
    * Register a quest trigger type. Quest triggers can be used
@@ -753,6 +755,18 @@ struct iQuestManager : public virtual iBase
   virtual const char* ResolveParameter (
   	const celQuestParams& params,
 	const char* param) = 0;
+
+  /**
+   * This is a convenience function to resolve a quest parameter block during
+   * creation of rewards, triggers, and sequence operations. This routine
+   * knows how to recognize parameter usage (starting with '$') and will in
+   * that case try to resolve the parameter by finding it in 'params'.
+   * \param params is the quest parameters.
+   * \paraspec is the parameter specifications and unparsed values..
+   */
+  virtual csPtr<celVariableParameterBlock> ResolveParameterBlock (
+  	const celQuestParams& params,
+	const csArray<parSpec>& paramspec) = 0;
 
   /**
    * Load a bunch of quest factories.
@@ -1353,6 +1367,9 @@ struct iDebugPrintQuestRewardFactory : public virtual iBase
  * - <em>state</em>: the new state.
  * - <em>entity</em>: the name of the entity containing the
  *   pcquest property class.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the given
+ *   entity class.
  * - <em>entity_tag</em>: optional tag used to find the right
  *   property class from the entity.
  */
@@ -1377,6 +1394,21 @@ struct iNewStateQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Set the tag of the property class this reward will apply to.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetTagParameter (const char* tag_par) = 0;
+
+  /**
+   * Set the name of the entity class containing the property
+   * class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
 };
 
 /**
@@ -1392,6 +1424,9 @@ struct iNewStateQuestRewardFactory : public virtual iBase
  * In XML, factories recognize the following attributes on the 'reward' node:
  * - <em>entity</em>: the name of the entity containing the
  *   pcproperties property class.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the given
+ *   entity class.
  * - <em>pc</em>: the name of the property class. If this is not
  *   given then pcproperties is used.
  * - <em>tag</em>: used together with 'pc' to specify an optional tag.
@@ -1414,6 +1449,14 @@ struct iChangePropertyQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the entity class containing the property
+   * class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
    * Set the name of the property class and tag. If this is not
@@ -1553,6 +1596,9 @@ struct iCsSequenceQuestRewardFactory : public virtual iBase
  * In XML, factories recognize the following attributes on the 'op' node:
  * - <em>entity</em>: the name of the entity containing the
  *   pcquest property class.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the given
+ *   entity class.
  * - <em>entity_tag</em>: optional tag used to find the right
  *   property class from the entity.
  * - <em>sequence</em>: the name of the sequence.
@@ -1571,6 +1617,21 @@ struct iSequenceQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Set the tag of the property class this reward will apply to.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetTagParameter (const char* tag_par) = 0;
+
+  /**
+   * Set the name of the entity class containing the property
+   * class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
    * Set the name of the sequence.
@@ -1597,6 +1658,9 @@ struct iSequenceQuestRewardFactory : public virtual iBase
  * In XML, factories recognize the following attributes on the 'op' node:
  * - <em>entity</em>: the name of the entity containing the
  *   pcquest property class.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the given
+ *   entity class.
  * - <em>entity_tag</em>: optional tag used to find the right
  *   property class from the entity.
  * - <em>sequence</em>: the name of the sequence.
@@ -1614,6 +1678,21 @@ struct iSequenceFinishQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Set the tag of the property class this reward will apply to.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetTagParameter (const char* tag_par) = 0;
+
+  /**
+   * Set the name of the entity class containing the property
+   * class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
    * Set the name of the sequence.
@@ -1634,6 +1713,9 @@ struct iSequenceFinishQuestRewardFactory : public virtual iBase
  *
  * In XML, factories recognize the following attributes on the 'op' node:
  * - <em>entity</em>: the name of the entity to send the message too.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the given
+ *   entity class.
  * - <em>id</em>: id of the message to send.
  */
 struct iMessageQuestRewardFactory : public virtual iBase
@@ -1646,6 +1728,13 @@ struct iMessageQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the entity class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
    * Set the message id.
@@ -1735,6 +1824,9 @@ struct iActionQuestRewardFactory : public virtual iBase
  *
  * In XML, factories recognize the following attribute on the 'op' node:
  * - <em>entity</em>: the name of the entity to send the message too.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the given
+ *   entity class.
  */
 struct iDestroyEntityQuestRewardFactory : public virtual iBase
 {
@@ -1746,6 +1838,15 @@ struct iDestroyEntityQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the entity class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
+
+
 };
 
 /**

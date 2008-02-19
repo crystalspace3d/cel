@@ -57,17 +57,23 @@ celDestroyEntityRewardFactory::celDestroyEntityRewardFactory (
 {
   celDestroyEntityRewardFactory::type = type;
   entity_par = 0;
+  class_par = 0;
 }
 
 celDestroyEntityRewardFactory::~celDestroyEntityRewardFactory ()
 {
-  delete[] entity_par;
+  delete[] class_par;
 }
 
 csPtr<iQuestReward> celDestroyEntityRewardFactory::CreateReward (
     iQuest*, const celQuestParams& params)
 {
-  celDestroyEntityReward* newquest = new celDestroyEntityReward (type,
+  iQuestReward* newquest;
+  if (entity_par)
+    newquest = new celDestroyEntityReward (type,
+  	params, entity_par);
+  else
+    newquest = new celDestroyClassReward (type,
   	params, entity_par);
   return newquest;
 }
@@ -75,10 +81,12 @@ csPtr<iQuestReward> celDestroyEntityRewardFactory::CreateReward (
 bool celDestroyEntityRewardFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
+  delete[] class_par; class_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  if (!entity_par)
+  class_par = csStrNew (node->GetAttributeValue ("class"));
+  if ((!entity_par) && (!class_par))
     return Report (type->object_reg,
-      "'entity' attribute is missing for the destroyentity reward!");
+      "one of 'entity' or 'class' attributes must be used for the destroyentity reward!");
   return true;
 }
 
@@ -89,6 +97,16 @@ void celDestroyEntityRewardFactory::SetEntityParameter (
   {
     delete[] entity_par;
     entity_par = csStrNew (entity);
+  }
+}
+
+void celDestroyEntityRewardFactory::SetClassParameter (
+	const char* ent_class)
+{
+  if (class_par != ent_class)
+  {
+    delete[] class_par;
+    class_par = csStrNew (ent_class);
   }
 }
 
@@ -125,3 +143,26 @@ void celDestroyEntityReward::Reward ()
 
 //---------------------------------------------------------------------------
 
+celDestroyClassReward::celDestroyClassReward (
+	celDestroyEntityRewardType* type,
+  	const celQuestParams& params,
+	const char* class_par) : scfImplementationType (this)
+{
+  celDestroyClassReward::type = type;
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  ent_class = type->pl->FetchStringID(qm->ResolveParameter (params, class_par));
+}
+
+celDestroyClassReward::~celDestroyClassReward ()
+{
+}
+
+void celDestroyClassReward::Reward ()
+{
+  iCelPlLayer* pl = type->pl;
+  csRef<iCelEntityList> entlist = pl->GetClassEntitiesList(ent_class);
+  for (int i = entlist->GetCount()-1; i>=0; i--)
+  {
+    pl->RemoveEntity(entlist->Get(i));
+  }
+}
