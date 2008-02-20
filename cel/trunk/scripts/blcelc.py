@@ -4435,6 +4435,7 @@ class iQuestManager(cspace.iBase):
     def GetQuestFactory(*args): return _blcelc.iQuestManager_GetQuestFactory(*args)
     def CreateQuestFactory(*args): return _blcelc.iQuestManager_CreateQuestFactory(*args)
     def ResolveParameter(*args): return _blcelc.iQuestManager_ResolveParameter(*args)
+    def ResolveParameterBlock(*args): return _blcelc.iQuestManager_ResolveParameterBlock(*args)
     def Load(*args): return _blcelc.iQuestManager_Load(*args)
     def AddNewStateReward(*args): return _blcelc.iQuestManager_AddNewStateReward(*args)
     def AddDebugPrintReward(*args): return _blcelc.iQuestManager_AddDebugPrintReward(*args)
@@ -4586,6 +4587,8 @@ class iNewStateQuestRewardFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetStateParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetStateParameter(*args)
     def SetEntityParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetEntityParameter(*args)
+    def SetTagParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetTagParameter(*args)
+    def SetClassParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetClassParameter(*args)
     __swig_destroy__ = _blcelc.delete_iNewStateQuestRewardFactory
     __del__ = lambda self : None;
 iNewStateQuestRewardFactory_swigregister = _blcelc.iNewStateQuestRewardFactory_swigregister
@@ -4596,6 +4599,7 @@ class iChangePropertyQuestRewardFactory(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetEntityParameter(*args)
+    def SetClassParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetClassParameter(*args)
     def SetPCParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetPCParameter(*args)
     def SetPropertyParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetPropertyParameter(*args)
     def SetStringParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetStringParameter(*args)
@@ -4636,6 +4640,8 @@ class iSequenceQuestRewardFactory(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetEntityParameter(*args)
+    def SetTagParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetTagParameter(*args)
+    def SetClassParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetClassParameter(*args)
     def SetSequenceParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetSequenceParameter(*args)
     def SetDelayParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetDelayParameter(*args)
     __swig_destroy__ = _blcelc.delete_iSequenceQuestRewardFactory
@@ -4648,6 +4654,8 @@ class iSequenceFinishQuestRewardFactory(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetEntityParameter(*args)
+    def SetTagParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetTagParameter(*args)
+    def SetClassParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetClassParameter(*args)
     def SetSequenceParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetSequenceParameter(*args)
     __swig_destroy__ = _blcelc.delete_iSequenceFinishQuestRewardFactory
     __del__ = lambda self : None;
@@ -4659,6 +4667,7 @@ class iMessageQuestRewardFactory(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iMessageQuestRewardFactory_SetEntityParameter(*args)
+    def SetClassParameter(*args): return _blcelc.iMessageQuestRewardFactory_SetClassParameter(*args)
     def SetIDParameter(*args): return _blcelc.iMessageQuestRewardFactory_SetIDParameter(*args)
     def AddParameter(*args): return _blcelc.iMessageQuestRewardFactory_AddParameter(*args)
     __swig_destroy__ = _blcelc.delete_iMessageQuestRewardFactory
@@ -4685,6 +4694,7 @@ class iDestroyEntityQuestRewardFactory(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iDestroyEntityQuestRewardFactory_SetEntityParameter(*args)
+    def SetClassParameter(*args): return _blcelc.iDestroyEntityQuestRewardFactory_SetClassParameter(*args)
     __swig_destroy__ = _blcelc.delete_iDestroyEntityQuestRewardFactory
     __del__ = lambda self : None;
 iDestroyEntityQuestRewardFactory_swigregister = _blcelc.iDestroyEntityQuestRewardFactory_swigregister
