@@ -2937,7 +2937,7 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 #define SWIGTYPE_p_int16_t swig_types[459]
 #define SWIGTYPE_p_int64_t swig_types[460]
 #define SWIGTYPE_p_int8_t swig_types[461]
-#define SWIGTYPE_p_long_long swig_types[462]
+#define SWIGTYPE_p_int_least64_t swig_types[462]
 #define SWIGTYPE_p_p_iPcCollisionDetection swig_types[463]
 #define SWIGTYPE_p_p_iSector swig_types[464]
 #define SWIGTYPE_p_p_void swig_types[465]
@@ -2958,12 +2958,13 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 #define SWIGTYPE_p_uint32_t swig_types[480]
 #define SWIGTYPE_p_uint64_t swig_types[481]
 #define SWIGTYPE_p_uint8_t swig_types[482]
-#define SWIGTYPE_p_unsigned_int swig_types[483]
-#define SWIGTYPE_p_unsigned_long swig_types[484]
-#define SWIGTYPE_p_unsigned_long_long swig_types[485]
+#define SWIGTYPE_p_uint_least64_t swig_types[483]
+#define SWIGTYPE_p_unsigned_int swig_types[484]
+#define SWIGTYPE_p_unsigned_long swig_types[485]
 #define SWIGTYPE_p_void swig_types[486]
-static swig_type_info *swig_types[488];
-static swig_module_info swig_module = {swig_types, 487, 0, 0, 0, 0};
+#define SWIGTYPE_p_wchar_t swig_types[487]
+static swig_type_info *swig_types[489];
+static swig_module_info swig_module = {swig_types, 488, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -92818,9 +92819,9 @@ static swig_type_info _swigt__p_iView = {"_p_iView", "iView *", 0, 0, (void*)0, 
 static swig_type_info _swigt__p_iWatchQuestTriggerFactory = {"_p_iWatchQuestTriggerFactory", "iWatchQuestTriggerFactory *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_int = {"_p_int", "int *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_int16_t = {"_p_int16_t", "int16_t *|int16 *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_int64_t = {"_p_int64_t", "int64_t *|int64 *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_int64_t = {"_p_int64_t", "int64_t *|intmax_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_int8_t = {"_p_int8_t", "int8_t *|int8 *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_long_long = {"_p_long_long", "long long *|longlong *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_int_least64_t = {"_p_int_least64_t", "int_least64_t *|longlong *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_p_iPcCollisionDetection = {"_p_p_iPcCollisionDetection", "iPcCollisionDetection **", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_p_iSector = {"_p_p_iSector", "iSector **", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_p_void = {"_p_p_void", "void **", 0, 0, (void*)0, 0};
@@ -92829,12 +92830,13 @@ static swig_type_info _swigt__p_scfImplementation1TcelOneParameterBlock_iCelPara
 static swig_type_info _swigt__p_scfImplementation1TcelVariableParameterBlock_iCelParameterBlock_t = {"_p_scfImplementation1TcelVariableParameterBlock_iCelParameterBlock_t", "scfImplementation1<celVariableParameterBlock,iCelParameterBlock > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_uint16_t = {"_p_uint16_t", "uint16_t *|uint16 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_uint32_t = {"_p_uint32_t", "uint32_t *|uint32 *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_uint64_t = {"_p_uint64_t", "uint64_t *|uint64 *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_uint64_t = {"_p_uint64_t", "uint64_t *|uintmax_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_uint8_t = {"_p_uint8_t", "uint8_t *|uint8 *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_uint_least64_t = {"_p_uint_least64_t", "uint_least64_t *|ulonglong *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_int = {"_p_unsigned_int", "unsigned int *|uint *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_long = {"_p_unsigned_long", "unsigned long *|csStringID *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_unsigned_long_long = {"_p_unsigned_long_long", "unsigned long long *|ulonglong *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_wchar_t = {"_p_wchar_t", "wchar_t *|wint_t *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_AllocatorType,
@@ -93299,7 +93301,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_int16_t,
   &_swigt__p_int64_t,
   &_swigt__p_int8_t,
-  &_swigt__p_long_long,
+  &_swigt__p_int_least64_t,
   &_swigt__p_p_iPcCollisionDetection,
   &_swigt__p_p_iSector,
   &_swigt__p_p_void,
@@ -93320,10 +93322,11 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_uint32_t,
   &_swigt__p_uint64_t,
   &_swigt__p_uint8_t,
+  &_swigt__p_uint_least64_t,
   &_swigt__p_unsigned_int,
   &_swigt__p_unsigned_long,
-  &_swigt__p_unsigned_long_long,
   &_swigt__p_void,
+  &_swigt__p_wchar_t,
 };
 
 static swig_cast_info _swigc__p_AllocatorType[] = {  {&_swigt__p_AllocatorType, 0, 0, 0},{0, 0, 0, 0}};
@@ -93798,7 +93801,7 @@ static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0
 static swig_cast_info _swigc__p_int16_t[] = {  {&_swigt__p_int16_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_int64_t[] = {  {&_swigt__p_int64_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_int8_t[] = {  {&_swigt__p_int8_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_long_long[] = {  {&_swigt__p_long_long, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_int_least64_t[] = {  {&_swigt__p_int_least64_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_p_iPcCollisionDetection[] = {  {&_swigt__p_p_iPcCollisionDetection, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_p_iSector[] = {  {&_swigt__p_p_iSector, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_p_void[] = {  {&_swigt__p_p_void, 0, 0, 0},{0, 0, 0, 0}};
@@ -93809,10 +93812,11 @@ static swig_cast_info _swigc__p_uint16_t[] = {  {&_swigt__p_uint16_t, 0, 0, 0},{
 static swig_cast_info _swigc__p_uint32_t[] = {  {&_swigt__p_uint32_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_uint64_t[] = {  {&_swigt__p_uint64_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_uint8_t[] = {  {&_swigt__p_uint8_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_uint_least64_t[] = {  {&_swigt__p_uint_least64_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_int[] = {  {&_swigt__p_unsigned_int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_long[] = {  {&_swigt__p_unsigned_long, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_unsigned_long_long[] = {  {&_swigt__p_unsigned_long_long, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_wchar_t[] = {  {&_swigt__p_wchar_t, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_AllocatorType,
@@ -94277,7 +94281,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_int16_t,
   _swigc__p_int64_t,
   _swigc__p_int8_t,
-  _swigc__p_long_long,
+  _swigc__p_int_least64_t,
   _swigc__p_p_iPcCollisionDetection,
   _swigc__p_p_iSector,
   _swigc__p_p_void,
@@ -94298,10 +94302,11 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_uint32_t,
   _swigc__p_uint64_t,
   _swigc__p_uint8_t,
+  _swigc__p_uint_least64_t,
   _swigc__p_unsigned_int,
   _swigc__p_unsigned_long,
-  _swigc__p_unsigned_long_long,
   _swigc__p_void,
+  _swigc__p_wchar_t,
 };
 
 

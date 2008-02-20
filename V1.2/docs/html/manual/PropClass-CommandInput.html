@@ -120,50 +120,50 @@ Sends <samp>&lsquo;value&rsquo;</samp> parameter in messages.
 
 <p>Message callbacks received when a bind is fullfilled always start with <samp>&lsquo;pccommandinput_&rsquo;</samp>, with the specified command code appended afterwards. 
 </p>
-<p>For example, for a bind defined as <code>MouseY = pitch</code>, the message would be <samp>&lsquo;pccommandinput_pitch&rsquo;</samp>.
+<p>For example, for a bind defined as <code>pitch = MouseY</code>, the message would be <samp>&lsquo;pccommandinput_pitch&rsquo;</samp>.
 </p>
-<p>Also for key/button messages the key state can be included in the message name, so for example a bind defined as <code>up = forward</code>, the received messages would be <samp>&lsquo;pccommandinput_forward1&rsquo;</samp> (key down), <samp>&lsquo;pccommandinput_forward0&rsquo;</samp> (key press) and <samp>&lsquo;pccommandinput_forward_&rsquo;</samp> (key autorepeat).
+<p>Also for key/button messages the key state can be included in the message name, so for example a bind defined as <code>forward = up</code>, the received messages would be <samp>&lsquo;pccommandinput_forward1&rsquo;</samp> (key down), <samp>&lsquo;pccommandinput_forward0&rsquo;</samp> (key press) and <samp>&lsquo;pccommandinput_forward_&rsquo;</samp> (key autorepeat).
 </p>
 <p>Note this the default behaviour but can be turned off to get only one message for all states. 
-For this <samp>&lsquo;.args&rsquo;</samp> must be appended to the command name, so for example a bind defined as <code>up = forward.args</code> would receive only <samp>&lsquo;pccommandinput_forward&rsquo;</samp> message, with <samp>&lsquo;state&rsquo;</samp> parameter holding the state.
+For this <samp>&lsquo;.args&rsquo;</samp> must be appended to the command name, so for example a bind defined as <code>forward.args = up</code> would receive only <samp>&lsquo;pccommandinput_forward&rsquo;</samp> message, with <samp>&lsquo;state&rsquo;</samp> parameter holding the state.
 </p>
 <a name="5"></a>
 <h4 class="subsubheading"> Config file. </h4>
 
 <p>Config files can hold binds, by using the following notation:
 </p>
-<p><code>&lt;section&gt;.CommandInput.Bind.&lt;bindcode&gt; = &lt;commandcode&gt;</code>
+<p><code>&lt;section&gt;.Input.Bind.&lt;commandcode&gt; = &lt;bindcode&gt; [bindcode2] ... [bindcodeN]</code>
 </p>
 <p>This would be an example config file:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">; this is a command definition for a spaceship.
-Ecksdee.CommandInput.Bind.JoystickButton0 = fire
-Ecksdee.CommandInput.Bind.JoystickButton1 = forward
-Ecksdee.CommandInput.Bind.JoystickButton2 = turbo
-Ecksdee.CommandInput.Bind.JoystickButton3 = brake
-Ecksdee.CommandInput.Bind.JoystickButton4 = slide
-Ecksdee.CommandInput.Bind.JoystickButton5 = afterburner
-Ecksdee.CommandInput.Bind.JoystickAxis0 = yaw
-Ecksdee.CommandInput.Bind.JoystickAxis1 = pitch
-Ecksdee.CommandInput.Bind.JoystickAxis2 = yaw
-Ecksdee.CommandInput.Bind.JoystickAxis3 = pitch
+Ecksdee.Input.Bind.fire = JoystickButton0
+Ecksdee.Input.Bind.forward = JoystickButton1
+Ecksdee.Input.Bind.turbo = JoystickButton2
+Ecksdee.Input.Bind.brake = JoystickButton3
+Ecksdee.Input.Bind.slide = JoystickButton4
+Ecksdee.Input.Bind.afterburner = JoystickButton5
+Ecksdee.Input.Bind.yaw = JoystickAxis0
+Ecksdee.Input.Bind.pitch = JoystickAxis1
+Ecksdee.Input.Bind.yaw = JoystickAxis2
+Ecksdee.Input.Bind.pitch = JoystickAxis3
 
-Ecksdee.CommandInput.Bind.up    = rotateup
-Ecksdee.CommandInput.Bind.down  = rotatedown
+Ecksdee.Input.Bind.rotateup = up
+Ecksdee.Input.Bind.rotatedown = down
 
-Ecksdee.CommandInput.Bind.left  = rotateleft
-Ecksdee.CommandInput.Bind.right = rotateright
+Ecksdee.Input.Bind.rotateleft = left
+Ecksdee.Input.Bind.rotateright = right
 
-Ecksdee.CommandInput.Bind.c     = fire
-Ecksdee.CommandInput.Bind.x     = forward
-Ecksdee.CommandInput.Bind.space = turbo
-Ecksdee.CommandInput.Bind.shift = brake
-Ecksdee.CommandInput.Bind.alt   = slide
-Ecksdee.CommandInput.Bind.ctrl  = afterburner
+Ecksdee.Input.Bind.fire = c
+Ecksdee.Input.Bind.forward = x
+Ecksdee.Input.Bind.turbo = space
+Ecksdee.Input.Bind.brake = shift
+Ecksdee.Input.Bind.slide = alt
+Ecksdee.Input.Bind.afterburner = ctrl
 
-Ecksdee.CommandInput.Bind.i   = dumpinventory
-Ecksdee.CommandInput.Bind.tab = cammode
-Ecksdee.CommandInput.Bind.r   = resetpos
-Ecksdee.CommandInput.Bind.t   = nextreg
+Ecksdee.Input.Bind.dumpinventory = i
+Ecksdee.Input.Bind.cammode = tab
+Ecksdee.Input.Bind.resetpos = r
+Ecksdee.Input.Bind.nextreg = t
 </pre></td></tr></table>
 
 <p>The binds can then be loaded from the property class by doing LoadConfig(&lt;section&gt;), note for this the config file must already be loaded. LoadConfig is available both as xml action for blxml/map files, and from iPcCommandInput api for c++ and python.
