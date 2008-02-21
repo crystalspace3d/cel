@@ -2,6 +2,9 @@
 
 The history order is reversed so that new features are at the top.
 
+21-Feb-2008
+	- Vincent merged r3193 into 1.2 (detect i586-mingw32msvc-g++
+	  cross-compile problem with -fvisibility-inlines-hidden).
 7-Feb-2008
 	- Vincent updated *.m4, *.jam and macros.tlib from CS 1.2 (r28633).
 	- Vincent partially merged r3109 into 1.2 (configure.ac upgrade for
