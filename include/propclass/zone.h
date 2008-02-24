@@ -442,7 +442,7 @@ struct iPcZoneManager : public virtual iBase
   /**
    * Take the specified region (by name), load all zones associated
    * with that region and then setup the given pccamera so that it
-   * points to the specified starting posision in this region. If 0
+   * points to the specified starting position in this region. If 0
    * is given then the default position will be used.
    * Returns one of:
    * - #CEL_ZONEERROR_OK: no error
@@ -461,7 +461,7 @@ struct iPcZoneManager : public virtual iBase
   /**
    * Take the specified region (by name), load all zones associated
    * with that region and then place the given pcmesh so that it
-   * is positioned at the specified starting posision in this region. If 0
+   * is positioned at the specified starting position in this region. If 0
    * is given then the default position will be used.
    * Returns one of:
    * - #CEL_ZONEERROR_OK: no error
