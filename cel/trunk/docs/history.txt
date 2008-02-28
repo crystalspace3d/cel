@@ -3,6 +3,15 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+28-Feb-2008
+	- Jorrit extended all versions of FindNearbyEntities() in both
+	  iCelPlLayer and iCelEntityTracker with an options classID
+	  parameter so that only entities that have that specific class
+	  are returned.
+	- Jorrit extended iPcTrigger with a new MonitorClass() method
+	  so that you can monitor all entities that have a specific class.
+	  Also added a 'class' property to the property class so that you
+	  can control this from XML.
 25-Feb-2008
 	- Eric Sunshine updated mk/autoconf/*.m4 files from CS master copies.
 25-Feb-2008
