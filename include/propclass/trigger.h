@@ -90,6 +90,7 @@ struct iPcTriggerListener : public virtual iBase
  * - delay (long, read/write): update delay for checking trigger.
  * - jitter (long, read/write): random jitter added to update delay.
  * - monitor (string, read/write): name of entity to monitor.
+ * - class (string, read/write): name of class to monitor.
  * - invisible (bool, read/write): also check on invisible entities
  *     (default off).
  * - follow (bool, read/write): follow own entity pcmesh (default off).
@@ -97,7 +98,7 @@ struct iPcTriggerListener : public virtual iBase
  */
 struct iPcTrigger : public virtual iBase
 {
-  SCF_INTERFACE (iPcTrigger, 0, 1, 0);
+  SCF_INTERFACE (iPcTrigger, 0, 1, 1);
 
   /**
    * Add a trigger listener. Trigger listeners are called right before
@@ -153,6 +154,19 @@ struct iPcTrigger : public virtual iBase
    * 0 if monitoring all entities.
    */
   virtual const char* GetMonitorEntity () const = 0;
+
+  /**
+   * By default pctrigger will monitor all entities. You can also
+   * let pctrigger monitor only entities with a specific class.
+   * To disable this just use 0 as the class.
+   */
+  virtual void MonitorClass (const char* classname) = 0;
+
+  /**
+   * Return the class name that we are currently monitoring or
+   * 0 if monitoring all entities.
+   */
+  virtual const char* GetMonitorClass () const = 0;
 
   /**
    * Set the number of milliseconds we delay before monitoring

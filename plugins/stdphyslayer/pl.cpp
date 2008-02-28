@@ -922,7 +922,7 @@ iCelEntity* celPlLayer::FindAttachedEntity (iObject* object)
 }
 
 csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
-	const csBox3& box, bool do_invisible)
+	const csBox3& box, bool do_invisible, csStringID cls)
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
@@ -940,14 +940,16 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
     iCelEntity* ent = FindAttachedEntity (m->QueryObject ());
     if (ent)
     {
-      list->Add (ent);
+      if (cls == csInvalidStringID || ent->HasClass (cls))
+        list->Add (ent);
     }
   }
   return list;
 }
 
 csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
-	const csVector3& start, const csVector3& end, bool do_invisible)
+	const csVector3& start, const csVector3& end, bool do_invisible,
+	csStringID cls)
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
@@ -965,14 +967,16 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
     iCelEntity* ent = FindAttachedEntity (m->QueryObject ());
     if (ent)
     {
-      list->Add (ent);
+      if (cls == csInvalidStringID || ent->HasClass (cls))
+        list->Add (ent);
     }
   }
   return list;
 }
 
 csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
-	const csVector3& pos, float radius, bool do_invisible)
+	const csVector3& pos, float radius, bool do_invisible,
+	csStringID cls)
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
@@ -990,7 +994,8 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
     iCelEntity* ent = FindAttachedEntity (m->QueryObject ());
     if (ent)
     {
-      list->Add (ent);
+      if (cls == csInvalidStringID || ent->HasClass (cls))
+        list->Add (ent);
     }
   }
   return list;

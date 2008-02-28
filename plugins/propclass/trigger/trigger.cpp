@@ -165,6 +165,8 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   	CEL_DATA_LONG, false, "Random jitter to add to update delay.", 0);
   AddProperty (propid_monitor, "cel.property.monitor",
   	CEL_DATA_STRING, false, "Entity name to monitor.", 0);
+  AddProperty (propid_class, "cel.property.class",
+  	CEL_DATA_STRING, false, "Entity class to monitor.", 0);
   AddProperty (propid_invisible, "cel.property.invisible",
   	CEL_DATA_BOOL, false, "Monitor invisible entities.", 0);
   AddProperty (propid_follow, "cel.property.follow",
@@ -175,7 +177,6 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   enabled = true;
   send_to_self = true;
   send_to_others = true;
-  monitor_entity = 0;
   above_collider = 0;
   SetMonitorDelay (200, 10);
   follow = false;
@@ -195,7 +196,6 @@ celPcTrigger::~celPcTrigger ()
   if (pl)
     pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
   delete params;
-  delete[] monitor_entity;
 }
 
 void celPcTrigger::SetCenter (csVector3 &v)
@@ -291,6 +291,11 @@ bool celPcTrigger::SetPropertyIndexed (int idx, const char* b)
     MonitorEntity (b);
     return true;
   }
+  else if (idx == propid_class)
+  {
+    MonitorClass (b);
+    return true;
+  }
   return false;
 }
 
@@ -301,6 +306,11 @@ bool celPcTrigger::GetPropertyIndexed (int idx, const char*& b)
     b = monitor_entity;
     return true;
   }
+  else if (idx == propid_class)
+  {
+    b = monitor_class;
+    return true;
+  }
   return false;
 }
 
@@ -309,8 +319,22 @@ void celPcTrigger::MonitorEntity (const char* entityname)
   LeaveAllEntities ();
   monitoring_entity = 0;
   monitoring_entity_pcmesh = 0;
-  delete[] monitor_entity;
-  monitor_entity = csStrNew (entityname);
+  monitor_entity = entityname;
+}
+
+void celPcTrigger::MonitorClass (const char* classname)
+{
+  LeaveAllEntities ();
+  if (classname)
+  {
+    monitor_class = classname;
+    monitor_class_id = pl->FetchStringID (monitor_class);
+  }
+  else
+  {
+    monitor_class.Empty ();
+    monitor_class_id = csInvalidStringID;
+  }
 }
 
 void celPcTrigger::EnableTrigger (bool en)
@@ -466,7 +490,7 @@ void celPcTrigger::SetupTriggerAboveMesh (iPcMesh* m, float maxdistance)
 
 bool celPcTrigger::Check ()
 {
-  if (monitor_entity)
+  if (!monitor_entity.IsEmpty ())
   {
     // We want to monitor a single entity.
     if (!monitoring_entity)
@@ -478,6 +502,12 @@ bool celPcTrigger::Check ()
       size_t idx = EntityInTrigger (monitoring_entity);
       return idx != csArrayItemNotFound;
     }
+  }
+  else
+  {
+    // @@@ Consider implementing this (using pl->FindNearbyEntities())
+    // for the case of monitoring all entities of all entities of
+    // a single class.
   }
   return false;
 }
@@ -526,7 +556,7 @@ void celPcTrigger::TickOnce ()
     if (!above_collider) goto end;
   }
 
-  if (monitor_entity)
+  if (!monitor_entity.IsEmpty ())
   {
     // We want to monitor a single entity.
     if (!monitoring_entity)
@@ -671,17 +701,18 @@ void celPcTrigger::TickOnce ()
     if (sphere_sector)
     {
       list = pl->FindNearbyEntities (sphere_sector,
-      	sphere_center, sphere_radius, monitor_invisible);
+      	sphere_center, sphere_radius, monitor_invisible,
+	monitor_class_id);
     }
     else if (box_sector)
     {
       list = pl->FindNearbyEntities (box_sector, box_area,
-      	monitor_invisible);
+      	monitor_invisible, monitor_class_id);
     }
     else if (beam_sector)
     {
       list = pl->FindNearbyEntities (beam_sector, beam_start, beam_end,
-      	monitor_invisible);
+      	monitor_invisible, monitor_class_id);
     }
     else
     {
@@ -689,7 +720,7 @@ void celPcTrigger::TickOnce ()
       b = above_mesh->GetMesh ()->GetWorldBoundingBox ();
       iMovable* m = above_mesh->GetMesh ()->GetMovable ();
       list = pl->FindNearbyEntities (m->GetSectors ()->Get (0), b,
-      	monitor_invisible);
+      	monitor_invisible, monitor_class_id);
     }
 
     size_t i;
@@ -716,7 +747,8 @@ void celPcTrigger::TickOnce ()
         csVector3 origin = pcmesh->GetMesh ()->GetMovable ()
         	->GetFullPosition ();
         csVector3 end (origin.x, origin.y-above_maxdist, origin.z);
-        // Small correction to make sure we don't miss the object that we're standing on.
+        // Small correction to make sure we don't miss the object that
+	// we're standing on.
         origin.y += .01f;
         if (!cdsys->CollideSegment (above_collider, &above_trans, origin, end))
           continue;
@@ -769,7 +801,7 @@ void celPcTrigger::TickOnce ()
   	delay+(rand () % (jitter+jitter))-jitter, CEL_EVENT_PRE);
 }
 
-#define TRIGGER_SERIAL 1
+#define TRIGGER_SERIAL 2
 
 csPtr<iCelDataBuffer> celPcTrigger::Save ()
 {
@@ -777,7 +809,8 @@ csPtr<iCelDataBuffer> celPcTrigger::Save ()
   databuf->Add (enabled);
   databuf->Add (send_to_self);
   databuf->Add (send_to_others);
-  databuf->Add (monitor_entity);
+  databuf->Add ((const char*)monitor_entity);
+  databuf->Add ((const char*)monitor_class);
   databuf->Add (monitor_invisible);
   databuf->Add ((uint32)delay);
   databuf->Add ((uint32)jitter);
@@ -837,6 +870,10 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
   if (!s)
     return Report (object_reg, "Problem parsing trigger!");
   MonitorEntity (s->GetData ());
+  s = databuf->GetString ();
+  if (!s)
+    return Report (object_reg, "Problem parsing trigger!");
+  MonitorClass (s->GetData ());
   monitor_invisible = databuf->GetBool ();
   csTicks d = csTicks (databuf->GetUInt32 ());
   csTicks j = csTicks (databuf->GetUInt32 ());

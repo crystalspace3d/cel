@@ -107,7 +107,7 @@ struct iCelTimerListener : public virtual iBase
  */
 struct iCelPlLayer : public virtual iBase
 {
-  SCF_INTERFACE (iCelPlLayer, 0, 4, 1);
+  SCF_INTERFACE (iCelPlLayer, 0, 4, 2);
 
   /**
    * Create a new physical layer entity. The physical layer
@@ -269,26 +269,35 @@ struct iCelPlLayer : public virtual iBase
    * Find all entities that are within a certain radius of
    * a given position. This uses the attached entities from above.
    * \param do_invisible if true then also return invisible entities.
+   * \param cls If this is not equal to csInvalidStringID then
+   * only entities that have that class will be returned.
    */
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
-  	const csVector3& pos, float radius, bool do_invisible = false) = 0;
+  	const csVector3& pos, float radius, bool do_invisible = false,
+	csStringID cls = csInvalidStringID) = 0;
 
   /**
    * Find all entities that are in a given box.
    * This uses the attached entities from above.
    * \param do_invisible if true then also return invisible entities.
+   * \param cls If this is not equal to csInvalidStringID then
+   * only entities that have that class will be returned.
    */
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
-  	const csBox3& box, bool do_invisible = false) = 0;
+  	const csBox3& box, bool do_invisible = false,
+	csStringID cls = csInvalidStringID) = 0;
 
   /**
    * Find all entities that are intersected by a beam.
    * This uses the attached entities from above.
    * \param do_invisible if true then also return invisible entities.
+   * \param cls If this is not equal to csInvalidStringID then
+   * only entities that have that class will be returned.
    */
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
   	const csVector3& start, const csVector3& end,
-	bool do_invisible = false) = 0;
+	bool do_invisible = false,
+	csStringID cls = csInvalidStringID) = 0;
 
   /**
    * Given a position on screen find the nearest entity to the camera.
@@ -596,7 +605,7 @@ struct iCelPlLayer : public virtual iBase
  */
 struct iCelEntityTracker : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntityTracker, 0, 0, 2);
+  SCF_INTERFACE (iCelEntityTracker, 0, 0, 3);
 
   /**
    * Get the name of this tracker.
@@ -623,9 +632,12 @@ struct iCelEntityTracker : public virtual iBase
   /**
    * Find all entities that are within a certain radius of
    * a given object.
+   * \param cls If this is not equal to csInvalidStringID then
+   * only entities that have that class will be returned.
    */
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
-  	const csVector3& pos, float radius) = 0;
+  	const csVector3& pos, float radius,
+	csStringID cls = csInvalidStringID) = 0;
 
   /**
    * Get an iterator for all entities in this tracker.

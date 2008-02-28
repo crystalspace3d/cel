@@ -70,7 +70,9 @@ private:
   bool send_to_self;
   bool send_to_others;
 
-  char* monitor_entity;
+  csString monitor_entity;
+  csString monitor_class;
+  csStringID monitor_class_id;
   csWeakRef<iCelEntity> monitoring_entity;
   csWeakRef<iPcMesh> monitoring_entity_pcmesh;
   // Movable listener so we can update trigger center
@@ -138,6 +140,7 @@ private:
     propid_delay = 0,
     propid_jitter,
     propid_monitor,
+    propid_class,
     propid_invisible,
     propid_follow,
     propid_enabled
@@ -192,6 +195,8 @@ public:
   virtual void SetupTriggerAboveMesh (iPcMesh* mesh, float maxdistance);
   virtual void MonitorEntity (const char* entityname);
   virtual const char* GetMonitorEntity () const { return monitor_entity; }
+  virtual void MonitorClass (const char* classname);
+  virtual const char* GetMonitorClass () const { return monitor_class; }
   virtual void SetMonitorDelay (csTicks delay, csTicks jitter);
   virtual void EnableMonitorInvisible (bool en) { monitor_invisible = en; }
   virtual void EnableMessagesToSelf (bool en) { send_to_self = en; }
