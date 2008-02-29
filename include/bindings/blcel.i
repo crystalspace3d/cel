@@ -51,10 +51,13 @@ CS_PROPERTY_HELPERS
 #include "propclass/damage.h"
 #include "propclass/quest.h"
 #include "propclass/trigger.h"
+#include "propclass/steer.h"
+#include "propclass/pathfinder.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 #include "tools/celconsole.h"
 #include "tools/questmanager.h"
+#include "tools/celgraph.h"
 #include "propclass/zone.h"
 
 
@@ -556,6 +559,16 @@ CEL_PC(iPcTrigger, Trigger, pclogic.trigger)
 
 //-----------------------------------------------------------------------------
 
+%include "propclass/steer.h"
+CEL_PC(iPcSteer, Steer, pcmove.steer)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/pathfinder.h"
+CEL_PC(iPcPathFinder, PathFinder, pcmove.pathfinder)
+
+//-----------------------------------------------------------------------------
+
 %include "propclass/spawn.h"
 CEL_PC(iPcSpawn, Spawn, pclogic.spawn)
 
@@ -647,6 +660,10 @@ CEL_PC(iPcDamage, Damage, pclogic.damage)
 %include "tools/questmanager.h"
 %include "propclass/quest.h"
 CEL_PC(iPcQuest, Quest, pclogic.quest)
+
+//-----------------------------------------------------------------------------
+
+%include "tools/celgraph.h"
 
 //-----------------------------------------------------------------------------
 
