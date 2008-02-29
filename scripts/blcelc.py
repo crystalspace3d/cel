@@ -3009,6 +3009,8 @@ class iPcTrigger(cspace.iBase):
     def SetupTriggerAboveMesh(*args): return _blcelc.iPcTrigger_SetupTriggerAboveMesh(*args)
     def MonitorEntity(*args): return _blcelc.iPcTrigger_MonitorEntity(*args)
     def GetMonitorEntity(*args): return _blcelc.iPcTrigger_GetMonitorEntity(*args)
+    def MonitorClass(*args): return _blcelc.iPcTrigger_MonitorClass(*args)
+    def GetMonitorClass(*args): return _blcelc.iPcTrigger_GetMonitorClass(*args)
     def SetMonitorDelay(*args): return _blcelc.iPcTrigger_SetMonitorDelay(*args)
     def EnableMonitorInvisible(*args): return _blcelc.iPcTrigger_EnableMonitorInvisible(*args)
     def EnableMessagesToSelf(*args): return _blcelc.iPcTrigger_EnableMessagesToSelf(*args)
