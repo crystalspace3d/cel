@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass animation ;
+
+Plugin pfanimation
+	: anim.cpp anim.h
+;
+ExternalLibs pfanimation : CRYSTAL ;
+LinkWith pfanimation : celtool ;
+
