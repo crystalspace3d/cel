@@ -3043,6 +3043,100 @@ iPcTrigger_swigregister(iPcTrigger)
 iPcTrigger_scfGetVersion = _blcelc.iPcTrigger_scfGetVersion
 
 scfQuery_iPcTrigger = _blcelc.scfQuery_iPcTrigger
+class iPcSteer(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def Seek(*args): return _blcelc.iPcSteer_Seek(*args)
+    def Flee(*args): return _blcelc.iPcSteer_Flee(*args)
+    def Pursue(*args): return _blcelc.iPcSteer_Pursue(*args)
+    def CheckArrivalOn(*args): return _blcelc.iPcSteer_CheckArrivalOn(*args)
+    def CheckArrivalOff(*args): return _blcelc.iPcSteer_CheckArrivalOff(*args)
+    def CollisionAvoidanceOn(*args): return _blcelc.iPcSteer_CollisionAvoidanceOn(*args)
+    def CollisionAvoidanceOff(*args): return _blcelc.iPcSteer_CollisionAvoidanceOff(*args)
+    def CohesionOn(*args): return _blcelc.iPcSteer_CohesionOn(*args)
+    def CohesionOff(*args): return _blcelc.iPcSteer_CohesionOff(*args)
+    def SeparationOn(*args): return _blcelc.iPcSteer_SeparationOn(*args)
+    def SeparationOff(*args): return _blcelc.iPcSteer_SeparationOff(*args)
+    def DirectionMatchingOn(*args): return _blcelc.iPcSteer_DirectionMatchingOn(*args)
+    def DirectionMatchingOff(*args): return _blcelc.iPcSteer_DirectionMatchingOff(*args)
+    def Interrupt(*args): return _blcelc.iPcSteer_Interrupt(*args)
+    def GetSector(*args): return _blcelc.iPcSteer_GetSector(*args)
+    def GetPosition(*args): return _blcelc.iPcSteer_GetPosition(*args)
+    def RandomBinomial(*args): return _blcelc.iPcSteer_RandomBinomial(*args)
+    def SetDelayRecheck(*args): return _blcelc.iPcSteer_SetDelayRecheck(*args)
+    def IsMoving(*args): return _blcelc.iPcSteer_IsMoving(*args)
+    _PC = None
+    def __getattr__(self,attr):
+         if hasattr(iCelPropertyClass,attr):
+             _PC = self.QueryInterface(iCelPropertyClass)
+             return getattr(_PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if hasattr(iPcSteer,attr):
+             return object.__setattr__(self,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = self.QueryInterface(iCelPropertyClass)
+             setattr(_PC,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
+    scfGetVersion = staticmethod(_blcelc.iPcSteer_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iPcSteer
+    __del__ = lambda self : None;
+iPcSteer_swigregister = _blcelc.iPcSteer_swigregister
+iPcSteer_swigregister(iPcSteer)
+celCreateTrigger = _blcelc.celCreateTrigger
+celGetSetTrigger = _blcelc.celGetSetTrigger
+celGetTrigger = _blcelc.celGetTrigger
+iPcSteer_scfGetVersion = _blcelc.iPcSteer_scfGetVersion
+
+scfQuery_iPcSteer = _blcelc.scfQuery_iPcSteer
+class iPcPathFinder(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def Seek(*args): return _blcelc.iPcPathFinder_Seek(*args)
+    def Wander(*args): return _blcelc.iPcPathFinder_Wander(*args)
+    def Pursue(*args): return _blcelc.iPcPathFinder_Pursue(*args)
+    def FollowCyclicPath(*args): return _blcelc.iPcPathFinder_FollowCyclicPath(*args)
+    def FollowOneWayPath(*args): return _blcelc.iPcPathFinder_FollowOneWayPath(*args)
+    def FollowTwoWayPath(*args): return _blcelc.iPcPathFinder_FollowTwoWayPath(*args)
+    def Interrupt(*args): return _blcelc.iPcPathFinder_Interrupt(*args)
+    def SetDelayRecheck(*args): return _blcelc.iPcPathFinder_SetDelayRecheck(*args)
+    def SetMinDistance(*args): return _blcelc.iPcPathFinder_SetMinDistance(*args)
+    def GetPosition(*args): return _blcelc.iPcPathFinder_GetPosition(*args)
+    def StopTracking(*args): return _blcelc.iPcPathFinder_StopTracking(*args)
+    def IsActive(*args): return _blcelc.iPcPathFinder_IsActive(*args)
+    def SetGraph(*args): return _blcelc.iPcPathFinder_SetGraph(*args)
+    _PC = None
+    def __getattr__(self,attr):
+         if hasattr(iCelPropertyClass,attr):
+             _PC = self.QueryInterface(iCelPropertyClass)
+             return getattr(_PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if hasattr(iPcPathFinder,attr):
+             return object.__setattr__(self,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = self.QueryInterface(iCelPropertyClass)
+             setattr(_PC,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
+    scfGetVersion = staticmethod(_blcelc.iPcPathFinder_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iPcPathFinder
+    __del__ = lambda self : None;
+iPcPathFinder_swigregister = _blcelc.iPcPathFinder_swigregister
+iPcPathFinder_swigregister(iPcPathFinder)
+celCreateSteer = _blcelc.celCreateSteer
+celGetSetSteer = _blcelc.celGetSetSteer
+celGetSteer = _blcelc.celGetSteer
+iPcPathFinder_scfGetVersion = _blcelc.iPcPathFinder_scfGetVersion
+
+scfQuery_iPcPathFinder = _blcelc.scfQuery_iPcPathFinder
 class iPcSpawn(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
@@ -3082,9 +3176,9 @@ class iPcSpawn(cspace.iBase):
     __del__ = lambda self : None;
 iPcSpawn_swigregister = _blcelc.iPcSpawn_swigregister
 iPcSpawn_swigregister(iPcSpawn)
-celCreateTrigger = _blcelc.celCreateTrigger
-celGetSetTrigger = _blcelc.celGetSetTrigger
-celGetTrigger = _blcelc.celGetTrigger
+celCreatePathFinder = _blcelc.celCreatePathFinder
+celGetSetPathFinder = _blcelc.celGetSetPathFinder
+celGetPathFinder = _blcelc.celGetPathFinder
 iPcSpawn_scfGetVersion = _blcelc.iPcSpawn_scfGetVersion
 
 scfQuery_iPcSpawn = _blcelc.scfQuery_iPcSpawn
@@ -4808,6 +4902,82 @@ iPcQuest_swigregister(iPcQuest)
 iPcQuest_scfGetVersion = _blcelc.iPcQuest_scfGetVersion
 
 scfQuery_iPcQuest = _blcelc.scfQuery_iPcQuest
+class iCelEdge(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetState(*args): return _blcelc.iCelEdge_SetState(*args)
+    def SetSuccessor(*args): return _blcelc.iCelEdge_SetSuccessor(*args)
+    def GetState(*args): return _blcelc.iCelEdge_GetState(*args)
+    def GetSuccessor(*args): return _blcelc.iCelEdge_GetSuccessor(*args)
+    __swig_destroy__ = _blcelc.delete_iCelEdge
+    __del__ = lambda self : None;
+iCelEdge_swigregister = _blcelc.iCelEdge_swigregister
+iCelEdge_swigregister(iCelEdge)
+celCreateQuest = _blcelc.celCreateQuest
+celGetSetQuest = _blcelc.celGetSetQuest
+celGetQuest = _blcelc.celGetQuest
+
+class iCelNode(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def AddSuccessor(*args): return _blcelc.iCelNode_AddSuccessor(*args)
+    def SetMapNode(*args): return _blcelc.iCelNode_SetMapNode(*args)
+    def SetParent(*args): return _blcelc.iCelNode_SetParent(*args)
+    def SetName(*args): return _blcelc.iCelNode_SetName(*args)
+    def Heuristic(*args): return _blcelc.iCelNode_Heuristic(*args)
+    def GetMapNode(*args): return _blcelc.iCelNode_GetMapNode(*args)
+    def GetPosition(*args): return _blcelc.iCelNode_GetPosition(*args)
+    def GetName(*args): return _blcelc.iCelNode_GetName(*args)
+    def GetParent(*args): return _blcelc.iCelNode_GetParent(*args)
+    def GetSuccessors(*args): return _blcelc.iCelNode_GetSuccessors(*args)
+    def GetAllSuccessors(*args): return _blcelc.iCelNode_GetAllSuccessors(*args)
+    def GetHeuristic(*args): return _blcelc.iCelNode_GetHeuristic(*args)
+    def GetCost(*args): return _blcelc.iCelNode_GetCost(*args)
+    __swig_destroy__ = _blcelc.delete_iCelNode
+    __del__ = lambda self : None;
+iCelNode_swigregister = _blcelc.iCelNode_swigregister
+iCelNode_swigregister(iCelNode)
+
+class iCelPath(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def AddNode(*args): return _blcelc.iCelPath_AddNode(*args)
+    def InsertNode(*args): return _blcelc.iCelPath_InsertNode(*args)
+    def Next(*args): return _blcelc.iCelPath_Next(*args)
+    def Previous(*args): return _blcelc.iCelPath_Previous(*args)
+    def Current(*args): return _blcelc.iCelPath_Current(*args)
+    def CurrentPosition(*args): return _blcelc.iCelPath_CurrentPosition(*args)
+    def CurrentSector(*args): return _blcelc.iCelPath_CurrentSector(*args)
+    def HasNext(*args): return _blcelc.iCelPath_HasNext(*args)
+    def HasPrevious(*args): return _blcelc.iCelPath_HasPrevious(*args)
+    def Restart(*args): return _blcelc.iCelPath_Restart(*args)
+    def Clear(*args): return _blcelc.iCelPath_Clear(*args)
+    def GetFirst(*args): return _blcelc.iCelPath_GetFirst(*args)
+    def GetLast(*args): return _blcelc.iCelPath_GetLast(*args)
+    def Invert(*args): return _blcelc.iCelPath_Invert(*args)
+    __swig_destroy__ = _blcelc.delete_iCelPath
+    __del__ = lambda self : None;
+iCelPath_swigregister = _blcelc.iCelPath_swigregister
+iCelPath_swigregister(iCelPath)
+
+class iCelGraph(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def AddNode(*args): return _blcelc.iCelGraph_AddNode(*args)
+    def AddEdge(*args): return _blcelc.iCelGraph_AddEdge(*args)
+    def AddEdgeByNames(*args): return _blcelc.iCelGraph_AddEdgeByNames(*args)
+    def GetClosest(*args): return _blcelc.iCelGraph_GetClosest(*args)
+    def ShortestPath(*args): return _blcelc.iCelGraph_ShortestPath(*args)
+    def RandomPath(*args): return _blcelc.iCelGraph_RandomPath(*args)
+    __swig_destroy__ = _blcelc.delete_iCelGraph
+    __del__ = lambda self : None;
+iCelGraph_swigregister = _blcelc.iCelGraph_swigregister
+iCelGraph_swigregister(iCelGraph)
+
 class iCelConsoleCommand(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
@@ -4826,9 +4996,6 @@ class iCelConsoleCommand(cspace.iBase):
     __del__ = lambda self : None;
 iCelConsoleCommand_swigregister = _blcelc.iCelConsoleCommand_swigregister
 iCelConsoleCommand_swigregister(iCelConsoleCommand)
-celCreateQuest = _blcelc.celCreateQuest
-celGetSetQuest = _blcelc.celGetSetQuest
-celGetQuest = _blcelc.celGetQuest
 
 class iCelConsole(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
