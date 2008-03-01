@@ -5,7 +5,7 @@
     <classes>
       <class>
         <name>cel.pcfactory.object.mesh.animation</name>
-        <implementation>celPfAnim</implementation>
+        <implementation>celPfAnimation</implementation>
         <description>CEL Animation Property Class Factory</description>
       </class>
     </classes>

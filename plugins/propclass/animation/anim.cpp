@@ -29,7 +29,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Animation, "pcobject.mesh.animation")
+CEL_IMPLEMENT_FACTORY_ALT (Animation, "pcobject.mesh.animation", "pcanimation")
 
 //---------------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ csHash<int, csStringID> constants;
 PropertyHolder celPcAnimation::propinfo;
 
 celPcAnimation::celPcAnimation (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg)
+  : scfImplementationType (this, object_reg)
 {
   // For SendMessage parameters.
   if (id_message == csInvalidStringID)
