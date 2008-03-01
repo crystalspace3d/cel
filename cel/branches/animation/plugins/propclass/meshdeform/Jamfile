@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass meshdeform ;
+
+Plugin pfmeshdeform
+	: meshdeformfact.cpp meshdeformfact.h deformanim.cpp deformanim.h
+;
+ExternalLibs pfmeshdeform : CRYSTAL ;
+LinkWith pfmeshdeform : celtool ;
+
