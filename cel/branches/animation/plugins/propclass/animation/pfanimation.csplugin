@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfanim.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.object.mesh.animation</name>
+        <implementation>celPfAnim</implementation>
+        <description>CEL Animation Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

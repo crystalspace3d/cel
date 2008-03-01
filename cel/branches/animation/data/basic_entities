@@ -122,9 +122,6 @@
           </trigger>
         </state>
         <state name="end" />
-        <sequence name="test" >
-          <op message="sequence" type="debugprint" duration="2000" />
-        </sequence>
       </quest>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="bla" >

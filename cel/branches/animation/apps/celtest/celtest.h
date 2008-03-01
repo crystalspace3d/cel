@@ -24,6 +24,8 @@
 // CS Includes
 #include "csutil/csbaseeventh.h"
 #include "cstool/csapplicationframework.h"
+#include "imesh/nskeleton.h"
+#include "imesh/skelanim.h"
 
 struct iEngine;
 struct iLoader;
@@ -55,6 +57,8 @@ private:
   csRef<iGraphics3D> g3d;
   csRef<iKeyboardDriver> kbd;
   csRef<iVirtualClock> vc;
+  csRef<Skeleton::iGraveyard> skelgrave;
+  Skeleton::iSkeleton* myskel;
 
   csRef<iCelPlLayer> pl;
   csRef<iCelBlLayer> bltest;

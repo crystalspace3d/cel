@@ -204,7 +204,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
   // @@@ Clumsy, best to work on id's instead of converting to string.
   csString msg_id_str = pl->FetchString (msgid);
   const char* msg_id = (const char*)msg_id_str;
-printf ("Actor got message '%s'\n", msg_id); fflush (stdout);
+//printf ("Actor got message '%s'\n", msg_id); fflush (stdout);
   bool pcinput_msg = strncmp (msg_id, "cel.input.", 10) == 0;
 
   if (pcinput_msg)

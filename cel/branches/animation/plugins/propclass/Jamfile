@@ -1,5 +1,6 @@
 SubDir TOP plugins propclass ;
 
+SubInclude TOP plugins propclass animation ;
 SubInclude TOP plugins propclass engine ;
 SubInclude TOP plugins propclass defcam ;
 SubInclude TOP plugins propclass simpcam ;

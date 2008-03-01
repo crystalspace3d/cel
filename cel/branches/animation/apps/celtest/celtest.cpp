@@ -46,6 +46,8 @@
 #include "imesh/thing.h"
 #include "imesh/sprite3d.h"
 #include "imesh/object.h"
+#include "imesh/nskeleton.h"
+#include "imesh/skelanim.h"
 #include "ivideo/graph3d.h"
 #include "ivideo/graph2d.h"
 #include "ivideo/txtmgr.h"
@@ -110,6 +112,7 @@ void CelTest::OnExit ()
 void CelTest::ProcessFrame ()
 {
   // We let the entity system do this so there is nothing here.
+  myskel->DrawDebugBones (g3d);
 }
 
 void CelTest::FinishFrame ()
@@ -189,6 +192,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 	"pc2d.tooltip",
 	"pctools.inventory",
 	"pcsound.listener",
+	"pcobject.mesh.animation",
 	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -214,8 +218,14 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;
-  pcmesh->SetPath ("/cellib/objects");
-  hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
+  //pcmesh->SetPath ("/cellib/objects");
+  //hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
+  //vfs->ChDir ("/lib/kwartz");
+  pcmesh->SetPath ("/lib/kwartz");
+  pcmesh->SetMesh ("kwartz_fact", "kwartz.lib");
+
+  myskel = skelgrave->CreateSkeleton ("amir", "human");
+  skelgrave->Debug ();
 
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
     iPcLinearMovement);
@@ -316,6 +326,7 @@ bool CelTest::OnInitialize (int argc, char* argv[])
   	CS_REQUEST_VFS,
 	CS_REQUEST_OPENGL3D,
 	CS_REQUEST_ENGINE,
+	CS_REQUEST_PLUGIN("crystalspace.nskeleton.graveyard", Skeleton::iGraveyard),
 	CS_REQUEST_FONTSERVER,
 	CS_REQUEST_IMAGELOADER,
 	CS_REQUEST_LEVELLOADER,
@@ -372,6 +383,9 @@ bool CelTest::Application ()
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
+
+  skelgrave = csQueryRegistry<Skeleton::iGraveyard> (object_reg);
+  if (!skelgrave) return ReportError ("Can't find the graveyard!");
 
   // we find the scf object already in cel's example behaviour layer
   // in plugins/behaviourlayer/test to use
