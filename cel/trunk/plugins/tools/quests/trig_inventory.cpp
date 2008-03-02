@@ -69,9 +69,6 @@ celInventoryTriggerFactory::celInventoryTriggerFactory (
 
 celInventoryTriggerFactory::~celInventoryTriggerFactory ()
 {
-  delete[] entity_par;
-  delete[] child_entity_par;
-  delete[] tag_par;
 }
 
 csPtr<iQuestTrigger> celInventoryTriggerFactory::CreateTrigger (
@@ -84,10 +81,6 @@ csPtr<iQuestTrigger> celInventoryTriggerFactory::CreateTrigger (
 
 bool celInventoryTriggerFactory::Load (iDocumentNode* node)
 {
-  delete[] entity_par; entity_par = 0;
-  delete[] tag_par; tag_par = 0;
-  delete[] child_entity_par; child_entity_par = 0;
-
   entity_par = node->GetAttributeValue ("entity");
   tag_par = node->GetAttributeValue ("entity_tag");
   if (entity_par.IsEmpty ())
