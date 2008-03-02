@@ -66,6 +66,7 @@
 
 #include "celtool/initapp.h"
 #include "celtool/persisthelper.h"
+#include "tools/animsys.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
@@ -333,6 +334,7 @@ bool CelTest::OnInitialize (int argc, char* argv[])
 	CS_REQUEST_OPENGL3D,
 	CS_REQUEST_ENGINE,
 	CS_REQUEST_PLUGIN("crystalspace.nskeleton.graveyard", Skeleton::iGraveyard),
+	CS_REQUEST_PLUGIN("cel.animation.system", CEL::Animation::iAnimationSystem),
 	CS_REQUEST_FONTSERVER,
 	CS_REQUEST_IMAGELOADER,
 	CS_REQUEST_LEVELLOADER,
