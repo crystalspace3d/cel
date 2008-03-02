@@ -72,6 +72,7 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/bl.h"
+#include "propclass/animation.h"
 #include "propclass/test.h"
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
@@ -112,7 +113,7 @@ void CelTest::OnExit ()
 void CelTest::ProcessFrame ()
 {
   // We let the entity system do this so there is nothing here.
-  myskel->DrawDebugBones (g3d);
+  pcanim->DrawSkeleton (g3d);
 }
 
 void CelTest::FinishFrame ()
@@ -224,8 +225,9 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcmesh->SetPath ("/lib/kwartz");
   pcmesh->SetMesh ("kwartz_fact", "kwartz.lib");
 
-  myskel = skelgrave->CreateSkeleton ("amir", "human");
-  skelgrave->Debug ();
+  pcanim = celQueryPropertyClassEntity<iPcAnimation> (entity_cam);
+  pcanim->Setup ();
+  pcanim->Load ("/cellib/lev/", "animation.xml");
 
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
     iPcLinearMovement);
@@ -322,6 +324,10 @@ bool CelTest::OnInitialize (int argc, char* argv[])
     return ReportError ("Can't setup config file!");
   }
 
+  csRef<iCommandLineParser> cmdline = 
+  	csQueryRegistry<iCommandLineParser> (object_reg);
+  cmdline->AddOption ("silent", "");
+
   if (!celInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,
 	CS_REQUEST_OPENGL3D,
@@ -383,9 +389,6 @@ bool CelTest::Application ()
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
-
-  skelgrave = csQueryRegistry<Skeleton::iGraveyard> (object_reg);
-  if (!skelgrave) return ReportError ("Can't find the graveyard!");
 
   // we find the scf object already in cel's example behaviour layer
   // in plugins/behaviourlayer/test to use

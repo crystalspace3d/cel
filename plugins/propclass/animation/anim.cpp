@@ -18,8 +18,9 @@
 */
 
 #include "cssysdef.h"
-#include "iutil/objreg.h"
 #include "plugins/propclass/animation/anim.h"
+#include "iutil/objreg.h"
+#include "ivideo/graph3d.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
@@ -42,6 +43,7 @@ PropertyHolder celPcAnimation::propinfo;
 celPcAnimation::celPcAnimation (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
+  InitTokenTable (xmltokens);
   // For SendMessage parameters.
   if (id_message == csInvalidStringID)
     id_message = pl->FetchStringID ("cel.parameter.message");
@@ -53,15 +55,18 @@ celPcAnimation::celPcAnimation (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_print, "cel.action.Print");
+    //AddAction (action_print, "cel.action.Print");
   }
 
   // For properties.
   propinfo.SetCount (2);
   AddProperty (propid_counter, "cel.property.counter",
-	CEL_DATA_LONG, false, "Print counter.", &counter);
+    CEL_DATA_LONG, false, "Print counter.", &counter);
   AddProperty (propid_max, "cel.property.max",
-	CEL_DATA_LONG, false, "Max length.", 0);
+    CEL_DATA_LONG, false, "Max length.", 0);
+
+  // Tick every so often so we can update the state
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
   counter = 0;
   max = 0;
@@ -72,89 +77,32 @@ celPcAnimation::~celPcAnimation ()
   delete params;
 }
 
-bool celPcAnimation::SetPropertyIndexed (int idx, long b)
-{
-  if (idx == propid_max)
-  {
-    max = b;
-    return true;
-  }
-  return false;
-}
-
-bool celPcAnimation::GetPropertyIndexed (int idx, long& l)
-{
-  if (idx == propid_max)
-  {
-    l = max;
-    return true;
-  }
-  return false;
-}
-
-#define TEST_SERIAL 2
+#define TEST_SERIAL 0
 
 csPtr<iCelDataBuffer> celPcAnimation::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TEST_SERIAL);
-  databuf->Add (int32 (counter));
-  databuf->Add (int32 (max));
   return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcAnimation::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != TEST_SERIAL) return false;
-
-  counter = databuf->GetInt32 ();
-  max = databuf->GetInt32 ();
-
+  if (serialnr != TEST_SERIAL)
+    return false;
   return true;
 }
 
 bool celPcAnimation::PerformActionIndexed (int idx,
-	iCelParameterBlock* params,
-	celData& ret)
+  iCelParameterBlock* params,
+  celData& ret)
 {
   switch (idx)
   {
-    case action_print:
-      {
-        CEL_FETCH_STRING_PAR (msg,params,id_message);
-        if (!p_msg) return false;
-        Print (msg);
-        return true;
-      }
     default:
       return false;
   }
   return false;
-}
-
-void celPcAnimation::Print (const char* msg)
-{
-  printf ("Print: %s\n", msg);
-  fflush (stdout);
-  params->GetParameter (0).Set (msg);
-  iCelBehaviour* ble = entity->GetBehaviour ();
-  if (ble)
-  {
-    celData ret;
-    ble->SendMessage ("pcmisc.test_print", this, ret, params);
-  }
-
-  if (!dispatcher_print)
-  {
-    dispatcher_print = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, "cel.test.print");
-    if (!dispatcher_print) return;
-  }
-  dispatcher_print->SendMessage (params);
-
-  counter++;
-  size_t l = strlen (msg);
-  if (l > max) max = l;
 }
 
 bool celPcAnimation::Setup ()
@@ -165,10 +113,13 @@ bool celPcAnimation::Setup ()
     puts ("Can't find the graveyard!");
     return false;
   }
-  skel = skelgrave->CreateSkeleton ("taki", "amir");
+  skel = skelgrave->CreateSkeleton ("amir", "human");
   skelgrave->Debug ();
   return true;
 }
-
-//---------------------------------------------------------------------------
-
+void celPcAnimation::DrawSkeleton (iGraphics3D* g3d)
+{
+  if (!g3d)
+    return;
+  skel->DrawDebugBones (g3d);
+}

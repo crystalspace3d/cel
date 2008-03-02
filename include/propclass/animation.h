@@ -23,34 +23,15 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-/**
- * This is a test property class.
- *
- * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - cel.misc.test.print: a message has been printed (message)
- *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
- * - Print: parameters 'message' (string).
- *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
- * - counter (long, read/write): how many times something has been printed.
- * - max (long, read/write): maximum length of what was printed.
- */
+struct iGraphics3D;
+
 struct iPcAnimation : public virtual iBase
 {
   SCF_INTERFACE (iPcAnimation, 0, 0, 1);
 
-  /**
-   * Print a message.
-   */
-  virtual void Print (const char* msg) = 0;
-
-  // create the skeleton
   virtual bool Setup () = 0;
+  virtual void DrawSkeleton (iGraphics3D* g3d) = 0;
+  virtual bool Load (const char* path, const char* file) = 0;
 };
 
 #endif // __CEL_PC_INTERFANIMATION__

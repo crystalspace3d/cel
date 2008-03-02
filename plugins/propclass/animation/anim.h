@@ -32,7 +32,9 @@
 #include "propclass/animation.h"
 
 struct iCelEntity;
+struct iDocumentNode;
 struct iObjectRegistry;
+struct iGraphics3D;
 
 /**
  * Factory for test.
@@ -49,18 +51,14 @@ public:
   celPcAnimation (iObjectRegistry* object_reg);
   virtual ~celPcAnimation ();
 
-  virtual void Print (const char* msg);
-  virtual bool Setup ();
-
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
 
-  // Override SetProperty from celPcCommon in order to provide support
-  // for the 'max' property.
-  virtual bool SetPropertyIndexed (int idx, long b);
-  virtual bool GetPropertyIndexed (int, long&);
+  virtual bool Setup ();
+  virtual void DrawSkeleton (iGraphics3D* g3d);
+  virtual bool Load (const char* path, const char* file);
 
 private:
   // For SendMessage parameters.
@@ -81,13 +79,18 @@ private:
   };
   static PropertyHolder propinfo;
 
-  Skeleton::iSkeleton* skel;
+  csRef<Skeleton::iSkeleton> skel;
 
   // Other fields.
   int counter;
   size_t max;
 
   csRef<iMessageDispatcher> dispatcher_print;
+
+  csStringHash xmltokens;
+#define CS_TOKEN_ITEM_FILE "plugins/propclass/animation/anim.tok"
+#include "cstool/tokenlist.h"
+  void ParseNode(iDocumentNode* node, size_t parent);
 };
 
 #endif // __CEL_PF_ANIMATION__
