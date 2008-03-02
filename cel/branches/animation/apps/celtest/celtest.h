@@ -26,6 +26,7 @@
 #include "cstool/csapplicationframework.h"
 #include "imesh/nskeleton.h"
 #include "imesh/skelanim.h"
+#include "propclass/animation.h"
 
 struct iEngine;
 struct iLoader;
@@ -57,8 +58,7 @@ private:
   csRef<iGraphics3D> g3d;
   csRef<iKeyboardDriver> kbd;
   csRef<iVirtualClock> vc;
-  csRef<Skeleton::iGraveyard> skelgrave;
-  Skeleton::iSkeleton* myskel;
+  csRef<iPcAnimation> pcanim;
 
   csRef<iCelPlLayer> pl;
   csRef<iCelBlLayer> bltest;
