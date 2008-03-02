@@ -30,6 +30,7 @@
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
 #include "propclass/animation.h"
+#include "tools/animsys.h"
 
 struct iCelEntity;
 struct iDocumentNode;
@@ -80,6 +81,7 @@ private:
   static PropertyHolder propinfo;
 
   csRef<Skeleton::iSkeleton> skel;
+  csRef<CEL::Animation::iNode> rootnode;
 
   // Other fields.
   int counter;
@@ -90,7 +92,8 @@ private:
   csStringHash xmltokens;
 #define CS_TOKEN_ITEM_FILE "plugins/propclass/animation/anim.tok"
 #include "cstool/tokenlist.h"
-  void ParseNode(iDocumentNode* node, size_t parent);
+  void ParseNode(iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
+    csRef<CEL::Animation::iNode> parent);
 };
 
 #endif // __CEL_PF_ANIMATION__
