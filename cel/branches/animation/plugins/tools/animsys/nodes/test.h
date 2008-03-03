@@ -16,9 +16,10 @@ class TestNode : public scfImplementation2<TestNode, iNode, iCelTimerListener>
 public:
   TestNode ();
 
-  bool Initialise (iObjectRegistry *objreg, iCelEntity *ent);
+  bool Initialise (iObjectRegistry *objreg, iCelEntity *ent, csRef<Skeleton::iSkeleton> skel);
   void AddChild (csRef<iNode> c);
   Skeleton::Animation::iMixingNode* GetMixingNode ();
+  bool SetParameter (const char* name, const celData &param);
   void TickEveryFrame ();
   void TickOnce ();
 private:

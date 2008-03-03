@@ -35,8 +35,9 @@ public:
   AnimationSystem (iBase* parent);
   virtual ~AnimationSystem ();
 
-  virtual bool Initialize (iObjectRegistry *objreg);
-  virtual csPtr<iNode> CreateNode (const char* factname) const;
+  bool Initialize (iObjectRegistry *objreg);
+  csPtr<iNode> CreateNode (const char* factname) const;
+  void RegisterNodeFactory (csRef<iNodeFactory> nodefact);
 private:
   void RegisterNodeFactory (iNodeFactory *nodefact);
   csRefArray<iNodeFactory> nodefacts;

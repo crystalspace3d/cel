@@ -84,6 +84,16 @@ bool celPcAnimation::Load (const char* path, const char* file)
       }
     }
   }
+  if (rootnode)
+  {
+    Skeleton::Animation::iMixingNode* mix = rootnode->GetMixingNode ();
+    if (!mix)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
+        "Root node '%s' did not create a node!", "NodesArentNamedYet");
+    }
+    skel->GetAnimationLayer ()->SetRootMixingNode (mix);
+  }
   return true;
 }
 void celPcAnimation::ParseNode(iDocumentNode* xmlnode, const csRef<CEL::Animation::iAnimationSystem> &animsys,
@@ -105,16 +115,6 @@ void celPcAnimation::ParseNode(iDocumentNode* xmlnode, const csRef<CEL::Animatio
       "404: Couldn't find node type '%s'!", type);
     return;
   }
-  if (!animnode->Initialise (object_reg, GetEntity ()))
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
-      "Node didn't initialise! name: '%s' type: '%s'!", name, type);
-    return;
-  }
-  if (parent)
-    parent->AddChild (animnode);
-  else
-    rootnode = animnode;
 
   csRef<iDocumentNodeIterator> it = xmlnode->GetNodes ();
   while (it->HasNext ())
@@ -130,6 +130,44 @@ void celPcAnimation::ParseNode(iDocumentNode* xmlnode, const csRef<CEL::Animatio
         ParseNode (child, animsys, animnode);
         break;
       }
+      case XMLTOKEN_PARAMETER:
+      {
+        const char* paramname = child->GetAttributeValue ("name");
+        if (!paramname)
+          continue;
+        celData paramval;
+        if (child->GetAttributeValue ("string"))
+        {
+          paramval.Set (child->GetAttributeValue ("string"));
+          animnode->SetParameter (paramname, paramval);
+        }
+        else if (child->GetAttributeValue ("bool"))
+        {
+          paramval.Set (child->GetAttributeValueAsBool ("bool"));
+          animnode->SetParameter (paramname, paramval);
+        }
+        else if (child->GetAttributeValue ("int"))
+        {
+          paramval.Set ((int32)child->GetAttributeValueAsInt ("int"));
+          animnode->SetParameter (paramname, paramval);
+        }
+        else if (child->GetAttributeValue ("float"))
+        {
+          paramval.Set (child->GetAttributeValueAsFloat ("float"));
+          animnode->SetParameter (paramname, paramval);
+        }
+      }
     }
   }
+
+  if (!animnode->Initialise (object_reg, GetEntity (), skel))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
+      "Node didn't initialise! name: '%s' type: '%s'!", name, type);
+    return;
+  }
+  if (parent)
+    parent->AddChild (animnode);
+  else
+    rootnode = animnode;
 }

@@ -22,6 +22,7 @@
 
 #include "csutil/scf.h"
 #include "imesh/skelanim.h"
+#include "physicallayer/datatype.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -34,9 +35,11 @@ namespace Animation
 struct iNode : public virtual iBase
 {
   SCF_INTERFACE (iNode, 0, 0, 1);
-  virtual bool Initialise (iObjectRegistry *objreg, iCelEntity *ent) = 0;
+  virtual bool Initialise (iObjectRegistry *objreg, iCelEntity *ent, csRef<Skeleton::iSkeleton> skel) = 0;
   virtual void AddChild (csRef<iNode> c) = 0;
   virtual Skeleton::Animation::iMixingNode* GetMixingNode () = 0;
+
+  virtual bool SetParameter (const char* name, const celData &param) = 0;
 };
 struct iNodeFactory : public virtual iBase
 {
@@ -49,6 +52,7 @@ struct iAnimationSystem : public virtual iBase
 {
   SCF_INTERFACE (iAnimationSystem, 0, 0, 1);
   virtual csPtr<iNode> CreateNode (const char* factname) const = 0;
+  virtual void RegisterNodeFactory (csRef<iNodeFactory> nodefact) = 0;
 };
 
 }
