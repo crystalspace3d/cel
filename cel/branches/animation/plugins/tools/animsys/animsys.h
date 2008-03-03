@@ -40,12 +40,15 @@ public:
   void RegisterNodeFactory (csRef<iNodeFactory> nodefact);
   csPtr<iCondition> CreateCondition (const char* factname) const;
   void RegisterConditionFactory (csRef<iConditionFactory> condfact);
+  csPtr<iResult> CreateResult (const char* factname) const;
+  void RegisterResultFactory (csRef<iResultFactory> resfact);
 private:
   void RegisterNodeFactory (iNodeFactory *nodefact);
   void RegisterConditionFactory (iConditionFactory *condfact);
+  void RegisterResultFactory (iResultFactory *resfact);
   csRefArray<iNodeFactory> nodefacts;
   csRefArray<iConditionFactory> condfacts;
-  //csArray<iResultFactory> resultfacts;
+  csRefArray<iResultFactory> resultfacts;
 };
 
 }

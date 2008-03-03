@@ -12,7 +12,7 @@ PropertyCondition::PropertyCondition () : scfImplementationType (this), min (-FL
   property_changed (false)
 {
 }
-bool PropertyCondition::Initialise (iObjectRegistry *objreg, iCelEntity* ent)
+bool PropertyCondition::Initialise (iObjectRegistry *objreg, iCelEntity* ent, iNode* owner)
 {
   if (!ent)
   {
@@ -22,6 +22,14 @@ bool PropertyCondition::Initialise (iObjectRegistry *objreg, iCelEntity* ent)
   }
   entity = ent;
   return true;
+}
+void PropertyCondition::AddChild (csRef<iCondition> c)
+{
+  children.Push (c);
+}
+void PropertyCondition::AttachResult (csRef<iResult> res)
+{
+  results.Push (res);
 }
 bool PropertyCondition::SetParameter (const char* name, const celData &param)
 {

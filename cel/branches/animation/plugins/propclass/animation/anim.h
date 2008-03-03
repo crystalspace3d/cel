@@ -98,8 +98,17 @@ private:
 #include "cstool/tokenlist.h"
   void ParseNode (iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
     csRef<CEL::Animation::iNode> parent);
+
   void ParseCondition (iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
     csRef<CEL::Animation::iNode> parent);
+  void ParseCondition (iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
+    csRef<CEL::Animation::iCondition> parent);
+  csRef<CEL::Animation::iCondition> ParseConditionBase (iDocumentNode* node,
+    const csRef<CEL::Animation::iAnimationSystem> &animsys, const char* type);
+
+  void ParseResult (iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
+    csRef<CEL::Animation::iCondition> parent);
+
   bool ParseParameter (iDocumentNode* node, const char* &paramname, celData &paramval);
 };
 

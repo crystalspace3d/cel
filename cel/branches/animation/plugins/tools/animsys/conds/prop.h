@@ -2,6 +2,7 @@
 #define __CEL_ANIMATIONSYSTEM_PROPERTY_CONDITION_H
 
 #include "csutil/scf_implementation.h"
+#include "csutil/refarr.h"
 #include "csutil/weakref.h"
 #include "propclass/prop.h"
 #include "tools/animsys.h"
@@ -15,7 +16,9 @@ class PropertyCondition : public scfImplementation2<PropertyCondition, iConditio
 {
 public:
   PropertyCondition ();
-  bool Initialise (iObjectRegistry *objreg, iCelEntity* ent);
+  bool Initialise (iObjectRegistry *objreg, iCelEntity* ent, iNode* owner);
+  void AddChild (csRef<iCondition> c);
+  void AttachResult (csRef<iResult> res);
   bool SetParameter (const char* name, const celData &param);
   bool Evaluate ();
   // used by iPcPropertyListener to notify this class
@@ -27,6 +30,9 @@ private:
   csString propname, matches;
   size_t propidx;
   bool property_changed;
+
+  csRefArray<iResult> results;
+  csRefArray<iCondition> children;
 };
 
 class PropertyConditionFactory : public scfImplementation1<PropertyConditionFactory, iConditionFactory>

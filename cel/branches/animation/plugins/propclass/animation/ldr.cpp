@@ -189,18 +189,100 @@ bool celPcAnimation::ParseParameter(iDocumentNode* node, const char* &paramname,
 void celPcAnimation::ParseCondition (iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
   csRef<CEL::Animation::iNode> parent)
 {
+  // needed here for the error message
   const char* type = node->GetAttributeValue ("type");
+  csRef<CEL::Animation::iCondition> cond = ParseConditionBase (node, animsys, type);
+  if (!cond)
+    return;
+  if (!cond->Initialise (object_reg, GetEntity (), parent))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
+      "Condition didn't initialise! type: '%s'!", type);
+    return;
+  }
+  if (parent)
+    parent->AttachCondition (cond);
+}
+void celPcAnimation::ParseCondition (iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
+  csRef<CEL::Animation::iCondition> parent)
+{
+  // needed here for the error message
+  const char* type = node->GetAttributeValue ("type");
+  csRef<CEL::Animation::iCondition> cond = ParseConditionBase (node, animsys, type);
+  if (!cond)
+    return;
+  if (!cond->Initialise (object_reg, GetEntity (), 0))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
+      "Condition didn't initialise! type: '%s'!", type);
+    return;
+  }
+  if (parent)
+    parent->AddChild (cond);
+}
+csRef<CEL::Animation::iCondition> celPcAnimation::ParseConditionBase (iDocumentNode* node,
+  const csRef<CEL::Animation::iAnimationSystem> &animsys, const char* type)
+{
   if (!type)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
-      "Missing node type... bailing out");
-    return;
+      "Missing condition type... bailing out");
+    return 0;
   }
   csRef<CEL::Animation::iCondition> cond = animsys->CreateCondition (type);
   if (!cond)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
       "404: Couldn't find condition type '%s'!", type);
+    return 0;
+  }
+
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_CONDITION:
+      {
+        ParseCondition (child, animsys, cond);
+        break;
+      }
+      case XMLTOKEN_RESULT:
+      {
+        ParseResult (child, animsys, cond);
+        break;
+      }
+      case XMLTOKEN_PARAMETER:
+      {
+        const char* paramname;
+        celData paramval;
+        if (ParseParameter (child, paramname, paramval))
+          cond->SetParameter (paramname, paramval);
+        break;
+      }
+    }
+  }
+  return cond;
+}
+void celPcAnimation::ParseResult (iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
+  csRef<CEL::Animation::iCondition> parent)
+{
+  const char* type = node->GetAttributeValue ("type");
+  if (!type)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
+      "Missing result type... bailing out");
+    return;
+  }
+  csRef<CEL::Animation::iResult> res = animsys->CreateResult (type);
+  if (!res)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
+      "404: Couldn't find result type '%s'!", type);
     return;
   }
 
@@ -218,18 +300,18 @@ void celPcAnimation::ParseCondition (iDocumentNode* node, const csRef<CEL::Anima
         const char* paramname;
         celData paramval;
         if (ParseParameter (child, paramname, paramval))
-          cond->SetParameter (paramname, paramval);
+          res->SetParameter (paramname, paramval);
         break;
       }
     }
   }
 
-  if (!cond->Initialise (object_reg, GetEntity ()))
+  if (!res->Initialise (object_reg, GetEntity (), this))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
-      "Condition didn't initialise! type: '%s'!", type);
+      "Result didn't initialise! type: '%s'!", type);
     return;
   }
   if (parent)
-    parent->AttachCondition (cond);
+    parent->AttachResult (res);
 }

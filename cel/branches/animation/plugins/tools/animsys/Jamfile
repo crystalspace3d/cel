@@ -3,6 +3,7 @@ SubDir TOP plugins tools animsys ;
 Plugin animsys
   : [ Wildcard [ ConcatDirs nodes ] : *.cpp *.h ]
     [ Wildcard [ ConcatDirs conds ] : *.cpp *.h ]
+    [ Wildcard [ ConcatDirs results ] : *.cpp *.h ]
     [ Wildcard *.cpp *.h ]
 ;
 ExternalLibs animsys : CRYSTAL ;
