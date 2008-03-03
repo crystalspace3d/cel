@@ -224,7 +224,7 @@ void celPcAnimation::ParseCondition (iDocumentNode* node, const csRef<CEL::Anima
     }
   }
 
-  if (!cond->Initialise (object_reg, GetEntity (), parent))
+  if (!cond->Initialise (object_reg, GetEntity ()))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
       "Condition didn't initialise! type: '%s'!", type);
