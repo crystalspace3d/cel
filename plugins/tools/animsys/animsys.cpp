@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "plugins/tools/animsys/animsys.h"
 
+#include "nodes/animation.h"
 #include "nodes/test.h"
 
 CS_IMPLEMENT_PLUGIN
@@ -41,6 +42,7 @@ AnimationSystem::~AnimationSystem ()
 
 bool AnimationSystem::Initialize (iObjectRegistry *objreg)
 {
+  RegisterNodeFactory (new AnimationNodeFactory);
   RegisterNodeFactory (new TestNodeFactory);
   return true;
 }
@@ -55,6 +57,10 @@ csPtr<iNode> AnimationSystem::CreateNode (const char* factname) const
     }
   }
   return 0;
+}
+void AnimationSystem::RegisterNodeFactory (csRef<iNodeFactory> nodefact)
+{
+  nodefacts.Push (nodefact);
 }
 void AnimationSystem::RegisterNodeFactory (iNodeFactory *nodefact)
 {
