@@ -38,10 +38,13 @@ public:
   bool Initialize (iObjectRegistry *objreg);
   csPtr<iNode> CreateNode (const char* factname) const;
   void RegisterNodeFactory (csRef<iNodeFactory> nodefact);
+  csPtr<iCondition> CreateCondition (const char* factname) const;
+  void RegisterConditionFactory (csRef<iConditionFactory> condfact);
 private:
   void RegisterNodeFactory (iNodeFactory *nodefact);
+  void RegisterConditionFactory (iConditionFactory *condfact);
   csRefArray<iNodeFactory> nodefacts;
-  //csArray<iConditionFactory> condfacts;
+  csRefArray<iConditionFactory> condfacts;
   //csArray<iResultFactory> resultfacts;
 };
 

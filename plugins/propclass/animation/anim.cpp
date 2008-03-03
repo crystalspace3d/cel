@@ -104,6 +104,11 @@ bool celPcAnimation::PerformActionIndexed (int idx,
   }
   return false;
 }
+void celPcAnimation::TickEveryFrame ()
+{
+  if (rootnode)
+    rootnode->Update ();
+}
 
 bool celPcAnimation::Setup ()
 {

@@ -23,6 +23,7 @@
 #include "csutil/scf.h"
 #include "imesh/skelanim.h"
 #include "physicallayer/datatype.h"
+#include "propclass/animation.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -32,14 +33,34 @@ namespace CEL
 namespace Animation
 {
 
+struct iNode;
+
+struct iCondition : public virtual iBase
+{
+  virtual bool Initialise (iObjectRegistry *objreg, iCelEntity *ent, iNode* owner) = 0;
+  virtual bool SetParameter (const char* name, const celData &param) = 0;
+  // can contain child conditions remember!!!
+  // if passes then will call evaluate on its children
+  virtual bool Evaluate () = 0;
+};
+struct iConditionFactory : public virtual iBase
+{
+  SCF_INTERFACE (iConditionFactory, 0, 0, 1);
+  virtual csPtr<iCondition> CreateNode () const = 0;
+  virtual const char* GetTypeName () const = 0;
+};
+
 struct iNode : public virtual iBase
 {
   SCF_INTERFACE (iNode, 0, 0, 1);
   virtual bool Initialise (iObjectRegistry *objreg, iCelEntity *ent, csRef<Skeleton::iSkeleton> skel) = 0;
   virtual void AddChild (csRef<iNode> c) = 0;
+  virtual void AttachCondition (csRef<iCondition> cond) = 0;
   virtual Skeleton::Animation::iMixingNode* GetMixingNode () = 0;
-
   virtual bool SetParameter (const char* name, const celData &param) = 0;
+  virtual void Update () = 0;
+  virtual void SetName (const char* n) = 0;
+  virtual const char* GetName () = 0;
 };
 struct iNodeFactory : public virtual iBase
 {
@@ -53,6 +74,9 @@ struct iAnimationSystem : public virtual iBase
   SCF_INTERFACE (iAnimationSystem, 0, 0, 1);
   virtual csPtr<iNode> CreateNode (const char* factname) const = 0;
   virtual void RegisterNodeFactory (csRef<iNodeFactory> nodefact) = 0;
+
+  virtual csPtr<iCondition> CreateCondition (const char* factname) const = 0;
+  virtual void RegisterConditionFactory (csRef<iConditionFactory> condfact) = 0;
 };
 
 }

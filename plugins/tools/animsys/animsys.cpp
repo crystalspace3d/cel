@@ -21,7 +21,8 @@
 #include "plugins/tools/animsys/animsys.h"
 
 #include "nodes/animation.h"
-#include "nodes/test.h"
+//#include "nodes/test.h"
+#include "conds/prop.h"
 
 CS_IMPLEMENT_PLUGIN
 
@@ -43,7 +44,8 @@ AnimationSystem::~AnimationSystem ()
 bool AnimationSystem::Initialize (iObjectRegistry *objreg)
 {
   RegisterNodeFactory (new AnimationNodeFactory);
-  RegisterNodeFactory (new TestNodeFactory);
+  //RegisterNodeFactory (new TestNodeFactory);
+  RegisterConditionFactory (new PropertyConditionFactory);
   return true;
 }
 csPtr<iNode> AnimationSystem::CreateNode (const char* factname) const
@@ -67,6 +69,28 @@ void AnimationSystem::RegisterNodeFactory (iNodeFactory *nodefact)
   csRef<iNodeFactory> refnf;
   refnf.AttachNew (nodefact);
   nodefacts.Push (refnf);
+}
+csPtr<iCondition> AnimationSystem::CreateCondition (const char* factname) const
+{
+  for (csRefArray<iConditionFactory>::ConstIterator it = condfacts.GetIterator (); it.HasNext (); )
+  {
+    const iConditionFactory* cf = it.Next ();
+    if (!strcmp (cf->GetTypeName (), factname))
+    {
+      return cf->CreateNode ();
+    }
+  }
+  return 0;
+}
+void AnimationSystem::RegisterConditionFactory (csRef<iConditionFactory> condfact)
+{
+  condfacts.Push (condfact);
+}
+void AnimationSystem::RegisterConditionFactory (iConditionFactory *condfact)
+{
+  csRef<iConditionFactory> refcf;
+  refcf.AttachNew (condfact);
+  condfacts.Push (refcf);
 }
 
 }
