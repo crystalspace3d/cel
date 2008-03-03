@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+03-Mar-2008
+	- caedes added a python base class called pyMessageReceiver for 
+	  iMessageReceiver implementation in python classes.
 02-Mar-2008
 	- caedes fixed nasty crash on loading quest inventory triggers
 	  due to leftover code after converting it to use csString.
