@@ -57,6 +57,9 @@ public:
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
 
+  // Callback to update the node tree
+  virtual void TickEveryFrame ();
+
   virtual bool Setup ();
   virtual void DrawSkeleton (iGraphics3D* g3d);
   virtual bool Load (const char* path, const char* file);
@@ -82,6 +85,7 @@ private:
 
   csRef<Skeleton::iSkeleton> skel;
   csRef<CEL::Animation::iNode> rootnode;
+  csRefArray<CEL::Animation::iNode> allnodes;
 
   // Other fields.
   int counter;
@@ -92,8 +96,11 @@ private:
   csStringHash xmltokens;
 #define CS_TOKEN_ITEM_FILE "plugins/propclass/animation/anim.tok"
 #include "cstool/tokenlist.h"
-  void ParseNode(iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
+  void ParseNode (iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
     csRef<CEL::Animation::iNode> parent);
+  void ParseCondition (iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
+    csRef<CEL::Animation::iNode> parent);
+  bool ParseParameter (iDocumentNode* node, const char* &paramname, celData &paramval);
 };
 
 #endif // __CEL_PF_ANIMATION__

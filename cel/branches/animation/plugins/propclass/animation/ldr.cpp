@@ -132,30 +132,16 @@ void celPcAnimation::ParseNode(iDocumentNode* xmlnode, const csRef<CEL::Animatio
       }
       case XMLTOKEN_PARAMETER:
       {
-        const char* paramname = child->GetAttributeValue ("name");
-        if (!paramname)
-          continue;
+        const char* paramname;
         celData paramval;
-        if (child->GetAttributeValue ("string"))
-        {
-          paramval.Set (child->GetAttributeValue ("string"));
+        if (ParseParameter (child, paramname, paramval))
           animnode->SetParameter (paramname, paramval);
-        }
-        else if (child->GetAttributeValue ("bool"))
-        {
-          paramval.Set (child->GetAttributeValueAsBool ("bool"));
-          animnode->SetParameter (paramname, paramval);
-        }
-        else if (child->GetAttributeValue ("int"))
-        {
-          paramval.Set ((int32)child->GetAttributeValueAsInt ("int"));
-          animnode->SetParameter (paramname, paramval);
-        }
-        else if (child->GetAttributeValue ("float"))
-        {
-          paramval.Set (child->GetAttributeValueAsFloat ("float"));
-          animnode->SetParameter (paramname, paramval);
-        }
+        break;
+      }
+      case XMLTOKEN_CONDITION:
+      {
+        ParseCondition (child, animsys, animnode);
+        break;
       }
     }
   }
@@ -170,4 +156,80 @@ void celPcAnimation::ParseNode(iDocumentNode* xmlnode, const csRef<CEL::Animatio
     parent->AddChild (animnode);
   else
     rootnode = animnode;
+  allnodes.Push (animnode);
+}
+
+bool celPcAnimation::ParseParameter(iDocumentNode* node, const char* &paramname, celData &paramval)
+{
+  paramname = node->GetAttributeValue ("name");
+  if (!paramname)
+    return false;
+  if (node->GetAttributeValue ("string"))
+  {
+    paramval.Set (node->GetAttributeValue ("string"));
+    return true;
+  }
+  else if (node->GetAttributeValue ("bool"))
+  {
+    paramval.Set (node->GetAttributeValueAsBool ("bool"));
+    return true;
+  }
+  else if (node->GetAttributeValue ("int"))
+  {
+    paramval.Set ((int32)node->GetAttributeValueAsInt ("int"));
+    return true;
+  }
+  else if (node->GetAttributeValue ("float"))
+  {
+    paramval.Set (node->GetAttributeValueAsFloat ("float"));
+    return true;
+  }
+  return false;
+}
+void celPcAnimation::ParseCondition (iDocumentNode* node, const csRef<CEL::Animation::iAnimationSystem> &animsys,
+  csRef<CEL::Animation::iNode> parent)
+{
+  const char* type = node->GetAttributeValue ("type");
+  if (!type)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
+      "Missing node type... bailing out");
+    return;
+  }
+  csRef<CEL::Animation::iCondition> cond = animsys->CreateCondition (type);
+  if (!cond)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
+      "404: Couldn't find condition type '%s'!", type);
+    return;
+  }
+
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_PARAMETER:
+      {
+        const char* paramname;
+        celData paramval;
+        if (ParseParameter (child, paramname, paramval))
+          cond->SetParameter (paramname, paramval);
+        break;
+      }
+    }
+  }
+
+  if (!cond->Initialise (object_reg, GetEntity (), parent))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING, "cel.pcobject.mesh.animation",
+      "Condition didn't initialise! type: '%s'!", type);
+    return;
+  }
+  if (parent)
+    parent->AttachCondition (cond);
 }

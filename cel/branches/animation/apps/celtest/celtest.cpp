@@ -88,6 +88,7 @@
 #include "propclass/input.h"
 #include "propclass/linmove.h"
 #include "propclass/actoranalog.h"
+#include "propclass/prop.h"
 #include "propclass/quest.h"
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
@@ -195,6 +196,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 	"pctools.inventory",
 	"pcsound.listener",
 	"pcobject.mesh.animation",
+	"pctools.properties",
 	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -229,6 +231,10 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcanim = celQueryPropertyClassEntity<iPcAnimation> (entity_cam);
   pcanim->Setup ();
   pcanim->Load ("/cellib/lev/", "animation.xml");
+
+  csRef<iPcProperties> pcprop = celQueryPropertyClassEntity<iPcProperties> (entity_cam);
+  pcprop->SetProperty ("name", "amirtaaki");
+  pcprop->SetProperty ("speed", 2.0f);
 
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
     iPcLinearMovement);

@@ -1,3 +1,4 @@
+#if 0
 #include "cssysdef.h"
 #include "test.h"
 #include "imesh/nskeleton.h"
@@ -53,3 +54,4 @@ void TestNode::TickOnce ()
 
 }
 }
+#endif
