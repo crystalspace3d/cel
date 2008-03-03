@@ -33,9 +33,28 @@ namespace CEL
 namespace Animation
 {
 
+struct iNode;
+
+struct iResult : public virtual iBase
+{
+  SCF_INTERFACE (iResult, 0, 0, 1);
+  virtual bool Initialise (iObjectRegistry *objreg, iCelEntity *ent, iPcAnimation *pcanim) = 0;
+  virtual bool SetParameter (const char* name, const celData &param) = 0;
+  virtual bool Execute () = 0;
+};
+struct iResultFactory : public virtual iBase
+{
+  SCF_INTERFACE (iResultFactory, 0, 0, 1);
+  virtual csPtr<iResult> CreateNode () const = 0;
+  virtual const char* GetTypeName () const = 0;
+};
+
 struct iCondition : public virtual iBase
 {
-  virtual bool Initialise (iObjectRegistry *objreg, iCelEntity *ent) = 0;
+  SCF_INTERFACE (iCondition, 0, 0, 1);
+  virtual bool Initialise (iObjectRegistry *objreg, iCelEntity *ent, iNode* owner) = 0;
+  virtual void AddChild (csRef<iCondition> c) = 0;
+  virtual void AttachResult (csRef<iResult> res) = 0;
   virtual bool SetParameter (const char* name, const celData &param) = 0;
   // can contain child conditions remember!!!
   // if passes then will call evaluate on its children
@@ -75,6 +94,9 @@ struct iAnimationSystem : public virtual iBase
 
   virtual csPtr<iCondition> CreateCondition (const char* factname) const = 0;
   virtual void RegisterConditionFactory (csRef<iConditionFactory> condfact) = 0;
+
+  virtual csPtr<iResult> CreateResult (const char* factname) const = 0;
+  virtual void RegisterResultFactory (csRef<iResultFactory> resfact) = 0;
 };
 
 }

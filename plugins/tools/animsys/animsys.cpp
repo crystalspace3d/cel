@@ -23,6 +23,7 @@
 #include "nodes/animation.h"
 //#include "nodes/test.h"
 #include "conds/prop.h"
+#include "results/transition.h"
 
 CS_IMPLEMENT_PLUGIN
 
@@ -46,6 +47,7 @@ bool AnimationSystem::Initialize (iObjectRegistry *objreg)
   RegisterNodeFactory (new AnimationNodeFactory);
   //RegisterNodeFactory (new TestNodeFactory);
   RegisterConditionFactory (new PropertyConditionFactory);
+  RegisterResultFactory (new TransitionResultFactory);
   return true;
 }
 csPtr<iNode> AnimationSystem::CreateNode (const char* factname) const
@@ -91,6 +93,28 @@ void AnimationSystem::RegisterConditionFactory (iConditionFactory *condfact)
   csRef<iConditionFactory> refcf;
   refcf.AttachNew (condfact);
   condfacts.Push (refcf);
+}
+csPtr<iResult> AnimationSystem::CreateResult (const char* factname) const
+{
+  for (csRefArray<iResultFactory>::ConstIterator it = resultfacts.GetIterator (); it.HasNext (); )
+  {
+    const iResultFactory* rf = it.Next ();
+    if (!strcmp (rf->GetTypeName (), factname))
+    {
+      return rf->CreateNode ();
+    }
+  }
+  return 0;
+}
+void AnimationSystem::RegisterResultFactory (csRef<iResultFactory> resfact)
+{
+  resultfacts.Push (resfact);
+}
+void AnimationSystem::RegisterResultFactory (iResultFactory *resfact)
+{
+  csRef<iResultFactory> refrf;
+  refrf.AttachNew (resfact);
+  resultfacts.Push (refrf);
 }
 
 }
