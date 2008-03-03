@@ -33,11 +33,9 @@ namespace CEL
 namespace Animation
 {
 
-struct iNode;
-
 struct iCondition : public virtual iBase
 {
-  virtual bool Initialise (iObjectRegistry *objreg, iCelEntity *ent, iNode* owner) = 0;
+  virtual bool Initialise (iObjectRegistry *objreg, iCelEntity *ent) = 0;
   virtual bool SetParameter (const char* name, const celData &param) = 0;
   // can contain child conditions remember!!!
   // if passes then will call evaluate on its children

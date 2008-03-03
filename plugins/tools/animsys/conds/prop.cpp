@@ -12,7 +12,7 @@ PropertyCondition::PropertyCondition () : scfImplementationType (this), min (-FL
   property_changed (false)
 {
 }
-bool PropertyCondition::Initialise (iObjectRegistry *objreg, iCelEntity* ent, iNode* owner)
+bool PropertyCondition::Initialise (iObjectRegistry *objreg, iCelEntity* ent)
 {
   if (!ent)
   {

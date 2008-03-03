@@ -15,7 +15,7 @@ class PropertyCondition : public scfImplementation2<PropertyCondition, iConditio
 {
 public:
   PropertyCondition ();
-  bool Initialise (iObjectRegistry *objreg, iCelEntity* ent, iNode* owner);
+  bool Initialise (iObjectRegistry *objreg, iCelEntity* ent);
   bool SetParameter (const char* name, const celData &param);
   bool Evaluate ();
   // used by iPcPropertyListener to notify this class
