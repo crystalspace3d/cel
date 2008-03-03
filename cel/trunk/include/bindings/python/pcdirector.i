@@ -411,3 +411,18 @@ class pyPcCommon : public scfImplementationExt1<pyPcCommon, PcCommon, iPcPython>
     pl = property(GetPL)
 %}
 }
+
+
+/*  iQuestSeqOpFactory */
+CALLBACK_INTERFACE_HDR(pyMessageSender,iMessageSender)
+%inline %{
+class pyMessageSender :
+      public scfImplementation1<pyMessageSender,iMessageSender>
+{
+public:
+    pyMessageSender(iObjectRegistry* object_reg) : scfImplementationType (this) {}
+    ~pyMessageSender() {}
+    virtual void MessageDispatcherRemoved (iMessageDispatcher* dispatcher) {};
+};
+%}
+
