@@ -793,7 +793,7 @@ void celConsole::AssignVar (iCelEntity* ent, iCelExpression* exprvar,
 
 void celConsole::AssignVarEntity (const csStringArray& args)
 {
-  if (args.GetSize () < 3)
+  if (args.GetSize () < 4)
   {
     conout->PutText ("Too few parameters for 'varent'!\n");
     return;
@@ -829,7 +829,7 @@ void celConsole::AssignVarEntity (const csStringArray& args)
 
 void celConsole::AssignVar (const csStringArray& args)
 {
-  if (args.GetSize () < 2)
+  if (args.GetSize () < 3)
   {
     conout->PutText ("Too few parameters for 'var'!\n");
     return;
@@ -844,7 +844,7 @@ void celConsole::AssignVar (const csStringArray& args)
 
 void celConsole::EvalulateExpression (const csStringArray& args)
 {
-  if (args.GetSize () < 1)
+  if (args.GetSize () < 2)
   {
     conout->PutText ("Too few parameters for 'expr'!\n");
     return;
