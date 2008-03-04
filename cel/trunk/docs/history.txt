@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+04-Mar-2008
+	- Genjix fixed a few bugs checking argument size in celconsole.
 03-Mar-2008
 	- caedes added a python base class called pyMessageReceiver for 
 	  iMessageReceiver implementation in python classes.
