@@ -5274,5 +5274,40 @@ class pyPcCommon(swigPyPcCommon):
 pyPcCommon_swigregister = _blcelc.pyPcCommon_swigregister
 pyPcCommon_swigregister(pyPcCommon)
 
+class swigpyMessageSender(iMessageSender):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def IncRef(*args): return _blcelc.swigpyMessageSender_IncRef(*args)
+    def DecRef(*args): return _blcelc.swigpyMessageSender_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.swigpyMessageSender_GetRefCount(*args)
+    def QueryInterface(*args): return _blcelc.swigpyMessageSender_QueryInterface(*args)
+    def AddRefOwner(*args): return _blcelc.swigpyMessageSender_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.swigpyMessageSender_RemoveRefOwner(*args)
+    def GetInterfaceMetadata(*args): return _blcelc.swigpyMessageSender_GetInterfaceMetadata(*args)
+swigpyMessageSender_swigregister = _blcelc.swigpyMessageSender_swigregister
+swigpyMessageSender_swigregister(swigpyMessageSender)
+
+class pyMessageSender(swigpyMessageSender):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        if self.__class__ == pyMessageSender:
+            args = (None,) + args
+        else:
+            args = (self,) + args
+        this = _blcelc.new_pyMessageSender(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_pyMessageSender
+    __del__ = lambda self : None;
+    def MessageDispatcherRemoved(*args): return _blcelc.pyMessageSender_MessageDispatcherRemoved(*args)
+    def __disown__(self):
+        self.this.disown()
+        _blcelc.disown_pyMessageSender(self)
+        return weakref_proxy(self)
+pyMessageSender_swigregister = _blcelc.pyMessageSender_swigregister
+pyMessageSender_swigregister(pyMessageSender)
+
 
 
