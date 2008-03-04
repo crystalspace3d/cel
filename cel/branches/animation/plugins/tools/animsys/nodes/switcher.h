@@ -28,18 +28,19 @@ public:
   const char* GetName ();
 private:
   csRefArray<iNode> children;
-  csRef<iNode> active_child, deact_child;
-  size_t actid, deactid;
   csRefArray<iCondition> conditions;
   csString name;
 
   csRef<Skeleton::Animation::iBlendNode> blender;
 
+  csArray<float> mix_steps;
+  csRef<iNode> active_anim;
+  size_t actid;
+  bool cross_setup, in_cross;
+
   csRef<iVirtualClock> vc;
-  bool setup_for_next;
   size_t lasttime;
   float crosstime, currdur;
-  bool in_crossing;
   csString currstate, nextstate;
 };
 
