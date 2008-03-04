@@ -12,15 +12,32 @@ TransitionResult::TransitionResult () : scfImplementationType (this)
 }
 bool TransitionResult::Initialise (iObjectRegistry *objreg, iCelEntity *ent, iPcAnimation *pcanim)
 {
+  this->pcanim = pcanim;
   return true;
 }
 bool TransitionResult::SetParameter (const char* name, const celData &param)
 {
-  return false;
+  if (!strcmp (name, "node") && param.type == CEL_DATA_STRING)
+    nodename = param.value.s->GetData ();
+  else if (!strcmp (name, "state") && param.type == CEL_DATA_STRING)
+    state = param.value.s->GetData ();
+  else
+    return false;
+  return true;
 }
 bool TransitionResult::Execute ()
 {
-  puts ("booya!");
+  if (!node)
+  {
+    if (!nodename)
+      return false;
+    node = pcanim->FindNodeByName (nodename);
+    if (!node)
+      return false;
+  }
+  celData statename;
+  statename.Set (state);
+  node->SetParameter ("state", statename);
   return true;
 }
 

@@ -58,23 +58,19 @@ Skeleton::Animation::iMixingNode* AnimationNode::GetMixingNode ()
 bool AnimationNode::SetParameter (const char* name, const celData &param)
 {
   if (!strcmp (name, "animation") && param.type == CEL_DATA_STRING)
-  {
     animname = param.value.s->GetData ();
-  }
   else if (!strcmp (name, "loop") && param.type == CEL_DATA_BOOL)
   {
     if (param.value.bo == true)
       playcount = -1;
   }
   else if (!strcmp (name, "playcount") && param.type == CEL_DATA_LONG)
-  {
     playcount = param.value.l;
-  }
   else if (!strcmp (name, "playspeed") && param.type == CEL_DATA_FLOAT)
-  {
     playspeed = param.value.f;
-  }
-  return false;
+  else
+    return false;
+  return true;
 }
 void AnimationNode::Update ()
 {

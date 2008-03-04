@@ -27,6 +27,7 @@
 #include "imesh/nskeleton.h"
 #include "imesh/skelanim.h"
 #include "propclass/animation.h"
+#include "tools/expression.h"
 
 struct iEngine;
 struct iLoader;
@@ -59,6 +60,8 @@ private:
   csRef<iKeyboardDriver> kbd;
   csRef<iVirtualClock> vc;
   csRef<iPcAnimation> pcanim;
+  csRef<iCelExpression> expr;
+  csRef<iCelExpressionParser> parser;
 
   csRef<iCelPlLayer> pl;
   csRef<iCelBlLayer> bltest;

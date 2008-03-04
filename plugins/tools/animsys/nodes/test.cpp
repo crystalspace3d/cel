@@ -1,4 +1,3 @@
-#if 0
 #include "cssysdef.h"
 #include "test.h"
 #include "imesh/nskeleton.h"
@@ -17,23 +16,15 @@ TestNode::TestNode ()
 }
 bool TestNode::Initialise (iObjectRegistry *objreg, iCelEntity *ent, csRef<Skeleton::iSkeleton> skel)
 {
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (objreg);
-  if (!pl)
-  {
-    csReport (objreg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.animation.system",
-      "Missing Physical Layer!");
-    return false;
-  }
-  // Tick every so often so we can update the state
-  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  csRef<Skeleton::Animation::iAnimationFactoryLayer> animfactlay = skel->GetFactory ()->GetAnimationFactoryLayer ();
-  csRef<Skeleton::Animation::iAnimationLayer> animlay = skel->GetAnimationLayer ();
   return true;
 }
 void TestNode::AddChild (csRef<iNode> c)
 {
   children.Push (c);
+}
+void TestNode::AttachCondition (csRef<iCondition> cond)
+{
+  conditions.Push (cond);
 }
 Skeleton::Animation::iMixingNode* TestNode::GetMixingNode ()
 {
@@ -41,17 +32,29 @@ Skeleton::Animation::iMixingNode* TestNode::GetMixingNode ()
 }
 bool TestNode::SetParameter (const char* name, const celData &param)
 {
-  return true;
+  return false;
 }
-void TestNode::TickEveryFrame ()
+void TestNode::Update ()
 {
-  // do nothing
-  //puts ("b");
+  for (csRefArray<iNode>::Iterator it = children.GetIterator (); it.HasNext (); )
+  {
+    iNode* c = it.Next ();
+    c->Update ();
+  }
+  for (csRefArray<iCondition>::Iterator it = conditions.GetIterator (); it.HasNext (); )
+  {
+    iCondition* c = it.Next ();
+    c->Evaluate ();
+  }
 }
-void TestNode::TickOnce ()
+void TestNode::SetName (const char* n)
 {
+  name = n;
+}
+const char* TestNode::GetName ()
+{
+  return name;
 }
 
 }
 }
-#endif

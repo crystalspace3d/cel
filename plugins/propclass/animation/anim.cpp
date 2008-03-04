@@ -128,3 +128,14 @@ void celPcAnimation::DrawSkeleton (iGraphics3D* g3d)
     return;
   skel->DrawDebugBones (g3d);
 }
+
+CEL::Animation::iNode* celPcAnimation::FindNodeByName (const char* name)
+{
+  for (csRefArray<CEL::Animation::iNode>::Iterator it = allnodes.GetIterator (); it.HasNext (); )
+  {
+    CEL::Animation::iNode* node = it.Next ();
+    if (node->GetName () && !strcmp (node->GetName (), name))
+      return node;
+  }
+  return 0;
+}

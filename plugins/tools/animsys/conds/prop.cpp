@@ -8,12 +8,19 @@ namespace CEL
 namespace Animation
 {
 
-PropertyCondition::PropertyCondition () : scfImplementationType (this), min (-FLT_MAX), max (FLT_MAX), propidx (csArrayItemNotFound),
-  property_changed (false)
+PropertyCondition::PropertyCondition () : scfImplementationType (this), min (-FLT_MAX), max (FLT_MAX), propid (csInvalidStringID)
 {
 }
 bool PropertyCondition::Initialise (iObjectRegistry *objreg, iCelEntity* ent, iNode* owner)
 {
+  pl = csQueryRegistry<iCelPlLayer> (objreg);
+  if (!pl)
+  {
+    csReport (objreg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.animation.system",
+      "Missing Physical Layer!");
+    return false;
+  }
   if (!ent)
   {
     csReport (objreg, CS_REPORTER_SEVERITY_WARNING, "cel.animation.system",
@@ -37,6 +44,10 @@ bool PropertyCondition::SetParameter (const char* name, const celData &param)
   {
     propname = param.value.s->GetData ();
   }
+  else if (!strcmp (name, "propclass") && param.type == CEL_DATA_STRING)
+  {
+    propclassname = param.value.s->GetData ();
+  }
   else if (!strcmp (name, "min") && param.type == CEL_DATA_FLOAT)
   {
     min = param.value.f;
@@ -49,32 +60,33 @@ bool PropertyCondition::SetParameter (const char* name, const celData &param)
   {
     matches = param.value.s->GetData ();
   }
-  return false;
+  else
+    return false;
+  return true;
 }
 bool PropertyCondition::Evaluate ()
 {
   if (!propname)
     return false;
-  if (!pcprop)
+  if (!pc)
   {
-    pcprop = celQueryPropertyClassEntity<iPcProperties> (entity);
-    if (!pcprop)
+    if (!propclassname)
+      pc = entity->GetPropertyClassList ()->FindByName ("pctools.properties");
+    else
+      pc = entity->GetPropertyClassList ()->FindByName (propclassname);
+    if (!pc)
       return false;
-    pcprop->AddPropertyListener (this);
-  }
-  if (property_changed || propidx == csArrayItemNotFound)
-  {
-    propidx = pcprop->GetPropertyIndex (propname);
-    if (propidx == csArrayItemNotFound)
+    if (!pl)
       return false;
+    propid = pl->FetchStringID (propname);
   }
-  celDataType type = pcprop->GetPropertyType (propidx);
+  celDataType type = pc->GetPropertyOrActionType (propid);
   switch (type)
   {
     case CEL_DATA_STRING:
       if (matches)
       {
-        if (strcmp (matches, pcprop->GetPropertyString (propidx)) != 0)
+        if (strcmp (matches, pc->GetPropertyStringByID (propid)) != 0)
         {
           return false;
         }
@@ -82,7 +94,7 @@ bool PropertyCondition::Evaluate ()
       break;
     case CEL_DATA_FLOAT:
     {
-      float v = pcprop->GetPropertyFloat (propidx);
+      float v = pc->GetPropertyFloatByID (propid);
       if (v < min)
         return false;
       if (v > max)
@@ -92,12 +104,17 @@ bool PropertyCondition::Evaluate ()
     default:
       break;
   }
-  puts ("do your stuff!");
+  for (csRefArray<iCondition>::Iterator it = children.GetIterator (); it.HasNext (); )
+  {
+    iCondition* c = it.Next ();
+    c->Evaluate ();
+  }
+  for (csRefArray<iResult>::Iterator it = results.GetIterator (); it.HasNext (); )
+  {
+    iResult* r = it.Next ();
+    r->Execute ();
+  }
   return true;
-}
-void PropertyCondition::PropertyChanged (iPcProperties *pcprop, size_t idx)
-{
-  property_changed = true;
 }
 
 }

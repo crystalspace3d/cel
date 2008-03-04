@@ -11,19 +11,23 @@ namespace CEL
 namespace Animation
 {
 
-class TestNode : public scfImplementation2<TestNode, iNode, iCelTimerListener>
+class TestNode : public scfImplementation1<TestNode, iNode>
 {
 public:
   TestNode ();
 
   bool Initialise (iObjectRegistry *objreg, iCelEntity *ent, csRef<Skeleton::iSkeleton> skel);
   void AddChild (csRef<iNode> c);
+  void AttachCondition (csRef<iCondition> cond);
   Skeleton::Animation::iMixingNode* GetMixingNode ();
   bool SetParameter (const char* name, const celData &param);
-  void TickEveryFrame ();
-  void TickOnce ();
+  void Update ();
+  void SetName (const char* n);
+  const char* GetName ();
 private:
   csRefArray<iNode> children;
+  csRefArray<iCondition> conditions;
+  csString name;
 };
 
 class TestNodeFactory : public scfImplementation1<TestNodeFactory, iNodeFactory>
