@@ -12,8 +12,8 @@ namespace Animation
 {
 
 SwitcherNode::SwitcherNode ()
-  : scfImplementationType (this), actid (UINT_MAX), deactid (UINT_MAX), lasttime (0),
-  crosstime (125.0f), currdur (0.0f), in_crossing (false)
+  : scfImplementationType (this), actid (UINT_MAX), cross_setup (true),
+  in_cross (false), lasttime (0), crosstime (125.0f), currdur (0.0f)
 {
 }
 bool SwitcherNode::Initialise (iObjectRegistry *objreg, iCelEntity *ent, csRef<Skeleton::iSkeleton> skel)
@@ -54,13 +54,10 @@ bool SwitcherNode::SetParameter (const char* name, const celData &param)
   {
     currstate = nextstate;
     nextstate = param.value.s->GetData ();
-    if (currstate && !strcmp (currstate, nextstate))
-      return true;
-    in_crossing = true;
-    currdur = 0.0f;
-    setup_for_next = false;
+    cross_setup = false;
+    in_cross = true;
   }
-  else if (!strcmp (name, "crosstime") && param.type == CEL_DATA_STRING)
+  else if (!strcmp (name, "crosstime") && param.type == CEL_DATA_FLOAT)
   {
     crosstime = param.value.f;
   }
@@ -70,58 +67,72 @@ bool SwitcherNode::SetParameter (const char* name, const celData &param)
 }
 void SwitcherNode::Update ()
 {
-  if (active_child)
-    active_child->Update ();
+  if (active_anim)
+    active_anim->Update ();
   for (csRefArray<iCondition>::Iterator it = conditions.GetIterator (); it.HasNext (); )
   {
     iCondition* c = it.Next ();
     c->Evaluate ();
   }
+
   if (!vc)
     return;
   size_t timenow = vc->GetCurrentTicks (), delta = timenow - lasttime;
   lasttime = timenow;
-  if (!in_crossing)
+  if (!in_cross)
     return;
+  currdur += delta;
 
-  if (!setup_for_next)
+  if (!cross_setup)
   {
-    setup_for_next = true;
-    for (csRefArray<iNode>::Iterator it = children.GetIterator (); it.HasNext (); )
+    if (!(currstate && !strcmp (currstate, nextstate)))
     {
-      iNode* c = it.Next ();
-      if (c->GetName () && !strcmp (c->GetName (), nextstate))
+      mix_steps.SetSize (children.GetSize ());
+      for (size_t i = 0; i < mix_steps.GetSize (); i++)
       {
-        if (active_child)
+        iNode* c = children.Get (i);
+        if (c->GetName () && !strcmp (c->GetName (), nextstate))
         {
-          deact_child = active_child;
-          deactid = blender->FindNode (deact_child->GetMixingNode ());
+          active_anim = c;
+          if (currstate)
+          {
+            mix_steps.Get (i) = 1.0f / crosstime;
+            currdur = 0.0f;
+          }
+          else
+          {
+            // the very first animation!!
+            mix_steps.Get (i) = 1.0f;
+            currdur = crosstime + 2.0f;  // cheat to finish ticking ;)
+          }
+          actid = i;
         }
-        active_child = c;
-        actid = blender->FindNode (active_child->GetMixingNode ());
+        else
+          mix_steps.Get (i) = -blender->GetWeight (i) / crosstime;
       }
+      in_cross = true;
     }
+    cross_setup = true;
   }
 
-  float perc = currdur / crosstime;
-  if (perc > 1.0f)
-    perc = 1.0f;
-  if (deact_child)
+  if (currdur < crosstime)
   {
-    blender->SetWeight (deactid, 1.0f - perc);
-    blender->SetWeight (actid, perc);
+    for (size_t i = 0; i < mix_steps.GetSize (); i++)
+    {
+      blender->SetWeight (i, blender->GetWeight (i) + mix_steps.Get (i) * delta);
+    }
   }
   else
   {
-    blender->SetWeight (actid, 1.0f);
-  }
-
-  currdur += delta;
-  if (currdur >= crosstime)
-  {
-    in_crossing = false;
+    for (size_t i = 0; i < blender->GetNodeCount (); i++)
+    {
+      if (i != actid)
+        blender->SetWeight (i, 0.0f);
+      else
+        blender->SetWeight (i, 1.0f);
+    }
     currdur = 0.0f;
-    deact_child = 0;
+    in_cross = false;
   }
 }
 void SwitcherNode::SetName (const char* n)

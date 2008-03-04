@@ -1,6 +1,6 @@
 <animation>
   <node name="actions" type="switcher">
-    <parameter name="crosstime" float="125" />
+    <parameter name="crosstime" float="1000" />
     <parameter name="state" string="stand" />
 
     <node name="walk" type="animation">

@@ -272,8 +272,8 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;
-  //pcmesh->SetPath ("/cellib/objects");
-  //hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
+  pcmesh->SetPath ("/cellib/objects");
+  hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
   //vfs->ChDir ("/lib/kwartz");
   pcmesh->SetPath ("/lib/kwartz");
   pcmesh->SetMesh ("kwartz_fact", "kwartz.lib");
