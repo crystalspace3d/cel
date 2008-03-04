@@ -99,7 +99,6 @@ bool celPcAnimation::Load (const char* path, const char* file)
 void celPcAnimation::ParseNode(iDocumentNode* xmlnode, const csRef<CEL::Animation::iAnimationSystem> &animsys,
   csRef<CEL::Animation::iNode> parent)
 {
-  // so far unused...
   const char* name = xmlnode->GetAttributeValue ("name");
   const char* type = xmlnode->GetAttributeValue ("type");
   if (!type)
@@ -115,6 +114,7 @@ void celPcAnimation::ParseNode(iDocumentNode* xmlnode, const csRef<CEL::Animatio
       "404: Couldn't find node type '%s'!", type);
     return;
   }
+  animnode->SetName (name);
 
   csRef<iDocumentNodeIterator> it = xmlnode->GetNodes ();
   while (it->HasNext ())

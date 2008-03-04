@@ -175,6 +175,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
    * It's effectively a comparative rate of "time"
    */
   speed = 1.0f;
+  currspeed = 0.0f;
 
   deltaLimit = 0.0f;
 
@@ -202,7 +203,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (4);
+  propinfo.SetCount (5);
   AddProperty (propid_anchor, "cel.property.anchor",
   	CEL_DATA_STRING, false, "Mesh Anchor.", 0);
   AddProperty (propid_gravity, "cel.property.gravity",
@@ -211,6 +212,8 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   	CEL_DATA_BOOL, false, "Hug to ground.", &hugGround);
   AddProperty (propid_speed, "cel.property.speed",
   	CEL_DATA_FLOAT, false, "Movement speed.", &speed);
+  AddProperty (propid_currspeed, "cel.property.currspeed",
+  	CEL_DATA_FLOAT, false, "Current speed.", &currspeed);
 
   ResetGravity ();
 

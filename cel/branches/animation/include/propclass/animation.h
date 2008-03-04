@@ -24,6 +24,13 @@
 #include "csutil/scf.h"
 
 struct iGraphics3D;
+namespace CEL
+{
+  namespace Animation
+  {
+    struct iNode;
+  }
+}
 
 struct iPcAnimation : public virtual iBase
 {
@@ -32,6 +39,7 @@ struct iPcAnimation : public virtual iBase
   virtual bool Setup () = 0;
   virtual void DrawSkeleton (iGraphics3D* g3d) = 0;
   virtual bool Load (const char* path, const char* file) = 0;
+  virtual CEL::Animation::iNode* FindNodeByName (const char* name) = 0;
 };
 
 #endif // __CEL_PC_INTERFANIMATION__

@@ -67,6 +67,7 @@
 #include "celtool/initapp.h"
 #include "celtool/persisthelper.h"
 #include "tools/animsys.h"
+#include "tools/expression.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
@@ -116,6 +117,55 @@ void CelTest::ProcessFrame ()
 {
   // We let the entity system do this so there is nothing here.
   pcanim->DrawSkeleton (g3d);
+  return;
+
+  if (!parser) return;
+  celData ret;
+  if (!expr->Execute (0, ret))
+  {
+    puts ("Error running expression!");
+    return;
+  }
+  switch (ret.type)
+  {
+    case CEL_DATA_LONG:
+      printf ("LONG: %d\n", ret.value.l);
+      break;
+    case CEL_DATA_ULONG:
+      printf ("ULONG: %u\n", ret.value.ul);
+      break;
+    case CEL_DATA_BOOL:
+      printf ("BOOL: %d\n", ret.value.b);
+      break;
+    case CEL_DATA_FLOAT:
+      printf ("FLOAT: %g\n", ret.value.f);
+      break;
+    case CEL_DATA_STRING:
+      printf ("STRING: %s\n", ret.value.s->GetData ());
+      break;
+    case CEL_DATA_PCLASS:
+      printf ("PC: %s\n", ret.value.pc ? ret.value.pc->GetName () : "<null>");
+      break;
+    case CEL_DATA_ENTITY:
+      printf ("ENTITY: %s\n",
+	  ret.value.ent ? ret.value.ent->GetName () : "<null>");
+      break;
+    case CEL_DATA_COLOR:
+      printf ("COLOR: %g,%g,%g\n", ret.value.col.red,
+	  ret.value.col.green, ret.value.col.blue);
+      break;
+    case CEL_DATA_VECTOR3:
+      printf ("VECTOR3: %g,%g,%g\n", ret.value.v.x,
+	  ret.value.v.y, ret.value.v.z);
+      break;
+    case CEL_DATA_VECTOR2:
+      printf ("VECTOR2: %g,%g\n", ret.value.v.x,
+	  ret.value.v.y);
+      break;
+    default:
+      printf ("UNKNOWN\n");
+      break;
+  }
 }
 
 void CelTest::FinishFrame ()
@@ -320,8 +370,92 @@ bool CelTest::CreateRoom ()
 
   game = entity_room;
 
+//--------testing------------------------------------
+  return true;
+  puts ("--------------TESTING CONSOLE!");
+  csRef<iObjectRegistryIterator> it = object_reg->Get (
+      scfInterfaceTraits<iCelExpressionParser>::GetID (),
+      scfInterfaceTraits<iCelExpressionParser>::GetVersion ());
+  iBase* b = it->Next ();
+  
+  if (b)
+  {
+    parser = scfQueryInterface<iCelExpressionParser> (b);
+  }
+  if (!parser)
+  {
+    csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
+	object_reg);
+    parser = csLoadPlugin<iCelExpressionParser> (plugmgr,
+      "cel.behaviourlayer.xml");
+    if (!parser)
+    {
+      puts ("Cannot find the expression parser!\n");
+      return false;
+    }
+    object_reg->Register (parser, "iCelExpressionParser");
+  }
+
+  if (!parser) return false;
+  expr = parser->Parse ("property(pc(camera, pcmove.linear), propid(currspeed))");
+  if (!expr)
+  {
+    puts ("Error parsing expression!");
+    return false;
+  }
+  celData ret;
+  if (!expr->Execute (entity_dummy, ret))
+  {
+    puts ("Error running expression!");
+    return false;
+  }
+  switch (ret.type)
+  {
+    case CEL_DATA_LONG:
+      printf ("LONG: %d\n", ret.value.l);
+      break;
+    case CEL_DATA_ULONG:
+      printf ("ULONG: %u\n", ret.value.ul);
+      break;
+    case CEL_DATA_BOOL:
+      printf ("BOOL: %d\n", ret.value.b);
+      break;
+    case CEL_DATA_FLOAT:
+      printf ("FLOAT: %g\n", ret.value.f);
+      break;
+    case CEL_DATA_STRING:
+      printf ("STRING: %s\n", ret.value.s->GetData ());
+      break;
+    case CEL_DATA_PCLASS:
+      printf ("PC: %s\n", ret.value.pc ? ret.value.pc->GetName () : "<null>");
+      break;
+    case CEL_DATA_ENTITY:
+      printf ("ENTITY: %s\n",
+	  ret.value.ent ? ret.value.ent->GetName () : "<null>");
+      break;
+    case CEL_DATA_COLOR:
+      printf ("COLOR: %g,%g,%g\n", ret.value.col.red,
+	  ret.value.col.green, ret.value.col.blue);
+      break;
+    case CEL_DATA_VECTOR3:
+      printf ("VECTOR3: %g,%g,%g\n", ret.value.v.x,
+	  ret.value.v.y, ret.value.v.z);
+      break;
+    case CEL_DATA_VECTOR2:
+      printf ("VECTOR2: %g,%g\n", ret.value.v.x,
+	  ret.value.v.y);
+      break;
+    default:
+      printf ("UNKNOWN\n");
+      break;
+  }
+
   return true;
 }
+
+
+
+
 
 bool CelTest::OnInitialize (int argc, char* argv[])
 {

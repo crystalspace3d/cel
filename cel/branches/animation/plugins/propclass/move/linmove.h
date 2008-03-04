@@ -100,6 +100,7 @@ protected:
   bool stationary;
   float speed;
   float gravity;
+  float currspeed;
 
   bool called;
   csRefArray<iPcGravityCallback> gravityCallbacks;
@@ -189,7 +190,8 @@ protected:
     propid_anchor = 0,
     propid_gravity,
     propid_hug,
-    propid_speed
+    propid_speed,
+    propid_currspeed
   };
   static PropertyHolder propinfo;
 
@@ -204,6 +206,7 @@ public:
   /// Sets a velocity for this body in body coordinates
   virtual void SetVelocity (const csVector3& vel)
   {
+    currspeed = vel.Norm ();
     // Y movement here is NOT lift and gravity effects. It IS for
     // jumping & jetpacks.
     velBody = vel;

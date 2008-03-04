@@ -4,6 +4,7 @@
 #include "csutil/scf_implementation.h"
 #include "csutil/refarr.h"
 #include "csutil/weakref.h"
+#include "physicallayer/pl.h"
 #include "propclass/prop.h"
 #include "tools/animsys.h"
 
@@ -12,7 +13,7 @@ namespace CEL
 namespace Animation
 {
 
-class PropertyCondition : public scfImplementation2<PropertyCondition, iCondition, iPcPropertyListener>
+class PropertyCondition : public scfImplementation1<PropertyCondition, iCondition>
 {
 public:
   PropertyCondition ();
@@ -21,15 +22,13 @@ public:
   void AttachResult (csRef<iResult> res);
   bool SetParameter (const char* name, const celData &param);
   bool Evaluate ();
-  // used by iPcPropertyListener to notify this class
-  void PropertyChanged (iPcProperties *pcprop, size_t idx);
 private:
-  csWeakRef<iPcProperties> pcprop;
+  csWeakRef<iCelPropertyClass> pc;
   iCelEntity* entity;
   float min, max;
-  csString propname, matches;
-  size_t propidx;
-  bool property_changed;
+  csString propname, propclassname, matches;
+  csStringID propid;
+  csRef<iCelPlLayer> pl;
 
   csRefArray<iResult> results;
   csRefArray<iCondition> children;

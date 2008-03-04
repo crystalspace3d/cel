@@ -63,6 +63,7 @@ public:
   virtual bool Setup ();
   virtual void DrawSkeleton (iGraphics3D* g3d);
   virtual bool Load (const char* path, const char* file);
+  virtual CEL::Animation::iNode* FindNodeByName (const char* name);
 
 private:
   // For SendMessage parameters.

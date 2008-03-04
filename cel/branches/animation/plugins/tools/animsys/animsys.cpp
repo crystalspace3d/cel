@@ -21,6 +21,7 @@
 #include "plugins/tools/animsys/animsys.h"
 
 #include "nodes/animation.h"
+#include "nodes/switcher.h"
 //#include "nodes/test.h"
 #include "conds/prop.h"
 #include "results/transition.h"
@@ -45,6 +46,7 @@ AnimationSystem::~AnimationSystem ()
 bool AnimationSystem::Initialize (iObjectRegistry *objreg)
 {
   RegisterNodeFactory (new AnimationNodeFactory);
+  RegisterNodeFactory (new SwitcherNodeFactory);
   //RegisterNodeFactory (new TestNodeFactory);
   RegisterConditionFactory (new PropertyConditionFactory);
   RegisterResultFactory (new TransitionResultFactory);
