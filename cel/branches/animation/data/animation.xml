@@ -1,0 +1,37 @@
+<animation>
+  <node name="actions" type="switcher">
+    <parameter name="crosstime" float="125" />
+    <parameter name="state" string="stand" />
+
+    <node name="walk" type="animation">
+      <parameter name="animation" string="walk" />
+      <parameter name="loop" bool="true" />
+
+      <condition type="property">
+        <parameter name="name" string="cel.property.currspeed" />
+        <parameter name="propclass" string="pcmove.linear" />
+        <parameter name="max" float="1" />
+
+        <result type="transition">
+          <parameter name="node" string="actions" />
+          <parameter name="state" string="stand" />
+        </result>
+      </condition>
+    </node>
+    <node name="stand" type="animation">
+      <parameter name="animation" string="stand" />
+      <parameter name="loop" bool="true" />
+
+      <condition type="property">
+        <parameter name="name" string="cel.property.currspeed" />
+        <parameter name="propclass" string="pcmove.linear" />
+        <parameter name="min" float="7" />
+
+        <result type="transition">
+          <parameter name="node" string="actions" />
+          <parameter name="state" string="walk" />
+        </result>
+      </condition>
+    </node>
+  </node>
+</animation>
