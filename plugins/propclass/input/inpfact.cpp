@@ -673,24 +673,49 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
   else if (csInputDefinition::ParseOther (name_reg, triggername, &type,
   	&device, &numeric, &modifiers))
   {
+    bool empty = true;
+    bool done = false;
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
     if (type == csevMouseMove (name_reg, device) ||
     	type == csevJoystickMove (name_reg, device))
     {
-      celAxisMap *pamap = 0, *amap = axislist;
-      while (amap)
+      celAxisMap *pamap = 0, *amap = axislist, *tdmap;
+      while (amap && (!done || empty))
       {
-        if (amap->type == type && amap->device == device &&
-        	amap->numeric == numeric && amap->modifiers == mods)
+        if (amap->type == type && amap->device == device)
         {
-          pamap->next = amap->next;
-          delete amap;
-          return true;
+          if (amap->numeric == numeric && amap->modifiers == mods)
+          {
+            if (pamap)
+              pamap->next = amap->next;
+            else
+              axislist = amap->next;
+
+            tdmap = amap;
+            amap = amap->next;
+
+            delete tdmap;
+            done = true;
+          }
+          else
+          {
+            empty = false;
+            pamap = amap;
+            amap = amap->next;
+          }
         }
-        pamap = amap;
-        amap = amap->next;
+        else
+        {
+          pamap = amap;
+          amap = amap->next;
+        }
       }
-      return false;
+
+      // If no other bind device axis, show cursor
+      if (empty)
+        g2d->SetMouseCursor (csmcArrow);
+
+      return done;
     }
     else
     {
