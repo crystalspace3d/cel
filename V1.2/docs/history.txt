@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+05-Mar-2008
+	- Vincent applied Guillaume Libersat's patch for #57,
+	  celPcCommandInput::RemoveBind() would crash when removing the
+	  first bind of linked list, and wouldn't release the mouse pointer
+	  when there's no bind anymore for X/Y axis.
 26-Feb-2008
 	- Eric Sunshine updated mk/autoconf/*.m4 files from CS master copies.
 25-Feb-2008
