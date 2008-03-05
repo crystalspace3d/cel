@@ -42,7 +42,13 @@
 
     <node name="punch" type="animation">
       <parameter name="animation" string="punch" />
-      <parameter name="loop" bool="true" />
+
+      <!--<condition type="animationfinish">
+        <parameter name="name" string="punch" />
+        <result type="resetanimation">
+          <parameter name="name" string="punch" />
+        </result>
+      </condition>-->
     </node>
 
     <condition type="property">

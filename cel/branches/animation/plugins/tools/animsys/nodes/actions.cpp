@@ -111,9 +111,9 @@ void ActionsNode::Update ()
     c->Update ();
     if (!c->GetMixingNode ()->IsActive ())
     {
-      //active_children.DeleteIndex (i);
+      active_children.DeleteIndex (i);
     }
-      printf ("blimey %zu %f\n", i, c->GetMixingNode ()->TimeUntilFinish ());
+      //printf ("blimey %zu %f\n", i, c->GetMixingNode ()->TimeUntilFinish ());
     if (false && c->GetMixingNode ()->TimeUntilFinish () < mixtime)
     {
       // TODO abstract this
