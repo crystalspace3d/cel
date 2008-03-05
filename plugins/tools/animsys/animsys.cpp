@@ -20,10 +20,12 @@
 #include "cssysdef.h"
 #include "plugins/tools/animsys/animsys.h"
 
+#include "nodes/actions.h"
 #include "nodes/animation.h"
 #include "nodes/switcher.h"
 //#include "nodes/test.h"
 #include "conds/prop.h"
+#include "results/setprop.h"
 #include "results/transition.h"
 
 CS_IMPLEMENT_PLUGIN
@@ -45,10 +47,12 @@ AnimationSystem::~AnimationSystem ()
 
 bool AnimationSystem::Initialize (iObjectRegistry *objreg)
 {
+  RegisterNodeFactory (new ActionsNodeFactory);
   RegisterNodeFactory (new AnimationNodeFactory);
   RegisterNodeFactory (new SwitcherNodeFactory);
   //RegisterNodeFactory (new TestNodeFactory);
   RegisterConditionFactory (new PropertyConditionFactory);
+  RegisterResultFactory (new SetPropertyResultFactory);
   RegisterResultFactory (new TransitionResultFactory);
   return true;
 }

@@ -24,10 +24,11 @@ public:
   bool Evaluate ();
 private:
   csWeakRef<iCelPropertyClass> pc;
+  csWeakRef<iPcProperties> pcprop;
   iCelEntity* entity;
   float min, max;
   csString propname, propclassname, matches;
-  csStringID propid;
+  size_t propid;
   csRef<iCelPlLayer> pl;
 
   csRefArray<iResult> results;
