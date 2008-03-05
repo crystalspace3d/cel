@@ -2,7 +2,7 @@
   <node name="actions" type="actions">
     <parameter name="active" string="upright" />
     <parameter name="inactive" string="punch" />
-    <parameter name="mixtime" float="1000" />
+    <parameter name="mixtime" float="120" />
 
     <node name="upright" type="switcher">
       <parameter name="crosstime" float="1000" />
@@ -42,6 +42,7 @@
 
     <node name="punch" type="animation">
       <parameter name="animation" string="punch" />
+      <parameter name="playspeed" float="1" />
 
       <!--<condition type="animationfinish">
         <parameter name="name" string="punch" />
