@@ -1,37 +1,62 @@
 <animation>
-  <node name="actions" type="switcher">
-    <parameter name="crosstime" float="1000" />
-    <parameter name="state" string="stand" />
+  <node name="actions" type="actions">
+    <parameter name="active" string="upright" />
+    <parameter name="inactive" string="punch" />
+    <parameter name="mixtime" float="1000" />
 
-    <node name="walk" type="animation">
-      <parameter name="animation" string="walk" />
-      <parameter name="loop" bool="true" />
+    <node name="upright" type="switcher">
+      <parameter name="crosstime" float="1000" />
+      <parameter name="state" string="stand" />
 
-      <condition type="property">
-        <parameter name="name" string="cel.property.currspeed" />
-        <parameter name="propclass" string="pcmove.linear" />
-        <parameter name="max" float="1" />
+      <node name="walk" type="animation">
+        <parameter name="animation" string="walk" />
+        <parameter name="loop" bool="true" />
 
-        <result type="transition">
-          <parameter name="node" string="actions" />
-          <parameter name="state" string="stand" />
-        </result>
-      </condition>
+        <condition type="property">
+          <parameter name="name" string="cel.property.currspeed" />
+          <parameter name="propclass" string="pcmove.linear" />
+          <parameter name="max" float="1" />
+
+          <result type="transition">
+            <parameter name="node" string="upright" />
+            <parameter name="state" string="stand" />
+          </result>
+        </condition>
+      </node>
+      <node name="stand" type="animation">
+        <parameter name="animation" string="stand" />
+        <parameter name="loop" bool="true" />
+
+        <condition type="property">
+          <parameter name="name" string="cel.property.currspeed" />
+          <parameter name="propclass" string="pcmove.linear" />
+          <parameter name="min" float="7" />
+
+          <result type="transition">
+            <parameter name="node" string="upright" />
+            <parameter name="state" string="walk" />
+          </result>
+        </condition>
+      </node>
     </node>
-    <node name="stand" type="animation">
-      <parameter name="animation" string="stand" />
+
+    <node name="punch" type="animation">
+      <parameter name="animation" string="punch" />
       <parameter name="loop" bool="true" />
-
-      <condition type="property">
-        <parameter name="name" string="cel.property.currspeed" />
-        <parameter name="propclass" string="pcmove.linear" />
-        <parameter name="min" float="7" />
-
-        <result type="transition">
-          <parameter name="node" string="actions" />
-          <parameter name="state" string="walk" />
-        </result>
-      </condition>
     </node>
+
+    <condition type="property">
+      <parameter name="name" string="curraction" />
+      <parameter name="matches" string="punch" />
+
+      <result type="transition">
+        <parameter name="node" string="actions" />
+        <parameter name="state" string="punch" />
+      </result>
+      <result type="setproperty">
+        <parameter name="name" string="curraction" />
+        <parameter name="value" string="none" />
+      </result>
+    </condition>
   </node>
 </animation>

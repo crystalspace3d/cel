@@ -227,6 +227,10 @@ bool CelTest::OnKeyboard (iEvent &ev)
         game = pl->FindEntity ("room");
       }
     }
+    else if (code == 'p')
+    {
+      pcprop->SetProperty ("curraction", "punch");
+    }
   }
   return false;
 }
@@ -282,8 +286,8 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcanim->Setup ();
   pcanim->Load ("/cellib/lev/", "animation.xml");
 
-  csRef<iPcProperties> pcprop = celQueryPropertyClassEntity<iPcProperties> (entity_cam);
-  pcprop->SetProperty ("name", "amirtaaki");
+  pcprop = celQueryPropertyClassEntity<iPcProperties> (entity_cam);
+  pcprop->SetProperty ("curraction", "<none>");
   pcprop->SetProperty ("speed", 2.0f);
 
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -377,7 +381,7 @@ bool CelTest::CreateRoom ()
       scfInterfaceTraits<iCelExpressionParser>::GetID (),
       scfInterfaceTraits<iCelExpressionParser>::GetVersion ());
   iBase* b = it->Next ();
-  
+
   if (b)
   {
     parser = scfQueryInterface<iCelExpressionParser> (b);
@@ -397,7 +401,7 @@ bool CelTest::CreateRoom ()
   }
 
   if (!parser) return false;
-  expr = parser->Parse ("property(pc(camera, pcmove.linear), propid(currspeed))");
+  expr = parser->Parse ("property(pc(ent(), pcmove.linear), propid(currspeed))");
   if (!expr)
   {
     puts ("Error parsing expression!");

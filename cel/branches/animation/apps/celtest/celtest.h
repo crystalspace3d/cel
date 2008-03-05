@@ -39,6 +39,7 @@ struct iEvent;
 struct iSector;
 struct iView;
 class csVector3;
+struct iPcProperties;
 
 struct iPcCamera;
 struct iCelEntity;
@@ -60,6 +61,7 @@ private:
   csRef<iKeyboardDriver> kbd;
   csRef<iVirtualClock> vc;
   csRef<iPcAnimation> pcanim;
+  csRef<iPcProperties> pcprop;
   csRef<iCelExpression> expr;
   csRef<iCelExpressionParser> parser;
 

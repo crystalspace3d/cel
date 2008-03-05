@@ -68,33 +68,56 @@ bool PropertyCondition::Evaluate ()
 {
   if (!propname)
     return false;
-  if (!pc)
+  if (!pc && !pcprop)
   {
     if (!propclassname)
-      pc = entity->GetPropertyClassList ()->FindByName ("pctools.properties");
+    {
+      pcprop = celQueryPropertyClassEntity<iPcProperties> (entity);
+      if (!pcprop)
+        return false;
+      propid = pcprop->GetPropertyIndex (propname);
+    }
     else
+    {
       pc = entity->GetPropertyClassList ()->FindByName (propclassname);
-    if (!pc)
-      return false;
-    if (!pl)
-      return false;
-    propid = pl->FetchStringID (propname);
+      if (!pc)
+        return false;
+      if (!pl)
+        return false;
+      propid = pl->FetchStringID (propname);
+    }
   }
-  celDataType type = pc->GetPropertyOrActionType (propid);
+  if (propid == csArrayItemNotFound)
+    return false;
+  celDataType type;
+  if (pcprop)
+    type = pcprop->GetPropertyType (propid);
+  else
+    type = pc->GetPropertyOrActionType (propid);
   switch (type)
   {
     case CEL_DATA_STRING:
       if (matches)
       {
-        if (strcmp (matches, pc->GetPropertyStringByID (propid)) != 0)
+        if (pcprop)
         {
-          return false;
+          if (strcmp (matches, pcprop->GetPropertyString (propid)) != 0)
+            return false;
+        }
+        else
+        {
+          if (strcmp (matches, pc->GetPropertyStringByID (propid)) != 0)
+            return false;
         }
       }
       break;
     case CEL_DATA_FLOAT:
     {
-      float v = pc->GetPropertyFloatByID (propid);
+      float v;
+      if (pcprop)
+        v = pcprop->GetPropertyFloat (propid);
+      else
+        v = pc->GetPropertyFloatByID (propid);
       if (v < min)
         return false;
       if (v > max)
