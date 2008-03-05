@@ -45,7 +45,7 @@ bool AnimationNode::Initialise (iObjectRegistry *objreg, iCelEntity *ent, csRef<
 }
 void AnimationNode::AddChild (csRef<iNode> c)
 {
-  children.Push (c);
+  // do nothing
 }
 void AnimationNode::AttachCondition (csRef<iCondition> cond)
 {
@@ -74,11 +74,6 @@ bool AnimationNode::SetParameter (const char* name, const celData &param)
 }
 void AnimationNode::Update ()
 {
-  for (csRefArray<iNode>::Iterator it = children.GetIterator (); it.HasNext (); )
-  {
-    iNode* c = it.Next ();
-    c->Update ();
-  }
   for (csRefArray<iCondition>::Iterator it = conditions.GetIterator (); it.HasNext (); )
   {
     iCondition* c = it.Next ();

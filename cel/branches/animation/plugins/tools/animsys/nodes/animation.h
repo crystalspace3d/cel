@@ -25,7 +25,6 @@ public:
   void SetName (const char* n);
   const char* GetName ();
 private:
-  csRefArray<iNode> children;
   csRefArray<iCondition> conditions;
   csString animname;
   int playcount;
