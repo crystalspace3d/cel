@@ -113,15 +113,15 @@ void ActionsNode::Update ()
     {
       active_children.DeleteIndex (i);
     }
-      //printf ("blimey %zu %f\n", i, c->GetMixingNode ()->TimeUntilFinish ());
-    if (false && c->GetMixingNode ()->TimeUntilFinish () < mixtime)
+    float ttilfin = c->GetMixingNode ()->TimeUntilFinish ();
+    if (ttilfin < mixtime)
     {
       // TODO abstract this
       size_t nodeid = accum->FindNodeIndex (c->GetMixingNode ());
       if (nodeid != UINT_MAX)
       {
         float destweight = 0.0f;
-        float step = (destweight - accum->GetWeight (nodeid)) / mixtime;
+        float step = (destweight - accum->GetWeight (nodeid)) / ttilfin;
         mix_steps.Push (csTuple2<size_t, float> (i, step));
         active_children.DeleteIndex (i);
       }
