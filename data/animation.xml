@@ -43,19 +43,19 @@
     <node name="punch" type="animation">
       <parameter name="animation" string="punch" />
       <parameter name="playspeed" float="1" />
-
-      <!--<condition type="animationfinish">
-        <parameter name="name" string="punch" />
-        <result type="resetanimation">
-          <parameter name="name" string="punch" />
-        </result>
-      </condition>-->
     </node>
 
     <condition type="property">
       <parameter name="name" string="curraction" />
       <parameter name="matches" string="punch" />
 
+      <result type="playanimation">
+        <parameter name="name" string="punch" />
+        <parameter name="playspeed" float="1" />
+        <parameter name="playcount" float="1" />
+        <parameter name="loop" bool="false" />
+        <parameter name="reset" bool="false" />
+      </result>
       <result type="transition">
         <parameter name="node" string="actions" />
         <parameter name="state" string="punch" />

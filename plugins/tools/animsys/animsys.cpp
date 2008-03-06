@@ -25,6 +25,7 @@
 #include "nodes/switcher.h"
 //#include "nodes/test.h"
 #include "conds/prop.h"
+#include "results/playanim.h"
 #include "results/setprop.h"
 #include "results/transition.h"
 
@@ -52,6 +53,7 @@ bool AnimationSystem::Initialize (iObjectRegistry *objreg)
   RegisterNodeFactory (new SwitcherNodeFactory);
   //RegisterNodeFactory (new TestNodeFactory);
   RegisterConditionFactory (new PropertyConditionFactory);
+  RegisterResultFactory (new PlayAnimationResultFactory);
   RegisterResultFactory (new SetPropertyResultFactory);
   RegisterResultFactory (new TransitionResultFactory);
   return true;
