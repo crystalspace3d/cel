@@ -11,7 +11,7 @@ namespace Animation
 {
 
 AnimationNode::AnimationNode ()
-  : scfImplementationType (this), playcount (1), playspeed (1.0f)
+  : scfImplementationType (this), playcount (1), playspeed (1.0f), force_update (true)
 {
 }
 bool AnimationNode::Initialise (iObjectRegistry *objreg, iCelEntity *ent, csRef<Skeleton::iSkeleton> skel)
@@ -39,8 +39,6 @@ bool AnimationNode::Initialise (iObjectRegistry *objreg, iCelEntity *ent, csRef<
       "Internal error creating animation from factory '%s'!", animname.GetData ());
     return false;
   }
-  anim->SetPlayCount (playcount);
-  anim->SetPlaySpeed (playspeed);
   return true;
 }
 void AnimationNode::AddChild (csRef<iNode> c)
@@ -62,18 +60,34 @@ bool AnimationNode::SetParameter (const char* name, const celData &param)
   else if (!strcmp (name, "loop") && param.type == CEL_DATA_BOOL)
   {
     if (param.value.bo == true)
+    {
       playcount = -1;
+      force_update = true;
+    }
   }
   else if (!strcmp (name, "playcount") && param.type == CEL_DATA_LONG)
+  {
     playcount = param.value.l;
+    force_update = true;
+  }
   else if (!strcmp (name, "playspeed") && param.type == CEL_DATA_FLOAT)
     playspeed = param.value.f;
+  else if (!strcmp (name, "reset") && param.type == CEL_DATA_BOOL)
+  {
+    force_update = true;
+  }
   else
     return false;
   return true;
 }
 void AnimationNode::Update ()
 {
+  if (force_update)
+  {
+    force_update = false;
+    anim->SetPlayCount (playcount);
+    anim->SetPlaySpeed (playspeed);
+  }
   for (csRefArray<iCondition>::Iterator it = conditions.GetIterator (); it.HasNext (); )
   {
     iCondition* c = it.Next ();

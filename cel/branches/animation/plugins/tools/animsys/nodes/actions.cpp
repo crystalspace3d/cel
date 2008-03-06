@@ -122,7 +122,7 @@ void ActionsNode::Update ()
       {
         float destweight = 0.0f;
         float step = (destweight - accum->GetWeight (nodeid)) / ttilfin;
-        mix_steps.Push (csTuple2<size_t, float> (i, step));
+        //mix_steps.Push (csTuple2<size_t, float> (i, step));
         active_children.DeleteIndex (i);
       }
     }
@@ -146,6 +146,10 @@ void ActionsNode::Update ()
     {
       nweight = 1.0f;
       active_children.Push (children.Get (mixv.first));
+      mix_steps.DeleteIndexFast (mi);
+    }
+    else if (nweight < EPSILON)
+    {
       mix_steps.DeleteIndexFast (mi);
     }
     accum->SetWeight (mixv.first, nweight);
