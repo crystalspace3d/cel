@@ -11,7 +11,7 @@ namespace Animation
 {
 
 AnimationNode::AnimationNode ()
-  : scfImplementationType (this), playcount (1), playspeed (1.0f), force_update (true)
+  : scfImplementationType (this), playcount (1), playspeed (1.0f), force_update (true), reset (false)
 {
 }
 bool AnimationNode::Initialise (iObjectRegistry *objreg, iCelEntity *ent, csRef<Skeleton::iSkeleton> skel)
@@ -75,6 +75,7 @@ bool AnimationNode::SetParameter (const char* name, const celData &param)
   else if (!strcmp (name, "reset") && param.type == CEL_DATA_BOOL)
   {
     force_update = true;
+    reset = true;
   }
   else
     return false;
@@ -87,6 +88,11 @@ void AnimationNode::Update ()
     force_update = false;
     anim->SetPlayCount (playcount);
     anim->SetPlaySpeed (playspeed);
+  }
+  if (reset)
+  {
+    reset = false;
+    anim->Reset ();
   }
   for (csRefArray<iCondition>::Iterator it = conditions.GetIterator (); it.HasNext (); )
   {
