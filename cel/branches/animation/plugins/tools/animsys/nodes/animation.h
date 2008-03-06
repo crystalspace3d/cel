@@ -32,7 +32,7 @@ private:
   csRef<Skeleton::Animation::iAnimation> anim;
   csString name;
   //bool resetqud;
-  bool force_update;
+  bool force_update, reset;
 };
 
 class AnimationNodeFactory : public scfImplementation1<AnimationNodeFactory, iNodeFactory>
