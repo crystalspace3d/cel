@@ -161,7 +161,7 @@ struct iCelInventorySpace : public virtual iBase
  */
 struct iPcInventory : public virtual iBase
 {
-  SCF_INTERFACE (iPcInventory, 0, 0, 1);
+  SCF_INTERFACE (iPcInventory, 1, 0, 0);
 
   /**
    * Add an inventory listener. Inventory listeners are called right before
@@ -245,7 +245,14 @@ struct iPcInventory : public virtual iBase
    */
   virtual size_t FindEntity (const char* name) const = 0;
 
-  /**
+   /**
+   * Find the index of some entity in the inventory by class.
+   * The first entity with given class will be returned.
+   * Return csArrayItemNotFound if not in inventory.
+   */
+  virtual size_t FindEntity (csStringID classid) const = 0;
+
+ /**
    * Get an entity from a generic slot (space system).
    */
   virtual iCelEntity* GetEntitySlot (iCelParameterBlock* params) const = 0;
