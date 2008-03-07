@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+07-Mar-2008
+	- caedes did the following additions to quest property change
+	  trigger:
+	  - added onchange attribute to control trigger firing on an actual
+	    change, or whenever the condition is met (even if there has
+	    been no actual change).
+	  - added operation attribute to allow standard operations besides
+	    equality, namely: eq, ne, lt, gt, ne, le.
 05-Mar-2008
 	- Vincent applied Guillaume Libersat's patch for #57,
 	  celPcCommandInput::RemoveBind() would crash when removing the
