@@ -1089,6 +1089,25 @@ void celPcMesh::MoveMesh (iSector* sector, const char* node)
     	(const char*)node);
 }
 
+void celPcMesh::MoveMesh (iPcMesh* other_mesh, const csVector3& offset)
+{
+  if (!mesh) return;
+  
+  // get movable for efficiency.
+  iMovable *other_movable = other_mesh->GetMesh()->GetMovable();
+
+  // position in other mesh's sector.
+  if (other_movable->GetSectors()->GetCount())
+    mesh->GetMovable ()->SetSector (other_movable->GetSectors()->Get(0));
+
+  // set position
+  csVector3 world_offset = other_movable->GetTransform().Other2This(offset);
+  mesh->GetMovable ()->SetPosition (other_movable->GetPosition()+offset);
+
+  // update
+  mesh->GetMovable ()->UpdateMove ();
+}
+
 void celPcMesh::SetAnimation (const char* actionName, bool cycle,
 	float weight, float fadein, float fadeout, bool reset)
 {

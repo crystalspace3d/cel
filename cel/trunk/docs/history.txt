@@ -13,6 +13,8 @@ The history order is reversed so that new features are at the top.
 	    equality, namely: eq, ne, lt, gt, ne, le.
 	- caedes added an overload for PcInventory::FindEntity that accepts
 	  a class as parameter (and returns the first entity with such class).
+	- caedes added an overload for PcMesh::MoveMesh that accepts a pcmesh
+	  and an offset for relative positioning.
 05-Mar-2008
 	- Vincent applied Guillaume Libersat's patch for #57,
 	  celPcCommandInput::RemoveBind() would crash when removing the

@@ -174,6 +174,10 @@ public:
    */
   virtual void MoveMesh (iSector* sector, const char* node);
   /**
+   * Move this mesh to a position relative to another pcmesh.
+   */
+  virtual void MoveMesh (iPcMesh* other_mesh, const csVector3& offset);
+  /**
    * Sets an action for this mesh if different from the current action,
    * or resetaction is set.
    */
