@@ -171,6 +171,14 @@ struct iPcMesh : public virtual iBase
   virtual void MoveMesh (iSector* sector, const char* node) = 0;
 
   /**
+   * Convenience function to move the mesh to a position relative to
+   * some other mesh, and also update lighting.
+   * \param other_mesh pcmesh that will be used for base position.
+   * \param offset offset from the base mesh in that mesh local coordinates.
+   */
+  virtual void MoveMesh (iPcMesh* other_mesh, const csVector3& offset) = 0;
+
+  /**
    * Convenience function to set an 'action' for the mesh.
    * This only works for 3D sprites. For other mesh objects nothing
    * will happen.
