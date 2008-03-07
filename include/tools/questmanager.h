@@ -932,7 +932,9 @@ struct iTimeoutQuestTriggerFactory : public virtual iBase
 
 /**
  * This interface is implemented by the trigger that fires
- * when a certain property gets some value. You can query this interface
+ * when a certain property passes a test on some value. Test can be any of
+ * the operations below.
+ * You can query this interface
  * from the trigger factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
@@ -948,7 +950,22 @@ struct iTimeoutQuestTriggerFactory : public virtual iBase
  * - <em>property</em>: the name of the property.
  * - <em>value</em>: the value on which this trigger will fire. If this
  *   value is not given then the trigger will fire whenever the value
- *   changes.
+ * - <em>operation</em>: the value on which this trigger will test. If this
+ *   value is not given then the trigger will fire on equality.
+ * - <em>onchange</em>: if true the trigger will fire only when the condition
+ *   becomes true (so it has to be initially false, and become true after
+ *   that), otherwise the trigger will fire whenever the condition is met
+ *   (even initially).
+ *
+ * Valid operations:
+ * - <em>eq</em>: Equals (==).
+ * - <em>lt</em>: Lower than (<).
+ * - <em>gt</em>: Greater than (>).
+ * - <em>ne</em>: Not equal (!=).
+ * - <em>le</em>: Lower or equal (<=).
+ * - <em>ge</em>: Greater or equal (>=).
+ * Note string and bool properties can only be tested with "ne" or "eq", as
+ * greater or lesser doesn't really make sense for them.
  */
 struct iPropertyChangeQuestTriggerFactory : public virtual iBase
 {
@@ -975,9 +992,24 @@ struct iPropertyChangeQuestTriggerFactory : public virtual iBase
    * Set the value of the property on which this trigger will fire. If
    * this value is not given the the trigger will fire whenever the value
    * changes.
-   * \param value is the varlue or a parameter (starts with '$').
+   * \param value is the value or a parameter (starts with '$').
    */
   virtual void SetValueParameter (const char* value) = 0;
+
+  /**
+   * Set the operation this trigger will test with. If operation
+   * is not set equality will be checked.
+   * \param op one of: eq, lt, gt, ne, le, ge. See above for more details.
+   */
+  virtual void SetOperationParameter (const char* op) = 0;
+
+  /**
+   * Set whether the trigger will fire only on an actual change (so the
+   * condition has to become true), or whenever the condition is met (even
+   * initially).
+   * \param on_change true for reporting only on change.
+   */
+  virtual void SetOnChangeOnly (bool on_change) = 0;
 };
 
 /**

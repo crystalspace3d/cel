@@ -49,10 +49,12 @@ class celPropertyChangeTriggerFactory : public scfImplementation2<
 {
 private:
   celPropertyChangeTriggerType* type;
-  char* entity_par;
-  char* tag_par;
-  char* prop_par;
-  char* value_par;
+  csString entity_par;
+  csString tag_par;
+  csString prop_par;
+  csString value_par;
+  csString op_par;
+  bool onchange_par;
 
 public:
   celPropertyChangeTriggerFactory (celPropertyChangeTriggerType* type);
@@ -66,6 +68,8 @@ public:
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetPropertyParameter (const char* prop);
   virtual void SetValueParameter (const char* value);
+  virtual void SetOperationParameter (const char* op);
+  virtual void SetOnChangeOnly (bool on_change) {onchange_par = on_change;};
 };
 
 /**
@@ -76,22 +80,34 @@ class celPropertyChangeTrigger : public scfImplementation2<
 	iPcPropertyListener>
 {
 private:
-  celPropertyChangeTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
   csWeakRef<iPcProperties> properties;
-  char* entity;
-  char* tag;
-  char* prop;
-  char* value;
+  csString entity;
+  csString tag;
+  csString prop;
+  csString value;
+  bool on_change;
+  bool is_true;
+  bool on_condition;
 
   void FindProperties ();
   bool TestProperty (size_t idx);
-
+  bool CheckValue ();
+protected:
+  celPropertyChangeTriggerType* type;
+  virtual bool DoTest(long test_value, long actual_value)
+  { return (test_value == actual_value); }
+  virtual bool DoTest(float test_value, float actual_value)
+  { return (test_value == actual_value); }
+  virtual bool DoTest(bool test_value, bool actual_value)
+  { return (test_value == actual_value); }
+  virtual bool DoTest(const char *test_value, const char *actual_value)
+  { return (!strcmp (test_value, actual_value)); }
 public:
   celPropertyChangeTrigger (celPropertyChangeTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* tag_par,
-	const char* prop_par, const char* value_par);
+	const char* entity_par, const char* tag_par, const char* prop_par,
+	const char* value_par, bool on_change);
   virtual ~celPropertyChangeTrigger ();
 
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
@@ -104,6 +120,113 @@ public:
 
   //----------------------- iPcPropertyListener ----------------------------
   virtual void PropertyChanged (iPcProperties* pcprop, size_t idx);
+};
+
+class celPropertyChangeTriggerLt : public celPropertyChangeTrigger
+{
+public:
+  celPropertyChangeTriggerLt (celPropertyChangeTriggerType* type,
+  	const celQuestParams& params,
+	const char* entity_par, const char* tag_par, const char* prop_par,
+	const char* value_par, bool on_change)
+  : celPropertyChangeTrigger(type, params, entity_par, tag_par, prop_par,
+				value_par, on_change)
+  {} ;
+  // tests
+  virtual bool DoTest(long test_value, long actual_value)
+  { return (actual_value<test_value); }
+  virtual bool DoTest(float test_value, float actual_value)
+  { return (actual_value<test_value); }
+  virtual bool DoTest(bool test_value, bool actual_value)
+  { printf("Lt test not for bool properties\n"); return false; }
+  virtual bool DoTest(const char *test_value, const char *actual_value)
+  { printf("Lt test not for string properties\n"); return false; }
+
+};
+
+class celPropertyChangeTriggerGt : public celPropertyChangeTrigger
+{
+public:
+  celPropertyChangeTriggerGt (celPropertyChangeTriggerType* type,
+  	const celQuestParams& params,
+	const char* entity_par, const char* tag_par, const char* prop_par,
+	const char* value_par, bool on_change)
+  : celPropertyChangeTrigger(type, params, entity_par, tag_par, prop_par,
+				value_par, on_change)
+  {} ;
+  // tests
+  virtual bool DoTest(long test_value, long actual_value)
+  { return (actual_value>test_value); }
+  virtual bool DoTest(float test_value, float actual_value)
+  { return (actual_value>test_value); }
+  virtual bool DoTest(bool test_value, bool actual_value)
+  { printf("Gt test not for bool properties\n"); return false; }
+  virtual bool DoTest(const char *test_value, const char *actual_value)
+  { printf("Gt test not for string properties\n"); return false; }
+
+};
+
+class celPropertyChangeTriggerNe : public celPropertyChangeTrigger
+{
+public:
+  celPropertyChangeTriggerNe (celPropertyChangeTriggerType* type,
+  	const celQuestParams& params,
+	const char* entity_par, const char* tag_par, const char* prop_par,
+	const char* value_par, bool on_change)
+  : celPropertyChangeTrigger(type, params, entity_par, tag_par, prop_par,
+				value_par, on_change)
+  {} ;
+  // tests
+  virtual bool DoTest(long test_value, long actual_value)
+  { return (actual_value != test_value); }
+  virtual bool DoTest(float test_value, float actual_value)
+  { return (actual_value != test_value); }
+  virtual bool DoTest(bool test_value, bool actual_value)
+  { return (test_value != actual_value); }
+  virtual bool DoTest(const char *test_value, const char *actual_value)
+  { return (strcmp (test_value, actual_value)); }
+};
+
+class celPropertyChangeTriggerLe : public celPropertyChangeTrigger
+{
+public:
+  celPropertyChangeTriggerLe (celPropertyChangeTriggerType* type,
+  	const celQuestParams& params,
+	const char* entity_par, const char* tag_par, const char* prop_par,
+	const char* value_par, bool on_change)
+  : celPropertyChangeTrigger(type, params, entity_par, tag_par, prop_par,
+				value_par, on_change)
+  {} ;
+  // tests
+  virtual bool DoTest(long test_value, long actual_value)
+  { return (actual_value<=test_value); }
+  virtual bool DoTest(float test_value, float actual_value)
+  { return (actual_value<=test_value); }
+  virtual bool DoTest(bool test_value, bool actual_value)
+  { printf("Le test not for bool properties\n"); return false; }
+  virtual bool DoTest(const char *test_value, const char *actual_value)
+  { printf("Le test not for string properties\n"); return false; }
+};
+
+class celPropertyChangeTriggerGe : public celPropertyChangeTrigger
+{
+public:
+  celPropertyChangeTriggerGe (celPropertyChangeTriggerType* type,
+  	const celQuestParams& params,
+	const char* entity_par, const char* tag_par, const char* prop_par,
+	const char* value_par, bool on_change)
+  : celPropertyChangeTrigger(type, params, entity_par, tag_par, prop_par,
+				value_par, on_change)
+  {} ;
+  // tests
+  virtual bool DoTest(long test_value, long actual_value)
+  { return (actual_value>=test_value); }
+  virtual bool DoTest(float test_value, float actual_value)
+  { return (actual_value>=test_value); }
+  virtual bool DoTest(bool test_value, bool actual_value)
+  { printf("Ge test not for bool properties\n"); return false; }
+  virtual bool DoTest(const char *test_value, const char *actual_value)
+  { printf("Ge test not for string properties\n"); return false; }
 };
 
 #endif // __CEL_TOOLS_QUESTS_TRIG_PROPERTYCHANGE__

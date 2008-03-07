@@ -63,81 +63,81 @@ celPropertyChangeTriggerFactory::celPropertyChangeTriggerFactory (
 	celPropertyChangeTriggerType* type) : scfImplementationType (this)
 {
   celPropertyChangeTriggerFactory::type = type;
-  entity_par = 0;
-  tag_par = 0;
-  prop_par = 0;
-  value_par = 0;
 }
 
 celPropertyChangeTriggerFactory::~celPropertyChangeTriggerFactory ()
 {
-  delete[] entity_par;
-  delete[] tag_par;
-  delete[] prop_par;
-  delete[] value_par;
 }
 
 csPtr<iQuestTrigger> celPropertyChangeTriggerFactory::CreateTrigger (
     iQuest*, const celQuestParams& params)
 {
-  celPropertyChangeTrigger* trig = new celPropertyChangeTrigger (type,
-  	params, entity_par, tag_par, prop_par, value_par);
+  celPropertyChangeTrigger* trig = 0;
+  if (!op_par)
+    trig = new celPropertyChangeTrigger (type,
+      	 params, entity_par, tag_par, prop_par, value_par, onchange_par);
+  else if (!strcmp(op_par,"eq"))
+    trig = new celPropertyChangeTrigger (type,
+      	 params, entity_par, tag_par, prop_par, value_par, onchange_par);
+  else if (!strcmp(op_par,"ne"))
+    trig = new celPropertyChangeTriggerNe (type,
+      	 params, entity_par, tag_par, prop_par, value_par, onchange_par);
+  else if (!strcmp(op_par,"le"))
+    trig = new celPropertyChangeTriggerLe (type,
+      	 params, entity_par, tag_par, prop_par, value_par, onchange_par);
+  else if (!strcmp(op_par,"ge"))
+    trig = new celPropertyChangeTriggerGe (type,
+      	 params, entity_par, tag_par, prop_par, value_par, onchange_par);
+  else if (!strcmp(op_par,"gt"))
+    trig = new celPropertyChangeTriggerGt (type,
+      	 params, entity_par, tag_par, prop_par, value_par, onchange_par);
+  else if (!strcmp(op_par,"lt"))
+    trig = new celPropertyChangeTriggerLt (type,
+      	 params, entity_par, tag_par, prop_par, value_par, onchange_par);
   return trig;
 }
 
 bool celPropertyChangeTriggerFactory::Load (iDocumentNode* node)
 {
-  delete[] entity_par; entity_par = 0;
-  delete[] tag_par; tag_par = 0;
-  delete[] prop_par; prop_par = 0;
-  delete[] value_par; value_par = 0;
-
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
-  if (!entity_par)
+  entity_par = node->GetAttributeValue ("entity");
+  tag_par = node->GetAttributeValue ("entity_tag");
+  if (entity_par.IsEmpty())
     return Report (type->object_reg,
       "'entity' attribute is missing for the propertychange trigger!");
-  prop_par = csStrNew (node->GetAttributeValue ("property"));
-  if (!prop_par)
+  prop_par = node->GetAttributeValue ("property");
+  if (prop_par.IsEmpty())
     return Report (type->object_reg,
       "'property' attribute is missing for the propertychange trigger!");
-  value_par = csStrNew (node->GetAttributeValue ("value"));
+  value_par = node->GetAttributeValue ("value");
+  op_par = node->GetAttributeValue ("operation");
+  onchange_par = node->GetAttributeValueAsBool ("onchange",false);
   return true;
 }
 
 void celPropertyChangeTriggerFactory::SetEntityParameter (
 	const char* entity, const char* tag)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
-  if (tag_par != tag)
-  {
-    delete[] tag_par;
-    tag_par = csStrNew (tag);
-  }
+  entity_par = entity;
+  tag_par = tag;
 }
 
 void celPropertyChangeTriggerFactory::SetPropertyParameter (
 	const char* prop)
 {
-  if (prop_par == prop) 
-    return;
-
-  delete[] prop_par;
-  prop_par = csStrNew (prop);
+  prop_par = prop;
 }
 
 void celPropertyChangeTriggerFactory::SetValueParameter (
 	const char* value)
 {
-  if (value_par == value) 
-    return;
+  value_par = value;
+}
 
-  delete[] value_par;
-  value_par = csStrNew (value);
+void celPropertyChangeTriggerFactory::SetOperationParameter (
+
+	const char* op)
+{
+  op_par = op;
 }
 
 //---------------------------------------------------------------------------
@@ -146,27 +146,24 @@ celPropertyChangeTrigger::celPropertyChangeTrigger (
 	celPropertyChangeTriggerType* type,
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
-	const char* prop_par, const char* value_par)
+	const char* prop_par, const char* value_par, bool onchange)
 	: scfImplementationType (this)
 {
   celPropertyChangeTrigger::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  tag = csStrNew (qm->ResolveParameter (params, tag_par));
-  prop = csStrNew (qm->ResolveParameter (params, prop_par));
+  entity = qm->ResolveParameter (params, entity_par);
+  tag = qm->ResolveParameter (params, tag_par);
+  prop = qm->ResolveParameter (params, prop_par);
   if (value_par)
-    value = csStrNew (qm->ResolveParameter (params, value_par));
+    value = qm->ResolveParameter (params, value_par);
   else
     value = 0;
+  on_change = onchange;
 }
 
 celPropertyChangeTrigger::~celPropertyChangeTrigger ()
 {
   DeactivateTrigger ();
-  delete[] entity;
-  delete[] tag;
-  delete[] prop;
-  delete[] value;
 }
 
 void celPropertyChangeTrigger::RegisterCallback (iQuestTriggerCallback* callback)
@@ -189,26 +186,26 @@ bool celPropertyChangeTrigger::TestProperty (size_t idx)
       {
         long v;
 	sscanf (value, "%ld", &v);
-	return (v == properties->GetPropertyLong (idx));
+	return DoTest(v,properties->GetPropertyLong (idx));
       }
       break;
     case CEL_DATA_FLOAT:
       {
         float v;
 	sscanf (value, "%g", &v);
-	return (v == properties->GetPropertyFloat (idx));
+	return DoTest(v,properties->GetPropertyFloat (idx));
       }
       break;
     case CEL_DATA_BOOL:
       {
         bool v;
 	csScanStr (value, "%b", &v);
-	return (v == properties->GetPropertyBool (idx));
+	return DoTest(v,properties->GetPropertyBool (idx));
       }
       break;
     case CEL_DATA_STRING:
       {
-	return (!strcmp (value, properties->GetPropertyString (idx)));
+	return DoTest(value,properties->GetPropertyString (idx));
       }
       break;
     default:
@@ -222,10 +219,25 @@ void celPropertyChangeTrigger::PropertyChanged (iPcProperties*,
 {
   const char* pn = properties->GetPropertyName (idx);
   if (strcmp (pn, prop) != 0) return;
-  if (TestProperty (idx))
+  // value change test
+  if (on_change)
   {
-    DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this);
+    bool proptest = TestProperty (idx);
+    // if both proptest and is_true have the same value there has been no change.
+    if (is_true != proptest) // change detected
+    {
+      is_true = proptest;
+      on_condition = proptest;
+      if (on_condition)
+        callback->TriggerFired ((iQuestTrigger*)this);
+    }
+  }
+  // value met test
+  else
+  {
+    is_true = TestProperty (idx);
+    if (is_true)
+      callback->TriggerFired ((iQuestTrigger*)this);
   }
 }
 
@@ -247,13 +259,23 @@ void celPropertyChangeTrigger::ActivateTrigger ()
     	"Can't find pcproperties for propertychange trigger!");
     return;
   }
+  // Check if the property already has the value. We want to trigger only
+  // when there is a property change, not when the property already had the
+  // value.
+  is_true = CheckValue();
+
+  // Condition is always initially false, as we want a property change, so wont become
+  // true until the value changes from different value to the listened one.
+  // (only used if on_change is true).
+  on_condition = false;
+
   // First remove to make sure we don't register ourselves multiple
   // times.
   properties->RemovePropertyListener ((iPcPropertyListener*)this);
   properties->AddPropertyListener ((iPcPropertyListener*)this);
 }
 
-bool celPropertyChangeTrigger::Check ()
+bool celPropertyChangeTrigger::CheckValue ()
 {
   if (!properties) return false;
   size_t idx = properties->GetPropertyIndex (prop);
@@ -261,6 +283,14 @@ bool celPropertyChangeTrigger::Check ()
   // Check() returns false in case there is no value.
   if (!value) return false;
   return TestProperty (idx);
+}
+
+bool celPropertyChangeTrigger::Check ()
+{
+  if (on_change)
+    return on_condition;
+  else
+    return is_true;
 }
 
 void celPropertyChangeTrigger::DeactivateTrigger ()
