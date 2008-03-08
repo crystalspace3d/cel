@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+08-Mar-2008
+	- Vincent changed celconsole plugin to use
+	  CS_EVENTHANDLER_PHASE_CONSOLE() macro. Fixes #54.
 05-Mar-2008
 	- Vincent applied Guillaume Libersat's patch for #57,
 	  celPcCommandInput::RemoveBind() would crash when removing the
