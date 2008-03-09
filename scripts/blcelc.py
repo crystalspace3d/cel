@@ -4572,6 +4572,8 @@ class iPropertyChangeQuestTriggerFactory(cspace.iBase):
     def SetEntityParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetEntityParameter(*args)
     def SetPropertyParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetPropertyParameter(*args)
     def SetValueParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetValueParameter(*args)
+    def SetOperationParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetOperationParameter(*args)
+    def SetOnChangeOnly(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetOnChangeOnly(*args)
     __swig_destroy__ = _blcelc.delete_iPropertyChangeQuestTriggerFactory
     __del__ = lambda self : None;
 iPropertyChangeQuestTriggerFactory_swigregister = _blcelc.iPropertyChangeQuestTriggerFactory_swigregister
