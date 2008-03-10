@@ -247,8 +247,11 @@ void celPcProjectile::TickEveryFrame ()
   
   // Reference to prevent premature entity removal.
   csRef<iCelEntity> keepref;
-
+  bool nohitbeam = pcmesh->GetMesh()->GetFlags().Check(CS_ENTITY_NOHITBEAM);
+  pcmesh->GetMesh()->SetFlagsRecursive(CS_ENTITY_NOHITBEAM);
   csSectorHitBeamResult rc = cursector->HitBeamPortals (curpos, newpos);
+  if (!nohitbeam)
+    pcmesh->GetMesh()->SetFlagsRecursive(CS_ENTITY_NOHITBEAM,0);
   if (rc.mesh)
   {
     curhits++;
