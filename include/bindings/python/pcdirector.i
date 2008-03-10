@@ -426,3 +426,29 @@ public:
 };
 %}
 
+/*  iMessageReceiver */
+CALLBACK_INTERFACE_HDR(pyMessageReceiver,iMessageReceiver)
+%inline %{
+class pyMessageReceiver :
+      public scfImplementation1<pyMessageReceiver,iMessageReceiver>
+{
+public:
+    pyMessageReceiver(iObjectRegistry* object_reg) : scfImplementationType (this) {}
+~pyMessageReceiver() {}
+    virtual bool ReceiveMessage (csStringID msg_id, iMessageSender*  sender,celData& ret, iCelParameterBlock*  params) { }
+};
+%}
+
+/*  iPcPropertyListener */
+CALLBACK_INTERFACE_HDR(pyPcPropertyListener,iPcPropertyListener)
+%inline %{
+class pyPcPropertyListener :
+      public scfImplementation1<pyPcPropertyListener,iPcPropertyListener>
+{
+public:
+    pyPcPropertyListener(iObjectRegistry* object_reg) : scfImplementationType (this) {}
+~pyPcPropertyListener() {}
+    virtual void PropertyChanged (iPcProperties*  pcprop, size_t idx) { }
+};
+%}
+
