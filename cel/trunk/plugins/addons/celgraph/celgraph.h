@@ -42,7 +42,11 @@ struct iCelPlLayer;
  * a celgraph through a standard CS map file.
  */
 
-class celAddOnCelGraph : public iLoaderPlugin, public iGraphLoader
+class celAddOnCelGraph :
+  public scfImplementation3<celAddOnCelGraph, 
+                            iLoaderPlugin, 
+			    iGraphLoader,
+                            iComponent>
 {
 private:
   iObjectRegistry* object_reg;
@@ -56,8 +60,6 @@ private:
 	const char* prefix, const char* propname);
 
 public:
-  SCF_DECLARE_IBASE;
- 
   celAddOnCelGraph (iBase* parent);
   virtual ~celAddOnCelGraph ();
   /**
@@ -76,13 +78,6 @@ public:
 
   virtual iCelGraph* Load (iDocumentNode* node);
   virtual iCelGraph* Load (const char* path, const char* file);
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celAddOnCelGraph);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
 };
 
 #endif // __CEL_ADDON_CELGRAPH__

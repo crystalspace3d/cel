@@ -9,6 +9,8 @@ The history order is reversed so that new features are at the top.
 	- caedes fixed projectile to set NOHITBEAM on own mesh before casting 
 	  ray for detecting collisions. Otherwise it would randomly find
 	  itself.
+	- res changed some SCF classes over to use scfImplementation* and made
+	  a small RM branch compile fix.
 08-Mar-2008
 	- Vincent changed celconsole plugin to use
 	  CS_EVENTHANDLER_PHASE_CONSOLE() macro. Fixes #54.
