@@ -324,7 +324,7 @@ struct celXmlArg
     iCelPropertyClass* pc;
     iCelEntity* entity;
     iBase* ref;
-    csStringID id;
+    unsigned long id;
     struct { celXmlScriptEventHandler* h_true, * h_false; } h;
     struct { float x, y, z; } vec;
     struct { float red, green, blue; } col;

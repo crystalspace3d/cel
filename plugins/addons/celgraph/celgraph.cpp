@@ -43,16 +43,6 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celAddOnCelGraph)
 
-  SCF_IMPLEMENT_IBASE (celAddOnCelGraph)
-  SCF_IMPLEMENTS_INTERFACE (iLoaderPlugin)
-  SCF_IMPLEMENTS_INTERFACE (iGraphLoader)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-  SCF_IMPLEMENT_IBASE_END
-
-  SCF_IMPLEMENT_EMBEDDED_IBASE (celAddOnCelGraph::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-  SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 enum
 {
   XMLTOKEN_NODE,
@@ -68,16 +58,13 @@ enum
 
 
 celAddOnCelGraph::celAddOnCelGraph (iBase* parent)
+  : scfImplementationType (this, parent)
 {
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
 celAddOnCelGraph::~celAddOnCelGraph ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celAddOnCelGraph::Initialize (iObjectRegistry* object_reg)
