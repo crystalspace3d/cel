@@ -5,7 +5,7 @@ SubDir TOP ;
 
 IncludeDir ;
 IncludeDir "include" ;
-IncludeDir $(BUILDTOP) : : literal transient ;
+IncludeDir $(BUILDTOP) include : : literal transient ;
 
 # Construct a distclean target
 CleanDir clean : out ;
