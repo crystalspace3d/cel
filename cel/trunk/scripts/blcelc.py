@@ -5311,5 +5311,75 @@ class pyMessageSender(swigpyMessageSender):
 pyMessageSender_swigregister = _blcelc.pyMessageSender_swigregister
 pyMessageSender_swigregister(pyMessageSender)
 
+class swigpyMessageReceiver(iMessageReceiver):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def IncRef(*args): return _blcelc.swigpyMessageReceiver_IncRef(*args)
+    def DecRef(*args): return _blcelc.swigpyMessageReceiver_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.swigpyMessageReceiver_GetRefCount(*args)
+    def QueryInterface(*args): return _blcelc.swigpyMessageReceiver_QueryInterface(*args)
+    def AddRefOwner(*args): return _blcelc.swigpyMessageReceiver_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.swigpyMessageReceiver_RemoveRefOwner(*args)
+    def GetInterfaceMetadata(*args): return _blcelc.swigpyMessageReceiver_GetInterfaceMetadata(*args)
+swigpyMessageReceiver_swigregister = _blcelc.swigpyMessageReceiver_swigregister
+swigpyMessageReceiver_swigregister(swigpyMessageReceiver)
+
+class pyMessageReceiver(swigpyMessageReceiver):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        if self.__class__ == pyMessageReceiver:
+            args = (None,) + args
+        else:
+            args = (self,) + args
+        this = _blcelc.new_pyMessageReceiver(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_pyMessageReceiver
+    __del__ = lambda self : None;
+    def ReceiveMessage(*args): return _blcelc.pyMessageReceiver_ReceiveMessage(*args)
+    def __disown__(self):
+        self.this.disown()
+        _blcelc.disown_pyMessageReceiver(self)
+        return weakref_proxy(self)
+pyMessageReceiver_swigregister = _blcelc.pyMessageReceiver_swigregister
+pyMessageReceiver_swigregister(pyMessageReceiver)
+
+class swigpyPcPropertyListener(iPcPropertyListener):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def IncRef(*args): return _blcelc.swigpyPcPropertyListener_IncRef(*args)
+    def DecRef(*args): return _blcelc.swigpyPcPropertyListener_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.swigpyPcPropertyListener_GetRefCount(*args)
+    def QueryInterface(*args): return _blcelc.swigpyPcPropertyListener_QueryInterface(*args)
+    def AddRefOwner(*args): return _blcelc.swigpyPcPropertyListener_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.swigpyPcPropertyListener_RemoveRefOwner(*args)
+    def GetInterfaceMetadata(*args): return _blcelc.swigpyPcPropertyListener_GetInterfaceMetadata(*args)
+swigpyPcPropertyListener_swigregister = _blcelc.swigpyPcPropertyListener_swigregister
+swigpyPcPropertyListener_swigregister(swigpyPcPropertyListener)
+
+class pyPcPropertyListener(swigpyPcPropertyListener):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        if self.__class__ == pyPcPropertyListener:
+            args = (None,) + args
+        else:
+            args = (self,) + args
+        this = _blcelc.new_pyPcPropertyListener(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_pyPcPropertyListener
+    __del__ = lambda self : None;
+    def PropertyChanged(*args): return _blcelc.pyPcPropertyListener_PropertyChanged(*args)
+    def __disown__(self):
+        self.this.disown()
+        _blcelc.disown_pyPcPropertyListener(self)
+        return weakref_proxy(self)
+pyPcPropertyListener_swigregister = _blcelc.pyPcPropertyListener_swigregister
+pyPcPropertyListener_swigregister(pyPcPropertyListener)
+
 
 
