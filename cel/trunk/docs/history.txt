@@ -13,6 +13,8 @@ The history order is reversed so that new features are at the top.
 	  a small RM branch compile fix.
 	- res changed cel-config to properly handle CEL environment variables
 	  containing multiple paths.
+	- res fixed Jamfile to contain $(BUILDTOP)/include, needed for
+	  celconfig.h.
 08-Mar-2008
 	- Vincent changed celconsole plugin to use
 	  CS_EVENTHANDLER_PHASE_CONSOLE() macro. Fixes #54.
