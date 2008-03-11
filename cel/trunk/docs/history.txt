@@ -11,6 +11,8 @@ The history order is reversed so that new features are at the top.
 	  itself.
 	- res changed some SCF classes over to use scfImplementation* and made
 	  a small RM branch compile fix.
+	- res changed cel-config to properly handle CEL environment variables
+	  containing multiple paths.
 08-Mar-2008
 	- Vincent changed celconsole plugin to use
 	  CS_EVENTHANDLER_PHASE_CONSOLE() macro. Fixes #54.
