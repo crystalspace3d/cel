@@ -6,6 +6,10 @@ The history order is reversed so that new features are at the top.
 14-Mar-2008
 	- caedes added iMessageDispatcher to the list of swig "applied" 
 	  interfaces.
+	- caedes moved inclusion of the messaging header in blcel.i to
+	  after the first CEL_APPLY_INTERFACES declaration, otherwise it
+	  doesnt get the csRef.. etc typemaps, and previous apply doesnt
+	  really accomplish much.
 10-Mar-2008
 	- caedes added pyPcPropertyListener and pyMessageReceiver to python
 	  directors.

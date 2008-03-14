@@ -234,13 +234,16 @@ INTERFACE_POST(pcType)
 ARRAY_CHANGE_ALL_TEMPLATE(celData)
 %include "physicallayer/datatype.h"
 
-%include "physicallayer/messaging.h"
 
 //-----------------------------------------------------------------------------
 
 #undef INTERFACE_APPLY
 #define INTERFACE_APPLY(x) INTERFACE_PRE(x)
 CEL_APPLY_FOR_EACH_INTERFACE
+
+//-----------------------------------------------------------------------------
+
+%include "physicallayer/messaging.h"
 
 //-----------------------------------------------------------------------------
 
