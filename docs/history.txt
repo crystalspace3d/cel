@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Mar-2008
+	- caedes added iMessageDispatcher to the list of swig "applied" 
+	  interfaces.
 10-Mar-2008
 	- caedes added pyPcPropertyListener and pyMessageReceiver to python
 	  directors.
