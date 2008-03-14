@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
 	  after the first CEL_APPLY_INTERFACES declaration, otherwise it
 	  doesnt get the csRef.. etc typemaps, and previous apply doesnt
 	  really accomplish much.
+	- caedes updated the celattributes.i file (script properties 
+	  declarations).
 10-Mar-2008
 	- caedes added pyPcPropertyListener and pyMessageReceiver to python
 	  directors.
