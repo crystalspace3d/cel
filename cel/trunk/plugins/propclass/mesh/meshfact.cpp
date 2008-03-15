@@ -212,7 +212,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   AddProperty (propid_hitbeam, "cel.property.hitbeam",
   	CEL_DATA_BOOL, false, "Allow hitbeams for the mesh.", 0);
   AddProperty (propid_meshname, "cel.property.meshname",
-  	CEL_DATA_STRING, true, "Mesh obejct name for the model.", 0);
+  	CEL_DATA_STRING, true, "Mesh object name for the model.", 0);
 }
 
 celPcMesh::~celPcMesh ()
