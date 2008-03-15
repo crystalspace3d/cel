@@ -346,10 +346,12 @@ class iMessageDispatcher(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SendMessage(*args): return _blcelc.iMessageDispatcher_SendMessage(*args)
+    scfGetVersion = staticmethod(_blcelc.iMessageDispatcher_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iMessageDispatcher
     __del__ = lambda self : None;
 iMessageDispatcher_swigregister = _blcelc.iMessageDispatcher_swigregister
 iMessageDispatcher_swigregister(iMessageDispatcher)
+iMessageDispatcher_scfGetVersion = _blcelc.iMessageDispatcher_scfGetVersion
 
 class celEntityTemplateParams(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -486,6 +488,9 @@ class iCelPlLayer(cspace.iBase):
 
     BehaviourLayerCount = _swig_property(_blcelc.iCelPlLayer_BehaviourLayerCount_get, None, None,
                     "iCelPlLayer.BehaviourLayerCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetBehaviourLayerCount()")
+
+    MessageSender = _swig_property(_blcelc.iCelPlLayer_MessageSender_get, None, None,
+                    "iCelPlLayer.MessageSender -> iMessageSender*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iMessageSender* iCelPlLayer::QueryMessageSender()")
 
     scfGetVersion = staticmethod(_blcelc.iCelPlLayer_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iCelPlLayer
@@ -670,6 +675,9 @@ class iCelEntity(cspace.iBase):
     Classes = _swig_property(_blcelc.iCelEntity_Classes_get, None, None,
                     "iCelEntity.Classes -> const csSet<csStringID>&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csSet<csStringID>& iCelEntity::GetClasses()")
 
+    MessageChannel = _swig_property(_blcelc.iCelEntity_MessageChannel_get, None, None,
+                    "iCelEntity.MessageChannel -> iMessageChannel*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iMessageChannel* iCelEntity::QueryMessageChannel()")
+
     def CreateBehaviour(*args): return _blcelc.iCelEntity_CreateBehaviour(*args)
     scfGetVersion = staticmethod(_blcelc.iCelEntity_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iCelEntity
@@ -718,9 +726,6 @@ class iCelEntityIterator(cspace.iBase):
     __repr__ = _swig_repr
     def Next(*args): return _blcelc.iCelEntityIterator_Next(*args)
     def HasNext(*args): return _blcelc.iCelEntityIterator_HasNext(*args)
-    Next = _swig_property(_blcelc.iCelEntityIterator_Next_get, None, None,
-                    "iCelEntityIterator.Next -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iCelEntityIterator::HasNext()")
-
     __swig_destroy__ = _blcelc.delete_iCelEntityIterator
     __del__ = lambda self : None;
 iCelEntityIterator_swigregister = _blcelc.iCelEntityIterator_swigregister
@@ -1058,8 +1063,9 @@ class iCelPropertyClass(cspace.iBase):
     def PropertyClassesHaveChanged(*args): return _blcelc.iCelPropertyClass_PropertyClassesHaveChanged(*args)
     def GetPersistentData(*args): return _blcelc.iCelPropertyClass_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.iCelPropertyClass_SetPersistentData(*args)
-    Name = _swig_property(_blcelc.iCelPropertyClass_Name_get, None, None,
-                    "iCelPropertyClass.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelPropertyClass::GetName()")
+    Name = _swig_property(_blcelc.iCelPropertyClass_Name_get, _blcelc.iCelPropertyClass_Name_set, None,
+                    "iCelPropertyClass.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClass::GetName()\n\tset: void iCelPropertyClass::SetName(const char*)")
+
 
     Tag = _swig_property(_blcelc.iCelPropertyClass_Tag_get, _blcelc.iCelPropertyClass_Tag_set, None,
                     "iCelPropertyClass.Tag -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClass::GetTag()\n\tset: void iCelPropertyClass::SetTag(const char*)")
@@ -1068,6 +1074,9 @@ class iCelPropertyClass(cspace.iBase):
     Entity = _swig_property(_blcelc.iCelPropertyClass_Entity_get, _blcelc.iCelPropertyClass_Entity_set, None,
                     "iCelPropertyClass.Entity -> iCelEntity*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelEntity* iCelPropertyClass::GetEntity()\n\tset: void iCelPropertyClass::SetEntity(iCelEntity*)")
 
+
+    Property = _swig_property(None, fix_args(_blcelc.iCelPropertyClass_SetProperty), None,
+                    "iCelPropertyClass.Property -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelPropertyClass::getmethod()\n\tset: void iCelPropertyClass::SetProperty(...)")
 
     PropertyAndActionCount = _swig_property(_blcelc.iCelPropertyClass_PropertyAndActionCount_get, None, None,
                     "iCelPropertyClass.PropertyAndActionCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPropertyClass::GetPropertyAndActionCount()")
@@ -1827,6 +1836,12 @@ class iPcRegion(cspace.iBase):
                     "iPcRegion.RegionName -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcRegion::GetRegionName()\n\tset: void iPcRegion::SetRegionName(const char*)")
 
 
+    StartSector = _swig_property(_blcelc.iPcRegion_GetStartSector, None, None,
+                    "iPcRegion.StartSector -> type\n\nThis is equivalent to calling the C++ cs method:\n\tget: iPcRegion::GetStartSector()")
+
+    StartPosition = _swig_property(_blcelc.iPcRegion_GetStartPosition, None, None,
+                    "iPcRegion.StartPosition -> type\n\nThis is equivalent to calling the C++ cs method:\n\tget: iPcRegion::GetStartPosition()")
+
     Region = _swig_property(_blcelc.iPcRegion_Region_get, None, None,
                     "iPcRegion.Region -> iRegion*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iRegion* iPcRegion::GetRegion()")
 
@@ -1870,6 +1885,10 @@ class iCelMapFile(cspace.iBase):
     def GetFile(*args): return _blcelc.iCelMapFile_GetFile(*args)
     def SetSectorName(*args): return _blcelc.iCelMapFile_SetSectorName(*args)
     def GetSectorName(*args): return _blcelc.iCelMapFile_GetSectorName(*args)
+    Name = _swig_property(_blcelc.iCelMapFile_Name_get, _blcelc.iCelMapFile_Name_set, None,
+                    "iCelMapFile.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelMapFile::GetName()\n\tset: void iCelMapFile::SetName(const char*)")
+
+
     Path = _swig_property(_blcelc.iCelMapFile_Path_get, _blcelc.iCelMapFile_Path_set, None,
                     "iCelMapFile.Path -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelMapFile::GetPath()\n\tset: void iCelMapFile::SetPath(const char*)")
 
@@ -1920,6 +1939,9 @@ class iCelRegion(cspace.iBase):
 
     MapFileCount = _swig_property(_blcelc.iCelRegion_MapFileCount_get, None, None,
                     "iCelRegion.MapFileCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelRegion::GetMapFileCount()")
+
+    CsRegion = _swig_property(_blcelc.iCelRegion_CsRegion_get, None, None,
+                    "iCelRegion.CsRegion -> iRegion*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iRegion* iCelRegion::GetCsRegion()")
 
     __swig_destroy__ = _blcelc.delete_iCelRegion
     __del__ = lambda self : None;
@@ -2163,14 +2185,21 @@ class iPcLinearMovement(cspace.iBase):
     Speed = _swig_property(None, _blcelc.iPcLinearMovement_Speed_set, None,
                     "iPcLinearMovement.Speed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcLinearMovement::SetSpeed(float)")
 
+    Velocity = _swig_property(_blcelc.iPcLinearMovement_Velocity_get, _blcelc.iPcLinearMovement_Velocity_set, None,
+                    "iPcLinearMovement.Velocity -> const csVector3\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector3 iPcLinearMovement::GetVelocity()\n\tset: void iPcLinearMovement::SetVelocity(const csVector3)")
+
+
     SoftDRData = _swig_property(None, fix_args(_blcelc.iPcLinearMovement_SetSoftDRData), None,
                     "iPcLinearMovement.SoftDRData -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::getmethod()\n\tset: void iPcLinearMovement::SetSoftDRData(...)")
 
-    FullPosition = _swig_property(None, fix_args(_blcelc.iPcLinearMovement_SetFullPosition), None,
-                    "iPcLinearMovement.FullPosition -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::getmethod()\n\tset: void iPcLinearMovement::SetFullPosition(...)")
+    FullPosition = _swig_property(_blcelc.iPcLinearMovement_GetFullPosition, fix_args(_blcelc.iPcLinearMovement_SetFullPosition), None,
+                    "iPcLinearMovement.FullPosition -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::GetFullPosition()\n\tset: void iPcLinearMovement::SetFullPosition(...)")
 
-    Position = _swig_property(None, fix_args(_blcelc.iPcLinearMovement_SetPosition), None,
-                    "iPcLinearMovement.Position -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::getmethod()\n\tset: void iPcLinearMovement::SetPosition(...)")
+    Position = _swig_property(_blcelc.iPcLinearMovement_GetPosition, fix_args(_blcelc.iPcLinearMovement_SetPosition), None,
+                    "iPcLinearMovement.Position -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::GetPosition()\n\tset: void iPcLinearMovement::SetPosition(...)")
+
+    YRotation = _swig_property(_blcelc.iPcLinearMovement_YRotation_get, None, None,
+                    "iPcLinearMovement.YRotation -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcLinearMovement::GetYRotation()")
 
     Path = _swig_property(_blcelc.iPcLinearMovement_IsPath, fix_args(_blcelc.iPcLinearMovement_SetPath), None,
                     "iPcLinearMovement.Path -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::IsPath()\n\tset: void iPcLinearMovement::SetPath(...)")
@@ -2287,6 +2316,9 @@ class iPcActorMove(cspace.iBase):
                     "iPcActorMove.MovingBackward -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsMovingBackward()\n\tset: void iPcActorMove::Backward(bool)")
 
 
+    Moving = _swig_property(_blcelc.iPcActorMove_Moving_get, None, None,
+                    "iPcActorMove.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcActorMove::IsMoving()")
+
     StrafingLeft = _swig_property(_blcelc.iPcActorMove_StrafingLeft_get, _blcelc.iPcActorMove_StrafingLeft_set, None,
                     "iPcActorMove.StrafingLeft -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsStrafingLeft()\n\tset: void iPcActorMove::StrafeLeft(bool)")
 
@@ -2313,6 +2345,10 @@ class iPcActorMove(cspace.iBase):
 
     MouseMoveEnabled = _swig_property(_blcelc.iPcActorMove_MouseMoveEnabled_get, None, None,
                     "iPcActorMove.MouseMoveEnabled -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcActorMove::IsMouseMoveEnabled()")
+
+    MouseMoveAccelerated = _swig_property(_blcelc.iPcActorMove_MouseMoveAccelerated_get, _blcelc.iPcActorMove_MouseMoveAccelerated_set, None,
+                    "iPcActorMove.MouseMoveAccelerated -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsMouseMoveAccelerated()\n\tset: void iPcActorMove::SetMouseMoveAccelerated(bool)")
+
 
     MouseMoveInverted = _swig_property(_blcelc.iPcActorMove_MouseMoveInverted_get, _blcelc.iPcActorMove_MouseMoveInverted_set, None,
                     "iPcActorMove.MouseMoveInverted -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsMouseMoveInverted()\n\tset: void iPcActorMove::SetMouseMoveInverted(bool)")
@@ -2345,6 +2381,9 @@ class iPcActorMove(cspace.iBase):
 
     Animation = _swig_property(None, fix_args(_blcelc.iPcActorMove_SetAnimation), None,
                     "iPcActorMove.Animation -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcActorMove::getmethod()\n\tset: void iPcActorMove::SetAnimation(...)")
+
+    AnimationMapping = _swig_property(None, fix_args(_blcelc.iPcActorMove_SetAnimationMapping), None,
+                    "iPcActorMove.AnimationMapping -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcActorMove::getmethod()\n\tset: void iPcActorMove::SetAnimationMapping(...)")
 
     _PC = None
     def __getattr__(self,attr):
@@ -2381,6 +2420,15 @@ class iPcActorAnalog(cspace.iBase):
     def AddAxis(*args): return _blcelc.iPcActorAnalog_AddAxis(*args)
     def SetMovementSpeed(*args): return _blcelc.iPcActorAnalog_SetMovementSpeed(*args)
     def SetTurningSpeed(*args): return _blcelc.iPcActorAnalog_SetTurningSpeed(*args)
+    Axis = _swig_property(None, fix_args(_blcelc.iPcActorAnalog_SetAxis), None,
+                    "iPcActorAnalog.Axis -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcActorAnalog::getmethod()\n\tset: void iPcActorAnalog::SetAxis(...)")
+
+    MovementSpeed = _swig_property(None, _blcelc.iPcActorAnalog_MovementSpeed_set, None,
+                    "iPcActorAnalog.MovementSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcActorAnalog::SetMovementSpeed(float)")
+
+    TurningSpeed = _swig_property(None, _blcelc.iPcActorAnalog_TurningSpeed_set, None,
+                    "iPcActorAnalog.TurningSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcActorAnalog::SetTurningSpeed(float)")
+
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -2476,6 +2524,9 @@ class iPcCamera(cspace.iBase):
     DrawFlags = _swig_property(_blcelc.iPcCamera_DrawFlags_get, None, None,
                     "iPcCamera.DrawFlags -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iPcCamera::GetDrawFlags()")
 
+    PerspectiveCenter = _swig_property(None, fix_args(_blcelc.iPcCamera_SetPerspectiveCenter), None,
+                    "iPcCamera.PerspectiveCenter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcCamera::getmethod()\n\tset: void iPcCamera::SetPerspectiveCenter(...)")
+
     __swig_destroy__ = _blcelc.delete_iPcCamera
     __del__ = lambda self : None;
 iPcCamera_swigregister = _blcelc.iPcCamera_swigregister
@@ -2566,9 +2617,15 @@ class iPcDefaultCamera(iPcCamera):
                     "iPcDefaultCamera.PitchVelocity -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcDefaultCamera::GetPitchVelocity()\n\tset: void iPcDefaultCamera::SetPitchVelocity(float)")
 
 
+    Yaw = _swig_property(_blcelc.iPcDefaultCamera_GetYaw, fix_args(_blcelc.iPcDefaultCamera_SetYaw), None,
+                    "iPcDefaultCamera.Yaw -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcDefaultCamera::GetYaw()\n\tset: void iPcDefaultCamera::SetYaw(...)")
+
     YawVelocity = _swig_property(_blcelc.iPcDefaultCamera_YawVelocity_get, _blcelc.iPcDefaultCamera_YawVelocity_set, None,
                     "iPcDefaultCamera.YawVelocity -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcDefaultCamera::GetYawVelocity()\n\tset: void iPcDefaultCamera::SetYawVelocity(float)")
 
+
+    Distance = _swig_property(_blcelc.iPcDefaultCamera_GetDistance, fix_args(_blcelc.iPcDefaultCamera_SetDistance), None,
+                    "iPcDefaultCamera.Distance -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcDefaultCamera::GetDistance()\n\tset: void iPcDefaultCamera::SetDistance(...)")
 
     DistanceVelocity = _swig_property(_blcelc.iPcDefaultCamera_DistanceVelocity_get, _blcelc.iPcDefaultCamera_DistanceVelocity_set, None,
                     "iPcDefaultCamera.DistanceVelocity -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcDefaultCamera::GetDistanceVelocity()\n\tset: void iPcDefaultCamera::SetDistanceVelocity(float)")
@@ -2748,6 +2805,76 @@ class iPcNewCamera(iPcCamera):
     def GetTransform(*args): return _blcelc.iPcNewCamera_GetTransform(*args)
     def GetCameraMode(*args): return _blcelc.iPcNewCamera_GetCameraMode(*args)
     def Reset(*args): return _blcelc.iPcNewCamera_Reset(*args)
+    BaseOrigin = _swig_property(_blcelc.iPcNewCamera_BaseOrigin_get, None, None,
+                    "iPcNewCamera.BaseOrigin -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetBaseOrigin()")
+
+    BaseDir = _swig_property(_blcelc.iPcNewCamera_BaseDir_get, None, None,
+                    "iPcNewCamera.BaseDir -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetBaseDir()")
+
+    BaseUp = _swig_property(_blcelc.iPcNewCamera_BaseUp_get, None, None,
+                    "iPcNewCamera.BaseUp -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetBaseUp()")
+
+    BaseTrans = _swig_property(_blcelc.iPcNewCamera_BaseTrans_get, None, None,
+                    "iPcNewCamera.BaseTrans -> const csReversibleTransform&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csReversibleTransform& iPcNewCamera::GetBaseTrans()")
+
+    Origin = _swig_property(_blcelc.iPcNewCamera_Origin_get, None, None,
+                    "iPcNewCamera.Origin -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetOrigin()")
+
+    Target = _swig_property(_blcelc.iPcNewCamera_Target_get, None, None,
+                    "iPcNewCamera.Target -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetTarget()")
+
+    Up = _swig_property(_blcelc.iPcNewCamera_Up_get, None, None,
+                    "iPcNewCamera.Up -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetUp()")
+
+    TargetPositionOffset = _swig_property(None, _blcelc.iPcNewCamera_TargetPositionOffset_set, None,
+                    "iPcNewCamera.TargetPositionOffset (write only) -> const csVector3&\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcNewCamera::SetTargetPositionOffset(const csVector3&)")
+
+    CameraPositionOffset = _swig_property(None, _blcelc.iPcNewCamera_CameraPositionOffset_set, None,
+                    "iPcNewCamera.CameraPositionOffset (write only) -> const csVector3&\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcNewCamera::SetCameraPositionOffset(const csVector3&)")
+
+    SpringCoefficient = _swig_property(_blcelc.iPcNewCamera_SpringCoefficient_get, _blcelc.iPcNewCamera_SpringCoefficient_set, None,
+                    "iPcNewCamera.SpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetSpringCoefficient()\n\tset: void iPcNewCamera::SetSpringCoefficient(float)")
+
+
+    OriginSpringCoefficient = _swig_property(_blcelc.iPcNewCamera_OriginSpringCoefficient_get, _blcelc.iPcNewCamera_OriginSpringCoefficient_set, None,
+                    "iPcNewCamera.OriginSpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetOriginSpringCoefficient()\n\tset: void iPcNewCamera::SetOriginSpringCoefficient(float)")
+
+
+    TargetSpringCoefficient = _swig_property(_blcelc.iPcNewCamera_TargetSpringCoefficient_get, _blcelc.iPcNewCamera_TargetSpringCoefficient_set, None,
+                    "iPcNewCamera.TargetSpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetTargetSpringCoefficient()\n\tset: void iPcNewCamera::SetTargetSpringCoefficient(float)")
+
+
+    UpSpringCoefficient = _swig_property(_blcelc.iPcNewCamera_UpSpringCoefficient_get, _blcelc.iPcNewCamera_UpSpringCoefficient_set, None,
+                    "iPcNewCamera.UpSpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetUpSpringCoefficient()\n\tset: void iPcNewCamera::SetUpSpringCoefficient(float)")
+
+
+    CollisionDetection = _swig_property(_blcelc.iPcNewCamera_CollisionDetection_get, _blcelc.iPcNewCamera_CollisionDetection_set, None,
+                    "iPcNewCamera.CollisionDetection -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcNewCamera::GetCollisionDetection()\n\tset: void iPcNewCamera::SetCollisionDetection(bool)")
+
+
+    CollisionSpringCoefficient = _swig_property(_blcelc.iPcNewCamera_CollisionSpringCoefficient_get, _blcelc.iPcNewCamera_CollisionSpringCoefficient_set, None,
+                    "iPcNewCamera.CollisionSpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetCollisionSpringCoefficient()\n\tset: void iPcNewCamera::SetCollisionSpringCoefficient(float)")
+
+
+    TransitionSpringCoefficient = _swig_property(_blcelc.iPcNewCamera_TransitionSpringCoefficient_get, _blcelc.iPcNewCamera_TransitionSpringCoefficient_set, None,
+                    "iPcNewCamera.TransitionSpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetTransitionSpringCoefficient()\n\tset: void iPcNewCamera::SetTransitionSpringCoefficient(float)")
+
+
+    TransitionCutoffDistance = _swig_property(None, fix_args(_blcelc.iPcNewCamera_SetTransitionCutoffDistance), None,
+                    "iPcNewCamera.TransitionCutoffDistance -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcNewCamera::getmethod()\n\tset: void iPcNewCamera::SetTransitionCutoffDistance(...)")
+
+    TransitionCutoffOriginDistance = _swig_property(_blcelc.iPcNewCamera_TransitionCutoffOriginDistance_get, None, None,
+                    "iPcNewCamera.TransitionCutoffOriginDistance -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcNewCamera::GetTransitionCutoffOriginDistance()")
+
+    TransitionCutoffTargetDistance = _swig_property(_blcelc.iPcNewCamera_TransitionCutoffTargetDistance_get, None, None,
+                    "iPcNewCamera.TransitionCutoffTargetDistance -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcNewCamera::GetTransitionCutoffTargetDistance()")
+
+    CurrentCameraModeIndex = _swig_property(_blcelc.iPcNewCamera_CurrentCameraModeIndex_get, None, None,
+                    "iPcNewCamera.CurrentCameraModeIndex -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcNewCamera::GetCurrentCameraModeIndex()")
+
+    CameraMode = _swig_property(_blcelc.iPcNewCamera_GetCameraMode, None, None,
+                    "iPcNewCamera.CameraMode -> type\n\nThis is equivalent to calling the C++ cs method:\n\tget: iPcNewCamera::GetCameraMode()")
+
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -3019,6 +3146,15 @@ class iPcTrigger(cspace.iBase):
     def IsEnabled(*args): return _blcelc.iPcTrigger_IsEnabled(*args)
     def GetEntitiesInTrigger(*args): return _blcelc.iPcTrigger_GetEntitiesInTrigger(*args)
     def Check(*args): return _blcelc.iPcTrigger_Check(*args)
+    MonitorDelay = _swig_property(None, fix_args(_blcelc.iPcTrigger_SetMonitorDelay), None,
+                    "iPcTrigger.MonitorDelay -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcTrigger::getmethod()\n\tset: void iPcTrigger::SetMonitorDelay(...)")
+
+    Enabled = _swig_property(_blcelc.iPcTrigger_Enabled_get, None, None,
+                    "iPcTrigger.Enabled -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcTrigger::IsEnabled()")
+
+    EntitiesInTrigger = _swig_property(_blcelc.iPcTrigger_EntitiesInTrigger_get, None, None,
+                    "iPcTrigger.EntitiesInTrigger -> const csWeakRefArray<iCelEntity>&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csWeakRefArray<iCelEntity>& iPcTrigger::GetEntitiesInTrigger()")
+
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -3066,6 +3202,18 @@ class iPcSteer(cspace.iBase):
     def RandomBinomial(*args): return _blcelc.iPcSteer_RandomBinomial(*args)
     def SetDelayRecheck(*args): return _blcelc.iPcSteer_SetDelayRecheck(*args)
     def IsMoving(*args): return _blcelc.iPcSteer_IsMoving(*args)
+    Sector = _swig_property(_blcelc.iPcSteer_Sector_get, None, None,
+                    "iPcSteer.Sector -> iSector*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSector* iPcSteer::GetSector()")
+
+    Position = _swig_property(_blcelc.iPcSteer_Position_get, None, None,
+                    "iPcSteer.Position -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcSteer::GetPosition()")
+
+    DelayRecheck = _swig_property(None, _blcelc.iPcSteer_DelayRecheck_set, None,
+                    "iPcSteer.DelayRecheck (write only) -> int\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcSteer::SetDelayRecheck(int)")
+
+    Moving = _swig_property(_blcelc.iPcSteer_Moving_get, None, None,
+                    "iPcSteer.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcSteer::IsMoving()")
+
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -3110,6 +3258,21 @@ class iPcPathFinder(cspace.iBase):
     def StopTracking(*args): return _blcelc.iPcPathFinder_StopTracking(*args)
     def IsActive(*args): return _blcelc.iPcPathFinder_IsActive(*args)
     def SetGraph(*args): return _blcelc.iPcPathFinder_SetGraph(*args)
+    DelayRecheck = _swig_property(None, _blcelc.iPcPathFinder_DelayRecheck_set, None,
+                    "iPcPathFinder.DelayRecheck (write only) -> int\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcPathFinder::SetDelayRecheck(int)")
+
+    MinDistance = _swig_property(None, _blcelc.iPcPathFinder_MinDistance_set, None,
+                    "iPcPathFinder.MinDistance (write only) -> int\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcPathFinder::SetMinDistance(int)")
+
+    Position = _swig_property(_blcelc.iPcPathFinder_Position_get, None, None,
+                    "iPcPathFinder.Position -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcPathFinder::GetPosition()")
+
+    Active = _swig_property(_blcelc.iPcPathFinder_Active_get, None, None,
+                    "iPcPathFinder.Active -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcPathFinder::IsActive()")
+
+    Graph = _swig_property(None, _blcelc.iPcPathFinder_Graph_set, None,
+                    "iPcPathFinder.Graph (write only) -> iCelGraph*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcPathFinder::SetGraph(iCelGraph*)")
+
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -3155,6 +3318,22 @@ class iPcSpawn(cspace.iBase):
     def InhibitCount(*args): return _blcelc.iPcSpawn_InhibitCount(*args)
     def Spawn(*args): return _blcelc.iPcSpawn_Spawn(*args)
     def AddSpawnPosition(*args): return _blcelc.iPcSpawn_AddSpawnPosition(*args)
+    Enabled = _swig_property(_blcelc.iPcSpawn_Enabled_get, _blcelc.iPcSpawn_Enabled_set, None,
+                    "iPcSpawn.Enabled -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcSpawn::IsEnabled()\n\tset: void iPcSpawn::SetEnabled(bool)")
+
+
+    Timing = _swig_property(None, fix_args(_blcelc.iPcSpawn_SetTiming), None,
+                    "iPcSpawn.Timing -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcSpawn::getmethod()\n\tset: void iPcSpawn::SetTiming(...)")
+
+    EntityNameCounter = _swig_property(None, _blcelc.iPcSpawn_EntityNameCounter_set, None,
+                    "iPcSpawn.EntityNameCounter (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcSpawn::SetEntityNameCounter(bool)")
+
+    EntityNameCounterCounter = _swig_property(_blcelc.iPcSpawn_EntityNameCounterCounter_get, None, None,
+                    "iPcSpawn.EntityNameCounterCounter -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcSpawn::IsEntityNameCounterCounter()")
+
+    SpawnUniqueEnabled = _swig_property(_blcelc.iPcSpawn_SpawnUniqueEnabled_get, None, None,
+                    "iPcSpawn.SpawnUniqueEnabled -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcSpawn::IsSpawnUniqueEnabled()")
+
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -3684,6 +3863,10 @@ class iPcSoundSource(cspace.iBase):
                     "iPcSoundSource.SoundName -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcSoundSource::GetSoundName()\n\tset: void iPcSoundSource::SetSoundName(const char*)")
 
 
+    Mode = _swig_property(_blcelc.iPcSoundSource_Mode_get, _blcelc.iPcSoundSource_Mode_set, None,
+                    "iPcSoundSource.Mode -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcSoundSource::GetMode()\n\tset: void iPcSoundSource::SetMode(const char*)")
+
+
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -3962,6 +4145,9 @@ class iPcCraftController(cspace.iBase):
     MaxPitch = _swig_property(None, _blcelc.iPcCraftController_MaxPitch_set, None,
                     "iPcCraftController.MaxPitch (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetMaxPitch(float)")
 
+    Roll = _swig_property(None, _blcelc.iPcCraftController_Roll_set, None,
+                    "iPcCraftController.Roll (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetRoll(float)")
+
     ThrustForce = _swig_property(None, _blcelc.iPcCraftController_ThrustForce_set, None,
                     "iPcCraftController.ThrustForce (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetThrustForce(float)")
 
@@ -4108,6 +4294,30 @@ class iPcWheeled(cspace.iBase):
                     "iPcWheeled.TankMode -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::GetTankMode()\n\tset: void iPcWheeled::SetTankMode(bool)")
 
 
+    ABSEnabled = _swig_property(_blcelc.iPcWheeled_ABSEnabled_get, _blcelc.iPcWheeled_ABSEnabled_set, None,
+                    "iPcWheeled.ABSEnabled -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::GetABSEnabled()\n\tset: void iPcWheeled::SetABSEnabled(bool)")
+
+
+    Differential = _swig_property(_blcelc.iPcWheeled_Differential_get, _blcelc.iPcWheeled_Differential_set, None,
+                    "iPcWheeled.Differential -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::GetDifferential()\n\tset: void iPcWheeled::SetDifferential(bool)")
+
+
+    AntiSway = _swig_property(_blcelc.iPcWheeled_AntiSway_get, _blcelc.iPcWheeled_AntiSway_set, None,
+                    "iPcWheeled.AntiSway -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::GetAntiSway()\n\tset: void iPcWheeled::SetAntiSway(bool)")
+
+
+    AntiSwayFactor = _swig_property(_blcelc.iPcWheeled_AntiSwayFactor_get, _blcelc.iPcWheeled_AntiSwayFactor_set, None,
+                    "iPcWheeled.AntiSwayFactor -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcWheeled::GetAntiSwayFactor()\n\tset: void iPcWheeled::SetAntiSwayFactor(float)")
+
+
+    AntiSwayLimit = _swig_property(_blcelc.iPcWheeled_AntiSwayLimit_get, _blcelc.iPcWheeled_AntiSwayLimit_set, None,
+                    "iPcWheeled.AntiSwayLimit -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcWheeled::GetAntiSwayLimit()\n\tset: void iPcWheeled::SetAntiSwayLimit(float)")
+
+
+    ABS = _swig_property(_blcelc.iPcWheeled_ABS_get, _blcelc.iPcWheeled_ABS_set, None,
+                    "iPcWheeled.ABS -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::GetABS()\n\tset: void iPcWheeled::SetABS(bool)")
+
+
     OuterWheelSteerPreset = _swig_property(None, _blcelc.iPcWheeled_OuterWheelSteerPreset_set, None,
                     "iPcWheeled.OuterWheelSteerPreset (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcWheeled::SetOuterWheelSteerPreset(float)")
 
@@ -4116,6 +4326,12 @@ class iPcWheeled(cspace.iBase):
 
     RearWheelPreset = _swig_property(None, fix_args(_blcelc.iPcWheeled_SetRearWheelPreset), None,
                     "iPcWheeled.RearWheelPreset -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcWheeled::getmethod()\n\tset: void iPcWheeled::SetRearWheelPreset(...)")
+
+    AcceleratorAmount = _swig_property(_blcelc.iPcWheeled_AcceleratorAmount_get, None, None,
+                    "iPcWheeled.AcceleratorAmount -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcWheeled::GetAcceleratorAmount()")
+
+    BrakeAmount = _swig_property(_blcelc.iPcWheeled_BrakeAmount_get, None, None,
+                    "iPcWheeled.BrakeAmount -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcWheeled::GetBrakeAmount()")
 
     Handbraking = _swig_property(_blcelc.iPcWheeled_Handbraking_get, _blcelc.iPcWheeled_Handbraking_set, None,
                     "iPcWheeled.Handbraking -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::IsHandbraking()\n\tset: void iPcWheeled::Handbrake(bool)")
@@ -4127,6 +4343,9 @@ class iPcWheeled(cspace.iBase):
 
     BrakeForce = _swig_property(None, _blcelc.iPcWheeled_BrakeForce_set, None,
                     "iPcWheeled.BrakeForce (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcWheeled::SetBrakeForce(float)")
+
+    Speed = _swig_property(_blcelc.iPcWheeled_Speed_get, None, None,
+                    "iPcWheeled.Speed -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcWheeled::GetSpeed()")
 
     AutoTransmission = _swig_property(None, _blcelc.iPcWheeled_AutoTransmission_set, None,
                     "iPcWheeled.AutoTransmission (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcWheeled::SetAutoTransmission(bool)")
@@ -4144,7 +4363,14 @@ class iPcWheeled(cspace.iBase):
                     "iPcWheeled.BodyGroup -> iBodyGroup*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iBodyGroup* iPcWheeled::GetBodyGroup()")
 
     WheelCount = _swig_property(_blcelc.iPcWheeled_WheelCount_get, None, None,
-                    "iPcWheeled.WheelCount -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iPcWheeled::GetWheelCount()")
+                    "iPcWheeled.WheelCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcWheeled::GetWheelCount()")
+
+    AverageWheelSpin = _swig_property(_blcelc.iPcWheeled_AverageWheelSpin_get, None, None,
+                    "iPcWheeled.AverageWheelSpin -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcWheeled::GetAverageWheelSpin()")
+
+    CollisionCallbackEnabled = _swig_property(_blcelc.iPcWheeled_CollisionCallbackEnabled_get, _blcelc.iPcWheeled_CollisionCallbackEnabled_set, None,
+                    "iPcWheeled.CollisionCallbackEnabled -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::IsCollisionCallbackEnabled()\n\tset: void iPcWheeled::SetCollisionCallbackEnabled(bool)")
+
 
     _PC = None
     def __getattr__(self,attr):
@@ -4191,23 +4417,29 @@ class iPcMeshDeform(cspace.iBase):
     def GetMaxFrequency(*args): return _blcelc.iPcMeshDeform_GetMaxFrequency(*args)
     def GetMaxDeform(*args): return _blcelc.iPcMeshDeform_GetMaxDeform(*args)
     def GetRadius(*args): return _blcelc.iPcMeshDeform_GetRadius(*args)
-    Mesh = _swig_property(_blcelc.iPcMeshDeform_GetMesh, fix_args(_blcelc.iPcMeshDeform_SetMesh), None,
-                    "iPcMeshDeform.Mesh -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMesh()\n\tset: void iPcMeshDeform::SetMesh(...)")
+    Mesh = _swig_property(_blcelc.iPcMeshDeform_Mesh_get, _blcelc.iPcMeshDeform_Mesh_set, None,
+                    "iPcMeshDeform.Mesh -> iMeshWrapper*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iMeshWrapper* iPcMeshDeform::GetMesh()\n\tset: void iPcMeshDeform::SetMesh(iMeshWrapper*)")
 
-    Noise = _swig_property(_blcelc.iPcMeshDeform_GetNoise, fix_args(_blcelc.iPcMeshDeform_SetNoise), None,
-                    "iPcMeshDeform.Noise -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetNoise()\n\tset: void iPcMeshDeform::SetNoise(...)")
 
-    Radius = _swig_property(_blcelc.iPcMeshDeform_GetRadius, fix_args(_blcelc.iPcMeshDeform_SetRadius), None,
-                    "iPcMeshDeform.Radius -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetRadius()\n\tset: void iPcMeshDeform::SetRadius(...)")
+    DeformFactor = _swig_property(_blcelc.iPcMeshDeform_DeformFactor_get, _blcelc.iPcMeshDeform_DeformFactor_set, None,
+                    "iPcMeshDeform.DeformFactor -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshDeform::GetDeformFactor()\n\tset: void iPcMeshDeform::SetDeformFactor(float)")
 
-    MaxFrequency = _swig_property(_blcelc.iPcMeshDeform_GetMaxFrequency, fix_args(_blcelc.iPcMeshDeform_SetMaxFrequency), None,
-                    "iPcMeshDeform.MaxFrequency -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMaxFrequency()\n\tset: void iPcMeshDeform::SetMaxFrequency(...)")
 
-    MaxDeform = _swig_property(_blcelc.iPcMeshDeform_GetMaxDeform, fix_args(_blcelc.iPcMeshDeform_SetMaxDeform), None,
-                    "iPcMeshDeform.MaxDeform -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMaxDeform()\n\tset: void iPcMeshDeform::SetMaxDeform(...)")
+    Noise = _swig_property(_blcelc.iPcMeshDeform_Noise_get, _blcelc.iPcMeshDeform_Noise_set, None,
+                    "iPcMeshDeform.Noise -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshDeform::GetNoise()\n\tset: void iPcMeshDeform::SetNoise(float)")
 
-    DeformFactor = _swig_property(_blcelc.iPcMeshDeform_GetDeformFactor, fix_args(_blcelc.iPcMeshDeform_SetDeformFactor), None,
-                    "iPcMeshDeform.DeformFactor -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetDeformFactor()\n\tset: void iPcMeshDeform::SetDeformFactor(...)")
+
+    MaxFrequency = _swig_property(_blcelc.iPcMeshDeform_MaxFrequency_get, _blcelc.iPcMeshDeform_MaxFrequency_set, None,
+                    "iPcMeshDeform.MaxFrequency -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshDeform::GetMaxFrequency()\n\tset: void iPcMeshDeform::SetMaxFrequency(float)")
+
+
+    MaxDeform = _swig_property(_blcelc.iPcMeshDeform_MaxDeform_get, _blcelc.iPcMeshDeform_MaxDeform_set, None,
+                    "iPcMeshDeform.MaxDeform -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshDeform::GetMaxDeform()\n\tset: void iPcMeshDeform::SetMaxDeform(float)")
+
+
+    Radius = _swig_property(_blcelc.iPcMeshDeform_Radius_get, _blcelc.iPcMeshDeform_Radius_set, None,
+                    "iPcMeshDeform.Radius -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshDeform::GetRadius()\n\tset: void iPcMeshDeform::SetRadius(float)")
+
 
     _PC = None
     def __getattr__(self,attr):
@@ -4352,6 +4584,9 @@ class iQuestTriggerType(cspace.iBase):
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestTriggerType_GetName(*args)
     def CreateTriggerFactory(*args): return _blcelc.iQuestTriggerType_CreateTriggerFactory(*args)
+    Name = _swig_property(_blcelc.iQuestTriggerType_Name_get, None, None,
+                    "iQuestTriggerType.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestTriggerType::GetName()")
+
     __swig_destroy__ = _blcelc.delete_iQuestTriggerType
     __del__ = lambda self : None;
 iQuestTriggerType_swigregister = _blcelc.iQuestTriggerType_swigregister
@@ -4384,6 +4619,9 @@ class iQuestRewardType(cspace.iBase):
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestRewardType_GetName(*args)
     def CreateRewardFactory(*args): return _blcelc.iQuestRewardType_CreateRewardFactory(*args)
+    Name = _swig_property(_blcelc.iQuestRewardType_Name_get, None, None,
+                    "iQuestRewardType.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestRewardType::GetName()")
+
     __swig_destroy__ = _blcelc.delete_iQuestRewardType
     __del__ = lambda self : None;
 iQuestRewardType_swigregister = _blcelc.iQuestRewardType_swigregister
@@ -4419,6 +4657,9 @@ class iQuestSeqOpType(cspace.iBase):
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestSeqOpType_GetName(*args)
     def CreateSeqOpFactory(*args): return _blcelc.iQuestSeqOpType_CreateSeqOpFactory(*args)
+    Name = _swig_property(_blcelc.iQuestSeqOpType_Name_get, None, None,
+                    "iQuestSeqOpType.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestSeqOpType::GetName()")
+
     __swig_destroy__ = _blcelc.delete_iQuestSeqOpType
     __del__ = lambda self : None;
 iQuestSeqOpType_swigregister = _blcelc.iQuestSeqOpType_swigregister
@@ -4445,6 +4686,12 @@ class iQuestSequence(cspace.iBase):
     def IsRunning(*args): return _blcelc.iQuestSequence_IsRunning(*args)
     def AddSequenceCallback(*args): return _blcelc.iQuestSequence_AddSequenceCallback(*args)
     def RemoveSequenceCallback(*args): return _blcelc.iQuestSequence_RemoveSequenceCallback(*args)
+    Name = _swig_property(_blcelc.iQuestSequence_Name_get, None, None,
+                    "iQuestSequence.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestSequence::GetName()")
+
+    Running = _swig_property(_blcelc.iQuestSequence_Running_get, None, None,
+                    "iQuestSequence.Running -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iQuestSequence::IsRunning()")
+
     __swig_destroy__ = _blcelc.delete_iQuestSequence
     __del__ = lambda self : None;
 iQuestSequence_swigregister = _blcelc.iQuestSequence_swigregister
@@ -4459,6 +4706,9 @@ class iQuest(cspace.iBase):
     def LoadState(*args): return _blcelc.iQuest_LoadState(*args)
     def SaveState(*args): return _blcelc.iQuest_SaveState(*args)
     def FindSequence(*args): return _blcelc.iQuest_FindSequence(*args)
+    CurrentState = _swig_property(_blcelc.iQuest_CurrentState_get, None, None,
+                    "iQuest.CurrentState -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuest::GetCurrentState()")
+
     __swig_destroy__ = _blcelc.delete_iQuest
     __del__ = lambda self : None;
 iQuest_swigregister = _blcelc.iQuest_swigregister
@@ -4470,6 +4720,9 @@ class iQuestTriggerResponseFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetTriggerFactory(*args): return _blcelc.iQuestTriggerResponseFactory_SetTriggerFactory(*args)
     def AddRewardFactory(*args): return _blcelc.iQuestTriggerResponseFactory_AddRewardFactory(*args)
+    TriggerFactory = _swig_property(None, _blcelc.iQuestTriggerResponseFactory_TriggerFactory_set, None,
+                    "iQuestTriggerResponseFactory.TriggerFactory (write only) -> iQuestTriggerFactory*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iQuestTriggerResponseFactory::SetTriggerFactory(iQuestTriggerFactory*)")
+
     __swig_destroy__ = _blcelc.delete_iQuestTriggerResponseFactory
     __del__ = lambda self : None;
 iQuestTriggerResponseFactory_swigregister = _blcelc.iQuestTriggerResponseFactory_swigregister
@@ -4481,6 +4734,9 @@ class iQuestStateFactory(cspace.iBase):
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestStateFactory_GetName(*args)
     def CreateTriggerResponseFactory(*args): return _blcelc.iQuestStateFactory_CreateTriggerResponseFactory(*args)
+    Name = _swig_property(_blcelc.iQuestStateFactory_Name_get, None, None,
+                    "iQuestStateFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestStateFactory::GetName()")
+
     __swig_destroy__ = _blcelc.delete_iQuestStateFactory
     __del__ = lambda self : None;
 iQuestStateFactory_swigregister = _blcelc.iQuestStateFactory_swigregister
@@ -4494,6 +4750,9 @@ class iQuestSequenceFactory(cspace.iBase):
     def Load(*args): return _blcelc.iQuestSequenceFactory_Load(*args)
     def AddSeqOpFactory(*args): return _blcelc.iQuestSequenceFactory_AddSeqOpFactory(*args)
     def AddDelay(*args): return _blcelc.iQuestSequenceFactory_AddDelay(*args)
+    Name = _swig_property(_blcelc.iQuestSequenceFactory_Name_get, None, None,
+                    "iQuestSequenceFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestSequenceFactory::GetName()")
+
     __swig_destroy__ = _blcelc.delete_iQuestSequenceFactory
     __del__ = lambda self : None;
 iQuestSequenceFactory_swigregister = _blcelc.iQuestSequenceFactory_swigregister
@@ -4513,6 +4772,9 @@ class iQuestFactory(cspace.iBase):
     def GetDefaultParameter(*args): return _blcelc.iQuestFactory_GetDefaultParameter(*args)
     def SetDefaultParameter(*args): return _blcelc.iQuestFactory_SetDefaultParameter(*args)
     def ClearDefaultParameters(*args): return _blcelc.iQuestFactory_ClearDefaultParameters(*args)
+    Name = _swig_property(_blcelc.iQuestFactory_Name_get, None, None,
+                    "iQuestFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestFactory::GetName()")
+
     __swig_destroy__ = _blcelc.delete_iQuestFactory
     __del__ = lambda self : None;
 iQuestFactory_swigregister = _blcelc.iQuestFactory_swigregister
@@ -4548,6 +4810,30 @@ class iQuestManager(cspace.iBase):
     def SetTriggerTrigger(*args): return _blcelc.iQuestManager_SetTriggerTrigger(*args)
     def SetWatchTrigger(*args): return _blcelc.iQuestManager_SetWatchTrigger(*args)
     def SetOperationTrigger(*args): return _blcelc.iQuestManager_SetOperationTrigger(*args)
+    TimeoutTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetTimeoutTrigger), None,
+                    "iQuestManager.TimeoutTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetTimeoutTrigger(...)")
+
+    EnterSectorTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetEnterSectorTrigger), None,
+                    "iQuestManager.EnterSectorTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetEnterSectorTrigger(...)")
+
+    MeshEnterSectorTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetMeshEnterSectorTrigger), None,
+                    "iQuestManager.MeshEnterSectorTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetMeshEnterSectorTrigger(...)")
+
+    SequenceFinishTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetSequenceFinishTrigger), None,
+                    "iQuestManager.SequenceFinishTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetSequenceFinishTrigger(...)")
+
+    PropertyChangeTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetPropertyChangeTrigger), None,
+                    "iQuestManager.PropertyChangeTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetPropertyChangeTrigger(...)")
+
+    TriggerTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetTriggerTrigger), None,
+                    "iQuestManager.TriggerTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetTriggerTrigger(...)")
+
+    WatchTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetWatchTrigger), None,
+                    "iQuestManager.WatchTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetWatchTrigger(...)")
+
+    OperationTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetOperationTrigger), None,
+                    "iQuestManager.OperationTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetOperationTrigger(...)")
+
     scfGetVersion = staticmethod(_blcelc.iQuestManager_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iQuestManager
     __del__ = lambda self : None;
@@ -4560,6 +4846,9 @@ class iTimeoutQuestTriggerFactory(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetTimeoutParameter(*args): return _blcelc.iTimeoutQuestTriggerFactory_SetTimeoutParameter(*args)
+    TimeoutParameter = _swig_property(None, _blcelc.iTimeoutQuestTriggerFactory_TimeoutParameter_set, None,
+                    "iTimeoutQuestTriggerFactory.TimeoutParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iTimeoutQuestTriggerFactory::SetTimeoutParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iTimeoutQuestTriggerFactory
     __del__ = lambda self : None;
 iTimeoutQuestTriggerFactory_swigregister = _blcelc.iTimeoutQuestTriggerFactory_swigregister
@@ -4574,6 +4863,21 @@ class iPropertyChangeQuestTriggerFactory(cspace.iBase):
     def SetValueParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetValueParameter(*args)
     def SetOperationParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetOperationParameter(*args)
     def SetOnChangeOnly(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetOnChangeOnly(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iPropertyChangeQuestTriggerFactory_SetEntityParameter), None,
+                    "iPropertyChangeQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPropertyChangeQuestTriggerFactory::getmethod()\n\tset: void iPropertyChangeQuestTriggerFactory::SetEntityParameter(...)")
+
+    PropertyParameter = _swig_property(None, _blcelc.iPropertyChangeQuestTriggerFactory_PropertyParameter_set, None,
+                    "iPropertyChangeQuestTriggerFactory.PropertyParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyChangeQuestTriggerFactory::SetPropertyParameter(const char*)")
+
+    ValueParameter = _swig_property(None, _blcelc.iPropertyChangeQuestTriggerFactory_ValueParameter_set, None,
+                    "iPropertyChangeQuestTriggerFactory.ValueParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyChangeQuestTriggerFactory::SetValueParameter(const char*)")
+
+    OperationParameter = _swig_property(None, _blcelc.iPropertyChangeQuestTriggerFactory_OperationParameter_set, None,
+                    "iPropertyChangeQuestTriggerFactory.OperationParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyChangeQuestTriggerFactory::SetOperationParameter(const char*)")
+
+    OnChangeOnly = _swig_property(None, _blcelc.iPropertyChangeQuestTriggerFactory_OnChangeOnly_set, None,
+                    "iPropertyChangeQuestTriggerFactory.OnChangeOnly (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyChangeQuestTriggerFactory::SetOnChangeOnly(bool)")
+
     __swig_destroy__ = _blcelc.delete_iPropertyChangeQuestTriggerFactory
     __del__ = lambda self : None;
 iPropertyChangeQuestTriggerFactory_swigregister = _blcelc.iPropertyChangeQuestTriggerFactory_swigregister
@@ -4584,6 +4888,9 @@ class iMeshSelectQuestTriggerFactory(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iMeshSelectQuestTriggerFactory_SetEntityParameter(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iMeshSelectQuestTriggerFactory_SetEntityParameter), None,
+                    "iMeshSelectQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iMeshSelectQuestTriggerFactory::getmethod()\n\tset: void iMeshSelectQuestTriggerFactory::SetEntityParameter(...)")
+
     __swig_destroy__ = _blcelc.delete_iMeshSelectQuestTriggerFactory
     __del__ = lambda self : None;
 iMeshSelectQuestTriggerFactory_swigregister = _blcelc.iMeshSelectQuestTriggerFactory_swigregister
@@ -4595,6 +4902,12 @@ class iInventoryQuestTriggerFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iInventoryQuestTriggerFactory_SetEntityParameter(*args)
     def SetChildEntityParameter(*args): return _blcelc.iInventoryQuestTriggerFactory_SetChildEntityParameter(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iInventoryQuestTriggerFactory_SetEntityParameter), None,
+                    "iInventoryQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iInventoryQuestTriggerFactory::getmethod()\n\tset: void iInventoryQuestTriggerFactory::SetEntityParameter(...)")
+
+    ChildEntityParameter = _swig_property(None, _blcelc.iInventoryQuestTriggerFactory_ChildEntityParameter_set, None,
+                    "iInventoryQuestTriggerFactory.ChildEntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iInventoryQuestTriggerFactory::SetChildEntityParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iInventoryQuestTriggerFactory
     __del__ = lambda self : None;
 iInventoryQuestTriggerFactory_swigregister = _blcelc.iInventoryQuestTriggerFactory_swigregister
@@ -4606,6 +4919,12 @@ class iEnterSectorQuestTriggerFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iEnterSectorQuestTriggerFactory_SetEntityParameter(*args)
     def SetSectorParameter(*args): return _blcelc.iEnterSectorQuestTriggerFactory_SetSectorParameter(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iEnterSectorQuestTriggerFactory_SetEntityParameter), None,
+                    "iEnterSectorQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iEnterSectorQuestTriggerFactory::getmethod()\n\tset: void iEnterSectorQuestTriggerFactory::SetEntityParameter(...)")
+
+    SectorParameter = _swig_property(None, _blcelc.iEnterSectorQuestTriggerFactory_SectorParameter_set, None,
+                    "iEnterSectorQuestTriggerFactory.SectorParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iEnterSectorQuestTriggerFactory::SetSectorParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iEnterSectorQuestTriggerFactory
     __del__ = lambda self : None;
 iEnterSectorQuestTriggerFactory_swigregister = _blcelc.iEnterSectorQuestTriggerFactory_swigregister
@@ -4617,6 +4936,9 @@ class iOperationQuestTriggerFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetOperationParameter(*args): return _blcelc.iOperationQuestTriggerFactory_SetOperationParameter(*args)
     def GetTriggerFactories(*args): return _blcelc.iOperationQuestTriggerFactory_GetTriggerFactories(*args)
+    OperationParameter = _swig_property(None, _blcelc.iOperationQuestTriggerFactory_OperationParameter_set, None,
+                    "iOperationQuestTriggerFactory.OperationParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iOperationQuestTriggerFactory::SetOperationParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iOperationQuestTriggerFactory
     __del__ = lambda self : None;
 iOperationQuestTriggerFactory_swigregister = _blcelc.iOperationQuestTriggerFactory_swigregister
@@ -4628,6 +4950,12 @@ class iSequenceFinishQuestTriggerFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iSequenceFinishQuestTriggerFactory_SetEntityParameter(*args)
     def SetSequenceParameter(*args): return _blcelc.iSequenceFinishQuestTriggerFactory_SetSequenceParameter(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iSequenceFinishQuestTriggerFactory_SetEntityParameter), None,
+                    "iSequenceFinishQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iSequenceFinishQuestTriggerFactory::getmethod()\n\tset: void iSequenceFinishQuestTriggerFactory::SetEntityParameter(...)")
+
+    SequenceParameter = _swig_property(None, _blcelc.iSequenceFinishQuestTriggerFactory_SequenceParameter_set, None,
+                    "iSequenceFinishQuestTriggerFactory.SequenceParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceFinishQuestTriggerFactory::SetSequenceParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iSequenceFinishQuestTriggerFactory
     __del__ = lambda self : None;
 iSequenceFinishQuestTriggerFactory_swigregister = _blcelc.iSequenceFinishQuestTriggerFactory_swigregister
@@ -4639,6 +4967,9 @@ class iTriggerQuestTriggerFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iTriggerQuestTriggerFactory_SetEntityParameter(*args)
     def EnableLeave(*args): return _blcelc.iTriggerQuestTriggerFactory_EnableLeave(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iTriggerQuestTriggerFactory_SetEntityParameter), None,
+                    "iTriggerQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iTriggerQuestTriggerFactory::getmethod()\n\tset: void iTriggerQuestTriggerFactory::SetEntityParameter(...)")
+
     __swig_destroy__ = _blcelc.delete_iTriggerQuestTriggerFactory
     __del__ = lambda self : None;
 iTriggerQuestTriggerFactory_swigregister = _blcelc.iTriggerQuestTriggerFactory_swigregister
@@ -4650,6 +4981,12 @@ class iMessageQuestTriggerFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iMessageQuestTriggerFactory_SetEntityParameter(*args)
     def SetMaskParameter(*args): return _blcelc.iMessageQuestTriggerFactory_SetMaskParameter(*args)
+    EntityParameter = _swig_property(None, _blcelc.iMessageQuestTriggerFactory_EntityParameter_set, None,
+                    "iMessageQuestTriggerFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iMessageQuestTriggerFactory::SetEntityParameter(const char*)")
+
+    MaskParameter = _swig_property(None, _blcelc.iMessageQuestTriggerFactory_MaskParameter_set, None,
+                    "iMessageQuestTriggerFactory.MaskParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iMessageQuestTriggerFactory::SetMaskParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iMessageQuestTriggerFactory
     __del__ = lambda self : None;
 iMessageQuestTriggerFactory_swigregister = _blcelc.iMessageQuestTriggerFactory_swigregister
@@ -4664,6 +5001,21 @@ class iWatchQuestTriggerFactory(cspace.iBase):
     def SetChecktimeParameter(*args): return _blcelc.iWatchQuestTriggerFactory_SetChecktimeParameter(*args)
     def SetRadiusParameter(*args): return _blcelc.iWatchQuestTriggerFactory_SetRadiusParameter(*args)
     def SetOffsetParameter(*args): return _blcelc.iWatchQuestTriggerFactory_SetOffsetParameter(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iWatchQuestTriggerFactory_SetEntityParameter), None,
+                    "iWatchQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iWatchQuestTriggerFactory::getmethod()\n\tset: void iWatchQuestTriggerFactory::SetEntityParameter(...)")
+
+    TargetEntityParameter = _swig_property(None, fix_args(_blcelc.iWatchQuestTriggerFactory_SetTargetEntityParameter), None,
+                    "iWatchQuestTriggerFactory.TargetEntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iWatchQuestTriggerFactory::getmethod()\n\tset: void iWatchQuestTriggerFactory::SetTargetEntityParameter(...)")
+
+    ChecktimeParameter = _swig_property(None, _blcelc.iWatchQuestTriggerFactory_ChecktimeParameter_set, None,
+                    "iWatchQuestTriggerFactory.ChecktimeParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iWatchQuestTriggerFactory::SetChecktimeParameter(const char*)")
+
+    RadiusParameter = _swig_property(None, _blcelc.iWatchQuestTriggerFactory_RadiusParameter_set, None,
+                    "iWatchQuestTriggerFactory.RadiusParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iWatchQuestTriggerFactory::SetRadiusParameter(const char*)")
+
+    OffsetParameter = _swig_property(None, fix_args(_blcelc.iWatchQuestTriggerFactory_SetOffsetParameter), None,
+                    "iWatchQuestTriggerFactory.OffsetParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iWatchQuestTriggerFactory::getmethod()\n\tset: void iWatchQuestTriggerFactory::SetOffsetParameter(...)")
+
     __swig_destroy__ = _blcelc.delete_iWatchQuestTriggerFactory
     __del__ = lambda self : None;
 iWatchQuestTriggerFactory_swigregister = _blcelc.iWatchQuestTriggerFactory_swigregister
@@ -4674,6 +5026,9 @@ class iDebugPrintQuestRewardFactory(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetMessageParameter(*args): return _blcelc.iDebugPrintQuestRewardFactory_SetMessageParameter(*args)
+    MessageParameter = _swig_property(None, _blcelc.iDebugPrintQuestRewardFactory_MessageParameter_set, None,
+                    "iDebugPrintQuestRewardFactory.MessageParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iDebugPrintQuestRewardFactory::SetMessageParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iDebugPrintQuestRewardFactory
     __del__ = lambda self : None;
 iDebugPrintQuestRewardFactory_swigregister = _blcelc.iDebugPrintQuestRewardFactory_swigregister
@@ -4687,6 +5042,18 @@ class iNewStateQuestRewardFactory(cspace.iBase):
     def SetEntityParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetEntityParameter(*args)
     def SetTagParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetTagParameter(*args)
     def SetClassParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetClassParameter(*args)
+    StateParameter = _swig_property(None, _blcelc.iNewStateQuestRewardFactory_StateParameter_set, None,
+                    "iNewStateQuestRewardFactory.StateParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iNewStateQuestRewardFactory::SetStateParameter(const char*)")
+
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iNewStateQuestRewardFactory_SetEntityParameter), None,
+                    "iNewStateQuestRewardFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iNewStateQuestRewardFactory::getmethod()\n\tset: void iNewStateQuestRewardFactory::SetEntityParameter(...)")
+
+    TagParameter = _swig_property(None, _blcelc.iNewStateQuestRewardFactory_TagParameter_set, None,
+                    "iNewStateQuestRewardFactory.TagParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iNewStateQuestRewardFactory::SetTagParameter(const char*)")
+
+    ClassParameter = _swig_property(None, _blcelc.iNewStateQuestRewardFactory_ClassParameter_set, None,
+                    "iNewStateQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iNewStateQuestRewardFactory::SetClassParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iNewStateQuestRewardFactory
     __del__ = lambda self : None;
 iNewStateQuestRewardFactory_swigregister = _blcelc.iNewStateQuestRewardFactory_swigregister
@@ -4706,6 +5073,36 @@ class iChangePropertyQuestRewardFactory(cspace.iBase):
     def SetBoolParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetBoolParameter(*args)
     def SetDiffParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetDiffParameter(*args)
     def SetToggle(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetToggle(*args)
+    EntityParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_EntityParameter_set, None,
+                    "iChangePropertyQuestRewardFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetEntityParameter(const char*)")
+
+    ClassParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_ClassParameter_set, None,
+                    "iChangePropertyQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetClassParameter(const char*)")
+
+    PCParameter = _swig_property(None, fix_args(_blcelc.iChangePropertyQuestRewardFactory_SetPCParameter), None,
+                    "iChangePropertyQuestRewardFactory.PCParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iChangePropertyQuestRewardFactory::getmethod()\n\tset: void iChangePropertyQuestRewardFactory::SetPCParameter(...)")
+
+    PropertyParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_PropertyParameter_set, None,
+                    "iChangePropertyQuestRewardFactory.PropertyParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetPropertyParameter(const char*)")
+
+    StringParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_StringParameter_set, None,
+                    "iChangePropertyQuestRewardFactory.StringParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetStringParameter(const char*)")
+
+    LongParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_LongParameter_set, None,
+                    "iChangePropertyQuestRewardFactory.LongParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetLongParameter(const char*)")
+
+    FloatParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_FloatParameter_set, None,
+                    "iChangePropertyQuestRewardFactory.FloatParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetFloatParameter(const char*)")
+
+    BoolParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_BoolParameter_set, None,
+                    "iChangePropertyQuestRewardFactory.BoolParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetBoolParameter(const char*)")
+
+    DiffParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_DiffParameter_set, None,
+                    "iChangePropertyQuestRewardFactory.DiffParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetDiffParameter(const char*)")
+
+    Toggle = _swig_property(None, fix_args(_blcelc.iChangePropertyQuestRewardFactory_SetToggle), None,
+                    "iChangePropertyQuestRewardFactory.Toggle -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iChangePropertyQuestRewardFactory::getmethod()\n\tset: void iChangePropertyQuestRewardFactory::SetToggle(...)")
+
     __swig_destroy__ = _blcelc.delete_iChangePropertyQuestRewardFactory
     __del__ = lambda self : None;
 iChangePropertyQuestRewardFactory_swigregister = _blcelc.iChangePropertyQuestRewardFactory_swigregister
@@ -4717,6 +5114,12 @@ class iInventoryQuestRewardFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iInventoryQuestRewardFactory_SetEntityParameter(*args)
     def SetChildEntityParameter(*args): return _blcelc.iInventoryQuestRewardFactory_SetChildEntityParameter(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iInventoryQuestRewardFactory_SetEntityParameter), None,
+                    "iInventoryQuestRewardFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iInventoryQuestRewardFactory::getmethod()\n\tset: void iInventoryQuestRewardFactory::SetEntityParameter(...)")
+
+    ChildEntityParameter = _swig_property(None, fix_args(_blcelc.iInventoryQuestRewardFactory_SetChildEntityParameter), None,
+                    "iInventoryQuestRewardFactory.ChildEntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iInventoryQuestRewardFactory::getmethod()\n\tset: void iInventoryQuestRewardFactory::SetChildEntityParameter(...)")
+
     __swig_destroy__ = _blcelc.delete_iInventoryQuestRewardFactory
     __del__ = lambda self : None;
 iInventoryQuestRewardFactory_swigregister = _blcelc.iInventoryQuestRewardFactory_swigregister
@@ -4728,6 +5131,12 @@ class iCsSequenceQuestRewardFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetSequenceParameter(*args): return _blcelc.iCsSequenceQuestRewardFactory_SetSequenceParameter(*args)
     def SetDelayParameter(*args): return _blcelc.iCsSequenceQuestRewardFactory_SetDelayParameter(*args)
+    SequenceParameter = _swig_property(None, _blcelc.iCsSequenceQuestRewardFactory_SequenceParameter_set, None,
+                    "iCsSequenceQuestRewardFactory.SequenceParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iCsSequenceQuestRewardFactory::SetSequenceParameter(const char*)")
+
+    DelayParameter = _swig_property(None, _blcelc.iCsSequenceQuestRewardFactory_DelayParameter_set, None,
+                    "iCsSequenceQuestRewardFactory.DelayParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iCsSequenceQuestRewardFactory::SetDelayParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iCsSequenceQuestRewardFactory
     __del__ = lambda self : None;
 iCsSequenceQuestRewardFactory_swigregister = _blcelc.iCsSequenceQuestRewardFactory_swigregister
@@ -4742,6 +5151,21 @@ class iSequenceQuestRewardFactory(cspace.iBase):
     def SetClassParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetClassParameter(*args)
     def SetSequenceParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetSequenceParameter(*args)
     def SetDelayParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetDelayParameter(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iSequenceQuestRewardFactory_SetEntityParameter), None,
+                    "iSequenceQuestRewardFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iSequenceQuestRewardFactory::getmethod()\n\tset: void iSequenceQuestRewardFactory::SetEntityParameter(...)")
+
+    TagParameter = _swig_property(None, _blcelc.iSequenceQuestRewardFactory_TagParameter_set, None,
+                    "iSequenceQuestRewardFactory.TagParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceQuestRewardFactory::SetTagParameter(const char*)")
+
+    ClassParameter = _swig_property(None, _blcelc.iSequenceQuestRewardFactory_ClassParameter_set, None,
+                    "iSequenceQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceQuestRewardFactory::SetClassParameter(const char*)")
+
+    SequenceParameter = _swig_property(None, _blcelc.iSequenceQuestRewardFactory_SequenceParameter_set, None,
+                    "iSequenceQuestRewardFactory.SequenceParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceQuestRewardFactory::SetSequenceParameter(const char*)")
+
+    DelayParameter = _swig_property(None, _blcelc.iSequenceQuestRewardFactory_DelayParameter_set, None,
+                    "iSequenceQuestRewardFactory.DelayParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceQuestRewardFactory::SetDelayParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iSequenceQuestRewardFactory
     __del__ = lambda self : None;
 iSequenceQuestRewardFactory_swigregister = _blcelc.iSequenceQuestRewardFactory_swigregister
@@ -4755,6 +5179,18 @@ class iSequenceFinishQuestRewardFactory(cspace.iBase):
     def SetTagParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetTagParameter(*args)
     def SetClassParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetClassParameter(*args)
     def SetSequenceParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetSequenceParameter(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iSequenceFinishQuestRewardFactory_SetEntityParameter), None,
+                    "iSequenceFinishQuestRewardFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iSequenceFinishQuestRewardFactory::getmethod()\n\tset: void iSequenceFinishQuestRewardFactory::SetEntityParameter(...)")
+
+    TagParameter = _swig_property(None, _blcelc.iSequenceFinishQuestRewardFactory_TagParameter_set, None,
+                    "iSequenceFinishQuestRewardFactory.TagParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceFinishQuestRewardFactory::SetTagParameter(const char*)")
+
+    ClassParameter = _swig_property(None, _blcelc.iSequenceFinishQuestRewardFactory_ClassParameter_set, None,
+                    "iSequenceFinishQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceFinishQuestRewardFactory::SetClassParameter(const char*)")
+
+    SequenceParameter = _swig_property(None, _blcelc.iSequenceFinishQuestRewardFactory_SequenceParameter_set, None,
+                    "iSequenceFinishQuestRewardFactory.SequenceParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceFinishQuestRewardFactory::SetSequenceParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iSequenceFinishQuestRewardFactory
     __del__ = lambda self : None;
 iSequenceFinishQuestRewardFactory_swigregister = _blcelc.iSequenceFinishQuestRewardFactory_swigregister
@@ -4768,6 +5204,15 @@ class iMessageQuestRewardFactory(cspace.iBase):
     def SetClassParameter(*args): return _blcelc.iMessageQuestRewardFactory_SetClassParameter(*args)
     def SetIDParameter(*args): return _blcelc.iMessageQuestRewardFactory_SetIDParameter(*args)
     def AddParameter(*args): return _blcelc.iMessageQuestRewardFactory_AddParameter(*args)
+    EntityParameter = _swig_property(None, _blcelc.iMessageQuestRewardFactory_EntityParameter_set, None,
+                    "iMessageQuestRewardFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iMessageQuestRewardFactory::SetEntityParameter(const char*)")
+
+    ClassParameter = _swig_property(None, _blcelc.iMessageQuestRewardFactory_ClassParameter_set, None,
+                    "iMessageQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iMessageQuestRewardFactory::SetClassParameter(const char*)")
+
+    IDParameter = _swig_property(None, _blcelc.iMessageQuestRewardFactory_IDParameter_set, None,
+                    "iMessageQuestRewardFactory.IDParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iMessageQuestRewardFactory::SetIDParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iMessageQuestRewardFactory
     __del__ = lambda self : None;
 iMessageQuestRewardFactory_swigregister = _blcelc.iMessageQuestRewardFactory_swigregister
@@ -4782,6 +5227,18 @@ class iActionQuestRewardFactory(cspace.iBase):
     def SetPropertyClassParameter(*args): return _blcelc.iActionQuestRewardFactory_SetPropertyClassParameter(*args)
     def SetTagParameter(*args): return _blcelc.iActionQuestRewardFactory_SetTagParameter(*args)
     def AddParameter(*args): return _blcelc.iActionQuestRewardFactory_AddParameter(*args)
+    EntityParameter = _swig_property(None, _blcelc.iActionQuestRewardFactory_EntityParameter_set, None,
+                    "iActionQuestRewardFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iActionQuestRewardFactory::SetEntityParameter(const char*)")
+
+    IDParameter = _swig_property(None, _blcelc.iActionQuestRewardFactory_IDParameter_set, None,
+                    "iActionQuestRewardFactory.IDParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iActionQuestRewardFactory::SetIDParameter(const char*)")
+
+    PropertyClassParameter = _swig_property(None, _blcelc.iActionQuestRewardFactory_PropertyClassParameter_set, None,
+                    "iActionQuestRewardFactory.PropertyClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iActionQuestRewardFactory::SetPropertyClassParameter(const char*)")
+
+    TagParameter = _swig_property(None, _blcelc.iActionQuestRewardFactory_TagParameter_set, None,
+                    "iActionQuestRewardFactory.TagParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iActionQuestRewardFactory::SetTagParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iActionQuestRewardFactory
     __del__ = lambda self : None;
 iActionQuestRewardFactory_swigregister = _blcelc.iActionQuestRewardFactory_swigregister
@@ -4793,6 +5250,12 @@ class iDestroyEntityQuestRewardFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iDestroyEntityQuestRewardFactory_SetEntityParameter(*args)
     def SetClassParameter(*args): return _blcelc.iDestroyEntityQuestRewardFactory_SetClassParameter(*args)
+    EntityParameter = _swig_property(None, _blcelc.iDestroyEntityQuestRewardFactory_EntityParameter_set, None,
+                    "iDestroyEntityQuestRewardFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iDestroyEntityQuestRewardFactory::SetEntityParameter(const char*)")
+
+    ClassParameter = _swig_property(None, _blcelc.iDestroyEntityQuestRewardFactory_ClassParameter_set, None,
+                    "iDestroyEntityQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iDestroyEntityQuestRewardFactory::SetClassParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iDestroyEntityQuestRewardFactory
     __del__ = lambda self : None;
 iDestroyEntityQuestRewardFactory_swigregister = _blcelc.iDestroyEntityQuestRewardFactory_swigregister
@@ -4805,6 +5268,12 @@ class iCreateEntityQuestRewardFactory(cspace.iBase):
     def SetEntityTemplateParameter(*args): return _blcelc.iCreateEntityQuestRewardFactory_SetEntityTemplateParameter(*args)
     def SetNameParameter(*args): return _blcelc.iCreateEntityQuestRewardFactory_SetNameParameter(*args)
     def AddParameter(*args): return _blcelc.iCreateEntityQuestRewardFactory_AddParameter(*args)
+    EntityTemplateParameter = _swig_property(None, _blcelc.iCreateEntityQuestRewardFactory_EntityTemplateParameter_set, None,
+                    "iCreateEntityQuestRewardFactory.EntityTemplateParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iCreateEntityQuestRewardFactory::SetEntityTemplateParameter(const char*)")
+
+    NameParameter = _swig_property(None, _blcelc.iCreateEntityQuestRewardFactory_NameParameter_set, None,
+                    "iCreateEntityQuestRewardFactory.NameParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iCreateEntityQuestRewardFactory::SetNameParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iCreateEntityQuestRewardFactory
     __del__ = lambda self : None;
 iCreateEntityQuestRewardFactory_swigregister = _blcelc.iCreateEntityQuestRewardFactory_swigregister
@@ -4815,6 +5284,9 @@ class iDebugPrintQuestSeqOpFactory(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetMessageParameter(*args): return _blcelc.iDebugPrintQuestSeqOpFactory_SetMessageParameter(*args)
+    MessageParameter = _swig_property(None, _blcelc.iDebugPrintQuestSeqOpFactory_MessageParameter_set, None,
+                    "iDebugPrintQuestSeqOpFactory.MessageParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iDebugPrintQuestSeqOpFactory::SetMessageParameter(const char*)")
+
     __swig_destroy__ = _blcelc.delete_iDebugPrintQuestSeqOpFactory
     __del__ = lambda self : None;
 iDebugPrintQuestSeqOpFactory_swigregister = _blcelc.iDebugPrintQuestSeqOpFactory_swigregister
@@ -4827,6 +5299,15 @@ class iTransformQuestSeqOpFactory(cspace.iBase):
     def SetEntityParameter(*args): return _blcelc.iTransformQuestSeqOpFactory_SetEntityParameter(*args)
     def SetVectorParameter(*args): return _blcelc.iTransformQuestSeqOpFactory_SetVectorParameter(*args)
     def SetRotationParameter(*args): return _blcelc.iTransformQuestSeqOpFactory_SetRotationParameter(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iTransformQuestSeqOpFactory_SetEntityParameter), None,
+                    "iTransformQuestSeqOpFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iTransformQuestSeqOpFactory::getmethod()\n\tset: void iTransformQuestSeqOpFactory::SetEntityParameter(...)")
+
+    VectorParameter = _swig_property(None, fix_args(_blcelc.iTransformQuestSeqOpFactory_SetVectorParameter), None,
+                    "iTransformQuestSeqOpFactory.VectorParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iTransformQuestSeqOpFactory::getmethod()\n\tset: void iTransformQuestSeqOpFactory::SetVectorParameter(...)")
+
+    RotationParameter = _swig_property(None, fix_args(_blcelc.iTransformQuestSeqOpFactory_SetRotationParameter), None,
+                    "iTransformQuestSeqOpFactory.RotationParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iTransformQuestSeqOpFactory::getmethod()\n\tset: void iTransformQuestSeqOpFactory::SetRotationParameter(...)")
+
     __swig_destroy__ = _blcelc.delete_iTransformQuestSeqOpFactory
     __del__ = lambda self : None;
 iTransformQuestSeqOpFactory_swigregister = _blcelc.iTransformQuestSeqOpFactory_swigregister
@@ -4838,6 +5319,9 @@ class iMovePathQuestSeqOpFactory(cspace.iBase):
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iMovePathQuestSeqOpFactory_SetEntityParameter(*args)
     def AddPathNode(*args): return _blcelc.iMovePathQuestSeqOpFactory_AddPathNode(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iMovePathQuestSeqOpFactory_SetEntityParameter), None,
+                    "iMovePathQuestSeqOpFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iMovePathQuestSeqOpFactory::getmethod()\n\tset: void iMovePathQuestSeqOpFactory::SetEntityParameter(...)")
+
     __swig_destroy__ = _blcelc.delete_iMovePathQuestSeqOpFactory
     __del__ = lambda self : None;
 iMovePathQuestSeqOpFactory_swigregister = _blcelc.iMovePathQuestSeqOpFactory_swigregister
@@ -4850,6 +5334,15 @@ class iLightQuestSeqOpFactory(cspace.iBase):
     def SetEntityParameter(*args): return _blcelc.iLightQuestSeqOpFactory_SetEntityParameter(*args)
     def SetRelColorParameter(*args): return _blcelc.iLightQuestSeqOpFactory_SetRelColorParameter(*args)
     def SetAbsColorParameter(*args): return _blcelc.iLightQuestSeqOpFactory_SetAbsColorParameter(*args)
+    EntityParameter = _swig_property(None, fix_args(_blcelc.iLightQuestSeqOpFactory_SetEntityParameter), None,
+                    "iLightQuestSeqOpFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iLightQuestSeqOpFactory::getmethod()\n\tset: void iLightQuestSeqOpFactory::SetEntityParameter(...)")
+
+    RelColorParameter = _swig_property(None, fix_args(_blcelc.iLightQuestSeqOpFactory_SetRelColorParameter), None,
+                    "iLightQuestSeqOpFactory.RelColorParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iLightQuestSeqOpFactory::getmethod()\n\tset: void iLightQuestSeqOpFactory::SetRelColorParameter(...)")
+
+    AbsColorParameter = _swig_property(None, fix_args(_blcelc.iLightQuestSeqOpFactory_SetAbsColorParameter), None,
+                    "iLightQuestSeqOpFactory.AbsColorParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iLightQuestSeqOpFactory::getmethod()\n\tset: void iLightQuestSeqOpFactory::SetAbsColorParameter(...)")
+
     __swig_destroy__ = _blcelc.delete_iLightQuestSeqOpFactory
     __del__ = lambda self : None;
 iLightQuestSeqOpFactory_swigregister = _blcelc.iLightQuestSeqOpFactory_swigregister
@@ -4867,6 +5360,30 @@ class iPropertyQuestSeqOpFactory(cspace.iBase):
     def SetVector2Parameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetVector2Parameter(*args)
     def SetVector3Parameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetVector3Parameter(*args)
     def SetRelative(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetRelative(*args)
+    EntityParameter = _swig_property(None, _blcelc.iPropertyQuestSeqOpFactory_EntityParameter_set, None,
+                    "iPropertyQuestSeqOpFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyQuestSeqOpFactory::SetEntityParameter(const char*)")
+
+    PCParameter = _swig_property(None, fix_args(_blcelc.iPropertyQuestSeqOpFactory_SetPCParameter), None,
+                    "iPropertyQuestSeqOpFactory.PCParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPropertyQuestSeqOpFactory::getmethod()\n\tset: void iPropertyQuestSeqOpFactory::SetPCParameter(...)")
+
+    PropertyParameter = _swig_property(None, _blcelc.iPropertyQuestSeqOpFactory_PropertyParameter_set, None,
+                    "iPropertyQuestSeqOpFactory.PropertyParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyQuestSeqOpFactory::SetPropertyParameter(const char*)")
+
+    FloatParameter = _swig_property(None, _blcelc.iPropertyQuestSeqOpFactory_FloatParameter_set, None,
+                    "iPropertyQuestSeqOpFactory.FloatParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyQuestSeqOpFactory::SetFloatParameter(const char*)")
+
+    LongParameter = _swig_property(None, _blcelc.iPropertyQuestSeqOpFactory_LongParameter_set, None,
+                    "iPropertyQuestSeqOpFactory.LongParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyQuestSeqOpFactory::SetLongParameter(const char*)")
+
+    Vector2Parameter = _swig_property(None, fix_args(_blcelc.iPropertyQuestSeqOpFactory_SetVector2Parameter), None,
+                    "iPropertyQuestSeqOpFactory.Vector2Parameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPropertyQuestSeqOpFactory::getmethod()\n\tset: void iPropertyQuestSeqOpFactory::SetVector2Parameter(...)")
+
+    Vector3Parameter = _swig_property(None, fix_args(_blcelc.iPropertyQuestSeqOpFactory_SetVector3Parameter), None,
+                    "iPropertyQuestSeqOpFactory.Vector3Parameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPropertyQuestSeqOpFactory::getmethod()\n\tset: void iPropertyQuestSeqOpFactory::SetVector3Parameter(...)")
+
+    Relative = _swig_property(None, _blcelc.iPropertyQuestSeqOpFactory_Relative_set, None,
+                    "iPropertyQuestSeqOpFactory.Relative (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyQuestSeqOpFactory::SetRelative(bool)")
+
     __swig_destroy__ = _blcelc.delete_iPropertyQuestSeqOpFactory
     __del__ = lambda self : None;
 iPropertyQuestSeqOpFactory_swigregister = _blcelc.iPropertyQuestSeqOpFactory_swigregister
@@ -4880,6 +5397,12 @@ class iPcQuest(cspace.iBase):
     def StopQuest(*args): return _blcelc.iPcQuest_StopQuest(*args)
     def GetQuest(*args): return _blcelc.iPcQuest_GetQuest(*args)
     def GetQuestName(*args): return _blcelc.iPcQuest_GetQuestName(*args)
+    Quest = _swig_property(_blcelc.iPcQuest_Quest_get, None, None,
+                    "iPcQuest.Quest -> iQuest*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iQuest* iPcQuest::GetQuest()")
+
+    QuestName = _swig_property(_blcelc.iPcQuest_QuestName_get, None, None,
+                    "iPcQuest.QuestName -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iPcQuest::GetQuestName()")
+
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -4912,6 +5435,14 @@ class iCelEdge(cspace.iBase):
     def SetSuccessor(*args): return _blcelc.iCelEdge_SetSuccessor(*args)
     def GetState(*args): return _blcelc.iCelEdge_GetState(*args)
     def GetSuccessor(*args): return _blcelc.iCelEdge_GetSuccessor(*args)
+    State = _swig_property(_blcelc.iCelEdge_State_get, _blcelc.iCelEdge_State_set, None,
+                    "iCelEdge.State -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iCelEdge::GetState()\n\tset: void iCelEdge::SetState(bool)")
+
+
+    Successor = _swig_property(_blcelc.iCelEdge_Successor_get, _blcelc.iCelEdge_Successor_set, None,
+                    "iCelEdge.Successor -> iCelNode*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelNode* iCelEdge::GetSuccessor()\n\tset: void iCelEdge::SetSuccessor(iCelNode*)")
+
+
     __swig_destroy__ = _blcelc.delete_iCelEdge
     __del__ = lambda self : None;
 iCelEdge_swigregister = _blcelc.iCelEdge_swigregister
@@ -4937,6 +5468,30 @@ class iCelNode(cspace.iBase):
     def GetAllSuccessors(*args): return _blcelc.iCelNode_GetAllSuccessors(*args)
     def GetHeuristic(*args): return _blcelc.iCelNode_GetHeuristic(*args)
     def GetCost(*args): return _blcelc.iCelNode_GetCost(*args)
+    MapNode = _swig_property(_blcelc.iCelNode_MapNode_get, _blcelc.iCelNode_MapNode_set, None,
+                    "iCelNode.MapNode -> iMapNode*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iMapNode* iCelNode::GetMapNode()\n\tset: void iCelNode::SetMapNode(iMapNode*)")
+
+
+    Parent = _swig_property(_blcelc.iCelNode_Parent_get, _blcelc.iCelNode_Parent_set, None,
+                    "iCelNode.Parent -> iCelNode*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelNode* iCelNode::GetParent()\n\tset: void iCelNode::SetParent(iCelNode*)")
+
+
+    Name = _swig_property(_blcelc.iCelNode_Name_get, _blcelc.iCelNode_Name_set, None,
+                    "iCelNode.Name -> char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: char* iCelNode::GetName()\n\tset: void iCelNode::SetName(char*)")
+
+
+    Position = _swig_property(_blcelc.iCelNode_Position_get, None, None,
+                    "iCelNode.Position -> csVector3  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csVector3 iCelNode::GetPosition()")
+
+    Successors = _swig_property(_blcelc.iCelNode_Successors_get, None, None,
+                    "iCelNode.Successors -> csArray<iCelNode*  >  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csArray<iCelNode*  > iCelNode::GetSuccessors()")
+
+    AllSuccessors = _swig_property(_blcelc.iCelNode_AllSuccessors_get, None, None,
+                    "iCelNode.AllSuccessors -> csArray<iCelNode*  >  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csArray<iCelNode*  > iCelNode::GetAllSuccessors()")
+
+    Cost = _swig_property(_blcelc.iCelNode_Cost_get, None, None,
+                    "iCelNode.Cost -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iCelNode::GetCost()")
+
     __swig_destroy__ = _blcelc.delete_iCelNode
     __del__ = lambda self : None;
 iCelNode_swigregister = _blcelc.iCelNode_swigregister
@@ -4960,6 +5515,12 @@ class iCelPath(cspace.iBase):
     def GetFirst(*args): return _blcelc.iCelPath_GetFirst(*args)
     def GetLast(*args): return _blcelc.iCelPath_GetLast(*args)
     def Invert(*args): return _blcelc.iCelPath_Invert(*args)
+    First = _swig_property(_blcelc.iCelPath_First_get, None, None,
+                    "iCelPath.First -> iMapNode*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iMapNode* iCelPath::GetFirst()")
+
+    Last = _swig_property(_blcelc.iCelPath_Last_get, None, None,
+                    "iCelPath.Last -> iMapNode*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iMapNode* iCelPath::GetLast()")
+
     __swig_destroy__ = _blcelc.delete_iCelPath
     __del__ = lambda self : None;
 iCelPath_swigregister = _blcelc.iCelPath_swigregister
