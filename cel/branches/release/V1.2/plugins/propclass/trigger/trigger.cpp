@@ -688,10 +688,18 @@ void celPcTrigger::TickOnce ()
     // Now clear our entities_in_trigger table. We will fill it again.
     entities_in_trigger.SetSize (0);
 
+    // Keep track of entities which have been processed already,
+    // since list may have duplicates
+    csSet<csPtrKey<iCelEntity> > processed_entities;
+
     // Traverse the entities that are near us.
     for (i = 0 ; i < list->GetCount () ; i++)
     {
       iCelEntity* ent = list->Get (i);
+
+      if (processed_entities.In (ent))
+        continue; // This entity was already considered, skip it.
+
       // If we are doing above a mesh then we have to test if the entity
       // is really above the mesh.
       if (above_mesh)
@@ -724,6 +732,8 @@ void celPcTrigger::TickOnce ()
       }
       // Delete from the set.
       previous_entities.Delete (ent);
+      // We don't need to process that entity in this loop again.
+      processed_entities.Add (ent);
     }
 
     // All entities that are still in the set were in the trigger
