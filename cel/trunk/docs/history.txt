@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+18-Mar-2008
+	- Vincent fixed Trac #51, where pclogic.trigger eventually sent
+	  multiple pctrigger_ messages. That could happen when an entity had
+	  multiple pcmesh, thus was reported more than once by
+	  celPlLayer::FindNearbyEntities().
 14-Mar-2008
 	- caedes added iMessageDispatcher to the list of swig "applied" 
 	  interfaces.
