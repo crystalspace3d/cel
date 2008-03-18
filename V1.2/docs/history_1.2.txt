@@ -3,7 +3,7 @@
 The history order is reversed so that new features are at the top.
 
 18-Mar-2008
-	- Vincent merged r3253 into 1.2 (fix for #51, pctrigger_entertrigger
+	- Vincent merged r3258 into 1.2 (fix for #51, pctrigger_entertrigger
 	  called multiple times for entities with multiple pcmeshes).
 08-Mar-2008
 	- Vincent merged r3243 into 1.2 (fix for #54, celconsole event
