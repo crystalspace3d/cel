@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Mar-2008
+	- caedes added initialization of sys.argv to the python behaviour
+	  layer. This is needed for correct error reporting.
 18-Mar-2008
 	- Vincent fixed Trac #51, where pclogic.trigger eventually sent
 	  multiple pctrigger_ messages. That could happen when an entity had
