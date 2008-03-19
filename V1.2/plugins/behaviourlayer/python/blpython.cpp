@@ -77,6 +77,11 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
 
   Py_SetProgramName ("Crystal Entity Layer -- Python");
   Py_Initialize ();
+  // some parts of python api require sys.argv to be filled.
+  // so strange errors will appear if we dont do the following
+  char *(argv[2]) = {"", NULL};
+  PySys_SetArgv(1, argv);
+ 
   InitPytocel ();
 
   char path[256];
