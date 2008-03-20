@@ -791,6 +791,8 @@ int celPcLinearMovement::MoveV (float delta)
     {
       ret = CEL_MOVE_FAIL;
       newpos = oldpos;
+      // no move so set fall/jump vel to 0.
+      velWorld.y = 0;
     }
     else
     {
@@ -798,6 +800,10 @@ int celPcLinearMovement::MoveV (float delta)
       if ((newpos - bufpos).Norm () > 0.000001f)
       {
         ret = CEL_MOVE_PARTIAL;
+        // adjust falling velocity, as collisions may have changed it.
+        float y_change = newpos.y - oldpos.y;
+        if (y_change*(gravity>0) <= 0)
+          velWorld.y = y_change/delta;
       }
     }
 
