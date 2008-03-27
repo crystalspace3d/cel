@@ -66,45 +66,49 @@ celActionRewardFactory::celActionRewardFactory (
 	celActionRewardType* type) : scfImplementationType (this)
 {
   celActionRewardFactory::type = type;
-  entity_par = 0;
-  pcclass_par = 0;
-  tag_par = 0;
-  id_par = 0;
 }
 
 celActionRewardFactory::~celActionRewardFactory ()
 {
-  delete[] entity_par;
-  delete[] id_par;
 }
 
 csPtr<iQuestReward> celActionRewardFactory::CreateReward (
     iQuest*, const celQuestParams& params)
 {
-  celActionReward* trig = new celActionReward (type,
+  iQuestReward* reward;
+  if (!entity_par.IsEmpty())
+  {
+    reward = new celActionReward (type,
   	params, entity_par, id_par, pcclass_par, tag_par, parameters);
-  return trig;
+  }
+  else
+  {
+    reward = new celClassActionReward (type,
+  	params, class_par, id_par, pcclass_par, tag_par, parameters);
+  }
+  return reward;
 }
 
 bool celActionRewardFactory::Load (iDocumentNode* node)
 {
-  delete[] entity_par; entity_par = 0;
-  delete[] id_par; id_par = 0;
-  delete[] pcclass_par; entity_par = 0;
-  delete[] tag_par; id_par = 0;
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  pcclass_par = csStrNew (node->GetAttributeValue ("pc"));
-  tag_par = csStrNew (node->GetAttributeValue ("tag"));
-  id_par = csStrNew (node->GetAttributeValue ("id"));
-  if (!entity_par)
+  entity_par = node->GetAttributeValue ("entity");
+  class_par = node->GetAttributeValue ("class");
+  pcclass_par = node->GetAttributeValue ("pc");
+  tag_par = node->GetAttributeValue ("tag");
+  id_par = node->GetAttributeValue ("id");
+
+  // sanity checks
+  if (entity_par.IsEmpty() && class_par.IsEmpty())
     return Report (type->object_reg,
-      "'entity' attribute is missing for the action reward!");
-  if (!id_par)
+      "'entity' or 'class' attribute required for the action reward!");
+  if (id_par.IsEmpty())
     Report (type->object_reg,
       "'id' attribute is missing for the action reward!");
-  if (!pcclass_par)
+  if (pcclass_par.IsEmpty())
     Report (type->object_reg,
       "'pc' attribute is missing for the action reward!");
+  
+  // get parameters
   iCelPlLayer* pl = type->pl;
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -172,39 +176,31 @@ bool celActionRewardFactory::Load (iDocumentNode* node)
 void celActionRewardFactory::SetEntityParameter (
 	const char* entity)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
+  entity_par = entity;
 }
 
 void celActionRewardFactory::SetIDParameter (
 	const char* id)
 {
-  if (id_par == id) return;
-  delete[] id_par;
-  id_par = csStrNew (id);
+  id_par = id;
 }
 
 void celActionRewardFactory::SetPropertyClassParameter (
 	const char* propertyclass)
 {
-  if (pcclass_par != propertyclass)
-  {
-    delete[] pcclass_par;
-    pcclass_par = csStrNew (propertyclass);
-  }
+  pcclass_par = propertyclass;
 }
 
 void celActionRewardFactory::SetTagParameter (
 	const char* pctag)
 {
-  if (tag_par != pctag)
-  {
-    delete[] tag_par;
-    tag_par = csStrNew (pctag);
-  }
+  tag_par = pctag;
+}
+
+void celActionRewardFactory::SetClassParameter (
+        const char* ent_class)
+{
+  class_par = ent_class;
 }
 
 void celActionRewardFactory::AddParameter (celDataType type,
@@ -230,19 +226,15 @@ celActionReward::celActionReward (
 {
   celActionReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  pcclass = csStrNew (qm->ResolveParameter (params, pcclass_par));
-  tag = csStrNew (qm->ResolveParameter (params, tag_par));
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  id = csStrNew (qm->ResolveParameter (params, id_par));
+  pcclass = qm->ResolveParameter (params, pcclass_par);
+  tag = qm->ResolveParameter (params, tag_par);
+  entity = qm->ResolveParameter (params, entity_par);
+  id = qm->ResolveParameter (params, id_par);
   act_params = qm->ResolveParameterBlock(params,parameters);
 }
 
 celActionReward::~celActionReward ()
 {
-  delete[] pcclass;
-  delete[] tag;
-  delete[] entity;
-  delete[] id;
   delete act_params;
 }
 
@@ -268,12 +260,68 @@ void celActionReward::Reward ()
     }
     else
       Report (type->object_reg,
-		"No action  'cel.action.%s' in the specified pc!", id);
+		"No action  'cel.action.%s' in the specified pc!", 
+		id.GetData());
   }
   else
     Report (type->object_reg,
-            "No propertyclass  '%s' in the specified entity!", pcclass);
+            "No propertyclass  '%s' in the specified entity!", 
+	    pcclass.GetData());
 }
+
+//---------------------------------------------------------------------------
+
+celClassActionReward::celClassActionReward (
+	celActionRewardType* type,
+  	const celQuestParams& params,
+	const char* class_par,
+	const char* id_par,
+	const char* pcclass_par,
+	const char* tag_par,
+	const csArray<parSpec>& parameters) : scfImplementationType (this)
+{
+  iCelPlLayer* pl = type->pl;
+  celClassActionReward::type = type;
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  pcclass = qm->ResolveParameter (params, pcclass_par);
+  tag = qm->ResolveParameter (params, tag_par);
+  act_params = qm->ResolveParameterBlock(params,parameters);
+
+  // get entity class list
+  csStringID ent_class = 
+    pl->FetchStringID(qm->ResolveParameter (params, class_par));
+  entlist = pl->GetClassEntitiesList(ent_class);
+
+  // prepare action name
+  csString id = qm->ResolveParameter (params, id_par);
+  csString fullname = "cel.action.";
+  fullname += id;
+  actionID = pl->FetchStringID(fullname);
+
+}
+
+celClassActionReward::~celClassActionReward ()
+{
+  delete act_params;
+}
+
+void celClassActionReward::Reward ()
+{
+  // run actions
+  iCelEntity *ent;
+  csRef<iCelPropertyClass> propertyclass;
+  celData ret;
+  for (int i = entlist->GetCount()-1; i>=0; i--)
+  {
+    ent = entlist->Get(i);
+    propertyclass = ent->GetPropertyClassList()->FindByNameAndTag(pcclass,tag);
+    if (propertyclass)
+    {
+        propertyclass->PerformAction(actionID, act_params, ret);
+    }
+  }
+}
+
 
 //---------------------------------------------------------------------------
 

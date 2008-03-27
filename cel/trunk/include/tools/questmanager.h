@@ -1746,8 +1746,8 @@ struct iSequenceFinishQuestRewardFactory : public virtual iBase
  * In XML, factories recognize the following attributes on the 'op' node:
  * - <em>entity</em>: the name of the entity to send the message too.
  * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the given
- *   entity class.
+ *   of the entity parameter, the reward will apply to all entities in the
+ *   given entity class.
  * - <em>id</em>: id of the message to send.
  */
 struct iMessageQuestRewardFactory : public virtual iBase
@@ -1789,7 +1789,7 @@ struct iMessageQuestRewardFactory : public virtual iBase
 
 /**
  * This interface is implemented by the reward that sends an action
- * to some entity property class with an optional tag.
+ * to some entity or entity class property class with an optional tag.
  * You can query this interface from the reward factory if you want
  * to manually control this factory as opposed to loading its definition
  * from an XML document.
@@ -1798,6 +1798,9 @@ struct iMessageQuestRewardFactory : public virtual iBase
  *
  * In XML, factories recognize the following attributes on the 'op' node:
  * - <em>entity</em>: the name of the entity to send the action to.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the 
+ *   given entity class.
  * - <em>id</em>: name of the action to activate.
  * - <em>pc</em>: the name of the property class to send the action to.
  * - <em>tag</em>: the tag of the property class to send the action to.
@@ -1812,6 +1815,13 @@ struct iActionQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the entity class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
    * Set the action name (without the cel.action part).
