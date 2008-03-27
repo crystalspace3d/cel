@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Mar-2008
+	- caedes added class support to the action quest reward (meaning it
+	  can now work on entity classes).
 24-Mar-2008
 	- Genjix added target_axis speed deflection.
 19-Mar-2008

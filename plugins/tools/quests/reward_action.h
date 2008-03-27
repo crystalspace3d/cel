@@ -49,10 +49,11 @@ class celActionRewardFactory : public scfImplementation2<
 {
 private:
   celActionRewardType* type;
-  char* entity_par;
-  char* id_par;
-  char* pcclass_par;
-  char* tag_par;
+  csString entity_par;
+  csString class_par;
+  csString id_par;
+  csString pcclass_par;
+  csString tag_par;
   csArray<parSpec> parameters;
 
 public:
@@ -65,6 +66,7 @@ public:
 
   //----------------- iActionQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
+  virtual void SetClassParameter (const char* entity_class);
   virtual void SetIDParameter (const char* id);
   virtual void SetPropertyClassParameter (const char* propertyclass);
   virtual void SetTagParameter (const char* pctag);
@@ -80,10 +82,10 @@ class celActionReward : public scfImplementation1<celActionReward,
 {
 private:
   celActionRewardType* type;
-  char* pcclass;
-  char* tag;
-  char* entity;
-  char* id;
+  csString pcclass;
+  csString tag;
+  csString entity;
+  csString id;
   csWeakRef<iCelEntity> ent;
   csRef<celVariableParameterBlock> act_params;
 
@@ -99,6 +101,36 @@ public:
 
   virtual void Reward ();
 };
+
+/**
+ * The 'action' reward working on classes
+ */
+class celClassActionReward : public scfImplementation1<celClassActionReward,
+	iQuestReward>
+{
+private:
+  celActionRewardType* type;
+  csString pcclass;
+  csString tag;
+  csStringID actionID;
+
+  csRef<iCelEntityList> entlist;
+  csRef<celVariableParameterBlock> act_params;
+
+public:
+  celClassActionReward (celActionRewardType* type,
+  	const celQuestParams& params,
+	const char* class_par,
+	const char* id_par,
+	const char* pcclass_par,
+	const char* tag_par,
+	const csArray<parSpec>& parameters);
+  virtual ~celClassActionReward ();
+
+  virtual void Reward ();
+};
+
+
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_ACTION__
 
