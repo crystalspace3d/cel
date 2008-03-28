@@ -2,6 +2,11 @@
 
 The history order is reversed so that new features are at the top.
 
+28-Mar-2008
+	- caedes merged r2926 into 1.2 (fix for incorrect pdb usage in 
+	  blpython).
+19-Mar-2008
+	- caedes merged r3261 into 1.2 (initialize python sys.argv).
 18-Mar-2008
 	- Vincent merged r3258 into 1.2 (fix for #51, pctrigger_entertrigger
 	  called multiple times for entities with multiple pcmeshes).

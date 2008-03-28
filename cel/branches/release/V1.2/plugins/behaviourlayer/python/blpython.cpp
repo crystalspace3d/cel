@@ -141,7 +141,7 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   if (!pycelModule)
   {
     Print(true,"Error compiling embedded pycel.py code");
-    PyRun_SimpleString ("pdb.pm()");
+    ShowError();
     return false;
   }
   if (PyModule_AddObject(s_mainModule, "pycel", pycelModule))
@@ -194,9 +194,9 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
       py_entity = csWrapTypedObject (entity, "_p_iCelEntity", 0);
       PyTuple_SetItem (py_args, 0, py_entity);
       py_object = PyObject_CallObject(py_func, py_args);
-      if (!py_object)    
+      if (!py_object)
       {
-        PyRun_SimpleString ("pdb.pm()");
+        ShowError ();
         return 0;
       }
     }
@@ -209,7 +209,7 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
   else
   {
     csPrintf("Error: failed to load module \"%s\"\n", realname.GetData ());
-    PyRun_SimpleString ("pdb.pm()");
+    ShowError();
     return 0;
   }
 
@@ -225,7 +225,11 @@ void celBlPython::ShowError ()
   if (PyErr_Occurred ())
   {
     PyErr_Print ();
-    Print (true, "ERROR!");
+    if (use_debugger)
+    {
+      Print (true, "debugger will be launched on command line!");
+      PyRun_SimpleString ("pdb.pm()");
+    }
   }
 }
 
@@ -237,10 +241,8 @@ bool celBlPython::RunText (const char* Text)
   {    
     csPrintf("Error running text '%s'\n", Text);    
     fflush (stdout);
-    if (use_debugger)
-      PyRun_SimpleString ("pdb.pm()");
+    ShowError();
   }  
-  ShowError ();
   return ok;
 }
 
@@ -423,7 +425,12 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id,
 
   // Check result
   if (!result)
-    PyRun_SimpleString ("pdb.pm()");
+  {
+    scripter->ShowError();
+    Py_DECREF (method);
+    Py_DECREF (pymessage_info);
+    return false;
+  }
   else
   {
     if (PyString_Check(result))

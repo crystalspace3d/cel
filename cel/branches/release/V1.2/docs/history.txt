@@ -131,6 +131,10 @@ The history order is reversed so that new features are at the top.
 31-Jul-2007
 	- Jorrit fixed a problem in pcproperties. The iCelPropertyClass
 	  api to fetch properties by ID didn't work anymore.
+30-Jul-2007
+	- caedes fixed error handling in the python behaviour layer,
+	  it was inconsistently using the python debugger in a way that 
+	  made python2.5 show weird errors.
 26-Jul-2007
 	- Jorrit fixed cel.txi so that the version is now correctly put in
 	  the generated documentation title.
