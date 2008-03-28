@@ -5223,6 +5223,7 @@ class iActionQuestRewardFactory(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iActionQuestRewardFactory_SetEntityParameter(*args)
+    def SetClassParameter(*args): return _blcelc.iActionQuestRewardFactory_SetClassParameter(*args)
     def SetIDParameter(*args): return _blcelc.iActionQuestRewardFactory_SetIDParameter(*args)
     def SetPropertyClassParameter(*args): return _blcelc.iActionQuestRewardFactory_SetPropertyClassParameter(*args)
     def SetTagParameter(*args): return _blcelc.iActionQuestRewardFactory_SetTagParameter(*args)
