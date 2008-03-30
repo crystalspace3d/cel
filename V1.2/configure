@@ -6812,6 +6812,13 @@ if test "$cs_cv_prog_swig_version_1_3_22_ok" = yes; then
 "
 fi
 
+        cs_build_prop_val="$cs_prog_swig_version"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CMD.SWIG.VERSION ?= \"$cs_build_prop_val\" ;
+"
+fi
+
 fi
 
 fi
@@ -10915,8 +10922,8 @@ fi
     cs_build_prop_val="$PYTHON"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
-  :
-
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON ?= \"$cs_build_prop_val\" ;
+"
 fi
 
 
@@ -10934,6 +10941,14 @@ else
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }`
 	    cs_cv_pybase="python${cs_pyver}"
+
+	    cs_build_prop_val="$cs_pyver"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.VERSION ?= \"$cs_build_prop_val\" ;
+"
+fi
+
 
 	    cs_cv_pybase_cflags=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
 		'import distutils.sysconfig; \\
@@ -11036,8 +11051,8 @@ echo "${ECHO_T}$cs_cv_python_sdk" >&6
   cs_build_prop_val="$cs_cv_python_ext"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
-  :
-
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.MODULE_EXT ?= \"$cs_build_prop_val\" ;
+"
 fi
 
 	    cs_pywinlib=`echo "$cs_cv_pybase" | sed 's/\.//g'`
@@ -11368,22 +11383,22 @@ fi
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
-  :
-
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.AVAILABLE ?= \"$cs_build_prop_val\" ;
+"
 fi
 
 	cs_build_prop_val="$cs_cv_python_cflags"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
-  :
-
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.CFLAGS ?= \"$cs_build_prop_val\" ;
+"
 fi
 
 	cs_build_prop_val="$cs_cv_python_lflags $cs_cv_python_libs"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
-  :
-
+  cs_jamconfig_text="${cs_jamconfig_text}PYTHON.LFLAGS ?= \"$cs_build_prop_val\" ;
+"
 fi
 
 fi
