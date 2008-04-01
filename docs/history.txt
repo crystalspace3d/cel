@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- caedes changed celSubscriptions hash to use SafeArrayElementHandler
 	  for the hash, to fix problems due to weakref's in the 
 	  celSubscription's (namely "weakref memcopyed" assert).
+	- caedes reverted r3263 (fix in linmove for falling), as a better fix
+	  involving cs's ColliderActor is in the works.
 30-Mar-2008
 	- Vincent ported CS:r27834 to CEL (require SWIG 1.3.31+ for Python 2.5
 	  bindings, else use pre-generated files).
