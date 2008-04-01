@@ -104,7 +104,13 @@ public:
   iMessageSender* GetSender () const { return sender; }
 };
 
-typedef csHash<celMessageSubscription,csPtrKey<iMessageReceiver> >
+// SafeCopyElementHandler has to be used here, as otherwise the weakref's in
+// the celMessageSubscription get memcopyed and thats not allowed.
+typedef csHash<celMessageSubscription,csPtrKey<iMessageReceiver>,
+	CS::Memory::AllocatorMalloc, 
+  	csArraySafeCopyElementHandler< 
+        	CS::Container::HashElement<celMessageSubscription,
+		csPtrKey<iMessageReceiver> > > >
   celSubscriptions;
 
 /**
