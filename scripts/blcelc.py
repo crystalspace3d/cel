@@ -353,31 +353,6 @@ iMessageDispatcher_swigregister = _blcelc.iMessageDispatcher_swigregister
 iMessageDispatcher_swigregister(iMessageDispatcher)
 iMessageDispatcher_scfGetVersion = _blcelc.iMessageDispatcher_scfGetVersion
 
-class celEntityTemplateParams(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_celEntityTemplateParams(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def Put(*args): return _blcelc.celEntityTemplateParams_Put(*args)
-    def GetAll(*args): return _blcelc.celEntityTemplateParams_GetAll(*args)
-    def PutUnique(*args): return _blcelc.celEntityTemplateParams_PutUnique(*args)
-    def Contains(*args): return _blcelc.celEntityTemplateParams_Contains(*args)
-    def In(*args): return _blcelc.celEntityTemplateParams_In(*args)
-    def GetElementPointer(*args): return _blcelc.celEntityTemplateParams_GetElementPointer(*args)
-    def Get(*args): return _blcelc.celEntityTemplateParams_Get(*args)
-    def GetOrCreate(*args): return _blcelc.celEntityTemplateParams_GetOrCreate(*args)
-    def Empty(*args): return _blcelc.celEntityTemplateParams_Empty(*args)
-    def DeleteAll(*args): return _blcelc.celEntityTemplateParams_DeleteAll(*args)
-    def Delete(*args): return _blcelc.celEntityTemplateParams_Delete(*args)
-    def GetSize(*args): return _blcelc.celEntityTemplateParams_GetSize(*args)
-    def IsEmpty(*args): return _blcelc.celEntityTemplateParams_IsEmpty(*args)
-    __swig_destroy__ = _blcelc.delete_celEntityTemplateParams
-    __del__ = lambda self : None;
-celEntityTemplateParams_swigregister = _blcelc.celEntityTemplateParams_swigregister
-celEntityTemplateParams_swigregister(celEntityTemplateParams)
-
 CEL_EVENT_PRE = _blcelc.CEL_EVENT_PRE
 CEL_EVENT_VIEW = _blcelc.CEL_EVENT_VIEW
 CEL_EVENT_POST = _blcelc.CEL_EVENT_POST
