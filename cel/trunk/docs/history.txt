@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+04-Apr-2008
+	- Eric Sunshine updated mk/autoconf/*.m4 files from CS master copies.
 01-Apr-2008
 	- caedes changed celSubscriptions hash to use SafeArrayElementHandler
 	  for the hash, to fix problems due to weakref's in the 
