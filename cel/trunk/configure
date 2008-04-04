@@ -2908,14 +2908,14 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 	cs_build_prop_val="$CC"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.CC ?= $cs_build_prop_val ;
 "
 fi
 
 	cs_build_prop_val="$CPPFLAGS $CFLAGS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.CFLAGS += $cs_build_prop_val ;
 "
 fi
@@ -2928,14 +2928,14 @@ fi
 
     cs_build_prop_val="$cs_compiler_name_c"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C.TYPE ?= $cs_build_prop_val ;
 "
 fi
 
     cs_build_prop_val="$cs_compiler_name_c"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.TYPE = $cs_build_prop_val ;
 "
 fi
@@ -3101,7 +3101,7 @@ echo "${ECHO_T}$cs_cv_prog_cc_pipe_ok" >&6; }
     if test "$cs_cv_prog_cc_pipe_ok" != no; then
   cs_build_prop_val="$cs_cv_prog_cc_pipe"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.CFLAGS += $cs_build_prop_val ;
 "
 fi
@@ -3484,14 +3484,14 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 	cs_build_prop_val="$CXX"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.C++ ?= $cs_build_prop_val ;
 "
 fi
 
 	cs_build_prop_val="$CPPFLAGS $CXXFLAGS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++FLAGS += $cs_build_prop_val ;
 "
 fi
@@ -3504,14 +3504,14 @@ fi
 
     cs_build_prop_val="$cs_compiler_name_cxx"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++.TYPE ?= $cs_build_prop_val ;
 "
 fi
 
     cs_build_prop_val="$cs_compiler_name_cxx"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.TYPE = $cs_build_prop_val ;
 "
 fi
@@ -3846,7 +3846,7 @@ echo "${ECHO_T}$cs_cv_prog_cxx_pic_ok" >&6; }
     if test "$cs_cv_prog_cxx_pic_ok" != no; then
   cs_build_prop_val="$cs_cv_prog_cxx_pic"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++FLAGS.PIC ?= $cs_build_prop_val ;
 "
 fi
@@ -4220,7 +4220,7 @@ fi
     if test -n "$CXX"; then
   cs_build_prop_val="\$(CMD.C++)"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.LINK ?= $cs_build_prop_val ;
 "
 fi
@@ -4228,7 +4228,7 @@ fi
 else
   cs_build_prop_val="\$(CMD.CC)"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.LINK ?= $cs_build_prop_val ;
 "
 fi
@@ -4349,7 +4349,7 @@ fi
 
     cs_build_prop_val="$LD"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.LD ?= $cs_build_prop_val ;
 "
 fi
@@ -4357,7 +4357,7 @@ fi
 
     cs_build_prop_val="$LDFLAGS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.LFLAGS += $cs_build_prop_val ;
 "
 fi
@@ -4539,7 +4539,7 @@ echo "${ECHO_T}$cs_cv_prog_link_shared_ok" >&6; }
     if test "$cs_cv_prog_link_shared_ok" != no; then
   cs_build_prop_val="-shared"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}PLUGIN.LFLAGS += $cs_build_prop_val ;
 "
 fi
@@ -4854,7 +4854,7 @@ fi
     if test $cs_cv_prog_link_soname = yes; then
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}PLUGIN.LFLAGS.USE_SONAME ?= $cs_build_prop_val ;
 "
 fi
@@ -4939,7 +4939,7 @@ echo "${ECHO_T}$cs_cv_prog_link_respfile" >&6; }
     if test $cs_cv_prog_link_respfile = yes; then
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}LINKER.RESPONSEFILES ?= $cs_build_prop_val ;
 "
 fi
@@ -5120,7 +5120,7 @@ echo "${ECHO_T}$cs_cv_prog_link_as_needed_ok" >&6; }
     if test "$cs_cv_prog_link_as_needed_ok" != no; then
   cs_build_prop_val="$cs_cv_prog_link_as_needed"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.LINK += $cs_build_prop_val ;
 "
 fi
@@ -5460,7 +5460,7 @@ echo "${ECHO_T}$cs_cv_prog_link_gc_sections_ok" >&6; }
     if test "$cs_cv_prog_link_gc_sections_ok" != no; then
   cs_build_prop_val="$cs_cv_prog_link_gc_sections"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}LINK.GC_SECTIONS ?= $cs_build_prop_val ;
 "
 fi
@@ -5573,7 +5573,7 @@ fi
 
     cs_build_prop_val="$RANLIB"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}RANLIB = $cs_build_prop_val ;
 "
 fi
@@ -5692,7 +5692,7 @@ fi
 
     cs_build_prop_val="$DLLTOOL"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.DLLTOOL ?= $cs_build_prop_val ;
 "
 fi
@@ -5815,7 +5815,7 @@ fi
 
     cs_build_prop_val="$DLLWRAP"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.DLLWRAP ?= $cs_build_prop_val ;
 "
 fi
@@ -5934,7 +5934,7 @@ fi
 
     cs_build_prop_val="$WINDRES"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.WINDRES ?= $cs_build_prop_val ;
 "
 fi
@@ -6053,7 +6053,7 @@ fi
 
     cs_build_prop_val="$STRINGS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.STRINGS ?= $cs_build_prop_val ;
 "
 fi
@@ -6172,7 +6172,7 @@ fi
 
     cs_build_prop_val="$OBJCOPY"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.OBJCOPY ?= $cs_build_prop_val ;
 "
 fi
@@ -6553,14 +6553,14 @@ fi
 
     cs_build_prop_val="$LIBTOOL"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}LIBTOOL ?= $cs_build_prop_val ;
 "
 fi
 
     cs_build_prop_val="$APPLE_LIBTOOL"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}APPLE_LIBTOOL ?= $cs_build_prop_val ;
 "
 fi
@@ -6676,14 +6676,14 @@ fi
 
     cs_build_prop_val="$MKDIR"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.MKDIR ?= $cs_build_prop_val ;
 "
 fi
 
     cs_build_prop_val="$MKDIRS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.MKDIRS ?= $cs_build_prop_val ;
 "
 fi
@@ -6740,7 +6740,7 @@ done
 
     cs_build_prop_val="$INSTALL"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}INSTALL ?= $cs_build_prop_val ;
 "
 fi
@@ -6758,7 +6758,7 @@ fi
 
     cs_build_prop_val="$LN_S"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}LN_S ?= $cs_build_prop_val ;
 "
 fi
@@ -6814,7 +6814,7 @@ done
 
     cs_build_prop_val="$TEXI2DVI"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.TEXI2DVI ?= $cs_build_prop_val ;
 "
 fi
@@ -6871,7 +6871,7 @@ done
 
     cs_build_prop_val="$TEXI2PDF"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.TEXI2PDF ?= $cs_build_prop_val ;
 "
 fi
@@ -6928,7 +6928,7 @@ done
 
     cs_build_prop_val="$DVIPS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.DVIPS ?= $cs_build_prop_val ;
 "
 fi
@@ -6985,7 +6985,7 @@ done
 
     cs_build_prop_val="$DVIPDF"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.DVIPDF ?= $cs_build_prop_val ;
 "
 fi
@@ -7042,7 +7042,7 @@ done
 
     cs_build_prop_val="$MAKEINFO"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.MAKEINFO ?= $cs_build_prop_val ;
 "
 fi
@@ -7098,7 +7098,7 @@ done
 
     cs_build_prop_val="$DOXYGEN"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.DOXYGEN ?= $cs_build_prop_val ;
 "
 fi
@@ -7217,7 +7217,7 @@ fi
 
     cs_build_prop_val="$DOT"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.DOT ?= $cs_build_prop_val ;
 "
 fi
@@ -7274,7 +7274,7 @@ done
 
     cs_build_prop_val="$RSVG"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.RSVG ?= $cs_build_prop_val ;
 "
 fi
@@ -7332,7 +7332,7 @@ done
 
     cs_build_prop_val="$ICOTOOL"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.ICOTOOL ?= $cs_build_prop_val ;
 "
 fi
@@ -7391,7 +7391,7 @@ done
 
     cs_build_prop_val="$CONVERT"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.CONVERT ?= $cs_build_prop_val ;
 "
 fi
@@ -7448,7 +7448,7 @@ done
 
 cs_build_prop_val="$PERL"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}PERL ?= $cs_build_prop_val ;
 "
 fi
@@ -7577,7 +7577,7 @@ done
 	if test $cs_cv_perl_tt2 = yes && test -n "$TTREE"; then
   cs_build_prop_val="$TTREE"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}TTREE ?= $cs_build_prop_val ;
 "
 fi
@@ -7723,14 +7723,14 @@ echo "${ECHO_T}$cs_cv_prog_swig_version_1_3_22_ok_annotated" >&6; }
 if test "$cs_cv_prog_swig_version_1_3_22_ok" = yes; then
   cs_build_prop_val="$SWIG"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.SWIG ?= $cs_build_prop_val ;
 "
 fi
 
         cs_build_prop_val="$cs_prog_swig_version"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.SWIG.VERSION ?= $cs_build_prop_val ;
 "
 fi
@@ -8100,7 +8100,7 @@ echo "${ECHO_T}$cs_cv_prog_cxx_enable_warnings_ok" >&6; }
     if test "$cs_cv_prog_cxx_enable_warnings_ok" != no; then
   cs_build_prop_val="$cs_cv_prog_cxx_enable_warnings"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.CFLAGS += $cs_build_prop_val ;
 "
 fi
@@ -8267,7 +8267,7 @@ echo "${ECHO_T}$cs_cv_prog_cxx_ignore_unused_ok" >&6; }
     if test "$cs_cv_prog_cxx_ignore_unused_ok" != no; then
   cs_build_prop_val="$cs_cv_prog_cxx_ignore_unused"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++FLAGS.WARNING.NO_UNUSED ?= $cs_build_prop_val ;
 "
 fi
@@ -8434,7 +8434,7 @@ echo "${ECHO_T}$cs_cv_prog_cxx_ignore_uninitialized_ok" >&6; }
     if test "$cs_cv_prog_cxx_ignore_uninitialized_ok" != no; then
   cs_build_prop_val="$cs_cv_prog_cxx_ignore_uninitialized"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++FLAGS.WARNING.NO_UNINITIALIZED ?= $cs_build_prop_val ;
 "
 fi
@@ -8609,7 +8609,7 @@ echo "${ECHO_T}$cs_cv_prog_cxx_no_strict_aliasing_ok" >&6; }
 if test $cs_cv_prog_cxx_no_strict_aliasing != no; then
   cs_build_prop_val="$cs_cv_prog_cxx_no_strict_aliasing"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++FLAGS.STRICTALIASING.DISABLE += $cs_build_prop_val ;
 "
 fi
@@ -8766,7 +8766,7 @@ echo "${ECHO_T}$enable_separate_debug_info" >&6; }
 
 cs_build_prop_val="$enable_separate_debug_info"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}LINK.DEBUG.INFO.SEPARATE ?= $cs_build_prop_val ;
 "
 fi
@@ -8931,14 +8931,14 @@ echo "${ECHO_T}$cs_cv_prog_cxx_debug_symbols_extra_ok" >&6; }
     if test "$cs_cv_prog_cxx_debug_symbols_extra_ok" != no; then
   cs_build_prop_val="$cs_cv_prog_cxx_debug_symbols_extra"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.CFLAGS.debug += $cs_build_prop_val ;
 "
 fi
 
 	    cs_build_prop_val="$cs_cv_prog_cxx_debug_symbols_extra"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.LFLAGS.debug += $cs_build_prop_val ;
 "
 fi
@@ -9119,14 +9119,14 @@ echo "${ECHO_T}$cs_cv_prog_cxx_debug_symbols_normal_ok" >&6; }
     if test "$cs_cv_prog_cxx_debug_symbols_normal_ok" != no; then
   cs_build_prop_val="$cs_cv_prog_cxx_debug_symbols_normal"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.CFLAGS.optimize += $cs_build_prop_val ;
 "
 fi
 
 	    cs_build_prop_val="$cs_cv_prog_cxx_debug_symbols_normal"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.LFLAGS.optimize += $cs_build_prop_val ;
 "
 fi
@@ -10751,7 +10751,7 @@ fi
 if test -n "$cs_prog_cxx_visibility_inlines_hidden"; then
   cs_build_prop_val="$cs_prog_cxx_visibility_inlines_hidden"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++FLAGS += $cs_build_prop_val ;
 "
 fi
@@ -10919,7 +10919,7 @@ echo "${ECHO_T}$cs_cv_prog_c_visibility_hidden_ok" >&6; }
     if test "$cs_cv_prog_c_visibility_hidden_ok" != no; then
   cs_build_prop_val="$cs_cv_prog_c_visibility_hidden"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.CFLAGS += $cs_build_prop_val ;
 "
 fi
@@ -11912,7 +11912,7 @@ fi
 
     cs_build_prop_val="$PYTHON"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}PYTHON ?= $cs_build_prop_val ;
 "
 fi
@@ -11935,7 +11935,7 @@ else
 
 	    cs_build_prop_val="$cs_pyver"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}PYTHON.VERSION ?= $cs_build_prop_val ;
 "
 fi
@@ -12041,7 +12041,7 @@ echo "${ECHO_T}$cs_cv_python_sdk" >&6; }
 	if test $cs_cv_python_sdk = yes; then
   cs_build_prop_val="$cs_cv_python_ext"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}PYTHON.MODULE_EXT ?= $cs_build_prop_val ;
 "
 fi
@@ -12369,21 +12369,21 @@ fi
   if test "$cs_cv_python" = yes; then
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}PYTHON.AVAILABLE ?= $cs_build_prop_val ;
 "
 fi
 
 	cs_build_prop_val="$cs_cv_python_cflags"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}PYTHON.CFLAGS ?= $cs_build_prop_val ;
 "
 fi
 
 	cs_build_prop_val="$cs_cv_python_lflags $cs_cv_python_libs"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}PYTHON.LFLAGS ?= $cs_build_prop_val ;
 "
 fi
@@ -13504,21 +13504,21 @@ fi
   if test "$cs_cv_libcppunit" = yes; then
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CPPUNIT.AVAILABLE ?= $cs_build_prop_val ;
 "
 fi
 
 	cs_build_prop_val="$cs_cv_libcppunit_cflags"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CPPUNIT.CFLAGS ?= $cs_build_prop_val ;
 "
 fi
 
 	cs_build_prop_val="$cs_cv_libcppunit_lflags $cs_cv_libcppunit_libs"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CPPUNIT.LFLAGS ?= $cs_build_prop_val ;
 "
 fi
@@ -14826,21 +14826,21 @@ fi
   if test "$cs_cv_libNL" = yes; then
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}HAWKNL.AVAILABLE ?= $cs_build_prop_val ;
 "
 fi
 
 	cs_build_prop_val="$cs_cv_libNL_cflags"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}HAWKNL.CFLAGS ?= $cs_build_prop_val ;
 "
 fi
 
 	cs_build_prop_val="$cs_cv_libNL_lflags $cs_cv_libNL_libs"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}HAWKNL.LFLAGS ?= $cs_build_prop_val ;
 "
 fi
@@ -14857,21 +14857,21 @@ fi
 #------------------------------------------------------------------------------
 cs_build_prop_val="$CPPFLAGS $CFLAGS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.CFLAGS += $cs_build_prop_val ;
 "
 fi
 
 cs_build_prop_val="$CPPFLAGS $CXXFLAGS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++FLAGS += $cs_build_prop_val ;
 "
 fi
 
 cs_build_prop_val="$LDFLAGS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.LFLAGS += $cs_build_prop_val ;
 "
 fi
@@ -15679,49 +15679,49 @@ fi
 
 cs_build_prop_val="$CRYSTAL_AVAILABLE"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.AVAILABLE ?= $cs_build_prop_val ;
 "
 fi
 
 cs_build_prop_val="$CRYSTAL_VERSION"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.VERSION ?= $cs_build_prop_val ;
 "
 fi
 
 cs_build_prop_val="$CRYSTAL_CFLAGS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.CFLAGS ?= $cs_build_prop_val ;
 "
 fi
 
 cs_build_prop_val="$CRYSTAL_LIBS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.LFLAGS ?= $cs_build_prop_val ;
 "
 fi
 
 cs_build_prop_val="$CRYSTAL_INCLUDE_DIR"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.INCLUDE_DIR ?= $cs_build_prop_val ;
 "
 fi
 
 cs_build_prop_val="$CRYSTAL_AVAILABLE_LIBS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.AVAILABLE_LIBS ?= $cs_build_prop_val ;
 "
 fi
 
 cs_build_prop_val="$CRYSTAL_STATICDEPS"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.STATICDEPS ?= $cs_build_prop_val ;
 "
 fi
@@ -15749,7 +15749,7 @@ fi
 echo "${ECHO_T}$cel_have_crystal_static" >&6; }
     cs_build_prop_val="$cel_have_crystal_static"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}HAVE_STATIC_PLUGINS ?= $cs_build_prop_val ;
 "
 fi
@@ -16569,7 +16569,7 @@ fi
 echo "${ECHO_T}$enable_meta_info_embedding" >&6; }
     cs_build_prop_val="$enable_meta_info_embedding"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}EMBED_META ?= $cs_build_prop_val ;
 "
 fi
@@ -16688,7 +16688,7 @@ fi
 
     cs_build_prop_val="$WINDRES"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.WINDRES ?= $cs_build_prop_val ;
 "
 fi
@@ -16808,14 +16808,14 @@ fi
     if test -n "$OBJCOPY"; then
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}OBJCOPY.AVAILABLE ?= $cs_build_prop_val ;
 "
 fi
 
         cs_build_prop_val="$OBJCOPY"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.OBJCOPY ?= $cs_build_prop_val ;
 "
 fi
@@ -16825,7 +16825,7 @@ fi
         if test $cs_header_elf_h = yes; then
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}ELF.AVAILABLE ?= $cs_build_prop_val ;
 "
 fi
@@ -17963,21 +17963,21 @@ fi
   if test "$cs_cv_libbfd_ok" = yes; then
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}LIBBFD.AVAILABLE ?= $cs_build_prop_val ;
 "
 fi
 
 	cs_build_prop_val="$cs_cv_libbfd_ok_cflags"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}LIBBFD.CFLAGS ?= $cs_build_prop_val ;
 "
 fi
 
 	cs_build_prop_val="$cs_cv_libbfd_ok_lflags $cs_cv_libbfd_ok_libs"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}LIBBFD.LFLAGS ?= $cs_build_prop_val ;
 "
 fi
@@ -17986,14 +17986,14 @@ fi
 
 	cs_build_prop_val="$cs_cv_libbfd_ok_cflags"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}EMBED_META.CFLAGS += $cs_build_prop_val ;
 "
 fi
 
 			cs_build_prop_val="$cs_cv_libbfd_ok_lflags $cs_cv_libbfd_ok_libs"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}EMBED_META.LFLAGS += $cs_build_prop_val ;
 "
 fi
@@ -18009,14 +18009,14 @@ fi
 if test $enable_meta_info_embedding = yes; then
   cs_build_prop_val="\$(EMBED_META.CFLAGS)"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.CFLAGS += $cs_build_prop_val ;
 "
 fi
 
     cs_build_prop_val="\$(EMBED_META.LFLAGS)"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}COMPILER.LFLAGS += $cs_build_prop_val ;
 "
 fi
@@ -18045,7 +18045,7 @@ fi
 echo "${ECHO_T}$enable_shared" >&6; }
 cs_build_prop_val="$enable_shared"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}BUILD_SHARED_LIBS ?= $cs_build_prop_val ;
 "
 fi
@@ -18077,7 +18077,7 @@ fi
 echo "${ECHO_T}$cs_build_mode" >&6; }
 cs_build_prop_val="$cs_build_mode"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-    if test -n "$cs_build_prop_val"; then
+    	        if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}MODE ?= $cs_build_prop_val ;
 "
 fi
@@ -18139,20 +18139,18 @@ cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_NAME ?= $PACKAGE_NAME ;
 "
     cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_VERSION ?= $PACKAGE_VERSION ;
 "
-    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_STRING ?= $PACKAGE_STRING ;
+    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_STRING ?= \"$PACKAGE_STRING\" ;
 "
-    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_BUGREPORT ?= $PACKAGE_BUGREPORT ;
+    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_BUGREPORT ?= \"$PACKAGE_BUGREPORT\" ;
 "
-    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_LONGNAME ?= $PACKAGE_LONGNAME ;
+    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_LONGNAME ?= \"$PACKAGE_LONGNAME\" ;
 "
-    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_HOMEPAGE ?= $PACKAGE_HOMEPAGE ;
+    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_HOMEPAGE ?= \"$PACKAGE_HOMEPAGE\" ;
 "
-    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_COPYRIGHT ?= $PACKAGE_COPYRIGHT ;
+    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_COPYRIGHT ?= \"$PACKAGE_COPYRIGHT\" ;
 "
-    for cs_veritem in 1 3; do
-	cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_VERSION_LIST += $cs_veritem ;
+    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_VERSION_LIST ?= 1 3 ;
 "
-    done
 
 
 
