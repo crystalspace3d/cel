@@ -135,10 +135,10 @@ void celMessageTrigger::FindEntity ()
 
 bool celMessageTrigger::ReceiveMessage (csStringID /*msgid*/,
 	iMessageSender* /*sender*/,
-	celData& /*ret*/, iCelParameterBlock* /*params*/)
+	celData& /*ret*/, iCelParameterBlock* params)
 {
   DeactivateTrigger ();
-  callback->TriggerFired ((iQuestTrigger*)this);
+  callback->TriggerFired ((iQuestTrigger*)this, params);
   return true;
 }
 

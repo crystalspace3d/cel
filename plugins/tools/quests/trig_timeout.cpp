@@ -139,7 +139,7 @@ void celTimeoutTrigger::DeactivateTrigger ()
 bool celTimeoutTrigger::Perform (iTimerEvent* ev)
 {
   fired = true;
-  if (callback) callback->TriggerFired ((iQuestTrigger*)this);
+  if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
   return false;
 }
 

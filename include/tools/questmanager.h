@@ -30,6 +30,7 @@
 struct iDocumentNode;
 struct iChangePropertyQuestRewardFactory;
 struct iCelDataBuffer;
+struct iCelParameterBlock;
 struct iQuest;
 
 /*
@@ -78,8 +79,15 @@ typedef csHash<csStringBase,csStringBase> celQuestParams;
 //-------------------------------------------------------------------------
 
 struct iQuestTrigger;
-struct parSpec;
 struct celVariableParameterBlock;
+
+struct celParSpec
+{
+  celDataType type;
+  csStringID id;
+  csString name;
+  csString value;
+};
 
 /**
  * A quest trigger will get pointers to call back the quest when
@@ -92,7 +100,7 @@ struct iQuestTriggerCallback : public virtual iBase
   SCF_INTERFACE (iQuestTriggerCallback, 0, 0, 1);
 
   /// Trigger fired.
-  virtual void TriggerFired (iQuestTrigger* trigger) = 0;
+  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params) = 0;
 };
 
 /**
@@ -216,7 +224,7 @@ struct iQuestReward : public virtual iBase
   /**
    * Perform this reward.
    */
-  virtual void Reward () = 0;
+  virtual void Reward (iCelParameterBlock* params) = 0;
 };
 
 /**
@@ -750,11 +758,26 @@ struct iQuestManager : public virtual iBase
    * creation of rewards, triggers, and sequence operations. This routine
    * knows how to recognize parameter usage (starting with '$') and will in
    * that case try to resolve the parameter by finding it in 'params'. Otherwise
-   * it will just return the unmodified string.
+   * it will just return the unmodified string. This version doesn't
+   * support dynamic parameters.
    */
   virtual const char* ResolveParameter (
   	const celQuestParams& params,
 	const char* param) = 0;
+
+  /**
+   * This is a convenience function to resolve a quest parameter during
+   * creation of rewards, triggers, and sequence operations. This routine
+   * knows how to recognize parameter usage (starting with '$') and will in
+   * that case try to resolve the parameter by finding it in 'params'. Otherwise
+   * it will just return the unmodified string. In case the resolved string
+   * starts with '@' then we have to do with a dynamic parameter and in that case
+   * we return the ID of that dynamic parameter in 'dynamic_par'.
+   */
+  virtual const char* ResolveParameter (
+  	const celQuestParams& params,
+	const char* param,
+	csStringID& dynamic_par) = 0;
 
   /**
    * This is a convenience function to resolve a quest parameter block during
@@ -762,11 +785,11 @@ struct iQuestManager : public virtual iBase
    * knows how to recognize parameter usage (starting with '$') and will in
    * that case try to resolve the parameter by finding it in 'params'.
    * \param params is the quest parameters.
-   * \paraspec is the parameter specifications and unparsed values..
+   * \param paramspec is the parameter specifications and unparsed values..
    */
   virtual csPtr<celVariableParameterBlock> ResolveParameterBlock (
   	const celQuestParams& params,
-	const csArray<parSpec>& paramspec) = 0;
+	const csArray<celParSpec>& paramspec) = 0;
 
   /**
    * Load a bunch of quest factories.

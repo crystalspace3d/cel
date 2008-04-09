@@ -152,7 +152,7 @@ void celEnterSectorTrigger::NewSector (iCamera* camera, iSector* sector)
   if (celEnterSectorTrigger::sect == sector)
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this);
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
   }
 }
 

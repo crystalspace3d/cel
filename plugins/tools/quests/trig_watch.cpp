@@ -222,7 +222,7 @@ void celWatchTrigger::TickOnce ()
   if (Check ())
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this);
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
   }
   else
   {

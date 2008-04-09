@@ -78,8 +78,11 @@ class celNewStateReward : public scfImplementation1<
 private:
   celNewStateRewardType* type;
   csString state;
+  csStringID state_dynamic;
   csString entity;
+  csStringID entity_dynamic;
   csString tag;
+  csStringID tag_dynamic;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iQuest> quest;
 
@@ -90,7 +93,7 @@ public:
 	const char* entity_par, const char* tag_par);
   virtual ~celNewStateReward () {};
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 };
 
 /**
@@ -102,7 +105,11 @@ class celClassNewStateReward : public scfImplementation1<
 private:
   celNewStateRewardType* type;
   csString state;
+  csStringID state_dynamic;
   csString tag;
+  csStringID tag_dynamic;
+  csString clazz;
+  csStringID clazz_dynamic;
   csRef<iCelEntityList> entlist;
 
 public:
@@ -112,7 +119,7 @@ public:
 	const char* entity_par, const char* tag_par);
   virtual ~celClassNewStateReward () {};
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 };
 
 

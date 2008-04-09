@@ -42,13 +42,12 @@ class celQuestFactory;
 class celQuest;
 
 //---------------------------------------------------------------------------
-struct parSpec
-{
-  celDataType type;
-  csStringID id;
-  csString name;
-  csString value;
-};
+
+extern const char* GetDynamicParValue (iObjectRegistry* object_reg, iCelParameterBlock* params,
+    csStringID dynamic_id, const char* par_value);
+
+//---------------------------------------------------------------------------
+
 /**
  * Sequence operation.
  */
@@ -272,6 +271,7 @@ private:
 
   // Count how many rewards we still have to hand out.
   size_t reward_counter;
+  csRef<iCelParameterBlock> reward_params;
 
 public:
   celQuestStateResponse (iCelPlLayer* pl, celQuest* quest);
@@ -282,7 +282,7 @@ public:
   void AddReward (iQuestReward* reward);
 
   // --- For iQuestTriggerCallback ------------------------
-  virtual void TriggerFired (iQuestTrigger* trigger);
+  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
   // --- For iCelTimerListener ----------------------------
   virtual void TickEveryFrame ();
   virtual void TickOnce () { }
@@ -400,9 +400,12 @@ public:
   virtual const char* ResolveParameter (
   	const celQuestParams& params,
 	const char* param);
+  virtual const char* ResolveParameter (
+  	const celQuestParams& params,
+	const char* param, csStringID& dynamic_par);
   virtual csPtr<celVariableParameterBlock> ResolveParameterBlock (
 	const celQuestParams& params,
-  	const csArray<parSpec>& parameters);
+  	const csArray<celParSpec>& parameters);
 
   virtual bool Load (iDocumentNode* node);
 

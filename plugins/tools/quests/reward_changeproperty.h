@@ -92,13 +92,21 @@ class celChangePropertyRewardBase : public scfImplementation1<
 protected:
   celChangePropertyRewardType* type;
   csString prop;
+  csStringID prop_dynamic;
   csString pc;
+  csStringID pc_dynamic;
   csString tag;
+  csStringID tag_dynamic;
   csString pstring;
+  csStringID pstring_dynamic;
   csString plong;
+  csStringID plong_dynamic;
   csString pfloat;
+  csStringID pfloat_dynamic;
   csString pbool;
+  csStringID pbool_dynamic;
   csString pdiff;
+  csStringID pdiff_dynamic;
   bool do_toggle;
 
 public:
@@ -114,11 +122,11 @@ public:
 	const char* diff_par,
 	bool do_toggle);
   virtual ~celChangePropertyRewardBase () {};
-  virtual void Reward () = 0;
+  virtual void Reward (iCelParameterBlock* params) = 0;
   
 protected:
-  void ChangePropertyOnPc(iCelPropertyClass *pclass);
-  void ChangePropertyOnPcProp(iPcProperties *properties);
+  void ChangePropertyOnPc (iCelPropertyClass *pclass, iCelParameterBlock* params);
+  void ChangePropertyOnPcProp (iPcProperties *properties, iCelParameterBlock* params);
 
 };
 
@@ -127,6 +135,7 @@ class celChangePropertyReward : public celChangePropertyRewardBase
 {
 private:
   csString entity;
+  csStringID entity_dynamic;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcProperties> properties;
   csWeakRef<iCelPropertyClass> pclass;
@@ -145,7 +154,7 @@ public:
 	bool do_toggle);
   virtual ~celChangePropertyReward () {};
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 };
 /**
  * The 'changeproperty' reward.
@@ -155,6 +164,9 @@ class celClassChangePropertyReward : public celChangePropertyRewardBase
 private:
   celChangePropertyRewardType* type;
   csRef<iCelEntityList> entlist;
+  csString clazz;
+  csStringID clazz_dynamic;
+
 public:
   celClassChangePropertyReward (celChangePropertyRewardType* type,
   	const celQuestParams& params,
@@ -170,11 +182,11 @@ public:
 	bool do_toggle);
   virtual ~celClassChangePropertyReward () {};
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 
 private:
-  void PcReward ();
-  void PcPropReward ();
+  void PcReward (iCelParameterBlock* params);
+  void PcPropReward (iCelParameterBlock* params);
 };
 
 

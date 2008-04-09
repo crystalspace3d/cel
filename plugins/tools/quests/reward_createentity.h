@@ -43,8 +43,8 @@ class celCreateEntityRewardFactory : public scfImplementation2<
 {
 private:
   celCreateEntityRewardType* type;
-  char* template_par;
-  char* name_par;
+  csString template_par;
+  csString name_par;
   celEntityTemplateParams params;
 
 public:
@@ -69,8 +69,10 @@ class celCreateEntityReward : public scfImplementation1<
 {
 private:
   celCreateEntityRewardType* type;
-  char* name;
-  char* entity_tpl;
+  csString name;
+  csStringID name_dynamic;
+  csString entity_tpl;
+  csStringID entity_tpl_dynamic;
   celEntityTemplateParams params;
 
 public:
@@ -81,7 +83,7 @@ public:
         const celEntityTemplateParams &tpl_params);
   virtual ~celCreateEntityReward ();
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 };
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_CREATEENTITY__

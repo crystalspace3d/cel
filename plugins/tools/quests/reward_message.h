@@ -56,7 +56,7 @@ private:
   csString entity_par;
   csString class_par;
   csString id_par;
-  csArray<parSpec> parameters;
+  csArray<celParSpec> parameters;
 
 public:
   celMessageRewardFactory (celMessageRewardType* type);
@@ -82,11 +82,13 @@ class celMessageReward : public scfImplementation2<
 {
 private:
   celMessageRewardType* type;
-  csString id;
+
   csString msg_id;
+  csStringID msg_id_dynamic;
+  csString entity;
+  csStringID entity_dynamic;
   csRef<celVariableParameterBlock> msg_params;
 
-  csString entity;
   csWeakRef<iCelEntity> ent;
   csRef<iMessageDispatcher> dispatcher;
 
@@ -95,10 +97,10 @@ public:
   	const celQuestParams& params,
 	const char* entity_par,
 	const char* id_par,
-	const csArray<parSpec>& parameters);
+	const csArray<celParSpec>& parameters);
   virtual ~celMessageReward () {};
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 
   // --- For iMessageSender --------------------------------------------
   virtual void MessageDispatcherRemoved (
@@ -113,8 +115,12 @@ class celClassMessageReward : public scfImplementation1<
 {
 private:
   celMessageRewardType* type;
-  csString id;
+
   csString msg_id;
+  csStringID msg_id_dynamic;
+  csString clazz;
+  csStringID clazz_dynamic;
+
   csRef<celVariableParameterBlock> msg_params;
 
   csRef<iCelEntityList> entlist;
@@ -124,10 +130,10 @@ public:
   	const celQuestParams& params,
 	const char* class_par,
 	const char* id_par,
-	const csArray<parSpec>& parameters);
+	const csArray<celParSpec>& parameters);
   virtual ~celClassMessageReward () {};
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 
 };
 

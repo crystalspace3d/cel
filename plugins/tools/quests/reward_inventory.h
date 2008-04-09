@@ -50,10 +50,10 @@ class celInventoryRewardFactory : public scfImplementation2<
 {
 private:
   celInventoryRewardType* type;
-  char* entity_par;
-  char* tag_par;
-  char* child_entity_par;
-  char* child_tag_par;
+  csString entity_par;
+  csString tag_par;
+  csString child_entity_par;
+  csString child_tag_par;
 
 public:
   celInventoryRewardFactory (celInventoryRewardType* type);
@@ -77,10 +77,14 @@ class celInventoryReward : public scfImplementation1<
 {
 private:
   celInventoryRewardType* type;
-  char* entity;
-  char* tag;
-  char* child_entity;
-  char* child_tag;
+  csString entity;
+  csStringID entity_dynamic;
+  csString tag;
+  csStringID tag_dynamic;
+  csString child_entity;
+  csStringID child_entity_dynamic;
+  csString child_tag;
+  csStringID child_tag_dynamic;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcInventory> inventory;
 
@@ -91,7 +95,7 @@ public:
 	const char* child_entity_par, const char* child_tag_par);
   virtual ~celInventoryReward ();
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 };
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_INVENTORY__

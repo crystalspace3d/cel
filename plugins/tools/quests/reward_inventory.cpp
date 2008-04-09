@@ -33,6 +33,7 @@
 #include "physicallayer/propclas.h"
 #include "propclass/mesh.h"
 
+#include "plugins/tools/quests/quests.h"
 #include "plugins/tools/quests/reward_inventory.h"
 
 //---------------------------------------------------------------------------
@@ -65,18 +66,10 @@ celInventoryRewardFactory::celInventoryRewardFactory (
 	celInventoryRewardType* type) : scfImplementationType (this)
 {
   celInventoryRewardFactory::type = type;
-  entity_par = 0;
-  child_entity_par = 0;
-  tag_par = 0;
-  child_tag_par = 0;
 }
 
 celInventoryRewardFactory::~celInventoryRewardFactory ()
 {
-  delete[] entity_par;
-  delete[] child_entity_par;
-  delete[] tag_par;
-  delete[] child_tag_par;
 }
 
 csPtr<iQuestReward> celInventoryRewardFactory::CreateReward (
@@ -89,16 +82,10 @@ csPtr<iQuestReward> celInventoryRewardFactory::CreateReward (
 
 bool celInventoryRewardFactory::Load (iDocumentNode* node)
 {
-  delete[] entity_par; entity_par = 0;
-  delete[] child_entity_par; child_entity_par = 0;
-  delete[] tag_par; tag_par = 0;
-  delete[] child_tag_par; child_tag_par = 0;
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  child_entity_par = csStrNew (node->GetAttributeValue (
-  	"child_entity"));
-  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
-  child_tag_par = csStrNew (node->GetAttributeValue (
-  	"child_entity_tag"));
+  entity_par = node->GetAttributeValue ("entity");
+  child_entity_par = node->GetAttributeValue ("child_entity");
+  tag_par = node->GetAttributeValue ("entity_tag");
+  child_tag_par = node->GetAttributeValue ("child_entity_tag");
   if (!entity_par)
     return Report (type->object_reg,
       "'entity' attribute is missing for the inventory reward!");
@@ -111,31 +98,15 @@ bool celInventoryRewardFactory::Load (iDocumentNode* node)
 void celInventoryRewardFactory::SetEntityParameter (
 	const char* entity, const char* tag)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
-  if (tag_par != tag)
-  {
-    delete[] tag_par;
-    tag_par = csStrNew (tag);
-  }
+  entity_par = entity;
+  tag_par = tag;
 }
 
 void celInventoryRewardFactory::SetChildEntityParameter (
 	const char* entity, const char* tag)
 {
-  if (child_entity_par != entity)
-  {
-    delete[] child_entity_par;
-    child_entity_par = csStrNew (entity);
-  }
-  if (child_tag_par != tag)
-  {
-    delete[] child_tag_par;
-    child_tag_par = csStrNew (tag);
-  }
+  child_entity_par = entity;
+  child_tag_par = tag;
 }
 
 //---------------------------------------------------------------------------
@@ -149,23 +120,37 @@ celInventoryReward::celInventoryReward (
 {
   celInventoryReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  tag = csStrNew (qm->ResolveParameter (params, tag_par));
-  child_entity = csStrNew (qm->ResolveParameter (params, child_entity_par));
-  child_tag = csStrNew (qm->ResolveParameter (params, child_tag_par));
+  entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
+  if (entity_dynamic != csInvalidStringID)
+    entity.Empty ();
+  tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
+  if (tag_dynamic != csInvalidStringID)
+    tag.Empty ();
+  child_entity = qm->ResolveParameter (params, child_entity_par, child_entity_dynamic);
+  if (child_entity_dynamic != csInvalidStringID)
+    child_entity.Empty ();
+  child_tag = qm->ResolveParameter (params, child_tag_par, child_tag_dynamic);
+  if (child_tag_dynamic != csInvalidStringID)
+    child_tag.Empty ();
 }
 
 celInventoryReward::~celInventoryReward ()
 {
-  delete[] entity;
-  delete[] child_entity;
-  delete[] tag;
-  delete[] child_tag;
 }
 
-void celInventoryReward::Reward ()
+void celInventoryReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = type->pl;
+
+  if (entity_dynamic != csInvalidStringID || tag_dynamic != csInvalidStringID)
+  {
+    const char* e = GetDynamicParValue (type->object_reg, params, entity_dynamic, entity);
+    if (!e) return;
+    if (entity != e) { ent = 0; inventory = 0; entity = e; }
+    const char* t = GetDynamicParValue (type->object_reg, params, tag_dynamic, tag);
+    if (tag != t) { inventory = 0;  tag = t; }
+  }
+
   if (!inventory)
   {
     if (!ent)
@@ -177,24 +162,26 @@ void celInventoryReward::Reward ()
     if (!inventory) return;
   }
 
-  iCelEntity* child_ent = pl->FindEntity (child_entity);
+  const char* ce = GetDynamicParValue (type->object_reg, params, child_entity_dynamic,
+      child_entity);
+  if (!ce) return;
+  iCelEntity* child_ent = pl->FindEntity (ce);
   if (!child_ent)
   {
-    Report (type->object_reg, "Can't find entity '%s' in inventory reward!",
-    	(const char*)child_entity);
+    Report (type->object_reg, "Can't find entity '%s' in inventory reward!", ce);
     return;
   }
 
   if (!inventory->AddEntity (child_ent))
   {
-    Report (type->object_reg, "Can't add entity '%s' in inventory reward!",
-    	(const char*)child_entity);
+    Report (type->object_reg, "Can't add entity '%s' in inventory reward!", ce);
     return;
   }
 
   // Make the mesh invisible if the entity has one.
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (child_ent, iPcMesh,
-  	child_tag);
+  const char* cet = GetDynamicParValue (type->object_reg, params, child_tag_dynamic,
+      child_tag);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (child_ent, iPcMesh, cet);
   if (pcmesh)
     pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE);
 

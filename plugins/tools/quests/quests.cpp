@@ -375,8 +375,10 @@ csPtr<celQuestSequence> celQuestSequenceFactory::CreateSequence (
   csTicks max_time = 0;
   for (i = 0 ; i < seqops.GetSize () ; i++)
   {
+    // @@@ Support dynamic parameters here?
+    csStringID dynamic_par;
     csTicks duration = ToUInt (parent_factory->GetQuestManager ()->
-    	ResolveParameter (params, seqops[i].duration));
+    	ResolveParameter (params, seqops[i].duration, dynamic_par));
     if (total_time + duration > max_time) max_time = total_time + duration;
     if (seqops[i].seqop)
     {
@@ -731,9 +733,11 @@ void celQuestStateResponse::AddReward (iQuestReward* reward)
   rewards.Push (reward);
 }
 
-void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger)
+void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger,
+    iCelParameterBlock* params)
 {
   reward_counter++;
+  reward_params = params;
   if (reward_counter == 1)
   {
     pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
@@ -746,9 +750,10 @@ void celQuestStateResponse::TickEveryFrame ()
   {
     size_t i;
     for (i = 0 ; i < rewards.GetSize () ; i++)
-      rewards[i]->Reward ();
+      rewards[i]->Reward (reward_params);
     reward_counter--;
   }
+  reward_params = 0;
   pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 }
 
@@ -808,7 +813,7 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
 	  if (trigger->Check ())
 	  {
 	    trigger->DeactivateTrigger ();
-	    st->GetResponse (j)->TriggerFired (trigger);
+	    st->GetResponse (j)->TriggerFired (trigger, 0);
 	    return true;
 	  }
 	}
@@ -818,7 +823,7 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
 	  if (trigger->Check ())
 	  {
 	    trigger->DeactivateTrigger ();
-	    st->GetResponse (j)->TriggerFired (trigger);
+	    st->GetResponse (j)->TriggerFired (trigger, 0);
 	    return true;
 	  }
         }
@@ -1198,6 +1203,7 @@ const char* celQuestManager::ResolveParameter (
 {
   if (param == 0) return param;
   if (*param != '$') return param;
+  if (*(param+1) == '$') return param+1;	// Double $ means to quote the '$'.
   const char* val = params.Get (param+1, (const char*)0);
   if (!val)
   {
@@ -1208,15 +1214,32 @@ const char* celQuestManager::ResolveParameter (
   return val;
 }
 
+const char* celQuestManager::ResolveParameter (
+  	const celQuestParams& params,
+	const char* param, csStringID& dynamic_par)
+{
+  dynamic_par = csInvalidStringID;
+  const char* val = ResolveParameter (params, param);
+  if (val && *val == '@' && *(val+1) != '@')
+  {
+    csString fullname = "cel.parameter.";
+    fullname += val+1;
+    dynamic_par = pl->FetchStringID (fullname);
+  }
+  return val;
+}
+
 csPtr<celVariableParameterBlock> celQuestManager::ResolveParameterBlock (
   	const celQuestParams& params,
-	const csArray<parSpec>& parameters)
+	const csArray<celParSpec>& parameters)
 {
   celVariableParameterBlock *act_params = new celVariableParameterBlock ();
   size_t i;
   for (i = 0 ; i < parameters.GetSize () ; i++)
   {
-    csString v = ResolveParameter (params, parameters[i].value);
+    // @@@ Support dynamic parameters here?
+    csStringID dynamic_par;
+    csString v = ResolveParameter (params, parameters[i].value, dynamic_par);
     act_params->SetParameterDef (i, parameters[i].id, parameters[i].name);
     switch (parameters[i].type)
     {
@@ -1540,4 +1563,45 @@ iQuestTriggerFactory* celQuestManager::SetOperationTrigger (
   }
   return trigfact;
 }
+
 //---------------------------------------------------------------------------
+
+const char* GetDynamicParValue (iObjectRegistry* object_reg, iCelParameterBlock* params,
+    csStringID dynamic_id, const char* par_value)
+{
+  if (dynamic_id != csInvalidStringID)
+  {
+    if (!params)
+    {
+      csReport (object_reg,
+	    	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
+		"Cannot resolve dynamic parameter '%s' (no parameters given)!", par_value);
+      return 0;
+    }
+
+    const celData* data = params->GetParameter (dynamic_id);
+    if (!data)
+    {
+      csReport (object_reg,
+	    	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
+		"Cannot resolve dynamic parameter '%s'!", par_value);
+      return 0;
+    }
+    if (data->type != CEL_DATA_STRING)
+    {
+      csReport (object_reg,
+	    	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
+		"Parameter '%s' is not a string!", par_value);
+      return 0;
+    }
+    return data->value.s->GetData ();
+  }
+  else
+  {
+    if (par_value && !*par_value) par_value = 0;
+    return par_value;
+  }
+}
+
+//---------------------------------------------------------------------------
+

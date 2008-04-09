@@ -24,6 +24,7 @@
 
 #include "physicallayer/pl.h"
 
+#include "plugins/tools/quests/quests.h"
 #include "plugins/tools/quests/reward_createentity.h"
 
 //---------------------------------------------------------------------------
@@ -57,14 +58,10 @@ celCreateEntityRewardFactory::celCreateEntityRewardFactory (
 	celCreateEntityRewardType* type) : scfImplementationType (this)
 {
   celCreateEntityRewardFactory::type = type;
-  template_par = 0;
-  name_par = 0;
 }
 
 celCreateEntityRewardFactory::~celCreateEntityRewardFactory ()
 {
-  delete[] template_par;
-  delete[] name_par;
 }
 
 csPtr<iQuestReward> celCreateEntityRewardFactory::CreateReward (
@@ -77,18 +74,18 @@ csPtr<iQuestReward> celCreateEntityRewardFactory::CreateReward (
 
 bool celCreateEntityRewardFactory::Load (iDocumentNode* node)
 {
-  delete[] template_par; template_par = 0;
-  delete[] name_par; name_par = 0;
+  template_par.Empty ();
+  name_par.Empty ();
   params.DeleteAll();
 
   // required parameters
-  template_par = csStrNew (node->GetAttributeValue ("template"));
+  template_par = node->GetAttributeValue ("template");
   if (!template_par)
     return Report (type->object_reg,
       "'template' attribute is missing for the createentity reward!");
 
   // optional parameters
-  name_par = csStrNew (node->GetAttributeValue ("name"));
+  name_par = node->GetAttributeValue ("name");
 
   // now parse template parameters
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
@@ -115,22 +112,15 @@ bool celCreateEntityRewardFactory::Load (iDocumentNode* node)
 void celCreateEntityRewardFactory::SetEntityTemplateParameter (
 	const char* entity_tpl)
 {
-  if (template_par != entity_tpl)
-  {
-    delete[] template_par;
-    template_par = csStrNew (entity_tpl);
-  }
+  template_par = entity_tpl;
 }
 
 void celCreateEntityRewardFactory::SetNameParameter (
 	const char* name)
 {
-  if (name_par != name)
-  {
-    delete[] name_par;
-    name_par = csStrNew (name);
-  }
+  name_par = name;
 }
+
 void celCreateEntityRewardFactory::AddParameter (const char* name, 
 		const char* value)
 {
@@ -150,38 +140,41 @@ celCreateEntityReward::celCreateEntityReward (
   celCreateEntityReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
-  entity_tpl = csStrNew (qm->ResolveParameter (params, template_par));
-  name = csStrNew (qm->ResolveParameter (params, name_par));
+  entity_tpl = qm->ResolveParameter (params, template_par, entity_tpl_dynamic);
+  name = qm->ResolveParameter (params, name_par, name_dynamic);
 
-  // resolve template parameters
+  // Resolve template parameters.
   celEntityTemplateParams::ConstGlobalIterator iter = tpl_params.GetIterator();
   while (iter.HasNext())
   {
     csStringFast<12> name;
-    const char * val = qm->ResolveParameter(params,iter.Next(name));
-    celCreateEntityReward::params.Put(name,val);
+    csStringID id; // @@@ Support dynamic parameters?
+    const char * val = qm->ResolveParameter (params, iter.Next(name), id);
+    celCreateEntityReward::params.Put (name, val);
   }
 }
 
 celCreateEntityReward::~celCreateEntityReward ()
 {
-  delete[] entity_tpl;
-  delete[] name;
 }
 
-void celCreateEntityReward::Reward ()
+void celCreateEntityReward::Reward (iCelParameterBlock* params)
 {
+  const char* e = GetDynamicParValue (type->object_reg, params, entity_tpl_dynamic, entity_tpl);
+  if (!e) return;
+
   iCelPlLayer* pl = type->pl;
-  iCelEntityTemplate* ent_tpl = pl->FindEntityTemplate (entity_tpl);
+  iCelEntityTemplate* ent_tpl = pl->FindEntityTemplate (e);
   if (!ent_tpl)
   {
     Report (type->object_reg,
-      		"entity template %s not found for createentity reward!",
-				entity_tpl);
+      		"entity template %s not found for createentity reward!", e);
     return;
   }
 
-  pl->CreateEntity(ent_tpl,name,params);
+  const char* n = GetDynamicParValue (type->object_reg, params, name_dynamic, name);
+  if (!n) return;
+  pl->CreateEntity (ent_tpl, n, params);
 }
 
 //---------------------------------------------------------------------------
