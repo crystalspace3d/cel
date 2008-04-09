@@ -3,11 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
-04-Apr-2008
+4-Apr-2008
 	- Eric Sunshine updated mk/autoconf/*.m4 files from CS master copies.
 	- Eric Sunshine updated mk/autoconf/*.m4 (again) and mk/jam/*.jam files
 	  from CS master copies.
-01-Apr-2008
+1-Apr-2008
 	- caedes changed celSubscriptions hash to use SafeArrayElementHandler
 	  for the hash, to fix problems due to weakref's in the 
 	  celSubscription's (namely "weakref memcopyed" assert).
@@ -54,10 +54,10 @@ The history order is reversed so that new features are at the top.
 	  containing multiple paths.
 	- res fixed Jamfile to contain $(BUILDTOP)/include, needed for
 	  celconfig.h.
-08-Mar-2008
+8-Mar-2008
 	- Vincent changed celconsole plugin to use
 	  CS_EVENTHANDLER_PHASE_CONSOLE() macro. Fixes #54.
-07-Mar-2008
+7-Mar-2008
 	- caedes did the following additions to quest property change
 	  trigger:
 	  - added onchange attribute to control trigger firing on an actual
@@ -69,17 +69,17 @@ The history order is reversed so that new features are at the top.
 	  a class as parameter (and returns the first entity with such class).
 	- caedes added an overload for PcMesh::MoveMesh that accepts a pcmesh
 	  and an offset for relative positioning.
-05-Mar-2008
+5-Mar-2008
 	- Vincent applied Guillaume Libersat's patch for #57,
 	  celPcCommandInput::RemoveBind() would crash when removing the
 	  first bind of linked list, and wouldn't release the mouse pointer
 	  when there's no bind anymore for X/Y axis.
-04-Mar-2008
+4-Mar-2008
 	- Genjix fixed a few bugs checking argument size in celconsole.
-03-Mar-2008
+3-Mar-2008
 	- caedes added a python base class called pyMessageReceiver for 
 	  iMessageReceiver implementation in python classes.
-02-Mar-2008
+2-Mar-2008
 	- caedes fixed nasty crash on loading quest inventory triggers
 	  due to leftover code after converting it to use csString.
 29-Feb-2008
