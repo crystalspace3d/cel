@@ -91,6 +91,13 @@ void celMessageChannel::Subscribe (iMessageReceiver* receiver, const char* mask)
   newsub.receiver = receiver;
   newsub.mask = mask;
 
+  // if we are sending messages we queue the subscription request
+  // so as to not mess up the subscriptions iterator.
+  if (sending)
+  {
+    subscriptionQueue.Push(newsub);
+    return;
+  }
   // First check all subscriptions for this receiver and see if we
   // are already subscribed.
   celSubscriptions::Iterator it = messageSubscriptions.GetIterator (
@@ -123,10 +130,18 @@ void celMessageChannel::Subscribe (iMessageReceiver* receiver, const char* mask)
 void celMessageChannel::Unsubscribe (iMessageReceiver* receiver,
     const char* mask)
 {
+  if (sending)
+  {
+    // we're sending messages, so can't modify the hash now..
+    celMessageSubscription newsub;
+    newsub.receiver = receiver;
+    newsub.mask = mask;
+    unsubscriptionQueue.Push(newsub);
+    return;
+  }
   size_t i;
   csString maskStr = mask;
   csStringArray retained_masks;
- 
   if (maskStr.IsEmpty ())
   {
     // If mask is empty then we can just remove all subscriptions for
@@ -185,6 +200,10 @@ bool celMessageChannel::SendMessage (const char* msgid,
   csStringID id = pl->FetchStringID (msgid);
   bool handled = false;
   celSubscriptions::GlobalIterator it = messageSubscriptions.GetIterator ();
+  // queue subscriptions, otherwise the iterator will get messed up.
+  // we use a counter here, in case this function ends calling
+  // itself.
+  sending++;
   while (it.HasNext ())
   {
     celMessageSubscription& sub = it.Next ();
@@ -198,6 +217,22 @@ bool celMessageChannel::SendMessage (const char* msgid,
 	handled = true;
 	if (ret1.type != CEL_DATA_NONE && ret) ret->Push (ret1);
       }
+    }
+  }
+  sending--; // end queuing of subscriptions
+  // now apply all un/subscription requests resulting from latest message
+  // sending.
+  if (!sending)
+  {
+    while(unsubscriptionQueue.GetSize())
+    {
+      celMessageSubscription subscriptionRequest =  unsubscriptionQueue.Pop();
+      Unsubscribe(subscriptionRequest.receiver,subscriptionRequest.mask);
+    }
+    while(subscriptionQueue.GetSize())
+    {
+      celMessageSubscription subscriptionRequest =  subscriptionQueue.Pop();
+      Unsubscribe(subscriptionRequest.receiver,subscriptionRequest.mask);
     }
   }
   return handled;

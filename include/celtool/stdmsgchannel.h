@@ -116,16 +116,20 @@ typedef csHash<celMessageSubscription,csPtrKey<iMessageReceiver>,
 /**
  * Helper class for a message channel.
  */
+
+
 class CEL_CELTOOL_EXPORT celMessageChannel : public scfImplementation1<
 					     celMessageChannel, iMessageChannel>
 {
 private:
+  csArray<celMessageSubscription> subscriptionQueue;
+  csArray<celMessageSubscription> unsubscriptionQueue;
   csWeakRef<iCelPlLayer> pl;
   csRefArray<celMessageDispatcher> messageDispatchers;
   celSubscriptions messageSubscriptions;
-
+  int sending;
 public:
-  celMessageChannel () : scfImplementationType (this) { }
+  celMessageChannel () : scfImplementationType (this) { sending = 0; }
   virtual ~celMessageChannel () { RemoveMessageDispatchers (); }
 
   virtual iMessageChannel* QueryMessageChannel ()

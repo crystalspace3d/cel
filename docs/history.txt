@@ -17,6 +17,9 @@ The history order is reversed so that new features are at the top.
 	    - Only the message trigger can currently send out such
 	      parameters.
 	    - This system is totally untested.
+	- caedes added a protection to celMessageChannel, so that new
+	  subscriptions and unsubscriptions will be queued while we send
+	  messages, otherwise the subscriber iterator can get messed up.
 4-Apr-2008
 	- Eric Sunshine updated mk/autoconf/*.m4 files from CS master copies.
 	- Eric Sunshine updated mk/autoconf/*.m4 (again) and mk/jam/*.jam files
