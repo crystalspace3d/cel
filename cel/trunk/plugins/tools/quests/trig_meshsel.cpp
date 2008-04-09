@@ -172,7 +172,7 @@ void celMeshSelectTrigger::MouseDown (iPcMeshSelect*,
   	int, int, int, iCelEntity*)
 {
   DeactivateTrigger ();
-  callback->TriggerFired ((iQuestTrigger*)this);
+  callback->TriggerFired ((iQuestTrigger*)this, 0);
 }
 
 void celMeshSelectTrigger::MouseUp (iPcMeshSelect*,

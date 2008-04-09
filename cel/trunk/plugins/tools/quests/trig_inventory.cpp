@@ -193,13 +193,13 @@ void celInventoryTrigger::AddChild (iPcInventory* inventory, iCelEntity* entity)
   {
     // Always fire in case we're not monitoring a specific entity.
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this);
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
     return;
   }
   if (entity->GetName () && strcmp (child_entity, entity->GetName ()) == 0)
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this);
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
   }
 }
 
@@ -209,7 +209,7 @@ void celInventoryTrigger::RemoveChild (iPcInventory*, iCelEntity*)
   {
     // Always fire in case we're not monitoring a specific entity.
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this);
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
     return;
   }
 }

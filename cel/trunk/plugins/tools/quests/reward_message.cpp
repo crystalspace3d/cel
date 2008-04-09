@@ -184,7 +184,7 @@ void celMessageRewardFactory::SetIDParameter (
 void celMessageRewardFactory::AddParameter (celDataType type,
     csStringID id, const char* name, const char* value)
 {
-  size_t idx = parameters.Push (parSpec ());
+  size_t idx = parameters.Push (celParSpec ());
   parameters[idx].type = type;
   parameters[idx].id = id;
   parameters[idx].name = name;
@@ -200,20 +200,32 @@ celMessageReward::celMessageReward (
   	const celQuestParams& params,
 	const char* entity_par,
 	const char* id_par,
-	const csArray<parSpec>& parameters) 
+	const csArray<celParSpec>& parameters) 
 	: scfImplementationType (this)
 {
   celMessageReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
-  msg_id = qm->ResolveParameter (params, id_par);
-  msg_params = qm->ResolveParameterBlock(params,parameters);
+  msg_id = qm->ResolveParameter (params, id_par, msg_id_dynamic);
+  msg_params = qm->ResolveParameterBlock (params, parameters); // @@@ TODO: support for @par
 
-  entity = qm->ResolveParameter (params, entity_par);
+  entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
+  if (entity_dynamic != csInvalidStringID)
+    entity.Empty ();
 }
 
-void celMessageReward::Reward ()
+void celMessageReward::Reward (iCelParameterBlock* params)
 {
+  const char* msg = GetDynamicParValue (type->object_reg, params, msg_id_dynamic, msg_id);
+  if (!msg) return;
+
+  if (entity_dynamic != csInvalidStringID)
+  {
+    const char* e = GetDynamicParValue (type->object_reg, params, entity_dynamic, entity);
+    if (!e) return;
+    if (entity != e) { ent = 0; entity = e; }
+  }
+
   if (!ent)
   {
     dispatcher = 0;  // Clear previous dispatcher.
@@ -226,11 +238,11 @@ void celMessageReward::Reward ()
   if (behave)
   {
     celData ret;
-    behave->SendMessage (msg_id, 0, ret, msg_params);
+    behave->SendMessage (msg, 0, ret, msg_params);
   }
   if (!dispatcher)
     dispatcher = ent->QueryMessageChannel ()->CreateMessageDispatcher (
-	this, msg_id);
+	this, msg);
   dispatcher->SendMessage (msg_params);
 }
 
@@ -241,27 +253,50 @@ celClassMessageReward::celClassMessageReward (
   	const celQuestParams& params,
 	const char* class_par,
 	const char* id_par,
-	const csArray<parSpec>& parameters)
+	const csArray<celParSpec>& parameters)
 	: scfImplementationType (this)
 {
   celClassMessageReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
   // message id and parameters
-  msg_id = qm->ResolveParameter (params, id_par);
-  msg_params = qm->ResolveParameterBlock(params,parameters);
+  msg_id = qm->ResolveParameter (params, id_par, msg_id_dynamic);
+  msg_params = qm->ResolveParameterBlock (params, parameters); // @@@ TODO: support for @par
 
-  // get the entity class list pointer.
-  csStringID ent_class = 
-    type->pl->FetchStringID(qm->ResolveParameter (params, class_par));
-  entlist = type->pl->GetClassEntitiesList(ent_class);
+  // Get the entity class list pointer.
+  clazz = qm->ResolveParameter (params, class_par, clazz_dynamic);
+  if (clazz_dynamic == csInvalidStringID)
+  {
+    csStringID ent_class = type->pl->FetchStringID (clazz);
+    entlist = type->pl->GetClassEntitiesList (ent_class);
+  }
+  else
+  {
+    clazz.Empty ();
+  }
 }
 
-void celClassMessageReward::Reward ()
+void celClassMessageReward::Reward (iCelParameterBlock* params)
 {
-  // old method for behaviours
-  type->pl->SendMessage(entlist,msg_id,msg_params);
+  const char* msg = GetDynamicParValue (type->object_reg, params, msg_id_dynamic, msg_id);
+  if (!msg) return;
 
-  // new method for pclasses
-  type->pl->SendMessage(msg_id, 0, entlist,msg_params);
+  if (clazz_dynamic != csInvalidStringID)
+  {
+    const char* cl = GetDynamicParValue (type->object_reg, params, clazz_dynamic, clazz);
+    if (!cl) return;
+    if (clazz != cl)
+    {
+      clazz = cl;
+      csStringID ent_class = type->pl->FetchStringID (clazz);
+      entlist = type->pl->GetClassEntitiesList (ent_class);
+    }
+  }
+
+  // Old method for behaviours.
+  type->pl->SendMessage (entlist, msg, msg_params);
+
+  // New method for pclasses.
+  type->pl->SendMessage (msg, 0, entlist, msg_params);
 }
+

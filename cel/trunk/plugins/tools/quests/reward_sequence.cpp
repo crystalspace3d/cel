@@ -30,6 +30,7 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 
+#include "plugins/tools/quests/quests.h"
 #include "plugins/tools/quests/reward_sequence.h"
 
 //---------------------------------------------------------------------------
@@ -126,19 +127,37 @@ celSequenceReward::celSequenceReward (
 {
   celSequenceReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  tag = qm->ResolveParameter (params, tag_par);
-  sequence = qm->ResolveParameter (params, sequence_par);
+  entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
+  if (entity_dynamic != csInvalidStringID)
+    entity.Empty ();
+  tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
+  if (tag_dynamic != csInvalidStringID)
+    tag.Empty ();
+  sequence = qm->ResolveParameter (params, sequence_par, sequence_dynamic);
   delay = 0;
+  delay_dynamic = csInvalidStringID;
   if (delay_par)
   {
-    const char* s = qm->ResolveParameter (params, delay_par);
-    if (s) sscanf (s, "%d", &delay);
+    const char* s = qm->ResolveParameter (params, delay_par, delay_dynamic);
+    if (delay_dynamic == csInvalidStringID)
+      if (s) sscanf (s, "%d", &delay);
   }
 }
 
-void celSequenceReward::Reward ()
+void celSequenceReward::Reward (iCelParameterBlock* params)
 {
+  if (entity_dynamic != csInvalidStringID)
+  {
+    const char* e = GetDynamicParValue (type->object_reg, params, entity_dynamic, entity);
+    if (!e) return;
+    if (entity != e) { quest = 0; ent = 0; entity = e; }
+  }
+  if (tag_dynamic != csInvalidStringID)
+  {
+    const char* t = GetDynamicParValue (type->object_reg, params, tag_dynamic, tag);
+    if (tag != t) { quest = 0; tag = t; }
+  }
+
   if (!quest)
   {
     if (!ent)
@@ -152,22 +171,30 @@ void celSequenceReward::Reward ()
   }
 
   iQuest* q = quest->GetQuest ();
-  iQuestSequence* seq = q->FindSequence (sequence);
+  const char* s = GetDynamicParValue (type->object_reg, params, sequence_dynamic, sequence);
+  if (!s) return;
+  iQuestSequence* seq = q->FindSequence (s);
   if (!seq)
   {
-    if (tag)
+    if (tag || tag_dynamic != csInvalidStringID)
       Report (type->object_reg,
       	"Can't find sequence '%s' in entity '%s' and tag '%s'!",
-	(const char*)sequence, (const char*)entity, (const char*)tag);
+	s, (const char*)entity, (const char*)tag);
     else
       Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!",
-    	  (const char*)sequence, (const char*)entity);
+    	  s, (const char*)entity);
     return;
+  }
+  if (delay_dynamic != csInvalidStringID)
+  {
+    const char* d = GetDynamicParValue (type->object_reg, params, delay_dynamic, "0");
+    if (!d) return;
+    sscanf (d, "%d", &delay);
   }
   if (!seq->Start (delay))
   {
     Report (type->object_reg, "Sequence '%s' in entity '%s' fails to start!",
-    	  (const char*)sequence, (const char*)entity);
+    	  s, (const char*)entity);
     return;
   }
 }
@@ -186,45 +213,73 @@ celClassSequenceReward::celClassSequenceReward (
   celClassSequenceReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
-  csStringID classid = 
-	type->pl->FetchStringID(qm->ResolveParameter (params, class_par));
-  entlist = type->pl->GetClassEntitiesList(classid);
+  // Get the entity class list pointer.
+  clazz = qm->ResolveParameter (params, class_par, clazz_dynamic);
+  if (clazz_dynamic == csInvalidStringID)
+  {
+    csStringID ent_class = type->pl->FetchStringID (clazz);
+    entlist = type->pl->GetClassEntitiesList (ent_class);
+  }
+  else
+  {
+    clazz.Empty ();
+  }
 
-  tag = qm->ResolveParameter (params, tag_par);
-  sequence = qm->ResolveParameter (params, sequence_par);
+  tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
+  sequence = qm->ResolveParameter (params, sequence_par, sequence_dynamic);
   delay = 0;
+  delay_dynamic = csInvalidStringID;
   if (delay_par)
   {
-    const char* s = qm->ResolveParameter (params, delay_par);
-    if (s) sscanf (s, "%d", &delay);
+    const char* s = qm->ResolveParameter (params, delay_par, delay_dynamic);
+    if (delay_dynamic == csInvalidStringID)
+      if (s) sscanf (s, "%d", &delay);
   }
 }
 
-void celClassSequenceReward::Reward ()
+void celClassSequenceReward::Reward (iCelParameterBlock* params)
 {
+  if (clazz_dynamic != csInvalidStringID)
+  {
+    const char* cl = GetDynamicParValue (type->object_reg, params, clazz_dynamic, clazz);
+    if (!cl) return;
+    if (clazz != cl)
+    {
+      clazz = cl;
+      csStringID ent_class = type->pl->FetchStringID (clazz);
+      entlist = type->pl->GetClassEntitiesList (ent_class);
+    }
+  }
+
+  const char* t = GetDynamicParValue (type->object_reg, params, tag_dynamic, tag);
   iCelEntity *ent;
   csRef<iPcQuest> quest;
   for (int i = entlist->GetCount()-1; i>=0; i--)
   {
     ent = entlist->Get(i);
-    quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, tag);
+    quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
     if (quest)
     {
-      iQuestSequence* seq = quest->GetQuest()->FindSequence (sequence);
+      const char* s = GetDynamicParValue (type->object_reg, params, sequence_dynamic, sequence);
+      if (!s) return;
+      iQuestSequence* seq = quest->GetQuest()->FindSequence (s);
       if (!seq)
       {
-        if (tag)
+        if (tag || tag_dynamic != csInvalidStringID)
           Report (type->object_reg,
-      	    "Can't find sequence '%s' in entity '%s' and tag '%s'!",
-	    (const char*)sequence, (const char*)entity, (const char*)tag);
+      	    "Can't find sequence '%s' in entity '%s' and tag '%s'!", s, ent->GetName (), t);
         else
-          Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!",
-    	      (const char*)sequence, (const char*)entity);
+          Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!", s, ent->GetName ());
+      }
+      if (delay_dynamic != csInvalidStringID)
+      {
+        const char* d = GetDynamicParValue (type->object_reg, params, delay_dynamic, "0");
+        if (!d) return;
+        sscanf (d, "%d", &delay);
       }
       if (!seq->Start (delay))
       {
-        Report (type->object_reg, "Sequence '%s' in entity '%s' fails to start!",
-    	  (const char*)sequence, (const char*)entity);
+        Report (type->object_reg, "Sequence '%s' in entity '%s' fails to start!", s, ent->GetName ());
       }
     }
   }

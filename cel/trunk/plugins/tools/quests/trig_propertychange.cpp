@@ -229,7 +229,7 @@ void celPropertyChangeTrigger::PropertyChanged (iPcProperties*,
       is_true = proptest;
       on_condition = proptest;
       if (on_condition)
-        callback->TriggerFired ((iQuestTrigger*)this);
+        callback->TriggerFired ((iQuestTrigger*)this, 0);
     }
   }
   // value met test
@@ -237,7 +237,7 @@ void celPropertyChangeTrigger::PropertyChanged (iPcProperties*,
   {
     is_true = TestProperty (idx);
     if (is_true)
-      callback->TriggerFired ((iQuestTrigger*)this);
+      callback->TriggerFired ((iQuestTrigger*)this, 0);
   }
 }
 

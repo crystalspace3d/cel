@@ -3,6 +3,20 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+9-Apr-2008
+	- Jorrit did the first batch of changes required for supporting a
+	  new type of parameters for quest rewards. If you use @par (instead
+	  of the already existing $par notation) you can get dynamic
+	  parameters from triggers. As opposed to static ($par) parameters
+	  these parameters can change every time the reward is fired.
+	  Currently there are the following limitations:
+	    - @par notation does not work in triggers (that will stay).
+	    - @par notation does not work in sequences.
+	    - @par notation does not work in parameter blocks (for action
+	      and createentity rewards).
+	    - Only the message trigger can currently send out such
+	      parameters.
+	    - This system is totally untested.
 4-Apr-2008
 	- Eric Sunshine updated mk/autoconf/*.m4 files from CS master copies.
 	- Eric Sunshine updated mk/autoconf/*.m4 (again) and mk/jam/*.jam files

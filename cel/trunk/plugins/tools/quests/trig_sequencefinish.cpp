@@ -153,7 +153,7 @@ void celSequenceFinishTrigger::SequenceFinished (iQuestSequence* seq)
 {
   finished = true;
   DeactivateTrigger ();
-  callback->TriggerFired ((iQuestTrigger*)this);
+  callback->TriggerFired ((iQuestTrigger*)this, 0);
 }
 
 void celSequenceFinishTrigger::FindSequence ()

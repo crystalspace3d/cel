@@ -42,8 +42,8 @@ class celDestroyEntityRewardFactory : public scfImplementation2<
 {
 private:
   celDestroyEntityRewardType* type;
-  char* entity_par;
-  char* class_par;
+  csString entity_par;
+  csString class_par;
 
 public:
   celDestroyEntityRewardFactory (celDestroyEntityRewardType* type);
@@ -66,7 +66,8 @@ class celDestroyEntityReward : public scfImplementation1<
 {
 private:
   celDestroyEntityRewardType* type;
-  char* entity;
+  csString entity;
+  csStringID entity_dynamic;
 
 public:
   celDestroyEntityReward (celDestroyEntityRewardType* type,
@@ -74,7 +75,7 @@ public:
 	const char* entity_par);
   virtual ~celDestroyEntityReward ();
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 };
 
 /**
@@ -85,7 +86,8 @@ class celDestroyClassReward : public scfImplementation1<
 {
 private:
   celDestroyEntityRewardType* type;
-  csStringID ent_class;
+  csString ent_class;
+  csStringID ent_class_dynamic;
 
 public:
   celDestroyClassReward (celDestroyEntityRewardType* type,
@@ -93,7 +95,7 @@ public:
 	const char* class_par);
   virtual ~celDestroyClassReward ();
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 };
 
 

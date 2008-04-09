@@ -167,7 +167,7 @@ void celMeshEnterSectorTrigger::MovableChanged (iMovable* movable)
   if (celMeshEnterSectorTrigger::sect == sl->Get (0))
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this);
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
   }
 }
 

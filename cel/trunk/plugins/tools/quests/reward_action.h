@@ -54,7 +54,7 @@ private:
   csString id_par;
   csString pcclass_par;
   csString tag_par;
-  csArray<parSpec> parameters;
+  csArray<celParSpec> parameters;
 
 public:
   celActionRewardFactory (celActionRewardType* type);
@@ -83,9 +83,13 @@ class celActionReward : public scfImplementation1<celActionReward,
 private:
   celActionRewardType* type;
   csString pcclass;
+  csStringID pcclass_dynamic;
   csString tag;
+  csStringID tag_dynamic;
   csString entity;
+  csStringID entity_dynamic;
   csString id;
+  csStringID id_dynamic;
   csWeakRef<iCelEntity> ent;
   csRef<celVariableParameterBlock> act_params;
 
@@ -96,10 +100,10 @@ public:
 	const char* id_par,
 	const char* pcclass_par,
 	const char* tag_par,
-	const csArray<parSpec>& parameters);
+	const csArray<celParSpec>& parameters);
   virtual ~celActionReward ();
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 };
 
 /**
@@ -111,8 +115,13 @@ class celClassActionReward : public scfImplementation1<celClassActionReward,
 private:
   celActionRewardType* type;
   csString pcclass;
+  csStringID pcclass_dynamic;
   csString tag;
+  csStringID tag_dynamic;
   csStringID actionID;
+  csStringID id_dynamic;
+  csString clazz;
+  csStringID clazz_dynamic;
 
   csRef<iCelEntityList> entlist;
   csRef<celVariableParameterBlock> act_params;
@@ -124,10 +133,10 @@ public:
 	const char* id_par,
 	const char* pcclass_par,
 	const char* tag_par,
-	const csArray<parSpec>& parameters);
+	const csArray<celParSpec>& parameters);
   virtual ~celClassActionReward ();
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 };
 
 

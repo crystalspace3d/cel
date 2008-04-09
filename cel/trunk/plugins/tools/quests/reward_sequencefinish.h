@@ -79,8 +79,11 @@ class celSequenceFinishReward : public scfImplementation1<
 private:
   celSequenceFinishRewardType* type;
   csString entity;
+  csStringID entity_dynamic;
   csString tag;
+  csStringID tag_dynamic;
   csString sequence;
+  csStringID sequence_dynamic;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcQuest> quest;
 
@@ -91,7 +94,7 @@ public:
 	const char* sequence_par);
   virtual ~celSequenceFinishReward () {};
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 };
 
 /**
@@ -103,9 +106,14 @@ class celClassSequenceFinishReward : public scfImplementation1<
 private:
   celSequenceFinishRewardType* type;
   csString entity;
+  csStringID entity_dynamic;
   csString tag;
+  csStringID tag_dynamic;
   csString sequence;
+  csStringID sequence_dynamic;
   csRef<iCelEntityList> entlist;
+  csString clazz;
+  csStringID clazz_dynamic;
 
 public:
   celClassSequenceFinishReward (celSequenceFinishRewardType* type,
@@ -114,7 +122,7 @@ public:
 	const char* sequence_par);
   virtual ~celClassSequenceFinishReward () {};
 
-  virtual void Reward ();
+  virtual void Reward (iCelParameterBlock* params);
 };
 
 

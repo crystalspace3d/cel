@@ -103,7 +103,7 @@ public:
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   /* iQuestTriggerCallback */
-  virtual void TriggerFired (iQuestTrigger* trigger) = 0;
+  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params) = 0;
 };
 
 class celAndOperationTrigger : public celOperationTrigger
@@ -114,7 +114,7 @@ public:
 	const char* operation_par,
         csRefArray<iQuestTriggerFactory> &trigger_factories)
 	: celOperationTrigger(type,params,operation_par,trigger_factories) {};
-  virtual void TriggerFired (iQuestTrigger* trigger);
+  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
   virtual bool Check ();
 };
 class celOrOperationTrigger : public celOperationTrigger
@@ -125,7 +125,7 @@ public:
 	const char* operation_par,
         csRefArray<iQuestTriggerFactory> &trigger_factories)
 	: celOperationTrigger(type,params,operation_par,trigger_factories) {};
-  virtual void TriggerFired (iQuestTrigger* trigger);
+  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
   virtual bool Check ();
 };
 class celXorOperationTrigger : public celOperationTrigger
@@ -136,7 +136,7 @@ public:
 	const char* operation_par,
         csRefArray<iQuestTriggerFactory> &trigger_factories)
 	: celOperationTrigger(type,params,operation_par,trigger_factories) {};
-  virtual void TriggerFired (iQuestTrigger* trigger);
+  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
   virtual bool Check ();
 };
 

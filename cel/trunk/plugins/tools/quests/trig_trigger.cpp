@@ -135,7 +135,7 @@ void celTriggerTrigger::EntityEnters (iPcTrigger* trigger, iCelEntity* entity)
   if (!do_leave)
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this);
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
   }
 }
 
@@ -144,7 +144,7 @@ void celTriggerTrigger::EntityLeaves (iPcTrigger* trigger, iCelEntity* entity)
   if (do_leave)
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this);
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
   }
 }
 

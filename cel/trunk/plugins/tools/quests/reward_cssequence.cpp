@@ -30,6 +30,7 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 
+#include "plugins/tools/quests/quests.h"
 #include "plugins/tools/quests/reward_cssequence.h"
 
 //---------------------------------------------------------------------------
@@ -109,12 +110,14 @@ celCsSequenceReward::celCsSequenceReward (
   celCsSequenceReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   eseqmgr = csQueryRegistry<iEngineSequenceManager> (type->object_reg);
-  sequence = qm->ResolveParameter (params, sequence_par);
+  sequence = qm->ResolveParameter (params, sequence_par, sequence_dynamic);
   delay = 0;
+  delay_par_dynamic = csInvalidStringID;
   if (delay_par)
   {
-    const char* s = qm->ResolveParameter (params, delay_par);
-    if (s) sscanf (s, "%d", &delay);
+    const char* s = qm->ResolveParameter (params, delay_par, delay_par_dynamic);
+    if (delay_par_dynamic == csInvalidStringID)
+      if (s) sscanf (s, "%d", &delay);
   }
 }
 
@@ -122,11 +125,19 @@ celCsSequenceReward::~celCsSequenceReward ()
 {
 }
 
-void celCsSequenceReward::Reward ()
+void celCsSequenceReward::Reward (iCelParameterBlock* params)
 {
-  if (!eseqmgr->RunSequenceByName (sequence, delay))
-    Report (type->object_reg, "Can't find sequence '%s'!",
-	(const char*)sequence);
+  const char* s = GetDynamicParValue (type->object_reg, params, sequence_dynamic, sequence);
+  if (!s) return;
+  if (delay_par_dynamic != csInvalidStringID)
+  {
+    const char* d = GetDynamicParValue (type->object_reg, params, delay_par_dynamic, "0");
+    if (!d) return;
+    sscanf (d, "%d", &delay);
+  }
+
+  if (!eseqmgr->RunSequenceByName (s, delay))
+    Report (type->object_reg, "Can't find sequence '%s'!", s);
 }
 
 //---------------------------------------------------------------------------
