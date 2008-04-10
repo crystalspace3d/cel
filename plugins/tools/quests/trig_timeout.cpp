@@ -128,6 +128,11 @@ void celTimeoutTrigger::ActivateTrigger ()
 
 bool celTimeoutTrigger::Check ()
 {
+  if (fired)
+  {
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
+  }
   return fired;
 }
 

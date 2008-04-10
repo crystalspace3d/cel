@@ -217,6 +217,8 @@ bool celAndOperationTrigger::Check ()
     if (!trig->Check())
       return false;
   }
+  DeactivateTrigger ();
+  if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
   return true;
 }
 
@@ -232,7 +234,7 @@ void celAndOperationTrigger::TriggerFired (iQuestTrigger* trigger, iCelParameter
         return;
     }
   }
-  if (callback) callback->TriggerFired ((iQuestTrigger*)this, params);
+  if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
 }
 
 //---------------------------------------------------------------------------
@@ -245,7 +247,11 @@ bool celOrOperationTrigger::Check ()
   {
     iQuestTrigger *trig = iter.Next();
     if (trig->Check())  // true once a trigger is true
+    {
+      DeactivateTrigger ();
+      if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
       return true;
+    }
   }
   return false;
 }
@@ -253,7 +259,7 @@ bool celOrOperationTrigger::Check ()
 void celOrOperationTrigger::TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params)
 {
   // one true trigger is enough, so just do the callback immediately
-  if (callback) callback->TriggerFired ((iQuestTrigger*)this, params);
+  if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
 }
 
 //---------------------------------------------------------------------------
@@ -273,6 +279,8 @@ bool celXorOperationTrigger::Check ()
         return false;
     }
   }
+  DeactivateTrigger ();
+  if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
   return ntrue;  // must be 0 or 1 as we're exiting above for more than 2.
 }
 

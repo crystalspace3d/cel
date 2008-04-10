@@ -177,7 +177,13 @@ void celTriggerTrigger::ActivateTrigger ()
 bool celTriggerTrigger::Check ()
 {
   if (!pctrigger) return false;
-  return pctrigger->Check ();
+  bool rc = pctrigger->Check ();
+  if (rc)
+  {
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
+  }
+  return rc;
 }
 
 void celTriggerTrigger::DeactivateTrigger ()

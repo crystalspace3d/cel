@@ -287,10 +287,17 @@ bool celPropertyChangeTrigger::CheckValue ()
 
 bool celPropertyChangeTrigger::Check ()
 {
+  bool rc;
   if (on_change)
-    return on_condition;
+    rc = on_condition;
   else
-    return is_true;
+    rc = is_true;
+  if (rc)
+  {
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
+  }
+  return rc;
 }
 
 void celPropertyChangeTrigger::DeactivateTrigger ()
