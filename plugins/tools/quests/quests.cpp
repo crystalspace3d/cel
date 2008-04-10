@@ -1231,16 +1231,16 @@ const char* celQuestManager::ResolveParameter (
 
 csPtr<celVariableParameterBlock> celQuestManager::ResolveParameterBlock (
   	const celQuestParams& params,
-	const csArray<celParSpec>& parameters)
+	const csArray<celParSpec>& parameters,
+	csArray<csStringID>& parameters_dynamic)
 {
   celVariableParameterBlock *act_params = new celVariableParameterBlock ();
   size_t i;
   for (i = 0 ; i < parameters.GetSize () ; i++)
   {
-    // @@@ Support dynamic parameters here?
-    csStringID dynamic_par;
-    csString v = ResolveParameter (params, parameters[i].value, dynamic_par);
+    csString v = ResolveParameter (params, parameters[i].value, parameters_dynamic[i]);
     act_params->SetParameterDef (i, parameters[i].id, parameters[i].name);
+    if (parameters_dynamic[i] != csInvalidStringID) continue;
     switch (parameters[i].type)
     {
       case CEL_DATA_STRING:
@@ -1294,6 +1294,23 @@ csPtr<celVariableParameterBlock> celQuestManager::ResolveParameterBlock (
     }
   }
   return act_params;
+}
+
+void celQuestManager::FillParameterBlock (
+        iCelParameterBlock* params,
+	celVariableParameterBlock* msg_params,
+	const csArray<csStringID>& msg_params_dynamic)
+{
+  size_t i;
+  for (i = 0 ; i < msg_params_dynamic.GetSize () ; i++)
+  {
+    if (msg_params_dynamic[i] != csInvalidStringID)
+    {
+      // @@@ Support other types as well!
+      const char* v = GetDynamicParValue (object_reg, params, msg_params_dynamic[i], "");
+      msg_params->GetParameter (i).Set (v);
+    }
+  }
 }
 
 bool celQuestManager::Load (iDocumentNode* node)

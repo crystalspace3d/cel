@@ -225,17 +225,17 @@ celActionReward::celActionReward (
 	const csArray<celParSpec>& parameters) : scfImplementationType (this)
 {
   celActionReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  qm = csQueryRegistry<iQuestManager> (type->object_reg);
   pcclass = qm->ResolveParameter (params, pcclass_par, pcclass_dynamic);
   tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
   entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
   id = qm->ResolveParameter (params, id_par, id_dynamic);
-  act_params = qm->ResolveParameterBlock (params, parameters);
+  parameters_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
+  act_params = qm->ResolveParameterBlock (params, parameters, parameters_dynamic);
 }
 
 celActionReward::~celActionReward ()
 {
-  delete act_params;
 }
 
 void celActionReward::Reward (iCelParameterBlock* params)
@@ -268,6 +268,7 @@ void celActionReward::Reward (iCelParameterBlock* params)
     if (actionID)
     {
       celData ret;
+      qm->FillParameterBlock (params, act_params, parameters_dynamic);
       propertyclass->PerformAction(actionID, act_params, ret);
     }
     else
@@ -294,10 +295,11 @@ celClassActionReward::celClassActionReward (
 {
   iCelPlLayer* pl = type->pl;
   celClassActionReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  qm = csQueryRegistry<iQuestManager> (type->object_reg);
   pcclass = qm->ResolveParameter (params, pcclass_par, pcclass_dynamic);
   tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
-  act_params = qm->ResolveParameterBlock (params, parameters);
+  parameters_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
+  act_params = qm->ResolveParameterBlock (params, parameters, parameters_dynamic);
 
   // Get the entity class list pointer.
   clazz = qm->ResolveParameter (params, class_par, clazz_dynamic);
@@ -323,7 +325,6 @@ celClassActionReward::celClassActionReward (
 
 celClassActionReward::~celClassActionReward ()
 {
-  delete act_params;
 }
 
 void celClassActionReward::Reward (iCelParameterBlock* params)
@@ -355,6 +356,7 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
     propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
     if (propertyclass)
     {
+      qm->FillParameterBlock (params, act_params, parameters_dynamic);
       propertyclass->PerformAction(actionID, act_params, ret);
     }
   }

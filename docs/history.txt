@@ -3,6 +3,17 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+10-Apr-2008
+	- Jorrit fixed a bug in the action reward. It would do 'delete'
+	  on the parameter block but that block is stored in a csRef so
+	  'delete' is highly illegal there.
+	- Jorrit implemented support for dynamic parameters in parameter
+	  blocks. On the remaining TODO are:
+	    - Support for other then string parameters at appropriate
+	      places (i.e. in parameter blocks).
+	    - Support for standard parameters for any type of trigger
+	      (like @source_entity and parameters specific to the
+	      trigger).
 9-Apr-2008
 	- Jorrit did the first batch of changes required for supporting a
 	  new type of parameters for quest rewards. If you use @par (instead

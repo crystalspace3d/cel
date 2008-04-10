@@ -82,6 +82,7 @@ class celActionReward : public scfImplementation1<celActionReward,
 {
 private:
   celActionRewardType* type;
+  csWeakRef<iQuestManager> qm;
   csString pcclass;
   csStringID pcclass_dynamic;
   csString tag;
@@ -92,6 +93,7 @@ private:
   csStringID id_dynamic;
   csWeakRef<iCelEntity> ent;
   csRef<celVariableParameterBlock> act_params;
+  csArray<csStringID> parameters_dynamic;
 
 public:
   celActionReward (celActionRewardType* type,
@@ -114,6 +116,7 @@ class celClassActionReward : public scfImplementation1<celClassActionReward,
 {
 private:
   celActionRewardType* type;
+  csWeakRef<iQuestManager> qm;
   csString pcclass;
   csStringID pcclass_dynamic;
   csString tag;
@@ -125,6 +128,7 @@ private:
 
   csRef<iCelEntityList> entlist;
   csRef<celVariableParameterBlock> act_params;
+  csArray<csStringID> parameters_dynamic;
 
 public:
   celClassActionReward (celActionRewardType* type,
