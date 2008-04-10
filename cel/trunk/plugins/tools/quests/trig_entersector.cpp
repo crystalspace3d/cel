@@ -185,7 +185,13 @@ void celEnterSectorTrigger::ActivateTrigger ()
 bool celEnterSectorTrigger::Check ()
 {
   if (!camera) return false;
-  return camera->GetSector () == sect;
+  if (camera->GetSector () == sect)
+  {
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    return true;
+  }
+  return false;
 }
 
 void celEnterSectorTrigger::DeactivateTrigger ()

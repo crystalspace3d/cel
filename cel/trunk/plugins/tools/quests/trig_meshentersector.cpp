@@ -231,7 +231,13 @@ bool celMeshEnterSectorTrigger::Check ()
   iMovable* movable = mesh->GetMovable ();
   iSectorList* sl = movable->GetSectors ();
   if (sl->GetCount () < 1) return false;
-  return sect == sl->Get (0);
+  if (sect == sl->Get (0))
+  {
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    return true;
+  }
+  return false;
 }
 
 void celMeshEnterSectorTrigger::DeactivateTrigger ()

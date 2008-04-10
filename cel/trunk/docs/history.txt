@@ -14,6 +14,11 @@ The history order is reversed so that new features are at the top.
 	    - Support for standard parameters for any type of trigger
 	      (like @source_entity and parameters specific to the
 	      trigger).
+	- Jorrit changed the semantics of iQuestTrigger->Check(). It is now
+	  the responsability of this function to deactivate the trigger and
+	  fire the callbacks. Previously this was done by the caller (quest
+	  manager). The reason for this change is to make sure that we can
+	  also fire dynamic parameters to the rewards if Check() is called.
 9-Apr-2008
 	- Jorrit did the first batch of changes required for supporting a
 	  new type of parameters for quest rewards. If you use @par (instead

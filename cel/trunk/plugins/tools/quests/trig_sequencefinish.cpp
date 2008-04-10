@@ -181,6 +181,11 @@ void celSequenceFinishTrigger::ActivateTrigger ()
 
 bool celSequenceFinishTrigger::Check ()
 {
+  if (finished)
+  {
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
+  }
   return finished;
 }
 

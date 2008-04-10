@@ -219,12 +219,7 @@ bool celWatchTrigger::FindEntities ()
 
 void celWatchTrigger::TickOnce ()
 {
-  if (Check ())
-  {
-    DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
-  }
-  else
+  if (!Check ())
   {
     iCelPlLayer* pl = type->pl;
     pl->CallbackOnce (static_cast<iCelTimerListener*> (this), time, 
@@ -272,8 +267,12 @@ bool celWatchTrigger::Check ()
 printf ("check sqdistance=%g sqradius=%g closest_mesh=%s\n", rc.sqdistance, sqradius, tbrc.closest_mesh ? (tbrc.closest_mesh->QueryObject ()->GetName ()) : "<null>"); fflush (stdout);
   // If we hit no mesh then we assume we reached the target (target
   // can be invisible in first player mode for example).
-  if (tbrc.closest_mesh == 0) return true;
-  if (tbrc.closest_mesh == target_wrap) return true;
+  if (tbrc.closest_mesh == 0 || tbrc.closest_mesh == target_wrap)
+  {
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    return true;
+  }
   return false;
 }
 

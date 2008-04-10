@@ -143,7 +143,9 @@ struct iQuestTrigger : public virtual iBase
   /**
    * Check the trigger immediatelly and return true if it is valid.
    * This function does nothing else. Only the condition of the
-   * trigger is tested.
+   * trigger is tested. If this function returns true then it should
+   * also have deactivated the trigger and fired the callbacks. This
+   * is not the responsability of the caller.
    */
   virtual bool Check () = 0;
 

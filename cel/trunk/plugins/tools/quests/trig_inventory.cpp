@@ -166,7 +166,11 @@ bool celInventoryTrigger::Check ()
   {
     iCelEntity* ent = inventory->GetEntity (i);
     if (ent->GetName () && strcmp (child_entity, ent->GetName ()) == 0)
+    {
+      DeactivateTrigger ();
+      callback->TriggerFired ((iQuestTrigger*)this, 0);
       return true;
+    }
   }
   return false;
 }

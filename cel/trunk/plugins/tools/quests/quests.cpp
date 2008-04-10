@@ -811,21 +811,13 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
           if (!trigger->LoadAndActivateTrigger (databuf))
 	    return false;	// @@@ Report?
 	  if (trigger->Check ())
-	  {
-	    trigger->DeactivateTrigger ();
-	    st->GetResponse (j)->TriggerFired (trigger, 0);
 	    return true;
-	  }
 	}
 	else
 	{
           trigger->ActivateTrigger ();
 	  if (trigger->Check ())
-	  {
-	    trigger->DeactivateTrigger ();
-	    st->GetResponse (j)->TriggerFired (trigger, 0);
 	    return true;
-	  }
         }
       }
       return true;
