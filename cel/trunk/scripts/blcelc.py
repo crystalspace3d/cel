@@ -4513,6 +4513,25 @@ celGetMeshDeform = _blcelc.celGetMeshDeform
 iPcDamage_scfGetVersion = _blcelc.iPcDamage_scfGetVersion
 
 scfQuery_iPcDamage = _blcelc.scfQuery_iPcDamage
+class celParSpec(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    type = _swig_property(_blcelc.celParSpec_type_get, _blcelc.celParSpec_type_set)
+    id = _swig_property(_blcelc.celParSpec_id_get, _blcelc.celParSpec_id_set)
+    name = _swig_property(_blcelc.celParSpec_name_get, _blcelc.celParSpec_name_set)
+    value = _swig_property(_blcelc.celParSpec_value_get, _blcelc.celParSpec_value_set)
+    def __init__(self, *args): 
+        this = _blcelc.new_celParSpec(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celParSpec
+    __del__ = lambda self : None;
+celParSpec_swigregister = _blcelc.celParSpec_swigregister
+celParSpec_swigregister(celParSpec)
+celCreateDamage = _blcelc.celCreateDamage
+celGetSetDamage = _blcelc.celGetSetDamage
+celGetDamage = _blcelc.celGetDamage
+
 class iQuestTriggerCallback(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
@@ -4522,9 +4541,6 @@ class iQuestTriggerCallback(cspace.iBase):
     __del__ = lambda self : None;
 iQuestTriggerCallback_swigregister = _blcelc.iQuestTriggerCallback_swigregister
 iQuestTriggerCallback_swigregister(iQuestTriggerCallback)
-celCreateDamage = _blcelc.celCreateDamage
-celGetSetDamage = _blcelc.celGetSetDamage
-celGetDamage = _blcelc.celGetDamage
 
 class iQuestTrigger(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
