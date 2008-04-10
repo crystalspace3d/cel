@@ -37,14 +37,13 @@ struct iObjectRegistry;
 struct iEvent;
 
 /**
- * A standard trigger type that triggers whenever the camera
- * enters a specific sector.
- * This trigger type listens to the name 'cel.questtrigger.entersector'.
+ * A standard trigger type that triggers on logical operations of child triggers.
+ * This trigger type listens to the name 'cel.questtrigger.operation'.
  */
 CEL_DECLARE_TRIGGERTYPE(Operation,"cel.questtrigger.operation")
 
 /**
- * The 'entersector' trigger factory.
+ * The 'operation' trigger factory.
  */
 class celOperationTriggerFactory : public scfImplementation2<
 	celOperationTriggerFactory, iQuestTriggerFactory,
@@ -52,10 +51,7 @@ class celOperationTriggerFactory : public scfImplementation2<
 {
 private:
   celOperationTriggerType* type;
-  char* operation_par;
-  char* entity_par;
-  char* tag_par;
-  char* sector_par;
+  csString operation_par;
   csRefArray<iQuestTriggerFactory> triggers;
 public:
   celOperationTriggerFactory (celOperationTriggerType* type);
@@ -73,7 +69,7 @@ public:
 };
 
 /**
- * The 'entersector' trigger.
+ * The 'operation' trigger.
  */
 class celOperationTrigger : public scfImplementation2<
 	celOperationTrigger, iQuestTrigger, iQuestTriggerCallback>
@@ -82,8 +78,9 @@ protected:
   celOperationTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
   csRefArray<iQuestTrigger> triggers;
+  bool checking;
 
-  char* operation;
+  csString operation;
 
 public:
   celOperationTrigger (celOperationTriggerType* type,

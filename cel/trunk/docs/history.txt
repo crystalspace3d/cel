@@ -19,6 +19,9 @@ The history order is reversed so that new features are at the top.
 	  fire the callbacks. Previously this was done by the caller (quest
 	  manager). The reason for this change is to make sure that we can
 	  also fire dynamic parameters to the rewards if Check() is called.
+	- Jorrit fixed the logical triggers after his latest changes and
+	  also added proper DeactivateTrigger() calls (these were forgotten
+	  in the original implementation).
 9-Apr-2008
 	- Jorrit did the first batch of changes required for supporting a
 	  new type of parameters for quest rewards. If you use @par (instead
