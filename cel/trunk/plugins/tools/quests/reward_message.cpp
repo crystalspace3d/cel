@@ -204,10 +204,11 @@ celMessageReward::celMessageReward (
 	: scfImplementationType (this)
 {
   celMessageReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
   msg_id = qm->ResolveParameter (params, id_par, msg_id_dynamic);
-  msg_params = qm->ResolveParameterBlock (params, parameters); // @@@ TODO: support for @par
+  msg_params_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
+  msg_params = qm->ResolveParameterBlock (params, parameters, msg_params_dynamic);
 
   entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
   if (entity_dynamic != csInvalidStringID)
@@ -234,6 +235,7 @@ void celMessageReward::Reward (iCelParameterBlock* params)
     if (!ent) return;
   }
 
+  qm->FillParameterBlock (params, msg_params, msg_params_dynamic);
   iCelBehaviour* behave = ent->GetBehaviour ();
   if (behave)
   {
@@ -257,11 +259,12 @@ celClassMessageReward::celClassMessageReward (
 	: scfImplementationType (this)
 {
   celClassMessageReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
   // message id and parameters
   msg_id = qm->ResolveParameter (params, id_par, msg_id_dynamic);
-  msg_params = qm->ResolveParameterBlock (params, parameters); // @@@ TODO: support for @par
+  msg_params_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
+  msg_params = qm->ResolveParameterBlock (params, parameters, msg_params_dynamic);
 
   // Get the entity class list pointer.
   clazz = qm->ResolveParameter (params, class_par, clazz_dynamic);
@@ -292,6 +295,8 @@ void celClassMessageReward::Reward (iCelParameterBlock* params)
       entlist = type->pl->GetClassEntitiesList (ent_class);
     }
   }
+
+  qm->FillParameterBlock (params, msg_params, msg_params_dynamic);
 
   // Old method for behaviours.
   type->pl->SendMessage (entlist, msg, msg_params);

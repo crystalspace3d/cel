@@ -405,7 +405,12 @@ public:
 	const char* param, csStringID& dynamic_par);
   virtual csPtr<celVariableParameterBlock> ResolveParameterBlock (
 	const celQuestParams& params,
-  	const csArray<celParSpec>& parameters);
+  	const csArray<celParSpec>& parameters,
+	csArray<csStringID>& parameters_dynamic);
+  virtual void FillParameterBlock (
+        iCelParameterBlock* params,
+	celVariableParameterBlock* msg_params,
+	const csArray<csStringID>& msg_params_dynamic);
 
   virtual bool Load (iDocumentNode* node);
 

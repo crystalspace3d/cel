@@ -82,12 +82,14 @@ class celMessageReward : public scfImplementation2<
 {
 private:
   celMessageRewardType* type;
+  csWeakRef<iQuestManager> qm;
 
   csString msg_id;
   csStringID msg_id_dynamic;
   csString entity;
   csStringID entity_dynamic;
   csRef<celVariableParameterBlock> msg_params;
+  csArray<csStringID> msg_params_dynamic;
 
   csWeakRef<iCelEntity> ent;
   csRef<iMessageDispatcher> dispatcher;
@@ -115,6 +117,7 @@ class celClassMessageReward : public scfImplementation1<
 {
 private:
   celMessageRewardType* type;
+  csWeakRef<iQuestManager> qm;
 
   csString msg_id;
   csStringID msg_id_dynamic;
@@ -122,6 +125,7 @@ private:
   csStringID clazz_dynamic;
 
   csRef<celVariableParameterBlock> msg_params;
+  csArray<csStringID> msg_params_dynamic;
 
   csRef<iCelEntityList> entlist;
 

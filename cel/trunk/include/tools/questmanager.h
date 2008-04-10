@@ -786,10 +786,28 @@ struct iQuestManager : public virtual iBase
    * that case try to resolve the parameter by finding it in 'params'.
    * \param params is the quest parameters.
    * \param paramspec is the parameter specifications and unparsed values..
+   * \param paramspec_dynamic is an array that should have the same length
+   * as the 'paramspec' array. It will be filled with ID in case some
+   * of the parameters are dynamic. Use FillParameterBlock() to later fill in
+   * the actual parameters.
    */
   virtual csPtr<celVariableParameterBlock> ResolveParameterBlock (
   	const celQuestParams& params,
-	const csArray<celParSpec>& paramspec) = 0;
+	const csArray<celParSpec>& paramspec,
+	csArray<csStringID>& paramspec_dynamic) = 0;
+
+  /**
+   * Fill in the dynamic parameters in a parameter block.
+   * \param params is the parameter block given to the reward.
+   * \param msg_params is the resolved parameter block as returned by
+   * ResolveParameterBlock().
+   * \param msg_params_dynamic is the array of dynamic ID's as filled in
+   * by ResolveParameterBlock().
+   */
+  virtual void FillParameterBlock (
+        iCelParameterBlock* params,
+	celVariableParameterBlock* msg_params,
+	const csArray<csStringID>& msg_params_dynamic) = 0;
 
   /**
    * Load a bunch of quest factories.
