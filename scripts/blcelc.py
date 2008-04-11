@@ -4785,6 +4785,7 @@ class iQuestManager(cspace.iBase):
     def CreateQuestFactory(*args): return _blcelc.iQuestManager_CreateQuestFactory(*args)
     def ResolveParameter(*args): return _blcelc.iQuestManager_ResolveParameter(*args)
     def ResolveParameterBlock(*args): return _blcelc.iQuestManager_ResolveParameterBlock(*args)
+    def FillParameterBlock(*args): return _blcelc.iQuestManager_FillParameterBlock(*args)
     def Load(*args): return _blcelc.iQuestManager_Load(*args)
     def AddNewStateReward(*args): return _blcelc.iQuestManager_AddNewStateReward(*args)
     def AddDebugPrintReward(*args): return _blcelc.iQuestManager_AddDebugPrintReward(*args)
