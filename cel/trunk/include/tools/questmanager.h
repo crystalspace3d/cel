@@ -1062,8 +1062,10 @@ struct iPropertyChangeQuestTriggerFactory : public virtual iBase
  * this factory as opposed to loading its definition from an XML
  * document.
  *
- * The predefined name of this trigger type is
- * 'cel.questtrigger.meshselect'.
+ * The predefined name of this trigger type is 'cel.questtrigger.meshselect'.
+ *
+ * This trigger sends out 'entity' parameter to the reward (containing the
+ * name of the entity that was selected).
  *
  * In XML, factories recognize the following attributes on the 'fireon' node:
  * - <em>entity</em>: the name of the entity that contains the
@@ -1093,8 +1095,10 @@ struct iMeshSelectQuestTriggerFactory : public virtual iBase
  * this factory as opposed to loading its definition from an XML
  * document.
  *
- * The predefined name of this trigger type is
- * 'cel.questtrigger.inventory'.
+ * The predefined name of this trigger type is 'cel.questtrigger.inventory'.
+ *
+ * This trigger sends out 'child' parameter to the reward (containing the
+ * name of the entity that was added or removed).
  *
  * In XML, factories recognize the following attributes on the 'fireon' node:
  * - <em>entity</em>: the name of the entity that contains the
@@ -1260,6 +1264,9 @@ struct iSequenceFinishQuestTriggerFactory : public virtual iBase
  * document.
  *
  * The predefined name of this trigger type is 'cel.questtrigger.trigger'.
+ *
+ * This trigger sends out 'entity' parameter to the reward (containing the
+ * name of the entity caused the trigger to fire).
  *
  * In XML, factories recognize the following attributes on the 'fireon' node:
  * - <em>entity</em>: the name of the entity that contains the

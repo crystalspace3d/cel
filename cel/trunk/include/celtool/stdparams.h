@@ -249,23 +249,20 @@ class celOneParameterBlock : public scfImplementation1<
 private:
   csStringID id;
   celData data;
-  char* name;
+  csString name;
 
 public:
   celOneParameterBlock () : scfImplementationType (this)
   {
-    name = 0;
   }
   virtual ~celOneParameterBlock ()
   {
-    delete[] name;
   }
 
   void SetParameterDef (csStringID id, const char* parname)
   {
     celOneParameterBlock::id = id;
-    delete[] name;
-    name = csStrNew (parname);
+    name = parname;
   }
   celData& GetParameter (int) { return data; }
 
@@ -291,6 +288,81 @@ public:
   virtual const celData* GetParameterByIndex (size_t idx) const
   {
     return (idx != 0) ? 0 : &data;
+  }
+};
+
+/**
+ * Parameter block implementation to combine two existing parameter
+ * blocks.
+ */
+class celCombineParameterBlock : public scfImplementation1<
+	celCombineParameterBlock, iCelParameterBlock>
+{
+private:
+  csRef<iCelParameterBlock> b1;
+  csRef<iCelParameterBlock> b2;
+
+public:
+  /**
+   * The second parameter block is optional (can be null).
+   */
+  celCombineParameterBlock (iCelParameterBlock* b1, iCelParameterBlock* b2)
+    : scfImplementationType (this), b1 (b1), b2 (b2)
+  {
+  }
+  virtual ~celCombineParameterBlock ()
+  {
+  }
+  void SetParameterBlock1 (iCelParameterBlock* b1)
+  {
+    celCombineParameterBlock::b1 = b1;
+  }
+  void SetParameterBlock2 (iCelParameterBlock* b2)
+  {
+    celCombineParameterBlock::b2 = b2;
+  }
+
+  virtual size_t GetParameterCount () const
+  {
+    return b1->GetParameterCount () + (b2 ? b2->GetParameterCount () : 0);
+  }
+  virtual const char* GetParameter (size_t idx, csStringID& id,
+  	celDataType& t) const
+  {
+    if (idx < b1->GetParameterCount ())
+    {
+      return b1->GetParameter (idx, id, t);
+    }
+    else if (b2)
+    {
+      return b2->GetParameter (idx-b1->GetParameterCount (), id, t);
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  virtual const celData* GetParameter (csStringID id) const
+  {
+    const celData* data = b1->GetParameter (id);
+    if (data) return data;
+    if (!b2) return 0;
+    return b2->GetParameter (id);
+  }
+  virtual const celData* GetParameterByIndex (size_t idx) const
+  {
+    if (idx < b1->GetParameterCount ())
+    {
+      return b1->GetParameterByIndex (idx);
+    }
+    else if (b2)
+    {
+      return b2->GetParameterByIndex (idx-b1->GetParameterCount ());
+    }
+    else
+    {
+      return 0;
+    }
   }
 };
 

@@ -80,8 +80,10 @@ private:
   csString entity;
   csString tag;
   csString child_entity;
+  csRef<celOneParameterBlock> params_entity;
 
   void FindInventory ();
+  void FireTrigger (iCelEntity* child);
 
 public:
   celInventoryTrigger (celInventoryTriggerType* type,

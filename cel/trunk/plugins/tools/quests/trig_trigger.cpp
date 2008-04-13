@@ -31,6 +31,7 @@
 #include "physicallayer/propclas.h"
 #include "propclass/mesh.h"
 
+#include "celtool/stdparams.h"
 #include "plugins/tools/quests/trig_trigger.h"
 
 //---------------------------------------------------------------------------
@@ -43,15 +44,11 @@ celTriggerTriggerFactory::celTriggerTriggerFactory (
 	celTriggerTriggerType* type) : scfImplementationType (this)
 {
   celTriggerTriggerFactory::type = type;
-  entity_par = 0;
-  tag_par = 0;
   do_leave = false;
 }
 
 celTriggerTriggerFactory::~celTriggerTriggerFactory ()
 {
-  delete[] entity_par;
-  delete[] tag_par;
 }
 
 csPtr<iQuestTrigger> celTriggerTriggerFactory::CreateTrigger (
@@ -64,10 +61,8 @@ csPtr<iQuestTrigger> celTriggerTriggerFactory::CreateTrigger (
 
 bool celTriggerTriggerFactory::Load (iDocumentNode* node)
 {
-  delete[] entity_par; entity_par = 0;
-  delete[] tag_par; tag_par = 0;
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
+  entity_par = node->GetAttributeValue ("entity");
+  tag_par = node->GetAttributeValue ("entity_tag");
 
   if (!entity_par)
   {
@@ -86,16 +81,8 @@ bool celTriggerTriggerFactory::Load (iDocumentNode* node)
 void celTriggerTriggerFactory::SetEntityParameter (
 	const char* entity, const char* tag)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
-  if (tag_par != tag)
-  {
-    delete[] tag_par;
-    tag_par = csStrNew (tag);
-  }
+  entity_par = entity;
+  tag_par = tag;
 }
 
 //---------------------------------------------------------------------------
@@ -108,16 +95,16 @@ celTriggerTrigger::celTriggerTrigger (
 {
   celTriggerTrigger::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  tag = csStrNew (qm->ResolveParameter (params, tag_par));
+  entity = qm->ResolveParameter (params, entity_par);
+  tag = qm->ResolveParameter (params, tag_par);
   celTriggerTrigger::do_leave = do_leave;
+  params_entity.AttachNew (new celOneParameterBlock ());
+  params_entity->SetParameterDef (type->pl->FetchStringID ("cel.parameter.entity"), "entity");
 }
 
 celTriggerTrigger::~celTriggerTrigger ()
 {
   DeactivateTrigger ();
-  delete[] entity;
-  delete[] tag;
 }
 
 void celTriggerTrigger::RegisterCallback (iQuestTriggerCallback* callback)
@@ -130,22 +117,21 @@ void celTriggerTrigger::ClearCallback ()
   callback = 0;
 }
 
+void celTriggerTrigger::FireTrigger (const char* name)
+{
+  DeactivateTrigger ();
+  params_entity->GetParameter (0).Set (name);
+  callback->TriggerFired ((iQuestTrigger*)this, params_entity);
+}
+
 void celTriggerTrigger::EntityEnters (iPcTrigger* trigger, iCelEntity* entity)
 {
-  if (!do_leave)
-  {
-    DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
-  }
+  if (!do_leave) FireTrigger (entity->GetName ());
 }
 
 void celTriggerTrigger::EntityLeaves (iPcTrigger* trigger, iCelEntity* entity)
 {
-  if (do_leave)
-  {
-    DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
-  }
+  if (do_leave) FireTrigger (entity->GetName ());
 }
 
 void celTriggerTrigger::EnterTrigger (iPcTrigger*, iCelEntity*)
@@ -178,11 +164,7 @@ bool celTriggerTrigger::Check ()
 {
   if (!pctrigger) return false;
   bool rc = pctrigger->Check ();
-  if (rc)
-  {
-    DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
-  }
+  if (rc) FireTrigger (pctrigger->GetMonitorEntity ());
   return rc;
 }
 

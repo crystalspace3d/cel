@@ -77,6 +77,7 @@ private:
   csWeakRef<iPcMeshSelect> meshselect;
   csString entity;
   csString tag;
+  csRef<celOneParameterBlock> params_entity;
 
   void FindMeshSelect ();
 
