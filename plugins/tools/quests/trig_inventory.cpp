@@ -30,6 +30,7 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 
+#include "celtool/stdparams.h"
 #include "plugins/tools/quests/trig_inventory.h"
 
 //---------------------------------------------------------------------------
@@ -117,6 +118,8 @@ celInventoryTrigger::celInventoryTrigger (
   tag = qm->ResolveParameter (params, tag_par);
   if (child_entity_par)
     child_entity = qm->ResolveParameter (params, child_entity_par);
+  params_entity.AttachNew (new celOneParameterBlock ());
+  params_entity->SetParameterDef (type->pl->FetchStringID ("cel.parameter.child"), "child");
 }
 
 celInventoryTrigger::~celInventoryTrigger ()
@@ -157,6 +160,13 @@ void celInventoryTrigger::ActivateTrigger ()
   inventory->AddInventoryListener ((iPcInventoryListener*)this);
 }
 
+void celInventoryTrigger::FireTrigger (iCelEntity* child)
+{
+  DeactivateTrigger ();
+  params_entity->GetParameter (0).Set (child->GetName ());
+  callback->TriggerFired ((iQuestTrigger*)this, params_entity);
+}
+
 bool celInventoryTrigger::Check ()
 {
   if (!inventory) return false;
@@ -167,8 +177,7 @@ bool celInventoryTrigger::Check ()
     iCelEntity* ent = inventory->GetEntity (i);
     if (ent->GetName () && strcmp (child_entity, ent->GetName ()) == 0)
     {
-      DeactivateTrigger ();
-      callback->TriggerFired ((iQuestTrigger*)this, 0);
+      FireTrigger (ent);
       return true;
     }
   }
@@ -196,24 +205,22 @@ void celInventoryTrigger::AddChild (iPcInventory* inventory, iCelEntity* entity)
   if (!child_entity)
   {
     // Always fire in case we're not monitoring a specific entity.
-    DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    FireTrigger (entity);
     return;
   }
   if (entity->GetName () && strcmp (child_entity, entity->GetName ()) == 0)
   {
-    DeactivateTrigger ();
+    FireTrigger (entity);
     callback->TriggerFired ((iQuestTrigger*)this, 0);
   }
 }
 
-void celInventoryTrigger::RemoveChild (iPcInventory*, iCelEntity*)
+void celInventoryTrigger::RemoveChild (iPcInventory*, iCelEntity* entity)
 {
   if (!child_entity)
   {
     // Always fire in case we're not monitoring a specific entity.
-    DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    FireTrigger (entity);
     return;
   }
 }

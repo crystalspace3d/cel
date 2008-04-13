@@ -3,6 +3,18 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+13-Apr-2008
+	- Jorrit made a celCombineParameterBlock implementation. This
+	  class takes two iCelParameterBlock instances and combines them.
+	- Jorrit changed the inventory trigger so that it now sends out
+	  a 'child' parameter to the rewards. This is the name of the entity
+	  that was added or removed.
+	- Jorrit changed the meshsel trigger so that it now sends out
+	  a 'entity' parameter to the rewards. This is the name of the entity
+	  that was selected.
+	- Jorrit changed the trigger trigger so that it now sends out
+	  a 'entity' parameter to the rewards. This is the name of the entity
+	  that caused the trigger to fire.
 10-Apr-2008
 	- Jorrit fixed a bug in the action reward. It would do 'delete'
 	  on the parameter block but that block is stored in a csRef so

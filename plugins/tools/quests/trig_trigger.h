@@ -51,8 +51,8 @@ class celTriggerTriggerFactory : public scfImplementation2<
 {
 private:
   celTriggerTriggerType* type;
-  char* entity_par;
-  char* tag_par;
+  csString entity_par;
+  csString tag_par;
   bool do_leave;
 
 public:
@@ -77,12 +77,14 @@ class celTriggerTrigger : public scfImplementation2<
 private:
   celTriggerTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
-  char* entity;
-  char* tag;
+  csString entity;
+  csString tag;
   csWeakRef<iPcTrigger> pctrigger;
   bool do_leave;
+  csRef<celOneParameterBlock> params_entity;
 
   void FindEntities ();
+  void FireTrigger (const char* name);
 
 public:
   celTriggerTrigger (celTriggerTriggerType* type,

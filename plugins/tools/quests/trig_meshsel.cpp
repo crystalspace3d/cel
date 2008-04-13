@@ -30,6 +30,7 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 
+#include "celtool/stdparams.h"
 #include "plugins/tools/quests/trig_meshsel.h"
 
 //---------------------------------------------------------------------------
@@ -107,6 +108,8 @@ celMeshSelectTrigger::celMeshSelectTrigger (
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   entity = qm->ResolveParameter (params, entity_par);
   tag = qm->ResolveParameter (params, tag_par);
+  params_entity.AttachNew (new celOneParameterBlock ());
+  params_entity->SetParameterDef (type->pl->FetchStringID ("cel.parameter.entity"), "entity");
 }
 
 celMeshSelectTrigger::~celMeshSelectTrigger ()
@@ -169,10 +172,14 @@ void celMeshSelectTrigger::SaveTriggerState (iCelDataBuffer*)
 }
 
 void celMeshSelectTrigger::MouseDown (iPcMeshSelect*,
-  	int, int, int, iCelEntity*)
+  	int, int, int, iCelEntity* ent)
 {
   DeactivateTrigger ();
-  callback->TriggerFired ((iQuestTrigger*)this, 0);
+  if (ent)
+    params_entity->GetParameter (0).Set (ent->GetName ());
+  else
+    params_entity->GetParameter (0).Set ("");
+  callback->TriggerFired ((iQuestTrigger*)this, params_entity);
 }
 
 void celMeshSelectTrigger::MouseUp (iPcMeshSelect*,
