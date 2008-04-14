@@ -181,65 +181,60 @@ celChangePropertyRewardBase::celChangePropertyRewardBase (
 {
   celChangePropertyRewardBase::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  prop = qm->ResolveParameter (params, prop_par, prop_dynamic);
-  pc = qm->ResolveParameter (params, pc_par, pc_dynamic);
-  if (pc_dynamic != csInvalidStringID)
-    pc.Empty ();
-  tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
-  if (tag_dynamic != csInvalidStringID)
-    tag.Empty ();
-  pstring = qm->ResolveParameter (params, string_par, pstring_dynamic);
-  plong = qm->ResolveParameter (params, long_par, plong_dynamic);
-  pfloat = qm->ResolveParameter (params, float_par, pfloat_dynamic);
-  pbool = qm->ResolveParameter (params, bool_par, pbool_dynamic);
-  pdiff = qm->ResolveParameter (params, diff_par, pdiff_dynamic);
+  prop = qm->GetParameter (params, prop_par);
+  if (pc_par) pc = qm->GetParameter (params, pc_par);
+  if (tag_par) tag = qm->GetParameter (params, tag_par);
+  if (string_par) pstring = qm->GetParameter (params, string_par);
+  if (long_par) plong = qm->GetParameter (params, long_par);
+  if (float_par) pfloat = qm->GetParameter (params, float_par);
+  if (bool_par) pbool = qm->GetParameter (params, bool_par);
+  if (diff_par) pdiff = qm->GetParameter (params, diff_par);
   celChangePropertyRewardBase::do_toggle = do_toggle;
 }
 
 void celChangePropertyRewardBase::ChangePropertyOnPc (iCelPropertyClass *pclass,
     iCelParameterBlock* params)
 {
-  const char* p = GetDynamicParValue (type->object_reg, params, prop_dynamic, prop);
+  const char* p = prop->Get (params);
   if (!p) return;
   iCelPlLayer* pl = type->pl;
-  // Do NOT use IsEmpty() here! Empty string is valid data.
-  if (pstring_dynamic != csInvalidStringID || pstring.GetData () != 0)
+  if (pstring)
   {
-    const char* v = GetDynamicParValue (type->object_reg, params, pstring_dynamic, pstring);
+    const char* v = pstring->Get (params);
     if (!v) return;
     pclass->SetProperty (pl->FetchStringID (p), v);
     return;
   }
-  if (plong_dynamic != csInvalidStringID || !plong.IsEmpty ())
+  if (plong)
   {
-    const char* v = GetDynamicParValue (type->object_reg, params, plong_dynamic, plong);
+    const char* v = plong->Get (params);
     if (!v) return;
     long l;
     sscanf (v, "%ld", &l);
     pclass->SetProperty (pl->FetchStringID (p), l);
     return;
   }
-  if (pfloat_dynamic != csInvalidStringID || !pfloat.IsEmpty ())
+  if (pfloat)
   {
-    const char* v = GetDynamicParValue (type->object_reg, params, pfloat_dynamic, pfloat);
+    const char* v = pfloat->Get (params);
     if (!v) return;
     float f;
     sscanf (v, "%f", &f);
     pclass->SetProperty (pl->FetchStringID (p), f);
     return;
   }
-  if (pbool_dynamic != csInvalidStringID || !pbool.IsEmpty ())
+  if (pbool)
   {
-    const char* v = GetDynamicParValue (type->object_reg, params, pbool_dynamic, pbool);
+    const char* v = pbool->Get (params);
     if (!v) return;
     bool b;
     csScanStr (v, "%b", &b);
     pclass->SetProperty (pl->FetchStringID (p), b);
     return;
   }
-  if (pdiff_dynamic || !pdiff.IsEmpty ())
+  if (pdiff)
   {
-    const char* v = GetDynamicParValue (type->object_reg, params, pdiff_dynamic, pdiff);
+    const char* v = pdiff->Get (params);
     if (!v) return;
     csStringID id = pl->FetchStringID (p);
     celDataType t = pclass->GetPropertyOrActionType (id);
@@ -298,46 +293,46 @@ void celChangePropertyRewardBase::ChangePropertyOnPc (iCelPropertyClass *pclass,
 void celChangePropertyRewardBase::ChangePropertyOnPcProp (iPcProperties *properties,
     iCelParameterBlock* params)
 {
-  const char* p = GetDynamicParValue (type->object_reg, params, prop_dynamic, prop);
+  const char* p = prop->Get (params);
   if (!p) return;
   // Do NOT use IsEmpty() here! Empty string is valid data.
-  if (pstring_dynamic != csInvalidStringID || pstring.GetData () != 0)
+  if (pstring)
   {
-    const char* v = GetDynamicParValue (type->object_reg, params, pstring_dynamic, pstring);
+    const char* v = pstring->Get (params);
     if (!v) return;
     properties->SetProperty (p, v);
     return;
   }
-  if (plong_dynamic != csInvalidStringID || !plong.IsEmpty ())
+  if (plong)
   {
-    const char* v = GetDynamicParValue (type->object_reg, params, plong_dynamic, plong);
+    const char* v = plong->Get (params);
     if (!v) return;
     long l;
     sscanf (v, "%ld", &l);
     properties->SetProperty (p, l);
     return;
   }
-  if (pfloat_dynamic != csInvalidStringID || !pfloat.IsEmpty ())
+  if (pfloat)
   {
-    const char* v = GetDynamicParValue (type->object_reg, params, pfloat_dynamic, pfloat);
+    const char* v = pfloat->Get (params);
     if (!v) return;
     float f;
     sscanf (v, "%f", &f);
     properties->SetProperty (p, f);
     return;
   }
-  if (pbool_dynamic != csInvalidStringID || !pbool.IsEmpty ())
+  if (pbool)
   {
-    const char* v = GetDynamicParValue (type->object_reg, params, pbool_dynamic, pbool);
+    const char* v = pbool->Get (params);
     if (!v) return;
     bool b;
     csScanStr (v, "%b", &b);
     properties->SetProperty (p, b);
     return;
   }
-  if (pdiff_dynamic != csInvalidStringID || !pdiff.IsEmpty ())
+  if (pdiff)
   {
-    const char* v = GetDynamicParValue (type->object_reg, params, pdiff_dynamic, pdiff);
+    const char* v = pdiff->Get (params);
     if (!v) return;
     size_t idx = properties->GetPropertyIndex (p);
     if (idx != (size_t)~0)
@@ -418,41 +413,32 @@ celChangePropertyReward::celChangePropertyReward (
 				float_par, bool_par, diff_par, do_toggle)
 {
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
-  if (entity_dynamic != csInvalidStringID)
-    entity.Empty ();
+  entity = qm->GetParameter (params, entity_par);
 }
 
 void celChangePropertyReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = type->pl;
   // check and/or find the entity.
-  if (entity_dynamic != csInvalidStringID)
-  {
-    const char* e = GetDynamicParValue (type->object_reg, params, entity_dynamic, entity);
-    if (!e) return;
-    if (entity != e) { ent = 0; entity = e; }
-  }
-
+  bool changed;
+  const char* e = entity->Get (params, changed);
+  if (changed) ent = 0;
   if (!ent)
   {
-    ent = pl->FindEntity (entity);
+    ent = pl->FindEntity (e);
     if (!ent) return;
   }
+
   // Generic Property class style
-  if (pc_dynamic != csInvalidStringID || !pc.IsEmpty())
+  if (pc)
   {
-    if (pc_dynamic != csInvalidStringID || tag_dynamic != csInvalidStringID)
-    {
-      const char* p = GetDynamicParValue (type->object_reg, params, pc_dynamic, pc);
-      if (!p) return;
-      if (pc != p) { pclass = 0; pc = p; }
-      const char* t = GetDynamicParValue (type->object_reg, params, tag_dynamic, tag);
-      if (tag != t) { pclass = 0; tag = t; }
-    }
+    const char* p = pc->Get (params, changed);
+    if (changed) pclass = 0;
+    const char* t = tag->Get (params, changed);
+    if (changed) pclass = 0;
     if (!pclass)
     {
-      pclass = ent->GetPropertyClassList ()->FindByNameAndTag (pc, tag);
+      pclass = ent->GetPropertyClassList ()->FindByNameAndTag (p, t);
       if (!pclass) return;
     }
     ChangePropertyOnPc (pclass, params);
@@ -489,16 +475,7 @@ celClassChangePropertyReward::celClassChangePropertyReward (
 				float_par, bool_par, diff_par, do_toggle)
 {
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  clazz = qm->ResolveParameter (params, class_par, clazz_dynamic);
-  if (clazz_dynamic == csInvalidStringID)
-  {
-    csStringID ent_class = type->pl->FetchStringID (clazz);
-    entlist = type->pl->GetClassEntitiesList (ent_class);
-  }
-  else
-  {
-    clazz.Empty ();
-  }
+  clazz = qm->GetParameter (params, class_par);
 }
 
 void celClassChangePropertyReward::PcReward (iCelParameterBlock* params)
@@ -508,9 +485,9 @@ void celClassChangePropertyReward::PcReward (iCelParameterBlock* params)
   for (int i = entlist->GetCount()-1; i>=0; i--)
   {
     ent = entlist->Get(i);
-    const char* p = GetDynamicParValue (type->object_reg, params, pc_dynamic, pc);
+    const char* p = pc->Get (params);
     if (!p) return;
-    const char* t = GetDynamicParValue (type->object_reg, params, tag_dynamic, tag);
+    const char* t = tag->Get (params);
     pclass = ent->GetPropertyClassList ()->FindByNameAndTag (p, t);
     if (pclass)
       ChangePropertyOnPc (pclass, params);
@@ -532,19 +509,15 @@ void celClassChangePropertyReward::PcPropReward (iCelParameterBlock* params)
 
 void celClassChangePropertyReward::Reward (iCelParameterBlock* params)
 {
-  if (clazz_dynamic != csInvalidStringID)
+  bool changed;
+  const char* clz = clazz->Get (params, changed);
+  if (changed)
   {
-    const char* cl = GetDynamicParValue (type->object_reg, params, clazz_dynamic, clazz);
-    if (!cl) return;
-    if (clazz != cl)
-    {
-      clazz = cl;
-      csStringID ent_class = type->pl->FetchStringID (clazz);
-      entlist = type->pl->GetClassEntitiesList (ent_class);
-    }
+    csStringID ent_class = type->pl->FetchStringID (clz);
+    entlist = type->pl->GetClassEntitiesList (ent_class);
   }
 
-  if (pc_dynamic != csInvalidStringID || !pc.IsEmpty())
+  if (pc)
     PcReward (params);
   else
     PcPropReward (params);

@@ -66,8 +66,7 @@ class celDestroyEntityReward : public scfImplementation1<
 {
 private:
   celDestroyEntityRewardType* type;
-  csString entity;
-  csStringID entity_dynamic;
+  csRef<iQuestParameter> entity;
 
 public:
   celDestroyEntityReward (celDestroyEntityRewardType* type,
@@ -86,8 +85,7 @@ class celDestroyClassReward : public scfImplementation1<
 {
 private:
   celDestroyEntityRewardType* type;
-  csString ent_class;
-  csStringID ent_class_dynamic;
+  csRef<iQuestParameter> ent_class;
 
 public:
   celDestroyClassReward (celDestroyEntityRewardType* type,

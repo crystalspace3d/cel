@@ -123,55 +123,44 @@ celSequenceFinishReward::celSequenceFinishReward (
   celSequenceFinishReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
-  entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
-  if (entity_dynamic != csInvalidStringID)
-    entity.Empty ();
-  tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
-  if (tag_dynamic != csInvalidStringID)
-    tag.Empty ();
-  sequence = qm->ResolveParameter (params, sequence_par, sequence_dynamic);
+  entity = qm->GetParameter (params, entity_par);
+  tag = qm->GetParameter (params, tag_par);
+  sequence = qm->GetParameter (params, sequence_par);
 }
 
 void celSequenceFinishReward::Reward (iCelParameterBlock* params)
 {
-  if (entity_dynamic != csInvalidStringID)
-  {
-    const char* e = GetDynamicParValue (type->object_reg, params, entity_dynamic, entity);
-    if (!e) return;
-    if (entity != e) { quest = 0; ent = 0; entity = e; }
-  }
-  if (tag_dynamic != csInvalidStringID)
-  {
-    const char* t = GetDynamicParValue (type->object_reg, params, tag_dynamic, tag);
-    if (tag != t) { quest = 0; tag = t; }
-  }
-
+  bool changed;
+  const char* e = entity->Get (params, changed);
+  if (changed) { quest = 0; ent = 0; }
+  const char* t = tag->Get (params, changed);
+  if (changed) quest = 0;
   if (!quest)
   {
     if (!ent)
     {
       iCelPlLayer* pl = type->pl;
-      ent = pl->FindEntity (entity);
+      ent = pl->FindEntity (e);
       if (!ent) return;
     }
-    quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, tag);
+    quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
     if (!quest) return;
   }
 
   iQuest* q = quest->GetQuest ();
 
-  const char* s = GetDynamicParValue (type->object_reg, params, sequence_dynamic, sequence);
+  const char* s = sequence->Get (params);
   if (!s) return;
   iQuestSequence* seq = q->FindSequence (s);
   if (!seq)
   {
-    if (tag)
+    if (t)
       Report (type->object_reg,
       	"Can't find sequence '%s' in entity '%s' and tag '%s'!",
-	s, (const char*)entity, (const char*)tag);
+	s, e, t);
     else
       Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!",
-    	  s, (const char*)entity);
+    	  s, e);
     return;
   }
   seq->Finish ();
@@ -189,37 +178,23 @@ celClassSequenceFinishReward::celClassSequenceFinishReward (
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
   // Get the entity class list pointer.
-  clazz = qm->ResolveParameter (params, class_par, clazz_dynamic);
-  if (clazz_dynamic == csInvalidStringID)
-  {
-    csStringID ent_class = type->pl->FetchStringID (clazz);
-    entlist = type->pl->GetClassEntitiesList (ent_class);
-  }
-  else
-  {
-    clazz.Empty ();
-  }
-
-  tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
-  sequence = qm->ResolveParameter (params, sequence_par, sequence_dynamic);
+  clazz = qm->GetParameter (params, class_par);
+  tag = qm->GetParameter (params, tag_par);
+  sequence = qm->GetParameter (params, sequence_par);
 }
 
 void celClassSequenceFinishReward::Reward (iCelParameterBlock* params)
 {
-  if (clazz_dynamic != csInvalidStringID)
+  bool changed;
+  const char* clz = clazz->Get (params, changed);
+  if (changed)
   {
-    const char* cl = GetDynamicParValue (type->object_reg, params, clazz_dynamic, clazz);
-    if (!cl) return;
-    if (clazz != cl)
-    {
-      clazz = cl;
-      csStringID ent_class = type->pl->FetchStringID (clazz);
-      entlist = type->pl->GetClassEntitiesList (ent_class);
-    }
+    csStringID ent_class = type->pl->FetchStringID (clz);
+    entlist = type->pl->GetClassEntitiesList (ent_class);
   }
 
-  const char* t = GetDynamicParValue (type->object_reg, params, tag_dynamic, tag);
-  const char* s = GetDynamicParValue (type->object_reg, params, sequence_dynamic, sequence);
+  const char* t = tag->Get (params);
+  const char* s = sequence->Get (params);
   if (!s) return;
 
   iCelEntity *ent;
@@ -236,10 +211,10 @@ void celClassSequenceFinishReward::Reward (iCelParameterBlock* params)
         if (t)
           Report (type->object_reg,
       	    "Can't find sequence '%s' in entity '%s' and tag '%s'!",
-	     s, (const char*)entity, t);
+	     s, ent->GetName (), t);
         else
           Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!",
-    	   s, (const char*)entity);
+    	   s, ent->GetName ());
       }
       seq->Finish ();
     }

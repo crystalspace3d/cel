@@ -206,32 +206,26 @@ celMessageReward::celMessageReward (
   celMessageReward::type = type;
   qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
-  msg_id = qm->ResolveParameter (params, id_par, msg_id_dynamic);
+  msg_id = qm->GetParameter (params, id_par);
+  entity = qm->GetParameter (params, entity_par);
+
   msg_params_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
   msg_params = qm->ResolveParameterBlock (params, parameters, msg_params_dynamic);
-
-  entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
-  if (entity_dynamic != csInvalidStringID)
-    entity.Empty ();
 }
 
 void celMessageReward::Reward (iCelParameterBlock* params)
 {
-  const char* msg = GetDynamicParValue (type->object_reg, params, msg_id_dynamic, msg_id);
+  const char* msg = msg_id->Get (params);
   if (!msg) return;
 
-  if (entity_dynamic != csInvalidStringID)
-  {
-    const char* e = GetDynamicParValue (type->object_reg, params, entity_dynamic, entity);
-    if (!e) return;
-    if (entity != e) { ent = 0; entity = e; }
-  }
-
+  bool changed;
+  const char* e = entity->Get (params, changed);
+  if (changed) { ent = 0; }
   if (!ent)
   {
     dispatcher = 0;  // Clear previous dispatcher.
     iCelPlLayer* pl = type->pl;
-    ent = pl->FindEntity (entity);
+    ent = pl->FindEntity (e);
     if (!ent) return;
   }
 
@@ -262,38 +256,23 @@ celClassMessageReward::celClassMessageReward (
   qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
   // message id and parameters
-  msg_id = qm->ResolveParameter (params, id_par, msg_id_dynamic);
+  msg_id = qm->GetParameter (params, id_par);
+  clazz = qm->GetParameter (params, class_par);
+
   msg_params_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
   msg_params = qm->ResolveParameterBlock (params, parameters, msg_params_dynamic);
-
-  // Get the entity class list pointer.
-  clazz = qm->ResolveParameter (params, class_par, clazz_dynamic);
-  if (clazz_dynamic == csInvalidStringID)
-  {
-    csStringID ent_class = type->pl->FetchStringID (clazz);
-    entlist = type->pl->GetClassEntitiesList (ent_class);
-  }
-  else
-  {
-    clazz.Empty ();
-  }
 }
 
 void celClassMessageReward::Reward (iCelParameterBlock* params)
 {
-  const char* msg = GetDynamicParValue (type->object_reg, params, msg_id_dynamic, msg_id);
+  const char* msg = msg_id->Get (params);
   if (!msg) return;
-
-  if (clazz_dynamic != csInvalidStringID)
+  bool changed;
+  const char* clz = clazz->Get (params, changed);
+  if (changed)
   {
-    const char* cl = GetDynamicParValue (type->object_reg, params, clazz_dynamic, clazz);
-    if (!cl) return;
-    if (clazz != cl)
-    {
-      clazz = cl;
-      csStringID ent_class = type->pl->FetchStringID (clazz);
-      entlist = type->pl->GetClassEntitiesList (ent_class);
-    }
+    csStringID ent_class = type->pl->FetchStringID (clz);
+    entlist = type->pl->GetClassEntitiesList (ent_class);
   }
 
   qm->FillParameterBlock (params, msg_params, msg_params_dynamic);

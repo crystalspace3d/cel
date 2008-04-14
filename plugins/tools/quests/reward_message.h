@@ -84,10 +84,8 @@ private:
   celMessageRewardType* type;
   csWeakRef<iQuestManager> qm;
 
-  csString msg_id;
-  csStringID msg_id_dynamic;
-  csString entity;
-  csStringID entity_dynamic;
+  csRef<iQuestParameter> msg_id;
+  csRef<iQuestParameter> entity;
   csRef<celVariableParameterBlock> msg_params;
   csArray<csStringID> msg_params_dynamic;
 
@@ -119,10 +117,8 @@ private:
   celMessageRewardType* type;
   csWeakRef<iQuestManager> qm;
 
-  csString msg_id;
-  csStringID msg_id_dynamic;
-  csString clazz;
-  csStringID clazz_dynamic;
+  csRef<iQuestParameter> msg_id;
+  csRef<iQuestParameter> clazz;
 
   csRef<celVariableParameterBlock> msg_params;
   csArray<csStringID> msg_params_dynamic;

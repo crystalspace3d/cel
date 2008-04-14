@@ -110,15 +110,9 @@ celCsSequenceReward::celCsSequenceReward (
   celCsSequenceReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   eseqmgr = csQueryRegistry<iEngineSequenceManager> (type->object_reg);
-  sequence = qm->ResolveParameter (params, sequence_par, sequence_dynamic);
+  sequence = qm->GetParameter (params, sequence_par);
+  pdelay = qm->GetParameter (params, delay_par);
   delay = 0;
-  delay_par_dynamic = csInvalidStringID;
-  if (delay_par)
-  {
-    const char* s = qm->ResolveParameter (params, delay_par, delay_par_dynamic);
-    if (delay_par_dynamic == csInvalidStringID)
-      if (s) sscanf (s, "%d", &delay);
-  }
 }
 
 celCsSequenceReward::~celCsSequenceReward ()
@@ -127,11 +121,12 @@ celCsSequenceReward::~celCsSequenceReward ()
 
 void celCsSequenceReward::Reward (iCelParameterBlock* params)
 {
-  const char* s = GetDynamicParValue (type->object_reg, params, sequence_dynamic, sequence);
+  const char* s = sequence->Get (params);
   if (!s) return;
-  if (delay_par_dynamic != csInvalidStringID)
+  bool changed;
+  const char* d = pdelay->Get (params, changed);
+  if (changed)
   {
-    const char* d = GetDynamicParValue (type->object_reg, params, delay_par_dynamic, "0");
     if (!d) return;
     sscanf (d, "%d", &delay);
   }

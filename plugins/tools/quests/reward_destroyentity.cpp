@@ -107,7 +107,7 @@ celDestroyEntityReward::celDestroyEntityReward (
 {
   celDestroyEntityReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
+  entity = qm->GetParameter (params, entity_par);
 }
 
 celDestroyEntityReward::~celDestroyEntityReward ()
@@ -117,13 +117,13 @@ celDestroyEntityReward::~celDestroyEntityReward ()
 void celDestroyEntityReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = type->pl;
-  const char* e = GetDynamicParValue (type->object_reg, params, entity_dynamic, entity);
+  const char* e = entity->Get (params);
   if (!e) return;
   iCelEntity* ent = pl->FindEntity (e);
   if (!ent)
   {
     Report (type->object_reg,
-      		"entity %s not found for destroyentity reward!",e);
+      		"entity %s not found for destroyentity reward!", e);
     return;
   }
 
@@ -139,7 +139,7 @@ celDestroyClassReward::celDestroyClassReward (
 {
   celDestroyClassReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  ent_class = qm->ResolveParameter (params, class_par, ent_class_dynamic);
+  ent_class = qm->GetParameter (params, class_par);
 }
 
 celDestroyClassReward::~celDestroyClassReward ()
@@ -148,7 +148,7 @@ celDestroyClassReward::~celDestroyClassReward ()
 
 void celDestroyClassReward::Reward (iCelParameterBlock* params)
 {
-  const char* cl = GetDynamicParValue (type->object_reg, params, ent_class_dynamic, ent_class);
+  const char* cl = ent_class->Get (params);
   if (!cl) return;
   csStringID id = type->pl->FetchStringID (cl);
   iCelPlLayer* pl = type->pl;

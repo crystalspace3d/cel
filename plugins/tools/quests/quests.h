@@ -43,8 +43,49 @@ class celQuest;
 
 //---------------------------------------------------------------------------
 
-extern const char* GetDynamicParValue (iObjectRegistry* object_reg, iCelParameterBlock* params,
-    csStringID dynamic_id, const char* par_value);
+extern const char* GetDynamicParValue (iObjectRegistry* object_reg,
+    iCelParameterBlock* params, csStringID dynamic_id, const char* par_value);
+
+//---------------------------------------------------------------------------
+
+class celQuestConstantParameter : public scfImplementation1<celQuestConstantParameter,
+  iQuestParameter>
+{
+private:
+  csString str;
+
+public:
+  celQuestConstantParameter () : scfImplementationType (this) { }
+  celQuestConstantParameter (const char* c) : scfImplementationType (this),
+    str (c) { }
+  virtual ~celQuestConstantParameter () { }
+  virtual const char* Get (iCelParameterBlock*) { return str; }
+  virtual const char* Get (iCelParameterBlock*, bool& changed)
+  {
+    changed = false;
+    return str;
+  }
+};
+
+//---------------------------------------------------------------------------
+
+class celQuestDynamicParameter : public scfImplementation1<celQuestDynamicParameter,
+  iQuestParameter>
+{
+private:
+  iObjectRegistry* object_reg;
+  csStringID dynamic_id;
+  csString parname;
+  csString oldvalue;
+
+public:
+  celQuestDynamicParameter (iObjectRegistry* object_reg, csStringID dynamic_id,
+      const char* parname) : scfImplementationType (this), object_reg (object_reg),
+      dynamic_id (dynamic_id), parname (parname) { }
+  virtual ~celQuestDynamicParameter () { }
+  virtual const char* Get (iCelParameterBlock*);
+  virtual const char* Get (iCelParameterBlock*, bool& changed);
+};
 
 //---------------------------------------------------------------------------
 
@@ -397,6 +438,9 @@ public:
 
   virtual iQuestFactory* GetQuestFactory (const char* name);
   virtual iQuestFactory* CreateQuestFactory (const char* name);
+  virtual csPtr<iQuestParameter> GetParameter (
+  	const celQuestParams& params,
+	const char* param);
   virtual const char* ResolveParameter (
   	const celQuestParams& params,
 	const char* param);

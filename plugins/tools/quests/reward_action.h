@@ -83,14 +83,10 @@ class celActionReward : public scfImplementation1<celActionReward,
 private:
   celActionRewardType* type;
   csWeakRef<iQuestManager> qm;
-  csString pcclass;
-  csStringID pcclass_dynamic;
-  csString tag;
-  csStringID tag_dynamic;
-  csString entity;
-  csStringID entity_dynamic;
-  csString id;
-  csStringID id_dynamic;
+  csRef<iQuestParameter> pcclass;
+  csRef<iQuestParameter> tag;
+  csRef<iQuestParameter> entity;
+  csRef<iQuestParameter> id;
   csWeakRef<iCelEntity> ent;
   csRef<celVariableParameterBlock> act_params;
   csArray<csStringID> parameters_dynamic;
@@ -117,14 +113,11 @@ class celClassActionReward : public scfImplementation1<celClassActionReward,
 private:
   celActionRewardType* type;
   csWeakRef<iQuestManager> qm;
-  csString pcclass;
-  csStringID pcclass_dynamic;
-  csString tag;
-  csStringID tag_dynamic;
+  csRef<iQuestParameter> pcclass;
+  csRef<iQuestParameter> tag;
+  csRef<iQuestParameter> clazz;
+  csRef<iQuestParameter> id;
   csStringID actionID;
-  csStringID id_dynamic;
-  csString clazz;
-  csStringID clazz_dynamic;
 
   csRef<iCelEntityList> entlist;
   csRef<celVariableParameterBlock> act_params;

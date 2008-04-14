@@ -80,14 +80,11 @@ class celSequenceReward : public scfImplementation1<
 {
 private:
   celSequenceRewardType* type;
-  csString entity;
-  csStringID entity_dynamic;
-  csString tag;
-  csStringID tag_dynamic;
-  csString sequence;
-  csStringID sequence_dynamic;
+  csRef<iQuestParameter> entity;
+  csRef<iQuestParameter> tag;
+  csRef<iQuestParameter> sequence;
+  csRef<iQuestParameter> pdelay;
   csTicks delay;
-  csStringID delay_dynamic;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcQuest> quest;
 
@@ -111,15 +108,12 @@ class celClassSequenceReward : public scfImplementation1<
 {
 private:
   celSequenceRewardType* type;
-  csString tag;
-  csStringID tag_dynamic;
-  csString sequence;
-  csStringID sequence_dynamic;
+  csRef<iQuestParameter> tag;
+  csRef<iQuestParameter> sequence;
+  csRef<iQuestParameter> clazz;
+  csRef<iQuestParameter> pdelay;
   csTicks delay;
-  csStringID delay_dynamic;
   csRef<iCelEntityList> entlist;
-  csString clazz;
-  csStringID clazz_dynamic;
 
 public:
   celClassSequenceReward (celSequenceRewardType* type,

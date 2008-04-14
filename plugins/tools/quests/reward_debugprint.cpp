@@ -86,7 +86,7 @@ celDebugPrintReward::celDebugPrintReward (
 {
   celDebugPrintReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  msg = qm->ResolveParameter (params, msg_par, msg_dynamic);
+  msg = qm->GetParameter (params, msg_par);
 }
 
 celDebugPrintReward::~celDebugPrintReward ()
@@ -95,7 +95,7 @@ celDebugPrintReward::~celDebugPrintReward ()
 
 void celDebugPrintReward::Reward (iCelParameterBlock* params)
 {
-  const char* m = GetDynamicParValue (type->object_reg, params, msg_dynamic, msg);
+  const char* m = msg->Get (params);
   if (!m) return;
   printf ("%s\n", m);
   fflush (stdout);

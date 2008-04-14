@@ -33,6 +33,34 @@ struct iCelDataBuffer;
 struct iCelParameterBlock;
 struct iQuest;
 
+/**
+ * This interface represents a parameter to a sequence,
+ * trigger, or reward for a quest. The quest manager understands
+ * different types of parameters (constant, static parameters ($notation),
+ * dynamic parameters (@notation), or expressions (=notation).
+ * This interface makes abstraction of those.
+ */
+struct iQuestParameter : public virtual iBase
+{
+  SCF_INTERFACE (iQuestParameter, 0, 0, 1);
+
+  /**
+   * Get the value of this expression.
+   * \param params is an optional parameter block given to the reward.
+   */
+  virtual const char* Get (iCelParameterBlock* params) = 0;
+
+  /**
+   * Get the value of this expression.
+   * \param params is an optional parameter block given to the reward.
+   * \param changed is set to true if the returned value is different
+   * from the last time Get() was called. Note! This doesn't work
+   * if you call the Get() with only one parameter above!
+   */
+  virtual const char* Get (iCelParameterBlock* params, bool& changed) = 0;
+};
+
+
 /*
 <quest name="test">
     <state name="notstarted">
@@ -754,6 +782,14 @@ struct iQuestManager : public virtual iBase
    * already exists).
    */
   virtual iQuestFactory* CreateQuestFactory (const char* name) = 0;
+
+  /**
+   * Get a parameter that can be evalulated later on an as-needed basis.
+   * Returns 0 for an illegal parameter (error reporting has been done).
+   */
+  virtual csPtr<iQuestParameter> GetParameter (
+  	const celQuestParams& params,
+	const char* param) = 0;
 
   /**
    * This is a convenience function to resolve a quest parameter during
