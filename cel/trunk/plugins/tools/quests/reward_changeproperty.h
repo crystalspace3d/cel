@@ -91,22 +91,14 @@ class celChangePropertyRewardBase : public scfImplementation1<
 {
 protected:
   celChangePropertyRewardType* type;
-  csString prop;
-  csStringID prop_dynamic;
-  csString pc;
-  csStringID pc_dynamic;
-  csString tag;
-  csStringID tag_dynamic;
-  csString pstring;
-  csStringID pstring_dynamic;
-  csString plong;
-  csStringID plong_dynamic;
-  csString pfloat;
-  csStringID pfloat_dynamic;
-  csString pbool;
-  csStringID pbool_dynamic;
-  csString pdiff;
-  csStringID pdiff_dynamic;
+  csRef<iQuestParameter> prop;
+  csRef<iQuestParameter> pc;
+  csRef<iQuestParameter> tag;
+  csRef<iQuestParameter> pstring;
+  csRef<iQuestParameter> plong;
+  csRef<iQuestParameter> pfloat;
+  csRef<iQuestParameter> pbool;
+  csRef<iQuestParameter> pdiff;
   bool do_toggle;
 
 public:
@@ -134,8 +126,7 @@ protected:
 class celChangePropertyReward : public celChangePropertyRewardBase
 {
 private:
-  csString entity;
-  csStringID entity_dynamic;
+  csRef<iQuestParameter> entity;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcProperties> properties;
   csWeakRef<iCelPropertyClass> pclass;
@@ -164,8 +155,7 @@ class celClassChangePropertyReward : public celChangePropertyRewardBase
 private:
   celChangePropertyRewardType* type;
   csRef<iCelEntityList> entlist;
-  csString clazz;
-  csStringID clazz_dynamic;
+  csRef<iQuestParameter> clazz;
 
 public:
   celClassChangePropertyReward (celChangePropertyRewardType* type,

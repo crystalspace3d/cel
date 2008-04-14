@@ -70,8 +70,7 @@ class celDebugPrintReward : public scfImplementation1<
 {
 private:
   celDebugPrintRewardType* type;
-  csString msg;
-  csStringID msg_dynamic;
+  csRef<iQuestParameter> msg;
 
 public:
   celDebugPrintReward (celDebugPrintRewardType* type,

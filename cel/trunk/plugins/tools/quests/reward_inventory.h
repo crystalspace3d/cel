@@ -77,14 +77,10 @@ class celInventoryReward : public scfImplementation1<
 {
 private:
   celInventoryRewardType* type;
-  csString entity;
-  csStringID entity_dynamic;
-  csString tag;
-  csStringID tag_dynamic;
-  csString child_entity;
-  csStringID child_entity_dynamic;
-  csString child_tag;
-  csStringID child_tag_dynamic;
+  csRef<iQuestParameter> entity;
+  csRef<iQuestParameter> tag;
+  csRef<iQuestParameter> child_entity;
+  csRef<iQuestParameter> child_tag;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcInventory> inventory;
 

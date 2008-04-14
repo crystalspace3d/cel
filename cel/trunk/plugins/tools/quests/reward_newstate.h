@@ -77,12 +77,9 @@ class celNewStateReward : public scfImplementation1<
 {
 private:
   celNewStateRewardType* type;
-  csString state;
-  csStringID state_dynamic;
-  csString entity;
-  csStringID entity_dynamic;
-  csString tag;
-  csStringID tag_dynamic;
+  csRef<iQuestParameter> state;
+  csRef<iQuestParameter> entity;
+  csRef<iQuestParameter> tag;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iQuest> quest;
 
@@ -104,12 +101,9 @@ class celClassNewStateReward : public scfImplementation1<
 {
 private:
   celNewStateRewardType* type;
-  csString state;
-  csStringID state_dynamic;
-  csString tag;
-  csStringID tag_dynamic;
-  csString clazz;
-  csStringID clazz_dynamic;
+  csRef<iQuestParameter> state;
+  csRef<iQuestParameter> tag;
+  csRef<iQuestParameter> clazz;
   csRef<iCelEntityList> entlist;
 
 public:

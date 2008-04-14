@@ -226,10 +226,10 @@ celActionReward::celActionReward (
 {
   celActionReward::type = type;
   qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  pcclass = qm->ResolveParameter (params, pcclass_par, pcclass_dynamic);
-  tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
-  entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
-  id = qm->ResolveParameter (params, id_par, id_dynamic);
+  pcclass = qm->GetParameter (params, pcclass_par);
+  tag = qm->GetParameter (params, tag_par);
+  entity = qm->GetParameter (params, entity_par);
+  id = qm->GetParameter (params, id_par);
   parameters_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
   act_params = qm->ResolveParameterBlock (params, parameters, parameters_dynamic);
 }
@@ -242,44 +242,39 @@ void celActionReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = type->pl;
 
-  if (entity_dynamic != csInvalidStringID)
-  {
-    const char* e = GetDynamicParValue (type->object_reg, params, entity_dynamic, entity);
-    if (!e) return;
-    if (entity != e) { ent = 0; entity = e; }
-  }
-
+  bool changed;
+  const char* e = entity->Get (params, changed);
+  if (changed) ent = 0;
   if (!ent)
   {
-    ent = pl->FindEntity (entity);
+    ent = pl->FindEntity (e);
     if (!ent) return;
   }
   csRef<iCelPropertyClass> propertyclass;
 
-  const char* pc = GetDynamicParValue (type->object_reg, params, pcclass_dynamic, pcclass);
+  const char* pc = pcclass->Get (params);
   if (!pc) return;
-  const char* t = GetDynamicParValue (type->object_reg, params, tag_dynamic, tag);
+  const char* t = tag->Get (params);
   propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
   if (propertyclass)
   {
     csString fullname = "cel.action.";
-    fullname += id;
+    const char* idname = id->Get (params);
+    fullname += idname;
     csStringID actionID = pl->FetchStringID(fullname);
     if (actionID)
     {
       celData ret;
       qm->FillParameterBlock (params, act_params, parameters_dynamic);
-      propertyclass->PerformAction(actionID, act_params, ret);
+      propertyclass->PerformAction (actionID, act_params, ret);
     }
     else
       Report (type->object_reg,
-		"No action  'cel.action.%s' in the specified pc!", 
-		id.GetData());
+		"No action  'cel.action.%s' in the specified pc!", idname);
   }
   else
     Report (type->object_reg,
-            "No propertyclass  '%s' in the specified entity!", 
-	    pcclass.GetData());
+            "No propertyclass  '%s' in the specified entity!", pc);
 }
 
 //---------------------------------------------------------------------------
@@ -293,34 +288,15 @@ celClassActionReward::celClassActionReward (
 	const char* tag_par,
 	const csArray<celParSpec>& parameters) : scfImplementationType (this)
 {
-  iCelPlLayer* pl = type->pl;
   celClassActionReward::type = type;
   qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  pcclass = qm->ResolveParameter (params, pcclass_par, pcclass_dynamic);
-  tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
+  pcclass = qm->GetParameter (params, pcclass_par);
+  tag = qm->GetParameter (params, tag_par);
+  clazz = qm->GetParameter (params, class_par);
+  id = qm->GetParameter (params, id_par);
+
   parameters_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
   act_params = qm->ResolveParameterBlock (params, parameters, parameters_dynamic);
-
-  // Get the entity class list pointer.
-  clazz = qm->ResolveParameter (params, class_par, clazz_dynamic);
-  if (clazz_dynamic == csInvalidStringID)
-  {
-    csStringID ent_class = type->pl->FetchStringID (clazz);
-    entlist = type->pl->GetClassEntitiesList (ent_class);
-  }
-  else
-  {
-    clazz.Empty ();
-  }
-
-  // prepare action name
-  csString id = qm->ResolveParameter (params, id_par, id_dynamic);
-  if (id_dynamic != csInvalidStringID)
-  {
-    csString fullname = "cel.action.";
-    fullname += id;
-    actionID = pl->FetchStringID(fullname);
-  }
 }
 
 celClassActionReward::~celClassActionReward ()
@@ -334,21 +310,25 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
   csRef<iCelPropertyClass> propertyclass;
   celData ret;
 
-  if (clazz_dynamic != csInvalidStringID)
+  bool changed;
+  const char* clz = clazz->Get (params, changed);
+  if (changed)
   {
-    const char* cl = GetDynamicParValue (type->object_reg, params, clazz_dynamic, clazz);
-    if (!cl) return;
-    if (clazz != cl)
-    {
-      clazz = cl;
-      csStringID ent_class = type->pl->FetchStringID (clazz);
-      entlist = type->pl->GetClassEntitiesList (ent_class);
-    }
+    csStringID ent_class = type->pl->FetchStringID (clz);
+    entlist = type->pl->GetClassEntitiesList (ent_class);
   }
 
-  const char* pc = GetDynamicParValue (type->object_reg, params, pcclass_dynamic, pcclass);
+  const char* aid = id->Get (params, changed);
+  if (changed)
+  {
+    csString fullname = "cel.action.";
+    fullname += aid;
+    actionID = type->pl->FetchStringID (fullname);
+  }
+
+  const char* pc = pcclass->Get (params);
   if (!pc) return;
-  const char* t = GetDynamicParValue (type->object_reg, params, tag_dynamic, tag);
+  const char* t = tag->Get (params);
 
   for (int i = entlist->GetCount()-1; i>=0; i--)
   {
@@ -357,7 +337,7 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
     if (propertyclass)
     {
       qm->FillParameterBlock (params, act_params, parameters_dynamic);
-      propertyclass->PerformAction(actionID, act_params, ret);
+      propertyclass->PerformAction (actionID, act_params, ret);
     }
   }
 }

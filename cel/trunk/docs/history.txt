@@ -3,6 +3,15 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Apr-2008
+	- Jorrit added a new iQuestParameter interface and also a new
+	  iQuestManager->GetParameter(). This new system will replace
+	  ResolveParameter(). It makes it easier to make new parameter
+	  systems and it also makes the code of the rewards cleaner.
+	  This system is work in progress. Needs to be used everywhere
+	  (including triggers and sequences).
+	- Jorrit added a small parameter test to the basic entities file
+	  (used by default celtest).
 13-Apr-2008
 	- Jorrit made a celCombineParameterBlock implementation. This
 	  class takes two iCelParameterBlock instances and combines them.

@@ -46,15 +46,15 @@
         <state name="start" >
           <trigger type="trigger" >
             <fireon entity="box_small" />
-            <reward message="We are close!" type="debugprint" />
-            <reward entity="$this" sequence="movebox" type="sequence" />
+            <reward type="debugprint" message="We are close!" />
+            <reward type="sequence" entity="$this" sequence="movebox" />
             <reward type="newstate" state="second" />
           </trigger>
         </state>
         <state name="second" >
           <trigger type="trigger" >
             <fireon leave="true" entity="box_small" />
-            <reward message="We are far!" type="debugprint" />
+            <reward type="debugprint" message="We are far!" />
             <reward type="newstate" state="start" />
           </trigger>
         </state>
@@ -71,42 +71,42 @@
         <state name="init" >
           <trigger type="timeout" >
             <fireon timeout="1000" />
-            <reward message="$message" type="debugprint" />
-            <reward entity="$this" property="counter" type="changeproperty" long="0" />
-            <reward entity="$this" property="countdown" type="changeproperty" long="5" />
+            <reward type="debugprint" message="$message" />
+            <reward type="changeproperty" long="0" entity="$this" property="counter" />
+            <reward type="changeproperty" long="5" entity="$this" property="countdown" />
             <reward type="newstate" state="sequencetest" />
-            <reward entity="$this" sequence="test" type="sequence" />
+            <reward type="sequence" entity="$this" sequence="test" />
           </trigger>
         </state>
         <state name="sequencetest" >
           <trigger type="sequencefinish" >
             <fireon entity="$this" sequence="test" />
-            <reward message="Sequence Finished!" type="debugprint" />
+            <reward type="debugprint" message="Sequence Finished!" />
             <reward type="newstate" state="countdown" />
           </trigger>
         </state>
         <state name="countdown" >
           <trigger type="timeout" >
             <fireon timeout="1000" />
-            <reward message="countdown" type="debugprint" />
-            <reward entity="$this" diff="-1" property="countdown" type="changeproperty" />
+            <reward type="debugprint" message="countdown" />
+            <reward type="changeproperty" entity="$this" diff="-1" property="countdown" />
             <reward type="newstate" state="countdown" />
           </trigger>
           <trigger type="propertychange" >
             <fireon entity="$this" property="countdown" value="0" />
-            <reward message="Done!" type="debugprint" />
+            <reward type="debugprint" message="Done!" />
             <reward type="newstate" state="start" />
           </trigger>
         </state>
         <state name="start" >
           <trigger type="meshentersector" >
             <fireon entity="$actor" sector="room0,1" />
-            <reward message="Go!" type="debugprint" />
+            <reward type="debugprint" message="Go!" />
             <reward type="newstate" state="middle" />
           </trigger>
           <trigger type="propertychange" >
             <fireon entity="$this" property="counter" value="5" />
-            <reward message="We reached 5!" type="debugprint" />
+            <reward type="debugprint" message="We reached 5!" />
             <reward type="newstate" state="end" />
           </trigger>
         </state>
@@ -117,8 +117,8 @@
                  the property change listener in 'start' will not be activated yet but the
                  property is still changed. A good solution would be to do a manual check
                  of conditions after activating a state. -->            <reward type="newstate" state="start" />
-            <reward message="And Back!" type="debugprint" />
-            <reward entity="$this" diff="1" property="counter" type="changeproperty" />
+            <reward type="debugprint" message="And Back!" />
+            <reward type="changeproperty" entity="$this" diff="1" property="counter" />
           </trigger>
         </state>
         <state name="end" />
@@ -130,20 +130,20 @@
     <addon plugin="cel.addons.celentity" entityname="bla" >
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
-          <par string="/cellib/objects" name="path" />
-          <par string="large" name="filename" />
-          <par string="large" name="factoryname" />
+          <par name="path" string="/cellib/objects" />
+          <par name="filename" string="large" />
+          <par name="factoryname" string="large" />
         </action>
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="5,2,5" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="5,2,5" />
         </action>
       </propclass>
       <propclass name="pcmove.linear" >
         <action name="InitCD" >
-          <par vector="0.5,0.8,0.5" name="body" />
-          <par vector="0.5,0.4,0.5" name="legs" />
-          <par vector="0,-0.4,0" name="offset" />
+          <par name="body" vector="0.5,0.8,0.5" />
+          <par name="legs" vector="0.5,0.4,0.5" />
+          <par name="offset" vector="0,-0.4,0" />
         </action>
       </propclass>
     </addon>
@@ -151,14 +151,14 @@
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
-          <par string="/cellib/objects" name="path" />
-          <par string="small" name="filename" />
-          <par string="small" name="factoryname" />
+          <par name="path" string="/cellib/objects" />
+          <par name="filename" string="small" />
+          <par name="factoryname" string="small" />
         </action>
       </propclass>
       <propclass name="pcmove.linear" >
         <action name="InitCDMesh" >
-          <par float="10" name="percentage" />
+          <par name="percentage" float="10" />
         </action>
       </propclass>
       <behaviour layer="bltest" name="printer" />
@@ -166,57 +166,57 @@
     <addon plugin="cel.addons.celentity" entityname="dummy2a" template="dummyTemplate" >
       <propclass name="pcobject.mesh" >
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="-2,0,-1" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="-2,0,-1" />
         </action>
       </propclass>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy2b" template="dummyTemplate" >
       <propclass name="pcobject.mesh" >
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="-2.5,0,-1" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="-2.5,0,-1" />
         </action>
       </propclass>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy2c" template="dummyTemplate" >
       <propclass name="pcobject.mesh" >
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="-2,0,-1.5" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="-2,0,-1.5" />
         </action>
       </propclass>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy2d" template="dummyTemplate" >
       <propclass name="pcobject.mesh" >
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="-2.5,0,-1.5" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="-2.5,0,-1.5" />
         </action>
       </propclass>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy1" >
       <propclass name="pctools.timer" >
         <action name="WakeUp" >
-          <par long="1000" name="time" />
-          <par bool="true" name="repeat" />
+          <par name="time" long="1000" />
+          <par name="repeat" bool="true" />
         </action>
       </propclass>
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
-          <par string="/cellib/objects" name="path" />
-          <par string="large" name="filename" />
-          <par string="large" name="factoryname" />
+          <par name="path" string="/cellib/objects" />
+          <par name="filename" string="large" />
+          <par name="factoryname" string="large" />
         </action>
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="-2,0,1" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="-2,0,1" />
         </action>
       </propclass>
       <propclass name="pcmove.linear" >
         <action name="InitCDMesh" >
-          <par float="10" name="percentage" />
+          <par name="percentage" float="10" />
         </action>
       </propclass>
       <behaviour layer="bltest" name="printer" />
@@ -225,18 +225,18 @@
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
-          <par string="/cellib/objects" name="path" />
-          <par string="large" name="filename" />
-          <par string="large" name="factoryname" />
+          <par name="path" string="/cellib/objects" />
+          <par name="filename" string="large" />
+          <par name="factoryname" string="large" />
         </action>
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="1,0,3" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="1,0,3" />
         </action>
       </propclass>
       <propclass name="pcmove.linear" >
         <action name="InitCDMesh" >
-          <par float="10" name="percentage" />
+          <par name="percentage" float="10" />
         </action>
       </propclass>
       <behaviour layer="bltest" name="printer" />
@@ -245,18 +245,18 @@
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
-          <par string="/cellib/objects" name="path" />
-          <par string="medium" name="filename" />
-          <par string="medium" name="factoryname" />
+          <par name="path" string="/cellib/objects" />
+          <par name="filename" string="medium" />
+          <par name="factoryname" string="medium" />
         </action>
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="0,0,-1.5" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="0,0,-1.5" />
         </action>
       </propclass>
       <propclass name="pcmove.linear" >
         <action name="InitCDMesh" >
-          <par float="10" name="percentage" />
+          <par name="percentage" float="10" />
         </action>
       </propclass>
       <behaviour layer="bltest" name="printer" />
@@ -265,18 +265,18 @@
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
-          <par string="/cellib/objects" name="path" />
-          <par string="small" name="filename" />
-          <par string="small" name="factoryname" />
+          <par name="path" string="/cellib/objects" />
+          <par name="filename" string="small" />
+          <par name="factoryname" string="small" />
         </action>
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="-1,0,-2" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="-1,0,-2" />
         </action>
       </propclass>
       <propclass name="pcmove.linear" >
         <action name="InitCDMesh" >
-          <par float="10" name="percentage" />
+          <par name="percentage" float="10" />
         </action>
       </propclass>
       <behaviour layer="bltest" name="printer" />
@@ -285,18 +285,18 @@
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
-          <par string="/cellib/objects" name="path" />
-          <par string="medium" name="filename" />
-          <par string="medium" name="factoryname" />
+          <par name="path" string="/cellib/objects" />
+          <par name="filename" string="medium" />
+          <par name="factoryname" string="medium" />
         </action>
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="2.5,0,1.5" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="2.5,0,1.5" />
         </action>
       </propclass>
       <propclass name="pcmove.linear" >
         <action name="InitCDMesh" >
-          <par float="10" name="percentage" />
+          <par name="percentage" float="10" />
         </action>
       </propclass>
       <behaviour layer="bltest" name="printer" />
@@ -305,33 +305,33 @@
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh.select" >
         <action name="SetCamera" >
-          <par string="camera" name="entity" />
+          <par name="entity" string="camera" />
         </action>
         <action name="SetMouseButtons" >
-          <par string="r" name="buttons" />
+          <par name="buttons" string="r" />
         </action>
       </propclass>
       <propclass name="pcmisc.test" >
         <action name="Print" >
-          <par string="Hello world!" name="message" />
+          <par name="message" string="Hello world!" />
         </action>
       </propclass>
       <propclass name="pctools.timer" />
       <propclass name="pctools.inventory" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
-          <par string="/cellib/objects" name="path" />
-          <par string="box" name="filename" />
-          <par string="box" name="factoryname" />
+          <par name="path" string="/cellib/objects" />
+          <par name="filename" string="box" />
+          <par name="factoryname" string="box" />
         </action>
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="0,0,2" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="0,0,2" />
         </action>
       </propclass>
       <propclass name="pcmove.linear" >
         <action name="InitCDMesh" >
-          <par float="10" name="percentage" />
+          <par name="percentage" float="10" />
         </action>
       </propclass>
       <behaviour layer="bltest" name="box" />
@@ -340,41 +340,41 @@
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh.select" >
         <action name="SetCamera" >
-          <par string="camera" name="entity" />
+          <par name="entity" string="camera" />
         </action>
         <action name="SetMouseButtons" >
-          <par string="r" name="buttons" />
+          <par name="buttons" string="r" />
         </action>
       </propclass>
       <propclass name="pcmisc.test" >
         <action name="Print" >
-          <par string="Hello world (small)!" name="message" />
+          <par name="message" string="Hello world (small)!" />
         </action>
       </propclass>
       <propclass name="pctools.timer" />
       <propclass name="pctools.inventory" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
-          <par string="/cellib/objects" name="path" />
-          <par string="smallbox" name="filename" />
-          <par string="smallbox" name="factoryname" />
+          <par name="path" string="/cellib/objects" />
+          <par name="filename" string="smallbox" />
+          <par name="factoryname" string="smallbox" />
         </action>
         <action name="MoveMesh" >
-          <par string="room" name="sector" />
-          <par vector="-4,0,0" name="position" />
+          <par name="sector" string="room" />
+          <par name="position" vector="-4,0,0" />
         </action>
       </propclass>
       <propclass name="pcmove.linear" >
         <action name="InitCDMesh" >
-          <par float="10" name="percentage" />
+          <par name="percentage" float="10" />
         </action>
       </propclass>
       <propclass name="pclogic.trigger" >
         <property string="camera" name="monitor" />
         <action name="SetupTriggerSphere" >
-          <par string="room" name="sector" />
-          <par vector="-4,0,0" name="position" />
-          <par float="2" name="radius" />
+          <par name="sector" string="room" />
+          <par name="position" vector="-4,0,0" />
+          <par name="radius" float="2" />
         </action>
       </propclass>
       <behaviour layer="bltest" name="box" />
@@ -382,10 +382,10 @@
     <addon plugin="cel.addons.celentity" entityname="q1" >
       <propclass name="pclogic.quest" >
         <action name="NewQuest" >
-          <par string="testquest" name="name" />
-          <par string="Hallo Hallo!" name="message" />
-          <par string="q1" name="ent" />
-          <par string="camera" name="actor" />
+          <par name="name" string="testquest" />
+          <par name="message" string="Hallo Hallo!" />
+          <par name="ent" string="q1" />
+          <par name="actor" string="camera" />
         </action>
         <property string="init" name="state" />
       </propclass>
@@ -395,8 +395,8 @@
     <addon plugin="cel.addons.celentity" entityname="q2" >
       <propclass name="pclogic.quest" >
         <action name="NewQuest" >
-          <par string="proximityquest" name="name" />
-          <par string="q2" name="ent" />
+          <par name="name" string="proximityquest" />
+          <par name="ent" string="q2" />
         </action>
         <property string="start" name="state" />
       </propclass>
@@ -405,14 +405,14 @@
     <addon plugin="cel.addons.celentity" entityname="globalselectionentity" >
       <propclass name="pcobject.mesh.select" >
         <action name="SetCamera" >
-          <par string="camera" name="entity" />
+          <par name="entity" string="camera" />
         </action>
         <action name="SetMouseButtons" >
-          <par string="l" name="buttons" />
+          <par name="buttons" string="l" />
         </action>
         <action name="SetDragPlaneNormal" >
-          <par vector="0,1,0" name="normal" />
-          <par bool="false" name="camera" />
+          <par name="normal" vector="0,1,0" />
+          <par name="camera" bool="false" />
         </action>
         <property bool="true" name="global" />
         <property bool="false" name="follow" />
@@ -427,11 +427,11 @@
       </propclass>
       <propclass name="pclogic.rules" >
         <action name="AddRule" >
-          <par string="potion_strength" name="name" />
-          <par long="10000" name="time" />
+          <par name="name" string="potion_strength" />
+          <par name="time" long="10000" />
         </action>
         <action name="AddRule" >
-          <par string="ring_strength" name="name" />
+          <par name="name" string="ring_strength" />
         </action>
       </propclass>
     </addon>
@@ -453,23 +453,70 @@
     <addon plugin="cel.addons.celentity" entityname="bagtester" >
       <propclass name="pctools.bag" >
         <action name="AddString" >
-          <par string="red" name="value" />
+          <par name="value" string="red" />
         </action>
         <action name="AddString" >
-          <par string="green" name="value" />
+          <par name="value" string="green" />
         </action>
         <action name="AddString" >
-          <par string="blue" name="value" />
+          <par name="value" string="blue" />
         </action>
         <action name="AddString" >
-          <par string="yellow" name="value" />
+          <par name="value" string="yellow" />
         </action>
         <action name="RemoveString" >
-          <par string="green" name="value" />
+          <par name="value" string="green" />
         </action>
       </propclass>
       <behaviour layer="blxml" name="bagtester_script" />
     </addon>
+
+    <addon plugin="cel.addons.questdef" >
+      <quest name="message_source_quest" >
+        <state name="start" >
+          <trigger type="timeout" >
+            <fireon timeout="5000" />
+            <reward type="debugprint" message="### Send message" />
+            <reward type="message" entity="$ent" id="cel.messagetest" >
+	      <par name="testpar" string="testpar value" />
+	    </reward>
+            <reward type="newstate" state="idle" />
+          </trigger>
+        </state>
+        <state name="idle" />
+      </quest>
+    </addon>
+    <addon plugin="cel.addons.celentity" entityname="message_source" >
+      <propclass name="pclogic.quest" >
+        <action name="NewQuest" >
+          <par name="name" string="message_source_quest" />
+          <par name="ent" string="message_dest" />
+        </action>
+        <property name="state" string="start" />
+      </propclass>
+    </addon>
+    <addon plugin="cel.addons.questdef" >
+      <quest name="message_dest_quest" >
+        <state name="start" >
+          <trigger type="message" >
+            <fireon entity="$this" mask="cel.messagetest" />
+            <reward type="debugprint" message="### Got message" />
+            <reward type="debugprint" message="@testpar" />
+            <reward type="newstate" state="idle" />
+          </trigger>
+        </state>
+        <state name="idle" />
+      </quest>
+    </addon>
+    <addon plugin="cel.addons.celentity" entityname="message_dest" >
+      <propclass name="pclogic.quest" >
+        <action name="NewQuest" >
+          <par name="name" string="message_dest_quest" />
+        </action>
+        <property name="state" string="start" />
+      </propclass>
+    </addon>
+
 <!--
         <addon plugin="cel.addons.celentity" entityname="aws" >
         <propclass name="pcawswindow">

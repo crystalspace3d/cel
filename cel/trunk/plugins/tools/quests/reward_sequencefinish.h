@@ -78,12 +78,9 @@ class celSequenceFinishReward : public scfImplementation1<
 {
 private:
   celSequenceFinishRewardType* type;
-  csString entity;
-  csStringID entity_dynamic;
-  csString tag;
-  csStringID tag_dynamic;
-  csString sequence;
-  csStringID sequence_dynamic;
+  csRef<iQuestParameter> entity;
+  csRef<iQuestParameter> tag;
+  csRef<iQuestParameter> sequence;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcQuest> quest;
 
@@ -105,15 +102,10 @@ class celClassSequenceFinishReward : public scfImplementation1<
 {
 private:
   celSequenceFinishRewardType* type;
-  csString entity;
-  csStringID entity_dynamic;
-  csString tag;
-  csStringID tag_dynamic;
-  csString sequence;
-  csStringID sequence_dynamic;
+  csRef<iQuestParameter> tag;
+  csRef<iQuestParameter> sequence;
+  csRef<iQuestParameter> clazz;
   csRef<iCelEntityList> entlist;
-  csString clazz;
-  csStringID clazz_dynamic;
 
 public:
   celClassSequenceFinishReward (celSequenceFinishRewardType* type,

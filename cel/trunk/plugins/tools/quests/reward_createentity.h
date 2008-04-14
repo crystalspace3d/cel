@@ -69,10 +69,8 @@ class celCreateEntityReward : public scfImplementation1<
 {
 private:
   celCreateEntityRewardType* type;
-  csString name;
-  csStringID name_dynamic;
-  csString entity_tpl;
-  csStringID entity_tpl_dynamic;
+  csRef<iQuestParameter> name;
+  csRef<iQuestParameter> entity_tpl;
   celEntityTemplateParams params;
 
 public:

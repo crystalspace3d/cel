@@ -120,18 +120,10 @@ celInventoryReward::celInventoryReward (
 {
   celInventoryReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
-  if (entity_dynamic != csInvalidStringID)
-    entity.Empty ();
-  tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
-  if (tag_dynamic != csInvalidStringID)
-    tag.Empty ();
-  child_entity = qm->ResolveParameter (params, child_entity_par, child_entity_dynamic);
-  if (child_entity_dynamic != csInvalidStringID)
-    child_entity.Empty ();
-  child_tag = qm->ResolveParameter (params, child_tag_par, child_tag_dynamic);
-  if (child_tag_dynamic != csInvalidStringID)
-    child_tag.Empty ();
+  entity = qm->GetParameter (params, entity_par);
+  tag = qm->GetParameter (params, tag_par);
+  child_entity = qm->GetParameter (params, child_entity_par);
+  child_tag = qm->GetParameter (params, child_tag_par);
 }
 
 celInventoryReward::~celInventoryReward ()
@@ -141,29 +133,24 @@ celInventoryReward::~celInventoryReward ()
 void celInventoryReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = type->pl;
-
-  if (entity_dynamic != csInvalidStringID || tag_dynamic != csInvalidStringID)
-  {
-    const char* e = GetDynamicParValue (type->object_reg, params, entity_dynamic, entity);
-    if (!e) return;
-    if (entity != e) { ent = 0; inventory = 0; entity = e; }
-    const char* t = GetDynamicParValue (type->object_reg, params, tag_dynamic, tag);
-    if (tag != t) { inventory = 0;  tag = t; }
-  }
+  bool changed;
+  const char* e = entity->Get (params, changed);
+  if (changed) { ent = 0; inventory = 0; }
+  const char* t = tag->Get (params, changed);
+  if (changed) { inventory = 0; }
 
   if (!inventory)
   {
     if (!ent)
     {
-      ent = pl->FindEntity (entity);
+      ent = pl->FindEntity (e);
       if (!ent) return;
     }
-    inventory = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcInventory, tag);
+    inventory = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcInventory, t);
     if (!inventory) return;
   }
 
-  const char* ce = GetDynamicParValue (type->object_reg, params, child_entity_dynamic,
-      child_entity);
+  const char* ce = child_entity->Get (params);
   if (!ce) return;
   iCelEntity* child_ent = pl->FindEntity (ce);
   if (!child_ent)
@@ -179,8 +166,7 @@ void celInventoryReward::Reward (iCelParameterBlock* params)
   }
 
   // Make the mesh invisible if the entity has one.
-  const char* cet = GetDynamicParValue (type->object_reg, params, child_tag_dynamic,
-      child_tag);
+  const char* cet = child_tag->Get (params);
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (child_ent, iPcMesh, cet);
   if (pcmesh)
     pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE);

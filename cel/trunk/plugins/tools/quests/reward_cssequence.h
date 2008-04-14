@@ -75,10 +75,9 @@ class celCsSequenceReward : public scfImplementation1<
 {
 private:
   celCsSequenceRewardType* type;
-  csString sequence;
-  csStringID sequence_dynamic;
+  csRef<iQuestParameter> sequence;
+  csRef<iQuestParameter> pdelay;
   csTicks delay;
-  csStringID delay_par_dynamic;
   csWeakRef<iEngineSequenceManager> eseqmgr;
 
 public:

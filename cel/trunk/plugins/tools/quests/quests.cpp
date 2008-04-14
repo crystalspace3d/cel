@@ -68,6 +68,51 @@ SCF_IMPLEMENT_FACTORY (celQuestManager)
 
 //---------------------------------------------------------------------------
 
+const char* celQuestDynamicParameter::Get (iCelParameterBlock* params)
+{
+  if (!params)
+  {
+    csReport (object_reg,
+	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
+	"Cannot resolve dynamic parameter '%s' (no parameters given)!",
+	(const char*)parname);
+    return 0;
+  }
+
+  const celData* data = params->GetParameter (dynamic_id);
+  if (!data)
+  {
+    csReport (object_reg,
+	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
+	"Cannot resolve dynamic parameter '%s'!", (const char*)parname);
+    return 0;
+  }
+  if (data->type != CEL_DATA_STRING)
+  {
+    csReport (object_reg,
+    	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
+	"Parameter '%s' is not a string!", (const char*)parname);
+    return 0;
+  }
+  return data->value.s->GetData ();
+}
+
+const char* celQuestDynamicParameter::Get (iCelParameterBlock* params,
+    bool& changed)
+{
+  const char* s = Get (params);
+  if (s == 0)
+  {
+    changed = !oldvalue.IsEmpty ();
+    return s;
+  }
+  changed = oldvalue == s;
+  oldvalue = s;
+  return s;
+}
+
+//---------------------------------------------------------------------------
+
 void celQuestTriggerResponseFactory::SetTriggerFactory (
 	iQuestTriggerFactory* trigger_fact)
 {
@@ -1187,6 +1232,22 @@ bool celQuestManager::RegisterSeqOpType (iQuestSeqOpType* seqop)
 iQuestSeqOpType* celQuestManager::GetSeqOpType (const char* name)
 {
   return seqop_types.Get (name, 0);
+}
+
+csPtr<iQuestParameter> celQuestManager::GetParameter (
+  	const celQuestParams& params,
+	const char* param)
+{
+  const char* val = ResolveParameter (params, param);
+  if (val == 0) return new celQuestConstantParameter ();
+  if (*val == '@' && *(val+1) != '@')
+  {
+    csString fullname = "cel.parameter.";
+    fullname += val+1;
+    csStringID dynamic_id = pl->FetchStringID (fullname);
+    return new celQuestDynamicParameter (object_reg, dynamic_id, val+1);
+  }
+  return new celQuestConstantParameter (val);
 }
 
 const char* celQuestManager::ResolveParameter (

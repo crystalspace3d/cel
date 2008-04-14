@@ -140,8 +140,8 @@ celCreateEntityReward::celCreateEntityReward (
   celCreateEntityReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
-  entity_tpl = qm->ResolveParameter (params, template_par, entity_tpl_dynamic);
-  name = qm->ResolveParameter (params, name_par, name_dynamic);
+  entity_tpl = qm->GetParameter (params, template_par);
+  name = qm->GetParameter (params, name_par);
 
   // Resolve template parameters.
   celEntityTemplateParams::ConstGlobalIterator iter = tpl_params.GetIterator();
@@ -160,7 +160,7 @@ celCreateEntityReward::~celCreateEntityReward ()
 
 void celCreateEntityReward::Reward (iCelParameterBlock* params)
 {
-  const char* e = GetDynamicParValue (type->object_reg, params, entity_tpl_dynamic, entity_tpl);
+  const char* e = entity_tpl->Get (params);
   if (!e) return;
 
   iCelPlLayer* pl = type->pl;
@@ -172,7 +172,7 @@ void celCreateEntityReward::Reward (iCelParameterBlock* params)
     return;
   }
 
-  const char* n = GetDynamicParValue (type->object_reg, params, name_dynamic, name);
+  const char* n = name->Get (params);
   if (!n) return;
   pl->CreateEntity (ent_tpl, n, params);
 }

@@ -103,14 +103,10 @@ celNewStateReward::celNewStateReward (
 {
   celNewStateReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  state = qm->ResolveParameter (params, state_par, state_dynamic);
-  entity = qm->ResolveParameter (params, entity_par, entity_dynamic);
-  if (entity_dynamic != csInvalidStringID)
-    entity.Empty ();
-  tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
-  if (tag_dynamic != csInvalidStringID)
-    tag.Empty ();
-  if (!entity && entity_dynamic == csInvalidStringID && !tag && tag_dynamic == csInvalidStringID)
+  state = qm->GetParameter (params, state_par);
+  if (entity_par) entity = qm->GetParameter (params, entity_par);
+  if (tag_par) tag = qm->GetParameter (params, tag_par);
+  if (!entity_par && !tag_par)
     quest = q;
 }
 
@@ -118,27 +114,24 @@ void celNewStateReward::Reward (iCelParameterBlock* params)
 {
   if (!quest)
   {
-    if (entity_dynamic != csInvalidStringID)
-    {
-      const char* e = GetDynamicParValue (type->object_reg, params, entity_dynamic, entity);
-      if (!e) return;
-      if (entity != e) { ent = 0; entity = e; }
-    }
-
+    bool changed;
+    const char* e = entity->Get (params, changed);
+    if (changed) ent = 0;
     if (!ent)
     {
       iCelPlLayer* pl = type->pl;
-      ent = pl->FindEntity (entity);
+      ent = pl->FindEntity (e);
       if (!ent) return;
     }
-    const char* t = GetDynamicParValue (type->object_reg, params, tag_dynamic, tag);
+    const char* t = tag->Get (params);
     csWeakRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
     if (!pcquest) return;
     quest = pcquest->GetQuest ();
     if (!quest) return;
   }
-  quest->SwitchState (state);
-  if (!(!entity && entity_dynamic == csInvalidStringID && !tag && tag_dynamic == csInvalidStringID))
+  const char* st = state->Get (params);
+  quest->SwitchState (st);
+  if (entity || tag)
     quest = 0;
 }
 
@@ -155,43 +148,32 @@ celClassNewStateReward::celClassNewStateReward (
   celClassNewStateReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
-  state = qm->ResolveParameter (params, state_par, state_dynamic);
-  tag = qm->ResolveParameter (params, tag_par, tag_dynamic);
-
-  // Get the entity class list pointer.
-  clazz = qm->ResolveParameter (params, class_par, clazz_dynamic);
-  if (clazz_dynamic == csInvalidStringID)
-  {
-    csStringID ent_class = type->pl->FetchStringID (clazz);
-    entlist = type->pl->GetClassEntitiesList (ent_class);
-  }
-  else
-  {
-    clazz.Empty ();
-  }
+  state = qm->GetParameter (params, state_par);
+  tag = qm->GetParameter (params, tag_par);
+  clazz = qm->GetParameter (params, class_par);
 }
 
 void celClassNewStateReward::Reward (iCelParameterBlock* params)
 {
-  if (clazz_dynamic != csInvalidStringID)
+  bool changed;
+  const char* clz = clazz->Get (params, changed);
+  if (changed)
   {
-    const char* cl = GetDynamicParValue (type->object_reg, params, clazz_dynamic, clazz);
-    if (!cl) return;
-    if (clazz != cl)
-    {
-      clazz = cl;
-      csStringID ent_class = type->pl->FetchStringID (clazz);
-      entlist = type->pl->GetClassEntitiesList (ent_class);
-    }
+    csStringID ent_class = type->pl->FetchStringID (clz);
+    entlist = type->pl->GetClassEntitiesList (ent_class);
   }
+
+  const char* st = state->Get (params);
+  if (!st) return;
+  const char* t = tag->Get (params);
 
   iCelEntity *ent;
   for (int i = entlist->GetCount()-1; i>=0; i--)
   {
     ent = entlist->Get(i);
-    csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest,tag);
+    csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
     if (pcquest)
-      pcquest->GetQuest()->SwitchState (state);
+      pcquest->GetQuest()->SwitchState (st);
   }
 }
 
