@@ -978,6 +978,23 @@ class celOneParameterBlock(scfOneParameterBlock):
 celOneParameterBlock_swigregister = _blcelc.celOneParameterBlock_swigregister
 celOneParameterBlock_swigregister(celOneParameterBlock)
 
+class celCombineParameterBlock(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_celCombineParameterBlock(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celCombineParameterBlock
+    __del__ = lambda self : None;
+    def SetParameterBlock1(*args): return _blcelc.celCombineParameterBlock_SetParameterBlock1(*args)
+    def SetParameterBlock2(*args): return _blcelc.celCombineParameterBlock_SetParameterBlock2(*args)
+    def GetParameterCount(*args): return _blcelc.celCombineParameterBlock_GetParameterCount(*args)
+    def GetParameter(*args): return _blcelc.celCombineParameterBlock_GetParameter(*args)
+    def GetParameterByIndex(*args): return _blcelc.celCombineParameterBlock_GetParameterByIndex(*args)
+celCombineParameterBlock_swigregister = _blcelc.celCombineParameterBlock_swigregister
+celCombineParameterBlock_swigregister(celCombineParameterBlock)
+
 class iCelPropertyClassFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
