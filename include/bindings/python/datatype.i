@@ -4,6 +4,11 @@
 		{
 		    switch(data->type)
 		    {
+			case CEL_DATA_UBYTE:
+			{
+				obj = PyLong_FromUnsignedLong((unsigned long)data->value.ub);
+				break;
+			}
 			case CEL_DATA_FLOAT:
 				obj = PyFloat_FromDouble((float)data->value.f);
 				break;
@@ -29,6 +34,13 @@
 				csVector3 *res;
 				res = new csVector3(data->value.v.x,data->value.v.y,data->value.v.z);
 				obj = SWIG_NewPointerObj((void*)(res), SWIGTYPE_p_csVector3, 1);
+				break;
+			}
+			case CEL_DATA_VECTOR4:
+			{
+				csVector4 *res;
+				res = new csVector4(data->value.v.x,data->value.v.y,data->value.v.z,data->value.v.w);
+				obj = SWIG_NewPointerObj((void*)(res), SWIGTYPE_p_csVector4, 1);
 				break;
 			}
 			case CEL_DATA_ENTITY:
@@ -66,6 +78,13 @@
 				obj = SWIG_NewPointerObj((void*)(res), SWIGTYPE_p_csColor, 1);
 				break;
 			}
+			case CEL_DATA_COLOR4:
+			{
+				csColor4 *res;
+				res = new csColor4(data->value.col.red,data->value.col.green,data->value.col.blue,data->value.col.alpha);
+				obj = SWIG_NewPointerObj((void*)(res), SWIGTYPE_p_csColor4, 1);
+				break;
+			}
 			case CEL_DATA_WORD:
 			{
 				obj = SWIG_From_int((int)data->value.w);
@@ -81,14 +100,20 @@
 				obj = PyLong_FromUnsignedLong((unsigned long)data->value.ul);
 				break;
 			}
+			case CEL_DATA_BYTE:
 			{
+				obj = SWIG_From_long((long)data->value.b);
 				break;
 			}
-			/* Still to be done (and some more) */
-			case CEL_DATA_BYTE:
 				/*data->value.b (int8)*/
 			case CEL_DATA_UWORD:
+			{
+				obj = PyLong_FromUnsignedLong((unsigned long)data->value.uw);
+				break;
+			}
+
 				/*data->value.uw (uint16)*/
+			/* Still to be done (and some more) */
 			case CEL_DATA_PARAMETER:
 				/*data->value.par (iString+celDataType)*/
 			default:

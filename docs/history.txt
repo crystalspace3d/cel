@@ -5,6 +5,8 @@ The history order is reversed so that new features are at the top.
 
 15-Apr-2008
 	- Eric Sunshine updated mk/autoconf/*.m4 files from CS master copies.
+	- caedes fixed python mapping for celdata forgetting to handle some
+	  types.
 14-Apr-2008
 	- Jorrit added a new iQuestParameter interface and also a new
 	  iQuestManager->GetParameter(). This new system will replace
