@@ -4530,6 +4530,19 @@ celGetMeshDeform = _blcelc.celGetMeshDeform
 iPcDamage_scfGetVersion = _blcelc.iPcDamage_scfGetVersion
 
 scfQuery_iPcDamage = _blcelc.scfQuery_iPcDamage
+class iQuestParameter(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def Get(*args): return _blcelc.iQuestParameter_Get(*args)
+    __swig_destroy__ = _blcelc.delete_iQuestParameter
+    __del__ = lambda self : None;
+iQuestParameter_swigregister = _blcelc.iQuestParameter_swigregister
+iQuestParameter_swigregister(iQuestParameter)
+celCreateDamage = _blcelc.celCreateDamage
+celGetSetDamage = _blcelc.celGetSetDamage
+celGetDamage = _blcelc.celGetDamage
+
 class celParSpec(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
@@ -4545,9 +4558,6 @@ class celParSpec(object):
     __del__ = lambda self : None;
 celParSpec_swigregister = _blcelc.celParSpec_swigregister
 celParSpec_swigregister(celParSpec)
-celCreateDamage = _blcelc.celCreateDamage
-celGetSetDamage = _blcelc.celGetSetDamage
-celGetDamage = _blcelc.celGetDamage
 
 class iQuestTriggerCallback(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -4800,6 +4810,7 @@ class iQuestManager(cspace.iBase):
     def GetSeqOpType(*args): return _blcelc.iQuestManager_GetSeqOpType(*args)
     def GetQuestFactory(*args): return _blcelc.iQuestManager_GetQuestFactory(*args)
     def CreateQuestFactory(*args): return _blcelc.iQuestManager_CreateQuestFactory(*args)
+    def GetParameter(*args): return _blcelc.iQuestManager_GetParameter(*args)
     def ResolveParameter(*args): return _blcelc.iQuestManager_ResolveParameter(*args)
     def ResolveParameterBlock(*args): return _blcelc.iQuestManager_ResolveParameterBlock(*args)
     def FillParameterBlock(*args): return _blcelc.iQuestManager_FillParameterBlock(*args)
