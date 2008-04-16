@@ -14,6 +14,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit replaced a few more usages of csStrNew with csString.
 	- caedes fixed newstate quest reward trying to Get from an
 	  uninitialized tag parameter.
+	- caedes added a note to inventory GetSpace function to warn
+	  people not to remove or add entities by using it directly, 
+	  as pcinventory implementation doesnt really allow this, as it
+	  maintains an internal list of entities that can only be kept in
+	  sync if using pcinventory api.
 16-Apr-2008
 	- Eric Sunshine updated mk/jam/*.jam files from CS master copies.
 15-Apr-2008
