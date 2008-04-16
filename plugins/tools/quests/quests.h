@@ -43,28 +43,31 @@ class celQuest;
 
 //---------------------------------------------------------------------------
 
-extern const char* GetDynamicParValue (iObjectRegistry* object_reg,
-    iCelParameterBlock* params, csStringID dynamic_id, const char* par_value);
-
-//---------------------------------------------------------------------------
-
 class celQuestConstantParameter : public scfImplementation1<celQuestConstantParameter,
   iQuestParameter>
 {
 private:
-  csString str;
+  celData data;
+  csString str;	// This string is used to hold temporary conversion to string.
 
 public:
   celQuestConstantParameter () : scfImplementationType (this) { }
-  celQuestConstantParameter (const char* c) : scfImplementationType (this),
-    str (c) { }
+  celQuestConstantParameter (const char* c) : scfImplementationType (this)
+  {
+    data.Set (c);
+  }
   virtual ~celQuestConstantParameter () { }
-  virtual const char* Get (iCelParameterBlock*) { return str; }
+  virtual const celData* GetData (iCelParameterBlock*)
+  {
+    return &data;
+  }
+  virtual const char* Get (iCelParameterBlock*);
   virtual const char* Get (iCelParameterBlock*, bool& changed)
   {
     changed = false;
-    return str;
+    return Get (0);
   }
+  virtual int32 GetLong (iCelParameterBlock*);
 };
 
 //---------------------------------------------------------------------------
@@ -77,14 +80,17 @@ private:
   csStringID dynamic_id;
   csString parname;
   csString oldvalue;
+  csString str;	// This string is used to hold temporary conversion to string.
 
 public:
   celQuestDynamicParameter (iObjectRegistry* object_reg, csStringID dynamic_id,
       const char* parname) : scfImplementationType (this), object_reg (object_reg),
       dynamic_id (dynamic_id), parname (parname) { }
   virtual ~celQuestDynamicParameter () { }
-  virtual const char* Get (iCelParameterBlock*);
-  virtual const char* Get (iCelParameterBlock*, bool& changed);
+  virtual const char* Get (iCelParameterBlock* params);
+  virtual const char* Get (iCelParameterBlock* params, bool& changed);
+  virtual const celData* GetData (iCelParameterBlock* params);
+  virtual int32 GetLong (iCelParameterBlock* params);
 };
 
 //---------------------------------------------------------------------------
@@ -444,17 +450,16 @@ public:
   virtual const char* ResolveParameter (
   	const celQuestParams& params,
 	const char* param);
-  virtual const char* ResolveParameter (
+
+  virtual csPtr<celVariableParameterBlock> GetParameterBlock (
   	const celQuestParams& params,
-	const char* param, csStringID& dynamic_par);
-  virtual csPtr<celVariableParameterBlock> ResolveParameterBlock (
-	const celQuestParams& params,
-  	const csArray<celParSpec>& parameters,
-	csArray<csStringID>& parameters_dynamic);
+	const csArray<celParSpec>& parameters,
+	csRefArray<iQuestParameter>& quest_parameters);
   virtual void FillParameterBlock (
         iCelParameterBlock* params,
-	celVariableParameterBlock* msg_params,
-	const csArray<csStringID>& msg_params_dynamic);
+	celVariableParameterBlock* act_params,
+	const csArray<celParSpec>& parameters,
+	const csRefArray<iQuestParameter>& quest_parameters);
 
   virtual bool Load (iDocumentNode* node);
 

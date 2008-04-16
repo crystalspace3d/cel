@@ -68,7 +68,152 @@ SCF_IMPLEMENT_FACTORY (celQuestManager)
 
 //---------------------------------------------------------------------------
 
-const char* celQuestDynamicParameter::Get (iCelParameterBlock* params)
+static const char* ToString (csString& str, const celData* data)
+{
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: return data->value.s->GetData ();
+    case CEL_DATA_BOOL: if (data->value.bo) str = "true"; else str = "false"; break;
+    case CEL_DATA_BYTE: str.Format ("%d", data->value.b); break;
+    case CEL_DATA_UBYTE: str.Format ("%d", data->value.ub); break;
+    case CEL_DATA_WORD: str.Format ("%d", data->value.w); break;
+    case CEL_DATA_UWORD: str.Format ("%d", data->value.uw); break;
+    case CEL_DATA_LONG: str.Format ("%d", data->value.l); break;
+    case CEL_DATA_ULONG: str.Format ("%d", data->value.ul); break;
+    case CEL_DATA_FLOAT: str.Format ("%g", data->value.f); break;
+    case CEL_DATA_VECTOR2: str.Format ("%g,%g", data->value.v.x, data->value.v.y); break;
+    case CEL_DATA_VECTOR3: str.Format ("%g,%g,%g",
+				 data->value.v.x, data->value.v.y, data->value.v.z);
+			     break;
+    case CEL_DATA_VECTOR4: str.Format ("%g,%g,%g,%g", data->value.v.x, data->value.v.y,
+				 data->value.v.z, data->value.v.w);
+			     break;
+    case CEL_DATA_COLOR4: str.Format ("%g,%g,%g,%g", data->value.col.red,
+				data->value.col.green, data->value.col.blue, data->value.col.alpha);
+			     break;
+    case CEL_DATA_PCLASS: str.Format ("pc(%p)", (iCelPropertyClass*)data->value.pc); break;
+    case CEL_DATA_IBASE: str.Format ("ibase(%p)", (iBase*)data->value.ibase); break;
+    case CEL_DATA_ENTITY: str.Format ("ent('%s')", data->value.ent->GetName ()); break;
+    case CEL_DATA_ACTION: str.Format ("action('%s')", data->value.s->GetData ()); break;
+    case CEL_DATA_PARAMETER: str.Format ("par('%s')", data->value.par.parname->GetData ()); break;
+    case CEL_DATA_NONE: str.Free (); break;
+    default: str = "unknown()"; break;
+  }
+  return str;
+}
+
+static int32 ToLong (const celData* data)
+{
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: return atol (data->value.s->GetData ());
+    case CEL_DATA_BOOL: return data->value.bo;
+    case CEL_DATA_BYTE: return data->value.b;
+    case CEL_DATA_UBYTE: return data->value.ub;
+    case CEL_DATA_WORD: return data->value.w;
+    case CEL_DATA_UWORD: return data->value.uw;
+    case CEL_DATA_LONG: return data->value.l;
+    case CEL_DATA_ULONG: return data->value.ul;
+    case CEL_DATA_FLOAT: return (int32) data->value.f;
+    default: return 0;
+  }
+}
+
+static float ToFloat (const celData* data)
+{
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: return atof (data->value.s->GetData ());
+    case CEL_DATA_BOOL: return (float)data->value.bo;
+    case CEL_DATA_BYTE: return (float)data->value.b;
+    case CEL_DATA_UBYTE: return (float)data->value.ub;
+    case CEL_DATA_WORD: return (float)data->value.w;
+    case CEL_DATA_UWORD: return (float)data->value.uw;
+    case CEL_DATA_LONG: return (float)data->value.l;
+    case CEL_DATA_ULONG: return (float)data->value.ul;
+    case CEL_DATA_FLOAT: return data->value.f;
+    default: return 0.0f;
+  }
+}
+
+static bool ToBool (const celData* data)
+{
+  bool rc;
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%b", &rc);
+			  return rc;
+    case CEL_DATA_BOOL: return data->value.bo;
+    case CEL_DATA_BYTE: return (bool)data->value.b;
+    case CEL_DATA_UBYTE: return (bool)data->value.ub;
+    case CEL_DATA_WORD: return (bool)data->value.w;
+    case CEL_DATA_UWORD: return (bool)data->value.uw;
+    case CEL_DATA_LONG: return (bool)data->value.l;
+    case CEL_DATA_ULONG: return (bool)data->value.ul;
+    case CEL_DATA_FLOAT: return fabs (data->value.f) > 0.000001;
+    case CEL_DATA_PCLASS: return data->value.pc != 0;
+    case CEL_DATA_IBASE: return data->value.ibase != 0;
+    case CEL_DATA_ENTITY: return data->value.ent;
+    default: return false;
+  }
+}
+
+static csVector2 ToVector2 (const celData* data)
+{
+  csVector2 v;
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f", &v.x, &v.y);
+			  return v;
+    case CEL_DATA_VECTOR2: v.x = data->value.v.x; v.y = data->value.v.y;
+			   return v;
+    default: v.x = v.y = 0.0f;
+	     return v;
+  }
+}
+
+static csVector3 ToVector3 (const celData* data)
+{
+  csVector3 v;
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f,%f", &v.x, &v.y, &v.z);
+			  return v;
+    case CEL_DATA_VECTOR2: v.x = data->value.v.x; v.y = data->value.v.y; v.z = data->value.v.z;
+			   return v;
+    default: v.x = v.y = v.z = 0.0f;
+	     return v;
+  }
+}
+
+static csColor ToColor (const celData* data)
+{
+  csColor v;
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f,%f",
+			      &v.red, &v.green, &v.blue);
+			  return v;
+    case CEL_DATA_VECTOR2: v.red = data->value.col.red;
+			   v.green = data->value.col.green;
+			   v.blue = data->value.col.blue;
+			   return v;
+    default: v.red = v.green = v.blue = 0.0f;
+	     return v;
+  }
+}
+
+const char* celQuestConstantParameter::Get (iCelParameterBlock*)
+{
+  return ToString (str, &data);
+}
+
+int32 celQuestConstantParameter::GetLong (iCelParameterBlock*)
+{
+  return ToLong (&data);
+}
+
+const celData* celQuestDynamicParameter::GetData (iCelParameterBlock* params)
 {
   if (!params)
   {
@@ -87,14 +232,19 @@ const char* celQuestDynamicParameter::Get (iCelParameterBlock* params)
 	"Cannot resolve dynamic parameter '%s'!", (const char*)parname);
     return 0;
   }
-  if (data->type != CEL_DATA_STRING)
-  {
-    csReport (object_reg,
-    	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
-	"Parameter '%s' is not a string!", (const char*)parname);
-    return 0;
-  }
-  return data->value.s->GetData ();
+  return data;
+}
+
+const char* celQuestDynamicParameter::Get (iCelParameterBlock* params)
+{
+  const celData* data = GetData (params);
+  return ToString (str, data);
+}
+
+int32 celQuestDynamicParameter::GetLong (iCelParameterBlock* params)
+{
+  const celData* data = GetData (params);
+  return ToLong (data);
 }
 
 const char* celQuestDynamicParameter::Get (iCelParameterBlock* params,
@@ -421,9 +571,8 @@ csPtr<celQuestSequence> celQuestSequenceFactory::CreateSequence (
   for (i = 0 ; i < seqops.GetSize () ; i++)
   {
     // @@@ Support dynamic parameters here?
-    csStringID dynamic_par;
     csTicks duration = ToUInt (parent_factory->GetQuestManager ()->
-    	ResolveParameter (params, seqops[i].duration, dynamic_par));
+    	ResolveParameter (params, seqops[i].duration));
     if (total_time + duration > max_time) max_time = total_time + duration;
     if (seqops[i].seqop)
     {
@@ -1267,101 +1416,58 @@ const char* celQuestManager::ResolveParameter (
   return val;
 }
 
-const char* celQuestManager::ResolveParameter (
-  	const celQuestParams& params,
-	const char* param, csStringID& dynamic_par)
-{
-  dynamic_par = csInvalidStringID;
-  const char* val = ResolveParameter (params, param);
-  if (val && *val == '@' && *(val+1) != '@')
-  {
-    csString fullname = "cel.parameter.";
-    fullname += val+1;
-    dynamic_par = pl->FetchStringID (fullname);
-  }
-  return val;
-}
-
-csPtr<celVariableParameterBlock> celQuestManager::ResolveParameterBlock (
+csPtr<celVariableParameterBlock> celQuestManager::GetParameterBlock (
   	const celQuestParams& params,
 	const csArray<celParSpec>& parameters,
-	csArray<csStringID>& parameters_dynamic)
+	csRefArray<iQuestParameter>& quest_parameters)
 {
   celVariableParameterBlock *act_params = new celVariableParameterBlock ();
   size_t i;
   for (i = 0 ; i < parameters.GetSize () ; i++)
   {
-    csString v = ResolveParameter (params, parameters[i].value, parameters_dynamic[i]);
+    csRef<iQuestParameter> par = GetParameter (params, parameters[i].value);
+    quest_parameters.Put (i, par);
     act_params->SetParameterDef (i, parameters[i].id, parameters[i].name);
-    if (parameters_dynamic[i] != csInvalidStringID) continue;
-    switch (parameters[i].type)
-    {
-      case CEL_DATA_STRING:
-	act_params->GetParameter (i).Set ((const char*)v);
-	break;
-      case CEL_DATA_LONG:
-	{
-	  long f;
-	  csScanStr (v, "%d", &f);
-	  act_params->GetParameter (i).Set ((int32)f);
-	}
-	break;
-      case CEL_DATA_FLOAT:
-	{
-	  float f;
-	  csScanStr (v, "%f", &f);
-	  act_params->GetParameter (i).Set (f);
-	}
-	break;
-      case CEL_DATA_BOOL:
-	{
-	  bool f;
-	  csScanStr (v, "%b", &f);
-	  act_params->GetParameter (i).Set (f);
-	}
-	break;
-      case CEL_DATA_VECTOR2:
-	{
-	  csVector2 vec;
-	  csScanStr (v, "%f,%f", &vec.x, &vec.y);
-	  act_params->GetParameter (i).Set (vec);
-	}
-	break;
-      case CEL_DATA_VECTOR3:
-	{
-	  csVector3 vec;
-	  csScanStr (v, "%f,%f,%f", &vec.x, &vec.y, &vec.z);
-	  act_params->GetParameter (i).Set (vec);
-	}
-	break;
-      case CEL_DATA_COLOR:
-	{
-	  csColor vec;
-	  csScanStr (v, "%f,%f,%f", &vec.red, &vec.green, &vec.blue);
-	  act_params->GetParameter (i).Set (vec);
-	}
-	break;
-      default:
-	//@@@?
-	break;
-    }
   }
   return act_params;
 }
 
 void celQuestManager::FillParameterBlock (
         iCelParameterBlock* params,
-	celVariableParameterBlock* msg_params,
-	const csArray<csStringID>& msg_params_dynamic)
+	celVariableParameterBlock* act_params,
+	const csArray<celParSpec>& parameters,
+	const csRefArray<iQuestParameter>& quest_parameters)
 {
   size_t i;
-  for (i = 0 ; i < msg_params_dynamic.GetSize () ; i++)
+  for (i = 0 ; i < quest_parameters.GetSize () ; i++)
   {
-    if (msg_params_dynamic[i] != csInvalidStringID)
+    iQuestParameter* p = quest_parameters[i];
+    switch (parameters[i].type)
     {
-      // @@@ Support other types as well!
-      const char* v = GetDynamicParValue (object_reg, params, msg_params_dynamic[i], "");
-      msg_params->GetParameter (i).Set (v);
+      case CEL_DATA_STRING:
+	act_params->GetParameter (i).Set (p->Get (params));
+	break;
+      case CEL_DATA_LONG:
+	act_params->GetParameter (i).Set (p->GetLong (params));
+	break;
+      case CEL_DATA_FLOAT:
+	act_params->GetParameter (i).Set (ToFloat (p->GetData (params)));
+	break;
+      case CEL_DATA_BOOL:
+	act_params->GetParameter (i).Set (ToBool (p->GetData (params)));
+	break;
+      case CEL_DATA_VECTOR2:
+	act_params->GetParameter (i).Set (ToVector2 (p->GetData (params)));
+	break;
+      case CEL_DATA_VECTOR3:
+	act_params->GetParameter (i).Set (ToVector3 (p->GetData (params)));
+	break;
+      case CEL_DATA_COLOR:
+	act_params->GetParameter (i).Set (ToColor (p->GetData (params)));
+	break;
+      default:
+	//@@@?
+	break;
     }
   }
 }
@@ -1632,45 +1738,6 @@ iQuestTriggerFactory* celQuestManager::SetOperationTrigger (
     trigger_factories_list.Push(iter.Next());
   }
   return trigfact;
-}
-
-//---------------------------------------------------------------------------
-
-const char* GetDynamicParValue (iObjectRegistry* object_reg, iCelParameterBlock* params,
-    csStringID dynamic_id, const char* par_value)
-{
-  if (dynamic_id != csInvalidStringID)
-  {
-    if (!params)
-    {
-      csReport (object_reg,
-	    	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
-		"Cannot resolve dynamic parameter '%s' (no parameters given)!", par_value);
-      return 0;
-    }
-
-    const celData* data = params->GetParameter (dynamic_id);
-    if (!data)
-    {
-      csReport (object_reg,
-	    	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
-		"Cannot resolve dynamic parameter '%s'!", par_value);
-      return 0;
-    }
-    if (data->type != CEL_DATA_STRING)
-    {
-      csReport (object_reg,
-	    	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
-		"Parameter '%s' is not a string!", par_value);
-      return 0;
-    }
-    return data->value.s->GetData ();
-  }
-  else
-  {
-    if (par_value && !*par_value) par_value = 0;
-    return par_value;
-  }
 }
 
 //---------------------------------------------------------------------------

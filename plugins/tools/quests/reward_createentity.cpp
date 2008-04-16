@@ -148,8 +148,8 @@ celCreateEntityReward::celCreateEntityReward (
   while (iter.HasNext())
   {
     csStringFast<12> name;
-    csStringID id; // @@@ Support dynamic parameters?
-    const char * val = qm->ResolveParameter (params, iter.Next(name), id);
+    // @@@ Support dynamic parameters?
+    const char * val = qm->ResolveParameter (params, iter.Next(name));
     celCreateEntityReward::params.Put (name, val);
   }
 }

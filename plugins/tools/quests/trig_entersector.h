@@ -52,9 +52,9 @@ class celEnterSectorTriggerFactory : public scfImplementation2<
 {
 private:
   celEnterSectorTriggerType* type;
-  char* entity_par;
-  char* tag_par;
-  char* sector_par;
+  csString entity_par;
+  csString tag_par;
+  csString sector_par;
 
 public:
   celEnterSectorTriggerFactory (celEnterSectorTriggerType* type);
@@ -81,9 +81,9 @@ private:
   csRef<iQuestTriggerCallback> callback;
   csWeakRef<iSector> sect;
   csWeakRef<iCamera> camera;
-  char* entity;
-  char* tag;
-  char* sector;
+  csString entity;
+  csString tag;
+  csString sector;
 
   void FindSectorAndCamera ();
 
