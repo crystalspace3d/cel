@@ -12,6 +12,8 @@ The history order is reversed so that new features are at the top.
 	  parameters) but it is now also possible to get the data as
 	  the appropriate type which is important for parameter blocks.
 	- Jorrit replaced a few more usages of csStrNew with csString.
+	- caedes fixed newstate quest reward trying to Get from an
+	  uninitialized tag parameter.
 16-Apr-2008
 	- Eric Sunshine updated mk/jam/*.jam files from CS master copies.
 15-Apr-2008

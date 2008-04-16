@@ -123,7 +123,9 @@ void celNewStateReward::Reward (iCelParameterBlock* params)
       ent = pl->FindEntity (e);
       if (!ent) return;
     }
-    const char* t = tag->Get (params);
+    const char* t = 0;
+    if (tag) 
+      t = tag->Get (params);
     csWeakRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
     if (!pcquest) return;
     quest = pcquest->GetQuest ();
@@ -165,7 +167,10 @@ void celClassNewStateReward::Reward (iCelParameterBlock* params)
 
   const char* st = state->Get (params);
   if (!st) return;
-  const char* t = tag->Get (params);
+
+  const char* t = 0;
+  if (tag)
+    t = tag->Get (params);
 
   iCelEntity *ent;
   for (int i = entlist->GetCount()-1; i>=0; i--)
