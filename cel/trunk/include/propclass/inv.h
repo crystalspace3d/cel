@@ -336,7 +336,7 @@ struct iPcInventory : public virtual iBase
 
   /**
    * Get the used space manager.
-   * Note you should never remove or add entities to the space directly
+   * \warning You should never remove or add entities to the space directly
    * (by using its api), do it from PcInventory RemoveEntity or AddEntity
    * functions instead.
    */
