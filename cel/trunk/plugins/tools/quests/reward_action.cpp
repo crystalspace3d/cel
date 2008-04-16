@@ -222,7 +222,8 @@ celActionReward::celActionReward (
 	const char* id_par,
 	const char* pcclass_par,
 	const char* tag_par,
-	const csArray<celParSpec>& parameters) : scfImplementationType (this)
+	const csArray<celParSpec>& parameters)
+  : scfImplementationType (this), parameters (parameters)
 {
   celActionReward::type = type;
   qm = csQueryRegistry<iQuestManager> (type->object_reg);
@@ -230,8 +231,8 @@ celActionReward::celActionReward (
   tag = qm->GetParameter (params, tag_par);
   entity = qm->GetParameter (params, entity_par);
   id = qm->GetParameter (params, id_par);
-  parameters_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
-  act_params = qm->ResolveParameterBlock (params, parameters, parameters_dynamic);
+  quest_parameters.SetSize (parameters.GetSize (), 0);
+  act_params = qm->GetParameterBlock (params, parameters, quest_parameters);
 }
 
 celActionReward::~celActionReward ()
@@ -265,7 +266,7 @@ void celActionReward::Reward (iCelParameterBlock* params)
     if (actionID)
     {
       celData ret;
-      qm->FillParameterBlock (params, act_params, parameters_dynamic);
+      qm->FillParameterBlock (params, act_params, parameters, quest_parameters);
       propertyclass->PerformAction (actionID, act_params, ret);
     }
     else
@@ -286,7 +287,8 @@ celClassActionReward::celClassActionReward (
 	const char* id_par,
 	const char* pcclass_par,
 	const char* tag_par,
-	const csArray<celParSpec>& parameters) : scfImplementationType (this)
+	const csArray<celParSpec>& parameters)
+  : scfImplementationType (this), parameters (parameters)
 {
   celClassActionReward::type = type;
   qm = csQueryRegistry<iQuestManager> (type->object_reg);
@@ -295,8 +297,8 @@ celClassActionReward::celClassActionReward (
   clazz = qm->GetParameter (params, class_par);
   id = qm->GetParameter (params, id_par);
 
-  parameters_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
-  act_params = qm->ResolveParameterBlock (params, parameters, parameters_dynamic);
+  quest_parameters.SetSize (parameters.GetSize (), 0);
+  act_params = qm->GetParameterBlock (params, parameters, quest_parameters);
 }
 
 celClassActionReward::~celClassActionReward ()
@@ -336,7 +338,7 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
     propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
     if (propertyclass)
     {
-      qm->FillParameterBlock (params, act_params, parameters_dynamic);
+      qm->FillParameterBlock (params, act_params, parameters, quest_parameters);
       propertyclass->PerformAction (actionID, act_params, ret);
     }
   }

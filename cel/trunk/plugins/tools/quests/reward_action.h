@@ -89,7 +89,8 @@ private:
   csRef<iQuestParameter> id;
   csWeakRef<iCelEntity> ent;
   csRef<celVariableParameterBlock> act_params;
-  csArray<csStringID> parameters_dynamic;
+  csRefArray<iQuestParameter> quest_parameters;
+  const csArray<celParSpec>& parameters;
 
 public:
   celActionReward (celActionRewardType* type,
@@ -121,7 +122,8 @@ private:
 
   csRef<iCelEntityList> entlist;
   csRef<celVariableParameterBlock> act_params;
-  csArray<csStringID> parameters_dynamic;
+  csRefArray<iQuestParameter> quest_parameters;
+  const csArray<celParSpec>& parameters;
 
 public:
   celClassActionReward (celActionRewardType* type,

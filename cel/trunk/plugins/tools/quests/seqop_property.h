@@ -50,15 +50,15 @@ class celPropertySeqOpFactory : public scfImplementation2<
 {
 private:
   celPropertySeqOpType* type;
-  char* entity_par;
-  char* pc_par;
-  char* prop_par;
-  char* tag_par;
-  char* float_par;
-  char* long_par;
-  char* vx_par;
-  char* vy_par;
-  char* vz_par;
+  csString entity_par;
+  csString pc_par;
+  csString prop_par;
+  csString tag_par;
+  csString float_par;
+  csString long_par;
+  csString vx_par;
+  csString vy_par;
+  csString vz_par;
   bool relative;
 
 public:
@@ -91,10 +91,10 @@ class celPropertySeqOp : public scfImplementation1<
 {
 protected:
   celPropertySeqOpType* type;
-  char* entity;
-  char* pcname;
-  char* propname;
-  char* tag;
+  csString entity;
+  csString pcname;
+  csString propname;
+  csString tag;
   bool relative;
 
   csWeakRef<iCelPropertyClass> pc;

@@ -201,7 +201,7 @@ celMessageReward::celMessageReward (
 	const char* entity_par,
 	const char* id_par,
 	const csArray<celParSpec>& parameters) 
-	: scfImplementationType (this)
+	: scfImplementationType (this), parameters (parameters)
 {
   celMessageReward::type = type;
   qm = csQueryRegistry<iQuestManager> (type->object_reg);
@@ -209,8 +209,8 @@ celMessageReward::celMessageReward (
   msg_id = qm->GetParameter (params, id_par);
   entity = qm->GetParameter (params, entity_par);
 
-  msg_params_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
-  msg_params = qm->ResolveParameterBlock (params, parameters, msg_params_dynamic);
+  quest_parameters.SetSize (parameters.GetSize (), 0);
+  msg_params = qm->GetParameterBlock (params, parameters, quest_parameters);
 }
 
 void celMessageReward::Reward (iCelParameterBlock* params)
@@ -229,7 +229,7 @@ void celMessageReward::Reward (iCelParameterBlock* params)
     if (!ent) return;
   }
 
-  qm->FillParameterBlock (params, msg_params, msg_params_dynamic);
+  qm->FillParameterBlock (params, msg_params, parameters, quest_parameters);
   iCelBehaviour* behave = ent->GetBehaviour ();
   if (behave)
   {
@@ -250,7 +250,7 @@ celClassMessageReward::celClassMessageReward (
 	const char* class_par,
 	const char* id_par,
 	const csArray<celParSpec>& parameters)
-	: scfImplementationType (this)
+	: scfImplementationType (this), parameters (parameters)
 {
   celClassMessageReward::type = type;
   qm = csQueryRegistry<iQuestManager> (type->object_reg);
@@ -259,8 +259,8 @@ celClassMessageReward::celClassMessageReward (
   msg_id = qm->GetParameter (params, id_par);
   clazz = qm->GetParameter (params, class_par);
 
-  msg_params_dynamic.SetSize (parameters.GetSize (), csInvalidStringID);
-  msg_params = qm->ResolveParameterBlock (params, parameters, msg_params_dynamic);
+  quest_parameters.SetSize (parameters.GetSize (), 0);
+  msg_params = qm->GetParameterBlock (params, parameters, quest_parameters);
 }
 
 void celClassMessageReward::Reward (iCelParameterBlock* params)
@@ -275,7 +275,7 @@ void celClassMessageReward::Reward (iCelParameterBlock* params)
     entlist = type->pl->GetClassEntitiesList (ent_class);
   }
 
-  qm->FillParameterBlock (params, msg_params, msg_params_dynamic);
+  qm->FillParameterBlock (params, msg_params, parameters, quest_parameters);
 
   // Old method for behaviours.
   type->pl->SendMessage (entlist, msg, msg_params);

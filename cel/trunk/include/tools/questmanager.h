@@ -42,22 +42,33 @@ struct iQuest;
  */
 struct iQuestParameter : public virtual iBase
 {
-  SCF_INTERFACE (iQuestParameter, 0, 0, 1);
+  SCF_INTERFACE (iQuestParameter, 0, 0, 2);
 
   /**
-   * Get the value of this expression.
+   * Get this variable as its correct datatype.
+   */
+  virtual const celData* GetData (iCelParameterBlock* params) = 0;
+
+  /**
+   * Get the value of this expression as a string.
    * \param params is an optional parameter block given to the reward.
    */
   virtual const char* Get (iCelParameterBlock* params) = 0;
 
   /**
-   * Get the value of this expression.
+   * Get the value of this expression as a string.
    * \param params is an optional parameter block given to the reward.
    * \param changed is set to true if the returned value is different
    * from the last time Get() was called. Note! This doesn't work
    * if you call the Get() with only one parameter above!
    */
   virtual const char* Get (iCelParameterBlock* params, bool& changed) = 0;
+
+  /**
+   * Get the value of this expression as a long.
+   * \param params is an optional parameter block given to the reward.
+   */
+  virtual int32 GetLong (iCelParameterBlock* params) = 0;
 };
 
 
@@ -804,48 +815,33 @@ struct iQuestManager : public virtual iBase
 	const char* param) = 0;
 
   /**
-   * This is a convenience function to resolve a quest parameter during
+   * This is a convenience function to get a quest parameter block during
    * creation of rewards, triggers, and sequence operations. This routine
-   * knows how to recognize parameter usage (starting with '$') and will in
-   * that case try to resolve the parameter by finding it in 'params'. Otherwise
-   * it will just return the unmodified string. In case the resolved string
-   * starts with '@' then we have to do with a dynamic parameter and in that case
-   * we return the ID of that dynamic parameter in 'dynamic_par'.
-   */
-  virtual const char* ResolveParameter (
-  	const celQuestParams& params,
-	const char* param,
-	csStringID& dynamic_par) = 0;
-
-  /**
-   * This is a convenience function to resolve a quest parameter block during
-   * creation of rewards, triggers, and sequence operations. This routine
-   * knows how to recognize parameter usage (starting with '$') and will in
+   * knows how to recognize parameter usage (starting with '$' or '@') and will in
    * that case try to resolve the parameter by finding it in 'params'.
    * \param params is the quest parameters.
-   * \param paramspec is the parameter specifications and unparsed values..
-   * \param paramspec_dynamic is an array that should have the same length
-   * as the 'paramspec' array. It will be filled with ID in case some
-   * of the parameters are dynamic. Use FillParameterBlock() to later fill in
-   * the actual parameters.
+   * \param paramspec is the parameter specifications and unparsed values.
+   * \param quest_parameters is an array that should have the same length
+   * as the 'paramspec' array. It will be filled with the parameters.
    */
-  virtual csPtr<celVariableParameterBlock> ResolveParameterBlock (
+  virtual csPtr<celVariableParameterBlock> GetParameterBlock (
   	const celQuestParams& params,
-	const csArray<celParSpec>& paramspec,
-	csArray<csStringID>& paramspec_dynamic) = 0;
+	const csArray<celParSpec>& parameters,
+	csRefArray<iQuestParameter>& quest_parameters) = 0;
 
   /**
    * Fill in the dynamic parameters in a parameter block.
    * \param params is the parameter block given to the reward.
    * \param msg_params is the resolved parameter block as returned by
-   * ResolveParameterBlock().
-   * \param msg_params_dynamic is the array of dynamic ID's as filled in
-   * by ResolveParameterBlock().
+   * GetParameterBlock().
+   * \param parameters is the parameter specifications and unparsed values.
+   * \param quest_parameters is an array with quest parameters.
    */
   virtual void FillParameterBlock (
         iCelParameterBlock* params,
-	celVariableParameterBlock* msg_params,
-	const csArray<csStringID>& msg_params_dynamic) = 0;
+	celVariableParameterBlock* act_params,
+	const csArray<celParSpec>& parameters,
+	const csRefArray<iQuestParameter>& quest_parameters) = 0;
 
   /**
    * Load a bunch of quest factories.

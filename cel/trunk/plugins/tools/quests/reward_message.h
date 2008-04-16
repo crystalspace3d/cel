@@ -87,7 +87,8 @@ private:
   csRef<iQuestParameter> msg_id;
   csRef<iQuestParameter> entity;
   csRef<celVariableParameterBlock> msg_params;
-  csArray<csStringID> msg_params_dynamic;
+  const csArray<celParSpec>& parameters;
+  csRefArray<iQuestParameter> quest_parameters;
 
   csWeakRef<iCelEntity> ent;
   csRef<iMessageDispatcher> dispatcher;
@@ -121,7 +122,8 @@ private:
   csRef<iQuestParameter> clazz;
 
   csRef<celVariableParameterBlock> msg_params;
-  csArray<csStringID> msg_params_dynamic;
+  const csArray<celParSpec>& parameters;
+  csRefArray<iQuestParameter> quest_parameters;
 
   csRef<iCelEntityList> entlist;
 

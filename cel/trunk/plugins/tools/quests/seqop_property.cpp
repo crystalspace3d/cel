@@ -41,28 +41,10 @@ celPropertySeqOpFactory::celPropertySeqOpFactory (
 	celPropertySeqOpType* type) : scfImplementationType (this)
 {
   celPropertySeqOpFactory::type = type;
-  entity_par = 0;
-  tag_par = 0;
-  pc_par = 0;
-  prop_par = 0;
-  float_par = 0;
-  long_par = 0;
-  vx_par = 0;
-  vy_par = 0;
-  vz_par = 0;
 }
 
 celPropertySeqOpFactory::~celPropertySeqOpFactory ()
 {
-  delete[] entity_par;
-  delete[] tag_par;
-  delete[] pc_par;
-  delete[] prop_par;
-  delete[] float_par;
-  delete[] long_par;
-  delete[] vx_par;
-  delete[] vy_par;
-  delete[] vz_par;
 }
 
 csPtr<iQuestSeqOp> celPropertySeqOpFactory::CreateSeqOp (
@@ -95,17 +77,7 @@ csPtr<iQuestSeqOp> celPropertySeqOpFactory::CreateSeqOp (
 
 bool celPropertySeqOpFactory::Load (iDocumentNode* node)
 {
-  delete[] entity_par; entity_par = 0;
-  delete[] tag_par; tag_par = 0;
-  delete[] pc_par; pc_par = 0;
-  delete[] prop_par; prop_par = 0;
-  delete[] float_par; float_par = 0;
-  delete[] long_par; long_par = 0;
-  delete[] vx_par; vx_par = 0;
-  delete[] vy_par; vy_par = 0;
-  delete[] vz_par; vz_par = 0;
-
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  entity_par = node->GetAttributeValue ("entity");
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -113,7 +85,7 @@ bool celPropertySeqOpFactory::Load (iDocumentNode* node)
       "'entity' attribute is missing for the property seqop!");
     return false;
   }
-  pc_par = csStrNew (node->GetAttributeValue ("pc"));
+  pc_par = node->GetAttributeValue ("pc");
   if (!pc_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -121,8 +93,8 @@ bool celPropertySeqOpFactory::Load (iDocumentNode* node)
       "'pc' attribute is missing for the property seqop!");
     return false;
   }
-  tag_par = csStrNew (node->GetAttributeValue ("tag"));
-  prop_par = csStrNew (node->GetAttributeValue ("property"));
+  tag_par = node->GetAttributeValue ("tag");
+  prop_par = node->GetAttributeValue ("property");
    if (!prop_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -134,21 +106,21 @@ bool celPropertySeqOpFactory::Load (iDocumentNode* node)
   // now parse different values
   relative = node->GetAttributeValueAsBool ("relative",false);
   // try float
-  float_par = csStrNew (node->GetAttributeValue ("float"));
+  float_par = node->GetAttributeValue ("float");
   if (!float_par)
   {
     // else try vector
     csRef<iDocumentNode> v_node = node->GetNode ("v");
     if (v_node)
     {
-      vx_par = csStrNew (v_node->GetAttributeValue ("x"));
-      vy_par = csStrNew (v_node->GetAttributeValue ("y"));
-      vz_par = csStrNew (v_node->GetAttributeValue ("z"));
+      vx_par = v_node->GetAttributeValue ("x");
+      vy_par = v_node->GetAttributeValue ("y");
+      vz_par = v_node->GetAttributeValue ("z");
     }
     else
     {
       // else try long
-      long_par = csStrNew (node->GetAttributeValue ("long"));
+      long_par = node->GetAttributeValue ("long");
       if (!long_par)
       {
         // else report error
@@ -164,79 +136,43 @@ bool celPropertySeqOpFactory::Load (iDocumentNode* node)
 
 void celPropertySeqOpFactory::SetEntityParameter (const char* entity)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
+  entity_par = entity;
 }
 
 void celPropertySeqOpFactory::SetPCParameter (const char* pc,
 	const char* tag)
 {
-  if (pc_par != pc)
-  {
-    delete[] pc_par;
-    pc_par = csStrNew (pc);
-  }
-  if (tag_par != tag)
-  {
-    delete[] tag_par;
-    tag_par = csStrNew (tag);
-  }
+  pc_par = pc;
+  tag_par = tag;
 }
 
 void celPropertySeqOpFactory::SetPropertyParameter (const char* propname)
 {
-  if (prop_par != propname)
-  {
-    delete[] prop_par;
-    prop_par = csStrNew (propname);
-  }
+  prop_par = propname;
 }
 
 void celPropertySeqOpFactory::SetFloatParameter (const char* pfloat)
 {
-  if (float_par != pfloat)
-  {
-    delete[] float_par;
-    float_par = csStrNew (pfloat);
-  }
+  float_par = pfloat;
 }
 
 void celPropertySeqOpFactory::SetLongParameter (const char* plong)
 {
-  if (long_par != plong)
-  {
-    delete[] long_par;
-    long_par = csStrNew (plong);
-  }
+  long_par = plong;
 }
 
 void celPropertySeqOpFactory::SetVector2Parameter (const char* pvx,
 		const char* pvy)
 {
-  if (vx_par != pvx)
-  {
-    delete[] vx_par;
-    vx_par = csStrNew (pvx);
-  }
-  if (vy_par != pvy)
-  {
-    delete[] vy_par;
-    vy_par = csStrNew (pvy);
-  }
+  vx_par = pvx;
+  vy_par = pvy;
 }
 
 void celPropertySeqOpFactory::SetVector3Parameter (const char* pvx,
 		const char* pvy,const char* pvz)
 {
-  SetVector2Parameter(pvx,pvy);
-  if (vz_par != pvz)
-  {
-    delete[] vz_par;
-    vz_par = csStrNew (pvz);
-  }
+  SetVector2Parameter (pvx,pvy);
+  vz_par = pvz;
 }
 
 void celPropertySeqOpFactory::SetRelative (bool is_relative)
@@ -263,21 +199,17 @@ celPropertySeqOp::celPropertySeqOp (
   celPropertySeqOp::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
 
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  pcname = csStrNew (qm->ResolveParameter (params, pc_par));
-  tag = csStrNew (qm->ResolveParameter (params, tag_par));
+  entity = qm->ResolveParameter (params, entity_par);
+  pcname = qm->ResolveParameter (params, pc_par);
+  tag = qm->ResolveParameter (params, tag_par);
   
   relative = rel_par;
 
-  propname = csStrNew (qm->ResolveParameter (params, prop_par));
+  propname = qm->ResolveParameter (params, prop_par);
 }
 
 celPropertySeqOp::~celPropertySeqOp ()
 {
-  delete[] entity;
-  delete[] tag;
-  delete[] propname;
-  delete[] pcname;
 }
 
 void celPropertySeqOp::FindPCProperty ()
