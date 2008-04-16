@@ -19,6 +19,8 @@ The history order is reversed so that new features are at the top.
 	  as pcinventory implementation doesnt really allow this, as it
 	  maintains an internal list of entities that can only be kept in
 	  sync if using pcinventory api.
+	- caedes added doxygen \warning directive to previous comment on
+	  inventory api.
 16-Apr-2008
 	- Eric Sunshine updated mk/jam/*.jam files from CS master copies.
 15-Apr-2008
