@@ -131,7 +131,6 @@ celSequenceReward::celSequenceReward (
   tag = qm->GetParameter (params, tag_par);
   sequence = qm->GetParameter (params, sequence_par);
   pdelay = qm->GetParameter (params, delay_par);
-  delay = 0;
 }
 
 void celSequenceReward::Reward (iCelParameterBlock* params)
@@ -169,12 +168,7 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
     	  s, e);
     return;
   }
-  const char* d = pdelay->Get (params, changed);
-  if (changed)
-  {
-    if (!d) return;
-    sscanf (d, "%d", &delay);
-  }
+  csTicks delay = pdelay->GetLong (params);
   if (!seq->Start (delay))
   {
     Report (type->object_reg, "Sequence '%s' in entity '%s' fails to start!",
@@ -200,7 +194,6 @@ celClassSequenceReward::celClassSequenceReward (
   tag = qm->GetParameter (params, tag_par);
   sequence = qm->GetParameter (params, sequence_par);
   pdelay = qm->GetParameter (params, delay_par);
-  delay = 0;
 }
 
 void celClassSequenceReward::Reward (iCelParameterBlock* params)
@@ -215,13 +208,7 @@ void celClassSequenceReward::Reward (iCelParameterBlock* params)
 
   const char* s = sequence->Get (params);
   if (!s) return;
-  const char* d = pdelay->Get (params, changed);
-  if (changed)
-  {
-    if (!d) return;
-    sscanf (d, "%d", &delay);
-  }
-
+  csTicks delay = pdelay->GetLong (params);
   const char* t = tag->Get (params);
   iCelEntity *ent;
   csRef<iPcQuest> quest;

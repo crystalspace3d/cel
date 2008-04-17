@@ -112,7 +112,6 @@ celCsSequenceReward::celCsSequenceReward (
   eseqmgr = csQueryRegistry<iEngineSequenceManager> (type->object_reg);
   sequence = qm->GetParameter (params, sequence_par);
   pdelay = qm->GetParameter (params, delay_par);
-  delay = 0;
 }
 
 celCsSequenceReward::~celCsSequenceReward ()
@@ -123,14 +122,7 @@ void celCsSequenceReward::Reward (iCelParameterBlock* params)
 {
   const char* s = sequence->Get (params);
   if (!s) return;
-  bool changed;
-  const char* d = pdelay->Get (params, changed);
-  if (changed)
-  {
-    if (!d) return;
-    sscanf (d, "%d", &delay);
-  }
-
+  csTicks delay = pdelay->GetLong (params);
   if (!eseqmgr->RunSequenceByName (s, delay))
     Report (type->object_reg, "Can't find sequence '%s'!", s);
 }

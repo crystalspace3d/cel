@@ -299,6 +299,7 @@ celClassActionReward::celClassActionReward (
 
   quest_parameters.SetSize (parameters.GetSize (), 0);
   act_params = qm->GetParameterBlock (params, parameters, quest_parameters);
+  actionID = csInvalidStringID;
 }
 
 celClassActionReward::~celClassActionReward ()
@@ -321,7 +322,7 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
   }
 
   const char* aid = id->Get (params, changed);
-  if (changed)
+  if (changed || actionID == csInvalidStringID)
   {
     csString fullname = "cel.action.";
     fullname += aid;
