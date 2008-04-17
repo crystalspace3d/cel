@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a similar bug in the parsing of the delay. If
 	  you used a constant then delay would never get set.
 	- Jorrit fixed a similar bug in the class action reward.
+	- caedes fixed changeproperty quest reward trying to Get from an
+	  uninitialized tag parameter.
 16-Apr-2008
 	- Jorrit did further work on the parameter system in quests.
 	  Parameters are now also supported for parameter blocks.

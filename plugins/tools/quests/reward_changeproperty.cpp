@@ -434,7 +434,9 @@ void celChangePropertyReward::Reward (iCelParameterBlock* params)
   {
     const char* p = pc->Get (params, changed);
     if (changed) pclass = 0;
-    const char* t = tag->Get (params, changed);
+    const char* t = 0;
+    if (tag)
+        t = tag->Get (params, changed);
     if (changed) pclass = 0;
     if (!pclass)
     {
