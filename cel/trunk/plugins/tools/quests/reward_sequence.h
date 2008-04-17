@@ -84,7 +84,6 @@ private:
   csRef<iQuestParameter> tag;
   csRef<iQuestParameter> sequence;
   csRef<iQuestParameter> pdelay;
-  csTicks delay;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcQuest> quest;
 
@@ -112,7 +111,6 @@ private:
   csRef<iQuestParameter> sequence;
   csRef<iQuestParameter> clazz;
   csRef<iQuestParameter> pdelay;
-  csTicks delay;
   csRef<iCelEntityList> entlist;
 
 public:

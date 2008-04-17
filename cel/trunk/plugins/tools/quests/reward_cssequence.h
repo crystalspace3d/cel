@@ -77,7 +77,6 @@ private:
   celCsSequenceRewardType* type;
   csRef<iQuestParameter> sequence;
   csRef<iQuestParameter> pdelay;
-  csTicks delay;
   csWeakRef<iEngineSequenceManager> eseqmgr;
 
 public:
