@@ -207,7 +207,7 @@ void celClassSequenceReward::Reward (iCelParameterBlock* params)
 {
   bool changed;
   const char* clz = clazz->Get (params, changed);
-  if (changed)
+  if (changed || !entlist)
   {
     csStringID ent_class = type->pl->FetchStringID (clz);
     entlist = type->pl->GetClassEntitiesList (ent_class);
