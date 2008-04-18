@@ -3249,10 +3249,10 @@ static bool celXmlArg2celData (const celXmlArg& in, celData& out)
   return true;
 }
 
-bool celExpression::Execute (iCelEntity* entity, celData& ret)
+bool celExpression::Execute (iCelEntity* entity, celData& ret, iCelParameterBlock* params)
 {
   celData r;
-  bool rc = handler->Execute (entity, cbl, 0, r, 0, 0, true, 1);
+  bool rc = handler->Execute (entity, cbl, 0, r, params, 0, true, 1);
   if (rc)
   {
     const csArray<celXmlArg>& stack = handler->GetStack ();

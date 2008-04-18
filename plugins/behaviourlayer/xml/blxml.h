@@ -63,7 +63,7 @@ public:
   {
     delete handler;
   }
-  virtual bool Execute (iCelEntity* entity, celData& ret);
+  virtual bool Execute (iCelEntity* entity, celData& ret, iCelParameterBlock* params = 0);
   virtual size_t FindLocalVariable (const char* name) const;
   virtual const csStringArray& GetLocalVariables () const { return local_vars; }
   virtual void SetLocalVariable (size_t idx, const celData& value);
