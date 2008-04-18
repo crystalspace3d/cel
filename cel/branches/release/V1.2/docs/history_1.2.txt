@@ -2,6 +2,9 @@
 
 The history order is reversed so that new features are at the top.
 
+18-Apr-2008
+	- Vincent merged r3316 and r3317 into 1.2 (work-around internal Jam
+	  crasher and BoostJam compatibility).
 16-Apr-2008
 	- Vincent merged r3298 into 1.2 (fix binutils check for Mac OS X
 	  Leopard).
