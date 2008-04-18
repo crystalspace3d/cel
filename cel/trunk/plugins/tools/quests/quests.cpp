@@ -266,7 +266,7 @@ const char* celQuestDynamicParameter::Get (iCelParameterBlock* params,
 
 const celData* celQuestExpressionParameter::GetData (iCelParameterBlock* params)
 {
-  if (!expression->Execute (0 /*@@@ Find entity somewhere?*/, data, params))
+  if (!expression->Execute (entity, data, params))
   {
     csReport (object_reg,
 	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.parameter",
@@ -665,15 +665,15 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
   celQuestParams result_params;
   if (params.GetSize() && defaults.GetSize())
   {
-    result_params=params;
+    result_params = params;
     celQuestParams::GlobalIterator def_it = defaults.GetIterator ();
     csStringBase it_key;
     const char* name;
     while (def_it.HasNext ())
     {
-       name = def_it.Next (it_key);
-       if (!params.Contains(it_key))
-         result_params.PutUnique(it_key,name);
+      name = def_it.Next (it_key);
+      if (!params.Contains(it_key))
+        result_params.PutUnique(it_key,name);
     }
     p_params=&result_params;
   }
@@ -1476,7 +1476,23 @@ csPtr<iQuestParameter> celQuestManager::GetParameter (
 		"Can't parse expression '%s'!", val+1);
       return 0;
     }
-    return new celQuestExpressionParameter (object_reg, expression, val+1);
+    // We are looking for 'this' in the parameter block. If we can find it
+    // then it indicates the name of the entity. We will find the entity for
+    // the expression so that the expression can show things local to the
+    // entity (or access properties from the current entity).
+    celQuestParams::ConstGlobalIterator def_it = params.GetIterator ();
+    csStringBase it_key;
+    iCelEntity* entity = 0;
+    while (def_it.HasNext ())
+    {
+      const char* name = def_it.Next (it_key);
+      if (it_key == "this")
+      {
+	entity = pl->FindEntity (name);
+	break;
+      }
+    }
+    return new celQuestExpressionParameter (object_reg, entity, expression, val+1);
   }
   return new celQuestConstantParameter (val);
 }

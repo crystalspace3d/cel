@@ -10,6 +10,11 @@ The history order is reversed so that new features are at the top.
 	  Expressions start with '='. Currently only supported for rewards.
 	- Jorrit added support for dynamic parameters (@par notation) in expressions.
 	  So you can now do things like value='=2*@par'.
+	- Jorrit added the notion of current entity for expression parameters.
+	  That means that expressions in quest rewards can now access the current
+	  entity (the entity to which the quest is attached) and do things like:
+	  	?prop (to get a property out of pcproperties)
+		entname() (to get the name of the current entity)
 17-Apr-2008
 	- Jorrit fixed all rewards in the quest manager that use a list
 	  of entities. In case the class was a constant the entity list
