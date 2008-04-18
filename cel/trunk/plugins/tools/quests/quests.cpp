@@ -264,9 +264,9 @@ const char* celQuestDynamicParameter::Get (iCelParameterBlock* params,
 
 //---------------------------------------------------------------------------
 
-const celData* celQuestExpressionParameter::GetData (iCelParameterBlock*)
+const celData* celQuestExpressionParameter::GetData (iCelParameterBlock* params)
 {
-  if (!expression->Execute (0 /*@@@ Find entity somewhere?*/, data))
+  if (!expression->Execute (0 /*@@@ Find entity somewhere?*/, data, params))
   {
     csReport (object_reg,
 	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.parameter",

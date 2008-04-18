@@ -478,7 +478,7 @@
             <fireon timeout="5000" />
             <reward type="debugprint" message="### Send message" />
             <reward type="message" entity="$ent" id="cel.messagetest" >
-	      <par name="testpar" string="testpar value" />
+	      <par name="testpar" long="=mousex()" />
 	    </reward>
             <reward type="newstate" state="idle" />
           </trigger>
@@ -502,7 +502,7 @@
             <fireon entity="$this" mask="cel.messagetest" />
             <reward type="debugprint" message="### Got message" />
             <reward type="debugprint" message="@testpar" />
-            <reward type="debugprint" message="=if(mousex()<10,'left','right')" />
+            <reward type="debugprint" message="=if(@testpar<10,'left','right')" />
             <reward type="newstate" state="idle" />
           </trigger>
         </state>

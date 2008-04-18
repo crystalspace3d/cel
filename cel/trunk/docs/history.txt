@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	  now do things like:
             <reward type="debugprint" message="=if(mousex()<10,'left','right')" />
 	  Expressions start with '='. Currently only supported for rewards.
+	- Jorrit added support for dynamic parameters (@par notation) in expressions.
+	  So you can now do things like value='=2*@par'.
 17-Apr-2008
 	- Jorrit fixed all rewards in the quest manager that use a list
 	  of entities. In case the class was a constant the entity list
