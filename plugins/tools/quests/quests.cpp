@@ -27,6 +27,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
+#include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 
 #include "physicallayer/persist.h"
@@ -218,7 +219,7 @@ const celData* celQuestDynamicParameter::GetData (iCelParameterBlock* params)
   if (!params)
   {
     csReport (object_reg,
-	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
+	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.parameter",
 	"Cannot resolve dynamic parameter '%s' (no parameters given)!",
 	(const char*)parname);
     return 0;
@@ -228,7 +229,7 @@ const celData* celQuestDynamicParameter::GetData (iCelParameterBlock* params)
   if (!data)
   {
     csReport (object_reg,
-	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.reward",
+	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.parameter",
 	"Cannot resolve dynamic parameter '%s'!", (const char*)parname);
     return 0;
   }
@@ -248,6 +249,46 @@ int32 celQuestDynamicParameter::GetLong (iCelParameterBlock* params)
 }
 
 const char* celQuestDynamicParameter::Get (iCelParameterBlock* params,
+    bool& changed)
+{
+  const char* s = Get (params);
+  if (s == 0)
+  {
+    changed = !oldvalue.IsEmpty ();
+    return s;
+  }
+  changed = oldvalue == s;
+  oldvalue = s;
+  return s;
+}
+
+//---------------------------------------------------------------------------
+
+const celData* celQuestExpressionParameter::GetData (iCelParameterBlock*)
+{
+  if (!expression->Execute (0 /*@@@ Find entity somewhere?*/, data))
+  {
+    csReport (object_reg,
+	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.parameter",
+	"Cannot execute expression '%s'!", (const char*)parname);
+    return 0;
+  }
+  return &data;
+}
+
+const char* celQuestExpressionParameter::Get (iCelParameterBlock* params)
+{
+  const celData* data = GetData (params);
+  return ToString (str, data);
+}
+
+int32 celQuestExpressionParameter::GetLong (iCelParameterBlock* params)
+{
+  const celData* data = GetData (params);
+  return ToLong (data);
+}
+
+const char* celQuestExpressionParameter::Get (iCelParameterBlock* params,
     bool& changed)
 {
   const char* s = Get (params);
@@ -1383,6 +1424,35 @@ iQuestSeqOpType* celQuestManager::GetSeqOpType (const char* name)
   return seqop_types.Get (name, 0);
 }
 
+iCelExpressionParser* celQuestManager::GetParser ()
+{
+  csRef<iObjectRegistryIterator> it = object_reg->Get (
+      scfInterfaceTraits<iCelExpressionParser>::GetID (),
+      scfInterfaceTraits<iCelExpressionParser>::GetVersion ());
+  iBase* b = it->Next ();
+  if (b)
+  {
+    expparser = scfQueryInterface<iCelExpressionParser> (b);
+  }
+  if (!expparser)
+  {
+    csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
+	object_reg);
+    expparser = csLoadPlugin<iCelExpressionParser> (plugmgr,
+      "cel.behaviourlayer.xml");
+    if (!expparser)
+
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		"cel.questmanager",
+		"Can't find the expression parser!");
+      return 0;
+    }
+    object_reg->Register (expparser, "iCelExpressionParser");
+  }
+  return expparser;
+}
+
 csPtr<iQuestParameter> celQuestManager::GetParameter (
   	const celQuestParams& params,
 	const char* param)
@@ -1395,6 +1465,18 @@ csPtr<iQuestParameter> celQuestManager::GetParameter (
     fullname += val+1;
     csStringID dynamic_id = pl->FetchStringID (fullname);
     return new celQuestDynamicParameter (object_reg, dynamic_id, val+1);
+  }
+  else if (*val == '=' && *(val+1) != '=')
+  {
+    csRef<iCelExpression> expression = GetParser ()->Parse (val+1);
+    if (!expression)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		"cel.questmanager",
+		"Can't parse expression '%s'!", val+1);
+      return 0;
+    }
+    return new celQuestExpressionParameter (object_reg, expression, val+1);
   }
   return new celQuestConstantParameter (val);
 }
@@ -1411,7 +1493,7 @@ const char* celQuestManager::ResolveParameter (
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 		"cel.questmanager",
-		"Can't resolve parameter %s", param);
+		"Can't resolve parameter %s!", param);
   }
   return val;
 }

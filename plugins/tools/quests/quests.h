@@ -31,6 +31,7 @@
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
+#include "tools/expression.h"
 
 #include "celtool/stdparams.h"
 #include "physicallayer/pl.h"
@@ -87,6 +88,30 @@ public:
       const char* parname) : scfImplementationType (this), object_reg (object_reg),
       dynamic_id (dynamic_id), parname (parname) { }
   virtual ~celQuestDynamicParameter () { }
+  virtual const char* Get (iCelParameterBlock* params);
+  virtual const char* Get (iCelParameterBlock* params, bool& changed);
+  virtual const celData* GetData (iCelParameterBlock* params);
+  virtual int32 GetLong (iCelParameterBlock* params);
+};
+
+//---------------------------------------------------------------------------
+
+class celQuestExpressionParameter : public scfImplementation1<celQuestExpressionParameter,
+  iQuestParameter>
+{
+private:
+  iObjectRegistry* object_reg;
+  celData data;
+  csRef<iCelExpression> expression;
+  csString parname;
+  csString oldvalue;
+  csString str;	// This string is used to hold temporary conversion to string.
+
+public:
+  celQuestExpressionParameter (iObjectRegistry* object_reg, iCelExpression* expression,
+      const char* parname) : scfImplementationType (this), object_reg (object_reg),
+      expression (expression), parname (parname) { }
+  virtual ~celQuestExpressionParameter () { }
   virtual const char* Get (iCelParameterBlock* params);
   virtual const char* Get (iCelParameterBlock* params, bool& changed);
   virtual const celData* GetData (iCelParameterBlock* params);
@@ -423,12 +448,15 @@ public:
   iObjectRegistry* object_reg;
   csWeakRef<iCelPlLayer> pl;
   csWeakRef<iVirtualClock> vc;
+  csRef<iCelExpressionParser> expparser;
 
 private:
   csHash<csRef<iQuestTriggerType>,csStringBase> trigger_types;
   csHash<csRef<iQuestRewardType>,csStringBase> reward_types;
   csHash<csRef<iQuestSeqOpType>,csStringBase> seqop_types;
   csHash<csRef<celQuestFactory>,csStringBase> quest_factories;
+
+  iCelExpressionParser* GetParser ();
 
 public:
   celQuestManager (iBase* parent);

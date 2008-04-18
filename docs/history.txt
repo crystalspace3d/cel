@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+18-Apr-2008
+	- Jorrit added support for expression parameters in rewards. You can
+	  now do things like:
+            <reward type="debugprint" message="=if(mousex()<10,'left','right')" />
+	  Expressions start with '='. Currently only supported for rewards.
 17-Apr-2008
 	- Jorrit fixed all rewards in the quest manager that use a list
 	  of entities. In case the class was a constant the entity list
