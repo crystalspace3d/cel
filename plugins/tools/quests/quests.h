@@ -101,6 +101,7 @@ class celQuestExpressionParameter : public scfImplementation1<celQuestExpression
 {
 private:
   iObjectRegistry* object_reg;
+  iCelEntity* entity;
   celData data;
   csRef<iCelExpression> expression;
   csString parname;
@@ -108,9 +109,10 @@ private:
   csString str;	// This string is used to hold temporary conversion to string.
 
 public:
-  celQuestExpressionParameter (iObjectRegistry* object_reg, iCelExpression* expression,
-      const char* parname) : scfImplementationType (this), object_reg (object_reg),
-      expression (expression), parname (parname) { }
+  celQuestExpressionParameter (iObjectRegistry* object_reg, iCelEntity* entity,
+      iCelExpression* expression, const char* parname)
+    : scfImplementationType (this), object_reg (object_reg),
+      entity (entity), expression (expression), parname (parname) { }
   virtual ~celQuestExpressionParameter () { }
   virtual const char* Get (iCelParameterBlock* params);
   virtual const char* Get (iCelParameterBlock* params, bool& changed);

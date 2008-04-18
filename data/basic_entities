@@ -502,6 +502,7 @@
             <fireon entity="$this" mask="cel.messagetest" />
             <reward type="debugprint" message="### Got message" />
             <reward type="debugprint" message="@testpar" />
+            <reward type="debugprint" message="=entname()" />
             <reward type="debugprint" message="=if(@testpar<10,'left','right')" />
             <reward type="newstate" state="idle" />
           </trigger>
