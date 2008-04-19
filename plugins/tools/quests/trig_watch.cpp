@@ -92,9 +92,9 @@ bool celWatchTriggerFactory::Load (iDocumentNode* node)
   csRef<iDocumentNode> offset_node = node->GetNode ("offset");
   if (offset_node)
   {
-    offsetx_par = csStrNew (offset_node->GetAttributeValue ("x"));
-    offsety_par = csStrNew (offset_node->GetAttributeValue ("y"));
-    offsetz_par = csStrNew (offset_node->GetAttributeValue ("z"));
+    offsetx_par = offset_node->GetAttributeValue ("x");
+    offsety_par = offset_node->GetAttributeValue ("y");
+    offsetz_par = offset_node->GetAttributeValue ("z");
   }
 
   return true;

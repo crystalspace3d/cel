@@ -63,16 +63,10 @@ celMeshEnterSectorTriggerFactory::celMeshEnterSectorTriggerFactory (
 	celMeshEnterSectorTriggerType* type) : scfImplementationType (this)
 {
   celMeshEnterSectorTriggerFactory::type = type;
-  entity_par = 0;
-  tag_par = 0;
-  sector_par = 0;
 }
 
 celMeshEnterSectorTriggerFactory::~celMeshEnterSectorTriggerFactory ()
 {
-  delete[] entity_par;
-  delete[] tag_par;
-  delete[] sector_par;
 }
 
 csPtr<iQuestTrigger> celMeshEnterSectorTriggerFactory::CreateTrigger (
@@ -85,16 +79,13 @@ csPtr<iQuestTrigger> celMeshEnterSectorTriggerFactory::CreateTrigger (
 
 bool celMeshEnterSectorTriggerFactory::Load (iDocumentNode* node)
 {
-  delete[] entity_par; entity_par = 0;
-  delete[] tag_par; tag_par = 0;
-  delete[] sector_par; sector_par = 0;
-  entity_par = csStrNew (node->GetAttributeValue ("entity"));
-  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
+  entity_par = node->GetAttributeValue ("entity");
+  tag_par = node->GetAttributeValue ("entity_tag");
 
   if (!entity_par)
     return Report (type->object_reg,
       "'entity' attribute is missing for the meshentersector trigger!");
-  sector_par = csStrNew (node->GetAttributeValue ("sector"));
+  sector_par = node->GetAttributeValue ("sector");
   if (!sector_par)
     return Report (type->object_reg,
       "'sector' attribute is missing for the meshentersector trigger!");
@@ -104,26 +95,14 @@ bool celMeshEnterSectorTriggerFactory::Load (iDocumentNode* node)
 void celMeshEnterSectorTriggerFactory::SetEntityParameter (
 	const char* entity, const char* tag)
 {
-  if (entity_par != entity)
-  {
-    delete[] entity_par;
-    entity_par = csStrNew (entity);
-  }
-  if (tag_par != tag)
-  {
-    delete[] tag_par;
-    tag_par = csStrNew (tag);
-  }
+  entity_par = entity;
+  tag_par = tag;
 }
 
 void celMeshEnterSectorTriggerFactory::SetSectorParameter (
 	const char* sector)
 {
-  if (sector_par == sector) 
-    return;
-
-  delete[] sector_par;
-  sector_par = csStrNew (sector);
+  sector_par = sector;
 }
 
 //---------------------------------------------------------------------------
@@ -136,17 +115,14 @@ celMeshEnterSectorTrigger::celMeshEnterSectorTrigger (
 {
   celMeshEnterSectorTrigger::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = csStrNew (qm->ResolveParameter (params, entity_par));
-  tag = csStrNew (qm->ResolveParameter (params, tag_par));
-  sector = csStrNew (qm->ResolveParameter (params, sector_par));
+  entity = qm->ResolveParameter (params, entity_par);
+  tag = qm->ResolveParameter (params, tag_par);
+  sector = qm->ResolveParameter (params, sector_par);
 }
 
 celMeshEnterSectorTrigger::~celMeshEnterSectorTrigger ()
 {
   DeactivateTrigger ();
-  delete[] entity;
-  delete[] tag;
-  delete[] sector;
 }
 
 void celMeshEnterSectorTrigger::RegisterCallback (
