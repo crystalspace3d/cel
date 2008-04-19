@@ -498,6 +498,9 @@
     <addon plugin="cel.addons.questdef" >
       <quest name="message_dest_quest" >
         <state name="start" >
+	  <oninit>
+            <reward type="debugprint" message="We entered 'start' state" />
+	  </oninit>
           <trigger type="message" >
             <fireon entity="$this" mask="cel.messagetest" />
             <reward type="debugprint" message="### Got message" />
@@ -506,6 +509,9 @@
             <reward type="debugprint" message="=if(@testpar<10,'left','right')" />
             <reward type="newstate" state="idle" />
           </trigger>
+	  <onexit>
+            <reward type="debugprint" message="We left 'start' state" />
+	  </onexit>
         </state>
         <state name="idle" />
       </quest>
