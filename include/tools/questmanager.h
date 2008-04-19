@@ -544,6 +544,16 @@ struct iQuestStateFactory : public virtual iBase
    * Create a new trigger response.
    */
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory () = 0;
+
+  /**
+   * Add a new reward to be fired on state initialization.
+   */
+  virtual void AddInitRewardFactory (iQuestRewardFactory* reward_fact) = 0;
+
+  /**
+   * Add a new reward to be fired on state exit.
+   */
+  virtual void AddExitRewardFactory (iQuestRewardFactory* reward_fact) = 0;
 };
 
 /**

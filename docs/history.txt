@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Apr-2008
+	- Jorrit implemented 'oninit' and 'onexit' rewards in the quest manager.
+	  These rewards are fired on initialization or on exit of entering a
+	  certain state in a quest and are useful for setting up stuff.
 18-Apr-2008
 	- Jorrit added support for expression parameters in rewards. You can
 	  now do things like:

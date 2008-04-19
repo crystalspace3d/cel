@@ -333,6 +333,16 @@ iQuestTriggerResponseFactory* celQuestStateFactory::
   return resp;
 }
 
+void celQuestStateFactory::AddInitRewardFactory (iQuestRewardFactory* reward_fact)
+{
+  oninit_reward_factories.Push (reward_fact);
+}
+
+void celQuestStateFactory::AddExitRewardFactory (iQuestRewardFactory* reward_fact)
+{
+  onexit_reward_factories.Push (reward_fact);
+}
+
 //---------------------------------------------------------------------------
 
 celQuestSequence::celQuestSequence (const char* name,
@@ -687,10 +697,26 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
   while (sta_it.HasNext ())
   {
     celQuestStateFactory* sf = sta_it.Next ();
+    const csRefArray<iQuestRewardFactory>& oninit_reward_Factories
+        = sf->GetOninitRewardFactories ();
+    const csRefArray<iQuestRewardFactory>& onexit_reward_Factories
+        = sf->GetOnexitRewardFactories ();
     const csRefArray<celQuestTriggerResponseFactory>& responses
     	= sf->GetResponses ();
     size_t stateidx = q->AddState (sf->GetName ());
     size_t i;
+    for (i = 0 ; i < oninit_reward_Factories.GetSize () ; i++)
+    {
+      csRef<iQuestReward> rew = oninit_reward_Factories[i]->CreateReward ((iQuest*)q,
+	  *p_params);
+      q->AddOninitReward (stateidx, rew);
+    }
+    for (i = 0 ; i < onexit_reward_Factories.GetSize () ; i++)
+    {
+      csRef<iQuestReward> rew = onexit_reward_Factories[i]->CreateReward ((iQuest*)q,
+	  *p_params);
+      q->AddOnexitReward (stateidx, rew);
+    }
     for (i = 0 ; i < responses.GetSize () ; i++)
     {
       celQuestTriggerResponseFactory* respfact = responses[i];
@@ -726,6 +752,60 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
   return csPtr<iQuest> (q);
 }
 
+csRef<iQuestRewardFactory> celQuestFactory::LoadReward (iDocumentNode* child)
+{
+  csString type = child->GetAttributeValue ("type");
+  iQuestRewardType* rewardtype = questmgr->GetRewardType ("cel.questreward."+type);
+  if (!rewardtype)
+    rewardtype = questmgr->GetRewardType (type);
+  if (!rewardtype)
+  {
+    csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"cel.questmanager.load",
+		"Unknown reward type '%s' while loading quest '%s'!",
+		(const char*)type, (const char*)name);
+    return 0;
+  }
+  csRef<iQuestRewardFactory> rewardfact = rewardtype->CreateRewardFactory ();
+  if (!rewardfact->Load (child))
+    return 0;
+  return rewardfact;
+}
+
+bool celQuestFactory::LoadRewards (
+	iQuestStateFactory* statefact, bool oninit,
+  	iDocumentNode* node)
+{
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_REWARD:
+        {
+	  csRef<iQuestRewardFactory> rewardfact = LoadReward (child);
+	  if (!rewardfact) return false;
+	  if (oninit)
+	    statefact->AddInitRewardFactory (rewardfact);
+	  else
+	    statefact->AddExitRewardFactory (rewardfact);
+	}
+        break;
+      default:
+        csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"cel.questmanager.load",
+		"Unknown token '%s' while loading '%s' in quest '%s'!",
+		(const char*)value, oninit ? "oninit" : "onexit", (const char*)name);
+        return false;
+    }
+  }
+  return true;
+}
+
 bool celQuestFactory::LoadTriggerResponse (
 	iQuestTriggerResponseFactory* respfact,
   	iQuestTriggerFactory* trigfact, iDocumentNode* node)
@@ -745,23 +825,8 @@ bool celQuestFactory::LoadTriggerResponse (
         break;
       case XMLTOKEN_REWARD:
         {
-	  csString type = child->GetAttributeValue ("type");
-	  iQuestRewardType* rewardtype = questmgr->GetRewardType (
-	  	"cel.questreward."+type);
-	  if (!rewardtype)
-	    rewardtype = questmgr->GetRewardType (type);
-	  if (!rewardtype)
-	  {
-            csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		"cel.questmanager.load",
-		"Unknown reward type '%s' while loading quest '%s'!",
-		(const char*)type, (const char*)name);
-	    return false;
-	  }
-	  csRef<iQuestRewardFactory> rewardfact = rewardtype
-		->CreateRewardFactory ();
-	  if (!rewardfact->Load (child))
-	    return false;
+	  csRef<iQuestRewardFactory> rewardfact = LoadReward (child);
+	  if (!rewardfact) return false;
 	  respfact->AddRewardFactory (rewardfact);
 	}
         break;
@@ -788,6 +853,14 @@ bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
+      case XMLTOKEN_ONINIT:
+	if (!LoadRewards (statefact, true, child))
+	  return false;
+	break;
+      case XMLTOKEN_ONEXIT:
+	if (!LoadRewards (statefact, false, child))
+	  return false;
+	break;
       case XMLTOKEN_TRIGGER:
         {
 	  csString type = child->GetAttributeValue ("type");
@@ -1012,16 +1085,19 @@ celQuest::celQuest (iCelPlLayer* pl) : scfImplementationType (this)
 
 celQuest::~celQuest ()
 {
-  DeactivateState (current_state);
+  DeactivateState (current_state, false);
 }
 
-void celQuest::DeactivateState (size_t stateidx)
+void celQuest::DeactivateState (size_t stateidx, bool exec_onexit)
 {
   if (stateidx == (size_t)-1) return;
   celQuestState* st = states[stateidx];
   size_t j;
   for (j = 0 ; j < st->GetResponseCount () ; j++)
     st->GetResponse (j)->GetTrigger ()->DeactivateTrigger ();
+  if (exec_onexit)
+    for (j = 0 ; j < st->GetOnexitRewardCount () ; j++)
+      st->GetOnexitReward (j)->Reward (0);
 }
 
 bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
@@ -1035,7 +1111,7 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
   {
     if (strcmp (state, states[i]->GetName ()) == 0)
     {
-      DeactivateState (current_state);
+      DeactivateState (current_state, true);
       current_state = i;
       celQuestState* st = states[current_state];
       for (j = 0 ; j < st->GetResponseCount () ; j++)
@@ -1055,6 +1131,8 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
 	    return true;
         }
       }
+      for (j = 0 ; j < st->GetOninitRewardCount () ; j++)
+        st->GetOninitReward (j)->Reward (0);
       return true;
     }
   }
@@ -1137,6 +1215,16 @@ void celQuest::AddStateReward (size_t stateidx, size_t responseidx,
 	iQuestReward* reward)
 {
   states[stateidx]->GetResponse (responseidx)->AddReward (reward);
+}
+
+void celQuest::AddOninitReward (size_t stateidx, iQuestReward* reward)
+{
+  states[stateidx]->AddOninitReward (reward);
+}
+
+void celQuest::AddOnexitReward (size_t stateidx, iQuestReward* reward)
+{
+  states[stateidx]->AddOnexitReward (reward);
 }
 
 void celQuest::AddSequence (celQuestSequence* sequence)

@@ -271,6 +271,8 @@ class celQuestStateFactory : public scfImplementation1<
 {
 private:
   csString name;
+  csRefArray<iQuestRewardFactory> oninit_reward_factories;
+  csRefArray<iQuestRewardFactory> onexit_reward_factories;
   csRefArray<celQuestTriggerResponseFactory> responses;
 
 public:
@@ -281,9 +283,19 @@ public:
   {
     return responses;
   }
+  const csRefArray<iQuestRewardFactory>& GetOninitRewardFactories () const
+  {
+    return oninit_reward_factories;
+  }
+  const csRefArray<iQuestRewardFactory>& GetOnexitRewardFactories () const
+  {
+    return onexit_reward_factories;
+  }
 
   virtual const char* GetName () const { return name; }
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory ();
+  virtual void AddInitRewardFactory (iQuestRewardFactory* reward_fact);
+  virtual void AddExitRewardFactory (iQuestRewardFactory* reward_fact);
 };
 
 typedef csHash<csRef<celQuestStateFactory>,csStringBase> celQuestFactoryStates;
@@ -303,6 +315,9 @@ private:
   celQuestFactorySequences sequences;
   celQuestParams defaults;
 
+  csRef<iQuestRewardFactory> LoadReward (iDocumentNode* child);
+  bool LoadRewards (iQuestStateFactory* statefact, bool oninit,
+  	iDocumentNode* node);
   bool LoadTriggerResponse (iQuestTriggerResponseFactory* respfact,
   	iQuestTriggerFactory* trigfact, iDocumentNode* node);
   bool LoadState (iQuestStateFactory* statefact, iDocumentNode* node);
@@ -370,6 +385,8 @@ class celQuestState
 private:
   iCelPlLayer* pl;
   char* name;
+  csRefArray<iQuestReward> oninit_rewards;
+  csRefArray<iQuestReward> onexit_rewards;
   csRefArray<celQuestStateResponse> responses;
 
 public:
@@ -386,6 +403,24 @@ public:
   {
     return responses[idx];
   }
+  void AddOninitReward (iQuestReward* reward)
+  {
+    oninit_rewards.Push (reward);
+  }
+  void AddOnexitReward (iQuestReward* reward)
+  {
+    onexit_rewards.Push (reward);
+  }
+  size_t GetOninitRewardCount () const { return oninit_rewards.GetSize (); }
+  iQuestReward* GetOninitReward (size_t idx) const
+  {
+    return oninit_rewards[idx];
+  }
+  size_t GetOnexitRewardCount () const { return onexit_rewards.GetSize (); }
+  iQuestReward* GetOnexitReward (size_t idx) const
+  {
+    return onexit_rewards[idx];
+  }
 };
 
 /**
@@ -399,8 +434,11 @@ private:
   csPDelArray<celQuestState> states;
   size_t current_state;
 
-  /// Deactivate a state (deactivate all triggers).
-  void DeactivateState (size_t stateidx);
+  /**
+   * Deactivate a state (deactivate all triggers).
+   * If exec_onexit is true then the onexit rewards are fired.
+   */
+  void DeactivateState (size_t stateidx, bool exec_onexit);
 
   /// Load/switch state.
   bool SwitchState (const char* state, iCelDataBuffer* databuf);
@@ -433,6 +471,10 @@ public:
   /// Add reward for a state and response.
   void AddStateReward (size_t stateidx, size_t responseidx,
   	iQuestReward* reward);
+  /// Add oninit reward for a state.
+  void AddOninitReward (size_t stateidx, iQuestReward* reward);
+  /// Add onexit reward for a state.
+  void AddOnexitReward (size_t stateidx, iQuestReward* reward);
 
   /**
    * Add a sequence. This will increase the ref count.
