@@ -44,12 +44,10 @@ celTimeoutTriggerFactory::celTimeoutTriggerFactory (
 	celTimeoutTriggerType* type) : scfImplementationType (this)
 {
   celTimeoutTriggerFactory::type = type;
-  timeout_par = 0;
 }
 
 celTimeoutTriggerFactory::~celTimeoutTriggerFactory ()
 {
-  delete[] timeout_par;
 }
 
 csPtr<iQuestTrigger> celTimeoutTriggerFactory::CreateTrigger (
@@ -62,8 +60,7 @@ csPtr<iQuestTrigger> celTimeoutTriggerFactory::CreateTrigger (
 
 bool celTimeoutTriggerFactory::Load (iDocumentNode* node)
 {
-  delete[] timeout_par; timeout_par = 0;
-  timeout_par = csStrNew (node->GetAttributeValue ("timeout"));
+  timeout_par = node->GetAttributeValue ("timeout");
 
   if (!timeout_par)
   {
@@ -78,11 +75,7 @@ bool celTimeoutTriggerFactory::Load (iDocumentNode* node)
 void celTimeoutTriggerFactory::SetTimeoutParameter (
 	const char* timeout)
 {
-  if (timeout == timeout_par) 
-    return;
-
-  delete[] timeout_par;
-  timeout_par = csStrNew (timeout);
+  timeout_par = timeout;
 }
 
 //---------------------------------------------------------------------------

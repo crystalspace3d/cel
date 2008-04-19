@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit implemented 'oninit' and 'onexit' rewards in the quest manager.
 	  These rewards are fired on initialization or on exit of entering a
 	  certain state in a quest and are useful for setting up stuff.
+	- Jorrit changed several usages of csStrNew into csString. Additionally
+	  removed wrong usage of csStrNew in the watch trigger.
 18-Apr-2008
 	- Jorrit added support for expression parameters in rewards. You can
 	  now do things like:

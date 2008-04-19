@@ -384,7 +384,7 @@ class celQuestState
 {
 private:
   iCelPlLayer* pl;
-  char* name;
+  csString name;
   csRefArray<iQuestReward> oninit_rewards;
   csRefArray<iQuestReward> onexit_rewards;
   csRefArray<celQuestStateResponse> responses;
@@ -393,9 +393,9 @@ public:
   celQuestState (iCelPlLayer* pl, const char* name)
   {
     celQuestState::pl = pl;
-    celQuestState::name = csStrNew (name);
+    celQuestState::name = name;
   }
-  ~celQuestState () { delete[] name; }
+  ~celQuestState () { }
   const char* GetName () const { return name; }
   size_t AddResponse (celQuest* quest);
   size_t GetResponseCount () const { return responses.GetSize (); }
