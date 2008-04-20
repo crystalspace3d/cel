@@ -4754,6 +4754,8 @@ class iQuestStateFactory(cspace.iBase):
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestStateFactory_GetName(*args)
     def CreateTriggerResponseFactory(*args): return _blcelc.iQuestStateFactory_CreateTriggerResponseFactory(*args)
+    def AddInitRewardFactory(*args): return _blcelc.iQuestStateFactory_AddInitRewardFactory(*args)
+    def AddExitRewardFactory(*args): return _blcelc.iQuestStateFactory_AddExitRewardFactory(*args)
     Name = _swig_property(_blcelc.iQuestStateFactory_Name_get, None, None,
                     "iQuestStateFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestStateFactory::GetName()")
 
