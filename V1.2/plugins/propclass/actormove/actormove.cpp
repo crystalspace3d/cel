@@ -684,6 +684,7 @@ void celPcActorMove::ToggleCameraMode ()
 
 void celPcActorMove::Forward (bool start)
 {
+  FindSiblingPropertyClasses ();
   if (pcmesh && !sprcal3d && pclinmove->IsOnGround())
   {
     if (start && !IsMovingForward ())
