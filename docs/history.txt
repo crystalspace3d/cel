@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+21-Apr-2008
+	- caedes made the following improvements to pctrigger:
+	  - added a 'strict' property, to control strict checking for monitored
+	    entity, if set errors will be reported when entity is missing, otherwise
+	    nothing will be reported. default is true.
+	  - added a 'type' property to get the type the trigger is currently set to.
+	  - made the trigger with 'follow' set to on sync active sector too (before
+            it would just sync the position).
 19-Apr-2008
 	- Jorrit implemented 'oninit' and 'onexit' rewards in the quest manager.
 	  These rewards are fired on initialization or on exit of entering a
