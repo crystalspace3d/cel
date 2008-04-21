@@ -30,6 +30,15 @@ struct iCelEntity;
 struct iPcTrigger;
 struct iPcMesh;
 
+enum TriggerType
+{
+  TRIGGER_NONE = 0,
+  TRIGGER_SPHERE,
+  TRIGGER_BOX,
+  TRIGGER_ABOVE,
+  TRIGGER_BEAM
+};
+
 /**
  * Listen to trigger actions.
  */
@@ -95,6 +104,9 @@ struct iPcTriggerListener : public virtual iBase
  *     (default off).
  * - follow (bool, read/write): follow own entity pcmesh (default off).
  * - enabled (bool, read/write): enable/disable triger (default on).
+ * - strict (bool, read/write): do strict checking for monitored entity. if true
+ *   an error will be reported if the entity is not there. (default on)
+ * - type (long, read only): trigger type, a value from TriggerType.
  */
 struct iPcTrigger : public virtual iBase
 {

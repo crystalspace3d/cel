@@ -107,6 +107,8 @@ public:
       csReversibleTransform tr = movable->GetFullTransform ();
       csVector3 pos = movable->GetPosition ();
       pctrigger->SetCenter (pos);
+      if (movable->GetSectors()->GetCount())
+        pctrigger->SetSector (movable->GetSectors()->Get(0));
     }
   }
   virtual void MovableDestroyed (iMovable*) { }
@@ -158,7 +160,7 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   };
 
   // For properties.
-  propinfo.SetCount (6);
+  propinfo.SetCount (8);
   AddProperty (propid_delay, "cel.property.delay",
   	CEL_DATA_LONG, false, "Update delay to check for entities.", 0);
   AddProperty (propid_jitter, "cel.property.jitter",
@@ -173,17 +175,22 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   	CEL_DATA_BOOL, false, "Follow own entity pcmesh.", 0);
   AddProperty (propid_enabled, "cel.property.enabled",
   	CEL_DATA_BOOL, false, "Enable/Disable trigger.", 0);
+  AddProperty (propid_strict, "cel.property.strict",
+  	CEL_DATA_BOOL, false, "Use strict checking for monitoried entity.", 
+			&strict);
+  AddProperty (propid_type, "cel.property.type",
+  	CEL_DATA_LONG, true, "Trigger type.", &trigger_type);
 
   enabled = true;
+  strict = true;
+  trigger_type = TRIGGER_NONE;
   send_to_self = true;
   send_to_others = true;
   above_collider = 0;
   SetMonitorDelay (200, 10);
   follow = false;
 
-  sphere_sector = 0;
-  box_sector = 0;
-  beam_sector = 0;
+  sector = 0;
 
   monitor_invisible = false;
 }
@@ -200,20 +207,20 @@ celPcTrigger::~celPcTrigger ()
 
 void celPcTrigger::SetCenter (csVector3 &v)
 {
-  if (above_mesh)
-    return;
-  else if (box_sector)
+  switch(trigger_type)
   {
-    box_area.SetCenter (v);
-  }
-  else if (sphere_sector)
-  {
-    sphere_center = v;
-  }
-  else if (beam_sector)
-  {
-    beam_end = v + (beam_end-beam_start);
-    beam_start = v;
+    case TRIGGER_SPHERE:
+      sphere_center = v;
+      break;
+    case TRIGGER_BOX:
+      box_area.SetCenter (v);
+      break;
+    case TRIGGER_BEAM:
+      beam_end = v + (beam_end-beam_start);
+      beam_start = v;
+      break;
+    default:
+      break;
   }
 }
 
@@ -392,16 +399,24 @@ void celPcTrigger::UpdateRelevantSectors ()
 {
   if (!relevant_sectors.IsEmpty ()) return;
   csRef<iSectorIterator> sector_it;
-  if (box_sector)
-    sector_it = engine->GetNearbySectors (box_sector, box_area);
-  else if (sphere_sector)
-    sector_it = engine->GetNearbySectors (sphere_sector, sphere_center,
-        sphere_radius);
-  else if (beam_sector)
+  switch(trigger_type)
   {
-    float radius = sqrt (csSquaredDist::PointPoint (beam_start, beam_end));
-    sector_it = engine->GetNearbySectors (beam_sector,
+    case TRIGGER_BOX:
+      sector_it = engine->GetNearbySectors (sector, box_area);
+      break;
+    case TRIGGER_SPHERE:
+      sector_it = engine->GetNearbySectors (sector, sphere_center,
+          sphere_radius);
+      break;
+    case TRIGGER_BEAM:
+    {
+      float radius = sqrt (csSquaredDist::PointPoint (beam_start, beam_end));
+      sector_it = engine->GetNearbySectors (sector,
     	(beam_start + beam_end) / 2.0f, radius);
+      break;
+    }
+    default:
+      break;
   }
   while (sector_it->HasNext ())
   {
@@ -415,11 +430,10 @@ void celPcTrigger::SetupTriggerSphere (iSector* sector,
 	const csVector3& center, float radius)
 {
   LeaveAllEntities ();
-  box_sector = 0;
-  beam_sector = 0;
   above_mesh = 0;
+  trigger_type = TRIGGER_SPHERE;
 
-  sphere_sector = sector;
+  celPcTrigger::sector = sector;
   sphere_center = center;
   sphere_radius = radius;
   relevant_sectors.Empty ();
@@ -429,8 +443,6 @@ void celPcTrigger::SetupTriggerSphere (iSector* sector,
 	const char* center_name, float radius)
 {
   LeaveAllEntities ();
-  box_sector = 0;
-  beam_sector = 0;
   above_mesh = 0;
 
   csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
@@ -443,7 +455,7 @@ void celPcTrigger::SetupTriggerSphere (iSector* sector,
     return;
   }
 
-  sphere_sector = sector;
+  celPcTrigger::sector = sector;
   sphere_center = mapnode->GetPosition ();
   sphere_radius = radius;
   relevant_sectors.Empty ();
@@ -452,11 +464,10 @@ void celPcTrigger::SetupTriggerSphere (iSector* sector,
 void celPcTrigger::SetupTriggerBox (iSector* sector, const csBox3& box)
 {
   LeaveAllEntities ();
-  sphere_sector = 0;
-  beam_sector = 0;
   above_mesh = 0;
+  trigger_type = TRIGGER_BOX;
 
-  box_sector = sector;
+  celPcTrigger::sector = sector;
   box_area = box;
   relevant_sectors.Empty ();
 }
@@ -465,11 +476,10 @@ void celPcTrigger::SetupTriggerBeam (iSector* sector, const csVector3& start,
 	const csVector3& end)
 {
   LeaveAllEntities ();
-  sphere_sector = 0;
-  box_sector = 0;
   above_mesh = 0;
+  trigger_type = TRIGGER_BEAM;
 
-  beam_sector = sector;
+  celPcTrigger::sector = sector;
   beam_start = start;
   beam_end = end;
   relevant_sectors.Empty ();
@@ -478,9 +488,8 @@ void celPcTrigger::SetupTriggerBeam (iSector* sector, const csVector3& start,
 void celPcTrigger::SetupTriggerAboveMesh (iPcMesh* m, float maxdistance)
 {
   LeaveAllEntities ();
-  sphere_sector = 0;
-  beam_sector = 0;
-  box_sector = 0;
+  sector = 0;
+  trigger_type = TRIGGER_ABOVE;
 
   above_mesh = m;
   above_maxdist = maxdistance;
@@ -497,6 +506,13 @@ bool celPcTrigger::Check ()
     {
       // We haven't found the entity yet.
       monitoring_entity = pl->FindEntity (monitor_entity);
+      if (!monitoring_entity)
+      {
+        if (strict)
+          Report (object_reg, "Can't find monitored entity '%s'!",
+		monitor_entity.GetData());
+        return false;
+      }
       monitoring_entity_pcmesh = CEL_QUERY_PROPCLASS_ENT (monitoring_entity,
       	iPcMesh);
       size_t idx = EntityInTrigger (monitoring_entity);
@@ -563,6 +579,13 @@ void celPcTrigger::TickOnce ()
     {
       // We haven't found the entity yet.
       monitoring_entity = pl->FindEntity (monitor_entity);
+      if (!monitoring_entity)
+      {
+        if (strict)
+          Report (object_reg, "Can't find monitored entity '%s'!",
+			monitor_entity.GetData());
+        goto end;
+      }
       monitoring_entity_pcmesh = CEL_QUERY_PROPCLASS_ENT (monitoring_entity,
       	iPcMesh);
     }
@@ -576,70 +599,68 @@ void celPcTrigger::TickOnce ()
       iSector* sector = movable->GetSectors ()->Get (0);
 
       bool trigger_fired = false;
-      if (sphere_sector)
+      switch (trigger_type)
       {
-        // See how far it is from our trigger center.
-        if (sphere_sector == sector)
-        {
-          float sqdistance = csSquaredDist::PointPoint (mpos, sphere_center);
-          trigger_fired = sqdistance < sphere_radius * sphere_radius;
-        }
-        else
-        {
-          UpdateRelevantSectors ();
-          csVector3* warp_center = relevant_sectors.GetElementPointer (sector);
-          if (warp_center)
+        case TRIGGER_SPHERE:
+          // See how far it is from our trigger center.
+          if (celPcTrigger::sector == sector)
           {
-            float sqdistance = csSquaredDist::PointPoint (mpos, *warp_center);
+            float sqdistance = csSquaredDist::PointPoint (mpos, sphere_center);
             trigger_fired = sqdistance < sphere_radius * sphere_radius;
           }
-        }
-      }
-      else if (box_sector)
-      {
-        if (box_sector == sector)
-        {
-          trigger_fired = box_area.In (mpos);
-        }
-        else
-        {
-          UpdateRelevantSectors ();
-          csVector3* warp_center = relevant_sectors.GetElementPointer (sector);
-          if (warp_center)
+          else
           {
-            csBox3 warp_box = box_area;
-            warp_box.SetCenter (*warp_center);
-            trigger_fired = warp_box.In (mpos);
+            UpdateRelevantSectors ();
+            csVector3* warp_center = relevant_sectors.GetElementPointer (sector);
+            if (warp_center)
+            {
+              float sqdistance = csSquaredDist::PointPoint (mpos, *warp_center);
+              trigger_fired = sqdistance < sphere_radius * sphere_radius;
+            }
           }
-        }
-      }
-      else if (beam_sector)
-      {
-        if (beam_sector == sector)
-        {
-          csHitBeamResult rc = monitoring_mesh->HitBeam (beam_start, beam_end);
-          trigger_fired = rc.hit;
-        }
-        else
-        {
-          UpdateRelevantSectors ();
-          csVector3* warp_center = relevant_sectors.GetElementPointer (sector);
-          if (warp_center)
+          break;
+        case TRIGGER_BOX:
+          if (celPcTrigger::sector == sector)
           {
-            // @@@ Warp beam_start and beam_end somehow!!!
-            csHitBeamResult rc = monitoring_mesh->HitBeam (
-            	beam_start, beam_end);
+            trigger_fired = box_area.In (mpos);
+          }
+          else
+          {
+            UpdateRelevantSectors ();
+            csVector3* warp_center = relevant_sectors.GetElementPointer (sector);
+            if (warp_center)
+            {
+              csBox3 warp_box = box_area;
+              warp_box.SetCenter (*warp_center);
+              trigger_fired = warp_box.In (mpos);
+            }
+          }
+          break;
+        case TRIGGER_BEAM:
+          if (celPcTrigger::sector == sector)
+          {
+            csHitBeamResult rc = monitoring_mesh->HitBeam (beam_start, beam_end);
             trigger_fired = rc.hit;
           }
-        }
-      }
-      else
-      {
-        csVector3 end (mpos.x, mpos.y - above_maxdist, mpos.z);
-        // Small correction to make sure we don't miss the object that
-        // we're standing on.
-        mpos.y += .01f;
-        trigger_fired = cdsys->CollideSegment (above_collider, &above_trans,
+          else
+          {
+            UpdateRelevantSectors ();
+            csVector3* warp_center = relevant_sectors.GetElementPointer (sector);
+            if (warp_center)
+            {
+              // @@@ Warp beam_start and beam_end somehow!!!
+              csHitBeamResult rc = monitoring_mesh->HitBeam (
+            	beam_start, beam_end);
+              trigger_fired = rc.hit;
+            }
+          }
+          break;
+        default:
+          csVector3 end (mpos.x, mpos.y - above_maxdist, mpos.z);
+          // Small correction to make sure we don't miss the object that
+          // we're standing on.
+          mpos.y += .01f;
+          trigger_fired = cdsys->CollideSegment (above_collider, &above_trans,
         	mpos, end);
       }
 
@@ -698,31 +719,33 @@ void celPcTrigger::TickOnce ()
 
     // Check all entities that are near our location.
     csRef<iCelEntityList> list;
-    if (sphere_sector)
+    switch(trigger_type)
     {
-      list = pl->FindNearbyEntities (sphere_sector,
-      	sphere_center, sphere_radius, monitor_invisible,
-	monitor_class_id);
+      case TRIGGER_SPHERE:
+        list = pl->FindNearbyEntities (sector,
+      	  sphere_center, sphere_radius, monitor_invisible,
+	  monitor_class_id);
+        break;
+      case TRIGGER_BOX:
+        list = pl->FindNearbyEntities (sector, box_area,
+      	  monitor_invisible, monitor_class_id);
+        break;
+      case TRIGGER_BEAM:
+        list = pl->FindNearbyEntities (sector, beam_start, beam_end,
+      	  monitor_invisible, monitor_class_id);
+        break;
+      case TRIGGER_ABOVE:
+      {
+        csBox3 b;
+        b = above_mesh->GetMesh ()->GetWorldBoundingBox ();
+        iMovable* m = above_mesh->GetMesh ()->GetMovable ();
+        list = pl->FindNearbyEntities (m->GetSectors ()->Get (0), b,
+      	  monitor_invisible, monitor_class_id);
+        break;
+      }
+      default:
+        break;
     }
-    else if (box_sector)
-    {
-      list = pl->FindNearbyEntities (box_sector, box_area,
-      	monitor_invisible, monitor_class_id);
-    }
-    else if (beam_sector)
-    {
-      list = pl->FindNearbyEntities (beam_sector, beam_start, beam_end,
-      	monitor_invisible, monitor_class_id);
-    }
-    else
-    {
-      csBox3 b;
-      b = above_mesh->GetMesh ()->GetWorldBoundingBox ();
-      iMovable* m = above_mesh->GetMesh ()->GetMovable ();
-      list = pl->FindNearbyEntities (m->GetSectors ()->Get (0), b,
-      	monitor_invisible, monitor_class_id);
-    }
-
     size_t i;
 
     // Fill a set with all entities that are currently in trigger.
@@ -824,38 +847,31 @@ csPtr<iCelDataBuffer> celPcTrigger::Save ()
   databuf->Add (monitor_invisible);
   databuf->Add ((uint32)delay);
   databuf->Add ((uint32)jitter);
-  if (sphere_sector)
+  databuf->Add ((uint8)trigger_type);
+  switch(trigger_type)
   {
-    databuf->Add ((uint8)1);
-    databuf->Add (sphere_sector->QueryObject ()->GetName ());
-    databuf->Add (sphere_center);
-    databuf->Add (sphere_radius);
+    case TRIGGER_SPHERE:
+      databuf->Add (sector->QueryObject ()->GetName ());
+      databuf->Add (sphere_center);
+      databuf->Add (sphere_radius);
+      break;
+    case TRIGGER_BOX:
+      databuf->Add (sector->QueryObject ()->GetName ());
+      databuf->Add (box_area.Min ());
+      databuf->Add (box_area.Max ());
+      break;
+    case TRIGGER_ABOVE:
+      databuf->Add (above_mesh != 0);
+      databuf->Add (above_maxdist);
+      break;
+    case TRIGGER_BEAM:
+      databuf->Add (sector->QueryObject ()->GetName ());
+      databuf->Add (beam_start);
+      databuf->Add (beam_end);
+      break;
+    default:
+      break;
   }
-  else if (box_sector)
-  {
-    databuf->Add ((uint8)2);
-    databuf->Add (box_sector->QueryObject ()->GetName ());
-    databuf->Add (box_area.Min ());
-    databuf->Add (box_area.Max ());
-  }
-  else if (above_mesh)
-  {
-    databuf->Add ((uint8)3);
-    databuf->Add (above_mesh != 0);
-    databuf->Add (above_maxdist);
-  }
-  else if (beam_sector)
-  {
-    databuf->Add ((uint8)4);
-    databuf->Add (beam_sector->QueryObject ()->GetName ());
-    databuf->Add (beam_start);
-    databuf->Add (beam_end);
-  }
-  else
-  {
-    databuf->Add ((uint8)0);
-  }
-
   databuf->Add ((uint32)entities_in_trigger.GetSize ());
   size_t i;
   for (i = 0 ; i < entities_in_trigger.GetSize () ; i++)
@@ -890,54 +906,63 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
   SetMonitorDelay (d, j);
 
   uint8 t = databuf->GetUInt8 ();
-  if (t == 1)
+  switch(t)
   {
-    s = databuf->GetString ();
-    if (!s)
-      return Report (object_reg, "Problem parsing trigger!");
-    iSector* sector = engine->FindSector (s->GetData ());
-    if (!sector)
-      return Report (object_reg, "Can't find sector '%s'!", s->GetData ());
-    csVector3 c;
-    databuf->GetVector3 (c);
-    float r = databuf->GetFloat ();
-    SetupTriggerSphere (sector, c, r);
-  }
-  else if (t == 2)
-  {
-    s = databuf->GetString ();
-    if (!s)
-      return Report (object_reg, "Problem parsing trigger!");
-    iSector* sector = engine->FindSector (s->GetData ());
-    if (!sector)
-      return Report (object_reg, "Can't find sector '%s'!", s->GetData ());
-    csVector3 mi, ma;
-    databuf->GetVector3 (mi);
-    databuf->GetVector3 (ma);
-    SetupTriggerBox (sector, csBox3 (mi, ma));
-  }
-  else if (t == 3)
-  {
-    iCelPropertyClass* pc = databuf->GetPC ();
-    csRef<iPcMesh> pcmesh;
-    if (pc)
-      pcmesh = scfQueryInterface<iPcMesh> (pc);
-    float r = databuf->GetFloat ();
-    if (pcmesh)
-      SetupTriggerAboveMesh (pcmesh, r);
-  }
-  else if (t == 4)
-  {
-    s = databuf->GetString ();
-    if (!s)
-      return Report (object_reg, "Problem parsing trigger!");
-    iSector* sector = engine->FindSector (s->GetData ());
-    if (!sector)
-      return Report (object_reg, "Can't find sector '%s'!", s->GetData ());
-    csVector3 mi, ma;
-    databuf->GetVector3 (mi);
-    databuf->GetVector3 (ma);
-    SetupTriggerBeam (sector, mi, ma);
+    case TRIGGER_SPHERE:
+    {
+      s = databuf->GetString ();
+      if (!s)
+        return Report (object_reg, "Problem parsing trigger!");
+      iSector* sector = engine->FindSector (s->GetData ());
+      if (!sector)
+        return Report (object_reg, "Can't find sector '%s'!", s->GetData ());
+      csVector3 c;
+      databuf->GetVector3 (c);
+      float r = databuf->GetFloat ();
+      SetupTriggerSphere (sector, c, r);
+      break;
+    }
+    case TRIGGER_BOX:
+    {
+      s = databuf->GetString ();
+      if (!s)
+        return Report (object_reg, "Problem parsing trigger!");
+      iSector* sector = engine->FindSector (s->GetData ());
+      if (!sector)
+        return Report (object_reg, "Can't find sector '%s'!", s->GetData ());
+      csVector3 mi, ma;
+      databuf->GetVector3 (mi);
+      databuf->GetVector3 (ma);
+      SetupTriggerBox (sector, csBox3 (mi, ma));
+      break;
+    }
+    case TRIGGER_ABOVE:
+    {
+      iCelPropertyClass* pc = databuf->GetPC ();
+      csRef<iPcMesh> pcmesh;
+      if (pc)
+        pcmesh = scfQueryInterface<iPcMesh> (pc);
+      float r = databuf->GetFloat ();
+      if (pcmesh)
+        SetupTriggerAboveMesh (pcmesh, r);
+      break;
+    }
+    case TRIGGER_BEAM:
+    {
+      s = databuf->GetString ();
+      if (!s)
+        return Report (object_reg, "Problem parsing trigger!");
+      iSector* sector = engine->FindSector (s->GetData ());
+      if (!sector)
+        return Report (object_reg, "Can't find sector '%s'!", s->GetData ());
+      csVector3 mi, ma;
+      databuf->GetVector3 (mi);
+      databuf->GetVector3 (ma);
+      SetupTriggerBeam (sector, mi, ma);
+      break;
+    }
+    default:
+      break;  
   }
 
   EnableTrigger (en);

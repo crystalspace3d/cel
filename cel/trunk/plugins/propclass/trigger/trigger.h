@@ -114,14 +114,12 @@ private:
   void UpdateRelevantSectors ();
 
   // Sphere to use for checking.
-  iSector* sphere_sector;
+  iSector* sector;
   csVector3 sphere_center;
   float sphere_radius;
   // Box to use for checking.
-  iSector* box_sector;
   csBox3 box_area;
   // Beam to use for checking.
-  iSector* beam_sector;
   csVector3 beam_start, beam_end;
   // Test if we're directly above some mesh.
   csWeakRef<iPcMesh> above_mesh;
@@ -134,6 +132,10 @@ private:
   // Monitor invisible entities too.
   bool monitor_invisible;
 
+  TriggerType trigger_type;
+
+  bool strict;
+
   // For properties.
   enum propids
   {
@@ -143,7 +145,9 @@ private:
     propid_class,
     propid_invisible,
     propid_follow,
-    propid_enabled
+    propid_enabled,
+    propid_strict,
+    propid_type,
   };
   static PropertyHolder propinfo;
 
@@ -214,6 +218,7 @@ public:
   void FireTriggersEnterTrigger (iCelEntity* entity);
   void FireTriggersLeaveTrigger (iCelEntity* entity);
   virtual bool Check ();
+  void SetSector(iSector *sector) { celPcTrigger::sector=sector; };
 };
 
 #endif // __CEL_PF_TRIGGERIMP__
