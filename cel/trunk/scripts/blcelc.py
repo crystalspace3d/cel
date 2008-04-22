@@ -3100,6 +3100,11 @@ celGetMesh = _blcelc.celGetMesh
 iPcTimer_scfGetVersion = _blcelc.iPcTimer_scfGetVersion
 
 scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
+TRIGGER_NONE = _blcelc.TRIGGER_NONE
+TRIGGER_SPHERE = _blcelc.TRIGGER_SPHERE
+TRIGGER_BOX = _blcelc.TRIGGER_BOX
+TRIGGER_ABOVE = _blcelc.TRIGGER_ABOVE
+TRIGGER_BEAM = _blcelc.TRIGGER_BEAM
 class iPcTriggerListener(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
