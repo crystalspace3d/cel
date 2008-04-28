@@ -249,7 +249,7 @@ CEL_APPLY_FOR_EACH_INTERFACE
 
 %apply csStringFast * { const csStringFast<12>& };
 %template (csStringFast12) csStringFast<12>;
-%template (celEntityTemplateParams) csHash<csStringFast<12>, csStringFast<12> >; 
+%template (celEntityTemplateParams) csHash<csStringFast<12>, csStringFast<12>, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringFast<12>, csStringFast<12> > > >; 
 
 %ignore iCelPlLayer::SendMessageV;
 %ignore iCelPlLayer::CreateEntity (iCelEntityTemplate* factory,const char* name, ...);
@@ -379,6 +379,7 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 %ignore celGenericParameterBlock::GetParameter (size_t idx);
 %template (scfGenericParameterBlock) scfImplementation1<celGenericParameterBlock, iCelParameterBlock >;
 %template (scfVariableParameterBlock) scfImplementation1<celVariableParameterBlock,iCelParameterBlock >;
+%template (scfCombineParameterBlock) scfImplementation1<celCombineParameterBlock,iCelParameterBlock >;
 %template (scfOneParameterBlock) scfImplementation1<celOneParameterBlock,iCelParameterBlock >;
 %include "celtool/stdparams.h"
 

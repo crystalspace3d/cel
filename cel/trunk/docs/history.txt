@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+29-Apr-2008
+	- caedes fixed celEntityTemplateParams swig %template declaration. It
+	  required some new parameters from csHash.
+	- caedes added swig %template declaration for celCombineParameterBlock.
 21-Apr-2008
 	- caedes made the following improvements to pctrigger:
 	  - added a 'strict' property, to control strict checking for monitored
