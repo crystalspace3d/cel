@@ -353,6 +353,37 @@ iMessageDispatcher_swigregister = _blcelc.iMessageDispatcher_swigregister
 iMessageDispatcher_swigregister(iMessageDispatcher)
 iMessageDispatcher_scfGetVersion = _blcelc.iMessageDispatcher_scfGetVersion
 
+class celEntityTemplateParams(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_celEntityTemplateParams(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def Put(*args): return _blcelc.celEntityTemplateParams_Put(*args)
+    def GetAll(*args): return _blcelc.celEntityTemplateParams_GetAll(*args)
+    def PutUnique(*args): return _blcelc.celEntityTemplateParams_PutUnique(*args)
+    def Contains(*args): return _blcelc.celEntityTemplateParams_Contains(*args)
+    def In(*args): return _blcelc.celEntityTemplateParams_In(*args)
+    def GetElementPointer(*args): return _blcelc.celEntityTemplateParams_GetElementPointer(*args)
+    def Get(*args): return _blcelc.celEntityTemplateParams_Get(*args)
+    def GetOrCreate(*args): return _blcelc.celEntityTemplateParams_GetOrCreate(*args)
+    def Empty(*args): return _blcelc.celEntityTemplateParams_Empty(*args)
+    def DeleteAll(*args): return _blcelc.celEntityTemplateParams_DeleteAll(*args)
+    def Delete(*args): return _blcelc.celEntityTemplateParams_Delete(*args)
+    def GetSize(*args): return _blcelc.celEntityTemplateParams_GetSize(*args)
+    def IsEmpty(*args): return _blcelc.celEntityTemplateParams_IsEmpty(*args)
+    def __getitem__(*args): return _blcelc.celEntityTemplateParams___getitem__(*args)
+    def __delitem__(*args): return _blcelc.celEntityTemplateParams___delitem__(*args)
+    def clear(*args): return _blcelc.celEntityTemplateParams_clear(*args)
+    def __nonzero__(*args): return _blcelc.celEntityTemplateParams___nonzero__(*args)
+    def __setitem__(*args): return _blcelc.celEntityTemplateParams___setitem__(*args)
+    def __len__(*args): return _blcelc.celEntityTemplateParams___len__(*args)
+    __swig_destroy__ = _blcelc.delete_celEntityTemplateParams
+    __del__ = lambda self : None;
+celEntityTemplateParams_swigregister = _blcelc.celEntityTemplateParams_swigregister
+celEntityTemplateParams_swigregister(celEntityTemplateParams)
+
 CEL_EVENT_PRE = _blcelc.CEL_EVENT_PRE
 CEL_EVENT_VIEW = _blcelc.CEL_EVENT_VIEW
 CEL_EVENT_POST = _blcelc.CEL_EVENT_POST
@@ -898,6 +929,20 @@ class scfVariableParameterBlock(iCelParameterBlock):
 scfVariableParameterBlock_swigregister = _blcelc.scfVariableParameterBlock_swigregister
 scfVariableParameterBlock_swigregister(scfVariableParameterBlock)
 
+class scfCombineParameterBlock(iCelParameterBlock):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def IncRef(*args): return _blcelc.scfCombineParameterBlock_IncRef(*args)
+    def DecRef(*args): return _blcelc.scfCombineParameterBlock_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.scfCombineParameterBlock_GetRefCount(*args)
+    def QueryInterface(*args): return _blcelc.scfCombineParameterBlock_QueryInterface(*args)
+    def AddRefOwner(*args): return _blcelc.scfCombineParameterBlock_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.scfCombineParameterBlock_RemoveRefOwner(*args)
+    def GetInterfaceMetadata(*args): return _blcelc.scfCombineParameterBlock_GetInterfaceMetadata(*args)
+scfCombineParameterBlock_swigregister = _blcelc.scfCombineParameterBlock_swigregister
+scfCombineParameterBlock_swigregister(scfCombineParameterBlock)
+
 class scfOneParameterBlock(iCelParameterBlock):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
@@ -978,7 +1023,7 @@ class celOneParameterBlock(scfOneParameterBlock):
 celOneParameterBlock_swigregister = _blcelc.celOneParameterBlock_swigregister
 celOneParameterBlock_swigregister(celOneParameterBlock)
 
-class celCombineParameterBlock(object):
+class celCombineParameterBlock(scfCombineParameterBlock):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
     def __init__(self, *args): 
