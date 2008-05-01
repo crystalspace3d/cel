@@ -208,7 +208,10 @@ The loader plugin from Crystal Space, used to load and access font objects.
 (@code{iFontServer} interface).
 @item @code{pycel.Stringset}
 The string set plugin, used to transform from @sc{cs} string @sc{id}s to
-regular strings (@code{iStringSet} interface). 
+regular strings (@code{iStringSet} interface).
+@item @code{pycel.Reporter}
+The reporter plugin, used to report information.
+(@code{iReporter} interface).
 @end itemize
 @subsubheading @code{getid} / @code{fromid} and other StringID related functions.
 Functions to transform from string to stringid and back.
