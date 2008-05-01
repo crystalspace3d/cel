@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+1-Apr-2008
+	- caedes added iReporter to pycel.
 29-Apr-2008
 	- caedes fixed celEntityTemplateParams swig %template declaration. It
 	  required some new parameters from csHash.
