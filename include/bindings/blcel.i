@@ -249,6 +249,7 @@ CEL_APPLY_FOR_EACH_INTERFACE
 
 %apply csStringFast * { const csStringFast<12>& };
 %template (csStringFast12) csStringFast<12>;
+typedef csHash<csStringFast<12>, csStringFast<12>, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringFast<12>, csStringFast<12> > > > celEntityTemplateParams;
 %template (celEntityTemplateParams) csHash<csStringFast<12>, csStringFast<12>, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringFast<12>, csStringFast<12> > > >; 
 
 %ignore iCelPlLayer::SendMessageV;
