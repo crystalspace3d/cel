@@ -229,6 +229,9 @@ bool celPcProjectile::Start (const csVector3& direction,
 
 void celPcProjectile::TickEveryFrame ()
 {
+  // To avoid message problems during destruction.
+  csRef<iCelEntity> keepref_this = entity;
+
   FindSiblingPropertyClasses ();
   if (!pcmesh)
   {
