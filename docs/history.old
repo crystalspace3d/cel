@@ -1,13 +1,14 @@
-Crystal Entity Layer (CEL) detailed change log.
-http://cel.crystalspace3d.org/
-
+Crystal Entity Layer (CEL) detailed change log. http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
-2-Apr-2008
+This history is "historical".  See "history.txt" for instructions on how to
+access more recent entries.
+
+2-May-2008
 	- caedes added celEntityTemplateParams typedef to swig interface files
 	  that uses all template arguments (even default ones), otherwise
 	  swig doesnt seem to recognize the wrapped type as the original.
-1-Apr-2008
+1-May-2008
 	- caedes added iReporter to pycel.
 29-Apr-2008
 	- caedes fixed celEntityTemplateParams swig %template declaration. It
