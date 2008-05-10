@@ -54,6 +54,8 @@
 #include "imesh/object.h"
 #include "imesh/sprite3d.h"
 #include "imesh/gmeshskel2.h"
+#include "imesh/animesh.h"
+#include "imesh/skeleton2anim.h"
 #include "imesh/nullmesh.h"
 #include "imesh/spritecal3d.h"
 #include "imesh/skeleton.h"
@@ -1132,6 +1134,33 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle,
     }
     else
     {
+      
+      csRef<iAnimatedMesh> animesh = scfQueryInterface<iAnimatedMesh> (mesh->GetMeshObject ());
+      if (animesh)
+      {
+        csRef<iSkeletonAnimation2> anim;
+        csRef<iSkeletonAnimation2> otheranim;
+        csRef<iSkeletonAnimPacket2> packet = animesh->GetSkeleton()->GetAnimationPacket();
+        anim = packet->FindAnimation(actionName);
+	if (anim && anim->IsActive())
+          return;
+        for (int i=0;i<packet->GetAnimationCount();i++)
+        {
+          otheranim = packet->GetAnimation(i);
+          otheranim->Stop();
+          otheranim->Reset();
+        }
+        if (anim)
+        {
+          anim->Reset();
+          if (cycle)
+            anim->PlayCyclic();
+	  else
+            anim->PlayOnce();
+        }
+      }
+    else
+    {
       csRef<iGeneralMeshState> genstate =
       	scfQueryInterface<iGeneralMeshState> (mesh->GetMeshObject ());
       if (genstate)
@@ -1165,6 +1194,7 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle,
           }
         }
       }
+    }
     }
   }
 }
