@@ -10,7 +10,7 @@
 %feature("director:except") {
     if ($error != NULL) {
         PyErr_Print ();
-        throw Swig::DirectorMethodException();
+        //throw Swig::DirectorMethodException();
     }
 }
 
@@ -120,8 +120,6 @@ INTERFACE_POST(iPcPython)
            size_t dot_pos = propname.FindLast('.');                         \
            PyObject_SetAttrString(pySelf,const_cast<char*>(propname.GetData()+dot_pos+1),      \
                                         py_value);                          \
-           /*PyObject_Print(py_value,stdout,Py_PRINT_RAW);*/                    \
-           printf("\n");                                                    \
            Py_DECREF(py_value);                                             \
            return true;                                               
 
