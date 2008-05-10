@@ -17,15 +17,20 @@ from blcelc import *
 import _blcelc
 
 # Pointers
+oreg = None
 try:
-	# from cspython
-	oreg = object_reg
+    # from cspython
+    oreg = object_reg
 except:
-	# from blpython
-	oreg = object_reg_ptr
+    # from blpython
+    try:
+        oreg = object_reg_ptr
+    except:
+        raise EnvironmentError, "CrystalSpace not initialized"
+
 pl = oreg.Get(iCelPlLayer)
 if not pl:
-  print "pycel error: Can't find the PhysicalLayer!"
+    raise EnvironmentError, "Can't find the PhysicalLayer"
 
 # Fast functions from the pl
 getid = lambda s: _blcelc.iCelPlLayer_FetchStringID(pl,s)
@@ -63,6 +68,11 @@ MouseDriver = oreg.Get(iMouseDriver)
 JoystickDriver = oreg.Get(iJoystickDriver)
 PluginManager = oreg.Get(iPluginManager)
 StringSet = oreg.Get("crystalspace.shared.stringset", iStringSet)
+# the following is for the rendermanager branch.
+try:
+	SVStringSet = oreg.Get("crystalspace.shader.variablenameset", iShaderVarStringSet)
+except:
+	pass
 
 # Helper class to buffer cel ids for faster access.
 # This works by only requesting ids from cel the first time the string is
@@ -125,26 +135,26 @@ celpar_inmapping = {
  CEL_DATA_ENTITY : _blcelc.iCelPropertyClass_SetPropertyEntity
 }
 def PcSetterFallback(self,attr,value):
-        parid = getattr(PropIds,attr)
-        partype = self.GetPropertyOrActionType(parid)
-	try:
-	    return celpar_inmapping[partype](self,parid,value)
-        except:
-            if partype is CEL_DATA_NONE:
-                raise AttributeError,"no property with name "+attr
-            elif partype is CEL_DATA_ACTION:
-                raise AttributeError,attr+" is an action"
+    parid = getattr(PropIds,attr)
+    partype = self.GetPropertyOrActionType(parid)
+    try:
+        return celpar_inmapping[partype](self,parid,value)
+    except:
+        if partype is CEL_DATA_NONE:
+            raise AttributeError,"no property with name "+attr
+        elif partype is CEL_DATA_ACTION:
+            raise AttributeError,attr+" is an action"
 
 def PcGetterFallback(self,attr):
-        parid = getattr(PropIds,attr)
-        partype = self.GetPropertyOrActionType(parid)
-	try:
-	    return celpar_outmapping[partype](self,parid)
-        except:
-            if partype is CEL_DATA_NONE:
-                raise AttributeError,"no property with name "+attr
-            elif partype is CEL_DATA_ACTION:
-                raise AttributeError,attr+" is an action"
+    parid = getattr(PropIds,attr)
+    partype = self.GetPropertyOrActionType(parid)
+    try:
+        return celpar_outmapping[partype](self,parid)
+    except:
+        if partype is CEL_DATA_NONE:
+            raise AttributeError,"no property with name "+attr
+        elif partype is CEL_DATA_ACTION:
+            raise AttributeError,attr+" is an action"
 
 iCelPropertyClass.SetterFallback = PcSetterFallback
 iCelPropertyClass.GetterFallback = PcGetterFallback
@@ -201,14 +211,79 @@ class pyPcCommonFactory(PcCommonFactory):
         a.__disown__() # give control to c++
         return a
 
+_known_pcs = {}
+
 def CEL_IMPLEMENT_FACTORY(cls,name):
     """
     Create and register a factory for a PropertyClass class.
     Also creates a wrapper in the form cel<clsname> to query or
     create the pcclass from an entity.
     """ 
+    cls.__pccode__ = name # tag the class so we can find the code if needed
+    _known_pcs[name] = cls
     fact = pyPcCommonFactory(cls,name)
     pl.RegisterPropertyClassFactory(fact)
     setattr(pycel,"cel"+cls.__name__,PcFinder(name))
+
+
+# Some functions to reload property classes on the fly.
+# Useful for developing process.
+def __ReloadPyPC(module,code,hard):
+    """
+    Reload a python property class given python module name and cel name.
+    module: python module name where the pc resides.
+    code: cel code for the property class.
+    hard: whether to reinstantiate already instantiated pcs.
+    """ 
+    import sys
+    pcfact = pl.FindPropertyClassFactory(code)
+    if not module in sys.modules:
+        Reporter.ReportWarning("pycel",
+            "Unable to reload pc "+code+" (module "+module+" not loaded)")
+        return
+    if not pcfact:
+        Reporter.ReportWarning("pycel",
+            "Unable to reload pc "+code+" (pc factory not loaded)")
+        return
+    pl.UnregisterPropertyClassFactory(pcfact)
+    reload(sys.modules[module])
+    if not hard:
+        Reporter.ReportNotify("pycel",code+" reloaded.")
+        return
+    ent_count = 0
+    for ent in Entities:
+        pclist = list(ent.PropertyClassList)
+        for pc in pclist:
+             if pc.Name == code:
+                 tag = pc.Tag
+                 ent.PropertyClassList.Remove(pc)
+                 newpc = PhysicalLayer.CreatePropertyClass(ent,code,tag)
+                 if not newpc:
+                      Reporter.ReportError("pycel","Unable to reload pc "+code+". Reloading old one.")
+                      pl.RegisterPropertyClassFactory(pcfact)
+                      ent.PropertyClassList.Add(pc)
+                      return
+                 else:
+                      ent_count+=1
+    Reporter.ReportNotify("pycel",code+" reloaded for "+str(ent_count)+" entities.")
+    return True
+
+def ReloadPyPc(pccode,hard=True):
+    """
+    Reload a python property class given its cel name.
+    pccode: code for the property class
+    hard: whether to reinitialize property classes already instantiated.
+    """
+    import traceback
+    try:
+        pcclass = _known_pcs[pccode]
+    except:
+        Reporter.ReportWarning("pycel",code+" not known. cant be reloaded.")
+    try:
+        __ReloadPyPC(pcclass.__module__,pccode,hard)
+    except:
+        Reporter.ReportError("pycel",code+" failed loading.")
+        traceback.print_exc()
+
 
 
