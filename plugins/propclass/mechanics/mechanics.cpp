@@ -659,6 +659,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     AddAction (action_setcolliderbox, "cel.action.SetColliderBox");
     AddAction (action_setcolliderplane, "cel.action.SetColliderPlane");
     AddAction (action_setcollidermesh, "cel.action.SetColliderMesh");
+    AddAction (action_setcolliderconvexmesh, "cel.action.SetColliderConvexMesh");
     AddAction (action_setlinearvelocity, "cel.action.SetLinearVelocity");
     AddAction (action_setangularvelocity, "cel.action.SetAngularVelocity");
     AddAction (action_addforceonce, "cel.action.AddForceOnce");
@@ -772,6 +773,8 @@ csPtr<iCelDataBuffer> celPcMechanicsObject::Save ()
       break;
     case CEL_BODY_MESH:
       break;
+    case CEL_BODY_CONVEXMESH:
+      break;
   }
   databuf->Add (friction);
   databuf->Add (elasticity);
@@ -854,6 +857,8 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
       }
       break;
     case CEL_BODY_MESH:
+      break;
+    case CEL_BODY_CONVEXMESH:
       break;
   }
   friction = databuf->GetFloat ();
@@ -1210,6 +1215,11 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
     case action_setcollidermesh:
       {
         AttachColliderMesh ();
+        return true;
+      }
+    case action_setcolliderconvexmesh:
+      {
+        AttachColliderConvexMesh ();
         return true;
       }
     case action_addtogroup:
@@ -1577,6 +1587,24 @@ void celPcMechanicsObject::AttachColliderMesh ()
   delete bdata;
   bdata = 0;
   btype = CEL_BODY_MESH;
+}
+
+void celPcMechanicsObject::AttachColliderConvexMesh ()
+{
+  if (!GetBody ()) return;
+  FindMeshLightCamera ();
+  if (!pcmesh) return;
+  iMeshWrapper* mesh = pcmesh->GetMesh ();
+  csReversibleTransform tr;
+  body->AttachColliderConvexMesh (mesh, tr,
+  	friction, density, elasticity, softness);
+  body->AdjustTotalMass (mass);
+  body->SetTransform (mesh->GetMovable ()->GetFullTransform ());
+  body->AttachMesh (mesh);
+
+  delete bdata;
+  bdata = 0;
+  btype = CEL_BODY_CONVEXMESH;
 }
 
 uint32 celPcMechanicsObject::AddForceTagged (const csVector3& force,
