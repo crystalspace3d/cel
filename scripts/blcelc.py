@@ -1284,6 +1284,7 @@ class iPcMechanicsObject(cspace.iBase):
     def AttachColliderBox(*args): return _blcelc.iPcMechanicsObject_AttachColliderBox(*args)
     def AttachColliderPlane(*args): return _blcelc.iPcMechanicsObject_AttachColliderPlane(*args)
     def AttachColliderMesh(*args): return _blcelc.iPcMechanicsObject_AttachColliderMesh(*args)
+    def AttachColliderConvexMesh(*args): return _blcelc.iPcMechanicsObject_AttachColliderConvexMesh(*args)
     def AddForceOnce(*args): return _blcelc.iPcMechanicsObject_AddForceOnce(*args)
     def AddForceDuration(*args): return _blcelc.iPcMechanicsObject_AddForceDuration(*args)
     def AddForceFrame(*args): return _blcelc.iPcMechanicsObject_AddForceFrame(*args)
