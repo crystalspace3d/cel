@@ -136,7 +136,7 @@ struct iBillboardEventHandler : public virtual iBase
  */
 struct iBillboard : public virtual iBase
 {
-  SCF_INTERFACE (iBillboard, 0, 0, 1);
+  SCF_INTERFACE (iBillboard, 1, 0, 0);
 
   /**
    * Get the name of this billboard.
@@ -249,6 +249,16 @@ struct iBillboard : public virtual iBase
    * Bring this billboard to the bottom of the stack.
    */
   virtual void StackBottom () = 0;
+
+  /**
+   * Bring this billboard just above the other iBillboard.
+   */
+  virtual void StackAfter (iBillboard *other) = 0;
+
+  /**
+   * Bring this billboard just below the other iBillboard.
+   */
+  virtual void StackBefore (iBillboard *other) = 0;
 
   /**
    * Bring this billboard one closer to the top of the stack (first visible).

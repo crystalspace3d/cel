@@ -211,6 +211,8 @@ public:
   virtual void StackBottom ();
   virtual void StackUp ();
   virtual void StackDown ();
+  virtual void StackAfter (iBillboard *other);
+  virtual void StackBefore (iBillboard *other);
   virtual void SetColor (const csColor& c) { color = c; }
   virtual const csColor& GetColor () const { return color; }
   virtual void SetLayer (iBillboardLayer* layer)
