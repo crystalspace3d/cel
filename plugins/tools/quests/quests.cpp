@@ -1459,6 +1459,19 @@ iQuestFactory* celQuestManager::GetQuestFactory (const char* name)
   return (iQuestFactory*)fact;
 }
 
+void celQuestManager::RemoveQuestFactories ()
+{
+  quest_factories.DeleteAll();
+}
+
+void celQuestManager::RemoveQuestFactory (const char* name)
+{
+  celQuestFactory* fact = quest_factories.Get (name, 0);
+  if (fact)
+    quest_factories.Delete(name,fact);
+}
+
+
 iQuestFactory* celQuestManager::CreateQuestFactory (const char* name)
 {
   iQuestFactory* ifact = GetQuestFactory (name);
