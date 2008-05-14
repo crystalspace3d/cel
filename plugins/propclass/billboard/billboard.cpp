@@ -683,6 +683,7 @@ void celPcBillboard::EnableEvents (bool e)
 void celPcBillboard::Select (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey)
 {
+  csRef<iCelEntity> ref = entity;
   params->GetParameter (0).Set ((int32)mousex);
   params->GetParameter (1).Set ((int32)mousey);
   params->GetParameter (2).Set ((int32)mouse_button);
@@ -705,6 +706,7 @@ void celPcBillboard::Select (iBillboard* billboard, int mouse_button,
 void celPcBillboard::MouseMove (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey)
 {
+  csRef<iCelEntity> ref = entity;
   params->GetParameter (0).Set ((int32)mousex);
   params->GetParameter (1).Set ((int32)mousey);
   params->GetParameter (2).Set ((int32)mouse_button);
@@ -727,6 +729,7 @@ void celPcBillboard::MouseMove (iBillboard* billboard, int mouse_button,
 void celPcBillboard::MouseMoveAway (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey)
 {
+  csRef<iCelEntity> ref = entity;
   params->GetParameter (0).Set ((int32)mousex);
   params->GetParameter (1).Set ((int32)mousey);
   params->GetParameter (2).Set ((int32)mouse_button);
@@ -749,6 +752,7 @@ void celPcBillboard::MouseMoveAway (iBillboard* billboard, int mouse_button,
 void celPcBillboard::Unselect (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey)
 {
+  csRef<iCelEntity> ref = entity;
   params->GetParameter (0).Set ((int32)mousex);
   params->GetParameter (1).Set ((int32)mousey);
   params->GetParameter (2).Set ((int32)mouse_button);
@@ -771,6 +775,7 @@ void celPcBillboard::Unselect (iBillboard* billboard, int mouse_button,
 void celPcBillboard::DoubleClick (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey)
 {
+  csRef<iCelEntity> ref = entity;
   params->GetParameter (0).Set ((int32)mousex);
   params->GetParameter (1).Set ((int32)mousey);
   params->GetParameter (2).Set ((int32)mouse_button);
