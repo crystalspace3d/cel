@@ -686,7 +686,7 @@ struct iQuestFactory : public virtual iBase
  */
 struct iQuestManager : public virtual iBase
 {
-  SCF_INTERFACE (iQuestManager, 1, 0, 0);
+  SCF_INTERFACE (iQuestManager, 2, 0, 0);
 
   /**
    * Register a quest trigger type. Quest triggers can be used
@@ -796,6 +796,16 @@ struct iQuestManager : public virtual iBase
    * Get a quest factory by name.
    */
   virtual iQuestFactory* GetQuestFactory (const char* name) = 0;
+
+  /**
+   * Delete a quest factory by name.
+   */
+  virtual void RemoveQuestFactory (const char* name) = 0;
+
+  /**
+   * Delete all quest factories.
+   */
+  virtual void RemoveQuestFactories () = 0;
 
   /**
    * Create an empty quest factory.
