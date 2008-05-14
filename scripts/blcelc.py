@@ -1637,6 +1637,8 @@ class iBillboard(cspace.iBase):
     def GetRotation(*args): return _blcelc.iBillboard_GetRotation(*args)
     def StackTop(*args): return _blcelc.iBillboard_StackTop(*args)
     def StackBottom(*args): return _blcelc.iBillboard_StackBottom(*args)
+    def StackAfter(*args): return _blcelc.iBillboard_StackAfter(*args)
+    def StackBefore(*args): return _blcelc.iBillboard_StackBefore(*args)
     def StackUp(*args): return _blcelc.iBillboard_StackUp(*args)
     def StackDown(*args): return _blcelc.iBillboard_StackDown(*args)
     def SetUVTopLeft(*args): return _blcelc.iBillboard_SetUVTopLeft(*args)
