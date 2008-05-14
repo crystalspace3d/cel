@@ -519,6 +519,9 @@ public:
   virtual csPtr<iQuestParameter> GetParameter (
   	const celQuestParams& params,
 	const char* param);
+  virtual void RemoveQuestFactory (const char* name);
+  virtual void RemoveQuestFactories ();
+
   virtual const char* ResolveParameter (
   	const celQuestParams& params,
 	const char* param);
