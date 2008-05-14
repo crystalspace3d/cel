@@ -140,6 +140,9 @@ public:
   virtual void ClearAllForces ();
   void ApplyForce (celForce& f);
 
+  // override SetEntity to register and unregister from registry there.
+  virtual void SetEntity(iCelEntity* entity);
+
   virtual csPtr<iRigidBody> CreateBody ();
   virtual void RemoveBody (iRigidBody* body);
   virtual void AddBodyToGroup (iRigidBody* body, const char* group);

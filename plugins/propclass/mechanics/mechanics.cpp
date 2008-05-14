@@ -74,7 +74,6 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
   delta = 0.01f;
   remaining_delta = 0;
   simulationspeed=1.0f;
-  object_reg->Register ((iPcMechanicsSystem*)this, "iPcMechanicsSystem");
 
   if (param_dynsys == csInvalidStringID)
   {
@@ -96,6 +95,18 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
     AddAction (action_setsteptime, "cel.action.SetStepTime");
     AddAction (action_setsimulationspeed, "cel.action.SetSimulationSpeed");
   }
+}
+
+void celPcMechanicsSystem::SetEntity (iCelEntity* entity)
+{
+  // if we're already set to some entity, unregister.
+  if (celPcCommon::entity == entity)
+    object_reg->Unregister ((iPcMechanicsSystem*)this, "iPcMechanicsSystem");
+  // now call underlying SetEntity.
+  celPcCommon::SetEntity(entity);
+  // if we're getting set to a new entity, register.
+  if (entity)
+    object_reg->Register ((iPcMechanicsSystem*)this, "iPcMechanicsSystem");
 }
 
 celPcMechanicsSystem::~celPcMechanicsSystem ()
