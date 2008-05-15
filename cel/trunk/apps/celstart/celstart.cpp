@@ -25,6 +25,7 @@
 #include "csutil/physfile.h"
 #include "csutil/sysfunc.h"
 #include "csutil/util.h"
+#include "csutil/setenv.h"
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
 #include "iutil/eventq.h"
@@ -445,7 +446,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     while ((i = pypath.FindFirst ('$')) != (size_t)-1)
       pypath.DeleteAt (i);
     old += pypath;
-    setenv ("PYTHONPATH",old.GetData(),1);
+    CS::Utility::setenv ("PYTHONPATH",old.GetData(),1);
     printf ("PYTHONPATH: %s\n", old.GetData ()); fflush (stdout);
   }
 

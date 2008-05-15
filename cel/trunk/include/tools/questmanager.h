@@ -118,7 +118,7 @@ typedef csHash<csStringBase,csStringBase> celQuestParams;
 //-------------------------------------------------------------------------
 
 struct iQuestTrigger;
-struct celVariableParameterBlock;
+class celVariableParameterBlock;
 
 struct celParSpec
 {
