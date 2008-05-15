@@ -784,6 +784,7 @@ void celPcProperties::ClearProperty (size_t index)
   CS_ASSERT (index >= 0 && index < properties.GetSize ());
   FirePropertyListeners (index);
   params->GetParameter (0).Set ((int32)index);
+  if (!entity) return;
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
