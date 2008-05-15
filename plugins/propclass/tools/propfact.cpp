@@ -784,20 +784,22 @@ void celPcProperties::ClearProperty (size_t index)
   CS_ASSERT (index >= 0 && index < properties.GetSize ());
   FirePropertyListeners (index);
   params->GetParameter (0).Set ((int32)index);
-  if (!entity) return;
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
+  if (entity) 
   {
-    celData ret;
-    bh->SendMessage ("pcproperties_clearproperty", this, ret, params, index);
+    iCelBehaviour* bh = entity->GetBehaviour ();
+    if (bh)
+    {
+      celData ret;
+      bh->SendMessage ("pcproperties_clearproperty", this, ret, params, index);
+    }
+    if (!dispatcher_clear)
+    {
+      dispatcher_clear = entity->QueryMessageChannel ()->
+        CreateMessageDispatcher (this, "cel.properties.clear");
+      if (!dispatcher_clear) return;
+    }
+    dispatcher_clear->SendMessage (params);
   }
-  if (!dispatcher_clear)
-  {
-    dispatcher_clear = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, "cel.properties.clear");
-    if (!dispatcher_clear) return;
-  }
-  dispatcher_clear->SendMessage (params);
   property* p = properties[index];
   ClearPropertyValue (p);
   properties.DeleteIndex (index);
