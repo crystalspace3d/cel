@@ -4866,6 +4866,8 @@ class iQuestManager(cspace.iBase):
     def RegisterSeqOpType(*args): return _blcelc.iQuestManager_RegisterSeqOpType(*args)
     def GetSeqOpType(*args): return _blcelc.iQuestManager_GetSeqOpType(*args)
     def GetQuestFactory(*args): return _blcelc.iQuestManager_GetQuestFactory(*args)
+    def RemoveQuestFactory(*args): return _blcelc.iQuestManager_RemoveQuestFactory(*args)
+    def RemoveQuestFactories(*args): return _blcelc.iQuestManager_RemoveQuestFactories(*args)
     def CreateQuestFactory(*args): return _blcelc.iQuestManager_CreateQuestFactory(*args)
     def GetParameter(*args): return _blcelc.iQuestManager_GetParameter(*args)
     def ResolveParameter(*args): return _blcelc.iQuestManager_ResolveParameter(*args)
