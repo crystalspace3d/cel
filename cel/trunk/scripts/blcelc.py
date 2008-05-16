@@ -4012,7 +4012,7 @@ class iPcProperties(cspace.iBase):
     def __delitem__(self,item):
         if isinstance(item,str):
           item = self.GetPropertyIndex(item)
-          if item == -1:
+          if item == cspace.csArrayItemNotFound:
             return
         self.ClearProperty(item)
     def __setitem__(self,item,value): 
@@ -4022,7 +4022,7 @@ class iPcProperties(cspace.iBase):
     def __getitem__(self,item):
         if isinstance(item,str):
             item = self.GetPropertyIndex(item)
-            if item == -1:
+            if item == cspace.csArrayItemNotFound:
               return None
         return self.GetPropertyValueIndex(item)
 
