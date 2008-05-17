@@ -45,13 +45,11 @@ private:
   TargetState targetstate;
   // because you don't want to be looking at the targets feet
   float targetyoffset;
+  // offset for origin position. Usually only y and z is used.
+  csVector3 posoffset;
 
   // used to lookup entities
   csWeakRef<iCelPlLayer> pl;
-
-  csVector3 posoffset;
-  // we store a local transform we keep updated
-  csReversibleTransform camtrans;
 
   // Has this camera been initialised yet?
   bool init_reset;

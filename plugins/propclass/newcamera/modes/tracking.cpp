@@ -41,7 +41,7 @@ Tracking::Tracking (iBase* p)
 Tracking::Tracking (csWeakRef<iCelPlLayer> pl)
 	: scfImplementationType (this), pl (pl)
 {
-  posoffset.Set (0, 3, 5);
+  posoffset.Set (0, 2, 5);
 
   init_reset = false;
   up.Set (0,1,0);
@@ -84,48 +84,56 @@ bool Tracking::DecideCameraState ()
   if (!init_reset)
     init_reset = ResetCamera ();
 
-  csVector3 tarpos;
-  switch (targetstate)
+  const csVector3 playpos (GetAnchorPosition ());
+  if (targetstate == TARGET_BASE)
   {
-    case (TARGET_BASE):
-      tarpos = GetAnchorPosition ();
-      break;
-    case (TARGET_OBJ):
-      tarpos = GetTargetPosition ();
-      break;
-    case (TARGET_NONE):
-    default:
-      break;
+    // get flat 2D vector (zero out y) of camera to the player
+    csVector3 camplay (playpos - origin);
+    camplay.y = 0.0f;
+    float dist = camplay.Norm ();
+    camplay.Normalize ();
+    // Now get a 2D vector of the camera's direction
+    csVector3 camdir (target - origin);
+    camdir.y = 0.0f;
+    camdir.Normalize ();
+    // plug it into our simplified equation to get the movement needed
+    //   cos (x) = camdir . camplay
+    //   move = dist * cos (x)
+    float move = dist * camdir * camplay - posoffset.z;
+    origin += move * camdir;
+    // lock y axis to fixed distance above player
+    origin.y = playpos.y + posoffset.y;
+    // setup the target
+    target = playpos;
+    target.y += targetyoffset;
   }
-  // get the position of the object we are anchored to in camera space
-  const csVector3 &playpos (camtrans.Other2This (GetAnchorPosition ()));
-  // calculate the position (in camera) space to get within the range
-  // we want to be...
-  // ... we zero out the axis we don't want to follow
-  csVector3 range (0,0,playpos.z - posoffset.z);
-  // we follow the x though when we aren't focused on any object
-  if (targetstate != TARGET_BASE)
-    range.x = playpos.x;
-  // how much does the camera have to move to be within the z offset
-  csVector3 cammove (camtrans.This2OtherRelative (range));
-  // enforce the rule to keep everything flat in the transform
-  cammove.y = 0.0f;
-  // actually move the camera
-  camtrans.SetOrigin (camtrans.GetOrigin () + cammove);
-  // track the target
-  if (targetstate != TARGET_NONE)
+  else if (targetstate == TARGET_NONE)
   {
-    camtrans.LookAt (tarpos - camtrans.GetOrigin (), up);
+    // Get a 2D vector of the camera's direction
+    csVector3 camdir (target - origin);
+    camdir.Normalize ();
+    // stay lined up but move to behind the player
+    origin = playpos - camdir * posoffset.z;
+    // lock y axis to fixed distance above player
+    origin.y = playpos.y + posoffset.y;
+    // update target to continue facing old direction
+    target = origin + camdir;
+  }
+  else if (targetstate == TARGET_OBJ)
+  {
+    const csVector3 tarpos (GetTargetPosition ());
+    // project from player to the target to get the vector
+    // so we can project backwards for the camera
+    csVector3 camdir (origin - tarpos);
+    camdir.Normalize ();
+    origin = playpos + camdir * posoffset.z;
+    // lock y axis to fixed distance above player
+    origin.y = playpos.y + posoffset.y;
+    // setup the target
+    target = tarpos;
+    target.y += targetyoffset;
   }
 
-  const float player_y = GetAnchorPosition ().y;
-  // since the camera transform exists in the same plane as the anchor
-  // and up is fixed to (0,1,0) (our assumptions), then offset in y
-  // (we ignore posoffset.x totally)
-  origin = camtrans.GetOrigin () + csVector3 (0,player_y + posoffset.y,0);
-  // from transform, recompute target
-  target = camtrans.This2Other (csVector3 (0,0,posoffset.z));
-  target.y = player_y + targetyoffset;
   return true;
 }
 
@@ -141,11 +149,12 @@ bool Tracking::ResetCamera ()
   const csVector3 &basepos (parent->GetBaseOrigin ());
   // compute our z offset from it, back along from its direction
   csVector3 offset (basetrans.This2OtherRelative (
-  	csVector3 (0,0,-posoffset.z)));
+  	csVector3 (0,0,posoffset.z)));
   // offset.y = 0; (assuming its up is (0,1,0))
-  camtrans.SetOrigin (basepos + offset);
-  // look along same direction as the object
-  camtrans.LookAt (offset, up);
+  origin = basepos + offset;
+  // setup the target
+  target = basepos;
+  target.y += targetyoffset;
   return true;
 }
 
