@@ -177,6 +177,11 @@ for pcaccessor in dir():
         setattr(pycel,"celAdd"+pcname,
                 AddPlArg(getattr(pycel,"celCreate"+pcname)))
 
+def iCelEntityPlFakeArray__getattr__(self,name):
+	return self.__getitem__(name)
+
+iCelEntityPlFakeArray.__getattr__ = iCelEntityPlFakeArray__getattr__
+
 # python property classes helpers
 class PcFinder:
     def __init__(self,name):
@@ -278,11 +283,12 @@ def ReloadPyPc(pccode,hard=True):
     try:
         pcclass = _known_pcs[pccode]
     except:
-        Reporter.ReportWarning("pycel",code+" not known. cant be reloaded.")
+        Reporter.ReportWarning("pycel",pccode+" not known. cant be reloaded.")
+        return
     try:
         __ReloadPyPC(pcclass.__module__,pccode,hard)
     except:
-        Reporter.ReportError("pycel",code+" failed loading.")
+        Reporter.ReportError("pycel",pccode+" failed loading.")
         traceback.print_exc()
 
 
