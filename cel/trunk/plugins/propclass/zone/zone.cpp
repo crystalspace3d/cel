@@ -851,6 +851,7 @@ void celPcZoneManager::SendZoneMessage (iCelRegion* region,
     const char* msgidold, const char* msgid,
     csRef<iMessageDispatcher>& dispatcher)
 {
+  if (!entity) return;
   if (region) params->GetParameter (0).SetIBase (region);
   celData ret;
   if (entity->GetBehaviour ())
