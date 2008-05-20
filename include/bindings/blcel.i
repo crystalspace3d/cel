@@ -247,10 +247,18 @@ CEL_APPLY_FOR_EACH_INTERFACE
 
 //-----------------------------------------------------------------------------
 
+/* the following declarations are a bit awkward, but seems swig (1.3.31)
+obligues to set all parameters in template declarations, even default ones */
+// celEntityTemplateParams
 %apply csStringFast * { const csStringFast<12>& };
 %template (csStringFast12) csStringFast<12>;
 typedef csHash<csStringFast<12>, csStringFast<12>, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringFast<12>, csStringFast<12> > > > celEntityTemplateParams;
-%template (celEntityTemplateParams) csHash<csStringFast<12>, csStringFast<12>, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringFast<12>, csStringFast<12> > > >; 
+%template (celEntityTemplateParams) csHash<csStringFast<12>, csStringFast<12>, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringFast<12>, csStringFast<12> > > >;
+
+// celQuestParams
+typedef csHash<csStringBase, csStringBase, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringBase, csStringBase > > > celQuestParams;
+%template (celQuestParams) csHash<csStringBase, csStringBase, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringBase, csStringBase > > >;
+
 
 %ignore iCelPlLayer::SendMessageV;
 %ignore iCelPlLayer::CreateEntity (iCelEntityTemplate* factory,const char* name, ...);
