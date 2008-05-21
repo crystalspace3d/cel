@@ -384,6 +384,37 @@ class celEntityTemplateParams(object):
 celEntityTemplateParams_swigregister = _blcelc.celEntityTemplateParams_swigregister
 celEntityTemplateParams_swigregister(celEntityTemplateParams)
 
+class celQuestParams(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_celQuestParams(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def Put(*args): return _blcelc.celQuestParams_Put(*args)
+    def GetAll(*args): return _blcelc.celQuestParams_GetAll(*args)
+    def PutUnique(*args): return _blcelc.celQuestParams_PutUnique(*args)
+    def Contains(*args): return _blcelc.celQuestParams_Contains(*args)
+    def In(*args): return _blcelc.celQuestParams_In(*args)
+    def GetElementPointer(*args): return _blcelc.celQuestParams_GetElementPointer(*args)
+    def Get(*args): return _blcelc.celQuestParams_Get(*args)
+    def GetOrCreate(*args): return _blcelc.celQuestParams_GetOrCreate(*args)
+    def Empty(*args): return _blcelc.celQuestParams_Empty(*args)
+    def DeleteAll(*args): return _blcelc.celQuestParams_DeleteAll(*args)
+    def Delete(*args): return _blcelc.celQuestParams_Delete(*args)
+    def GetSize(*args): return _blcelc.celQuestParams_GetSize(*args)
+    def IsEmpty(*args): return _blcelc.celQuestParams_IsEmpty(*args)
+    def __getitem__(*args): return _blcelc.celQuestParams___getitem__(*args)
+    def __delitem__(*args): return _blcelc.celQuestParams___delitem__(*args)
+    def clear(*args): return _blcelc.celQuestParams_clear(*args)
+    def __nonzero__(*args): return _blcelc.celQuestParams___nonzero__(*args)
+    def __setitem__(*args): return _blcelc.celQuestParams___setitem__(*args)
+    def __len__(*args): return _blcelc.celQuestParams___len__(*args)
+    __swig_destroy__ = _blcelc.delete_celQuestParams
+    __del__ = lambda self : None;
+celQuestParams_swigregister = _blcelc.celQuestParams_swigregister
+celQuestParams_swigregister(celQuestParams)
+
 CEL_EVENT_PRE = _blcelc.CEL_EVENT_PRE
 CEL_EVENT_VIEW = _blcelc.CEL_EVENT_VIEW
 CEL_EVENT_POST = _blcelc.CEL_EVENT_POST
