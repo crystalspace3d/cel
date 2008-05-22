@@ -80,6 +80,8 @@ private:
   // it is set to after first pass.
   csVector3 offsetOrigin;
   csVector3 offsetTarget;
+  // the minimum distance the camera is allowed to the player
+  float minoffset;
 //  csVector3 offsetOrigin, offsetTarget;
   csVector3 oldpos, oldoldpos;
 

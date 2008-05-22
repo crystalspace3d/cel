@@ -190,6 +190,7 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
 
   offsetTarget.Set (0.0f, 0.0f, 0.0f);
   offsetOrigin.Set (0.0f, 0.0f, 0.0f);
+  minoffset = 6.0f;
 
   currMode = (size_t)-1;
 
@@ -864,6 +865,15 @@ void celPcNewCamera::UpdateCamera ()
   {
     UpdateMeshVisibility ();
     inTransition = false;
+  }
+
+  // adjust for offset allowed to character
+  csVector3 offset (camOrigin - camTarget);
+  if (offset.SquaredNorm () < minoffset * minoffset)
+  {
+    // fix it at the minimum distance now
+    offset.Normalize ();
+    camOrigin = offset * minoffset + camTarget;
   }
 
   // Adjust camera transform for relative position and lookat position.
