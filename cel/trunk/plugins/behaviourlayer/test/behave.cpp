@@ -268,6 +268,22 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       pcactor->AddAxis (1, -1);
     else if (!strcmp (msg_id+10, "down.up"))
       pcactor->AddAxis (1, 1);
+    else if (!strcmp (msg_id+10, "camleft.down"))
+    {
+      trackcam->Pan (iPcmNewCamera::Tracking::PAN_LEFT);
+    }
+    else if (!strcmp (msg_id+10, "camleft.up"))
+    {
+      trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
+    }
+    else if (!strcmp (msg_id+10, "camright.down"))
+    {
+      trackcam->Pan (iPcmNewCamera::Tracking::PAN_RIGHT);
+    }
+    else if (!strcmp (msg_id+10, "camright.up"))
+    {
+      trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
+    }
     return true;
   }
 

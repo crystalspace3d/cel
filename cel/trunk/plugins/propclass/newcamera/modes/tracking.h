@@ -23,6 +23,7 @@
 #include "plugins/propclass/newcamera/celcameramode.h"
 
 #include "csgeom/transfrm.h"
+#include "iutil/virtclk.h"
 
 struct iMovable;
 struct iCelPlLayer;
@@ -53,12 +54,14 @@ private:
 
   // used to lookup entities
   csWeakRef<iCelPlLayer> pl;
+  // to compute elapsed time
+  csRef<iVirtualClock> vc;
 
   // Has this camera been initialised yet?
   bool init_reset;
 public:
   Tracking (iBase* p);
-  Tracking (csWeakRef<iCelPlLayer> pl);
+  Tracking (iCelPlLayer* pl, iVirtualClock* vc);
   virtual ~Tracking ();
 
   virtual bool SetTargetEntity (const char* name);
