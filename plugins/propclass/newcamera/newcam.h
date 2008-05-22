@@ -81,6 +81,7 @@ private:
   csVector3 offsetOrigin;
   csVector3 offsetTarget;
 //  csVector3 offsetOrigin, offsetTarget;
+  csVector3 oldpos, oldoldpos;
 
   csWeakRef<iPcMesh> pcmesh;
   iSector* lastActorSector;

@@ -103,6 +103,52 @@ void celPcNewCamera::UpdateMeshVisibility ()
     	CS_ENTITY_INVISIBLE);
 }
 
+void ObtainPolarCoords (csVector2 &polar, const csVector3 &cart)
+{
+  const float x = cart.x, y = cart.z,
+    r = sqrt (x*x + y*y), theta = atan2 (y, x);
+  polar.x = r;
+  polar.y = theta;
+}
+
+void ObtainSpherical (csVector3 &spher, const csVector3 &cart)
+{
+  const float r = cart.Norm (),
+    theta = acos (cart.z / r), phi = atan2 (cart.y, cart.x);
+  spher.x = r;
+  spher.y = theta;
+  spher.z = phi;
+}
+
+void InterpolateVecPolar (csVector3 &curr, const csVector3 &next,
+    float time, float spring)
+{
+  if (time > (1.0f / spring))
+    time = (1.0f / spring);
+  const float i = time * spring;
+  // no interpolation
+  curr = next;
+  // linear interpolation
+  //curr = (next - curr) * i + curr;
+  // polar coordinate interpolation with linear y interpolation
+  /*csVector2 polcurr, polnext;
+  ObtainPolarCoords (polcurr, curr);
+  ObtainPolarCoords (polnext, next);
+  polcurr = (polnext - polcurr) * i + polcurr;
+  float inter_y = (next.y - curr.y) * i + curr.y;
+
+  curr.x = polcurr.x * cos (polcurr.y);
+  curr.y = inter_y;
+  curr.z = polcurr.x * sin (polcurr.y);*/
+  // spherical coordinate interpolation
+  /*csVector3 sphcurr, sphnext;
+  ObtainSpherical (sphcurr, curr);
+  ObtainSpherical (sphnext, next);
+  sphcurr = (sphnext - sphcurr) * i + sphcurr;
+  curr.x = sphcurr.x * sin (sphcurr.y) * cos (sphcurr.z);
+  curr.y = sphcurr.x * sin (sphcurr.y) * sin (sphcurr.z);
+  curr.z = sphcurr.x * cos (sphcurr.y);*/
+}
 void celPcNewCamera::CalcElasticVec (csVector3& curr, const csVector3& ideal,
     float deltaTime, float springCoef)
 {
@@ -623,7 +669,7 @@ size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
     case iPcNewCamera::CCM_THIRD_PERSON:
       return AttachCameraMode (new celCameraMode::ThirdPerson ());
     case iPcNewCamera::CCM_TRACKING:
-      return AttachCameraMode (new celCameraMode::Tracking (pl));
+      return AttachCameraMode (new celCameraMode::Tracking (pl, vc));
     case iPcNewCamera::CCM_HORIZONTAL:
       return AttachCameraMode (new celCameraMode::Horizontal ());
     case iPcNewCamera::CCM_ISOMETRIC:
@@ -793,6 +839,7 @@ void celPcNewCamera::UpdateCamera ()
 
   if (inTransition || mode->UseSpringOrigin ())
     CalcElasticVec (camOrigin, desiredOrigin, elapsedSecs, modeOriginSpringCoef);
+    //InterpolateVecPolar (camOrigin, desiredOrigin, elapsedSecs, modeOriginSpringCoef);
   else
     camOrigin = desiredOrigin;
 

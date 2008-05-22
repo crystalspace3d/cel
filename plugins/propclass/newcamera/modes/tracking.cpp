@@ -38,8 +38,8 @@ Tracking::Tracking (iBase* p)
 {
 }
 
-Tracking::Tracking (csWeakRef<iCelPlLayer> pl)
-	: scfImplementationType (this), pl (pl)
+Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
+	: scfImplementationType (this), pl (pl), vc (vc)
 {
   posoffset.Set (0, 2, 5);
 
@@ -50,7 +50,7 @@ Tracking::Tracking (csWeakRef<iCelPlLayer> pl)
   targetyoffset = 2;
 
   pandir = PAN_NONE;
-  panspeed = 0.03f;
+  panspeed = 0.3f;
 }
 
 Tracking::~Tracking ()
@@ -106,9 +106,11 @@ bool Tracking::DecideCameraState ()
     // lock y axis to fixed distance above player
     origin.y = playpos.y + posoffset.y;
     // perform a rotation around the character
+    csTicks elapsedtime = vc->GetElapsedTicks ();
     if (pandir != PAN_NONE)
     {
       float angle = (pandir == PAN_LEFT) ? panspeed : -panspeed;  // other direction is PAN_RIGHT
+      angle *= elapsedtime / 100.0f;
       //origin += csVector3 (camdir.z, 0, -camdir.x);
       // x' = x cos a - y sin a
       // y' = x sin a + y cos a
