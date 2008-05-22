@@ -44,11 +44,13 @@ Tracking::Tracking (csWeakRef<iCelPlLayer> pl)
   posoffset.Set (0, 2, 5);
 
   init_reset = false;
-  up.Set (0,1,0);
 
   tracktarget = 0;
   targetstate = TARGET_BASE;
   targetyoffset = 2;
+
+  pandir = PAN_NONE;
+  panspeed = 0.03f;
 }
 
 Tracking::~Tracking ()
@@ -103,6 +105,17 @@ bool Tracking::DecideCameraState ()
     origin += move * camdir;
     // lock y axis to fixed distance above player
     origin.y = playpos.y + posoffset.y;
+    // perform a rotation around the character
+    if (pandir != PAN_NONE)
+    {
+      float angle = (pandir == PAN_LEFT) ? panspeed : -panspeed;  // other direction is PAN_RIGHT
+      //origin += csVector3 (camdir.z, 0, -camdir.x);
+      // x' = x cos a - y sin a
+      // y' = x sin a + y cos a
+      csVector3 pc (origin - playpos);
+      origin.x = pc.x * cos (angle) - pc.z * sin (angle) + playpos.x;
+      origin.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
+    }
     // setup the target
     target = playpos;
     target.y += targetyoffset;
@@ -134,6 +147,7 @@ bool Tracking::DecideCameraState ()
     target.y += targetyoffset;
   }
 
+  up  = parent->GetBaseUp ();
   return true;
 }
 
@@ -180,6 +194,14 @@ void Tracking::SetTargetState (TargetState targetstate)
 void Tracking::SetTargetYOffset (float targetyoffset)
 {
   Tracking::targetyoffset = targetyoffset;
+}
+void Tracking::Pan (PanningDirection pdir)
+{
+  pandir = pdir;
+}
+void Tracking::SetPanningSpeed (float pspeed)
+{
+  panspeed = pspeed;
 }
 
 iPcmNewCamera::Tracking::TargetState Tracking::GetTargetState ()

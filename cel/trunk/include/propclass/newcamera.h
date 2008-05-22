@@ -213,7 +213,7 @@ struct Tracking : public virtual General
 
   enum TargetState
   {
-    TARGET_BASE,
+    TARGET_BASE = 0,
     TARGET_OBJ,
     TARGET_NONE
   };
@@ -242,6 +242,23 @@ struct Tracking : public virtual General
    * a fixed offset upwards
    */
   virtual void SetTargetYOffset (float targetyoffset) = 0;
+
+  enum PanningDirection
+  {
+    PAN_LEFT = 0,
+    PAN_NONE,
+    PAN_RIGHT
+  };
+
+  /**
+   * Pan the camera around the player in the direction specified.
+   */
+  virtual void Pan (PanningDirection pandir) = 0;
+
+  /**
+   * Set the panning speed. Angle to move per frame.
+   */
+  virtual void SetPanningSpeed (float panspeed) = 0;
 };
 } // iPcmNewCamera
 

@@ -43,6 +43,9 @@ private:
   // the target we track if targetstate == TARGET_OBJ
   iMovable* tracktarget;
   TargetState targetstate;
+  // panning direction and speed
+  PanningDirection pandir;
+  float panspeed;
   // because you don't want to be looking at the targets feet
   float targetyoffset;
   // offset for origin position. Usually only y and z is used.
@@ -64,6 +67,8 @@ public:
   //virtual void SetTargetPosition (const csVector3 &pos);
 
   virtual void SetTargetYOffset (float targetyoffset);
+  virtual void Pan (PanningDirection pdir);
+  virtual void SetPanningSpeed (float pspeed);
 
   virtual TargetState GetTargetState ();
 
