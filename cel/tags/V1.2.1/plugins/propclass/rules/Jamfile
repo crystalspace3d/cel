@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass rules ;
+
+Plugin pfrules
+	: rulesfact.cpp rulesfact.h
+;
+ExternalLibs pfrules : CRYSTAL ;
+LinkWith pfrules : celtool ;
+
