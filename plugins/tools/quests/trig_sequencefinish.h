@@ -52,9 +52,9 @@ class celSequenceFinishTriggerFactory : public scfImplementation2<
 {
 private:
   celSequenceFinishTriggerType* type;
-  csString entity_par;
-  csString tag_par;
-  csString sequence_par;
+  char* entity_par;
+  char* tag_par;
+  char* sequence_par;
 
 public:
   celSequenceFinishTriggerFactory (celSequenceFinishTriggerType* type);
@@ -79,14 +79,12 @@ class celSequenceFinishTrigger : public scfImplementation2<
 private:
   celSequenceFinishTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
-  csString entity;
-  csString tag;
-  csString sequence;
+  char* entity;
+  char* tag;
+  char* sequence;
   csWeakRef<iQuestSequence> seq;
 
   void FindSequence ();
-
-  bool finished;
 
 public:
   celSequenceFinishTrigger (celSequenceFinishTriggerType* type,

@@ -45,11 +45,23 @@ celTransformSeqOpFactory::celTransformSeqOpFactory (
 	celTransformSeqOpType* type) : scfImplementationType (this)
 {
   celTransformSeqOpFactory::type = type;
+  entity_par = 0;
+  tag_par = 0;
+  vectorx_par = 0;
+  vectory_par = 0;
+  vectorz_par = 0;
   rot_axis = -1;
+  rot_angle_par = 0;
 }
 
 celTransformSeqOpFactory::~celTransformSeqOpFactory ()
 {
+  delete[] entity_par;
+  delete[] tag_par;
+  delete[] vectorx_par;
+  delete[] vectory_par;
+  delete[] vectorz_par;
+  delete[] rot_angle_par;
 }
 
 csPtr<iQuestSeqOp> celTransformSeqOpFactory::CreateSeqOp (
@@ -63,7 +75,14 @@ csPtr<iQuestSeqOp> celTransformSeqOpFactory::CreateSeqOp (
 
 bool celTransformSeqOpFactory::Load (iDocumentNode* node)
 {
-  entity_par = node->GetAttributeValue ("entity");
+  delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
+  delete[] vectorx_par; vectorx_par = 0;
+  delete[] vectory_par; vectory_par = 0;
+  delete[] vectorz_par; vectorz_par = 0;
+  delete[] rot_angle_par; rot_angle_par = 0;
+
+  entity_par = csStrNew (node->GetAttributeValue ("entity"));
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -71,32 +90,32 @@ bool celTransformSeqOpFactory::Load (iDocumentNode* node)
       "'entity' attribute is missing for the transform seqop!");
     return false;
   }
-  tag_par = node->GetAttributeValue ("entity_tag");
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
 
   csRef<iDocumentNode> v_node = node->GetNode ("v");
   if (v_node)
   {
-    vectorx_par = v_node->GetAttributeValue ("x");
-    vectory_par = v_node->GetAttributeValue ("y");
-    vectorz_par = v_node->GetAttributeValue ("z");
+    vectorx_par = csStrNew (v_node->GetAttributeValue ("x"));
+    vectory_par = csStrNew (v_node->GetAttributeValue ("y"));
+    vectorz_par = csStrNew (v_node->GetAttributeValue ("z"));
   }
   csRef<iDocumentNode> rotx_node = node->GetNode ("rotx");
   if (rotx_node)
   {
     rot_axis = CS_AXIS_X;
-    rot_angle_par = rotx_node->GetAttributeValue ("angle");
+    rot_angle_par = csStrNew (rotx_node->GetAttributeValue ("angle"));
   }
   csRef<iDocumentNode> roty_node = node->GetNode ("roty");
   if (roty_node)
   {
     rot_axis = CS_AXIS_Y;
-    rot_angle_par = roty_node->GetAttributeValue ("angle");
+    rot_angle_par = csStrNew (roty_node->GetAttributeValue ("angle"));
   }
   csRef<iDocumentNode> rotz_node = node->GetNode ("rotz");
   if (rotz_node)
   {
     rot_axis = CS_AXIS_Z;
-    rot_angle_par = rotz_node->GetAttributeValue ("angle");
+    rot_angle_par = csStrNew (rotz_node->GetAttributeValue ("angle"));
   }
   
   return true;
@@ -105,23 +124,45 @@ bool celTransformSeqOpFactory::Load (iDocumentNode* node)
 void celTransformSeqOpFactory::SetEntityParameter (const char* entity,
 	const char* tag)
 {
-  entity_par = entity;
-  tag_par = tag;
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celTransformSeqOpFactory::SetVectorParameter (const char* vectorx,
 	const char* vectory, const char* vectorz)
 {
-  vectorx_par = vectorx;
-  vectory_par = vectory;
-  vectorz_par = vectorz;
+  if (vectorx_par != vectorx)
+  {
+    delete[] vectorx_par;
+    vectorx_par = csStrNew (vectorx);
+  }
+  if (vectory_par != vectory)
+  {
+    delete[] vectory_par;
+    vectory_par = csStrNew (vectory);
+  }
+  if (vectorz_par != vectorz)
+  {
+    delete[] vectorz_par;
+    vectorz_par = csStrNew (vectorz);
+  }
 }
 
 void celTransformSeqOpFactory::SetRotationParameter (int axis,
 	const char* angle)
 {
   rot_axis = axis;
-  rot_angle_par = angle;
+  if (rot_angle_par == angle) return;
+  delete[] rot_angle_par;
+  rot_angle_par = csStrNew (angle);
 }
 
 //---------------------------------------------------------------------------
@@ -143,8 +184,8 @@ celTransformSeqOp::celTransformSeqOp (
 {
   celTransformSeqOp::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  tag = qm->ResolveParameter (params, tag_par);
+  entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   vector.x = ToFloat (qm->ResolveParameter (params, vectorx));
   vector.y = ToFloat (qm->ResolveParameter (params, vectory));
   vector.z = ToFloat (qm->ResolveParameter (params, vectorz));
@@ -156,6 +197,8 @@ celTransformSeqOp::celTransformSeqOp (
 
 celTransformSeqOp::~celTransformSeqOp ()
 {
+  delete[] entity;
+  delete[] tag;
 }
 
 void celTransformSeqOp::FindMesh ()
@@ -226,7 +269,6 @@ void celTransformSeqOp::Do (float time)
       }
       mesh->GetMovable ()->GetTransform ().SetO2T (m);
     }
-    mesh->PlaceMesh ();
     mesh->GetMovable ()->UpdateMove ();
   }
 }

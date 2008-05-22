@@ -7,192 +7,6 @@
 %cs_attribute(blcelc,iCelConsole,iConsoleInput*,InputConsole,GetInputConsole)
 %cs_attribute(blcelc,iCelConsole,iConsoleOutput*,OutputConsole,GetOutputConsole)
 
-/* iQuestTriggerType (include/tools/questmanager.h) */
-%cs_attribute(blcelc,iQuestTriggerType,const char*,Name,GetName)
-
-/* iQuestRewardType (include/tools/questmanager.h) */
-%cs_attribute(blcelc,iQuestRewardType,const char*,Name,GetName)
-
-/* iQuestSeqOpType (include/tools/questmanager.h) */
-%cs_attribute(blcelc,iQuestSeqOpType,const char*,Name,GetName)
-
-/* iQuestSequence (include/tools/questmanager.h) */
-%cs_attribute(blcelc,iQuestSequence,const char*,Name,GetName)
-%cs_attribute(blcelc,iQuestSequence,bool,Running,IsRunning)
-
-/* iQuest (include/tools/questmanager.h) */
-%cs_attribute(blcelc,iQuest,const char*,CurrentState,GetCurrentState)
-
-/* iQuestTriggerResponseFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iQuestTriggerResponseFactory, iQuestTriggerFactory*, TriggerFactory, SetTriggerFactory)
-
-/* iQuestStateFactory (include/tools/questmanager.h) */
-%cs_attribute(blcelc,iQuestStateFactory,const char*,Name,GetName)
-
-/* iQuestSequenceFactory (include/tools/questmanager.h) */
-%cs_attribute(blcelc,iQuestSequenceFactory,const char*,Name,GetName)
-
-/* iQuestFactory (include/tools/questmanager.h) */
-%cs_attribute(blcelc,iQuestFactory,const char*,Name,GetName)
-
-/* iQuestManager (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iQuestManager,TimeoutTrigger,SetTimeoutTrigger)
-%cs_multi_attr_writeonly(blcelc,iQuestManager,EnterSectorTrigger,SetEnterSectorTrigger)
-%cs_multi_attr_writeonly(blcelc,iQuestManager,MeshEnterSectorTrigger,SetMeshEnterSectorTrigger)
-%cs_multi_attr_writeonly(blcelc,iQuestManager,SequenceFinishTrigger,SetSequenceFinishTrigger)
-%cs_multi_attr_writeonly(blcelc,iQuestManager,PropertyChangeTrigger,SetPropertyChangeTrigger)
-%cs_multi_attr_writeonly(blcelc,iQuestManager,TriggerTrigger,SetTriggerTrigger)
-%cs_multi_attr_writeonly(blcelc,iQuestManager,WatchTrigger,SetWatchTrigger)
-%cs_multi_attr_writeonly(blcelc,iQuestManager,OperationTrigger,SetOperationTrigger)
-
-/* iTimeoutQuestTriggerFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iTimeoutQuestTriggerFactory, const char*, TimeoutParameter, SetTimeoutParameter)
-
-/* iPropertyChangeQuestTriggerFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iPropertyChangeQuestTriggerFactory,EntityParameter,SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iPropertyChangeQuestTriggerFactory, const char*, PropertyParameter, SetPropertyParameter)
-%cs_attribute_writeonly(blcelc,iPropertyChangeQuestTriggerFactory, const char*, ValueParameter, SetValueParameter)
-%cs_attribute_writeonly(blcelc,iPropertyChangeQuestTriggerFactory, const char*, OperationParameter, SetOperationParameter)
-%cs_attribute_writeonly(blcelc,iPropertyChangeQuestTriggerFactory, bool, OnChangeOnly, SetOnChangeOnly)
-
-/* iMeshSelectQuestTriggerFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iMeshSelectQuestTriggerFactory,EntityParameter,SetEntityParameter)
-
-/* iInventoryQuestTriggerFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iInventoryQuestTriggerFactory,EntityParameter,SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iInventoryQuestTriggerFactory, const char*, ChildEntityParameter, SetChildEntityParameter)
-
-/* iEnterSectorQuestTriggerFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iEnterSectorQuestTriggerFactory,EntityParameter,SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iEnterSectorQuestTriggerFactory, const char*, SectorParameter, SetSectorParameter)
-
-/* iOperationQuestTriggerFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iOperationQuestTriggerFactory, const char*, OperationParameter, SetOperationParameter)
-
-/* iSequenceFinishQuestTriggerFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iSequenceFinishQuestTriggerFactory,EntityParameter,SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iSequenceFinishQuestTriggerFactory, const char*, SequenceParameter, SetSequenceParameter)
-
-/* iTriggerQuestTriggerFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iTriggerQuestTriggerFactory,EntityParameter,SetEntityParameter)
-
-/* iMessageQuestTriggerFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iMessageQuestTriggerFactory, const char*, EntityParameter, SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iMessageQuestTriggerFactory, const char*, MaskParameter, SetMaskParameter)
-
-/* iWatchQuestTriggerFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iWatchQuestTriggerFactory,EntityParameter,SetEntityParameter)
-%cs_multi_attr_writeonly(blcelc,iWatchQuestTriggerFactory,TargetEntityParameter,SetTargetEntityParameter)
-%cs_attribute_writeonly(blcelc,iWatchQuestTriggerFactory, const char*, ChecktimeParameter, SetChecktimeParameter)
-%cs_attribute_writeonly(blcelc,iWatchQuestTriggerFactory, const char*, RadiusParameter, SetRadiusParameter)
-%cs_multi_attr_writeonly(blcelc,iWatchQuestTriggerFactory,OffsetParameter,SetOffsetParameter)
-
-/* iDebugPrintQuestRewardFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iDebugPrintQuestRewardFactory, const char*, MessageParameter, SetMessageParameter)
-
-/* iNewStateQuestRewardFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iNewStateQuestRewardFactory, const char*, StateParameter, SetStateParameter)
-%cs_multi_attr_writeonly(blcelc,iNewStateQuestRewardFactory,EntityParameter,SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iNewStateQuestRewardFactory, const char*, TagParameter, SetTagParameter)
-%cs_attribute_writeonly(blcelc,iNewStateQuestRewardFactory, const char*, ClassParameter, SetClassParameter)
-
-/* iChangePropertyQuestRewardFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iChangePropertyQuestRewardFactory, const char*, EntityParameter, SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iChangePropertyQuestRewardFactory, const char*, ClassParameter, SetClassParameter)
-%cs_multi_attr_writeonly(blcelc,iChangePropertyQuestRewardFactory,PCParameter,SetPCParameter)
-%cs_attribute_writeonly(blcelc,iChangePropertyQuestRewardFactory, const char*, PropertyParameter, SetPropertyParameter)
-%cs_attribute_writeonly(blcelc,iChangePropertyQuestRewardFactory, const char*, StringParameter, SetStringParameter)
-%cs_attribute_writeonly(blcelc,iChangePropertyQuestRewardFactory, const char*, LongParameter, SetLongParameter)
-%cs_attribute_writeonly(blcelc,iChangePropertyQuestRewardFactory, const char*, FloatParameter, SetFloatParameter)
-%cs_attribute_writeonly(blcelc,iChangePropertyQuestRewardFactory, const char*, BoolParameter, SetBoolParameter)
-%cs_attribute_writeonly(blcelc,iChangePropertyQuestRewardFactory, const char*, DiffParameter, SetDiffParameter)
-%cs_multi_attr_writeonly(blcelc,iChangePropertyQuestRewardFactory,Toggle,SetToggle)
-
-/* iInventoryQuestRewardFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iInventoryQuestRewardFactory,EntityParameter,SetEntityParameter)
-%cs_multi_attr_writeonly(blcelc,iInventoryQuestRewardFactory,ChildEntityParameter,SetChildEntityParameter)
-
-/* iCsSequenceQuestRewardFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iCsSequenceQuestRewardFactory, const char*, SequenceParameter, SetSequenceParameter)
-%cs_attribute_writeonly(blcelc,iCsSequenceQuestRewardFactory, const char*, DelayParameter, SetDelayParameter)
-
-/* iSequenceQuestRewardFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iSequenceQuestRewardFactory,EntityParameter,SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iSequenceQuestRewardFactory, const char*, TagParameter, SetTagParameter)
-%cs_attribute_writeonly(blcelc,iSequenceQuestRewardFactory, const char*, ClassParameter, SetClassParameter)
-%cs_attribute_writeonly(blcelc,iSequenceQuestRewardFactory, const char*, SequenceParameter, SetSequenceParameter)
-%cs_attribute_writeonly(blcelc,iSequenceQuestRewardFactory, const char*, DelayParameter, SetDelayParameter)
-
-/* iSequenceFinishQuestRewardFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iSequenceFinishQuestRewardFactory,EntityParameter,SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iSequenceFinishQuestRewardFactory, const char*, TagParameter, SetTagParameter)
-%cs_attribute_writeonly(blcelc,iSequenceFinishQuestRewardFactory, const char*, ClassParameter, SetClassParameter)
-%cs_attribute_writeonly(blcelc,iSequenceFinishQuestRewardFactory, const char*, SequenceParameter, SetSequenceParameter)
-
-/* iMessageQuestRewardFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iMessageQuestRewardFactory, const char*, EntityParameter, SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iMessageQuestRewardFactory, const char*, ClassParameter, SetClassParameter)
-%cs_attribute_writeonly(blcelc,iMessageQuestRewardFactory, const char*, IDParameter, SetIDParameter)
-
-/* iActionQuestRewardFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iActionQuestRewardFactory, const char*, EntityParameter, SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iActionQuestRewardFactory, const char*, IDParameter, SetIDParameter)
-%cs_attribute_writeonly(blcelc,iActionQuestRewardFactory, const char*, PropertyClassParameter, SetPropertyClassParameter)
-%cs_attribute_writeonly(blcelc,iActionQuestRewardFactory, const char*, TagParameter, SetTagParameter)
-
-/* iDestroyEntityQuestRewardFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iDestroyEntityQuestRewardFactory, const char*, EntityParameter, SetEntityParameter)
-%cs_attribute_writeonly(blcelc,iDestroyEntityQuestRewardFactory, const char*, ClassParameter, SetClassParameter)
-
-/* iCreateEntityQuestRewardFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iCreateEntityQuestRewardFactory, const char*, EntityTemplateParameter, SetEntityTemplateParameter)
-%cs_attribute_writeonly(blcelc,iCreateEntityQuestRewardFactory, const char*, NameParameter, SetNameParameter)
-
-/* iDebugPrintQuestSeqOpFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iDebugPrintQuestSeqOpFactory, const char*, MessageParameter, SetMessageParameter)
-
-/* iTransformQuestSeqOpFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iTransformQuestSeqOpFactory,EntityParameter,SetEntityParameter)
-%cs_multi_attr_writeonly(blcelc,iTransformQuestSeqOpFactory,VectorParameter,SetVectorParameter)
-%cs_multi_attr_writeonly(blcelc,iTransformQuestSeqOpFactory,RotationParameter,SetRotationParameter)
-
-/* iMovePathQuestSeqOpFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iMovePathQuestSeqOpFactory,EntityParameter,SetEntityParameter)
-
-/* iLightQuestSeqOpFactory (include/tools/questmanager.h) */
-%cs_multi_attr_writeonly(blcelc,iLightQuestSeqOpFactory,EntityParameter,SetEntityParameter)
-%cs_multi_attr_writeonly(blcelc,iLightQuestSeqOpFactory,RelColorParameter,SetRelColorParameter)
-%cs_multi_attr_writeonly(blcelc,iLightQuestSeqOpFactory,AbsColorParameter,SetAbsColorParameter)
-
-/* iPropertyQuestSeqOpFactory (include/tools/questmanager.h) */
-%cs_attribute_writeonly(blcelc,iPropertyQuestSeqOpFactory, const char*, EntityParameter, SetEntityParameter)
-%cs_multi_attr_writeonly(blcelc,iPropertyQuestSeqOpFactory,PCParameter,SetPCParameter)
-%cs_attribute_writeonly(blcelc,iPropertyQuestSeqOpFactory, const char*, PropertyParameter, SetPropertyParameter)
-%cs_attribute_writeonly(blcelc,iPropertyQuestSeqOpFactory, const char*, FloatParameter, SetFloatParameter)
-%cs_attribute_writeonly(blcelc,iPropertyQuestSeqOpFactory, const char*, LongParameter, SetLongParameter)
-%cs_multi_attr_writeonly(blcelc,iPropertyQuestSeqOpFactory,Vector2Parameter,SetVector2Parameter)
-%cs_multi_attr_writeonly(blcelc,iPropertyQuestSeqOpFactory,Vector3Parameter,SetVector3Parameter)
-%cs_attribute_writeonly(blcelc,iPropertyQuestSeqOpFactory, bool, Relative, SetRelative)
-
-/* iCelEdge (include/tools/celgraph.h) */
-%cs_attribute(blcelc,iCelEdge,bool,State)
-%cs_attribute(blcelc,iCelEdge,iCelNode*,Successor)
-
-/* iCelNode (include/tools/celgraph.h) */
-%cs_attribute(blcelc,iCelNode,iMapNode*,MapNode)
-%cs_attribute(blcelc,iCelNode,iCelNode*,Parent)
-%cs_attribute(blcelc,iCelNode,char*,Name)
-%cs_attribute(blcelc,iCelNode,csVector3,Position,GetPosition)
-%cs_attribute(blcelc,iCelNode,csArray<iCelNode*  >,Successors,GetSuccessors)
-%cs_attribute(blcelc,iCelNode,csArray<iCelNode*  >,AllSuccessors,GetAllSuccessors)
-%cs_attribute(blcelc,iCelNode,float,Cost,GetCost)
-
-/* iCelPath (include/tools/celgraph.h) */
-%cs_attribute(blcelc,iCelPath,iMapNode*,First,GetFirst)
-%cs_attribute(blcelc,iCelPath,iMapNode*,Last,GetLast)
-
-/* iCelGraph (include/tools/celgraph.h) */
-
 /* iBillboardLayer (include/tools/billboard.h) */
 %cs_attribute(blcelc,iBillboardLayer,const char*,Name,GetName)
 
@@ -233,7 +47,6 @@
 %cs_attribute(blcelc,iCelPlLayer,bool,EntityAddonAllowed,IsEntityAddonAllowed,SetEntityAddonAllowed)
 %cs_attribute(blcelc,iCelPlLayer,size_t,PropertyClassFactoryCount,GetPropertyClassFactoryCount)
 %cs_attribute(blcelc,iCelPlLayer,size_t,BehaviourLayerCount,GetBehaviourLayerCount)
-%cs_attribute(blcelc,iCelPlLayer,iMessageSender*,MessageSender,QueryMessageSender)
 
 /* iCelEntityTracker (include/physicallayer/pl.h) */
 %cs_attribute(blcelc,iCelEntityTracker,const char*,Name,GetName)
@@ -252,13 +65,10 @@
 %cs_multi_attr_writeonly(blcelc,iCelPropertyClassTemplate,PropertyVariable,SetPropertyVariable)
 %cs_multi_attr_writeonly(blcelc,iCelPropertyClassTemplate,Property,SetProperty)
 
-/* iMessageReceiverFilter (include/physicallayer/messaging.h) */
-
 /* iCelPropertyClass (include/physicallayer/propclas.h) */
-%cs_attribute(blcelc,iCelPropertyClass,const char*,Name)
+%cs_attribute(blcelc,iCelPropertyClass,const char*,Name,GetName)
 %cs_attribute(blcelc,iCelPropertyClass,const char*,Tag)
 %cs_attribute(blcelc,iCelPropertyClass,iCelEntity*,Entity)
-%cs_multi_attr_writeonly(blcelc,iCelPropertyClass,Property,SetProperty)
 %cs_attribute(blcelc,iCelPropertyClass,size_t,PropertyAndActionCount,GetPropertyAndActionCount)
 
 /* iCelPropertyClassList (include/physicallayer/propclas.h) */
@@ -274,44 +84,19 @@
 %cs_attribute(blcelc,iCelEntity,iCelPropertyClassList*,PropertyClassList,GetPropertyClassList)
 %cs_attribute(blcelc,iCelEntity,iCelBehaviour*,Behaviour)
 %cs_attribute(blcelc,iCelEntity,const csSet<csStringID>&,Classes,GetClasses)
-%cs_attribute(blcelc,iCelEntity,iMessageChannel*,MessageChannel,QueryMessageChannel)
 
 /* iCelEntityList (include/physicallayer/entity.h) */
 %cs_attribute(blcelc,iCelEntityList,size_t,Count,GetCount)
 %cs_attribute(blcelc,iCelEntityList,csPtr<iCelEntityIterator>,Iterator,GetIterator)
 
 /* iCelEntityIterator (include/physicallayer/entity.h) */
-
-/* iPcPathFinder (include/propclass/pathfinder.h) */
-%cs_attribute_writeonly(blcelc,iPcPathFinder, int, DelayRecheck, SetDelayRecheck)
-%cs_attribute_writeonly(blcelc,iPcPathFinder, int, MinDistance, SetMinDistance)
-%cs_attribute(blcelc,iPcPathFinder,const csVector3&,Position,GetPosition)
-%cs_attribute(blcelc,iPcPathFinder,bool,Active,IsActive)
-%cs_attribute_writeonly(blcelc,iPcPathFinder, iCelGraph*, Graph, SetGraph)
-
-/* iPcDamage (include/propclass/damage.h) */
-%cs_attribute(blcelc,iPcDamage,float,Damage)
-%cs_attribute(blcelc,iPcDamage,const char*,DamageType)
-%cs_attribute(blcelc,iPcDamage,const char*,FallOff)
-%cs_multi_attr_writeonly(blcelc,iPcDamage,DamageLocation,SetDamageLocation)
-%cs_attribute(blcelc,iPcDamage,const char*,DamageSector,GetDamageSector)
-%cs_attribute(blcelc,iPcDamage,const csVector3&,DamagePosition,GetDamagePosition)
-%cs_attribute(blcelc,iPcDamage,const char*,DamageSource)
-
-/* iPcMeshDeform (include/propclass/meshdeform.h) */
-%cs_attribute(blcelc,iPcMeshDeform,iMeshWrapper*,Mesh)
-%cs_attribute(blcelc,iPcMeshDeform,float,DeformFactor)
-%cs_attribute(blcelc,iPcMeshDeform,float,Noise)
-%cs_attribute(blcelc,iPcMeshDeform,float,MaxFrequency)
-%cs_attribute(blcelc,iPcMeshDeform,float,MaxDeform)
-%cs_attribute(blcelc,iPcMeshDeform,float,Radius)
+%cs_attribute(blcelc,iCelEntityIterator,bool,Next,HasNext)
 
 /* iPcCraftController (include/propclass/craft.h) */
 %cs_attribute_writeonly(blcelc,iPcCraftController, float, AccTurn, SetAccTurn)
 %cs_attribute_writeonly(blcelc,iPcCraftController, float, AccPitch, SetAccPitch)
 %cs_attribute_writeonly(blcelc,iPcCraftController, float, MaxTurn, SetMaxTurn)
 %cs_attribute_writeonly(blcelc,iPcCraftController, float, MaxPitch, SetMaxPitch)
-%cs_attribute_writeonly(blcelc,iPcCraftController, float, Roll, SetRoll)
 %cs_attribute_writeonly(blcelc,iPcCraftController, float, ThrustForce, SetThrustForce)
 %cs_attribute_writeonly(blcelc,iPcCraftController, float, TopSpeed, SetTopSpeed)
 %cs_attribute_writeonly(blcelc,iPcCraftController, float, RedirectVelocityRatio, SetRedirectVelocityRatio)
@@ -332,42 +117,6 @@
 /* iPcInventory (include/propclass/inv.h) */
 %cs_attribute(blcelc,iPcInventory,size_t,EntityCount,GetEntityCount)
 %cs_attribute(blcelc,iPcInventory,iCelInventorySpace*,Space)
-
-/* iPcTrigger (include/propclass/trigger.h) */
-%cs_multi_attr_writeonly(blcelc,iPcTrigger,MonitorDelay,SetMonitorDelay)
-%cs_attribute(blcelc,iPcTrigger,bool,Enabled,IsEnabled)
-%cs_attribute(blcelc,iPcTrigger,const csWeakRefArray<iCelEntity>&,EntitiesInTrigger,GetEntitiesInTrigger)
-
-/* iPcQuest (include/propclass/quest.h) */
-%cs_attribute(blcelc,iPcQuest,iQuest*,Quest,GetQuest)
-%cs_attribute(blcelc,iPcQuest,const char*,QuestName,GetQuestName)
-
-/* iPcWheeled (include/propclass/wheeled.h) */
-%cs_multi_attr_writeonly(blcelc,iPcWheeled,WheelMesh,SetWheelMesh)
-%cs_attribute(blcelc,iPcWheeled,bool,TankMode)
-%cs_attribute(blcelc,iPcWheeled,CS_DEPRECATED_METHOD  bool,ABSEnabled)
-%cs_attribute(blcelc,iPcWheeled,bool,Differential)
-%cs_attribute(blcelc,iPcWheeled,bool,AntiSway)
-%cs_attribute(blcelc,iPcWheeled,float,AntiSwayFactor)
-%cs_attribute(blcelc,iPcWheeled,float,AntiSwayLimit)
-%cs_attribute(blcelc,iPcWheeled,bool,ABS)
-%cs_attribute_writeonly(blcelc,iPcWheeled, float, OuterWheelSteerPreset, SetOuterWheelSteerPreset)
-%cs_multi_attr_writeonly(blcelc,iPcWheeled,FrontWheelPreset,SetFrontWheelPreset)
-%cs_multi_attr_writeonly(blcelc,iPcWheeled,RearWheelPreset,SetRearWheelPreset)
-%cs_attribute(blcelc,iPcWheeled,float,AcceleratorAmount,GetAcceleratorAmount)
-%cs_attribute(blcelc,iPcWheeled,float,BrakeAmount,GetBrakeAmount)
-%cs_attribute(blcelc,iPcWheeled,bool,Handbraking,IsHandbraking,Handbrake)
-%cs_attribute(blcelc,iPcWheeled,float,SteerAmount)
-%cs_attribute_writeonly(blcelc,iPcWheeled, float, BrakeForce, SetBrakeForce)
-%cs_attribute(blcelc,iPcWheeled,float,Speed,GetSpeed)
-%cs_attribute_writeonly(blcelc,iPcWheeled, bool, AutoTransmission, SetAutoTransmission)
-%cs_multi_attr(blcelc,iPcWheeled,Gear,GetGear,SetGear)
-%cs_attribute(blcelc,iPcWheeled,int,TopGear,GetTopGear)
-%cs_attribute_writeonly(blcelc,iPcWheeled, bool, AutoReverse, SetAutoReverse)
-%cs_attribute(blcelc,iPcWheeled,iBodyGroup*,BodyGroup,GetBodyGroup)
-%cs_attribute(blcelc,iPcWheeled,size_t,WheelCount,GetWheelCount)
-%cs_attribute(blcelc,iPcWheeled,float,AverageWheelSpin,GetAverageWheelSpin)
-%cs_attribute(blcelc,iPcWheeled,bool,CollisionCallbackEnabled,IsCollisionCallbackEnabled,SetCollisionCallbackEnabled)
 
 /* iPcTooltip (include/propclass/tooltip.h) */
 %cs_attribute_writeonly(blcelc,iPcTooltip, const char*, Text, SetText)
@@ -408,20 +157,12 @@
 /* iPcMechanicsJoint (include/propclass/mechsys.h) */
 %cs_attribute(blcelc,iPcMechanicsJoint,iJoint*,Joint,GetJoint)
 
-/* iPcSpawn (include/propclass/spawn.h) */
-%cs_attribute(blcelc,iPcSpawn,bool,Enabled,IsEnabled,SetEnabled)
-%cs_multi_attr_writeonly(blcelc,iPcSpawn,Timing,SetTiming)
-%cs_attribute_writeonly(blcelc,iPcSpawn, bool, EntityNameCounter, SetEntityNameCounter)
-%cs_attribute(blcelc,iPcSpawn,bool,EntityNameCounterCounter,IsEntityNameCounterCounter)
-%cs_attribute(blcelc,iPcSpawn,bool,SpawnUniqueEnabled,IsSpawnUniqueEnabled)
-
 /* iPcSoundListener (include/propclass/sound.h) */
 %cs_attribute(blcelc,iPcSoundListener,iSndSysListener*,SoundListener,GetSoundListener)
 
 /* iPcSoundSource (include/propclass/sound.h) */
 %cs_attribute(blcelc,iPcSoundSource,iSndSysSource*,SoundSource,GetSoundSource)
 %cs_attribute(blcelc,iPcSoundSource,const char*,SoundName)
-%cs_attribute(blcelc,iPcSoundSource,const char*,Mode)
 
 /* iPcCamera (include/propclass/camera.h) */
 %cs_multi_attr_writeonly(blcelc,iPcCamera,Region,SetRegion)
@@ -437,18 +178,10 @@
 %cs_attribute(blcelc,iPcCamera,float,AdaptiveMinDistance,GetAdaptiveMinDistance)
 %cs_attribute_writeonly(blcelc,iPcCamera, bool, AutoDraw, SetAutoDraw)
 %cs_attribute(blcelc,iPcCamera,int,DrawFlags,GetDrawFlags)
-%cs_multi_attr_writeonly(blcelc,iPcCamera,PerspectiveCenter,SetPerspectiveCenter)
-
-/* iPcSteer (include/propclass/steer.h) */
-%cs_attribute(blcelc,iPcSteer,iSector*,Sector,GetSector)
-%cs_attribute(blcelc,iPcSteer,const csVector3&,Position,GetPosition)
-%cs_attribute_writeonly(blcelc,iPcSteer, int, DelayRecheck, SetDelayRecheck)
-%cs_attribute(blcelc,iPcSteer,bool,Moving,IsMoving)
 
 /* iPcActorMove (include/propclass/actormove.h) */
 %cs_attribute(blcelc,iPcActorMove,bool,MovingForward,IsMovingForward,Forward)
 %cs_attribute(blcelc,iPcActorMove,bool,MovingBackward,IsMovingBackward,Backward)
-%cs_attribute(blcelc,iPcActorMove,bool,Moving,IsMoving)
 %cs_attribute(blcelc,iPcActorMove,bool,StrafingLeft,IsStrafingLeft,StrafeLeft)
 %cs_attribute(blcelc,iPcActorMove,bool,StrafingRight,IsStrafingRight,StrafeRight)
 %cs_attribute(blcelc,iPcActorMove,bool,RotatingLeft,IsRotatingLeft,RotateLeft)
@@ -456,7 +189,6 @@
 %cs_attribute(blcelc,iPcActorMove,bool,Running,IsRunning,Run)
 %cs_attribute(blcelc,iPcActorMove,bool,AutoRunning,IsAutoRunning,AutoRun)
 %cs_attribute(blcelc,iPcActorMove,bool,MouseMoveEnabled,IsMouseMoveEnabled)
-%cs_attribute(blcelc,iPcActorMove,bool,MouseMoveAccelerated,IsMouseMoveAccelerated,SetMouseMoveAccelerated)
 %cs_attribute(blcelc,iPcActorMove,bool,MouseMoveInverted,IsMouseMoveInverted,SetMouseMoveInverted)
 %cs_multi_attr_writeonly(blcelc,iPcActorMove,MouseMoveSpeed,SetMouseMoveSpeed)
 %cs_attribute(blcelc,iPcActorMove,float,MouseMoveSpeedX,GetMouseMoveSpeedX)
@@ -466,7 +198,6 @@
 %cs_attribute(blcelc,iPcActorMove,float,RotationSpeed)
 %cs_attribute(blcelc,iPcActorMove,float,JumpingVelocity)
 %cs_multi_attr_writeonly(blcelc,iPcActorMove,Animation,SetAnimation)
-%cs_multi_attr_writeonly(blcelc,iPcActorMove,AnimationMapping,SetAnimationMapping)
 
 /* iPcMechanicsThruster (include/propclass/mechthruster.h) */
 %cs_attribute(blcelc,iPcMechanicsThruster,iPcMechanicsObject*,MechanicsObject)
@@ -483,7 +214,7 @@
 /* iPcMover (include/propclass/mover.h) */
 %cs_attribute(blcelc,iPcMover,iSector*,Sector,GetSector)
 %cs_attribute(blcelc,iPcMover,const csVector3&,Position,GetPosition)
-%cs_attribute(blcelc,iPcMover,CS_DEPRECATED_METHOD  const csVector3&,Up,GetUp)
+%cs_attribute(blcelc,iPcMover,const csVector3&,Up,GetUp)
 %cs_attribute(blcelc,iPcMover,float,SqRadius,GetSqRadius)
 %cs_attribute(blcelc,iPcMover,bool,Moving,IsMoving)
 
@@ -500,15 +231,8 @@
 %cs_attribute_writeonly(blcelc,iPcDefaultCamera, const csVector3&, ThirdPersonOffset, SetThirdPersonOffset)
 %cs_attribute(blcelc,iPcDefaultCamera,float,Pitch)
 %cs_attribute(blcelc,iPcDefaultCamera,float,PitchVelocity)
-%cs_multi_attr(blcelc,iPcDefaultCamera,Yaw,GetYaw,SetYaw)
 %cs_attribute(blcelc,iPcDefaultCamera,float,YawVelocity)
-%cs_multi_attr(blcelc,iPcDefaultCamera,Distance,GetDistance,SetDistance)
 %cs_attribute(blcelc,iPcDefaultCamera,float,DistanceVelocity)
-
-/* iPcActorAnalog (include/propclass/actoranalog.h) */
-%cs_multi_attr_writeonly(blcelc,iPcActorAnalog,Axis,SetAxis)
-%cs_attribute_writeonly(blcelc,iPcActorAnalog, float, MovementSpeed, SetMovementSpeed)
-%cs_attribute_writeonly(blcelc,iPcActorAnalog, float, TurningSpeed, SetTurningSpeed)
 
 /* iPcMesh (include/propclass/mesh.h) */
 %cs_attribute_writeonly(blcelc,iPcMesh, const char*, Path, SetPath)
@@ -520,33 +244,6 @@
 
 /* iPcMovable (include/propclass/move.h) */
 %cs_attribute(blcelc,iPcMovable,iPcMesh*,Mesh)
-
-/* General (include/propclass/newcamera.h) */
-
-/* Tracking (include/propclass/newcamera.h) */
-
-/* iPcNewCamera (include/propclass/newcamera.h) */
-%cs_attribute(blcelc,iPcNewCamera,const csVector3&,BaseOrigin,GetBaseOrigin)
-%cs_attribute(blcelc,iPcNewCamera,const csVector3&,BaseDir,GetBaseDir)
-%cs_attribute(blcelc,iPcNewCamera,const csVector3&,BaseUp,GetBaseUp)
-%cs_attribute(blcelc,iPcNewCamera,const csReversibleTransform&,BaseTrans,GetBaseTrans)
-%cs_attribute(blcelc,iPcNewCamera,const csVector3&,Origin,GetOrigin)
-%cs_attribute(blcelc,iPcNewCamera,const csVector3&,Target,GetTarget)
-%cs_attribute(blcelc,iPcNewCamera,const csVector3&,Up,GetUp)
-%cs_attribute_writeonly(blcelc,iPcNewCamera, const csVector3&, TargetPositionOffset, SetTargetPositionOffset)
-%cs_attribute_writeonly(blcelc,iPcNewCamera, const csVector3&, CameraPositionOffset, SetCameraPositionOffset)
-%cs_attribute(blcelc,iPcNewCamera,float,SpringCoefficient)
-%cs_attribute(blcelc,iPcNewCamera,float,OriginSpringCoefficient)
-%cs_attribute(blcelc,iPcNewCamera,float,TargetSpringCoefficient)
-%cs_attribute(blcelc,iPcNewCamera,float,UpSpringCoefficient)
-%cs_attribute(blcelc,iPcNewCamera,bool,CollisionDetection)
-%cs_attribute(blcelc,iPcNewCamera,float,CollisionSpringCoefficient)
-%cs_attribute(blcelc,iPcNewCamera,float,TransitionSpringCoefficient)
-%cs_multi_attr_writeonly(blcelc,iPcNewCamera,TransitionCutoffDistance,SetTransitionCutoffDistance)
-%cs_attribute(blcelc,iPcNewCamera,float,TransitionCutoffOriginDistance,GetTransitionCutoffOriginDistance)
-%cs_attribute(blcelc,iPcNewCamera,float,TransitionCutoffTargetDistance,GetTransitionCutoffTargetDistance)
-%cs_attribute(blcelc,iPcNewCamera,size_t,CurrentCameraModeIndex,GetCurrentCameraModeIndex)
-%cs_multi_attr_readonly(blcelc,iPcNewCamera,CameraMode,GetCameraMode)
 
 /* iPcProperties (include/propclass/prop.h) */
 %cs_multi_attr_writeonly(blcelc,iPcProperties,Property,SetProperty)
@@ -574,7 +271,6 @@
 %cs_attribute(blcelc,iPcGravity,bool,Active,IsActive,SetActive)
 
 /* iCelMapFile (include/propclass/zone.h) */
-%cs_attribute(blcelc,iCelMapFile,const char*,Name)
 %cs_attribute(blcelc,iCelMapFile,const char*,Path)
 %cs_attribute(blcelc,iCelMapFile,const char*,File)
 %cs_attribute(blcelc,iCelMapFile,const char*,SectorName)
@@ -584,7 +280,6 @@
 %cs_attribute(blcelc,iCelRegion,const char*,CsRegionName,GetCsRegionName)
 %cs_attribute(blcelc,iCelRegion,const char*,CachePath)
 %cs_attribute(blcelc,iCelRegion,size_t,MapFileCount,GetMapFileCount)
-%cs_attribute(blcelc,iCelRegion,iRegion*,CsRegion,GetCsRegion)
 
 /* iCelZone (include/propclass/zone.h) */
 %cs_attribute(blcelc,iCelZone,const char*,Name,GetName)
@@ -613,18 +308,13 @@
 %cs_attribute_writeonly(blcelc,iPcSimpleCamera, const csVector3&, LookAtOffset, SetLookAtOffset)
 %cs_attribute_writeonly(blcelc,iPcSimpleCamera, iPcMesh*, Mesh, SetMesh)
 
-/* iPcProjectile (include/propclass/projectile.h) */
-%cs_attribute(blcelc,iPcProjectile,bool,Moving,IsMoving)
-
 /* iPcLinearMovement (include/propclass/linmove.h) */
 %cs_attribute(blcelc,iPcLinearMovement,iPcMesh*,Anchor)
 %cs_multi_attr(blcelc,iPcLinearMovement,AngularVelocity,GetAngularVelocity,SetAngularVelocity)
 %cs_attribute_writeonly(blcelc,iPcLinearMovement, float, Speed, SetSpeed)
-%cs_attribute(blcelc,iPcLinearMovement,const csVector3,Velocity)
 %cs_multi_attr_writeonly(blcelc,iPcLinearMovement,SoftDRData,SetSoftDRData)
-%cs_multi_attr(blcelc,iPcLinearMovement,FullPosition,GetFullPosition,SetFullPosition)
-%cs_multi_attr(blcelc,iPcLinearMovement,Position,GetPosition,SetPosition)
-%cs_attribute(blcelc,iPcLinearMovement,float,YRotation,GetYRotation)
+%cs_multi_attr_writeonly(blcelc,iPcLinearMovement,FullPosition,SetFullPosition)
+%cs_multi_attr_writeonly(blcelc,iPcLinearMovement,Position,SetPosition)
 %cs_multi_attr(blcelc,iPcLinearMovement,Path,IsPath,SetPath)
 %cs_attribute(blcelc,iPcLinearMovement,iSector*,Sector,GetSector)
 %cs_attribute_writeonly(blcelc,iPcLinearMovement, float, PathTime, SetPathTime)
@@ -652,9 +342,43 @@
 %cs_multi_attr(blcelc,iPcRegion,WorldFile,GetWorldFile,SetWorldFile)
 %cs_attribute(blcelc,iPcRegion,const char*,WorldDir,GetWorldDir)
 %cs_attribute(blcelc,iPcRegion,const char*,RegionName)
-%cs_multi_attr_readonly(blcelc,iPcRegion,StartSector,GetStartSector)
-%cs_multi_attr_readonly(blcelc,iPcRegion,StartPosition,GetStartPosition)
 %cs_attribute(blcelc,iPcRegion,iRegion*,Region,GetRegion)
+
+/* iPcProjectile (include/propclass/projectile.h) */
+%cs_attribute(blcelc,iPcProjectile,bool,Moving,IsMoving)
+
+/* iPcWheeled (include/propclass/wheeled.h) */
+%cs_multi_attr_writeonly(blcelc,iPcWheeled,WheelMesh,SetWheelMesh)
+%cs_attribute(blcelc,iPcWheeled,bool,TankMode)
+%cs_attribute_writeonly(blcelc,iPcWheeled, float, OuterWheelSteerPreset, SetOuterWheelSteerPreset)
+%cs_multi_attr_writeonly(blcelc,iPcWheeled,FrontWheelPreset,SetFrontWheelPreset)
+%cs_multi_attr_writeonly(blcelc,iPcWheeled,RearWheelPreset,SetRearWheelPreset)
+%cs_attribute(blcelc,iPcWheeled,bool,Handbraking,IsHandbraking,Handbrake)
+%cs_attribute(blcelc,iPcWheeled,float,SteerAmount)
+%cs_attribute_writeonly(blcelc,iPcWheeled, float, BrakeForce, SetBrakeForce)
+%cs_attribute_writeonly(blcelc,iPcWheeled, bool, AutoTransmission, SetAutoTransmission)
+%cs_multi_attr(blcelc,iPcWheeled,Gear,GetGear,SetGear)
+%cs_attribute(blcelc,iPcWheeled,int,TopGear,GetTopGear)
+%cs_attribute_writeonly(blcelc,iPcWheeled, bool, AutoReverse, SetAutoReverse)
+%cs_attribute(blcelc,iPcWheeled,iBodyGroup*,BodyGroup,GetBodyGroup)
+%cs_attribute(blcelc,iPcWheeled,int,WheelCount,GetWheelCount)
+
+/* iPcMeshDeform (include/propclass/meshdeform.h) */
+%cs_multi_attr(blcelc,iPcMeshDeform,Mesh,GetMesh,SetMesh)
+%cs_multi_attr(blcelc,iPcMeshDeform,Noise,GetNoise,SetNoise)
+%cs_multi_attr(blcelc,iPcMeshDeform,Radius,GetRadius,SetRadius)
+%cs_multi_attr(blcelc,iPcMeshDeform,MaxFrequency,GetMaxFrequency,SetMaxFrequency)
+%cs_multi_attr(blcelc,iPcMeshDeform,MaxDeform,GetMaxDeform,SetMaxDeform)
+%cs_multi_attr(blcelc,iPcMeshDeform,DeformFactor,GetDeformFactor,SetDeformFactor)
+
+/* iPcDamage (include/propclass/damage.h) */
+%cs_attribute(blcelc,iPcDamage,float,Damage)
+%cs_attribute(blcelc,iPcDamage,const char*,DamageType)
+%cs_attribute(blcelc,iPcDamage,const char*,FallOff)
+%cs_multi_attr_writeonly(blcelc,iPcDamage,DamageLocation,SetDamageLocation)
+%cs_attribute(blcelc,iPcDamage,const char*,DamageSector,GetDamageSector)
+%cs_attribute(blcelc,iPcDamage,const csVector3&,DamagePosition,GetDamagePosition)
+%cs_attribute(blcelc,iPcDamage,const char*,DamageSource)
 
 /* iCelBlLayer (include/behaviourlayer/bl.h) */
 %cs_attribute(blcelc,iCelBlLayer,const char*,Name,GetName)
@@ -665,8 +389,6 @@
 /* iCelBehaviour (include/behaviourlayer/behave.h) */
 %cs_attribute(blcelc,iCelBehaviour,const char*,Name,GetName)
 %cs_attribute(blcelc,iCelBehaviour,iCelBlLayer*,BehaviourLayer,GetBehaviourLayer)
-
-/* CEL_CELTOOL_EXPORT (include/celtool/stdpcimp.h) */
 
 /* celGenericParameterBlock (include/celtool/stdparams.h) */
 %cs_multi_attr_writeonly(blcelc,celGenericParameterBlock,ParameterDef,SetParameterDef)
@@ -680,19 +402,17 @@
 %cs_multi_attr_writeonly(blcelc,celOneParameterBlock,ParameterDef,SetParameterDef)
 %cs_attribute(blcelc,celOneParameterBlock,size_t,ParameterCount,GetParameterCount)
 /*
-Total attributes: 569
+Total attributes: 378
 Total possible lists: 15
-Total iterators: 2
 Total possible purelists: 2
-Total conflicting methods: 7
-Total unhandled methods: 106
+Total unhandled methods: 96
   Attribute name starts with a digit 0
   Setter with too many pars 0
   Setter with no pars 1
   Getter with pars 25
   Returntype with commas 0
   Too many setters 0
-  Getter with inputs 80
+  Getter with inputs 70
   Write only multiattr 0
   Too many get and set methods 0
   Too many setter methods 0

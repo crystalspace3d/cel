@@ -30,15 +30,6 @@ struct iCelEntity;
 struct iPcTrigger;
 struct iPcMesh;
 
-enum TriggerType
-{
-  TRIGGER_NONE = 0,
-  TRIGGER_SPHERE,
-  TRIGGER_BOX,
-  TRIGGER_ABOVE,
-  TRIGGER_BEAM
-};
-
 /**
  * Listen to trigger actions.
  */
@@ -99,18 +90,13 @@ struct iPcTriggerListener : public virtual iBase
  * - delay (long, read/write): update delay for checking trigger.
  * - jitter (long, read/write): random jitter added to update delay.
  * - monitor (string, read/write): name of entity to monitor.
- * - class (string, read/write): name of class to monitor.
  * - invisible (bool, read/write): also check on invisible entities
  *     (default off).
  * - follow (bool, read/write): follow own entity pcmesh (default off).
- * - enabled (bool, read/write): enable/disable triger (default on).
- * - strict (bool, read/write): do strict checking for monitored entity. if true
- *   an error will be reported if the entity is not there. (default on)
- * - type (long, read only): trigger type, a value from TriggerType.
  */
 struct iPcTrigger : public virtual iBase
 {
-  SCF_INTERFACE (iPcTrigger, 0, 1, 1);
+  SCF_INTERFACE (iPcTrigger, 0, 1, 0);
 
   /**
    * Add a trigger listener. Trigger listeners are called right before
@@ -168,19 +154,6 @@ struct iPcTrigger : public virtual iBase
   virtual const char* GetMonitorEntity () const = 0;
 
   /**
-   * By default pctrigger will monitor all entities. You can also
-   * let pctrigger monitor only entities with a specific class.
-   * To disable this just use 0 as the class.
-   */
-  virtual void MonitorClass (const char* classname) = 0;
-
-  /**
-   * Return the class name that we are currently monitoring or
-   * 0 if monitoring all entities.
-   */
-  virtual const char* GetMonitorClass () const = 0;
-
-  /**
    * Set the number of milliseconds we delay before monitoring
    * all entities again. There is also a jitter parameter which will
    * add a small random amount to that time to prevent all triggers
@@ -213,7 +186,7 @@ struct iPcTrigger : public virtual iBase
   virtual void EnableMessagesToOthers (bool en) = 0;
 
   /**
-   * Enable/Disable trigger. Triggers are enabled by default.
+   * Disable trigger. Triggers are enabled by default.
    */
   virtual void EnableTrigger (bool en) = 0;
 

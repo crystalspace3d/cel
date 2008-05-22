@@ -32,11 +32,11 @@
 /// Major version
 #define CEL_VERSION_MAJOR CS_VER_QUOTE(1)
 /// Minor version (even are stable versions, odd are development versions)
-#define CEL_VERSION_MINOR CS_VER_QUOTE(3)
+#define CEL_VERSION_MINOR CS_VER_QUOTE(2)
 /// Maintenance release / RC
-#define CEL_VERSION_BUILD CS_VER_QUOTE(0)
+#define CEL_VERSION_BUILD CS_VER_QUOTE(1)
 /// Date of release
-#define CEL_RELEASE_DATE  CS_VER_QUOTE(Thu 24-May-2007)
+#define CEL_RELEASE_DATE  CS_VER_QUOTE(Wed 22-Apr-2008)
 
 /// A complete version number
 #define CEL_VERSION_NUMBER CS_VERSION_MAJOR "." CS_VERSION_MINOR "." \

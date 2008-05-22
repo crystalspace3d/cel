@@ -8,6 +8,5 @@ Library celtool :
 ExternalLibs celtool : CRYSTAL ;
 
 CFlags celtool : [ FDefines CEL_CONFIGDIR='\"$(appconfdir)\"' ]
-  [ FDefines CEL_PLUGINDIR='\"$(plugindir)\"'  ]
-  [ FDefines CEL_CELTOOL_LIB ] ;
-MsvcDefine celtool : CEL_CELTOOL_LIB ;
+  [ FDefines CEL_PLUGINDIR='\"$(plugindir)\"'  ] ;
+

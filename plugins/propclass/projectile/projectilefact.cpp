@@ -131,45 +131,28 @@ void celPcProjectile::FindSiblingPropertyClasses ()
   }
 }
 
-void celPcProjectile::SendMessage (const char* msgold,
-    const char* msg, csRef<iMessageDispatcher>& dispatcher)
+void celPcProjectile::SendMessage (const char* msg)
 {
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
     celData ret;
-    bh->SendMessage (msgold, this, ret, 0);
+    bh->SendMessage (msg, this, ret, 0);
   }
-  if (!dispatcher)
-  {
-    dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, msg);
-    if (!dispatcher) return;
-  }
-  dispatcher->SendMessage (0);
 }
 
-void celPcProjectile::SendMessage (const char* msgold, const char* msg,
-    csRef<iMessageDispatcher>& dispatcher,
-    iCelEntity* hitent, const csVector3& isect, const char* meshname)
+void celPcProjectile::SendMessage (const char* msg, iCelEntity* hitent,
+	const csVector3& isect, const char* meshname)
 {
-  params->GetParameter (0).Set (hitent);
-  params->GetParameter (1).Set (isect);
-  params->GetParameter (2).Set (meshname);
-
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
     celData ret;
-    bh->SendMessage (msgold, this, ret, params);
+    params->GetParameter (0).Set (hitent);
+    params->GetParameter (1).Set (isect);
+    params->GetParameter (2).Set (meshname);
+    bh->SendMessage (msg, this, ret, params);
   }
-  if (!dispatcher)
-  {
-    dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, msg);
-    if (!dispatcher) return;
-  }
-  dispatcher->SendMessage (params);
 }
 
 bool celPcProjectile::PerformActionIndexed (int idx,
@@ -229,9 +212,6 @@ bool celPcProjectile::Start (const csVector3& direction,
 
 void celPcProjectile::TickEveryFrame ()
 {
-  // To avoid message problems during destruction.
-  csRef<iCelEntity> keepref_this = entity;
-
   FindSiblingPropertyClasses ();
   if (!pcmesh)
   {
@@ -250,18 +230,14 @@ void celPcProjectile::TickEveryFrame ()
   
   // Reference to prevent premature entity removal.
   csRef<iCelEntity> keepref;
-  bool nohitbeam = pcmesh->GetMesh()->GetFlags().Check(CS_ENTITY_NOHITBEAM);
-  pcmesh->GetMesh()->SetFlagsRecursive(CS_ENTITY_NOHITBEAM);
+
   csSectorHitBeamResult rc = cursector->HitBeamPortals (curpos, newpos);
-  if (!nohitbeam)
-    pcmesh->GetMesh()->SetFlagsRecursive(CS_ENTITY_NOHITBEAM,0);
   if (rc.mesh)
   {
     curhits++;
     iCelEntity* hitent = pl->FindAttachedEntity (rc.mesh->QueryObject ());
     keepref = entity;
-    SendMessage ("pcprojectile_hit", "cel.move.collision",
-	dispatcher_collision, hitent, rc.isect,
+    SendMessage ("pcprojectile_hit", hitent, rc.isect,
 	rc.mesh->QueryObject ()->GetName ());
     if (curhits >= maxhits)
     {
@@ -286,8 +262,7 @@ void celPcProjectile::Interrupt ()
   {
     is_moving = false;
     pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-    SendMessage ("pcprojectile_stopped", "cel.move.interrupted",
-	dispatcher_interrupted);
+    SendMessage ("pcprojectile_stopped");
   }
 }
 

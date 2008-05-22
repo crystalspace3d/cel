@@ -1,7 +1,0 @@
-SubDir TOP apps tutorial steering ;
-
-Application steering : [ Wildcard *.cpp *.h ] ;
-CFlags steering : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-LinkWith steering : celtool ;
-ExternalLibs steering : CRYSTAL ;
-

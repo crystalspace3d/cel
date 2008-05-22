@@ -53,9 +53,9 @@ class celMeshEnterSectorTriggerFactory : public scfImplementation2<
 {
 private:
   celMeshEnterSectorTriggerType* type;
-  csString entity_par;
-  csString tag_par;
-  csString sector_par;
+  char* entity_par;
+  char* tag_par;
+  char* sector_par;
 
 public:
   celMeshEnterSectorTriggerFactory (celMeshEnterSectorTriggerType* type);
@@ -82,9 +82,9 @@ private:
   csRef<iQuestTriggerCallback> callback;
   csWeakRef<iSector> sect;
   csWeakRef<iMeshWrapper> mesh;
-  csString entity;
-  csString tag;
-  csString sector;
+  char* entity;
+  char* tag;
+  char* sector;
 
   void FindSectorAndMesh ();
 

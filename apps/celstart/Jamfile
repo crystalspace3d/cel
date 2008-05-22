@@ -30,8 +30,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   # The plugins that we need
   #
   STATIC.PLUGINLIST =
-    animesh
-    animeshldr
     bindoc
     bruteblock
     simpleformer
@@ -71,6 +69,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     null3d
     nullmesh
     nullmeshldr
+    odedynam
     physldr
     particles
     particlesldr
@@ -82,8 +81,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     sequence
     shadermgr
     skeleton
-    skeleton2
-    skeleton2ldr
     skelldr
     softshader
     spr2d
@@ -107,11 +104,9 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   # The plugins that are nice to have if present
   #
   STATIC.OPTIONALPLUGINLIST =
-    bullet
     cspython
     glshader_cg
     glshader_ps1
-    odedynam
     sndmanager
     sndsyssoft
     sndsysloader
@@ -156,7 +151,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfinv
     pflight
     pfmechanics
-    pfmeshdeform
     pfhover
     pfmesh
     pfmeshdeform

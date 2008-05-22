@@ -1,7 +1,6 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
-    Copyright (C) 2007 by Dariusz Dawidowski
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -31,57 +30,49 @@ namespace celCameraMode
 {
 
 ThirdPerson::ThirdPerson ()
-	: scfImplementationType (this)
+ : scfImplementationType (this)
 {
-  posoffset.Set (0.0f, 0.5f, 4.0f);
+  posoffset.Set(0,0.5,4);
 }
 
 ThirdPerson::~ThirdPerson ()
 {
 }
 
-void ThirdPerson::SetPositionOffset (const csVector3& offset)
+void ThirdPerson::SetPositionOffset(const csVector3 & offset)
 {
   posoffset = offset;
 }
 
-bool ThirdPerson::UseSpringPos () const
+bool ThirdPerson::UseSpringPos() const
 {
   return true;
 }
 
-bool ThirdPerson::UseSpringOrigin () const
+bool ThirdPerson::UseSpringTarget() const
 {
   return true;
 }
 
-bool ThirdPerson::UseSpringTarget () const
+bool ThirdPerson::UseSpringUp() const
 {
   return true;
 }
 
-bool ThirdPerson::UseSpringUp () const
+bool ThirdPerson::DrawAttachedMesh() const
 {
   return true;
 }
 
-bool ThirdPerson::DrawAttachedMesh () const
-{
-  return true;
-}
-
-bool ThirdPerson::DecideCameraState ()
+bool ThirdPerson::DecideCameraState()
 {
   if (!parent)
     return false;
 
-  origin = parent->GetBaseOrigin () + parent
-  	->GetBaseTrans ().This2OtherRelative (posoffset);
-  target = parent->GetBaseOrigin ();
-  up  = parent->GetBaseUp ();
-  originSpring = parent->GetOriginSpringCoefficient ();
-  targetSpring = parent->GetTargetSpringCoefficient ();
-  upSpring = parent->GetUpSpringCoefficient ();
+  pos = parent->GetBasePos() + parent
+    ->GetBaseTrans().This2OtherRelative(posoffset);
+  target = parent->GetBasePos();
+  up  = parent->GetBaseUp();
   return true;
 }
 

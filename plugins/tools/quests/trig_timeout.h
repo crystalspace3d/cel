@@ -50,7 +50,7 @@ class celTimeoutTriggerFactory : public scfImplementation2<
 {
 private:
   celTimeoutTriggerType* type;
-  csString timeout_par;
+  const char* timeout_par;
 
 public:
   celTimeoutTriggerFactory (celTimeoutTriggerType* type);
@@ -76,7 +76,6 @@ private:
   csRef<iQuestTriggerCallback> callback;
   csTicks timeout;
   csEventTimer* timer;
-  bool fired;
 
 public:
   celTimeoutTrigger (celTimeoutTriggerType* type,

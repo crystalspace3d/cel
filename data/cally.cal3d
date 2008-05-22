@@ -96,14 +96,12 @@
     file="cally_tornado_kick.caf"
     name="hurt"
     type="action"
-    idle_pct="33"
-    max_vel="0.01" />
+    idle_pct="33" />
   <animation
     file="cally_shoot_arrow.caf"
     name="shoot"
     type="action"
-    idle_pct="34"
-    max_vel="3" />
+    idle_pct="34" />
 
   <!-- meshes specify each attachable part of the model.
        the name is the CS-accessible name which will be used

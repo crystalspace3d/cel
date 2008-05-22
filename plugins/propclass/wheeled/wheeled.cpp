@@ -20,7 +20,6 @@ Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
-#include "csutil/hash.h"
 #include "plugins/propclass/wheeled/wheeled.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -39,8 +38,7 @@ Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 
 #include "propclass/mesh.h"
 #include "propclass/mechsys.h"
-
-#include "wheeledcb.h"
+#include <iostream>
 #include <cmath>
 
 //--------------------------------------------------------------------------
@@ -60,8 +58,12 @@ csStringID celPcWheeled::param_gear = csInvalidStringID;
 csStringID celPcWheeled::param_velocity = csInvalidStringID;
 csStringID celPcWheeled::param_force = csInvalidStringID;
 csStringID celPcWheeled::param_number = csInvalidStringID;
+csStringID celPcWheeled::param_tankmode = csInvalidStringID;
 csStringID celPcWheeled::param_steeramount = csInvalidStringID;
+csStringID celPcWheeled::param_brakeforce = csInvalidStringID;
 csStringID celPcWheeled::param_applied = csInvalidStringID;
+csStringID celPcWheeled::param_autotransmission = csInvalidStringID;
+csStringID celPcWheeled::param_autoreverse = csInvalidStringID;
 
 csStringID celPcWheeled::param_suspensionsoftness = csInvalidStringID;
 csStringID celPcWheeled::param_suspensiondamping = csInvalidStringID;
@@ -89,6 +91,8 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 {
   engine = csQueryRegistry<iEngine> (object_reg);
   
+  scfiWheeledCollisionCallback = new WheeledCollisionCallback (this);
+  
   dyn = 0;
   bodyGroup = 0;
   abssteer = 0.0f;
@@ -111,10 +115,6 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   
   accelamount = 0.0f;
   brakeamount = 0.0f;
-
-  antiswayfactor = 1.0f;
-  antiswaylimit = 100000.0f;
-
   abs = true;
   autotransmission = true;
   handbrakeapplied = false;
@@ -122,7 +122,6 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   autoreverse = true;
   cd_enabled = true;
   differential = true;
-  antisway = false;
   steeramount = 0.7f;
   
   gears.SetSize(3);
@@ -147,7 +146,12 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     param_velocity = pl->FetchStringID("cel.parameter.velocity");
     param_force = pl->FetchStringID("cel.parameter.force");
     param_number = pl->FetchStringID("cel.parameter.number");
+    param_tankmode = pl->FetchStringID("cel.parameter.tankmode");
     param_steeramount = pl->FetchStringID("cel.parameter.steeramount");
+    param_brakeforce = pl->FetchStringID("cel.parameter.brakeforce");
+    param_autotransmission =
+      pl->FetchStringID("cel.parameter.autotransmission");
+    param_autoreverse = pl->FetchStringID("cel.parameter.autoreverse");
     param_applied = pl->FetchStringID("cel.parameter.applied");
     
     param_mass =
@@ -230,7 +234,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
            "cel.action.SetWheelHandbrakeAffected");
   }
   
-  propinfo.SetCount (20);
+  propinfo.SetCount (17);
   AddProperty (propid_speed, "cel.property.speed",
          CEL_DATA_FLOAT, true, "Vehicle Speed.", &speed);
   AddProperty (propid_tankmode, "cel.property.tankmode",
@@ -271,12 +275,6 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
          CEL_DATA_FLOAT, true, "Average wheel spin.", 0);
   AddProperty (propid_differential, "cel.property.differential",
          CEL_DATA_BOOL, true, "Differential is enabled.",&differential);
-  AddProperty (propid_antisway, "cel.property.antisway",
-         CEL_DATA_BOOL, true, "Anti-sway bar is enabled.",&antisway);
-  AddProperty (propid_antiswayfactor, "cel.property.antiswayfactor",
-         CEL_DATA_FLOAT, true, "Anti-sway factor.",&antiswayfactor);
-  AddProperty (propid_antiswaylimit, "cel.property.antiswaylimit",
-         CEL_DATA_FLOAT, true, "Anti-sway limit.",&antiswaylimit);
   
   params = new celGenericParameterBlock (5);
   params->SetParameterDef (0, param_otherbody, "otherbody");
@@ -301,6 +299,8 @@ celPcWheeled::~celPcWheeled ()
   osys=0;
   gears=0;
   wheels=0;
+  if (scfiWheeledCollisionCallback)
+    scfiWheeledCollisionCallback->DecRef ();
 }
 
 
@@ -830,9 +830,6 @@ void celPcWheeled::DestroyWheel(size_t wheelnum)
     engine->WantToDie(mesh);
     bodyGroup->RemoveBody(wheels[wheelnum].RigidBody);
     wheels[wheelnum].RigidBody->SetCollisionCallback (0);
-    WheeledCollisionCallback* cb = wheels[wheelnum].Callback;
-    if (cb)
-      cb->DecRef();
     dyn->RemoveBody(wheels[wheelnum].RigidBody);
     wheels[wheelnum].RigidBody = 0;
   }
@@ -850,15 +847,12 @@ void celPcWheeled::DestroyAllWheels()
 void celPcWheeled::DeleteWheel(size_t wheelnum)
 {
   DestroyWheel(wheelnum);
-  float zpos = wheels[wheelnum].Position.z;
-  diffGroups.DeleteAll(zpos);
   wheels.DeleteIndex(wheelnum);
 }
 
 void celPcWheeled::DeleteAllWheels()
 {
   DestroyAllWheels();
-  diffGroups.DeleteAll();
   wheels.DeleteAll();
 }
 
@@ -892,7 +886,24 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
       wheelmesh->GetMovable()->SetPosition(realpos);
       wheelmesh->GetMovable()->UpdateMove();
     }
-
+    
+//Create the dynamic body
+    csRef<iRigidBody> wheelbody=dyn->CreateBody();
+    bodyGroup->AddBody(wheelbody);
+    wheelbody->SetCollisionCallback (scfiWheeledCollisionCallback);
+    
+    csVector3 wheelcenter(0);
+    float wheelradius = 0.0f;
+    wheelmesh->GetMeshObject ()->GetObjectModel
+      ()->GetRadius(wheelradius,wheelcenter);
+    
+    
+    
+    
+     
+wheelbody->SetProperties(wheels[wheelnum].WheelMass,csVector3(0.0f),csMatrix3   
+                ());
+    
 //Set the wheel rotation and position in the mesh.
 //AFAIK the rotation is overridden by the body anyway.
     csMatrix3 bodyrot = bodytransform.GetO2T();
@@ -901,23 +912,6 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
 //If it a right wheel, flip it.
     if (wheels[wheelnum].Position.x < 0.0f)
       t.RotateThis(csVector3(0.0f,1.0f,0.0f),3.14159f);
-    wheelmesh->GetMovable()->SetTransform(t);
-    
-//Create the dynamic body
-    csRef<iRigidBody> wheelbody=dyn->CreateBody();
-    bodyGroup->AddBody(wheelbody);
-    WheeledCollisionCallback* wheelcb = new WheeledCollisionCallback (this);
-    wheelcb->SetIndex(wheelnum);
-    wheelbody->SetCollisionCallback (wheelcb);
-    wheels[wheelnum].Callback = wheelcb;
-    
-    csVector3 wheelcenter(0);
-    float wheelradius = 0.0f;
-    wheelmesh->GetMeshObject ()->GetObjectModel
-      ()->GetRadius(wheelradius,wheelcenter);
-     
-    wheelbody->SetProperties(wheels[wheelnum].WheelMass,csVector3(0.0f),csMatrix3   
-                ());
     wheelbody->SetTransform(t);
     wheelbody->SetPosition(realpos);
     wheelbody->AttachMesh(wheelmesh);
@@ -928,6 +922,7 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
     wheelbody->SetTransform(t);
 //Create the joint
     csRef<iODEHinge2Joint> joint = osys->CreateHinge2Joint();
+    joint->SetHingeAnchor(realpos);
     joint->Attach(bodyMech->GetBody(), wheelbody);
     joint->SetHingeAnchor(realpos);     
     joint->
@@ -936,14 +931,14 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
       SetHingeAxis2(bodytransform.This2OtherRelative(csVector3(1,0,0)));
     joint->SetSuspensionCFM(wheels[wheelnum].SuspensionSoftness,0);
     joint->SetSuspensionERP(wheels[wheelnum].SuspensionDamping,0);
-//     joint->SetLoStop(0.0f,0);
-//     joint->SetHiStop(0.0f,0);
-//     joint->SetVel(0.0f,0);
-//     joint->SetVel(0.0f,1);
-//     joint->SetStopERP(1.0f,0);
-//     joint->SetFMax(0.0f,0);
-//     joint->SetFMax(100.0f,1);
-//     
+    joint->SetLoStop(0.0f,0);
+    joint->SetHiStop(0.0f,0);
+    joint->SetVel(0.0f,0);
+    joint->SetVel(0.0f,1);
+    joint->SetStopERP(1.0f,0);
+    joint->SetFMax(0.0f,0);
+    joint->SetFMax(100.0f,1);
+    
 //Create the brakes motor
     csRef<iODEAMotorJoint> bmotor = osys->CreateAMotorJoint();
     bmotor->Attach(bodyMech->GetBody(), wheelbody);
@@ -1148,10 +1143,7 @@ void celPcWheeled::TickOnce()
 //Dont try to work out the gear in neutral or reverse.
   if(gear > 0 && autotransmission)
     UpdateGear();
-
-  if(antisway)
-      AntiSway();
-
+  
   for(size_t i=0; i < wheels.GetSize();i++)
   {
     if(wheels[i].WheelJoint !=0 && wheels[i].BrakeMotor != 0)
@@ -1166,31 +1158,6 @@ void celPcWheeled::TickOnce()
     }
   }
   pl->CallbackOnce ((iCelTimerListener*)this, 25, CEL_EVENT_PRE);
-}
-
-//Apply the anti-sway forces to paired wheels
-void celPcWheeled::AntiSway()
-{
-    csHash<csVector2, float>::GlobalIterator it = diffGroups.GetIterator();
-    while (it.HasNext())
-    {
-        csVector2 diffGroup = it.Next();
-        //Index of the left wheel
-        size_t ix = size_t(diffGroup.x);
-        //Index of the right wheel
-        size_t iy = size_t(diffGroup.y);
-        csVector3 anchor2x = wheels[ix].WheelJoint->GetHingeAnchor2();
-        csVector3 anchor1x = wheels[ix].WheelJoint->GetHingeAnchor1();
-        csVector3 axis = csVector3(0, 1, 0);
-        csVector3 anchor2y = wheels[iy].WheelJoint->GetHingeAnchor2();
-        csVector3 anchor1y = wheels[iy].WheelJoint->GetHingeAnchor1();
-        float displacement = (anchor1x-anchor2x).y - (anchor1y-anchor2y).y;
-        csVector3 force = displacement * bodyMech->GetMass() * 30.0f;
-        if (force.Norm() > antiswaylimit)
-            force = force.Unit() * antiswaylimit;
-        wheels[ix].RigidBody->AddForce(-force);
-        wheels[iy].RigidBody->AddForce(force);
-    }
 }
 
 //Update acceleration of each of a wheel
@@ -1223,15 +1190,15 @@ void celPcWheeled::UpdateAccel(size_t wheelnum)
   }
   
   
-  float powerratio = 0.0f;
+  float powerratio = 1.0f;
   float output = fmax * wheels[wheelnum].EnginePower;
-  float wheelpower = 0.0f;
+  float wheelpower = output;
   
   if (differential)
   {
 //Try to work out the power of the wheel after the differential has been
 //applied.
-
+//This improves handling by reducing traction loss on corners.
 //Find the differential group that corresponds with the z position of this
 //wheel.
     csVector2* diffGroup =
@@ -1379,15 +1346,26 @@ void celPcWheeled::SetWheelPosition(size_t wheelnum, csVector3 position)
 }
 
 //A wheel collision. Send a message back to wheeled entity
-void celPcWheeled::WheelCollision (iRigidBody *thisbody,
+void celPcWheeled::Collision (iRigidBody *thisbody,
                 iRigidBody *otherbody, const csVector3& pos,
-                const csVector3& normal, float depth, size_t index)
+                const csVector3& normal, float depth)
 {
   if (cd_enabled)
   {
+//This is a slow way to find index!
+    size_t wheelindex = 0;
+    for(size_t i = 0; i < wheels.GetSize(); i++)
+    {
+      if (wheels[i].RigidBody == thisbody)
+      {
+        wheelindex = i;
+      }
+    }
+    
     iCelBehaviour* behaviour = entity->GetBehaviour ();
+    if (!behaviour) return;
     celData ret;
-    // Find the other body's entity
+// Find the other body's entity
     params->GetParameter (0).Set (0);
     if (otherbody)
     {
@@ -1402,16 +1380,8 @@ void celPcWheeled::WheelCollision (iRigidBody *thisbody,
     params->GetParameter (1).Set (pos);
     params->GetParameter (2).Set (normal);
     params->GetParameter (3).Set (depth);
-    params->GetParameter (4).Set ((int)index);
-    if (behaviour)
-      behaviour->SendMessage ("pcwheeled_collision", this, ret, params);
-    if (!dispatcher_collision)
-    {
-      dispatcher_collision = entity->QueryMessageChannel ()->
-        CreateMessageDispatcher (this, "cel.mechanics.collision");
-      if (!dispatcher_collision) return;
-    }
-    dispatcher_collision->SendMessage (params);
+    params->GetParameter (4).Set ((int)wheelindex);
+    behaviour->SendMessage ("pcwheeled_collision", this, ret, params);
   }
 }
 

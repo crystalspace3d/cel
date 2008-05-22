@@ -30,7 +30,6 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 
-#include "plugins/tools/quests/quests.h"
 #include "plugins/tools/quests/reward_cssequence.h"
 
 //---------------------------------------------------------------------------
@@ -110,21 +109,24 @@ celCsSequenceReward::celCsSequenceReward (
   celCsSequenceReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   eseqmgr = csQueryRegistry<iEngineSequenceManager> (type->object_reg);
-  sequence = qm->GetParameter (params, sequence_par);
-  pdelay = qm->GetParameter (params, delay_par);
+  sequence = qm->ResolveParameter (params, sequence_par);
+  delay = 0;
+  if (delay_par)
+  {
+    const char* s = qm->ResolveParameter (params, delay_par);
+    if (s) sscanf (s, "%d", &delay);
+  }
 }
 
 celCsSequenceReward::~celCsSequenceReward ()
 {
 }
 
-void celCsSequenceReward::Reward (iCelParameterBlock* params)
+void celCsSequenceReward::Reward ()
 {
-  const char* s = sequence->Get (params);
-  if (!s) return;
-  csTicks delay = pdelay->GetLong (params);
-  if (!eseqmgr->RunSequenceByName (s, delay))
-    Report (type->object_reg, "Can't find sequence '%s'!", s);
+  if (!eseqmgr->RunSequenceByName (sequence, delay))
+    Report (type->object_reg, "Can't find sequence '%s'!",
+	(const char*)sequence);
 }
 
 //---------------------------------------------------------------------------

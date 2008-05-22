@@ -1,7 +1,6 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
-    Copyright (C) 2007 by Dariusz Dawidowski
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -61,7 +60,7 @@ CEL_DECLARE_FACTORY(NewCamera)
  * This is a camera property class.
  */
 class celPcNewCamera : public scfImplementationExt2<celPcNewCamera,
-	celPcCameraCommon, iPcNewCamera, scfFakeInterface<iPcCamera> >
+  celPcCameraCommon, iPcNewCamera, scfFakeInterface<iPcCamera> >
 {
 private:
   csRef<iCollideSystem> cdsys;
@@ -70,46 +69,40 @@ private:
 
   size_t currMode;
 
-  csVector3 baseOrigin, baseDir, baseUp;
+  csVector3 basePos;
+  csVector3 baseDir;
+  csVector3 baseUp;
+  csVector3 basePosOffset;
   csReversibleTransform baseTrans;
   iSector* baseSector;
-  csVector3 camOrigin, camTarget, camUp;
-  float originSpringCoef, targetSpringCoef, upSpringCoef;
-
-  // offsetOrigin is where to transform the camera along the direction
-  // it is set to after first pass.
-  csVector3 offsetOrigin;
-  csVector3 offsetTarget;
-  // the minimum distance the camera is allowed to the player
-  float minoffset;
-//  csVector3 offsetOrigin, offsetTarget;
-  csVector3 oldpos, oldoldpos;
-
+  csVector3 camPos, camTarget, camUp;
+  csVector3 lastIdealPos, lastIdealTarget, lastIdealUp;
   csWeakRef<iPcMesh> pcmesh;
   iSector* lastActorSector;
 
   bool detectCollisions;
   float collisionSpringCoef;
-  float collisionOriginRadius, collisionTargetRadius;
 
   bool inTransition;
   float transitionSpringCoef;
-  float transitionCutoffOriginDist;
+  float transitionCutoffPosDist;
   float transitionCutoffTargetDist;
-
-  // Has this camera been initialised yet?
-  bool init_reset;
 
   void UpdateMeshVisibility ();
 
+  void GetActorTransform ();
+
   /** Calculates an elastic vector based on an ideal vector and a current one.
-   *  \param curr         The current vector value. This value gets updated.
+   *  \param curr         The current vector value.
    *  \param ideal        The ideal/target vector value.
+   *  \param deltaIdeal   The change in ideal value since last frame.
    *  \param deltaTime    The change in time since last frame.
    *  \param springCoef   The spring coefficient to use in our calculations.
+   *  \param newVec       A container to hold the new value of the vector.
    */
-  static void CalcElasticVec (csVector3& curr, const csVector3& next,
-    float time, float spring);
+  static void CalcElasticVec (const csVector3& curr, const csVector3& ideal,
+  	const csVector3& deltaIdeal, float deltaTime, float springCoef,
+  	csVector3& newVec);
 
   // action parameters
   static csStringID id_name;
@@ -142,18 +135,10 @@ private:
   enum propids
   {
     propid_colldet = 0,
-    propid_colldet_spring,
-    propid_colldet_origin_radius,
-    propid_colldet_target_radius,
     propid_offset,
-    propid_offset_origin,
-    propid_offset_target,
     propid_spring,
-    propid_spring_origin,
-    propid_spring_target,
-    propid_spring_up,
     propid_trans_spring,
-    propid_trans_cutofforigin,
+    propid_trans_cutoffpos,
     propid_trans_cutofftarget
   };
   static PropertyHolder propinfo;
@@ -162,98 +147,221 @@ public:
   celPcNewCamera (iObjectRegistry* object_reg);
   virtual ~celPcNewCamera ();
 
-  csPtr<iCelDataBuffer> Save ()
+  virtual csPtr<iCelDataBuffer> Save ()
   {
     return 0;
   }
-  bool Load (iCelDataBuffer* databuf)
+  virtual bool Load (iCelDataBuffer * databuf)
   {
     return true;
   }
-  bool PerformActionIndexed (int, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
   	celData& ret);
-  bool SetPropertyIndexed (int, bool);
-  bool GetPropertyIndexed (int, bool&);
-  bool SetPropertyIndexed (int, float);
-  bool GetPropertyIndexed (int, float&);
+  virtual bool SetPropertyIndexed (int, bool);
+  virtual bool GetPropertyIndexed (int, bool&);
+  void PropertyClassesHaveChanged ();
 
-  const csVector3& GetBasePos () const;
-  const csVector3& GetBaseOrigin () const;
-  const csVector3& GetBaseDir () const;
-  const csVector3& GetBaseUp () const;
-  const csReversibleTransform& GetBaseTrans () const;
+  /**
+   * Gets the base position of the camera in world coordinates.
+   * \return The base position of the camera in world coordinates.
+   */
+  virtual const csVector3 & GetBasePos () const;
 
-  const csVector3& GetPos () const;
-  const csVector3& GetOrigin () const;
-  const csVector3& GetTarget () const;
-  const csVector3& GetUp () const;
+  /**
+   * Gets the base direction of the camera.
+   * \return The base direction of the camera.
+   */
+  virtual const csVector3 & GetBaseDir () const;
 
-  void SetPositionOffset (const csVector3& offset);
-  void SetTargetPositionOffset (const csVector3& offset);
-  void SetTargetMinimumOffset (float minoff);
-  void SetCameraPositionOffset (const csVector3& offset);
+  /**
+   * Gets the base up vector of the camera.
+   * \return The base up vector of the camera.
+   */
+  virtual const csVector3 & GetBaseUp () const;
 
-  void SetSpringCoefficient (float springCoef);
-  float GetSpringCoefficient () const;
-  void SetOriginSpringCoefficient (float springCoef);
-  float GetOriginSpringCoefficient () const;
-  void SetTargetSpringCoefficient (float springCoef);
-  float GetTargetSpringCoefficient () const;
-  void SetUpSpringCoefficient (float springCoef);
-  float GetUpSpringCoefficient () const;
+  /**
+   * Gets the base transform of the camera.
+   * \return The base transform of the camera.
+   */
+  virtual const csReversibleTransform & GetBaseTrans () const;
 
-  bool DetectCollisions () const;
-  void SetCollisionDetection (bool detectCollisions);
-  bool GetCollisionDetection () const;
+  /**
+   * Gets the current position of the camera.
+   * \return The current position of the camera.
+   */
+  virtual const csVector3 & GetPos () const;
 
-  void SetCollisionSpringCoefficient (float springCoef);
-  float GetCollisionSpringCoefficient () const;
+  /**
+   * Gets the current target of the camera.
+   * \return The current target of the camera.
+   */
+  virtual const csVector3 & GetTarget () const;
 
-  bool InCameraTransition () const;
-  void SetTransitionSpringCoefficient (float springCoef);
-  float GetTransitionSpringCoefficient () const;
-  void SetTransitionCutoffDistance (float cutOffOriginDist,
+  /**
+   * Gets the current up vector of the camera.
+   * \return The current up vector of the camera.
+   */
+  virtual const csVector3 & GetUp () const;
+
+  /**
+   * Sets the offset from the center of the mesh's iMovable to the position of
+   * the camera.
+   * \param offset the offset from the center of the mesh to the camera
+   *        position.
+   */
+  virtual void SetPositionOffset (const csVector3 & offset);
+
+  /**
+   * Returns whether the camera will use collision detection to avoid
+   * moving through walls.
+   * \return True if collision detection is enabled.
+   */
+  virtual bool DetectCollisions () const;
+
+  /**
+   * Sets whether the camera will use collision detection to avoid moving
+   * through walls.
+   * \param detectCollisions True if the camera should detect collisions.
+   */
+  virtual void SetCollisionDetection (bool detectCollisions);
+
+  /**
+   * Sets the spring coefficient that will be used when a collision is detected.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetCollisionSpringCoefficient (float springCoef);
+
+  /**
+   * Returns the spring coefficient that is used when a collision is detection.
+   * \return The collision detection spring coefficient.
+   */
+  virtual float GetCollisionSpringCoefficient () const;
+
+  /**
+   * Determines whether the camera is currently in a transition from one camera
+   * mode to another.
+   * \return True if the camera is currently in a transition.
+   */
+  virtual bool InCameraTransition () const;
+
+  /**
+   * This controls the springyness of the transition to a new camera mode when
+   * a new camera mode is selected.
+   * \param springCoef The new spring coefficient of camera transitions.
+   */
+  virtual void SetTransitionSpringCoefficient (float springCoef);
+
+  /**
+   * This gets the springyness of the transition to a new camera mode when a new
+   * camera mode is selected.
+   * \return The spring coefficient of the camera transitions.
+   */
+  virtual float GetTransitionSpringCoefficient () const;
+
+  /**
+   * If the distance between the current camera position and the new camera
+   * mode is within this cutoff distance, then the camera will cease to be
+   * in a transition and be in the new camera mode.
+   * \param cutOffPosDist The camera transition mode cutoff distance from
+   * position to position.
+   * \param cutOffTargetDist The camera transition mode cutoff distance
+   * from target to target.
+   */
+  virtual void SetTransitionCutoffDistance (float cutOffPosDist,
   	float cutOffTargetDist);
-  float GetTransitionCutoffPosDistance () const;
-  float GetTransitionCutoffOriginDistance () const;
-  float GetTransitionCutoffTargetDistance () const;
 
-  size_t AttachCameraMode (iCelCameraMode* mode);
-  size_t AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype);
-  size_t GetCurrentCameraModeIndex () const;
-  iCelCameraMode* GetCurrentCameraMode ();
-  bool SetCurrentCameraMode (size_t modeIndex);
-  iCelCameraMode* GetCameraMode (int idx = -1);
-  void NextCameraMode ();
-  void PrevCameraMode ();
+  /**
+   * Grabs the camera transition cutoff distance from position to position
+   * between the camera and the camera mode.
+   * \return The camera transition cutoff distance from target to target.
+   */
+  virtual float GetTransitionCutoffPosDistance () const;
 
-  void Draw ();
-  void TickEveryFrame ();
+  /**
+   * Grabs the camera transition cutoff distance from target to target
+   * between the camera and the camera mode.
+   * \return The camera transition cutoff distance from position to position.
+   */
+  virtual float GetTransitionCutoffTargetDistance () const;
+
+  /**
+   * Attaches a camera mode to this camera.
+   * \param mode The camera mode to attach.
+   * \return The index that the camera mode was stored.
+   */
+  virtual size_t AttachCameraMode (iCelCameraMode* mode);
+
+  /**
+   * Attaches a built-in camera mode to this camera.
+   * \param mode The id of the built-in camera mode to attach.
+   * \return A unique id for the attached camera mode.
+   */
+  virtual size_t AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype);
+
+  /**
+   * Gets the index of the current camera mode.
+   * \return The index of the current camera mode.
+   */
+  virtual size_t GetCurrentCameraModeIndex () const;
+
+  /**
+   * Gets the current camera mode.
+   * \return The current camera mode.
+   */
+  virtual iCelCameraMode* GetCurrentCameraMode ();
+
+  /**
+   * Sets the current camera mode.
+   * \param modeIndex The index of the current camera mode.
+   * \return True on successful camera mode change.
+   */
+  virtual bool SetCurrentCameraMode (size_t modeIndex);
+
+  /**
+   * Sets the current camera mode to the next available mode.
+   */
+  virtual void NextCameraMode ();
+
+  /**
+   * Sets the current camera mode to the previous available mode.
+   */
+  virtual void PrevCameraMode ();
+
+  /**
+   * Render. This will clear the screen then draw on top of it.
+   */
+  virtual void Draw ();
+  virtual void TickEveryFrame ();
 
   // get the transform corresponding to this camera
-  const csOrthoTransform &GetTransform ();
+  virtual const csOrthoTransform &GetTransform ();
 
-  bool Reset ();
+  /**
+   * Gets the specified camera mode.
+   * \param idx If -1 it will return the current mode
+   * \return The current camera mode.
+   */
+  virtual iCelCameraMode* GetCameraMode (int idx = -1);
 
   void UpdateCamera ();
   int GetDrawFlags ();
 
   virtual bool SetRegion (iPcRegion* region, bool point = true,
-  	const char* name = 0)
+      const char* name = 0)
   {
     return celPcCameraCommon::SetRegion (region, point, name);
   }
   virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
-  	const char* regionname, const char* name = 0)
+      const char* regionname, const char* name = 0)
   {
     return celPcCameraCommon::SetZoneManager (zonemgr, point, regionname,
-    	name);
+      name);
   }
   virtual bool SetZoneManager (const char* entityname, bool point,
-  	const char* regionname, const char* name = 0)
+      const char* regionname, const char* name = 0)
   {
     return celPcCameraCommon::SetZoneManager (entityname, point, regionname,
-    	name);
+      name);
   }
   virtual void SetRectangle (int x, int y, int w, int h)
   {
@@ -296,10 +404,10 @@ public:
     celPcCameraCommon::EnableFixedDistanceClipping (dist);
   }
   virtual void EnableAdaptiveDistanceClipping (float min_fps,
-  	float max_fps, float min_dist)
+      float max_fps, float min_dist)
   {
     celPcCameraCommon::EnableAdaptiveDistanceClipping (min_fps, max_fps,
-    	min_dist);
+      min_dist);
   }
   virtual bool UseDistanceClipping () const
   {
@@ -332,3 +440,4 @@ public:
 };
 
 #endif // __CEL_PF_NEW_CAMERA_FACTORY__
+

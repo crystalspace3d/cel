@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer 1.3dev: 4.3.8 Quest Manager</title>
+<title>Crystal Entity Layer 1.2: 4.3.8 Quest Manager</title>
 
-<meta name="description" content="Crystal Entity Layer 1.3dev: 4.3.8 Quest Manager">
-<meta name="keywords" content="Crystal Entity Layer 1.3dev: 4.3.8 Quest Manager">
+<meta name="description" content="Crystal Entity Layer 1.2: 4.3.8 Quest Manager">
+<meta name="keywords" content="Crystal Entity Layer 1.2: 4.3.8 Quest Manager">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -128,9 +128,6 @@ This triggers when a mesh is selected. See
 </li><li> <samp>&lsquo;cel.questtrigger.watch&rsquo;</samp>:
 This triggers when a mesh becomes visible. See
 <code>iWatchQuestTriggerFactory</code>.
-</li><li> <samp>&lsquo;cel.questtrigger.operation&rsquo;</samp>:
-This allows to combine several triggers with one simple logical operation. See
-<code>iOperationQuestTriggerFactory</code>.
 </li></ul>
 
 <p>It is of course possible to define your own triggers and register them to
@@ -161,8 +158,6 @@ This manipulates the inventory. See
 This fires a sequence. See <code>iSequenceQuestRewardFactory</code>.
 </li><li> <samp>&lsquo;cel.questreward.sequencefinish&rsquo;</samp>:
 Finishes a sequence. See <code>iSequenceFinishQuestRewardFactory</code>.
-</li><li> <samp>&lsquo;cel.questreward.createentity&rsquo;</samp>:
-Creates an entity from a template. See <code>iCreateEntityQuestRewardFactory</code>.
 </li><li> <samp>&lsquo;cel.questreward.destroyentity&rsquo;</samp>:
 This destroys an entity. See <code>iDestroyEntityQuestRewardFactory</code>.
 </li><li> <samp>&lsquo;cel.questreward.cssequence&rsquo;</samp>:
@@ -211,8 +206,6 @@ Transforms a mesh. See <code>iTransformQuestSeqOpFactory</code>.
 Moves a mesh along a path. See <code>iMovePathQuestSeqOpFactory</code>.
 </li><li> <samp>&lsquo;cel.questseqop.light&rsquo;</samp>:
 Animates a light color. See <code>iLightQuestSeqOpFactory</code>.
-</li><li> <samp>&lsquo;cel.questseqop.property&rsquo;</samp>:
-Animates a property class property. See <code>iLightPropertySeqOpFactory</code>.
 </li></ul>
 
 <p>You can define your own sequence operations for the quest manager.

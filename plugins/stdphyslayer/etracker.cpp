@@ -216,7 +216,7 @@ void celEntityTracker::RemoveEntities ()
 
 void celEntityTracker::FindNearbyEntities (celEntityList* list,
 	iSector* sector, const csVector3& pos, float sqradius,
-	csArray<iSector*>& visited_sectors, csStringID cls)
+	csArray<iSector*>& visited_sectors)
 {
   celMeshcb* cb = index_mesh_cbs.Get (sector, 0);
   if (cb)
@@ -233,11 +233,7 @@ void celEntityTracker::FindNearbyEntities (celEntityList* list,
       if (csSquaredDist::PointPoint (pos, mpos) <= sqradius)
       {
         iCelEntity* ent = pl->FindAttachedEntity (mesh->QueryObject ());
-        if (ent)
-	{
-	  if (cls == csInvalidStringID || ent->HasClass (cls))
-	    list->Add (ent);
-	}
+        if (ent) list->Add (ent);
       }
     }
 
@@ -283,12 +279,12 @@ void celEntityTracker::FindNearbyEntities (celEntityList* list,
 		    	mesh->GetMovable ()->GetFullTransform (), warp_wor);
 		csVector3 tpos = warp_wor.Other2This (pos);
                 FindNearbyEntities (list, portal->GetSector (), tpos, sqradius,
-		    	visited_sectors, cls);
+		    	visited_sectors);
 	      }
 	      else
 	      {
                 FindNearbyEntities (list, portal->GetSector (), pos, sqradius,
-		    	visited_sectors, cls);
+		    	visited_sectors);
 	      }
 	    }
 	  }
@@ -299,14 +295,13 @@ void celEntityTracker::FindNearbyEntities (celEntityList* list,
 }
 
 csPtr<iCelEntityList> celEntityTracker::FindNearbyEntities (iSector* sector,
-  	const csVector3& pos, float radius, csStringID cls)
+  	const csVector3& pos, float radius)
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
 
   csArray<iSector*> visited_sectors;
-  FindNearbyEntities (list, sector, pos, radius * radius, visited_sectors,
-      cls);
+  FindNearbyEntities (list, sector, pos, radius * radius, visited_sectors);
   return list;
 }
 

@@ -48,7 +48,7 @@ class celDebugPrintSeqOpFactory : public scfImplementation2<
 {
 private:
   celDebugPrintSeqOpType* type;
-  csString msg_par;
+  char* msg_par;
 
 public:
   celDebugPrintSeqOpFactory (celDebugPrintSeqOpType* type);
@@ -70,7 +70,7 @@ class celDebugPrintSeqOp : public scfImplementation1<
 {
 private:
   celDebugPrintSeqOpType* type;
-  csString msg;
+  char* msg;
 
 public:
   celDebugPrintSeqOp (celDebugPrintSeqOpType* type,

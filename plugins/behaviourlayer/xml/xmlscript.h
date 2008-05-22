@@ -249,7 +249,6 @@ enum
   CEL_OPERATION_CONFIG_REM,	// A:-		S:S		OS:-
   CEL_OPERATION_CONFIG_SAVE,	// A:-		S:-		OS:-
 
-  CEL_OPERATION_CHDIR,      // A:-      S:S         OS:-
   CEL_OPERATION_SOUND,		// A:-		S:S,B,F		OS:-
   CEL_OPERATION_SOUND_STOP,	// A:-		S:IB		OS:-
   CEL_OPERATION_SOUND_PAUSE,	// A:-		S:IB		OS:-
@@ -263,7 +262,6 @@ enum
   CEL_OPERATION_WRITEFILE,	// A:-		S:S,S,I,I	OS:B
   CEL_OPERATION_REPORTERROR,	// A:-		S:S		OS:-
   CEL_OPERATION_SELECTENTITY,	// A:-		S:I,I,F,S,S	OS:-
-  CEL_OPERATION_MOUNT,      // A:-      S:S,S       OS:-
   CEL_OPERATION_HITBEAM,	// A:-		S:V,V,S,S,S	OS:-
   CEL_OPERATION_TESTVAR,	// A:-		S:S		OS:B
   CEL_OPERATION_TESTVARENT,	// A:-		S:E,S		OS:B
@@ -324,7 +322,7 @@ struct celXmlArg
     iCelPropertyClass* pc;
     iCelEntity* entity;
     iBase* ref;
-    unsigned long id;
+    csStringID id;
     struct { celXmlScriptEventHandler* h_true, * h_false; } h;
     struct { float x, y, z; } vec;
     struct { float red, green, blue; } col;

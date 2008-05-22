@@ -3937,50 +3937,50 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         break;
       case CEL_OPERATION_RETURN:
         {
-          CHECK_STACK(1)
-          celXmlArg a_val = stack.Pop ();
-          DUMP_EXEC ((":%04d: return val=%s\n", i-1, A2S (a_val)));
-          switch (a_val.type)
-          {
-            case CEL_DATA_ENTITY: ret.Set (a_val.arg.entity); break;
-            case CEL_DATA_IBASE: ret.SetIBase (a_val.arg.ref); break;
-            case CEL_DATA_PCLASS: ret.Set (a_val.arg.pc); break;
-            case CEL_DATA_LONG: ret.Set (a_val.arg.i); break;
-            case CEL_DATA_ULONG: ret.Set (a_val.arg.ui); break;
-            case CEL_DATA_BOOL: ret.Set (a_val.arg.b); break;
-            case CEL_DATA_FLOAT: ret.Set (a_val.arg.f); break;
-            case CEL_DATA_STRING: ret.Set (a_val.arg.str.s); break;
-            case CEL_DATA_VECTOR2:
-              {
-                csVector2 v;
-                v.x = a_val.arg.vec.x;
-                v.y = a_val.arg.vec.y;
-                ret.Set (v);
-              }
-              break;
-            case CEL_DATA_VECTOR3:
-              {
-                csVector3 v;
-                v.x = a_val.arg.vec.x;
-                v.y = a_val.arg.vec.y;
-                v.z = a_val.arg.vec.z;
-                ret.Set (v);
-              }
-              break;
-            case CEL_DATA_COLOR:
-              {
-                csColor v;
-                v.red = a_val.arg.col.red;
-                v.green = a_val.arg.col.green;
-                v.blue = a_val.arg.col.blue;
-                ret.Set (v);
-              }
-              break;
-            default:
-              return ReportError (cbl, "Bad type of value for return!");
-          }
-        }
-        break;
+	  CHECK_STACK(1)
+	  celXmlArg a_val = stack.Pop ();
+	  DUMP_EXEC ((":%04d: return val=%s\n", i-1, A2S (a_val)));
+	  switch (a_val.type)
+	  {
+	    case CEL_DATA_ENTITY: ret.Set (a_val.arg.entity); break;
+	    case CEL_DATA_IBASE: ret.SetIBase (a_val.arg.ref); break;
+	    case CEL_DATA_PCLASS: ret.Set (a_val.arg.pc); break;
+	    case CEL_DATA_LONG: ret.Set (a_val.arg.i); break;
+	    case CEL_DATA_ULONG: ret.Set (a_val.arg.ui); break;
+	    case CEL_DATA_BOOL: ret.Set (a_val.arg.b); break;
+	    case CEL_DATA_FLOAT: ret.Set (a_val.arg.f); break;
+	    case CEL_DATA_STRING: ret.Set (a_val.arg.str.s); break;
+	    case CEL_DATA_VECTOR2:
+	      {
+	        csVector2 v;
+		v.x = a_val.arg.vec.x;
+		v.y = a_val.arg.vec.y;
+	        ret.Set (v);
+	      }
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      {
+	        csVector3 v;
+		v.x = a_val.arg.vec.x;
+		v.y = a_val.arg.vec.y;
+		v.z = a_val.arg.vec.z;
+	        ret.Set (v);
+	      }
+	      break;
+	    case CEL_DATA_COLOR:
+	      {
+	        csColor v;
+		v.red = a_val.arg.col.red;
+		v.green = a_val.arg.col.green;
+		v.blue = a_val.arg.col.blue;
+	        ret.Set (v);
+	      }
+	      break;
+	    default:
+	      return ReportError (cbl, "Bad type of value for return!");
+	  }
+	}
+	break;
       case CEL_OPERATION_QUIT:
         {
           DUMP_EXEC ((":%04d: quit\n", i-1));
@@ -4820,77 +4820,77 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_DEFAULTPC:
         {
-          CHECK_STACK(1)
-          celXmlArg a_pc = stack.Pop ();
-          DUMP_EXEC ((":%04d: defaultpc pc=%s\n", i-1, A2S (a_pc)));
-          iCelPropertyClass* pc = ArgToPClass (a_pc);
-          if (!pc)
-            return ReportError (cbl, "Property class is 0 for default pc!");
-          default_pc = pc;
-        }
-        break;
+	  CHECK_STACK(1)
+	  celXmlArg a_pc = stack.Pop ();
+	  DUMP_EXEC ((":%04d: defaultpc pc=%s\n", i-1, A2S (a_pc)));
+	  iCelPropertyClass* pc = ArgToPClass (a_pc);
+	  if (!pc)
+	    return ReportError (cbl, "Property class is 0 for default pc!");
+	  default_pc = pc;
+	}
+	break;
       case CEL_OPERATION_PROPERTY:
         {
-          CHECK_STACK(3)
-          celXmlArg a_val = stack.Pop ();
-          celXmlArg a_id = stack.Pop ();
-          celXmlArg a_pc = stack.Pop ();
+	  CHECK_STACK(3)
+	  celXmlArg a_val = stack.Pop ();
+	  celXmlArg a_id = stack.Pop ();
+	  celXmlArg a_pc = stack.Pop ();
           DUMP_EXEC ((":%04d: property pc=%s id=%s val=%s\n", i-1, A2S (a_pc),
-          	A2S (a_id), A2S (a_val)));
-          if (varprop_trace)
-          {
-            printf (":%s/%04lu: property pc=%s id=%s val=%s\n",
-            	cbl->call_stack.Top (),
-            	(unsigned long)i-1, A2S (a_pc), A2S (a_id), A2S (a_val));
-           fflush (stdout);
-          }
-          iCelPropertyClass* pc = ArgToPClass (a_pc);
-          if (!pc) pc = default_pc;
-          if (!pc)
-            return ReportError (cbl,
-            	"No valid property class for 'property'!");
-          csStringID id = ArgToID (a_id);
-          celDataType t = pc->GetPropertyOrActionType (id);
-          switch (t)
-          {
-            case CEL_DATA_LONG:
-              pc->SetProperty (id, (long)ArgToInt32 (a_val));
-              break;
-            case CEL_DATA_ULONG:
-              pc->SetProperty (id, (long)ArgToUInt32 (a_val));
-              break;
-            case CEL_DATA_FLOAT:
-              pc->SetProperty (id, ArgToFloat (a_val));
-              break;
-            case CEL_DATA_BOOL:
-              pc->SetProperty (id, ArgToBool (a_val));
-              break;
-            case CEL_DATA_STRING:
-              pc->SetProperty (id, ArgToString (a_val));
-              break;
-            case CEL_DATA_VECTOR2:
-              pc->SetProperty (id, ArgToVector2 (a_val));
-              break;
-            case CEL_DATA_VECTOR3:
-              pc->SetProperty (id, ArgToVector3 (a_val));
-              break;
-            case CEL_DATA_COLOR:
-              pc->SetProperty (id, ArgToColor (a_val));
-              break;
-            case CEL_DATA_PCLASS:
-              pc->SetProperty (id, ArgToPClass (a_val));
-              break;
-            case CEL_DATA_ENTITY:
-              pc->SetProperty (id, a_val.arg.entity);
-              break;
-            case CEL_DATA_IBASE:
-              pc->SetProperty (id, a_val.arg.ref);
-              break;
-            default:
-              return ReportError (cbl,
-              	"Bad type for setting property value!");
-          }
-        }
+	  	A2S (a_id), A2S (a_val)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04lu: property pc=%s id=%s val=%s\n",
+	    	cbl->call_stack.Top (),
+		(unsigned long)i-1, A2S (a_pc), A2S (a_id), A2S (a_val));
+	    fflush (stdout);
+	  }
+	  iCelPropertyClass* pc = ArgToPClass (a_pc);
+	  if (!pc) pc = default_pc;
+	  if (!pc)
+	    return ReportError (cbl,
+	    	  "No valid property class for 'property'!");
+	  csStringID id = ArgToID (a_id);
+	  celDataType t = pc->GetPropertyOrActionType (id);
+	  switch (t)
+	  {
+	    case CEL_DATA_LONG:
+	      pc->SetProperty (id, (long)ArgToInt32 (a_val));
+	      break;
+	    case CEL_DATA_ULONG:
+	      pc->SetProperty (id, (long)ArgToUInt32 (a_val));
+	      break;
+	    case CEL_DATA_FLOAT:
+	      pc->SetProperty (id, ArgToFloat (a_val));
+	      break;
+	    case CEL_DATA_BOOL:
+	      pc->SetProperty (id, ArgToBool (a_val));
+	      break;
+	    case CEL_DATA_STRING:
+	      pc->SetProperty (id, ArgToString (a_val));
+	      break;
+	    case CEL_DATA_VECTOR2:
+	      pc->SetProperty (id, ArgToVector2 (a_val));
+	      break;
+	    case CEL_DATA_VECTOR3:
+	      pc->SetProperty (id, ArgToVector3 (a_val));
+	      break;
+	    case CEL_DATA_COLOR:
+	      pc->SetProperty (id, ArgToColor (a_val));
+	      break;
+	    case CEL_DATA_PCLASS:
+	      pc->SetProperty (id, ArgToPClass (a_val));
+	      break;
+	    case CEL_DATA_ENTITY:
+	      pc->SetProperty (id, a_val.arg.entity);
+	      break;
+	    case CEL_DATA_IBASE:
+	      pc->SetProperty (id, a_val.arg.ref);
+	      break;
+	    default:
+	      return ReportError (cbl,
+	      	"Bad type for setting property value!");
+	  }
+	}
         break;
       case CEL_OPERATION_CHDIRAUTO:
         {
@@ -5144,18 +5144,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  sound_source->GetStream ()->Unpause ();
 	}
 	break;
-      case CEL_OPERATION_CHDIR:
-	{
-	  CHECK_STACK(1)
-	  celXmlArg a_dir = stack.Pop ();
-	  DUMP_EXEC ((":%04d: chdir dir=%s\n",
-		i-1, A2S (a_dir)));
-		//puts (A2S (a_dir));
-	  csRef<iVFS> vfs =
-	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
-	  vfs->ChDir (ArgToString (a_dir));
-	}
-	break;
       case CEL_OPERATION_SOUND_VOLUME:
 	{
 	  CHECK_STACK(2)
@@ -5240,18 +5228,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           else
             return ReportError (cbl, "Error! Can't find sound '%s'!",
             	A2S (a_name));
-        }
-        break;
-      case CEL_OPERATION_MOUNT:
-        {
-	  CHECK_STACK(2)
-	  celXmlArg a_real = stack.Pop ();
-	  celXmlArg a_vfs = stack.Pop ();
-	  DUMP_EXEC ((":%04d: mount vfs=%s real=%s\n",
-		i-1, A2S (a_vfs), A2S (a_real)));
-	  csRef<iVFS> vfs =
-	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
-	  	vfs->Mount (ArgToString (a_vfs), ArgToString (a_real));
         }
         break;
       case CEL_OPERATION_HITBEAM:
@@ -5516,8 +5492,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           if (!nodename)
             return ReportError (cbl,
             	"Illegal 'node' variable for 'navigationinfo'!");
-          csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
-		sector->QueryObject (), nodename);
+          csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+          	sector->QueryObject (), iMapNode, nodename);
           if (!mapnode)
             return ReportError (cbl,
             	"Can't find node '%s' for 'navigationinfo'!",
@@ -5575,8 +5551,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           if (!sector)
             return ReportError (cbl,
             	"Can't find sector '%s' for 'key_node'!", sector_name);
-          csRef<iMapNode> map_node = CS::GetNamedChildObject<iMapNode> (
-          	sector->QueryObject (), node_name);
+          csRef<iMapNode> map_node = CS_GET_NAMED_CHILD_OBJECT (
+          	sector->QueryObject (), iMapNode, node_name);
           if (!map_node)
              return ReportError (cbl,
              	"Can't find node '%s' for 'key_node'!",
@@ -5632,8 +5608,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           if (!sector)
             return ReportError (cbl,
             	"Can't find sector '%s' for 'key_node'!", sector_name);
-          csRef<iMapNode> map_node = CS::GetNamedChildObject<iMapNode> (
-          	sector->QueryObject (), node_name);
+          csRef<iMapNode> map_node = CS_GET_NAMED_CHILD_OBJECT (
+          	sector->QueryObject (), iMapNode, node_name);
           if (!map_node)
              return ReportError (cbl,
              	"Can't find node '%s' for 'key_node'!",

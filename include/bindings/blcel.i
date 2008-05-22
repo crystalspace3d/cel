@@ -1,9 +1,8 @@
 #define __CEL__
-%module(directors="1") blcelc
+%module blcelc
 %import "bindings/cspace.i"
 %include "celproperties.i" // all property accessors
 CS_PROPERTY_HELPERS
-
 %{
 #include <crystalspace.h>
 #include "celtool/initapp.h"
@@ -15,7 +14,6 @@ CS_PROPERTY_HELPERS
 #include "physicallayer/entity.h"
 #include "physicallayer/entitytpl.h"
 #include "physicallayer/persist.h"
-#include "physicallayer/messaging.h"
 #include "behaviourlayer/bl.h"
 #include "behaviourlayer/behave.h"
 #include "propclass/region.h"
@@ -26,7 +24,6 @@ CS_PROPERTY_HELPERS
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 #include "propclass/timer.h"
-#include "propclass/spawn.h"
 #include "propclass/projectile.h"
 #include "propclass/solid.h"
 #include "propclass/gravity.h"
@@ -35,7 +32,6 @@ CS_PROPERTY_HELPERS
 #include "propclass/chars.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
-#include "propclass/actoranalog.h"
 #include "propclass/input.h"
 #include "propclass/billboard.h"
 #include "propclass/mechsys.h"
@@ -51,30 +47,14 @@ CS_PROPERTY_HELPERS
 #include "propclass/damage.h"
 #include "propclass/quest.h"
 #include "propclass/trigger.h"
-#include "propclass/steer.h"
-#include "propclass/pathfinder.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 #include "tools/celconsole.h"
 #include "tools/questmanager.h"
-#include "tools/celgraph.h"
 #include "propclass/zone.h"
 
 
 %}
-
-/* Funtions to set the modules global SCF pointer, this is needed
-   when working on a pure scripting environment, as then this code
-   lives in a non-cs dll, thus the pointer isnt initialized
-   by cs itself, and scf stuff wont work unless the pointer is
-   initialized manually. Use it after CreateEnvironment call. */
-#ifndef SWIGIMPORTED
-INLINE_FUNCTIONS
-#endif
-
-/* Ignored Macros */
-#undef CEL_CELTOOL_EXPORT
-#define CEL_CELTOOL_EXPORT
 
 //=============================================================================
 // Interfaces that need csRef,csPtr,csRefArray
@@ -88,8 +68,6 @@ INLINE_FUNCTIONS
   INTERFACE_APPLY(iCelPropertyClass)
   INTERFACE_APPLY(iQuestManager)
   INTERFACE_APPLY(iCelEntityList)
-  INTERFACE_APPLY(iMessageDispatcher)
-  INTERFACE_APPLY(iBillboardManager)
 %enddef
 
 //=============================================================================
@@ -99,8 +77,6 @@ INLINE_FUNCTIONS
 #define CELLIST_METHODS(classname,typename)
 #define CEL_FAKE_ARRAY(pref,contenttype,countmethod,getmethod,findmethod,delmethod,addmethod)
 #define CEL_PC_FIX_INHERITANCE(pcType)
-
-CS_WRAP_PTR_IMPLEMENT(celWrapPtr)
 
 //=============================================================================
 // Language specific part
@@ -129,7 +105,6 @@ CS_WRAP_PTR_IMPLEMENT(celWrapPtr)
 %inline %{
 pcType *funcName(iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0 ) 
 {
-  CS_ASSERT (entity != 0);
   csRef<iCelPropertyClass> pc;
   if (tagname)
     pc = pl->CreateTaggedPropertyClass(entity, #pcname, tagname);
@@ -147,7 +122,6 @@ pcType *funcName(iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0 )
 %inline %{
 pcType * funcName (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
 {
-  CS_ASSERT (entity != 0);
   csRef<pcType> pclm;
   if (tagname)
     pclm = CEL_QUERY_PROPCLASS_TAG (
@@ -173,7 +147,6 @@ pcType * funcName (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
 %inline %{
 pcType * funcName (iCelEntity *entity, const char* tagname = 0 )
 {
-  CS_ASSERT (entity != 0);
   csRef<pcType> pc;
   if (tagname)
     pc = CEL_QUERY_PROPCLASS_TAG (
@@ -217,7 +190,6 @@ CEL_PC_GETSET(pcType, celGetSet ## funcBaseName, pcname)
 CEL_PC_GET(pcType, celGet ## funcBaseName)
 CEL_PC_QUERY(pcType)
 CEL_PC_FIX_INHERITANCE(pcType)
-INTERFACE_POST(pcType)
 %enddef
 
 //=============================================================================
@@ -231,9 +203,7 @@ INTERFACE_POST(pcType)
 //-----------------------------------------------------------------------------
 
 %ignore celData::GetDebugInfo;
-ARRAY_CHANGE_ALL_TEMPLATE(celData)
 %include "physicallayer/datatype.h"
-
 
 //-----------------------------------------------------------------------------
 
@@ -243,22 +213,9 @@ CEL_APPLY_FOR_EACH_INTERFACE
 
 //-----------------------------------------------------------------------------
 
-%include "physicallayer/messaging.h"
-
-//-----------------------------------------------------------------------------
-
-/* the following declarations are a bit awkward, but seems swig (1.3.31)
-obligues to set all parameters in template declarations, even default ones */
-// celEntityTemplateParams
 %apply csStringFast * { const csStringFast<12>& };
 %template (csStringFast12) csStringFast<12>;
-typedef csHash<csStringFast<12>, csStringFast<12>, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringFast<12>, csStringFast<12> > > > celEntityTemplateParams;
-%template (celEntityTemplateParams) csHash<csStringFast<12>, csStringFast<12>, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringFast<12>, csStringFast<12> > > >;
-
-// celQuestParams
-typedef csHash<csStringBase, csStringBase, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringBase, csStringBase > > > celQuestParams;
-%template (celQuestParams) csHash<csStringBase, csStringBase, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringBase, csStringBase > > >;
-
+%template (celEntityTemplateParams) csHash<csStringFast<12>, csStringFast<12> >; 
 
 %ignore iCelPlLayer::SendMessageV;
 %ignore iCelPlLayer::CreateEntity (iCelEntityTemplate* factory,const char* name, ...);
@@ -388,13 +345,12 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 %ignore celGenericParameterBlock::GetParameter (size_t idx);
 %template (scfGenericParameterBlock) scfImplementation1<celGenericParameterBlock, iCelParameterBlock >;
 %template (scfVariableParameterBlock) scfImplementation1<celVariableParameterBlock,iCelParameterBlock >;
-%template (scfCombineParameterBlock) scfImplementation1<celCombineParameterBlock,iCelParameterBlock >;
 %template (scfOneParameterBlock) scfImplementation1<celOneParameterBlock,iCelParameterBlock >;
 %include "celtool/stdparams.h"
 
 //-----------------------------------------------------------------------------
 
-//%ignore iCelPropertyClass::SetProperty;
+%ignore iCelPropertyClass::SetProperty;
 %include "physicallayer/propfact.h"
 
 /* Some typemaps so values are appropiately returned */
@@ -411,8 +367,6 @@ APPLY_TYPEMAP_ARGOUT_PTR(csColor, csColor& v)
 %rename(GetPropertyVector3ByID) iCelPropertyClass::GetPropertyVectorByID (csStringID propertyID, csVector3& v);
 %rename(GetPropertyVector2ByID) iCelPropertyClass::GetPropertyVectorByID (csStringID propertyID, csVector2& v);
 
-%ignore iCelPropertyClassList::FindByInterface(scfInterfaceID id, int version) const;
-%ignore iCelPropertyClassList::FindByInterfaceAndTag(scfInterfaceID id, int version, const char* tag) const;
 %include "physicallayer/propclas.h"
 %extend iCelPropertyClass {
   bool SetPropertyLong (csStringID id, long l )
@@ -431,18 +385,6 @@ APPLY_TYPEMAP_ARGOUT_PTR(csColor, csColor& v)
   { return self->SetProperty (id, col); }
   bool SetPropertyEntity (csStringID id, const iCelEntity* ent)
   { return self->SetProperty (id, ent); }
-}
-%extend iCelPropertyClassList {
-  celWrapPtr FindByInterface (const char *iface, int iface_ver)
-  {
-    return celWrapPtr (iface, iface_ver, csRef<iBase> (
-      self->FindByInterface(iSCF::SCF->GetInterfaceID (iface), iface_ver)));
-  }
-  celWrapPtr FindByInterfaceAndTag (const char *iface, int iface_ver, const char* tag)
-  {
-    return celWrapPtr (iface, iface_ver, csRef<iBase> (
-      self->FindByInterfaceAndTag(iSCF::SCF->GetInterfaceID (iface), iface_ver, tag)));
-  }
 }
 /* Clear Typemaps */
 %clear csVector3& v;
@@ -520,11 +462,6 @@ CEL_PC(iPcActorMove, ActorMove, pcmove.actor.standard)
 
 //-----------------------------------------------------------------------------
 
-%include "propclass/actoranalog.h"
-CEL_PC(iPcActorAnalog, ActorAnalog, pcmove.actor.analog)
-
-//-----------------------------------------------------------------------------
-
 // TODO must review distance methods
 %include "propclass/camera.h"
 //CEL_PC(iPcCamera, Camera, pccamera)
@@ -541,7 +478,7 @@ CEL_PC(iPcDefaultCamera, DefaultCamera, pccamera.old)
 CEL_PC(iPcSimpleCamera, SimpleCamera, pccamera.simple)
 
 %include "propclass/newcamera.h"
-CEL_PC(iPcNewCamera, NewCamera, pccamera.standard)
+CEL_PC(iPcNewCamera, Camera, pccamera.standard)
 
 //-----------------------------------------------------------------------------
 
@@ -570,21 +507,6 @@ CEL_PC(iPcTimer, Timer, pctools.timer)
 
 %include "propclass/trigger.h"
 CEL_PC(iPcTrigger, Trigger, pclogic.trigger)
-
-//-----------------------------------------------------------------------------
-
-%include "propclass/steer.h"
-CEL_PC(iPcSteer, Steer, pcmove.steer)
-
-//-----------------------------------------------------------------------------
-
-%include "propclass/pathfinder.h"
-CEL_PC(iPcPathFinder, PathFinder, pcmove.pathfinder)
-
-//-----------------------------------------------------------------------------
-
-%include "propclass/spawn.h"
-CEL_PC(iPcSpawn, Spawn, pclogic.spawn)
 
 //-----------------------------------------------------------------------------
 %include "propclass/projectile.h"
@@ -677,10 +599,6 @@ CEL_PC(iPcQuest, Quest, pclogic.quest)
 
 //-----------------------------------------------------------------------------
 
-%include "tools/celgraph.h"
-
-//-----------------------------------------------------------------------------
-
 %include "tools/celconsole.h"
 %inline %{
 iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
@@ -688,14 +606,9 @@ iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
   csRef<iCelConsole> bl = csQueryRegistry<iCelConsole> (object_reg);
   return bl;
 }
-
 %}
 
 //-----------------------------------------------------------------------------
-
-#ifndef SWIGIMPORTED
-%include "bindings/pfdirector.i"
-#endif
 
 #undef INTERFACE_APPLY
 #define INTERFACE_APPLY(x) INTERFACE_POST(x)

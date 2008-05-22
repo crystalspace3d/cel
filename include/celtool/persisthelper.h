@@ -27,8 +27,6 @@
 #include "csutil/array.h"
 #include "csutil/set.h"
 
-#include "celtool/celtoolextern.h"
-
 #include "physicallayer/persist.h"
 #include "physicallayer/propclas.h"
 
@@ -40,9 +38,8 @@ struct iCelPlLayer;
  * finding external entities. So it can only be used if non-local entities
  * have unique names.
  */
-class CEL_CELTOOL_EXPORT celStandardLocalEntitySet : 
-  public scfImplementation1<celStandardLocalEntitySet, 
-			     iCelLocalEntitySet>
+class celStandardLocalEntitySet : public scfImplementation1<
+	celStandardLocalEntitySet, iCelLocalEntitySet>
 {
 private:
   iCelPlLayer* pl;
@@ -84,9 +81,8 @@ public:
 /**
  * Standard implementation of iCelPersistentDataList.
  */
-class CEL_CELTOOL_EXPORT celStandardPersistentDataList : 
-  public scfImplementation1<celStandardPersistentDataList, 
-			     iCelPersistentDataList>
+class celStandardPersistentDataList : public scfImplementation1<
+	celStandardPersistentDataList, iCelPersistentDataList>
 {
  private:
   class celPersistentDataEntry

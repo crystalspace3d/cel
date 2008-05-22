@@ -21,6 +21,7 @@
 #include "csgeom/math3d.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
+#include "csutil/debug.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/sector.h"
@@ -266,6 +267,7 @@ const char* celPcDamage::GetFallOff () const
 void celPcDamage::DoDamage (iCelEntity* ent, const csVector3& p)
 {
   iCelBehaviour* behave = ent->GetBehaviour ();
+  if (!behave) return;
   if (entity == ent)
     return;	// Ignore source of explosion.
 
@@ -297,18 +299,8 @@ void celPcDamage::DoDamage (iCelEntity* ent, const csVector3& p)
       break;
   }
   params->GetParameter (0).Set (new_amount);
-  if (behave)
-  {
-    celData ret;
-    behave->SendMessage ("pcdamage_hurt", 0, ret, params);
-  }
-  if (!dispatcher_hurt)
-  {
-    dispatcher_hurt = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, "cel.damage.hurt");
-    if (!dispatcher_hurt) return;
-  }
-  dispatcher_hurt->SendMessage (params);
+  celData ret;
+  behave->SendMessage ("pcdamage_hurt", 0, ret, params);
 }
 
 void celPcDamage::SetDamageSource (const char* source)

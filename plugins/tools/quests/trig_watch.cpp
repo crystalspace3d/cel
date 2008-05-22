@@ -92,9 +92,9 @@ bool celWatchTriggerFactory::Load (iDocumentNode* node)
   csRef<iDocumentNode> offset_node = node->GetNode ("offset");
   if (offset_node)
   {
-    offsetx_par = offset_node->GetAttributeValue ("x");
-    offsety_par = offset_node->GetAttributeValue ("y");
-    offsetz_par = offset_node->GetAttributeValue ("z");
+    offsetx_par = csStrNew (offset_node->GetAttributeValue ("x"));
+    offsety_par = csStrNew (offset_node->GetAttributeValue ("y"));
+    offsetz_par = csStrNew (offset_node->GetAttributeValue ("z"));
   }
 
   return true;
@@ -219,7 +219,12 @@ bool celWatchTrigger::FindEntities ()
 
 void celWatchTrigger::TickOnce ()
 {
-  if (!Check ())
+  if (Check ())
+  {
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this);
+  }
+  else
   {
     iCelPlLayer* pl = type->pl;
     pl->CallbackOnce (static_cast<iCelTimerListener*> (this), time, 
@@ -267,12 +272,8 @@ bool celWatchTrigger::Check ()
 printf ("check sqdistance=%g sqradius=%g closest_mesh=%s\n", rc.sqdistance, sqradius, tbrc.closest_mesh ? (tbrc.closest_mesh->QueryObject ()->GetName ()) : "<null>"); fflush (stdout);
   // If we hit no mesh then we assume we reached the target (target
   // can be invisible in first player mode for example).
-  if (tbrc.closest_mesh == 0 || tbrc.closest_mesh == target_wrap)
-  {
-    DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
-    return true;
-  }
+  if (tbrc.closest_mesh == 0) return true;
+  if (tbrc.closest_mesh == target_wrap) return true;
   return false;
 }
 

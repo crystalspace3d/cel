@@ -1,13 +1,8 @@
-//=============================================================================
-// celWrapPtr
-//=============================================================================
+%inline %{
+  extern CS_IMPORT_SYM PyObject *    // from crystalspace_python
+  _csRef_to_Python (const csRef<iBase> & ref, void * ptr, const char * name);
 
-CS_WRAP_PTR_TYPEMAP(celWrapPtr)
-
-%typemap(out) celWrapPtr
-{
-  $result = _celWrapPtr_to_Python($1);
-}
+%}
 
 //=============================================================================
 // Helper macros.
@@ -19,16 +14,20 @@ CS_WRAP_PTR_TYPEMAP(celWrapPtr)
    %pythoncode %{
    _PC = None
    def __getattr__(self,attr):
+        try:
+            return _swig_getattr(self, pcType, attr)
+        except:
+            pass
         if hasattr(iCelPropertyClass,attr):
-            _PC = self.QueryInterface(iCelPropertyClass)
+            _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
             return getattr(_PC,attr)
         else:
             return self.GetterFallback(attr)
    def __setattr__(self,attr,value):
-        if hasattr(pcType,attr):
-            return object.__setattr__(self,attr,value)
+        if attr in pcType.__swig_setmethods__.keys():
+            return _swig_setattr(self,pcType,attr,value)
         elif hasattr(iCelPropertyClass,attr):
-            _PC = self.QueryInterface(iCelPropertyClass)
+            _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
             setattr(_PC,attr,value)
         else:
             return self.SetterFallback(attr,value)
@@ -85,7 +84,7 @@ class contenttype ## pref ## FakeArray:
   def Remove(self,propclass):
     if not (isinstance(propclass,int) or isinstance(propclass,
             iCelPropertyClass)):
-      propclass = propclass.QueryInterface(iCelPropertyClass)
+      propclass = cspace.SCF_QUERY_INTERFACE(propclass,iCelPropertyClass)
     return _blcelc.iCelPropertyClassList_Remove(self,propclass)
 %}
 

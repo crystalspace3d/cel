@@ -49,14 +49,13 @@ class celNewStateRewardFactory : public scfImplementation2<
 {
 private:
   celNewStateRewardType* type;
-  csString state_par;
-  csString entity_par;
-  csString class_par;
-  csString tag_par;
+  char* state_par;
+  char* entity_par;
+  char* tag_par;
 
 public:
   celNewStateRewardFactory (celNewStateRewardType* type);
-  virtual ~celNewStateRewardFactory () {};
+  virtual ~celNewStateRewardFactory ();
 
   virtual csPtr<iQuestReward> CreateReward (
       iQuest* q, const celQuestParams& params);
@@ -65,8 +64,6 @@ public:
   //----------------- iNewStateQuestRewardFactory -----------------------
   virtual void SetStateParameter (const char* state);
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual void SetTagParameter (const char* tag) { tag_par = tag; };
-  virtual void SetClassParameter (const char* pclass) { class_par = pclass; };
 };
 
 /**
@@ -77,9 +74,9 @@ class celNewStateReward : public scfImplementation1<
 {
 private:
   celNewStateRewardType* type;
-  csRef<iQuestParameter> state;
-  csRef<iQuestParameter> entity;
-  csRef<iQuestParameter> tag;
+  char* state;
+  char* entity;
+  char* tag;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iQuest> quest;
 
@@ -88,34 +85,10 @@ public:
   	iQuest* q, const celQuestParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par);
-  virtual ~celNewStateReward () {};
+  virtual ~celNewStateReward ();
 
-  virtual void Reward (iCelParameterBlock* params);
+  virtual void Reward ();
 };
-
-/**
- * The 'newstate' reward for classes.
- */
-class celClassNewStateReward : public scfImplementation1<
-	celClassNewStateReward, iQuestReward>
-{
-private:
-  celNewStateRewardType* type;
-  csRef<iQuestParameter> state;
-  csRef<iQuestParameter> tag;
-  csRef<iQuestParameter> clazz;
-  csRef<iCelEntityList> entlist;
-
-public:
-  celClassNewStateReward (celNewStateRewardType* type,
-  	const celQuestParams& params,
-	const char* state_par,
-	const char* entity_par, const char* tag_par);
-  virtual ~celClassNewStateReward () {};
-
-  virtual void Reward (iCelParameterBlock* params);
-};
-
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_NEWSTATE__
 

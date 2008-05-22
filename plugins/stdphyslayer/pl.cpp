@@ -789,7 +789,7 @@ iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
 }
 
 iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
-  const char *propname, const char* tagname)
+	const char *propname)
 {
   iCelPropertyClassFactory* pf = FindOrLoadPropfact (propname);
   if (!pf)
@@ -799,7 +799,25 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
         "No factory for type '%s' registered!", propname);
     return 0;
   }
-  // create a new property class
+  csRef<iCelPropertyClass> pc (pf->CreatePropertyClass(propname));
+  if (!pc)
+    return 0;
+  pc->SetName (propname);
+  entity->GetPropertyClassList()->Add (pc);
+  return pc;
+}
+
+iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
+	const char *propname, const char* tagname)
+{
+  iCelPropertyClassFactory* pf = FindOrLoadPropfact (propname);
+  if (!pf)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+        "crystalspace.cel.pllayer",
+        "No factory for type '%s' registered!", propname);
+    return 0;
+  }
   csRef<iCelPropertyClass> pc (pf->CreatePropertyClass(propname));
   if (!pc)
     return 0;
@@ -807,12 +825,6 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
     pc->SetTag (tagname);
   entity->GetPropertyClassList()->Add (pc);
   return pc;
-}
-
-iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
-  const char *propname, const char* tagname)
-{
-  return CreatePropertyClass (entity, propname, tagname);
 }
 
 // Implementation of iCelDataBuffer.
@@ -903,7 +915,7 @@ void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
 
 void celPlLayer::UnattachEntity (iObject* object, iCelEntity* entity)
 {
-  csRef<celEntityFinder> cef (CS::GetChildObject<celEntityFinder> (object));
+  csRef<celEntityFinder> cef (CS_GET_CHILD_OBJECT (object, celEntityFinder));
   if (cef)
   {
     if (cef->GetEntity () != entity)
@@ -915,14 +927,14 @@ void celPlLayer::UnattachEntity (iObject* object, iCelEntity* entity)
 
 iCelEntity* celPlLayer::FindAttachedEntity (iObject* object)
 {
-  csRef<celEntityFinder> cef (CS::GetChildObject<celEntityFinder> (object));
+  csRef<celEntityFinder> cef (CS_GET_CHILD_OBJECT (object, celEntityFinder));
   if (cef)
     return cef->GetEntity ();
   return 0;
 }
 
 csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
-	const csBox3& box, bool do_invisible, csStringID cls)
+	const csBox3& box, bool do_invisible)
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
@@ -940,16 +952,14 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
     iCelEntity* ent = FindAttachedEntity (m->QueryObject ());
     if (ent)
     {
-      if (cls == csInvalidStringID || ent->HasClass (cls))
-        list->Add (ent);
+      list->Add (ent);
     }
   }
   return list;
 }
 
 csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
-	const csVector3& start, const csVector3& end, bool do_invisible,
-	csStringID cls)
+	const csVector3& start, const csVector3& end, bool do_invisible)
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
@@ -967,16 +977,14 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
     iCelEntity* ent = FindAttachedEntity (m->QueryObject ());
     if (ent)
     {
-      if (cls == csInvalidStringID || ent->HasClass (cls))
-        list->Add (ent);
+      list->Add (ent);
     }
   }
   return list;
 }
 
 csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
-	const csVector3& pos, float radius, bool do_invisible,
-	csStringID cls)
+	const csVector3& pos, float radius, bool do_invisible)
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
@@ -994,8 +1002,7 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
     iCelEntity* ent = FindAttachedEntity (m->QueryObject ());
     if (ent)
     {
-      if (cls == csInvalidStringID || ent->HasClass (cls))
-        list->Add (ent);
+      list->Add (ent);
     }
   }
   return list;
@@ -1117,7 +1124,7 @@ bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
   pf = CS_QUERY_PLUGIN_CLASS (plugin_mgr, plugin_id, iBase);
   if (!pf)
   {
-    pf = csLoadPluginAlways (plugin_mgr, plugin_id);
+    pf = CS_LOAD_PLUGIN_ALWAYS (plugin_mgr, plugin_id);
   }
   if (!pf)
   {
@@ -1487,27 +1494,13 @@ int celPlLayer::SendMessageV (iCelEntityList *entlist, const char* msgname,
   while (it->HasNext())
   {
     iCelEntity *ent = it->Next();
-    iCelBehaviour *beh = ent->GetBehaviour ();
+    iCelBehaviour *beh = ent->GetBehaviour();
     if (beh)
     {
-      responses += beh->SendMessageV (msgname, 0, ret, params, arg);
+      responses+=beh->SendMessageV(msgname, 0, ret, params, arg);
     }
   }
   return responses;
 }
 
-int celPlLayer::SendMessage (const char* msgid, iMessageSender* sender,
-      iCelEntityList *entlist, iCelParameterBlock* params,
-      iCelDataArray* ret)
-{
-  csRef<iCelEntityIterator> it = entlist->GetIterator();
-  int responses = 0;
-  while (it->HasNext())
-  {
-    iCelEntity* ent = it->Next();
-    responses += ent->QueryMessageChannel ()->SendMessage (msgid, sender,
-	params, ret);
-  }
-  return responses;
-}
 

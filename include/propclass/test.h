@@ -28,7 +28,7 @@
  *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - cel.misc.test.print: a message has been printed (message)
+ * - pctest_print: a message has been printed (message)
  *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'

@@ -43,10 +43,12 @@ celDebugPrintSeqOpFactory::celDebugPrintSeqOpFactory (
 	celDebugPrintSeqOpType* type) : scfImplementationType (this)
 {
   celDebugPrintSeqOpFactory::type = type;
+  msg_par = 0;
 }
 
 celDebugPrintSeqOpFactory::~celDebugPrintSeqOpFactory ()
 {
+  delete[] msg_par;
 }
 
 csPtr<iQuestSeqOp> celDebugPrintSeqOpFactory::CreateSeqOp (
@@ -59,7 +61,8 @@ csPtr<iQuestSeqOp> celDebugPrintSeqOpFactory::CreateSeqOp (
 
 bool celDebugPrintSeqOpFactory::Load (iDocumentNode* node)
 {
-  msg_par = node->GetAttributeValue ("message");
+  delete[] msg_par; msg_par = 0;
+  msg_par = csStrNew (node->GetAttributeValue ("message"));
 
   if (!msg_par)
   {
@@ -73,7 +76,11 @@ bool celDebugPrintSeqOpFactory::Load (iDocumentNode* node)
 
 void celDebugPrintSeqOpFactory::SetMessageParameter (const char* msg)
 {
-  msg_par = msg;
+  if (msg_par == msg) 
+    return;
+
+  delete[] msg_par;
+  msg_par = csStrNew (msg);
 }
 
 //---------------------------------------------------------------------------
@@ -85,16 +92,17 @@ celDebugPrintSeqOp::celDebugPrintSeqOp (
 {
   celDebugPrintSeqOp::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  msg = qm->ResolveParameter (params, msg_par);
+  msg = csStrNew (qm->ResolveParameter (params, msg_par));
 }
 
 celDebugPrintSeqOp::~celDebugPrintSeqOp ()
 {
+  delete[] msg;
 }
 
 void celDebugPrintSeqOp::Do (float time)
 {
-  printf ("%s (time=%g)\n", (const char*)msg, time);
+  printf ("%s (time=%g)\n", msg, time);
   fflush (stdout);
 }
 

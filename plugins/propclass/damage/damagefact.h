@@ -56,8 +56,6 @@ private:
   static csStringID id_type;
   celVariableParameterBlock* params;
 
-  csRef<iMessageDispatcher> dispatcher_hurt;
-
   // For actions.
   static csStringID id_radius;
   static csStringID id_direction;

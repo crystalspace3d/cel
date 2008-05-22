@@ -49,8 +49,7 @@ private:
 
   void FindNearbyEntities (celEntityList* list,
 	iSector* sector, const csVector3& pos, float sqradius,
-	csArray<iSector*>& visited_sectors,
-	csStringID cls);
+	csArray<iSector*>& visited_sectors);
 
 public:
   celEntityTracker (celPlLayer* pl, const char* name);
@@ -71,8 +70,7 @@ public:
   virtual void RemoveEntity (iCelEntity* entity);
   virtual void RemoveEntities ();
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
-  	const csVector3& pos, float radius,
-	csStringID cls = csInvalidStringID);
+  	const csVector3& pos, float radius);
   virtual csPtr<iCelEntityIterator> GetIterator ();
   virtual void AddEntities (iCelEntityTracker* tracker);
   virtual void RemoveEntities (iCelEntityTracker* tracker);

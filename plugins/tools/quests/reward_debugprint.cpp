@@ -31,7 +31,6 @@
 #include "physicallayer/propclas.h"
 #include "propclass/camera.h"
 
-#include "plugins/tools/quests/quests.h"
 #include "plugins/tools/quests/reward_debugprint.h"
 
 //---------------------------------------------------------------------------
@@ -44,10 +43,12 @@ celDebugPrintRewardFactory::celDebugPrintRewardFactory (
 	celDebugPrintRewardType* type) : scfImplementationType (this)
 {
   celDebugPrintRewardFactory::type = type;
+  msg_par = 0;
 }
 
 celDebugPrintRewardFactory::~celDebugPrintRewardFactory ()
 {
+  delete[] msg_par;
 }
 
 csPtr<iQuestReward> celDebugPrintRewardFactory::CreateReward (
@@ -60,7 +61,8 @@ csPtr<iQuestReward> celDebugPrintRewardFactory::CreateReward (
 
 bool celDebugPrintRewardFactory::Load (iDocumentNode* node)
 {
-  msg_par = node->GetAttributeValue ("message");
+  delete[] msg_par; msg_par = 0;
+  msg_par = csStrNew (node->GetAttributeValue ("message"));
 
   if (!msg_par)
   {
@@ -74,7 +76,11 @@ bool celDebugPrintRewardFactory::Load (iDocumentNode* node)
 
 void celDebugPrintRewardFactory::SetMessageParameter (const char* msg)
 {
-  msg_par = msg;
+  if (msg_par == msg) 
+    return;
+
+  delete[] msg_par;
+  msg_par = csStrNew (msg);
 }
 
 //---------------------------------------------------------------------------
@@ -86,18 +92,17 @@ celDebugPrintReward::celDebugPrintReward (
 {
   celDebugPrintReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  msg = qm->GetParameter (params, msg_par);
+  msg = csStrNew (qm->ResolveParameter (params, msg_par));
 }
 
 celDebugPrintReward::~celDebugPrintReward ()
 {
+  delete[] msg;
 }
 
-void celDebugPrintReward::Reward (iCelParameterBlock* params)
+void celDebugPrintReward::Reward ()
 {
-  const char* m = msg->Get (params);
-  if (!m) return;
-  printf ("%s\n", m);
+  printf ("%s\n", msg);
   fflush (stdout);
 }
 

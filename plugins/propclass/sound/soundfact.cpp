@@ -46,10 +46,10 @@ class celSoundSourceMovableListener : public scfImplementation1<celSoundSourceMo
 	iMovableListener>
 {
 private:
-  csWeakRef<iSndSysSource3D> soundsource;
+  csWeakRef<iSndSysSourceSoftware3D> soundsource;
 
 public:
-  celSoundSourceMovableListener (iSndSysSource3D* soundsource)
+  celSoundSourceMovableListener (iSndSysSourceSoftware3D* soundsource)
   	: scfImplementationType (this), soundsource (soundsource)
   {
   }
@@ -60,9 +60,7 @@ public:
     {
       csReversibleTransform tr = movable->GetFullTransform ();
       soundsource->SetPosition (tr.GetOrigin ());
-      csRef<iSndSysSource3DDirectionalSimple> ds =
-            scfQueryInterface<iSndSysSource3DDirectionalSimple> (soundsource);
-      ds->SetDirection (tr.GetFront ());
+      soundsource->SetDirection (tr.GetFront ());
     }
   }
   virtual void MovableDestroyed (iMovable*) { }
@@ -378,12 +376,7 @@ bool celPcSoundSource::SetPropertyIndexed (int idx, float b)
       source->SetVolume (b);
       return true;
     case propid_directionalradiation:
-      if (source3d)
-      {
-        csRef<iSndSysSource3DDirectionalSimple> ds =
-          scfQueryInterface<iSndSysSource3DDirectionalSimple> (source3d);
-        ds->SetDirectionalRadiation (b);
-      }
+      if (source3d) source3d->SetDirectionalRadiation (b);
       return true;
     case propid_minimumdistance:
       if (source3d) source3d->SetMinimumDistance (b);
@@ -406,11 +399,7 @@ bool celPcSoundSource::GetPropertyIndexed (int idx, float& b)
       return true;
     case propid_directionalradiation:
       if (source3d)
-      {
-        csRef<iSndSysSource3DDirectionalSimple> ds =
-          scfQueryInterface<iSndSysSource3DDirectionalSimple> (source3d);
-        b = ds->GetDirectionalRadiation ();
-      }
+        b = source3d->GetDirectionalRadiation ();
       else
 	b = 0.0f;
       return true;
@@ -575,8 +564,8 @@ bool celPcSoundSource::GetSource ()
   csRef<iSndSysSource> src = renderer->CreateSource (stream);
   if (src)
   {
-    source = scfQueryInterface<iSndSysSource> (src);
-    source3d = scfQueryInterface<iSndSysSource3D> (src);
+    source = scfQueryInterface<iSndSysSourceSoftware> (src);
+    source3d = scfQueryInterface<iSndSysSourceSoftware3D> (src);
   }
   return source != 0;
 }

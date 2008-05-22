@@ -49,6 +49,8 @@
 #include "ivaria/mapnode.h"
 
 #include <imesh/thing.h>
+#include <csgeom/polymesh.h>
+#include <igeom/polymesh.h>
 #include <imesh/objmodel.h>
 #include <igeom/path.h>
 #include <csgeom/path.h>
@@ -431,10 +433,10 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
       }
     case action_setposition:
       {
-        float yrotation = 0.0f;
         CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
-        if (p_yrot)
-          yrotation = yrot;
+        if (!p_yrot)
+          return MoveReport (object_reg,
+          	"Missing parameter 'yrot' for action SetPosition!");
         CEL_FETCH_STRING_PAR (sector,params,id_sector);
         if (!sector)
           return MoveReport (object_reg,
@@ -453,16 +455,12 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
           vpos.x = p_position->value.v.x;
           vpos.y = p_position->value.v.y;
           vpos.z = p_position->value.v.z;
-          SetPosition (vpos, yrotation, sect);
+          SetPosition (vpos, yrot, sect);
         }
         else if (p_position->type == CEL_DATA_STRING)
         {
           const char* cpos = p_position->value.s->GetData ();
-          if (!cpos)
-            return MoveReport (object_reg,
-            	"Can't find node '%s' for action SetPosition!",
-            	(const char*)cpos);
-          SetPosition (cpos, yrotation, sect);
+          SetPosition (cpos, yrot, sect);
         }
         else
           return MoveReport (object_reg,
@@ -1072,13 +1070,6 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
       {
         celData ret;
         behaviour->SendMessage ("pclinearmovement_arrived", this, ret, 0);
-	if (!dispatcher_arrived)
-	{
-	  dispatcher_arrived = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, "cel.move.arrived");
-	  if (!dispatcher_arrived) return;
-	}
-	dispatcher_arrived->SendMessage (0);
       }
     }
   }
@@ -1096,27 +1087,6 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
           behaviour->SendMessage ("pclinearmovement_stuck", this, ret, 0);
         if (move_result==CEL_MOVE_PARTIAL)
           behaviour->SendMessage ("pclinearmovement_collision", this, ret, 0);
-      }
-      if (move_result==CEL_MOVE_FAIL)
-      {
-	// @@@ Possible to add 'meshname' parameter here?
-	if (!dispatcher_impossible)
-	{
-	  dispatcher_impossible = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, "cel.move.impossible");
-	  if (!dispatcher_impossible) return;
-	}
-	dispatcher_impossible->SendMessage (0);
-      }
-      if (move_result==CEL_MOVE_PARTIAL)
-      {
-	if (!dispatcher_interrupted)
-	{
-	  dispatcher_interrupted = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, "cel.move.interrupted");
-	  if (!dispatcher_interrupted) return;
-	}
-	dispatcher_interrupted->SendMessage (0);
       }
     }
     //if (rc)
@@ -1190,8 +1160,8 @@ void celPcLinearMovement::GetCDDimensions (csVector3& body, csVector3& legs,
 bool celPcLinearMovement::InitCD (iMeshWrapper* mesh, float percentage,
 	iPcCollisionDetection* pc_cd)
 {
-  csBox3 bbox = mesh->GetMeshObject ()->GetObjectModel ()
-  ->GetObjectBoundingBox ();
+  csBox3 bbox;
+  mesh->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox (bbox);
   csVector3 body = bbox.Max () - bbox.Min ();
   csVector3 legs = body;
   csVector3 shift (0); shift.y = bbox.MinY ();
@@ -1392,8 +1362,8 @@ void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
 void celPcLinearMovement::SetFullPosition (const char* center_name, float yrot,
 	iSector* sector)
 {
-  csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
-  	sector->QueryObject (), center_name);
+  csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+  	sector->QueryObject (), iMapNode, center_name);
   if (mapnode)
   {
     SetFullPosition (mapnode->GetPosition (), yrot, sector);
@@ -1423,8 +1393,8 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
 void celPcLinearMovement::SetPosition (const char* center_name, float yrot,
 	iSector* sector)
 {
-  csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
-  	sector->QueryObject (), center_name);
+  csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+  	sector->QueryObject (), iMapNode, center_name);
   if (mapnode)
   {
     SetPosition (mapnode->GetPosition (), yrot, sector);

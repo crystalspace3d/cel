@@ -12,8 +12,6 @@
 #pragma comment(linker, "/section:.CSmeta,er")
 #pragma comment(linker, "/merge:.CSmetai=.CSmeta")
 #endif
-struct _static_use { _static_use (); };
-_static_use::_static_use () {}
 SCF_USE_STATIC_PLUGIN(addon_celentity)
 SCF_USE_STATIC_PLUGIN(addon_celentitytpl)
 SCF_USE_STATIC_PLUGIN(addon_questdef)
@@ -32,9 +30,9 @@ SCF_USE_STATIC_PLUGIN(pfinput)
 SCF_USE_STATIC_PLUGIN(pfinv)
 SCF_USE_STATIC_PLUGIN(pflight)
 SCF_USE_STATIC_PLUGIN(pfmechanics)
-SCF_USE_STATIC_PLUGIN(pfmeshdeform)
 SCF_USE_STATIC_PLUGIN(pfhover)
 SCF_USE_STATIC_PLUGIN(pfmesh)
+SCF_USE_STATIC_PLUGIN(pfmeshdeform)
 SCF_USE_STATIC_PLUGIN(pfmove)
 SCF_USE_STATIC_PLUGIN(pfmover)
 SCF_USE_STATIC_PLUGIN(pfportal)

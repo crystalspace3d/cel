@@ -74,6 +74,7 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
   delta = 0.01f;
   remaining_delta = 0;
   simulationspeed=1.0f;
+  object_reg->Register ((iPcMechanicsSystem*)this, "iPcMechanicsSystem");
 
   if (param_dynsys == csInvalidStringID)
   {
@@ -95,18 +96,6 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
     AddAction (action_setsteptime, "cel.action.SetStepTime");
     AddAction (action_setsimulationspeed, "cel.action.SetSimulationSpeed");
   }
-}
-
-void celPcMechanicsSystem::SetEntity (iCelEntity* entity)
-{
-  // if we're already set to some entity, unregister.
-  if (celPcCommon::entity == entity)
-    object_reg->Unregister ((iPcMechanicsSystem*)this, "iPcMechanicsSystem");
-  // now call underlying SetEntity.
-  celPcCommon::SetEntity(entity);
-  // if we're getting set to a new entity, register.
-  if (entity)
-    object_reg->Register ((iPcMechanicsSystem*)this, "iPcMechanicsSystem");
 }
 
 celPcMechanicsSystem::~celPcMechanicsSystem ()
@@ -670,7 +659,6 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     AddAction (action_setcolliderbox, "cel.action.SetColliderBox");
     AddAction (action_setcolliderplane, "cel.action.SetColliderPlane");
     AddAction (action_setcollidermesh, "cel.action.SetColliderMesh");
-    AddAction (action_setcolliderconvexmesh, "cel.action.SetColliderConvexMesh");
     AddAction (action_setlinearvelocity, "cel.action.SetLinearVelocity");
     AddAction (action_setangularvelocity, "cel.action.SetAngularVelocity");
     AddAction (action_addforceonce, "cel.action.AddForceOnce");
@@ -784,8 +772,6 @@ csPtr<iCelDataBuffer> celPcMechanicsObject::Save ()
       break;
     case CEL_BODY_MESH:
       break;
-    case CEL_BODY_CONVEXMESH:
-      break;
   }
   databuf->Add (friction);
   databuf->Add (elasticity);
@@ -868,8 +854,6 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
       }
       break;
     case CEL_BODY_MESH:
-      break;
-    case CEL_BODY_CONVEXMESH:
       break;
   }
   friction = databuf->GetFloat ();
@@ -1228,11 +1212,6 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
         AttachColliderMesh ();
         return true;
       }
-    case action_setcolliderconvexmesh:
-      {
-        AttachColliderConvexMesh ();
-        return true;
-      }
     case action_addtogroup:
       {
         CEL_FETCH_STRING_PAR (group,params,param_group);
@@ -1251,6 +1230,7 @@ void celPcMechanicsObject::Collision (iRigidBody *thisbody,
 {
   if (!cd_enabled) return;
   iCelBehaviour* behaviour = entity->GetBehaviour ();
+  if (!behaviour) return;
   celData ret;
   // Find the other body's iPcMechanicsObject.
   params->GetParameter (0).Set (0);
@@ -1267,16 +1247,7 @@ void celPcMechanicsObject::Collision (iRigidBody *thisbody,
   params->GetParameter (1).Set (pos);
   params->GetParameter (2).Set (normal);
   params->GetParameter (3).Set (depth);
-  if (behaviour)
-    behaviour->SendMessage ("pcdynamicbody_collision", this, ret, params);
-
-  if (!dispatcher_cd)
-  {
-    dispatcher_cd = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, "cel.mechanics.collision");
-    if (!dispatcher_cd) return;
-  }
-  dispatcher_cd->SendMessage (params);
+  behaviour->SendMessage ("pcdynamicbody_collision", this, ret, params);
 }
 
 void celPcMechanicsObject::GetMechSystem ()
@@ -1550,9 +1521,10 @@ void celPcMechanicsObject::AttachColliderBoundingBox (const csVector3& sizeadjus
   if (!GetBody ()) return;
   FindMeshLightCamera ();
   if(!pcmesh) return;
+  csBox3 boundingbox;
   csRef<iObjectModel> meshobjmodel;
   meshobjmodel=pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ();
-  csBox3 boundingbox = meshobjmodel->GetObjectBoundingBox();
+  meshobjmodel->GetObjectBoundingBox(boundingbox);
   csOrthoTransform t;
   t.SetOrigin(boundingbox.GetCenter());
   csVector3 size = boundingbox.GetSize() + sizeadjustment;
@@ -1598,24 +1570,6 @@ void celPcMechanicsObject::AttachColliderMesh ()
   delete bdata;
   bdata = 0;
   btype = CEL_BODY_MESH;
-}
-
-void celPcMechanicsObject::AttachColliderConvexMesh ()
-{
-  if (!GetBody ()) return;
-  FindMeshLightCamera ();
-  if (!pcmesh) return;
-  iMeshWrapper* mesh = pcmesh->GetMesh ();
-  csReversibleTransform tr;
-  body->AttachColliderConvexMesh (mesh, tr,
-  	friction, density, elasticity, softness);
-  body->AdjustTotalMass (mass);
-  body->SetTransform (mesh->GetMovable ()->GetFullTransform ());
-  body->AttachMesh (mesh);
-
-  delete bdata;
-  bdata = 0;
-  btype = CEL_BODY_CONVEXMESH;
 }
 
 uint32 celPcMechanicsObject::AddForceTagged (const csVector3& force,

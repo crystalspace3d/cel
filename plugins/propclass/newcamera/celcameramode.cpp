@@ -1,7 +1,6 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
-    Copyright (C) 2007 by Dariusz Dawidowski
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -60,134 +59,77 @@
 namespace celCameraMode
 {
 
-celCameraMode::celCameraMode ()
+celCameraMode::celCameraMode()
 {
   parent = 0;
-  origin = csVector3 (0);
-  target = csVector3 (0);
-  up = csVector3 (0.0f, 1.0f, 0.0f);
-  originSpring = 5.0f;
-  targetSpring = 5.0f;
-  upSpring = 2.0f;
+
+  pos = csVector3(0,0,0);
+  target = csVector3(0,0,0);
+  up = csVector3(0,1,0);
 }
 
-celCameraMode::~celCameraMode ()
+celCameraMode::~celCameraMode()
 {
 }
 
-void celCameraMode::SetParentCamera (iPcNewCamera* camera)
+void celCameraMode::SetParentCamera(iPcNewCamera * camera)
 {
   celCameraMode::parent = camera;
 }
 
-bool celCameraMode::UseSpringPos () const
+bool celCameraMode::UseSpringPos() const
 {
   return true;
 }
 
-bool celCameraMode::UseSpringOrigin () const
+bool celCameraMode::UseSpringTarget() const
 {
   return true;
 }
 
-bool celCameraMode::UseSpringTarget () const
+bool celCameraMode::UseSpringUp() const
 {
   return true;
 }
 
-bool celCameraMode::UseSpringUp () const
+bool celCameraMode::AllowCollisionDetection() const
 {
   return true;
 }
 
-bool celCameraMode::AllowCollisionDetection () const
-{
-  return GetCollisionDetection ();
-}
-
-bool celCameraMode::GetCollisionDetection () const
-{
-  return true;
-}
-
-bool celCameraMode::DrawAttachedMesh () const
+bool celCameraMode::DrawAttachedMesh() const
 {
   return false;
 }
 
-float celCameraMode::GetSpringCoefficient () const
+float celCameraMode::GetSpringCoefficient() const
 {
-  return originSpring;
+  return 15.0f;
 }
 
-void celCameraMode::SetSpringCoefficient (float s)
+const csVector3 & celCameraMode::GetPosition() const
 {
-  originSpring = s;
-  targetSpring = s;
-  upSpring = s;
+  return pos;
 }
 
-float celCameraMode::GetOriginSpringCoefficient () const
-{
-  return originSpring;
-}
-
-void celCameraMode::SetOriginSpringCoefficient (float s)
-{
-  originSpring = s;
-}
-
-float celCameraMode::GetTargetSpringCoefficient () const
-{
-  return targetSpring;
-}
-
-void celCameraMode::SetTargetSpringCoefficient (float s)
-{
-  targetSpring = s;
-}
-
-float celCameraMode::GetUpSpringCoefficient () const
-{
-  return upSpring;
-}
-
-void celCameraMode::SetUpSpringCoefficient (float s)
-{
-  upSpring = s;
-}
-
-const csVector3& celCameraMode::GetPosition () const
-{
-  return GetOrigin ();
-}
-
-const csVector3& celCameraMode::GetOrigin () const
-{
-  return origin;
-}
-
-const csVector3& celCameraMode::GetTarget () const
+const csVector3 & celCameraMode::GetTarget() const
 {
   return target;
 }
 
-const csVector3& celCameraMode::GetUp () const
+const csVector3 & celCameraMode::GetUp() const
 {
   return up;
 }
 
-bool celCameraMode::DecideCameraState ()
+bool celCameraMode::DecideCameraState()
 {
   if (!parent)
     return false;
 
-  origin = parent->GetBasePos ();
-  target = origin + parent->GetBaseDir ();
-  up = parent->GetBaseUp ();
-  originSpring = parent->GetOriginSpringCoefficient ();
-  targetSpring = parent->GetTargetSpringCoefficient ();
-  upSpring = parent->GetUpSpringCoefficient ();
+  pos = parent->GetBasePos();
+  target = pos + parent->GetBaseDir();
+  up  = parent->GetBaseUp();
   return true;
 }
 

@@ -23,7 +23,7 @@ class actor:
 		#	pos = csVector3 (0, 1, 0)
 		#	self.mesh.MoveMesh(room,pos)
 		meshobj = self.mesh.Mesh
-		self.cal3dstate = meshobj.GetMeshObject().QueryInterface(SpriteCal3DState)
+		self.cal3dstate = SCF_QUERY_INTERFACE(meshobj.GetMeshObject(), iSpriteCal3DState)
 		# check for linmove
 		self.linmove = celLinearMovement(celEntity)
 		# check for tooltip

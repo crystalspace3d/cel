@@ -50,8 +50,6 @@ class celPcNeuralNet : public
   static PropertyHolder propinfo;
   csRef<celGenericParameterBlock> params;
 
-  csRef<iMessageDispatcher> dispatcher_outputs;
-
   /// Pointer to a function which returns a new celNNActivationFunc.
   typedef celNNActivationFunc* (*funcgen_t)();
 

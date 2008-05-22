@@ -24,7 +24,6 @@
 #include "behaviourlayer/behave.h"
 #include "physicallayer/pl.h"
 
-#include "plugins/tools/quests/quests.h"
 #include "plugins/tools/quests/reward_destroyentity.h"
 
 //---------------------------------------------------------------------------
@@ -57,45 +56,40 @@ celDestroyEntityRewardFactory::celDestroyEntityRewardFactory (
 	celDestroyEntityRewardType* type) : scfImplementationType (this)
 {
   celDestroyEntityRewardFactory::type = type;
+  entity_par = 0;
 }
 
 celDestroyEntityRewardFactory::~celDestroyEntityRewardFactory ()
 {
+  delete[] entity_par;
 }
 
 csPtr<iQuestReward> celDestroyEntityRewardFactory::CreateReward (
     iQuest*, const celQuestParams& params)
 {
-  iQuestReward* newquest;
-  if (entity_par)
-    newquest = new celDestroyEntityReward (type,
-  	params, entity_par);
-  else
-    newquest = new celDestroyClassReward (type,
+  celDestroyEntityReward* newquest = new celDestroyEntityReward (type,
   	params, entity_par);
   return newquest;
 }
 
 bool celDestroyEntityRewardFactory::Load (iDocumentNode* node)
 {
-  entity_par = node->GetAttributeValue ("entity");
-  class_par = node->GetAttributeValue ("class");
-  if ((!entity_par) && (!class_par))
+  delete[] entity_par; entity_par = 0;
+  entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  if (!entity_par)
     return Report (type->object_reg,
-      "one of 'entity' or 'class' attributes must be used for the destroyentity reward!");
+      "'entity' attribute is missing for the destroyentity reward!");
   return true;
 }
 
 void celDestroyEntityRewardFactory::SetEntityParameter (
 	const char* entity)
 {
-  entity_par = entity;
-}
-
-void celDestroyEntityRewardFactory::SetClassParameter (
-	const char* ent_class)
-{
-  class_par = ent_class;
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -107,23 +101,22 @@ celDestroyEntityReward::celDestroyEntityReward (
 {
   celDestroyEntityReward::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->GetParameter (params, entity_par);
+  entity = csStrNew (qm->ResolveParameter (params, entity_par));
 }
 
 celDestroyEntityReward::~celDestroyEntityReward ()
 {
+  delete[] entity;
 }
 
-void celDestroyEntityReward::Reward (iCelParameterBlock* params)
+void celDestroyEntityReward::Reward ()
 {
   iCelPlLayer* pl = type->pl;
-  const char* e = entity->Get (params);
-  if (!e) return;
-  iCelEntity* ent = pl->FindEntity (e);
+  iCelEntity* ent = pl->FindEntity (entity);
   if (!ent)
   {
     Report (type->object_reg,
-      		"entity %s not found for destroyentity reward!", e);
+      		"entity %s not found for destroyentity reward!",entity);
     return;
   }
 
@@ -132,29 +125,3 @@ void celDestroyEntityReward::Reward (iCelParameterBlock* params)
 
 //---------------------------------------------------------------------------
 
-celDestroyClassReward::celDestroyClassReward (
-	celDestroyEntityRewardType* type,
-  	const celQuestParams& params,
-	const char* class_par) : scfImplementationType (this)
-{
-  celDestroyClassReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  ent_class = qm->GetParameter (params, class_par);
-}
-
-celDestroyClassReward::~celDestroyClassReward ()
-{
-}
-
-void celDestroyClassReward::Reward (iCelParameterBlock* params)
-{
-  const char* cl = ent_class->Get (params);
-  if (!cl) return;
-  csStringID id = type->pl->FetchStringID (cl);
-  iCelPlLayer* pl = type->pl;
-  csRef<iCelEntityList> entlist = pl->GetClassEntitiesList (id);
-  for (int i = entlist->GetCount()-1; i>=0; i--)
-  {
-    pl->RemoveEntity (entlist->Get (i));
-  }
-}

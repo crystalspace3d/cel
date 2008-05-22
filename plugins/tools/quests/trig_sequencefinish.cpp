@@ -43,10 +43,16 @@ celSequenceFinishTriggerFactory::celSequenceFinishTriggerFactory (
 	celSequenceFinishTriggerType* type) : scfImplementationType (this)
 {
   celSequenceFinishTriggerFactory::type = type;
+  entity_par = 0;
+  tag_par = 0;
+  sequence_par = 0;
 }
 
 celSequenceFinishTriggerFactory::~celSequenceFinishTriggerFactory ()
 {
+  delete[] entity_par;
+  delete[] tag_par;
+  delete[] sequence_par;
 }
 
 csPtr<iQuestTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
@@ -59,8 +65,11 @@ csPtr<iQuestTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
 
 bool celSequenceFinishTriggerFactory::Load (iDocumentNode* node)
 {
-  entity_par = node->GetAttributeValue ("entity");
-  tag_par = node->GetAttributeValue ("entity_tag");
+  delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
+  delete[] sequence_par; sequence_par = 0;
+  entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
 
   if (!entity_par)
   {
@@ -69,7 +78,7 @@ bool celSequenceFinishTriggerFactory::Load (iDocumentNode* node)
       "'entity' attribute is missing for the sequencefinish trigger!");
     return false;
   }
-  sequence_par = node->GetAttributeValue ("sequence");
+  sequence_par = csStrNew (node->GetAttributeValue ("sequence"));
   if (!sequence_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -83,14 +92,26 @@ bool celSequenceFinishTriggerFactory::Load (iDocumentNode* node)
 void celSequenceFinishTriggerFactory::SetEntityParameter (
 	const char* entity, const char* tag)
 {
-  entity_par = entity;
-  tag_par = tag;
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celSequenceFinishTriggerFactory::SetSequenceParameter (
 	const char* sequence)
 {
-  sequence_par = sequence;
+  if (sequence_par == sequence) 
+    return;
+
+  delete[] sequence_par;
+  sequence_par = csStrNew (sequence);
 }
 
 //---------------------------------------------------------------------------
@@ -103,16 +124,17 @@ celSequenceFinishTrigger::celSequenceFinishTrigger (
 {
   celSequenceFinishTrigger::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  tag = qm->ResolveParameter (params, tag_par);
-  sequence = qm->ResolveParameter (params, sequence_par);
-
-  finished = false;
+  entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
+  sequence = csStrNew (qm->ResolveParameter (params, sequence_par));
 }
 
 celSequenceFinishTrigger::~celSequenceFinishTrigger ()
 {
   DeactivateTrigger ();
+  delete[] entity;
+  delete[] tag;
+  delete[] sequence;
 }
 
 void celSequenceFinishTrigger::RegisterCallback (iQuestTriggerCallback* callback)
@@ -127,9 +149,8 @@ void celSequenceFinishTrigger::ClearCallback ()
 
 void celSequenceFinishTrigger::SequenceFinished (iQuestSequence* seq)
 {
-  finished = true;
   DeactivateTrigger ();
-  callback->TriggerFired ((iQuestTrigger*)this, 0);
+  callback->TriggerFired ((iQuestTrigger*)this);
 }
 
 void celSequenceFinishTrigger::FindSequence ()
@@ -146,7 +167,6 @@ void celSequenceFinishTrigger::FindSequence ()
 
 void celSequenceFinishTrigger::ActivateTrigger ()
 {
-  finished = false;
   FindSequence ();
   if (!seq) return;
   // First remove to make sure we don't register ourselves multiple
@@ -157,12 +177,7 @@ void celSequenceFinishTrigger::ActivateTrigger ()
 
 bool celSequenceFinishTrigger::Check ()
 {
-  if (finished)
-  {
-    DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
-  }
-  return finished;
+  return false;
 }
 
 void celSequenceFinishTrigger::DeactivateTrigger ()

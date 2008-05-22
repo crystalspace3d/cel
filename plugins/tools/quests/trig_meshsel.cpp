@@ -30,7 +30,6 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 
-#include "celtool/stdparams.h"
 #include "plugins/tools/quests/trig_meshsel.h"
 
 //---------------------------------------------------------------------------
@@ -69,6 +68,8 @@ celMeshSelectTriggerFactory::celMeshSelectTriggerFactory (
 
 celMeshSelectTriggerFactory::~celMeshSelectTriggerFactory ()
 {
+  delete[] entity_par;
+  delete[] tag_par;
 }
 
 csPtr<iQuestTrigger> celMeshSelectTriggerFactory::CreateTrigger (
@@ -81,9 +82,12 @@ csPtr<iQuestTrigger> celMeshSelectTriggerFactory::CreateTrigger (
 
 bool celMeshSelectTriggerFactory::Load (iDocumentNode* node)
 {
-  entity_par = node->GetAttributeValue ("entity");
-  tag_par = node->GetAttributeValue ("entity_tag");
-  if (entity_par.IsEmpty ())
+  delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
+
+  entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
+  if (!entity_par)
     return Report (type->object_reg,
       "'entity' attribute is missing for the inventory trigger!");
   return true;
@@ -92,8 +96,16 @@ bool celMeshSelectTriggerFactory::Load (iDocumentNode* node)
 void celMeshSelectTriggerFactory::SetEntityParameter (
 	const char* entity, const char* tag)
 {
-  entity_par = entity;
-  tag_par = tag;
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -106,15 +118,15 @@ celMeshSelectTrigger::celMeshSelectTrigger (
 {
   celMeshSelectTrigger::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  tag = qm->ResolveParameter (params, tag_par);
-  params_entity.AttachNew (new celOneParameterBlock ());
-  params_entity->SetParameterDef (type->pl->FetchStringID ("cel.parameter.entity"), "entity");
+  entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
 }
 
 celMeshSelectTrigger::~celMeshSelectTrigger ()
 {
   DeactivateTrigger ();
+  delete[] entity;
+  delete[] tag;
 }
 
 void celMeshSelectTrigger::RegisterCallback (iQuestTriggerCallback* callback)
@@ -172,14 +184,10 @@ void celMeshSelectTrigger::SaveTriggerState (iCelDataBuffer*)
 }
 
 void celMeshSelectTrigger::MouseDown (iPcMeshSelect*,
-  	int, int, int, iCelEntity* ent)
+  	int, int, int, iCelEntity*)
 {
   DeactivateTrigger ();
-  if (ent)
-    params_entity->GetParameter (0).Set (ent->GetName ());
-  else
-    params_entity->GetParameter (0).Set ("");
-  callback->TriggerFired ((iQuestTrigger*)this, params_entity);
+  callback->TriggerFired ((iQuestTrigger*)this);
 }
 
 void celMeshSelectTrigger::MouseUp (iPcMeshSelect*,

@@ -63,7 +63,7 @@ public:
   {
     delete handler;
   }
-  virtual bool Execute (iCelEntity* entity, celData& ret, iCelParameterBlock* params = 0);
+  virtual bool Execute (iCelEntity* entity, celData& ret);
   virtual size_t FindLocalVariable (const char* name) const;
   virtual const csStringArray& GetLocalVariables () const { return local_vars; }
   virtual void SetLocalVariable (size_t idx, const celData& value);
@@ -138,15 +138,9 @@ private:
   	csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
   	const char* name);
-  // Parse an expression on a specific attribute.
   bool ParseExpression (csStringArray& local_vars,
   	iDocumentNode* child,
   	celXmlScriptEventHandler* h, const char* attrname, const char* name,
-  	int optional_type = CEL_DATA_NONE);
-  // Parse an expression on the contents of a node.
-  bool ParseExpressionContents (csStringArray& local_vars,
-  	iDocumentNode* child,
-  	celXmlScriptEventHandler* h, const char* name,
   	int optional_type = CEL_DATA_NONE);
   bool ParseExpressionOrConstantString (csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,

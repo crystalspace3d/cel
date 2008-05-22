@@ -48,7 +48,7 @@ class celDebugPrintRewardFactory : public scfImplementation2<
 {
 private:
   celDebugPrintRewardType* type;
-  csString msg_par;
+  char* msg_par;
 
 public:
   celDebugPrintRewardFactory (celDebugPrintRewardType* type);
@@ -70,7 +70,7 @@ class celDebugPrintReward : public scfImplementation1<
 {
 private:
   celDebugPrintRewardType* type;
-  csRef<iQuestParameter> msg;
+  char* msg;
 
 public:
   celDebugPrintReward (celDebugPrintRewardType* type,
@@ -78,7 +78,7 @@ public:
 	const char* msg_par);
   virtual ~celDebugPrintReward ();
 
-  virtual void Reward (iCelParameterBlock* params);
+  virtual void Reward ();
 };
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_DEBUGPRINT__

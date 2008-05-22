@@ -90,35 +90,14 @@ do
   makeout="$(LOCATE.OBJECTS)"
   version="$(PACKAGE_VERSION)"
   longversion="$(PACKAGE_STRING)"
-  newincdir=""
+  includedir=""
   # try to determine if we're in a source or installed CEL version
-  if test "x\$includedir_main" = "x"
+  if test "x\$includedir" = "x"
   then
     if [ -r \${prefix}/include/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/celversion.h ] ; then
-      newincdir="\${prefix}/include/$(PACKAGE_NAME)-$(PACKAGE_VERSION)"
-      includedir_main=\$newincdir
+      includedir="\${prefix}/include/$(PACKAGE_NAME)-$(PACKAGE_VERSION)"
     elif [ -r \${prefix}/include/celversion.h ] ; then
-      newincdir="\${prefix}/include"
-      includedir_main=\$newincdir
-    fi
-  fi
-  if test "x\$includedir_config" = "x"
-  then
-    if [ -r \${prefix}/include/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/celconfig.h ] ; then
-      newincdir="\${prefix}/include/$(PACKAGE_NAME)-$(PACKAGE_VERSION)"
-      includedir_config=\$newincdir
-    elif [ -r \${prefix}/include/celconfig.h ] ; then
-      newincdir="\${prefix}/include"
-      includedir_config=\$newincdir
-    fi
-  fi
-  if test -n "\$newincdir"
-  then
-    if test "x\$includedir" = "x"
-    then
-      includedir="\$newincdir"
-    else
-      includedir="\$includedir\$PATH_SEPARATOR\$newincdir"
+      includedir="\${prefix}/include"
     fi
   fi
 done
@@ -127,6 +106,7 @@ if test "x\$includedir" = "x"
 then
   includedir="$(appincdir)"
 fi
+cflags="-I\${includedir}"
 
 syslibs=" $(LINKLIBS) "
 common_cflags=" $(COMPILER.CFLAGS.MANDATORY) "

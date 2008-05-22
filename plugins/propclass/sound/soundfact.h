@@ -115,8 +115,8 @@ private:
   };
   static PropertyHolder propinfo;
 
-  csRef<iSndSysSource3D> source3d;
-  csRef<iSndSysSource> source;
+  csRef<iSndSysSourceSoftware3D> source3d;
+  csRef<iSndSysSourceSoftware> source;
   csRef<iSndSysStream> stream;
   int mode;
   csString soundname;

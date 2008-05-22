@@ -40,7 +40,6 @@ struct iObjectRegistry;
 class csVector3;
 struct iMeshFactoryWrapper;
 struct iEngine;
-class WheeledCollisionCallback;
 
 struct celWheel
 {
@@ -68,7 +67,6 @@ struct celWheel
   float ABSBrake;
   //Used for steering
   float CurrentStop;
-  WheeledCollisionCallback* Callback;
 };
 /**
  * Factory for test.
@@ -143,10 +141,7 @@ private:
     propid_currentgearvelocity,
     propid_currentgearforce,
     propid_averagewheelspin,
-    propid_differential,
-    propid_antisway,
-    propid_antiswayfactor,
-    propid_antiswaylimit
+    propid_differential
   };
 
   // Parameters.
@@ -158,9 +153,13 @@ private:
   static csStringID param_gear;
   static csStringID param_velocity;
   static csStringID param_force;
-  static csStringID param_steeramount;
   static csStringID param_number;
+  static csStringID param_tankmode;
+  static csStringID param_steeramount;
+  static csStringID param_brakeforce;
   static csStringID param_applied;
+  static csStringID param_autotransmission;
+  static csStringID param_autoreverse;
 
   static csStringID param_otherbody;
   static csStringID param_depth;
@@ -181,8 +180,6 @@ private:
   static csStringID param_steerinverted;
   static csStringID param_handbrakeaffected;
 
-  csRef<iMessageDispatcher> dispatcher_collision;
-
   static PropertyHolder propinfo;
 
   float speed;          //Current speed
@@ -193,7 +190,6 @@ private:
   bool tankmode;        //Whether to use tank steering
   bool handbrakeapplied;//Whether handbrake is applied
   bool differential;    //Whether the differentials are used
-  bool antisway;        //Whether to apply anti-sway forces to the vehicle's wheels.
   
   bool abs;             //ABS braking
   float abssteer;       //Absolute steering amount
@@ -219,9 +215,6 @@ private:
 
   float accelamount;  //Accelerator amount of application
   float brakeamount;  //Brake amount of application
-
-  float antiswayfactor;
-  float antiswaylimit;
 
   csString wheelpath;
   csString wheelfact;
@@ -253,7 +246,6 @@ public:
   void UpdateGear();
   void UpdateSteer(size_t wheelnum);
   void AddDiffWheel(int index);
-  void AntiSway();
 
   //Setters
   virtual void SetWheelMesh(const char* file, const char* factname);
@@ -316,12 +308,6 @@ public:
   virtual void SetBrakeForce(float force){brakeforce=force;}
   virtual void SetAutoReverse(bool autoreverse)
   {celPcWheeled::autoreverse=autoreverse;}
-
-  virtual void SetAntiSway(bool enabled){celPcWheeled::antisway = enabled;}
-  virtual void SetAntiSwayFactor(float antiswayfactor)
-    {celPcWheeled::antiswayfactor = antiswayfactor;}
-  virtual void SetAntiSwayLimit(float antiswaylimit)
-    {celPcWheeled::antiswaylimit = antiswaylimit;}
 
   //Some wheel steering presets.
   virtual void SetOuterWheelSteerPreset(float sensitivity);
@@ -389,9 +375,6 @@ public:
   virtual float GetGearVelocity(int gear){return gears[gear+1].x;}
   virtual float GetGearForce(int gear){return gears[gear+1].y;}
   virtual float GetSpeed();
-  virtual bool GetAntiSway(){return antisway;}
-  virtual float GetAntiSwayFactor(){return antiswayfactor;}
-  virtual float GetAntiSwayLimit(){return antiswaylimit;}
 
   // Per-wheel settings
   virtual csVector3 GetWheelPosition(size_t wheelnum)
@@ -450,8 +433,28 @@ public:
 
   virtual size_t GetWheelCount() { return wheels.GetSize(); }
 
-  void WheelCollision (iRigidBody *thisbody, iRigidBody *otherbody,
-	const csVector3& pos, const csVector3& normal, float depth, size_t index);
+  struct WheeledCollisionCallback : public scfImplementation1<
+	WheeledCollisionCallback, iDynamicsCollisionCallback>
+  {
+    celPcWheeled* parent;
+    WheeledCollisionCallback (celPcWheeled* parent) :
+      scfImplementationType (this)
+    {
+      WheeledCollisionCallback::parent = parent;
+    }
+    virtual ~WheeledCollisionCallback ()
+    {
+    }
+
+    virtual void Execute (iRigidBody *thisbody, iRigidBody *otherbody,
+	const csVector3& pos, const csVector3& normal, float depth)
+    {
+      parent->Collision (thisbody, otherbody, pos, normal, depth);
+    }
+  } *scfiWheeledCollisionCallback;
+
+  void Collision (iRigidBody *thisbody, iRigidBody *otherbody,
+	const csVector3& pos, const csVector3& normal, float depth);
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);

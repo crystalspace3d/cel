@@ -51,13 +51,13 @@ class celTransformSeqOpFactory : public scfImplementation2<
 {
 private:
   celTransformSeqOpType* type;
-  csString entity_par;
-  csString tag_par;
-  csString vectorx_par;
-  csString vectory_par;
-  csString vectorz_par;
+  char* entity_par;
+  char* tag_par;
+  char* vectorx_par;
+  char* vectory_par;
+  char* vectorz_par;
   int rot_axis;
-  csString rot_angle_par;
+  char* rot_angle_par;
 
 public:
   celTransformSeqOpFactory (celTransformSeqOpType* type);
@@ -82,8 +82,8 @@ class celTransformSeqOp : public scfImplementation1<
 {
 private:
   celTransformSeqOpType* type;
-  csString entity;
-  csString tag;
+  char* entity;
+  char* tag;
   csVector3 vector;
   bool do_move;
   int rot_axis;

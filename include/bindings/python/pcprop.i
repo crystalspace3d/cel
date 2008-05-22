@@ -81,7 +81,7 @@
   def __delitem__(self,item):
       if isinstance(item,str):
         item = self.GetPropertyIndex(item)
-        if item == cspace.csArrayItemNotFound:
+        if item == -1:
           return
       self.ClearProperty(item)
   def __setitem__(self,item,value): 
@@ -91,7 +91,7 @@
   def __getitem__(self,item):
       if isinstance(item,str):
           item = self.GetPropertyIndex(item)
-          if item == cspace.csArrayItemNotFound:
+          if item == -1:
             return None
       return self.GetPropertyValueIndex(item)
 %}

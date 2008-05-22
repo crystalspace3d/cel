@@ -5,7 +5,7 @@ SubDir TOP ;
 
 IncludeDir ;
 IncludeDir "include" ;
-IncludeDir $(BUILDTOP) include : : literal transient ;
+IncludeDir $(BUILDTOP) : : literal transient ;
 
 # Construct a distclean target
 CleanDir clean : out ;
@@ -13,8 +13,7 @@ CleanDir clean : out ;
 Clean distclean : configure.lineno config.status config.status.lineno
 		  config.log config.cache aclocal.m4
 		  Jamconfig Jamfile
-		  scripts/autopackage/celstart_static.apspec 
-		  include/celconfig.h ;
+		  scripts/autopackage/celstart_static.apspec ;
 CleanDir distclean : autom4te.cache ;
 Depends distclean : clean ;
 Help distclean : "Remove configuration information and built targets" ;
@@ -28,7 +27,6 @@ MsvcGenSubDir TOP msvc : common ;
 MsvcGenSubDir TOP msvc 7 : 7 ;
 MsvcGenSubDir TOP msvc 71 : 71 ;
 MsvcGenSubDir TOP msvc 8 : 8 ;
-MsvcGenSubDir TOP msvc 9 : 9 ;
 MsvcGenTemplateDir TOP mk msvcgen ;
 # What the typical user will need. 
 MsvcGenWorkspace cel : : "grp.+_(?!cel$)" static ;
@@ -97,13 +95,8 @@ VfsCfgGen $(VFS_CONFIGFILE) : $(SUBDIR)/vfs.cfg.template ;
 Depends install_config : [ DoInstall $(VFS_CONFIGFILE) : $(appconfdir) ] ;
 
 # When build directory differs from source directory, also arrange for
-# 'distclean' to remove the $(BUILDDIR)/scripts and $(BUILDDIR)/include
-# directories created by configure.  Also ensure that 'install' installs the 
-# generated $(BUILDDIR)/include/celconfig.h.
+# 'distclean' to remove the $(BUILDDIR)/scripts directory created by configure.
 if [ Property build : standalone ]
 {
-  CleanDir distclean : include scripts ;
-  
-  local SUBDIR = [ ConcatDirs $(BUILDTOP) include ] ; # Temporary for Recurse.
-  Recurse InstallHeader : .h ;
+  CleanDir distclean : scripts ;
 }

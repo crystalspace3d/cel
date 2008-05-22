@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer 1.3dev: 4.6 The Python Behaviour Layer</title>
+<title>Crystal Entity Layer 1.2: 4.6 The Python Behaviour Layer</title>
 
-<meta name="description" content="Crystal Entity Layer 1.3dev: 4.6 The Python Behaviour Layer">
-<meta name="keywords" content="Crystal Entity Layer 1.3dev: 4.6 The Python Behaviour Layer">
+<meta name="description" content="Crystal Entity Layer 1.2: 4.6 The Python Behaviour Layer">
+<meta name="keywords" content="Crystal Entity Layer 1.2: 4.6 The Python Behaviour Layer">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -272,10 +272,7 @@ The loader plugin from Crystal Space, used to load and access font objects.
 (<code>iFontServer</code> interface).
 </li><li> <code>pycel.Stringset</code>
 The string set plugin, used to transform from <small>CS</small> string <small>ID</small>s to
-regular strings (<code>iStringSet</code> interface).
-</li><li> <code>pycel.Reporter</code>
-The reporter plugin, used to report information.
-(<code>iReporter</code> interface).
+regular strings (<code>iStringSet</code> interface). 
 </li></ul>
 
 <a name="8"></a>
@@ -317,6 +314,24 @@ section of this manual.
 <p>Property classes are objects we can create attached to an entity, and which
 augment the entity with some functionality (see section <a href="Property-Classes.html#0">Property Classes</a>).
 </p>
+<p>First it must be noted to use each property class it must be ensured it is
+registered at the physical layer, to do this in python simply add the property
+class factory full name (cel.pcfactory.pcclass) to the <samp>&lsquo;PcFactories&rsquo;</samp> dict
+(which is a member of the physicallayer but has global access due to pycel
+layer).
+</p>
+<p>An example of this follows:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">pcclasses = [&quot;world.region&quot;,&quot;2d.tooltip&quot;,&quot;object.mesh&quot;,&quot;move.solid&quot;,
+             &quot;object.mesh.select&quot;,&quot;world.zonemanager&quot;,&quot;logic.trigger&quot;,
+	     &quot;logic.quest&quot;,&quot;object.light&quot;,&quot;tools.inventory&quot;,
+             &quot;camera.old&quot;,&quot;move.gravity&quot;,&quot;input.standard&quot;,&quot;move.linear&quot;,
+	     &quot;move.actorold&quot;,&quot;move.colldet&quot;,&quot;tools.timer&quot;,
+	     &quot;sound.listener&quot;,&quot;sound.source&quot;,&quot;2d.billboard&quot;,
+	     &quot;toolsproperties&quot;]
+for pcclass in pcclasses:
+	PcFactories.append(&quot;cel.pcfactory.&quot;+pcclass)
+</pre></td></tr></table>
+
 <p>For each property class there are several functions in pycel module that allow
 easily fetching or creating of the appropiate property class from an entity
 object:

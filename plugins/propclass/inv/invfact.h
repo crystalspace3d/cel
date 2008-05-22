@@ -66,9 +66,6 @@ private:
   csPDelArray<constraint> constraints;
   csRefArray<iPcInventoryListener> listeners;
 
-  csRef<iMessageDispatcher> dispatcher_add;
-  csRef<iMessageDispatcher> dispatcher_remove;
-
   constraint* FindConstraint (const char* name) const;
   constraint* NewConstraint (const char* name);
   bool TestLocalConstraints (const char* charName);
@@ -91,7 +88,6 @@ public:
   virtual iCelEntity* GetEntity (size_t idx) const;
   virtual bool In (iCelEntity* entity) const;
   virtual size_t FindEntity (iCelEntity* entity) const;
-  virtual size_t FindEntity (csStringID classid) const;
   virtual bool In (const char* name) const;
   virtual size_t FindEntity (const char* name) const;
   virtual iCelEntity* GetEntitySlot (iCelParameterBlock* params) const;

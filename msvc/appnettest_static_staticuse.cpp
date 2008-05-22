@@ -12,8 +12,6 @@
 #pragma comment(linker, "/section:.CSmeta,er")
 #pragma comment(linker, "/merge:.CSmetai=.CSmeta")
 #endif
-struct _static_use { _static_use (); };
-_static_use::_static_use () {}
 SCF_USE_STATIC_PLUGIN(addon_celentity)
 SCF_USE_STATIC_PLUGIN(addon_celentitytpl)
 SCF_USE_STATIC_PLUGIN(addon_questdef)

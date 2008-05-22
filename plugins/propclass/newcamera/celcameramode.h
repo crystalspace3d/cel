@@ -1,7 +1,6 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
-    Copyright (C) 2007 by Dariusz Dawidowski
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -46,146 +45,83 @@ class celCameraMode
 protected:
   iPcNewCamera* parent;
 
-  csVector3 origin, target, up;
-  float originSpring, targetSpring, upSpring;
+  csVector3 pos, target, up;
 
 public:
-  celCameraMode ();
-  virtual ~celCameraMode ();
+  celCameraMode();
+  virtual ~celCameraMode();
 
   /**
    * Tells the camera mode what camera has it attached.
    * \param camera The parent camera.
    */
-  virtual void SetParentCamera (iPcNewCamera* camera);
+  virtual void SetParentCamera(iPcNewCamera * camera);
 
   /**
    * Decides if this camera mode should use spring physics for the camera's
    * position.
    * \return True if this camera mode uses spring physics.
    */
-  virtual bool UseSpringPos () const;
-
-  /**
-   * Decides if this camera mode should use spring physics for the camera's
-   * origin.
-   * \return True if this camera mode uses spring physics.
-   */
-  virtual bool UseSpringOrigin () const;
+  virtual bool UseSpringPos() const;
 
   /**
    * Decides if this camera mode should use spring physics for the camera's
    * target.
    * \return True if this camera mode uses spring physics.
    */
-  virtual bool UseSpringTarget () const;
+  virtual bool UseSpringTarget() const;
 
   /**
    * Decides if this camera mode should use spring physics for the camera's
    * up vector.
    * \return True if this camera mode uses spring physics.
    */
-  virtual bool UseSpringUp () const;
+  virtual bool UseSpringUp() const;
 
   /**
    * Decides if collision detection should be allowed if for this mode the
    * camera wants it.
    * \return True if this camera mode allows collision detection.
    */
-  virtual bool AllowCollisionDetection () const;
-
-  /**
-   * Decides if collision detection should be allowed if for this mode the
-   * camera wants it.
-   * \return True if this camera mode allows collision detection.
-   */
-  virtual bool GetCollisionDetection () const;
+  virtual bool AllowCollisionDetection() const;
 
   /**
    * Decides if the mesh the camera is attached to should be drawn or not in
    * this mode.
    * \return True if the attached mesh should be drawn.
    */
-  virtual bool DrawAttachedMesh () const;
+  virtual bool DrawAttachedMesh() const;
 
   /**
-   * Gets the common spring coefficient to use for the spring physics.
+   * Gets the spring coefficient to use for the spring physics.
    * \return The spring coefficient of this camera mode.
    */
-  virtual float GetSpringCoefficient () const;
-
-  /**
-   * Sets the common spring coefficient to use for the spring physics.
-   * @param s The spring coefficient of this camera mode.
-   */
-  virtual void SetSpringCoefficient (float s);
-
-  /**
-   * Gets the origin spring coefficient to use for the spring physics.
-   * \return The spring coefficient of this camera mode.
-   */
-  virtual float GetOriginSpringCoefficient () const;
-
-  /**
-   * Sets the origin spring coefficient to use for the spring physics.
-   * @param s The spring coefficient of this camera mode.
-   */
-  virtual void SetOriginSpringCoefficient (float s);
-
-  /**
-   * Gets the target spring coefficient to use for the spring physics.
-   * \return The spring coefficient of this camera mode.
-   */
-  virtual float GetTargetSpringCoefficient () const;
-
-  /**
-   * Sets the target spring coefficient to use for the spring physics.
-   * @param s The spring coefficient of this camera mode.
-   */
-  virtual void SetTargetSpringCoefficient (float s);
-
-  /**
-   * Gets the up vector spring coefficient to use for the spring physics.
-   * \return The spring coefficient of this camera mode.
-   */
-  virtual float GetUpSpringCoefficient () const;
-
-  /**
-   * Sets the up vector spring coefficient to use for the spring physics.
-   * @param s The spring coefficient of this camera mode.
-   */
-  virtual void SetUpSpringCoefficient (float s);
+  virtual float GetSpringCoefficient() const;
 
   /**
    * Gets the desired camera position.
    * \return The desired camera position.
    */
-  virtual const csVector3& GetPosition () const;
-
-  /**
-   * Gets the desired camera origin.
-   * \return The desired camera origin.
-   */
-  virtual const csVector3& GetOrigin () const;
+  virtual const csVector3 & GetPosition() const;
 
   /**
    * Gets the desired camera target.
    * \return The desired camera target.
    */
-  virtual const csVector3& GetTarget () const;
+  virtual const csVector3 & GetTarget() const;
 
   /**
    * Gets the desired camera up vector.
    * \return The desired camera up vector.
    */
-  virtual const csVector3& GetUp () const;
+  virtual const csVector3 & GetUp() const;
 
   /**
    * Informs the camera mode that it should compute the desired position,
    * target, up, etc. of the camera now.
    * \return True on success.
    */
-  virtual bool DecideCameraState ();
+  virtual bool DecideCameraState();
 };
 
 }

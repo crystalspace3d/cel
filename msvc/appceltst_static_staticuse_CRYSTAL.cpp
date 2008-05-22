@@ -12,8 +12,6 @@
 #pragma comment(linker, "/section:.CSmeta,er")
 #pragma comment(linker, "/merge:.CSmetai=.CSmeta")
 #endif
-struct _static_use_CRYSTAL { _static_use_CRYSTAL (); };
-_static_use_CRYSTAL::_static_use_CRYSTAL () {}
 SCF_USE_STATIC_PLUGIN(bezier)
 SCF_USE_STATIC_PLUGIN(bezierldr)
 SCF_USE_STATIC_PLUGIN(bruteblock)
@@ -76,7 +74,6 @@ SCF_USE_STATIC_PLUGIN(glwin32)
 SCF_USE_STATIC_PLUGIN(sndmanager)
 SCF_USE_STATIC_PLUGIN(sndsyssoft)
 SCF_USE_STATIC_PLUGIN(sndsysloader)
-SCF_USE_STATIC_PLUGIN(sndsysnull)
 SCF_USE_STATIC_PLUGIN(sndsysogg)
 SCF_USE_STATIC_PLUGIN(sndsyswav)
 SCF_USE_STATIC_PLUGIN(sndsyswin)

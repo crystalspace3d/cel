@@ -66,49 +66,45 @@ celActionRewardFactory::celActionRewardFactory (
 	celActionRewardType* type) : scfImplementationType (this)
 {
   celActionRewardFactory::type = type;
+  entity_par = 0;
+  pcclass_par = 0;
+  tag_par = 0;
+  id_par = 0;
 }
 
 celActionRewardFactory::~celActionRewardFactory ()
 {
+  delete[] entity_par;
+  delete[] id_par;
 }
 
 csPtr<iQuestReward> celActionRewardFactory::CreateReward (
     iQuest*, const celQuestParams& params)
 {
-  iQuestReward* reward;
-  if (!entity_par.IsEmpty())
-  {
-    reward = new celActionReward (type,
+  celActionReward* trig = new celActionReward (type,
   	params, entity_par, id_par, pcclass_par, tag_par, parameters);
-  }
-  else
-  {
-    reward = new celClassActionReward (type,
-  	params, class_par, id_par, pcclass_par, tag_par, parameters);
-  }
-  return reward;
+  return trig;
 }
 
 bool celActionRewardFactory::Load (iDocumentNode* node)
 {
-  entity_par = node->GetAttributeValue ("entity");
-  class_par = node->GetAttributeValue ("class");
-  pcclass_par = node->GetAttributeValue ("pc");
-  tag_par = node->GetAttributeValue ("tag");
-  id_par = node->GetAttributeValue ("id");
-
-  // sanity checks
-  if (entity_par.IsEmpty() && class_par.IsEmpty())
+  delete[] entity_par; entity_par = 0;
+  delete[] id_par; id_par = 0;
+  delete[] pcclass_par; entity_par = 0;
+  delete[] tag_par; id_par = 0;
+  entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  pcclass_par = csStrNew (node->GetAttributeValue ("pc"));
+  tag_par = csStrNew (node->GetAttributeValue ("tag"));
+  id_par = csStrNew (node->GetAttributeValue ("id"));
+  if (!entity_par)
     return Report (type->object_reg,
-      "'entity' or 'class' attribute required for the action reward!");
-  if (id_par.IsEmpty())
+      "'entity' attribute is missing for the action reward!");
+  if (!id_par)
     Report (type->object_reg,
       "'id' attribute is missing for the action reward!");
-  if (pcclass_par.IsEmpty())
+  if (!pcclass_par)
     Report (type->object_reg,
       "'pc' attribute is missing for the action reward!");
-  
-  // get parameters
   iCelPlLayer* pl = type->pl;
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -176,37 +172,45 @@ bool celActionRewardFactory::Load (iDocumentNode* node)
 void celActionRewardFactory::SetEntityParameter (
 	const char* entity)
 {
-  entity_par = entity;
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
 }
 
 void celActionRewardFactory::SetIDParameter (
 	const char* id)
 {
-  id_par = id;
+  if (id_par == id) return;
+  delete[] id_par;
+  id_par = csStrNew (id);
 }
 
 void celActionRewardFactory::SetPropertyClassParameter (
 	const char* propertyclass)
 {
-  pcclass_par = propertyclass;
+  if (pcclass_par != propertyclass)
+  {
+    delete[] pcclass_par;
+    pcclass_par = csStrNew (propertyclass);
+  }
 }
 
 void celActionRewardFactory::SetTagParameter (
 	const char* pctag)
 {
-  tag_par = pctag;
-}
-
-void celActionRewardFactory::SetClassParameter (
-        const char* ent_class)
-{
-  class_par = ent_class;
+  if (tag_par != pctag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (pctag);
+  }
 }
 
 void celActionRewardFactory::AddParameter (celDataType type,
     csStringID id, const char* name, const char* value)
 {
-  size_t idx = parameters.Push (celParSpec ());
+  size_t idx = parameters.Push (parSpec ());
   parameters[idx].type = type;
   parameters[idx].id = id;
   parameters[idx].name = name;
@@ -222,129 +226,111 @@ celActionReward::celActionReward (
 	const char* id_par,
 	const char* pcclass_par,
 	const char* tag_par,
-	const csArray<celParSpec>& parameters)
-  : scfImplementationType (this), parameters (parameters)
+	const csArray<parSpec>& parameters) : scfImplementationType (this)
 {
   celActionReward::type = type;
-  qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  pcclass = qm->GetParameter (params, pcclass_par);
-  tag = qm->GetParameter (params, tag_par);
-  entity = qm->GetParameter (params, entity_par);
-  id = qm->GetParameter (params, id_par);
-  quest_parameters.SetSize (parameters.GetSize (), 0);
-  act_params = qm->GetParameterBlock (params, parameters, quest_parameters);
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  pcclass = csStrNew (qm->ResolveParameter (params, pcclass_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
+  entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  id = csStrNew (qm->ResolveParameter (params, id_par));
+  act_params = new celVariableParameterBlock ();
+  size_t i;
+  for (i = 0 ; i < parameters.GetSize () ; i++)
+  {
+    csString v = qm->ResolveParameter (params, parameters[i].value);
+    act_params->SetParameterDef (i, parameters[i].id, parameters[i].name);
+    switch (parameters[i].type)
+    {
+      case CEL_DATA_STRING:
+	act_params->GetParameter (i).Set ((const char*)v);
+	break;
+      case CEL_DATA_LONG:
+	{
+	  long f;
+	  csScanStr (v, "%d", &f);
+	  act_params->GetParameter (i).Set ((int32)f);
+	}
+	break;
+      case CEL_DATA_FLOAT:
+	{
+	  float f;
+	  csScanStr (v, "%f", &f);
+	  act_params->GetParameter (i).Set (f);
+	}
+	break;
+      case CEL_DATA_BOOL:
+	{
+	  bool f;
+	  csScanStr (v, "%b", &f);
+	  act_params->GetParameter (i).Set (f);
+	}
+	break;
+      case CEL_DATA_VECTOR2:
+	{
+	  csVector2 vec;
+	  csScanStr (v, "%f,%f", &vec.x, &vec.y);
+	  act_params->GetParameter (i).Set (vec);
+	}
+	break;
+      case CEL_DATA_VECTOR3:
+	{
+	  csVector3 vec;
+	  csScanStr (v, "%f,%f,%f", &vec.x, &vec.y, &vec.z);
+	  act_params->GetParameter (i).Set (vec);
+	}
+	break;
+      case CEL_DATA_COLOR:
+	{
+	  csColor vec;
+	  csScanStr (v, "%f,%f,%f", &vec.red, &vec.green, &vec.blue);
+	  act_params->GetParameter (i).Set (vec);
+	}
+	break;
+      default:
+	//@@@?
+	break;
+    }
+  }
 }
 
 celActionReward::~celActionReward ()
 {
+  delete[] pcclass;
+  delete[] tag;
+  delete[] entity;
+  delete[] id;
+  delete act_params;
 }
 
-void celActionReward::Reward (iCelParameterBlock* params)
+void celActionReward::Reward ()
 {
   iCelPlLayer* pl = type->pl;
-
-  bool changed;
-  const char* e = entity->Get (params, changed);
-  if (changed) ent = 0;
   if (!ent)
   {
-    ent = pl->FindEntity (e);
+    ent = pl->FindEntity (entity);
     if (!ent) return;
   }
   csRef<iCelPropertyClass> propertyclass;
-
-  const char* pc = pcclass->Get (params);
-  if (!pc) return;
-  const char* t = tag->Get (params);
-  propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
+  propertyclass = ent->GetPropertyClassList()->FindByNameAndTag(pcclass,tag);
   if (propertyclass)
   {
     csString fullname = "cel.action.";
-    const char* idname = id->Get (params);
-    fullname += idname;
+    fullname += id;
     csStringID actionID = pl->FetchStringID(fullname);
     if (actionID)
     {
       celData ret;
-      qm->FillParameterBlock (params, act_params, parameters, quest_parameters);
-      propertyclass->PerformAction (actionID, act_params, ret);
+      propertyclass->PerformAction(actionID, act_params, ret);
     }
     else
       Report (type->object_reg,
-		"No action  'cel.action.%s' in the specified pc!", idname);
+		"No action  'cel.action.%s' in the specified pc!", id);
   }
   else
     Report (type->object_reg,
-            "No propertyclass  '%s' in the specified entity!", pc);
+            "No propertyclass  '%s' in the specified entity!", pcclass);
 }
-
-//---------------------------------------------------------------------------
-
-celClassActionReward::celClassActionReward (
-	celActionRewardType* type,
-  	const celQuestParams& params,
-	const char* class_par,
-	const char* id_par,
-	const char* pcclass_par,
-	const char* tag_par,
-	const csArray<celParSpec>& parameters)
-  : scfImplementationType (this), parameters (parameters)
-{
-  celClassActionReward::type = type;
-  qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  pcclass = qm->GetParameter (params, pcclass_par);
-  tag = qm->GetParameter (params, tag_par);
-  clazz = qm->GetParameter (params, class_par);
-  id = qm->GetParameter (params, id_par);
-
-  quest_parameters.SetSize (parameters.GetSize (), 0);
-  act_params = qm->GetParameterBlock (params, parameters, quest_parameters);
-  actionID = csInvalidStringID;
-}
-
-celClassActionReward::~celClassActionReward ()
-{
-}
-
-void celClassActionReward::Reward (iCelParameterBlock* params)
-{
-  // run actions
-  iCelEntity *ent;
-  csRef<iCelPropertyClass> propertyclass;
-  celData ret;
-
-  bool changed;
-  const char* clz = clazz->Get (params, changed);
-  if (changed || !entlist)
-  {
-    csStringID ent_class = type->pl->FetchStringID (clz);
-    entlist = type->pl->GetClassEntitiesList (ent_class);
-  }
-
-  const char* aid = id->Get (params, changed);
-  if (changed || actionID == csInvalidStringID)
-  {
-    csString fullname = "cel.action.";
-    fullname += aid;
-    actionID = type->pl->FetchStringID (fullname);
-  }
-
-  const char* pc = pcclass->Get (params);
-  if (!pc) return;
-  const char* t = tag->Get (params);
-
-  for (int i = entlist->GetCount()-1; i>=0; i--)
-  {
-    ent = entlist->Get(i);
-    propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
-    if (propertyclass)
-    {
-      qm->FillParameterBlock (params, act_params, parameters, quest_parameters);
-      propertyclass->PerformAction (actionID, act_params, ret);
-    }
-  }
-}
-
 
 //---------------------------------------------------------------------------
 

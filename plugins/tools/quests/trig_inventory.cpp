@@ -30,7 +30,6 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 
-#include "celtool/stdparams.h"
 #include "plugins/tools/quests/trig_inventory.h"
 
 //---------------------------------------------------------------------------
@@ -70,6 +69,9 @@ celInventoryTriggerFactory::celInventoryTriggerFactory (
 
 celInventoryTriggerFactory::~celInventoryTriggerFactory ()
 {
+  delete[] entity_par;
+  delete[] child_entity_par;
+  delete[] tag_par;
 }
 
 csPtr<iQuestTrigger> celInventoryTriggerFactory::CreateTrigger (
@@ -82,26 +84,42 @@ csPtr<iQuestTrigger> celInventoryTriggerFactory::CreateTrigger (
 
 bool celInventoryTriggerFactory::Load (iDocumentNode* node)
 {
-  entity_par = node->GetAttributeValue ("entity");
-  tag_par = node->GetAttributeValue ("entity_tag");
-  if (entity_par.IsEmpty ())
+  delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
+  delete[] child_entity_par; child_entity_par = 0;
+
+  entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_tag"));
+  if (!entity_par)
     return Report (type->object_reg,
       "'entity' attribute is missing for the inventory trigger!");
-  child_entity_par = node->GetAttributeValue ("child_entity");
+  child_entity_par = csStrNew (node->GetAttributeValue ("child_entity"));
   return true;
 }
 
 void celInventoryTriggerFactory::SetEntityParameter (
 	const char* entity, const char* tag)
 {
-  entity_par = entity;
-  tag_par = tag;
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celInventoryTriggerFactory::SetChildEntityParameter (
 	const char* entity)
 {
-  child_entity_par = entity;
+  if (child_entity_par != entity)
+  {
+    delete[] child_entity_par;
+    child_entity_par = csStrNew (entity);
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -114,17 +132,20 @@ celInventoryTrigger::celInventoryTrigger (
 {
   celInventoryTrigger::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  tag = qm->ResolveParameter (params, tag_par);
+  entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   if (child_entity_par)
-    child_entity = qm->ResolveParameter (params, child_entity_par);
-  params_entity.AttachNew (new celOneParameterBlock ());
-  params_entity->SetParameterDef (type->pl->FetchStringID ("cel.parameter.child"), "child");
+    child_entity = csStrNew (qm->ResolveParameter (params, child_entity_par));
+  else
+    child_entity = 0;
 }
 
 celInventoryTrigger::~celInventoryTrigger ()
 {
   DeactivateTrigger ();
+  delete[] entity;
+  delete[] child_entity;
+  delete[] tag;
 }
 
 void celInventoryTrigger::RegisterCallback (iQuestTriggerCallback* callback)
@@ -160,13 +181,6 @@ void celInventoryTrigger::ActivateTrigger ()
   inventory->AddInventoryListener ((iPcInventoryListener*)this);
 }
 
-void celInventoryTrigger::FireTrigger (iCelEntity* child)
-{
-  DeactivateTrigger ();
-  params_entity->GetParameter (0).Set (child->GetName ());
-  callback->TriggerFired ((iQuestTrigger*)this, params_entity);
-}
-
 bool celInventoryTrigger::Check ()
 {
   if (!inventory) return false;
@@ -176,10 +190,7 @@ bool celInventoryTrigger::Check ()
   {
     iCelEntity* ent = inventory->GetEntity (i);
     if (ent->GetName () && strcmp (child_entity, ent->GetName ()) == 0)
-    {
-      FireTrigger (ent);
       return true;
-    }
   }
   return false;
 }
@@ -205,22 +216,24 @@ void celInventoryTrigger::AddChild (iPcInventory* inventory, iCelEntity* entity)
   if (!child_entity)
   {
     // Always fire in case we're not monitoring a specific entity.
-    FireTrigger (entity);
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this);
     return;
   }
   if (entity->GetName () && strcmp (child_entity, entity->GetName ()) == 0)
   {
-    FireTrigger (entity);
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this);
   }
 }
 
-void celInventoryTrigger::RemoveChild (iPcInventory*, iCelEntity* entity)
+void celInventoryTrigger::RemoveChild (iPcInventory*, iCelEntity*)
 {
   if (!child_entity)
   {
     // Always fire in case we're not monitoring a specific entity.
-    FireTrigger (entity);
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this);
     return;
   }
 }

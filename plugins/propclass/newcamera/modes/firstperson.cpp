@@ -29,33 +29,8 @@ namespace celCameraMode
 {
 
 FirstPerson::FirstPerson ()
-	: scfImplementationType (this)
+ : scfImplementationType (this)
 {
-}
-
-bool FirstPerson::UseSpringPos () const
-{
-  return false;
-}
-
-bool FirstPerson::UseSpringOrigin () const
-{
-  return false;
-}
-
-bool FirstPerson::UseSpringTarget () const
-{
-  return false;
-}
-
-bool FirstPerson::UseSpringUp () const
-{
-  return false;
-}
-
-bool FirstPerson::DrawAttachedMesh () const
-{
-  return false;
 }
 
 FirstPerson::~FirstPerson ()

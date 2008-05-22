@@ -44,10 +44,12 @@ celTimeoutTriggerFactory::celTimeoutTriggerFactory (
 	celTimeoutTriggerType* type) : scfImplementationType (this)
 {
   celTimeoutTriggerFactory::type = type;
+  timeout_par = 0;
 }
 
 celTimeoutTriggerFactory::~celTimeoutTriggerFactory ()
 {
+  delete[] timeout_par;
 }
 
 csPtr<iQuestTrigger> celTimeoutTriggerFactory::CreateTrigger (
@@ -60,7 +62,8 @@ csPtr<iQuestTrigger> celTimeoutTriggerFactory::CreateTrigger (
 
 bool celTimeoutTriggerFactory::Load (iDocumentNode* node)
 {
-  timeout_par = node->GetAttributeValue ("timeout");
+  delete[] timeout_par; timeout_par = 0;
+  timeout_par = csStrNew (node->GetAttributeValue ("timeout"));
 
   if (!timeout_par)
   {
@@ -75,7 +78,11 @@ bool celTimeoutTriggerFactory::Load (iDocumentNode* node)
 void celTimeoutTriggerFactory::SetTimeoutParameter (
 	const char* timeout)
 {
-  timeout_par = timeout;
+  if (timeout == timeout_par) 
+    return;
+
+  delete[] timeout_par;
+  timeout_par = csStrNew (timeout);
 }
 
 //---------------------------------------------------------------------------
@@ -89,7 +96,6 @@ celTimeoutTrigger::celTimeoutTrigger (
   timer = new csEventTimer (type->object_reg);
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   const char* to = qm->ResolveParameter (params, timeout_par);
-  fired = false;
   if (!to)
     timeout = 1;
   else
@@ -114,19 +120,13 @@ void celTimeoutTrigger::ClearCallback ()
 
 void celTimeoutTrigger::ActivateTrigger ()
 {
-  fired = false;
   timer->RemoveAllTimerEvents ();
   timer->AddTimerEvent ((iTimerEvent*)this, timeout);
 }
 
 bool celTimeoutTrigger::Check ()
 {
-  if (fired)
-  {
-    DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
-  }
-  return fired;
+  return false;
 }
 
 void celTimeoutTrigger::DeactivateTrigger ()
@@ -136,8 +136,7 @@ void celTimeoutTrigger::DeactivateTrigger ()
 
 bool celTimeoutTrigger::Perform (iTimerEvent* ev)
 {
-  fired = true;
-  if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
+  if (callback) callback->TriggerFired ((iQuestTrigger*)this);
   return false;
 }
 

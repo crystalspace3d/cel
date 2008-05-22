@@ -29,7 +29,6 @@
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
 #include "physicallayer/entity.h"
-#include "physicallayer/messaging.h"
 #include "propclass/quest.h"
 
 struct iObjectRegistry;
@@ -53,14 +52,13 @@ class celMessageRewardFactory : public scfImplementation2<
 {
 private:
   celMessageRewardType* type;
-  csString entity_par;
-  csString class_par;
-  csString id_par;
-  csArray<celParSpec> parameters;
+  char* entity_par;
+  char* id_par;
+  csArray<parSpec> parameters;
 
 public:
   celMessageRewardFactory (celMessageRewardType* type);
-  virtual ~celMessageRewardFactory () {};
+  virtual ~celMessageRewardFactory ();
 
   virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
@@ -68,75 +66,33 @@ public:
 
   //----------------- iMessageQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
-  virtual void SetClassParameter (const char* ent_class);
   virtual void SetIDParameter (const char* id);
   virtual void AddParameter (celDataType type, csStringID id,
       const char* name, const char* value);
 };
 
 /**
- * The 'message' reward that affects entities.
+ * The 'message' reward.
  */
-class celMessageReward : public scfImplementation2<
-	celMessageReward, iQuestReward, iMessageSender>
+class celMessageReward : public scfImplementation1<
+	celMessageReward, iQuestReward>
 {
 private:
   celMessageRewardType* type;
-  csWeakRef<iQuestManager> qm;
-
-  csRef<iQuestParameter> msg_id;
-  csRef<iQuestParameter> entity;
-  csRef<celVariableParameterBlock> msg_params;
-  const csArray<celParSpec>& parameters;
-  csRefArray<iQuestParameter> quest_parameters;
-
+  char* entity;
+  char* id;
   csWeakRef<iCelEntity> ent;
-  csRef<iMessageDispatcher> dispatcher;
+  celVariableParameterBlock* msg_params;
 
 public:
   celMessageReward (celMessageRewardType* type,
   	const celQuestParams& params,
 	const char* entity_par,
 	const char* id_par,
-	const csArray<celParSpec>& parameters);
-  virtual ~celMessageReward () {};
+	const csArray<parSpec>& parameters);
+  virtual ~celMessageReward ();
 
-  virtual void Reward (iCelParameterBlock* params);
-
-  // --- For iMessageSender --------------------------------------------
-  virtual void MessageDispatcherRemoved (
-      iMessageDispatcher* dispatcher) { }
-};
-
-/**
- * The 'message' reward that affects entity classes.
- */
-class celClassMessageReward : public scfImplementation1<
-	celClassMessageReward, iQuestReward>
-{
-private:
-  celMessageRewardType* type;
-  csWeakRef<iQuestManager> qm;
-
-  csRef<iQuestParameter> msg_id;
-  csRef<iQuestParameter> clazz;
-
-  csRef<celVariableParameterBlock> msg_params;
-  const csArray<celParSpec>& parameters;
-  csRefArray<iQuestParameter> quest_parameters;
-
-  csRef<iCelEntityList> entlist;
-
-public:
-  celClassMessageReward (celMessageRewardType* type,
-  	const celQuestParams& params,
-	const char* class_par,
-	const char* id_par,
-	const csArray<celParSpec>& parameters);
-  virtual ~celClassMessageReward () {};
-
-  virtual void Reward (iCelParameterBlock* params);
-
+  virtual void Reward ();
 };
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_MESSAGE__

@@ -564,8 +564,6 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
 	  }
 	  celData ret;
 	  ent->GetBehaviour ()->SendMessage (msgid, 0, ret, params);
-	  ent->QueryMessageChannel ()->SendMessage (msgid,
-	      pl->QueryMessageSender (), params);
 	}
         break;
       case XMLTOKEN_PARAMS:

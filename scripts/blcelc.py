@@ -2,6 +2,7 @@
 # Version 1.3.31
 #
 # Don't modify this file, modify the SWIG interface instead.
+# This file is compatible with both classic and new-style classes.
 
 import _blcelc
 import new
@@ -47,23 +48,6 @@ except AttributeError:
 del types
 
 
-def _swig_setattr_nondynamic_method(set):
-    def set_attr(self,name,value):
-        if (name == "thisown"): return self.this.own(value)
-        if hasattr(self,name) or (name == "this"):
-            set(self,name,value)
-        else:
-            raise AttributeError("You cannot add attributes to %s" % self)
-    return set_attr
-
-
-try:
-    import weakref
-    weakref_proxy = weakref.proxy
-except:
-    weakref_proxy = lambda x: x
-
-
 import cspace
 def fix_args(funct):
     def _inner(self, args):
@@ -74,35 +58,23 @@ def fix_args(funct):
         return funct(*args)
     return _inner
 
-_SetSCFPointer = _blcelc._SetSCFPointer
-_GetSCFPointer = _blcelc._GetSCFPointer
-if not "core" in dir():
-    core = __import__("cspace").__dict__["core"]
-core.AddSCFLink(_SetSCFPointer)
-CSMutableArrayHelper = core.CSMutableArrayHelper
-
-class celWrapPtr(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    Ref = _swig_property(_blcelc.celWrapPtr_Ref_get, _blcelc.celWrapPtr_Ref_set)
-    Type = _swig_property(_blcelc.celWrapPtr_Type_get)
-    Version = _swig_property(_blcelc.celWrapPtr_Version_get, _blcelc.celWrapPtr_Version_set)
-    def __init__(self, *args): 
-        this = _blcelc.new_celWrapPtr(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_celWrapPtr
-    __del__ = lambda self : None;
-celWrapPtr_swigregister = _blcelc.celWrapPtr_swigregister
-celWrapPtr_swigregister(celWrapPtr)
-
+_csRef_to_Python = _blcelc._csRef_to_Python
 class celInitializer(cspace.csInitializer):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.csInitializer]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celInitializer, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.csInitializer]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, celInitializer, name)
     __repr__ = _swig_repr
-    SetupCelPluginDirs = staticmethod(_blcelc.celInitializer_SetupCelPluginDirs)
-    _RequestPlugins = staticmethod(_blcelc.celInitializer__RequestPlugins)
-    SetupVFS = staticmethod(_blcelc.celInitializer_SetupVFS)
-    SetupConfigManager = staticmethod(_blcelc.celInitializer_SetupConfigManager)
+    __swig_getmethods__["SetupCelPluginDirs"] = lambda x: _blcelc.celInitializer_SetupCelPluginDirs
+    if _newclass:SetupCelPluginDirs = staticmethod(_blcelc.celInitializer_SetupCelPluginDirs)
+    __swig_getmethods__["_RequestPlugins"] = lambda x: _blcelc.celInitializer__RequestPlugins
+    if _newclass:_RequestPlugins = staticmethod(_blcelc.celInitializer__RequestPlugins)
+    __swig_getmethods__["SetupVFS"] = lambda x: _blcelc.celInitializer_SetupVFS
+    if _newclass:SetupVFS = staticmethod(_blcelc.celInitializer_SetupVFS)
+    __swig_getmethods__["SetupConfigManager"] = lambda x: _blcelc.celInitializer_SetupConfigManager
+    if _newclass:SetupConfigManager = staticmethod(_blcelc.celInitializer_SetupConfigManager)
     def __init__(self, *args): 
         this = _blcelc.new_celInitializer(*args)
         try: self.this.append(this)
@@ -115,55 +87,6 @@ celInitializer_SetupCelPluginDirs = _blcelc.celInitializer_SetupCelPluginDirs
 celInitializer__RequestPlugins = _blcelc.celInitializer__RequestPlugins
 celInitializer_SetupVFS = _blcelc.celInitializer_SetupVFS
 celInitializer_SetupConfigManager = _blcelc.celInitializer_SetupConfigManager
-
-class celDataArrayReadOnly(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def GetSize(*args): return _blcelc.celDataArrayReadOnly_GetSize(*args)
-    def Get(*args): return _blcelc.celDataArrayReadOnly_Get(*args)
-    def Top(*args): return _blcelc.celDataArrayReadOnly_Top(*args)
-    def Find(*args): return _blcelc.celDataArrayReadOnly_Find(*args)
-    def GetIndex(*args): return _blcelc.celDataArrayReadOnly_GetIndex(*args)
-    def IsEmpty(*args): return _blcelc.celDataArrayReadOnly_IsEmpty(*args)
-    def GetAll(*args): return _blcelc.celDataArrayReadOnly_GetAll(*args)
-    __swig_destroy__ = _blcelc.delete_celDataArrayReadOnly
-    __del__ = lambda self : None;
-celDataArrayReadOnly_swigregister = _blcelc.celDataArrayReadOnly_swigregister
-celDataArrayReadOnly_swigregister(celDataArrayReadOnly)
-
-class celDataArrayChangeElements(celDataArrayReadOnly):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def Get(*args): return _blcelc.celDataArrayChangeElements_Get(*args)
-    def Top(*args): return _blcelc.celDataArrayChangeElements_Top(*args)
-    __swig_destroy__ = _blcelc.delete_celDataArrayChangeElements
-    __del__ = lambda self : None;
-celDataArrayChangeElements_swigregister = _blcelc.celDataArrayChangeElements_swigregister
-celDataArrayChangeElements_swigregister(celDataArrayChangeElements)
-
-class celDataArrayChangeAll(celDataArrayChangeElements):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SetSize(*args): return _blcelc.celDataArrayChangeAll_SetSize(*args)
-    def GetExtend(*args): return _blcelc.celDataArrayChangeAll_GetExtend(*args)
-    def Put(*args): return _blcelc.celDataArrayChangeAll_Put(*args)
-    def Push(*args): return _blcelc.celDataArrayChangeAll_Push(*args)
-    def PushSmart(*args): return _blcelc.celDataArrayChangeAll_PushSmart(*args)
-    def Pop(*args): return _blcelc.celDataArrayChangeAll_Pop(*args)
-    def Insert(*args): return _blcelc.celDataArrayChangeAll_Insert(*args)
-    def DeleteAll(*args): return _blcelc.celDataArrayChangeAll_DeleteAll(*args)
-    def Truncate(*args): return _blcelc.celDataArrayChangeAll_Truncate(*args)
-    def Empty(*args): return _blcelc.celDataArrayChangeAll_Empty(*args)
-    def DeleteIndex(*args): return _blcelc.celDataArrayChangeAll_DeleteIndex(*args)
-    def DeleteIndexFast(*args): return _blcelc.celDataArrayChangeAll_DeleteIndexFast(*args)
-    def Delete(*args): return _blcelc.celDataArrayChangeAll_Delete(*args)
-    __swig_destroy__ = _blcelc.delete_celDataArrayChangeAll
-    __del__ = lambda self : None;
-celDataArrayChangeAll_swigregister = _blcelc.celDataArrayChangeAll_swigregister
-celDataArrayChangeAll_swigregister(celDataArrayChangeAll)
 
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
@@ -186,10 +109,15 @@ CEL_DATA_COLOR4 = _blcelc.CEL_DATA_COLOR4
 CEL_DATA_IBASE = _blcelc.CEL_DATA_IBASE
 CEL_DATA_PARAMETER = _blcelc.CEL_DATA_PARAMETER
 CEL_DATA_LAST = _blcelc.CEL_DATA_LAST
-class celData(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+class celData(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celData, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, celData, name)
     __repr__ = _swig_repr
-    type = _swig_property(_blcelc.celData_type_get, _blcelc.celData_type_set)
+    __swig_setmethods__["type"] = _blcelc.celData_type_set
+    __swig_getmethods__["type"] = _blcelc.celData_type_get
+    if _newclass:type = _swig_property(_blcelc.celData_type_get, _blcelc.celData_type_set)
     def __init__(self, *args): 
         this = _blcelc.new_celData(*args)
         try: self.this.append(this)
@@ -202,28 +130,59 @@ class celData(object):
     def SetAction(*args): return _blcelc.celData_SetAction(*args)
     def SetIBase(*args): return _blcelc.celData_SetIBase(*args)
     def SetParameter(*args): return _blcelc.celData_SetParameter(*args)
-    value = _swig_property(_blcelc.celData_value_get)
+    __swig_getmethods__["value"] = _blcelc.celData_value_get
+    if _newclass:value = _swig_property(_blcelc.celData_value_get)
 celData_swigregister = _blcelc.celData_swigregister
 celData_swigregister(celData)
 
-class celData_value(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+class celData_value(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, celData_value, name)
     __repr__ = _swig_repr
-    bo = _swig_property(_blcelc.celData_value_bo_get, _blcelc.celData_value_bo_set)
-    b = _swig_property(_blcelc.celData_value_b_get, _blcelc.celData_value_b_set)
-    ub = _swig_property(_blcelc.celData_value_ub_get, _blcelc.celData_value_ub_set)
-    w = _swig_property(_blcelc.celData_value_w_get, _blcelc.celData_value_w_set)
-    uw = _swig_property(_blcelc.celData_value_uw_get, _blcelc.celData_value_uw_set)
-    l = _swig_property(_blcelc.celData_value_l_get, _blcelc.celData_value_l_set)
-    ul = _swig_property(_blcelc.celData_value_ul_get, _blcelc.celData_value_ul_set)
-    f = _swig_property(_blcelc.celData_value_f_get, _blcelc.celData_value_f_set)
-    s = _swig_property(_blcelc.celData_value_s_get, _blcelc.celData_value_s_set)
-    pc = _swig_property(_blcelc.celData_value_pc_get, _blcelc.celData_value_pc_set)
-    ent = _swig_property(_blcelc.celData_value_ent_get, _blcelc.celData_value_ent_set)
-    ibase = _swig_property(_blcelc.celData_value_ibase_get, _blcelc.celData_value_ibase_set)
-    par = _swig_property(_blcelc.celData_value_par_get)
-    col = _swig_property(_blcelc.celData_value_col_get)
-    v = _swig_property(_blcelc.celData_value_v_get)
+    __swig_setmethods__["bo"] = _blcelc.celData_value_bo_set
+    __swig_getmethods__["bo"] = _blcelc.celData_value_bo_get
+    if _newclass:bo = _swig_property(_blcelc.celData_value_bo_get, _blcelc.celData_value_bo_set)
+    __swig_setmethods__["b"] = _blcelc.celData_value_b_set
+    __swig_getmethods__["b"] = _blcelc.celData_value_b_get
+    if _newclass:b = _swig_property(_blcelc.celData_value_b_get, _blcelc.celData_value_b_set)
+    __swig_setmethods__["ub"] = _blcelc.celData_value_ub_set
+    __swig_getmethods__["ub"] = _blcelc.celData_value_ub_get
+    if _newclass:ub = _swig_property(_blcelc.celData_value_ub_get, _blcelc.celData_value_ub_set)
+    __swig_setmethods__["w"] = _blcelc.celData_value_w_set
+    __swig_getmethods__["w"] = _blcelc.celData_value_w_get
+    if _newclass:w = _swig_property(_blcelc.celData_value_w_get, _blcelc.celData_value_w_set)
+    __swig_setmethods__["uw"] = _blcelc.celData_value_uw_set
+    __swig_getmethods__["uw"] = _blcelc.celData_value_uw_get
+    if _newclass:uw = _swig_property(_blcelc.celData_value_uw_get, _blcelc.celData_value_uw_set)
+    __swig_setmethods__["l"] = _blcelc.celData_value_l_set
+    __swig_getmethods__["l"] = _blcelc.celData_value_l_get
+    if _newclass:l = _swig_property(_blcelc.celData_value_l_get, _blcelc.celData_value_l_set)
+    __swig_setmethods__["ul"] = _blcelc.celData_value_ul_set
+    __swig_getmethods__["ul"] = _blcelc.celData_value_ul_get
+    if _newclass:ul = _swig_property(_blcelc.celData_value_ul_get, _blcelc.celData_value_ul_set)
+    __swig_setmethods__["f"] = _blcelc.celData_value_f_set
+    __swig_getmethods__["f"] = _blcelc.celData_value_f_get
+    if _newclass:f = _swig_property(_blcelc.celData_value_f_get, _blcelc.celData_value_f_set)
+    __swig_setmethods__["s"] = _blcelc.celData_value_s_set
+    __swig_getmethods__["s"] = _blcelc.celData_value_s_get
+    if _newclass:s = _swig_property(_blcelc.celData_value_s_get, _blcelc.celData_value_s_set)
+    __swig_setmethods__["pc"] = _blcelc.celData_value_pc_set
+    __swig_getmethods__["pc"] = _blcelc.celData_value_pc_get
+    if _newclass:pc = _swig_property(_blcelc.celData_value_pc_get, _blcelc.celData_value_pc_set)
+    __swig_setmethods__["ent"] = _blcelc.celData_value_ent_set
+    __swig_getmethods__["ent"] = _blcelc.celData_value_ent_get
+    if _newclass:ent = _swig_property(_blcelc.celData_value_ent_get, _blcelc.celData_value_ent_set)
+    __swig_setmethods__["ibase"] = _blcelc.celData_value_ibase_set
+    __swig_getmethods__["ibase"] = _blcelc.celData_value_ibase_get
+    if _newclass:ibase = _swig_property(_blcelc.celData_value_ibase_get, _blcelc.celData_value_ibase_set)
+    __swig_getmethods__["par"] = _blcelc.celData_value_par_get
+    if _newclass:par = _swig_property(_blcelc.celData_value_par_get)
+    __swig_getmethods__["col"] = _blcelc.celData_value_col_get
+    if _newclass:col = _swig_property(_blcelc.celData_value_col_get)
+    __swig_getmethods__["v"] = _blcelc.celData_value_v_get
+    if _newclass:v = _swig_property(_blcelc.celData_value_v_get)
     def __init__(self, *args): 
         this = _blcelc.new_celData_value(*args)
         try: self.this.append(this)
@@ -233,11 +192,18 @@ class celData_value(object):
 celData_value_swigregister = _blcelc.celData_value_swigregister
 celData_value_swigregister(celData_value)
 
-class celData_value_par(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+class celData_value_par(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value_par, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, celData_value_par, name)
     __repr__ = _swig_repr
-    parname = _swig_property(_blcelc.celData_value_par_parname_get, _blcelc.celData_value_par_parname_set)
-    partype = _swig_property(_blcelc.celData_value_par_partype_get, _blcelc.celData_value_par_partype_set)
+    __swig_setmethods__["parname"] = _blcelc.celData_value_par_parname_set
+    __swig_getmethods__["parname"] = _blcelc.celData_value_par_parname_get
+    if _newclass:parname = _swig_property(_blcelc.celData_value_par_parname_get, _blcelc.celData_value_par_parname_set)
+    __swig_setmethods__["partype"] = _blcelc.celData_value_par_partype_set
+    __swig_getmethods__["partype"] = _blcelc.celData_value_par_partype_get
+    if _newclass:partype = _swig_property(_blcelc.celData_value_par_partype_get, _blcelc.celData_value_par_partype_set)
     def __init__(self, *args): 
         this = _blcelc.new_celData_value_par(*args)
         try: self.this.append(this)
@@ -247,13 +213,24 @@ class celData_value_par(object):
 celData_value_par_swigregister = _blcelc.celData_value_par_swigregister
 celData_value_par_swigregister(celData_value_par)
 
-class celData_value_col(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+class celData_value_col(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value_col, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, celData_value_col, name)
     __repr__ = _swig_repr
-    red = _swig_property(_blcelc.celData_value_col_red_get, _blcelc.celData_value_col_red_set)
-    green = _swig_property(_blcelc.celData_value_col_green_get, _blcelc.celData_value_col_green_set)
-    blue = _swig_property(_blcelc.celData_value_col_blue_get, _blcelc.celData_value_col_blue_set)
-    alpha = _swig_property(_blcelc.celData_value_col_alpha_get, _blcelc.celData_value_col_alpha_set)
+    __swig_setmethods__["red"] = _blcelc.celData_value_col_red_set
+    __swig_getmethods__["red"] = _blcelc.celData_value_col_red_get
+    if _newclass:red = _swig_property(_blcelc.celData_value_col_red_get, _blcelc.celData_value_col_red_set)
+    __swig_setmethods__["green"] = _blcelc.celData_value_col_green_set
+    __swig_getmethods__["green"] = _blcelc.celData_value_col_green_get
+    if _newclass:green = _swig_property(_blcelc.celData_value_col_green_get, _blcelc.celData_value_col_green_set)
+    __swig_setmethods__["blue"] = _blcelc.celData_value_col_blue_set
+    __swig_getmethods__["blue"] = _blcelc.celData_value_col_blue_get
+    if _newclass:blue = _swig_property(_blcelc.celData_value_col_blue_get, _blcelc.celData_value_col_blue_set)
+    __swig_setmethods__["alpha"] = _blcelc.celData_value_col_alpha_set
+    __swig_getmethods__["alpha"] = _blcelc.celData_value_col_alpha_get
+    if _newclass:alpha = _swig_property(_blcelc.celData_value_col_alpha_get, _blcelc.celData_value_col_alpha_set)
     def __init__(self, *args): 
         this = _blcelc.new_celData_value_col(*args)
         try: self.this.append(this)
@@ -263,13 +240,24 @@ class celData_value_col(object):
 celData_value_col_swigregister = _blcelc.celData_value_col_swigregister
 celData_value_col_swigregister(celData_value_col)
 
-class celData_value_v(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+class celData_value_v(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value_v, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, celData_value_v, name)
     __repr__ = _swig_repr
-    x = _swig_property(_blcelc.celData_value_v_x_get, _blcelc.celData_value_v_x_set)
-    y = _swig_property(_blcelc.celData_value_v_y_get, _blcelc.celData_value_v_y_set)
-    z = _swig_property(_blcelc.celData_value_v_z_get, _blcelc.celData_value_v_z_set)
-    w = _swig_property(_blcelc.celData_value_v_w_get, _blcelc.celData_value_v_w_set)
+    __swig_setmethods__["x"] = _blcelc.celData_value_v_x_set
+    __swig_getmethods__["x"] = _blcelc.celData_value_v_x_get
+    if _newclass:x = _swig_property(_blcelc.celData_value_v_x_get, _blcelc.celData_value_v_x_set)
+    __swig_setmethods__["y"] = _blcelc.celData_value_v_y_set
+    __swig_getmethods__["y"] = _blcelc.celData_value_v_y_get
+    if _newclass:y = _swig_property(_blcelc.celData_value_v_y_get, _blcelc.celData_value_v_y_set)
+    __swig_setmethods__["z"] = _blcelc.celData_value_v_z_set
+    __swig_getmethods__["z"] = _blcelc.celData_value_v_z_get
+    if _newclass:z = _swig_property(_blcelc.celData_value_v_z_get, _blcelc.celData_value_v_z_set)
+    __swig_setmethods__["w"] = _blcelc.celData_value_v_w_set
+    __swig_getmethods__["w"] = _blcelc.celData_value_v_w_get
+    if _newclass:w = _swig_property(_blcelc.celData_value_v_w_get, _blcelc.celData_value_v_w_set)
     def __init__(self, *args): 
         this = _blcelc.new_celData_value_v(*args)
         try: self.this.append(this)
@@ -279,82 +267,32 @@ class celData_value_v(object):
 celData_value_v_swigregister = _blcelc.celData_value_v_swigregister
 celData_value_v_swigregister(celData_value_v)
 
-class iCelDataArrayReadOnly(celDataArrayReadOnly):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
+class csStringFast12(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, csStringFast12, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, csStringFast12, name)
     __repr__ = _swig_repr
-    __swig_destroy__ = _blcelc.delete_iCelDataArrayReadOnly
+    def __init__(self, *args): 
+        this = _blcelc.new_csStringFast12(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_csStringFast12
     __del__ = lambda self : None;
-iCelDataArrayReadOnly_swigregister = _blcelc.iCelDataArrayReadOnly_swigregister
-iCelDataArrayReadOnly_swigregister(iCelDataArrayReadOnly)
+    def assign(*args): return _blcelc.csStringFast12_assign(*args)
+    def GetData(*args): return _blcelc.csStringFast12_GetData(*args)
+    def GetCapacity(*args): return _blcelc.csStringFast12_GetCapacity(*args)
+    def ShrinkBestFit(*args): return _blcelc.csStringFast12_ShrinkBestFit(*args)
+    def Free(*args): return _blcelc.csStringFast12_Free(*args)
+    def Detach(*args): return _blcelc.csStringFast12_Detach(*args)
+csStringFast12_swigregister = _blcelc.csStringFast12_swigregister
+csStringFast12_swigregister(csStringFast12)
 
-class iCelDataArray(celDataArrayChangeAll):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    __swig_destroy__ = _blcelc.delete_iCelDataArray
-    __del__ = lambda self : None;
-iCelDataArray_swigregister = _blcelc.iCelDataArray_swigregister
-iCelDataArray_swigregister(iCelDataArray)
-
-class iMessageChannel(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def CreateMessageDispatcher(*args): return _blcelc.iMessageChannel_CreateMessageDispatcher(*args)
-    def RemoveMessageDispatcher(*args): return _blcelc.iMessageChannel_RemoveMessageDispatcher(*args)
-    def Subscribe(*args): return _blcelc.iMessageChannel_Subscribe(*args)
-    def Unsubscribe(*args): return _blcelc.iMessageChannel_Unsubscribe(*args)
-    def SendMessage(*args): return _blcelc.iMessageChannel_SendMessage(*args)
-    __swig_destroy__ = _blcelc.delete_iMessageChannel
-    __del__ = lambda self : None;
-iMessageChannel_swigregister = _blcelc.iMessageChannel_swigregister
-iMessageChannel_swigregister(iMessageChannel)
-
-class iMessageReceiver(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def ReceiveMessage(*args): return _blcelc.iMessageReceiver_ReceiveMessage(*args)
-    __swig_destroy__ = _blcelc.delete_iMessageReceiver
-    __del__ = lambda self : None;
-iMessageReceiver_swigregister = _blcelc.iMessageReceiver_swigregister
-iMessageReceiver_swigregister(iMessageReceiver)
-
-class iMessageSender(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def MessageDispatcherRemoved(*args): return _blcelc.iMessageSender_MessageDispatcherRemoved(*args)
-    __swig_destroy__ = _blcelc.delete_iMessageSender
-    __del__ = lambda self : None;
-iMessageSender_swigregister = _blcelc.iMessageSender_swigregister
-iMessageSender_swigregister(iMessageSender)
-
-class iMessageReceiverFilter(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def IsValidReceiver(*args): return _blcelc.iMessageReceiverFilter_IsValidReceiver(*args)
-    __swig_destroy__ = _blcelc.delete_iMessageReceiverFilter
-    __del__ = lambda self : None;
-iMessageReceiverFilter_swigregister = _blcelc.iMessageReceiverFilter_swigregister
-iMessageReceiverFilter_swigregister(iMessageReceiverFilter)
-
-class iMessageDispatcher(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SendMessage(*args): return _blcelc.iMessageDispatcher_SendMessage(*args)
-    scfGetVersion = staticmethod(_blcelc.iMessageDispatcher_scfGetVersion)
-    __swig_destroy__ = _blcelc.delete_iMessageDispatcher
-    __del__ = lambda self : None;
-iMessageDispatcher_swigregister = _blcelc.iMessageDispatcher_swigregister
-iMessageDispatcher_swigregister(iMessageDispatcher)
-iMessageDispatcher_scfGetVersion = _blcelc.iMessageDispatcher_scfGetVersion
-
-class celEntityTemplateParams(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+class celEntityTemplateParams(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celEntityTemplateParams, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, celEntityTemplateParams, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
         this = _blcelc.new_celEntityTemplateParams(*args)
@@ -367,7 +305,6 @@ class celEntityTemplateParams(object):
     def In(*args): return _blcelc.celEntityTemplateParams_In(*args)
     def GetElementPointer(*args): return _blcelc.celEntityTemplateParams_GetElementPointer(*args)
     def Get(*args): return _blcelc.celEntityTemplateParams_Get(*args)
-    def GetOrCreate(*args): return _blcelc.celEntityTemplateParams_GetOrCreate(*args)
     def Empty(*args): return _blcelc.celEntityTemplateParams_Empty(*args)
     def DeleteAll(*args): return _blcelc.celEntityTemplateParams_DeleteAll(*args)
     def Delete(*args): return _blcelc.celEntityTemplateParams_Delete(*args)
@@ -384,42 +321,16 @@ class celEntityTemplateParams(object):
 celEntityTemplateParams_swigregister = _blcelc.celEntityTemplateParams_swigregister
 celEntityTemplateParams_swigregister(celEntityTemplateParams)
 
-class celQuestParams(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_celQuestParams(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def Put(*args): return _blcelc.celQuestParams_Put(*args)
-    def GetAll(*args): return _blcelc.celQuestParams_GetAll(*args)
-    def PutUnique(*args): return _blcelc.celQuestParams_PutUnique(*args)
-    def Contains(*args): return _blcelc.celQuestParams_Contains(*args)
-    def In(*args): return _blcelc.celQuestParams_In(*args)
-    def GetElementPointer(*args): return _blcelc.celQuestParams_GetElementPointer(*args)
-    def Get(*args): return _blcelc.celQuestParams_Get(*args)
-    def GetOrCreate(*args): return _blcelc.celQuestParams_GetOrCreate(*args)
-    def Empty(*args): return _blcelc.celQuestParams_Empty(*args)
-    def DeleteAll(*args): return _blcelc.celQuestParams_DeleteAll(*args)
-    def Delete(*args): return _blcelc.celQuestParams_Delete(*args)
-    def GetSize(*args): return _blcelc.celQuestParams_GetSize(*args)
-    def IsEmpty(*args): return _blcelc.celQuestParams_IsEmpty(*args)
-    def __getitem__(*args): return _blcelc.celQuestParams___getitem__(*args)
-    def __delitem__(*args): return _blcelc.celQuestParams___delitem__(*args)
-    def clear(*args): return _blcelc.celQuestParams_clear(*args)
-    def __nonzero__(*args): return _blcelc.celQuestParams___nonzero__(*args)
-    def __setitem__(*args): return _blcelc.celQuestParams___setitem__(*args)
-    def __len__(*args): return _blcelc.celQuestParams___len__(*args)
-    __swig_destroy__ = _blcelc.delete_celQuestParams
-    __del__ = lambda self : None;
-celQuestParams_swigregister = _blcelc.celQuestParams_swigregister
-celQuestParams_swigregister(celQuestParams)
-
 CEL_EVENT_PRE = _blcelc.CEL_EVENT_PRE
 CEL_EVENT_VIEW = _blcelc.CEL_EVENT_VIEW
 CEL_EVENT_POST = _blcelc.CEL_EVENT_POST
 class iCelNewEntityCallback(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelNewEntityCallback, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelNewEntityCallback, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def NewEntity(*args): return _blcelc.iCelNewEntityCallback_NewEntity(*args)
@@ -429,7 +340,12 @@ iCelNewEntityCallback_swigregister = _blcelc.iCelNewEntityCallback_swigregister
 iCelNewEntityCallback_swigregister(iCelNewEntityCallback)
 
 class iCelEntityRemoveCallback(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntityRemoveCallback, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityRemoveCallback, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def RemoveEntity(*args): return _blcelc.iCelEntityRemoveCallback_RemoveEntity(*args)
@@ -439,7 +355,12 @@ iCelEntityRemoveCallback_swigregister = _blcelc.iCelEntityRemoveCallback_swigreg
 iCelEntityRemoveCallback_swigregister(iCelEntityRemoveCallback)
 
 class iCelTimerListener(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelTimerListener, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelTimerListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def TickEveryFrame(*args): return _blcelc.iCelTimerListener_TickEveryFrame(*args)
@@ -450,7 +371,12 @@ iCelTimerListener_swigregister = _blcelc.iCelTimerListener_swigregister
 iCelTimerListener_swigregister(iCelTimerListener)
 
 class iCelPlLayer(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelPlLayer, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelPlLayer, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def CreateEntityInScope(*args): return _blcelc.iCelPlLayer_CreateEntityInScope(*args)
@@ -509,27 +435,25 @@ class iCelPlLayer(cspace.iBase):
     def AddScope(*args): return _blcelc.iCelPlLayer_AddScope(*args)
     def GetClassEntitiesList(*args): return _blcelc.iCelPlLayer_GetClassEntitiesList(*args)
     def SendMessage(*args): return _blcelc.iCelPlLayer_SendMessage(*args)
-    def QueryMessageSender(*args): return _blcelc.iCelPlLayer_QueryMessageSender(*args)
-    EntityTemplateCount = _swig_property(_blcelc.iCelPlLayer_EntityTemplateCount_get, None, None,
+    EntityTemplateCount = property(_blcelc.iCelPlLayer_EntityTemplateCount_get, None, None,
                     "iCelPlLayer.EntityTemplateCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetEntityTemplateCount()")
 
-    EntityCount = _swig_property(_blcelc.iCelPlLayer_EntityCount_get, None, None,
+    EntityCount = property(_blcelc.iCelPlLayer_EntityCount_get, None, None,
                     "iCelPlLayer.EntityCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetEntityCount()")
 
-    EntityAddonAllowed = _swig_property(_blcelc.iCelPlLayer_EntityAddonAllowed_get, _blcelc.iCelPlLayer_EntityAddonAllowed_set, None,
+    __swig_setmethods__["EntityAddonAllowed"] = _blcelc.iCelPlLayer_EntityAddonAllowed_set
+    EntityAddonAllowed = property(_blcelc.iCelPlLayer_EntityAddonAllowed_get, _blcelc.iCelPlLayer_EntityAddonAllowed_set, None,
                     "iCelPlLayer.EntityAddonAllowed -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iCelPlLayer::IsEntityAddonAllowed()\n\tset: void iCelPlLayer::SetEntityAddonAllowed(bool)")
 
 
-    PropertyClassFactoryCount = _swig_property(_blcelc.iCelPlLayer_PropertyClassFactoryCount_get, None, None,
+    PropertyClassFactoryCount = property(_blcelc.iCelPlLayer_PropertyClassFactoryCount_get, None, None,
                     "iCelPlLayer.PropertyClassFactoryCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetPropertyClassFactoryCount()")
 
-    BehaviourLayerCount = _swig_property(_blcelc.iCelPlLayer_BehaviourLayerCount_get, None, None,
+    BehaviourLayerCount = property(_blcelc.iCelPlLayer_BehaviourLayerCount_get, None, None,
                     "iCelPlLayer.BehaviourLayerCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetBehaviourLayerCount()")
 
-    MessageSender = _swig_property(_blcelc.iCelPlLayer_MessageSender_get, None, None,
-                    "iCelPlLayer.MessageSender -> iMessageSender*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iMessageSender* iCelPlLayer::QueryMessageSender()")
-
-    scfGetVersion = staticmethod(_blcelc.iCelPlLayer_scfGetVersion)
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelPlLayer_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelPlLayer_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iCelPlLayer
     __del__ = lambda self : None;
     def CreateParameterBlock(self,valdict):
@@ -546,16 +470,21 @@ class iCelPlLayer(cspace.iBase):
     def GetEntityTemplates(self): return iCelEntityTemplatePlFakeArray(self)
     def GetPcFactories(self): return iCelPropertyClassFactoryPlFakeArray(self)
     def GetBehaviourLayers(self): return iCelBlLayerPlFakeArray(self)
-    EntityTemplates = _swig_property(GetEntityTemplates)
-    PcFactories = _swig_property(GetPcFactories)
-    BehaviourLayers = _swig_property(GetBehaviourLayers)
-    Entities = _swig_property(GetEntities) 
+    __swig_getmethods__["EntityTemplates"] = lambda self: self.GetEntityTemplates()
+    __swig_getmethods__["PcFactories"] = lambda self: self.GetPcFactories()
+    __swig_getmethods__["BehaviourLayers"] = lambda self: self.GetBehaviourLayers()
+    __swig_getmethods__["Entities"] = lambda self: self.GetEntities() 
 iCelPlLayer_swigregister = _blcelc.iCelPlLayer_swigregister
 iCelPlLayer_swigregister(iCelPlLayer)
 iCelPlLayer_scfGetVersion = _blcelc.iCelPlLayer_scfGetVersion
 
 class iCelEntityTracker(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntityTracker, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityTracker, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelEntityTracker_GetName(*args)
@@ -565,10 +494,10 @@ class iCelEntityTracker(cspace.iBase):
     def GetIterator(*args): return _blcelc.iCelEntityTracker_GetIterator(*args)
     def AddEntities(*args): return _blcelc.iCelEntityTracker_AddEntities(*args)
     def RemoveEntities(*args): return _blcelc.iCelEntityTracker_RemoveEntities(*args)
-    Name = _swig_property(_blcelc.iCelEntityTracker_Name_get, None, None,
+    Name = property(_blcelc.iCelEntityTracker_Name_get, None, None,
                     "iCelEntityTracker.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelEntityTracker::GetName()")
 
-    Iterator = _swig_property(_blcelc.iCelEntityTracker_Iterator_get, None, None,
+    Iterator = property(_blcelc.iCelEntityTracker_Iterator_get, None, None,
                     "iCelEntityTracker.Iterator -> csPtr<iCelEntityIterator>  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csPtr<iCelEntityIterator> iCelEntityTracker::GetIterator()")
 
     __swig_destroy__ = _blcelc.delete_iCelEntityTracker
@@ -674,7 +603,12 @@ class iCelPropertyClassFactoryPlFakeArray:
 	def append(self,obj): return self.parent.LoadPropertyClassFactory(obj)
 
 class iCelEntity(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntity, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelEntity, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def QueryObject(*args): return _blcelc.iCelEntity_QueryObject(*args)
@@ -689,34 +623,33 @@ class iCelEntity(cspace.iBase):
     def RemoveClass(*args): return _blcelc.iCelEntity_RemoveClass(*args)
     def HasClass(*args): return _blcelc.iCelEntity_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntity_GetClasses(*args)
-    def QueryMessageChannel(*args): return _blcelc.iCelEntity_QueryMessageChannel(*args)
-    def CreateTaggedMessageDispatcher(*args): return _blcelc.iCelEntity_CreateTaggedMessageDispatcher(*args)
-    Object = _swig_property(_blcelc.iCelEntity_Object_get, None, None,
+    Object = property(_blcelc.iCelEntity_Object_get, None, None,
                     "iCelEntity.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntity::QueryObject()")
 
-    Name = _swig_property(_blcelc.iCelEntity_Name_get, _blcelc.iCelEntity_Name_set, None,
+    __swig_setmethods__["Name"] = _blcelc.iCelEntity_Name_set
+    Name = property(_blcelc.iCelEntity_Name_get, _blcelc.iCelEntity_Name_set, None,
                     "iCelEntity.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelEntity::GetName()\n\tset: void iCelEntity::SetName(const char*)")
 
 
-    ID = _swig_property(_blcelc.iCelEntity_ID_get, _blcelc.iCelEntity_ID_set, None,
+    __swig_setmethods__["ID"] = _blcelc.iCelEntity_ID_set
+    ID = property(_blcelc.iCelEntity_ID_get, _blcelc.iCelEntity_ID_set, None,
                     "iCelEntity.ID -> uint\n\nThis is equivalent to calling the C++ cs methods:\n\tget: uint iCelEntity::GetID()\n\tset: void iCelEntity::SetID(uint)")
 
 
-    PropertyClassList = _swig_property(_blcelc.iCelEntity_PropertyClassList_get, None, None,
+    PropertyClassList = property(_blcelc.iCelEntity_PropertyClassList_get, None, None,
                     "iCelEntity.PropertyClassList -> iCelPropertyClassList*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iCelPropertyClassList* iCelEntity::GetPropertyClassList()")
 
-    Behaviour = _swig_property(_blcelc.iCelEntity_Behaviour_get, _blcelc.iCelEntity_Behaviour_set, None,
+    __swig_setmethods__["Behaviour"] = _blcelc.iCelEntity_Behaviour_set
+    Behaviour = property(_blcelc.iCelEntity_Behaviour_get, _blcelc.iCelEntity_Behaviour_set, None,
                     "iCelEntity.Behaviour -> iCelBehaviour*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelBehaviour* iCelEntity::GetBehaviour()\n\tset: void iCelEntity::SetBehaviour(iCelBehaviour*)")
 
 
-    Classes = _swig_property(_blcelc.iCelEntity_Classes_get, None, None,
+    Classes = property(_blcelc.iCelEntity_Classes_get, None, None,
                     "iCelEntity.Classes -> const csSet<csStringID>&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csSet<csStringID>& iCelEntity::GetClasses()")
 
-    MessageChannel = _swig_property(_blcelc.iCelEntity_MessageChannel_get, None, None,
-                    "iCelEntity.MessageChannel -> iMessageChannel*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iMessageChannel* iCelEntity::QueryMessageChannel()")
-
     def CreateBehaviour(*args): return _blcelc.iCelEntity_CreateBehaviour(*args)
-    scfGetVersion = staticmethod(_blcelc.iCelEntity_scfGetVersion)
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelEntity_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelEntity_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iCelEntity
     __del__ = lambda self : None;
 iCelEntity_swigregister = _blcelc.iCelEntity_swigregister
@@ -724,7 +657,12 @@ iCelEntity_swigregister(iCelEntity)
 iCelEntity_scfGetVersion = _blcelc.iCelEntity_scfGetVersion
 
 class iCelEntityList(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntityList, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityList, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetCount(*args): return _blcelc.iCelEntityList_GetCount(*args)
@@ -735,10 +673,10 @@ class iCelEntityList(cspace.iBase):
     def Find(*args): return _blcelc.iCelEntityList_Find(*args)
     def FindByName(*args): return _blcelc.iCelEntityList_FindByName(*args)
     def GetIterator(*args): return _blcelc.iCelEntityList_GetIterator(*args)
-    Count = _swig_property(_blcelc.iCelEntityList_Count_get, None, None,
+    Count = property(_blcelc.iCelEntityList_Count_get, None, None,
                     "iCelEntityList.Count -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelEntityList::GetCount()")
 
-    Iterator = _swig_property(_blcelc.iCelEntityList_Iterator_get, None, None,
+    Iterator = property(_blcelc.iCelEntityList_Iterator_get, None, None,
                     "iCelEntityList.Iterator -> csPtr<iCelEntityIterator>  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csPtr<iCelEntityIterator> iCelEntityList::GetIterator()")
 
     def __delitem__(*args): return _blcelc.iCelEntityList___delitem__(*args)
@@ -750,7 +688,8 @@ class iCelEntityList(cspace.iBase):
     def __iter__(self): return self.content_iterator()  
     def __getitem__(*args): return _blcelc.iCelEntityList___getitem__(*args)
     def __contains__(*args): return _blcelc.iCelEntityList___contains__(*args)
-    scfGetVersion = staticmethod(_blcelc.iCelEntityList_scfGetVersion)
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelEntityList_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelEntityList_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iCelEntityList
     __del__ = lambda self : None;
 iCelEntityList_swigregister = _blcelc.iCelEntityList_swigregister
@@ -758,11 +697,19 @@ iCelEntityList_swigregister(iCelEntityList)
 iCelEntityList_scfGetVersion = _blcelc.iCelEntityList_scfGetVersion
 
 class iCelEntityIterator(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntityIterator, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityIterator, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Next(*args): return _blcelc.iCelEntityIterator_Next(*args)
     def HasNext(*args): return _blcelc.iCelEntityIterator_HasNext(*args)
+    Next = property(_blcelc.iCelEntityIterator_Next_get, None, None,
+                    "iCelEntityIterator.Next -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iCelEntityIterator::HasNext()")
+
     __swig_destroy__ = _blcelc.delete_iCelEntityIterator
     __del__ = lambda self : None;
 iCelEntityIterator_swigregister = _blcelc.iCelEntityIterator_swigregister
@@ -772,7 +719,12 @@ celRegisterPCFactory = _blcelc.celRegisterPCFactory
 celCreateEntity = _blcelc.celCreateEntity
 scfQueryInterface_iCelEntity = _blcelc.scfQueryInterface_iCelEntity
 class iCelEntityTemplate(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntityTemplate, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityTemplate, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def QueryObject(*args): return _blcelc.iCelEntityTemplate_QueryObject(*args)
@@ -787,20 +739,22 @@ class iCelEntityTemplate(cspace.iBase):
     def RemoveClass(*args): return _blcelc.iCelEntityTemplate_RemoveClass(*args)
     def HasClass(*args): return _blcelc.iCelEntityTemplate_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntityTemplate_GetClasses(*args)
-    Object = _swig_property(_blcelc.iCelEntityTemplate_Object_get, None, None,
+    Object = property(_blcelc.iCelEntityTemplate_Object_get, None, None,
                     "iCelEntityTemplate.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntityTemplate::QueryObject()")
 
-    Name = _swig_property(_blcelc.iCelEntityTemplate_Name_get, _blcelc.iCelEntityTemplate_Name_set, None,
+    __swig_setmethods__["Name"] = _blcelc.iCelEntityTemplate_Name_set
+    Name = property(_blcelc.iCelEntityTemplate_Name_get, _blcelc.iCelEntityTemplate_Name_set, None,
                     "iCelEntityTemplate.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelEntityTemplate::GetName()\n\tset: void iCelEntityTemplate::SetName(const char*)")
 
 
-    Behaviour = _swig_property(_blcelc.iCelEntityTemplate_GetBehaviour, fix_args(_blcelc.iCelEntityTemplate_SetBehaviour), None,
+    __swig_setmethods__["Behaviour"] = fix_args(_blcelc.iCelEntityTemplate_SetBehaviour)
+    Behaviour = property(_blcelc.iCelEntityTemplate_GetBehaviour, fix_args(_blcelc.iCelEntityTemplate_SetBehaviour), None,
                     "iCelEntityTemplate.Behaviour -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelEntityTemplate::GetBehaviour()\n\tset: void iCelEntityTemplate::SetBehaviour(...)")
 
-    BehaviourLayer = _swig_property(_blcelc.iCelEntityTemplate_BehaviourLayer_get, None, None,
+    BehaviourLayer = property(_blcelc.iCelEntityTemplate_BehaviourLayer_get, None, None,
                     "iCelEntityTemplate.BehaviourLayer -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelEntityTemplate::GetBehaviourLayer()")
 
-    Classes = _swig_property(_blcelc.iCelEntityTemplate_Classes_get, None, None,
+    Classes = property(_blcelc.iCelEntityTemplate_Classes_get, None, None,
                     "iCelEntityTemplate.Classes -> const csSet<csStringID>&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csSet<csStringID>& iCelEntityTemplate::GetClasses()")
 
     __swig_destroy__ = _blcelc.delete_iCelEntityTemplate
@@ -810,7 +764,12 @@ iCelEntityTemplate_swigregister(iCelEntityTemplate)
 celFindNearbyEntities = _blcelc.celFindNearbyEntities
 
 class iCelPropertyClassTemplate(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelPropertyClassTemplate, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClassTemplate, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetName(*args): return _blcelc.iCelPropertyClassTemplate_SetName(*args)
@@ -820,18 +779,22 @@ class iCelPropertyClassTemplate(cspace.iBase):
     def SetPropertyVariable(*args): return _blcelc.iCelPropertyClassTemplate_SetPropertyVariable(*args)
     def SetProperty(*args): return _blcelc.iCelPropertyClassTemplate_SetProperty(*args)
     def PerformAction(*args): return _blcelc.iCelPropertyClassTemplate_PerformAction(*args)
-    Name = _swig_property(_blcelc.iCelPropertyClassTemplate_Name_get, _blcelc.iCelPropertyClassTemplate_Name_set, None,
+    __swig_setmethods__["Name"] = _blcelc.iCelPropertyClassTemplate_Name_set
+    Name = property(_blcelc.iCelPropertyClassTemplate_Name_get, _blcelc.iCelPropertyClassTemplate_Name_set, None,
                     "iCelPropertyClassTemplate.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClassTemplate::GetName()\n\tset: void iCelPropertyClassTemplate::SetName(const char*)")
 
 
-    Tag = _swig_property(_blcelc.iCelPropertyClassTemplate_Tag_get, _blcelc.iCelPropertyClassTemplate_Tag_set, None,
+    __swig_setmethods__["Tag"] = _blcelc.iCelPropertyClassTemplate_Tag_set
+    Tag = property(_blcelc.iCelPropertyClassTemplate_Tag_get, _blcelc.iCelPropertyClassTemplate_Tag_set, None,
                     "iCelPropertyClassTemplate.Tag -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClassTemplate::GetTag()\n\tset: void iCelPropertyClassTemplate::SetTag(const char*)")
 
 
-    PropertyVariable = _swig_property(None, fix_args(_blcelc.iCelPropertyClassTemplate_SetPropertyVariable), None,
+    __swig_setmethods__["PropertyVariable"] = fix_args(_blcelc.iCelPropertyClassTemplate_SetPropertyVariable)
+    PropertyVariable = property(None, fix_args(_blcelc.iCelPropertyClassTemplate_SetPropertyVariable), None,
                     "iCelPropertyClassTemplate.PropertyVariable -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelPropertyClassTemplate::getmethod()\n\tset: void iCelPropertyClassTemplate::SetPropertyVariable(...)")
 
-    Property = _swig_property(None, fix_args(_blcelc.iCelPropertyClassTemplate_SetProperty), None,
+    __swig_setmethods__["Property"] = fix_args(_blcelc.iCelPropertyClassTemplate_SetProperty)
+    Property = property(None, fix_args(_blcelc.iCelPropertyClassTemplate_SetProperty), None,
                     "iCelPropertyClassTemplate.Property -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelPropertyClassTemplate::getmethod()\n\tset: void iCelPropertyClassTemplate::SetProperty(...)")
 
     __swig_destroy__ = _blcelc.delete_iCelPropertyClassTemplate
@@ -840,15 +803,21 @@ iCelPropertyClassTemplate_swigregister = _blcelc.iCelPropertyClassTemplate_swigr
 iCelPropertyClassTemplate_swigregister(iCelPropertyClassTemplate)
 
 class iCelBlLayer(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelBlLayer, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelBlLayer, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelBlLayer_GetName(*args)
     def CreateBehaviour(*args): return _blcelc.iCelBlLayer_CreateBehaviour(*args)
-    Name = _swig_property(_blcelc.iCelBlLayer_Name_get, None, None,
+    Name = property(_blcelc.iCelBlLayer_Name_get, None, None,
                     "iCelBlLayer.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelBlLayer::GetName()")
 
-    scfGetVersion = staticmethod(_blcelc.iCelBlLayer_scfGetVersion)
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelBlLayer_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelBlLayer_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iCelBlLayer
     __del__ = lambda self : None;
 iCelBlLayer_swigregister = _blcelc.iCelBlLayer_swigregister
@@ -857,13 +826,18 @@ iCelBlLayer_scfGetVersion = _blcelc.iCelBlLayer_scfGetVersion
 
 csQueryRegistry_iCelBlLayer = _blcelc.csQueryRegistry_iCelBlLayer
 class iCelParameterBlock(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelParameterBlock, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetParameterCount(*args): return _blcelc.iCelParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.iCelParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterByIndex(*args)
-    ParameterCount = _swig_property(_blcelc.iCelParameterBlock_ParameterCount_get, None, None,
+    ParameterCount = property(_blcelc.iCelParameterBlock_ParameterCount_get, None, None,
                     "iCelParameterBlock.ParameterCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelParameterBlock::GetParameterCount()")
 
     def GetParameterIDByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterIDByIndex(*args)
@@ -909,31 +883,36 @@ iCelParameterBlock_swigregister = _blcelc.iCelParameterBlock_swigregister
 iCelParameterBlock_swigregister(iCelParameterBlock)
 
 class iCelBehaviour(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelBehaviour, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelBehaviour, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelBehaviour_GetName(*args)
     def GetBehaviourLayer(*args): return _blcelc.iCelBehaviour_GetBehaviourLayer(*args)
-    Name = _swig_property(_blcelc.iCelBehaviour_Name_get, None, None,
+    Name = property(_blcelc.iCelBehaviour_Name_get, None, None,
                     "iCelBehaviour.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelBehaviour::GetName()")
 
-    BehaviourLayer = _swig_property(_blcelc.iCelBehaviour_BehaviourLayer_get, None, None,
+    BehaviourLayer = property(_blcelc.iCelBehaviour_BehaviourLayer_get, None, None,
                     "iCelBehaviour.BehaviourLayer -> iCelBlLayer*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iCelBlLayer* iCelBehaviour::GetBehaviourLayer()")
 
     def GetPythonObject(*args): return _blcelc.iCelBehaviour_GetPythonObject(*args)
     def SendMessage(*args): return _blcelc.iCelBehaviour_SendMessage(*args)
-    def __getattr__(self,attr):
-      return getattr(self.GetPythonObject(),attr)
-    def __setattr__(self,attr,value):
-      return setattr(self.GetPythonObject(),attr,value)
-
     __swig_destroy__ = _blcelc.delete_iCelBehaviour
     __del__ = lambda self : None;
 iCelBehaviour_swigregister = _blcelc.iCelBehaviour_swigregister
 iCelBehaviour_swigregister(iCelBehaviour)
 
 class scfGenericParameterBlock(iCelParameterBlock):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, scfGenericParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, scfGenericParameterBlock, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def IncRef(*args): return _blcelc.scfGenericParameterBlock_IncRef(*args)
@@ -942,12 +921,16 @@ class scfGenericParameterBlock(iCelParameterBlock):
     def QueryInterface(*args): return _blcelc.scfGenericParameterBlock_QueryInterface(*args)
     def AddRefOwner(*args): return _blcelc.scfGenericParameterBlock_AddRefOwner(*args)
     def RemoveRefOwner(*args): return _blcelc.scfGenericParameterBlock_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.scfGenericParameterBlock_GetInterfaceMetadata(*args)
 scfGenericParameterBlock_swigregister = _blcelc.scfGenericParameterBlock_swigregister
 scfGenericParameterBlock_swigregister(scfGenericParameterBlock)
 
 class scfVariableParameterBlock(iCelParameterBlock):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, scfVariableParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, scfVariableParameterBlock, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def IncRef(*args): return _blcelc.scfVariableParameterBlock_IncRef(*args)
@@ -956,26 +939,16 @@ class scfVariableParameterBlock(iCelParameterBlock):
     def QueryInterface(*args): return _blcelc.scfVariableParameterBlock_QueryInterface(*args)
     def AddRefOwner(*args): return _blcelc.scfVariableParameterBlock_AddRefOwner(*args)
     def RemoveRefOwner(*args): return _blcelc.scfVariableParameterBlock_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.scfVariableParameterBlock_GetInterfaceMetadata(*args)
 scfVariableParameterBlock_swigregister = _blcelc.scfVariableParameterBlock_swigregister
 scfVariableParameterBlock_swigregister(scfVariableParameterBlock)
 
-class scfCombineParameterBlock(iCelParameterBlock):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def IncRef(*args): return _blcelc.scfCombineParameterBlock_IncRef(*args)
-    def DecRef(*args): return _blcelc.scfCombineParameterBlock_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.scfCombineParameterBlock_GetRefCount(*args)
-    def QueryInterface(*args): return _blcelc.scfCombineParameterBlock_QueryInterface(*args)
-    def AddRefOwner(*args): return _blcelc.scfCombineParameterBlock_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.scfCombineParameterBlock_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.scfCombineParameterBlock_GetInterfaceMetadata(*args)
-scfCombineParameterBlock_swigregister = _blcelc.scfCombineParameterBlock_swigregister
-scfCombineParameterBlock_swigregister(scfCombineParameterBlock)
-
 class scfOneParameterBlock(iCelParameterBlock):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, scfOneParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, scfOneParameterBlock, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def IncRef(*args): return _blcelc.scfOneParameterBlock_IncRef(*args)
@@ -984,12 +957,16 @@ class scfOneParameterBlock(iCelParameterBlock):
     def QueryInterface(*args): return _blcelc.scfOneParameterBlock_QueryInterface(*args)
     def AddRefOwner(*args): return _blcelc.scfOneParameterBlock_AddRefOwner(*args)
     def RemoveRefOwner(*args): return _blcelc.scfOneParameterBlock_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.scfOneParameterBlock_GetInterfaceMetadata(*args)
 scfOneParameterBlock_swigregister = _blcelc.scfOneParameterBlock_swigregister
 scfOneParameterBlock_swigregister(scfOneParameterBlock)
 
 class celGenericParameterBlock(scfGenericParameterBlock):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [scfGenericParameterBlock]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celGenericParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [scfGenericParameterBlock]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, celGenericParameterBlock, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
         this = _blcelc.new_celGenericParameterBlock(*args)
@@ -1001,17 +978,23 @@ class celGenericParameterBlock(scfGenericParameterBlock):
     def GetParameterCount(*args): return _blcelc.celGenericParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.celGenericParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celGenericParameterBlock_GetParameterByIndex(*args)
-    ParameterDef = _swig_property(None, fix_args(_blcelc.celGenericParameterBlock_SetParameterDef), None,
+    __swig_setmethods__["ParameterDef"] = fix_args(_blcelc.celGenericParameterBlock_SetParameterDef)
+    ParameterDef = property(None, fix_args(_blcelc.celGenericParameterBlock_SetParameterDef), None,
                     "celGenericParameterBlock.ParameterDef -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: celGenericParameterBlock::getmethod()\n\tset: void celGenericParameterBlock::SetParameterDef(...)")
 
-    ParameterCount = _swig_property(_blcelc.celGenericParameterBlock_ParameterCount_get, None, None,
+    ParameterCount = property(_blcelc.celGenericParameterBlock_ParameterCount_get, None, None,
                     "celGenericParameterBlock.ParameterCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t celGenericParameterBlock::GetParameterCount()")
 
 celGenericParameterBlock_swigregister = _blcelc.celGenericParameterBlock_swigregister
 celGenericParameterBlock_swigregister(celGenericParameterBlock)
 
 class celVariableParameterBlock(scfVariableParameterBlock):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [scfVariableParameterBlock]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celVariableParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [scfVariableParameterBlock]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, celVariableParameterBlock, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
         this = _blcelc.new_celVariableParameterBlock(*args)
@@ -1023,17 +1006,23 @@ class celVariableParameterBlock(scfVariableParameterBlock):
     def GetParameterCount(*args): return _blcelc.celVariableParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.celVariableParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celVariableParameterBlock_GetParameterByIndex(*args)
-    ParameterDef = _swig_property(None, fix_args(_blcelc.celVariableParameterBlock_SetParameterDef), None,
+    __swig_setmethods__["ParameterDef"] = fix_args(_blcelc.celVariableParameterBlock_SetParameterDef)
+    ParameterDef = property(None, fix_args(_blcelc.celVariableParameterBlock_SetParameterDef), None,
                     "celVariableParameterBlock.ParameterDef -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: celVariableParameterBlock::getmethod()\n\tset: void celVariableParameterBlock::SetParameterDef(...)")
 
-    ParameterCount = _swig_property(_blcelc.celVariableParameterBlock_ParameterCount_get, None, None,
+    ParameterCount = property(_blcelc.celVariableParameterBlock_ParameterCount_get, None, None,
                     "celVariableParameterBlock.ParameterCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t celVariableParameterBlock::GetParameterCount()")
 
 celVariableParameterBlock_swigregister = _blcelc.celVariableParameterBlock_swigregister
 celVariableParameterBlock_swigregister(celVariableParameterBlock)
 
 class celOneParameterBlock(scfOneParameterBlock):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [scfOneParameterBlock]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celOneParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [scfOneParameterBlock]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, celOneParameterBlock, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
         this = _blcelc.new_celOneParameterBlock(*args)
@@ -1045,39 +1034,28 @@ class celOneParameterBlock(scfOneParameterBlock):
     def GetParameterCount(*args): return _blcelc.celOneParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.celOneParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celOneParameterBlock_GetParameterByIndex(*args)
-    ParameterDef = _swig_property(None, fix_args(_blcelc.celOneParameterBlock_SetParameterDef), None,
+    __swig_setmethods__["ParameterDef"] = fix_args(_blcelc.celOneParameterBlock_SetParameterDef)
+    ParameterDef = property(None, fix_args(_blcelc.celOneParameterBlock_SetParameterDef), None,
                     "celOneParameterBlock.ParameterDef -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: celOneParameterBlock::getmethod()\n\tset: void celOneParameterBlock::SetParameterDef(...)")
 
-    ParameterCount = _swig_property(_blcelc.celOneParameterBlock_ParameterCount_get, None, None,
+    ParameterCount = property(_blcelc.celOneParameterBlock_ParameterCount_get, None, None,
                     "celOneParameterBlock.ParameterCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t celOneParameterBlock::GetParameterCount()")
 
 celOneParameterBlock_swigregister = _blcelc.celOneParameterBlock_swigregister
 celOneParameterBlock_swigregister(celOneParameterBlock)
 
-class celCombineParameterBlock(scfCombineParameterBlock):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_celCombineParameterBlock(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_celCombineParameterBlock
-    __del__ = lambda self : None;
-    def SetParameterBlock1(*args): return _blcelc.celCombineParameterBlock_SetParameterBlock1(*args)
-    def SetParameterBlock2(*args): return _blcelc.celCombineParameterBlock_SetParameterBlock2(*args)
-    def GetParameterCount(*args): return _blcelc.celCombineParameterBlock_GetParameterCount(*args)
-    def GetParameter(*args): return _blcelc.celCombineParameterBlock_GetParameter(*args)
-    def GetParameterByIndex(*args): return _blcelc.celCombineParameterBlock_GetParameterByIndex(*args)
-celCombineParameterBlock_swigregister = _blcelc.celCombineParameterBlock_swigregister
-celCombineParameterBlock_swigregister(celCombineParameterBlock)
-
 class iCelPropertyClassFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelPropertyClassFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClassFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelPropertyClassFactory_GetName(*args)
     def CreatePropertyClass(*args): return _blcelc.iCelPropertyClassFactory_CreatePropertyClass(*args)
-    Name = _swig_property(_blcelc.iCelPropertyClassFactory_Name_get, None, None,
+    Name = property(_blcelc.iCelPropertyClassFactory_Name_get, None, None,
                     "iCelPropertyClassFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelPropertyClassFactory::GetName()")
 
     __swig_destroy__ = _blcelc.delete_iCelPropertyClassFactory
@@ -1086,7 +1064,12 @@ iCelPropertyClassFactory_swigregister = _blcelc.iCelPropertyClassFactory_swigreg
 iCelPropertyClassFactory_swigregister(iCelPropertyClassFactory)
 
 class iCelPropertyClass(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelPropertyClass, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClass, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetName(*args): return _blcelc.iCelPropertyClass_SetName(*args)
@@ -1101,7 +1084,6 @@ class iCelPropertyClass(cspace.iBase):
     def Load(*args): return _blcelc.iCelPropertyClass_Load(*args)
     def AddPropertyChangeCallback(*args): return _blcelc.iCelPropertyClass_AddPropertyChangeCallback(*args)
     def RemovePropertyChangeCallback(*args): return _blcelc.iCelPropertyClass_RemovePropertyChangeCallback(*args)
-    def SetProperty(*args): return _blcelc.iCelPropertyClass_SetProperty(*args)
     def GetPropertyOrActionType(*args): return _blcelc.iCelPropertyClass_GetPropertyOrActionType(*args)
     def IsPropertyReadOnly(*args): return _blcelc.iCelPropertyClass_IsPropertyReadOnly(*args)
     def GetPropertyLong(*args): return _blcelc.iCelPropertyClass_GetPropertyLong(*args)
@@ -1131,22 +1113,20 @@ class iCelPropertyClass(cspace.iBase):
     def PropertyClassesHaveChanged(*args): return _blcelc.iCelPropertyClass_PropertyClassesHaveChanged(*args)
     def GetPersistentData(*args): return _blcelc.iCelPropertyClass_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.iCelPropertyClass_SetPersistentData(*args)
-    Name = _swig_property(_blcelc.iCelPropertyClass_Name_get, _blcelc.iCelPropertyClass_Name_set, None,
-                    "iCelPropertyClass.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClass::GetName()\n\tset: void iCelPropertyClass::SetName(const char*)")
+    Name = property(_blcelc.iCelPropertyClass_Name_get, None, None,
+                    "iCelPropertyClass.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelPropertyClass::GetName()")
 
-
-    Tag = _swig_property(_blcelc.iCelPropertyClass_Tag_get, _blcelc.iCelPropertyClass_Tag_set, None,
+    __swig_setmethods__["Tag"] = _blcelc.iCelPropertyClass_Tag_set
+    Tag = property(_blcelc.iCelPropertyClass_Tag_get, _blcelc.iCelPropertyClass_Tag_set, None,
                     "iCelPropertyClass.Tag -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClass::GetTag()\n\tset: void iCelPropertyClass::SetTag(const char*)")
 
 
-    Entity = _swig_property(_blcelc.iCelPropertyClass_Entity_get, _blcelc.iCelPropertyClass_Entity_set, None,
+    __swig_setmethods__["Entity"] = _blcelc.iCelPropertyClass_Entity_set
+    Entity = property(_blcelc.iCelPropertyClass_Entity_get, _blcelc.iCelPropertyClass_Entity_set, None,
                     "iCelPropertyClass.Entity -> iCelEntity*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelEntity* iCelPropertyClass::GetEntity()\n\tset: void iCelPropertyClass::SetEntity(iCelEntity*)")
 
 
-    Property = _swig_property(None, fix_args(_blcelc.iCelPropertyClass_SetProperty), None,
-                    "iCelPropertyClass.Property -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelPropertyClass::getmethod()\n\tset: void iCelPropertyClass::SetProperty(...)")
-
-    PropertyAndActionCount = _swig_property(_blcelc.iCelPropertyClass_PropertyAndActionCount_get, None, None,
+    PropertyAndActionCount = property(_blcelc.iCelPropertyClass_PropertyAndActionCount_get, None, None,
                     "iCelPropertyClass.PropertyAndActionCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPropertyClass::GetPropertyAndActionCount()")
 
     def SetPropertyLong(*args): return _blcelc.iCelPropertyClass_SetPropertyLong(*args)
@@ -1157,7 +1137,8 @@ class iCelPropertyClass(cspace.iBase):
     def SetPropertyVector3(*args): return _blcelc.iCelPropertyClass_SetPropertyVector3(*args)
     def SetPropertyColor(*args): return _blcelc.iCelPropertyClass_SetPropertyColor(*args)
     def SetPropertyEntity(*args): return _blcelc.iCelPropertyClass_SetPropertyEntity(*args)
-    scfGetVersion = staticmethod(_blcelc.iCelPropertyClass_scfGetVersion)
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelPropertyClass_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelPropertyClass_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iCelPropertyClass
     __del__ = lambda self : None;
     def GetterFallback(self,attr):
@@ -1170,7 +1151,12 @@ iCelPropertyClass_swigregister(iCelPropertyClass)
 iCelPropertyClass_scfGetVersion = _blcelc.iCelPropertyClass_scfGetVersion
 
 class iCelPropertyClassList(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelPropertyClassList, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClassList, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetCount(*args): return _blcelc.iCelPropertyClassList_GetCount(*args)
@@ -1179,7 +1165,7 @@ class iCelPropertyClassList(cspace.iBase):
     def Remove(self,propclass):
       if not (isinstance(propclass,int) or isinstance(propclass,
               iCelPropertyClass)):
-        propclass = propclass.QueryInterface(iCelPropertyClass)
+        propclass = cspace.SCF_QUERY_INTERFACE(propclass,iCelPropertyClass)
       return _blcelc.iCelPropertyClassList_Remove(self,propclass)
 
 
@@ -1189,11 +1175,11 @@ class iCelPropertyClassList(cspace.iBase):
     def Find(*args): return _blcelc.iCelPropertyClassList_Find(*args)
     def FindByName(*args): return _blcelc.iCelPropertyClassList_FindByName(*args)
     def FindByNameAndTag(*args): return _blcelc.iCelPropertyClassList_FindByNameAndTag(*args)
-    Count = _swig_property(_blcelc.iCelPropertyClassList_Count_get, None, None,
-                    "iCelPropertyClassList.Count -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPropertyClassList::GetCount()")
-
     def FindByInterface(*args): return _blcelc.iCelPropertyClassList_FindByInterface(*args)
     def FindByInterfaceAndTag(*args): return _blcelc.iCelPropertyClassList_FindByInterfaceAndTag(*args)
+    Count = property(_blcelc.iCelPropertyClassList_Count_get, None, None,
+                    "iCelPropertyClassList.Count -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPropertyClassList::GetCount()")
+
     def __delitem__(*args): return _blcelc.iCelPropertyClassList___delitem__(*args)
     def __len__(*args): return _blcelc.iCelPropertyClassList___len__(*args)
     def append(*args): return _blcelc.iCelPropertyClassList_append(*args)
@@ -1209,7 +1195,12 @@ iCelPropertyClassList_swigregister = _blcelc.iCelPropertyClassList_swigregister
 iCelPropertyClassList_swigregister(iCelPropertyClassList)
 
 class iPcMechanicsSystem(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsSystem, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsSystem, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetDynamicSystem(*args): return _blcelc.iPcMechanicsSystem_SetDynamicSystem(*args)
@@ -1235,46 +1226,57 @@ class iPcMechanicsSystem(cspace.iBase):
     def DisableStepFast(*args): return _blcelc.iPcMechanicsSystem_DisableStepFast(*args)
     def EnableStepFast(*args): return _blcelc.iPcMechanicsSystem_EnableStepFast(*args)
     def EnableQuickStep(*args): return _blcelc.iPcMechanicsSystem_EnableQuickStep(*args)
-    DynamicSystem = _swig_property(_blcelc.iPcMechanicsSystem_GetDynamicSystem, fix_args(_blcelc.iPcMechanicsSystem_SetDynamicSystem), None,
+    __swig_setmethods__["DynamicSystem"] = fix_args(_blcelc.iPcMechanicsSystem_SetDynamicSystem)
+    DynamicSystem = property(_blcelc.iPcMechanicsSystem_GetDynamicSystem, fix_args(_blcelc.iPcMechanicsSystem_SetDynamicSystem), None,
                     "iPcMechanicsSystem.DynamicSystem -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMechanicsSystem::GetDynamicSystem()\n\tset: void iPcMechanicsSystem::SetDynamicSystem(...)")
 
-    StepTime = _swig_property(_blcelc.iPcMechanicsSystem_StepTime_get, _blcelc.iPcMechanicsSystem_StepTime_set, None,
+    __swig_setmethods__["StepTime"] = _blcelc.iPcMechanicsSystem_StepTime_set
+    StepTime = property(_blcelc.iPcMechanicsSystem_StepTime_get, _blcelc.iPcMechanicsSystem_StepTime_set, None,
                     "iPcMechanicsSystem.StepTime -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMechanicsSystem::GetStepTime()\n\tset: void iPcMechanicsSystem::SetStepTime(float)")
 
 
-    SimulationSpeed = _swig_property(_blcelc.iPcMechanicsSystem_SimulationSpeed_get, _blcelc.iPcMechanicsSystem_SimulationSpeed_set, None,
+    __swig_setmethods__["SimulationSpeed"] = _blcelc.iPcMechanicsSystem_SimulationSpeed_set
+    SimulationSpeed = property(_blcelc.iPcMechanicsSystem_SimulationSpeed_get, _blcelc.iPcMechanicsSystem_SimulationSpeed_set, None,
                     "iPcMechanicsSystem.SimulationSpeed -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMechanicsSystem::GetSimulationSpeed()\n\tset: void iPcMechanicsSystem::SetSimulationSpeed(float)")
 
 
-    Gravity = _swig_property(_blcelc.iPcMechanicsSystem_Gravity_get, _blcelc.iPcMechanicsSystem_Gravity_set, None,
+    __swig_setmethods__["Gravity"] = _blcelc.iPcMechanicsSystem_Gravity_set
+    Gravity = property(_blcelc.iPcMechanicsSystem_Gravity_get, _blcelc.iPcMechanicsSystem_Gravity_set, None,
                     "iPcMechanicsSystem.Gravity -> const csVector3\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector3 iPcMechanicsSystem::GetGravity()\n\tset: void iPcMechanicsSystem::SetGravity(const csVector3)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMechanicsSystem, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcMechanicsSystem,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcMechanicsSystem.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsSystem,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcMechanicsSystem_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsSystem
     __del__ = lambda self : None;
 iPcMechanicsSystem_swigregister = _blcelc.iPcMechanicsSystem_swigregister
 iPcMechanicsSystem_swigregister(iPcMechanicsSystem)
-iPcMechanicsSystem_scfGetVersion = _blcelc.iPcMechanicsSystem_scfGetVersion
 
 class iPcMechanicsObject(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsObject, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsObject, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetMesh(*args): return _blcelc.iPcMechanicsObject_SetMesh(*args)
@@ -1315,7 +1317,6 @@ class iPcMechanicsObject(cspace.iBase):
     def AttachColliderBox(*args): return _blcelc.iPcMechanicsObject_AttachColliderBox(*args)
     def AttachColliderPlane(*args): return _blcelc.iPcMechanicsObject_AttachColliderPlane(*args)
     def AttachColliderMesh(*args): return _blcelc.iPcMechanicsObject_AttachColliderMesh(*args)
-    def AttachColliderConvexMesh(*args): return _blcelc.iPcMechanicsObject_AttachColliderConvexMesh(*args)
     def AddForceOnce(*args): return _blcelc.iPcMechanicsObject_AddForceOnce(*args)
     def AddForceDuration(*args): return _blcelc.iPcMechanicsObject_AddForceDuration(*args)
     def AddForceFrame(*args): return _blcelc.iPcMechanicsObject_AddForceFrame(*args)
@@ -1327,121 +1328,144 @@ class iPcMechanicsObject(cspace.iBase):
     def CreateJoint(*args): return _blcelc.iPcMechanicsObject_CreateJoint(*args)
     def LocalToWorld(*args): return _blcelc.iPcMechanicsObject_LocalToWorld(*args)
     def WorldToLocal(*args): return _blcelc.iPcMechanicsObject_WorldToLocal(*args)
-    Mesh = _swig_property(_blcelc.iPcMechanicsObject_Mesh_get, _blcelc.iPcMechanicsObject_Mesh_set, None,
+    __swig_setmethods__["Mesh"] = _blcelc.iPcMechanicsObject_Mesh_set
+    Mesh = property(_blcelc.iPcMechanicsObject_Mesh_get, _blcelc.iPcMechanicsObject_Mesh_set, None,
                     "iPcMechanicsObject.Mesh -> iPcMesh*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMesh* iPcMechanicsObject::GetMesh()\n\tset: void iPcMechanicsObject::SetMesh(iPcMesh*)")
 
 
-    Light = _swig_property(_blcelc.iPcMechanicsObject_Light_get, _blcelc.iPcMechanicsObject_Light_set, None,
+    __swig_setmethods__["Light"] = _blcelc.iPcMechanicsObject_Light_set
+    Light = property(_blcelc.iPcMechanicsObject_Light_get, _blcelc.iPcMechanicsObject_Light_set, None,
                     "iPcMechanicsObject.Light -> iPcLight*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLight* iPcMechanicsObject::GetLight()\n\tset: void iPcMechanicsObject::SetLight(iPcLight*)")
 
 
-    Camera = _swig_property(_blcelc.iPcMechanicsObject_Camera_get, _blcelc.iPcMechanicsObject_Camera_set, None,
+    __swig_setmethods__["Camera"] = _blcelc.iPcMechanicsObject_Camera_set
+    Camera = property(_blcelc.iPcMechanicsObject_Camera_get, _blcelc.iPcMechanicsObject_Camera_set, None,
                     "iPcMechanicsObject.Camera -> iPcCamera*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcCamera* iPcMechanicsObject::GetCamera()\n\tset: void iPcMechanicsObject::SetCamera(iPcCamera*)")
 
 
-    MechanicsSystem = _swig_property(_blcelc.iPcMechanicsObject_MechanicsSystem_get, _blcelc.iPcMechanicsObject_MechanicsSystem_set, None,
+    __swig_setmethods__["MechanicsSystem"] = _blcelc.iPcMechanicsObject_MechanicsSystem_set
+    MechanicsSystem = property(_blcelc.iPcMechanicsObject_MechanicsSystem_get, _blcelc.iPcMechanicsObject_MechanicsSystem_set, None,
                     "iPcMechanicsObject.MechanicsSystem -> iPcMechanicsSystem*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMechanicsSystem* iPcMechanicsObject::GetMechanicsSystem()\n\tset: void iPcMechanicsObject::SetMechanicsSystem(iPcMechanicsSystem*)")
 
 
-    Body = _swig_property(_blcelc.iPcMechanicsObject_Body_get, None, None,
+    Body = property(_blcelc.iPcMechanicsObject_Body_get, None, None,
                     "iPcMechanicsObject.Body -> iRigidBody*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iRigidBody* iPcMechanicsObject::GetBody()")
 
-    Friction = _swig_property(_blcelc.iPcMechanicsObject_Friction_get, _blcelc.iPcMechanicsObject_Friction_set, None,
+    __swig_setmethods__["Friction"] = _blcelc.iPcMechanicsObject_Friction_set
+    Friction = property(_blcelc.iPcMechanicsObject_Friction_get, _blcelc.iPcMechanicsObject_Friction_set, None,
                     "iPcMechanicsObject.Friction -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMechanicsObject::GetFriction()\n\tset: void iPcMechanicsObject::SetFriction(float)")
 
 
-    Mass = _swig_property(_blcelc.iPcMechanicsObject_Mass_get, _blcelc.iPcMechanicsObject_Mass_set, None,
+    __swig_setmethods__["Mass"] = _blcelc.iPcMechanicsObject_Mass_set
+    Mass = property(_blcelc.iPcMechanicsObject_Mass_get, _blcelc.iPcMechanicsObject_Mass_set, None,
                     "iPcMechanicsObject.Mass -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMechanicsObject::GetMass()\n\tset: void iPcMechanicsObject::SetMass(float)")
 
 
-    Elasticity = _swig_property(_blcelc.iPcMechanicsObject_Elasticity_get, _blcelc.iPcMechanicsObject_Elasticity_set, None,
+    __swig_setmethods__["Elasticity"] = _blcelc.iPcMechanicsObject_Elasticity_set
+    Elasticity = property(_blcelc.iPcMechanicsObject_Elasticity_get, _blcelc.iPcMechanicsObject_Elasticity_set, None,
                     "iPcMechanicsObject.Elasticity -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMechanicsObject::GetElasticity()\n\tset: void iPcMechanicsObject::SetElasticity(float)")
 
 
-    Density = _swig_property(_blcelc.iPcMechanicsObject_Density_get, _blcelc.iPcMechanicsObject_Density_set, None,
+    __swig_setmethods__["Density"] = _blcelc.iPcMechanicsObject_Density_set
+    Density = property(_blcelc.iPcMechanicsObject_Density_get, _blcelc.iPcMechanicsObject_Density_set, None,
                     "iPcMechanicsObject.Density -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMechanicsObject::GetDensity()\n\tset: void iPcMechanicsObject::SetDensity(float)")
 
 
-    Softness = _swig_property(_blcelc.iPcMechanicsObject_Softness_get, _blcelc.iPcMechanicsObject_Softness_set, None,
+    __swig_setmethods__["Softness"] = _blcelc.iPcMechanicsObject_Softness_set
+    Softness = property(_blcelc.iPcMechanicsObject_Softness_get, _blcelc.iPcMechanicsObject_Softness_set, None,
                     "iPcMechanicsObject.Softness -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMechanicsObject::GetSoftness()\n\tset: void iPcMechanicsObject::SetSoftness(float)")
 
 
-    Lift = _swig_property(_blcelc.iPcMechanicsObject_Lift_get, _blcelc.iPcMechanicsObject_Lift_set, None,
+    __swig_setmethods__["Lift"] = _blcelc.iPcMechanicsObject_Lift_set
+    Lift = property(_blcelc.iPcMechanicsObject_Lift_get, _blcelc.iPcMechanicsObject_Lift_set, None,
                     "iPcMechanicsObject.Lift -> const csVector3&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector3& iPcMechanicsObject::GetLift()\n\tset: void iPcMechanicsObject::SetLift(const csVector3&)")
 
 
-    Drag = _swig_property(_blcelc.iPcMechanicsObject_Drag_get, _blcelc.iPcMechanicsObject_Drag_set, None,
+    __swig_setmethods__["Drag"] = _blcelc.iPcMechanicsObject_Drag_set
+    Drag = property(_blcelc.iPcMechanicsObject_Drag_get, _blcelc.iPcMechanicsObject_Drag_set, None,
                     "iPcMechanicsObject.Drag -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMechanicsObject::GetDrag()\n\tset: void iPcMechanicsObject::SetDrag(float)")
 
 
-    LinearVelocity = _swig_property(_blcelc.iPcMechanicsObject_LinearVelocity_get, _blcelc.iPcMechanicsObject_LinearVelocity_set, None,
+    __swig_setmethods__["LinearVelocity"] = _blcelc.iPcMechanicsObject_LinearVelocity_set
+    LinearVelocity = property(_blcelc.iPcMechanicsObject_LinearVelocity_get, _blcelc.iPcMechanicsObject_LinearVelocity_set, None,
                     "iPcMechanicsObject.LinearVelocity -> const csVector3\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector3 iPcMechanicsObject::GetLinearVelocity()\n\tset: void iPcMechanicsObject::SetLinearVelocity(const csVector3)")
 
 
-    AngularVelocity = _swig_property(_blcelc.iPcMechanicsObject_AngularVelocity_get, _blcelc.iPcMechanicsObject_AngularVelocity_set, None,
+    __swig_setmethods__["AngularVelocity"] = _blcelc.iPcMechanicsObject_AngularVelocity_set
+    AngularVelocity = property(_blcelc.iPcMechanicsObject_AngularVelocity_get, _blcelc.iPcMechanicsObject_AngularVelocity_set, None,
                     "iPcMechanicsObject.AngularVelocity -> const csVector3\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector3 iPcMechanicsObject::GetAngularVelocity()\n\tset: void iPcMechanicsObject::SetAngularVelocity(const csVector3)")
 
 
-    Static = _swig_property(_blcelc.iPcMechanicsObject_Static_get, None, None,
+    Static = property(_blcelc.iPcMechanicsObject_Static_get, None, None,
                     "iPcMechanicsObject.Static -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcMechanicsObject::IsStatic()")
 
-    CollisionCallbackEnabled = _swig_property(_blcelc.iPcMechanicsObject_CollisionCallbackEnabled_get, _blcelc.iPcMechanicsObject_CollisionCallbackEnabled_set, None,
+    __swig_setmethods__["CollisionCallbackEnabled"] = _blcelc.iPcMechanicsObject_CollisionCallbackEnabled_set
+    CollisionCallbackEnabled = property(_blcelc.iPcMechanicsObject_CollisionCallbackEnabled_get, _blcelc.iPcMechanicsObject_CollisionCallbackEnabled_set, None,
                     "iPcMechanicsObject.CollisionCallbackEnabled -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcMechanicsObject::IsCollisionCallbackEnabled()\n\tset: void iPcMechanicsObject::SetCollisionCallbackEnabled(bool)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMechanicsObject, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcMechanicsObject,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcMechanicsObject.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsObject,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcMechanicsObject_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsObject
     __del__ = lambda self : None;
 iPcMechanicsObject_swigregister = _blcelc.iPcMechanicsObject_swigregister
 iPcMechanicsObject_swigregister(iPcMechanicsObject)
-iPcMechanicsObject_scfGetVersion = _blcelc.iPcMechanicsObject_scfGetVersion
 
 class iPcMechanicsJoint(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsJoint, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsJoint, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetJoint(*args): return _blcelc.iPcMechanicsJoint_GetJoint(*args)
-    Joint = _swig_property(_blcelc.iPcMechanicsJoint_Joint_get, None, None,
+    Joint = property(_blcelc.iPcMechanicsJoint_Joint_get, None, None,
                     "iPcMechanicsJoint.Joint -> iJoint*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iJoint* iPcMechanicsJoint::GetJoint()")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMechanicsJoint, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcMechanicsJoint,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcMechanicsJoint.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsJoint,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcMechanicsJoint_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsJoint
     __del__ = lambda self : None;
 iPcMechanicsJoint_swigregister = _blcelc.iPcMechanicsJoint_swigregister
 iPcMechanicsJoint_swigregister(iPcMechanicsJoint)
-iPcMechanicsJoint_scfGetVersion = _blcelc.iPcMechanicsJoint_scfGetVersion
 
 scfQuery_iPcMechanicsSystem = _blcelc.scfQuery_iPcMechanicsSystem
 scfQueryPC_iPcMechanicsSystem = _blcelc.scfQueryPC_iPcMechanicsSystem
@@ -1450,7 +1474,12 @@ scfQueryPC_iPcMechanicsObject = _blcelc.scfQueryPC_iPcMechanicsObject
 scfQueryPC_iPcMechanicsJoint = _blcelc.scfQueryPC_iPcMechanicsJoint
 scfQuery_iPcMechanicsJoint = _blcelc.scfQuery_iPcMechanicsJoint
 class iPcMechanicsThruster(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsThruster, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsThruster, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetMechanicsObject(*args): return _blcelc.iPcMechanicsThruster_SetMechanicsObject(*args)
@@ -1464,39 +1493,46 @@ class iPcMechanicsThruster(cspace.iBase):
     def GetThrustForce(*args): return _blcelc.iPcMechanicsThruster_GetThrustForce(*args)
     def AvailableThrust(*args): return _blcelc.iPcMechanicsThruster_AvailableThrust(*args)
     def ThrustChange(*args): return _blcelc.iPcMechanicsThruster_ThrustChange(*args)
-    MechanicsObject = _swig_property(_blcelc.iPcMechanicsThruster_MechanicsObject_get, _blcelc.iPcMechanicsThruster_MechanicsObject_set, None,
+    __swig_setmethods__["MechanicsObject"] = _blcelc.iPcMechanicsThruster_MechanicsObject_set
+    MechanicsObject = property(_blcelc.iPcMechanicsThruster_MechanicsObject_get, _blcelc.iPcMechanicsThruster_MechanicsObject_set, None,
                     "iPcMechanicsThruster.MechanicsObject -> iPcMechanicsObject*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMechanicsObject* iPcMechanicsThruster::GetMechanicsObject()\n\tset: void iPcMechanicsThruster::SetMechanicsObject(iPcMechanicsObject*)")
 
 
-    Position = _swig_property(_blcelc.iPcMechanicsThruster_Position_get, _blcelc.iPcMechanicsThruster_Position_set, None,
+    __swig_setmethods__["Position"] = _blcelc.iPcMechanicsThruster_Position_set
+    Position = property(_blcelc.iPcMechanicsThruster_Position_get, _blcelc.iPcMechanicsThruster_Position_set, None,
                     "iPcMechanicsThruster.Position -> const csVector3&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector3& iPcMechanicsThruster::GetPosition()\n\tset: void iPcMechanicsThruster::SetPosition(const csVector3&)")
 
 
-    Orientation = _swig_property(_blcelc.iPcMechanicsThruster_Orientation_get, _blcelc.iPcMechanicsThruster_Orientation_set, None,
+    __swig_setmethods__["Orientation"] = _blcelc.iPcMechanicsThruster_Orientation_set
+    Orientation = property(_blcelc.iPcMechanicsThruster_Orientation_get, _blcelc.iPcMechanicsThruster_Orientation_set, None,
                     "iPcMechanicsThruster.Orientation -> const csVector3&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector3& iPcMechanicsThruster::GetOrientation()\n\tset: void iPcMechanicsThruster::SetOrientation(const csVector3&)")
 
 
-    MaxThrust = _swig_property(_blcelc.iPcMechanicsThruster_MaxThrust_get, _blcelc.iPcMechanicsThruster_MaxThrust_set, None,
+    __swig_setmethods__["MaxThrust"] = _blcelc.iPcMechanicsThruster_MaxThrust_set
+    MaxThrust = property(_blcelc.iPcMechanicsThruster_MaxThrust_get, _blcelc.iPcMechanicsThruster_MaxThrust_set, None,
                     "iPcMechanicsThruster.MaxThrust -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMechanicsThruster::GetMaxThrust()\n\tset: void iPcMechanicsThruster::SetMaxThrust(float)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMechanicsThruster, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcMechanicsThruster,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcMechanicsThruster.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsThruster,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcMechanicsThruster_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsThruster
     __del__ = lambda self : None;
 iPcMechanicsThruster_swigregister = _blcelc.iPcMechanicsThruster_swigregister
@@ -1510,13 +1546,17 @@ celGetMechanicsObject = _blcelc.celGetMechanicsObject
 celCreateMechanicsJoint = _blcelc.celCreateMechanicsJoint
 celGetSetMechanicsJoint = _blcelc.celGetSetMechanicsJoint
 celGetMechanicsJoint = _blcelc.celGetMechanicsJoint
-iPcMechanicsThruster_scfGetVersion = _blcelc.iPcMechanicsThruster_scfGetVersion
 
 CEL_AT_NONE = _blcelc.CEL_AT_NONE
 CEL_AT_ROTATION = _blcelc.CEL_AT_ROTATION
 CEL_AT_TRANSLATION = _blcelc.CEL_AT_TRANSLATION
 class iPcMechanicsBalancedGroup(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsBalancedGroup, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsBalancedGroup, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetType(*args): return _blcelc.iPcMechanicsBalancedGroup_SetType(*args)
@@ -1527,35 +1567,43 @@ class iPcMechanicsBalancedGroup(cspace.iBase):
     def AvailableThrust(*args): return _blcelc.iPcMechanicsBalancedGroup_AvailableThrust(*args)
     def AvailableThrustForce(*args): return _blcelc.iPcMechanicsBalancedGroup_AvailableThrustForce(*args)
     def ChangeThrust(*args): return _blcelc.iPcMechanicsBalancedGroup_ChangeThrust(*args)
-    Type = _swig_property(_blcelc.iPcMechanicsBalancedGroup_Type_get, _blcelc.iPcMechanicsBalancedGroup_Type_set, None,
+    __swig_setmethods__["Type"] = _blcelc.iPcMechanicsBalancedGroup_Type_set
+    Type = property(_blcelc.iPcMechanicsBalancedGroup_Type_get, _blcelc.iPcMechanicsBalancedGroup_Type_set, None,
                     "iPcMechanicsBalancedGroup.Type -> celAxisType\n\nThis is equivalent to calling the C++ cs methods:\n\tget: celAxisType iPcMechanicsBalancedGroup::GetType()\n\tset: void iPcMechanicsBalancedGroup::SetType(celAxisType)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMechanicsBalancedGroup, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcMechanicsBalancedGroup,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcMechanicsBalancedGroup.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsBalancedGroup,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcMechanicsBalancedGroup_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsBalancedGroup
     __del__ = lambda self : None;
 iPcMechanicsBalancedGroup_swigregister = _blcelc.iPcMechanicsBalancedGroup_swigregister
 iPcMechanicsBalancedGroup_swigregister(iPcMechanicsBalancedGroup)
-iPcMechanicsBalancedGroup_scfGetVersion = _blcelc.iPcMechanicsBalancedGroup_scfGetVersion
 
 class iPcMechanicsThrusterController(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsThrusterController, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsThrusterController, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetMechanicsObject(*args): return _blcelc.iPcMechanicsThrusterController_SetMechanicsObject(*args)
@@ -1570,32 +1618,35 @@ class iPcMechanicsThrusterController(cspace.iBase):
     def RemoveBalancedGroup(*args): return _blcelc.iPcMechanicsThrusterController_RemoveBalancedGroup(*args)
     def ApplyThrust(*args): return _blcelc.iPcMechanicsThrusterController_ApplyThrust(*args)
     def CancelThrust(*args): return _blcelc.iPcMechanicsThrusterController_CancelThrust(*args)
-    MechanicsObject = _swig_property(_blcelc.iPcMechanicsThrusterController_MechanicsObject_get, _blcelc.iPcMechanicsThrusterController_MechanicsObject_set, None,
+    __swig_setmethods__["MechanicsObject"] = _blcelc.iPcMechanicsThrusterController_MechanicsObject_set
+    MechanicsObject = property(_blcelc.iPcMechanicsThrusterController_MechanicsObject_get, _blcelc.iPcMechanicsThrusterController_MechanicsObject_set, None,
                     "iPcMechanicsThrusterController.MechanicsObject -> iPcMechanicsObject*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMechanicsObject* iPcMechanicsThrusterController::GetMechanicsObject()\n\tset: void iPcMechanicsThrusterController::SetMechanicsObject(iPcMechanicsObject*)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMechanicsThrusterController, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcMechanicsThrusterController,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcMechanicsThrusterController.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsThrusterController,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcMechanicsThrusterController_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsThrusterController
     __del__ = lambda self : None;
 iPcMechanicsThrusterController_swigregister = _blcelc.iPcMechanicsThrusterController_swigregister
 iPcMechanicsThrusterController_swigregister(iPcMechanicsThrusterController)
-iPcMechanicsThrusterController_scfGetVersion = _blcelc.iPcMechanicsThrusterController_scfGetVersion
 
 scfQuery_iPcMechanicsThruster = _blcelc.scfQuery_iPcMechanicsThruster
 scfQueryPC_iPcMechanicsThruster = _blcelc.scfQueryPC_iPcMechanicsThruster
@@ -1604,14 +1655,19 @@ scfQueryPC_iPcMechanicsBalancedGroup = _blcelc.scfQueryPC_iPcMechanicsBalancedGr
 scfQuery_iPcMechanicsThrusterController = _blcelc.scfQuery_iPcMechanicsThrusterController
 scfQueryPC_iPcMechanicsThrusterController = _blcelc.scfQueryPC_iPcMechanicsThrusterController
 class iBillboardLayer(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iBillboardLayer, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iBillboardLayer, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetOffset(*args): return _blcelc.iBillboardLayer_GetOffset(*args)
     def SetOffset(*args): return _blcelc.iBillboardLayer_SetOffset(*args)
     def Move(*args): return _blcelc.iBillboardLayer_Move(*args)
     def GetName(*args): return _blcelc.iBillboardLayer_GetName(*args)
-    Name = _swig_property(_blcelc.iBillboardLayer_Name_get, None, None,
+    Name = property(_blcelc.iBillboardLayer_Name_get, None, None,
                     "iBillboardLayer.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iBillboardLayer::GetName()")
 
     __swig_destroy__ = _blcelc.delete_iBillboardLayer
@@ -1629,7 +1685,12 @@ celGetSetMechanicsThrusterController = _blcelc.celGetSetMechanicsThrusterControl
 celGetMechanicsThrusterController = _blcelc.celGetMechanicsThrusterController
 
 class iBillboardEventHandler(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iBillboardEventHandler, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iBillboardEventHandler, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Select(*args): return _blcelc.iBillboardEventHandler_Select(*args)
@@ -1648,7 +1709,12 @@ CEL_BILLBOARD_CLICKABLE = _blcelc.CEL_BILLBOARD_CLICKABLE
 CEL_BILLBOARD_RESTACK = _blcelc.CEL_BILLBOARD_RESTACK
 CEL_BILLBOARD_SENDMOVE = _blcelc.CEL_BILLBOARD_SENDMOVE
 class iBillboard(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iBillboard, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iBillboard, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iBillboard_GetName(*args)
@@ -1668,8 +1734,6 @@ class iBillboard(cspace.iBase):
     def GetRotation(*args): return _blcelc.iBillboard_GetRotation(*args)
     def StackTop(*args): return _blcelc.iBillboard_StackTop(*args)
     def StackBottom(*args): return _blcelc.iBillboard_StackBottom(*args)
-    def StackAfter(*args): return _blcelc.iBillboard_StackAfter(*args)
-    def StackBefore(*args): return _blcelc.iBillboard_StackBefore(*args)
     def StackUp(*args): return _blcelc.iBillboard_StackUp(*args)
     def StackDown(*args): return _blcelc.iBillboard_StackDown(*args)
     def SetUVTopLeft(*args): return _blcelc.iBillboard_SetUVTopLeft(*args)
@@ -1699,67 +1763,79 @@ class iBillboard(cspace.iBase):
     def SetTextBgTransparent(*args): return _blcelc.iBillboard_SetTextBgTransparent(*args)
     def IsTextBgTransparent(*args): return _blcelc.iBillboard_IsTextBgTransparent(*args)
     def ClearTextBgColor(*args): return _blcelc.iBillboard_ClearTextBgColor(*args)
-    Name = _swig_property(_blcelc.iBillboard_Name_get, None, None,
+    Name = property(_blcelc.iBillboard_Name_get, None, None,
                     "iBillboard.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iBillboard::GetName()")
 
-    Flags = _swig_property(_blcelc.iBillboard_Flags_get, None, None,
+    Flags = property(_blcelc.iBillboard_Flags_get, None, None,
                     "iBillboard.Flags -> csFlags&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csFlags& iBillboard::GetFlags()")
 
-    MaterialName = _swig_property(_blcelc.iBillboard_MaterialName_get, _blcelc.iBillboard_MaterialName_set, None,
+    __swig_setmethods__["MaterialName"] = _blcelc.iBillboard_MaterialName_set
+    MaterialName = property(_blcelc.iBillboard_MaterialName_get, _blcelc.iBillboard_MaterialName_set, None,
                     "iBillboard.MaterialName -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iBillboard::GetMaterialName()\n\tset: void iBillboard::SetMaterialName(const char*)")
 
 
-    MaterialNameFast = _swig_property(None, _blcelc.iBillboard_MaterialNameFast_set, None,
+    __swig_setmethods__["MaterialNameFast"] = _blcelc.iBillboard_MaterialNameFast_set
+    MaterialNameFast = property(None, _blcelc.iBillboard_MaterialNameFast_set, None,
                     "iBillboard.MaterialNameFast (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iBillboard::SetMaterialNameFast(const char*)")
 
-    Rotation = _swig_property(_blcelc.iBillboard_Rotation_get, _blcelc.iBillboard_Rotation_set, None,
+    __swig_setmethods__["Rotation"] = _blcelc.iBillboard_Rotation_set
+    Rotation = property(_blcelc.iBillboard_Rotation_get, _blcelc.iBillboard_Rotation_set, None,
                     "iBillboard.Rotation -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iBillboard::GetRotation()\n\tset: void iBillboard::SetRotation(float)")
 
 
-    UVTopLeft = _swig_property(_blcelc.iBillboard_UVTopLeft_get, _blcelc.iBillboard_UVTopLeft_set, None,
+    __swig_setmethods__["UVTopLeft"] = _blcelc.iBillboard_UVTopLeft_set
+    UVTopLeft = property(_blcelc.iBillboard_UVTopLeft_get, _blcelc.iBillboard_UVTopLeft_set, None,
                     "iBillboard.UVTopLeft -> const csVector2&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector2& iBillboard::GetUVTopLeft()\n\tset: void iBillboard::SetUVTopLeft(const csVector2&)")
 
 
-    UVBottomRight = _swig_property(_blcelc.iBillboard_UVBottomRight_get, _blcelc.iBillboard_UVBottomRight_set, None,
+    __swig_setmethods__["UVBottomRight"] = _blcelc.iBillboard_UVBottomRight_set
+    UVBottomRight = property(_blcelc.iBillboard_UVBottomRight_get, _blcelc.iBillboard_UVBottomRight_set, None,
                     "iBillboard.UVBottomRight -> const csVector2&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector2& iBillboard::GetUVBottomRight()\n\tset: void iBillboard::SetUVBottomRight(const csVector2&)")
 
 
-    Color = _swig_property(_blcelc.iBillboard_Color_get, _blcelc.iBillboard_Color_set, None,
+    __swig_setmethods__["Color"] = _blcelc.iBillboard_Color_set
+    Color = property(_blcelc.iBillboard_Color_get, _blcelc.iBillboard_Color_set, None,
                     "iBillboard.Color -> const csColor&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csColor& iBillboard::GetColor()\n\tset: void iBillboard::SetColor(const csColor&)")
 
 
-    Layer = _swig_property(_blcelc.iBillboard_Layer_get, _blcelc.iBillboard_Layer_set, None,
+    __swig_setmethods__["Layer"] = _blcelc.iBillboard_Layer_set
+    Layer = property(_blcelc.iBillboard_Layer_get, _blcelc.iBillboard_Layer_set, None,
                     "iBillboard.Layer -> iBillboardLayer*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iBillboardLayer* iBillboard::GetLayer()\n\tset: void iBillboard::SetLayer(iBillboardLayer*)")
 
 
-    Text = _swig_property(_blcelc.iBillboard_Text_get, _blcelc.iBillboard_Text_set, None,
+    __swig_setmethods__["Text"] = _blcelc.iBillboard_Text_set
+    Text = property(_blcelc.iBillboard_Text_get, _blcelc.iBillboard_Text_set, None,
                     "iBillboard.Text -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iBillboard::GetText()\n\tset: void iBillboard::SetText(const char*)")
 
 
-    TextOffset = _swig_property(None, fix_args(_blcelc.iBillboard_SetTextOffset), None,
+    __swig_setmethods__["TextOffset"] = fix_args(_blcelc.iBillboard_SetTextOffset)
+    TextOffset = property(None, fix_args(_blcelc.iBillboard_SetTextOffset), None,
                     "iBillboard.TextOffset -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iBillboard::getmethod()\n\tset: void iBillboard::SetTextOffset(...)")
 
-    TextOffsetDX = _swig_property(_blcelc.iBillboard_TextOffsetDX_get, None, None,
+    TextOffsetDX = property(_blcelc.iBillboard_TextOffsetDX_get, None, None,
                     "iBillboard.TextOffsetDX -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iBillboard::GetTextOffsetDX()")
 
-    TextOffsetDY = _swig_property(_blcelc.iBillboard_TextOffsetDY_get, None, None,
+    TextOffsetDY = property(_blcelc.iBillboard_TextOffsetDY_get, None, None,
                     "iBillboard.TextOffsetDY -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iBillboard::GetTextOffsetDY()")
 
-    TextFont = _swig_property(_blcelc.iBillboard_GetTextFont, fix_args(_blcelc.iBillboard_SetTextFont), None,
+    __swig_setmethods__["TextFont"] = fix_args(_blcelc.iBillboard_SetTextFont)
+    TextFont = property(_blcelc.iBillboard_GetTextFont, fix_args(_blcelc.iBillboard_SetTextFont), None,
                     "iBillboard.TextFont -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iBillboard::GetTextFont()\n\tset: void iBillboard::SetTextFont(...)")
 
-    TextFontSize = _swig_property(_blcelc.iBillboard_TextFontSize_get, None, None,
+    TextFontSize = property(_blcelc.iBillboard_TextFontSize_get, None, None,
                     "iBillboard.TextFontSize -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iBillboard::GetTextFontSize()")
 
-    TextFgColor = _swig_property(_blcelc.iBillboard_TextFgColor_get, _blcelc.iBillboard_TextFgColor_set, None,
+    __swig_setmethods__["TextFgColor"] = _blcelc.iBillboard_TextFgColor_set
+    TextFgColor = property(_blcelc.iBillboard_TextFgColor_get, _blcelc.iBillboard_TextFgColor_set, None,
                     "iBillboard.TextFgColor -> const csColor&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csColor& iBillboard::GetTextFgColor()\n\tset: void iBillboard::SetTextFgColor(const csColor&)")
 
 
-    TextBgColor = _swig_property(_blcelc.iBillboard_TextBgColor_get, _blcelc.iBillboard_TextBgColor_set, None,
+    __swig_setmethods__["TextBgColor"] = _blcelc.iBillboard_TextBgColor_set
+    TextBgColor = property(_blcelc.iBillboard_TextBgColor_get, _blcelc.iBillboard_TextBgColor_set, None,
                     "iBillboard.TextBgColor -> const csColor&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csColor& iBillboard::GetTextBgColor()\n\tset: void iBillboard::SetTextBgColor(const csColor&)")
 
 
-    TextBgTransparent = _swig_property(_blcelc.iBillboard_TextBgTransparent_get, None, None,
+    TextBgTransparent = property(_blcelc.iBillboard_TextBgTransparent_get, None, None,
                     "iBillboard.TextBgTransparent -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iBillboard::IsTextBgTransparent()")
 
     __swig_destroy__ = _blcelc.delete_iBillboard
@@ -1768,7 +1844,12 @@ iBillboard_swigregister = _blcelc.iBillboard_swigregister
 iBillboard_swigregister(iBillboard)
 
 class iBillboardManager(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iBillboardManager, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iBillboardManager, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def ScreenToBillboardX(*args): return _blcelc.iBillboardManager_ScreenToBillboardX(*args)
@@ -1803,44 +1884,52 @@ class iBillboardManager(cspace.iBase):
     def GetDefaultTextBgColor(*args): return _blcelc.iBillboardManager_GetDefaultTextBgColor(*args)
     def SetDefaultTextBgTransparent(*args): return _blcelc.iBillboardManager_SetDefaultTextBgTransparent(*args)
     def GetShowroom(*args): return _blcelc.iBillboardManager_GetShowroom(*args)
-    BillboardCount = _swig_property(_blcelc.iBillboardManager_BillboardCount_get, None, None,
+    BillboardCount = property(_blcelc.iBillboardManager_BillboardCount_get, None, None,
                     "iBillboardManager.BillboardCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iBillboardManager::GetBillboardCount()")
 
-    BillboardLayerCount = _swig_property(_blcelc.iBillboardManager_BillboardLayerCount_get, None, None,
+    BillboardLayerCount = property(_blcelc.iBillboardManager_BillboardLayerCount_get, None, None,
                     "iBillboardManager.BillboardLayerCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iBillboardManager::GetBillboardLayerCount()")
 
-    Flags = _swig_property(None, fix_args(_blcelc.iBillboardManager_SetFlags), None,
+    __swig_setmethods__["Flags"] = fix_args(_blcelc.iBillboardManager_SetFlags)
+    Flags = property(None, fix_args(_blcelc.iBillboardManager_SetFlags), None,
                     "iBillboardManager.Flags -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iBillboardManager::getmethod()\n\tset: void iBillboardManager::SetFlags(...)")
 
-    DefaultTextFont = _swig_property(_blcelc.iBillboardManager_GetDefaultTextFont, fix_args(_blcelc.iBillboardManager_SetDefaultTextFont), None,
+    __swig_setmethods__["DefaultTextFont"] = fix_args(_blcelc.iBillboardManager_SetDefaultTextFont)
+    DefaultTextFont = property(_blcelc.iBillboardManager_GetDefaultTextFont, fix_args(_blcelc.iBillboardManager_SetDefaultTextFont), None,
                     "iBillboardManager.DefaultTextFont -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iBillboardManager::GetDefaultTextFont()\n\tset: void iBillboardManager::SetDefaultTextFont(...)")
 
-    DefaultTextFontSize = _swig_property(_blcelc.iBillboardManager_DefaultTextFontSize_get, None, None,
+    DefaultTextFontSize = property(_blcelc.iBillboardManager_DefaultTextFontSize_get, None, None,
                     "iBillboardManager.DefaultTextFontSize -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iBillboardManager::GetDefaultTextFontSize()")
 
-    DefaultTextFgColor = _swig_property(_blcelc.iBillboardManager_DefaultTextFgColor_get, _blcelc.iBillboardManager_DefaultTextFgColor_set, None,
+    __swig_setmethods__["DefaultTextFgColor"] = _blcelc.iBillboardManager_DefaultTextFgColor_set
+    DefaultTextFgColor = property(_blcelc.iBillboardManager_DefaultTextFgColor_get, _blcelc.iBillboardManager_DefaultTextFgColor_set, None,
                     "iBillboardManager.DefaultTextFgColor -> const csColor&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csColor& iBillboardManager::GetDefaultTextFgColor()\n\tset: void iBillboardManager::SetDefaultTextFgColor(const csColor&)")
 
 
-    DefaultTextBgColor = _swig_property(_blcelc.iBillboardManager_DefaultTextBgColor_get, _blcelc.iBillboardManager_DefaultTextBgColor_set, None,
+    __swig_setmethods__["DefaultTextBgColor"] = _blcelc.iBillboardManager_DefaultTextBgColor_set
+    DefaultTextBgColor = property(_blcelc.iBillboardManager_DefaultTextBgColor_get, _blcelc.iBillboardManager_DefaultTextBgColor_set, None,
                     "iBillboardManager.DefaultTextBgColor -> const csColor&\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csColor& iBillboardManager::GetDefaultTextBgColor()\n\tset: void iBillboardManager::SetDefaultTextBgColor(const csColor&)")
 
 
-    DefaultTextBgTransparent = _swig_property(None, fix_args(_blcelc.iBillboardManager_SetDefaultTextBgTransparent), None,
+    __swig_setmethods__["DefaultTextBgTransparent"] = fix_args(_blcelc.iBillboardManager_SetDefaultTextBgTransparent)
+    DefaultTextBgTransparent = property(None, fix_args(_blcelc.iBillboardManager_SetDefaultTextBgTransparent), None,
                     "iBillboardManager.DefaultTextBgTransparent -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iBillboardManager::getmethod()\n\tset: void iBillboardManager::SetDefaultTextBgTransparent(...)")
 
-    Showroom = _swig_property(_blcelc.iBillboardManager_Showroom_get, None, None,
+    Showroom = property(_blcelc.iBillboardManager_Showroom_get, None, None,
                     "iBillboardManager.Showroom -> iSector*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSector* iBillboardManager::GetShowroom()")
 
-    scfGetVersion = staticmethod(_blcelc.iBillboardManager_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iBillboardManager
     __del__ = lambda self : None;
 iBillboardManager_swigregister = _blcelc.iBillboardManager_swigregister
 iBillboardManager_swigregister(iBillboardManager)
-iBillboardManager_scfGetVersion = _blcelc.iBillboardManager_scfGetVersion
 
 class iPcBillboard(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcBillboard, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcBillboard, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetBillboardName(*args): return _blcelc.iPcBillboard_SetBillboardName(*args)
@@ -1848,40 +1937,48 @@ class iPcBillboard(cspace.iBase):
     def GetBillboard(*args): return _blcelc.iPcBillboard_GetBillboard(*args)
     def EnableEvents(*args): return _blcelc.iPcBillboard_EnableEvents(*args)
     def AreEventsEnabled(*args): return _blcelc.iPcBillboard_AreEventsEnabled(*args)
-    BillboardName = _swig_property(_blcelc.iPcBillboard_BillboardName_get, _blcelc.iPcBillboard_BillboardName_set, None,
+    __swig_setmethods__["BillboardName"] = _blcelc.iPcBillboard_BillboardName_set
+    BillboardName = property(_blcelc.iPcBillboard_BillboardName_get, _blcelc.iPcBillboard_BillboardName_set, None,
                     "iPcBillboard.BillboardName -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcBillboard::GetBillboardName()\n\tset: void iPcBillboard::SetBillboardName(const char*)")
 
 
-    Billboard = _swig_property(_blcelc.iPcBillboard_Billboard_get, None, None,
+    Billboard = property(_blcelc.iPcBillboard_Billboard_get, None, None,
                     "iPcBillboard.Billboard -> iBillboard*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iBillboard* iPcBillboard::GetBillboard()")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcBillboard, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcBillboard,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcBillboard.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcBillboard,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcBillboard_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcBillboard
     __del__ = lambda self : None;
 iPcBillboard_swigregister = _blcelc.iPcBillboard_swigregister
 iPcBillboard_swigregister(iPcBillboard)
-iPcBillboard_scfGetVersion = _blcelc.iPcBillboard_scfGetVersion
 
 scfQuery_iPcBillboard = _blcelc.scfQuery_iPcBillboard
 scfQueryPC_iPcBillboard = _blcelc.scfQueryPC_iPcBillboard
 class iPcRegion(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcRegion, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcRegion, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetWorldFile(*args): return _blcelc.iPcRegion_SetWorldFile(*args)
@@ -1897,43 +1994,42 @@ class iPcRegion(cspace.iBase):
     def GetStartPosition(*args): return _blcelc.iPcRegion_GetStartPosition(*args)
     def PointCamera(*args): return _blcelc.iPcRegion_PointCamera(*args)
     def GetRegion(*args): return _blcelc.iPcRegion_GetRegion(*args)
-    WorldFile = _swig_property(_blcelc.iPcRegion_GetWorldFile, fix_args(_blcelc.iPcRegion_SetWorldFile), None,
+    __swig_setmethods__["WorldFile"] = fix_args(_blcelc.iPcRegion_SetWorldFile)
+    WorldFile = property(_blcelc.iPcRegion_GetWorldFile, fix_args(_blcelc.iPcRegion_SetWorldFile), None,
                     "iPcRegion.WorldFile -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcRegion::GetWorldFile()\n\tset: void iPcRegion::SetWorldFile(...)")
 
-    WorldDir = _swig_property(_blcelc.iPcRegion_WorldDir_get, None, None,
+    WorldDir = property(_blcelc.iPcRegion_WorldDir_get, None, None,
                     "iPcRegion.WorldDir -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iPcRegion::GetWorldDir()")
 
-    RegionName = _swig_property(_blcelc.iPcRegion_RegionName_get, _blcelc.iPcRegion_RegionName_set, None,
+    __swig_setmethods__["RegionName"] = _blcelc.iPcRegion_RegionName_set
+    RegionName = property(_blcelc.iPcRegion_RegionName_get, _blcelc.iPcRegion_RegionName_set, None,
                     "iPcRegion.RegionName -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcRegion::GetRegionName()\n\tset: void iPcRegion::SetRegionName(const char*)")
 
 
-    StartSector = _swig_property(_blcelc.iPcRegion_GetStartSector, None, None,
-                    "iPcRegion.StartSector -> type\n\nThis is equivalent to calling the C++ cs method:\n\tget: iPcRegion::GetStartSector()")
-
-    StartPosition = _swig_property(_blcelc.iPcRegion_GetStartPosition, None, None,
-                    "iPcRegion.StartPosition -> type\n\nThis is equivalent to calling the C++ cs method:\n\tget: iPcRegion::GetStartPosition()")
-
-    Region = _swig_property(_blcelc.iPcRegion_Region_get, None, None,
+    Region = property(_blcelc.iPcRegion_Region_get, None, None,
                     "iPcRegion.Region -> iRegion*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iRegion* iPcRegion::GetRegion()")
 
     def LoadWorld(*args): return _blcelc.iPcRegion_LoadWorld(*args)
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcRegion, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcRegion,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcRegion.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcRegion,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcRegion_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcRegion
     __del__ = lambda self : None;
 iPcRegion_swigregister = _blcelc.iPcRegion_swigregister
@@ -1941,11 +2037,15 @@ iPcRegion_swigregister(iPcRegion)
 celCreateBillboard = _blcelc.celCreateBillboard
 celGetSetBillboard = _blcelc.celGetSetBillboard
 celGetBillboard = _blcelc.celGetBillboard
-iPcRegion_scfGetVersion = _blcelc.iPcRegion_scfGetVersion
 
 scfQuery_iPcRegion = _blcelc.scfQuery_iPcRegion
 class iCelMapFile(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelMapFile, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelMapFile, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetName(*args): return _blcelc.iCelMapFile_SetName(*args)
@@ -1956,19 +2056,18 @@ class iCelMapFile(cspace.iBase):
     def GetFile(*args): return _blcelc.iCelMapFile_GetFile(*args)
     def SetSectorName(*args): return _blcelc.iCelMapFile_SetSectorName(*args)
     def GetSectorName(*args): return _blcelc.iCelMapFile_GetSectorName(*args)
-    Name = _swig_property(_blcelc.iCelMapFile_Name_get, _blcelc.iCelMapFile_Name_set, None,
-                    "iCelMapFile.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelMapFile::GetName()\n\tset: void iCelMapFile::SetName(const char*)")
-
-
-    Path = _swig_property(_blcelc.iCelMapFile_Path_get, _blcelc.iCelMapFile_Path_set, None,
+    __swig_setmethods__["Path"] = _blcelc.iCelMapFile_Path_set
+    Path = property(_blcelc.iCelMapFile_Path_get, _blcelc.iCelMapFile_Path_set, None,
                     "iCelMapFile.Path -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelMapFile::GetPath()\n\tset: void iCelMapFile::SetPath(const char*)")
 
 
-    File = _swig_property(_blcelc.iCelMapFile_File_get, _blcelc.iCelMapFile_File_set, None,
+    __swig_setmethods__["File"] = _blcelc.iCelMapFile_File_set
+    File = property(_blcelc.iCelMapFile_File_get, _blcelc.iCelMapFile_File_set, None,
                     "iCelMapFile.File -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelMapFile::GetFile()\n\tset: void iCelMapFile::SetFile(const char*)")
 
 
-    SectorName = _swig_property(_blcelc.iCelMapFile_SectorName_get, _blcelc.iCelMapFile_SectorName_set, None,
+    __swig_setmethods__["SectorName"] = _blcelc.iCelMapFile_SectorName_set
+    SectorName = property(_blcelc.iCelMapFile_SectorName_get, _blcelc.iCelMapFile_SectorName_set, None,
                     "iCelMapFile.SectorName -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelMapFile::GetSectorName()\n\tset: void iCelMapFile::SetSectorName(const char*)")
 
 
@@ -1981,7 +2080,12 @@ celGetSetRegion = _blcelc.celGetSetRegion
 celGetRegion = _blcelc.celGetRegion
 
 class iCelRegion(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelRegion, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelRegion, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelRegion_GetName(*args)
@@ -1998,21 +2102,19 @@ class iCelRegion(cspace.iBase):
     def DissociateEntity(*args): return _blcelc.iCelRegion_DissociateEntity(*args)
     def ContainsEntity(*args): return _blcelc.iCelRegion_ContainsEntity(*args)
     def GetCsRegion(*args): return _blcelc.iCelRegion_GetCsRegion(*args)
-    Name = _swig_property(_blcelc.iCelRegion_Name_get, None, None,
+    Name = property(_blcelc.iCelRegion_Name_get, None, None,
                     "iCelRegion.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelRegion::GetName()")
 
-    CsRegionName = _swig_property(_blcelc.iCelRegion_CsRegionName_get, None, None,
+    CsRegionName = property(_blcelc.iCelRegion_CsRegionName_get, None, None,
                     "iCelRegion.CsRegionName -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelRegion::GetCsRegionName()")
 
-    CachePath = _swig_property(_blcelc.iCelRegion_CachePath_get, _blcelc.iCelRegion_CachePath_set, None,
+    __swig_setmethods__["CachePath"] = _blcelc.iCelRegion_CachePath_set
+    CachePath = property(_blcelc.iCelRegion_CachePath_get, _blcelc.iCelRegion_CachePath_set, None,
                     "iCelRegion.CachePath -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelRegion::GetCachePath()\n\tset: void iCelRegion::SetCachePath(const char*)")
 
 
-    MapFileCount = _swig_property(_blcelc.iCelRegion_MapFileCount_get, None, None,
+    MapFileCount = property(_blcelc.iCelRegion_MapFileCount_get, None, None,
                     "iCelRegion.MapFileCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelRegion::GetMapFileCount()")
-
-    CsRegion = _swig_property(_blcelc.iCelRegion_CsRegion_get, None, None,
-                    "iCelRegion.CsRegion -> iRegion*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iRegion* iCelRegion::GetCsRegion()")
 
     __swig_destroy__ = _blcelc.delete_iCelRegion
     __del__ = lambda self : None;
@@ -2020,7 +2122,12 @@ iCelRegion_swigregister = _blcelc.iCelRegion_swigregister
 iCelRegion_swigregister(iCelRegion)
 
 class iCelZone(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelZone, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelZone, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelZone_GetName(*args)
@@ -2030,10 +2137,10 @@ class iCelZone(cspace.iBase):
     def FindRegion(*args): return _blcelc.iCelZone_FindRegion(*args)
     def UnlinkRegion(*args): return _blcelc.iCelZone_UnlinkRegion(*args)
     def UnlinkAllRegions(*args): return _blcelc.iCelZone_UnlinkAllRegions(*args)
-    Name = _swig_property(_blcelc.iCelZone_Name_get, None, None,
+    Name = property(_blcelc.iCelZone_Name_get, None, None,
                     "iCelZone.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelZone::GetName()")
 
-    RegionCount = _swig_property(_blcelc.iCelZone_RegionCount_get, None, None,
+    RegionCount = property(_blcelc.iCelZone_RegionCount_get, None, None,
                     "iCelZone.RegionCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelZone::GetRegionCount()")
 
     __swig_destroy__ = _blcelc.delete_iCelZone
@@ -2049,7 +2156,12 @@ CEL_ZONE_NORMAL = _blcelc.CEL_ZONE_NORMAL
 CEL_ZONE_KEEP = _blcelc.CEL_ZONE_KEEP
 CEL_ZONE_LOADALL = _blcelc.CEL_ZONE_LOADALL
 class iPcZoneManager(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcZoneManager, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcZoneManager, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def EnableColliderWrappers(*args): return _blcelc.iPcZoneManager_EnableColliderWrappers(*args)
@@ -2077,47 +2189,50 @@ class iPcZoneManager(cspace.iBase):
     def PointMesh(*args): return _blcelc.iPcZoneManager_PointMesh(*args)
     def ActivateRegion(*args): return _blcelc.iPcZoneManager_ActivateRegion(*args)
     def FindRegionContaining(*args): return _blcelc.iPcZoneManager_FindRegionContaining(*args)
-    ColliderWrappers = _swig_property(_blcelc.iPcZoneManager_ColliderWrappers_get, None, None,
+    ColliderWrappers = property(_blcelc.iPcZoneManager_ColliderWrappers_get, None, None,
                     "iPcZoneManager.ColliderWrappers -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcZoneManager::IsColliderWrappers()")
 
-    LoadingMode = _swig_property(_blcelc.iPcZoneManager_LoadingMode_get, _blcelc.iPcZoneManager_LoadingMode_set, None,
+    __swig_setmethods__["LoadingMode"] = _blcelc.iPcZoneManager_LoadingMode_set
+    LoadingMode = property(_blcelc.iPcZoneManager_LoadingMode_get, _blcelc.iPcZoneManager_LoadingMode_set, None,
                     "iPcZoneManager.LoadingMode -> int\n\nThis is equivalent to calling the C++ cs methods:\n\tget: int iPcZoneManager::GetLoadingMode()\n\tset: void iPcZoneManager::SetLoadingMode(int)")
 
 
-    ZoneCount = _swig_property(_blcelc.iPcZoneManager_ZoneCount_get, None, None,
+    ZoneCount = property(_blcelc.iPcZoneManager_ZoneCount_get, None, None,
                     "iPcZoneManager.ZoneCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcZoneManager::GetZoneCount()")
 
-    RegionCount = _swig_property(_blcelc.iPcZoneManager_RegionCount_get, None, None,
+    RegionCount = property(_blcelc.iPcZoneManager_RegionCount_get, None, None,
                     "iPcZoneManager.RegionCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcZoneManager::GetRegionCount()")
 
-    LastStartRegionName = _swig_property(_blcelc.iPcZoneManager_LastStartRegionName_get, None, None,
+    LastStartRegionName = property(_blcelc.iPcZoneManager_LastStartRegionName_get, None, None,
                     "iPcZoneManager.LastStartRegionName -> const char *  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char * iPcZoneManager::GetLastStartRegionName()")
 
-    LastStartName = _swig_property(_blcelc.iPcZoneManager_LastStartName_get, None, None,
+    LastStartName = property(_blcelc.iPcZoneManager_LastStartName_get, None, None,
                     "iPcZoneManager.LastStartName -> const char *  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char * iPcZoneManager::GetLastStartName()")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcZoneManager, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcZoneManager,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcZoneManager.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcZoneManager,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcZoneManager_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcZoneManager
     __del__ = lambda self : None;
 iPcZoneManager_swigregister = _blcelc.iPcZoneManager_swigregister
 iPcZoneManager_swigregister(iPcZoneManager)
-iPcZoneManager_scfGetVersion = _blcelc.iPcZoneManager_scfGetVersion
 
 scfQuery_iPcZoneManager = _blcelc.scfQuery_iPcZoneManager
 CEL_KEY_STATE_UNUSED = _blcelc.CEL_KEY_STATE_UNUSED
@@ -2125,7 +2240,12 @@ CEL_KEY_STATE_UP = _blcelc.CEL_KEY_STATE_UP
 CEL_KEY_STATE_DOWN = _blcelc.CEL_KEY_STATE_DOWN
 CEL_KEY_STATE_REPEAT = _blcelc.CEL_KEY_STATE_REPEAT
 class iPcCommandInput(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcCommandInput, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcCommandInput, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Activate(*args): return _blcelc.iPcCommandInput_Activate(*args)
@@ -2148,33 +2268,38 @@ class iPcCommandInput(cspace.iBase):
     def DisableKeyboardEvents(*args): return _blcelc.iPcCommandInput_DisableKeyboardEvents(*args)
     def EnableJoystickEvents(*args): return _blcelc.iPcCommandInput_EnableJoystickEvents(*args)
     def DisableJoystickEvents(*args): return _blcelc.iPcCommandInput_DisableJoystickEvents(*args)
-    SendTrigger = _swig_property(None, _blcelc.iPcCommandInput_SendTrigger_set, None,
+    __swig_setmethods__["SendTrigger"] = _blcelc.iPcCommandInput_SendTrigger_set
+    SendTrigger = property(None, _blcelc.iPcCommandInput_SendTrigger_set, None,
                     "iPcCommandInput.SendTrigger (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCommandInput::SetSendTrigger(bool)")
 
-    SendTriggerEnabled = _swig_property(_blcelc.iPcCommandInput_SendTriggerEnabled_get, None, None,
+    SendTriggerEnabled = property(_blcelc.iPcCommandInput_SendTriggerEnabled_get, None, None,
                     "iPcCommandInput.SendTriggerEnabled -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcCommandInput::IsSendTriggerEnabled()")
 
-    CookedMode = _swig_property(_blcelc.iPcCommandInput_CookedMode_get, _blcelc.iPcCommandInput_CookedMode_set, None,
+    __swig_setmethods__["CookedMode"] = _blcelc.iPcCommandInput_CookedMode_set
+    CookedMode = property(_blcelc.iPcCommandInput_CookedMode_get, _blcelc.iPcCommandInput_CookedMode_set, None,
                     "iPcCommandInput.CookedMode -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcCommandInput::GetCookedMode()\n\tset: void iPcCommandInput::SetCookedMode(bool)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcCommandInput, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcCommandInput,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcCommandInput.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcCommandInput,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcCommandInput_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcCommandInput
     __del__ = lambda self : None;
 iPcCommandInput_swigregister = _blcelc.iPcCommandInput_swigregister
@@ -2182,11 +2307,15 @@ iPcCommandInput_swigregister(iPcCommandInput)
 celCreateZoneManager = _blcelc.celCreateZoneManager
 celGetSetZoneManager = _blcelc.celGetSetZoneManager
 celGetZoneManager = _blcelc.celGetZoneManager
-iPcCommandInput_scfGetVersion = _blcelc.iPcCommandInput_scfGetVersion
 
 scfQuery_iPcCommandInput = _blcelc.scfQuery_iPcCommandInput
 class iPcGravityCallback(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcGravityCallback, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcGravityCallback, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Callback(*args): return _blcelc.iPcGravityCallback_Callback(*args)
@@ -2199,7 +2328,12 @@ celGetSetCommandInput = _blcelc.celGetSetCommandInput
 celGetCommandInput = _blcelc.celGetCommandInput
 
 class iPcLinearMovement(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcLinearMovement, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcLinearMovement, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetAnchor(*args): return _blcelc.iPcLinearMovement_SetAnchor(*args)
@@ -2246,104 +2380,114 @@ class iPcLinearMovement(cspace.iBase):
     def ClearPortalDisplacement(*args): return _blcelc.iPcLinearMovement_ClearPortalDisplacement(*args)
     def SetFullPosition(*args): return _blcelc.iPcLinearMovement_SetFullPosition(*args)
     def SetPosition(*args): return _blcelc.iPcLinearMovement_SetPosition(*args)
-    Anchor = _swig_property(_blcelc.iPcLinearMovement_Anchor_get, _blcelc.iPcLinearMovement_Anchor_set, None,
+    __swig_setmethods__["Anchor"] = _blcelc.iPcLinearMovement_Anchor_set
+    Anchor = property(_blcelc.iPcLinearMovement_Anchor_get, _blcelc.iPcLinearMovement_Anchor_set, None,
                     "iPcLinearMovement.Anchor -> iPcMesh*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMesh* iPcLinearMovement::GetAnchor()\n\tset: void iPcLinearMovement::SetAnchor(iPcMesh*)")
 
 
-    AngularVelocity = _swig_property(_blcelc.iPcLinearMovement_GetAngularVelocity, fix_args(_blcelc.iPcLinearMovement_SetAngularVelocity), None,
+    __swig_setmethods__["AngularVelocity"] = fix_args(_blcelc.iPcLinearMovement_SetAngularVelocity)
+    AngularVelocity = property(_blcelc.iPcLinearMovement_GetAngularVelocity, fix_args(_blcelc.iPcLinearMovement_SetAngularVelocity), None,
                     "iPcLinearMovement.AngularVelocity -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::GetAngularVelocity()\n\tset: void iPcLinearMovement::SetAngularVelocity(...)")
 
-    Speed = _swig_property(None, _blcelc.iPcLinearMovement_Speed_set, None,
+    __swig_setmethods__["Speed"] = _blcelc.iPcLinearMovement_Speed_set
+    Speed = property(None, _blcelc.iPcLinearMovement_Speed_set, None,
                     "iPcLinearMovement.Speed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcLinearMovement::SetSpeed(float)")
 
-    Velocity = _swig_property(_blcelc.iPcLinearMovement_Velocity_get, _blcelc.iPcLinearMovement_Velocity_set, None,
-                    "iPcLinearMovement.Velocity -> const csVector3\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector3 iPcLinearMovement::GetVelocity()\n\tset: void iPcLinearMovement::SetVelocity(const csVector3)")
-
-
-    SoftDRData = _swig_property(None, fix_args(_blcelc.iPcLinearMovement_SetSoftDRData), None,
+    __swig_setmethods__["SoftDRData"] = fix_args(_blcelc.iPcLinearMovement_SetSoftDRData)
+    SoftDRData = property(None, fix_args(_blcelc.iPcLinearMovement_SetSoftDRData), None,
                     "iPcLinearMovement.SoftDRData -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::getmethod()\n\tset: void iPcLinearMovement::SetSoftDRData(...)")
 
-    FullPosition = _swig_property(_blcelc.iPcLinearMovement_GetFullPosition, fix_args(_blcelc.iPcLinearMovement_SetFullPosition), None,
-                    "iPcLinearMovement.FullPosition -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::GetFullPosition()\n\tset: void iPcLinearMovement::SetFullPosition(...)")
+    __swig_setmethods__["FullPosition"] = fix_args(_blcelc.iPcLinearMovement_SetFullPosition)
+    FullPosition = property(None, fix_args(_blcelc.iPcLinearMovement_SetFullPosition), None,
+                    "iPcLinearMovement.FullPosition -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::getmethod()\n\tset: void iPcLinearMovement::SetFullPosition(...)")
 
-    Position = _swig_property(_blcelc.iPcLinearMovement_GetPosition, fix_args(_blcelc.iPcLinearMovement_SetPosition), None,
-                    "iPcLinearMovement.Position -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::GetPosition()\n\tset: void iPcLinearMovement::SetPosition(...)")
+    __swig_setmethods__["Position"] = fix_args(_blcelc.iPcLinearMovement_SetPosition)
+    Position = property(None, fix_args(_blcelc.iPcLinearMovement_SetPosition), None,
+                    "iPcLinearMovement.Position -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::getmethod()\n\tset: void iPcLinearMovement::SetPosition(...)")
 
-    YRotation = _swig_property(_blcelc.iPcLinearMovement_YRotation_get, None, None,
-                    "iPcLinearMovement.YRotation -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcLinearMovement::GetYRotation()")
-
-    Path = _swig_property(_blcelc.iPcLinearMovement_IsPath, fix_args(_blcelc.iPcLinearMovement_SetPath), None,
+    __swig_setmethods__["Path"] = fix_args(_blcelc.iPcLinearMovement_SetPath)
+    Path = property(_blcelc.iPcLinearMovement_IsPath, fix_args(_blcelc.iPcLinearMovement_SetPath), None,
                     "iPcLinearMovement.Path -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::IsPath()\n\tset: void iPcLinearMovement::SetPath(...)")
 
-    Sector = _swig_property(_blcelc.iPcLinearMovement_Sector_get, None, None,
+    Sector = property(_blcelc.iPcLinearMovement_Sector_get, None, None,
                     "iPcLinearMovement.Sector -> iSector*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSector* iPcLinearMovement::GetSector()")
 
-    PathTime = _swig_property(None, _blcelc.iPcLinearMovement_PathTime_set, None,
+    __swig_setmethods__["PathTime"] = _blcelc.iPcLinearMovement_PathTime_set
+    PathTime = property(None, _blcelc.iPcLinearMovement_PathTime_set, None,
                     "iPcLinearMovement.PathTime (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcLinearMovement::SetPathTime(float)")
 
-    PathSpeed = _swig_property(None, _blcelc.iPcLinearMovement_PathSpeed_set, None,
+    __swig_setmethods__["PathSpeed"] = _blcelc.iPcLinearMovement_PathSpeed_set
+    PathSpeed = property(None, _blcelc.iPcLinearMovement_PathSpeed_set, None,
                     "iPcLinearMovement.PathSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcLinearMovement::SetPathSpeed(float)")
 
-    PathAction = _swig_property(None, fix_args(_blcelc.iPcLinearMovement_SetPathAction), None,
+    __swig_setmethods__["PathAction"] = fix_args(_blcelc.iPcLinearMovement_SetPathAction)
+    PathAction = property(None, fix_args(_blcelc.iPcLinearMovement_SetPathAction), None,
                     "iPcLinearMovement.PathAction -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcLinearMovement::getmethod()\n\tset: void iPcLinearMovement::SetPathAction(...)")
 
-    PathSector = _swig_property(None, _blcelc.iPcLinearMovement_PathSector_set, None,
+    __swig_setmethods__["PathSector"] = _blcelc.iPcLinearMovement_PathSector_set
+    PathSector = property(None, _blcelc.iPcLinearMovement_PathSector_set, None,
                     "iPcLinearMovement.PathSector (write only) -> const char *\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcLinearMovement::SetPathSector(const char *)")
 
-    OnGround = _swig_property(_blcelc.iPcLinearMovement_OnGround_get, _blcelc.iPcLinearMovement_OnGround_set, None,
+    __swig_setmethods__["OnGround"] = _blcelc.iPcLinearMovement_OnGround_set
+    OnGround = property(_blcelc.iPcLinearMovement_OnGround_get, _blcelc.iPcLinearMovement_OnGround_set, None,
                     "iPcLinearMovement.OnGround -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcLinearMovement::IsOnGround()\n\tset: void iPcLinearMovement::SetOnGround(bool)")
 
 
-    HugGround = _swig_property(None, _blcelc.iPcLinearMovement_HugGround_set, None,
+    __swig_setmethods__["HugGround"] = _blcelc.iPcLinearMovement_HugGround_set
+    HugGround = property(None, _blcelc.iPcLinearMovement_HugGround_set, None,
                     "iPcLinearMovement.HugGround (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcLinearMovement::SetHugGround(bool)")
 
-    DeltaLimit = _swig_property(None, _blcelc.iPcLinearMovement_DeltaLimit_set, None,
+    __swig_setmethods__["DeltaLimit"] = _blcelc.iPcLinearMovement_DeltaLimit_set
+    DeltaLimit = property(None, _blcelc.iPcLinearMovement_DeltaLimit_set, None,
                     "iPcLinearMovement.DeltaLimit (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcLinearMovement::SetDeltaLimit(float)")
 
-    Gravity = _swig_property(_blcelc.iPcLinearMovement_Gravity_get, _blcelc.iPcLinearMovement_Gravity_set, None,
+    __swig_setmethods__["Gravity"] = _blcelc.iPcLinearMovement_Gravity_set
+    Gravity = property(_blcelc.iPcLinearMovement_Gravity_get, _blcelc.iPcLinearMovement_Gravity_set, None,
                     "iPcLinearMovement.Gravity -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcLinearMovement::GetGravity()\n\tset: void iPcLinearMovement::SetGravity(float)")
 
 
-    PortalDisplacement = _swig_property(_blcelc.iPcLinearMovement_PortalDisplacement_get, None, None,
+    PortalDisplacement = property(_blcelc.iPcLinearMovement_PortalDisplacement_get, None, None,
                     "iPcLinearMovement.PortalDisplacement -> csVector3  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csVector3 iPcLinearMovement::GetPortalDisplacement()")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcLinearMovement, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcLinearMovement,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcLinearMovement.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcLinearMovement,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcLinearMovement_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcLinearMovement
     __del__ = lambda self : None;
 iPcLinearMovement_swigregister = _blcelc.iPcLinearMovement_swigregister
 iPcLinearMovement_swigregister(iPcLinearMovement)
-iPcLinearMovement_scfGetVersion = _blcelc.iPcLinearMovement_scfGetVersion
 
 scfQuery_iPcLinearMovement = _blcelc.scfQuery_iPcLinearMovement
-CEL_ANIM_IDLE = _blcelc.CEL_ANIM_IDLE
-CEL_ANIM_WALK = _blcelc.CEL_ANIM_WALK
-CEL_ANIM_RUN = _blcelc.CEL_ANIM_RUN
-CEL_ANIM_JUMP = _blcelc.CEL_ANIM_JUMP
 class iPcActorMove(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcActorMove, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcActorMove, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Forward(*args): return _blcelc.iPcActorMove_Forward(*args)
     def IsMovingForward(*args): return _blcelc.iPcActorMove_IsMovingForward(*args)
     def Backward(*args): return _blcelc.iPcActorMove_Backward(*args)
     def IsMovingBackward(*args): return _blcelc.iPcActorMove_IsMovingBackward(*args)
-    def IsMoving(*args): return _blcelc.iPcActorMove_IsMoving(*args)
     def StrafeLeft(*args): return _blcelc.iPcActorMove_StrafeLeft(*args)
     def IsStrafingLeft(*args): return _blcelc.iPcActorMove_IsStrafingLeft(*args)
     def StrafeRight(*args): return _blcelc.iPcActorMove_StrafeRight(*args)
@@ -2378,101 +2522,108 @@ class iPcActorMove(cspace.iBase):
     def SetJumpingVelocity(*args): return _blcelc.iPcActorMove_SetJumpingVelocity(*args)
     def GetJumpingVelocity(*args): return _blcelc.iPcActorMove_GetJumpingVelocity(*args)
     def SetAnimation(*args): return _blcelc.iPcActorMove_SetAnimation(*args)
-    def SetAnimationMapping(*args): return _blcelc.iPcActorMove_SetAnimationMapping(*args)
-    MovingForward = _swig_property(_blcelc.iPcActorMove_MovingForward_get, _blcelc.iPcActorMove_MovingForward_set, None,
+    __swig_setmethods__["MovingForward"] = _blcelc.iPcActorMove_MovingForward_set
+    MovingForward = property(_blcelc.iPcActorMove_MovingForward_get, _blcelc.iPcActorMove_MovingForward_set, None,
                     "iPcActorMove.MovingForward -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsMovingForward()\n\tset: void iPcActorMove::Forward(bool)")
 
 
-    MovingBackward = _swig_property(_blcelc.iPcActorMove_MovingBackward_get, _blcelc.iPcActorMove_MovingBackward_set, None,
+    __swig_setmethods__["MovingBackward"] = _blcelc.iPcActorMove_MovingBackward_set
+    MovingBackward = property(_blcelc.iPcActorMove_MovingBackward_get, _blcelc.iPcActorMove_MovingBackward_set, None,
                     "iPcActorMove.MovingBackward -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsMovingBackward()\n\tset: void iPcActorMove::Backward(bool)")
 
 
-    Moving = _swig_property(_blcelc.iPcActorMove_Moving_get, None, None,
-                    "iPcActorMove.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcActorMove::IsMoving()")
-
-    StrafingLeft = _swig_property(_blcelc.iPcActorMove_StrafingLeft_get, _blcelc.iPcActorMove_StrafingLeft_set, None,
+    __swig_setmethods__["StrafingLeft"] = _blcelc.iPcActorMove_StrafingLeft_set
+    StrafingLeft = property(_blcelc.iPcActorMove_StrafingLeft_get, _blcelc.iPcActorMove_StrafingLeft_set, None,
                     "iPcActorMove.StrafingLeft -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsStrafingLeft()\n\tset: void iPcActorMove::StrafeLeft(bool)")
 
 
-    StrafingRight = _swig_property(_blcelc.iPcActorMove_StrafingRight_get, _blcelc.iPcActorMove_StrafingRight_set, None,
+    __swig_setmethods__["StrafingRight"] = _blcelc.iPcActorMove_StrafingRight_set
+    StrafingRight = property(_blcelc.iPcActorMove_StrafingRight_get, _blcelc.iPcActorMove_StrafingRight_set, None,
                     "iPcActorMove.StrafingRight -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsStrafingRight()\n\tset: void iPcActorMove::StrafeRight(bool)")
 
 
-    RotatingLeft = _swig_property(_blcelc.iPcActorMove_RotatingLeft_get, _blcelc.iPcActorMove_RotatingLeft_set, None,
+    __swig_setmethods__["RotatingLeft"] = _blcelc.iPcActorMove_RotatingLeft_set
+    RotatingLeft = property(_blcelc.iPcActorMove_RotatingLeft_get, _blcelc.iPcActorMove_RotatingLeft_set, None,
                     "iPcActorMove.RotatingLeft -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsRotatingLeft()\n\tset: void iPcActorMove::RotateLeft(bool)")
 
 
-    RotatingRight = _swig_property(_blcelc.iPcActorMove_RotatingRight_get, _blcelc.iPcActorMove_RotatingRight_set, None,
+    __swig_setmethods__["RotatingRight"] = _blcelc.iPcActorMove_RotatingRight_set
+    RotatingRight = property(_blcelc.iPcActorMove_RotatingRight_get, _blcelc.iPcActorMove_RotatingRight_set, None,
                     "iPcActorMove.RotatingRight -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsRotatingRight()\n\tset: void iPcActorMove::RotateRight(bool)")
 
 
-    Running = _swig_property(_blcelc.iPcActorMove_Running_get, _blcelc.iPcActorMove_Running_set, None,
+    __swig_setmethods__["Running"] = _blcelc.iPcActorMove_Running_set
+    Running = property(_blcelc.iPcActorMove_Running_get, _blcelc.iPcActorMove_Running_set, None,
                     "iPcActorMove.Running -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsRunning()\n\tset: void iPcActorMove::Run(bool)")
 
 
-    AutoRunning = _swig_property(_blcelc.iPcActorMove_AutoRunning_get, _blcelc.iPcActorMove_AutoRunning_set, None,
+    __swig_setmethods__["AutoRunning"] = _blcelc.iPcActorMove_AutoRunning_set
+    AutoRunning = property(_blcelc.iPcActorMove_AutoRunning_get, _blcelc.iPcActorMove_AutoRunning_set, None,
                     "iPcActorMove.AutoRunning -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsAutoRunning()\n\tset: void iPcActorMove::AutoRun(bool)")
 
 
-    MouseMoveEnabled = _swig_property(_blcelc.iPcActorMove_MouseMoveEnabled_get, None, None,
+    MouseMoveEnabled = property(_blcelc.iPcActorMove_MouseMoveEnabled_get, None, None,
                     "iPcActorMove.MouseMoveEnabled -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcActorMove::IsMouseMoveEnabled()")
 
-    MouseMoveAccelerated = _swig_property(_blcelc.iPcActorMove_MouseMoveAccelerated_get, _blcelc.iPcActorMove_MouseMoveAccelerated_set, None,
-                    "iPcActorMove.MouseMoveAccelerated -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsMouseMoveAccelerated()\n\tset: void iPcActorMove::SetMouseMoveAccelerated(bool)")
-
-
-    MouseMoveInverted = _swig_property(_blcelc.iPcActorMove_MouseMoveInverted_get, _blcelc.iPcActorMove_MouseMoveInverted_set, None,
+    __swig_setmethods__["MouseMoveInverted"] = _blcelc.iPcActorMove_MouseMoveInverted_set
+    MouseMoveInverted = property(_blcelc.iPcActorMove_MouseMoveInverted_get, _blcelc.iPcActorMove_MouseMoveInverted_set, None,
                     "iPcActorMove.MouseMoveInverted -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsMouseMoveInverted()\n\tset: void iPcActorMove::SetMouseMoveInverted(bool)")
 
 
-    MouseMoveSpeed = _swig_property(None, fix_args(_blcelc.iPcActorMove_SetMouseMoveSpeed), None,
+    __swig_setmethods__["MouseMoveSpeed"] = fix_args(_blcelc.iPcActorMove_SetMouseMoveSpeed)
+    MouseMoveSpeed = property(None, fix_args(_blcelc.iPcActorMove_SetMouseMoveSpeed), None,
                     "iPcActorMove.MouseMoveSpeed -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcActorMove::getmethod()\n\tset: void iPcActorMove::SetMouseMoveSpeed(...)")
 
-    MouseMoveSpeedX = _swig_property(_blcelc.iPcActorMove_MouseMoveSpeedX_get, None, None,
+    MouseMoveSpeedX = property(_blcelc.iPcActorMove_MouseMoveSpeedX_get, None, None,
                     "iPcActorMove.MouseMoveSpeedX -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcActorMove::GetMouseMoveSpeedX()")
 
-    MouseMoveSpeedY = _swig_property(_blcelc.iPcActorMove_MouseMoveSpeedY_get, None, None,
+    MouseMoveSpeedY = property(_blcelc.iPcActorMove_MouseMoveSpeedY_get, None, None,
                     "iPcActorMove.MouseMoveSpeedY -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcActorMove::GetMouseMoveSpeedY()")
 
-    MovementSpeed = _swig_property(_blcelc.iPcActorMove_MovementSpeed_get, _blcelc.iPcActorMove_MovementSpeed_set, None,
+    __swig_setmethods__["MovementSpeed"] = _blcelc.iPcActorMove_MovementSpeed_set
+    MovementSpeed = property(_blcelc.iPcActorMove_MovementSpeed_get, _blcelc.iPcActorMove_MovementSpeed_set, None,
                     "iPcActorMove.MovementSpeed -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcActorMove::GetMovementSpeed()\n\tset: void iPcActorMove::SetMovementSpeed(float)")
 
 
-    RunningSpeed = _swig_property(_blcelc.iPcActorMove_RunningSpeed_get, _blcelc.iPcActorMove_RunningSpeed_set, None,
+    __swig_setmethods__["RunningSpeed"] = _blcelc.iPcActorMove_RunningSpeed_set
+    RunningSpeed = property(_blcelc.iPcActorMove_RunningSpeed_get, _blcelc.iPcActorMove_RunningSpeed_set, None,
                     "iPcActorMove.RunningSpeed -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcActorMove::GetRunningSpeed()\n\tset: void iPcActorMove::SetRunningSpeed(float)")
 
 
-    RotationSpeed = _swig_property(_blcelc.iPcActorMove_RotationSpeed_get, _blcelc.iPcActorMove_RotationSpeed_set, None,
+    __swig_setmethods__["RotationSpeed"] = _blcelc.iPcActorMove_RotationSpeed_set
+    RotationSpeed = property(_blcelc.iPcActorMove_RotationSpeed_get, _blcelc.iPcActorMove_RotationSpeed_set, None,
                     "iPcActorMove.RotationSpeed -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcActorMove::GetRotationSpeed()\n\tset: void iPcActorMove::SetRotationSpeed(float)")
 
 
-    JumpingVelocity = _swig_property(_blcelc.iPcActorMove_JumpingVelocity_get, _blcelc.iPcActorMove_JumpingVelocity_set, None,
+    __swig_setmethods__["JumpingVelocity"] = _blcelc.iPcActorMove_JumpingVelocity_set
+    JumpingVelocity = property(_blcelc.iPcActorMove_JumpingVelocity_get, _blcelc.iPcActorMove_JumpingVelocity_set, None,
                     "iPcActorMove.JumpingVelocity -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcActorMove::GetJumpingVelocity()\n\tset: void iPcActorMove::SetJumpingVelocity(float)")
 
 
-    Animation = _swig_property(None, fix_args(_blcelc.iPcActorMove_SetAnimation), None,
+    __swig_setmethods__["Animation"] = fix_args(_blcelc.iPcActorMove_SetAnimation)
+    Animation = property(None, fix_args(_blcelc.iPcActorMove_SetAnimation), None,
                     "iPcActorMove.Animation -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcActorMove::getmethod()\n\tset: void iPcActorMove::SetAnimation(...)")
-
-    AnimationMapping = _swig_property(None, fix_args(_blcelc.iPcActorMove_SetAnimationMapping), None,
-                    "iPcActorMove.AnimationMapping -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcActorMove::getmethod()\n\tset: void iPcActorMove::SetAnimationMapping(...)")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcActorMove, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcActorMove,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcActorMove.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcActorMove,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcActorMove_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcActorMove
     __del__ = lambda self : None;
 iPcActorMove_swigregister = _blcelc.iPcActorMove_swigregister
@@ -2480,55 +2631,15 @@ iPcActorMove_swigregister(iPcActorMove)
 celCreateLinearMovement = _blcelc.celCreateLinearMovement
 celGetSetLinearMovement = _blcelc.celGetSetLinearMovement
 celGetLinearMovement = _blcelc.celGetLinearMovement
-iPcActorMove_scfGetVersion = _blcelc.iPcActorMove_scfGetVersion
 
 scfQuery_iPcActorMove = _blcelc.scfQuery_iPcActorMove
-class iPcActorAnalog(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SetAxis(*args): return _blcelc.iPcActorAnalog_SetAxis(*args)
-    def AddAxis(*args): return _blcelc.iPcActorAnalog_AddAxis(*args)
-    def SetMovementSpeed(*args): return _blcelc.iPcActorAnalog_SetMovementSpeed(*args)
-    def SetTurningSpeed(*args): return _blcelc.iPcActorAnalog_SetTurningSpeed(*args)
-    Axis = _swig_property(None, fix_args(_blcelc.iPcActorAnalog_SetAxis), None,
-                    "iPcActorAnalog.Axis -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcActorAnalog::getmethod()\n\tset: void iPcActorAnalog::SetAxis(...)")
-
-    MovementSpeed = _swig_property(None, _blcelc.iPcActorAnalog_MovementSpeed_set, None,
-                    "iPcActorAnalog.MovementSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcActorAnalog::SetMovementSpeed(float)")
-
-    TurningSpeed = _swig_property(None, _blcelc.iPcActorAnalog_TurningSpeed_set, None,
-                    "iPcActorAnalog.TurningSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcActorAnalog::SetTurningSpeed(float)")
-
-    _PC = None
-    def __getattr__(self,attr):
-         if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
-             return getattr(_PC,attr)
-         else:
-             return self.GetterFallback(attr)
-    def __setattr__(self,attr,value):
-         if hasattr(iPcActorAnalog,attr):
-             return object.__setattr__(self,attr,value)
-         elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
-             setattr(_PC,attr,value)
-         else:
-             return self.SetterFallback(attr,value)
-
-    scfGetVersion = staticmethod(_blcelc.iPcActorAnalog_scfGetVersion)
-    __swig_destroy__ = _blcelc.delete_iPcActorAnalog
-    __del__ = lambda self : None;
-iPcActorAnalog_swigregister = _blcelc.iPcActorAnalog_swigregister
-iPcActorAnalog_swigregister(iPcActorAnalog)
-celCreateActorMove = _blcelc.celCreateActorMove
-celGetSetActorMove = _blcelc.celGetSetActorMove
-celGetActorMove = _blcelc.celGetActorMove
-iPcActorAnalog_scfGetVersion = _blcelc.iPcActorAnalog_scfGetVersion
-
-scfQuery_iPcActorAnalog = _blcelc.scfQuery_iPcActorAnalog
 class iPcCamera(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcCamera, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcCamera, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetRegion(*args): return _blcelc.iPcCamera_SetRegion(*args)
@@ -2554,60 +2665,68 @@ class iPcCamera(cspace.iBase):
     def UpdateCamera(*args): return _blcelc.iPcCamera_UpdateCamera(*args)
     def GetDrawFlags(*args): return _blcelc.iPcCamera_GetDrawFlags(*args)
     def SetPerspectiveCenter(*args): return _blcelc.iPcCamera_SetPerspectiveCenter(*args)
-    Region = _swig_property(None, fix_args(_blcelc.iPcCamera_SetRegion), None,
+    __swig_setmethods__["Region"] = fix_args(_blcelc.iPcCamera_SetRegion)
+    Region = property(None, fix_args(_blcelc.iPcCamera_SetRegion), None,
                     "iPcCamera.Region -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcCamera::getmethod()\n\tset: void iPcCamera::SetRegion(...)")
 
-    ZoneManager = _swig_property(None, fix_args(_blcelc.iPcCamera_SetZoneManager), None,
+    __swig_setmethods__["ZoneManager"] = fix_args(_blcelc.iPcCamera_SetZoneManager)
+    ZoneManager = property(None, fix_args(_blcelc.iPcCamera_SetZoneManager), None,
                     "iPcCamera.ZoneManager -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcCamera::getmethod()\n\tset: void iPcCamera::SetZoneManager(...)")
 
-    Rectangle = _swig_property(None, fix_args(_blcelc.iPcCamera_SetRectangle), None,
+    __swig_setmethods__["Rectangle"] = fix_args(_blcelc.iPcCamera_SetRectangle)
+    Rectangle = property(None, fix_args(_blcelc.iPcCamera_SetRectangle), None,
                     "iPcCamera.Rectangle -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcCamera::getmethod()\n\tset: void iPcCamera::SetRectangle(...)")
 
-    Camera = _swig_property(_blcelc.iPcCamera_Camera_get, None, None,
+    Camera = property(_blcelc.iPcCamera_Camera_get, None, None,
                     "iPcCamera.Camera -> iCamera*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iCamera* iPcCamera::GetCamera()")
 
-    View = _swig_property(_blcelc.iPcCamera_View_get, None, None,
+    View = property(_blcelc.iPcCamera_View_get, None, None,
                     "iPcCamera.View -> iView*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iView* iPcCamera::GetView()")
 
-    ClearZBuffer = _swig_property(_blcelc.iPcCamera_ClearZBuffer_get, _blcelc.iPcCamera_ClearZBuffer_set, None,
+    __swig_setmethods__["ClearZBuffer"] = _blcelc.iPcCamera_ClearZBuffer_set
+    ClearZBuffer = property(_blcelc.iPcCamera_ClearZBuffer_get, _blcelc.iPcCamera_ClearZBuffer_set, None,
                     "iPcCamera.ClearZBuffer -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcCamera::GetClearZBuffer()\n\tset: void iPcCamera::SetClearZBuffer(bool)")
 
 
-    ClearScreen = _swig_property(_blcelc.iPcCamera_ClearScreen_get, _blcelc.iPcCamera_ClearScreen_set, None,
+    __swig_setmethods__["ClearScreen"] = _blcelc.iPcCamera_ClearScreen_set
+    ClearScreen = property(_blcelc.iPcCamera_ClearScreen_get, _blcelc.iPcCamera_ClearScreen_set, None,
                     "iPcCamera.ClearScreen -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcCamera::GetClearScreen()\n\tset: void iPcCamera::SetClearScreen(bool)")
 
 
-    FixedDistance = _swig_property(_blcelc.iPcCamera_FixedDistance_get, None, None,
+    FixedDistance = property(_blcelc.iPcCamera_FixedDistance_get, None, None,
                     "iPcCamera.FixedDistance -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcCamera::GetFixedDistance()")
 
-    AdaptiveMinFPS = _swig_property(_blcelc.iPcCamera_AdaptiveMinFPS_get, None, None,
+    AdaptiveMinFPS = property(_blcelc.iPcCamera_AdaptiveMinFPS_get, None, None,
                     "iPcCamera.AdaptiveMinFPS -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcCamera::GetAdaptiveMinFPS()")
 
-    AdaptiveMaxFPS = _swig_property(_blcelc.iPcCamera_AdaptiveMaxFPS_get, None, None,
+    AdaptiveMaxFPS = property(_blcelc.iPcCamera_AdaptiveMaxFPS_get, None, None,
                     "iPcCamera.AdaptiveMaxFPS -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcCamera::GetAdaptiveMaxFPS()")
 
-    AdaptiveMinDistance = _swig_property(_blcelc.iPcCamera_AdaptiveMinDistance_get, None, None,
+    AdaptiveMinDistance = property(_blcelc.iPcCamera_AdaptiveMinDistance_get, None, None,
                     "iPcCamera.AdaptiveMinDistance -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcCamera::GetAdaptiveMinDistance()")
 
-    AutoDraw = _swig_property(None, _blcelc.iPcCamera_AutoDraw_set, None,
+    __swig_setmethods__["AutoDraw"] = _blcelc.iPcCamera_AutoDraw_set
+    AutoDraw = property(None, _blcelc.iPcCamera_AutoDraw_set, None,
                     "iPcCamera.AutoDraw (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCamera::SetAutoDraw(bool)")
 
-    DrawFlags = _swig_property(_blcelc.iPcCamera_DrawFlags_get, None, None,
+    DrawFlags = property(_blcelc.iPcCamera_DrawFlags_get, None, None,
                     "iPcCamera.DrawFlags -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iPcCamera::GetDrawFlags()")
-
-    PerspectiveCenter = _swig_property(None, fix_args(_blcelc.iPcCamera_SetPerspectiveCenter), None,
-                    "iPcCamera.PerspectiveCenter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcCamera::getmethod()\n\tset: void iPcCamera::SetPerspectiveCenter(...)")
 
     __swig_destroy__ = _blcelc.delete_iPcCamera
     __del__ = lambda self : None;
 iPcCamera_swigregister = _blcelc.iPcCamera_swigregister
 iPcCamera_swigregister(iPcCamera)
-celCreateActorAnalog = _blcelc.celCreateActorAnalog
-celGetSetActorAnalog = _blcelc.celGetSetActorAnalog
-celGetActorAnalog = _blcelc.celGetActorAnalog
+celCreateActorMove = _blcelc.celCreateActorMove
+celGetSetActorMove = _blcelc.celGetSetActorMove
+celGetActorMove = _blcelc.celGetActorMove
 
 class iPcDefaultCamera(iPcCamera):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [iPcCamera]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcDefaultCamera, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iPcCamera]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcDefaultCamera, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     freelook = _blcelc.iPcDefaultCamera_freelook
@@ -2648,86 +2767,100 @@ class iPcDefaultCamera(iPcCamera):
     def GetDistance(*args): return _blcelc.iPcDefaultCamera_GetDistance(*args)
     def SetDistanceVelocity(*args): return _blcelc.iPcDefaultCamera_SetDistanceVelocity(*args)
     def GetDistanceVelocity(*args): return _blcelc.iPcDefaultCamera_GetDistanceVelocity(*args)
-    FollowEntity = _swig_property(None, _blcelc.iPcDefaultCamera_FollowEntity_set, None,
+    __swig_setmethods__["FollowEntity"] = _blcelc.iPcDefaultCamera_FollowEntity_set
+    FollowEntity = property(None, _blcelc.iPcDefaultCamera_FollowEntity_set, None,
                     "iPcDefaultCamera.FollowEntity (write only) -> iCelEntity*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcDefaultCamera::SetFollowEntity(iCelEntity*)")
 
-    Mode = _swig_property(_blcelc.iPcDefaultCamera_Mode_get, _blcelc.iPcDefaultCamera_Mode_set, None,
+    __swig_setmethods__["Mode"] = _blcelc.iPcDefaultCamera_Mode_set
+    Mode = property(_blcelc.iPcDefaultCamera_Mode_get, _blcelc.iPcDefaultCamera_Mode_set, None,
                     "iPcDefaultCamera.Mode -> iPcDefaultCamera::CameraMode\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcDefaultCamera::CameraMode iPcDefaultCamera::GetMode()\n\tset: void iPcDefaultCamera::SetMode(iPcDefaultCamera::CameraMode)")
 
 
-    ModeName = _swig_property(_blcelc.iPcDefaultCamera_ModeName_get, _blcelc.iPcDefaultCamera_ModeName_set, None,
+    __swig_setmethods__["ModeName"] = _blcelc.iPcDefaultCamera_ModeName_set
+    ModeName = property(_blcelc.iPcDefaultCamera_ModeName_get, _blcelc.iPcDefaultCamera_ModeName_set, None,
                     "iPcDefaultCamera.ModeName -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcDefaultCamera::GetModeName()\n\tset: void iPcDefaultCamera::SetModeName(const char*)")
 
 
-    NextMode = _swig_property(_blcelc.iPcDefaultCamera_NextMode_get, None, None,
+    NextMode = property(_blcelc.iPcDefaultCamera_NextMode_get, None, None,
                     "iPcDefaultCamera.NextMode -> iPcDefaultCamera::CameraMode  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iPcDefaultCamera::CameraMode iPcDefaultCamera::GetNextMode()")
 
-    SpringParameters = _swig_property(None, fix_args(_blcelc.iPcDefaultCamera_SetSpringParameters), None,
+    __swig_setmethods__["SpringParameters"] = fix_args(_blcelc.iPcDefaultCamera_SetSpringParameters)
+    SpringParameters = property(None, fix_args(_blcelc.iPcDefaultCamera_SetSpringParameters), None,
                     "iPcDefaultCamera.SpringParameters -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcDefaultCamera::getmethod()\n\tset: void iPcDefaultCamera::SetSpringParameters(...)")
 
-    MinMaxCameraDistance = _swig_property(None, fix_args(_blcelc.iPcDefaultCamera_SetMinMaxCameraDistance), None,
+    __swig_setmethods__["MinMaxCameraDistance"] = fix_args(_blcelc.iPcDefaultCamera_SetMinMaxCameraDistance)
+    MinMaxCameraDistance = property(None, fix_args(_blcelc.iPcDefaultCamera_SetMinMaxCameraDistance), None,
                     "iPcDefaultCamera.MinMaxCameraDistance -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcDefaultCamera::getmethod()\n\tset: void iPcDefaultCamera::SetMinMaxCameraDistance(...)")
 
-    TurnSpeed = _swig_property(None, _blcelc.iPcDefaultCamera_TurnSpeed_set, None,
+    __swig_setmethods__["TurnSpeed"] = _blcelc.iPcDefaultCamera_TurnSpeed_set
+    TurnSpeed = property(None, _blcelc.iPcDefaultCamera_TurnSpeed_set, None,
                     "iPcDefaultCamera.TurnSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcDefaultCamera::SetTurnSpeed(float)")
 
-    SwingCoef = _swig_property(None, _blcelc.iPcDefaultCamera_SwingCoef_set, None,
+    __swig_setmethods__["SwingCoef"] = _blcelc.iPcDefaultCamera_SwingCoef_set
+    SwingCoef = property(None, _blcelc.iPcDefaultCamera_SwingCoef_set, None,
                     "iPcDefaultCamera.SwingCoef (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcDefaultCamera::SetSwingCoef(float)")
 
-    FirstPersonOffset = _swig_property(None, _blcelc.iPcDefaultCamera_FirstPersonOffset_set, None,
+    __swig_setmethods__["FirstPersonOffset"] = _blcelc.iPcDefaultCamera_FirstPersonOffset_set
+    FirstPersonOffset = property(None, _blcelc.iPcDefaultCamera_FirstPersonOffset_set, None,
                     "iPcDefaultCamera.FirstPersonOffset (write only) -> const csVector3&\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcDefaultCamera::SetFirstPersonOffset(const csVector3&)")
 
-    ThirdPersonOffset = _swig_property(None, _blcelc.iPcDefaultCamera_ThirdPersonOffset_set, None,
+    __swig_setmethods__["ThirdPersonOffset"] = _blcelc.iPcDefaultCamera_ThirdPersonOffset_set
+    ThirdPersonOffset = property(None, _blcelc.iPcDefaultCamera_ThirdPersonOffset_set, None,
                     "iPcDefaultCamera.ThirdPersonOffset (write only) -> const csVector3&\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcDefaultCamera::SetThirdPersonOffset(const csVector3&)")
 
-    Pitch = _swig_property(_blcelc.iPcDefaultCamera_Pitch_get, _blcelc.iPcDefaultCamera_Pitch_set, None,
+    __swig_setmethods__["Pitch"] = _blcelc.iPcDefaultCamera_Pitch_set
+    Pitch = property(_blcelc.iPcDefaultCamera_Pitch_get, _blcelc.iPcDefaultCamera_Pitch_set, None,
                     "iPcDefaultCamera.Pitch -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcDefaultCamera::GetPitch()\n\tset: void iPcDefaultCamera::SetPitch(float)")
 
 
-    PitchVelocity = _swig_property(_blcelc.iPcDefaultCamera_PitchVelocity_get, _blcelc.iPcDefaultCamera_PitchVelocity_set, None,
+    __swig_setmethods__["PitchVelocity"] = _blcelc.iPcDefaultCamera_PitchVelocity_set
+    PitchVelocity = property(_blcelc.iPcDefaultCamera_PitchVelocity_get, _blcelc.iPcDefaultCamera_PitchVelocity_set, None,
                     "iPcDefaultCamera.PitchVelocity -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcDefaultCamera::GetPitchVelocity()\n\tset: void iPcDefaultCamera::SetPitchVelocity(float)")
 
 
-    Yaw = _swig_property(_blcelc.iPcDefaultCamera_GetYaw, fix_args(_blcelc.iPcDefaultCamera_SetYaw), None,
-                    "iPcDefaultCamera.Yaw -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcDefaultCamera::GetYaw()\n\tset: void iPcDefaultCamera::SetYaw(...)")
-
-    YawVelocity = _swig_property(_blcelc.iPcDefaultCamera_YawVelocity_get, _blcelc.iPcDefaultCamera_YawVelocity_set, None,
+    __swig_setmethods__["YawVelocity"] = _blcelc.iPcDefaultCamera_YawVelocity_set
+    YawVelocity = property(_blcelc.iPcDefaultCamera_YawVelocity_get, _blcelc.iPcDefaultCamera_YawVelocity_set, None,
                     "iPcDefaultCamera.YawVelocity -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcDefaultCamera::GetYawVelocity()\n\tset: void iPcDefaultCamera::SetYawVelocity(float)")
 
 
-    Distance = _swig_property(_blcelc.iPcDefaultCamera_GetDistance, fix_args(_blcelc.iPcDefaultCamera_SetDistance), None,
-                    "iPcDefaultCamera.Distance -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcDefaultCamera::GetDistance()\n\tset: void iPcDefaultCamera::SetDistance(...)")
-
-    DistanceVelocity = _swig_property(_blcelc.iPcDefaultCamera_DistanceVelocity_get, _blcelc.iPcDefaultCamera_DistanceVelocity_set, None,
+    __swig_setmethods__["DistanceVelocity"] = _blcelc.iPcDefaultCamera_DistanceVelocity_set
+    DistanceVelocity = property(_blcelc.iPcDefaultCamera_DistanceVelocity_get, _blcelc.iPcDefaultCamera_DistanceVelocity_set, None,
                     "iPcDefaultCamera.DistanceVelocity -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcDefaultCamera::GetDistanceVelocity()\n\tset: void iPcDefaultCamera::SetDistanceVelocity(float)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcDefaultCamera, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcDefaultCamera,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcDefaultCamera.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcDefaultCamera,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcDefaultCamera_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcDefaultCamera
     __del__ = lambda self : None;
 iPcDefaultCamera_swigregister = _blcelc.iPcDefaultCamera_swigregister
 iPcDefaultCamera_swigregister(iPcDefaultCamera)
-iPcDefaultCamera_scfGetVersion = _blcelc.iPcDefaultCamera_scfGetVersion
 
 scfQuery_iPcDefaultCamera = _blcelc.scfQuery_iPcDefaultCamera
 class iPcSimpleCamera(iPcCamera):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [iPcCamera]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcSimpleCamera, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iPcCamera]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcSimpleCamera, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetDrawMesh(*args): return _blcelc.iPcSimpleCamera_SetDrawMesh(*args)
@@ -2735,35 +2868,42 @@ class iPcSimpleCamera(iPcCamera):
     def SetLookAtOffset(*args): return _blcelc.iPcSimpleCamera_SetLookAtOffset(*args)
     def SetMesh(*args): return _blcelc.iPcSimpleCamera_SetMesh(*args)
     def Draw(*args): return _blcelc.iPcSimpleCamera_Draw(*args)
-    DrawMesh = _swig_property(None, _blcelc.iPcSimpleCamera_DrawMesh_set, None,
+    __swig_setmethods__["DrawMesh"] = _blcelc.iPcSimpleCamera_DrawMesh_set
+    DrawMesh = property(None, _blcelc.iPcSimpleCamera_DrawMesh_set, None,
                     "iPcSimpleCamera.DrawMesh (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcSimpleCamera::SetDrawMesh(bool)")
 
-    CameraOffset = _swig_property(None, fix_args(_blcelc.iPcSimpleCamera_SetCameraOffset), None,
+    __swig_setmethods__["CameraOffset"] = fix_args(_blcelc.iPcSimpleCamera_SetCameraOffset)
+    CameraOffset = property(None, fix_args(_blcelc.iPcSimpleCamera_SetCameraOffset), None,
                     "iPcSimpleCamera.CameraOffset -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcSimpleCamera::getmethod()\n\tset: void iPcSimpleCamera::SetCameraOffset(...)")
 
-    LookAtOffset = _swig_property(None, _blcelc.iPcSimpleCamera_LookAtOffset_set, None,
+    __swig_setmethods__["LookAtOffset"] = _blcelc.iPcSimpleCamera_LookAtOffset_set
+    LookAtOffset = property(None, _blcelc.iPcSimpleCamera_LookAtOffset_set, None,
                     "iPcSimpleCamera.LookAtOffset (write only) -> const csVector3&\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcSimpleCamera::SetLookAtOffset(const csVector3&)")
 
-    Mesh = _swig_property(None, _blcelc.iPcSimpleCamera_Mesh_set, None,
+    __swig_setmethods__["Mesh"] = _blcelc.iPcSimpleCamera_Mesh_set
+    Mesh = property(None, _blcelc.iPcSimpleCamera_Mesh_set, None,
                     "iPcSimpleCamera.Mesh (write only) -> iPcMesh*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcSimpleCamera::SetMesh(iPcMesh*)")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcSimpleCamera, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcSimpleCamera,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcSimpleCamera.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcSimpleCamera,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcSimpleCamera_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcSimpleCamera
     __del__ = lambda self : None;
 iPcSimpleCamera_swigregister = _blcelc.iPcSimpleCamera_swigregister
@@ -2771,86 +2911,76 @@ iPcSimpleCamera_swigregister(iPcSimpleCamera)
 celCreateDefaultCamera = _blcelc.celCreateDefaultCamera
 celGetSetDefaultCamera = _blcelc.celGetSetDefaultCamera
 celGetDefaultCamera = _blcelc.celGetDefaultCamera
-iPcSimpleCamera_scfGetVersion = _blcelc.iPcSimpleCamera_scfGetVersion
 
 scfQuery_iPcSimpleCamera = _blcelc.scfQuery_iPcSimpleCamera
-class General(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+class iCelCameraMode(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelCameraMode, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelCameraMode, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def SetParentCamera(*args): return _blcelc.General_SetParentCamera(*args)
-    def UseSpringPos(*args): return _blcelc.General_UseSpringPos(*args)
-    def UseSpringOrigin(*args): return _blcelc.General_UseSpringOrigin(*args)
-    def UseSpringTarget(*args): return _blcelc.General_UseSpringTarget(*args)
-    def UseSpringUp(*args): return _blcelc.General_UseSpringUp(*args)
-    def AllowCollisionDetection(*args): return _blcelc.General_AllowCollisionDetection(*args)
-    def GetCollisionDetection(*args): return _blcelc.General_GetCollisionDetection(*args)
-    def DrawAttachedMesh(*args): return _blcelc.General_DrawAttachedMesh(*args)
-    def GetSpringCoefficient(*args): return _blcelc.General_GetSpringCoefficient(*args)
-    def SetSpringCoefficient(*args): return _blcelc.General_SetSpringCoefficient(*args)
-    def SetOriginSpringCoefficient(*args): return _blcelc.General_SetOriginSpringCoefficient(*args)
-    def GetOriginSpringCoefficient(*args): return _blcelc.General_GetOriginSpringCoefficient(*args)
-    def SetTargetSpringCoefficient(*args): return _blcelc.General_SetTargetSpringCoefficient(*args)
-    def GetTargetSpringCoefficient(*args): return _blcelc.General_GetTargetSpringCoefficient(*args)
-    def SetUpSpringCoefficient(*args): return _blcelc.General_SetUpSpringCoefficient(*args)
-    def GetUpSpringCoefficient(*args): return _blcelc.General_GetUpSpringCoefficient(*args)
-    def GetPosition(*args): return _blcelc.General_GetPosition(*args)
-    def GetOrigin(*args): return _blcelc.General_GetOrigin(*args)
-    def GetTarget(*args): return _blcelc.General_GetTarget(*args)
-    def GetUp(*args): return _blcelc.General_GetUp(*args)
-    def DecideCameraState(*args): return _blcelc.General_DecideCameraState(*args)
-    __swig_destroy__ = _blcelc.delete_General
+    def SetParentCamera(*args): return _blcelc.iCelCameraMode_SetParentCamera(*args)
+    def UseSpringPos(*args): return _blcelc.iCelCameraMode_UseSpringPos(*args)
+    def UseSpringTarget(*args): return _blcelc.iCelCameraMode_UseSpringTarget(*args)
+    def UseSpringUp(*args): return _blcelc.iCelCameraMode_UseSpringUp(*args)
+    def AllowCollisionDetection(*args): return _blcelc.iCelCameraMode_AllowCollisionDetection(*args)
+    def DrawAttachedMesh(*args): return _blcelc.iCelCameraMode_DrawAttachedMesh(*args)
+    def GetSpringCoefficient(*args): return _blcelc.iCelCameraMode_GetSpringCoefficient(*args)
+    def GetPosition(*args): return _blcelc.iCelCameraMode_GetPosition(*args)
+    def GetTarget(*args): return _blcelc.iCelCameraMode_GetTarget(*args)
+    def GetUp(*args): return _blcelc.iCelCameraMode_GetUp(*args)
+    def DecideCameraState(*args): return _blcelc.iCelCameraMode_DecideCameraState(*args)
+    __swig_destroy__ = _blcelc.delete_iCelCameraMode
     __del__ = lambda self : None;
-General_swigregister = _blcelc.General_swigregister
-General_swigregister(General)
+iCelCameraMode_swigregister = _blcelc.iCelCameraMode_swigregister
+iCelCameraMode_swigregister(iCelCameraMode)
 celCreateSimpleCamera = _blcelc.celCreateSimpleCamera
 celGetSetSimpleCamera = _blcelc.celGetSetSimpleCamera
 celGetSimpleCamera = _blcelc.celGetSimpleCamera
 
-class Tracking(General):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+class iTrackCameraMode(iCelCameraMode):
+    __swig_setmethods__ = {}
+    for _s in [iCelCameraMode]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iTrackCameraMode, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iCelCameraMode]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iTrackCameraMode, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def ResetCamera(*args): return _blcelc.Tracking_ResetCamera(*args)
-    TARGET_BASE = _blcelc.Tracking_TARGET_BASE
-    TARGET_OBJ = _blcelc.Tracking_TARGET_OBJ
-    TARGET_NONE = _blcelc.Tracking_TARGET_NONE
-    def SetTargetEntity(*args): return _blcelc.Tracking_SetTargetEntity(*args)
-    def SetTargetState(*args): return _blcelc.Tracking_SetTargetState(*args)
-    def GetTargetState(*args): return _blcelc.Tracking_GetTargetState(*args)
-    def SetTargetYOffset(*args): return _blcelc.Tracking_SetTargetYOffset(*args)
-    __swig_destroy__ = _blcelc.delete_Tracking
+    def ResetCamera(*args): return _blcelc.iTrackCameraMode_ResetCamera(*args)
+    TARGET_BASE = _blcelc.iTrackCameraMode_TARGET_BASE
+    TARGET_OBJ = _blcelc.iTrackCameraMode_TARGET_OBJ
+    TARGET_NONE = _blcelc.iTrackCameraMode_TARGET_NONE
+    def SetTargetEntity(*args): return _blcelc.iTrackCameraMode_SetTargetEntity(*args)
+    def SetTargetState(*args): return _blcelc.iTrackCameraMode_SetTargetState(*args)
+    def SetTargetYOffset(*args): return _blcelc.iTrackCameraMode_SetTargetYOffset(*args)
+    __swig_destroy__ = _blcelc.delete_iTrackCameraMode
     __del__ = lambda self : None;
-Tracking_swigregister = _blcelc.Tracking_swigregister
-Tracking_swigregister(Tracking)
+iTrackCameraMode_swigregister = _blcelc.iTrackCameraMode_swigregister
+iTrackCameraMode_swigregister(iTrackCameraMode)
 
 class iPcNewCamera(iPcCamera):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [iPcCamera]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcNewCamera, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iPcCamera]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcNewCamera, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetBasePos(*args): return _blcelc.iPcNewCamera_GetBasePos(*args)
-    def GetBaseOrigin(*args): return _blcelc.iPcNewCamera_GetBaseOrigin(*args)
     def GetBaseDir(*args): return _blcelc.iPcNewCamera_GetBaseDir(*args)
     def GetBaseUp(*args): return _blcelc.iPcNewCamera_GetBaseUp(*args)
     def GetBaseTrans(*args): return _blcelc.iPcNewCamera_GetBaseTrans(*args)
     def GetPos(*args): return _blcelc.iPcNewCamera_GetPos(*args)
-    def GetOrigin(*args): return _blcelc.iPcNewCamera_GetOrigin(*args)
     def GetTarget(*args): return _blcelc.iPcNewCamera_GetTarget(*args)
     def GetUp(*args): return _blcelc.iPcNewCamera_GetUp(*args)
     def SetPositionOffset(*args): return _blcelc.iPcNewCamera_SetPositionOffset(*args)
-    def SetTargetPositionOffset(*args): return _blcelc.iPcNewCamera_SetTargetPositionOffset(*args)
-    def SetCameraPositionOffset(*args): return _blcelc.iPcNewCamera_SetCameraPositionOffset(*args)
-    def SetSpringCoefficient(*args): return _blcelc.iPcNewCamera_SetSpringCoefficient(*args)
-    def GetSpringCoefficient(*args): return _blcelc.iPcNewCamera_GetSpringCoefficient(*args)
-    def SetOriginSpringCoefficient(*args): return _blcelc.iPcNewCamera_SetOriginSpringCoefficient(*args)
-    def GetOriginSpringCoefficient(*args): return _blcelc.iPcNewCamera_GetOriginSpringCoefficient(*args)
-    def SetTargetSpringCoefficient(*args): return _blcelc.iPcNewCamera_SetTargetSpringCoefficient(*args)
-    def GetTargetSpringCoefficient(*args): return _blcelc.iPcNewCamera_GetTargetSpringCoefficient(*args)
-    def SetUpSpringCoefficient(*args): return _blcelc.iPcNewCamera_SetUpSpringCoefficient(*args)
-    def GetUpSpringCoefficient(*args): return _blcelc.iPcNewCamera_GetUpSpringCoefficient(*args)
     def DetectCollisions(*args): return _blcelc.iPcNewCamera_DetectCollisions(*args)
     def SetCollisionDetection(*args): return _blcelc.iPcNewCamera_SetCollisionDetection(*args)
-    def GetCollisionDetection(*args): return _blcelc.iPcNewCamera_GetCollisionDetection(*args)
     def SetCollisionSpringCoefficient(*args): return _blcelc.iPcNewCamera_SetCollisionSpringCoefficient(*args)
     def GetCollisionSpringCoefficient(*args): return _blcelc.iPcNewCamera_GetCollisionSpringCoefficient(*args)
     def InCameraTransition(*args): return _blcelc.iPcNewCamera_InCameraTransition(*args)
@@ -2858,13 +2988,10 @@ class iPcNewCamera(iPcCamera):
     def GetTransitionSpringCoefficient(*args): return _blcelc.iPcNewCamera_GetTransitionSpringCoefficient(*args)
     def SetTransitionCutoffDistance(*args): return _blcelc.iPcNewCamera_SetTransitionCutoffDistance(*args)
     def GetTransitionCutoffPosDistance(*args): return _blcelc.iPcNewCamera_GetTransitionCutoffPosDistance(*args)
-    def GetTransitionCutoffOriginDistance(*args): return _blcelc.iPcNewCamera_GetTransitionCutoffOriginDistance(*args)
     def GetTransitionCutoffTargetDistance(*args): return _blcelc.iPcNewCamera_GetTransitionCutoffTargetDistance(*args)
     CCM_FIRST_PERSON = _blcelc.iPcNewCamera_CCM_FIRST_PERSON
     CCM_THIRD_PERSON = _blcelc.iPcNewCamera_CCM_THIRD_PERSON
-    CCM_TRACKING = _blcelc.iPcNewCamera_CCM_TRACKING
-    CCM_HORIZONTAL = _blcelc.iPcNewCamera_CCM_HORIZONTAL
-    CCM_ISOMETRIC = _blcelc.iPcNewCamera_CCM_ISOMETRIC
+    CCM_LARA_TRACK = _blcelc.iPcNewCamera_CCM_LARA_TRACK
     CCM_COUNT = _blcelc.iPcNewCamera_CCM_COUNT
     def AttachCameraMode(*args): return _blcelc.iPcNewCamera_AttachCameraMode(*args)
     def GetCurrentCameraModeIndex(*args): return _blcelc.iPcNewCamera_GetCurrentCameraModeIndex(*args)
@@ -2875,106 +3002,42 @@ class iPcNewCamera(iPcCamera):
     def Draw(*args): return _blcelc.iPcNewCamera_Draw(*args)
     def GetTransform(*args): return _blcelc.iPcNewCamera_GetTransform(*args)
     def GetCameraMode(*args): return _blcelc.iPcNewCamera_GetCameraMode(*args)
-    def Reset(*args): return _blcelc.iPcNewCamera_Reset(*args)
-    BaseOrigin = _swig_property(_blcelc.iPcNewCamera_BaseOrigin_get, None, None,
-                    "iPcNewCamera.BaseOrigin -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetBaseOrigin()")
-
-    BaseDir = _swig_property(_blcelc.iPcNewCamera_BaseDir_get, None, None,
-                    "iPcNewCamera.BaseDir -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetBaseDir()")
-
-    BaseUp = _swig_property(_blcelc.iPcNewCamera_BaseUp_get, None, None,
-                    "iPcNewCamera.BaseUp -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetBaseUp()")
-
-    BaseTrans = _swig_property(_blcelc.iPcNewCamera_BaseTrans_get, None, None,
-                    "iPcNewCamera.BaseTrans -> const csReversibleTransform&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csReversibleTransform& iPcNewCamera::GetBaseTrans()")
-
-    Origin = _swig_property(_blcelc.iPcNewCamera_Origin_get, None, None,
-                    "iPcNewCamera.Origin -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetOrigin()")
-
-    Target = _swig_property(_blcelc.iPcNewCamera_Target_get, None, None,
-                    "iPcNewCamera.Target -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetTarget()")
-
-    Up = _swig_property(_blcelc.iPcNewCamera_Up_get, None, None,
-                    "iPcNewCamera.Up -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcNewCamera::GetUp()")
-
-    TargetPositionOffset = _swig_property(None, _blcelc.iPcNewCamera_TargetPositionOffset_set, None,
-                    "iPcNewCamera.TargetPositionOffset (write only) -> const csVector3&\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcNewCamera::SetTargetPositionOffset(const csVector3&)")
-
-    CameraPositionOffset = _swig_property(None, _blcelc.iPcNewCamera_CameraPositionOffset_set, None,
-                    "iPcNewCamera.CameraPositionOffset (write only) -> const csVector3&\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcNewCamera::SetCameraPositionOffset(const csVector3&)")
-
-    SpringCoefficient = _swig_property(_blcelc.iPcNewCamera_SpringCoefficient_get, _blcelc.iPcNewCamera_SpringCoefficient_set, None,
-                    "iPcNewCamera.SpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetSpringCoefficient()\n\tset: void iPcNewCamera::SetSpringCoefficient(float)")
-
-
-    OriginSpringCoefficient = _swig_property(_blcelc.iPcNewCamera_OriginSpringCoefficient_get, _blcelc.iPcNewCamera_OriginSpringCoefficient_set, None,
-                    "iPcNewCamera.OriginSpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetOriginSpringCoefficient()\n\tset: void iPcNewCamera::SetOriginSpringCoefficient(float)")
-
-
-    TargetSpringCoefficient = _swig_property(_blcelc.iPcNewCamera_TargetSpringCoefficient_get, _blcelc.iPcNewCamera_TargetSpringCoefficient_set, None,
-                    "iPcNewCamera.TargetSpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetTargetSpringCoefficient()\n\tset: void iPcNewCamera::SetTargetSpringCoefficient(float)")
-
-
-    UpSpringCoefficient = _swig_property(_blcelc.iPcNewCamera_UpSpringCoefficient_get, _blcelc.iPcNewCamera_UpSpringCoefficient_set, None,
-                    "iPcNewCamera.UpSpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetUpSpringCoefficient()\n\tset: void iPcNewCamera::SetUpSpringCoefficient(float)")
-
-
-    CollisionDetection = _swig_property(_blcelc.iPcNewCamera_CollisionDetection_get, _blcelc.iPcNewCamera_CollisionDetection_set, None,
-                    "iPcNewCamera.CollisionDetection -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcNewCamera::GetCollisionDetection()\n\tset: void iPcNewCamera::SetCollisionDetection(bool)")
-
-
-    CollisionSpringCoefficient = _swig_property(_blcelc.iPcNewCamera_CollisionSpringCoefficient_get, _blcelc.iPcNewCamera_CollisionSpringCoefficient_set, None,
-                    "iPcNewCamera.CollisionSpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetCollisionSpringCoefficient()\n\tset: void iPcNewCamera::SetCollisionSpringCoefficient(float)")
-
-
-    TransitionSpringCoefficient = _swig_property(_blcelc.iPcNewCamera_TransitionSpringCoefficient_get, _blcelc.iPcNewCamera_TransitionSpringCoefficient_set, None,
-                    "iPcNewCamera.TransitionSpringCoefficient -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcNewCamera::GetTransitionSpringCoefficient()\n\tset: void iPcNewCamera::SetTransitionSpringCoefficient(float)")
-
-
-    TransitionCutoffDistance = _swig_property(None, fix_args(_blcelc.iPcNewCamera_SetTransitionCutoffDistance), None,
-                    "iPcNewCamera.TransitionCutoffDistance -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcNewCamera::getmethod()\n\tset: void iPcNewCamera::SetTransitionCutoffDistance(...)")
-
-    TransitionCutoffOriginDistance = _swig_property(_blcelc.iPcNewCamera_TransitionCutoffOriginDistance_get, None, None,
-                    "iPcNewCamera.TransitionCutoffOriginDistance -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcNewCamera::GetTransitionCutoffOriginDistance()")
-
-    TransitionCutoffTargetDistance = _swig_property(_blcelc.iPcNewCamera_TransitionCutoffTargetDistance_get, None, None,
-                    "iPcNewCamera.TransitionCutoffTargetDistance -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcNewCamera::GetTransitionCutoffTargetDistance()")
-
-    CurrentCameraModeIndex = _swig_property(_blcelc.iPcNewCamera_CurrentCameraModeIndex_get, None, None,
-                    "iPcNewCamera.CurrentCameraModeIndex -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcNewCamera::GetCurrentCameraModeIndex()")
-
-    CameraMode = _swig_property(_blcelc.iPcNewCamera_GetCameraMode, None, None,
-                    "iPcNewCamera.CameraMode -> type\n\nThis is equivalent to calling the C++ cs method:\n\tget: iPcNewCamera::GetCameraMode()")
-
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcNewCamera, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcNewCamera,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcNewCamera.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcNewCamera,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcNewCamera_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcNewCamera
     __del__ = lambda self : None;
 iPcNewCamera_swigregister = _blcelc.iPcNewCamera_swigregister
 iPcNewCamera_swigregister(iPcNewCamera)
-iPcNewCamera_scfGetVersion = _blcelc.iPcNewCamera_scfGetVersion
 
 scfQuery_iPcNewCamera = _blcelc.scfQuery_iPcNewCamera
 CEL_MOUSE_BUTTON1 = _blcelc.CEL_MOUSE_BUTTON1
 CEL_MOUSE_BUTTON2 = _blcelc.CEL_MOUSE_BUTTON2
 CEL_MOUSE_BUTTON3 = _blcelc.CEL_MOUSE_BUTTON3
 class iPcMeshSelectListener(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMeshSelectListener, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMeshSelectListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def MouseDown(*args): return _blcelc.iPcMeshSelectListener_MouseDown(*args)
@@ -2984,12 +3047,17 @@ class iPcMeshSelectListener(cspace.iBase):
     __del__ = lambda self : None;
 iPcMeshSelectListener_swigregister = _blcelc.iPcMeshSelectListener_swigregister
 iPcMeshSelectListener_swigregister(iPcMeshSelectListener)
-celCreateNewCamera = _blcelc.celCreateNewCamera
-celGetSetNewCamera = _blcelc.celGetSetNewCamera
-celGetNewCamera = _blcelc.celGetNewCamera
+celCreateCamera = _blcelc.celCreateCamera
+celGetSetCamera = _blcelc.celGetSetCamera
+celGetCamera = _blcelc.celGetCamera
 
 class iPcMeshSelect(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMeshSelect, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMeshSelect, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def AddMeshSelectListener(*args): return _blcelc.iPcMeshSelect_AddMeshSelectListener(*args)
@@ -3015,71 +3083,88 @@ class iPcMeshSelect(cspace.iBase):
     def HasSenddownEvent(*args): return _blcelc.iPcMeshSelect_HasSenddownEvent(*args)
     def SetMaxSelectionDistance(*args): return _blcelc.iPcMeshSelect_SetMaxSelectionDistance(*args)
     def GetMaxSelectionDistance(*args): return _blcelc.iPcMeshSelect_GetMaxSelectionDistance(*args)
-    Camera = _swig_property(None, _blcelc.iPcMeshSelect_Camera_set, None,
+    __swig_setmethods__["Camera"] = _blcelc.iPcMeshSelect_Camera_set
+    Camera = property(None, _blcelc.iPcMeshSelect_Camera_set, None,
                     "iPcMeshSelect.Camera (write only) -> iPcCamera*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcMeshSelect::SetCamera(iPcCamera*)")
 
-    MouseButtons = _swig_property(_blcelc.iPcMeshSelect_GetMouseButtons, fix_args(_blcelc.iPcMeshSelect_SetMouseButtons), None,
+    __swig_setmethods__["MouseButtons"] = fix_args(_blcelc.iPcMeshSelect_SetMouseButtons)
+    MouseButtons = property(_blcelc.iPcMeshSelect_GetMouseButtons, fix_args(_blcelc.iPcMeshSelect_SetMouseButtons), None,
                     "iPcMeshSelect.MouseButtons -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshSelect::GetMouseButtons()\n\tset: void iPcMeshSelect::SetMouseButtons(...)")
 
-    GlobalSelection = _swig_property(_blcelc.iPcMeshSelect_GlobalSelection_get, _blcelc.iPcMeshSelect_GlobalSelection_set, None,
+    __swig_setmethods__["GlobalSelection"] = _blcelc.iPcMeshSelect_GlobalSelection_set
+    GlobalSelection = property(_blcelc.iPcMeshSelect_GlobalSelection_get, _blcelc.iPcMeshSelect_GlobalSelection_set, None,
                     "iPcMeshSelect.GlobalSelection -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcMeshSelect::HasGlobalSelection()\n\tset: void iPcMeshSelect::SetGlobalSelection(bool)")
 
 
-    FollowMode = _swig_property(_blcelc.iPcMeshSelect_FollowMode_get, _blcelc.iPcMeshSelect_FollowMode_set, None,
+    __swig_setmethods__["FollowMode"] = _blcelc.iPcMeshSelect_FollowMode_set
+    FollowMode = property(_blcelc.iPcMeshSelect_FollowMode_get, _blcelc.iPcMeshSelect_FollowMode_set, None,
                     "iPcMeshSelect.FollowMode -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcMeshSelect::HasFollowMode()\n\tset: void iPcMeshSelect::SetFollowMode(bool)")
 
 
-    FollowAlwaysMode = _swig_property(_blcelc.iPcMeshSelect_FollowAlwaysMode_get, _blcelc.iPcMeshSelect_FollowAlwaysMode_set, None,
+    __swig_setmethods__["FollowAlwaysMode"] = _blcelc.iPcMeshSelect_FollowAlwaysMode_set
+    FollowAlwaysMode = property(_blcelc.iPcMeshSelect_FollowAlwaysMode_get, _blcelc.iPcMeshSelect_FollowAlwaysMode_set, None,
                     "iPcMeshSelect.FollowAlwaysMode -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcMeshSelect::HasFollowAlwaysMode()\n\tset: void iPcMeshSelect::SetFollowAlwaysMode(bool)")
 
 
-    DragMode = _swig_property(_blcelc.iPcMeshSelect_DragMode_get, _blcelc.iPcMeshSelect_DragMode_set, None,
+    __swig_setmethods__["DragMode"] = _blcelc.iPcMeshSelect_DragMode_set
+    DragMode = property(_blcelc.iPcMeshSelect_DragMode_get, _blcelc.iPcMeshSelect_DragMode_set, None,
                     "iPcMeshSelect.DragMode -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcMeshSelect::HasDragMode()\n\tset: void iPcMeshSelect::SetDragMode(bool)")
 
 
-    SendmoveEvent = _swig_property(_blcelc.iPcMeshSelect_SendmoveEvent_get, _blcelc.iPcMeshSelect_SendmoveEvent_set, None,
+    __swig_setmethods__["SendmoveEvent"] = _blcelc.iPcMeshSelect_SendmoveEvent_set
+    SendmoveEvent = property(_blcelc.iPcMeshSelect_SendmoveEvent_get, _blcelc.iPcMeshSelect_SendmoveEvent_set, None,
                     "iPcMeshSelect.SendmoveEvent -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcMeshSelect::HasSendmoveEvent()\n\tset: void iPcMeshSelect::SetSendmoveEvent(bool)")
 
 
-    SendupEvent = _swig_property(_blcelc.iPcMeshSelect_SendupEvent_get, _blcelc.iPcMeshSelect_SendupEvent_set, None,
+    __swig_setmethods__["SendupEvent"] = _blcelc.iPcMeshSelect_SendupEvent_set
+    SendupEvent = property(_blcelc.iPcMeshSelect_SendupEvent_get, _blcelc.iPcMeshSelect_SendupEvent_set, None,
                     "iPcMeshSelect.SendupEvent -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcMeshSelect::HasSendupEvent()\n\tset: void iPcMeshSelect::SetSendupEvent(bool)")
 
 
-    SenddownEvent = _swig_property(_blcelc.iPcMeshSelect_SenddownEvent_get, _blcelc.iPcMeshSelect_SenddownEvent_set, None,
+    __swig_setmethods__["SenddownEvent"] = _blcelc.iPcMeshSelect_SenddownEvent_set
+    SenddownEvent = property(_blcelc.iPcMeshSelect_SenddownEvent_get, _blcelc.iPcMeshSelect_SenddownEvent_set, None,
                     "iPcMeshSelect.SenddownEvent -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcMeshSelect::HasSenddownEvent()\n\tset: void iPcMeshSelect::SetSenddownEvent(bool)")
 
 
-    MaxSelectionDistance = _swig_property(_blcelc.iPcMeshSelect_MaxSelectionDistance_get, _blcelc.iPcMeshSelect_MaxSelectionDistance_set, None,
+    __swig_setmethods__["MaxSelectionDistance"] = _blcelc.iPcMeshSelect_MaxSelectionDistance_set
+    MaxSelectionDistance = property(_blcelc.iPcMeshSelect_MaxSelectionDistance_get, _blcelc.iPcMeshSelect_MaxSelectionDistance_set, None,
                     "iPcMeshSelect.MaxSelectionDistance -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshSelect::GetMaxSelectionDistance()\n\tset: void iPcMeshSelect::SetMaxSelectionDistance(float)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMeshSelect, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcMeshSelect,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcMeshSelect.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMeshSelect,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcMeshSelect_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcMeshSelect
     __del__ = lambda self : None;
 iPcMeshSelect_swigregister = _blcelc.iPcMeshSelect_swigregister
 iPcMeshSelect_swigregister(iPcMeshSelect)
-iPcMeshSelect_scfGetVersion = _blcelc.iPcMeshSelect_scfGetVersion
 
 scfQuery_iPcMeshSelect = _blcelc.scfQuery_iPcMeshSelect
 CEL_PCMESH_PROPERTY_MESH = _blcelc.CEL_PCMESH_PROPERTY_MESH
 class iPcMesh(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMesh, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMesh, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetPath(*args): return _blcelc.iPcMesh_SetPath(*args)
@@ -3096,45 +3181,51 @@ class iPcMesh(cspace.iBase):
     def Hide(*args): return _blcelc.iPcMesh_Hide(*args)
     def Show(*args): return _blcelc.iPcMesh_Show(*args)
     def IsVisible(*args): return _blcelc.iPcMesh_IsVisible(*args)
-    def AttachSocketMesh(*args): return _blcelc.iPcMesh_AttachSocketMesh(*args)
-    def DetachSocketMesh(*args): return _blcelc.iPcMesh_DetachSocketMesh(*args)
-    Path = _swig_property(None, _blcelc.iPcMesh_Path_set, None,
+    __swig_setmethods__["Path"] = _blcelc.iPcMesh_Path_set
+    Path = property(None, _blcelc.iPcMesh_Path_set, None,
                     "iPcMesh.Path (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcMesh::SetPath(const char*)")
 
-    Mesh = _swig_property(_blcelc.iPcMesh_GetMesh, fix_args(_blcelc.iPcMesh_SetMesh), None,
+    __swig_setmethods__["Mesh"] = fix_args(_blcelc.iPcMesh_SetMesh)
+    Mesh = property(_blcelc.iPcMesh_GetMesh, fix_args(_blcelc.iPcMesh_SetMesh), None,
                     "iPcMesh.Mesh -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMesh::GetMesh()\n\tset: void iPcMesh::SetMesh(...)")
 
-    Action = _swig_property(_blcelc.iPcMesh_Action_get, _blcelc.iPcMesh_Action_set, None,
+    __swig_setmethods__["Action"] = _blcelc.iPcMesh_Action_set
+    Action = property(_blcelc.iPcMesh_Action_get, _blcelc.iPcMesh_Action_set, None,
                     "iPcMesh.Action -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcMesh::GetAction()\n\tset: void iPcMesh::SetAction(const char*)")
 
 
-    ReverseAction = _swig_property(None, _blcelc.iPcMesh_ReverseAction_set, None,
+    __swig_setmethods__["ReverseAction"] = _blcelc.iPcMesh_ReverseAction_set
+    ReverseAction = property(None, _blcelc.iPcMesh_ReverseAction_set, None,
                     "iPcMesh.ReverseAction (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcMesh::SetReverseAction(bool)")
 
-    Animation = _swig_property(None, fix_args(_blcelc.iPcMesh_SetAnimation), None,
+    __swig_setmethods__["Animation"] = fix_args(_blcelc.iPcMesh_SetAnimation)
+    Animation = property(None, fix_args(_blcelc.iPcMesh_SetAnimation), None,
                     "iPcMesh.Animation -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMesh::getmethod()\n\tset: void iPcMesh::SetAnimation(...)")
 
-    Visible = _swig_property(_blcelc.iPcMesh_Visible_get, None, None,
+    Visible = property(_blcelc.iPcMesh_Visible_get, None, None,
                     "iPcMesh.Visible -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcMesh::IsVisible()")
 
     def LoadMesh(*args): return _blcelc.iPcMesh_LoadMesh(*args)
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMesh, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcMesh,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcMesh.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMesh,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcMesh_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcMesh
     __del__ = lambda self : None;
 iPcMesh_swigregister = _blcelc.iPcMesh_swigregister
@@ -3142,11 +3233,15 @@ iPcMesh_swigregister(iPcMesh)
 celCreateMeshSelect = _blcelc.celCreateMeshSelect
 celGetSetMeshSelect = _blcelc.celGetSetMeshSelect
 celGetMeshSelect = _blcelc.celGetMeshSelect
-iPcMesh_scfGetVersion = _blcelc.iPcMesh_scfGetVersion
 
 scfQuery_iPcMesh = _blcelc.scfQuery_iPcMesh
 class iPcTimer(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcTimer, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcTimer, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def WakeUp(*args): return _blcelc.iPcTimer_WakeUp(*args)
@@ -3154,21 +3249,24 @@ class iPcTimer(cspace.iBase):
     def Clear(*args): return _blcelc.iPcTimer_Clear(*args)
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcTimer, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcTimer,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcTimer.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcTimer,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcTimer_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcTimer
     __del__ = lambda self : None;
 iPcTimer_swigregister = _blcelc.iPcTimer_swigregister
@@ -3176,16 +3274,15 @@ iPcTimer_swigregister(iPcTimer)
 celCreateMesh = _blcelc.celCreateMesh
 celGetSetMesh = _blcelc.celGetSetMesh
 celGetMesh = _blcelc.celGetMesh
-iPcTimer_scfGetVersion = _blcelc.iPcTimer_scfGetVersion
 
 scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
-TRIGGER_NONE = _blcelc.TRIGGER_NONE
-TRIGGER_SPHERE = _blcelc.TRIGGER_SPHERE
-TRIGGER_BOX = _blcelc.TRIGGER_BOX
-TRIGGER_ABOVE = _blcelc.TRIGGER_ABOVE
-TRIGGER_BEAM = _blcelc.TRIGGER_BEAM
 class iPcTriggerListener(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcTriggerListener, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcTriggerListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def EntityEnters(*args): return _blcelc.iPcTriggerListener_EntityEnters(*args)
@@ -3201,7 +3298,12 @@ celGetSetTimer = _blcelc.celGetSetTimer
 celGetTimer = _blcelc.celGetTimer
 
 class iPcTrigger(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcTrigger, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcTrigger, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def AddTriggerListener(*args): return _blcelc.iPcTrigger_AddTriggerListener(*args)
@@ -3212,8 +3314,6 @@ class iPcTrigger(cspace.iBase):
     def SetupTriggerAboveMesh(*args): return _blcelc.iPcTrigger_SetupTriggerAboveMesh(*args)
     def MonitorEntity(*args): return _blcelc.iPcTrigger_MonitorEntity(*args)
     def GetMonitorEntity(*args): return _blcelc.iPcTrigger_GetMonitorEntity(*args)
-    def MonitorClass(*args): return _blcelc.iPcTrigger_MonitorClass(*args)
-    def GetMonitorClass(*args): return _blcelc.iPcTrigger_GetMonitorClass(*args)
     def SetMonitorDelay(*args): return _blcelc.iPcTrigger_SetMonitorDelay(*args)
     def EnableMonitorInvisible(*args): return _blcelc.iPcTrigger_EnableMonitorInvisible(*args)
     def EnableMessagesToSelf(*args): return _blcelc.iPcTrigger_EnableMessagesToSelf(*args)
@@ -3222,260 +3322,83 @@ class iPcTrigger(cspace.iBase):
     def IsEnabled(*args): return _blcelc.iPcTrigger_IsEnabled(*args)
     def GetEntitiesInTrigger(*args): return _blcelc.iPcTrigger_GetEntitiesInTrigger(*args)
     def Check(*args): return _blcelc.iPcTrigger_Check(*args)
-    MonitorDelay = _swig_property(None, fix_args(_blcelc.iPcTrigger_SetMonitorDelay), None,
-                    "iPcTrigger.MonitorDelay -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcTrigger::getmethod()\n\tset: void iPcTrigger::SetMonitorDelay(...)")
-
-    Enabled = _swig_property(_blcelc.iPcTrigger_Enabled_get, None, None,
-                    "iPcTrigger.Enabled -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcTrigger::IsEnabled()")
-
-    EntitiesInTrigger = _swig_property(_blcelc.iPcTrigger_EntitiesInTrigger_get, None, None,
-                    "iPcTrigger.EntitiesInTrigger -> const csWeakRefArray<iCelEntity>&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csWeakRefArray<iCelEntity>& iPcTrigger::GetEntitiesInTrigger()")
-
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcTrigger, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcTrigger,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcTrigger.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcTrigger,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcTrigger_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcTrigger
     __del__ = lambda self : None;
 iPcTrigger_swigregister = _blcelc.iPcTrigger_swigregister
 iPcTrigger_swigregister(iPcTrigger)
-iPcTrigger_scfGetVersion = _blcelc.iPcTrigger_scfGetVersion
 
 scfQuery_iPcTrigger = _blcelc.scfQuery_iPcTrigger
-class iPcSteer(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def Seek(*args): return _blcelc.iPcSteer_Seek(*args)
-    def Flee(*args): return _blcelc.iPcSteer_Flee(*args)
-    def Pursue(*args): return _blcelc.iPcSteer_Pursue(*args)
-    def CheckArrivalOn(*args): return _blcelc.iPcSteer_CheckArrivalOn(*args)
-    def CheckArrivalOff(*args): return _blcelc.iPcSteer_CheckArrivalOff(*args)
-    def CollisionAvoidanceOn(*args): return _blcelc.iPcSteer_CollisionAvoidanceOn(*args)
-    def CollisionAvoidanceOff(*args): return _blcelc.iPcSteer_CollisionAvoidanceOff(*args)
-    def CohesionOn(*args): return _blcelc.iPcSteer_CohesionOn(*args)
-    def CohesionOff(*args): return _blcelc.iPcSteer_CohesionOff(*args)
-    def SeparationOn(*args): return _blcelc.iPcSteer_SeparationOn(*args)
-    def SeparationOff(*args): return _blcelc.iPcSteer_SeparationOff(*args)
-    def DirectionMatchingOn(*args): return _blcelc.iPcSteer_DirectionMatchingOn(*args)
-    def DirectionMatchingOff(*args): return _blcelc.iPcSteer_DirectionMatchingOff(*args)
-    def Interrupt(*args): return _blcelc.iPcSteer_Interrupt(*args)
-    def GetSector(*args): return _blcelc.iPcSteer_GetSector(*args)
-    def GetPosition(*args): return _blcelc.iPcSteer_GetPosition(*args)
-    def RandomBinomial(*args): return _blcelc.iPcSteer_RandomBinomial(*args)
-    def SetDelayRecheck(*args): return _blcelc.iPcSteer_SetDelayRecheck(*args)
-    def IsMoving(*args): return _blcelc.iPcSteer_IsMoving(*args)
-    Sector = _swig_property(_blcelc.iPcSteer_Sector_get, None, None,
-                    "iPcSteer.Sector -> iSector*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSector* iPcSteer::GetSector()")
-
-    Position = _swig_property(_blcelc.iPcSteer_Position_get, None, None,
-                    "iPcSteer.Position -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcSteer::GetPosition()")
-
-    DelayRecheck = _swig_property(None, _blcelc.iPcSteer_DelayRecheck_set, None,
-                    "iPcSteer.DelayRecheck (write only) -> int\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcSteer::SetDelayRecheck(int)")
-
-    Moving = _swig_property(_blcelc.iPcSteer_Moving_get, None, None,
-                    "iPcSteer.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcSteer::IsMoving()")
-
-    _PC = None
-    def __getattr__(self,attr):
-         if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
-             return getattr(_PC,attr)
-         else:
-             return self.GetterFallback(attr)
-    def __setattr__(self,attr,value):
-         if hasattr(iPcSteer,attr):
-             return object.__setattr__(self,attr,value)
-         elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
-             setattr(_PC,attr,value)
-         else:
-             return self.SetterFallback(attr,value)
-
-    scfGetVersion = staticmethod(_blcelc.iPcSteer_scfGetVersion)
-    __swig_destroy__ = _blcelc.delete_iPcSteer
-    __del__ = lambda self : None;
-iPcSteer_swigregister = _blcelc.iPcSteer_swigregister
-iPcSteer_swigregister(iPcSteer)
-celCreateTrigger = _blcelc.celCreateTrigger
-celGetSetTrigger = _blcelc.celGetSetTrigger
-celGetTrigger = _blcelc.celGetTrigger
-iPcSteer_scfGetVersion = _blcelc.iPcSteer_scfGetVersion
-
-scfQuery_iPcSteer = _blcelc.scfQuery_iPcSteer
-class iPcPathFinder(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def Seek(*args): return _blcelc.iPcPathFinder_Seek(*args)
-    def Wander(*args): return _blcelc.iPcPathFinder_Wander(*args)
-    def Pursue(*args): return _blcelc.iPcPathFinder_Pursue(*args)
-    def FollowCyclicPath(*args): return _blcelc.iPcPathFinder_FollowCyclicPath(*args)
-    def FollowOneWayPath(*args): return _blcelc.iPcPathFinder_FollowOneWayPath(*args)
-    def FollowTwoWayPath(*args): return _blcelc.iPcPathFinder_FollowTwoWayPath(*args)
-    def Interrupt(*args): return _blcelc.iPcPathFinder_Interrupt(*args)
-    def SetDelayRecheck(*args): return _blcelc.iPcPathFinder_SetDelayRecheck(*args)
-    def SetMinDistance(*args): return _blcelc.iPcPathFinder_SetMinDistance(*args)
-    def GetPosition(*args): return _blcelc.iPcPathFinder_GetPosition(*args)
-    def StopTracking(*args): return _blcelc.iPcPathFinder_StopTracking(*args)
-    def IsActive(*args): return _blcelc.iPcPathFinder_IsActive(*args)
-    def SetGraph(*args): return _blcelc.iPcPathFinder_SetGraph(*args)
-    DelayRecheck = _swig_property(None, _blcelc.iPcPathFinder_DelayRecheck_set, None,
-                    "iPcPathFinder.DelayRecheck (write only) -> int\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcPathFinder::SetDelayRecheck(int)")
-
-    MinDistance = _swig_property(None, _blcelc.iPcPathFinder_MinDistance_set, None,
-                    "iPcPathFinder.MinDistance (write only) -> int\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcPathFinder::SetMinDistance(int)")
-
-    Position = _swig_property(_blcelc.iPcPathFinder_Position_get, None, None,
-                    "iPcPathFinder.Position -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcPathFinder::GetPosition()")
-
-    Active = _swig_property(_blcelc.iPcPathFinder_Active_get, None, None,
-                    "iPcPathFinder.Active -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcPathFinder::IsActive()")
-
-    Graph = _swig_property(None, _blcelc.iPcPathFinder_Graph_set, None,
-                    "iPcPathFinder.Graph (write only) -> iCelGraph*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcPathFinder::SetGraph(iCelGraph*)")
-
-    _PC = None
-    def __getattr__(self,attr):
-         if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
-             return getattr(_PC,attr)
-         else:
-             return self.GetterFallback(attr)
-    def __setattr__(self,attr,value):
-         if hasattr(iPcPathFinder,attr):
-             return object.__setattr__(self,attr,value)
-         elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
-             setattr(_PC,attr,value)
-         else:
-             return self.SetterFallback(attr,value)
-
-    scfGetVersion = staticmethod(_blcelc.iPcPathFinder_scfGetVersion)
-    __swig_destroy__ = _blcelc.delete_iPcPathFinder
-    __del__ = lambda self : None;
-iPcPathFinder_swigregister = _blcelc.iPcPathFinder_swigregister
-iPcPathFinder_swigregister(iPcPathFinder)
-celCreateSteer = _blcelc.celCreateSteer
-celGetSetSteer = _blcelc.celGetSetSteer
-celGetSteer = _blcelc.celGetSteer
-iPcPathFinder_scfGetVersion = _blcelc.iPcPathFinder_scfGetVersion
-
-scfQuery_iPcPathFinder = _blcelc.scfQuery_iPcPathFinder
-class iPcSpawn(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SetEnabled(*args): return _blcelc.iPcSpawn_SetEnabled(*args)
-    def IsEnabled(*args): return _blcelc.iPcSpawn_IsEnabled(*args)
-    def AddEntityType(*args): return _blcelc.iPcSpawn_AddEntityType(*args)
-    def AddEntityTemplateType(*args): return _blcelc.iPcSpawn_AddEntityTemplateType(*args)
-    def ClearEntityList(*args): return _blcelc.iPcSpawn_ClearEntityList(*args)
-    def SetTiming(*args): return _blcelc.iPcSpawn_SetTiming(*args)
-    def ResetTiming(*args): return _blcelc.iPcSpawn_ResetTiming(*args)
-    def SetEntityNameCounter(*args): return _blcelc.iPcSpawn_SetEntityNameCounter(*args)
-    def IsEntityNameCounterCounter(*args): return _blcelc.iPcSpawn_IsEntityNameCounterCounter(*args)
-    def EnableSpawnUnique(*args): return _blcelc.iPcSpawn_EnableSpawnUnique(*args)
-    def IsSpawnUniqueEnabled(*args): return _blcelc.iPcSpawn_IsSpawnUniqueEnabled(*args)
-    def InhibitCount(*args): return _blcelc.iPcSpawn_InhibitCount(*args)
-    def Spawn(*args): return _blcelc.iPcSpawn_Spawn(*args)
-    def AddSpawnPosition(*args): return _blcelc.iPcSpawn_AddSpawnPosition(*args)
-    Enabled = _swig_property(_blcelc.iPcSpawn_Enabled_get, _blcelc.iPcSpawn_Enabled_set, None,
-                    "iPcSpawn.Enabled -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcSpawn::IsEnabled()\n\tset: void iPcSpawn::SetEnabled(bool)")
-
-
-    Timing = _swig_property(None, fix_args(_blcelc.iPcSpawn_SetTiming), None,
-                    "iPcSpawn.Timing -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcSpawn::getmethod()\n\tset: void iPcSpawn::SetTiming(...)")
-
-    EntityNameCounter = _swig_property(None, _blcelc.iPcSpawn_EntityNameCounter_set, None,
-                    "iPcSpawn.EntityNameCounter (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcSpawn::SetEntityNameCounter(bool)")
-
-    EntityNameCounterCounter = _swig_property(_blcelc.iPcSpawn_EntityNameCounterCounter_get, None, None,
-                    "iPcSpawn.EntityNameCounterCounter -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcSpawn::IsEntityNameCounterCounter()")
-
-    SpawnUniqueEnabled = _swig_property(_blcelc.iPcSpawn_SpawnUniqueEnabled_get, None, None,
-                    "iPcSpawn.SpawnUniqueEnabled -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcSpawn::IsSpawnUniqueEnabled()")
-
-    _PC = None
-    def __getattr__(self,attr):
-         if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
-             return getattr(_PC,attr)
-         else:
-             return self.GetterFallback(attr)
-    def __setattr__(self,attr,value):
-         if hasattr(iPcSpawn,attr):
-             return object.__setattr__(self,attr,value)
-         elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
-             setattr(_PC,attr,value)
-         else:
-             return self.SetterFallback(attr,value)
-
-    scfGetVersion = staticmethod(_blcelc.iPcSpawn_scfGetVersion)
-    __swig_destroy__ = _blcelc.delete_iPcSpawn
-    __del__ = lambda self : None;
-iPcSpawn_swigregister = _blcelc.iPcSpawn_swigregister
-iPcSpawn_swigregister(iPcSpawn)
-celCreatePathFinder = _blcelc.celCreatePathFinder
-celGetSetPathFinder = _blcelc.celGetSetPathFinder
-celGetPathFinder = _blcelc.celGetPathFinder
-iPcSpawn_scfGetVersion = _blcelc.iPcSpawn_scfGetVersion
-
-scfQuery_iPcSpawn = _blcelc.scfQuery_iPcSpawn
 class iPcProjectile(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcProjectile, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcProjectile, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Start(*args): return _blcelc.iPcProjectile_Start(*args)
     def Interrupt(*args): return _blcelc.iPcProjectile_Interrupt(*args)
     def IsMoving(*args): return _blcelc.iPcProjectile_IsMoving(*args)
-    Moving = _swig_property(_blcelc.iPcProjectile_Moving_get, None, None,
+    Moving = property(_blcelc.iPcProjectile_Moving_get, None, None,
                     "iPcProjectile.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcProjectile::IsMoving()")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcProjectile, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcProjectile,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcProjectile.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcProjectile,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcProjectile_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcProjectile
     __del__ = lambda self : None;
 iPcProjectile_swigregister = _blcelc.iPcProjectile_swigregister
 iPcProjectile_swigregister(iPcProjectile)
-celCreateSpawn = _blcelc.celCreateSpawn
-celGetSetSpawn = _blcelc.celGetSetSpawn
-celGetSpawn = _blcelc.celGetSpawn
-iPcProjectile_scfGetVersion = _blcelc.iPcProjectile_scfGetVersion
+celCreateTrigger = _blcelc.celCreateTrigger
+celGetSetTrigger = _blcelc.celGetSetTrigger
+celGetTrigger = _blcelc.celGetTrigger
 
 scfQuery_iPcProjectile = _blcelc.scfQuery_iPcProjectile
 class iPcSolid(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcSolid, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcSolid, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetMesh(*args): return _blcelc.iPcSolid_SetMesh(*args)
@@ -3483,30 +3406,34 @@ class iPcSolid(cspace.iBase):
     def GetCollider(*args): return _blcelc.iPcSolid_GetCollider(*args)
     def Setup(*args): return _blcelc.iPcSolid_Setup(*args)
     def SetupBox(*args): return _blcelc.iPcSolid_SetupBox(*args)
-    Mesh = _swig_property(_blcelc.iPcSolid_Mesh_get, _blcelc.iPcSolid_Mesh_set, None,
+    __swig_setmethods__["Mesh"] = _blcelc.iPcSolid_Mesh_set
+    Mesh = property(_blcelc.iPcSolid_Mesh_get, _blcelc.iPcSolid_Mesh_set, None,
                     "iPcSolid.Mesh -> iPcMesh*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMesh* iPcSolid::GetMesh()\n\tset: void iPcSolid::SetMesh(iPcMesh*)")
 
 
-    Collider = _swig_property(_blcelc.iPcSolid_Collider_get, None, None,
+    Collider = property(_blcelc.iPcSolid_Collider_get, None, None,
                     "iPcSolid.Collider -> iCollider*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iCollider* iPcSolid::GetCollider()")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcSolid, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcSolid,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcSolid.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcSolid,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcSolid_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcSolid
     __del__ = lambda self : None;
 iPcSolid_swigregister = _blcelc.iPcSolid_swigregister
@@ -3514,11 +3441,15 @@ iPcSolid_swigregister(iPcSolid)
 celCreateProjectile = _blcelc.celCreateProjectile
 celGetSetProjectile = _blcelc.celGetSetProjectile
 celGetProjectile = _blcelc.celGetProjectile
-iPcSolid_scfGetVersion = _blcelc.iPcSolid_scfGetVersion
 
 scfQuery_iPcSolid = _blcelc.scfQuery_iPcSolid
 class iPcGravity(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcGravity, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcGravity, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def CreateGravityColliderFromMesh(*args): return _blcelc.iPcGravity_CreateGravityColliderFromMesh(*args)
@@ -3537,45 +3468,52 @@ class iPcGravity(cspace.iBase):
     def IsResting(*args): return _blcelc.iPcGravity_IsResting(*args)
     def SetActive(*args): return _blcelc.iPcGravity_SetActive(*args)
     def IsActive(*args): return _blcelc.iPcGravity_IsActive(*args)
-    GravityCollider = _swig_property(_blcelc.iPcGravity_GravityCollider_get, None, None,
+    GravityCollider = property(_blcelc.iPcGravity_GravityCollider_get, None, None,
                     "iPcGravity.GravityCollider -> iCollider*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iCollider* iPcGravity::GetGravityCollider()")
 
-    Movable = _swig_property(_blcelc.iPcGravity_Movable_get, _blcelc.iPcGravity_Movable_set, None,
+    __swig_setmethods__["Movable"] = _blcelc.iPcGravity_Movable_set
+    Movable = property(_blcelc.iPcGravity_Movable_get, _blcelc.iPcGravity_Movable_set, None,
                     "iPcGravity.Movable -> iPcMovable*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMovable* iPcGravity::GetMovable()\n\tset: void iPcGravity::SetMovable(iPcMovable*)")
 
 
-    Solid = _swig_property(_blcelc.iPcGravity_Solid_get, _blcelc.iPcGravity_Solid_set, None,
+    __swig_setmethods__["Solid"] = _blcelc.iPcGravity_Solid_set
+    Solid = property(_blcelc.iPcGravity_Solid_get, _blcelc.iPcGravity_Solid_set, None,
                     "iPcGravity.Solid -> iPcSolid*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcSolid* iPcGravity::GetSolid()\n\tset: void iPcGravity::SetSolid(iPcSolid*)")
 
 
-    Weight = _swig_property(_blcelc.iPcGravity_Weight_get, _blcelc.iPcGravity_Weight_set, None,
+    __swig_setmethods__["Weight"] = _blcelc.iPcGravity_Weight_set
+    Weight = property(_blcelc.iPcGravity_Weight_get, _blcelc.iPcGravity_Weight_set, None,
                     "iPcGravity.Weight -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcGravity::GetWeight()\n\tset: void iPcGravity::SetWeight(float)")
 
 
-    Resting = _swig_property(_blcelc.iPcGravity_Resting_get, None, None,
+    Resting = property(_blcelc.iPcGravity_Resting_get, None, None,
                     "iPcGravity.Resting -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcGravity::IsResting()")
 
-    Active = _swig_property(_blcelc.iPcGravity_Active_get, _blcelc.iPcGravity_Active_set, None,
+    __swig_setmethods__["Active"] = _blcelc.iPcGravity_Active_set
+    Active = property(_blcelc.iPcGravity_Active_get, _blcelc.iPcGravity_Active_set, None,
                     "iPcGravity.Active -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcGravity::IsActive()\n\tset: void iPcGravity::SetActive(bool)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcGravity, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcGravity,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcGravity.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcGravity,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcGravity_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcGravity
     __del__ = lambda self : None;
 iPcGravity_swigregister = _blcelc.iPcGravity_swigregister
@@ -3583,7 +3521,6 @@ iPcGravity_swigregister(iPcGravity)
 celCreateSolid = _blcelc.celCreateSolid
 celGetSetSolid = _blcelc.celGetSetSolid
 celGetSolid = _blcelc.celGetSolid
-iPcGravity_scfGetVersion = _blcelc.iPcGravity_scfGetVersion
 
 scfQuery_iPcGravity = _blcelc.scfQuery_iPcGravity
 CEL_PCMOVABLE_PROPERTY_POSITION = _blcelc.CEL_PCMOVABLE_PROPERTY_POSITION
@@ -3591,7 +3528,12 @@ CEL_MOVE_FAIL = _blcelc.CEL_MOVE_FAIL
 CEL_MOVE_SUCCEED = _blcelc.CEL_MOVE_SUCCEED
 CEL_MOVE_PARTIAL = _blcelc.CEL_MOVE_PARTIAL
 class iPcMovable(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMovable, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMovable, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetMesh(*args): return _blcelc.iPcMovable_SetMesh(*args)
@@ -3600,27 +3542,31 @@ class iPcMovable(cspace.iBase):
     def AddConstraint(*args): return _blcelc.iPcMovable_AddConstraint(*args)
     def RemoveConstraint(*args): return _blcelc.iPcMovable_RemoveConstraint(*args)
     def RemoveAllConstraints(*args): return _blcelc.iPcMovable_RemoveAllConstraints(*args)
-    Mesh = _swig_property(_blcelc.iPcMovable_Mesh_get, _blcelc.iPcMovable_Mesh_set, None,
+    __swig_setmethods__["Mesh"] = _blcelc.iPcMovable_Mesh_set
+    Mesh = property(_blcelc.iPcMovable_Mesh_get, _blcelc.iPcMovable_Mesh_set, None,
                     "iPcMovable.Mesh -> iPcMesh*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMesh* iPcMovable::GetMesh()\n\tset: void iPcMovable::SetMesh(iPcMesh*)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMovable, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcMovable,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcMovable.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMovable,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcMovable_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcMovable
     __del__ = lambda self : None;
 iPcMovable_swigregister = _blcelc.iPcMovable_swigregister
@@ -3628,10 +3574,14 @@ iPcMovable_swigregister(iPcMovable)
 celCreateGravity = _blcelc.celCreateGravity
 celGetSetGravity = _blcelc.celGetSetGravity
 celGetGravity = _blcelc.celGetGravity
-iPcMovable_scfGetVersion = _blcelc.iPcMovable_scfGetVersion
 
 class iPcMovableConstraint(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMovableConstraint, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMovableConstraint, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def CheckMove(*args): return _blcelc.iPcMovableConstraint_CheckMove(*args)
@@ -3642,7 +3592,12 @@ iPcMovableConstraint_swigregister(iPcMovableConstraint)
 
 scfQuery_iPcMovable = _blcelc.scfQuery_iPcMovable
 class iPcInventoryListener(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcInventoryListener, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcInventoryListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def AddChild(*args): return _blcelc.iPcInventoryListener_AddChild(*args)
@@ -3656,7 +3611,12 @@ celGetSetMovable = _blcelc.celGetSetMovable
 celGetMovable = _blcelc.celGetMovable
 
 class iCelInventorySpaceSlot(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelInventorySpaceSlot, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelInventorySpaceSlot, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetEntity(*args): return _blcelc.iCelInventorySpaceSlot_GetEntity(*args)
@@ -3665,10 +3625,10 @@ class iCelInventorySpaceSlot(cspace.iBase):
     def GetCount(*args): return _blcelc.iCelInventorySpaceSlot_GetCount(*args)
     def RemoveAll(*args): return _blcelc.iCelInventorySpaceSlot_RemoveAll(*args)
     def IsEmpty(*args): return _blcelc.iCelInventorySpaceSlot_IsEmpty(*args)
-    Count = _swig_property(_blcelc.iCelInventorySpaceSlot_Count_get, None, None,
+    Count = property(_blcelc.iCelInventorySpaceSlot_Count_get, None, None,
                     "iCelInventorySpaceSlot.Count -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iCelInventorySpaceSlot::GetCount()")
 
-    Empty = _swig_property(_blcelc.iCelInventorySpaceSlot_Empty_get, None, None,
+    Empty = property(_blcelc.iCelInventorySpaceSlot_Empty_get, None, None,
                     "iCelInventorySpaceSlot.Empty -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iCelInventorySpaceSlot::IsEmpty()")
 
     __swig_destroy__ = _blcelc.delete_iCelInventorySpaceSlot
@@ -3677,7 +3637,12 @@ iCelInventorySpaceSlot_swigregister = _blcelc.iCelInventorySpaceSlot_swigregiste
 iCelInventorySpaceSlot_swigregister(iCelInventorySpaceSlot)
 
 class iCelInventorySpace(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelInventorySpace, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelInventorySpace, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetSpaceTotal(*args): return _blcelc.iCelInventorySpace_GetSpaceTotal(*args)
@@ -3688,13 +3653,13 @@ class iCelInventorySpace(cspace.iBase):
     def RemoveAll(*args): return _blcelc.iCelInventorySpace_RemoveAll(*args)
     def GetSlot(*args): return _blcelc.iCelInventorySpace_GetSlot(*args)
     def GetEntity(*args): return _blcelc.iCelInventorySpace_GetEntity(*args)
-    SpaceTotal = _swig_property(_blcelc.iCelInventorySpace_SpaceTotal_get, None, None,
+    SpaceTotal = property(_blcelc.iCelInventorySpace_SpaceTotal_get, None, None,
                     "iCelInventorySpace.SpaceTotal -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iCelInventorySpace::GetSpaceTotal()")
 
-    SpaceLeft = _swig_property(_blcelc.iCelInventorySpace_SpaceLeft_get, None, None,
+    SpaceLeft = property(_blcelc.iCelInventorySpace_SpaceLeft_get, None, None,
                     "iCelInventorySpace.SpaceLeft -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iCelInventorySpace::GetSpaceLeft()")
 
-    SpaceTaken = _swig_property(_blcelc.iCelInventorySpace_SpaceTaken_get, None, None,
+    SpaceTaken = property(_blcelc.iCelInventorySpace_SpaceTaken_get, None, None,
                     "iCelInventorySpace.SpaceTaken -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iCelInventorySpace::GetSpaceTaken()")
 
     __swig_destroy__ = _blcelc.delete_iCelInventorySpace
@@ -3703,7 +3668,12 @@ iCelInventorySpace_swigregister = _blcelc.iCelInventorySpace_swigregister
 iCelInventorySpace_swigregister(iCelInventorySpace)
 
 class iPcInventory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcInventory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcInventory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def AddInventoryListener(*args): return _blcelc.iPcInventory_AddInventoryListener(*args)
@@ -3728,37 +3698,40 @@ class iPcInventory(cspace.iBase):
     def Dump(*args): return _blcelc.iPcInventory_Dump(*args)
     def SetSpace(*args): return _blcelc.iPcInventory_SetSpace(*args)
     def GetSpace(*args): return _blcelc.iPcInventory_GetSpace(*args)
-    EntityCount = _swig_property(_blcelc.iPcInventory_EntityCount_get, None, None,
+    EntityCount = property(_blcelc.iPcInventory_EntityCount_get, None, None,
                     "iPcInventory.EntityCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcInventory::GetEntityCount()")
 
-    Space = _swig_property(_blcelc.iPcInventory_Space_get, _blcelc.iPcInventory_Space_set, None,
+    __swig_setmethods__["Space"] = _blcelc.iPcInventory_Space_set
+    Space = property(_blcelc.iPcInventory_Space_get, _blcelc.iPcInventory_Space_set, None,
                     "iPcInventory.Space -> iCelInventorySpace*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelInventorySpace* iPcInventory::GetSpace()\n\tset: void iPcInventory::SetSpace(iCelInventorySpace*)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcInventory, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcInventory,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcInventory.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcInventory,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcInventory_scfGetVersion)
+    def GetEntities(self): return iCelEntityInvFakeArray(self)
+    __swig_getmethods__["Entities"] = lambda self: self.GetEntities() 
     __swig_destroy__ = _blcelc.delete_iPcInventory
     __del__ = lambda self : None;
-    def GetEntities(self): return iCelEntityInvFakeArray(self)
-    Entities = _swig_property(GetEntities) 
 iPcInventory_swigregister = _blcelc.iPcInventory_swigregister
 iPcInventory_swigregister(iPcInventory)
-iPcInventory_scfGetVersion = _blcelc.iPcInventory_scfGetVersion
 
 scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
 class iCelEntityInvFakeArray:
@@ -3786,7 +3759,12 @@ class iCelEntityInvFakeArray:
 	def append(self,obj): return self.parent.AddEntity(obj)
 
 class iPcCharacteristics(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcCharacteristics, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcCharacteristics, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetCharacteristic(*args): return _blcelc.iPcCharacteristics_SetCharacteristic(*args)
@@ -3804,21 +3782,24 @@ class iPcCharacteristics(cspace.iBase):
     def Dump(*args): return _blcelc.iPcCharacteristics_Dump(*args)
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcCharacteristics, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcCharacteristics,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcCharacteristics.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcCharacteristics,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcCharacteristics_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcCharacteristics
     __del__ = lambda self : None;
 iPcCharacteristics_swigregister = _blcelc.iPcCharacteristics_swigregister
@@ -3826,14 +3807,18 @@ iPcCharacteristics_swigregister(iPcCharacteristics)
 celCreateInventory = _blcelc.celCreateInventory
 celGetSetInventory = _blcelc.celGetSetInventory
 celGetInventory = _blcelc.celGetInventory
-iPcCharacteristics_scfGetVersion = _blcelc.iPcCharacteristics_scfGetVersion
 
 scfQuery_iPcCharacteristics = _blcelc.scfQuery_iPcCharacteristics
 CEL_TOOLTIP_LEFT = _blcelc.CEL_TOOLTIP_LEFT
 CEL_TOOLTIP_CENTER = _blcelc.CEL_TOOLTIP_CENTER
 CEL_TOOLTIP_RIGHT = _blcelc.CEL_TOOLTIP_RIGHT
 class iPcTooltip(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcTooltip, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcTooltip, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetText(*args): return _blcelc.iPcTooltip_SetText(*args)
@@ -3844,41 +3829,49 @@ class iPcTooltip(cspace.iBase):
     def SetBackgroundColor(*args): return _blcelc.iPcTooltip_SetBackgroundColor(*args)
     def SetFont(*args): return _blcelc.iPcTooltip_SetFont(*args)
     def SetJustify(*args): return _blcelc.iPcTooltip_SetJustify(*args)
-    Text = _swig_property(None, _blcelc.iPcTooltip_Text_set, None,
+    __swig_setmethods__["Text"] = _blcelc.iPcTooltip_Text_set
+    Text = property(None, _blcelc.iPcTooltip_Text_set, None,
                     "iPcTooltip.Text (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcTooltip::SetText(const char*)")
 
-    Visible = _swig_property(_blcelc.iPcTooltip_Visible_get, None, None,
+    Visible = property(_blcelc.iPcTooltip_Visible_get, None, None,
                     "iPcTooltip.Visible -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcTooltip::IsVisible()")
 
-    TextColor = _swig_property(None, fix_args(_blcelc.iPcTooltip_SetTextColor), None,
+    __swig_setmethods__["TextColor"] = fix_args(_blcelc.iPcTooltip_SetTextColor)
+    TextColor = property(None, fix_args(_blcelc.iPcTooltip_SetTextColor), None,
                     "iPcTooltip.TextColor -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcTooltip::getmethod()\n\tset: void iPcTooltip::SetTextColor(...)")
 
-    BackgroundColor = _swig_property(None, fix_args(_blcelc.iPcTooltip_SetBackgroundColor), None,
+    __swig_setmethods__["BackgroundColor"] = fix_args(_blcelc.iPcTooltip_SetBackgroundColor)
+    BackgroundColor = property(None, fix_args(_blcelc.iPcTooltip_SetBackgroundColor), None,
                     "iPcTooltip.BackgroundColor -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcTooltip::getmethod()\n\tset: void iPcTooltip::SetBackgroundColor(...)")
 
-    Font = _swig_property(None, _blcelc.iPcTooltip_Font_set, None,
+    __swig_setmethods__["Font"] = _blcelc.iPcTooltip_Font_set
+    Font = property(None, _blcelc.iPcTooltip_Font_set, None,
                     "iPcTooltip.Font (write only) -> iFont*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcTooltip::SetFont(iFont*)")
 
-    Justify = _swig_property(None, _blcelc.iPcTooltip_Justify_set, None,
+    __swig_setmethods__["Justify"] = _blcelc.iPcTooltip_Justify_set
+    Justify = property(None, _blcelc.iPcTooltip_Justify_set, None,
                     "iPcTooltip.Justify (write only) -> celTooltipJustify\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcTooltip::SetJustify(celTooltipJustify)")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcTooltip, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcTooltip,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcTooltip.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcTooltip,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcTooltip_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcTooltip
     __del__ = lambda self : None;
 iPcTooltip_swigregister = _blcelc.iPcTooltip_swigregister
@@ -3886,34 +3879,41 @@ iPcTooltip_swigregister(iPcTooltip)
 celCreateCharacteristics = _blcelc.celCreateCharacteristics
 celGetSetCharacteristics = _blcelc.celGetSetCharacteristics
 celGetCharacteristics = _blcelc.celGetCharacteristics
-iPcTooltip_scfGetVersion = _blcelc.iPcTooltip_scfGetVersion
 
 scfQuery_iPcTooltip = _blcelc.scfQuery_iPcTooltip
 class iPcSoundListener(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcSoundListener, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcSoundListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetSoundListener(*args): return _blcelc.iPcSoundListener_GetSoundListener(*args)
-    SoundListener = _swig_property(_blcelc.iPcSoundListener_SoundListener_get, None, None,
+    SoundListener = property(_blcelc.iPcSoundListener_SoundListener_get, None, None,
                     "iPcSoundListener.SoundListener -> iSndSysListener*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSndSysListener* iPcSoundListener::GetSoundListener()")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcSoundListener, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcSoundListener,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcSoundListener.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcSoundListener,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcSoundListener_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcSoundListener
     __del__ = lambda self : None;
 iPcSoundListener_swigregister = _blcelc.iPcSoundListener_swigregister
@@ -3921,10 +3921,14 @@ iPcSoundListener_swigregister(iPcSoundListener)
 celCreateToolTip = _blcelc.celCreateToolTip
 celGetSetToolTip = _blcelc.celGetSetToolTip
 celGetToolTip = _blcelc.celGetToolTip
-iPcSoundListener_scfGetVersion = _blcelc.iPcSoundListener_scfGetVersion
 
 class iPcSoundSource(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcSoundSource, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcSoundSource, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetSoundSource(*args): return _blcelc.iPcSoundSource_GetSoundSource(*args)
@@ -3932,44 +3936,48 @@ class iPcSoundSource(cspace.iBase):
     def GetSoundName(*args): return _blcelc.iPcSoundSource_GetSoundName(*args)
     def SetMode(*args): return _blcelc.iPcSoundSource_SetMode(*args)
     def GetMode(*args): return _blcelc.iPcSoundSource_GetMode(*args)
-    SoundSource = _swig_property(_blcelc.iPcSoundSource_SoundSource_get, None, None,
+    SoundSource = property(_blcelc.iPcSoundSource_SoundSource_get, None, None,
                     "iPcSoundSource.SoundSource -> iSndSysSource*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSndSysSource* iPcSoundSource::GetSoundSource()")
 
-    SoundName = _swig_property(_blcelc.iPcSoundSource_SoundName_get, _blcelc.iPcSoundSource_SoundName_set, None,
+    __swig_setmethods__["SoundName"] = _blcelc.iPcSoundSource_SoundName_set
+    SoundName = property(_blcelc.iPcSoundSource_SoundName_get, _blcelc.iPcSoundSource_SoundName_set, None,
                     "iPcSoundSource.SoundName -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcSoundSource::GetSoundName()\n\tset: void iPcSoundSource::SetSoundName(const char*)")
-
-
-    Mode = _swig_property(_blcelc.iPcSoundSource_Mode_get, _blcelc.iPcSoundSource_Mode_set, None,
-                    "iPcSoundSource.Mode -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcSoundSource::GetMode()\n\tset: void iPcSoundSource::SetMode(const char*)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcSoundSource, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcSoundSource,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcSoundSource.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcSoundSource,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcSoundSource_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcSoundSource
     __del__ = lambda self : None;
 iPcSoundSource_swigregister = _blcelc.iPcSoundSource_swigregister
 iPcSoundSource_swigregister(iPcSoundSource)
-iPcSoundSource_scfGetVersion = _blcelc.iPcSoundSource_scfGetVersion
 
 scfQuery_iPcSoundSource = _blcelc.scfQuery_iPcSoundSource
 scfQuery_iPcSoundListener = _blcelc.scfQuery_iPcSoundListener
 class iPcPropertyListener(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcPropertyListener, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcPropertyListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def PropertyChanged(*args): return _blcelc.iPcPropertyListener_PropertyChanged(*args)
@@ -3985,7 +3993,12 @@ celGetSetSoundListener = _blcelc.celGetSetSoundListener
 celGetSoundListener = _blcelc.celGetSoundListener
 
 class iPcProperties(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcProperties, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcProperties, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def AddPropertyListener(*args): return _blcelc.iPcProperties_AddPropertyListener(*args)
@@ -4008,34 +4021,37 @@ class iPcProperties(cspace.iBase):
     def GetPropertyCount(*args): return _blcelc.iPcProperties_GetPropertyCount(*args)
     def GetPropertyName(*args): return _blcelc.iPcProperties_GetPropertyName(*args)
     def Dump(*args): return _blcelc.iPcProperties_Dump(*args)
-    Property = _swig_property(None, fix_args(_blcelc.iPcProperties_SetProperty), None,
+    __swig_setmethods__["Property"] = fix_args(_blcelc.iPcProperties_SetProperty)
+    Property = property(None, fix_args(_blcelc.iPcProperties_SetProperty), None,
                     "iPcProperties.Property -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcProperties::getmethod()\n\tset: void iPcProperties::SetProperty(...)")
 
-    PropertyIndex = _swig_property(_blcelc.iPcProperties_GetPropertyIndex, fix_args(_blcelc.iPcProperties_SetPropertyIndex), None,
+    __swig_setmethods__["PropertyIndex"] = fix_args(_blcelc.iPcProperties_SetPropertyIndex)
+    PropertyIndex = property(_blcelc.iPcProperties_GetPropertyIndex, fix_args(_blcelc.iPcProperties_SetPropertyIndex), None,
                     "iPcProperties.PropertyIndex -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcProperties::GetPropertyIndex()\n\tset: void iPcProperties::SetPropertyIndex(...)")
 
-    PropertyCount = _swig_property(_blcelc.iPcProperties_PropertyCount_get, None, None,
+    PropertyCount = property(_blcelc.iPcProperties_PropertyCount_get, None, None,
                     "iPcProperties.PropertyCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcProperties::GetPropertyCount()")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcProperties, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcProperties,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcProperties.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcProperties,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcProperties_scfGetVersion)
-    __swig_destroy__ = _blcelc.delete_iPcProperties
-    __del__ = lambda self : None;
     def GetPropertyValueIndex(*args): return _blcelc.iPcProperties_GetPropertyValueIndex(*args)
     def __len__(*args): return _blcelc.iPcProperties___len__(*args)
     def clear(*args): return _blcelc.iPcProperties_clear(*args)
@@ -4043,7 +4059,7 @@ class iPcProperties(cspace.iBase):
     def __delitem__(self,item):
         if isinstance(item,str):
           item = self.GetPropertyIndex(item)
-          if item == cspace.csArrayItemNotFound:
+          if item == -1:
             return
         self.ClearProperty(item)
     def __setitem__(self,item,value): 
@@ -4053,17 +4069,23 @@ class iPcProperties(cspace.iBase):
     def __getitem__(self,item):
         if isinstance(item,str):
             item = self.GetPropertyIndex(item)
-            if item == cspace.csArrayItemNotFound:
+            if item == -1:
               return None
         return self.GetPropertyValueIndex(item)
 
+    __swig_destroy__ = _blcelc.delete_iPcProperties
+    __del__ = lambda self : None;
 iPcProperties_swigregister = _blcelc.iPcProperties_swigregister
 iPcProperties_swigregister(iPcProperties)
-iPcProperties_scfGetVersion = _blcelc.iPcProperties_scfGetVersion
 
 scfQuery_iPcProperties = _blcelc.scfQuery_iPcProperties
 class iPcMover(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMover, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMover, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Start(*args): return _blcelc.iPcMover_Start(*args)
@@ -4074,38 +4096,41 @@ class iPcMover(cspace.iBase):
     def GetUp(*args): return _blcelc.iPcMover_GetUp(*args)
     def GetSqRadius(*args): return _blcelc.iPcMover_GetSqRadius(*args)
     def IsMoving(*args): return _blcelc.iPcMover_IsMoving(*args)
-    Sector = _swig_property(_blcelc.iPcMover_Sector_get, None, None,
+    Sector = property(_blcelc.iPcMover_Sector_get, None, None,
                     "iPcMover.Sector -> iSector*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSector* iPcMover::GetSector()")
 
-    Position = _swig_property(_blcelc.iPcMover_Position_get, None, None,
+    Position = property(_blcelc.iPcMover_Position_get, None, None,
                     "iPcMover.Position -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcMover::GetPosition()")
 
-    Up = _swig_property(_blcelc.iPcMover_Up_get, None, None,
+    Up = property(_blcelc.iPcMover_Up_get, None, None,
                     "iPcMover.Up -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcMover::GetUp()")
 
-    SqRadius = _swig_property(_blcelc.iPcMover_SqRadius_get, None, None,
+    SqRadius = property(_blcelc.iPcMover_SqRadius_get, None, None,
                     "iPcMover.SqRadius -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcMover::GetSqRadius()")
 
-    Moving = _swig_property(_blcelc.iPcMover_Moving_get, None, None,
+    Moving = property(_blcelc.iPcMover_Moving_get, None, None,
                     "iPcMover.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcMover::IsMoving()")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMover, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcMover,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcMover.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMover,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcMover_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcMover
     __del__ = lambda self : None;
 iPcMover_swigregister = _blcelc.iPcMover_swigregister
@@ -4113,11 +4138,15 @@ iPcMover_swigregister(iPcMover)
 celCreateProperties = _blcelc.celCreateProperties
 celGetSetProperties = _blcelc.celGetSetProperties
 celGetProperties = _blcelc.celGetProperties
-iPcMover_scfGetVersion = _blcelc.iPcMover_scfGetVersion
 
 scfQuery_iPcMover = _blcelc.scfQuery_iPcMover
 class iPcHover(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcHover, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcHover, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetHeightBeamCutoff(*args): return _blcelc.iPcHover_SetHeightBeamCutoff(*args)
@@ -4129,44 +4158,53 @@ class iPcHover(cspace.iBase):
     def HoverOn(*args): return _blcelc.iPcHover_HoverOn(*args)
     def HoverOff(*args): return _blcelc.iPcHover_HoverOff(*args)
     def GetHeight(*args): return _blcelc.iPcHover_GetHeight(*args)
-    HeightBeamCutoff = _swig_property(None, _blcelc.iPcHover_HeightBeamCutoff_set, None,
+    __swig_setmethods__["HeightBeamCutoff"] = _blcelc.iPcHover_HeightBeamCutoff_set
+    HeightBeamCutoff = property(None, _blcelc.iPcHover_HeightBeamCutoff_set, None,
                     "iPcHover.HeightBeamCutoff (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcHover::SetHeightBeamCutoff(float)")
 
-    AngularBeamOffset = _swig_property(None, _blcelc.iPcHover_AngularBeamOffset_set, None,
+    __swig_setmethods__["AngularBeamOffset"] = _blcelc.iPcHover_AngularBeamOffset_set
+    AngularBeamOffset = property(None, _blcelc.iPcHover_AngularBeamOffset_set, None,
                     "iPcHover.AngularBeamOffset (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcHover::SetAngularBeamOffset(float)")
 
-    AngularCutoffHeight = _swig_property(None, _blcelc.iPcHover_AngularCutoffHeight_set, None,
+    __swig_setmethods__["AngularCutoffHeight"] = _blcelc.iPcHover_AngularCutoffHeight_set
+    AngularCutoffHeight = property(None, _blcelc.iPcHover_AngularCutoffHeight_set, None,
                     "iPcHover.AngularCutoffHeight (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcHover::SetAngularCutoffHeight(float)")
 
-    AngularCorrectionStrength = _swig_property(None, _blcelc.iPcHover_AngularCorrectionStrength_set, None,
+    __swig_setmethods__["AngularCorrectionStrength"] = _blcelc.iPcHover_AngularCorrectionStrength_set
+    AngularCorrectionStrength = property(None, _blcelc.iPcHover_AngularCorrectionStrength_set, None,
                     "iPcHover.AngularCorrectionStrength (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcHover::SetAngularCorrectionStrength(float)")
 
-    Factors = _swig_property(None, fix_args(_blcelc.iPcHover_SetFactors), None,
+    __swig_setmethods__["Factors"] = fix_args(_blcelc.iPcHover_SetFactors)
+    Factors = property(None, fix_args(_blcelc.iPcHover_SetFactors), None,
                     "iPcHover.Factors -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcHover::getmethod()\n\tset: void iPcHover::SetFactors(...)")
 
-    HoverHeight = _swig_property(None, _blcelc.iPcHover_HoverHeight_set, None,
+    __swig_setmethods__["HoverHeight"] = _blcelc.iPcHover_HoverHeight_set
+    HoverHeight = property(None, _blcelc.iPcHover_HoverHeight_set, None,
                     "iPcHover.HoverHeight (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcHover::SetHoverHeight(float)")
 
-    Height = _swig_property(_blcelc.iPcHover_Height_get, None, None,
+    Height = property(_blcelc.iPcHover_Height_get, None, None,
                     "iPcHover.Height -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcHover::GetHeight()")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcHover, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcHover,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcHover.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcHover,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcHover_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcHover
     __del__ = lambda self : None;
 iPcHover_swigregister = _blcelc.iPcHover_swigregister
@@ -4174,11 +4212,15 @@ iPcHover_swigregister(iPcHover)
 celCreateMover = _blcelc.celCreateMover
 celGetSetMover = _blcelc.celGetSetMover
 celGetMover = _blcelc.celGetMover
-iPcHover_scfGetVersion = _blcelc.iPcHover_scfGetVersion
 
 scfQuery_iPcHover = _blcelc.scfQuery_iPcHover
 class iPcCraftController(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcCraftController, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcCraftController, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def StartTurnLeft(*args): return _blcelc.iPcCraftController_StartTurnLeft(*args)
@@ -4209,59 +4251,69 @@ class iPcCraftController(cspace.iBase):
     def BrakesOff(*args): return _blcelc.iPcCraftController_BrakesOff(*args)
     def SlideOn(*args): return _blcelc.iPcCraftController_SlideOn(*args)
     def SlideOff(*args): return _blcelc.iPcCraftController_SlideOff(*args)
-    AccTurn = _swig_property(None, _blcelc.iPcCraftController_AccTurn_set, None,
+    __swig_setmethods__["AccTurn"] = _blcelc.iPcCraftController_AccTurn_set
+    AccTurn = property(None, _blcelc.iPcCraftController_AccTurn_set, None,
                     "iPcCraftController.AccTurn (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetAccTurn(float)")
 
-    AccPitch = _swig_property(None, _blcelc.iPcCraftController_AccPitch_set, None,
+    __swig_setmethods__["AccPitch"] = _blcelc.iPcCraftController_AccPitch_set
+    AccPitch = property(None, _blcelc.iPcCraftController_AccPitch_set, None,
                     "iPcCraftController.AccPitch (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetAccPitch(float)")
 
-    MaxTurn = _swig_property(None, _blcelc.iPcCraftController_MaxTurn_set, None,
+    __swig_setmethods__["MaxTurn"] = _blcelc.iPcCraftController_MaxTurn_set
+    MaxTurn = property(None, _blcelc.iPcCraftController_MaxTurn_set, None,
                     "iPcCraftController.MaxTurn (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetMaxTurn(float)")
 
-    MaxPitch = _swig_property(None, _blcelc.iPcCraftController_MaxPitch_set, None,
+    __swig_setmethods__["MaxPitch"] = _blcelc.iPcCraftController_MaxPitch_set
+    MaxPitch = property(None, _blcelc.iPcCraftController_MaxPitch_set, None,
                     "iPcCraftController.MaxPitch (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetMaxPitch(float)")
 
-    Roll = _swig_property(None, _blcelc.iPcCraftController_Roll_set, None,
-                    "iPcCraftController.Roll (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetRoll(float)")
-
-    ThrustForce = _swig_property(None, _blcelc.iPcCraftController_ThrustForce_set, None,
+    __swig_setmethods__["ThrustForce"] = _blcelc.iPcCraftController_ThrustForce_set
+    ThrustForce = property(None, _blcelc.iPcCraftController_ThrustForce_set, None,
                     "iPcCraftController.ThrustForce (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetThrustForce(float)")
 
-    TopSpeed = _swig_property(None, _blcelc.iPcCraftController_TopSpeed_set, None,
+    __swig_setmethods__["TopSpeed"] = _blcelc.iPcCraftController_TopSpeed_set
+    TopSpeed = property(None, _blcelc.iPcCraftController_TopSpeed_set, None,
                     "iPcCraftController.TopSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetTopSpeed(float)")
 
-    RedirectVelocityRatio = _swig_property(None, _blcelc.iPcCraftController_RedirectVelocityRatio_set, None,
+    __swig_setmethods__["RedirectVelocityRatio"] = _blcelc.iPcCraftController_RedirectVelocityRatio_set
+    RedirectVelocityRatio = property(None, _blcelc.iPcCraftController_RedirectVelocityRatio_set, None,
                     "iPcCraftController.RedirectVelocityRatio (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetRedirectVelocityRatio(float)")
 
-    DecelerationRate = _swig_property(None, _blcelc.iPcCraftController_DecelerationRate_set, None,
+    __swig_setmethods__["DecelerationRate"] = _blcelc.iPcCraftController_DecelerationRate_set
+    DecelerationRate = property(None, _blcelc.iPcCraftController_DecelerationRate_set, None,
                     "iPcCraftController.DecelerationRate (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetDecelerationRate(float)")
 
-    BrakingSpeed = _swig_property(None, _blcelc.iPcCraftController_BrakingSpeed_set, None,
+    __swig_setmethods__["BrakingSpeed"] = _blcelc.iPcCraftController_BrakingSpeed_set
+    BrakingSpeed = property(None, _blcelc.iPcCraftController_BrakingSpeed_set, None,
                     "iPcCraftController.BrakingSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetBrakingSpeed(float)")
 
-    ThrusterOn = _swig_property(_blcelc.iPcCraftController_ThrusterOn_get, None, None,
+    ThrusterOn = property(_blcelc.iPcCraftController_ThrusterOn_get, None, None,
                     "iPcCraftController.ThrusterOn -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcCraftController::IsThrusterOn()")
 
-    AfterBurnerTopSpeed = _swig_property(None, _blcelc.iPcCraftController_AfterBurnerTopSpeed_set, None,
+    __swig_setmethods__["AfterBurnerTopSpeed"] = _blcelc.iPcCraftController_AfterBurnerTopSpeed_set
+    AfterBurnerTopSpeed = property(None, _blcelc.iPcCraftController_AfterBurnerTopSpeed_set, None,
                     "iPcCraftController.AfterBurnerTopSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetAfterBurnerTopSpeed(float)")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcCraftController, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcCraftController,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcCraftController.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcCraftController,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcCraftController_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcCraftController
     __del__ = lambda self : None;
 iPcCraftController_swigregister = _blcelc.iPcCraftController_swigregister
@@ -4269,11 +4321,15 @@ iPcCraftController_swigregister(iPcCraftController)
 celCreateHover = _blcelc.celCreateHover
 celGetSetHover = _blcelc.celGetSetHover
 celGetHover = _blcelc.celGetHover
-iPcCraftController_scfGetVersion = _blcelc.iPcCraftController_scfGetVersion
 
 scfQuery_iPcCraftController = _blcelc.scfQuery_iPcCraftController
 class iPcWheeled(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcWheeled, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcWheeled, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetWheelMesh(*args): return _blcelc.iPcWheeled_SetWheelMesh(*args)
@@ -4282,13 +4338,7 @@ class iPcWheeled(cspace.iBase):
     def SetABSEnabled(*args): return _blcelc.iPcWheeled_SetABSEnabled(*args)
     def GetABSEnabled(*args): return _blcelc.iPcWheeled_GetABSEnabled(*args)
     def SetDifferential(*args): return _blcelc.iPcWheeled_SetDifferential(*args)
-    def SetAntiSway(*args): return _blcelc.iPcWheeled_SetAntiSway(*args)
-    def SetAntiSwayFactor(*args): return _blcelc.iPcWheeled_SetAntiSwayFactor(*args)
-    def SetAntiSwayLimit(*args): return _blcelc.iPcWheeled_SetAntiSwayLimit(*args)
     def GetDifferential(*args): return _blcelc.iPcWheeled_GetDifferential(*args)
-    def GetAntiSway(*args): return _blcelc.iPcWheeled_GetAntiSway(*args)
-    def GetAntiSwayFactor(*args): return _blcelc.iPcWheeled_GetAntiSwayFactor(*args)
-    def GetAntiSwayLimit(*args): return _blcelc.iPcWheeled_GetAntiSwayLimit(*args)
     def SetABS(*args): return _blcelc.iPcWheeled_SetABS(*args)
     def GetABS(*args): return _blcelc.iPcWheeled_GetABS(*args)
     def AddWheelAuto(*args): return _blcelc.iPcWheeled_AddWheelAuto(*args)
@@ -4363,108 +4413,82 @@ class iPcWheeled(cspace.iBase):
     def GetBrakeMotor(*args): return _blcelc.iPcWheeled_GetBrakeMotor(*args)
     def SetCollisionCallbackEnabled(*args): return _blcelc.iPcWheeled_SetCollisionCallbackEnabled(*args)
     def IsCollisionCallbackEnabled(*args): return _blcelc.iPcWheeled_IsCollisionCallbackEnabled(*args)
-    WheelMesh = _swig_property(None, fix_args(_blcelc.iPcWheeled_SetWheelMesh), None,
+    __swig_setmethods__["WheelMesh"] = fix_args(_blcelc.iPcWheeled_SetWheelMesh)
+    WheelMesh = property(None, fix_args(_blcelc.iPcWheeled_SetWheelMesh), None,
                     "iPcWheeled.WheelMesh -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcWheeled::getmethod()\n\tset: void iPcWheeled::SetWheelMesh(...)")
 
-    TankMode = _swig_property(_blcelc.iPcWheeled_TankMode_get, _blcelc.iPcWheeled_TankMode_set, None,
+    __swig_setmethods__["TankMode"] = _blcelc.iPcWheeled_TankMode_set
+    TankMode = property(_blcelc.iPcWheeled_TankMode_get, _blcelc.iPcWheeled_TankMode_set, None,
                     "iPcWheeled.TankMode -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::GetTankMode()\n\tset: void iPcWheeled::SetTankMode(bool)")
 
 
-    ABSEnabled = _swig_property(_blcelc.iPcWheeled_ABSEnabled_get, _blcelc.iPcWheeled_ABSEnabled_set, None,
-                    "iPcWheeled.ABSEnabled -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::GetABSEnabled()\n\tset: void iPcWheeled::SetABSEnabled(bool)")
-
-
-    Differential = _swig_property(_blcelc.iPcWheeled_Differential_get, _blcelc.iPcWheeled_Differential_set, None,
-                    "iPcWheeled.Differential -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::GetDifferential()\n\tset: void iPcWheeled::SetDifferential(bool)")
-
-
-    AntiSway = _swig_property(_blcelc.iPcWheeled_AntiSway_get, _blcelc.iPcWheeled_AntiSway_set, None,
-                    "iPcWheeled.AntiSway -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::GetAntiSway()\n\tset: void iPcWheeled::SetAntiSway(bool)")
-
-
-    AntiSwayFactor = _swig_property(_blcelc.iPcWheeled_AntiSwayFactor_get, _blcelc.iPcWheeled_AntiSwayFactor_set, None,
-                    "iPcWheeled.AntiSwayFactor -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcWheeled::GetAntiSwayFactor()\n\tset: void iPcWheeled::SetAntiSwayFactor(float)")
-
-
-    AntiSwayLimit = _swig_property(_blcelc.iPcWheeled_AntiSwayLimit_get, _blcelc.iPcWheeled_AntiSwayLimit_set, None,
-                    "iPcWheeled.AntiSwayLimit -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcWheeled::GetAntiSwayLimit()\n\tset: void iPcWheeled::SetAntiSwayLimit(float)")
-
-
-    ABS = _swig_property(_blcelc.iPcWheeled_ABS_get, _blcelc.iPcWheeled_ABS_set, None,
-                    "iPcWheeled.ABS -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::GetABS()\n\tset: void iPcWheeled::SetABS(bool)")
-
-
-    OuterWheelSteerPreset = _swig_property(None, _blcelc.iPcWheeled_OuterWheelSteerPreset_set, None,
+    __swig_setmethods__["OuterWheelSteerPreset"] = _blcelc.iPcWheeled_OuterWheelSteerPreset_set
+    OuterWheelSteerPreset = property(None, _blcelc.iPcWheeled_OuterWheelSteerPreset_set, None,
                     "iPcWheeled.OuterWheelSteerPreset (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcWheeled::SetOuterWheelSteerPreset(float)")
 
-    FrontWheelPreset = _swig_property(None, fix_args(_blcelc.iPcWheeled_SetFrontWheelPreset), None,
+    __swig_setmethods__["FrontWheelPreset"] = fix_args(_blcelc.iPcWheeled_SetFrontWheelPreset)
+    FrontWheelPreset = property(None, fix_args(_blcelc.iPcWheeled_SetFrontWheelPreset), None,
                     "iPcWheeled.FrontWheelPreset -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcWheeled::getmethod()\n\tset: void iPcWheeled::SetFrontWheelPreset(...)")
 
-    RearWheelPreset = _swig_property(None, fix_args(_blcelc.iPcWheeled_SetRearWheelPreset), None,
+    __swig_setmethods__["RearWheelPreset"] = fix_args(_blcelc.iPcWheeled_SetRearWheelPreset)
+    RearWheelPreset = property(None, fix_args(_blcelc.iPcWheeled_SetRearWheelPreset), None,
                     "iPcWheeled.RearWheelPreset -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcWheeled::getmethod()\n\tset: void iPcWheeled::SetRearWheelPreset(...)")
 
-    AcceleratorAmount = _swig_property(_blcelc.iPcWheeled_AcceleratorAmount_get, None, None,
-                    "iPcWheeled.AcceleratorAmount -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcWheeled::GetAcceleratorAmount()")
-
-    BrakeAmount = _swig_property(_blcelc.iPcWheeled_BrakeAmount_get, None, None,
-                    "iPcWheeled.BrakeAmount -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcWheeled::GetBrakeAmount()")
-
-    Handbraking = _swig_property(_blcelc.iPcWheeled_Handbraking_get, _blcelc.iPcWheeled_Handbraking_set, None,
+    __swig_setmethods__["Handbraking"] = _blcelc.iPcWheeled_Handbraking_set
+    Handbraking = property(_blcelc.iPcWheeled_Handbraking_get, _blcelc.iPcWheeled_Handbraking_set, None,
                     "iPcWheeled.Handbraking -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::IsHandbraking()\n\tset: void iPcWheeled::Handbrake(bool)")
 
 
-    SteerAmount = _swig_property(_blcelc.iPcWheeled_SteerAmount_get, _blcelc.iPcWheeled_SteerAmount_set, None,
+    __swig_setmethods__["SteerAmount"] = _blcelc.iPcWheeled_SteerAmount_set
+    SteerAmount = property(_blcelc.iPcWheeled_SteerAmount_get, _blcelc.iPcWheeled_SteerAmount_set, None,
                     "iPcWheeled.SteerAmount -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcWheeled::GetSteerAmount()\n\tset: void iPcWheeled::SetSteerAmount(float)")
 
 
-    BrakeForce = _swig_property(None, _blcelc.iPcWheeled_BrakeForce_set, None,
+    __swig_setmethods__["BrakeForce"] = _blcelc.iPcWheeled_BrakeForce_set
+    BrakeForce = property(None, _blcelc.iPcWheeled_BrakeForce_set, None,
                     "iPcWheeled.BrakeForce (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcWheeled::SetBrakeForce(float)")
 
-    Speed = _swig_property(_blcelc.iPcWheeled_Speed_get, None, None,
-                    "iPcWheeled.Speed -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcWheeled::GetSpeed()")
-
-    AutoTransmission = _swig_property(None, _blcelc.iPcWheeled_AutoTransmission_set, None,
+    __swig_setmethods__["AutoTransmission"] = _blcelc.iPcWheeled_AutoTransmission_set
+    AutoTransmission = property(None, _blcelc.iPcWheeled_AutoTransmission_set, None,
                     "iPcWheeled.AutoTransmission (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcWheeled::SetAutoTransmission(bool)")
 
-    Gear = _swig_property(_blcelc.iPcWheeled_GetGear, fix_args(_blcelc.iPcWheeled_SetGear), None,
+    __swig_setmethods__["Gear"] = fix_args(_blcelc.iPcWheeled_SetGear)
+    Gear = property(_blcelc.iPcWheeled_GetGear, fix_args(_blcelc.iPcWheeled_SetGear), None,
                     "iPcWheeled.Gear -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcWheeled::GetGear()\n\tset: void iPcWheeled::SetGear(...)")
 
-    TopGear = _swig_property(_blcelc.iPcWheeled_TopGear_get, None, None,
+    TopGear = property(_blcelc.iPcWheeled_TopGear_get, None, None,
                     "iPcWheeled.TopGear -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iPcWheeled::GetTopGear()")
 
-    AutoReverse = _swig_property(None, _blcelc.iPcWheeled_AutoReverse_set, None,
+    __swig_setmethods__["AutoReverse"] = _blcelc.iPcWheeled_AutoReverse_set
+    AutoReverse = property(None, _blcelc.iPcWheeled_AutoReverse_set, None,
                     "iPcWheeled.AutoReverse (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcWheeled::SetAutoReverse(bool)")
 
-    BodyGroup = _swig_property(_blcelc.iPcWheeled_BodyGroup_get, None, None,
+    BodyGroup = property(_blcelc.iPcWheeled_BodyGroup_get, None, None,
                     "iPcWheeled.BodyGroup -> iBodyGroup*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iBodyGroup* iPcWheeled::GetBodyGroup()")
 
-    WheelCount = _swig_property(_blcelc.iPcWheeled_WheelCount_get, None, None,
-                    "iPcWheeled.WheelCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcWheeled::GetWheelCount()")
-
-    AverageWheelSpin = _swig_property(_blcelc.iPcWheeled_AverageWheelSpin_get, None, None,
-                    "iPcWheeled.AverageWheelSpin -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcWheeled::GetAverageWheelSpin()")
-
-    CollisionCallbackEnabled = _swig_property(_blcelc.iPcWheeled_CollisionCallbackEnabled_get, _blcelc.iPcWheeled_CollisionCallbackEnabled_set, None,
-                    "iPcWheeled.CollisionCallbackEnabled -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::IsCollisionCallbackEnabled()\n\tset: void iPcWheeled::SetCollisionCallbackEnabled(bool)")
-
+    WheelCount = property(_blcelc.iPcWheeled_WheelCount_get, None, None,
+                    "iPcWheeled.WheelCount -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iPcWheeled::GetWheelCount()")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcWheeled, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcWheeled,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcWheeled.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcWheeled,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcWheeled_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcWheeled
     __del__ = lambda self : None;
 iPcWheeled_swigregister = _blcelc.iPcWheeled_swigregister
@@ -4472,11 +4496,15 @@ iPcWheeled_swigregister(iPcWheeled)
 celCreateCraftController = _blcelc.celCreateCraftController
 celGetSetCraftController = _blcelc.celGetSetCraftController
 celGetCraftController = _blcelc.celGetCraftController
-iPcWheeled_scfGetVersion = _blcelc.iPcWheeled_scfGetVersion
 
 scfQuery_iPcWheeled = _blcelc.scfQuery_iPcWheeled
 class iPcMeshDeform(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMeshDeform, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMeshDeform, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetMesh(*args): return _blcelc.iPcMeshDeform_SetMesh(*args)
@@ -4493,47 +4521,50 @@ class iPcMeshDeform(cspace.iBase):
     def GetMaxFrequency(*args): return _blcelc.iPcMeshDeform_GetMaxFrequency(*args)
     def GetMaxDeform(*args): return _blcelc.iPcMeshDeform_GetMaxDeform(*args)
     def GetRadius(*args): return _blcelc.iPcMeshDeform_GetRadius(*args)
-    Mesh = _swig_property(_blcelc.iPcMeshDeform_Mesh_get, _blcelc.iPcMeshDeform_Mesh_set, None,
-                    "iPcMeshDeform.Mesh -> iMeshWrapper*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iMeshWrapper* iPcMeshDeform::GetMesh()\n\tset: void iPcMeshDeform::SetMesh(iMeshWrapper*)")
+    __swig_setmethods__["Mesh"] = fix_args(_blcelc.iPcMeshDeform_SetMesh)
+    Mesh = property(_blcelc.iPcMeshDeform_GetMesh, fix_args(_blcelc.iPcMeshDeform_SetMesh), None,
+                    "iPcMeshDeform.Mesh -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMesh()\n\tset: void iPcMeshDeform::SetMesh(...)")
 
+    __swig_setmethods__["Noise"] = fix_args(_blcelc.iPcMeshDeform_SetNoise)
+    Noise = property(_blcelc.iPcMeshDeform_GetNoise, fix_args(_blcelc.iPcMeshDeform_SetNoise), None,
+                    "iPcMeshDeform.Noise -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetNoise()\n\tset: void iPcMeshDeform::SetNoise(...)")
 
-    DeformFactor = _swig_property(_blcelc.iPcMeshDeform_DeformFactor_get, _blcelc.iPcMeshDeform_DeformFactor_set, None,
-                    "iPcMeshDeform.DeformFactor -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshDeform::GetDeformFactor()\n\tset: void iPcMeshDeform::SetDeformFactor(float)")
+    __swig_setmethods__["Radius"] = fix_args(_blcelc.iPcMeshDeform_SetRadius)
+    Radius = property(_blcelc.iPcMeshDeform_GetRadius, fix_args(_blcelc.iPcMeshDeform_SetRadius), None,
+                    "iPcMeshDeform.Radius -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetRadius()\n\tset: void iPcMeshDeform::SetRadius(...)")
 
+    __swig_setmethods__["MaxFrequency"] = fix_args(_blcelc.iPcMeshDeform_SetMaxFrequency)
+    MaxFrequency = property(_blcelc.iPcMeshDeform_GetMaxFrequency, fix_args(_blcelc.iPcMeshDeform_SetMaxFrequency), None,
+                    "iPcMeshDeform.MaxFrequency -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMaxFrequency()\n\tset: void iPcMeshDeform::SetMaxFrequency(...)")
 
-    Noise = _swig_property(_blcelc.iPcMeshDeform_Noise_get, _blcelc.iPcMeshDeform_Noise_set, None,
-                    "iPcMeshDeform.Noise -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshDeform::GetNoise()\n\tset: void iPcMeshDeform::SetNoise(float)")
+    __swig_setmethods__["MaxDeform"] = fix_args(_blcelc.iPcMeshDeform_SetMaxDeform)
+    MaxDeform = property(_blcelc.iPcMeshDeform_GetMaxDeform, fix_args(_blcelc.iPcMeshDeform_SetMaxDeform), None,
+                    "iPcMeshDeform.MaxDeform -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMaxDeform()\n\tset: void iPcMeshDeform::SetMaxDeform(...)")
 
-
-    MaxFrequency = _swig_property(_blcelc.iPcMeshDeform_MaxFrequency_get, _blcelc.iPcMeshDeform_MaxFrequency_set, None,
-                    "iPcMeshDeform.MaxFrequency -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshDeform::GetMaxFrequency()\n\tset: void iPcMeshDeform::SetMaxFrequency(float)")
-
-
-    MaxDeform = _swig_property(_blcelc.iPcMeshDeform_MaxDeform_get, _blcelc.iPcMeshDeform_MaxDeform_set, None,
-                    "iPcMeshDeform.MaxDeform -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshDeform::GetMaxDeform()\n\tset: void iPcMeshDeform::SetMaxDeform(float)")
-
-
-    Radius = _swig_property(_blcelc.iPcMeshDeform_Radius_get, _blcelc.iPcMeshDeform_Radius_set, None,
-                    "iPcMeshDeform.Radius -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshDeform::GetRadius()\n\tset: void iPcMeshDeform::SetRadius(float)")
-
+    __swig_setmethods__["DeformFactor"] = fix_args(_blcelc.iPcMeshDeform_SetDeformFactor)
+    DeformFactor = property(_blcelc.iPcMeshDeform_GetDeformFactor, fix_args(_blcelc.iPcMeshDeform_SetDeformFactor), None,
+                    "iPcMeshDeform.DeformFactor -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetDeformFactor()\n\tset: void iPcMeshDeform::SetDeformFactor(...)")
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcMeshDeform, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcMeshDeform,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcMeshDeform.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMeshDeform,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcMeshDeform_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcMeshDeform
     __del__ = lambda self : None;
 iPcMeshDeform_swigregister = _blcelc.iPcMeshDeform_swigregister
@@ -4541,11 +4572,15 @@ iPcMeshDeform_swigregister(iPcMeshDeform)
 celCreateWheeled = _blcelc.celCreateWheeled
 celGetSetWheeled = _blcelc.celGetSetWheeled
 celGetWheeled = _blcelc.celGetWheeled
-iPcMeshDeform_scfGetVersion = _blcelc.iPcMeshDeform_scfGetVersion
 
 scfQuery_iPcMeshDeform = _blcelc.scfQuery_iPcMeshDeform
 class iPcDamage(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcDamage, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcDamage, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetDamage(*args): return _blcelc.iPcDamage_SetDamage(*args)
@@ -4562,48 +4597,56 @@ class iPcDamage(cspace.iBase):
     def AreaDamage(*args): return _blcelc.iPcDamage_AreaDamage(*args)
     def BeamDamage(*args): return _blcelc.iPcDamage_BeamDamage(*args)
     def SingleDamage(*args): return _blcelc.iPcDamage_SingleDamage(*args)
-    Damage = _swig_property(_blcelc.iPcDamage_Damage_get, _blcelc.iPcDamage_Damage_set, None,
+    __swig_setmethods__["Damage"] = _blcelc.iPcDamage_Damage_set
+    Damage = property(_blcelc.iPcDamage_Damage_get, _blcelc.iPcDamage_Damage_set, None,
                     "iPcDamage.Damage -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcDamage::GetDamage()\n\tset: void iPcDamage::SetDamage(float)")
 
 
-    DamageType = _swig_property(_blcelc.iPcDamage_DamageType_get, _blcelc.iPcDamage_DamageType_set, None,
+    __swig_setmethods__["DamageType"] = _blcelc.iPcDamage_DamageType_set
+    DamageType = property(_blcelc.iPcDamage_DamageType_get, _blcelc.iPcDamage_DamageType_set, None,
                     "iPcDamage.DamageType -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcDamage::GetDamageType()\n\tset: void iPcDamage::SetDamageType(const char*)")
 
 
-    FallOff = _swig_property(_blcelc.iPcDamage_FallOff_get, _blcelc.iPcDamage_FallOff_set, None,
+    __swig_setmethods__["FallOff"] = _blcelc.iPcDamage_FallOff_set
+    FallOff = property(_blcelc.iPcDamage_FallOff_get, _blcelc.iPcDamage_FallOff_set, None,
                     "iPcDamage.FallOff -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcDamage::GetFallOff()\n\tset: void iPcDamage::SetFallOff(const char*)")
 
 
-    DamageLocation = _swig_property(None, fix_args(_blcelc.iPcDamage_SetDamageLocation), None,
+    __swig_setmethods__["DamageLocation"] = fix_args(_blcelc.iPcDamage_SetDamageLocation)
+    DamageLocation = property(None, fix_args(_blcelc.iPcDamage_SetDamageLocation), None,
                     "iPcDamage.DamageLocation -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcDamage::getmethod()\n\tset: void iPcDamage::SetDamageLocation(...)")
 
-    DamageSector = _swig_property(_blcelc.iPcDamage_DamageSector_get, None, None,
+    DamageSector = property(_blcelc.iPcDamage_DamageSector_get, None, None,
                     "iPcDamage.DamageSector -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iPcDamage::GetDamageSector()")
 
-    DamagePosition = _swig_property(_blcelc.iPcDamage_DamagePosition_get, None, None,
+    DamagePosition = property(_blcelc.iPcDamage_DamagePosition_get, None, None,
                     "iPcDamage.DamagePosition -> const csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csVector3& iPcDamage::GetDamagePosition()")
 
-    DamageSource = _swig_property(_blcelc.iPcDamage_DamageSource_get, _blcelc.iPcDamage_DamageSource_set, None,
+    __swig_setmethods__["DamageSource"] = _blcelc.iPcDamage_DamageSource_set
+    DamageSource = property(_blcelc.iPcDamage_DamageSource_get, _blcelc.iPcDamage_DamageSource_set, None,
                     "iPcDamage.DamageSource -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcDamage::GetDamageSource()\n\tset: void iPcDamage::SetDamageSource(const char*)")
 
 
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcDamage, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcDamage,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcDamage.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcDamage,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcDamage_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcDamage
     __del__ = lambda self : None;
 iPcDamage_swigregister = _blcelc.iPcDamage_swigregister
@@ -4611,42 +4654,15 @@ iPcDamage_swigregister(iPcDamage)
 celCreateMeshDeform = _blcelc.celCreateMeshDeform
 celGetSetMeshDeform = _blcelc.celGetSetMeshDeform
 celGetMeshDeform = _blcelc.celGetMeshDeform
-iPcDamage_scfGetVersion = _blcelc.iPcDamage_scfGetVersion
 
 scfQuery_iPcDamage = _blcelc.scfQuery_iPcDamage
-class iQuestParameter(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def GetData(*args): return _blcelc.iQuestParameter_GetData(*args)
-    def Get(*args): return _blcelc.iQuestParameter_Get(*args)
-    def GetLong(*args): return _blcelc.iQuestParameter_GetLong(*args)
-    __swig_destroy__ = _blcelc.delete_iQuestParameter
-    __del__ = lambda self : None;
-iQuestParameter_swigregister = _blcelc.iQuestParameter_swigregister
-iQuestParameter_swigregister(iQuestParameter)
-celCreateDamage = _blcelc.celCreateDamage
-celGetSetDamage = _blcelc.celGetSetDamage
-celGetDamage = _blcelc.celGetDamage
-
-class celParSpec(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    type = _swig_property(_blcelc.celParSpec_type_get, _blcelc.celParSpec_type_set)
-    id = _swig_property(_blcelc.celParSpec_id_get, _blcelc.celParSpec_id_set)
-    name = _swig_property(_blcelc.celParSpec_name_get, _blcelc.celParSpec_name_set)
-    value = _swig_property(_blcelc.celParSpec_value_get, _blcelc.celParSpec_value_set)
-    def __init__(self, *args): 
-        this = _blcelc.new_celParSpec(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_celParSpec
-    __del__ = lambda self : None;
-celParSpec_swigregister = _blcelc.celParSpec_swigregister
-celParSpec_swigregister(celParSpec)
-
 class iQuestTriggerCallback(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestTriggerCallback, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestTriggerCallback, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def TriggerFired(*args): return _blcelc.iQuestTriggerCallback_TriggerFired(*args)
@@ -4654,9 +4670,17 @@ class iQuestTriggerCallback(cspace.iBase):
     __del__ = lambda self : None;
 iQuestTriggerCallback_swigregister = _blcelc.iQuestTriggerCallback_swigregister
 iQuestTriggerCallback_swigregister(iQuestTriggerCallback)
+celCreateDamage = _blcelc.celCreateDamage
+celGetSetDamage = _blcelc.celGetSetDamage
+celGetDamage = _blcelc.celGetDamage
 
 class iQuestTrigger(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestTrigger, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestTrigger, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def RegisterCallback(*args): return _blcelc.iQuestTrigger_RegisterCallback(*args)
@@ -4672,7 +4696,12 @@ iQuestTrigger_swigregister = _blcelc.iQuestTrigger_swigregister
 iQuestTrigger_swigregister(iQuestTrigger)
 
 class iQuestTriggerFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestTriggerFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def CreateTrigger(*args): return _blcelc.iQuestTriggerFactory_CreateTrigger(*args)
@@ -4683,21 +4712,28 @@ iQuestTriggerFactory_swigregister = _blcelc.iQuestTriggerFactory_swigregister
 iQuestTriggerFactory_swigregister(iQuestTriggerFactory)
 
 class iQuestTriggerType(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestTriggerType, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestTriggerType, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestTriggerType_GetName(*args)
     def CreateTriggerFactory(*args): return _blcelc.iQuestTriggerType_CreateTriggerFactory(*args)
-    Name = _swig_property(_blcelc.iQuestTriggerType_Name_get, None, None,
-                    "iQuestTriggerType.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestTriggerType::GetName()")
-
     __swig_destroy__ = _blcelc.delete_iQuestTriggerType
     __del__ = lambda self : None;
 iQuestTriggerType_swigregister = _blcelc.iQuestTriggerType_swigregister
 iQuestTriggerType_swigregister(iQuestTriggerType)
 
 class iQuestReward(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestReward, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestReward, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Reward(*args): return _blcelc.iQuestReward_Reward(*args)
@@ -4707,7 +4743,12 @@ iQuestReward_swigregister = _blcelc.iQuestReward_swigregister
 iQuestReward_swigregister(iQuestReward)
 
 class iQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestRewardFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def CreateReward(*args): return _blcelc.iQuestRewardFactory_CreateReward(*args)
@@ -4718,21 +4759,28 @@ iQuestRewardFactory_swigregister = _blcelc.iQuestRewardFactory_swigregister
 iQuestRewardFactory_swigregister(iQuestRewardFactory)
 
 class iQuestRewardType(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestRewardType, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestRewardType, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestRewardType_GetName(*args)
     def CreateRewardFactory(*args): return _blcelc.iQuestRewardType_CreateRewardFactory(*args)
-    Name = _swig_property(_blcelc.iQuestRewardType_Name_get, None, None,
-                    "iQuestRewardType.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestRewardType::GetName()")
-
     __swig_destroy__ = _blcelc.delete_iQuestRewardType
     __del__ = lambda self : None;
 iQuestRewardType_swigregister = _blcelc.iQuestRewardType_swigregister
 iQuestRewardType_swigregister(iQuestRewardType)
 
 class iQuestSeqOp(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestSeqOp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestSeqOp, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Init(*args): return _blcelc.iQuestSeqOp_Init(*args)
@@ -4745,7 +4793,12 @@ iQuestSeqOp_swigregister = _blcelc.iQuestSeqOp_swigregister
 iQuestSeqOp_swigregister(iQuestSeqOp)
 
 class iQuestSeqOpFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestSeqOpFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestSeqOpFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def CreateSeqOp(*args): return _blcelc.iQuestSeqOpFactory_CreateSeqOp(*args)
@@ -4756,21 +4809,28 @@ iQuestSeqOpFactory_swigregister = _blcelc.iQuestSeqOpFactory_swigregister
 iQuestSeqOpFactory_swigregister(iQuestSeqOpFactory)
 
 class iQuestSeqOpType(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestSeqOpType, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestSeqOpType, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestSeqOpType_GetName(*args)
     def CreateSeqOpFactory(*args): return _blcelc.iQuestSeqOpType_CreateSeqOpFactory(*args)
-    Name = _swig_property(_blcelc.iQuestSeqOpType_Name_get, None, None,
-                    "iQuestSeqOpType.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestSeqOpType::GetName()")
-
     __swig_destroy__ = _blcelc.delete_iQuestSeqOpType
     __del__ = lambda self : None;
 iQuestSeqOpType_swigregister = _blcelc.iQuestSeqOpType_swigregister
 iQuestSeqOpType_swigregister(iQuestSeqOpType)
 
 class iQuestSequenceCallback(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestSequenceCallback, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestSequenceCallback, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SequenceFinished(*args): return _blcelc.iQuestSequenceCallback_SequenceFinished(*args)
@@ -4780,7 +4840,12 @@ iQuestSequenceCallback_swigregister = _blcelc.iQuestSequenceCallback_swigregiste
 iQuestSequenceCallback_swigregister(iQuestSequenceCallback)
 
 class iQuestSequence(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestSequence, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestSequence, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestSequence_GetName(*args)
@@ -4790,19 +4855,18 @@ class iQuestSequence(cspace.iBase):
     def IsRunning(*args): return _blcelc.iQuestSequence_IsRunning(*args)
     def AddSequenceCallback(*args): return _blcelc.iQuestSequence_AddSequenceCallback(*args)
     def RemoveSequenceCallback(*args): return _blcelc.iQuestSequence_RemoveSequenceCallback(*args)
-    Name = _swig_property(_blcelc.iQuestSequence_Name_get, None, None,
-                    "iQuestSequence.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestSequence::GetName()")
-
-    Running = _swig_property(_blcelc.iQuestSequence_Running_get, None, None,
-                    "iQuestSequence.Running -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iQuestSequence::IsRunning()")
-
     __swig_destroy__ = _blcelc.delete_iQuestSequence
     __del__ = lambda self : None;
 iQuestSequence_swigregister = _blcelc.iQuestSequence_swigregister
 iQuestSequence_swigregister(iQuestSequence)
 
 class iQuest(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuest, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuest, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SwitchState(*args): return _blcelc.iQuest_SwitchState(*args)
@@ -4810,62 +4874,68 @@ class iQuest(cspace.iBase):
     def LoadState(*args): return _blcelc.iQuest_LoadState(*args)
     def SaveState(*args): return _blcelc.iQuest_SaveState(*args)
     def FindSequence(*args): return _blcelc.iQuest_FindSequence(*args)
-    CurrentState = _swig_property(_blcelc.iQuest_CurrentState_get, None, None,
-                    "iQuest.CurrentState -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuest::GetCurrentState()")
-
     __swig_destroy__ = _blcelc.delete_iQuest
     __del__ = lambda self : None;
 iQuest_swigregister = _blcelc.iQuest_swigregister
 iQuest_swigregister(iQuest)
 
 class iQuestTriggerResponseFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestTriggerResponseFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestTriggerResponseFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetTriggerFactory(*args): return _blcelc.iQuestTriggerResponseFactory_SetTriggerFactory(*args)
     def AddRewardFactory(*args): return _blcelc.iQuestTriggerResponseFactory_AddRewardFactory(*args)
-    TriggerFactory = _swig_property(None, _blcelc.iQuestTriggerResponseFactory_TriggerFactory_set, None,
-                    "iQuestTriggerResponseFactory.TriggerFactory (write only) -> iQuestTriggerFactory*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iQuestTriggerResponseFactory::SetTriggerFactory(iQuestTriggerFactory*)")
-
     __swig_destroy__ = _blcelc.delete_iQuestTriggerResponseFactory
     __del__ = lambda self : None;
 iQuestTriggerResponseFactory_swigregister = _blcelc.iQuestTriggerResponseFactory_swigregister
 iQuestTriggerResponseFactory_swigregister(iQuestTriggerResponseFactory)
 
 class iQuestStateFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestStateFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestStateFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestStateFactory_GetName(*args)
     def CreateTriggerResponseFactory(*args): return _blcelc.iQuestStateFactory_CreateTriggerResponseFactory(*args)
-    def AddInitRewardFactory(*args): return _blcelc.iQuestStateFactory_AddInitRewardFactory(*args)
-    def AddExitRewardFactory(*args): return _blcelc.iQuestStateFactory_AddExitRewardFactory(*args)
-    Name = _swig_property(_blcelc.iQuestStateFactory_Name_get, None, None,
-                    "iQuestStateFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestStateFactory::GetName()")
-
     __swig_destroy__ = _blcelc.delete_iQuestStateFactory
     __del__ = lambda self : None;
 iQuestStateFactory_swigregister = _blcelc.iQuestStateFactory_swigregister
 iQuestStateFactory_swigregister(iQuestStateFactory)
 
 class iQuestSequenceFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestSequenceFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestSequenceFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestSequenceFactory_GetName(*args)
     def Load(*args): return _blcelc.iQuestSequenceFactory_Load(*args)
     def AddSeqOpFactory(*args): return _blcelc.iQuestSequenceFactory_AddSeqOpFactory(*args)
     def AddDelay(*args): return _blcelc.iQuestSequenceFactory_AddDelay(*args)
-    Name = _swig_property(_blcelc.iQuestSequenceFactory_Name_get, None, None,
-                    "iQuestSequenceFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestSequenceFactory::GetName()")
-
     __swig_destroy__ = _blcelc.delete_iQuestSequenceFactory
     __del__ = lambda self : None;
 iQuestSequenceFactory_swigregister = _blcelc.iQuestSequenceFactory_swigregister
 iQuestSequenceFactory_swigregister(iQuestSequenceFactory)
 
 class iQuestFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestFactory_GetName(*args)
@@ -4878,16 +4948,18 @@ class iQuestFactory(cspace.iBase):
     def GetDefaultParameter(*args): return _blcelc.iQuestFactory_GetDefaultParameter(*args)
     def SetDefaultParameter(*args): return _blcelc.iQuestFactory_SetDefaultParameter(*args)
     def ClearDefaultParameters(*args): return _blcelc.iQuestFactory_ClearDefaultParameters(*args)
-    Name = _swig_property(_blcelc.iQuestFactory_Name_get, None, None,
-                    "iQuestFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestFactory::GetName()")
-
     __swig_destroy__ = _blcelc.delete_iQuestFactory
     __del__ = lambda self : None;
 iQuestFactory_swigregister = _blcelc.iQuestFactory_swigregister
 iQuestFactory_swigregister(iQuestFactory)
 
 class iQuestManager(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iQuestManager, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iQuestManager, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def RegisterTriggerType(*args): return _blcelc.iQuestManager_RegisterTriggerType(*args)
@@ -4897,13 +4969,8 @@ class iQuestManager(cspace.iBase):
     def RegisterSeqOpType(*args): return _blcelc.iQuestManager_RegisterSeqOpType(*args)
     def GetSeqOpType(*args): return _blcelc.iQuestManager_GetSeqOpType(*args)
     def GetQuestFactory(*args): return _blcelc.iQuestManager_GetQuestFactory(*args)
-    def RemoveQuestFactory(*args): return _blcelc.iQuestManager_RemoveQuestFactory(*args)
-    def RemoveQuestFactories(*args): return _blcelc.iQuestManager_RemoveQuestFactories(*args)
     def CreateQuestFactory(*args): return _blcelc.iQuestManager_CreateQuestFactory(*args)
-    def GetParameter(*args): return _blcelc.iQuestManager_GetParameter(*args)
     def ResolveParameter(*args): return _blcelc.iQuestManager_ResolveParameter(*args)
-    def GetParameterBlock(*args): return _blcelc.iQuestManager_GetParameterBlock(*args)
-    def FillParameterBlock(*args): return _blcelc.iQuestManager_FillParameterBlock(*args)
     def Load(*args): return _blcelc.iQuestManager_Load(*args)
     def AddNewStateReward(*args): return _blcelc.iQuestManager_AddNewStateReward(*args)
     def AddDebugPrintReward(*args): return _blcelc.iQuestManager_AddDebugPrintReward(*args)
@@ -4919,32 +4986,8 @@ class iQuestManager(cspace.iBase):
     def SetPropertyChangeTrigger(*args): return _blcelc.iQuestManager_SetPropertyChangeTrigger(*args)
     def SetTriggerTrigger(*args): return _blcelc.iQuestManager_SetTriggerTrigger(*args)
     def SetWatchTrigger(*args): return _blcelc.iQuestManager_SetWatchTrigger(*args)
-    def SetOperationTrigger(*args): return _blcelc.iQuestManager_SetOperationTrigger(*args)
-    TimeoutTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetTimeoutTrigger), None,
-                    "iQuestManager.TimeoutTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetTimeoutTrigger(...)")
-
-    EnterSectorTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetEnterSectorTrigger), None,
-                    "iQuestManager.EnterSectorTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetEnterSectorTrigger(...)")
-
-    MeshEnterSectorTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetMeshEnterSectorTrigger), None,
-                    "iQuestManager.MeshEnterSectorTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetMeshEnterSectorTrigger(...)")
-
-    SequenceFinishTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetSequenceFinishTrigger), None,
-                    "iQuestManager.SequenceFinishTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetSequenceFinishTrigger(...)")
-
-    PropertyChangeTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetPropertyChangeTrigger), None,
-                    "iQuestManager.PropertyChangeTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetPropertyChangeTrigger(...)")
-
-    TriggerTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetTriggerTrigger), None,
-                    "iQuestManager.TriggerTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetTriggerTrigger(...)")
-
-    WatchTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetWatchTrigger), None,
-                    "iQuestManager.WatchTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetWatchTrigger(...)")
-
-    OperationTrigger = _swig_property(None, fix_args(_blcelc.iQuestManager_SetOperationTrigger), None,
-                    "iQuestManager.OperationTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetOperationTrigger(...)")
-
-    scfGetVersion = staticmethod(_blcelc.iQuestManager_scfGetVersion)
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iQuestManager_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iQuestManager_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iQuestManager
     __del__ = lambda self : None;
 iQuestManager_swigregister = _blcelc.iQuestManager_swigregister
@@ -4952,158 +4995,123 @@ iQuestManager_swigregister(iQuestManager)
 iQuestManager_scfGetVersion = _blcelc.iQuestManager_scfGetVersion
 
 class iTimeoutQuestTriggerFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iTimeoutQuestTriggerFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iTimeoutQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetTimeoutParameter(*args): return _blcelc.iTimeoutQuestTriggerFactory_SetTimeoutParameter(*args)
-    TimeoutParameter = _swig_property(None, _blcelc.iTimeoutQuestTriggerFactory_TimeoutParameter_set, None,
-                    "iTimeoutQuestTriggerFactory.TimeoutParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iTimeoutQuestTriggerFactory::SetTimeoutParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iTimeoutQuestTriggerFactory
     __del__ = lambda self : None;
 iTimeoutQuestTriggerFactory_swigregister = _blcelc.iTimeoutQuestTriggerFactory_swigregister
 iTimeoutQuestTriggerFactory_swigregister(iTimeoutQuestTriggerFactory)
 
 class iPropertyChangeQuestTriggerFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPropertyChangeQuestTriggerFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPropertyChangeQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetEntityParameter(*args)
     def SetPropertyParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetPropertyParameter(*args)
     def SetValueParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetValueParameter(*args)
-    def SetOperationParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetOperationParameter(*args)
-    def SetOnChangeOnly(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetOnChangeOnly(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iPropertyChangeQuestTriggerFactory_SetEntityParameter), None,
-                    "iPropertyChangeQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPropertyChangeQuestTriggerFactory::getmethod()\n\tset: void iPropertyChangeQuestTriggerFactory::SetEntityParameter(...)")
-
-    PropertyParameter = _swig_property(None, _blcelc.iPropertyChangeQuestTriggerFactory_PropertyParameter_set, None,
-                    "iPropertyChangeQuestTriggerFactory.PropertyParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyChangeQuestTriggerFactory::SetPropertyParameter(const char*)")
-
-    ValueParameter = _swig_property(None, _blcelc.iPropertyChangeQuestTriggerFactory_ValueParameter_set, None,
-                    "iPropertyChangeQuestTriggerFactory.ValueParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyChangeQuestTriggerFactory::SetValueParameter(const char*)")
-
-    OperationParameter = _swig_property(None, _blcelc.iPropertyChangeQuestTriggerFactory_OperationParameter_set, None,
-                    "iPropertyChangeQuestTriggerFactory.OperationParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyChangeQuestTriggerFactory::SetOperationParameter(const char*)")
-
-    OnChangeOnly = _swig_property(None, _blcelc.iPropertyChangeQuestTriggerFactory_OnChangeOnly_set, None,
-                    "iPropertyChangeQuestTriggerFactory.OnChangeOnly (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyChangeQuestTriggerFactory::SetOnChangeOnly(bool)")
-
     __swig_destroy__ = _blcelc.delete_iPropertyChangeQuestTriggerFactory
     __del__ = lambda self : None;
 iPropertyChangeQuestTriggerFactory_swigregister = _blcelc.iPropertyChangeQuestTriggerFactory_swigregister
 iPropertyChangeQuestTriggerFactory_swigregister(iPropertyChangeQuestTriggerFactory)
 
 class iMeshSelectQuestTriggerFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iMeshSelectQuestTriggerFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iMeshSelectQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iMeshSelectQuestTriggerFactory_SetEntityParameter(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iMeshSelectQuestTriggerFactory_SetEntityParameter), None,
-                    "iMeshSelectQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iMeshSelectQuestTriggerFactory::getmethod()\n\tset: void iMeshSelectQuestTriggerFactory::SetEntityParameter(...)")
-
     __swig_destroy__ = _blcelc.delete_iMeshSelectQuestTriggerFactory
     __del__ = lambda self : None;
 iMeshSelectQuestTriggerFactory_swigregister = _blcelc.iMeshSelectQuestTriggerFactory_swigregister
 iMeshSelectQuestTriggerFactory_swigregister(iMeshSelectQuestTriggerFactory)
 
 class iInventoryQuestTriggerFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iInventoryQuestTriggerFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iInventoryQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iInventoryQuestTriggerFactory_SetEntityParameter(*args)
     def SetChildEntityParameter(*args): return _blcelc.iInventoryQuestTriggerFactory_SetChildEntityParameter(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iInventoryQuestTriggerFactory_SetEntityParameter), None,
-                    "iInventoryQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iInventoryQuestTriggerFactory::getmethod()\n\tset: void iInventoryQuestTriggerFactory::SetEntityParameter(...)")
-
-    ChildEntityParameter = _swig_property(None, _blcelc.iInventoryQuestTriggerFactory_ChildEntityParameter_set, None,
-                    "iInventoryQuestTriggerFactory.ChildEntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iInventoryQuestTriggerFactory::SetChildEntityParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iInventoryQuestTriggerFactory
     __del__ = lambda self : None;
 iInventoryQuestTriggerFactory_swigregister = _blcelc.iInventoryQuestTriggerFactory_swigregister
 iInventoryQuestTriggerFactory_swigregister(iInventoryQuestTriggerFactory)
 
 class iEnterSectorQuestTriggerFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iEnterSectorQuestTriggerFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iEnterSectorQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iEnterSectorQuestTriggerFactory_SetEntityParameter(*args)
     def SetSectorParameter(*args): return _blcelc.iEnterSectorQuestTriggerFactory_SetSectorParameter(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iEnterSectorQuestTriggerFactory_SetEntityParameter), None,
-                    "iEnterSectorQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iEnterSectorQuestTriggerFactory::getmethod()\n\tset: void iEnterSectorQuestTriggerFactory::SetEntityParameter(...)")
-
-    SectorParameter = _swig_property(None, _blcelc.iEnterSectorQuestTriggerFactory_SectorParameter_set, None,
-                    "iEnterSectorQuestTriggerFactory.SectorParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iEnterSectorQuestTriggerFactory::SetSectorParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iEnterSectorQuestTriggerFactory
     __del__ = lambda self : None;
 iEnterSectorQuestTriggerFactory_swigregister = _blcelc.iEnterSectorQuestTriggerFactory_swigregister
 iEnterSectorQuestTriggerFactory_swigregister(iEnterSectorQuestTriggerFactory)
 
-class iOperationQuestTriggerFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SetOperationParameter(*args): return _blcelc.iOperationQuestTriggerFactory_SetOperationParameter(*args)
-    def GetTriggerFactories(*args): return _blcelc.iOperationQuestTriggerFactory_GetTriggerFactories(*args)
-    OperationParameter = _swig_property(None, _blcelc.iOperationQuestTriggerFactory_OperationParameter_set, None,
-                    "iOperationQuestTriggerFactory.OperationParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iOperationQuestTriggerFactory::SetOperationParameter(const char*)")
-
-    __swig_destroy__ = _blcelc.delete_iOperationQuestTriggerFactory
-    __del__ = lambda self : None;
-iOperationQuestTriggerFactory_swigregister = _blcelc.iOperationQuestTriggerFactory_swigregister
-iOperationQuestTriggerFactory_swigregister(iOperationQuestTriggerFactory)
-
 class iSequenceFinishQuestTriggerFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSequenceFinishQuestTriggerFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iSequenceFinishQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iSequenceFinishQuestTriggerFactory_SetEntityParameter(*args)
     def SetSequenceParameter(*args): return _blcelc.iSequenceFinishQuestTriggerFactory_SetSequenceParameter(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iSequenceFinishQuestTriggerFactory_SetEntityParameter), None,
-                    "iSequenceFinishQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iSequenceFinishQuestTriggerFactory::getmethod()\n\tset: void iSequenceFinishQuestTriggerFactory::SetEntityParameter(...)")
-
-    SequenceParameter = _swig_property(None, _blcelc.iSequenceFinishQuestTriggerFactory_SequenceParameter_set, None,
-                    "iSequenceFinishQuestTriggerFactory.SequenceParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceFinishQuestTriggerFactory::SetSequenceParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iSequenceFinishQuestTriggerFactory
     __del__ = lambda self : None;
 iSequenceFinishQuestTriggerFactory_swigregister = _blcelc.iSequenceFinishQuestTriggerFactory_swigregister
 iSequenceFinishQuestTriggerFactory_swigregister(iSequenceFinishQuestTriggerFactory)
 
 class iTriggerQuestTriggerFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iTriggerQuestTriggerFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iTriggerQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iTriggerQuestTriggerFactory_SetEntityParameter(*args)
     def EnableLeave(*args): return _blcelc.iTriggerQuestTriggerFactory_EnableLeave(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iTriggerQuestTriggerFactory_SetEntityParameter), None,
-                    "iTriggerQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iTriggerQuestTriggerFactory::getmethod()\n\tset: void iTriggerQuestTriggerFactory::SetEntityParameter(...)")
-
     __swig_destroy__ = _blcelc.delete_iTriggerQuestTriggerFactory
     __del__ = lambda self : None;
 iTriggerQuestTriggerFactory_swigregister = _blcelc.iTriggerQuestTriggerFactory_swigregister
 iTriggerQuestTriggerFactory_swigregister(iTriggerQuestTriggerFactory)
 
-class iMessageQuestTriggerFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SetEntityParameter(*args): return _blcelc.iMessageQuestTriggerFactory_SetEntityParameter(*args)
-    def SetMaskParameter(*args): return _blcelc.iMessageQuestTriggerFactory_SetMaskParameter(*args)
-    EntityParameter = _swig_property(None, _blcelc.iMessageQuestTriggerFactory_EntityParameter_set, None,
-                    "iMessageQuestTriggerFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iMessageQuestTriggerFactory::SetEntityParameter(const char*)")
-
-    MaskParameter = _swig_property(None, _blcelc.iMessageQuestTriggerFactory_MaskParameter_set, None,
-                    "iMessageQuestTriggerFactory.MaskParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iMessageQuestTriggerFactory::SetMaskParameter(const char*)")
-
-    __swig_destroy__ = _blcelc.delete_iMessageQuestTriggerFactory
-    __del__ = lambda self : None;
-iMessageQuestTriggerFactory_swigregister = _blcelc.iMessageQuestTriggerFactory_swigregister
-iMessageQuestTriggerFactory_swigregister(iMessageQuestTriggerFactory)
-
 class iWatchQuestTriggerFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iWatchQuestTriggerFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iWatchQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iWatchQuestTriggerFactory_SetEntityParameter(*args)
@@ -5111,70 +5119,52 @@ class iWatchQuestTriggerFactory(cspace.iBase):
     def SetChecktimeParameter(*args): return _blcelc.iWatchQuestTriggerFactory_SetChecktimeParameter(*args)
     def SetRadiusParameter(*args): return _blcelc.iWatchQuestTriggerFactory_SetRadiusParameter(*args)
     def SetOffsetParameter(*args): return _blcelc.iWatchQuestTriggerFactory_SetOffsetParameter(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iWatchQuestTriggerFactory_SetEntityParameter), None,
-                    "iWatchQuestTriggerFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iWatchQuestTriggerFactory::getmethod()\n\tset: void iWatchQuestTriggerFactory::SetEntityParameter(...)")
-
-    TargetEntityParameter = _swig_property(None, fix_args(_blcelc.iWatchQuestTriggerFactory_SetTargetEntityParameter), None,
-                    "iWatchQuestTriggerFactory.TargetEntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iWatchQuestTriggerFactory::getmethod()\n\tset: void iWatchQuestTriggerFactory::SetTargetEntityParameter(...)")
-
-    ChecktimeParameter = _swig_property(None, _blcelc.iWatchQuestTriggerFactory_ChecktimeParameter_set, None,
-                    "iWatchQuestTriggerFactory.ChecktimeParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iWatchQuestTriggerFactory::SetChecktimeParameter(const char*)")
-
-    RadiusParameter = _swig_property(None, _blcelc.iWatchQuestTriggerFactory_RadiusParameter_set, None,
-                    "iWatchQuestTriggerFactory.RadiusParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iWatchQuestTriggerFactory::SetRadiusParameter(const char*)")
-
-    OffsetParameter = _swig_property(None, fix_args(_blcelc.iWatchQuestTriggerFactory_SetOffsetParameter), None,
-                    "iWatchQuestTriggerFactory.OffsetParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iWatchQuestTriggerFactory::getmethod()\n\tset: void iWatchQuestTriggerFactory::SetOffsetParameter(...)")
-
     __swig_destroy__ = _blcelc.delete_iWatchQuestTriggerFactory
     __del__ = lambda self : None;
 iWatchQuestTriggerFactory_swigregister = _blcelc.iWatchQuestTriggerFactory_swigregister
 iWatchQuestTriggerFactory_swigregister(iWatchQuestTriggerFactory)
 
 class iDebugPrintQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iDebugPrintQuestRewardFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iDebugPrintQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetMessageParameter(*args): return _blcelc.iDebugPrintQuestRewardFactory_SetMessageParameter(*args)
-    MessageParameter = _swig_property(None, _blcelc.iDebugPrintQuestRewardFactory_MessageParameter_set, None,
-                    "iDebugPrintQuestRewardFactory.MessageParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iDebugPrintQuestRewardFactory::SetMessageParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iDebugPrintQuestRewardFactory
     __del__ = lambda self : None;
 iDebugPrintQuestRewardFactory_swigregister = _blcelc.iDebugPrintQuestRewardFactory_swigregister
 iDebugPrintQuestRewardFactory_swigregister(iDebugPrintQuestRewardFactory)
 
 class iNewStateQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iNewStateQuestRewardFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iNewStateQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetStateParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetStateParameter(*args)
     def SetEntityParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetEntityParameter(*args)
-    def SetTagParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetTagParameter(*args)
-    def SetClassParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetClassParameter(*args)
-    StateParameter = _swig_property(None, _blcelc.iNewStateQuestRewardFactory_StateParameter_set, None,
-                    "iNewStateQuestRewardFactory.StateParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iNewStateQuestRewardFactory::SetStateParameter(const char*)")
-
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iNewStateQuestRewardFactory_SetEntityParameter), None,
-                    "iNewStateQuestRewardFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iNewStateQuestRewardFactory::getmethod()\n\tset: void iNewStateQuestRewardFactory::SetEntityParameter(...)")
-
-    TagParameter = _swig_property(None, _blcelc.iNewStateQuestRewardFactory_TagParameter_set, None,
-                    "iNewStateQuestRewardFactory.TagParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iNewStateQuestRewardFactory::SetTagParameter(const char*)")
-
-    ClassParameter = _swig_property(None, _blcelc.iNewStateQuestRewardFactory_ClassParameter_set, None,
-                    "iNewStateQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iNewStateQuestRewardFactory::SetClassParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iNewStateQuestRewardFactory
     __del__ = lambda self : None;
 iNewStateQuestRewardFactory_swigregister = _blcelc.iNewStateQuestRewardFactory_swigregister
 iNewStateQuestRewardFactory_swigregister(iNewStateQuestRewardFactory)
 
 class iChangePropertyQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iChangePropertyQuestRewardFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iChangePropertyQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetEntityParameter(*args)
-    def SetClassParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetClassParameter(*args)
     def SetPCParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetPCParameter(*args)
     def SetPropertyParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetPropertyParameter(*args)
     def SetStringParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetStringParameter(*args)
@@ -5183,505 +5173,274 @@ class iChangePropertyQuestRewardFactory(cspace.iBase):
     def SetBoolParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetBoolParameter(*args)
     def SetDiffParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetDiffParameter(*args)
     def SetToggle(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetToggle(*args)
-    EntityParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_EntityParameter_set, None,
-                    "iChangePropertyQuestRewardFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetEntityParameter(const char*)")
-
-    ClassParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_ClassParameter_set, None,
-                    "iChangePropertyQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetClassParameter(const char*)")
-
-    PCParameter = _swig_property(None, fix_args(_blcelc.iChangePropertyQuestRewardFactory_SetPCParameter), None,
-                    "iChangePropertyQuestRewardFactory.PCParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iChangePropertyQuestRewardFactory::getmethod()\n\tset: void iChangePropertyQuestRewardFactory::SetPCParameter(...)")
-
-    PropertyParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_PropertyParameter_set, None,
-                    "iChangePropertyQuestRewardFactory.PropertyParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetPropertyParameter(const char*)")
-
-    StringParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_StringParameter_set, None,
-                    "iChangePropertyQuestRewardFactory.StringParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetStringParameter(const char*)")
-
-    LongParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_LongParameter_set, None,
-                    "iChangePropertyQuestRewardFactory.LongParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetLongParameter(const char*)")
-
-    FloatParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_FloatParameter_set, None,
-                    "iChangePropertyQuestRewardFactory.FloatParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetFloatParameter(const char*)")
-
-    BoolParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_BoolParameter_set, None,
-                    "iChangePropertyQuestRewardFactory.BoolParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetBoolParameter(const char*)")
-
-    DiffParameter = _swig_property(None, _blcelc.iChangePropertyQuestRewardFactory_DiffParameter_set, None,
-                    "iChangePropertyQuestRewardFactory.DiffParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iChangePropertyQuestRewardFactory::SetDiffParameter(const char*)")
-
-    Toggle = _swig_property(None, fix_args(_blcelc.iChangePropertyQuestRewardFactory_SetToggle), None,
-                    "iChangePropertyQuestRewardFactory.Toggle -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iChangePropertyQuestRewardFactory::getmethod()\n\tset: void iChangePropertyQuestRewardFactory::SetToggle(...)")
-
     __swig_destroy__ = _blcelc.delete_iChangePropertyQuestRewardFactory
     __del__ = lambda self : None;
 iChangePropertyQuestRewardFactory_swigregister = _blcelc.iChangePropertyQuestRewardFactory_swigregister
 iChangePropertyQuestRewardFactory_swigregister(iChangePropertyQuestRewardFactory)
 
 class iInventoryQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iInventoryQuestRewardFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iInventoryQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iInventoryQuestRewardFactory_SetEntityParameter(*args)
     def SetChildEntityParameter(*args): return _blcelc.iInventoryQuestRewardFactory_SetChildEntityParameter(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iInventoryQuestRewardFactory_SetEntityParameter), None,
-                    "iInventoryQuestRewardFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iInventoryQuestRewardFactory::getmethod()\n\tset: void iInventoryQuestRewardFactory::SetEntityParameter(...)")
-
-    ChildEntityParameter = _swig_property(None, fix_args(_blcelc.iInventoryQuestRewardFactory_SetChildEntityParameter), None,
-                    "iInventoryQuestRewardFactory.ChildEntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iInventoryQuestRewardFactory::getmethod()\n\tset: void iInventoryQuestRewardFactory::SetChildEntityParameter(...)")
-
     __swig_destroy__ = _blcelc.delete_iInventoryQuestRewardFactory
     __del__ = lambda self : None;
 iInventoryQuestRewardFactory_swigregister = _blcelc.iInventoryQuestRewardFactory_swigregister
 iInventoryQuestRewardFactory_swigregister(iInventoryQuestRewardFactory)
 
 class iCsSequenceQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCsSequenceQuestRewardFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCsSequenceQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetSequenceParameter(*args): return _blcelc.iCsSequenceQuestRewardFactory_SetSequenceParameter(*args)
     def SetDelayParameter(*args): return _blcelc.iCsSequenceQuestRewardFactory_SetDelayParameter(*args)
-    SequenceParameter = _swig_property(None, _blcelc.iCsSequenceQuestRewardFactory_SequenceParameter_set, None,
-                    "iCsSequenceQuestRewardFactory.SequenceParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iCsSequenceQuestRewardFactory::SetSequenceParameter(const char*)")
-
-    DelayParameter = _swig_property(None, _blcelc.iCsSequenceQuestRewardFactory_DelayParameter_set, None,
-                    "iCsSequenceQuestRewardFactory.DelayParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iCsSequenceQuestRewardFactory::SetDelayParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iCsSequenceQuestRewardFactory
     __del__ = lambda self : None;
 iCsSequenceQuestRewardFactory_swigregister = _blcelc.iCsSequenceQuestRewardFactory_swigregister
 iCsSequenceQuestRewardFactory_swigregister(iCsSequenceQuestRewardFactory)
 
 class iSequenceQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSequenceQuestRewardFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iSequenceQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetEntityParameter(*args)
-    def SetTagParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetTagParameter(*args)
-    def SetClassParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetClassParameter(*args)
     def SetSequenceParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetSequenceParameter(*args)
     def SetDelayParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetDelayParameter(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iSequenceQuestRewardFactory_SetEntityParameter), None,
-                    "iSequenceQuestRewardFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iSequenceQuestRewardFactory::getmethod()\n\tset: void iSequenceQuestRewardFactory::SetEntityParameter(...)")
-
-    TagParameter = _swig_property(None, _blcelc.iSequenceQuestRewardFactory_TagParameter_set, None,
-                    "iSequenceQuestRewardFactory.TagParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceQuestRewardFactory::SetTagParameter(const char*)")
-
-    ClassParameter = _swig_property(None, _blcelc.iSequenceQuestRewardFactory_ClassParameter_set, None,
-                    "iSequenceQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceQuestRewardFactory::SetClassParameter(const char*)")
-
-    SequenceParameter = _swig_property(None, _blcelc.iSequenceQuestRewardFactory_SequenceParameter_set, None,
-                    "iSequenceQuestRewardFactory.SequenceParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceQuestRewardFactory::SetSequenceParameter(const char*)")
-
-    DelayParameter = _swig_property(None, _blcelc.iSequenceQuestRewardFactory_DelayParameter_set, None,
-                    "iSequenceQuestRewardFactory.DelayParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceQuestRewardFactory::SetDelayParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iSequenceQuestRewardFactory
     __del__ = lambda self : None;
 iSequenceQuestRewardFactory_swigregister = _blcelc.iSequenceQuestRewardFactory_swigregister
 iSequenceQuestRewardFactory_swigregister(iSequenceQuestRewardFactory)
 
 class iSequenceFinishQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iSequenceFinishQuestRewardFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iSequenceFinishQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetEntityParameter(*args)
-    def SetTagParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetTagParameter(*args)
-    def SetClassParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetClassParameter(*args)
     def SetSequenceParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetSequenceParameter(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iSequenceFinishQuestRewardFactory_SetEntityParameter), None,
-                    "iSequenceFinishQuestRewardFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iSequenceFinishQuestRewardFactory::getmethod()\n\tset: void iSequenceFinishQuestRewardFactory::SetEntityParameter(...)")
-
-    TagParameter = _swig_property(None, _blcelc.iSequenceFinishQuestRewardFactory_TagParameter_set, None,
-                    "iSequenceFinishQuestRewardFactory.TagParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceFinishQuestRewardFactory::SetTagParameter(const char*)")
-
-    ClassParameter = _swig_property(None, _blcelc.iSequenceFinishQuestRewardFactory_ClassParameter_set, None,
-                    "iSequenceFinishQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceFinishQuestRewardFactory::SetClassParameter(const char*)")
-
-    SequenceParameter = _swig_property(None, _blcelc.iSequenceFinishQuestRewardFactory_SequenceParameter_set, None,
-                    "iSequenceFinishQuestRewardFactory.SequenceParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iSequenceFinishQuestRewardFactory::SetSequenceParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iSequenceFinishQuestRewardFactory
     __del__ = lambda self : None;
 iSequenceFinishQuestRewardFactory_swigregister = _blcelc.iSequenceFinishQuestRewardFactory_swigregister
 iSequenceFinishQuestRewardFactory_swigregister(iSequenceFinishQuestRewardFactory)
 
 class iMessageQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iMessageQuestRewardFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iMessageQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iMessageQuestRewardFactory_SetEntityParameter(*args)
-    def SetClassParameter(*args): return _blcelc.iMessageQuestRewardFactory_SetClassParameter(*args)
     def SetIDParameter(*args): return _blcelc.iMessageQuestRewardFactory_SetIDParameter(*args)
     def AddParameter(*args): return _blcelc.iMessageQuestRewardFactory_AddParameter(*args)
-    EntityParameter = _swig_property(None, _blcelc.iMessageQuestRewardFactory_EntityParameter_set, None,
-                    "iMessageQuestRewardFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iMessageQuestRewardFactory::SetEntityParameter(const char*)")
-
-    ClassParameter = _swig_property(None, _blcelc.iMessageQuestRewardFactory_ClassParameter_set, None,
-                    "iMessageQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iMessageQuestRewardFactory::SetClassParameter(const char*)")
-
-    IDParameter = _swig_property(None, _blcelc.iMessageQuestRewardFactory_IDParameter_set, None,
-                    "iMessageQuestRewardFactory.IDParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iMessageQuestRewardFactory::SetIDParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iMessageQuestRewardFactory
     __del__ = lambda self : None;
 iMessageQuestRewardFactory_swigregister = _blcelc.iMessageQuestRewardFactory_swigregister
 iMessageQuestRewardFactory_swigregister(iMessageQuestRewardFactory)
 
 class iActionQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iActionQuestRewardFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iActionQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iActionQuestRewardFactory_SetEntityParameter(*args)
-    def SetClassParameter(*args): return _blcelc.iActionQuestRewardFactory_SetClassParameter(*args)
     def SetIDParameter(*args): return _blcelc.iActionQuestRewardFactory_SetIDParameter(*args)
     def SetPropertyClassParameter(*args): return _blcelc.iActionQuestRewardFactory_SetPropertyClassParameter(*args)
     def SetTagParameter(*args): return _blcelc.iActionQuestRewardFactory_SetTagParameter(*args)
     def AddParameter(*args): return _blcelc.iActionQuestRewardFactory_AddParameter(*args)
-    EntityParameter = _swig_property(None, _blcelc.iActionQuestRewardFactory_EntityParameter_set, None,
-                    "iActionQuestRewardFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iActionQuestRewardFactory::SetEntityParameter(const char*)")
-
-    IDParameter = _swig_property(None, _blcelc.iActionQuestRewardFactory_IDParameter_set, None,
-                    "iActionQuestRewardFactory.IDParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iActionQuestRewardFactory::SetIDParameter(const char*)")
-
-    PropertyClassParameter = _swig_property(None, _blcelc.iActionQuestRewardFactory_PropertyClassParameter_set, None,
-                    "iActionQuestRewardFactory.PropertyClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iActionQuestRewardFactory::SetPropertyClassParameter(const char*)")
-
-    TagParameter = _swig_property(None, _blcelc.iActionQuestRewardFactory_TagParameter_set, None,
-                    "iActionQuestRewardFactory.TagParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iActionQuestRewardFactory::SetTagParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iActionQuestRewardFactory
     __del__ = lambda self : None;
 iActionQuestRewardFactory_swigregister = _blcelc.iActionQuestRewardFactory_swigregister
 iActionQuestRewardFactory_swigregister(iActionQuestRewardFactory)
 
 class iDestroyEntityQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iDestroyEntityQuestRewardFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iDestroyEntityQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iDestroyEntityQuestRewardFactory_SetEntityParameter(*args)
-    def SetClassParameter(*args): return _blcelc.iDestroyEntityQuestRewardFactory_SetClassParameter(*args)
-    EntityParameter = _swig_property(None, _blcelc.iDestroyEntityQuestRewardFactory_EntityParameter_set, None,
-                    "iDestroyEntityQuestRewardFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iDestroyEntityQuestRewardFactory::SetEntityParameter(const char*)")
-
-    ClassParameter = _swig_property(None, _blcelc.iDestroyEntityQuestRewardFactory_ClassParameter_set, None,
-                    "iDestroyEntityQuestRewardFactory.ClassParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iDestroyEntityQuestRewardFactory::SetClassParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iDestroyEntityQuestRewardFactory
     __del__ = lambda self : None;
 iDestroyEntityQuestRewardFactory_swigregister = _blcelc.iDestroyEntityQuestRewardFactory_swigregister
 iDestroyEntityQuestRewardFactory_swigregister(iDestroyEntityQuestRewardFactory)
 
-class iCreateEntityQuestRewardFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SetEntityTemplateParameter(*args): return _blcelc.iCreateEntityQuestRewardFactory_SetEntityTemplateParameter(*args)
-    def SetNameParameter(*args): return _blcelc.iCreateEntityQuestRewardFactory_SetNameParameter(*args)
-    def AddParameter(*args): return _blcelc.iCreateEntityQuestRewardFactory_AddParameter(*args)
-    EntityTemplateParameter = _swig_property(None, _blcelc.iCreateEntityQuestRewardFactory_EntityTemplateParameter_set, None,
-                    "iCreateEntityQuestRewardFactory.EntityTemplateParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iCreateEntityQuestRewardFactory::SetEntityTemplateParameter(const char*)")
-
-    NameParameter = _swig_property(None, _blcelc.iCreateEntityQuestRewardFactory_NameParameter_set, None,
-                    "iCreateEntityQuestRewardFactory.NameParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iCreateEntityQuestRewardFactory::SetNameParameter(const char*)")
-
-    __swig_destroy__ = _blcelc.delete_iCreateEntityQuestRewardFactory
-    __del__ = lambda self : None;
-iCreateEntityQuestRewardFactory_swigregister = _blcelc.iCreateEntityQuestRewardFactory_swigregister
-iCreateEntityQuestRewardFactory_swigregister(iCreateEntityQuestRewardFactory)
-
 class iDebugPrintQuestSeqOpFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iDebugPrintQuestSeqOpFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iDebugPrintQuestSeqOpFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetMessageParameter(*args): return _blcelc.iDebugPrintQuestSeqOpFactory_SetMessageParameter(*args)
-    MessageParameter = _swig_property(None, _blcelc.iDebugPrintQuestSeqOpFactory_MessageParameter_set, None,
-                    "iDebugPrintQuestSeqOpFactory.MessageParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iDebugPrintQuestSeqOpFactory::SetMessageParameter(const char*)")
-
     __swig_destroy__ = _blcelc.delete_iDebugPrintQuestSeqOpFactory
     __del__ = lambda self : None;
 iDebugPrintQuestSeqOpFactory_swigregister = _blcelc.iDebugPrintQuestSeqOpFactory_swigregister
 iDebugPrintQuestSeqOpFactory_swigregister(iDebugPrintQuestSeqOpFactory)
 
 class iTransformQuestSeqOpFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iTransformQuestSeqOpFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iTransformQuestSeqOpFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iTransformQuestSeqOpFactory_SetEntityParameter(*args)
     def SetVectorParameter(*args): return _blcelc.iTransformQuestSeqOpFactory_SetVectorParameter(*args)
     def SetRotationParameter(*args): return _blcelc.iTransformQuestSeqOpFactory_SetRotationParameter(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iTransformQuestSeqOpFactory_SetEntityParameter), None,
-                    "iTransformQuestSeqOpFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iTransformQuestSeqOpFactory::getmethod()\n\tset: void iTransformQuestSeqOpFactory::SetEntityParameter(...)")
-
-    VectorParameter = _swig_property(None, fix_args(_blcelc.iTransformQuestSeqOpFactory_SetVectorParameter), None,
-                    "iTransformQuestSeqOpFactory.VectorParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iTransformQuestSeqOpFactory::getmethod()\n\tset: void iTransformQuestSeqOpFactory::SetVectorParameter(...)")
-
-    RotationParameter = _swig_property(None, fix_args(_blcelc.iTransformQuestSeqOpFactory_SetRotationParameter), None,
-                    "iTransformQuestSeqOpFactory.RotationParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iTransformQuestSeqOpFactory::getmethod()\n\tset: void iTransformQuestSeqOpFactory::SetRotationParameter(...)")
-
     __swig_destroy__ = _blcelc.delete_iTransformQuestSeqOpFactory
     __del__ = lambda self : None;
 iTransformQuestSeqOpFactory_swigregister = _blcelc.iTransformQuestSeqOpFactory_swigregister
 iTransformQuestSeqOpFactory_swigregister(iTransformQuestSeqOpFactory)
 
 class iMovePathQuestSeqOpFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iMovePathQuestSeqOpFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iMovePathQuestSeqOpFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iMovePathQuestSeqOpFactory_SetEntityParameter(*args)
     def AddPathNode(*args): return _blcelc.iMovePathQuestSeqOpFactory_AddPathNode(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iMovePathQuestSeqOpFactory_SetEntityParameter), None,
-                    "iMovePathQuestSeqOpFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iMovePathQuestSeqOpFactory::getmethod()\n\tset: void iMovePathQuestSeqOpFactory::SetEntityParameter(...)")
-
     __swig_destroy__ = _blcelc.delete_iMovePathQuestSeqOpFactory
     __del__ = lambda self : None;
 iMovePathQuestSeqOpFactory_swigregister = _blcelc.iMovePathQuestSeqOpFactory_swigregister
 iMovePathQuestSeqOpFactory_swigregister(iMovePathQuestSeqOpFactory)
 
 class iLightQuestSeqOpFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iLightQuestSeqOpFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iLightQuestSeqOpFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iLightQuestSeqOpFactory_SetEntityParameter(*args)
     def SetRelColorParameter(*args): return _blcelc.iLightQuestSeqOpFactory_SetRelColorParameter(*args)
     def SetAbsColorParameter(*args): return _blcelc.iLightQuestSeqOpFactory_SetAbsColorParameter(*args)
-    EntityParameter = _swig_property(None, fix_args(_blcelc.iLightQuestSeqOpFactory_SetEntityParameter), None,
-                    "iLightQuestSeqOpFactory.EntityParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iLightQuestSeqOpFactory::getmethod()\n\tset: void iLightQuestSeqOpFactory::SetEntityParameter(...)")
-
-    RelColorParameter = _swig_property(None, fix_args(_blcelc.iLightQuestSeqOpFactory_SetRelColorParameter), None,
-                    "iLightQuestSeqOpFactory.RelColorParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iLightQuestSeqOpFactory::getmethod()\n\tset: void iLightQuestSeqOpFactory::SetRelColorParameter(...)")
-
-    AbsColorParameter = _swig_property(None, fix_args(_blcelc.iLightQuestSeqOpFactory_SetAbsColorParameter), None,
-                    "iLightQuestSeqOpFactory.AbsColorParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iLightQuestSeqOpFactory::getmethod()\n\tset: void iLightQuestSeqOpFactory::SetAbsColorParameter(...)")
-
     __swig_destroy__ = _blcelc.delete_iLightQuestSeqOpFactory
     __del__ = lambda self : None;
 iLightQuestSeqOpFactory_swigregister = _blcelc.iLightQuestSeqOpFactory_swigregister
 iLightQuestSeqOpFactory_swigregister(iLightQuestSeqOpFactory)
 
-class iPropertyQuestSeqOpFactory(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SetEntityParameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetEntityParameter(*args)
-    def SetPCParameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetPCParameter(*args)
-    def SetPropertyParameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetPropertyParameter(*args)
-    def SetFloatParameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetFloatParameter(*args)
-    def SetLongParameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetLongParameter(*args)
-    def SetVector2Parameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetVector2Parameter(*args)
-    def SetVector3Parameter(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetVector3Parameter(*args)
-    def SetRelative(*args): return _blcelc.iPropertyQuestSeqOpFactory_SetRelative(*args)
-    EntityParameter = _swig_property(None, _blcelc.iPropertyQuestSeqOpFactory_EntityParameter_set, None,
-                    "iPropertyQuestSeqOpFactory.EntityParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyQuestSeqOpFactory::SetEntityParameter(const char*)")
-
-    PCParameter = _swig_property(None, fix_args(_blcelc.iPropertyQuestSeqOpFactory_SetPCParameter), None,
-                    "iPropertyQuestSeqOpFactory.PCParameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPropertyQuestSeqOpFactory::getmethod()\n\tset: void iPropertyQuestSeqOpFactory::SetPCParameter(...)")
-
-    PropertyParameter = _swig_property(None, _blcelc.iPropertyQuestSeqOpFactory_PropertyParameter_set, None,
-                    "iPropertyQuestSeqOpFactory.PropertyParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyQuestSeqOpFactory::SetPropertyParameter(const char*)")
-
-    FloatParameter = _swig_property(None, _blcelc.iPropertyQuestSeqOpFactory_FloatParameter_set, None,
-                    "iPropertyQuestSeqOpFactory.FloatParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyQuestSeqOpFactory::SetFloatParameter(const char*)")
-
-    LongParameter = _swig_property(None, _blcelc.iPropertyQuestSeqOpFactory_LongParameter_set, None,
-                    "iPropertyQuestSeqOpFactory.LongParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyQuestSeqOpFactory::SetLongParameter(const char*)")
-
-    Vector2Parameter = _swig_property(None, fix_args(_blcelc.iPropertyQuestSeqOpFactory_SetVector2Parameter), None,
-                    "iPropertyQuestSeqOpFactory.Vector2Parameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPropertyQuestSeqOpFactory::getmethod()\n\tset: void iPropertyQuestSeqOpFactory::SetVector2Parameter(...)")
-
-    Vector3Parameter = _swig_property(None, fix_args(_blcelc.iPropertyQuestSeqOpFactory_SetVector3Parameter), None,
-                    "iPropertyQuestSeqOpFactory.Vector3Parameter -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPropertyQuestSeqOpFactory::getmethod()\n\tset: void iPropertyQuestSeqOpFactory::SetVector3Parameter(...)")
-
-    Relative = _swig_property(None, _blcelc.iPropertyQuestSeqOpFactory_Relative_set, None,
-                    "iPropertyQuestSeqOpFactory.Relative (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPropertyQuestSeqOpFactory::SetRelative(bool)")
-
-    __swig_destroy__ = _blcelc.delete_iPropertyQuestSeqOpFactory
-    __del__ = lambda self : None;
-iPropertyQuestSeqOpFactory_swigregister = _blcelc.iPropertyQuestSeqOpFactory_swigregister
-iPropertyQuestSeqOpFactory_swigregister(iPropertyQuestSeqOpFactory)
-
 class iPcQuest(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcQuest, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcQuest, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def NewQuest(*args): return _blcelc.iPcQuest_NewQuest(*args)
     def StopQuest(*args): return _blcelc.iPcQuest_StopQuest(*args)
     def GetQuest(*args): return _blcelc.iPcQuest_GetQuest(*args)
     def GetQuestName(*args): return _blcelc.iPcQuest_GetQuestName(*args)
-    Quest = _swig_property(_blcelc.iPcQuest_Quest_get, None, None,
-                    "iPcQuest.Quest -> iQuest*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iQuest* iPcQuest::GetQuest()")
-
-    QuestName = _swig_property(_blcelc.iPcQuest_QuestName_get, None, None,
-                    "iPcQuest.QuestName -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iPcQuest::GetQuestName()")
-
     _PC = None
     def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcQuest, attr)
+         except:
+             pass
          if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcQuest,attr):
-             return object.__setattr__(self,attr,value)
+         if attr in iPcQuest.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcQuest,attr,value)
          elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcQuest_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iPcQuest
     __del__ = lambda self : None;
 iPcQuest_swigregister = _blcelc.iPcQuest_swigregister
 iPcQuest_swigregister(iPcQuest)
-iPcQuest_scfGetVersion = _blcelc.iPcQuest_scfGetVersion
 
 scfQuery_iPcQuest = _blcelc.scfQuery_iPcQuest
-class iCelEdge(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SetState(*args): return _blcelc.iCelEdge_SetState(*args)
-    def SetSuccessor(*args): return _blcelc.iCelEdge_SetSuccessor(*args)
-    def GetState(*args): return _blcelc.iCelEdge_GetState(*args)
-    def GetSuccessor(*args): return _blcelc.iCelEdge_GetSuccessor(*args)
-    State = _swig_property(_blcelc.iCelEdge_State_get, _blcelc.iCelEdge_State_set, None,
-                    "iCelEdge.State -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iCelEdge::GetState()\n\tset: void iCelEdge::SetState(bool)")
-
-
-    Successor = _swig_property(_blcelc.iCelEdge_Successor_get, _blcelc.iCelEdge_Successor_set, None,
-                    "iCelEdge.Successor -> iCelNode*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelNode* iCelEdge::GetSuccessor()\n\tset: void iCelEdge::SetSuccessor(iCelNode*)")
-
-
-    __swig_destroy__ = _blcelc.delete_iCelEdge
-    __del__ = lambda self : None;
-iCelEdge_swigregister = _blcelc.iCelEdge_swigregister
-iCelEdge_swigregister(iCelEdge)
-celCreateQuest = _blcelc.celCreateQuest
-celGetSetQuest = _blcelc.celGetSetQuest
-celGetQuest = _blcelc.celGetQuest
-
-class iCelNode(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def AddSuccessor(*args): return _blcelc.iCelNode_AddSuccessor(*args)
-    def SetMapNode(*args): return _blcelc.iCelNode_SetMapNode(*args)
-    def SetParent(*args): return _blcelc.iCelNode_SetParent(*args)
-    def SetName(*args): return _blcelc.iCelNode_SetName(*args)
-    def Heuristic(*args): return _blcelc.iCelNode_Heuristic(*args)
-    def GetMapNode(*args): return _blcelc.iCelNode_GetMapNode(*args)
-    def GetPosition(*args): return _blcelc.iCelNode_GetPosition(*args)
-    def GetName(*args): return _blcelc.iCelNode_GetName(*args)
-    def GetParent(*args): return _blcelc.iCelNode_GetParent(*args)
-    def GetSuccessors(*args): return _blcelc.iCelNode_GetSuccessors(*args)
-    def GetAllSuccessors(*args): return _blcelc.iCelNode_GetAllSuccessors(*args)
-    def GetHeuristic(*args): return _blcelc.iCelNode_GetHeuristic(*args)
-    def GetCost(*args): return _blcelc.iCelNode_GetCost(*args)
-    MapNode = _swig_property(_blcelc.iCelNode_MapNode_get, _blcelc.iCelNode_MapNode_set, None,
-                    "iCelNode.MapNode -> iMapNode*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iMapNode* iCelNode::GetMapNode()\n\tset: void iCelNode::SetMapNode(iMapNode*)")
-
-
-    Parent = _swig_property(_blcelc.iCelNode_Parent_get, _blcelc.iCelNode_Parent_set, None,
-                    "iCelNode.Parent -> iCelNode*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelNode* iCelNode::GetParent()\n\tset: void iCelNode::SetParent(iCelNode*)")
-
-
-    Name = _swig_property(_blcelc.iCelNode_Name_get, _blcelc.iCelNode_Name_set, None,
-                    "iCelNode.Name -> char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: char* iCelNode::GetName()\n\tset: void iCelNode::SetName(char*)")
-
-
-    Position = _swig_property(_blcelc.iCelNode_Position_get, None, None,
-                    "iCelNode.Position -> csVector3  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csVector3 iCelNode::GetPosition()")
-
-    Successors = _swig_property(_blcelc.iCelNode_Successors_get, None, None,
-                    "iCelNode.Successors -> csArray<iCelNode*  >  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csArray<iCelNode*  > iCelNode::GetSuccessors()")
-
-    AllSuccessors = _swig_property(_blcelc.iCelNode_AllSuccessors_get, None, None,
-                    "iCelNode.AllSuccessors -> csArray<iCelNode*  >  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csArray<iCelNode*  > iCelNode::GetAllSuccessors()")
-
-    Cost = _swig_property(_blcelc.iCelNode_Cost_get, None, None,
-                    "iCelNode.Cost -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iCelNode::GetCost()")
-
-    __swig_destroy__ = _blcelc.delete_iCelNode
-    __del__ = lambda self : None;
-iCelNode_swigregister = _blcelc.iCelNode_swigregister
-iCelNode_swigregister(iCelNode)
-
-class iCelPath(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def AddNode(*args): return _blcelc.iCelPath_AddNode(*args)
-    def InsertNode(*args): return _blcelc.iCelPath_InsertNode(*args)
-    def Next(*args): return _blcelc.iCelPath_Next(*args)
-    def Previous(*args): return _blcelc.iCelPath_Previous(*args)
-    def Current(*args): return _blcelc.iCelPath_Current(*args)
-    def CurrentPosition(*args): return _blcelc.iCelPath_CurrentPosition(*args)
-    def CurrentSector(*args): return _blcelc.iCelPath_CurrentSector(*args)
-    def HasNext(*args): return _blcelc.iCelPath_HasNext(*args)
-    def HasPrevious(*args): return _blcelc.iCelPath_HasPrevious(*args)
-    def Restart(*args): return _blcelc.iCelPath_Restart(*args)
-    def Clear(*args): return _blcelc.iCelPath_Clear(*args)
-    def GetFirst(*args): return _blcelc.iCelPath_GetFirst(*args)
-    def GetLast(*args): return _blcelc.iCelPath_GetLast(*args)
-    def Invert(*args): return _blcelc.iCelPath_Invert(*args)
-    First = _swig_property(_blcelc.iCelPath_First_get, None, None,
-                    "iCelPath.First -> iMapNode*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iMapNode* iCelPath::GetFirst()")
-
-    Last = _swig_property(_blcelc.iCelPath_Last_get, None, None,
-                    "iCelPath.Last -> iMapNode*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iMapNode* iCelPath::GetLast()")
-
-    __swig_destroy__ = _blcelc.delete_iCelPath
-    __del__ = lambda self : None;
-iCelPath_swigregister = _blcelc.iCelPath_swigregister
-iCelPath_swigregister(iCelPath)
-
-class iCelGraph(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def AddNode(*args): return _blcelc.iCelGraph_AddNode(*args)
-    def AddEdge(*args): return _blcelc.iCelGraph_AddEdge(*args)
-    def AddEdgeByNames(*args): return _blcelc.iCelGraph_AddEdgeByNames(*args)
-    def GetClosest(*args): return _blcelc.iCelGraph_GetClosest(*args)
-    def ShortestPath(*args): return _blcelc.iCelGraph_ShortestPath(*args)
-    def RandomPath(*args): return _blcelc.iCelGraph_RandomPath(*args)
-    __swig_destroy__ = _blcelc.delete_iCelGraph
-    __del__ = lambda self : None;
-iCelGraph_swigregister = _blcelc.iCelGraph_swigregister
-iCelGraph_swigregister(iCelGraph)
-
 class iCelConsoleCommand(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelConsoleCommand, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelConsoleCommand, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetCommand(*args): return _blcelc.iCelConsoleCommand_GetCommand(*args)
     def GetDescription(*args): return _blcelc.iCelConsoleCommand_GetDescription(*args)
     def Help(*args): return _blcelc.iCelConsoleCommand_Help(*args)
     def Execute(*args): return _blcelc.iCelConsoleCommand_Execute(*args)
-    Command = _swig_property(_blcelc.iCelConsoleCommand_Command_get, None, None,
+    Command = property(_blcelc.iCelConsoleCommand_Command_get, None, None,
                     "iCelConsoleCommand.Command -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelConsoleCommand::GetCommand()")
 
-    Description = _swig_property(_blcelc.iCelConsoleCommand_Description_get, None, None,
+    Description = property(_blcelc.iCelConsoleCommand_Description_get, None, None,
                     "iCelConsoleCommand.Description -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelConsoleCommand::GetDescription()")
 
     __swig_destroy__ = _blcelc.delete_iCelConsoleCommand
     __del__ = lambda self : None;
 iCelConsoleCommand_swigregister = _blcelc.iCelConsoleCommand_swigregister
 iCelConsoleCommand_swigregister(iCelConsoleCommand)
+celCreateQuest = _blcelc.celCreateQuest
+celGetSetQuest = _blcelc.celGetSetQuest
+celGetQuest = _blcelc.celGetQuest
 
 class iCelConsole(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelConsole, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelConsole, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetInputConsole(*args): return _blcelc.iCelConsole_GetInputConsole(*args)
     def GetOutputConsole(*args): return _blcelc.iCelConsole_GetOutputConsole(*args)
     def RegisterCommand(*args): return _blcelc.iCelConsole_RegisterCommand(*args)
-    InputConsole = _swig_property(_blcelc.iCelConsole_InputConsole_get, None, None,
+    InputConsole = property(_blcelc.iCelConsole_InputConsole_get, None, None,
                     "iCelConsole.InputConsole -> iConsoleInput*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iConsoleInput* iCelConsole::GetInputConsole()")
 
-    OutputConsole = _swig_property(_blcelc.iCelConsole_OutputConsole_get, None, None,
+    OutputConsole = property(_blcelc.iCelConsole_OutputConsole_get, None, None,
                     "iCelConsole.OutputConsole -> iConsoleOutput*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iConsoleOutput* iCelConsole::GetOutputConsole()")
 
     __swig_destroy__ = _blcelc.delete_iCelConsole
@@ -5690,174 +5449,6 @@ iCelConsole_swigregister = _blcelc.iCelConsole_swigregister
 iCelConsole_swigregister(iCelConsole)
 
 csQueryRegistry_iCelConsole = _blcelc.csQueryRegistry_iCelConsole
-class PcCommonBase(iCelPropertyClass,iCelTimerListener,iMessageSender):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def IncRef(*args): return _blcelc.PcCommonBase_IncRef(*args)
-    def DecRef(*args): return _blcelc.PcCommonBase_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.PcCommonBase_GetRefCount(*args)
-    def QueryInterface(*args): return _blcelc.PcCommonBase_QueryInterface(*args)
-    def AddRefOwner(*args): return _blcelc.PcCommonBase_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.PcCommonBase_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.PcCommonBase_GetInterfaceMetadata(*args)
-PcCommonBase_swigregister = _blcelc.PcCommonBase_swigregister
-PcCommonBase_swigregister(PcCommonBase)
-
-class Property(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    id = _swig_property(_blcelc.Property_id_get, _blcelc.Property_id_set)
-    datatype = _swig_property(_blcelc.Property_datatype_get, _blcelc.Property_datatype_set)
-    readonly = _swig_property(_blcelc.Property_readonly_get, _blcelc.Property_readonly_set)
-    desc = _swig_property(_blcelc.Property_desc_get)
-    def __init__(self, *args): 
-        this = _blcelc.new_Property(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_Property
-    __del__ = lambda self : None;
-Property_swigregister = _blcelc.Property_swigregister
-Property_swigregister(Property)
-
-class PropertyHolder(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    properties = _swig_property(_blcelc.PropertyHolder_properties_get, _blcelc.PropertyHolder_properties_set)
-    propertycount = _swig_property(_blcelc.PropertyHolder_propertycount_get, _blcelc.PropertyHolder_propertycount_set)
-    actions_done = _swig_property(_blcelc.PropertyHolder_actions_done_get, _blcelc.PropertyHolder_actions_done_set)
-    constants = _swig_property(_blcelc.PropertyHolder_constants_get, _blcelc.PropertyHolder_constants_set)
-    def __init__(self, *args): 
-        this = _blcelc.new_PropertyHolder(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_PropertyHolder
-    __del__ = lambda self : None;
-    def SetCount(*args): return _blcelc.PropertyHolder_SetCount(*args)
-PropertyHolder_swigregister = _blcelc.PropertyHolder_swigregister
-PropertyHolder_swigregister(PropertyHolder)
-
-class celPcCommon(PcCommonBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    __swig_destroy__ = _blcelc.delete_celPcCommon
-    __del__ = lambda self : None;
-    def HavePropertyClassesChanged(*args): return _blcelc.celPcCommon_HavePropertyClassesChanged(*args)
-    def SetTag(*args): return _blcelc.celPcCommon_SetTag(*args)
-    def GetTag(*args): return _blcelc.celPcCommon_GetTag(*args)
-    def SetName(*args): return _blcelc.celPcCommon_SetName(*args)
-    def GetName(*args): return _blcelc.celPcCommon_GetName(*args)
-    def GetEntity(*args): return _blcelc.celPcCommon_GetEntity(*args)
-    def SetEntity(*args): return _blcelc.celPcCommon_SetEntity(*args)
-    def AddPropertyChangeCallback(*args): return _blcelc.celPcCommon_AddPropertyChangeCallback(*args)
-    def RemovePropertyChangeCallback(*args): return _blcelc.celPcCommon_RemovePropertyChangeCallback(*args)
-    def SetPropertyIndexed(*args): return _blcelc.celPcCommon_SetPropertyIndexed(*args)
-    def SetProperty(*args): return _blcelc.celPcCommon_SetProperty(*args)
-    def GetPropertyIndexed(*args): return _blcelc.celPcCommon_GetPropertyIndexed(*args)
-    def GetPropertyLongByID(*args): return _blcelc.celPcCommon_GetPropertyLongByID(*args)
-    def GetPropertyFloatByID(*args): return _blcelc.celPcCommon_GetPropertyFloatByID(*args)
-    def GetPropertyBoolByID(*args): return _blcelc.celPcCommon_GetPropertyBoolByID(*args)
-    def GetPropertyStringByID(*args): return _blcelc.celPcCommon_GetPropertyStringByID(*args)
-    def GetPropertyVector2ByID(*args): return _blcelc.celPcCommon_GetPropertyVector2ByID(*args)
-    def GetPropertyVector3ByID(*args): return _blcelc.celPcCommon_GetPropertyVector3ByID(*args)
-    def GetPropertyColorByID(*args): return _blcelc.celPcCommon_GetPropertyColorByID(*args)
-    def GetPropertyPClassByID(*args): return _blcelc.celPcCommon_GetPropertyPClassByID(*args)
-    def GetPropertyEntityByID(*args): return _blcelc.celPcCommon_GetPropertyEntityByID(*args)
-    def GetPropertyIBaseByID(*args): return _blcelc.celPcCommon_GetPropertyIBaseByID(*args)
-    def GetPropertyLong(*args): return _blcelc.celPcCommon_GetPropertyLong(*args)
-    def GetPropertyFloat(*args): return _blcelc.celPcCommon_GetPropertyFloat(*args)
-    def GetPropertyBool(*args): return _blcelc.celPcCommon_GetPropertyBool(*args)
-    def GetPropertyString(*args): return _blcelc.celPcCommon_GetPropertyString(*args)
-    def GetPropertyVector2(*args): return _blcelc.celPcCommon_GetPropertyVector2(*args)
-    def GetPropertyVector3(*args): return _blcelc.celPcCommon_GetPropertyVector3(*args)
-    def GetPropertyColor(*args): return _blcelc.celPcCommon_GetPropertyColor(*args)
-    def GetPropertyPClass(*args): return _blcelc.celPcCommon_GetPropertyPClass(*args)
-    def GetPropertyEntity(*args): return _blcelc.celPcCommon_GetPropertyEntity(*args)
-    def GetPropertyIBase(*args): return _blcelc.celPcCommon_GetPropertyIBase(*args)
-    def PerformAction(*args): return _blcelc.celPcCommon_PerformAction(*args)
-    def PerformActionIndexed(*args): return _blcelc.celPcCommon_PerformActionIndexed(*args)
-    def GetPropertyOrActionDescription(*args): return _blcelc.celPcCommon_GetPropertyOrActionDescription(*args)
-    def GetPropertyAndActionCount(*args): return _blcelc.celPcCommon_GetPropertyAndActionCount(*args)
-    def GetPropertyOrActionID(*args): return _blcelc.celPcCommon_GetPropertyOrActionID(*args)
-    def PropertyClassesHaveChanged(*args): return _blcelc.celPcCommon_PropertyClassesHaveChanged(*args)
-    def GetPropertyOrActionType(*args): return _blcelc.celPcCommon_GetPropertyOrActionType(*args)
-    def IsPropertyReadOnly(*args): return _blcelc.celPcCommon_IsPropertyReadOnly(*args)
-    def SaveFirstPass(*args): return _blcelc.celPcCommon_SaveFirstPass(*args)
-    def LoadFirstPass(*args): return _blcelc.celPcCommon_LoadFirstPass(*args)
-    def GetPersistentData(*args): return _blcelc.celPcCommon_GetPersistentData(*args)
-    def SetPersistentData(*args): return _blcelc.celPcCommon_SetPersistentData(*args)
-    def TickEveryFrame(*args): return _blcelc.celPcCommon_TickEveryFrame(*args)
-    def TickOnce(*args): return _blcelc.celPcCommon_TickOnce(*args)
-    def MessageDispatcherRemoved(*args): return _blcelc.celPcCommon_MessageDispatcherRemoved(*args)
-celPcCommon_swigregister = _blcelc.celPcCommon_swigregister
-celPcCommon_swigregister(celPcCommon)
-
-class swigPcCommonFactory(iCelPropertyClassFactory):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def IncRef(*args): return _blcelc.swigPcCommonFactory_IncRef(*args)
-    def DecRef(*args): return _blcelc.swigPcCommonFactory_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.swigPcCommonFactory_GetRefCount(*args)
-    def QueryInterface(*args): return _blcelc.swigPcCommonFactory_QueryInterface(*args)
-    def AddRefOwner(*args): return _blcelc.swigPcCommonFactory_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.swigPcCommonFactory_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.swigPcCommonFactory_GetInterfaceMetadata(*args)
-swigPcCommonFactory_swigregister = _blcelc.swigPcCommonFactory_swigregister
-swigPcCommonFactory_swigregister(swigPcCommonFactory)
-
-class swigPcCommon(celPcCommon):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def IncRef(*args): return _blcelc.swigPcCommon_IncRef(*args)
-    def DecRef(*args): return _blcelc.swigPcCommon_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.swigPcCommon_GetRefCount(*args)
-    def QueryInterface(*args): return _blcelc.swigPcCommon_QueryInterface(*args)
-    def AddRefOwner(*args): return _blcelc.swigPcCommon_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.swigPcCommon_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.swigPcCommon_GetInterfaceMetadata(*args)
-swigPcCommon_swigregister = _blcelc.swigPcCommon_swigregister
-swigPcCommon_swigregister(swigPcCommon)
-
-class PcCommon(swigPcCommon):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_PcCommon(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_PcCommon
-    __del__ = lambda self : None;
-    def Save(*args): return _blcelc.PcCommon_Save(*args)
-    def Load(*args): return _blcelc.PcCommon_Load(*args)
-PcCommon_swigregister = _blcelc.PcCommon_swigregister
-PcCommon_swigregister(PcCommon)
-
-class PcCommonFactory(swigPcCommonFactory):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        if self.__class__ == PcCommonFactory:
-            args = (None,) + args
-        else:
-            args = (self,) + args
-        this = _blcelc.new_PcCommonFactory(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_PcCommonFactory
-    __del__ = lambda self : None;
-    def GetName(*args): return _blcelc.PcCommonFactory_GetName(*args)
-    def CreatePropertyClass(*args): return _blcelc.PcCommonFactory_CreatePropertyClass(*args)
-    def CreateScriptPropertyClass(*args): return _blcelc.PcCommonFactory_CreateScriptPropertyClass(*args)
-    def __disown__(self):
-        self.this.disown()
-        _blcelc.disown_PcCommonFactory(self)
-        return weakref_proxy(self)
-PcCommonFactory_swigregister = _blcelc.PcCommonFactory_swigregister
-PcCommonFactory_swigregister(PcCommonFactory)
-
 class CelConsoleOut:
 	"""Class that can be assigned to sys.stdout or sys.stderr"""
 	def __init__(self,oreg):
@@ -5877,181 +5468,6 @@ class CelConsoleOutOverride:
 		import sys
 		sys.stdout = self.oldstdout
 		sys.stderr = self.oldstderr
-
-class iPcPython(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SetPythonObject(*args): return _blcelc.iPcPython_SetPythonObject(*args)
-    def GetPythonObject(*args): return _blcelc.iPcPython_GetPythonObject(*args)
-    scfGetVersion = staticmethod(_blcelc.iPcPython_scfGetVersion)
-    __swig_destroy__ = _blcelc.delete_iPcPython
-    __del__ = lambda self : None;
-iPcPython_swigregister = _blcelc.iPcPython_swigregister
-iPcPython_swigregister(iPcPython)
-iPcPython_scfGetVersion = _blcelc.iPcPython_scfGetVersion
-
-class swigPyPcCommon(PcCommon,iPcPython):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def IncRef(*args): return _blcelc.swigPyPcCommon_IncRef(*args)
-    def DecRef(*args): return _blcelc.swigPyPcCommon_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.swigPyPcCommon_GetRefCount(*args)
-    def QueryInterface(*args): return _blcelc.swigPyPcCommon_QueryInterface(*args)
-    def AddRefOwner(*args): return _blcelc.swigPyPcCommon_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.swigPyPcCommon_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.swigPyPcCommon_GetInterfaceMetadata(*args)
-swigPyPcCommon_swigregister = _blcelc.swigPyPcCommon_swigregister
-swigPyPcCommon_swigregister(swigPyPcCommon)
-
-class pyPcCommon(swigPyPcCommon):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    oreg = _swig_property(_blcelc.pyPcCommon_oreg_get, _blcelc.pyPcCommon_oreg_set)
-    def __init__(self, *args): 
-        if self.__class__ == pyPcCommon:
-            args = (None,) + args
-        else:
-            args = (self,) + args
-        this = _blcelc.new_pyPcCommon(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_pyPcCommon
-    __del__ = lambda self : None;
-    def SetPythonObject(*args): return _blcelc.pyPcCommon_SetPythonObject(*args)
-    def GetPythonObject(*args): return _blcelc.pyPcCommon_GetPythonObject(*args)
-    def PerformAction(*args): return _blcelc.pyPcCommon_PerformAction(*args)
-    def GetPropertyLongByID(*args): return _blcelc.pyPcCommon_GetPropertyLongByID(*args)
-    def GetPropertyFloatByID(*args): return _blcelc.pyPcCommon_GetPropertyFloatByID(*args)
-    def GetPropertyBoolByID(*args): return _blcelc.pyPcCommon_GetPropertyBoolByID(*args)
-    def SetEntity(*args): return _blcelc.pyPcCommon_SetEntity(*args)
-    def GetPropertyStringByID(*args): return _blcelc.pyPcCommon_GetPropertyStringByID(*args)
-    def GetPropertyVector2ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector2ByID(*args)
-    def GetPropertyVector3ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector3ByID(*args)
-    def GetPropertyColorByID(*args): return _blcelc.pyPcCommon_GetPropertyColorByID(*args)
-    def GetPropertyEntityByID(*args): return _blcelc.pyPcCommon_GetPropertyEntityByID(*args)
-    def GetPropertyPClassByID(*args): return _blcelc.pyPcCommon_GetPropertyPClassByID(*args)
-    def GetPropertyIBaseByID(*args): return _blcelc.pyPcCommon_GetPropertyIBaseByID(*args)
-    def PropertyClassesHaveChanged(*args): return _blcelc.pyPcCommon_PropertyClassesHaveChanged(*args)
-    def SetProperty(*args): return _blcelc.pyPcCommon_SetProperty(*args)
-    def GetPropertyOrActionType(*args): return _blcelc.pyPcCommon_GetPropertyOrActionType(*args)
-    def GetPL(*args): return _blcelc.pyPcCommon_GetPL(*args)
-    def PerformActionIndexed(self,id,celParBlock,ret):
-      print "indexed action"
-    pl = property(GetPL)
-
-    def __disown__(self):
-        self.this.disown()
-        _blcelc.disown_pyPcCommon(self)
-        return weakref_proxy(self)
-pyPcCommon_swigregister = _blcelc.pyPcCommon_swigregister
-pyPcCommon_swigregister(pyPcCommon)
-
-class swigpyMessageSender(iMessageSender):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def IncRef(*args): return _blcelc.swigpyMessageSender_IncRef(*args)
-    def DecRef(*args): return _blcelc.swigpyMessageSender_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.swigpyMessageSender_GetRefCount(*args)
-    def QueryInterface(*args): return _blcelc.swigpyMessageSender_QueryInterface(*args)
-    def AddRefOwner(*args): return _blcelc.swigpyMessageSender_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.swigpyMessageSender_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.swigpyMessageSender_GetInterfaceMetadata(*args)
-swigpyMessageSender_swigregister = _blcelc.swigpyMessageSender_swigregister
-swigpyMessageSender_swigregister(swigpyMessageSender)
-
-class pyMessageSender(swigpyMessageSender):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        if self.__class__ == pyMessageSender:
-            args = (None,) + args
-        else:
-            args = (self,) + args
-        this = _blcelc.new_pyMessageSender(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_pyMessageSender
-    __del__ = lambda self : None;
-    def MessageDispatcherRemoved(*args): return _blcelc.pyMessageSender_MessageDispatcherRemoved(*args)
-    def __disown__(self):
-        self.this.disown()
-        _blcelc.disown_pyMessageSender(self)
-        return weakref_proxy(self)
-pyMessageSender_swigregister = _blcelc.pyMessageSender_swigregister
-pyMessageSender_swigregister(pyMessageSender)
-
-class swigpyMessageReceiver(iMessageReceiver):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def IncRef(*args): return _blcelc.swigpyMessageReceiver_IncRef(*args)
-    def DecRef(*args): return _blcelc.swigpyMessageReceiver_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.swigpyMessageReceiver_GetRefCount(*args)
-    def QueryInterface(*args): return _blcelc.swigpyMessageReceiver_QueryInterface(*args)
-    def AddRefOwner(*args): return _blcelc.swigpyMessageReceiver_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.swigpyMessageReceiver_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.swigpyMessageReceiver_GetInterfaceMetadata(*args)
-swigpyMessageReceiver_swigregister = _blcelc.swigpyMessageReceiver_swigregister
-swigpyMessageReceiver_swigregister(swigpyMessageReceiver)
-
-class pyMessageReceiver(swigpyMessageReceiver):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        if self.__class__ == pyMessageReceiver:
-            args = (None,) + args
-        else:
-            args = (self,) + args
-        this = _blcelc.new_pyMessageReceiver(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_pyMessageReceiver
-    __del__ = lambda self : None;
-    def ReceiveMessage(*args): return _blcelc.pyMessageReceiver_ReceiveMessage(*args)
-    def __disown__(self):
-        self.this.disown()
-        _blcelc.disown_pyMessageReceiver(self)
-        return weakref_proxy(self)
-pyMessageReceiver_swigregister = _blcelc.pyMessageReceiver_swigregister
-pyMessageReceiver_swigregister(pyMessageReceiver)
-
-class swigpyPcPropertyListener(iPcPropertyListener):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def IncRef(*args): return _blcelc.swigpyPcPropertyListener_IncRef(*args)
-    def DecRef(*args): return _blcelc.swigpyPcPropertyListener_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.swigpyPcPropertyListener_GetRefCount(*args)
-    def QueryInterface(*args): return _blcelc.swigpyPcPropertyListener_QueryInterface(*args)
-    def AddRefOwner(*args): return _blcelc.swigpyPcPropertyListener_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.swigpyPcPropertyListener_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.swigpyPcPropertyListener_GetInterfaceMetadata(*args)
-swigpyPcPropertyListener_swigregister = _blcelc.swigpyPcPropertyListener_swigregister
-swigpyPcPropertyListener_swigregister(swigpyPcPropertyListener)
-
-class pyPcPropertyListener(swigpyPcPropertyListener):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        if self.__class__ == pyPcPropertyListener:
-            args = (None,) + args
-        else:
-            args = (self,) + args
-        this = _blcelc.new_pyPcPropertyListener(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_pyPcPropertyListener
-    __del__ = lambda self : None;
-    def PropertyChanged(*args): return _blcelc.pyPcPropertyListener_PropertyChanged(*args)
-    def __disown__(self):
-        self.this.disown()
-        _blcelc.disown_pyPcPropertyListener(self)
-        return weakref_proxy(self)
-pyPcPropertyListener_swigregister = _blcelc.pyPcPropertyListener_swigregister
-pyPcPropertyListener_swigregister(pyPcPropertyListener)
 
 
 

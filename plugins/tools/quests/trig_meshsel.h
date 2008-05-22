@@ -49,8 +49,8 @@ class celMeshSelectTriggerFactory : public scfImplementation2<
 {
 private:
   celMeshSelectTriggerType* type;
-  csString entity_par;
-  csString tag_par;
+  char* entity_par;
+  char* tag_par;
 
 public:
   celMeshSelectTriggerFactory (celMeshSelectTriggerType* type);
@@ -75,9 +75,8 @@ private:
   celMeshSelectTriggerType* type;
   csRef<iQuestTriggerCallback> callback;
   csWeakRef<iPcMeshSelect> meshselect;
-  csString entity;
-  csString tag;
-  csRef<celOneParameterBlock> params_entity;
+  char* entity;
+  char* tag;
 
   void FindMeshSelect ();
 

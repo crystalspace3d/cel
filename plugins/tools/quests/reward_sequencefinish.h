@@ -50,14 +50,13 @@ class celSequenceFinishRewardFactory : public scfImplementation2<
 {
 private:
   celSequenceFinishRewardType* type;
-  csString entity_par;
-  csString class_par;
-  csString tag_par;
-  csString sequence_par;
+  char* entity_par;
+  char* tag_par;
+  char* sequence_par;
 
 public:
   celSequenceFinishRewardFactory (celSequenceFinishRewardType* type);
-  virtual ~celSequenceFinishRewardFactory () {};
+  virtual ~celSequenceFinishRewardFactory ();
 
   virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
@@ -65,8 +64,6 @@ public:
 
   //----------------- iSequenceFinishQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual void SetClassParameter (const char* pclass) { class_par = pclass; };
-  virtual void SetTagParameter (const char* tag) { tag_par = tag; };
   virtual void SetSequenceParameter (const char* sequence);
 };
 
@@ -78,9 +75,9 @@ class celSequenceFinishReward : public scfImplementation1<
 {
 private:
   celSequenceFinishRewardType* type;
-  csRef<iQuestParameter> entity;
-  csRef<iQuestParameter> tag;
-  csRef<iQuestParameter> sequence;
+  char* entity;
+  char* tag;
+  char* sequence;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcQuest> quest;
 
@@ -89,34 +86,10 @@ public:
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par);
-  virtual ~celSequenceFinishReward () {};
+  virtual ~celSequenceFinishReward ();
 
-  virtual void Reward (iCelParameterBlock* params);
+  virtual void Reward ();
 };
-
-/**
- * The 'sequencefinish' reward that works on classes.
- */
-class celClassSequenceFinishReward : public scfImplementation1<
-	celClassSequenceFinishReward, iQuestReward>
-{
-private:
-  celSequenceFinishRewardType* type;
-  csRef<iQuestParameter> tag;
-  csRef<iQuestParameter> sequence;
-  csRef<iQuestParameter> clazz;
-  csRef<iCelEntityList> entlist;
-
-public:
-  celClassSequenceFinishReward (celSequenceFinishRewardType* type,
-  	const celQuestParams& params,
-	const char* entity_par, const char* tag_par,
-	const char* sequence_par);
-  virtual ~celClassSequenceFinishReward () {};
-
-  virtual void Reward (iCelParameterBlock* params);
-};
-
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_SEQUENCEFINISH__
 

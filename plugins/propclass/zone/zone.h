@@ -318,13 +318,6 @@ private:
   static PropertyHolder propinfo;
 
 public:
-  csRef<iMessageDispatcher> dispatcher_add;
-  csRef<iMessageDispatcher> dispatcher_remove;
-  csRef<iMessageDispatcher> dispatcher_loadstart;
-  csRef<iMessageDispatcher> dispatcher_loadstop;
-  csRef<iMessageDispatcher> dispatcher_loaderror;
-
-public:
   celPcZoneManager (iObjectRegistry* object_reg);
   virtual ~celPcZoneManager ();
 
@@ -355,8 +348,7 @@ public:
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
 
-  void SendZoneMessage (iCelRegion* region, const char* msgidold,
-      const char* msgid, csRef<iMessageDispatcher>& dispatcher);
+  void SendZoneMessage (iCelRegion* region, const char* msgid);
 
   virtual void EnableColliderWrappers (bool en) { do_colliderwrappers = en; }
   virtual bool IsColliderWrappers () const { return do_colliderwrappers; }

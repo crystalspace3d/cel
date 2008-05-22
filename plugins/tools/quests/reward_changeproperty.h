@@ -52,7 +52,6 @@ private:
   celChangePropertyRewardType* type;
   csString prop_par;
   csString entity_par;
-  csString class_par;
   csString pc_par;
   csString tag_par;
   csString string_par;
@@ -72,7 +71,6 @@ public:
 
   //----------------- iChangePropertyQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
-  virtual void SetClassParameter (const char* ent_class);
   virtual void SetPropertyParameter (const char* prop);
   virtual void SetPCParameter (const char* pc, const char* tag);
   virtual void SetStringParameter (const char* pstring);
@@ -86,50 +84,25 @@ public:
 /**
  * The 'changeproperty' reward.
  */
-class celChangePropertyRewardBase : public scfImplementation1<
-	celChangePropertyRewardBase, iQuestReward>
-{
-protected:
-  celChangePropertyRewardType* type;
-  csRef<iQuestParameter> prop;
-  csRef<iQuestParameter> pc;
-  csRef<iQuestParameter> tag;
-  csRef<iQuestParameter> pstring;
-  csRef<iQuestParameter> plong;
-  csRef<iQuestParameter> pfloat;
-  csRef<iQuestParameter> pbool;
-  csRef<iQuestParameter> pdiff;
-  bool do_toggle;
-
-public:
-  celChangePropertyRewardBase (celChangePropertyRewardType* type,
-  	const celQuestParams& params,
-	const char* prop_par,
-	const char* pc,
-	const char* tag,
-	const char* string_par,
-	const char* long_par,
-	const char* float_par,
-	const char* bool_par,
-	const char* diff_par,
-	bool do_toggle);
-  virtual ~celChangePropertyRewardBase () {};
-  virtual void Reward (iCelParameterBlock* params) = 0;
-  
-protected:
-  void ChangePropertyOnPc (iCelPropertyClass *pclass, iCelParameterBlock* params);
-  void ChangePropertyOnPcProp (iPcProperties *properties, iCelParameterBlock* params);
-
-};
-
-
-class celChangePropertyReward : public celChangePropertyRewardBase
+class celChangePropertyReward : public scfImplementation1<
+	celChangePropertyReward, iQuestReward>
 {
 private:
-  csRef<iQuestParameter> entity;
+  celChangePropertyRewardType* type;
+  csString prop;
+  csString entity;
+  csString pc;
+  csString tag;
+  csString pstring;
+  csString plong;
+  csString pfloat;
+  csString pbool;
+  csString pdiff;
+  bool do_toggle;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcProperties> properties;
   csWeakRef<iCelPropertyClass> pclass;
+
 public:
   celChangePropertyReward (celChangePropertyRewardType* type,
   	const celQuestParams& params,
@@ -143,42 +116,10 @@ public:
 	const char* bool_par,
 	const char* diff_par,
 	bool do_toggle);
-  virtual ~celChangePropertyReward () {};
+  virtual ~celChangePropertyReward ();
 
-  virtual void Reward (iCelParameterBlock* params);
+  virtual void Reward ();
 };
-/**
- * The 'changeproperty' reward.
- */
-class celClassChangePropertyReward : public celChangePropertyRewardBase
-{
-private:
-  celChangePropertyRewardType* type;
-  csRef<iCelEntityList> entlist;
-  csRef<iQuestParameter> clazz;
-
-public:
-  celClassChangePropertyReward (celChangePropertyRewardType* type,
-  	const celQuestParams& params,
-	const char* prop_par,
-	const char* class_par,
-	const char* pc,
-	const char* tag,
-	const char* string_par,
-	const char* long_par,
-	const char* float_par,
-	const char* bool_par,
-	const char* diff_par,
-	bool do_toggle);
-  virtual ~celClassChangePropertyReward () {};
-
-  virtual void Reward (iCelParameterBlock* params);
-
-private:
-  void PcReward (iCelParameterBlock* params);
-  void PcPropReward (iCelParameterBlock* params);
-};
-
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_CHANGEPROPERTY__
 

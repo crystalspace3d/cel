@@ -1,0 +1,160 @@
+1.2 branch specific log.
+
+The history order is reversed so that new features are at the top.
+
+20-Apr-2008
+	- Vincent fixed a problem in pcmove.actor.standard where walking
+	  animation would not be played on first forward movement.
+18-Apr-2008
+	- Vincent merged r3316 and r3317 into 1.2 (work-around internal Jam
+	  crasher and BoostJam compatibility).
+16-Apr-2008
+	- Vincent merged r3298 into 1.2 (fix binutils check for Mac OS X
+	  Leopard).
+	- Vincent merged r3303:3304 into 1.2 (fix broken folding of
+	  multi-token build switches (such as "-framework Foundation")).
+15-Apr-2008
+	- caedes merged r3300 into 1.2 (fill in some celdata swig mappings).
+08-Apr-2008
+	- Vincent merged r3277 into 1.2 (work around g++ -Wno-long-double bug).
+30-Mar-2008
+	- Vincent merged r27834 to into 1.2 (require SWIG 1.3.31+ for Python
+	  2.5 bindings, else use pre-generated files).
+28-Mar-2008
+	- caedes merged r2926 into 1.2 (fix for incorrect pdb usage in 
+	  blpython).
+19-Mar-2008
+	- caedes merged r3261 into 1.2 (initialize python sys.argv).
+18-Mar-2008
+	- Vincent merged r3258 into 1.2 (fix for #51, pctrigger_entertrigger
+	  called multiple times for entities with multiple pcmeshes).
+08-Mar-2008
+	- Vincent merged r3243 into 1.2 (fix for #54, celconsole event
+	  ordering fix).
+05-Mar-2008
+	- Vincent merged r3231 into 1.2 (fix for #57,
+	  celPcCommandInput::RemoveBind() fix).
+26-Feb-2008
+	- Vincent merged r3203 into 1.2 (fixed linmove forcing hugGround on
+	  certain conditions).
+	- Vincent merged r3204 into 1.2 (checkpython.m4 fix) and regenerated
+	  configure.
+21-Feb-2008
+	- Vincent merged r3193 into 1.2 (detect i586-mingw32msvc-g++
+	  cross-compile problem with -fvisibility-inlines-hidden).
+7-Feb-2008
+	- Vincent updated *.m4, *.jam and macros.tlib from CS 1.2 (r28633).
+	- Vincent partially merged r3109 into 1.2 (configure.ac upgrade for
+	  visibility.m4 checks), and warnings.m4 update.
+6-Feb-2008
+	- Vincent partially merged r3050 into 1.2 (fixed PcRegion being
+	  incorrectly declared in blcel.i).
+	- Vincent merged r3065 into 1.2 (removed CEL-specific customizations
+	  from mk/msvcgen/control.tlib).
+	- Vincent merged r3066 into 1.2 (removed CEL-specific customizations
+	  from mk/jam/build.jam).
+5-Feb-2008
+	- Vincent merged r3153 into 1.2 (svn:ignore list for top dir).
+	- Vincent merged r3086 into 1.2 (added note in manual about pcmover
+	  dependency on linmove and actormove).
+	- Vincent merged r3088 into 1.2 (added back bindings for thruster
+	  related interfaces).
+	- Vincent froze blcel following r3156.
+	- Vincent merged r3091 into 1.2 (fixed zonemanager checking wrongly
+	  for PointCamera() error).
+	- Vincent merged r3096 into 1.2 (fixed pc2d.billboard properties not
+	  being documented as read-write).
+	- Vincent merged r3099 into 1.2 (added missing comments to some of the
+	  functions in iPcLinearMovement interface).
+	- Vincent merged r3112 into 1.2 (fixed an error description in
+	  inventory reward).
+	- Vincent merged r3126 into 1.2 (fixed newstate reward to actually use
+	  entity and tag parameters).
+	- Vincent merged r3131 into 1.2 (added -version commandline option to
+	  celstart).
+	- Vincent merged r3134 into 1.2 (better --help for celstart).
+	- Vincent merged r3137 into 1.2 (bumped celstart version to 8).
+4-Feb-2008
+	- Vincent merged r2976 into 1.2 (replaced call to GetLastPosition() in
+	  actormove with GetYRotation()).
+	- Vincent merged r2987 into 1.2 (prevent potential crash when
+	  requesting camera modes from iPcNewCamera).
+	- Vincent merged r2989:2990 into 1.2 (fix iPcNewCamera bug when no
+	  mode is attached).
+	- Vincent merged r2992 into 1.2 (swig renames
+	  iCelPropertyClass::SetPropertyVectorByID functions).
+	- Vincent froze blcel following r3144.
+	- Vincent merged r3005 into 1.2 (update doc for new pcinput.standard
+	  trigger/action binding syntax).
+	- Vincent merged r3022 into 1.2 (python wrapper for cross
+	  compilation).
+	- Vincent merged r3042 into 1.2 (changed
+	  celPcDefaultCamera::GetLastFullPosition() to be more robust).
+	- Vincent merged r3044 into 1.2 (added ObjectRegistry name in pycel
+	  for the object registry (previously was undefined)).
+	- Vincent merged r3052 into 1.2 (added manual section for spawn
+	  property class).
+	- Vincent merged r3063 into 1.2 ('jam distclean' fixes wrt.
+	  autopackage-related stuff removal).
+15-Nov-2007
+	- Vincent updated crystal.m4 from CS 1.2 branch (POSIX-compliant sed
+	  command fix).
+8-Sep-2007
+	- Vincent merged r2973 into 1.2 (celstart_static plugins addition).
+1-Sep-2007
+	- Vincent fixed celtest requesting pccamera.standard instead of
+	  pccamera.old in CreateActor() while still using iPcDefaultCamera.
+29-Aug-2007
+	- Vincent merged r2805:2806 into 1.2 (fix for iCollideSystem checking
+	  zonemanager).
+	- Vincent merged r2957 into 1.2 (defcamera INVISIBLE flag fix).
+3-Aug-2007
+	- Jorrit merged r2941 into 1.2 (defcamera hitbeam fix).
+2-Aug-2007
+	- Jorrit merged r2935 into 1.2 (zonemanager error handling).
+	- Jorrit merged r2938 into 1.2 (zonemanager error handling fix).
+31-Jul-2007
+	- Jorrit merged r2927 into 1.2 (pcproperties fix).
+26-Jul-2007
+	- Jorrit merged r2915 into 1.2 (doc title fix).
+25-Jul-2007
+	- jorrit merged r2906 into 1.2 (actor->actor.standard).
+	- jorrit merged r2910 into 1.2 (doc title).
+24-Jul-2007
+	- Jorrit merged r2801 into 1.2 (new SCF).
+	- Jorrit merged r2808 into 1.2 (python bindings fix).
+	- Jorrit merged r2856:2858 into 1.2 (new SCF and iCelPropertyClass
+	  deprecations).
+	- Jorrit merged r2814 into 1.2 (fix for FindAttachedEntity).
+	- Jorrit merged r2903 into 1.2 (TCP plugin fix).
+	- Vincent merged r2868 into 1.2 (first TCP plugin fix).
+23-Jul-2007
+	- res merged r2859, r2873 into 1.2 (multiple versions install
+	  support).
+	- res merged r2887 into 1.2 (cel.m4 fix).
+	- res merged r2888 into 1.2 (mk/autoconf and mk/jam update).
+	- res merged r2896 into 1.2 (cel.m4 fix).
+21-Jul-2007
+	- Vincent merged r2842 into 1.2 (fix for dot.png path in
+	  data/basic_world).
+	- Vincent merged r2843 into 1.2 (updates for celMenu.py and
+	  celScroller.py widgets).
+	- Vincent merged r2864 into 1.2 (tutorial documentation fix).
+20-Jul-2007
+	- Vincent merged r2785 into 1.2 (updated python bindings to new
+	  property class names, iPcNewCamera was also added as celPcCamera).
+	- Vincent merged r2807 into 1.2 (fixed blxml destroyentity class).
+	- Vincent merged r2809 into 1.2 (fix for non-standard round() in
+	  pcneuralnet).
+	- Vincent merged r2821:2822 into 1.2 (pcproperties fixes).
+	- Vincent merged r2844 into 1.2 (non-standard usage of isnormal() in
+	  pcneuralnet).
+31-May-2007
+	- Jorrit removed actorlara.h include from blcel.i.
+30-May-2007
+	- Jorrit merged r2794 into 1.2 (deprecated pc names).
+25-May-2007
+	- Jorrit merged r2786 into 1.2 (blxml docs).
+	- Jorrit removed the new lara camera handling from 1.2 since
+	  it is work in progress and not yet ready for public consumption.
+

@@ -445,8 +445,9 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
         csVector3 pos;
         if (!spawnposition[number].node.IsEmpty ())
         {
-          csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
-              sect->QueryObject (), spawnposition[number].node);
+          csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+              sect->QueryObject (), iMapNode,
+              spawnposition[number].node);
           if (mapnode)
             pos = mapnode->GetPosition ();
           else
@@ -522,26 +523,17 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   {
     spawninfo[idx].newent->GetBehaviour ()->SendMessage (
     	spawninfo[idx].msg_id, this, ret, spawninfo[idx].params);
-    // We use a direct SendMessage here because this is a one-time
-    // only event.
-    spawninfo[idx].newent->QueryMessageChannel ()->SendMessage (
-	spawninfo[idx].msg_id, this, spawninfo[idx].params);
   }
 
   // Then send a message to our own entity.
   ref = entity;
-  params->GetParameter (0).Set (spawninfo[idx].newent);
-  params->GetParameter (1).Set (spawninfo[idx].behaviour);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
-    bh->SendMessage ("pcspawn_newentity", this, ret, params);
-  if (!dispatcher_new)
   {
-    dispatcher_new = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, "cel.entity.new");
-    if (!dispatcher_new) return;
+    params->GetParameter (0).Set (spawninfo[idx].newent);
+    params->GetParameter (1).Set (spawninfo[idx].behaviour);
+    bh->SendMessage ("pcspawn_newentity", this, ret, params);
   }
-  dispatcher_new->SendMessage (params);
   count ++;
 }
 

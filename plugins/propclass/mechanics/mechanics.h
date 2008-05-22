@@ -140,9 +140,6 @@ public:
   virtual void ClearAllForces ();
   void ApplyForce (celForce& f);
 
-  // override SetEntity to register and unregister from registry there.
-  virtual void SetEntity(iCelEntity* entity);
-
   virtual csPtr<iRigidBody> CreateBody ();
   virtual void RemoveBody (iRigidBody* body);
   virtual void AddBodyToGroup (iRigidBody* body, const char* group);
@@ -185,7 +182,6 @@ public:
 #define CEL_BODY_CYLINDER 3
 #define CEL_BODY_PLANE 4
 #define CEL_BODY_MESH 5
-#define CEL_BODY_CONVEXMESH 6
 
 struct body_data
 {
@@ -258,7 +254,6 @@ private:
     action_setcolliderboundingbox,
     action_setcolliderplane,
     action_setcollidermesh,
-    action_setcolliderconvexmesh,
     action_setlinearvelocity,
     action_setangularvelocity,
     action_addforceonce,
@@ -309,8 +304,6 @@ private:
   static csStringID param_group;
 
   celGenericParameterBlock* params;
-
-  csRef<iMessageDispatcher> dispatcher_cd;
 
   // Last assigned force id for this object
   uint32 forceidseed;
@@ -433,7 +426,6 @@ public:
   	const csOrthoTransform& trans);
   virtual void AttachColliderBoundingBox(const csVector3& sizeadjustment = csVector3(0));
   virtual void AttachColliderPlane (const csPlane3& plane);
-  virtual void AttachColliderConvexMesh ();
   virtual void AttachColliderMesh ();
 
   virtual uint32 AddForceTagged (const csVector3& force, bool relative, 

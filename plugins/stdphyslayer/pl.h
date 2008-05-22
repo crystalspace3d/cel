@@ -64,8 +64,8 @@ struct CallbackInfo
 /**
  * Implementation of the physical layer.
  */
-class celPlLayer : public scfImplementation3<
-	celPlLayer, iCelPlLayer, iComponent, iMessageSender>
+class celPlLayer : public scfImplementation2<
+	celPlLayer, iCelPlLayer, iComponent>
 {
 private:
   csRefArray<iCelPropertyClassFactory> pf_list;
@@ -163,7 +163,7 @@ public:
   	const char* name, ...);
 
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
-	  const char* propname, const char* tagname = 0);
+	  const char* propname);
   virtual iCelPropertyClass* CreateTaggedPropertyClass (iCelEntity *entity,
 	  const char* propname, const char* tagname);
   virtual csPtr<iCelDataBuffer> CreateDataBuffer (long serialnr);
@@ -172,15 +172,12 @@ public:
   virtual void UnattachEntity (iObject* object, iCelEntity* entity);
   virtual iCelEntity* FindAttachedEntity (iObject* object);
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
-  	const csVector3& pos, float radius, bool do_invisible = false,
-	csStringID cls = csInvalidStringID);
+  	const csVector3& pos, float radius, bool do_invisible = false);
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
-  	const csBox3& box, bool do_invisible = false,
-	csStringID cls = csInvalidStringID);
+  	const csBox3& box, bool do_invisible = false);
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
   	const csVector3& start, const csVector3& end,
-	bool do_invisible = false,
-	csStringID cls = csInvalidStringID);
+	bool do_invisible = false);
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y);
   virtual csPtr<iCelEntityList> CreateEmptyEntityList ();
   virtual iCelEntityTracker* CreateEntityTracker (const char* name);
@@ -243,14 +240,6 @@ public:
         iCelParameterBlock* params, ...);
   virtual int SendMessageV (iCelEntityList *entlist, const char* msgname, 
         iCelParameterBlock* params, va_list arg);
-  virtual int SendMessage (const char* msgid, iMessageSender* sender,
-      iCelEntityList *entlist, iCelParameterBlock* params,
-      iCelDataArray* ret = 0);
-  virtual void MessageDispatcherRemoved (iMessageDispatcher*) { }
-  virtual iMessageSender* QueryMessageSender ()
-  {
-    return static_cast<iMessageSender*> (this);
-  }
 
   // Not an embedded interface to avoid circular references!!!
   class EventHandler : public scfImplementation1<

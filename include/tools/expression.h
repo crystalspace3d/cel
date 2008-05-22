@@ -29,7 +29,6 @@
 class csVector2;
 class csVector3;
 class csColor;
-struct iCelParameterBlock;
 
 /**
  * Interface for a single expression.
@@ -42,11 +41,9 @@ struct iCelExpression : virtual public iBase
    * Execute this expression.
    * Return the result of the expression in 'ret'.
    * \param entity is an optional entity context.
-   * \param ret is the return value of the expression.
-   * \param params is an optional parameter block.
    * \return false if there is an error.
    */
-  virtual bool Execute (iCelEntity* entity, celData& ret, iCelParameterBlock* params = 0) = 0;
+  virtual bool Execute (iCelEntity* entity, celData& ret) = 0;
 
   /**
    * Find a local variable for this expression.

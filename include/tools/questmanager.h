@@ -25,52 +25,11 @@
 #include "csutil/weakref.h"
 #include "csutil/hash.h"
 #include "csgeom/vector3.h"
-#include "csutil/refarr.h"
 
 struct iDocumentNode;
 struct iChangePropertyQuestRewardFactory;
 struct iCelDataBuffer;
-struct iCelParameterBlock;
 struct iQuest;
-
-/**
- * This interface represents a parameter to a sequence,
- * trigger, or reward for a quest. The quest manager understands
- * different types of parameters (constant, static parameters ($notation),
- * dynamic parameters (@notation), or expressions (=notation).
- * This interface makes abstraction of those.
- */
-struct iQuestParameter : public virtual iBase
-{
-  SCF_INTERFACE (iQuestParameter, 0, 0, 2);
-
-  /**
-   * Get this variable as its correct datatype.
-   */
-  virtual const celData* GetData (iCelParameterBlock* params) = 0;
-
-  /**
-   * Get the value of this expression as a string.
-   * \param params is an optional parameter block given to the reward.
-   */
-  virtual const char* Get (iCelParameterBlock* params) = 0;
-
-  /**
-   * Get the value of this expression as a string.
-   * \param params is an optional parameter block given to the reward.
-   * \param changed is set to true if the returned value is different
-   * from the last time Get() was called. Note! This doesn't work
-   * if you call the Get() with only one parameter above!
-   */
-  virtual const char* Get (iCelParameterBlock* params, bool& changed) = 0;
-
-  /**
-   * Get the value of this expression as a long.
-   * \param params is an optional parameter block given to the reward.
-   */
-  virtual int32 GetLong (iCelParameterBlock* params) = 0;
-};
-
 
 /*
 <quest name="test">
@@ -118,15 +77,6 @@ typedef csHash<csStringBase,csStringBase> celQuestParams;
 //-------------------------------------------------------------------------
 
 struct iQuestTrigger;
-class celVariableParameterBlock;
-
-struct celParSpec
-{
-  celDataType type;
-  csStringID id;
-  csString name;
-  csString value;
-};
 
 /**
  * A quest trigger will get pointers to call back the quest when
@@ -139,7 +89,7 @@ struct iQuestTriggerCallback : public virtual iBase
   SCF_INTERFACE (iQuestTriggerCallback, 0, 0, 1);
 
   /// Trigger fired.
-  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params) = 0;
+  virtual void TriggerFired (iQuestTrigger* trigger) = 0;
 };
 
 /**
@@ -182,9 +132,7 @@ struct iQuestTrigger : public virtual iBase
   /**
    * Check the trigger immediatelly and return true if it is valid.
    * This function does nothing else. Only the condition of the
-   * trigger is tested. If this function returns true then it should
-   * also have deactivated the trigger and fired the callbacks. This
-   * is not the responsability of the caller.
+   * trigger is tested.
    */
   virtual bool Check () = 0;
 
@@ -265,7 +213,7 @@ struct iQuestReward : public virtual iBase
   /**
    * Perform this reward.
    */
-  virtual void Reward (iCelParameterBlock* params) = 0;
+  virtual void Reward () = 0;
 };
 
 /**
@@ -544,16 +492,6 @@ struct iQuestStateFactory : public virtual iBase
    * Create a new trigger response.
    */
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory () = 0;
-
-  /**
-   * Add a new reward to be fired on state initialization.
-   */
-  virtual void AddInitRewardFactory (iQuestRewardFactory* reward_fact) = 0;
-
-  /**
-   * Add a new reward to be fired on state exit.
-   */
-  virtual void AddExitRewardFactory (iQuestRewardFactory* reward_fact) = 0;
 };
 
 /**
@@ -686,7 +624,7 @@ struct iQuestFactory : public virtual iBase
  */
 struct iQuestManager : public virtual iBase
 {
-  SCF_INTERFACE (iQuestManager, 2, 0, 0);
+  SCF_INTERFACE (iQuestManager, 0, 0, 1);
 
   /**
    * Register a quest trigger type. Quest triggers can be used
@@ -708,17 +646,12 @@ struct iQuestManager : public virtual iBase
    *   See iSequenceFinishQuestTriggerFactory.
    * - cel.questtrigger.trigger: triggers when a pctrigger fires.
    *   See iTriggerQuestTriggerFactory.
-   * - cel.questtrigger.message: triggers when a message is received.
-   *   See iMessageQuestTriggerFactory.
    * - cel.questtrigger.inventory: triggers when an object enters inventory.
    *   See iInventoryQuestTriggerFactory.
    * - cel.questtrigger.meshselect: triggers when a mesh is selected.
    *   See iMeshSelectQuestTriggerFactory.
    * - cel.questtrigger.watch: triggers when a mesh becomes visible.
    *   See iWatchQuestTriggerFactory.
-   * - cel.questtrigger.operation: perform a logical operation on several
-   *   child nodes.
-   *   See iOperationQuestTriggerFactory.
    */
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
 
@@ -754,8 +687,6 @@ struct iQuestManager : public virtual iBase
    *   on an entity. See iActionQuestRewardFactory.
    * - cel.questreward.destroyentity: remove an entity from the physical.
    *   layer. See iDestroyEntityQuestRewardFactory.
-   * - cel.questreward.createentity: create an entity from a template.
-   *   See iCreateEntityQuestRewardFactory.
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
 
@@ -781,8 +712,6 @@ struct iQuestManager : public virtual iBase
    *   See iMovePathQuestSeqOpFactory.
    * - cel.questseqop.light: animate a light color.
    *   See iLightQuestSeqOpFactory.
-   * - cel.questseqop.property: animate a property class property.
-   *   See iPropertyQuestSeqOpFactory.
    */
   virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop) = 0;
 
@@ -798,16 +727,6 @@ struct iQuestManager : public virtual iBase
   virtual iQuestFactory* GetQuestFactory (const char* name) = 0;
 
   /**
-   * Delete a quest factory by name.
-   */
-  virtual void RemoveQuestFactory (const char* name) = 0;
-
-  /**
-   * Delete all quest factories.
-   */
-  virtual void RemoveQuestFactories () = 0;
-
-  /**
    * Create an empty quest factory.
    * Returns 0 on failure (quest factory with that name
    * already exists).
@@ -815,53 +734,15 @@ struct iQuestManager : public virtual iBase
   virtual iQuestFactory* CreateQuestFactory (const char* name) = 0;
 
   /**
-   * Get a parameter that can be evalulated later on an as-needed basis.
-   * Returns 0 for an illegal parameter (error reporting has been done).
-   */
-  virtual csPtr<iQuestParameter> GetParameter (
-  	const celQuestParams& params,
-	const char* param) = 0;
-
-  /**
    * This is a convenience function to resolve a quest parameter during
    * creation of rewards, triggers, and sequence operations. This routine
    * knows how to recognize parameter usage (starting with '$') and will in
    * that case try to resolve the parameter by finding it in 'params'. Otherwise
-   * it will just return the unmodified string. This version doesn't
-   * support dynamic parameters.
+   * it will just return the unmodified string.
    */
   virtual const char* ResolveParameter (
   	const celQuestParams& params,
 	const char* param) = 0;
-
-  /**
-   * This is a convenience function to get a quest parameter block during
-   * creation of rewards, triggers, and sequence operations. This routine
-   * knows how to recognize parameter usage (starting with '$' or '@') and will in
-   * that case try to resolve the parameter by finding it in 'params'.
-   * \param params is the quest parameters.
-   * \param paramspec is the parameter specifications and unparsed values.
-   * \param quest_parameters is an array that should have the same length
-   * as the 'paramspec' array. It will be filled with the parameters.
-   */
-  virtual csPtr<celVariableParameterBlock> GetParameterBlock (
-  	const celQuestParams& params,
-	const csArray<celParSpec>& parameters,
-	csRefArray<iQuestParameter>& quest_parameters) = 0;
-
-  /**
-   * Fill in the dynamic parameters in a parameter block.
-   * \param params is the parameter block given to the reward.
-   * \param msg_params is the resolved parameter block as returned by
-   * GetParameterBlock().
-   * \param parameters is the parameter specifications and unparsed values.
-   * \param quest_parameters is an array with quest parameters.
-   */
-  virtual void FillParameterBlock (
-        iCelParameterBlock* params,
-	celVariableParameterBlock* act_params,
-	const csArray<celParSpec>& parameters,
-	const csRefArray<iQuestParameter>& quest_parameters) = 0;
 
   /**
    * Load a bunch of quest factories.
@@ -986,15 +867,6 @@ struct iQuestManager : public virtual iBase
   	const char* entity_par, const char* target_entity_par,
 	const char* checktime_par,
 	const char* radius_par) = 0;
-
-  /**
-   * Convenience method to set a 'operation' trigger factory
-   * to a response factory.
-   */
-  virtual iQuestTriggerFactory* SetOperationTrigger (
-  	iQuestTriggerResponseFactory* response,
-  	const char* operation_par, 
-	csRefArray<iQuestTriggerFactory> &trigger_factories) = 0;
 };
 
 //-------------------------------------------------------------------------
@@ -1027,9 +899,7 @@ struct iTimeoutQuestTriggerFactory : public virtual iBase
 
 /**
  * This interface is implemented by the trigger that fires
- * when a certain property passes a test on some value. Test can be any of
- * the operations below.
- * You can query this interface
+ * when a certain property gets some value. You can query this interface
  * from the trigger factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
@@ -1045,22 +915,7 @@ struct iTimeoutQuestTriggerFactory : public virtual iBase
  * - <em>property</em>: the name of the property.
  * - <em>value</em>: the value on which this trigger will fire. If this
  *   value is not given then the trigger will fire whenever the value
- * - <em>operation</em>: the value on which this trigger will test. If this
- *   value is not given then the trigger will fire on equality.
- * - <em>onchange</em>: if true the trigger will fire only when the condition
- *   becomes true (so it has to be initially false, and become true after
- *   that), otherwise the trigger will fire whenever the condition is met
- *   (even initially).
- *
- * Valid operations:
- * - <em>eq</em>: Equals (==).
- * - <em>lt</em>: Lower than (<).
- * - <em>gt</em>: Greater than (>).
- * - <em>ne</em>: Not equal (!=).
- * - <em>le</em>: Lower or equal (<=).
- * - <em>ge</em>: Greater or equal (>=).
- * Note string and bool properties can only be tested with "ne" or "eq", as
- * greater or lesser doesn't really make sense for them.
+ *   changes.
  */
 struct iPropertyChangeQuestTriggerFactory : public virtual iBase
 {
@@ -1087,24 +942,9 @@ struct iPropertyChangeQuestTriggerFactory : public virtual iBase
    * Set the value of the property on which this trigger will fire. If
    * this value is not given the the trigger will fire whenever the value
    * changes.
-   * \param value is the value or a parameter (starts with '$').
+   * \param value is the varlue or a parameter (starts with '$').
    */
   virtual void SetValueParameter (const char* value) = 0;
-
-  /**
-   * Set the operation this trigger will test with. If operation
-   * is not set equality will be checked.
-   * \param op one of: eq, lt, gt, ne, le, ge. See above for more details.
-   */
-  virtual void SetOperationParameter (const char* op) = 0;
-
-  /**
-   * Set whether the trigger will fire only on an actual change (so the
-   * condition has to become true), or whenever the condition is met (even
-   * initially).
-   * \param on_change true for reporting only on change.
-   */
-  virtual void SetOnChangeOnly (bool on_change) = 0;
 };
 
 /**
@@ -1114,10 +954,8 @@ struct iPropertyChangeQuestTriggerFactory : public virtual iBase
  * this factory as opposed to loading its definition from an XML
  * document.
  *
- * The predefined name of this trigger type is 'cel.questtrigger.meshselect'.
- *
- * This trigger sends out 'entity' parameter to the reward (containing the
- * name of the entity that was selected).
+ * The predefined name of this trigger type is
+ * 'cel.questtrigger.meshselect'.
  *
  * In XML, factories recognize the following attributes on the 'fireon' node:
  * - <em>entity</em>: the name of the entity that contains the
@@ -1147,10 +985,8 @@ struct iMeshSelectQuestTriggerFactory : public virtual iBase
  * this factory as opposed to loading its definition from an XML
  * document.
  *
- * The predefined name of this trigger type is 'cel.questtrigger.inventory'.
- *
- * This trigger sends out 'child' parameter to the reward (containing the
- * name of the entity that was added or removed).
+ * The predefined name of this trigger type is
+ * 'cel.questtrigger.inventory'.
  *
  * In XML, factories recognize the following attributes on the 'fireon' node:
  * - <em>entity</em>: the name of the entity that contains the
@@ -1229,47 +1065,6 @@ struct iEnterSectorQuestTriggerFactory : public virtual iBase
 };
 
 /**
- * This interface is implemented by the operation trigger, that allows
- * to combine several triggers using a logical operation.
- * You can query this interface from the trigger factory if you want to
- * manually control this factory as opposed to loading its definition from an
- * XML document.
- *
- * The predefined name of this trigger type is 'cel.questtrigger.operation'.
- *
- * In XML, factories recognize the following attributes on the 'fireon' node:
- * - <em>operation</em>: the logical operation to perform. Can be one of
- *   'or', 'and', or 'xor', see below for a more detailed description.
- *
- * Fireon node can also hold any number of child 'trigger' nodes, which are
- * defined just as usual.
- *
- * Operations:
- * - <em>and</em>: Trigger will fire when all the child triggers are true.
- * - <em>or</em>: Trigger will fire when at least one of the child triggers
- *   is true.
- * - <em>xor</em>: Trigger will fire when one and only one of the child 
- *   triggers is true.
- */
-struct iOperationQuestTriggerFactory : public virtual iBase
-{
-  SCF_INTERFACE (iOperationQuestTriggerFactory, 0, 0, 1);
-
-  /**
-   * Set the operation this trigger will use to combine child triggers.
-   * \param operation is the name of the operation or a parameter (starts
-   * with '$').
-   * Operation must be one of 'or', 'and', or 'xor'.
-   */
-  virtual void SetOperationParameter (const char* operation) = 0;
-  /**
-   * Return the trigger factory list so that user can add new ones, remove
-   * them or clear the list.
-   */
-  virtual csRefArray<iQuestTriggerFactory> &GetTriggerFactories () = 0;
-};
-
-/**
  * This interface is implemented by the trigger that fires
  * when a certain sequence finishes. You can query this interface
  * from the trigger factory if you want to manually control
@@ -1317,9 +1112,6 @@ struct iSequenceFinishQuestTriggerFactory : public virtual iBase
  *
  * The predefined name of this trigger type is 'cel.questtrigger.trigger'.
  *
- * This trigger sends out 'entity' parameter to the reward (containing the
- * name of the entity caused the trigger to fire).
- *
  * In XML, factories recognize the following attributes on the 'fireon' node:
  * - <em>entity</em>: the name of the entity that contains the
  *   pctrigger property class.
@@ -1347,40 +1139,6 @@ struct iTriggerQuestTriggerFactory : public virtual iBase
    * instead of 'enters'.
    */
   virtual void EnableLeave () = 0;
-};
-
-/**
- * This interface is implemented by the trigger that fires
- * when a message is sent. You can query this interface
- * from the trigger factory if you want to manually control
- * this factory as opposed to loading its definition from an XML
- * document.
- *
- * The predefined name of this trigger type is 'cel.questtrigger.message'.
- *
- * In XML, factories recognize the following attributes on the 'fireon' node:
- * - <em>entity</em>: the name of the entity from which we want to listen
- *   to messages.
- * - <em>mask</em>: the message mask to listen too.
- */
-struct iMessageQuestTriggerFactory : public virtual iBase
-{
-  SCF_INTERFACE (iMessageQuestTriggerFactory, 0, 0, 1);
-
-  /**
-   * Set the name of the entity from which we want to listen to messages.
-   * \param entity is the name of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetEntityParameter (const char* entity) = 0;
-
-  /**
-   * Set the name of the message mask that we want to receive messages
-   * for.
-   * \param mask is the message mask or a parameter (starts
-   * with '$').
-   */
-  virtual void SetMaskParameter (const char* mask) = 0;
 };
 
 /**
@@ -1501,9 +1259,6 @@ struct iDebugPrintQuestRewardFactory : public virtual iBase
  * - <em>state</em>: the new state.
  * - <em>entity</em>: the name of the entity containing the
  *   pcquest property class.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the given
- *   entity class.
  * - <em>entity_tag</em>: optional tag used to find the right
  *   property class from the entity.
  */
@@ -1528,21 +1283,6 @@ struct iNewStateQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-
-  /**
-   * Set the tag of the property class this reward will apply to.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetTagParameter (const char* tag_par) = 0;
-
-  /**
-   * Set the name of the entity class containing the property
-   * class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
 };
 
 /**
@@ -1558,9 +1298,6 @@ struct iNewStateQuestRewardFactory : public virtual iBase
  * In XML, factories recognize the following attributes on the 'reward' node:
  * - <em>entity</em>: the name of the entity containing the
  *   pcproperties property class.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the given
- *   entity class.
  * - <em>pc</em>: the name of the property class. If this is not
  *   given then pcproperties is used.
  * - <em>tag</em>: used together with 'pc' to specify an optional tag.
@@ -1583,14 +1320,6 @@ struct iChangePropertyQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
-
-  /**
-   * Set the name of the entity class containing the property
-   * class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
    * Set the name of the property class and tag. If this is not
@@ -1730,9 +1459,6 @@ struct iCsSequenceQuestRewardFactory : public virtual iBase
  * In XML, factories recognize the following attributes on the 'op' node:
  * - <em>entity</em>: the name of the entity containing the
  *   pcquest property class.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the given
- *   entity class.
  * - <em>entity_tag</em>: optional tag used to find the right
  *   property class from the entity.
  * - <em>sequence</em>: the name of the sequence.
@@ -1751,21 +1477,6 @@ struct iSequenceQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-
-  /**
-   * Set the tag of the property class this reward will apply to.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetTagParameter (const char* tag_par) = 0;
-
-  /**
-   * Set the name of the entity class containing the property
-   * class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
    * Set the name of the sequence.
@@ -1792,9 +1503,6 @@ struct iSequenceQuestRewardFactory : public virtual iBase
  * In XML, factories recognize the following attributes on the 'op' node:
  * - <em>entity</em>: the name of the entity containing the
  *   pcquest property class.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the given
- *   entity class.
  * - <em>entity_tag</em>: optional tag used to find the right
  *   property class from the entity.
  * - <em>sequence</em>: the name of the sequence.
@@ -1812,21 +1520,6 @@ struct iSequenceFinishQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-
-  /**
-   * Set the tag of the property class this reward will apply to.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetTagParameter (const char* tag_par) = 0;
-
-  /**
-   * Set the name of the entity class containing the property
-   * class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
    * Set the name of the sequence.
@@ -1847,9 +1540,6 @@ struct iSequenceFinishQuestRewardFactory : public virtual iBase
  *
  * In XML, factories recognize the following attributes on the 'op' node:
  * - <em>entity</em>: the name of the entity to send the message too.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the
- *   given entity class.
  * - <em>id</em>: id of the message to send.
  */
 struct iMessageQuestRewardFactory : public virtual iBase
@@ -1862,13 +1552,6 @@ struct iMessageQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
-
-  /**
-   * Set the name of the entity class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
    * Set the message id.
@@ -1891,7 +1574,7 @@ struct iMessageQuestRewardFactory : public virtual iBase
 
 /**
  * This interface is implemented by the reward that sends an action
- * to some entity or entity class property class with an optional tag.
+ * to some entity property class with an optional tag.
  * You can query this interface from the reward factory if you want
  * to manually control this factory as opposed to loading its definition
  * from an XML document.
@@ -1900,9 +1583,6 @@ struct iMessageQuestRewardFactory : public virtual iBase
  *
  * In XML, factories recognize the following attributes on the 'op' node:
  * - <em>entity</em>: the name of the entity to send the action to.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the 
- *   given entity class.
  * - <em>id</em>: name of the action to activate.
  * - <em>pc</em>: the name of the property class to send the action to.
  * - <em>tag</em>: the tag of the property class to send the action to.
@@ -1917,13 +1597,6 @@ struct iActionQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
-
-  /**
-   * Set the name of the entity class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
    * Set the action name (without the cel.action part).
@@ -1968,9 +1641,6 @@ struct iActionQuestRewardFactory : public virtual iBase
  *
  * In XML, factories recognize the following attribute on the 'op' node:
  * - <em>entity</em>: the name of the entity to send the message too.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the given
- *   entity class.
  */
 struct iDestroyEntityQuestRewardFactory : public virtual iBase
 {
@@ -1982,64 +1652,8 @@ struct iDestroyEntityQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
-
-  /**
-   * Set the name of the entity class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
-
-
 };
 
-/**
- * This interface is implemented by the createentity reward, which can create
- * entities from entity templates.
- *
- * You can query this interface from the reward factory if you want
- * to manually control this factory as opposed to loading its definition
- * from an XML document.
- *
- * The predefined name of this reward type is 'cel.questreward.createentity'.
- *
- * In XML, factories recognize the following attribute on the 'op' node:
- * - <em>template</em>: the name of the template that will be used to create
- *   the entity from. It can be a parameter if starting with '$'.
- * - <em>name</em>: optional name for the entity that will be created. It
- *   can be a parameter if starting with '$'.
- * Also, the following subnodes are supported:
- * - <em>par</em>: a parameter for the template. It needs 'name' and 'value'
- *   attributes. The value can be a parameter if starting with '$'. As many
- *   par nodes as needed can be used.
- */
-struct iCreateEntityQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iCreateEntityQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Set the name of the template that will be used to create a new entity
-   * from.
-   * \param entity_tpl is the name of the entity template or a parameter 
-   * (starts with '$').
-   */
-  virtual void SetEntityTemplateParameter (const char* entity_tpl) = 0;
-
-  /**
-   * Set the name of the entity that will be created.
-   * \param name is the name of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetNameParameter (const char* name) = 0;
-
-  /**
-   * Add a parameter for the template.
-   * \param name is the name for the parameter.
-   * \param value is the value for the parameter or a quest manager parameter 
-   * (starts with '$').
-   */
-  virtual void AddParameter (const char* name, const char* value) = 0;
-};
 
 //-------------------------------------------------------------------------
 // Specific sequence operation implementations.
@@ -2205,105 +1819,6 @@ struct iLightQuestSeqOpFactory : public virtual iBase
   virtual void SetAbsColorParameter (const char* red, const char* green,
   	const char* blue) = 0;
 };
-
-/**
- * This interface is implemented by the seqop that transforms property
- * class properties. Assuming it is read and write, and of the appropriate type
- * any property can be controlled using this sequence.
- *
- * You can query this interface from the seqop factory if
- * you want to manually control this factory as opposed to loading
- * its definition from an XML document.
- *
- * The predefined name of this seqop type is 'cel.questseqop.property'.
- *
- * In XML, factories recognize the following attributes on the 'op' node:
- * - <em>entity</em>: the name of the entity containing the affected property
- *   class.
- * - <em>pc</em>: name for the property class holding the property.
- * - <em>tag</em>: optional tag used to find the right property class 
- *   from the entity.
- * - <em>relative</em>: whether the sequence is relative (default false).
- * - <em>float</em>: optional end value as a float.
- * - <em>long</em>: optional end value as an integer.
- * And the following sub nodes:
- * - <em>v</em>: optional end value as a vector.
- *   This node has 'x', 'y, and (optionally for vector3) 'z' attributes. 
- *
- * Note you must only provide one of 'v', 'float' and 'long' parameters to the
- * sequence, otherwise the result will be undefined. Also, the parameter
- * must fit the actual property type.
- */
-struct iPropertyQuestSeqOpFactory : public virtual iBase
-{
-  SCF_INTERFACE (iPropertyQuestSeqOpFactory, 0, 0, 1);
-
-  /**
-   * Set the entity containing the property (either entity name
-   * or a parameter if it starts with '$').
-   */
-  virtual void SetEntityParameter (const char* entity) = 0;
-
-  /**
-   * Set the property class and tag to search for.
-   * \param pc is the property class name or a parameter (starts with a '$').
-   * \param tag is the optional tag of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetPCParameter (const char* pc, const char* tag = 0) = 0;
-
-  /**
-   * Set the property name for this sequence.
-   * \param property_name is the property name (like cel.property.gravity).
-   * It can also be a parameter if it starts with '$'.
-   */
-  virtual void SetPropertyParameter (const char* property_name) = 0;
-
-  /**
-   * Set the end value for the property as a float.
-   * \param pfloat is the value to be set.
-   * It can also be a parameter if it starts with '$'.
-   */
-  virtual void SetFloatParameter (const char* pfloat) = 0;
-
-  /**
-   * Set the end value for the property as a long.
-   * \param plong is the value to be set.
-   * It can also be a parameter if it starts with '$'.
-   */
-  virtual void SetLongParameter (const char* plong) = 0;
-
-  /**
-   * Set the end value for the property as a vector2.
-   * \param pvectorx is the x component for the vector.
-   * \param pvectory is the y component for the vector.
-   * Both pvectorx and pvectory can be parameters if they start with '$'.
-   */
-  virtual void SetVector2Parameter (const char* vectorx, 
-	const char* vectory) = 0;
-
-  /**
-   * Set the end value for the property as a vector3.
-   * \param pvectorx is the x component for the vector.
-   * \param pvectory is the y component for the vector.
-   * \param pvectorz is the z component for the vector.
-   * Both pvectorx, pvectory and pvectorz can be a parameters if they 
-   * start with '$'.
-   */
-  virtual void SetVector3Parameter (const char* vectorx, const char* vectory,
-        const char* vectorz) = 0;
-
-   /**
-   * Set whether the sequence will be relative:
-   *  (end value = specified value + starting value)
-   * or absolute.
-   *  (end value = specified value)
-   * \param is_relative whether the sequence is relative. can't be a parameter.
-   */
-  virtual void SetRelative (bool is_relative) = 0;
-};
-
-
 
 //-------------------------------------------------------------------------
 

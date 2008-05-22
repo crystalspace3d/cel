@@ -59,7 +59,7 @@ CEL_DECLARE_FACTORY(Trigger)
  * This is the trigger property class.
  */
 class celPcTrigger : public scfImplementationExt1<
-	celPcTrigger, celPcCommon, iPcTrigger>
+		     celPcTrigger, celPcCommon, iPcTrigger>
 {
 private:
   csWeakRef<iEngine> engine;
@@ -70,9 +70,7 @@ private:
   bool send_to_self;
   bool send_to_others;
 
-  csString monitor_entity;
-  csString monitor_class;
-  csStringID monitor_class_id;
+  char* monitor_entity;
   csWeakRef<iCelEntity> monitoring_entity;
   csWeakRef<iPcMesh> monitoring_entity_pcmesh;
   // Movable listener so we can update trigger center
@@ -95,9 +93,6 @@ private:
   static csStringID id_maxdistance;
   celOneParameterBlock* params;
 
-  csRef<iMessageDispatcher> dispatcher_leave;
-  csRef<iMessageDispatcher> dispatcher_enter;
-
   enum actionids
   {
     action_setuptriggersphere = 0,
@@ -112,14 +107,16 @@ private:
   // sectors near it.
   csHash<csVector3,csPtrKey<iSector> > relevant_sectors;
   void UpdateRelevantSectors ();
-
+  
   // Sphere to use for checking.
-  iSector* sector;
+  iSector* sphere_sector;
   csVector3 sphere_center;
   float sphere_radius;
   // Box to use for checking.
+  iSector* box_sector;
   csBox3 box_area;
   // Beam to use for checking.
+  iSector* beam_sector;
   csVector3 beam_start, beam_end;
   // Test if we're directly above some mesh.
   csWeakRef<iPcMesh> above_mesh;
@@ -132,22 +129,14 @@ private:
   // Monitor invisible entities too.
   bool monitor_invisible;
 
-  TriggerType trigger_type;
-
-  bool strict;
-
   // For properties.
   enum propids
   {
     propid_delay = 0,
     propid_jitter,
     propid_monitor,
-    propid_class,
     propid_invisible,
-    propid_follow,
-    propid_enabled,
-    propid_strict,
-    propid_type,
+    propid_follow
   };
   static PropertyHolder propinfo;
 
@@ -186,8 +175,7 @@ public:
   virtual bool GetPropertyIndexed (int, const char*&);
 
   virtual void SendTriggerMessage (iCelEntity* destentity,
-  	iCelEntity* entity, const char* msgidold, const char* msg,
-	csRef<iMessageDispatcher>* dispatcher);
+  	iCelEntity* entity, const char* msgid);
 
   virtual void SetupTriggerSphere (iSector* sector,
   	const csVector3& center, float radius);
@@ -199,8 +187,6 @@ public:
   virtual void SetupTriggerAboveMesh (iPcMesh* mesh, float maxdistance);
   virtual void MonitorEntity (const char* entityname);
   virtual const char* GetMonitorEntity () const { return monitor_entity; }
-  virtual void MonitorClass (const char* classname);
-  virtual const char* GetMonitorClass () const { return monitor_class; }
   virtual void SetMonitorDelay (csTicks delay, csTicks jitter);
   virtual void EnableMonitorInvisible (bool en) { monitor_invisible = en; }
   virtual void EnableMessagesToSelf (bool en) { send_to_self = en; }
@@ -218,7 +204,6 @@ public:
   void FireTriggersEnterTrigger (iCelEntity* entity);
   void FireTriggersLeaveTrigger (iCelEntity* entity);
   virtual bool Check ();
-  void SetSector(iSector *sector) { celPcTrigger::sector=sector; };
 };
 
 #endif // __CEL_PF_TRIGGERIMP__

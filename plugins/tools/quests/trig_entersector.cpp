@@ -43,10 +43,16 @@ celEnterSectorTriggerFactory::celEnterSectorTriggerFactory (
 	celEnterSectorTriggerType* type) : scfImplementationType (this)
 {
   celEnterSectorTriggerFactory::type = type;
+  entity_par = 0;
+  tag_par = 0;
+  sector_par = 0;
 }
 
 celEnterSectorTriggerFactory::~celEnterSectorTriggerFactory ()
 {
+  delete[] entity_par;
+  delete[] tag_par;
+  delete[] sector_par;
 }
 
 csPtr<iQuestTrigger> celEnterSectorTriggerFactory::CreateTrigger (
@@ -59,8 +65,11 @@ csPtr<iQuestTrigger> celEnterSectorTriggerFactory::CreateTrigger (
 
 bool celEnterSectorTriggerFactory::Load (iDocumentNode* node)
 {
-  entity_par = node->GetAttributeValue ("entity");
-  tag_par = node->GetAttributeValue ("entity_par");
+  delete[] entity_par; entity_par = 0;
+  delete[] tag_par; tag_par = 0;
+  delete[] sector_par; sector_par = 0;
+  entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  tag_par = csStrNew (node->GetAttributeValue ("entity_par"));
 
   if (!entity_par)
   {
@@ -69,7 +78,7 @@ bool celEnterSectorTriggerFactory::Load (iDocumentNode* node)
       "'entity' attribute is missing for the entersector trigger!");
     return false;
   }
-  sector_par = node->GetAttributeValue ("sector");
+  sector_par = csStrNew (node->GetAttributeValue ("sector"));
   if (!sector_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -83,14 +92,26 @@ bool celEnterSectorTriggerFactory::Load (iDocumentNode* node)
 void celEnterSectorTriggerFactory::SetEntityParameter (
 	const char* entity, const char* tag)
 {
-  entity_par = entity;
-  tag_par = tag;
+  if (entity_par != entity)
+  {
+    delete[] entity_par;
+    entity_par = csStrNew (entity);
+  }
+  if (tag_par != tag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (tag);
+  }
 }
 
 void celEnterSectorTriggerFactory::SetSectorParameter (
 	const char* sector)
 {
-  sector_par = sector;
+  if (sector_par == sector) 
+    return;
+
+  delete[] sector_par;
+  sector_par = csStrNew (sector);
 }
 
 //---------------------------------------------------------------------------
@@ -103,14 +124,17 @@ celEnterSectorTrigger::celEnterSectorTrigger (
 {
   celEnterSectorTrigger::type = type;
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  tag = qm->ResolveParameter (params, tag_par);
-  sector = qm->ResolveParameter (params, sector_par);
+  entity = csStrNew (qm->ResolveParameter (params, entity_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
+  sector = csStrNew (qm->ResolveParameter (params, sector_par));
 }
 
 celEnterSectorTrigger::~celEnterSectorTrigger ()
 {
   DeactivateTrigger ();
+  delete[] entity;
+  delete[] tag;
+  delete[] sector;
 }
 
 void celEnterSectorTrigger::RegisterCallback (iQuestTriggerCallback* callback)
@@ -128,7 +152,7 @@ void celEnterSectorTrigger::NewSector (iCamera* camera, iSector* sector)
   if (celEnterSectorTrigger::sect == sector)
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    callback->TriggerFired ((iQuestTrigger*)this);
   }
 }
 
@@ -161,13 +185,7 @@ void celEnterSectorTrigger::ActivateTrigger ()
 bool celEnterSectorTrigger::Check ()
 {
   if (!camera) return false;
-  if (camera->GetSector () == sect)
-  {
-    DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
-    return true;
-  }
-  return false;
+  return camera->GetSector () == sect;
 }
 
 void celEnterSectorTrigger::DeactivateTrigger ()

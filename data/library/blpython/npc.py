@@ -38,7 +38,7 @@ class npc:
                 self.mesh = celGetMesh(celEntity)
                 if self.mesh:
                 	meshobj = self.mesh.Mesh
-			self.spr3dstate = meshobj.GetMeshObject().QueryInterface(iSprite3DState)
+			self.spr3dstate = SCF_QUERY_INTERFACE(meshobj.GetMeshObject(), iSprite3DState)
 			if self.spr3dstate:
 				self.spr3dstate.SetAction("walk")
 		else:

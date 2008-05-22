@@ -50,15 +50,14 @@ class celSequenceRewardFactory : public scfImplementation2<
 {
 private:
   celSequenceRewardType* type;
-  csString entity_par;
-  csString class_par;
-  csString tag_par;
-  csString sequence_par;
-  csString delay_par;
+  char* entity_par;
+  char* tag_par;
+  char* sequence_par;
+  char* delay_par;
 
 public:
   celSequenceRewardFactory (celSequenceRewardType* type);
-  virtual ~celSequenceRewardFactory () {};
+  virtual ~celSequenceRewardFactory ();
 
   virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
@@ -66,8 +65,6 @@ public:
 
   //----------------- iSequenceQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual void SetClassParameter (const char* ent_class) {class_par=ent_class;};
-  virtual void SetTagParameter (const char* tag) {tag_par = tag;};
   virtual void SetSequenceParameter (const char* sequence);
   virtual void SetDelayParameter (const char* delay);
 };
@@ -80,10 +77,10 @@ class celSequenceReward : public scfImplementation1<
 {
 private:
   celSequenceRewardType* type;
-  csRef<iQuestParameter> entity;
-  csRef<iQuestParameter> tag;
-  csRef<iQuestParameter> sequence;
-  csRef<iQuestParameter> pdelay;
+  char* entity;
+  char* tag;
+  char* sequence;
+  csTicks delay;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcQuest> quest;
 
@@ -94,35 +91,9 @@ public:
 	const char* tag_par,
 	const char* sequence_par,
 	const char* delay_par);
-  virtual ~celSequenceReward () {};
+  virtual ~celSequenceReward ();
 
-  virtual void Reward (iCelParameterBlock* params);
-};
-
-/**
- * The 'sequence' reward for classes.
- */
-class celClassSequenceReward : public scfImplementation1<
-	celClassSequenceReward, iQuestReward>
-{
-private:
-  celSequenceRewardType* type;
-  csRef<iQuestParameter> tag;
-  csRef<iQuestParameter> sequence;
-  csRef<iQuestParameter> clazz;
-  csRef<iQuestParameter> pdelay;
-  csRef<iCelEntityList> entlist;
-
-public:
-  celClassSequenceReward (celSequenceRewardType* type,
-  	const celQuestParams& params,
-	const char* class_par,
-	const char* tag_par,
-	const char* sequence_par,
-	const char* delay_par);
-  virtual ~celClassSequenceReward () {};
-
-  virtual void Reward (iCelParameterBlock* params);
+  virtual void Reward ();
 };
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_SEQUENCE__

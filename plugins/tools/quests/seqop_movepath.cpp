@@ -170,8 +170,8 @@ celMovePathSeqOp::celMovePathSeqOp (
       }
     }
 
-    csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
-  	sector->QueryObject (), nodes[i]);
+    csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+  	sector->QueryObject (), iMapNode, nodes[i]);
     if (!mapnode)
     {
       delete path;
@@ -236,7 +236,6 @@ void celMovePathSeqOp::Do (float time)
     path->GetInterpolatedForward (forward);
     mesh->GetMovable ()->GetTransform ().SetOrigin (pos);
     mesh->GetMovable ()->GetTransform ().LookAt (forward, up);
-    mesh->PlaceMesh ();
     mesh->GetMovable ()->UpdateMove ();
   }
 }

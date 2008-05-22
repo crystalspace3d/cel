@@ -118,8 +118,6 @@ bool celPropertyClassList::RemoveByInterfaceAndTag (scfInterfaceID scf_id,
 bool celPropertyClassList::Remove (size_t n)
 {
   CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.GetSize ());
-  iCelPropertyClass* obj = prop_classes[n];
-  obj->SetEntity (0);
   prop_classes.DeleteIndex (n);
   (static_cast<celEntity*> (parent_entity))
 	  ->NotifySiblingPropertyClasses ();

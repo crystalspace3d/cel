@@ -75,8 +75,8 @@ class celCsSequenceReward : public scfImplementation1<
 {
 private:
   celCsSequenceRewardType* type;
-  csRef<iQuestParameter> sequence;
-  csRef<iQuestParameter> pdelay;
+  csString sequence;
+  csTicks delay;
   csWeakRef<iEngineSequenceManager> eseqmgr;
 
 public:
@@ -86,7 +86,7 @@ public:
 	const char* delay_par);
   virtual ~celCsSequenceReward ();
 
-  virtual void Reward (iCelParameterBlock* params);
+  virtual void Reward ();
 };
 
 #endif // __CEL_TOOLS_QUESTS_REWARD_CSSEQUENCE__

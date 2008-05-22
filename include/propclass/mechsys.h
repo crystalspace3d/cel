@@ -263,7 +263,6 @@ struct iPcMechanicsSystem : public virtual iBase
  * - SetColliderPlane: parameters 'normal' (vector3) and 'offset' (float:
  *     default 0.0).
  * - SetColliderMesh: no parameters.
- * - SetColliderConvexMesh: no parameters.
  * - SetLinearVelocity: parameters 'velocity' (vector3).
  * - SetAngularVelocity: parameters 'velocity' (vector3).
  * - AddForceOnce: parameters 'force' (vector3), 'relative' (bool: default
@@ -293,7 +292,7 @@ struct iPcMechanicsSystem : public virtual iBase
  */
 struct iPcMechanicsObject : public virtual iBase
 {
-  SCF_INTERFACE (iPcMechanicsObject, 1, 0, 0);
+  SCF_INTERFACE (iPcMechanicsObject, 0, 0, 1);
 
   /**
    * Set the mesh which this body will control.
@@ -549,11 +548,6 @@ struct iPcMechanicsObject : public virtual iBase
    * Create a mesh collider for this object from the attached iPcMesh.
    */
   virtual void AttachColliderMesh () = 0;
-
-  /**
-   * Create a convex mesh collider for this object from the attached iPcMesh.
-   */
-  virtual void AttachColliderConvexMesh () = 0;
 
 
   ////

@@ -92,6 +92,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   handleMouse = true;
   handleKeyboard = true;
   handleJoystick = true;
+  nameoffset = sizeof ("pccommandinput_") - 1;
 
   g2d = csQueryRegistry<iGraphics2D> (object_reg);
   if (!g2d)
@@ -401,7 +402,7 @@ void celPcCommandInput::SaveConfig (const char* prefix)
   celKeyMap* km = keylist;
   while (km)
   {
-    csString cmdbind = csString (km->command);
+    csString cmdbind = csString (km->command + nameoffset);
     if (km->packedargs)
       cmdbind += ".args";
     csString strbind = csString (prefix);
@@ -431,13 +432,13 @@ void celPcCommandInput::SaveConfig (const char* prefix)
     if (am->type == csevJoystickMove (name_reg, am->device))
       strbind += "JoystickAxis";
     strbind += am->numeric;
-    cfg->SetStr (am->command, strbind.GetData ());
+    cfg->SetStr (am->command + nameoffset, strbind.GetData ());
     am = am->next;
   }
   celButtonMap* bm = buttonlist;
   while (bm)
   {
-    csString cmdbind = csString (km->command);
+    csString cmdbind = csString (km->command + nameoffset);
     if (km->packedargs)
       cmdbind += ".args";
     csString strbind = csString (prefix);
@@ -486,8 +487,10 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
       keylist = newkmap;
     }
     delete [] newkmap->command;
-    newkmap->command = new char[strlen (command)+2];
-    strcpy (newkmap->command, command);
+    newkmap->command = new char[
+    	strlen ("pccommandinput_")+strlen (command)+2];
+    strcpy (newkmap->command, "pccommandinput_");
+    strcat (newkmap->command, command);
     newkmap->command_end = strchr (newkmap->command, 0);
     *(newkmap->command_end + 1) = 0; // Make sure there is an end there too.
     return true;
@@ -540,8 +543,10 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
     newkmap->packedargs = packedargs;
     // fill command in mapping structure
     delete [] newkmap->command;
-    newkmap->command = new char[strlen (command) + 2];
-    strcpy (newkmap->command, command);
+    newkmap->command = new char[
+    	strlen ("pccommandinput_") + strlen (command) + 2];
+    strcpy (newkmap->command, "pccommandinput_");
+    strcat (newkmap->command, command);
     newkmap->command_end = strchr (newkmap->command, 0);
     *(newkmap->command_end + 1) = 0; // Make sure there is an end there too.
     return true;
@@ -571,8 +576,10 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
       }
       delete [] newamap->command;
       newamap->recenter = centered;
-      newamap->command = new char[strlen (command) + 1];
-      strcpy (newamap->command, command);
+      newamap->command = new char[
+      	strlen ("pccommandinput_") + strlen (command) + 1];
+      strcpy (newamap->command, "pccommandinput_");
+      strcat (newamap->command, command);
     }
     // Joystick/Mouse button binding
     else
@@ -595,8 +602,10 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
       }
       newbmap->packedargs = packedargs;
       delete [] newbmap->command;
-      newbmap->command = new char[strlen (command) + 2];
-      strcpy (newbmap->command, command);
+      newbmap->command = new char[
+      	strlen ("pccommandinput_") + strlen (command) + 2];
+      strcpy (newbmap->command, "pccommandinput_");
+      strcat (newbmap->command, command);
       newbmap->command_end = strchr (newbmap->command, 0);
       *(newbmap->command_end + 1) = 0; // Make sure there is an end there too.
     }
@@ -619,7 +628,7 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
     celKeyMap* map;
     if (!(map = GetMap (key, mods)))
       return 0;
-    return map->command;
+    return map->command + nameoffset;
   }
   else if (csInputDefinition::ParseOther (name_reg, triggername, &type,
   	&device, &numeric, &modifiers))
@@ -631,14 +640,14 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
       celAxisMap* amap;
       if (!(amap = GetAxisMap (type, device, numeric, mods)))
         return 0;
-      return amap->command;
+      return amap->command + nameoffset;
     }
     else
     {
       celButtonMap* bmap;
       if (!(bmap = GetButtonMap (type, device, numeric, mods)))
         return 0;
-      return bmap->command;
+      return bmap->command + nameoffset;
     }
   }
   return 0;
@@ -875,30 +884,12 @@ static bool KeyEqual (utf32_char key1, utf32_char key2)
   	&& CSKEY_MODIFIER_COMPARE_CODE (key1, key2));
 }
 
-void celPcCommandInput::SendMessage (const char* command, char updown,
-    iCelParameterBlock* params)
-{
-  iCelBehaviour* bh = entity->GetBehaviour ();
-  if (bh)
-  {
-    csString cmd = "pccommandinput_";
-    cmd += command;
-    if (updown != ' ') cmd += updown;
-    celData ret;
-    bh->SendMessage ((const char*)cmd, this, ret, params);
-  }
-  csString cmd = "cel.input.";
-  cmd += command;
-  if (updown == '1') cmd += ".down";
-  else if (updown == '0') cmd += ".up";
-  else if (updown == '_') cmd += ".repeat";
-  entity->QueryMessageChannel ()->SendMessage (cmd, this, params);
-}
-
 void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,
     csKeyModifiers key_modifiers, celKeyState keystate)
 {
-  char updown = ' ';
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (!bh) return;
+  celData ret;
   if (p->packedargs)
     key_params->GetParameter (1).Set (keystate);
   else
@@ -907,16 +898,17 @@ void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,
     switch (keystate)
     {
       case CEL_KEY_STATE_UP:
-	updown = '0';
+        *(p->command_end) = '0';
         break;
       case CEL_KEY_STATE_DOWN:
-	updown = '1';
+        *(p->command_end) = '1';
         break;
       case CEL_KEY_STATE_REPEAT:
-	updown = '_';
+        *(p->command_end) = '_';
         break;
       default:
         // cant happen really..
+        *(p->command_end) = '0';
         break;
     }
   }
@@ -930,7 +922,9 @@ void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,
   {
     key_params->GetParameter (0).Clear ();
   }
-  SendMessage (p->command, updown, key_params);
+  bh->SendMessage (p->command, this, ret, key_params);
+  if (!p->packedargs)
+    *(p->command_end) = 0;
 }
 
 bool celPcCommandInput::HandleEvent (iEvent &ev)
@@ -1000,36 +994,49 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         	((modifiers & p->modifiers) == p->modifiers) &&
         	(csEventNameRegistry::IsKindOf (name_reg, p->type, mouse_id)))
         {
-          float x, y;
-          x = (float) csMouseEventHelper::GetX (&ev);
-          y = (float) csMouseEventHelper::GetY (&ev);
-          if (screenspace)
+          iCelBehaviour* bh = entity->GetBehaviour ();
+          if (bh)
           {
-            mouse_params->GetParameter (0).Set (x);
-            mouse_params->GetParameter (1).Set (y);
-            if (p->numeric == 0)
-              mouse_params->GetParameter (2).Set (x);
-            else if (p->numeric == 1)
-              mouse_params->GetParameter (2).Set (y);
+            float x, y;
+            x = (float) csMouseEventHelper::GetX (&ev);
+            y = (float) csMouseEventHelper::GetY (&ev);
+            celData ret;
+            if (screenspace)
+            {
+              mouse_params->GetParameter (0).Set (x);
+              mouse_params->GetParameter (1).Set (y);
+              if (p->numeric == 0)
+              {
+                mouse_params->GetParameter (2).Set (x);
+              }
+              else if (p->numeric == 1)
+              {
+                mouse_params->GetParameter (2).Set (y);
+              }
+            }
+            else
+            {
+              mouse_params->GetParameter (0).Set (ScreenToCentered (x, 0));
+              mouse_params->GetParameter (1).Set (ScreenToCentered (y, 1));
+              if (p->numeric == 0)
+              {
+                mouse_params->GetParameter (2).Set (ScreenToCentered (x, 0));
+              }
+              else if (p->numeric == 1)
+              {
+                mouse_params->GetParameter (2).Set (ScreenToCentered (y, 1));
+              }
+            }
+            bh->SendMessage (p->command, this, ret, mouse_params);
           }
-          else
+          if (p->recenter)
           {
-            mouse_params->GetParameter (0).Set (ScreenToCentered (x, 0));
-            mouse_params->GetParameter (1).Set (ScreenToCentered (y, 1));
-            if (p->numeric == 0)
-              mouse_params->GetParameter (2).Set (ScreenToCentered (x, 0));
-            else if (p->numeric == 1)
-              mouse_params->GetParameter (2).Set (ScreenToCentered (y, 1));
+            // Recenter mouse so we don't lose focus
+            int width = g2d->GetWidth ();
+            int height = g2d->GetHeight ();
+            g2d->SetMousePosition (width / 2, height / 2);
+            g2d->SetMouseCursor (csmcNone);
           }
-          SendMessage (p->command, ' ', mouse_params);
-        }
-        if (p->recenter)
-        {
-          // Recenter mouse so we don't lose focus
-          int width = g2d->GetWidth ();
-          int height = g2d->GetHeight ();
-          g2d->SetMousePosition (width / 2, height / 2);
-          g2d->SetMouseCursor (csmcNone);
         }
         p = p->next;
       }
@@ -1060,9 +1067,27 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       csRef<iCelEntity> keepref = entity;
 
       if (ev.Name == csevMouseUp (object_reg, device))
-        SendMessage (p->command, '0', 0);
+      {
+        iCelBehaviour* bh = entity->GetBehaviour ();
+        if (bh)
+        {
+          *(p->command_end) = '0';
+          celData ret;
+          bh->SendMessage (p->command, this, ret, 0);
+          *(p->command_end) = 0;
+        }
+      }
       else if (ev.Name == csevMouseDown (object_reg, device))
-        SendMessage (p->command, '1', 0);
+      {
+        iCelBehaviour* bh = entity->GetBehaviour ();
+        if (bh)
+        {
+          *(p->command_end) = '1';
+          celData ret;
+          bh->SendMessage (p->command, this, ret, 0);
+          *(p->command_end) = 0;
+        }
+      }
     }
   }
   else if (CS_IS_JOYSTICK_EVENT(name_reg,ev) && handleJoystick)
@@ -1088,17 +1113,22 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         	(csEventNameRegistry::IsKindOf (name_reg, p->type, joy_id)) &&
         	((data.axesChanged & (1 << p->numeric)) != 0))
         {
-          //The joystick driver returns values between -32767 and +32767.
-          //Get the value in the range -1 to 1.
-          float val = (float) csJoystickEventHelper::GetAxis(
+          iCelBehaviour* bh = entity->GetBehaviour ();
+          if (bh)
+          {
+            //The joystick driver returns values between -32767 and +32767.
+            //Get the value in the range -1 to 1.
+            float val = (float) csJoystickEventHelper::GetAxis(
             	&ev, p->numeric) / 32767;
 
-          if (screenspace)
-            joy_params->GetParameter (0).Set (
+            celData ret;
+            if (screenspace)
+              joy_params->GetParameter (0).Set (
               	CenteredToScreen (val, p->numeric));
-          else
-            joy_params->GetParameter (0).Set (val);
-          SendMessage (p->command, ' ', joy_params);
+            else
+              joy_params->GetParameter (0).Set (val);
+            bh->SendMessage (p->command, this, ret, joy_params);
+          }
         }
         p = p->next;
       }
@@ -1135,21 +1165,39 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       celOneParameterBlock* celparms = 0;
       if (ev.Name == csevJoystickUp (name_reg, device))
       {
-        if (p->packedargs)
+        iCelBehaviour* bh = entity->GetBehaviour ();
+        if (bh)
         {
-          but_params->GetParameter(0).Set (CEL_KEY_STATE_UP);
-          celparms = but_params;
+          if (p->packedargs)
+          {
+            but_params->GetParameter(0).Set (CEL_KEY_STATE_UP);
+            celparms = but_params;
+          }
+          else
+            *(p->command_end) = '0';
+          celData ret;
+          bh->SendMessage (p->command, this, ret, celparms);
+          if (!p->packedargs)
+            *(p->command_end) = 0;
         }
-        SendMessage (p->command, '0', celparms);
       }
       else
       {
-        if (p->packedargs)
+        iCelBehaviour* bh = entity->GetBehaviour ();
+        if (bh)
         {
-          but_params->GetParameter(0).Set (CEL_KEY_STATE_DOWN);
-          celparms = but_params;
+          if (p->packedargs)
+          {
+            but_params->GetParameter(0).Set (CEL_KEY_STATE_DOWN);
+            celparms = but_params;
+          }
+          else
+            *(p->command_end) = '1';
+          celData ret;
+          bh->SendMessage (p->command, this, ret, celparms);
+          if (!p->packedargs)
+            *(p->command_end) = 0;
         }
-        SendMessage (p->command, '1', celparms);
       }
     }
   }

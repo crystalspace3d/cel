@@ -9,9 +9,9 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 # Don't forget to update include/celversion.h, docs/texinfo/version.txi
 # and mk/autoconf/cel.m4 when changing this version number.
-AC_INIT([cel], [1.3], [cel-main@lists.sourceforge.net])
+AC_INIT([cel], [1.2.1], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
-    [Copyright (C)2002-2007 Jorrit Tyberghein and others.],
+    [Copyright (C)2002-2008 Jorrit Tyberghein and others.],
     [http://cel.crystalspace3d.org/])
 AC_CONFIG_SRCDIR([mk/jam/build.jam])
 AC_CONFIG_AUX_DIR([mk/autoconf])
@@ -178,7 +178,9 @@ AC_ARG_WITH([cs], [AC_HELP_STRING([--without-cs],
 AS_IF([test -z "$with_cs"], [with_cs=yes])
 
 AS_IF([test $with_cs != no],
-    [CS_PATH_CRYSTAL_EMIT([1.1], [],
+    [AS_IF([test $cs_cv_python != no],
+	[cs_opt_libs="crystalspace_python"], [cs_opt_libs=''])
+    CS_PATH_CRYSTAL_EMIT([1.1], [],
 	[AC_MSG_ERROR([
 *** Crystal Space could not be found or was unusable. The latest version is
 *** always available from http://www.crystalspace3d.org/
@@ -186,6 +188,23 @@ AS_IF([test $with_cs != no],
 *** CRYSTAL environment variable properly.
 ])], [crystalspace], [$cs_opt_libs])])
 
+#----------------------------------------------------------------------------
+# We checked for Python earlier, and used that result to adjust the CS test
+# above, but whether we actually build CEL's Python module depends upon whether
+# CS was built with Python support, which we can only know at this point (after
+# running the CS test).
+#----------------------------------------------------------------------------
+AS_IF([test $with_cs != no && test $cs_cv_python != no],
+    [AC_MSG_CHECKING([for Crystal Space Python support])
+    cel_do_python=no
+    for m in $CRYSTAL_AVAILABLE_LIBS; do
+	AS_IF([test crystalspace_python = "$m"],
+	    [cel_do_python=yes
+	    break])
+    done
+    AC_MSG_RESULT([$cel_do_python])
+    AS_IF([test $cel_do_python = yes],
+	[CS_EMIT_BUILD_RESULT([cs_cv_python], [PYTHON])])])
 
 #----------------------------------------------------------------------------
 # Check if the Crystal Space static plugins lib was built.
@@ -214,24 +233,6 @@ AS_IF([test $enable_meta_info_embedding = yes],
 	[AS_ESCAPE([$(EMBED_META.LFLAGS)])], [+])])
 
 
-#------------------------------------------------------------------------------
-# Determine whether link libraries should be static or shared.
-#------------------------------------------------------------------------------
-AC_MSG_CHECKING([whether to build shared libraries])
-case $host_os in
-    mingw*|cygwin*|linux*) enable_shared_default=yes ;;
-    *) enable_shared_default=no ;;
-esac
-AC_ARG_ENABLE([shared], [AC_HELP_STRING([--enable-shared],
-    [enable creation of shared libraries (default YES on Win32 and Linux, 
-    NO otherwise)])],
-    [], [enable_shared=$enable_shared_default])
-AC_MSG_RESULT([$enable_shared])
-CS_EMIT_BUILD_PROPERTY([BUILD_SHARED_LIBS], [$enable_shared])
-AS_IF([test $enable_shared = yes], 
-  [CS_HEADER_PROPERTY([CEL_BUILD_SHARED_LIBS])])
-
-
 #----------------------------------------------------------------------------
 # Package configuration switches
 #----------------------------------------------------------------------------
@@ -255,7 +256,6 @@ CS_EMIT_PACKAGEINFO
 # Output generated files.  Also create a Jamfile when compiling outside
 # source directory.
 #----------------------------------------------------------------------------
-CS_HEADER_OUTPUT([include/celconfig.h])
 CS_JAMCONFIG_OUTPUT([Jamconfig])
 AC_CONFIG_FILES([Jamfile scripts/autopackage/celstart_static.apspec])
 AC_OUTPUT
