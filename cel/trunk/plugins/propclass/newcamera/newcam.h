@@ -108,8 +108,8 @@ private:
    *  \param deltaTime    The change in time since last frame.
    *  \param springCoef   The spring coefficient to use in our calculations.
    */
-  static void CalcElasticVec (csVector3& curr, const csVector3& ideal,
-  	float deltaTime, float springCoef);
+  static void CalcElasticVec (csVector3& curr, const csVector3& next,
+    float time, float spring);
 
   // action parameters
   static csStringID id_name;
