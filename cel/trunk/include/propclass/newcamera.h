@@ -344,6 +344,11 @@ struct iPcNewCamera : public virtual iPcCamera
   virtual void SetTargetPositionOffset (const csVector3& offset) = 0;
 
   /**
+   * Sets the minimum allowed offset up until the target.
+   */
+  virtual void SetTargetMinimumOffset (float minoff) = 0;
+
+  /**
    * Sets the offset from the center of the mesh's iMovable to the position of
    * the camera.
    * \param offset the offset from the center of the mesh to the camera
