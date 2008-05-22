@@ -540,6 +540,11 @@ void celPcNewCamera::SetPositionOffset (const csVector3& offset)
   SetTargetPositionOffset (offset);
 }
 
+void celPcNewCamera::SetTargetMinimumOffset (float minoff)
+{
+  minoffset = minoff;
+}
+
 void celPcNewCamera::SetTargetPositionOffset (const csVector3& offset)
 {
   offsetTarget = offset;
