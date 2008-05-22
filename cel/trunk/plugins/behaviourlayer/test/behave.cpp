@@ -222,12 +222,12 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     if (!trackcam)
       return false;
 
-    if (!strcmp (msg_id+10, "joyaxis.up"))
+    if (!strcmp (msg_id+10, "joyaxis0"))
     {
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
       pcactor->SetAxis (0, value);
     }
-    else if (!strcmp (msg_id+10, "joyaxis.down"))
+    else if (!strcmp (msg_id+10, "joyaxis1"))
     {
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
       pcactor->SetAxis (1, -value);
