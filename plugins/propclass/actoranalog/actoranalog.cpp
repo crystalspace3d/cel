@@ -256,7 +256,7 @@ void celPcActorAnalog::UpdateMovement ()
   if (ABS(delta_rot) < 0.1)
   {
     // move forwards
-    pclinmove->SetVelocity (csVector3 (0, 0, -movespeed * target_axis.Norm()));
+    pclinmove->SetVelocity (csVector3 (0, 0, -movespeed));
     pcmesh->SetAnimation ("walk", true);
   }
   else
