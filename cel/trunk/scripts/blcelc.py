@@ -2819,6 +2819,11 @@ class Tracking(General):
     def SetTargetState(*args): return _blcelc.Tracking_SetTargetState(*args)
     def GetTargetState(*args): return _blcelc.Tracking_GetTargetState(*args)
     def SetTargetYOffset(*args): return _blcelc.Tracking_SetTargetYOffset(*args)
+    PAN_LEFT = _blcelc.Tracking_PAN_LEFT
+    PAN_NONE = _blcelc.Tracking_PAN_NONE
+    PAN_RIGHT = _blcelc.Tracking_PAN_RIGHT
+    def Pan(*args): return _blcelc.Tracking_Pan(*args)
+    def SetPanningSpeed(*args): return _blcelc.Tracking_SetPanningSpeed(*args)
     __swig_destroy__ = _blcelc.delete_Tracking
     __del__ = lambda self : None;
 Tracking_swigregister = _blcelc.Tracking_swigregister
@@ -2839,6 +2844,7 @@ class iPcNewCamera(iPcCamera):
     def GetUp(*args): return _blcelc.iPcNewCamera_GetUp(*args)
     def SetPositionOffset(*args): return _blcelc.iPcNewCamera_SetPositionOffset(*args)
     def SetTargetPositionOffset(*args): return _blcelc.iPcNewCamera_SetTargetPositionOffset(*args)
+    def SetTargetMinimumOffset(*args): return _blcelc.iPcNewCamera_SetTargetMinimumOffset(*args)
     def SetCameraPositionOffset(*args): return _blcelc.iPcNewCamera_SetCameraPositionOffset(*args)
     def SetSpringCoefficient(*args): return _blcelc.iPcNewCamera_SetSpringCoefficient(*args)
     def GetSpringCoefficient(*args): return _blcelc.iPcNewCamera_GetSpringCoefficient(*args)
