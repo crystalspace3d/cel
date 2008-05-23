@@ -232,7 +232,7 @@ bool celMessageChannel::SendMessage (const char* msgid,
     while(subscriptionQueue.GetSize())
     {
       celMessageSubscription subscriptionRequest =  subscriptionQueue.Pop();
-      Unsubscribe(subscriptionRequest.receiver,subscriptionRequest.mask);
+      Subscribe(subscriptionRequest.receiver,subscriptionRequest.mask);
     }
   }
   return handled;
