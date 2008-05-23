@@ -232,6 +232,21 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
       pcactor->SetAxis (1, -value);
     }
+    if (!strcmp (msg_id+10, "tiltcam"))
+    {
+      CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
+      puts ("tilting camera");
+    }
+    else if (!strcmp (msg_id+10, "pancam"))
+    {
+      CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
+      if (value < -EPSILON)
+        trackcam->Pan (iPcmNewCamera::Tracking::PAN_LEFT);
+      else if (value > EPSILON)
+        trackcam->Pan (iPcmNewCamera::Tracking::PAN_RIGHT);
+      else
+        trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
+    }
     else if (!strcmp (msg_id+10, "ready.down"))
       trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_NONE);
     else if (!strcmp (msg_id+10, "ready.up"))

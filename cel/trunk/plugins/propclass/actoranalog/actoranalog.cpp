@@ -255,8 +255,35 @@ void celPcActorAnalog::UpdateMovement ()
   // face the direction they're turning towards.
   if (ABS(delta_rot) < 0.1)
   {
+    // because joystick gives the movement in ranges [0,1] on both axis
+    // setting movement of [1,1] will make the player go faster than with [1,0]
+    // so we project the square onto a circle to fix this
+    float grad = curr_axis.y / curr_axis.x;
+    // calculate bisected point on square first
+    csVector2 bisect_point;
+    // which side of the square do we calculate a bisection on?
+    if (-curr_axis.x < curr_axis.y)
+    {
+      // bisect x = 1
+      if (curr_axis.x > curr_axis.y)
+        bisect_point.Set (1, grad);
+      // bisect y = 1
+      else // if (curr_axis.x < curr_axis.y)
+        bisect_point.Set (1/grad, 1);
+    }
+    else
+    {
+      // bisect x = -1
+      if (curr_axis.x < curr_axis.y)
+        bisect_point.Set (-1, -grad);
+      // bisect y = -1
+      else // if (curr_axis.x > curr_axis.y)
+        bisect_point.Set (-1/grad, -1);
+    }
+    float i = curr_axis.Norm () / bisect_point.Norm ();
+    //csVector2 movecir = i * (curr_axis / curr_axis.Norm ());
     // move forwards
-    pclinmove->SetVelocity (csVector3 (0, 0, -movespeed));
+    pclinmove->SetVelocity (csVector3 (0, 0, -movespeed * i));
     pcmesh->SetAnimation ("walk", true);
   }
   else
