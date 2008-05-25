@@ -37,4 +37,4 @@ class celButton:
             bb.SetTextFgColor(csColor(0, 0, 0))
     
     def destruct(self, pc, args):
-        self.entity.PropertyClassList.RemoveAll()
+        pass

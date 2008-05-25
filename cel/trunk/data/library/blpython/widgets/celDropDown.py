@@ -64,7 +64,6 @@ class celDropDown:
         
     def destruct(self, pc, args):
         self.menu.clear()
-        self.entity.PropertyClassList.RemoveAll()
 
     def setlocked(self, pc, args):
         self.locked = True
