@@ -17,7 +17,7 @@ class celMenu:
         self.blpython = BehaviourLayers['blpython']
         self.owner = owner
         self.active = None
-        self.font = '/outlaws/fonts/lcd2.ttf'
+        self.font = '/fonts/unifont/unifont.csf'
     
     #Add a menu element. sends message to menu when clicked. the behaviour chooses the widget.
     def addElement(self, name, message, position, sizes, fsize, material, behaviour = 'celButton'):
@@ -52,7 +52,6 @@ class celMenu:
     def clear(self):
         for i in xrange(len(self.elements)):
             element = self.elements.pop(0)
-            element.PropertyClassList.RemoveAll()
             RemoveEntity(element)
     
     #make one selected
