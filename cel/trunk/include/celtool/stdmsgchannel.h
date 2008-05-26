@@ -122,8 +122,8 @@ class CEL_CELTOOL_EXPORT celMessageChannel : public scfImplementation1<
 					     celMessageChannel, iMessageChannel>
 {
 private:
-  csArray<celMessageSubscription> subscriptionQueue;
-  csArray<celMessageSubscription> unsubscriptionQueue;
+  csArray<celMessageSubscription,csArraySafeCopyElementHandler<celMessageSubscription> > subscriptionQueue;
+  csArray<celMessageSubscription,csArraySafeCopyElementHandler<celMessageSubscription> > unsubscriptionQueue;
   csWeakRef<iCelPlLayer> pl;
   csRefArray<celMessageDispatcher> messageDispatchers;
   celSubscriptions messageSubscriptions;
