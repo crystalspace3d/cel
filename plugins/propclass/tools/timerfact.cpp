@@ -152,6 +152,11 @@ void celPcTimer::Clear (const char* name)
     pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
     pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, whereframe);
   }
+  else if (strcmp (name, "frame"))
+  {
+    wakeupframe = false;
+    pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, whereframe);
+  }
   else
   {
     size_t i = 0;
