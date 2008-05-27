@@ -70,7 +70,8 @@ struct iPcTimer : public virtual iBase
    * timer event. Otherwise all timer events are cleared. If you want
    * to clear only the anonymous timer then you can use "wakeup" as
    * the name. Note that if no name is given then the frame event is
-   * also cleared.
+   * also cleared. If name is equal to 'frame' then only the frame event
+   * is cleared.
    */
   virtual void Clear (const char* name = 0) = 0;
 };
