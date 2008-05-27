@@ -209,13 +209,16 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("down", "down");
   pcinp->Bind ("[", "camleft");
   pcinp->Bind ("]", "camright");
+  pcinp->Bind ("y", "camswitch");
 
   csRef<iPcActorAnalog> actor = celQueryPropertyClassEntity<iPcActorAnalog> (entity_cam);
-  //actor->SetTurningSpeed (5.0f);
+  actor->SetTurningSpeed (8.0f);
 
   csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
     entity_cam, iPcNewCamera);
   newcamera->AttachCameraMode(iPcNewCamera::CCM_TRACKING);
+  newcamera->AttachCameraMode(iPcNewCamera::CCM_THIRD_PERSON);
+  newcamera->SetCurrentCameraMode (0);
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;
