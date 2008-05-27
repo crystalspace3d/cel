@@ -243,6 +243,11 @@ struct Tracking : public virtual General
    */
   virtual void SetTargetYOffset (float targetyoffset) = 0;
 
+  /**
+   * Set the position offset for the camera's position.
+   */
+  virtual void SetPositionOffset (const csVector3 & offset) = 0;
+
   enum PanningDirection
   {
     PAN_LEFT = 0,
@@ -260,6 +265,24 @@ struct Tracking : public virtual General
    */
   virtual void SetPanningSpeed (float panspeed) = 0;
 };
+
+
+struct ThirdPerson : public virtual General
+{
+  SCF_INTERFACE (ThirdPerson, 0, 0, 1);
+
+  /**
+   * Since position is often set at the 'feet' of an object, set
+   * a fixed offset upwards
+   */
+  virtual void SetTargetYOffset (float targetyoffset) = 0;
+
+  /**
+   * Set the position offset for the camera's position.
+   */
+  virtual void SetPositionOffset (const csVector3 & offset) = 0;
+};
+
 } // iPcmNewCamera
 
 typedef iPcmNewCamera::General iCelCameraMode;
@@ -335,6 +358,7 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual void SetPositionOffset (const csVector3& offset) = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use SetTargetPositionOffset () in camera modes instead")
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
    * the camera.
@@ -348,6 +372,7 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual void SetTargetMinimumOffset (float minoff) = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use SetTargetPositionOffset () in camera modes instead")
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
    * the camera.
@@ -434,12 +459,14 @@ struct iPcNewCamera : public virtual iPcCamera
    * Sets the spring coefficient that will be used when a collision is detected.
    * \param springCoef The new spring coefficient.
    */
+  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual void SetCollisionSpringCoefficient (float springCoef) = 0;
 
   /**
    * Returns the spring coefficient that is used when a collision is detection.
    * \return The collision detection spring coefficient.
    */
+  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual float GetCollisionSpringCoefficient () const = 0;
 
   /**
@@ -454,6 +481,7 @@ struct iPcNewCamera : public virtual iPcCamera
    * a new camera mode is selected.
    * \param springCoef The new spring coefficient of camera transitions.
    */
+  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual void SetTransitionSpringCoefficient (float springCoef) = 0;
 
   /**
@@ -461,6 +489,7 @@ struct iPcNewCamera : public virtual iPcCamera
    * camera mode is selected.
    * \return The spring coefficient of the camera transitions.
    */
+  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual float GetTransitionSpringCoefficient () const = 0;
 
   /**
@@ -472,8 +501,9 @@ struct iPcNewCamera : public virtual iPcCamera
    * \param cutOffTargetDist The camera transition mode cutoff distance from
    * target to target.
    */
+  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual void SetTransitionCutoffDistance (float cutOffOriginDist,
-  	float cutOffTargetDist) = 0;
+    float cutOffTargetDist) = 0;
 
   CS_DEPRECATED_METHOD_MSG("Use GetTransitionCutoffOriginDistance () instead")
   /**
@@ -488,6 +518,7 @@ struct iPcNewCamera : public virtual iPcCamera
    * between the camera and the camera mode.
    * \return The camera transition cutoff distance from target to target.
    */
+  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual float GetTransitionCutoffOriginDistance () const = 0;
 
   /**
@@ -495,7 +526,19 @@ struct iPcNewCamera : public virtual iPcCamera
    * between the camera and the camera mode.
    * \return The camera transition cutoff distance from position to position.
    */
+  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual float GetTransitionCutoffTargetDistance () const = 0;
+
+  /**
+   * Set the time to perform a transition.
+   * \param time Time to transition to the new mode.
+   */
+  virtual void SetTransitionTime (float time) = 0;
+
+  /**
+   * Get the time to transition to a new mode.
+   */
+  virtual float GetTransitionTime () const = 0;
 
   /**
    * Attaches a camera mode to this camera.

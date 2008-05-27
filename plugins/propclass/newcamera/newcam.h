@@ -64,38 +64,35 @@ class celPcNewCamera : public scfImplementationExt2<celPcNewCamera,
 	celPcCameraCommon, iPcNewCamera, scfFakeInterface<iPcCamera> >
 {
 private:
+  struct CameraState
+  {
+    csVector3 pos, dir, up;
+  };
+
   csRef<iCollideSystem> cdsys;
 
-  csRefArray<iCelCameraMode> cameraModes;
+  csRefArray<iCelCameraMode> cameramodes;
 
-  size_t currMode;
+  size_t currmode;
 
-  csVector3 baseOrigin, baseDir, baseUp;
-  csReversibleTransform baseTrans;
-  iSector* baseSector;
-  csVector3 camOrigin, camTarget, camUp;
-  float originSpringCoef, targetSpringCoef, upSpringCoef;
+  CameraState base;
+  csReversibleTransform basetrans;
+  //csOrthoTransform camTrans;
+  iSector* basesector;
+  CameraState currcam;
+  float originspring, targetspring, upspring;
 
-  // offsetOrigin is where to transform the camera along the direction
-  // it is set to after first pass.
-  csVector3 offsetOrigin;
-  csVector3 offsetTarget;
   // the minimum distance the camera is allowed to the player
   float minoffset;
-//  csVector3 offsetOrigin, offsetTarget;
-  csVector3 oldpos, oldoldpos;
 
   csWeakRef<iPcMesh> pcmesh;
-  iSector* lastActorSector;
 
-  bool detectCollisions;
-  float collisionSpringCoef;
-  float collisionOriginRadius, collisionTargetRadius;
+  bool docolldet;
+  float collyfocusoff;
 
-  bool inTransition;
-  float transitionSpringCoef;
-  float transitionCutoffOriginDist;
-  float transitionCutoffTargetDist;
+  bool in_transition;
+  float transtime, currtrans;
+  CameraState lastmode;
 
   // Has this camera been initialised yet?
   bool init_reset;
@@ -108,8 +105,7 @@ private:
    *  \param deltaTime    The change in time since last frame.
    *  \param springCoef   The spring coefficient to use in our calculations.
    */
-  static void CalcElasticVec (csVector3& curr, const csVector3& next,
-    float time, float spring);
+  static csVector3 InterpolateVector (float i, const csVector3& curr, const csVector3& next);
 
   // action parameters
   static csStringID id_name;
@@ -203,11 +199,13 @@ public:
   float GetUpSpringCoefficient () const;
 
   bool DetectCollisions () const;
-  void SetCollisionDetection (bool detectCollisions);
+  void SetCollisionDetection (bool docolldet);
   bool GetCollisionDetection () const;
+  void SetCollisionYFocusOffset (float yoff);
+  float GetCollisionYFocusOffset () const;
 
-  void SetCollisionSpringCoefficient (float springCoef);
-  float GetCollisionSpringCoefficient () const;
+  void SetCollisionSpringCoefficient (float springCoef) {}
+  float GetCollisionSpringCoefficient () const { return -1; }
 
   bool InCameraTransition () const;
   void SetTransitionSpringCoefficient (float springCoef);
@@ -217,12 +215,14 @@ public:
   float GetTransitionCutoffPosDistance () const;
   float GetTransitionCutoffOriginDistance () const;
   float GetTransitionCutoffTargetDistance () const;
+  void SetTransitionTime (float time);
+  float GetTransitionTime () const;
 
   size_t AttachCameraMode (iCelCameraMode* mode);
   size_t AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype);
   size_t GetCurrentCameraModeIndex () const;
   iCelCameraMode* GetCurrentCameraMode ();
-  bool SetCurrentCameraMode (size_t modeIndex);
+  bool SetCurrentCameraMode (size_t modeindex);
   iCelCameraMode* GetCameraMode (int idx = -1);
   void NextCameraMode ();
   void PrevCameraMode ();

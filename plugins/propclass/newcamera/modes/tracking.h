@@ -32,7 +32,7 @@ namespace celCameraMode
 {
 
 class Tracking : public scfImplementation2<Tracking, iPcmNewCamera::Tracking,
-	scfFakeInterface<iPcmNewCamera::General> >, public celCameraMode
+  scfFakeInterface<iPcmNewCamera::General> >, public celCameraMode
 {
 private:
   const csVector3 &GetAnchorPosition ();

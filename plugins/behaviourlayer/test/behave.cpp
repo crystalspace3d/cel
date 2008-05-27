@@ -217,10 +217,6 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       <iPcNewCamera> (entity);
     if (!pccamera)
       return false;
-    csRef<iPcmNewCamera::Tracking> trackcam =
-      pccamera->QueryModeInterface<iPcmNewCamera::Tracking> ();
-    if (!trackcam)
-      return false;
 
     if (!strcmp (msg_id+10, "joyaxis0"))
     {
@@ -232,20 +228,48 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
       pcactor->SetAxis (1, -value);
     }
-    if (!strcmp (msg_id+10, "tiltcam"))
+
+    else if (!strcmp (msg_id+10, "left.down"))
+      pcactor->AddAxis (0, -1);
+    else if (!strcmp (msg_id+10, "left.up"))
+      pcactor->AddAxis (0, 1);
+    else if (!strcmp (msg_id+10, "right.down"))
+      pcactor->AddAxis (0, 1);
+    else if (!strcmp (msg_id+10, "right.up"))
+      pcactor->AddAxis (0, -1);
+    else if (!strcmp (msg_id+10, "up.down"))
+      pcactor->AddAxis (1, 1);
+    else if (!strcmp (msg_id+10, "up.up"))
+      pcactor->AddAxis (1, -1);
+    else if (!strcmp (msg_id+10, "down.down"))
+      pcactor->AddAxis (1, -1);
+    else if (!strcmp (msg_id+10, "down.up"))
+      pcactor->AddAxis (1, 1);
+    else if (!strcmp (msg_id+10, "camswitch.up"))
     {
-      CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
-      puts ("tilting camera");
+      pccamera->NextCameraMode ();
     }
-    else if (!strcmp (msg_id+10, "pancam"))
+
+    csRef<iPcmNewCamera::Tracking> trackcam =
+      pccamera->QueryModeInterface<iPcmNewCamera::Tracking> ();
+    if (!trackcam)
+      return false;
+
+    if (!strcmp (msg_id+10, "camleft.down"))
     {
-      CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
-      if (value < -EPSILON)
-        trackcam->Pan (iPcmNewCamera::Tracking::PAN_LEFT);
-      else if (value > EPSILON)
-        trackcam->Pan (iPcmNewCamera::Tracking::PAN_RIGHT);
-      else
-        trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
+      trackcam->Pan (iPcmNewCamera::Tracking::PAN_LEFT);
+    }
+    else if (!strcmp (msg_id+10, "camleft.up"))
+    {
+      trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
+    }
+    else if (!strcmp (msg_id+10, "camright.down"))
+    {
+      trackcam->Pan (iPcmNewCamera::Tracking::PAN_RIGHT);
+    }
+    else if (!strcmp (msg_id+10, "camright.up"))
+    {
+      trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
     }
     else if (!strcmp (msg_id+10, "ready.down"))
       trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_NONE);
@@ -267,37 +291,20 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     else if (!strcmp (msg_id+10, "resetcam.down"))
       trackcam->ResetCamera ();
 
-    else if (!strcmp (msg_id+10, "left.down"))
-      pcactor->AddAxis (0, -1);
-    else if (!strcmp (msg_id+10, "left.up"))
-      pcactor->AddAxis (0, 1);
-    else if (!strcmp (msg_id+10, "right.down"))
-      pcactor->AddAxis (0, 1);
-    else if (!strcmp (msg_id+10, "right.up"))
-      pcactor->AddAxis (0, -1);
-    else if (!strcmp (msg_id+10, "up.down"))
-      pcactor->AddAxis (1, 1);
-    else if (!strcmp (msg_id+10, "up.up"))
-      pcactor->AddAxis (1, -1);
-    else if (!strcmp (msg_id+10, "down.down"))
-      pcactor->AddAxis (1, -1);
-    else if (!strcmp (msg_id+10, "down.up"))
-      pcactor->AddAxis (1, 1);
-    else if (!strcmp (msg_id+10, "camleft.down"))
+    if (!strcmp (msg_id+10, "tiltcam"))
     {
-      trackcam->Pan (iPcmNewCamera::Tracking::PAN_LEFT);
+      CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
+      puts ("tilting camera");
     }
-    else if (!strcmp (msg_id+10, "camleft.up"))
+    else if (!strcmp (msg_id+10, "pancam"))
     {
-      trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
-    }
-    else if (!strcmp (msg_id+10, "camright.down"))
-    {
-      trackcam->Pan (iPcmNewCamera::Tracking::PAN_RIGHT);
-    }
-    else if (!strcmp (msg_id+10, "camright.up"))
-    {
-      trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
+      CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
+      if (value < -EPSILON)
+        trackcam->Pan (iPcmNewCamera::Tracking::PAN_LEFT);
+      else if (value > EPSILON)
+        trackcam->Pan (iPcmNewCamera::Tracking::PAN_RIGHT);
+      else
+        trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
     }
     return true;
   }
