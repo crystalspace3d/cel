@@ -2819,6 +2819,7 @@ class Tracking(General):
     def SetTargetState(*args): return _blcelc.Tracking_SetTargetState(*args)
     def GetTargetState(*args): return _blcelc.Tracking_GetTargetState(*args)
     def SetTargetYOffset(*args): return _blcelc.Tracking_SetTargetYOffset(*args)
+    def SetPositionOffset(*args): return _blcelc.Tracking_SetPositionOffset(*args)
     PAN_LEFT = _blcelc.Tracking_PAN_LEFT
     PAN_NONE = _blcelc.Tracking_PAN_NONE
     PAN_RIGHT = _blcelc.Tracking_PAN_RIGHT
@@ -2828,6 +2829,17 @@ class Tracking(General):
     __del__ = lambda self : None;
 Tracking_swigregister = _blcelc.Tracking_swigregister
 Tracking_swigregister(Tracking)
+
+class ThirdPerson(General):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetTargetYOffset(*args): return _blcelc.ThirdPerson_SetTargetYOffset(*args)
+    def SetPositionOffset(*args): return _blcelc.ThirdPerson_SetPositionOffset(*args)
+    __swig_destroy__ = _blcelc.delete_ThirdPerson
+    __del__ = lambda self : None;
+ThirdPerson_swigregister = _blcelc.ThirdPerson_swigregister
+ThirdPerson_swigregister(ThirdPerson)
 
 class iPcNewCamera(iPcCamera):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -2866,6 +2878,8 @@ class iPcNewCamera(iPcCamera):
     def GetTransitionCutoffPosDistance(*args): return _blcelc.iPcNewCamera_GetTransitionCutoffPosDistance(*args)
     def GetTransitionCutoffOriginDistance(*args): return _blcelc.iPcNewCamera_GetTransitionCutoffOriginDistance(*args)
     def GetTransitionCutoffTargetDistance(*args): return _blcelc.iPcNewCamera_GetTransitionCutoffTargetDistance(*args)
+    def SetTransitionTime(*args): return _blcelc.iPcNewCamera_SetTransitionTime(*args)
+    def GetTransitionTime(*args): return _blcelc.iPcNewCamera_GetTransitionTime(*args)
     CCM_FIRST_PERSON = _blcelc.iPcNewCamera_CCM_FIRST_PERSON
     CCM_THIRD_PERSON = _blcelc.iPcNewCamera_CCM_THIRD_PERSON
     CCM_TRACKING = _blcelc.iPcNewCamera_CCM_TRACKING
