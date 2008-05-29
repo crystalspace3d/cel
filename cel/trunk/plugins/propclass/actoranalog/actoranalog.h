@@ -35,6 +35,7 @@ struct iObjectRegistry;
 struct iPcMesh;
 struct iPcLinearMovement;
 struct iPcNewCamera;
+struct iVirtualClock;
 
 /**
  * Factory for actor lara.
@@ -51,18 +52,25 @@ public:
   celPcActorAnalog (iObjectRegistry* object_reg);
   virtual ~celPcActorAnalog ();
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformActionIndexed (int idx,
+  csPtr<iCelDataBuffer> Save ();
+  bool Load (iCelDataBuffer* databuf);
+  bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
 
   // Callback to update the character
-  virtual void TickEveryFrame ();
+  void TickEveryFrame ();
 
-  virtual void SetAxis (size_t axis, float value);
-  virtual void AddAxis (size_t axis, float value);
-  virtual void SetMovementSpeed (float movespeed);
-  virtual void SetTurningSpeed (float turnspeed);
+  void SetAxis (size_t axis, float value);
+  float GetAxis (size_t axis) const;
+  void AddAxis (size_t axis, float value);
+  void SetMovementSpeed (float speed);
+  float GetMovementSpeed () const;
+  void SetMovementAcceleration (float accel);
+  float GetMovementAcceleration () const;
+  void SetMovementDeceleration (float decel);
+  float GetMovementDeceleration () const;
+  void SetTurningSpeed (float speed);
+  float GetTurningSpeed () const;
 private:
   // Called regularly and any movement change
   void UpdateMovement ();
@@ -74,12 +82,14 @@ private:
   csVector2 target_axis;
 
   float turnspeed;
-  float movespeed;
+  float movespeed, moveaccel, movedecel;
 
   // references to sibling property classes
   csWeakRef<iPcMesh> pcmesh;
   csWeakRef<iPcLinearMovement> pclinmove;
   csWeakRef<iPcNewCamera> pccamera;
+
+  csRef<iVirtualClock> vc;
 
   // For SendMessage parameters.
   static csStringID id_axis;
@@ -91,6 +101,8 @@ private:
     action_setaxis = 0,
     action_addaxis,
     action_setmovespeed,
+    action_setmoveaccel,
+    action_setmovedecel,
     action_setturnspeed
   };
 
@@ -100,6 +112,8 @@ private:
     propid_axisx = 0,
     propid_axisy,
     propid_movespeed,
+    propid_moveaccel,
+    propid_movedecel,
     propid_turnspeed
   };
   static PropertyHolder propinfo;

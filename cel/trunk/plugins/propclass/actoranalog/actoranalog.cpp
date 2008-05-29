@@ -28,6 +28,7 @@
 // CS Includes
 #include "iengine/camera.h"
 #include "iengine/engine.h"
+#include "iutil/virtclk.h"
 #include "csgeom/transfrm.h"
 
 // CEL Includes
@@ -51,6 +52,8 @@ PropertyHolder celPcActorAnalog::propinfo;
 celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
+
   // For SendMessage parameters.
   if (id_axis == csInvalidStringID)
   {
@@ -66,6 +69,8 @@ celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
     AddAction (action_setaxis, "cel.action.SetAxis");
     AddAction (action_addaxis, "cel.action.AddAxis");
     AddAction (action_setmovespeed, "cel.action.SetMovementSpeed");
+    AddAction (action_setmoveaccel, "cel.action.SetMovementAcceleration");
+    AddAction (action_setmoveaccel, "cel.action.SetMovementDeceleration");
     AddAction (action_setturnspeed, "cel.action.SetTurningSpeed");
   }
 
@@ -80,6 +85,12 @@ celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
   AddProperty (propid_movespeed, "cel.property.movespeed",
     CEL_DATA_FLOAT, false, "Movement speed.",
     &movespeed);
+  AddProperty (propid_moveaccel, "cel.property.moveaccel",
+    CEL_DATA_FLOAT, false, "Movement acceleration.",
+    &moveaccel);
+  AddProperty (propid_movedecel, "cel.property.movedecel",
+    CEL_DATA_FLOAT, false, "Movement deceleration.",
+    &movedecel);
   AddProperty (propid_turnspeed, "cel.property.turnspeed",
     CEL_DATA_FLOAT, false, "Turning speed.",
     &turnspeed);
@@ -90,6 +101,8 @@ celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
   target_axis.Set (0.0f);
   turnspeed = 30.0f;
   movespeed = 10;
+  moveaccel = 50;
+  movedecel = 100;
 }
 
 celPcActorAnalog::~celPcActorAnalog ()
@@ -105,6 +118,8 @@ csPtr<iCelDataBuffer> celPcActorAnalog::Save ()
   databuf->Add (target_axis.y);
   databuf->Add (turnspeed);
   databuf->Add (movespeed);
+  databuf->Add (moveaccel);
+  databuf->Add (movedecel);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -117,6 +132,8 @@ bool celPcActorAnalog::Load (iCelDataBuffer* databuf)
   target_axis.y = databuf->GetFloat ();
   turnspeed = databuf->GetFloat ();
   movespeed = databuf->GetFloat ();
+  moveaccel = databuf->GetFloat ();
+  movedecel = databuf->GetFloat ();
 
   return true;
 }
@@ -128,39 +145,55 @@ bool celPcActorAnalog::PerformActionIndexed (int idx,
   switch (idx)
   {
     case action_setaxis:
-      {
-        CEL_FETCH_LONG_PAR (axis, params, id_axis);
-        CEL_FETCH_FLOAT_PAR (value, params, id_value);
-        if (!p_axis || !p_value)
-          return false;
-        SetAxis (axis, value);
-        return true;
-      }
+    {
+      CEL_FETCH_LONG_PAR (axis, params, id_axis);
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_axis || !p_value)
+        return false;
+      SetAxis (axis, value);
+      return true;
+    }
     case action_addaxis:
-      {
-        CEL_FETCH_LONG_PAR (axis, params, id_axis);
-        CEL_FETCH_FLOAT_PAR (value, params, id_value);
-        if (!p_axis || !p_value)
-          return false;
-        AddAxis (axis, value);
-        return true;
-      }
+    {
+      CEL_FETCH_LONG_PAR (axis, params, id_axis);
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_axis || !p_value)
+        return false;
+      AddAxis (axis, value);
+      return true;
+    }
     case action_setmovespeed:
-      {
-        CEL_FETCH_FLOAT_PAR (value, params, id_value);
-        if (!p_value)
-          return false;
-        SetMovementSpeed (value);
-        return true;
-      }
+    {
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_value)
+        return false;
+      SetMovementSpeed (value);
+      return true;
+    }
+    case action_setmoveaccel:
+    {
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_value)
+        return false;
+      SetMovementAcceleration (value);
+      return true;
+    }
+    case action_setmovedecel:
+    {
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_value)
+        return false;
+      SetMovementDeceleration (value);
+      return true;
+    }
     case action_setturnspeed:
-      {
-        CEL_FETCH_FLOAT_PAR (value, params, id_value);
-        if (!p_value)
-          return false;
-        SetTurningSpeed (value);
-        return true;
-      }
+    {
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_value)
+        return false;
+      SetTurningSpeed (value);
+      return true;
+    }
     default:
       return false;
   }
@@ -183,17 +216,47 @@ void celPcActorAnalog::SetAxis (size_t axis, float value)
   // keep the movement synced
   UpdateMovement ();
 }
+float celPcActorAnalog::GetAxis (size_t axis) const
+{
+  if (axis != 0 and axis != 1)
+    return 0.0f;
+  return target_axis[axis];
+}
 void celPcActorAnalog::AddAxis (size_t axis, float value)
 {
   SetAxis (axis, target_axis[axis] + value);
 }
-void celPcActorAnalog::SetMovementSpeed (float movespeed)
+void celPcActorAnalog::SetMovementSpeed (float speed)
 {
-  celPcActorAnalog::movespeed = movespeed;
+  movespeed = speed;
 }
-void celPcActorAnalog::SetTurningSpeed (float turnspeed)
+float celPcActorAnalog::GetMovementSpeed () const
 {
-  celPcActorAnalog::turnspeed = turnspeed;
+  return movespeed;
+}
+void celPcActorAnalog::SetMovementAcceleration (float accel)
+{
+  moveaccel = accel;
+}
+float celPcActorAnalog::GetMovementAcceleration () const
+{
+  return moveaccel;
+}
+void celPcActorAnalog::SetMovementDeceleration (float decel)
+{
+  movedecel = decel;
+}
+float celPcActorAnalog::GetMovementDeceleration () const
+{
+  return movedecel;
+}
+void celPcActorAnalog::SetTurningSpeed (float speed)
+{
+  turnspeed = speed;
+}
+float celPcActorAnalog::GetTurningSpeed () const
+{
+  return turnspeed;
 }
 
 void celPcActorAnalog::FindSiblingPropertyClasses ()
@@ -222,7 +285,12 @@ void celPcActorAnalog::UpdateMovement ()
   // if we're not moving then stop and idle
   if (curr_axis < EPSILON)
   {
-    pclinmove->SetVelocity (csVector3 (0));
+    // ... deccelerate the player down
+    float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
+    float newspeed = pclinmove->GetVelocity ().Norm () - 2 * moveaccel * elapsedsecs;
+    if (newspeed < 0.0f)
+      newspeed = 0.0f;
+    pclinmove->SetVelocity (csVector3 (0, 0, -newspeed));
     pcmesh->SetAnimation ("stand", true);
     return;
   }
@@ -283,7 +351,14 @@ void celPcActorAnalog::UpdateMovement ()
     float i = curr_axis.Norm () / bisect_point.Norm ();
     //csVector2 movecir = i * (curr_axis / curr_axis.Norm ());
     // move forwards
-    pclinmove->SetVelocity (csVector3 (0, 0, -movespeed * i));
+    // if haven't reached destination movement speed yet...
+    if (pclinmove->GetVelocity ().SquaredNorm () < movespeed * movespeed)
+    {
+      // ... then accelerate the player forward
+      float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
+      float newspeed = moveaccel * i * elapsedsecs + pclinmove->GetVelocity ().Norm ();
+      pclinmove->SetVelocity (csVector3 (0, 0, -newspeed));
+    }
     pcmesh->SetAnimation ("walk", true);
   }
   else

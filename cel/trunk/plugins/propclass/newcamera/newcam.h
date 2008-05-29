@@ -77,10 +77,8 @@ private:
 
   CameraState base;
   csReversibleTransform basetrans;
-  //csOrthoTransform camTrans;
   iSector* basesector;
   CameraState currcam;
-  float originspring, targetspring, upspring;
 
   // the minimum distance the camera is allowed to the player
   float minoffset;
@@ -88,7 +86,16 @@ private:
   csWeakRef<iPcMesh> pcmesh;
 
   bool docolldet;
+  // y offset for collision detection focus
   float collyfocusoff;
+  // how much correction to do in collision detection
+  float corrmult;
+  // collision avoidance for player testing radius
+  float avoidradsq;
+  // vertical y offset for when camera nears player
+  float avoidyoff;
+  // avoidance interpolation is how smooth the player avoidance movement should be
+  float avoidinter;
 
   bool in_transition;
   float transtime, currtrans;
@@ -170,8 +177,6 @@ public:
   	celData& ret);
   bool SetPropertyIndexed (int, bool);
   bool GetPropertyIndexed (int, bool&);
-  bool SetPropertyIndexed (int, float);
-  bool GetPropertyIndexed (int, float&);
 
   const csVector3& GetBasePos () const;
   const csVector3& GetBaseOrigin () const;
@@ -203,6 +208,14 @@ public:
   bool GetCollisionDetection () const;
   void SetCollisionYFocusOffset (float yoff);
   float GetCollisionYFocusOffset () const;
+  void SetCollisionCorrection (float corr);
+  float GetCollisionCorrection () const;
+  void SetCollisionAvoidanceRadiusSq (float radsq);
+  float GetCollisionAvoidanceRadiusSq () const;
+  void SetCollisionYAvoidance (float yavoid);
+  float GetCollisionYAvoidance () const;
+  void SetCollisionAvoidanceInterpolation (float aint);
+  float GetCollisionAvoidanceInterpolation () const;
 
   void SetCollisionSpringCoefficient (float springCoef) {}
   float GetCollisionSpringCoefficient () const { return -1; }

@@ -246,7 +246,7 @@ struct Tracking : public virtual General
   /**
    * Set the position offset for the camera's position.
    */
-  virtual void SetPositionOffset (const csVector3 & offset) = 0;
+  virtual void SetPositionOffset (const csVector3 &offset) = 0;
 
   enum PanningDirection
   {
@@ -386,12 +386,14 @@ struct iPcNewCamera : public virtual iPcCamera
    * camera mode.
    * \param springCoef The new spring coefficient.
    */
+  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual void SetSpringCoefficient (float springCoef) = 0;
 
   /**
    * Returns the common spring coefficient that will be used for attached
    * camera mode.
    */
+  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual float GetSpringCoefficient () const = 0;
 
   /**
@@ -399,12 +401,14 @@ struct iPcNewCamera : public virtual iPcCamera
    * camera mode.
    * \param springCoef The new spring coefficient.
    */
+  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual void SetOriginSpringCoefficient (float springCoef) = 0;
 
   /**
    * Returns the origin spring coefficient that will be used for attached
    * camera mode.
    */
+  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual float GetOriginSpringCoefficient () const = 0;
 
   /**
@@ -412,12 +416,14 @@ struct iPcNewCamera : public virtual iPcCamera
    * camera mode.
    * \param springCoef The new spring coefficient.
    */
+  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual void SetTargetSpringCoefficient (float springCoef) = 0;
 
   /**
    * Returns the target spring coefficient that will be used for attached
    * camera mode.
    */
+  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual float GetTargetSpringCoefficient () const = 0;
 
   /**
@@ -425,20 +431,22 @@ struct iPcNewCamera : public virtual iPcCamera
    * camera mode.
    * \param springCoef The new spring coefficient.
    */
+  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual void SetUpSpringCoefficient (float springCoef) = 0;
 
   /**
    * Returns the up vector spring coefficient that will be used for attached
    * camera mode.
    */
+  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual float GetUpSpringCoefficient () const = 0;
 
-  CS_DEPRECATED_METHOD_MSG("Use GetCollisionDetection () instead")
   /**
    * Returns whether the camera will use collision detection to avoid moving
    * through walls.
    * \return True if collision detection is enabled.
    */
+  CS_DEPRECATED_METHOD_MSG("Use GetCollisionDetection () instead")
   virtual bool DetectCollisions () const = 0;
 
   /**
@@ -454,6 +462,65 @@ struct iPcNewCamera : public virtual iPcCamera
    * \return True if collision detection is enabled.
    */
   virtual bool GetCollisionDetection () const = 0;
+
+  /**
+   * Set the y offset from player position for collision detection focus.
+   */
+  virtual void SetCollisionYFocusOffset (float yoff) = 0;
+
+  /**
+   * Get the y focus offset used in collision detection.
+   */
+  virtual float GetCollisionYFocusOffset () const = 0;
+
+  /**
+   * multiplier for projected beam used in collision detection to place
+   * camera. Values greater than 1.0f are desireable but project the
+   * camera position further away from it's true point the larger it is.
+   * A value of about 1.5f is usually good and is set as default anyway.
+   * 1.0f will give the true collision intersection of the camera, but you
+   * might end up seeing through walls ;)
+   */
+  virtual void SetCollisionCorrection (float corr) = 0;
+
+  /**
+   * Get collision correction multiplier... returns a float. is const \o/ woo!
+   */
+  virtual float GetCollisionCorrection () const = 0;
+
+  /**
+   * Set the player collision avoidance radius. Moves up over the player
+   * when camera gets too close.
+   * \param radsq The squared radius value
+   */
+  virtual void SetCollisionAvoidanceRadiusSq (float radsq) = 0;
+
+  /**
+   * Get the player collision avoidance radius
+   */
+  virtual float GetCollisionAvoidanceRadiusSq () const = 0;
+
+  /**
+   * Set the y offset for camera to move upwards by for avoidance
+   * when it comes too close.
+   */
+  virtual void SetCollisionYAvoidance (float yavoid) = 0;
+
+  /**
+   * Get the Y offset avoidance value.
+   */
+  virtual float GetCollisionYAvoidance () const = 0;
+
+  /**
+   * Set the interpolation used in the collision avoidance. Hard to describe how the value works
+   * but values close to 0 will give a fast jump, 1.0 is more realistic but higher is nicer and slower.
+   */
+  virtual void SetCollisionAvoidanceInterpolation (float aint) = 0;
+
+  /**
+   * Get the collision avoidance movement interpolation value.
+   */
+  virtual float GetCollisionAvoidanceInterpolation () const = 0;
 
   /**
    * Sets the spring coefficient that will be used when a collision is detected.

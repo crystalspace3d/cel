@@ -56,6 +56,14 @@ struct iPcActorAnalog : public virtual iBase
   virtual void SetAxis (size_t axis, float value) = 0;
 
   /**
+   * Get an axis' value.
+   * \param axis This is the axis. 0 for left/right axis,
+   * 1 for forwards/backwards axis.
+   * \param value The value in the range [-1,1].
+   */
+  virtual float GetAxis (size_t axis) const = 0;
+
+  /**
    * Increase axis by a value. This is for keyboard keys to avoid
    * 'deadlock'
    * \param axis This is the axis. 0 for left/right axis,
@@ -67,15 +75,51 @@ struct iPcActorAnalog : public virtual iBase
 
   /**
    * Set the movement speed of the character.
-   * \param movespeed How fast moves in the direction its facing.
+   * \param movespeed How fast the character moves in the direction its facing.
    */
   virtual void SetMovementSpeed (float movespeed) = 0;
+
+  /**
+   * Get the movement speed of the character.
+   * \return How fast the character moves in the direction its facing.
+   */
+  virtual float GetMovementSpeed () const = 0;
+
+  /**
+   * Set the movement acceleration of the character for when you start moving.
+   * \param moveaccel Acceleration of character.
+   */
+  virtual void SetMovementAcceleration (float moveaccel) = 0;
+
+  /**
+   * Get the movement acceleration of the character for when you start moving.
+   * \return Acceleration of character.
+   */
+  virtual float GetMovementAcceleration () const = 0;
+
+  /**
+   * Set the movement deceleration of the character for when you stop moving.
+   * \param movedecel Deceleration of character.
+   */
+  virtual void SetMovementDeceleration (float movedecel) = 0;
+
+  /**
+   * Get the movement deceleration of the character for when you stop moving.
+   * \return Deceleration of character.
+   */
+  virtual float GetMovementDeceleration () const = 0;
 
   /**
    * Set the turning speed of the character.
    * \param turnspeed How fast turns to face its target.
    */
   virtual void SetTurningSpeed (float turnspeed) = 0;
+
+  /**
+   * Get the turning speed of the character.
+   * \return How fast turns to face its target.
+   */
+  virtual float GetTurningSpeed () const = 0;
 };
 
 #endif // __CEL_PF_ACTORLARA__

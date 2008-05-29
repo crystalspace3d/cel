@@ -212,7 +212,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("y", "camswitch");
 
   csRef<iPcActorAnalog> actor = celQueryPropertyClassEntity<iPcActorAnalog> (entity_cam);
-  actor->SetTurningSpeed (8.0f);
+  actor->SetTurningSpeed (15.0f);
 
   csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
     entity_cam, iPcNewCamera);
