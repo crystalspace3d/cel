@@ -687,7 +687,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (5);
+  propinfo.SetCount (6);
   AddProperty (propid_lasttag, "cel.property.lasttag",
 	CEL_DATA_LONG, true, "Last tag from AddForceTagged.", &last_tag);
   AddProperty (propid_linearvelocity, "cel.property.linearvelocity",
@@ -697,7 +697,9 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   AddProperty (propid_static, "cel.property.static",
 	CEL_DATA_BOOL, false, "Static yes/no.", 0);
   AddProperty (propid_cdcallback, "cel.property.cdcallback",
-	CEL_DATA_BOOL, false, "CD enabled yes/no.", &cd_enabled);
+	CEL_DATA_BOOL, false, "CD callback enabled yes/no.", &cd_enabled);
+  AddProperty (propid_enabled, "cel.property.enabled",
+	CEL_DATA_BOOL, false, "CD enabled yes/no.", 0);
 }
 
 celPcMechanicsObject::~celPcMechanicsObject ()
@@ -890,6 +892,17 @@ bool celPcMechanicsObject::SetPropertyIndexed (int idx, bool v)
     MakeStatic (v);
     return true;
   }
+  if (idx == propid_enabled)
+  {
+    if (GetBody ())
+    {
+      if (v)
+        GetBody()->Enable();
+      else
+        GetBody()->Disable();
+      return true;
+    }
+  }
   return false;
 }
 
@@ -899,6 +912,14 @@ bool celPcMechanicsObject::GetPropertyIndexed (int idx, bool& v)
   {
     v = is_static;
     return true;
+  }
+  if (idx == propid_static)
+  {
+    if (GetBody ())
+    {
+      v = GetBody()->IsEnabled();
+      return true;
+    }
   }
   return false;
 }

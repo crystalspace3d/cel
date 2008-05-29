@@ -351,7 +351,8 @@ private:
     propid_linearvelocity,
     propid_angularvelocity,
     propid_static,
-    propid_cdcallback
+    propid_cdcallback,
+    propid_enabled
   };
   static PropertyHolder propinfo;
 
