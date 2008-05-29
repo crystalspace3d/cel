@@ -22,6 +22,8 @@
 
 #include "cstypes.h"
 #include "iutil/comp.h"
+#include "iutil/objreg.h"
+#include "ivaria/reporter.h"
 #include "csutil/scf.h"
 #include "csutil/scf_implementation.h"
 #include "csutil/refarr.h"
@@ -133,7 +135,17 @@ protected:
   {
     // return if an invalid index was specified
     if (idx >= propholder->propertycount)
+    {
+      csRef<iReporter> rep = csQueryRegistry<iReporter>(object_reg);
+      if (rep)
+        rep->ReportError("crystalspace.cel.physicallayer",
+            "celPcCommon::AddProperty out of bounds %d >= %d!",
+            idx,propholder->propertycount);
+      else
+        printf("Error: celPcCommon::AddProperty out of bounds %d >= %d!",
+            idx,propholder->propertycount);
       return;
+    }
     if (propdata == 0)
     {
       propdata = new void* [propholder->propertycount];
