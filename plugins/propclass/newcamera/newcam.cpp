@@ -737,7 +737,7 @@ void celPcNewCamera::UpdateCamera ()
   }
 
   // adjust for offset allowed to character
-  if (currcam.dir.SquaredNorm () < minoffset * minoffset)
+  if (false && currcam.dir.SquaredNorm () < minoffset * minoffset)
   {
     // maybe a bit of a hack, but calculating the vectors on a flat
     // plane is definitely not a good idea, so for the time being
@@ -776,14 +776,19 @@ void celPcNewCamera::UpdateCamera ()
     // collision!
     if (beam.sqdistance > 0)
     {
-      // compute unit direction vector of beam
-      csVector3 dir (focalpos - currcam.pos);
-      dir.Normalize ();
+      // compute direction vector of beam
+      const csVector3 lookat (focalpos - currcam.pos), dir (lookat.Unit ());
       // linearly falloff the correction multiplier to 1.0f from minoffset so that
       // when extremely close to the player we don't end up on other side of beam :)
       const float ncorrmult = (corrmult - 1.0f) * (1.0f - beam.sqdistance / (minoffset * minoffset)) + 1.0f;
       // now compute the corrected origin lying on the beam
-      corrorigin = ncorrmult * dir * sqrt(beam.sqdistance) + currcam.pos;
+      csVector3 corroff (ncorrmult * dir * sqrt(beam.sqdistance));
+      // uh-oh, last ditch attempt to correct position :(
+      if (corroff.SquaredNorm () > lookat.SquaredNorm ())
+        corrorigin = focalpos - EPSILON * dir;
+      // safe :)
+      else
+        corrorigin = corroff + currcam.pos;
 
       // calculate flat distance to player
       csVector3 flatdiff (base.pos - corrorigin);
