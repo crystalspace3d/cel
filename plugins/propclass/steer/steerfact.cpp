@@ -29,9 +29,13 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 #include "csgeom/matrix3.h"
+#include "ivaria/reporter.h"
 
 #include "iengine/mesh.h"
 #include "iengine/sector.h"
+#include "iengine/movable.h"
+#include "imesh/object.h"
+#include "imesh/objmodel.h"
 
 //---------------------------------------------------------------------------
 
@@ -66,7 +70,6 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   engine = csQueryRegistry<iEngine> (object_reg);
-
   // For actions.
   if (id_sectorname == csInvalidStringID)
   {
@@ -87,8 +90,8 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
     id_pursue_max_prediction = pl->FetchStringID ("cel.parameter.pursue_max_prediction");
     id_separation_weight = pl->FetchStringID ("cel.parameter.separation_weight");
     id_cohesion_weight = pl->FetchStringID ("cel.parameter.cohesion_weight");
-    id_dm_weight = pl->FetchStringID ("cel.parameter.dm_weight");  
-}
+    id_dm_weight = pl->FetchStringID ("cel.parameter.dm_weight");
+  }
 
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_meshname, "meshname");
@@ -162,6 +165,9 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
   up = csVector3(0,1,0);
   delay_recheck = 20;
   random.Initialize();
+
+  do_move = false;
+  arrived = true;
 }
 
 celPcSteer::~celPcSteer ()
@@ -218,7 +224,37 @@ void celPcSteer::SetDelayRecheck(int delay){
   delay_recheck = delay;
 }
 
+bool celPcSteer::Vigilant()
+{
+  FindSiblingPropertyClasses ();
+  if (!pclinmove)
+    return false;
+  if (!pcactormove)
+    return false;
+  pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
+
+  // set destination y value to the same as current y value so as to
+  // check only on x and z axis.
+  cur_position.y = position.y;
+
+  cur_direction = csVector3(0);
+
+  current_action = action_vigilant;
+
+  Move();
+
+  pl->CallbackOnce ((iCelTimerListener*)this, delay_recheck, CEL_EVENT_PRE);
+ 
+  return true;
+}
+
 bool celPcSteer::Seek (iSector* sector, const csVector3& position)
+{
+  arrived = false;
+  return DoSeek(sector,position);
+}
+
+bool celPcSteer::DoSeek (iSector* sector, const csVector3& position)
 {
   FindSiblingPropertyClasses ();
   if (!pclinmove)
@@ -250,6 +286,12 @@ bool celPcSteer::Seek (iSector* sector, const csVector3& position)
 
 bool celPcSteer::Flee (iSector* sector, const csVector3& position)
 {
+  arrived = false;
+  return DoFlee(sector,position);
+}
+
+bool celPcSteer::DoFlee (iSector* sector, const csVector3& position)
+{
   FindSiblingPropertyClasses ();
   if (!pclinmove)
     return false;
@@ -280,6 +322,12 @@ bool celPcSteer::Flee (iSector* sector, const csVector3& position)
 }
 
 bool celPcSteer::Pursue (iCelEntity* target, float max_prediction)
+{
+  arrived = false;
+  return DoPursue(target,max_prediction);
+}
+
+bool celPcSteer::DoPursue (iCelEntity* target, float max_prediction)
 {
   FindSiblingPropertyClasses ();
   if (!pclinmove)
@@ -337,7 +385,7 @@ void celPcSteer::CheckArrivalOff ()
 }
 
 bool celPcSteer::CheckArrival (){
-  if(check_arrival)
+  if(!arrived && check_arrival)
   {
     float sqlen = csSquaredDist::PointPoint (cur_position, position);
     if (sqlen < arrival_radius)
@@ -347,6 +395,7 @@ bool celPcSteer::CheckArrival (){
 	  dispatcher_arrived);
       return true;
     }
+    do_move = true;
   }
   return false;
 }
@@ -367,40 +416,118 @@ bool celPcSteer::CollisionAvoidance ()
 {
   if(!collision_avoidance)
     return false;
-  csSectorHitBeamResult rc = cur_sector->HitBeamPortals (cur_position,
-    position);
+  if (!is_moving)
+    return false;
+  const csBox3 &bb = pcmesh->GetMesh()->GetMeshObject()->GetObjectModel()->GetObjectBoundingBox();
+  cur_position = pclinmove->GetFullPosition();
+  cur_sector = pclinmove->GetSector();
+  csVector3 bb_center = bb.GetCenter();
+  float x_pos_offset = bb.MaxX();
+  float x_neg_offset = bb.MinX();
+  float z_neg_offset = bb.MaxZ();
+  float z_pos_offset = bb.MinZ();
+  printf("bb.x %f %f\n",bb.MinX(),bb.MaxX());
+  printf("bb.y %f %f\n",bb.MinY(),bb.MaxY());
+  printf("bb.z %f %f\n",bb.MinZ(),bb.MaxZ());
+  bool nohitbeam = pcmesh->GetMesh()->GetFlags().Check(CS_ENTITY_NOHITBEAM);
+  pcmesh->GetMesh()->SetFlagsRecursive(CS_ENTITY_NOHITBEAM);
+  csReversibleTransform tr = pcmesh->GetMesh()->GetMovable()->GetFullTransform();
+  csVector3 look_vector = -tr.GetFront();
+  //csVector3 look_vector = position-cur_position;
+  look_vector.y = 0;
+  look_vector.Normalize();
+  look_vector*=ca_lookahead;
+  csVector3 left_look_vector = csYRotMatrix3(M_PI/4)*look_vector;
+  csVector3 right_look_vector = csYRotMatrix3(-M_PI/4)*look_vector;
 
+  // test forward first
+  csSectorHitBeamResult rc1 = cur_sector->HitBeamPortals (
+    cur_position+tr.This2Other(csVector3(x_pos_offset,0.0,z_neg_offset)), 
+    cur_position+look_vector+tr.This2Other(csVector3(x_pos_offset,0.0,z_neg_offset)));
+
+  csSectorHitBeamResult rc2 = cur_sector->HitBeamPortals (
+    cur_position+tr.This2Other(csVector3(x_neg_offset,0.0,z_neg_offset)), 
+    cur_position+look_vector+tr.This2Other(csVector3(x_neg_offset,0.0,z_neg_offset)));
+
+
+  printf("collision check!\n");
   //If theres a collision we handle it
-  if (rc.mesh)
+  if (rc1.mesh || rc2.mesh)
   {
+    printf("collision!\n");
+    /*if (rc1.mesh)
+      csReport (object_reg, CS_REPORTER_SEVERITY_DEBUG,
+        "cel.pclogic.steer", "Avoiding collision with %s",rc1.mesh->QueryObject ()->GetName ());
+    else
+      csReport (object_reg, CS_REPORTER_SEVERITY_DEBUG,
+        "cel.pclogic.steer", "Avoiding collision with %s",rc2.mesh->QueryObject ()->GetName ());*/
     //float distance = csSquaredDist::PointPoint(cur_position, rc.isect);
     /*
      * If the collision is too far away, we don�t bother to avoid it
      */
     //if(distance > ca_lookahead)
     //return false;
-
-    csVector3 direction = cur_position - position;
-    //direction = direction*ca_weight;
-    cur_direction = cur_position - position;
-    SendMessage ("pcsteer_avoiding_collision", "cel.move.avoiding_collision",
-	dispatcher_avoiding_collision, rc.mesh->QueryObject ()->GetName ());
+    //csVector3 direction;
+    if (!rc1.mesh)
+    {
+      printf("collision %s\n",rc2.mesh->QueryObject()->GetName ());
+      cur_direction = left_look_vector;
+    }
+    else if (!rc2.mesh)
+    {
+      printf("collision %s\n",rc1.mesh->QueryObject()->GetName ());
+      cur_direction = right_look_vector;
+    }
+    else if (rc2.mesh && rc2.mesh)
+    {
+      printf("collision %s\n",rc1.mesh->QueryObject()->GetName ());
+      // try left:
+      csSectorHitBeamResult rc_l = cur_sector->HitBeamPortals (
+        cur_position+csVector3(0,0.5,0), 
+        cur_position+left_look_vector+csVector3(0,0.5,0));
+      if (!rc_l.mesh)
+        cur_direction = left_look_vector;
+      else 
+      {
+        // try right:
+        csSectorHitBeamResult rc_r = cur_sector->HitBeamPortals (
+          cur_position+csVector3(0,0.5,0), 
+          cur_position+right_look_vector+csVector3(0,0.5,0));
+        if (!rc_r.mesh)
+          cur_direction = right_look_vector;
+        else
+        {
+          cur_direction = left_look_vector; // XXX
+          /*if (dist_l < dist_r)
+            cur_direction = left_look_vector*(dist_l/(ca_lookahead*ca_lookahead));
+          else
+            cur_direction = right_look_vector*(dist_r/(ca_lookahead*ca_lookahead));*/
+        }
+      }
+    }
+    if (rc1.mesh)
+      SendMessage ("pcsteer_avoiding_collision", "cel.move.avoiding_collision",
+	dispatcher_avoiding_collision, rc1.mesh->QueryObject ()->GetName ());
+    else
+      SendMessage ("pcsteer_avoiding_collision", "cel.move.avoiding_collision",
+	dispatcher_avoiding_collision, rc2.mesh->QueryObject ()->GetName ());
+  if (!nohitbeam)
+    pcmesh->GetMesh()->SetFlagsRecursive(CS_ENTITY_NOHITBEAM,0);
     return true;
   }
+  if (!nohitbeam)
+    pcmesh->GetMesh()->SetFlagsRecursive(CS_ENTITY_NOHITBEAM,0);
   return false;
 }
 
-void celPcSteer:: CohesionOn (iCelEntityList* targets, float radius,
+void celPcSteer:: CohesionOn (iCelEntityList* targets, float radius, float max_radius,
   float weight) 
 {
   check_cohesion = true;
   cohesion_radius = radius;
+  cohesion_max_radius = max_radius;
   cohesion_weight = weight;
-  cohesion_targets->RemoveAll();
-  csRef<iCelEntityIterator> it = targets->GetIterator();
-
-  while(it->HasNext())
-    cohesion_targets->Add(it->Next());
+  cohesion_targets = targets;
 }
 
 /*void celPcSteer:: CohesionOn (float radius) 
@@ -414,30 +541,35 @@ void celPcSteer:: CohesionOff ()
 
 void celPcSteer :: Cohesion ()
 {
-  bool changed = false;
+  int changed = 0;
   if(check_cohesion)
   {
     csVector3 pos(0, 0, 0);
     csVector3 target_position(0, 0, 0);
-    float target_yrot;
-    pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
+    cur_position = pclinmove->GetFullPosition();
 
     csRef<iCelEntityIterator> it = cohesion_targets->GetIterator();
     csRef<iCelEntity> target;
     while(it->HasNext())
     {
       target = it->Next();
+      if (target == entity)
+        continue;
       csRef<iPcLinearMovement> targetlinmove =
         celQueryPropertyClassEntity<iPcLinearMovement> (target);
-      targetlinmove->GetLastFullPosition (target_position, target_yrot, sector);
-      if(csSquaredDist::PointPoint (cur_position, target_position) >= cohesion_radius)
+      target_position = targetlinmove->GetFullPosition();
+      float dist = csSquaredDist::PointPoint (cur_position, target_position);
+      if(dist >= cohesion_radius && dist < cohesion_max_radius)
       {
-        pos = pos + target_position;
-        changed = true;
+        pos += target_position;
+        changed++;
       }
     }
     if(changed)
-      cur_direction += (pos - cur_position)*cohesion_weight;
+    {
+      cur_direction += ((pos/changed) - cur_position)*cohesion_weight;
+      do_move = true;
+    }
   }
 }
 
@@ -447,11 +579,7 @@ void celPcSteer:: SeparationOn (iCelEntityList* targets, float radius,
   check_separation = true;
   separation_radius = radius;
   separation_weight = weight;
-  separation_targets->RemoveAll();
-  csRef<iCelEntityIterator> it = targets->GetIterator();
-
-  while(it->HasNext())
-    separation_targets->Add(it->Next());
+  separation_targets = targets;
 }
 
 void celPcSteer:: SeparationOff ()
@@ -462,30 +590,34 @@ void celPcSteer:: SeparationOff ()
 
 void celPcSteer :: Separation ()
 {
-  bool changed = false;
+  int changed = 0;
   if(check_separation)
   {
     csVector3 pos(0, 0, 0);
     csVector3 target_position(0, 0, 0);
-    float target_yrot;
-    pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
+    cur_position = pclinmove->GetFullPosition();
 
     csRef<iCelEntityIterator> it = separation_targets->GetIterator();
     csRef<iCelEntity> target;
     while(it->HasNext())
     {
       target = it->Next();
+      if (target == entity)
+        continue;
       csRef<iPcLinearMovement> targetlinmove =
         celQueryPropertyClassEntity<iPcLinearMovement> (target);
-      targetlinmove->GetLastFullPosition (target_position, target_yrot, sector);
+      target_position = targetlinmove->GetFullPosition();
       if(csSquaredDist::PointPoint (cur_position, target_position) <= separation_radius)
       {
         pos += target_position;
-        changed = true;
+        changed++;
       }
     }
     if(changed)
-      cur_direction += (cur_position - pos)*separation_weight;
+    {
+      cur_direction += (cur_position - (pos/changed))*separation_weight;
+      do_move = true;
+    }
   }
 }
 
@@ -493,11 +625,7 @@ void celPcSteer:: DirectionMatchingOn (iCelEntityList* targets, float weight)
 {
   check_dm = true;
   dm_weight = weight;
-  dm_targets->RemoveAll();
-  csRef<iCelEntityIterator> it = targets->GetIterator();
-
-  while(it->HasNext())
-    dm_targets->Add(it->Next());
+  dm_targets = targets;
 }
 
 /*void celPcSteer::DirectionMatchingOn()
@@ -536,29 +664,39 @@ bool celPcSteer::Move ()
 {
   if(!pcactormove)
     return false;
-
+  do_move = false;
   if(CheckArrival())
     return true;
 
+  pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
   CollisionAvoidance();
   Separation();
   Cohesion();
   DirectionMatching();
 
-  csVector3 vec (0,0,1);
+  if (do_move)
+  {
+    csVector3 vec (0,0,1);
+    cur_direction.Normalize();
+    float yrot = atan2 (-cur_direction.x, -cur_direction.z);
 
-  float yrot = atan2 (-cur_direction.x, -cur_direction.z);
-
-  pcactormove->RotateTo (yrot);
-  pcactormove->Forward (true);
-  is_moving=true;  
-
+    pcactormove->RotateTo (yrot);
+    pcactormove->Forward (true);
+    is_moving=true;  
+  }
+  else
+  {
+    if (is_moving)
+      StopMovement();
+  }
   return true;
 }
 
 void celPcSteer::StopMovement ()
 {
   if (!is_moving) return;
+  arrived = true;
+  do_move = false;
   if (pcactormove) pcactormove->Forward (false);
   is_moving = false;
   pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
@@ -604,7 +742,12 @@ bool celPcSteer::PerformActionIndexed (int idx, iCelParameterBlock* params,
 
 void celPcSteer::TickOnce ()
 {
-  if (!is_moving) return;
+  if (current_action == action_vigilant)
+  {
+    Vigilant();
+    return;
+  }
+  if (!is_moving);
 
   //pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
   // set destination y value to the same as current y value so as to
@@ -612,11 +755,11 @@ void celPcSteer::TickOnce ()
   cur_position.y = position.y;
 
   if(current_action == action_seek)
-    Seek(sector, position);
+    DoSeek(sector, position);
   else if (current_action == action_flee)
-    Flee(sector, position);
+    DoFlee(sector, position);
   else if (current_action == action_pursue)
-    Pursue(pursue_target, pursue_max_prediction);
+    DoPursue(pursue_target, pursue_max_prediction);
 }
 
 void celPcSteer::FindSiblingPropertyClasses ()

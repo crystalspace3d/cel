@@ -19,6 +19,7 @@
 #ifndef __CEL_TOOLS_CELGRAPH__
 #define __CEL_TOOLS_CELGRAPH__
 
+#include "csutil/csobject.h"
 #include "csutil/util.h"
 #include "csutil/hash.h"
 #include "csutil/redblacktree.h"
@@ -47,40 +48,37 @@
 /**
  * This is a mapnode Graph for CEL.
  */
-class celEdge : public scfImplementation2<
-		   celEdge, iCelEdge, iComponent>
+class celEdge : public scfImplementation1<
+		   celEdge, iCelEdge>
 {
  private:
-  iObjectRegistry* object_reg;
   csRef<iCelNode> successor;
   bool state;
 
    
  public:
-  celEdge (iBase* parent);
+  celEdge ();
   virtual ~celEdge ();
   virtual void SetState (bool open);
   virtual void SetSuccessor (iCelNode* node);
   virtual bool GetState ();
   virtual iCelNode* GetSuccessor ();
-  virtual bool Initialize (iObjectRegistry* object_reg);
 };
 
-class celNode : public scfImplementation2<
-		   celNode, iCelNode, iComponent>
+class celNode : public scfImplementation1<
+		   celNode, iCelNode>
 {
  private:
-  iObjectRegistry* object_reg;
   csRefArray<iCelEdge> edges;
   csRef<iMapNode> map_node;
   csRef<iCelNode> parent;
   float heuristic;
   float cost;
-  char* name;
+  csString name;
   float multiplier;
  public:
   
-  celNode (iBase* parent);
+  celNode ();
   virtual ~celNode ();
   virtual void AddSuccessor (iCelNode* node, bool state);
   virtual void SetMapNode (iMapNode* node);
@@ -89,15 +87,18 @@ class celNode : public scfImplementation2<
   virtual void Heuristic(float cost, iCelNode* goal);
   virtual iMapNode* GetMapNode ();
   virtual csVector3 GetPosition ();
-  virtual char* GetName ();
+  virtual const char* GetName ();
   virtual iCelNode* GetParent () {return parent;}
   virtual csArray<iCelNode*> GetSuccessors ();
   virtual csArray<iCelNode*> GetAllSuccessors ();
   virtual float GetHeuristic () {return heuristic;};
   virtual float GetCost () {return cost;};
-  virtual bool Initialize (iObjectRegistry* object_reg);
   virtual float GetMultiplier () {return multiplier;}
   virtual void SetMultiplier (float mult);
+  virtual size_t GetEdgeCount()
+  { return edges.GetSize(); }
+  virtual iCelEdge *GetEdge(size_t idx)
+  { return edges.Get(idx); }
 
 };
 
@@ -105,8 +106,8 @@ class celNode : public scfImplementation2<
  * This is a mapnode Path for CEL.
  */ 
 
-class celPath : public scfImplementation2<
-celPath, iCelPath, iComponent>
+class celPath : public scfImplementationExt2<
+celPath, csObject, iCelPath, iComponent>
 {
  private:
   iObjectRegistry* object_reg;
@@ -117,6 +118,7 @@ celPath, iCelPath, iComponent>
  public:
   celPath (iBase* parent);
   virtual ~celPath ();
+  virtual iObject* QueryObject () { return this; }
   virtual void AddNode (iMapNode* node);
   virtual void InsertNode (size_t pos, iMapNode* node);
   virtual iMapNode* Next ();
@@ -132,13 +134,15 @@ celPath, iCelPath, iComponent>
   virtual iMapNode* GetFirst ();
   virtual iMapNode* GetLast ();
   virtual void Invert ();
+  virtual size_t GetNodeCount()
+  { nodes.GetSize(); }
 };
 
 /**
  * This is a mapnode Graph for CEL.
  */
-class celGraph : public scfImplementation2<
-  celGraph, iCelGraph, iComponent>
+class celGraph : public scfImplementationExt2<
+  celGraph, csObject, iCelGraph, iComponent>
 {
 private:
   iObjectRegistry* object_reg;
@@ -148,13 +152,19 @@ private:
 public: 
   celGraph (iBase* parent);
   virtual ~celGraph ();
+  virtual iObject* QueryObject () { return this; }
   virtual bool Initialize (iObjectRegistry* object_reg);
+  virtual iCelNode *CreateNode(const char *name, csVector3 &pos);
   virtual void AddNode(iCelNode* node);
   virtual void AddEdge(iCelNode* from, iCelNode* to, bool state);
   virtual bool AddEdgeByNames(const char* from, const char* to, bool state);
   virtual iCelNode* GetClosest(csVector3 position);
   virtual bool ShortestPath(iCelNode* from, iCelNode* goal, iCelPath* path);
   virtual iCelNode* RandomPath(iCelNode* from, int distance, iCelPath* path);
+  virtual size_t GetNodeCount()
+  { return nodes.GetSize(); }
+  virtual iCelNode *GetNode(size_t idx)
+  { return nodes.Get(idx); }
 };
 
 #endif //__CEL_TOOLS_CELGRAPH__ 

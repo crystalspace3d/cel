@@ -47,8 +47,8 @@ CEL_DECLARE_FACTORY (PathFinder)
 /**
  * This is the PathFinder property class.
  */
-class celPcPathFinder : public scfImplementationExt1<celPcPathFinder,
-  celPcCommon, iPcPathFinder>
+class celPcPathFinder : public scfImplementationExt2<celPcPathFinder,
+  celPcCommon, iPcPathFinder, iMessageReceiver>
 {
 private: 
   csWeakRef<iEngine> engine;
@@ -66,6 +66,10 @@ private:
   static csStringID id_pursue_max_prediction;
   static csStringID id_is_active;
   static csStringID id_min_distance;
+
+  // for receive message
+  static csStringID id_msg_arrived;
+  static csStringID id_msg_interrupted;
 
   enum actionids
   {
@@ -114,6 +118,9 @@ private:
 
  public:
   celPcPathFinder (iObjectRegistry* object_reg);
+
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+                celData& ret, iCelParameterBlock* params);
 
   virtual ~celPcPathFinder ();
 

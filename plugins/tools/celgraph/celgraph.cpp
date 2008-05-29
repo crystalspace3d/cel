@@ -25,6 +25,8 @@
 #include "csutil/inputdef.h"
 #include "csutil/array.h"
 #include "csutil/priorityqueue.h"
+#include "cstool/mapnode.h"
+#include "ivaria/mapnode.h"
 #include "csgeom/math3d.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -44,10 +46,10 @@ CS_IMPLEMENT_PLUGIN
 
 //--------------------------------------------------------------------------
 
-SCF_IMPLEMENT_FACTORY (celEdge)
+//SCF_IMPLEMENT_FACTORY (celEdge)
 
-  celEdge::celEdge (iBase* parent)
-  : scfImplementationType (this, parent), object_reg(0)
+  celEdge::celEdge ()
+  : scfImplementationType (this)
 {
   state = true;
 }
@@ -76,20 +78,14 @@ iCelNode* celEdge::GetSuccessor ()
   return successor;
 }
 
-bool celEdge::Initialize(iObjectRegistry* object_reg)
-{
-  celEdge::object_reg = object_reg;
-
-  return true;
-}
-
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_FACTORY (celNode)
+//SCF_IMPLEMENT_FACTORY (celNode)
 
-celNode::celNode (iBase* parent)
-  : scfImplementationType (this, parent)
+celNode::celNode ()
+  : scfImplementationType (this)
 {
+  multiplier = 1;
 }
 
 celNode::~celNode ()
@@ -98,7 +94,8 @@ celNode::~celNode ()
 
 void celNode:: AddSuccessor(iCelNode* node, bool state)
 {
-  csRef<iCelEdge> edge = scfCreateInstance<iCelEdge> ("cel.celedge");
+  csRef<iCelEdge> edge;
+  edge.AttachNew(new celEdge());
   edge->SetState(state);
   edge->SetSuccessor(node);
   edges.Push(edge);
@@ -117,7 +114,7 @@ void celNode:: SetParent (iCelNode* par)
 
 void celNode:: SetName (const char* n)
 {
-  strcpy(name, n);
+  name = n;
 }
 
 void celNode::SetMultiplier (float mult)
@@ -144,7 +141,7 @@ csVector3 celNode:: GetPosition ()
   return map_node->GetPosition();
 }
 
-char* celNode:: GetName ()
+const char* celNode:: GetName ()
 {
   return name;
 }
@@ -174,13 +171,6 @@ csArray<iCelNode*> celNode:: GetAllSuccessors ()
   return nodes;
 }
 
-bool celNode::Initialize(iObjectRegistry* object_reg)
-{
-  celNode::object_reg = object_reg;
-  multiplier = 1;
-  return true;
-}
-
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celPath)
@@ -208,7 +198,8 @@ void celPath::InsertNode (size_t pos, iMapNode* node)
 
 iMapNode* celPath::Next ()
 {
-  return nodes[++cur_node];
+  cur_node++;
+  return nodes[cur_node];
 }
 
 iMapNode* celPath::Previous ()
@@ -233,7 +224,7 @@ iSector* celPath:: CurrentSector ()
 
 bool celPath::HasNext ()
 {
-  return cur_node < size-1;
+  return cur_node < nodes.GetSize()-1;
 }
 
 bool celPath::HasPrevious ()
@@ -294,7 +285,7 @@ class Comparator
 public:
   static int Compare (T1 const &n1, T2 const &n2)
   {
-    return n2->GetHeuristic()+n2->GetCost() - n1->GetHeuristic()- n1->GetCost();
+    return (int)(n2->GetHeuristic()+n2->GetCost() - n1->GetHeuristic()- n1->GetCost());
   }
 };
 
@@ -330,18 +321,18 @@ void celGraph:: AddEdge(iCelNode* from, iCelNode* to, bool state)
 
 bool celGraph:: AddEdgeByNames(const char* from, const char* to, bool state)
 {
-  iCelNode* f;
-  iCelNode* t;
+  iCelNode* f = 0;
+  iCelNode* t = 0;
   bool fd = false, td = false;
 
   for(unsigned int i=0; i<nodes.GetSize();i++)
     {
-      if(nodes[i]->GetName() == from)
+      if(!strcmp(nodes[i]->GetName(),from))
 	{
 	  fd = true;
 	  f = nodes[i];
 	}
-      if(nodes[i]->GetName() == to)
+      if(!strcmp(nodes[i]->GetName(),to))
 	{	
 	  td = true;
 	  t = nodes[i];
@@ -468,3 +459,19 @@ iCelNode* celGraph::RandomPath (iCelNode* from, int distance, iCelPath* path)
     i++;
   }
 }
+
+iCelNode *celGraph::CreateNode(const char *name, csVector3 &pos)
+{
+  csRef<iMapNode> n;
+  n.AttachNew(new csMapNode("n0"));
+  n->SetPosition(pos);
+
+  csRef<iCelNode> newnode;
+  newnode.AttachNew(new celNode());
+  newnode->SetName(name);
+  newnode->SetMapNode(n);
+  AddNode(newnode);
+  return newnode;
+}
+
+

@@ -26,7 +26,9 @@
 #include "iutil/vfs.h"
 #include "ivaria/reporter.h"
 #include "imap/services.h"
+#include "imap/ldrctxt.h"
 #include "iengine/mesh.h"
+#include "iengine/sector.h"
 
 #include "physicallayer/pl.h"
 #include "physicallayer/propclas.h"
@@ -126,12 +128,22 @@ csStringID celAddOnCelGraph::GetAttributeID (iDocumentNode* child,
 csPtr<iBase> celAddOnCelGraph::Parse (iDocumentNode* node,
 	iStreamSource*, iLoaderContext* ldr_context, iBase* context)
 {
-  iCelGraph* graph = Load (node);
-  csRef<iBase> graph_return = (iBase*)graph;
+  csRef<iSector> sector = scfQueryInterface<iSector>(context);
+  if (!sector)
+  {
+    synldr->ReportError (
+	"cel.addons.celgraph", node,
+	"Graph addons must be placed inside sectors!");
+    return 0;
+  }
+  csRef<iCelGraph> graph;
+  graph = Load (node);
+  csRef<iBase> graph_return = scfQueryInterface<iBase>(graph);
+  sector->QueryObject()->ObjAdd(graph->QueryObject());
   return csPtr<iBase> (graph_return);
 }
 
-iCelGraph* celAddOnCelGraph::Load (const char* path, const char* file)
+csPtr<iCelGraph> celAddOnCelGraph::Load (const char* path, const char* file)
 {
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   if (path)
@@ -165,19 +177,23 @@ iCelGraph* celAddOnCelGraph::Load (const char* path, const char* file)
 	    "Document system error for file '%s': %s!", file, error);
     return 0;
   }
-  iCelGraph* graph = Load (doc->GetRoot ()->GetNode ("addon"));
+  csRef<iCelGraph> graph = Load (doc->GetRoot ()->GetNode ("addon"));
 
   if (path)
   {
     vfs->PopDir ();
   }
 
-  return graph;
+  return csPtr<iCelGraph>(graph);
 }
 
-iCelGraph* celAddOnCelGraph::Load (iDocumentNode* node)
+csPtr<iCelGraph> celAddOnCelGraph::Load (iDocumentNode* node)
 {
+  const char* graphname = node->GetAttributeValue ("name");
   csRef<iCelGraph> graph = scfCreateInstance<iCelGraph> ("cel.celgraph");
+
+  graph->QueryObject()->SetName(graphname);
+
   if(!graph)
     fprintf(stderr, "Error Loading CelGraph!\n");
 
@@ -203,16 +219,9 @@ iCelGraph* celAddOnCelGraph::Load (iDocumentNode* node)
 	    return 0;
 	  }
 	
-	csRef<iMapNode> n;
-	n.AttachNew(new csMapNode("n0"));
-	csRef<iCelNode> gn = scfCreateInstance<iCelNode> ("cel.celnode");
 	csVector3 v;
 	int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);	
-	n->SetPosition(v);
-	gn->SetMapNode(n);
-	gn->SetName(name);
-	graph->AddNode(gn);
-	
+	graph->CreateNode(name,v);
 	break;
       }
     case XMLTOKEN_EDGE:
@@ -239,6 +248,6 @@ iCelGraph* celAddOnCelGraph::Load (iDocumentNode* node)
       break;
     }
   }
-  return graph;
+  return csPtr<iCelGraph>(graph);
 }
 

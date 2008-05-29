@@ -520,7 +520,7 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 	//Turns Collision Avoidance ON
 	//with lookahead 3.0 and weight 1.0
 	
-	pcsteer->CollisionAvoidanceOn(10.0f, 3.0f);
+	pcsteer->CollisionAvoidanceOn(2.0f, 1.0f);
 	ca = true;
 	printf("Collision Avoidance On\n");
 	
@@ -537,9 +537,9 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 							 iPcSteer);
       if(!cohesion){
 	//Turns Cohesion ON
-	//with radius 10.0 and weight 1.0
+	//with radius 10.0, max radius 100.0f and weight 3.0 
 
-	pcsteer->CohesionOn(entities, 10.0f, 3.0f);
+	pcsteer->CohesionOn(entities, 10.0f, 100.0f, 3.0f);
 	cohesion = true;
 	printf("Cohesion On\n");
 	

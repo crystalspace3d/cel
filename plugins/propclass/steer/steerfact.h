@@ -82,6 +82,7 @@ private:
     action_seek=0,
     action_flee,
     action_pursue,
+    action_vigilant,
     action_interrupt
   };
 
@@ -120,12 +121,14 @@ private:
   float ca_lookahead, ca_weight;
   float separation_radius;
   float cohesion_radius;
+  float cohesion_max_radius;
   float dm_radius;
   float separation_weight, cohesion_weight, dm_weight;
   float pursue_max_prediction;
   bool is_moving, check_arrival, collision_avoidance;
   bool check_cohesion, check_separation, check_dm;
   int current_action, delay_recheck;
+  bool do_move, arrived;  
 
   csRef<iCelEntityList> separation_targets;
   csRef<iCelEntityList> cohesion_targets;
@@ -154,11 +157,19 @@ public:
 
   virtual ~celPcSteer ();
 
+  virtual bool Vigilant ();
+
   virtual bool Seek (iSector* sector, const csVector3& position);
 
   virtual bool Flee(iSector* sector, const csVector3& position);
 
   virtual bool Pursue (iCelEntity* target, float max_prediction);
+
+  bool DoSeek (iSector* sector, const csVector3& position);
+
+  bool DoFlee(iSector* sector, const csVector3& position);
+
+  bool DoPursue (iCelEntity* target, float max_prediction);
 
   virtual void Interrupt ();
 
@@ -170,7 +181,7 @@ public:
 
   virtual void CollisionAvoidanceOff();
 
-  virtual void CohesionOn (iCelEntityList* targets, float radius, float weight);
+  virtual void CohesionOn (iCelEntityList* targets, float radius, float max_radius, float weight);
 
   virtual void CohesionOff ();
 

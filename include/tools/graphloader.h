@@ -47,13 +47,13 @@ struct iGraphLoader : virtual public iBase
    * Returns entity or 0 on failure. In case of failure the
    * error has been reported to the reporter.
    */
-  virtual iCelGraph* Load (iDocumentNode* node) = 0;
+  virtual csPtr<iCelGraph> Load (iDocumentNode* node) = 0;
 
   /**
    * Conveniance function to load the entity from a vfs file.
    * \param path optional VFS path. Can be 0.
    */
-  virtual iCelGraph* Load (const char* path, const char* file) = 0;
+  virtual csPtr<iCelGraph> Load (const char* path, const char* file) = 0;
 };
 
 #endif // __CEL_ENTITYLOADER__

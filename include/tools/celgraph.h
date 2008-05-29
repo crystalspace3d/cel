@@ -124,7 +124,7 @@ struct iCelNode : public virtual iBase
  /**
    * Get name of this node.
    */
-  virtual char* GetName () = 0;
+  virtual const char* GetName () = 0;
 
   
   /**
@@ -153,7 +153,17 @@ struct iCelNode : public virtual iBase
    * Get stored cost.
    */
   virtual float  GetCost () = 0;
-  
+
+  /*
+   * Get Number of Edges
+   */
+   virtual size_t GetEdgeCount() = 0;
+
+  /*
+   * Get a node by index
+   */
+  virtual iCelEdge *GetEdge(size_t idx) = 0;
+
   /**
    * Get predecessors to this node.
    */
@@ -166,7 +176,12 @@ struct iCelNode : public virtual iBase
  */
 struct iCelPath : public virtual iBase
 {
-  SCF_INTERFACE (iCelPath, 1, 0, 0);
+  SCF_INTERFACE (iCelPath, 2, 0, 0);
+
+  /**
+   * Query the underlying iObject
+   */
+  virtual iObject* QueryObject () = 0;
 
   /**
    * Adds a new node at the end of the path.
@@ -242,6 +257,10 @@ struct iCelPath : public virtual iBase
    */
   virtual void Invert () = 0;
   
+  /*
+   * Get 
+   */
+  virtual size_t GetNodeCount() = 0;
 };
 
 
@@ -251,6 +270,16 @@ struct iCelPath : public virtual iBase
 struct iCelGraph : public virtual iBase
 {
   SCF_INTERFACE (iCelGraph, 1, 0, 0);
+
+  /**
+   * Query the underlying iObject
+   */
+  virtual iObject* QueryObject () = 0;
+
+  /**
+   * Create a node for this graph. The node will be added to the graph.
+   */
+  virtual iCelNode *CreateNode (const char* name, csVector3 &pos) = 0;
 
   /**
    * Adds a node to the graph.
@@ -283,7 +312,16 @@ struct iCelGraph : public virtual iBase
    */
   virtual iCelNode* RandomPath (iCelNode* from, int distance, iCelPath* path) = 0;
 
-  
+  /**
+   * Get Number of Nodes
+   */
+   virtual size_t GetNodeCount() = 0;
+
+  /*
+   * Get a node by index
+   */
+  virtual iCelNode *GetNode(size_t idx) = 0;
+
   /**
    * Calculates the euclidian distance heuristic from one
    * node to another.
