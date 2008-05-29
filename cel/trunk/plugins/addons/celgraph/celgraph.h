@@ -24,8 +24,6 @@
 #include "imap/reader.h"
 #include "csutil/strhash.h"
 #include "csutil/weakref.h"
-#include "ivaria/mapnode.h"
-#include "cstool/mapnode.h"
 
 #include "tools/graphloader.h"
 #include "celtool/stdparams.h"
@@ -76,8 +74,8 @@ public:
   	iStreamSource*, iLoaderContext* ldr_context,
   	iBase* context);
 
-  virtual iCelGraph* Load (iDocumentNode* node);
-  virtual iCelGraph* Load (const char* path, const char* file);
+  virtual csPtr<iCelGraph> Load (iDocumentNode* node);
+  virtual csPtr<iCelGraph> Load (const char* path, const char* file);
 };
 
 #endif // __CEL_ADDON_CELGRAPH__

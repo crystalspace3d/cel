@@ -71,6 +71,11 @@ struct iPcSteer : public virtual iBase
   SCF_INTERFACE (iPcSteer, 1, 0, 0);
 
   /**
+   * Stay vigilant about changes around.
+   * Enables checking for collision and separation even when not moving.
+   */
+  virtual bool Vigilant () = 0;
+  /**
    * Move to the specified position. When you call this function this property
    * class will attempt to move the linmove to the correct position.
    * If arrival checking is activated it will stop at the specified position and
@@ -139,9 +144,10 @@ struct iPcSteer : public virtual iBase
    * Sets Cohesion on
    * \param targets sets current cohesion_targets
    * \param radius sets current cohesion_radius
+   * \param max_radius sets current cohesion_max_radius
    * \param weight sets current cohesion_weight
    */
-  virtual void CohesionOn (iCelEntityList* targets, float radius, float weight) = 0;
+  virtual void CohesionOn (iCelEntityList* targets, float radius, float max_radius, float weight) = 0;
 
   /**
    * Sets Cohesion off

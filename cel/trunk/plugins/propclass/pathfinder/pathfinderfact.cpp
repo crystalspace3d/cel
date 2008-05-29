@@ -48,6 +48,8 @@ csStringID celPcPathFinder::id_pursue_max_prediction = csInvalidStringID;
 csStringID celPcPathFinder::id_is_active = csInvalidStringID;
 csStringID celPcPathFinder::id_min_distance = csInvalidStringID;
 csStringID celPcPathFinder::id_meshname = csInvalidStringID;
+csStringID celPcPathFinder::id_msg_arrived = csInvalidStringID;
+csStringID celPcPathFinder::id_msg_interrupted = csInvalidStringID;
 
 PropertyHolder celPcPathFinder::propinfo;
 
@@ -55,7 +57,6 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
   engine = csQueryRegistry<iEngine> (object_reg);
-  //  celgraph = csQueryRegistry<iCelGraph> (object_reg);
 
   // For actions.
   if (id_sectorname == csInvalidStringID)
@@ -65,7 +66,10 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
     id_pursue_max_prediction = pl->FetchStringID ("cel.parameter.pursue_max_prediction");
     id_is_active = pl->FetchStringID ("cel.parameter.is_active");
     id_min_distance = pl->FetchStringID ("cel.parameter.min_distance");
-    id_meshname = pl->FetchStringID ("cel.parameter.meshname");  
+    id_meshname = pl->FetchStringID ("cel.parameter.meshname");
+    // for receiving messages
+    id_msg_arrived = pl->FetchStringID ("cel.move.arrived");
+    id_msg_interrupted = pl->FetchStringID ("cel.move.interrupted");
 }
 
   params = new celOneParameterBlock ();
@@ -81,7 +85,7 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (24);
+  propinfo.SetCount (4);
   AddProperty (propid_position, "cel.property.position",
     CEL_DATA_VECTOR3, true, "Desired end position.", &position);
   AddProperty (propid_pursue_max_prediction, "cel.property.pursue_max_prediction",
@@ -93,15 +97,15 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
   random.Initialize();
   min_distance = 2.0;
 
+  cur_path = 0;
   cur_path = scfCreateInstance<iCelPath> ("cel.celpath");
   if(!cur_path)
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
       "cel.propclass.pathfinder", "Loading celPath in PathFinder!");
-
-  goal = scfCreateInstance<iCelNode> ("cel.celnode");
-  if(!goal)
+  //goal = 0;
+  /*if(!goal)
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.propclass.pathfinder", "Loading celNode in PathFinder!");
+      "cel.propclass.pathfinder", "Loading celNode in PathFinder!");*/
 }
 
 celPcPathFinder::~celPcPathFinder ()
@@ -362,28 +366,43 @@ bool celPcPathFinder::FollowPath ()
   }
   else
   {
-    pclinmove->GetLastFullPosition (cur_position, yrot, cur_sector);
     csVector3 target_position = cur_path->CurrentPosition();
     iSector* target_sector = cur_path->CurrentSector();
 
-    if(csSquaredDist::PointPoint(cur_position, target_position) <= min_distance)
+    pcsteer->Seek(target_sector, target_position);
+    entity->QueryMessageChannel()->Subscribe(this,"cel.move.arrived");
+    entity->QueryMessageChannel()->Subscribe(this,"cel.move.interrupted");
+  }
+
+  //pl->CallbackOnce ((iCelTimerListener*)this, delay_recheck, CEL_EVENT_PRE);
+
+  return true;
+}
+
+bool celPcPathFinder::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+		celData& ret, iCelParameterBlock* params)
+{
+  if (msg_id == id_msg_arrived)
+  {
     if(cur_path->HasNext())
     {
       iMapNode* node = cur_path->Next();
       csVector3 target_position = node->GetPosition();
-      target_sector = node->GetSector();
+      iSector* target_sector = node->GetSector();
+      pcsteer->Seek(target_sector, target_position);
     }
     else
     {
       Interrupt();
-      return false;
     }
-    pcsteer->Seek(target_sector, target_position);
+    return true;
   }
-
-  pl->CallbackOnce ((iCelTimerListener*)this, delay_recheck, CEL_EVENT_PRE);
-
-  return true;
+  else if (msg_id == id_msg_interrupted)
+  {
+    Interrupt();
+    return true;
+  }
+  return false;
 }
 
 void celPcPathFinder::StopTracking ()
@@ -400,8 +419,9 @@ void celPcPathFinder::Interrupt ()
   if (is_active)
   {
     StopTracking ();
-    SendMessage ("pcpathfinder_interrupted", "cel.move.interrupted",
-	dispatcher_interrupted);
+    // XXX only send the following if not interrupted from steering?
+    // SendMessage ("pcpathfinder_interrupted", "cel.move.interrupted",
+    // dispatcher_interrupted);
   }
 }
 
