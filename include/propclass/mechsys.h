@@ -290,6 +290,7 @@ struct iPcMechanicsSystem : public virtual iBase
  * - angularvelocity (vector3, read/write): get current angular velocity.
  * - static (bool, read/write): is static or not.
  * - cdcallback (bool, read/write): enable/disable the collision callback.
+ * - enabled (bool, read/write): object is enabled in the physics simulation.
  */
 struct iPcMechanicsObject : public virtual iBase
 {
