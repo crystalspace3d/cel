@@ -52,7 +52,7 @@ Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
   targetyoffset = 2;
 
   pandir = PAN_NONE;
-  panspeed = 0.2f;
+  panspeed = 0.3f;
 }
 
 Tracking::~Tracking ()
