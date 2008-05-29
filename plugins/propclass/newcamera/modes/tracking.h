@@ -91,15 +91,15 @@ public:
   }
   bool UseSpringOrigin () const
   {
-    return celCameraMode::UseSpringOrigin ();
+    return false;
   }
   bool UseSpringTarget () const
   {
-    return celCameraMode::UseSpringTarget ();
+    return false;
   }
   bool UseSpringUp () const
   {
-    return celCameraMode::UseSpringUp ();
+    return false;
   }
   bool AllowCollisionDetection () const
   {

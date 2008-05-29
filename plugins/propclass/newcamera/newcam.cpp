@@ -131,8 +131,8 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   docolldet = true;
   collyfocusoff = 1.5f;
   corrmult = 1.5f;
-  avoidradsq = 2.0f;
-  avoidyoff = 3.0f;
+  avoidradsq = 4.0f;
+  avoidyoff = 2.0f;
   avoidinter = 3.0f;
 
   in_transition = false;
