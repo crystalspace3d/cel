@@ -127,10 +127,13 @@ protected:
    * property corresponds with or 0 if it requires manual
    * intervention.
    */
-  void AddProperty (int idx, const char* id,
+  void AddProperty (size_t idx, const char* id,
 	celDataType type, bool readonly, const char* desc,
 	void* prop)
   {
+    // return if an invalid index was specified
+    if (idx >= propholder->propertycount)
+      return;
     if (propdata == 0)
     {
       propdata = new void* [propholder->propertycount];
