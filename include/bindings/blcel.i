@@ -90,6 +90,7 @@ INLINE_FUNCTIONS
   INTERFACE_APPLY(iCelEntityList)
   INTERFACE_APPLY(iMessageDispatcher)
   INTERFACE_APPLY(iBillboardManager)
+  INTERFACE_APPLY(iCelGraph)
 %enddef
 
 //=============================================================================
