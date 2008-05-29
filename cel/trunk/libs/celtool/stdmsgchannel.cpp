@@ -226,7 +226,7 @@ bool celMessageChannel::SendMessage (const char* msgid,
   {
     while(unsubscriptionQueue.GetSize())
     {
-      celMessageSubscription subscriptionRequest =  unsubscriptionQueue.Pop();
+      celMessageSubscription subscriptionRequest = unsubscriptionQueue.Pop();
       Unsubscribe(subscriptionRequest.receiver,subscriptionRequest.mask);
     }
     while(subscriptionQueue.GetSize())
