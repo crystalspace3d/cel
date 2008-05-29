@@ -64,96 +64,96 @@ public:
   Tracking (iCelPlLayer* pl, iVirtualClock* vc);
   virtual ~Tracking ();
 
-  virtual bool SetTargetEntity (const char* name);
-  virtual void SetTargetState (TargetState targetstate);
+  bool SetTargetEntity (const char* name);
+  void SetTargetState (TargetState targetstate);
   //virtual void SetTargetMesh (const char* name);
   //virtual void SetTargetPosition (const csVector3 &pos);
 
-  virtual void SetTargetYOffset (float targetyoffset);
-  virtual void Pan (PanningDirection pdir);
-  virtual void SetPanningSpeed (float pspeed);
+  void SetTargetYOffset (float targetyoffset);
+  void Pan (PanningDirection pdir);
+  void SetPanningSpeed (float pspeed);
 
-  virtual TargetState GetTargetState ();
+  TargetState GetTargetState ();
 
-  virtual void SetPositionOffset (const csVector3 & offset);
-  virtual bool DrawAttachedMesh () const;
-  virtual bool DecideCameraState ();
+  void SetPositionOffset (const csVector3 & offset);
+  bool DrawAttachedMesh () const;
+  bool DecideCameraState ();
 
-  virtual bool ResetCamera ();
+  bool ResetCamera ();
 
-  virtual void SetParentCamera (iPcNewCamera * camera)
+  void SetParentCamera (iPcNewCamera * camera)
   {
     celCameraMode::SetParentCamera (camera);
   }
-  virtual bool UseSpringPos () const
+  bool UseSpringPos () const
   {
     return celCameraMode::UseSpringPos ();
   }
-  virtual bool UseSpringOrigin () const
+  bool UseSpringOrigin () const
   {
     return celCameraMode::UseSpringOrigin ();
   }
-  virtual bool UseSpringTarget () const
+  bool UseSpringTarget () const
   {
     return celCameraMode::UseSpringTarget ();
   }
-  virtual bool UseSpringUp () const
+  bool UseSpringUp () const
   {
     return celCameraMode::UseSpringUp ();
   }
-  virtual bool AllowCollisionDetection () const
+  bool AllowCollisionDetection () const
   {
     return celCameraMode::AllowCollisionDetection ();
   }
-  virtual bool GetCollisionDetection () const
+  bool GetCollisionDetection () const
   {
     return celCameraMode::GetCollisionDetection ();
   }
-  virtual float GetSpringCoefficient () const
+  float GetSpringCoefficient () const
   {
     return celCameraMode::GetSpringCoefficient ();
   }
-  virtual void SetSpringCoefficient (float s)
+  void SetSpringCoefficient (float s)
   {
     return celCameraMode::SetSpringCoefficient (s);
   }
-  virtual float GetOriginSpringCoefficient () const
+  float GetOriginSpringCoefficient () const
   {
     return celCameraMode::GetOriginSpringCoefficient ();
   }
-  virtual void SetOriginSpringCoefficient (float s)
+  void SetOriginSpringCoefficient (float s)
   {
     return celCameraMode::SetOriginSpringCoefficient (s);
   }
-  virtual float GetTargetSpringCoefficient () const
+  float GetTargetSpringCoefficient () const
   {
     return celCameraMode::GetTargetSpringCoefficient ();
   }
-  virtual void SetTargetSpringCoefficient (float s)
+  void SetTargetSpringCoefficient (float s)
   {
     return celCameraMode::SetTargetSpringCoefficient (s);
   }
-  virtual float GetUpSpringCoefficient () const
+  float GetUpSpringCoefficient () const
   {
     return celCameraMode::GetUpSpringCoefficient ();
   }
-  virtual void SetUpSpringCoefficient (float s)
+  void SetUpSpringCoefficient (float s)
   {
     return celCameraMode::SetUpSpringCoefficient (s);
   }
-  virtual const csVector3 &GetPosition () const
+  const csVector3 &GetPosition () const
   {
     return celCameraMode::GetPosition ();
   }
-  virtual const csVector3& GetOrigin () const
+  const csVector3& GetOrigin () const
   {
     return celCameraMode::GetOrigin ();
   }
-  virtual const csVector3 &GetTarget () const
+  const csVector3 &GetTarget () const
   {
     return celCameraMode::GetTarget ();
   }
-  virtual const csVector3 &GetUp () const
+  const csVector3 &GetUp () const
   {
     return celCameraMode::GetUp ();
   }

@@ -19,14 +19,16 @@
 
 #include "cssysdef.h"
 #include <math.h>
+#include "csgeom/poly3d.h"
+#include "iengine/movable.h"
+#include "iengine/mesh.h"
+#include "iengine/sector.h"
 #include "physicallayer/pl.h"
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
 #include "propclass/zone.h"
 #include "plugins/propclass/newcamera/modes/tracking.h"
 #include "propclass/newcamera.h"
-#include "iengine/movable.h"
-#include "iengine/mesh.h"
 
 namespace celCameraMode
 {
@@ -34,12 +36,12 @@ namespace celCameraMode
 SCF_IMPLEMENT_FACTORY (Tracking)
 
 Tracking::Tracking (iBase* p)
-	: scfImplementationType (this, p)
+  : scfImplementationType (this, p)
 {
 }
 
 Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
-	: scfImplementationType (this), pl (pl), vc (vc)
+  : scfImplementationType (this), pl (pl), vc (vc)
 {
   posoffset.Set (0, 2, 5);
 
@@ -109,15 +111,15 @@ bool Tracking::DecideCameraState ()
     csTicks elapsedtime = vc->GetElapsedTicks ();
     if (pandir != PAN_NONE)
     {
-      float angle = (pandir == PAN_LEFT) ? panspeed : -panspeed;  // other direction is PAN_RIGHT
+      float angle = (pandir == PAN_LEFT) ? -panspeed : panspeed;  // other direction is PAN_RIGHT
       angle *= elapsedtime / 100.0f;
-      //origin += csVector3 (camdir.z, 0, -camdir.x);
       // x' = x cos a - y sin a
       // y' = x sin a + y cos a
       csVector3 pc (origin - playpos);
       origin.x = pc.x * cos (angle) - pc.z * sin (angle) + playpos.x;
       origin.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
     }
+
     // setup the target
     target = playpos;
     target.y += targetyoffset;
@@ -193,10 +195,11 @@ void Tracking::SetTargetState (TargetState targetstate)
 {
   Tracking::targetstate = targetstate;
 }
-void Tracking::SetTargetYOffset (float targetyoffset)
+void Tracking::SetTargetYOffset (float yoff)
 {
-  Tracking::targetyoffset = targetyoffset;
+  targetyoffset = yoff;
 }
+
 void Tracking::Pan (PanningDirection pdir)
 {
   pandir = pdir;
