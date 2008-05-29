@@ -145,19 +145,6 @@ private:
   enum propids
   {
     propid_colldet = 0,
-    propid_colldet_spring,
-    propid_colldet_origin_radius,
-    propid_colldet_target_radius,
-    propid_offset,
-    propid_offset_origin,
-    propid_offset_target,
-    propid_spring,
-    propid_spring_origin,
-    propid_spring_target,
-    propid_spring_up,
-    propid_trans_spring,
-    propid_trans_cutofforigin,
-    propid_trans_cutofftarget
   };
   static PropertyHolder propinfo;
 

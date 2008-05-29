@@ -75,7 +75,7 @@ celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (4);
+  propinfo.SetCount (6);
   AddProperty (propid_axisx, "cel.property.axisx",
     CEL_DATA_FLOAT, false, "Left/Right axis value (-1.0 to 1.0).",
     &target_axis.x);
