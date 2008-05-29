@@ -160,7 +160,7 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   };
 
   // For properties.
-  propinfo.SetCount (8);
+  propinfo.SetCount (9);
   AddProperty (propid_delay, "cel.property.delay",
   	CEL_DATA_LONG, false, "Update delay to check for entities.", 0);
   AddProperty (propid_jitter, "cel.property.jitter",
