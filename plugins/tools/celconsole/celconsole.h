@@ -24,6 +24,7 @@
 #include "csutil/hash.h"
 #include "csutil/weakrefarr.h"
 #include "csutil/stringarray.h"
+#include "iutil/eventhandlers.h"
 #include "csutil/eventhandlers.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
@@ -96,6 +97,7 @@ public:
   virtual ~celConsole ();
   virtual bool Initialize (iObjectRegistry* object_reg);
   bool HandleEvent (iEvent& ev);
+  bool HandleDrawEvent (iEvent& ev);
   iCelPlLayer* GetPL ();
   void RegisterNewEntity (iCelEntity* entity);
   void RegisterRemoveEntity (iCelEntity* entity);
@@ -141,9 +143,49 @@ public:
       return parent->HandleEvent (ev);
     }
 
-    CS_EVENTHANDLER_PHASE_CONSOLE("cel.tools.celconsole")
+    CS_EVENTHANDLER_NAMES("cel.tools.celconsole");
+    CS_EVENTHANDLER_DEFAULT_INSTANCE_CONSTRAINTS                            
+CS_CONST_METHOD virtual const csHandlerID * GenericPrec                 
+(csRef<iEventHandlerRegistry> &, csRef<iEventNameRegistry> &,           
+ csEventID) const {                                                     
+  return 0;                                                             
+}                                                                       
+CS_CONST_METHOD virtual const csHandlerID * GenericSucc                 
+(csRef<iEventHandlerRegistry> &r1, csRef<iEventNameRegistry> &r2,       
+ csEventID event) const {                                               
+  static csHandlerID succConstraint[2];                                 
+  //succConstraint[0] = FrameSignpost_Logic3D::StaticID(r1);
+  succConstraint[0] = r1->GetGenericID("cel.propclass.pcinput.standard");
+  succConstraint[1] = CS_HANDLERLIST_END;                               
+  return succConstraint;                                                
+}
 
   } *scfiEventHandler;
+  // Not an embedded interface to avoid circular references!!!
+  class OutEventHandler : public scfImplementation1<OutEventHandler,
+		       iEventHandler>
+  {
+  private:
+    celConsole* parent;
+
+  public:
+    OutEventHandler (celConsole* parent)
+      : scfImplementationType (this), parent (parent)
+    {
+    }
+    virtual ~OutEventHandler ()
+    {
+    }
+
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      return parent->HandleDrawEvent (ev);
+    }
+
+    CS_EVENTHANDLER_PHASE_CONSOLE("cel.tools.celconsole.out")
+
+  } *scfiOutEventHandler;
+
 };
 
 #endif // __CEL_TOOLS_CELCONSOLE__

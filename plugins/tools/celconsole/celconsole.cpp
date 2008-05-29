@@ -447,6 +447,7 @@ celConsole::celConsole (iBase* parent)
   : scfImplementationType (this, parent)
 {
   scfiEventHandler = 0;
+  scfiOutEventHandler = 0;
   snapshot = 0;
 }
 
@@ -459,8 +460,12 @@ celConsole::~celConsole ()
   {
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
     if (q != 0)
+    {
       q->RemoveListener (scfiEventHandler);
+      q->RemoveListener (scfiOutEventHandler);
+    }
     scfiEventHandler->DecRef ();
+    scfiOutEventHandler->DecRef ();
   }
 }
 
@@ -515,6 +520,7 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   conout->AutoUpdate (false);
 
   scfiEventHandler = new EventHandler (this);
+  scfiOutEventHandler = new OutEventHandler (this);
   csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
   CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
@@ -528,6 +534,7 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
     CS_EVENTLIST_END 
   };
   q->RegisterListener (scfiEventHandler, esub);
+  q->RegisterListener (scfiOutEventHandler, esub);
 
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
   g3d = csQueryRegistry<iGraphics3D> (object_reg);
@@ -562,6 +569,21 @@ iCelEntity* celConsole::GetConsoleEntity ()
   return console_entity;
 }
 
+bool celConsole::HandleDrawEvent (iEvent& ev)
+{
+  if (ev.Name == csevFrame (name_reg))
+  {
+    GetPL ();
+    if (conout->GetVisible ())
+    {
+      g3d->BeginDraw (CSDRAW_2DGRAPHICS);
+      conout->Draw2D (0);
+      g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+      conout->Draw3D (0);
+    }
+  }
+  return false;
+}
 bool celConsole::HandleEvent (iEvent& ev)
 {
   if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
@@ -633,17 +655,6 @@ bool celConsole::HandleEvent (iEvent& ev)
     {
       // Eat mouse events while console is visible.
       return true;
-    }
-  }
-  else if (ev.Name == csevFrame (name_reg))
-  {
-    GetPL ();
-    if (conout->GetVisible ())
-    {
-      g3d->BeginDraw (CSDRAW_2DGRAPHICS);
-      conout->Draw2D (0);
-      g3d->BeginDraw (CSDRAW_3DGRAPHICS);
-      conout->Draw3D (0);
     }
   }
   return false;
