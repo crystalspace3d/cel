@@ -444,6 +444,7 @@ void celPcTrigger::SetupTriggerSphere (iSector* sector,
 {
   LeaveAllEntities ();
   above_mesh = 0;
+  trigger_type = TRIGGER_SPHERE;
 
   csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
   	sector->QueryObject (), center_name);
