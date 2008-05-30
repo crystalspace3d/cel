@@ -142,7 +142,7 @@ protected:
             "celPcCommon::AddProperty out of bounds %zu >= %zu!",
             idx,propholder->propertycount);
       else
-        printf("Error: celPcCommon::AddProperty out of bounds %zu >= %zu!",
+        csPrintf("Error: celPcCommon::AddProperty out of bounds %zu >= %zu!",
             idx,propholder->propertycount);
       return;
     }
