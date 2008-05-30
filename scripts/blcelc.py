@@ -2488,9 +2488,16 @@ class iPcActorAnalog(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetAxis(*args): return _blcelc.iPcActorAnalog_SetAxis(*args)
+    def GetAxis(*args): return _blcelc.iPcActorAnalog_GetAxis(*args)
     def AddAxis(*args): return _blcelc.iPcActorAnalog_AddAxis(*args)
     def SetMovementSpeed(*args): return _blcelc.iPcActorAnalog_SetMovementSpeed(*args)
+    def GetMovementSpeed(*args): return _blcelc.iPcActorAnalog_GetMovementSpeed(*args)
+    def SetMovementAcceleration(*args): return _blcelc.iPcActorAnalog_SetMovementAcceleration(*args)
+    def GetMovementAcceleration(*args): return _blcelc.iPcActorAnalog_GetMovementAcceleration(*args)
+    def SetMovementDeceleration(*args): return _blcelc.iPcActorAnalog_SetMovementDeceleration(*args)
+    def GetMovementDeceleration(*args): return _blcelc.iPcActorAnalog_GetMovementDeceleration(*args)
     def SetTurningSpeed(*args): return _blcelc.iPcActorAnalog_SetTurningSpeed(*args)
+    def GetTurningSpeed(*args): return _blcelc.iPcActorAnalog_GetTurningSpeed(*args)
     Axis = _swig_property(None, fix_args(_blcelc.iPcActorAnalog_SetAxis), None,
                     "iPcActorAnalog.Axis -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcActorAnalog::getmethod()\n\tset: void iPcActorAnalog::SetAxis(...)")
 
@@ -2869,6 +2876,16 @@ class iPcNewCamera(iPcCamera):
     def DetectCollisions(*args): return _blcelc.iPcNewCamera_DetectCollisions(*args)
     def SetCollisionDetection(*args): return _blcelc.iPcNewCamera_SetCollisionDetection(*args)
     def GetCollisionDetection(*args): return _blcelc.iPcNewCamera_GetCollisionDetection(*args)
+    def SetCollisionYFocusOffset(*args): return _blcelc.iPcNewCamera_SetCollisionYFocusOffset(*args)
+    def GetCollisionYFocusOffset(*args): return _blcelc.iPcNewCamera_GetCollisionYFocusOffset(*args)
+    def SetCollisionCorrection(*args): return _blcelc.iPcNewCamera_SetCollisionCorrection(*args)
+    def GetCollisionCorrection(*args): return _blcelc.iPcNewCamera_GetCollisionCorrection(*args)
+    def SetCollisionAvoidanceRadiusSq(*args): return _blcelc.iPcNewCamera_SetCollisionAvoidanceRadiusSq(*args)
+    def GetCollisionAvoidanceRadiusSq(*args): return _blcelc.iPcNewCamera_GetCollisionAvoidanceRadiusSq(*args)
+    def SetCollisionYAvoidance(*args): return _blcelc.iPcNewCamera_SetCollisionYAvoidance(*args)
+    def GetCollisionYAvoidance(*args): return _blcelc.iPcNewCamera_GetCollisionYAvoidance(*args)
+    def SetCollisionAvoidanceInterpolation(*args): return _blcelc.iPcNewCamera_SetCollisionAvoidanceInterpolation(*args)
+    def GetCollisionAvoidanceInterpolation(*args): return _blcelc.iPcNewCamera_GetCollisionAvoidanceInterpolation(*args)
     def SetCollisionSpringCoefficient(*args): return _blcelc.iPcNewCamera_SetCollisionSpringCoefficient(*args)
     def GetCollisionSpringCoefficient(*args): return _blcelc.iPcNewCamera_GetCollisionSpringCoefficient(*args)
     def InCameraTransition(*args): return _blcelc.iPcNewCamera_InCameraTransition(*args)
@@ -3279,6 +3296,7 @@ class iPcSteer(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def Vigilant(*args): return _blcelc.iPcSteer_Vigilant(*args)
     def Seek(*args): return _blcelc.iPcSteer_Seek(*args)
     def Flee(*args): return _blcelc.iPcSteer_Flee(*args)
     def Pursue(*args): return _blcelc.iPcSteer_Pursue(*args)
@@ -5599,6 +5617,8 @@ class iCelNode(cspace.iBase):
     def GetAllSuccessors(*args): return _blcelc.iCelNode_GetAllSuccessors(*args)
     def GetHeuristic(*args): return _blcelc.iCelNode_GetHeuristic(*args)
     def GetCost(*args): return _blcelc.iCelNode_GetCost(*args)
+    def GetEdgeCount(*args): return _blcelc.iCelNode_GetEdgeCount(*args)
+    def GetEdge(*args): return _blcelc.iCelNode_GetEdge(*args)
     MapNode = _swig_property(_blcelc.iCelNode_MapNode_get, _blcelc.iCelNode_MapNode_set, None,
                     "iCelNode.MapNode -> iMapNode*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iMapNode* iCelNode::GetMapNode()\n\tset: void iCelNode::SetMapNode(iMapNode*)")
 
@@ -5632,6 +5652,7 @@ class iCelPath(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def QueryObject(*args): return _blcelc.iCelPath_QueryObject(*args)
     def AddNode(*args): return _blcelc.iCelPath_AddNode(*args)
     def InsertNode(*args): return _blcelc.iCelPath_InsertNode(*args)
     def Next(*args): return _blcelc.iCelPath_Next(*args)
@@ -5646,6 +5667,7 @@ class iCelPath(cspace.iBase):
     def GetFirst(*args): return _blcelc.iCelPath_GetFirst(*args)
     def GetLast(*args): return _blcelc.iCelPath_GetLast(*args)
     def Invert(*args): return _blcelc.iCelPath_Invert(*args)
+    def GetNodeCount(*args): return _blcelc.iCelPath_GetNodeCount(*args)
     First = _swig_property(_blcelc.iCelPath_First_get, None, None,
                     "iCelPath.First -> iMapNode*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iMapNode* iCelPath::GetFirst()")
 
@@ -5661,16 +5683,22 @@ class iCelGraph(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def QueryObject(*args): return _blcelc.iCelGraph_QueryObject(*args)
+    def CreateNode(*args): return _blcelc.iCelGraph_CreateNode(*args)
     def AddNode(*args): return _blcelc.iCelGraph_AddNode(*args)
     def AddEdge(*args): return _blcelc.iCelGraph_AddEdge(*args)
     def AddEdgeByNames(*args): return _blcelc.iCelGraph_AddEdgeByNames(*args)
     def GetClosest(*args): return _blcelc.iCelGraph_GetClosest(*args)
     def ShortestPath(*args): return _blcelc.iCelGraph_ShortestPath(*args)
     def RandomPath(*args): return _blcelc.iCelGraph_RandomPath(*args)
+    def GetNodeCount(*args): return _blcelc.iCelGraph_GetNodeCount(*args)
+    def GetNode(*args): return _blcelc.iCelGraph_GetNode(*args)
+    scfGetVersion = staticmethod(_blcelc.iCelGraph_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iCelGraph
     __del__ = lambda self : None;
 iCelGraph_swigregister = _blcelc.iCelGraph_swigregister
 iCelGraph_swigregister(iCelGraph)
+iCelGraph_scfGetVersion = _blcelc.iCelGraph_scfGetVersion
 
 class iCelConsoleCommand(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
