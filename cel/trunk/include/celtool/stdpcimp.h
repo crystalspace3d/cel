@@ -139,11 +139,11 @@ protected:
       csRef<iReporter> rep = csQueryRegistry<iReporter>(object_reg);
       if (rep)
         rep->ReportError("crystalspace.cel.physicallayer",
-            "celPcCommon::AddProperty out of bounds %u >= %u!",
-            (unsigned)idx,(unsigned)propholder->propertycount);
+            "celPcCommon::AddProperty out of bounds %zu >= %zu!",
+            idx,propholder->propertycount);
       else
-        printf("Error: celPcCommon::AddProperty out of bounds %u >= %u!",
-            (unsigned)idx,(unsigned)propholder->propertycount);
+        printf("Error: celPcCommon::AddProperty out of bounds %zu >= %zu!",
+            idx,propholder->propertycount);
       return;
     }
     if (propdata == 0)
