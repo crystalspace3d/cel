@@ -222,6 +222,13 @@ INTERFACE_POST(pcType)
 %enddef
 
 //=============================================================================
+// RefCounted Objects
+//=============================================================================
+
+%feature("ref")   celGenericParameterBlock "$this->IncRef();"
+%feature("unref") celGenericParameterBlock "$this->DecRef();"
+
+//=============================================================================
 // Published interfaces and functions.
 //=============================================================================
 
@@ -259,7 +266,6 @@ typedef csHash<csStringFast<12>, csStringFast<12>, CS::Memory::AllocatorMalloc, 
 // celQuestParams
 typedef csHash<csStringBase, csStringBase, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringBase, csStringBase > > > celQuestParams;
 %template (celQuestParams) csHash<csStringBase, csStringBase, CS::Memory::AllocatorMalloc, csArrayElementHandler<CS::Container::HashElement<csStringBase, csStringBase > > >;
-
 
 %ignore iCelPlLayer::SendMessageV;
 %ignore iCelPlLayer::CreateEntity (iCelEntityTemplate* factory,const char* name, ...);
