@@ -45,7 +45,7 @@ Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
 {
   posoffset.Set (0, 2.5f, 6);
   relaxspringlen = 2.0f;
-  minspring = 0.05f;
+  minspring = 0.01f;
 
   init_reset = false;
 
@@ -106,6 +106,40 @@ const csVector3 &Tracking::GetTargetPosition ()
   return tracktarget->GetPosition ();
 }
 
+float Tracking::SpringForce (const float movement)
+{
+  // so now we add the little bit of springiness to our camera
+  // you can visualise the camera <--> player connection as a hard pole with a spring on the end
+  //   C----|oooP
+  // the ---- (hard pole) can never be compressed except by collision detection
+  // whereas the springs ooo can be decompressed and stretched between 0 and 2 * normal spring length
+  // ... the spring is relaxed at the normal spring length
+  float spring = fabs (movement / relaxspringlen);
+  if (spring > 1.0f)
+    spring = 1.0f;
+  // we use a quadratic function because it makes the spring more realistic and noticeable
+  spring = spring * spring * spring * spring;
+  // cut off the bottom values to avoid stupidly slow movement... kinda epsilon value
+  if (spring < minspring)
+    spring = minspring;
+  return spring;
+}
+void Tracking::PanAroundPlayer (const csVector3 &playpos)
+{
+  // perform a rotation around the character
+  csTicks elapsedtime = vc->GetElapsedTicks ();
+  if (pandir != PAN_NONE)
+  {
+    float angle = (pandir == PAN_LEFT) ? -panspeed : panspeed;  // other direction is PAN_RIGHT
+    angle *= elapsedtime / 100.0f;
+    // x' = x cos a - y sin a
+    // y' = x sin a + y cos a
+    csVector3 pc (origin - playpos);
+    origin.x = pc.x * cos (angle) - pc.z * sin (angle) + playpos.x;
+    origin.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
+  }
+}
+
 bool Tracking::DecideCameraState ()
 {
   if (!parent)
@@ -134,37 +168,13 @@ bool Tracking::DecideCameraState ()
     // ... this is so the camera only follows player in and out of the screen
     float move = dist * camdir * camplay - posoffset.z;
 
-    // so now we add the little bit of springiness to our camera
-    // you can visualise the camera <--> player connection as a hard pole with a spring on the end
-    //   C----|oooP
-    // the ---- (hard pole) can never be compressed except by collision detection
-    // whereas the springs ooo can be decompressed and stretched between 0 and 2 * normal spring length
-    // ... the spring is relaxed at the normal spring length
-    float spring = fabs (move / relaxspringlen);
-    if (spring > 1.0f)
-      spring = 1.0f;
-    // we use a quadratic function because it makes the spring more realistic and noticeable
-    spring = spring * spring * spring * spring;
-    // cut off the bottom values to avoid stupidly slow movement... kinda epsilon value
-    if (spring < minspring)
-      spring = minspring;
+    float spring = SpringForce (move);
 
     origin += spring * move * camdir;
     // lock y axis to fixed distance above player
     origin.y = playpos.y + posoffset.y;
 
-    // perform a rotation around the character
-    csTicks elapsedtime = vc->GetElapsedTicks ();
-    if (pandir != PAN_NONE)
-    {
-      float angle = (pandir == PAN_LEFT) ? -panspeed : panspeed;  // other direction is PAN_RIGHT
-      angle *= elapsedtime / 100.0f;
-      // x' = x cos a - y sin a
-      // y' = x sin a + y cos a
-      csVector3 pc (origin - playpos);
-      origin.x = pc.x * cos (angle) - pc.z * sin (angle) + playpos.x;
-      origin.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
-    }
+    PanAroundPlayer (playpos);
 
     // setup the target
     target = playpos;
