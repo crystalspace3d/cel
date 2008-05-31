@@ -168,9 +168,7 @@ bool Tracking::DecideCameraState ()
     // ... this is so the camera only follows player in and out of the screen
     float move = dist * camdir * camplay - posoffset.z;
 
-    float spring = SpringForce (move);
-
-    origin += spring * move * camdir;
+    origin += SpringForce (move) * move * camdir;
     // lock y axis to fixed distance above player
     origin.y = playpos.y + posoffset.y;
 
