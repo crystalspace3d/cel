@@ -20,10 +20,12 @@
 #ifndef __CEL_LARA_TRACK_CAMERA_MODE_FACTORY__
 #define __CEL_LARA_TRACK_CAMERA_MODE_FACTORY__
 
-#include "plugins/propclass/newcamera/celcameramode.h"
-
+// CS Includes
 #include "csgeom/transfrm.h"
 #include "iutil/virtclk.h"
+
+// CEL Includes
+#include "propclass/newcamera.h"
 
 struct iMovable;
 struct iCelPlLayer;
@@ -32,13 +34,15 @@ namespace celCameraMode
 {
 
 class Tracking : public scfImplementation2<Tracking, iPcmNewCamera::Tracking,
-  scfFakeInterface<iPcmNewCamera::General> >, public celCameraMode
+  scfFakeInterface<iPcmNewCamera::General> >
 {
 private:
   // calculate spring force based on spring stretched length
   float SpringForce (const float movement);
   // pan camera around a target
   void PanAroundPlayer (const csVector3 &playpos);
+  // do your collision detection maagick!
+  void FindCorrectedTransform () {};
 
   const csVector3 &GetAnchorPosition ();
   const csVector3 &GetAnchorDirection ();
@@ -46,12 +50,17 @@ private:
   // targetstate == TARGET_OBJ
   const csVector3 &GetTargetPosition ();
 
+  iPcNewCamera* parent;
+  csVector3 origin, target, up;
+  csVector3 corrorigin, corrtarget;
+
   // the target we track if targetstate == TARGET_OBJ
   iMovable* tracktarget;
   TargetState targetstate;
   // panning direction and speed
   PanningDirection pandir;
-  float panspeed;
+  float panaccel, panspeed;
+  float currpanspeed;   // current panning speed
   // because you don't want to be looking at the targets feet
   float targetyoffset;
   // offset for origin position. Usually only y and z is used.
@@ -80,7 +89,11 @@ public:
 
   void SetTargetYOffset (float targetyoffset);
   void Pan (PanningDirection pdir);
-  void SetPanningSpeed (float pspeed);
+  PanningDirection GetPanDirection () const;
+  void SetPanSpeed (float pspeed);
+  float GetPanSpeed () const;
+  void SetPanAcceleration (float paccel);
+  float GetPanAcceleration () const;
 
   TargetState GetTargetState ();
 
@@ -95,13 +108,13 @@ public:
 
   bool ResetCamera ();
 
-  void SetParentCamera (iPcNewCamera * camera)
+  void SetParentCamera (iPcNewCamera* camera)
   {
-    celCameraMode::SetParentCamera (camera);
+    parent = camera;;
   }
   bool UseSpringPos () const
   {
-    return celCameraMode::UseSpringPos ();
+    return false;
   }
   bool UseSpringOrigin () const
   {
@@ -117,11 +130,11 @@ public:
   }
   bool AllowCollisionDetection () const
   {
-    return celCameraMode::AllowCollisionDetection ();
+    return true;
   }
   bool GetCollisionDetection () const
   {
-    return celCameraMode::GetCollisionDetection ();
+    return true;
   }
   float GetSpringCoefficient () const
   {
@@ -129,47 +142,43 @@ public:
   }
   void SetSpringCoefficient (float s)
   {
-    return celCameraMode::SetSpringCoefficient (s);
   }
   float GetOriginSpringCoefficient () const
   {
-    return false;
+    return 0.0f;
   }
   void SetOriginSpringCoefficient (float s)
   {
-    return celCameraMode::SetOriginSpringCoefficient (s);
   }
   float GetTargetSpringCoefficient () const
   {
-    return false;
+    return 0.0f;
   }
   void SetTargetSpringCoefficient (float s)
   {
-    return celCameraMode::SetTargetSpringCoefficient (s);
   }
   float GetUpSpringCoefficient () const
   {
-    return false;
+    return 0.0f;
   }
   void SetUpSpringCoefficient (float s)
   {
-    return celCameraMode::SetUpSpringCoefficient (s);
   }
   const csVector3 &GetPosition () const
   {
-    return celCameraMode::GetPosition ();
+    return corrorigin;
   }
   const csVector3& GetOrigin () const
   {
-    return celCameraMode::GetOrigin ();
+    return corrorigin;
   }
   const csVector3 &GetTarget () const
   {
-    return celCameraMode::GetTarget ();
+    return corrtarget;
   }
   const csVector3 &GetUp () const
   {
-    return celCameraMode::GetUp ();
+    return up;
   }
 };
 

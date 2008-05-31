@@ -19,10 +19,14 @@
 
 #include "cssysdef.h"
 #include <math.h>
+
+// CS Includes
 #include "csgeom/poly3d.h"
 #include "iengine/movable.h"
 #include "iengine/mesh.h"
 #include "iengine/sector.h"
+
+// CEL Includes
 #include "physicallayer/pl.h"
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
@@ -54,7 +58,9 @@ Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
   targetyoffset = 2;
 
   pandir = PAN_NONE;
-  panspeed = 0.3f;
+  panspeed = 3.0f;
+  currpanspeed = 0.0f;
+  panaccel = 6.0f;
 }
 
 Tracking::~Tracking ()
@@ -127,11 +133,25 @@ float Tracking::SpringForce (const float movement)
 void Tracking::PanAroundPlayer (const csVector3 &playpos)
 {
   // perform a rotation around the character
-  csTicks elapsedtime = vc->GetElapsedTicks ();
+  float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
+
+  float accel = 0.0f;
   if (pandir != PAN_NONE)
+    accel = (pandir == PAN_LEFT) ? -panaccel : panaccel;
+  else  // accelerate in opposite direction
+    accel = (currpanspeed < 0) ? panaccel : -panaccel;
+
+  // accelerate current panning speed
+  currpanspeed += accel * elapsedsecs;
+  if (currpanspeed > panspeed)
+    currpanspeed = panspeed;
+  else if (currpanspeed < -panspeed)
+    currpanspeed = -panspeed;
+
+  float angle = currpanspeed * elapsedsecs;
+  // minor optimisation
+  if (fabs (angle) > EPSILON)
   {
-    float angle = (pandir == PAN_LEFT) ? -panspeed : panspeed;  // other direction is PAN_RIGHT
-    angle *= elapsedtime / 100.0f;
     // x' = x cos a - y sin a
     // y' = x sin a + y cos a
     csVector3 pc (origin - playpos);
@@ -166,7 +186,15 @@ bool Tracking::DecideCameraState ()
     // in case you don't realise, it's the distance along camdir until
     // there's a perpendicular bisecting camera -> player...
     // ... this is so the camera only follows player in and out of the screen
-    float move = dist * camdir * camplay - posoffset.z;
+    float move = dist * camdir * camplay;
+    // stop camera jumping back when in 'hard pole' zone
+    /*if (move < posoffset.z)
+    {
+      puts ("BLA");
+      move -= 0.01f * move / posoffset.z;
+    }
+    else*/
+      move -= posoffset.z;
 
     origin += SpringForce (move) * move * camdir;
     // lock y axis to fixed distance above player
@@ -204,6 +232,10 @@ bool Tracking::DecideCameraState ()
     target = tarpos;
     target.y += targetyoffset;
   }
+
+  FindCorrectedTransform ();
+  corrorigin = origin;
+  corrtarget = target;
 
   up  = parent->GetBaseUp ();
   return true;
@@ -258,9 +290,27 @@ void Tracking::Pan (PanningDirection pdir)
 {
   pandir = pdir;
 }
-void Tracking::SetPanningSpeed (float pspeed)
+Tracking::PanningDirection Tracking::GetPanDirection () const
+{
+  return pandir;
+}
+
+void Tracking::SetPanSpeed (float pspeed)
 {
   panspeed = pspeed;
+}
+float Tracking::GetPanSpeed () const
+{
+  return panspeed;
+}
+
+void Tracking::SetPanAcceleration (float paccel)
+{
+  panaccel = paccel;
+}
+float Tracking::GetPanAcceleration () const
+{
+  return panaccel;
 }
 
 iPcmNewCamera::Tracking::TargetState Tracking::GetTargetState ()

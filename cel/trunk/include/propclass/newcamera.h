@@ -296,9 +296,29 @@ struct Tracking : public virtual General
   virtual void Pan (PanningDirection pandir) = 0;
 
   /**
+   * Get the direction that the camera is panning in.
+   */
+  virtual PanningDirection GetPanDirection () const = 0;
+
+  /**
    * Set the panning speed. Angle to move per frame.
    */
-  virtual void SetPanningSpeed (float panspeed) = 0;
+  virtual void SetPanSpeed (float panspeed) = 0;
+
+  /**
+   * Get the panning speed. Angle to move per frame.
+   */
+  virtual float GetPanSpeed () const = 0;
+
+  /**
+   * Set the acceleration to approach the panning speed.
+   */
+  virtual void SetPanAcceleration (float paccel) = 0;
+
+  /**
+   * Get the acceleration to approach the panning speed.
+   */
+  virtual float GetPanAcceleration () const = 0;
 };
 
 
