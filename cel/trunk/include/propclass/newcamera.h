@@ -201,6 +201,15 @@ struct General : public virtual iBase
   virtual bool DecideCameraState () = 0;
 };
 
+/**
+ * This is a camera to be used with actoranalog. It tracks left and right movement and follows
+ * movement in and out of the camera.
+ * you can visualise the camera <--> player connection as a hard pole with a spring on the end
+ *   C----|oooP
+ * the ---- (hard pole) can never be compressed except by collision detection
+ * whereas the springs ooo can be decompressed and stretched between 0 and 2 * normal spring length
+ * ... the spring is relaxed at the normal spring length
+ */
 struct Tracking : public virtual General
 {
   SCF_INTERFACE (Tracking, 0, 0, 1);
@@ -247,6 +256,32 @@ struct Tracking : public virtual General
    * Set the position offset for the camera's position.
    */
   virtual void SetPositionOffset (const csVector3 &offset) = 0;
+
+  /**
+   * Get the position offset for the camera's position.
+   */
+  virtual const csVector3 &GetPositionOffset () const = 0;
+
+  /**
+   * Set the length of the spring that follows the player in and out of the camera.
+   */
+  virtual void SetFollowSpringLength (float slen) = 0;
+
+  /**
+   * Get the length of the spring that follows the player in and out of the camera.
+   */
+  virtual float GetFollowSpringLength () const = 0;
+
+  /**
+   * The follow spring can have stupid bottom values that greatly slow the speed to 0.
+   * You can set a minmum cutoff to stop this.
+   */
+  virtual void SetFollowMinimumSpringFactor (float smin) = 0;
+
+  /**
+   * Get the minimum cutoff for the follow spring.
+   */
+  virtual float SetFollowMinimumSpringFactor () const = 0;
 
   enum PanningDirection
   {

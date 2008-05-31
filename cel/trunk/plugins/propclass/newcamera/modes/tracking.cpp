@@ -43,7 +43,9 @@ Tracking::Tracking (iBase* p)
 Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
   : scfImplementationType (this), pl (pl), vc (vc)
 {
-  posoffset.Set (0, 2, 5);
+  posoffset.Set (0, 2.5f, 6);
+  relaxspringlen = 2.0f;
+  minspring = 0.05f;
 
   init_reset = false;
 
@@ -63,6 +65,29 @@ void Tracking::SetPositionOffset (const csVector3 &offset)
 {
   posoffset = offset;
 }
+const csVector3 &Tracking::GetPositionOffset () const
+{
+  return posoffset;
+}
+
+void Tracking::SetFollowSpringLength (float slen)
+{
+  relaxspringlen = slen;
+}
+float Tracking::GetFollowSpringLength () const
+{
+  return relaxspringlen;
+}
+
+void Tracking::SetFollowMinimumSpringFactor (float smin)
+{
+  minspring = smin;
+}
+float Tracking::SetFollowMinimumSpringFactor () const
+{
+  return minspring;
+}
+
 bool Tracking::DrawAttachedMesh () const
 {
   return true;
@@ -100,13 +125,34 @@ bool Tracking::DecideCameraState ()
     csVector3 camdir (target - origin);
     camdir.y = 0.0f;
     camdir.Normalize ();
+
     // plug it into our simplified equation to get the movement needed
     //   cos (x) = camdir . camplay
     //   move = dist * cos (x)
+    // in case you don't realise, it's the distance along camdir until
+    // there's a perpendicular bisecting camera -> player...
+    // ... this is so the camera only follows player in and out of the screen
     float move = dist * camdir * camplay - posoffset.z;
-    origin += move * camdir;
+
+    // so now we add the little bit of springiness to our camera
+    // you can visualise the camera <--> player connection as a hard pole with a spring on the end
+    //   C----|oooP
+    // the ---- (hard pole) can never be compressed except by collision detection
+    // whereas the springs ooo can be decompressed and stretched between 0 and 2 * normal spring length
+    // ... the spring is relaxed at the normal spring length
+    float spring = fabs (move / relaxspringlen);
+    if (spring > 1.0f)
+      spring = 1.0f;
+    // we use a quadratic function because it makes the spring more realistic and noticeable
+    spring = spring * spring * spring * spring;
+    // cut off the bottom values to avoid stupidly slow movement... kinda epsilon value
+    if (spring < minspring)
+      spring = minspring;
+
+    origin += spring * move * camdir;
     // lock y axis to fixed distance above player
     origin.y = playpos.y + posoffset.y;
+
     // perform a rotation around the character
     csTicks elapsedtime = vc->GetElapsedTicks ();
     if (pandir != PAN_NONE)
