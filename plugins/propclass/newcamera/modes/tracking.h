@@ -35,6 +35,11 @@ class Tracking : public scfImplementation2<Tracking, iPcmNewCamera::Tracking,
   scfFakeInterface<iPcmNewCamera::General> >, public celCameraMode
 {
 private:
+  // calculate spring force based on spring stretched length
+  float SpringForce (const float movement);
+  // pan camera around a target
+  void PanAroundPlayer (const csVector3 &playpos);
+
   const csVector3 &GetAnchorPosition ();
   const csVector3 &GetAnchorDirection ();
   // this function should absolutely never be called unless
