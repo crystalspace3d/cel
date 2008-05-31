@@ -230,7 +230,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   if (hascal3d)
   {
     pclinmove->InitCD (
-      csVector3 (0.5f, 0.8f,  0.5f),
+      csVector3 (0.5f, 0.8f,  1.0f),
       csVector3 (0.5f, 0.4f,  0.5f),
       csVector3 (0.0f, 0.01f, 0.0f));
   }

@@ -51,6 +51,10 @@ private:
   float targetyoffset;
   // offset for origin position. Usually only y and z is used.
   csVector3 posoffset;
+  // the in and out springs relaxed normal length
+  float relaxspringlen;
+  // the minimum value for calculated spring... to avoid stupid values
+  float minspring;
 
   // used to lookup entities
   csWeakRef<iCelPlLayer> pl;
@@ -75,7 +79,12 @@ public:
 
   TargetState GetTargetState ();
 
-  void SetPositionOffset (const csVector3 & offset);
+  void SetPositionOffset (const csVector3 &offset);
+  const csVector3 &GetPositionOffset () const;
+  void SetFollowSpringLength (float slen);
+  float GetFollowSpringLength () const;
+  void SetFollowMinimumSpringFactor (float smin);
+  float SetFollowMinimumSpringFactor () const;
   bool DrawAttachedMesh () const;
   bool DecideCameraState ();
 
@@ -111,7 +120,7 @@ public:
   }
   float GetSpringCoefficient () const
   {
-    return celCameraMode::GetSpringCoefficient ();
+    return false;
   }
   void SetSpringCoefficient (float s)
   {
@@ -119,7 +128,7 @@ public:
   }
   float GetOriginSpringCoefficient () const
   {
-    return celCameraMode::GetOriginSpringCoefficient ();
+    return false;
   }
   void SetOriginSpringCoefficient (float s)
   {
@@ -127,7 +136,7 @@ public:
   }
   float GetTargetSpringCoefficient () const
   {
-    return celCameraMode::GetTargetSpringCoefficient ();
+    return false;
   }
   void SetTargetSpringCoefficient (float s)
   {
@@ -135,7 +144,7 @@ public:
   }
   float GetUpSpringCoefficient () const
   {
-    return celCameraMode::GetUpSpringCoefficient ();
+    return false;
   }
   void SetUpSpringCoefficient (float s)
   {
