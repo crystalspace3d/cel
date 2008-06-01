@@ -114,78 +114,26 @@ public:
 
   bool ResetCamera ();
 
-  void SetParentCamera (iPcNewCamera* camera)
-  {
-    parent = camera;;
-  }
-  bool UseSpringPos () const
-  {
-    return false;
-  }
-  bool UseSpringOrigin () const
-  {
-    return false;
-  }
-  bool UseSpringTarget () const
-  {
-    return false;
-  }
-  bool UseSpringUp () const
-  {
-    return false;
-  }
-  bool AllowCollisionDetection () const
-  {
-    return true;
-  }
-  bool GetCollisionDetection () const
-  {
-    return true;
-  }
-  float GetSpringCoefficient () const
-  {
-    return false;
-  }
-  void SetSpringCoefficient (float s)
-  {
-  }
-  float GetOriginSpringCoefficient () const
-  {
-    return 0.0f;
-  }
-  void SetOriginSpringCoefficient (float s)
-  {
-  }
-  float GetTargetSpringCoefficient () const
-  {
-    return 0.0f;
-  }
-  void SetTargetSpringCoefficient (float s)
-  {
-  }
-  float GetUpSpringCoefficient () const
-  {
-    return 0.0f;
-  }
-  void SetUpSpringCoefficient (float s)
-  {
-  }
-  const csVector3 &GetPosition () const
-  {
-    return corrorigin;
-  }
-  const csVector3& GetOrigin () const
-  {
-    return corrorigin;
-  }
-  const csVector3 &GetTarget () const
-  {
-    return corrtarget;
-  }
-  const csVector3 &GetUp () const
-  {
-    return up;
-  }
+  // Interface Functions
+  void SetParentCamera (iPcNewCamera* camera);
+  bool UseSpringPos () const;
+  bool UseSpringOrigin () const;
+  bool UseSpringTarget () const;
+  bool UseSpringUp () const;
+  bool AllowCollisionDetection () const;
+  bool GetCollisionDetection () const;
+  float GetSpringCoefficient () const;
+  void SetSpringCoefficient (float s);
+  float GetOriginSpringCoefficient () const;
+  void SetOriginSpringCoefficient (float s);
+  float GetTargetSpringCoefficient () const;
+  void SetTargetSpringCoefficient (float s);
+  float GetUpSpringCoefficient () const;
+  void SetUpSpringCoefficient (float s);
+  const csVector3 &GetPosition () const;
+  const csVector3& GetOrigin () const;
+  const csVector3 &GetTarget () const;
+  const csVector3 &GetUp () const;
 };
 
 }

@@ -167,16 +167,19 @@ void Tracking::PanAroundPlayer (const csVector3 &playpos)
     tiltspeed = 0.01f;
   else if (tiltdir == TILT_DOWN)
     tiltspeed = -0.01f;
-  angle = atan2 (posoffset.z, posoffset.y);
-  angle += tiltspeed;
-  float ratio = tan (angle);
-  printf ("(%s)\n", posoffset.Description ().GetData ());
-  printf ("angle: %f\tratio: %f\n", angle, ratio);
-  float sqnorm = posoffset.SquaredNorm ();
-  posoffset.y = sqrt (sqnorm / (ratio*ratio + 1));
-  //if (angle > M_PI/2)
-  //  posoffset.y *= -1;
-  posoffset.z = sqrt (sqnorm - posoffset.y * posoffset.y);
+  if (fabs (tiltspeed) > EPSILON)
+  {
+    angle = atan2 (posoffset.z, posoffset.y);
+    angle += tiltspeed;
+    float ratio = tan (angle);
+    printf ("(%s)\n", posoffset.Description ().GetData ());
+    printf ("angle: %f\tratio: %f\n", angle, ratio);
+    float sqnorm = posoffset.SquaredNorm ();
+    posoffset.y = sqrt (sqnorm / (ratio*ratio + 1));
+    if (angle > M_PI/2)
+      posoffset.y *= -1;
+    posoffset.z = sqrt (sqnorm - posoffset.y * posoffset.y);
+  }
 }
 
 bool Tracking::DecideCameraState ()
@@ -340,6 +343,80 @@ void Tracking::Tilt (TiltDirection tdir)
 iPcmNewCamera::Tracking::TargetState Tracking::GetTargetState ()
 {
   return targetstate;
+}
+
+// Interface Functions
+void Tracking::SetParentCamera (iPcNewCamera* camera)
+{
+  parent = camera;;
+}
+bool Tracking::UseSpringPos () const
+{
+  return false;
+}
+bool Tracking::UseSpringOrigin () const
+{
+  return false;
+}
+bool Tracking::UseSpringTarget () const
+{
+  return false;
+}
+bool Tracking::UseSpringUp () const
+{
+  return false;
+}
+bool Tracking::AllowCollisionDetection () const
+{
+  return GetCollisionDetection ();
+}
+bool Tracking::GetCollisionDetection () const
+{
+  return false;
+}
+float Tracking::GetSpringCoefficient () const
+{
+  return false;
+}
+void Tracking::SetSpringCoefficient (float s)
+{
+}
+float Tracking::GetOriginSpringCoefficient () const
+{
+  return 0.0f;
+}
+void Tracking::SetOriginSpringCoefficient (float s)
+{
+}
+float Tracking::GetTargetSpringCoefficient () const
+{
+  return 0.0f;
+}
+void Tracking::SetTargetSpringCoefficient (float s)
+{
+}
+float Tracking::GetUpSpringCoefficient () const
+{
+  return 0.0f;
+}
+void Tracking::SetUpSpringCoefficient (float s)
+{
+}
+const csVector3 &Tracking::GetPosition () const
+{
+  return corrorigin;
+}
+const csVector3 &Tracking::GetOrigin () const
+{
+  return corrorigin;
+}
+const csVector3 &Tracking::GetTarget () const
+{
+  return corrtarget;
+}
+const csVector3 &Tracking::GetUp () const
+{
+  return up;
 }
 
 }
