@@ -61,7 +61,8 @@ Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
   panspeed = 3.0f;
   currpanspeed = 0.0f;
   panaccel = 6.0f;
-  tiltspeed = 3.0f;
+  tiltdir = TILT_NONE;
+  tiltspeed = 0.005f;
   currtiltspeed = 0.0f;
   tiltaccel = 6.0f;
 }
@@ -139,13 +140,24 @@ void Tracking::PanAroundPlayer (const csVector3 &playpos)
   float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
 
   float accel = 0.0f;
-  if (pandir != PAN_NONE)
+  float angle;/*if (pandir != PAN_NONE)
     accel = (pandir == PAN_LEFT) ? -panaccel : panaccel;
   else  // accelerate in opposite direction
     accel = (currpanspeed < 0) ? panaccel : -panaccel;
 
   // accelerate current panning speed
-  currpanspeed += accel * elapsedsecs;
+  accel *= elapsedsecs;
+  if (pandir == PAN_NONE)
+  {
+    // block flipping over axis.
+    if ((currpanspeed > 0 && currpanspeed + accel < 0) ||
+      (currpanspeed < 0 && currpanspeed + accel > 0))
+      currpanspeed = 0.0f;
+    else
+      currpanspeed += accel;
+  }
+  else
+    currpanspeed += accel;
   if (currpanspeed > panspeed)
     currpanspeed = panspeed;
   else if (currpanspeed < -panspeed)
@@ -160,20 +172,38 @@ void Tracking::PanAroundPlayer (const csVector3 &playpos)
     csVector3 pc (origin - playpos);
     origin.x = pc.x * cos (angle) - pc.z * sin (angle) + playpos.x;
     origin.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
-  }
+  }*/
 
-  float tiltspeed = 0.0f;
-  if (tiltdir == TILT_UP)
-    tiltspeed = 0.01f;
-  else if (tiltdir == TILT_DOWN)
-    tiltspeed = -0.01f;
-  if (fabs (tiltspeed) > EPSILON)
+  // --------------------
+  accel = 0.0f;
+  if (tiltdir != TILT_NONE)
+    accel = (tiltdir == TILT_UP) ? -tiltaccel : tiltaccel;
+  else  // accelerate in opposite direction
+    accel = (currtiltspeed < 0) ? tiltaccel : -tiltaccel;
+
+  // accelerate current tilting speed
+  accel *= elapsedsecs;
+  if (tiltdir == TILT_NONE)
+  {
+    // block flipping over axis.
+    if ((currtiltspeed > 0 && currtiltspeed + accel < 0) ||
+      (currtiltspeed < 0 && currtiltspeed + accel > 0))
+      currtiltspeed = 0.0f;
+    //else
+      //currtiltspeed += accel;
+  }
+  else
+    currtiltspeed += accel;
+  if (currtiltspeed > tiltspeed)
+    currtiltspeed = tiltspeed;
+  else if (currtiltspeed < -tiltspeed)
+    currtiltspeed = -tiltspeed;
+
+  if (fabs (currtiltspeed) > EPSILON)
   {
     angle = atan2 (posoffset.z, posoffset.y);
-    angle += tiltspeed;
+    angle += currtiltspeed;
     float ratio = tan (angle);
-    printf ("(%s)\n", posoffset.Description ().GetData ());
-    printf ("angle: %f\tratio: %f\n", angle, ratio);
     float sqnorm = posoffset.SquaredNorm ();
     posoffset.y = sqrt (sqnorm / (ratio*ratio + 1));
     if (angle > M_PI/2)
@@ -208,15 +238,7 @@ bool Tracking::DecideCameraState ()
     // in case you don't realise, it's the distance along camdir until
     // there's a perpendicular bisecting camera -> player...
     // ... this is so the camera only follows player in and out of the screen
-    float move = dist * camdir * camplay;
-    // stop camera jumping back when in 'hard pole' zone
-    /*if (move < posoffset.z)
-    {
-      puts ("BLA");
-      move -= 0.01f * move / posoffset.z;
-    }
-    else*/
-      move -= posoffset.z;
+    float move = dist * camdir * camplay - posoffset.z;
 
     origin += SpringForce (move) * move * camdir;
     // lock y axis to fixed distance above player
