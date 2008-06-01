@@ -283,7 +283,7 @@ struct Tracking : public virtual General
    */
   virtual float SetFollowMinimumSpringFactor () const = 0;
 
-  enum PanningDirection
+  enum PanDirection
   {
     PAN_LEFT = 0,
     PAN_NONE,
@@ -293,12 +293,12 @@ struct Tracking : public virtual General
   /**
    * Pan the camera around the player in the direction specified.
    */
-  virtual void Pan (PanningDirection pandir) = 0;
+  virtual void Pan (PanDirection pandir) = 0;
 
   /**
    * Get the direction that the camera is panning in.
    */
-  virtual PanningDirection GetPanDirection () const = 0;
+  virtual PanDirection GetPanDirection () const = 0;
 
   /**
    * Set the panning speed. Angle to move per frame.
@@ -319,6 +319,18 @@ struct Tracking : public virtual General
    * Get the acceleration to approach the panning speed.
    */
   virtual float GetPanAcceleration () const = 0;
+
+  enum TiltDirection
+  {
+    TILT_UP = 0,
+    TILT_NONE,
+    TILT_DOWN
+  };
+
+  /**
+   * Tilt camera in the direction specified.
+   */
+  virtual void Tilt (TiltDirection tiltdir) = 0;
 };
 
 

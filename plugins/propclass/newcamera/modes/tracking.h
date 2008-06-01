@@ -58,9 +58,13 @@ private:
   iMovable* tracktarget;
   TargetState targetstate;
   // panning direction and speed
-  PanningDirection pandir;
+  PanDirection pandir;
   float panaccel, panspeed;
   float currpanspeed;   // current panning speed
+  // tilt direction and speed
+  TiltDirection tiltdir;
+  float tiltaccel, tiltspeed;
+  float currtiltspeed;   // current tilt speed
   // because you don't want to be looking at the targets feet
   float targetyoffset;
   // offset for origin position. Usually only y and z is used.
@@ -86,14 +90,16 @@ public:
   void SetTargetState (TargetState targetstate);
   //virtual void SetTargetMesh (const char* name);
   //virtual void SetTargetPosition (const csVector3 &pos);
-
   void SetTargetYOffset (float targetyoffset);
-  void Pan (PanningDirection pdir);
-  PanningDirection GetPanDirection () const;
+
+  void Pan (PanDirection pdir);
+  PanDirection GetPanDirection () const;
   void SetPanSpeed (float pspeed);
   float GetPanSpeed () const;
   void SetPanAcceleration (float paccel);
   float GetPanAcceleration () const;
+
+  void Tilt (TiltDirection tdir);
 
   TargetState GetTargetState ();
 

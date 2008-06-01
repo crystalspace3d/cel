@@ -271,6 +271,22 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
     }
+    else if (!strcmp (msg_id+10, "camup.down"))
+    {
+      trackcam->Tilt (iPcmNewCamera::Tracking::TILT_UP);
+    }
+    else if (!strcmp (msg_id+10, "camup.up"))
+    {
+      trackcam->Tilt (iPcmNewCamera::Tracking::TILT_NONE);
+    }
+    else if (!strcmp (msg_id+10, "camdown.down"))
+    {
+      trackcam->Tilt (iPcmNewCamera::Tracking::TILT_DOWN);
+    }
+    else if (!strcmp (msg_id+10, "camdown.up"))
+    {
+      trackcam->Tilt (iPcmNewCamera::Tracking::TILT_NONE);
+    }
     else if (!strcmp (msg_id+10, "ready.down"))
       trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_NONE);
     else if (!strcmp (msg_id+10, "ready.up"))
