@@ -209,6 +209,8 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("down", "down");
   pcinp->Bind ("[", "camleft");
   pcinp->Bind ("]", "camright");
+  pcinp->Bind ("pageup", "camup");
+  pcinp->Bind ("pagedown", "camdown");
   pcinp->Bind ("y", "camswitch");
 
   csRef<iPcActorAnalog> actor = celQueryPropertyClassEntity<iPcActorAnalog> (entity_cam);

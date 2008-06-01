@@ -61,6 +61,9 @@ Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
   panspeed = 3.0f;
   currpanspeed = 0.0f;
   panaccel = 6.0f;
+  tiltspeed = 3.0f;
+  currtiltspeed = 0.0f;
+  tiltaccel = 6.0f;
 }
 
 Tracking::~Tracking ()
@@ -158,6 +161,22 @@ void Tracking::PanAroundPlayer (const csVector3 &playpos)
     origin.x = pc.x * cos (angle) - pc.z * sin (angle) + playpos.x;
     origin.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
   }
+
+  float tiltspeed = 0.0f;
+  if (tiltdir == TILT_UP)
+    tiltspeed = 0.01f;
+  else if (tiltdir == TILT_DOWN)
+    tiltspeed = -0.01f;
+  angle = atan2 (posoffset.z, posoffset.y);
+  angle += tiltspeed;
+  float ratio = tan (angle);
+  printf ("(%s)\n", posoffset.Description ().GetData ());
+  printf ("angle: %f\tratio: %f\n", angle, ratio);
+  float sqnorm = posoffset.SquaredNorm ();
+  posoffset.y = sqrt (sqnorm / (ratio*ratio + 1));
+  //if (angle > M_PI/2)
+  //  posoffset.y *= -1;
+  posoffset.z = sqrt (sqnorm - posoffset.y * posoffset.y);
 }
 
 bool Tracking::DecideCameraState ()
@@ -286,11 +305,11 @@ void Tracking::SetTargetYOffset (float yoff)
   targetyoffset = yoff;
 }
 
-void Tracking::Pan (PanningDirection pdir)
+void Tracking::Pan (PanDirection pdir)
 {
   pandir = pdir;
 }
-Tracking::PanningDirection Tracking::GetPanDirection () const
+Tracking::PanDirection Tracking::GetPanDirection () const
 {
   return pandir;
 }
@@ -311,6 +330,11 @@ void Tracking::SetPanAcceleration (float paccel)
 float Tracking::GetPanAcceleration () const
 {
   return panaccel;
+}
+
+void Tracking::Tilt (TiltDirection tdir)
+{
+  tiltdir = tdir;
 }
 
 iPcmNewCamera::Tracking::TargetState Tracking::GetTargetState ()
