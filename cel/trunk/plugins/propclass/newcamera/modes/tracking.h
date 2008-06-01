@@ -57,6 +57,12 @@ private:
   // the target we track if targetstate == TARGET_OBJ
   iMovable* tracktarget;
   TargetState targetstate;
+
+  struct Accelerator
+  {
+    float topspeed;
+    float speed, accel;
+  };
   // panning direction and speed
   PanDirection pandir;
   float panaccel, panspeed;
@@ -65,6 +71,7 @@ private:
   TiltDirection tiltdir;
   float tiltaccel, tiltspeed;
   float currtiltspeed;   // current tilt speed
+
   // because you don't want to be looking at the targets feet
   float targetyoffset;
   // offset for origin position. Usually only y and z is used.
