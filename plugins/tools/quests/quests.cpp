@@ -69,6 +69,8 @@ SCF_IMPLEMENT_FACTORY (celQuestManager)
 
 //---------------------------------------------------------------------------
 
+static const celData celDataNone;
+
 static const char* ToString (csString& str, const celData* data)
 {
   switch (data->type)
@@ -222,7 +224,7 @@ const celData* celQuestDynamicParameter::GetData (iCelParameterBlock* params)
 	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.parameter",
 	"Cannot resolve dynamic parameter '%s' (no parameters given)!",
 	(const char*)parname);
-    return 0;
+    return &celDataNone;
   }
 
   const celData* data = params->GetParameter (dynamic_id);
@@ -231,7 +233,7 @@ const celData* celQuestDynamicParameter::GetData (iCelParameterBlock* params)
     csReport (object_reg,
 	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.parameter",
 	"Cannot resolve dynamic parameter '%s'!", (const char*)parname);
-    return 0;
+    return &celDataNone;
   }
   return data;
 }
@@ -271,7 +273,7 @@ const celData* celQuestExpressionParameter::GetData (iCelParameterBlock* params)
     csReport (object_reg,
 	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.parameter",
 	"Cannot execute expression '%s'!", (const char*)parname);
-    return 0;
+    return &celDataNone;
   }
   return &data;
 }
