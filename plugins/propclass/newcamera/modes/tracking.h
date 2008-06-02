@@ -66,12 +66,8 @@ private:
   } pan, tilt;
   // panning direction and speed
   PanDirection pandir;
-  float panaccel, panspeed;
-  float currpanspeed;   // current panning speed
   // tilt direction and speed
   TiltDirection tiltdir;
-  float tiltaccel, tiltspeed;
-  float currtiltspeed;   // current tilt speed
 
   // because you don't want to be looking at the targets feet
   float targetyoffset;

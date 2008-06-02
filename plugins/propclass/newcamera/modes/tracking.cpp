@@ -58,21 +58,13 @@ Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
   targetyoffset = 2;
 
   pandir = PAN_NONE;
-  panspeed = 1.1f;
-  currpanspeed = 0.0f;
-  panaccel = 500.0f;
+  pan.topspeed = 1.0f;
+  pan.speed = 0.0f;
+  pan.accel = 3.0f;
   tiltdir = TILT_NONE;
-  tiltspeed = 0.003f;
-  currtiltspeed = 0.0f;
-  tiltaccel = 7.0f;
-
-  // ----------
-  pan.topspeed = panspeed;
-  pan.speed = currpanspeed;
-  pan.accel = panaccel;
-  tilt.topspeed = tiltspeed;
-  tilt.speed = currtiltspeed;
-  tilt.accel = tiltaccel;
+  tilt.topspeed = 1.0f;
+  tilt.speed = 0.0f;
+  tilt.accel = 3.0f;
 }
 
 Tracking::~Tracking ()
@@ -359,20 +351,20 @@ Tracking::PanDirection Tracking::GetPanDirection () const
 
 void Tracking::SetPanSpeed (float pspeed)
 {
-  panspeed = pspeed;
+  pan.topspeed = pspeed;
 }
 float Tracking::GetPanSpeed () const
 {
-  return panspeed;
+  return pan.topspeed;
 }
 
 void Tracking::SetPanAcceleration (float paccel)
 {
-  panaccel = paccel;
+  pan.accel = paccel;
 }
 float Tracking::GetPanAcceleration () const
 {
-  return panaccel;
+  return pan.accel;
 }
 
 void Tracking::Tilt (TiltDirection tdir)
