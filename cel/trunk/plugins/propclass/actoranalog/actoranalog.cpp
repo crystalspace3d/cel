@@ -288,7 +288,7 @@ void celPcActorAnalog::UpdateMovement ()
     // ... deccelerate the player down
     float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
     float newspeed = pclinmove->GetVelocity ().Norm () - 2 * moveaccel * elapsedsecs;
-    if (newspeed < 0.0f)
+    if (newspeed < EPSILON)
       newspeed = 0.0f;
     pclinmove->SetVelocity (csVector3 (0, 0, -newspeed));
     pcmesh->SetAnimation ("stand", true);
@@ -359,8 +359,8 @@ void celPcActorAnalog::UpdateMovement ()
       // not real, but then again forget realism over responsiveness
       float newspeed = moveaccel * i * elapsedsecs + pclinmove->GetVelocity ().Norm ();
       // clipping in case acceleration oversteps the target speed.
-      if (newspeed > movespeed)
-        newspeed = movespeed;
+      if (newspeed > movespeed * i)
+        newspeed = movespeed * i;
       pclinmove->SetVelocity (csVector3 (0, 0, -newspeed));
     }
     pcmesh->SetAnimation ("walk", true);
