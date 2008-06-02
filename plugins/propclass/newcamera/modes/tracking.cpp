@@ -61,7 +61,7 @@ Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc, iCollideSystem* cdsys)
   targetyoffset = 2;
 
   pandir = PAN_NONE;
-  pan.topspeed = 2.0f;
+  pan.topspeed = 3.0f;
   pan.speed = 0.0f;
   pan.accel = 8.0f;
   tiltdir = TILT_NONE;
@@ -215,6 +215,12 @@ void Tracking::PanAroundPlayer (const csVector3 &playpos)
   }
 
   posoff.angle += tilt.speed * elapsedsecs;
+  // we limit the angles between epsilon and M_PI/2 - epsilon
+  // to stop the evilness of rotating to the front of the character!!
+  if (posoff.angle < 0.1)
+    posoff.angle = 0.1f;
+  else if (posoff.angle > M_PI / 2 - 0.1f)
+    posoff.angle = M_PI / 2 - 0.1f;
 }
 
 void Tracking::FindCorrectedTransform ()
@@ -235,9 +241,12 @@ bool Tracking::DecideCameraState ()
   if (!init_reset)
     init_reset = ResetCamera ();
 
+  // a bit of fun, but not really needed :)
+  // might keep it since it looks nice though
+  float dxf = 5 * posoff.dist * posoff.angle / M_PI;
   float
-    posoffset_y = posoff.dist * sin (posoff.angle),
-    posoffset_z = posoff.dist * cos (posoff.angle);
+    posoffset_y = dxf * sin (posoff.angle),
+    posoffset_z = dxf * cos (posoff.angle);
 
   const csVector3 playpos (GetAnchorPosition ());
   if (targetstate == TARGET_BASE)
