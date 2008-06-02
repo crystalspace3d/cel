@@ -58,13 +58,21 @@ Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
   targetyoffset = 2;
 
   pandir = PAN_NONE;
-  panspeed = 3.0f;
+  panspeed = 1.1f;
   currpanspeed = 0.0f;
-  panaccel = 6.0f;
+  panaccel = 500.0f;
   tiltdir = TILT_NONE;
-  tiltspeed = 0.005f;
+  tiltspeed = 0.003f;
   currtiltspeed = 0.0f;
-  tiltaccel = 6.0f;
+  tiltaccel = 7.0f;
+
+  // ----------
+  pan.topspeed = panspeed;
+  pan.speed = currpanspeed;
+  pan.accel = panaccel;
+  tilt.topspeed = tiltspeed;
+  tilt.speed = currtiltspeed;
+  tilt.accel = tiltaccel;
 }
 
 Tracking::~Tracking ()
@@ -134,36 +142,46 @@ float Tracking::SpringForce (const float movement)
     spring = minspring;
   return spring;
 }
+
+void Tracking::Accelerator::Accelerate (int direction, float elapsedsecs)
+{
+  // v = ut + 0.5 * a t^2
+  float cacc;
+  if (!direction && fabs (speed) > EPSILON)
+    cacc = (speed < 0) ? accel : -accel;
+  else
+    cacc = direction * accel;
+
+  if (!direction &&
+    ((speed > 0 && speed + cacc < 0) || (speed < 0 && speed + cacc > 0)))
+    speed = 0.0f;
+  else
+    speed += 0.5 * cacc * elapsedsecs;
+
+  if (speed > topspeed)
+    speed = topspeed;
+  else if (speed < -topspeed)
+    speed = -topspeed;
+}
+
 void Tracking::PanAroundPlayer (const csVector3 &playpos)
 {
   // perform a rotation around the character
   float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
 
-  float accel = 0.0f;
-  float angle;/*if (pandir != PAN_NONE)
-    accel = (pandir == PAN_LEFT) ? -panaccel : panaccel;
-  else  // accelerate in opposite direction
-    accel = (currpanspeed < 0) ? panaccel : -panaccel;
-
-  // accelerate current panning speed
-  accel *= elapsedsecs;
-  if (pandir == PAN_NONE)
+  switch (pandir)
   {
-    // block flipping over axis.
-    if ((currpanspeed > 0 && currpanspeed + accel < 0) ||
-      (currpanspeed < 0 && currpanspeed + accel > 0))
-      currpanspeed = 0.0f;
-    else
-      currpanspeed += accel;
+    case PAN_NONE:
+      pan.Accelerate (0, elapsedsecs);
+      break;
+    case PAN_LEFT:
+      pan.Accelerate (-1, elapsedsecs);
+      break;
+    case PAN_RIGHT:
+      pan.Accelerate (1, elapsedsecs);
+      break;
   }
-  else
-    currpanspeed += accel;
-  if (currpanspeed > panspeed)
-    currpanspeed = panspeed;
-  else if (currpanspeed < -panspeed)
-    currpanspeed = -panspeed;
-
-  float angle = currpanspeed * elapsedsecs;
+  float angle = pan.speed * elapsedsecs;
   // minor optimisation
   if (fabs (angle) > EPSILON)
   {
@@ -172,37 +190,25 @@ void Tracking::PanAroundPlayer (const csVector3 &playpos)
     csVector3 pc (origin - playpos);
     origin.x = pc.x * cos (angle) - pc.z * sin (angle) + playpos.x;
     origin.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
-  }*/
-
-  // --------------------
-  accel = 0.0f;
-  if (tiltdir != TILT_NONE)
-    accel = (tiltdir == TILT_UP) ? -tiltaccel : tiltaccel;
-  else  // accelerate in opposite direction
-    accel = (currtiltspeed < 0) ? tiltaccel : -tiltaccel;
-
-  // accelerate current tilting speed
-  accel *= elapsedsecs;
-  if (tiltdir == TILT_NONE)
-  {
-    // block flipping over axis.
-    if ((currtiltspeed > 0 && currtiltspeed + accel < 0) ||
-      (currtiltspeed < 0 && currtiltspeed + accel > 0))
-      currtiltspeed = 0.0f;
-    //else
-      //currtiltspeed += accel;
   }
-  else
-    currtiltspeed += accel;
-  if (currtiltspeed > tiltspeed)
-    currtiltspeed = tiltspeed;
-  else if (currtiltspeed < -tiltspeed)
-    currtiltspeed = -tiltspeed;
 
-  if (fabs (currtiltspeed) > EPSILON)
+  switch (tiltdir)
+  {
+    case TILT_NONE:
+      tilt.Accelerate (0, elapsedsecs);
+      break;
+    case TILT_UP:
+      tilt.Accelerate (-1, elapsedsecs);
+      break;
+    case TILT_DOWN:
+      tilt.Accelerate (1, elapsedsecs);
+      break;
+  }
+
+  if (fabs (tilt.speed) > EPSILON)
   {
     angle = atan2 (posoffset.z, posoffset.y);
-    angle += currtiltspeed;
+    angle += tilt.speed;
     float ratio = tan (angle);
     float sqnorm = posoffset.SquaredNorm ();
     posoffset.y = sqrt (sqnorm / (ratio*ratio + 1));
