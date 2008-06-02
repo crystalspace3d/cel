@@ -60,9 +60,10 @@ private:
 
   struct Accelerator
   {
+    void Accelerate (int direction, float elapsedsecs);
     float topspeed;
     float speed, accel;
-  };
+  } pan, tilt;
   // panning direction and speed
   PanDirection pandir;
   float panaccel, panspeed;
