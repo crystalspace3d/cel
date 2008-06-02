@@ -2827,11 +2827,28 @@ class Tracking(General):
     def GetTargetState(*args): return _blcelc.Tracking_GetTargetState(*args)
     def SetTargetYOffset(*args): return _blcelc.Tracking_SetTargetYOffset(*args)
     def SetPositionOffset(*args): return _blcelc.Tracking_SetPositionOffset(*args)
+    def GetPositionOffset(*args): return _blcelc.Tracking_GetPositionOffset(*args)
+    def SetFollowSpringLength(*args): return _blcelc.Tracking_SetFollowSpringLength(*args)
+    def GetFollowSpringLength(*args): return _blcelc.Tracking_GetFollowSpringLength(*args)
+    def SetFollowMinimumSpringFactor(*args): return _blcelc.Tracking_SetFollowMinimumSpringFactor(*args)
     PAN_LEFT = _blcelc.Tracking_PAN_LEFT
     PAN_NONE = _blcelc.Tracking_PAN_NONE
     PAN_RIGHT = _blcelc.Tracking_PAN_RIGHT
     def Pan(*args): return _blcelc.Tracking_Pan(*args)
-    def SetPanningSpeed(*args): return _blcelc.Tracking_SetPanningSpeed(*args)
+    def GetPanDirection(*args): return _blcelc.Tracking_GetPanDirection(*args)
+    def SetPanSpeed(*args): return _blcelc.Tracking_SetPanSpeed(*args)
+    def GetPanSpeed(*args): return _blcelc.Tracking_GetPanSpeed(*args)
+    def SetPanAcceleration(*args): return _blcelc.Tracking_SetPanAcceleration(*args)
+    def GetPanAcceleration(*args): return _blcelc.Tracking_GetPanAcceleration(*args)
+    TILT_UP = _blcelc.Tracking_TILT_UP
+    TILT_NONE = _blcelc.Tracking_TILT_NONE
+    TILT_DOWN = _blcelc.Tracking_TILT_DOWN
+    def Tilt(*args): return _blcelc.Tracking_Tilt(*args)
+    def GetTiltDirection(*args): return _blcelc.Tracking_GetTiltDirection(*args)
+    def SetTiltSpeed(*args): return _blcelc.Tracking_SetTiltSpeed(*args)
+    def GetTiltSpeed(*args): return _blcelc.Tracking_GetTiltSpeed(*args)
+    def SetTiltAcceleration(*args): return _blcelc.Tracking_SetTiltAcceleration(*args)
+    def GetTiltAcceleration(*args): return _blcelc.Tracking_GetTiltAcceleration(*args)
     __swig_destroy__ = _blcelc.delete_Tracking
     __del__ = lambda self : None;
 Tracking_swigregister = _blcelc.Tracking_swigregister
