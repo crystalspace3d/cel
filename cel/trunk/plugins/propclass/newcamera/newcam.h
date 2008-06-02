@@ -165,6 +165,7 @@ public:
   bool SetPropertyIndexed (int, bool);
   bool GetPropertyIndexed (int, bool&);
 
+  iSector* GetBaseSector () const;
   const csVector3& GetBasePos () const;
   const csVector3& GetBaseOrigin () const;
   const csVector3& GetBaseDir () const;

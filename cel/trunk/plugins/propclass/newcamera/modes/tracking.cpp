@@ -22,9 +22,11 @@
 
 // CS Includes
 #include "csgeom/poly3d.h"
+#include "cstool/collider.h"
 #include "iengine/movable.h"
 #include "iengine/mesh.h"
 #include "iengine/sector.h"
+#include "ivaria/collider.h"
 
 // CEL Includes
 #include "physicallayer/pl.h"
@@ -44,10 +46,11 @@ Tracking::Tracking (iBase* p)
 {
 }
 
-Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
-  : scfImplementationType (this), pl (pl), vc (vc)
+Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc, iCollideSystem* cdsys)
+  : scfImplementationType (this), pl (pl), vc (vc), cdsys (cdsys)
 {
-  posoffset.Set (0, 2.5f, 6);
+  posoff.angle = M_PI / 6;
+  posoff.dist = 6.5f;
   relaxspringlen = 2.0f;
   minspring = 0.01f;
 
@@ -58,9 +61,9 @@ Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc)
   targetyoffset = 2;
 
   pandir = PAN_NONE;
-  pan.topspeed = 1.0f;
+  pan.topspeed = 2.0f;
   pan.speed = 0.0f;
-  pan.accel = 3.0f;
+  pan.accel = 8.0f;
   tiltdir = TILT_NONE;
   tilt.topspeed = 1.0f;
   tilt.speed = 0.0f;
@@ -71,13 +74,21 @@ Tracking::~Tracking ()
 {
 }
 
-void Tracking::SetPositionOffset (const csVector3 &offset)
+void Tracking::SetOffsetAngle (float angle)
 {
-  posoffset = offset;
+  posoff.angle = angle;
 }
-const csVector3 &Tracking::GetPositionOffset () const
+float Tracking::GetOffsetAngle () const
 {
-  return posoffset;
+  return posoff.angle;
+}
+void Tracking::SetOffsetDistance (float dist)
+{
+  posoff.dist = dist;
+}
+float Tracking::GetOffsetDistance () const
+{
+  return posoff.dist;
 }
 
 void Tracking::SetFollowSpringLength (float slen)
@@ -137,19 +148,23 @@ float Tracking::SpringForce (const float movement)
 
 void Tracking::Accelerator::Accelerate (int direction, float elapsedsecs)
 {
-  // v = ut + 0.5 * a t^2
+  // calculate current acceleration... do we go left... right? nothing?
   float cacc;
+  // no direction but have some speed, then slowdown in opposite direction
   if (!direction && fabs (speed) > EPSILON)
     cacc = (speed < 0) ? accel : -accel;
-  else
+  else  // normal
     cacc = direction * accel;
 
+  // this is to actually stop if we're slowing down.
   if (!direction &&
     ((speed > 0 && speed + cacc < 0) || (speed < 0 && speed + cacc > 0)))
     speed = 0.0f;
+  // otherwise we can just speed up using v = a t
   else
     speed += 0.5 * cacc * elapsedsecs;
 
+  // cap speed to limits
   if (speed > topspeed)
     speed = topspeed;
   else if (speed < -topspeed)
@@ -192,34 +207,25 @@ void Tracking::PanAroundPlayer (const csVector3 &playpos)
       tilt.Accelerate (0, elapsedsecs);
       break;
     case TILT_UP:
-      tilt.Accelerate (-1, elapsedsecs);
+      tilt.Accelerate (1, elapsedsecs);
       break;
     case TILT_DOWN:
-      tilt.Accelerate (1, elapsedsecs);
+      tilt.Accelerate (-1, elapsedsecs);
       break;
   }
 
-  // avoid needless calculation if so
-  if (fabs (tilt.speed) > EPSILON)
-  {
-    // get current angle...
-    angle = atan2 (posoffset.z, posoffset.y);
-    // .. and increment
-    angle += tilt.speed * elapsedsecs;
-    // some maths now to transform posoffset through our angle :]
-    float ratio = tan (angle);
-    float sqnorm = posoffset.SquaredNorm ();
-    // A^2 = B^2 + C^2
-    // r = tan(a) = C / B
-    // => A^2 = r^2 C^2 + C^2
-    // => A^2 / (r^2 + 1) = C^2
-    // now plug C back into first equation to find B
-    posoffset.y = sqrt (sqnorm / (ratio*ratio + 1));
-    // correct the fucking y if needed
-    if (angle > M_PI/2)
-      posoffset.y *= -1;
-    posoffset.z = sqrt (sqnorm - posoffset.y * posoffset.y);
-  }
+  posoff.angle += tilt.speed * elapsedsecs;
+}
+
+void Tracking::FindCorrectedTransform ()
+{
+  const csTraceBeamResult beam = csColliderHelper::TraceBeam (cdsys, parent->GetBaseSector (),
+    origin, target, true);
+  if (beam.sqdistance > 0)
+    corrorigin = beam.closest_isect;
+  else
+    corrorigin = origin;
+  corrtarget = target;
 }
 
 bool Tracking::DecideCameraState ()
@@ -228,6 +234,10 @@ bool Tracking::DecideCameraState ()
     return false;
   if (!init_reset)
     init_reset = ResetCamera ();
+
+  float
+    posoffset_y = posoff.dist * sin (posoff.angle),
+    posoffset_z = posoff.dist * cos (posoff.angle);
 
   const csVector3 playpos (GetAnchorPosition ());
   if (targetstate == TARGET_BASE)
@@ -248,11 +258,11 @@ bool Tracking::DecideCameraState ()
     // in case you don't realise, it's the distance along camdir until
     // there's a perpendicular bisecting camera -> player...
     // ... this is so the camera only follows player in and out of the screen
-    float move = dist * camdir * camplay - posoffset.z;
+    float move = dist * camdir * camplay - posoffset_z;
 
     origin += SpringForce (move) * move * camdir;
     // lock y axis to fixed distance above player
-    origin.y = playpos.y + posoffset.y;
+    origin.y = playpos.y + posoffset_y;
 
     PanAroundPlayer (playpos);
 
@@ -266,11 +276,13 @@ bool Tracking::DecideCameraState ()
     csVector3 camdir (target - origin);
     camdir.Normalize ();
     // stay lined up but move to behind the player
-    origin = playpos - camdir * posoffset.z;
+    origin = playpos - camdir * posoffset_z;
     // lock y axis to fixed distance above player
-    origin.y = playpos.y + posoffset.y;
+    origin.y = playpos.y + posoffset_y;
     // update target to continue facing old direction
     target = origin + camdir;
+
+    PanAroundPlayer (playpos);
   }
   else if (targetstate == TARGET_OBJ)
   {
@@ -279,17 +291,15 @@ bool Tracking::DecideCameraState ()
     // so we can project backwards for the camera
     csVector3 camdir (origin - tarpos);
     camdir.Normalize ();
-    origin = playpos + camdir * posoffset.z;
+    origin = playpos + camdir * posoffset_z;
     // lock y axis to fixed distance above player
-    origin.y = playpos.y + posoffset.y;
+    origin.y = playpos.y + posoffset_y;
     // setup the target
     target = tarpos;
     target.y += targetyoffset;
   }
 
   FindCorrectedTransform ();
-  corrorigin = origin;
-  corrtarget = target;
 
   up  = parent->GetBaseUp ();
   return true;
@@ -307,7 +317,7 @@ bool Tracking::ResetCamera ()
   const csVector3 &basepos (parent->GetBaseOrigin ());
   // compute our z offset from it, back along from its direction
   csVector3 offset (basetrans.This2OtherRelative (
-  	csVector3 (0,0,posoffset.z)));
+  	csVector3 (0,0,posoff.dist)));
   // offset.y = 0; (assuming its up is (0,1,0))
   origin = basepos + offset;
   // setup the target
