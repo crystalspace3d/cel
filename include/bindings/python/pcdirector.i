@@ -364,6 +364,9 @@ class pyPcCommon : public scfImplementationExt1<pyPcCommon, PcCommon, iPcPython>
                                           SWIGTYPE_p_iBase, 0);
            SET_PROPERTY_BODY
         }
+        virtual size_t GetPropertyAndActionCount () {
+           return 0;
+        }
         /* GetPropertyOrActionType */
         virtual celDataType GetPropertyOrActionType (csStringID id)
         {
@@ -433,7 +436,7 @@ class pyMessageReceiver :
 public:
     pyMessageReceiver(iObjectRegistry* object_reg) : scfImplementationType (this) {}
 ~pyMessageReceiver() {}
-    virtual bool ReceiveMessage (csStringID msg_id, iMessageSender*  sender,celData& ret, iCelParameterBlock*  params) { }
+    virtual bool ReceiveMessage (csStringID msg_id, iMessageSender*  sender,celData& ret, iCelParameterBlock*  params) { return false; }
 };
 %}
 
