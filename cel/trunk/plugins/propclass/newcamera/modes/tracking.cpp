@@ -228,7 +228,13 @@ void Tracking::FindCorrectedTransform ()
   const csTraceBeamResult beam = csColliderHelper::TraceBeam (cdsys, parent->GetBaseSector (),
     origin, target, true);
   if (beam.sqdistance > 0)
-    corrorigin = beam.closest_isect;
+  {
+    const csVector3 lookat (target - origin), dir (lookat.Unit ());
+    float lookat_len = lookat.Norm ();
+    // so we offset a proportional amount down the beam towards the player so as not to be
+    // inside the wall.
+    corrorigin = beam.closest_isect + 0.1f * (lookat_len - sqrt (beam.sqdistance)) * dir;
+  }
   else
     corrorigin = origin;
   corrtarget = target;
