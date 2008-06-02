@@ -331,6 +331,31 @@ struct Tracking : public virtual General
    * Tilt camera in the direction specified.
    */
   virtual void Tilt (TiltDirection tiltdir) = 0;
+
+  /**
+   * Get the direction that the camera is tilting in.
+   */
+  virtual TiltDirection GetTiltDirection () const = 0;
+
+  /**
+   * Set the tilting speed. Angle to move per frame.
+   */
+  virtual void SetTiltSpeed (float tiltspeed) = 0;
+
+  /**
+   * Get the tilting speed. Angle to move per frame.
+   */
+  virtual float GetTiltSpeed () const = 0;
+
+  /**
+   * Set the acceleration to approach the tilting speed.
+   */
+  virtual void SetTiltAcceleration (float paccel) = 0;
+
+  /**
+   * Get the acceleration to approach the tilting speed.
+   */
+  virtual float GetTiltAcceleration () const = 0;
 };
 
 

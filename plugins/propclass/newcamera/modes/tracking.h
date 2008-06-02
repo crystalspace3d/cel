@@ -104,6 +104,11 @@ public:
   float GetPanAcceleration () const;
 
   void Tilt (TiltDirection tdir);
+  TiltDirection GetTiltDirection () const;
+  void SetTiltSpeed (float tspeed);
+  float GetTiltSpeed () const;
+  void SetTiltAcceleration (float taccel);
+  float GetTiltAcceleration () const;
 
   TargetState GetTargetState ();
 
