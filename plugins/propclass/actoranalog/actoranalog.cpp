@@ -358,6 +358,9 @@ void celPcActorAnalog::UpdateMovement ()
       float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
       // not real, but then again forget realism over responsiveness
       float newspeed = moveaccel * i * elapsedsecs + pclinmove->GetVelocity ().Norm ();
+      // clipping in case acceleration oversteps the target speed.
+      if (newspeed > movespeed)
+        newspeed = movespeed;
       pclinmove->SetVelocity (csVector3 (0, 0, -newspeed));
     }
     pcmesh->SetAnimation ("walk", true);
