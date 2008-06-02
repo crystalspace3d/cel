@@ -169,6 +169,7 @@ void Tracking::PanAroundPlayer (const csVector3 &playpos)
   // perform a rotation around the character
   float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
 
+  // accelerate speed in desired direction
   switch (pandir)
   {
     case PAN_NONE:
@@ -181,6 +182,7 @@ void Tracking::PanAroundPlayer (const csVector3 &playpos)
       pan.Accelerate (1, elapsedsecs);
       break;
   }
+
   float angle = pan.speed * elapsedsecs;
   // minor optimisation
   if (fabs (angle) > EPSILON)
@@ -205,13 +207,23 @@ void Tracking::PanAroundPlayer (const csVector3 &playpos)
       break;
   }
 
+  // avoid needless calculation if so
   if (fabs (tilt.speed) > EPSILON)
   {
+    // get current angle...
     angle = atan2 (posoffset.z, posoffset.y);
-    angle += tilt.speed;
+    // .. and increment
+    angle += tilt.speed * elapsedsecs;
+    // some maths now to transform posoffset through our angle :]
     float ratio = tan (angle);
     float sqnorm = posoffset.SquaredNorm ();
+    // A^2 = B^2 + C^2
+    // r = tan(a) = C / B
+    // => A^2 = r^2 C^2 + C^2
+    // => A^2 / (r^2 + 1) = C^2
+    // now plug C back into first equation to find B
     posoffset.y = sqrt (sqnorm / (ratio*ratio + 1));
+    // correct the fucking y if needed
     if (angle > M_PI/2)
       posoffset.y *= -1;
     posoffset.z = sqrt (sqnorm - posoffset.y * posoffset.y);
