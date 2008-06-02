@@ -371,6 +371,28 @@ void Tracking::Tilt (TiltDirection tdir)
 {
   tiltdir = tdir;
 }
+Tracking::TiltDirection Tracking::GetTiltDirection () const
+{
+  return tiltdir;
+}
+
+void Tracking::SetTiltSpeed (float tspeed)
+{
+  tilt.topspeed = tspeed;;
+}
+float Tracking::GetTiltSpeed () const
+{
+  return tilt.topspeed;
+}
+
+void Tracking::SetTiltAcceleration (float taccel)
+{
+  tilt.accel = taccel;
+}
+float Tracking::GetTiltAcceleration () const
+{
+  return tilt.accel;
+}
 
 iPcmNewCamera::Tracking::TargetState Tracking::GetTargetState ()
 {
