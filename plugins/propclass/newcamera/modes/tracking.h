@@ -29,6 +29,7 @@
 
 struct iMovable;
 struct iCelPlLayer;
+struct iCollideSystem;
 
 namespace celCameraMode
 {
@@ -42,7 +43,7 @@ private:
   // pan camera around a target
   void PanAroundPlayer (const csVector3 &playpos);
   // do your collision detection maagick!
-  void FindCorrectedTransform () {};
+  void FindCorrectedTransform ();
 
   const csVector3 &GetAnchorPosition ();
   const csVector3 &GetAnchorDirection ();
@@ -71,8 +72,11 @@ private:
 
   // because you don't want to be looking at the targets feet
   float targetyoffset;
-  // offset for origin position. Usually only y and z is used.
-  csVector3 posoffset;
+  // offset for origin position. Described as elevation angle and distance outwards
+  struct
+  {
+    float angle, dist;
+  } posoff;
   // the in and out springs relaxed normal length
   float relaxspringlen;
   // the minimum value for calculated spring... to avoid stupid values
@@ -82,12 +86,14 @@ private:
   csWeakRef<iCelPlLayer> pl;
   // to compute elapsed time
   csRef<iVirtualClock> vc;
+  // used for hitbeam in collision detection
+  csRef<iCollideSystem> cdsys;
 
   // Has this camera been initialised yet?
   bool init_reset;
 public:
   Tracking (iBase* p);
-  Tracking (iCelPlLayer* pl, iVirtualClock* vc);
+  Tracking (iCelPlLayer* pl, iVirtualClock* vc, iCollideSystem* cdsys);
   virtual ~Tracking ();
 
   bool SetTargetEntity (const char* name);
@@ -112,8 +118,10 @@ public:
 
   TargetState GetTargetState ();
 
-  void SetPositionOffset (const csVector3 &offset);
-  const csVector3 &GetPositionOffset () const;
+  void SetOffsetAngle (float angle);
+  float GetOffsetAngle () const;
+  void SetOffsetDistance (float dist);
+  float GetOffsetDistance () const;
   void SetFollowSpringLength (float slen);
   float GetFollowSpringLength () const;
   void SetFollowMinimumSpringFactor (float smin);

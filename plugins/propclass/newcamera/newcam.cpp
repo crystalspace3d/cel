@@ -119,6 +119,7 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
+  basesector = 0;
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_VIEW);
 
@@ -339,6 +340,11 @@ bool celPcNewCamera::Reset ()
   return true;
 }
 
+iSector* celPcNewCamera::GetBaseSector () const
+{
+  return basesector;
+}
+
 const csVector3& celPcNewCamera::GetBasePos () const
 {
   return base.pos;
@@ -550,7 +556,7 @@ size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
     case iPcNewCamera::CCM_THIRD_PERSON:
       return AttachCameraMode (new celCameraMode::ThirdPerson ());
     case iPcNewCamera::CCM_TRACKING:
-      return AttachCameraMode (new celCameraMode::Tracking (pl, vc));
+      return AttachCameraMode (new celCameraMode::Tracking (pl, vc, cdsys));
     case iPcNewCamera::CCM_HORIZONTAL:
       return AttachCameraMode (new celCameraMode::Horizontal ());
     case iPcNewCamera::CCM_ISOMETRIC:
@@ -739,16 +745,11 @@ void celPcNewCamera::UpdateCamera ()
   // adjust for offset allowed to character
   if (false && currcam.dir.SquaredNorm () < minoffset * minoffset)
   {
-    // maybe a bit of a hack, but calculating the vectors on a flat
-    // plane is definitely not a good idea, so for the time being
-    // using the old y position is needed to prevent the camera from jumping
-    //const float oldypos = currcam.pos.y;
     // fix it at the minimum distance now
     // project from player position to camera beam from camera position
     const csVector3 projpos = ((base.pos - currcam.pos) >> currcam.dir) + currcam.pos;
     // now move backwards from projected position along camera direction
     currcam.pos = projpos - currcam.dir * minoffset;
-    //currcam.pos.y = oldypos;  // :(
   }
 
   // find corrected origin for collision detection

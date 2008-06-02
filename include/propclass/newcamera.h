@@ -253,14 +253,28 @@ struct Tracking : public virtual General
   virtual void SetTargetYOffset (float targetyoffset) = 0;
 
   /**
-   * Set the position offset for the camera's position.
+   * Camera offset from the player is described as an angle and a distance.
+   * Here you can set the angle in radians.
    */
-  virtual void SetPositionOffset (const csVector3 &offset) = 0;
+  virtual void SetOffsetAngle (float angle) = 0;
 
   /**
-   * Get the position offset for the camera's position.
+   * Camera offset from the player is described as an angle and a distance.
+   * Here you can get the angle in radians.
    */
-  virtual const csVector3 &GetPositionOffset () const = 0;
+  virtual float GetOffsetAngle () const = 0;
+
+  /**
+   * Camera offset from the player is described as an angle and a distance.
+   * Here you can set the distance from the player.
+   */
+  virtual void SetOffsetDistance (float dist) = 0;
+
+  /**
+   * Camera offset from the player is described as an angle and a distance.
+   * Here you can get the distance from the player.
+   */
+  virtual float GetOffsetDistance () const = 0;
 
   /**
    * Set the length of the spring that follows the player in and out of the camera.
@@ -385,6 +399,11 @@ typedef iPcmNewCamera::General iCelCameraMode;
 struct iPcNewCamera : public virtual iPcCamera
 {
   SCF_INTERFACE (iPcNewCamera, 0, 1, 0);
+
+  /**
+   * Get base sector.
+   */
+  virtual iSector* GetBaseSector () const = 0;
 
   CS_DEPRECATED_METHOD_MSG("Use GetBaseOrigin () instead")
   /**

@@ -356,6 +356,7 @@ void celPcActorAnalog::UpdateMovement ()
     {
       // ... then accelerate the player forward
       float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
+      // not real, but then again forget realism over responsiveness
       float newspeed = moveaccel * i * elapsedsecs + pclinmove->GetVelocity ().Norm ();
       pclinmove->SetVelocity (csVector3 (0, 0, -newspeed));
     }
