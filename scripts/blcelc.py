@@ -2826,8 +2826,10 @@ class Tracking(General):
     def SetTargetState(*args): return _blcelc.Tracking_SetTargetState(*args)
     def GetTargetState(*args): return _blcelc.Tracking_GetTargetState(*args)
     def SetTargetYOffset(*args): return _blcelc.Tracking_SetTargetYOffset(*args)
-    def SetPositionOffset(*args): return _blcelc.Tracking_SetPositionOffset(*args)
-    def GetPositionOffset(*args): return _blcelc.Tracking_GetPositionOffset(*args)
+    def SetOffsetAngle(*args): return _blcelc.Tracking_SetOffsetAngle(*args)
+    def GetOffsetAngle(*args): return _blcelc.Tracking_GetOffsetAngle(*args)
+    def SetOffsetDistance(*args): return _blcelc.Tracking_SetOffsetDistance(*args)
+    def GetOffsetDistance(*args): return _blcelc.Tracking_GetOffsetDistance(*args)
     def SetFollowSpringLength(*args): return _blcelc.Tracking_SetFollowSpringLength(*args)
     def GetFollowSpringLength(*args): return _blcelc.Tracking_GetFollowSpringLength(*args)
     def SetFollowMinimumSpringFactor(*args): return _blcelc.Tracking_SetFollowMinimumSpringFactor(*args)
@@ -2849,6 +2851,8 @@ class Tracking(General):
     def GetTiltSpeed(*args): return _blcelc.Tracking_GetTiltSpeed(*args)
     def SetTiltAcceleration(*args): return _blcelc.Tracking_SetTiltAcceleration(*args)
     def GetTiltAcceleration(*args): return _blcelc.Tracking_GetTiltAcceleration(*args)
+    def SetZoomOutCorrectionSpeed(*args): return _blcelc.Tracking_SetZoomOutCorrectionSpeed(*args)
+    def GetZoomOutCorrectionSpeed(*args): return _blcelc.Tracking_GetZoomOutCorrectionSpeed(*args)
     __swig_destroy__ = _blcelc.delete_Tracking
     __del__ = lambda self : None;
 Tracking_swigregister = _blcelc.Tracking_swigregister
@@ -2869,6 +2873,7 @@ class iPcNewCamera(iPcCamera):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def GetBaseSector(*args): return _blcelc.iPcNewCamera_GetBaseSector(*args)
     def GetBasePos(*args): return _blcelc.iPcNewCamera_GetBasePos(*args)
     def GetBaseOrigin(*args): return _blcelc.iPcNewCamera_GetBaseOrigin(*args)
     def GetBaseDir(*args): return _blcelc.iPcNewCamera_GetBaseDir(*args)
@@ -6000,6 +6005,7 @@ class pyPcCommon(swigPyPcCommon):
     def GetPropertyIBaseByID(*args): return _blcelc.pyPcCommon_GetPropertyIBaseByID(*args)
     def PropertyClassesHaveChanged(*args): return _blcelc.pyPcCommon_PropertyClassesHaveChanged(*args)
     def SetProperty(*args): return _blcelc.pyPcCommon_SetProperty(*args)
+    def GetPropertyAndActionCount(*args): return _blcelc.pyPcCommon_GetPropertyAndActionCount(*args)
     def GetPropertyOrActionType(*args): return _blcelc.pyPcCommon_GetPropertyOrActionType(*args)
     def GetPL(*args): return _blcelc.pyPcCommon_GetPL(*args)
     def PerformActionIndexed(self,id,celParBlock,ret):
