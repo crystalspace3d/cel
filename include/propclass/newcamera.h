@@ -201,15 +201,6 @@ struct General : public virtual iBase
   virtual bool DecideCameraState () = 0;
 };
 
-/**
- * This is a camera to be used with actoranalog. It tracks left and right movement and follows
- * movement in and out of the camera.
- * you can visualise the camera <--> player connection as a hard pole with a spring on the end
- *   C----|oooP
- * the ---- (hard pole) can never be compressed except by collision detection
- * whereas the springs ooo can be decompressed and stretched between 0 and 2 * normal spring length
- * ... the spring is relaxed at the normal spring length
- */
 struct Tracking : public virtual General
 {
   SCF_INTERFACE (Tracking, 0, 0, 1);
@@ -222,7 +213,7 @@ struct Tracking : public virtual General
 
   enum TargetState
   {
-    TARGET_BASE = 0,
+    TARGET_BASE,
     TARGET_OBJ,
     TARGET_NONE
   };
@@ -251,154 +242,7 @@ struct Tracking : public virtual General
    * a fixed offset upwards
    */
   virtual void SetTargetYOffset (float targetyoffset) = 0;
-
-  /**
-   * Camera offset from the player is described as an angle and a distance.
-   * Here you can set the angle in radians.
-   */
-  virtual void SetOffsetAngle (float angle) = 0;
-
-  /**
-   * Camera offset from the player is described as an angle and a distance.
-   * Here you can get the angle in radians.
-   */
-  virtual float GetOffsetAngle () const = 0;
-
-  /**
-   * Camera offset from the player is described as an angle and a distance.
-   * Here you can set the distance from the player.
-   */
-  virtual void SetOffsetDistance (float dist) = 0;
-
-  /**
-   * Camera offset from the player is described as an angle and a distance.
-   * Here you can get the distance from the player.
-   */
-  virtual float GetOffsetDistance () const = 0;
-
-  /**
-   * Set the length of the spring that follows the player in and out of the camera.
-   */
-  virtual void SetFollowSpringLength (float slen) = 0;
-
-  /**
-   * Get the length of the spring that follows the player in and out of the camera.
-   */
-  virtual float GetFollowSpringLength () const = 0;
-
-  /**
-   * The follow spring can have stupid bottom values that greatly slow the speed to 0.
-   * You can set a minmum cutoff to stop this.
-   */
-  virtual void SetFollowMinimumSpringFactor (float smin) = 0;
-
-  /**
-   * Get the minimum cutoff for the follow spring.
-   */
-  virtual float SetFollowMinimumSpringFactor () const = 0;
-
-  enum PanDirection
-  {
-    PAN_LEFT = 0,
-    PAN_NONE,
-    PAN_RIGHT
-  };
-
-  /**
-   * Pan the camera around the player in the direction specified.
-   */
-  virtual void Pan (PanDirection pandir) = 0;
-
-  /**
-   * Get the direction that the camera is panning in.
-   */
-  virtual PanDirection GetPanDirection () const = 0;
-
-  /**
-   * Set the panning speed. Angle to move per frame.
-   */
-  virtual void SetPanSpeed (float panspeed) = 0;
-
-  /**
-   * Get the panning speed. Angle to move per frame.
-   */
-  virtual float GetPanSpeed () const = 0;
-
-  /**
-   * Set the acceleration to approach the panning speed.
-   */
-  virtual void SetPanAcceleration (float paccel) = 0;
-
-  /**
-   * Get the acceleration to approach the panning speed.
-   */
-  virtual float GetPanAcceleration () const = 0;
-
-  enum TiltDirection
-  {
-    TILT_UP = 0,
-    TILT_NONE,
-    TILT_DOWN
-  };
-
-  /**
-   * Tilt camera in the direction specified.
-   */
-  virtual void Tilt (TiltDirection tiltdir) = 0;
-
-  /**
-   * Get the direction that the camera is tilting in.
-   */
-  virtual TiltDirection GetTiltDirection () const = 0;
-
-  /**
-   * Set the tilting speed. Angle to move per frame.
-   */
-  virtual void SetTiltSpeed (float tiltspeed) = 0;
-
-  /**
-   * Get the tilting speed. Angle to move per frame.
-   */
-  virtual float GetTiltSpeed () const = 0;
-
-  /**
-   * Set the acceleration to approach the tilting speed.
-   */
-  virtual void SetTiltAcceleration (float paccel) = 0;
-
-  /**
-   * Get the acceleration to approach the tilting speed.
-   */
-  virtual float GetTiltAcceleration () const = 0;
-
-  /**
-   * Zoom out speed after camera has been pushed in by the wall.
-   */
-  virtual void SetZoomOutCorrectionSpeed (float zoomspeed) = 0;
-
-  /**
-   * Zoom out speed after camera has been pushed in by the wall.
-   */
-  virtual float GetZoomOutCorrectionSpeed () const = 0;
 };
-
-
-struct ThirdPerson : public virtual General
-{
-  SCF_INTERFACE (ThirdPerson, 0, 0, 1);
-
-  /**
-   * Since position is often set at the 'feet' of an object, set
-   * a fixed offset upwards
-   */
-  virtual void SetTargetYOffset (float targetyoffset) = 0;
-
-  /**
-   * Set the position offset for the camera's position.
-   */
-  virtual void SetPositionOffset (const csVector3 & offset) = 0;
-};
-
 } // iPcmNewCamera
 
 typedef iPcmNewCamera::General iCelCameraMode;
@@ -409,11 +253,6 @@ typedef iPcmNewCamera::General iCelCameraMode;
 struct iPcNewCamera : public virtual iPcCamera
 {
   SCF_INTERFACE (iPcNewCamera, 0, 1, 0);
-
-  /**
-   * Get base sector.
-   */
-  virtual iSector* GetBaseSector () const = 0;
 
   CS_DEPRECATED_METHOD_MSG("Use GetBaseOrigin () instead")
   /**
@@ -479,7 +318,6 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual void SetPositionOffset (const csVector3& offset) = 0;
 
-  CS_DEPRECATED_METHOD_MSG("Use SetTargetPositionOffset () in camera modes instead")
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
    * the camera.
@@ -488,12 +326,6 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual void SetTargetPositionOffset (const csVector3& offset) = 0;
 
-  /**
-   * Sets the minimum allowed offset up until the target.
-   */
-  virtual void SetTargetMinimumOffset (float minoff) = 0;
-
-  CS_DEPRECATED_METHOD_MSG("Use SetTargetPositionOffset () in camera modes instead")
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
    * the camera.
@@ -507,14 +339,12 @@ struct iPcNewCamera : public virtual iPcCamera
    * camera mode.
    * \param springCoef The new spring coefficient.
    */
-  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual void SetSpringCoefficient (float springCoef) = 0;
 
   /**
    * Returns the common spring coefficient that will be used for attached
    * camera mode.
    */
-  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual float GetSpringCoefficient () const = 0;
 
   /**
@@ -522,14 +352,12 @@ struct iPcNewCamera : public virtual iPcCamera
    * camera mode.
    * \param springCoef The new spring coefficient.
    */
-  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual void SetOriginSpringCoefficient (float springCoef) = 0;
 
   /**
    * Returns the origin spring coefficient that will be used for attached
    * camera mode.
    */
-  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual float GetOriginSpringCoefficient () const = 0;
 
   /**
@@ -537,14 +365,12 @@ struct iPcNewCamera : public virtual iPcCamera
    * camera mode.
    * \param springCoef The new spring coefficient.
    */
-  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual void SetTargetSpringCoefficient (float springCoef) = 0;
 
   /**
    * Returns the target spring coefficient that will be used for attached
    * camera mode.
    */
-  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual float GetTargetSpringCoefficient () const = 0;
 
   /**
@@ -552,22 +378,20 @@ struct iPcNewCamera : public virtual iPcCamera
    * camera mode.
    * \param springCoef The new spring coefficient.
    */
-  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual void SetUpSpringCoefficient (float springCoef) = 0;
 
   /**
    * Returns the up vector spring coefficient that will be used for attached
    * camera mode.
    */
-  CS_DEPRECATED_METHOD_MSG("Use mode function instead. This is useless")
   virtual float GetUpSpringCoefficient () const = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use GetCollisionDetection () instead")
   /**
    * Returns whether the camera will use collision detection to avoid moving
    * through walls.
    * \return True if collision detection is enabled.
    */
-  CS_DEPRECATED_METHOD_MSG("Use GetCollisionDetection () instead")
   virtual bool DetectCollisions () const = 0;
 
   /**
@@ -585,76 +409,15 @@ struct iPcNewCamera : public virtual iPcCamera
   virtual bool GetCollisionDetection () const = 0;
 
   /**
-   * Set the y offset from player position for collision detection focus.
-   */
-  virtual void SetCollisionYFocusOffset (float yoff) = 0;
-
-  /**
-   * Get the y focus offset used in collision detection.
-   */
-  virtual float GetCollisionYFocusOffset () const = 0;
-
-  /**
-   * multiplier for projected beam used in collision detection to place
-   * camera. Values greater than 1.0f are desireable but project the
-   * camera position further away from it's true point the larger it is.
-   * A value of about 1.5f is usually good and is set as default anyway.
-   * 1.0f will give the true collision intersection of the camera, but you
-   * might end up seeing through walls ;)
-   */
-  virtual void SetCollisionCorrection (float corr) = 0;
-
-  /**
-   * Get collision correction multiplier... returns a float. is const \o/ woo!
-   */
-  virtual float GetCollisionCorrection () const = 0;
-
-  /**
-   * Set the player collision avoidance radius. Moves up over the player
-   * when camera gets too close.
-   * \param radsq The squared radius value
-   */
-  virtual void SetCollisionAvoidanceRadiusSq (float radsq) = 0;
-
-  /**
-   * Get the player collision avoidance radius
-   */
-  virtual float GetCollisionAvoidanceRadiusSq () const = 0;
-
-  /**
-   * Set the y offset for camera to move upwards by for avoidance
-   * when it comes too close.
-   */
-  virtual void SetCollisionYAvoidance (float yavoid) = 0;
-
-  /**
-   * Get the Y offset avoidance value.
-   */
-  virtual float GetCollisionYAvoidance () const = 0;
-
-  /**
-   * Set the interpolation used in the collision avoidance. Hard to describe how the value works
-   * but values close to 0 will give a fast jump, 1.0 is more realistic but higher is nicer and slower.
-   */
-  virtual void SetCollisionAvoidanceInterpolation (float aint) = 0;
-
-  /**
-   * Get the collision avoidance movement interpolation value.
-   */
-  virtual float GetCollisionAvoidanceInterpolation () const = 0;
-
-  /**
    * Sets the spring coefficient that will be used when a collision is detected.
    * \param springCoef The new spring coefficient.
    */
-  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual void SetCollisionSpringCoefficient (float springCoef) = 0;
 
   /**
    * Returns the spring coefficient that is used when a collision is detection.
    * \return The collision detection spring coefficient.
    */
-  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual float GetCollisionSpringCoefficient () const = 0;
 
   /**
@@ -669,7 +432,6 @@ struct iPcNewCamera : public virtual iPcCamera
    * a new camera mode is selected.
    * \param springCoef The new spring coefficient of camera transitions.
    */
-  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual void SetTransitionSpringCoefficient (float springCoef) = 0;
 
   /**
@@ -677,7 +439,6 @@ struct iPcNewCamera : public virtual iPcCamera
    * camera mode is selected.
    * \return The spring coefficient of the camera transitions.
    */
-  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual float GetTransitionSpringCoefficient () const = 0;
 
   /**
@@ -689,9 +450,8 @@ struct iPcNewCamera : public virtual iPcCamera
    * \param cutOffTargetDist The camera transition mode cutoff distance from
    * target to target.
    */
-  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual void SetTransitionCutoffDistance (float cutOffOriginDist,
-    float cutOffTargetDist) = 0;
+  	float cutOffTargetDist) = 0;
 
   CS_DEPRECATED_METHOD_MSG("Use GetTransitionCutoffOriginDistance () instead")
   /**
@@ -706,7 +466,6 @@ struct iPcNewCamera : public virtual iPcCamera
    * between the camera and the camera mode.
    * \return The camera transition cutoff distance from target to target.
    */
-  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual float GetTransitionCutoffOriginDistance () const = 0;
 
   /**
@@ -714,19 +473,7 @@ struct iPcNewCamera : public virtual iPcCamera
    * between the camera and the camera mode.
    * \return The camera transition cutoff distance from position to position.
    */
-  CS_DEPRECATED_METHOD_MSG("This is non existant")
   virtual float GetTransitionCutoffTargetDistance () const = 0;
-
-  /**
-   * Set the time to perform a transition.
-   * \param time Time to transition to the new mode.
-   */
-  virtual void SetTransitionTime (float time) = 0;
-
-  /**
-   * Get the time to transition to a new mode.
-   */
-  virtual float GetTransitionTime () const = 0;
 
   /**
    * Attaches a camera mode to this camera.

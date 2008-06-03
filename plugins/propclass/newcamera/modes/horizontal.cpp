@@ -33,6 +33,7 @@ Horizontal::Horizontal ()
 	: scfImplementationType (this)
 {
   posoffset.Set (0.0f, 0.5f, 4.0f);
+  up = csVector3 (0.0f, 1.0f, 0.0f);
 }
 
 Horizontal::~Horizontal ()
@@ -75,10 +76,9 @@ bool Horizontal::DecideCameraState ()
     return false;
 
   origin = parent->GetBaseOrigin () + parent
-  	->GetBaseTrans ().This2OtherRelative (posoffset);
+  	->GetBaseTrans().This2OtherRelative (posoffset);
   target = parent->GetBaseOrigin ();
   target.y = origin.y;
-  up  = parent->GetBaseUp ();
   originSpring = parent->GetOriginSpringCoefficient ();
   targetSpring = parent->GetTargetSpringCoefficient ();
   upSpring = parent->GetUpSpringCoefficient ();

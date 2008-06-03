@@ -26,84 +26,122 @@
 namespace celCameraMode
 {
 
-class ThirdPerson : public scfImplementation2<ThirdPerson, iPcmNewCamera::ThirdPerson,
-  scfFakeInterface<iPcmNewCamera::General> >, public celCameraMode
+class ThirdPerson : public scfImplementation1<ThirdPerson,
+	iPcmNewCamera::General>,
+	public celCameraMode
 {
 private:
-  csVector3 posoff;
-  float targetyoff;
+  csVector3 posoffset;
 public:
   ThirdPerson ();
-  ~ThirdPerson ();
+  virtual ~ThirdPerson ();
 
-  void SetTargetYOffset (float targetyoffset);
-  void SetPositionOffset (const csVector3 & offset);
+  /**
+   * Sets the position as an offset from the camera's base position.
+   * \offset  The offset from the camera's base position to the
+   * desired position.
+   */
+  void SetPositionOffset (const csVector3& offset);
 
-  // deprecated
-  bool UseSpringPos () const;
-  bool UseSpringOrigin () const;
-  bool UseSpringTarget () const;
-  bool UseSpringUp () const;
-  bool DrawAttachedMesh () const;
-  bool DecideCameraState ();
+  /**
+   * Decides if this camera mode should use spring physics for the camera's
+   * position.
+   * \return True if this camera mode uses spring physics.
+   */
+  virtual bool UseSpringPos () const;
 
-  void SetParentCamera (iPcNewCamera * camera)
+  /**
+   * Decides if this camera mode should use spring physics for the camera's
+   * origin.
+   * \return True if this camera mode uses spring physics.
+   */
+  virtual bool UseSpringOrigin () const;
+
+  /**
+   * Decides if this camera mode should use spring physics for the camera's
+   * target.
+   * \return True if this camera mode uses spring physics.
+   */
+  virtual bool UseSpringTarget () const;
+
+  /**
+   * Decides if this camera mode should use spring physics for the camera's
+   * up vector.
+   * \return True if this camera mode uses spring physics.
+   */
+  virtual bool UseSpringUp () const;
+
+  /**
+   * Decides if the mesh the camera is attached to should be drawn or not in
+   * this mode.
+   * \return True if the attached mesh should be drawn.
+   */
+  virtual bool DrawAttachedMesh () const;
+
+  /**
+   * Informs the camera mode that it should compute the desired position,
+   * target, up, etc. of the camera now.
+   * \return True on success.
+   */
+  virtual bool DecideCameraState ();
+
+  virtual void SetParentCamera (iPcNewCamera * camera)
   {
     celCameraMode::SetParentCamera (camera);
   }
-  bool AllowCollisionDetection () const
+  virtual bool AllowCollisionDetection () const
   {
     return celCameraMode::AllowCollisionDetection ();
   }
-  bool GetCollisionDetection () const
+  virtual bool GetCollisionDetection () const
   {
     return celCameraMode::GetCollisionDetection ();
   }
-  float GetSpringCoefficient () const
+  virtual float GetSpringCoefficient () const
   {
     return celCameraMode::GetSpringCoefficient ();
   }
-  void SetSpringCoefficient (float s)
+  virtual void SetSpringCoefficient (float s)
   {
     return celCameraMode::SetSpringCoefficient (s);
   }
-  float GetOriginSpringCoefficient () const
+  virtual float GetOriginSpringCoefficient () const
   {
     return celCameraMode::GetOriginSpringCoefficient ();
   }
-  void SetOriginSpringCoefficient (float s)
+  virtual void SetOriginSpringCoefficient (float s)
   {
     return celCameraMode::SetOriginSpringCoefficient (s);
   }
-  float GetTargetSpringCoefficient () const
+  virtual float GetTargetSpringCoefficient () const
   {
     return celCameraMode::GetTargetSpringCoefficient ();
   }
-  void SetTargetSpringCoefficient (float s)
+  virtual void SetTargetSpringCoefficient (float s)
   {
     return celCameraMode::SetTargetSpringCoefficient (s);
   }
-  float GetUpSpringCoefficient () const
+  virtual float GetUpSpringCoefficient () const
   {
     return celCameraMode::GetUpSpringCoefficient ();
   }
-  void SetUpSpringCoefficient (float s)
+  virtual void SetUpSpringCoefficient (float s)
   {
     return celCameraMode::SetUpSpringCoefficient (s);
   }
-  const csVector3& GetPosition () const
+  virtual const csVector3& GetPosition () const
   {
     return celCameraMode::GetPosition ();
   }
-  const csVector3& GetOrigin () const
+  virtual const csVector3& GetOrigin () const
   {
     return celCameraMode::GetOrigin ();
   }
-  const csVector3& GetTarget () const
+  virtual const csVector3& GetTarget () const
   {
     return celCameraMode::GetTarget ();
   }
-  const csVector3& GetUp () const
+  virtual const csVector3& GetUp () const
   {
     return celCameraMode::GetUp ();
   }
