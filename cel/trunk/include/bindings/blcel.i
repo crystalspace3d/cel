@@ -21,6 +21,8 @@ CS_PROPERTY_HELPERS
 #include "propclass/region.h"
 #include "propclass/camera.h"
 #include "propclass/defcam.h"
+#include "propclass/delegcam.h"
+#include "propclass/cameras/tracking.h"
 #include "propclass/newcamera.h"
 #include "propclass/simpcam.h"
 #include "propclass/mesh.h"
@@ -549,6 +551,17 @@ CEL_PC(iPcSimpleCamera, SimpleCamera, pccamera.simple)
 
 %include "propclass/newcamera.h"
 CEL_PC(iPcNewCamera, NewCamera, pccamera.standard)
+
+%include "propclass/delegcam.h"
+CEL_PC(iPcDelegateCamera, DelegateCamera, pccamera.delegate)
+
+//-----------------------------------------------------------------
+// modes for delegate camera
+
+%include "propclass/cameras/tracking.h"
+CEL_PC(iPcTrackingCamera, TrackingCamera, pccamera.mode.tracking)
+
+//-----------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 
