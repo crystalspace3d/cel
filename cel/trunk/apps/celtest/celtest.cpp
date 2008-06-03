@@ -71,6 +71,8 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/bl.h"
 #include "propclass/test.h"
+#include "propclass/delegcam.h"
+#include "propclass/cameras/tracking.h"
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 #include "propclass/inv.h"
@@ -180,16 +182,17 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 {
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
-  	"pcinput.standard",
-	"pcmove.actor.analog",
-	"pccamera.standard",
-	"pcobject.mesh",
-	"pcobject.mesh.select",
-	"pcmove.linear",
-	"pc2d.tooltip",
-	"pctools.inventory",
-	"pcsound.listener",
-	CEL_PROPCLASS_END);
+    "pcinput.standard",
+    "pcmove.actor.analog",
+    "pccamera.delegate",
+    "pccamera.mode.tracking",
+    "pcobject.mesh",
+    "pcobject.mesh.select",
+    "pcmove.linear",
+    "pc2d.tooltip",
+    "pctools.inventory",
+    "pcsound.listener",
+    CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -211,16 +214,19 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("]", "camright");
   pcinp->Bind ("pageup", "camup");
   pcinp->Bind ("pagedown", "camdown");
-  pcinp->Bind ("y", "camswitch");
 
   csRef<iPcActorAnalog> actor = celQueryPropertyClassEntity<iPcActorAnalog> (entity_cam);
   actor->SetTurningSpeed (15.0f);
 
-  csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
+  csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
+  csRef<iPcDelegateCamera> delegcam = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
+  delegcam->SetCurrentMode (trackcam);
+
+  /*csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
     entity_cam, iPcNewCamera);
   newcamera->AttachCameraMode(iPcNewCamera::CCM_TRACKING);
   newcamera->AttachCameraMode(iPcNewCamera::CCM_THIRD_PERSON);
-  newcamera->SetCurrentCameraMode (0);
+  newcamera->SetCurrentCameraMode (0);*/
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;

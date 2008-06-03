@@ -35,6 +35,7 @@
 #include "propclass/mesh.h"
 #include "propclass/linmove.h"
 #include "propclass/newcamera.h"
+#include "propclass/cameras/tracking.h"
 
 //---------------------------------------------------------------------------
 
@@ -265,7 +266,7 @@ void celPcActorAnalog::FindSiblingPropertyClasses ()
   {
     pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
     pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pccamera = celQueryPropertyClassEntity<iPcNewCamera> (entity);
+    camera = celQueryPropertyClassEntity<iPcCamera> (entity);
   }
 }
 
@@ -277,8 +278,8 @@ void celPcActorAnalog::TickEveryFrame ()
 void celPcActorAnalog::UpdateMovement ()
 {
   FindSiblingPropertyClasses ();
-  // check if we're missing any property classes we need
-  if (!pclinmove || !pcmesh || !pccamera)
+  // check if we're missing any needed property classes
+  if (!pclinmove || !pcmesh || !camera)
     return;
 
   csVector2 curr_axis (target_axis);
@@ -296,7 +297,7 @@ void celPcActorAnalog::UpdateMovement ()
   }
 
   // Get the transform of the current camera
-  const csMatrix3 &cammat = pccamera->GetTransform ().GetT2O ();
+  const csMatrix3 &cammat = camera->GetCamera ()->GetTransform ().GetT2O ();
   // We use the transformation to calculate the axis relative to the camera
   const csVector3 camvec = cammat * -csVector3 (curr_axis.x, 0, curr_axis.y);
   // And we calculate using atan2, the rotation to face that axis relative

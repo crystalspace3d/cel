@@ -31,6 +31,8 @@
 #include "propclass/camera.h"
 #include "propclass/defcam.h"
 #include "propclass/newcamera.h"
+#include "propclass/delegcam.h"
+#include "propclass/cameras/tracking.h"
 #include "propclass/actoranalog.h"
 #include "propclass/inv.h"
 #include "propclass/gravity.h"
@@ -213,11 +215,6 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     if (!pcactor)
       return false;
 
-    csRef<iPcNewCamera> pccamera = celQueryPropertyClassEntity
-      <iPcNewCamera> (entity);
-    if (!pccamera)
-      return false;
-
     if (!strcmp (msg_id+10, "joyaxis0"))
     {
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
@@ -245,64 +242,59 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       pcactor->AddAxis (1, -1);
     else if (!strcmp (msg_id+10, "down.up"))
       pcactor->AddAxis (1, 1);
-    else if (!strcmp (msg_id+10, "camswitch.up"))
-    {
-      pccamera->NextCameraMode ();
-    }
 
-    csRef<iPcmNewCamera::Tracking> trackcam =
-      pccamera->QueryModeInterface<iPcmNewCamera::Tracking> ();
+    csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
     if (!trackcam)
       return false;
 
     if (!strcmp (msg_id+10, "camleft.down"))
     {
-      trackcam->Pan (iPcmNewCamera::Tracking::PAN_LEFT);
+      trackcam->Pan (iPcTrackingCamera::PAN_LEFT);
     }
     else if (!strcmp (msg_id+10, "camleft.up"))
     {
-      trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
+      trackcam->Pan (iPcTrackingCamera::PAN_NONE);
     }
     else if (!strcmp (msg_id+10, "camright.down"))
     {
-      trackcam->Pan (iPcmNewCamera::Tracking::PAN_RIGHT);
+      trackcam->Pan (iPcTrackingCamera::PAN_RIGHT);
     }
     else if (!strcmp (msg_id+10, "camright.up"))
     {
-      trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
+      trackcam->Pan (iPcTrackingCamera::PAN_NONE);
     }
     else if (!strcmp (msg_id+10, "camup.down"))
     {
-      trackcam->Tilt (iPcmNewCamera::Tracking::TILT_UP);
+      trackcam->Tilt (iPcTrackingCamera::TILT_UP);
     }
     else if (!strcmp (msg_id+10, "camup.up"))
     {
-      trackcam->Tilt (iPcmNewCamera::Tracking::TILT_NONE);
+      trackcam->Tilt (iPcTrackingCamera::TILT_NONE);
     }
     else if (!strcmp (msg_id+10, "camdown.down"))
     {
-      trackcam->Tilt (iPcmNewCamera::Tracking::TILT_DOWN);
+      trackcam->Tilt (iPcTrackingCamera::TILT_DOWN);
     }
     else if (!strcmp (msg_id+10, "camdown.up"))
     {
-      trackcam->Tilt (iPcmNewCamera::Tracking::TILT_NONE);
+      trackcam->Tilt (iPcTrackingCamera::TILT_NONE);
     }
     else if (!strcmp (msg_id+10, "ready.down"))
-      trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_NONE);
+      trackcam->SetTargetState (iPcTrackingCamera::TARGET_NONE);
     else if (!strcmp (msg_id+10, "ready.up"))
-      trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_BASE);
+      trackcam->SetTargetState (iPcTrackingCamera::TARGET_BASE);
     else if (!strcmp (msg_id+10, "lockon.down"))
     {
-      if (trackcam->GetTargetState () == iPcmNewCamera::Tracking::TARGET_NONE)
+      if (trackcam->GetTargetState () == iPcTrackingCamera::TARGET_NONE)
       {
         trackcam->SetTargetEntity ("dummy2b");
-        trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_OBJ);
+        trackcam->SetTargetState (iPcTrackingCamera::TARGET_OBJ);
       }
     }
     else if (!strcmp (msg_id+10, "lockon.up"))
     {
-      if (trackcam->GetTargetState () == iPcmNewCamera::Tracking::TARGET_OBJ)
-        trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_NONE);
+      if (trackcam->GetTargetState () == iPcTrackingCamera::TARGET_OBJ)
+        trackcam->SetTargetState (iPcTrackingCamera::TARGET_NONE);
     }
     else if (!strcmp (msg_id+10, "resetcam.down"))
       trackcam->ResetCamera ();
@@ -316,11 +308,11 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
       if (value < -EPSILON)
-        trackcam->Pan (iPcmNewCamera::Tracking::PAN_LEFT);
+        trackcam->Pan (iPcTrackingCamera::PAN_LEFT);
       else if (value > EPSILON)
-        trackcam->Pan (iPcmNewCamera::Tracking::PAN_RIGHT);
+        trackcam->Pan (iPcTrackingCamera::PAN_RIGHT);
       else
-        trackcam->Pan (iPcmNewCamera::Tracking::PAN_NONE);
+        trackcam->Pan (iPcTrackingCamera::PAN_NONE);
     }
     return true;
   }
