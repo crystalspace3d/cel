@@ -28,6 +28,7 @@
 #include "isndsys/ss_stream.h"
 #include "isndsys/ss_manager.h"
 
+#include "iengine/camera.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "csgeom/transfrm.h"
@@ -153,6 +154,38 @@ celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
 
 celPcSoundListener::~celPcSoundListener ()
 {
+}
+
+void celPcSoundListener::PropertyClassesHaveChanged ()
+{
+  // no listener means there is no sound system, so not much to do.
+  if (!listener)
+    return;
+  // look for pccamera and place it in separate var, so we can see if it
+  // really changed.
+  csWeakRef<iPcCamera> found_pccamera = 
+	CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
+  if (found_pccamera == pccamera)
+    return;
+  // we found a new camera, so assign it to our weakref, and setup the
+  // timer listener.
+  pccamera = found_pccamera;
+  if (pccamera)
+  {
+    pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+    pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  }
+  else
+  {
+    pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  }
+}
+
+void celPcSoundListener::TickEveryFrame ()
+{
+  csReversibleTransform tr = pccamera->GetCamera()->GetTransform ();
+  listener->SetPosition ( tr.GetOrigin() );
+  listener->SetDirection( tr.GetFront(), tr.GetUp() );
 }
 
 bool celPcSoundListener::SetPropertyIndexed (int idx, const csVector3& b)
@@ -293,6 +326,8 @@ celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
   {
     AddAction (action_pause, "cel.action.Pause");
     AddAction (action_unpause, "cel.action.Unpause");
+    AddAction (action_play, "cel.action.Play");
+    AddAction (action_stop, "cel.action.Stop");
   }
 
   // For properties.
@@ -389,7 +424,10 @@ bool celPcSoundSource::SetPropertyIndexed (int idx, float b)
       if (source3d) source3d->SetMinimumDistance (b);
       return true;
     case propid_maximumdistance:
-      if (source3d) source3d->SetMaximumDistance (b);
+      if (source3d) 
+      {
+        source3d->SetMaximumDistance (b);
+      }
       return true;
     default:
       return false;
@@ -526,6 +564,13 @@ bool celPcSoundSource::PerformActionIndexed (int idx,
     case action_unpause:
       stream->Unpause ();
       return true;
+    case action_stop:
+      stream->Pause ();
+      stream->ResetPosition();
+      return true;
+    case action_play:
+      stream->Unpause ();
+      return true;
     case action_pause:
       stream->Pause ();
       return true;
@@ -546,7 +591,6 @@ void celPcSoundSource::GetSoundWrap ()
       printf ("Error! No sound manager!\n"); fflush (stdout);
       return;
     }
-
     soundwrap = mgr->FindSoundByName (soundname);
     if (!soundwrap)
     {
