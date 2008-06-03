@@ -42,42 +42,12 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "imesh/object.h"
-#include "isndsys/ss_listener.h"
 
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY_ALT (ActorMove, "pcmove.actor.standard", "pcactormove")
-
-//---------------------------------------------------------------------------
-
-class celActorMovableListener : public scfImplementation1<
-	celActorMovableListener, iMovableListener>
-{
-private:
-  csWeakRef<iSndSysListener> listener;
-
-public:
-  celActorMovableListener (iSndSysListener* listener)
-  	: scfImplementationType (this), listener (listener)
-  {
-  }
-  virtual ~celActorMovableListener () { }
-  virtual void MovableChanged (iMovable* movable)
-  {
-    if (listener)
-    {
-      csReversibleTransform tr = movable->GetFullTransform ();
-      csVector3 pos = tr.GetOrigin ();
-      listener->SetPosition (pos);
-      csVector3 up = tr.GetUp ();
-      csVector3 front = tr.GetFront ();
-      listener->SetDirection (front, up);
-    }
-  }
-  virtual void MovableDestroyed (iMovable*) { }
-};
 
 //---------------------------------------------------------------------------
 
@@ -539,28 +509,12 @@ void celPcActorMove::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    if (movlistener)
-    {
-      if (movable_for_listener)
-        movable_for_listener->RemoveListener (movlistener);
-      movlistener = 0;
-    }
-
     pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
     pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
     pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcDefaultCamera);
     pcnewcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcNewCamera);
-    pcsoundlistener = CEL_QUERY_PROPCLASS_ENT (entity, iPcSoundListener);
     checked_spritestate = false;
-
-    if (pcsoundlistener && pcmesh)
-    {
-      movlistener.AttachNew (new celActorMovableListener (
-      	pcsoundlistener->GetSoundListener ()));
-      movable_for_listener = pcmesh->GetMesh ()->GetMovable ();
-      movable_for_listener->AddListener (movlistener);
-    }
   }
 }
 
