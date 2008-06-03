@@ -128,12 +128,14 @@ void celPcDelegateCamera::UpdateCamera ()
   if (HavePropertyClassesChanged ())
   {
     if (!currmode)
-    {
       currmode = celQueryPropertyClassEntity<iPcCameraMode> (GetEntity ());
+    if (!player)
+    {
+      csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+      if (mesh)
+        player = mesh->GetMesh ()->GetMovable ();
     }
   }
-
-  float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
 
   CameraDescription desired;
   if (currmode && currmode->DecideState ())
@@ -142,16 +144,32 @@ void celPcDelegateCamera::UpdateCamera ()
     desired.tar = currmode->GetTarget ();
     desired.up = currmode->GetUp ();
   }
+  else
+  {
+    // if no mode is set or it failed deciding the state, then we improvise! :)
+    if (player)
+    {
+      csReversibleTransform trans = player->GetFullTransform ();
+      desired.pos = trans.GetOrigin () + trans.This2OtherRelative (csVector3 (0, 2, 5));
+      desired.tar = trans.This2OtherRelative (csVector3 (0, -0.2, -1));;
+      desired.up = trans.This2OtherRelative (csVector3 (0, 1, 0));
+    }
+    else  // uh-oh, now we're really guessing :P
+    {
+      desired.pos.Set (0.0f);
+      desired.tar.Set (0, 0, 1);
+      desired.up.Set (0, 1, 0);
+    }
+  }
 
   // perform a transition to new mode from old position if need be
   if (in_transition)
   {
+    float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
     // update counter
     currtrans += elapsedsecs / transtime;
     if (currtrans > 1.0f)
     {
-      // if going to or from a mode that made player mesh invisible
-      //UpdateMeshVisibility ();
       // switch transition off
       in_transition = false;
       // and clip this for usage below
@@ -163,38 +181,22 @@ void celPcDelegateCamera::UpdateCamera ()
     curr.up =  InterpolateVector (currtrans, prev.up, desired.up);
   }
 
-  csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-  if (mesh)
-  {
-    iMovable* movable = mesh->GetMesh ()->GetMovable ();
-    csReversibleTransform trans = movable->GetFullTransform ();
-    iSector* sector = movable->GetSectors ()->Get (0);
+  // read currently active sector
+  iSector* sector = 0;
+  if (player)
+    sector = player->GetSectors ()->Get (0);
 
-    csVector3 pos = trans.GetOrigin (),
-      dir = trans.This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f)),
-      up  = trans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
-
-    csReversibleTransform camtrans;
-    camtrans.SetOrigin (pos);
-    camtrans.LookAt (dir, up);
-
-    iCamera* c = view->GetCamera ();
-    // needs to be in the right sector
-    if (c->GetSector () != sector)
-      c->SetSector (sector);
-    c->SetTransform (camtrans);
-    c->OnlyPortals (true);
-  }
-
+  // now build the transform
   csReversibleTransform camtrans;
   camtrans.SetOrigin (desired.pos);
   camtrans.LookAt (desired.tar - desired.pos, desired.up);
 
   iCamera* c = view->GetCamera ();
   // needs to be in the right sector
-  //if (c->GetSector () != sector)
-    //c->SetSector (sector);
+  if (sector and c->GetSector () != sector)
+    c->SetSector (sector);
   c->SetTransform (camtrans);
+  // only do collision detection on portals
   c->OnlyPortals (true);
 }
 
