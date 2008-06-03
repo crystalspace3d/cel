@@ -19,22 +19,14 @@
 
 #include "cssysdef.h"
 #include <math.h>
-
-// CS Includes
-#include "csgeom/poly3d.h"
-#include "cstool/collider.h"
-#include "iengine/movable.h"
-#include "iengine/mesh.h"
-#include "iengine/sector.h"
-#include "ivaria/collider.h"
-
-// CEL Includes
 #include "physicallayer/pl.h"
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
 #include "propclass/zone.h"
 #include "plugins/propclass/newcamera/modes/tracking.h"
 #include "propclass/newcamera.h"
+#include "iengine/movable.h"
+#include "iengine/mesh.h"
 
 namespace celCameraMode
 {
@@ -42,76 +34,31 @@ namespace celCameraMode
 SCF_IMPLEMENT_FACTORY (Tracking)
 
 Tracking::Tracking (iBase* p)
-  : scfImplementationType (this, p)
+	: scfImplementationType (this, p)
 {
 }
 
-Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc, iCollideSystem* cdsys)
-  : scfImplementationType (this), pl (pl), vc (vc), cdsys (cdsys)
+Tracking::Tracking (csWeakRef<iCelPlLayer> pl)
+	: scfImplementationType (this), pl (pl)
 {
-  posoff.angle = M_PI / 6;
-  posoff.dist = 6.5f;
-  relaxspringlen = 2.0f;
-  minspring = 0.01f;
+  posoffset.Set (0, 3, 5);
 
   init_reset = false;
+  up.Set (0,1,0);
 
   tracktarget = 0;
   targetstate = TARGET_BASE;
   targetyoffset = 2;
-
-  pandir = PAN_NONE;
-  pan.topspeed = 3.0f;
-  pan.speed = 0.0f;
-  pan.accel = 8.0f;
-  tiltdir = TILT_NONE;
-  tilt.topspeed = 1.0f;
-  tilt.speed = 0.0f;
-  tilt.accel = 3.0f;
-
-  was_corrected = false;
-  zoomoutcorrspeed = 1.0f;
 }
 
 Tracking::~Tracking ()
 {
 }
 
-void Tracking::SetOffsetAngle (float angle)
+void Tracking::SetPositionOffset (const csVector3 &offset)
 {
-  posoff.angle = angle;
+  posoffset = offset;
 }
-float Tracking::GetOffsetAngle () const
-{
-  return posoff.angle;
-}
-void Tracking::SetOffsetDistance (float dist)
-{
-  posoff.dist = dist;
-}
-float Tracking::GetOffsetDistance () const
-{
-  return posoff.dist;
-}
-
-void Tracking::SetFollowSpringLength (float slen)
-{
-  relaxspringlen = slen;
-}
-float Tracking::GetFollowSpringLength () const
-{
-  return relaxspringlen;
-}
-
-void Tracking::SetFollowMinimumSpringFactor (float smin)
-{
-  minspring = smin;
-}
-float Tracking::SetFollowMinimumSpringFactor () const
-{
-  return minspring;
-}
-
 bool Tracking::DrawAttachedMesh () const
 {
   return true;
@@ -130,155 +77,6 @@ const csVector3 &Tracking::GetTargetPosition ()
   return tracktarget->GetPosition ();
 }
 
-void Tracking::SetZoomOutCorrectionSpeed (float zoomspeed)
-{
-  zoomoutcorrspeed = zoomspeed;
-}
-float Tracking::GetZoomOutCorrectionSpeed () const
-{
-  return zoomoutcorrspeed;
-}
-
-float Tracking::SpringForce (const float movement)
-{
-  // so now we add the little bit of springiness to our camera
-  // you can visualise the camera <--> player connection as a hard pole with a spring on the end
-  //   C----|oooP
-  // the ---- (hard pole) can never be compressed except by collision detection
-  // whereas the springs ooo can be decompressed and stretched between 0 and 2 * normal spring length
-  // ... the spring is relaxed at the normal spring length
-  float spring = fabs (movement / relaxspringlen);
-  if (spring > 1.0f)
-    spring = 1.0f;
-  // we use a quadratic function because it makes the spring more realistic and noticeable
-  spring = spring * spring * spring * spring;
-  // cut off the bottom values to avoid stupidly slow movement... kinda epsilon value
-  if (spring < minspring)
-    spring = minspring;
-  return spring;
-}
-
-void Tracking::Accelerator::Accelerate (int direction, float elapsedsecs)
-{
-  // calculate current acceleration... do we go left... right? nothing?
-  float cacc;
-  // no direction but have some speed, then slowdown in opposite direction
-  if (!direction && fabs (speed) > EPSILON)
-    cacc = (speed < 0) ? accel : -accel;
-  else  // normal
-    cacc = direction * accel;
-
-  // this is to actually stop if we're slowing down.
-  if (!direction &&
-    ((speed > 0 && speed + cacc < 0) || (speed < 0 && speed + cacc > 0)))
-    speed = 0.0f;
-  // otherwise we can just speed up using v = a t
-  else
-    speed += 0.5 * cacc * elapsedsecs;
-
-  // cap speed to limits
-  if (speed > topspeed)
-    speed = topspeed;
-  else if (speed < -topspeed)
-    speed = -topspeed;
-}
-
-void Tracking::PanAroundPlayer (const csVector3 &playpos, float elapsedsecs)
-{
-  // perform a rotation around the character
-  // accelerate speed in desired direction
-  switch (pandir)
-  {
-    case PAN_NONE:
-      pan.Accelerate (0, elapsedsecs);
-      break;
-    case PAN_LEFT:
-      pan.Accelerate (-1, elapsedsecs);
-      break;
-    case PAN_RIGHT:
-      pan.Accelerate (1, elapsedsecs);
-      break;
-  }
-
-  float angle = pan.speed * elapsedsecs;
-  // minor optimisation
-  if (fabs (angle) > EPSILON)
-  {
-    // x' = x cos a - y sin a
-    // y' = x sin a + y cos a
-    csVector3 pc (origin - playpos);
-    origin.x = pc.x * cos (angle) - pc.z * sin (angle) + playpos.x;
-    origin.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
-  }
-
-  switch (tiltdir)
-  {
-    case TILT_NONE:
-      tilt.Accelerate (0, elapsedsecs);
-      break;
-    case TILT_UP:
-      tilt.Accelerate (1, elapsedsecs);
-      break;
-    case TILT_DOWN:
-      tilt.Accelerate (-1, elapsedsecs);
-      break;
-  }
-
-  posoff.angle += tilt.speed * elapsedsecs;
-  // we limit the angles between epsilon and M_PI/2 - epsilon
-  // to stop the evilness of rotating to the front of the character!!
-  if (posoff.angle < 0.1)
-    posoff.angle = 0.1f;
-  else if (posoff.angle > M_PI / 2 - 0.1f)
-    posoff.angle = M_PI / 2 - 0.1f;
-}
-
-void Tracking::FindCorrectedTransform (float elapsedsecs)
-{
-  // get this value before it's lost
-  float old_reallen = (corrtarget - corrorigin).Norm ();
-  // do collision test
-  const csTraceBeamResult beam = csColliderHelper::TraceBeam (cdsys, parent->GetBaseSector (),
-    origin, target, true);
-  if (beam.sqdistance > 0)
-  {
-    const csVector3 lookat (target - origin), dir (lookat.Unit ());
-    float lookat_len = lookat.Norm ();
-    // so we offset a proportional amount down the beam towards the player so as not to be
-    // inside the wall.
-    corrorigin = beam.closest_isect + 0.1f * (lookat_len - sqrt (beam.sqdistance)) * dir;
-    // so camera can start a slow zoom out as soon as the lookat_len starts increasing
-    was_corrected = true;
-  }
-  else
-    corrorigin = origin;
-  // target unchanged
-  corrtarget = target;
-
-  if (was_corrected)
-  {
-    // reverse lookat vector
-    const csVector3 clookat (corrtarget - corrorigin);
-    // if the old length and this one do not match
-    if (clookat.SquaredNorm () - old_reallen * old_reallen > EPSILON)
-    {
-      // then interpolate the lengths to the target
-      float i = zoomoutcorrspeed * elapsedsecs;
-      // clamp within [0, 1] range as usual
-      if (i > 1.0f)
-        i = 1.0f;
-      else if (i < 0.0f)
-        i = 0.0f;
-      float corrlen = clookat.Norm ();
-      // go down from the target because i felt like coding this a bit differently for fun
-      corrorigin = corrtarget - clookat.Unit () * (i * corrlen + (1.0f - i) * old_reallen);
-    }
-    // so switch this off if we finished the interpolating at last
-    else
-      was_corrected = false;
-  }
-}
-
 bool Tracking::DecideCameraState ()
 {
   if (!parent)
@@ -286,78 +84,48 @@ bool Tracking::DecideCameraState ()
   if (!init_reset)
     init_reset = ResetCamera ();
 
-  float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
-
-  // a bit of fun, but not really needed :)
-  // might keep it since it looks nice though
-  float dxf = 5 * posoff.dist * posoff.angle / M_PI;
-  float
-    posoffset_y = dxf * sin (posoff.angle),
-    posoffset_z = dxf * cos (posoff.angle);
-
-  const csVector3 playpos (GetAnchorPosition ());
-  if (targetstate == TARGET_BASE)
+  csVector3 tarpos;
+  switch (targetstate)
   {
-    // get flat 2D vector (zero out y) of camera to the player
-    csVector3 camplay (playpos - origin);
-    camplay.y = 0.0f;
-    float dist = camplay.Norm ();
-    camplay.Normalize ();
-    // Now get a 2D vector of the camera's direction
-    csVector3 camdir (target - origin);
-    camdir.y = 0.0f;
-    camdir.Normalize ();
-
-    // plug it into our simplified equation to get the movement needed
-    //   cos (x) = camdir . camplay
-    //   move = dist * cos (x)
-    // in case you don't realise, it's the distance along camdir until
-    // there's a perpendicular bisecting camera -> player...
-    // ... this is so the camera only follows player in and out of the screen
-    float move = dist * camdir * camplay - posoffset_z;
-
-    origin += SpringForce (move) * move * camdir;
-    // lock y axis to fixed distance above player
-    origin.y = playpos.y + posoffset_y;
-
-    PanAroundPlayer (playpos, elapsedsecs);
-
-    // setup the target
-    target = playpos;
-    target.y += targetyoffset;
+    case (TARGET_BASE):
+      tarpos = GetAnchorPosition ();
+      break;
+    case (TARGET_OBJ):
+      tarpos = GetTargetPosition ();
+      break;
+    case (TARGET_NONE):
+    default:
+      break;
   }
-  else if (targetstate == TARGET_NONE)
+  // get the position of the object we are anchored to in camera space
+  const csVector3 &playpos (camtrans.Other2This (GetAnchorPosition ()));
+  // calculate the position (in camera) space to get within the range
+  // we want to be...
+  // ... we zero out the axis we don't want to follow
+  csVector3 range (0,0,playpos.z - posoffset.z);
+  // we follow the x though when we aren't focused on any object
+  if (targetstate != TARGET_BASE)
+    range.x = playpos.x;
+  // how much does the camera have to move to be within the z offset
+  csVector3 cammove (camtrans.This2OtherRelative (range));
+  // enforce the rule to keep everything flat in the transform
+  cammove.y = 0.0f;
+  // actually move the camera
+  camtrans.SetOrigin (camtrans.GetOrigin () + cammove);
+  // track the target
+  if (targetstate != TARGET_NONE)
   {
-    // Get a 2D vector of the camera's direction
-    csVector3 camdir (target - origin);
-    camdir.Normalize ();
-    // stay lined up but move to behind the player
-    origin = playpos - camdir * posoffset_z;
-    // lock y axis to fixed distance above player
-    origin.y = playpos.y + posoffset_y;
-    // update target to continue facing old direction
-    target = origin + camdir;
-
-    PanAroundPlayer (playpos, elapsedsecs);
-  }
-  else if (targetstate == TARGET_OBJ)
-  {
-    const csVector3 tarpos (GetTargetPosition ());
-    // project from player to the target to get the vector
-    // so we can project backwards for the camera
-    csVector3 camdir (origin - tarpos);
-    camdir.Normalize ();
-    origin = playpos + camdir * posoffset_z;
-    // lock y axis to fixed distance above player
-    origin.y = playpos.y + posoffset_y;
-    // setup the target
-    target = tarpos;
-    target.y += targetyoffset;
+    camtrans.LookAt (tarpos - camtrans.GetOrigin (), up);
   }
 
-  FindCorrectedTransform (elapsedsecs);
-
-  up  = parent->GetBaseUp ();
+  const float player_y = GetAnchorPosition ().y;
+  // since the camera transform exists in the same plane as the anchor
+  // and up is fixed to (0,1,0) (our assumptions), then offset in y
+  // (we ignore posoffset.x totally)
+  origin = camtrans.GetOrigin () + csVector3 (0,player_y + posoffset.y,0);
+  // from transform, recompute target
+  target = camtrans.This2Other (csVector3 (0,0,posoffset.z));
+  target.y = player_y + targetyoffset;
   return true;
 }
 
@@ -373,12 +141,11 @@ bool Tracking::ResetCamera ()
   const csVector3 &basepos (parent->GetBaseOrigin ());
   // compute our z offset from it, back along from its direction
   csVector3 offset (basetrans.This2OtherRelative (
-  	csVector3 (0,0,posoff.dist)));
+  	csVector3 (0,0,-posoffset.z)));
   // offset.y = 0; (assuming its up is (0,1,0))
-  origin = basepos + offset;
-  // setup the target
-  target = basepos;
-  target.y += targetyoffset;
+  camtrans.SetOrigin (basepos + offset);
+  // look along same direction as the object
+  camtrans.LookAt (offset, up);
   return true;
 }
 
@@ -401,142 +168,14 @@ void Tracking::SetTargetState (TargetState targetstate)
 {
   Tracking::targetstate = targetstate;
 }
-void Tracking::SetTargetYOffset (float yoff)
+void Tracking::SetTargetYOffset (float targetyoffset)
 {
-  targetyoffset = yoff;
-}
-
-void Tracking::Pan (PanDirection pdir)
-{
-  pandir = pdir;
-}
-Tracking::PanDirection Tracking::GetPanDirection () const
-{
-  return pandir;
-}
-
-void Tracking::SetPanSpeed (float pspeed)
-{
-  pan.topspeed = pspeed;
-}
-float Tracking::GetPanSpeed () const
-{
-  return pan.topspeed;
-}
-
-void Tracking::SetPanAcceleration (float paccel)
-{
-  pan.accel = paccel;
-}
-float Tracking::GetPanAcceleration () const
-{
-  return pan.accel;
-}
-
-void Tracking::Tilt (TiltDirection tdir)
-{
-  tiltdir = tdir;
-}
-Tracking::TiltDirection Tracking::GetTiltDirection () const
-{
-  return tiltdir;
-}
-
-void Tracking::SetTiltSpeed (float tspeed)
-{
-  tilt.topspeed = tspeed;;
-}
-float Tracking::GetTiltSpeed () const
-{
-  return tilt.topspeed;
-}
-
-void Tracking::SetTiltAcceleration (float taccel)
-{
-  tilt.accel = taccel;
-}
-float Tracking::GetTiltAcceleration () const
-{
-  return tilt.accel;
+  Tracking::targetyoffset = targetyoffset;
 }
 
 iPcmNewCamera::Tracking::TargetState Tracking::GetTargetState ()
 {
   return targetstate;
-}
-
-// Interface Functions
-void Tracking::SetParentCamera (iPcNewCamera* camera)
-{
-  parent = camera;;
-}
-bool Tracking::UseSpringPos () const
-{
-  return false;
-}
-bool Tracking::UseSpringOrigin () const
-{
-  return false;
-}
-bool Tracking::UseSpringTarget () const
-{
-  return false;
-}
-bool Tracking::UseSpringUp () const
-{
-  return false;
-}
-bool Tracking::AllowCollisionDetection () const
-{
-  return GetCollisionDetection ();
-}
-bool Tracking::GetCollisionDetection () const
-{
-  return false;
-}
-float Tracking::GetSpringCoefficient () const
-{
-  return false;
-}
-void Tracking::SetSpringCoefficient (float s)
-{
-}
-float Tracking::GetOriginSpringCoefficient () const
-{
-  return 0.0f;
-}
-void Tracking::SetOriginSpringCoefficient (float s)
-{
-}
-float Tracking::GetTargetSpringCoefficient () const
-{
-  return 0.0f;
-}
-void Tracking::SetTargetSpringCoefficient (float s)
-{
-}
-float Tracking::GetUpSpringCoefficient () const
-{
-  return 0.0f;
-}
-void Tracking::SetUpSpringCoefficient (float s)
-{
-}
-const csVector3 &Tracking::GetPosition () const
-{
-  return corrorigin;
-}
-const csVector3 &Tracking::GetOrigin () const
-{
-  return corrorigin;
-}
-const csVector3 &Tracking::GetTarget () const
-{
-  return corrtarget;
-}
-const csVector3 &Tracking::GetUp () const
-{
-  return up;
 }
 
 }

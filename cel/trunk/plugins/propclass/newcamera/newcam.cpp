@@ -45,8 +45,6 @@
 #include "iutil/event.h"
 #include "iutil/evdefs.h"
 #include "imap/loader.h"
-#include "imesh/object.h"
-#include "imesh/objmodel.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
@@ -54,7 +52,6 @@
 #include "iengine/region.h"
 #include "iengine/campos.h"
 #include "iengine/sector.h"
-#include "ivideo/graph2d.h"
 #include "cstool/csview.h"
 #include "cstool/collider.h"
 #include "csgeom/poly3d.h"
@@ -64,7 +61,6 @@
 #include "ivaria/collider.h"
 #include "ivaria/reporter.h"
 #include "ivideo/graph3d.h"
-#include "ivideo/fontserv.h"
 #include "csqsqrt.h"
 
 //---------------------------------------------------------------------------
@@ -94,20 +90,28 @@ void celPcNewCamera::UpdateMeshVisibility ()
   if (!pcmesh)
     return;
 
-  if (currmode >= cameramodes.GetSize ())
+  if (currMode >= cameraModes.GetSize ())
     return;
 
   if (!pcmesh->GetMesh ())
     return;
 
-  if (cameramodes[currmode]->DrawAttachedMesh ())
+  if (cameraModes[currMode]->DrawAttachedMesh ())
     pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE, 0);
   else
     pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE,
-      CS_ENTITY_INVISIBLE);
+    	CS_ENTITY_INVISIBLE);
 }
 
-csVector3 celPcNewCamera::InterpolateVector (float i, const csVector3& curr, const csVector3& next)
+static void CalcElasticVec (csVector3& curr, const csVector3& ideal,
+    float deltaTime, float springCoef)
+{
+  if (deltaTime > (1.0f / springCoef))
+    deltaTime = (1.0f / springCoef);
+  curr = curr - ((curr - ideal) * deltaTime * springCoef);
+}
+
+static csVector3 InterpolateVector (float i, const csVector3& curr, const csVector3& next)
 {
   // a bit of a clamp [0, 1]
   i = (i > 1.0f) ? 1.0f : ((i < 0.0f) ? 0.0f : i);
@@ -116,27 +120,29 @@ csVector3 celPcNewCamera::InterpolateVector (float i, const csVector3& curr, con
 }
 
 celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
-  : scfImplementationType (this, object_reg)
+	: scfImplementationType (this, object_reg)
 {
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
-  basesector = 0;
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_VIEW);
 
   init_reset = false;
 
-  minoffset = 6.0f;
+  offsetTarget.Set (0.0f, 0.0f, 0.0f);
+  offsetOrigin.Set (0.0f, 0.0f, 0.0f);
 
-  currmode = (size_t)-1;
+  currMode = (size_t)-1;
 
-  docolldet = true;
-  collyfocusoff = 1.5f;
-  corrmult = 1.5f;
-  avoidradsq = 4.0f;
-  avoidyoff = 2.0f;
-  avoidinter = 3.0f;
+  detectCollisions = false;
+  collisionSpringCoef = 3.0f;
+  collisionOriginRadius = 1.0f;
+  collisionTargetRadius = 2.0f;
 
-  in_transition = false;
+  inTransition = true;
+  transitionSpringCoef = 2.0f;
+  transitionCutoffOriginDist = 1.0f;
+  transitionCutoffTargetDist = 1.0f;
+  usecrappyspring = false;
   transtime = 0.5f;
   currtrans = 0.0f;
 
@@ -171,9 +177,59 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
     AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
   }
 
-  propinfo.SetCount (1);
+  propinfo.SetCount (14);
   AddProperty (propid_colldet, "cel.property.colldet",
-    CEL_DATA_BOOL, false, "Camera will use collision detection.", 0);
+  	CEL_DATA_BOOL, false, "Camera will use collision detection.", 0);
+  AddProperty (propid_colldet_spring, "cel.property.colldet_spring",
+  	CEL_DATA_FLOAT, false,
+  	"Springyness in case of collision.",
+  	&collisionSpringCoef);
+  AddProperty (propid_colldet_origin_radius,
+  	"cel.property.colldet_origin_radius",
+  	CEL_DATA_FLOAT, false,
+  	"Space between wall and camera origin in case of collision.",
+  	&collisionOriginRadius);
+  AddProperty (propid_colldet_target_radius,
+  	"cel.property.colldet_target_radius",
+  	CEL_DATA_FLOAT, false,
+  	"Offset for target collision detection.",
+  	&collisionTargetRadius);
+  AddProperty (propid_offset, "cel.property.offset",
+  	CEL_DATA_VECTOR3, false, "Offset from the center of the mesh.",
+  	&offsetTarget);
+  AddProperty (propid_offset_origin, "cel.property.offset_origin",
+  	CEL_DATA_VECTOR3, false,
+  	"Offset of the camera origin point from the center of the mesh.",
+  	&offsetOrigin);
+  AddProperty (propid_offset_target, "cel.property.offset_target",
+  	CEL_DATA_VECTOR3, false,
+  	"Offset of the target point from the center of the mesh.",
+  	&offsetTarget);
+  AddProperty (propid_spring, "cel.property.spring",
+  	CEL_DATA_FLOAT, false, "Common spring coefficient.", 0);
+  AddProperty (propid_spring_origin, "cel.property.spring_origin",
+  	CEL_DATA_FLOAT, false, "Spring coefficient for origin.",
+  	&originSpringCoef);
+  AddProperty (propid_spring_target, "cel.property.spring_target",
+  	CEL_DATA_FLOAT, false, "Spring coefficient for target.",
+  	&targetSpringCoef);
+  AddProperty (propid_spring_up, "cel.property.spring_up",
+  	CEL_DATA_FLOAT, false, "Spring coefficient for up vector.",
+  	&upSpringCoef);
+  AddProperty (propid_trans_spring, "cel.property.transition_spring",
+  	CEL_DATA_FLOAT, false,
+  	"Springyness of the transition to a new camera mode.",
+  	&transitionSpringCoef);
+  AddProperty (propid_trans_cutofforigin,
+  	"cel.property.transition_cutofforigin",
+  	CEL_DATA_FLOAT, false,
+  	"Camera transition mode cutoff distance from origin to origin.",
+  	&transitionCutoffOriginDist);
+  AddProperty (propid_trans_cutofftarget,
+  	"cel.property.transition_cutofftarget",
+  	CEL_DATA_FLOAT, false,
+  	"Camera transition mode cutoff distance from target to target.",
+  	&transitionCutoffTargetDist);
 }
 
 celPcNewCamera::~celPcNewCamera ()
@@ -181,115 +237,115 @@ celPcNewCamera::~celPcNewCamera ()
 }
 
 bool celPcNewCamera::PerformActionIndexed (int idx,
-  iCelParameterBlock* params,
-  celData& ret)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   switch (idx)
   {
     case action_attachcameramode:
-    {
-      CEL_FETCH_STRING_PAR (name,params,id_name);
-      if (!p_name) return true;
-      if (!strcmp (name, "camera_firstperson"))
       {
-        AttachCameraMode (iPcNewCamera::CCM_FIRST_PERSON);
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name) return true;
+        if (!strcmp (name, "camera_firstperson"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_FIRST_PERSON);
+          return true;
+        }
+        if (!strcmp (name, "camera_thirdperson"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_THIRD_PERSON);
+          return true;
+        }
+        if (!strcmp (name, "camera_tracking"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_TRACKING);
+          return true;
+        }
+        if (!strcmp (name, "camera_horizontal"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_HORIZONTAL);
+          return true;
+        }
+        if (!strcmp (name, "camera_isometric"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_ISOMETRIC);
+          return true;
+        }
+        csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+        	"cel.camera.standard",
+        	"Unknown camera mode");
         return true;
       }
-      if (!strcmp (name, "camera_thirdperson"))
-      {
-        AttachCameraMode (iPcNewCamera::CCM_THIRD_PERSON);
-        return true;
-      }
-      if (!strcmp (name, "camera_tracking"))
-      {
-        AttachCameraMode (iPcNewCamera::CCM_TRACKING);
-        return true;
-      }
-      if (!strcmp (name, "camera_horizontal"))
-      {
-        AttachCameraMode (iPcNewCamera::CCM_HORIZONTAL);
-        return true;
-      }
-      if (!strcmp (name, "camera_isometric"))
-      {
-        AttachCameraMode (iPcNewCamera::CCM_ISOMETRIC);
-        return true;
-      }
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-        "cel.camera.standard",
-        "Unknown camera mode");
-      return true;
-    }
     case action_setcameramode:
-    {
-      CEL_FETCH_LONG_PAR (nr,params,id_nr);
-      if (!p_nr) return false;
-      return SetCurrentCameraMode (nr);
-    }
+      {
+        CEL_FETCH_LONG_PAR (nr,params,id_nr);
+        if (!p_nr) return false;
+        return SetCurrentCameraMode (nr);
+      }
     case action_nextcameramode:
-    {
-      NextCameraMode ();
-      return true;
-    }
+      {
+        NextCameraMode ();
+        return true;
+      }
     case action_prevcameramode:
-    {
-      PrevCameraMode ();
-      return true;
-    }
+      {
+        PrevCameraMode ();
+        return true;
+      }
     case action_setrectangle:
-    {
-      CEL_FETCH_LONG_PAR (x,params,id_x);
-      if (!p_x) return false;
-      CEL_FETCH_LONG_PAR (y,params,id_y);
-      if (!p_y) return false;
-      CEL_FETCH_LONG_PAR (w,params,id_w);
-      if (!p_w) return false;
-      CEL_FETCH_LONG_PAR (h,params,id_h);
-      if (!p_h) return false;
-      SetRectangle (x, y, w, h);
-      return true;
-    }
+      {
+        CEL_FETCH_LONG_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_LONG_PAR (y,params,id_y);
+        if (!p_y) return false;
+        CEL_FETCH_LONG_PAR (w,params,id_w);
+        if (!p_w) return false;
+        CEL_FETCH_LONG_PAR (h,params,id_h);
+        if (!p_h) return false;
+        SetRectangle (x, y, w, h);
+        return true;
+      }
     case action_setperspcenter:
-    {
-      CEL_FETCH_FLOAT_PAR (x,params,id_x);
-      if (!p_x) return false;
-      CEL_FETCH_FLOAT_PAR (y,params,id_y);
-      if (!p_y) return false;
-      SetPerspectiveCenter (x, y);
-      return true;
-    }
+      {
+        CEL_FETCH_FLOAT_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_FLOAT_PAR (y,params,id_y);
+        if (!p_y) return false;
+        SetPerspectiveCenter (x, y);
+        return true;
+      }
     case action_adaptiveclipping:
-    {
-      CEL_FETCH_BOOL_PAR (enable,params,id_enable);
-      if (!p_enable) return false;
-      if (enable == true)
       {
-        CEL_FETCH_FLOAT_PAR (minfps,params,id_minfps);
-        if (!p_minfps) return false;
-        CEL_FETCH_FLOAT_PAR (maxfps,params,id_maxfps);
-        if (!p_maxfps) return false;
-        CEL_FETCH_FLOAT_PAR (mindist,params,id_mindist);
-        if (!p_mindist) return false;
-        EnableAdaptiveDistanceClipping (minfps, maxfps, mindist);
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
+        {
+          CEL_FETCH_FLOAT_PAR (minfps,params,id_minfps);
+          if (!p_minfps) return false;
+          CEL_FETCH_FLOAT_PAR (maxfps,params,id_maxfps);
+          if (!p_maxfps) return false;
+          CEL_FETCH_FLOAT_PAR (mindist,params,id_mindist);
+          if (!p_mindist) return false;
+          EnableAdaptiveDistanceClipping (minfps, maxfps, mindist);
+        }
+        else
+          DisableDistanceClipping ();
+        return true;
       }
-      else
-        DisableDistanceClipping ();
-      return true;
-    }
     case action_fixedclipping:
-    {
-      CEL_FETCH_BOOL_PAR (enable,params,id_enable);
-      if (!p_enable) return false;
-      if (enable == true)
       {
-        CEL_FETCH_FLOAT_PAR (dist,params,id_dist);
-        if (!p_dist) return false;
-        EnableFixedDistanceClipping (dist);
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
+        {
+          CEL_FETCH_FLOAT_PAR (dist,params,id_dist);
+          if (!p_dist) return false;
+          EnableFixedDistanceClipping (dist);
+        }
+        else
+          DisableDistanceClipping ();
+        return true;
       }
-      else
-        DisableDistanceClipping ();
-      return true;
-    }
     default:
       return false;
   }
@@ -300,10 +356,26 @@ bool celPcNewCamera::SetPropertyIndexed (int idx, bool val)
   switch (idx)
   {
     case propid_colldet:
-    {
-      SetCollisionDetection (val);
-      return true;
-    }
+      {
+        SetCollisionDetection (val);
+        return true;
+      }
+    default:
+      return false;
+  }
+}
+
+bool celPcNewCamera::SetPropertyIndexed (int idx, float val)
+{
+  switch (idx)
+  {
+    case propid_spring:
+      {
+        originSpringCoef = val;
+        targetSpringCoef = val;
+        upSpringCoef = val;
+        return true;
+      }
     default:
       return false;
   }
@@ -314,10 +386,29 @@ bool celPcNewCamera::GetPropertyIndexed (int idx, bool& val)
   switch (idx)
   {
     case propid_colldet:
-    {
-      val = GetCollisionDetection ();
-      return true;
-    }
+      {
+        val = GetCollisionDetection ();
+        return true;
+      }
+    case propid_spring:
+      {
+        val = originSpringCoef;
+        return true;
+      }
+    default:
+      return false;
+  }
+}
+
+bool celPcNewCamera::GetPropertyIndexed (int idx, float& val)
+{
+  switch (idx)
+  {
+    case propid_spring:
+      {
+        val = originSpringCoef;
+        return true;
+      }
     default:
       return false;
   }
@@ -329,65 +420,60 @@ bool celPcNewCamera::Reset ()
   if (pcmesh && pcmesh->GetMesh ())
   {
     iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-    currcam.pos = movable->GetTransform ().GetOrigin ();
-    currcam.dir = movable->GetTransform ().
-      This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
-    currcam.up  = movable->GetTransform ().
-      This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
+    camOrigin = movable->GetTransform ().GetOrigin ();
+    camTarget = movable->GetTransform ().
+    	This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
+    camUp  = movable->GetTransform ().
+    	This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
   }
 
   UpdateMeshVisibility ();
   return true;
 }
 
-iSector* celPcNewCamera::GetBaseSector () const
-{
-  return basesector;
-}
-
 const csVector3& celPcNewCamera::GetBasePos () const
 {
-  return base.pos;
+  return baseOrigin;
 }
 
 const csVector3& celPcNewCamera::GetBaseOrigin () const
 {
-  return base.pos;
+  return baseOrigin;
 }
 
 const csVector3& celPcNewCamera::GetBaseDir () const
 {
-  return base.dir;
+  return baseDir;
 }
 
 const csVector3& celPcNewCamera::GetBaseUp () const
 {
-  return base.up;
+  return baseUp;
 }
 
 const csReversibleTransform& celPcNewCamera::GetBaseTrans () const
 {
-  return basetrans;
+  return baseTrans;
 }
 
 const csVector3& celPcNewCamera::GetPos () const
 {
-  return currcam.pos;
+  return camOrigin;
 }
 
 const csVector3& celPcNewCamera::GetOrigin () const
 {
-  return currcam.pos;
+  return camOrigin;
 }
 
 const csVector3& celPcNewCamera::GetTarget () const
 {
-  return currcam.dir;
+  return camTarget;
 }
 
 const csVector3& celPcNewCamera::GetUp () const
 {
-  return currcam.up;
+  return camUp;
 }
 
 void celPcNewCamera::SetPositionOffset (const csVector3& offset)
@@ -395,138 +481,123 @@ void celPcNewCamera::SetPositionOffset (const csVector3& offset)
   SetTargetPositionOffset (offset);
 }
 
-void celPcNewCamera::SetTargetMinimumOffset (float minoff)
-{
-  minoffset = minoff;
-}
-
 void celPcNewCamera::SetTargetPositionOffset (const csVector3& offset)
 {
+  offsetTarget = offset;
 }
+
 void celPcNewCamera::SetCameraPositionOffset (const csVector3& offset)
 {
+  offsetOrigin = offset;
 }
 
 void celPcNewCamera::SetSpringCoefficient (float springCoef)
 {
+  originSpringCoef = springCoef;
 }
+
 float celPcNewCamera::GetSpringCoefficient () const
 {
-  return 0.0f;
+  return originSpringCoef;
 }
+
 void celPcNewCamera::SetOriginSpringCoefficient (float springCoef)
 {
+  originSpringCoef = springCoef;
 }
+
 float celPcNewCamera::GetOriginSpringCoefficient () const
 {
-  return 0.0f;
+  return originSpringCoef;
 }
+
 void celPcNewCamera::SetTargetSpringCoefficient (float springCoef)
 {
+  targetSpringCoef = springCoef;
 }
+
 float celPcNewCamera::GetTargetSpringCoefficient () const
 {
-  return 0.0f;
+  return targetSpringCoef;
 }
+
 void celPcNewCamera::SetUpSpringCoefficient (float springCoef)
 {
+  upSpringCoef = springCoef;
 }
+
 float celPcNewCamera::GetUpSpringCoefficient () const
 {
-  return 0.0f;
+  return upSpringCoef;
 }
 
 bool celPcNewCamera::DetectCollisions () const
 {
-  return docolldet;
+  return detectCollisions;
 }
 
-void celPcNewCamera::SetCollisionDetection (bool docolldet)
+void celPcNewCamera::SetCollisionDetection (bool detectCollisions)
 {
-  this->docolldet = docolldet;
+  this->detectCollisions = detectCollisions;
 }
 
 bool celPcNewCamera::GetCollisionDetection () const
 {
-  return docolldet;
+  return detectCollisions;
 }
 
-void celPcNewCamera::SetCollisionYFocusOffset (float yoff)
+void celPcNewCamera::SetCollisionSpringCoefficient (float springCoef)
 {
-  collyfocusoff = yoff;
-}
-float celPcNewCamera::GetCollisionYFocusOffset () const
-{
-  return collyfocusoff;
+  collisionSpringCoef = springCoef;
 }
 
-void celPcNewCamera::SetCollisionCorrection (float corr)
+float celPcNewCamera::GetCollisionSpringCoefficient () const
 {
-  corrmult = corr;
-}
-float celPcNewCamera::GetCollisionCorrection () const
-{
-  return corrmult;
-}
-
-void celPcNewCamera::SetCollisionAvoidanceRadiusSq (float radsq)
-{
-  avoidradsq = (radsq < EPSILON) ? EPSILON : radsq;
-}
-float celPcNewCamera::GetCollisionAvoidanceRadiusSq () const
-{
-  return avoidradsq;
-}
-
-void celPcNewCamera::SetCollisionYAvoidance (float yavoid)
-{
-  avoidyoff = yavoid;
-}
-float celPcNewCamera::GetCollisionYAvoidance () const
-{
-  return avoidyoff;
-}
-
-void celPcNewCamera::SetCollisionAvoidanceInterpolation (float aint)
-{
-  avoidinter = (aint < EPSILON) ? EPSILON : aint;
-}
-float celPcNewCamera::GetCollisionAvoidanceInterpolation () const
-{
-  return avoidinter;
+  return collisionSpringCoef;
 }
 
 bool celPcNewCamera::InCameraTransition () const
 {
-  return in_transition;
+  return inTransition;
 }
 
 void celPcNewCamera::SetTransitionSpringCoefficient (float springCoef)
 {
+  usecrappyspring = true;
+  transitionSpringCoef = springCoef;
 }
+
 float celPcNewCamera::GetTransitionSpringCoefficient () const
 {
-  return 0.0f;
+  return transitionSpringCoef;
 }
+
 void celPcNewCamera::SetTransitionCutoffDistance (float cutOffOriginDist,
-  float cutOffTargetDist)
+	float cutOffTargetDist)
 {
+  usecrappyspring = true;
+  transitionCutoffOriginDist = cutOffOriginDist;
+  transitionCutoffTargetDist = cutOffTargetDist;
 }
+
 float celPcNewCamera::GetTransitionCutoffPosDistance () const
 {
-  return 0.0f;
+  return transitionCutoffOriginDist;
 }
+
 float celPcNewCamera::GetTransitionCutoffOriginDistance () const
 {
-  return 0.0f;
+  return transitionCutoffOriginDist;
 }
+
 float celPcNewCamera::GetTransitionCutoffTargetDistance () const
 {
-  return 0.0f;
+  return transitionCutoffTargetDist;
 }
 
 void celPcNewCamera::SetTransitionTime (float time)
 {
+  usecrappyspring = false;
   transtime = time;
 }
 float celPcNewCamera::GetTransitionTime () const
@@ -536,15 +607,11 @@ float celPcNewCamera::GetTransitionTime () const
 
 size_t celPcNewCamera::AttachCameraMode (iCelCameraMode* mode)
 {
-  cameramodes.Push (mode);
+  cameraModes.Push (mode);
   mode->SetParentCamera ((iPcNewCamera*)this);
   mode->DecRef ();
-  size_t modeindex = cameramodes.GetSize () - 1;
-  // if this is first camera mode to be attached, then update
-  // the camera mode!
-  if (currmode == (size_t)-1)
-    currmode = modeindex;
-  return modeindex;
+
+  return (cameraModes.GetSize () - 1);
 }
 
 size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
@@ -556,7 +623,7 @@ size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
     case iPcNewCamera::CCM_THIRD_PERSON:
       return AttachCameraMode (new celCameraMode::ThirdPerson ());
     case iPcNewCamera::CCM_TRACKING:
-      return AttachCameraMode (new celCameraMode::Tracking (pl, vc, cdsys));
+      return AttachCameraMode (new celCameraMode::Tracking (pl));
     case iPcNewCamera::CCM_HORIZONTAL:
       return AttachCameraMode (new celCameraMode::Horizontal ());
     case iPcNewCamera::CCM_ISOMETRIC:
@@ -568,78 +635,59 @@ size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
 
 size_t celPcNewCamera::GetCurrentCameraModeIndex () const
 {
-  return currmode;
+  return currMode;
 }
 
 iCelCameraMode* celPcNewCamera::GetCurrentCameraMode ()
 {
-  return GetCameraMode ();
+  return cameraModes.Top ();
 }
 
 iCelCameraMode* celPcNewCamera::GetCameraMode (int idx)
 {
-  // get current available camera mode
   if (idx < 0)
-  {
-    // now camera modes attached
-    if (cameramodes.IsEmpty ())
-      return 0;
-    else
-    {
-      // no mode is set OR mode is set fucked
-      if (currmode >= cameramodes.GetSize ())
-        return cameramodes.Top ();
-      // return current camera mode
-      return cameramodes[currmode];
-    }
-  }
-  // when we cast, is it still valid? we didn't select invalid mode?
-  if (static_cast<size_t> (idx) >= cameramodes.GetSize ())
+    return cameraModes.GetSize () > 0 ? cameraModes.Top () : 0;
+  if (static_cast<size_t> (idx) >= cameraModes.GetSize ())
     return 0;
-  // just go...
-  return cameramodes[idx];
+  return cameraModes[idx];
 }
 
-bool celPcNewCamera::SetCurrentCameraMode (size_t modeindex)
+bool celPcNewCamera::SetCurrentCameraMode (size_t modeIndex)
 {
-  if (modeindex >= cameramodes.GetSize ())
+  if (modeIndex >= cameraModes.GetSize ())
     return false;
 
-  in_transition = true;
-  lastmode = currcam;
-  currtrans = 0.0f;
+  inTransition = true;
 
   // show the actor when in transition
   if (pcmesh && pcmesh->GetMesh ())
     pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE, 0);
 
-  currmode = modeindex;
+  currMode = modeIndex;
 
   return true;
 }
 
 void celPcNewCamera::NextCameraMode ()
 {
-  if (cameramodes.GetSize () == 0)
+  if (cameraModes.GetSize () == 0)
     return;
 
-  size_t newmode = currmode + 1;
-  // loop round to first mode
-  if (newmode >= cameramodes.GetSize ())
-    newmode = 0;
-  SetCurrentCameraMode (newmode);
+  size_t newMode = currMode + 1;
+  if (newMode >= cameraModes.GetSize ())
+    newMode = 0;
+  SetCurrentCameraMode (newMode);
 }
 
 void celPcNewCamera::PrevCameraMode ()
 {
-  if (cameramodes.GetSize () == 0)
+  if (cameraModes.GetSize () == 0)
     return;
 
-  size_t newmode = currmode - 1;
-  // loop back round to top mode
-  if (newmode == (size_t)-1)
-    newmode = cameramodes.GetSize () - 1;
-  SetCurrentCameraMode (newmode);
+  size_t newMode = currMode - 1;
+  if (newMode == (size_t)-1)
+    newMode = cameraModes.GetSize () - 1;
+  SetCurrentCameraMode (newMode);
 }
 
 void celPcNewCamera::UpdateCamera ()
@@ -647,180 +695,146 @@ void celPcNewCamera::UpdateCamera ()
   if (!init_reset)
     init_reset = Reset ();
 
-  float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
+  csTicks elapsedTime = vc->GetElapsedTicks ();
+  float elapsedSecs = elapsedTime / 1000.0f;
 
   // Try to get position and sector from the mesh.
   if (pcmesh)
   {
-    iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-    basetrans = movable->GetFullTransform ();
-    basesector = movable->GetSectors ()->Get (0);
+    iMeshWrapper* mesh = pcmesh->GetMesh ();
+    iMovable* movable = mesh->GetMovable ();
+    baseTrans = movable->GetFullTransform ();
+    baseSector = movable->GetSectors ()->Get (0);
   }
   else
   {
-    basetrans.SetT2O (csMatrix3 ());
-    basesector = 0;
+    baseTrans.SetT2O (csMatrix3 ());
+    baseSector = 0;
     return;
   }
 
-  base.pos = basetrans.GetOrigin ();
-  base.dir = basetrans.This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
-  base.up  = basetrans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
+  baseOrigin = baseTrans.GetOrigin ()
+  	+ baseTrans.This2OtherRelative (offsetTarget);
+  baseDir = baseTrans.This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
+  baseUp  = baseTrans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
 
-  iCelCameraMode* mode = GetCameraMode ();
   // basic camera mode in case of no modes attached
-  if (!mode)
+  if (currMode >= cameraModes.GetSize ())
   {
-    if (pcmesh)
+    SetCurrentCameraMode (cameraModes.GetSize () - 1);
+    if (currMode >= cameraModes.GetSize ())
     {
-      // so we just align the camera's pos and dir with
-      // the attached mesh
-      csReversibleTransform camTrans;
-      camTrans.SetOrigin (basetrans.GetOrigin ());
-      camTrans.LookAt (base.dir, base.up);
-      iCamera* c = view->GetCamera ();
-      // needs to be in the right sector
-      if (c->GetSector () != basesector)
-        c->SetSector (basesector);
-      c->SetTransform (camTrans);
+      if (pcmesh)
+      {
+        // so we just align the camera's pos and dir with
+        // the attached mesh
+        csReversibleTransform camTrans;
+        camTrans.SetOrigin (baseTrans.GetOrigin ());
+        camTrans.LookAt (baseDir, baseUp);
+        iCamera* c = view->GetCamera ();
+        // needs to be in the right sector
+        if (c->GetSector () != baseSector)
+          c->SetSector (baseSector);
+        c->SetTransform (camTrans);
+      }
+      return;
     }
-    return;
   }
 
+  iCelCameraMode* mode = cameraModes[currMode];
   if (!mode->DecideCameraState ())
     return;
 
-  float springpos = mode->GetOriginSpringCoefficient (),
-    springdir = mode->GetTargetSpringCoefficient (),
-    springup = mode->GetUpSpringCoefficient ();
+  csVector3 desiredOrigin = mode->GetOrigin ();
+  csVector3 desiredTarget = mode->GetTarget ();
+  csVector3 desiredUp = mode->GetUp ();
 
-  // find the desired position that the mode would like us to reach
-  CameraState desired;
-  desired.pos = mode->GetOrigin ();
-  desired.dir = mode->GetTarget () - mode->GetOrigin ();
-  desired.up = mode->GetUp ();
-  // make sure that what we interpolate is actually sane
-  currcam.dir.Normalize ();
-  desired.dir.Normalize ();
-
-  // perform a transition to new mode from old position if need be
-  if (in_transition)
+  // if we're in a transition, then use the transition spring settings
+  if (inTransition)
   {
-    // update counter
-    currtrans += elapsedsecs / transtime;
-    if (currtrans > 1.0f)
+    if (usecrappyspring)
     {
-      // if going to or from a mode that made player mesh invisible
-      UpdateMeshVisibility ();
-      // switch transition off
-      in_transition = false;
-      // and clip this for usage below
-      currtrans = 1.0f;
+      CalcElasticVec (camOrigin, desiredOrigin, elapsedSecs, transitionSpringCoef);
+      CalcElasticVec (camTarget, desiredTarget, elapsedSecs, transitionSpringCoef);
+      CalcElasticVec (camUp, desiredUp, elapsedSecs, transitionSpringCoef);
     }
-    // actually do the interpolation
-    currcam.pos = InterpolateVector (currtrans, lastmode.pos, desired.pos);
-    currcam.dir = InterpolateVector (currtrans, lastmode.dir, desired.dir);
-    currcam.up =  InterpolateVector (currtrans, lastmode.up, desired.up);
+    else
+    {
+      currtrans += elapsedSecs / transtime;
+      if (currtrans > 1.0f)
+      {
+        // if going to or from a mode that made player mesh invisible
+        UpdateMeshVisibility ();
+        // switch transition off
+        inTransition = false;
+        // and clip this for usage below
+        currtrans = 1.0f;
+      }
+
+      camOrigin = InterpolateVector (currtrans, lastmode.pos, desiredOrigin);
+      camTarget = InterpolateVector (currtrans, lastmode.tar, desiredTarget);
+      camUp = InterpolateVector (currtrans, lastmode.up, desiredUp);
+    }
   }
   else
   {
-    // interpolate the various vectors if the mode tells us to
-    // ... otherwise just directly use the values
+    float modeOriginSpringCoef = mode->GetOriginSpringCoefficient ();
+    float modeTargetSpringCoef = mode->GetTargetSpringCoefficient ();
+    float modeUpSpringCoef = mode->GetUpSpringCoefficient ();
+
     if (mode->UseSpringOrigin ())
-      currcam.pos = InterpolateVector (springpos * elapsedsecs, currcam.pos, desired.pos);
+      CalcElasticVec (camOrigin, desiredOrigin, elapsedSecs, modeOriginSpringCoef);
     else
-      currcam.pos = desired.pos;
+      camOrigin = desiredOrigin;
 
     if (mode->UseSpringTarget ())
-      currcam.dir = InterpolateVector (springdir * elapsedsecs, currcam.dir, desired.dir);
+      CalcElasticVec (camTarget, desiredTarget, elapsedSecs, modeTargetSpringCoef);
     else
-      currcam.dir = desired.dir;
+      camTarget = mode->GetTarget ();
 
     if (mode->UseSpringUp ())
-      currcam.up =  InterpolateVector (springup * elapsedsecs, currcam.up, desired.up);
+      CalcElasticVec (camUp, desiredUp, elapsedSecs, modeUpSpringCoef);
     else
-      currcam.up = desired.up;
+      camUp = mode->GetUp ();
   }
 
-  // adjust for offset allowed to character
-  if (false && currcam.dir.SquaredNorm () < minoffset * minoffset)
-  {
-    // fix it at the minimum distance now
-    // project from player position to camera beam from camera position
-    const csVector3 projpos = ((base.pos - currcam.pos) >> currcam.dir) + currcam.pos;
-    // now move backwards from projected position along camera direction
-    currcam.pos = projpos - currcam.dir * minoffset;
-  }
+  // build the desired transform so that we can calculate the desired
+  // offset that we want
+  csReversibleTransform desired_camtrans;
+  desired_camtrans.SetOrigin (desiredOrigin);
+  desired_camtrans.LookAt (desiredTarget - desiredOrigin,
+  	csVector3 (0.0f, 1.0f, 0.0f));
+  // then apply the desired offset to the desired position
+  desiredOrigin += desired_camtrans.This2OtherRelative (offsetOrigin);
 
-  // find corrected origin for collision detection
-  csVector3 corrorigin (currcam.pos), corrdir (currcam.dir);
+  // perform collision detection
   if (GetCollisionDetection () && mode->AllowCollisionDetection ())
   {
-    // project beam from bottom of character
-    // offset upwards, so we don't zoom to feet
-    csVector3 focalpos (base.pos);
-    focalpos += base.up * collyfocusoff;
-    // turn off hitbeam for player so we don't fucking hit player meshhhh!!!
-    bool mesh_hitset = false;
-    if (pcmesh)
+    csVector3 beamDirection = desiredTarget - desiredOrigin;
+    beamDirection.Normalize ();
+    csTraceBeamResult beam = csColliderHelper::TraceBeam (cdsys, baseSector,
+    	desiredTarget + (beamDirection * collisionTargetRadius), desiredOrigin, true);
+    if (beam.closest_mesh)
     {
-      csFlags &mflags = pcmesh->GetMesh ()->GetFlags ();
-      if (!mflags.Check (CS_ENTITY_NOHITBEAM))
-        mesh_hitset = true;
-      mflags.Set (CS_ENTITY_NOHITBEAM);
-    }
-    const csTraceBeamResult beam = csColliderHelper::TraceBeam (cdsys, basesector,
-      currcam.pos, focalpos, true);
-    // ...and reset the flag again if it wasn't set!
-    if (mesh_hitset)
-      pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_NOHITBEAM, 0);
-    // collision!
-    if (beam.sqdistance > 0)
-    {
-      // compute direction vector of beam
-      const csVector3 lookat (focalpos - currcam.pos), dir (lookat.Unit ());
-      // linearly falloff the correction multiplier to 1.0f from minoffset so that
-      // when extremely close to the player we don't end up on other side of beam :)
-      const float ncorrmult = (corrmult - 1.0f) * (1.0f - beam.sqdistance / (minoffset * minoffset)) + 1.0f;
-      // now compute the corrected origin lying on the beam
-      csVector3 corroff (ncorrmult * dir * sqrt(beam.sqdistance));
-      // uh-oh, last ditch attempt to correct position :(
-      if (corroff.SquaredNorm () > lookat.SquaredNorm ())
-        corrorigin = focalpos - EPSILON * dir;
-      // safe :)
-      else
-        corrorigin = corroff + currcam.pos;
-
-      // calculate flat distance to player
-      csVector3 flatdiff (base.pos - corrorigin);
-      flatdiff.y = 0.0f;
-      const float flatdistsq = flatdiff.SquaredNorm ();
-      // so when camera reaches collision avoidance radius bring camera slowly up above player
-      if (flatdistsq < avoidradsq)
-      {
-        // difference between desired y position and curr y pos, with falloff as you get away from player to avoidradsq
-        corrorigin.y += (base.pos.y + avoidyoff - corrorigin.y) * (1.0f - flatdistsq / avoidradsq);
-      }
-      // same as before, except that we exaggerate it a bit, to make it smoother (avoidance interpolation)
-      float falloff = flatdistsq / (avoidradsq * avoidinter);
-      if (falloff > 1.0f)
-        falloff = 1.0f;
-      // recorrect the camera's lookat now to reflect our changes
-      // ... a bit of interpolation so the camera doesn't jump when this piece of code executes.
-      corrdir = falloff * currcam.dir + (1.0f - falloff) * (focalpos - corrorigin);
+      csPoly3D tri;
+      tri.AddVertex (beam.closest_tri.a);
+      tri.AddVertex (beam.closest_tri.b);
+      tri.AddVertex (beam.closest_tri.c);
+      desiredOrigin = beam.closest_isect - (tri.ComputeNormal () * collisionOriginRadius);
+      desiredTarget =  desiredOrigin + beamDirection;
     }
   }
 
   // Adjust camera transform for relative position and lookat position.
   csReversibleTransform camTrans;
-  camTrans.SetOrigin (corrorigin);
-  camTrans.LookAt (corrdir, currcam.up);
+  camTrans.SetOrigin (camOrigin);
+  camTrans.LookAt (camTarget - camOrigin, camUp);
 
   iCamera* c = view->GetCamera ();
   // First set the camera back on where the sector is.
   // We assume here that normal camera movement is good.
-  if (c->GetSector () != basesector)
-    c->SetSector (basesector);
+  if (c->GetSector () != baseSector)
+    c->SetSector (baseSector);
   c->SetTransform (camTrans);
   c->OnlyPortals (true);
 }
@@ -828,12 +842,13 @@ void celPcNewCamera::UpdateCamera ()
 int celPcNewCamera::GetDrawFlags ()
 {
   return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-    | CSDRAW_CLEARZBUFFER;
+  	| CSDRAW_CLEARZBUFFER;
 }
 
 void celPcNewCamera::Draw ()
 {
   UpdateCamera ();
+
   // Tell 3D driver we're going to display 3D things.
   if (g3d->BeginDraw (GetDrawFlags ()))
     view->Draw ();

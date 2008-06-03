@@ -33,8 +33,7 @@ namespace celCameraMode
 ThirdPerson::ThirdPerson ()
 	: scfImplementationType (this)
 {
-  posoff.Set (0.0f, 2.0f, 4.0f);
-  targetyoff = 2.0f;
+  posoffset.Set (0.0f, 0.5f, 4.0f);
 }
 
 ThirdPerson::~ThirdPerson ()
@@ -43,11 +42,7 @@ ThirdPerson::~ThirdPerson ()
 
 void ThirdPerson::SetPositionOffset (const csVector3& offset)
 {
-  posoff = offset;
-}
-void ThirdPerson::SetTargetYOffset (float targetyoffset)
-{
-  targetyoff = targetyoffset;
+  posoffset = offset;
 }
 
 bool ThirdPerson::UseSpringPos () const
@@ -81,9 +76,12 @@ bool ThirdPerson::DecideCameraState ()
     return false;
 
   origin = parent->GetBaseOrigin () + parent
-    ->GetBaseTrans ().This2OtherRelative (posoff);
+  	->GetBaseTrans ().This2OtherRelative (posoffset);
+  target = parent->GetBaseOrigin ();
   up  = parent->GetBaseUp ();
-  target = parent->GetBaseOrigin () + targetyoff * up;
+  originSpring = parent->GetOriginSpringCoefficient ();
+  targetSpring = parent->GetTargetSpringCoefficient ();
+  upSpring = parent->GetUpSpringCoefficient ();
   return true;
 }
 
