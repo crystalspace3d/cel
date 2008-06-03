@@ -125,6 +125,14 @@ float celPcDelegateCamera::GetTransitionTime () const
 
 void celPcDelegateCamera::UpdateCamera ()
 {
+  if (HavePropertyClassesChanged ())
+  {
+    if (!currmode)
+    {
+      currmode = celQueryPropertyClassEntity<iPcCameraMode> (GetEntity ());
+    }
+  }
+
   float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
 
   CameraDescription desired;

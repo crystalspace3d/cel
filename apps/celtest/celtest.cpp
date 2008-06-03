@@ -220,7 +220,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
   csRef<iPcDelegateCamera> delegcam = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
-  delegcam->SetCurrentMode (trackcam);
+  //delegcam->SetCurrentMode (trackcam);
 
   /*csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
     entity_cam, iPcNewCamera);
