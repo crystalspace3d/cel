@@ -32,6 +32,7 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
+struct iMovable;
 
 /**
  * Factory for test.
@@ -55,6 +56,9 @@ private:
     csVector3 pos, tar, up;
   } prev, curr;
   csRef<iPcCameraMode> currmode;
+
+  // used just for reading the current active sector
+  iMovable* player;
 
 public:
   celPcDelegateCamera (iObjectRegistry* object_reg);
