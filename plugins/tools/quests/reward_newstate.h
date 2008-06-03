@@ -72,8 +72,8 @@ public:
 /**
  * The 'newstate' reward.
  */
-class celNewStateReward : public scfImplementation1<
-	celNewStateReward, iQuestReward>
+class celNewStateReward : public scfImplementation2<
+	celNewStateReward, iQuestReward, iCelTimerListener>
 {
 private:
   celNewStateRewardType* type;
@@ -82,6 +82,8 @@ private:
   csRef<iQuestParameter> tag;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iQuest> quest;
+  // Keep reward parameters for next frame.
+  csRef<iCelParameterBlock> reward_params;
 
 public:
   celNewStateReward (celNewStateRewardType* type,
@@ -91,13 +93,16 @@ public:
   virtual ~celNewStateReward () {};
 
   virtual void Reward (iCelParameterBlock* params);
+
+  virtual void TickEveryFrame ();
+  virtual void TickOnce () { }
 };
 
 /**
  * The 'newstate' reward for classes.
  */
-class celClassNewStateReward : public scfImplementation1<
-	celClassNewStateReward, iQuestReward>
+class celClassNewStateReward : public scfImplementation2<
+	celClassNewStateReward, iQuestReward, iCelTimerListener>
 {
 private:
   celNewStateRewardType* type;
@@ -105,6 +110,8 @@ private:
   csRef<iQuestParameter> tag;
   csRef<iQuestParameter> clazz;
   csRef<iCelEntityList> entlist;
+  // Keep reward parameters for next frame.
+  csRef<iCelParameterBlock> reward_params;
 
 public:
   celClassNewStateReward (celNewStateRewardType* type,
@@ -114,6 +121,9 @@ public:
   virtual ~celClassNewStateReward () {};
 
   virtual void Reward (iCelParameterBlock* params);
+
+  virtual void TickEveryFrame ();
+  virtual void TickOnce () { }
 };
 
 

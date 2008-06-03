@@ -74,8 +74,8 @@
             <reward type="debugprint" message="$message" />
             <reward type="changeproperty" long="0" entity="$this" property="counter" />
             <reward type="changeproperty" long="5" entity="$this" property="countdown" />
-            <reward type="newstate" state="sequencetest" />
             <reward type="sequence" entity="$this" sequence="test" />
+            <reward type="newstate" state="sequencetest" />
           </trigger>
         </state>
         <state name="sequencetest" >
@@ -113,12 +113,9 @@
         <state name="middle" >
           <trigger type="meshentersector" >
             <fireon entity="$actor" sector="room" />
-<!-- @@@ Bug: the newstate has to be in front here or the quest doesn't work because
-                 the property change listener in 'start' will not be activated yet but the
-                 property is still changed. A good solution would be to do a manual check
-                 of conditions after activating a state. -->            <reward type="newstate" state="start" />
             <reward type="debugprint" message="And Back!" />
             <reward type="changeproperty" entity="$this" diff="1" property="counter" />
+	    <reward type="newstate" state="start" />
           </trigger>
         </state>
         <state name="end" />
