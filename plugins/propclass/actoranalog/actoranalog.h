@@ -34,7 +34,7 @@ struct iCelEntity;
 struct iObjectRegistry;
 struct iPcMesh;
 struct iPcLinearMovement;
-struct iPcNewCamera;
+struct iPcCamera;
 struct iVirtualClock;
 
 /**
@@ -87,7 +87,7 @@ private:
   // references to sibling property classes
   csWeakRef<iPcMesh> pcmesh;
   csWeakRef<iPcLinearMovement> pclinmove;
-  csWeakRef<iPcNewCamera> pccamera;
+  csWeakRef<iPcCamera> camera;
 
   csRef<iVirtualClock> vc;
 
