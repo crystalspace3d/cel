@@ -140,7 +140,7 @@ private:
   bool loaded;
   csRef<iRegion> csregion;
   csRefArray<celMapFile> mapfiles;
-  csSet<csPtrKey<iSector> > sectors;
+  csSet<csRef<iSector> > sectors;
 
   // This property class maintains private child entities.
   csWeakRefArray<iCelEntity> entities;
