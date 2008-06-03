@@ -25,6 +25,7 @@
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
 #include "propclass/sound.h"
+#include "propclass/camera.h"
 #include "isndsys/ss_source.h"
 #include "isndsys/ss_listener.h"
 #include "isndsys/ss_renderer.h"
@@ -68,7 +69,7 @@ private:
 
   csRef<iSndSysRenderer> renderer;
   csRef<iSndSysListener> listener;
-
+  csWeakRef<iPcCamera> pccamera;
 public:
   celPcSoundListener (iObjectRegistry* object_reg);
   virtual ~celPcSoundListener ();
@@ -84,6 +85,8 @@ public:
   virtual bool GetPropertyIndexed (int, csVector3&);
   virtual bool SetPropertyIndexed (int, float);
   virtual bool GetPropertyIndexed (int, float&);
+  virtual void PropertyClassesHaveChanged();
+  virtual void TickEveryFrame ();
 };
 
 /**
@@ -97,7 +100,9 @@ private:
   enum actionids
   {
     action_pause = 0,
-    action_unpause
+    action_unpause,
+    action_stop,
+    action_play
   };
 
   // For properties.
@@ -135,7 +140,9 @@ public:
   celPcSoundSource (iObjectRegistry* object_reg);
   virtual ~celPcSoundSource ();
 
-  virtual iSndSysSource* GetSoundSource () { return source; }
+  virtual iSndSysSource* GetSoundSource () {
+    return source; 
+  }
   virtual void SetSoundName (const char* name);
   virtual const char* GetSoundName () const { return soundname; }
   virtual void SetMode (const char* modename);
