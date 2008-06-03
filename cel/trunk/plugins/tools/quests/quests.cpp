@@ -1108,12 +1108,17 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
   // quests that have lots of states. In practice most quests
   // will probably only have few states and will not switch
   // THAT often either.
+
+  // Check if we are going to switch to the same state. In that case we don't
+  // fire the oninit/onexit rewards.
+  bool samestate = current_state != (size_t)-1 && strcmp (state, states[current_state]->GetName ()) == 0;
+
   size_t i, j;
   for (i = 0 ; i < states.GetSize () ; i++)
   {
     if (strcmp (state, states[i]->GetName ()) == 0)
     {
-      DeactivateState (current_state, true);
+      DeactivateState (current_state, !samestate);
       current_state = i;
       celQuestState* st = states[current_state];
       for (j = 0 ; j < st->GetResponseCount () ; j++)
@@ -1133,8 +1138,9 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
 	    return true;
         }
       }
-      for (j = 0 ; j < st->GetOninitRewardCount () ; j++)
-        st->GetOninitReward (j)->Reward (0);
+      if (!samestate)
+        for (j = 0 ; j < st->GetOninitRewardCount () ; j++)
+          st->GetOninitReward (j)->Reward (0);
       return true;
     }
   }
