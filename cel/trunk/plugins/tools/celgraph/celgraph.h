@@ -135,7 +135,7 @@ celPath, csObject, iCelPath, iComponent>
   virtual iMapNode* GetLast ();
   virtual void Invert ();
   virtual size_t GetNodeCount()
-  { nodes.GetSize(); }
+  { return nodes.GetSize(); }
 };
 
 /**
