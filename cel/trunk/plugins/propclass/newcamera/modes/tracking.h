@@ -41,9 +41,9 @@ private:
   // calculate spring force based on spring stretched length
   float SpringForce (const float movement);
   // pan camera around a target
-  void PanAroundPlayer (const csVector3 &playpos);
+  void PanAroundPlayer (const csVector3 &playpos, float elapsedsecs);
   // do your collision detection maagick!
-  void FindCorrectedTransform ();
+  void FindCorrectedTransform (float elapsedsecs);
 
   const csVector3 &GetAnchorPosition ();
   const csVector3 &GetAnchorDirection ();
@@ -82,6 +82,12 @@ private:
   // the minimum value for calculated spring... to avoid stupid values
   float minspring;
 
+  // -- collision detection related stuff
+  // did we correct the camera last frame? used for interpolating outwards movement
+  bool was_corrected;
+  // speed of zoom out correction
+  float zoomoutcorrspeed;
+
   // used to lookup entities
   csWeakRef<iCelPlLayer> pl;
   // to compute elapsed time
@@ -117,6 +123,9 @@ public:
   float GetTiltAcceleration () const;
 
   TargetState GetTargetState ();
+
+  void SetZoomOutCorrectionSpeed (float zoomspeed);
+  float GetZoomOutCorrectionSpeed () const;
 
   void SetOffsetAngle (float angle);
   float GetOffsetAngle () const;

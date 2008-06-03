@@ -68,6 +68,9 @@ Tracking::Tracking (iCelPlLayer* pl, iVirtualClock* vc, iCollideSystem* cdsys)
   tilt.topspeed = 1.0f;
   tilt.speed = 0.0f;
   tilt.accel = 3.0f;
+
+  was_corrected = false;
+  zoomoutcorrspeed = 1.0f;
 }
 
 Tracking::~Tracking ()
@@ -127,6 +130,15 @@ const csVector3 &Tracking::GetTargetPosition ()
   return tracktarget->GetPosition ();
 }
 
+void Tracking::SetZoomOutCorrectionSpeed (float zoomspeed)
+{
+  zoomoutcorrspeed = zoomspeed;
+}
+float Tracking::GetZoomOutCorrectionSpeed () const
+{
+  return zoomoutcorrspeed;
+}
+
 float Tracking::SpringForce (const float movement)
 {
   // so now we add the little bit of springiness to our camera
@@ -171,11 +183,9 @@ void Tracking::Accelerator::Accelerate (int direction, float elapsedsecs)
     speed = -topspeed;
 }
 
-void Tracking::PanAroundPlayer (const csVector3 &playpos)
+void Tracking::PanAroundPlayer (const csVector3 &playpos, float elapsedsecs)
 {
   // perform a rotation around the character
-  float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
-
   // accelerate speed in desired direction
   switch (pandir)
   {
@@ -223,8 +233,11 @@ void Tracking::PanAroundPlayer (const csVector3 &playpos)
     posoff.angle = M_PI / 2 - 0.1f;
 }
 
-void Tracking::FindCorrectedTransform ()
+void Tracking::FindCorrectedTransform (float elapsedsecs)
 {
+  // get this value before it's lost
+  float old_reallen = (corrtarget - corrorigin).Norm ();
+  // do collision test
   const csTraceBeamResult beam = csColliderHelper::TraceBeam (cdsys, parent->GetBaseSector (),
     origin, target, true);
   if (beam.sqdistance > 0)
@@ -234,10 +247,36 @@ void Tracking::FindCorrectedTransform ()
     // so we offset a proportional amount down the beam towards the player so as not to be
     // inside the wall.
     corrorigin = beam.closest_isect + 0.1f * (lookat_len - sqrt (beam.sqdistance)) * dir;
+    // so camera can start a slow zoom out as soon as the lookat_len starts increasing
+    was_corrected = true;
   }
   else
     corrorigin = origin;
+  // target unchanged
   corrtarget = target;
+
+  if (was_corrected)
+  {
+    // reverse lookat vector
+    const csVector3 clookat (corrtarget - corrorigin);
+    // if the old length and this one do not match
+    if (clookat.SquaredNorm () - old_reallen * old_reallen > EPSILON)
+    {
+      // then interpolate the lengths to the target
+      float i = zoomoutcorrspeed * elapsedsecs;
+      // clamp within [0, 1] range as usual
+      if (i > 1.0f)
+        i = 1.0f;
+      else if (i < 0.0f)
+        i = 0.0f;
+      float corrlen = clookat.Norm ();
+      // go down from the target because i felt like coding this a bit differently for fun
+      corrorigin = corrtarget - clookat.Unit () * (i * corrlen + (1.0f - i) * old_reallen);
+    }
+    // so switch this off if we finished the interpolating at last
+    else
+      was_corrected = false;
+  }
 }
 
 bool Tracking::DecideCameraState ()
@@ -246,6 +285,8 @@ bool Tracking::DecideCameraState ()
     return false;
   if (!init_reset)
     init_reset = ResetCamera ();
+
+  float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
 
   // a bit of fun, but not really needed :)
   // might keep it since it looks nice though
@@ -279,7 +320,7 @@ bool Tracking::DecideCameraState ()
     // lock y axis to fixed distance above player
     origin.y = playpos.y + posoffset_y;
 
-    PanAroundPlayer (playpos);
+    PanAroundPlayer (playpos, elapsedsecs);
 
     // setup the target
     target = playpos;
@@ -297,7 +338,7 @@ bool Tracking::DecideCameraState ()
     // update target to continue facing old direction
     target = origin + camdir;
 
-    PanAroundPlayer (playpos);
+    PanAroundPlayer (playpos, elapsedsecs);
   }
   else if (targetstate == TARGET_OBJ)
   {
@@ -314,7 +355,7 @@ bool Tracking::DecideCameraState ()
     target.y += targetyoffset;
   }
 
-  FindCorrectedTransform ();
+  FindCorrectedTransform (elapsedsecs);
 
   up  = parent->GetBaseUp ();
   return true;
