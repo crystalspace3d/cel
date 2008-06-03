@@ -31,10 +31,29 @@ struct iPcCameraMode : public virtual iBase
 {
   SCF_INTERFACE (iPcCameraMode, 0, 0, 1);
 
+  /**
+   * Informs the camera mode that it should compute the desired position,
+   * target and up of the camera now.
+   * \return True on success.
+   */
   virtual bool DecideState () = 0;
-  // position, target, up
+
+  /**
+   * Gets the desired camera position.
+   * \return The desired camera position.
+   */
   virtual const csVector3 &GetPosition () = 0;
+
+  /**
+   * Gets the desired camera target.
+   * \return The desired camera target.
+   */
   virtual const csVector3 &GetTarget () = 0;
+
+  /**
+   * Gets the desired camera up vector.
+   * \return The desired camera up vector.
+   */
   virtual const csVector3 &GetUp () = 0;
 };
 
