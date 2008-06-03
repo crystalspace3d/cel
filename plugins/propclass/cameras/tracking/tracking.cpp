@@ -60,7 +60,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   parent = 0;
   tracktarget = 0;
   targetstate = TARGET_BASE;
-  targetyoffset = 2;
+  targetyoffset = 1.5f;
 
   pandir = PAN_NONE;
   pan.topspeed = 3.0f;

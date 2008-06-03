@@ -196,7 +196,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   if (!entity_cam) return 0;
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-  	iPcCommandInput);
+    iPcCommandInput);
   pcinp->Bind ("JoystickButton4", "ready");
   pcinp->Bind ("JoystickButton6", "lockon");
   pcinp->Bind ("JoystickButton2", "resetcam");
