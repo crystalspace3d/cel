@@ -303,10 +303,10 @@ void celRegion::Unload ()
 
     // We now scan every sector to see if there are entities
     // in that that are not deleted yet. We will delete them here.
-    csSet<csPtrKey<iSector> >::GlobalIterator it = sectors.GetIterator ();
+    csSet<csRef<iSector> >::GlobalIterator it = sectors.GetIterator ();
     while (it.HasNext ())
     {
-      iSector* s = it.Next ();
+      csRef<iSector> s = it.Next ();
       iMeshList* ml = s->GetMeshes ();
       int i;
       for (i = 0 ; i < ml->GetCount () ; i++)
