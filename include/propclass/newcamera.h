@@ -370,6 +370,16 @@ struct Tracking : public virtual General
    * Get the acceleration to approach the tilting speed.
    */
   virtual float GetTiltAcceleration () const = 0;
+
+  /**
+   * Zoom out speed after camera has been pushed in by the wall.
+   */
+  virtual void SetZoomOutCorrectionSpeed (float zoomspeed) = 0;
+
+  /**
+   * Zoom out speed after camera has been pushed in by the wall.
+   */
+  virtual float GetZoomOutCorrectionSpeed () const = 0;
 };
 
 
