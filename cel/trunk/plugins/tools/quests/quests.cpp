@@ -1027,7 +1027,6 @@ iQuestSequenceFactory* celQuestFactory::CreateSequence (const char* name)
 celQuestStateResponse::celQuestStateResponse (iCelPlLayer* pl,
 	celQuest* quest) : scfImplementationType (this)
 {
-  reward_counter = 0;
   celQuestStateResponse::pl = pl;
   celQuestStateResponse::quest = quest;
 }
@@ -1046,25 +1045,10 @@ void celQuestStateResponse::AddReward (iQuestReward* reward)
 void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger,
     iCelParameterBlock* params)
 {
-  reward_counter++;
-  reward_params = params;
-  if (reward_counter == 1)
-  {
-    pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  }
-}
-
-void celQuestStateResponse::TickEveryFrame ()
-{
-  while (reward_counter > 0)
-  {
-    size_t i;
-    for (i = 0 ; i < rewards.GetSize () ; i++)
-      rewards[i]->Reward (reward_params);
-    reward_counter--;
-  }
-  reward_params = 0;
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  size_t i;
+  for (i = 0 ; i < rewards.GetSize () ; i++)
+    rewards[i]->Reward (params);
+  return;
 }
 
 //---------------------------------------------------------------------------

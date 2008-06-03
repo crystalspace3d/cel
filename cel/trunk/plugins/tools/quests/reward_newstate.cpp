@@ -112,6 +112,18 @@ celNewStateReward::celNewStateReward (
 
 void celNewStateReward::Reward (iCelParameterBlock* params)
 {
+  iCelPlLayer* pl = type->pl;
+  reward_params = params;
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_POST);
+}
+
+void celNewStateReward::TickEveryFrame ()
+{
+  iCelPlLayer* pl = type->pl;
+  csRef<iCelParameterBlock> params = reward_params;
+  reward_params = 0;  // Clear ref at exit.
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_POST);
+
   if (!quest)
   {
     bool changed;
@@ -119,7 +131,6 @@ void celNewStateReward::Reward (iCelParameterBlock* params)
     if (changed) ent = 0;
     if (!ent)
     {
-      iCelPlLayer* pl = type->pl;
       ent = pl->FindEntity (e);
       if (!ent) return;
     }
@@ -157,12 +168,24 @@ celClassNewStateReward::celClassNewStateReward (
 
 void celClassNewStateReward::Reward (iCelParameterBlock* params)
 {
+  iCelPlLayer* pl = type->pl;
+  reward_params = params;
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_POST);
+}
+
+void celClassNewStateReward::TickEveryFrame ()
+{
+  iCelPlLayer* pl = type->pl;
+  csRef<iCelParameterBlock> params = reward_params;
+  reward_params = 0;  // Clear ref at exit.
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_POST);
+
   bool changed;
   const char* clz = clazz->Get (params, changed);
   if (changed || !entlist)
   {
-    csStringID ent_class = type->pl->FetchStringID (clz);
-    entlist = type->pl->GetClassEntitiesList (ent_class);
+    csStringID ent_class = pl->FetchStringID (clz);
+    entlist = pl->GetClassEntitiesList (ent_class);
   }
 
   const char* st = state->Get (params);

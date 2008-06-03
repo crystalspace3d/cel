@@ -349,18 +349,14 @@ public:
 /**
  * A trigger and rewards. This is basically a response for a quest.
  */
-struct celQuestStateResponse : public scfImplementation2<
-	celQuestStateResponse, iQuestTriggerCallback, iCelTimerListener>
+struct celQuestStateResponse : public scfImplementation1<
+	celQuestStateResponse, iQuestTriggerCallback>
 {
 private:
   iCelPlLayer* pl;
   csRef<iQuestTrigger> trigger;
   csRefArray<iQuestReward> rewards;
   celQuest* quest;
-
-  // Count how many rewards we still have to hand out.
-  size_t reward_counter;
-  csRef<iCelParameterBlock> reward_params;
 
 public:
   celQuestStateResponse (iCelPlLayer* pl, celQuest* quest);
@@ -372,9 +368,6 @@ public:
 
   // --- For iQuestTriggerCallback ------------------------
   virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
-  // --- For iCelTimerListener ----------------------------
-  virtual void TickEveryFrame ();
-  virtual void TickOnce () { }
 };
 
 /**
