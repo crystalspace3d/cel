@@ -184,8 +184,9 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
     "pcinput.standard",
     "pcmove.actor.analog",
-    "pccamera.delegate",
-    "pccamera.mode.tracking",
+    //"pccamera.delegate",
+    //"pccamera.mode.tracking",
+    "pccamera.standard",
     "pcobject.mesh",
     "pcobject.mesh.select",
     "pcmove.linear",
@@ -217,17 +218,17 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   csRef<iPcActorAnalog> actor = celQueryPropertyClassEntity<iPcActorAnalog> (entity_cam);
   actor->SetTurningSpeed (15.0f);
-  actor->SetMovementSpeed (1.5f);
+  //actor->SetMovementSpeed (1.5f);
 
-  csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
-  csRef<iPcDelegateCamera> delegcam = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
+  /*csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
+  csRef<iPcDelegateCamera> delegcam = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);*/
   //delegcam->SetCurrentMode (trackcam);
 
-  /*csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
+  csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
     entity_cam, iPcNewCamera);
   newcamera->AttachCameraMode(iPcNewCamera::CCM_TRACKING);
   newcamera->AttachCameraMode(iPcNewCamera::CCM_THIRD_PERSON);
-  newcamera->SetCurrentCameraMode (0);*/
+  newcamera->SetCurrentCameraMode (0);
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;

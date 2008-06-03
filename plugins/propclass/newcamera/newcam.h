@@ -87,12 +87,23 @@ private:
   csVector3 offsetTarget;
 //  csVector3 offsetOrigin, offsetTarget;
 
+  // the minimum distance the camera is allowed to the player
+  float minoffset;
+
   csWeakRef<iPcMesh> pcmesh;
   iSector* lastActorSector;
 
-  bool detectCollisions;
-  float collisionSpringCoef;
-  float collisionOriginRadius, collisionTargetRadius;
+  bool docolldet;
+  // y offset for collision detection focus
+  float collyfocusoff;
+  // how much correction to do in collision detection
+  float corrmult;
+  // collision avoidance for player testing radius
+  float avoidradsq;
+  // vertical y offset for when camera nears player
+  float avoidyoff;
+  // avoidance interpolation is how smooth the player avoidance movement should be
+  float avoidinter;
 
   bool inTransition;
   bool usecrappyspring;
@@ -141,16 +152,24 @@ private:
     propid_colldet_spring,
     propid_colldet_origin_radius,
     propid_colldet_target_radius,
+    propid_colldet_yfocusoff,
+    propid_colldet_corrmult,
+    propid_colldet_avoid_radsq,
+    propid_colldet_avoid_yoff,
+    propid_colldet_avoid_inter,
     propid_offset,
     propid_offset_origin,
     propid_offset_target,
+    propid_offset_min,
     propid_spring,
     propid_spring_origin,
     propid_spring_target,
     propid_spring_up,
     propid_trans_spring,
     propid_trans_cutofforigin,
-    propid_trans_cutofftarget
+    propid_trans_cutofftarget,
+    propid_trans_time,
+    propid_trans_on
   };
   static PropertyHolder propinfo;
 
@@ -186,6 +205,7 @@ public:
 
   void SetPositionOffset (const csVector3& offset);
   void SetTargetPositionOffset (const csVector3& offset);
+  void SetTargetMinimumOffset (float minoff);
   void SetCameraPositionOffset (const csVector3& offset);
 
   void SetSpringCoefficient (float springCoef);
@@ -198,11 +218,20 @@ public:
   float GetUpSpringCoefficient () const;
 
   bool DetectCollisions () const;
-
   void SetCollisionDetection (bool detectCollisions);
   bool GetCollisionDetection () const;
   void SetCollisionSpringCoefficient (float springCoef);
   float GetCollisionSpringCoefficient () const;
+  void SetCollisionYFocusOffset (float yoff);
+  float GetCollisionYFocusOffset () const;
+  void SetCollisionCorrection (float corr);
+  float GetCollisionCorrection () const;
+  void SetCollisionAvoidanceRadiusSq (float radsq);
+  float GetCollisionAvoidanceRadiusSq () const;
+  void SetCollisionYAvoidance (float yavoid);
+  float GetCollisionYAvoidance () const;
+  void SetCollisionAvoidanceInterpolation (float aint);
+  float GetCollisionAvoidanceInterpolation () const;
 
   bool InCameraTransition () const;
   void SetTransitionSpringCoefficient (float springCoef);

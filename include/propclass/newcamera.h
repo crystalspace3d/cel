@@ -201,6 +201,15 @@ struct General : public virtual iBase
   virtual bool DecideCameraState () = 0;
 };
 
+/**
+ * This is a camera to be used with actoranalog. It tracks left and right movement and follows
+ * movement in and out of the camera.
+ * you can visualise the camera <--> player connection as a hard pole with a spring on the end
+ *   C----|oooP
+ * the ---- (hard pole) can never be compressed except by collision detection
+ * whereas the springs ooo can be decompressed and stretched between 0 and 2 * normal spring length
+ * ... the spring is relaxed at the normal spring length
+ */
 struct Tracking : public virtual General
 {
   SCF_INTERFACE (Tracking, 0, 0, 1);
@@ -213,7 +222,7 @@ struct Tracking : public virtual General
 
   enum TargetState
   {
-    TARGET_BASE,
+    TARGET_BASE = 0,
     TARGET_OBJ,
     TARGET_NONE
   };
@@ -327,6 +336,11 @@ struct iPcNewCamera : public virtual iPcCamera
   virtual void SetTargetPositionOffset (const csVector3& offset) = 0;
 
   /**
+   * Sets the minimum allowed offset up until the target.
+   */
+  virtual void SetTargetMinimumOffset (float minoff) = 0;
+
+  /**
    * Sets the offset from the center of the mesh's iMovable to the position of
    * the camera.
    * \param offset the offset from the center of the mesh to the camera
@@ -409,15 +423,76 @@ struct iPcNewCamera : public virtual iPcCamera
   virtual bool GetCollisionDetection () const = 0;
 
   /**
+   * Set the y offset from player position for collision detection focus.
+   */
+  virtual void SetCollisionYFocusOffset (float yoff) = 0;
+
+  /**
+   * Get the y focus offset used in collision detection.
+   */
+  virtual float GetCollisionYFocusOffset () const = 0;
+
+  /**
+   * multiplier for projected beam used in collision detection to place
+   * camera. Values greater than 1.0f are desireable but project the
+   * camera position further away from it's true point the larger it is.
+   * A value of about 1.5f is usually good and is set as default anyway.
+   * 1.0f will give the true collision intersection of the camera, but you
+   * might end up seeing through walls ;)
+   */
+  virtual void SetCollisionCorrection (float corr) = 0;
+
+  /**
+   * Get collision correction multiplier... returns a float. is const \o/ woo!
+   */
+  virtual float GetCollisionCorrection () const = 0;
+
+  /**
+   * Set the player collision avoidance radius. Moves up over the player
+   * when camera gets too close.
+   * \param radsq The squared radius value
+   */
+  virtual void SetCollisionAvoidanceRadiusSq (float radsq) = 0;
+
+  /**
+   * Get the player collision avoidance radius
+   */
+  virtual float GetCollisionAvoidanceRadiusSq () const = 0;
+
+  /**
+   * Set the y offset for camera to move upwards by for avoidance
+   * when it comes too close.
+   */
+  virtual void SetCollisionYAvoidance (float yavoid) = 0;
+
+  /**
+   * Get the Y offset avoidance value.
+   */
+  virtual float GetCollisionYAvoidance () const = 0;
+
+  /**
+   * Set the interpolation used in the collision avoidance. Hard to describe how the value works
+   * but values close to 0 will give a fast jump, 1.0 is more realistic but higher is nicer and slower.
+   */
+  virtual void SetCollisionAvoidanceInterpolation (float aint) = 0;
+
+  /**
+   * Get the collision avoidance movement interpolation value.
+   */
+  virtual float GetCollisionAvoidanceInterpolation () const = 0;
+
+  /**
    * Sets the spring coefficient that will be used when a collision is detected.
    * \param springCoef The new spring coefficient.
    */
+  CS_DEPRECATED_METHOD_MSG("Non existant. Use the new collision detection system.")
   virtual void SetCollisionSpringCoefficient (float springCoef) = 0;
 
   /**
    * Returns the spring coefficient that is used when a collision is detection.
    * \return The collision detection spring coefficient.
    */
+  CS_DEPRECATED_METHOD_MSG("Non existant. Use the new collision detection system.")
   virtual float GetCollisionSpringCoefficient () const = 0;
 
   /**
@@ -427,6 +502,7 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual bool InCameraTransition () const = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use SetTransitionTime (float) instead.")
   /**
    * This controls the springyness of the transition to a new camera mode when
    * a new camera mode is selected.
@@ -434,6 +510,7 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual void SetTransitionSpringCoefficient (float springCoef) = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use SetTransitionTime (float) instead.")
   /**
    * This gets the springyness of the transition to a new camera mode when a new
    * camera mode is selected.
@@ -441,6 +518,7 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual float GetTransitionSpringCoefficient () const = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use GetTransitionTime () instead.")
   /**
    * If the distance between the current camera position and the new camera
    * mode is within this cutoff distance, then the camera will cease to be
@@ -453,7 +531,7 @@ struct iPcNewCamera : public virtual iPcCamera
   virtual void SetTransitionCutoffDistance (float cutOffOriginDist,
   	float cutOffTargetDist) = 0;
 
-  CS_DEPRECATED_METHOD_MSG("Use GetTransitionCutoffOriginDistance () instead")
+  CS_DEPRECATED_METHOD_MSG("Use GetTransitionTime () instead.")
   /**
    * Grabs the camera transition cutoff distance from position to position
    * between the camera and the camera mode.
@@ -461,6 +539,7 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual float GetTransitionCutoffPosDistance () const = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use GetTransitionTime () instead.")
   /**
    * Grabs the camera transition cutoff distance from origin to origin
    * between the camera and the camera mode.
@@ -468,12 +547,24 @@ struct iPcNewCamera : public virtual iPcCamera
    */
   virtual float GetTransitionCutoffOriginDistance () const = 0;
 
+  CS_DEPRECATED_METHOD_MSG("Use GetTransitionTime () instead.")
   /**
    * Grabs the camera transition cutoff distance from target to target
    * between the camera and the camera mode.
    * \return The camera transition cutoff distance from position to position.
    */
   virtual float GetTransitionCutoffTargetDistance () const = 0;
+
+  /**
+   * Set the time to perform a transition.
+   * \param time Time to transition to the new mode.
+   */
+  virtual void SetTransitionTime (float time) = 0;
+
+  /**
+   * Get the time to transition to a new mode.
+   */
+  virtual float GetTransitionTime () const = 0;
 
   /**
    * Attaches a camera mode to this camera.
@@ -484,7 +575,7 @@ struct iPcNewCamera : public virtual iPcCamera
 
   enum CEL_CAMERA_MODE
   {
-    CCM_FIRST_PERSON,
+    CCM_FIRST_PERSON = 0,
     CCM_THIRD_PERSON,
     CCM_TRACKING,
     CCM_HORIZONTAL,
