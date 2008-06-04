@@ -60,6 +60,30 @@ private:
   // used just for reading the current active sector
   iMovable* player;
 
+  // For action arguments
+  static csStringID id_pclass;
+
+  // For actions.
+  enum actionids
+  {
+    action_setcurrmode = 0
+  };
+
+  // For properties.
+  enum propids
+  {
+    propid_trans_in = 0,
+    propid_trans_time,
+    propid_trans_step,
+    propid_prev_pos,
+    propid_prev_tar,
+    propid_prev_up,
+    propid_pos,
+    propid_tar,
+    propid_up,
+  };
+  static PropertyHolder propinfo;
+
 public:
   celPcDelegateCamera (iObjectRegistry* object_reg);
   virtual ~celPcDelegateCamera ();

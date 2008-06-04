@@ -45,6 +45,10 @@ CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (DelegateCamera, "pccamera.delegate")
 
+csStringID celPcDelegateCamera::id_pclass = csInvalidStringID;
+
+PropertyHolder celPcDelegateCamera::propinfo;
+
 //---------------------------------------------------------------------------
 
 csVector3 InterpolateVector (float i, const csVector3 &curr, const csVector3 &next)
@@ -61,6 +65,39 @@ celPcDelegateCamera::celPcDelegateCamera (iObjectRegistry* object_reg)
   in_transition = false;
   currtrans = 0.0f;
   transtime = 2.0f;
+
+  prev.pos.Set (0.0f);
+  prev.tar.Set (0.0f);
+  prev.up.Set (0.0f);
+
+  propholder = &propinfo;
+
+  // For actions.
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setcurrmode, "cel.action.SetCurrentMode");
+  }
+
+  // For properties.
+  propinfo.SetCount (9);
+  AddProperty (propid_trans_in, "cel.property.trans",
+    CEL_DATA_BOOL, true, "Whether in a transition.", &in_transition);
+  AddProperty (propid_trans_time, "cel.property.trans_time",
+    CEL_DATA_FLOAT, false, "Time to transition to a new mode.", &transtime);
+  AddProperty (propid_trans_step, "cel.property.trans_curr",
+    CEL_DATA_FLOAT, true, "0 -> 1 value indicating stage in the transition.", &currtrans);
+  AddProperty (propid_prev_pos, "cel.property.prev_position",
+    CEL_DATA_VECTOR3, true, "Previous mode's position.", &prev.pos);
+  AddProperty (propid_prev_tar, "cel.property.prev_target",
+    CEL_DATA_VECTOR3, true, "Previous mode's target.", &prev.tar);
+  AddProperty (propid_prev_up, "cel.property.prev_up",
+    CEL_DATA_VECTOR3, true, "Previous mode's up vector.", &prev.up);
+  AddProperty (propid_pos, "cel.property.position",
+    CEL_DATA_VECTOR3, true, "Current position.", &curr.pos);
+  AddProperty (propid_tar, "cel.property.target",
+    CEL_DATA_VECTOR3, true, "Current target.", &curr.tar);
+  AddProperty (propid_up, "cel.property.up",
+    CEL_DATA_VECTOR3, true, "Current up vector.", &curr.up);
 }
 
 celPcDelegateCamera::~celPcDelegateCamera ()
@@ -83,11 +120,19 @@ bool celPcDelegateCamera::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcDelegateCamera::PerformActionIndexed (int idx,
-	iCelParameterBlock* params,
-	celData& ret)
+  iCelParameterBlock* params,
+  celData& ret)
 {
   switch (idx)
   {
+    case action_setcurrmode:
+    {
+      CEL_FETCH_PCLASS_PAR (pc, params, id_pclass);
+      csRef<iPcCameraMode> camera = scfQueryInterface<iPcCameraMode> (pc);
+      if (camera)
+        currmode = camera;
+      break;
+    }
     default:
       return false;
   }

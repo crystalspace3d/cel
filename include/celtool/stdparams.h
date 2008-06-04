@@ -96,6 +96,13 @@
     var =  ((p_##var->value.l)? true : false); \
     else p_##var = 0; \
   }
+#define CEL_FETCH_PCLASS_PAR(var,params,id) \
+  const celData* p_##var = params ? params->GetParameter (id) : 0; \
+  iCelPropertyClass* var = 0; \
+  if (p_##var) { \
+    if (p_##var->type == CEL_DATA_PCLASS) \
+      var = p_##var->value.pc; \
+  }
 
 /**
  * Generic parameter block implementation.
