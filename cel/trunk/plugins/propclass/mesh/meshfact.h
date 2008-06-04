@@ -60,6 +60,12 @@ class celPcMesh : public scfImplementationExt1<
 {
 private:
   csRef<iMeshWrapper> mesh;
+
+  // On destruction the pointer to the entity is cleared. That means that
+  // this pcmesh doesn't have a chance to unlink the CS mesh object from the entity.
+  // For that reason we keep a pointer to the attached entity here.
+  iCelEntity* attached_entity;
+
   csWeakRef<iEngine> engine;
   bool visible;
   csString path;

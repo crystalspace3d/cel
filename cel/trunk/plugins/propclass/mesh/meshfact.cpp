@@ -133,6 +133,7 @@ PropertyHolder celPcMesh::propinfo;
 celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
+  attached_entity = 0;
   visible = true;
   factory_ptr = 0;
   creation_flag = CEL_CREATE_NONE;
@@ -351,8 +352,11 @@ void celPcMesh::RemoveMesh ()
 {
   if (mesh)
   {
-    if (pl)
-      pl->UnattachEntity (mesh->QueryObject (), entity);
+    if (pl && attached_entity)
+    {
+      pl->UnattachEntity (mesh->QueryObject (), attached_entity);
+      attached_entity = 0;
+    }
     // CEL_CREATE_MESHREMOVE is also removed here.
     if (creation_flag != CEL_CREATE_MESH)
       engine->RemoveObject (mesh);
@@ -958,6 +962,7 @@ bool celPcMesh::SetMesh (const char* factname, const char* filename)
       factory_ptr = meshfact;
       mesh = engine->CreateMeshWrapper (meshfact, factname/*@@@?*/);
       pl->AttachEntity (mesh->QueryObject (), entity);
+      attached_entity = entity;
       FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
       return true;
     }
@@ -977,6 +982,7 @@ void celPcMesh::SetMesh (iMeshWrapper* m, bool do_remove)
   if (mesh)
   {
     pl->AttachEntity (mesh->QueryObject (), entity);
+    attached_entity = entity;
     meshName = mesh->QueryObject ()->GetName ();
   }
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
@@ -1000,6 +1006,7 @@ void celPcMesh::CreateEmptyThing (const char* factname)
 
   mesh = engine->CreateMeshWrapper (meshfact, factname, 0, csVector3 (0));
   pl->AttachEntity (mesh->QueryObject (), entity);
+  attached_entity = entity;
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }
 
@@ -1020,6 +1027,7 @@ void celPcMesh::CreateEmptyGenmesh (const char* factname)
   	factname);
   mesh = engine->CreateMeshWrapper (meshfact, factname, 0, csVector3 (0));
   pl->AttachEntity (mesh->QueryObject (), entity);
+  attached_entity = entity;
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }
 
@@ -1044,6 +1052,7 @@ void celPcMesh::CreateNullMesh (const char* factname,
   nullmesh->SetBoundingBox (box);
   mesh = engine->CreateMeshWrapper (meshfact, factname, 0, csVector3 (0));
   pl->AttachEntity (mesh->QueryObject (), entity);
+  attached_entity = entity;
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }
 
@@ -1144,7 +1153,7 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle,
         anim = packet->FindAnimation(actionName);
 	if (anim && anim->IsActive())
           return;
-        for (int i=0;i<packet->GetAnimationCount();i++)
+        for (size_t i=0;i<packet->GetAnimationCount();i++)
         {
           otheranim = packet->GetAnimation(i);
           otheranim->Stop();
