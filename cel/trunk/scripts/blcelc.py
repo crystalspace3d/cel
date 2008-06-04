@@ -2826,54 +2826,15 @@ class Tracking(General):
     def SetTargetState(*args): return _blcelc.Tracking_SetTargetState(*args)
     def GetTargetState(*args): return _blcelc.Tracking_GetTargetState(*args)
     def SetTargetYOffset(*args): return _blcelc.Tracking_SetTargetYOffset(*args)
-    def SetOffsetAngle(*args): return _blcelc.Tracking_SetOffsetAngle(*args)
-    def GetOffsetAngle(*args): return _blcelc.Tracking_GetOffsetAngle(*args)
-    def SetOffsetDistance(*args): return _blcelc.Tracking_SetOffsetDistance(*args)
-    def GetOffsetDistance(*args): return _blcelc.Tracking_GetOffsetDistance(*args)
-    def SetFollowSpringLength(*args): return _blcelc.Tracking_SetFollowSpringLength(*args)
-    def GetFollowSpringLength(*args): return _blcelc.Tracking_GetFollowSpringLength(*args)
-    def SetFollowMinimumSpringFactor(*args): return _blcelc.Tracking_SetFollowMinimumSpringFactor(*args)
-    PAN_LEFT = _blcelc.Tracking_PAN_LEFT
-    PAN_NONE = _blcelc.Tracking_PAN_NONE
-    PAN_RIGHT = _blcelc.Tracking_PAN_RIGHT
-    def Pan(*args): return _blcelc.Tracking_Pan(*args)
-    def GetPanDirection(*args): return _blcelc.Tracking_GetPanDirection(*args)
-    def SetPanSpeed(*args): return _blcelc.Tracking_SetPanSpeed(*args)
-    def GetPanSpeed(*args): return _blcelc.Tracking_GetPanSpeed(*args)
-    def SetPanAcceleration(*args): return _blcelc.Tracking_SetPanAcceleration(*args)
-    def GetPanAcceleration(*args): return _blcelc.Tracking_GetPanAcceleration(*args)
-    TILT_UP = _blcelc.Tracking_TILT_UP
-    TILT_NONE = _blcelc.Tracking_TILT_NONE
-    TILT_DOWN = _blcelc.Tracking_TILT_DOWN
-    def Tilt(*args): return _blcelc.Tracking_Tilt(*args)
-    def GetTiltDirection(*args): return _blcelc.Tracking_GetTiltDirection(*args)
-    def SetTiltSpeed(*args): return _blcelc.Tracking_SetTiltSpeed(*args)
-    def GetTiltSpeed(*args): return _blcelc.Tracking_GetTiltSpeed(*args)
-    def SetTiltAcceleration(*args): return _blcelc.Tracking_SetTiltAcceleration(*args)
-    def GetTiltAcceleration(*args): return _blcelc.Tracking_GetTiltAcceleration(*args)
-    def SetZoomOutCorrectionSpeed(*args): return _blcelc.Tracking_SetZoomOutCorrectionSpeed(*args)
-    def GetZoomOutCorrectionSpeed(*args): return _blcelc.Tracking_GetZoomOutCorrectionSpeed(*args)
     __swig_destroy__ = _blcelc.delete_Tracking
     __del__ = lambda self : None;
 Tracking_swigregister = _blcelc.Tracking_swigregister
 Tracking_swigregister(Tracking)
 
-class ThirdPerson(General):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SetTargetYOffset(*args): return _blcelc.ThirdPerson_SetTargetYOffset(*args)
-    def SetPositionOffset(*args): return _blcelc.ThirdPerson_SetPositionOffset(*args)
-    __swig_destroy__ = _blcelc.delete_ThirdPerson
-    __del__ = lambda self : None;
-ThirdPerson_swigregister = _blcelc.ThirdPerson_swigregister
-ThirdPerson_swigregister(ThirdPerson)
-
 class iPcNewCamera(iPcCamera):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def GetBaseSector(*args): return _blcelc.iPcNewCamera_GetBaseSector(*args)
     def GetBasePos(*args): return _blcelc.iPcNewCamera_GetBasePos(*args)
     def GetBaseOrigin(*args): return _blcelc.iPcNewCamera_GetBaseOrigin(*args)
     def GetBaseDir(*args): return _blcelc.iPcNewCamera_GetBaseDir(*args)
@@ -3029,6 +2990,124 @@ iPcNewCamera_swigregister(iPcNewCamera)
 iPcNewCamera_scfGetVersion = _blcelc.iPcNewCamera_scfGetVersion
 
 scfQuery_iPcNewCamera = _blcelc.scfQuery_iPcNewCamera
+class iPcCameraMode(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def DecideState(*args): return _blcelc.iPcCameraMode_DecideState(*args)
+    def GetPosition(*args): return _blcelc.iPcCameraMode_GetPosition(*args)
+    def GetTarget(*args): return _blcelc.iPcCameraMode_GetTarget(*args)
+    def GetUp(*args): return _blcelc.iPcCameraMode_GetUp(*args)
+    __swig_destroy__ = _blcelc.delete_iPcCameraMode
+    __del__ = lambda self : None;
+iPcCameraMode_swigregister = _blcelc.iPcCameraMode_swigregister
+iPcCameraMode_swigregister(iPcCameraMode)
+celCreateNewCamera = _blcelc.celCreateNewCamera
+celGetSetNewCamera = _blcelc.celGetSetNewCamera
+celGetNewCamera = _blcelc.celGetNewCamera
+
+class iPcDelegateCamera(iPcCamera):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetCurrentMode(*args): return _blcelc.iPcDelegateCamera_SetCurrentMode(*args)
+    def GetCurrentMode(*args): return _blcelc.iPcDelegateCamera_GetCurrentMode(*args)
+    def SetTransitionTime(*args): return _blcelc.iPcDelegateCamera_SetTransitionTime(*args)
+    def GetTransitionTime(*args): return _blcelc.iPcDelegateCamera_GetTransitionTime(*args)
+    _PC = None
+    def __getattr__(self,attr):
+         if hasattr(iCelPropertyClass,attr):
+             _PC = self.QueryInterface(iCelPropertyClass)
+             return getattr(_PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if hasattr(iPcDelegateCamera,attr):
+             return object.__setattr__(self,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = self.QueryInterface(iCelPropertyClass)
+             setattr(_PC,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
+    scfGetVersion = staticmethod(_blcelc.iPcDelegateCamera_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iPcDelegateCamera
+    __del__ = lambda self : None;
+iPcDelegateCamera_swigregister = _blcelc.iPcDelegateCamera_swigregister
+iPcDelegateCamera_swigregister(iPcDelegateCamera)
+iPcDelegateCamera_scfGetVersion = _blcelc.iPcDelegateCamera_scfGetVersion
+
+scfQuery_iPcDelegateCamera = _blcelc.scfQuery_iPcDelegateCamera
+class iPcTrackingCamera(iPcCameraMode):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def DecideState(*args): return _blcelc.iPcTrackingCamera_DecideState(*args)
+    def GetPosition(*args): return _blcelc.iPcTrackingCamera_GetPosition(*args)
+    def GetTarget(*args): return _blcelc.iPcTrackingCamera_GetTarget(*args)
+    def GetUp(*args): return _blcelc.iPcTrackingCamera_GetUp(*args)
+    def ResetCamera(*args): return _blcelc.iPcTrackingCamera_ResetCamera(*args)
+    TARGET_BASE = _blcelc.iPcTrackingCamera_TARGET_BASE
+    TARGET_OBJ = _blcelc.iPcTrackingCamera_TARGET_OBJ
+    TARGET_NONE = _blcelc.iPcTrackingCamera_TARGET_NONE
+    def SetTargetEntity(*args): return _blcelc.iPcTrackingCamera_SetTargetEntity(*args)
+    def SetTargetState(*args): return _blcelc.iPcTrackingCamera_SetTargetState(*args)
+    def GetTargetState(*args): return _blcelc.iPcTrackingCamera_GetTargetState(*args)
+    def SetTargetYOffset(*args): return _blcelc.iPcTrackingCamera_SetTargetYOffset(*args)
+    def SetOffsetAngle(*args): return _blcelc.iPcTrackingCamera_SetOffsetAngle(*args)
+    def GetOffsetAngle(*args): return _blcelc.iPcTrackingCamera_GetOffsetAngle(*args)
+    def SetOffsetDistance(*args): return _blcelc.iPcTrackingCamera_SetOffsetDistance(*args)
+    def GetOffsetDistance(*args): return _blcelc.iPcTrackingCamera_GetOffsetDistance(*args)
+    def SetFollowSpringLength(*args): return _blcelc.iPcTrackingCamera_SetFollowSpringLength(*args)
+    def GetFollowSpringLength(*args): return _blcelc.iPcTrackingCamera_GetFollowSpringLength(*args)
+    def SetFollowMinimumSpringFactor(*args): return _blcelc.iPcTrackingCamera_SetFollowMinimumSpringFactor(*args)
+    PAN_LEFT = _blcelc.iPcTrackingCamera_PAN_LEFT
+    PAN_NONE = _blcelc.iPcTrackingCamera_PAN_NONE
+    PAN_RIGHT = _blcelc.iPcTrackingCamera_PAN_RIGHT
+    def Pan(*args): return _blcelc.iPcTrackingCamera_Pan(*args)
+    def GetPanDirection(*args): return _blcelc.iPcTrackingCamera_GetPanDirection(*args)
+    def SetPanSpeed(*args): return _blcelc.iPcTrackingCamera_SetPanSpeed(*args)
+    def GetPanSpeed(*args): return _blcelc.iPcTrackingCamera_GetPanSpeed(*args)
+    def SetPanAcceleration(*args): return _blcelc.iPcTrackingCamera_SetPanAcceleration(*args)
+    def GetPanAcceleration(*args): return _blcelc.iPcTrackingCamera_GetPanAcceleration(*args)
+    TILT_UP = _blcelc.iPcTrackingCamera_TILT_UP
+    TILT_NONE = _blcelc.iPcTrackingCamera_TILT_NONE
+    TILT_DOWN = _blcelc.iPcTrackingCamera_TILT_DOWN
+    def Tilt(*args): return _blcelc.iPcTrackingCamera_Tilt(*args)
+    def GetTiltDirection(*args): return _blcelc.iPcTrackingCamera_GetTiltDirection(*args)
+    def SetTiltSpeed(*args): return _blcelc.iPcTrackingCamera_SetTiltSpeed(*args)
+    def GetTiltSpeed(*args): return _blcelc.iPcTrackingCamera_GetTiltSpeed(*args)
+    def SetTiltAcceleration(*args): return _blcelc.iPcTrackingCamera_SetTiltAcceleration(*args)
+    def GetTiltAcceleration(*args): return _blcelc.iPcTrackingCamera_GetTiltAcceleration(*args)
+    def SetZoomOutCorrectionSpeed(*args): return _blcelc.iPcTrackingCamera_SetZoomOutCorrectionSpeed(*args)
+    def GetZoomOutCorrectionSpeed(*args): return _blcelc.iPcTrackingCamera_GetZoomOutCorrectionSpeed(*args)
+    _PC = None
+    def __getattr__(self,attr):
+         if hasattr(iCelPropertyClass,attr):
+             _PC = self.QueryInterface(iCelPropertyClass)
+             return getattr(_PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if hasattr(iPcTrackingCamera,attr):
+             return object.__setattr__(self,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = self.QueryInterface(iCelPropertyClass)
+             setattr(_PC,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
+    scfGetVersion = staticmethod(_blcelc.iPcTrackingCamera_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iPcTrackingCamera
+    __del__ = lambda self : None;
+iPcTrackingCamera_swigregister = _blcelc.iPcTrackingCamera_swigregister
+iPcTrackingCamera_swigregister(iPcTrackingCamera)
+celCreateDelegateCamera = _blcelc.celCreateDelegateCamera
+celGetSetDelegateCamera = _blcelc.celGetSetDelegateCamera
+celGetDelegateCamera = _blcelc.celGetDelegateCamera
+iPcTrackingCamera_scfGetVersion = _blcelc.iPcTrackingCamera_scfGetVersion
+
+scfQuery_iPcTrackingCamera = _blcelc.scfQuery_iPcTrackingCamera
 CEL_MOUSE_BUTTON1 = _blcelc.CEL_MOUSE_BUTTON1
 CEL_MOUSE_BUTTON2 = _blcelc.CEL_MOUSE_BUTTON2
 CEL_MOUSE_BUTTON3 = _blcelc.CEL_MOUSE_BUTTON3
@@ -3043,9 +3122,9 @@ class iPcMeshSelectListener(cspace.iBase):
     __del__ = lambda self : None;
 iPcMeshSelectListener_swigregister = _blcelc.iPcMeshSelectListener_swigregister
 iPcMeshSelectListener_swigregister(iPcMeshSelectListener)
-celCreateNewCamera = _blcelc.celCreateNewCamera
-celGetSetNewCamera = _blcelc.celGetSetNewCamera
-celGetNewCamera = _blcelc.celGetNewCamera
+celCreateTrackingCamera = _blcelc.celCreateTrackingCamera
+celGetSetTrackingCamera = _blcelc.celGetSetTrackingCamera
+celGetTrackingCamera = _blcelc.celGetTrackingCamera
 
 class iPcMeshSelect(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
