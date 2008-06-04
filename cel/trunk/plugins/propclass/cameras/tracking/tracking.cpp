@@ -42,6 +42,8 @@ CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (TrackingCamera, "pccamera.mode.tracking")
 
+PropertyHolder celPcTrackingCamera::propinfo;
+
 //---------------------------------------------------------------------------
 
 celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
@@ -73,10 +75,105 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
 
   was_corrected = false;
   zoomoutcorrspeed = 1.0f;
+
+  propholder = &propinfo;
+
+  // For actions.
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_reset, "cel.action.ResetCamera");
+  }
+
+  // For properties.
+  propinfo.SetCount (17);
+  AddProperty (propid_pos, "cel.property.position",
+    CEL_DATA_VECTOR3, false, "Position.", &corrpos);
+  AddProperty (propid_tar, "cel.property.target",
+    CEL_DATA_VECTOR3, false, "Target position.", &corrtar);
+  AddProperty (propid_up, "cel.property.up",
+    CEL_DATA_VECTOR3, false, "Up direction.", &up);
+  AddProperty (propid_pan_topspeed, "cel.property.pan_topspeed",
+    CEL_DATA_FLOAT, true, "Top speed limit for panning.", &pan.topspeed);
+  AddProperty (propid_pan_currspeed, "cel.property.pan_currspeed",
+    CEL_DATA_FLOAT, false, "Current panning speed.", &pan.speed);
+  AddProperty (propid_pan_accel, "cel.property.pan_accel",
+    CEL_DATA_FLOAT, true, "Pan acceleration.", &pan.accel);
+  AddProperty (propid_pan_dir, "cel.property.pan_dir",
+    CEL_DATA_LONG, true, "Pan direction -1 left, 0 none, 1 right.", 0);
+  AddProperty (propid_tilt_topspeed, "cel.property.tilt_topspeed",
+    CEL_DATA_FLOAT, true, "Top speed limit for tilting.", &tilt.topspeed);
+  AddProperty (propid_tilt_currspeed, "cel.property.tilt_currspeed",
+    CEL_DATA_FLOAT, false, "Current tilt speed.", &tilt.speed);
+  AddProperty (propid_tilt_accel, "cel.property.tilt_accel",
+    CEL_DATA_FLOAT, true, "Tilt acceleration.", &tilt.accel);
+  AddProperty (propid_tilt_dir, "cel.property.tilt_dir",
+    CEL_DATA_LONG, true, "Tilt direction -1 down, 0 none, 1 up.", 0);
+  AddProperty (propid_taryoff, "cel.property.targetyoffset",
+    CEL_DATA_FLOAT, true, "Y offset from target for lookat.", &targetyoffset);
+  AddProperty (propid_posoff_angle, "cel.property.posoff_angle",
+    CEL_DATA_FLOAT, true, "Position offset elevation angle.", &posoff.angle);
+  AddProperty (propid_posoff_dist, "cel.property.posoff_dist",
+    CEL_DATA_FLOAT, true, "Position offset distance.", &posoff.dist);
+  AddProperty (propid_spring_relaxlen, "cel.property.spring_relaxlen",
+    CEL_DATA_FLOAT, true, "Relaxed length of spring that follows player.", &relaxspringlen);
+  AddProperty (propid_spring_minlen, "cel.property.minlen",
+    CEL_DATA_FLOAT, true, "Minimum length of the spring (small values are good).", &minspring);
+  AddProperty (propid_zoomoutcorrspeed, "cel.property.zoomoutcorrspeed",
+    CEL_DATA_FLOAT, true, "Zooming out correction speed.", &zoomoutcorrspeed);
 }
 
 celPcTrackingCamera::~celPcTrackingCamera ()
 {
+}
+
+bool celPcTrackingCamera::SetPropertyIndexed (int idx, long l)
+{
+  if (idx == propid_tilt_dir)
+  {
+    if (l < 0)
+      tiltdir = TILT_DOWN;
+    else if (l == 0)
+      tiltdir = TILT_NONE;
+    else //if (l > 0)
+      tiltdir = TILT_UP;
+    return true;
+  }
+  else if (idx == propid_pan_dir)
+  {
+    if (l < 0)
+      pandir = PAN_LEFT;
+    else if (l == 0)
+      pandir = PAN_NONE;
+    else //if (l > 0)
+      pandir = PAN_RIGHT;
+    return true;
+  }
+  return false;
+}
+
+bool celPcTrackingCamera::GetPropertyIndexed (int idx, long &l)
+{
+  if (idx == propid_tilt_dir)
+  {
+    if (tiltdir == TILT_DOWN)
+      l = -1;
+    else if (tiltdir == TILT_NONE)
+      l = 0;
+    else //if (tiltdir == TILT_UP)
+      l = 1;
+    return true;
+  }
+  else if (idx == propid_pan_dir)
+  {
+    if (pandir == PAN_LEFT)
+      l = -1;
+    else if (pandir == PAN_NONE)
+      l = 0;
+    else //if (pandir == PAN_RIGHT)
+      l = 1;
+    return true;
+  }
+  return false;
 }
 
 #define TEST_SERIAL 0
@@ -100,6 +197,9 @@ bool celPcTrackingCamera::PerformActionIndexed (int idx,
 {
   switch (idx)
   {
+    case action_reset:
+      ResetCamera ();
+      return true;
     default:
       return false;
   }
@@ -219,9 +319,9 @@ void celPcTrackingCamera::PanAroundPlayer (const csVector3 &playpos, float elaps
   {
     // x' = x cos a - y sin a
     // y' = x sin a + y cos a
-    csVector3 pc (origin - playpos);
-    origin.x = pc.x * cos (angle) - pc.z * sin (angle) + playpos.x;
-    origin.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
+    csVector3 pc (pos - playpos);
+    pos.x = pc.x * cos (angle) - pc.z * sin (angle) + playpos.x;
+    pos.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
   }
 
   switch (tiltdir)
@@ -249,13 +349,13 @@ void celPcTrackingCamera::PanAroundPlayer (const csVector3 &playpos, float elaps
 void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
 {
   // get this value before it's lost
-  float old_reallen = (corrtarget - corrorigin).Norm ();
+  float old_reallen = (corrtar - corrpos).Norm ();
   // do collision test
   const csTraceBeamResult beam = csColliderHelper::TraceBeam (cdsys, parent->GetSectors ()->Get (0),
-    origin, target, true);
+    pos, tar, true);
   if (beam.sqdistance > 0)
   {
-    const csVector3 lookat (target - origin), dir (lookat.Unit ());
+    const csVector3 lookat (tar - pos), dir (lookat.Unit ());
     float lookat_len = lookat.Norm (), beam_distance = sqrt (beam.sqdistance);
     // 0.1f is our epsilon value
     // we add a correction to the beam when it collides with the wall by 10%
@@ -266,19 +366,19 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
       corr *= linear_falloff / 0.1f;
     // so we offset a proportional amount down the beam towards the player so as not to be
     // inside the wall.
-    corrorigin = beam.closest_isect + corr * (lookat_len - beam_distance) * dir;
+    corrpos = beam.closest_isect + corr * (lookat_len - beam_distance) * dir;
     // so camera can start a slow zoom out as soon as the lookat_len starts increasing
     was_corrected = true;
   }
   else
-    corrorigin = origin;
+    corrpos = pos;
   // target unchanged
-  corrtarget = target;
+  corrtar = tar;
 
   if (false and was_corrected)
   {
     // reverse lookat vector
-    const csVector3 clookat (corrtarget - corrorigin);
+    const csVector3 clookat (corrtar - corrpos);
     // if the old length and this one do not match
     if (clookat.SquaredNorm () - old_reallen * old_reallen > EPSILON)
     {
@@ -291,7 +391,7 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
         i = 0.0f;
       float corrlen = clookat.Norm ();
       // go down from the target because i felt like coding this a bit differently for fun
-      corrorigin = corrtarget - clookat.Unit () * (i * corrlen + (1.0f - i) * old_reallen);
+      corrpos = corrtar - clookat.Unit () * (i * corrlen + (1.0f - i) * old_reallen);
     }
     // so switch this off if we finished the interpolating at last
     else
@@ -325,12 +425,12 @@ bool celPcTrackingCamera::DecideState ()
   if (targetstate == TARGET_BASE)
   {
     // get flat 2D vector (zero out y) of camera to the player
-    csVector3 camplay (playpos - origin);
+    csVector3 camplay (playpos - pos);
     camplay.y = 0.0f;
     float dist = camplay.Norm ();
     camplay.Normalize ();
     // Now get a 2D vector of the camera's direction
-    csVector3 camdir (target - origin);
+    csVector3 camdir (tar - pos);
     camdir.y = 0.0f;
     camdir.Normalize ();
 
@@ -342,27 +442,27 @@ bool celPcTrackingCamera::DecideState ()
     // ... this is so the camera only follows player in and out of the screen
     float move = dist * camdir * camplay - posoffset_z;
 
-    origin += SpringForce (move) * move * camdir;
+    pos += SpringForce (move) * move * camdir;
     // lock y axis to fixed distance above player
-    origin.y = playpos.y + posoffset_y;
+    pos.y = playpos.y + posoffset_y;
 
     PanAroundPlayer (playpos, elapsedsecs);
 
     // setup the target
-    target = playpos;
-    target.y += targetyoffset;
+    tar = playpos;
+    tar.y += targetyoffset;
   }
   else if (targetstate == TARGET_NONE)
   {
     // Get a 2D vector of the camera's direction
-    csVector3 camdir (target - origin);
+    csVector3 camdir (tar - pos);
     camdir.Normalize ();
     // stay lined up but move to behind the player
-    origin = playpos - camdir * posoffset_z;
+    pos = playpos - camdir * posoffset_z;
     // lock y axis to fixed distance above player
-    origin.y = playpos.y + posoffset_y;
+    pos.y = playpos.y + posoffset_y;
     // update target to continue facing old direction
-    target = origin + camdir;
+    tar = pos + camdir;
 
     PanAroundPlayer (playpos, elapsedsecs);
   }
@@ -371,14 +471,14 @@ bool celPcTrackingCamera::DecideState ()
     const csVector3 tarpos (tracktarget->GetFullPosition ());
     // project from player to the target to get the vector
     // so we can project backwards for the camera
-    csVector3 camdir (origin - tarpos);
+    csVector3 camdir (pos - tarpos);
     camdir.Normalize ();
-    origin = playpos + camdir * posoffset_z;
+    pos = playpos + camdir * posoffset_z;
     // lock y axis to fixed distance above player
-    origin.y = playpos.y + posoffset_y;
+    pos.y = playpos.y + posoffset_y;
     // setup the target
-    target = tarpos;
-    target.y += targetyoffset;
+    tar = tarpos;
+    tar.y += targetyoffset;
   }
 
   FindCorrectedTransform (elapsedsecs);
@@ -402,10 +502,10 @@ bool celPcTrackingCamera::ResetCamera ()
   csVector3 offset (basetrans.This2OtherRelative (
   	csVector3 (0,0,posoff.dist)));
   // offset.y = 0; (assuming its up is (0,1,0))
-  origin = basepos + offset;
+  pos = basepos + offset;
   // setup the target
-  target = basepos;
-  target.y += targetyoffset;
+  tar = basepos;
+  tar.y += targetyoffset;
   return true;
 }
 
@@ -494,11 +594,11 @@ celPcTrackingCamera::TargetState celPcTrackingCamera::GetTargetState ()
 
 const csVector3 &celPcTrackingCamera::GetPosition ()
 {
-  return corrorigin;
+  return corrpos;
 }
 const csVector3 &celPcTrackingCamera::GetTarget ()
 {
-  return corrtarget;
+  return corrtar;
 }
 const csVector3 &celPcTrackingCamera::GetUp ()
 {

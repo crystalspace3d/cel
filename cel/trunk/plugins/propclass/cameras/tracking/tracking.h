@@ -55,8 +55,8 @@ private:
   // do your collision detection maagick!
   void FindCorrectedTransform (float elapsedsecs);
 
-  csVector3 origin, target, up;
-  csVector3 corrorigin, corrtarget;
+  csVector3 pos, tar, up;
+  csVector3 corrpos, corrtar;
 
   iMovable* parent;
   // the target we track if targetstate == TARGET_OBJ
@@ -99,6 +99,36 @@ private:
 
   // Has this camera been initialised yet?
   bool init_reset;
+
+  // For actions.
+  enum actionids
+  {
+    action_reset = 0
+  };
+
+  // For properties.
+  enum propids
+  {
+    propid_pos = 0,
+    propid_tar,
+    propid_up,
+    propid_pan_topspeed,
+    propid_pan_currspeed,
+    propid_pan_accel,
+    propid_pan_dir,
+    propid_tilt_topspeed,
+    propid_tilt_currspeed,
+    propid_tilt_accel,
+    propid_tilt_dir,
+    propid_taryoff,
+    propid_posoff_angle,
+    propid_posoff_dist,
+    propid_spring_relaxlen,
+    propid_spring_minlen,
+    propid_zoomoutcorrspeed
+  };
+  static PropertyHolder propinfo;
+
 public:
   celPcTrackingCamera (iObjectRegistry* object_reg);
   virtual ~celPcTrackingCamera ();
@@ -106,6 +136,9 @@ public:
   csPtr<iCelDataBuffer> Save ();
   bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret);
+  // support for tilt/pan direction properties
+  bool SetPropertyIndexed (int idx, long l);
+  bool GetPropertyIndexed (int idx, long &l);
 
   // --------------------------
 
