@@ -751,6 +751,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfdelegcam_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfdelegcam_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfdelegcam_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfdelegcam_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfdelegcam_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfengine_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -1323,6 +1348,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpftools_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\libpftrackingcam_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpftrackingcam_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpftrackingcam_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpftrackingcam_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpftrackingcam_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1926,6 +1976,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\cameras\tracking\tracking.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_cameras_tracking_tracking.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_cameras_tracking_tracking.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_cameras_tracking_tracking.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_cameras_tracking_tracking.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\damage\damagefact.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -1973,6 +2048,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_defcam_defcam.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\delegcam\delegate.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_delegcam_delegate.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_delegcam_delegate.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_delegcam_delegate.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_delegcam_delegate.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -4059,10 +4159,16 @@
 				RelativePath="..\..\plugins\propclass\billboard\billboard.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\cameras\tracking\tracking.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\damage\damagefact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\defcam\defcam.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\delegcam\delegate.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\engine\engfact.h">
