@@ -256,10 +256,17 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
   if (beam.sqdistance > 0)
   {
     const csVector3 lookat (target - origin), dir (lookat.Unit ());
-    float lookat_len = lookat.Norm ();
+    float lookat_len = lookat.Norm (), beam_distance = sqrt (beam.sqdistance);
+    // 0.1f is our epsilon value
+    // we add a correction to the beam when it collides with the wall by 10%
+    // but to avoid a jump when camera first hits the wall and is moved 10% down the beam
+    // we fade in this 10% during the first 10% of the beam.
+    float corr = 0.1f, linear_falloff = beam_distance / lookat_len;
+    if (linear_falloff < 0.1f)  // we are in the first 0.1 of the beam
+      corr *= linear_falloff / 0.1f;
     // so we offset a proportional amount down the beam towards the player so as not to be
     // inside the wall.
-    corrorigin = beam.closest_isect + 0.1f * (lookat_len - sqrt (beam.sqdistance)) * dir;
+    corrorigin = beam.closest_isect + corr * (lookat_len - beam_distance) * dir;
     // so camera can start a slow zoom out as soon as the lookat_len starts increasing
     was_corrected = true;
   }
@@ -268,7 +275,7 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
   // target unchanged
   corrtarget = target;
 
-  if (was_corrected)
+  if (false and was_corrected)
   {
     // reverse lookat vector
     const csVector3 clookat (corrtarget - corrorigin);
