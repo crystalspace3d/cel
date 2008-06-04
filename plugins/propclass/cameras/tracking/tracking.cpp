@@ -116,7 +116,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
     CEL_DATA_FLOAT, true, "Position offset distance.", &posoff.dist);
   AddProperty (propid_spring_relaxlen, "cel.property.spring_relaxlen",
     CEL_DATA_FLOAT, true, "Relaxed length of spring that follows player.", &relaxspringlen);
-  AddProperty (propid_spring_minlen, "cel.property.minlen",
+  AddProperty (propid_spring_minlen, "cel.property.spring_minlen",
     CEL_DATA_FLOAT, true, "Minimum length of the spring (small values are good).", &minspring);
   AddProperty (propid_zoomoutcorrspeed, "cel.property.zoomoutcorrspeed",
     CEL_DATA_FLOAT, true, "Zooming out correction speed.", &zoomoutcorrspeed);
