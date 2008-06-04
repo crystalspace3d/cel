@@ -131,7 +131,7 @@ bool celPcDelegateCamera::PerformActionIndexed (int idx,
       csRef<iPcCameraMode> camera = scfQueryInterface<iPcCameraMode> (pc);
       if (camera)
         currmode = camera;
-      break;
+      return true;
     }
     default:
       return false;
