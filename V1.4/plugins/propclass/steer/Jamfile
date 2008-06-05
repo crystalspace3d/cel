@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass steer ;
+
+Plugin pfsteer
+	: steerfact.cpp steerfact.h
+;
+ExternalLibs pfsteer : CRYSTAL ;
+LinkWith pfsteer : celtool ;
+

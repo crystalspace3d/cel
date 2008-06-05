@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer 1.3dev: 4.3.7 Projectile</title>
+
+<meta name="description" content="Crystal Entity Layer 1.3dev: 4.3.7 Projectile">
+<meta name="keywords" content="Crystal Entity Layer 1.3dev: 4.3.7 Projectile">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="PropClass-Projectile"></a>
+<a name="0"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="PropClass-Mover.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-Quest-Manager.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<hr size="1">
+<h3 class="subsection"> 4.3.7 Projectile </h3>
+
+<p>This is a property class to control projectiles. It allows to set
+movement in some direction and will report back when it hits something.
+</p>
+<a name="1"></a>
+<h4 class="subsubheading"> Property Class Details </h4>
+
+<ul>
+<li> <em>Name</em>:
+<samp>&lsquo;pcmove.projectile&rsquo;</samp>
+</li><li> <em>Factory ID</em>:
+<samp>&lsquo;cel.pcfactory.move.projectile&rsquo;</samp>
+</li><li> <em>Interface</em>:
+<code>iPcProjectile</code>
+</li><li> <em>Header</em>:
+<tt>&lsquo;include/propclass/projectile.h&rsquo;</tt>
+</li></ul>
+
+
+<a name="2"></a>
+<h4 class="subsubheading"> General Information </h4>
+
+<p>PcProjectile can be used to handle projectiles in an easy way.
+It can be set to go in some direction, and will send a
+<code>pcprojectile_hit</code> message to the behaviour when it hits
+something. To start movement the <code>Start</code> api function or cel
+action must be used.
+</p>
+<p>Maximum distance and maximum hits can be specified, and when either of
+both is reached a <code>pcprojectile_stopped</code> message will be sent to
+the behaviour. 
+</p>
+<p>PcProjectile depends on having pcmove.linear and pcobject.mesh present on the entity
+to work.
+</p>
+
+<hr size="1">
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
