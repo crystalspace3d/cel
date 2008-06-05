@@ -437,8 +437,8 @@ bool celPcSteer::CollisionAvoidance ()
   look_vector.y = 0;
   look_vector.Normalize();
   look_vector*=ca_lookahead;
-  csVector3 left_look_vector = csYRotMatrix3(M_PI/4)*look_vector;
-  csVector3 right_look_vector = csYRotMatrix3(-M_PI/4)*look_vector;
+  csVector3 left_look_vector = csYRotMatrix3(PI/4)*look_vector;
+  csVector3 right_look_vector = csYRotMatrix3(-PI/4)*look_vector;
 
   // test forward first
   csSectorHitBeamResult rc1 = cur_sector->HitBeamPortals (

@@ -219,7 +219,7 @@ void celPcActorAnalog::SetAxis (size_t axis, float value)
 }
 float celPcActorAnalog::GetAxis (size_t axis) const
 {
-  if (axis != 0 and axis != 1)
+  if (axis != 0 && axis != 1)
     return 0.0f;
   return target_axis[axis];
 }
