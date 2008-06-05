@@ -52,7 +52,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
-  posoff.angle = M_PI / 6;
+  posoff.angle = PI / 6;
   posoff.dist = 6.5f;
   relaxspringlen = 2.0f;
   minspring = 0.01f;
@@ -338,12 +338,12 @@ void celPcTrackingCamera::PanAroundPlayer (const csVector3 &playpos, float elaps
   }
 
   posoff.angle += tilt.speed * elapsedsecs;
-  // we limit the angles between epsilon and M_PI/2 - epsilon
+  // we limit the angles between epsilon and PI/2 - epsilon
   // to stop the evilness of rotating to the front of the character!!
   if (posoff.angle < 0.1)
     posoff.angle = 0.1f;
-  else if (posoff.angle > M_PI / 2 - 0.1f)
-    posoff.angle = M_PI / 2 - 0.1f;
+  else if (posoff.angle > PI / 2 - 0.1f)
+    posoff.angle = PI / 2 - 0.1f;
 }
 
 void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
@@ -375,7 +375,7 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
   // target unchanged
   corrtar = tar;
 
-  if (false and was_corrected)
+  if (false && was_corrected)
   {
     // reverse lookat vector
     const csVector3 clookat (corrtar - corrpos);
@@ -416,7 +416,7 @@ bool celPcTrackingCamera::DecideState ()
 
   // a bit of fun, but not really needed :)
   // might keep it since it looks nice though
-  float dxf = 5 * posoff.dist * posoff.angle / M_PI;
+  float dxf = 5 * posoff.dist * posoff.angle / PI;
   float
     posoffset_y = dxf * sin (posoff.angle),
     posoffset_z = dxf * cos (posoff.angle);

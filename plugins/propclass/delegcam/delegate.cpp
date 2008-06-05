@@ -238,7 +238,7 @@ void celPcDelegateCamera::UpdateCamera ()
 
   iCamera* c = view->GetCamera ();
   // needs to be in the right sector
-  if (sector and c->GetSector () != sector)
+  if (sector && c->GetSector () != sector)
     c->SetSector (sector);
   c->SetTransform (camtrans);
   // only do collision detection on portals
