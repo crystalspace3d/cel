@@ -1147,25 +1147,30 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle,
       csRef<iAnimatedMesh> animesh = scfQueryInterface<iAnimatedMesh> (mesh->GetMeshObject ());
       if (animesh)
       {
-        csRef<iSkeletonAnimation2> anim;
-        csRef<iSkeletonAnimation2> otheranim;
-        csRef<iSkeletonAnimPacket2> packet = animesh->GetSkeleton()->GetAnimationPacket();
-        anim = packet->FindAnimation(actionName);
-	if (anim && anim->IsActive())
-          return;
-        for (size_t i=0;i<packet->GetAnimationCount();i++)
+        csRef<iSkeletonAnimNode2> root;
+        csRef<iSkeletonAnimNode2> anim;
+        csRef<iSkeletonFSMNode2> fsm;
+        root = animesh->GetSkeleton()->GetAnimationPacket()->GetAnimationRoot();
+        fsm = scfQueryInterface<iSkeletonFSMNode2>(root);
+        if (fsm)
         {
-          otheranim = packet->GetAnimation(i);
-          otheranim->Stop();
-          otheranim->Reset();
+          root->Play();
+          csRef<iSkeletonFSMNodeFactory2> fsmfact = scfQueryInterface<iSkeletonFSMNodeFactory2>(root->GetFactory());
+          CS::Animation::StateID wanted_state = fsmfact->FindState(actionName);
+          if (wanted_state == CS::Animation::InvalidStateID)
+            return;
+          if (wanted_state != fsm->GetCurrentState())
+            fsm->SwitchToState(wanted_state);
         }
-        if (anim)
+        else
         {
-          anim->Reset();
-          if (cycle)
-            anim->PlayCyclic();
-	  else
-            anim->PlayOnce();
+          anim = root->FindNode(actionName);
+	  if (!anim || anim->IsActive())
+            return;
+          root->Stop();
+          csRef<iSkeletonAnimationNodeFactory2> animfact = scfQueryInterface<iSkeletonAnimationNodeFactory2>(anim->GetFactory());
+          animfact->SetCyclic(cycle);
+          anim->Play();
         }
       }
     else
