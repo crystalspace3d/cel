@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- pfrules.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <!-- @@@ to be deprecated -->
+      <class>
+        <name>cel.pcfactory.rules</name>
+        <implementation>celPfRules</implementation>
+        <description>CEL Rules Property Class Factory</description>
+      </class>
+
+      <class>
+        <name>cel.pcfactory.logic.rules</name>
+        <implementation>celPfRules</implementation>
+        <description>CEL Rules Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass billboard ;
+
+Plugin pfbillboard
+	: billboard.cpp billboard.h
+;
+ExternalLibs pfbillboard : CRYSTAL ;
+LinkWith pfbillboard : celtool ;
+

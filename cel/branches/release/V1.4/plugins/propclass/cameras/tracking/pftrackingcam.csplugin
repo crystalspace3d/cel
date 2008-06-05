@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pftrackingcam.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.camera.mode.tracking</name>
+        <implementation>celPfTrackingCamera</implementation>
+        <description>CEL Tracking Camera Mode Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
