@@ -183,7 +183,7 @@ def iCelEntityPlFakeArray__getattr__(self,name):
 iCelEntityPlFakeArray.__getattr__ = iCelEntityPlFakeArray__getattr__
 
 # python property classes helpers
-class PcFinder:
+class PcFinderCreator:
     def __init__(self,name):
         self.name = name
     def __call__(self,entity,tag=None):
@@ -193,6 +193,16 @@ class PcFinder:
             pc = entity.PropertyClassList.FindByName(self.name)
         if not pc:
             pc = pl.CreatePropertyClass(entity,self.name)
+        if pc:
+            return pc.QueryInterface(iPcPython).GetPythonObject()
+class PcFinder:
+    def __init__(self,name):
+        self.name = name
+    def __call__(self,entity,tag=None):
+        if tag:
+            pc = entity.PropertyClassList.FindByNameAndTag(self.name,tag)
+        else:
+            pc = entity.PropertyClassList.FindByName(self.name)
         if pc:
             return pc.QueryInterface(iPcPython).GetPythonObject()
 
@@ -228,7 +238,8 @@ def CEL_IMPLEMENT_FACTORY(cls,name):
     _known_pcs[name] = cls
     fact = pyPcCommonFactory(cls,name)
     pl.RegisterPropertyClassFactory(fact)
-    setattr(pycel,"cel"+cls.__name__,PcFinder(name))
+    setattr(pycel,"cel"+cls.__name__,PcFinderCreator(name))
+    setattr(pycel,"celGet"+cls.__name__,PcFinder(name))
 
 
 # Some functions to reload property classes on the fly.
