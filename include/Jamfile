@@ -16,6 +16,7 @@ CEL_MASTER_HEADER_REJECTS =
   # none yet, examples:
   # [ Wildcard [ ConcatDirs csplugincommon directx ] : *.h ]
   # [ ConcatDirs cstool   tokenlist.h  ]
+  [ ConcatDirs propclass mechsteer.h  ]
   ;
 
 # List of headers that should not appear in the master-headers because they 
@@ -68,7 +69,7 @@ CEL_MASTER_HEADERS =
       $(CEL_MASTER_HEADER_BOILERPLATE)
       $(CEL_MASTER_HEADER_DOC_DIRECTORY) :
       : :
-      $(CS_MASTER_HEADER_REJECTS) ] ;
+      $(CEL_MASTER_HEADER_REJECTS) ] ;
 
 CEL_MASTER_HEADER_DOC_MASTER_MASTER =
 "/**@file 
