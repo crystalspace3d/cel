@@ -54,6 +54,7 @@ INTERFACE_POST(iPcPython)
 %feature("nodirector") pyPcCommon::AddRefOwner;
 %feature("nodirector") pyPcCommon::RemoveRefOwner;
 %feature("nodirector") pyPcCommon::QueryInterface;
+%feature("nodirector") pyPcCommon::SetProperty;
 %feature("nodirector") pyPcCommon::GetInterfaceMetadata;
 %feature("nodirector") pyPcCommon::Save;
 %feature("nodirector") pyPcCommon::Load;
