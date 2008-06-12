@@ -6203,5 +6203,41 @@ class pyPcPropertyListener(swigpyPcPropertyListener):
 pyPcPropertyListener_swigregister = _blcelc.pyPcPropertyListener_swigregister
 pyPcPropertyListener_swigregister(pyPcPropertyListener)
 
+class swigpyPcInventoryListener(iPcInventoryListener):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def IncRef(*args): return _blcelc.swigpyPcInventoryListener_IncRef(*args)
+    def DecRef(*args): return _blcelc.swigpyPcInventoryListener_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.swigpyPcInventoryListener_GetRefCount(*args)
+    def QueryInterface(*args): return _blcelc.swigpyPcInventoryListener_QueryInterface(*args)
+    def AddRefOwner(*args): return _blcelc.swigpyPcInventoryListener_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.swigpyPcInventoryListener_RemoveRefOwner(*args)
+    def GetInterfaceMetadata(*args): return _blcelc.swigpyPcInventoryListener_GetInterfaceMetadata(*args)
+swigpyPcInventoryListener_swigregister = _blcelc.swigpyPcInventoryListener_swigregister
+swigpyPcInventoryListener_swigregister(swigpyPcInventoryListener)
+
+class pyPcInventoryListener(swigpyPcInventoryListener):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        if self.__class__ == pyPcInventoryListener:
+            args = (None,) + args
+        else:
+            args = (self,) + args
+        this = _blcelc.new_pyPcInventoryListener(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_pyPcInventoryListener
+    __del__ = lambda self : None;
+    def AddChild(*args): return _blcelc.pyPcInventoryListener_AddChild(*args)
+    def RemoveChild(*args): return _blcelc.pyPcInventoryListener_RemoveChild(*args)
+    def __disown__(self):
+        self.this.disown()
+        _blcelc.disown_pyPcInventoryListener(self)
+        return weakref_proxy(self)
+pyPcInventoryListener_swigregister = _blcelc.pyPcInventoryListener_swigregister
+pyPcInventoryListener_swigregister(pyPcInventoryListener)
+
 
 
