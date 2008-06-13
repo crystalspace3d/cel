@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfdelegcam.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.camera.delegate</name>
+        <implementation>celPfDelegateCamera</implementation>
+        <description>CEL Delegation Camera Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

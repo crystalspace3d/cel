@@ -1,0 +1,12 @@
+Python widgets for CEL by cfraz89
+This is a collection of 'widgets' which allow the user to interact
+with your python program by sending messages on certain events. They are not
+quite complete, however they should be somewhat usable. They may need to be
+copied and customised, or subclassed, if something doesn't go with what you 
+need. If this is the case, please contact me so I can improve these widgets.
+
+The interface to these widgets is the celMenu module, which is created as such.
+
+menu = celMenu(attachedentity)
+
+Then the widgets can be added using addElement(). 
