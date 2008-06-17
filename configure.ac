@@ -9,10 +9,10 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 # Don't forget to update include/celversion.h, docs/texinfo/version.txi
 # and mk/autoconf/cel.m4 when changing this version number.
-AC_INIT([cel], [1.3], [cel-main@lists.sourceforge.net])
+AC_INIT([cel], [1.9], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
-    [Copyright (C)2002-2007 Jorrit Tyberghein and others.],
-    [http://cel.crystalspace3d.org/])
+    [Copyright (C)2002-2008 Jorrit Tyberghein and others.],
+    [http://www.crystalspace3d.org/main/CEL])
 AC_CONFIG_SRCDIR([mk/jam/build.jam])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_HOST
