@@ -25,7 +25,7 @@
 #include "csutil/scf.h"
 
 struct iSector;
-struct iRegion;
+struct iCollection;
 struct iPcCamera;
 struct iPcMesh;
 struct iCelEntity;
@@ -108,7 +108,7 @@ struct iCelRegion : public virtual iBase
    * manager appended with the name of the region. i.e. like:
    * <entity>_<region>
    */
-  virtual const char* GetCsRegionName () const = 0;
+  virtual const char* GetCsCollectionName () const = 0;
 
   /**
    * Set the VFS path that will be used during the call to engine->Prepare()
@@ -176,7 +176,7 @@ struct iCelRegion : public virtual iBase
   /**
    * Get the CS region that is used for this region.
    */
-  virtual iRegion* GetCsRegion () = 0;
+  virtual iCollection* GetCollection () = 0;
 };
 
 /**
