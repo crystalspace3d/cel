@@ -695,8 +695,7 @@ void celPcWheeled::SetWheelMesh(const char* factname,const char* file)
   {
     csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
     CS_ASSERT (loader != 0);
-    iBase* result;
-    loader->Load (file, result, 0, false, true);
+    loader->Load (file, 0, false, true);
   }
   wheelfact = factname;
 }
@@ -708,8 +707,7 @@ void celPcWheeled::SetWheelMesh(size_t wheelnum, const char* factname,const
   {
     csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
     CS_ASSERT (loader != 0);
-    iBase* result;
-    loader->Load (file, result, 0, false, true);
+    loader->Load (file, 0, false, true);
   }
 //Use the global wheel factory if none given
   if(factname==0)

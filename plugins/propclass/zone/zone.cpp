@@ -47,7 +47,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/camera.h"
-#include "iengine/region.h"
+#include "iengine/collection.h"
 #include "iengine/campos.h"
 #include "iengine/sector.h"
 #include "cstool/csview.h"
@@ -135,9 +135,9 @@ void celMapFile::SetSectorName (const char* name)
 
 void celRegion::SetEntityName (const char* entname)
 {
-  csregionname = entname;
-  csregionname += "_";
-  csregionname += name;
+  cscollectionName = entname;
+  cscollectionName += "_";
+  cscollectionName += name;
 }
 
 iCelMapFile* celRegion::CreateMapFile ()
@@ -189,8 +189,8 @@ bool celRegion::Load (bool allow_entity_addon)
 
   iEngine* engine = mgr->GetEngine ();
   iLoader* loader = mgr->GetLoader ();
-  iRegion* cur_region = engine->CreateRegion (csregionname);
-  cur_region->DeleteAll ();
+  iCollection* cur_collection = engine->CreateCollection (cscollectionName.GetData());
+  cur_collection->ReleaseAllObjects ();
 
   iCelPlLayer* pl = mgr->GetPL ();
 
@@ -228,7 +228,7 @@ bool celRegion::Load (bool allow_entity_addon)
     if (mf->GetSectorName ())
     {
       iSector* sector = engine->CreateSector (mf->GetSectorName ());
-      cur_region->Add (sector->QueryObject ());
+      cur_collection->Add (sector->QueryObject ());
     }
     else if (mf->GetFile ())
     {
@@ -242,7 +242,7 @@ bool celRegion::Load (bool allow_entity_addon)
         engine->SetCacheManager (0);
         engine->GetCacheManager ();
       }
-      rc = loader->LoadMapFile (mf->GetFile (), false, cur_region,
+      rc = loader->LoadMapFile (mf->GetFile (), false, cur_collection,
       	false, true);
       if (mf->GetPath ())
       {
@@ -261,8 +261,7 @@ bool celRegion::Load (bool allow_entity_addon)
     pl->SetEntityAddonAllowed (prev_allow_entity_addon);
   if (!rc) return false;
 
-  cur_region->Prepare ();
-  engine->PrecacheDraw (cur_region);
+  engine->PrecacheDraw (cur_collection);
 
   if (mgr->IsColliderWrappers ())
   {
@@ -273,7 +272,7 @@ bool celRegion::Load (bool allow_entity_addon)
     }
     // Create colliders for all meshes in this region.
     csColliderHelper::InitializeCollisionWrappers (mgr->GetCDSystem (),
-    	engine, cur_region);
+    	engine, cur_collection);
   }
 
   mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_addregion",
@@ -291,7 +290,7 @@ void celRegion::Unload ()
       "cel.region.remove", mgr->dispatcher_remove);
 
   iEngine* engine = mgr->GetEngine ();
-  iRegion* cur_region = engine->CreateRegion (csregionname);
+  iCollection* cur_collection = engine->CreateCollection (cscollectionName);
 
   iCelPlLayer* pl = mgr->GetPL ();
   if (pl)
@@ -307,6 +306,7 @@ void celRegion::Unload ()
     while (it.HasNext ())
     {
       csRef<iSector> s = it.Next ();
+      //if (engine->GetSectors()->Find(s) < 0) continue;
       iMeshList* ml = s->GetMeshes ();
       int i;
       for (i = 0 ; i < ml->GetCount () ; i++)
@@ -327,8 +327,8 @@ void celRegion::Unload ()
   entities.DeleteAll ();
   sectors.DeleteAll ();
 
-  cur_region->DeleteAll ();
-  engine->GetRegions ()->Remove (cur_region);
+  cur_collection->ReleaseAllObjects ();
+  engine->RemoveCollection (cur_collection);
   loaded = false;
 }
 
@@ -342,10 +342,10 @@ void celRegion::DissociateEntity (iCelEntity* entity)
   entities.Delete (entity);
 }
 
-iRegion* celRegion::GetCsRegion ()
+iCollection* celRegion::GetCollection ()
 {
   iEngine* engine = mgr->GetEngine ();
-  return engine->GetRegions()->FindByName(csregionname);
+  return engine->GetCollection (cscollectionName.GetData());
 }
 
 bool celRegion::ContainsEntity (iCelEntity* entity)
@@ -1317,13 +1317,13 @@ int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
     return CEL_ZONEERROR_LOAD;
 
   // Find the created region.
-  iRegion* cur_region = engine->CreateRegion (region->GetCsRegionName ());
+  iCollection* cur_collection = engine->CreateCollection (region->GetCsCollectionName ());
 
   // Find the right start position.
   iCameraPosition* campos = 0;
   if (startname)
   {
-    campos = cur_region->FindCameraPosition (startname);
+    campos = cur_collection->FindCameraPosition (startname);
     if (!campos) return CEL_ZONEERROR_BADSTART;
     if (!campos->Load (pccamera->GetCamera (), engine))
       return CEL_ZONEERROR_LOAD;
@@ -1336,7 +1336,7 @@ int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
       campos = engine->GetCameraPositions ()->Get (i);
       iObject* o = campos->QueryObject ();
       if ((o->GetName () == 0 || !strcmp (o->GetName (), "Start"))
-      	&& cur_region->IsInRegion (o))
+      	&& cur_collection->IsParentOf (o))
         break;
       campos = 0;
     }
@@ -1354,7 +1354,7 @@ int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
       iSectorList* sl = engine->GetSectors ();
       iSector* room = 0;
       for (i = 0 ; i < sl->GetCount () ; i++)
-        if (cur_region->IsInRegion (sl->Get (i)->QueryObject ()))
+        if (cur_collection->IsParentOf (sl->Get (i)->QueryObject ()))
         {
           room = sl->Get (i);
           break;
@@ -1401,7 +1401,7 @@ int celPcZoneManager::PointMesh (const char* entity, const char* regionname,
     return CEL_ZONEERROR_LOAD;
 
   // Find the created region.
-  iRegion* cur_region = engine->CreateRegion (region->GetCsRegionName ());
+  iCollection* cur_collection = engine->CreateCollection (region->GetCsCollectionName ());
 
   // Find the right start position.
   iCameraPosition* campos = 0;
@@ -1409,7 +1409,7 @@ int celPcZoneManager::PointMesh (const char* entity, const char* regionname,
   csVector3 pos;
   if (startname)
   {
-    campos = cur_region->FindCameraPosition (startname);
+    campos = cur_collection->FindCameraPosition (startname);
     if (!campos) return CEL_ZONEERROR_BADSTART;
     sector = engine->FindSector (campos->GetSector ());
     pos = campos->GetPosition ();
@@ -1422,7 +1422,7 @@ int celPcZoneManager::PointMesh (const char* entity, const char* regionname,
       campos = engine->GetCameraPositions ()->Get (i);
       iObject* o = campos->QueryObject ();
       if ((o->GetName () == 0 || !strcmp (o->GetName (), "Start"))
-      	&& cur_region->IsInRegion (o))
+      	&& cur_collection->IsParentOf (o))
         break;
       campos = 0;
     }
@@ -1440,7 +1440,7 @@ int celPcZoneManager::PointMesh (const char* entity, const char* regionname,
       iSectorList* sl = engine->GetSectors ();
       sector = 0;
       for (i = 0 ; i < sl->GetCount () ; i++)
-        if (cur_region->IsInRegion (sl->Get (i)->QueryObject ()))
+        if (cur_collection->IsParentOf (sl->Get (i)->QueryObject ()))
         {
           sector = sl->Get (i);
           break;
