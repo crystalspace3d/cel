@@ -85,7 +85,7 @@
 #include "propclass/region.h"
 #include "propclass/input.h"
 #include "propclass/linmove.h"
-#include "propclass/actoranalog.h"
+#include "propclass/analogmotion.h"
 #include "propclass/quest.h"
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
@@ -183,7 +183,8 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
     "pcinput.standard",
-    "pcmove.actor.analog",
+    "pcmove.analogmotion",
+    "pcmove.jump",
     "pccamera.delegate",
     "pccamera.mode.tracking",
     "pcobject.mesh",
@@ -191,6 +192,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
     "pcmove.linear",
     "pc2d.tooltip",
     "pctools.inventory",
+    "pctools.timer",
     "pcsound.listener",
     CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
@@ -210,13 +212,15 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("right", "right");
   pcinp->Bind ("up", "up");
   pcinp->Bind ("down", "down");
+  pcinp->Bind ("space", "jump");
+  pcinp->Bind ("shift", "roll");
   pcinp->Bind ("[", "camleft");
   pcinp->Bind ("]", "camright");
   pcinp->Bind ("pageup", "camup");
   pcinp->Bind ("pagedown", "camdown");
 
-  csRef<iPcActorAnalog> actor = celQueryPropertyClassEntity<iPcActorAnalog> (entity_cam);
-  actor->SetTurningSpeed (15.0f);
+  csRef<iPcAnalogMotion> actor = celQueryPropertyClassEntity<iPcAnalogMotion> (entity_cam);
+  //actor->SetMinimumTurningSpeed (5.0f);
   //actor->SetMovementSpeed (1.5f);
 
   csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);

@@ -532,6 +532,10 @@ void celPcTrackingCamera::SetTargetYOffset (float yoff)
 {
   targetyoffset = yoff;
 }
+float celPcTrackingCamera::GetTargetYOffset () const
+{
+  return targetyoffset;
+}
 
 void celPcTrackingCamera::Pan (PanDirection pdir)
 {

@@ -228,6 +228,10 @@ public:
     v = GetVelocity ();
   }
 
+  virtual const csVector3 &GetBodyVelocity () const
+  {
+    return velBody;
+  }
   virtual const csVector3 GetVelocity () const
   {
     csVector3 velworld = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()

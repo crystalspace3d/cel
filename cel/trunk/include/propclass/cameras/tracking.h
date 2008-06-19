@@ -71,6 +71,12 @@ struct iPcTrackingCamera : public virtual iPcCameraMode
   virtual void SetTargetYOffset (float targetyoffset) = 0;
 
   /**
+   * Since position is often set at the 'feet' of an object, get
+   * the fixed offset upwards
+   */
+  virtual float GetTargetYOffset () const = 0;
+
+  /**
    * Camera offset from the player is described as an angle and a distance.
    * Here you can set the angle in radians.
    */
