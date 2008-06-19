@@ -147,6 +147,11 @@ struct iPcLinearMovement : public virtual iBase
   virtual void GetVelocity (csVector3& v) const = 0;
 
   /**
+   * Get the body's velocity- velocity minus physical effects like gravity.
+   */
+  virtual const csVector3 &GetBodyVelocity () const = 0;
+
+  /**
    * Get the current velocity vector.
    */
   virtual const csVector3 GetVelocity () const = 0;

@@ -147,6 +147,7 @@ public:
   //virtual void SetTargetMesh (const char* name);
   //virtual void SetTargetPosition (const csVector3 &pos);
   void SetTargetYOffset (float targetyoffset);
+  float GetTargetYOffset () const;
 
   void Pan (PanDirection pdir);
   PanDirection GetPanDirection () const;

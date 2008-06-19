@@ -35,8 +35,6 @@ CEL_IMPLEMENT_FACTORY (Test, "pcmisc.test")
 
 csStringID celPcTest::id_message = csInvalidStringID;
 
-csHash<int, csStringID> constants;
-
 PropertyHolder celPcTest::propinfo;
 
 celPcTest::celPcTest (iObjectRegistry* object_reg)

@@ -25,6 +25,7 @@
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
+#include "propclass/actormove.h"
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 #include "propclass/tooltip.h"
@@ -33,12 +34,14 @@
 #include "propclass/newcamera.h"
 #include "propclass/delegcam.h"
 #include "propclass/cameras/tracking.h"
-#include "propclass/actoranalog.h"
+#include "propclass/analogmotion.h"
+#include "propclass/jump.h"
 #include "propclass/inv.h"
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
 #include "propclass/mechsys.h"
 #include "propclass/wheeled.h"
+#include "propclass/linmove.h"
 #include "plugins/behaviourlayer/test/behave.h"
 #include "celtool/stdparams.h"
 #include <iostream>
@@ -208,13 +211,42 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
   const char* msg_id = (const char*)msg_id_str;
   bool pcinput_msg = strncmp (msg_id, "cel.input.", 10) == 0;
 
+  csRef<iPcAnalogMotion> pcactor = celQueryPropertyClassEntity
+    <iPcAnalogMotion> (entity);
+  if (!pcactor)
+    return false;
+  csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity);
+  if (!jump)
+    return false;
+  csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+  if (!pcactor && !jump && !linmove)
+    return false;
+
+  if (!strcmp (msg_id, "cel.move.jump.landed"))
+  {
+    puts ("The eagle has landed");
+    linmove->ResetGravity ();
+    pcactor->Activate (true);
+  }
+  else if (!strcmp (msg_id, "cel.timer.wakeup"))
+  {
+    // finished rolling
+    pcactor->Activate (true);
+  }
+  else if (!strcmp (msg_id, "cel.move.impossible"))
+  {
+    // sometimes the glide becomes stuck midair
+    if (jump->IsJumping ())  // if mid air
+    {
+      pcactor->Activate (false);
+      // play 'collided mid air with wall' animation
+      linmove->ResetGravity ();
+      linmove->SetVelocity (csVector3 (0));
+    }
+  }
+
   if (pcinput_msg)
   {
-    csRef<iPcActorAnalog> pcactor = celQueryPropertyClassEntity
-      <iPcActorAnalog> (entity);
-    if (!pcactor)
-      return false;
-
     if (!strcmp (msg_id+10, "joyaxis0"))
     {
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
@@ -242,6 +274,47 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       pcactor->AddAxis (1, -1);
     else if (!strcmp (msg_id+10, "down.up"))
       pcactor->AddAxis (1, 1);
+    else if (!strcmp (msg_id+10, "jump.down"))
+    {
+      // perform a glide if mid air and near peak of the jump
+      if (jump->IsJumping () && ABS (linmove->GetVelocity ().y) < 1.5f)
+      {
+        linmove->SetGravity (3.0f);
+        float glidespeed = linmove->GetVelocity ().z;
+        if (glidespeed > -5)
+          glidespeed = -5;
+        linmove->SetVelocity (csVector3 (0, 0, glidespeed));
+        pcactor->Activate (false);
+      }
+      else
+        jump->Jump ();
+    }
+    else if (!strcmp (msg_id+10, "roll.down"))
+    {
+      if (linmove->IsOnGround () && pcactor->IsActive ())
+      {
+        // perform a roll
+        if (!(pcactor->GetAxis () < EPSILON))
+        {
+          csRef<iPcTimer> timer = celQueryPropertyClassEntity<iPcTimer> (entity);
+          timer->WakeUp (700, false);
+          linmove->SetVelocity (csVector3 (0, 0, -pcactor->GetMovementSpeed ()));
+          pcactor->Activate (false);
+        }
+        // do a crouch (target set downwards)
+        else
+        {
+          csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
+          trackcam->SetTargetYOffset (0.5f);
+        }
+      }
+    }
+    // end crouch action
+    else if (!strcmp (msg_id+10, "roll.up"))
+    {
+      csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
+      trackcam->SetTargetYOffset (1.5f);
+    }
 
     csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
     if (!trackcam)

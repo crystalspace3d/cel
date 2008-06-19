@@ -17,14 +17,21 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_PF_ACTORANALOG__
-#define __CEL_PF_ACTORANALOG__
+#ifndef __CEL_PF_JUMP__
+#define __CEL_PF_JUMP__
 
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-#include "propclass/analogmotion.h"
+struct iPcJump : public virtual iBase
+{
+  SCF_INTERFACE (iPcJump, 0, 0, 1);
 
-typedef iPcAnalogMotion iPcActorAnalog;
+  virtual void Jump () = 0;
+  virtual bool IsJumping () const = 0;
+  virtual void SetJumpSpeed (float jspd) = 0;
+  virtual float GetJumpSpeed () const = 0;
+};
 
-#endif // __CEL_PF_ACTORANALOG__
+#endif // __CEL_PF_JUMP__
+
