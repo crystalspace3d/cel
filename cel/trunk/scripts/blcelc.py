@@ -1896,7 +1896,7 @@ class iPcRegion(cspace.iBase):
     def GetStartSector(*args): return _blcelc.iPcRegion_GetStartSector(*args)
     def GetStartPosition(*args): return _blcelc.iPcRegion_GetStartPosition(*args)
     def PointCamera(*args): return _blcelc.iPcRegion_PointCamera(*args)
-    def GetRegion(*args): return _blcelc.iPcRegion_GetRegion(*args)
+    def GetCollection(*args): return _blcelc.iPcRegion_GetCollection(*args)
     WorldFile = _swig_property(_blcelc.iPcRegion_GetWorldFile, fix_args(_blcelc.iPcRegion_SetWorldFile), None,
                     "iPcRegion.WorldFile -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcRegion::GetWorldFile()\n\tset: void iPcRegion::SetWorldFile(...)")
 
@@ -1985,7 +1985,7 @@ class iCelRegion(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelRegion_GetName(*args)
-    def GetCsRegionName(*args): return _blcelc.iCelRegion_GetCsRegionName(*args)
+    def GetCsCollectionName(*args): return _blcelc.iCelRegion_GetCsCollectionName(*args)
     def SetCachePath(*args): return _blcelc.iCelRegion_SetCachePath(*args)
     def GetCachePath(*args): return _blcelc.iCelRegion_GetCachePath(*args)
     def CreateMapFile(*args): return _blcelc.iCelRegion_CreateMapFile(*args)
@@ -1997,7 +1997,7 @@ class iCelRegion(cspace.iBase):
     def AssociateEntity(*args): return _blcelc.iCelRegion_AssociateEntity(*args)
     def DissociateEntity(*args): return _blcelc.iCelRegion_DissociateEntity(*args)
     def ContainsEntity(*args): return _blcelc.iCelRegion_ContainsEntity(*args)
-    def GetCsRegion(*args): return _blcelc.iCelRegion_GetCsRegion(*args)
+    def GetCollection(*args): return _blcelc.iCelRegion_GetCollection(*args)
     Name = _swig_property(_blcelc.iCelRegion_Name_get, None, None,
                     "iCelRegion.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelRegion::GetName()")
 
