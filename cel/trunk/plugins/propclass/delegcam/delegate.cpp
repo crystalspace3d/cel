@@ -65,6 +65,7 @@ celPcDelegateCamera::celPcDelegateCamera (iObjectRegistry* object_reg)
   in_transition = false;
   currtrans = 0.0f;
   transtime = 2.0f;
+  player = 0;
 
   prev.pos.Set (0.0f);
   prev.tar.Set (0.0f);
