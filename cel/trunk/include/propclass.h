@@ -38,6 +38,7 @@
 #include "propclass/hover.h"
 #include "propclass/input.h"
 #include "propclass/inv.h"
+#include "propclass/jump.h"
 #include "propclass/light.h"
 #include "propclass/linmove.h"
 #include "propclass/mechcommon.h"
