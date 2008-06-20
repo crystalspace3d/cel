@@ -28,9 +28,27 @@ struct iPcJump : public virtual iBase
   SCF_INTERFACE (iPcJump, 0, 0, 1);
 
   virtual void Jump () = 0;
+  virtual void DoubleJump ();
+  virtual void Freeze (bool frozen) = 0;
+  virtual void Glide () = 0;
+
   virtual bool IsJumping () const = 0;
-  virtual void SetJumpSpeed (float jspd) = 0;
+  virtual bool IsFrozen () = 0;
+
+  virtual void SetJumpSpeed (float spd) = 0;
   virtual float GetJumpSpeed () const = 0;
+  virtual void SetDoubleJumpSpeed (float spd) = 0;
+  virtual float GetDoubleJumpSpeed () const = 0;
+  virtual void SetDoubleJumpSensitivity (float sens) = 0;
+  virtual float GetDoubleJumpSensitivity () const = 0;
+  virtual void SetGlideSpeed (float spd) = 0;
+  virtual float GetGlideSpeed () const = 0;
+  virtual void SetGlideSensitivity (float sens) = 0;
+  virtual float GetGlideSensitivity () const = 0;
+  /*virtual void SetGravity (float grav) = 0;
+  virtual float GetGravity () const = 0;
+  virtual void SetGlideGravity (float grav) = 0;
+  virtual float GetGlideGravity () const = 0;*/
 };
 
 #endif // __CEL_PF_JUMP__
