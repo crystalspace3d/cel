@@ -29,6 +29,7 @@
 #include "ivaria/reporter.h"
 
 // CEL Includes
+#include "propclass/analogmotion.h"
 #include "propclass/linmove.h"
 
 //---------------------------------------------------------------------------
@@ -62,7 +63,9 @@ celPcJump::celPcJump (iObjectRegistry* object_reg)
     &jumpspeed);
 
   jumping = false;
+  doublejumping = false;
   jumpspeed = 10.0f;
+  doublejumpspeed = 0.0f;
 }
 
 celPcJump::~celPcJump ()
@@ -107,35 +110,103 @@ bool celPcJump::PerformActionIndexed (int idx, iCelParameterBlock* params, celDa
 
 void celPcJump::Jump ()
 {
+  float upspeed = jumpspeed;
+  if (!FindSiblingPropertyClasses ())
+    return;
   // already doing a jump
   if (jumping)
     return;
   jumping = true;
-  FindSiblingPropertyClasses ();
   // actually perform the jump if we're on the ground
   if (linmove && linmove->IsOnGround ())
-    linmove->AddVelocity (csVector3 (0, jumpspeed, 0));
+    linmove->AddVelocity (csVector3 (0, upspeed, 0));
   // we use a cheat... this should skip this current frame
   // and only callback once we have left the ground.
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 }
+void celPcJump::DoubleJump ()
+{
+  if (!FindSiblingPropertyClasses ())
+    return;
+  // ----------------
+  if (!doublejumping && doublejumpspeed > EPSILON && ABS (linmove->GetVelocity ().y) < 1.5f)
+    upspeed = doublejumpspeed;
+}
+void celPcJump::Freeze (bool frozen)
+{
+  if (frozen)
+    linmove->SetGravity (0.0f);
+  else
+    linmove->ResetGravity ();
+}
+void celPcJump::Glide ()
+{
+  if (!FindSiblingPropertyClasses () || !jumping || ABS (linmove->GetVelocity ().y) > 1.5f)
+    return;
+  linmove->SetGravity (3.0f);
+  float glidespeed = linmove->GetBodyVelocity ().z;
+  if (glidespeed > -5.0f)
+    glidespeed = -5.0f;
+  linmove->SetVelocity (csVector3 (0, 0, glidespeed));
+  csRef<iPcAnalogMotion> motion = celQueryPropertyClassEntity<iPcAnalogMotion> (entity);
+  if (motion)
+    motion->Activate (false);
+}
+
 bool celPcJump::IsJumping () const
 {
   return jumping;
 }
-void celPcJump::SetJumpSpeed (float jspd)
+bool celPcJump::IsDoubleJumping () const
 {
-  jumpspeed = jspd;
+  return doublejumping;
+}
+bool celPcJump::IsFrozen ()
+{
+  FindSiblingPropertyClasses ();
+  return linmove->GetGravity () < 0.0f;
+}
+
+void celPcJump::SetJumpSpeed (float spd)
+{
+  jumpspeed = spd;
 }
 float celPcJump::GetJumpSpeed () const
 {
   return jumpspeed;
 }
+void celPcJump::SetDoubleJumpSpeed (float spd)
+{
+  doublejumpspeed = spd;
+}
+float celPcJump::GetDoubleJumpSpeed () const
+{
+  return doublejumpspeed;
+}
+void celPcJump::SetDoubleJumpSensitivity (float sens)
+{
+}
+float celPcJump::GetDoubleJumpSensitivity () const
+{
+}
+void celPcJump::SetGlideSpeed (float spd)
+{
+}
+float celPcJump::GetGlideSpeed () const
+{
+}
+void celPcJump::SetGlideSensitivity (float sens)
+{
+}
+float celPcJump::GetGlideSensitivity () const
+{
+}
 
-void celPcJump::FindSiblingPropertyClasses ()
+bool celPcJump::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
     linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+  return !linmove;
 }
 
 void celPcJump::TickEveryFrame ()
@@ -155,12 +226,18 @@ void celPcJump::UpdateMovement ()
       csPrintf("cel.pcmove.jump: Callback was improperly removed!");
     return;
   }
-  FindSiblingPropertyClasses ();
+  if (!FindSiblingPropertyClasses ())
+    return;
   // check if we landed from our jump
-  if (jumping && linmove && linmove->IsOnGround ())
+  if (jumping && linmove->IsOnGround ())
   {
     jumping = false;
+    doublejumping = false;
     pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+
+    csRef<iPcAnalogMotion> motion = celQueryPropertyClassEntity<iPcAnalogMotion> (entity);
+    if (motion)
+      motion->Activate (true);
 
     if (!dispatcher_landed)
     {

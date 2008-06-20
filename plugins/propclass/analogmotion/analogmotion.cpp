@@ -324,7 +324,7 @@ bool celPcAnalogMotion::IsActive () const
   return active;
 }
 
-void celPcAnalogMotion::FindSiblingPropertyClasses ()
+bool celPcAnalogMotion::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
@@ -332,6 +332,8 @@ void celPcAnalogMotion::FindSiblingPropertyClasses ()
     pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
     camera = celQueryPropertyClassEntity<iPcCamera> (entity);
   }
+  // check if we're missing any needed property classes
+  return !pclinmove || !pcmesh || !camera;
 }
 
 void celPcAnalogMotion::TickEveryFrame ()
@@ -341,11 +343,7 @@ void celPcAnalogMotion::TickEveryFrame ()
 
 void celPcAnalogMotion::UpdateMovement ()
 {
-  if (!active)
-    return;
-  FindSiblingPropertyClasses ();
-  // check if we're missing any needed property classes
-  if (!pclinmove || !pcmesh || !camera)
+  if (!active || !FindSiblingPropertyClasses ())
     return;
 
   csVector2 curr_axis (target_axis);

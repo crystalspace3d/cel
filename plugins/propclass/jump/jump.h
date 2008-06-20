@@ -56,19 +56,33 @@ public:
   void TickEveryFrame ();
 
   void Jump ();
+  void Freeze (bool frozen);
+  void Glide ();
+
   bool IsJumping () const;
-  void SetJumpSpeed (float jspd);
+  bool IsDoubleJumping () const;
+  bool IsFrozen ();
+
+  void SetJumpSpeed (float spd);
   float GetJumpSpeed () const;
+  void SetDoubleJumpSpeed (float spd);
+  float GetDoubleJumpSpeed () const;
+  void SetDoubleJumpSensitivity (float sens);
+  float GetDoubleJumpSensitivity () const;
+  void SetGlideSpeed (float spd);
+  float GetGlideSpeed () const;
+  void SetGlideSensitivity (float sens);
+  float GetGlideSensitivity () const;
 
 private:
   // Called regularly and any movement change
   void UpdateMovement ();
 
   // Check for any changes and update if necessary
-  void FindSiblingPropertyClasses ();
+  bool FindSiblingPropertyClasses ();
 
-  bool jumping;
-  float jumpspeed;
+  bool jumping, doublejumping;
+  float jumpspeed, doublejumpspeed;
   csWeakRef<iPcLinearMovement> linmove;
 
   // For actions.

@@ -86,7 +86,7 @@ private:
   void UpdateMovement ();
 
   // Check for any changes and update if necessary
-  void FindSiblingPropertyClasses ();
+  bool FindSiblingPropertyClasses ();
 
   // Axis as set by client.
   csVector2 target_axis;
