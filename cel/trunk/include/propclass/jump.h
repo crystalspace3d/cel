@@ -33,6 +33,7 @@ struct iPcJump : public virtual iBase
   virtual void Glide () = 0;
 
   virtual bool IsJumping () const = 0;
+  virtual bool IsDoubleJumping () const = 0;
   virtual bool IsFrozen () = 0;
 
   virtual void SetJumpSpeed (float spd) = 0;

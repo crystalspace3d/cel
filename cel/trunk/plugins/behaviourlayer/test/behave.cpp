@@ -276,6 +276,11 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       pcactor->AddAxis (1, 1);
     else if (!strcmp (msg_id+10, "jump.down"))
     {
+      csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity);
+      if (jump->IsJumping ())
+        jump->DoubleJump ();
+      else
+        jump->Jump ();
       // perform a glide if mid air and near peak of the jump
       /*if (jump->IsJumping () && ABS (linmove->GetVelocity ().y) < 1.5f)
       {

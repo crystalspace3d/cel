@@ -131,8 +131,7 @@ void celPcJump::DoubleJump ()
   if (!jumping || doublejumping || doublejumpspeed < EPSILON || ABS (linmove->GetVelocity ().y) > 1.5f)
     return;
   doublejumping = true;
-  if (linmove->IsOnGround ())
-    linmove->AddVelocity (csVector3 (0, doublejumpspeed, 0));
+  linmove->AddVelocity (csVector3 (0, doublejumpspeed, 0));
 }
 void celPcJump::Freeze (bool frozen)
 {
@@ -208,7 +207,7 @@ bool celPcJump::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
     linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-  return !linmove;
+  return linmove;
 }
 
 void celPcJump::TickEveryFrame ()

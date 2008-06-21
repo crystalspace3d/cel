@@ -202,45 +202,19 @@ public:
   	const csVector3& angle_to_reach);
 
   /// Sets a velocity for this body in body coordinates
-  virtual void SetVelocity (const csVector3& vel)
-  {
-    // Y movement here is NOT lift and gravity effects. It IS for
-    // jumping & jetpacks.
-    velBody = vel;
-  }
+  void SetVelocity (const csVector3& vel) { SetBodyVelocity (vel); }
+  void SetBodyVelocity (const csVector3& vel);
+  void SetWorldVelocity (const csVector3& vel);
 
   /// Adds on a velocity to this body in world coordinates
-  virtual void AddVelocity (const csVector3& vel)
-  {
-    // Y movement here can be used for lift and gravity effects.
-    velWorld += vel;
-  }
+  void AddVelocity (const csVector3& vel);
 
   /// Resets the velocity of this body in world coordinates.
-  virtual void ClearWorldVelocity ()
-  {
-    // Y movement here can be used for lift and gravity effects.
-    velWorld = 0.0f;
-  }
-
-  virtual void GetVelocity (csVector3 &v) const
-  {
-    v = GetVelocity ();
-  }
-
-  virtual const csVector3 &GetBodyVelocity () const
-  {
-    return velBody;
-  }
-  virtual const csVector3 GetVelocity () const
-  {
-    csVector3 velworld = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
-        .Other2ThisRelative (velWorld);
-
-    // Return the composite of the object and world velocity
-    // in the OBJECT coordinate system.
-    return velworld + velBody;
-  }
+  void ClearWorldVelocity ();
+  void GetVelocity (csVector3 &v) const;
+  const csVector3 &GetBodyVelocity () const;
+  const csVector3 &GetWorldVelocity () const;
+  const csVector3 GetVelocity () const;
 
   virtual bool RotateV (float delta);
 

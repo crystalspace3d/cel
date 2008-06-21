@@ -76,6 +76,7 @@
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 #include "propclass/inv.h"
+#include "propclass/jump.h"
 #include "propclass/chars.h"
 #include "propclass/move.h"
 #include "propclass/tooltip.h"
@@ -222,6 +223,9 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   csRef<iPcAnalogMotion> actor = celQueryPropertyClassEntity<iPcAnalogMotion> (entity_cam);
   //actor->SetMinimumTurningSpeed (5.0f);
   //actor->SetMovementSpeed (1.5f);
+
+  csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity_cam);
+  jump->SetDoubleJumpSpeed (5.0f);
 
   csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
   csRef<iPcDelegateCamera> delegcam = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
