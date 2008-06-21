@@ -149,7 +149,7 @@ void celPcJump::Glide ()
   float glidespeed = linmove->GetBodyVelocity ().z;
   if (glidespeed > -5.0f)
     glidespeed = -5.0f;
-  linmove->SetVelocity (csVector3 (0, 0, glidespeed));
+  linmove->SetBodyVelocity (csVector3 (0, 0, glidespeed));
   csRef<iPcAnalogMotion> motion = celQueryPropertyClassEntity<iPcAnalogMotion> (entity);
   if (motion)
     motion->Activate (false);
@@ -237,6 +237,7 @@ void celPcJump::UpdateMovement ()
     doublejumping = false;
     pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
+    linmove->ResetGravity ();
     csRef<iPcAnalogMotion> motion = celQueryPropertyClassEntity<iPcAnalogMotion> (entity);
     if (motion)
       motion->Activate (true);
