@@ -225,7 +225,8 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   //actor->SetMovementSpeed (1.5f);
 
   csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity_cam);
-  jump->SetDoubleJumpSpeed (5.0f);
+  jump->SetJumpSpeed (8.0f);
+  jump->SetDoubleJumpSpeed (7.0f);
 
   csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
   csRef<iPcDelegateCamera> delegcam = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
