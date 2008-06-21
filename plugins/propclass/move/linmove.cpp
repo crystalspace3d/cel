@@ -559,6 +559,51 @@ static float Matrix2YRot (const csMatrix3& mat)
   return GetAngle (vec.z, vec.x);
 }
 
+void celPcLinearMovement::SetBodyVelocity (const csVector3& vel)
+{
+  velBody = vel;
+}
+void celPcLinearMovement::SetWorldVelocity (const csVector3& vel)
+{
+  velWorld = vel;
+}
+
+/// Adds on a velocity to this body in world coordinates
+void celPcLinearMovement::AddVelocity (const csVector3& vel)
+{
+  // Y movement here can be used for lift and gravity effects.
+  velWorld += vel;
+}
+
+/// Resets the velocity of this body in world coordinates.
+void celPcLinearMovement::ClearWorldVelocity ()
+{
+  // Y movement here can be used for lift and gravity effects.
+  velWorld = 0.0f;
+}
+
+void celPcLinearMovement::GetVelocity (csVector3 &v) const
+{
+  v = GetVelocity ();
+}
+
+const csVector3 &celPcLinearMovement::GetBodyVelocity () const
+{
+  return velBody;
+}
+const csVector3 &celPcLinearMovement::GetWorldVelocity () const
+{
+  return velWorld;
+}
+const csVector3 celPcLinearMovement::GetVelocity () const
+{
+  csVector3 velworld = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
+      .Other2ThisRelative (velWorld);
+
+  // Return the composite of the object and world velocity
+  // in the OBJECT coordinate system.
+  return velworld + velBody;
+}
 // --------------------------------------------------------------------------
 //Does the actual rotation
 bool celPcLinearMovement::RotateV (float delta)

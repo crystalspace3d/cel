@@ -82,6 +82,7 @@ private:
   // Check for any changes and update if necessary
   bool FindSiblingPropertyClasses ();
 
+  // use a state motherfucker
   bool jumping, doublejumping;
   float jumpspeed, doublejumpspeed;
   csWeakRef<iPcLinearMovement> linmove;
