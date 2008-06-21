@@ -110,7 +110,6 @@ bool celPcJump::PerformActionIndexed (int idx, iCelParameterBlock* params, celDa
 
 void celPcJump::Jump ()
 {
-  float upspeed = jumpspeed;
   if (!FindSiblingPropertyClasses ())
     return;
   // already doing a jump
@@ -119,7 +118,7 @@ void celPcJump::Jump ()
   jumping = true;
   // actually perform the jump if we're on the ground
   if (linmove && linmove->IsOnGround ())
-    linmove->AddVelocity (csVector3 (0, upspeed, 0));
+    linmove->AddVelocity (csVector3 (0, jumpspeed, 0));
   // we use a cheat... this should skip this current frame
   // and only callback once we have left the ground.
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
@@ -129,8 +128,10 @@ void celPcJump::DoubleJump ()
   if (!FindSiblingPropertyClasses ())
     return;
   // ----------------
-  if (!doublejumping && doublejumpspeed > EPSILON && ABS (linmove->GetVelocity ().y) < 1.5f)
-    upspeed = doublejumpspeed;
+  if (!jumping || doublejumping || doublejumpspeed < EPSILON || ABS (linmove->GetVelocity ().y) > 1.5f)
+    return;
+  if (linmove && linmove->IsOnGround ())
+    linmove->AddVelocity (csVector3 (0, 3, 0));
 }
 void celPcJump::Freeze (bool frozen)
 {
