@@ -131,6 +131,7 @@ void celPcJump::DoubleJump ()
   if (!jumping || doublejumping || doublejumpspeed < EPSILON || ABS (linmove->GetVelocity ().y) > 1.5f)
     return;
   doublejumping = true;
+  linmove->ClearWorldVelocity ();
   linmove->AddVelocity (csVector3 (0, doublejumpspeed, 0));
 }
 void celPcJump::Freeze (bool frozen)
