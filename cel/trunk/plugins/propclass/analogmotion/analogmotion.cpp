@@ -333,7 +333,7 @@ bool celPcAnalogMotion::FindSiblingPropertyClasses ()
     camera = celQueryPropertyClassEntity<iPcCamera> (entity);
   }
   // check if we're missing any needed property classes
-  return !pclinmove || !pcmesh || !camera;
+  return pclinmove && pcmesh && camera;
 }
 
 void celPcAnalogMotion::TickEveryFrame ()

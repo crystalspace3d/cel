@@ -215,11 +215,11 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     <iPcAnalogMotion> (entity);
   if (!pcactor)
     return false;
-  csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity);
+  /*csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity);
   if (!jump)
-    return false;
+    return false;*/
   csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-  if (!pcactor && !jump && !linmove)
+  if (!pcactor && !linmove)
     return false;
 
   if (!strcmp (msg_id, "cel.move.jump.landed"))
@@ -231,18 +231,18 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
   else if (!strcmp (msg_id, "cel.timer.wakeup"))
   {
     // finished rolling
-    pcactor->Activate (true);
+    //pcactor->Activate (true);
   }
   else if (!strcmp (msg_id, "cel.move.impossible"))
   {
     // sometimes the glide becomes stuck midair
-    if (jump->IsJumping ())  // if mid air
+    /*if (jump->IsJumping ())  // if mid air
     {
-      pcactor->Activate (false);
+      //pcactor->Activate (false);
       // play 'collided mid air with wall' animation
       linmove->ResetGravity ();
       linmove->SetVelocity (csVector3 (0));
-    }
+    }*/
   }
 
   if (pcinput_msg)
@@ -288,10 +288,10 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       }
       else
         jump->Jump ();*/
-      if (jump->IsJumping ())
+      /*if (jump->IsJumping ())
         jump->DoubleJump ();
       else
-        jump->Jump ();
+        jump->Jump ();*/
     }
     else if (!strcmp (msg_id+10, "roll.down"))
     {
