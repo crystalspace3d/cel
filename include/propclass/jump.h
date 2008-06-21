@@ -28,7 +28,7 @@ struct iPcJump : public virtual iBase
   SCF_INTERFACE (iPcJump, 0, 0, 1);
 
   virtual void Jump () = 0;
-  virtual void DoubleJump ();
+  virtual void DoubleJump () = 0;
   virtual void Freeze (bool frozen) = 0;
   virtual void Glide () = 0;
 

@@ -56,6 +56,7 @@ public:
   void TickEveryFrame ();
 
   void Jump ();
+  void DoubleJump ();
   void Freeze (bool frozen);
   void Glide ();
 
