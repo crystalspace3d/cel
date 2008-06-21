@@ -278,7 +278,12 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity);
       if (jump->IsJumping ())
-        jump->DoubleJump ();
+      {
+        if (jump->IsDoubleJumping ())
+          jump->Glide ();
+        else
+          jump->DoubleJump ();
+      }
       else
         jump->Jump ();
       // perform a glide if mid air and near peak of the jump
