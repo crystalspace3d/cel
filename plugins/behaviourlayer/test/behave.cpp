@@ -225,8 +225,8 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
   if (!strcmp (msg_id, "cel.move.jump.landed"))
   {
     puts ("The eagle has landed");
-    linmove->ResetGravity ();
-    pcactor->Activate (true);
+    //linmove->ResetGravity ();
+    //pcactor->Activate (true);
   }
   else if (!strcmp (msg_id, "cel.timer.wakeup"))
   {
@@ -277,7 +277,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     else if (!strcmp (msg_id+10, "jump.down"))
     {
       // perform a glide if mid air and near peak of the jump
-      if (jump->IsJumping () && ABS (linmove->GetVelocity ().y) < 1.5f)
+      /*if (jump->IsJumping () && ABS (linmove->GetVelocity ().y) < 1.5f)
       {
         linmove->SetGravity (3.0f);
         float glidespeed = linmove->GetVelocity ().z;
@@ -286,6 +286,10 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
         linmove->SetVelocity (csVector3 (0, 0, glidespeed));
         pcactor->Activate (false);
       }
+      else
+        jump->Jump ();*/
+      if (jump->IsJumping ())
+        jump->DoubleJump ();
       else
         jump->Jump ();
     }

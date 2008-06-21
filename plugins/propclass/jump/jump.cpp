@@ -117,7 +117,7 @@ void celPcJump::Jump ()
     return;
   jumping = true;
   // actually perform the jump if we're on the ground
-  if (linmove && linmove->IsOnGround ())
+  if (linmove->IsOnGround ())
     linmove->AddVelocity (csVector3 (0, jumpspeed, 0));
   // we use a cheat... this should skip this current frame
   // and only callback once we have left the ground.
@@ -130,8 +130,9 @@ void celPcJump::DoubleJump ()
   // ----------------
   if (!jumping || doublejumping || doublejumpspeed < EPSILON || ABS (linmove->GetVelocity ().y) > 1.5f)
     return;
-  if (linmove && linmove->IsOnGround ())
-    linmove->AddVelocity (csVector3 (0, 3, 0));
+  doublejumping = true;
+  if (linmove->IsOnGround ())
+    linmove->AddVelocity (csVector3 (0, doublejumpspeed, 0));
 }
 void celPcJump::Freeze (bool frozen)
 {
