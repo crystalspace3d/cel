@@ -159,10 +159,12 @@ bool celPcJump::IsJumping () const
 {
   return jumping;
 }
+
 bool celPcJump::IsDoubleJumping () const
 {
   return doublejumping;
 }
+
 bool celPcJump::IsFrozen ()
 {
   FindSiblingPropertyClasses ();
@@ -173,35 +175,47 @@ void celPcJump::SetJumpSpeed (float spd)
 {
   jumpspeed = spd;
 }
+
 float celPcJump::GetJumpSpeed () const
 {
   return jumpspeed;
 }
+
 void celPcJump::SetDoubleJumpSpeed (float spd)
 {
   doublejumpspeed = spd;
 }
+
 float celPcJump::GetDoubleJumpSpeed () const
 {
   return doublejumpspeed;
 }
+
 void celPcJump::SetDoubleJumpSensitivity (float sens)
 {
 }
+
 float celPcJump::GetDoubleJumpSensitivity () const
 {
+  return 0.0f;
 }
+
 void celPcJump::SetGlideSpeed (float spd)
 {
 }
+
 float celPcJump::GetGlideSpeed () const
 {
+  return 0.0f;
 }
+
 void celPcJump::SetGlideSensitivity (float sens)
 {
 }
+
 float celPcJump::GetGlideSensitivity () const
 {
+  return 0.0f;
 }
 
 bool celPcJump::FindSiblingPropertyClasses ()
