@@ -626,31 +626,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libpfactoranalog_staticreg.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\msvc\libpfactormove_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -673,6 +648,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfactormove_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\libpfanalogmotion_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfanalogmotion_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfanalogmotion_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfanalogmotion_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfanalogmotion_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -898,6 +898,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfinv_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\libpfjump_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfjump_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfjump_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfjump_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfjump_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1876,31 +1901,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -1948,6 +1948,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_actormove_npcmove.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\analogmotion\analogmotion.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_analogmotion_analogmotion.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_analogmotion_analogmotion.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_analogmotion_analogmotion.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_analogmotion_analogmotion.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -2223,6 +2248,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_inv_invfact.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\jump\jump.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_jump_jump.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_jump_jump.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_jump_jump.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_jump_jump.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -4147,13 +4197,13 @@
 				RelativePath="..\..\plugins\persist\xml\xmlpersist.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\npcmove.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\analogmotion\analogmotion.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\billboard\billboard.h">
@@ -4187,6 +4237,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\inv\invfact.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\jump\jump.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\light\lightfact.h">
