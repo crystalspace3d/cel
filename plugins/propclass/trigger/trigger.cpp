@@ -344,23 +344,36 @@ void celPcTrigger::MonitorClass (const char* classname)
   }
 }
 
+void celPcTrigger::ResetCallbackOnce()
+{
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  if (enabled)
+    SetCallbackOnce();
+}
+
+void celPcTrigger::SetCallbackOnce()
+{
+   csTicks delay = celPcTrigger::delay;
+
+   if (jitter)
+     delay+=(rand () % (jitter+jitter))-jitter;
+
+   pl->CallbackOnce ((iCelTimerListener*)this,
+    	delay, CEL_EVENT_PRE);
+}
+
+
 void celPcTrigger::EnableTrigger (bool en)
 {
   enabled = en;
-  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  if (enabled)
-    pl->CallbackOnce ((iCelTimerListener*)this,
-    	delay+(rand () % (jitter+jitter))-jitter, CEL_EVENT_PRE);
+  ResetCallbackOnce();
 }
 
 void celPcTrigger::SetMonitorDelay (csTicks delay, csTicks jitter)
 {
   celPcTrigger::delay = delay;
   celPcTrigger::jitter = jitter;
-  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  if (enabled)
-    pl->CallbackOnce ((iCelTimerListener*)this,
-    	delay+(rand () % (jitter+jitter))-jitter, CEL_EVENT_PRE);
+  ResetCallbackOnce();
 }
 
 void celPcTrigger::LeaveAllEntities ()
@@ -831,8 +844,7 @@ void celPcTrigger::TickOnce ()
     }
   }
   end:
-  pl->CallbackOnce ((iCelTimerListener*)this,
-  	delay+(rand () % (jitter+jitter))-jitter, CEL_EVENT_PRE);
+  SetCallbackOnce();
 }
 
 #define TRIGGER_SERIAL 2
