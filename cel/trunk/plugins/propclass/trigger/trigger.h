@@ -161,7 +161,10 @@ private:
   // Return index in entity array if this entity is known to be in the
   // trigger already. Otherwise returns csArrayItemNotFound.
   size_t EntityInTrigger (iCelEntity* entity);
-
+  // Set callback once with a jitter.
+  void SetCallbackOnce();
+  // Unset previous callback once, and set it again.
+  void ResetCallbackOnce();
 public:
   celPcTrigger (iObjectRegistry* object_reg);
   virtual ~celPcTrigger ();
