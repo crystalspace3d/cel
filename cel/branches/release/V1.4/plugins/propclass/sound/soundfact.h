@@ -141,7 +141,7 @@ public:
   virtual ~celPcSoundSource ();
 
   virtual iSndSysSource* GetSoundSource () {
-    return source; 
+    GetSource(); return source; 
   }
   virtual void SetSoundName (const char* name);
   virtual const char* GetSoundName () const { return soundname; }
