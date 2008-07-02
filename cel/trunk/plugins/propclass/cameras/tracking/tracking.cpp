@@ -87,39 +87,39 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   // For properties.
   propinfo.SetCount (17);
   AddProperty (propid_pos, "cel.property.position",
-    CEL_DATA_VECTOR3, false, "Position.", &corrpos);
+    CEL_DATA_VECTOR3, true, "Position.", &corrpos);
   AddProperty (propid_tar, "cel.property.target",
-    CEL_DATA_VECTOR3, false, "Target position.", &corrtar);
+    CEL_DATA_VECTOR3, true, "Target position.", &corrtar);
   AddProperty (propid_up, "cel.property.up",
-    CEL_DATA_VECTOR3, false, "Up direction.", &up);
+    CEL_DATA_VECTOR3, true, "Up direction.", &up);
   AddProperty (propid_pan_topspeed, "cel.property.pan_topspeed",
-    CEL_DATA_FLOAT, true, "Top speed limit for panning.", &pan.topspeed);
+    CEL_DATA_FLOAT, false, "Top speed limit for panning.", &pan.topspeed);
   AddProperty (propid_pan_currspeed, "cel.property.pan_currspeed",
-    CEL_DATA_FLOAT, false, "Current panning speed.", &pan.speed);
+    CEL_DATA_FLOAT, true, "Current panning speed.", &pan.speed);
   AddProperty (propid_pan_accel, "cel.property.pan_accel",
-    CEL_DATA_FLOAT, true, "Pan acceleration.", &pan.accel);
+    CEL_DATA_FLOAT, false, "Pan acceleration.", &pan.accel);
   AddProperty (propid_pan_dir, "cel.property.pan_dir",
-    CEL_DATA_LONG, true, "Pan direction -1 left, 0 none, 1 right.", 0);
+    CEL_DATA_LONG, false, "Pan direction -1 left, 0 none, 1 right.", 0);
   AddProperty (propid_tilt_topspeed, "cel.property.tilt_topspeed",
-    CEL_DATA_FLOAT, true, "Top speed limit for tilting.", &tilt.topspeed);
+    CEL_DATA_FLOAT, false, "Top speed limit for tilting.", &tilt.topspeed);
   AddProperty (propid_tilt_currspeed, "cel.property.tilt_currspeed",
-    CEL_DATA_FLOAT, false, "Current tilt speed.", &tilt.speed);
+    CEL_DATA_FLOAT, true, "Current tilt speed.", &tilt.speed);
   AddProperty (propid_tilt_accel, "cel.property.tilt_accel",
-    CEL_DATA_FLOAT, true, "Tilt acceleration.", &tilt.accel);
+    CEL_DATA_FLOAT, false, "Tilt acceleration.", &tilt.accel);
   AddProperty (propid_tilt_dir, "cel.property.tilt_dir",
-    CEL_DATA_LONG, true, "Tilt direction -1 down, 0 none, 1 up.", 0);
+    CEL_DATA_LONG, false, "Tilt direction -1 down, 0 none, 1 up.", 0);
   AddProperty (propid_taryoff, "cel.property.targetyoffset",
-    CEL_DATA_FLOAT, true, "Y offset from target for lookat.", &targetyoffset);
+    CEL_DATA_FLOAT, false, "Y offset from target for lookat.", &targetyoffset);
   AddProperty (propid_posoff_angle, "cel.property.posoff_angle",
-    CEL_DATA_FLOAT, true, "Position offset elevation angle.", &posoff.angle);
+    CEL_DATA_FLOAT, false, "Position offset elevation angle.", &posoff.angle);
   AddProperty (propid_posoff_dist, "cel.property.posoff_dist",
-    CEL_DATA_FLOAT, true, "Position offset distance.", &posoff.dist);
+    CEL_DATA_FLOAT, false, "Position offset distance.", &posoff.dist);
   AddProperty (propid_spring_relaxlen, "cel.property.spring_relaxlen",
-    CEL_DATA_FLOAT, true, "Relaxed length of spring that follows player.", &relaxspringlen);
+    CEL_DATA_FLOAT, false, "Relaxed length of spring that follows player.", &relaxspringlen);
   AddProperty (propid_spring_minlen, "cel.property.spring_minlen",
-    CEL_DATA_FLOAT, true, "Minimum length of the spring (small values are good).", &minspring);
+    CEL_DATA_FLOAT, false, "Minimum length of the spring (small values are good).", &minspring);
   AddProperty (propid_zoomoutcorrspeed, "cel.property.zoomoutcorrspeed",
-    CEL_DATA_FLOAT, true, "Zooming out correction speed.", &zoomoutcorrspeed);
+    CEL_DATA_FLOAT, false, "Zooming out correction speed.", &zoomoutcorrspeed);
 }
 
 celPcTrackingCamera::~celPcTrackingCamera ()
