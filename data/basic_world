@@ -2,6 +2,8 @@
   <plugins>
     <plugin name="plasma">crystalspace.texture.loader.plasma</plugin>
     <plugin name="fireTexLoader">crystalspace.texture.loader.fire</plugin>
+    <plugin name="genmesh">crystalspace.mesh.loader.genmesh</plugin>
+    <plugin name="genmeshfact">crystalspace.mesh.loader.factory.genmesh</plugin>
   </plugins>
   <textures>
     <texture name="abstract_a032.jpg">
@@ -11,7 +13,7 @@
       <file>/lib/stdtex/my_wood.jpg</file>
     </texture>
     <texture name="raindrop">
-      <file>/lib/std/raindrop.png</file>
+      <file>/cellib/objects/red.png</file>
     </texture>
     <texture name="snow">
       <file>/lib/std/snow.jpg</file>
@@ -46,6 +48,18 @@
     <texture name="plasma">
       <type>plasma</type>
     </texture>
+    <texture name="orogor">
+      <file>/cellib/objects/blue.png</file>
+    </texture>
+    <texture name="aqua">
+      <file>/cellib/objects/aqua.png</file>
+    </texture>
+    <texture name="yellow">
+      <file>/cellib/objects/yellow.png</file>
+    </texture>
+    <texture name="purple">
+      <file>/cellib/objects/purple.png</file>
+    </texture>
     <texture name="flamelet">
       <type>fireTexLoader</type>
       <size width="16" height="32" />
@@ -69,6 +83,18 @@
     </texture>
   </textures>
   <materials>
+    <material name="orogor">
+      <texture>orogor</texture>
+    </material>
+    <material name="purple">
+      <texture>purple</texture>
+    </material>
+    <material name="yellow">
+      <texture>yellow</texture>
+    </material>
+    <material name="aqua">
+      <texture>aqua</texture>
+    </material>
     <material name="wood">
       <texture>andrew_wood.jpg</texture>
     </material>
@@ -343,7 +369,328 @@
       </effector>
     </params>
   </meshfact>
+  
+  <meshfact name='Cube'>
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <zuse/>
+    <params>
+      <material>no</material>
+      <v x="1" y="0.000000" z="1" nx="0.000000" ny="-1.000000" nz="0.000000"/>
+      <v x="1" y="0.000000" z="-1" nx="0.000000" ny="-1.000000" nz="0.000000"/>
+      <v x="-1" y="0.000000" z="-1" nx="0.000000" ny="-1.000000" nz="0.000000"/>
+      <v x="-1" y="0.000000" z="1" nx="0.000000" ny="-1.000000" nz="0.000000"/>
+      <t v1="2" v2="1" v3="0"/>
+      <t v1="3" v2="2" v3="0"/>
+      <v x="1" y="4.5" z="1" nx="0.000000" ny="1.000000" nz="-0.000000"/>
+      <v x="-1" y="4.5" z="1" nx="0.000000" ny="1.000000" nz="-0.000000"/>
+      <v x="-1" y="4.5" z="-1" nx="0.000000" ny="1.000000" nz="-0.000000"/>
+      <v x="1" y="4.5" z="-1" nx="0.000000" ny="1.000000" nz="-0.000000"/>
+      <t v1="6" v2="5" v3="4"/>
+      <t v1="7" v2="6" v3="4"/>
+      <v x="1" y="0.000000" z="1" nx="0.998657" ny="0.051807" nz="-0.000000"/>
+      <v x="1" y="4.5" z="1" nx="0.998657" ny="0.051807" nz="-0.000000"/>
+      <v x="1" y="4.5" z="-1" nx="0.998657" ny="0.051807" nz="-0.000000"/>
+      <v x="1" y="0.000000" z="-1" nx="0.998657" ny="0.051807" nz="-0.000000"/>
+      <t v1="10" v2="9" v3="8"/>
+      <t v1="11" v2="10" v3="8"/>
+      <v x="1" y="0.000000" z="-1" nx="-0.000000" ny="0.051807" nz="-0.998657"/>
+      <v x="1" y="4.5" z="-1" nx="-0.000000" ny="0.051807" nz="-0.998657"/>
+      <v x="-1" y="4.5" z="-1" nx="-0.000000" ny="0.051807" nz="-0.998657"/>
+      <v x="-1" y="0.000000" z="-1" nx="-0.000000" ny="0.051807" nz="-0.998657"/>
+      <t v1="14" v2="13" v3="12"/>
+      <t v1="15" v2="14" v3="12"/>
+      <v x="-1" y="0.000000" z="-1" nx="-0.998657" ny="0.051807" nz="0.000000"/>
+      <v x="-1" y="4.5" z="-1" nx="-0.998657" ny="0.051807" nz="0.000000"/>
+      <v x="-1" y="4.5" z="1" nx="-0.998657" ny="0.051807" nz="0.000000"/>
+      <v x="-1" y="0.000000" z="1" nx="-0.998657" ny="0.051807" nz="0.000000"/>
+      <t v1="18" v2="17" v3="16"/>
+      <t v1="19" v2="18" v3="16"/>
+      <v x="1" y="4.5" z="1" nx="0.000000" ny="0.051807" nz="0.998657"/>
+      <v x="1" y="0.000000" z="1" nx="0.000000" ny="0.051807" nz="0.998657"/>
+      <v x="-1" y="0.000000" z="1" nx="0.000000" ny="0.051807" nz="0.998657"/>
+      <v x="-1" y="4.5" z="1" nx="0.000000" ny="0.051807" nz="0.998657"/>
+      <t v1="22" v2="21" v3="20"/>
+      <t v1="23" v2="22" v3="20"/>
+    </params>
+  </meshfact>
+  
+  <meshfact name='Marker'>
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <zuse/>
+    <params>
+      <v x="0.05" y="-0.05" z="0.05" nx="0.000000" ny="-1.000000" nz="0.000000"/>
+      <v x="0.05" y="-0.05" z="-0.05" nx="0.000000" ny="-1.000000" nz="0.000000"/>
+      <v x="-0.05" y="-0.05" z="-0.05" nx="0.000000" ny="-1.000000" nz="0.000000"/>
+      <v x="-0.05" y="-0.05" z="0.05" nx="0.000000" ny="-1.000000" nz="0.000000"/>
+      <t v1="2" v2="1" v3="0"/>
+      <t v1="3" v2="2" v3="0"/>
+      <v x="0.05" y="0.05" z="0.05" nx="0.000000" ny="1.000000" nz="-0.000000"/>
+      <v x="-0.05" y="0.05" z="0.05" nx="0.000000" ny="1.000000" nz="-0.000000"/>
+      <v x="-0.05" y="0.05" z="-0.05" nx="0.000000" ny="1.000000" nz="-0.000000"/>
+      <v x="0.05" y="0.05" z="-0.05" nx="0.000000" ny="1.000000" nz="-0.000000"/>
+      <t v1="6" v2="5" v3="4"/>
+      <t v1="7" v2="6" v3="4"/>
+      <v x="0.05" y="-0.05" z="0.05" nx="0.998657" ny="0.051807" nz="-0.000000"/>
+      <v x="0.05" y="0.05" z="0.05" nx="0.998657" ny="0.051807" nz="-0.000000"/>
+      <v x="0.05" y="0.05" z="-0.05" nx="0.998657" ny="0.051807" nz="-0.000000"/>
+      <v x="0.05" y="-0.05" z="-0.05" nx="0.998657" ny="0.051807" nz="-0.000000"/>
+      <t v1="10" v2="9" v3="8"/>
+      <t v1="11" v2="10" v3="8"/>
+      <v x="0.05" y="-0.05" z="-0.05" nx="-0.000000" ny="0.051807" nz="-0.998657"/>
+      <v x="0.05" y="0.05" z="-0.05" nx="-0.000000" ny="0.051807" nz="-0.998657"/>
+      <v x="-0.05" y="0.05" z="-0.05" nx="-0.000000" ny="0.051807" nz="-0.998657"/>
+      <v x="-0.05" y="-0.05" z="-0.05" nx="-0.000000" ny="0.051807" nz="-0.998657"/>
+      <t v1="14" v2="13" v3="12"/>
+      <t v1="15" v2="14" v3="12"/>
+      <v x="-0.05" y="-0.05" z="-0.05" nx="-0.998657" ny="0.051807" nz="0.000000"/>
+      <v x="-0.05" y="0.05" z="-0.05" nx="-0.998657" ny="0.051807" nz="0.000000"/>
+      <v x="-0.05" y="0.05" z="0.05" nx="-0.998657" ny="0.051807" nz="0.000000"/>
+      <v x="-0.05" y="-0.05" z="0.05" nx="-0.998657" ny="0.051807" nz="0.000000"/>
+      <t v1="18" v2="17" v3="16"/>
+      <t v1="19" v2="18" v3="16"/>
+      <v x="0.05" y="0.05" z="0.05" nx="0.000000" ny="0.051807" nz="0.998657"/>
+      <v x="0.05" y="-0.05" z="0.05" nx="0.000000" ny="0.051807" nz="0.998657"/>
+      <v x="-0.05" y="-0.05" z="0.05" nx="0.000000" ny="0.051807" nz="0.998657"/>
+      <v x="-0.05" y="0.05" z="0.05" nx="0.000000" ny="0.051807" nz="0.998657"/>
+      <t v1="22" v2="21" v3="20"/>
+      <t v1="23" v2="22" v3="20"/>
+    </params>
+  </meshfact>
+
   <sector name="room">
+    <meshobj name="Cube">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Cube</factory>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="1" y="-3.2" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="HandRight">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>raindrop</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="4" y="2" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="HandLeft">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>raindrop</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="4" y="2" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="Target">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>orogor</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="4" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="TargetOther">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>aqua</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="4" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="TargetForward">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>aqua</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="4" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="Corner0">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>purple</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="4" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="Corner1">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>purple</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="4" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="J1">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>yellow</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="5" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="J2">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>yellow</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="5" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="J3">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>yellow</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="5" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="J4">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>yellow</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="5" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="J5">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>yellow</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="5" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="J6">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>yellow</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="5" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="J7">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>yellow</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="5" y="0" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="J8">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>yellow</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="5" y="5" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="J9">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>yellow</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="5" y="1" z="-6"/>
+      </move>
+    </meshobj>
+    <meshobj name="J0">
+      <plugin>genmesh</plugin>
+      <params>
+        <factory>Marker</factory>
+        <material>yellow</material>
+      </params>
+      <zuse/>
+      <staticpos/>
+      <staticshape/>
+      <move>
+        <v x="5" y="1" z="-6"/>
+      </move>
+    </meshobj>
     <meshobj name="walls">
       <zfill />
       <plugin>thing</plugin>

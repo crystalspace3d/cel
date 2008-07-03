@@ -47,6 +47,66 @@ CEL_DECLARE_FACTORY (TrackingCamera)
 class celPcTrackingCamera : public scfImplementationExt2<celPcTrackingCamera, celPcCommon,
   iPcTrackingCamera, scfFakeInterface<iPcCameraMode> >
 {
+public:
+  celPcTrackingCamera (iObjectRegistry* object_reg);
+  virtual ~celPcTrackingCamera ();
+
+  csPtr<iCelDataBuffer> Save ();
+  bool Load (iCelDataBuffer* databuf);
+  bool PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret);
+  // support for tilt/pan direction properties
+  bool SetPropertyIndexed (int idx, long l);
+  bool SetPropertyIndexed (int idx, float f);
+  bool GetPropertyIndexed (int idx, long &l);
+  bool GetPropertyIndexed (int idx, float &f);
+
+  // --------------------------
+
+  bool SetTargetEntity (const char* name);
+  void SetTargetState (TargetState targetstate);
+  //virtual void SetTargetMesh (const char* name);
+  //virtual void SetTargetPosition (const csVector3 &pos);
+  void SetTargetYOffset (float targetyoffset);
+  float GetTargetYOffset () const;
+  void SetTargetInterpolationTime (csTicks t);
+  csTicks GetTargetInterpolationTime () const;
+
+  void Pan (PanDirection pdir);
+  PanDirection GetPanDirection () const;
+  void SetPanSpeed (float pspeed);
+  float GetPanSpeed () const;
+  void SetPanAcceleration (float paccel);
+  float GetPanAcceleration () const;
+
+  void Tilt (TiltDirection tdir);
+  TiltDirection GetTiltDirection () const;
+  void SetTiltSpeed (float tspeed);
+  float GetTiltSpeed () const;
+  void SetTiltAcceleration (float taccel);
+  float GetTiltAcceleration () const;
+
+  TargetState GetTargetState ();
+
+  void SetZoomOutCorrectionSpeed (float zoomspeed);
+  float GetZoomOutCorrectionSpeed () const;
+
+  void SetOffsetAngle (float angle);
+  float GetOffsetAngle () const;
+  void SetOffsetDistance (float dist);
+  float GetOffsetDistance () const;
+  void SetFollowSpringLength (float slen);
+  float GetFollowSpringLength () const;
+  void SetFollowMinimumSpringFactor (float smin);
+  float SetFollowMinimumSpringFactor () const;
+  bool DecideState ();
+
+  bool ResetCamera ();
+
+  // position, target, up
+  const csVector3 &GetPosition ();
+  const csVector3 &GetTarget ();
+  const csVector3 &GetUp ();
+
 private:
   // calculate spring force based on spring stretched length
   float SpringForce (const float movement);
@@ -54,6 +114,8 @@ private:
   void PanAroundPlayer (const csVector3 &playpos, float elapsedsecs);
   // do your collision detection maagick!
   void FindCorrectedTransform (float elapsedsecs);
+  // target settings was changed, so need to do a transition
+  void TransitionTarget ();
 
   csVector3 pos, tar, up;
   csVector3 corrpos, corrtar;
@@ -76,6 +138,15 @@ private:
 
   // because you don't want to be looking at the targets feet
   float targetyoffset;
+  // target is transitioning?
+  bool in_tartransition;
+  // time for target to interpolate to a new position
+  csTicks tarintime;
+  // current target transition between 0 and 1
+  float currtartrans;
+  // the old target position before the transition was started
+  csVector3 prevtar;
+
   // offset for origin position. Described as elevation angle and distance outwards
   struct
   {
@@ -121,6 +192,9 @@ private:
     propid_tilt_accel,
     propid_tilt_dir,
     propid_taryoff,
+    propid_tarintrans,
+    propid_tarintime,
+    propid_currtartrans,
     propid_posoff_angle,
     propid_posoff_dist,
     propid_spring_relaxlen,
@@ -128,62 +202,6 @@ private:
     propid_zoomoutcorrspeed
   };
   static PropertyHolder propinfo;
-
-public:
-  celPcTrackingCamera (iObjectRegistry* object_reg);
-  virtual ~celPcTrackingCamera ();
-
-  csPtr<iCelDataBuffer> Save ();
-  bool Load (iCelDataBuffer* databuf);
-  bool PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret);
-  // support for tilt/pan direction properties
-  bool SetPropertyIndexed (int idx, long l);
-  bool GetPropertyIndexed (int idx, long &l);
-
-  // --------------------------
-
-  bool SetTargetEntity (const char* name);
-  void SetTargetState (TargetState targetstate);
-  //virtual void SetTargetMesh (const char* name);
-  //virtual void SetTargetPosition (const csVector3 &pos);
-  void SetTargetYOffset (float targetyoffset);
-  float GetTargetYOffset () const;
-
-  void Pan (PanDirection pdir);
-  PanDirection GetPanDirection () const;
-  void SetPanSpeed (float pspeed);
-  float GetPanSpeed () const;
-  void SetPanAcceleration (float paccel);
-  float GetPanAcceleration () const;
-
-  void Tilt (TiltDirection tdir);
-  TiltDirection GetTiltDirection () const;
-  void SetTiltSpeed (float tspeed);
-  float GetTiltSpeed () const;
-  void SetTiltAcceleration (float taccel);
-  float GetTiltAcceleration () const;
-
-  TargetState GetTargetState ();
-
-  void SetZoomOutCorrectionSpeed (float zoomspeed);
-  float GetZoomOutCorrectionSpeed () const;
-
-  void SetOffsetAngle (float angle);
-  float GetOffsetAngle () const;
-  void SetOffsetDistance (float dist);
-  float GetOffsetDistance () const;
-  void SetFollowSpringLength (float slen);
-  float GetFollowSpringLength () const;
-  void SetFollowMinimumSpringFactor (float smin);
-  float SetFollowMinimumSpringFactor () const;
-  bool DecideState ();
-
-  bool ResetCamera ();
-
-  // position, target, up
-  const csVector3 &GetPosition ();
-  const csVector3 &GetTarget ();
-  const csVector3 &GetUp ();
 };
 
 #endif // __CEL_PF_TESTFACT__

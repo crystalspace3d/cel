@@ -186,6 +186,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
     "pcinput.standard",
     "pcmove.analogmotion",
     "pcmove.jump",
+    "pcmove.grab",
     "pccamera.delegate",
     "pccamera.mode.tracking",
     "pcobject.mesh",
@@ -214,7 +215,9 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("up", "up");
   pcinp->Bind ("down", "down");
   pcinp->Bind ("space", "jump");
+  pcinp->Bind ("m", "freeze");
   pcinp->Bind ("shift", "roll");
+  pcinp->Bind ("`", "showstates");
   pcinp->Bind ("[", "camleft");
   pcinp->Bind ("]", "camright");
   pcinp->Bind ("pageup", "camup");
@@ -225,7 +228,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   //actor->SetMovementSpeed (1.5f);
 
   csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity_cam);
-  jump->SetJumpSpeed (8.0f);
+  jump->SetJumpHeight (1.0f);
   jump->SetDoubleJumpSpeed (7.0f);
 
   csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);

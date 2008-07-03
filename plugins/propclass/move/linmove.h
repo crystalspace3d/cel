@@ -238,6 +238,7 @@ public:
   virtual float GetYRotation ();
   const csVector3 GetPosition ();
   const csVector3 GetFullPosition ();
+  const csReversibleTransform GetFullTransform ();
 
   virtual void GetLastPosition (csVector3& pos, float& yrot, iSector*& sector);
   virtual void GetLastFullPosition (csVector3& pos, float& yrot,

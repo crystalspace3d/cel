@@ -47,7 +47,7 @@ CEL_IMPLEMENT_FACTORY_ALT (AnalogMotion, "pcmove.analogmotion", "pcmove.actor.an
 
 csStringID celPcAnalogMotion::id_axis = csInvalidStringID;
 csStringID celPcAnalogMotion::id_value = csInvalidStringID;
-csStringID celPcAnalogMotion::id_active = csInvalidStringID;
+csStringID celPcAnalogMotion::id_enabled = csInvalidStringID;
 
 PropertyHolder celPcAnalogMotion::propinfo;
 
@@ -61,7 +61,7 @@ celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
   {
     id_axis = pl->FetchStringID ("cel.parameter.axis");
     id_value = pl->FetchStringID ("cel.parameter.value");
-    id_active = pl->FetchStringID ("cel.parameter.active");
+    id_enabled = pl->FetchStringID ("cel.parameter.enabled");
   }
 
   propholder = &propinfo;
@@ -76,7 +76,7 @@ celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
     AddAction (action_setmoveaccel, "cel.action.SetMovementDeceleration");
     AddAction (action_setminturnspeed, "cel.action.SetMinimumTurningSpeed");
     AddAction (action_setmaxturnspeed, "cel.action.SetMaximumTurningSpeed");
-    AddAction (action_activate, "cel.action.Activate");
+    AddAction (action_enable, "cel.action.Enable");
   }
 
   // For properties.
@@ -102,9 +102,9 @@ celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
   AddProperty (propid_maxturnspeed, "cel.property.maxturnspeed",
     CEL_DATA_FLOAT, false, "Maximum turning speed.",
     &maxturnspeed);
-  AddProperty (propid_active, "cel.property.active",
+  AddProperty (propid_enabled, "cel.property.enabled",
     CEL_DATA_BOOL, false, "Is this component updating the player every frame?",
-    &active);
+    &enabled);
 
   // Tick every so often so we can update the state
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
@@ -115,7 +115,7 @@ celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
   movespeed = 10;
   moveaccel = 50;
   movedecel = 40;
-  active = true;
+  enabled = true;
 }
 
 celPcAnalogMotion::~celPcAnalogMotion ()
@@ -134,7 +134,7 @@ csPtr<iCelDataBuffer> celPcAnalogMotion::Save ()
   databuf->Add (movespeed);
   databuf->Add (moveaccel);
   databuf->Add (movedecel);
-  databuf->Add (active);
+  databuf->Add (enabled);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -150,7 +150,7 @@ bool celPcAnalogMotion::Load (iCelDataBuffer* databuf)
   movespeed = databuf->GetFloat ();
   moveaccel = databuf->GetFloat ();
   movedecel = databuf->GetFloat ();
-  active = databuf->GetBool ();
+  enabled = databuf->GetBool ();
   return true;
 }
 
@@ -218,12 +218,12 @@ bool celPcAnalogMotion::PerformActionIndexed (int idx,
       SetMaximumTurningSpeed (value);
       return true;
     }
-    case action_activate:
+    case action_enable:
     {
-      CEL_FETCH_BOOL_PAR (value, params, id_active);
+      CEL_FETCH_BOOL_PAR (value, params, id_enabled);
       if (!p_value)
         value = true;
-      active = value;
+      enabled = value;
       return true;
     }
     default:
@@ -315,13 +315,13 @@ float celPcAnalogMotion::GetMaximumTurningSpeed () const
   return maxturnspeed;
 }
 
-void celPcAnalogMotion::Activate (bool ac)
+void celPcAnalogMotion::Enable (bool en)
 {
-  active = ac;
+  enabled = en;
 }
-bool celPcAnalogMotion::IsActive () const
+bool celPcAnalogMotion::IsEnabled () const
 {
-  return active;
+  return enabled;
 }
 
 bool celPcAnalogMotion::FindSiblingPropertyClasses ()
@@ -343,7 +343,7 @@ void celPcAnalogMotion::TickEveryFrame ()
 
 void celPcAnalogMotion::UpdateMovement ()
 {
-  if (!active || !FindSiblingPropertyClasses ())
+  if (!enabled || !FindSiblingPropertyClasses ())
     return;
 
   csVector2 curr_axis (target_axis);

@@ -77,6 +77,18 @@ struct iPcTrackingCamera : public virtual iPcCameraMode
   virtual float GetTargetYOffset () const = 0;
 
   /**
+   * Whenever the target is changed, the old position will
+   * interpolate over time to the new position. Set this time.
+   */
+  virtual void SetTargetInterpolationTime (csTicks t) = 0;
+
+  /**
+   * Whenever the target is changed, the old position will
+   * interpolate over time to the new position. Get this time.
+   */
+  virtual csTicks GetTargetInterpolationTime () const = 0;
+
+  /**
    * Camera offset from the player is described as an angle and a distance.
    * Here you can set the angle in radians.
    */

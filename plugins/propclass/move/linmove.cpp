@@ -1384,6 +1384,12 @@ const csVector3 celPcLinearMovement::GetFullPosition ()
   if (!GetMesh ())  return csVector3 ();
   return pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
 }
+const csReversibleTransform celPcLinearMovement::GetFullTransform ()
+{
+  // user will get a warning and a nothing if theres no mesh
+  if (!GetMesh ())  return csReversibleTransform ();
+  return pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
+}
 
 void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
     iSector*& sector)

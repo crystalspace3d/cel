@@ -173,12 +173,12 @@ struct iPcAnalogMotion : public virtual iBase
    * Whether this component is updating the player's position every frame. Turning
    * this off effectively makes this component deactivated.
    */
-  virtual void Activate (bool ac = true) = 0;
+  virtual void Enable (bool en = true) = 0;
 
   /**
    * Get whether this component is actively updating the player.
    */
-  virtual bool IsActive () const = 0;
+  virtual bool IsEnabled () const = 0;
 };
 
 #endif // __CEL_PF_ANALOGMOTION__

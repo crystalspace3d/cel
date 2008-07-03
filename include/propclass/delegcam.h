@@ -63,8 +63,8 @@ struct iPcDelegateCamera : public virtual iPcCamera
 
   virtual void SetCurrentMode (iPcCameraMode* mode) = 0;
   virtual iPcCameraMode* GetCurrentMode () const = 0;
-  virtual void SetTransitionTime (float t) = 0;
-  virtual float GetTransitionTime () const = 0;
+  virtual void SetTransitionTime (csTicks t) = 0;
+  virtual csTicks GetTransitionTime () const = 0;
 };
 
 #endif // __CEL_PF_DELEGATECAMERA__
