@@ -27,29 +27,113 @@ struct iPcJump : public virtual iBase
 {
   SCF_INTERFACE (iPcJump, 0, 0, 1);
 
+  /**
+   * Do a jump. When called again while still jumping,
+   * if near the top of a jump a double jump is performed.
+   * By default the double jump is disabled- to enable call
+   * SetDoubleJumpSpeed () with a positive non zero value.
+   */
   virtual void Jump () = 0;
-  virtual void DoubleJump () = 0;
+
+  /**
+   * Freeze the character mid-air for grabbing ledges.
+   */
   virtual void Freeze (bool frozen) = 0;
-  virtual void Glide () = 0;
 
-  virtual bool IsJumping () const = 0;
-  virtual bool IsDoubleJumping () const = 0;
-  virtual bool IsFrozen () = 0;
+  enum Action
+  {
+    STAND = 0,
+    JUMP,
+    DOUBLEJUMP,
+    FROZEN
+  };
 
+  /**
+   * Get the current state.
+   */
+  virtual Action GetActiveAction () const = 0;
+
+  /**
+   * Set the jumping speed.
+   */
   virtual void SetJumpSpeed (float spd) = 0;
+
+  /**
+   * Get the jumping speed.
+   */
   virtual float GetJumpSpeed () const = 0;
+
+  /**
+   * Set the maximum height of the jump. Will change jumpspeed.
+   */
+  virtual void SetJumpHeight (float height) = 0;
+
+  /**
+   * Get the maximum height of the jump. Actually calculated from
+   * the jumpspeed.
+   */
+  virtual float GetJumpHeight () const = 0;
+
+  /**
+   * Calculate the time it takes from jump to land on same plane.
+   */
+  virtual csTicks GetAirTime () const = 0;
+
+  /**
+   * Set the speed of the double jump- normally is lower than normal jump.
+   */
   virtual void SetDoubleJumpSpeed (float spd) = 0;
+
+  /**
+   * Get the double jump.
+   */
   virtual float GetDoubleJumpSpeed () const = 0;
+
+  /**
+   * Set the sensitivity for which the double jump can be performed.
+   * This is the max y speed at which the double jump can still be done.
+   * Set to 0 to disable double jumping.
+   */
   virtual void SetDoubleJumpSensitivity (float sens) = 0;
+
+  /**
+   * Get the sensitivity for which the double jump can be performed.
+   * This is the max y speed at which the double jump can still be done.
+   */
   virtual float GetDoubleJumpSensitivity () const = 0;
-  virtual void SetGlideSpeed (float spd) = 0;
-  virtual float GetGlideSpeed () const = 0;
-  virtual void SetGlideSensitivity (float sens) = 0;
-  virtual float GetGlideSensitivity () const = 0;
-  /*virtual void SetGravity (float grav) = 0;
+
+  /**
+   * Set the gravity acting on the player. This gravity value is only applied
+   * when hitting the wall, landing from a jump and going from FROZEN->JUMP
+   * Otherwise changes to linmove->SetGravity () are left untouched.
+   */
+  virtual void SetGravity (float grav) = 0;
+
+  /**
+   * Get the gravity acting on the player.
+   */
   virtual float GetGravity () const = 0;
-  virtual void SetGlideGravity (float grav) = 0;
-  virtual float GetGlideGravity () const = 0;*/
+
+  /**
+   * Should the jumps be fixed length?
+   */
+  virtual void SetFixedJump (bool fixjump) = 0;
+
+  /**
+   * Are the jumps be fixed length?
+   */
+  virtual bool GetFixedJump () const = 0;
+
+  /**
+   * Whether this component is updating the player. Turning
+   * this off effectively makes this component deactivated.
+   */
+  virtual void Enable (bool en = true) = 0;
+
+  /**
+   * Get whether this component is actively updating the player.
+   */
+  virtual bool IsEnabled () const = 0;
 };
 
 #endif // __CEL_PF_JUMP__

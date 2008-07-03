@@ -215,9 +215,9 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     <iPcAnalogMotion> (entity);
   if (!pcactor)
     return false;
-  /*csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity);
+  csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity);
   if (!jump)
-    return false;*/
+    return false;
   csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
   if (!pcactor && !linmove)
     return false;
@@ -225,24 +225,16 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
   if (!strcmp (msg_id, "cel.move.jump.landed"))
   {
     puts ("The eagle has landed");
-    //linmove->ResetGravity ();
-    //pcactor->Activate (true);
+  }
+  else if (!strcmp (msg_id, "cel.move.jump.started"))
+  {
+    puts ("Doing a jump");
   }
   else if (!strcmp (msg_id, "cel.timer.wakeup"))
   {
+    puts ("cel.timer.wakeup WAKEUP! WAKEUP! WAKEY WAKEY!");
     // finished rolling
-    //pcactor->Activate (true);
-  }
-  else if (!strcmp (msg_id, "cel.move.impossible"))
-  {
-    // sometimes the glide becomes stuck midair
-    /*if (jump->IsJumping ())  // if mid air
-    {
-      //pcactor->Activate (false);
-      // play 'collided mid air with wall' animation
-      linmove->ResetGravity ();
-      linmove->SetVelocity (csVector3 (0));
-    }*/
+    pcactor->Enable (true);
   }
 
   if (pcinput_msg)
@@ -276,16 +268,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       pcactor->AddAxis (1, 1);
     else if (!strcmp (msg_id+10, "jump.down"))
     {
-      csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity);
-      if (jump->IsJumping ())
-      {
-        if (jump->IsDoubleJumping ())
-          jump->Glide ();
-        else
-          jump->DoubleJump ();
-      }
-      else
-        jump->Jump ();
+      jump->Jump ();
       // perform a glide if mid air and near peak of the jump
       /*if (jump->IsJumping () && ABS (linmove->GetVelocity ().y) < 1.5f)
       {
@@ -295,17 +278,15 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
           glidespeed = -5;
         linmove->SetVelocity (csVector3 (0, 0, glidespeed));
         pcactor->Activate (false);
-      }
-      else
-        jump->Jump ();*/
-      /*if (jump->IsJumping ())
-        jump->DoubleJump ();
-      else
-        jump->Jump ();*/
+      }*/
     }
+    else if (!strcmp (msg_id+10, "freeze.down"))
+      jump->Freeze (true);
     else if (!strcmp (msg_id+10, "roll.down"))
     {
-      if (linmove->IsOnGround () && pcactor->IsActive ())
+      if (jump->GetActiveAction () == iPcJump::FROZEN)
+        jump->Freeze (false);
+      else if (linmove->IsOnGround () && pcactor->IsEnabled ())
       {
         // perform a roll
         if (!(pcactor->GetAxis () < EPSILON))
@@ -313,7 +294,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
           csRef<iPcTimer> timer = celQueryPropertyClassEntity<iPcTimer> (entity);
           timer->WakeUp (700, false);
           linmove->SetVelocity (csVector3 (0, 0, -pcactor->GetMovementSpeed ()));
-          pcactor->Activate (false);
+          pcactor->Enable (false);
         }
         // do a crouch (target set downwards)
         else
@@ -326,8 +307,37 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     // end crouch action
     else if (!strcmp (msg_id+10, "roll.up"))
     {
-      csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
-      trackcam->SetTargetYOffset (1.5f);
+      if (pcactor->GetAxis () < EPSILON)
+      {
+        csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
+        trackcam->SetTargetYOffset (1.5f);
+      }
+    }
+    else if (!strcmp (msg_id+10, "showstates.up"))
+    {
+      if (pcactor->IsEnabled ())
+        puts ("Actor: Enabled");
+      else
+        puts ("Actor: Disabled");
+      if (jump->IsEnabled ())
+        puts ("Jump: Enabled");
+      else
+        puts ("Jump: Disabled");
+      switch (jump->GetActiveAction ())
+      {
+        case iPcJump::STAND:
+          puts ("Jump: Stand");
+          break;
+        case iPcJump::JUMP:
+          puts ("Jump: Jump");
+          break;
+        case iPcJump::DOUBLEJUMP:
+          puts ("Jump: Double Jump");
+          break;
+        case iPcJump::FROZEN:
+          puts ("Jump: Frozen");
+          break;
+      }
     }
 
     csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);

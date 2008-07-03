@@ -9,6 +9,7 @@ SubInclude TOP plugins propclass newcamera ;
 SubInclude TOP plugins propclass input ;
 SubInclude TOP plugins propclass inv ;
 SubInclude TOP plugins propclass jump ;
+SubInclude TOP plugins propclass grab ;
 SubInclude TOP plugins propclass mesh ;
 SubInclude TOP plugins propclass light ;
 SubInclude TOP plugins propclass portal ;

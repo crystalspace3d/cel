@@ -79,8 +79,8 @@ public:
   float GetMinimumTurningSpeed () const;
   void SetMaximumTurningSpeed (float speed);
   float GetMaximumTurningSpeed () const;
-  void Activate (bool ac);
-  bool IsActive () const;
+  void Enable (bool en);
+  bool IsEnabled () const;
 private:
   // Called regularly and any movement change
   void UpdateMovement ();
@@ -94,7 +94,7 @@ private:
   float maxturnspeed, minturnspeed;
   float movespeed, moveaccel, movedecel;
   // is this component updating the player position
-  bool active;
+  bool enabled;
 
   // references to sibling property classes
   csWeakRef<iPcMesh> pcmesh;
@@ -106,7 +106,7 @@ private:
   // For SendMessage parameters.
   static csStringID id_axis;
   static csStringID id_value;
-  static csStringID id_active;
+  static csStringID id_enabled;
 
   // For actions.
   enum actionids
@@ -118,7 +118,7 @@ private:
     action_setmovedecel,
     action_setminturnspeed,
     action_setmaxturnspeed,
-    action_activate
+    action_enable
   };
 
   // For properties.
@@ -131,7 +131,7 @@ private:
     propid_movedecel,
     propid_minturnspeed,
     propid_maxturnspeed,
-    propid_active
+    propid_enabled
   };
   static PropertyHolder propinfo;
 };

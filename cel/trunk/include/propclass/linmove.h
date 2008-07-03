@@ -30,7 +30,7 @@
 #include "csutil/scf.h"
 #include "csutil/strhash.h"
 
-
+struct csReversibleTransform;
 struct iDataBuffer;
 struct iSector;
 struct iPath;
@@ -277,6 +277,11 @@ struct iPcLinearMovement : public virtual iBase
    * is not relative to the anchor.
    */
   virtual const csVector3 GetFullPosition () = 0;
+
+  /**
+   * Get the full transform describing the world to this transform.
+   */
+  virtual const csReversibleTransform GetFullTransform () = 0;
 
   /// Is a csPath active now or standard DR movement?
   virtual bool IsPath () const = 0;

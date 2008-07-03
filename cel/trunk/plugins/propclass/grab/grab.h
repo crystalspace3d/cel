@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_PF_JUMPOVERFACTORIES__
-#define __CEL_PF_JUMPOVERFACTORIES__
+#ifndef __CEL_PF_GRABBINSTUFF__
+#define __CEL_PF_GRABBINSTUFF__
 
 #include "cstypes.h"
 #include "iutil/comp.h"
@@ -28,25 +28,26 @@
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
-#include "propclass/jump.h"
+#include "propclass/grab.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
 struct iPcLinearMovement;
+struct iPcJump;
 
 /**
  * Factory for test.
  */
-CEL_DECLARE_FACTORY (Jump)
+CEL_DECLARE_FACTORY (Grab)
 
 /**
  * This is a test property class.
  */
-class celPcJump : public scfImplementationExt2<celPcJump, celPcCommon, iPcJump, iMessageReceiver>
+class celPcGrab : public scfImplementationExt2<celPcGrab, celPcCommon, iPcGrab, iMessageReceiver>
 {
 public:
-  celPcJump (iObjectRegistry* object_reg);
-  virtual ~celPcJump ();
+  celPcGrab (iObjectRegistry* object_reg);
+  virtual ~celPcGrab ();
 
   csPtr<iCelDataBuffer> Save ();
   bool Load (iCelDataBuffer* databuf);
@@ -54,69 +55,37 @@ public:
 
   // Callback to update the character
   void TickEveryFrame ();
+  // only used for getting jump.started events
+  bool ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params);
 
-  void Jump ();
-  void Freeze (bool frozen);
-  Action GetActiveAction () const;
-
-  void SetJumpSpeed (float spd);
-  float GetJumpSpeed () const;
-  void SetJumpHeight (float height);
-  float GetJumpHeight () const;
-  csTicks GetAirTime () const;
-  void SetDoubleJumpSpeed (float spd);
-  float GetDoubleJumpSpeed () const;
-  void SetDoubleJumpSensitivity (float sens);
-  float GetDoubleJumpSensitivity () const;
-  void SetGravity (float grav);
-  float GetGravity () const;
-  void SetFixedJump (bool fixjump);
-  bool GetFixedJump () const;
   void Enable (bool en);
   bool IsEnabled () const;
-
-  // only used for getting move.impossible events
-  bool ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params);
 
 private:
   // Called regularly and any movement change
   void UpdateMovement ();
+  // try to perform a grab if possible
+  void AttemptGrab ();
   // Check for any changes and update if necessary
   bool FindSiblingPropertyClasses ();
 
-  void DoJump ();
-  void DoDoubleJump ();
-
-  Action action;
-  float jumpspeed, doublejumpspeed;
-  float doublejumpsens;
-  float gravity;
-  bool fixedjump;
-  // is this component updating the player position
+  // private impl functions
   bool enabled;
 
   csWeakRef<iPcLinearMovement> linmove;
+  csWeakRef<iPcJump> jump;
 
   // For actions.
   enum actionids
   {
-    action_jump = 0
   };
 
   // For properties.
   enum propids
   {
-    propid_isjumping = 0,
-    propid_jumpspeed
   };
   static PropertyHolder propinfo;
-
-  struct
-  {
-    // messages saying that player started jump, and landed
-    csRef<iMessageDispatcher> started, landed;
-  } dispatcher;
 };
 
-#endif // __CEL_PF_JUMPOVERFACTORIES__
+#endif // __CEL_PF_GRABBINSTUFF__
 
