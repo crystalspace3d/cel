@@ -15,8 +15,8 @@ class celDropDown:
         self.menu = celMenu.celMenu(self.entity)
         #Properties of the subitems. You may want to change these.
         #Changes will be reflected next time submenu is shown.
-	self.menufont = '/fonts/unifont/unifont.csf'
-        self.menufontsize = self.fconst
+	self.menufont = self.bb.GetTextFont()
+        self.menufontsize = self.bb.GetTextFontSize()
             
     def pcbillboard_select(self,pc,args):
         params = parblock({'sender':self.entity.Name})
