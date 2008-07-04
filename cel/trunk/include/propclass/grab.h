@@ -27,7 +27,7 @@ struct iPcGrab : public virtual iBase
 {
   SCF_INTERFACE (iPcGrab, 0, 0, 1);
 
-  virtual void Enable (bool en) = 0;
+  virtual void Enable (bool en = true) = 0;
   virtual bool IsEnabled () const = 0;
 };
 
