@@ -36,6 +36,7 @@
 #include "propclass/cameras/tracking.h"
 #include "propclass/analogmotion.h"
 #include "propclass/jump.h"
+#include "propclass/grab.h"
 #include "propclass/inv.h"
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
@@ -218,6 +219,9 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
   csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity);
   if (!jump)
     return false;
+  csRef<iPcGrab> grab = celQueryPropertyClassEntity<iPcGrab> (entity);
+  if (!grab)
+    return false;
   csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
   if (!pcactor && !linmove)
     return false;
@@ -269,6 +273,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     else if (!strcmp (msg_id+10, "jump.down"))
     {
       jump->Jump ();
+      grab->Enable ();
       // perform a glide if mid air and near peak of the jump
       /*if (jump->IsJumping () && ABS (linmove->GetVelocity ().y) < 1.5f)
       {
