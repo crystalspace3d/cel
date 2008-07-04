@@ -22,6 +22,7 @@ class celMenu:
     #Add a menu element. sends message to menu when clicked. the behaviour chooses the widget.
     def addElement(self, name, message, position, sizes, fsize, material, behaviour = 'celButton'):
         elementEntity = CreateEntity(name, self.blpython, None)
+        elementEntity.CreateBehaviour(self.blpython, behaviour)
         pcbillboard = celBillboard(elementEntity)
         pcbillboard.materialnamefast = material
         pcbillboard.width = sizes[0]
@@ -34,8 +35,10 @@ class celMenu:
         pcbillboard.text_font = self.font
         pcbillboard.text = name
         params=parblock({'message' : message, 'owner': self.owner})
-        if message != '':
-            elementEntity.CreateBehaviour(self.blpython, behaviour)
+        #This might be a bit of a hack to accomodate celDropDown.
+        elementEntity.Behaviour.menufont = self.font
+        elementEntity.Behaviour.menufontsize = fsize
+        if message != '':       
             pcbillboard.clickable = True
             elementEntity.Behaviour.SendMessage('setparameters', None, params)
         self.elements.append(elementEntity)
