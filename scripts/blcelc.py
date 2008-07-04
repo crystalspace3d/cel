@@ -2217,6 +2217,7 @@ class iPcLinearMovement(cspace.iBase):
     def GetYRotation(*args): return _blcelc.iPcLinearMovement_GetYRotation(*args)
     def GetPosition(*args): return _blcelc.iPcLinearMovement_GetPosition(*args)
     def GetFullPosition(*args): return _blcelc.iPcLinearMovement_GetFullPosition(*args)
+    def GetFullTransform(*args): return _blcelc.iPcLinearMovement_GetFullTransform(*args)
     def IsPath(*args): return _blcelc.iPcLinearMovement_IsPath(*args)
     def GetSector(*args): return _blcelc.iPcLinearMovement_GetSector(*args)
     def ExtrapolatePosition(*args): return _blcelc.iPcLinearMovement_ExtrapolatePosition(*args)
@@ -2498,8 +2499,8 @@ class iPcAnalogMotion(cspace.iBase):
     def GetMinimumTurningSpeed(*args): return _blcelc.iPcAnalogMotion_GetMinimumTurningSpeed(*args)
     def SetMaximumTurningSpeed(*args): return _blcelc.iPcAnalogMotion_SetMaximumTurningSpeed(*args)
     def GetMaximumTurningSpeed(*args): return _blcelc.iPcAnalogMotion_GetMaximumTurningSpeed(*args)
-    def Activate(*args): return _blcelc.iPcAnalogMotion_Activate(*args)
-    def IsActive(*args): return _blcelc.iPcAnalogMotion_IsActive(*args)
+    def Enable(*args): return _blcelc.iPcAnalogMotion_Enable(*args)
+    def IsEnabled(*args): return _blcelc.iPcAnalogMotion_IsEnabled(*args)
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -2535,22 +2536,27 @@ class iPcJump(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Jump(*args): return _blcelc.iPcJump_Jump(*args)
-    def DoubleJump(*args): return _blcelc.iPcJump_DoubleJump(*args)
     def Freeze(*args): return _blcelc.iPcJump_Freeze(*args)
-    def Glide(*args): return _blcelc.iPcJump_Glide(*args)
-    def IsJumping(*args): return _blcelc.iPcJump_IsJumping(*args)
-    def IsDoubleJumping(*args): return _blcelc.iPcJump_IsDoubleJumping(*args)
-    def IsFrozen(*args): return _blcelc.iPcJump_IsFrozen(*args)
+    STAND = _blcelc.iPcJump_STAND
+    JUMP = _blcelc.iPcJump_JUMP
+    DOUBLEJUMP = _blcelc.iPcJump_DOUBLEJUMP
+    FROZEN = _blcelc.iPcJump_FROZEN
+    def GetActiveAction(*args): return _blcelc.iPcJump_GetActiveAction(*args)
     def SetJumpSpeed(*args): return _blcelc.iPcJump_SetJumpSpeed(*args)
     def GetJumpSpeed(*args): return _blcelc.iPcJump_GetJumpSpeed(*args)
+    def SetJumpHeight(*args): return _blcelc.iPcJump_SetJumpHeight(*args)
+    def GetJumpHeight(*args): return _blcelc.iPcJump_GetJumpHeight(*args)
+    def GetAirTime(*args): return _blcelc.iPcJump_GetAirTime(*args)
     def SetDoubleJumpSpeed(*args): return _blcelc.iPcJump_SetDoubleJumpSpeed(*args)
     def GetDoubleJumpSpeed(*args): return _blcelc.iPcJump_GetDoubleJumpSpeed(*args)
     def SetDoubleJumpSensitivity(*args): return _blcelc.iPcJump_SetDoubleJumpSensitivity(*args)
     def GetDoubleJumpSensitivity(*args): return _blcelc.iPcJump_GetDoubleJumpSensitivity(*args)
-    def SetGlideSpeed(*args): return _blcelc.iPcJump_SetGlideSpeed(*args)
-    def GetGlideSpeed(*args): return _blcelc.iPcJump_GetGlideSpeed(*args)
-    def SetGlideSensitivity(*args): return _blcelc.iPcJump_SetGlideSensitivity(*args)
-    def GetGlideSensitivity(*args): return _blcelc.iPcJump_GetGlideSensitivity(*args)
+    def SetGravity(*args): return _blcelc.iPcJump_SetGravity(*args)
+    def GetGravity(*args): return _blcelc.iPcJump_GetGravity(*args)
+    def SetFixedJump(*args): return _blcelc.iPcJump_SetFixedJump(*args)
+    def GetFixedJump(*args): return _blcelc.iPcJump_GetFixedJump(*args)
+    def Enable(*args): return _blcelc.iPcJump_Enable(*args)
+    def IsEnabled(*args): return _blcelc.iPcJump_IsEnabled(*args)
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -3099,6 +3105,8 @@ class iPcTrackingCamera(iPcCameraMode):
     def GetTargetState(*args): return _blcelc.iPcTrackingCamera_GetTargetState(*args)
     def SetTargetYOffset(*args): return _blcelc.iPcTrackingCamera_SetTargetYOffset(*args)
     def GetTargetYOffset(*args): return _blcelc.iPcTrackingCamera_GetTargetYOffset(*args)
+    def SetTargetInterpolationTime(*args): return _blcelc.iPcTrackingCamera_SetTargetInterpolationTime(*args)
+    def GetTargetInterpolationTime(*args): return _blcelc.iPcTrackingCamera_GetTargetInterpolationTime(*args)
     def SetOffsetAngle(*args): return _blcelc.iPcTrackingCamera_SetOffsetAngle(*args)
     def GetOffsetAngle(*args): return _blcelc.iPcTrackingCamera_GetOffsetAngle(*args)
     def SetOffsetDistance(*args): return _blcelc.iPcTrackingCamera_SetOffsetDistance(*args)
