@@ -2,7 +2,7 @@ from pycel import *
 import celMenu
 class celDropDown:
     api_version = 2 # use new version of message callbacks.
-    def __init__(self,celEntity):
+    def __init__(self, celEntity):
         self.message = ''
         self.owner = None
         self.entity = celEntity
@@ -10,9 +10,13 @@ class celDropDown:
         self.active = False
         self.bb = celBillboard(self.entity).Billboard
         self.bb.SetText('')
+        self.locked = False
         self.fconst = celMenu.GetFontConstant()
         self.menu = celMenu.celMenu(self.entity)
-        self.locked = False
+        #Properties of the subitems. You may want to change these.
+        #Changes will be reflected next time submenu is shown.
+	self.menufont = '/fonts/unifont/unifont.csf'
+        self.menufontsize = self.fconst
             
     def pcbillboard_select(self,pc,args):
         params = parblock({'sender':self.entity.Name})
@@ -37,7 +41,10 @@ class celDropDown:
         if not self.locked:
             if not self.active:
                 for item in self.items:
-                    self.menu.addElement(item, 'item_clicked', [0, 0], [67000, 8000], self.fconst * 0.8, 'dropdown-bg')
+                    newitem = self.menu.addElement(item, 'item_clicked', [0, 0], [67000, 8000], self.fconst * 0.8, 'dropdown-bg')
+		    bb = celBillboard(newitem)
+                    bb.text_font = self.menufont
+		    bb.text_font_size = self.menufontsize
                 x, y = self.bb.GetPosition()
                 self.menu.align([x, y], [0, 7000])
                 self.active = True
