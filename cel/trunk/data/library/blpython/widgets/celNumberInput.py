@@ -24,6 +24,7 @@ class celNumberInput:
         self.bb.SetText('0')
         #Add the directional arrows
         self.arrows = celMenu.celMenu(self.entity)
+        self.arrows.font = self.bb.GetTextFont()
         self.arrows.addElement('<', 'left_click', pos, [6000, 6000], fconst * 0.8, 'unselection')
         self.arrows.addElement('>', 'right_click', [pos[0] + size[0] - 3000, pos[1]], [6000, 6000], fconst * 0.8, 'unselection')
             
