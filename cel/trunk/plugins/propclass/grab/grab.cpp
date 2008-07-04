@@ -156,7 +156,7 @@ void celPcGrab::UpdateMovement ()
   {
     csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2, 1.4, -0.4));
     csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2, 1.4, -0.4));
-    static const csVector3 leftcorn (2, 1.3, -5), rightcorn (0, 1.3, -5), edgediff (-2.0, 0, 0);
+    static const csVector3 leftcorn (2, 1.3, -4.9), rightcorn (0, 1.3, -4.9), edgediff (-2.0, 0, 0);
     csVector3 u (rightcorn - leftcorn), v (lefthand - leftcorn);
     csVector3 closest;
     closest = leftcorn + (v >> u);
@@ -178,7 +178,9 @@ void celPcGrab::UpdateMovement ()
       blaa.SetOrigin (cent - blaa.This2OtherRelative (csVector3 (0.0f, 1.4, -0.4)));
       mesh->GetMesh ()->GetMovable ()->SetTransform (blaa);
 
+      jump->Enable (false);
       jump->Freeze (true);
+      enabled = false;
     }
   }
 }
@@ -197,7 +199,7 @@ void celPcGrab::AttemptGrab ()
   csVector3 handoff (0.2, 1.4, -0.4);
 
   // our hardcoded edge
-  static const csVector3 leftcorn (2, 1.3, -5), rightcorn (0, 1.3, -5), edgediff (-2.0, 0, 0);
+  static const csVector3 leftcorn (2, 1.3, -4.9), rightcorn (0, 1.3, -4.9), edgediff (-2.0, 0, 0);
 
   // the time it takes to perform the jump (entire arc)
   float jumptime = 2.0f * jump->GetJumpSpeed () / jump->GetGravity ();
