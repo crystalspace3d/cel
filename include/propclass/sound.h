@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2005 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -59,8 +59,10 @@ struct iPcSoundListener : public virtual iBase
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * - Unpause: no parameters.
+ * - Play: no parameters.
+ * - Stop: no parameters.
  * - Pause: no parameters.
+ * - Unpause: no parameters.
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
@@ -77,7 +79,7 @@ struct iPcSoundListener : public virtual iBase
  */
 struct iPcSoundSource : public virtual iBase
 {
-  SCF_INTERFACE (iPcSoundSource, 0, 0, 1);
+  SCF_INTERFACE (iPcSoundSource, 0, 0, 2);
 
   /// Get the sound source.
   virtual iSndSysSource* GetSoundSource () = 0;
@@ -96,6 +98,18 @@ struct iPcSoundSource : public virtual iBase
    * One of 'disable', 'absolute', or 'relative'.
    */
   virtual const char* GetMode () const = 0;
+
+  /// Play sound.
+  virtual void Play () = 0;
+
+  /// Stop sound.
+  virtual void Stop () = 0;
+
+  /// Pause sound.
+  virtual void Pause () = 0;
+
+  /// Unpause sound.
+  virtual void Unpause () = 0;
 };
 
 #endif // __CEL_PF_SOUND__
