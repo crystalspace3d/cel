@@ -285,7 +285,10 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     else if (!strcmp (msg_id+10, "roll.down"))
     {
       if (jump->GetActiveAction () == iPcJump::FROZEN)
+      {
+        jump->Enable (true);
         jump->Freeze (false);
+      }
       else if (linmove->IsOnGround () && pcactor->IsEnabled ())
       {
         // perform a roll
