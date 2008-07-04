@@ -131,15 +131,15 @@ celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
   // For properties.
   propinfo.SetCount (5);
   AddProperty (propid_front, "cel.property.front",
-	CEL_DATA_VECTOR3, false, "Front direction vector.", 0);
+  	CEL_DATA_VECTOR3, false, "Front direction vector.", 0);
   AddProperty (propid_top, "cel.property.top",
-	CEL_DATA_VECTOR3, false, "Top direction vector.", 0);
+  	CEL_DATA_VECTOR3, false, "Top direction vector.", 0);
   AddProperty (propid_position, "cel.property.position",
-	CEL_DATA_VECTOR3, false, "Position vector.", 0);
+  	CEL_DATA_VECTOR3, false, "Position vector.", 0);
   AddProperty (propid_distancefactor, "cel.property.distancefactor",
-	CEL_DATA_FLOAT, false, "Distance factor.", 0);
+  	CEL_DATA_FLOAT, false, "Distance factor.", 0);
   AddProperty (propid_rollofffactor, "cel.property.rollofffactor",
-	CEL_DATA_FLOAT, false, "Rolloff factor.", 0);
+  	CEL_DATA_FLOAT, false, "Rolloff factor.", 0);
 
   renderer = csQueryRegistryOrLoad<iSndSysRenderer> (object_reg,
   	"crystalspace.sndsys.renderer.software");
@@ -566,7 +566,7 @@ bool celPcSoundSource::PerformActionIndexed (int idx,
       return true;
     case action_stop:
       stream->Pause ();
-      stream->ResetPosition();
+      stream->ResetPosition ();
       return true;
     case action_play:
       stream->Unpause ();
@@ -577,6 +577,27 @@ bool celPcSoundSource::PerformActionIndexed (int idx,
     default:
       return false;
   }
+}
+
+void celPcSoundSource::Play ()
+{
+  stream->Unpause ();
+}
+
+void celPcSoundSource::Stop ()
+{
+  stream->Pause ();
+  stream->ResetPosition ();
+}
+
+void celPcSoundSource::Pause ()
+{
+  stream->Pause ();
+}
+
+void celPcSoundSource::Unpause ()
+{
+  stream->Unpause ();
 }
 
 void celPcSoundSource::GetSoundWrap ()
