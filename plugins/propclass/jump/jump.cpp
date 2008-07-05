@@ -58,7 +58,6 @@ celPcJump::celPcJump (iObjectRegistry* object_reg)
   doublejumpsens = 4.0f;
   gravity = 25.0f;
   fixedjump = true;
-  enabled = true;
 }
 
 celPcJump::~celPcJump ()
@@ -187,14 +186,6 @@ bool celPcJump::GetFixedJump () const
 {
   return fixedjump;
 }
-void celPcJump::Enable (bool en)
-{
-  enabled = en;
-}
-bool celPcJump::IsEnabled () const
-{
-  return enabled;
-}
 
 bool celPcJump::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params)
 {
@@ -228,9 +219,7 @@ void celPcJump::TickEveryFrame ()
 
 void celPcJump::UpdateMovement ()
 {
-  // we wouldn't need this active shit if csColliderActor::IsOnGround () actually worked properly!
-  // bug: doesn't work if we don't reach grab dest
-  if (!enabled || !FindSiblingPropertyClasses ())
+  if (!FindSiblingPropertyClasses ())
     return;
 
   // check if we landed from our jump

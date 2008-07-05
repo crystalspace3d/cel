@@ -123,17 +123,6 @@ struct iPcJump : public virtual iBase
    * Are the jumps be fixed length?
    */
   virtual bool GetFixedJump () const = 0;
-
-  /**
-   * Whether this component is updating the player. Turning
-   * this off effectively makes this component deactivated.
-   */
-  virtual void Enable (bool en = true) = 0;
-
-  /**
-   * Get whether this component is actively updating the player.
-   */
-  virtual bool IsEnabled () const = 0;
 };
 
 #endif // __CEL_PF_JUMP__

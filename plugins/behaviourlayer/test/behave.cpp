@@ -240,6 +240,13 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     // finished rolling
     pcactor->Enable (true);
   }
+  /*else if (!strcmp (msg_id, "cel.timer.wakeup.frame"))
+  {
+    char *baa;
+    if (linmove->IsOnGround ())
+      printf ("%c%c\n", baa[0], baa[1]);
+    //puts (linmove->IsOnGround () ? "Ground" : "Air");
+  }*/
 
   if (pcinput_msg)
   {
@@ -255,13 +262,41 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     }
 
     else if (!strcmp (msg_id+10, "left.down"))
-      pcactor->AddAxis (0, -1);
+    {
+      if (jump->GetActiveAction () == iPcJump::FROZEN)
+      {
+        linmove->SetBodyVelocity (csVector3 (2, 0, 0));
+      }
+      else
+        pcactor->AddAxis (0, -1);
+    }
     else if (!strcmp (msg_id+10, "left.up"))
-      pcactor->AddAxis (0, 1);
+    {
+      if (jump->GetActiveAction () == iPcJump::FROZEN)
+      {
+        linmove->SetBodyVelocity (csVector3 (0));
+      }
+      else
+        pcactor->AddAxis (0, 1);
+    }
     else if (!strcmp (msg_id+10, "right.down"))
-      pcactor->AddAxis (0, 1);
+    {
+      if (jump->GetActiveAction () == iPcJump::FROZEN)
+      {
+        linmove->SetBodyVelocity (csVector3 (-2, 0, 0));
+      }
+      else
+        pcactor->AddAxis (0, 1);
+    }
     else if (!strcmp (msg_id+10, "right.up"))
-      pcactor->AddAxis (0, -1);
+    {
+      if (jump->GetActiveAction () == iPcJump::FROZEN)
+      {
+        linmove->SetBodyVelocity (csVector3 (0));
+      }
+      else
+        pcactor->AddAxis (0, -1);
+    }
     else if (!strcmp (msg_id+10, "up.down"))
       pcactor->AddAxis (1, 1);
     else if (!strcmp (msg_id+10, "up.up"))
@@ -291,10 +326,10 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       if (jump->GetActiveAction () == iPcJump::FROZEN)
       {
-        jump->Enable (true);
+        //jump->Enable (true);
         jump->Freeze (false);
       }
-      else if (linmove->IsOnGround () && pcactor->IsEnabled ())
+      else if (linmove->IsOnGround ())
       {
         // perform a roll
         if (!(pcactor->GetAxis () < EPSILON))
@@ -327,10 +362,10 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
         puts ("Actor: Enabled");
       else
         puts ("Actor: Disabled");
-      if (jump->IsEnabled ())
+      /*if (jump->IsEnabled ())
         puts ("Jump: Enabled");
       else
-        puts ("Jump: Disabled");
+        puts ("Jump: Disabled");*/
       switch (jump->GetActiveAction ())
       {
         case iPcJump::STAND:
