@@ -72,8 +72,6 @@ public:
   float GetGravity () const;
   void SetFixedJump (bool fixjump);
   bool GetFixedJump () const;
-  void Enable (bool en);
-  bool IsEnabled () const;
 
   // only used for getting move.impossible events
   bool ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params);
@@ -92,8 +90,6 @@ private:
   float doublejumpsens;
   float gravity;
   bool fixedjump;
-  // is this component updating the player position
-  bool enabled;
 
   csWeakRef<iPcLinearMovement> linmove;
 

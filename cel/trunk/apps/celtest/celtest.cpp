@@ -241,6 +241,9 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   newcamera->AttachCameraMode(iPcNewCamera::CCM_THIRD_PERSON);
   newcamera->SetCurrentCameraMode (0);*/
 
+  //csRef<iPcTimer> timer = celQueryPropertyClassEntity<iPcTimer> (entity_cam);
+  //timer->WakeUpFrame (0);
+
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;
   pcmesh->SetPath ("/cellib/objects");

@@ -168,17 +168,22 @@ void celPcGrab::UpdateMovement ()
       csVector3 other (closest + u * 0.2);
 
       csVector3 cent = (closest + other) / 2;
-      csVector3 dir = closest - cent;
+      csVector3 dir = u;
       // i dont like its 2d
       float z = dir.x;
       dir.x = dir.z;
       dir.z = z;
+      csVector3 dir2 (dir);
+      dir2.z = -dir.z;
+      csVector3 centrehand ((lefthand + righthand) / 2);
+      if ((cent + dir - centrehand).SquaredNorm () < (cent + dir2 - centrehand).SquaredNorm ())
+        dir = dir2;
       csReversibleTransform blaa;
-      blaa.LookAt (dir, csVector3 (0, 1, 0));
+      blaa.LookAt (-dir, csVector3 (0, 1, 0));
       blaa.SetOrigin (cent - blaa.This2OtherRelative (csVector3 (0.0f, 1.4, -0.4)));
       mesh->GetMesh ()->GetMovable ()->SetTransform (blaa);
 
-      jump->Enable (false);
+      //jump->Enable (false);
       jump->Freeze (true);
       enabled = false;
     }
@@ -285,7 +290,7 @@ void celPcGrab::AttemptGrab ()
   if (fromedge_sq > 0.1f)
     return;
   puts ("We are close to a ledge");
-  jump->Enable (false);
+  //jump->Enable (false);
 
   // now find closest current point to either hand so that if our speed is too fast we can slow it down
   //  if we don't reach height of jump before coming in contact with the ledge
