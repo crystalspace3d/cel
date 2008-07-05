@@ -4124,6 +4124,10 @@ class iPcSoundSource(cspace.iBase):
     def GetSoundName(*args): return _blcelc.iPcSoundSource_GetSoundName(*args)
     def SetMode(*args): return _blcelc.iPcSoundSource_SetMode(*args)
     def GetMode(*args): return _blcelc.iPcSoundSource_GetMode(*args)
+    def Play(*args): return _blcelc.iPcSoundSource_Play(*args)
+    def Stop(*args): return _blcelc.iPcSoundSource_Stop(*args)
+    def Pause(*args): return _blcelc.iPcSoundSource_Pause(*args)
+    def Unpause(*args): return _blcelc.iPcSoundSource_Unpause(*args)
     SoundSource = _swig_property(_blcelc.iPcSoundSource_SoundSource_get, None, None,
                     "iPcSoundSource.SoundSource -> iSndSysSource*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSndSysSource* iPcSoundSource::GetSoundSource()")
 
