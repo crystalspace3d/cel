@@ -58,8 +58,8 @@ public:
   // only used for getting jump.started events
   bool ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params);
 
-  void Enable (bool en);
-  bool IsEnabled () const;
+  void SetState (GrabState state);
+  GrabState GetState () const;
 
 private:
   // Called regularly and any movement change
@@ -70,7 +70,7 @@ private:
   bool FindSiblingPropertyClasses ();
 
   // private impl functions
-  bool enabled;
+  GrabState currstate;
 
   csWeakRef<iPcLinearMovement> linmove;
   csWeakRef<iPcJump> jump;

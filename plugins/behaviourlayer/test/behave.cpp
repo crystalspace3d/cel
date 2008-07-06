@@ -229,6 +229,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
   if (!strcmp (msg_id, "cel.move.jump.landed"))
   {
     puts ("The eagle has landed");
+    grab->SetState (iPcGrab::DISABLED);
   }
   else if (!strcmp (msg_id, "cel.move.jump.started"))
   {
@@ -265,7 +266,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       if (jump->GetActiveAction () == iPcJump::FROZEN)
       {
-        linmove->SetBodyVelocity (csVector3 (2, 0, 0));
+        grab->SetState (iPcGrab::SHIMMY_LEFT);
       }
       else
         pcactor->AddAxis (0, -1);
@@ -274,7 +275,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       if (jump->GetActiveAction () == iPcJump::FROZEN)
       {
-        linmove->SetBodyVelocity (csVector3 (0));
+        grab->SetState (iPcGrab::HANG);
       }
       else
         pcactor->AddAxis (0, 1);
@@ -283,7 +284,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       if (jump->GetActiveAction () == iPcJump::FROZEN)
       {
-        linmove->SetBodyVelocity (csVector3 (-2, 0, 0));
+        grab->SetState (iPcGrab::SHIMMY_RIGHT);
       }
       else
         pcactor->AddAxis (0, 1);
@@ -292,7 +293,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       if (jump->GetActiveAction () == iPcJump::FROZEN)
       {
-        linmove->SetBodyVelocity (csVector3 (0));
+        grab->SetState (iPcGrab::HANG);
       }
       else
         pcactor->AddAxis (0, -1);
@@ -307,8 +308,8 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       pcactor->AddAxis (1, 1);
     else if (!strcmp (msg_id+10, "jump.down"))
     {
+      grab->SetState (iPcGrab::SEARCHING);
       jump->Jump ();
-      grab->Enable ();
       // perform a glide if mid air and near peak of the jump
       /*if (jump->IsJumping () && ABS (linmove->GetVelocity ().y) < 1.5f)
       {
@@ -327,6 +328,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       if (jump->GetActiveAction () == iPcJump::FROZEN)
       {
         //jump->Enable (true);
+        grab->SetState (iPcGrab::DISABLED);
         jump->Freeze (false);
       }
       else if (linmove->IsOnGround ())

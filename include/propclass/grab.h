@@ -27,9 +27,16 @@ struct iPcGrab : public virtual iBase
 {
   SCF_INTERFACE (iPcGrab, 0, 0, 1);
 
-  virtual void Enable (bool en = true) = 0;
-  virtual bool IsEnabled () const = 0;
+  enum GrabState
+  {
+    DISABLED = 0,
+    SEARCHING,
+    HANG,
+    SHIMMY_LEFT,
+    SHIMMY_RIGHT
+  };
+  virtual void SetState (GrabState state) = 0;
+  virtual GrabState GetState () const = 0;
 };
 
 #endif // __CEL_PF_GRAB__
-
