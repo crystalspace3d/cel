@@ -2555,8 +2555,6 @@ class iPcJump(cspace.iBase):
     def GetGravity(*args): return _blcelc.iPcJump_GetGravity(*args)
     def SetFixedJump(*args): return _blcelc.iPcJump_SetFixedJump(*args)
     def GetFixedJump(*args): return _blcelc.iPcJump_GetFixedJump(*args)
-    def Enable(*args): return _blcelc.iPcJump_Enable(*args)
-    def IsEnabled(*args): return _blcelc.iPcJump_IsEnabled(*args)
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
