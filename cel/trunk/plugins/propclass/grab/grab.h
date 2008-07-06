@@ -61,6 +61,13 @@ public:
   void SetState (GrabState state);
   GrabState GetState () const;
 
+  void SetShimmyTime (float time);
+  float GetShimmyTime () const;
+  void SetShimmyDistance (float dist);
+  float GetShimmyDistance () const;
+  void SetShimmyInitialVelocity (float vel);
+  float GetShimmyInitialVelocity () const;
+
 private:
   // Called regularly and any movement change
   void UpdateMovement ();
@@ -68,9 +75,14 @@ private:
   void AttemptGrab ();
   // Check for any changes and update if necessary
   bool FindSiblingPropertyClasses ();
+  // Needed when changing any of the shimmy variables using
+  // the public Set functions
+  void RecomputeShimmyAccel ();
 
   // private impl functions
   GrabState currstate;
+  // shimmy variables: time, distance, initial velocity
+  float stime, sdist, sinvel, saccel;
 
   csWeakRef<iPcLinearMovement> linmove;
   csWeakRef<iPcJump> jump;
