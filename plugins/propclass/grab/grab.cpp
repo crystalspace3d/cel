@@ -61,6 +61,10 @@ celPcGrab::celPcGrab (iObjectRegistry* object_reg)
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
   currstate = DISABLED;
+  stime = 2.0 / 3.0;
+  sdist = 2.0;
+  sinvel = 6.0;
+  RecomputeShimmyAccel ();
 }
 
 celPcGrab::~celPcGrab ()
@@ -107,6 +111,38 @@ void celPcGrab::SetState (GrabState state)
 iPcGrab::GrabState celPcGrab::GetState () const
 {
   return currstate;
+}
+
+void celPcGrab::SetShimmyTime (float time)
+{
+  stime = time;
+  RecomputeShimmyAccel ();
+}
+float celPcGrab::GetShimmyTime () const
+{
+  return stime;
+}
+void celPcGrab::SetShimmyDistance (float dist)
+{
+  sdist = dist;
+  RecomputeShimmyAccel ();
+}
+float celPcGrab::GetShimmyDistance () const
+{
+  return sdist;
+}
+void celPcGrab::SetShimmyInitialVelocity (float vel)
+{
+  sinvel = vel;
+  RecomputeShimmyAccel ();
+}
+float celPcGrab::GetShimmyInitialVelocity () const
+{
+  return sinvel;
+}
+void celPcGrab::RecomputeShimmyAccel ()
+{
+  saccel = 2.0 * (sinvel * stime - sdist) / (stime * stime);
 }
 
 bool celPcGrab::FindSiblingPropertyClasses ()
@@ -160,17 +196,17 @@ void celPcGrab::UpdateMovement ()
   if (currstate == SHIMMY_RIGHT)
   {
     float s = -linmove->GetBodyVelocity ().x;
-    s -= 9.0f * el / 1000.0f;
+    s -= saccel * el / 1000.0f;
     if (s < 0.0f)
-      s = 6.0f;
+      s = sinvel;
     linmove->SetBodyVelocity (csVector3 (-s, 0, 0));
   }
   else if (currstate == SHIMMY_LEFT)
   {
     float s = linmove->GetBodyVelocity ().x;
-    s -= 9.0f * el / 1000.0f;
+    s -= saccel * el / 1000.0f;
     if (s < 0.0f)
-      s = 6.0f;
+      s = sinvel;
     linmove->SetBodyVelocity (csVector3 (s, 0, 0));
   }
   else if (currstate == HANG)
