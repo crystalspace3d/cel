@@ -154,13 +154,24 @@ void celPcGrab::UpdateMovement ()
   csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2, 1.4, -0.4));
   mov1->SetPosition (righthand);
 
+  csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (object_reg);
+  csTicks el = vc->GetElapsedTicks ();
+
   if (currstate == SHIMMY_RIGHT)
   {
-    linmove->SetBodyVelocity (csVector3 (-2, 0, 0));
+    float s = -linmove->GetBodyVelocity ().x;
+    s -= 9.0f * el / 1000.0f;
+    if (s < 0.0f)
+      s = 6.0f;
+    linmove->SetBodyVelocity (csVector3 (-s, 0, 0));
   }
   else if (currstate == SHIMMY_LEFT)
   {
-    linmove->SetBodyVelocity (csVector3 (2, 0, 0));
+    float s = linmove->GetBodyVelocity ().x;
+    s -= 9.0f * el / 1000.0f;
+    if (s < 0.0f)
+      s = 6.0f;
+    linmove->SetBodyVelocity (csVector3 (s, 0, 0));
   }
   else if (currstate == HANG)
   {
