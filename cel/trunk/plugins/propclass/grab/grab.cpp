@@ -60,7 +60,7 @@ celPcGrab::celPcGrab (iObjectRegistry* object_reg)
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
-  enabled = true;
+  currstate = DISABLED;
 }
 
 celPcGrab::~celPcGrab ()
@@ -100,13 +100,13 @@ bool celPcGrab::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celDa
   return true;
 }
 
-void celPcGrab::Enable (bool en)
+void celPcGrab::SetState (GrabState state)
 {
-  enabled = en;
+  currstate = state;
 }
-bool celPcGrab::IsEnabled () const
+iPcGrab::GrabState celPcGrab::GetState () const
 {
-  return enabled;
+  return currstate;
 }
 
 bool celPcGrab::FindSiblingPropertyClasses ()
@@ -139,8 +139,11 @@ static float FindDistanceFromEdge (const csVector3 &start, const csVector3 &hand
 
 void celPcGrab::UpdateMovement ()
 {
-  if (!enabled || !FindSiblingPropertyClasses ())
+  if (currstate == DISABLED || !FindSiblingPropertyClasses ())
     return;
+
+  //else
+    //linmove->SetBodyVelocity (csVector3 (0));
 
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   iMovable *mov = engine->FindMeshObject ("HandLeft")->GetMovable ();
@@ -151,6 +154,19 @@ void celPcGrab::UpdateMovement ()
   csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2, 1.4, -0.4));
   mov1->SetPosition (righthand);
 
+  if (currstate == SHIMMY_RIGHT)
+  {
+    linmove->SetBodyVelocity (csVector3 (-2, 0, 0));
+  }
+  else if (currstate == SHIMMY_LEFT)
+  {
+    linmove->SetBodyVelocity (csVector3 (2, 0, 0));
+  }
+  else if (currstate == HANG)
+  {
+    linmove->SetBodyVelocity (csVector3 (0));
+  }
+  else if (currstate == SEARCHING)
   //csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   //if (mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2, 1.4, -0.2)).y > 1.3f)
   {
@@ -185,7 +201,7 @@ void celPcGrab::UpdateMovement ()
 
       //jump->Enable (false);
       jump->Freeze (true);
-      enabled = false;
+      currstate = HANG;
     }
   }
 }
@@ -325,6 +341,8 @@ void celPcGrab::AttemptGrab ()
   iMovable *mov1 = engine->FindMeshObject ("HandRight")->GetMovable ();
   iMovable *corn = engine->FindMeshObject ("Corner0")->GetMovable ();
   iMovable *corn1 = engine->FindMeshObject ("Corner1")->GetMovable ();
+  iMovable *tar = engine->FindMeshObject ("Target")->GetMovable ();
+  iMovable *tarother = engine->FindMeshObject ("TargetOther")->GetMovable ();
   iMovable *tarfor = engine->FindMeshObject ("TargetForward")->GetMovable ();
   csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   //mov->SetTransform (mesh->GetMesh ()->GetMovable ()->GetFullTransform ());
@@ -340,12 +358,20 @@ void celPcGrab::AttemptGrab ()
   csVector3 closest;
   closest = leftcorn + (v >> u);
   //closest = (leftcorn + rightcorn) / 2;
-  //tar->SetPosition (closest);
 
   csVector3 other (closest + u * 0.2);
-  //tarother->SetPosition (other);
 
+  // see which is smallest distance
   csVector3 cent = (closest + other) / 2;
+  if ((closest - cent).SquaredNorm () > (other - cent).SquaredNorm ())
+  {
+    csVector3 tmp (closest);
+    closest = other;
+    other = tmp;
+  }
+  tar->SetPosition (closest);
+  tarother->SetPosition (other);
+
   csVector3 dir = other - cent;
   float z = dir.x;
   dir.x = dir.z;
