@@ -581,23 +581,32 @@ bool celPcSoundSource::PerformActionIndexed (int idx,
 
 void celPcSoundSource::Play ()
 {
-  stream->Unpause ();
+  if (GetSource ())
+  {
+    stream->ResetPosition ();
+    stream->Unpause ();
+  }
 }
 
 void celPcSoundSource::Stop ()
 {
-  stream->Pause ();
-  stream->ResetPosition ();
+  if (GetSource ())
+  {
+    stream->Pause ();
+    stream->ResetPosition ();
+  }
 }
 
 void celPcSoundSource::Pause ()
 {
-  stream->Pause ();
+  if (GetSource ())
+    stream->Pause ();
 }
 
 void celPcSoundSource::Unpause ()
 {
-  stream->Unpause ();
+  if (GetSource ())
+    stream->Unpause ();
 }
 
 void celPcSoundSource::GetSoundWrap ()
