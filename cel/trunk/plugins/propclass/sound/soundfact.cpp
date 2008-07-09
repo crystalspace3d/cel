@@ -569,6 +569,7 @@ bool celPcSoundSource::PerformActionIndexed (int idx,
       stream->ResetPosition ();
       return true;
     case action_play:
+      stream->ResetPosition ();
       stream->Unpause ();
       return true;
     case action_pause:
