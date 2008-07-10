@@ -40,18 +40,43 @@ struct iPcJump : public virtual iBase
    */
   virtual void Freeze (bool frozen) = 0;
 
-  enum Action
+  enum State
   {
     STAND = 0,
     JUMP,
     DOUBLEJUMP,
+    GLIDE,
     FROZEN
   };
 
   /**
    * Get the current state.
    */
-  virtual Action GetActiveAction () const = 0;
+  virtual State GetState () const = 0;
+
+  enum GlideTurnDirection
+  {
+    GLIDE_NOTURN = 0,
+    GLIDE_LEFT,
+    GLIDE_RIGHT
+  };
+
+  /**
+   * If gliding then turn in a certain direction.
+   */
+  virtual void GlideTurn (GlideTurnDirection gtur) = 0;
+
+  enum GlidePitchDirection
+  {
+    GLIDE_NOPITCH = 0,
+    GLIDE_UP,
+    GLIDE_DOWN
+  };
+
+  /**
+   * If 
+   */
+  virtual void GlidePitch (GlidePitchDirection gpit) = 0;
 
   /**
    * Set the jumping speed.
@@ -88,19 +113,6 @@ struct iPcJump : public virtual iBase
    * Get the double jump.
    */
   virtual float GetDoubleJumpSpeed () const = 0;
-
-  /**
-   * Set the sensitivity for which the double jump can be performed.
-   * This is the max y speed at which the double jump can still be done.
-   * Set to 0 to disable double jumping.
-   */
-  virtual void SetDoubleJumpSensitivity (float sens) = 0;
-
-  /**
-   * Get the sensitivity for which the double jump can be performed.
-   * This is the max y speed at which the double jump can still be done.
-   */
-  virtual float GetDoubleJumpSensitivity () const = 0;
 
   /**
    * Set the gravity acting on the player. This gravity value is only applied

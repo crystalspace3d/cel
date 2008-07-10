@@ -57,7 +57,10 @@ public:
 
   void Jump ();
   void Freeze (bool frozen);
-  Action GetActiveAction () const;
+  State GetState () const;
+
+  void GlideTurn (GlideTurnDirection gtur);
+  void GlidePitch (GlidePitchDirection gpit);
 
   void SetJumpSpeed (float spd);
   float GetJumpSpeed () const;
@@ -66,8 +69,6 @@ public:
   csTicks GetAirTime () const;
   void SetDoubleJumpSpeed (float spd);
   float GetDoubleJumpSpeed () const;
-  void SetDoubleJumpSensitivity (float sens);
-  float GetDoubleJumpSensitivity () const;
   void SetGravity (float grav);
   float GetGravity () const;
   void SetFixedJump (bool fixjump);
@@ -83,17 +84,18 @@ private:
   bool FindSiblingPropertyClasses ();
 
   void DoJump ();
-  void DoDoubleJump ();
 
-  Action action;
+  State currstate, startact;
+  bool falling;
+  GlideTurnDirection g_turn;
+  GlidePitchDirection g_pitch;
   float jumpspeed, doublejumpspeed;
-  float doublejumpsens;
   float gravity;
   bool fixedjump;
 
   csWeakRef<iPcLinearMovement> linmove;
 
-  // For actions.
+  // For states.
   enum actionids
   {
     action_jump = 0
