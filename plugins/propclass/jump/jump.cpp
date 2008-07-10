@@ -43,19 +43,19 @@ celPcJump::celPcJump (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
   propholder = &propinfo;
-  // For actions.
+  // For states.
   if (!propinfo.actions_done)
   {
-    AddAction (action_jump, "cel.action.Jump");
+    AddAction (action_jump, "cel.state.Jump");
   }
 
   // For properties.
   propinfo.SetCount (0);
 
-  action = STAND;
+  currstate = STAND;
+  startact = STAND;
   jumpspeed = 10.0f;
   doublejumpspeed = 0.0f;
-  doublejumpsens = 4.0f;
   gravity = 25.0f;
   fixedjump = true;
 }
@@ -100,29 +100,53 @@ void celPcJump::Jump ()
 {
   if (!FindSiblingPropertyClasses ())
     return;
-  if (action == STAND)
+  if (currstate == STAND)
     DoJump ();
-  else if (action == JUMP)
-    DoDoubleJump ();
+  else if (currstate == JUMP)
+  {
+    if (falling)
+      return;
+    if (doublejumpspeed < EPSILON)
+      //Glide ();
+      startact = GLIDE;
+    else
+      //DoDoubleJump ();
+      startact = DOUBLEJUMP;
+  }
+  else if (currstate == DOUBLEJUMP)
+  {
+    if (falling)
+      return;
+    startact = GLIDE;
+  }
 }
 void celPcJump::Freeze (bool frozen)
 {
   if (frozen)
   {
-    action = FROZEN;
+    currstate = FROZEN;
     linmove->ClearWorldVelocity ();
     linmove->SetBodyVelocity (csVector3 (0));
     linmove->SetGravity (0.0f);
   }
   else
   {
-    action = JUMP;
+    currstate = JUMP;
     linmove->SetGravity (gravity);
   }
 }
-celPcJump::Action celPcJump::GetActiveAction () const
+celPcJump::State celPcJump::GetState () const
 {
-  return action;
+  return currstate;
+}
+
+void celPcJump::GlideTurn (GlideTurnDirection gtur)
+{
+  g_turn = gtur;
+}
+void celPcJump::GlidePitch (GlidePitchDirection gpit)
+{
+  g_pitch = gpit;
 }
 
 void celPcJump::SetJumpSpeed (float spd)
@@ -160,18 +184,10 @@ float celPcJump::GetDoubleJumpSpeed () const
 {
   return doublejumpspeed;
 }
-void celPcJump::SetDoubleJumpSensitivity (float sens)
-{
-  doublejumpsens = sens;
-}
-float celPcJump::GetDoubleJumpSensitivity () const
-{
-  return doublejumpsens;
-}
 void celPcJump::SetGravity (float grav)
 {
   gravity = grav;
-  if (action != FROZEN && FindSiblingPropertyClasses ())
+  if (currstate != FROZEN && FindSiblingPropertyClasses ())
     linmove->SetGravity (gravity);
 }
 float celPcJump::GetGravity () const
@@ -191,7 +207,7 @@ bool celPcJump::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celDa
 {
   if (!FindSiblingPropertyClasses ())
     return false;
-  if (action != STAND && action != FROZEN)
+  if (currstate != STAND && currstate != FROZEN)
   {
     csRef<iPcAnalogMotion> motion = celQueryPropertyClassEntity<iPcAnalogMotion> (entity);
     if (motion)
@@ -221,11 +237,51 @@ void celPcJump::UpdateMovement ()
 {
   if (!FindSiblingPropertyClasses ())
     return;
+  if (linmove->GetVelocity ().y < 0)
+    falling = true;
+  if ((startact == DOUBLEJUMP || startact == GLIDE) && ABS (linmove->GetVelocity ().y) < 0.1f)
+  {
+    // now we can validly perform the doublejump/glide :)
+    currstate = startact;
+    startact = STAND;
+    if (currstate == DOUBLEJUMP)
+    {
+      linmove->ClearWorldVelocity ();
+      linmove->AddVelocity (csVector3 (0, doublejumpspeed, 0));
+    }
+    else if (currstate == GLIDE)
+    {
+      linmove->SetGravity (3.0f);
+      float glidespeed = linmove->GetVelocity ().z;
+      if (glidespeed > -5)
+        glidespeed = -5;
+      linmove->SetVelocity (csVector3 (0, 0, glidespeed));
+      csRef<iPcAnalogMotion> motion = celQueryPropertyClassEntity<iPcAnalogMotion> (entity);
+      if (motion)
+        motion->Enable (false);
+    }
+  }
+
+  if (currstate == GLIDE)
+  {
+    csVector3 angvel (0);
+    if (g_turn == GLIDE_LEFT)
+      angvel.y = 2;
+    else if (g_turn == GLIDE_RIGHT)
+      angvel.y = -2;
+    if (g_pitch == GLIDE_UP)
+      angvel.x = -2;
+    else if (g_pitch == GLIDE_DOWN)
+      angvel.x = 2;
+    // why doesn't this work??
+    printf ("pitch : %f\n", angvel.x);
+    linmove->SetAngularVelocity (angvel);
+  }
 
   // check if we landed from our jump
-  if (linmove->IsOnGround ())
+  if (linmove->IsOnGround () && falling)
   {
-    action = STAND;
+    currstate = STAND;
     pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
     linmove->SetGravity (gravity);
@@ -249,7 +305,10 @@ void celPcJump::DoJump ()
   // cannot jump from mid-air
   if (!linmove->IsOnGround ())
     return;
-  action = JUMP;
+  // we need the falling variable otherwise we sometimes detect a landed before
+  // leaving the ground
+  falling = false;
+  currstate = JUMP;
   // fixed length style jump
   csRef<iPcAnalogMotion> motion = celQueryPropertyClassEntity<iPcAnalogMotion> (entity);
   if (motion && fixedjump)
@@ -277,13 +336,4 @@ void celPcJump::DoJump ()
       return;
   }
   dispatcher.started->SendMessage (0);
-}
-void celPcJump::DoDoubleJump ()
-{
-  // check if double jump is enabled and then if near the top of the jump
-  if (doublejumpspeed < EPSILON || ABS (linmove->GetVelocity ().y) > doublejumpsens)
-    return;
-  action = DOUBLEJUMP;
-  linmove->ClearWorldVelocity ();
-  linmove->AddVelocity (csVector3 (0, doublejumpspeed, 0));
 }

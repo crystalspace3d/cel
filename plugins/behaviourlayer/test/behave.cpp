@@ -264,50 +264,108 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
 
     else if (!strcmp (msg_id+10, "left.down"))
     {
-      if (jump->GetActiveAction () == iPcJump::FROZEN)
+      if (jump->GetState () == iPcJump::FROZEN)
       {
         grab->SetState (iPcGrab::SHIMMY_LEFT);
       }
       else
+      {
         pcactor->AddAxis (0, -1);
+        jump->GlideTurn (iPcJump::GLIDE_LEFT);
+      }
     }
     else if (!strcmp (msg_id+10, "left.up"))
     {
-      if (jump->GetActiveAction () == iPcJump::FROZEN)
+      if (jump->GetState () == iPcJump::FROZEN)
       {
         grab->SetState (iPcGrab::HANG);
       }
       else
+      {
         pcactor->AddAxis (0, 1);
+        jump->GlideTurn (iPcJump::GLIDE_NOTURN);
+      }
     }
     else if (!strcmp (msg_id+10, "right.down"))
     {
-      if (jump->GetActiveAction () == iPcJump::FROZEN)
+      if (jump->GetState () == iPcJump::FROZEN)
       {
         grab->SetState (iPcGrab::SHIMMY_RIGHT);
       }
       else
+      {
         pcactor->AddAxis (0, 1);
+        jump->GlideTurn (iPcJump::GLIDE_RIGHT);
+      }
     }
     else if (!strcmp (msg_id+10, "right.up"))
     {
-      if (jump->GetActiveAction () == iPcJump::FROZEN)
+      if (jump->GetState () == iPcJump::FROZEN)
       {
         grab->SetState (iPcGrab::HANG);
       }
       else
+      {
         pcactor->AddAxis (0, -1);
+        jump->GlideTurn (iPcJump::GLIDE_NOTURN);
+      }
     }
     else if (!strcmp (msg_id+10, "up.down"))
+    {
       pcactor->AddAxis (1, 1);
+      jump->GlidePitch (iPcJump::GLIDE_UP);
+    }
     else if (!strcmp (msg_id+10, "up.up"))
+    {
       pcactor->AddAxis (1, -1);
+      jump->GlidePitch (iPcJump::GLIDE_NOPITCH);
+    }
     else if (!strcmp (msg_id+10, "down.down"))
+    {
       pcactor->AddAxis (1, -1);
+      jump->GlidePitch (iPcJump::GLIDE_DOWN);
+    }
     else if (!strcmp (msg_id+10, "down.up"))
+    {
       pcactor->AddAxis (1, 1);
+      jump->GlidePitch (iPcJump::GLIDE_NOPITCH);
+    }
     else if (!strcmp (msg_id+10, "jump.down"))
     {
+      switch (jump->GetState ())
+      {
+        case iPcJump::STAND:
+          puts ("Jump: Stand");
+          break;
+        case iPcJump::JUMP:
+          puts ("Jump: Jump");
+          break;
+        case iPcJump::DOUBLEJUMP:
+          puts ("Jump: Double Jump");
+          break;
+        case iPcJump::GLIDE:
+          puts ("Jump: Glide");
+          break;
+        case iPcJump::FROZEN:
+          puts ("Jump: Frozen");
+          break;
+      }
+      /*if (jump->GetState () == iPcJump::JUMP)
+      {
+        if (ABS (linmove->GetVelocity ().y) < 3.0)
+        {
+          linmove->SetGravity (3.0f);
+          float glidespeed = linmove->GetVelocity ().z;
+          if (glidespeed > -5)
+            glidespeed = -5;
+          linmove->SetVelocity (csVector3 (0, 0, glidespeed));
+          pcactor->Enable (false);
+        }
+        else
+          printf ("Downward velocity %f\n", linmove->GetVelocity ().y);
+      }
+      else
+        puts ("Not jumping");*/
       grab->SetState (iPcGrab::SEARCHING);
       jump->Jump ();
       // perform a glide if mid air and near peak of the jump
@@ -325,7 +383,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       jump->Freeze (true);
     else if (!strcmp (msg_id+10, "roll.down"))
     {
-      if (jump->GetActiveAction () == iPcJump::FROZEN)
+      if (jump->GetState () == iPcJump::FROZEN)
       {
         //jump->Enable (true);
         grab->SetState (iPcGrab::DISABLED);
@@ -368,7 +426,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
         puts ("Jump: Enabled");
       else
         puts ("Jump: Disabled");*/
-      switch (jump->GetActiveAction ())
+      switch (jump->GetState ())
       {
         case iPcJump::STAND:
           puts ("Jump: Stand");
@@ -378,6 +436,9 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
           break;
         case iPcJump::DOUBLEJUMP:
           puts ("Jump: Double Jump");
+          break;
+        case iPcJump::GLIDE:
+          puts ("Jump: Glide");
           break;
         case iPcJump::FROZEN:
           puts ("Jump: Frozen");
