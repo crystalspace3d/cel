@@ -25,6 +25,10 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 
+#include "iengine/mesh.h"
+#include "iengine/movable.h"
+#include "propclass/mesh.h"
+
 // CEL Includes
 #include "propclass/analogmotion.h"
 #include "propclass/linmove.h"
@@ -268,6 +272,18 @@ void celPcJump::UpdateMovement ()
   // check if we landed from our jump
   if (linmove->IsOnGround () && falling)
   {
+    if (currstate == GLIDE)
+    {
+      // ... look we need to correct x roll
+      csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+      iMovable* movable = mesh->GetMesh ()->GetMovable ();
+      csReversibleTransform trans (movable->GetTransform ());
+      //movable->SetTransform (csXRotMatrix3 (0) * movable->GetTransform ());
+      csVector3 camvec = trans.GetT2O () * csVector3 (0, 0, 1);
+      camvec.y = 0;
+      trans.LookAt (camvec, csVector3 (0, 1, 0));
+      movable->SetTransform (trans);
+    }
     currstate = STAND;
     pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
