@@ -2540,8 +2540,17 @@ class iPcJump(cspace.iBase):
     STAND = _blcelc.iPcJump_STAND
     JUMP = _blcelc.iPcJump_JUMP
     DOUBLEJUMP = _blcelc.iPcJump_DOUBLEJUMP
+    GLIDE = _blcelc.iPcJump_GLIDE
     FROZEN = _blcelc.iPcJump_FROZEN
-    def GetActiveAction(*args): return _blcelc.iPcJump_GetActiveAction(*args)
+    def GetState(*args): return _blcelc.iPcJump_GetState(*args)
+    GLIDE_NOTURN = _blcelc.iPcJump_GLIDE_NOTURN
+    GLIDE_LEFT = _blcelc.iPcJump_GLIDE_LEFT
+    GLIDE_RIGHT = _blcelc.iPcJump_GLIDE_RIGHT
+    def GlideTurn(*args): return _blcelc.iPcJump_GlideTurn(*args)
+    GLIDE_NOPITCH = _blcelc.iPcJump_GLIDE_NOPITCH
+    GLIDE_UP = _blcelc.iPcJump_GLIDE_UP
+    GLIDE_DOWN = _blcelc.iPcJump_GLIDE_DOWN
+    def GlidePitch(*args): return _blcelc.iPcJump_GlidePitch(*args)
     def SetJumpSpeed(*args): return _blcelc.iPcJump_SetJumpSpeed(*args)
     def GetJumpSpeed(*args): return _blcelc.iPcJump_GetJumpSpeed(*args)
     def SetJumpHeight(*args): return _blcelc.iPcJump_SetJumpHeight(*args)
@@ -2549,8 +2558,6 @@ class iPcJump(cspace.iBase):
     def GetAirTime(*args): return _blcelc.iPcJump_GetAirTime(*args)
     def SetDoubleJumpSpeed(*args): return _blcelc.iPcJump_SetDoubleJumpSpeed(*args)
     def GetDoubleJumpSpeed(*args): return _blcelc.iPcJump_GetDoubleJumpSpeed(*args)
-    def SetDoubleJumpSensitivity(*args): return _blcelc.iPcJump_SetDoubleJumpSensitivity(*args)
-    def GetDoubleJumpSensitivity(*args): return _blcelc.iPcJump_GetDoubleJumpSensitivity(*args)
     def SetGravity(*args): return _blcelc.iPcJump_SetGravity(*args)
     def GetGravity(*args): return _blcelc.iPcJump_GetGravity(*args)
     def SetFixedJump(*args): return _blcelc.iPcJump_SetFixedJump(*args)
