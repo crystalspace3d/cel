@@ -82,8 +82,9 @@ private:
   void UpdateMovement ();
   // Check for any changes and update if necessary
   bool FindSiblingPropertyClasses ();
-
   void DoJump ();
+  // control for when gliding
+  void GlideControl ();
 
   State currstate, startact;
   bool falling;
