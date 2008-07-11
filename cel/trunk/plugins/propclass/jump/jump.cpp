@@ -251,7 +251,7 @@ void celPcJump::UpdateMovement ()
     }
     else if (currstate == GLIDE)
     {
-      linmove->SetGravity (3.0f);
+      linmove->SetGravity (0.2f);
       float glidespeed = linmove->GetVelocity ().z;
       if (glidespeed > -5)
         glidespeed = -5;
@@ -263,20 +263,7 @@ void celPcJump::UpdateMovement ()
   }
 
   if (currstate == GLIDE)
-  {
-    csVector3 angvel (0);
-    if (g_turn == GLIDE_LEFT)
-      angvel.y = 2;
-    else if (g_turn == GLIDE_RIGHT)
-      angvel.y = -2;
-    if (g_pitch == GLIDE_UP)
-      angvel.x = -2;
-    else if (g_pitch == GLIDE_DOWN)
-      angvel.x = 2;
-    // why doesn't this work??
-    printf ("pitch : %f\n", angvel.x);
-    linmove->SetAngularVelocity (angvel);
-  }
+    GlideControl ();  // :)
 
   // check if we landed from our jump
   if (linmove->IsOnGround () && falling)
@@ -336,4 +323,18 @@ void celPcJump::DoJump ()
       return;
   }
   dispatcher.started->SendMessage (0);
+}
+
+void celPcJump::GlideControl ()
+{
+  csVector3 angvel (0);
+  if (g_turn == GLIDE_LEFT)
+    angvel.y = 2;
+  else if (g_turn == GLIDE_RIGHT)
+    angvel.y = -2;
+  if (g_pitch == GLIDE_UP)
+    angvel.x = -2;
+  else if (g_pitch == GLIDE_DOWN)
+    angvel.x = 2;
+  linmove->SetAngularVelocity (angvel);
 }
