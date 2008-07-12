@@ -53,7 +53,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   posoff.angle = PI / 6;
-  posoff.dist = 6.5f;
+  posoff.dist = 8.0f;
   relaxspringlen = 2.0f;
   minspring = 0.01f;
 
@@ -449,7 +449,12 @@ bool celPcTrackingCamera::DecideState ()
 
   // a bit of fun, but not really needed :)
   // might keep it since it looks nice though
-  float dxf = 5 * posoff.dist * posoff.angle / PI;
+  float finp = 1 + posoff.angle / PI, fexp = finp;
+  for (size_t exiter = 0; exiter < 4; exiter++)
+    fexp *= finp;
+  // we multiply out the fexp value to make function a lot faster so
+  // it's not so huge difference between pi/2 and pi
+  float dxf = posoff.dist * (1 - (1 / fexp));
   float
     posoffset_y = dxf * sin (posoff.angle),
     posoffset_z = dxf * cos (posoff.angle);

@@ -274,6 +274,7 @@ void celPcJump::UpdateMovement ()
   {
     if (currstate == GLIDE)
     {
+      // sort this out...
       // ... look we need to correct x roll
       csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
       iMovable* movable = mesh->GetMesh ()->GetMovable ();
@@ -341,16 +342,70 @@ void celPcJump::DoJump ()
   dispatcher.started->SendMessage (0);
 }
 
+static float AngleBetweenVectors (const csVector3 &a, const csVector3 &b)
+{
+  return acos ((a * b) / (a.Norm () * b.Norm ()));
+}
+
 void celPcJump::GlideControl ()
 {
+  const float glide_pitch_limit = PI * 40.0 / 360.0,
+    glide_speed_limit = 8.0,    // Faster you can go the higher you can fly
+    glide_speed_pitch = 2.5,    // how fast you can change your up dwn pitch
+    glide_speed_fall_accel = 0.009, // How fast we drop when gliding
+    glide_speed_fall = -7.0,    // -10 makes you fly!
+    glide_speed_fall_time_fac = 0.05,  // 2.66 # increase GLIDE_SPEED_FALL with the jump speed over time.
+    glide_accel = 0.65,         // WATCH THIS ONE!
+    glide_ease_in_time = 0.5,   // Ease in from current velocity
+    time_offset = 1000.0;
+
+  csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  iMovable* movable = mesh->GetMesh ()->GetMovable ();
+  csMatrix3 own_mat (movable->GetTransform ().GetT2O ());
+  csVector3 own_y (own_mat * csVector3 (0, 1, 0));
+  float pitch_angle = AngleBetweenVectors (own_y, csVector3 (own_y.x, own_y.y, 0.0f));
+  if (pitch_angle > glide_pitch_limit)
+    pitch_angle = glide_pitch_limit;
+  float pitch_rotate = 0;
+
+  printf ("pitch_angle: %f\n", pitch_angle);
+  if ((g_pitch == GLIDE_UP) && (pitch_angle != glide_pitch_limit || own_y.z > 0))
+  {
+    pitch_rotate = -glide_speed_pitch;
+  }
+  else if ((g_pitch == GLIDE_DOWN) && (pitch_angle != glide_pitch_limit || own_y.z < 0))
+  {
+    pitch_rotate = glide_speed_pitch;
+  }
+
+  csVector3 own_pitch_axis (own_mat * csVector3 (1, 0, 0));
+  own_pitch_axis.z = 0.0;   // no roll
+
+  float speed;
+  // are we gliding up or down??
+  if (own_y.z > 0)
+    speed = (glide_pitch_limit + pitch_angle) / (2.0 * glide_pitch_limit);
+  else
+  {
+    speed = (glide_pitch_limit - pitch_angle) / (2.0 * glide_pitch_limit);
+    pitch_angle = -pitch_angle;
+  }
+  // Speed is now between 0.0 and 1.0 based on the angle
+  float speed_inv = 1 - speed;
+
+  csXRotMatrix3 pitch_mat (pitch_angle);
+  own_mat = own_mat * pitch_mat;
+  movable->SetTransform (own_mat);
+  movable->UpdateMove ();
+
   csVector3 angvel (0);
   if (g_turn == GLIDE_LEFT)
     angvel.y = 2;
   else if (g_turn == GLIDE_RIGHT)
     angvel.y = -2;
-  if (g_pitch == GLIDE_UP)
+  /*if (g_pitch == GLIDE_UP)
     angvel.x = -2;
   else if (g_pitch == GLIDE_DOWN)
-    angvel.x = 2;
+    angvel.x = 2;*/
   linmove->SetAngularVelocity (angvel);
 }
