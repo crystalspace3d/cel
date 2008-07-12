@@ -366,9 +366,8 @@ void celPcJump::GlideControl ()
   float pitch_angle = AngleBetweenVectors (own_y, csVector3 (own_y.x, own_y.y, 0.0f));
   if (pitch_angle > glide_pitch_limit)
     pitch_angle = glide_pitch_limit;
-  float pitch_rotate = 0;
 
-  printf ("pitch_angle: %f\n", pitch_angle);
+  float pitch_rotate = 0;
   if ((g_pitch == GLIDE_UP) && (pitch_angle != glide_pitch_limit || own_y.z > 0))
   {
     pitch_rotate = -glide_speed_pitch;
@@ -384,10 +383,10 @@ void celPcJump::GlideControl ()
   float speed;
   // are we gliding up or down??
   if (own_y.z > 0)
-    speed = (glide_pitch_limit + pitch_angle) / (2.0 * glide_pitch_limit);
+    speed = (glide_pitch_limit - pitch_angle) / (2.0 * glide_pitch_limit);
   else
   {
-    speed = (glide_pitch_limit - pitch_angle) / (2.0 * glide_pitch_limit);
+    speed = (glide_pitch_limit + pitch_angle) / (2.0 * glide_pitch_limit);
     pitch_angle = -pitch_angle;
   }
   // Speed is now between 0.0 and 1.0 based on the angle
@@ -395,17 +394,18 @@ void celPcJump::GlideControl ()
 
   csXRotMatrix3 pitch_mat (pitch_angle);
   own_mat = own_mat * pitch_mat;
-  movable->SetTransform (own_mat);
-  movable->UpdateMove ();
+  //movable->SetTransform (own_mat);
+  //movable->UpdateMove ();
 
   csVector3 angvel (0);
   if (g_turn == GLIDE_LEFT)
     angvel.y = 2;
   else if (g_turn == GLIDE_RIGHT)
     angvel.y = -2;
-  /*if (g_pitch == GLIDE_UP)
-    angvel.x = -2;
+  if (g_pitch == GLIDE_UP)
+    angvel.x = pitch_rotate;
   else if (g_pitch == GLIDE_DOWN)
-    angvel.x = 2;*/
+    angvel.x = pitch_rotate;
   linmove->SetAngularVelocity (angvel);
+  linmove->SetBodyVelocity (csVector3 (0, 0, -speed * 6));
 }
