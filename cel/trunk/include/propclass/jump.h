@@ -74,9 +74,39 @@ struct iPcJump : public virtual iBase
   };
 
   /**
-   * If 
+   * If gliding then pitch the player up/down
    */
   virtual void GlidePitch (GlidePitchDirection gpit) = 0;
+
+  /**
+    * Set the gravity during gliding
+    */
+  virtual void SetGlideGravity (float glidegrav) = 0;
+
+  /**
+    * Get the gravity during gliding
+    */
+  virtual float GetGlideGravity () const = 0;
+
+  /**
+    * Set the pitch limits during gliding in radians
+    */
+  virtual void SetGlidePitchLimit (float gptlim) = 0;
+
+  /**
+    * Get the pitch limits during gliding in radians
+    */
+  virtual float GetGlidePitchLimit () const = 0;
+
+  /**
+    * Set the pitch speed in radians while gliding
+    */
+  virtual void SetGlidePitchSpeed (float gptspd) = 0;
+
+  /**
+    * Get the pitch speed in radians while gliding
+    */
+  virtual float GetGlidePitchSpeed () const = 0;
 
   /**
    * Set the jumping speed.
