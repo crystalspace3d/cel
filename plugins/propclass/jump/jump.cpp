@@ -216,7 +216,10 @@ bool celPcJump::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celDa
     csRef<iPcAnalogMotion> motion = celQueryPropertyClassEntity<iPcAnalogMotion> (entity);
     if (motion)
       motion->Enable (false);
-    linmove->SetGravity (gravity);
+    if (currstate == GLIDE)
+      linmove->SetGravity (0.2f);
+    else
+      linmove->SetGravity (gravity);
     linmove->SetBodyVelocity (csVector3 (0));
   }
   return true;
@@ -391,7 +394,9 @@ void celPcJump::GlideControl ()
   float speed;
   // are we gliding up or down??
   if (upasloc.z < 0)
+  {
     speed = (glide_pitch_limit - pitch_angle) / (2.0 * glide_pitch_limit);
+  }
   else
   {
     speed = (glide_pitch_limit + pitch_angle) / (2.0 * glide_pitch_limit);
