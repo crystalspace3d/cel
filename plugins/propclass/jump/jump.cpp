@@ -346,6 +346,10 @@ static float AngleBetweenVectors (const csVector3 &a, const csVector3 &b)
 {
   return acos ((a * b) / (a.Norm () * b.Norm ()));
 }
+inline static bool IsEqual (float a, float b)
+{
+  return ABS (a - b) < EPSILON;
+}
 
 void celPcJump::GlideControl ()
 {
@@ -361,33 +365,37 @@ void celPcJump::GlideControl ()
 
   csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   iMovable* movable = mesh->GetMesh ()->GetMovable ();
-  csMatrix3 own_mat (movable->GetTransform ().GetT2O ());
-  csVector3 own_y (own_mat * csVector3 (0, 1, 0));
-  float pitch_angle = AngleBetweenVectors (own_y, csVector3 (own_y.x, own_y.y, 0.0f));
+
+  // get local up vector
+  csVector3 own_y = movable->GetTransform ().This2OtherRelative (csVector3 (0, 1, 0));
+  //float pitch_angle = AngleBetweenVectors (own_y, csVector3 (0, 1, 0));
+  csVector3 upasloc = movable->GetTransform ().Other2ThisRelative (csVector3 (0, 1, 0));
+  float pitch_angle = AngleBetweenVectors (csVector3 (0, 1, 0), upasloc);
   if (pitch_angle > glide_pitch_limit)
     pitch_angle = glide_pitch_limit;
 
   float pitch_rotate = 0;
-  if ((g_pitch == GLIDE_UP) && (pitch_angle != glide_pitch_limit || own_y.z > 0))
+  if (g_pitch == GLIDE_UP && (!IsEqual (pitch_angle, glide_pitch_limit) || upasloc.z < 0))
   {
     pitch_rotate = -glide_speed_pitch;
   }
-  else if ((g_pitch == GLIDE_DOWN) && (pitch_angle != glide_pitch_limit || own_y.z < 0))
+  else if (g_pitch == GLIDE_DOWN && (!IsEqual (pitch_angle, glide_pitch_limit) || upasloc.z > 0))
   {
     pitch_rotate = glide_speed_pitch;
   }
 
+  csMatrix3 own_mat (movable->GetTransform ().GetT2O ());
   csVector3 own_pitch_axis (own_mat * csVector3 (1, 0, 0));
   own_pitch_axis.z = 0.0;   // no roll
 
   float speed;
   // are we gliding up or down??
-  if (own_y.z > 0)
+  if (upasloc.z < 0)
     speed = (glide_pitch_limit - pitch_angle) / (2.0 * glide_pitch_limit);
   else
   {
     speed = (glide_pitch_limit + pitch_angle) / (2.0 * glide_pitch_limit);
-    pitch_angle = -pitch_angle;
+    //pitch_angle = -pitch_angle;
   }
   // Speed is now between 0.0 and 1.0 based on the angle
   float speed_inv = 1 - speed;
