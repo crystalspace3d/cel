@@ -387,15 +387,16 @@ void celPcJump::GlideControl ()
   csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   iMovable* movable = mesh->GetMesh ()->GetMovable ();
 
-  // get local up vector
-  csVector3 own_y = movable->GetTransform ().This2OtherRelative (csVector3 (0, 1, 0));
-  //float pitch_angle = AngleBetweenVectors (own_y, csVector3 (0, 1, 0));
+  // get world up vector as local
   csVector3 upasloc = movable->GetTransform ().Other2ThisRelative (csVector3 (0, 1, 0));
+  // to find the pitch angle, we measure angle between global up and local up of player
   float pitch_angle = AngleBetweenVectors (csVector3 (0, 1, 0), upasloc);
+  // we don't care about the angle size if it's greater than our limit
   if (pitch_angle > glide_pitch_limit)
     pitch_angle = glide_pitch_limit;
 
   float pitch_rotate = 0;
+  // if press up and (not at limit OR we are rotating in opposite direction)
   if (g_pitch == GLIDE_UP && (!IsEqual (pitch_angle, glide_pitch_limit) || upasloc.z < 0))
   {
     pitch_rotate = -glide_pitch_speed;
@@ -406,15 +407,19 @@ void celPcJump::GlideControl ()
   }
   else if (g_pitch == GLIDE_NOPITCH)
   {
+    // to avoid small angle fighting, we do this small interpolation
     pitch_rotate = glide_pitch_speed * pitch_angle / glide_pitch_limit;
+    // ofc majority of cases it will hit limit
     if (pitch_rotate > glide_pitch_speed)
       pitch_rotate = glide_pitch_speed;
+    // which way does it rotate? rotate opposite way to pitch
     if (upasloc.z < 0)
       pitch_rotate = -pitch_rotate;
   }
 
   float speed;
   // are we gliding up or down??
+  // ... vary the speed depending on pitch.
   if (upasloc.z < 0)
     speed = (glide_pitch_limit - pitch_angle) / (2.0 * glide_pitch_limit);
   else
@@ -422,6 +427,7 @@ void celPcJump::GlideControl ()
   linmove->SetBodyVelocity (csVector3 (0, 0, -speed * 6));
 
   csVector3 angvel (0);
+  // left, right blaa blaa
   if (g_turn == GLIDE_LEFT)
     angvel.y = 2;
   else if (g_turn == GLIDE_RIGHT)
