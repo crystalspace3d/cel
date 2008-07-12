@@ -386,6 +386,14 @@ void celPcJump::GlideControl ()
   {
     pitch_rotate = glide_speed_pitch;
   }
+  else if (g_pitch == GLIDE_NOPITCH)
+  {
+    pitch_rotate = glide_speed_pitch * pitch_angle / glide_pitch_limit;
+    if (pitch_rotate > glide_speed_pitch)
+      pitch_rotate = glide_speed_pitch;
+    if (upasloc.z < 0)
+      pitch_rotate = -pitch_rotate;
+  }
 
   csMatrix3 own_mat (movable->GetTransform ().GetT2O ());
   csVector3 own_pitch_axis (own_mat * csVector3 (1, 0, 0));
@@ -415,10 +423,7 @@ void celPcJump::GlideControl ()
     angvel.y = 2;
   else if (g_turn == GLIDE_RIGHT)
     angvel.y = -2;
-  if (g_pitch == GLIDE_UP)
-    angvel.x = pitch_rotate;
-  else if (g_pitch == GLIDE_DOWN)
-    angvel.x = pitch_rotate;
+  angvel.x = pitch_rotate;
   linmove->SetAngularVelocity (angvel);
   linmove->SetBodyVelocity (csVector3 (0, 0, -speed * 6));
 }
