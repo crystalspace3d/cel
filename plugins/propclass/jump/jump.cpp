@@ -62,6 +62,10 @@ celPcJump::celPcJump (iObjectRegistry* object_reg)
   doublejumpspeed = 0.0f;
   gravity = 25.0f;
   fixedjump = true;
+  // glide
+  glide_gravity = 0.2;
+  glide_pitch_limit = PI * 40.0 / 360.0;
+  glide_pitch_speed = 2.5;
 }
 
 celPcJump::~celPcJump ()
@@ -152,6 +156,30 @@ void celPcJump::GlidePitch (GlidePitchDirection gpit)
 {
   g_pitch = gpit;
 }
+void celPcJump::SetGlideGravity (float glidegrav)
+{
+  glide_gravity = glidegrav;
+}
+float celPcJump::GetGlideGravity () const
+{
+  return glide_gravity;
+}
+void celPcJump::SetGlidePitchLimit (float gptlim)
+{
+  glide_pitch_limit = gptlim;
+}
+float celPcJump::GetGlidePitchLimit () const
+{
+  return glide_pitch_limit;
+}
+void celPcJump::SetGlidePitchSpeed (float gptspd)
+{
+  glide_pitch_speed = gptspd;
+}
+float celPcJump::GetGlidePitchSpeed () const
+{
+  return glide_pitch_speed;
+}
 
 void celPcJump::SetJumpSpeed (float spd)
 {
@@ -217,7 +245,7 @@ bool celPcJump::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celDa
     if (motion)
       motion->Enable (false);
     if (currstate == GLIDE)
-      linmove->SetGravity (0.2f);
+      linmove->SetGravity (glide_gravity);
     else
       linmove->SetGravity (gravity);
     linmove->SetBodyVelocity (csVector3 (0));
@@ -356,16 +384,6 @@ inline static bool IsEqual (float a, float b)
 
 void celPcJump::GlideControl ()
 {
-  const float glide_pitch_limit = PI * 40.0 / 360.0,
-    glide_speed_limit = 8.0,    // Faster you can go the higher you can fly
-    glide_speed_pitch = 2.5,    // how fast you can change your up dwn pitch
-    glide_speed_fall_accel = 0.009, // How fast we drop when gliding
-    glide_speed_fall = -7.0,    // -10 makes you fly!
-    glide_speed_fall_time_fac = 0.05,  // 2.66 # increase GLIDE_SPEED_FALL with the jump speed over time.
-    glide_accel = 0.65,         // WATCH THIS ONE!
-    glide_ease_in_time = 0.5,   // Ease in from current velocity
-    time_offset = 1000.0;
-
   csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   iMovable* movable = mesh->GetMesh ()->GetMovable ();
 
@@ -380,43 +398,28 @@ void celPcJump::GlideControl ()
   float pitch_rotate = 0;
   if (g_pitch == GLIDE_UP && (!IsEqual (pitch_angle, glide_pitch_limit) || upasloc.z < 0))
   {
-    pitch_rotate = -glide_speed_pitch;
+    pitch_rotate = -glide_pitch_speed;
   }
   else if (g_pitch == GLIDE_DOWN && (!IsEqual (pitch_angle, glide_pitch_limit) || upasloc.z > 0))
   {
-    pitch_rotate = glide_speed_pitch;
+    pitch_rotate = glide_pitch_speed;
   }
   else if (g_pitch == GLIDE_NOPITCH)
   {
-    pitch_rotate = glide_speed_pitch * pitch_angle / glide_pitch_limit;
-    if (pitch_rotate > glide_speed_pitch)
-      pitch_rotate = glide_speed_pitch;
+    pitch_rotate = glide_pitch_speed * pitch_angle / glide_pitch_limit;
+    if (pitch_rotate > glide_pitch_speed)
+      pitch_rotate = glide_pitch_speed;
     if (upasloc.z < 0)
       pitch_rotate = -pitch_rotate;
   }
 
-  csMatrix3 own_mat (movable->GetTransform ().GetT2O ());
-  csVector3 own_pitch_axis (own_mat * csVector3 (1, 0, 0));
-  own_pitch_axis.z = 0.0;   // no roll
-
   float speed;
   // are we gliding up or down??
   if (upasloc.z < 0)
-  {
     speed = (glide_pitch_limit - pitch_angle) / (2.0 * glide_pitch_limit);
-  }
   else
-  {
     speed = (glide_pitch_limit + pitch_angle) / (2.0 * glide_pitch_limit);
-    //pitch_angle = -pitch_angle;
-  }
-  // Speed is now between 0.0 and 1.0 based on the angle
-  float speed_inv = 1 - speed;
-
-  csXRotMatrix3 pitch_mat (pitch_angle);
-  own_mat = own_mat * pitch_mat;
-  //movable->SetTransform (own_mat);
-  //movable->UpdateMove ();
+  linmove->SetBodyVelocity (csVector3 (0, 0, -speed * 6));
 
   csVector3 angvel (0);
   if (g_turn == GLIDE_LEFT)
@@ -425,5 +428,4 @@ void celPcJump::GlideControl ()
     angvel.y = -2;
   angvel.x = pitch_rotate;
   linmove->SetAngularVelocity (angvel);
-  linmove->SetBodyVelocity (csVector3 (0, 0, -speed * 6));
 }

@@ -61,6 +61,12 @@ public:
 
   void GlideTurn (GlideTurnDirection gtur);
   void GlidePitch (GlidePitchDirection gpit);
+  void SetGlideGravity (float glidegrav);
+  float GetGlideGravity () const;
+  void SetGlidePitchLimit (float gptlim);
+  float GetGlidePitchLimit () const;
+  void SetGlidePitchSpeed (float gptspd);
+  float GetGlidePitchSpeed () const;
 
   void SetJumpSpeed (float spd);
   float GetJumpSpeed () const;
@@ -88,11 +94,14 @@ private:
 
   State currstate, startact;
   bool falling;
-  GlideTurnDirection g_turn;
-  GlidePitchDirection g_pitch;
   float jumpspeed, doublejumpspeed;
   float gravity;
   bool fixedjump;
+
+  // glide variables
+  GlideTurnDirection g_turn;
+  GlidePitchDirection g_pitch;
+  float glide_gravity, glide_pitch_limit, glide_pitch_speed;
 
   csWeakRef<iPcLinearMovement> linmove;
 
