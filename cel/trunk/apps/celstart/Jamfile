@@ -112,6 +112,9 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     glshader_cg
     glshader_ps1
     odedynam
+    rm_rlcompat
+    rm_shadow_pssm
+    rm_unshadowed
     sndmanager
     sndsyssoft
     sndsysloader
