@@ -2551,6 +2551,12 @@ class iPcJump(cspace.iBase):
     GLIDE_UP = _blcelc.iPcJump_GLIDE_UP
     GLIDE_DOWN = _blcelc.iPcJump_GLIDE_DOWN
     def GlidePitch(*args): return _blcelc.iPcJump_GlidePitch(*args)
+    def SetGlideGravity(*args): return _blcelc.iPcJump_SetGlideGravity(*args)
+    def GetGlideGravity(*args): return _blcelc.iPcJump_GetGlideGravity(*args)
+    def SetGlidePitchLimit(*args): return _blcelc.iPcJump_SetGlidePitchLimit(*args)
+    def GetGlidePitchLimit(*args): return _blcelc.iPcJump_GetGlidePitchLimit(*args)
+    def SetGlidePitchSpeed(*args): return _blcelc.iPcJump_SetGlidePitchSpeed(*args)
+    def GetGlidePitchSpeed(*args): return _blcelc.iPcJump_GetGlidePitchSpeed(*args)
     def SetJumpSpeed(*args): return _blcelc.iPcJump_SetJumpSpeed(*args)
     def GetJumpSpeed(*args): return _blcelc.iPcJump_GetJumpSpeed(*args)
     def SetJumpHeight(*args): return _blcelc.iPcJump_SetJumpHeight(*args)
