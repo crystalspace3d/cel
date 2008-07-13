@@ -109,6 +109,16 @@ struct iPcJump : public virtual iBase
   virtual float GetGlidePitchSpeed () const = 0;
 
   /**
+    * Set the turn speed in radians while gliding
+    */
+  virtual void SetGlideTurnSpeed (float gtrspd) = 0;
+
+  /**
+    * Get the turn speed in radians while gliding
+    */
+  virtual float GetGlideTurnSpeed () const = 0;
+
+  /**
    * Set the jumping speed.
    */
   virtual void SetJumpSpeed (float spd) = 0;

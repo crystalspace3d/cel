@@ -67,6 +67,8 @@ public:
   float GetGlidePitchLimit () const;
   void SetGlidePitchSpeed (float gptspd);
   float GetGlidePitchSpeed () const;
+  void SetGlideTurnSpeed (float gtrspd);
+  float GetGlideTurnSpeed () const;
 
   void SetJumpSpeed (float spd);
   float GetJumpSpeed () const;
@@ -101,7 +103,9 @@ private:
   // glide variables
   GlideTurnDirection g_turn;
   GlidePitchDirection g_pitch;
-  float glide_gravity, glide_pitch_limit, glide_pitch_speed;
+  float glide_gravity, glide_pitch_limit, glide_pitch_speed, glide_turn_speed;
+  // forward speed at the beginning of the glide
+  float glide_startspeed;
 
   csWeakRef<iPcLinearMovement> linmove;
 

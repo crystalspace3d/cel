@@ -63,9 +63,10 @@ celPcJump::celPcJump (iObjectRegistry* object_reg)
   gravity = 25.0f;
   fixedjump = true;
   // glide
-  glide_gravity = 0.2;
+  glide_gravity = 8.0;
   glide_pitch_limit = PI * 40.0 / 360.0;
   glide_pitch_speed = 2.5;
+  glide_turn_speed = 1.0;
 }
 
 celPcJump::~celPcJump ()
@@ -180,6 +181,14 @@ float celPcJump::GetGlidePitchSpeed () const
 {
   return glide_pitch_speed;
 }
+void celPcJump::SetGlideTurnSpeed (float gtrspd)
+{
+  glide_turn_speed = gtrspd;
+}
+float celPcJump::GetGlideTurnSpeed () const
+{
+  return glide_turn_speed;
+}
 
 void celPcJump::SetJumpSpeed (float spd)
 {
@@ -286,11 +295,11 @@ void celPcJump::UpdateMovement ()
     }
     else if (currstate == GLIDE)
     {
-      linmove->SetGravity (0.2f);
-      float glidespeed = linmove->GetVelocity ().z;
-      if (glidespeed > -5)
-        glidespeed = -5;
-      linmove->SetVelocity (csVector3 (0, 0, glidespeed));
+      linmove->SetGravity (glide_gravity);
+      glide_startspeed = linmove->GetVelocity ().z;
+      if (glide_startspeed > -5)
+        glide_startspeed = -5;
+      linmove->SetVelocity (csVector3 (0, 0, glide_startspeed));
       csRef<iPcAnalogMotion> motion = celQueryPropertyClassEntity<iPcAnalogMotion> (entity);
       if (motion)
         motion->Enable (false);
@@ -424,14 +433,14 @@ void celPcJump::GlideControl ()
     speed = (glide_pitch_limit - pitch_angle) / (2.0 * glide_pitch_limit);
   else
     speed = (glide_pitch_limit + pitch_angle) / (2.0 * glide_pitch_limit);
-  linmove->SetBodyVelocity (csVector3 (0, 0, -speed * 6));
+  linmove->SetBodyVelocity (csVector3 (0, 0, speed * glide_startspeed));
 
   csVector3 angvel (0);
   // left, right blaa blaa
   if (g_turn == GLIDE_LEFT)
-    angvel.y = 2;
+    angvel.y = glide_turn_speed;
   else if (g_turn == GLIDE_RIGHT)
-    angvel.y = -2;
+    angvel.y = -glide_turn_speed;
   angvel.x = pitch_rotate;
   linmove->SetAngularVelocity (angvel);
 }
