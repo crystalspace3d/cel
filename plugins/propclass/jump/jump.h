@@ -56,6 +56,7 @@ public:
   void TickEveryFrame ();
 
   void Jump ();
+  void FinishBoost ();
   void Freeze (bool frozen);
   State GetState () const;
 
@@ -81,6 +82,12 @@ public:
   float GetGravity () const;
   void SetFixedJump (bool fixjump);
   bool GetFixedJump () const;
+  void SetBoostJump (bool boost);
+  bool GetBoostJump () const;
+  void SetBoostTime (float t);
+  float GetBoostTime () const;
+  void SetBoostAcceleration (float a);
+  float GetBoostAcceleration () const;
 
   // only used for getting move.impossible events
   bool ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params);
@@ -99,6 +106,12 @@ private:
   float jumpspeed, doublejumpspeed;
   float gravity;
   bool fixedjump;
+  // do we boost jumps?
+  bool boost_jumps;
+  // -1 is inactive
+  int boost_time;
+  size_t boost_maxtime;
+  float boost_accel;
 
   // glide variables
   GlideTurnDirection g_turn;

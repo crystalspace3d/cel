@@ -29,6 +29,9 @@
 #include "iengine/movable.h"
 #include "propclass/mesh.h"
 
+// CS Includes
+#include "csutil/virtclk.h"
+
 // CEL Includes
 #include "propclass/analogmotion.h"
 #include "propclass/linmove.h"
@@ -58,10 +61,14 @@ celPcJump::celPcJump (iObjectRegistry* object_reg)
 
   currstate = STAND;
   startact = STAND;
-  jumpspeed = 10.0f;
+  jumpspeed = 5.0f;
   doublejumpspeed = 0.0f;
   gravity = 25.0f;
   fixedjump = true;
+  boost_jumps = true;
+  boost_time = -1;
+  boost_maxtime = 300;
+  boost_accel = 0.5f;
   // glide
   glide_gravity = 8.0;
   glide_pitch_limit = PI * 40.0 / 360.0;
@@ -110,7 +117,11 @@ void celPcJump::Jump ()
   if (!FindSiblingPropertyClasses ())
     return;
   if (currstate == STAND)
+  {
     DoJump ();
+    if (boost_jumps)
+      boost_time = 0;
+  }
   else if (currstate == JUMP)
   {
     if (falling)
@@ -128,6 +139,10 @@ void celPcJump::Jump ()
       return;
     startact = GLIDE;
   }
+}
+void celPcJump::FinishBoost ()
+{
+  boost_time = -1;
 }
 void celPcJump::Freeze (bool frozen)
 {
@@ -243,6 +258,30 @@ bool celPcJump::GetFixedJump () const
 {
   return fixedjump;
 }
+void celPcJump::SetBoostJump (bool boost)
+{
+  boost_jumps = boost;
+}
+bool celPcJump::GetBoostJump () const
+{
+  return boost_jumps;
+}
+void celPcJump::SetBoostTime (float t)
+{
+  boost_maxtime = t;
+}
+float celPcJump::GetBoostTime () const
+{
+  return boost_maxtime;
+}
+void celPcJump::SetBoostAcceleration (float a)
+{
+  boost_accel = a;
+}
+float celPcJump::GetBoostAcceleration () const
+{
+  return boost_accel;
+}
 
 bool celPcJump::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params)
 {
@@ -283,6 +322,20 @@ void celPcJump::UpdateMovement ()
     return;
   if (linmove->GetVelocity ().y < 0)
     falling = true;
+  if (boost_time > -1)
+  {
+    csVector3 vel = linmove->GetWorldVelocity ();
+    csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (object_reg);
+    boost_time += vc->GetElapsedTicks ();
+    if (boost_time > (int)boost_maxtime)
+      boost_time = boost_maxtime;
+    vel.y = jumpspeed + boost_accel * boost_time / 1000.0f;
+    linmove->SetWorldVelocity (vel);
+    if (boost_time == (int)boost_maxtime)
+    {
+      boost_time = -1;
+    }
+  }
   if ((startact == DOUBLEJUMP || startact == GLIDE) && ABS (linmove->GetVelocity ().y) < 0.1f)
   {
     // now we can validly perform the doublejump/glide :)
