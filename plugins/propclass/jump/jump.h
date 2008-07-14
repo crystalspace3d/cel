@@ -131,8 +131,8 @@ private:
   // For properties.
   enum propids
   {
-    propid_isjumping = 0,
-    propid_jumpspeed
+    propid_jumpspeed = 0,
+    propid_isjumping,
   };
   static PropertyHolder propinfo;
 
