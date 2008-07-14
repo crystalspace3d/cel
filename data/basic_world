@@ -458,6 +458,10 @@
   </meshfact>
 
   <sector name="room">
+    <addon plugin="cel.addons.ledges">
+      <genjix name="Amir" />
+    </addon>
+
     <meshobj name="Cube">
       <plugin>genmesh</plugin>
       <params>

@@ -37,6 +37,13 @@ struct iPcGrab : public virtual iBase
   };
   virtual void SetState (GrabState state) = 0;
   virtual GrabState GetState () const = 0;
+
+  virtual void SetShimmyTime (float time) = 0;
+  virtual float GetShimmyTime () const = 0;
+  virtual void SetShimmyDistance (float dist) = 0;
+  virtual float GetShimmyDistance () const = 0;
+  virtual void SetShimmyInitialVelocity (float vel) = 0;
+  virtual float GetShimmyInitialVelocity () const = 0;
 };
 
 #endif // __CEL_PF_GRAB__
