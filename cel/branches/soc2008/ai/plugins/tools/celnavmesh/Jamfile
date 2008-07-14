@@ -1,0 +1,7 @@
+SubDir TOP plugins tools celnavmesh ;
+
+Plugin celnavmesh
+       : celnavmesh.cpp celnavmesh.h
+;
+ExternalLibs celnavmesh : CRYSTAL ;
+

@@ -1,7 +1,7 @@
-SubDir TOP plugins tools celnavmesh ;
+SubDir TOP plugins tools celgraph ;
 
-Plugin celnavmesh
-       : celnavmesh.cpp celnavmesh.h
+Plugin celgraph
+       : celgraph.cpp celgraph.h
 ;
-ExternalLibs celnavmesh : CRYSTAL ;
+ExternalLibs celgraph : CRYSTAL ;
 
