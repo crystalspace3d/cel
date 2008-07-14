@@ -36,6 +36,12 @@ struct iPcJump : public virtual iBase
   virtual void Jump () = 0;
 
   /**
+   * If the boost is being used, then this will finish it...
+   * for when the player releases the jump button.
+   */
+  virtual void FinishBoost () = 0;
+
+  /**
    * Freeze the character mid-air for grabbing ledges.
    */
   virtual void Freeze (bool frozen) = 0;
@@ -175,6 +181,21 @@ struct iPcJump : public virtual iBase
    * Are the jumps be fixed length?
    */
   virtual bool GetFixedJump () const = 0;
+
+  /**
+   * Boost the jump. So longer you hold jump, the higher you go.
+   */
+  virtual void SetBoostJump (bool boost) = 0;
+
+  /**
+   * Boost the jump. So longer you hold jump, the higher you go.
+   */
+  virtual bool GetBoostJump () const = 0;
+
+  virtual void SetBoostTime (float t) = 0;
+  virtual float GetBoostTime () const = 0;
+  virtual void SetBoostAcceleration (float a) = 0;
+  virtual float GetBoostAcceleration () const = 0;
 };
 
 #endif // __CEL_PF_JUMP__

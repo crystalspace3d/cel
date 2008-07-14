@@ -229,6 +229,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   //actor->SetMovementSpeed (1.5f);
 
   csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity_cam);
+  jump->SetBoostJump (false);
   jump->SetJumpHeight (1.0f);
   //jump->SetDoubleJumpSpeed (7.0f);
 
