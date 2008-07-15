@@ -2536,6 +2536,7 @@ class iPcJump(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Jump(*args): return _blcelc.iPcJump_Jump(*args)
+    def FinishBoost(*args): return _blcelc.iPcJump_FinishBoost(*args)
     def Freeze(*args): return _blcelc.iPcJump_Freeze(*args)
     STAND = _blcelc.iPcJump_STAND
     JUMP = _blcelc.iPcJump_JUMP
@@ -2570,6 +2571,12 @@ class iPcJump(cspace.iBase):
     def GetGravity(*args): return _blcelc.iPcJump_GetGravity(*args)
     def SetFixedJump(*args): return _blcelc.iPcJump_SetFixedJump(*args)
     def GetFixedJump(*args): return _blcelc.iPcJump_GetFixedJump(*args)
+    def SetBoostJump(*args): return _blcelc.iPcJump_SetBoostJump(*args)
+    def GetBoostJump(*args): return _blcelc.iPcJump_GetBoostJump(*args)
+    def SetBoostTime(*args): return _blcelc.iPcJump_SetBoostTime(*args)
+    def GetBoostTime(*args): return _blcelc.iPcJump_GetBoostTime(*args)
+    def SetBoostAcceleration(*args): return _blcelc.iPcJump_SetBoostAcceleration(*args)
+    def GetBoostAcceleration(*args): return _blcelc.iPcJump_GetBoostAcceleration(*args)
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
