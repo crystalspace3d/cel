@@ -577,7 +577,7 @@ iCelEntityTracker_swigregister = _blcelc.iCelEntityTracker_swigregister
 iCelEntityTracker_swigregister(iCelEntityTracker)
 
 csQueryRegistry_iCelPlLayer = _blcelc.csQueryRegistry_iCelPlLayer
-class iCelEntityTemplatePlFakeArray:
+class iCelEntityTemplatePlFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindEntityTemplate(obj): return True
@@ -601,7 +601,7 @@ class iCelEntityTemplatePlFakeArray:
 		else: return self.parent.GetEntityTemplateByIndex(val)
 	def append(self,obj): return self.parent.__noappend__(obj)
 
-class iCelEntityPlFakeArray:
+class iCelEntityPlFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindEntity(obj): return True
@@ -625,7 +625,7 @@ class iCelEntityPlFakeArray:
 		else: return self.parent.GetEntityByIndex(val)
 	def append(self,obj): return self.parent.__noappend__(obj)
 
-class iCelBlLayerPlFakeArray:
+class iCelBlLayerPlFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindBehaviourLayer(obj): return True
@@ -649,7 +649,7 @@ class iCelBlLayerPlFakeArray:
 		else: return self.parent.GetBehaviourLayer(val)
 	def append(self,obj): return self.parent.RegisterBehaviourLayer(obj)
 
-class iCelPropertyClassFactoryPlFakeArray:
+class iCelPropertyClassFactoryPlFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindPropertyClassFactory(obj): return True
@@ -3973,7 +3973,7 @@ iPcInventory_swigregister(iPcInventory)
 iPcInventory_scfGetVersion = _blcelc.iPcInventory_scfGetVersion
 
 scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
-class iCelEntityInvFakeArray:
+class iCelEntityInvFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.In(obj): return True
