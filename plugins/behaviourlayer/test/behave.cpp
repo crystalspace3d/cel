@@ -452,35 +452,35 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
 
     if (!strcmp (msg_id+10, "camleft.down"))
     {
-      trackcam->Pan (iPcTrackingCamera::PAN_LEFT);
+      trackcam->SetPanDirection (-1);
     }
     else if (!strcmp (msg_id+10, "camleft.up"))
     {
-      trackcam->Pan (iPcTrackingCamera::PAN_NONE);
+      trackcam->SetPanDirection (0);
     }
     else if (!strcmp (msg_id+10, "camright.down"))
     {
-      trackcam->Pan (iPcTrackingCamera::PAN_RIGHT);
+      trackcam->SetPanDirection (1);
     }
     else if (!strcmp (msg_id+10, "camright.up"))
     {
-      trackcam->Pan (iPcTrackingCamera::PAN_NONE);
+      trackcam->SetPanDirection (0);
     }
     else if (!strcmp (msg_id+10, "camup.down"))
     {
-      trackcam->Tilt (iPcTrackingCamera::TILT_UP);
+      trackcam->SetTiltDirection (-1);
     }
     else if (!strcmp (msg_id+10, "camup.up"))
     {
-      trackcam->Tilt (iPcTrackingCamera::TILT_NONE);
+      trackcam->SetTiltDirection (0);
     }
     else if (!strcmp (msg_id+10, "camdown.down"))
     {
-      trackcam->Tilt (iPcTrackingCamera::TILT_DOWN);
+      trackcam->SetTiltDirection (1);
     }
     else if (!strcmp (msg_id+10, "camdown.up"))
     {
-      trackcam->Tilt (iPcTrackingCamera::TILT_NONE);
+      trackcam->SetTiltDirection (0);
     }
     else if (!strcmp (msg_id+10, "ready.down"))
       trackcam->SetTargetState (iPcTrackingCamera::TARGET_NONE);
@@ -511,11 +511,11 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
       if (value < -EPSILON)
-        trackcam->Pan (iPcTrackingCamera::PAN_LEFT);
+        trackcam->SetPanDirection (-1);
       else if (value > EPSILON)
-        trackcam->Pan (iPcTrackingCamera::PAN_RIGHT);
+        trackcam->SetPanDirection (1);
       else
-        trackcam->Pan (iPcTrackingCamera::PAN_NONE);
+        trackcam->SetPanDirection (0);
     }
     return true;
   }

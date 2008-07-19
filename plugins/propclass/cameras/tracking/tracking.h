@@ -55,9 +55,7 @@ public:
   bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret);
   // support for tilt/pan direction properties
-  bool SetPropertyIndexed (int idx, long l);
   bool SetPropertyIndexed (int idx, float f);
-  bool GetPropertyIndexed (int idx, long &l);
   bool GetPropertyIndexed (int idx, float &f);
 
   // --------------------------
@@ -71,15 +69,15 @@ public:
   void SetTargetInterpolationTime (csTicks t);
   csTicks GetTargetInterpolationTime () const;
 
-  void Pan (PanDirection pdir);
-  PanDirection GetPanDirection () const;
+  void SetPanDirection (float pdir);
+  float GetPanDirection () const;
   void SetPanSpeed (float pspeed);
   float GetPanSpeed () const;
   void SetPanAcceleration (float paccel);
   float GetPanAcceleration () const;
 
-  void Tilt (TiltDirection tdir);
-  TiltDirection GetTiltDirection () const;
+  void SetTiltDirection (float tdir);
+  float GetTiltDirection () const;
   void SetTiltSpeed (float tspeed);
   float GetTiltSpeed () const;
   void SetTiltAcceleration (float taccel);
@@ -132,9 +130,9 @@ private:
     float speed, accel;
   } pan, tilt;
   // panning direction and speed
-  PanDirection pandir;
+  float pandir;
   // tilt direction and speed
-  TiltDirection tiltdir;
+  float tiltdir;
 
   // because you don't want to be looking at the targets feet
   float targetyoffset;
