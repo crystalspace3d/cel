@@ -207,6 +207,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("JoystickButton2", "resetcam");
   pcinp->Bind ("JoystickAxis0", "joyaxis0");
   pcinp->Bind ("JoystickAxis1", "joyaxis1");
+  pcinp->Bind ("MouseAxis0_centered", "mouseaxis0");
 
   pcinp->Bind ("z", "ready");
   pcinp->Bind ("x", "lockon");
@@ -234,6 +235,8 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   //jump->SetDoubleJumpSpeed (7.0f);
 
   csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
+  trackcam->SetPanSpeed (8);
+  trackcam->SetTiltSpeed (2.5);
   csRef<iPcDelegateCamera> delegcam = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
   //delegcam->SetCurrentMode (trackcam);
 
