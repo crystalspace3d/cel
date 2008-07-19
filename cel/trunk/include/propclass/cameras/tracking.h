@@ -133,22 +133,16 @@ struct iPcTrackingCamera : public virtual iPcCameraMode
    */
   virtual float SetFollowMinimumSpringFactor () const = 0;
 
-  enum PanDirection
-  {
-    PAN_LEFT = 0,
-    PAN_NONE,
-    PAN_RIGHT
-  };
-
   /**
    * Pan the camera around the player in the direction specified.
+   * 1 right, -1 left
    */
-  virtual void Pan (PanDirection pandir) = 0;
+  virtual void SetPanDirection (float pandir) = 0;
 
   /**
    * Get the direction that the camera is panning in.
    */
-  virtual PanDirection GetPanDirection () const = 0;
+  virtual float GetPanDirection () const = 0;
 
   /**
    * Set the panning speed. Angle to move per frame.
@@ -170,22 +164,16 @@ struct iPcTrackingCamera : public virtual iPcCameraMode
    */
   virtual float GetPanAcceleration () const = 0;
 
-  enum TiltDirection
-  {
-    TILT_UP = 0,
-    TILT_NONE,
-    TILT_DOWN
-  };
-
   /**
    * Tilt camera in the direction specified.
+   * -1 up, 1 down
    */
-  virtual void Tilt (TiltDirection tiltdir) = 0;
+  virtual void SetTiltDirection (float tdir) = 0;
 
   /**
    * Get the direction that the camera is tilting in.
    */
-  virtual TiltDirection GetTiltDirection () const = 0;
+  virtual float GetTiltDirection () const = 0;
 
   /**
    * Set the tilting speed. Angle to move per frame.

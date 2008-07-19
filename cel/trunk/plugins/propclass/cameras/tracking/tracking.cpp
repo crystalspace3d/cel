@@ -67,11 +67,11 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   tarintime = 100;
   currtartrans = 0.0f;
 
-  pandir = PAN_NONE;
+  pandir = 0.0f;
   pan.topspeed = 3.0f;
   pan.speed = 0.0f;
   pan.accel = 8.0f;
-  tiltdir = TILT_NONE;
+  tiltdir = 0.0f;
   tilt.topspeed = 1.0f;
   tilt.speed = 0.0f;
   tilt.accel = 3.0f;
@@ -102,7 +102,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   AddProperty (propid_pan_accel, "cel.property.pan_accel",
     CEL_DATA_FLOAT, true, "Pan acceleration.", &pan.accel);
   AddProperty (propid_pan_dir, "cel.property.pan_dir",
-    CEL_DATA_LONG, true, "Pan direction -1 left, 0 none, 1 right.", 0);
+    CEL_DATA_LONG, false, "Pan direction -1 left, 0 none, 1 right.", &pandir);
   AddProperty (propid_tilt_topspeed, "cel.property.tilt_topspeed",
     CEL_DATA_FLOAT, true, "Top speed limit for tilting.", &tilt.topspeed);
   AddProperty (propid_tilt_currspeed, "cel.property.tilt_currspeed",
@@ -110,7 +110,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   AddProperty (propid_tilt_accel, "cel.property.tilt_accel",
     CEL_DATA_FLOAT, true, "Tilt acceleration.", &tilt.accel);
   AddProperty (propid_tilt_dir, "cel.property.tilt_dir",
-    CEL_DATA_LONG, true, "Tilt direction -1 down, 0 none, 1 up.", 0);
+    CEL_DATA_LONG, false, "Tilt direction -1 down, 0 none, 1 up.", &tiltdir);
   AddProperty (propid_taryoff, "cel.property.targetyoffset",
     CEL_DATA_FLOAT, true, "Y offset from target for lookat.", 0);
   AddProperty (propid_tarintrans, "cel.property.target_intransition",
@@ -135,60 +135,11 @@ celPcTrackingCamera::~celPcTrackingCamera ()
 {
 }
 
-bool celPcTrackingCamera::SetPropertyIndexed (int idx, long l)
-{
-  if (idx == propid_tilt_dir)
-  {
-    if (l < 0)
-      tiltdir = TILT_DOWN;
-    else if (l == 0)
-      tiltdir = TILT_NONE;
-    else //if (l > 0)
-      tiltdir = TILT_UP;
-    return true;
-  }
-  else if (idx == propid_pan_dir)
-  {
-    if (l < 0)
-      pandir = PAN_LEFT;
-    else if (l == 0)
-      pandir = PAN_NONE;
-    else //if (l > 0)
-      pandir = PAN_RIGHT;
-    return true;
-  }
-  return false;
-}
 bool celPcTrackingCamera::SetPropertyIndexed (int idx, float f)
 {
   if (idx == propid_taryoff)
   {
     SetTargetYOffset (f);
-    return true;
-  }
-  return false;
-}
-
-bool celPcTrackingCamera::GetPropertyIndexed (int idx, long &l)
-{
-  if (idx == propid_tilt_dir)
-  {
-    if (tiltdir == TILT_DOWN)
-      l = -1;
-    else if (tiltdir == TILT_NONE)
-      l = 0;
-    else //if (tiltdir == TILT_UP)
-      l = 1;
-    return true;
-  }
-  else if (idx == propid_pan_dir)
-  {
-    if (pandir == PAN_LEFT)
-      l = -1;
-    else if (pandir == PAN_NONE)
-      l = 0;
-    else //if (pandir == PAN_RIGHT)
-      l = 1;
     return true;
   }
   return false;
@@ -327,19 +278,7 @@ void celPcTrackingCamera::PanAroundPlayer (const csVector3 &playpos, float elaps
 {
   // perform a rotation around the character
   // accelerate speed in desired direction
-  switch (pandir)
-  {
-    case PAN_NONE:
-      pan.Accelerate (0, elapsedsecs);
-      break;
-    case PAN_LEFT:
-      pan.Accelerate (-1, elapsedsecs);
-      break;
-    case PAN_RIGHT:
-      pan.Accelerate (1, elapsedsecs);
-      break;
-  }
-
+  pan.Accelerate (pandir, elapsedsecs);
   float angle = pan.speed * elapsedsecs;
   // minor optimisation
   if (fabs (angle) > EPSILON)
@@ -351,20 +290,8 @@ void celPcTrackingCamera::PanAroundPlayer (const csVector3 &playpos, float elaps
     pos.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
   }
 
-  switch (tiltdir)
-  {
-    case TILT_NONE:
-      tilt.Accelerate (0, elapsedsecs);
-      break;
-    case TILT_UP:
-      tilt.Accelerate (1, elapsedsecs);
-      break;
-    case TILT_DOWN:
-      tilt.Accelerate (-1, elapsedsecs);
-      break;
-  }
-
-  posoff.angle += tilt.speed * elapsedsecs;
+  tilt.Accelerate (tiltdir, elapsedsecs);
+  posoff.angle -= tilt.speed * elapsedsecs;
   // we limit the angles between epsilon and PI/2 - epsilon
   // to stop the evilness of rotating to the front of the character!!
   if (posoff.angle < 0.1)
@@ -602,11 +529,11 @@ csTicks celPcTrackingCamera::GetTargetInterpolationTime () const
   return tarintime;
 }
 
-void celPcTrackingCamera::Pan (PanDirection pdir)
+void celPcTrackingCamera::SetPanDirection (float pdir)
 {
   pandir = pdir;
 }
-celPcTrackingCamera::PanDirection celPcTrackingCamera::GetPanDirection () const
+float celPcTrackingCamera::GetPanDirection () const
 {
   return pandir;
 }
@@ -629,11 +556,11 @@ float celPcTrackingCamera::GetPanAcceleration () const
   return pan.accel;
 }
 
-void celPcTrackingCamera::Tilt (TiltDirection tdir)
+void celPcTrackingCamera::SetTiltDirection (float tdir)
 {
   tiltdir = tdir;
 }
-celPcTrackingCamera::TiltDirection celPcTrackingCamera::GetTiltDirection () const
+float celPcTrackingCamera::GetTiltDirection () const
 {
   return tiltdir;
 }
