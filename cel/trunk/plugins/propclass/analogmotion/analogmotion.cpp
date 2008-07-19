@@ -257,6 +257,8 @@ float celPcAnalogMotion::GetAxis (size_t axis) const
 void celPcAnalogMotion::SetAxis (const csVector2 &axis)
 {
   target_axis = axis;
+  // keep the movement synced
+  UpdateMovement ();
 }
 const csVector2 &celPcAnalogMotion::GetAxis () const
 {
