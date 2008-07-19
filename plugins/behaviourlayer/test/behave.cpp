@@ -251,7 +251,15 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
 
   if (pcinput_msg)
   {
-    if (!strcmp (msg_id+10, "joyaxis0"))
+    if (!strcmp (msg_id+10, "mouseaxis0"))
+    {
+      CEL_FETCH_FLOAT_PAR (x, params, pl->FetchStringID("cel.parameter.x"));
+      CEL_FETCH_FLOAT_PAR (y, params, pl->FetchStringID("cel.parameter.y"));
+      csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
+      trackcam->SetPanDirection (-x * 100000);
+      trackcam->SetTiltDirection (-y * 100000);
+    }
+    else if (!strcmp (msg_id+10, "joyaxis0"))
     {
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
       pcactor->SetAxis (0, value);
