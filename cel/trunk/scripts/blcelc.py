@@ -3134,19 +3134,13 @@ class iPcTrackingCamera(iPcCameraMode):
     def SetFollowSpringLength(*args): return _blcelc.iPcTrackingCamera_SetFollowSpringLength(*args)
     def GetFollowSpringLength(*args): return _blcelc.iPcTrackingCamera_GetFollowSpringLength(*args)
     def SetFollowMinimumSpringFactor(*args): return _blcelc.iPcTrackingCamera_SetFollowMinimumSpringFactor(*args)
-    PAN_LEFT = _blcelc.iPcTrackingCamera_PAN_LEFT
-    PAN_NONE = _blcelc.iPcTrackingCamera_PAN_NONE
-    PAN_RIGHT = _blcelc.iPcTrackingCamera_PAN_RIGHT
-    def Pan(*args): return _blcelc.iPcTrackingCamera_Pan(*args)
+    def SetPanDirection(*args): return _blcelc.iPcTrackingCamera_SetPanDirection(*args)
     def GetPanDirection(*args): return _blcelc.iPcTrackingCamera_GetPanDirection(*args)
     def SetPanSpeed(*args): return _blcelc.iPcTrackingCamera_SetPanSpeed(*args)
     def GetPanSpeed(*args): return _blcelc.iPcTrackingCamera_GetPanSpeed(*args)
     def SetPanAcceleration(*args): return _blcelc.iPcTrackingCamera_SetPanAcceleration(*args)
     def GetPanAcceleration(*args): return _blcelc.iPcTrackingCamera_GetPanAcceleration(*args)
-    TILT_UP = _blcelc.iPcTrackingCamera_TILT_UP
-    TILT_NONE = _blcelc.iPcTrackingCamera_TILT_NONE
-    TILT_DOWN = _blcelc.iPcTrackingCamera_TILT_DOWN
-    def Tilt(*args): return _blcelc.iPcTrackingCamera_Tilt(*args)
+    def SetTiltDirection(*args): return _blcelc.iPcTrackingCamera_SetTiltDirection(*args)
     def GetTiltDirection(*args): return _blcelc.iPcTrackingCamera_GetTiltDirection(*args)
     def SetTiltSpeed(*args): return _blcelc.iPcTrackingCamera_SetTiltSpeed(*args)
     def GetTiltSpeed(*args): return _blcelc.iPcTrackingCamera_GetTiltSpeed(*args)
