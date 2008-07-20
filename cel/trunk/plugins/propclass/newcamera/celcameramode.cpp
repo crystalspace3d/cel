@@ -182,7 +182,7 @@ bool celCameraMode::DecideCameraState ()
   if (!parent)
     return false;
 
-  origin = parent->GetBasePos ();
+  origin = parent->GetBaseOrigin ();
   target = origin + parent->GetBaseDir ();
   up = parent->GetBaseUp ();
   originSpring = parent->GetOriginSpringCoefficient ();

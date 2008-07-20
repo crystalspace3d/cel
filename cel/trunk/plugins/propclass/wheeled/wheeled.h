@@ -252,7 +252,7 @@ public:
   void UpdateTankSteer(size_t wheelnum);
   void UpdateGear();
   void UpdateSteer(size_t wheelnum);
-  void AddDiffWheel(int index);
+  void AddDiffWheel(size_t index);
   void AntiSway();
 
   //Setters

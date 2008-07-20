@@ -147,16 +147,16 @@ static bool ToBool (const celData* data)
     case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%b", &rc);
 			  return rc;
     case CEL_DATA_BOOL: return data->value.bo;
-    case CEL_DATA_BYTE: return (bool)data->value.b;
-    case CEL_DATA_UBYTE: return (bool)data->value.ub;
-    case CEL_DATA_WORD: return (bool)data->value.w;
-    case CEL_DATA_UWORD: return (bool)data->value.uw;
-    case CEL_DATA_LONG: return (bool)data->value.l;
-    case CEL_DATA_ULONG: return (bool)data->value.ul;
+    case CEL_DATA_BYTE: return data->value.b != 0;
+    case CEL_DATA_UBYTE: return data->value.ub != 0;
+    case CEL_DATA_WORD: return data->value.w != 0;
+    case CEL_DATA_UWORD: return data->value.uw != 0;
+    case CEL_DATA_LONG: return data->value.l != 0;
+    case CEL_DATA_ULONG: return data->value.ul != 0;
     case CEL_DATA_FLOAT: return fabs (data->value.f) > 0.000001;
     case CEL_DATA_PCLASS: return data->value.pc != 0;
     case CEL_DATA_IBASE: return data->value.ibase != 0;
-    case CEL_DATA_ENTITY: return data->value.ent;
+    case CEL_DATA_ENTITY: return data->value.ent != 0;
     default: return false;
   }
 }

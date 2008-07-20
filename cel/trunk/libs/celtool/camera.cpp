@@ -161,7 +161,7 @@ void celPcCameraCommon::SetPerspectiveCenter (float x, float y)
 {
   center_x = x;
   center_y = y;
-  GetCamera ()->SetPerspectiveCenter (x, y);
+  GetPerspectiveCamera ()->SetPerspectiveCenter (x, y);
   center_set = true;
 }
 
@@ -169,6 +169,12 @@ iCamera* celPcCameraCommon::GetCamera () const
 {
   return view->GetCamera ();
 }
+
+iPerspectiveCamera* celPcCameraCommon::GetPerspectiveCamera () const
+{
+  return view->GetPerspectiveCamera ();
+}
+
 
 void celPcCameraCommon::DisableDistanceClipping ()
 {
@@ -386,7 +392,7 @@ bool celPcCameraCommon::LoadCommon (iCelDataBuffer* databuf)
     view->SetRectangle (rect_x, rect_y, rect_w, rect_h);
 
   if (center_set)
-    GetCamera () -> SetPerspectiveCenter (center_x, center_y);
+    GetPerspectiveCamera () -> SetPerspectiveCenter (center_x, center_y);
 
   return true;
 }

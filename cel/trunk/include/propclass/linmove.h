@@ -30,7 +30,7 @@
 #include "csutil/scf.h"
 #include "csutil/strhash.h"
 
-struct csReversibleTransform;
+class csReversibleTransform;
 struct iDataBuffer;
 struct iSector;
 struct iPath;

@@ -157,7 +157,7 @@ protected:
       pr.datatype = type;
       pr.readonly = readonly;
       pr.desc = desc;
-      propholder->constants.Put (pr.id, idx);
+      propholder->constants.Put (pr.id, (int)idx);
     }
     propdata[idx] = prop;
   }
@@ -241,47 +241,6 @@ public:
   virtual iCelPropertyClass* GetPropertyPClassByID (csStringID);
   virtual iCelEntity* GetPropertyEntityByID (csStringID);
   virtual iBase* GetPropertyIBaseByID (csStringID);
-
-  virtual long GetPropertyLong (csStringID id)
-  {
-    return GetPropertyLongByID (id);
-  }
-  virtual float GetPropertyFloat (csStringID id)
-  {
-    return GetPropertyFloatByID (id);
-  }
-  virtual bool GetPropertyBool (csStringID id)
-  {
-    return GetPropertyBoolByID (id);
-  }
-  virtual const char* GetPropertyString (csStringID id)
-  {
-    return GetPropertyStringByID (id);
-  }
-  virtual bool GetPropertyVector (csStringID id, csVector2& v)
-  {
-    return GetPropertyVectorByID (id, v);
-  }
-  virtual bool GetPropertyVector (csStringID id, csVector3& v)
-  {
-    return GetPropertyVectorByID (id, v);
-  }
-  virtual bool GetPropertyColor (csStringID id, csColor& c)
-  {
-    return GetPropertyColorByID (id, c);
-  }
-  virtual iCelPropertyClass* GetPropertyPClass (csStringID id)
-  {
-    return GetPropertyPClassByID (id);
-  }
-  virtual iCelEntity* GetPropertyEntity (csStringID id)
-  {
-    return GetPropertyEntityByID (id);
-  }
-  virtual iBase* GetPropertyIBase (csStringID id)
-  {
-    return GetPropertyIBaseByID (id);
-  }
 
   virtual bool PerformAction (csStringID, iCelParameterBlock*, celData& ret);
   virtual bool PerformActionIndexed (int, iCelParameterBlock*, celData& ret)
