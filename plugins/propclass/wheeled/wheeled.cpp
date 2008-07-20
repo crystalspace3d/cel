@@ -716,7 +716,7 @@ void celPcWheeled::SetWheelMesh(size_t wheelnum, const char* factname,const
     wheels[wheelnum].Meshfact = factname;
 }
 
-void celPcWheeled::AddDiffWheel(int index)
+void celPcWheeled::AddDiffWheel(size_t index)
 {
   float zpos = wheels[index].Position.z;
   float xpos = wheels[index].Position.x;
@@ -1290,7 +1290,7 @@ void celPcWheeled::UpdateBrakes(float avgspin, size_t wheelnum)
       float wheelspin = GetWheelSpin(wheelnum);
       float spindiff = avgspin - wheelspin;
 //Wheel is locked - ease off the brake.
-      if (spindiff >= 0.05f | fabs(wheelspin) < 0.001f)
+      if (spindiff >= 0.05f || fabs(wheelspin) < 0.001f)
       {
         if (wheels[wheelnum].ABSBrake > 0.0f)
           wheels[wheelnum].ABSBrake -= 0.05f;

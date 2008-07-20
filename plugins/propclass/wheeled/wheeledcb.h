@@ -26,7 +26,7 @@
 #include "csutil/scf.h"
 #include "wheeled.h"
 
-struct WheeledCollisionCallback : public scfImplementation1<
+class WheeledCollisionCallback : public scfImplementation1<
       WheeledCollisionCallback, iDynamicsCollisionCallback>
 {
   celPcWheeled* parent;
@@ -47,7 +47,7 @@ struct WheeledCollisionCallback : public scfImplementation1<
     parent->WheelCollision (thisbody, otherbody, pos, normal, depth, index);
   }
 
-  virtual void SetIndex (int index)
+  virtual void SetIndex (size_t index)
   {
     WheeledCollisionCallback::index = index;
   }

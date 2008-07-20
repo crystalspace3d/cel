@@ -297,7 +297,7 @@ bool celXorOperationTrigger::Check ()
   DeactivateTrigger ();
   if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
   checking = false;
-  return ntrue;  // must be 0 or 1 as we're exiting above for more than 2.
+  return ntrue != 0;  // must be 0 or 1 as we're exiting above for more than 2.
 }
 
 void celXorOperationTrigger::TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params)

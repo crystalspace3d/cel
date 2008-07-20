@@ -61,7 +61,7 @@ celPcGrab::celPcGrab (iObjectRegistry* object_reg)
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
   currstate = DISABLED;
-  stime = 2.0 / 3.0;
+  stime = 2.0f / 3.0f;
   sdist = 2.0;
   sinvel = 6.0;
   RecomputeShimmyAccel ();
@@ -88,11 +88,11 @@ bool celPcGrab::Load (iCelDataBuffer* databuf)
 
 bool celPcGrab::PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret)
 {
-  switch (idx)
+  /*switch (idx)
   {
     default:
       return false;
-  }
+  }*/
   return false;
 }
 
@@ -185,9 +185,9 @@ void celPcGrab::UpdateMovement ()
   iMovable *mov = engine->FindMeshObject ("HandLeft")->GetMovable ();
   iMovable *mov1 = engine->FindMeshObject ("HandRight")->GetMovable ();
   csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-  csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2, 1.4, -0.4));
+  csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2f, 1.4f, -0.4f));
   mov->SetPosition (lefthand);
-  csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2, 1.4, -0.4));
+  csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2f, 1.4f, -0.4f));
   mov1->SetPosition (righthand);
 
   csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (object_reg);
@@ -217,9 +217,9 @@ void celPcGrab::UpdateMovement ()
   //csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   //if (mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2, 1.4, -0.2)).y > 1.3f)
   {
-    csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2, 1.4, -0.4));
-    csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2, 1.4, -0.4));
-    static const csVector3 leftcorn (2, 1.3, -4.9), rightcorn (0, 1.3, -4.9), edgediff (-2.0, 0, 0);
+    csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2f, 1.4f, -0.4f));
+    csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2f, 1.4f, -0.4f));
+    static const csVector3 leftcorn (2.0f, 1.3f, -4.9f), rightcorn (0.0f, 1.3f, -4.9f), edgediff (-2.0f, 0.0f, 0.0f);
     csVector3 u (rightcorn - leftcorn), v (lefthand - leftcorn);
     csVector3 closest;
     closest = leftcorn + (v >> u);
@@ -243,7 +243,7 @@ void celPcGrab::UpdateMovement ()
         dir = dir2;
       csReversibleTransform blaa;
       blaa.LookAt (-dir, csVector3 (0, 1, 0));
-      blaa.SetOrigin (cent - blaa.This2OtherRelative (csVector3 (0.0f, 1.4, -0.4)));
+      blaa.SetOrigin (cent - blaa.This2OtherRelative (csVector3 (0.0f, 1.4f, -0.4f)));
       mesh->GetMesh ()->GetMovable ()->SetTransform (blaa);
 
       //jump->Enable (false);
@@ -264,10 +264,10 @@ void celPcGrab::AttemptGrab ()
   // how many steps to take along extrapolated jump for testing closeness of hands
   const size_t teststeps = 10;
   // offset of left hand from origin
-  csVector3 handoff (0.2, 1.4, -0.4);
+  csVector3 handoff (0.2f, 1.4f, -0.4f);
 
   // our hardcoded edge
-  static const csVector3 leftcorn (2, 1.3, -4.9), rightcorn (0, 1.3, -4.9), edgediff (-2.0, 0, 0);
+  static const csVector3 leftcorn (2.0f, 1.3f, -4.9f), rightcorn (0.0f, 1.3f, -4.9f), edgediff (-2.0f, 0.0f, 0.0f);
 
   // the time it takes to perform the jump (entire arc)
   float jumptime = 2.0f * jump->GetJumpSpeed () / jump->GetGravity ();
@@ -394,9 +394,9 @@ void celPcGrab::AttemptGrab ()
   csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   //mov->SetTransform (mesh->GetMesh ()->GetMovable ()->GetFullTransform ());
   //mov->SetPosition (mesh->GetMesh ()->GetMovable ()->GetPosition () + csVector3 (0.2, 1.4, 0));
-  csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2, 1.4, -0.2));
+  csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2f, 1.4f, -0.2f));
   mov->SetPosition (lefthand);
-  csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2, 1.4, -0.2));
+  csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2f, 1.4f, -0.2f));
   mov1->SetPosition (righthand);
   corn->SetPosition (leftcorn);
   corn1->SetPosition (rightcorn);

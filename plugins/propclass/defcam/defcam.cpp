@@ -177,8 +177,7 @@ void CALaraThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
   float velNormSquared;
   if (parent->GetLinMove ())
   {
-    csVector3 velocity;
-    parent->GetLinMove ()->GetVelocity (velocity);
+    csVector3 velocity = parent->GetLinMove ()->GetVelocity ();
     velNormSquared = velocity.SquaredNorm ();
   }
   else if (parent->GetMechObj ())

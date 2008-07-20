@@ -153,7 +153,7 @@ void celDestroyClassReward::Reward (iCelParameterBlock* params)
   csStringID id = type->pl->FetchStringID (cl);
   iCelPlLayer* pl = type->pl;
   csRef<iCelEntityList> entlist = pl->GetClassEntitiesList (id);
-  for (int i = entlist->GetCount()-1; i>=0; i--)
+  for (size_t i = entlist->GetCount()-1; i>=0; i--)
   {
     pl->RemoveEntity (entlist->Get (i));
   }
