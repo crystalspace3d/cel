@@ -29,6 +29,8 @@
 class WheeledCollisionCallback : public scfImplementation1<
       WheeledCollisionCallback, iDynamicsCollisionCallback>
 {
+  public:
+
   celPcWheeled* parent;
   size_t index;
   WheeledCollisionCallback (celPcWheeled* parent) :
