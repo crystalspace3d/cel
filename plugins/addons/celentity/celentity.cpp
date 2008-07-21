@@ -576,6 +576,16 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
 	break;
     }
   }
+  celData msgret;
+  celOneParameterBlock* msgparams = new celOneParameterBlock ();
+  msgparams->SetParameterDef (pl->FetchStringID (entityname), "entityname");
+  if (ent->GetBehaviour ())
+  {
+    ent->GetBehaviour ()->SendMessage ("cel.entity.loaded",
+          0, msgret, msgparams);
+  }
+  ent->QueryMessageChannel ()->SendMessage ("cel.entity.loaded",
+        pl->QueryMessageSender (), msgparams);
   return ent;
 }
 
