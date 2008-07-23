@@ -115,14 +115,14 @@ iCelParameterBlock.__setitem__ = setParItem
 
 # Helpers to manage pcclass properties as python attributes
 celpar_outmapping = {
- CEL_DATA_LONG : _blcelc.iCelPropertyClass_GetPropertyLong,
- CEL_DATA_FLOAT : _blcelc.iCelPropertyClass_GetPropertyFloat,
- CEL_DATA_BOOL : _blcelc.iCelPropertyClass_GetPropertyBool,
- CEL_DATA_STRING : _blcelc.iCelPropertyClass_GetPropertyString,
- CEL_DATA_VECTOR2 : _blcelc.iCelPropertyClass_GetPropertyVector2,
- CEL_DATA_VECTOR3 : _blcelc.iCelPropertyClass_GetPropertyVector3,
- CEL_DATA_COLOR : _blcelc.iCelPropertyClass_GetPropertyColor,
- CEL_DATA_ENTITY : _blcelc.iCelPropertyClass_GetPropertyEntity
+ CEL_DATA_LONG : _blcelc.iCelPropertyClass_GetPropertyLongByID,
+ CEL_DATA_FLOAT : _blcelc.iCelPropertyClass_GetPropertyFloatByID,
+ CEL_DATA_BOOL : _blcelc.iCelPropertyClass_GetPropertyBoolByID,
+ CEL_DATA_STRING : _blcelc.iCelPropertyClass_GetPropertyStringByID,
+ CEL_DATA_VECTOR2 : _blcelc.iCelPropertyClass_GetPropertyVector2ByID,
+ CEL_DATA_VECTOR3 : _blcelc.iCelPropertyClass_GetPropertyVector3ByID,
+ CEL_DATA_COLOR : _blcelc.iCelPropertyClass_GetPropertyColorByID,
+ CEL_DATA_ENTITY : _blcelc.iCelPropertyClass_GetPropertyEntityByID
 }
 celpar_inmapping = {
  CEL_DATA_LONG : _blcelc.iCelPropertyClass_SetPropertyLong,
