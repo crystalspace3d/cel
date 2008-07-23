@@ -199,7 +199,7 @@ void celClassSequenceFinishReward::Reward (iCelParameterBlock* params)
 
   iCelEntity *ent;
   csRef<iPcQuest> quest;
-  for (int i = entlist->GetCount()-1; i>=0; i--)
+  for (size_t i = entlist->GetCount()-1; i>=0; i--)
   {
     ent = entlist->Get(i);
     quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);

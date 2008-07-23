@@ -846,7 +846,7 @@ float celPcCharacteristics::GetPropertyFloat (csStringID propertyId)
       return GetLocalCharacteristic (property+13);
     }
   }
-  return celPcCommon::GetPropertyFloat (propertyId);
+  return celPcCommon::GetPropertyFloatByID (propertyId);
 }
 
 #define CHARACTERISTICS_SERIAL 1

@@ -387,54 +387,60 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
   //Check if the list is empty
 
   while(!queue.IsEmpty())
+  {
+    //Choose the node with less cost+h
+    iCelNode* current = queue.Pop();
+
+    //Check if we have arrived to our goal
+    if(current == goal)
     {
-      
-      //Choose the node with less cost+h
-      iCelNode* current = queue.Pop();
-      
-      
-      //Check if we have arrived to our goal
-      if(current == goal){
-	if(current == from){
-	  path->InsertNode(0, current->GetMapNode());
-	  return true;
-	}
-	while(true){
-	  if(current == from){
-	    return true;
-	  }
-	  path->InsertNode(0, current->GetMapNode());
-	  current = current->GetParent();
-	}
+      if(current == from)
+      {
+        path->InsertNode(0, current->GetMapNode());
+        return true;
       }
-      
-      //Get successors
-      csArray<iCelNode*> suc = current->GetSuccessors();
-      for(size_t i=0; i<suc.GetSize(); i++){
-
-	//Check if this Node is already in the queue
-	array = hash.GetAll(computer.ComputeHash(suc[i]->GetPosition().x + suc[i]->GetPosition().y));
-	csArray<iCelNode*> :: Iterator it = array.GetIterator();
-	bool in = false;
-
-	while(it.HasNext()){
-	  iCelNode* cur = it.Next();
-	  if(cur == suc[i]){
-	    in = true;
-	    break;
-	  }
-	}
-	
-	if(in)
-	  continue;
-
-	suc[i]->SetParent(current);
-	float cost = csSquaredDist::PointPoint(current->GetPosition(), suc[i]->GetPosition());
-	suc[i]->Heuristic(current->GetCost()+cost, goal);
-	queue.Insert(suc[i]);
-	hash.Put(computer.ComputeHash(suc[i]->GetPosition().x+suc[i]->GetPosition().y), suc[i]);
+      while(true)
+      {
+        if(current == from)
+        {
+          return true;
+        }
+        path->InsertNode(0, current->GetMapNode());
+        current = current->GetParent();
       }
     }
+
+    //Get successors
+    csArray<iCelNode*> suc = current->GetSuccessors();
+    for(size_t i=0; i<suc.GetSize(); i++)
+    {
+      //Check if this Node is already in the queue
+      array = hash.GetAll(computer.ComputeHash(suc[i]->GetPosition().x + suc[i]->GetPosition().y));
+      csArray<iCelNode*> :: Iterator it = array.GetIterator();
+      bool in = false;
+
+      while(it.HasNext())
+      {
+        iCelNode* cur = it.Next();
+        if(cur == suc[i])
+        {
+          in = true;
+          break;
+        }
+      }
+
+      if(in)
+      {
+        continue;
+      }
+
+      suc[i]->SetParent(current);
+      float cost = csSquaredDist::PointPoint(current->GetPosition(), suc[i]->GetPosition());
+      suc[i]->Heuristic(current->GetCost()+cost, goal);
+      queue.Insert(suc[i]);
+      hash.Put(computer.ComputeHash(suc[i]->GetPosition().x+suc[i]->GetPosition().y), suc[i]);
+    }
+  }
   //goal is unreachable from here
   return false;
 }
@@ -455,7 +461,7 @@ iCelNode* celGraph::RandomPath (iCelNode* from, int distance, iCelPath* path)
     if(succ.GetSize() == 0)
       return current;
     
-    current = succ[random.Get(succ.GetSize())];
+    current = succ[random.Get((uint32)succ.GetSize())];
     i++;
   }
 }

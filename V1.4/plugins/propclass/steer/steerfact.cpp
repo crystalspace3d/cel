@@ -747,7 +747,6 @@ void celPcSteer::TickOnce ()
     Vigilant();
     return;
   }
-  if (!is_moving);
 
   //pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
   // set destination y value to the same as current y value so as to

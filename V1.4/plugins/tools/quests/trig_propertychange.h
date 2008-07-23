@@ -184,7 +184,7 @@ public:
   virtual bool DoTest(bool test_value, bool actual_value)
   { return (test_value != actual_value); }
   virtual bool DoTest(const char *test_value, const char *actual_value)
-  { return (strcmp (test_value, actual_value)); }
+  { return (strcmp (test_value, actual_value) != 0); }
 };
 
 class celPropertyChangeTriggerLe : public celPropertyChangeTrigger
