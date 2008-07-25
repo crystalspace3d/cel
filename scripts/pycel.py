@@ -192,7 +192,7 @@ class PcFinderCreator:
         else:
             pc = entity.PropertyClassList.FindByName(self.name)
         if not pc:
-            pc = pl.CreatePropertyClass(entity,self.name)
+            pc = pl.CreatePropertyClass(entity,self.name,tag)
         if pc:
             return pc.QueryInterface(iPcPython).GetPythonObject()
 class PcFinder:
