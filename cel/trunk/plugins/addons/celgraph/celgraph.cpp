@@ -91,7 +91,7 @@ bool celAddOnCelGraph::Initialize (iObjectRegistry* object_reg)
 
   xmltokens.Register ("node", XMLTOKEN_NODE);
   xmltokens.Register ("edge", XMLTOKEN_EDGE);
-  
+
   return true;
 }
 
@@ -132,8 +132,8 @@ csPtr<iBase> celAddOnCelGraph::Parse (iDocumentNode* node,
   if (!sector)
   {
     synldr->ReportError (
-	"cel.addons.celgraph", node,
-	"Graph addons must be placed inside sectors!");
+      "cel.addons.celgraph", node,
+      "Graph addons must be placed inside sectors!");
     return 0;
   }
   csRef<iCelGraph> graph;
@@ -197,7 +197,6 @@ csPtr<iCelGraph> celAddOnCelGraph::Load (iDocumentNode* node)
   if(!graph)
     fprintf(stderr, "Error Loading CelGraph!\n");
 
-  
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
   {

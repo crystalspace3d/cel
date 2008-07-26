@@ -460,6 +460,10 @@
   <sector name="room">
     <addon plugin="cel.addons.ledges">
       <genjix name="Amir" />
+      <ledge>
+        <p x="2" y="1.3" z="-4.9" />
+        <p x="0" y="1.3" z="-4.9" />
+      </ledge>
     </addon>
 
     <meshobj name="Cube">
