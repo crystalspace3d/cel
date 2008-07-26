@@ -145,12 +145,12 @@ public:
 
     CS_EVENTHANDLER_NAMES("cel.tools.celconsole");
     CS_EVENTHANDLER_DEFAULT_INSTANCE_CONSTRAINTS                            
-CS_CONST_METHOD virtual const csHandlerID * GenericPrec                 
+virtual const csHandlerID * GenericPrec                 
 (csRef<iEventHandlerRegistry> &, csRef<iEventNameRegistry> &,           
  csEventID) const {                                                     
   return 0;                                                             
 }                                                                       
-CS_CONST_METHOD virtual const csHandlerID * GenericSucc                 
+virtual const csHandlerID * GenericSucc                 
 (csRef<iEventHandlerRegistry> &r1, csRef<iEventNameRegistry> &r2,       
  csEventID event) const {                                               
   static csHandlerID succConstraint[2];                                 
