@@ -56,14 +56,14 @@ void celPcCommon::SetTag (const char* tagname)
 
 const char* celPcCommon::GetName () const
 {
-  return csObject::GetName ();
+  return csobj.GetName ();
 }
 // @@@ (ge) Please note that after the alternate names are deprecated
 //  that this can turn into a simple assignment and the macro factory
 //  definition should pass in a hard reference for the name.
 void celPcCommon::SetName (const char* pcname)
 {
-  csObject::SetName (pcname);
+  csobj.SetName (pcname);
 }
 
 void celPcCommon::SetEntity (iCelEntity* entity)

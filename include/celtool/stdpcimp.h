@@ -86,7 +86,7 @@ struct PropertyHolder
  * This makes it easier to write a property class.
  */
 class CEL_CELTOOL_EXPORT celPcCommon
-  : public scfImplementationExt3<celPcCommon, csObject, iCelPropertyClass, iCelTimerListener, iMessageSender>
+  : public scfImplementation3<celPcCommon, iCelPropertyClass, iCelTimerListener, iMessageSender>
 {
 private:
   csRefArray<iCelPropertyChangeCallback> callbacks;
@@ -97,6 +97,7 @@ private:
   bool propclasses_dirty;
   char* tag;
   // the name of the property class stored in the iObject
+  csObject csobj;
 
 protected:
   iCelEntity* entity;
@@ -188,7 +189,7 @@ public:
   virtual const char* GetName () const;
   virtual void SetName (const char* pcname);
 
-  iObject *QueryObject () { return (iObject*)this; }
+  iObject *QueryObject () { return &csobj; }
 
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
