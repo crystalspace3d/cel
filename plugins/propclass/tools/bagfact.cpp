@@ -163,10 +163,10 @@ bool celPcBag::HasString (const char* str)
   return bag.Contains (str);
 }
 
-csSet<csString>::GlobalIterator celPcBag::GetIterator ()
+/*csSet<csString>::GlobalIterator celPcBag::GetIterator ()
 {
   return bag.GetIterator ();
-}
+}*/
 
 //---------------------------------------------------------------------------
 

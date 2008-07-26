@@ -24,6 +24,7 @@
 #include "iutil/comp.h"
 #include "iutil/objreg.h"
 #include "ivaria/reporter.h"
+#include "csutil/csobject.h"
 #include "csutil/scf.h"
 #include "csutil/scf_implementation.h"
 #include "csutil/refarr.h"
@@ -84,11 +85,8 @@ struct PropertyHolder
  * from which all other property classes can inherit.
  * This makes it easier to write a property class.
  */
-class CEL_CELTOOL_EXPORT celPcCommon : 
-  public scfImplementation3<celPcCommon, 
-			     iCelPropertyClass, 
-			     iCelTimerListener,
-			     iMessageSender>
+class CEL_CELTOOL_EXPORT celPcCommon
+  : public scfImplementationExt3<celPcCommon, csObject, iCelPropertyClass, iCelTimerListener, iMessageSender>
 {
 private:
   csRefArray<iCelPropertyChangeCallback> callbacks;
@@ -98,8 +96,7 @@ private:
   // and cleared by HavePropertyClassesChanged().
   bool propclasses_dirty;
   char* tag;
-  // the name of the property class
-  const char* name;
+  // the name of the property class stored in the iObject
 
 protected:
   iCelEntity* entity;
@@ -140,10 +137,10 @@ protected:
       if (rep)
         rep->ReportError("crystalspace.cel.physicallayer",
             "celPcCommon::AddProperty out of bounds %zu >= %zu!",
-            idx,propholder->propertycount);
+            idx, propholder->propertycount);
       else
         csPrintf("Error: celPcCommon::AddProperty out of bounds %zu >= %zu!",
-            idx,propholder->propertycount);
+            idx, propholder->propertycount);
       return;
     }
     if (propdata == 0)
@@ -188,8 +185,10 @@ public:
   virtual void SetTag (const char* tagname);
   virtual const char* GetTag () const { return tag; }
 
+  virtual const char* GetName () const;
   virtual void SetName (const char* pcname);
-  virtual const char* GetName () const { return name; }
+
+  iObject *QueryObject () { return (iObject*)this; }
 
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);

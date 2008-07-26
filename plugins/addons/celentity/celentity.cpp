@@ -52,6 +52,7 @@ enum
   XMLTOKEN_PARAMS,
   XMLTOKEN_CALL,
   XMLTOKEN_CLASS,
+  XMLTOKEN_ENTITY,
 
   XMLTOKEN_FLOAT,
   XMLTOKEN_BOOL,
@@ -100,6 +101,7 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("params", XMLTOKEN_PARAMS);
   xmltokens.Register ("call", XMLTOKEN_CALL);
   xmltokens.Register ("class", XMLTOKEN_CLASS);
+  xmltokens.Register ("entity", XMLTOKEN_ENTITY);
 
   xmltokens.Register ("float", XMLTOKEN_FLOAT);
   xmltokens.Register ("bool", XMLTOKEN_BOOL);
@@ -468,6 +470,12 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
+      case XMLTOKEN_ENTITY:
+      {
+        iCelEntity* childent = Load (child, mesh);
+        ent->QueryObject ()->ObjAdd (childent->QueryObject ());
+        break;
+      }
       case XMLTOKEN_BEHAVIOUR:
         {
 	  csRef<iCelBlLayer> bl;

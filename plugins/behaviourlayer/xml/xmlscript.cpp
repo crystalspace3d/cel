@@ -4329,7 +4329,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csRef<iPcBag> pcbag = scfQueryInterface<iPcBag> (pc);
 	  if (!pcbag)
 	    return ReportError (cbl, "This property class is not a bag!");
-	  csSet<csString>::GlobalIterator iterator = pcbag->GetIterator ();
+	  /*csSet<csString>::GlobalIterator iterator = pcbag->GetIterator ();
 	  size_t endlocation = op.arg.arg.codelocation;
 	  celData ret;
 	  cbl->call_stack.Push (GetName ());
@@ -4346,7 +4346,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  cbl->call_stack_params.Pop ();
 	  cbl->call_stack.Pop ();
 	  delete[] copy_varname;
-	  i = endlocation;
+	  i = endlocation;*/
 	}
 	break;
       case CEL_OPERATION_FORI:

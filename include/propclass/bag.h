@@ -71,7 +71,7 @@ struct iPcBag : public virtual iBase
   /**
    * Return an iterator iterating over all strings.
    */
-  virtual csSet<csString>::GlobalIterator GetIterator () = 0;
+  //virtual csSet<csString>::GlobalIterator GetIterator () = 0;
 };
 
 #endif // __CEL_PF_BAG
