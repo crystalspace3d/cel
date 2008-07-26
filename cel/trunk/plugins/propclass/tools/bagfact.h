@@ -84,7 +84,7 @@ public:
   virtual void RemoveString (const char* str);
   virtual void Clear ();
   virtual bool HasString (const char* str);
-  //virtual csSet<csString>::GlobalIterator GetIterator ();
+  virtual csSet<csString>::GlobalIterator GetIterator ();
 };
 
 #endif // __CEL_PF_BAGFACT__
