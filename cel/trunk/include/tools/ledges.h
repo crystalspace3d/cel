@@ -20,14 +20,19 @@
 #ifndef __CEL_CELLESGES__
 #define __CEL_CELLESGES__
 
+#include "cstypes.h"
+#include "csutil/scf.h"
+#include "csgeom/vector2.h"
+
 struct iLedge : public virtual iBase
 {
   SCF_INTERFACE (iLedge, 0, 0, 1);
 
   virtual void AddPoint (const csVector2 &p) = 0;
   virtual void SetYPosition (float y) = 0;
-  //virtual size_t GetPointCount () const = 0;
-  //virtual const &csVector3 GetPoint () const = 0;
+  virtual float GetYPosition () const = 0;
+  virtual size_t GetPointCount () const = 0;
+  virtual const csVector2 &GetPoint (size_t i) const = 0;
 };
 
 struct iLedgeGroup : public virtual iBase
@@ -39,6 +44,9 @@ struct iLedgeGroup : public virtual iBase
    */
   virtual iObject* QueryObject () = 0;
   virtual iLedge* CreateLedge () = 0;
+
+  virtual size_t GetCount () const = 0;
+  virtual iLedge* Get (size_t i) = 0;
 };
 
 #endif
