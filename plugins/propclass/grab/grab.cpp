@@ -182,28 +182,26 @@ static csVector3 FindClosestPointOnEdge (const csVector3 &start, const csVector3
 {
   return start + ((hand - start) >> edgediff);
 }
-// loser function needed for quick code below
-static float FindDistanceFromEdge (const csVector3 &start, const csVector3 &edgediff, const csVector3 &hand)
+static bool LiesOnSegment (const csVector3 &left, const csVector3 &eddir, const csVector3 &point)
 {
-  return (start + ((hand - start) >> edgediff) - hand).SquaredNorm ();
+  //const csVector3 eddir (right - left);
+  float u = (point - left) * eddir / eddir.SquaredNorm ();
+  if (u < 0 || u > 1)
+    return false;
+  return true;
 }
-
-static bool LiesOnSegment (const csVector3 &start, const csVector3 &edgediff, const csVector3 &point)
+static csVector3 ClosestOnSegment (const csVector3 &left, const csVector3 &edgediff, const csVector3 &point)
 {
-  csVector3 pv (point - start);
-  if ((pv.Unit () - edgediff.Unit()) < EPSILON)
-    return pv.SquaredNorm () < edgediff.SquaredNorm ();
-  return false;
+  float u = (point - left) * edgediff / edgediff.SquaredNorm ();
+  if (u < 0)
+    return left;
+  else if (u > 1)
+    return left + edgediff;
+  return left + u * edgediff;
 }
-
-static bool ShouldGrabLedge (const csVector3 &start, const csVector3 &edgediff, const csVector3 &hand)
+inline static bool ShouldGrabLedge (const csVector3 &start, const csVector3 &edgediff, const csVector3 &hand)
 {
-  csVector3 closest = FindClosestPointOnEdge (start, edgediff, hand);
-  if ((closest - hand).SquaredNorm () < 0.1f)
-  {
-    return LiesOnSegment (start, edgediff, closest);
-  }
-  return false;
+  return (ClosestOnSegment (start, edgediff, hand) - hand).SquaredNorm () < 0.1f;
 }
 
 void celPcGrab::UpdateMovement ()
@@ -338,8 +336,8 @@ void celPcGrab::AttemptGrab ()
 
     // find closest point on edge to our hands
     csVector3 handspos[2] = {
-      FindClosestPointOnEdge (leftcorn, edgediff, currhands[0]),
-      FindClosestPointOnEdge (leftcorn, edgediff, currhands[1]) };
+      ClosestOnSegment (leftcorn, edgediff, currhands[0]),
+      ClosestOnSegment (leftcorn, edgediff, currhands[1]) };
     float closest [2] = {
       (handspos[0] - currhands[0]).SquaredNorm (),
       (handspos[1] - currhands[1]).SquaredNorm () };
