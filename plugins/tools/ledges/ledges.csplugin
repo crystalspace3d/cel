@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- ledges.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.ledgegroup</name>
+        <implementation>celLedgeGroup</implementation>
+        <description>CEL Ledge Group</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

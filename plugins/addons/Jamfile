@@ -5,4 +5,4 @@ SubInclude TOP plugins addons questdef ;
 SubInclude TOP plugins addons xmlscripts ;
 SubInclude TOP plugins addons ruledef ;
 SubInclude TOP plugins addons celgraph ;
-#SubInclude TOP plugins addons ledges ;
+SubInclude TOP plugins addons ledges ;

@@ -29,6 +29,7 @@
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
 #include "propclass/grab.h"
+#include "tools/ledges.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -86,6 +87,7 @@ private:
 
   csWeakRef<iPcLinearMovement> linmove;
   csWeakRef<iPcJump> jump;
+  csWeakRef<iLedgeGroup> ledges;
 
   // For actions.
   enum actionids
