@@ -206,25 +206,36 @@ void celPcGrab::UpdateMovement ()
   mov->SetPosition (lefthand);
   csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2f, 1.4f, -0.4f));
   mov1->SetPosition (righthand);
+  static const csVector3 leftcorn (2.0f, 1.3f, -4.9f), rightcorn (0.0f, 1.3f, -4.9f), edgediff (-2.0f, 0.0f, 0.0f);
 
   csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (object_reg);
   csTicks el = vc->GetElapsedTicks ();
 
   if (currstate == SHIMMY_RIGHT)
   {
-    float s = -linmove->GetBodyVelocity ().x;
-    s -= saccel * el / 1000.0f;
-    if (s < 0.0f)
-      s = sinvel;
-    linmove->SetBodyVelocity (csVector3 (-s, 0, 0));
+    if (LiesOnSegment (leftcorn, edgediff, righthand))
+    {
+      float s = -linmove->GetBodyVelocity ().x;
+      s -= saccel * el / 1000.0f;
+      if (s < 0.0f)
+        s = sinvel;
+      linmove->SetBodyVelocity (csVector3 (-s, 0, 0));
+    }
+    else
+      linmove->SetBodyVelocity (csVector3 (0));
   }
   else if (currstate == SHIMMY_LEFT)
   {
-    float s = linmove->GetBodyVelocity ().x;
-    s -= saccel * el / 1000.0f;
-    if (s < 0.0f)
-      s = sinvel;
-    linmove->SetBodyVelocity (csVector3 (s, 0, 0));
+    if (LiesOnSegment (leftcorn, edgediff, lefthand))
+    {
+      float s = linmove->GetBodyVelocity ().x;
+      s -= saccel * el / 1000.0f;
+      if (s < 0.0f)
+        s = sinvel;
+      linmove->SetBodyVelocity (csVector3 (s, 0, 0));
+    }
+    else
+      linmove->SetBodyVelocity (csVector3 (0));
   }
   else if (currstate == HANG)
   {
@@ -236,7 +247,6 @@ void celPcGrab::UpdateMovement ()
   {
     csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2f, 1.4f, -0.4f));
     csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2f, 1.4f, -0.4f));
-    static const csVector3 leftcorn (2.0f, 1.3f, -4.9f), rightcorn (0.0f, 1.3f, -4.9f), edgediff (-2.0f, 0.0f, 0.0f);
     csVector3 u (rightcorn - leftcorn), v (lefthand - leftcorn);
     csVector3 closest;
     closest = leftcorn + (v >> u);
