@@ -30,6 +30,7 @@
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
+#include "iengine/sector.h"
 #include "propclass/mesh.h"
 
 // CEL Includes
@@ -153,6 +154,21 @@ bool celPcGrab::FindSiblingPropertyClasses ()
     entity->QueryMessageChannel ()->Subscribe (this, "cel.move.jump.started");
     linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
     jump = celQueryPropertyClassEntity<iPcJump> (entity);
+    csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    iSector *s = mesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
+    ledges = scfQueryInterface<iLedgeGroup> (s->QueryObject ()->GetChild ("cel.ledgegroup"));
+    /*for (csArray<CEL::Ledge>::ConstIterator it = ledges->GetIterator (); it.HasNext ();)
+    {
+      const CEL::Ledge ledge = it.Next ();
+      CEL::Ledge::ConstIterator pit = ledge.GetIterator ();
+      csVector3 prevpoint = pit.Next ();
+      for (; pit.HasNext ();)
+      {
+        const csVector3 &currpoint = pit.Next ();
+        printf ("(%s)\n", currpoint.Description ().GetData ());
+        prevpoint = currpoint;
+      }
+    }*/
   }
   return linmove && jump;
 }

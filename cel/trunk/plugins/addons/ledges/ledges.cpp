@@ -81,7 +81,9 @@ csPtr<iBase> celAddOnLedges::Parse (iDocumentNode* node, iStreamSource*, iLoader
   csRef<iLedgeGroup> ledges;
   ledges = Load (node);
   csRef<iBase> ledges_return = scfQueryInterface<iBase> (ledges);
-  sector->QueryObject()->ObjAdd (ledges->QueryObject());
+  iObject* ledges_obj = ledges->QueryObject ();
+  ledges_obj->SetName ("cel.ledgegroup");
+  sector->QueryObject()->ObjAdd (ledges_obj);
   return csPtr<iBase> (ledges_return);
 }
 
@@ -106,6 +108,7 @@ void celAddOnLedges::LoadLedge (iDocumentNode* node, iLedgeGroup* ledges)
 {
   iLedge* ledge = ledges->CreateLedge ();
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  ledge->SetYPosition (node->GetAttributeValueAsFloat ("y"));
   while (it->HasNext ())
   {
     csRef<iDocumentNode> child = it->Next ();
@@ -113,11 +116,9 @@ void celAddOnLedges::LoadLedge (iDocumentNode* node, iLedgeGroup* ledges)
     const char* value = child->GetValue ();
     if (!strcmp (value, "p"))
     {
-      csVector3 point;
+      csVector2 point;
       point.x = child->GetAttributeValueAsFloat ("x");
-      point.y = child->GetAttributeValueAsFloat ("y");
-      point.z = child->GetAttributeValueAsFloat ("z");
-      puts (point.Description ().GetData ());
+      point.y = child->GetAttributeValueAsFloat ("z");
       ledge->AddPoint (point);
     }
   }

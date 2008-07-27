@@ -48,13 +48,18 @@ CS_IMPLEMENT_PLUGIN
 
 celLedge::celLedge () : scfImplementationType (this)
 {
+  ypos = 0.0;
 }
 celLedge::~celLedge ()
 {
 }
-void celLedge::AddPoint (const csVector3 &p)
+void celLedge::AddPoint (const csVector2 &p)
 {
   points.Push (p);
+}
+void celLedge::SetYPosition (float y)
+{
+  ypos = y;
 }
 
 SCF_IMPLEMENT_FACTORY (celLedgeGroup)
