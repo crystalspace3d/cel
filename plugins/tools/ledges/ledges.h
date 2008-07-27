@@ -49,8 +49,9 @@ class celLedge : public scfImplementation1<celLedge, iLedge>
   virtual ~celLedge ();
   void AddPoint (const csVector2 &p);
   void SetYPosition (float y);
-  //size_t GetPointCount () const;
-  //const csVector3 GetPoint () const;
+  float GetYPosition () const;
+  size_t GetPointCount () const;
+  const csVector2 &GetPoint (size_t i) const;
  private:
   csArray<csVector2> points;
   float ypos;
@@ -63,6 +64,8 @@ class celLedgeGroup : public scfImplementationExt1<celLedgeGroup, csObject, iLed
   virtual ~celLedgeGroup ();
   iObject* QueryObject ();
   iLedge* CreateLedge ();
+  size_t GetCount () const;
+  iLedge* Get (size_t i);
  private:
   iObjectRegistry* object_reg;
   csRefArray<celLedge> ledges;

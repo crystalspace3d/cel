@@ -157,18 +157,18 @@ bool celPcGrab::FindSiblingPropertyClasses ()
     csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
     iSector *s = mesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
     ledges = scfQueryInterface<iLedgeGroup> (s->QueryObject ()->GetChild ("cel.ledgegroup"));
-    /*for (csArray<CEL::Ledge>::ConstIterator it = ledges->GetIterator (); it.HasNext ();)
+    iLedge* l = ledges->Get (0);
+    csVector3 currpos;
+    currpos.y = l->GetYPosition ();
+    for (size_t pi = 0; pi < l->GetPointCount (); pi++)
     {
-      const CEL::Ledge ledge = it.Next ();
-      CEL::Ledge::ConstIterator pit = ledge.GetIterator ();
-      csVector3 prevpoint = pit.Next ();
-      for (; pit.HasNext ();)
       {
-        const csVector3 &currpoint = pit.Next ();
-        printf ("(%s)\n", currpoint.Description ().GetData ());
-        prevpoint = currpoint;
+        csVector2 proxpos (l->GetPoint (pi));
+        currpos.x = proxpos.x;
+        currpos.z = proxpos.y;
       }
-    }*/
+      printf ("(%s)\n", currpos.Description ().GetData ());
+    }
   }
   return linmove && jump;
 }

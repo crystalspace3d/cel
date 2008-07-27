@@ -61,6 +61,18 @@ void celLedge::SetYPosition (float y)
 {
   ypos = y;
 }
+float celLedge::GetYPosition () const
+{
+  return ypos;
+}
+size_t celLedge::GetPointCount () const
+{
+  return points.GetSize ();
+}
+const csVector2 &celLedge::GetPoint (size_t i) const
+{
+  return points.Get (i);
+}
 
 SCF_IMPLEMENT_FACTORY (celLedgeGroup)
 
@@ -80,4 +92,12 @@ iLedge* celLedgeGroup::CreateLedge ()
   l.AttachNew (new celLedge ());
   ledges.Push (l);
   return l;
+}
+size_t celLedgeGroup::GetCount () const
+{
+  return ledges.GetSize ();
+}
+iLedge* celLedgeGroup::Get (size_t i)
+{
+  return ledges.Get (i);
 }
