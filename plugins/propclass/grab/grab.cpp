@@ -162,16 +162,33 @@ void celPcGrab::TickEveryFrame ()
   UpdateMovement ();
 }
 
-static csVector3 FindClosestPointOnEdge (const csVector3 &start, const csVector3 &hand, const csVector3 &edgediff)
+static csVector3 FindClosestPointOnEdge (const csVector3 &start, const csVector3 &edgediff, const csVector3 &hand)
 {
   return start + ((hand - start) >> edgediff);
 }
 // loser function needed for quick code below
-static float FindDistanceFromEdge (const csVector3 &start, const csVector3 &hand, const csVector3 &edgediff)
+static float FindDistanceFromEdge (const csVector3 &start, const csVector3 &edgediff, const csVector3 &hand)
 {
   return (start + ((hand - start) >> edgediff) - hand).SquaredNorm ();
 }
 
+static bool LiesOnSegment (const csVector3 &start, const csVector3 &edgediff, const csVector3 &point)
+{
+  csVector3 pv (point - start);
+  if ((pv.Unit () - edgediff.Unit()) < EPSILON)
+    return pv.SquaredNorm () < edgediff.SquaredNorm ();
+  return false;
+}
+
+static bool ShouldGrabLedge (const csVector3 &start, const csVector3 &edgediff, const csVector3 &hand)
+{
+  csVector3 closest = FindClosestPointOnEdge (start, edgediff, hand);
+  if ((closest - hand).SquaredNorm () < 0.1f)
+  {
+    return LiesOnSegment (start, edgediff, closest);
+  }
+  return false;
+}
 
 void celPcGrab::UpdateMovement ()
 {
@@ -224,8 +241,7 @@ void celPcGrab::UpdateMovement ()
     csVector3 closest;
     closest = leftcorn + (v >> u);
 
-    if (FindDistanceFromEdge (leftcorn, lefthand, edgediff) < 0.1f ||
-      FindDistanceFromEdge (leftcorn, righthand, edgediff) < 0.1f)
+    if (ShouldGrabLedge (leftcorn, edgediff, lefthand) && ShouldGrabLedge (leftcorn, edgediff, righthand))
     {
       //puts ("Grab LEDGE");
       csVector3 other (closest + u * 0.2);
@@ -296,15 +312,15 @@ void celPcGrab::AttemptGrab ()
 
     // find closest point on edge to our hands
     csVector3 handspos[2] = {
-      FindClosestPointOnEdge (leftcorn, currhands[0], edgediff),
-      FindClosestPointOnEdge (leftcorn, currhands[1], edgediff) };
+      FindClosestPointOnEdge (leftcorn, edgediff, currhands[0]),
+      FindClosestPointOnEdge (leftcorn, edgediff, currhands[1]) };
     float closest [2] = {
       (handspos[0] - currhands[0]).SquaredNorm (),
       (handspos[1] - currhands[1]).SquaredNorm () };
     printf ("%f %f", sqrt(closest[0]), sqrt(closest[1]));
     // find the hand closest to the edge
     // if it beats our previous record then we keep it
-    if (closest[0] < closest[1])  // left hand is closest!
+    if (LiesOnSegment (leftcorn, edgediff, closest[0]) && closest[0] < closest[1])  // left hand is closest!
     {
       if (closest[0] < fromedge_sq)
       {
@@ -314,7 +330,7 @@ void celPcGrab::AttemptGrab ()
         printf ("\t 0");
       }
     }
-    else
+    else if (LiesOnSegment (leftcorn, edgediff, closest[1]))
     {
       if (closest[1] < fromedge_sq)
       {
@@ -334,13 +350,13 @@ void celPcGrab::AttemptGrab ()
     iMovable *tarother = engine->FindMeshObject ("TargetOther")->GetMovable ();
     if (hand == 0 && (fromedge_sq - closest[0]) < EPSILON)
     {
-      tar->SetPosition (FindClosestPointOnEdge (leftcorn, currhands[0], edgediff));
-      tarother->SetPosition (FindClosestPointOnEdge (leftcorn, currhands[1], edgediff));
+      tar->SetPosition (FindClosestPointOnEdge (leftcorn, edgediff, currhands[0]));
+      tarother->SetPosition (FindClosestPointOnEdge (leftcorn, edgediff, currhands[1]));
     }
     else if (hand == 1 && (fromedge_sq - closest[1]) < EPSILON)
     {
-      tar->SetPosition (FindClosestPointOnEdge (leftcorn, currhands[1], edgediff));
-      tarother->SetPosition (FindClosestPointOnEdge (leftcorn, currhands[0], edgediff));
+      tar->SetPosition (FindClosestPointOnEdge (leftcorn, edgediff, currhands[1]));
+      tarother->SetPosition (FindClosestPointOnEdge (leftcorn, edgediff, currhands[0]));
     }
   }
 
