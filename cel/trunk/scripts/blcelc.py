@@ -1091,6 +1091,7 @@ class iCelPropertyClass(cspace.iBase):
     __repr__ = _swig_repr
     def SetName(*args): return _blcelc.iCelPropertyClass_SetName(*args)
     def GetName(*args): return _blcelc.iCelPropertyClass_GetName(*args)
+    def QueryObject(*args): return _blcelc.iCelPropertyClass_QueryObject(*args)
     def SetTag(*args): return _blcelc.iCelPropertyClass_SetTag(*args)
     def GetTag(*args): return _blcelc.iCelPropertyClass_GetTag(*args)
     def GetEntity(*args): return _blcelc.iCelPropertyClass_GetEntity(*args)
@@ -5956,8 +5957,9 @@ class celPcCommon(PcCommonBase):
     def HavePropertyClassesChanged(*args): return _blcelc.celPcCommon_HavePropertyClassesChanged(*args)
     def SetTag(*args): return _blcelc.celPcCommon_SetTag(*args)
     def GetTag(*args): return _blcelc.celPcCommon_GetTag(*args)
-    def SetName(*args): return _blcelc.celPcCommon_SetName(*args)
     def GetName(*args): return _blcelc.celPcCommon_GetName(*args)
+    def SetName(*args): return _blcelc.celPcCommon_SetName(*args)
+    def QueryObject(*args): return _blcelc.celPcCommon_QueryObject(*args)
     def GetEntity(*args): return _blcelc.celPcCommon_GetEntity(*args)
     def SetEntity(*args): return _blcelc.celPcCommon_SetEntity(*args)
     def AddPropertyChangeCallback(*args): return _blcelc.celPcCommon_AddPropertyChangeCallback(*args)
