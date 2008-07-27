@@ -24,7 +24,10 @@ struct iLedge : public virtual iBase
 {
   SCF_INTERFACE (iLedge, 0, 0, 1);
 
-  virtual void AddPoint (const csVector3 &p) = 0;
+  virtual void AddPoint (const csVector2 &p) = 0;
+  virtual void SetYPosition (float y) = 0;
+  //virtual size_t GetPointCount () const = 0;
+  //virtual const &csVector3 GetPoint () const = 0;
 };
 
 struct iLedgeGroup : public virtual iBase
@@ -35,7 +38,6 @@ struct iLedgeGroup : public virtual iBase
    * Query the underlying iObject
    */
   virtual iObject* QueryObject () = 0;
-
   virtual iLedge* CreateLedge () = 0;
 };
 
