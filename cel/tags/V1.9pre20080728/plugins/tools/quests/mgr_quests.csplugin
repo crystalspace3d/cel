@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- mgr_quests.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.manager.quests</name>
+        <implementation>celQuestManager</implementation>
+	<description>CEL Quest Manager</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
