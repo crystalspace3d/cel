@@ -35,7 +35,7 @@
 #include "iutil/virtclk.h"
 #include "iengine/engine.h"
 #include "iengine/camera.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
 #include "iengine/campos.h"
 #include "iengine/sector.h"
 #include "cstool/csview.h"
@@ -161,7 +161,7 @@ void celPcCameraCommon::SetPerspectiveCenter (float x, float y)
 {
   center_x = x;
   center_y = y;
-  GetPerspectiveCamera ()->SetPerspectiveCenter (x, y);
+  GetCamera ()->SetPerspectiveCenter (x, y);
   center_set = true;
 }
 
@@ -169,12 +169,6 @@ iCamera* celPcCameraCommon::GetCamera () const
 {
   return view->GetCamera ();
 }
-
-iPerspectiveCamera* celPcCameraCommon::GetPerspectiveCamera () const
-{
-  return view->GetPerspectiveCamera ();
-}
-
 
 void celPcCameraCommon::DisableDistanceClipping ()
 {
@@ -392,7 +386,7 @@ bool celPcCameraCommon::LoadCommon (iCelDataBuffer* databuf)
     view->SetRectangle (rect_x, rect_y, rect_w, rect_h);
 
   if (center_set)
-    GetPerspectiveCamera () -> SetPerspectiveCenter (center_x, center_y);
+    GetCamera () -> SetPerspectiveCenter (center_x, center_y);
 
   return true;
 }
@@ -418,5 +412,4 @@ bool celPcCameraCommon::Load (iCelDataBuffer* databuf)
 }
 
 //---------------------------------------------------------------------------
-
 

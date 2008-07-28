@@ -47,7 +47,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/camera.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
 #include "iengine/campos.h"
 #include "iengine/sector.h"
 #include "cstool/csview.h"
@@ -176,7 +176,7 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   AddProperty (propid_enabled, "cel.property.enabled",
   	CEL_DATA_BOOL, false, "Enable/Disable trigger.", 0);
   AddProperty (propid_strict, "cel.property.strict",
-  	CEL_DATA_BOOL, false, "Use strict checking for monitoried entity.",
+  	CEL_DATA_BOOL, false, "Use strict checking for monitoried entity.", 
 			&strict);
   AddProperty (propid_type, "cel.property.type",
   	CEL_DATA_LONG, true, "Trigger type.", &trigger_type);
@@ -975,7 +975,7 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
       break;
     }
     default:
-      break;
+      break;  
   }
 
   EnableTrigger (en);

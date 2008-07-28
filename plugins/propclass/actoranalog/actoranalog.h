@@ -28,7 +28,7 @@
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
-#include "propclass/analogmotion.h"
+#include "propclass/actoranalog.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -40,17 +40,17 @@ struct iVirtualClock;
 /**
  * Factory for actor lara.
  */
-CEL_DECLARE_FACTORY (AnalogMotion)
+CEL_DECLARE_FACTORY (ActorAnalog)
 
 /**
  * This is a actor lara property class.
  */
-class celPcAnalogMotion : public scfImplementationExt1<celPcAnalogMotion,
-  celPcCommon, iPcAnalogMotion>
+class celPcActorAnalog : public scfImplementationExt1<celPcActorAnalog,
+  celPcCommon, iPcActorAnalog>
 {
 public:
-  celPcAnalogMotion (iObjectRegistry* object_reg);
-  virtual ~celPcAnalogMotion ();
+  celPcActorAnalog (iObjectRegistry* object_reg);
+  virtual ~celPcActorAnalog ();
 
   csPtr<iCelDataBuffer> Save ();
   bool Load (iCelDataBuffer* databuf);
@@ -63,38 +63,26 @@ public:
   void SetAxis (size_t axis, float value);
   float GetAxis (size_t axis) const;
   void AddAxis (size_t axis, float value);
-  void SetAxis (const csVector2 &axis);
-  const csVector2 &GetAxis () const;
   void SetMovementSpeed (float speed);
   float GetMovementSpeed () const;
   void SetMovementAcceleration (float accel);
   float GetMovementAcceleration () const;
   void SetMovementDeceleration (float decel);
   float GetMovementDeceleration () const;
-  // ---- DEPRECATED
   void SetTurningSpeed (float speed);
   float GetTurningSpeed () const;
-  // ---------------
-  void SetMinimumTurningSpeed (float speed);
-  float GetMinimumTurningSpeed () const;
-  void SetMaximumTurningSpeed (float speed);
-  float GetMaximumTurningSpeed () const;
-  void Enable (bool en);
-  bool IsEnabled () const;
 private:
   // Called regularly and any movement change
   void UpdateMovement ();
 
   // Check for any changes and update if necessary
-  bool FindSiblingPropertyClasses ();
+  void FindSiblingPropertyClasses ();
 
   // Axis as set by client.
   csVector2 target_axis;
 
-  float maxturnspeed, minturnspeed;
+  float turnspeed;
   float movespeed, moveaccel, movedecel;
-  // is this component updating the player position
-  bool enabled;
 
   // references to sibling property classes
   csWeakRef<iPcMesh> pcmesh;
@@ -106,7 +94,6 @@ private:
   // For SendMessage parameters.
   static csStringID id_axis;
   static csStringID id_value;
-  static csStringID id_enabled;
 
   // For actions.
   enum actionids
@@ -116,9 +103,7 @@ private:
     action_setmovespeed,
     action_setmoveaccel,
     action_setmovedecel,
-    action_setminturnspeed,
-    action_setmaxturnspeed,
-    action_enable
+    action_setturnspeed
   };
 
   // For properties.
@@ -129,9 +114,7 @@ private:
     propid_movespeed,
     propid_moveaccel,
     propid_movedecel,
-    propid_minturnspeed,
-    propid_maxturnspeed,
-    propid_enabled
+    propid_turnspeed
   };
   static PropertyHolder propinfo;
 };

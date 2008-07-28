@@ -26,7 +26,7 @@
 
 struct iSector;
 struct iPcCamera;
-struct iCollection;
+struct iRegion;
 
 /**
  * The representation of a region.
@@ -117,10 +117,10 @@ struct iPcRegion : public virtual iBase
   virtual void PointCamera (iPcCamera* pccamera, const char* name = 0) = 0;
 
   /**
-   * Returns the CS collection associated to this propclass. This function has a
+   * Returns the CS region associated to this propclass. This function has a
    * meaning only if the region has been loaded.
    */
-  virtual iCollection* GetCollection() = 0;
+  virtual iRegion* GetRegion() = 0;
 };
 
 #endif // __CEL_PF_REGION__

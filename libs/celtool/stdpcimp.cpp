@@ -39,6 +39,7 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
   propholder = 0;
   propclasses_dirty = true;
   tag = 0;
+  name = 0;
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
 }
@@ -46,6 +47,7 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
 celPcCommon::~celPcCommon ()
 {
   delete[] tag;
+  delete[] name;
 }
 
 void celPcCommon::SetTag (const char* tagname)
@@ -53,17 +55,13 @@ void celPcCommon::SetTag (const char* tagname)
   delete[] tag;
   tag = csStrNew (tagname);
 }
-
-const char* celPcCommon::GetName () const
-{
-  return csobj.GetName ();
-}
 // @@@ (ge) Please note that after the alternate names are deprecated
 //  that this can turn into a simple assignment and the macro factory
 //  definition should pass in a hard reference for the name.
 void celPcCommon::SetName (const char* pcname)
 {
-  csobj.SetName (pcname);
+  delete[] name;
+  name = csStrNew (pcname);
 }
 
 void celPcCommon::SetEntity (iCelEntity* entity)

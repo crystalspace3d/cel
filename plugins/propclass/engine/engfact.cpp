@@ -44,7 +44,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/camera.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
 #include "iengine/campos.h"
 #include "iengine/sector.h"
 #include "cstool/csview.h"
@@ -277,13 +277,13 @@ bool celPcRegion::Load (bool allow_entity_addon)
 
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   CS_ASSERT (engine != 0);
-  iCollection* cur_collection = engine->CreateCollection (regionname);
-  cur_collection->ReleaseAllObjects ();
+  iRegion* cur_region = engine->CreateRegion (regionname);
+  cur_region->DeleteAll ();
 
   if (empty_sector)
   {
     iSector* sector = engine->CreateSector (worldfile);
-    cur_collection->Add (sector->QueryObject ());
+    cur_region->Add (sector->QueryObject ());
     loaded = true;
     return true;
   }
@@ -310,7 +310,7 @@ bool celPcRegion::Load (bool allow_entity_addon)
   }
 
   // Load the level file which is called 'world'.
-  bool rc = loader->LoadMapFile (worldfile, false, cur_collection, false, true);
+  bool rc = loader->LoadMapFile (worldfile, false, cur_region, false, true);
 
   // Restore everything.
   pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
@@ -325,14 +325,15 @@ bool celPcRegion::Load (bool allow_entity_addon)
     return false;
   }
 
-  engine->PrecacheDraw (cur_collection);
+  cur_region->Prepare ();
+  engine->PrecacheDraw (cur_region);
   VFS->PopDir ();
   loaded = true;
   printf ("LoadOK!\n");
 
   // Create colliders for all meshes in this region.
   csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (object_reg);
-  csColliderHelper::InitializeCollisionWrappers (cdsys, engine, cur_collection);
+  csColliderHelper::InitializeCollisionWrappers (cdsys, engine, cur_region);
 
   return true;
 }
@@ -344,7 +345,7 @@ void celPcRegion::Unload ()
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   CS_ASSERT (engine != 0);
 
-  iCollection* cur_collection = engine->CreateCollection (regionname);
+  iRegion* cur_region = engine->CreateRegion (regionname);
 
   if (pl)
   {
@@ -357,14 +358,14 @@ void celPcRegion::Unload ()
   }
   entities.DeleteAll ();
 
-  cur_collection->ReleaseAllObjects ();
-  engine->RemoveCollection (cur_collection);
+  cur_region->DeleteAll ();
+  engine->GetRegions ()->Remove (cur_region);
 }
 
 iSector* celPcRegion::FindSector (const char* name)
 {
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-  iSector* temp = engine->FindSector (name, GetCollection(engine));
+  iSector* temp = engine->FindSector (name, GetRegionInternal(engine));
   return temp;
 }
 
@@ -374,8 +375,8 @@ iSector* celPcRegion::GetStartSector (const char* name)
   CS_ASSERT (engine != 0);
   if (empty_sector)
   {
-    iCollection* coll = GetCollection (engine);
-    return engine->FindSector (worldfile, coll);
+    iRegion* reg = GetRegionInternal (engine);
+    return engine->FindSector (worldfile, reg);
   }
   iSector* sector;
   if (engine->GetCameraPositions ()->GetCount () > 0)
@@ -388,7 +389,7 @@ iSector* celPcRegion::GetStartSector (const char* name)
   }
   else
   {
-    sector = engine->FindSector ("room", GetCollection (engine));
+    sector = engine->FindSector ("room", GetRegionInternal (engine));
   }
   return sector;
 }
@@ -431,22 +432,21 @@ void celPcRegion::PointCamera (iPcCamera* pccamera, const char* name)
   pccamera->GetCamera ()->GetTransform ().SetOrigin (csVector3 (0,0,0));
 }
 
-iCollection* celPcRegion::GetCollection (csRef<iEngine> engine)
+iRegion* celPcRegion::GetRegionInternal (csRef<iEngine> engine)
 {
-  return engine->GetCollection (regionname);
+  return engine->GetRegions ()->FindByName (regionname);
 }
 
-iCollection* celPcRegion::GetCollection ()
+iRegion* celPcRegion::GetRegion ()
 {
   if (!loaded)
     return 0;
 
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-  iCollection* region = GetCollection (engine);
+  iRegion* region = GetRegionInternal (engine);
   CS_ASSERT(region);
   return region;
 }
 
 //---------------------------------------------------------------------------
-
 

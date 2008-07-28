@@ -117,11 +117,6 @@ struct iCelPropertyClass : public virtual iBase
   virtual const char* GetName () const = 0;
 
   /**
-   * Get the associated iObject from this property class.
-   */
-  virtual iObject *QueryObject () = 0;
-
-  /**
    * Set the optional tag of this property class. Multiple property
    * classes of the same type (same name) can be attached to the same
    * entity. To do that you need to add a tag so that you can uniquely

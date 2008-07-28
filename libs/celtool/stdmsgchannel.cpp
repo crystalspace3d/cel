@@ -150,26 +150,20 @@ void celMessageChannel::Unsubscribe (iMessageReceiver* receiver,
   }
   else
   {
-    // Array for holding subscriptions that we want to remove. We do it later
-    // as it is not safe to delete elements while iterating.
-    csArray<celMessageSubscription,csArraySafeCopyElementHandler<celMessageSubscription> > to_remove;
     // Keep track of subscription masks with this receiver that were not removed
     // (because this mask didn't match).
-    celSubscriptions::Iterator it = messageSubscriptions.GetIterator(receiver);
-    while(it.HasNext())
+    csArray<celMessageSubscription> subscriptions = messageSubscriptions.
+      GetAll (receiver);
+    for (i = 0 ; i < subscriptions.GetSize () ; i++)
     {
-       celMessageSubscription &sub = it.Next();
-       if (sub.receiver == receiver)
-       {
-         if (mask == 0 || Match (maskStr, sub.mask))
-           to_remove.Push(sub);
-         else
-           retained_masks.Push (sub.mask);
-       }
-    }
-    for (i=0 ; i < to_remove.GetSize() ; i++)
-    {
-       messageSubscriptions.Delete (receiver, to_remove.Get(i));
+      celMessageSubscription& sub = subscriptions[i];
+      if (sub.receiver == receiver)
+      {
+        if (mask == 0 || Match (maskStr, sub.mask))
+	  messageSubscriptions.Delete (receiver, sub);
+        else
+	  retained_masks.Push (sub.mask);
+      }
     }
   }
 
@@ -232,12 +226,12 @@ bool celMessageChannel::SendMessage (const char* msgid,
   {
     while(unsubscriptionQueue.GetSize())
     {
-      const celMessageSubscription &subscriptionRequest = unsubscriptionQueue.Pop();
+      celMessageSubscription subscriptionRequest = unsubscriptionQueue.Pop();
       Unsubscribe(subscriptionRequest.receiver,subscriptionRequest.mask);
     }
     while(subscriptionQueue.GetSize())
     {
-      const celMessageSubscription &subscriptionRequest =  subscriptionQueue.Pop();
+      celMessageSubscription subscriptionRequest =  subscriptionQueue.Pop();
       Subscribe(subscriptionRequest.receiver,subscriptionRequest.mask);
     }
   }

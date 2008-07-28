@@ -577,7 +577,7 @@ iCelEntityTracker_swigregister = _blcelc.iCelEntityTracker_swigregister
 iCelEntityTracker_swigregister(iCelEntityTracker)
 
 csQueryRegistry_iCelPlLayer = _blcelc.csQueryRegistry_iCelPlLayer
-class iCelEntityTemplatePlFakeArray(object):
+class iCelEntityTemplatePlFakeArray:
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindEntityTemplate(obj): return True
@@ -601,7 +601,7 @@ class iCelEntityTemplatePlFakeArray(object):
 		else: return self.parent.GetEntityTemplateByIndex(val)
 	def append(self,obj): return self.parent.__noappend__(obj)
 
-class iCelEntityPlFakeArray(object):
+class iCelEntityPlFakeArray:
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindEntity(obj): return True
@@ -625,7 +625,7 @@ class iCelEntityPlFakeArray(object):
 		else: return self.parent.GetEntityByIndex(val)
 	def append(self,obj): return self.parent.__noappend__(obj)
 
-class iCelBlLayerPlFakeArray(object):
+class iCelBlLayerPlFakeArray:
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindBehaviourLayer(obj): return True
@@ -649,7 +649,7 @@ class iCelBlLayerPlFakeArray(object):
 		else: return self.parent.GetBehaviourLayer(val)
 	def append(self,obj): return self.parent.RegisterBehaviourLayer(obj)
 
-class iCelPropertyClassFactoryPlFakeArray(object):
+class iCelPropertyClassFactoryPlFakeArray:
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindPropertyClassFactory(obj): return True
@@ -1091,7 +1091,6 @@ class iCelPropertyClass(cspace.iBase):
     __repr__ = _swig_repr
     def SetName(*args): return _blcelc.iCelPropertyClass_SetName(*args)
     def GetName(*args): return _blcelc.iCelPropertyClass_GetName(*args)
-    def QueryObject(*args): return _blcelc.iCelPropertyClass_QueryObject(*args)
     def SetTag(*args): return _blcelc.iCelPropertyClass_SetTag(*args)
     def GetTag(*args): return _blcelc.iCelPropertyClass_GetTag(*args)
     def GetEntity(*args): return _blcelc.iCelPropertyClass_GetEntity(*args)
@@ -1105,6 +1104,16 @@ class iCelPropertyClass(cspace.iBase):
     def SetProperty(*args): return _blcelc.iCelPropertyClass_SetProperty(*args)
     def GetPropertyOrActionType(*args): return _blcelc.iCelPropertyClass_GetPropertyOrActionType(*args)
     def IsPropertyReadOnly(*args): return _blcelc.iCelPropertyClass_IsPropertyReadOnly(*args)
+    def GetPropertyLong(*args): return _blcelc.iCelPropertyClass_GetPropertyLong(*args)
+    def GetPropertyFloat(*args): return _blcelc.iCelPropertyClass_GetPropertyFloat(*args)
+    def GetPropertyBool(*args): return _blcelc.iCelPropertyClass_GetPropertyBool(*args)
+    def GetPropertyString(*args): return _blcelc.iCelPropertyClass_GetPropertyString(*args)
+    def GetPropertyVector2(*args): return _blcelc.iCelPropertyClass_GetPropertyVector2(*args)
+    def GetPropertyVector3(*args): return _blcelc.iCelPropertyClass_GetPropertyVector3(*args)
+    def GetPropertyColor(*args): return _blcelc.iCelPropertyClass_GetPropertyColor(*args)
+    def GetPropertyPClass(*args): return _blcelc.iCelPropertyClass_GetPropertyPClass(*args)
+    def GetPropertyEntity(*args): return _blcelc.iCelPropertyClass_GetPropertyEntity(*args)
+    def GetPropertyIBase(*args): return _blcelc.iCelPropertyClass_GetPropertyIBase(*args)
     def GetPropertyLongByID(*args): return _blcelc.iCelPropertyClass_GetPropertyLongByID(*args)
     def GetPropertyFloatByID(*args): return _blcelc.iCelPropertyClass_GetPropertyFloatByID(*args)
     def GetPropertyBoolByID(*args): return _blcelc.iCelPropertyClass_GetPropertyBoolByID(*args)
@@ -1887,7 +1896,7 @@ class iPcRegion(cspace.iBase):
     def GetStartSector(*args): return _blcelc.iPcRegion_GetStartSector(*args)
     def GetStartPosition(*args): return _blcelc.iPcRegion_GetStartPosition(*args)
     def PointCamera(*args): return _blcelc.iPcRegion_PointCamera(*args)
-    def GetCollection(*args): return _blcelc.iPcRegion_GetCollection(*args)
+    def GetRegion(*args): return _blcelc.iPcRegion_GetRegion(*args)
     WorldFile = _swig_property(_blcelc.iPcRegion_GetWorldFile, fix_args(_blcelc.iPcRegion_SetWorldFile), None,
                     "iPcRegion.WorldFile -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcRegion::GetWorldFile()\n\tset: void iPcRegion::SetWorldFile(...)")
 
@@ -1903,6 +1912,9 @@ class iPcRegion(cspace.iBase):
 
     StartPosition = _swig_property(_blcelc.iPcRegion_GetStartPosition, None, None,
                     "iPcRegion.StartPosition -> type\n\nThis is equivalent to calling the C++ cs method:\n\tget: iPcRegion::GetStartPosition()")
+
+    Region = _swig_property(_blcelc.iPcRegion_Region_get, None, None,
+                    "iPcRegion.Region -> iRegion*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iRegion* iPcRegion::GetRegion()")
 
     def LoadWorld(*args): return _blcelc.iPcRegion_LoadWorld(*args)
     _PC = None
@@ -1973,7 +1985,7 @@ class iCelRegion(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelRegion_GetName(*args)
-    def GetCsCollectionName(*args): return _blcelc.iCelRegion_GetCsCollectionName(*args)
+    def GetCsRegionName(*args): return _blcelc.iCelRegion_GetCsRegionName(*args)
     def SetCachePath(*args): return _blcelc.iCelRegion_SetCachePath(*args)
     def GetCachePath(*args): return _blcelc.iCelRegion_GetCachePath(*args)
     def CreateMapFile(*args): return _blcelc.iCelRegion_CreateMapFile(*args)
@@ -1985,9 +1997,12 @@ class iCelRegion(cspace.iBase):
     def AssociateEntity(*args): return _blcelc.iCelRegion_AssociateEntity(*args)
     def DissociateEntity(*args): return _blcelc.iCelRegion_DissociateEntity(*args)
     def ContainsEntity(*args): return _blcelc.iCelRegion_ContainsEntity(*args)
-    def GetCollection(*args): return _blcelc.iCelRegion_GetCollection(*args)
+    def GetCsRegion(*args): return _blcelc.iCelRegion_GetCsRegion(*args)
     Name = _swig_property(_blcelc.iCelRegion_Name_get, None, None,
                     "iCelRegion.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelRegion::GetName()")
+
+    CsRegionName = _swig_property(_blcelc.iCelRegion_CsRegionName_get, None, None,
+                    "iCelRegion.CsRegionName -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelRegion::GetCsRegionName()")
 
     CachePath = _swig_property(_blcelc.iCelRegion_CachePath_get, _blcelc.iCelRegion_CachePath_set, None,
                     "iCelRegion.CachePath -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelRegion::GetCachePath()\n\tset: void iCelRegion::SetCachePath(const char*)")
@@ -1995,6 +2010,9 @@ class iCelRegion(cspace.iBase):
 
     MapFileCount = _swig_property(_blcelc.iCelRegion_MapFileCount_get, None, None,
                     "iCelRegion.MapFileCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelRegion::GetMapFileCount()")
+
+    CsRegion = _swig_property(_blcelc.iCelRegion_CsRegion_get, None, None,
+                    "iCelRegion.CsRegion -> iRegion*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iRegion* iCelRegion::GetCsRegion()")
 
     __swig_destroy__ = _blcelc.delete_iCelRegion
     __del__ = lambda self : None;
@@ -2189,12 +2207,8 @@ class iPcLinearMovement(cspace.iBase):
     def SetAngularVelocity(*args): return _blcelc.iPcLinearMovement_SetAngularVelocity(*args)
     def SetSpeed(*args): return _blcelc.iPcLinearMovement_SetSpeed(*args)
     def SetVelocity(*args): return _blcelc.iPcLinearMovement_SetVelocity(*args)
-    def SetBodyVelocity(*args): return _blcelc.iPcLinearMovement_SetBodyVelocity(*args)
-    def SetWorldVelocity(*args): return _blcelc.iPcLinearMovement_SetWorldVelocity(*args)
     def AddVelocity(*args): return _blcelc.iPcLinearMovement_AddVelocity(*args)
     def ClearWorldVelocity(*args): return _blcelc.iPcLinearMovement_ClearWorldVelocity(*args)
-    def GetBodyVelocity(*args): return _blcelc.iPcLinearMovement_GetBodyVelocity(*args)
-    def GetWorldVelocity(*args): return _blcelc.iPcLinearMovement_GetWorldVelocity(*args)
     def GetVelocity(*args): return _blcelc.iPcLinearMovement_GetVelocity(*args)
     def GetAngularVelocity(*args): return _blcelc.iPcLinearMovement_GetAngularVelocity(*args)
     def GetCDDimensions(*args): return _blcelc.iPcLinearMovement_GetCDDimensions(*args)
@@ -2208,7 +2222,6 @@ class iPcLinearMovement(cspace.iBase):
     def GetYRotation(*args): return _blcelc.iPcLinearMovement_GetYRotation(*args)
     def GetPosition(*args): return _blcelc.iPcLinearMovement_GetPosition(*args)
     def GetFullPosition(*args): return _blcelc.iPcLinearMovement_GetFullPosition(*args)
-    def GetFullTransform(*args): return _blcelc.iPcLinearMovement_GetFullTransform(*args)
     def IsPath(*args): return _blcelc.iPcLinearMovement_IsPath(*args)
     def GetSector(*args): return _blcelc.iPcLinearMovement_GetSector(*args)
     def ExtrapolatePosition(*args): return _blcelc.iPcLinearMovement_ExtrapolatePosition(*args)
@@ -2470,28 +2483,30 @@ celGetLinearMovement = _blcelc.celGetLinearMovement
 iPcActorMove_scfGetVersion = _blcelc.iPcActorMove_scfGetVersion
 
 scfQuery_iPcActorMove = _blcelc.scfQuery_iPcActorMove
-scfQuery_iPcActorAnalog = _blcelc.scfQuery_iPcActorAnalog
-class iPcAnalogMotion(cspace.iBase):
+class iPcActorAnalog(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def SetAxis(*args): return _blcelc.iPcAnalogMotion_SetAxis(*args)
-    def GetAxis(*args): return _blcelc.iPcAnalogMotion_GetAxis(*args)
-    def AddAxis(*args): return _blcelc.iPcAnalogMotion_AddAxis(*args)
-    def SetMovementSpeed(*args): return _blcelc.iPcAnalogMotion_SetMovementSpeed(*args)
-    def GetMovementSpeed(*args): return _blcelc.iPcAnalogMotion_GetMovementSpeed(*args)
-    def SetMovementAcceleration(*args): return _blcelc.iPcAnalogMotion_SetMovementAcceleration(*args)
-    def GetMovementAcceleration(*args): return _blcelc.iPcAnalogMotion_GetMovementAcceleration(*args)
-    def SetMovementDeceleration(*args): return _blcelc.iPcAnalogMotion_SetMovementDeceleration(*args)
-    def GetMovementDeceleration(*args): return _blcelc.iPcAnalogMotion_GetMovementDeceleration(*args)
-    def SetTurningSpeed(*args): return _blcelc.iPcAnalogMotion_SetTurningSpeed(*args)
-    def GetTurningSpeed(*args): return _blcelc.iPcAnalogMotion_GetTurningSpeed(*args)
-    def SetMinimumTurningSpeed(*args): return _blcelc.iPcAnalogMotion_SetMinimumTurningSpeed(*args)
-    def GetMinimumTurningSpeed(*args): return _blcelc.iPcAnalogMotion_GetMinimumTurningSpeed(*args)
-    def SetMaximumTurningSpeed(*args): return _blcelc.iPcAnalogMotion_SetMaximumTurningSpeed(*args)
-    def GetMaximumTurningSpeed(*args): return _blcelc.iPcAnalogMotion_GetMaximumTurningSpeed(*args)
-    def Enable(*args): return _blcelc.iPcAnalogMotion_Enable(*args)
-    def IsEnabled(*args): return _blcelc.iPcAnalogMotion_IsEnabled(*args)
+    def SetAxis(*args): return _blcelc.iPcActorAnalog_SetAxis(*args)
+    def GetAxis(*args): return _blcelc.iPcActorAnalog_GetAxis(*args)
+    def AddAxis(*args): return _blcelc.iPcActorAnalog_AddAxis(*args)
+    def SetMovementSpeed(*args): return _blcelc.iPcActorAnalog_SetMovementSpeed(*args)
+    def GetMovementSpeed(*args): return _blcelc.iPcActorAnalog_GetMovementSpeed(*args)
+    def SetMovementAcceleration(*args): return _blcelc.iPcActorAnalog_SetMovementAcceleration(*args)
+    def GetMovementAcceleration(*args): return _blcelc.iPcActorAnalog_GetMovementAcceleration(*args)
+    def SetMovementDeceleration(*args): return _blcelc.iPcActorAnalog_SetMovementDeceleration(*args)
+    def GetMovementDeceleration(*args): return _blcelc.iPcActorAnalog_GetMovementDeceleration(*args)
+    def SetTurningSpeed(*args): return _blcelc.iPcActorAnalog_SetTurningSpeed(*args)
+    def GetTurningSpeed(*args): return _blcelc.iPcActorAnalog_GetTurningSpeed(*args)
+    Axis = _swig_property(None, fix_args(_blcelc.iPcActorAnalog_SetAxis), None,
+                    "iPcActorAnalog.Axis -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcActorAnalog::getmethod()\n\tset: void iPcActorAnalog::SetAxis(...)")
+
+    MovementSpeed = _swig_property(None, _blcelc.iPcActorAnalog_MovementSpeed_set, None,
+                    "iPcActorAnalog.MovementSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcActorAnalog::SetMovementSpeed(float)")
+
+    TurningSpeed = _swig_property(None, _blcelc.iPcActorAnalog_TurningSpeed_set, None,
+                    "iPcActorAnalog.TurningSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcActorAnalog::SetTurningSpeed(float)")
+
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -2500,7 +2515,7 @@ class iPcAnalogMotion(cspace.iBase):
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if hasattr(iPcAnalogMotion,attr):
+         if hasattr(iPcActorAnalog,attr):
              return object.__setattr__(self,attr,value)
          elif hasattr(iCelPropertyClass,attr):
              _PC = self.QueryInterface(iCelPropertyClass)
@@ -2508,93 +2523,17 @@ class iPcAnalogMotion(cspace.iBase):
          else:
              return self.SetterFallback(attr,value)
 
-    scfGetVersion = staticmethod(_blcelc.iPcAnalogMotion_scfGetVersion)
-    __swig_destroy__ = _blcelc.delete_iPcAnalogMotion
+    scfGetVersion = staticmethod(_blcelc.iPcActorAnalog_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iPcActorAnalog
     __del__ = lambda self : None;
-iPcAnalogMotion_swigregister = _blcelc.iPcAnalogMotion_swigregister
-iPcAnalogMotion_swigregister(iPcAnalogMotion)
+iPcActorAnalog_swigregister = _blcelc.iPcActorAnalog_swigregister
+iPcActorAnalog_swigregister(iPcActorAnalog)
 celCreateActorMove = _blcelc.celCreateActorMove
 celGetSetActorMove = _blcelc.celGetSetActorMove
 celGetActorMove = _blcelc.celGetActorMove
-celCreateActorAnalog = _blcelc.celCreateActorAnalog
-celGetSetActorAnalog = _blcelc.celGetSetActorAnalog
-celGetActorAnalog = _blcelc.celGetActorAnalog
-iPcAnalogMotion_scfGetVersion = _blcelc.iPcAnalogMotion_scfGetVersion
+iPcActorAnalog_scfGetVersion = _blcelc.iPcActorAnalog_scfGetVersion
 
-scfQuery_iPcAnalogMotion = _blcelc.scfQuery_iPcAnalogMotion
-class iPcJump(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def Jump(*args): return _blcelc.iPcJump_Jump(*args)
-    def FinishBoost(*args): return _blcelc.iPcJump_FinishBoost(*args)
-    def Freeze(*args): return _blcelc.iPcJump_Freeze(*args)
-    STAND = _blcelc.iPcJump_STAND
-    JUMP = _blcelc.iPcJump_JUMP
-    DOUBLEJUMP = _blcelc.iPcJump_DOUBLEJUMP
-    GLIDE = _blcelc.iPcJump_GLIDE
-    FROZEN = _blcelc.iPcJump_FROZEN
-    def GetState(*args): return _blcelc.iPcJump_GetState(*args)
-    GLIDE_NOTURN = _blcelc.iPcJump_GLIDE_NOTURN
-    GLIDE_LEFT = _blcelc.iPcJump_GLIDE_LEFT
-    GLIDE_RIGHT = _blcelc.iPcJump_GLIDE_RIGHT
-    def GlideTurn(*args): return _blcelc.iPcJump_GlideTurn(*args)
-    GLIDE_NOPITCH = _blcelc.iPcJump_GLIDE_NOPITCH
-    GLIDE_UP = _blcelc.iPcJump_GLIDE_UP
-    GLIDE_DOWN = _blcelc.iPcJump_GLIDE_DOWN
-    def GlidePitch(*args): return _blcelc.iPcJump_GlidePitch(*args)
-    def SetGlideGravity(*args): return _blcelc.iPcJump_SetGlideGravity(*args)
-    def GetGlideGravity(*args): return _blcelc.iPcJump_GetGlideGravity(*args)
-    def SetGlidePitchLimit(*args): return _blcelc.iPcJump_SetGlidePitchLimit(*args)
-    def GetGlidePitchLimit(*args): return _blcelc.iPcJump_GetGlidePitchLimit(*args)
-    def SetGlidePitchSpeed(*args): return _blcelc.iPcJump_SetGlidePitchSpeed(*args)
-    def GetGlidePitchSpeed(*args): return _blcelc.iPcJump_GetGlidePitchSpeed(*args)
-    def SetGlideTurnSpeed(*args): return _blcelc.iPcJump_SetGlideTurnSpeed(*args)
-    def GetGlideTurnSpeed(*args): return _blcelc.iPcJump_GetGlideTurnSpeed(*args)
-    def SetJumpSpeed(*args): return _blcelc.iPcJump_SetJumpSpeed(*args)
-    def GetJumpSpeed(*args): return _blcelc.iPcJump_GetJumpSpeed(*args)
-    def SetJumpHeight(*args): return _blcelc.iPcJump_SetJumpHeight(*args)
-    def GetJumpHeight(*args): return _blcelc.iPcJump_GetJumpHeight(*args)
-    def GetAirTime(*args): return _blcelc.iPcJump_GetAirTime(*args)
-    def SetDoubleJumpSpeed(*args): return _blcelc.iPcJump_SetDoubleJumpSpeed(*args)
-    def GetDoubleJumpSpeed(*args): return _blcelc.iPcJump_GetDoubleJumpSpeed(*args)
-    def SetGravity(*args): return _blcelc.iPcJump_SetGravity(*args)
-    def GetGravity(*args): return _blcelc.iPcJump_GetGravity(*args)
-    def SetFixedJump(*args): return _blcelc.iPcJump_SetFixedJump(*args)
-    def GetFixedJump(*args): return _blcelc.iPcJump_GetFixedJump(*args)
-    def SetBoostJump(*args): return _blcelc.iPcJump_SetBoostJump(*args)
-    def GetBoostJump(*args): return _blcelc.iPcJump_GetBoostJump(*args)
-    def SetBoostTime(*args): return _blcelc.iPcJump_SetBoostTime(*args)
-    def GetBoostTime(*args): return _blcelc.iPcJump_GetBoostTime(*args)
-    def SetBoostAcceleration(*args): return _blcelc.iPcJump_SetBoostAcceleration(*args)
-    def GetBoostAcceleration(*args): return _blcelc.iPcJump_GetBoostAcceleration(*args)
-    _PC = None
-    def __getattr__(self,attr):
-         if hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
-             return getattr(_PC,attr)
-         else:
-             return self.GetterFallback(attr)
-    def __setattr__(self,attr,value):
-         if hasattr(iPcJump,attr):
-             return object.__setattr__(self,attr,value)
-         elif hasattr(iCelPropertyClass,attr):
-             _PC = self.QueryInterface(iCelPropertyClass)
-             setattr(_PC,attr,value)
-         else:
-             return self.SetterFallback(attr,value)
-
-    scfGetVersion = staticmethod(_blcelc.iPcJump_scfGetVersion)
-    __swig_destroy__ = _blcelc.delete_iPcJump
-    __del__ = lambda self : None;
-iPcJump_swigregister = _blcelc.iPcJump_swigregister
-iPcJump_swigregister(iPcJump)
-celCreateAnalogMotion = _blcelc.celCreateAnalogMotion
-celGetSetAnalogMotion = _blcelc.celGetSetAnalogMotion
-celGetAnalogMotion = _blcelc.celGetAnalogMotion
-iPcJump_scfGetVersion = _blcelc.iPcJump_scfGetVersion
-
-scfQuery_iPcJump = _blcelc.scfQuery_iPcJump
+scfQuery_iPcActorAnalog = _blcelc.scfQuery_iPcActorAnalog
 class iPcCamera(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self): raise AttributeError, "No constructor defined"
@@ -2670,9 +2609,9 @@ class iPcCamera(cspace.iBase):
     __del__ = lambda self : None;
 iPcCamera_swigregister = _blcelc.iPcCamera_swigregister
 iPcCamera_swigregister(iPcCamera)
-celCreateJump = _blcelc.celCreateJump
-celGetSetJump = _blcelc.celGetSetJump
-celGetJump = _blcelc.celGetJump
+celCreateActorAnalog = _blcelc.celCreateActorAnalog
+celGetSetActorAnalog = _blcelc.celGetSetActorAnalog
+celGetActorAnalog = _blcelc.celGetActorAnalog
 
 class iPcDefaultCamera(iPcCamera):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -3115,9 +3054,6 @@ class iPcTrackingCamera(iPcCameraMode):
     def SetTargetState(*args): return _blcelc.iPcTrackingCamera_SetTargetState(*args)
     def GetTargetState(*args): return _blcelc.iPcTrackingCamera_GetTargetState(*args)
     def SetTargetYOffset(*args): return _blcelc.iPcTrackingCamera_SetTargetYOffset(*args)
-    def GetTargetYOffset(*args): return _blcelc.iPcTrackingCamera_GetTargetYOffset(*args)
-    def SetTargetInterpolationTime(*args): return _blcelc.iPcTrackingCamera_SetTargetInterpolationTime(*args)
-    def GetTargetInterpolationTime(*args): return _blcelc.iPcTrackingCamera_GetTargetInterpolationTime(*args)
     def SetOffsetAngle(*args): return _blcelc.iPcTrackingCamera_SetOffsetAngle(*args)
     def GetOffsetAngle(*args): return _blcelc.iPcTrackingCamera_GetOffsetAngle(*args)
     def SetOffsetDistance(*args): return _blcelc.iPcTrackingCamera_SetOffsetDistance(*args)
@@ -3125,13 +3061,19 @@ class iPcTrackingCamera(iPcCameraMode):
     def SetFollowSpringLength(*args): return _blcelc.iPcTrackingCamera_SetFollowSpringLength(*args)
     def GetFollowSpringLength(*args): return _blcelc.iPcTrackingCamera_GetFollowSpringLength(*args)
     def SetFollowMinimumSpringFactor(*args): return _blcelc.iPcTrackingCamera_SetFollowMinimumSpringFactor(*args)
-    def SetPanDirection(*args): return _blcelc.iPcTrackingCamera_SetPanDirection(*args)
+    PAN_LEFT = _blcelc.iPcTrackingCamera_PAN_LEFT
+    PAN_NONE = _blcelc.iPcTrackingCamera_PAN_NONE
+    PAN_RIGHT = _blcelc.iPcTrackingCamera_PAN_RIGHT
+    def Pan(*args): return _blcelc.iPcTrackingCamera_Pan(*args)
     def GetPanDirection(*args): return _blcelc.iPcTrackingCamera_GetPanDirection(*args)
     def SetPanSpeed(*args): return _blcelc.iPcTrackingCamera_SetPanSpeed(*args)
     def GetPanSpeed(*args): return _blcelc.iPcTrackingCamera_GetPanSpeed(*args)
     def SetPanAcceleration(*args): return _blcelc.iPcTrackingCamera_SetPanAcceleration(*args)
     def GetPanAcceleration(*args): return _blcelc.iPcTrackingCamera_GetPanAcceleration(*args)
-    def SetTiltDirection(*args): return _blcelc.iPcTrackingCamera_SetTiltDirection(*args)
+    TILT_UP = _blcelc.iPcTrackingCamera_TILT_UP
+    TILT_NONE = _blcelc.iPcTrackingCamera_TILT_NONE
+    TILT_DOWN = _blcelc.iPcTrackingCamera_TILT_DOWN
+    def Tilt(*args): return _blcelc.iPcTrackingCamera_Tilt(*args)
     def GetTiltDirection(*args): return _blcelc.iPcTrackingCamera_GetTiltDirection(*args)
     def SetTiltSpeed(*args): return _blcelc.iPcTrackingCamera_SetTiltSpeed(*args)
     def GetTiltSpeed(*args): return _blcelc.iPcTrackingCamera_GetTiltSpeed(*args)
@@ -3958,7 +3900,7 @@ iPcInventory_swigregister(iPcInventory)
 iPcInventory_scfGetVersion = _blcelc.iPcInventory_scfGetVersion
 
 scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
-class iCelEntityInvFakeArray(object):
+class iCelEntityInvFakeArray:
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.In(obj): return True
@@ -4129,10 +4071,6 @@ class iPcSoundSource(cspace.iBase):
     def GetSoundName(*args): return _blcelc.iPcSoundSource_GetSoundName(*args)
     def SetMode(*args): return _blcelc.iPcSoundSource_SetMode(*args)
     def GetMode(*args): return _blcelc.iPcSoundSource_GetMode(*args)
-    def Play(*args): return _blcelc.iPcSoundSource_Play(*args)
-    def Stop(*args): return _blcelc.iPcSoundSource_Stop(*args)
-    def Pause(*args): return _blcelc.iPcSoundSource_Pause(*args)
-    def Unpause(*args): return _blcelc.iPcSoundSource_Unpause(*args)
     SoundSource = _swig_property(_blcelc.iPcSoundSource_SoundSource_get, None, None,
                     "iPcSoundSource.SoundSource -> iSndSysSource*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSndSysSource* iPcSoundSource::GetSoundSource()")
 
@@ -5957,9 +5895,8 @@ class celPcCommon(PcCommonBase):
     def HavePropertyClassesChanged(*args): return _blcelc.celPcCommon_HavePropertyClassesChanged(*args)
     def SetTag(*args): return _blcelc.celPcCommon_SetTag(*args)
     def GetTag(*args): return _blcelc.celPcCommon_GetTag(*args)
-    def GetName(*args): return _blcelc.celPcCommon_GetName(*args)
     def SetName(*args): return _blcelc.celPcCommon_SetName(*args)
-    def QueryObject(*args): return _blcelc.celPcCommon_QueryObject(*args)
+    def GetName(*args): return _blcelc.celPcCommon_GetName(*args)
     def GetEntity(*args): return _blcelc.celPcCommon_GetEntity(*args)
     def SetEntity(*args): return _blcelc.celPcCommon_SetEntity(*args)
     def AddPropertyChangeCallback(*args): return _blcelc.celPcCommon_AddPropertyChangeCallback(*args)
@@ -5977,6 +5914,16 @@ class celPcCommon(PcCommonBase):
     def GetPropertyPClassByID(*args): return _blcelc.celPcCommon_GetPropertyPClassByID(*args)
     def GetPropertyEntityByID(*args): return _blcelc.celPcCommon_GetPropertyEntityByID(*args)
     def GetPropertyIBaseByID(*args): return _blcelc.celPcCommon_GetPropertyIBaseByID(*args)
+    def GetPropertyLong(*args): return _blcelc.celPcCommon_GetPropertyLong(*args)
+    def GetPropertyFloat(*args): return _blcelc.celPcCommon_GetPropertyFloat(*args)
+    def GetPropertyBool(*args): return _blcelc.celPcCommon_GetPropertyBool(*args)
+    def GetPropertyString(*args): return _blcelc.celPcCommon_GetPropertyString(*args)
+    def GetPropertyVector2(*args): return _blcelc.celPcCommon_GetPropertyVector2(*args)
+    def GetPropertyVector3(*args): return _blcelc.celPcCommon_GetPropertyVector3(*args)
+    def GetPropertyColor(*args): return _blcelc.celPcCommon_GetPropertyColor(*args)
+    def GetPropertyPClass(*args): return _blcelc.celPcCommon_GetPropertyPClass(*args)
+    def GetPropertyEntity(*args): return _blcelc.celPcCommon_GetPropertyEntity(*args)
+    def GetPropertyIBase(*args): return _blcelc.celPcCommon_GetPropertyIBase(*args)
     def PerformAction(*args): return _blcelc.celPcCommon_PerformAction(*args)
     def PerformActionIndexed(*args): return _blcelc.celPcCommon_PerformActionIndexed(*args)
     def GetPropertyOrActionDescription(*args): return _blcelc.celPcCommon_GetPropertyOrActionDescription(*args)
@@ -6255,42 +6202,6 @@ class pyPcPropertyListener(swigpyPcPropertyListener):
         return weakref_proxy(self)
 pyPcPropertyListener_swigregister = _blcelc.pyPcPropertyListener_swigregister
 pyPcPropertyListener_swigregister(pyPcPropertyListener)
-
-class swigpyPcInventoryListener(iPcInventoryListener):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def IncRef(*args): return _blcelc.swigpyPcInventoryListener_IncRef(*args)
-    def DecRef(*args): return _blcelc.swigpyPcInventoryListener_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.swigpyPcInventoryListener_GetRefCount(*args)
-    def QueryInterface(*args): return _blcelc.swigpyPcInventoryListener_QueryInterface(*args)
-    def AddRefOwner(*args): return _blcelc.swigpyPcInventoryListener_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.swigpyPcInventoryListener_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.swigpyPcInventoryListener_GetInterfaceMetadata(*args)
-swigpyPcInventoryListener_swigregister = _blcelc.swigpyPcInventoryListener_swigregister
-swigpyPcInventoryListener_swigregister(swigpyPcInventoryListener)
-
-class pyPcInventoryListener(swigpyPcInventoryListener):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        if self.__class__ == pyPcInventoryListener:
-            args = (None,) + args
-        else:
-            args = (self,) + args
-        this = _blcelc.new_pyPcInventoryListener(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_pyPcInventoryListener
-    __del__ = lambda self : None;
-    def AddChild(*args): return _blcelc.pyPcInventoryListener_AddChild(*args)
-    def RemoveChild(*args): return _blcelc.pyPcInventoryListener_RemoveChild(*args)
-    def __disown__(self):
-        self.this.disown()
-        _blcelc.disown_pyPcInventoryListener(self)
-        return weakref_proxy(self)
-pyPcInventoryListener_swigregister = _blcelc.pyPcInventoryListener_swigregister
-pyPcInventoryListener_swigregister(pyPcInventoryListener)
 
 
 

@@ -291,6 +291,7 @@ void celBillboard::GetTextDimensions (int& w, int& h)
 
 void celBillboard::SetTextOffset (int dx, int dy)
 {
+  mgr->BillboardToScreenspace (dx, dy);
   text_dx = dx;
   text_dy = dy;
 }
@@ -1089,15 +1090,12 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 	      g3d->BeginDraw (CSDRAW_2DGRAPHICS);
 	      csRect r;
 	      bb->GetRect (r);
-              int text_dx = bb->GetTextDX ();
-              int text_dy = bb->GetTextDY ();
-              BillboardToScreenspace(text_dx,text_dy);
 	      int fg = bb->UseTextFgColor () ? bb->GetTextFgColorNum () :
 		  	default_fg_color;
 	      int bg = bb->UseTextBgColor () ? bb->GetTextBgColorNum () :
 		  	default_bg_color;
 	      g3d->GetDriver2D ()->Write (font,
-			r.xmin+text_dx, r.ymin+text_dy,
+			r.xmin+bb->GetTextDX (), r.ymin+bb->GetTextDY (),
 			fg, bg, t);
 	      g3d->BeginDraw (CSDRAW_3DGRAPHICS);
 	    }

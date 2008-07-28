@@ -54,7 +54,6 @@ INTERFACE_POST(iPcPython)
 %feature("nodirector") pyPcCommon::AddRefOwner;
 %feature("nodirector") pyPcCommon::RemoveRefOwner;
 %feature("nodirector") pyPcCommon::QueryInterface;
-%feature("nodirector") pyPcCommon::SetProperty;
 %feature("nodirector") pyPcCommon::GetInterfaceMetadata;
 %feature("nodirector") pyPcCommon::Save;
 %feature("nodirector") pyPcCommon::Load;
@@ -453,19 +452,4 @@ public:
     virtual void PropertyChanged (iPcProperties*  pcprop, size_t idx) { }
 };
 %}
-
-/*  iPcInventoryListener */
-CALLBACK_INTERFACE_HDR(pyPcInventoryListener,iPcInventoryListener)
-%inline %{
-class pyPcInventoryListener :
-      public scfImplementation1<pyPcInventoryListener,iPcInventoryListener>
-{
-public:
-    pyPcInventoryListener(iObjectRegistry* object_reg) : scfImplementationType (this) {}
-~pyPcInventoryListener() {}
-    virtual void AddChild (iPcInventory*  inventory, iCelEntity*  entity) { }
-    virtual void RemoveChild (iPcInventory*  inventory, iCelEntity*  entity) { }
-};
-%}
-
 

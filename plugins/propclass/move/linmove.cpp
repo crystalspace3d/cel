@@ -559,51 +559,6 @@ static float Matrix2YRot (const csMatrix3& mat)
   return GetAngle (vec.z, vec.x);
 }
 
-void celPcLinearMovement::SetBodyVelocity (const csVector3& vel)
-{
-  velBody = vel;
-}
-void celPcLinearMovement::SetWorldVelocity (const csVector3& vel)
-{
-  velWorld = vel;
-}
-
-/// Adds on a velocity to this body in world coordinates
-void celPcLinearMovement::AddVelocity (const csVector3& vel)
-{
-  // Y movement here can be used for lift and gravity effects.
-  velWorld += vel;
-}
-
-/// Resets the velocity of this body in world coordinates.
-void celPcLinearMovement::ClearWorldVelocity ()
-{
-  // Y movement here can be used for lift and gravity effects.
-  velWorld = 0.0f;
-}
-
-void celPcLinearMovement::GetVelocity (csVector3 &v) const
-{
-  v = GetVelocity ();
-}
-
-const csVector3 &celPcLinearMovement::GetBodyVelocity () const
-{
-  return velBody;
-}
-const csVector3 &celPcLinearMovement::GetWorldVelocity () const
-{
-  return velWorld;
-}
-const csVector3 celPcLinearMovement::GetVelocity () const
-{
-  csVector3 velworld = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
-      .Other2ThisRelative (velWorld);
-
-  // Return the composite of the object and world velocity
-  // in the OBJECT coordinate system.
-  return velworld + velBody;
-}
 // --------------------------------------------------------------------------
 //Does the actual rotation
 bool celPcLinearMovement::RotateV (float delta)
@@ -639,7 +594,8 @@ bool celPcLinearMovement::RotateV (float delta)
   }
 
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-  movable->SetTransform (movable->GetTransform ().GetT2O () * csXRotMatrix3 (angle.x) * csYRotMatrix3 (angle.y) * csZRotMatrix3 (angle.z));
+  csYRotMatrix3 rotMat (angle.y);
+  movable->SetTransform (movable->GetTransform ().GetT2O () * rotMat);
   movable->UpdateMove ();
   //pcmesh->GetMesh ()->GetMovable ()->Transform (rotMat);
   return true;
@@ -1087,13 +1043,6 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
   if (path)
   {
     path_time += delta;
-    bool finished = false;
-    float end_time = path->GetTime (path->Length () - 1);
-    if (path_time>end_time)
-    {
-      finished = true;
-      path_time = end_time;
-    }
     path->CalculateAtTime (path_time);
     csVector3 pos, look, up;
 
@@ -1114,7 +1063,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     {
       spstate->SetAction (path_actions[path->GetCurrentIndex ()]);
     }
-    if (finished)
+    if (path_time>path->GetTime (path->Length () - 1))
     {
       path = 0;
       path_time = 0;
@@ -1382,12 +1331,6 @@ const csVector3 celPcLinearMovement::GetFullPosition ()
   // user will get a warning and a nothing if theres no mesh
   if (!GetMesh ())  return csVector3 ();
   return pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
-}
-const csReversibleTransform celPcLinearMovement::GetFullTransform ()
-{
-  // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ())  return csReversibleTransform ();
-  return pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
 }
 
 void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,

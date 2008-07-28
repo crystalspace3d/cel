@@ -376,31 +376,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libaddon_ledges_staticreg.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libaddon_ledges_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libaddon_ledges_staticreg.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libaddon_ledges_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libaddon_ledges_staticreg.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\msvc\libaddon_questdef_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -601,31 +576,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libledges_staticreg.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libledges_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libledges_staticreg.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libledges_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libledges_staticreg.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\msvc\libmgr_billboard_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -676,6 +626,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfactoranalog_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfactormove_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -698,31 +673,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libpfactormove_staticreg.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\msvc\libpfanalogmotion_staticreg.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libpfanalogmotion_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libpfanalogmotion_staticreg.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libpfanalogmotion_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libpfanalogmotion_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -876,31 +826,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libpfgrab_staticreg.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libpfgrab_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libpfgrab_staticreg.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libpfgrab_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libpfgrab_staticreg.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\msvc\libpfhover_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -973,31 +898,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libpfinv_staticreg.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\msvc\libpfjump_staticreg.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libpfjump_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\msvc_libpfjump_staticreg.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libpfjump_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\msvc_libpfjump_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1701,31 +1601,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\addons\ledges\ledges.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_addons_ledges_ledges.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_addons_ledges_ledges.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_addons_ledges_ledges.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_addons_ledges_ledges.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\addons\questdef\questdef.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -2001,6 +1876,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -2048,31 +1948,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_propclass_actormove_npcmove.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\analogmotion\analogmotion.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_propclass_analogmotion_analogmotion.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_propclass_analogmotion_analogmotion.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_propclass_analogmotion_analogmotion.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_propclass_analogmotion_analogmotion.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -2251,31 +2126,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\grab\grab.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_propclass_grab_grab.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_propclass_grab_grab.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_propclass_grab_grab.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_propclass_grab_grab.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\hover\craft_controller.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -2373,31 +2223,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_propclass_inv_invfact.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\jump\jump.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_propclass_jump_jump.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_propclass_jump_jump.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_propclass_jump_jump.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_propclass_jump_jump.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -3551,31 +3376,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\ledges\ledges.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\tools\quests\quests.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -4314,9 +4114,6 @@
 				RelativePath="..\..\plugins\addons\celgraph\celgraph.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\addons\ledges\ledges.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\addons\questdef\questdef.h">
 			</File>
 			<File
@@ -4350,13 +4147,13 @@
 				RelativePath="..\..\plugins\persist\xml\xmlpersist.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\npcmove.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\analogmotion\analogmotion.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\billboard\billboard.h">
@@ -4380,9 +4177,6 @@
 				RelativePath="..\..\plugins\propclass\evolve\evolve.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\grab\grab.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\hover\craft_controller.h">
 			</File>
 			<File
@@ -4393,9 +4187,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\inv\invfact.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\jump\jump.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\light\lightfact.h">
@@ -4543,9 +4334,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\celgraph\celgraph.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\ledges\ledges.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\quests.h">

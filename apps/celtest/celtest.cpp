@@ -24,7 +24,6 @@
 #include "iutil/object.h"
 #include "iutil/cmdline.h"
 #include "csutil/cscolor.h"
-#include "csutil/csobject.h"
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
 #include "csutil/event.h"
@@ -43,7 +42,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/material.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
 #include "imesh/thing.h"
 #include "imesh/sprite3d.h"
 #include "imesh/object.h"
@@ -77,7 +76,6 @@
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 #include "propclass/inv.h"
-#include "propclass/jump.h"
 #include "propclass/chars.h"
 #include "propclass/move.h"
 #include "propclass/tooltip.h"
@@ -87,7 +85,7 @@
 #include "propclass/region.h"
 #include "propclass/input.h"
 #include "propclass/linmove.h"
-#include "propclass/analogmotion.h"
+#include "propclass/actoranalog.h"
 #include "propclass/quest.h"
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
@@ -185,17 +183,14 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
     "pcinput.standard",
-    "pcmove.analogmotion",
-    "pcmove.jump",
-    "pcmove.grab",
+    "pcmove.actor.analog",
     "pccamera.delegate",
     "pccamera.mode.tracking",
     "pcobject.mesh",
     "pcobject.mesh.select",
     "pcmove.linear",
-    //"pc2d.tooltip",
+    "pc2d.tooltip",
     "pctools.inventory",
-    "pctools.timer",
     "pcsound.listener",
     CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
@@ -207,7 +202,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("JoystickButton2", "resetcam");
   pcinp->Bind ("JoystickAxis0", "joyaxis0");
   pcinp->Bind ("JoystickAxis1", "joyaxis1");
-  pcinp->Bind ("MouseAxis0_centered", "mouseaxis0");
 
   pcinp->Bind ("z", "ready");
   pcinp->Bind ("x", "lockon");
@@ -216,27 +210,16 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("right", "right");
   pcinp->Bind ("up", "up");
   pcinp->Bind ("down", "down");
-  pcinp->Bind ("space", "jump");
-  pcinp->Bind ("m", "freeze");
-  pcinp->Bind ("shift", "roll");
-  pcinp->Bind ("`", "showstates");
   pcinp->Bind ("[", "camleft");
   pcinp->Bind ("]", "camright");
   pcinp->Bind ("pageup", "camup");
   pcinp->Bind ("pagedown", "camdown");
 
-  csRef<iPcAnalogMotion> actor = celQueryPropertyClassEntity<iPcAnalogMotion> (entity_cam);
-  //actor->SetMinimumTurningSpeed (5.0f);
+  csRef<iPcActorAnalog> actor = celQueryPropertyClassEntity<iPcActorAnalog> (entity_cam);
+  actor->SetTurningSpeed (15.0f);
   //actor->SetMovementSpeed (1.5f);
 
-  csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity_cam);
-  jump->SetBoostJump (false);
-  jump->SetJumpHeight (1.0f);
-  //jump->SetDoubleJumpSpeed (7.0f);
-
   csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
-  trackcam->SetPanSpeed (8);
-  trackcam->SetTiltSpeed (2.5);
   csRef<iPcDelegateCamera> delegcam = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
   //delegcam->SetCurrentMode (trackcam);
 
@@ -245,9 +228,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   newcamera->AttachCameraMode(iPcNewCamera::CCM_TRACKING);
   newcamera->AttachCameraMode(iPcNewCamera::CCM_THIRD_PERSON);
   newcamera->SetCurrentCameraMode (0);*/
-
-  //csRef<iPcTimer> timer = celQueryPropertyClassEntity<iPcTimer> (entity_cam);
-  //timer->WakeUpFrame (0);
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;
@@ -273,46 +253,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   return csPtr<iCelEntity> (entity_cam);
 }
-
-struct iGenjix : public virtual iBase
-{
-  SCF_INTERFACE(iGenjix, 2, 0, 0);
-
-  virtual void SetFoo (float f) = 0;
-  virtual float GetFoo () const = 0;
-
-  virtual iObject *QueryObject () = 0;
-};
-
-class CS_CRYSTALSPACE_EXPORT Genjix :
-  public scfImplementationExt1<Genjix, csObject, iGenjix>
-{
-public:
-  Genjix () :  scfImplementationType (this)
-  {
-    SetName ("genjix");
-    foo = 0;
-  }
-  virtual ~Genjix ()
-  {
-  }
-
-  void SetFoo (float f)
-  {
-    foo = f;
-  }
-  float GetFoo () const
-  {
-    return foo;
-  }
-
-  iObject *QueryObject ()
-  {
-    return (iObject*)this;
-  }
-private:
-  float foo;
-};
 
 bool CelTest::CreateRoom ()
 {
@@ -377,20 +317,6 @@ bool CelTest::CreateRoom ()
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
   game = entity_room;
-
-  // ---------
-  // this is how we'll be storing edges
-  csRef<iGenjix> gen;
-  gen.AttachNew (new Genjix);
-  gen->SetFoo (110);
-
-  csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity_dummy);
-  iSector* s = mesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
-  s->QueryObject ()->ObjAdd (gen->QueryObject ());
-
-  iObject* g = s->QueryObject ()->GetChild ("genjix");
-  gen = scfQueryInterface<iGenjix> (g);
-  printf ("Foo: %f\n", gen->GetFoo ());
 
   return true;
 }

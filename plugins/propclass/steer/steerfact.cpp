@@ -108,47 +108,48 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
   // For properties.
   propinfo.SetCount (24);
   AddProperty (propid_position, "cel.property.position",
-    CEL_DATA_VECTOR3, true, "Desired end position.", &position);
+	       CEL_DATA_VECTOR3, true, "Desired end position.", &position);
   AddProperty (propid_cur_position, "cel.property.cur_position",
-    CEL_DATA_VECTOR3, true, "Current position.", &cur_position);
+	       CEL_DATA_VECTOR3, true, "Current position.", &cur_position);
   AddProperty (propid_cur_direction, "cel.property.cur_direction",
-    CEL_DATA_VECTOR3, true, "Current direction.", &cur_direction);
+	       CEL_DATA_VECTOR3, true, "Current direction.", &cur_direction);
   AddProperty (propid_up, "cel.property.up",
-    CEL_DATA_VECTOR3, true, "Current up vector.", &up);
+	       CEL_DATA_VECTOR3, true, "Current up vector.", &up);
   AddProperty (propid_cur_yrot, "cel.property.cur_yrot",
-    CEL_DATA_FLOAT, false, "Current rotation.", &cur_yrot);
+	       CEL_DATA_FLOAT, false, "Current rotation.", &cur_yrot);
   AddProperty (propid_arrival_radius, "cel.property.arrival_radius",
-    CEL_DATA_FLOAT, false, "Arrival Radius.", &arrival_radius);
+	       CEL_DATA_FLOAT, false, "Arrival Radius.", &arrival_radius);
   AddProperty (propid_ca_lookahead, "cel.property.ca_lookahead",
-    CEL_DATA_FLOAT, false, "CA Lookahead.", &ca_lookahead);
+	       CEL_DATA_FLOAT, false, "CA Lookahead.", &ca_lookahead);
   AddProperty (propid_ca_weight, "cel.property.ca_weight",
-    CEL_DATA_FLOAT, false, "CA weight.", &ca_weight);
+	       CEL_DATA_FLOAT, false, "CA weight.", &ca_weight);
   AddProperty (propid_cohesion_radius, "cel.property.cohesion_radius",
-    CEL_DATA_FLOAT, false, "Cohesion Radius.", &cohesion_radius);
+	       CEL_DATA_FLOAT, false, "Cohesion Radius.", &cohesion_radius);
   AddProperty (propid_separation_radius, "cel.property.separation_radius",
-    CEL_DATA_FLOAT, false, "Separation Radius.", &separation_radius);
+	       CEL_DATA_FLOAT, false, "Separation Radius.", &separation_radius);
   AddProperty (propid_dm_radius, "cel.property.dm_radius",
-    CEL_DATA_FLOAT, false, "Direction Matching Radius.", &dm_radius);
+	       CEL_DATA_FLOAT, false, "Direction Matching Radius.", &dm_radius);
   AddProperty (propid_pursue_max_prediction, "cel.property.pursue_max_prediction",
-    CEL_DATA_FLOAT, false, "Pursue Max Prediction.", &pursue_max_prediction);
+	       CEL_DATA_FLOAT, false, "Pursue Max Prediction.", &pursue_max_prediction);
   AddProperty (propid_separation_weight, "cel.property.separation_weight",
-    CEL_DATA_FLOAT, false, "Separation Weight.", &separation_weight);
+	       CEL_DATA_FLOAT, false, "Separation Weight.", &separation_weight);
   AddProperty (propid_cohesion_weight, "cel.property.cohesion_weight",
-    CEL_DATA_FLOAT, false, "Cohesion Wegight.", &cohesion_weight);
+	       CEL_DATA_FLOAT, false, "Cohesion Wegight.", &cohesion_weight);
   AddProperty (propid_dm_weight, "cel.property.dm_weight",
-    CEL_DATA_FLOAT, false, "Direction Matching Weight.", &dm_weight);
+	       CEL_DATA_FLOAT, false, "Direction Matching Weight.", &dm_weight);
   AddProperty (propid_moving, "cel.property.moving",
-    CEL_DATA_BOOL, true, "Is moving?", &is_moving);
+	       CEL_DATA_BOOL, true, "Is moving?", &is_moving);
   AddProperty (propid_check_arrival, "cel.property.check_arrival",
-    CEL_DATA_BOOL, true, "Check if arrived at position?", &check_arrival);
+	       CEL_DATA_BOOL, true, "Check if arrived at position?", &check_arrival);
   AddProperty (propid_collision_avoidance, "cel.property.collision_avoidance",
-    CEL_DATA_BOOL, true, "Avoid Collisions?", &collision_avoidance);
+	      CEL_DATA_BOOL, true, "Avoid Collisions?", &collision_avoidance);
   AddProperty (propid_check_cohesion, "cel.property.check_cohesion",
-    CEL_DATA_BOOL, true, "Check for Cohesion?", &check_cohesion);
+	      CEL_DATA_BOOL, true, "Check for Cohesion?", &check_cohesion);
   AddProperty (propid_check_separation, "cel.property.check_separation",
-    CEL_DATA_BOOL, true, "Check for separation", &check_separation);
+	      CEL_DATA_BOOL, true, "Check for separation", &check_separation);
   AddProperty (propid_check_dm, "cel.property.check_dm",
-    CEL_DATA_BOOL, true, "Check for Direction Matching", &check_dm);
+	      CEL_DATA_BOOL, true, "Check for Direction Matching", &check_dm);
+ 
 
   is_moving = false;
   check_arrival = false;
@@ -219,8 +220,7 @@ float celPcSteer::RandomBinomial (float rate)
   return r*rate;
 }
 
-void celPcSteer::SetDelayRecheck(int delay)
-{
+void celPcSteer::SetDelayRecheck(int delay){
   delay_recheck = delay;
 }
 
@@ -384,8 +384,7 @@ void celPcSteer::CheckArrivalOff ()
   check_arrival = false;
 }
 
-bool celPcSteer::CheckArrival ()
-{
+bool celPcSteer::CheckArrival (){
   if(!arrived && check_arrival)
   {
     float sqlen = csSquaredDist::PointPoint (cur_position, position);
@@ -426,7 +425,7 @@ bool celPcSteer::CollisionAvoidance ()
   float x_pos_offset = bb.MaxX();
   float x_neg_offset = bb.MinX();
   float z_neg_offset = bb.MaxZ();
-  //float z_pos_offset = bb.MinZ();
+  float z_pos_offset = bb.MinZ();
   printf("bb.x %f %f\n",bb.MinX(),bb.MaxX());
   printf("bb.y %f %f\n",bb.MinY(),bb.MaxY());
   printf("bb.z %f %f\n",bb.MinZ(),bb.MaxZ());
@@ -677,6 +676,7 @@ bool celPcSteer::Move ()
 
   if (do_move)
   {
+    csVector3 vec (0,0,1);
     cur_direction.Normalize();
     float yrot = atan2 (-cur_direction.x, -cur_direction.z);
 

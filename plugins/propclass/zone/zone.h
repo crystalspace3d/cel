@@ -135,10 +135,10 @@ class celRegion : public scfImplementation3<
 private:
   celPcZoneManager* mgr;
   csString name;
-  csString cscollectionName;
+  csString csregionname;
   csString cache_path;
   bool loaded;
-  csRef<iCollection> cscollection;
+  csRef<iRegion> csregion;
   csRefArray<celMapFile> mapfiles;
   csSet<csRef<iSector> > sectors;
 
@@ -171,7 +171,7 @@ public:
   bool ContainsSector (iSector* sector) { return sectors.In (sector); }
 
   virtual const char* GetName () const { return name; }
-  virtual const char* GetCsCollectionName () const { return cscollectionName; }
+  virtual const char* GetCsRegionName () const { return csregionname; }
   virtual void SetCachePath (const char* path);
   virtual const char* GetCachePath () const { return cache_path; }
   virtual iCelMapFile* CreateMapFile ();
@@ -186,7 +186,7 @@ public:
   virtual void AssociateEntity (iCelEntity* entity);
   virtual void DissociateEntity (iCelEntity* entity);
   virtual bool ContainsEntity (iCelEntity* entity);
-  virtual iCollection* GetCollection ();
+  virtual iRegion* GetCsRegion ();
 
   // For iCelNewEntityCallback.
   virtual void NewEntity (iCelEntity* entity);

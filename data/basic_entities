@@ -27,7 +27,7 @@
       <texture>marble</texture>
     </material>
   </materials>
-<!-- -->
+<!--
     <sounds>
         <sound name="loopbzzt" mode3d="absolute"
       file="/this/sounds/outdoor/ambient/wind_flute_building_l_c.ogg" />
@@ -74,7 +74,7 @@
             <reward type="debugprint" message="$message" />
             <reward type="changeproperty" long="0" entity="$this" property="counter" />
             <reward type="changeproperty" long="5" entity="$this" property="countdown" />
-            <!--<reward type="sequence" entity="$this" sequence="test" />-->
+            <reward type="sequence" entity="$this" sequence="test" />
             <reward type="newstate" state="sequencetest" />
           </trigger>
         </state>
@@ -119,9 +119,9 @@
           </trigger>
         </state>
         <state name="end" />
-        <!--<sequence name="test" >
+        <sequence name="test" >
           <op message="sequence" type="debugprint" duration="2000" />
-        </sequence>-->
+        </sequence>
       </quest>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="bla" >

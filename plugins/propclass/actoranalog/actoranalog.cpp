@@ -19,7 +19,7 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
-#include "plugins/propclass/analogmotion/analogmotion.h"
+#include "plugins/propclass/actoranalog/actoranalog.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
@@ -41,17 +41,16 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (AnalogMotion, "pcmove.analogmotion", "pcmove.actor.analog")
+CEL_IMPLEMENT_FACTORY (ActorAnalog, "pcmove.actor.analog")
 
 //---------------------------------------------------------------------------
 
-csStringID celPcAnalogMotion::id_axis = csInvalidStringID;
-csStringID celPcAnalogMotion::id_value = csInvalidStringID;
-csStringID celPcAnalogMotion::id_enabled = csInvalidStringID;
+csStringID celPcActorAnalog::id_axis = csInvalidStringID;
+csStringID celPcActorAnalog::id_value = csInvalidStringID;
 
-PropertyHolder celPcAnalogMotion::propinfo;
+PropertyHolder celPcActorAnalog::propinfo;
 
-celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
+celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
   vc = csQueryRegistry<iVirtualClock> (object_reg);
@@ -61,7 +60,6 @@ celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
   {
     id_axis = pl->FetchStringID ("cel.parameter.axis");
     id_value = pl->FetchStringID ("cel.parameter.value");
-    id_enabled = pl->FetchStringID ("cel.parameter.enabled");
   }
 
   propholder = &propinfo;
@@ -74,13 +72,11 @@ celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
     AddAction (action_setmovespeed, "cel.action.SetMovementSpeed");
     AddAction (action_setmoveaccel, "cel.action.SetMovementAcceleration");
     AddAction (action_setmoveaccel, "cel.action.SetMovementDeceleration");
-    AddAction (action_setminturnspeed, "cel.action.SetMinimumTurningSpeed");
-    AddAction (action_setmaxturnspeed, "cel.action.SetMaximumTurningSpeed");
-    AddAction (action_enable, "cel.action.Enable");
+    AddAction (action_setturnspeed, "cel.action.SetTurningSpeed");
   }
 
   // For properties.
-  propinfo.SetCount (8);
+  propinfo.SetCount (6);
   AddProperty (propid_axisx, "cel.property.axisx",
     CEL_DATA_FLOAT, false, "Left/Right axis value (-1.0 to 1.0).",
     &target_axis.x);
@@ -96,65 +92,54 @@ celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
   AddProperty (propid_movedecel, "cel.property.movedecel",
     CEL_DATA_FLOAT, false, "Movement deceleration.",
     &movedecel);
-  AddProperty (propid_minturnspeed, "cel.property.minturnspeed",
-    CEL_DATA_FLOAT, false, "Minimum turning speed.",
-    &minturnspeed);
-  AddProperty (propid_maxturnspeed, "cel.property.maxturnspeed",
-    CEL_DATA_FLOAT, false, "Maximum turning speed.",
-    &maxturnspeed);
-  AddProperty (propid_enabled, "cel.property.enabled",
-    CEL_DATA_BOOL, false, "Is this component updating the player every frame?",
-    &enabled);
+  AddProperty (propid_turnspeed, "cel.property.turnspeed",
+    CEL_DATA_FLOAT, false, "Turning speed.",
+    &turnspeed);
 
   // Tick every so often so we can update the state
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
   target_axis.Set (0.0f);
-  minturnspeed = 3.0f;
-  maxturnspeed = 15.0f;
+  turnspeed = 30.0f;
   movespeed = 10;
   moveaccel = 50;
-  movedecel = 40;
-  enabled = true;
+  movedecel = 100;
 }
 
-celPcAnalogMotion::~celPcAnalogMotion ()
+celPcActorAnalog::~celPcActorAnalog ()
 {
 }
 
-const size_t actorlara_serial = 8;
+const size_t actorlara_serial = 4;
 
-csPtr<iCelDataBuffer> celPcAnalogMotion::Save ()
+csPtr<iCelDataBuffer> celPcActorAnalog::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (actorlara_serial);
   databuf->Add (target_axis.x);
   databuf->Add (target_axis.y);
-  databuf->Add (minturnspeed);
-  databuf->Add (maxturnspeed);
+  databuf->Add (turnspeed);
   databuf->Add (movespeed);
   databuf->Add (moveaccel);
   databuf->Add (movedecel);
-  databuf->Add (enabled);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
-bool celPcAnalogMotion::Load (iCelDataBuffer* databuf)
+bool celPcActorAnalog::Load (iCelDataBuffer* databuf)
 {
   size_t serialnr = databuf->GetSerialNumber ();
-  if (serialnr != actorlara_serial)
-    return false;
+  if (serialnr != actorlara_serial) return false;
+
   target_axis.x = databuf->GetFloat ();
   target_axis.y = databuf->GetFloat ();
-  minturnspeed = databuf->GetFloat ();
-  maxturnspeed = databuf->GetFloat ();
+  turnspeed = databuf->GetFloat ();
   movespeed = databuf->GetFloat ();
   moveaccel = databuf->GetFloat ();
   movedecel = databuf->GetFloat ();
-  enabled = databuf->GetBool ();
+
   return true;
 }
 
-bool celPcAnalogMotion::PerformActionIndexed (int idx,
+bool celPcActorAnalog::PerformActionIndexed (int idx,
   iCelParameterBlock* params,
   celData& ret)
 {
@@ -202,28 +187,12 @@ bool celPcAnalogMotion::PerformActionIndexed (int idx,
       SetMovementDeceleration (value);
       return true;
     }
-    case action_setminturnspeed:
+    case action_setturnspeed:
     {
       CEL_FETCH_FLOAT_PAR (value, params, id_value);
       if (!p_value)
         return false;
-      SetMinimumTurningSpeed (value);
-      return true;
-    }
-    case action_setmaxturnspeed:
-    {
-      CEL_FETCH_FLOAT_PAR (value, params, id_value);
-      if (!p_value)
-        return false;
-      SetMaximumTurningSpeed (value);
-      return true;
-    }
-    case action_enable:
-    {
-      CEL_FETCH_BOOL_PAR (value, params, id_enabled);
-      if (!p_value)
-        value = true;
-      enabled = value;
+      SetTurningSpeed (value);
       return true;
     }
     default:
@@ -232,7 +201,7 @@ bool celPcAnalogMotion::PerformActionIndexed (int idx,
   return false;
 }
 
-void celPcAnalogMotion::SetAxis (size_t axis, float value)
+void celPcActorAnalog::SetAxis (size_t axis, float value)
 {
   // make sure value is in desired range of [-1,1]
   if (value < -1.0f)
@@ -248,85 +217,50 @@ void celPcAnalogMotion::SetAxis (size_t axis, float value)
   // keep the movement synced
   UpdateMovement ();
 }
-float celPcAnalogMotion::GetAxis (size_t axis) const
+float celPcActorAnalog::GetAxis (size_t axis) const
 {
   if (axis != 0 && axis != 1)
     return 0.0f;
   return target_axis[axis];
 }
-void celPcAnalogMotion::SetAxis (const csVector2 &axis)
-{
-  target_axis = axis;
-  // keep the movement synced
-  UpdateMovement ();
-}
-const csVector2 &celPcAnalogMotion::GetAxis () const
-{
-  return target_axis;
-}
-void celPcAnalogMotion::AddAxis (size_t axis, float value)
+void celPcActorAnalog::AddAxis (size_t axis, float value)
 {
   SetAxis (axis, target_axis[axis] + value);
 }
-void celPcAnalogMotion::SetMovementSpeed (float speed)
+void celPcActorAnalog::SetMovementSpeed (float speed)
 {
   movespeed = speed;
 }
-float celPcAnalogMotion::GetMovementSpeed () const
+float celPcActorAnalog::GetMovementSpeed () const
 {
   return movespeed;
 }
-void celPcAnalogMotion::SetMovementAcceleration (float accel)
+void celPcActorAnalog::SetMovementAcceleration (float accel)
 {
   moveaccel = accel;
 }
-float celPcAnalogMotion::GetMovementAcceleration () const
+float celPcActorAnalog::GetMovementAcceleration () const
 {
   return moveaccel;
 }
-void celPcAnalogMotion::SetMovementDeceleration (float decel)
+void celPcActorAnalog::SetMovementDeceleration (float decel)
 {
   movedecel = decel;
 }
-float celPcAnalogMotion::GetMovementDeceleration () const
+float celPcActorAnalog::GetMovementDeceleration () const
 {
   return movedecel;
 }
-void celPcAnalogMotion::SetTurningSpeed (float speed)
+void celPcActorAnalog::SetTurningSpeed (float speed)
 {
-  maxturnspeed = minturnspeed = speed;
+  turnspeed = speed;
 }
-float celPcAnalogMotion::GetTurningSpeed () const
+float celPcActorAnalog::GetTurningSpeed () const
 {
-  return minturnspeed;
-}
-void celPcAnalogMotion::SetMinimumTurningSpeed (float speed)
-{
-  minturnspeed = speed;
-}
-float celPcAnalogMotion::GetMinimumTurningSpeed () const
-{
-  return minturnspeed;
-}
-void celPcAnalogMotion::SetMaximumTurningSpeed (float speed)
-{
-  maxturnspeed = speed;
-}
-float celPcAnalogMotion::GetMaximumTurningSpeed () const
-{
-  return maxturnspeed;
+  return turnspeed;
 }
 
-void celPcAnalogMotion::Enable (bool en)
-{
-  enabled = en;
-}
-bool celPcAnalogMotion::IsEnabled () const
-{
-  return enabled;
-}
-
-bool celPcAnalogMotion::FindSiblingPropertyClasses ()
+void celPcActorAnalog::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
@@ -334,35 +268,30 @@ bool celPcAnalogMotion::FindSiblingPropertyClasses ()
     pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
     camera = celQueryPropertyClassEntity<iPcCamera> (entity);
   }
-  // check if we're missing any needed property classes
-  return pclinmove && pcmesh && camera;
 }
 
-void celPcAnalogMotion::TickEveryFrame ()
+void celPcActorAnalog::TickEveryFrame ()
 {
   UpdateMovement ();
 }
 
-void celPcAnalogMotion::UpdateMovement ()
+void celPcActorAnalog::UpdateMovement ()
 {
-  if (!enabled || !FindSiblingPropertyClasses ())
+  FindSiblingPropertyClasses ();
+  // check if we're missing any needed property classes
+  if (!pclinmove || !pcmesh || !camera)
     return;
 
   csVector2 curr_axis (target_axis);
   // if we're not moving then stop and idle
   if (curr_axis < EPSILON)
   {
-    /// @@@ (GE) deceleration should be relative to camera
     // ... deccelerate the player down
     float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
-    float newspeed = -pclinmove->GetBodyVelocity ().z - 2 * movedecel * elapsedsecs;
+    float newspeed = pclinmove->GetVelocity ().Norm () - 2 * moveaccel * elapsedsecs;
     if (newspeed < EPSILON)
       newspeed = 0.0f;
-    // we only modify the z component really
-    csVector3 cvel (pclinmove->GetBodyVelocity ());
-    cvel.z = -newspeed;
-    pclinmove->SetVelocity (cvel);
-    pclinmove->SetAngularVelocity (csVector3 (0));
+    pclinmove->SetVelocity (csVector3 (0, 0, -newspeed));
     pcmesh->SetAnimation ("stand", true);
     return;
   }
@@ -373,7 +302,7 @@ void celPcAnalogMotion::UpdateMovement ()
   const csVector3 camvec = cammat * -csVector3 (curr_axis.x, 0, curr_axis.y);
   // And we calculate using atan2, the rotation to face that axis relative
   // to the camera
-  csVector3 rotvel (0, -1, 0),
+  csVector3 rotvel (0, -turnspeed, 0),
     target (0, atan2 (camvec.x, camvec.z), 0);
   // To see which way to rotate we get our rotation
   const float yrot = pclinmove->GetYRotation ();
@@ -386,65 +315,61 @@ void celPcAnalogMotion::UpdateMovement ()
   float delta_rot = target.y - yrot;
   if (delta_rot > PI)
     rotvel.y *= -1;
+  pclinmove->SetAngularVelocity (rotvel, target);
+
   // Now minimise the angle to get the absolute rotation around 0
   while (delta_rot > PI)
     delta_rot -= 2.0f * PI;
-  delta_rot = ABS (delta_rot);  // we only ever use the absolute value
-
-  // because joystick gives the movement in ranges [0,1] on both axis
-  // setting movement of [1,1] will make the player go faster than with [1,0]
-  // so we project the square onto a circle to fix this
-  float grad = curr_axis.y / curr_axis.x;
-  // calculate bisected point on square first
-  csVector2 bisect_point;
-  // which side of the square do we calculate a bisection on?
-  if (-curr_axis.x < curr_axis.y)
-  {
-    // bisect x = 1
-    if (curr_axis.x > curr_axis.y)
-      bisect_point.Set (1, grad);
-    // bisect y = 1
-    else // if (curr_axis.x < curr_axis.y)
-      bisect_point.Set (1/grad, 1);
-  }
-  else
-  {
-    // bisect x = -1
-    if (curr_axis.x < curr_axis.y)
-      bisect_point.Set (-1, -grad);
-    // bisect y = -1
-    else // if (curr_axis.x > curr_axis.y)
-      bisect_point.Set (-1/grad, -1);
-  }
-  float i = curr_axis.Norm () / bisect_point.Norm ();
-  //csVector2 movecir = i * (curr_axis / curr_axis.Norm ());
-
   // This is to stop the character moving while they're rotating to
   // face the direction they're turning towards.
-  if (delta_rot < 0.1f)
+  if (ABS(delta_rot) < 0.1)
   {
+    // because joystick gives the movement in ranges [0,1] on both axis
+    // setting movement of [1,1] will make the player go faster than with [1,0]
+    // so we project the square onto a circle to fix this
+    float grad = curr_axis.y / curr_axis.x;
+    // calculate bisected point on square first
+    csVector2 bisect_point;
+    // which side of the square do we calculate a bisection on?
+    if (-curr_axis.x < curr_axis.y)
+    {
+      // bisect x = 1
+      if (curr_axis.x > curr_axis.y)
+        bisect_point.Set (1, grad);
+      // bisect y = 1
+      else // if (curr_axis.x < curr_axis.y)
+        bisect_point.Set (1/grad, 1);
+    }
+    else
+    {
+      // bisect x = -1
+      if (curr_axis.x < curr_axis.y)
+        bisect_point.Set (-1, -grad);
+      // bisect y = -1
+      else // if (curr_axis.x > curr_axis.y)
+        bisect_point.Set (-1/grad, -1);
+    }
+    float i = curr_axis.Norm () / bisect_point.Norm ();
+    //csVector2 movecir = i * (curr_axis / curr_axis.Norm ());
     // move forwards
     // if haven't reached destination movement speed yet...
-    if (pclinmove->GetBodyVelocity ().SquaredNorm () < movespeed * movespeed)
+    if (pclinmove->GetVelocity ().SquaredNorm () < movespeed * movespeed)
     {
       // ... then accelerate the player forward
       float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
       // not real, but then again forget realism over responsiveness
-      float newspeed = moveaccel * i * elapsedsecs + pclinmove->GetBodyVelocity ().Norm ();
+      float newspeed = moveaccel * i * elapsedsecs + pclinmove->GetVelocity ().Norm ();
       // clipping in case acceleration oversteps the target speed.
       if (newspeed > movespeed * i)
         newspeed = movespeed * i;
       pclinmove->SetVelocity (csVector3 (0, 0, -newspeed));
     }
+    pcmesh->SetAnimation ("walk", true);
   }
-  // slide effect when you suddenly move in opposite direction
-  else if (delta_rot > PI - PI/4)
+  else
   {
-    pclinmove->SetVelocity (csVector3 (0, 0, 0));
+    // we could also slow down forward velocity gradually ...
+    // ... more conditionals :)
+    pcmesh->SetAnimation ("turning", true);
   }
-
-  // the faster you move, the slower you turn
-  float turnspeed = (1.0f - pclinmove->GetBodyVelocity ().Norm () / movespeed) * (maxturnspeed - minturnspeed) + minturnspeed;
-  // do rotation based on calculated velocity
-  pclinmove->SetAngularVelocity (rotvel * turnspeed, target);
 }

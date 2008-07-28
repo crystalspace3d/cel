@@ -25,7 +25,6 @@
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
-#include "propclass/actormove.h"
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 #include "propclass/tooltip.h"
@@ -34,15 +33,12 @@
 #include "propclass/newcamera.h"
 #include "propclass/delegcam.h"
 #include "propclass/cameras/tracking.h"
-#include "propclass/analogmotion.h"
-#include "propclass/jump.h"
-#include "propclass/grab.h"
+#include "propclass/actoranalog.h"
 #include "propclass/inv.h"
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
 #include "propclass/mechsys.h"
 #include "propclass/wheeled.h"
-#include "propclass/linmove.h"
 #include "plugins/behaviourlayer/test/behave.h"
 #include "celtool/stdparams.h"
 #include <iostream>
@@ -212,54 +208,14 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
   const char* msg_id = (const char*)msg_id_str;
   bool pcinput_msg = strncmp (msg_id, "cel.input.", 10) == 0;
 
-  csRef<iPcAnalogMotion> pcactor = celQueryPropertyClassEntity
-    <iPcAnalogMotion> (entity);
-  if (!pcactor)
-    return false;
-  csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity);
-  if (!jump)
-    return false;
-  csRef<iPcGrab> grab = celQueryPropertyClassEntity<iPcGrab> (entity);
-  if (!grab)
-    return false;
-  csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-  if (!pcactor && !linmove)
-    return false;
-
-  if (!strcmp (msg_id, "cel.move.jump.landed"))
-  {
-    puts ("The eagle has landed");
-    grab->SetState (iPcGrab::DISABLED);
-  }
-  else if (!strcmp (msg_id, "cel.move.jump.started"))
-  {
-    puts ("Doing a jump");
-  }
-  else if (!strcmp (msg_id, "cel.timer.wakeup"))
-  {
-    puts ("cel.timer.wakeup WAKEUP! WAKEUP! WAKEY WAKEY!");
-    // finished rolling
-    pcactor->Enable (true);
-  }
-  /*else if (!strcmp (msg_id, "cel.timer.wakeup.frame"))
-  {
-    char *baa;
-    if (linmove->IsOnGround ())
-      printf ("%c%c\n", baa[0], baa[1]);
-    //puts (linmove->IsOnGround () ? "Ground" : "Air");
-  }*/
-
   if (pcinput_msg)
   {
-    if (!strcmp (msg_id+10, "mouseaxis0"))
-    {
-      CEL_FETCH_FLOAT_PAR (x, params, pl->FetchStringID("cel.parameter.x"));
-      CEL_FETCH_FLOAT_PAR (y, params, pl->FetchStringID("cel.parameter.y"));
-      csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
-      trackcam->SetPanDirection (-x * 100000);
-      trackcam->SetTiltDirection (-y * 100000);
-    }
-    else if (!strcmp (msg_id+10, "joyaxis0"))
+    csRef<iPcActorAnalog> pcactor = celQueryPropertyClassEntity
+      <iPcActorAnalog> (entity);
+    if (!pcactor)
+      return false;
+
+    if (!strcmp (msg_id+10, "joyaxis0"))
     {
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
       pcactor->SetAxis (0, value);
@@ -271,188 +227,21 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     }
 
     else if (!strcmp (msg_id+10, "left.down"))
-    {
-      if (jump->GetState () == iPcJump::FROZEN)
-      {
-        grab->SetState (iPcGrab::SHIMMY_LEFT);
-      }
-      else
-      {
-        pcactor->AddAxis (0, -1);
-        jump->GlideTurn (iPcJump::GLIDE_LEFT);
-      }
-    }
+      pcactor->AddAxis (0, -1);
     else if (!strcmp (msg_id+10, "left.up"))
-    {
-      if (jump->GetState () == iPcJump::FROZEN)
-      {
-        grab->SetState (iPcGrab::HANG);
-      }
-      else
-      {
-        pcactor->AddAxis (0, 1);
-        jump->GlideTurn (iPcJump::GLIDE_NOTURN);
-      }
-    }
+      pcactor->AddAxis (0, 1);
     else if (!strcmp (msg_id+10, "right.down"))
-    {
-      if (jump->GetState () == iPcJump::FROZEN)
-      {
-        grab->SetState (iPcGrab::SHIMMY_RIGHT);
-      }
-      else
-      {
-        pcactor->AddAxis (0, 1);
-        jump->GlideTurn (iPcJump::GLIDE_RIGHT);
-      }
-    }
+      pcactor->AddAxis (0, 1);
     else if (!strcmp (msg_id+10, "right.up"))
-    {
-      if (jump->GetState () == iPcJump::FROZEN)
-      {
-        grab->SetState (iPcGrab::HANG);
-      }
-      else
-      {
-        pcactor->AddAxis (0, -1);
-        jump->GlideTurn (iPcJump::GLIDE_NOTURN);
-      }
-    }
+      pcactor->AddAxis (0, -1);
     else if (!strcmp (msg_id+10, "up.down"))
-    {
       pcactor->AddAxis (1, 1);
-      jump->GlidePitch (iPcJump::GLIDE_UP);
-    }
     else if (!strcmp (msg_id+10, "up.up"))
-    {
       pcactor->AddAxis (1, -1);
-      jump->GlidePitch (iPcJump::GLIDE_NOPITCH);
-    }
     else if (!strcmp (msg_id+10, "down.down"))
-    {
       pcactor->AddAxis (1, -1);
-      jump->GlidePitch (iPcJump::GLIDE_DOWN);
-    }
     else if (!strcmp (msg_id+10, "down.up"))
-    {
       pcactor->AddAxis (1, 1);
-      jump->GlidePitch (iPcJump::GLIDE_NOPITCH);
-    }
-    else if (!strcmp (msg_id+10, "jump.down"))
-    {
-      switch (jump->GetState ())
-      {
-        case iPcJump::STAND:
-          puts ("Jump: Stand");
-          break;
-        case iPcJump::JUMP:
-          puts ("Jump: Jump");
-          break;
-        case iPcJump::DOUBLEJUMP:
-          puts ("Jump: Double Jump");
-          break;
-        case iPcJump::GLIDE:
-          puts ("Jump: Glide");
-          break;
-        case iPcJump::FROZEN:
-          puts ("Jump: Frozen");
-          break;
-      }
-      /*if (jump->GetState () == iPcJump::JUMP)
-      {
-        if (ABS (linmove->GetVelocity ().y) < 3.0)
-        {
-          linmove->SetGravity (3.0f);
-          float glidespeed = linmove->GetVelocity ().z;
-          if (glidespeed > -5)
-            glidespeed = -5;
-          linmove->SetVelocity (csVector3 (0, 0, glidespeed));
-          pcactor->Enable (false);
-        }
-        else
-          printf ("Downward velocity %f\n", linmove->GetVelocity ().y);
-      }
-      else
-        puts ("Not jumping");*/
-      grab->SetState (iPcGrab::SEARCHING);
-      jump->Jump ();
-      // perform a glide if mid air and near peak of the jump
-      /*if (jump->IsJumping () && ABS (linmove->GetVelocity ().y) < 1.5f)
-      {
-        linmove->SetGravity (3.0f);
-        float glidespeed = linmove->GetVelocity ().z;
-        if (glidespeed > -5)
-          glidespeed = -5;
-        linmove->SetVelocity (csVector3 (0, 0, glidespeed));
-        pcactor->Activate (false);
-      }*/
-    }
-    else if (!strcmp (msg_id+10, "freeze.down"))
-      jump->Freeze (true);
-    else if (!strcmp (msg_id+10, "roll.down"))
-    {
-      if (jump->GetState () == iPcJump::FROZEN)
-      {
-        //jump->Enable (true);
-        grab->SetState (iPcGrab::DISABLED);
-        jump->Freeze (false);
-      }
-      else if (linmove->IsOnGround ())
-      {
-        // perform a roll
-        if (!(pcactor->GetAxis () < EPSILON))
-        {
-          csRef<iPcTimer> timer = celQueryPropertyClassEntity<iPcTimer> (entity);
-          timer->WakeUp (700, false);
-          linmove->SetVelocity (csVector3 (0, 0, -pcactor->GetMovementSpeed ()));
-          pcactor->Enable (false);
-        }
-        // do a crouch (target set downwards)
-        else
-        {
-          csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
-          trackcam->SetTargetYOffset (0.5f);
-        }
-      }
-    }
-    // end crouch action
-    else if (!strcmp (msg_id+10, "roll.up"))
-    {
-      if (pcactor->GetAxis () < EPSILON)
-      {
-        csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
-        trackcam->SetTargetYOffset (1.5f);
-      }
-    }
-    else if (!strcmp (msg_id+10, "showstates.up"))
-    {
-      if (pcactor->IsEnabled ())
-        puts ("Actor: Enabled");
-      else
-        puts ("Actor: Disabled");
-      /*if (jump->IsEnabled ())
-        puts ("Jump: Enabled");
-      else
-        puts ("Jump: Disabled");*/
-      switch (jump->GetState ())
-      {
-        case iPcJump::STAND:
-          puts ("Jump: Stand");
-          break;
-        case iPcJump::JUMP:
-          puts ("Jump: Jump");
-          break;
-        case iPcJump::DOUBLEJUMP:
-          puts ("Jump: Double Jump");
-          break;
-        case iPcJump::GLIDE:
-          puts ("Jump: Glide");
-          break;
-        case iPcJump::FROZEN:
-          puts ("Jump: Frozen");
-          break;
-      }
-    }
 
     csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
     if (!trackcam)
@@ -460,35 +249,35 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
 
     if (!strcmp (msg_id+10, "camleft.down"))
     {
-      trackcam->SetPanDirection (-1);
+      trackcam->Pan (iPcTrackingCamera::PAN_LEFT);
     }
     else if (!strcmp (msg_id+10, "camleft.up"))
     {
-      trackcam->SetPanDirection (0);
+      trackcam->Pan (iPcTrackingCamera::PAN_NONE);
     }
     else if (!strcmp (msg_id+10, "camright.down"))
     {
-      trackcam->SetPanDirection (1);
+      trackcam->Pan (iPcTrackingCamera::PAN_RIGHT);
     }
     else if (!strcmp (msg_id+10, "camright.up"))
     {
-      trackcam->SetPanDirection (0);
+      trackcam->Pan (iPcTrackingCamera::PAN_NONE);
     }
     else if (!strcmp (msg_id+10, "camup.down"))
     {
-      trackcam->SetTiltDirection (-1);
+      trackcam->Tilt (iPcTrackingCamera::TILT_UP);
     }
     else if (!strcmp (msg_id+10, "camup.up"))
     {
-      trackcam->SetTiltDirection (0);
+      trackcam->Tilt (iPcTrackingCamera::TILT_NONE);
     }
     else if (!strcmp (msg_id+10, "camdown.down"))
     {
-      trackcam->SetTiltDirection (1);
+      trackcam->Tilt (iPcTrackingCamera::TILT_DOWN);
     }
     else if (!strcmp (msg_id+10, "camdown.up"))
     {
-      trackcam->SetTiltDirection (0);
+      trackcam->Tilt (iPcTrackingCamera::TILT_NONE);
     }
     else if (!strcmp (msg_id+10, "ready.down"))
       trackcam->SetTargetState (iPcTrackingCamera::TARGET_NONE);
@@ -519,11 +308,11 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
       if (value < -EPSILON)
-        trackcam->SetPanDirection (-1);
+        trackcam->Pan (iPcTrackingCamera::PAN_LEFT);
       else if (value > EPSILON)
-        trackcam->SetPanDirection (1);
+        trackcam->Pan (iPcTrackingCamera::PAN_RIGHT);
       else
-        trackcam->SetPanDirection (0);
+        trackcam->Pan (iPcTrackingCamera::PAN_NONE);
     }
     return true;
   }

@@ -64,7 +64,7 @@ celPcDelegateCamera::celPcDelegateCamera (iObjectRegistry* object_reg)
 {
   in_transition = false;
   currtrans = 0.0f;
-  transtime = 2000;
+  transtime = 2.0f;
   player = 0;
 
   prev.pos.Set (0.0f);
@@ -84,7 +84,7 @@ celPcDelegateCamera::celPcDelegateCamera (iObjectRegistry* object_reg)
   AddProperty (propid_trans_in, "cel.property.trans",
     CEL_DATA_BOOL, true, "Whether in a transition.", &in_transition);
   AddProperty (propid_trans_time, "cel.property.trans_time",
-    CEL_DATA_LONG, false, "Time to transition to a new mode.", &transtime);
+    CEL_DATA_FLOAT, false, "Time to transition to a new mode.", &transtime);
   AddProperty (propid_trans_step, "cel.property.trans_curr",
     CEL_DATA_FLOAT, true, "0 -> 1 value indicating stage in the transition.", &currtrans);
   AddProperty (propid_prev_pos, "cel.property.prev_position",
@@ -160,11 +160,11 @@ iPcCameraMode* celPcDelegateCamera::GetCurrentMode () const
   return currmode;
 }
 
-void celPcDelegateCamera::SetTransitionTime (csTicks t)
+void celPcDelegateCamera::SetTransitionTime (float t)
 {
   transtime = t;
 }
-csTicks celPcDelegateCamera::GetTransitionTime () const
+float celPcDelegateCamera::GetTransitionTime () const
 {
   return transtime;
 }
@@ -211,8 +211,9 @@ void celPcDelegateCamera::UpdateCamera ()
   // perform a transition to new mode from old position if need be
   if (in_transition)
   {
+    float elapsedsecs = vc->GetElapsedTicks () / 1000.0f;
     // update counter
-    currtrans += vc->GetElapsedTicks () / float (transtime);
+    currtrans += elapsedsecs / transtime;
     if (currtrans > 1.0f)
     {
       // switch transition off
@@ -241,8 +242,6 @@ void celPcDelegateCamera::UpdateCamera ()
   if (sector && c->GetSector () != sector)
     c->SetSector (sector);
   c->SetTransform (camtrans);
-  // cs colldet is useless
-  //c->MoveWorld (desired.pos - c->GetTransform ().GetOrigin (), true);
   // only do collision detection on portals
   c->OnlyPortals (true);
 }

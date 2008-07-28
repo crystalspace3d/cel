@@ -244,22 +244,12 @@ void celActionReward::Reward (iCelParameterBlock* params)
   iCelPlLayer* pl = type->pl;
 
   bool changed;
-  // XXX parsing of entity has to be refactored as it is very commonly
-  // done.
-  const celData * data = entity->GetData(params);
-  if (data->type == CEL_DATA_ENTITY)
+  const char* e = entity->Get (params, changed);
+  if (changed) ent = 0;
+  if (!ent)
   {
-    ent = data->value.ent;
-  }
-  else
-  {
-    const char* e = entity->Get (params, changed);
-    if (changed) ent = 0;
-    if (!ent)
-    {
-      ent = pl->FindEntity (e);
-      if (!ent) return;
-    }
+    ent = pl->FindEntity (e);
+    if (!ent) return;
   }
   csRef<iCelPropertyClass> propertyclass;
 

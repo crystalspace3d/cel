@@ -41,8 +41,8 @@
  *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - cel.timer.wakeup: wakeup message
- * - cel.timer.wakeup.frame: wakeup every frame (elapsedticks,currentticks)
+ * - pctimer_wakeup: wakeup message
+ * - pctimer_wakeupframe: wakeup every frame (elapsedticks,currentticks)
  */
 struct iPcTimer : public virtual iBase
 {

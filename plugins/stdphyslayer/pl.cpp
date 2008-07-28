@@ -780,12 +780,8 @@ iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
   // use cel.pcfactory.propname if it is able to load
   // and propclass is queried successfully
   csString pfid ("cel.pcfactory.");
-  // skip the first 2 characters if they have the 'pc' bit
-  // because of historical reasons
-  if (propname[0] == 'p' && propname[1] == 'c')
-    pfid += &propname[2];
-  else
-    pfid += propname;
+  // skip the first 2 characters since they have the 'pc' bit
+  pfid += &propname[2];
   // try to load property class factory using constructed id
   if (!LoadPropertyClassFactory (pfid))
     return 0;

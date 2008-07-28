@@ -55,6 +55,7 @@ class celEdge : public scfImplementation1<
   csRef<iCelNode> successor;
   bool state;
 
+   
  public:
   celEdge ();
   virtual ~celEdge ();
@@ -75,8 +76,8 @@ class celNode : public scfImplementation1<
   float cost;
   csString name;
   float multiplier;
-
  public:
+  
   celNode ();
   virtual ~celNode ();
   virtual void AddSuccessor (iCelNode* node, bool state);

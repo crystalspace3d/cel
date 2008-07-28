@@ -54,8 +54,6 @@ private:
   csRef<celVariableParameterBlock> ParseParameterBlock (iDocumentNode* child);
   bool ParseProperties (iCelPropertyClass* pc, iDocumentNode* child);
 
-  iCelPropertyClass* LoadPropclass (iDocumentNode* node, iCelEntity* ent);
-
 public:
   celAddOnCelEntity (iBase* parent);
   virtual ~celAddOnCelEntity ();

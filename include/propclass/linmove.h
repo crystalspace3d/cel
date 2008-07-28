@@ -30,7 +30,7 @@
 #include "csutil/scf.h"
 #include "csutil/strhash.h"
 
-class csReversibleTransform;
+
 struct iDataBuffer;
 struct iSector;
 struct iPath;
@@ -124,29 +124,20 @@ struct iPcLinearMovement : public virtual iBase
    */
   virtual void SetSpeed (float speedZ) = 0;
 
-  CS_DEPRECATED_METHOD_MSG("Use void SetBodyVelocity () instead.")
   /**
    * Set the current velocity vector in body coordinates.
    */
   virtual void SetVelocity (const csVector3& vel) = 0;
 
   /**
-   * Set the current velocity vector in body coordinates.
-   */
-  virtual void SetBodyVelocity (const csVector3& vel) = 0;
-
-  /**
-   * Set the current world velocity vector in body coordinates.
-   */
-  virtual void SetWorldVelocity (const csVector3& vel) = 0;
-
-  /**
    * Exerts a velocity on the body in world coordinates
    */
+
   virtual void AddVelocity (const csVector3& vel) = 0;
 
   /// Resets the velocity of this body in world coordinates.
   virtual void ClearWorldVelocity () = 0;
+
 
   /**
    * Get the current velocity vector.
@@ -156,18 +147,7 @@ struct iPcLinearMovement : public virtual iBase
   virtual void GetVelocity (csVector3& v) const = 0;
 
   /**
-   * Get the body's velocity- velocity minus physical effects like gravity.
-   */
-  virtual const csVector3 &GetBodyVelocity () const = 0;
-
-  /**
-   * Get the world's velocity- velocity for simulating physical effects like gravity.
-   */
-  virtual const csVector3 &GetWorldVelocity () const = 0;
-
-  /**
-   * Get the current velocity vector in local coordinate space:
-   *   WorldToObject(worldvel) + bodyvel.
+   * Get the current velocity vector.
    */
   virtual const csVector3 GetVelocity () const = 0;
 
@@ -277,11 +257,6 @@ struct iPcLinearMovement : public virtual iBase
    * is not relative to the anchor.
    */
   virtual const csVector3 GetFullPosition () = 0;
-
-  /**
-   * Get the full transform describing the world to this transform.
-   */
-  virtual const csReversibleTransform GetFullTransform () = 0;
 
   /// Is a csPath active now or standard DR movement?
   virtual bool IsPath () const = 0;

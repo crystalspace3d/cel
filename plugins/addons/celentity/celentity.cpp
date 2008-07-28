@@ -79,16 +79,16 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-            "cel.addons.celentity",
-        "Can't find syntax services!");
+    	"cel.addons.celentity",
+	"Can't find syntax services!");
     return false;
   }
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-            "cel.addons.celentity",
-        "Can't find physical layer!");
+    	"cel.addons.celentity",
+	"Can't find physical layer!");
     return false;
   }
 
@@ -112,28 +112,28 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
 }
 
 const char* celAddOnCelEntity::GetAttributeValue (iDocumentNode* child,
-        const char* propname)
+	const char* propname)
 {
   const char* rc = child->GetAttributeValue (propname);
   if (!rc)
   {
     synldr->ReportError (
-        "cel.addons.celentity", child,
-        "Can't find attribute '%s'!", propname);
+	"cel.addons.celentity", child,
+	"Can't find attribute '%s'!", propname);
     return 0;
   }
   return rc;
 }
 
 csStringID celAddOnCelEntity::GetAttributeID (iDocumentNode* child,
-        const char* prefix, const char* propname)
+	const char* prefix, const char* propname)
 {
   const char* rc = child->GetAttributeValue (propname);
   if (!rc)
   {
     synldr->ReportError (
-        "cel.addons.celentity", child,
-        "Can't find attribute '%s'!", propname);
+	"cel.addons.celentity", child,
+	"Can't find attribute '%s'!", propname);
     return csInvalidStringID;
   }
   csString p (prefix);
@@ -142,7 +142,7 @@ csStringID celAddOnCelEntity::GetAttributeID (iDocumentNode* child,
 }
 
 csRef<celVariableParameterBlock> celAddOnCelEntity::ParseParameterBlock (
-        iDocumentNode* child)
+	iDocumentNode* child)
 {
   celVariableParameterBlock* params = new celVariableParameterBlock ();
   csRef<iDocumentNodeIterator> par_it = child->GetNodes ();
@@ -156,78 +156,78 @@ csRef<celVariableParameterBlock> celAddOnCelEntity::ParseParameterBlock (
     if (par_id == XMLTOKEN_PAR)
     {
       csStringID parid = GetAttributeID (par_child, "cel.parameter.",
-              "name");
+      	"name");
       if (parid == csInvalidStringID) return 0;
       params->SetParameterDef (par_idx, parid,
-              par_child->GetAttributeValue ("name"));
+      	par_child->GetAttributeValue ("name"));
       par_idx++;
       const char* str_value = par_child->GetAttributeValue ("string");
       if (str_value)
       {
         params->GetParameter (par_idx-1).Set (str_value);
-        continue;
+	continue;
       }
       const char* vec_value = par_child->GetAttributeValue ("vector");
       if (vec_value)
       {
-        csVector3 v;
-        int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);
-        if (rc == 3)
-          params->GetParameter (par_idx-1).Set (v);
-        else
-        {
-          csVector2 v2;
-          csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
-          params->GetParameter (par_idx-1).Set (v2);
-        }
+	csVector3 v;
+	int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);
+	if (rc == 3)
+	  params->GetParameter (par_idx-1).Set (v);
+	else
+	{
+	  csVector2 v2;
+	  csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
+	  params->GetParameter (par_idx-1).Set (v2);
+	}
         continue;
       }
       const char* vec3_value = par_child->GetAttributeValue ("vector3");
       if (vec3_value)
       {
-        csVector3 v;
-        csScanStr (vec3_value, "%f,%f,%f", &v.x, &v.y, &v.z);
-        params->GetParameter (par_idx-1).Set (v);
+	csVector3 v;
+	csScanStr (vec3_value, "%f,%f,%f", &v.x, &v.y, &v.z);
+	params->GetParameter (par_idx-1).Set (v);
         continue;
       }
       const char* vec2_value = par_child->GetAttributeValue ("vector2");
       if (vec2_value)
       {
-        csVector2 v;
-        csScanStr (vec2_value, "%f,%f", &v.x, &v.y);
-        params->GetParameter (par_idx-1).Set (v);
+	csVector2 v;
+	csScanStr (vec2_value, "%f,%f", &v.x, &v.y);
+	params->GetParameter (par_idx-1).Set (v);
         continue;
       }
       const char* col_value = par_child->GetAttributeValue ("color");
       if (col_value)
       {
-        csColor v;
-        csScanStr (col_value, "%f,%f,%f", &v.red, &v.green, &v.blue);
-        params->GetParameter (par_idx-1).Set (v);
+	csColor v;
+	csScanStr (col_value, "%f,%f,%f", &v.red, &v.green, &v.blue);
+	params->GetParameter (par_idx-1).Set (v);
         continue;
       }
       const char* float_value = par_child->GetAttributeValue ("float");
       if (float_value)
       {
-        float f;
-        csScanStr (float_value, "%f", &f);
-        params->GetParameter (par_idx-1).Set (f);
+	float f;
+	csScanStr (float_value, "%f", &f);
+	params->GetParameter (par_idx-1).Set (f);
         continue;
       }
       const char* bool_value = par_child->GetAttributeValue ("bool");
       if (bool_value)
       {
-        bool b;
-        csScanStr (bool_value, "%b", &b);
-        params->GetParameter (par_idx-1).Set (b);
+	bool b;
+	csScanStr (bool_value, "%b", &b);
+	params->GetParameter (par_idx-1).Set (b);
         continue;
       }
       const char* long_value = par_child->GetAttributeValue ("long");
       if (long_value)
       {
-        int32 l;
-        csScanStr (long_value, "%d", &l);
-        params->GetParameter (par_idx-1).Set (l);
+	int32 l;
+	csScanStr (long_value, "%d", &l);
+	params->GetParameter (par_idx-1).Set (l);
         continue;
       }
       synldr->ReportError (
@@ -245,7 +245,7 @@ csRef<celVariableParameterBlock> celAddOnCelEntity::ParseParameterBlock (
 }
 
 bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
-        iDocumentNode* node)
+	iDocumentNode* node)
 {
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -258,81 +258,81 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
     {
       case XMLTOKEN_PROPERTY:
         {
-          csStringID propid = GetAttributeID (child, "cel.property.", "name");
-          if (propid == csInvalidStringID) return false;
+	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
+	  if (propid == csInvalidStringID) return false;
 
-          csRef<iDocumentAttributeIterator> attr_it = child->GetAttributes ();
-          while (attr_it->HasNext ())
-          {
-            csRef<iDocumentAttribute> attr = attr_it->Next ();
-            const char* attr_name = attr->GetName ();
-            csStringID attr_id = xmltokens.Request (attr_name);
-            switch (attr_id)
-            {
-              case XMLTOKEN_FLOAT:
-                pc->SetProperty (propid, attr->GetValueAsFloat ());
-                break;
-              case XMLTOKEN_STRING:
-                pc->SetProperty (propid, attr->GetValue ());
-                break;
-              case XMLTOKEN_BOOL:
-                {
-                  const char* v = attr->GetValue ();
-                  bool b;
-                  csScanStr (v, "%b", &b);
-                  pc->SetProperty (propid, b);
-                }
-                break;
-              case XMLTOKEN_LONG:
-                pc->SetProperty (propid, (long)attr->GetValueAsInt ());
-                break;
-              case XMLTOKEN_VECTOR:
-                {
-                  csVector3 v;
-                  int rc = csScanStr (attr->GetValue (), "%f,%f,%f", &v.x,
-                            &v.y, &v.z);
-                  if (rc == 3)
-                    pc->SetProperty (propid, v);
-                  else
-                  {
-                    csVector2 v2;
-                    csScanStr (attr->GetValue (), "%f,%f", &v2.x, &v2.y);
-                    pc->SetProperty (propid, v2);
-                  }
-                }
-                break;
-              case XMLTOKEN_COLOR:
-                {
-                  csColor v;
-                  csScanStr (attr->GetValue (), "%f,%f,%f",
-                              &v.red, &v.green, &v.blue);
-                  pc->SetProperty (propid, v);
-                }
-                break;
-            }
-          }
-        }
-        break;
+	  csRef<iDocumentAttributeIterator> attr_it = child->GetAttributes ();
+	  while (attr_it->HasNext ())
+	  {
+	    csRef<iDocumentAttribute> attr = attr_it->Next ();
+	    const char* attr_name = attr->GetName ();
+	    csStringID attr_id = xmltokens.Request (attr_name);
+	    switch (attr_id)
+	    {
+	      case XMLTOKEN_FLOAT:
+		pc->SetProperty (propid, attr->GetValueAsFloat ());
+		break;
+	      case XMLTOKEN_STRING:
+		pc->SetProperty (propid, attr->GetValue ());
+		break;
+	      case XMLTOKEN_BOOL:
+	        {
+		  const char* v = attr->GetValue ();
+		  bool b;
+		  csScanStr (v, "%b", &b);
+	          pc->SetProperty (propid, b);
+		}
+		break;
+	      case XMLTOKEN_LONG:
+	        pc->SetProperty (propid, (long)attr->GetValueAsInt ());
+		break;
+	      case XMLTOKEN_VECTOR:
+	        {
+		  csVector3 v;
+		  int rc = csScanStr (attr->GetValue (), "%f,%f,%f", &v.x,
+		    	&v.y, &v.z);
+		  if (rc == 3)
+		    pc->SetProperty (propid, v);
+		  else
+		  {
+		    csVector2 v2;
+		    csScanStr (attr->GetValue (), "%f,%f", &v2.x, &v2.y);
+		    pc->SetProperty (propid, v2);
+		  }
+		}
+		break;
+	      case XMLTOKEN_COLOR:
+		{
+		  csColor v;
+		  csScanStr (attr->GetValue (), "%f,%f,%f",
+		      	&v.red, &v.green, &v.blue);
+		  pc->SetProperty (propid, v);
+		}
+		break;
+	    }
+	  }
+	}
+	break;
       case XMLTOKEN_ACTION:
         {
-          csStringID propid = GetAttributeID (child, "cel.action.", "name");
-          if (propid == csInvalidStringID) return false;
-          csRef<celVariableParameterBlock> params = ParseParameterBlock (
-                  child);
-          celData ret;
-          pc->PerformAction (propid, params, ret);
-        }
-        break;
+	  csStringID propid = GetAttributeID (child, "cel.action.", "name");
+	  if (propid == csInvalidStringID) return false;
+	  csRef<celVariableParameterBlock> params = ParseParameterBlock (
+	  	child);
+	  celData ret;
+	  pc->PerformAction (propid, params, ret);
+	}
+	break;
       default:
         synldr->ReportBadToken (child);
-        break;
+	break;
     }
   }
   return true;
 }
 
 csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
-        iStreamSource*, iLoaderContext* ldr_context, iBase* context)
+	iStreamSource*, iLoaderContext* ldr_context, iBase* context)
 {
   if (pl->IsEntityAddonAllowed ())
   {
@@ -367,12 +367,12 @@ iCelEntity* celAddOnCelEntity::Load (const char* path, const char* file,
   {
     if (path)
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-        "cel.addons.celentity",
-        "Can't load file '%s' from '%s'!", file, path);
+	"cel.addons.celentity",
+	"Can't load file '%s' from '%s'!", file, path);
     else
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-        "cel.addons.celentity",
-        "Can't load file '%s'!", file);
+	"cel.addons.celentity",
+	"Can't load file '%s'!", file);
     return 0;
   }
 
@@ -383,8 +383,8 @@ iCelEntity* celAddOnCelEntity::Load (const char* path, const char* file,
   if (error != 0)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-            "cell.addons.celentity",
-            "Document system error for file '%s': %s!", file, error);
+	    "cell.addons.celentity",
+	    "Document system error for file '%s': %s!", file, error);
     return 0;
   }
   iCelEntity* entity = Load (doc->GetRoot ()->GetNode ("addon"), mesh);
@@ -412,8 +412,8 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
     if (!templ)
     {
       synldr->ReportError (
-        "cel.addons.celentity",
-        node, "Can't find entity template '%s'!", templatename);
+	"cel.addons.celentity",
+	node, "Can't find entity template '%s'!", templatename);
       return 0;
     }
     celEntityTemplateParams params;
@@ -424,22 +424,22 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
       csRef<iDocumentNodeIterator> par_it = paramsnode->GetNodes ();
       while (par_it->HasNext ())
       {
-        csRef<iDocumentNode> par_child = par_it->Next ();
-        if (par_child->GetType () != CS_NODE_ELEMENT) continue;
-        const char* par_value = par_child->GetValue ();
-        csStringID par_id = xmltokens.Request (par_value);
-        if (par_id == XMLTOKEN_PAR)
-        {
-          const char* name = par_child->GetAttributeValue ("name");
-          const char* value = par_child->GetAttributeValue ("value");
-          if (name && value)
-            params.Put (name, value);
-        }
-        else
-        {
-          synldr->ReportBadToken (par_child);
-          return 0;
-        }
+	csRef<iDocumentNode> par_child = par_it->Next ();
+	if (par_child->GetType () != CS_NODE_ELEMENT) continue;
+	const char* par_value = par_child->GetValue ();
+	csStringID par_id = xmltokens.Request (par_value);
+	if (par_id == XMLTOKEN_PAR)
+	{
+	  const char* name = par_child->GetAttributeValue ("name");
+	  const char* value = par_child->GetAttributeValue ("value");
+	  if (name && value)
+	    params.Put (name, value);
+	}
+	else
+	{
+	  synldr->ReportBadToken (par_child);
+	  return 0;
+	}
       }
     }
     ent = pl->CreateEntity (templ, entityname, params);
@@ -469,142 +469,113 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
     switch (id)
     {
       case XMLTOKEN_BEHAVIOUR:
-      {
-        csRef<iCelBlLayer> bl;
-        const char* blname = child->GetAttributeValue ("layer");
-        if (blname)
         {
-          bl = csQueryRegistryTagInterface<iCelBlLayer> ( object_reg, blname);
-          if (!bl) bl = pl->FindBehaviourLayer (blname);
-        }
-        else
-        {
-          bl = csQueryRegistry<iCelBlLayer> (object_reg);
-        }
-        if (!bl)
-        {
-          synldr->ReportError (
-              "cel.addons.celentity",
-              child, "Can't find the needed behaviour layer!");
-          return 0;
-        }
-        const char* behavename = child->GetAttributeValue ("name");
-        if (!behavename)
-        {
-          synldr->ReportError (
-              "cel.addons.celentity",
-              child, "Name of the behaviour is missing!");
-          return 0;
-        }
-        iCelBehaviour* behave = bl->CreateBehaviour (ent, behavename);
-        if (!behave)
-        {
-          synldr->ReportError (
-              "cel.addons.celentity",
-              child, "Couldn't create behaviour with name '%s'!",
-              behavename);
-          return 0;
-        }
+	  csRef<iCelBlLayer> bl;
+	  const char* blname = child->GetAttributeValue ("layer");
+	  if (blname)
+	  {
+	    bl = csQueryRegistryTagInterface<iCelBlLayer> ( object_reg, blname);
+	    if (!bl) bl = pl->FindBehaviourLayer (blname);
+	  }
+	  else
+	  {
+	    bl = csQueryRegistry<iCelBlLayer> (object_reg);
+	  }
+	  if (!bl)
+	  {
+	    synldr->ReportError (
+	        "cel.addons.celentity",
+	        child, "Can't find the needed behaviour layer!");
+	    return 0;
+	  }
+	  const char* behavename = child->GetAttributeValue ("name");
+	  if (!behavename)
+	  {
+	    synldr->ReportError (
+	        "cel.addons.celentity",
+	        child, "Name of the behaviour is missing!");
+	    return 0;
+	  }
+	  iCelBehaviour* behave = bl->CreateBehaviour (ent, behavename);
+	  if (!behave)
+	  {
+	    synldr->ReportError (
+	        "cel.addons.celentity",
+	        child, "Couldn't create behaviour with name '%s'!",
+		behavename);
+	    return 0;
+	  }
+	}
         break;
-      }
       case XMLTOKEN_PROPCLASS:
-      {
-        iCelPropertyClass* pc = LoadPropclass (child, ent);
-        ent->QueryObject ()->ObjAdd (pc->QueryObject ());
+        {
+	  iCelPropertyClass* pc;
+	  const char* name = child->GetAttributeValue ("name");
+	  if (!name)
+	  {
+	    synldr->ReportError (
+	        "cel.addons.celentity",
+	        child, "Name of the property class is missing!");
+	    return 0;
+	  }
+	  const char* tag = child->GetAttributeValue ("tag");
+	  iCelPropertyClassList* plist = ent->GetPropertyClassList ();
+	  // First check if the pc is already present.
+	  pc = plist->FindByNameAndTag (name, tag);
+	  if (!pc)
+	    pc = pl->CreatePropertyClass (ent, name);
+	  if (!pc)
+	  {
+	    synldr->ReportError (
+	        "cel.addons.celentity",
+	        child, "Couldn't create property class '%s'!", name);
+	    return 0;
+	  }
+	  if (!ParseProperties (pc, child))
+	    return 0;
+	  if (tag)
+	    pc->SetTag (tag);
+	}
         break;
-      }
       case XMLTOKEN_CLASS:
-      {
-        csStringID cls = pl->FetchStringID (child->GetContentsValue ());
-        ent->AddClass (cls);
-        break;
-      }
+        {
+	  csStringID cls = pl->FetchStringID (child->GetContentsValue ());
+	  ent->AddClass (cls);
+	}
+	break;
       case XMLTOKEN_CALL:
-      {
-        if (!ent->GetBehaviour ())
         {
-          synldr->ReportError (
-              "cel.addons.celentity",
-              child, "Behaviour is missing for 'call'!");
-          return 0;
-        }
-        csRef<celVariableParameterBlock> params = ParseParameterBlock (child);
-        if (!params) return 0;
-        const char* msgid = child->GetAttributeValue ("event");
-        if (!msgid)
-        {
-          synldr->ReportError (
-              "cel.addons.celentity",
-              child, "'event' name is missing for call!");
-          return 0;
-        }
-        celData ret;
-        ent->GetBehaviour ()->SendMessage (msgid, 0, ret, params);
-        ent->QueryMessageChannel ()->SendMessage (msgid,
-            pl->QueryMessageSender (), params);
+	  if (!ent->GetBehaviour ())
+	  {
+	    synldr->ReportError (
+	        "cel.addons.celentity",
+	        child, "Behaviour is missing for 'call'!");
+	    return 0;
+	  }
+	  csRef<celVariableParameterBlock> params = ParseParameterBlock (child);
+	  if (!params) return 0;
+	  const char* msgid = child->GetAttributeValue ("event");
+	  if (!msgid)
+	  {
+	    synldr->ReportError (
+	        "cel.addons.celentity",
+	        child, "'event' name is missing for call!");
+	    return 0;
+	  }
+	  celData ret;
+	  ent->GetBehaviour ()->SendMessage (msgid, 0, ret, params);
+	  ent->QueryMessageChannel ()->SendMessage (msgid,
+	      pl->QueryMessageSender (), params);
+	}
         break;
-      }
       case XMLTOKEN_PARAMS:
-              // Handled above.
+      	// Handled above.
         break;
       default:
         synldr->ReportBadToken (child);
-        break;
+	break;
     }
   }
-  celData msgret;
-  celOneParameterBlock* msgparams = new celOneParameterBlock ();
-  msgparams->SetParameterDef (pl->FetchStringID (entityname), "entityname");
-  if (ent->GetBehaviour ())
-  {
-    ent->GetBehaviour ()->SendMessage ("cel.entity.loaded",
-          0, msgret, msgparams);
-  }
-  ent->QueryMessageChannel ()->SendMessage ("cel.entity.loaded", pl->QueryMessageSender (), msgparams);
   return ent;
 }
 
-iCelPropertyClass* celAddOnCelEntity::LoadPropclass (iDocumentNode* node, iCelEntity* ent)
-{
-  iCelPropertyClass* pc;
-  const char* name = node->GetAttributeValue ("name");
-  if (!name)
-  {
-    synldr->ReportError (
-      "cel.addons.celentity",
-      node, "Name of the property class is missing!");
-    return 0;
-  }
-  const char* tag = node->GetAttributeValue ("tag");
-  iCelPropertyClassList* plist = ent->GetPropertyClassList ();
-  // First check if the pc is already present.
-  pc = plist->FindByNameAndTag (name, tag);
-  if (!pc)
-    pc = pl->CreatePropertyClass (ent, name);
-  if (!pc)
-  {
-    synldr->ReportError (
-      "cel.addons.celentity",
-      node, "Couldn't create property class '%s'!", name);
-    return 0;
-  }
-  if (!ParseProperties (pc, node))
-    return 0;
-  if (tag)
-    pc->SetTag (tag);
-  // check for children propclasses
-  csRef<iDocumentNodeIterator> it = node->GetNodes ();
-  while (it->HasNext ())
-  {
-    csRef<iDocumentNode> child = it->Next ();
-    if (child->GetType () != CS_NODE_ELEMENT) continue;
-    const char* value = child->GetValue ();
-    csStringID id = xmltokens.Request (value);
-    if (id == XMLTOKEN_PROPCLASS)
-    {
-      iCelPropertyClass* childpc = LoadPropclass (child, ent);
-      pc->QueryObject ()->ObjAdd (childpc->QueryObject ());
-    }
-  }
-  return pc;
-}

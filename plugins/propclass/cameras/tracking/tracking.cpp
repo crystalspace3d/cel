@@ -53,7 +53,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   posoff.angle = PI / 6;
-  posoff.dist = 8.0f;
+  posoff.dist = 6.5f;
   relaxspringlen = 2.0f;
   minspring = 0.01f;
 
@@ -63,15 +63,12 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   tracktarget = 0;
   targetstate = TARGET_BASE;
   targetyoffset = 1.5f;
-  in_tartransition = false;
-  tarintime = 100;
-  currtartrans = 0.0f;
 
-  pandir = 0.0f;
+  pandir = PAN_NONE;
   pan.topspeed = 3.0f;
   pan.speed = 0.0f;
   pan.accel = 8.0f;
-  tiltdir = 0.0f;
+  tiltdir = TILT_NONE;
   tilt.topspeed = 1.0f;
   tilt.speed = 0.0f;
   tilt.accel = 3.0f;
@@ -88,7 +85,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (20);
+  propinfo.SetCount (17);
   AddProperty (propid_pos, "cel.property.position",
     CEL_DATA_VECTOR3, false, "Position.", &corrpos);
   AddProperty (propid_tar, "cel.property.target",
@@ -102,7 +99,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   AddProperty (propid_pan_accel, "cel.property.pan_accel",
     CEL_DATA_FLOAT, true, "Pan acceleration.", &pan.accel);
   AddProperty (propid_pan_dir, "cel.property.pan_dir",
-    CEL_DATA_LONG, false, "Pan direction -1 left, 0 none, 1 right.", &pandir);
+    CEL_DATA_LONG, true, "Pan direction -1 left, 0 none, 1 right.", 0);
   AddProperty (propid_tilt_topspeed, "cel.property.tilt_topspeed",
     CEL_DATA_FLOAT, true, "Top speed limit for tilting.", &tilt.topspeed);
   AddProperty (propid_tilt_currspeed, "cel.property.tilt_currspeed",
@@ -110,15 +107,9 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   AddProperty (propid_tilt_accel, "cel.property.tilt_accel",
     CEL_DATA_FLOAT, true, "Tilt acceleration.", &tilt.accel);
   AddProperty (propid_tilt_dir, "cel.property.tilt_dir",
-    CEL_DATA_LONG, false, "Tilt direction -1 down, 0 none, 1 up.", &tiltdir);
+    CEL_DATA_LONG, true, "Tilt direction -1 down, 0 none, 1 up.", 0);
   AddProperty (propid_taryoff, "cel.property.targetyoffset",
-    CEL_DATA_FLOAT, true, "Y offset from target for lookat.", 0);
-  AddProperty (propid_tarintrans, "cel.property.target_intransition",
-    CEL_DATA_BOOL, false, "Is target transitioning?", &in_tartransition);
-  AddProperty (propid_tarintime, "cel.property.targettranstime",
-    CEL_DATA_LONG, true, "Time to transition to a new target.", &tarintime);
-  AddProperty (propid_currtartrans, "cel.property.targetcurrtrans",
-    CEL_DATA_FLOAT, true, "Current transition of target between 0 and 1.", &currtartrans);
+    CEL_DATA_FLOAT, true, "Y offset from target for lookat.", &targetyoffset);
   AddProperty (propid_posoff_angle, "cel.property.posoff_angle",
     CEL_DATA_FLOAT, true, "Position offset elevation angle.", &posoff.angle);
   AddProperty (propid_posoff_dist, "cel.property.posoff_dist",
@@ -135,20 +126,51 @@ celPcTrackingCamera::~celPcTrackingCamera ()
 {
 }
 
-bool celPcTrackingCamera::SetPropertyIndexed (int idx, float f)
+bool celPcTrackingCamera::SetPropertyIndexed (int idx, long l)
 {
-  if (idx == propid_taryoff)
+  if (idx == propid_tilt_dir)
   {
-    SetTargetYOffset (f);
+    if (l < 0)
+      tiltdir = TILT_DOWN;
+    else if (l == 0)
+      tiltdir = TILT_NONE;
+    else //if (l > 0)
+      tiltdir = TILT_UP;
+    return true;
+  }
+  else if (idx == propid_pan_dir)
+  {
+    if (l < 0)
+      pandir = PAN_LEFT;
+    else if (l == 0)
+      pandir = PAN_NONE;
+    else //if (l > 0)
+      pandir = PAN_RIGHT;
     return true;
   }
   return false;
 }
-bool celPcTrackingCamera::GetPropertyIndexed (int idx, float &f)
+
+bool celPcTrackingCamera::GetPropertyIndexed (int idx, long &l)
 {
-  if (idx == propid_taryoff)
+  if (idx == propid_tilt_dir)
   {
-    f = targetyoffset;
+    if (tiltdir == TILT_DOWN)
+      l = -1;
+    else if (tiltdir == TILT_NONE)
+      l = 0;
+    else //if (tiltdir == TILT_UP)
+      l = 1;
+    return true;
+  }
+  else if (idx == propid_pan_dir)
+  {
+    if (pandir == PAN_LEFT)
+      l = -1;
+    else if (pandir == PAN_NONE)
+      l = 0;
+    else //if (pandir == PAN_RIGHT)
+      l = 1;
     return true;
   }
   return false;
@@ -278,7 +300,19 @@ void celPcTrackingCamera::PanAroundPlayer (const csVector3 &playpos, float elaps
 {
   // perform a rotation around the character
   // accelerate speed in desired direction
-  pan.Accelerate (pandir, elapsedsecs);
+  switch (pandir)
+  {
+    case PAN_NONE:
+      pan.Accelerate (0, elapsedsecs);
+      break;
+    case PAN_LEFT:
+      pan.Accelerate (-1, elapsedsecs);
+      break;
+    case PAN_RIGHT:
+      pan.Accelerate (1, elapsedsecs);
+      break;
+  }
+
   float angle = pan.speed * elapsedsecs;
   // minor optimisation
   if (fabs (angle) > EPSILON)
@@ -290,8 +324,20 @@ void celPcTrackingCamera::PanAroundPlayer (const csVector3 &playpos, float elaps
     pos.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
   }
 
-  tilt.Accelerate (tiltdir, elapsedsecs);
-  posoff.angle -= tilt.speed * elapsedsecs;
+  switch (tiltdir)
+  {
+    case TILT_NONE:
+      tilt.Accelerate (0, elapsedsecs);
+      break;
+    case TILT_UP:
+      tilt.Accelerate (1, elapsedsecs);
+      break;
+    case TILT_DOWN:
+      tilt.Accelerate (-1, elapsedsecs);
+      break;
+  }
+
+  posoff.angle += tilt.speed * elapsedsecs;
   // we limit the angles between epsilon and PI/2 - epsilon
   // to stop the evilness of rotating to the front of the character!!
   if (posoff.angle < 0.1)
@@ -329,7 +375,7 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
   // target unchanged
   corrtar = tar;
 
-  if (was_corrected)
+  if (false && was_corrected)
   {
     // reverse lookat vector
     const csVector3 clookat (corrtar - corrpos);
@@ -352,12 +398,6 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
       was_corrected = false;
   }
 }
-void celPcTrackingCamera::TransitionTarget ()
-{
-  in_tartransition = true;
-  currtartrans = 0.0f;
-  prevtar = corrtar;
-}
 
 bool celPcTrackingCamera::DecideState ()
 {
@@ -376,12 +416,7 @@ bool celPcTrackingCamera::DecideState ()
 
   // a bit of fun, but not really needed :)
   // might keep it since it looks nice though
-  float finp = 1 + posoff.angle / PI, fexp = finp;
-  for (size_t exiter = 0; exiter < 4; exiter++)
-    fexp *= finp;
-  // we multiply out the fexp value to make function a lot faster so
-  // it's not so huge difference between pi/2 and pi
-  float dxf = posoff.dist * (1 - (1 / fexp));
+  float dxf = 5 * posoff.dist * posoff.angle / PI;
   float
     posoffset_y = dxf * sin (posoff.angle),
     posoffset_z = dxf * cos (posoff.angle);
@@ -450,22 +485,6 @@ bool celPcTrackingCamera::DecideState ()
 
   const csReversibleTransform &trans = parent->GetFullTransform ();
   up  = trans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
-
-  // do the target interpolation thing
-  if (in_tartransition)
-  {
-    // update counter
-    currtartrans += 1000.0f * elapsedsecs / float (tarintime);
-    if (currtartrans > 1.0f)
-    {
-      // switch transition off
-      in_tartransition = false;
-      // and clip this for usage below
-      currtartrans = 1.0f;
-    }
-    // a classic
-    corrtar = currtartrans * (corrtar - prevtar) + prevtar;
-  }
   return true;
 }
 
@@ -502,38 +521,23 @@ bool celPcTrackingCamera::SetTargetEntity (const char* name)
     return false;
   // get movable
   tracktarget = pcmesh->GetMesh ()->GetMovable ();
-  TransitionTarget ();
   // great success!
   return true;
 }
 void celPcTrackingCamera::SetTargetState (TargetState targetstate)
 {
   celPcTrackingCamera::targetstate = targetstate;
-  TransitionTarget ();
 }
 void celPcTrackingCamera::SetTargetYOffset (float yoff)
 {
   targetyoffset = yoff;
-  TransitionTarget ();
-}
-float celPcTrackingCamera::GetTargetYOffset () const
-{
-  return targetyoffset;
-}
-void celPcTrackingCamera::SetTargetInterpolationTime (csTicks t)
-{
-  tarintime = t;
-}
-csTicks celPcTrackingCamera::GetTargetInterpolationTime () const
-{
-  return tarintime;
 }
 
-void celPcTrackingCamera::SetPanDirection (float pdir)
+void celPcTrackingCamera::Pan (PanDirection pdir)
 {
   pandir = pdir;
 }
-float celPcTrackingCamera::GetPanDirection () const
+celPcTrackingCamera::PanDirection celPcTrackingCamera::GetPanDirection () const
 {
   return pandir;
 }
@@ -556,11 +560,11 @@ float celPcTrackingCamera::GetPanAcceleration () const
   return pan.accel;
 }
 
-void celPcTrackingCamera::SetTiltDirection (float tdir)
+void celPcTrackingCamera::Tilt (TiltDirection tdir)
 {
   tiltdir = tdir;
 }
-float celPcTrackingCamera::GetTiltDirection () const
+celPcTrackingCamera::TiltDirection celPcTrackingCamera::GetTiltDirection () const
 {
   return tiltdir;
 }

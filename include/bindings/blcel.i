@@ -6,7 +6,63 @@ CS_PROPERTY_HELPERS
 
 %{
 #include <crystalspace.h>
-#include "cel.h"
+#include "celtool/initapp.h"
+#include "celtool/stdparams.h"
+#include "physicallayer/datatype.h"
+#include "physicallayer/pl.h"
+#include "physicallayer/propfact.h"
+#include "physicallayer/propclas.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/entitytpl.h"
+#include "physicallayer/persist.h"
+#include "physicallayer/messaging.h"
+#include "behaviourlayer/bl.h"
+#include "behaviourlayer/behave.h"
+#include "propclass/region.h"
+#include "propclass/camera.h"
+#include "propclass/defcam.h"
+#include "propclass/delegcam.h"
+#include "propclass/cameras/tracking.h"
+#include "propclass/newcamera.h"
+#include "propclass/simpcam.h"
+#include "propclass/mesh.h"
+#include "propclass/meshsel.h"
+#include "propclass/timer.h"
+#include "propclass/spawn.h"
+#include "propclass/projectile.h"
+#include "propclass/solid.h"
+#include "propclass/gravity.h"
+#include "propclass/move.h"
+#include "propclass/inv.h"
+#include "propclass/chars.h"
+#include "propclass/linmove.h"
+#include "propclass/actormove.h"
+#include "propclass/actoranalog.h"
+#include "propclass/input.h"
+#include "propclass/billboard.h"
+#include "propclass/mechsys.h"
+#include "propclass/sound.h"
+#include "propclass/mechthruster.h"
+#include "propclass/mover.h"
+#include "propclass/tooltip.h"
+#include "propclass/prop.h"
+#include "propclass/hover.h"
+#include "propclass/craft.h"
+#include "propclass/wheeled.h"
+#include "propclass/meshdeform.h"
+#include "propclass/damage.h"
+#include "propclass/quest.h"
+#include "propclass/trigger.h"
+#include "propclass/steer.h"
+#include "propclass/pathfinder.h"
+#include "plugins/behaviourlayer/python/blpython.h"
+#include "tools/billboard.h"
+#include "tools/celconsole.h"
+#include "tools/questmanager.h"
+#include "tools/celgraph.h"
+#include "propclass/zone.h"
+
+
 %}
 
 /* Funtions to set the modules global SCF pointer, this is needed
@@ -473,17 +529,8 @@ CEL_PC(iPcActorMove, ActorMove, pcmove.actor.standard)
 
 //-----------------------------------------------------------------------------
 
-// yeah lets deprecate
 %include "propclass/actoranalog.h"
 CEL_PC(iPcActorAnalog, ActorAnalog, pcmove.actor.analog)
-
-%include "propclass/analogmotion.h"
-CEL_PC(iPcAnalogMotion, AnalogMotion, pcmove.analogmotion)
-
-//-----------------------------------------------------------------------------
-
-%include "propclass/jump.h"
-CEL_PC(iPcJump, Jump, pcmove.jump)
 
 //-----------------------------------------------------------------------------
 

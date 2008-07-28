@@ -71,24 +71,6 @@ struct iPcTrackingCamera : public virtual iPcCameraMode
   virtual void SetTargetYOffset (float targetyoffset) = 0;
 
   /**
-   * Since position is often set at the 'feet' of an object, get
-   * the fixed offset upwards
-   */
-  virtual float GetTargetYOffset () const = 0;
-
-  /**
-   * Whenever the target is changed, the old position will
-   * interpolate over time to the new position. Set this time.
-   */
-  virtual void SetTargetInterpolationTime (csTicks t) = 0;
-
-  /**
-   * Whenever the target is changed, the old position will
-   * interpolate over time to the new position. Get this time.
-   */
-  virtual csTicks GetTargetInterpolationTime () const = 0;
-
-  /**
    * Camera offset from the player is described as an angle and a distance.
    * Here you can set the angle in radians.
    */
@@ -133,16 +115,22 @@ struct iPcTrackingCamera : public virtual iPcCameraMode
    */
   virtual float SetFollowMinimumSpringFactor () const = 0;
 
+  enum PanDirection
+  {
+    PAN_LEFT = 0,
+    PAN_NONE,
+    PAN_RIGHT
+  };
+
   /**
    * Pan the camera around the player in the direction specified.
-   * 1 right, -1 left
    */
-  virtual void SetPanDirection (float pandir) = 0;
+  virtual void Pan (PanDirection pandir) = 0;
 
   /**
    * Get the direction that the camera is panning in.
    */
-  virtual float GetPanDirection () const = 0;
+  virtual PanDirection GetPanDirection () const = 0;
 
   /**
    * Set the panning speed. Angle to move per frame.
@@ -164,16 +152,22 @@ struct iPcTrackingCamera : public virtual iPcCameraMode
    */
   virtual float GetPanAcceleration () const = 0;
 
+  enum TiltDirection
+  {
+    TILT_UP = 0,
+    TILT_NONE,
+    TILT_DOWN
+  };
+
   /**
    * Tilt camera in the direction specified.
-   * -1 up, 1 down
    */
-  virtual void SetTiltDirection (float tdir) = 0;
+  virtual void Tilt (TiltDirection tiltdir) = 0;
 
   /**
    * Get the direction that the camera is tilting in.
    */
-  virtual float GetTiltDirection () const = 0;
+  virtual TiltDirection GetTiltDirection () const = 0;
 
   /**
    * Set the tilting speed. Angle to move per frame.

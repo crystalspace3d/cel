@@ -88,3 +88,4 @@ public:
 };
 
 #endif // __CEL_PF_BAGFACT__
+
