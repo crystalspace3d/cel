@@ -376,6 +376,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libaddon_ledges_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libaddon_ledges_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libaddon_ledges_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libaddon_ledges_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libaddon_ledges_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libaddon_questdef_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -573,6 +598,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libcpersist_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\libledges_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libledges_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libledges_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libledges_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libledges_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1648,6 +1698,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_addons_celgraph_celgraph.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\addons\ledges\ledges.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_addons_ledges_ledges.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_addons_ledges_ledges.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_addons_ledges_ledges.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_addons_ledges_ledges.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -3476,6 +3551,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\ledges\ledges.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\quests.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -4214,6 +4314,9 @@
 				RelativePath="..\..\plugins\addons\celgraph\celgraph.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\addons\ledges\ledges.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\addons\questdef\questdef.h">
 			</File>
 			<File
@@ -4440,6 +4543,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\celgraph\celgraph.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\ledges\ledges.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\quests.h">
