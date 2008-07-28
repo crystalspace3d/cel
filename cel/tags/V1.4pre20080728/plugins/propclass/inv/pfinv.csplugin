@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!-- pfinv.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <!-- @@@ to be deprecated -->
+      <class>
+        <name>cel.pcfactory.inventory</name>
+        <implementation>celPfInventory</implementation>
+        <description>CEL Inventory Property Class Factory</description>
+      </class>
+      <!-- @@@ to be deprecated -->
+      <class>
+        <name>cel.pcfactory.characteristics</name>
+        <implementation>celPfCharacteristics</implementation>
+        <description>CEL Characteristics Property Class Factory</description>
+      </class>
+
+      <class>
+        <name>cel.pcfactory.tools.inventory</name>
+        <implementation>celPfInventory</implementation>
+        <description>CEL Inventory Property Class Factory</description>
+      </class>
+      <class>
+        <name>cel.pcfactory.tools.inventory.characteristics</name>
+        <implementation>celPfCharacteristics</implementation>
+        <description>CEL Characteristics Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

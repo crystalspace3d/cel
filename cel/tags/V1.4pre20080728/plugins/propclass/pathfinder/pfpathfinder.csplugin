@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfpathfinder.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.move.pathfinder</name>
+        <implementation>celPfPathFinder</implementation>
+        <description>CEL Path Finder Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

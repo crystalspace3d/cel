@@ -1,0 +1,97 @@
+<world>
+
+<addon plugin="cel.addons.xmlscripts">
+  <pcfactory>cel.pcfactory.ai.neuralnet</pcfactory>
+  <pcfactory>cel.pcfactory.ai.evolve</pcfactory>
+
+  <script name="actor_behaviour">
+    <event name="training_process">
+      <action propclass="pc(pcneuralnet)" id="actid(SetInputs)">
+        <par id="parid(input0)" value="@input0" />
+        <par id="parid(input1)" value="@input1" />
+        <par id="parid(input2)" value="@input2" />
+        <par id="parid(input3)" value="@input3" />
+      </action>
+      <action propclass="pc(pcneuralnet)" id="actid(Process)" />
+    </event>
+    <event name="pcneuralnet_outputs">
+<print value="'outputs: '+@output0+' '+@output1" />
+      <call entity="trainer" event="actor_outputs">
+	<par id="parid(output0)" value="@output0" />
+	<par id="parid(output1)" value="@output1" />
+      </call>
+    </event>
+  </script>
+
+  <script name="training_behaviour">
+    <event name="init">
+      <property propclass="pc(pcevolve)"
+		id="propid(subject)" value="pc(actor,pcneuralnet)" />
+    </event>
+    <event name="pctimer_wakeup">
+      <action propclass="pc(pcevolve)" id="actid(Generate)" />
+    </event>
+    <event name="pcevolve_fitness">
+      <lvar name="input0" value="1.0" />
+      <lvar name="input1" value="3.0" />
+      <lvar name="input2" value="3.0" />
+      <lvar name="input3" value="7.0" />
+      <call entity="actor" event="training_process">
+	<par id="parid(input0)" value="#input0" />
+	<par id="parid(input1)" value="#input1" />
+	<par id="parid(input2)" value="#input2" />
+	<par id="parid(input3)" value="#input3" />
+      </call>
+    </event>
+    <event name="actor_outputs">
+      <lvar name="diff" value="@output1-@output0" />
+      <if eval="#diff < 0.0"><true>
+	<lvar name="diff" value="-#diff" />
+      </true><false>
+	<if eval="#diff == 0.0"><true>
+	  <lvar name="diff" value="0.001" />
+	</true></if>
+      </false></if>
+      <lvar name="fitness" value="1.0/#diff" />
+      <action propclass="pc(pcevolve)" id="actid(ReturnFitness)">
+	<par id="parid(fitness)" value="#fitness" />
+      </action>
+    </event>
+    <event name="pcevolve_result">
+      <print value="'max_fitness: '+@max_fitness" />
+    </event>
+  </script>
+</addon>
+
+<addon plugin="cel.addons.celentity" entityname="actor">
+  <propclass name="pcneuralnet">
+    <property name="inputs" long="4" />
+    <property name="outputs" long="2" />
+    <property name="layers" long="2" />
+    <property name="dispatch" bool="true" />
+    <action name="SetActivationFunc">
+      <par name="func" string="cel.activationFunc.float.atan" />
+    </action>
+    <action name="SetComplexity">
+      <par name="algo" string="cel.complexity.halfLinear" />
+    </action>
+  </propclass>
+  <behaviour name="actor_behaviour" />
+</addon>
+
+<addon plugin="cel.addons.celentity" entityname="trainer">
+  <propclass name="pcevolve">
+    <property name="population" long="50" />
+    <property name="select_probability" float="0.2" />
+    <property name="mutate_probability" float="2.0" />
+  </propclass>
+  <propclass name="pctimer">
+    <action name="WakeUp">
+      <par name="time" long="250" />
+      <par name="repeat" bool="true" />
+    </action>
+  </propclass>
+  <behaviour name="training_behaviour" />
+</addon>
+
+</world>

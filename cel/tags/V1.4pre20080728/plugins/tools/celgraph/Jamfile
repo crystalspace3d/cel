@@ -1,0 +1,7 @@
+SubDir TOP plugins tools celgraph ;
+
+Plugin celgraph
+       : celgraph.cpp celgraph.h
+;
+ExternalLibs celgraph : CRYSTAL ;
+
