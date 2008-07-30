@@ -41,7 +41,7 @@ if $(PYTHON.AVAILABLE) = yes
       Swig $(blcelcpp) $(blcelpy) :
         [ DoSourceGrist blcel.i ] :
         python :
-	-c++ -shadow -modern $(CRYSTAL.CFLAGS) :
+	-c++ -shadow -modern [ FIncludes [ Match -I(.*) : $(CRYSTAL.CFLAGS) ] ] :
 	[ ConcatDirs $(TOP) include ] :
 	[ ConcatDirs $(TOP) include bindings ] :
 	$(SEARCH_SOURCE) [ ConcatDirs $(TOP) scripts ] :
