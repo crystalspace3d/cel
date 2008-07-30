@@ -81,6 +81,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     reporter
     sequence
     shadermgr
+    shaderweaver
     skeleton
     skeleton2
     skeleton2ldr
