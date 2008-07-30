@@ -98,6 +98,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     terrainldr
     thing
     thingldr
+    trans_std
     vfs
     xmlread
     xmlshader
@@ -117,6 +118,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     rm_shadow_pssm
     rm_unshadowed
     sndmanager
+    sndsysopenal
     sndsyssoft
     sndsysloader
     sndsysnull
