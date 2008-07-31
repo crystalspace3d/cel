@@ -92,7 +92,7 @@ if $(PYTHON.AVAILABLE) = yes
   }
 
   save_HDRS = $(HDRS) ;
-  HDRS = [ on $(swigruntime) GetVar LOCATE ] $(HDRS) ;
+  HDRS = [ on $(swigruntime) GetVar LOCATE ] $(SEARCH_SOURCE) $(HDRS) ;
   Plugin blpython : blpython.cpp blpython.h pytocel.cpp PYCEL_py.cpp ;
   ExternalLibs blpython : PYTHON CRYSTAL ; 
   CFlags blpython : $(CELPYTHON.CFLAGS) ;
