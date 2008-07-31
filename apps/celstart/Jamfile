@@ -146,6 +146,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   LinkStaticPlugins celstart_static :
     addon_celentity
     addon_celentitytpl
+    addon_celgraph
     addon_questdef
     addon_xmlscripts
     blxml
@@ -154,12 +155,15 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     mgr_quests
     mgr_billboard
     pfactormove
+    pfanalogmotion
     pfbillboard
     pfdamage
     pfdefcam
+    pfdelegcam
     pfengine
     pfinput
     pfinv
+    pfjump
     pflight
     pfmechanics
     pfmeshdeform
@@ -171,8 +175,10 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfportal
     pfquest
     pfsound
+    pfsteer
     pftest
     pftools
+    pftrackingcam
     pftrigger
     pfwheeled
     pfzone
