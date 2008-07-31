@@ -151,6 +151,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     addon_xmlscripts
     blxml
     celconsole
+    celgraph
     cpersist
     mgr_quests
     mgr_billboard
@@ -172,6 +173,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfmeshdeform
     pfmove
     pfmover
+    pfpathfinder
     pfportal
     pfquest
     pfsound
