@@ -22,16 +22,6 @@ static char const metainfo_celgraph[] =
 "  <scf>"
 "    <classes>"
 "      <class>"
-"        <name>cel.celedge</name>"
-"        <implementation>celEdge</implementation>"
-"	<description>CEL Edge</description>"
-"      </class>"
-"      <class>"
-"        <name>cel.celnode</name>"
-"        <implementation>celNode</implementation>"
-"	<description>CEL Node</description>"
-"      </class>"
-"      <class>"
 "        <name>cel.celpath</name>"
 "        <implementation>celPath</implementation>"
 "	<description>CEL Path</description>"
@@ -45,14 +35,6 @@ static char const metainfo_celgraph[] =
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef celEdge_FACTORY_REGISTER_DEFINED 
-  #define celEdge_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celEdge) 
-  #endif
-  #ifndef celNode_FACTORY_REGISTER_DEFINED 
-  #define celNode_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celNode) 
-  #endif
   #ifndef celPath_FACTORY_REGISTER_DEFINED 
   #define celPath_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPath) 
@@ -65,14 +47,6 @@ static char const metainfo_celgraph[] =
 class celgraph
 {
 SCF_REGISTER_STATIC_LIBRARY(celgraph,metainfo_celgraph)
-  #ifndef celEdge_FACTORY_REGISTERED 
-  #define celEdge_FACTORY_REGISTERED 
-    celEdge_StaticInit celEdge_static_init__; 
-  #endif
-  #ifndef celNode_FACTORY_REGISTERED 
-  #define celNode_FACTORY_REGISTERED 
-    celNode_StaticInit celNode_static_init__; 
-  #endif
   #ifndef celPath_FACTORY_REGISTERED 
   #define celPath_FACTORY_REGISTERED 
     celPath_StaticInit celPath_static_init__; 
