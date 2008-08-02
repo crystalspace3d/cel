@@ -97,7 +97,7 @@ private:
   bool propclasses_dirty;
   char* tag;
   // the name of the property class stored in the iObject
-  csObject csobj;
+  csObject* csobj;
 
 protected:
   iCelEntity* entity;
@@ -189,7 +189,7 @@ public:
   virtual const char* GetName () const;
   virtual void SetName (const char* pcname);
 
-  iObject *QueryObject () { return &csobj; }
+  iObject *QueryObject ();
 
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
