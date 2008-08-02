@@ -510,7 +510,6 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
       case XMLTOKEN_PROPCLASS:
       {
         iCelPropertyClass* pc = LoadPropclass (child, ent);
-        ent->QueryObject ()->ObjAdd (pc->QueryObject ());
         break;
       }
       case XMLTOKEN_CLASS:
@@ -603,7 +602,6 @@ iCelPropertyClass* celAddOnCelEntity::LoadPropclass (iDocumentNode* node, iCelEn
     if (id == XMLTOKEN_PROPCLASS)
     {
       iCelPropertyClass* childpc = LoadPropclass (child, ent);
-      pc->QueryObject ()->ObjAdd (childpc->QueryObject ());
     }
   }
   return pc;

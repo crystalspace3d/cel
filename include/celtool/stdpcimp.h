@@ -97,7 +97,7 @@ private:
   bool propclasses_dirty;
   char* tag;
   // the name of the property class stored in the iObject
-  csObject* csobj;
+  csObject csobj;
 
 protected:
   iCelEntity* entity;
