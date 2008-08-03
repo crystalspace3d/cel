@@ -261,35 +261,67 @@ void celPcGrab::UpdateMovement ()
   {
     csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2f, 1.4f, -0.4f));
     csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2f, 1.4f, -0.4f));
-    csVector3 u (rightcorn - leftcorn), v (lefthand - leftcorn);
-    csVector3 closest;
-    closest = leftcorn + (v >> u);
-
-    if (ShouldGrabLedge (leftcorn, edgediff, lefthand) && ShouldGrabLedge (leftcorn, edgediff, righthand))
+    csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    iSector *s = mesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
+    ledges = scfQueryInterface<iLedgeGroup> (s->QueryObject ()->GetChild ("cel.ledgegroup"));
+    iLedge* l = ledges->Get (0);
+    csVector3 prevpos, currpos;
+    currpos.y = l->GetYPosition ();
+    /*for (size_t pi = 0; pi < l->GetPointCount (); pi++)
     {
-      //puts ("Grab LEDGE");
-      csVector3 other (closest + u * 0.2);
-
-      csVector3 cent = (closest + other) / 2;
-      csVector3 dir = u;
-      // i dont like its 2d
-      float z = dir.x;
-      dir.x = dir.z;
-      dir.z = z;
-      csVector3 dir2 (dir);
-      dir2.z = -dir.z;
-      csVector3 centrehand ((lefthand + righthand) / 2);
-      if ((cent + dir - centrehand).SquaredNorm () < (cent + dir2 - centrehand).SquaredNorm ())
-        dir = dir2;
-      csReversibleTransform blaa;
-      blaa.LookAt (-dir, csVector3 (0, 1, 0));
-      blaa.SetOrigin (cent - blaa.This2OtherRelative (csVector3 (0.0f, 1.4f, -0.4f)));
-      mesh->GetMesh ()->GetMovable ()->SetTransform (blaa);
-
-      //jump->Enable (false);
-      jump->Freeze (true);
-      currstate = HANG;
+      {
+        csVector2 proxpos (l->GetPoint (pi));
+        currpos.x = proxpos.x;
+        currpos.z = proxpos.y;
+      }
+      if (pi != 0)
+        TryGrabLedge (prevpos, currpos, lefthand, righthand);
+      prevpos = currpos;
+    }*/
+    {
+      csVector2 proxpos (l->GetPoint (0));
+      currpos.x = proxpos.x;
+      currpos.y = l->GetYPosition ();
+      currpos.z = proxpos.y;
+      proxpos = l->GetPoint (1);
+      prevpos.x = proxpos.x;
+      prevpos.y = l->GetYPosition ();
+      prevpos.z = proxpos.y;
     }
+    TryGrabLedge (currpos, prevpos, lefthand, righthand);
+  }
+}
+void celPcGrab::TryGrabLedge (const csVector3 &left, const csVector3 &right, const csVector3 &lhand, const csVector3 &rhand)
+{
+  csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    csVector3 u (right - left), v (lhand - left);
+    csVector3 closest;
+    closest = left + (v >> u);
+  const csVector3 edgediff (right - left);
+  if (ShouldGrabLedge (left, edgediff, lhand) && ShouldGrabLedge (left, edgediff, rhand))
+  {
+    //puts ("Grab LEDGE");
+    csVector3 other (closest + u * 0.2);
+
+    csVector3 cent = (closest + other) / 2;
+    csVector3 dir = u;
+    // i dont like its 2d
+    float z = dir.x;
+    dir.x = dir.z;
+    dir.z = z;
+    csVector3 dir2 (dir);
+    dir2.z = -dir.z;
+    csVector3 centrehand ((lhand + rhand) / 2);
+    if ((cent + dir - centrehand).SquaredNorm () < (cent + dir2 - centrehand).SquaredNorm ())
+      dir = dir2;
+    csReversibleTransform blaa;
+    blaa.LookAt (-dir, csVector3 (0, 1, 0));
+    blaa.SetOrigin (cent - blaa.This2OtherRelative (csVector3 (0.0f, 1.4f, -0.4f)));
+    mesh->GetMesh ()->GetMovable ()->SetTransform (blaa);
+
+    //jump->Enable (false);
+    jump->Freeze (true);
+    currstate = HANG;
   }
 }
 
