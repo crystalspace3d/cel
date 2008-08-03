@@ -35,6 +35,7 @@ struct iCelEntity;
 struct iObjectRegistry;
 struct iPcLinearMovement;
 struct iPcJump;
+struct iMovable;
 
 /**
  * Factory for test.
@@ -75,21 +76,29 @@ private:
   // try to perform a grab if possible
   void AttemptGrab ();
   // Check for any changes and update if necessary
-  bool FindSiblingPropertyClasses ();
+  bool FindInterfaces ();
   // Needed when changing any of the shimmy variables using
   // the public Set functions
   void RecomputeShimmyAccel ();
   // if near edge is detected then freeze player! :)
-  void TryGrabLedge (const csVector3 &left, const csVector3 &right, const csVector3 &lhand, const csVector3 &rhand);
+  bool TryGrabLedge (const csVector3 &left, const csVector3 &right, const csVector3 &lhand, const csVector3 &rhand);
 
   // private impl functions
   GrabState currstate;
   // shimmy variables: time, distance, initial velocity
   float stime, sdist, sinvel, saccel;
+  // left hand in player local space
+  csVector3 left_hand_rel;
 
   csWeakRef<iPcLinearMovement> linmove;
   csWeakRef<iPcJump> jump;
   csWeakRef<iLedgeGroup> ledges;
+  iMovable* movable;
+  // only to keep track of when ledgegroup should be changed (when sector changes)
+  iSector* currsector;
+  // when grabbed then the ledge idx and point idx are set, else point idx = 0
+  // it can never be validly 0 since only the right point is referenced (i.e 0->1 stored as 1)
+  size_t c_ledge_id, c_ledge_point_id;
 
   // For actions.
   enum actionids

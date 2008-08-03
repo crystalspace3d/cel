@@ -61,11 +61,16 @@ celPcGrab::celPcGrab (iObjectRegistry* object_reg)
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
+  movable = 0;
   currstate = DISABLED;
   stime = 2.0f / 3.0f;
   sdist = 2.0;
   sinvel = 6.0;
   RecomputeShimmyAccel ();
+  left_hand_rel.Set (-0.2f, 1.4f, -0.4f);
+
+  currsector = 0;
+  c_ledge_point_id = 0;
 }
 
 celPcGrab::~celPcGrab ()
@@ -146,7 +151,7 @@ void celPcGrab::RecomputeShimmyAccel ()
   saccel = 2.0 * (sinvel * stime - sdist) / (stime * stime);
 }
 
-bool celPcGrab::FindSiblingPropertyClasses ()
+bool celPcGrab::FindInterfaces ()
 {
   if (HavePropertyClassesChanged ())
   {
@@ -155,22 +160,16 @@ bool celPcGrab::FindSiblingPropertyClasses ()
     linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
     jump = celQueryPropertyClassEntity<iPcJump> (entity);
     csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-    iSector *s = mesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
-    ledges = scfQueryInterface<iLedgeGroup> (s->QueryObject ()->GetChild ("cel.ledgegroup"));
-    iLedge* l = ledges->Get (0);
-    csVector3 currpos;
-    currpos.y = l->GetYPosition ();
-    for (size_t pi = 0; pi < l->GetPointCount (); pi++)
-    {
-      {
-        csVector2 proxpos (l->GetPoint (pi));
-        currpos.x = proxpos.x;
-        currpos.z = proxpos.y;
-      }
-      printf ("(%s)\n", currpos.Description ().GetData ());
-    }
+    if (mesh)
+      movable = mesh->GetMesh ()->GetMovable ();
   }
-  return linmove && jump;
+  // check if the sector has changed since the last update. if it has then rerequest ledgegroup from new sector
+  if (movable->GetSectors ()->Get (0) != currsector)
+  {
+    currsector = movable->GetSectors ()->Get (0);
+    ledges = scfQueryInterface<iLedgeGroup> (currsector->QueryObject ()->GetChild ("cel.ledgegroup"));
+  }
+  return linmove && jump && movable && ledges;
 }
 
 void celPcGrab::TickEveryFrame ()
@@ -206,7 +205,7 @@ inline static bool ShouldGrabLedge (const csVector3 &start, const csVector3 &edg
 
 void celPcGrab::UpdateMovement ()
 {
-  if (currstate == DISABLED || !FindSiblingPropertyClasses ())
+  if (currstate == DISABLED || !FindInterfaces ())
     return;
 
   //else
@@ -215,119 +214,147 @@ void celPcGrab::UpdateMovement ()
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   iMovable *mov = engine->FindMeshObject ("HandLeft")->GetMovable ();
   iMovable *mov1 = engine->FindMeshObject ("HandRight")->GetMovable ();
-  csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-  csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2f, 1.4f, -0.4f));
+  csVector3 lefthand = movable->GetFullTransform ().This2Other (csVector3 (0.2f, 1.4f, -0.4f));
   mov->SetPosition (lefthand);
-  csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2f, 1.4f, -0.4f));
+  csVector3 righthand = movable->GetFullTransform ().This2Other (csVector3 (-0.2f, 1.4f, -0.4f));
   mov1->SetPosition (righthand);
-  static const csVector3 leftcorn (2.0f, 1.3f, -4.9f), rightcorn (0.0f, 1.3f, -4.9f), edgediff (-2.0f, 0.0f, 0.0f);
+  //static const csVector3 leftcorn (2.0f, 1.3f, -4.9f), rightcorn (0.0f, 1.3f, -4.9f), edgediff (-2.0f, 0.0f, 0.0f);
 
   csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (object_reg);
   csTicks el = vc->GetElapsedTicks ();
 
-  if (currstate == SHIMMY_RIGHT)
+  if (currstate == SHIMMY_RIGHT || currstate == SHIMMY_LEFT)
   {
-    if (LiesOnSegment (leftcorn, edgediff, righthand))
+    csVector3 leftcorn, rightcorn;
+    iLedge* l = ledges->Get (c_ledge_id);
+    leftcorn.y = rightcorn.y = l->GetYPosition ();
     {
-      float s = -linmove->GetBodyVelocity ().x;
-      s -= saccel * el / 1000.0f;
-      if (s < 0.0f)
-        s = sinvel;
-      linmove->SetBodyVelocity (csVector3 (-s, 0, 0));
+      csVector2 proxpos (l->GetPoint (c_ledge_point_id - 1));
+      leftcorn.x = proxpos.x;
+      leftcorn.z = proxpos.y;
+      proxpos = l->GetPoint (c_ledge_point_id);
+      rightcorn.x = proxpos.x;
+      rightcorn.z = proxpos.y;
     }
-    else
-      linmove->SetBodyVelocity (csVector3 (0));
-  }
-  else if (currstate == SHIMMY_LEFT)
-  {
-    if (LiesOnSegment (leftcorn, edgediff, lefthand))
+    const csVector3 edgediff (rightcorn - leftcorn);
+    typedef struct
     {
-      float s = linmove->GetBodyVelocity ().x;
-      s -= saccel * el / 1000.0f;
-      if (s < 0.0f)
-        s = sinvel;
-      linmove->SetBodyVelocity (csVector3 (s, 0, 0));
+      float operator()(float s, csTicks el, float saccel, float sinvel)
+      {
+        s -= saccel * el / 1000.0f;
+        if (s < 0.0f)
+          s = sinvel;
+        return s;
+      }
+    } ApplyVel;
+    if (currstate == SHIMMY_RIGHT)
+    {
+      if (LiesOnSegment (leftcorn, edgediff, righthand))
+      {
+        float s = -linmove->GetBodyVelocity ().x;
+        s = ApplyVel(s, el, saccel, sinvel)
+        linmove->SetBodyVelocity (csVector3 (-s, 0, 0));
+      }
+      else
+        linmove->SetBodyVelocity (csVector3 (0));
     }
-    else
-      linmove->SetBodyVelocity (csVector3 (0));
+    else if (currstate == SHIMMY_LEFT)
+    {
+      if (LiesOnSegment (leftcorn, edgediff, lefthand))
+      {
+        float s = linmove->GetBodyVelocity ().x;
+        s = ApplyVel(s, el, saccel, sinvel)
+        linmove->SetBodyVelocity (csVector3 (s, 0, 0));
+      }
+      else
+        linmove->SetBodyVelocity (csVector3 (0));
+    }
   }
   else if (currstate == HANG)
   {
     linmove->SetBodyVelocity (csVector3 (0));
   }
   else if (currstate == SEARCHING)
-  //csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-  //if (mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2, 1.4, -0.2)).y > 1.3f)
   {
-    csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2f, 1.4f, -0.4f));
-    csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2f, 1.4f, -0.4f));
-    csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-    iSector *s = mesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
-    ledges = scfQueryInterface<iLedgeGroup> (s->QueryObject ()->GetChild ("cel.ledgegroup"));
-    iLedge* l = ledges->Get (0);
-    csVector3 prevpos, currpos;
-    currpos.y = l->GetYPosition ();
-    /*for (size_t pi = 0; pi < l->GetPointCount (); pi++)
+    // we find the hands position in world space
+    csReversibleTransform currtrans = movable->GetFullTransform ();
+    csVector3 lefthand = currtrans.This2Other (left_hand_rel);
+    // flip x component to get right hand in players local space
+    left_hand_rel.x = -left_hand_rel.x;
+    csVector3 righthand = currtrans.This2Other (left_hand_rel);
+    // and remember to reset it again afterwards
+    left_hand_rel.x = -left_hand_rel.x;
+
+    /*csRef<iSCF> scf = scfQueryInterface<iSCF> (object_reg);
+    scfInterfaceID id = scf->GetInterfaceID ("cel.ledgegroup");
+    ledges = scfQueryInterface<iLedgeGroup> (s->QueryObject ()->GetChild (id, iLedgeGroup::InterfaceTraits::GetVersion ()));*/
+
+    // iterate through all the ledges in this sector and do our test
+    for (size_t ledidx = 0; ledidx < ledges->GetCount (); ledidx++)
     {
-      {
-        csVector2 proxpos (l->GetPoint (pi));
-        currpos.x = proxpos.x;
-        currpos.z = proxpos.y;
-      }
-      if (pi != 0)
-        TryGrabLedge (prevpos, currpos, lefthand, righthand);
-      prevpos = currpos;
-    }*/
-    {
-      csVector2 proxpos (l->GetPoint (0));
-      currpos.x = proxpos.x;
+      iLedge* l = ledges->Get (ledidx);
+      csVector3 prevpos, currpos;
+      // y position doesn't change
       currpos.y = l->GetYPosition ();
-      currpos.z = proxpos.y;
-      proxpos = l->GetPoint (1);
-      prevpos.x = proxpos.x;
-      prevpos.y = l->GetYPosition ();
-      prevpos.z = proxpos.y;
+      // we skip checking point index 0 but still start at 0 so we update prevpos
+      for (size_t pidx = 0; pidx < l->GetPointCount (); pidx++)
+      {
+        {
+          csVector2 proxpos (l->GetPoint (pidx));
+          currpos.x = proxpos.x;
+          currpos.z = proxpos.y;
+        }
+        if (pidx != 0 && TryGrabLedge (prevpos, currpos, lefthand, righthand))
+        {
+          // so we grabbed the ledge! store these for later
+          c_ledge_id = ledidx;
+          c_ledge_point_id = pidx;
+          return;
+        }
+        prevpos = currpos;
+      }
     }
-    TryGrabLedge (currpos, prevpos, lefthand, righthand);
   }
 }
-void celPcGrab::TryGrabLedge (const csVector3 &left, const csVector3 &right, const csVector3 &lhand, const csVector3 &rhand)
+bool celPcGrab::TryGrabLedge (const csVector3 &left, const csVector3 &right, const csVector3 &lhand, const csVector3 &rhand)
 {
-  csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-    csVector3 u (right - left), v (lhand - left);
-    csVector3 closest;
-    closest = left + (v >> u);
+  // check if we're actually cool to grab the ledge
   const csVector3 edgediff (right - left);
-  if (ShouldGrabLedge (left, edgediff, lhand) && ShouldGrabLedge (left, edgediff, rhand))
-  {
-    //puts ("Grab LEDGE");
-    csVector3 other (closest + u * 0.2);
+  if (!(ShouldGrabLedge (left, edgediff, lhand) && ShouldGrabLedge (left, edgediff, rhand)))
+    return false;
 
-    csVector3 cent = (closest + other) / 2;
-    csVector3 dir = u;
-    // i dont like its 2d
-    float z = dir.x;
-    dir.x = dir.z;
-    dir.z = z;
-    csVector3 dir2 (dir);
-    dir2.z = -dir.z;
-    csVector3 centrehand ((lhand + rhand) / 2);
-    if ((cent + dir - centrehand).SquaredNorm () < (cent + dir2 - centrehand).SquaredNorm ())
-      dir = dir2;
-    csReversibleTransform blaa;
-    blaa.LookAt (-dir, csVector3 (0, 1, 0));
-    blaa.SetOrigin (cent - blaa.This2OtherRelative (csVector3 (0.0f, 1.4f, -0.4f)));
-    mesh->GetMesh ()->GetMovable ()->SetTransform (blaa);
+  // so we are... now find closest points on the segment to both hands
+  csVector3 closehands[2] = {
+    ClosestOnSegment (left, edgediff, lhand),
+    ClosestOnSegment (left, edgediff, rhand) };
+  // the snap centre point will be the centre point between both those points
+  csVector3 snap_centre ((closehands[0] + closehands[1]) / 2), snap_dir = (right - left);
+  // find perpendicular vector to get forward direction
+  // ... safe to assume 2D vectors since y value of ledges doesn't change among its points
+  CS::Swap (snap_dir.x, snap_dir.z);
 
-    //jump->Enable (false);
-    jump->Freeze (true);
-    currstate = HANG;
-  }
+  // we use a trick to find which direction is ledge forward from player
+  // ... see which distance is small when add direction to player offset
+  csVector3 centrehand ((lhand + rhand) / 2);
+  if ((snap_centre + snap_dir - centrehand).SquaredNorm () > (snap_centre - snap_dir - centrehand).SquaredNorm ())
+    snap_dir = -snap_dir;
+
+  // now apply the calculated transform
+  csReversibleTransform snap;
+  snap.LookAt (snap_dir, csVector3 (0, 1, 0));
+  // we minus the local hand offsets to get real position for actual origin
+  snap.SetOrigin (snap_centre - snap.This2OtherRelative (csVector3 (0, left_hand_rel.y, left_hand_rel.z)));
+  movable->SetTransform (snap);
+
+  // setup states
+  jump->Freeze (true);
+  currstate = HANG;
+  return true;
 }
 
 void celPcGrab::AttemptGrab ()
 {
-  if (!FindSiblingPropertyClasses ())
+  if (!FindInterfaces ())
     return;
 
   // -------------------
@@ -464,11 +491,11 @@ void celPcGrab::AttemptGrab ()
   iMovable *tarother = engine->FindMeshObject ("TargetOther")->GetMovable ();
   iMovable *tarfor = engine->FindMeshObject ("TargetForward")->GetMovable ();
   csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-  //mov->SetTransform (mesh->GetMesh ()->GetMovable ()->GetFullTransform ());
-  //mov->SetPosition (mesh->GetMesh ()->GetMovable ()->GetPosition () + csVector3 (0.2, 1.4, 0));
-  csVector3 lefthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (0.2f, 1.4f, -0.2f));
+  //mov->SetTransform (movable->GetFullTransform ());
+  //mov->SetPosition (movable->GetPosition () + csVector3 (0.2, 1.4, 0));
+  csVector3 lefthand = movable->GetFullTransform ().This2Other (csVector3 (0.2f, 1.4f, -0.2f));
   mov->SetPosition (lefthand);
-  csVector3 righthand = mesh->GetMesh ()->GetMovable ()->GetFullTransform ().This2Other (csVector3 (-0.2f, 1.4f, -0.2f));
+  csVector3 righthand = movable->GetFullTransform ().This2Other (csVector3 (-0.2f, 1.4f, -0.2f));
   mov1->SetPosition (righthand);
   corn->SetPosition (leftcorn);
   corn1->SetPosition (rightcorn);
@@ -497,10 +524,10 @@ void celPcGrab::AttemptGrab ()
   dir.z = z;
   tarfor->SetPosition (cent + dir);
 
-  csReversibleTransform blaa (mesh->GetMesh ()->GetMovable ()->GetFullTransform ());
+  csReversibleTransform blaa (movable->GetFullTransform ());
   cent.y = blaa.GetOrigin ().y;
   csVector3 flatdiff (blaa.GetOrigin () - cent);
   blaa.LookAt (flatdiff, csVector3 (0, 1, 0));
   //if (flatdiff.SquaredNorm () < 4.0f)
-    //mesh->GetMesh ()->GetMovable ()->SetTransform (blaa);
+    //movable->SetTransform (blaa);
 }
