@@ -79,6 +79,8 @@ private:
   // Needed when changing any of the shimmy variables using
   // the public Set functions
   void RecomputeShimmyAccel ();
+  // if near edge is detected then freeze player! :)
+  void TryGrabLedge (const csVector3 &left, const csVector3 &right, const csVector3 &lhand, const csVector3 &rhand);
 
   // private impl functions
   GrabState currstate;
