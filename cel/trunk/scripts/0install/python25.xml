@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet type='text/xsl' href='interface.xsl'?>
+<interface uri="http://crystalspace3d.org/0install/python25.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+  <name>python25</name>
+  <summary>Python 2.5 runtime</summary>
+  <description>
+</description>
+  <homepage>http://python.org/</homepage>
+  <icon href="http://python.org/favicon.ico" type="image/png"/>
+  <group license="OSI Approved :: Python License">
+    <implementation arch="Linux-i686" id="sha1new=e65edb2b989a1fa75c8fd43d2dc8b95b91bcb0d0" released="2008-08-06" stability="stable" version="2.5.2">
+    <archive extract="python252dyn" href="http://crystalspace3d.org/downloads/contrib/python/python252dyn-Linux-x86.tar.lzma" size="9076323" type="application/x-lzma-compressed-tar"/>
+  </implementation>
+  </group>
+</interface>
+<!-- Base64 Signature
+iEYEABECAAYFAkiaGSsACgkQNCTzcE/07exqIgCfQgSB95sqB4LHfkOQHxSO7fztoW4An1YwYvEJ
+3ek3CnI7JVnkLAWbHiD2
+
+-->
