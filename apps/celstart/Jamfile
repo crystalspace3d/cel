@@ -95,6 +95,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     spr2dldr
     sprcal3dldr
     stdrep
+    terrain2
+    terrain2ldr
     terrainldr
     thing
     thingldr
