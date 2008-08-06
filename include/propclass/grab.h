@@ -32,12 +32,12 @@ struct iPcGrab : public virtual iBase
     DISABLED = 0,
     SEARCHING,
     HANG,
-    SHIMMY_LEFT,
-    SHIMMY_RIGHT
   };
   virtual void SetState (GrabState state) = 0;
   virtual GrabState GetState () const = 0;
 
+  virtual void SetShimmyDirection (float sdir) = 0;
+  virtual float GetShimmyDirection () const = 0;
   virtual void SetShimmyTime (float time) = 0;
   virtual float GetShimmyTime () const = 0;
   virtual void SetShimmyDistance (float dist) = 0;

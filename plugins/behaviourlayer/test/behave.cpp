@@ -274,7 +274,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       if (jump->GetState () == iPcJump::FROZEN)
       {
-        grab->SetState (iPcGrab::SHIMMY_LEFT);
+        grab->SetShimmyDirection (-1);
       }
       else
       {
@@ -286,7 +286,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       if (jump->GetState () == iPcJump::FROZEN)
       {
-        grab->SetState (iPcGrab::HANG);
+        grab->SetShimmyDirection (0);
       }
       else
       {
@@ -298,7 +298,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       if (jump->GetState () == iPcJump::FROZEN)
       {
-        grab->SetState (iPcGrab::SHIMMY_RIGHT);
+        grab->SetShimmyDirection (1);
       }
       else
       {
@@ -310,7 +310,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     {
       if (jump->GetState () == iPcJump::FROZEN)
       {
-        grab->SetState (iPcGrab::HANG);
+        grab->SetShimmyDirection (0);
       }
       else
       {
