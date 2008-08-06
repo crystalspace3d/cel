@@ -119,6 +119,14 @@ iPcGrab::GrabState celPcGrab::GetState () const
   return currstate;
 }
 
+void celPcGrab::SetShimmyDirection (float sdir)
+{
+  celPcGrab::sdir = sdir;
+}
+float celPcGrab::GetShimmyDirection () const
+{
+  return sdir;
+}
 void celPcGrab::SetShimmyTime (float time)
 {
   stime = time;
@@ -219,49 +227,46 @@ void celPcGrab::UpdateMovement ()
   csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (object_reg);
   csTicks el = vc->GetElapsedTicks ();
 
-  // moving sideways along an edge
-  if (currstate == SHIMMY_RIGHT || currstate == SHIMMY_LEFT)
+  if (currstate == HANG)
   {
-    // now we just get the 2 current points defining the ledge
-    csVector3 leftcorn, rightcorn;
-    iLedge* l = ledges->Get (c_ledge_id);
-    leftcorn.y = rightcorn.y = l->GetYPosition ();
+    // then we're performing a shimmy
+    if (ABS (sdir) > EPSILON)
     {
-      csVector2 proxpos (l->GetPoint (c_ledge_point_id - 1));
-      leftcorn.x = proxpos.x;
-      leftcorn.z = proxpos.y;
-      proxpos = l->GetPoint (c_ledge_point_id);
-      rightcorn.x = proxpos.x;
-      rightcorn.z = proxpos.y;
+      // now we just get the 2 current points defining the ledge
+      csVector3 leftcorn, rightcorn;
+      iLedge* l = ledges->Get (c_ledge_id);
+      leftcorn.y = rightcorn.y = l->GetYPosition ();
+      {
+        csVector2 proxpos (l->GetPoint (c_ledge_point_id - 1));
+        leftcorn.x = proxpos.x;
+        leftcorn.z = proxpos.y;
+        proxpos = l->GetPoint (c_ledge_point_id);
+        rightcorn.x = proxpos.x;
+        rightcorn.z = proxpos.y;
+      }
+      // ...and calculate the offset
+      const csVector3 edgediff (rightcorn - leftcorn);
+      // find correct hand for direction we're shimmying in
+      csVector3 hand = righthand;
+      if (sdir < 0)
+        hand = lefthand;
+      // now if we lie on the segment then we can shimmy
+      if (LiesOnSegment (leftcorn, edgediff, hand))
+      {
+        float s = -sdir * linmove->GetBodyVelocity ().x;
+        // deccelerate from initial velocity
+        s -= saccel * el / 1000.0f;
+        // when speed hits 0 then reset speed- like a ball bouncing without damping
+        if (s < 0.0f)
+          s = sinvel;
+        linmove->SetBodyVelocity (csVector3 (-sdir * s, 0, 0));
+      }
+      // but stop as soon as we start to move off of it
+      else
+        linmove->SetBodyVelocity (csVector3 (0));
     }
-    // ...and calculate the offset
-    const csVector3 edgediff (rightcorn - leftcorn);
-    // convert shimmy direction to dir value- interface should actually change
-    int dir = -1;
-    csVector3 hand = righthand;
-    if (currstate == SHIMMY_LEFT)
-    {
-      hand = lefthand;
-      dir = 1;
-    }
-    // now if we lie on the segment then we can shimmy
-    if (LiesOnSegment (leftcorn, edgediff, hand))
-    {
-      float s = dir * linmove->GetBodyVelocity ().x;
-      // deccelerate from initial velocity
-      s -= saccel * el / 1000.0f;
-      // when speed hits 0 then reset speed- like a ball bouncing without damping
-      if (s < 0.0f)
-        s = sinvel;
-      linmove->SetBodyVelocity (csVector3 (dir * s, 0, 0));
-    }
-    // but stop as soon as we start to move off of it
     else
       linmove->SetBodyVelocity (csVector3 (0));
-  }
-  else if (currstate == HANG)
-  {
-    linmove->SetBodyVelocity (csVector3 (0));
   }
   else if (currstate == SEARCHING)
   {

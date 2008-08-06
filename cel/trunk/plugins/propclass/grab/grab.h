@@ -63,6 +63,8 @@ public:
   void SetState (GrabState state);
   GrabState GetState () const;
 
+  void SetShimmyDirection (float sdir);
+  float GetShimmyDirection () const;
   void SetShimmyTime (float time);
   float GetShimmyTime () const;
   void SetShimmyDistance (float dist);
@@ -86,7 +88,7 @@ private:
   // private impl functions
   GrabState currstate;
   // shimmy variables: time, distance, initial velocity
-  float stime, sdist, sinvel, saccel;
+  float sdir, stime, sdist, sinvel, saccel;
   // left hand in player local space
   csVector3 left_hand_rel;
 
