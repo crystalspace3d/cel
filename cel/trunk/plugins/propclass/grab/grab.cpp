@@ -237,7 +237,7 @@ void celPcGrab::UpdateMovement ()
       rightcorn.z = proxpos.y;
     }
     const csVector3 edgediff (rightcorn - leftcorn);
-    typedef struct
+    struct
     {
       float operator()(float s, csTicks el, float saccel, float sinvel)
       {
@@ -252,7 +252,7 @@ void celPcGrab::UpdateMovement ()
       if (LiesOnSegment (leftcorn, edgediff, righthand))
       {
         float s = -linmove->GetBodyVelocity ().x;
-        s = ApplyVel(s, el, saccel, sinvel)
+        s = ApplyVel(s, el, saccel, sinvel);
         linmove->SetBodyVelocity (csVector3 (-s, 0, 0));
       }
       else
@@ -263,7 +263,7 @@ void celPcGrab::UpdateMovement ()
       if (LiesOnSegment (leftcorn, edgediff, lefthand))
       {
         float s = linmove->GetBodyVelocity ().x;
-        s = ApplyVel(s, el, saccel, sinvel)
+        s = ApplyVel(s, el, saccel, sinvel);
         linmove->SetBodyVelocity (csVector3 (s, 0, 0));
       }
       else
