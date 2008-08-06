@@ -237,38 +237,24 @@ void celPcGrab::UpdateMovement ()
       rightcorn.z = proxpos.y;
     }
     const csVector3 edgediff (rightcorn - leftcorn);
-    struct
+    // convert shimmy direction to dir value- interface should actually change
+    int dir = -1;
+    csVector3 hand = righthand;
+    if (currstate == SHIMMY_LEFT)
     {
-      float operator()(float s, csTicks el, float saccel, float sinvel)
-      {
-        s -= saccel * el / 1000.0f;
-        if (s < 0.0f)
-          s = sinvel;
-        return s;
-      }
-    } ApplyVel;
-    if (currstate == SHIMMY_RIGHT)
-    {
-      if (LiesOnSegment (leftcorn, edgediff, righthand))
-      {
-        float s = -linmove->GetBodyVelocity ().x;
-        s = ApplyVel(s, el, saccel, sinvel);
-        linmove->SetBodyVelocity (csVector3 (-s, 0, 0));
-      }
-      else
-        linmove->SetBodyVelocity (csVector3 (0));
+      hand = lefthand;
+      dir = 1;
     }
-    else if (currstate == SHIMMY_LEFT)
+    if (LiesOnSegment (leftcorn, edgediff, hand))
     {
-      if (LiesOnSegment (leftcorn, edgediff, lefthand))
-      {
-        float s = linmove->GetBodyVelocity ().x;
-        s = ApplyVel(s, el, saccel, sinvel);
-        linmove->SetBodyVelocity (csVector3 (s, 0, 0));
-      }
-      else
-        linmove->SetBodyVelocity (csVector3 (0));
+      float s = dir * linmove->GetBodyVelocity ().x;
+      s -= saccel * el / 1000.0f;
+      if (s < 0.0f)
+        s = sinvel;
+      linmove->SetBodyVelocity (csVector3 (dir * s, 0, 0));
     }
+    else
+      linmove->SetBodyVelocity (csVector3 (0));
   }
   else if (currstate == HANG)
   {
