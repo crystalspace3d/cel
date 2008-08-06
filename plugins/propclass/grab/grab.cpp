@@ -177,10 +177,6 @@ void celPcGrab::TickEveryFrame ()
   UpdateMovement ();
 }
 
-static csVector3 FindClosestPointOnEdge (const csVector3 &start, const csVector3 &edgediff, const csVector3 &hand)
-{
-  return start + ((hand - start) >> edgediff);
-}
 static bool LiesOnSegment (const csVector3 &left, const csVector3 &eddir, const csVector3 &point)
 {
   //const csVector3 eddir (right - left);
@@ -223,8 +219,10 @@ void celPcGrab::UpdateMovement ()
   csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (object_reg);
   csTicks el = vc->GetElapsedTicks ();
 
+  // moving sideways along an edge
   if (currstate == SHIMMY_RIGHT || currstate == SHIMMY_LEFT)
   {
+    // now we just get the 2 current points defining the ledge
     csVector3 leftcorn, rightcorn;
     iLedge* l = ledges->Get (c_ledge_id);
     leftcorn.y = rightcorn.y = l->GetYPosition ();
@@ -236,6 +234,7 @@ void celPcGrab::UpdateMovement ()
       rightcorn.x = proxpos.x;
       rightcorn.z = proxpos.y;
     }
+    // ...and calculate the offset
     const csVector3 edgediff (rightcorn - leftcorn);
     // convert shimmy direction to dir value- interface should actually change
     int dir = -1;
@@ -245,14 +244,18 @@ void celPcGrab::UpdateMovement ()
       hand = lefthand;
       dir = 1;
     }
+    // now if we lie on the segment then we can shimmy
     if (LiesOnSegment (leftcorn, edgediff, hand))
     {
       float s = dir * linmove->GetBodyVelocity ().x;
+      // deccelerate from initial velocity
       s -= saccel * el / 1000.0f;
+      // when speed hits 0 then reset speed- like a ball bouncing without damping
       if (s < 0.0f)
         s = sinvel;
       linmove->SetBodyVelocity (csVector3 (dir * s, 0, 0));
     }
+    // but stop as soon as we start to move off of it
     else
       linmove->SetBodyVelocity (csVector3 (0));
   }
@@ -270,10 +273,6 @@ void celPcGrab::UpdateMovement ()
     csVector3 righthand = currtrans.This2Other (left_hand_rel);
     // and remember to reset it again afterwards
     left_hand_rel.x = -left_hand_rel.x;
-
-    /*csRef<iSCF> scf = scfQueryInterface<iSCF> (object_reg);
-    scfInterfaceID id = scf->GetInterfaceID ("cel.ledgegroup");
-    ledges = scfQueryInterface<iLedgeGroup> (s->QueryObject ()->GetChild (id, iLedgeGroup::InterfaceTraits::GetVersion ()));*/
 
     // iterate through all the ledges in this sector and do our test
     for (size_t ledidx = 0; ledidx < ledges->GetCount (); ledidx++)
@@ -338,11 +337,17 @@ bool celPcGrab::TryGrabLedge (const csVector3 &left, const csVector3 &right, con
   return true;
 }
 
+// this is defunct
+static csVector3 FindClosestPointOnEdge (const csVector3 &start, const csVector3 &edgediff, const csVector3 &hand)
+{
+  return start + ((hand - start) >> edgediff);
+}
+// is this defunct also?
 void celPcGrab::AttemptGrab ()
 {
+  return;
   if (!FindInterfaces ())
     return;
-
   // -------------------
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
 
