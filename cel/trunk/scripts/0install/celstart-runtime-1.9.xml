@@ -1,15 +1,15 @@
 <?xml version="1.0" ?>
 <?xml-stylesheet type='text/xsl' href='interface.xsl'?>
-<interface uri="http://crystalspace3d.org/0install/celstart-static.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+<interface uri="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
   <name>CELstart binary</name>
-  <summary>Run CrystalSpace+CEL game packages (actual binary)</summary>
+  <summary>Run CrystalSpace+CEL game packages (runtime)</summary>
   <description>
 </description>
   <homepage>http://crystalspace3d.org/main/CELstart</homepage>
   <icon href="http://crystalspace3d.org/mediawiki/images/1/10/CELstart-rocket.png" type="image/png"/>
   <group arch="Linux-i686" license="OSI Approved :: GNU Lesser General Public License (LGPL)">
-    <implementation id="sha1new=1d59067369285c518397dd448914e244fc7adb6d" released="2008-08-06" stability="testing" version="1.9.30679.3601">
-      <archive extract="celstart-1.9-CSr30679-CELr3601-Linux-x86" href="http://crystalspace3d.org/0install/celstart-1.9-CSr30679-CELr3601-Linux-x86.tar.lzma" size="23747634" type="application/x-lzma-compressed-tar"/>
+    <implementation id="sha1new=bbde95e5bf7b07d4e8642d37ff6890a897b00c89" released="2008-08-07" stability="testing" version="1.9.30710.3609">
+      <archive extract="celstart-1.9-CSr30710-CELr3609-Linux-x86" href="http://crystalspace3d.org/downloads/contrib/celstart-1.9-CSr30710-CELr3609-Linux-x86.tar.lzma" size="22450068" type="application/x-lzma-compressed-tar"/>
       <requires interface="http://crystalspace3d.org/0install/python25.xml">
         <version before="2.6" not-before="2.5.2"/>
         <environment insert="" mode="replace" name="PYTHONHOME"/>
@@ -18,7 +18,7 @@
   </group>
 </interface>
 <!-- Base64 Signature
-iEYEABECAAYFAkiaJewACgkQ5WlQiAu28750VACeKYr6UvWzvF0Vkrv1jn5jgQfimf8AoIIjESXT
-xyyEuakGbx7D53ML9P5z
+iEYEABECAAYFAkiaKkkACgkQ5WlQiAu2874JWACfaI6TYeUbpHjx0LnRMICfiZ6GvdgAn1anMY4u
+rhJ9D+9D2x0A3KtVwJfg
 
 -->
