@@ -13,12 +13,13 @@
       <requires interface="http://crystalspace3d.org/0install/python25.xml">
         <version before="2.6" not-before="2.5.2"/>
         <environment insert="" mode="replace" name="PYTHONHOME"/>
+        <environment insert="lib" mode="prepend" name="LD_LIBRARY_PATH"/>
       </requires>
     </implementation>
   </group>
 </interface>
 <!-- Base64 Signature
-iEYEABECAAYFAkiaKkkACgkQ5WlQiAu2874JWACfaI6TYeUbpHjx0LnRMICfiZ6GvdgAn1anMY4u
-rhJ9D+9D2x0A3KtVwJfg
+iEYEABECAAYFAkiaK8EACgkQ5WlQiAu2875G7QCfdBikzmZVYnZXtijqK2rTeVNDBHkAnRofYAEO
+EgCyJFjsGBqMQGJ/n3FD
 
 -->
