@@ -274,45 +274,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   return csPtr<iCelEntity> (entity_cam);
 }
 
-struct iGenjix : public virtual iBase
-{
-  SCF_INTERFACE(iGenjix, 2, 0, 0);
-
-  virtual void SetFoo (float f) = 0;
-  virtual float GetFoo () const = 0;
-
-  virtual iObject *QueryObject () = 0;
-};
-
-class CS_CRYSTALSPACE_EXPORT Genjix :
-  public scfImplementationExt1<Genjix, csObject, iGenjix>
-{
-public:
-  Genjix () :  scfImplementationType (this)
-  {
-    SetName ("genjix");
-    foo = 0;
-  }
-  virtual ~Genjix ()
-  {
-  }
-
-  void SetFoo (float f)
-  {
-    foo = f;
-  }
-  float GetFoo () const
-  {
-    return foo;
-  }
-
-  iObject *QueryObject ()
-  {
-    return (iObject*)this;
-  }
-private:
-  float foo;
-};
 
 bool CelTest::CreateRoom ()
 {
@@ -377,20 +338,6 @@ bool CelTest::CreateRoom ()
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
   game = entity_room;
-
-  // ---------
-  // this is how we'll be storing edges
-  csRef<iGenjix> gen;
-  gen.AttachNew (new Genjix);
-  gen->SetFoo (110);
-
-  csRef<iPcMesh> mesh = celQueryPropertyClassEntity<iPcMesh> (entity_dummy);
-  iSector* s = mesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
-  s->QueryObject ()->ObjAdd (gen->QueryObject ());
-
-  iObject* g = s->QueryObject ()->GetChild ("genjix");
-  gen = scfQueryInterface<iGenjix> (g);
-  printf ("Foo: %f\n", gen->GetFoo ());
 
   return true;
 }
