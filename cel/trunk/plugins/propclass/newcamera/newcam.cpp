@@ -130,8 +130,8 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
 
   minoffset = 6.0f;
 
-  offsetTarget.Set (0.0f, 0.0f, 0.0f);
   offsetOrigin.Set (0.0f, 0.0f, 0.0f);
+  offsetTarget.Set (0.0f, 1.7f, 0.0f);
 
   currMode = (size_t)-1;
 
@@ -141,6 +141,10 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   avoidradsq = 4.0f;
   avoidyoff = 2.0f;
   avoidinter = 3.0f;
+
+  originSpringCoef = 2.0;
+  targetSpringCoef = 2.0;
+  upSpringCoef = 2.0;
 
   inTransition = true;
   transitionSpringCoef = 2.0f;
