@@ -32,13 +32,13 @@ MsvcGenSubDir TOP msvc 9 : 9 ;
 MsvcGenTemplateDir TOP mk msvcgen ;
 
 # What the typical user will need. 
-MsvcGenWorkspace cel : : "grp.+_(?!cel$)" static blpython ;
+MsvcGenWorkspace cel : : "grp.+_(?!cel$)" static py ;
 
 # Similar to "typical", but with Python.
 MsvcGenWorkspace pycel : : "grp.+_(?!pycel$)" static ;
 
 # Workspace for static variants of plugins and apps.
-MsvcGenWorkspace static : static ^lib.* : "grp.+_(?!static$)" blpython ;
+MsvcGenWorkspace static : static ^lib.* : "grp.+_(?!static$)" py ;
 
 local hash = "\$" ;
 MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
