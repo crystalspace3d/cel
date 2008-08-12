@@ -67,16 +67,6 @@ public:
     SwigDirector_pyPcCommon(PyObject *self, iObjectRegistry *object_reg);
     virtual ~SwigDirector_pyPcCommon();
     virtual void SetEntity(iCelEntity *entity);
-    virtual bool SetProperty(csStringID id, long value);
-    virtual bool SetProperty(csStringID id, float value);
-    virtual bool SetProperty(csStringID id, bool value);
-    virtual bool SetProperty(csStringID id, char const *value);
-    virtual bool SetProperty(csStringID id, csVector2 const &value);
-    virtual bool SetProperty(csStringID id, csVector3 const &value);
-    virtual bool SetProperty(csStringID id, csColor const &value);
-    virtual bool SetProperty(csStringID id, iCelPropertyClass *value);
-    virtual bool SetProperty(csStringID id, iCelEntity *entity);
-    virtual bool SetProperty(csStringID id, iBase *ibase);
     virtual celDataType GetPropertyOrActionType(csStringID id);
     virtual bool IsPropertyReadOnly(csStringID arg0);
     virtual long GetPropertyLongByID(csStringID id);
@@ -150,7 +140,7 @@ private:
       return method;
     }
 private:
-    mutable swig::PyObject_var vtable[51];
+    mutable swig::PyObject_var vtable[41];
 #endif
 
 };
@@ -286,6 +276,52 @@ private:
     }
 private:
     mutable swig::PyObject_var vtable[1];
+#endif
+
+};
+
+
+class SwigDirector_pyPcInventoryListener : public pyPcInventoryListener, public Swig::Director {
+
+public:
+    SwigDirector_pyPcInventoryListener(PyObject *self, iObjectRegistry *object_reg);
+    virtual ~SwigDirector_pyPcInventoryListener();
+    virtual void AddChild(iPcInventory *inventory, iCelEntity *entity);
+    virtual void RemoveChild(iPcInventory *inventory, iCelEntity *entity);
+
+
+/* Internal Director utilities */
+public:
+    bool swig_get_inner(const char* name) const {
+      std::map<std::string, bool>::const_iterator iv = inner.find(name);
+      return (iv != inner.end() ? iv->second : false);
+    }
+
+    void swig_set_inner(const char* name, bool val) const
+    { inner[name] = val;}
+
+private:
+    mutable std::map<std::string, bool> inner;
+
+
+#if defined(SWIG_PYTHON_DIRECTOR_VTABLE)
+/* VTable implementation */
+    PyObject *swig_get_method(size_t method_index, const char *method_name) const {
+      PyObject *method = vtable[method_index];
+      if (!method) {
+        swig::PyObject_var name = PyString_FromString(method_name);
+        method = PyObject_GetAttr(swig_get_self(), name);
+        if (method == NULL) {
+          std::string msg = "Method in class pyPcInventoryListener doesn't exist, undefined ";
+          msg += method_name;
+          Swig::DirectorMethodException::raise(msg.c_str());
+        }
+        vtable[method_index] = method;
+      };
+      return method;
+    }
+private:
+    mutable swig::PyObject_var vtable[2];
 #endif
 
 };
