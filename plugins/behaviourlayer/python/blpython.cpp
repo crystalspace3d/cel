@@ -193,7 +193,7 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
   PyObject *py_entity, *py_object;
 
   csString realname;
-  char* slash = strrchr (name, '/');
+  const char* slash = strrchr (name, '/');
   if (slash)
   {
     csString path;
