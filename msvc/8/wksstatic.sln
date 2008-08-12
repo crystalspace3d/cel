@@ -12,6 +12,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpall_static", "grpall_sta
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpapps_static", "grpapps_static.vcproj", "{E52C45F7-9F93-B2E3-AEC6-7091557B118C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpbindings_static", "grpbindings_static.vcproj", "{69DAC5D2-48B8-17E6-5878-E104ECFD3EE0}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grplibs_static", "grplibs_static.vcproj", "{69CC6DCF-6F53-3C1A-B2DD-FFBB09C068AE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpplugins_static", "grpplugins_static.vcproj", "{0E350FAB-AC29-2982-8FB4-C97CA88F1415}"
@@ -146,6 +148,14 @@ Global
 		{E52C45F7-9F93-B2E3-AEC6-7091557B118C}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{E52C45F7-9F93-B2E3-AEC6-7091557B118C}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{E52C45F7-9F93-B2E3-AEC6-7091557B118C}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{69DAC5D2-48B8-17E6-5878-E104ECFD3EE0}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{69DAC5D2-48B8-17E6-5878-E104ECFD3EE0}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+  		{69DAC5D2-48B8-17E6-5878-E104ECFD3EE0}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{69DAC5D2-48B8-17E6-5878-E104ECFD3EE0}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{69DAC5D2-48B8-17E6-5878-E104ECFD3EE0}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{69DAC5D2-48B8-17E6-5878-E104ECFD3EE0}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+  		{69DAC5D2-48B8-17E6-5878-E104ECFD3EE0}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{69DAC5D2-48B8-17E6-5878-E104ECFD3EE0}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{69CC6DCF-6F53-3C1A-B2DD-FFBB09C068AE}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{69CC6DCF-6F53-3C1A-B2DD-FFBB09C068AE}.Release (with static libs).Build.0 = Release (with static libs)|Win32
   		{69CC6DCF-6F53-3C1A-B2DD-FFBB09C068AE}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
