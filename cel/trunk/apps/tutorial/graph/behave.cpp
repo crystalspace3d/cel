@@ -829,7 +829,7 @@ bool BehaviourPF::LoadGraph ()
   csVector3 v34(35.171139f, -0.010000f, 25.075426f);
   csRef<iCelNode> gn34 = celgraph->CreateNode("n34",v34);
 
-  csVector3 v35(41.059860f, -0.010000f, 25.29561f2);
+  csVector3 v35(41.059860f, -0.010000f, 25.295612f);
   csRef<iCelNode> gn35 = celgraph->CreateNode("n35",v35);
 
   csVector3 v36(37.357365f, -0.010000f, 48.972939f);
