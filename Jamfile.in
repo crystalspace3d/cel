@@ -30,10 +30,15 @@ MsvcGenSubDir TOP msvc 71 : 71 ;
 MsvcGenSubDir TOP msvc 8 : 8 ;
 MsvcGenSubDir TOP msvc 9 : 9 ;
 MsvcGenTemplateDir TOP mk msvcgen ;
+
 # What the typical user will need. 
-MsvcGenWorkspace cel : : "grp.+_(?!cel$)" static ;
+MsvcGenWorkspace cel : : "grp.+_(?!cel$)" static blcel ;
+
+# Similar to "typical", but with Python.
+MsvcGenWorkspace pycel : : "grp.+_(?!pycel$)" static ;
+
 # Workspace for static variants of plugins and apps.
-MsvcGenWorkspace static : static ^lib.* : "grp.+_(?!static$)" ;
+MsvcGenWorkspace static : static ^lib.* : "grp.+_(?!static$)" blcel ;
 
 local hash = "\$" ;
 MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
@@ -60,7 +65,7 @@ MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG :
 MsvcGenConfig CRYSTAL.STATICDEPS : $(TOP)/crystalspace_staticplugins_msvc.jam ;
 MsvcGenConfig HAVE_STATIC_PLUGINS : yes ;
 
-MsvcGenConfig PYTHON.AVAILABLE : no ;
+MsvcGenConfig PYTHON.AVAILABLE : yes ;
 
 # Header subdirectories (order sensitive: libraries before plugins and apps)
 SubInclude TOP docs ;
