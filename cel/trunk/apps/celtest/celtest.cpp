@@ -108,11 +108,7 @@ CelTest::~CelTest ()
 
 void CelTest::OnExit ()
 {
-  if (pl)
-  {
-    pl->CleanCache ();
-    pl->RemoveEntities ();
-  }
+  if (pl) pl->CleanCache ();
 }
 
 void CelTest::ProcessFrame ()
