@@ -20,7 +20,7 @@ class celMenu:
         self.font = '/fonts/unifont/unifont.csf'
     
     #Add a menu element. sends message to menu when clicked. the behaviour chooses the widget.
-    def addElement(self, name, message, position, sizes, fsize, material, behaviour = 'celButton'):
+    def addElement(self, name, message, position, sizes, fsize, material, behaviour = 'celButton', fpath = None):
         elementEntity = CreateEntity(name, self.blpython, None)
         pcbillboard = celBillboard(elementEntity)
         pcbillboard.materialnamefast = material
@@ -31,7 +31,13 @@ class celMenu:
         pcbillboard.text_offset = csVector2(1500, 1500)
         pcbillboard.text_fg_color = GetFontColor()
         pcbillboard.text_font_size = fsize
-        pcbillboard.text_font = self.font
+        if fpath is not None:
+            oldfont = self.font
+            self.setFont(fpath)
+            pcbillboard.text_font = self.font 
+            self.font = oldfont
+        else:
+            pcbillboard.text_font = self.font 
         pcbillboard.text = name
         elementEntity.CreateBehaviour(self.blpython, behaviour)
         #Time to send a message if neccesary
@@ -86,3 +92,14 @@ class celMenu:
         for element in self.elements:
             if element.Behaviour:
                 element.Behaviour.SendMessage('setinactive', None, celGenericParameterBlock(0))
+
+    #Get the current font's VFS path
+    def getFont(self):
+        return self.font
+
+    #Set the font's VFS path
+    def setFont(self, vfspath):
+        if Vfs.Exists(vfspath):
+            self.font = vfspath
+        else:
+            print 'celMenu: can''t find %s' % vfspath
