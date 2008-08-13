@@ -35,6 +35,7 @@ struct iObjectRegistry;
 struct iEvent;
 struct iVFS;
 struct iFont;
+class FramePrinter;
 
 // This is a version number for celstart.
 #define CELSTART_VERSION 9
@@ -51,6 +52,7 @@ private:
   csRef<iGraphics3D> g3d;
   bool do_clearscreen;
   bool do_real_demo;
+  csRef<FramePrinter> printer;
 
   // Everything for the demo selection screen.
   csRef<iFont> font;
@@ -90,7 +92,6 @@ private:
   static bool CelStartEventHandler (iEvent& ev);
   bool HandleEvent (iEvent& ev);
   void SetupFrame ();
-  void FinishFrame ();
   bool FindPath (iVFS* vfs, csString& realpath, csString& path,
       csString& configname);
   void FindCelStartArchives ();
@@ -104,6 +105,7 @@ public:
 
   bool Initialize (int argc, const char* const argv[]);
   void Start ();
+  void Stop ();
 };
 
 #endif // __CELSTART_H__

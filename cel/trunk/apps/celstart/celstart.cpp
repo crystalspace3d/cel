@@ -22,6 +22,7 @@
 #include "csutil/cfgacc.h"
 #include "csutil/cmdhelp.h"
 #include "csutil/event.h"
+#include "csutil/common_handlers.h"
 #include "csutil/physfile.h"
 #include "csutil/sysfunc.h"
 #include "csutil/util.h"
@@ -157,24 +158,11 @@ void CelStart::SetupFrame ()
   }
 }
 
-void CelStart::FinishFrame ()
-{
-  g3d->FinishDraw ();
-  g3d->Print (0);
-  // @@@
-  ///csSleep (5);
-}
-
 bool CelStart::HandleEvent (iEvent& ev)
 {
-  if (ev.Name == csevProcess (object_reg))
+  if (ev.Name == csevFrame (object_reg))
   {
     celstart->SetupFrame ();
-    return true;
-  }
-  else if (ev.Name == csevFinalProcess (object_reg))
-  {
-    celstart->FinishFrame ();
     return true;
   }
 
@@ -633,6 +621,8 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
   if (nw) nw->SetTitle (
       cfg->GetStr ("CelStart.WindowTitle","CelStart Application"));
 
+  printer.AttachNew (new FramePrinter (object_reg));
+
   return true;
 }
 
@@ -788,6 +778,11 @@ void CelStart::Start ()
   }
 }
 
+void CelStart::Stop ()
+{
+  printer.Invalidate ();
+}
+
 /*---------------------------------------------------------------------*
  * Main function
  *---------------------------------------------------------------------*/
@@ -797,6 +792,8 @@ int main (int argc, char* argv[])
 
   if (celstart->Initialize (argc, argv))
     celstart->Start ();
+
+  celstart->Stop ();
 
   iObjectRegistry* object_reg = celstart->object_reg;
   delete celstart;

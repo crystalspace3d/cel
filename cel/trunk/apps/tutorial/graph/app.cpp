@@ -182,15 +182,8 @@ bool MainApp::LoadPathFinder ()
 
 
 
-void MainApp::ProcessFrame ()
+void MainApp::Frame ()
 {
-}
-
-void MainApp::FinishFrame ()
-{
-  // Just tell the 3D renderer that everything has been rendered.
-  g3d->FinishDraw ();
-  g3d->Print (0);
 }
 
 bool MainApp::OnKeyboard(iEvent& ev)
@@ -269,7 +262,15 @@ bool MainApp::Application ()
     return ReportError ("Couldn't create player!"); 
  if (!LoadPathFinder ())
     return ReportError ("Couldn't create Pathfinding entity!"); 
+
+ printer.AttachNew (new FramePrinter (object_reg));
+
  Run ();
 
   return true;
+}
+
+void MainApp::OnExit ()
+{
+  printer.Invalidate ();
 }

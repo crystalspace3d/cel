@@ -108,15 +108,8 @@ bool MainApp::CreatePlayer ()
   return true;
 }
 
-void MainApp::ProcessFrame ()
+void MainApp::Frame ()
 {
-}
-
-void MainApp::FinishFrame ()
-{
-  // Just tell the 3D renderer that everything has been rendered.
-  g3d->FinishDraw ();
-  g3d->Print (0);
 }
 
 bool MainApp::OnKeyboard(iEvent& ev)
@@ -194,7 +187,14 @@ bool MainApp::Application ()
   if (!CreatePlayer ())
     return ReportError ("Couldn't create player!");
 
+  printer.AttachNew (new FramePrinter (object_reg));
+
   Run ();
 
   return true;
+}
+
+void MainApp::OnExit ()
+{
+  printer.Invalidate ();
 }

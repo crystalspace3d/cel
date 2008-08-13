@@ -55,7 +55,9 @@ SCF_IMPLEMENT_FACTORY (celPlLayer)
 celPlLayer::celPlLayer (iBase* parent) : scfImplementationType (this, parent)
 {
   entities_hash_dirty = false;
-  scfiEventHandler = 0;
+  scfiEventHandlerLogic = 0;
+  scfiEventHandler3D = 0;
+  scfiEventHandler2D = 0;
 
   compress_delay = 1000;
   allow_entity_addon = true;
@@ -69,25 +71,34 @@ celPlLayer::~celPlLayer ()
   entities_hash.DeleteAll ();
   entityclasses_hash.DeleteAll ();
 
-  if (scfiEventHandler)
+  if (scfiEventHandlerLogic)
   {
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
     if (q != 0)
-      q->RemoveListener (scfiEventHandler);
-    scfiEventHandler->DecRef ();
+      q->RemoveListener (scfiEventHandlerLogic);
+    scfiEventHandlerLogic->DecRef ();
+  }
+
+  if (scfiEventHandler3D)
+  {
+    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+    if (q != 0)
+      q->RemoveListener (scfiEventHandler3D);
+    scfiEventHandler3D->DecRef ();
+  }
+
+  if (scfiEventHandler2D)
+  {
+    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+    if (q != 0)
+      q->RemoveListener (scfiEventHandler2D);
+    scfiEventHandler2D->DecRef ();
   }
 }
 
-bool celPlLayer::HandleEvent (iEvent& ev)
+bool celPlLayer::HandleEvent (iEvent& ev, int where)
 {
-  int where;
-  if (ev.Name == csevPreProcess (object_reg))
-    where = CEL_EVENT_PRE;
-  else if (ev.Name == csevProcess (object_reg))
-    where = CEL_EVENT_VIEW;
-  else if (ev.Name == csevPostProcess (object_reg))
-    where = CEL_EVENT_POST;
-  else
+  if (ev.Name != csevFrame (object_reg))
     return false;
 
   CallbackInfo* cbinfo = GetCBInfo (where);
@@ -141,16 +152,19 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine) return false;	// Engine is required.
 
-  scfiEventHandler = new EventHandler (this);
+  scfiEventHandlerLogic = new EventHandlerLogic (this);
   csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
   csEventID esub[] = { 
-    csevPreProcess (object_reg),   // this goes away...
-    csevPostProcess (object_reg),  // this goes away...
-    csevProcess (object_reg),      // this goes away...
-    csevFrame (object_reg),        // this replaces the above!
+    csevFrame (object_reg),
     CS_EVENTLIST_END 
   };
-  q->RegisterListener (scfiEventHandler, esub);
+  q->RegisterListener (scfiEventHandlerLogic, esub);
+
+  scfiEventHandler3D = new EventHandler3D (this);
+  q->RegisterListener (scfiEventHandler3D, esub);
+
+  scfiEventHandler2D = new EventHandler2D (this);
+  q->RegisterListener (scfiEventHandler2D, esub);
 
   return true;
 }

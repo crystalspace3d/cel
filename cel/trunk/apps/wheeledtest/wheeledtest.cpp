@@ -28,6 +28,7 @@
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
 #include "csutil/event.h"
+#include "csutil/common_handlers.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"
 #include "iutil/objreg.h"
@@ -107,17 +108,13 @@ WheeledTest::~WheeledTest ()
 void WheeledTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
+
+  printer.Invalidate ();
 }
 
-void WheeledTest::ProcessFrame ()
+void WheeledTest::Frame ()
 {
   // We let the entity system do this so there is nothing here.
-}
-
-void WheeledTest::FinishFrame ()
-{
-  g3d->FinishDraw ();
-  g3d->Print (0);
 }
 
 bool WheeledTest::OnKeyboard (iEvent &ev)
@@ -443,6 +440,8 @@ bool WheeledTest::Application ()
   pl->RegisterBehaviourLayer (bltest);
 
   if (!CreateMap ()) return false;
+
+  printer.AttachNew (new FramePrinter (object_reg));
 
   // This calls the default runloop. This will basically just keep
   // broadcasting process events to keep the game going.

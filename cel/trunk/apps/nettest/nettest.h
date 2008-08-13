@@ -78,17 +78,12 @@ private:
 
 public:
   /**
-   * Setup everything that needs to be rendered on screen. This routine
-   * is called from the event handler in response to a csevProcess
-   * broadcast message.
-   */
-  virtual void ProcessFrame ();
+  * Setup everything that needs to be rendered on screen. This routine
+  * is called from the event handler in response to a csevFrame
+  * broadcast message.
+  */
+  virtual void Frame ();
   virtual void PostProcessFrame ();
-
-  /**
-   * Finally render the screen. This routine is called from the event
-   * handler in response to a csevFinalProcess broadcast message.
-   */
   virtual void FinishFrame ();
 
   /**
@@ -132,8 +127,7 @@ public:
    */
   virtual bool Application ();
 
-  CS_EVENTHANDLER_NAMES("cel.apps.nettest")
-  CS_EVENTHANDLER_NIL_CONSTRAINTS
+  CS_EVENTHANDLER_PHASE_2D("cel.apps.nettest")
 };
 
 #endif // __NETTEST_H__

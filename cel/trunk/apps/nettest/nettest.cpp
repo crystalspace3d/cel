@@ -104,9 +104,10 @@ void NetTest::OnExit ()
   if (pl) pl->CleanCache ();
 }
 
-void NetTest::ProcessFrame ()
+void NetTest::Frame ()
 {
-  // We let the entity system do this so there is nothing here.
+  PostProcessFrame ();
+  FinishFrame ();
 }
 
 void NetTest::PostProcessFrame ()

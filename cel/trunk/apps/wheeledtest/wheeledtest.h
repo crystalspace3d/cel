@@ -35,6 +35,7 @@ struct iEvent;
 struct iSector;
 struct iView;
 class csVector3;
+class FramePrinter;
 
 struct iPcCamera;
 struct iCelEntity;
@@ -55,23 +56,18 @@ private:
   csRef<iGraphics3D> g3d;
   csRef<iKeyboardDriver> kbd;
   csRef<iVirtualClock> vc;
+  csRef<FramePrinter> printer;
 
   csRef<iCelPlLayer> pl;
   csRef<iCelBlLayer> bltest;
   csRef<iCelEntity> game;
  
   /**
-   * Setup everything that needs to be rendered on screen. This routine
-   * is called from the event handler in response to a csevProcess
-   * broadcast message.
-   */
-  virtual void ProcessFrame ();
-
-  /**
-   * Finally render the screen. This routine is called from the event
-   * handler in response to a csevFinalProcess broadcast message.
-   */
-  virtual void FinishFrame ();
+  * Setup everything that needs to be rendered on screen. This routine
+  * is called from the event handler in response to a csevFrame
+  * broadcast message.
+  */
+  virtual void Frame ();
 
   /**
    * Handle keyboard events - ie key presses and releases.
