@@ -27,6 +27,7 @@
 #include "iutil/comp.h"
 #include "iutil/event.h"
 #include "iutil/eventh.h"
+#include "csutil/common_handlers.h"
 #include "physicallayer/pl.h"
 #include "plugins/stdphyslayer/numreg.h"
 
@@ -126,6 +127,7 @@ public:
   virtual bool Initialize (iObjectRegistry* object_reg);
 
   bool HandleEvent (iEvent& ev);
+  bool HandleEvent (iEvent& ev, int where);
 
   iEngine* GetEngine () const { return engine; }
 
@@ -253,28 +255,71 @@ public:
   }
 
   // Not an embedded interface to avoid circular references!!!
-  class EventHandler : public scfImplementation1<
-	EventHandler, iEventHandler>
+  class EventHandlerLogic : public scfImplementation1<
+	EventHandlerLogic, iEventHandler>
   {
   private:
     celPlLayer* parent;
 
   public:
-    EventHandler (celPlLayer* parent) : scfImplementationType (this)
+    EventHandlerLogic (celPlLayer* parent) : scfImplementationType (this)
     {
-      EventHandler::parent = parent;
+      EventHandlerLogic::parent = parent;
     }
-    virtual ~EventHandler ()
+    virtual ~EventHandlerLogic ()
     {
     }
 
     virtual bool HandleEvent (iEvent& ev)
     {
-      return parent->HandleEvent (ev);
+      return parent->HandleEvent (ev, CEL_EVENT_PRE);
     }
-    CS_EVENTHANDLER_NAMES("cel.physicallayer")
-    CS_EVENTHANDLER_NIL_CONSTRAINTS
-  } *scfiEventHandler;
+    CS_EVENTHANDLER_PHASE_LOGIC("cel.physicallayer.frame.logic")
+  } *scfiEventHandlerLogic;
+
+  class EventHandler3D : public scfImplementation1<
+    EventHandler3D, iEventHandler>
+  {
+  private:
+    celPlLayer* parent;
+
+  public:
+    EventHandler3D (celPlLayer* parent) : scfImplementationType (this)
+    {
+      EventHandler3D::parent = parent;
+    }
+    virtual ~EventHandler3D ()
+    {
+    }
+
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      return parent->HandleEvent (ev, CEL_EVENT_VIEW);
+    }
+    CS_EVENTHANDLER_PHASE_3D("cel.physicallayer.frame.3d")
+  } *scfiEventHandler3D;
+
+  class EventHandler2D : public scfImplementation1<
+    EventHandler2D, iEventHandler>
+  {
+  private:
+    celPlLayer* parent;
+
+  public:
+    EventHandler2D (celPlLayer* parent) : scfImplementationType (this)
+    {
+      EventHandler2D::parent = parent;
+    }
+    virtual ~EventHandler2D ()
+    {
+    }
+
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      return parent->HandleEvent (ev, CEL_EVENT_POST);
+    }
+    CS_EVENTHANDLER_PHASE_2D("cel.physicallayer.frame.2d")
+  } *scfiEventHandler2D;
 };
 
 #endif // __CEL_PLIMP_PL__

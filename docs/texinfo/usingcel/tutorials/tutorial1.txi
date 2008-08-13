@@ -192,6 +192,8 @@ handling loop.
 #include <physicallayer/entity.h>
 #include <physicallayer/pl.h>
 
+class FramePrinter;
+
 /*
  * Our main application class inherits from csApplicationFramework
  * and csBaseEventHandler.
@@ -207,6 +209,7 @@ private:
   csRef<iVFS> vfs;
   csRef<iVirtualClock> vc;
   csRef<iKeyboardDriver> kbd;
+  csRef<FramePrinter> printer;
 
   // References to modules from Crystal Entity Layer.
   csRef<iCelPlLayer> pl;
@@ -220,10 +223,8 @@ private:
   bool OnKeyboard (iEvent&);
 
   // Inherited from csBaseEventHandler: handle a signle frame.
-  void ProcessFrame ();
-  // Inherited from csBaseEventHandler: handle a signle frame.
-  void FinishFrame ();
-
+  void Frame ();
+  
   // Create the level entity and load the level in it.
   // Returns false on failure. The error has been already reported to
   // the reporter in that case.
@@ -243,6 +244,7 @@ public:
 
   // Inherited from csApplicationFramework: initialization.
   virtual bool Application ();
+  virtual void OnExit ();
 @};
 
 #endif
@@ -430,23 +432,15 @@ The following three methods are called by the event handler whenever
 a certain event occurs. @code{ProcessFrame()} is called every frame. Normally
 you would put the code here to draw 3D graphics. However in case of CRystal
 Entity Layer it is the camera property class that actually takes care of
-this so the implementation here is empty. In @code{FinishFrame()} we
-actually render everything on screen.
+this so the implementation here is empty.
 
 When the player presses a key the @code{OnKeyboard()} routine is called. In
 this case we only listen to the escape key to exit the application since
 all other keys are handled by the player entity.
 
 @example
-void MainApp::ProcessFrame ()
+void MainApp::Frame ()
 @{
-@}
-
-void MainApp::FinishFrame ()
-@{
-  // Just tell the 3D renderer that everything has been rendered.
-  g3d->FinishDraw ();
-  g3d->Print (0);
 @}
 
 bool MainApp::OnKeyboard(iEvent& ev)
@@ -552,10 +546,17 @@ bool MainApp::Application ()
     return ReportError ("Error loading level!");
   if (!CreatePlayer ())
     return ReportError ("Couldn't create player!");
+    
+  printer.AttachNew (new FramePrinter (object_reg));
 
   Run ();
 
   return true;
+@}
+
+void MainApp::OnExit ()
+@{
+  printer.Invalidate ();
 @}
 @end example
 

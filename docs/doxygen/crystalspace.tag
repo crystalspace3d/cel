@@ -3372,11 +3372,6 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <name>FinishFrame</name>
-      <anchor>77cf9e4bd476a8b14340760b575aa15c</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
       <name>Frame</name>
       <anchor>f2296a2c7c174832ddced455b67904c2</anchor>
       <arglist>()</arglist>

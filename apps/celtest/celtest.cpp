@@ -28,6 +28,7 @@
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
 #include "csutil/event.h"
+#include "csutil/common_handlers.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"
 #include "iutil/objreg.h"
@@ -109,18 +110,14 @@ CelTest::~CelTest ()
 void CelTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
+  printer.Invalidate ();
 }
 
-void CelTest::ProcessFrame ()
+void CelTest::Frame ()
 {
   // We let the entity system do this so there is nothing here.
 }
 
-void CelTest::FinishFrame ()
-{
-  g3d->FinishDraw ();
-  g3d->Print (0);
-}
 
 bool CelTest::OnKeyboard (iEvent &ev)
 {
@@ -422,6 +419,8 @@ bool CelTest::Application ()
   pl->RegisterBehaviourLayer (bltest);
 
   if (!CreateRoom ()) return false;
+
+  printer.AttachNew (new FramePrinter (object_reg));
 
   // This calls the default runloop. This will basically just keep
   // broadcasting process events to keep the game going.

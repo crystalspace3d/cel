@@ -27,6 +27,7 @@
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
 #include "csutil/event.h"
+#include "csutil/common_handlers.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"
 #include "iutil/objreg.h"
@@ -109,17 +110,13 @@ HoverTest::~HoverTest ()
 void HoverTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
+
+  printer.Invalidate ();
 }
 
-void HoverTest::ProcessFrame ()
+void HoverTest::Frame ()
 {
   // We let the entity system do this so there is nothing here.
-}
-
-void HoverTest::FinishFrame ()
-{
-  g3d->FinishDraw ();
-  g3d->Print (0);
 }
 
 bool HoverTest::OnKeyboard (iEvent &ev)
@@ -409,6 +406,8 @@ bool HoverTest::Application()
     return ReportError ("unable to register behaviour layer!");
 
   if (!CreateRoom ()) return false;
+
+  printer.AttachNew (new FramePrinter (object_reg));
 
   // Start the default run/event loop.  This will return only when some code,
   // such as OnKeyboard(), has asked the run loop to terminate.

@@ -34,6 +34,7 @@ struct iEvent;
 struct iSector;
 struct iView;
 class csVector3;
+class FramePrinter;
 
 struct iPcCamera;
 struct iCelPropertyClass;
@@ -49,10 +50,10 @@ private:
   csRef<iCelBlLayer> bl;
   csRef<iGraphics3D> g3d;
   csRef<iCelEntity> bootstrap_entity;
+  csRef<FramePrinter> printer;
  
   static bool BootstrapEventHandler (iEvent& ev);
   bool HandleEvent (iEvent& ev);
-  void FinishFrame ();
 
 public:
   Bootstrap ();
@@ -60,6 +61,7 @@ public:
 
   bool Initialize (int argc, const char* const argv[]);
   void Start ();
+  void Stop ();
 };
 
 #endif // __BOOTSTRAP_H__
