@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <?xml-stylesheet type='text/xsl' href='interface.xsl'?>
-<interface uri="http://crystalspace3d.org/0install/celstart-launcher.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+<interface uri="http://crystalspace3d.org/0install/celstart-launcher-1.9.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
   <name>CELstart</name>
   <summary>Run CrystalSpace+CEL game packages</summary>
   <description>
@@ -19,7 +19,7 @@ CELstart is a launcher for self-contained &amp;quot;celzip&amp;quot; game packag
   </group>
 </interface>
 <!-- Base64 Signature
-iEYEABECAAYFAkiaLtUACgkQ5WlQiAu2874NQgCfcmQpCd2NUz7VKMz1EOY9UNesvWEAoIBVoug1
-zqT5eyqesrFGOZG41yZS
+iEYEABECAAYFAkijgcEACgkQ5WlQiAu2876P/QCcC2ooru8dDlCVakYKQyT4cFhfRHQAnjH0+VYN
+e0d3r1UtgRok+O47nBuY
 
 -->
