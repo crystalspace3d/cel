@@ -72,6 +72,8 @@ handling loop.
 #include &lt;physicallayer/entity.h&gt;
 #include &lt;physicallayer/pl.h&gt;
 
+class FramePrinter;
+
 /*
  * Our main application class inherits from csApplicationFramework
  * and csBaseEventHandler.
@@ -87,6 +89,7 @@ private:
   csRef&lt;iVFS&gt; vfs;
   csRef&lt;iVirtualClock&gt; vc;
   csRef&lt;iKeyboardDriver&gt; kbd;
+  csRef&lt;FramePrinter&gt; printer;
 
   // References to modules from Crystal Entity Layer.
   csRef&lt;iCelPlLayer&gt; pl;
@@ -100,10 +103,8 @@ private:
   bool OnKeyboard (iEvent&amp;);
 
   // Inherited from csBaseEventHandler: handle a signle frame.
-  void ProcessFrame ();
-  // Inherited from csBaseEventHandler: handle a signle frame.
-  void FinishFrame ();
-
+  void Frame ();
+  
   // Create the level entity and load the level in it.
   // Returns false on failure. The error has been already reported to
   // the reporter in that case.
@@ -123,6 +124,7 @@ public:
 
   // Inherited from csApplicationFramework: initialization.
   virtual bool Application ();
+  virtual void OnExit ();
 };
 
 #endif
