@@ -37,7 +37,7 @@ class celScroller:
         self.menu.addElement('', 'scroller_down' + name, bposdown, self.bsize, fc, 'scroller-down')
 
     #Add an item to the scroller
-    def additem(self, name, message):
+    def additem(self, name, message, vfsfontpath = None):
         #Check that its not a dupe
         if (name not in self.names) or self.allowdoubles:
             button = pl.CreateEntity(name, self.blpython, 'celButton')
@@ -52,7 +52,13 @@ class celScroller:
             pcbb.text_offset = csVector2(3000, 2000)
             pcbb.text_fg_color = self.fcolor
             pcbb.text_font_size = self.fconst
-            pcbb.text_font = '/outlaws/fonts/lcd2.ttf'
+            if vfsfontpath is not None:
+                oldfont = self.menu.getFont()
+                self.menu.setFont(vfsfontpath)
+                pcbb.text_font = self.menu.getFont()
+                self.menu.setFont(oldfont)
+            else:
+                pcbb.text_font = self.menu.getFont()
             self.items.append(button)
             self.names.append(name)
             index = len(self.names) - 1
