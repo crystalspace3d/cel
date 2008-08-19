@@ -153,7 +153,6 @@ public:
 class celClassChangePropertyReward : public celChangePropertyRewardBase
 {
 private:
-  celChangePropertyRewardType* type;
   csRef<iCelEntityList> entlist;
   csRef<iQuestParameter> clazz;
 
