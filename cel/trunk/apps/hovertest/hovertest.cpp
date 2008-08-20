@@ -44,7 +44,6 @@
 #include "iengine/movable.h"
 #include "iengine/material.h"
 #include "iengine/collection.h"
-#include "imesh/thing.h"
 #include "imesh/sprite3d.h"
 #include "imesh/object.h"
 #include "ivaria/dynamics.h"
