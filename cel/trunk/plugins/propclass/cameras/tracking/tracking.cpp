@@ -102,7 +102,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   AddProperty (propid_pan_accel, "cel.property.pan_accel",
     CEL_DATA_FLOAT, true, "Pan acceleration.", &pan.accel);
   AddProperty (propid_pan_dir, "cel.property.pan_dir",
-    CEL_DATA_LONG, false, "Pan direction -1 left, 0 none, 1 right.", &pandir);
+    CEL_DATA_LONG, true, "Pan direction -1 left, 0 none, 1 right.", &pandir);
   AddProperty (propid_tilt_topspeed, "cel.property.tilt_topspeed",
     CEL_DATA_FLOAT, true, "Top speed limit for tilting.", &tilt.topspeed);
   AddProperty (propid_tilt_currspeed, "cel.property.tilt_currspeed",
@@ -110,7 +110,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   AddProperty (propid_tilt_accel, "cel.property.tilt_accel",
     CEL_DATA_FLOAT, true, "Tilt acceleration.", &tilt.accel);
   AddProperty (propid_tilt_dir, "cel.property.tilt_dir",
-    CEL_DATA_LONG, false, "Tilt direction -1 down, 0 none, 1 up.", &tiltdir);
+    CEL_DATA_LONG, true, "Tilt direction -1 down, 0 none, 1 up.", &tiltdir);
   AddProperty (propid_taryoff, "cel.property.targetyoffset",
     CEL_DATA_FLOAT, true, "Y offset from target for lookat.", 0);
   AddProperty (propid_tarintrans, "cel.property.target_intransition",
@@ -419,17 +419,41 @@ bool celPcTrackingCamera::DecideState ()
   }
   else if (targetstate == TARGET_NONE)
   {
-    // Get a 2D vector of the camera's direction
+    /*PanAroundPlayer (playpos, elapsedsecs);
+
+    pos = playpos - cam_dir * posoffset_z;
+    pos.y = playpos.y + posoffset_y;
+
+    tar = playpos;
+    tar.y += targetyoffset;*/
+
+    // get flat 2D vector (zero out y) of camera to the player
+    csVector3 camplay (playpos - pos);
+    camplay.y = 0.0f;
+    float dist = camplay.Norm ();
+    camplay.Normalize ();
+    // Now get a 2D vector of the camera's direction
     csVector3 camdir (tar - pos);
+    camdir.y = 0.0f;
     camdir.Normalize ();
-    // stay lined up but move to behind the player
-    pos = playpos - camdir * posoffset_z;
+
+    // plug it into our simplified equation to get the movement needed
+    //   cos (x) = camdir . camplay
+    //   move = dist * cos (x)
+    // in case you don't realise, it's the distance along camdir until
+    // there's a perpendicular bisecting camera -> player...
+    // ... this is so the camera only follows player in and out of the screen
+    float move = dist * camdir * camplay - posoffset_z;
+
+    pos += SpringForce (move) * move * camdir;
     // lock y axis to fixed distance above player
     pos.y = playpos.y + posoffset_y;
-    // update target to continue facing old direction
-    tar = pos + camdir;
 
     PanAroundPlayer (playpos, elapsedsecs);
+
+    // setup the target
+    tar = (dist * camdir * camplay) * camdir + pos;
+    tar.y = playpos.y + targetyoffset;
   }
   else if (targetstate == TARGET_OBJ)
   {
@@ -506,10 +530,21 @@ bool celPcTrackingCamera::SetTargetEntity (const char* name)
   // great success!
   return true;
 }
-void celPcTrackingCamera::SetTargetState (TargetState targetstate)
+void celPcTrackingCamera::SetTargetState (TargetState ntstate)
 {
-  celPcTrackingCamera::targetstate = targetstate;
-  TransitionTarget ();
+  // save the camera direction since it's locked now
+  if (ntstate != TARGET_BASE)
+  {
+    cam_dir = tar - pos;
+    cam_dir.Normalize();
+  }
+  //if (targetstate != TARGET_OBJ && ntstate != TARGET_NONE)
+    //TransitionTarget ();
+  targetstate = ntstate;
+}
+celPcTrackingCamera::TargetState celPcTrackingCamera::GetTargetState ()
+{
+  return targetstate;
 }
 void celPcTrackingCamera::SetTargetYOffset (float yoff)
 {
@@ -581,11 +616,6 @@ void celPcTrackingCamera::SetTiltAcceleration (float taccel)
 float celPcTrackingCamera::GetTiltAcceleration () const
 {
   return tilt.accel;
-}
-
-celPcTrackingCamera::TargetState celPcTrackingCamera::GetTargetState ()
-{
-  return targetstate;
 }
 
 const csVector3 &celPcTrackingCamera::GetPosition ()

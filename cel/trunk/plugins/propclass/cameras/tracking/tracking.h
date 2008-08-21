@@ -134,6 +134,9 @@ private:
   // tilt direction and speed
   float tiltdir;
 
+  // for target object
+  csVector3 cam_dir;
+
   // because you don't want to be looking at the targets feet
   float targetyoffset;
   // target is transitioning?
