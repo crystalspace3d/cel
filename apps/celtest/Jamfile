@@ -98,8 +98,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     sprcal3dldr
     stdpt
     stdrep
-    thing
-    thingldr
     vfs
     xmlread
     xmlshader
