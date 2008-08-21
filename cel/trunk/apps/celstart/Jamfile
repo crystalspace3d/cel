@@ -98,8 +98,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     terrain2
     terrain2ldr
     terrainldr
-    thing
-    thingldr
     trans_std
     vfs
     xmlread
