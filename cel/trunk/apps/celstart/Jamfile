@@ -175,6 +175,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfmeshdeform
     pfmove
     pfmover
+    pfnewcamera
     pfpathfinder
     pfportal
     pfquest
