@@ -132,6 +132,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfmesh
     pfmove
     pfmover
+    pfnewcamera
     pfportal
     pfquest
     pfsound
