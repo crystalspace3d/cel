@@ -73,8 +73,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     spr3dldr
     stdrep
     terrainldr
-    thing
-    thingldr
     vfs
     xmlread
     xmlshader
