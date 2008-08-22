@@ -4,16 +4,6 @@
   <scf>
     <classes>
       <class>
-        <name>cel.celedge</name>
-        <implementation>celEdge</implementation>
-	<description>CEL Edge</description>
-      </class>
-      <class>
-        <name>cel.celnode</name>
-        <implementation>celNode</implementation>
-	<description>CEL Node</description>
-      </class>
-      <class>
         <name>cel.celpath</name>
         <implementation>celPath</implementation>
 	<description>CEL Path</description>
