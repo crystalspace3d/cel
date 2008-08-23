@@ -36,6 +36,8 @@
 // CEL Includes
 #include "propclass/mesh.h"
 
+#include "iengine/engine.h"
+
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
@@ -419,16 +421,16 @@ bool celPcTrackingCamera::DecideState ()
   }
   else if (targetstate == TARGET_NONE)
   {
-    /*PanAroundPlayer (playpos, elapsedsecs);
+    PanAroundPlayer (playpos, elapsedsecs);
 
     pos = playpos - cam_dir * posoffset_z;
     pos.y = playpos.y + posoffset_y;
 
     tar = playpos;
-    tar.y += targetyoffset;*/
+    tar.y += targetyoffset;
 
     // get flat 2D vector (zero out y) of camera to the player
-    csVector3 camplay (playpos - pos);
+    /*csVector3 camplay (playpos - pos);
     camplay.y = 0.0f;
     float dist = camplay.Norm ();
     camplay.Normalize ();
@@ -454,6 +456,27 @@ bool celPcTrackingCamera::DecideState ()
     // setup the target
     tar = (dist * camdir * camplay) * camdir + pos;
     tar.y = playpos.y + targetyoffset;
+
+    // --------------
+    camdir = pos - tar;
+    camdir.y = 0.0;
+    CS::Swap(camdir.x, camdir.z);
+    //camdir.Normalize ();
+    //tar += camdir;
+
+    csVector3 offset (pos - tar);*/
+    //tar = playpos + csVector3 (0, targetyoffset, 0);
+
+    //pos -= (offset >> csVector3 (1, 0, 0));
+    //pos = playpos + csVector3 (0, targetyoffset, 0) + offset;
+
+    //tar += offset;
+    //pos += offset.Norm () * camdir;
+    /*csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+    iMovable *corn = engine->FindMeshObject ("Corner0")->GetMovable ();
+    iMovable *corn1 = engine->FindMeshObject ("Corner1")->GetMovable ();
+    corn->SetPosition (playpos + csVector3 (0, targetyoffset, 0));
+    corn1->SetPosition (tar);*/
   }
   else if (targetstate == TARGET_OBJ)
   {
