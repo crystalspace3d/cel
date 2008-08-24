@@ -148,6 +148,8 @@ void celPcJump::FinishBoost ()
 }
 void celPcJump::Freeze (bool frozen)
 {
+  if (!FindSiblingPropertyClasses ())
+    return;
   if (frozen)
   {
     currstate = FROZEN;
