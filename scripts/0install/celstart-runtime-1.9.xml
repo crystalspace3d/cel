@@ -8,6 +8,14 @@
   <homepage>http://crystalspace3d.org/main/CELstart</homepage>
   <icon href="http://crystalspace3d.org/mediawiki/images/1/10/CELstart-rocket.png" type="image/png"/>
   <group arch="Linux-i686" license="OSI Approved :: GNU Lesser General Public License (LGPL)">
+    <implementation id="sha1new=bea6ade42013b44b70794ca431c97cf617695bc8" released="2008-08-26" stability="testing" version="1.9.30943.3651">
+      <archive extract="celstart-1.9.0-CSr30943-CELr3651-Linux-x86" href="http://www.crystalspace3d.org/downloads/contrib/celstart-1.9.0-CSr30943-CELr3651-Linux-x86.tar.lzma" size="13177761" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/python25.xml">
+        <version before="2.6" not-before="2.5.2"/>
+        <environment insert="" mode="replace" name="PYTHONHOME"/>
+        <environment insert="lib" mode="prepend" name="LD_LIBRARY_PATH"/>
+      </requires>
+    </implementation>
     <implementation id="sha1new=bbde95e5bf7b07d4e8642d37ff6890a897b00c89" released="2008-08-07" stability="testing" version="1.9.30710.3609">
       <archive extract="celstart-1.9-CSr30710-CELr3609-Linux-x86" href="http://crystalspace3d.org/downloads/contrib/celstart-1.9-CSr30710-CELr3609-Linux-x86.tar.lzma" size="22450068" type="application/x-lzma-compressed-tar"/>
       <requires interface="http://crystalspace3d.org/0install/python25.xml">
@@ -19,7 +27,7 @@
   </group>
 </interface>
 <!-- Base64 Signature
-iEYEABECAAYFAkiz0zgACgkQnCws0dQa9bsL6gCfU4rgryn3f7e2SNaK5Mm5DWYIjb8AoMgdKrdk
-lx6wOkYRkroGUf99COiL
+iEYEABECAAYFAkiz1GUACgkQnCws0dQa9bvIIwCfaNqN+nLsH2skBuJmC275Hv2H120AnR3ksK7g
+owV8+v0ajA8JP1WQfgJT
 
 -->

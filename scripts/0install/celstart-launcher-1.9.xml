@@ -9,17 +9,17 @@ CELstart is a launcher for self-contained &amp;quot;celzip&amp;quot; game packag
   <category>Game</category>
   <icon href="http://crystalspace3d.org/mediawiki/images/1/10/CELstart-rocket.png" type="image/png"/>
   <group license="OSI Approved :: GNU Lesser General Public License (LGPL)" main="celstart-launcher">
-    <implementation id="sha1new=4b9fdb5fb5af159e0ae82ba3ba89d8dc8cbe7f2c" released="2008-08-06" stability="testing" version="1.9.30710.3609">
+    <implementation id="sha1new=4b9fdb5fb5af159e0ae82ba3ba89d8dc8cbe7f2c" released="2008-08-06" stability="testing" version="1.9.30943.3651">
     <archive href="http://crystalspace3d.org/0install/celstart-launcher.tar.lzma" size="169" type="application/x-lzma-compressed-tar"/>
       <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
-        <version not-before="1.9.30710.3609"/>
+        <version not-before="1.9.30943.3651"/>
         <environment insert="" mode="replace" name="CELSTART"/>
       </requires>
   </implementation>
   </group>
 </interface>
 <!-- Base64 Signature
-iEYEABECAAYFAkiz0zMACgkQnCws0dQa9bs+CwCgzR7BAlV9eIl8F6Bof5O2d1o2aOgAoL3f3Mph
-DvVCctd2Mh3TEzqBl4UK
+iEYEABECAAYFAkiz1f0ACgkQnCws0dQa9bsMlQCfeGj9ea0SmI6YWB2wOHbVWFFsSQsAoNhki7BA
+gt9rq6wLiTEIu+X1XyyX
 
 -->
