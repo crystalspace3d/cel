@@ -16,10 +16,17 @@ CELstart is a launcher for self-contained &amp;quot;celzip&amp;quot; game packag
         <environment insert="" mode="replace" name="CELSTART"/>
       </requires>
   </implementation>
+    <implementation id="sha1new=5815e1b3460e6089d350adb087197eb0ddf0a531" released="2008-08-27" stability="testing" version="1.9.30973.3656">
+      <archive extract="celstart-launcher-1.9.30973.3656" href="http://crystalspace3d.org/0install/celstart-launcher-1.9.30973.3656.tar.lzma" size="213" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
+        <version not-before="1.9.30973.3656"/>
+        <environment insert="" mode="replace" name="CELSTART"/>
+      </requires>
+    </implementation>
   </group>
 </interface>
 <!-- Base64 Signature
-iEYEABECAAYFAkiz1f0ACgkQnCws0dQa9bsMlQCfeGj9ea0SmI6YWB2wOHbVWFFsSQsAoNhki7BA
-gt9rq6wLiTEIu+X1XyyX
+iEYEABECAAYFAki1mPoACgkQnCws0dQa9buvCwCg0EvuoXNiqAHuYGL628ns3Y+zMc0AoK7JrGau
+ECElXSIkcCFAwvLZ0+tS
 
 -->
