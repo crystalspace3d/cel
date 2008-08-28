@@ -4,4 +4,5 @@ Application walktut : [ Wildcard *.cpp *.h ] ;
 CFlags walktut : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
 LinkWith walktut : celtool ;
 ExternalLibs walktut : CRYSTAL ;
+FileListEntryApplications walktut: app-demo ;
 
