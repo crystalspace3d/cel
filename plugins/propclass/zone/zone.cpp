@@ -683,7 +683,8 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
         if (!p_startname)
 	  return Report (object_reg, "Start name missing for PointMesh action!");;
         if (PointMesh (entityname, regionname, startname) != CEL_ZONEERROR_OK)
-          return Report (object_reg, "PointMesh failed!");
+          return Report (object_reg, "PointMesh failed (entity=%s,region=%s,start=%s)!",
+	      (const char*)entityname, (const char*)regionname, (const char*)startname);
         return true;
       }
     case action_pointcamera:
