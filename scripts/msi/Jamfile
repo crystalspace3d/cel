@@ -1,0 +1,38 @@
+SubDir TOP scripts msi ;
+
+# @@@ Not quite the same ...
+MSM_VERSION ?= $(PACKAGE_VERSION) ;
+
+if $(COMPILER.C++.VERSION_LIST)
+{
+  MSM_ARCH = "$(COMPILER.C++.TYPE)_$(COMPILER.C++.VERSION_LIST[1]).$(COMPILER.C++.VERSION_LIST[2])" ;
+}
+else
+{
+  MSM_ARCH = "$(COMPILER.C++.TYPE)" ;
+}
+
+# Architecture-independent
+MSIMergeModuleFromList cel.doc : doc-manual doc-api : $(MSM_VERSION) : doc-manual:manual doc-api:api ;
+MSIMergeModuleFromList cel.data : data : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.include : headers : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.vfs : vfs : $(MSM_VERSION) ;
+#MakeLocate cel.register.msm : $(LOCATE.MSM) ;
+#MSIMergeModule cel.register.msm : CS.register.wxs ;
+
+# Architecture-dependent
+MSIMergeModuleFromList cel.arch.$(MSM_ARCH).include : headers-platform : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.arch.$(MSM_ARCH).lib : libs-shared : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.arch.$(MSM_ARCH).executable : app-demo app-celstart plugin : $(MSM_VERSION) ;
+
+#rule MakeMSIsForArch
+#{
+#  local arch = $(1) ;
+#  
+#  MakeLocate cel-$(arch).msi : $(LOCATE.MSI) ;
+#  MSIPackage cel-$(arch).msi : CS.wxs :
+#    "MSM_CS_PATH=$(LOCATE.MSM)" "ARCH=$(arch)" "TOP=$(TOP)" ;
+#  #Depends cel-$(arch).msi : mergemodules ;
+#  Depends msis : cel-$(arch).msi ;
+#}
+#MakeMSIsForArch $(MSM_ARCH) ;
