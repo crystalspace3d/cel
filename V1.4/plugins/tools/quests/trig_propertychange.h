@@ -52,7 +52,7 @@ private:
   csString entity_par;
   csString tag_par;
   csString prop_par;
-  csString value_par;
+  const char* value_par;   // Do not change this to csString!
   csString op_par;
   bool onchange_par;
 
@@ -85,7 +85,7 @@ private:
   csString entity;
   csString tag;
   csString prop;
-  csString value;
+  const char* value; // Do not change this to csString!
   bool on_change;
   bool is_true;
   bool on_condition;
