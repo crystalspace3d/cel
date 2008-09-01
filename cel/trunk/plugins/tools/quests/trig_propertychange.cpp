@@ -63,10 +63,12 @@ celPropertyChangeTriggerFactory::celPropertyChangeTriggerFactory (
 	celPropertyChangeTriggerType* type) : scfImplementationType (this)
 {
   celPropertyChangeTriggerFactory::type = type;
+  value_par = 0;
 }
 
 celPropertyChangeTriggerFactory::~celPropertyChangeTriggerFactory ()
 {
+  delete[] value_par;
 }
 
 csPtr<iQuestTrigger> celPropertyChangeTriggerFactory::CreateTrigger (
@@ -108,7 +110,7 @@ bool celPropertyChangeTriggerFactory::Load (iDocumentNode* node)
   if (prop_par.IsEmpty())
     return Report (type->object_reg,
       "'property' attribute is missing for the propertychange trigger!");
-  value_par = node->GetAttributeValue ("value");
+  value_par = csStrNew (node->GetAttributeValue ("value"));
   op_par = node->GetAttributeValue ("operation");
   onchange_par = node->GetAttributeValueAsBool ("onchange",false);
   return true;
@@ -130,7 +132,10 @@ void celPropertyChangeTriggerFactory::SetPropertyParameter (
 void celPropertyChangeTriggerFactory::SetValueParameter (
 	const char* value)
 {
-  value_par = value;
+  if (value_par == value)
+    return;
+  delete[] value_par;
+  value_par = csStrNew (value);
 }
 
 void celPropertyChangeTriggerFactory::SetOperationParameter (
@@ -155,7 +160,7 @@ celPropertyChangeTrigger::celPropertyChangeTrigger (
   tag = qm->ResolveParameter (params, tag_par);
   prop = qm->ResolveParameter (params, prop_par);
   if (value_par)
-    value = qm->ResolveParameter (params, value_par);
+    value = csStrNew (qm->ResolveParameter (params, value_par));
   else
     value = 0;
   on_change = onchange;
@@ -164,6 +169,7 @@ celPropertyChangeTrigger::celPropertyChangeTrigger (
 celPropertyChangeTrigger::~celPropertyChangeTrigger ()
 {
   DeactivateTrigger ();
+  delete[] value;
 }
 
 void celPropertyChangeTrigger::RegisterCallback (iQuestTriggerCallback* callback)
