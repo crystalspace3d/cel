@@ -662,6 +662,8 @@ host
 host_cpu
 host_vendor
 host_os
+CS_TOP_SRCDIR
+CS_TOP_BUILDDIR
 CC
 CFLAGS
 LDFLAGS
@@ -1936,6 +1938,49 @@ IFS=$ac_save_IFS
 case $host_os in *\ *) host_os=`echo "$host_os" | sed 's/ /-/g'`;; esac
 
 
+CS_TOP_SRCDIR=$(
+    cs_indir=`echo "x$srcdir" | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    ac_dir="$cs_indir"
+    pwd -W >/dev/null 2>&1 && ac_pwd_w="pwd -W" || ac_pwd_w=pwd
+    until ac_val=`exec 2>/dev/null; cd "$ac_dir" && $ac_pwd_w`
+    do
+       ac_dir=`$as_dirname -- "$ac_dir" ||
+$as_expr X"$ac_dir" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$ac_dir" : 'X\(//\)[^/]' \| \
+	 X"$ac_dir" : 'X\(//\)$' \| \
+	 X"$ac_dir" : 'X\(/\)' \| . 2>/dev/null ||
+echo X"$ac_dir" |
+    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\/\)[^/].*/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\/\)$/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\).*/{
+	    s//\1/
+	    q
+	  }
+	  s/.*/./; q'`
+    done
+    ac_dir=`echo "$ac_dir" | sed 's?^[./]*??'`
+    ac_val=`echo "$ac_val" | sed 's?/*$??'`
+    cs_outdir=`echo "$cs_indir" | sed "s?^[./]*$ac_dir/*?$ac_val/?"';s?/*$??'`
+    echo $cs_outdir
+    )
+
+    CS_TOP_BUILDDIR=.
+
+
+
+#----------------------------------------------------------------------------
+# Check for tools.
+#----------------------------------------------------------------------------
 
     { echo "$as_me:$LINENO: checking whether to enable -mno-cygwin" >&5
 echo $ECHO_N "checking whether to enable -mno-cygwin... $ECHO_C" >&6; }
@@ -1978,10 +2023,6 @@ fi
 echo "${ECHO_T}$cs_mno_cygwin" >&6; }
 
 
-
-#----------------------------------------------------------------------------
-# Check for tools.
-#----------------------------------------------------------------------------
 
 
     CFLAGS="$CFLAGS" # Filter undesired flags
@@ -11183,23 +11224,23 @@ fi
   ($CSLIBS_CONFIG --cflags $cs_cv_cslibs_compiler) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	       cs_cv_cslibs_lflags=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --lflags \$cs_cv_cslibs_compiler") >&5
   ($CSLIBS_CONFIG --lflags $cs_cv_cslibs_compiler) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	       cs_cv_cslibs_binpath=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --binpath \$cs_cv_cslibs_compiler") >&5
   ($CSLIBS_CONFIG --binpath $cs_cv_cslibs_compiler) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
                if $CSLIBS_CONFIG --incpath >/dev/null 2>&1; then
   cs_cv_cslibs_incpath=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --incpath \$cs_cv_cslibs_compiler") >&5
   ($CSLIBS_CONFIG --incpath $cs_cv_cslibs_compiler) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 else
   cs_cv_cslibs_incpath=''
 fi
@@ -11209,7 +11250,7 @@ fi
   ($CSLIBS_CONFIG --pcpath $cs_cv_cslibs_compiler) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 else
   cs_cv_cslibs_pcpath=''
 fi
@@ -12064,7 +12105,7 @@ else
 		print "-I" + distutils.sysconfig.get_python_inc()') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	    cs_cv_pybase_cflags="$cs_cv_pybase_cflags \
 		$cs_cv_prog_cxx_ignore_long_double"
 
@@ -12079,14 +12120,14 @@ else
 		print distutils.sysconfig.get_python_lib(0,1)') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	    cs_cv_pybase_sysprefix=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
 		'import sys; print sys.prefix'") >&5
   ($PYTHON -c \
 		'import sys; print sys.prefix') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	    cs_cv_pybase_lflags_base=''
 	    if test -d "$cs_cv_pybase_syslib"; then
   cs_cv_pybase_lflags_base="$cs_cv_pybase_lflags_base -L$cs_cv_pybase_syslib"
@@ -12116,7 +12157,7 @@ fi
 		      (distutils.sysconfig.get_config_var("SYSLIBS") or "")') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 
 	    cs_cv_python_ext=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
 		'import distutils.sysconfig; \\
@@ -12711,13 +12752,13 @@ echo "${ECHO_T}$cs_cv_prog_pkg_config_cppunit" >&6; }
   ($PKG_CONFIG --cflags cppunit) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_check_lib_lflag=''
 	cs_check_lib_libs=`{ (echo "$as_me:$LINENO: \$PKG_CONFIG --libs cppunit") >&5
   ($PKG_CONFIG --libs cppunit) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_cv_prog_pkg_config_cppunit_flags=`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_libs | sed 'y% %#%'`
 fi
 
@@ -12853,13 +12894,13 @@ fi
   ($CONFIG_CPPUNIT --cflags ) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_check_lib_lflag=''
 	cs_check_lib_libs=`{ (echo "$as_me:$LINENO: \$CONFIG_CPPUNIT --libs ") >&5
   ($CONFIG_CPPUNIT --libs ) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_cv_prog_config_cppunit_flags=`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_libs | sed 'y% %#%'`
 fi
 
@@ -14338,13 +14379,13 @@ echo "${ECHO_T}$cs_cv_prog_pkg_config_NL" >&6; }
   ($PKG_CONFIG --cflags NL) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_check_lib_lflag=''
 	cs_check_lib_libs=`{ (echo "$as_me:$LINENO: \$PKG_CONFIG --libs NL") >&5
   ($PKG_CONFIG --libs NL) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_cv_prog_pkg_config_NL_flags=`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_libs | sed 'y% %#%'`
 fi
 
@@ -14480,13 +14521,13 @@ fi
   ($CONFIG_NL --cflags ) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_check_lib_lflag=''
 	cs_check_lib_libs=`{ (echo "$as_me:$LINENO: \$CONFIG_NL --libs ") >&5
   ($CONFIG_NL --libs ) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_cv_prog_config_NL_flags=`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_libs | sed 'y% %#%'`
 fi
 
@@ -15419,17 +15460,17 @@ fi
   ($cfg --cxxflags $cs_liblist) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	CRYSTAL_LIBS=`{ (echo "$as_me:$LINENO: \$cfg --libs \$cs_liblist") >&5
   ($cfg --libs $cs_liblist) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	CRYSTAL_INCLUDE_DIR=`{ (echo "$as_me:$LINENO: \$cfg --includedir \$cs_liblist") >&5
   ($cfg --includedir $cs_liblist) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	CRYSTAL_AVAILABLE_LIBS=`$cfg --available-libs`
 	CRYSTAL_STATICDEPS=`$cfg --static-deps`
 	if test -z "$CRYSTAL_LIBS"; then
@@ -17135,13 +17176,13 @@ echo "${ECHO_T}$cs_cv_prog_pkg_config_bfd" >&6; }
   ($PKG_CONFIG --cflags bfd) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_check_lib_lflag=''
 	cs_check_lib_libs=`{ (echo "$as_me:$LINENO: \$PKG_CONFIG --libs bfd") >&5
   ($PKG_CONFIG --libs bfd) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_cv_prog_pkg_config_bfd_flags=`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_libs | sed 'y% %#%'`
 fi
 
@@ -17277,13 +17318,13 @@ fi
   ($CONFIG_BFD --cflags ) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_check_lib_lflag=''
 	cs_check_lib_libs=`{ (echo "$as_me:$LINENO: \$CONFIG_BFD --libs ") >&5
   ($CONFIG_BFD --libs ) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	cs_cv_prog_config_bfd_flags=`echo @$cs_check_lib_cflag@$cs_check_lib_lflag@$cs_check_lib_libs | sed 'y% %#%'`
 fi
 
@@ -19081,6 +19122,8 @@ host!$host$ac_delim
 host_cpu!$host_cpu$ac_delim
 host_vendor!$host_vendor$ac_delim
 host_os!$host_os$ac_delim
+CS_TOP_SRCDIR!$CS_TOP_SRCDIR$ac_delim
+CS_TOP_BUILDDIR!$CS_TOP_BUILDDIR$ac_delim
 CC!$CC$ac_delim
 CFLAGS!$CFLAGS$ac_delim
 LDFLAGS!$LDFLAGS$ac_delim
@@ -19131,8 +19174,6 @@ TTREE!$TTREE$ac_delim
 SWIG!$SWIG$ac_delim
 CSLIBS_CONFIG!$CSLIBS_CONFIG$ac_delim
 ac_ct_CSLIBS_CONFIG!$ac_ct_CSLIBS_CONFIG$ac_delim
-PYTHON!$PYTHON$ac_delim
-ac_ct_PYTHON!$ac_ct_PYTHON$ac_delim
 _ACEOF
 
   if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
@@ -19174,6 +19215,8 @@ _ACEOF
 ac_delim='%!_!# '
 for ac_last_try in false false false false false :; do
   cat >conf$$subs.sed <<_ACEOF
+PYTHON!$PYTHON$ac_delim
+ac_ct_PYTHON!$ac_ct_PYTHON$ac_delim
 PKG_CONFIG!$PKG_CONFIG$ac_delim
 ac_ct_PKG_CONFIG!$ac_ct_PKG_CONFIG$ac_delim
 CONFIG_CPPUNIT!$CONFIG_CPPUNIT$ac_delim
@@ -19191,7 +19234,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 15; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 17; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
