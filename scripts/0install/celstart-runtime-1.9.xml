@@ -24,7 +24,7 @@
         <environment insert="lib" mode="prepend" name="LD_LIBRARY_PATH"/>
       </requires>
     </implementation>
-    <implementation id="sha1new=78aa7ea2c7aaf81712550d255d32f63ecddf97e1" released="2008-09-06" stability="testing" version="1.9.0.31065.3675">
+    <implementation id="sha1new=78aa7ea2c7aaf81712550d255d32f63ecddf97e1" released="2008-09-06" stability="testing" version="1.9.31065.3675">
       <archive extract="celstart-1.9.0-CSr31065-CELr3675-Linux-x86" href="http://www.crystalspace3d.org/downloads/contrib/celstart-1.9.0-CSr31065-CELr3675-Linux-x86.tar.lzma" size="14036332" type="application/x-lzma-compressed-tar"/>
       <requires interface="http://crystalspace3d.org/0install/python25.xml">
         <version before="2.6" not-before="2.5.2"/>
@@ -43,7 +43,7 @@
   </group>
 </interface>
 <!-- Base64 Signature
-iD8DBQBIwoPKKQo7E/ZLWtgRAujOAJoCASBFO7sKpEodcx++h6jgXjFs6ACgtXRac8K3QUAX/NOv
-6v0SL95E3CE=
+iD8DBQBIwo44KQo7E/ZLWtgRAryPAJsEz3TPhAFzP1s7he4AOcRGRz3vgACff/bmmyudKA/Z3arn
+TOlvXBbEVzg=
 
 -->
