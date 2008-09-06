@@ -634,7 +634,7 @@ void celPcSoundSource::GetSoundWrap ()
 
 bool celPcSoundSource::GetSource ()
 {
-  if (source) return true;
+  if (source && source3d) return true;
   GetSoundWrap ();
   if (!soundwrap) return false;
   csRef<iSndSysRenderer> renderer = csQueryRegistryOrLoad<iSndSysRenderer> (
