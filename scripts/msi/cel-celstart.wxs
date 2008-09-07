@@ -1,0 +1,32 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Version="1.9.0" Name="CELstart 1.9" Language="1033" UpgradeCode="$(var.UPGRADE_CODE)" Id="*" Manufacturer="The Crystal Space Project">
+    <Package InstallerVersion="301"/>
+    <Media EmbedCab="yes" Id="1" Cabinet="celstart_$(var.ARCH).cab"/>
+    <UIRef Id="WixUI_FeatureTree"/>
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.TOP)/scripts/msi/lgpl.rtf"/>
+    <InstallExecuteSequence>
+      <RemoveExistingProducts After="InstallFinalize"/>
+    </InstallExecuteSequence>
+    <Directory Name="SourceDir" Id="TARGETDIR"/>
+    <DirectoryRef Id="TARGETDIR">
+      <Directory Name="PFiles" Id="ProgramFilesFolder"/>
+    </DirectoryRef>
+    <DirectoryRef Id="ProgramFilesFolder">
+      <Directory Name="CELstart 1.9" Id="CELSTARTDIR"/>
+    </DirectoryRef>
+    <?include $(var.CRYSTAL_WXINCLUDE)/CS-directory-runtime.wxi ?>
+    <?include cel-directory-runtime.wxi ?>
+    <DirectoryRef Id="CELSTARTDIR">
+      <Merge DiskId="1" SourceFile="$(var.CEL_MSM_PATH)/cel.arch.$(var.ARCH).executable.celstart.msm" Id="celstart.arch.executable" Language="1033" FileCompression="yes"/>
+    </DirectoryRef>
+    <!--Upgrade Id="$(var.UPGRADE_CODE)">
+      <UpgradeVersion IncludeMaximum="yes" Minimum="1.9.0" Property="PATCHFOUND" Maximum="1.9.3" IncludeMinimum="yes"/>
+    </Upgrade-->
+    <Feature Title="CELstart Application" Id="celstart.executable" Level="1" ConfigurableDirectory="CELSTARTDIR" AllowAdvertise="no">
+      <MergeRef Id="celstart.arch.executable"/>
+    </Feature>
+    <?include cel-feature-runtime.wxi ?>
+    <?include $(var.CRYSTAL_WXINCLUDE)/CS-feature-runtime.wxi ?>
+  </Product>
+</Wix>
+
