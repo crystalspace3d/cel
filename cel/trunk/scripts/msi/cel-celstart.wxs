@@ -18,12 +18,24 @@
       <Directory Name="PFiles" Id="ProgramFilesFolder"/>
     </DirectoryRef>
     <DirectoryRef Id="ProgramFilesFolder">
-      <Directory Name="CELstart 1.9" Id="CELSTARTDIR"/>
+      <Directory Name="CELstart $(var.VERSION_MAJORMINOR)" Id="CELSTARTDIR"/>
     </DirectoryRef>
     <?include $(var.CRYSTAL_WXINCLUDE)/CS-directory-runtime.wxi ?>
     <?include cel-directory-runtime.wxi ?>
     <DirectoryRef Id="CELSTARTDIR">
       <Merge DiskId="1" SourceFile="$(var.CEL_MSM_PATH)/cel.arch.$(var.ARCH).executable.celstart.msm" Id="celstart.arch.executable" Language="1033" FileCompression="yes"/>
+      <Component Guid="2302ed09-dfb5-4a94-8bd1-7592d81274f0" Id="celstart.association">
+        <ProgId Id="CELstart.$(var.VERSION_MAJORMINOR).celzip" Description="CELstart package">
+          <Extension Id="celzip" ContentType="application/x-zip-celstart" />
+        </ProgId>
+        <RegistryValue
+            Key="CELstart.$(var.VERSION_MAJORMINOR).celzip\shell\open\command"
+            Action="write" Type="string" Root="HKCR" Id="cel.celstart.celzip.assoc"
+            Value="&quot;[CELSTARTDIR]celstart.exe&quot; &quot;%1&quot;"/>
+        <RegistryValue Key="CELstart.$(var.VERSION_MAJORMINOR).celzip\DefaultIcon"
+            Action="write" Type="string" Root="HKCR" Id="cel.celstart.celzip.icon"
+            Value="&quot;[CELSTARTDIR]celstart.exe&quot;,-2"/>
+      </Component>
     </DirectoryRef>
     <Upgrade Id="$(var.UPGRADE_CODE)">
       <UpgradeVersion
@@ -38,6 +50,7 @@
     <Property Id="ARPHELPLINK" Value="http://www.crystalspace3d.org/forum/index.php" />
     <Feature Title="CELstart Application" Id="celstart.executable" Level="1" ConfigurableDirectory="CELSTARTDIR" AllowAdvertise="no">
       <MergeRef Id="celstart.arch.executable"/>
+      <ComponentRef Id="celstart.association" />
     </Feature>
     <?include cel-feature-runtime.wxi ?>
     <?include $(var.CRYSTAL_WXINCLUDE)/CS-feature-runtime.wxi ?>
