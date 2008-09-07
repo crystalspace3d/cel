@@ -15074,18 +15074,44 @@ cs_version_minor=`echo $cs_version_desired | sed "s/$sed_expr_base/\2/"`
 
 # Try to find an installed cs-config.
 cs_path=''
+
 if test -n "$CRYSTAL"; then
-  my_IFS=$IFS; IFS=$PATH_SEPARATOR
-    for cs_dir in $CRYSTAL; do
-	if test -n "$cs_path"; then
+  # On MinGW, CRYSTAL may contain the path in one of two flavors:
+     # MSYS paths, separated by $PATH_SEPARATOR, or Win32 paths, separated
+     # by ';'. Since for the configure check we need MSYS paths, CRYSTAL
+     # is first treated like a Win32-style list. If that yields sensible
+     # results these are used subsequently. Otherwise use CRYSTAL as-is.
+    case $host_os in
+        mingw*)
+            my_IFS=$IFS; IFS=\;
+            for win32_dir in $CRYSTAL; do
+                win32_dir=`echo "x$win32_dir" | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+                win32_dir=`echo $win32_dir | sed "s/\(.\):/\\/\\1/"`
+                if test -d "$win32_dir"; then
+  if test -n "$cs_path"; then
   cs_path="$cs_path$PATH_SEPARATOR"
 fi
 
-	cs_path="$cs_path$cs_dir$PATH_SEPARATOR$cs_dir/bin"
-    done
-    IFS=$my_IFS
+                    cs_path="$cs_path$win32_dir$PATH_SEPARATOR$win32_dir/bin"
 fi
 
+            done
+            IFS=$my_IFS
+            ;;
+    esac
+    if test -n "$cs_path"; then
+  my_IFS=$IFS; IFS=$PATH_SEPARATOR
+        for cs_dir in $CRYSTAL; do
+            if test -n "$cs_path"; then
+  cs_path="$cs_path$PATH_SEPARATOR"
+fi
+
+            cs_path="$cs_path$cs_dir$PATH_SEPARATOR$cs_dir/bin"
+        done
+        IFS=$my_IFS
+fi
+
+fi
 
 if test -n "$cs_path"; then
   cs_path="$cs_path$PATH_SEPARATOR"
@@ -15377,10 +15403,10 @@ cs_prog_Crystal_Space_min_suffix_done=
 
 
 
-test -z $cs_cv_prog_Crystal_Space_is_version && cs_cv_prog_Crystal_Space_is_version=`$cfg --version | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -z $cs_cv_prog_Crystal_Space_is_version && cs_cv_prog_Crystal_Space_is_version=`"$cfg" --version | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
 test -n "$cs_cv_prog_Crystal_Space_is_version" && test -z $cs_prog_Crystal_Space_is_suffix_done  && { cs_prog_Crystal_Space_is_suffix_done=yes ; cs_prog_Crystal_Space_is_suffix= ; }
 
-test -z $cs_cv_prog_Crystal_Space_is_version && cs_cv_prog_Crystal_Space_is_version=`$cfg --version | sed '/[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -z $cs_cv_prog_Crystal_Space_is_version && cs_cv_prog_Crystal_Space_is_version=`"$cfg" --version | sed '/[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
 test -n "$cs_cv_prog_Crystal_Space_is_version" && test -z $cs_prog_Crystal_Space_is_suffix_done  && { cs_prog_Crystal_Space_is_suffix_done=yes ; cs_prog_Crystal_Space_is_suffix=.0 ; }
 
 
@@ -15451,28 +15477,28 @@ fi
   cs_liblist="crystalspace"
 	cs_optlibs=`echo x$cs_opt_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 	if test -n "$cs_optlibs"; then
-  cs_optlibs=`$cfg --available-libs $cs_optlibs`
+  cs_optlibs=`"$cfg" --available-libs $cs_optlibs`
 	    cs_liblist="$cs_liblist $cs_optlibs"
 fi
 
-	CRYSTAL_VERSION=`$cfg --version $cs_liblist`
-	CRYSTAL_CFLAGS=`{ (echo "$as_me:$LINENO: \$cfg --cxxflags \$cs_liblist") >&5
-  ($cfg --cxxflags $cs_liblist) 2>&5
+	CRYSTAL_VERSION=`"$cfg" --version $cs_liblist`
+	CRYSTAL_CFLAGS=`{ (echo "$as_me:$LINENO: \"\$cfg\" --cxxflags \$cs_liblist") >&5
+  ("$cfg" --cxxflags $cs_liblist) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
-	CRYSTAL_LIBS=`{ (echo "$as_me:$LINENO: \$cfg --libs \$cs_liblist") >&5
-  ($cfg --libs $cs_liblist) 2>&5
+	CRYSTAL_LIBS=`{ (echo "$as_me:$LINENO: \"\$cfg\" --libs \$cs_liblist") >&5
+  ("$cfg" --libs $cs_liblist) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
-	CRYSTAL_INCLUDE_DIR=`{ (echo "$as_me:$LINENO: \$cfg --includedir \$cs_liblist") >&5
-  ($cfg --includedir $cs_liblist) 2>&5
+	CRYSTAL_INCLUDE_DIR=`{ (echo "$as_me:$LINENO: \"\$cfg\" --includedir \$cs_liblist") >&5
+  ("$cfg" --includedir $cs_liblist) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
-	CRYSTAL_AVAILABLE_LIBS=`$cfg --available-libs`
-	CRYSTAL_STATICDEPS=`$cfg --static-deps`
+	CRYSTAL_AVAILABLE_LIBS=`"$cfg" --available-libs`
+	CRYSTAL_STATICDEPS=`"$cfg" --static-deps`
 	if test -z "$CRYSTAL_LIBS"; then
   cs_sdk=no
 fi
