@@ -3,6 +3,12 @@ SubDir TOP scripts msi ;
 # @@@ Not quite the same ...
 MSM_VERSION ?= $(PACKAGE_VERSION) ;
 
+MSI_VERSION_MAJORMINOR ?= $(PACKAGE_VERSION_LIST[1]).$(PACKAGE_VERSION_LIST[2]) ;
+
+# Package version.
+# This will become the MSI package version "build" number.
+MSI_VERSION_PACKAGE = 4 ;
+
 if $(COMPILER.C++.VERSION_LIST)
 {
   MSM_ARCH = "$(COMPILER.C++.TYPE)_$(COMPILER.C++.VERSION_LIST[1]).$(COMPILER.C++.VERSION_LIST[2])" ;
@@ -12,9 +18,13 @@ else
   MSM_ARCH = "$(COMPILER.C++.TYPE)" ;
 }
 
+INCL_CEL_RUNTIME = $(SUBDIR)/cel-feature-runtime.wxi $(SUBDIR)/cel-directory-runtime.wxi ;
+Includes cel-celstart.wxs : $(INCL_CEL_RUNTIME) ;
+
 # Architecture-independent
 MSIMergeModuleFromList cel.doc : doc-manual doc-api : $(MSM_VERSION) : doc-manual:manual doc-api:api ;
-MSIMergeModuleFromList cel.data : data : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.data.demo : data-demo : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.data.runtime : data-runtime : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.include : headers : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.vfs : vfs : $(MSM_VERSION) ;
 #MakeLocate cel.register.msm : $(LOCATE.MSM) ;
@@ -23,16 +33,88 @@ MSIMergeModuleFromList cel.vfs : vfs : $(MSM_VERSION) ;
 # Architecture-dependent
 MSIMergeModuleFromList cel.arch.$(MSM_ARCH).include : headers-platform : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.arch.$(MSM_ARCH).lib : libs-shared : $(MSM_VERSION) ;
-MSIMergeModuleFromList cel.arch.$(MSM_ARCH).executable : app-demo app-celstart plugin : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.arch.$(MSM_ARCH).link : libs-static : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.arch.$(MSM_ARCH).executable.runtime : plugin : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.arch.$(MSM_ARCH).executable.demo : app-demo : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.arch.$(MSM_ARCH).executable.celstart : app-celstart : $(MSM_VERSION) ;
 
-#rule MakeMSIsForArch
-#{
-#  local arch = $(1) ;
-#  
-#  MakeLocate cel-$(arch).msi : $(LOCATE.MSI) ;
-#  MSIPackage cel-$(arch).msi : CS.wxs :
-#    "MSM_CS_PATH=$(LOCATE.MSM)" "ARCH=$(arch)" "TOP=$(TOP)" ;
-#  #Depends cel-$(arch).msi : mergemodules ;
-#  Depends msis : cel-$(arch).msi ;
-#}
-#MakeMSIsForArch $(MSM_ARCH) ;
+# Safeguard
+MSI_UPGRADE_CODES_FOR_VERSION = 1.9 ;
+if "$(MSI_UPGRADE_CODES_FOR_VERSION)" != "$(MSI_VERSION_MAJORMINOR)"
+{
+  Exit "CEL version was changed, please set new MSI upgrade codes" ;
+}
+
+MSI_UPGRADE_CODE.cel.celstart.GCC_3.4 = 666969f5-e086-4a9d-81cc-5bdaabc95909 ;
+
+# @@@ FIXME PATHS: they behave counterintuitively as they're treated as
+# relative to out/msi/ instead the top build dir
+rule GetCSMSMPath
+{
+  if "$(CRYSTAL.MSM_PATH)" = ""
+  {
+    local guess = "$(CRYSTAL.INCLUDE_DIR)/../out/msi" ;
+    echo "No path for the CrystalSpace MSMs was set; I'm guessing $(guess)." ;
+    echo "If that is not what you want specify the CRYSTAL.MSM_PATH Jam variable." ;
+    CRYSTAL.MSM_PATH = $(guess) ;
+  }
+  return $(CRYSTAL.MSM_PATH) ;
+}
+
+rule GetCSWXIPath
+{
+  if "$(CRYSTAL.WXI_PATH)" = ""
+  {
+    local guess = "$(CRYSTAL.INCLUDE_DIR)/../scripts/msi" ;
+    echo "No path for the CrystalSpace WXIs was set; I'm guessing $(guess)." ;
+    echo "If that is not what you want specify the CRYSTAL.WXI_PATH Jam variable." ;
+    CRYSTAL.WXI_PATH = $(guess) ;
+  }
+  return $(CRYSTAL.WXI_PATH) ;
+}
+
+rule GetWin32LibsMSMPath
+{
+  if "$(WIN32LIBS.MSM_PATH)" = ""
+  {
+    local guess = "$(CRYSTAL.INCLUDE_DIR)/../win32libs/mergemodules" ;
+    echo "No path for the cs-win32libs MSMs was set; I'm guessing $(guess)." ;
+    echo "If that is not what you want specify the WIN32LIBS.MSM_PATH Jam variable." ;
+    WIN32LIBS.MSM_PATH = $(guess) ;
+  }
+  return $(WIN32LIBS.MSM_PATH) ;
+}
+
+rule MakeMSIsForArchAndKind
+{
+  local arch = $(1) ;
+  local kind = $(2) ;
+  local cs_msms = [ GetCSMSMPath ] ;
+  local cs_wxis = [ GetCSWXIPath ] ;
+  local win32libs_msms = [ GetWin32LibsMSMPath ] ;
+  
+  MakeLocate cel-$(kind)-$(arch).msi : $(LOCATE.MSI) ;
+  MSIPackage cel-$(kind)-$(arch).msi : cel-$(kind).wxs :
+    "CEL_MSM_PATH=$(LOCATE.MSM)"
+    "CRYSTAL_MSM_PATH=$(cs_msms)"
+    "CRYSTAL_WXINCLUDE=$(cs_wxis)"
+    "WIN32LIBS_MSM_PATH=$(win32libs_msms)"
+    "ARCH=$(arch)" "TOP=$(TOP)"
+    "UPGRADE_CODE=$(MSI_UPGRADE_CODE.cel.$(kind).$(arch))" 
+    "VERSION_MAJORMINOR=$(MSI_VERSION_MAJORMINOR)"
+    "VERSION_PACKAGE=$(MSI_VERSION_PACKAGE)" :
+    cel-$(kind)-$(arch) ;
+  #Depends cel-$(arch).msi : mergemodules ;
+  Depends msis-$(kind) : cel-$(kind)-$(arch).msi ;
+  Depends msis-$(arch) : cel-$(kind)-$(arch).msi ;
+  Depends msis : cel-$(kind)-$(arch).msi ;
+}
+rule MakeMSIsForArch
+{
+  local arch = $(1) ;
+  
+  MakeMSIsForArchAndKind $(arch) : celstart ;
+}
+
+MakeMSIsForArch $(MSM_ARCH) ;
+
