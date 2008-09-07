@@ -34,8 +34,8 @@ InstallConfig [ Wildcard config : *.cfg ] ;
 InstallData [ Wildcard images : *.jpg *.png *.gif ] : data images ;
 InstallData [ Wildcard sounds : *.zip ] : data sounds ;
 
-FileListEntriesData $(CEL_DATA) : : data ;
-FileListEntriesData [ Wildcard cally : *.caf *.cmf *.csf ] : cally : data ;
-FileListEntriesData [ Wildcard config : *.cfg ] : config : data ;
-FileListEntriesData [ Wildcard images : *.jpg *.png *.gif ] : images : data ;
-FileListEntriesData [ Wildcard sounds : *.zip ] : sounds : data ;
+FileListEntriesData $(CEL_DATA) : : data-demo ;
+FileListEntriesData [ Wildcard cally : *.caf *.cmf *.csf ] : cally : data-demo ;
+FileListEntriesData [ Wildcard config : *.cfg ] : config : data-demo ;
+FileListEntriesData [ Wildcard images : *.jpg *.png *.gif ] : images : data-demo ;
+FileListEntriesData [ Wildcard sounds : *.zip ] : sounds : data-demo ;
