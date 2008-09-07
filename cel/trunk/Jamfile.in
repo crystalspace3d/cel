@@ -67,6 +67,17 @@ MsvcGenConfig HAVE_STATIC_PLUGINS : yes ;
 
 MsvcGenConfig PYTHON.AVAILABLE : yes ;
 
+# Create a string combining compiler type and version.
+# Can be used for ABI identification
+if $(COMPILER.C++.VERSION_LIST)
+{
+  CS_COMPILER_NAME_AND_VERSION = "$(COMPILER.C++.TYPE)_$(COMPILER.C++.VERSION_LIST[1]).$(COMPILER.C++.VERSION_LIST[2])" ;
+}
+else
+{
+  CS_COMPILER_NAME_AND_VERSION = "$(COMPILER.C++.TYPE)" ;
+}
+
 # Header subdirectories (order sensitive: libraries before plugins and apps)
 SubInclude TOP docs ;
 SubInclude TOP "include" ;

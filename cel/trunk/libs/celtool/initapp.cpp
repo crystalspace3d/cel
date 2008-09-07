@@ -72,6 +72,9 @@ void celInitializer::setup_plugin_dirs(iObjectRegistry* r, char const* dir0)
 	"", 
 	"lib/", 
 	"cel/",
+#ifdef CS_COMPILER_NAME_AND_VERSION
+        CS_COMPILER_NAME_AND_VERSION "/bin",
+#endif
 	0};
       csPathsList cel_env_paths (cel_env);
       // Assign "cel" type to all paths
