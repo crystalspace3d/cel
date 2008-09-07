@@ -2,21 +2,13 @@ SubDir TOP scripts msi ;
 
 # @@@ Not quite the same ...
 MSM_VERSION ?= $(PACKAGE_VERSION) ;
+MSM_ARCH = $(CS_COMPILER_NAME_AND_VERSION) ;
 
 MSI_VERSION_MAJORMINOR ?= $(PACKAGE_VERSION_LIST[1]).$(PACKAGE_VERSION_LIST[2]) ;
 
 # Package version.
 # This will become the MSI package version "build" number.
 MSI_VERSION_PACKAGE = 4 ;
-
-if $(COMPILER.C++.VERSION_LIST)
-{
-  MSM_ARCH = "$(COMPILER.C++.TYPE)_$(COMPILER.C++.VERSION_LIST[1]).$(COMPILER.C++.VERSION_LIST[2])" ;
-}
-else
-{
-  MSM_ARCH = "$(COMPILER.C++.TYPE)" ;
-}
 
 INCL_CEL_RUNTIME = $(SUBDIR)/cel-feature-runtime.wxi $(SUBDIR)/cel-directory-runtime.wxi ;
 Includes cel-celstart.wxs : $(INCL_CEL_RUNTIME) ;
@@ -27,8 +19,8 @@ MSIMergeModuleFromList cel.data.demo : data-demo : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.data.runtime : data-runtime : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.include : headers : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.vfs : vfs : $(MSM_VERSION) ;
-#MakeLocate cel.register.msm : $(LOCATE.MSM) ;
-#MSIMergeModule cel.register.msm : CS.register.wxs ;
+MakeLocate cel.register.msm : $(LOCATE.MSM) ;
+MSIMergeModule cel.register.msm : cel.register.wxs ;
 
 # Architecture-dependent
 MSIMergeModuleFromList cel.arch.$(MSM_ARCH).include : headers-platform : $(MSM_VERSION) ;
