@@ -13,6 +13,12 @@
       <Feature Title="Plugins" Id="cel.arch.executable.runtime" Level="1">
         <MergeRef Id="cel.arch.executable.runtime"/>
       </Feature>
+      <Feature Title="Python Bindings" Id="cel.scripts.python" Level="1">
+        <MergeRef Id="cel.scripts.python"/>
+        <?if $(var.ARCH) = GCC_3.4 ?>
+          <MergeRef Id="cel.arch.scripts.python"/>
+        <?endif?>
+      </Feature>
     </Feature>
   </Feature>
 </Include>

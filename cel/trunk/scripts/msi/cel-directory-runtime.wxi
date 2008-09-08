@@ -19,6 +19,15 @@
           <Merge DiskId="20001" SourceFile="$(var.CEL_MSM_PATH)/cel.arch.$(var.ARCH).lib.msm" Id="cel.arch.lib" Language="1033" FileCompression="yes"/>
         </Directory>
       </Directory>
+      <Directory Name="scripts" Id="cel.scripts">
+        <Directory Name="python" Id="CEL_SCRIPTS_PYTHON">
+          <Merge DiskId="20000" SourceFile="$(var.CEL_MSM_PATH)/cel.python.msm" Id="cel.scripts.python" Language="1033" FileCompression="yes"/>
+          <?if $(var.ARCH) = GCC_3.4 ?>
+            <!-- FIXME: VC Python module builds! -->
+            <Merge DiskId="20001" SourceFile="$(var.CEL_MSM_PATH)/cel.arch.$(var.ARCH).python.msm" Id="cel.arch.scripts.python" Language="1033" FileCompression="yes"/>
+          <?endif?>
+        </Directory>
+      </Directory>
     </Directory>
   </DirectoryRef>
 </Include>

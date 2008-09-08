@@ -19,6 +19,7 @@ MSIMergeModuleFromList cel.data.demo : data-demo : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.data.runtime : data-runtime : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.include : headers : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.vfs : vfs : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.python : python-bindings : $(MSM_VERSION) ;
 MakeLocate cel.register.msm : $(LOCATE.MSM) ;
 MSIMergeModule cel.register.msm : cel.register.wxs ;
 
@@ -26,9 +27,10 @@ MSIMergeModule cel.register.msm : cel.register.wxs ;
 MSIMergeModuleFromList cel.arch.$(MSM_ARCH).include : headers-platform : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.arch.$(MSM_ARCH).lib : libs-shared : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.arch.$(MSM_ARCH).link : libs-static : $(MSM_VERSION) ;
-MSIMergeModuleFromList cel.arch.$(MSM_ARCH).executable.runtime : plugin : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.arch.$(MSM_ARCH).executable.runtime : plugin plugin-python : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.arch.$(MSM_ARCH).executable.demo : app-demo : $(MSM_VERSION) ;
 MSIMergeModuleFromList cel.arch.$(MSM_ARCH).executable.celstart : app-celstart : $(MSM_VERSION) ;
+MSIMergeModuleFromList cel.arch.$(MSM_ARCH).python : python-modules : $(MSM_VERSION) ;
 
 # Safeguard
 MSI_UPGRADE_CODES_FOR_VERSION = 1.9 ;
