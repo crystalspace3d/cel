@@ -16,6 +16,7 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include "celtool/celpaths.h"
 #include "celtool/initapp.h"
 #include "celversion.h"
 
@@ -34,19 +35,12 @@
 // can be quite costly to recurse over the entire tree.
 #define CEL_PLUGIN_SCAN_RECURSE false
 
-#define VERSION_STR             CEL_VERSION_MAJOR "_" CEL_VERSION_MINOR
 #define VERSION_STR_DOTTED      CEL_VERSION_MAJOR "." CEL_VERSION_MINOR
 
 #define CEL_PACKAGE_NAME        "cel"
 #define CEL_PACKAGE_NAME_VER    CEL_PACKAGE_NAME "-" VERSION_STR_DOTTED
 
 // These defines should be set by the configure script
-#ifndef CEL_CONFIGDIR
-#ifdef CS_COMPILER_GCC
-#warning CEL_CONFIGDIR not set
-#endif
-#define CEL_CONFIGDIR "/usr/local/" CEL_PACKAGE_NAME_VER
-#endif
 #ifndef CEL_PLUGINDIR
 #ifdef CEL_COMPILER_GCC
 #warning CEL_PLUGINDIR not set
@@ -62,36 +56,26 @@ void celInitializer::setup_plugin_dirs(iObjectRegistry* r, char const* dir0)
   static bool done = false;
   if (!done)
   {
-    csPathsList cel_paths;
-    csString cel_env (getenv ("CEL_" VERSION_STR));
-    if (cel_env.IsEmpty())
-      cel_env = getenv ("CEL");
-    if (!cel_env.IsEmpty())
-    {
-      static const char* const celDirs[] = {
-	"", 
-	"lib/", 
-	"cel/",
+    static const char* const celDirs[] = {
+      "", 
+      "lib/", 
+      "cel/",
 #ifdef CS_COMPILER_NAME_AND_VERSION
-        CS_COMPILER_NAME_AND_VERSION "/bin",
+      CS_COMPILER_NAME_AND_VERSION "/bin",
 #endif
-	0};
-      csPathsList cel_env_paths (cel_env);
-      // Assign "cel" type to all paths
-      for (size_t i = 0; i < cel_env_paths.GetSize(); i++)
-        cel_env_paths[i].type = "cel";
-      // Add CEL paths to try
-      cel_paths.AddUniqueExpanded(cel_env_paths * csPathsList (celDirs), 
-        CEL_PLUGIN_SCAN_RECURSE);
-    }
-    else
-    {
-      cel_paths.AddUniqueExpanded(CEL_PLUGINDIR, CEL_PLUGIN_SCAN_RECURSE);
-    }
+      0};
+    csPathsList cel_paths;
+    csPathsList* cel_env_paths = CEL::GetPlatformInstallationPaths();
+    // Add CEL paths to try
+    cel_paths.AddUniqueExpanded (*cel_env_paths * csPathsList (celDirs), 
+      CEL_PLUGIN_SCAN_RECURSE);
+    cel_paths.AddUniqueExpanded(CEL_PLUGINDIR, CEL_PLUGIN_SCAN_RECURSE);
 
     if (dir0 != 0)
       cel_paths.AddUniqueExpanded(dir0, CEL_PLUGIN_SCAN_RECURSE, "cel");
 
+    delete cel_env_paths;
+    
     scfInitialize(&cel_paths);
     done = true;
   }
@@ -137,20 +121,10 @@ bool celInitializer::LoadCelVFS(iObjectRegistry* r)
   bool ok = false;
   if (cel_config_done) return true;
   // find and add cel vfs file
-  csPathsList cel_env_path;
-  csString cel_env (getenv ("CEL_" VERSION_STR));
-  if (cel_env.IsEmpty())
-    cel_env = getenv ("CEL");
-  // find dir
-  if (cel_env.IsEmpty())
-    cel_env_path = csPathsList(CEL_CONFIGDIR);
-  else
-  {
-    cel_env_path = csPathsList(cel_env);
-  }
+  csPathsList* cel_env_paths = CEL::GetPlatformInstallationPaths();
   // check vfs.cfg file is actually there.
   csPathsList vfs_file_path = 
-	    csPathsUtilities::LocateFile(cel_env_path,"vfs.cfg");
+	    csPathsUtilities::LocateFile(*cel_env_paths,"vfs.cfg");
   if (vfs_file_path.GetSize())
   {
     csString cel_vfs_file = 
@@ -161,7 +135,7 @@ bool celInitializer::LoadCelVFS(iObjectRegistry* r)
   else
   {
     csRef<iCommandLineParser> cmdline = csQueryRegistry<iCommandLineParser> (r);
-    cel_env_path = csPathsList(cmdline->GetAppDir ());
+    csPathsList cel_env_path = csPathsList(cmdline->GetAppDir ());
     vfs_file_path = csPathsUtilities::LocateFile(cel_env_path,"vfs.cfg");
     if (vfs_file_path.GetSize())
       ok = true;
@@ -169,6 +143,7 @@ bool celInitializer::LoadCelVFS(iObjectRegistry* r)
       csReport(r,CS_REPORTER_SEVERITY_WARNING,"cel.initializer",
 	     "Couldn't find vfs.cfg!");
   }
+  delete cel_env_paths;
   return ok;
 }
 
