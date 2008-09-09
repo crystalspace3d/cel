@@ -102,6 +102,7 @@ if $(PYTHON.AVAILABLE) = yes
   HDRS = [ on $(swigruntime) GetVar LOCATE ] $(SEARCH_SOURCE) $(HDRS) ;
   Plugin blpython : blpython.cpp blpython.h pytocel.cpp PYCEL_py.cpp : nodefaultfilelist ;
   ExternalLibs blpython : PYTHON CRYSTAL ; 
+  LinkWith blpython : celtool ;
   CFlags blpython : $(CELPYTHON.CFLAGS) ;
   FileListEntryPlugin blpython : plugin-python ;
   HDRS = $(save_HDRS) ;
@@ -116,7 +117,7 @@ if $(PYTHON.AVAILABLE) = yes
   LinkWith blcelmod : celtool ;
   CFlags blcelmod : $(CELPYTHON.CFLAGS) ;
     
-  FileListEntryPythMod blcelmod : : python-bindings ;
+  FileListEntryPythMod blcelmod : : python-modules ;
 
 actions CelPthGen bind PACKAGEPATH
 {
