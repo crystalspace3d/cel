@@ -507,15 +507,6 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     return false;
   }
 
-  // Open the main system. This will open all the previously loaded plug-ins.
-  if (!csInitializer::OpenApplication (object_reg))
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celstart",
-    	"Error opening system!");
-    return false;
-  }
-
   csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (object_reg);
   csRef<iConfigManager> cfg = csQueryRegistry<iConfigManager> (object_reg);
 
@@ -562,6 +553,17 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     object_reg->Register (bl, bhname);
     pl->RegisterBehaviourLayer (bl);
   }
+
+
+  // Open the main system. This will open all the previously loaded plug-ins.
+  if (!csInitializer::OpenApplication (object_reg))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.celstart",
+    	"Error opening system!");
+    return false;
+  }
+  
 
   // Load initial entities specified in config file
   it = cfg->Enumerate ("CelStart.Entity.");
