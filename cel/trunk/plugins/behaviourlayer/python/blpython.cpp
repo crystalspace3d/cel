@@ -19,6 +19,8 @@
 #include <Python.h>
 #include <marshal.h>
 
+#include "celtool/celpaths.h"
+
 #include "cssysdef.h"
 #include "csutil/sysfunc.h"
 #include "plugins/behaviourlayer/python/blpython.h"
@@ -94,28 +96,43 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
  
   InitPytocel ();
 
-  char path[256];
-  strncpy (path, csGetConfigPath (), 255);
-  strcat (path, "/");
-
+  static const char* const _scriptSubDirs[] = {
+    "scripts/python/", 
+    "scripts/", 
+    0};
+  csPathsList scriptSubDirs (_scriptSubDirs);
+  
+  csPathsList scriptsPaths;
+    
+  csPathsList* cel_paths = CEL::GetPlatformInstallationPaths();
+  scriptsPaths.AddUniqueExpanded (*cel_paths * scriptSubDirs);
+  delete cel_paths;
+  
+  csPathsList* cs_paths =
+    csInstallationPathsHelper::GetPlatformInstallationPaths();
+  scriptsPaths.AddUniqueExpanded (*cs_paths * scriptSubDirs);
+  delete cs_paths;
+  
   if (!LoadModule ("sys")) return false;
 
-  csString cmd;
-  cmd << "sys.path.append('" << path << "scripts/python/')";
-  if (!RunText (cmd)) return false;
-  cmd.Clear();
-  cmd << "sys.path.append('" << path << "scripts/')";
-  if (!RunText (cmd)) return false;
-  
-  if (!RunText ("sys.path.append('scripts/python/')")) return false;
-  if (!RunText ("sys.path.append('scripts/')")) return false;
-
+  scriptsPaths.AddUniqueExpanded (csPathsList (".") * scriptSubDirs);
+    
 #ifdef TOP_SRCDIR
-  if (!RunText ("sys.path.append('" TOP_SRCDIR "/scripts/')")) return false;
+  scriptsPaths.AddUniqueExpanded (TOP_SRCDIR "/scripts/");
 #endif // TOP_SRCDIR
 #ifdef SCRIPTSDIR
-  if (!RunText ("sys.path.append('" SCRIPTSDIR "/')")) return false;
+  scriptsPaths.AddUniqueExpanded (SCRIPTSDIR "/scripts/");
 #endif // SCRIPTSDIR
+
+  for (size_t i = 0; i < scriptsPaths.GetSize(); i++)
+  {
+    const char* path = scriptsPaths[i].path;
+    if (do_verbose)
+      Print (false, csString().Format ("Adding path: %s", path));
+    csString cmd;
+    cmd << "sys.path.append('" << path << "')";
+    if (!RunText (cmd)) return false;
+  }
 
   if (use_debugger && !LoadModule ("pdb")) return false;
   if (!LoadModule ("cspace")) return false;
