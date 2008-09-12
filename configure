@@ -15099,7 +15099,7 @@ fi
             IFS=$my_IFS
             ;;
     esac
-    if test -n "$cs_path"; then
+    if test -z "$cs_path"; then
   my_IFS=$IFS; IFS=$PATH_SEPARATOR
         for cs_dir in $CRYSTAL; do
             if test -n "$cs_path"; then
