@@ -4,8 +4,8 @@ BUILDTOP ?= "@CS_TOP_BUILDDIR@" ;
 SubDir TOP ;
 
 IncludeDir ;
-IncludeDir "include" ;
 IncludeDir $(BUILDTOP) include : : literal transient ;
+IncludeDir "include" ;
 
 # Construct a distclean target
 CleanDir clean : out ;
