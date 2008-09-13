@@ -28,6 +28,9 @@ br = 16
 n = len(data) - 1
 f.write("#include <cstdio>\n")
 f.write("\n")
+f.write("extern const unsigned char pycel_py_wrapper[];\n")
+f.write("extern const size_t pycel_py_wrapper_size;\n")
+f.write("\n")
 f.write("const unsigned char "+arrayname+"_wrapper[] = {")
 for i in range(0, n):
 	if i % br == 0:
