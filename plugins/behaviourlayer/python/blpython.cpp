@@ -30,6 +30,7 @@
 #include "iutil/objreg.h"
 #include "iutil/cmdline.h"
 #include "iutil/eventq.h"
+#include "iutil/plugin.h"
 #include "iutil/verbositymanager.h"
 #include "csutil/event.h"
 #include "csutil/eventnames.h"
@@ -47,9 +48,14 @@ extern "C"
 }
 
 
-extern unsigned char pycel_py_wrapper[]; // pycel.py file compiled and marshalled
-extern size_t pycel_py_wrapper_size;
+extern const unsigned char pycel_py_wrapper[]; // pycel.py file compiled and marshalled
+extern const size_t pycel_py_wrapper_size;
 
+/* Define this to have Python initialized (and finalized) through cspython
+ * instead out own code. (This should really be the case as otherwise
+ * Py_Initialize() and Py_Finalize() will be called multiple times which is,
+ * from observation, Not Good.) */
+#define INIT_PY_THROUGH_CSPYTHON
 
 CS_IMPLEMENT_PLUGIN
 
@@ -69,7 +75,10 @@ celBlPython::~celBlPython ()
   //@@@ Circular ref: leak
   if (queue.IsValid())
     queue->RemoveListener(this);
+  CS_DEBUG_BREAK;
+#ifndef INIT_PY_THROUGH_CSPYTHON
   Py_Finalize ();
+#endif
   object_reg = 0;
 }
 
@@ -86,14 +95,21 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   do_verbose = verbosity_mgr->Enabled("blpython");
   
   deprecation_warning = true;
+  
+#ifdef INIT_PY_THROUGH_CSPYTHON
+  cspython = csLoadPluginCheck<iScript> (object_reg, 
+    "crystalspace.script.python");
+#endif
 
+#ifndef INIT_PY_THROUGH_CSPYTHON
   Py_SetProgramName ("Crystal Entity Layer -- Python");
   Py_Initialize ();
   // some parts of python api require sys.argv to be filled.
   // so strange errors will appear if we dont do the following
   char *(argv[2]) = {"", NULL};
   PySys_SetArgv(1, argv);
- 
+#endif
+  
   InitPytocel ();
 
   static const char* const _scriptSubDirs[] = {
@@ -113,7 +129,9 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   scriptsPaths.AddUniqueExpanded (*cs_paths * scriptSubDirs);
   delete cs_paths;
   
+#ifndef INIT_PY_THROUGH_CSPYTHON
   if (!LoadModule ("sys")) return false;
+#endif
 
   scriptsPaths.AddUniqueExpanded (csPathsList (".") * scriptSubDirs);
     
@@ -134,12 +152,16 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
     if (!RunText (cmd)) return false;
   }
 
+#ifndef INIT_PY_THROUGH_CSPYTHON
   if (use_debugger && !LoadModule ("pdb")) return false;
   if (!LoadModule ("cspace")) return false;
+#endif
   if (!LoadModule ("blcelc")) return false;
 
+#ifndef INIT_PY_THROUGH_CSPYTHON
   Store("cspace.__corecvar_iSCF_SCF", iSCF::SCF, (void*)"iSCF *");
   RunText("cspace.SetSCFPointer(cspace.__corecvar_iSCF_SCF)");
+#endif
   // Store the object registry pointer in 'blcel.object_reg'.
   Store ("blcelc.object_reg_ptr", object_reg, (void *) "iObjectRegistry *");
   // Store the object registry pointer in 'blcel.object_reg'.
