@@ -56,6 +56,14 @@
         <environment insert="lib" mode="prepend" name="LD_LIBRARY_PATH"/>
       </requires>
     </implementation>
+    <implementation id="sha1new=1a491bc278dddfd6e0bb2abb73d8762ce5bea0ab" released="2008-09-15" version="1.9.31165.3709">
+      <archive extract="celstart-1.9.0-CSr31165-CELr3709-Linux-x86" href="http://www.crystalspace3d.org/downloads/contrib/celstart-1.9.0-CSr31165-CELr3709-Linux-x86.tar.lzma" size="14035592" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/python25.xml">
+        <version before="2.6" not-before="2.5.2"/>
+        <environment insert="" mode="replace" name="PYTHONHOME"/>
+        <environment insert="lib" mode="prepend" name="LD_LIBRARY_PATH"/>
+      </requires>
+    </implementation>
     <implementation id="sha1new=bbde95e5bf7b07d4e8642d37ff6890a897b00c89" released="2008-08-07" stability="testing" version="1.9.30710.3609">
       <archive extract="celstart-1.9-CSr30710-CELr3609-Linux-x86" href="http://crystalspace3d.org/downloads/contrib/celstart-1.9-CSr30710-CELr3609-Linux-x86.tar.lzma" size="22450068" type="application/x-lzma-compressed-tar"/>
       <requires interface="http://crystalspace3d.org/0install/python25.xml">
@@ -75,7 +83,7 @@
   </group>
 </interface>
 <!-- Base64 Signature
-iD8DBQBIyvMHKQo7E/ZLWtgRAv2wAJ9fhcdqumD0TxjAi0HZ2YS0fMF+zwCeMxaL38gfxRS5FGge
-QeMiTgM9XRA=
+iD8DBQBIzpHgKQo7E/ZLWtgRAs9VAKCOF6++x5OIHgeU7JG4d2ed32jQ7gCgnHda5Z3jt5qudLVc
+uWID/0gO1r4=
 
 -->
