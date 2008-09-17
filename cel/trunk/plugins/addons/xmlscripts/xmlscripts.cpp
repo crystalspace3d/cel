@@ -114,7 +114,7 @@ void celAddOnXmlScripts::GetBlGen (iDocumentNode* child)
 }
 
 csPtr<iBase> celAddOnXmlScripts::Parse (iDocumentNode* node,
-	iStreamSource*, iLoaderContext* ldr_context, iBase*)
+	iStreamSource*, iLoaderContext* ldr_context, iBase*, iStringArray*)
 {
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())

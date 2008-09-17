@@ -43,8 +43,11 @@ public:
 
   bool Initialize (iObjectRegistry* object_reg);
 
-  csPtr<iBase> Parse (iDocumentNode* node, iStreamSource*, iLoaderContext* ldr_context, iBase* context);
+  csPtr<iBase> Parse (iDocumentNode* node, iStreamSource*, iLoaderContext* ldr_context,
+    iBase* context, iStringArray*);
   csPtr<iLedgeGroup> Load (iDocumentNode* node);
+
+  virtual bool IsThreadSafe(void) { return true; }
 
 private:
   void LoadLedge (iDocumentNode* node, iLedgeGroup* ledges);

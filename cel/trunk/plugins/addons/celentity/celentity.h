@@ -71,11 +71,13 @@ public:
    */
   virtual csPtr<iBase> Parse (iDocumentNode* node,
   	iStreamSource*, iLoaderContext* ldr_context,
-  	iBase* context);
+  	iBase* context, iStringArray*);
 
   virtual iCelEntity* Load (iDocumentNode* node, iMeshWrapper* mesh = 0);
   virtual iCelEntity* Load (const char* path, const char* file,
       iMeshWrapper* mesh = 0);
+
+  virtual bool IsThreadSafe(void) { return true; }
 };
 
 #endif // __CEL_ADDON_CELENTITY__

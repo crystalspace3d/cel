@@ -878,39 +878,66 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
     // If we have a path then we first ChDir to that.
     vfs->PushDir ();
     vfs->ChDir (path);
+    vfs->SetSyncDir(vfs->GetCwd());
   }
 
-  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
-  CS_ASSERT (loader != 0);
-  csLoadResult result = loader->Load (fileName, 0, false, true);
-  if (!path.IsEmpty ())
+  csRef<iBase> result;
+  csRef<iLoader> loader;
+  csRef<iThreadedLoader> tloader = csQueryRegistry<iThreadedLoader> (object_reg);
+  if(!tloader.IsValid())
   {
-    vfs->PopDir ();
+    loader = csQueryRegistry<iLoader> (object_reg);
+    CS_ASSERT (loader != 0);
+    csLoadResult res = loader->Load (fileName, 0, false, true);
+    if (!path.IsEmpty ())
+    {
+      vfs->PopDir ();
+      vfs->SetSyncDir(vfs->GetCwd());
+    }
+    if (!res.success)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+        "cel.pfobject.mesh.loadmeshfactory",
+        "Error loading mesh object factory or library '%s'!",
+        (const char*)fileName);
+      return 0;
+    }
+    result = res.result;
   }
-  if (!result.success)
+  else
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pfobject.mesh.loadmeshfactory",
-    	"Error loading mesh object factory or library '%s'!",
-    	(const char*)fileName);
-    return 0;
+    csRef<iThreadReturn> ret = tloader->LoadFile(fileName, 0);
+    ret->Wait();
+    if(!ret->WasSuccessful())
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+        "cel.pfobject.mesh.loadmeshfactory",
+        "Error loading mesh object factory or library '%s'!",
+        (const char*)fileName);
+      return 0;
+    }
+    result = ret->GetResultRefPtr();
   }
 
   csRef<iMeshFactoryWrapper> imeshfact;
-  if (result.result == 0)
+  if (result == 0)
   {
     // We have a library.
     imeshfact = engine->FindMeshFactory (factName);
   }
   else
   {
-    imeshfact = scfQueryInterface<iMeshFactoryWrapper> (result.result);
+    imeshfact = scfQueryInterface<iMeshFactoryWrapper> (result);
     if (!imeshfact)
     {
       // Perhaps it is a world file?
-      csRef<iEngine> eng = scfQueryInterface<iEngine> (result.result);
+      csRef<iEngine> eng = scfQueryInterface<iEngine> (result);
       if (eng)
       {
+        if(tloader.IsValid())
+        {
+          engine->SyncEngineLists(tloader);
+        }
         imeshfact = engine->FindMeshFactory (factName);
       }
     }

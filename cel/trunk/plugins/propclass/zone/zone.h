@@ -239,6 +239,7 @@ class celPcZoneManager : public scfImplementationExt1<
 private:
   csRef<iEngine> engine;
   csRef<iLoader> loader;
+  csRef<iThreadedLoader> tloader;
   csRef<iVFS> vfs;
   csRef<iCollideSystem> cdsys;
 
@@ -329,7 +330,13 @@ public:
   virtual ~celPcZoneManager ();
 
   iEngine* GetEngine () const { return engine; }
-  iLoader* GetLoader () const { return loader; }
+  csPtr<iBase> GetLoader () const
+  {
+    if(tloader.IsValid())
+      return scfQueryInterface<iBase>(tloader);
+    else
+      return scfQueryInterface<iBase>(loader);
+  }
   iVFS* GetVFS () const { return vfs; }
   iCelPlLayer* GetPL () const { return pl; }
   iCollideSystem* GetCDSystem () const { return cdsys; }

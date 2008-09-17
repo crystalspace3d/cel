@@ -68,10 +68,12 @@ public:
    */
   virtual csPtr<iBase> Parse (iDocumentNode* node,
   	iStreamSource*, iLoaderContext* ldr_context,
-  	iBase* context);
+  	iBase* context, iStringArray*);
 
   virtual iCelEntityTemplate* Load (iDocumentNode* node);
   virtual iCelEntityTemplate* Load (const char* path, const char* file);
+
+  virtual bool IsThreadSafe(void) { return true; }
 };
 
 #endif // __CEL_ADDON_CELENTITYTPL__

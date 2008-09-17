@@ -188,7 +188,16 @@ bool celRegion::Load (bool allow_entity_addon)
   if (loaded) return true;
 
   iEngine* engine = mgr->GetEngine ();
-  iLoader* loader = mgr->GetLoader ();
+  csRef<iLoader> loader;
+  csRef<iThreadedLoader> tloader;
+  csRef<iBase> ldr = mgr->GetLoader ();
+
+  tloader = scfQueryInterfaceSafe<iThreadedLoader> (ldr);
+  if(!tloader.IsValid())
+  {
+    loader = scfQueryInterfaceSafe<iLoader> (ldr);
+  }
+
   iCollection* cur_collection = engine->CreateCollection (cscollectionName.GetData());
   cur_collection->ReleaseAllObjects ();
 
@@ -221,7 +230,6 @@ bool celRegion::Load (bool allow_entity_addon)
   }
 
   size_t i;
-  bool rc = true;
   for (i = 0 ; i < mapfiles.GetSize () ; i++)
   {
     celMapFile* mf = mapfiles[i];
@@ -242,14 +250,32 @@ bool celRegion::Load (bool allow_entity_addon)
         engine->SetCacheManager (0);
         engine->GetCacheManager ();
       }
-      rc = loader->LoadMapFile (mf->GetFile (), false, cur_collection,
-      	false, true);
-      if (mf->GetPath ())
+
+      if(loader.IsValid())
       {
-        mgr->GetVFS ()->PopDir ();
+        bool rc = loader->LoadMapFile (mf->GetFile (), false, cur_collection, false, true);
+        if (mf->GetPath ())
+        {
+          mgr->GetVFS ()->PopDir ();
+        }
+        if (!rc)
+          return false;
       }
-      if (!rc)
-        return false;
+      else
+      {
+        mgr->GetVFS()->SetSyncDir(mgr->GetVFS()->GetCwd());
+        csRef<iThreadReturn> ret = tloader->LoadMapFile (mf->GetFile (), false, cur_collection);
+        ret->Wait();
+        if (mf->GetPath ())
+        {
+          mgr->GetVFS ()->PopDir ();
+        }
+        if (!ret->WasSuccessful())
+        {
+          return false;
+        }
+        engine->SyncEngineLists(tloader);
+      }
     }
     else break;
   }
@@ -259,7 +285,6 @@ bool celRegion::Load (bool allow_entity_addon)
   engine->RemoveEngineSectorCallback ((iEngineSectorCallback*)this);
   if (!allow_entity_addon)
     pl->SetEntityAddonAllowed (prev_allow_entity_addon);
-  if (!rc) return false;
 
   engine->PrecacheDraw (cur_collection);
 
@@ -422,11 +447,15 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
     Report (object_reg, "No iEngine plugin!");
     return;
   }
-  loader = csQueryRegistry<iLoader> (object_reg);
-  if (!loader)
+  tloader = csQueryRegistry<iThreadedLoader> (object_reg);
+  if(!tloader.IsValid())
   {
-    Report (object_reg, "No iLoader plugin!");
-    return;
+    loader = csQueryRegistry<iLoader> (object_reg);
+    if (!loader)
+    {
+      Report (object_reg, "No iLoader plugin!");
+      return;
+    }
   }
   vfs = csQueryRegistry<iVFS> (object_reg);
   if (!vfs)
