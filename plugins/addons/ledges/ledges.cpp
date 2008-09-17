@@ -68,7 +68,8 @@ bool celAddOnLedges::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-csPtr<iBase> celAddOnLedges::Parse (iDocumentNode* node, iStreamSource*, iLoaderContext* ldr_context, iBase* context)
+csPtr<iBase> celAddOnLedges::Parse (iDocumentNode* node, iStreamSource*, iLoaderContext* ldr_context,
+                                    iBase* context, iStringArray*)
 {
   csRef<iSector> sector = scfQueryInterface<iSector>(context);
   if (!sector)

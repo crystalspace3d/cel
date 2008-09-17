@@ -330,13 +330,27 @@ void CelStart::FindCelStartArchives ()
         icons.Push (0);
       else
       {
-	csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
-	csString iconpath = "/tmp/celstart_test/";
-	iconpath += icon;
-	csRef<iTextureHandle> txt = loader->LoadTexture (iconpath,
-	    CS_TEXTURE_2D, g3d->GetTextureManager ());
-	csSimplePixmap* pm = new csSimplePixmap (txt);
-	icons.Push (pm);
+        if(threaded)
+        {
+          csRef<iThreadedLoader> loader = csQueryRegistry<iThreadedLoader> (object_reg);
+          csString iconpath = "/tmp/celstart_test/";
+          iconpath += icon;
+          csRef<iThreadReturn> ret = loader->LoadTexture (iconpath, CS_TEXTURE_2D, g3d->GetTextureManager ());
+          ret->Wait();
+          csRef<iTextureHandle> txt = scfQueryInterfaceSafe<iTextureHandle>(ret->GetResultRefPtr());
+          csSimplePixmap* pm = new csSimplePixmap (txt);
+          icons.Push (pm);
+        }
+        else
+        {
+          csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
+          csString iconpath = "/tmp/celstart_test/";
+          iconpath += icon;
+          csRef<iTextureHandle> txt = loader->LoadTexture (iconpath,
+            CS_TEXTURE_2D, g3d->GetTextureManager ());
+          csSimplePixmap* pm = new csSimplePixmap (txt);
+          icons.Push (pm);
+        }
       }
     }
     csRef<iConfigManager> cfg = csQueryRegistry<iConfigManager> (object_reg);
@@ -480,7 +494,8 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     for (size_t i = 0; i < joystickClasses->GetSize (); i++)
     {
       const char* className = joystickClasses->Get (i);
-      iBase* b = plugmgr->LoadPlugin (className);
+      csRef<iThreadReturn> ret = plugmgr->LoadPlugin (className);
+      csRef<iBase> b = ret->GetResultRefPtr();
 
       csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
 	"crystalspace.application.joytest", "Attempt to load plugin '%s' %s",
@@ -535,6 +550,22 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     }
   }
   vfs->PopDir();
+
+  // Check loader options.
+  threaded = cfg->GetBool("CelStart.Loader.Threaded", threaded);
+  checkDupes = cfg->GetBool("CelStart.Loader.CheckDupes", true);
+  seperateCollections = cfg->GetBool("CelStart.Loader.SeperateCollections");
+
+  csRef<iThreadedLoader> tloader;
+  if(threaded)
+  {
+    // Load the plugin.
+    tloader = csQueryRegistryOrLoad<iThreadedLoader>(object_reg, "crystalspace.level.loader.threaded");
+    if(!tloader.IsValid())
+    {
+      threaded = false;
+    }
+  }
 
   // Load behaviour layers
   csRef<iConfigIterator> it = cfg->Enumerate ("CelStart.BehaviourLayer.");
@@ -606,15 +637,30 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
   }
 
   // Load map files
-  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
   it = cfg->Enumerate ("CelStart.MapFile.");
   while (it && it->Next ())
   {
     const char* file = it->GetStr ();
     if (!vfs->ChDirAuto (path, 0, 0, file))
       return false;
-    if (!loader->LoadMapFile (file, false))
-      return false;
+    if(threaded)
+    {
+      vfs->SetSyncDir(vfs->GetCwd());
+      csRef<iThreadReturn> ret = tloader->LoadMapFile (file, false);
+      ret->Wait();
+      if(!ret->WasSuccessful())
+      {
+        return false;
+      }
+      csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+      engine->SyncEngineLists(tloader);
+    }
+    else
+    {
+      csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
+      if (!loader->LoadMapFile (file, false, 0, seperateCollections, checkDupes))
+        return false;
+    }
   }
 
   do_clearscreen = cfg->GetBool ("CelStart.ClearScreen", false);
@@ -671,6 +717,7 @@ bool CelStart::StartDemoSelector (int argc, const char* const argv[])
     csPrintf ("files present in current dir.\n\n");
     csPrintf ("Options for Celstart:\n");
     csPrintf ("  -version           print celstart version and exit.\n");
+    csPrintf ("  -threaded          use the threaded loader.\n");
     csCommandLineHelper::Help (object_reg);
     return false;
   }
@@ -734,6 +781,9 @@ bool CelStart::Initialize (int argc, const char* const argv[])
     csPrintf("%d\n",CELSTART_VERSION);
     return false;
   }
+
+  // Check for threaded loader flag.
+  threaded = cmdline->GetBoolOption("threaded");
 
   // Check to see if user provided a map file, else start the demo
   // selector.

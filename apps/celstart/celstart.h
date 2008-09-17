@@ -54,6 +54,11 @@ private:
   bool do_real_demo;
   csRef<FramePrinter> printer;
 
+  // Loader options.
+  bool threaded;
+  bool checkDupes;
+  bool seperateCollections;
+
   // Everything for the demo selection screen.
   csRef<iFont> font;
   csRef<iMouseDriver> mouse;
