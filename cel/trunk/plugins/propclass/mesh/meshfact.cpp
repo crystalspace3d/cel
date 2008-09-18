@@ -936,7 +936,7 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
       {
         if(tloader.IsValid())
         {
-          engine->SyncEngineLists(tloader);
+          engine->SyncEngineListsNow(tloader);
         }
         imeshfact = engine->FindMeshFactory (factName);
       }
