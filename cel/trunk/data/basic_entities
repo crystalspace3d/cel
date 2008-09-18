@@ -27,7 +27,7 @@
       <texture>marble</texture>
     </material>
   </materials>
-<!-- -->
+<!--
     <sounds>
         <sound name="loopbzzt" mode3d="absolute"
       file="/this/sounds/outdoor/ambient/wind_flute_building_l_c.ogg" />
