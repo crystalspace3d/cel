@@ -274,7 +274,7 @@ bool celRegion::Load (bool allow_entity_addon)
         {
           return false;
         }
-        engine->SyncEngineLists(tloader);
+        engine->SyncEngineListsNow(tloader);
       }
     }
     else break;

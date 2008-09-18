@@ -653,7 +653,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
         return false;
       }
       csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-      engine->SyncEngineLists(tloader);
+      engine->SyncEngineListsNow(tloader);
     }
     else
     {
