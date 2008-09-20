@@ -493,8 +493,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     for (size_t i = 0; i < joystickClasses->GetSize (); i++)
     {
       const char* className = joystickClasses->Get (i);
-      csRef<iThreadReturn> ret = plugmgr->LoadPlugin (className);
-      csRef<iBase> b = ret->GetResultRefPtr();
+      csRef<iBase> b = plugmgr->LoadPlugin (className);
 
       csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
 	"crystalspace.application.joytest", "Attempt to load plugin '%s' %s",
