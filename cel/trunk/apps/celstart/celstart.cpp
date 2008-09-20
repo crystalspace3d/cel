@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "celstart.h"
+#include "celstart/celstart.h"
 #include "csutil/cfgacc.h"
 #include "csutil/cmdhelp.h"
 #include "csutil/event.h"
@@ -55,8 +56,6 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 #include "celtool/stdparams.h"
-
-CS_IMPLEMENT_APPLICATION
 
 //-----------------------------------------------------------------------------
 
@@ -834,23 +833,25 @@ void CelStart::Stop ()
   printer.Invalidate ();
 }
 
-/*---------------------------------------------------------------------*
- * Main function
- *---------------------------------------------------------------------*/
-int main (int argc, char* argv[])
+namespace CEL
 {
-  celstart = new CelStart ();
+  /*---------------------------------------------------------------------*
+   * Main function
+   *---------------------------------------------------------------------*/
+  int CelStartMain (int argc, const char* const argv[])
+  {
+    celstart = new CelStart ();
 
-  if (celstart->Initialize (argc, argv))
-    celstart->Start ();
+    if (celstart->Initialize (argc, argv))
+      celstart->Start ();
 
-  celstart->Stop ();
+    celstart->Stop ();
 
-  iObjectRegistry* object_reg = celstart->object_reg;
-  delete celstart;
-  celstart = 0;
+    iObjectRegistry* object_reg = celstart->object_reg;
+    delete celstart;
+    celstart = 0;
 
-  csInitializer::DestroyApplication (object_reg);
-  return 0;
-}
-
+    csInitializer::DestroyApplication (object_reg);
+    return 0;
+  }
+} // namespace CEL
