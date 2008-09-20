@@ -493,7 +493,8 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     for (size_t i = 0; i < joystickClasses->GetSize (); i++)
     {
       const char* className = joystickClasses->Get (i);
-      csRef<iBase> b = plugmgr->LoadPlugin (className);
+      csRef<iThreadReturn> ret = plugmgr->LoadPlugin (className);
+      csRef<iBase> b = ret->GetResultRefPtr();
 
       csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
 	"crystalspace.application.joytest", "Attempt to load plugin '%s' %s",
@@ -853,5 +854,28 @@ namespace CEL
 
     csInitializer::DestroyApplication (object_reg);
     return 0;
+  }
+
+  CelStartWrapper::CelStartWrapper (int argc, const char* const argv[])
+   : userArgsFirst (1), userArgsCount (argc-1)
+  {
+    for (int i = 0; i < argc; i++)
+      args.Push (argv[i]);
+  }
+
+  void CelStartWrapper::AddArgumentBeforeUserArgs (const char* arg)
+  {
+    args.Insert (userArgsFirst++, extraArgsPool.Store (arg));
+  }
+  
+  void CelStartWrapper::AddArgumentAfterUserArgs (const char* arg)
+  {
+    args.Push (extraArgsPool.Store (arg));
+  }
+
+  int CelStartWrapper::Main ()
+  {
+    args.Push (0);
+    return CelStartMain (int (args.GetSize()), args.GetArray());
   }
 } // namespace CEL
