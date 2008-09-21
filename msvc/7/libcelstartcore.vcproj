@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="appcelstart_static"
-	ProjectGUID="{7340D8F8-9361-9CB3-124C-E1358E91B6B0}"
+	Name="libcelstartcore"
+	ProjectGUID="{896DC11C-695E-8AA6-C95C-B1D567C50272}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,11 +13,9 @@
 	<Configurations>
   		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release7\build\appcelstart_static\"
-			IntermediateDirectory="..\..\out\release7\build\appcelstart_static\"
-			ConfigurationType="1"
-			CharacterSet="2"
-			WholeProgramOptimization="1"
+			OutputDirectory="..\..\out\release7\build\libcelstartcore\"
+			IntermediateDirectory="..\..\out\release7\build\libcelstartcore\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -28,14 +26,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\appcelstart_static\celstart_static.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32"
+				ProgramDataBaseFileName="..\..\out\release7\build\libcelstartcore\celstartcore.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions="/D CS_HAVE_CAL3D -I\usr\include\python2.5 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release7\build\appcelstart_static\appcelstart_static.pch"
-				AssemblerListingLocation="..\..\out\release7\build\appcelstart_static\"
-				ObjectFile="..\..\out\release7\build\appcelstart_static\"
+				PrecompiledHeaderFile="..\..\out\release7\build\libcelstartcore\libcelstartcore.pch"
+				AssemblerListingLocation="..\..\out\release7\build\libcelstartcore\"
+				ObjectFile="..\..\out\release7\build\libcelstartcore\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -51,24 +49,22 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\celstart_static.exe"
-				ProgramDatabaseFile="..\..\out\release7\build\appcelstart_static\celstart_static.pdb"
-				SubSystem="2"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7.lib bulletdynamics-vc7.lib bulletmath-vc7.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc7.lib -L\usr\lib\python2.5 -lpython2.5 -lpthread -ldl -lutil -lm "
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release7\libs\libcelstartcore.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release7\build\appcelstart_static\appcelstart_static.tlb"/>
+				TypeLibraryName="..\..\out\release7\build\libcelstartcore\libcelstartcore.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release7\bin\&#x0D;&#x0A;"
@@ -79,7 +75,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
@@ -89,10 +85,9 @@
 		</Configuration>
   		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release7\build\appcelstart_static\"
-			IntermediateDirectory="..\..\out\release7\build\appcelstart_static\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\release7\build\libcelstartcore\"
+			IntermediateDirectory="..\..\out\release7\build\libcelstartcore\"
+			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -104,14 +99,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\appcelstart_static\celstart_static.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				ProgramDatabaseFileName="..\..\out\release7\build\libcelstartcore\celstartcore-1.9-vc7.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="/D CS_HAVE_CAL3D -I\usr\include\python2.5 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release7\build\appcelstart_static\appcelstart_static.pch"
-				AssemblerListingLocation="..\..\out\release7\build\appcelstart_static\"
-				ObjectFile="..\..\out\release7\build\appcelstart_static\"
+				PrecompiledHeaderFile="..\..\out\release7\build\libcelstartcore\libcelstartcore.pch"
+				AssemblerListingLocation="..\..\out\release7\build\libcelstartcore\"
+				ObjectFile="..\..\out\release7\build\libcelstartcore\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -127,10 +122,10 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\celstart_static.exe"
-				ProgramDatabaseFile="..\..\out\release7\build\appcelstart_static\celstart_static.pdb"
-				SubSystem="2"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7.lib bulletdynamics-vc7.lib bulletmath-vc7.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc7.lib -L\usr\lib\python2.5 -lpython2.5 -lpthread -ldl -lutil -lm "
+                                OutputFile="..\..\celstartcore-1.9-vc7.dll"
+				ImportLibrary="..\..\out\release7\libs\libcelstartcore.lib"
+				ProgramDatabaseFile="..\..\out\release7\build\libcelstartcore\celstartcore-1.9-vc7.pdb"
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -140,11 +135,11 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release7\build\appcelstart_static\appcelstart_static.tlb"/>
+				TypeLibraryName="..\..\out\release7\build\libcelstartcore\libcelstartcore.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release7\bin\&#x0D;&#x0A;"
@@ -155,7 +150,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
@@ -165,10 +160,9 @@
 		</Configuration>
     		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug7\build\appcelstart_static\"
-			IntermediateDirectory="..\..\out\debug7\build\appcelstart_static\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\debug7\build\libcelstartcore\"
+			IntermediateDirectory="..\..\out\debug7\build\libcelstartcore\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -179,14 +173,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\appcelstart_static\celstart_static.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug7\build\libcelstartcore\celstartcore.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions="/D CS_HAVE_CAL3D -I\usr\include\python2.5 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug7\build\appcelstart_static\appcelstart_static.pch"
-				AssemblerListingLocation="..\..\out\debug7\build\appcelstart_static\"
-				ObjectFile="..\..\out\debug7\build\appcelstart_static\"
+				PrecompiledHeaderFile="..\..\out\debug7\build\libcelstartcore\libcelstartcore.pch"
+				AssemblerListingLocation="..\..\out\debug7\build\libcelstartcore\"
+				ObjectFile="..\..\out\debug7\build\libcelstartcore\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -200,24 +194,22 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\celstart_static.exe"
-				ProgramDatabaseFile="..\..\out\debug7\build\appcelstart_static\celstart_static.pdb"
-				SubSystem="1"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7_d.lib bulletdynamics-vc7_d.lib bulletmath-vc7_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc7_d.lib -L\usr\lib\python2.5 -lpython2.5 -lpthread -ldl -lutil -lm "
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug7\libs\libcelstartcore_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug7\build\appcelstart_static\appcelstart_static.tlb"/>
+				TypeLibraryName="..\..\out\debug7\build\libcelstartcore\libcelstartcore.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug7\bin\&#x0D;&#x0A;"
@@ -228,7 +220,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
@@ -238,10 +230,9 @@
 		</Configuration>
   		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug7\build\appcelstart_static\"
-			IntermediateDirectory="..\..\out\debug7\build\appcelstart_static\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\debug7\build\libcelstartcore\"
+			IntermediateDirectory="..\..\out\debug7\build\libcelstartcore\"
+			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -252,14 +243,15 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\appcelstart_static\celstart_static.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+
+				ProgramDatabaseFileName="..\..\out\debug7\build\libcelstartcore\celstartcore-1.9-vc7_d.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="/D CS_HAVE_CAL3D -I\usr\include\python2.5 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug7\build\appcelstart_static\appcelstart_static.pch"
-				AssemblerListingLocation="..\..\out\debug7\build\appcelstart_static\"
-				ObjectFile="..\..\out\debug7\build\appcelstart_static\"
+				PrecompiledHeaderFile="..\..\out\debug7\build\libcelstartcore\libcelstartcore.pch"
+				AssemblerListingLocation="..\..\out\debug7\build\libcelstartcore\"
+				ObjectFile="..\..\out\debug7\build\libcelstartcore\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -273,10 +265,10 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\celstart_static.exe"
-				ProgramDatabaseFile="..\..\out\debug7\build\appcelstart_static\celstart_static.pdb"
-				SubSystem="1"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7_d.lib bulletdynamics-vc7_d.lib bulletmath-vc7_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc7_d.lib -L\usr\lib\python2.5 -lpython2.5 -lpthread -ldl -lutil -lm "
+                                OutputFile="..\..\celstartcore-1.9-vc7_d.dll"
+				ImportLibrary="..\..\out\debug7\libs\libcelstartcore_d.lib"
+				ProgramDatabaseFile="..\..\out\debug7\build\libcelstartcore\celstartcore-1.9-vc7_d.pdb"
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -286,11 +278,11 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug7\build\appcelstart_static\appcelstart_static.tlb"/>
+				TypeLibraryName="..\..\out\debug7\build\libcelstartcore\libcelstartcore.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug7\bin\&#x0D;&#x0A;"
@@ -301,7 +293,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
@@ -315,20 +307,17 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\apps\celstart\wrapper_main.cpp">
+				RelativePath="..\..\apps\celstart\celstart.cpp">
 			</File>
 			<File
-				RelativePath="..\..\msvc\appcelstart_static_static_glue_app.cpp">
-			</File>
-			<File
-				RelativePath="..\..\msvc\appcelstart_static_static_glue_app_CRYSTAL.cpp">
+				RelativePath="..\..\apps\celstart\staticvarcleanup.cpp">
 			</File>
 		</Filter>
 		<Filter
-			Name="Resource Files"
+			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\appcelstart_static.rc">
+				RelativePath="..\..\apps\celstart\celstart.h">
 			</File>
 		</Filter>
 	</Files>

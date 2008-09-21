@@ -315,14 +315,7 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\apps\celstart\celstart.cpp">
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="">
-			<File
-				RelativePath="..\..\apps\celstart\celstart.h">
+				RelativePath="..\..\apps\celstart\wrapper_main.cpp">
 			</File>
 		</Filter>
 		<Filter
