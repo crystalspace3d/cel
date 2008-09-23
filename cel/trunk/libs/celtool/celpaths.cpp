@@ -18,11 +18,8 @@
 */
 
 #include <cssysdef.h>
-#include "celversion.h"
 #include "celtool/celpaths.h"
-
-#define VERSION_STR             CEL_VERSION_MAJOR "_" CEL_VERSION_MINOR
-#define VERSION_STR_DOTTED      CEL_VERSION_MAJOR "." CEL_VERSION_MINOR
+#include "packagedefs.h"
 
 // These defines should be set by the configure script
 #ifndef CEL_CONFIGDIR
@@ -37,7 +34,7 @@ namespace CEL
   csPathsList* GetPlatformInstallationPaths ()
   {
     csPathsList cel_paths;
-    csString cel_env (getenv ("CEL_" VERSION_STR));
+    csString cel_env (getenv ("CEL_" CEL_VERSION_STR));
     if (cel_env.IsEmpty())
       cel_env = getenv ("CEL");
     if (!cel_env.IsEmpty())
