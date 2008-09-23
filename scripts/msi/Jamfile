@@ -56,13 +56,13 @@ rule GetMsiRelatedPath
     guess = yes ;
     $(env) = $($(env)_DEFAULT) ;
   }
-  MkDir $(env) ;
+  MkDir $($(env)) ;
   if $(guess)
   {
-    Depends $(env) : [ WarnMsiPathNotSet $(env) ] ;
+    Depends $($(env)) : [ WarnMsiPathNotSet $(env) ] ;
   }
-  CleanDir clean : $(env) ;
-  return $(env) ;
+  CleanDir clean : $($(env)) ;
+  return $($(env)) ;
 }
 
 rule GetCSMSMPath { return [ GetMsiRelatedPath CRYSTAL.MSM_PATH ] ; }
