@@ -132,14 +132,13 @@ bool celBehaviourXml::SendMessage (const char* msg_id,
 bool celBehaviourXml::ReceiveMessage (csStringID msg_id,
     iMessageSender* /*sender*/, celData& ret, iCelParameterBlock* params)
 {
-  va_list arg;
-  bool rc = SendMessageV (pl->FetchString (msg_id), 0, ret, params, arg);
+  bool rc = SendMessageV (pl->FetchString (msg_id), 0, ret, params, 0);
   return rc;
 }
 
 bool celBehaviourXml::SendMessageV (const char* msg_id,
   	iCelPropertyClass* /*pc*/,
-	celData& ret, iCelParameterBlock* params, va_list arg)
+        celData& ret, iCelParameterBlock* params, va_list /*arg*/)
 {
   ret.Set ((int32)-1);
   celBlXml* cbl = (celBlXml*)bl;
