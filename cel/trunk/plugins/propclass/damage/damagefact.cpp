@@ -295,6 +295,9 @@ void celPcDamage::DoDamage (iCelEntity* ent, const csVector3& p)
 	new_amount = float (amount) / sqdist;
       }
       break;
+    default:
+      new_amount= amount;
+      break;
   }
   params->GetParameter (0).Set (new_amount);
   if (behave)
@@ -351,6 +354,9 @@ void celPcDamage::AreaDamage (float radius)
     case FALLOFF_NORMAL:
       max_radius = sqrt (float (amount) / MIN_FORCE);
       break;
+    default:
+      max_radius = radius;
+      break;
   }
   iSector* s;
   csVector3 p;
@@ -381,6 +387,9 @@ void celPcDamage::BeamDamage (const csVector3& direction, float maxdist)
       break;
     case FALLOFF_NORMAL:
       max_radius = sqrt (float (amount) / MIN_FORCE);
+      break;
+    default:
+      max_radius = maxdist;
       break;
   }
   iSector* s;
