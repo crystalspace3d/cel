@@ -187,7 +187,8 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
     Print(true,"Error in embedded pycel.py code");
     return false;
   }
-  PyObject* pycelModule = PyImport_ExecCodeModule("pycel", pycelModuleCode);
+  PyObject* pycelModule = PyImport_ExecCodeModule(
+    const_cast<char*>("pycel"), pycelModuleCode);
   Py_DECREF(pycelModuleCode); // don't need this at this point
   if (!pycelModule)
   {
