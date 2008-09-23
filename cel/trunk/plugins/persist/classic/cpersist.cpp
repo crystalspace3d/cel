@@ -474,15 +474,15 @@ bool celPersistClassic::Read (char*& str)
 
 bool celPersistClassic::Read (celData* cd)
 {
-  uint8 t;
-  uint8 ub;
-  int8 b;
-  uint16 uw;
-  int16 w;
-  uint32 ul;
-  int32 l;
-  float f;
-  char* s;
+  uint8 t = 0;
+  uint8 ub = 0;
+  int8 b = 0;
+  uint16 uw = 0;
+  int16 w = 0;
+  uint32 ul = 0;
+  int32 l = 0;
+  float f = 0;
+  char* s = 0;
 
   if (!Read (t)) return false;
   switch (t)
@@ -529,7 +529,7 @@ bool celPersistClassic::Read (celData* cd)
       break;
     case CEL_DATA_COLOR:
       {
-        csColor v;
+        csColor v(0, 0, 0);
         if (!Read (v.red)) return false;
         if (!Read (v.green)) return false;
         if (!Read (v.blue)) return false;
@@ -538,7 +538,7 @@ bool celPersistClassic::Read (celData* cd)
       break;
     case CEL_DATA_VECTOR2:
       {
-        csVector2 v;
+        csVector2 v(0, 0);
         if (!Read (v.x)) return false;
         if (!Read (v.y)) return false;
         cd->Set (v);
