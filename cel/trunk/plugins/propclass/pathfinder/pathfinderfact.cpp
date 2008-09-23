@@ -314,9 +314,7 @@ bool celPcPathFinder::FollowPath ()
   if (!pclinmove || !pcactormove || !pcsteer)
     return false;
 
-  float yrot;
   csVector3 cur_position;
-  iSector* cur_sector;
 
   if(goal->GetMapNode() == cur_path->Current())
   {
