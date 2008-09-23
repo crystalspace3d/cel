@@ -18,7 +18,7 @@
 
 #include "celtool/celpaths.h"
 #include "celtool/initapp.h"
-#include "celversion.h"
+#include "packagedefs.h"
 
 #include <csutil/syspath.h>
 #include "iutil/cfgmgr.h"
@@ -35,10 +35,6 @@
 // can be quite costly to recurse over the entire tree.
 #define CEL_PLUGIN_SCAN_RECURSE false
 
-#define VERSION_STR_DOTTED      CEL_VERSION_MAJOR "." CEL_VERSION_MINOR
-
-#define CEL_PACKAGE_NAME        "cel"
-#define CEL_PACKAGE_NAME_VER    CEL_PACKAGE_NAME "-" VERSION_STR_DOTTED
 
 // These defines should be set by the configure script
 #ifndef CEL_PLUGINDIR
