@@ -220,7 +220,8 @@ csPtr<iCelGraph> celAddOnCelGraph::Load (iDocumentNode* node)
 	
 	csVector3 v;
 	int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);	
-	graph->CreateNode(name,v);
+	if (rc >= 0)
+	  graph->CreateNode(name,v);
 	break;
       }
     case XMLTOKEN_EDGE:
