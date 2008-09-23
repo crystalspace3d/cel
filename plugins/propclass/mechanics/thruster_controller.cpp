@@ -368,7 +368,7 @@ bool celPcMechanicsThrusterController::Load (iCelDataBuffer* databuf)
   csRef<iCelPropertyClass> pc = databuf->GetPC ();
   csRef<iPcMechanicsObject> mechobj = scfQueryInterface<iPcMechanicsObject> (pc);
   int32 axessize = databuf->GetInt32 ();
-  int32 tgsize, i, j;
+  int32 tgsize, i, j = INT_MAX;
   csRef<iPcMechanicsBalancedGroup> tg;
   for (i = 1; i <= axessize; i++)
   {
