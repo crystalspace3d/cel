@@ -487,7 +487,7 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       CEL_FETCH_STRING_PAR (animationname,params,id_animationname);
       if (!p_animationname) return false;
 
-      celAnimationName animid;
+      celAnimationName animid = static_cast<celAnimationName>(~0);
       if (strcmp(animationid,"idle") == 0)
         animid = CEL_ANIM_IDLE;
       else if (strcmp(animationid,"walk") == 0)
@@ -497,8 +497,12 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       else if (strcmp(animationid,"jump") == 0)
         animid = CEL_ANIM_JUMP;
 
-      SetAnimationMapping (animid, animationname);
-      return true;
+      if (animid != static_cast<celAnimationName>(~0))
+      {
+	SetAnimationMapping (animid, animationname);
+	return true;
+      }
+      return false;
     }
     default:
       return false;
