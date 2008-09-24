@@ -10,6 +10,7 @@ CELSTART_SOURCE_CORE = [ Filter [ Wildcard *.cpp *.h ] : $(CELSTART_SOURCE_WRAPP
 
 Library celstartcore : $(CELSTART_SOURCE_CORE) : shared ;
 CFlags celstartcore : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+MsvcDefine celstartcore : CEL_CELSTARTCORE_LIB ;
 LibDepends celstartcore : celtool ;
 ExternalLibs celstartcore : CRYSTAL ;
 
