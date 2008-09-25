@@ -52,7 +52,7 @@ extern const unsigned char pycel_py_wrapper[]; // pycel.py file compiled and mar
 extern const size_t pycel_py_wrapper_size;
 
 /* Define this to have Python initialized (and finalized) through cspython
- * instead out own code. (This should really be the case as otherwise
+ * instead our own code. (This should really be the case as otherwise
  * Py_Initialize() and Py_Finalize() will be called multiple times which is,
  * from observation, Not Good.) */
 #define INIT_PY_THROUGH_CSPYTHON
