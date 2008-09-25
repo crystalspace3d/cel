@@ -50,53 +50,43 @@ MSI_UPGRADE_CODE.cel.celstart.GCC_3.4 = 666969f5-e086-4a9d-81cc-5bdaabc95909 ;
 rule GetMsiRelatedPath
 {
   local env = $(1) ;
-  local guess ;
+  local target = $(2) ;
   if ! $($(env))
   {
-    guess = yes ;
     $(env) = $($(env)_DEFAULT) ;
+
+    local w = $(env).warning ;
+    MakeLocate $(w) : $(LOCATE.MSI) ;
+    ENV on $(w) = $(env) ;
+    GUESS on $(w) = $($(env)) ;
+    WarnMsiPathNotSet $(w) ;
+    Depends $(target) : $(w) ;
+    Clean clean : $(w) ;
   }
-  MkDir $($(env)) ;
-  if $(guess)
-  {
-    Depends $($(env)) : [ WarnMsiPathNotSet $(env) ] ;
-  }
-  CleanDir clean : $($(env)) ;
   return $($(env)) ;
 }
 
-rule GetCSMSMPath { return [ GetMsiRelatedPath CRYSTAL.MSM_PATH ] ; }
-
-rule GetCSWXIPath { return [ GetMsiRelatedPath CRYSTAL.WXI_PATH ] ; }
-
-rule GetWin32LibsMSMPath { return [ GetMsiRelatedPath WIN32LIBS.MSM_PATH ] ; }
-
-rule WarnMsiPathNotSet
-{
-  local env = $(1) ;
-  local w = $(env).warning ;
-  MakeLocate $(w) : $(LOCATE.MSI) ;
-  ENV on $(w) = $(env) ;
-  GUESS on $(w) = $($(env)) ;
-  WarnMsiPathNotSet1 $(w) ;
-  return $(w) ;
-}
-
-actions WarnMsiPathNotSet1
+actions WarnMsiPathNotSet
 {
   echo "*** $(ENV) not set; defaulting to: $(GUESS)" >&2
   echo "*** If default is undesirable, assign $(ENV) Jam variable." >&2
   echo "dummy file" > $(1)
 }
 
+rule GetCSMSMPath { return [ GetMsiRelatedPath CRYSTAL.MSM_PATH : $(1) ] ; }
+
+rule GetCSWXIPath { return [ GetMsiRelatedPath CRYSTAL.WXI_PATH : $(1) ] ; }
+
+rule GetWin32LibsMSMPath { return [ GetMsiRelatedPath WIN32LIBS.MSM_PATH : $(1) ] ; }
+
 rule MakeMSIsForArchAndKind
 {
   local arch = $(1) ;
   local kind = $(2) ;
-  local cs_msms = [ GetCSMSMPath ] ;
-  local cs_wxis = [ GetCSWXIPath ] ;
-  local win32libs_msms = [ GetWin32LibsMSMPath ] ;
   local msi = cel-$(kind)-$(arch).msi ;
+  local cs_msms = [ GetCSMSMPath $(msi) ] ;
+  local cs_wxis = [ GetCSWXIPath $(msi) ] ;
+  local win32libs_msms = [ GetWin32LibsMSMPath $(msi) ] ;
 
   MakeLocate $(msi) : $(LOCATE.MSI) ;
   MSIPackage $(msi) : cel-$(kind).wxs :
@@ -109,9 +99,6 @@ rule MakeMSIsForArchAndKind
     "VERSION_MAJORMINOR=$(MSI_VERSION_MAJORMINOR)"
     "VERSION_PACKAGE=$(MSI_VERSION_PACKAGE)" :
     cel-$(kind)-$(arch) ;
-  Depends $(msi) : $(cs_msms) ;
-  Depends $(msi) : $(cs_wxis) ;
-  Depends $(msi) : $(win32libs_msms) ;
   #Depends cel-$(arch).msi : mergemodules ;
   Depends msis-$(kind) : $(msi) ;
   Depends msis-$(arch) : $(msi) ;
