@@ -66,6 +66,9 @@ MsvcGenConfig CRYSTAL.STATICDEPS : $(TOP)/crystalspace_staticplugins_msvc.jam ;
 MsvcGenConfig HAVE_STATIC_PLUGINS : yes ;
 
 MsvcGenConfig PYTHON.AVAILABLE : yes ;
+MsvcGenConfig PYTHON.CFLAGS ;
+MsvcGenConfig PYTHON.LFLAGS ;
+MsvcGenConfig PYTHON.LIBS ;
 
 # Create a string combining compiler type and version.
 # Can be used for ABI identification
