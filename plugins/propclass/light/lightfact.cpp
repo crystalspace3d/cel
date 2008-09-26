@@ -131,10 +131,7 @@ iLight* celPcLight::CreateLight (const char* lightname,
   light = engine->CreateLight (lightname, pos, radius, color,
       CS_LIGHT_DYNAMICTYPE_DYNAMIC);
   if (sector)
-  {
     sector->GetLights ()->Add (light);
-    light->Setup ();
-  }
   return light;
 }
 
@@ -205,8 +202,6 @@ bool celPcLight::PerformActionIndexed (int idx,
 	    sectorptr->GetLights ()->Add (light);
 	    light->GetMovable ()->SetSector (sectorptr);
 	    light->GetMovable ()->UpdateMove ();
-	    light->Setup ();
-	    light->Setup ();
 	  }
 	  else
 	  {
@@ -248,7 +243,6 @@ bool celPcLight::PerformActionIndexed (int idx,
 	light->QuerySceneNode ()->SetParent (parent_mesh->GetMesh ()
 	    ->QuerySceneNode ());
 	light->GetMovable ()->UpdateMove ();
-	light->Setup ();
 
 	return true;
       }
