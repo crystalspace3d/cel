@@ -16,6 +16,10 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
+#if !defined(DEBUG_PYTHON) && defined(_DEBUG)
+#undef _DEBUG
+#endif
+
 #include <Python.h>
 #include <marshal.h>
 
