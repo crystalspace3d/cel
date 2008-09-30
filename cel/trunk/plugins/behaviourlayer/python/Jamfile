@@ -24,6 +24,13 @@ if $(PYTHON.AVAILABLE) = yes
   #--------
   local pycelcpp = [ DoSourceGrist PYCEL_py.cpp ] ;
   MarshallPyFile $(pycelcpp) : pycel.py : [ ConcatDirs $(TOP) scripts ] ;
+  {
+    local frozenpycelcpp = $(pycelcpp:G=frozenpycelcpp) ;
+    MakeLocate $(frozenpycelcpp) : $(SUBDIR) ;
+    Copy $(frozenpycelcpp) : $(pycelcpp) ;
+    Depends $(frozenpycelcpp) : $(pycelcpp) ;
+    Depends blcelfreeze : $(frozenpycelcpp) ;
+  }
 
   #--------
   # Swig-generated files.
