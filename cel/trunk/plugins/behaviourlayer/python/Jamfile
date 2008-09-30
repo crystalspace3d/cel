@@ -25,6 +25,9 @@ if $(PYTHON.AVAILABLE) = yes
   local pycelcpp = [ DoSourceGrist PYCEL_py.cpp ] ;
   MarshallPyFile $(pycelcpp) : pycel.py : [ ConcatDirs $(TOP) scripts ] ;
   {
+    # Copy PYCEL_py.cpp to source dir, needed for MSVC.
+    # Everywhere else the file can just be rebuilt ... the MarshallPyFile rule
+    # requires Python, but so does blpython as a whole.
     local frozenpycelcpp = $(pycelcpp:G=frozenpycelcpp) ;
     MakeLocate $(frozenpycelcpp) : $(SUBDIR) ;
     Copy $(frozenpycelcpp) : $(pycelcpp) ;
