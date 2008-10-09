@@ -182,7 +182,7 @@ static csVector3 ToVector3 (const celData* data)
   {
     case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f,%f", &v.x, &v.y, &v.z);
 			  return v;
-    case CEL_DATA_VECTOR2: v.x = data->value.v.x; v.y = data->value.v.y; v.z = data->value.v.z;
+    case CEL_DATA_VECTOR3: v.x = data->value.v.x; v.y = data->value.v.y; v.z = data->value.v.z;
 			   return v;
     default: v.x = v.y = v.z = 0.0f;
 	     return v;
