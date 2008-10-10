@@ -484,8 +484,10 @@ void celClassChangePropertyReward::PcReward (iCelParameterBlock* params)
 {
   iCelEntity *ent;
   iCelPropertyClass *pclass;
-  for (int i = (int)entlist->GetCount()-1; i>=0; i--)
+  size_t i = entlist->GetCount();
+  while (i>0)
   {
+    i--;
     ent = entlist->Get(i);
     const char* p = pc->Get (params);
     if (!p) return;
@@ -500,8 +502,10 @@ void celClassChangePropertyReward::PcPropReward (iCelParameterBlock* params)
 {
   iCelEntity *ent;
   csRef<iPcProperties> properties;
-  for (int i = (int)entlist->GetCount()-1; i>=0; i--)
+  size_t i = entlist->GetCount();
+  while (i>0)
   {
+    i--;
     ent = entlist->Get(i);
     properties = CEL_QUERY_PROPCLASS_ENT (ent, iPcProperties);
     if (properties)
