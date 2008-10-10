@@ -6,8 +6,6 @@ rule CelConfigGen
   SEARCH on cel-config.template = $(SUBDIR) ;
   MakeLocate $(<) : $(LOCATE.TARGETS) ;
   Depends $(<) : cel-config.template Jamfile Jamconfig [ ConcatDirs $(SUBDIR) Jamfile ] ;
-  Clean $(<)clean : $(<) ;
-  Depends clean : $(<)clean ;
   
   local l d e s liblist libdep libdepstr libstrings libaddstrings libbasestrs libbase libswitchcase ;
   
@@ -183,7 +181,12 @@ ShellScript $(CELCONFIGNAME) : CelConfigGen : nohelp ;
 Depends cel-config : $(CELCONFIGNAME) ;
 CEL_CONFIG_GRISTED = [ DoSourceGrist cel-config ] ;
 SEARCH on $(CEL_CONFIG_GRISTED) = $(SUBDIR) ;
+MakeLocate cel-config : $(LOCATE.TARGETS) ;
 Depends cel-config : $(CEL_CONFIG_GRISTED) ;
 Copy cel-config : $(CEL_CONFIG_GRISTED) ;
-Help cel-config : "Build the cs-config script" ;
+Always cel-configclean ;
+NotFile cel-configclean ;
+Clean cel-configclean : cel-config $(CELCONFIGNAME) ;
+Depends clean : cel-configclean ;
+Help cel-config : "Build the cel-config script" ;
 Depends install_bin : [ DoInstall cel-config : $(bindir) : $(INSTALL_PROGRAM) ] ;
