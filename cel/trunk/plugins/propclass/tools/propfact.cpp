@@ -42,14 +42,6 @@ CEL_IMPLEMENT_FACTORY_ALT (Properties, "pctools.properties", "pcproperties")
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcProperties)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcProperties)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcProperties::PcProperties)
-  SCF_IMPLEMENTS_INTERFACE (iPcProperties)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 csStringID celPcProperties::id_index = csInvalidStringID;
 csStringID celPcProperties::id_name = csInvalidStringID;
 csStringID celPcProperties::id_value = csInvalidStringID;
@@ -57,9 +49,8 @@ csStringID celPcProperties::id_value = csInvalidStringID;
 PropertyHolder celPcProperties::propinfo;
 
 celPcProperties::celPcProperties (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcProperties);
   if (id_index == csInvalidStringID)
   {
     id_index = pl->FetchStringID ("cel.parameter.index");
@@ -85,7 +76,6 @@ celPcProperties::~celPcProperties ()
   listeners.DeleteAll ();
   Clear ();
   delete params;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcProperties);
 }
 
 size_t celPcProperties::FindProperty (csStringID id)
@@ -849,7 +839,7 @@ void celPcProperties::FirePropertyListeners (size_t idx)
   while (i > 0)
   {
     i--;
-    listeners[i]->PropertyChanged (&scfiPcProperties, idx);
+    listeners[i]->PropertyChanged (this, idx);
   }
 }
 
