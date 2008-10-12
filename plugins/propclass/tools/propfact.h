@@ -55,8 +55,8 @@ CEL_DECLARE_FACTORY(Properties)
  */
 class celPcProperties :
   public scfImplementationExt1<celPcProperties,
-						  celPcCommon,
-						  iPcProperties>
+			       celPcCommon,
+			       iPcProperties>
 {
 private:
   struct property
