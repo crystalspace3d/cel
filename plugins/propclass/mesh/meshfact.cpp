@@ -916,6 +916,7 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
         (const char*)fileName);
       return 0;
     }
+    engine->SyncEngineListsNow (tloader);
     result = ret->GetResultRefPtr();
   }
 
