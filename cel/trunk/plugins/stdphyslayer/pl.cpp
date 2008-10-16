@@ -1131,8 +1131,8 @@ bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
 
   csRef<iPluginManager> plugin_mgr =
   	csQueryRegistry<iPluginManager> (object_reg);
-  csRef<iBase> pf;
-  pf = CS_QUERY_PLUGIN_CLASS (plugin_mgr, plugin_id, iBase);
+  csRef<iComponent> pf;
+  pf = csQueryPluginClass<iComponent> (plugin_mgr, plugin_id);
   if (!pf)
   {
     pf = csLoadPluginAlways (plugin_mgr, plugin_id);
