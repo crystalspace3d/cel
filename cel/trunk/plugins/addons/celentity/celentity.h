@@ -71,7 +71,7 @@ public:
    */
   virtual csPtr<iBase> Parse (iDocumentNode* node,
   	iStreamSource*, iLoaderContext* ldr_context,
-  	iBase* context, iStringArray*);
+  	iBase* context);
 
   virtual iCelEntity* Load (iDocumentNode* node, iMeshWrapper* mesh = 0);
   virtual iCelEntity* Load (const char* path, const char* file,

@@ -60,7 +60,7 @@ bool celAddOnQuestDef::Initialize (iObjectRegistry* object_reg)
 }
 
 csPtr<iBase> celAddOnQuestDef::Parse (iDocumentNode* node,
-	iStreamSource*, iLoaderContext* ldr_context, iBase* context, iStringArray*)
+	iStreamSource*, iLoaderContext* ldr_context, iBase* context)
 {
   if (!questmgr)
   {

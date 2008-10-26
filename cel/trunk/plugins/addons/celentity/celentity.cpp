@@ -332,7 +332,7 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 }
 
 csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
-        iStreamSource*, iLoaderContext* ldr_context, iBase* context, iStringArray*)
+        iStreamSource*, iLoaderContext* ldr_context, iBase* context)
 {
   if (pl->IsEntityAddonAllowed ())
   {
