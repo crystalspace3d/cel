@@ -126,7 +126,7 @@ csStringID celAddOnCelGraph::GetAttributeID (iDocumentNode* child,
 }
 
 csPtr<iBase> celAddOnCelGraph::Parse (iDocumentNode* node,
-	iStreamSource*, iLoaderContext* ldr_context, iBase* context, iStringArray*)
+	iStreamSource*, iLoaderContext* ldr_context, iBase* context)
 {
   csRef<iSector> sector = scfQueryInterface<iSector>(context);
   if (!sector)

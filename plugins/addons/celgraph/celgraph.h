@@ -72,7 +72,7 @@ public:
    */
   virtual csPtr<iBase> Parse (iDocumentNode* node,
   	iStreamSource*, iLoaderContext* ldr_context,
-  	iBase* context, iStringArray*);
+  	iBase* context);
 
   virtual csPtr<iCelGraph> Load (iDocumentNode* node);
   virtual csPtr<iCelGraph> Load (const char* path, const char* file);

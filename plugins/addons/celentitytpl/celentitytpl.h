@@ -68,7 +68,7 @@ public:
    */
   virtual csPtr<iBase> Parse (iDocumentNode* node,
   	iStreamSource*, iLoaderContext* ldr_context,
-  	iBase* context, iStringArray*);
+  	iBase* context);
 
   virtual iCelEntityTemplate* Load (iDocumentNode* node);
   virtual iCelEntityTemplate* Load (const char* path, const char* file);

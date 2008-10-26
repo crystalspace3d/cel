@@ -105,7 +105,7 @@ iCelExpressionParser* celAddOnRuleDef::GetParser ()
 }
 
 csPtr<iBase> celAddOnRuleDef::Parse (iDocumentNode* node,
-	iStreamSource*, iLoaderContext* ldr_context, iBase*, iStringArray*)
+	iStreamSource*, iLoaderContext* ldr_context, iBase*)
 {
   csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   csRef<iCelRuleBase> rulebase = csQueryRegistryOrLoad<iCelRuleBase> (
