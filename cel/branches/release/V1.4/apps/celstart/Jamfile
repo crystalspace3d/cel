@@ -11,6 +11,7 @@ CFlags celstart : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
 LinkWith celstart : celtool ;
 ExternalLibs celstart : CRYSTAL ;
 Win32Resource celstart : [ ConcatDirs $(SUBDIR) celstart.rc ] ;
+FileListEntryApplications celstart : app-celstart ;
   
 if $(HAVE_STATIC_PLUGINS) = "yes"
 {
@@ -25,6 +26,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   MsvcDefine celstart_static : CS_STATIC_LINKED ;
   LinkWith celstart_static : cel_staticplugins celtool ;
   Win32Resource celstart_static : [ ConcatDirs $(SUBDIR) celstart.rc ] ;
+  FileListEntryApplications celstart_static : app-celstart-static ;
 
   #
   # The plugins that we need

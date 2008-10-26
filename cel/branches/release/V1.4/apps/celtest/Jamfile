@@ -4,6 +4,7 @@ Application celtst : [ Wildcard *.cpp *.h ] ;
 CFlags celtst : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
 LinkWith celtst : celtool ;
 ExternalLibs celtst : CRYSTAL ;
+FileListEntryApplications celtst : app-demo ;
 
 if $(HAVE_STATIC_PLUGINS) = "yes"
 {
@@ -13,6 +14,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   CFlags celtst_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine celtst_static : CS_STATIC_LINKED ;
   LinkWith celtst_static : cel_staticplugins celtool ;
+  FileListEntryApplications celtst_static : app-demo-static ;
   LinkStaticPlugins celtst_static :
     addon_celentity
     addon_celentitytpl
