@@ -30,6 +30,7 @@ if $(PYTHON.AVAILABLE) = yes
   #--------
   local blcelcpp = blcel.cpp ;
   local blcelpy = [ DoSourceGrist blcelc.py ] ;
+  local used_py ;
   MakeLocate $(blcelpy) : [ ConcatDirs $(LOCATE.OBJECTS) bindings python ] ;
 
   if ! [ Property build : projgen ]
@@ -48,10 +49,16 @@ if $(PYTHON.AVAILABLE) = yes
 	blcel :
 	[ on $(blcelpy) GetVar LOCATE ] ;
       Depends blpythonclean : blcelswigclean ;
+      used_py = $(blcelpy) ;
     }
     else
     {
       SEARCH on $(blcelcpp) = $(SEARCH_SOURCE) ;
+      local frozenpy = $(blcelpy:G=frozenmodulepy) ;
+      SEARCH on $(frozenpy) = [ ConcatDirs $(TOP) scripts ] ;
+      Copy $(blcelpy) : $(frozenpy) ;
+      Depends $(blcelpy) : $(frozenpy) ;
+      used_py = $(frozenpy) ;
     }
   }
   Clean blpythonclean : $(blcelpy) ;
@@ -63,7 +70,7 @@ if $(PYTHON.AVAILABLE) = yes
     InstallData $(<) : $(>) ;
   }
   InstallCelPythonPY $(blcelpy) : bindings python ;
-
+  Depends filelists : [ DoFileListEntries $(used_py) : : python-bindings ] ;
 
   #--------
   # Compiler flags for Swig-generated code.
@@ -93,9 +100,11 @@ if $(PYTHON.AVAILABLE) = yes
 
   save_HDRS = $(HDRS) ;
   HDRS = [ on $(swigruntime) GetVar LOCATE ] $(HDRS) ;
-  Plugin blpython : blpython.cpp blpython.h pytocel.cpp PYCEL_py.cpp ;
+  Plugin blpython : blpython.cpp blpython.h pytocel.cpp PYCEL_py.cpp : nodefaultfilelist ;
   ExternalLibs blpython : PYTHON CRYSTAL ; 
+  LinkWith blpython : celtool ;
   CFlags blpython : $(CELPYTHON.CFLAGS) ;
+  FileListEntryPlugin blpython : plugin-python ;
   HDRS = $(save_HDRS) ;
 
   #--------
@@ -103,10 +112,12 @@ if $(PYTHON.AVAILABLE) = yes
   #--------
   PythMod blcelmod : _blcelc : $(blcelcpp) celmod.cpp : bindings python : :
     CRYSTAL : "pure Python module" ;
-  Depends $(target) : $(blcelpy) ;
+  Depends blcelmod : $(blcelpy) ;
   ExternalLibs blcelmod : PYTHON CRYSTAL ;
   LinkWith blcelmod : celtool ;
   CFlags blcelmod : $(CELPYTHON.CFLAGS) ;
+    
+  FileListEntryPythMod blcelmod : : python-modules ;
 
 actions CelPthGen bind PACKAGEPATH
 {
