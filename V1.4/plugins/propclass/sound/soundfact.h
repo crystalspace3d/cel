@@ -120,8 +120,8 @@ private:
   };
   static PropertyHolder propinfo;
 
-  csRef<iSndSysSource3D> source3d;
-  csRef<iSndSysSource> source;
+  csWeakRef<iSndSysSource3D> source3d;
+  csWeakRef<iSndSysSource> source;
   csRef<iSndSysStream> stream;
   int mode;
   csString soundname;
