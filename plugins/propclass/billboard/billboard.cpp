@@ -248,6 +248,12 @@ bool celPcBillboard::SetPropertyIndexed (int idx, float b)
       return true;
     case propid_text_font_size:
       font_size = b;
+      if (billboard)
+      {
+        const char *fontname = billboard->GetTextFont();
+        if (fontname)
+          billboard->SetTextFont (fontname, b);
+      }
       return true;
     case propid_text_default_font_size:
       default_font_size = b;
