@@ -491,8 +491,15 @@ void celClassChangePropertyReward::PcReward (iCelParameterBlock* params)
     ent = entlist->Get(i);
     const char* p = pc->Get (params);
     if (!p) return;
-    const char* t = tag->Get (params);
-    pclass = ent->GetPropertyClassList ()->FindByNameAndTag (p, t);
+    if (tag)
+    {
+        const char* t = tag->Get (params);
+        pclass = ent->GetPropertyClassList ()->FindByNameAndTag (p, t);
+    }
+    else
+    {
+        pclass = ent->GetPropertyClassList ()->FindByName (p);
+    }
     if (pclass)
       ChangePropertyOnPc (pclass, params);
   }
