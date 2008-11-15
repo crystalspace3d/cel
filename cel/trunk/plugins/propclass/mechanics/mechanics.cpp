@@ -913,7 +913,7 @@ bool celPcMechanicsObject::GetPropertyIndexed (int idx, bool& v)
     v = is_static;
     return true;
   }
-  if (idx == propid_static)
+  if (idx == propid_enabled)
   {
     if (GetBody ())
     {
