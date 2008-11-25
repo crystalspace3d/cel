@@ -176,7 +176,7 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   AddProperty (propid_enabled, "cel.property.enabled",
   	CEL_DATA_BOOL, false, "Enable/Disable trigger.", 0);
   AddProperty (propid_strict, "cel.property.strict",
-  	CEL_DATA_BOOL, false, "Use strict checking for monitoried entity.",
+  	CEL_DATA_BOOL, false, "Use strict checking for monitored entity.",
 			&strict);
   AddProperty (propid_type, "cel.property.type",
   	CEL_DATA_LONG, true, "Trigger type.", &trigger_type);
