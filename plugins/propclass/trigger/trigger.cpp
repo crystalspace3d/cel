@@ -193,6 +193,7 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   sector = 0;
 
   monitor_invisible = false;
+  monitor_class_id = csInvalidStringID;
 }
 
 celPcTrigger::~celPcTrigger ()
