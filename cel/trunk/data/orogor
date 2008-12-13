@@ -1,4 +1,7 @@
 <library>
+  <shaders>
+    <shader> <file>/shader/ambient.xml</file> </shader>
+  </shaders>
   <textures>
     <texture name="all.bmp">
       <file>/cellib/objects/orogor.png</file>
@@ -7,6 +10,7 @@
   <materials>
     <material name="all.bmp">
       <texture>all.bmp</texture>
+      <shader type="ambient">ambient</shader>
     </material>
   </materials>
 

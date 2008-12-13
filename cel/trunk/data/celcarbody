@@ -1,4 +1,7 @@
 <library>
+  <shaders>
+    <shader> <file>/shader/ambient.xml</file> </shader>
+  </shaders>
   <textures>
     <texture name="celcarbody.png">
       <file>/cellib/objects/celcarbody.png</file>
@@ -7,6 +10,7 @@
   <materials>
     <material name="celcarbody.png">
       <texture>celcarbody.png</texture>
+      <shader type="ambient">ambient</shader>
     </material>
   </materials>
 
