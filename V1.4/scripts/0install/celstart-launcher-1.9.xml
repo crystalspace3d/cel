@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet type='text/xsl' href='interface.xsl'?>
+<interface uri="http://crystalspace3d.org/0install/celstart-launcher-1.9.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+  <name>CELstart</name>
+  <summary>Run CrystalSpace+CEL game packages</summary>
+  <description>
+CELstart is a launcher for self-contained &amp;quot;celzip&amp;quot; game packages.</description>
+  <homepage>http://crystalspace3d.org/main/CELstart</homepage>
+  <category>Game</category>
+  <icon href="http://crystalspace3d.org/mediawiki/images/1/10/CELstart-rocket.png" type="image/png"/>
+  <group license="OSI Approved :: GNU Lesser General Public License (LGPL)" main="celstart-launcher">
+    <implementation id="sha1new=4b9fdb5fb5af159e0ae82ba3ba89d8dc8cbe7f2c" released="2008-08-06" stability="testing" version="1.9.30943.3651">
+    <archive href="http://crystalspace3d.org/0install/celstart-launcher.tar.lzma" size="169" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
+        <version not-before="1.9.30943.3651"/>
+        <environment insert="" mode="replace" name="CELSTART"/>
+      </requires>
+  </implementation>
+    <implementation id="sha1new=5815e1b3460e6089d350adb087197eb0ddf0a531" released="2008-08-27" stability="testing" version="1.9.30973.3656">
+      <archive extract="celstart-launcher-1.9.30973.3656" href="http://crystalspace3d.org/0install/celstart-launcher-1.9.30973.3656.tar.lzma" size="213" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
+        <version not-before="1.9.30973.3656"/>
+        <environment insert="" mode="replace" name="CELSTART"/>
+      </requires>
+    </implementation>
+  </group>
+   <group license="OSI Approved :: GNU Lesser General Public License (LGPL)" main="celstart-launcher" released="2008-09-03" stability="testing" version="1.9.31013.3670">
+    <implementation id="sha1new=4b9fdb5fb5af159e0ae82ba3ba89d8dc8cbe7f2c">
+    <archive href="http://crystalspace3d.org/0install/celstart-launcher.tar.lzma" size="169" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
+        <version not-before="1.9.31013.3670"/>
+        <environment insert="" mode="replace" name="CELSTART"/>
+      </requires>
+  </implementation>
+    <implementation id="sha1new=9a2c2b294dea31e3c9579481d1d3aae8f17b0358" released="2008-09-06" version="1.9.31065.3675">
+      <archive extract="celstart-launcher-1.9.31065.3675" href="http://crystalspace3d.org/0install/celstart-launcher-1.9.31065.3675.tar.lzma" size="208" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
+        <version not-before="1.9.31065.3675"/>
+        <environment insert="" mode="prepend" name="CELSTART"/>
+      </requires>
+    </implementation>
+    <implementation id="sha1new=01b77f0c91121f8437d114243b448170d20d5e98" released="2008-09-07" version="1.9.31068.3680">
+      <archive extract="celstart-launcher-1.9.31068.3680" href="http://www.crystalspace3d.org/0install/celstart-launcher-1.9.31068.3680.tar.lzma" size="209" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
+        <version not-before="1.9.31068.3680"/>
+        <environment insert="" mode="prepend" name="CELSTART"/>
+      </requires>
+    </implementation>
+  </group>
+   <group license="OSI Approved :: GNU Lesser General Public License (LGPL)" main="celstart-launcher" released="2008-09-03" stability="testing" version="1.9.31101.3701">
+    <implementation id="sha1new=4b9fdb5fb5af159e0ae82ba3ba89d8dc8cbe7f2c">
+    <archive href="http://crystalspace3d.org/0install/celstart-launcher.tar.lzma" size="169" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
+        <version not-before="1.9.31101.3701"/>
+        <environment insert="" mode="replace" name="CELSTART"/>
+      </requires>
+  </implementation>
+    <implementation id="sha1new=6f466cf5739e10bbe7411339fbdd98fffcd98b64" released="2008-09-12" version="1.9.31118.3703">
+      <archive extract="celstart-launcher-1.9.31118.3703" href="http://www.crystalspace3d.org/0install/celstart-launcher-1.9.31118.3703.tar.lzma" size="207" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
+        <version not-before="1.9.31118.3703"/>
+        <environment insert="" mode="replace" name="CELSTART"/>
+      </requires>
+    </implementation>
+    <implementation id="sha1new=81ac90cbfda9f44f697fd73bbff67a877684930e" released="2008-09-13" version="1.9.31128.3703">
+      <archive extract="celstart-launcher-1.9.31128.3703" href="http://www.crystalspace3d.org/0install/celstart-launcher-1.9.31128.3703.tar.lzma" size="208" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
+        <version not-before="1.9.31128.3703"/>
+        <environment insert="" mode="replace" name="CELSTART"/>
+      </requires>
+    </implementation>
+    <implementation id="sha1new=577948b0831166aa41d96ebcae6727e52b79bb5a" released="2008-09-15" version="1.9.31165.3709">
+      <archive extract="celstart-launcher-1.9.31165.3709" href="http://www.crystalspace3d.org/0install/celstart-launcher-1.9.31165.3709.tar.lzma" size="208" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
+        <version not-before="1.9.31165.3709"/>
+        <environment insert="" mode="replace" name="CELSTART"/>
+      </requires>
+    </implementation>
+  </group>
+ </interface>
+<!-- Base64 Signature
+iD8DBQBIzpLYKQo7E/ZLWtgRAh3vAJwObs3CjWnDPQkhg/Y9o6jkb3hqZgCfeTHhI/wmDrRBHEda
+AR+G8YJNLds=
+
+-->
