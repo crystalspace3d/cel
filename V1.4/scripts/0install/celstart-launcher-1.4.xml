@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet type='text/xsl' href='interface.xsl'?>
+<interface uri="http://crystalspace3d.org/0install/celstart-launcher-1.4.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+  <name>CELstart</name>
+  <summary>Run CrystalSpace+CEL game packages</summary>
+  <description>
+CELstart is a launcher for self-contained &amp;quot;celzip&amp;quot; game packages.</description>
+  <homepage>http://crystalspace3d.org/main/CELstart</homepage>
+  <category>Game</category>
+  <icon href="http://crystalspace3d.org/mediawiki/images/1/10/CELstart-rocket.png" type="image/png"/>
+  <group license="OSI Approved :: GNU Lesser General Public License (LGPL)" main="celstart-launcher" released="2009-01-15" stability="testing" version="1.4.0.31893.3791">
+    <implementation id="sha1new=4b9fdb5fb5af159e0ae82ba3ba89d8dc8cbe7f2c">
+    <archive href="http://crystalspace3d.org/0install/celstart-launcher.tar.lzma" size="169" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.4.xml">
+        <version not-before="1.4.0.31893.3791"/>
+        <environment insert="" mode="replace" name="CELSTART"/>
+      </requires>
+    </implementation>
+  </group>
+  <!--
+    If you want to add a new version:
+    1. Copy a complete <group> block
+    2. Update the version, released and (as necessary) stability attributes of <group>
+    3. Update the not-before version in the celstart-runtime requires
+    4. Changing the <implementation> or <archive> is *not* necessary!
+	Different versions can share the same implementation.
+  -->
+ </interface>
+<!-- Base64 Signature
+iEYEABECAAYFAklvNW8ACgkQnCws0dQa9buF5wCfZiyZV0+YJJkAmCnLV2b3n/Shpg4AoJPtIzED
+kwXSb2iy7l0rJ0L1DK6e
+
+-->
