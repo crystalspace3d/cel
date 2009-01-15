@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet type='text/xsl' href='interface.xsl'?>
+<interface uri="http://crystalspace3d.org/0install/celstart-runtime-1.4.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+  <name>CELstart binary</name>
+  <summary>Run CrystalSpace+CEL game packages (runtime)</summary>
+  <description>
+</description>
+  <homepage>http://crystalspace3d.org/main/CELstart</homepage>
+  <icon href="http://crystalspace3d.org/mediawiki/images/1/10/CELstart-rocket.png" type="image/png"/>
+  <group arch="Linux-i686" license="OSI Approved :: GNU Lesser General Public License (LGPL)">
+    <implementation id="sha1new=5f49a57455c2f493781dca5d79f54c2ca488f582" released="2009-01-12" version="1.4.0.31893.3791">
+      <archive extract="celstart-1.4.0-CSr31893-CELr3791-Linux-x86" href="http://crystalspace3d.org/downloads/contrib/celstart-1.4.0-CSr31893-CELr3791-Linux-x86.tar.bz2" size="29758302" type="application/x-bzip-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/python25.xml">
+        <version before="2.6" not-before="2.5.2"/>
+        <environment insert="" mode="replace" name="PYTHONHOME"/>
+        <environment insert="lib" mode="prepend" name="LD_LIBRARY_PATH"/>
+      </requires>
+    </implementation>
+  </group>
+</interface>
+<!-- Base64 Signature
+iEYEABECAAYFAklvMMEACgkQnCws0dQa9bsC4QCgg6zsXW0PhAJj/fBt89P0jRcBP3EAn0fdeNj4
+VRfHg/Rasxp6QP8Ad+U0
+
+-->
