@@ -204,6 +204,14 @@ AS_IF([test $with_cs != no],
 
 
 #------------------------------------------------------------------------------
+# Check for relaytool. (After CS check so we can use the version
+# shipped with CS.)
+#------------------------------------------------------------------------------
+CS_CHECK_COMMON_TOOLS_RELAYTOOL([$CRYSTAL_EXEC_PREFIX/bin])
+
+
+
+#------------------------------------------------------------------------------
 # Determine if plugin meta-information should be embedded directly into plugin
 # modules or if it should exist in stand-alone .csplugin files.
 #------------------------------------------------------------------------------
