@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "celconfig.h"
 
 #ifdef CEL_BUILD_SHARED_LIBS
 CS_DECLARE_DEFAULT_STATIC_VARIABLE_REGISTRATION;
