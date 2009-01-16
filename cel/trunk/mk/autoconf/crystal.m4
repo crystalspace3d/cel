@@ -45,7 +45,7 @@ AS_IF([test -n "$2"],
                 win32_dir=`echo $win32_dir | sed "s/\(.\):/\\/\\1/"`
                 AS_IF([test -d "$win32_dir"],
                     [AS_IF([test -n "$$1"], [$1="$$1$PATH_SEPARATOR"])
-                    cs_path="$$1$win32_dir$PATH_SEPARATOR$win32_dir/bin"])
+                    $1="$$1$win32_dir$PATH_SEPARATOR$win32_dir/bin"])
             done
             IFS=$my_IFS
             ;;
@@ -54,7 +54,7 @@ AS_IF([test -n "$2"],
         [my_IFS=$IFS; IFS=$PATH_SEPARATOR
         for cs_dir in $2; do
             AS_IF([test -n "$$1"], [$1="$$1$PATH_SEPARATOR"])
-            cs_path="$$1$cs_dir$PATH_SEPARATOR$cs_dir/bin"
+            $1="$$1$cs_dir$PATH_SEPARATOR$cs_dir/bin"
         done
         IFS=$my_IFS])])])
 
@@ -185,6 +185,7 @@ AS_IF([test -n "$CRYSTAL_CONFIG_TOOL"],
 	    ["$cfg" --includedir $cs_liblist])
 	CRYSTAL_AVAILABLE_LIBS=`"$cfg" --available-libs`
 	CRYSTAL_STATICDEPS=`"$cfg" --static-deps`
+	CRYSTAL_EXEC_PREFIX=CS_RUN_PATH_NORMALIZE(["$cfg" --exec-prefix])
 	AS_IF([test -z "$CRYSTAL_LIBS"], [cs_sdk=no])])],
     [cs_sdk=no])
 
@@ -206,6 +207,7 @@ AS_IF([test "$cs_sdk" = yes],
    CRYSTAL_VERSION=''
    CRYSTAL_LIBS=''
    CRYSTAL_INCLUDE_DIR=''
+   CRYSTAL_EXEC_PREFIX=''
    $3])
 ])
 
@@ -235,7 +237,8 @@ AC_SUBST([CRYSTAL_CFLAGS])
 AC_SUBST([CRYSTAL_LIBS])
 AC_SUBST([CRYSTAL_INCLUDE_DIR])
 AC_SUBST([CRYSTAL_AVAILABLE_LIBS])
-AC_SUBST([CRYSTAL_STATICDEPS])])
+AC_SUBST([CRYSTAL_STATICDEPS])
+AC_SUBST([CRYSTAL_EXEC_PREFIX])])
 
 
 #------------------------------------------------------------------------------
@@ -261,6 +264,7 @@ _CS_PATH_CRYSTAL_EMIT([CRYSTAL.LFLAGS],[$CRYSTAL_LIBS],[$6])
 _CS_PATH_CRYSTAL_EMIT([CRYSTAL.INCLUDE_DIR],[$CRYSTAL_INCLUDE_DIR],[$6])
 _CS_PATH_CRYSTAL_EMIT([CRYSTAL.AVAILABLE_LIBS],[$CRYSTAL_AVAILABLE_LIBS],[$6])
 _CS_PATH_CRYSTAL_EMIT([CRYSTAL.STATICDEPS],[$CRYSTAL_STATICDEPS],[$6])
+_CS_PATH_CRYSTAL_EMIT([CRYSTAL.EXEC_PREFIX],[$CRYSTAL_EXEC_PREFIX],[$6])
 ])
 
 AC_DEFUN([_CS_PATH_CRYSTAL_EMIT],
