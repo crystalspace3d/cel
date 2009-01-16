@@ -95,7 +95,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     skeleton2
     skeleton2ldr
     skelldr
-    softshader
     spr2d
     spr3d
     spr3dbin
@@ -141,7 +140,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   {
     STATIC.PLUGINLIST += glx2d ;
     STATIC.PLUGINLIST += joylin ;
-    STATIC.PLUGINLIST += x2d ;
     STATIC.PLUGINLIST += xwin ;
     STATIC.OPTIONALPLUGINLIST += sndsysoss ;
     STATIC.OPTIONALPLUGINLIST += sndsysalsa ;
