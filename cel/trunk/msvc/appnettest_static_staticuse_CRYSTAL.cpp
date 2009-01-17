@@ -14,8 +14,6 @@
 #endif
 struct _static_use_CRYSTAL { _static_use_CRYSTAL (); };
 _static_use_CRYSTAL::_static_use_CRYSTAL () {}
-SCF_USE_STATIC_PLUGIN(bezier)
-SCF_USE_STATIC_PLUGIN(bezierldr)
 SCF_USE_STATIC_PLUGIN(bruteblock)
 SCF_USE_STATIC_PLUGIN(terrainldr)
 SCF_USE_STATIC_PLUGIN(bugplug)
