@@ -908,6 +908,11 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
   {
     csRef<iThreadReturn> ret = tloader->LoadFile(fileName, 0);
     ret->Wait();
+    if (!path.IsEmpty ())
+    {
+      vfs->PopDir ();
+      vfs->SetSyncDir(vfs->GetCwd());
+    }
     if(!ret->WasSuccessful())
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
