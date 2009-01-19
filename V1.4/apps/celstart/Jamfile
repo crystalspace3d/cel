@@ -68,6 +68,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     glshader_fixed
     gmeshldr
     gmeshskelanim2
+    haze
+    hazeldr
     lghtng
     null2d
     null3d
