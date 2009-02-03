@@ -617,7 +617,8 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL
+ac_subst_vars='CRYSTAL_TOOLS_PREFIX
+SHELL
 PATH_SEPARATOR
 PACKAGE_NAME
 PACKAGE_TARNAME
@@ -15394,8 +15395,18 @@ fi
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	CRYSTAL_AVAILABLE_LIBS=`"$cfg" --available-libs`
 	CRYSTAL_STATICDEPS=`"$cfg" --static-deps`
+	CRYSTAL_PREFIX=`{ (echo "$as_me:$LINENO: \"\$cfg\" --prefix") >&5
+  ("$cfg" --prefix) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	CRYSTAL_EXEC_PREFIX=`{ (echo "$as_me:$LINENO: \"\$cfg\" --exec-prefix") >&5
   ("$cfg" --exec-prefix) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
+	CRYSTAL_TOOLS_PREFIX=`{ (echo "$as_me:$LINENO: \"\$cfg\" --tools-prefix") >&5
+  ("$cfg" --tools-prefix) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
@@ -15738,7 +15749,9 @@ else
    CRYSTAL_VERSION=''
    CRYSTAL_LIBS=''
    CRYSTAL_INCLUDE_DIR=''
+   CRYSTAL_PREFIX=''
    CRYSTAL_EXEC_PREFIX=''
+   CRYSTAL_TOOLS_PREFIX=''
    { { echo "$as_me:$LINENO: error:
 *** Crystal Space could not be found or was unusable. The latest version is
 *** always available from http://www.crystalspace3d.org/
@@ -15811,6 +15824,13 @@ cs_build_prop_val="$CRYSTAL_EXEC_PREFIX"
 "
 fi
 
+cs_build_prop_val="$CRYSTAL_TOOLS_PREFIX"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    	        if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.TOOLS_PREFIX ?= $cs_build_prop_val ;
+"
+fi
+
 
 fi
 
@@ -15878,7 +15898,7 @@ else
   ;;
   *)
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in     $CRYSTAL_EXEC_PREFIX/bin$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin$PATH_SEPARATOR${srcdir}/bin
+for as_dir in     $CRYSTAL_TOOLS_PREFIX/bin$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin$PATH_SEPARATOR${srcdir}/bin
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
@@ -15921,7 +15941,7 @@ else
   ;;
   *)
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in     $CRYSTAL_EXEC_PREFIX/bin$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin$PATH_SEPARATOR${srcdir}/bin
+for as_dir in     $CRYSTAL_TOOLS_PREFIX/bin$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin$PATH_SEPARATOR${srcdir}/bin
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
@@ -19146,6 +19166,7 @@ _ACEOF
 ac_delim='%!_!# '
 for ac_last_try in false false false false false :; do
   cat >conf$$subs.sed <<_ACEOF
+CRYSTAL_TOOLS_PREFIX!$CRYSTAL_TOOLS_PREFIX$ac_delim
 SHELL!$SHELL$ac_delim
 PATH_SEPARATOR!$PATH_SEPARATOR$ac_delim
 PACKAGE_NAME!$PACKAGE_NAME$ac_delim
@@ -19242,7 +19263,6 @@ PERL!$PERL$ac_delim
 TTREE!$TTREE$ac_delim
 SWIG!$SWIG$ac_delim
 CSLIBS_CONFIG!$CSLIBS_CONFIG$ac_delim
-ac_ct_CSLIBS_CONFIG!$ac_ct_CSLIBS_CONFIG$ac_delim
 _ACEOF
 
   if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
@@ -19284,6 +19304,7 @@ _ACEOF
 ac_delim='%!_!# '
 for ac_last_try in false false false false false :; do
   cat >conf$$subs.sed <<_ACEOF
+ac_ct_CSLIBS_CONFIG!$ac_ct_CSLIBS_CONFIG$ac_delim
 PYTHON!$PYTHON$ac_delim
 ac_ct_PYTHON!$ac_ct_PYTHON$ac_delim
 PKG_CONFIG!$PKG_CONFIG$ac_delim
@@ -19304,7 +19325,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 18; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 19; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
