@@ -617,7 +617,8 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL
+ac_subst_vars='CRYSTAL_TOOLS_PREFIX
+SHELL
 PATH_SEPARATOR
 PACKAGE_NAME
 PACKAGE_TARNAME
@@ -724,6 +725,7 @@ CONFIG_NL
 ac_ct_CONFIG_NL
 CRYSTAL
 CRYSTAL_CONFIG_TOOL
+RELAYTOOL
 CPP
 GREP
 EGREP
@@ -1335,6 +1337,8 @@ Optional Features:
                           is enabled, otherwise default NO)
   --enable-cstest         verify that the Crystal Space SDK is actually usable
                           (default YES)
+  --enable-relaytool      enable use of relaytool for some libraries (default
+                          YES)
   --enable-meta-info-embedding
                           store plugin meta-information directly inside plugin
                           modules if supported by platform; if disabled,
@@ -15499,6 +15503,21 @@ fi
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	CRYSTAL_AVAILABLE_LIBS=`"$cfg" --available-libs`
 	CRYSTAL_STATICDEPS=`"$cfg" --static-deps`
+	CRYSTAL_PREFIX=`{ (echo "$as_me:$LINENO: \"\$cfg\" --prefix") >&5
+  ("$cfg" --prefix) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
+	CRYSTAL_EXEC_PREFIX=`{ (echo "$as_me:$LINENO: \"\$cfg\" --exec-prefix") >&5
+  ("$cfg" --exec-prefix) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
+	CRYSTAL_TOOLS_PREFIX=`{ (echo "$as_me:$LINENO: \"\$cfg\" --tools-prefix") >&5
+  ("$cfg" --tools-prefix) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/   */ /g;s/^ //;s/ $//'`
 	if test -z "$CRYSTAL_LIBS"; then
   cs_sdk=no
 fi
@@ -15838,6 +15857,9 @@ else
    CRYSTAL_VERSION=''
    CRYSTAL_LIBS=''
    CRYSTAL_INCLUDE_DIR=''
+   CRYSTAL_PREFIX=''
+   CRYSTAL_EXEC_PREFIX=''
+   CRYSTAL_TOOLS_PREFIX=''
    { { echo "$as_me:$LINENO: error:
 *** Crystal Space could not be found or was unusable. The latest version is
 *** always available from http://www.crystalspace3d.org/
@@ -15903,6 +15925,20 @@ cs_build_prop_val="$CRYSTAL_STATICDEPS"
 "
 fi
 
+cs_build_prop_val="$CRYSTAL_EXEC_PREFIX"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    	        if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.EXEC_PREFIX ?= $cs_build_prop_val ;
+"
+fi
+
+cs_build_prop_val="$CRYSTAL_TOOLS_PREFIX"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    	        if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CRYSTAL.TOOLS_PREFIX ?= $cs_build_prop_val ;
+"
+fi
+
 
 fi
 
@@ -15932,6 +15968,141 @@ echo "${ECHO_T}$cel_have_crystal_static" >&6; }
 fi
 
 fi
+
+
+
+#------------------------------------------------------------------------------
+# Check for relaytool. (After CS check so we can use the version
+# shipped with CS.)
+#------------------------------------------------------------------------------
+# Check whether --enable-relaytool was given.
+if test "${enable_relaytool+set}" = set; then
+  enableval=$enable_relaytool;
+fi
+
+	if test -z "$enable_relaytool"; then
+  enable_relaytool=yes
+fi
+
+    if test "$enable_relaytool" != "no"; then
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin$PATH_SEPARATOR${srcdir}/bin"
+	export PATH
+fi
+
+    if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}relaytool", so it can be a program name with args.
+set dummy ${ac_tool_prefix}relaytool; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_path_RELAYTOOL+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $RELAYTOOL in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_RELAYTOOL="$RELAYTOOL" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in     $CRYSTAL_TOOLS_PREFIX/bin$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin$PATH_SEPARATOR${srcdir}/bin
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_RELAYTOOL="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+RELAYTOOL=$ac_cv_path_RELAYTOOL
+if test -n "$RELAYTOOL"; then
+  { echo "$as_me:$LINENO: result: $RELAYTOOL" >&5
+echo "${ECHO_T}$RELAYTOOL" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+
+fi
+if test -z "$ac_cv_path_RELAYTOOL"; then
+  ac_pt_RELAYTOOL=$RELAYTOOL
+  # Extract the first word of "relaytool", so it can be a program name with args.
+set dummy relaytool; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_path_ac_pt_RELAYTOOL+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $ac_pt_RELAYTOOL in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_ac_pt_RELAYTOOL="$ac_pt_RELAYTOOL" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in     $CRYSTAL_TOOLS_PREFIX/bin$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin$PATH_SEPARATOR${srcdir}/bin
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_ac_pt_RELAYTOOL="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+ac_pt_RELAYTOOL=$ac_cv_path_ac_pt_RELAYTOOL
+if test -n "$ac_pt_RELAYTOOL"; then
+  { echo "$as_me:$LINENO: result: $ac_pt_RELAYTOOL" >&5
+echo "${ECHO_T}$ac_pt_RELAYTOOL" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+  if test "x$ac_pt_RELAYTOOL" = x; then
+    RELAYTOOL=""
+  else
+    case $cross_compiling:$ac_tool_warned in
+yes:)
+{ echo "$as_me:$LINENO: WARNING: In the future, Autoconf will not detect cross-tools
+whose name does not start with the host triplet.  If you think this
+configuration is useful to you, please write to autoconf@gnu.org." >&5
+echo "$as_me: WARNING: In the future, Autoconf will not detect cross-tools
+whose name does not start with the host triplet.  If you think this
+configuration is useful to you, please write to autoconf@gnu.org." >&2;}
+ac_tool_warned=yes ;;
+esac
+    RELAYTOOL=$ac_pt_RELAYTOOL
+  fi
+else
+  RELAYTOOL="$ac_cv_path_RELAYTOOL"
+fi
+
+	cs_build_prop_val="$RELAYTOOL"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    	        if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}CMD.RELAYTOOL ?= $cs_build_prop_val ;
+"
+fi
+
+fi
+
 
 
 
@@ -19103,6 +19274,7 @@ _ACEOF
 ac_delim='%!_!# '
 for ac_last_try in false false false false false :; do
   cat >conf$$subs.sed <<_ACEOF
+CRYSTAL_TOOLS_PREFIX!$CRYSTAL_TOOLS_PREFIX$ac_delim
 SHELL!$SHELL$ac_delim
 PATH_SEPARATOR!$PATH_SEPARATOR$ac_delim
 PACKAGE_NAME!$PACKAGE_NAME$ac_delim
@@ -19199,7 +19371,6 @@ PERL!$PERL$ac_delim
 TTREE!$TTREE$ac_delim
 SWIG!$SWIG$ac_delim
 CSLIBS_CONFIG!$CSLIBS_CONFIG$ac_delim
-ac_ct_CSLIBS_CONFIG!$ac_ct_CSLIBS_CONFIG$ac_delim
 _ACEOF
 
   if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
@@ -19241,6 +19412,7 @@ _ACEOF
 ac_delim='%!_!# '
 for ac_last_try in false false false false false :; do
   cat >conf$$subs.sed <<_ACEOF
+ac_ct_CSLIBS_CONFIG!$ac_ct_CSLIBS_CONFIG$ac_delim
 PYTHON!$PYTHON$ac_delim
 ac_ct_PYTHON!$ac_ct_PYTHON$ac_delim
 PKG_CONFIG!$PKG_CONFIG$ac_delim
@@ -19251,6 +19423,7 @@ CONFIG_NL!$CONFIG_NL$ac_delim
 ac_ct_CONFIG_NL!$ac_ct_CONFIG_NL$ac_delim
 CRYSTAL!$CRYSTAL$ac_delim
 CRYSTAL_CONFIG_TOOL!$CRYSTAL_CONFIG_TOOL$ac_delim
+RELAYTOOL!$RELAYTOOL$ac_delim
 CPP!$CPP$ac_delim
 GREP!$GREP$ac_delim
 EGREP!$EGREP$ac_delim
@@ -19260,7 +19433,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 17; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 19; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
