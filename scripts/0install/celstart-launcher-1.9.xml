@@ -8,6 +8,26 @@ CELstart is a launcher for self-contained &amp;quot;celzip&amp;quot; game packag
   <homepage>http://crystalspace3d.org/main/CELstart</homepage>
   <category>Game</category>
   <icon href="http://crystalspace3d.org/mediawiki/images/1/10/CELstart-rocket.png" type="image/png"/>
+  <!--
+    If you want to add a new version:
+    1. Copy a complete <group> block
+    2. Update the version, released and (as necessary) stability attributes of <group>
+    3. Update the not-before version in the celstart-runtime requires
+    4. Changing the <implementation> or <archive> is *not* necessary!
+	Different versions can share the same implementation.
+  -->
+  <group license="OSI Approved :: GNU Lesser General Public License (LGPL)" main="celstart-launcher" released="2009-02-05" stability="testing" version="1.9.32043.3822">
+    <implementation id="sha1new=4b9fdb5fb5af159e0ae82ba3ba89d8dc8cbe7f2c">
+    <archive href="http://crystalspace3d.org/0install/celstart-launcher.tar.lzma" size="169" type="application/x-lzma-compressed-tar"/>
+      <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.9.xml">
+        <version not-before="1.9.32043.3822"/>
+        <environment insert="" mode="replace" name="CELSTART"/>
+      </requires>
+    </implementation>
+  </group>
+  <!-- Below are old versions that use a slightly different launcher script per version.
+	 Don't copy THIS <group> block :P
+      -->
   <group license="OSI Approved :: GNU Lesser General Public License (LGPL)" main="celstart-launcher">
     <implementation id="sha1new=4b9fdb5fb5af159e0ae82ba3ba89d8dc8cbe7f2c" released="2008-08-06" stability="testing" version="1.9.30943.3651">
     <archive href="http://crystalspace3d.org/0install/celstart-launcher.tar.lzma" size="169" type="application/x-lzma-compressed-tar"/>
@@ -79,7 +99,7 @@ CELstart is a launcher for self-contained &amp;quot;celzip&amp;quot; game packag
   </group>
  </interface>
 <!-- Base64 Signature
-iD8DBQBIzpLYKQo7E/ZLWtgRAh3vAJwObs3CjWnDPQkhg/Y9o6jkb3hqZgCfeTHhI/wmDrRBHEda
-AR+G8YJNLds=
+iEYEABECAAYFAkmLOlQACgkQnCws0dQa9bteXwCfcVYivE/Bmmy9WiztGh75z8I48h4Anirhbz2B
+a6rlMMgnbJYTK5BmoNd9
 
 -->
