@@ -16,7 +16,7 @@ CELstart is a launcher for self-contained &amp;quot;celzip&amp;quot; game packag
     4. Changing the <implementation> or <archive> is *not* necessary!
 	Different versions can share the same implementation.
   -->
-  <group license="OSI Approved :: GNU Lesser General Public License (LGPL)" main="celstart-launcher" released="2009-01-15" stability="testing" version="1.4.0.31893.3791">
+  <group license="OSI Approved :: GNU Lesser General Public License (LGPL)" main="celstart-launcher" released="2009-02-05" stability="testing" version="1.4.0.31893.3791">
     <implementation id="sha1new=4b9fdb5fb5af159e0ae82ba3ba89d8dc8cbe7f2c">
     <archive href="http://crystalspace3d.org/0install/celstart-launcher.tar.lzma" size="169" type="application/x-lzma-compressed-tar"/>
       <requires interface="http://crystalspace3d.org/0install/celstart-runtime-1.4.xml">
@@ -45,7 +45,7 @@ CELstart is a launcher for self-contained &amp;quot;celzip&amp;quot; game packag
   </group>
  </interface>
 <!-- Base64 Signature
-iEYEABECAAYFAkmLOBAACgkQnCws0dQa9buDiwCgl91l8kl+kR9kZr/tms40s9iUNl8AoLWFOFWS
-VM7jNvY0O6HXZ8yIwA8+
+iEYEABECAAYFAkmLOcUACgkQnCws0dQa9bucJgCgui1cV2NNUV1emlSae/AEhL9jjBIAoIxoZOoE
+j7+vM+7i5MHnsdLwVLcN
 
 -->
