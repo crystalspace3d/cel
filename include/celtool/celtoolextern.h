@@ -21,10 +21,7 @@
 #define __CELTOOL_CELTOOLEXTERN_H__
 
 #include "cssysdef.h"
-
-#if !defined(CS_COMPILER_MSVC)
 #include "celplatform.h"
-#endif
 
 #if defined(CS_PLATFORM_WIN32)
   #if defined(CEL_BUILD_SHARED_LIBS)
