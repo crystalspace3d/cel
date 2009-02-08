@@ -1,6 +1,5 @@
 /*
-    Copyright (C) 2004-2006 by Frank Richter
-	      (C) 2004-2006 by Jorrit Tyberghein
+    Copyright (C)2009 by Eric Sunshine
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -17,10 +16,16 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "cssysdef.h"
-#include "celplatform.h"
+#ifndef __CEL_CELPLATFORM_H__
+#define __CEL_CELPLATFORM_H__
 
-#ifdef CEL_BUILD_SHARED_LIBS
-CS_DECLARE_DEFAULT_STATIC_VARIABLE_REGISTRATION;
-CS_DEFINE_STATIC_VARIABLE_REGISTRATION (csStaticVarCleanup_csutil);
+// Include celconfig.h which contains the volatile configuration macros.
+#if defined (CS_WIN32_CSCONFIG)
+// Use manually maintained settings when not building on environments not
+// using configure (specifically, MSVC).
+#  include <celconfig-msvc.h>
+#else
+#  include <celconfig.h>
 #endif
+
+#endif // __CEL_CELPLATFORM_H__
