@@ -118,6 +118,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   #
   STATIC.OPTIONALPLUGINLIST =
     bullet
+    cscegui
     cspython
     glshader_cg
     glshader_ps1
