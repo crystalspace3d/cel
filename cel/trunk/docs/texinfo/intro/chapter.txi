@@ -19,8 +19,8 @@
 @node What Is CEL, Concepts, Introduction, Introduction
 @section What Is Crystal Entity Layer?
 
-Crystal Entity Layer is a plugin developed to be used in conjunction with 
-Crystal Space.  It is designed to make it easier for game developers to 
+Crystal Entity Layer is a set of plugins developed to be used in conjunction
+with Crystal Space.  It is designed to make it easier for game developers to
 create games based on Crystal Space by providing such concepts as entities,
 properties and behaviours.
 
@@ -41,7 +41,7 @@ the @uref{http://cel.crystalspace3d.org/,Crystal Entity Layer} project page and
 Crystal Entity Layer is free and should remain free. Crystal Entity Layer 
 falls under the GNU copyleft license for libraries (LGPL). A copy of of the 
 LGPL is included in this manual for your perusal. In short, the LGPL allows 
-you to use CrystalSpace as a library in your products, even commercial 
+you to use Crystal Space as a library in your products, even commercial 
 products, but modifications to the library or derivative works incorporating 
 parts of the library must be made freely available to everyone, under the 
 LGPL's terms. 
@@ -111,7 +111,7 @@ C++, or it may be implemented in some form of scripting language.
 @node How To Read, Current Status, Concepts, Introduction
 @section How To Read This Manual
 
-This manual was written and is currently maintained by Daniel Thoroughgood.
+This manual was originally written by Daniel Thoroughgood.
 Constructive feedback, suggestions and contributions are always welcome.
 
 If you find something in this manual which you believe is not correct please
@@ -166,6 +166,83 @@ references are all in place.
 
 @node Features, Where To Get CEL, Guide, Introduction
 @section Feature List
+The Crystal Entity Layer provides higher-level ways to control objects than
+you'd have by using Crystal Space alone. It also provides features not
+present in Crystal Space, therefore saving you a lot of time you'd spend
+implementing them yourself.
+
+@itemize @bullet
+@item
+@emph{Entity system}
+
+Entities provide a convenient way to access and control objects' features and
+properties. Entities are not required to have a visual representation.
+One simply adds features to an entity by attaching property classes, then
+handling the messages this entity receives.
+
+@item
+@emph{Scripting}
+
+@sc{cel} has Python bindings, and its own @sc{xml}-based script language.
+You can use either of those, on a per-entity basis.
+Using CELStart, you can build an application without any line of C++.
+Indeed, you can also use them from your own C++ code.
+
+@item
+@emph{Movement helpers}
+
+@itemize @bullet
+@item
+@emph{Linear}: handles everything related to moving, from collision detection
+to dead reckoning.
+
+@item
+@emph{Physics}
+
+@item
+@emph{Vehicles}: support for 4+ wheels vehicles (including tank-like
+behaviour), and hovercraft.
+
+@end itemize
+  
+@item
+@emph{Abstracted mesh objects management}: you can manipulate meshes and
+animations independently of the underlying mesh object type.
+
+@item
+@emph{Camera helpers}: it's easy to get 3rd person view, and specific
+object-tracking behaviour.
+
+@item
+@emph{Networking}: there's a TCP network plugin, based on HawkNL.
+
+@item
+@emph{Artificial Intelligence}
+
+@itemize @bullet
+@item
+@emph{Steering behaviour}
+
+@item
+@emph{Neural network}
+
+@end itemize
+
+@item
+@emph{Miscellaneous}
+
+@itemize @bullet
+@item Billboards
+@item Inventory
+@item Timers
+@item Quests (finite state machine)
+@item Projectiles
+@item Mesh deformation
+@item Zone manager: can load and unload parts of the level, depending on
+actor's position.
+@end itemize
+
+@end itemize
 
 @node Where To Get CEL, Mailing Lists, Features, Introduction
 @section Where to Get Crystal Entity Layer
@@ -176,7 +253,7 @@ Please keep in mind that both types of releases are still Beta.  The main
 difference being that release versions should be well tested and generally 
 stable.
 
-With the development version your milage may vary.  Sometimes it may not
+With the development version your mileage may vary.  Sometimes it may not
 compile easily on all platforms, or may not compile at all.  There may be
 features that are only partially implemented and these probably will not
 be very well documented.
