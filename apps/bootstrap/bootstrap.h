@@ -25,7 +25,6 @@
 #include "physicallayer/entity.h"
 
 struct iEngine;
-struct iLoader;
 struct iGraphics3D;
 struct iKeyboardDriver;
 struct iVirtualClock;

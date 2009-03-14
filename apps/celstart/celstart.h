@@ -55,7 +55,6 @@ private:
   csRef<FramePrinter> printer;
 
   // Loader options.
-  bool threaded;
   bool checkDupes;
   bool seperateCollections;
 

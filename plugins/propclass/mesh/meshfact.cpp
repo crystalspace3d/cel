@@ -881,49 +881,22 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
     vfs->SetSyncDir(vfs->GetCwd());
   }
 
-  csRef<iBase> result;
-  csRef<iLoader> loader;
   csRef<iThreadedLoader> tloader = csQueryRegistry<iThreadedLoader> (object_reg);
-  if(!tloader.IsValid())
+  csRef<iThreadReturn> ret = tloader->LoadFileWait(vfs->GetCwd(), fileName, 0);
+  if (!path.IsEmpty ())
   {
-    loader = csQueryRegistry<iLoader> (object_reg);
-    CS_ASSERT (loader != 0);
-    csLoadResult res = loader->Load (fileName, 0, false, true);
-    if (!path.IsEmpty ())
-    {
-      vfs->PopDir ();
-      vfs->SetSyncDir(vfs->GetCwd());
-    }
-    if (!res.success)
-    {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-        "cel.pfobject.mesh.loadmeshfactory",
-        "Error loading mesh object factory or library '%s'!",
-        (const char*)fileName);
-      return 0;
-    }
-    result = res.result;
+    vfs->PopDir ();
+    vfs->SetSyncDir(vfs->GetCwd());
   }
-  else
+  if(!ret->WasSuccessful())
   {
-    csRef<iThreadReturn> ret = tloader->LoadFile(fileName, 0);
-    ret->Wait();
-    if (!path.IsEmpty ())
-    {
-      vfs->PopDir ();
-      vfs->SetSyncDir(vfs->GetCwd());
-    }
-    if(!ret->WasSuccessful())
-    {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-        "cel.pfobject.mesh.loadmeshfactory",
-        "Error loading mesh object factory or library '%s'!",
-        (const char*)fileName);
-      return 0;
-    }
-    engine->SyncEngineListsNow (tloader);
-    result = ret->GetResultRefPtr();
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.pfobject.mesh.loadmeshfactory",
+      "Error loading mesh object factory or library '%s'!",
+      (const char*)fileName);
+    return 0;
   }
+  csRef<iBase> result = ret->GetResultRefPtr();
 
   csRef<iMeshFactoryWrapper> imeshfact;
   if (result == 0)

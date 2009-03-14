@@ -45,7 +45,6 @@
 struct iCelEntity;
 struct iObjectRegistry;
 struct iEngine;
-struct iLoader;
 struct iVFS;
 struct iCollideSystem;
 struct iCelPlLayer;
@@ -238,7 +237,6 @@ class celPcZoneManager : public scfImplementationExt1<
 {
 private:
   csRef<iEngine> engine;
-  csRef<iLoader> loader;
   csRef<iThreadedLoader> tloader;
   csRef<iVFS> vfs;
   csRef<iCollideSystem> cdsys;
@@ -330,13 +328,7 @@ public:
   virtual ~celPcZoneManager ();
 
   iEngine* GetEngine () const { return engine; }
-  csPtr<iBase> GetLoader () const
-  {
-    if(tloader.IsValid())
-      return scfQueryInterface<iBase>(tloader);
-    else
-      return scfQueryInterface<iBase>(loader);
-  }
+  csPtr<iThreadedLoader> GetLoader () const { return csPtr<iThreadedLoader>(tloader); }
   iVFS* GetVFS () const { return vfs; }
   iCelPlLayer* GetPL () const { return pl; }
   iCollideSystem* GetCDSystem () const { return cdsys; }
