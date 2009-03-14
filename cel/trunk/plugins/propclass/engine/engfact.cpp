@@ -289,17 +289,10 @@ bool celPcRegion::Load (bool allow_entity_addon)
   }
 
   csRef<iThreadedLoader> tloader = csQueryRegistry<iThreadedLoader> (object_reg);
-  csRef<iLoader> loader;
-  if(!tloader.IsValid())
-  {
-    loader = csQueryRegistry<iLoader> (object_reg);
-    CS_ASSERT (loader != 0);
-  }
   csRef<iVFS> VFS = csQueryRegistry<iVFS> (object_reg);
   CS_ASSERT (VFS != 0);
   VFS->PushDir ();
   VFS->ChDir (worlddir);
-  VFS->SetSyncDir(VFS->GetCwd());
 
   // First we register ourselves as a callback to the physical layer so
   // that we get to know about entities created during loading. Those
@@ -316,24 +309,14 @@ bool celPcRegion::Load (bool allow_entity_addon)
   }
 
   // Load the level file which is called 'world'.
-  bool rc = true;
-  csRef<iThreadReturn> ret;
-  if(tloader.IsValid())
-  {
-    ret = tloader->LoadMapFile (worldfile, false, cur_collection);
-    ret->Wait();
-  }
-  else
-  {
-    rc = loader->LoadMapFile (worldfile, false, cur_collection, false, true);
-  }
+  csRef<iThreadReturn> ret = tloader->LoadMapFileWait (VFS->GetCwd(), worldfile, false, cur_collection);
 
   // Restore everything.
   pl->RemoveNewEntityCallback ((iCelNewEntityCallback*)this);
   if (!allow_entity_addon)
     pl->SetEntityAddonAllowed (prev_allow_entity_addon);
 
-  if (tloader.IsValid() && !ret->WasSuccessful() || !rc)
+  if (!ret->WasSuccessful())
   {
     EngReport (object_reg, "Could not load map file '%s/%s'.",
     	worlddir, worldfile);
@@ -344,7 +327,6 @@ bool celPcRegion::Load (bool allow_entity_addon)
 
   engine->PrecacheDraw (cur_collection);
   VFS->PopDir ();
-  VFS->SetSyncDir(VFS->GetCwd());
   loaded = true;
   printf ("LoadOK!\n");
 
