@@ -53,7 +53,7 @@ struct iPcSoundListener : public virtual iBase
   virtual iSndSysListener* GetSoundListener () = 0;
 };
 
-/*
+/**
  * This is the sound source property class.
  *
  * This property class supports the following actions (add prefix
