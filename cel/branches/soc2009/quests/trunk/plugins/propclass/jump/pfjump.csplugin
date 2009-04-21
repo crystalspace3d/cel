@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfjump.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.move.jump</name>
+        <implementation>celPfJump</implementation>
+        <description>CEL Jump Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
