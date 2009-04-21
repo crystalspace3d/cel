@@ -108,8 +108,8 @@ bool celOperationTriggerFactory::Load (iDocumentNode* node)
     else
     {
       csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-        "cel.questtrigger.operation",
-        csString(node->GetAttributeValue("type")+csString(" trigger type does not exist.")));
+          "cel.questtrigger.operation",
+          "%s trigger type does not exist.", node->GetAttributeValue ("type"));
       return false;
     }
   }
