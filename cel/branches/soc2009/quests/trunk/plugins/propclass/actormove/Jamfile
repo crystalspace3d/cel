@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass actormove ;
-
-Plugin pfactormove
-	: actormove.cpp actormove.h npcmove.cpp npcmove.h
-;
-ExternalLibs pfactormove : CRYSTAL ;
-LinkWith pfactormove : celtool ;
-

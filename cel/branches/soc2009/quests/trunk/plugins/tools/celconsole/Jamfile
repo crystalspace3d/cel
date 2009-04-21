@@ -1,7 +1,0 @@
-SubDir TOP plugins tools celconsole ;
-
-Plugin celconsole
-	: celconsole.cpp celconsole.h
-;
-ExternalLibs celconsole : CRYSTAL ;
-

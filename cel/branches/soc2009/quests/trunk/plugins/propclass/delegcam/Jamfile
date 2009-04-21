@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass delegcam ;
-
-Plugin pfdelegcam
-	: delegate.cpp delegate.h
-;
-ExternalLibs pfdelegcam : CRYSTAL ;
-LinkWith pfdelegcam : celtool ;
-

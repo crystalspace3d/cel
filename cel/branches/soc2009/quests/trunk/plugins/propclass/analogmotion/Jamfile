@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass analogmotion ;
-
-Plugin pfanalogmotion
-	: analogmotion.cpp analogmotion.h
-;
-ExternalLibs pfanalogmotion : CRYSTAL ;
-LinkWith pfanalogmotion : celtool ;
-

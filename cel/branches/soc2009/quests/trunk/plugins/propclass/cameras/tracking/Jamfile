@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass cameras tracking ;
-
-Plugin pftrackingcam
-	: tracking.cpp tracking.h
-;
-ExternalLibs pftrackingcam : CRYSTAL ;
-LinkWith pftrackingcam : celtool ;
-

@@ -1,6 +1,0 @@
-SubDir TOP plugins addons ruledef ;
-
-Plugin addon_ruledef
-	: ruledef.cpp ruledef.h
-;
-ExternalLibs addon_ruledef : CRYSTAL ;

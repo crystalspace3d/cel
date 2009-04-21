@@ -1,4 +1,0 @@
-SubDir TOP scripts ;
-
-SubInclude TOP scripts cel-config ;
-SubInclude TOP scripts msi ;

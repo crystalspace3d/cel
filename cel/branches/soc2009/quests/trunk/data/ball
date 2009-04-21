@@ -1,9 +1,0 @@
-<meshfact name="ball">
-    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
-   <params>
-      <sphere rimvertices='16'>
-        <radius y='0.5' x='0.5' z='0.5'/>
-        <center y='0' x='0' z='0'/>
-      </sphere>
-    </params>
-</meshfact>

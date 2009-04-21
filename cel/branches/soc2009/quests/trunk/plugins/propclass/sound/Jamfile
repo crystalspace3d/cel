@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass sound ;
-
-Plugin pfsound
-	: soundfact.cpp soundfact.h
-;
-ExternalLibs pfsound : CRYSTAL ;
-LinkWith pfsound : celtool ;
-

@@ -1,7 +1,0 @@
-SubDir TOP docs ;
-
-InstallDoc history.txt ;
-
-SubInclude TOP docs doxygen ;
-SubInclude TOP docs texinfo ;
-SubInclude TOP docs html ;

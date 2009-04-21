@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass move ;
-
-Plugin pfmove
-	: [ Wildcard *.cpp *.h ]
-;
-ExternalLibs pfmove : CRYSTAL ;
-LinkWith pfmove : celtool ;
-

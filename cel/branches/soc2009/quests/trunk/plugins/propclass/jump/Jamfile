@@ -1,7 +1,0 @@
-SubDir TOP plugins propclass jump ;
-
-Plugin pfjump
-	: jump.cpp jump.h
-;
-ExternalLibs pfjump : CRYSTAL ;
-LinkWith pfjump : celtool ;

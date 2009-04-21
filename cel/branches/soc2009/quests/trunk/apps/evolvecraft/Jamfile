@@ -1,8 +1,0 @@
-SubDir TOP apps evolvecraft ;
-
-Application evolvecraft : [ Wildcard *.cpp *.h ] ;
-CFlags evolvecraft : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-LinkWith evolvecraft : celtool ;
-ExternalLibs evolvecraft : CRYSTAL ;
-FileListEntryApplications evolvecraft : app-demo ;
-

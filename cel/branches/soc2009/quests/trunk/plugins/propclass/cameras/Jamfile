@@ -1,3 +1,0 @@
-SubDir TOP plugins propclass cameras ;
-
-SubInclude TOP plugins propclass cameras tracking ;

@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass mesh ;
-
-Plugin pfmesh
-	: meshfact.cpp meshfact.h
-;
-ExternalLibs pfmesh : CRYSTAL ;
-LinkWith pfmesh : celtool ;
-
