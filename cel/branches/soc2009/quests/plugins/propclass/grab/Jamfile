@@ -1,0 +1,7 @@
+SubDir TOP plugins propclass grab ;
+
+Plugin pfgrab
+	: grab.cpp grab.h
+;
+ExternalLibs pfgrab : CRYSTAL ;
+LinkWith pfgrab : celtool ;
