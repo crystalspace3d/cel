@@ -1928,11 +1928,13 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     else
     {
       if (do_sendmove)
+      {
         if (sel_entity)
           SendMessage (MSSM_TYPE_MOVE, sel_entity,
           	mouse_x, mouse_y, mouse_but);
         else if (new_sel)
           SendMessage (MSSM_TYPE_MOVE, new_sel, mouse_x, mouse_y, mouse_but);
+      }
     }
   }
 

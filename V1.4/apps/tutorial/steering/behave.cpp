@@ -150,7 +150,7 @@ void BehaviourPlayer::ShowInventory ()
   for (i = 0 ; i < count ; i++)
   {
     iCelEntity* child = pcinventory->GetEntity (i);
-    printf ("  child %d is '%s'\n", i, child->GetName ());
+    printf ("  child %zu is '%s'\n", i, child->GetName ());
   }
 }
 
