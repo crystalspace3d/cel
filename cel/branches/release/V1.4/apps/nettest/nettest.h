@@ -73,8 +73,8 @@ private:
   GameFactoryManager* gfm;
   celNetworkServerStats stats;
 
-  void WriteShadow (int align,int x,int y,int fg,char *str,...);
-  void Write(int align,int x,int y,int fg,int bg,char *str,...);
+  void WriteShadow (int align,int x,int y,int fg,const char *str,...);
+  void Write(int align,int x,int y,int fg,int bg,const char *str,...);
 
 public:
   /**
