@@ -175,7 +175,8 @@ bool celPcGrab::FindInterfaces ()
   if (movable->GetSectors ()->Get (0) != currsector)
   {
     currsector = movable->GetSectors ()->Get (0);
-    ledges = scfQueryInterface<iLedgeGroup> (currsector->QueryObject ()->GetChild ("cel.ledgegroup"));
+    // (vk) use safe since sector may not have a ledgegroup
+    ledges = scfQueryInterfaceSafe<iLedgeGroup> (currsector->QueryObject ()->GetChild ("cel.ledgegroup"));
   }
   return linmove && jump && movable && ledges;
 }
