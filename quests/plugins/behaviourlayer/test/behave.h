@@ -88,6 +88,7 @@ class celBehaviourBox : public celBehaviourGeneral
 private:
   csStringID msgid_meshsel_down;
   csStringID msgid_pctimer_wakeup;
+  csStringID id_param_entity;
 
 public:
   celBehaviourBox (iCelEntity* entity, iObjectRegistry* object_reg);
@@ -122,6 +123,48 @@ private:
   int fpscam;
   float speed;
   csRef<celBehaviourRoom> bhroom;
+  // For input messages
+  csStringID id_input_mouseaxis0;
+  csStringID id_input_joyaxis0;
+  csStringID id_input_joyaxis1;
+  csStringID id_input_left_down;
+  csStringID id_input_left_up;
+  csStringID id_input_right_down;
+  csStringID id_input_right_up;
+  csStringID id_input_up_up;
+  csStringID id_input_up_down;
+  csStringID id_input_down_up;
+  csStringID id_input_down_down;
+  csStringID id_input_jump_up;
+  csStringID id_input_jump_down;
+  csStringID id_input_freeze_down;
+  csStringID id_input_roll_down;
+  csStringID id_input_roll_up;
+  csStringID id_input_showstates_up;
+  csStringID id_input_camleft_down;
+  csStringID id_input_camleft_up;
+  csStringID id_input_camright_down;
+  csStringID id_input_camright_up;
+  csStringID id_input_camdown_down;
+  csStringID id_input_camdown_up;
+  csStringID id_input_camup_up;
+  csStringID id_input_camup_down;
+  csStringID id_input_ready_down;
+  csStringID id_input_ready_up;
+  csStringID id_input_lockon_down;
+  csStringID id_input_lockon_up;
+  csStringID id_input_resetcam_down;
+  csStringID id_input_tiltcam;
+  csStringID id_input_pancam;
+  // For move messages
+  csStringID id_move_jump_landed;
+  csStringID id_move_jump_started;
+  // For timer messages
+  csStringID id_timer_wakeup;
+  // For parameters
+  csStringID id_param_x;
+  csStringID id_param_y;
+  csStringID id_param_value;
 
 public:
   celBehaviourActor (iCelEntity* entity, iObjectRegistry* object_reg);
@@ -136,6 +179,18 @@ public:
  */
 class celBehaviourDynActor : public celBehaviourGeneral
 {
+private:
+  csStringID id_input_forward_down;
+  csStringID id_input_backward_down;
+  csStringID id_input_strafeleft_down;
+  csStringID id_input_straferight_down;
+  csStringID id_input_jump_down;
+  csStringID id_input_lookup_down;
+  csStringID id_input_lookup_up;
+  csStringID id_input_lookdown_down;
+  csStringID id_input_lookdown_up;
+  csStringID id_input_center_down;
+
 public:
   celBehaviourDynActor (iCelEntity* entity, iObjectRegistry* object_reg);
   virtual ~celBehaviourDynActor() { }
@@ -151,6 +206,27 @@ class celBehaviourWheeled : public celBehaviourGeneral
 {
 private:
   csRef<iPcMeshDeform> pcmeshdeform;
+  // For input PC messages
+  csStringID id_input_accelerate_up;
+  csStringID id_input_accelerate_down;
+  csStringID id_input_reverse_up;
+  csStringID id_input_reverse_down;
+  csStringID id_input_steerleft_up;
+  csStringID id_input_steerleft_down;
+  csStringID id_input_steerright_up;
+  csStringID id_input_steerright_down;
+  csStringID id_input_handbrake_up;
+  csStringID id_input_handbrake_down;
+  csStringID id_input_lookup_up;
+  csStringID id_input_lookup_down;
+  csStringID id_input_lookdown_up;
+  csStringID id_input_lookdown_down;
+  csStringID id_input_center_down;
+  // For mechanics PC messages
+  csStringID id_mech_collision;
+  csStringID id_mech_par_position;
+  csStringID id_mech_par_normal;
+  csStringID id_mech_par_depth;
 
 public:
   celBehaviourWheeled (iCelEntity* entity, iObjectRegistry* object_reg);

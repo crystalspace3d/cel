@@ -52,7 +52,7 @@ public:
   celRule (celRuleBase* rulebase, const char* name)
   	: scfImplementationType (this), rulebase (rulebase), name (name)
   {
-    priority = csArrayItemNotFound;
+    priority = csInvalidStringID;
     var_idx = csArrayItemNotFound;
   }
   virtual ~celRule () { }
