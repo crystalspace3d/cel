@@ -756,6 +756,7 @@ size_t celPcWheeled::AddWheelAuto(csVector3 position, const char* wheelfact,
   wheel.ReturnSpeed=4.0f;
   wheel.BrakePower=1.0f;
   wheel.Rotation = rotation;
+  wheel.CurrentStop = 0.0f;
   wheels.Push(wheel);
   size_t index=wheels.GetSize()-1;
   ApplyWheelPresets(index);
@@ -791,6 +792,7 @@ size_t celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
   wheel.SteerInverted=sinvert;
   wheel.Rotation = rotation;
   wheel.ABSBrake = 1.0f;
+  wheel.CurrentStop = 0.0f;
   wheels.Push(wheel);
   size_t index=wheels.GetSize()-1;
   SetWheelMesh(index, wheelfact, wheelfile);

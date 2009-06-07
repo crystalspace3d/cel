@@ -141,9 +141,9 @@ bool celPcMechanicsBalancedGroup::PerformActionIndexed (int idx,
 	    (GetEntity (), iPcMechanicsThruster, thruster);
         if (!th)
         {
-          csString msg = "Couldn't find thruster with given tag: ";
-          msg += thruster;
-          CS_REPORT(ERROR,msg);
+          csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+              "cel.propclass.mechanics",
+              "Couldn't find thruster with given tag: %s", thruster);
           return false;
         }
         AddThruster (th, mult);
@@ -598,8 +598,9 @@ float celPcMechanicsThrusterController::GetAxisMaxForce (const char* axisname)
       return maxstrength;
     }
   }
-  CS_REPORT(ERROR,(csString ("Invalid axis specified: ") + axisname)
-  	.GetData ());
+  csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.propclass.mechanics",
+      "Invalid axis specified: %s", axisname);
   return 0;
 }
 
@@ -631,8 +632,9 @@ float celPcMechanicsThrusterController::GetAxisMaxThrust (const char* axisname)
       return 0;
     }
   }
-  CS_REPORT(ERROR,(csString ("Invalid axis specified: ") + axisname)
-  	.GetData ());
+  csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.propclass.mechanics",
+      "Invalid axis specified:  %s", axisname);
   return 0;
 }
 
@@ -653,8 +655,9 @@ void celPcMechanicsThrusterController::AddBalancedGroup
   if (ad)
     ad->balancedgroups.Push (balancedgroup);
   else
-    CS_REPORT(ERROR,(csString ("Couldn't find specified axis: ")
-    	+ axisname).GetData ());
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+        "cel.propclass.mechanics",
+        "Couldn't find specified axis: %s", axisname);
 }
 
 void celPcMechanicsThrusterController::RemoveBalancedGroup (const char*
@@ -733,8 +736,9 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
       return;
     }
   }
-  CS_REPORT(ERROR,(csString ("Invalid axis specified: ") +
-	axisname).GetData ());
+  csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.propclass.mechanics",
+      "Invalid axis specified: %s", axisname);
 }
 
 void celPcMechanicsThrusterController::CancelThrust (uint32 id)
