@@ -67,6 +67,9 @@ private:
   csVector3 initPosition, pollPosition;
   csMatrix3 initOrientation;
 
+  bool doCallFitnessCB;
+  float deferedFitness;
+
 public:
   htBehaviourActor(iCelBlLayer *bl, iCelEntity *entity, iCelPlLayer *pl);
   virtual ~htBehaviourActor();
