@@ -37,7 +37,7 @@ htBehaviourActor::htBehaviourActor(iCelBlLayer* bl, iCelEntity* entity,
     iCelPlLayer* pl) :
   	scfImplementationType (this),
   	bl (bl), entity (entity), evolving (false),
-  	bestFitness (0), targetFitness (100000000.0)
+  	bestFitness (0), targetFitness (100000000.0), doCallFitnessCB (false)
 {
   parid_currentticks = pl->FetchStringID("cel.parameter.currentticks");
   parid_maxfitness = pl->FetchStringID("cel.parameter.max_fitness");
@@ -71,6 +71,13 @@ bool htBehaviourActor::SendMessageV (const char *msg_id,
     GetCraft ();
     GetMesh ();
     GetCamera ();
+
+    // (vk) Fitness callback call on collision is moved here
+    if (evolving && doCallFitnessCB)
+    {
+      pcevolve->FitnessCallback(deferedFitness);
+      doCallFitnessCB = false;
+    }
 
     currentTime = params->GetParameter(parid_currentticks)->value.l;
 
@@ -189,7 +196,11 @@ bool htBehaviourActor::SendMessageV (const char *msg_id,
       csVector3 currentPosition (pcmechobj->GetBody()->GetPosition());
       float distanceTravelled = (currentPosition - initPosition).Norm();
       float fitness = distanceTravelled * timeTaken;
-      pcevolve->FitnessCallback(fitness);
+
+      // (vk) Defer this call, otherwise we get crash with recent ODE versions
+      //pcevolve->FitnessCallback(fitness);
+      doCallFitnessCB = true;
+      deferedFitness = fitness;
     }
     return true;
   }
