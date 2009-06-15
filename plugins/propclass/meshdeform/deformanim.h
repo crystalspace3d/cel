@@ -97,7 +97,7 @@ class csDeformControl : public scfImplementation2
     virtual const csVector3* UpdateVertices (csTicks current,
     const csVector3* verts, int num_verts, uint32 version_id);
 
-    virtual void Update (csTicks current);
+    virtual void Update (csTicks current, int num_verts, uint32 version_id);
     virtual const csVector2* UpdateTexels (csTicks current,
       const csVector2* texels, int num_texels, uint32 version_id)
     {return texels;}
