@@ -114,7 +114,7 @@ public:
 };
 
 /**
- * 'move' behaviour.
+ * 'actor' behaviour, using new camera and analog move
  */
 class celBehaviourActor : public celBehaviourGeneral
 {
@@ -126,6 +126,45 @@ private:
 public:
   celBehaviourActor (iCelEntity* entity, iObjectRegistry* object_reg);
   virtual ~celBehaviourActor();
+
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params);
+};
+
+/**
+ * 'actorcameraold' behaviour
+ */
+class celBehaviourActorCameraOld: public celBehaviourGeneral
+{
+private:
+  int fpscam;
+  float speed;
+  csRef<celBehaviourRoom> bhroom;
+  // For input messages
+  csStringID id_input_forward1;
+  csStringID id_input_forward0;
+  csStringID id_input_backward1;
+  csStringID id_input_backward0;
+  csStringID id_input_strafeleft1;
+  csStringID id_input_strafeleft0;
+  csStringID id_input_straferight1;
+  csStringID id_input_straferight0;
+  csStringID id_input_rotateleft1;
+  csStringID id_input_rotateleft0;
+  csStringID id_input_rotateright1;
+  csStringID id_input_rotateright0;
+  csStringID id_input_jump1;
+  csStringID id_input_run1;
+  csStringID id_input_run0;
+  csStringID id_input_lookup1;
+  csStringID id_input_lookup0;
+  csStringID id_input_lookdown1;
+  csStringID id_input_lookdown0;
+  csStringID id_input_center1;
+  csStringID id_input_cammode1;
+public:
+  celBehaviourActorCameraOld (iCelEntity* entity, iObjectRegistry* object_reg);
+  virtual ~celBehaviourActorCameraOld();
 
   virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params);

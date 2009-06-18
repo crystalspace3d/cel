@@ -281,15 +281,16 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
 	const char* /*factname*/, const csVector3& /*pos*/)
 {
   // The Real Camera
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
-  	"pccommandinput",
-	"pcdefaultcamera",
-	"pcactormove",
-	"pcmesh",
-	"pcmeshselect",
-	"pclinearmovement",
-	"pctooltip",
-	"pcinventory",
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest,
+        "actorcameraold", // behaviour name
+  	"pcinput.standard",
+	"pccamera.old",
+	"pcmove.actor.standard",
+	"pcobject.mesh",
+	"pcobject.mesh.select",
+	"pcmove.linear",
+	"pc2d.tooltip",
+	"pctools.inventory",
 	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -382,10 +383,11 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
 csPtr<iCelEntity> NetTest::CreateActorNPC (const char* name,
 	const char* /*factname*/, const csVector3& /*pos*/)
 {
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
-	"pcactormove",
-	"pcmesh",
-	"pclinearmovement",
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest,
+        "actorcameraold", // behaviour name
+	"pcmove.actor.standard",
+	"pcobject.mesh",
+	"pcmove.linear",
 	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -612,45 +614,45 @@ bool NetTest::Application ()
   game_factory->SetProtocolVersion ("v0.1");
 
   // XXX: This should be in a config file...
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.misc.test"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.move.linear"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.move.actor.standard"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.move.solid"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.object.mesh.collisiondetection"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.world.region"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.world.zonemanager"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.camera.old"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.2d.tooltip"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tools.timer"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tools.inventory"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.characteristics"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tools.inventory.characteristics"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.object.mesh"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.light"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.object.light"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.object.mesh.select"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.input.standard"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.logic.quest"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tools.properties"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.logic.trigger"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.2d.billboard"))
     return false;
 
   // analyse command line arguments
