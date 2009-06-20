@@ -191,6 +191,7 @@ handling loop.
 
 #include <physicallayer/entity.h>
 #include <physicallayer/pl.h>
+#include <behaviourlayer/bl.h>
 
 class FramePrinter;
 
