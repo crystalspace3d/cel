@@ -112,6 +112,7 @@ celNewStateReward::celNewStateReward (
 
 void celNewStateReward::Reward (iCelParameterBlock* params)
 {
+  printf("NEW STATE REWARD");
   iCelPlLayer* pl = type->pl;
   reward_params = params;
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_POST);

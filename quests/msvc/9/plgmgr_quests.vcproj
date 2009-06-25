@@ -1,326 +1,439 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="plgmgr_quests"
 	ProjectGUID="{96C3E65A-7CC9-961B-0681-395F51BC9CE2}"
-	SccProjectName=""
-	SccLocalPath="">
+	TargetFrameworkVersion="0"
+	>
 	<Platforms>
-  		<Platform Name="Win32"/>
-    		<Platform Name="x64"/>
-  	</Platforms>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
-            		<Configuration
+		<Configuration
 			Name="Release (with static libs)|Win32"
 			OutputDirectory="..\..\out\release9\build\plgmgr_quests\"
 			IntermediateDirectory="..\..\out\release9\build\plgmgr_quests\"
 			ConfigurationType="2"
-			WholeProgramOptimization="1"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			WholeProgramOptimization="1"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				StringPooling="TRUE"
-				EnableFunctionLevelLinking="TRUE"
-				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\plgmgr_quests\Win32\mgr_quests.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9\build\plgmgr_quests\plgmgr_quests.pch"
-				AssemblerListingLocation="..\..\out\release9\build\plgmgr_quests\"
-				ObjectFile="..\..\out\release9\build\plgmgr_quests\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
-				CompileAs="0"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\mgr_quests.dll"
-				ProgramDatabaseFile="..\..\out\release9\build\plgmgr_quests\Win32\mgr_quests.pdb"
-				IgnoreImportLibrary="TRUE"
-				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release9\build\plgmgr_quests\Win32\plgmgr_quests.lib"
-				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="1"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
 			<Tool
-				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\plgmgr_quests\plgmgr_quests.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\plgmgr_quests\plgmgr_quests.tlb"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
-				/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" "
+				Optimization="2"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				PrecompiledHeaderFile="..\..\out\release9\build\plgmgr_quests\plgmgr_quests.pch"
+				AssemblerListingLocation="..\..\out\release9\build\plgmgr_quests\"
+				ObjectFile="..\..\out\release9\build\plgmgr_quests\"
+				ProgramDataBaseFileName="..\..\out\release9\build\plgmgr_quests\Win32\mgr_quests.pdb"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				Culture="1033"
 				AdditionalIncludeDirectories=".;..\..\plugins\tools\quests;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
+				OutputFile="..\..\mgr_quests.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				DelayLoadDLLs=""
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\..\out\release9\build\plgmgr_quests\Win32\mgr_quests.pdb"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="..\..\out\release9\build\plgmgr_quests\Win32\plgmgr_quests.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
+			/>
 		</Configuration>
-      		<Configuration
+		<Configuration
 			Name="Release (with DLLs)|Win32"
 			OutputDirectory="..\..\out\release9\build\plgmgr_quests\"
 			IntermediateDirectory="..\..\out\release9\build\plgmgr_quests\"
 			ConfigurationType="2"
-			WholeProgramOptimization="1"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			WholeProgramOptimization="1"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				StringPooling="TRUE"
-				EnableFunctionLevelLinking="TRUE"
-				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\plgmgr_quests\Win32\mgr_quests.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9\build\plgmgr_quests\plgmgr_quests.pch"
-				AssemblerListingLocation="..\..\out\release9\build\plgmgr_quests\"
-				ObjectFile="..\..\out\release9\build\plgmgr_quests\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
-				CompileAs="0"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\mgr_quests.dll"
-				ProgramDatabaseFile="..\..\out\release9\build\plgmgr_quests\Win32\mgr_quests.pdb"
-				IgnoreImportLibrary="TRUE"
-				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release9\build\plgmgr_quests\Win32\plgmgr_quests.lib"
-				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="1"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
 			<Tool
-				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\plgmgr_quests\plgmgr_quests.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\plgmgr_quests\plgmgr_quests.tlb"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
-				/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" "
+				Optimization="2"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				PrecompiledHeaderFile="..\..\out\release9\build\plgmgr_quests\plgmgr_quests.pch"
+				AssemblerListingLocation="..\..\out\release9\build\plgmgr_quests\"
+				ObjectFile="..\..\out\release9\build\plgmgr_quests\"
+				ProgramDataBaseFileName="..\..\out\release9\build\plgmgr_quests\Win32\mgr_quests.pdb"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				Culture="1033"
 				AdditionalIncludeDirectories=".;..\..\plugins\tools\quests;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
+				OutputFile="..\..\mgr_quests.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				DelayLoadDLLs=""
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\..\out\release9\build\plgmgr_quests\Win32\mgr_quests.pdb"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="..\..\out\release9\build\plgmgr_quests\Win32\plgmgr_quests.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
+			/>
 		</Configuration>
-                		<Configuration
+		<Configuration
 			Name="Debug (with static libs)|Win32"
 			OutputDirectory="..\..\out\debug9\build\plgmgr_quests\"
 			IntermediateDirectory="..\..\out\debug9\build\plgmgr_quests\"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				MinimalRebuild="TRUE"
-				RuntimeTypeInfo="TRUE"
-				RuntimeLibrary="3"
-
-				ProgramDataBaseFileName="..\..\out\debug9\build\plgmgr_quests\Win32\mgr_quests.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9\build\plgmgr_quests\plgmgr_quests.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\plgmgr_quests\"
-				ObjectFile="..\..\out\debug9\build\plgmgr_quests\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
-				CompileAs="0"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\mgr_quests.dll"
-				ProgramDatabaseFile="..\..\out\debug9\build\plgmgr_quests\Win32\mgr_quests.pdb"
-				IgnoreImportLibrary="TRUE"
-				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug9\build\plgmgr_quests\Win32\plgmgr_quests.lib"
-				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="1"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
 			<Tool
-				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\plgmgr_quests\plgmgr_quests.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\plgmgr_quests\plgmgr_quests.tlb"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
-				/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" "
+				Optimization="0"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
+				MinimalRebuild="true"
+				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				RuntimeTypeInfo="true"
+				PrecompiledHeaderFile="..\..\out\debug9\build\plgmgr_quests\plgmgr_quests.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\plgmgr_quests\"
+				ObjectFile="..\..\out\debug9\build\plgmgr_quests\"
+				ProgramDataBaseFileName="..\..\out\debug9\build\plgmgr_quests\Win32\mgr_quests.pdb"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="4"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				Culture="1033"
 				AdditionalIncludeDirectories=".;..\..\plugins\tools\quests;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
+				OutputFile="..\..\mgr_quests.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				DelayLoadDLLs=""
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\..\out\debug9\build\plgmgr_quests\Win32\mgr_quests.pdb"
+				ImportLibrary="..\..\out\debug9\build\plgmgr_quests\Win32\plgmgr_quests.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
+			/>
 		</Configuration>
-      		<Configuration
+		<Configuration
 			Name="Debug (with DLLs)|Win32"
 			OutputDirectory="..\..\out\debug9\build\plgmgr_quests\"
 			IntermediateDirectory="..\..\out\debug9\build\plgmgr_quests\"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				MinimalRebuild="TRUE"
-				RuntimeTypeInfo="TRUE"
-				RuntimeLibrary="3"
-
-				ProgramDataBaseFileName="..\..\out\debug9\build\plgmgr_quests\Win32\mgr_quests.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9\build\plgmgr_quests\plgmgr_quests.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\plgmgr_quests\"
-				ObjectFile="..\..\out\debug9\build\plgmgr_quests\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
-				CompileAs="0"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\mgr_quests.dll"
-				ProgramDatabaseFile="..\..\out\debug9\build\plgmgr_quests\Win32\mgr_quests.pdb"
-				IgnoreImportLibrary="TRUE"
-				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug9\build\plgmgr_quests\Win32\plgmgr_quests.lib"
-				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="1"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
 			<Tool
-				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\plgmgr_quests\plgmgr_quests.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\plgmgr_quests\plgmgr_quests.tlb"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
-				/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" "
+				Optimization="0"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				MinimalRebuild="true"
+				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				RuntimeTypeInfo="true"
+				PrecompiledHeaderFile="..\..\out\debug9\build\plgmgr_quests\plgmgr_quests.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\plgmgr_quests\"
+				ObjectFile="..\..\out\debug9\build\plgmgr_quests\"
+				ProgramDataBaseFileName="..\..\out\debug9\build\plgmgr_quests\Win32\mgr_quests.pdb"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="4"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				Culture="1033"
 				AdditionalIncludeDirectories=".;..\..\plugins\tools\quests;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
+				OutputFile="..\..\mgr_quests.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				DelayLoadDLLs=""
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\..\out\debug9\build\plgmgr_quests\Win32\mgr_quests.pdb"
+				ImportLibrary="..\..\out\debug9\build\plgmgr_quests\Win32\plgmgr_quests.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
+			/>
 		</Configuration>
-                        		<Configuration
+		<Configuration
 			Name="Release (with static libs)|x64"
 			OutputDirectory="..\..\out\release9-x64\build\plgmgr_quests\"
 			IntermediateDirectory="..\..\out\release9-x64\build\plgmgr_quests\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
@@ -342,9 +455,11 @@
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="3"
-				CompileAs="0"/>
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
@@ -361,43 +476,52 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="17"/>
+				TargetMachine="17"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
+				SuppressStartupBanner="TRUE"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\plgmgr_quests\plgmgr_quests.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\plgmgr_quests\plgmgr_quests.tlb"
+			/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
-				/>
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
 				AdditionalIncludeDirectories=".;..\..\plugins\tools\quests;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
+				Culture="1033"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 		</Configuration>
-      		<Configuration
+		<Configuration
 			Name="Release (with DLLs)|x64"
 			OutputDirectory="..\..\out\release9-x64\build\plgmgr_quests\"
 			IntermediateDirectory="..\..\out\release9-x64\build\plgmgr_quests\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
@@ -419,9 +543,11 @@
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="3"
-				CompileAs="0"/>
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
@@ -438,49 +564,57 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="17"/>
+				TargetMachine="17"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
+				SuppressStartupBanner="TRUE"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\plgmgr_quests\plgmgr_quests.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\plgmgr_quests\plgmgr_quests.tlb"
+			/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
-				/>
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
 				AdditionalIncludeDirectories=".;..\..\plugins\tools\quests;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
+				Culture="1033"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 		</Configuration>
-                		<Configuration
+		<Configuration
 			Name="Debug (with static libs)|x64"
 			OutputDirectory="..\..\out\debug9-x64\build\plgmgr_quests\"
 			IntermediateDirectory="..\..\out\debug9-x64\build\plgmgr_quests\"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-
 				ProgramDataBaseFileName="..\..\out\debug9-x64\build\plgmgr_quests\x64\mgr_quests.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
@@ -495,9 +629,11 @@
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="3"
-				CompileAs="0"/>
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
@@ -512,49 +648,57 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="17"/>
+				TargetMachine="17"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
+				SuppressStartupBanner="TRUE"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\plgmgr_quests\plgmgr_quests.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\plgmgr_quests\plgmgr_quests.tlb"
+			/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
-				/>
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
 				AdditionalIncludeDirectories=".;..\..\plugins\tools\quests;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
+				Culture="1033"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 		</Configuration>
-      		<Configuration
+		<Configuration
 			Name="Debug (with DLLs)|x64"
 			OutputDirectory="..\..\out\debug9-x64\build\plgmgr_quests\"
 			IntermediateDirectory="..\..\out\debug9-x64\build\plgmgr_quests\"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-
 				ProgramDataBaseFileName="..\..\out\debug9-x64\build\plgmgr_quests\x64\mgr_quests.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
@@ -569,9 +713,11 @@
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="3"
-				CompileAs="0"/>
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
@@ -586,221 +732,289 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="17"/>
+				TargetMachine="17"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
+				SuppressStartupBanner="TRUE"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\plgmgr_quests\plgmgr_quests.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\plgmgr_quests\plgmgr_quests.tlb"
+			/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
-				/>
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
 				AdditionalIncludeDirectories=".;..\..\plugins\tools\quests;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
+				Culture="1033"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 		</Configuration>
-            	</Configurations>
+	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\..\plugins\tools\quests\quests.cpp">
+				RelativePath="..\..\plugins\tools\quests\quests.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_action.cpp">
+				RelativePath="..\..\plugins\tools\quests\reward_action.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.cpp">
+				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_createentity.cpp">
+				RelativePath="..\..\plugins\tools\quests\reward_createentity.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_cssequence.cpp">
+				RelativePath="..\..\plugins\tools\quests\reward_cssequence.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_debugprint.cpp">
+				RelativePath="..\..\plugins\tools\quests\reward_debugprint.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_destroyentity.cpp">
+				RelativePath="..\..\plugins\tools\quests\reward_destroyentity.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_inventory.cpp">
+				RelativePath="..\..\plugins\tools\quests\reward_inventory.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_message.cpp">
+				RelativePath="..\..\plugins\tools\quests\reward_message.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_newstate.cpp">
+				RelativePath="..\..\plugins\tools\quests\reward_newstate.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_sequence.cpp">
+				RelativePath="..\..\plugins\tools\quests\reward_sequence.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_sequencefinish.cpp">
+				RelativePath="..\..\plugins\tools\quests\reward_sequencefinish.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_debugprint.cpp">
+				RelativePath="..\..\plugins\tools\quests\seqop_debugprint.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_light.cpp">
+				RelativePath="..\..\plugins\tools\quests\seqop_light.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_movepath.cpp">
+				RelativePath="..\..\plugins\tools\quests\seqop_movepath.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_property.cpp">
+				RelativePath="..\..\plugins\tools\quests\seqop_property.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_transform.cpp">
+				RelativePath="..\..\plugins\tools\quests\seqop_transform.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_entersector.cpp">
+				RelativePath="..\..\plugins\tools\quests\trig_entersector.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_inventory.cpp">
+				RelativePath="..\..\plugins\tools\quests\trig_inventory.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_meshentersector.cpp">
+				RelativePath="..\..\plugins\tools\quests\trig_meshentersector.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_meshsel.cpp">
+				RelativePath="..\..\plugins\tools\quests\trig_meshsel.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_message.cpp">
+				RelativePath="..\..\plugins\tools\quests\trig_message.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_operation.cpp">
+				RelativePath="..\..\plugins\tools\quests\trig_operation.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_propertychange.cpp">
+				RelativePath="..\..\plugins\tools\quests\trig_propertychange.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_sequencefinish.cpp">
+				RelativePath="..\..\plugins\tools\quests\trig_sequencefinish.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_timeout.cpp">
+				RelativePath="..\..\plugins\tools\quests\trig_timeout.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_trigger.cpp">
+				RelativePath="..\..\plugins\tools\quests\trig_trigger.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_watch.cpp">
+				RelativePath="..\..\plugins\tools\quests\trig_watch.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\..\plugins\tools\quests\quests.h">
+				RelativePath="..\..\plugins\tools\quests\quests.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_action.h">
+				RelativePath="..\..\plugins\tools\quests\reward_action.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.h">
+				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_createentity.h">
+				RelativePath="..\..\plugins\tools\quests\reward_createentity.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_cssequence.h">
+				RelativePath="..\..\plugins\tools\quests\reward_cssequence.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_debugprint.h">
+				RelativePath="..\..\plugins\tools\quests\reward_debugprint.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_destroyentity.h">
+				RelativePath="..\..\plugins\tools\quests\reward_destroyentity.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_inventory.h">
+				RelativePath="..\..\plugins\tools\quests\reward_inventory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_message.h">
+				RelativePath="..\..\plugins\tools\quests\reward_message.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_newstate.h">
+				RelativePath="..\..\plugins\tools\quests\reward_newstate.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_sequence.h">
+				RelativePath="..\..\plugins\tools\quests\reward_sequence.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_sequencefinish.h">
+				RelativePath="..\..\plugins\tools\quests\reward_sequencefinish.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_debugprint.h">
+				RelativePath="..\..\plugins\tools\quests\seqop_debugprint.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_light.h">
+				RelativePath="..\..\plugins\tools\quests\seqop_light.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_movepath.h">
+				RelativePath="..\..\plugins\tools\quests\seqop_movepath.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_property.h">
+				RelativePath="..\..\plugins\tools\quests\seqop_property.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_transform.h">
+				RelativePath="..\..\plugins\tools\quests\seqop_transform.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_entersector.h">
+				RelativePath="..\..\plugins\tools\quests\trig_entersector.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_inventory.h">
+				RelativePath="..\..\plugins\tools\quests\trig_inventory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_meshentersector.h">
+				RelativePath="..\..\plugins\tools\quests\trig_meshentersector.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_meshsel.h">
+				RelativePath="..\..\plugins\tools\quests\trig_meshsel.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_message.h">
+				RelativePath="..\..\plugins\tools\quests\trig_message.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_operation.h">
+				RelativePath="..\..\plugins\tools\quests\trig_operation.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_propertychange.h">
+				RelativePath="..\..\plugins\tools\quests\trig_propertychange.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_sequencefinish.h">
+				RelativePath="..\..\plugins\tools\quests\trig_sequencefinish.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_timeout.h">
+				RelativePath="..\..\plugins\tools\quests\trig_timeout.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_trigger.h">
+				RelativePath="..\..\plugins\tools\quests\trig_trigger.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_watch.h">
+				RelativePath="..\..\plugins\tools\quests\trig_watch.h"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\..\msvc\plgmgr_quests.rc">
+				RelativePath="..\..\plugins\tools\quests\mgr_quests.csplugin"
+				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\mgr_quests.csplugin">
+				RelativePath="..\..\msvc\plgmgr_quests.rc"
+				>
 			</File>
 		</Filter>
 	</Files>
