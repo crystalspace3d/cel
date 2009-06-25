@@ -26,6 +26,8 @@
 #include "csutil/hash.h"
 #include "csgeom/vector3.h"
 #include "csutil/refarr.h"
+#include "tools/rewards.h"
+#include "physicallayer/pl.h"
 
 struct iDocumentNode;
 struct iChangePropertyQuestRewardFactory;
@@ -525,6 +527,7 @@ struct iQuestTriggerResponseFactory : public virtual iBase
    * when the trigger fires.
    */
   virtual void AddRewardFactory (iQuestRewardFactory* reward_fact) = 0;
+  virtual void AddRewardFactory_NEW (iRewardFactory* reward_fact) = 0;
 };
 
 /**
@@ -764,6 +767,7 @@ struct iQuestManager : public virtual iBase
    * Returns 0 if no such reward type exists.
    */
   virtual iQuestRewardType* GetRewardType (const char* name) = 0;
+  virtual iRewardType* GetRewardType_NEW (const char* name) = 0;
 
   /**
    * Register a seqop reward type. Seqop rewards can be used
@@ -885,6 +889,10 @@ struct iQuestManager : public virtual iBase
   virtual iQuestRewardFactory* AddDebugPrintReward (
   	iQuestTriggerResponseFactory* response,
   	const char* msg_par) = 0;
+  	
+  virtual iRewardFactory* AddDebugPrintReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* msg) = 0;
 
   /**
    * Convenience method to add an 'inventory' reward factory
@@ -927,6 +935,27 @@ struct iQuestManager : public virtual iBase
   virtual iChangePropertyQuestRewardFactory* AddChangePropertyReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par) = 0;
+
+  /**
+   * Convenience method to add a 'createentity' reward factory
+   * to a response factory. You need to specify exactly which template
+   * to create a copy of, the name of the created entity and any other 
+   * parameters required by the template.
+   */
+  virtual iQuestRewardFactory* AddCreateEntityReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* template_par,
+	const char* name_par,
+    const celEntityTemplateParams &tpl_params) = 0;
+
+    /**
+   * Convenience method to add a 'destroyentity' reward factory
+   * to a response factory. You need to specify exactly which entity
+   * to destroy
+   */
+  virtual iQuestRewardFactory* AddDestroyEntityReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par) = 0;
 
   /**
    * Convenience method to set a 'timeout' trigger factory

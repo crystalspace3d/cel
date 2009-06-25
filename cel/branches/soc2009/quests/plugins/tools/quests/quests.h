@@ -31,6 +31,7 @@
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
+#include "tools/rewards.h"
 #include "tools/expression.h"
 
 #include "celtool/stdparams.h"
@@ -245,6 +246,7 @@ class celQuestTriggerResponseFactory : public scfImplementation1<
 private:
   csRef<iQuestTriggerFactory> trigger_factory;
   csRefArray<iQuestRewardFactory> reward_factories;
+  csRefArray<iRewardFactory> reward_factories_NEW;
 
 public:
   celQuestTriggerResponseFactory () : scfImplementationType (this) { }
@@ -259,8 +261,14 @@ public:
     return reward_factories;
   }
 
+  const csRefArray<iRewardFactory>& GetRewardFactories_NEW () const
+  {
+    return reward_factories_NEW;
+  }
+
   virtual void SetTriggerFactory (iQuestTriggerFactory* trigger_fact);
   virtual void AddRewardFactory (iQuestRewardFactory* reward_fact);
+  virtual void AddRewardFactory_NEW (iRewardFactory* reward_fact);
 };
 
 /**
@@ -356,6 +364,7 @@ private:
   iCelPlLayer* pl;
   csRef<iQuestTrigger> trigger;
   csRefArray<iQuestReward> rewards;
+  csRefArray<iReward> rewards_NEW;
   celQuest* quest;
 
 public:
@@ -365,6 +374,7 @@ public:
   void SetTrigger (iQuestTrigger* trigger);
   iQuestTrigger* GetTrigger () const { return trigger; }
   void AddReward (iQuestReward* reward);
+  void AddReward_NEW (iReward* reward);
 
   // --- For iQuestTriggerCallback ------------------------
   virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
@@ -464,6 +474,9 @@ public:
   /// Add reward for a state and response.
   void AddStateReward (size_t stateidx, size_t responseidx,
   	iQuestReward* reward);
+  void AddStateReward_NEW (size_t stateidx, size_t responseidx,
+  	iReward* reward);
+
   /// Add oninit reward for a state.
   void AddOninitReward (size_t stateidx, iQuestReward* reward);
   /// Add onexit reward for a state.
@@ -490,6 +503,7 @@ public:
 private:
   csHash<csRef<iQuestTriggerType>,csStringBase> trigger_types;
   csHash<csRef<iQuestRewardType>,csStringBase> reward_types;
+  csHash<csRef<iRewardType>,csStringBase> reward_types_NEW;
   csHash<csRef<iQuestSeqOpType>,csStringBase> seqop_types;
   csHash<csRef<celQuestFactory>,csStringBase> quest_factories;
 
@@ -503,7 +517,9 @@ public:
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger);
   virtual iQuestTriggerType* GetTriggerType (const char* name);
   virtual bool RegisterRewardType (iQuestRewardType* reward);
+  virtual bool RegisterRewardType_NEW (iRewardType* reward);
   virtual iQuestRewardType* GetRewardType (const char* name);
+  virtual iRewardType* GetRewardType_NEW (const char* name);
   virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop);
   virtual iQuestSeqOpType* GetSeqOpType (const char* name);
 
@@ -537,6 +553,9 @@ public:
   virtual iQuestRewardFactory* AddDebugPrintReward (
   	iQuestTriggerResponseFactory* response,
   	const char* msg_par);
+  virtual iRewardFactory* AddDebugPrintReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* msg);
   virtual iChangePropertyQuestRewardFactory* AddChangePropertyReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par);
@@ -553,6 +572,14 @@ public:
   virtual iQuestRewardFactory* AddSequenceFinishReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par);
+  virtual iQuestRewardFactory* AddCreateEntityReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* template_par,
+	const char* name_par,
+    const celEntityTemplateParams &tpl_params);
+  virtual iQuestRewardFactory* AddDestroyEntityReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par);
 
   virtual iQuestTriggerFactory* SetTimeoutTrigger (
   	iQuestTriggerResponseFactory* response,

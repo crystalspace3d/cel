@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- rewards.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.rewards.debugprint</name>
+        <implementation>celDebugPrintRewardType</implementation>
+        <description>CEL Reward: Prints A Debug Message</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
