@@ -4,9 +4,15 @@
   <scf>
     <classes>
       <class>
+        <name>cel.rewards.changeproperty</name>
+        <implementation>celChangePropertyRewardType</implementation>
+        <description>CEL Reward: Changes the value of a property</description>
+      </class>
+
+      <class>
         <name>cel.rewards.debugprint</name>
         <implementation>celDebugPrintRewardType</implementation>
-        <description>CEL Reward: Prints A Debug Message</description>
+        <description>CEL Reward: Prints a debug message</description>
       </class>
     </classes>
   </scf>

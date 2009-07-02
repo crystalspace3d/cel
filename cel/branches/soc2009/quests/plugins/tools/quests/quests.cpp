@@ -31,6 +31,7 @@
 #include "ivaria/reporter.h"
 
 #include "physicallayer/persist.h"
+#include "tools/parameters.h"
 
 #include "plugins/tools/quests/quests.h"
 #include "plugins/tools/quests/trig_entersector.h"
@@ -60,6 +61,8 @@
 #include "plugins/tools/quests/seqop_movepath.h"
 #include "plugins/tools/quests/seqop_light.h"
 #include "plugins/tools/quests/seqop_property.h"
+
+
 
 //---------------------------------------------------------------------------
 
@@ -675,15 +678,21 @@ void celQuestFactory::ClearDefaultParameters ()
 }
 
 csPtr<iQuest> celQuestFactory::CreateQuest (
-      const celQuestParams& params)
+      const celQuestParams& params,
+	  const celParams& params_NEW)
 {
   celQuest* q = new celQuest (questmgr->pl);
   // Set defaults
   const celQuestParams *p_params;
   celQuestParams result_params;
+
+  const celParams *p_params_NEW;
+  celParams result_params_NEW;
+
   if (params.GetSize() && defaults.GetSize())
   {
     result_params = params;
+	result_params_NEW = params_NEW;
     celQuestParams::GlobalIterator def_it = defaults.GetIterator ();
     csStringBase it_key;
     const char* name;
@@ -692,8 +701,10 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
       name = def_it.Next (it_key);
       if (!params.Contains(it_key))
         result_params.PutUnique(it_key,name);
+	    result_params_NEW.PutUnique(it_key,name);
     }
     p_params=&result_params;
+	p_params_NEW=&result_params_NEW;
   }
   else if (defaults.GetSize())
     p_params = &defaults;
@@ -752,8 +763,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
 
       for (j = 0 ; j < rewfacts_NEW.GetSize () ; j++)
       {
-	  		csRef<iReward> rew = rewfacts_NEW[j]->CreateReward ();//(iQuest*)q,
-		//*p_params); NEW
+	  	csRef<iReward> rew = rewfacts_NEW[j]->CreateReward (*p_params_NEW);
 
 	    if (!rew) return 0;
         q->AddStateReward_NEW (stateidx, respidx, rew);
@@ -1405,6 +1415,18 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.changeproperty");        
+    if (type.IsValid())
+    {
+      RegisterRewardType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
+  {
     celInventoryRewardType* type = new celInventoryRewardType (
     	object_reg);
     RegisterRewardType (type);
@@ -1812,12 +1834,12 @@ iQuestRewardFactory* celQuestManager::AddDebugPrintReward (
 
 iRewardFactory* celQuestManager::AddDebugPrintReward_NEW (
 	iQuestTriggerResponseFactory* response,
-  	const char* msg)
+  	const char* msg_par)
 {
   iRewardType* type = GetRewardType_NEW ("cel.rewards.debugprint");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iDebugPrintRewardFactory> newstate = scfQueryInterface<iDebugPrintRewardFactory> (rewfact);
-  newstate->SetMessageParameter (msg);
+  newstate->SetMessageParameter (msg_par);
   response->AddRewardFactory_NEW (rewfact);
   return rewfact;
 }
@@ -1889,6 +1911,20 @@ iChangePropertyQuestRewardFactory* celQuestManager::AddChangePropertyReward (
   newstate->SetEntityParameter (entity_par);
   newstate->SetPropertyParameter (prop_par);
   response->AddRewardFactory (rewfact);
+  return newstate;
+}
+
+iChangePropertyRewardFactory* celQuestManager::AddChangePropertyReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par)
+{
+  iRewardType* type = GetRewardType_NEW ("cel.rewards.changeproperty");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iChangePropertyRewardFactory> newstate = 
+  	scfQueryInterface<iChangePropertyRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetPropertyParameter (prop_par);
+  response->AddRewardFactory_NEW (rewfact);
   return newstate;
 }
 

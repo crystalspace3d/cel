@@ -161,6 +161,7 @@ bool celPcQuest::Load (iCelDataBuffer* databuf)
   questname = databuf->GetString ()->GetData ();
 
   celQuestParams qp;
+  celParams qp_NEW;
   uint32 count = databuf->GetUInt32 ();
   size_t i;
   for (i = 0 ; i < count ; i++)
@@ -168,12 +169,13 @@ bool celPcQuest::Load (iCelDataBuffer* databuf)
     const char* key = databuf->GetString ()->GetData ();
     const char* value = databuf->GetString ()->GetData ();
     qp.Put (key, value);
+	qp_NEW.Put (key, value);
   }
 
   bool has_quest = databuf->GetBool ();
   if (has_quest)
   {
-    if (!NewQuest (questname, qp))
+    if (!NewQuest (questname, qp, qp_NEW))
       return false;
     if (!quest->LoadState (databuf->GetString ()->GetData (), databuf))
       return false;
@@ -199,6 +201,7 @@ bool celPcQuest::PerformActionIndexed (int idx,
           return Report (object_reg,
       	    "Missing parameter 'name' for action NewQuest!");
         celQuestParams par;
+		celParams par_NEW;
         size_t i;
         for (i = 0 ; i < params->GetParameterCount () ; i++)
         {
@@ -215,9 +218,10 @@ bool celPcQuest::PerformActionIndexed (int idx,
           {
             const celData* cd = params->GetParameter (id);
             par.Put (n, cd->value.s->GetData ());
+			par_NEW.Put (n, cd->value.s->GetData ());
           }
         }
-        return NewQuest (msg, par);
+        return NewQuest (msg, par, par_NEW);
       }
     case action_stopquest:
       StopQuest ();
@@ -241,7 +245,7 @@ void celPcQuest::GetQuestManager ()
   }
 }
 
-bool celPcQuest::NewQuest (const char* name, celQuestParams& params)
+bool celPcQuest::NewQuest (const char* name, celQuestParams& params, celParams& params_NEW)
 {
   GetQuestManager ();
   if (!quest_mgr)
@@ -249,9 +253,14 @@ bool celPcQuest::NewQuest (const char* name, celQuestParams& params)
   iQuestFactory* fact = quest_mgr->GetQuestFactory (name);
   if (!fact)
     return Report (object_reg, "Couldn't find quest factory '%s'!", name);
+  
   quest_params = params;
   quest_params.Put ("this", entity->GetName ());
-  quest = fact->CreateQuest (quest_params);
+
+  quest_params_NEW = params_NEW;
+  quest_params_NEW.Put ("this", entity->GetName ());
+
+  quest = fact->CreateQuest (quest_params, quest_params_NEW);
   quest_params.Delete ("this", entity->GetName ());
   if (!quest)
     Report (object_reg, "Couldn't create quest from factory '%s'!", name);

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- parameters.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.parameters.manager</name>
+        <implementation>celParameterManager</implementation>
+        <description>CEL Parameter Manager: Generic functions for evaluating parameters</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
