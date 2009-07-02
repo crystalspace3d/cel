@@ -194,6 +194,89 @@ struct iChangePropertyRewardFactory : public virtual iBase
 };
 
 /**
+ * This interface is implemented by the createentity reward, which can create
+ * entities from entity templates.
+ *
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ *
+ * The predefined name of this reward type is 'cel.rewards.createentity'.
+ *
+ * In XML, factories recognize the following attribute on the 'op' node:
+ * - <em>template</em>: the name of the template that will be used to create
+ *   the entity from. It can be a parameter if starting with '$'.
+ * - <em>name</em>: optional name for the entity that will be created. It
+ *   can be a parameter if starting with '$'.
+ * Also, the following subnodes are supported:
+ * - <em>par</em>: a parameter for the template. It needs 'name' and 'value'
+ *   attributes. The value can be a parameter if starting with '$'. As many
+ *   par nodes as needed can be used.
+ */
+struct iCreateEntityRewardFactory : public virtual iBase
+{
+  SCF_INTERFACE (iCreateEntityRewardFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the template that will be used to create a new entity
+   * from.
+   * \param entity_tpl is the name of the entity template or a parameter 
+   * (starts with '$').
+   */
+  virtual void SetEntityTemplateParameter (const char* entity_tpl) = 0;
+
+  /**
+   * Set the name of the entity that will be created.
+   * \param name is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetNameParameter (const char* name) = 0;
+
+  /**
+   * Add a parameter for the template.
+   * \param name is the name for the parameter.
+   * \param value is the value for the parameter or a quest manager parameter 
+   * (starts with '$').
+   */
+  virtual void AddParameter (const char* name, const char* value) = 0;
+};
+
+/**
+ * This interface is implemented by the reward that destroys an entity.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ *
+ * The predefined name of this reward type is 'cel.rewards.destroyentity'.
+ *
+ * In XML, factories recognize the following attribute on the 'op' node:
+ * - <em>entity</em>: the name of the entity to send the message too.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the given
+ *   entity class.
+ */
+struct iDestroyEntityRewardFactory : public virtual iBase
+{
+  SCF_INTERFACE (iDestroyEntityRewardFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the entity.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the entity class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
+
+
+};
+
+/**
  * This interface is implemented by the reward that prints
  * debug messages on standard output. You can query this interface
  * from the reward factory if you want to manually control

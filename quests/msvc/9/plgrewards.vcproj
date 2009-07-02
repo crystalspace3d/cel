@@ -189,7 +189,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_createentity.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_debugprint.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_destroyentity.cpp"
 				>
 			</File>
 		</Filter>
@@ -203,7 +211,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_createentity.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_debugprint.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_destroyentity.h"
 				>
 			</File>
 		</Filter>

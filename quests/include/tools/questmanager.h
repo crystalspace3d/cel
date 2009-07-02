@@ -953,6 +953,11 @@ struct iQuestManager : public virtual iBase
 	const char* template_par,
 	const char* name_par,
     const celEntityTemplateParams &tpl_params) = 0;
+  virtual iRewardFactory* AddCreateEntityReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+	const char* template_par,
+	const char* name_par,
+    const celEntityTemplateParams &tpl_params) = 0;
 
     /**
    * Convenience method to add a 'destroyentity' reward factory
@@ -960,6 +965,9 @@ struct iQuestManager : public virtual iBase
    * to destroy
    */
   virtual iQuestRewardFactory* AddDestroyEntityReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par) = 0;
+  virtual iRewardFactory* AddDestroyEntityReward_NEW (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par) = 0;
 

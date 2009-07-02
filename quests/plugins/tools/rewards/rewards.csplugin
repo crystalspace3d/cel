@@ -10,6 +10,18 @@
       </class>
 
       <class>
+        <name>cel.rewards.createentity</name>
+        <implementation>celCreateEntityRewardType</implementation>
+        <description>CEL Reward: Creates an entity from a template</description>
+      </class>
+
+      <class>
+        <name>cel.rewards.destroyentity</name>
+        <implementation>celDestroyEntityRewardType</implementation>
+        <description>CEL Reward: Destroys an entity</description>
+      </class>
+      
+      <class>
         <name>cel.rewards.debugprint</name>
         <implementation>celDebugPrintRewardType</implementation>
         <description>CEL Reward: Prints a debug message</description>

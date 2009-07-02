@@ -581,10 +581,17 @@ public:
 	const char* template_par,
 	const char* name_par,
     const celEntityTemplateParams &tpl_params);
+  virtual iRewardFactory* AddCreateEntityReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+	const char* template_par,
+	const char* name_par,
+    const celEntityTemplateParams &tpl_params);
   virtual iQuestRewardFactory* AddDestroyEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par);
-
+ virtual iRewardFactory* AddDestroyEntityReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par);
   virtual iQuestTriggerFactory* SetTimeoutTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* timeout_par);
