@@ -18,75 +18,31 @@
 */
 
 #include "cssysdef.h"
-#include "csutil/objreg.h"
-#include "csutil/dirtyaccessarray.h"
-#include "csutil/util.h"
-#include "iutil/evdefs.h"
-#include "iutil/event.h"
-#include "iutil/document.h"
-#include "iutil/plugin.h"
-#include "ivaria/reporter.h"
-
-#include "physicallayer/pl.h"
-#include "physicallayer/entity.h"
-#include "physicallayer/propclas.h"
-#include "propclass/camera.h"
-
-#include "plugins/tools/rewards/reward_debugprint.h"
-
-#include "tools/expression.h" //TEMPORARY
 #include "plugins/tools/parameters/cel_parameters.h"
+
+#include "iutil/objreg.h"
+#include "iutil/plugin.h"
 #include "csutil/scanstr.h"
+#include "physicallayer/entity.h"
+#include "tools/expression.h"
+
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
 
-SCF_IMPLEMENT_FACTORY (celDebugPrintRewardType)
-CEL_IMPLEMENT_REWARDTYPE_NEW(DebugPrint)
+SCF_IMPLEMENT_FACTORY (celParameterManager)
 
 //---------------------------------------------------------------------------
 
-celDebugPrintRewardFactory::celDebugPrintRewardFactory (
-	celDebugPrintRewardType* type) : scfImplementationType (this)
+bool celParameterManager::Initialize (iObjectRegistry* r)
 {
-  celDebugPrintRewardFactory::type = type;
-}
-
-celDebugPrintRewardFactory::~celDebugPrintRewardFactory ()
-{
-}
-
-csPtr<iReward> celDebugPrintRewardFactory::CreateReward (const celParams& params)
-{
-  celDebugPrintReward* trig = new celDebugPrintReward (type, params, msg_par);
-  return trig;
-}
-
-bool celDebugPrintRewardFactory::Load (iDocumentNode* node)
-{
-  msg_par = node->GetAttributeValue ("message");
-
-  if (!msg_par)
-  {
-    csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.rewards.debugprint",
-      "'message' attribute is missing for the debugprint reward!");
-    return false;
-  }
+  object_reg = r;
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
   return true;
 }
 
-void celDebugPrintRewardFactory::SetMessageParameter (const char* msg)
+iCelExpressionParser* celParameterManager::GetParser ()
 {
-  msg_par = msg;
-}
-
-//---------------------------------------------------------------------------
-
-iCelExpressionParser* GetParser (iObjectRegistry* object_reg)
-{
-  csRef<iCelExpressionParser> expparser;
-
   csRef<iObjectRegistryIterator> it = object_reg->Get (
       scfInterfaceTraits<iCelExpressionParser>::GetID (),
       scfInterfaceTraits<iCelExpressionParser>::GetVersion ());
@@ -114,31 +70,17 @@ iCelExpressionParser* GetParser (iObjectRegistry* object_reg)
   return expparser;
 }
 
-const char* ResolveParameter (
+csPtr<iParameter> celParameterManager::GetParameter (
   	const celParams& params,
-	const char* param, iObjectRegistry* object_reg)
+	const char* param)
 {
-  if (param == 0) return param;
-  if (*param != '$') return param;
-  if (*(param+1) == '$') return param+1;	// Double $ means to quote the '$'.
-  const char* val = params.Get (param+1, (const char*)0);
-  if (!val)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-		"cel.parameters.manager",
-		"Can't resolve parameter %s!", param);
-  }
-  return val;
-}
-
-csPtr<iParameter> GetParameter (
-  	const celParams& params,
-	const char* param, iObjectRegistry* object_reg)
-{
+  //TEMPORARY - For finding cause of bug: csPtr not assigned to csRef prior to destruction
   printf("INSIDE\n");
   return new celConstantParameter ();
-  csWeakRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
-  const char* val = ResolveParameter (params, param, object_reg);
+  //TEMPORARY
+
+
+  const char* val = ResolveParameter (params, param);
   if (val == 0) return new celConstantParameter ();
   if (*val == '@' && *(val+1) != '@')
   {
@@ -149,7 +91,7 @@ csPtr<iParameter> GetParameter (
   }
   else if (*val == '=' && *(val+1) != '=')
   {
-    csRef<iCelExpression> expression = GetParser (object_reg)->Parse (val+1);
+    csRef<iCelExpression> expression = GetParser ()->Parse (val+1);
     if (!expression)
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
@@ -178,50 +120,23 @@ csPtr<iParameter> GetParameter (
   return new celConstantParameter (val);
 }
 
-
-
-celDebugPrintReward::celDebugPrintReward (
-	celDebugPrintRewardType* type,
+const char* celParameterManager::ResolveParameter (
   	const celParams& params,
-	const char* msg_par) : scfImplementationType (this)
+	const char* param)
 {
-  celDebugPrintReward::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  //msg = qm->GetParameter (params, msg_par);
-  
-  printf( "1\n");
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  printf( "2\n");
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
-  //if (pm.IsValid()){
-	  printf("VALID");
-	  msg = GetParameter(params, msg_par, type->object_reg);
-	  msg_buggy= pm->GetParameter(params, msg_par);
-	  printf( "3\n");
-  //} else {
-	//  printf("INVALID");
-  //}
-  printf( "4\n" );
+  if (param == 0) return param;
+  if (*param != '$') return param;
+  if (*(param+1) == '$') return param+1;	// Double $ means to quote the '$'.
+  const char* val = params.Get (param+1, (const char*)0);
+  if (!val)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		"cel.parameters.manager",
+		"Can't resolve parameter %s!", param);
+  }
+  return val;
 }
 
-celDebugPrintReward::~celDebugPrintReward ()
-{
-}
-
-void celDebugPrintReward::Reward (iCelParameterBlock* params)
-{
-  const char* m = msg->Get (params); 
-  if (!m) {printf ("REFACTOR FAIL"); return;}
-  printf ("REFACTOR SUCCESS: %s\n", m);
-  fflush (stdout);
-}
-
-//---------------------------------------------------------------------------
-//TEMPORARY: For finding cause of bug: csPtr not assigned to csRef prior to destruction
-//When getParameter called from within same plugin or quest manager = no error
-//When getParameter called from parameterManager = error
 //---------------------------------------------------------------------------
 
 static const celData celDataNone;

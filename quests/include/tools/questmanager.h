@@ -31,6 +31,7 @@
 
 struct iDocumentNode;
 struct iChangePropertyQuestRewardFactory;
+struct iChangePropertyRewardFactory;
 struct iCelDataBuffer;
 struct iCelParameterBlock;
 struct iQuest;
@@ -626,7 +627,9 @@ struct iQuestFactory : public virtual iBase
    * \param params are the parameters with which this quest is
    * instantiated.
    */
-  virtual csPtr<iQuest> CreateQuest (const celQuestParams& params) = 0;
+  virtual csPtr<iQuest> CreateQuest (
+	  const celQuestParams& params,
+	  const celParams& params_NEW) = 0;
 
   /**
    * Load this factory from a document node.
@@ -933,6 +936,9 @@ struct iQuestManager : public virtual iBase
    * should be modified after calling this.
    */
   virtual iChangePropertyQuestRewardFactory* AddChangePropertyReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par) = 0;
+  virtual iChangePropertyRewardFactory* AddChangePropertyReward_NEW (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par) = 0;
 

@@ -35,7 +35,7 @@ struct iEvent;
 /**
  * A standard reward type that just prints a message on standard
  * output. This can be useful for debugging purposes.
- * This reward type listens to the name 'cel.questreward.debugprint'.
+ * This reward type listens to the name 'cel.rewards.debugprint'.
  */
 
 CEL_DECLARE_REWARDTYPE_NEW(DebugPrint,"cel.rewards.debugprint")
@@ -56,9 +56,7 @@ public:
   celDebugPrintRewardFactory (celDebugPrintRewardType* type);
   virtual ~celDebugPrintRewardFactory ();
 
-  virtual csPtr<iReward> CreateReward ();
-	  //iQuest*,
-      //const celQuestParams& params);
+  virtual csPtr<iReward> CreateReward (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iDebugPrintQuestRewardFactory -----------------------
@@ -73,12 +71,13 @@ class celDebugPrintReward : public scfImplementation1<
 {
 private:
   celDebugPrintRewardType* type;
-  //csRef<iQuestParameter> msg;
-  const char* msg;
+  csRef<iParameterManager> pm;
+  csRef<iParameter> msg;
+  csRef<iParameter> msg_buggy;
 
 public:
   celDebugPrintReward (celDebugPrintRewardType* type,
-  	//const celQuestParams& params,
+  	const celParams& params,
 	const char* msg_par);
   virtual ~celDebugPrintReward ();
 

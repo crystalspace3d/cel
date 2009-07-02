@@ -343,7 +343,8 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual csPtr<iQuest> CreateQuest (
-      const celQuestParams& params);
+      const celQuestParams& params,
+	  const celParams& params_NEW);
   virtual bool Load (iDocumentNode* node);
   virtual iQuestStateFactory* GetState (const char* name);
   virtual iQuestStateFactory* CreateState (const char* name);
@@ -557,6 +558,9 @@ public:
   	iQuestTriggerResponseFactory* response,
   	const char* msg);
   virtual iChangePropertyQuestRewardFactory* AddChangePropertyReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par);
+  virtual iChangePropertyRewardFactory* AddChangePropertyReward_NEW (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par);
   virtual iQuestRewardFactory* AddInventoryReward (
