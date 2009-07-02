@@ -34,7 +34,8 @@
 
 #include "plugins/tools/rewards/reward_debugprint.h"
 
-#include "tools/expression.h" //TEMPORARY
+//TEMPORARY
+#include "tools/expression.h" 
 #include "plugins/tools/parameters/cel_parameters.h"
 #include "csutil/scanstr.h"
 //---------------------------------------------------------------------------
@@ -82,7 +83,10 @@ void celDebugPrintRewardFactory::SetMessageParameter (const char* msg)
 }
 
 //---------------------------------------------------------------------------
-
+//TEMPORARY: For finding cause of bug: csPtr not assigned to csRef prior to destruction
+//When getParameter called from within same plugin or quest manager = no error
+//When getParameter called from parameterManager = error
+//---------------------------------------------------------------------------
 iCelExpressionParser* GetParser (iObjectRegistry* object_reg)
 {
   csRef<iCelExpressionParser> expparser;
@@ -178,7 +182,7 @@ csPtr<iParameter> GetParameter (
   return new celConstantParameter (val);
 }
 
-
+//---------------------------------------------------------------------------
 
 celDebugPrintReward::celDebugPrintReward (
 	celDebugPrintRewardType* type,

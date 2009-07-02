@@ -1468,12 +1468,6 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     type->DecRef ();
   }
 
-  {
-    celDestroyEntityRewardType* type = new celDestroyEntityRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
-  }
 
   {
     celCreateEntityRewardType* type = new celCreateEntityRewardType (
@@ -1482,6 +1476,35 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     type->DecRef ();
   }
 
+  {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.createentity");        
+    if (type.IsValid())
+    {
+      RegisterRewardType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
+  {
+    celDestroyEntityRewardType* type = new celDestroyEntityRewardType (
+    	object_reg);
+    RegisterRewardType (type);
+    type->DecRef ();
+  }
+  {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.destroyentity");        
+    if (type.IsValid())
+    {
+      RegisterRewardType_NEW (type);
+      type->DecRef ();
+    }
+  }
   //--- Sequence Operations ------------------------------------------
   {
     celDebugPrintSeqOpType* type = new celDebugPrintSeqOpType (
@@ -1953,6 +1976,31 @@ iQuestRewardFactory* celQuestManager::AddCreateEntityReward (
   return rewfact;
 }
 
+iRewardFactory* celQuestManager::AddCreateEntityReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+	const char* template_par,
+	const char* name_par,
+    const celEntityTemplateParams &tpl_params)
+{
+  iRewardType* type = GetRewardType_NEW ("cel.rewards.createentity");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iCreateEntityRewardFactory> newstate = scfQueryInterface<iCreateEntityRewardFactory> (rewfact);
+  newstate->SetEntityTemplateParameter (template_par);
+  newstate->SetNameParameter (name_par);
+
+  celEntityTemplateParams::ConstGlobalIterator iter = tpl_params.GetIterator();
+  while (iter.HasNext())
+  {
+    csStringFast<12> name;
+    // @@@ Support dynamic parameters?
+    const char * val = iter.Next (name);
+	newstate->AddParameter (name, val);
+  }
+
+  response->AddRewardFactory_NEW (rewfact);
+  return rewfact;
+}
+
 iQuestRewardFactory* celQuestManager::AddDestroyEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par)
@@ -1963,6 +2011,19 @@ iQuestRewardFactory* celQuestManager::AddDestroyEntityReward (
   	scfQueryInterface<iDestroyEntityQuestRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
   response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
+iRewardFactory* celQuestManager::AddDestroyEntityReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par)
+{
+  iRewardType* type = GetRewardType_NEW ("cel.rewards.destroyentity");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iDestroyEntityRewardFactory> newstate = 
+  	scfQueryInterface<iDestroyEntityRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  response->AddRewardFactory_NEW (rewfact);
   return rewfact;
 }
 
