@@ -904,6 +904,9 @@ struct iQuestManager : public virtual iBase
   virtual iQuestRewardFactory* AddInventoryReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* child_entity_par) = 0;
+  virtual iRewardFactory* AddInventoryReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* child_entity_par) = 0;
 
   /**
    * Convenience method to add an 'sequence' reward factory

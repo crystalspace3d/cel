@@ -29,6 +29,7 @@
 
 struct iObjectRegistry;
 
+
 class celParameterManager : public scfImplementation2<celParameterManager,
 	iParameterManager, iComponent>
 {

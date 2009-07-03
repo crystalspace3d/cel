@@ -93,6 +93,75 @@ struct iRewardType : public virtual iBase
 //-------------------------------------------------------------------------
 
 /**
+ * This interface is implemented by the reward that sends an action
+ * to some entity or entity class property class with an optional tag.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ *
+ * The predefined name of this reward type is 'cel.rewards.action'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>entity</em>: the name of the entity to send the action to.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the 
+ *   given entity class.
+ * - <em>id</em>: name of the action to activate.
+ * - <em>pc</em>: the name of the property class to send the action to.
+ * - <em>tag</em>: the tag of the property class to send the action to.
+ */
+struct iActionRewardFactory : public virtual iBase
+{
+  SCF_INTERFACE (iActionRewardFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the entity.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the entity class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
+
+  /**
+   * Set the action name (without the cel.action part).
+   * \param id is the action name or a parameter (starts with '$').
+   */
+  virtual void SetIDParameter (const char* id) = 0;
+
+  /**
+   * Set the name of the property class.
+   * \param propertyclass is the name of the propertyclass or a parameter
+   * (starts with '$').
+   */
+  virtual void SetPropertyClassParameter (const char* propertyclass) = 0;
+
+  /**
+   * Set the tag for the propertyclass.
+   * \param tag is the tag for the propertyclass or a parameter (starts
+   * with '$').
+   */
+  virtual void SetTagParameter (const char* tag) = 0;
+
+  /**
+   * Add a parameter to send with the action.
+   * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
+   * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
+   * \param id is the id of the parameter (calculated from the string
+   * "cel.parameter." appended with the name).
+   * \param name is the name of the parameter.
+   * \param value is the value string or a parameter for it (starts with '$').
+   */
+  virtual void AddParameter (celDataType type, csStringID id,
+      const char* name, const char* value) = 0;
+};
+
+/**
  * This interface is implemented by the reward that changes the value
  * of a property (either on a property from pcproperties or a generic
  * property on any property class). You can query this interface
@@ -298,6 +367,102 @@ struct iDebugPrintRewardFactory : public virtual iBase
    */
   virtual void SetMessageParameter (const char* msg) = 0;
 };
+
+/**
+ * This interface is implemented by the reward that manipulates the inventory.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ *
+ * The predefined name of this reward type is 'cel.rewards.inventory'.
+ *
+ * In XML, factories recognize the following attributes on the 'reward' node:
+ * - <em>entity</em>: the name of the entity containing the
+ *   pcinventory property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>child_entity</em>: the name of the entity that will
+ *   be added to or removed from the inventory.
+ * - <em>child_entity_tag</em>: optional tag used to find the right
+ *   property class from the entity. This will be used to find the
+ *   pcmesh for hiding the mesh.
+ */
+struct iInventoryRewardFactory : public virtual iBase
+{
+  SCF_INTERFACE (iInventoryRewardFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the entity containing the pcinventory property class
+   * on which this reward will work.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Set the name of the entity that will be put in or out the inventory.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetChildEntityParameter (const char* entity,
+  	const char* tag = 0) = 0;
+};
+
+/**
+ * This interface is implemented by the reward that sends a message
+ * to some entity (the behaviour will get this message).
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ *
+ * The predefined name of this reward type is 'cel.rewards.message'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>entity</em>: the name of the entity to send the message too.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the
+ *   given entity class.
+ * - <em>id</em>: id of the message to send.
+ */
+struct iMessageRewardFactory : public virtual iBase
+{
+  SCF_INTERFACE (iMessageRewardFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the entity.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the name of the entity class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
+
+  /**
+   * Set the message id.
+   * \param id is the message id or a parameter (starts with '$').
+   */
+  virtual void SetIDParameter (const char* id) = 0;
+
+  /**
+   * Add a parameter to send with the message.
+   * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
+   * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
+   * \param id is the id of the parameter (calculated from the string
+   * "cel.parameter." appended with the name).
+   * \param name is the name of the parameter.
+   * \param value is the value string or a parameter for it (starts with '$').
+   */
+  virtual void AddParameter (celDataType type, csStringID id,
+      const char* name, const char* value) = 0;
+};
+
 
 //-------------------------------------------------------------------------
 
