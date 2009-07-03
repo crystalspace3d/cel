@@ -27,6 +27,7 @@
 #include "csgeom/vector3.h"
 #include "csutil/refarr.h"
 #include "tools/rewards.h"
+#include "tools/triggers.h"
 #include "physicallayer/pl.h"
 
 struct iDocumentNode;
@@ -123,13 +124,13 @@ typedef csHash<csStringBase,csStringBase> celQuestParams;
 struct iQuestTrigger;
 class celVariableParameterBlock;
 
-struct celParSpec
-{
-  celDataType type;
-  csStringID id;
-  csString name;
-  csString value;
-};
+//struct celParSpec
+//{
+ // celDataType type;
+  //csStringID id;
+  //csString name;
+  //csString value;
+//};
 
 /**
  * A quest trigger will get pointers to call back the quest when
@@ -522,6 +523,7 @@ struct iQuestTriggerResponseFactory : public virtual iBase
    * response factory.
    */
   virtual void SetTriggerFactory (iQuestTriggerFactory* trigger_fact) = 0;
+  virtual void SetTriggerFactory_NEW (iTriggerFactory* trigger_fact) = 0;
 
   /**
    * Add a reward factory. A reward of this factory will be obtained
@@ -727,12 +729,14 @@ struct iQuestManager : public virtual iBase
    *   See iOperationQuestTriggerFactory.
    */
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
+  virtual bool RegisterTriggerType_NEW (iTriggerType* trigger) = 0;
 
   /**
    * Get a trigger type from the quest manager.
    * Returns 0 if no such trigger type exists.
    */
   virtual iQuestTriggerType* GetTriggerType (const char* name) = 0;
+  virtual iTriggerType* GetTriggerType_NEW (const char* name) = 0;
 
   /**
    * Register a quest reward type. Quest rewards can be used
@@ -764,6 +768,7 @@ struct iQuestManager : public virtual iBase
    *   See iCreateEntityQuestRewardFactory.
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
+  virtual bool RegisterRewardType_NEW (iRewardType* trigger) = 0;
 
   /**
    * Get a reward type from the quest manager.

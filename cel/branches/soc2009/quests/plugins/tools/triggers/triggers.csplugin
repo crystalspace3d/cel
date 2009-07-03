@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- rewards.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.triggers.timeout</name>
+        <implementation>celTimeoutTriggerType</implementation>
+        <description>CEL Trigger: Triggers after time</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

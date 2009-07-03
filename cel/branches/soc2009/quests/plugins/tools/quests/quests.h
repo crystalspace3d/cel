@@ -245,17 +245,26 @@ class celQuestTriggerResponseFactory : public scfImplementation1<
 {
 private:
   csRef<iQuestTriggerFactory> trigger_factory;
+  csRef<iTriggerFactory> trigger_factory_NEW;
   csRefArray<iQuestRewardFactory> reward_factories;
   csRefArray<iRewardFactory> reward_factories_NEW;
 
 public:
+  bool refactored_trigger;
+
   celQuestTriggerResponseFactory () : scfImplementationType (this) { }
   virtual ~celQuestTriggerResponseFactory () { }
 
   iQuestTriggerFactory* GetTriggerFactory () const
   {
-    return trigger_factory;
+	return trigger_factory;
   }
+
+  iTriggerFactory* GetTriggerFactory_NEW () const
+  {
+	return trigger_factory_NEW;
+  }
+
   const csRefArray<iQuestRewardFactory>& GetRewardFactories () const
   {
     return reward_factories;
@@ -267,6 +276,7 @@ public:
   }
 
   virtual void SetTriggerFactory (iQuestTriggerFactory* trigger_fact);
+  virtual void SetTriggerFactory_NEW (iTriggerFactory* trigger_fact);
   virtual void AddRewardFactory (iQuestRewardFactory* reward_fact);
   virtual void AddRewardFactory_NEW (iRewardFactory* reward_fact);
 };
@@ -358,27 +368,35 @@ public:
 /**
  * A trigger and rewards. This is basically a response for a quest.
  */
-struct celQuestStateResponse : public scfImplementation1<
-	celQuestStateResponse, iQuestTriggerCallback>
+struct celQuestStateResponse : public scfImplementation2<
+	celQuestStateResponse, iQuestTriggerCallback, iTriggerCallback>
 {
 private:
   iCelPlLayer* pl;
   csRef<iQuestTrigger> trigger;
+  csRef<iTrigger> trigger_NEW;
   csRefArray<iQuestReward> rewards;
   csRefArray<iReward> rewards_NEW;
   celQuest* quest;
 
 public:
+  bool refactored_trigger;
+
   celQuestStateResponse (iCelPlLayer* pl, celQuest* quest);
   virtual ~celQuestStateResponse () { }
 
   void SetTrigger (iQuestTrigger* trigger);
   iQuestTrigger* GetTrigger () const { return trigger; }
+  void SetTrigger_NEW (iTrigger* trigger);
+  iTrigger* GetTrigger_NEW () const { return trigger_NEW; }
   void AddReward (iQuestReward* reward);
   void AddReward_NEW (iReward* reward);
 
   // --- For iQuestTriggerCallback ------------------------
   virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
+
+  // --- For iTriggerCallback ------------------------
+  virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params);
 };
 
 /**
@@ -472,6 +490,8 @@ public:
   /// Set trigger for a state and response.
   void SetStateTrigger (size_t stateidx, size_t responseidx,
   	iQuestTrigger* trigger);
+  void SetStateTrigger_NEW (size_t stateidx, size_t responseidx,
+  	iTrigger* trigger);
   /// Add reward for a state and response.
   void AddStateReward (size_t stateidx, size_t responseidx,
   	iQuestReward* reward);
@@ -503,6 +523,7 @@ public:
 
 private:
   csHash<csRef<iQuestTriggerType>,csStringBase> trigger_types;
+  csHash<csRef<iTriggerType>,csStringBase> trigger_types_NEW;
   csHash<csRef<iQuestRewardType>,csStringBase> reward_types;
   csHash<csRef<iRewardType>,csStringBase> reward_types_NEW;
   csHash<csRef<iQuestSeqOpType>,csStringBase> seqop_types;
@@ -516,7 +537,9 @@ public:
   virtual bool Initialize (iObjectRegistry* object_reg);
 
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger);
+  virtual bool RegisterTriggerType_NEW (iTriggerType* trigger);
   virtual iQuestTriggerType* GetTriggerType (const char* name);
+  virtual iTriggerType* GetTriggerType_NEW (const char* name);
   virtual bool RegisterRewardType (iQuestRewardType* reward);
   virtual bool RegisterRewardType_NEW (iRewardType* reward);
   virtual iQuestRewardType* GetRewardType (const char* name);
@@ -596,6 +619,9 @@ public:
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par);
   virtual iQuestTriggerFactory* SetTimeoutTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* timeout_par);
+  virtual iTriggerFactory* SetTimeoutTrigger_NEW (
   	iQuestTriggerResponseFactory* response,
   	const char* timeout_par);
   virtual iQuestTriggerFactory* SetEnterSectorTrigger (

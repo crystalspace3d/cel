@@ -312,7 +312,15 @@ const char* celQuestExpressionParameter::Get (iCelParameterBlock* params,
 void celQuestTriggerResponseFactory::SetTriggerFactory (
 	iQuestTriggerFactory* trigger_fact)
 {
+  refactored_trigger = false;
   trigger_factory = trigger_fact;
+}
+
+void celQuestTriggerResponseFactory::SetTriggerFactory_NEW (
+	iTriggerFactory* trigger_fact)
+{
+  refactored_trigger = true;
+  trigger_factory_NEW = trigger_fact;
 }
 
 void celQuestTriggerResponseFactory::AddRewardFactory (
@@ -739,18 +747,32 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
     for (i = 0 ; i < responses.GetSize () ; i++)
     {
       celQuestTriggerResponseFactory* respfact = responses[i];
-      iQuestTriggerFactory* trigfact = respfact->GetTriggerFactory ();
-      const csRefArray<iQuestRewardFactory>& rewfacts
+
+	  const csRefArray<iQuestRewardFactory>& rewfacts
         = respfact->GetRewardFactories ();
 
 	  const csRefArray<iRewardFactory>& rewfacts_NEW
         = respfact->GetRewardFactories_NEW ();
 
       size_t respidx = q->AddStateResponse (stateidx);
-      csRef<iQuestTrigger> trig = trigfact->CreateTrigger ((iQuest*)q,
-      		*p_params);
-      if (!trig) return 0;	// @@@ Report
-      q->SetStateTrigger (stateidx, respidx, trig);
+      
+	  if (respfact->refactored_trigger)
+	  {
+	    iTriggerFactory* trigfact = respfact->GetTriggerFactory_NEW ();
+	    csRef<iTrigger> trig = trigfact->CreateTrigger (*p_params_NEW);
+        if (!trig) return 0;	// @@@ Report
+		q->SetStateTrigger_NEW (stateidx, respidx, trig);
+	  }
+	  else
+	  {
+	    iQuestTriggerFactory* trigfact = respfact->GetTriggerFactory ();
+	    csRef<iQuestTrigger> trig = trigfact->CreateTrigger ((iQuest*)q,
+      	  	*p_params);
+        if (!trig) return 0;	// @@@ Report
+		q->SetStateTrigger (stateidx, respidx, trig);
+	  }
+
+	  
       size_t j;
       for (j = 0 ; j < rewfacts.GetSize () ; j++)
       {
@@ -1062,7 +1084,15 @@ celQuestStateResponse::celQuestStateResponse (iCelPlLayer* pl,
 
 void celQuestStateResponse::SetTrigger (iQuestTrigger* trigger)
 {
+  refactored_trigger = false;
   celQuestStateResponse::trigger = trigger;
+  trigger->RegisterCallback (this);
+}
+
+void celQuestStateResponse::SetTrigger_NEW (iTrigger* trigger)
+{
+  refactored_trigger = true;
+  celQuestStateResponse::trigger_NEW = trigger;
   trigger->RegisterCallback (this);
 }
 
@@ -1080,6 +1110,26 @@ void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger,
     iCelParameterBlock* params)
 {
   printf("TRIGGER FIRED \n"); //NEW
+  printf("SIZE = %i", rewards.GetSize ());
+
+  size_t i;
+  for (i = 0 ; i < rewards.GetSize () ; i++)
+    rewards[i]->Reward (params);
+  //return;
+
+  printf("NEW SIZE = %i", rewards_NEW.GetSize ());
+  //NEW
+  size_t i2;
+  for (i2 = 0 ; i2 < rewards_NEW.GetSize () ; i2++)
+    //printf("A REFACTORED REWARD HAS BEEN TRIGGERED");
+    rewards_NEW[i2]->Reward (params);
+  return;
+}
+
+void celQuestStateResponse::TriggerFired (iTrigger* trigger,
+    iCelParameterBlock* params)
+{
+  printf("REFACTORED TRIGGER FIRED \n"); //NEW
   printf("SIZE = %i", rewards.GetSize ());
 
   size_t i;
@@ -1125,7 +1175,18 @@ void celQuest::DeactivateState (size_t stateidx, bool exec_onexit)
   celQuestState* st = states[stateidx];
   size_t j;
   for (j = 0 ; j < st->GetResponseCount () ; j++)
-    st->GetResponse (j)->GetTrigger ()->DeactivateTrigger ();
+  { 
+	csRef<celQuestStateResponse> r = st->GetResponse (j);
+	if (r->refactored_trigger)
+	{
+		r->GetTrigger_NEW ()->DeactivateTrigger ();
+	}
+	else
+	{
+		r->GetTrigger ()->DeactivateTrigger ();
+	}
+  }
+
   if (exec_onexit)
     for (j = 0 ; j < st->GetOnexitRewardCount () ; j++)
       st->GetOnexitReward (j)->Reward (0);
@@ -1152,20 +1213,41 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
       celQuestState* st = states[current_state];
       for (j = 0 ; j < st->GetResponseCount () ; j++)
       {
-        iQuestTrigger* trigger = st->GetResponse (j)->GetTrigger ();
-	if (databuf)
-	{
-          if (!trigger->LoadAndActivateTrigger (databuf))
-	    return false;	// @@@ Report?
-	  if (trigger->Check ())
-	    return true;
-	}
-	else
-	{
-          trigger->ActivateTrigger ();
-	  if (trigger->Check ())
-	    return true;
-        }
+	    csRef<celQuestStateResponse> r = st->GetResponse (j);
+	    if (r->refactored_trigger)
+	    {
+			iTrigger* trigger = r->GetTrigger_NEW ();
+    		if (databuf)
+			{
+			  if (!trigger->LoadAndActivateTrigger (databuf))
+				return false;	// @@@ Report?
+			  if (trigger->Check ())
+				return true;
+			}
+			else
+			{
+			  trigger->ActivateTrigger ();
+			  if (trigger->Check ())
+				return true;
+			}			
+		}
+		else
+		{
+			iQuestTrigger* trigger = r->GetTrigger ();
+    		if (databuf)
+			{
+			  if (!trigger->LoadAndActivateTrigger (databuf))
+				return false;	// @@@ Report?
+			  if (trigger->Check ())
+				return true;
+			}
+			else
+			{
+			  trigger->ActivateTrigger ();
+			  if (trigger->Check ())
+				return true;
+			}
+		}
       }
       if (!samestate)
         for (j = 0 ; j < st->GetOninitRewardCount () ; j++)
@@ -1214,7 +1296,17 @@ void celQuest::SaveState (iCelDataBuffer* databuf)
   {
     celQuestState* st = states[current_state];
     for (i = 0 ; i < st->GetResponseCount () ; i++)
-      st->GetResponse (i)->GetTrigger ()->SaveTriggerState (databuf);
+	{	
+		csRef<celQuestStateResponse> r = st->GetResponse (i);
+	    if (r->refactored_trigger)
+	    {
+			r->GetTrigger_NEW ()->SaveTriggerState (databuf);
+		}
+		else
+		{
+			r->GetTrigger ()->SaveTriggerState (databuf);
+		}
+	}
   }
 
   for (i = 0 ; i < sequences.GetSize () ; i++)
@@ -1246,6 +1338,12 @@ void celQuest::SetStateTrigger (size_t stateidx, size_t responseidx,
 	iQuestTrigger* trigger)
 {
   states[stateidx]->GetResponse (responseidx)->SetTrigger (trigger);
+}
+
+void celQuest::SetStateTrigger_NEW (size_t stateidx, size_t responseidx,
+	iTrigger* trigger)
+{
+  states[stateidx]->GetResponse (responseidx)->SetTrigger_NEW (trigger);
 }
 
 void celQuest::AddStateReward (size_t stateidx, size_t responseidx,
@@ -1328,6 +1426,18 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   	object_reg);
     RegisterTriggerType (type);
     type->DecRef ();
+  }
+
+  {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.timeout");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType_NEW (type);
+      type->DecRef ();
+    }
   }
 
   {
@@ -1618,9 +1728,23 @@ bool celQuestManager::RegisterTriggerType (iQuestTriggerType* trigger)
   return true;
 }
 
+bool celQuestManager::RegisterTriggerType_NEW (iTriggerType* trigger)
+{
+  const char* name = trigger->GetName ();
+  if (trigger_types_NEW.Get (name, 0) != 0)
+    return false;
+  trigger_types_NEW.Put (name, trigger);
+  return true;
+}
+
 iQuestTriggerType* celQuestManager::GetTriggerType (const char* name)
 {
   return trigger_types.Get (name, 0);
+}
+
+iTriggerType* celQuestManager::GetTriggerType_NEW (const char* name)
+{
+  return trigger_types_NEW.Get (name, 0);
 }
 
 bool celQuestManager::RegisterRewardType (iQuestRewardType* reward)
@@ -2084,6 +2208,18 @@ iQuestTriggerFactory* celQuestManager::SetTimeoutTrigger (
   csRef<iTimeoutQuestTriggerFactory> newstate = scfQueryInterface<iTimeoutQuestTriggerFactory> (trigfact);
   newstate->SetTimeoutParameter (timeout_par);
   response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetTimeoutTrigger_NEW (
+	iQuestTriggerResponseFactory* response,
+  	const char* timeout_par)
+{
+  iTriggerType* type = GetTriggerType_NEW ("cel.triggers.timeout");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iTimeoutTriggerFactory> newstate = scfQueryInterface<iTimeoutTriggerFactory> (trigfact);
+  newstate->SetTimeoutParameter (timeout_par);
+  response->SetTriggerFactory_NEW (trigfact);
   return trigfact;
 }
 

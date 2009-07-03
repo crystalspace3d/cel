@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="plgrewards"
-	ProjectGUID="{B8FB5A4F-7552-4DFA-989F-AF7C04226C03}"
-	RootNamespace="plgrewards"
+	Name="plgtriggers"
+	ProjectGUID="{64E4DCB8-157B-4A04-BA16-AE9700908816}"
+	RootNamespace="plgtriggers"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -18,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\out\debug9\build\plgrewards\"
-			IntermediateDirectory="..\..\out\debug9\build\plgrewards\"
+			OutputDirectory="..\..\out\debug9\build\plgtriggers\"
+			IntermediateDirectory="..\..\out\debug9\build\plgtriggers\"
 			ConfigurationType="2"
 			CharacterSet="0"
 			>
@@ -43,27 +43,21 @@
 				Optimization="0"
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
-				StringPooling="false"
 				MinimalRebuild="true"
-				BasicRuntimeChecks="0"
+				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile="..\..\out\debug9\build\plgrewards\plgrewards.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\plgrewards\"
-				ObjectFile="..\..\out\debug9\build\plgrewards\"
-				ProgramDataBaseFileName="..\..\out\debug9\build\plgrewards\Win32\rewards.pdb"
+				AssemblerListingLocation="..\..\out\debug9\build\plgtriggers\"
+				ObjectFile="..\..\out\debug9\build\plgtriggers\"
+				ProgramDataBaseFileName="..\..\out\debug9\build\plgtriggers\Win32\triggers.pdb"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -72,13 +66,13 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
-				OutputFile="..\..\rewards.dll"
+				OutputFile="..\..\triggers.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\..\out\debug9\build\rewards\Win32\rewards.pdb"
+				ProgramDatabaseFile="..\..\out\debug9\build\plgtriggers\Win32\triggers.pdb"
 				SubSystem="2"
-				ImportLibrary="..\..\out\debug9\build\plgrewards\Win32\rewards.lib"
+				ImportLibrary="..\..\out\debug9\build\plgtriggers\Win32\triggers.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -130,7 +124,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;PLGREWARDS_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;PLGTRIGGERS_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -187,31 +181,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_action.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_changeproperty.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_createentity.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_debugprint.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_destroyentity.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_inventory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_message.cpp"
+				RelativePath="..\..\plugins\tools\triggers\trig_timeout.cpp"
 				>
 			</File>
 		</Filter>
@@ -221,31 +191,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_action.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_changeproperty.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_createentity.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_debugprint.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_destroyentity.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_inventory.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\rewards\reward_message.h"
+				RelativePath="..\..\plugins\tools\triggers\trig_timeout.h"
 				>
 			</File>
 		</Filter>
@@ -255,11 +201,11 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath="..\plgrewards.rc"
+				RelativePath="..\plgtriggers.rc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\rewards\rewards.csplugin"
+				RelativePath="..\..\plugins\tools\triggers\triggers.csplugin"
 				>
 			</File>
 		</Filter>
