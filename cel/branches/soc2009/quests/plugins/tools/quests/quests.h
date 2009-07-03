@@ -566,6 +566,9 @@ public:
   virtual iQuestRewardFactory* AddInventoryReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* child_entity_par);
+  virtual iRewardFactory* AddInventoryReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* child_entity_par);
   virtual iQuestRewardFactory* AddSequenceReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par,

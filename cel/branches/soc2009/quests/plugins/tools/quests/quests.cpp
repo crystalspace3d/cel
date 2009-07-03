@@ -1434,6 +1434,18 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.inventory");        
+    if (type.IsValid())
+    {
+      RegisterRewardType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
+  {
     celCsSequenceRewardType* type = new celCsSequenceRewardType (
     	object_reg);
     RegisterRewardType (type);
@@ -1462,12 +1474,35 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.message");        
+    if (type.IsValid())
+    {
+      RegisterRewardType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
+  {
     celActionRewardType* type = new celActionRewardType (
     	object_reg);
     RegisterRewardType (type);
     type->DecRef ();
   }
 
+  {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.action");        
+    if (type.IsValid())
+    {
+      RegisterRewardType_NEW (type);
+      type->DecRef ();
+    }
+  }
 
   {
     celCreateEntityRewardType* type = new celCreateEntityRewardType (
@@ -1878,6 +1913,19 @@ iQuestRewardFactory* celQuestManager::AddInventoryReward (
   newstate->SetEntityParameter (entity_par);
   newstate->SetChildEntityParameter (child_entity_par);
   response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
+iRewardFactory* celQuestManager::AddInventoryReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* child_entity_par)
+{
+  iRewardType* type = GetRewardType_NEW ("cel.rewards.inventory");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iInventoryRewardFactory> newstate = scfQueryInterface<iInventoryRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetChildEntityParameter (child_entity_par);
+  response->AddRewardFactory_NEW (rewfact);
   return rewfact;
 }
 

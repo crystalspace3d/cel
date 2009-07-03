@@ -185,6 +185,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_action.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_changeproperty.cpp"
 				>
 			</File>
@@ -200,12 +204,24 @@
 				RelativePath="..\..\plugins\tools\rewards\reward_destroyentity.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_inventory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_message.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_action.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_changeproperty.h"
 				>
@@ -220,6 +236,14 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_destroyentity.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_inventory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_message.h"
 				>
 			</File>
 		</Filter>
