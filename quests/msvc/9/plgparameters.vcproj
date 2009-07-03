@@ -74,6 +74,7 @@
 				LinkIncremental="2"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\..\out\debug9\build\plgparameters\Win32\parameters.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>

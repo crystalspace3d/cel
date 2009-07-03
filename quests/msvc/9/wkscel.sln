@@ -444,6 +444,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgrewards", "plgrewards.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgparameters", "plgparameters.vcproj", "{0F71D569-48B1-4D32-8F90-E86E11BBFCD0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgtriggers", "plgtriggers.vcproj", "{64E4DCB8-157B-4A04-BA16-AE9700908816}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (with DLLs)|Win32 = Debug (with DLLs)|Win32
@@ -1318,6 +1320,18 @@ Global
 		{0F71D569-48B1-4D32-8F90-E86E11BBFCD0}.Release (with static libs)|Win32.Build.0 = Release|Win32
 		{0F71D569-48B1-4D32-8F90-E86E11BBFCD0}.Release|Win32.ActiveCfg = Release|Win32
 		{0F71D569-48B1-4D32-8F90-E86E11BBFCD0}.Release|Win32.Build.0 = Release|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Debug (with DLLs)|Win32.ActiveCfg = Debug|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Debug (with DLLs)|Win32.Build.0 = Debug|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Debug (with static libs)|Win32.ActiveCfg = Debug|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Debug (with static libs)|Win32.Build.0 = Debug|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Debug|Win32.ActiveCfg = Debug|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Debug|Win32.Build.0 = Debug|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Release (with DLLs)|Win32.ActiveCfg = Release|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Release (with DLLs)|Win32.Build.0 = Release|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Release (with static libs)|Win32.ActiveCfg = Release|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Release (with static libs)|Win32.Build.0 = Release|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Release|Win32.ActiveCfg = Release|Win32
+		{64E4DCB8-157B-4A04-BA16-AE9700908816}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

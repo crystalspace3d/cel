@@ -54,6 +54,15 @@ public:
   virtual const char* ResolveParameter (
   	const celParams& params,
 	const char* param);
+  virtual csPtr<celVariableParameterBlock> GetParameterBlock (
+  	const celParams& params,
+	const csArray<celParSpec>& parameters,
+	csRefArray<iParameter>& quest_parameters);
+  virtual void FillParameterBlock (
+    iCelParameterBlock* params,
+	celVariableParameterBlock* act_params,
+	const csArray<celParSpec>& parameters,
+	const csRefArray<iParameter>& quest_parameters);
 };
 //---------------------------------------------------------------------------
 
