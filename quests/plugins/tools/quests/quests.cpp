@@ -1110,14 +1110,14 @@ void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger,
     iCelParameterBlock* params)
 {
   printf("TRIGGER FIRED \n"); //NEW
-  printf("SIZE = %i", rewards.GetSize ());
+  //printf("SIZE = %i", rewards.GetSize ());
 
   size_t i;
   for (i = 0 ; i < rewards.GetSize () ; i++)
     rewards[i]->Reward (params);
   //return;
 
-  printf("NEW SIZE = %i", rewards_NEW.GetSize ());
+  //printf("NEW SIZE = %i", rewards_NEW.GetSize ());
   //NEW
   size_t i2;
   for (i2 = 0 ; i2 < rewards_NEW.GetSize () ; i2++)
@@ -1130,14 +1130,14 @@ void celQuestStateResponse::TriggerFired (iTrigger* trigger,
     iCelParameterBlock* params)
 {
   printf("REFACTORED TRIGGER FIRED \n"); //NEW
-  printf("SIZE = %i", rewards.GetSize ());
+  //printf("SIZE = %i", rewards.GetSize ());
 
   size_t i;
   for (i = 0 ; i < rewards.GetSize () ; i++)
     rewards[i]->Reward (params);
   //return;
 
-  printf("NEW SIZE = %i", rewards_NEW.GetSize ());
+  //printf("NEW SIZE = %i", rewards_NEW.GetSize ());
   //NEW
   size_t i2;
   for (i2 = 0 ; i2 < rewards_NEW.GetSize () ; i2++)
