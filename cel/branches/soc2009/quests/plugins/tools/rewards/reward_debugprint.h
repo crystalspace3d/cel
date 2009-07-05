@@ -59,7 +59,7 @@ public:
   virtual csPtr<iReward> CreateReward (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iDebugPrintQuestRewardFactory -----------------------
+  //----------------- iDebugPrintRewardFactory -----------------------
   virtual void SetMessageParameter (const char* msg);
 };
 

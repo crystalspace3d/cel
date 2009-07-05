@@ -82,6 +82,7 @@ void celDebugPrintRewardFactory::SetMessageParameter (const char* msg)
   msg_par = msg;
 }
 
+
 //---------------------------------------------------------------------------
 //TEMPORARY: For finding cause of bug: csPtr not assigned to csRef prior to destruction
 //When getParameter called from within same plugin or quest manager = no error
@@ -139,8 +140,8 @@ csPtr<iParameter> GetParameter (
   	const celParams& params,
 	const char* param, iObjectRegistry* object_reg)
 {
-  printf("INSIDE\n");
-  return new celConstantParameter ();
+  printf("INSIDE LOCAL GetParameter()\n");
+
   csWeakRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   const char* val = ResolveParameter (params, param, object_reg);
   if (val == 0) return new celConstantParameter ();
@@ -181,52 +182,6 @@ csPtr<iParameter> GetParameter (
   }
   return new celConstantParameter (val);
 }
-
-//---------------------------------------------------------------------------
-
-celDebugPrintReward::celDebugPrintReward (
-	celDebugPrintRewardType* type,
-  	const celParams& params,
-	const char* msg_par) : scfImplementationType (this)
-{
-  celDebugPrintReward::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  //msg = qm->GetParameter (params, msg_par);
-  
-  printf( "1\n");
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  printf( "2\n");
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
-  //if (pm.IsValid()){
-	  printf("VALID");
-	  msg = GetParameter(params, msg_par, type->object_reg);
-	  msg_buggy= pm->GetParameter(params, msg_par);
-	  printf( "3\n");
-  //} else {
-	//  printf("INVALID");
-  //}
-  printf( "4\n" );
-}
-
-celDebugPrintReward::~celDebugPrintReward ()
-{
-}
-
-void celDebugPrintReward::Reward (iCelParameterBlock* params)
-{
-  const char* m = msg->Get (params); 
-  if (!m) {printf ("REFACTOR FAIL"); return;}
-  printf ("REFACTOR SUCCESS: %s\n", m);
-  fflush (stdout);
-}
-
-//---------------------------------------------------------------------------
-//TEMPORARY: For finding cause of bug: csPtr not assigned to csRef prior to destruction
-//When getParameter called from within same plugin or quest manager = no error
-//When getParameter called from parameterManager = error
-//---------------------------------------------------------------------------
 
 static const celData celDataNone;
 
@@ -468,3 +423,42 @@ const char* celExpressionParameter::Get (iCelParameterBlock* params,
 }
 
 //---------------------------------------------------------------------------
+
+celDebugPrintReward::celDebugPrintReward (
+	celDebugPrintRewardType* type,
+  	const celParams& params,
+	const char* msg_par) : scfImplementationType (this)
+{
+  celDebugPrintReward::type = type;
+  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  //msg = qm->GetParameter (params, msg_par);
+  
+  printf( "1 - Before\n");
+  csRef<iPluginManager> plugin_mgr = 
+   csQueryRegistry<iPluginManager> (type->object_reg);
+  printf( "2 - About to load parameter manager\n");
+  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
+    "cel.parameters.manager");
+  if (pm.IsValid()){
+	  printf("3 - Parameter Manager Valid\n");
+	  msg = GetParameter(params, msg_par, type->object_reg);
+	  printf( "4 - Local GetParameter() Complete\n");
+	  msg_buggy= pm->GetParameter(params, msg_par);
+	  printf( "5 - External GetParameter() Complete\n");
+  } else {
+	  printf("!3!- Parameter Manager INVALID");
+  }
+  printf( "Completed\n" );
+}
+
+celDebugPrintReward::~celDebugPrintReward ()
+{
+}
+
+void celDebugPrintReward::Reward (iCelParameterBlock* params)
+{
+  const char* m = msg->Get (params); 
+  if (!m) {printf ("REFACTOR FAIL"); return;}
+  printf ("REFACTOR SUCCESS: %s\n", m);
+  fflush (stdout);
+}
