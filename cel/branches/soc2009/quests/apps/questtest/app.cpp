@@ -222,7 +222,7 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
     	"cel.manager.quests"); 
 
   iChangePropertyQuestRewardFactory* rf_changeprop;
-
+  iChangePropertyRewardFactory* rf_changeprop_NEW;
   //----------------------------------------------------------- 
   // Create 'testquest'. 
   //----------------------------------------------------------- 
@@ -239,14 +239,14 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
   iQuestTriggerResponseFactory* init_response1 =
         state_init->CreateTriggerResponseFactory ();
 	
-  qm->SetTimeoutTrigger (init_response1, "1000");
+  qm->SetTimeoutTrigger_NEW (init_response1, "1000");
   qm->AddDebugPrintReward_NEW (init_response1, "message");
   qm->AddNewStateReward (init_response1, "$ent", "start");
-  qm->AddInventoryReward (init_response1, "player", "badone");
+  qm->AddInventoryReward_NEW (init_response1, "player", "badone");
 
   const celEntityTemplateParams tpl_params;
-  qm->AddCreateEntityReward (init_response1, "BoxTemplate", "templateBox", tpl_params);
-  qm->AddDestroyEntityReward (init_response1, "box1");
+  qm->AddCreateEntityReward_NEW (init_response1, "BoxTemplate", "templateBox", tpl_params);
+  qm->AddDestroyEntityReward_NEW (init_response1, "box1");
 
   // ---- start ----
   iQuestStateFactory* state_start = fact->CreateState ("start");
@@ -254,18 +254,18 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
   iQuestTriggerResponseFactory* start_response1 =
 	  state_start->CreateTriggerResponseFactory ();
 
-  qm->SetTimeoutTrigger (start_response1, "3000");
-  qm->AddDebugPrintReward (start_response1, "State Changed!\n");
+  qm->SetTimeoutTrigger_NEW (start_response1, "3000");
+  qm->AddDebugPrintReward_NEW (start_response1, "State Changed!\n");
   rf_changeprop = qm->AddChangePropertyReward (start_response1,
 	        "$ent", "counter");
   rf_changeprop->SetLongParameter ("123");
-  qm->AddDestroyEntityReward (init_response1, "non-existant_entity");
+  qm->AddDestroyEntityReward_NEW (init_response1, "non-existant_entity");
   
 
   iQuestTriggerResponseFactory* start_response2 =
     state_start->CreateTriggerResponseFactory ();
   qm->SetPropertyChangeTrigger (start_response2, "$ent", "counter", "123");
-  qm->AddDebugPrintReward (start_response2, "Property Changed: Counter = 123\n");
+  qm->AddDebugPrintReward_NEW (start_response2, "Property Changed: Counter = 123\n");
 
    //-----------------------------------------------------------
 

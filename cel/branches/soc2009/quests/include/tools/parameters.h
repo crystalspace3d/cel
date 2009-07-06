@@ -90,6 +90,8 @@ typedef csHash<csStringBase,csStringBase> celParams;
  */
 struct iParameterManager : public virtual iBase
 {
+    SCF_INTERFACE (iParameterManager, 1, 0, 0);
+
   /**
    * Get a parameter that can be evalulated later on an as-needed basis.
    * Returns 0 for an illegal parameter (error reporting has been done).

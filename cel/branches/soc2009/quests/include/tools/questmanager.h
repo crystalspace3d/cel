@@ -986,6 +986,9 @@ struct iQuestManager : public virtual iBase
   virtual iQuestTriggerFactory* SetTimeoutTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* timeout_par) = 0;
+  virtual iTriggerFactory* SetTimeoutTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* timeout_par) = 0;
 
   /**
    * Convenience method to set an 'entersector' trigger factory
