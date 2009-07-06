@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- sequences.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.seqop.debugprint</name>
+        <implementation>celDebugPrintSeqOpType</implementation>
+        <description>CEL Sequence: Sequence that prints a debug message</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
