@@ -214,52 +214,45 @@ csPtr<iParameter> celParameterManager::GetParameter (
   	const celParams& params,
 	const char* param)
 {
-  //TEMPORARY - For finding cause of bug: csPtr not assigned to csRef prior to destruction
-  printf("INSIDE - External GetParameter()\n");
-  return new celConstantParameter ();
-  //TEMPORARY
+  const char* val = ResolveParameter (params, param);
+  if (val == 0) return new celConstantParameter ();
+  if (*val == '@' && *(val+1) != '@')
+  {
+    csString fullname = "cel.parameters.";
+    fullname += val+1;
+    csStringID dynamic_id = pl->FetchStringID (fullname);
+    return new celDynamicParameter (object_reg, dynamic_id, val+1);
+  }
+  else if (*val == '=' && *(val+1) != '=')
+  {
+    csRef<iCelExpression> expression = GetParser ()->Parse (val+1);
+    if (!expression)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		"cel.parameters.manager",
+		"Can't parse expression '%s'!", val+1);
+      return 0;
+    }
+    // We are looking for 'this' in the parameter block. If we can find it
+    // then it indicates the name of the entity. We will find the entity for
+    // the expression so that the expression can show things local to the
+    // entity (or access properties from the current entity).
+    celParams::ConstGlobalIterator def_it = params.GetIterator ();
+    csStringBase it_key;
+    iCelEntity* entity = 0;
+    while (def_it.HasNext ())
+    {
+      const char* name = def_it.Next (it_key);
+      if (it_key == "this")
+      {
+	    entity = pl->FindEntity (name);
+	    break;
+      }
+    }
+    return new celExpressionParameter (object_reg, entity, expression, val+1);
+  }
+  return new celConstantParameter (val);
 }
-
-//{
-//  const char* val = ResolveParameter (params, param);
-//  if (val == 0) return new celConstantParameter ();
-//  if (*val == '@' && *(val+1) != '@')
-//  {
-//    csString fullname = "cel.parameters.";
-//    fullname += val+1;
-//    csStringID dynamic_id = pl->FetchStringID (fullname);
-//    return new celDynamicParameter (object_reg, dynamic_id, val+1);
-//  }
-//  else if (*val == '=' && *(val+1) != '=')
-//  {
-//    csRef<iCelExpression> expression = GetParser ()->Parse (val+1);
-//    if (!expression)
-//    {
-//      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-//		"cel.parameters.manager",
-//		"Can't parse expression '%s'!", val+1);
-//      return 0;
-//    }
-//    // We are looking for 'this' in the parameter block. If we can find it
-//    // then it indicates the name of the entity. We will find the entity for
-//    // the expression so that the expression can show things local to the
-//    // entity (or access properties from the current entity).
-//    celParams::ConstGlobalIterator def_it = params.GetIterator ();
-//    csStringBase it_key;
-//    iCelEntity* entity = 0;
-//    while (def_it.HasNext ())
-//    {
-//      const char* name = def_it.Next (it_key);
-//      if (it_key == "this")
-//      {
-//	    entity = pl->FindEntity (name);
-//	    break;
-//      }
-//    }
-//    return new celExpressionParameter (object_reg, entity, expression, val+1);
-//  }
-//  return new celConstantParameter (val);
-//}
 
 const char* celParameterManager::ResolveParameter (
   	const celParams& params,

@@ -430,25 +430,17 @@ celDebugPrintReward::celDebugPrintReward (
 	const char* msg_par) : scfImplementationType (this)
 {
   celDebugPrintReward::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  //msg = qm->GetParameter (params, msg_par);
-  
-  printf( "1 - Before\n");
+
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
-  printf( "2 - About to load parameter manager\n");
   pm = csLoadPlugin<iParameterManager> (plugin_mgr,
     "cel.parameters.manager");
+
   if (pm.IsValid()){
-	  printf("3 - Parameter Manager Valid\n");
-	  msg = GetParameter(params, msg_par, type->object_reg);
-	  printf( "4 - Local GetParameter() Complete\n");
-	  msg_buggy= pm->GetParameter(params, msg_par);
-	  printf( "5 - External GetParameter() Complete\n");
+	  msg = pm->GetParameter(params, msg_par);
   } else {
-	  printf("!3!- Parameter Manager INVALID");
+	  printf("reward.debugprint: Failed To Load Parameter Manager");
   }
-  printf( "Completed\n" );
 }
 
 celDebugPrintReward::~celDebugPrintReward ()
