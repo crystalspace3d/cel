@@ -1,12 +1,72 @@
 <?xml version="1.0"?>
-<!-- rewards.csplugin -->
+<!-- triggers.csplugin -->
 <plugin>
   <scf>
     <classes>
       <class>
+        <name>cel.triggers.entersector</name>
+        <implementation>celEnterSectorTriggerType</implementation>
+        <description>CEL Trigger: Triggers when camera enters a sector</description>
+      </class>
+
+      <class>
+        <name>cel.triggers.inventory</name>
+        <implementation>celInventoryTriggerType</implementation>
+        <description>CEL Trigger: Triggers when a certain inventory gets some entity</description>
+      </class>
+
+      <class>
+        <name>cel.triggers.meshentersector</name>
+        <implementation>celMeshEnterSectorTriggerType</implementation>
+        <description>CEL Trigger: Triggers when a mesh enters a sector</description>
+      </class>
+
+      <class>
+        <name>cel.triggers.meshselect</name>
+        <implementation>celMeshSelectTriggerType</implementation>
+        <description>CEL Trigger: Triggers when a mesh is selected</description>
+      </class>
+
+      <class>
+        <name>cel.triggers.message</name>
+        <implementation>celMessageTriggerType</implementation>
+        <description>CEL Trigger: Triggers when an entity sends a message</description>
+      </class>
+
+      <class>
+        <name>cel.triggers.operation</name>
+        <implementation>celOperationTriggerType</implementation>
+        <description>CEL Trigger: Triggers when a combination of triggers fire</description>
+      </class>
+
+      <class>
+        <name>cel.triggers.propertychange</name>
+        <implementation>celPropertyChangeTriggerType</implementation>
+        <description>CEL Trigger: Triggers when a property changes</description>
+      </class>
+
+      <class>
+        <name>cel.triggers.sequencefinish</name>
+        <implementation>celSequenceFinishTriggerType</implementation>
+        <description>CEL Trigger: Triggers when a sequence finishes</description>
+      </class>
+      
+      <class>
         <name>cel.triggers.timeout</name>
         <implementation>celTimeoutTriggerType</implementation>
         <description>CEL Trigger: Triggers after time</description>
+      </class>
+
+      <class>
+        <name>cel.triggers.trigger</name>
+        <implementation>celTriggerTriggerType</implementation>
+        <description>CEL Trigger: Triggers after a pcTrigger</description>
+      </class>
+
+      <class>
+        <name>cel.triggers.watch</name>
+        <implementation>celWatchTriggerType</implementation>
+        <description>CEL Trigger: Triggers when a mesh becomes visible</description>
       </class>
     </classes>
   </scf>

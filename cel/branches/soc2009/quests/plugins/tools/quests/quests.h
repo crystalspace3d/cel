@@ -602,6 +602,16 @@ public:
   virtual iQuestRewardFactory* AddSequenceFinishReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par);
+  virtual iRewardFactory* AddSequenceReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par,
+	const char* delay_par);
+  virtual iRewardFactory* AddCsSequenceReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* sequence_par, const char* delay_par);
+  virtual iRewardFactory* AddSequenceFinishReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par);
   virtual iQuestRewardFactory* AddCreateEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* template_par,
@@ -633,7 +643,19 @@ public:
   virtual iQuestTriggerFactory* SetSequenceFinishTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par);
+  virtual iTriggerFactory* SetEnterSectorTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par);
+  virtual iTriggerFactory* SetMeshEnterSectorTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par);
+  virtual iTriggerFactory* SetSequenceFinishTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par);
   virtual iQuestTriggerFactory* SetPropertyChangeTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par, const char* value_par);
+  virtual iTriggerFactory* SetPropertyChangeTrigger_NEW (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par, const char* value_par);
   virtual iQuestTriggerFactory* SetTriggerTrigger (
@@ -648,6 +670,18 @@ public:
         iQuestTriggerResponseFactory* response,
         const char* operation_par,
         csRefArray<iQuestTriggerFactory> &trigger_factories);
+  virtual iTriggerFactory* SetTriggerTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, bool do_leave = false);
+  virtual iTriggerFactory* SetWatchTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* target_entity_par,
+	const char* checktime_par,
+	const char* radius_par);
+  virtual iTriggerFactory* SetOperationTrigger_NEW (
+        iQuestTriggerResponseFactory* response,
+        const char* operation_par,
+        csRefArray<iTriggerFactory> &trigger_factories);
 };
 
 #endif // __CEL_TOOLS_QUESTS__

@@ -181,7 +181,47 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_entersector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_inventory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_meshentersector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_meshsel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_message.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_operation.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_propertychange.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_sequencefinish.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\triggers\trig_timeout.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_trigger.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_watch.cpp"
 				>
 			</File>
 		</Filter>
@@ -191,7 +231,47 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_entersector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_inventory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_meshentersector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_meshsel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_message.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_operation.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_propertychange.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_sequencefinish.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\triggers\trig_timeout.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_trigger.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_watch.h"
 				>
 			</File>
 		</Filter>

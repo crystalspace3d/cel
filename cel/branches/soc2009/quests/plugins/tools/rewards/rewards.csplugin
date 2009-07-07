@@ -44,6 +44,24 @@
         <implementation>celMessageRewardType</implementation>
         <description>CEL Reward: Sends a message to an entity</description>
       </class>
+
+      <class>
+        <name>cel.rewards.cssequence</name>
+        <implementation>celCsSequenceRewardType</implementation>
+        <description>CEL Reward: Starts a cs sequence</description>
+      </class>
+
+      <class>
+        <name>cel.rewards.sequence</name>
+        <implementation>celSequenceRewardType</implementation>
+        <description>CEL Reward: Starts a sequence</description>
+      </class>
+
+      <class>
+        <name>cel.rewards.sequencefinish</name>
+        <implementation>celSequenceFinishRewardType</implementation>
+        <description>CEL Reward: Finishes a sequence</description>
+      </class>
     </classes>
   </scf>
 </plugin>

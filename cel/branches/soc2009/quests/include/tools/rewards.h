@@ -463,6 +463,153 @@ struct iMessageRewardFactory : public virtual iBase
       const char* name, const char* value) = 0;
 };
 
+/**
+ * This interface is implemented by the reward that fires a Crystal
+ * Space sequence.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ *
+ * The predefined name of this reward type is 'cel.rewards.cssequence'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>sequence</em>: the name of the Crystal Space sequence.
+ * - <em>delay</em>: delay before we start the sequence. Default is 0.
+ */
+struct iCsSequenceRewardFactory : public virtual iBase
+{
+  SCF_INTERFACE (iCsSequenceRewardFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the sequence.
+   * \param sequence is the name of the sequence or a parameter (starts
+   * with '$').
+   */
+  virtual void SetSequenceParameter (const char* sequence) = 0;
+
+  /**
+   * Set the delay.
+   * \param delay is delay or a parameter (starts with '$').
+   */
+  virtual void SetDelayParameter (const char* delay) = 0;
+};
+
+/**
+ * This interface is implemented by the reward that fires a sequence.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ *
+ * The predefined name of this reward type is 'cel.rewards.sequence'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>entity</em>: the name of the entity containing the
+ *   pcquest property class.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the given
+ *   entity class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>sequence</em>: the name of the sequence.
+ * - <em>delay</em>: delay before we start the sequence. Default is 0.
+ */
+struct iSequenceRewardFactory : public virtual iBase
+{
+  SCF_INTERFACE (iSequenceRewardFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the entity containing the pcquest property class
+   * on which this reward will work.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Set the tag of the property class this reward will apply to.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetTagParameter (const char* tag_par) = 0;
+
+  /**
+   * Set the name of the entity class containing the property
+   * class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
+
+  /**
+   * Set the name of the sequence.
+   * \param sequence is the name of the sequence or a parameter (starts
+   * with '$').
+   */
+  virtual void SetSequenceParameter (const char* sequence) = 0;
+
+  /**
+   * Set the delay.
+   * \param delay is delay or a parameter (starts with '$').
+   */
+  virtual void SetDelayParameter (const char* delay) = 0;
+};
+
+/**
+ * This interface is implemented by the reward that finishes a sequence.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ *
+ * The predefined name of this reward type is 'cel.rewards.sequencefinish'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>entity</em>: the name of the entity containing the
+ *   pcquest property class.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the given
+ *   entity class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>sequence</em>: the name of the sequence.
+ */
+struct iSequenceFinishRewardFactory : public virtual iBase
+{
+  SCF_INTERFACE (iSequenceFinishRewardFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the entity containing the pcquest property class
+   * on which this reward will work.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Set the tag of the property class this reward will apply to.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetTagParameter (const char* tag_par) = 0;
+
+  /**
+   * Set the name of the entity class containing the property
+   * class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
+
+  /**
+   * Set the name of the sequence.
+   * \param sequence is the name of the sequence or a parameter (starts
+   * with '$').
+   */
+  virtual void SetSequenceParameter (const char* sequence) = 0;
+};
 
 //-------------------------------------------------------------------------
 
