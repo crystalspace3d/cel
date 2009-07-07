@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_cssequence.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_debugprint.cpp"
 				>
 			</File>
@@ -212,6 +216,14 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_message.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_sequence.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_sequencefinish.cpp"
 				>
 			</File>
 		</Filter>
@@ -233,6 +245,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_cssequence.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_debugprint.h"
 				>
 			</File>
@@ -246,6 +262,14 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_message.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_sequence.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_sequencefinish.h"
 				>
 			</File>
 		</Filter>

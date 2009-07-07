@@ -921,6 +921,11 @@ struct iQuestManager : public virtual iBase
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par,
 	const char* delay_par) = 0;
+  virtual iRewardFactory* AddSequenceReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par,
+	const char* delay_par) = 0;
+
 
   /**
    * Convenience method to add an 'cssequence' reward factory
@@ -929,12 +934,18 @@ struct iQuestManager : public virtual iBase
   virtual iQuestRewardFactory* AddCsSequenceReward (
   	iQuestTriggerResponseFactory* response,
   	const char* sequence_par, const char* delay_par) = 0;
+  virtual iRewardFactory* AddCsSequenceReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* sequence_par, const char* delay_par) = 0;
 
   /**
    * Convenience method to add an 'sequencefinish' reward factory
    * to a response factory.
    */
   virtual iQuestRewardFactory* AddSequenceFinishReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par) = 0;
+  virtual iRewardFactory* AddSequenceFinishReward_NEW (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par) = 0;
 
@@ -997,6 +1008,9 @@ struct iQuestManager : public virtual iBase
   virtual iQuestTriggerFactory* SetEnterSectorTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sector_par) = 0;
+  virtual iTriggerFactory* SetEnterSectorTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par) = 0;
 
   /**
    * Convenience method to set a 'meshentersector' trigger factory
@@ -1005,12 +1019,18 @@ struct iQuestManager : public virtual iBase
   virtual iQuestTriggerFactory* SetMeshEnterSectorTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sector_par) = 0;
+  virtual iTriggerFactory* SetMeshEnterSectorTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par) = 0;
 
   /**
    * Convenience method to set a 'sequencefinish' trigger factory
    * to a response factory.
    */
   virtual iQuestTriggerFactory* SetSequenceFinishTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par) = 0;
+  virtual iTriggerFactory* SetSequenceFinishTrigger_NEW (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par) = 0;
 
@@ -1022,6 +1042,10 @@ struct iQuestManager : public virtual iBase
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par,
 	const char* value_par) = 0;
+  virtual iTriggerFactory* SetPropertyChangeTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par,
+	const char* value_par) = 0;
 
   /**
    * Convenience method to set a 'trigger' trigger factory
@@ -1030,12 +1054,20 @@ struct iQuestManager : public virtual iBase
   virtual iQuestTriggerFactory* SetTriggerTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, bool do_leave = false) = 0;
+  virtual iTriggerFactory* SetTriggerTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, bool do_leave = false) = 0;
 
   /**
    * Convenience method to set a 'watch' trigger factory
    * to a response factory.
    */
   virtual iQuestTriggerFactory* SetWatchTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* target_entity_par,
+	const char* checktime_par,
+	const char* radius_par) = 0;
+  virtual iTriggerFactory* SetWatchTrigger_NEW (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* target_entity_par,
 	const char* checktime_par,
@@ -1049,6 +1081,10 @@ struct iQuestManager : public virtual iBase
   	iQuestTriggerResponseFactory* response,
   	const char* operation_par, 
 	csRefArray<iQuestTriggerFactory> &trigger_factories) = 0;
+  virtual iTriggerFactory* SetOperationTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* operation_par, 
+	csRefArray<iTriggerFactory> &trigger_factories) = 0;
 };
 
 //-------------------------------------------------------------------------

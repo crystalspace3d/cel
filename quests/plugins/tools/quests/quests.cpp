@@ -1408,6 +1408,18 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.propertychange");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
+  {
     celMeshSelectTriggerType* type = new celMeshSelectTriggerType (
   	object_reg);
     RegisterTriggerType (type);
@@ -1415,10 +1427,34 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.meshselect");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
+  {
     celInventoryTriggerType* type = new celInventoryTriggerType (
   	object_reg);
     RegisterTriggerType (type);
     type->DecRef ();
+  }
+
+  {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.inventory");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType_NEW (type);
+      type->DecRef ();
+    }
   }
 
   {
@@ -1448,10 +1484,34 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.entersector");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
+  {
     celMeshEnterSectorTriggerType* type = new celMeshEnterSectorTriggerType (
   	object_reg);
     RegisterTriggerType (type);
     type->DecRef ();
+  }
+
+  {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.meshentersector");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType_NEW (type);
+      type->DecRef ();
+    }
   }
 
   {
@@ -1462,10 +1522,34 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.sequencefinish");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
+  {
     celTriggerTriggerType* type = new celTriggerTriggerType (
   	object_reg);
     RegisterTriggerType (type);
     type->DecRef ();
+  }
+
+  {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.trigger");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType_NEW (type);
+      type->DecRef ();
+    }
   }
 
   {
@@ -1476,10 +1560,34 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.watch");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
+  {
     celMessageTriggerType* type = new celMessageTriggerType (
   	object_reg);
     RegisterTriggerType (type);
     type->DecRef ();
+  }
+
+    {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.message");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType_NEW (type);
+      type->DecRef ();
+    }
   }
 
   {
@@ -1487,6 +1595,18 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   	object_reg);
     RegisterTriggerType (type);
     type->DecRef ();
+  }
+
+    {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.operation");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType_NEW (type);
+      type->DecRef ();
+    }
   }
 
   //--- Rewards ------------------------------------------------------
@@ -1563,6 +1683,18 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.cssequence");        
+    if (type.IsValid())
+    {
+      RegisterRewardType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
+  {
     celSequenceRewardType* type = new celSequenceRewardType (
     	object_reg);
     RegisterRewardType (type);
@@ -1570,10 +1702,34 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.sequence");        
+    if (type.IsValid())
+    {
+      RegisterRewardType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
+  {
     celSequenceFinishRewardType* type = new celSequenceFinishRewardType (
     	object_reg);
     RegisterRewardType (type);
     type->DecRef ();
+  }
+
+  {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewardssequencefinish");        
+    if (type.IsValid())
+    {
+      RegisterRewardType_NEW (type);
+      type->DecRef ();
+    }
   }
 
   {
@@ -2095,6 +2251,48 @@ iQuestRewardFactory* celQuestManager::AddSequenceFinishReward (
   return rewfact;
 }
 
+iRewardFactory* celQuestManager::AddSequenceReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par,
+	const char* delay_par)
+{
+  iRewardType* type = GetRewardType_NEW ("cel.rewards.sequence");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iSequenceRewardFactory> newstate = scfQueryInterface<iSequenceRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetSequenceParameter (sequence_par);
+  newstate->SetDelayParameter (delay_par);
+  response->AddRewardFactory_NEW (rewfact);
+  return rewfact;
+}
+
+iRewardFactory* celQuestManager::AddCsSequenceReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* sequence_par, const char* delay_par)
+{
+  iRewardType* type = GetRewardType_NEW ("cel.rewards.cssequence");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iCsSequenceRewardFactory> newstate = scfQueryInterface<iCsSequenceRewardFactory> (rewfact);
+  newstate->SetSequenceParameter (sequence_par);
+  newstate->SetDelayParameter (delay_par);
+  response->AddRewardFactory_NEW (rewfact);
+  return rewfact;
+}
+
+iRewardFactory* celQuestManager::AddSequenceFinishReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par)
+{
+  iRewardType* type = GetRewardType_NEW ("cel.rewards.sequencefinish");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iSequenceFinishRewardFactory> newstate = 
+  	scfQueryInterface<iSequenceFinishRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetSequenceParameter (sequence_par);
+  response->AddRewardFactory_NEW (rewfact);
+  return rewfact;
+}
+
 iChangePropertyQuestRewardFactory* celQuestManager::AddChangePropertyReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par)
@@ -2264,6 +2462,47 @@ iQuestTriggerFactory* celQuestManager::SetSequenceFinishTrigger (
   return trigfact;
 }
 
+iTriggerFactory* celQuestManager::SetEnterSectorTrigger_NEW (
+	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par)
+{
+  iTriggerType* type = GetTriggerType_NEW ("cel.triggers.entersector");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iEnterSectorTriggerFactory> newstate = 
+  	scfQueryInterface<iEnterSectorTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetSectorParameter (sector_par);
+  response->SetTriggerFactory_NEW (trigfact);
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetMeshEnterSectorTrigger_NEW (
+	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sector_par)
+{
+  iTriggerType* type = GetTriggerType_NEW ("cel.triggers.meshentersector");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iEnterSectorTriggerFactory> newstate = 
+  	scfQueryInterface<iEnterSectorTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetSectorParameter (sector_par);
+  response->SetTriggerFactory_NEW (trigfact);
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetSequenceFinishTrigger_NEW (
+	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* sequence_par)
+{
+  iTriggerType* type = GetTriggerType_NEW ("cel.triggers.sequencefinish");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iSequenceFinishTriggerFactory> newstate = 
+  	scfQueryInterface<iSequenceFinishTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetSequenceParameter (sequence_par);
+  return trigfact;
+}
+
 iQuestTriggerFactory* celQuestManager::SetPropertyChangeTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par, const char* value_par)
@@ -2276,6 +2515,21 @@ iQuestTriggerFactory* celQuestManager::SetPropertyChangeTrigger (
   newstate->SetPropertyParameter (prop_par);
   newstate->SetValueParameter (value_par);
   response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetPropertyChangeTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* prop_par, const char* value_par)
+{
+  iTriggerType* type = GetTriggerType_NEW ("cel.triggers.propertychange");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iPropertyChangeTriggerFactory> newstate = 
+  	scfQueryInterface<iPropertyChangeTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetPropertyParameter (prop_par);
+  newstate->SetValueParameter (value_par);
+  response->SetTriggerFactory_NEW (trigfact);
   return trigfact;
 }
 
@@ -2324,6 +2578,59 @@ iQuestTriggerFactory* celQuestManager::SetOperationTrigger (
   csRefArray<iQuestTriggerFactory> trigger_factories_list = 
 	newstate->GetTriggerFactories();
   csRefArray<iQuestTriggerFactory>::Iterator iter = 
+	trigger_factories.GetIterator();
+  while (iter.HasNext())
+  {
+    trigger_factories_list.Push(iter.Next());
+  }
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetTriggerTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, bool do_leave)
+{
+  iTriggerType* type = GetTriggerType_NEW ("cel.questtrigger.trigger");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iTriggerTriggerFactory> newstate = 
+  	scfQueryInterface<iTriggerTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  if (do_leave) newstate->EnableLeave ();
+  response->SetTriggerFactory_NEW (trigfact);
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetWatchTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* target_entity_par,
+	const char* checktime_par,
+	const char* radius_par)
+{
+  iTriggerType* type = GetTriggerType_NEW ("cel.triggers.watch");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iWatchTriggerFactory> newstate = 
+  	scfQueryInterface<iWatchTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetTargetEntityParameter (target_entity_par);
+  newstate->SetChecktimeParameter (checktime_par);
+  newstate->SetRadiusParameter (radius_par);
+  response->SetTriggerFactory_NEW (trigfact);
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetOperationTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* operation_par,
+	csRefArray<iTriggerFactory> &trigger_factories)
+{
+  iTriggerType* type = GetTriggerType_NEW ("cel.triggers.operation");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iOperationTriggerFactory> newstate = 
+  	scfQueryInterface<iOperationTriggerFactory> (trigfact);
+  newstate->SetOperationParameter (operation_par);
+  csRefArray<iTriggerFactory> trigger_factories_list = 
+	newstate->GetTriggerFactories();
+  csRefArray<iTriggerFactory>::Iterator iter = 
 	trigger_factories.GetIterator();
   while (iter.HasNext())
   {
