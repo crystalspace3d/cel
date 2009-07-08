@@ -24,6 +24,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
+#include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 
 #include "physicallayer/pl.h"
@@ -31,11 +32,14 @@
 #include "physicallayer/propclas.h"
 #include "propclass/camera.h"
 
-#include "plugins/tools/quests/trig_operation.h"
+#include "plugins/tools/triggers/trig_operation.h"
+
+//TEMPORARY
+#include "tools/questmanager.h"
 
 //---------------------------------------------------------------------------
-
-CEL_IMPLEMENT_TRIGGERTYPE(Operation)
+SCF_IMPLEMENT_FACTORY (celOperationTriggerType)
+CEL_IMPLEMENT_TRIGGERTYPE_NEW(Operation)
 
 //---------------------------------------------------------------------------
 
@@ -49,11 +53,17 @@ celOperationTriggerFactory::~celOperationTriggerFactory ()
 {
 }
 
-csPtr<iQuestTrigger> celOperationTriggerFactory::CreateTrigger (
-    iQuest*, const celQuestParams& params)
+csPtr<iTrigger> celOperationTriggerFactory::CreateTrigger (
+    const celParams& params)
 {
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  const char* op = qm->ResolveParameter (params, operation_par);
+  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (type->object_reg);
+
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+    (plugin_mgr, "cel.parameters.manager");
+
+  const char* op = pm->ResolveParameter (params, operation_par);
 
   celOperationTrigger* trig;
   switch (op[0])
@@ -72,7 +82,7 @@ csPtr<iQuestTrigger> celOperationTriggerFactory::CreateTrigger (
         break;
      default:
         csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-          "cel.questtrigger.operation",
+          "cel.triggers.operation",
           "'operation' must be one of 'and', 'or' or 'xor'!");
           return 0;
   }
@@ -86,29 +96,34 @@ bool celOperationTriggerFactory::Load (iDocumentNode* node)
   if (!operation_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.operation",
+      "cel.triggers.operation",
       "'operation' attribute is missing for the operation trigger!");
     return false;
   }
 
   csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (type->object_reg);
+
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+    (plugin_mgr, "cel.parameters.manager");
 
   csRef<iDocumentNodeIterator> t_nodes = node->GetNodes("trigger");
   while (t_nodes->HasNext())
   {
     csRef<iDocumentNode> node = t_nodes->Next();
-    iQuestTriggerType *ttype = qm->GetTriggerType(csString("cel.questtrigger.")
+    iTriggerType *ttype = qm->GetTriggerType_NEW(csString("cel.triggers.")
 	+csString(node->GetAttributeValue("type")));
     if (ttype)
     {
-      csRef<iQuestTriggerFactory> newfact = ttype->CreateTriggerFactory();
+      csRef<iTriggerFactory> newfact = ttype->CreateTriggerFactory();
       newfact->Load(node->GetNode("fireon"));
       triggers.Push(newfact);
     }
     else
     {
       csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-          "cel.questtrigger.operation",
+          "cel.triggers.operation",
           "%s trigger type does not exist.", node->GetAttributeValue ("type"));
       return false;
     }
@@ -126,19 +141,25 @@ void celOperationTriggerFactory::SetOperationParameter (
 
 celOperationTrigger::celOperationTrigger (
 	celOperationTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* operation_par,
-	csRefArray<iQuestTriggerFactory> &trigger_factories) 
+	csRefArray<iTriggerFactory> &trigger_factories) 
 	: scfImplementationType (this)
 {
   checking = false;
   celOperationTrigger::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  operation = qm->ResolveParameter (params, operation_par);
-  csRefArray<iQuestTriggerFactory>::Iterator iter = trigger_factories.GetIterator();
+  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (type->object_reg);
+
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+    (plugin_mgr, "cel.parameters.manager");
+
+  operation = pm->ResolveParameter (params, operation_par);
+  csRefArray<iTriggerFactory>::Iterator iter = trigger_factories.GetIterator();
   while (iter.HasNext())
   {
-    csRef<iQuestTrigger> newtrigger = iter.Next()->CreateTrigger(0,params);
+    csRef<iTrigger> newtrigger = iter.Next()->CreateTrigger(params);
     triggers.Push(newtrigger);
   }
 }
@@ -148,10 +169,10 @@ celOperationTrigger::~celOperationTrigger ()
   DeactivateTrigger ();
 }
 
-void celOperationTrigger::RegisterCallback (iQuestTriggerCallback* callback)
+void celOperationTrigger::RegisterCallback (iTriggerCallback* callback)
 {
   celOperationTrigger::callback = callback;
-  csRefArray<iQuestTrigger>::Iterator iter = triggers.GetIterator();
+  csRefArray<iTrigger>::Iterator iter = triggers.GetIterator();
   while (iter.HasNext())
   {
     iter.Next()->RegisterCallback(this);
@@ -161,7 +182,7 @@ void celOperationTrigger::RegisterCallback (iQuestTriggerCallback* callback)
 void celOperationTrigger::ClearCallback ()
 {
   callback = 0;
-  csRefArray<iQuestTrigger>::Iterator iter = triggers.GetIterator();
+  csRefArray<iTrigger>::Iterator iter = triggers.GetIterator();
   while (iter.HasNext())
   {
     iter.Next()->ClearCallback();
@@ -170,7 +191,7 @@ void celOperationTrigger::ClearCallback ()
 
 void celOperationTrigger::ActivateTrigger ()
 {
-  csRefArray<iQuestTrigger>::Iterator iter = triggers.GetIterator();
+  csRefArray<iTrigger>::Iterator iter = triggers.GetIterator();
   while (iter.HasNext())
   {
     iter.Next()->ActivateTrigger();
@@ -179,7 +200,7 @@ void celOperationTrigger::ActivateTrigger ()
 
 void celOperationTrigger::DeactivateTrigger ()
 {
-  csRefArray<iQuestTrigger>::Iterator iter = triggers.GetIterator();
+  csRefArray<iTrigger>::Iterator iter = triggers.GetIterator();
   while (iter.HasNext())
   {
     iter.Next()->DeactivateTrigger();
@@ -202,10 +223,10 @@ void celOperationTrigger::SaveTriggerState (iCelDataBuffer*)
 bool celAndOperationTrigger::Check ()
 {
   checking = true;
-  csRefArray<iQuestTrigger>::Iterator iter = triggers.GetIterator();
+  csRefArray<iTrigger>::Iterator iter = triggers.GetIterator();
   while (iter.HasNext())
   {
-    iQuestTrigger *trig = iter.Next();
+    iTrigger *trig = iter.Next();
     if (!trig->Check())
     {
       checking = false;
@@ -213,19 +234,19 @@ bool celAndOperationTrigger::Check ()
     }
   }
   DeactivateTrigger ();
-  if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
+  if (callback) callback->TriggerFired ((iTrigger*)this, 0);
   checking = false;
   return true;
 }
 
-void celAndOperationTrigger::TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params)
+void celAndOperationTrigger::TriggerFired (iTrigger* trigger, iCelParameterBlock* params)
 {
   if (checking) return;
   checking = true;
-  csRefArray<iQuestTrigger>::Iterator iter = triggers.GetIterator();
+  csRefArray<iTrigger>::Iterator iter = triggers.GetIterator();
   while (iter.HasNext())
   {
-    iQuestTrigger *trig = iter.Next();
+    iTrigger *trig = iter.Next();
     if (trigger != trig)
     {
       if (!trig->Check())  // exit as soon as one is false
@@ -236,7 +257,7 @@ void celAndOperationTrigger::TriggerFired (iQuestTrigger* trigger, iCelParameter
     }
   }
   DeactivateTrigger ();
-  if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
+  if (callback) callback->TriggerFired ((iTrigger*)this, 0);
   checking = false;
 }
 
@@ -246,14 +267,14 @@ void celAndOperationTrigger::TriggerFired (iQuestTrigger* trigger, iCelParameter
 bool celOrOperationTrigger::Check ()
 {
   checking = true;
-  csRefArray<iQuestTrigger>::Iterator iter = triggers.GetIterator();
+  csRefArray<iTrigger>::Iterator iter = triggers.GetIterator();
   while (iter.HasNext())
   {
-    iQuestTrigger *trig = iter.Next();
+    iTrigger *trig = iter.Next();
     if (trig->Check())  // true once a trigger is true
     {
       DeactivateTrigger ();
-      if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
+      if (callback) callback->TriggerFired ((iTrigger*)this, 0);
       checking = false;
       return true;
     }
@@ -262,14 +283,14 @@ bool celOrOperationTrigger::Check ()
   return false;
 }
 
-void celOrOperationTrigger::TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params)
+void celOrOperationTrigger::TriggerFired (iTrigger* trigger, iCelParameterBlock* params)
 {
   if (checking) return;
   // one true trigger is enough, so just do the callback immediately
   if (callback)
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    callback->TriggerFired ((iTrigger*)this, 0);
   }
 }
 
@@ -280,10 +301,10 @@ bool celXorOperationTrigger::Check ()
 {
   checking = true;
   int ntrue = 0;
-  csRefArray<iQuestTrigger>::Iterator iter = triggers.GetIterator();
+  csRefArray<iTrigger>::Iterator iter = triggers.GetIterator();
   while (iter.HasNext())
   {
-    iQuestTrigger *trig = iter.Next();
+    iTrigger *trig = iter.Next();
     if (trig->Check())
     {
       ntrue++;
@@ -295,19 +316,19 @@ bool celXorOperationTrigger::Check ()
     }
   }
   DeactivateTrigger ();
-  if (callback) callback->TriggerFired ((iQuestTrigger*)this, 0);
+  if (callback) callback->TriggerFired ((iTrigger*)this, 0);
   checking = false;
   return ntrue != 0;  // must be 0 or 1 as we're exiting above for more than 2.
 }
 
-void celXorOperationTrigger::TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params)
+void celXorOperationTrigger::TriggerFired (iTrigger* trigger, iCelParameterBlock* params)
 {
   if (checking) return;
   checking = true;
-  csRefArray<iQuestTrigger>::Iterator iter = triggers.GetIterator();
+  csRefArray<iTrigger>::Iterator iter = triggers.GetIterator();
   while (iter.HasNext())
   {
-    iQuestTrigger *trig = iter.Next();
+    iTrigger *trig = iter.Next();
     if (trigger != trig)
     {
       if (trig->Check()) // exit as soon as one is true
@@ -317,7 +338,7 @@ void celXorOperationTrigger::TriggerFired (iQuestTrigger* trigger, iCelParameter
       }
     }
   }
-  if (callback) callback->TriggerFired ((iQuestTrigger*)this, params);
+  if (callback) callback->TriggerFired ((iTrigger*)this, params);
   checking = false;
 }
 

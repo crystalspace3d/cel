@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_TRIG_ENTERSECTOR__
-#define __CEL_TOOLS_QUESTS_TRIG_ENTERSECTOR__
+#ifndef __CEL_TOOLS_TRIG_ENTERSECTOR__
+#define __CEL_TOOLS_TRIG_ENTERSECTOR__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -27,7 +27,7 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
-#include "tools/questmanager.h"
+#include "tools/triggers.h"
 
 #include "iengine/engine.h"
 #include "iengine/camera.h"
@@ -39,16 +39,16 @@ struct iEvent;
 /**
  * A standard trigger type that triggers whenever the camera
  * enters a specific sector.
- * This trigger type listens to the name 'cel.questtrigger.entersector'.
+ * This trigger type listens to the name 'cel.triggers.entersector'.
  */
-CEL_DECLARE_TRIGGERTYPE(EnterSector,"cel.questtrigger.entersector")
+CEL_DECLARE_TRIGGERTYPE_NEW(EnterSector,"cel.triggers.entersector")
 
 /**
  * The 'entersector' trigger factory.
  */
 class celEnterSectorTriggerFactory : public scfImplementation2<
-	celEnterSectorTriggerFactory, iQuestTriggerFactory,
-	iEnterSectorQuestTriggerFactory>
+	celEnterSectorTriggerFactory, iTriggerFactory,
+	iEnterSectorTriggerFactory>
 {
 private:
   celEnterSectorTriggerType* type;
@@ -60,11 +60,10 @@ public:
   celEnterSectorTriggerFactory (celEnterSectorTriggerType* type);
   virtual ~celEnterSectorTriggerFactory ();
 
-  virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
-      const celQuestParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iEnterSectorQuestTriggerFactory ----------------------
+  //----------------- iEnterSectorTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetSectorParameter (const char* sector);
 };
@@ -73,12 +72,12 @@ public:
  * The 'entersector' trigger.
  */
 class celEnterSectorTrigger : public scfImplementation2<
-	celEnterSectorTrigger, iQuestTrigger,
+	celEnterSectorTrigger, iTrigger,
 	iCameraSectorListener>
 {
 private:
   celEnterSectorTriggerType* type;
-  csRef<iQuestTriggerCallback> callback;
+  csRef<iTriggerCallback> callback;
   csWeakRef<iSector> sect;
   csWeakRef<iCamera> camera;
   csString entity;
@@ -89,12 +88,12 @@ private:
 
 public:
   celEnterSectorTrigger (celEnterSectorTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* tag,
 	const char* sector_par);
   virtual ~celEnterSectorTrigger ();
 
-  virtual void RegisterCallback (iQuestTriggerCallback* callback);
+  virtual void RegisterCallback (iTriggerCallback* callback);
   virtual void ClearCallback ();
   virtual void ActivateTrigger ();
   virtual bool Check ();
@@ -106,5 +105,5 @@ public:
   virtual void NewSector (iCamera* camera, iSector* sector);
 };
 
-#endif // __CEL_TOOLS_QUESTS_TRIG_ENTERSECTOR__
+#endif // __CEL_TOOLS_TRIG_ENTERSECTOR__
 

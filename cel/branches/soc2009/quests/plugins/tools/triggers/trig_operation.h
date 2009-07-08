@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_TRIG_OPERATION__
-#define __CEL_TOOLS_QUESTS_TRIG_OPERATION__
+#ifndef __CEL_TOOLS_TRIG_OPERATION__
+#define __CEL_TOOLS_TRIG_OPERATION__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -27,7 +27,7 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
-#include "tools/questmanager.h"
+#include "tools/triggers.h"
 
 #include "iengine/engine.h"
 #include "iengine/camera.h"
@@ -38,33 +38,32 @@ struct iEvent;
 
 /**
  * A standard trigger type that triggers on logical operations of child triggers.
- * This trigger type listens to the name 'cel.questtrigger.operation'.
+ * This trigger type listens to the name 'cel.triggers.operation'.
  */
-CEL_DECLARE_TRIGGERTYPE(Operation,"cel.questtrigger.operation")
+CEL_DECLARE_TRIGGERTYPE_NEW(Operation,"cel.triggers.operation")
 
 /**
  * The 'operation' trigger factory.
  */
 class celOperationTriggerFactory : public scfImplementation2<
-	celOperationTriggerFactory, iQuestTriggerFactory,
-	iOperationQuestTriggerFactory>
+	celOperationTriggerFactory, iTriggerFactory,
+	iOperationTriggerFactory>
 {
 private:
   celOperationTriggerType* type;
   csString operation_par;
-  csRefArray<iQuestTriggerFactory> triggers;
+  csRefArray<iTriggerFactory> triggers;
 public:
   celOperationTriggerFactory (celOperationTriggerType* type);
   virtual ~celOperationTriggerFactory ();
 
-  //----------------- iQuestTriggerFactory ----------------------
-  virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
-      const celQuestParams& params);
+  //----------------- iTriggerFactory ----------------------
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iOperationQuestTriggerFactory ----------------------
+  //----------------- iOperationTriggerFactory ----------------------
   virtual void SetOperationParameter (const char* operation);
-  virtual csRefArray<iQuestTriggerFactory> &GetTriggerFactories () 
+  virtual csRefArray<iTriggerFactory> &GetTriggerFactories () 
   { return triggers; }
 };
 
@@ -72,26 +71,26 @@ public:
  * The 'operation' trigger.
  */
 class celOperationTrigger : public scfImplementation2<
-	celOperationTrigger, iQuestTrigger, iQuestTriggerCallback>
+	celOperationTrigger, iTrigger, iTriggerCallback>
 {
 protected:
   celOperationTriggerType* type;
-  csRef<iQuestTriggerCallback> callback;
-  csRefArray<iQuestTrigger> triggers;
+  csRef<iTriggerCallback> callback;
+  csRefArray<iTrigger> triggers;
   bool checking;
 
   csString operation;
 
 public:
   celOperationTrigger (celOperationTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* operation_par,
-        csRefArray<iQuestTriggerFactory> &trigger_factories);
+        csRefArray<iTriggerFactory> &trigger_factories);
 
   virtual ~celOperationTrigger ();
 
-  //----------------- iQuestTrigger ----------------------
-  virtual void RegisterCallback (iQuestTriggerCallback* callback);
+  //----------------- iTrigger ----------------------
+  virtual void RegisterCallback (iTriggerCallback* callback);
   virtual void ClearCallback ();
   virtual void ActivateTrigger ();
   virtual bool Check () = 0;
@@ -99,43 +98,43 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
-  /* iQuestTriggerCallback */
-  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params) = 0;
+  /* iTriggerCallback */
+  virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params) = 0;
 };
 
 class celAndOperationTrigger : public celOperationTrigger
 {
 public:
   celAndOperationTrigger (celOperationTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* operation_par,
-        csRefArray<iQuestTriggerFactory> &trigger_factories)
+        csRefArray<iTriggerFactory> &trigger_factories)
 	: celOperationTrigger(type,params,operation_par,trigger_factories) {};
-  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
+  virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params);
   virtual bool Check ();
 };
 class celOrOperationTrigger : public celOperationTrigger
 {
 public:
   celOrOperationTrigger (celOperationTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* operation_par,
-        csRefArray<iQuestTriggerFactory> &trigger_factories)
+        csRefArray<iTriggerFactory> &trigger_factories)
 	: celOperationTrigger(type,params,operation_par,trigger_factories) {};
-  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
+  virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params);
   virtual bool Check ();
 };
 class celXorOperationTrigger : public celOperationTrigger
 {
 public:
   celXorOperationTrigger (celOperationTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* operation_par,
-        csRefArray<iQuestTriggerFactory> &trigger_factories)
+        csRefArray<iTriggerFactory> &trigger_factories)
 	: celOperationTrigger(type,params,operation_par,trigger_factories) {};
-  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
+  virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params);
   virtual bool Check ();
 };
 
-#endif // __CEL_TOOLS_QUESTS_TRIG_OPERATION__
+#endif // __CEL_TOOLS_TRIG_OPERATION__
 

@@ -24,18 +24,21 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
+#include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
+
+#include "plugins/tools/triggers/trig_sequencefinish.h"
+
+//TEMPORARY
 #include "propclass/quest.h"
 
-#include "plugins/tools/quests/trig_sequencefinish.h"
-
 //---------------------------------------------------------------------------
-
-CEL_IMPLEMENT_TRIGGERTYPE(SequenceFinish)
+SCF_IMPLEMENT_FACTORY (celSequenceFinishTriggerType)
+CEL_IMPLEMENT_TRIGGERTYPE_NEW(SequenceFinish)
 
 //---------------------------------------------------------------------------
 
@@ -49,8 +52,8 @@ celSequenceFinishTriggerFactory::~celSequenceFinishTriggerFactory ()
 {
 }
 
-csPtr<iQuestTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
-    iQuest*, const celQuestParams& params)
+csPtr<iTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
+    const celParams& params)
 {
   celSequenceFinishTrigger* trig = new celSequenceFinishTrigger (type,
   	params, entity_par, tag_par, sequence_par);
@@ -65,7 +68,7 @@ bool celSequenceFinishTriggerFactory::Load (iDocumentNode* node)
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.sequencefinish",
+      "cel.triggers.sequencefinish",
       "'entity' attribute is missing for the sequencefinish trigger!");
     return false;
   }
@@ -73,7 +76,7 @@ bool celSequenceFinishTriggerFactory::Load (iDocumentNode* node)
   if (!sequence_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.sequencefinish",
+      "cel.triggers.sequencefinish",
       "'sequence' attribute is missing for the sequencefinish trigger!");
     return false;
   }
@@ -97,15 +100,21 @@ void celSequenceFinishTriggerFactory::SetSequenceParameter (
 
 celSequenceFinishTrigger::celSequenceFinishTrigger (
 	celSequenceFinishTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par) : scfImplementationType (this)
 {
   celSequenceFinishTrigger::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  tag = qm->ResolveParameter (params, tag_par);
-  sequence = qm->ResolveParameter (params, sequence_par);
+  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (type->object_reg);
+
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+    (plugin_mgr, "cel.parameters.manager");
+
+  entity = pm->ResolveParameter (params, entity_par);
+  tag = pm->ResolveParameter (params, tag_par);
+  sequence = pm->ResolveParameter (params, sequence_par);
 
   finished = false;
 }
@@ -115,7 +124,7 @@ celSequenceFinishTrigger::~celSequenceFinishTrigger ()
   DeactivateTrigger ();
 }
 
-void celSequenceFinishTrigger::RegisterCallback (iQuestTriggerCallback* callback)
+void celSequenceFinishTrigger::RegisterCallback (iTriggerCallback* callback)
 {
   celSequenceFinishTrigger::callback = callback;
 }
@@ -125,11 +134,11 @@ void celSequenceFinishTrigger::ClearCallback ()
   callback = 0;
 }
 
-void celSequenceFinishTrigger::SequenceFinished (iQuestSequence* seq)
+void celSequenceFinishTrigger::SequenceFinished (iSequence* seq)
 {
   finished = true;
   DeactivateTrigger ();
-  callback->TriggerFired ((iQuestTrigger*)this, 0);
+  callback->TriggerFired ((iTrigger*)this, 0);
 }
 
 void celSequenceFinishTrigger::FindSequence ()
@@ -160,7 +169,7 @@ bool celSequenceFinishTrigger::Check ()
   if (finished)
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    callback->TriggerFired ((iTrigger*)this, 0);
   }
   return finished;
 }
