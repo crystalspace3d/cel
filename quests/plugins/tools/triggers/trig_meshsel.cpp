@@ -24,6 +24,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
+#include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 
 #include "physicallayer/pl.h"
@@ -31,11 +32,11 @@
 #include "physicallayer/propclas.h"
 
 #include "celtool/stdparams.h"
-#include "plugins/tools/quests/trig_meshsel.h"
+#include "plugins/tools/triggers/trig_meshsel.h"
 
 //---------------------------------------------------------------------------
-
-CEL_IMPLEMENT_TRIGGERTYPE(MeshSelect)
+SCF_IMPLEMENT_FACTORY (celMeshSelectTriggerType)
+CEL_IMPLEMENT_TRIGGERTYPE_NEW(MeshSelect)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -45,7 +46,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
-    	"cel.quests.trigger.meshsel", msg, arg);
+    	"cel.triggers.meshselect", msg, arg);
   else
   {
     csPrintfV (msg, arg);
@@ -71,8 +72,8 @@ celMeshSelectTriggerFactory::~celMeshSelectTriggerFactory ()
 {
 }
 
-csPtr<iQuestTrigger> celMeshSelectTriggerFactory::CreateTrigger (
-    iQuest*, const celQuestParams& params)
+csPtr<iTrigger> celMeshSelectTriggerFactory::CreateTrigger (
+    const celParams& params)
 {
   celMeshSelectTrigger* trig = new celMeshSelectTrigger (type,
   	params, entity_par, tag_par);
@@ -100,14 +101,20 @@ void celMeshSelectTriggerFactory::SetEntityParameter (
 
 celMeshSelectTrigger::celMeshSelectTrigger (
 	celMeshSelectTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par) :
 	scfImplementationType (this)
 {
   celMeshSelectTrigger::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  tag = qm->ResolveParameter (params, tag_par);
+  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (type->object_reg);
+
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+    (plugin_mgr, "cel.parameters.manager");
+
+  entity = pm->ResolveParameter (params, entity_par);
+  tag = pm->ResolveParameter (params, tag_par);
   params_entity.AttachNew (new celOneParameterBlock ());
   params_entity->SetParameterDef (type->pl->FetchStringID ("cel.parameter.entity"), "entity");
 }
@@ -117,7 +124,7 @@ celMeshSelectTrigger::~celMeshSelectTrigger ()
   DeactivateTrigger ();
 }
 
-void celMeshSelectTrigger::RegisterCallback (iQuestTriggerCallback* callback)
+void celMeshSelectTrigger::RegisterCallback (iTriggerCallback* callback)
 {
   celMeshSelectTrigger::callback = callback;
 }
@@ -179,7 +186,7 @@ void celMeshSelectTrigger::MouseDown (iPcMeshSelect*,
     params_entity->GetParameter (0).Set (ent->GetName ());
   else
     params_entity->GetParameter (0).Set ("");
-  callback->TriggerFired ((iQuestTrigger*)this, params_entity);
+  callback->TriggerFired ((iTrigger*)this, params_entity);
 }
 
 void celMeshSelectTrigger::MouseUp (iPcMeshSelect*,

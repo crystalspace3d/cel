@@ -27,6 +27,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
+#include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
@@ -37,11 +38,12 @@
 #include "physicallayer/propclas.h"
 #include "propclass/mesh.h"
 
-#include "plugins/tools/quests/trig_watch.h"
+#include "plugins/tools/triggers/trig_watch.h"
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_TRIGGERTYPE(Watch)
+SCF_IMPLEMENT_FACTORY (celWatchTriggerType)
+CEL_IMPLEMENT_TRIGGERTYPE_NEW(Watch)
 
 //---------------------------------------------------------------------------
 
@@ -55,8 +57,8 @@ celWatchTriggerFactory::~celWatchTriggerFactory ()
 {
 }
 
-csPtr<iQuestTrigger> celWatchTriggerFactory::CreateTrigger (
-    iQuest*, const celQuestParams& params)
+csPtr<iTrigger> celWatchTriggerFactory::CreateTrigger (
+    const celParams& params)
 {
   celWatchTrigger* trig = new celWatchTrigger (type, params,
   	entity_par, tag_par, target_entity_par, target_tag_par,
@@ -71,7 +73,7 @@ bool celWatchTriggerFactory::Load (iDocumentNode* node)
   if (entity_par.IsEmpty ())
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.watch",
+      "cel.triggers.watch",
       "'entity' attribute is missing for the watch trigger!");
     return false;
   }
@@ -81,7 +83,7 @@ bool celWatchTriggerFactory::Load (iDocumentNode* node)
   if (target_entity_par.IsEmpty ())
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.watch",
+      "cel.triggers.watch",
       "'target' attribute is missing for the watch trigger!");
     return false;
   }
@@ -144,7 +146,7 @@ static float ToFloat (const char* s)
 
 celWatchTrigger::celWatchTrigger (
 	celWatchTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
 	const char* time_par, const char* radius_par,
@@ -153,17 +155,23 @@ celWatchTrigger::celWatchTrigger (
 	: scfImplementationType (this)
 {
   celWatchTrigger::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  tag = qm->ResolveParameter (params, tag_par);
-  target_entity = qm->ResolveParameter (params, target_entity_par);
-  target_tag = qm->ResolveParameter (params, target_tag_par);
-  const char* t = qm->ResolveParameter (params, time_par);
+  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (type->object_reg);
+
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+    (plugin_mgr, "cel.parameters.manager");
+
+  entity = pm->ResolveParameter (params, entity_par);
+  tag = pm->ResolveParameter (params, tag_par);
+  target_entity = pm->ResolveParameter (params, target_entity_par);
+  target_tag = pm->ResolveParameter (params, target_tag_par);
+  const char* t = pm->ResolveParameter (params, time_par);
   if (t)
     sscanf (t, "%d", &time);
   else
     time = 1000;
-  const char* r = qm->ResolveParameter (params, radius_par);
+  const char* r = pm->ResolveParameter (params, radius_par);
   if (r)
     sscanf (r, "%f", &radius);
   else
@@ -172,11 +180,11 @@ celWatchTrigger::celWatchTrigger (
 
   offset.Set (0, 0, 0);
   if (offsetx_par && *offsetx_par)
-    offset.x = ToFloat (qm->ResolveParameter (params, offsetx_par));
+    offset.x = ToFloat (pm->ResolveParameter (params, offsetx_par));
   if (offsety_par && *offsety_par)
-    offset.y = ToFloat (qm->ResolveParameter (params, offsety_par));
+    offset.y = ToFloat (pm->ResolveParameter (params, offsety_par));
   if (offsetz_par && *offsetz_par)
-    offset.z = ToFloat (qm->ResolveParameter (params, offsetz_par));
+    offset.z = ToFloat (pm->ResolveParameter (params, offsetz_par));
 
   cdsys = csQueryRegistry<iCollideSystem> (type->object_reg);
 }
@@ -186,7 +194,7 @@ celWatchTrigger::~celWatchTrigger ()
   DeactivateTrigger ();
 }
 
-void celWatchTrigger::RegisterCallback (iQuestTriggerCallback* callback)
+void celWatchTrigger::RegisterCallback (iTriggerCallback* callback)
 {
   celWatchTrigger::callback = callback;
 }
@@ -270,7 +278,7 @@ printf ("check sqdistance=%g sqradius=%g closest_mesh=%s\n", rc.sqdistance, sqra
   if (tbrc.closest_mesh == 0 || tbrc.closest_mesh == target_wrap)
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    callback->TriggerFired ((iTrigger*)this, 0);
     return true;
   }
   return false;

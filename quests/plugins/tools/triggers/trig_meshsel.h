@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_TRIG_MESHSELECT__
-#define __CEL_TOOLS_QUESTS_TRIG_MESHSELECT__
+#ifndef __CEL_TOOLS_TRIG_MESHSELECT__
+#define __CEL_TOOLS_TRIG_MESHSELECT__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -27,7 +27,7 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
-#include "tools/questmanager.h"
+#include "tools/triggers.h"
 #include "propclass/meshsel.h"
 
 struct iObjectRegistry;
@@ -38,14 +38,14 @@ struct iEvent;
  * put in the meshselect.
  * This trigger type listens to the name 'cel.questtrigger.meshselect'.
  */
-CEL_DECLARE_TRIGGERTYPE(MeshSelect,"cel.questtrigger.meshselect")
+CEL_DECLARE_TRIGGERTYPE_NEW(MeshSelect,"cel.triggers.meshselect")
 
 /**
  * The 'meshselect' trigger factory.
  */
 class celMeshSelectTriggerFactory : public scfImplementation2<
-	celMeshSelectTriggerFactory, iQuestTriggerFactory,
-	iMeshSelectQuestTriggerFactory>
+	celMeshSelectTriggerFactory, iTriggerFactory,
+	iMeshSelectTriggerFactory>
 {
 private:
   celMeshSelectTriggerType* type;
@@ -56,11 +56,10 @@ public:
   celMeshSelectTriggerFactory (celMeshSelectTriggerType* type);
   virtual ~celMeshSelectTriggerFactory ();
 
-  virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
-      const celQuestParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iMeshSelectQuestTriggerFactory ----------------------
+  //----------------- iMeshSelectTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
 };
 
@@ -68,12 +67,12 @@ public:
  * The 'meshselect' trigger.
  */
 class celMeshSelectTrigger : public scfImplementation2<
-	celMeshSelectTrigger, iQuestTrigger,
+	celMeshSelectTrigger, iTrigger,
 	iPcMeshSelectListener>
 {
 private:
   celMeshSelectTriggerType* type;
-  csRef<iQuestTriggerCallback> callback;
+  csRef<iTriggerCallback> callback;
   csWeakRef<iPcMeshSelect> meshselect;
   csString entity;
   csString tag;
@@ -83,11 +82,11 @@ private:
 
 public:
   celMeshSelectTrigger (celMeshSelectTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par);
   virtual ~celMeshSelectTrigger ();
 
-  virtual void RegisterCallback (iQuestTriggerCallback* callback);
+  virtual void RegisterCallback (iTriggerCallback* callback);
   virtual void ClearCallback ();
   virtual void ActivateTrigger ();
   virtual bool Check ();
@@ -104,5 +103,5 @@ public:
   	int x, int y, int button, iCelEntity* entity);
 };
 
-#endif // __CEL_TOOLS_QUESTS_TRIG_MESHSELECT__
+#endif // __CEL_TOOLS_TRIG_MESHSELECT__
 

@@ -24,6 +24,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
+#include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 
 #include "physicallayer/pl.h"
@@ -31,11 +32,12 @@
 #include "physicallayer/propclas.h"
 #include "propclass/mesh.h"
 
-#include "plugins/tools/quests/trig_message.h"
+#include "plugins/tools/triggers/trig_message.h"
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_TRIGGERTYPE(Message)
+SCF_IMPLEMENT_FACTORY (celMessageTriggerType)
+CEL_IMPLEMENT_TRIGGERTYPE_NEW(Message)
 
 //---------------------------------------------------------------------------
 
@@ -49,8 +51,8 @@ celMessageTriggerFactory::~celMessageTriggerFactory ()
 {
 }
 
-csPtr<iQuestTrigger> celMessageTriggerFactory::CreateTrigger (
-    iQuest*, const celQuestParams& params)
+csPtr<iTrigger> celMessageTriggerFactory::CreateTrigger (
+    const celParams& params)
 {
   celMessageTrigger* trig = new celMessageTrigger (type, params,
   	entity_par, mask_par);
@@ -66,7 +68,7 @@ bool celMessageTriggerFactory::Load (iDocumentNode* node)
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.message",
+      "cel.triggers.message",
       "'entity' attribute is missing for the message trigger!");
     return false;
   }
@@ -75,7 +77,7 @@ bool celMessageTriggerFactory::Load (iDocumentNode* node)
   if (!mask_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.message",
+      "cel.triggers.message",
       "'mask' attribute is missing for the message trigger!");
     return false;
   }
@@ -99,14 +101,20 @@ void celMessageTriggerFactory::SetMaskParameter (
 
 celMessageTrigger::celMessageTrigger (
 	celMessageTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* mask_par)
 	: scfImplementationType (this)
 {
   celMessageTrigger::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  mask = qm->ResolveParameter (params, mask_par);
+  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (type->object_reg);
+
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+    (plugin_mgr, "cel.parameters.manager");
+
+  entity = pm->ResolveParameter (params, entity_par);
+  mask = pm->ResolveParameter (params, mask_par);
 }
 
 celMessageTrigger::~celMessageTrigger ()
@@ -114,7 +122,7 @@ celMessageTrigger::~celMessageTrigger ()
   DeactivateTrigger ();
 }
 
-void celMessageTrigger::RegisterCallback (iQuestTriggerCallback* callback)
+void celMessageTrigger::RegisterCallback (iTriggerCallback* callback)
 {
   celMessageTrigger::callback = callback;
 }
@@ -138,7 +146,7 @@ bool celMessageTrigger::ReceiveMessage (csStringID /*msgid*/,
 	celData& /*ret*/, iCelParameterBlock* params)
 {
   DeactivateTrigger ();
-  callback->TriggerFired ((iQuestTrigger*)this, params);
+  callback->TriggerFired ((iTrigger*)this, params);
   return true;
 }
 

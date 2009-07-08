@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_TRIG_SEQUENCEFINISH__
-#define __CEL_TOOLS_QUESTS_TRIG_SEQUENCEFINISH__
+#ifndef __CEL_TOOLS_TRIG_SEQUENCEFINISH__
+#define __CEL_TOOLS_TRIG_SEQUENCEFINISH__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -27,11 +27,16 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
-#include "tools/questmanager.h"
+#include "tools/triggers.h"
+#include "tools/sequences.h"
 
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/sector.h"
+
+//TEMPORARY
+#include "tools/questmanager.h"
+//TEMPORARY
 
 struct iObjectRegistry;
 struct iEvent;
@@ -39,16 +44,16 @@ struct iEvent;
 /**
  * A standard trigger type that triggers whenever the camera
  * enters a specific sector.
- * This trigger type listens to the name 'cel.questtrigger.sequencefinish'.
+ * This trigger type listens to the name 'cel.triggers.sequencefinish'.
  */
-CEL_DECLARE_TRIGGERTYPE(SequenceFinish,"cel.questtrigger.sequencefinish")
+CEL_DECLARE_TRIGGERTYPE_NEW(SequenceFinish,"cel.triggers.sequencefinish")
 
 /**
  * The 'sequencefinish' trigger factory.
  */
 class celSequenceFinishTriggerFactory : public scfImplementation2<
-	celSequenceFinishTriggerFactory, iQuestTriggerFactory,
-	iSequenceFinishQuestTriggerFactory>
+	celSequenceFinishTriggerFactory, iTriggerFactory,
+	iSequenceFinishTriggerFactory>
 {
 private:
   celSequenceFinishTriggerType* type;
@@ -60,11 +65,10 @@ public:
   celSequenceFinishTriggerFactory (celSequenceFinishTriggerType* type);
   virtual ~celSequenceFinishTriggerFactory ();
 
-  virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
-      const celQuestParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iSequenceFinishQuestTriggerFactory ---------------------
+  //----------------- iSequenceFinishTriggerFactory ---------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetSequenceParameter (const char* sequence);
 };
@@ -73,12 +77,12 @@ public:
  * The 'sequencefinish' trigger.
  */
 class celSequenceFinishTrigger : public scfImplementation2<
-	celSequenceFinishTrigger, iQuestTrigger,
-	iQuestSequenceCallback>
+	celSequenceFinishTrigger, iTrigger,
+	iSequenceCallback>
 {
 private:
   celSequenceFinishTriggerType* type;
-  csRef<iQuestTriggerCallback> callback;
+  csRef<iTriggerCallback> callback;
   csString entity;
   csString tag;
   csString sequence;
@@ -90,12 +94,12 @@ private:
 
 public:
   celSequenceFinishTrigger (celSequenceFinishTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par);
   virtual ~celSequenceFinishTrigger ();
 
-  virtual void RegisterCallback (iQuestTriggerCallback* callback);
+  virtual void RegisterCallback (iTriggerCallback* callback);
   virtual void ClearCallback ();
   virtual void ActivateTrigger ();
   virtual bool Check ();
@@ -103,9 +107,9 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
-  //----------------------- iQuestSequenceCallback --------------------------
-  virtual void SequenceFinished (iQuestSequence* sequence);
+  //----------------------- iSequenceCallback --------------------------
+  virtual void SequenceFinished (iSequence* sequence);
 };
 
-#endif // __CEL_TOOLS_QUESTS_TRIG_SEQUENCEFINISH__
+#endif // __CEL_TOOLS_TRIG_SEQUENCEFINISH__
 

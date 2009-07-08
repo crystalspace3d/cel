@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_TRIG_MESHENTERSECTOR__
-#define __CEL_TOOLS_QUESTS_TRIG_MESHENTERSECTOR__
+#ifndef __CEL_TOOLS_TRIG_MESHENTERSECTOR__
+#define __CEL_TOOLS_TRIG_MESHENTERSECTOR__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -27,7 +27,7 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
-#include "tools/questmanager.h"
+#include "tools/triggers.h"
 
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
@@ -40,16 +40,16 @@ struct iEvent;
 /**
  * A standard trigger type that triggers whenever the mesh
  * enters a specific sector.
- * This trigger type listens to the name 'cel.questtrigger.meshentersector'.
+ * This trigger type listens to the name 'cel.triggers.meshentersector'.
  */
-CEL_DECLARE_TRIGGERTYPE(MeshEnterSector,"cel.questtrigger.meshentersector")
+CEL_DECLARE_TRIGGERTYPE_NEW(MeshEnterSector,"cel.triggers.meshentersector")
 
 /**
  * The 'meshentersector' trigger factory.
  */
 class celMeshEnterSectorTriggerFactory : public scfImplementation2<
-	celMeshEnterSectorTriggerFactory, iQuestTriggerFactory,
-	iEnterSectorQuestTriggerFactory>
+	celMeshEnterSectorTriggerFactory, iTriggerFactory,
+	iEnterSectorTriggerFactory>
 {
 private:
   celMeshEnterSectorTriggerType* type;
@@ -61,11 +61,10 @@ public:
   celMeshEnterSectorTriggerFactory (celMeshEnterSectorTriggerType* type);
   virtual ~celMeshEnterSectorTriggerFactory ();
 
-  virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
-      const celQuestParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iEnterSectorQuestTriggerFactory ----------------------
+  //----------------- iEnterSectorTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetSectorParameter (const char* sector);
 };
@@ -74,12 +73,12 @@ public:
  * The 'meshentersector' trigger.
  */
 class celMeshEnterSectorTrigger : public scfImplementation2<
-	celMeshEnterSectorTrigger, iQuestTrigger,
+	celMeshEnterSectorTrigger, iTrigger,
 	iMovableListener>
 {
 private:
   celMeshEnterSectorTriggerType* type;
-  csRef<iQuestTriggerCallback> callback;
+  csRef<iTriggerCallback> callback;
   csWeakRef<iSector> sect;
   csWeakRef<iMeshWrapper> mesh;
   csString entity;
@@ -90,12 +89,12 @@ private:
 
 public:
   celMeshEnterSectorTrigger (celMeshEnterSectorTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sector_par);
   virtual ~celMeshEnterSectorTrigger ();
 
-  virtual void RegisterCallback (iQuestTriggerCallback* callback);
+  virtual void RegisterCallback (iTriggerCallback* callback);
   virtual void ClearCallback ();
   virtual void ActivateTrigger ();
   virtual bool Check ();
@@ -108,5 +107,5 @@ public:
   virtual void MovableDestroyed (iMovable* movable);
 };
 
-#endif // __CEL_TOOLS_QUESTS_TRIG_MESHENTERSECTOR__
+#endif // __CEL_TOOLS_TRIG_MESHENTERSECTOR__
 

@@ -24,6 +24,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
+#include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 
 #include "physicallayer/pl.h"
@@ -32,11 +33,11 @@
 #include "propclass/mesh.h"
 
 #include "celtool/stdparams.h"
-#include "plugins/tools/quests/trig_trigger.h"
+#include "plugins/tools/triggers/trig_trigger.h"
 
 //---------------------------------------------------------------------------
-
-CEL_IMPLEMENT_TRIGGERTYPE(Trigger)
+SCF_IMPLEMENT_FACTORY (celTriggerTriggerType)
+CEL_IMPLEMENT_TRIGGERTYPE_NEW(Trigger)
 
 //---------------------------------------------------------------------------
 
@@ -51,8 +52,8 @@ celTriggerTriggerFactory::~celTriggerTriggerFactory ()
 {
 }
 
-csPtr<iQuestTrigger> celTriggerTriggerFactory::CreateTrigger (
-    iQuest*, const celQuestParams& params)
+csPtr<iTrigger> celTriggerTriggerFactory::CreateTrigger (
+    const celParams& params)
 {
   celTriggerTrigger* trig = new celTriggerTrigger (type, params,
   	entity_par, tag_par, do_leave);
@@ -67,7 +68,7 @@ bool celTriggerTriggerFactory::Load (iDocumentNode* node)
   if (!entity_par)
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questtrigger.trigger",
+      "cel.triggers.trigger",
       "'entity' attribute is missing for the trigger trigger!");
     return false;
   }
@@ -89,14 +90,20 @@ void celTriggerTriggerFactory::SetEntityParameter (
 
 celTriggerTrigger::celTriggerTrigger (
 	celTriggerTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	bool do_leave) : scfImplementationType (this)
 {
   celTriggerTrigger::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  tag = qm->ResolveParameter (params, tag_par);
+  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (type->object_reg);
+
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+    (plugin_mgr, "cel.parameters.manager");
+
+  entity = pm->ResolveParameter (params, entity_par);
+  tag = pm->ResolveParameter (params, tag_par);
   celTriggerTrigger::do_leave = do_leave;
   params_entity.AttachNew (new celOneParameterBlock ());
   params_entity->SetParameterDef (type->pl->FetchStringID ("cel.parameter.entity"), "entity");
@@ -107,7 +114,7 @@ celTriggerTrigger::~celTriggerTrigger ()
   DeactivateTrigger ();
 }
 
-void celTriggerTrigger::RegisterCallback (iQuestTriggerCallback* callback)
+void celTriggerTrigger::RegisterCallback (iTriggerCallback* callback)
 {
   celTriggerTrigger::callback = callback;
 }
@@ -121,7 +128,7 @@ void celTriggerTrigger::FireTrigger (const char* name)
 {
   DeactivateTrigger ();
   params_entity->GetParameter (0).Set (name);
-  callback->TriggerFired ((iQuestTrigger*)this, params_entity);
+  callback->TriggerFired ((iTrigger*)this, params_entity);
 }
 
 void celTriggerTrigger::EntityEnters (iPcTrigger* trigger, iCelEntity* entity)

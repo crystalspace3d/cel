@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_TRIG_MESSAGE__
-#define __CEL_TOOLS_QUESTS_TRIG_MESSAGE__
+#ifndef __CEL_TOOLS_TRIG_MESSAGE__
+#define __CEL_TOOLS_TRIG_MESSAGE__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -27,7 +27,7 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
-#include "tools/questmanager.h"
+#include "tools/triggers.h"
 
 #include "iengine/engine.h"
 #include "propclass/trigger.h"
@@ -41,14 +41,14 @@ struct iEvent;
  * receives a message.
  * This trigger type listens to the name 'cel.questtrigger.message'.
  */
-CEL_DECLARE_TRIGGERTYPE(Message,"cel.questtrigger.message")
+CEL_DECLARE_TRIGGERTYPE_NEW(Message,"cel.triggers.message")
 
 /**
  * The 'message' trigger factory.
  */
 class celMessageTriggerFactory : public scfImplementation2<
-	celMessageTriggerFactory, iQuestTriggerFactory,
-	iMessageQuestTriggerFactory>
+	celMessageTriggerFactory, iTriggerFactory,
+	iMessageTriggerFactory>
 {
 private:
   celMessageTriggerType* type;
@@ -59,11 +59,10 @@ public:
   celMessageTriggerFactory (celMessageTriggerType* type);
   virtual ~celMessageTriggerFactory ();
 
-  virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
-      const celQuestParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iMessageQuestTriggerFactory ----------------------
+  //----------------- iMessageTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity);
   virtual void SetMaskParameter (const char* mask);
 };
@@ -72,11 +71,11 @@ public:
  * The 'message' trigger.
  */
 class celMessageTrigger : public scfImplementation2<
-	celMessageTrigger, iQuestTrigger, iMessageReceiver>
+	celMessageTrigger, iTrigger, iMessageReceiver>
 {
 private:
   celMessageTriggerType* type;
-  csRef<iQuestTriggerCallback> callback;
+  csRef<iTriggerCallback> callback;
   csString entity;
   csString mask;
   csWeakRef<iCelEntity> ent;
@@ -85,11 +84,11 @@ private:
 
 public:
   celMessageTrigger (celMessageTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* mask_par);
   virtual ~celMessageTrigger ();
 
-  virtual void RegisterCallback (iQuestTriggerCallback* callback);
+  virtual void RegisterCallback (iTriggerCallback* callback);
   virtual void ClearCallback ();
   virtual void ActivateTrigger ();
   virtual bool Check ();
@@ -102,5 +101,5 @@ public:
       celData& ret, iCelParameterBlock* params);
 };
 
-#endif // __CEL_TOOLS_QUESTS_TRIG_MESSAGE__
+#endif // __CEL_TOOLS_TRIG_MESSAGE__
 

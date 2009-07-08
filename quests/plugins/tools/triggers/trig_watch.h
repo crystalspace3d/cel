@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_TRIG_WATCH__
-#define __CEL_TOOLS_QUESTS_TRIG_WATCH__
+#ifndef __CEL_TOOLS_TRIG_WATCH__
+#define __CEL_TOOLS_TRIG_WATCH__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -27,7 +27,7 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
-#include "tools/questmanager.h"
+#include "tools/triggers.h"
 #include "propclass/mesh.h"
 
 #include "iengine/engine.h"
@@ -41,14 +41,14 @@ struct iEvent;
  * entity becomes visible.
  * This trigger type listens to the name 'cel.questtrigger.watch'.
  */
-CEL_DECLARE_TRIGGERTYPE(Watch,"cel.questtrigger.watch")
+CEL_DECLARE_TRIGGERTYPE_NEW(Watch,"cel.triggers.watch")
 
 /**
  * The 'watch' trigger factory.
  */
 class celWatchTriggerFactory : public scfImplementation2<
-	celWatchTriggerFactory, iQuestTriggerFactory,
-	iWatchQuestTriggerFactory>
+	celWatchTriggerFactory, iTriggerFactory,
+	iWatchTriggerFactory>
 {
 private:
   celWatchTriggerType* type;
@@ -66,11 +66,10 @@ public:
   celWatchTriggerFactory (celWatchTriggerType* type);
   virtual ~celWatchTriggerFactory ();
 
-  virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
-      const celQuestParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iWatchQuestTriggerFactory ----------------------
+  //----------------- iWatchTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetTargetEntityParameter (const char* entity,
       const char* tag = 0);
@@ -84,11 +83,11 @@ public:
  * The 'trigger' trigger.
  */
 class celWatchTrigger : public scfImplementation2<
-	celWatchTrigger, iQuestTrigger, iCelTimerListener>
+	celWatchTrigger, iTrigger, iCelTimerListener>
 {
 private:
   celWatchTriggerType* type;
-  csRef<iQuestTriggerCallback> callback;
+  csRef<iTriggerCallback> callback;
   csString entity;
   csString tag;
   csString target_entity;
@@ -105,7 +104,7 @@ private:
 
 public:
   celWatchTrigger (celWatchTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
 	const char* time_par, const char* radius_par,
@@ -116,7 +115,7 @@ public:
   virtual void TickEveryFrame () { }
   virtual void TickOnce ();
 
-  virtual void RegisterCallback (iQuestTriggerCallback* callback);
+  virtual void RegisterCallback (iTriggerCallback* callback);
   virtual void ClearCallback ();
   virtual void ActivateTrigger ();
   virtual bool Check ();
@@ -125,5 +124,5 @@ public:
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 };
 
-#endif // __CEL_TOOLS_QUESTS_TRIG_WATCH__
+#endif // __CEL_TOOLS_TRIG_WATCH__
 

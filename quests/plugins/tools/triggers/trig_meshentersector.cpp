@@ -24,6 +24,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
+#include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 
 #include "physicallayer/pl.h"
@@ -31,11 +32,11 @@
 #include "physicallayer/propclas.h"
 #include "propclass/mesh.h"
 
-#include "plugins/tools/quests/trig_meshentersector.h"
+#include "plugins/tools/triggers/trig_meshentersector.h"
 
 //---------------------------------------------------------------------------
-
-CEL_IMPLEMENT_TRIGGERTYPE(MeshEnterSector)
+SCF_IMPLEMENT_FACTORY (celMeshEnterSectorTriggerType)
+CEL_IMPLEMENT_TRIGGERTYPE_NEW(MeshEnterSector)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -45,7 +46,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
-    	"cel.quests.trigger.meshentersector", msg, arg);
+    	"cel.triggers.meshentersector", msg, arg);
   else
   {
     csPrintfV (msg, arg);
@@ -69,8 +70,8 @@ celMeshEnterSectorTriggerFactory::~celMeshEnterSectorTriggerFactory ()
 {
 }
 
-csPtr<iQuestTrigger> celMeshEnterSectorTriggerFactory::CreateTrigger (
-    iQuest*, const celQuestParams& params)
+csPtr<iTrigger> celMeshEnterSectorTriggerFactory::CreateTrigger (
+    const celParams& params)
 {
   celMeshEnterSectorTrigger* trig = new celMeshEnterSectorTrigger (type,
   	params, entity_par, tag_par, sector_par);
@@ -109,15 +110,21 @@ void celMeshEnterSectorTriggerFactory::SetSectorParameter (
 
 celMeshEnterSectorTrigger::celMeshEnterSectorTrigger (
 	celMeshEnterSectorTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sector_par) : scfImplementationType (this)
 {
   celMeshEnterSectorTrigger::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  entity = qm->ResolveParameter (params, entity_par);
-  tag = qm->ResolveParameter (params, tag_par);
-  sector = qm->ResolveParameter (params, sector_par);
+  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (type->object_reg);
+
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+    (plugin_mgr, "cel.parameters.manager");
+
+  entity = pm->ResolveParameter (params, entity_par);
+  tag = pm->ResolveParameter (params, tag_par);
+  sector = pm->ResolveParameter (params, sector_par);
 }
 
 celMeshEnterSectorTrigger::~celMeshEnterSectorTrigger ()
@@ -126,7 +133,7 @@ celMeshEnterSectorTrigger::~celMeshEnterSectorTrigger ()
 }
 
 void celMeshEnterSectorTrigger::RegisterCallback (
-	iQuestTriggerCallback* callback)
+	iTriggerCallback* callback)
 {
   celMeshEnterSectorTrigger::callback = callback;
 }
@@ -143,7 +150,7 @@ void celMeshEnterSectorTrigger::MovableChanged (iMovable* movable)
   if (celMeshEnterSectorTrigger::sect == sl->Get (0))
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    callback->TriggerFired ((iTrigger*)this, 0);
   }
 }
 
@@ -210,7 +217,7 @@ bool celMeshEnterSectorTrigger::Check ()
   if (sect == sl->Get (0))
   {
     DeactivateTrigger ();
-    callback->TriggerFired ((iQuestTrigger*)this, 0);
+    callback->TriggerFired ((iTrigger*)this, 0);
     return true;
   }
   return false;

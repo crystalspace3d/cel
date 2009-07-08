@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_TRIG_TRIGGER__
-#define __CEL_TOOLS_QUESTS_TRIG_TRIGGER__
+#ifndef __CEL_TOOLS_TRIG_TRIGGER__
+#define __CEL_TOOLS_TRIG_TRIGGER__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -27,7 +27,7 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
-#include "tools/questmanager.h"
+#include "tools/triggers.h"
 
 #include "iengine/engine.h"
 #include "propclass/trigger.h"
@@ -36,18 +36,17 @@ struct iObjectRegistry;
 struct iEvent;
 
 /**
- * A standard trigger type that triggers whenever the mesh
- * enters a specific sector.
- * This trigger type listens to the name 'cel.questtrigger.trigger'.
+ * A standard trigger type that triggers when a pcTrigger fires
+ * This trigger type listens to the name 'cel.triggers.trigger'.
  */
-CEL_DECLARE_TRIGGERTYPE(Trigger,"cel.questtrigger.trigger")
+CEL_DECLARE_TRIGGERTYPE_NEW(Trigger,"cel.triggers.trigger")
 
 /**
  * The 'trigger' trigger factory.
  */
 class celTriggerTriggerFactory : public scfImplementation2<
-	celTriggerTriggerFactory, iQuestTriggerFactory,
-	iTriggerQuestTriggerFactory>
+	celTriggerTriggerFactory, iTriggerFactory,
+	iTriggerTriggerFactory>
 {
 private:
   celTriggerTriggerType* type;
@@ -59,11 +58,10 @@ public:
   celTriggerTriggerFactory (celTriggerTriggerType* type);
   virtual ~celTriggerTriggerFactory ();
 
-  virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
-      const celQuestParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iTriggerQuestTriggerFactory ----------------------
+  //----------------- iTriggerTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void EnableLeave () { do_leave = true; }
 };
@@ -72,11 +70,11 @@ public:
  * The 'trigger' trigger.
  */
 class celTriggerTrigger : public scfImplementation2<
-	celTriggerTrigger, iQuestTrigger, iPcTriggerListener>
+	celTriggerTrigger, iTrigger, iPcTriggerListener>
 {
 private:
   celTriggerTriggerType* type;
-  csRef<iQuestTriggerCallback> callback;
+  csRef<iTriggerCallback> callback;
   csString entity;
   csString tag;
   csWeakRef<iPcTrigger> pctrigger;
@@ -88,12 +86,12 @@ private:
 
 public:
   celTriggerTrigger (celTriggerTriggerType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	bool do_leave);
   virtual ~celTriggerTrigger ();
 
-  virtual void RegisterCallback (iQuestTriggerCallback* callback);
+  virtual void RegisterCallback (iTriggerCallback* callback);
   virtual void ClearCallback ();
   virtual void ActivateTrigger ();
   virtual bool Check ();
@@ -108,5 +106,5 @@ public:
   virtual void LeaveTrigger (iPcTrigger* trigger, iCelEntity* entity);
 };
 
-#endif // __CEL_TOOLS_QUESTS_TRIG_TRIGGER__
+#endif // __CEL_TOOLS_TRIG_TRIGGER__
 
