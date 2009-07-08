@@ -1724,7 +1724,7 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     csRef<iPluginManager> plugin_mgr = 
       csQueryRegistry<iPluginManager> (object_reg);
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
-      "cel.rewardssequencefinish");        
+      "cel.rewards.sequencefinish");        
     if (type.IsValid())
     {
       RegisterRewardType_NEW (type);
