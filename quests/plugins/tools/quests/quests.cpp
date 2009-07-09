@@ -1813,12 +1813,35 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     RegisterSeqOpType (type);
     type->DecRef ();
   }
+  {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
+      "cel.seqops.debugprint");        
+    if (type.IsValid())
+    {
+      RegisterSeqOpType_NEW (type);
+      type->DecRef ();
+    }
+  }
+
 
   {
     celTransformSeqOpType* type = new celTransformSeqOpType (
     	object_reg);
     RegisterSeqOpType (type);
     type->DecRef ();
+  }
+ {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
+      "cel.seqops.transform");        
+    if (type.IsValid())
+    {
+      RegisterSeqOpType_NEW (type);
+      type->DecRef ();
+    }
   }
 
   {
@@ -1827,6 +1850,17 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     RegisterSeqOpType (type);
     type->DecRef ();
   }
+ {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
+      "cel.seqops.movepath");        
+    if (type.IsValid())
+    {
+      RegisterSeqOpType_NEW (type);
+      type->DecRef ();
+    }
+  }
 
   {
     celLightSeqOpType* type = new celLightSeqOpType (
@@ -1834,12 +1868,34 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     RegisterSeqOpType (type);
     type->DecRef ();
   }
+ {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
+      "cel.seqops.light");        
+    if (type.IsValid())
+    {
+      RegisterSeqOpType_NEW (type);
+      type->DecRef ();
+    }
+  }
 
   {
     celPropertySeqOpType* type = new celPropertySeqOpType (
     	object_reg);
     RegisterSeqOpType (type);
     type->DecRef ();
+  }
+ {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
+      "cel.seqops.property");        
+    if (type.IsValid())
+    {
+      RegisterSeqOpType_NEW (type);
+      type->DecRef ();
+    }
   }
 
   return true;
@@ -1940,9 +1996,23 @@ bool celQuestManager::RegisterSeqOpType (iQuestSeqOpType* seqop)
   return true;
 }
 
+bool celQuestManager::RegisterSeqOpType_NEW (iSeqOpType* seqop)
+{
+  const char* name = seqop->GetName ();
+  if (seqop_types_NEW.Get (name, 0) != 0)
+    return false;
+  seqop_types_NEW.Put (name, seqop);
+  return true;
+}
+
 iQuestSeqOpType* celQuestManager::GetSeqOpType (const char* name)
 {
   return seqop_types.Get (name, 0);
+}
+
+iSeqOpType* celQuestManager::GetSeqOpType_NEW (const char* name)
+{
+  return seqop_types_NEW.Get (name, 0);
 }
 
 iCelExpressionParser* celQuestManager::GetParser ()

@@ -134,7 +134,7 @@ void celSequenceFinishTrigger::ClearCallback ()
   callback = 0;
 }
 
-void celSequenceFinishTrigger::SequenceFinished (iSequence* seq)
+void celSequenceFinishTrigger::SequenceFinished (iCelSequence* seq)
 {
   finished = true;
   DeactivateTrigger ();

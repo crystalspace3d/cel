@@ -35,9 +35,9 @@ struct iEvent;
 /**
  * A standard seqop type that just prints a message on standard
  * output. This can be useful for debugging purposes.
- * This seqop type listens to the name 'cel.questseqop.debugprint'.
+ * This seqop type listens to the name 'cel.seqops.debugprint'.
  */
-CEL_DECLARE_SEQOPTYPE_NEW(DebugPrint,"cel.seqop.debugprint")
+CEL_DECLARE_SEQOPTYPE_NEW(DebugPrint,"cel.seqops.debugprint")
 
 /**
  * The 'debugprint' seqop factory.
@@ -70,7 +70,6 @@ class celDebugPrintSeqOp : public scfImplementation1<
 {
 private:
   celDebugPrintSeqOpType* type;
-  csRef<iParameterManager> pm;
   csString msg;
 
 public:

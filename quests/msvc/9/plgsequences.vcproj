@@ -187,6 +187,22 @@
 				RelativePath="..\..\plugins\tools\sequences\seqop_debugprint.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_light.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_movepath.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_property.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_transform.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -195,6 +211,22 @@
 			>
 			<File
 				RelativePath="..\..\plugins\tools\sequences\seqop_debugprint.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_light.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_movepath.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_property.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_transform.h"
 				>
 			</File>
 		</Filter>

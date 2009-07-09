@@ -32,6 +32,7 @@
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
 #include "tools/rewards.h"
+#include "tools/sequences.h"
 #include "tools/expression.h"
 
 #include "celtool/stdparams.h"
@@ -527,6 +528,7 @@ private:
   csHash<csRef<iQuestRewardType>,csStringBase> reward_types;
   csHash<csRef<iRewardType>,csStringBase> reward_types_NEW;
   csHash<csRef<iQuestSeqOpType>,csStringBase> seqop_types;
+  csHash<csRef<iSeqOpType>,csStringBase> seqop_types_NEW;
   csHash<csRef<celQuestFactory>,csStringBase> quest_factories;
 
   iCelExpressionParser* GetParser ();
@@ -545,7 +547,9 @@ public:
   virtual iQuestRewardType* GetRewardType (const char* name);
   virtual iRewardType* GetRewardType_NEW (const char* name);
   virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop);
+  virtual bool RegisterSeqOpType_NEW (iSeqOpType* seqop);
   virtual iQuestSeqOpType* GetSeqOpType (const char* name);
+  virtual iSeqOpType* GetSeqOpType_NEW (const char* name);
 
   virtual iQuestFactory* GetQuestFactory (const char* name);
   virtual iQuestFactory* CreateQuestFactory (const char* name);

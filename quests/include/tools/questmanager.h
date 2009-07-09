@@ -27,6 +27,7 @@
 #include "csgeom/vector3.h"
 #include "csutil/refarr.h"
 #include "tools/rewards.h"
+#include "tools/sequences.h"
 #include "tools/triggers.h"
 #include "physicallayer/pl.h"
 
@@ -797,12 +798,14 @@ struct iQuestManager : public virtual iBase
    *   See iPropertyQuestSeqOpFactory.
    */
   virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop) = 0;
+  virtual bool RegisterSeqOpType_NEW (iSeqOpType* seqop) = 0;
 
   /**
    * Get a seqop type from the quest manager.
    * Returns 0 if no such seqop type exists.
    */
   virtual iQuestSeqOpType* GetSeqOpType (const char* name) = 0;
+  virtual iSeqOpType* GetSeqOpType_NEW (const char* name) = 0;
 
   /**
    * Get a quest factory by name.
