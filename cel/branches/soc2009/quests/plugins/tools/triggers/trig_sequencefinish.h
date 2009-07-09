@@ -108,7 +108,7 @@ public:
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   //----------------------- iSequenceCallback --------------------------
-  virtual void SequenceFinished (iSequence* sequence);
+  virtual void SequenceFinished (iCelSequence* sequence);
 };
 
 #endif // __CEL_TOOLS_TRIG_SEQUENCEFINISH__

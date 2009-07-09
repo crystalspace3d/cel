@@ -91,9 +91,9 @@ celDebugPrintSeqOp::celDebugPrintSeqOp (
   
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
-  
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+    (plugin_mgr, "cel.parameters.manager");
+
   msg = pm->ResolveParameter (params, msg_par);
 }
 

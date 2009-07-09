@@ -106,7 +106,7 @@ struct iSeqOpType : public virtual iBase
   virtual csPtr<iSeqOpFactory> CreateSeqOpFactory () = 0;
 };
 
-struct iSequence;
+struct iCelSequence;
 
 /**
  * This callback is fired when the sequences finished running properly.
@@ -117,15 +117,15 @@ struct iSequenceCallback : public virtual iBase
   SCF_INTERFACE (iSequenceCallback, 0, 0, 1);
 
   /// Sequence finishes.
-  virtual void SequenceFinished (iSequence* sequence) = 0;
+  virtual void SequenceFinished (iCelSequence* sequence) = 0;
 };
 
 /**
  * A sequence.
  */
-struct iSequence : public virtual iBase
+struct iCelSequence : public virtual iBase
 {
-  SCF_INTERFACE (iSequence, 0, 0, 1);
+  SCF_INTERFACE (iCelSequence, 0, 0, 1);
 
   /**
    * Get the name of this sequence.
@@ -180,7 +180,7 @@ struct iSequence : public virtual iBase
  * this factory as opposed to loading its definition from an XML
  * document.
  *
- * The predefined name of this seqop type is 'cel.seqop.debugprint'.
+ * The predefined name of this seqop type is 'cel.seqops.debugprint'.
  *
  * In XML, factories recognize the following attributes on the 'op' node:
  * - <em>message</em>: the message to print.
@@ -195,6 +195,244 @@ struct iDebugPrintSeqOpFactory : public virtual iBase
    */
   virtual void SetMessageParameter (const char* msg) = 0;
 };
+
+
+/**
+ * This interface is implemented by the seqop that animates light colors.
+ * You can query this interface from the seqop factory if
+ * you want to manually control this factory as opposed to loading
+ * its definition from an XML document.
+ *
+ * The predefined name of this seqop type is 'cel.seqops.light'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>entity</em>: the name of the entity containing the pclight
+ *   property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>relcolor</em>: relative color animation vector.
+ *   This node has 'red', 'green, and 'blue' attributes. Each of these
+ *   attributes can be a parameter.
+ * - <em>abscolor</em>: absolute color.
+ *   This node has 'red', 'green, and 'blue' attributes. Each of these
+ *   attributes can be a parameter.
+ */
+struct iLightSeqOpFactory : public virtual iBase
+{
+  SCF_INTERFACE (iLightSeqOpFactory, 0, 0, 1);
+
+  /**
+   * Set the entity containing the pclight (either entity name
+   * or a parameter if it starts with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Set the relative color animation vector.
+   */
+  virtual void SetRelColorParameter (const char* red, const char* green,
+  	const char* blue) = 0;
+
+  /**
+   * Set the absolute color.
+   */
+  virtual void SetAbsColorParameter (const char* red, const char* green,
+  	const char* blue) = 0;
+};
+
+/**
+ * This interface is implemented by the seqop that moves meshes along
+ * a path. You can query this interface from the seqop factory if
+ * you want to manually control this factory as opposed to loading
+ * its definition from an XML document.
+ *
+ * The predefined name of this seqop type is 'cel.seqops.movepath'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>entity</em>: the name of the entity containing the pcmesh
+ *   property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - several <em>pathnode</em> tags: one for every node with the following
+ *   attributes: sector, node, and time. All of those can be a parameter.
+ *   The 'node' refers to a node object in the given sector from which
+ *   the position, up ('yvector'), and forward ('zvector') will be used.
+ *   'time' should be an increasing time value.
+ */
+struct iMovePathSeqOpFactory : public virtual iBase
+{
+  SCF_INTERFACE (iMovePathSeqOpFactory, 0, 0, 1);
+
+  /**
+   * Set the entity containing the pcmesh (either entity name
+   * or a parameter if it starts with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Add a node.
+   * \param sectorname is the name of the sector in which the node can
+   * be found. Warning! In the current implementation the sector should
+   * be the same for all nodes.
+   * \param node is the name of the node (position, yvector, and zvector
+   * are used).
+   * \param time is an increasing time value.
+   */
+  virtual void AddPathNode (const char* sectorname, const char* node,
+  	const char* time) = 0;
+};
+
+/**
+ * This interface is implemented by the seqop that transforms property
+ * class properties. Assuming it is read and write, and of the appropriate type
+ * any property can be controlled using this sequence.
+ *
+ * You can query this interface from the seqop factory if
+ * you want to manually control this factory as opposed to loading
+ * its definition from an XML document.
+ *
+ * The predefined name of this seqop type is 'cel.seqops.property'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>entity</em>: the name of the entity containing the affected property
+ *   class.
+ * - <em>pc</em>: name for the property class holding the property.
+ * - <em>tag</em>: optional tag used to find the right property class 
+ *   from the entity.
+ * - <em>relative</em>: whether the sequence is relative (default false).
+ * - <em>float</em>: optional end value as a float.
+ * - <em>long</em>: optional end value as an integer.
+ * And the following sub nodes:
+ * - <em>v</em>: optional end value as a vector.
+ *   This node has 'x', 'y, and (optionally for vector3) 'z' attributes. 
+ *
+ * Note you must only provide one of 'v', 'float' and 'long' parameters to the
+ * sequence, otherwise the result will be undefined. Also, the parameter
+ * must fit the actual property type.
+ */
+struct iPropertySeqOpFactory : public virtual iBase
+{
+  SCF_INTERFACE (iPropertySeqOpFactory, 0, 0, 1);
+
+  /**
+   * Set the entity containing the property (either entity name
+   * or a parameter if it starts with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the property class and tag to search for.
+   * \param pc is the property class name or a parameter (starts with a '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetPCParameter (const char* pc, const char* tag = 0) = 0;
+
+  /**
+   * Set the property name for this sequence.
+   * \param property_name is the property name (like cel.property.gravity).
+   * It can also be a parameter if it starts with '$'.
+   */
+  virtual void SetPropertyParameter (const char* property_name) = 0;
+
+  /**
+   * Set the end value for the property as a float.
+   * \param pfloat is the value to be set.
+   * It can also be a parameter if it starts with '$'.
+   */
+  virtual void SetFloatParameter (const char* pfloat) = 0;
+
+  /**
+   * Set the end value for the property as a long.
+   * \param plong is the value to be set.
+   * It can also be a parameter if it starts with '$'.
+   */
+  virtual void SetLongParameter (const char* plong) = 0;
+
+  /**
+   * Set the end value for the property as a vector2.
+   * \param pvectorx is the x component for the vector.
+   * \param pvectory is the y component for the vector.
+   * Both pvectorx and pvectory can be parameters if they start with '$'.
+   */
+  virtual void SetVector2Parameter (const char* vectorx, 
+	const char* vectory) = 0;
+
+  /**
+   * Set the end value for the property as a vector3.
+   * \param pvectorx is the x component for the vector.
+   * \param pvectory is the y component for the vector.
+   * \param pvectorz is the z component for the vector.
+   * Both pvectorx, pvectory and pvectorz can be a parameters if they 
+   * start with '$'.
+   */
+  virtual void SetVector3Parameter (const char* vectorx, const char* vectory,
+        const char* vectorz) = 0;
+
+   /**
+   * Set whether the sequence will be relative:
+   *  (end value = specified value + starting value)
+   * or absolute.
+   *  (end value = specified value)
+   * \param is_relative whether the sequence is relative. can't be a parameter.
+   */
+  virtual void SetRelative (bool is_relative) = 0;
+};
+
+
+/**
+ * This interface is implemented by the seqop that transforms meshes.
+ * You can query this interface from the seqop factory if
+ * you want to manually control this factory as opposed to loading
+ * its definition from an XML document.
+ *
+ * The predefined name of this seqop type is 'cel.seqops.transform'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>entity</em>: the name of the entity containing the pcmesh
+ *   property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>v</em>: optional movement vector.
+ *   This node has 'x', 'y, and 'z' attributes. Each of these attributes
+ *   can be a parameter.
+ * - <em>rotx</em>: optional rotation along x axis. This node has
+ *   an 'angle' parameter in radians. Angle can be a parameter.
+ * - <em>roty</em>: optional rotation along y axis. This node has
+ *   an 'angle' parameter in radians. Angle can be a parameter.
+ * - <em>rotz</em>: optional rotation along z axis. This node has
+ *   an 'angle' parameter in radians. Angle can be a parameter.
+ */
+struct iTransformSeqOpFactory : public virtual iBase
+{
+  SCF_INTERFACE (iTransformSeqOpFactory, 0, 0, 1);
+
+  /**
+   * Set the entity containing the pcmesh (either entity name
+   * or a parameter if it starts with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Set the relative movement vector parameter.
+   */
+  virtual void SetVectorParameter (const char* vectorx, const char* vectory,
+  	const char* vectorz) = 0;
+
+  /**
+   * Set the relative rotation parameter.
+   * \param rot_axis is 0, 1, or 2 for x, y, or z axis.
+   * \param rot_angle the amount of rotation.
+   */
+  virtual void SetRotationParameter (int rot_axis, const char* rot_angle) = 0;
+};
+//-------------------------------------------------------------------------
 
 /**
  * Convenience to declare a new sequence operation type class.

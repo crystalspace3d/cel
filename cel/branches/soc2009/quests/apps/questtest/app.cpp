@@ -265,7 +265,14 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
   iQuestTriggerResponseFactory* start_response2 =
     state_start->CreateTriggerResponseFactory ();
   qm->SetPropertyChangeTrigger (start_response2, "$ent", "counter", "123");
-  qm->AddDebugPrintReward_NEW (start_response2, "Property Changed: Counter = 123\n");
+  qm->AddDebugPrintReward_NEW (start_response2, "Sequence Should Have Started\n");
+
+  //Sequence Test
+  //csRef<iQuestSequenceFactory>dbg_seq = fact->CreateSequence("sequence_debug");
+  //dbg_seq->AddSeqOpFactory(dbg_seqopfact, 100);
+  //qm->AddSequenceReward(start_response2, "$ent", "sequence_debug", "10");
+
+
 
    //-----------------------------------------------------------
 
