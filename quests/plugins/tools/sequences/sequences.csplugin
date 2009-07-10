@@ -4,6 +4,12 @@
   <scf>
     <classes>
       <class>
+        <name>cel.sequence.factory</name>
+        <implementation>celSequenceFactory</implementation>
+        <description>CEL Sequence Factory</description>
+      </class>
+
+      <class>
         <name>cel.seqops.debugprint</name>
         <implementation>celDebugPrintSeqOpType</implementation>
         <description>CEL Sequence: Sequence that prints a debug message</description>

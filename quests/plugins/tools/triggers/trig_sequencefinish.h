@@ -78,7 +78,7 @@ public:
  */
 class celSequenceFinishTrigger : public scfImplementation2<
 	celSequenceFinishTrigger, iTrigger,
-	iSequenceCallback>
+	iCelSequenceCallback>
 {
 private:
   celSequenceFinishTriggerType* type;
@@ -86,7 +86,7 @@ private:
   csString entity;
   csString tag;
   csString sequence;
-  csWeakRef<iQuestSequence> seq;
+  csWeakRef<iCelSequence> seq;
 
   void FindSequence ();
 

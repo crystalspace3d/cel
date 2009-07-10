@@ -320,6 +320,8 @@ public:
 typedef csHash<csRef<celQuestStateFactory>,csStringBase> celQuestFactoryStates;
 typedef csHash<csRef<celQuestSequenceFactory>,csStringBase>
 	celQuestFactorySequences;
+typedef csHash<csRef<iCelSequenceFactory>,csStringBase>
+	celFactorySequences;
 
 /**
  * A quest factory.
@@ -332,6 +334,7 @@ private:
   csString name;
   celQuestFactoryStates states;
   celQuestFactorySequences sequences;
+  celFactorySequences sequences_NEW;
   celQuestParams defaults;
 
   csRef<iQuestRewardFactory> LoadReward (iDocumentNode* child);
@@ -350,7 +353,7 @@ public:
   celQuestFactory (celQuestManager* questmgr, const char* name);
   virtual ~celQuestFactory () { }
 
-  celQuestManager* GetQuestManager () const { return questmgr; }
+  virtual celQuestManager* GetQuestManager () const { return questmgr; }
 
   virtual const char* GetName () const { return name; }
   virtual csPtr<iQuest> CreateQuest (
@@ -361,6 +364,8 @@ public:
   virtual iQuestStateFactory* CreateState (const char* name);
   virtual iQuestSequenceFactory* GetSequence (const char* name);
   virtual iQuestSequenceFactory* CreateSequence (const char* name);
+  virtual iCelSequenceFactory* GetSequence_NEW (const char* name);
+  virtual iCelSequenceFactory* CreateSequence_NEW (const char* name);
   virtual const char* GetDefaultParameter (const char* name) const;
   virtual void SetDefaultParameter (const char* name,const char* value);
   virtual void ClearDefaultParameters ();
@@ -467,7 +472,9 @@ private:
   bool SwitchState (const char* state, iCelDataBuffer* databuf);
 
   csRefArray<celQuestSequence> sequences;
+  csRefArray<iCelSequence> sequences_NEW;
   celQuestSequence* FindCelSequence (const char* name);
+  iCelSequence* FindCelSequence_NEW (const char* name);
 
 public:
   celQuest (iCelPlLayer* pl);
@@ -482,6 +489,11 @@ public:
   virtual iQuestSequence* FindSequence (const char* name)
   {
     return FindCelSequence (name);
+  }
+
+  virtual iCelSequence* FindSequence_NEW (const char* name)
+  {
+    return FindCelSequence_NEW (name);
   }
 
   /// Add a state, returns the state index.
@@ -508,6 +520,7 @@ public:
    * Add a sequence. This will increase the ref count.
    */
   void AddSequence (celQuestSequence* sequence);
+  void AddSequence_NEW (iCelSequence* sequence);
 };
 
 /**

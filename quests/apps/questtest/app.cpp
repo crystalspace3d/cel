@@ -254,7 +254,7 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
   iQuestTriggerResponseFactory* start_response1 =
 	  state_start->CreateTriggerResponseFactory ();
 
-  qm->SetTimeoutTrigger_NEW (start_response1, "3000");
+  qm->SetTimeoutTrigger (start_response1, "3000");
   qm->AddDebugPrintReward_NEW (start_response1, "State Changed!\n");
   rf_changeprop = qm->AddChangePropertyReward (start_response1,
 	        "$ent", "counter");
@@ -265,14 +265,35 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
   iQuestTriggerResponseFactory* start_response2 =
     state_start->CreateTriggerResponseFactory ();
   qm->SetPropertyChangeTrigger (start_response2, "$ent", "counter", "123");
-  qm->AddDebugPrintReward_NEW (start_response2, "Sequence Should Have Started\n");
+  qm->AddDebugPrintReward_NEW (start_response2, "Property Counter Changed... Sequences Should Have Started\n");
 
   //Sequence Test
-  //csRef<iQuestSequenceFactory>dbg_seq = fact->CreateSequence("sequence_debug");
-  //dbg_seq->AddSeqOpFactory(dbg_seqopfact, 100);
-  //qm->AddSequenceReward(start_response2, "$ent", "sequence_debug", "10");
+  csRef<iQuestSequenceFactory>dbg_seq = fact->CreateSequence("sequence_debug");
+  csRef<iQuestSeqOpFactory> seqopfact = qm->GetSeqOpType("cel.questseqop.debugprint")->CreateSeqOpFactory();
+  csRef<iDebugPrintQuestSeqOpFactory> dbg_seqopfact = 
+	  scfQueryInterface<iDebugPrintQuestSeqOpFactory> (seqopfact);
+  dbg_seqopfact->SetMessageParameter("SEQUENCE RUNNING");
+  dbg_seq->AddSeqOpFactory(seqopfact, "10");
+  qm->AddSequenceReward(start_response2, "$ent", "sequence_debug", "10");
 
+  iQuestTriggerResponseFactory* start_response3 =
+    state_start->CreateTriggerResponseFactory ();
+  qm->SetSequenceFinishTrigger(start_response3, "$ent", "sequence_debug");
+  qm->AddDebugPrintReward_NEW(start_response3, "SEQUENCE FINISHED, WILL REFACTOR SEQUENCE BEGIN?\n");
 
+  //Refactored Sequence Test
+  //csRef<iCelSequenceFactory>dbg_seq_NEW = fact->CreateSequence_NEW("sequence_debug_NEW");
+  //csRef<iSeqOpFactory> seqopfact_NEW = qm->GetSeqOpType_NEW("cel.seqops.debugprint")->CreateSeqOpFactory();
+  //csRef<iDebugPrintSeqOpFactory> dbg_seqopfact_NEW = 
+	 // scfQueryInterface<iDebugPrintSeqOpFactory> (seqopfact_NEW);
+  //dbg_seqopfact_NEW->SetMessageParameter("REFACTORED SEQUENCE RUNNING");
+  //dbg_seq_NEW->AddSeqOpFactory(seqopfact_NEW, "10");
+  //qm->AddSequenceReward_NEW(start_response3, name, "sequence_debug", "10");
+
+  //iQuestTriggerResponseFactory* start_response4 =
+  //  state_start->CreateTriggerResponseFactory ();
+  //qm->SetSequenceFinishTrigger_NEW(start_response4, name, "sequence_debug_NEW");
+  //qm->AddDebugPrintReward_NEW(start_response4, "REFACTORED SEQUENCE FINISHED");
 
    //-----------------------------------------------------------
 
