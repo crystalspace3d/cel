@@ -23,6 +23,7 @@
 #include "behaviourlayer/behave.h"
 #include "tools/parameters.h"
 
+
 //-------------------------------------------------------------------------
 // Sequence operations
 //-------------------------------------------------------------------------
@@ -112,9 +113,9 @@ struct iCelSequence;
  * This callback is fired when the sequences finished running properly.
  * It is not called it the sequence is aborted!
  */
-struct iSequenceCallback : public virtual iBase
+struct iCelSequenceCallback : public virtual iBase
 {
-  SCF_INTERFACE (iSequenceCallback, 0, 0, 1);
+  SCF_INTERFACE (iCelSequenceCallback, 0, 0, 1);
 
   /// Sequence finishes.
   virtual void SequenceFinished (iCelSequence* sequence) = 0;
@@ -126,6 +127,8 @@ struct iSequenceCallback : public virtual iBase
 struct iCelSequence : public virtual iBase
 {
   SCF_INTERFACE (iCelSequence, 0, 0, 1);
+
+  virtual void SaveState (iCelDataBuffer* databuf) = 0;
 
   /**
    * Get the name of this sequence.
@@ -162,11 +165,55 @@ struct iCelSequence : public virtual iBase
   /**
    * Register a callback that is fired when this sequence finishes.
    */
-  virtual void AddSequenceCallback (iSequenceCallback* cb) = 0;
+  virtual void AddSequenceCallback (iCelSequenceCallback* cb) = 0;
   /**
    * Remove a callback.
    */
-  virtual void RemoveSequenceCallback (iSequenceCallback* cb) = 0;
+  virtual void RemoveSequenceCallback (iCelSequenceCallback* cb) = 0;
+};
+
+/**
+ * A representation of a sequence factory.
+ * A sequence factory is basically a sequence of sequence operation factories.
+ */
+struct iCelSequenceFactory : public virtual iBase
+{
+  SCF_INTERFACE (iCelSequenceFactory, 0, 0, 1);
+
+  virtual csPtr<iCelSequence> CreateSequence (const celParams& params) = 0;
+
+  /**
+   * Get the name of this factory.
+   */
+  virtual const char* GetName () const = 0;
+  
+  /**
+   * Set the name of this facotry.
+   */
+  virtual void SetName (const char* name) = 0;
+
+  /**
+   * Load this sequence factory from a document node.
+   * \param node is the \<sequence\> node in a quest.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Load (iDocumentNode* node) = 0;
+
+  /**
+   * Add a new operation factory at the specified time.
+   * \param seqopfact is the factory to add.
+   * \param duration is the duration of this operation. This can be
+   * a string representing a numerical value or a parameter ($x notation).
+   * The duration can be 0 in which case we have a single-stop event.
+   */
+  virtual void AddSeqOpFactory (iSeqOpFactory* seqopfact,
+  	const char* duration) = 0;
+
+  /**
+   * Add a delay.
+   * \param delay is a the delay or a parameter.
+   */
+  virtual void AddDelay (const char* delay) = 0;
 };
 
 //-------------------------------------------------------------------------

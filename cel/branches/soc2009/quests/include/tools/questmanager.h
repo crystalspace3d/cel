@@ -38,6 +38,8 @@ struct iCelDataBuffer;
 struct iCelParameterBlock;
 struct iQuest;
 
+class celQuestManager;
+
 /**
  * This interface represents a parameter to a sequence,
  * trigger, or reward for a quest. The quest manager understands
@@ -508,6 +510,7 @@ struct iQuest : public virtual iBase
    * Find a sequence.
    */
   virtual iQuestSequence* FindSequence (const char* name) = 0;
+  virtual iCelSequence*   FindSequence_NEW (const char* name) = 0;
 };
 
 /**
@@ -618,6 +621,8 @@ struct iQuestFactory : public virtual iBase
 {
   SCF_INTERFACE (iQuestFactory, 0, 0, 1);
 
+  virtual celQuestManager* GetQuestManager () const = 0;
+
   /**
    * Get the name of this factory.
    */
@@ -658,12 +663,14 @@ struct iQuestFactory : public virtual iBase
    * Return 0 if the factory doesn't exist.
    */
   virtual iQuestSequenceFactory* GetSequence (const char* name) = 0;
+  virtual iCelSequenceFactory* GetSequence_NEW (const char* name) = 0;
 
   /**
    * Create a new sequence factory in this factory.
    * Return 0 on failure (name already exists).
    */
   virtual iQuestSequenceFactory* CreateSequence (const char* name) = 0;
+  virtual iCelSequenceFactory* CreateSequence_NEW (const char* name) = 0;
 
   /**
    * Get a default parameter from this factory.

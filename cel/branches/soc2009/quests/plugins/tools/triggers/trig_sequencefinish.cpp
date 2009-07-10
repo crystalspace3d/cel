@@ -150,7 +150,7 @@ void celSequenceFinishTrigger::FindSequence ()
   csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, tag);
   if (!pcquest) return;
   iQuest* quest = pcquest->GetQuest ();
-  seq = quest->FindSequence (sequence);
+  seq = quest->FindSequence_NEW (sequence);
 }
 
 void celSequenceFinishTrigger::ActivateTrigger ()
@@ -160,8 +160,8 @@ void celSequenceFinishTrigger::ActivateTrigger ()
   if (!seq) return;
   // First remove to make sure we don't register ourselves multiple
   // times.
-  seq->RemoveSequenceCallback ((iQuestSequenceCallback*)this);
-  seq->AddSequenceCallback ((iQuestSequenceCallback*)this);
+  seq->RemoveSequenceCallback ((iCelSequenceCallback*)this);
+  seq->AddSequenceCallback ((iCelSequenceCallback*)this);
 }
 
 bool celSequenceFinishTrigger::Check ()
@@ -178,7 +178,7 @@ void celSequenceFinishTrigger::DeactivateTrigger ()
 {
   FindSequence ();
   if (!seq) return;
-  seq->RemoveSequenceCallback ((iQuestSequenceCallback*)this);
+  seq->RemoveSequenceCallback ((iCelSequenceCallback*)this);
 }
 
 bool celSequenceFinishTrigger::LoadAndActivateTrigger (iCelDataBuffer*)

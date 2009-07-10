@@ -793,6 +793,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
     }
   }
 
+  {
   // Set sequences
   celQuestFactorySequences::GlobalIterator seq_it = sequences.GetIterator ();
   while (seq_it.HasNext ())
@@ -800,6 +801,16 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
     celQuestSequenceFactory* sf = seq_it.Next ();
     csRef<celQuestSequence> seq = sf->CreateSequence (*p_params);
     q->AddSequence (seq);
+  }
+  }
+
+  // Set sequences_NEW
+  celFactorySequences::GlobalIterator seq_it = sequences_NEW.GetIterator ();
+  while (seq_it.HasNext ())
+  {
+    iCelSequenceFactory* sf = seq_it.Next ();
+    csRef<iCelSequence> seq = sf->CreateSequence (*p_params_NEW);
+    q->AddSequence_NEW (seq);
   }
 
   return csPtr<iQuest> (q);
@@ -999,10 +1010,10 @@ bool celQuestFactory::Load (iDocumentNode* node)
 	  iQuestStateFactory* statefact = CreateState (statename);
 	  if (!statefact)
 	  {
-            csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		"cel.questmanager.load",
-		"Couldn't load state '%s' while loading quest '%s'!",
-		(const char*)statename, (const char*)name);
+        csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		  "cel.questmanager.load",
+		  "Couldn't load state '%s' while loading quest '%s'!",
+		  (const char*)statename, (const char*)name);
 	    return false;
 	  }
 	  if (!LoadState (statefact, child))
@@ -1013,20 +1024,20 @@ bool celQuestFactory::Load (iDocumentNode* node)
         break;
       case XMLTOKEN_SEQUENCE:
         {
-	  const char* seqname = child->GetAttributeValue ("name");
-	  iQuestSequenceFactory* seqfact = CreateSequence (seqname);
-	  if (!seqfact)
-	  {
-            csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		"cel.questmanager.load",
-		"Couldn't load sequence '%s' while loading quest '%s'!",
-		(const char*)seqname, (const char*)name);
-	    return false;
-	  }
-	  if (!seqfact->Load (child))
-	    return false;
-	}
-	break;
+		  const char* seqname = child->GetAttributeValue ("name");
+		  iQuestSequenceFactory* seqfact = CreateSequence (seqname);
+		  if (!seqfact)
+		  {
+			csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+			  "cel.questmanager.load",
+			  "Couldn't load sequence '%s' while loading quest '%s'!",
+			(  const char*)seqname, (const char*)name);
+			return false;
+		  }
+		  if (!seqfact->Load (child))
+			return false;
+		}
+		break;
       default:
         csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
@@ -1069,6 +1080,29 @@ iQuestSequenceFactory* celQuestFactory::CreateSequence (const char* name)
   celQuestSequenceFactory* seq = new celQuestSequenceFactory (name,
   	this);
   sequences.Put (name, seq);
+  seq->DecRef ();
+  return seq;
+}
+
+
+iCelSequenceFactory* celQuestFactory::GetSequence_NEW (const char* name)
+{
+  iCelSequenceFactory* seq = sequences_NEW.Get (name, 0);
+  return (iCelSequenceFactory*)seq;
+}
+
+iCelSequenceFactory* celQuestFactory::CreateSequence_NEW (const char* name)
+{
+  iCelSequenceFactory* iseq = GetSequence_NEW (name);
+  if (iseq) return 0;
+
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (questmgr->object_reg);
+  csRef<iCelSequenceFactory> seq = csLoadPlugin<iCelSequenceFactory> 
+	  (plugin_mgr, "cel.sequence.factory");  
+
+  seq->SetName(name);
+  sequences_NEW.Put (name, seq);
   seq->DecRef ();
   return seq;
 }
@@ -1274,14 +1308,22 @@ bool celQuest::LoadState (const char* state, iCelDataBuffer* databuf)
     celQuestSequence* seq = FindCelSequence (seqname->GetData ());
     if (!seq)
     {
-      //@@@
-      //csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-		//"cel.questmanager.load",
-		//"Error finding sequence '%s'!", seqname->GetData ());
-      return false;
-    }
-    if (!seq->LoadState (databuf))
-      return false;
+      iCelSequence* seq_NEW = FindCelSequence_NEW (seqname->GetData ());
+	  if (!seq_NEW)
+	  {
+		//@@@
+		//csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+			//"cel.questmanager.load",
+			//"Error finding sequence '%s'!", seqname->GetData ());
+		return false;
+	  } else {
+        if (!seq->LoadState (databuf))
+          return false;
+	  }
+	} else {
+      if (!seq->LoadState (databuf))
+        return false;
+	}
 
     seqname = databuf->GetString ();
   }
@@ -1314,6 +1356,13 @@ void celQuest::SaveState (iCelDataBuffer* databuf)
     {
       databuf->Add (sequences[i]->GetName ());
       sequences[i]->SaveState (databuf);
+    }
+
+  for (i = 0 ; i < sequences_NEW.GetSize () ; i++)
+    if (sequences_NEW[i]->IsRunning ())
+    {
+      databuf->Add (sequences_NEW[i]->GetName ());
+      sequences_NEW[i]->SaveState (databuf);
     }
   databuf->Add ((const char*)0);
 }
@@ -1382,6 +1431,19 @@ celQuestSequence* celQuest::FindCelSequence (const char* name)
   return 0;
 }
 
+void celQuest::AddSequence_NEW (iCelSequence* sequence)
+{
+  sequences_NEW.Push (sequence);
+}
+
+iCelSequence* celQuest::FindCelSequence_NEW (const char* name)
+{
+  size_t i;
+  for (i = 0 ; i < sequences_NEW.GetSize () ; i++)
+    if (!strcmp (name, sequences_NEW[i]->GetName ()))
+      return sequences_NEW[i];
+  return 0;
+}
 //---------------------------------------------------------------------------
 
 celQuestManager::celQuestManager (iBase* parent) : scfImplementationType (this,
@@ -2529,6 +2591,7 @@ iQuestTriggerFactory* celQuestManager::SetSequenceFinishTrigger (
   	scfQueryInterface<iSequenceFinishQuestTriggerFactory> (trigfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetSequenceParameter (sequence_par);
+  response->SetTriggerFactory (trigfact);
   return trigfact;
 }
 
@@ -2570,6 +2633,7 @@ iTriggerFactory* celQuestManager::SetSequenceFinishTrigger_NEW (
   	scfQueryInterface<iSequenceFinishTriggerFactory> (trigfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetSequenceParameter (sequence_par);
+  response->SetTriggerFactory_NEW (trigfact);
   return trigfact;
 }
 
