@@ -642,9 +642,27 @@ public:
   virtual iQuestRewardFactory* AddDestroyEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par);
- virtual iRewardFactory* AddDestroyEntityReward_NEW (
+  virtual iRewardFactory* AddDestroyEntityReward_NEW (
   	iQuestTriggerResponseFactory* response,
-	const char* entity_par);
+	const char* entity_par); 
+  virtual iQuestRewardFactory* AddMessageReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par);
+  virtual iRewardFactory* AddMessageReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par);
+  virtual iQuestRewardFactory* AddActionReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par,
+	const char* pcclass_par);
+  virtual iRewardFactory* AddActionReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par,
+	const char* pcclass_par);
   virtual iQuestTriggerFactory* SetTimeoutTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* timeout_par);
@@ -699,6 +717,28 @@ public:
         iQuestTriggerResponseFactory* response,
         const char* operation_par,
         csRefArray<iTriggerFactory> &trigger_factories);
+  virtual iQuestTriggerFactory* SetInventoryTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, 
+	const char* child_par);
+  virtual iTriggerFactory* SetInventoryTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par,
+	const char* child_par);
+  virtual iQuestTriggerFactory* SetMessageTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, 
+	const char* mask_par);
+  virtual iTriggerFactory* SetMessageTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par,
+	const char* mask_par);
+  virtual iQuestTriggerFactory* SetMeshSelectTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par);
+  virtual iTriggerFactory* SetMeshSelectTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par);
 };
 
 #endif // __CEL_TOOLS_QUESTS__

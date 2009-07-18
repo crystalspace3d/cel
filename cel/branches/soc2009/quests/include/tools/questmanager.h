@@ -1001,6 +1001,36 @@ struct iQuestManager : public virtual iBase
 	const char* entity_par) = 0;
 
   /**
+   * Convenience method to add an 'action' reward factory
+   * to a response factory. You need to specify exactly which entity
+   * and which action
+   */
+  virtual iQuestRewardFactory* AddActionReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par,
+	const char* pcclass_par) = 0;
+  virtual iRewardFactory* AddActionReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par,
+	const char* pcclass_par) = 0;
+
+  /**
+   * Convenience method to add a 'message' reward factory
+   * to a response factory. You need to specify the message 
+   * and which entity to send it to.
+   */
+  virtual iQuestRewardFactory* AddMessageReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par) = 0;
+  virtual iRewardFactory* AddMessageReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par) = 0;
+
+  /**
    * Convenience method to set a 'timeout' trigger factory
    * to a response factory.
    */
@@ -1095,6 +1125,44 @@ struct iQuestManager : public virtual iBase
   	iQuestTriggerResponseFactory* response,
   	const char* operation_par, 
 	csRefArray<iTriggerFactory> &trigger_factories) = 0;
+
+   /**
+   * Convenience method to set an 'inventory' trigger factory
+   * to a response factory.
+   */
+  virtual iQuestTriggerFactory* SetInventoryTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, 
+	const char* child_par) = 0;
+  virtual iTriggerFactory* SetInventoryTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par,
+	const char* child_par) = 0;
+
+   /**
+   * Convenience method to set an 'message' trigger factory
+   * to a response factory.
+   */
+  virtual iQuestTriggerFactory* SetMessageTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, 
+	const char* mask_par) = 0;
+  virtual iTriggerFactory* SetMessageTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par,
+	const char* mask_par) = 0;
+
+  /**
+   * Convenience method to set an 'meshsel' trigger factory
+   * to a response factory.
+   */
+  virtual iQuestTriggerFactory* SetMeshSelectTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par) = 0;
+  virtual iTriggerFactory* SetMeshSelectTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par) = 0;
+
 };
 
 //-------------------------------------------------------------------------

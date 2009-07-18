@@ -1143,7 +1143,7 @@ void celQuestStateResponse::AddReward_NEW (iReward* reward)
 void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger,
     iCelParameterBlock* params)
 {
-  printf("TRIGGER FIRED \n"); //NEW
+  //printf("TRIGGER FIRED \n"); //NEW
   //printf("SIZE = %i", rewards.GetSize ());
 
   size_t i;
@@ -1163,7 +1163,7 @@ void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger,
 void celQuestStateResponse::TriggerFired (iTrigger* trigger,
     iCelParameterBlock* params)
 {
-  printf("REFACTORED TRIGGER FIRED \n"); //NEW
+  //printf("REFACTORED TRIGGER FIRED \n"); //NEW
   //printf("SIZE = %i", rewards.GetSize ());
 
   size_t i;
@@ -2280,7 +2280,6 @@ iQuestRewardFactory* celQuestManager::AddNewStateReward (
 	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* state_par)
 {
-  printf("ADD NEW STATE REWARD\n");
   iQuestRewardType* type = GetRewardType ("cel.questreward.newstate");
   csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iNewStateQuestRewardFactory> newstate = scfQueryInterface<iNewStateQuestRewardFactory> (rewfact);
@@ -2529,6 +2528,70 @@ iRewardFactory* celQuestManager::AddDestroyEntityReward_NEW (
   return rewfact;
 }
 
+iQuestRewardFactory* celQuestManager::AddMessageReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par)
+{
+  iQuestRewardType* type = GetRewardType ("cel.questreward.message");
+  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iMessageQuestRewardFactory> newstate = 
+  	scfQueryInterface<iMessageQuestRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetIDParameter (id_par);
+  response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
+iRewardFactory* celQuestManager::AddMessageReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par)
+{
+  iRewardType* type = GetRewardType_NEW ("cel.rewards.message");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iMessageRewardFactory> newstate = 
+  	scfQueryInterface<iMessageRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetIDParameter (id_par);
+  response->AddRewardFactory_NEW (rewfact);
+  return rewfact;
+}
+
+iQuestRewardFactory* celQuestManager::AddActionReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par,
+	const char* pcclass_par)
+{
+  iQuestRewardType* type = GetRewardType ("cel.questreward.action");
+  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iActionQuestRewardFactory> newstate = 
+  	scfQueryInterface<iActionQuestRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetIDParameter (id_par);
+  newstate->SetPropertyClassParameter (pcclass_par);
+  response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
+iRewardFactory* celQuestManager::AddActionReward_NEW (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par,
+	const char* pcclass_par)
+{
+  iRewardType* type = GetRewardType_NEW ("cel.rewards.action");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iActionRewardFactory> newstate = 
+  	scfQueryInterface<iActionRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetIDParameter (id_par);
+  newstate->SetPropertyClassParameter (pcclass_par);
+  response->AddRewardFactory_NEW (rewfact);
+  return rewfact;
+}
+
 iQuestTriggerFactory* celQuestManager::SetTimeoutTrigger (
 	iQuestTriggerResponseFactory* response,
   	const char* timeout_par)
@@ -2770,6 +2833,88 @@ iTriggerFactory* celQuestManager::SetOperationTrigger_NEW (
   {
     trigger_factories_list.Push(iter.Next());
   }
+  return trigfact;
+}
+
+iQuestTriggerFactory* celQuestManager::SetInventoryTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* child_par)
+{
+  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.inventory");
+  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iInventoryQuestTriggerFactory> newstate = 
+  	scfQueryInterface<iInventoryQuestTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetChildEntityParameter (child_par);
+  response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetInventoryTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* child_par)
+{
+  iTriggerType* type = GetTriggerType_NEW ("cel.triggers.inventory");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iInventoryTriggerFactory> newstate = 
+  	scfQueryInterface<iInventoryTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetChildEntityParameter (child_par);
+  response->SetTriggerFactory_NEW (trigfact);
+  return trigfact;
+}
+
+iQuestTriggerFactory* celQuestManager::SetMessageTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* mask_par)
+{
+  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.message");
+  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iMessageQuestTriggerFactory> newstate = 
+  	scfQueryInterface<iMessageQuestTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetMaskParameter (mask_par);
+  response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetMessageTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* mask_par)
+{
+  iTriggerType* type = GetTriggerType_NEW ("cel.triggers.message");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iMessageTriggerFactory> newstate = 
+  	scfQueryInterface<iMessageTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetMaskParameter (mask_par);
+  response->SetTriggerFactory_NEW (trigfact);
+  return trigfact;
+}
+
+iQuestTriggerFactory* celQuestManager::SetMeshSelectTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par)
+{
+  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.meshselect");
+  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iMeshSelectQuestTriggerFactory> newstate = 
+  	scfQueryInterface<iMeshSelectQuestTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetMeshSelectTrigger_NEW (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par)
+{
+  iTriggerType* type = GetTriggerType_NEW ("cel.triggers.meshselect");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iMeshSelectTriggerFactory> newstate = 
+  	scfQueryInterface<iMeshSelectTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  response->SetTriggerFactory_NEW (trigfact);
   return trigfact;
 }
 
