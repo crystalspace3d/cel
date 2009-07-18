@@ -450,7 +450,7 @@ celDebugPrintReward::~celDebugPrintReward ()
 void celDebugPrintReward::Reward (iCelParameterBlock* params)
 {
   const char* m = msg->Get (params); 
-  if (!m) {printf ("REFACTOR FAIL"); return;}
-  printf ("REFACTOR SUCCESS: %s\n", m);
+  if (!m) return;
+  printf ("%s\n", m);
   fflush (stdout);
 }
