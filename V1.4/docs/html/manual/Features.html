@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer 1.3dev: 1.7 Feature List</title>
+<title>Crystal Entity Layer 1.4.0: 1.7 Feature List</title>
 
-<meta name="description" content="Crystal Entity Layer 1.3dev: 1.7 Feature List">
-<meta name="keywords" content="Crystal Entity Layer 1.3dev: 1.7 Feature List">
+<meta name="description" content="Crystal Entity Layer 1.4.0: 1.7 Feature List">
+<meta name="keywords" content="Crystal Entity Layer 1.4.0: 1.7 Feature List">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -60,6 +60,83 @@ ul.toc {list-style: none}
 </tr></table>
 <hr size="1">
 <h2 class="section"> 1.7 Feature List </h2>
+<p>The Crystal Entity Layer provides higher-level ways to control objects than
+you'd have by using Crystal Space alone. It also provides features not
+present in Crystal Space, therefore saving you a lot of time you'd spend
+implementing them yourself.
+</p>
+<ul>
+<li>
+<em>Entity system</em>
+
+<p>Entities provide a convenient way to access and control objects' features and
+properties. Entities are not required to have a visual representation.
+One simply adds features to an entity by attaching property classes, then
+handling the messages this entity receives.
+</p>
+</li><li>
+<em>Scripting</em>
+
+<p><small>CEL</small> has Python bindings, and its own <small>XML</small>-based script language.
+You can use either of those, on a per-entity basis.
+Using CELStart, you can build an application without any line of C++.
+Indeed, you can also use them from your own C++ code.
+</p>
+</li><li>
+<em>Movement helpers</em>
+
+<ul>
+<li>
+<em>Linear</em>: handles everything related to moving, from collision detection
+to dead reckoning.
+
+</li><li>
+<em>Physics</em>
+
+</li><li>
+<em>Vehicles</em>: support for 4+ wheels vehicles (including tank-like
+behaviour), and hovercraft.
+
+</li></ul>
+  
+</li><li>
+<em>Abstracted mesh objects management</em>: you can manipulate meshes and
+animations independently of the underlying mesh object type.
+
+</li><li>
+<em>Camera helpers</em>: it's easy to get 3rd person view, and specific
+object-tracking behaviour.
+
+</li><li>
+<em>Networking</em>: there's a TCP network plugin, based on HawkNL.
+
+</li><li>
+<em>Artificial Intelligence</em>
+
+<ul>
+<li>
+<em>Steering behaviour</em>
+
+</li><li>
+<em>Neural network</em>
+
+</li></ul>
+
+</li><li>
+<em>Miscellaneous</em>
+
+<ul>
+<li> Billboards
+</li><li> Inventory
+</li><li> Timers
+</li><li> Quests (finite state machine)
+</li><li> Projectiles
+</li><li> Mesh deformation
+</li><li> Zone manager: can load and unload parts of the level, depending on
+actor's position.
+</li></ul>
+
+</li></ul>
 
 <hr size="1">
 <p>
