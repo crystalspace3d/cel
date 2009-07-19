@@ -19,7 +19,7 @@ FILEFLAGS 0x0
       VALUE "ProductVersion", "1.4"
       VALUE "FileVersion", "1.4"
       VALUE "LegalCopyright", "Copyright (C)2002-2008 Jorrit Tyberghein and others."
-      VALUE "FileDescription", "pfzone"
+      VALUE "FileDescription", "tcpnetwork"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
 #else
@@ -39,21 +39,14 @@ FILEFLAGS 0x0
 17485 RCDATA 
 {
   "<?xml version=""1.0""?>",
-  "<!-- pfzone.csplugin -->",
+  "<!-- tcpnetwork.csplugin -->",
   "<plugin>",
   "  <scf>",
   "    <classes>",
-  "      <!-- @@@ to be deprecated -->",
   "      <class>",
-  "        <name>cel.pcfactory.zonemanager</name>",
-  "        <implementation>celPfZoneManager</implementation>",
-  "        <description>CEL Zone Manager Property Class Factory</description>",
-  "      </class>",
-  "",
-  "      <class>",
-  "        <name>cel.pcfactory.world.zonemanager</name>",
-  "        <implementation>celPfZoneManager</implementation>",
-  "        <description>CEL Zone Manager Property Class Factory</description>",
+  "        <name>cel.network.tcp</name>",
+  "        <implementation>celTCPGameFactory</implementation>",
+  "	<description>CEL TCP network layer</description>",
   "      </class>",
   "    </classes>",
   "  </scf>",

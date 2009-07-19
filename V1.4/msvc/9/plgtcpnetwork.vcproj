@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="appbootstrap_static"
-	ProjectGUID="{DD04D25A-F07A-B898-EE22-A2B028901531}"
+	Name="plgtcpnetwork"
+	ProjectGUID="{5E9F17D2-1DFB-84BA-62E9-F1EBD6B787F0}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,10 +13,9 @@
 	<Configurations>
   		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release9\build\appbootstrap_static\"
-			IntermediateDirectory="..\..\out\release9\build\appbootstrap_static\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\release9\build\plgtcpnetwork\"
+			IntermediateDirectory="..\..\out\release9\build\plgtcpnetwork\"
+			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -28,14 +27,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\appbootstrap_static\bootstrap_static.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32"
+				ProgramDataBaseFileName="..\..\out\release9\build\plgtcpnetwork\tcpnetwork.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9\build\appbootstrap_static\appbootstrap_static.pch"
-				AssemblerListingLocation="..\..\out\release9\build\appbootstrap_static\"
-				ObjectFile="..\..\out\release9\build\appbootstrap_static\"
+				PrecompiledHeaderFile="..\..\out\release9\build\plgtcpnetwork\plgtcpnetwork.pch"
+				AssemblerListingLocation="..\..\out\release9\build\plgtcpnetwork\"
+				ObjectFile="..\..\out\release9\build\plgtcpnetwork\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -51,11 +50,13 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\bootstrap_static.exe"
-				ProgramDatabaseFile="..\..\out\release9\build\appbootstrap_static\bootstrap_static.pdb"
-				SubSystem="2"
-				AdditionalOptions="-lNL -lpthread libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
-				AdditionalDependencies="libcrystalspace.lib"
+				OutputFile="..\..\tcpnetwork.dll"
+				ProgramDatabaseFile="..\..\out\release9\build\plgtcpnetwork\tcpnetwork.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\release9\build\plgtcpnetwork\plgtcpnetwork.lib"
+				AdditionalOptions="-lNL -lpthread "
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
@@ -64,11 +65,11 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\appbootstrap_static\appbootstrap_static.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\plgtcpnetwork\plgtcpnetwork.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -79,8 +80,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\network\tcp;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -89,10 +90,9 @@
 		</Configuration>
   		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release9\build\appbootstrap_static\"
-			IntermediateDirectory="..\..\out\release9\build\appbootstrap_static\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\release9\build\plgtcpnetwork\"
+			IntermediateDirectory="..\..\out\release9\build\plgtcpnetwork\"
+			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -104,14 +104,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\appbootstrap_static\bootstrap_static.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release9\build\plgtcpnetwork\tcpnetwork.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9\build\appbootstrap_static\appbootstrap_static.pch"
-				AssemblerListingLocation="..\..\out\release9\build\appbootstrap_static\"
-				ObjectFile="..\..\out\release9\build\appbootstrap_static\"
+				PrecompiledHeaderFile="..\..\out\release9\build\plgtcpnetwork\plgtcpnetwork.pch"
+				AssemblerListingLocation="..\..\out\release9\build\plgtcpnetwork\"
+				ObjectFile="..\..\out\release9\build\plgtcpnetwork\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -127,11 +127,13 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\bootstrap_static.exe"
-				ProgramDatabaseFile="..\..\out\release9\build\appbootstrap_static\bootstrap_static.pdb"
-				SubSystem="2"
-				AdditionalOptions="-lNL -lpthread libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
-				AdditionalDependencies="libcrystalspace.lib"
+				OutputFile="..\..\tcpnetwork.dll"
+				ProgramDatabaseFile="..\..\out\release9\build\plgtcpnetwork\tcpnetwork.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\release9\build\plgtcpnetwork\plgtcpnetwork.lib"
+				AdditionalOptions="-lNL -lpthread "
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
@@ -140,11 +142,11 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\appbootstrap_static\appbootstrap_static.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\plgtcpnetwork\plgtcpnetwork.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -155,8 +157,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\network\tcp;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -165,10 +167,9 @@
 		</Configuration>
     		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\appbootstrap_static\"
-			IntermediateDirectory="..\..\out\debug9\build\appbootstrap_static\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\debug9\build\plgtcpnetwork\"
+			IntermediateDirectory="..\..\out\debug9\build\plgtcpnetwork\"
+			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -179,14 +180,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\appbootstrap_static\bootstrap_static.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug9\build\plgtcpnetwork\tcpnetwork.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9\build\appbootstrap_static\appbootstrap_static.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\appbootstrap_static\"
-				ObjectFile="..\..\out\debug9\build\appbootstrap_static\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\plgtcpnetwork\plgtcpnetwork.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\plgtcpnetwork\"
+				ObjectFile="..\..\out\debug9\build\plgtcpnetwork\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -200,11 +201,13 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\bootstrap_static.exe"
-				ProgramDatabaseFile="..\..\out\debug9\build\appbootstrap_static\bootstrap_static.pdb"
-				SubSystem="1"
-				AdditionalOptions="-lNL -lpthread libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
-				AdditionalDependencies="libcrystalspace_d.lib"
+				OutputFile="..\..\tcpnetwork.dll"
+				ProgramDatabaseFile="..\..\out\debug9\build\plgtcpnetwork\tcpnetwork.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\debug9\build\plgtcpnetwork\plgtcpnetwork.lib"
+				AdditionalOptions="-lNL -lpthread "
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
@@ -213,11 +216,11 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\appbootstrap_static\appbootstrap_static.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\plgtcpnetwork\plgtcpnetwork.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -228,8 +231,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\network\tcp;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -238,10 +241,9 @@
 		</Configuration>
   		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\appbootstrap_static\"
-			IntermediateDirectory="..\..\out\debug9\build\appbootstrap_static\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\debug9\build\plgtcpnetwork\"
+			IntermediateDirectory="..\..\out\debug9\build\plgtcpnetwork\"
+			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -252,14 +254,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\appbootstrap_static\bootstrap_static.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug9\build\plgtcpnetwork\tcpnetwork.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9\build\appbootstrap_static\appbootstrap_static.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\appbootstrap_static\"
-				ObjectFile="..\..\out\debug9\build\appbootstrap_static\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\plgtcpnetwork\plgtcpnetwork.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\plgtcpnetwork\"
+				ObjectFile="..\..\out\debug9\build\plgtcpnetwork\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -273,11 +275,13 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\bootstrap_static.exe"
-				ProgramDatabaseFile="..\..\out\debug9\build\appbootstrap_static\bootstrap_static.pdb"
-				SubSystem="1"
-				AdditionalOptions="-lNL -lpthread libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
-				AdditionalDependencies="libcrystalspace_d.lib"
+				OutputFile="..\..\tcpnetwork.dll"
+				ProgramDatabaseFile="..\..\out\debug9\build\plgtcpnetwork\tcpnetwork.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\debug9\build\plgtcpnetwork\plgtcpnetwork.lib"
+				AdditionalOptions="-lNL -lpthread "
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
@@ -286,11 +290,11 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\appbootstrap_static\appbootstrap_static.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\plgtcpnetwork\plgtcpnetwork.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -301,8 +305,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\network\tcp;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -315,27 +319,48 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\apps\bootstrap\bootstrap.cpp">
+				RelativePath="..\..\plugins\network\tcp\tcpgame.cpp">
 			</File>
 			<File
-				RelativePath="..\..\msvc\appbootstrap_static_static_glue_app.cpp">
+				RelativePath="..\..\plugins\network\tcp\tcpgameclient.cpp">
 			</File>
 			<File
-				RelativePath="..\..\msvc\appbootstrap_static_static_glue_app_CRYSTAL.cpp">
+				RelativePath="..\..\plugins\network\tcp\tcpgamefactory.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgameserver.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcputils.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\apps\bootstrap\bootstrap.h">
+				RelativePath="..\..\plugins\network\tcp\tcpgame.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgameclient.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgamefactory.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgameserver.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcputils.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\appbootstrap_static.rc">
+				RelativePath="..\..\msvc\plgtcpnetwork.rc">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpnetwork.csplugin">
 			</File>
 		</Filter>
 	</Files>
