@@ -74,10 +74,27 @@ def fix_args(funct):
         return funct(*args)
     return _inner
 
+_SetSCFPointer = _blcelc._SetSCFPointer
+_GetSCFPointer = _blcelc._GetSCFPointer
 if not "core" in dir():
     core = __import__("cspace").__dict__["core"]
 core.AddSCFLink(_SetSCFPointer)
 CSMutableArrayHelper = core.CSMutableArrayHelper
+
+class celWrapPtr(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    Ref = _swig_property(_blcelc.celWrapPtr_Ref_get, _blcelc.celWrapPtr_Ref_set)
+    Type = _swig_property(_blcelc.celWrapPtr_Type_get)
+    Version = _swig_property(_blcelc.celWrapPtr_Version_get, _blcelc.celWrapPtr_Version_set)
+    def __init__(self, *args): 
+        this = _blcelc.new_celWrapPtr(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celWrapPtr
+    __del__ = lambda self : None;
+celWrapPtr_swigregister = _blcelc.celWrapPtr_swigregister
+celWrapPtr_swigregister(celWrapPtr)
 
 class celInitializer(cspace.csInitializer):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -559,6 +576,7 @@ class iCelEntityTracker(cspace.iBase):
 iCelEntityTracker_swigregister = _blcelc.iCelEntityTracker_swigregister
 iCelEntityTracker_swigregister(iCelEntityTracker)
 
+csQueryRegistry_iCelPlLayer = _blcelc.csQueryRegistry_iCelPlLayer
 class iCelEntityTemplatePlFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
@@ -750,6 +768,9 @@ class iCelEntityIterator(cspace.iBase):
 iCelEntityIterator_swigregister = _blcelc.iCelEntityIterator_swigregister
 iCelEntityIterator_swigregister(iCelEntityIterator)
 
+celRegisterPCFactory = _blcelc.celRegisterPCFactory
+celCreateEntity = _blcelc.celCreateEntity
+scfQueryInterface_iCelEntity = _blcelc.scfQueryInterface_iCelEntity
 class iCelEntityTemplate(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -786,6 +807,7 @@ class iCelEntityTemplate(cspace.iBase):
     __del__ = lambda self : None;
 iCelEntityTemplate_swigregister = _blcelc.iCelEntityTemplate_swigregister
 iCelEntityTemplate_swigregister(iCelEntityTemplate)
+celFindNearbyEntities = _blcelc.celFindNearbyEntities
 
 class iCelPropertyClassTemplate(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -833,6 +855,7 @@ iCelBlLayer_swigregister = _blcelc.iCelBlLayer_swigregister
 iCelBlLayer_swigregister(iCelBlLayer)
 iCelBlLayer_scfGetVersion = _blcelc.iCelBlLayer_scfGetVersion
 
+csQueryRegistry_iCelBlLayer = _blcelc.csQueryRegistry_iCelBlLayer
 class iCelParameterBlock(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -1411,6 +1434,12 @@ iPcMechanicsJoint_swigregister = _blcelc.iPcMechanicsJoint_swigregister
 iPcMechanicsJoint_swigregister(iPcMechanicsJoint)
 iPcMechanicsJoint_scfGetVersion = _blcelc.iPcMechanicsJoint_scfGetVersion
 
+scfQuery_iPcMechanicsSystem = _blcelc.scfQuery_iPcMechanicsSystem
+scfQueryPC_iPcMechanicsSystem = _blcelc.scfQueryPC_iPcMechanicsSystem
+scfQuery_iPcMechanicsObject = _blcelc.scfQuery_iPcMechanicsObject
+scfQueryPC_iPcMechanicsObject = _blcelc.scfQueryPC_iPcMechanicsObject
+scfQueryPC_iPcMechanicsJoint = _blcelc.scfQueryPC_iPcMechanicsJoint
+scfQuery_iPcMechanicsJoint = _blcelc.scfQuery_iPcMechanicsJoint
 class iPcMechanicsThruster(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -1463,6 +1492,15 @@ class iPcMechanicsThruster(cspace.iBase):
     __del__ = lambda self : None;
 iPcMechanicsThruster_swigregister = _blcelc.iPcMechanicsThruster_swigregister
 iPcMechanicsThruster_swigregister(iPcMechanicsThruster)
+celCreateMechanicsSystem = _blcelc.celCreateMechanicsSystem
+celGetSetMechanicsSystem = _blcelc.celGetSetMechanicsSystem
+celGetMechanicsSystem = _blcelc.celGetMechanicsSystem
+celCreateMechanicsObject = _blcelc.celCreateMechanicsObject
+celGetSetMechanicsObject = _blcelc.celGetSetMechanicsObject
+celGetMechanicsObject = _blcelc.celGetMechanicsObject
+celCreateMechanicsJoint = _blcelc.celCreateMechanicsJoint
+celGetSetMechanicsJoint = _blcelc.celGetSetMechanicsJoint
+celGetMechanicsJoint = _blcelc.celGetMechanicsJoint
 iPcMechanicsThruster_scfGetVersion = _blcelc.iPcMechanicsThruster_scfGetVersion
 
 CEL_AT_NONE = _blcelc.CEL_AT_NONE
@@ -1550,6 +1588,12 @@ iPcMechanicsThrusterController_swigregister = _blcelc.iPcMechanicsThrusterContro
 iPcMechanicsThrusterController_swigregister(iPcMechanicsThrusterController)
 iPcMechanicsThrusterController_scfGetVersion = _blcelc.iPcMechanicsThrusterController_scfGetVersion
 
+scfQuery_iPcMechanicsThruster = _blcelc.scfQuery_iPcMechanicsThruster
+scfQueryPC_iPcMechanicsThruster = _blcelc.scfQueryPC_iPcMechanicsThruster
+scfQuery_iPcMechanicsBalancedGroup = _blcelc.scfQuery_iPcMechanicsBalancedGroup
+scfQueryPC_iPcMechanicsBalancedGroup = _blcelc.scfQueryPC_iPcMechanicsBalancedGroup
+scfQuery_iPcMechanicsThrusterController = _blcelc.scfQuery_iPcMechanicsThrusterController
+scfQueryPC_iPcMechanicsThrusterController = _blcelc.scfQueryPC_iPcMechanicsThrusterController
 class iBillboardLayer(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -1565,6 +1609,15 @@ class iBillboardLayer(cspace.iBase):
     __del__ = lambda self : None;
 iBillboardLayer_swigregister = _blcelc.iBillboardLayer_swigregister
 iBillboardLayer_swigregister(iBillboardLayer)
+celCreateMechanicsThrusterReactionary = _blcelc.celCreateMechanicsThrusterReactionary
+celGetSetMechanicsThrusterReactionary = _blcelc.celGetSetMechanicsThrusterReactionary
+celGetMechanicsThrusterReactionary = _blcelc.celGetMechanicsThrusterReactionary
+celCreateMechanicsBalancedGroup = _blcelc.celCreateMechanicsBalancedGroup
+celGetSetMechanicsBalancedGroup = _blcelc.celGetSetMechanicsBalancedGroup
+celGetMechanicsBalancedGroup = _blcelc.celGetMechanicsBalancedGroup
+celCreateMechanicsThrusterController = _blcelc.celCreateMechanicsThrusterController
+celGetSetMechanicsThrusterController = _blcelc.celGetSetMechanicsThrusterController
+celGetMechanicsThrusterController = _blcelc.celGetMechanicsThrusterController
 
 class iBillboardEventHandler(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -1816,6 +1869,8 @@ iPcBillboard_swigregister = _blcelc.iPcBillboard_swigregister
 iPcBillboard_swigregister(iPcBillboard)
 iPcBillboard_scfGetVersion = _blcelc.iPcBillboard_scfGetVersion
 
+scfQuery_iPcBillboard = _blcelc.scfQuery_iPcBillboard
+scfQueryPC_iPcBillboard = _blcelc.scfQueryPC_iPcBillboard
 class iPcRegion(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -1871,8 +1926,12 @@ class iPcRegion(cspace.iBase):
     __del__ = lambda self : None;
 iPcRegion_swigregister = _blcelc.iPcRegion_swigregister
 iPcRegion_swigregister(iPcRegion)
+celCreateBillboard = _blcelc.celCreateBillboard
+celGetSetBillboard = _blcelc.celGetSetBillboard
+celGetBillboard = _blcelc.celGetBillboard
 iPcRegion_scfGetVersion = _blcelc.iPcRegion_scfGetVersion
 
+scfQuery_iPcRegion = _blcelc.scfQuery_iPcRegion
 class iCelMapFile(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -1905,6 +1964,9 @@ class iCelMapFile(cspace.iBase):
     __del__ = lambda self : None;
 iCelMapFile_swigregister = _blcelc.iCelMapFile_swigregister
 iCelMapFile_swigregister(iCelMapFile)
+celCreateRegion = _blcelc.celCreateRegion
+celGetSetRegion = _blcelc.celGetSetRegion
+celGetRegion = _blcelc.celGetRegion
 
 class iCelRegion(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -2039,6 +2101,7 @@ iPcZoneManager_swigregister = _blcelc.iPcZoneManager_swigregister
 iPcZoneManager_swigregister(iPcZoneManager)
 iPcZoneManager_scfGetVersion = _blcelc.iPcZoneManager_scfGetVersion
 
+scfQuery_iPcZoneManager = _blcelc.scfQuery_iPcZoneManager
 CEL_KEY_STATE_UNUSED = _blcelc.CEL_KEY_STATE_UNUSED
 CEL_KEY_STATE_UP = _blcelc.CEL_KEY_STATE_UP
 CEL_KEY_STATE_DOWN = _blcelc.CEL_KEY_STATE_DOWN
@@ -2098,8 +2161,12 @@ class iPcCommandInput(cspace.iBase):
     __del__ = lambda self : None;
 iPcCommandInput_swigregister = _blcelc.iPcCommandInput_swigregister
 iPcCommandInput_swigregister(iPcCommandInput)
+celCreateZoneManager = _blcelc.celCreateZoneManager
+celGetSetZoneManager = _blcelc.celGetSetZoneManager
+celGetZoneManager = _blcelc.celGetZoneManager
 iPcCommandInput_scfGetVersion = _blcelc.iPcCommandInput_scfGetVersion
 
+scfQuery_iPcCommandInput = _blcelc.scfQuery_iPcCommandInput
 class iPcGravityCallback(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -2109,6 +2176,9 @@ class iPcGravityCallback(cspace.iBase):
     __del__ = lambda self : None;
 iPcGravityCallback_swigregister = _blcelc.iPcGravityCallback_swigregister
 iPcGravityCallback_swigregister(iPcGravityCallback)
+celCreateCommandInput = _blcelc.celCreateCommandInput
+celGetSetCommandInput = _blcelc.celGetSetCommandInput
+celGetCommandInput = _blcelc.celGetCommandInput
 
 class iPcLinearMovement(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -2247,6 +2317,7 @@ iPcLinearMovement_swigregister = _blcelc.iPcLinearMovement_swigregister
 iPcLinearMovement_swigregister(iPcLinearMovement)
 iPcLinearMovement_scfGetVersion = _blcelc.iPcLinearMovement_scfGetVersion
 
+scfQuery_iPcLinearMovement = _blcelc.scfQuery_iPcLinearMovement
 CEL_ANIM_IDLE = _blcelc.CEL_ANIM_IDLE
 CEL_ANIM_WALK = _blcelc.CEL_ANIM_WALK
 CEL_ANIM_RUN = _blcelc.CEL_ANIM_RUN
@@ -2393,8 +2464,13 @@ class iPcActorMove(cspace.iBase):
     __del__ = lambda self : None;
 iPcActorMove_swigregister = _blcelc.iPcActorMove_swigregister
 iPcActorMove_swigregister(iPcActorMove)
+celCreateLinearMovement = _blcelc.celCreateLinearMovement
+celGetSetLinearMovement = _blcelc.celGetSetLinearMovement
+celGetLinearMovement = _blcelc.celGetLinearMovement
 iPcActorMove_scfGetVersion = _blcelc.iPcActorMove_scfGetVersion
 
+scfQuery_iPcActorMove = _blcelc.scfQuery_iPcActorMove
+scfQuery_iPcActorAnalog = _blcelc.scfQuery_iPcActorAnalog
 class iPcAnalogMotion(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -2437,8 +2513,15 @@ class iPcAnalogMotion(cspace.iBase):
     __del__ = lambda self : None;
 iPcAnalogMotion_swigregister = _blcelc.iPcAnalogMotion_swigregister
 iPcAnalogMotion_swigregister(iPcAnalogMotion)
+celCreateActorMove = _blcelc.celCreateActorMove
+celGetSetActorMove = _blcelc.celGetSetActorMove
+celGetActorMove = _blcelc.celGetActorMove
+celCreateActorAnalog = _blcelc.celCreateActorAnalog
+celGetSetActorAnalog = _blcelc.celGetSetActorAnalog
+celGetActorAnalog = _blcelc.celGetActorAnalog
 iPcAnalogMotion_scfGetVersion = _blcelc.iPcAnalogMotion_scfGetVersion
 
+scfQuery_iPcAnalogMotion = _blcelc.scfQuery_iPcAnalogMotion
 class iPcJump(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -2506,8 +2589,12 @@ class iPcJump(cspace.iBase):
     __del__ = lambda self : None;
 iPcJump_swigregister = _blcelc.iPcJump_swigregister
 iPcJump_swigregister(iPcJump)
+celCreateAnalogMotion = _blcelc.celCreateAnalogMotion
+celGetSetAnalogMotion = _blcelc.celGetSetAnalogMotion
+celGetAnalogMotion = _blcelc.celGetAnalogMotion
 iPcJump_scfGetVersion = _blcelc.iPcJump_scfGetVersion
 
+scfQuery_iPcJump = _blcelc.scfQuery_iPcJump
 class iPcCamera(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -2583,6 +2670,9 @@ class iPcCamera(cspace.iBase):
     __del__ = lambda self : None;
 iPcCamera_swigregister = _blcelc.iPcCamera_swigregister
 iPcCamera_swigregister(iPcCamera)
+celCreateJump = _blcelc.celCreateJump
+celGetSetJump = _blcelc.celGetSetJump
+celGetJump = _blcelc.celGetJump
 
 class iPcDefaultCamera(iPcCamera):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -2703,6 +2793,7 @@ iPcDefaultCamera_swigregister = _blcelc.iPcDefaultCamera_swigregister
 iPcDefaultCamera_swigregister(iPcDefaultCamera)
 iPcDefaultCamera_scfGetVersion = _blcelc.iPcDefaultCamera_scfGetVersion
 
+scfQuery_iPcDefaultCamera = _blcelc.scfQuery_iPcDefaultCamera
 class iPcSimpleCamera(iPcCamera):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -2745,8 +2836,12 @@ class iPcSimpleCamera(iPcCamera):
     __del__ = lambda self : None;
 iPcSimpleCamera_swigregister = _blcelc.iPcSimpleCamera_swigregister
 iPcSimpleCamera_swigregister(iPcSimpleCamera)
+celCreateDefaultCamera = _blcelc.celCreateDefaultCamera
+celGetSetDefaultCamera = _blcelc.celGetSetDefaultCamera
+celGetDefaultCamera = _blcelc.celGetDefaultCamera
 iPcSimpleCamera_scfGetVersion = _blcelc.iPcSimpleCamera_scfGetVersion
 
+scfQuery_iPcSimpleCamera = _blcelc.scfQuery_iPcSimpleCamera
 class General(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -2776,6 +2871,9 @@ class General(cspace.iBase):
     __del__ = lambda self : None;
 General_swigregister = _blcelc.General_swigregister
 General_swigregister(General)
+celCreateSimpleCamera = _blcelc.celCreateSimpleCamera
+celGetSetSimpleCamera = _blcelc.celGetSetSimpleCamera
+celGetSimpleCamera = _blcelc.celGetSimpleCamera
 
 class Tracking(General):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -2952,6 +3050,7 @@ iPcNewCamera_swigregister = _blcelc.iPcNewCamera_swigregister
 iPcNewCamera_swigregister(iPcNewCamera)
 iPcNewCamera_scfGetVersion = _blcelc.iPcNewCamera_scfGetVersion
 
+scfQuery_iPcNewCamera = _blcelc.scfQuery_iPcNewCamera
 class iPcCameraMode(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -2964,6 +3063,9 @@ class iPcCameraMode(cspace.iBase):
     __del__ = lambda self : None;
 iPcCameraMode_swigregister = _blcelc.iPcCameraMode_swigregister
 iPcCameraMode_swigregister(iPcCameraMode)
+celCreateNewCamera = _blcelc.celCreateNewCamera
+celGetSetNewCamera = _blcelc.celGetSetNewCamera
+celGetNewCamera = _blcelc.celGetNewCamera
 
 class iPcDelegateCamera(iPcCamera):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -2996,6 +3098,7 @@ iPcDelegateCamera_swigregister = _blcelc.iPcDelegateCamera_swigregister
 iPcDelegateCamera_swigregister(iPcDelegateCamera)
 iPcDelegateCamera_scfGetVersion = _blcelc.iPcDelegateCamera_scfGetVersion
 
+scfQuery_iPcDelegateCamera = _blcelc.scfQuery_iPcDelegateCamera
 class iPcTrackingCamera(iPcCameraMode):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -3057,8 +3160,12 @@ class iPcTrackingCamera(iPcCameraMode):
     __del__ = lambda self : None;
 iPcTrackingCamera_swigregister = _blcelc.iPcTrackingCamera_swigregister
 iPcTrackingCamera_swigregister(iPcTrackingCamera)
+celCreateDelegateCamera = _blcelc.celCreateDelegateCamera
+celGetSetDelegateCamera = _blcelc.celGetSetDelegateCamera
+celGetDelegateCamera = _blcelc.celGetDelegateCamera
 iPcTrackingCamera_scfGetVersion = _blcelc.iPcTrackingCamera_scfGetVersion
 
+scfQuery_iPcTrackingCamera = _blcelc.scfQuery_iPcTrackingCamera
 CEL_MOUSE_BUTTON1 = _blcelc.CEL_MOUSE_BUTTON1
 CEL_MOUSE_BUTTON2 = _blcelc.CEL_MOUSE_BUTTON2
 CEL_MOUSE_BUTTON3 = _blcelc.CEL_MOUSE_BUTTON3
@@ -3073,6 +3180,9 @@ class iPcMeshSelectListener(cspace.iBase):
     __del__ = lambda self : None;
 iPcMeshSelectListener_swigregister = _blcelc.iPcMeshSelectListener_swigregister
 iPcMeshSelectListener_swigregister(iPcMeshSelectListener)
+celCreateTrackingCamera = _blcelc.celCreateTrackingCamera
+celGetSetTrackingCamera = _blcelc.celGetSetTrackingCamera
+celGetTrackingCamera = _blcelc.celGetTrackingCamera
 
 class iPcMeshSelect(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -3162,6 +3272,7 @@ iPcMeshSelect_swigregister = _blcelc.iPcMeshSelect_swigregister
 iPcMeshSelect_swigregister(iPcMeshSelect)
 iPcMeshSelect_scfGetVersion = _blcelc.iPcMeshSelect_scfGetVersion
 
+scfQuery_iPcMeshSelect = _blcelc.scfQuery_iPcMeshSelect
 CEL_PCMESH_PROPERTY_MESH = _blcelc.CEL_PCMESH_PROPERTY_MESH
 class iPcMesh(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -3224,8 +3335,12 @@ class iPcMesh(cspace.iBase):
     __del__ = lambda self : None;
 iPcMesh_swigregister = _blcelc.iPcMesh_swigregister
 iPcMesh_swigregister(iPcMesh)
+celCreateMeshSelect = _blcelc.celCreateMeshSelect
+celGetSetMeshSelect = _blcelc.celGetSetMeshSelect
+celGetMeshSelect = _blcelc.celGetMeshSelect
 iPcMesh_scfGetVersion = _blcelc.iPcMesh_scfGetVersion
 
+scfQuery_iPcMesh = _blcelc.scfQuery_iPcMesh
 class iPcTimer(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -3254,8 +3369,12 @@ class iPcTimer(cspace.iBase):
     __del__ = lambda self : None;
 iPcTimer_swigregister = _blcelc.iPcTimer_swigregister
 iPcTimer_swigregister(iPcTimer)
+celCreateMesh = _blcelc.celCreateMesh
+celGetSetMesh = _blcelc.celGetSetMesh
+celGetMesh = _blcelc.celGetMesh
 iPcTimer_scfGetVersion = _blcelc.iPcTimer_scfGetVersion
 
+scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
 TRIGGER_NONE = _blcelc.TRIGGER_NONE
 TRIGGER_SPHERE = _blcelc.TRIGGER_SPHERE
 TRIGGER_BOX = _blcelc.TRIGGER_BOX
@@ -3273,6 +3392,9 @@ class iPcTriggerListener(cspace.iBase):
     __del__ = lambda self : None;
 iPcTriggerListener_swigregister = _blcelc.iPcTriggerListener_swigregister
 iPcTriggerListener_swigregister(iPcTriggerListener)
+celCreateTimer = _blcelc.celCreateTimer
+celGetSetTimer = _blcelc.celGetSetTimer
+celGetTimer = _blcelc.celGetTimer
 
 class iPcTrigger(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -3328,6 +3450,7 @@ iPcTrigger_swigregister = _blcelc.iPcTrigger_swigregister
 iPcTrigger_swigregister(iPcTrigger)
 iPcTrigger_scfGetVersion = _blcelc.iPcTrigger_scfGetVersion
 
+scfQuery_iPcTrigger = _blcelc.scfQuery_iPcTrigger
 class iPcSteer(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -3385,8 +3508,12 @@ class iPcSteer(cspace.iBase):
     __del__ = lambda self : None;
 iPcSteer_swigregister = _blcelc.iPcSteer_swigregister
 iPcSteer_swigregister(iPcSteer)
+celCreateTrigger = _blcelc.celCreateTrigger
+celGetSetTrigger = _blcelc.celGetSetTrigger
+celGetTrigger = _blcelc.celGetTrigger
 iPcSteer_scfGetVersion = _blcelc.iPcSteer_scfGetVersion
 
+scfQuery_iPcSteer = _blcelc.scfQuery_iPcSteer
 class iPcPathFinder(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -3440,8 +3567,12 @@ class iPcPathFinder(cspace.iBase):
     __del__ = lambda self : None;
 iPcPathFinder_swigregister = _blcelc.iPcPathFinder_swigregister
 iPcPathFinder_swigregister(iPcPathFinder)
+celCreateSteer = _blcelc.celCreateSteer
+celGetSetSteer = _blcelc.celGetSetSteer
+celGetSteer = _blcelc.celGetSteer
 iPcPathFinder_scfGetVersion = _blcelc.iPcPathFinder_scfGetVersion
 
+scfQuery_iPcPathFinder = _blcelc.scfQuery_iPcPathFinder
 class iPcSpawn(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -3497,8 +3628,12 @@ class iPcSpawn(cspace.iBase):
     __del__ = lambda self : None;
 iPcSpawn_swigregister = _blcelc.iPcSpawn_swigregister
 iPcSpawn_swigregister(iPcSpawn)
+celCreatePathFinder = _blcelc.celCreatePathFinder
+celGetSetPathFinder = _blcelc.celGetSetPathFinder
+celGetPathFinder = _blcelc.celGetPathFinder
 iPcSpawn_scfGetVersion = _blcelc.iPcSpawn_scfGetVersion
 
+scfQuery_iPcSpawn = _blcelc.scfQuery_iPcSpawn
 class iPcProjectile(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -3530,8 +3665,12 @@ class iPcProjectile(cspace.iBase):
     __del__ = lambda self : None;
 iPcProjectile_swigregister = _blcelc.iPcProjectile_swigregister
 iPcProjectile_swigregister(iPcProjectile)
+celCreateSpawn = _blcelc.celCreateSpawn
+celGetSetSpawn = _blcelc.celGetSetSpawn
+celGetSpawn = _blcelc.celGetSpawn
 iPcProjectile_scfGetVersion = _blcelc.iPcProjectile_scfGetVersion
 
+scfQuery_iPcProjectile = _blcelc.scfQuery_iPcProjectile
 class iPcSolid(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -3569,8 +3708,12 @@ class iPcSolid(cspace.iBase):
     __del__ = lambda self : None;
 iPcSolid_swigregister = _blcelc.iPcSolid_swigregister
 iPcSolid_swigregister(iPcSolid)
+celCreateProjectile = _blcelc.celCreateProjectile
+celGetSetProjectile = _blcelc.celGetSetProjectile
+celGetProjectile = _blcelc.celGetProjectile
 iPcSolid_scfGetVersion = _blcelc.iPcSolid_scfGetVersion
 
+scfQuery_iPcSolid = _blcelc.scfQuery_iPcSolid
 class iPcGravity(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -3634,8 +3777,12 @@ class iPcGravity(cspace.iBase):
     __del__ = lambda self : None;
 iPcGravity_swigregister = _blcelc.iPcGravity_swigregister
 iPcGravity_swigregister(iPcGravity)
+celCreateSolid = _blcelc.celCreateSolid
+celGetSetSolid = _blcelc.celGetSetSolid
+celGetSolid = _blcelc.celGetSolid
 iPcGravity_scfGetVersion = _blcelc.iPcGravity_scfGetVersion
 
+scfQuery_iPcGravity = _blcelc.scfQuery_iPcGravity
 CEL_PCMOVABLE_PROPERTY_POSITION = _blcelc.CEL_PCMOVABLE_PROPERTY_POSITION
 CEL_MOVE_FAIL = _blcelc.CEL_MOVE_FAIL
 CEL_MOVE_SUCCEED = _blcelc.CEL_MOVE_SUCCEED
@@ -3675,6 +3822,9 @@ class iPcMovable(cspace.iBase):
     __del__ = lambda self : None;
 iPcMovable_swigregister = _blcelc.iPcMovable_swigregister
 iPcMovable_swigregister(iPcMovable)
+celCreateGravity = _blcelc.celCreateGravity
+celGetSetGravity = _blcelc.celGetSetGravity
+celGetGravity = _blcelc.celGetGravity
 iPcMovable_scfGetVersion = _blcelc.iPcMovable_scfGetVersion
 
 class iPcMovableConstraint(cspace.iBase):
@@ -3687,6 +3837,7 @@ class iPcMovableConstraint(cspace.iBase):
 iPcMovableConstraint_swigregister = _blcelc.iPcMovableConstraint_swigregister
 iPcMovableConstraint_swigregister(iPcMovableConstraint)
 
+scfQuery_iPcMovable = _blcelc.scfQuery_iPcMovable
 class iPcInventoryListener(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -3697,6 +3848,9 @@ class iPcInventoryListener(cspace.iBase):
     __del__ = lambda self : None;
 iPcInventoryListener_swigregister = _blcelc.iPcInventoryListener_swigregister
 iPcInventoryListener_swigregister(iPcInventoryListener)
+celCreateMovable = _blcelc.celCreateMovable
+celGetSetMovable = _blcelc.celGetSetMovable
+celGetMovable = _blcelc.celGetMovable
 
 class iCelInventorySpaceSlot(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -3803,6 +3957,7 @@ iPcInventory_swigregister = _blcelc.iPcInventory_swigregister
 iPcInventory_swigregister(iPcInventory)
 iPcInventory_scfGetVersion = _blcelc.iPcInventory_scfGetVersion
 
+scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
 class iCelEntityInvFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
@@ -3865,8 +4020,12 @@ class iPcCharacteristics(cspace.iBase):
     __del__ = lambda self : None;
 iPcCharacteristics_swigregister = _blcelc.iPcCharacteristics_swigregister
 iPcCharacteristics_swigregister(iPcCharacteristics)
+celCreateInventory = _blcelc.celCreateInventory
+celGetSetInventory = _blcelc.celGetSetInventory
+celGetInventory = _blcelc.celGetInventory
 iPcCharacteristics_scfGetVersion = _blcelc.iPcCharacteristics_scfGetVersion
 
+scfQuery_iPcCharacteristics = _blcelc.scfQuery_iPcCharacteristics
 CEL_TOOLTIP_LEFT = _blcelc.CEL_TOOLTIP_LEFT
 CEL_TOOLTIP_CENTER = _blcelc.CEL_TOOLTIP_CENTER
 CEL_TOOLTIP_RIGHT = _blcelc.CEL_TOOLTIP_RIGHT
@@ -3921,8 +4080,12 @@ class iPcTooltip(cspace.iBase):
     __del__ = lambda self : None;
 iPcTooltip_swigregister = _blcelc.iPcTooltip_swigregister
 iPcTooltip_swigregister(iPcTooltip)
+celCreateCharacteristics = _blcelc.celCreateCharacteristics
+celGetSetCharacteristics = _blcelc.celGetSetCharacteristics
+celGetCharacteristics = _blcelc.celGetCharacteristics
 iPcTooltip_scfGetVersion = _blcelc.iPcTooltip_scfGetVersion
 
+scfQuery_iPcTooltip = _blcelc.scfQuery_iPcTooltip
 class iPcSoundListener(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -3952,6 +4115,9 @@ class iPcSoundListener(cspace.iBase):
     __del__ = lambda self : None;
 iPcSoundListener_swigregister = _blcelc.iPcSoundListener_swigregister
 iPcSoundListener_swigregister(iPcSoundListener)
+celCreateToolTip = _blcelc.celCreateToolTip
+celGetSetToolTip = _blcelc.celGetSetToolTip
+celGetToolTip = _blcelc.celGetToolTip
 iPcSoundListener_scfGetVersion = _blcelc.iPcSoundListener_scfGetVersion
 
 class iPcSoundSource(cspace.iBase):
@@ -4001,6 +4167,8 @@ iPcSoundSource_swigregister = _blcelc.iPcSoundSource_swigregister
 iPcSoundSource_swigregister(iPcSoundSource)
 iPcSoundSource_scfGetVersion = _blcelc.iPcSoundSource_scfGetVersion
 
+scfQuery_iPcSoundSource = _blcelc.scfQuery_iPcSoundSource
+scfQuery_iPcSoundListener = _blcelc.scfQuery_iPcSoundListener
 class iPcPropertyListener(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -4010,6 +4178,12 @@ class iPcPropertyListener(cspace.iBase):
     __del__ = lambda self : None;
 iPcPropertyListener_swigregister = _blcelc.iPcPropertyListener_swigregister
 iPcPropertyListener_swigregister(iPcPropertyListener)
+celCreateSoundSource = _blcelc.celCreateSoundSource
+celGetSetSoundSource = _blcelc.celGetSetSoundSource
+celGetSoundSource = _blcelc.celGetSoundSource
+celCreateSoundListener = _blcelc.celCreateSoundListener
+celGetSetSoundListener = _blcelc.celGetSetSoundListener
+celGetSoundListener = _blcelc.celGetSoundListener
 
 class iPcProperties(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -4088,6 +4262,7 @@ iPcProperties_swigregister = _blcelc.iPcProperties_swigregister
 iPcProperties_swigregister(iPcProperties)
 iPcProperties_scfGetVersion = _blcelc.iPcProperties_scfGetVersion
 
+scfQuery_iPcProperties = _blcelc.scfQuery_iPcProperties
 class iPcMover(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -4136,8 +4311,12 @@ class iPcMover(cspace.iBase):
     __del__ = lambda self : None;
 iPcMover_swigregister = _blcelc.iPcMover_swigregister
 iPcMover_swigregister(iPcMover)
+celCreateProperties = _blcelc.celCreateProperties
+celGetSetProperties = _blcelc.celGetSetProperties
+celGetProperties = _blcelc.celGetProperties
 iPcMover_scfGetVersion = _blcelc.iPcMover_scfGetVersion
 
+scfQuery_iPcMover = _blcelc.scfQuery_iPcMover
 class iPcHover(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -4193,8 +4372,12 @@ class iPcHover(cspace.iBase):
     __del__ = lambda self : None;
 iPcHover_swigregister = _blcelc.iPcHover_swigregister
 iPcHover_swigregister(iPcHover)
+celCreateMover = _blcelc.celCreateMover
+celGetSetMover = _blcelc.celGetSetMover
+celGetMover = _blcelc.celGetMover
 iPcHover_scfGetVersion = _blcelc.iPcHover_scfGetVersion
 
+scfQuery_iPcHover = _blcelc.scfQuery_iPcHover
 class iPcCraftController(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -4284,8 +4467,12 @@ class iPcCraftController(cspace.iBase):
     __del__ = lambda self : None;
 iPcCraftController_swigregister = _blcelc.iPcCraftController_swigregister
 iPcCraftController_swigregister(iPcCraftController)
+celCreateHover = _blcelc.celCreateHover
+celGetSetHover = _blcelc.celGetSetHover
+celGetHover = _blcelc.celGetHover
 iPcCraftController_scfGetVersion = _blcelc.iPcCraftController_scfGetVersion
 
+scfQuery_iPcCraftController = _blcelc.scfQuery_iPcCraftController
 class iPcWheeled(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -4483,8 +4670,12 @@ class iPcWheeled(cspace.iBase):
     __del__ = lambda self : None;
 iPcWheeled_swigregister = _blcelc.iPcWheeled_swigregister
 iPcWheeled_swigregister(iPcWheeled)
+celCreateCraftController = _blcelc.celCreateCraftController
+celGetSetCraftController = _blcelc.celGetSetCraftController
+celGetCraftController = _blcelc.celGetCraftController
 iPcWheeled_scfGetVersion = _blcelc.iPcWheeled_scfGetVersion
 
+scfQuery_iPcWheeled = _blcelc.scfQuery_iPcWheeled
 class iPcMeshDeform(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -4548,8 +4739,12 @@ class iPcMeshDeform(cspace.iBase):
     __del__ = lambda self : None;
 iPcMeshDeform_swigregister = _blcelc.iPcMeshDeform_swigregister
 iPcMeshDeform_swigregister(iPcMeshDeform)
+celCreateWheeled = _blcelc.celCreateWheeled
+celGetSetWheeled = _blcelc.celGetSetWheeled
+celGetWheeled = _blcelc.celGetWheeled
 iPcMeshDeform_scfGetVersion = _blcelc.iPcMeshDeform_scfGetVersion
 
+scfQuery_iPcMeshDeform = _blcelc.scfQuery_iPcMeshDeform
 class iPcDamage(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -4614,8 +4809,12 @@ class iPcDamage(cspace.iBase):
     __del__ = lambda self : None;
 iPcDamage_swigregister = _blcelc.iPcDamage_swigregister
 iPcDamage_swigregister(iPcDamage)
+celCreateMeshDeform = _blcelc.celCreateMeshDeform
+celGetSetMeshDeform = _blcelc.celGetSetMeshDeform
+celGetMeshDeform = _blcelc.celGetMeshDeform
 iPcDamage_scfGetVersion = _blcelc.iPcDamage_scfGetVersion
 
+scfQuery_iPcDamage = _blcelc.scfQuery_iPcDamage
 class iQuestParameter(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -4627,6 +4826,9 @@ class iQuestParameter(cspace.iBase):
     __del__ = lambda self : None;
 iQuestParameter_swigregister = _blcelc.iQuestParameter_swigregister
 iQuestParameter_swigregister(iQuestParameter)
+celCreateDamage = _blcelc.celCreateDamage
+celGetSetDamage = _blcelc.celGetSetDamage
+celGetDamage = _blcelc.celGetDamage
 
 class celParSpec(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -5536,6 +5738,7 @@ iPcQuest_swigregister = _blcelc.iPcQuest_swigregister
 iPcQuest_swigregister(iPcQuest)
 iPcQuest_scfGetVersion = _blcelc.iPcQuest_scfGetVersion
 
+scfQuery_iPcQuest = _blcelc.scfQuery_iPcQuest
 class iCelEdge(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -5556,6 +5759,9 @@ class iCelEdge(cspace.iBase):
     __del__ = lambda self : None;
 iCelEdge_swigregister = _blcelc.iCelEdge_swigregister
 iCelEdge_swigregister(iCelEdge)
+celCreateQuest = _blcelc.celCreateQuest
+celGetSetQuest = _blcelc.celGetSetQuest
+celGetQuest = _blcelc.celGetQuest
 
 class iCelNode(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -5694,6 +5900,7 @@ class iCelConsole(cspace.iBase):
 iCelConsole_swigregister = _blcelc.iCelConsole_swigregister
 iCelConsole_swigregister(iCelConsole)
 
+csQueryRegistry_iCelConsole = _blcelc.csQueryRegistry_iCelConsole
 class PcCommonBase(iCelPropertyClass,iCelTimerListener,iMessageSender):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -5764,7 +5971,8 @@ class celPcCommon(PcCommonBase):
     def GetPropertyFloatByID(*args): return _blcelc.celPcCommon_GetPropertyFloatByID(*args)
     def GetPropertyBoolByID(*args): return _blcelc.celPcCommon_GetPropertyBoolByID(*args)
     def GetPropertyStringByID(*args): return _blcelc.celPcCommon_GetPropertyStringByID(*args)
-    def GetPropertyVectorByID(*args): return _blcelc.celPcCommon_GetPropertyVectorByID(*args)
+    def GetPropertyVector2ByID(*args): return _blcelc.celPcCommon_GetPropertyVector2ByID(*args)
+    def GetPropertyVector3ByID(*args): return _blcelc.celPcCommon_GetPropertyVector3ByID(*args)
     def GetPropertyColorByID(*args): return _blcelc.celPcCommon_GetPropertyColorByID(*args)
     def GetPropertyPClassByID(*args): return _blcelc.celPcCommon_GetPropertyPClassByID(*args)
     def GetPropertyEntityByID(*args): return _blcelc.celPcCommon_GetPropertyEntityByID(*args)
@@ -5815,6 +6023,43 @@ class swigPcCommon(celPcCommon):
 swigPcCommon_swigregister = _blcelc.swigPcCommon_swigregister
 swigPcCommon_swigregister(swigPcCommon)
 
+class PcCommon(swigPcCommon):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_PcCommon(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_PcCommon
+    __del__ = lambda self : None;
+    def Save(*args): return _blcelc.PcCommon_Save(*args)
+    def Load(*args): return _blcelc.PcCommon_Load(*args)
+PcCommon_swigregister = _blcelc.PcCommon_swigregister
+PcCommon_swigregister(PcCommon)
+
+class PcCommonFactory(swigPcCommonFactory):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        if self.__class__ == PcCommonFactory:
+            args = (None,) + args
+        else:
+            args = (self,) + args
+        this = _blcelc.new_PcCommonFactory(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_PcCommonFactory
+    __del__ = lambda self : None;
+    def GetName(*args): return _blcelc.PcCommonFactory_GetName(*args)
+    def CreatePropertyClass(*args): return _blcelc.PcCommonFactory_CreatePropertyClass(*args)
+    def CreateScriptPropertyClass(*args): return _blcelc.PcCommonFactory_CreateScriptPropertyClass(*args)
+    def __disown__(self):
+        self.this.disown()
+        _blcelc.disown_PcCommonFactory(self)
+        return weakref_proxy(self)
+PcCommonFactory_swigregister = _blcelc.PcCommonFactory_swigregister
+PcCommonFactory_swigregister(PcCommonFactory)
+
 class CelConsoleOut:
 	"""Class that can be assigned to sys.stdout or sys.stderr"""
 	def __init__(self,oreg):
@@ -5835,7 +6080,20 @@ class CelConsoleOutOverride:
 		sys.stdout = self.oldstdout
 		sys.stderr = self.oldstderr
 
-class swigPyPcCommon(object):
+class iPcPython(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetPythonObject(*args): return _blcelc.iPcPython_SetPythonObject(*args)
+    def GetPythonObject(*args): return _blcelc.iPcPython_GetPythonObject(*args)
+    scfGetVersion = staticmethod(_blcelc.iPcPython_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iPcPython
+    __del__ = lambda self : None;
+iPcPython_swigregister = _blcelc.iPcPython_swigregister
+iPcPython_swigregister(iPcPython)
+iPcPython_scfGetVersion = _blcelc.iPcPython_scfGetVersion
+
+class swigPyPcCommon(PcCommon,iPcPython):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
@@ -5848,6 +6106,50 @@ class swigPyPcCommon(object):
     def GetInterfaceMetadata(*args): return _blcelc.swigPyPcCommon_GetInterfaceMetadata(*args)
 swigPyPcCommon_swigregister = _blcelc.swigPyPcCommon_swigregister
 swigPyPcCommon_swigregister(swigPyPcCommon)
+
+class pyPcCommon(swigPyPcCommon):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    oreg = _swig_property(_blcelc.pyPcCommon_oreg_get, _blcelc.pyPcCommon_oreg_set)
+    def __init__(self, *args): 
+        if self.__class__ == pyPcCommon:
+            args = (None,) + args
+        else:
+            args = (self,) + args
+        this = _blcelc.new_pyPcCommon(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_pyPcCommon
+    __del__ = lambda self : None;
+    def SetPythonObject(*args): return _blcelc.pyPcCommon_SetPythonObject(*args)
+    def GetPythonObject(*args): return _blcelc.pyPcCommon_GetPythonObject(*args)
+    def PerformAction(*args): return _blcelc.pyPcCommon_PerformAction(*args)
+    def GetPropertyLongByID(*args): return _blcelc.pyPcCommon_GetPropertyLongByID(*args)
+    def GetPropertyFloatByID(*args): return _blcelc.pyPcCommon_GetPropertyFloatByID(*args)
+    def GetPropertyBoolByID(*args): return _blcelc.pyPcCommon_GetPropertyBoolByID(*args)
+    def SetEntity(*args): return _blcelc.pyPcCommon_SetEntity(*args)
+    def GetPropertyStringByID(*args): return _blcelc.pyPcCommon_GetPropertyStringByID(*args)
+    def GetPropertyVector2ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector2ByID(*args)
+    def GetPropertyVector3ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector3ByID(*args)
+    def GetPropertyColorByID(*args): return _blcelc.pyPcCommon_GetPropertyColorByID(*args)
+    def GetPropertyEntityByID(*args): return _blcelc.pyPcCommon_GetPropertyEntityByID(*args)
+    def GetPropertyPClassByID(*args): return _blcelc.pyPcCommon_GetPropertyPClassByID(*args)
+    def GetPropertyIBaseByID(*args): return _blcelc.pyPcCommon_GetPropertyIBaseByID(*args)
+    def PropertyClassesHaveChanged(*args): return _blcelc.pyPcCommon_PropertyClassesHaveChanged(*args)
+    def SetProperty(*args): return _blcelc.pyPcCommon_SetProperty(*args)
+    def GetPropertyAndActionCount(*args): return _blcelc.pyPcCommon_GetPropertyAndActionCount(*args)
+    def GetPropertyOrActionType(*args): return _blcelc.pyPcCommon_GetPropertyOrActionType(*args)
+    def GetPL(*args): return _blcelc.pyPcCommon_GetPL(*args)
+    def PerformActionIndexed(self,id,celParBlock,ret):
+      print "indexed action"
+    pl = property(GetPL)
+
+    def __disown__(self):
+        self.this.disown()
+        _blcelc.disown_pyPcCommon(self)
+        return weakref_proxy(self)
+pyPcCommon_swigregister = _blcelc.pyPcCommon_swigregister
+pyPcCommon_swigregister(pyPcCommon)
 
 class swigpyMessageSender(iMessageSender):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -5863,6 +6165,27 @@ class swigpyMessageSender(iMessageSender):
 swigpyMessageSender_swigregister = _blcelc.swigpyMessageSender_swigregister
 swigpyMessageSender_swigregister(swigpyMessageSender)
 
+class pyMessageSender(swigpyMessageSender):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        if self.__class__ == pyMessageSender:
+            args = (None,) + args
+        else:
+            args = (self,) + args
+        this = _blcelc.new_pyMessageSender(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_pyMessageSender
+    __del__ = lambda self : None;
+    def MessageDispatcherRemoved(*args): return _blcelc.pyMessageSender_MessageDispatcherRemoved(*args)
+    def __disown__(self):
+        self.this.disown()
+        _blcelc.disown_pyMessageSender(self)
+        return weakref_proxy(self)
+pyMessageSender_swigregister = _blcelc.pyMessageSender_swigregister
+pyMessageSender_swigregister(pyMessageSender)
+
 class swigpyMessageReceiver(iMessageReceiver):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -5876,6 +6199,27 @@ class swigpyMessageReceiver(iMessageReceiver):
     def GetInterfaceMetadata(*args): return _blcelc.swigpyMessageReceiver_GetInterfaceMetadata(*args)
 swigpyMessageReceiver_swigregister = _blcelc.swigpyMessageReceiver_swigregister
 swigpyMessageReceiver_swigregister(swigpyMessageReceiver)
+
+class pyMessageReceiver(swigpyMessageReceiver):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        if self.__class__ == pyMessageReceiver:
+            args = (None,) + args
+        else:
+            args = (self,) + args
+        this = _blcelc.new_pyMessageReceiver(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_pyMessageReceiver
+    __del__ = lambda self : None;
+    def ReceiveMessage(*args): return _blcelc.pyMessageReceiver_ReceiveMessage(*args)
+    def __disown__(self):
+        self.this.disown()
+        _blcelc.disown_pyMessageReceiver(self)
+        return weakref_proxy(self)
+pyMessageReceiver_swigregister = _blcelc.pyMessageReceiver_swigregister
+pyMessageReceiver_swigregister(pyMessageReceiver)
 
 class swigpyPcPropertyListener(iPcPropertyListener):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -5891,6 +6235,27 @@ class swigpyPcPropertyListener(iPcPropertyListener):
 swigpyPcPropertyListener_swigregister = _blcelc.swigpyPcPropertyListener_swigregister
 swigpyPcPropertyListener_swigregister(swigpyPcPropertyListener)
 
+class pyPcPropertyListener(swigpyPcPropertyListener):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        if self.__class__ == pyPcPropertyListener:
+            args = (None,) + args
+        else:
+            args = (self,) + args
+        this = _blcelc.new_pyPcPropertyListener(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_pyPcPropertyListener
+    __del__ = lambda self : None;
+    def PropertyChanged(*args): return _blcelc.pyPcPropertyListener_PropertyChanged(*args)
+    def __disown__(self):
+        self.this.disown()
+        _blcelc.disown_pyPcPropertyListener(self)
+        return weakref_proxy(self)
+pyPcPropertyListener_swigregister = _blcelc.pyPcPropertyListener_swigregister
+pyPcPropertyListener_swigregister(pyPcPropertyListener)
+
 class swigpyPcInventoryListener(iPcInventoryListener):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -5904,6 +6269,28 @@ class swigpyPcInventoryListener(iPcInventoryListener):
     def GetInterfaceMetadata(*args): return _blcelc.swigpyPcInventoryListener_GetInterfaceMetadata(*args)
 swigpyPcInventoryListener_swigregister = _blcelc.swigpyPcInventoryListener_swigregister
 swigpyPcInventoryListener_swigregister(swigpyPcInventoryListener)
+
+class pyPcInventoryListener(swigpyPcInventoryListener):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        if self.__class__ == pyPcInventoryListener:
+            args = (None,) + args
+        else:
+            args = (self,) + args
+        this = _blcelc.new_pyPcInventoryListener(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_pyPcInventoryListener
+    __del__ = lambda self : None;
+    def AddChild(*args): return _blcelc.pyPcInventoryListener_AddChild(*args)
+    def RemoveChild(*args): return _blcelc.pyPcInventoryListener_RemoveChild(*args)
+    def __disown__(self):
+        self.this.disown()
+        _blcelc.disown_pyPcInventoryListener(self)
+        return weakref_proxy(self)
+pyPcInventoryListener_swigregister = _blcelc.pyPcInventoryListener_swigregister
+pyPcInventoryListener_swigregister(pyPcInventoryListener)
 
 
 
