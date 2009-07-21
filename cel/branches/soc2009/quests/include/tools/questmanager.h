@@ -255,72 +255,6 @@ struct iQuestTriggerType : public virtual iBase
   virtual csPtr<iQuestTriggerFactory> CreateTriggerFactory () = 0;
 };
 
-//-------------------------------------------------------------------------
-// Rewards
-//-------------------------------------------------------------------------
-
-/**
- * This is a reward for a quest. The quest manager can issue
- * rewards in response to some trigger. Just like triggers you can
- * implement your own rewards in addition to the standard rewards
- * already implemented in the quest manager. You also need to implement
- * a quest reward factory then (see iQuestRewardFactory).
- */
-struct iQuestReward : public virtual iBase
-{
-  SCF_INTERFACE (iQuestReward, 0, 0, 1);
-  /**
-   * Perform this reward.
-   */
-  virtual void Reward (iCelParameterBlock* params) = 0;
-};
-
-/**
- * A factory to create rewards. Reward factories are created
- * by an iQuestRewardType instance.
- */
-struct iQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Create a reward.
-   * \param quest is the quest for which we are creating this reward.
-   * \param params are the parameters with which this reward is
-   * instantiated.
-   */
-  virtual csPtr<iQuestReward> CreateReward (iQuest* quest,
-  	const celQuestParams& params) = 0;
-
-  /**
-   * Load this factory from a document node.
-   * \param node is the \<reward\> node in a trigger description.
-   * \return false on error (reporter is used to report).
-   */
-  virtual bool Load (iDocumentNode* node) = 0;
-};
-
-/**
- * The reward type is responsible for the creation of reward factories.
- * If you want to define a new type of reward then you must implement
- * iQuestRewardType, iQuestRewardFactory, and iQuestReward.
- * You register reward types with the quest manager so that they can
- * be used by quest factories.
- */
-struct iQuestRewardType : public virtual iBase
-{
-  SCF_INTERFACE (iQuestRewardType, 0, 0, 1);
-
-  /**
-   * Return the name for this reward type.
-   */
-  virtual const char* GetName () const = 0;
-  
-  /**
-   * Create a reward factory.
-   */
-  virtual csPtr<iQuestRewardFactory> CreateRewardFactory () = 0;
-};
 
 //-------------------------------------------------------------------------
 // Sequence operations
@@ -533,8 +467,7 @@ struct iQuestTriggerResponseFactory : public virtual iBase
    * Add a reward factory. A reward of this factory will be obtained
    * when the trigger fires.
    */
-  virtual void AddRewardFactory (iQuestRewardFactory* reward_fact) = 0;
-  virtual void AddRewardFactory_NEW (iRewardFactory* reward_fact) = 0;
+  virtual void AddRewardFactory (iRewardFactory* reward_fact) = 0;
 };
 
 /**
@@ -558,12 +491,12 @@ struct iQuestStateFactory : public virtual iBase
   /**
    * Add a new reward to be fired on state initialization.
    */
-  virtual void AddInitRewardFactory (iQuestRewardFactory* reward_fact) = 0;
+  virtual void AddInitRewardFactory (iRewardFactory* reward_fact) = 0;
 
   /**
    * Add a new reward to be fired on state exit.
    */
-  virtual void AddExitRewardFactory (iQuestRewardFactory* reward_fact) = 0;
+  virtual void AddExitRewardFactory (iRewardFactory* reward_fact) = 0;
 };
 
 /**
@@ -775,15 +708,13 @@ struct iQuestManager : public virtual iBase
    * - cel.questreward.createentity: create an entity from a template.
    *   See iCreateEntityQuestRewardFactory.
    */
-  virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
-  virtual bool RegisterRewardType_NEW (iRewardType* trigger) = 0;
+  virtual bool RegisterRewardType (iRewardType* trigger) = 0;
 
   /**
    * Get a reward type from the quest manager.
    * Returns 0 if no such reward type exists.
    */
-  virtual iQuestRewardType* GetRewardType (const char* name) = 0;
-  virtual iRewardType* GetRewardType_NEW (const char* name) = 0;
+  virtual iRewardType* GetRewardType (const char* name) = 0;
 
   /**
    * Register a seqop reward type. Seqop rewards can be used
@@ -896,7 +827,7 @@ struct iQuestManager : public virtual iBase
    * Convenience method to add a 'newstate' reward factory
    * to a response factory.
    */
-  virtual iQuestRewardFactory* AddNewStateReward (
+  virtual iRewardFactory* AddNewStateReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* state_par) = 0;
 
@@ -904,11 +835,7 @@ struct iQuestManager : public virtual iBase
    * Convenience method to add a 'debugprint' reward factory
    * to a response factory.
    */
-  virtual iQuestRewardFactory* AddDebugPrintReward (
-  	iQuestTriggerResponseFactory* response,
-  	const char* msg_par) = 0;
-  	
-  virtual iRewardFactory* AddDebugPrintReward_NEW (
+  virtual iRewardFactory* AddDebugPrintReward (
   	iQuestTriggerResponseFactory* response,
   	const char* msg) = 0;
 
@@ -916,10 +843,7 @@ struct iQuestManager : public virtual iBase
    * Convenience method to add an 'inventory' reward factory
    * to a response factory.
    */
-  virtual iQuestRewardFactory* AddInventoryReward (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* child_entity_par) = 0;
-  virtual iRewardFactory* AddInventoryReward_NEW (
+  virtual iRewardFactory* AddInventoryReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* child_entity_par) = 0;
 
@@ -927,11 +851,7 @@ struct iQuestManager : public virtual iBase
    * Convenience method to add an 'sequence' reward factory
    * to a response factory.
    */
-  virtual iQuestRewardFactory* AddSequenceReward (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* sequence_par,
-	const char* delay_par) = 0;
-  virtual iRewardFactory* AddSequenceReward_NEW (
+  virtual iRewardFactory* AddSequenceReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par,
 	const char* delay_par) = 0;
@@ -941,10 +861,7 @@ struct iQuestManager : public virtual iBase
    * Convenience method to add an 'cssequence' reward factory
    * to a response factory.
    */
-  virtual iQuestRewardFactory* AddCsSequenceReward (
-  	iQuestTriggerResponseFactory* response,
-  	const char* sequence_par, const char* delay_par) = 0;
-  virtual iRewardFactory* AddCsSequenceReward_NEW (
+  virtual iRewardFactory* AddCsSequenceReward (
   	iQuestTriggerResponseFactory* response,
   	const char* sequence_par, const char* delay_par) = 0;
 
@@ -952,10 +869,7 @@ struct iQuestManager : public virtual iBase
    * Convenience method to add an 'sequencefinish' reward factory
    * to a response factory.
    */
-  virtual iQuestRewardFactory* AddSequenceFinishReward (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* sequence_par) = 0;
-  virtual iRewardFactory* AddSequenceFinishReward_NEW (
+  virtual iRewardFactory* AddSequenceFinishReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par) = 0;
 
@@ -964,10 +878,7 @@ struct iQuestManager : public virtual iBase
    * to a response factory. You need to specify exactly which value
    * should be modified after calling this.
    */
-  virtual iChangePropertyQuestRewardFactory* AddChangePropertyReward (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* prop_par) = 0;
-  virtual iChangePropertyRewardFactory* AddChangePropertyReward_NEW (
+  virtual iChangePropertyRewardFactory* AddChangePropertyReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par) = 0;
 
@@ -977,12 +888,7 @@ struct iQuestManager : public virtual iBase
    * to create a copy of, the name of the created entity and any other 
    * parameters required by the template.
    */
-  virtual iQuestRewardFactory* AddCreateEntityReward (
-  	iQuestTriggerResponseFactory* response,
-	const char* template_par,
-	const char* name_par,
-    const celEntityTemplateParams &tpl_params) = 0;
-  virtual iRewardFactory* AddCreateEntityReward_NEW (
+  virtual iRewardFactory* AddCreateEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* template_par,
 	const char* name_par,
@@ -993,10 +899,7 @@ struct iQuestManager : public virtual iBase
    * to a response factory. You need to specify exactly which entity
    * to destroy
    */
-  virtual iQuestRewardFactory* AddDestroyEntityReward (
-  	iQuestTriggerResponseFactory* response,
-	const char* entity_par) = 0;
-  virtual iRewardFactory* AddDestroyEntityReward_NEW (
+  virtual iRewardFactory* AddDestroyEntityReward(
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par) = 0;
 
@@ -1005,12 +908,7 @@ struct iQuestManager : public virtual iBase
    * to a response factory. You need to specify exactly which entity
    * and which action
    */
-  virtual iQuestRewardFactory* AddActionReward (
-  	iQuestTriggerResponseFactory* response,
-	const char* entity_par,
-	const char* id_par,
-	const char* pcclass_par) = 0;
-  virtual iRewardFactory* AddActionReward_NEW (
+  virtual iRewardFactory* AddActionReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par,
 	const char* id_par,
@@ -1021,11 +919,7 @@ struct iQuestManager : public virtual iBase
    * to a response factory. You need to specify the message 
    * and which entity to send it to.
    */
-  virtual iQuestRewardFactory* AddMessageReward (
-  	iQuestTriggerResponseFactory* response,
-	const char* entity_par,
-	const char* id_par) = 0;
-  virtual iRewardFactory* AddMessageReward_NEW (
+  virtual iRewardFactory* AddMessageReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par,
 	const char* id_par) = 0;
@@ -1633,28 +1527,6 @@ struct iWatchQuestTriggerFactory : public virtual iBase
 // Specific reward implementations.
 //-------------------------------------------------------------------------
 
-/**
- * This interface is implemented by the reward that prints
- * debug messages on standard output. You can query this interface
- * from the reward factory if you want to manually control
- * this factory as opposed to loading its definition from an XML
- * document.
- *
- * The predefined name of this reward type is 'cel.questreward.debugprint'.
- *
- * In XML, factories recognize the following attributes on the 'reward' node:
- * - <em>message</em>: the message to print.
- */
-struct iDebugPrintQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iDebugPrintQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Set the message parameter to print (either a message string
-   * or a parameter if it starts with '$').
-   */
-  virtual void SetMessageParameter (const char* msg) = 0;
-};
 
 /**
  * This interface is implemented by the reward that switches
@@ -1713,501 +1585,6 @@ struct iNewStateQuestRewardFactory : public virtual iBase
   virtual void SetClassParameter (const char* ent_class) = 0;
 };
 
-/**
- * This interface is implemented by the reward that changes the value
- * of a property (either on a property from pcproperties or a generic
- * property on any property class). You can query this interface
- * from the reward factory if you want to manually control
- * this factory as opposed to loading its definition from an XML
- * document.
- *
- * The predefined name of this reward type is 'cel.questreward.changeproperty'.
- *
- * In XML, factories recognize the following attributes on the 'reward' node:
- * - <em>entity</em>: the name of the entity containing the
- *   pcproperties property class.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the given
- *   entity class.
- * - <em>pc</em>: the name of the property class. If this is not
- *   given then pcproperties is used.
- * - <em>tag</em>: used together with 'pc' to specify an optional tag.
- * - <em>property</em>: the name of the property.
- * - <em>string</em>: the new string value of the property.
- * - <em>long</em>: the new long value of the property.
- * - <em>float</em>: the new float value of the property.
- * - <em>bool</em>: the new bool value of the property.
- * - <em>diff</em>: this long or float value will be added to the property.
- * - <em>toggle</em>: toggle the boolean or long value.
- */
-struct iChangePropertyQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iChangePropertyQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Set the name of the entity containing the pcproperties property class
-   * on which this reward will work.
-   * \param entity is the name of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetEntityParameter (const char* entity) = 0;
-
-  /**
-   * Set the name of the entity class containing the property
-   * class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
-
-  /**
-   * Set the name of the property class and tag. If this is not
-   * given (or property class name is 0) then pcproperties will
-   * be used.
-   * \param pc is the name of the property class or a parameter (starts
-   * with '$').
-   * \param tag is the name of the tag or a parameter (starts
-   * with '$').
-   */
-  virtual void SetPCParameter (const char* pc, const char* tag) = 0;
-
-  /**
-   * Set the name of the property.
-   * \param prop is the name of the property or a parameter (starts
-   * with '$').
-   */
-  virtual void SetPropertyParameter (const char* prop) = 0;
-
-  /**
-   * Set the string value.
-   * \param pstring is the string or a parameter (starts with '$').
-   */
-  virtual void SetStringParameter (const char* pstring) = 0;
-
-  /**
-   * Set the long value.
-   * \param plong is the long or a parameter (starts with '$').
-   */
-  virtual void SetLongParameter (const char* plong) = 0;
-
-  /**
-   * Set the float value.
-   * \param pfloat is the float or a parameter (starts with '$').
-   */
-  virtual void SetFloatParameter (const char* pfloat) = 0;
-
-  /**
-   * Set the boolean value.
-   * \param pbool is the bool or a parameter (starts with '$').
-   */
-  virtual void SetBoolParameter (const char* pbool) = 0;
-
-  /**
-   * Set the diff.
-   * \param pdiff is the long/float or a parameter (starts with '$').
-   */
-  virtual void SetDiffParameter (const char* pdiff) = 0;
-
-  /**
-   * Set the toggle.
-   */
-  virtual void SetToggle () = 0;
-};
-
-/**
- * This interface is implemented by the reward that manipulates the inventory.
- * You can query this interface from the reward factory if you want
- * to manually control this factory as opposed to loading its definition
- * from an XML document.
- *
- * The predefined name of this reward type is 'cel.questreward.inventory'.
- *
- * In XML, factories recognize the following attributes on the 'reward' node:
- * - <em>entity</em>: the name of the entity containing the
- *   pcinventory property class.
- * - <em>entity_tag</em>: optional tag used to find the right
- *   property class from the entity.
- * - <em>child_entity</em>: the name of the entity that will
- *   be added to or removed from the inventory.
- * - <em>child_entity_tag</em>: optional tag used to find the right
- *   property class from the entity. This will be used to find the
- *   pcmesh for hiding the mesh.
- */
-struct iInventoryQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iInventoryQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Set the name of the entity containing the pcinventory property class
-   * on which this reward will work.
-   * \param entity is the name of the entity or a parameter (starts
-   * with '$').
-   * \param tag is the optional tag of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-
-  /**
-   * Set the name of the entity that will be put in or out the inventory.
-   * \param entity is the name of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetChildEntityParameter (const char* entity,
-  	const char* tag = 0) = 0;
-};
-
-/**
- * This interface is implemented by the reward that fires a Crystal
- * Space sequence.
- * You can query this interface from the reward factory if you want
- * to manually control this factory as opposed to loading its definition
- * from an XML document.
- *
- * The predefined name of this reward type is 'cel.questreward.cssequence'.
- *
- * In XML, factories recognize the following attributes on the 'op' node:
- * - <em>sequence</em>: the name of the Crystal Space sequence.
- * - <em>delay</em>: delay before we start the sequence. Default is 0.
- */
-struct iCsSequenceQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iCsSequenceQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Set the name of the sequence.
-   * \param sequence is the name of the sequence or a parameter (starts
-   * with '$').
-   */
-  virtual void SetSequenceParameter (const char* sequence) = 0;
-
-  /**
-   * Set the delay.
-   * \param delay is delay or a parameter (starts with '$').
-   */
-  virtual void SetDelayParameter (const char* delay) = 0;
-};
-
-/**
- * This interface is implemented by the reward that fires a sequence.
- * You can query this interface from the reward factory if you want
- * to manually control this factory as opposed to loading its definition
- * from an XML document.
- *
- * The predefined name of this reward type is 'cel.questreward.sequence'.
- *
- * In XML, factories recognize the following attributes on the 'op' node:
- * - <em>entity</em>: the name of the entity containing the
- *   pcquest property class.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the given
- *   entity class.
- * - <em>entity_tag</em>: optional tag used to find the right
- *   property class from the entity.
- * - <em>sequence</em>: the name of the sequence.
- * - <em>delay</em>: delay before we start the sequence. Default is 0.
- */
-struct iSequenceQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iSequenceQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Set the name of the entity containing the pcquest property class
-   * on which this reward will work.
-   * \param entity is the name of the entity or a parameter (starts
-   * with '$').
-   * \param tag is the optional tag of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-
-  /**
-   * Set the tag of the property class this reward will apply to.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetTagParameter (const char* tag_par) = 0;
-
-  /**
-   * Set the name of the entity class containing the property
-   * class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
-
-  /**
-   * Set the name of the sequence.
-   * \param sequence is the name of the sequence or a parameter (starts
-   * with '$').
-   */
-  virtual void SetSequenceParameter (const char* sequence) = 0;
-
-  /**
-   * Set the delay.
-   * \param delay is delay or a parameter (starts with '$').
-   */
-  virtual void SetDelayParameter (const char* delay) = 0;
-};
-
-/**
- * This interface is implemented by the reward that finishes a sequence.
- * You can query this interface from the reward factory if you want
- * to manually control this factory as opposed to loading its definition
- * from an XML document.
- *
- * The predefined name of this reward type is 'cel.questreward.sequencefinish'.
- *
- * In XML, factories recognize the following attributes on the 'op' node:
- * - <em>entity</em>: the name of the entity containing the
- *   pcquest property class.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the given
- *   entity class.
- * - <em>entity_tag</em>: optional tag used to find the right
- *   property class from the entity.
- * - <em>sequence</em>: the name of the sequence.
- */
-struct iSequenceFinishQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iSequenceFinishQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Set the name of the entity containing the pcquest property class
-   * on which this reward will work.
-   * \param entity is the name of the entity or a parameter (starts
-   * with '$').
-   * \param tag is the optional tag of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-
-  /**
-   * Set the tag of the property class this reward will apply to.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetTagParameter (const char* tag_par) = 0;
-
-  /**
-   * Set the name of the entity class containing the property
-   * class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
-
-  /**
-   * Set the name of the sequence.
-   * \param sequence is the name of the sequence or a parameter (starts
-   * with '$').
-   */
-  virtual void SetSequenceParameter (const char* sequence) = 0;
-};
-
-/**
- * This interface is implemented by the reward that sends a message
- * to some entity (the behaviour will get this message).
- * You can query this interface from the reward factory if you want
- * to manually control this factory as opposed to loading its definition
- * from an XML document.
- *
- * The predefined name of this reward type is 'cel.questreward.message'.
- *
- * In XML, factories recognize the following attributes on the 'op' node:
- * - <em>entity</em>: the name of the entity to send the message too.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the
- *   given entity class.
- * - <em>id</em>: id of the message to send.
- */
-struct iMessageQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iMessageQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Set the name of the entity.
-   * \param entity is the name of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetEntityParameter (const char* entity) = 0;
-
-  /**
-   * Set the name of the entity class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
-
-  /**
-   * Set the message id.
-   * \param id is the message id or a parameter (starts with '$').
-   */
-  virtual void SetIDParameter (const char* id) = 0;
-
-  /**
-   * Add a parameter to send with the message.
-   * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
-   * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
-   * \param id is the id of the parameter (calculated from the string
-   * "cel.parameter." appended with the name).
-   * \param name is the name of the parameter.
-   * \param value is the value string or a parameter for it (starts with '$').
-   */
-  virtual void AddParameter (celDataType type, csStringID id,
-      const char* name, const char* value) = 0;
-};
-
-/**
- * This interface is implemented by the reward that sends an action
- * to some entity or entity class property class with an optional tag.
- * You can query this interface from the reward factory if you want
- * to manually control this factory as opposed to loading its definition
- * from an XML document.
- *
- * The predefined name of this reward type is 'cel.questreward.action'.
- *
- * In XML, factories recognize the following attributes on the 'op' node:
- * - <em>entity</em>: the name of the entity to send the action to.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the 
- *   given entity class.
- * - <em>id</em>: name of the action to activate.
- * - <em>pc</em>: the name of the property class to send the action to.
- * - <em>tag</em>: the tag of the property class to send the action to.
- */
-struct iActionQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iActionQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Set the name of the entity.
-   * \param entity is the name of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetEntityParameter (const char* entity) = 0;
-
-  /**
-   * Set the name of the entity class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
-
-  /**
-   * Set the action name (without the cel.action part).
-   * \param id is the action name or a parameter (starts with '$').
-   */
-  virtual void SetIDParameter (const char* id) = 0;
-
-  /**
-   * Set the name of the property class.
-   * \param propertyclass is the name of the propertyclass or a parameter
-   * (starts with '$').
-   */
-  virtual void SetPropertyClassParameter (const char* propertyclass) = 0;
-
-  /**
-   * Set the tag for the propertyclass.
-   * \param tag is the tag for the propertyclass or a parameter (starts
-   * with '$').
-   */
-  virtual void SetTagParameter (const char* tag) = 0;
-
-  /**
-   * Add a parameter to send with the action.
-   * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
-   * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
-   * \param id is the id of the parameter (calculated from the string
-   * "cel.parameter." appended with the name).
-   * \param name is the name of the parameter.
-   * \param value is the value string or a parameter for it (starts with '$').
-   */
-  virtual void AddParameter (celDataType type, csStringID id,
-      const char* name, const char* value) = 0;
-};
-
-/**
- * This interface is implemented by the reward that destroys an entity.
- * You can query this interface from the reward factory if you want
- * to manually control this factory as opposed to loading its definition
- * from an XML document.
- *
- * The predefined name of this reward type is 'cel.questreward.destroyentity'.
- *
- * In XML, factories recognize the following attribute on the 'op' node:
- * - <em>entity</em>: the name of the entity to send the message too.
- * - <em>class</em>: the name of an entity class. If this is used instead
- *   of the entity parameter, the reward will apply to all entities in the given
- *   entity class.
- */
-struct iDestroyEntityQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iDestroyEntityQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Set the name of the entity.
-   * \param entity is the name of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetEntityParameter (const char* entity) = 0;
-
-  /**
-   * Set the name of the entity class on which this reward will work.
-   * \param ent_class is the name of the class or a parameter (starts
-   * with '$').
-   */
-  virtual void SetClassParameter (const char* ent_class) = 0;
-
-
-};
-
-/**
- * This interface is implemented by the createentity reward, which can create
- * entities from entity templates.
- *
- * You can query this interface from the reward factory if you want
- * to manually control this factory as opposed to loading its definition
- * from an XML document.
- *
- * The predefined name of this reward type is 'cel.questreward.createentity'.
- *
- * In XML, factories recognize the following attribute on the 'op' node:
- * - <em>template</em>: the name of the template that will be used to create
- *   the entity from. It can be a parameter if starting with '$'.
- * - <em>name</em>: optional name for the entity that will be created. It
- *   can be a parameter if starting with '$'.
- * Also, the following subnodes are supported:
- * - <em>par</em>: a parameter for the template. It needs 'name' and 'value'
- *   attributes. The value can be a parameter if starting with '$'. As many
- *   par nodes as needed can be used.
- */
-struct iCreateEntityQuestRewardFactory : public virtual iBase
-{
-  SCF_INTERFACE (iCreateEntityQuestRewardFactory, 0, 0, 1);
-
-  /**
-   * Set the name of the template that will be used to create a new entity
-   * from.
-   * \param entity_tpl is the name of the entity template or a parameter 
-   * (starts with '$').
-   */
-  virtual void SetEntityTemplateParameter (const char* entity_tpl) = 0;
-
-  /**
-   * Set the name of the entity that will be created.
-   * \param name is the name of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetNameParameter (const char* name) = 0;
-
-  /**
-   * Add a parameter for the template.
-   * \param name is the name for the parameter.
-   * \param value is the value for the parameter or a quest manager parameter 
-   * (starts with '$').
-   */
-  virtual void AddParameter (const char* name, const char* value) = 0;
-};
 
 //-------------------------------------------------------------------------
 // Specific sequence operation implementations.
@@ -2480,7 +1857,7 @@ struct iPropertyQuestSeqOpFactory : public virtual iBase
  */
 #define CEL_DECLARE_REWARDTYPE(name,id)					\
 class cel##name##RewardType : public scfImplementation1<		\
-		cel##name##RewardType,iQuestRewardType>			\
+		cel##name##RewardType,iRewardType>			\
 {									\
 public:									\
   iObjectRegistry* object_reg;						\
@@ -2488,7 +1865,7 @@ public:									\
   cel##name##RewardType (iObjectRegistry* object_reg);			\
   virtual ~cel##name##RewardType () { }					\
   virtual const char* GetName () const { return id; }			\
-  virtual csPtr<iQuestRewardFactory> CreateRewardFactory ();		\
+  virtual csPtr<iRewardFactory> CreateRewardFactory ();		\
 };
 
 /**
@@ -2501,7 +1878,7 @@ cel##name##RewardType::cel##name##RewardType (				\
   cel##name##RewardType::object_reg = object_reg;			\
   pl = csQueryRegistry<iCelPlLayer> (object_reg);			\
 }									\
-csPtr<iQuestRewardFactory> cel##name##RewardType::CreateRewardFactory ()\
+csPtr<iRewardFactory> cel##name##RewardType::CreateRewardFactory ()\
 {									\
   cel##name##RewardFactory* fact = new					\
   	cel##name##RewardFactory (this);				\

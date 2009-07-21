@@ -35,8 +35,19 @@ items. A quest is a state machine. At every given time it is at some specific
 state and can change state in response to some event. There are quest
 factories (@code{iQuestFactory}) and quests (@code{iQuest}). A factory acts
 like a template from wich to create quests. In every quest there are basically
-five different concepts: @dfn{states}, @dfn{triggers}, @dfn{rewards},
-@dfn{responses}, and @dfn{sequences}.
+five different concepts: @dfn{states}, @dfn{responses}, @dfn{triggers}, @dfn{rewards},
+ and @dfn{sequences}.
+
+@subsubheading States
+
+A quest is made out of different states. Every state has zero or more
+responses.
+
+@subsubheading Responses
+
+A response is simply one trigger and one or more rewards together. In
+one state you can define multiple responses. Every response will define
+a different set of rewards.
 
 @subsubheading Triggers
 
@@ -45,40 +56,40 @@ will act and execute some rewards (see below). Currently the following
 triggers are defined in Crystal Entity Layer:
 
 @itemize @bullet
-@item @samp{cel.questtrigger.entersector}:
+@item @samp{cel.triggers.entersector}:
 This triggers when a camera enters a sector. See
-@code{iEnterSectorQuestTriggerFactory}.
-@item @samp{cel.questtrigger.meshentersector}:
+@code{iEnterSectorTriggerFactory}.
+@item @samp{cel.triggers.meshentersector}:
 This triggers when a mesh enters a sector. See
-@code{iEnterSectorQuestTriggerFactory}.
-@item @samp{cel.questtrigger.timeout}:
+@code{iEnterSectorTriggerFactory}.
+@item @samp{cel.triggers.timeout}:
 This triggers after a specified time. See
-@code{iTimeoutQuestTriggerFactory}.
-@item @samp{cel.questtrigger.propertychange}:
+@code{iTimeoutTriggerFactory}.
+@item @samp{cel.triggers.propertychange}:
 This triggers when a property changes. See
-@code{iPropertyChangeQuestTriggerFactory}.
-@item @samp{cel.questtrigger.sequencefinish}:
+@code{iPropertyChangeTriggerFactory}.
+@item @samp{cel.triggers.sequencefinish}:
 This triggers when a sequence finishes. See
-@code{iSequenceFinishQuestTriggerFactory}.
-@item @samp{cel.questtrigger.trigger}:
+@code{iSequenceFinishTriggerFactory}.
+@item @samp{cel.triggers.trigger}:
 This triggers when a pctrigger fires. See
-@code{iTriggerQuestTriggerFactory}.
-@item @samp{cel.questtrigger.inventory}:
+@code{iTriggerTriggerFactory}.
+@item @samp{cel.triggers.inventory}:
 This triggers when an object enters inventory. See
-@code{iInventoryQuestTriggerFactory}.
-@item @samp{cel.questtrigger.meshselect}:
+@code{iInventoryTriggerFactory}.
+@item @samp{cel.triggers.meshselect}:
 This triggers when a mesh is selected. See
-@code{iMeshSelectQuestTriggerFactory}.
-@item @samp{cel.questtrigger.watch}:
+@code{iMeshSelectTriggerFactory}.
+@item @samp{cel.triggers.watch}:
 This triggers when a mesh becomes visible. See
-@code{iWatchQuestTriggerFactory}.
-@item @samp{cel.questtrigger.operation}:
+@code{iWatchTriggerFactory}.
+@item @samp{cel.triggers.operation}:
 This allows to combine several triggers with one simple logical operation. See
-@code{iOperationQuestTriggerFactory}.
+@code{iOperationTriggerFactory}.
 @end itemize
 
 It is of course possible to define your own triggers and register them to
-the quest manager.
+the quest manager. Triggers can be used outside of Quests wherever needed.
 
 @subsubheading Rewards
 
@@ -88,74 +99,65 @@ a trigger. Currently the following rewards are defined in Crystal Entity
 Layer:
 
 @itemize @bullet
-@item @samp{cel.questreward.debugprint}:
+@item @samp{cel.rewards.debugprint}:
 This will print a debug message on stdout. See
-@code{iDebugPrintQuestRewardFactory}.
+@code{iDebugPrintRewardFactory}.
 @item @samp{cel.questreward.newstate}:
 This will switch to quest a new state. See
 @code{iNewStateQuestRewardFactory}.
-@item @samp{cel.questreward.changeproperty}:
+@item @samp{cel.rewards.changeproperty}:
 This will change a property. See
-@code{iChangePropertyQuestRewardFactory}.
-@item @samp{cel.questreward.inventory}:
+@code{iChangePropertyRewardFactory}.
+@item @samp{cel.rewards.inventory}:
 This manipulates the inventory. See
-@code{iInventoryQuestRewardFactory}.
-@item @samp{cel.questreward.sequence}:
-This fires a sequence. See @code{iSequenceQuestRewardFactory}.
-@item @samp{cel.questreward.sequencefinish}:
-Finishes a sequence. See @code{iSequenceFinishQuestRewardFactory}.
-@item @samp{cel.questreward.createentity}:
-Creates an entity from a template. See @code{iCreateEntityQuestRewardFactory}.
-@item @samp{cel.questreward.destroyentity}:
-This destroys an entity. See @code{iDestroyEntityQuestRewardFactory}.
-@item @samp{cel.questreward.cssequence}:
+@code{iInventoryRewardFactory}.
+@item @samp{cel.rewards.sequence}:
+This fires a sequence. See @code{iSequenceRewardFactory}.
+@item @samp{cel.rewards.sequencefinish}:
+Finishes a sequence. See @code{iSequenceFinishRewardFactory}.
+@item @samp{cel.rewards.createentity}:
+Creates an entity from a template. See @code{iCreateEntityRewardFactory}.
+@item @samp{cel.rewards.destroyentity}:
+This destroys an entity. See @code{iDestroyEntityRewardFactory}.
+@item @samp{cel.rewards.cssequence}:
 This will run a crystalspace sequence.
-See @code{iCsSequenceQuestRewardFactory}.
-@item @samp{cel.questreward.message}:
+See @code{iCsSequenceRewardFactory}.
+@item @samp{cel.rewards.message}:
 This sends a message to an entity. 
-See @code{iMessageQuestRewardFactory}.
-@item @samp{cel.questreward.action}:
+See @code{iMessageRewardFactory}.
+@item @samp{cel.rewards.action}:
 This run an action from a property class in an entity.
-See @code{iActionQuestRewardFactory}.
+See @code{iActionRewardFactory}.
 @end itemize
 
-It is also possible to define your own rewards.
-
-@subsubheading Responses
-
-A response is simply one trigger and one or more rewards together. In
-one state you can define multiple responses. Every response will define
-a different set of rewards.
-
-@subsubheading States
-
-A quest is made out of different states. Every state has zero or more
-responses.
+It is also possible to define your own rewards. All rewards (except the Quest 
+specific reward NewState) can also be used outside of Quests wherever needed. 
 
 @subsubheading Sequences
 
 A reward is always a one-shot operation. It occurs and besides the effect
-that it has it immediatelly stops. Sequences, on the other hand, have a
+that it has it immediately stops. Sequences, on the other hand, have a
 duration and represent operations that typically take a few frames to execute.
 For example, to open a door in response to a trigger one would use a sequence
 to transform the door for a few frames. Sequences can be fired by a reward.
 The following operations are currently defined in a sequence:
 
 @itemize @bullet
-@item @samp{cel.questseqop.debugprint}:
+@item @samp{cel.seqops.debugprint}:
 Prints a debug message on stdout. See
-@code{iDebugPrintQuestSeqOpFactory}.
-@item @samp{cel.questseqop.transform}:
-Transforms a mesh. See @code{iTransformQuestSeqOpFactory}.
-@item @samp{cel.questseqop.movepath}:
-Moves a mesh along a path. See @code{iMovePathQuestSeqOpFactory}.
-@item @samp{cel.questseqop.light}:
-Animates a light color. See @code{iLightQuestSeqOpFactory}.
-@item @samp{cel.questseqop.property}:
+@code{iDebugPrintSeqOpFactory}.
+@item @samp{cel.seqops.transform}:
+Transforms a mesh. See @code{iTransformSeqOpFactory}.
+@item @samp{cel.seqops.movepath}:
+Moves a mesh along a path. See @code{iMovePathSeqOpFactory}.
+@item @samp{cel.seqops.light}:
+Animates a light color. See @code{iLightSeqOpFactory}.
+@item @samp{cel.seqops.property}:
 Animates a property class property. See @code{iLightPropertySeqOpFactory}.
 @end itemize
 
-You can define your own sequence operations for the quest manager.
+You can define your own sequence operations for the quest manager. Sequences and
+all Sequence Operators above can be used outside of Quests wherever needed.
 
 @subsubheading Defining a quest in XML
 
