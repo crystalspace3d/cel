@@ -45,17 +45,7 @@
 #include "plugins/tools/quests/trig_meshsel.h"
 #include "plugins/tools/quests/trig_watch.h"
 #include "plugins/tools/quests/trig_operation.h"
-#include "plugins/tools/quests/reward_debugprint.h"
 #include "plugins/tools/quests/reward_newstate.h"
-#include "plugins/tools/quests/reward_changeproperty.h"
-#include "plugins/tools/quests/reward_inventory.h"
-#include "plugins/tools/quests/reward_cssequence.h"
-#include "plugins/tools/quests/reward_sequence.h"
-#include "plugins/tools/quests/reward_sequencefinish.h"
-#include "plugins/tools/quests/reward_message.h"
-#include "plugins/tools/quests/reward_action.h"
-#include "plugins/tools/quests/reward_createentity.h"
-#include "plugins/tools/quests/reward_destroyentity.h"
 #include "plugins/tools/quests/seqop_debugprint.h"
 #include "plugins/tools/quests/seqop_transform.h"
 #include "plugins/tools/quests/seqop_movepath.h"
@@ -324,15 +314,9 @@ void celQuestTriggerResponseFactory::SetTriggerFactory_NEW (
 }
 
 void celQuestTriggerResponseFactory::AddRewardFactory (
-	iQuestRewardFactory* reward_fact)
-{
-  reward_factories.Push (reward_fact);
-}
-
-void celQuestTriggerResponseFactory::AddRewardFactory_NEW (
 	iRewardFactory* reward_fact)
 {
-  reward_factories_NEW.Push (reward_fact);
+  reward_factories.Push (reward_fact);
 }
 
 //---------------------------------------------------------------------------
@@ -352,12 +336,12 @@ iQuestTriggerResponseFactory* celQuestStateFactory::
   return resp;
 }
 
-void celQuestStateFactory::AddInitRewardFactory (iQuestRewardFactory* reward_fact)
+void celQuestStateFactory::AddInitRewardFactory (iRewardFactory* reward_fact)
 {
   oninit_reward_factories.Push (reward_fact);
 }
 
-void celQuestStateFactory::AddExitRewardFactory (iQuestRewardFactory* reward_fact)
+void celQuestStateFactory::AddExitRewardFactory (iRewardFactory* reward_fact)
 {
   onexit_reward_factories.Push (reward_fact);
 }
@@ -724,9 +708,9 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
   while (sta_it.HasNext ())
   {
     celQuestStateFactory* sf = sta_it.Next ();
-    const csRefArray<iQuestRewardFactory>& oninit_reward_Factories
+    const csRefArray<iRewardFactory>& oninit_reward_Factories
         = sf->GetOninitRewardFactories ();
-    const csRefArray<iQuestRewardFactory>& onexit_reward_Factories
+    const csRefArray<iRewardFactory>& onexit_reward_Factories
         = sf->GetOnexitRewardFactories ();
     const csRefArray<celQuestTriggerResponseFactory>& responses
     	= sf->GetResponses ();
@@ -734,25 +718,20 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
     size_t i;
     for (i = 0 ; i < oninit_reward_Factories.GetSize () ; i++)
     {
-      csRef<iQuestReward> rew = oninit_reward_Factories[i]->CreateReward ((iQuest*)q,
-	  *p_params);
+      csRef<iReward> rew = oninit_reward_Factories[i]->CreateReward (*p_params);
       q->AddOninitReward (stateidx, rew);
     }
     for (i = 0 ; i < onexit_reward_Factories.GetSize () ; i++)
     {
-      csRef<iQuestReward> rew = onexit_reward_Factories[i]->CreateReward ((iQuest*)q,
-	  *p_params);
+      csRef<iReward> rew = onexit_reward_Factories[i]->CreateReward (*p_params);
       q->AddOnexitReward (stateidx, rew);
     }
     for (i = 0 ; i < responses.GetSize () ; i++)
     {
       celQuestTriggerResponseFactory* respfact = responses[i];
 
-	  const csRefArray<iQuestRewardFactory>& rewfacts
+	  const csRefArray<iRewardFactory>& rewfacts
         = respfact->GetRewardFactories ();
-
-	  const csRefArray<iRewardFactory>& rewfacts_NEW
-        = respfact->GetRewardFactories_NEW ();
 
       size_t respidx = q->AddStateResponse (stateidx);
       
@@ -776,20 +755,11 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
       size_t j;
       for (j = 0 ; j < rewfacts.GetSize () ; j++)
       {
-        csRef<iQuestReward> rew = rewfacts[j]->CreateReward ((iQuest*)q,
-		*p_params);
+        csRef<iReward> rew = rewfacts[j]->CreateReward (*p_params_NEW);
 
 	    if (!rew) return 0;
         q->AddStateReward (stateidx, respidx, rew);
       }
-
-      for (j = 0 ; j < rewfacts_NEW.GetSize () ; j++)
-      {
-	  	csRef<iReward> rew = rewfacts_NEW[j]->CreateReward (*p_params_NEW);
-
-	    if (!rew) return 0;
-        q->AddStateReward_NEW (stateidx, respidx, rew);
-	  }
     }
   }
 
@@ -816,10 +786,10 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
   return csPtr<iQuest> (q);
 }
 
-csRef<iQuestRewardFactory> celQuestFactory::LoadReward (iDocumentNode* child)
+csRef<iRewardFactory> celQuestFactory::LoadReward (iDocumentNode* child)
 {
   csString type = child->GetAttributeValue ("type");
-  iQuestRewardType* rewardtype = questmgr->GetRewardType ("cel.questreward."+type);
+  iRewardType* rewardtype = questmgr->GetRewardType ("cel.rewards."+type);
   if (!rewardtype)
     rewardtype = questmgr->GetRewardType (type);
   if (!rewardtype)
@@ -830,7 +800,7 @@ csRef<iQuestRewardFactory> celQuestFactory::LoadReward (iDocumentNode* child)
 		(const char*)type, (const char*)name);
     return 0;
   }
-  csRef<iQuestRewardFactory> rewardfact = rewardtype->CreateRewardFactory ();
+  csRef<iRewardFactory> rewardfact = rewardtype->CreateRewardFactory ();
   if (!rewardfact->Load (child))
     return 0;
   return rewardfact;
@@ -851,7 +821,7 @@ bool celQuestFactory::LoadRewards (
     {
       case XMLTOKEN_REWARD:
         {
-	  csRef<iQuestRewardFactory> rewardfact = LoadReward (child);
+	  csRef<iRewardFactory> rewardfact = LoadReward (child);
 	  if (!rewardfact) return false;
 	  if (oninit)
 	    statefact->AddInitRewardFactory (rewardfact);
@@ -889,7 +859,7 @@ bool celQuestFactory::LoadTriggerResponse (
         break;
       case XMLTOKEN_REWARD:
         {
-	  csRef<iQuestRewardFactory> rewardfact = LoadReward (child);
+	  csRef<iRewardFactory> rewardfact = LoadReward (child);
 	  if (!rewardfact) return false;
 	  respfact->AddRewardFactory (rewardfact);
 	}
@@ -1130,53 +1100,30 @@ void celQuestStateResponse::SetTrigger_NEW (iTrigger* trigger)
   trigger->RegisterCallback (this);
 }
 
-void celQuestStateResponse::AddReward (iQuestReward* reward)
+void celQuestStateResponse::AddReward (iReward* reward)
 {
   rewards.Push (reward);
 }
 
-void celQuestStateResponse::AddReward_NEW (iReward* reward)
-{
-  rewards_NEW.Push (reward);
-}
+
 
 void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger,
     iCelParameterBlock* params)
 {
-  //printf("TRIGGER FIRED \n"); //NEW
-  //printf("SIZE = %i", rewards.GetSize ());
-
   size_t i;
   for (i = 0 ; i < rewards.GetSize () ; i++)
     rewards[i]->Reward (params);
-  //return;
 
-  //printf("NEW SIZE = %i", rewards_NEW.GetSize ());
-  //NEW
-  size_t i2;
-  for (i2 = 0 ; i2 < rewards_NEW.GetSize () ; i2++)
-    //printf("A REFACTORED REWARD HAS BEEN TRIGGERED");
-    rewards_NEW[i2]->Reward (params);
   return;
 }
 
 void celQuestStateResponse::TriggerFired (iTrigger* trigger,
     iCelParameterBlock* params)
 {
-  //printf("REFACTORED TRIGGER FIRED \n"); //NEW
-  //printf("SIZE = %i", rewards.GetSize ());
-
   size_t i;
   for (i = 0 ; i < rewards.GetSize () ; i++)
     rewards[i]->Reward (params);
-  //return;
 
-  //printf("NEW SIZE = %i", rewards_NEW.GetSize ());
-  //NEW
-  size_t i2;
-  for (i2 = 0 ; i2 < rewards_NEW.GetSize () ; i2++)
-    //printf("A REFACTORED REWARD HAS BEEN TRIGGERED");
-    rewards_NEW[i2]->Reward (params);
   return;
 }
 
@@ -1395,24 +1342,19 @@ void celQuest::SetStateTrigger_NEW (size_t stateidx, size_t responseidx,
   states[stateidx]->GetResponse (responseidx)->SetTrigger_NEW (trigger);
 }
 
+
 void celQuest::AddStateReward (size_t stateidx, size_t responseidx,
-	iQuestReward* reward)
+	iReward* reward)
 {
   states[stateidx]->GetResponse (responseidx)->AddReward (reward);
 }
 
-void celQuest::AddStateReward_NEW (size_t stateidx, size_t responseidx,
-	iReward* reward)
-{
-  states[stateidx]->GetResponse (responseidx)->AddReward_NEW (reward);
-}
-
-void celQuest::AddOninitReward (size_t stateidx, iQuestReward* reward)
+void celQuest::AddOninitReward (size_t stateidx, iReward* reward)
 {
   states[stateidx]->AddOninitReward (reward);
 }
 
-void celQuest::AddOnexitReward (size_t stateidx, iQuestReward* reward)
+void celQuest::AddOnexitReward (size_t stateidx, iReward* reward)
 {
   states[stateidx]->AddOnexitReward (reward);
 }
@@ -1672,22 +1614,16 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   //--- Rewards ------------------------------------------------------
-  {
-    celDebugPrintRewardType* type = new celDebugPrintRewardType (
-    	object_reg);
-    	
-    RegisterRewardType (type);
-    type->DecRef ();
-  }
-    	
-  {
+
     csRef<iPluginManager> plugin_mgr = 
       csQueryRegistry<iPluginManager> (object_reg);
+
+  {
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.debugprint");        
     if (type.IsValid())
     {
-      RegisterRewardType_NEW (type);
+      RegisterRewardType (type);
       type->DecRef ();
     }
   }
@@ -1700,171 +1636,91 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
-    celChangePropertyRewardType* type = new celChangePropertyRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
-  }
-
-  {
-    csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.changeproperty");        
     if (type.IsValid())
     {
-      RegisterRewardType_NEW (type);
+      RegisterRewardType (type);
       type->DecRef ();
     }
   }
 
   {
-    celInventoryRewardType* type = new celInventoryRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
-  }
-
-  {
-    csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.inventory");        
     if (type.IsValid())
     {
-      RegisterRewardType_NEW (type);
+      RegisterRewardType (type);
       type->DecRef ();
     }
   }
 
   {
-    celCsSequenceRewardType* type = new celCsSequenceRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
-  }
-
-  {
-    csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.cssequence");        
     if (type.IsValid())
     {
-      RegisterRewardType_NEW (type);
+      RegisterRewardType (type);
       type->DecRef ();
     }
   }
 
   {
-    celSequenceRewardType* type = new celSequenceRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
-  }
-
-  {
-    csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.sequence");        
     if (type.IsValid())
     {
-      RegisterRewardType_NEW (type);
+      RegisterRewardType (type);
       type->DecRef ();
     }
   }
 
   {
-    celSequenceFinishRewardType* type = new celSequenceFinishRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
-  }
-
-  {
-    csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.sequencefinish");        
     if (type.IsValid())
     {
-      RegisterRewardType_NEW (type);
+      RegisterRewardType (type);
       type->DecRef ();
     }
   }
 
   {
-    celMessageRewardType* type = new celMessageRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
-  }
-
-  {
-    csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.message");        
     if (type.IsValid())
     {
-      RegisterRewardType_NEW (type);
+      RegisterRewardType (type);
       type->DecRef ();
     }
   }
 
   {
-    celActionRewardType* type = new celActionRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
-  }
-
-  {
-    csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.action");        
     if (type.IsValid())
     {
-      RegisterRewardType_NEW (type);
+      RegisterRewardType (type);
       type->DecRef ();
     }
   }
 
   {
-    celCreateEntityRewardType* type = new celCreateEntityRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
-  }
-
-  {
-    csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.createentity");        
     if (type.IsValid())
     {
-      RegisterRewardType_NEW (type);
+      RegisterRewardType (type);
       type->DecRef ();
     }
   }
 
   {
-    celDestroyEntityRewardType* type = new celDestroyEntityRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
-  }
-  {
-    csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.destroyentity");        
     if (type.IsValid())
     {
-      RegisterRewardType_NEW (type);
+      RegisterRewardType (type);
       type->DecRef ();
     }
   }
@@ -2021,7 +1877,9 @@ iTriggerType* celQuestManager::GetTriggerType_NEW (const char* name)
   return trigger_types_NEW.Get (name, 0);
 }
 
-bool celQuestManager::RegisterRewardType (iQuestRewardType* reward)
+
+
+bool celQuestManager::RegisterRewardType (iRewardType* reward)
 {
   const char* name = reward->GetName ();
   if (reward_types.Get (name, 0) != 0)
@@ -2030,24 +1888,11 @@ bool celQuestManager::RegisterRewardType (iQuestRewardType* reward)
   return true;
 }
 
-bool celQuestManager::RegisterRewardType_NEW (iRewardType* reward)
-{
-  const char* name = reward->GetName ();
-  if (reward_types_NEW.Get (name, 0) != 0)
-    return false;
-  reward_types_NEW.Put (name, reward);
-  return true;
-}
-
-iQuestRewardType* celQuestManager::GetRewardType (const char* name)
+iRewardType* celQuestManager::GetRewardType (const char* name)
 {
   return reward_types.Get (name, 0);
 }
 
-iRewardType* celQuestManager::GetRewardType_NEW (const char* name)
-{
-  return reward_types_NEW.Get (name, 0);
-}
 
 bool celQuestManager::RegisterSeqOpType (iQuestSeqOpType* seqop)
 {
@@ -2276,12 +2121,12 @@ bool celQuestManager::Load (iDocumentNode* node)
   return true;
 }
 
-iQuestRewardFactory* celQuestManager::AddNewStateReward (
+iRewardFactory* celQuestManager::AddNewStateReward (
 	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* state_par)
 {
-  iQuestRewardType* type = GetRewardType ("cel.questreward.newstate");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
+  iRewardType* type = GetRewardType ("cel.questreward.newstate");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iNewStateQuestRewardFactory> newstate = scfQueryInterface<iNewStateQuestRewardFactory> (rewfact);
   newstate->SetStateParameter (state_par);
   newstate->SetEntityParameter (entity_par);
@@ -2289,201 +2134,98 @@ iQuestRewardFactory* celQuestManager::AddNewStateReward (
   return rewfact;
 }
 
-iQuestRewardFactory* celQuestManager::AddDebugPrintReward (
-	iQuestTriggerResponseFactory* response,
-  	const char* msg_par)
-{
-  iQuestRewardType* type = GetRewardType ("cel.questreward.debugprint");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iDebugPrintQuestRewardFactory> newstate = scfQueryInterface<iDebugPrintQuestRewardFactory> (rewfact);
-  newstate->SetMessageParameter (msg_par);
-  response->AddRewardFactory (rewfact);
-  return rewfact;
-}
 
-iRewardFactory* celQuestManager::AddDebugPrintReward_NEW (
+iRewardFactory* celQuestManager::AddDebugPrintReward (
 	iQuestTriggerResponseFactory* response,
   	const char* msg_par)
 {
-  iRewardType* type = GetRewardType_NEW ("cel.rewards.debugprint");
+  iRewardType* type = GetRewardType ("cel.rewards.debugprint");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iDebugPrintRewardFactory> newstate = scfQueryInterface<iDebugPrintRewardFactory> (rewfact);
   newstate->SetMessageParameter (msg_par);
-  response->AddRewardFactory_NEW (rewfact);
-  return rewfact;
-}
-
-
-iQuestRewardFactory* celQuestManager::AddInventoryReward (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* child_entity_par)
-{
-  iQuestRewardType* type = GetRewardType ("cel.questreward.inventory");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iInventoryQuestRewardFactory> newstate = scfQueryInterface<iInventoryQuestRewardFactory> (rewfact);
-  newstate->SetEntityParameter (entity_par);
-  newstate->SetChildEntityParameter (child_entity_par);
   response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iRewardFactory* celQuestManager::AddInventoryReward_NEW (
+iRewardFactory* celQuestManager::AddInventoryReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* child_entity_par)
 {
-  iRewardType* type = GetRewardType_NEW ("cel.rewards.inventory");
+  iRewardType* type = GetRewardType("cel.rewards.inventory");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iInventoryRewardFactory> newstate = scfQueryInterface<iInventoryRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetChildEntityParameter (child_entity_par);
-  response->AddRewardFactory_NEW (rewfact);
+  response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iQuestRewardFactory* celQuestManager::AddSequenceReward (
+
+iRewardFactory* celQuestManager::AddSequenceReward(
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par,
 	const char* delay_par)
 {
-  iQuestRewardType* type = GetRewardType ("cel.questreward.sequence");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iSequenceQuestRewardFactory> newstate = scfQueryInterface<iSequenceQuestRewardFactory> (rewfact);
-  newstate->SetEntityParameter (entity_par);
-  newstate->SetSequenceParameter (sequence_par);
-  newstate->SetDelayParameter (delay_par);
-  response->AddRewardFactory (rewfact);
-  return rewfact;
-}
-
-iQuestRewardFactory* celQuestManager::AddCsSequenceReward (
-  	iQuestTriggerResponseFactory* response,
-  	const char* sequence_par, const char* delay_par)
-{
-  iQuestRewardType* type = GetRewardType ("cel.questreward.cssequence");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iCsSequenceQuestRewardFactory> newstate = scfQueryInterface<iCsSequenceQuestRewardFactory> (rewfact);
-  newstate->SetSequenceParameter (sequence_par);
-  newstate->SetDelayParameter (delay_par);
-  response->AddRewardFactory (rewfact);
-  return rewfact;
-}
-
-iQuestRewardFactory* celQuestManager::AddSequenceFinishReward (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* sequence_par)
-{
-  iQuestRewardType* type = GetRewardType ("cel.questreward.sequencefinish");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iSequenceFinishQuestRewardFactory> newstate = 
-  	scfQueryInterface<iSequenceFinishQuestRewardFactory> (rewfact);
-  newstate->SetEntityParameter (entity_par);
-  newstate->SetSequenceParameter (sequence_par);
-  response->AddRewardFactory (rewfact);
-  return rewfact;
-}
-
-iRewardFactory* celQuestManager::AddSequenceReward_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* sequence_par,
-	const char* delay_par)
-{
-  iRewardType* type = GetRewardType_NEW ("cel.rewards.sequence");
+  iRewardType* type = GetRewardType ("cel.rewards.sequence");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iSequenceRewardFactory> newstate = scfQueryInterface<iSequenceRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetSequenceParameter (sequence_par);
   newstate->SetDelayParameter (delay_par);
-  response->AddRewardFactory_NEW (rewfact);
+  response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iRewardFactory* celQuestManager::AddCsSequenceReward_NEW (
+iRewardFactory* celQuestManager::AddCsSequenceReward (
   	iQuestTriggerResponseFactory* response,
   	const char* sequence_par, const char* delay_par)
 {
-  iRewardType* type = GetRewardType_NEW ("cel.rewards.cssequence");
+  iRewardType* type = GetRewardType ("cel.rewards.cssequence");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iCsSequenceRewardFactory> newstate = scfQueryInterface<iCsSequenceRewardFactory> (rewfact);
   newstate->SetSequenceParameter (sequence_par);
   newstate->SetDelayParameter (delay_par);
-  response->AddRewardFactory_NEW (rewfact);
+  response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iRewardFactory* celQuestManager::AddSequenceFinishReward_NEW (
+iRewardFactory* celQuestManager::AddSequenceFinishReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par)
 {
-  iRewardType* type = GetRewardType_NEW ("cel.rewards.sequencefinish");
+  iRewardType* type = GetRewardType ("cel.rewards.sequencefinish");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iSequenceFinishRewardFactory> newstate = 
   	scfQueryInterface<iSequenceFinishRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetSequenceParameter (sequence_par);
-  response->AddRewardFactory_NEW (rewfact);
+  response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iChangePropertyQuestRewardFactory* celQuestManager::AddChangePropertyReward (
+iChangePropertyRewardFactory* celQuestManager::AddChangePropertyReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par)
 {
-  iQuestRewardType* type = GetRewardType ("cel.questreward.changeproperty");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iChangePropertyQuestRewardFactory> newstate = 
-  	scfQueryInterface<iChangePropertyQuestRewardFactory> (rewfact);
-  newstate->SetEntityParameter (entity_par);
-  newstate->SetPropertyParameter (prop_par);
-  response->AddRewardFactory (rewfact);
-  return newstate;
-}
-
-iChangePropertyRewardFactory* celQuestManager::AddChangePropertyReward_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* prop_par)
-{
-  iRewardType* type = GetRewardType_NEW ("cel.rewards.changeproperty");
+  iRewardType* type = GetRewardType ("cel.rewards.changeproperty");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iChangePropertyRewardFactory> newstate = 
   	scfQueryInterface<iChangePropertyRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetPropertyParameter (prop_par);
-  response->AddRewardFactory_NEW (rewfact);
+  response->AddRewardFactory (rewfact);
   return newstate;
 }
 
-iQuestRewardFactory* celQuestManager::AddCreateEntityReward (
+
+
+iRewardFactory* celQuestManager::AddCreateEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* template_par,
 	const char* name_par,
     const celEntityTemplateParams &tpl_params)
 {
-  iQuestRewardType* type = GetRewardType ("cel.questreward.createentity");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iCreateEntityQuestRewardFactory> newstate = scfQueryInterface<iCreateEntityQuestRewardFactory> (rewfact);
-  newstate->SetEntityTemplateParameter (template_par);
-  newstate->SetNameParameter (name_par);
-
-  celEntityTemplateParams::ConstGlobalIterator iter = tpl_params.GetIterator();
-  while (iter.HasNext())
-  {
-    csStringFast<12> name;
-    // @@@ Support dynamic parameters?
-    const char * val = iter.Next (name);
-	newstate->AddParameter (name, val);
-  }
-
-  response->AddRewardFactory (rewfact);
-  return rewfact;
-}
-
-iRewardFactory* celQuestManager::AddCreateEntityReward_NEW (
-  	iQuestTriggerResponseFactory* response,
-	const char* template_par,
-	const char* name_par,
-    const celEntityTemplateParams &tpl_params)
-{
-  iRewardType* type = GetRewardType_NEW ("cel.rewards.createentity");
+  iRewardType* type = GetRewardType ("cel.rewards.createentity");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iCreateEntityRewardFactory> newstate = scfQueryInterface<iCreateEntityRewardFactory> (rewfact);
   newstate->SetEntityTemplateParameter (template_par);
@@ -2498,97 +2240,52 @@ iRewardFactory* celQuestManager::AddCreateEntityReward_NEW (
 	newstate->AddParameter (name, val);
   }
 
-  response->AddRewardFactory_NEW (rewfact);
-  return rewfact;
-}
-
-iQuestRewardFactory* celQuestManager::AddDestroyEntityReward (
-  	iQuestTriggerResponseFactory* response,
-	const char* entity_par)
-{
-  iQuestRewardType* type = GetRewardType ("cel.questreward.destroyentity");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iDestroyEntityQuestRewardFactory> newstate = 
-  	scfQueryInterface<iDestroyEntityQuestRewardFactory> (rewfact);
-  newstate->SetEntityParameter (entity_par);
   response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iRewardFactory* celQuestManager::AddDestroyEntityReward_NEW (
+iRewardFactory* celQuestManager::AddDestroyEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par)
 {
-  iRewardType* type = GetRewardType_NEW ("cel.rewards.destroyentity");
+  iRewardType* type = GetRewardType ("cel.rewards.destroyentity");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iDestroyEntityRewardFactory> newstate = 
   	scfQueryInterface<iDestroyEntityRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
-  response->AddRewardFactory_NEW (rewfact);
-  return rewfact;
-}
-
-iQuestRewardFactory* celQuestManager::AddMessageReward (
-  	iQuestTriggerResponseFactory* response,
-	const char* entity_par,
-	const char* id_par)
-{
-  iQuestRewardType* type = GetRewardType ("cel.questreward.message");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iMessageQuestRewardFactory> newstate = 
-  	scfQueryInterface<iMessageQuestRewardFactory> (rewfact);
-  newstate->SetEntityParameter (entity_par);
-  newstate->SetIDParameter (id_par);
   response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iRewardFactory* celQuestManager::AddMessageReward_NEW (
+iRewardFactory* celQuestManager::AddMessageReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par,
 	const char* id_par)
 {
-  iRewardType* type = GetRewardType_NEW ("cel.rewards.message");
+  iRewardType* type = GetRewardType ("cel.rewards.message");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iMessageRewardFactory> newstate = 
   	scfQueryInterface<iMessageRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetIDParameter (id_par);
-  response->AddRewardFactory_NEW (rewfact);
-  return rewfact;
-}
-
-iQuestRewardFactory* celQuestManager::AddActionReward (
-  	iQuestTriggerResponseFactory* response,
-	const char* entity_par,
-	const char* id_par,
-	const char* pcclass_par)
-{
-  iQuestRewardType* type = GetRewardType ("cel.questreward.action");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iActionQuestRewardFactory> newstate = 
-  	scfQueryInterface<iActionQuestRewardFactory> (rewfact);
-  newstate->SetEntityParameter (entity_par);
-  newstate->SetIDParameter (id_par);
-  newstate->SetPropertyClassParameter (pcclass_par);
   response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iRewardFactory* celQuestManager::AddActionReward_NEW (
+iRewardFactory* celQuestManager::AddActionReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par,
 	const char* id_par,
 	const char* pcclass_par)
 {
-  iRewardType* type = GetRewardType_NEW ("cel.rewards.action");
+  iRewardType* type = GetRewardType ("cel.rewards.action");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iActionRewardFactory> newstate = 
   	scfQueryInterface<iActionRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetIDParameter (id_par);
   newstate->SetPropertyClassParameter (pcclass_par);
-  response->AddRewardFactory_NEW (rewfact);
+  response->AddRewardFactory (rewfact);
   return rewfact;
 }
 

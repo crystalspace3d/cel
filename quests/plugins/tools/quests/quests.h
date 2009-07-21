@@ -247,8 +247,7 @@ class celQuestTriggerResponseFactory : public scfImplementation1<
 private:
   csRef<iQuestTriggerFactory> trigger_factory;
   csRef<iTriggerFactory> trigger_factory_NEW;
-  csRefArray<iQuestRewardFactory> reward_factories;
-  csRefArray<iRewardFactory> reward_factories_NEW;
+  csRefArray<iRewardFactory> reward_factories;
 
 public:
   bool refactored_trigger;
@@ -266,20 +265,15 @@ public:
 	return trigger_factory_NEW;
   }
 
-  const csRefArray<iQuestRewardFactory>& GetRewardFactories () const
+  const csRefArray<iRewardFactory>& GetRewardFactories () const
   {
     return reward_factories;
   }
 
-  const csRefArray<iRewardFactory>& GetRewardFactories_NEW () const
-  {
-    return reward_factories_NEW;
-  }
 
   virtual void SetTriggerFactory (iQuestTriggerFactory* trigger_fact);
   virtual void SetTriggerFactory_NEW (iTriggerFactory* trigger_fact);
-  virtual void AddRewardFactory (iQuestRewardFactory* reward_fact);
-  virtual void AddRewardFactory_NEW (iRewardFactory* reward_fact);
+  virtual void AddRewardFactory (iRewardFactory* reward_fact);
 };
 
 /**
@@ -290,8 +284,8 @@ class celQuestStateFactory : public scfImplementation1<
 {
 private:
   csString name;
-  csRefArray<iQuestRewardFactory> oninit_reward_factories;
-  csRefArray<iQuestRewardFactory> onexit_reward_factories;
+  csRefArray<iRewardFactory> oninit_reward_factories;
+  csRefArray<iRewardFactory> onexit_reward_factories;
   csRefArray<celQuestTriggerResponseFactory> responses;
 
 public:
@@ -302,19 +296,19 @@ public:
   {
     return responses;
   }
-  const csRefArray<iQuestRewardFactory>& GetOninitRewardFactories () const
+  const csRefArray<iRewardFactory>& GetOninitRewardFactories () const
   {
     return oninit_reward_factories;
   }
-  const csRefArray<iQuestRewardFactory>& GetOnexitRewardFactories () const
+  const csRefArray<iRewardFactory>& GetOnexitRewardFactories () const
   {
     return onexit_reward_factories;
   }
 
   virtual const char* GetName () const { return name; }
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory ();
-  virtual void AddInitRewardFactory (iQuestRewardFactory* reward_fact);
-  virtual void AddExitRewardFactory (iQuestRewardFactory* reward_fact);
+  virtual void AddInitRewardFactory (iRewardFactory* reward_fact);
+  virtual void AddExitRewardFactory (iRewardFactory* reward_fact);
 };
 
 typedef csHash<csRef<celQuestStateFactory>,csStringBase> celQuestFactoryStates;
@@ -337,7 +331,7 @@ private:
   celFactorySequences sequences_NEW;
   celQuestParams defaults;
 
-  csRef<iQuestRewardFactory> LoadReward (iDocumentNode* child);
+  csRef<iRewardFactory> LoadReward (iDocumentNode* child);
   bool LoadRewards (iQuestStateFactory* statefact, bool oninit,
   	iDocumentNode* node);
   bool LoadTriggerResponse (iQuestTriggerResponseFactory* respfact,
@@ -381,8 +375,7 @@ private:
   iCelPlLayer* pl;
   csRef<iQuestTrigger> trigger;
   csRef<iTrigger> trigger_NEW;
-  csRefArray<iQuestReward> rewards;
-  csRefArray<iReward> rewards_NEW;
+  csRefArray<iReward> rewards;
   celQuest* quest;
 
 public:
@@ -395,8 +388,7 @@ public:
   iQuestTrigger* GetTrigger () const { return trigger; }
   void SetTrigger_NEW (iTrigger* trigger);
   iTrigger* GetTrigger_NEW () const { return trigger_NEW; }
-  void AddReward (iQuestReward* reward);
-  void AddReward_NEW (iReward* reward);
+  void AddReward (iReward* reward);
 
   // --- For iQuestTriggerCallback ------------------------
   virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
@@ -413,8 +405,8 @@ class celQuestState
 private:
   iCelPlLayer* pl;
   csString name;
-  csRefArray<iQuestReward> oninit_rewards;
-  csRefArray<iQuestReward> onexit_rewards;
+  csRefArray<iReward> oninit_rewards;
+  csRefArray<iReward> onexit_rewards;
   csRefArray<celQuestStateResponse> responses;
 
 public:
@@ -431,21 +423,21 @@ public:
   {
     return responses[idx];
   }
-  void AddOninitReward (iQuestReward* reward)
+  void AddOninitReward (iReward* reward)
   {
     oninit_rewards.Push (reward);
   }
-  void AddOnexitReward (iQuestReward* reward)
+  void AddOnexitReward (iReward* reward)
   {
     onexit_rewards.Push (reward);
   }
   size_t GetOninitRewardCount () const { return oninit_rewards.GetSize (); }
-  iQuestReward* GetOninitReward (size_t idx) const
+  iReward* GetOninitReward (size_t idx) const
   {
     return oninit_rewards[idx];
   }
   size_t GetOnexitRewardCount () const { return onexit_rewards.GetSize (); }
-  iQuestReward* GetOnexitReward (size_t idx) const
+  iReward* GetOnexitReward (size_t idx) const
   {
     return onexit_rewards[idx];
   }
@@ -507,14 +499,12 @@ public:
   	iTrigger* trigger);
   /// Add reward for a state and response.
   void AddStateReward (size_t stateidx, size_t responseidx,
-  	iQuestReward* reward);
-  void AddStateReward_NEW (size_t stateidx, size_t responseidx,
   	iReward* reward);
 
   /// Add oninit reward for a state.
-  void AddOninitReward (size_t stateidx, iQuestReward* reward);
+  void AddOninitReward (size_t stateidx, iReward* reward);
   /// Add onexit reward for a state.
-  void AddOnexitReward (size_t stateidx, iQuestReward* reward);
+  void AddOnexitReward (size_t stateidx, iReward* reward);
 
   /**
    * Add a sequence. This will increase the ref count.
@@ -538,8 +528,7 @@ public:
 private:
   csHash<csRef<iQuestTriggerType>,csStringBase> trigger_types;
   csHash<csRef<iTriggerType>,csStringBase> trigger_types_NEW;
-  csHash<csRef<iQuestRewardType>,csStringBase> reward_types;
-  csHash<csRef<iRewardType>,csStringBase> reward_types_NEW;
+  csHash<csRef<iRewardType>,csStringBase> reward_types;
   csHash<csRef<iQuestSeqOpType>,csStringBase> seqop_types;
   csHash<csRef<iSeqOpType>,csStringBase> seqop_types_NEW;
   csHash<csRef<celQuestFactory>,csStringBase> quest_factories;
@@ -555,10 +544,8 @@ public:
   virtual bool RegisterTriggerType_NEW (iTriggerType* trigger);
   virtual iQuestTriggerType* GetTriggerType (const char* name);
   virtual iTriggerType* GetTriggerType_NEW (const char* name);
-  virtual bool RegisterRewardType (iQuestRewardType* reward);
-  virtual bool RegisterRewardType_NEW (iRewardType* reward);
-  virtual iQuestRewardType* GetRewardType (const char* name);
-  virtual iRewardType* GetRewardType_NEW (const char* name);
+  virtual bool RegisterRewardType (iRewardType* reward);
+  virtual iRewardType* GetRewardType (const char* name);
   virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop);
   virtual bool RegisterSeqOpType_NEW (iSeqOpType* seqop);
   virtual iQuestSeqOpType* GetSeqOpType (const char* name);
@@ -588,77 +575,41 @@ public:
 
   virtual bool Load (iDocumentNode* node);
 
-  virtual iQuestRewardFactory* AddNewStateReward (
+  virtual iRewardFactory* AddNewStateReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* state_par);
-  virtual iQuestRewardFactory* AddDebugPrintReward (
-  	iQuestTriggerResponseFactory* response,
-  	const char* msg_par);
-  virtual iRewardFactory* AddDebugPrintReward_NEW (
+  virtual iRewardFactory* AddDebugPrintReward (
   	iQuestTriggerResponseFactory* response,
   	const char* msg);
-  virtual iChangePropertyQuestRewardFactory* AddChangePropertyReward (
+  virtual iChangePropertyRewardFactory* AddChangePropertyReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par);
-  virtual iChangePropertyRewardFactory* AddChangePropertyReward_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* prop_par);
-  virtual iQuestRewardFactory* AddInventoryReward (
+  virtual iRewardFactory* AddInventoryReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* child_entity_par);
-  virtual iRewardFactory* AddInventoryReward_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* child_entity_par);
-  virtual iQuestRewardFactory* AddSequenceReward (
+  virtual iRewardFactory* AddSequenceReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par,
 	const char* delay_par);
-  virtual iQuestRewardFactory* AddCsSequenceReward (
+  virtual iRewardFactory* AddCsSequenceReward (
   	iQuestTriggerResponseFactory* response,
   	const char* sequence_par, const char* delay_par);
-  virtual iQuestRewardFactory* AddSequenceFinishReward (
+  virtual iRewardFactory* AddSequenceFinishReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par);
-  virtual iRewardFactory* AddSequenceReward_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* sequence_par,
-	const char* delay_par);
-  virtual iRewardFactory* AddCsSequenceReward_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* sequence_par, const char* delay_par);
-  virtual iRewardFactory* AddSequenceFinishReward_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* sequence_par);
-  virtual iQuestRewardFactory* AddCreateEntityReward (
+  virtual iRewardFactory* AddCreateEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* template_par,
 	const char* name_par,
     const celEntityTemplateParams &tpl_params);
-  virtual iRewardFactory* AddCreateEntityReward_NEW (
-  	iQuestTriggerResponseFactory* response,
-	const char* template_par,
-	const char* name_par,
-    const celEntityTemplateParams &tpl_params);
-  virtual iQuestRewardFactory* AddDestroyEntityReward (
-  	iQuestTriggerResponseFactory* response,
-	const char* entity_par);
-  virtual iRewardFactory* AddDestroyEntityReward_NEW (
+  virtual iRewardFactory* AddDestroyEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par); 
-  virtual iQuestRewardFactory* AddMessageReward (
+  virtual iRewardFactory* AddMessageReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par,
 	const char* id_par);
-  virtual iRewardFactory* AddMessageReward_NEW (
-  	iQuestTriggerResponseFactory* response,
-	const char* entity_par,
-	const char* id_par);
-  virtual iQuestRewardFactory* AddActionReward (
-  	iQuestTriggerResponseFactory* response,
-	const char* entity_par,
-	const char* id_par,
-	const char* pcclass_par);
-  virtual iRewardFactory* AddActionReward_NEW (
+  virtual iRewardFactory* AddActionReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par,
 	const char* id_par,

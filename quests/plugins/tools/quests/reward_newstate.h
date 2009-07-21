@@ -44,7 +44,7 @@ CEL_DECLARE_REWARDTYPE(NewState,"cel.questreward.newstate")
  * The 'newstate' reward factory.
  */
 class celNewStateRewardFactory : public scfImplementation2<
-	celNewStateRewardFactory, iQuestRewardFactory,
+	celNewStateRewardFactory, iRewardFactory,
 	iNewStateQuestRewardFactory>
 {
 private:
@@ -58,8 +58,7 @@ public:
   celNewStateRewardFactory (celNewStateRewardType* type);
   virtual ~celNewStateRewardFactory () {};
 
-  virtual csPtr<iQuestReward> CreateReward (
-      iQuest* q, const celQuestParams& params);
+  virtual csPtr<iReward> CreateReward (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iNewStateQuestRewardFactory -----------------------
@@ -73,13 +72,13 @@ public:
  * The 'newstate' reward.
  */
 class celNewStateReward : public scfImplementation2<
-	celNewStateReward, iQuestReward, iCelTimerListener>
+	celNewStateReward, iReward, iCelTimerListener>
 {
 private:
   celNewStateRewardType* type;
-  csRef<iQuestParameter> state;
-  csRef<iQuestParameter> entity;
-  csRef<iQuestParameter> tag;
+  csRef<iParameter> state;
+  csRef<iParameter> entity;
+  csRef<iParameter> tag;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iQuest> quest;
   // Keep reward parameters for next frame.
@@ -87,7 +86,8 @@ private:
 
 public:
   celNewStateReward (celNewStateRewardType* type,
-  	iQuest* q, const celQuestParams& params,
+  	//iQuest* q, 
+	const celParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par);
   virtual ~celNewStateReward () {};
@@ -102,20 +102,20 @@ public:
  * The 'newstate' reward for classes.
  */
 class celClassNewStateReward : public scfImplementation2<
-	celClassNewStateReward, iQuestReward, iCelTimerListener>
+	celClassNewStateReward, iReward, iCelTimerListener>
 {
 private:
   celNewStateRewardType* type;
-  csRef<iQuestParameter> state;
-  csRef<iQuestParameter> tag;
-  csRef<iQuestParameter> clazz;
+  csRef<iParameter> state;
+  csRef<iParameter> tag;
+  csRef<iParameter> clazz;
   csRef<iCelEntityList> entlist;
   // Keep reward parameters for next frame.
   csRef<iCelParameterBlock> reward_params;
 
 public:
   celClassNewStateReward (celNewStateRewardType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par);
   virtual ~celClassNewStateReward () {};
