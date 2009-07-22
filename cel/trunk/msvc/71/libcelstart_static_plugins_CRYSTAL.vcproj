@@ -122,7 +122,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\celstart_static_plugins_CRYSTAL-1.9-vc71.dll"
-				ImportLibrary="..\..\out\release71\libs\Win32\libcelstart_static_plugins_CRYSTAL.lib"
+				ImportLibrary="..\..\out\release71\libs\libcelstart_static_plugins_CRYSTAL.lib"
 				ProgramDatabaseFile="..\..\out\release71\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL-1.9-vc71.pdb"
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc71.lib bulletdynamics-vc71.lib bulletmath-vc71.lib CEGUIBase-vc71.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc71.lib "
 				AdditionalDependencies=""
@@ -265,7 +265,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\celstart_static_plugins_CRYSTAL-1.9-vc71_d.dll"
-				ImportLibrary="..\..\out\debug71\libs\Win32\libcelstart_static_plugins_CRYSTAL_d.lib"
+				ImportLibrary="..\..\out\debug71\libs\libcelstart_static_plugins_CRYSTAL_d.lib"
 				ProgramDatabaseFile="..\..\out\debug71\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL-1.9-vc71_d.pdb"
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc71_d.lib bulletdynamics-vc71_d.lib bulletmath-vc71_d.lib CEGUIBase-vc71_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc71_d.lib "
 				AdditionalDependencies=""
@@ -310,6 +310,13 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\appcelstart_static_staticuse_CRYSTAL.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libcelstart_static_plugins_CRYSTAL.rc">
 			</File>
 		</Filter>
 	</Files>

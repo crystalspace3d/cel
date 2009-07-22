@@ -122,7 +122,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\nettest_static_plugins_CRYSTAL-1.9-vc7.dll"
-				ImportLibrary="..\..\out\release7\libs\Win32\libnettest_static_plugins_CRYSTAL.lib"
+				ImportLibrary="..\..\out\release7\libs\libnettest_static_plugins_CRYSTAL.lib"
 				ProgramDatabaseFile="..\..\out\release7\build\libnettest_static_plugins_CRYSTAL\Win32\nettest_static_plugins_CRYSTAL-1.9-vc7.pdb"
 				AdditionalOptions="libjpeg.lib libpng.lib cal3d-vc7.lib cg.lib cgGL.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
 				AdditionalDependencies=""
@@ -265,7 +265,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\nettest_static_plugins_CRYSTAL-1.9-vc7_d.dll"
-				ImportLibrary="..\..\out\debug7\libs\Win32\libnettest_static_plugins_CRYSTAL_d.lib"
+				ImportLibrary="..\..\out\debug7\libs\libnettest_static_plugins_CRYSTAL_d.lib"
 				ProgramDatabaseFile="..\..\out\debug7\build\libnettest_static_plugins_CRYSTAL\Win32\nettest_static_plugins_CRYSTAL-1.9-vc7_d.pdb"
 				AdditionalOptions="libjpeg.lib libpng.lib cal3d-vc7_d.lib cg.lib cgGL.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
 				AdditionalDependencies=""
@@ -310,6 +310,13 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\appnettest_static_staticuse_CRYSTAL.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libnettest_static_plugins_CRYSTAL.rc">
 			</File>
 		</Filter>
 	</Files>

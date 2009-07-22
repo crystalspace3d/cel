@@ -122,7 +122,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\bootstrap_static_plugins-1.9-vc7.dll"
-				ImportLibrary="..\..\out\release7\libs\Win32\libbootstrap_static_plugins.lib"
+				ImportLibrary="..\..\out\release7\libs\libbootstrap_static_plugins.lib"
 				ProgramDatabaseFile="..\..\out\release7\build\libbootstrap_static_plugins\Win32\bootstrap_static_plugins-1.9-vc7.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -265,7 +265,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\bootstrap_static_plugins-1.9-vc7_d.dll"
-				ImportLibrary="..\..\out\debug7\libs\Win32\libbootstrap_static_plugins_d.lib"
+				ImportLibrary="..\..\out\debug7\libs\libbootstrap_static_plugins_d.lib"
 				ProgramDatabaseFile="..\..\out\debug7\build\libbootstrap_static_plugins\Win32\bootstrap_static_plugins-1.9-vc7_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -310,6 +310,13 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\appbootstrap_static_staticuse.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libbootstrap_static_plugins.rc">
 			</File>
 		</Filter>
 	</Files>

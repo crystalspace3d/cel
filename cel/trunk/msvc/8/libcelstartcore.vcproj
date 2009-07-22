@@ -123,7 +123,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\celstartcore-1.9-vc8.dll"
-				ImportLibrary="..\..\out\release8\libs\Win32\libcelstartcore.lib"
+				ImportLibrary="..\..\out\release8\libs\libcelstartcore.lib"
 				ProgramDatabaseFile="..\..\out\release8\build\libcelstartcore\Win32\celstartcore-1.9-vc8.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -266,7 +266,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\celstartcore-1.9-vc8_d.dll"
-				ImportLibrary="..\..\out\debug8\libs\Win32\libcelstartcore_d.lib"
+				ImportLibrary="..\..\out\debug8\libs\libcelstartcore_d.lib"
 				ProgramDatabaseFile="..\..\out\debug8\build\libcelstartcore\Win32\celstartcore-1.9-vc8_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -413,7 +413,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\celstartcore-1.9-vc8-x64.dll"
-				ImportLibrary="..\..\out\release8-x64\libs\x64\libcelstartcore.lib"
+				ImportLibrary="..\..\out\release8-x64\libs\libcelstartcore.lib"
 				ProgramDatabaseFile="..\..\out\release8-x64\build\libcelstartcore\x64\celstartcore-1.9-vc8-x64.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -556,7 +556,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\celstartcore-1.9-vc8-x64_d.dll"
-				ImportLibrary="..\..\out\debug8-x64\libs\x64\libcelstartcore_d.lib"
+				ImportLibrary="..\..\out\debug8-x64\libs\libcelstartcore_d.lib"
 				ProgramDatabaseFile="..\..\out\debug8-x64\build\libcelstartcore\x64\celstartcore-1.9-vc8-x64_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -608,6 +608,13 @@
 			Filter="">
 			<File
 				RelativePath="..\..\apps\celstart\celstart.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libcelstartcore.rc">
 			</File>
 		</Filter>
 	</Files>
