@@ -57,7 +57,7 @@ celSequence::~celSequence ()
 
 void celSequence::AddSeqOp (iSeqOp* seqop, csTicks start, csTicks end)
 {
-  celSeqOp_NEW seq;
+  celSeqOp seq;
   seq.seqop = seqop;
   seq.start = start;
   seq.end = end;
@@ -332,8 +332,12 @@ csPtr<iCelSequence> celSequenceFactory::CreateSequence (
   for (i = 0 ; i < seqops.GetSize () ; i++)
   {
     // @@@ Support dynamic parameters here?
-    csTicks duration = ToUInt (parent_factory->GetQuestManager ()->
-    	ResolveParameter (params, seqops[i].duration));
+    csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> 
+	  (parent_factory->GetQuestManager ()->object_reg);
+    csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+	  (plugin_mgr, "cel.parameters.manager");
+
+    csTicks duration = ToUInt (pm->ResolveParameter (params, seqops[i].duration));
     if (total_time + duration > max_time) max_time = total_time + duration;
     if (seqops[i].seqop)
     {

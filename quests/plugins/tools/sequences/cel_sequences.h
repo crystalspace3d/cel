@@ -38,7 +38,7 @@ struct iEvent;
 /**
  * Sequence operation.
  */
-struct celSeqOp_NEW
+struct celSeqOp
 {
   csRef<iSeqOp> seqop;
   size_t idx;
@@ -53,8 +53,8 @@ class celSequence : public scfImplementation2<celSequence,
 	iCelSequence,iCelTimerListener>
 {
 private:
-  csArray<celSeqOp_NEW> seqops;
-  csArray<celSeqOp_NEW> ops_in_progress;
+  csArray<celSeqOp> seqops;
+  csArray<celSeqOp> ops_in_progress;
   csString name;
   iCelPlLayer* pl;
   iVirtualClock* vc;
@@ -89,17 +89,10 @@ public:
     celSequence::total_time = total_time;
   }
 
-  /**
-   * Save state of this sequence.
-   */
-  virtual void SaveState (iCelDataBuffer* databuf);
-  /**
-   * Load state of this sequence.
-   */
-  bool LoadState (iCelDataBuffer* databuf);
-
   // --- For iCelSequence -------------------------------
   virtual const char* GetName () const { return name; }
+  virtual void SaveState (iCelDataBuffer* databuf);
+  virtual bool LoadState (iCelDataBuffer* databuf);
   virtual bool Start (csTicks delay);
   virtual void Finish ();
   virtual void Abort ();

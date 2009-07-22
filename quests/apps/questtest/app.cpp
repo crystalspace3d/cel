@@ -266,13 +266,13 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
 
 
 
-  //Sequence Test
-  csRef<iQuestSequenceFactory>dbg_seq = fact->CreateSequence("sequence_debug");
-  csRef<iQuestSeqOpFactory> seqopfact = qm->GetSeqOpType("cel.questseqop.debugprint")->CreateSeqOpFactory();
-  csRef<iDebugPrintQuestSeqOpFactory> dbg_seqopfact = 
-	  scfQueryInterface<iDebugPrintQuestSeqOpFactory> (seqopfact);
-  dbg_seqopfact->SetMessageParameter("SEQUENCE RUNNING");
-  dbg_seq->AddSeqOpFactory(seqopfact, "100000");
+  //Refactored Sequence Test
+  //csRef<iCelSequenceFactory> dbg_seq = fact->CreateSequence("sequence_debug");
+  csRef<iSeqOpFactory> seqopfact = qm->GetSeqOpType("cel.seqops.debugprint")->CreateSeqOpFactory();
+  csRef<iDebugPrintSeqOpFactory> dbg_seqopfact = 
+	  scfQueryInterface<iDebugPrintSeqOpFactory> (seqopfact);
+  dbg_seqopfact->SetMessageParameter("REFACTORED SEQUENCE RUNNING");
+  //dbg_seq->AddSeqOpFactory(seqopfact, "1000");
   qm->AddSequenceReward(start_response2, name, "sequence_debug", "10");
 
   iQuestTriggerResponseFactory* start_response3 =
@@ -281,25 +281,9 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
   qm->AddDebugPrintReward(start_response3, "Attempting To Stop Sequence");
   qm->AddSequenceFinishReward(start_response3, name, "sequence_debug");
 
-
   iQuestTriggerResponseFactory* start_response4 =
     state_start->CreateTriggerResponseFactory ();
   qm->SetSequenceFinishTrigger(start_response4, name, "sequence_debug");
-
-    //Refactored Sequence Test
-  //csRef<iCelSequenceFactory>dbg_seq_NEW = fact->CreateSequence_NEW("sequence_debug_NEW");
-  //csRef<iSeqOpFactory> seqopfact_NEW = qm->GetSeqOpType_NEW("cel.seqops.debugprint")->CreateSeqOpFactory();
-  //csRef<iDebugPrintSeqOpFactory> dbg_seqopfact_NEW = 
-	 // scfQueryInterface<iDebugPrintSeqOpFactory> (seqopfact_NEW);
-  //dbg_seqopfact_NEW->SetMessageParameter("REFACTORED SEQUENCE RUNNING");
-  //dbg_seq_NEW->AddSeqOpFactory(seqopfact_NEW, "10");
-  //qm->AddSequenceReward_NEW(start_response2, name, "sequence_debug", "10");
-
-  //iQuestTriggerResponseFactory* start_response3 =
-  //  state_start->CreateTriggerResponseFactory ();
-  //qm->SetSequenceFinishTrigger_NEW(start_response3, name, "sequence_debug_NEW");
-  //qm->AddDebugPrintReward_NEW(start_response3, "REFACTORED SEQUENCE FINISHED");
-
   qm->AddDebugPrintReward(start_response4, "SequenceFinish Trigger Fired\n Deleting 2 Existing Boxes");
   qm->AddDebugPrintReward(start_response4, " Deleting Non-Existant Entity (Should Raise Error)\n Creating New Box");
   qm->AddDebugPrintReward(start_response4, " Attempting To Add Badone To Inventory \n");
@@ -350,15 +334,11 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
    //-----------------------------------------------------------
 
   csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest, iPcQuest); 
-  celQuestParams params; 
-  params.Put ("message", "Hallo Hallo!\n"); 
+  celParams params;
+  params.Put("message", "FINALLY: HELLO\n");
   params.Put ("ent", name); 
 
-  celParams params_NEW;
-  params_NEW.Put("message", "FINALLY: HELLO\n");
-  params_NEW.Put ("ent", name); 
-
-  if (!pcquest->NewQuest ("testquest", params, params_NEW)) 
+  if (!pcquest->NewQuest ("testquest", params)) 
   { 
 	ReportError ("Error creating quest '%s'!", "testquest"); 
     return 0; 

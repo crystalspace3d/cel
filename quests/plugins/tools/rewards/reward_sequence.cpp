@@ -163,7 +163,7 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
   iQuest* q = quest->GetQuest ();
   const char* s = sequence->Get (params);
   if (!s) return;
-  iCelSequence* seq = q->FindSequence_NEW (s);
+  iCelSequence* seq = q->FindSequence (s);
   if (!seq)
   {
     if (t)
@@ -233,7 +233,7 @@ void celClassSequenceReward::Reward (iCelParameterBlock* params)
     quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
     if (quest)
     {
-      iCelSequence* seq = quest->GetQuest()->FindSequence_NEW (s);
+      iCelSequence* seq = quest->GetQuest()->FindSequence (s);
       if (!seq)
       {
         if (t)

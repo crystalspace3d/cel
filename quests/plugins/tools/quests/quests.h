@@ -44,197 +44,6 @@ class celQuestManager;
 class celQuestFactory;
 class celQuest;
 
-//---------------------------------------------------------------------------
-
-class celQuestConstantParameter : public scfImplementation1<celQuestConstantParameter,
-  iQuestParameter>
-{
-private:
-  celData data;
-  csString str;	// This string is used to hold temporary conversion to string.
-
-public:
-  celQuestConstantParameter () : scfImplementationType (this) { }
-  celQuestConstantParameter (const char* c) : scfImplementationType (this)
-  {
-    data.Set (c);
-  }
-  virtual ~celQuestConstantParameter () { }
-  virtual const celData* GetData (iCelParameterBlock*)
-  {
-    return &data;
-  }
-  virtual const char* Get (iCelParameterBlock*);
-  virtual const char* Get (iCelParameterBlock*, bool& changed)
-  {
-    changed = false;
-    return Get (0);
-  }
-  virtual int32 GetLong (iCelParameterBlock*);
-};
-
-//---------------------------------------------------------------------------
-
-class celQuestDynamicParameter : public scfImplementation1<celQuestDynamicParameter,
-  iQuestParameter>
-{
-private:
-  iObjectRegistry* object_reg;
-  csStringID dynamic_id;
-  csString parname;
-  csString oldvalue;
-  csString str;	// This string is used to hold temporary conversion to string.
-
-public:
-  celQuestDynamicParameter (iObjectRegistry* object_reg, csStringID dynamic_id,
-      const char* parname) : scfImplementationType (this), object_reg (object_reg),
-      dynamic_id (dynamic_id), parname (parname) { }
-  virtual ~celQuestDynamicParameter () { }
-  virtual const char* Get (iCelParameterBlock* params);
-  virtual const char* Get (iCelParameterBlock* params, bool& changed);
-  virtual const celData* GetData (iCelParameterBlock* params);
-  virtual int32 GetLong (iCelParameterBlock* params);
-};
-
-//---------------------------------------------------------------------------
-
-class celQuestExpressionParameter : public scfImplementation1<celQuestExpressionParameter,
-  iQuestParameter>
-{
-private:
-  iObjectRegistry* object_reg;
-  iCelEntity* entity;
-  celData data;
-  csRef<iCelExpression> expression;
-  csString parname;
-  csString oldvalue;
-  csString str;	// This string is used to hold temporary conversion to string.
-
-public:
-  celQuestExpressionParameter (iObjectRegistry* object_reg, iCelEntity* entity,
-      iCelExpression* expression, const char* parname)
-    : scfImplementationType (this), object_reg (object_reg),
-      entity (entity), expression (expression), parname (parname) { }
-  virtual ~celQuestExpressionParameter () { }
-  virtual const char* Get (iCelParameterBlock* params);
-  virtual const char* Get (iCelParameterBlock* params, bool& changed);
-  virtual const celData* GetData (iCelParameterBlock* params);
-  virtual int32 GetLong (iCelParameterBlock* params);
-};
-
-//---------------------------------------------------------------------------
-
-/**
- * Sequence operation.
- */
-struct celSeqOp
-{
-  csRef<iQuestSeqOp> seqop;
-  size_t idx;
-  csTicks start;
-  csTicks end;
-};
-
-/**
- * A sequence.
- */
-class celQuestSequence : public scfImplementation2<celQuestSequence,
-	iQuestSequence,iCelTimerListener>
-{
-private:
-  csArray<celSeqOp> seqops;
-  csArray<celSeqOp> ops_in_progress;
-  csString name;
-  iCelPlLayer* pl;
-  iVirtualClock* vc;
-  size_t idx;
-  csTicks start_time;
-  csTicks total_time;
-
-  csRefArray<iQuestSequenceCallback> callbacks;
-
-  // Perform the sequence upto relative time 'rel'.
-  void Perform (csTicks rel);
-
-  // Fire the sequence callbacks.
-  void FireSequenceCallbacks ();
-
-public:
-  celQuestSequence (const char* name, iCelPlLayer* pl,
-  	iVirtualClock* vc);
-  virtual ~celQuestSequence ();
-
-  /**
-   * Add a new seqop. Warning! Seqops must be added in ascending order
-   * based on 'start'.
-   */
-  void AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end);
-
-  /**
-   * Set total time.
-   */
-  void SetTotalTime (csTicks total_time)
-  {
-    celQuestSequence::total_time = total_time;
-  }
-
-  /**
-   * Save state of this sequence.
-   */
-  void SaveState (iCelDataBuffer* databuf);
-  /**
-   * Load state of this sequence.
-   */
-  bool LoadState (iCelDataBuffer* databuf);
-
-  // --- For iQuestSequence -------------------------------
-  virtual const char* GetName () const { return name; }
-  virtual bool Start (csTicks delay);
-  virtual void Finish ();
-  virtual void Abort ();
-  virtual bool IsRunning ();
-  virtual void AddSequenceCallback (iQuestSequenceCallback* cb);
-  virtual void RemoveSequenceCallback (iQuestSequenceCallback* cb);
-
-  // --- For iCelTimerListener ----------------------------
-  virtual void TickEveryFrame ();
-  virtual void TickOnce () { }
-};
-
-/**
- * Sequence operation factory.
- */
-struct celSeqOpFact
-{
-  csRef<iQuestSeqOpFactory> seqop;	// If 0 this is a delay.
-  csString duration;			// Duration or parameter.
-};
-
-/**
- * A sequence factory.
- */
-class celQuestSequenceFactory : public scfImplementation1<
-	celQuestSequenceFactory, iQuestSequenceFactory>
-{
-private:
-  celQuestFactory* parent_factory;
-  csString name;
-  // The array of sequence operations will be sorted due to the
-  // presence of the csComparator specialization above.
-  csArray<celSeqOpFact> seqops;
-
-public:
-  celQuestSequenceFactory (const char* name, celQuestFactory* fact);
-  virtual ~celQuestSequenceFactory () { }
-
-  csPtr<celQuestSequence> CreateSequence (const celQuestParams& params);
-
-  virtual const char* GetName () const { return name; }
-  virtual bool Load (iDocumentNode* node);
-  virtual void AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
-  	const char* duration);
-  virtual void AddDelay (const char* delay);
-};
 
 //---------------------------------------------------------------------------
 
@@ -245,8 +54,7 @@ class celQuestTriggerResponseFactory : public scfImplementation1<
 	celQuestTriggerResponseFactory, iQuestTriggerResponseFactory>
 {
 private:
-  csRef<iQuestTriggerFactory> trigger_factory;
-  csRef<iTriggerFactory> trigger_factory_NEW;
+  csRef<iTriggerFactory> trigger_factory;
   csRefArray<iRewardFactory> reward_factories;
 
 public:
@@ -255,14 +63,9 @@ public:
   celQuestTriggerResponseFactory () : scfImplementationType (this) { }
   virtual ~celQuestTriggerResponseFactory () { }
 
-  iQuestTriggerFactory* GetTriggerFactory () const
+  iTriggerFactory* GetTriggerFactory () const
   {
 	return trigger_factory;
-  }
-
-  iTriggerFactory* GetTriggerFactory_NEW () const
-  {
-	return trigger_factory_NEW;
   }
 
   const csRefArray<iRewardFactory>& GetRewardFactories () const
@@ -270,9 +73,7 @@ public:
     return reward_factories;
   }
 
-
-  virtual void SetTriggerFactory (iQuestTriggerFactory* trigger_fact);
-  virtual void SetTriggerFactory_NEW (iTriggerFactory* trigger_fact);
+  virtual void SetTriggerFactory (iTriggerFactory* trigger_fact);
   virtual void AddRewardFactory (iRewardFactory* reward_fact);
 };
 
@@ -312,10 +113,7 @@ public:
 };
 
 typedef csHash<csRef<celQuestStateFactory>,csStringBase> celQuestFactoryStates;
-typedef csHash<csRef<celQuestSequenceFactory>,csStringBase>
-	celQuestFactorySequences;
-typedef csHash<csRef<iCelSequenceFactory>,csStringBase>
-	celFactorySequences;
+typedef csHash<csRef<iCelSequenceFactory>,csStringBase>  celFactorySequences;
 
 /**
  * A quest factory.
@@ -327,15 +125,14 @@ private:
   celQuestManager* questmgr;
   csString name;
   celQuestFactoryStates states;
-  celQuestFactorySequences sequences;
-  celFactorySequences sequences_NEW;
-  celQuestParams defaults;
+  celFactorySequences sequences;
+  celParams defaults;
 
   csRef<iRewardFactory> LoadReward (iDocumentNode* child);
   bool LoadRewards (iQuestStateFactory* statefact, bool oninit,
   	iDocumentNode* node);
   bool LoadTriggerResponse (iQuestTriggerResponseFactory* respfact,
-  	iQuestTriggerFactory* trigfact, iDocumentNode* node);
+  	iTriggerFactory* trigfact, iDocumentNode* node);
   bool LoadState (iQuestStateFactory* statefact, iDocumentNode* node);
 
 public:
@@ -351,15 +148,12 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual csPtr<iQuest> CreateQuest (
-      const celQuestParams& params,
-	  const celParams& params_NEW);
+      const celParams& params);
   virtual bool Load (iDocumentNode* node);
   virtual iQuestStateFactory* GetState (const char* name);
   virtual iQuestStateFactory* CreateState (const char* name);
-  virtual iQuestSequenceFactory* GetSequence (const char* name);
-  virtual iQuestSequenceFactory* CreateSequence (const char* name);
-  virtual iCelSequenceFactory* GetSequence_NEW (const char* name);
-  virtual iCelSequenceFactory* CreateSequence_NEW (const char* name);
+  virtual iCelSequenceFactory* GetSequence (const char* name);
+  virtual iCelSequenceFactory* CreateSequence (const char* name);
   virtual const char* GetDefaultParameter (const char* name) const;
   virtual void SetDefaultParameter (const char* name,const char* value);
   virtual void ClearDefaultParameters ();
@@ -368,30 +162,22 @@ public:
 /**
  * A trigger and rewards. This is basically a response for a quest.
  */
-struct celQuestStateResponse : public scfImplementation2<
-	celQuestStateResponse, iQuestTriggerCallback, iTriggerCallback>
+struct celQuestStateResponse : public scfImplementation1<
+	celQuestStateResponse, iTriggerCallback>
 {
 private:
   iCelPlLayer* pl;
-  csRef<iQuestTrigger> trigger;
-  csRef<iTrigger> trigger_NEW;
+  csRef<iTrigger> trigger;
   csRefArray<iReward> rewards;
   celQuest* quest;
 
 public:
-  bool refactored_trigger;
-
   celQuestStateResponse (iCelPlLayer* pl, celQuest* quest);
   virtual ~celQuestStateResponse () { }
 
-  void SetTrigger (iQuestTrigger* trigger);
-  iQuestTrigger* GetTrigger () const { return trigger; }
-  void SetTrigger_NEW (iTrigger* trigger);
-  iTrigger* GetTrigger_NEW () const { return trigger_NEW; }
+  void SetTrigger (iTrigger* trigger);
+  iTrigger* GetTrigger () const { return trigger; }
   void AddReward (iReward* reward);
-
-  // --- For iQuestTriggerCallback ------------------------
-  virtual void TriggerFired (iQuestTrigger* trigger, iCelParameterBlock* params);
 
   // --- For iTriggerCallback ------------------------
   virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params);
@@ -463,10 +249,8 @@ private:
   /// Load/switch state.
   bool SwitchState (const char* state, iCelDataBuffer* databuf);
 
-  csRefArray<celQuestSequence> sequences;
-  csRefArray<iCelSequence> sequences_NEW;
-  celQuestSequence* FindCelSequence (const char* name);
-  iCelSequence* FindCelSequence_NEW (const char* name);
+  csRefArray<iCelSequence> sequences;
+  iCelSequence* FindCelSequence (const char* name);
 
 public:
   celQuest (iCelPlLayer* pl);
@@ -478,15 +262,12 @@ public:
   virtual bool LoadState (const char* state, iCelDataBuffer* databuf);
   virtual void SaveState (iCelDataBuffer* databuf);
 
-  virtual iQuestSequence* FindSequence (const char* name)
+  virtual iCelSequence* FindSequence (const char* name)
   {
     return FindCelSequence (name);
   }
 
-  virtual iCelSequence* FindSequence_NEW (const char* name)
-  {
-    return FindCelSequence_NEW (name);
-  }
+
 
   /// Add a state, returns the state index.
   size_t AddState (const char* name);
@@ -494,8 +275,6 @@ public:
   size_t AddStateResponse (size_t stateidx);
   /// Set trigger for a state and response.
   void SetStateTrigger (size_t stateidx, size_t responseidx,
-  	iQuestTrigger* trigger);
-  void SetStateTrigger_NEW (size_t stateidx, size_t responseidx,
   	iTrigger* trigger);
   /// Add reward for a state and response.
   void AddStateReward (size_t stateidx, size_t responseidx,
@@ -509,8 +288,7 @@ public:
   /**
    * Add a sequence. This will increase the ref count.
    */
-  void AddSequence (celQuestSequence* sequence);
-  void AddSequence_NEW (iCelSequence* sequence);
+  void AddSequence (iCelSequence* sequence);
 };
 
 /**
@@ -526,52 +304,28 @@ public:
   csRef<iCelExpressionParser> expparser;
 
 private:
-  csHash<csRef<iQuestTriggerType>,csStringBase> trigger_types;
-  csHash<csRef<iTriggerType>,csStringBase> trigger_types_NEW;
+  csHash<csRef<iTriggerType>,csStringBase> trigger_types;
   csHash<csRef<iRewardType>,csStringBase> reward_types;
-  csHash<csRef<iQuestSeqOpType>,csStringBase> seqop_types;
-  csHash<csRef<iSeqOpType>,csStringBase> seqop_types_NEW;
+  csHash<csRef<iSeqOpType>,csStringBase> seqop_types;
   csHash<csRef<celQuestFactory>,csStringBase> quest_factories;
-
-  iCelExpressionParser* GetParser ();
 
 public:
   celQuestManager (iBase* parent);
   virtual ~celQuestManager ();
   virtual bool Initialize (iObjectRegistry* object_reg);
 
-  virtual bool RegisterTriggerType (iQuestTriggerType* trigger);
-  virtual bool RegisterTriggerType_NEW (iTriggerType* trigger);
-  virtual iQuestTriggerType* GetTriggerType (const char* name);
-  virtual iTriggerType* GetTriggerType_NEW (const char* name);
+  virtual bool RegisterTriggerType (iTriggerType* trigger);
+  virtual iTriggerType* GetTriggerType (const char* name);
   virtual bool RegisterRewardType (iRewardType* reward);
   virtual iRewardType* GetRewardType (const char* name);
-  virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop);
-  virtual bool RegisterSeqOpType_NEW (iSeqOpType* seqop);
-  virtual iQuestSeqOpType* GetSeqOpType (const char* name);
-  virtual iSeqOpType* GetSeqOpType_NEW (const char* name);
+  virtual bool RegisterSeqOpType (iSeqOpType* seqop);
+  virtual iSeqOpType* GetSeqOpType (const char* name);
 
   virtual iQuestFactory* GetQuestFactory (const char* name);
   virtual iQuestFactory* CreateQuestFactory (const char* name);
-  virtual csPtr<iQuestParameter> GetParameter (
-  	const celQuestParams& params,
-	const char* param);
+
   virtual void RemoveQuestFactory (const char* name);
   virtual void RemoveQuestFactories ();
-
-  virtual const char* ResolveParameter (
-  	const celQuestParams& params,
-	const char* param);
-
-  virtual csPtr<celVariableParameterBlock> GetParameterBlock (
-  	const celQuestParams& params,
-	const csArray<celParSpec>& parameters,
-	csRefArray<iQuestParameter>& quest_parameters);
-  virtual void FillParameterBlock (
-        iCelParameterBlock* params,
-	celVariableParameterBlock* act_params,
-	const csArray<celParSpec>& parameters,
-	const csRefArray<iQuestParameter>& quest_parameters);
 
   virtual bool Load (iDocumentNode* node);
 
@@ -614,80 +368,42 @@ public:
 	const char* entity_par,
 	const char* id_par,
 	const char* pcclass_par);
-  virtual iQuestTriggerFactory* SetTimeoutTrigger (
+  virtual iTriggerFactory* SetTimeoutTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* timeout_par);
-  virtual iTriggerFactory* SetTimeoutTrigger_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* timeout_par);
-  virtual iQuestTriggerFactory* SetEnterSectorTrigger (
+  virtual iTriggerFactory* SetEnterSectorTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sector_par);
-  virtual iQuestTriggerFactory* SetMeshEnterSectorTrigger (
+  virtual iTriggerFactory* SetMeshEnterSectorTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sector_par);
-  virtual iQuestTriggerFactory* SetSequenceFinishTrigger (
+  virtual iTriggerFactory* SetSequenceFinishTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par);
-  virtual iTriggerFactory* SetEnterSectorTrigger_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* sector_par);
-  virtual iTriggerFactory* SetMeshEnterSectorTrigger_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* sector_par);
-  virtual iTriggerFactory* SetSequenceFinishTrigger_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* sequence_par);
-  virtual iQuestTriggerFactory* SetPropertyChangeTrigger (
+  virtual iTriggerFactory* SetPropertyChangeTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par, const char* value_par);
-  virtual iTriggerFactory* SetPropertyChangeTrigger_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* prop_par, const char* value_par);
-  virtual iQuestTriggerFactory* SetTriggerTrigger (
+  virtual iTriggerFactory* SetTriggerTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, bool do_leave = false);
-  virtual iQuestTriggerFactory* SetWatchTrigger (
+  virtual iTriggerFactory* SetWatchTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* target_entity_par,
 	const char* checktime_par,
 	const char* radius_par);
-  virtual iQuestTriggerFactory* SetOperationTrigger (
-        iQuestTriggerResponseFactory* response,
-        const char* operation_par,
-        csRefArray<iQuestTriggerFactory> &trigger_factories);
-  virtual iTriggerFactory* SetTriggerTrigger_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, bool do_leave = false);
-  virtual iTriggerFactory* SetWatchTrigger_NEW (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, const char* target_entity_par,
-	const char* checktime_par,
-	const char* radius_par);
-  virtual iTriggerFactory* SetOperationTrigger_NEW (
+  virtual iTriggerFactory* SetOperationTrigger (
         iQuestTriggerResponseFactory* response,
         const char* operation_par,
         csRefArray<iTriggerFactory> &trigger_factories);
-  virtual iQuestTriggerFactory* SetInventoryTrigger (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, 
-	const char* child_par);
-  virtual iTriggerFactory* SetInventoryTrigger_NEW (
+  virtual iTriggerFactory* SetInventoryTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par,
 	const char* child_par);
-  virtual iQuestTriggerFactory* SetMessageTrigger (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par, 
-	const char* mask_par);
-  virtual iTriggerFactory* SetMessageTrigger_NEW (
+  virtual iTriggerFactory* SetMessageTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par,
 	const char* mask_par);
-  virtual iQuestTriggerFactory* SetMeshSelectTrigger (
-  	iQuestTriggerResponseFactory* response,
-  	const char* entity_par);
-  virtual iTriggerFactory* SetMeshSelectTrigger_NEW (
+  virtual iTriggerFactory* SetMeshSelectTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par);
 };
