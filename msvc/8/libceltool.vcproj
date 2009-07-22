@@ -123,7 +123,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\celtool-1.9-vc8.dll"
-				ImportLibrary="..\..\out\release8\libs\Win32\libceltool.lib"
+				ImportLibrary="..\..\out\release8\libs\libceltool.lib"
 				ProgramDatabaseFile="..\..\out\release8\build\libceltool\Win32\celtool-1.9-vc8.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -266,7 +266,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\celtool-1.9-vc8_d.dll"
-				ImportLibrary="..\..\out\debug8\libs\Win32\libceltool_d.lib"
+				ImportLibrary="..\..\out\debug8\libs\libceltool_d.lib"
 				ProgramDatabaseFile="..\..\out\debug8\build\libceltool\Win32\celtool-1.9-vc8_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -413,7 +413,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\celtool-1.9-vc8-x64.dll"
-				ImportLibrary="..\..\out\release8-x64\libs\x64\libceltool.lib"
+				ImportLibrary="..\..\out\release8-x64\libs\libceltool.lib"
 				ProgramDatabaseFile="..\..\out\release8-x64\build\libceltool\x64\celtool-1.9-vc8-x64.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -556,7 +556,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\celtool-1.9-vc8-x64_d.dll"
-				ImportLibrary="..\..\out\debug8-x64\libs\x64\libceltool_d.lib"
+				ImportLibrary="..\..\out\debug8-x64\libs\libceltool_d.lib"
 				ProgramDatabaseFile="..\..\out\debug8-x64\build\libceltool\x64\celtool-1.9-vc8-x64_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -653,6 +653,13 @@
 			</File>
 			<File
 				RelativePath="..\..\libs\celtool\packagedefs.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libceltool.rc">
 			</File>
 		</Filter>
 	</Files>

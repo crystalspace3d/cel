@@ -123,7 +123,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\celstart_static_plugins-1.9-vc9.dll"
-				ImportLibrary="..\..\out\release9\libs\Win32\libcelstart_static_plugins.lib"
+				ImportLibrary="..\..\out\release9\libs\libcelstart_static_plugins.lib"
 				ProgramDatabaseFile="..\..\out\release9\build\libcelstart_static_plugins\Win32\celstart_static_plugins-1.9-vc9.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -266,7 +266,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\celstart_static_plugins-1.9-vc9_d.dll"
-				ImportLibrary="..\..\out\debug9\libs\Win32\libcelstart_static_plugins_d.lib"
+				ImportLibrary="..\..\out\debug9\libs\libcelstart_static_plugins_d.lib"
 				ProgramDatabaseFile="..\..\out\debug9\build\libcelstart_static_plugins\Win32\celstart_static_plugins-1.9-vc9_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -413,7 +413,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\celstart_static_plugins-1.9-vc9-x64.dll"
-				ImportLibrary="..\..\out\release9-x64\libs\x64\libcelstart_static_plugins.lib"
+				ImportLibrary="..\..\out\release9-x64\libs\libcelstart_static_plugins.lib"
 				ProgramDatabaseFile="..\..\out\release9-x64\build\libcelstart_static_plugins\x64\celstart_static_plugins-1.9-vc9-x64.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -556,7 +556,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\celstart_static_plugins-1.9-vc9-x64_d.dll"
-				ImportLibrary="..\..\out\debug9-x64\libs\x64\libcelstart_static_plugins_d.lib"
+				ImportLibrary="..\..\out\debug9-x64\libs\libcelstart_static_plugins_d.lib"
 				ProgramDatabaseFile="..\..\out\debug9-x64\build\libcelstart_static_plugins\x64\celstart_static_plugins-1.9-vc9-x64_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -601,6 +601,13 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\appcelstart_static_staticuse.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libcelstart_static_plugins.rc">
 			</File>
 		</Filter>
 	</Files>
