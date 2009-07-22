@@ -150,7 +150,7 @@ void celSequenceFinishTrigger::FindSequence ()
   csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, tag);
   if (!pcquest) return;
   iQuest* quest = pcquest->GetQuest ();
-  seq = quest->FindSequence_NEW (sequence);
+  seq = quest->FindSequence (sequence);
 }
 
 void celSequenceFinishTrigger::ActivateTrigger ()

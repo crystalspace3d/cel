@@ -59,7 +59,7 @@ struct iPcQuest : public virtual iBase
    * \return false if quest factory could not be found or if the
    * quest could not be created for another reason.
    */
-  virtual bool NewQuest (const char* name, celQuestParams& params, celParams& params_NEW) = 0;
+  virtual bool NewQuest (const char* name, celParams& params) = 0;
 
   /**
    * Stop the current quest. Does nothing if there is no quest.

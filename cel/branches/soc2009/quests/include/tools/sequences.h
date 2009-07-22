@@ -128,12 +128,19 @@ struct iCelSequence : public virtual iBase
 {
   SCF_INTERFACE (iCelSequence, 0, 0, 1);
 
-  virtual void SaveState (iCelDataBuffer* databuf) = 0;
-
   /**
    * Get the name of this sequence.
    */
   virtual const char* GetName () const = 0;
+
+  /**
+   * Save state of this sequence.
+   */
+  virtual void SaveState (iCelDataBuffer* databuf) = 0;
+  /**
+   * Load state of this sequence.
+   */
+  virtual bool LoadState (iCelDataBuffer* databuf) = 0;
 
   /**
    * Fire this sequence.

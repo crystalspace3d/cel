@@ -112,7 +112,7 @@ bool celOperationTriggerFactory::Load (iDocumentNode* node)
   while (t_nodes->HasNext())
   {
     csRef<iDocumentNode> node = t_nodes->Next();
-    iTriggerType *ttype = qm->GetTriggerType_NEW(csString("cel.triggers.")
+    iTriggerType *ttype = qm->GetTriggerType(csString("cel.triggers.")
 	+csString(node->GetAttributeValue("type")));
     if (ttype)
     {
