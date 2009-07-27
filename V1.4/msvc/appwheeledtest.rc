@@ -16,8 +16,8 @@ FILEFLAGS 0x0
     BLOCK "040904E4"
     {
       VALUE "ProductName", "Crystal Entity Layer"
-      VALUE "ProductVersion", "1.4"
-      VALUE "FileVersion", "1.4"
+      VALUE "ProductVersion", "1.4.0"
+      VALUE "FileVersion", "1.4.0"
       VALUE "LegalCopyright", "Copyright (C)2002-2008 Jorrit Tyberghein and others."
       VALUE "FileDescription", "wheeledtest"
 #ifdef CS_DEBUG
