@@ -38,7 +38,7 @@
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celDebugPrintSeqOpType)
-CEL_IMPLEMENT_SEQOPTYPE_NEW(DebugPrint)
+CEL_IMPLEMENT_SEQOPTYPE(DebugPrint)
 
 //---------------------------------------------------------------------------
 

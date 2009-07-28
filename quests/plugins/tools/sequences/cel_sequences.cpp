@@ -42,7 +42,7 @@
 //---------------------------------------------------------------------------
 
 celSequence::celSequence (const char* name,
-	iCelPlLayer* pl, iVirtualClock* vc) : scfImplementationType (this)
+	csPtr<iCelPlLayer> pl, csPtr<iVirtualClock> vc) : scfImplementationType (this)
 {
   celSequence::name = name;
   celSequence::pl = pl;
@@ -229,7 +229,7 @@ celSequenceFactory::celSequenceFactory (iBase* parent) :
 	object_reg(0)
 
 {
-  parent_factory = scfQueryInterface<iQuestFactory> (parent);
+  //parent_factory = scfQueryInterface<iQuestFactory> (parent);
 }
 
 bool celSequenceFactory::Initialize (iObjectRegistry* r)
@@ -244,61 +244,10 @@ void celSequenceFactory::SetName (const char *name)
 }
 
 
-bool celSequenceFactory::Load (iDocumentNode* node)
-{
-  csRef<iDocumentNodeIterator> it = node->GetNodes ();
-  while (it->HasNext ())
-  {
-    csRef<iDocumentNode> child = it->Next ();
-    if (child->GetType () != CS_NODE_ELEMENT) continue;
-    const char* value = child->GetValue ();
-  //  csStringID id = parent_factory->xmltokens.Request (value);
-  //  switch (id)
-  //  {
-  //    case celQuestFactory::XMLTOKEN_OP:
-  //      {
-		//  csString type = child->GetAttributeValue ("type");
-		//  iSeqOpType* seqoptype = parent_factory->GetQuestManager ()
-	 // 		->GetSeqOpType_NEW ("cel.seqops."+type);
-		//  if (!seqoptype)
-		//	seqoptype = parent_factory->GetQuestManager ()->GetSeqOpType_NEW (type);
-		//  if (!seqoptype)
-		//  {
-		//	csReport (parent_factory->GetQuestManager ()->object_reg,
-		//	  CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
-		//	  "Unknown sequence type '%s' while loading quest '%s'!",
-		//	  (const char*)type, (const char*)name);
-		//	return false;
-		//  }
-		//  csRef<iSeqOpFactory> seqopfact = seqoptype->CreateSeqOpFactory ();
-		//  if (!seqopfact->Load (child))
-		//	return false;
-		//  const char* duration = child->GetAttributeValue ("duration");
-		//  AddSeqOpFactory (seqopfact, duration);
-		//}
-  //    break;
-  //    case celQuestFactory::XMLTOKEN_DELAY:
-  //      {
-		//  const char* time = child->GetAttributeValue ("time");
-		//  AddDelay (time);
-		//}
-  //    break;
-
-  //    default:
-  //      csReport (parent_factory->GetQuestManager ()->object_reg,
-		//  CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
-		//  "Unknown token '%s' while loading sequence!",
-		//  value);
-  //      return false;
-  //  }
-  }
-  return true;
-}
-
 void celSequenceFactory::AddSeqOpFactory (iSeqOpFactory* seqopfact,
   	const char* duration)
 {
-  celSeqOpFact_NEW s;
+  celSeqOpFact s;
   s.seqop = seqopfact;
   s.duration = duration;
   seqops.Push (s);
@@ -306,7 +255,7 @@ void celSequenceFactory::AddSeqOpFactory (iSeqOpFactory* seqopfact,
 
 void celSequenceFactory::AddDelay (const char* delay)
 {
-  celSeqOpFact_NEW s;
+  celSeqOpFact s;
   s.seqop = 0;
   s.duration = delay;
   seqops.Push (s);
@@ -323,17 +272,16 @@ static uint ToUInt (const char* s)
 csPtr<iCelSequence> celSequenceFactory::CreateSequence (
 	const celParams& params)
 {
-  celSequence* seq = new celSequence (name,
-  	parent_factory->GetQuestManager ()->pl,
-	parent_factory->GetQuestManager ()->vc);
+  celSequence* seq = new celSequence (name, 
+    csQueryRegistry<iCelPlLayer> (object_reg), 
+	csQueryRegistry<iVirtualClock>(object_reg));
   size_t i;
   csTicks total_time = 0;
   csTicks max_time = 0;
   for (i = 0 ; i < seqops.GetSize () ; i++)
   {
     // @@@ Support dynamic parameters here?
-    csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> 
-	  (parent_factory->GetQuestManager ()->object_reg);
+    csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> (object_reg);
     csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
 	  (plugin_mgr, "cel.parameters.manager");
 

@@ -35,7 +35,7 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celPropertySeqOpType)
-CEL_IMPLEMENT_SEQOPTYPE_NEW(Property)
+CEL_IMPLEMENT_SEQOPTYPE(Property)
 
 //---------------------------------------------------------------------------
 

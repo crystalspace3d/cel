@@ -39,7 +39,7 @@ struct iEvent;
  * A standard seqop type to animate a light.
  * This seqop type listens to the name 'cel.seqops.light'.
  */
-CEL_DECLARE_SEQOPTYPE_NEW(Light,"cel.seqops.light")
+CEL_DECLARE_SEQOPTYPE(Light,"cel.seqops.light")
 
 /**
  * The 'light' seqop factory.

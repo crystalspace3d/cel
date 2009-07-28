@@ -253,6 +253,56 @@ bool celQuestFactory::LoadRewards (
   return true;
 }
 
+bool celQuestFactory::LoadSequenceFactory (iCelSequenceFactory* seqFact, iDocumentNode* node)
+{
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_OP:
+        {
+		  csString type = child->GetAttributeValue ("type");
+		  iSeqOpType* seqoptype = questmgr->GetSeqOpType ("cel.seqops."+type);
+		  if (!seqoptype)
+			seqoptype = questmgr->GetSeqOpType (type);
+		  if (!seqoptype)
+		  {
+			csReport (questmgr->object_reg,
+			  CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
+			  "Unknown sequence type '%s' while loading quest '%s'!",
+			  (const char*)type, (const char*)name);
+			return false;
+		  }
+		  csRef<iSeqOpFactory> seqopfact = seqoptype->CreateSeqOpFactory ();
+		  if (!seqopfact->Load (child))
+			return false;
+		  const char* duration = child->GetAttributeValue ("duration");
+		  seqFact->AddSeqOpFactory (seqopfact, duration);
+		}
+       break;
+      case XMLTOKEN_DELAY:
+        {
+		  const char* time = child->GetAttributeValue ("time");
+		  seqFact->AddDelay (time); 
+		}
+      break;
+
+      default:
+        csReport (questmgr->object_reg,
+		  CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
+		  "Unknown token '%s' while loading sequence!",
+		  value);
+        return false;
+    }
+  }
+  return true;
+}
+
 bool celQuestFactory::LoadTriggerResponse (
 	iQuestTriggerResponseFactory* respfact,
   	iTriggerFactory* trigfact, iDocumentNode* node)
@@ -417,7 +467,7 @@ bool celQuestFactory::Load (iDocumentNode* node)
 			(  const char*)seqname, (const char*)name);
 			return false;
 		  }
-		  if (!seqfact->Load (child))
+		  if (!LoadSequenceFactory (seqfact, child))
 			return false;
 		}
 		break;

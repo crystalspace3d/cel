@@ -37,7 +37,7 @@ struct iObjectRegistry;
  *
  * This seqop type listens to the name 'cel.seqops.property'.
  */
-CEL_DECLARE_SEQOPTYPE_NEW(Property,"cel.seqops.property")
+CEL_DECLARE_SEQOPTYPE(Property,"cel.seqops.property")
 
 /**
  * The 'property' seqop factory.

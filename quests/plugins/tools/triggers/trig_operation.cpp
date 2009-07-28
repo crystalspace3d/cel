@@ -56,7 +56,6 @@ celOperationTriggerFactory::~celOperationTriggerFactory ()
 csPtr<iTrigger> celOperationTriggerFactory::CreateTrigger (
     const celParams& params)
 {
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   csRef<iPluginManager> plugin_mgr = 
     csQueryRegistry<iPluginManager> (type->object_reg);
 
@@ -101,19 +100,16 @@ bool celOperationTriggerFactory::Load (iDocumentNode* node)
     return false;
   }
 
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  csRef<iPluginManager> plugin_mgr = 
-    csQueryRegistry<iPluginManager> (type->object_reg);
-
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-    (plugin_mgr, "cel.parameters.manager");
-
   csRef<iDocumentNodeIterator> t_nodes = node->GetNodes("trigger");
   while (t_nodes->HasNext())
   {
     csRef<iDocumentNode> node = t_nodes->Next();
-    iTriggerType *ttype = qm->GetTriggerType(csString("cel.triggers.")
-	+csString(node->GetAttributeValue("type")));
+
+	csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (type->object_reg);
+    csRef<iTriggerType> ttype = csLoadPlugin<iTriggerType> (plugin_mgr,
+      csString("cel.triggers.")+csString(node->GetAttributeValue("type"))); 
+
     if (ttype)
     {
       csRef<iTriggerFactory> newfact = ttype->CreateTriggerFactory();
@@ -148,7 +144,6 @@ celOperationTrigger::celOperationTrigger (
 {
   checking = false;
   celOperationTrigger::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   csRef<iPluginManager> plugin_mgr = 
     csQueryRegistry<iPluginManager> (type->object_reg);
 

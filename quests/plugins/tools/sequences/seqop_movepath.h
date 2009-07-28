@@ -44,7 +44,7 @@ struct iEvent;
  * A seqop that moves a mesh along a path.
  * This seqop type listens to the name 'cel.seqops.movepath'.
  */
-CEL_DECLARE_SEQOPTYPE_NEW(MovePath,"cel.seqops.movepath")
+CEL_DECLARE_SEQOPTYPE(MovePath,"cel.seqops.movepath")
 
 /**
  * The 'movepath' seqop factory.
