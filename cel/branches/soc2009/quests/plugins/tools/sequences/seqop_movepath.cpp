@@ -40,7 +40,7 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celMovePathSeqOpType)
-CEL_IMPLEMENT_SEQOPTYPE_NEW(MovePath)
+CEL_IMPLEMENT_SEQOPTYPE(MovePath)
 
 //---------------------------------------------------------------------------
 

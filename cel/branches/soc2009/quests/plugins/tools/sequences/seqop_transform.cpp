@@ -39,7 +39,7 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celTransformSeqOpType)
-CEL_IMPLEMENT_SEQOPTYPE_NEW(Transform)
+CEL_IMPLEMENT_SEQOPTYPE(Transform)
 
 //---------------------------------------------------------------------------
 

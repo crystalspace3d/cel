@@ -37,7 +37,7 @@ struct iEvent;
  * output. This can be useful for debugging purposes.
  * This seqop type listens to the name 'cel.seqops.debugprint'.
  */
-CEL_DECLARE_SEQOPTYPE_NEW(DebugPrint,"cel.seqops.debugprint")
+CEL_DECLARE_SEQOPTYPE(DebugPrint,"cel.seqops.debugprint")
 
 /**
  * The 'debugprint' seqop factory.

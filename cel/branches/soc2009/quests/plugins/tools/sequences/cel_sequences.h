@@ -56,8 +56,8 @@ private:
   csArray<celSeqOp> seqops;
   csArray<celSeqOp> ops_in_progress;
   csString name;
-  iCelPlLayer* pl;
-  iVirtualClock* vc;
+  csRef<iCelPlLayer> pl;
+  csRef<iVirtualClock> vc;
   size_t idx;
   csTicks start_time;
   csTicks total_time;
@@ -71,8 +71,9 @@ private:
   void FireSequenceCallbacks ();
 
 public:
-  celSequence (const char* name, iCelPlLayer* pl,
-  	iVirtualClock* vc);
+  celSequence (const char* name, 
+	csPtr<iCelPlLayer> pl,
+  	csPtr<iVirtualClock> vc);
   virtual ~celSequence ();
 
   /**
@@ -108,7 +109,7 @@ public:
 /**
  * Sequence operation factory.
  */
-struct celSeqOpFact_NEW
+struct celSeqOpFact
 {
   csRef<iSeqOpFactory> seqop;	// If 0 this is a delay.
   csString duration;			// Duration or parameter.
@@ -122,11 +123,10 @@ class celSequenceFactory : public scfImplementation2<
 {
 private:
   iObjectRegistry* object_reg;
-  csRef<iQuestFactory> parent_factory;
   csString name;
   // The array of sequence operations will be sorted due to the
   // presence of the csComparator specialization above.
-  csArray<celSeqOpFact_NEW> seqops;
+  csArray<celSeqOpFact> seqops;
 
 public:
   celSequenceFactory (iBase* parent);
@@ -139,7 +139,6 @@ public:
   virtual csPtr<iCelSequence> CreateSequence (const celParams& params);
   virtual const char* GetName () const { return name; }
   virtual void SetName (const char* name);
-  virtual bool Load (iDocumentNode* node);
   virtual void AddSeqOpFactory (iSeqOpFactory* seqopfact,
   	const char* duration);
   virtual void AddDelay (const char* delay);

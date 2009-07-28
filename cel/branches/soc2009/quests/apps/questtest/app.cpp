@@ -267,12 +267,12 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
 
 
   //Refactored Sequence Test
-  //csRef<iCelSequenceFactory> dbg_seq = fact->CreateSequence("sequence_debug");
+  csRef<iCelSequenceFactory> dbg_seq = fact->CreateSequence("sequence_debug");
   csRef<iSeqOpFactory> seqopfact = qm->GetSeqOpType("cel.seqops.debugprint")->CreateSeqOpFactory();
   csRef<iDebugPrintSeqOpFactory> dbg_seqopfact = 
 	  scfQueryInterface<iDebugPrintSeqOpFactory> (seqopfact);
   dbg_seqopfact->SetMessageParameter("REFACTORED SEQUENCE RUNNING");
-  //dbg_seq->AddSeqOpFactory(seqopfact, "1000");
+  dbg_seq->AddSeqOpFactory(seqopfact, "1000");
   qm->AddSequenceReward(start_response2, name, "sequence_debug", "10");
 
   iQuestTriggerResponseFactory* start_response3 =

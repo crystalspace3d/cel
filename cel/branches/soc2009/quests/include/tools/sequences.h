@@ -200,13 +200,6 @@ struct iCelSequenceFactory : public virtual iBase
   virtual void SetName (const char* name) = 0;
 
   /**
-   * Load this sequence factory from a document node.
-   * \param node is the \<sequence\> node in a quest.
-   * \return false on error (reporter is used to report).
-   */
-  virtual bool Load (iDocumentNode* node) = 0;
-
-  /**
    * Add a new operation factory at the specified time.
    * \param seqopfact is the factory to add.
    * \param duration is the duration of this operation. This can be
@@ -491,7 +484,7 @@ struct iTransformSeqOpFactory : public virtual iBase
 /**
  * Convenience to declare a new sequence operation type class.
  */
-#define CEL_DECLARE_SEQOPTYPE_NEW(name,id)					\
+#define CEL_DECLARE_SEQOPTYPE(name,id)					\
 class cel##name##SeqOpType : public scfImplementation2<			\
 	cel##name##SeqOpType,iSeqOpType,iComponent>				\
 {									\
@@ -508,7 +501,7 @@ public:									\
 /**
  * Convenience to implement a new sequence operation type class.
  */
-#define CEL_IMPLEMENT_SEQOPTYPE_NEW(name)					\
+#define CEL_IMPLEMENT_SEQOPTYPE(name)					\
 cel##name##SeqOpType::cel##name##SeqOpType (				\
 	iBase* parent) : scfImplementationType (this, parent),	\
 	object_reg(0)											\

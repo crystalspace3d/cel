@@ -39,7 +39,7 @@ struct iEvent;
  * A seqop that transforms a mesh.
  * This seqop type listens to the name 'cel.seqops.transform'.
  */
-CEL_DECLARE_SEQOPTYPE_NEW(Transform,"cel.seqops.transform")
+CEL_DECLARE_SEQOPTYPE(Transform,"cel.seqops.transform")
 
 /**
  * The 'transform' seqop factory.

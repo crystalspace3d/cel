@@ -38,7 +38,7 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celLightSeqOpType)
-CEL_IMPLEMENT_SEQOPTYPE_NEW(Light)
+CEL_IMPLEMENT_SEQOPTYPE(Light)
 
 //---------------------------------------------------------------------------
 
