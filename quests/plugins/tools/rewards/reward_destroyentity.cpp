@@ -30,7 +30,7 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celDestroyEntityRewardType)
-CEL_IMPLEMENT_REWARDTYPE_NEW(DestroyEntity)
+CEL_IMPLEMENT_REWARDTYPE(DestroyEntity)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

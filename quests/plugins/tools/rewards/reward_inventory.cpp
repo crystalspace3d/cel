@@ -38,7 +38,7 @@
 
 //---------------------------------------------------------------------------
 SCF_IMPLEMENT_FACTORY (celInventoryRewardType)
-CEL_IMPLEMENT_REWARDTYPE_NEW (Inventory)
+CEL_IMPLEMENT_REWARDTYPE (Inventory)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

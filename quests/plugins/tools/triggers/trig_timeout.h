@@ -38,7 +38,7 @@ struct iEvent;
  * A standard trigger type that triggers after a specific time.
  * This trigger type listens to the name 'cel.triggers.timeout'.
  */
-CEL_DECLARE_TRIGGERTYPE_NEW(Timeout,"cel.triggers.timeout")
+CEL_DECLARE_TRIGGERTYPE(Timeout,"cel.triggers.timeout")
 
 /**
  * The 'timeout' trigger factory.

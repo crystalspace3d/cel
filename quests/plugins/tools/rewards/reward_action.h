@@ -38,7 +38,7 @@ class celVariableParameterBlock;
  * A standard reward type that sends an action to an entity.
  * This reward type listens to the name 'cel.rewards.action'.
  */
-CEL_DECLARE_REWARDTYPE_NEW(Action,"cel.rewards.action")
+CEL_DECLARE_REWARDTYPE(Action,"cel.rewards.action")
 
 /**
  * The 'action' reward factory.

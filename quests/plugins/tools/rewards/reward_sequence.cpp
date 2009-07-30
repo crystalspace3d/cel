@@ -36,7 +36,7 @@
 
 //---------------------------------------------------------------------------
 SCF_IMPLEMENT_FACTORY (celSequenceRewardType)
-CEL_IMPLEMENT_REWARDTYPE_NEW(Sequence)
+CEL_IMPLEMENT_REWARDTYPE(Sequence)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -127,7 +127,6 @@ celSequenceReward::celSequenceReward (
 	const char* delay_par) : scfImplementationType (this)
 {
   celSequenceReward::type = type;
- // csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   csRef<iPluginManager> plugin_mgr = 
     csQueryRegistry<iPluginManager> (type->object_reg);
 
@@ -160,6 +159,8 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
     if (!quest) return;
   }
 
+  // @@@
+  // Remove Quest Dependency
   iQuest* q = quest->GetQuest ();
   const char* s = sequence->Get (params);
   if (!s) return;

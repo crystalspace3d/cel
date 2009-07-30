@@ -38,7 +38,7 @@
 
 //---------------------------------------------------------------------------
 SCF_IMPLEMENT_FACTORY (celActionRewardType)
-CEL_IMPLEMENT_REWARDTYPE_NEW(Action)
+CEL_IMPLEMENT_REWARDTYPE(Action)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

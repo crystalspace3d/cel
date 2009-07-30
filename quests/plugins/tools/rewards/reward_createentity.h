@@ -33,7 +33,7 @@ struct iEvent;
  * A standard reward type that removes an entity entity from the physical.
  * layer. This reward type listens to the name 'cel.rewards.createentity'.
  */
-CEL_DECLARE_REWARDTYPE_NEW(CreateEntity,"cel.rewards.createentity")
+CEL_DECLARE_REWARDTYPE(CreateEntity,"cel.rewards.createentity")
 
 
 /**

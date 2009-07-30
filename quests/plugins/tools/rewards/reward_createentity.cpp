@@ -31,7 +31,7 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celCreateEntityRewardType)
-CEL_IMPLEMENT_REWARDTYPE_NEW(CreateEntity)
+CEL_IMPLEMENT_REWARDTYPE(CreateEntity)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

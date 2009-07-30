@@ -37,7 +37,7 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celChangePropertyRewardType)
-CEL_IMPLEMENT_REWARDTYPE_NEW(ChangeProperty)
+CEL_IMPLEMENT_REWARDTYPE(ChangeProperty)
 
 //---------------------------------------------------------------------------
 

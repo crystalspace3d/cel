@@ -37,7 +37,7 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celMessageTriggerType)
-CEL_IMPLEMENT_TRIGGERTYPE_NEW(Message)
+CEL_IMPLEMENT_TRIGGERTYPE(Message)
 
 //---------------------------------------------------------------------------
 

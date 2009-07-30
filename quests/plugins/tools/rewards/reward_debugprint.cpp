@@ -34,16 +34,12 @@
 
 #include "plugins/tools/rewards/reward_debugprint.h"
 
-//TEMPORARY
-#include "tools/expression.h" 
-#include "plugins/tools/parameters/cel_parameters.h"
-#include "csutil/scanstr.h"
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celDebugPrintRewardType)
-CEL_IMPLEMENT_REWARDTYPE_NEW(DebugPrint)
+CEL_IMPLEMENT_REWARDTYPE(DebugPrint)
 
 //---------------------------------------------------------------------------
 

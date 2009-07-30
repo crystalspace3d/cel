@@ -36,7 +36,7 @@
 
 //---------------------------------------------------------------------------
 SCF_IMPLEMENT_FACTORY (celMeshSelectTriggerType)
-CEL_IMPLEMENT_TRIGGERTYPE_NEW(MeshSelect)
+CEL_IMPLEMENT_TRIGGERTYPE(MeshSelect)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

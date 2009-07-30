@@ -40,7 +40,7 @@
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celTimeoutTriggerType)
-CEL_IMPLEMENT_TRIGGERTYPE_NEW(Timeout)
+CEL_IMPLEMENT_TRIGGERTYPE(Timeout)
 
 //---------------------------------------------------------------------------
 

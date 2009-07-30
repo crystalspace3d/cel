@@ -616,7 +616,7 @@ struct iSequenceFinishRewardFactory : public virtual iBase
 /**
  * Convenience to declare a new reward type class.
  */
-#define CEL_DECLARE_REWARDTYPE_NEW(name,id)					\
+#define CEL_DECLARE_REWARDTYPE(name,id)					\
 class cel##name##RewardType : public scfImplementation2<		\
 		cel##name##RewardType,iRewardType, iComponent>			\
 {									\
@@ -633,7 +633,7 @@ public:									\
 /**
  * Convenience to implement a new reward type class.
  */
-#define CEL_IMPLEMENT_REWARDTYPE_NEW(name)					\
+#define CEL_IMPLEMENT_REWARDTYPE(name)					\
 cel##name##RewardType::cel##name##RewardType (				\
 	iBase* parent) : scfImplementationType (this, parent),	\
 	object_reg(0)											\

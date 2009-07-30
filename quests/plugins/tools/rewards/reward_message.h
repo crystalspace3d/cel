@@ -39,7 +39,7 @@ class celVariableParameterBlock;
  * A standard reward type that sends a message to an entity.
  * This reward type listens to the name 'cel.rewards.message'.
  */
-CEL_DECLARE_REWARDTYPE_NEW(Message,"cel.rewards.message")
+CEL_DECLARE_REWARDTYPE(Message,"cel.rewards.message")
 
 
 

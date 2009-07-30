@@ -38,7 +38,7 @@ struct iEvent;
  * A standard reward type that mainpulates the inventory
  * This reward type listens to the name 'cel.rewards.inventory'.
  */
-CEL_DECLARE_REWARDTYPE_NEW(Inventory,"cel.rewards.inventory")
+CEL_DECLARE_REWARDTYPE(Inventory,"cel.rewards.inventory")
 
 /**
  * The 'inventory' reward factory.

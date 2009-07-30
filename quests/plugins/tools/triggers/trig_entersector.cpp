@@ -37,7 +37,7 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celEnterSectorTriggerType)
-CEL_IMPLEMENT_TRIGGERTYPE_NEW(EnterSector)
+CEL_IMPLEMENT_TRIGGERTYPE(EnterSector)
 
 //---------------------------------------------------------------------------
 

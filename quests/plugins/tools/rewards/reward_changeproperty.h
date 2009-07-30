@@ -39,7 +39,7 @@ struct iEvent;
  * A standard reward type that changes the value of a property.
  * This reward type listens to the name 'cel.rewards.changeproperty'.
  */
-CEL_DECLARE_REWARDTYPE_NEW(ChangeProperty,"cel.rewards.changeproperty")
+CEL_DECLARE_REWARDTYPE(ChangeProperty,"cel.rewards.changeproperty")
 
 /**
  * The 'changeproperty' reward factory.
