@@ -33,12 +33,13 @@
 
 #include "plugins/tools/triggers/trig_sequencefinish.h"
 
-//TEMPORARY
+// @@@
+// Remove Quest Dependency
 #include "propclass/quest.h"
 
 //---------------------------------------------------------------------------
 SCF_IMPLEMENT_FACTORY (celSequenceFinishTriggerType)
-CEL_IMPLEMENT_TRIGGERTYPE_NEW(SequenceFinish)
+CEL_IMPLEMENT_TRIGGERTYPE(SequenceFinish)
 
 //---------------------------------------------------------------------------
 

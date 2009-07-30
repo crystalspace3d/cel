@@ -39,7 +39,7 @@ struct iEvent;
  * A standard trigger type that triggers when a pcTrigger fires
  * This trigger type listens to the name 'cel.triggers.trigger'.
  */
-CEL_DECLARE_TRIGGERTYPE_NEW(Trigger,"cel.triggers.trigger")
+CEL_DECLARE_TRIGGERTYPE(Trigger,"cel.triggers.trigger")
 
 /**
  * The 'trigger' trigger factory.

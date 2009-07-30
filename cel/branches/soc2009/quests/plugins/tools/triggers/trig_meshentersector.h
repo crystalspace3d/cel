@@ -42,7 +42,7 @@ struct iEvent;
  * enters a specific sector.
  * This trigger type listens to the name 'cel.triggers.meshentersector'.
  */
-CEL_DECLARE_TRIGGERTYPE_NEW(MeshEnterSector,"cel.triggers.meshentersector")
+CEL_DECLARE_TRIGGERTYPE(MeshEnterSector,"cel.triggers.meshentersector")
 
 /**
  * The 'meshentersector' trigger factory.

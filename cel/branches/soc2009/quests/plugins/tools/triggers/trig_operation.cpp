@@ -34,12 +34,10 @@
 
 #include "plugins/tools/triggers/trig_operation.h"
 
-//TEMPORARY
-#include "tools/questmanager.h"
 
 //---------------------------------------------------------------------------
 SCF_IMPLEMENT_FACTORY (celOperationTriggerType)
-CEL_IMPLEMENT_TRIGGERTYPE_NEW(Operation)
+CEL_IMPLEMENT_TRIGGERTYPE(Operation)
 
 //---------------------------------------------------------------------------
 

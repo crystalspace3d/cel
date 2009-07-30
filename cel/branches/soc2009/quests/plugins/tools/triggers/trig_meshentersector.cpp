@@ -36,7 +36,7 @@
 
 //---------------------------------------------------------------------------
 SCF_IMPLEMENT_FACTORY (celMeshEnterSectorTriggerType)
-CEL_IMPLEMENT_TRIGGERTYPE_NEW(MeshEnterSector)
+CEL_IMPLEMENT_TRIGGERTYPE(MeshEnterSector)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

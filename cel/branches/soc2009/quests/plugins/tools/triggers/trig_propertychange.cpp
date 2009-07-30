@@ -36,7 +36,7 @@
 
 //---------------------------------------------------------------------------
 SCF_IMPLEMENT_FACTORY (celPropertyChangeTriggerType)
-CEL_IMPLEMENT_TRIGGERTYPE_NEW(PropertyChange)
+CEL_IMPLEMENT_TRIGGERTYPE(PropertyChange)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

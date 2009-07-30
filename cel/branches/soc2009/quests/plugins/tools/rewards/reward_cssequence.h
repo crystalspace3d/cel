@@ -39,7 +39,7 @@ struct iEvent;
  * A standard reward type that starts a cssequence
  * This reward type listens to the name 'cel.rewards.cssequence'.
  */
-CEL_DECLARE_REWARDTYPE_NEW(CsSequence,"cel.rewards.cssequence")
+CEL_DECLARE_REWARDTYPE(CsSequence,"cel.rewards.cssequence")
 
 /**
  * The 'cssequence' reward factory.

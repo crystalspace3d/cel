@@ -41,7 +41,7 @@ struct iEvent;
  * entity becomes visible.
  * This trigger type listens to the name 'cel.questtrigger.watch'.
  */
-CEL_DECLARE_TRIGGERTYPE_NEW(Watch,"cel.triggers.watch")
+CEL_DECLARE_TRIGGERTYPE(Watch,"cel.triggers.watch")
 
 /**
  * The 'watch' trigger factory.

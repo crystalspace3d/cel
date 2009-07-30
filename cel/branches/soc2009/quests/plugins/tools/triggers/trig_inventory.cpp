@@ -36,7 +36,7 @@
 
 //---------------------------------------------------------------------------
 SCF_IMPLEMENT_FACTORY (celInventoryTriggerType)
-CEL_IMPLEMENT_TRIGGERTYPE_NEW(Inventory)
+CEL_IMPLEMENT_TRIGGERTYPE(Inventory)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

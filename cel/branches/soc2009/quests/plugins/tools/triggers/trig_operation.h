@@ -40,7 +40,7 @@ struct iEvent;
  * A standard trigger type that triggers on logical operations of child triggers.
  * This trigger type listens to the name 'cel.triggers.operation'.
  */
-CEL_DECLARE_TRIGGERTYPE_NEW(Operation,"cel.triggers.operation")
+CEL_DECLARE_TRIGGERTYPE(Operation,"cel.triggers.operation")
 
 /**
  * The 'operation' trigger factory.

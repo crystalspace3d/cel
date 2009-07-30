@@ -38,7 +38,7 @@ struct iEvent;
  * A standard reward type that finishes a sequence
  * This reward type listens to the name 'cel.rewards.sequencefinish'.
  */
-CEL_DECLARE_REWARDTYPE_NEW(SequenceFinish,"cel.rewards.sequencefinish")
+CEL_DECLARE_REWARDTYPE(SequenceFinish,"cel.rewards.sequencefinish")
 
 /**
  * The 'sequencefinish' reward factory.

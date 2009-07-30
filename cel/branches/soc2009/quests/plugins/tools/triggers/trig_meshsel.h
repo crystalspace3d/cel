@@ -38,7 +38,7 @@ struct iEvent;
  * put in the meshselect.
  * This trigger type listens to the name 'cel.questtrigger.meshselect'.
  */
-CEL_DECLARE_TRIGGERTYPE_NEW(MeshSelect,"cel.triggers.meshselect")
+CEL_DECLARE_TRIGGERTYPE(MeshSelect,"cel.triggers.meshselect")
 
 /**
  * The 'meshselect' trigger factory.

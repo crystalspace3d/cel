@@ -34,9 +34,10 @@
 #include "iengine/camera.h"
 #include "iengine/sector.h"
 
-//TEMPORARY
+// @@@
+// Remove Quest Dependency
 #include "tools/questmanager.h"
-//TEMPORARY
+
 
 struct iObjectRegistry;
 struct iEvent;
@@ -46,7 +47,7 @@ struct iEvent;
  * enters a specific sector.
  * This trigger type listens to the name 'cel.triggers.sequencefinish'.
  */
-CEL_DECLARE_TRIGGERTYPE_NEW(SequenceFinish,"cel.triggers.sequencefinish")
+CEL_DECLARE_TRIGGERTYPE(SequenceFinish,"cel.triggers.sequencefinish")
 
 /**
  * The 'sequencefinish' trigger factory.

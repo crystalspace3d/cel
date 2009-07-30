@@ -38,7 +38,7 @@ struct iEvent;
  * A standard reward type that starts a sequence
  * This reward type listens to the name 'cel.rewards.sequence'.
  */
-CEL_DECLARE_REWARDTYPE_NEW(Sequence,"cel.rewards.sequence")
+CEL_DECLARE_REWARDTYPE(Sequence,"cel.rewards.sequence")
 
 /**
  * The 'sequence' reward factory.

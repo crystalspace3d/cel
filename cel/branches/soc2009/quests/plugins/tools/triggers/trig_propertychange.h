@@ -37,7 +37,7 @@ struct iEvent;
  * A standard trigger type that triggers when a property changes
  * This trigger type listens to the name 'cel.triggers.propertychange'.
  */
-CEL_DECLARE_TRIGGERTYPE_NEW(PropertyChange,"cel.triggers.propertychange")
+CEL_DECLARE_TRIGGERTYPE(PropertyChange,"cel.triggers.propertychange")
 
 /**
  * The 'propertychange' trigger factory.

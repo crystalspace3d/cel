@@ -31,12 +31,11 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 
-//#include "plugins/tools/quests/quests.h"
 #include "plugins/tools/rewards/reward_sequencefinish.h"
 
 //---------------------------------------------------------------------------
 SCF_IMPLEMENT_FACTORY (celSequenceFinishRewardType)
-CEL_IMPLEMENT_REWARDTYPE_NEW(SequenceFinish)
+CEL_IMPLEMENT_REWARDTYPE(SequenceFinish)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -122,7 +121,6 @@ celSequenceFinishReward::celSequenceFinishReward (
 	const char* sequence_par) : scfImplementationType (this)
 {
   celSequenceFinishReward::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   csRef<iPluginManager> plugin_mgr = 
     csQueryRegistry<iPluginManager> (type->object_reg);
 
@@ -153,8 +151,9 @@ void celSequenceFinishReward::Reward (iCelParameterBlock* params)
     if (!quest) return;
   }
 
+  // @@@
+  // Remove Quest Dependency
   iQuest* q = quest->GetQuest ();
-
   const char* s = sequence->Get (params);
   if (!s) return;
   iCelSequence* seq = q->FindSequence (s);

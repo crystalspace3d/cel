@@ -41,7 +41,7 @@ struct iEvent;
  * enters a specific sector.
  * This trigger type listens to the name 'cel.triggers.entersector'.
  */
-CEL_DECLARE_TRIGGERTYPE_NEW(EnterSector,"cel.triggers.entersector")
+CEL_DECLARE_TRIGGERTYPE(EnterSector,"cel.triggers.entersector")
 
 /**
  * The 'entersector' trigger factory.

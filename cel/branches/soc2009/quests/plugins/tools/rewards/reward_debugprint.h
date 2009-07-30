@@ -38,7 +38,7 @@ struct iEvent;
  * This reward type listens to the name 'cel.rewards.debugprint'.
  */
 
-CEL_DECLARE_REWARDTYPE_NEW(DebugPrint,"cel.rewards.debugprint")
+CEL_DECLARE_REWARDTYPE(DebugPrint,"cel.rewards.debugprint")
 
 
 /**

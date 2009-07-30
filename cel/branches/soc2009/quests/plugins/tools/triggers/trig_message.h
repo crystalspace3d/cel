@@ -41,7 +41,7 @@ struct iEvent;
  * receives a message.
  * This trigger type listens to the name 'cel.questtrigger.message'.
  */
-CEL_DECLARE_TRIGGERTYPE_NEW(Message,"cel.triggers.message")
+CEL_DECLARE_TRIGGERTYPE(Message,"cel.triggers.message")
 
 /**
  * The 'message' trigger factory.

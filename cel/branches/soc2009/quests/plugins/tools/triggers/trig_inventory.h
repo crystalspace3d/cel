@@ -38,7 +38,7 @@ struct iEvent;
  * put in the inventory.
  * This trigger type listens to the name 'cel.triggers.inventory'.
  */
-CEL_DECLARE_TRIGGERTYPE_NEW(Inventory,"cel.triggers.inventory")
+CEL_DECLARE_TRIGGERTYPE(Inventory,"cel.triggers.inventory")
 
 /**
  * The 'inventory' trigger factory.

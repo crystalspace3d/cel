@@ -36,7 +36,7 @@
 
 //---------------------------------------------------------------------------
 SCF_IMPLEMENT_FACTORY (celCsSequenceRewardType)
-CEL_IMPLEMENT_REWARDTYPE_NEW(CsSequence)
+CEL_IMPLEMENT_REWARDTYPE(CsSequence)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

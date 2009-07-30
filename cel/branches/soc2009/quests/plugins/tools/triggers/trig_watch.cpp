@@ -43,7 +43,7 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celWatchTriggerType)
-CEL_IMPLEMENT_TRIGGERTYPE_NEW(Watch)
+CEL_IMPLEMENT_TRIGGERTYPE(Watch)
 
 //---------------------------------------------------------------------------
 

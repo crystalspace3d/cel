@@ -613,7 +613,7 @@ struct iWatchTriggerFactory : public virtual iBase
 /**
  * Convenience to declare a new trigger type class.
  */
-#define CEL_DECLARE_TRIGGERTYPE_NEW(name,id)				\
+#define CEL_DECLARE_TRIGGERTYPE(name,id)				\
 class cel##name##TriggerType : public scfImplementation2<		\
 		cel##name##TriggerType,iTriggerType,iComponent>		\
 {									\
@@ -630,7 +630,7 @@ public:									\
 /**
  * Convenience to implement a new trigger type class.
  */
-#define CEL_IMPLEMENT_TRIGGERTYPE_NEW(name)					\
+#define CEL_IMPLEMENT_TRIGGERTYPE(name)					\
 cel##name##TriggerType::cel##name##TriggerType (				\
 	iBase* parent) : scfImplementationType (this, parent),	\
 	object_reg(0)											\
