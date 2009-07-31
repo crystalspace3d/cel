@@ -1,6 +1,7 @@
 #include <crystalspace.h>
 
 #include <celtool/initapp.h>
+#include <iutil/plugin.h>
 #include <propclass/zone.h>
 #include <propclass/camera.h>
 #include <propclass/mesh.h>
@@ -189,6 +190,10 @@ bool MainApp::Application ()
 
   printer.AttachNew (new FramePrinter (object_reg));
 
+  celParams params;
+  csRef<iBTNode> bt_root = CreateBehaviourTree();
+  bt_root->Execute(params);
+
   Run ();
 
   return true;
@@ -197,4 +202,18 @@ bool MainApp::Application ()
 void MainApp::OnExit ()
 {
   printer.Invalidate ();
+}
+
+csPtr<iBTNode> MainApp::CreateBehaviourTree ()
+{
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (object_reg);
+  csRef<iBTNode> root_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.selectors.default");  
+  csRef<iBTNode> action_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.behaviourtree.action");  
+
+  root_node->AddChild(action_node);
+
+  return root_node;
 }

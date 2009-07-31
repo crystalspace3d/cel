@@ -20,7 +20,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="..\..\out\debug9\build\plgbehaviourtree\"
 			IntermediateDirectory="..\..\out\debug9\build\plgbehaviourtree\"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			CharacterSet="0"
 			>
 			<Tool
@@ -41,13 +41,20 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="0"
+				PrecompiledHeaderFile="..\..\out\debug9\build\plgbehaviourtree\plgbehaviourtree.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\plgbehaviourtree\"
+				ObjectFile="..\..\out\debug9\build\plgbehaviourtree\"
+				ProgramDataBaseFileName="..\..\out\debug9\build\plgbehaviourtree\Win32\behaviourtree.pdb"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -96,7 +103,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\"
+				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -182,12 +189,36 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\BTAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\condition_parametercheck.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\condition_triggerfired.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\BTAction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\condition_parametercheck.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\condition_triggerfired.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

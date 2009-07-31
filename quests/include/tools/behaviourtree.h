@@ -56,15 +56,19 @@ struct iBTNode : public virtual iBase
 /**
  * Convenience to declare a new reward type class.
  */
-#define CEL_DECLARE_BTNODE(name,id)					\
+#define CEL_DECLARE_BTNODE(name)					\
 class cel##name## : public scfImplementation2<		\
 		cel##name## ,iBTNode, iComponent>			\
-{									\
-public:									\
+{		\
+private: \
   iObjectRegistry* object_reg;						\
+  csRefArray<iBTNode> children; \
+public:									\
   cel##name## (iBase* parent);			\
   virtual ~cel##name## () { }					\
   virtual bool Initialize (iObjectRegistry*);			\
+  virtual bool Execute (const celParams& params);		\
+  virtual bool AddChild (iBTNode* child);\
 };
 
 /**
@@ -81,7 +85,7 @@ bool cel##name##::Initialize (					\
 {									\
   cel##name##::object_reg = object_reg;			\
   return true;												\
-}									\
-}
+}									
+
 
 #endif // __CEL_BEHAVIOUR_TREE__
