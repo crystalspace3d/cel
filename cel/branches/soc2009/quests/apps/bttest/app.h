@@ -3,6 +3,7 @@
 
 #include <physicallayer/entity.h>
 #include <physicallayer/pl.h>
+#include "tools/behaviourtree.h"
 
 class FramePrinter;
 
@@ -28,6 +29,8 @@ private:
 
   bool LoadLevel ();
   bool CreatePlayer ();
+
+  csPtr<iBTNode> CreateBehaviourTree ();
 
 public:
   MainApp ();
