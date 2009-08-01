@@ -49,7 +49,7 @@ CS_WRAP_PTR_TYPEMAP(celWrapPtr)
 #undef CEL_FAKE_ARRAY
 %define CEL_FAKE_ARRAY(pref,contenttype,countmethod,getmethod,findmethod,delmethod,addmethod)
 %pythoncode %{
-class contenttype ## pref ## FakeArray:
+class contenttype ## pref ## FakeArray ## (object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.findmethod(obj): return True
