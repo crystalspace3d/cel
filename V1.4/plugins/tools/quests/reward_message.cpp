@@ -219,16 +219,28 @@ void celMessageReward::Reward (iCelParameterBlock* params)
   if (!msg) return;
 
   bool changed;
-  const char* e = entity->Get (params, changed);
-  if (changed) { ent = 0; }
-  if (!ent)
+  // XXX parsing of entity has to be refactored as it is very commonly
+  // done.
+  const celData * data = entity->GetData(params);
+  if (data->type == CEL_DATA_ENTITY)
   {
-    dispatcher = 0;  // Clear previous dispatcher.
-    iCelPlLayer* pl = type->pl;
-    ent = pl->FindEntity (e);
-    if (!ent) return;
+    iCelEntity *new_ent = data->value.ent;
+    if (new_ent != ent)
+      dispatcher = 0;  // Clear previous dispatcher.
+    ent = new_ent;
   }
-
+  else
+  {
+    const char* e = entity->Get (params, changed);
+    if (changed) { ent = 0; }
+    if (!ent)
+    {
+      dispatcher = 0;  // Clear previous dispatcher.
+      iCelPlLayer* pl = type->pl;
+      ent = pl->FindEntity (e);
+      if (!ent) return;
+    }
+  }
   qm->FillParameterBlock (params, msg_params, parameters, quest_parameters);
   iCelBehaviour* behave = ent->GetBehaviour ();
   if (behave)
