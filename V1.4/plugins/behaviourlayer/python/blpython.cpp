@@ -16,8 +16,23 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
+#ifdef _MSC_VER
+#include <io.h>
+#include <stdarg.h>
+#ifndef DEBUG_PYTHON
+#undef _DEBUG
+#define RESTORE__DEBUG
+#endif
+#endif
 #include <Python.h>
+#ifdef RESTORE__DEBUG
+#define _DEBUG
+#undef RESTORE__DEBUG
+#endif
+
 #include <marshal.h>
+
+#include "celtool/celpaths.h"
 
 #include "cssysdef.h"
 #include "csutil/sysfunc.h"
@@ -28,6 +43,7 @@
 #include "iutil/objreg.h"
 #include "iutil/cmdline.h"
 #include "iutil/eventq.h"
+#include "iutil/plugin.h"
 #include "iutil/verbositymanager.h"
 #include "csutil/event.h"
 #include "csutil/eventnames.h"
@@ -38,13 +54,26 @@
 
 extern "C"
 {
+#if defined(CS_COMPILER_MSVC)
+  // MSVC will always use the shipped copy.
   #include "swigpyruntime.h"
+#else
+  /* *Must* be pointy include. The right file (generated when swig is present,
+     shipped copy otherwise) is determined by include paths specified via
+     the compiler command line. */
+  #include <swigpyruntime.h>
+#endif
 }
 
 
-extern unsigned char pycel_py_wrapper[]; // pycel.py file compiled and marshalled
-extern size_t pycel_py_wrapper_size;
+extern const unsigned char pycel_py_wrapper[]; // pycel.py file compiled and marshalled
+extern const size_t pycel_py_wrapper_size;
 
+/* Define this to have Python initialized (and finalized) through cspython
+ * instead our own code. (This should really be the case as otherwise
+ * Py_Initialize() and Py_Finalize() will be called multiple times which is,
+ * from observation, Not Good.) */
+#define INIT_PY_THROUGH_CSPYTHON
 
 CS_IMPLEMENT_PLUGIN
 
@@ -64,7 +93,10 @@ celBlPython::~celBlPython ()
   //@@@ Circular ref: leak
   if (queue.IsValid())
     queue->RemoveListener(this);
+  CS_DEBUG_BREAK;
+#ifndef INIT_PY_THROUGH_CSPYTHON
   Py_Finalize ();
+#endif
   object_reg = 0;
 }
 
@@ -81,45 +113,73 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   do_verbose = verbosity_mgr->Enabled("blpython");
   
   deprecation_warning = true;
+  
+#ifdef INIT_PY_THROUGH_CSPYTHON
+  cspython = csLoadPluginCheck<iScript> (object_reg, 
+    "crystalspace.script.python");
+#endif
 
+#ifndef INIT_PY_THROUGH_CSPYTHON
   Py_SetProgramName ("Crystal Entity Layer -- Python");
   Py_Initialize ();
   // some parts of python api require sys.argv to be filled.
   // so strange errors will appear if we dont do the following
   char *(argv[2]) = {"", NULL};
   PySys_SetArgv(1, argv);
- 
+#endif
+  
   InitPytocel ();
 
-  char path[256];
-  strncpy (path, csGetConfigPath (), 255);
-  strcat (path, "/");
-
-  if (!LoadModule ("sys")) return false;
-
-  csString cmd;
-  cmd << "sys.path.append('" << path << "scripts/python/')";
-  if (!RunText (cmd)) return false;
-  cmd.Clear();
-  cmd << "sys.path.append('" << path << "scripts/')";
-  if (!RunText (cmd)) return false;
+  static const char* const _scriptSubDirs[] = {
+    "scripts/python/", 
+    "scripts/", 
+    0};
+  csPathsList scriptSubDirs (_scriptSubDirs);
   
-  if (!RunText ("sys.path.append('scripts/python/')")) return false;
-  if (!RunText ("sys.path.append('scripts/')")) return false;
+  csPathsList scriptsPaths;
+    
+  csPathsList* cel_paths = CEL::GetPlatformInstallationPaths();
+  scriptsPaths.AddUniqueExpanded (*cel_paths * scriptSubDirs);
+  delete cel_paths;
+  
+  csPathsList* cs_paths =
+    csInstallationPathsHelper::GetPlatformInstallationPaths();
+  scriptsPaths.AddUniqueExpanded (*cs_paths * scriptSubDirs);
+  delete cs_paths;
+  
+#ifndef INIT_PY_THROUGH_CSPYTHON
+  if (!LoadModule ("sys")) return false;
+#endif
 
+  scriptsPaths.AddUniqueExpanded (csPathsList (".") * scriptSubDirs);
+    
 #ifdef TOP_SRCDIR
-  if (!RunText ("sys.path.append('" TOP_SRCDIR "/scripts/')")) return false;
+  scriptsPaths.AddUniqueExpanded (TOP_SRCDIR "/scripts/");
 #endif // TOP_SRCDIR
 #ifdef SCRIPTSDIR
-  if (!RunText ("sys.path.append('" SCRIPTSDIR "/')")) return false;
+  scriptsPaths.AddUniqueExpanded (SCRIPTSDIR "/scripts/");
 #endif // SCRIPTSDIR
 
+  for (size_t i = 0; i < scriptsPaths.GetSize(); i++)
+  {
+    const char* path = scriptsPaths[i].path;
+    if (do_verbose)
+      Print (false, csString().Format ("Adding path: %s", path));
+    csString cmd;
+    cmd << "sys.path.append('" << path << "')";
+    if (!RunText (cmd)) return false;
+  }
+
+#ifndef INIT_PY_THROUGH_CSPYTHON
   if (use_debugger && !LoadModule ("pdb")) return false;
   if (!LoadModule ("cspace")) return false;
+#endif
   if (!LoadModule ("blcelc")) return false;
 
+#ifndef INIT_PY_THROUGH_CSPYTHON
   Store("cspace.__corecvar_iSCF_SCF", iSCF::SCF, (void*)"iSCF *");
   RunText("cspace.SetSCFPointer(cspace.__corecvar_iSCF_SCF)");
+#endif
   // Store the object registry pointer in 'blcel.object_reg'.
   Store ("blcelc.object_reg_ptr", object_reg, (void *) "iObjectRegistry *");
   // Store the object registry pointer in 'blcel.object_reg'.
@@ -145,7 +205,8 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
     Print(true,"Error in embedded pycel.py code");
     return false;
   }
-  PyObject* pycelModule = PyImport_ExecCodeModule("pycel", pycelModuleCode);
+  PyObject* pycelModule = PyImport_ExecCodeModule(
+    const_cast<char*>("pycel"), pycelModuleCode);
   Py_DECREF(pycelModuleCode); // don't need this at this point
   if (!pycelModule)
   {
@@ -190,7 +251,7 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
   PyObject *py_entity, *py_object;
 
   csString realname;
-  char* slash = strrchr (name, '/');
+  const char* slash = strrchr (name, '/');
   if (slash)
   {
     csString path;

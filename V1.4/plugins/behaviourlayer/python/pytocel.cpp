@@ -16,7 +16,19 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
+#ifdef _MSC_VER
+#include <io.h>
+#include <stdarg.h>
+#ifndef DEBUG_PYTHON
+#undef _DEBUG
+#define RESTORE__DEBUG
+#endif
+#endif
 #include <Python.h>
+#ifdef RESTORE__DEBUG
+#define _DEBUG
+#undef RESTORE__DEBUG
+#endif
 
 #include "cssysdef.h"
 #include "csutil/csstring.h"

@@ -47,6 +47,7 @@ public:
   static celBlPython* shared_instance;
   iObjectRegistry* object_reg;
   csWeakRef<iCelPlLayer> pl;
+  csRef<iScript> cspython;
   bool use_debugger;
   bool do_verbose;
   bool deprecation_warning;
