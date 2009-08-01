@@ -185,7 +185,7 @@ struct iPcTrigger : public virtual iBase
    * all entities again. There is also a jitter parameter which will
    * add a small random amount to that time to prevent all triggers
    * trying to do the monitoring at once. By default this is set
-   * to 200/20 (i.e. roughly five times per second).
+   * to 200/10 (i.e. roughly five times per second).
    */
   virtual void SetMonitorDelay (csTicks delay, csTicks jitter) = 0;
 
