@@ -206,7 +206,7 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
     case action_activate:
       {
         CEL_FETCH_BOOL_PAR (activate,params,id_activate);
-        if (!activate) activate = true;
+        if (!p_activate) activate = true;
         Activate (activate);
         return true;
       }
