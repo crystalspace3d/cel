@@ -1045,6 +1045,13 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
   if (path)
   {
     path_time += delta;
+    bool finished = false;
+    float end_time = path->GetTime (path->Length () - 1);
+    if (path_time>end_time)
+    {
+      finished = true;
+      path_time = end_time;
+    }
     path->CalculateAtTime (path_time);
     csVector3 pos, look, up;
 
@@ -1065,7 +1072,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     {
       spstate->SetAction (path_actions[path->GetCurrentIndex ()]);
     }
-    if (path_time>path->GetTime (path->Length () - 1))
+    if (finished)
     {
       path = 0;
       path_time = 0;
