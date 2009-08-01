@@ -333,8 +333,10 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
   if (!pc) return;
   const char* t = tag->Get (params);
 
-  for (size_t i = entlist->GetCount()-1; i>=0; i--)
+  size_t i = entlist->GetCount();
+  while (i>0)
   {
+    i--;
     ent = entlist->Get(i);
     propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
     if (propertyclass)

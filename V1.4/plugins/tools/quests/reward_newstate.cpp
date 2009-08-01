@@ -196,8 +196,10 @@ void celClassNewStateReward::TickEveryFrame ()
     t = tag->Get (params);
 
   iCelEntity *ent;
-  for (size_t i = entlist->GetCount()-1; i>=0; i--)
+  size_t i = entlist->GetCount();
+  while (i>0)
   {
+    i--;
     ent = entlist->Get(i);
     csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
     if (pcquest)
