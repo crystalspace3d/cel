@@ -282,7 +282,7 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 // fake arrays to handle stuff managed by the physical layer.
 // iCelEntityTemplatePlFakeArray
 CEL_FAKE_ARRAY(Pl,iCelEntityTemplate,GetEntityTemplateCount,
-	GetEntityTemplateByIndex,FindEntityTemplate,RemoveEntityTemplate,__noappend__)
+	GetEntityTemplate,FindEntityTemplate,RemoveEntityTemplate,__noappend__)
 
 // iCelEntityPlFakeArray
 CEL_FAKE_ARRAY(Pl,iCelEntity,GetEntityCount,GetEntityByIndex,FindEntity,RemoveEntity,__noappend__)
