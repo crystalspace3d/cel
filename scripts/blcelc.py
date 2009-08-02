@@ -594,11 +594,11 @@ class iCelEntityTemplatePlFakeArray(object):
 		print "Append not supported by this list"
 	def content_iterator(self):
 		for idx in xrange(len(self)):
-			yield self.parent.GetEntityTemplateByIndex(idx)
+			yield self.parent.GetEntityTemplate(idx)
 	def __iter__(self): return self.content_iterator()
 	def __getitem__(self,val):
 		if type(val) == type(""): return self.parent.FindEntityTemplate(val)
-		else: return self.parent.GetEntityTemplateByIndex(val)
+		else: return self.parent.GetEntityTemplate(val)
 	def append(self,obj): return self.parent.__noappend__(obj)
 
 class iCelEntityPlFakeArray(object):
