@@ -93,7 +93,6 @@ celBlPython::~celBlPython ()
   //@@@ Circular ref: leak
   if (queue.IsValid())
     queue->RemoveListener(this);
-  CS_DEBUG_BREAK;
 #ifndef INIT_PY_THROUGH_CSPYTHON
   Py_Finalize ();
 #endif
