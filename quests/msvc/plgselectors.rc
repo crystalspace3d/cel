@@ -58,7 +58,7 @@ FILEFLAGS 0x0
   "      <class>",
   "        <name>cel.selectors.random</name>",
   "        <implementation>celRandomSelector</implementation>",
-  "        <description>CEL Selector: Executes children randomly until one succeeds</description>",
+  "        <description>CEL Selector: Executes a randomly chosen child</description>",
   "      </class>",
   "    </classes>",
   "  </scf>",

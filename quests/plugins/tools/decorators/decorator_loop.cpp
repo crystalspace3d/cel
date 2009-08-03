@@ -19,22 +19,45 @@
 
 #include "cssysdef.h"
 #include <iutil/comp.h>
+#include <iutil/plugin.h>
 
 #include "plugins/tools/decorators/decorator_loop.h"
 
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celLoopDecorator)
-CEL_IMPLEMENT_BTNODE (LoopDecorator)
 
 //---------------------------------------------------------------------------
 
+celLoopDecorator::celLoopDecorator (				
+	iBase* parent) : scfImplementationType (this, parent),	
+	object_reg(0)											
+{															
+}															
+bool celLoopDecorator::Initialize (					
+	iObjectRegistry* object_reg)							
+{									
+  celLoopDecorator::object_reg = object_reg;			
+  loop_limit = 0;
+  return true;												
+}
+
 bool celLoopDecorator::Execute (const celParams& params)
 {
-  for (int i = 0; i < 5; i++)
+  if (loop_limit == 0)
+  {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+      (plugin_mgr, "cel.parameters.manager");
+
+	loop_limit = atoi (pm->ResolveParameter(params, loop_limit_param));
+  }
+
+  for (int i = 0; i < loop_limit; i++)
   {
     printf("Loop Decorator, iteration = %i\n", i);
-    if(!children.Get(0)->Execute(params))
+    if(!child_node->Execute(params))
 	{
 		return false;
 	}
@@ -44,13 +67,19 @@ bool celLoopDecorator::Execute (const celParams& params)
 
 bool celLoopDecorator::AddChild (iBTNode* child)
 {
-  if (children.IsEmpty())
+  if (child_node.IsValid())
   {
-    children.Push(child);
-    return true;
+    //Decorator already has child
+    return false;
   }
   else
   {
-    return false;
+    child_node = child;
+    return true;    
   }
+}
+
+void celLoopDecorator::SetLoopLimit (const char* limit)
+{
+  loop_limit_param = limit;
 }

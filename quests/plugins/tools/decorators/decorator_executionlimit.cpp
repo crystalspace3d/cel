@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include <iutil/comp.h>
+#include <iutil/plugin.h>
 
 #include "plugins/tools/decorators/decorator_executionlimit.h"
 
@@ -27,31 +28,61 @@
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celExecutionLimitDecorator)
-CEL_IMPLEMENT_BTNODE (ExecutionLimitDecorator)
 
 //---------------------------------------------------------------------------
 
+celExecutionLimitDecorator::celExecutionLimitDecorator (				
+	iBase* parent) : scfImplementationType (this, parent),	
+	object_reg(0)											
+{															
+}															
+bool celExecutionLimitDecorator::Initialize (					
+	iObjectRegistry* object_reg)							
+{									
+  celExecutionLimitDecorator::object_reg = object_reg;			
+  execution_limit = 0;
+  execution_count = 0;
+  return true;												
+}
+
 bool celExecutionLimitDecorator::Execute (const celParams& params)
 {
-
-//  if(count > limit)
-//  {
-//	return false;
-//  }
-// count++;
   printf("Execution Limit Decorator\n");
-  return children.Get(0)->Execute(params);
+
+  if (execution_limit == 0)
+  {
+    csRef<iPluginManager> plugin_mgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
+    csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+      (plugin_mgr, "cel.parameters.manager");
+
+	execution_limit = atoi (pm->ResolveParameter(params, execution_limit_param));
+  }
+
+  
+  if(execution_count >= execution_limit)
+  {
+	return false;
+  }
+  execution_count++;
+  return child_node->Execute(params);
 }
 
 bool celExecutionLimitDecorator::AddChild (iBTNode* child)
 {
-  if (children.IsEmpty())
+  if (child_node.IsValid())
   {
-    children.Push(child);
-    return true;
+    //Decorator already has child
+    return false;
   }
   else
   {
-    return false;
+    child_node = child;
+    return true;    
   }
+}
+
+void celExecutionLimitDecorator::SetExecutionLimit (const char* limit)
+{
+	execution_limit_param = limit;
 }

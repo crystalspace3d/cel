@@ -27,7 +27,29 @@
  * A decorator to limit the number of times a child executes.
  */
 
-CEL_DECLARE_BTNODE(ExecutionLimitDecorator)
+class celExecutionLimitDecorator : public scfImplementation3<		
+		celExecutionLimitDecorator, 
+		iExecutionLimitDecorator, iBTNode, iComponent>			
+{		
+private: 
+  iObjectRegistry* object_reg;						
+  csRef<iBTNode> child_node; 
+
+  const char* execution_limit_param;
+  int execution_limit;
+  int execution_count;
+public:									
+  celExecutionLimitDecorator (iBase* parent);			
+  virtual ~celExecutionLimitDecorator () { }					
+  virtual bool Initialize (iObjectRegistry*);	
+
+  //From iBTNode
+  virtual bool Execute (const celParams& params);		
+  virtual bool AddChild (iBTNode* child);
+
+  //From iExecutionLimitDecorator
+  virtual void SetExecutionLimit (const char* limit);
+};
 
 #endif // __CEL_TOOLS_DECORATORS_EXECUTION_LIMIT__
 
