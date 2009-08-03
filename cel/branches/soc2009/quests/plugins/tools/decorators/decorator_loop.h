@@ -27,7 +27,28 @@
  * A loop decorator. Executes child multiple times.
  */
 
-CEL_DECLARE_BTNODE(LoopDecorator)
+class celLoopDecorator : public scfImplementation3<		
+		celLoopDecorator, 
+		iLoopDecorator, iBTNode, iComponent>			
+{		
+private: 
+  iObjectRegistry* object_reg;						
+  csRef<iBTNode> child_node; 
+
+  const char* loop_limit_param;
+  int	loop_limit;
+public:									
+  celLoopDecorator (iBase* parent);			
+  virtual ~celLoopDecorator () { }					
+  virtual bool Initialize (iObjectRegistry*);	
+
+  //From iBTNode
+  virtual bool Execute (const celParams& params);		
+  virtual bool AddChild (iBTNode* child);
+
+  //From iLoopDecorator
+  virtual void SetLoopLimit (const char* limit);
+};
 
 #endif // __CEL_TOOLS_DECORATORS_LOOP__
 

@@ -20,6 +20,8 @@
 #include "cssysdef.h"
 #include <iutil/comp.h>
 
+#include <stdlib.h>
+
 #include "plugins/tools/selectors/selector_random.h"
 
 //---------------------------------------------------------------------------
@@ -33,7 +35,9 @@ CEL_IMPLEMENT_BTNODE (RandomSelector)
 bool celRandomSelector::Execute (const celParams& params)
 {
 	printf("RANDOM SELECTOR\n");
-	return children.Get(0)->Execute(params);
+	srand ( time(NULL) );
+	int randChildIndex = rand () % children.GetSize();
+	return children.Get(randChildIndex)->Execute(params);
 }
 
 bool celRandomSelector::AddChild (iBTNode* child)

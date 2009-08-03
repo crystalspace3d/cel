@@ -22,6 +22,7 @@
 
 #include "behaviourlayer/behave.h"
 #include "tools/parameters.h"
+#include "tools/decorators.h"
 
 //-------------------------------------------------------------------------
 // BTNodes
@@ -54,7 +55,7 @@ struct iBTNode : public virtual iBase
 //-------------------------------------------------------------------------
 
 /**
- * Convenience to declare a new reward type class.
+ * Convenience to declare a new behaviour tree node class.
  */
 #define CEL_DECLARE_BTNODE(name)					\
 class cel##name## : public scfImplementation2<		\

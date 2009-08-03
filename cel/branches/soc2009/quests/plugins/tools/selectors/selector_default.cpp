@@ -33,8 +33,17 @@ CEL_IMPLEMENT_BTNODE (DefaultSelector)
 
 bool celDefaultSelector::Execute (const celParams& params)
 {
-	printf("DEFAULT SELECTOR\n");
-	return children.Get(0)->Execute(params);
+  printf("DEFAULT SELECTOR\n");
+
+  int noOfChildren = children.GetSize();
+  for (int i = 0; i < noOfChildren; i++)
+  {	
+    if (children.Get(i)->Execute(params))
+    {
+	  return true;
+	}
+  }
+  return false;
 }
 
 bool celDefaultSelector::AddChild (iBTNode* child)

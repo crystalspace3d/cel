@@ -208,12 +208,39 @@ csPtr<iBTNode> MainApp::CreateBehaviourTree ()
 {
   csRef<iPluginManager> plugin_mgr = 
     csQueryRegistry<iPluginManager> (object_reg);
+ 
+  //Build Nodes
   csRef<iBTNode> root_node = csLoadPlugin<iBTNode> (plugin_mgr,
-    "cel.selectors.default");  
+    "cel.selectors.default"); 
+
+  csRef<iBTNode> negatereturn_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.decorators.negatereturn");
+  csRef<iBTNode> loop_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.decorators.loop");
+  csRef<iBTNode> execution_limit_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.decorators.executionlimit");
+
   csRef<iBTNode> action_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");  
+  csRef<iBTNode> action_node_2 = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.behaviourtree.action");
 
-  root_node->AddChild(action_node);
+  //Set Up Nodes
+  csRef<iLoopDecorator> explicit_loop_node = 
+    scfQueryInterface<iLoopDecorator> (loop_node);
+  explicit_loop_node->SetLoopLimit("3");
+
+  csRef<iExecutionLimitDecorator> explicit_execution_limit_node = 
+    scfQueryInterface<iExecutionLimitDecorator> (execution_limit_node);
+  explicit_execution_limit_node->SetExecutionLimit("2");
+
+  //Build Tree
+  root_node->AddChild(negatereturn_node);
+  negatereturn_node->AddChild(action_node);
+
+  root_node->AddChild(loop_node);
+  loop_node->AddChild(execution_limit_node);
+  execution_limit_node->AddChild(action_node_2);
 
   return root_node;
 }

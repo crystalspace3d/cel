@@ -31,8 +31,16 @@ CEL_IMPLEMENT_BTNODE (SequentialSelector)
 
 bool celSequentialSelector::Execute (const celParams& params)
 {
-	printf("SEQUENTIAL SELECTOR");
-	return children.Get(0)->Execute(params);
+  printf("SEQUENTIAL SELECTOR");
+  int noOfChildren = children.GetSize();
+  for (int i = 0; i < noOfChildren; i++)
+  {	
+    if (!children.Get(i)->Execute(params))
+    {
+	  return false;
+	}
+  }
+  return true;
 }
 
 bool celSequentialSelector::AddChild (iBTNode* child)
