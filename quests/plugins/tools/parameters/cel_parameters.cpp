@@ -384,7 +384,7 @@ const char* celDynamicParameter::Get (iCelParameterBlock* params,
     changed = !oldvalue.IsEmpty ();
     return s;
   }
-  changed = oldvalue == s;
+  changed = oldvalue != s;
   oldvalue = s;
   return s;
 }
@@ -424,7 +424,7 @@ const char* celExpressionParameter::Get (iCelParameterBlock* params,
     changed = !oldvalue.IsEmpty ();
     return s;
   }
-  changed = oldvalue == s;
+  changed = oldvalue != s;
   oldvalue = s;
   return s;
 }

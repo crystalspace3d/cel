@@ -122,7 +122,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\celtool-1.9-vc7.dll"
-				ImportLibrary="..\..\out\release7\libs\Win32\libceltool.lib"
+				ImportLibrary="..\..\out\release7\libs\libceltool.lib"
 				ProgramDatabaseFile="..\..\out\release7\build\libceltool\Win32\celtool-1.9-vc7.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -265,7 +265,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\celtool-1.9-vc7_d.dll"
-				ImportLibrary="..\..\out\debug7\libs\Win32\libceltool_d.lib"
+				ImportLibrary="..\..\out\debug7\libs\libceltool_d.lib"
 				ProgramDatabaseFile="..\..\out\debug7\build\libceltool\Win32\celtool-1.9-vc7_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -362,6 +362,13 @@
 			</File>
 			<File
 				RelativePath="..\..\libs\celtool\packagedefs.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libceltool.rc">
 			</File>
 		</Filter>
 	</Files>

@@ -184,7 +184,7 @@ void celCreateEntityReward::Reward (iCelParameterBlock* params)
 
   const char* n = name->Get (params);
   if (!n) return;
-  pl->CreateEntity (ent_tpl, n, params);
+  pl->CreateEntity (ent_tpl, n, celCreateEntityReward::params);
 }
 
 //---------------------------------------------------------------------------
