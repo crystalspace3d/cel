@@ -64,7 +64,7 @@ if $(CMD.SWIG)
     #ifdef _MSC_VER\\
     #include <io.h>\\
     #include <stdarg.h>\\
-    #ifndef DEBUG_PYTHON\\
+    #if defined(_DEBUG) \\\&\\\& !defined(DEBUG_PYTHON)\\
     #undef _DEBUG\\
     #define RESTORE__DEBUG\\
     #endif\\
@@ -142,6 +142,7 @@ if $(CMD.SWIG)
         MkDir $(outdir) ;
       }
       MakeLocate $(othertargets) : $(outdir) ;
+      SEARCH on $(othertargets) = $(outdir) ;
 
       # If any target, such as an install target, depends upon the other files,
       # we force them to be built with a dependency upon the target.
