@@ -122,7 +122,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\celstartcore-1.9-vc71.dll"
-				ImportLibrary="..\..\out\release71\libs\Win32\libcelstartcore.lib"
+				ImportLibrary="..\..\out\release71\libs\libcelstartcore.lib"
 				ProgramDatabaseFile="..\..\out\release71\build\libcelstartcore\Win32\celstartcore-1.9-vc71.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -265,7 +265,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\celstartcore-1.9-vc71_d.dll"
-				ImportLibrary="..\..\out\debug71\libs\Win32\libcelstartcore_d.lib"
+				ImportLibrary="..\..\out\debug71\libs\libcelstartcore_d.lib"
 				ProgramDatabaseFile="..\..\out\debug71\build\libcelstartcore\Win32\celstartcore-1.9-vc71_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -317,6 +317,13 @@
 			Filter="">
 			<File
 				RelativePath="..\..\apps\celstart\celstart.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libcelstartcore.rc">
 			</File>
 		</Filter>
 	</Files>

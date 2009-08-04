@@ -122,7 +122,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\celtst_static_plugins-1.9-vc7.dll"
-				ImportLibrary="..\..\out\release7\libs\Win32\libceltst_static_plugins.lib"
+				ImportLibrary="..\..\out\release7\libs\libceltst_static_plugins.lib"
 				ProgramDatabaseFile="..\..\out\release7\build\libceltst_static_plugins\Win32\celtst_static_plugins-1.9-vc7.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -265,7 +265,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\celtst_static_plugins-1.9-vc7_d.dll"
-				ImportLibrary="..\..\out\debug7\libs\Win32\libceltst_static_plugins_d.lib"
+				ImportLibrary="..\..\out\debug7\libs\libceltst_static_plugins_d.lib"
 				ProgramDatabaseFile="..\..\out\debug7\build\libceltst_static_plugins\Win32\celtst_static_plugins-1.9-vc7_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -310,6 +310,13 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\appceltst_static_staticuse.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libceltst_static_plugins.rc">
 			</File>
 		</Filter>
 	</Files>

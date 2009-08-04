@@ -18,4 +18,10 @@ rc=$?
 
 rm -f $MACROFILE
 
+# Work around for ^M character emited by autoconf 2.63-
+# which causes line-ending problem for SVN.
+cr=`echo X | tr X '\\015'`
+sed "s/^ac_cr='$cr'$/ac_cr=\`echo X | tr X '\\\015'\`/" < configure > configure.tmp
+mv configure.tmp configure
+
 exit $rc

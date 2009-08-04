@@ -122,7 +122,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
                         OutputFile="..\..\bootstrap_static_plugins_CRYSTAL-1.9-vc7.dll"
-				ImportLibrary="..\..\out\release7\libs\Win32\libbootstrap_static_plugins_CRYSTAL.lib"
+				ImportLibrary="..\..\out\release7\libs\libbootstrap_static_plugins_CRYSTAL.lib"
 				ProgramDatabaseFile="..\..\out\release7\build\libbootstrap_static_plugins_CRYSTAL\Win32\bootstrap_static_plugins_CRYSTAL-1.9-vc7.pdb"
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
 				AdditionalDependencies=""
@@ -265,7 +265,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
                         OutputFile="..\..\bootstrap_static_plugins_CRYSTAL-1.9-vc7_d.dll"
-				ImportLibrary="..\..\out\debug7\libs\Win32\libbootstrap_static_plugins_CRYSTAL_d.lib"
+				ImportLibrary="..\..\out\debug7\libs\libbootstrap_static_plugins_CRYSTAL_d.lib"
 				ProgramDatabaseFile="..\..\out\debug7\build\libbootstrap_static_plugins_CRYSTAL\Win32\bootstrap_static_plugins_CRYSTAL-1.9-vc7_d.pdb"
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
 				AdditionalDependencies=""
@@ -310,6 +310,13 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\appbootstrap_static_staticuse_CRYSTAL.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libbootstrap_static_plugins_CRYSTAL.rc">
 			</File>
 		</Filter>
 	</Files>
