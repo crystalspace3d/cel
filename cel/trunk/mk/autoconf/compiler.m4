@@ -1,6 +1,6 @@
 # compiler.m4                                                  -*- Autoconf -*-
 #=============================================================================
-# Copyright (C)2003-2007 by Eric Sunshine <sunshine@sunshineco.com>
+# Copyright (C)2003-2009 by Eric Sunshine <sunshine@sunshineco.com>
 # Copyright (C)2003 by Matze Braun <matze@braunis.de>
 #
 #    This library is free software; you can redistribute it and/or modify it
@@ -30,9 +30,12 @@
 #       COMPILER.C.TYPE, and (as an historic anomaly) COMPILER.TYPE variables
 #       in Jamconfig.  The shell variable cs_compiler_name_c is also exported.
 #-----------------------------------------------------------------------------
-AC_DEFUN([CS_PROG_CC],[
+AC_DEFUN([_CS_PROG_CC_CFLAGS_FILTER],[
     CFLAGS="$CFLAGS" # Filter undesired flags
-    AC_PROG_CC
+])
+AC_DEFUN([CS_PROG_CC],[
+    AC_REQUIRE([_CS_PROG_CC_CFLAGS_FILTER])
+    AC_REQUIRE([AC_PROG_CC])
     AS_IF([test -n "$CC"],[
 	CS_EMIT_BUILD_PROPERTY([CMD.CC], [$CC])
 	CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS], [$CPPFLAGS $CFLAGS], [+])
@@ -45,7 +48,15 @@ AC_DEFUN([CS_PROG_CC],[
 	
 	# Check if compiler recognizes -pipe directive.
 	CS_EMIT_BUILD_FLAGS([if $CC accepts -pipe], [cs_cv_prog_cc_pipe],
-	  [CS_CREATE_TUPLE([-pipe])], [C], [COMPILER.CFLAGS], [+])
+	    [CS_CREATE_TUPLE([-pipe])], [C], [COMPILER.CFLAGS], [append])
+
+        # Check if compiler recognizes Sparc v9 CPU. Ugly to pollute
+        # project-agnostic C compiler check, but it is needed by assembly code
+        # implementing Sparc atomic threading operations, and it should not
+        # hurt if the option is not recognized.
+	CS_EMIT_BUILD_FLAGS([if $CC handles Sparc v9],
+            [cs_cv_prog_cc_sparc_v9],
+            [CS_CREATE_TUPLE([-mcpu=v9])], [C], [COMPILER.CFLAGS], [append])
     ])
 ])
 
@@ -58,9 +69,12 @@ AC_DEFUN([CS_PROG_CC],[
 #       COMPILER.C++.TYPE, and (as an historic anomaly) COMPILER.TYPE variables
 #       in Jamconfig. The shell variable cs_compiler_name_cxx is also exported.
 #-----------------------------------------------------------------------------
-AC_DEFUN([CS_PROG_CXX],[
+AC_DEFUN([_CS_PROG_CXX_CFLAGS_FILTER],[
     CXXFLAGS="$CXXFLAGS" # Filter undesired flags
-    AC_PROG_CXX
+])
+AC_DEFUN([CS_PROG_CXX],[
+    AC_REQUIRE([_CS_PROG_CXX_CFLAGS_FILTER])
+    AC_REQUIRE([AC_PROG_CXX])
     AS_IF([test -n "$CXX"],[
 	CS_EMIT_BUILD_PROPERTY([CMD.C++], [$CXX])
 	CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS], [$CPPFLAGS $CXXFLAGS], [+])
