@@ -58,8 +58,6 @@ private:
   csRefArray<iRewardFactory> reward_factories;
 
 public:
-  bool refactored_trigger;
-
   celQuestTriggerResponseFactory () : scfImplementationType (this) { }
   virtual ~celQuestTriggerResponseFactory () { }
 

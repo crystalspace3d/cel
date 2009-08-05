@@ -73,7 +73,6 @@ private:
   celDebugPrintRewardType* type;
   csRef<iParameterManager> pm;
   csRef<iParameter> msg;
-  csRef<iParameter> msg_buggy;
 
 public:
   celDebugPrintReward (celDebugPrintRewardType* type,

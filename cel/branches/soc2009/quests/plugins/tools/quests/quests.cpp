@@ -48,7 +48,6 @@ SCF_IMPLEMENT_FACTORY (celQuestManager)
 void celQuestTriggerResponseFactory::SetTriggerFactory (
 	iTriggerFactory* trigger_fact)
 {
-  refactored_trigger = true;
   trigger_factory = trigger_fact;
 }
 

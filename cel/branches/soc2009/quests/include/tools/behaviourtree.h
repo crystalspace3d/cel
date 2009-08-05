@@ -21,8 +21,10 @@
 #define __CEL_BEHAVIOUR_TREE__
 
 #include "behaviourlayer/behave.h"
-#include "tools/parameters.h"
 #include "tools/decorators.h"
+#include "tools/parameters.h"
+#include "tools/rewards.h"
+#include "tools/triggers.h"
 
 //-------------------------------------------------------------------------
 // BTNodes
@@ -50,7 +52,58 @@ struct iBTNode : public virtual iBase
 
 };
 
+//-------------------------------------------------------------------------
+// Specific behaviour tree node implementations.
+//-------------------------------------------------------------------------
 
+/**
+ * This interface is implemented by the leaf node that 
+ * executes a CEL reward
+ **/
+struct iBTAction: public virtual iBase
+{
+  SCF_INTERFACE (iBTAction, 0, 0, 1);
+
+  /**
+   * Set the reward to execute
+   **/
+  virtual void SetReward (iReward* reward) = 0;
+};
+
+/**
+ * This interface is implemented by the leaf node that 
+ * checks a parameter
+ **/
+struct iParameterCheckCondition: public virtual iBase
+{
+  SCF_INTERFACE (iParameterCheckCondition, 0, 0, 1);
+
+  /**
+   * Set the parameter to check
+   **/
+  virtual void SetParameter (const char* parameter) = 0;
+
+  /**
+   * Set the value to check parameter equals
+   **/
+  virtual void SetValue (const char* value) = 0;
+};
+
+
+/**
+ * This interface is implemented by the leaf node that 
+ * monitors a CEL trigger. Returning true if the trigger 
+ * has already fired
+ **/
+struct iTriggerFiredCondition: public virtual iBase
+{
+  SCF_INTERFACE (iTriggerFiredCondition, 0, 0, 1);
+
+  /**
+   * Set the trigger
+   **/
+  virtual void SetTrigger (iTrigger* trigger) = 0;
+};
 
 //-------------------------------------------------------------------------
 

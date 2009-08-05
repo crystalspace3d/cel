@@ -30,7 +30,7 @@ private:
   bool LoadLevel ();
   bool CreatePlayer ();
 
-  csPtr<iBTNode> CreateBehaviourTree ();
+  csPtr<iBTNode> CreateBehaviourTree (const celParams& params);
 
 public:
   MainApp ();

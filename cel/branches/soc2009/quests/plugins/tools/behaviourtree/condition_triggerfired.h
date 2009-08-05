@@ -28,7 +28,31 @@
  * Returns true if trigger has already fired, and false otherwise
  */
 
-CEL_DECLARE_BTNODE(TriggerFiredCondition)
+class celTriggerFiredCondition : public scfImplementation4<		
+		celTriggerFiredCondition, 
+		iTriggerFiredCondition, iTriggerCallback, 
+		iBTNode, iComponent>			
+{		
+private: 
+  iObjectRegistry* object_reg;						
+  csRef<iTrigger> trigger; 
+  bool trigger_fired;
+
+public:									
+  celTriggerFiredCondition (iBase* parent);			
+  virtual ~celTriggerFiredCondition () { }					
+  virtual bool Initialize (iObjectRegistry*);	
+
+  //From iBTNode
+  virtual bool Execute (const celParams& params);		
+  virtual bool AddChild (iBTNode* child);
+
+  //From iTriggerFiredCondition
+  virtual void SetTrigger (iTrigger* trigger);
+
+  // From iTriggerCallback 
+  virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params);
+};
 
 #endif // __CEL_TOOLS_CONDITION_TRIGGER_FIRED__
 
