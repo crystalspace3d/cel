@@ -25,17 +25,40 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celTriggerFiredCondition)
-CEL_IMPLEMENT_BTNODE (TriggerFiredCondition)
 
 //---------------------------------------------------------------------------
+
+celTriggerFiredCondition::celTriggerFiredCondition (				
+	iBase* parent) : scfImplementationType (this, parent),	
+	object_reg(0)											
+{															
+}															
+bool celTriggerFiredCondition::Initialize (					
+	iObjectRegistry* object_reg)							
+{									
+  celTriggerFiredCondition::object_reg = object_reg;			
+  trigger_fired = false;
+  return true;												
+}
 
 bool celTriggerFiredCondition::Execute (const celParams& params)
 {
   printf("CONDITION: Trigger Fired Check\n");
-  return true;
+  return trigger_fired;
 }
 
 bool celTriggerFiredCondition::AddChild (iBTNode* child)
 {
   return false;
+}
+
+void celTriggerFiredCondition::SetTrigger (iTrigger* trigger)
+{
+  celTriggerFiredCondition::trigger = trigger;
+  trigger->RegisterCallback (this);
+}
+
+void celTriggerFiredCondition::TriggerFired (iTrigger* trigger, iCelParameterBlock* params)
+{
+  trigger_fired = true;
 }

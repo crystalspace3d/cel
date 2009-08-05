@@ -10,15 +10,15 @@
       </class>
       
       <class>
-        <name>cel.condition.triggerfired</name>
+        <name>cel.behaviourtree.triggerfired</name>
         <implementation>celTriggerFiredCondition</implementation>
         <description>CEL Condition: True if trigger has already fired</description>
       </class>
   
       <class>
-        <name>cel.condition.parametercheck</name>
+        <name>cel.behaviourtree.parametercheck</name>
         <implementation>celParameterCheckCondition</implementation>
-        <description>CEL Condition: True if parameter relation to value is true</description>
+        <description>CEL Condition: True if parameter is equal to value</description>
       </class>
     </classes>
   </scf>

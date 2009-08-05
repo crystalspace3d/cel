@@ -191,7 +191,7 @@ bool MainApp::Application ()
   printer.AttachNew (new FramePrinter (object_reg));
 
   celParams params;
-  csRef<iBTNode> bt_root = CreateBehaviourTree();
+  csRef<iBTNode> bt_root = CreateBehaviourTree(params);
   bt_root->Execute(params);
 
   Run ();
@@ -204,7 +204,7 @@ void MainApp::OnExit ()
   printer.Invalidate ();
 }
 
-csPtr<iBTNode> MainApp::CreateBehaviourTree ()
+csPtr<iBTNode> MainApp::CreateBehaviourTree (const celParams& params)
 {
   csRef<iPluginManager> plugin_mgr = 
     csQueryRegistry<iPluginManager> (object_reg);
@@ -222,10 +222,34 @@ csPtr<iBTNode> MainApp::CreateBehaviourTree ()
 
   csRef<iBTNode> action_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");  
+  csRef<iBTNode> parameter_check_node =  csLoadPlugin<iBTNode> (plugin_mgr,
+	"cel.behaviourtree.parametercheck");
   csRef<iBTNode> action_node_2 = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");
 
   //Set Up Nodes
+  csRef<iBTAction> explicit_action_node =
+    scfQueryInterface<iBTAction> (action_node);
+  csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+    "cel.rewards.debugprint");
+  csRef<iRewardFactory> reward_factory = type->CreateRewardFactory ();
+  csRef<iDebugPrintRewardFactory> explicit_reward_factory = 
+	scfQueryInterface<iDebugPrintRewardFactory> (reward_factory);
+  explicit_reward_factory->SetMessageParameter ("Wrapper Success");
+  csRef<iReward> reward = reward_factory->CreateReward(params);
+  explicit_action_node->SetReward (reward);
+
+  csRef<iBTAction> explicit_action_node_2 =
+    scfQueryInterface<iBTAction> (action_node_2);
+  explicit_reward_factory->SetMessageParameter ("2nd Wrapper Success");
+  csRef<iReward> reward_2 = reward_factory->CreateReward(params);
+  explicit_action_node_2->SetReward (reward_2);
+
+  csRef<iParameterCheckCondition> explicit_parameter_check_node =
+    scfQueryInterface<iParameterCheckCondition> (parameter_check_node);
+  explicit_parameter_check_node->SetParameter("7");
+  explicit_parameter_check_node->SetValue("5");
+
   csRef<iLoopDecorator> explicit_loop_node = 
     scfQueryInterface<iLoopDecorator> (loop_node);
   explicit_loop_node->SetLoopLimit("3");
@@ -237,6 +261,8 @@ csPtr<iBTNode> MainApp::CreateBehaviourTree ()
   //Build Tree
   root_node->AddChild(negatereturn_node);
   negatereturn_node->AddChild(action_node);
+
+  root_node->AddChild(parameter_check_node);
 
   root_node->AddChild(loop_node);
   loop_node->AddChild(execution_limit_node);

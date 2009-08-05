@@ -21,6 +21,7 @@
 #define __CEL_REWARDS__
 
 #include "behaviourlayer/behave.h"
+#include "iutil/document.h"
 #include "tools/parameters.h"
 
 //-------------------------------------------------------------------------

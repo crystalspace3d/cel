@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include <iutil/comp.h>
+#include <iutil/plugin.h>
 
 #include "plugins/tools/behaviourtree/condition_parametercheck.h"
 
@@ -31,11 +32,27 @@ CEL_IMPLEMENT_BTNODE (ParameterCheckCondition)
 
 bool celParameterCheckCondition::Execute (const celParams& params)
 {
-	printf("CONDITION: Parameter Check\n");
-  return true;
+  printf("CONDITION: Parameter Check\n");
+
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (object_reg);
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+    (plugin_mgr, "cel.parameters.manager");
+
+  return (value == pm->ResolveParameter(params, parameter));
 }
 
 bool celParameterCheckCondition::AddChild (iBTNode* child)
 {
   return false;
+}
+
+void celParameterCheckCondition::SetParameter (const char* param)
+{
+  parameter = param;
+}
+
+void celParameterCheckCondition::SetValue (const char* value)
+{
+  celParameterCheckCondition::value = value;
 }

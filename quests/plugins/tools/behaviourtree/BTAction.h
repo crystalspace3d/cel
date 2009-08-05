@@ -27,7 +27,26 @@
  * A wrapper for rewards to use them within behaviour trees
  */
 
-CEL_DECLARE_BTNODE(BehaviourTreeAction)
+class celBehaviourTreeAction : public scfImplementation3<		
+		celBehaviourTreeAction, 
+		iBTAction, iBTNode, iComponent>			
+{		
+private: 
+  iObjectRegistry* object_reg;						
+  csRef<iReward> action; 
+
+public:									
+  celBehaviourTreeAction (iBase* parent);			
+  virtual ~celBehaviourTreeAction () { }					
+  virtual bool Initialize (iObjectRegistry*);	
+
+  //From iBTNode
+  virtual bool Execute (const celParams& params);		
+  virtual bool AddChild (iBTNode* child);
+
+  //From iBTAction
+  virtual void SetReward (iReward* reward);
+};
 
 #endif // __CEL_TOOLS_BTACTION__
 

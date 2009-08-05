@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include <iutil/comp.h>
+#include <iutil/plugin.h>
 
 #include "plugins/tools/behaviourtree/BTAction.h"
 
@@ -34,10 +35,17 @@ CEL_IMPLEMENT_BTNODE (BehaviourTreeAction)
 bool celBehaviourTreeAction::Execute (const celParams& params)
 {
   printf("ACTION\n");
+  iCelParameterBlock* param_block = 0;
+  action->Reward (param_block);
   return true;
 }
 
 bool celBehaviourTreeAction::AddChild (iBTNode* child)
 {
   return false;
+}
+
+void celBehaviourTreeAction::SetReward (iReward* reward)
+{
+  action = reward;
 }

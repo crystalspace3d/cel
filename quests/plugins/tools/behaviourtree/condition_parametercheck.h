@@ -25,10 +25,30 @@
 
 /**
  * A wrapper for parameters to use them within behaviour trees
- * Returns true if parameter relation to value is true
+ * Returns true if parameter is equal to value
  */
+class celParameterCheckCondition : public scfImplementation3<		
+		celParameterCheckCondition, 
+		iParameterCheckCondition, iBTNode, iComponent>			
+{		
+private: 
+  iObjectRegistry* object_reg;						
+  const char* parameter;
+  const char* value;
 
-CEL_DECLARE_BTNODE(ParameterCheckCondition)
+public:									
+  celParameterCheckCondition (iBase* parent);			
+  virtual ~celParameterCheckCondition () { }					
+  virtual bool Initialize (iObjectRegistry*);	
+
+  //From iBTNode
+  virtual bool Execute (const celParams& params);		
+  virtual bool AddChild (iBTNode* child);
+
+  //From iParameterCheckCondition
+  virtual void SetParameter (const char* param);
+  virtual void SetValue (const char* value);
+};
 
 #endif // __CEL_TOOLS_CONDITION_PARAMETER_CHECK__
 
