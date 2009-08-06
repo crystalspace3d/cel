@@ -190,6 +190,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\BT.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\BTAction.cpp"
 				>
 			</File>
@@ -207,6 +211,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\BT.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\BTAction.h"
 				>

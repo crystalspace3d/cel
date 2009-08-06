@@ -47,7 +47,7 @@ bool celExecutionLimitDecorator::Initialize (
 
 bool celExecutionLimitDecorator::Execute (const celParams& params)
 {
-  printf("Execution Limit Decorator\n");
+  //printf("Execution Limit Decorator\n");
 
   if (execution_limit == 0)
   {

@@ -56,7 +56,7 @@ bool celLoopDecorator::Execute (const celParams& params)
 
   for (int i = 0; i < loop_limit; i++)
   {
-    printf("Loop Decorator, iteration = %i\n", i);
+    //printf("Loop Decorator, iteration = %i\n", i);
     if(!child_node->Execute(params))
 	{
 		return false;

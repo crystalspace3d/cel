@@ -35,10 +35,7 @@
 #include "plugins/tools/sequences/cel_sequences.h"
 
 //---------------------------------------------------------------------------
-// CS_IMPLEMENT_PLUGIN - Should be moved to here really
-
-//SCF_IMPLEMENT_FACTORY (celDebugPrintSeqOpType) ???
-
+  CS_IMPLEMENT_PLUGIN 
 //---------------------------------------------------------------------------
 
 celSequence::celSequence (const char* name,

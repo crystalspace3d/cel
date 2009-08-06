@@ -31,7 +31,7 @@ CEL_IMPLEMENT_BTNODE (SequentialSelector)
 
 bool celSequentialSelector::Execute (const celParams& params)
 {
-  printf("SEQUENTIAL SELECTOR");
+  //printf("SEQUENTIAL SELECTOR");
   int noOfChildren = children.GetSize();
   for (int i = 0; i < noOfChildren; i++)
   {	

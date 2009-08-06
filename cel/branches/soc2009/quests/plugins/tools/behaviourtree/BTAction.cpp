@@ -25,8 +25,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 SCF_IMPLEMENT_FACTORY (celBehaviourTreeAction)
 CEL_IMPLEMENT_BTNODE (BehaviourTreeAction)
 
@@ -34,7 +32,7 @@ CEL_IMPLEMENT_BTNODE (BehaviourTreeAction)
 
 bool celBehaviourTreeAction::Execute (const celParams& params)
 {
-  printf("ACTION\n");
+  //printf("ACTION\n");
   iCelParameterBlock* param_block = 0;
   action->Reward (param_block);
   return true;
