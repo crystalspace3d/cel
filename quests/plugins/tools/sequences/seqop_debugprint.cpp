@@ -35,7 +35,6 @@
 #include "plugins/tools/sequences/seqop_debugprint.h"
 
 //---------------------------------------------------------------------------
-CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celDebugPrintSeqOpType)
 CEL_IMPLEMENT_SEQOPTYPE(DebugPrint)
@@ -87,7 +86,6 @@ celDebugPrintSeqOp::celDebugPrintSeqOp (
 	const char* msg_par) : scfImplementationType (this)
 {
   celDebugPrintSeqOp::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
@@ -103,7 +101,7 @@ celDebugPrintSeqOp::~celDebugPrintSeqOp ()
 
 void celDebugPrintSeqOp::Do (float time)
 {
-  printf ("REFACTORED SEQUENCE: %s (time=%g)\n", (const char*)msg, time);
+  printf ("%s (time=%g)\n", (const char*)msg, time);
   fflush (stdout);
 }
 

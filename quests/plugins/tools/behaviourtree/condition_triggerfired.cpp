@@ -43,7 +43,7 @@ bool celTriggerFiredCondition::Initialize (
 
 bool celTriggerFiredCondition::Execute (const celParams& params)
 {
-  printf("CONDITION: Trigger Fired Check\n");
+  //printf("CONDITION: Trigger Fired Check\n");
   return trigger_fired;
 }
 

@@ -32,7 +32,7 @@ CEL_IMPLEMENT_BTNODE (ParameterCheckCondition)
 
 bool celParameterCheckCondition::Execute (const celParams& params)
 {
-  printf("CONDITION: Parameter Check\n");
+  //printf("CONDITION: Parameter Check\n");
 
   csRef<iPluginManager> plugin_mgr = 
     csQueryRegistry<iPluginManager> (object_reg);

@@ -19,31 +19,53 @@
 
 #include "cssysdef.h"
 #include <iutil/comp.h>
+#include <iutil/plugin.h>
 
-#include "plugins/tools/decorators/decorator_negatereturn.h"
-
-//---------------------------------------------------------------------------
-
-SCF_IMPLEMENT_FACTORY (celNegateReturnDecorator)
-CEL_IMPLEMENT_BTNODE (NegateReturnDecorator)
+#include "plugins/tools/behaviourtree/BT.h"
 
 //---------------------------------------------------------------------------
 
-bool celNegateReturnDecorator::Execute (const celParams& params)
-{
-  //printf("Negate Return Decorator\n");
-  return (!children.Get(0)->Execute(params));
+CS_IMPLEMENT_PLUGIN
+
+SCF_IMPLEMENT_FACTORY (celBehaviourTree)
+
+//---------------------------------------------------------------------------
+
+celBehaviourTree::celBehaviourTree (				
+	iBase* parent) : scfImplementationType (this, parent),	
+	object_reg(0)											
+{															
+}															
+bool celBehaviourTree::Initialize (					
+	iObjectRegistry* object_reg)							
+{									
+  celBehaviourTree::object_reg = object_reg;			
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  return true;												
 }
 
-bool celNegateReturnDecorator::AddChild (iBTNode* child)
+bool celBehaviourTree::Execute (const celParams& params)
 {
-  if (children.IsEmpty())
+  celBehaviourTree::params = params;
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  return true;
+}
+
+bool celBehaviourTree::AddChild (iBTNode* child)
+{
+  if (root_node.IsValid())
   {
-    children.Push(child);
-    return true;
+    //Tree already has a root
+    return false;
   }
   else
   {
-    return false;
+    root_node = child;
+    return true;    
   }
+}
+
+void celBehaviourTree::TickEveryFrame ()
+{
+  root_node->Execute(params);
 }

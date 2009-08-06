@@ -143,7 +143,7 @@ celMovePathSeqOp::celMovePathSeqOp (
 	const csStringArray& times) : scfImplementationType (this)
 {
   celMovePathSeqOp::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 

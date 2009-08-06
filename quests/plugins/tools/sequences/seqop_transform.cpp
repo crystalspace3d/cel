@@ -144,7 +144,7 @@ celTransformSeqOp::celTransformSeqOp (
 	int axis, const char* angle) : scfImplementationType (this)
 {
   celTransformSeqOp::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 

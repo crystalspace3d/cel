@@ -190,9 +190,9 @@ bool MainApp::Application ()
 
   printer.AttachNew (new FramePrinter (object_reg));
 
-  celParams params;
-  csRef<iBTNode> bt_root = CreateBehaviourTree(params);
-  bt_root->Execute(params);
+
+  CreateBehaviourTree();
+
 
   Run ();
 
@@ -204,26 +204,28 @@ void MainApp::OnExit ()
   printer.Invalidate ();
 }
 
-csPtr<iBTNode> MainApp::CreateBehaviourTree (const celParams& params)
+void MainApp::CreateBehaviourTree ()
 {
+  celParams params;
+
   csRef<iPluginManager> plugin_mgr = 
     csQueryRegistry<iPluginManager> (object_reg);
  
   //Build Nodes
   csRef<iBTNode> root_node = csLoadPlugin<iBTNode> (plugin_mgr,
-    "cel.selectors.default"); 
+    "cel.selectors.random"); 
 
-  csRef<iBTNode> negatereturn_node = csLoadPlugin<iBTNode> (plugin_mgr,
-    "cel.decorators.negatereturn");
-  csRef<iBTNode> loop_node = csLoadPlugin<iBTNode> (plugin_mgr,
-    "cel.decorators.loop");
-  csRef<iBTNode> execution_limit_node = csLoadPlugin<iBTNode> (plugin_mgr,
-    "cel.decorators.executionlimit");
+  //csRef<iBTNode> negatereturn_node = csLoadPlugin<iBTNode> (plugin_mgr,
+  //  "cel.decorators.negatereturn");
+  //csRef<iBTNode> loop_node = csLoadPlugin<iBTNode> (plugin_mgr,
+  //  "cel.decorators.loop");
+  //csRef<iBTNode> execution_limit_node = csLoadPlugin<iBTNode> (plugin_mgr,
+  //  "cel.decorators.executionlimit");
 
   csRef<iBTNode> action_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");  
-  csRef<iBTNode> parameter_check_node =  csLoadPlugin<iBTNode> (plugin_mgr,
-	"cel.behaviourtree.parametercheck");
+ // csRef<iBTNode> parameter_check_node =  csLoadPlugin<iBTNode> (plugin_mgr,
+	//"cel.behaviourtree.parametercheck");
   csRef<iBTNode> action_node_2 = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");
 
@@ -235,38 +237,36 @@ csPtr<iBTNode> MainApp::CreateBehaviourTree (const celParams& params)
   csRef<iRewardFactory> reward_factory = type->CreateRewardFactory ();
   csRef<iDebugPrintRewardFactory> explicit_reward_factory = 
 	scfQueryInterface<iDebugPrintRewardFactory> (reward_factory);
-  explicit_reward_factory->SetMessageParameter ("Wrapper Success");
+  explicit_reward_factory->SetMessageParameter ("ANGRY");
   csRef<iReward> reward = reward_factory->CreateReward(params);
   explicit_action_node->SetReward (reward);
 
   csRef<iBTAction> explicit_action_node_2 =
     scfQueryInterface<iBTAction> (action_node_2);
-  explicit_reward_factory->SetMessageParameter ("2nd Wrapper Success");
+  explicit_reward_factory->SetMessageParameter ("sad :(");
   csRef<iReward> reward_2 = reward_factory->CreateReward(params);
   explicit_action_node_2->SetReward (reward_2);
 
-  csRef<iParameterCheckCondition> explicit_parameter_check_node =
-    scfQueryInterface<iParameterCheckCondition> (parameter_check_node);
-  explicit_parameter_check_node->SetParameter("7");
-  explicit_parameter_check_node->SetValue("5");
+  //csRef<iParameterCheckCondition> explicit_parameter_check_node =
+  //  scfQueryInterface<iParameterCheckCondition> (parameter_check_node);
+  //explicit_parameter_check_node->SetParameter("7");
+  //explicit_parameter_check_node->SetValue("5");
 
-  csRef<iLoopDecorator> explicit_loop_node = 
-    scfQueryInterface<iLoopDecorator> (loop_node);
-  explicit_loop_node->SetLoopLimit("3");
+  //csRef<iLoopDecorator> explicit_loop_node = 
+  //  scfQueryInterface<iLoopDecorator> (loop_node);
+  //explicit_loop_node->SetLoopLimit("3");
 
-  csRef<iExecutionLimitDecorator> explicit_execution_limit_node = 
-    scfQueryInterface<iExecutionLimitDecorator> (execution_limit_node);
-  explicit_execution_limit_node->SetExecutionLimit("2");
+  //csRef<iExecutionLimitDecorator> explicit_execution_limit_node = 
+  //  scfQueryInterface<iExecutionLimitDecorator> (execution_limit_node);
+  //explicit_execution_limit_node->SetExecutionLimit("2");
+
+  //Connect Tree
+  root_node->AddChild(action_node);
+  root_node->AddChild(action_node_2);
 
   //Build Tree
-  root_node->AddChild(negatereturn_node);
-  negatereturn_node->AddChild(action_node);
-
-  root_node->AddChild(parameter_check_node);
-
-  root_node->AddChild(loop_node);
-  loop_node->AddChild(execution_limit_node);
-  execution_limit_node->AddChild(action_node_2);
-
-  return root_node;
+  csRef<iBTNode> tree = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.behaviourtree");
+  tree->AddChild(root_node);
+  tree->Execute(params);
 }
