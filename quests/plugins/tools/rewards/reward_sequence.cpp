@@ -177,7 +177,7 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
     return;
   }
   csTicks delay = pdelay->GetLong (params);
-  if (!seq->Start (delay))
+  if (!seq->Start (delay, params))
   {
     Report (type->object_reg, "Sequence '%s' in entity '%s' fails to start!",
     	  s, e);
@@ -243,7 +243,7 @@ void celClassSequenceReward::Reward (iCelParameterBlock* params)
         else
           Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!", s, ent->GetName ());
       }
-      if (!seq->Start (delay))
+      if (!seq->Start (delay, params))
       {
         Report (type->object_reg, "Sequence '%s' in entity '%s' fails to start!", s, ent->GetName ());
       }

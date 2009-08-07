@@ -44,7 +44,7 @@ struct iSeqOp : public virtual iBase
    * operation is loaded from persisted data. In that case Load()
    * is called instead.
    */
-  virtual void Init () = 0;
+  virtual void Init (iCelParameterBlock* params) = 0;
 
   /**
    * Load the sequence operation from persisted data.
@@ -61,7 +61,7 @@ struct iSeqOp : public virtual iBase
    * will be interpolated over a specified time (specified in the sequence).
    * In case this is a single-shot operation the value will always be 1.
    */
-  virtual void Do (float time) = 0;
+  virtual void Do (float time, iCelParameterBlock* params) = 0;
 };
 
 /**
@@ -147,7 +147,7 @@ struct iCelSequence : public virtual iBase
    * \param delay is a delay before the sequence will really start.
    * \return false if the sequence is already running.
    */
-  virtual bool Start (csTicks delay) = 0;
+  virtual bool Start (csTicks delay, iCelParameterBlock* params) = 0;
 
   /**
    * Finish this sequence. The sequence will be executed at end condition

@@ -70,7 +70,7 @@ class celDebugPrintSeqOp : public scfImplementation1<
 {
 private:
   celDebugPrintSeqOpType* type;
-  csString msg;
+  csRef<iParameter> msg;
 
 public:
   celDebugPrintSeqOp (celDebugPrintSeqOpType* type,
@@ -80,8 +80,8 @@ public:
 
   virtual bool Load (iCelDataBuffer*) { return true; }
   virtual void Save (iCelDataBuffer*) { }
-  virtual void Init () { }
-  virtual void Do (float time);
+  virtual void Init (iCelParameterBlock* params) { }
+  virtual void Do (float time, iCelParameterBlock* params);
 };
 
 #endif // __CEL_TOOLS_SEQOP_DEBUGPRINT__

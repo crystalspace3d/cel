@@ -88,11 +88,18 @@ private:
   int rot_axis;
   float rot_angle;
 
+  csRef<iParameter> entity_param;
+  csRef<iParameter> tag_param;
+  csRef<iParameter> vectorx_param;
+  csRef<iParameter> vectory_param;
+  csRef<iParameter> vectorz_param;
+  csRef<iParameter> rot_angle_param;
+
   csVector3 start;
   csMatrix3 start_matrix;
   csWeakRef<iMeshWrapper> mesh;
 
-  void FindMesh ();
+  void FindMesh (iCelParameterBlock* params);
 
 public:
   celTransformSeqOp (celTransformSeqOpType* type,
@@ -104,8 +111,8 @@ public:
 
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void Save (iCelDataBuffer* databuf);
-  virtual void Init ();
-  virtual void Do (float time);
+  virtual void Init (iCelParameterBlock* params);
+  virtual void Do (float time, iCelParameterBlock* params);
 };
 
 #endif // __CEL_TOOLS_SEQOP_TRANSFORM__
