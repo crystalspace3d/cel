@@ -149,8 +149,8 @@ celMovePathSeqOp::celMovePathSeqOp (
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
     (plugin_mgr, "cel.parameters.manager");
 
-  entity = pm->ResolveParameter (params, entity_par);
-  tag = pm->ResolveParameter (params, tag_par);
+  entity_param = pm->GetParameter (params, entity_par);
+  tag_param = pm->GetParameter (params, tag_par);
 
   csString sectorname;
   path = new csPath ((int)nodes.GetSize ());
@@ -172,10 +172,10 @@ celMovePathSeqOp::celMovePathSeqOp (
       if (!sector)
       {
         delete path;
-	path = 0;
-	Report (type->object_reg, "Can't find sector '%s' in movepath seqop!",
-		(const char*)sectorname);
-	return;
+	    path = 0;
+	    Report (type->object_reg, "Can't find sector '%s' in movepath seqop!",
+		  (const char*)sectorname);
+	    return;
       }
     }
 
@@ -187,7 +187,7 @@ celMovePathSeqOp::celMovePathSeqOp (
       path = 0;
       Report (type->object_reg,
       	"Can't find node '%s' in sector '%s' (movepath seqop)!",
-	(const char*)nodes[i], (const char*)sectorname);
+	    (const char*)nodes[i], (const char*)sectorname);
       return;
     }
 
@@ -203,9 +203,12 @@ celMovePathSeqOp::~celMovePathSeqOp ()
   delete path;
 }
 
-void celMovePathSeqOp::FindMesh ()
+void celMovePathSeqOp::FindMesh (iCelParameterBlock* params)
 {
   if (mesh) return;
+
+  entity = entity_param->Get (params);
+  tag = tag_param->Get (params);
 
   // @@@ Too many queries for efficiency?
   iCelPlLayer* pl = type->pl;
@@ -228,13 +231,13 @@ void celMovePathSeqOp::Save (iCelDataBuffer* databuf)
 {
 }
 
-void celMovePathSeqOp::Init ()
+void celMovePathSeqOp::Init (iCelParameterBlock* params)
 {
   mesh = 0;
-  if (path) FindMesh ();
+  if (path) FindMesh (params);
 }
 
-void celMovePathSeqOp::Do (float time)
+void celMovePathSeqOp::Do (float time, iCelParameterBlock* params)
 {
   if (mesh)
   {

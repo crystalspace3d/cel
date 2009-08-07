@@ -61,6 +61,7 @@ private:
   size_t idx;
   csTicks start_time;
   csTicks total_time;
+  iCelParameterBlock* params;
 
   csRefArray<iCelSequenceCallback> callbacks;
 
@@ -94,7 +95,7 @@ public:
   virtual const char* GetName () const { return name; }
   virtual void SaveState (iCelDataBuffer* databuf);
   virtual bool LoadState (iCelDataBuffer* databuf);
-  virtual bool Start (csTicks delay);
+  virtual bool Start (csTicks delay, iCelParameterBlock* params);
   virtual void Finish ();
   virtual void Abort ();
   virtual bool IsRunning ();

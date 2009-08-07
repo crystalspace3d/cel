@@ -62,9 +62,10 @@ void celSequence::AddSeqOp (iSeqOp* seqop, csTicks start, csTicks end)
   seqops.Push (seq);
 }
 
-bool celSequence::Start (csTicks delay)
+bool celSequence::Start (csTicks delay, iCelParameterBlock* params)
 {
   if (IsRunning ()) return false;
+  celSequence::params = params;
   idx = 0;
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
   start_time = vc->GetCurrentTicks () + delay;
@@ -95,12 +96,12 @@ void celSequence::Perform (csTicks rel)
   // Find all operations that have to be performed.
   while (idx < seqops.GetSize () && rel >= seqops[idx].start)
   {
-    seqops[idx].seqop->Init ();
+    seqops[idx].seqop->Init (params);
     if (rel >= seqops[idx].end)
     {
       // Single shot operation or operation has already ended. Will not
       // be put in the progress array.
-      seqops[idx].seqop->Do (1.0f);
+      seqops[idx].seqop->Do (1.0f, params);
     }
     else
     {
@@ -115,14 +116,14 @@ void celSequence::Perform (csTicks rel)
   {
     if (rel >= ops_in_progress[i].end)
     {
-      ops_in_progress[i].seqop->Do (1.0f);
+      ops_in_progress[i].seqop->Do (1.0f, params);
       ops_in_progress.DeleteIndex (i);
     }
     else
     {
       float dt = float (rel - ops_in_progress[i].start)
       	/ float (ops_in_progress[i].end - ops_in_progress[i].start);
-      ops_in_progress[i].seqop->Do (dt);
+      ops_in_progress[i].seqop->Do (dt, params);
       i++;
     }
   }
@@ -161,7 +162,10 @@ void celSequence::SaveState (iCelDataBuffer* databuf)
 bool celSequence::LoadState (iCelDataBuffer* databuf)
 {
   // First start the sequence.
-  Start (0);
+  // @@@
+  // Params need to be saved and loaded for correct operation
+  iCelParameterBlock* params = 0;
+  Start (0, params);
 
   csTicks current_time = vc->GetCurrentTicks ();
   start_time = current_time - databuf->GetUInt32 ();

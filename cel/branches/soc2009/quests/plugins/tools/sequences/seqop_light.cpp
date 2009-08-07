@@ -148,14 +148,14 @@ celLightSeqOp::celLightSeqOp (
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
     (plugin_mgr, "cel.parameters.manager");
 
-  entity = pm->ResolveParameter (params, entity_par);
-  tag = pm->ResolveParameter (params, tag_par);
-  rel.red = ToFloat (pm->ResolveParameter (params, rel_red_par));
-  rel.green = ToFloat (pm->ResolveParameter (params, rel_green_par));
-  rel.blue = ToFloat (pm->ResolveParameter (params, rel_blue_par));
-  abs.red = ToFloat (pm->ResolveParameter (params, abs_red_par));
-  abs.green = ToFloat (pm->ResolveParameter (params, abs_green_par));
-  abs.blue = ToFloat (pm->ResolveParameter (params, abs_blue_par));
+  entity_param = pm->GetParameter (params, entity_par);
+  tag_param = pm->GetParameter (params, tag_par);
+  rel_red_param = pm->GetParameter (params, rel_red_par);
+  rel_green_param = pm->GetParameter (params, rel_green_par);
+  rel_blue_param = pm->GetParameter (params, rel_blue_par);
+  abs_red_param = pm->GetParameter (params, abs_red_par);
+  abs_green_param = pm->GetParameter (params, abs_green_par);
+  abs_blue_param = pm->GetParameter (params, abs_blue_par);
 
   do_abs = abs_red_par != 0 && *abs_red_par != 0;
   do_rel = rel_red_par != 0 && *rel_red_par != 0;
@@ -165,9 +165,12 @@ celLightSeqOp::~celLightSeqOp ()
 {
 }
 
-void celLightSeqOp::FindLight ()
+void celLightSeqOp::FindLight (iCelParameterBlock* params)
 {
   if (light) return;
+
+  entity = entity_param->Get (params);
+  tag = tag_param->Get (params);
 
   // @@@ To many queries for efficiency?
   iCelPlLayer* pl = type->pl;
@@ -195,16 +198,23 @@ void celLightSeqOp::Save (iCelDataBuffer* databuf)
   databuf->Add (start);
 }
 
-void celLightSeqOp::Init ()
+void celLightSeqOp::Init (iCelParameterBlock* params)
 {
   light = 0;
-  FindLight ();
+  FindLight (params);
 }
 
-void celLightSeqOp::Do (float time)
+void celLightSeqOp::Do (float time, iCelParameterBlock* params)
 {
   if (light)
   {
+	rel.red = ToFloat (rel_red_param->Get (params));
+	rel.green = ToFloat (rel_green_param->Get (params));
+	rel.blue = ToFloat (rel_blue_param->Get (params));
+    abs.red = ToFloat (abs_red_param->Get (params));
+    abs.green = ToFloat (abs_green_param->Get (params));
+    abs.blue = ToFloat (abs_blue_param->Get (params));
+
     csColor col;
     if (do_abs) col = abs;
     else col = start;

@@ -30,6 +30,14 @@
 
 struct iObjectRegistry;
 
+static float ToFloat (const char* s)
+{
+  if (!s) return 0.0f;
+  float f;
+  sscanf (s, "%f", &f);
+  return f;
+}
+
 /**
  * A standard seqop type that can animate a property class property.
  * Any property can be animated this way, assuming it is of the right type
@@ -97,6 +105,11 @@ protected:
   csString tag;
   bool relative;
 
+  csRef<iParameter>  entity_param;
+  csRef<iParameter>  pcname_param;
+  csRef<iParameter>  propname_param;
+  csRef<iParameter>  tag_param;
+
   csWeakRef<iCelPropertyClass> pc;
   celDataType proptype; // must be set in all specializations.
 
@@ -105,7 +118,7 @@ protected:
 
   // function to find the pc in the specified entity, and check if the property
   // type is ok.
-  void FindPCProperty ();
+  void FindPCProperty (iCelParameterBlock* params);
 
 public:
   celPropertySeqOp (celPropertySeqOpType* type,
@@ -113,8 +126,8 @@ public:
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	const char* prop_par, bool rel_par);
   virtual ~celPropertySeqOp ();
-  virtual void Init ();
-  virtual void Do (float time);
+  virtual void Init (iCelParameterBlock* params);
+  virtual void Do (float time, iCelParameterBlock* params);
   // We don't need to save or load anything as the sequence is totally
   // determined by the constructor and time passed (no internal data
   // structures to take care of).
@@ -123,7 +136,7 @@ public:
   // virtual functions to get and set the value in type dependent way.
   // must be implemented by all specializations.
   virtual void SetCurrentValue(float time) = 0;
-  virtual void GetStartValue() = 0;
+  virtual void GetStartValue(iCelParameterBlock* params) = 0;
 };
 
 /**
@@ -136,12 +149,17 @@ protected:
   float start;
   float end;
   float diff;
+
+  csRef<iParameter> end_param;
+
   virtual void SetCurrentValue(float time) 
   { 
     pc->SetProperty(propID, start + (time*diff)); 
   }
-  virtual void GetStartValue() 
+  virtual void GetStartValue(iCelParameterBlock* params) 
   { 
+    end = ToFloat (end_param->Get (params));
+
     start = pc->GetPropertyFloatByID(propID);
     if (relative)
       end += start;
@@ -165,8 +183,10 @@ class celLongPropertySeqOp : public celFloatPropertySeqOp
   { 
     pc->SetProperty(propID, (long)(start + (time*diff))); 
   }
-  virtual void GetStartValue() 
+  virtual void GetStartValue(iCelParameterBlock* params) 
   { 
+	end = ToFloat (end_param->Get (params));
+
     start = (float)pc->GetPropertyLongByID(propID);
     if (relative)
       end += start;
@@ -192,12 +212,19 @@ class celVector2PropertySeqOp : public celPropertySeqOp
   csVector2 start;
   csVector2 end;
   csVector2 diff;
+
+  csRef<iParameter> endx_param;
+  csRef<iParameter> endy_param;
+
   virtual void SetCurrentValue(float time) 
   { 
     pc->SetProperty(propID, start + (time*diff)); 
   }
-  virtual void GetStartValue() 
+  virtual void GetStartValue(iCelParameterBlock* params) 
   { 
+	end.x = ToFloat (endx_param->Get (params));
+	end.y = ToFloat (endy_param->Get (params));
+
     pc->GetPropertyVectorByID(propID,start);
     if (relative)
       end += start;
@@ -218,12 +245,21 @@ class celVector3PropertySeqOp : public celPropertySeqOp
   csVector3 start;
   csVector3 end;
   csVector3 diff;
+
+  csRef<iParameter> endx_param;
+  csRef<iParameter> endy_param;
+  csRef<iParameter> endz_param;
+
   virtual void SetCurrentValue(float time) 
   { 
     pc->SetProperty(propID, start + (time*diff)); 
   }
-  virtual void GetStartValue() 
+  virtual void GetStartValue(iCelParameterBlock* params) 
   { 
+    end.x = ToFloat (endy_param->Get (params));
+	end.y = ToFloat (endy_param->Get (params));
+	end.z = ToFloat (endy_param->Get (params));
+
     pc->GetPropertyVectorByID(propID,start);
     if (relative)
       end += start;

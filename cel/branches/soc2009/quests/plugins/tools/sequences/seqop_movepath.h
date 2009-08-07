@@ -89,9 +89,12 @@ private:
   iSector* sector;
   float maxtime;
 
+  csRef<iParameter> entity_param;
+  csRef<iParameter> tag_param;
+
   csWeakRef<iMeshWrapper> mesh;
 
-  void FindMesh ();
+  void FindMesh (iCelParameterBlock* params);
 
 public:
   celMovePathSeqOp (celMovePathSeqOpType* type,
@@ -103,8 +106,8 @@ public:
 
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void Save (iCelDataBuffer* databuf);
-  virtual void Init ();
-  virtual void Do (float time);
+  virtual void Init (iCelParameterBlock* params);
+  virtual void Do (float time, iCelParameterBlock* params);
 };
 
 #endif // __CEL_TOOLS_SEQOP_MOVEPATH__

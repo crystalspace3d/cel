@@ -183,14 +183,6 @@ void celPropertySeqOpFactory::SetRelative (bool is_relative)
 }
 //---------------------------------------------------------------------------
 
-static float ToFloat (const char* s)
-{
-  if (!s) return 0.0f;
-  float f;
-  sscanf (s, "%f", &f);
-  return f;
-}
-
 celPropertySeqOp::celPropertySeqOp (
 	celPropertySeqOpType* type,
   	const celParams& params,
@@ -205,22 +197,28 @@ celPropertySeqOp::celPropertySeqOp (
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
     (plugin_mgr, "cel.parameters.manager");
 
-  entity = pm->ResolveParameter (params, entity_par);
-  pcname = pm->ResolveParameter (params, pc_par);
-  tag = pm->ResolveParameter (params, tag_par);
+  entity_param = pm->GetParameter (params, entity_par);
+  pcname_param = pm->GetParameter (params, pc_par);
+  tag_param = pm->GetParameter (params, tag_par);
   
   relative = rel_par;
 
-  propname = pm->ResolveParameter (params, prop_par);
+  propname_param = pm->GetParameter (params, prop_par);
 }
 
 celPropertySeqOp::~celPropertySeqOp ()
 {
 }
 
-void celPropertySeqOp::FindPCProperty ()
+void celPropertySeqOp::FindPCProperty (iCelParameterBlock* params)
 {
   if (prop_ok) return;
+
+  //Get current values of parameters
+  entity   = entity_param->Get   (params);
+  pcname   = pcname_param->Get   (params);
+  tag      = tag_param->Get      (params);
+  propname = propname_param->Get (params);
 
   iCelEntity* ent = type->pl->FindEntity (entity);
   if (ent)
@@ -234,20 +232,20 @@ void celPropertySeqOp::FindPCProperty ()
       if ((proptype == celPropertySeqOp::proptype) && (!readonly))
       {
         prop_ok = 1;
-        GetStartValue();
+        GetStartValue(params);
       }
     }
   }
 }
 
-void celPropertySeqOp::Init ()
+void celPropertySeqOp::Init (iCelParameterBlock* params)
 {
   pc = 0;
   prop_ok = 0;
-  FindPCProperty ();
+  FindPCProperty (params);
 }
 
-void celPropertySeqOp::Do (float time)
+void celPropertySeqOp::Do (float time, iCelParameterBlock* params)
 {
   if (prop_ok && pc)
   {
@@ -267,14 +265,12 @@ celFloatPropertySeqOp::celFloatPropertySeqOp (
 		rel_par)
 {
   proptype = CEL_DATA_FLOAT;
-  // XXX duplicate looking for quest/parameter manager
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
     (plugin_mgr, "cel.parameters.manager");
 
-  end = ToFloat(pm->ResolveParameter (params, pfloat));
+  end_param = pm->GetParameter (params, pfloat);
 }
 
 //---------------------------------------------------------------------------
@@ -289,15 +285,13 @@ celVector2PropertySeqOp::celVector2PropertySeqOp (
 		rel_par)
 {
   proptype = CEL_DATA_VECTOR2;
-  // XXX duplicate looking for quest/parameter manager
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
     (plugin_mgr, "cel.parameters.manager");
 
-  end.x = ToFloat(pm->ResolveParameter (params, vx));
-  end.y = ToFloat(pm->ResolveParameter (params, vy));
+  endx_param = pm->GetParameter (params, vx);
+  endy_param = pm->GetParameter (params, vy);
 }
 
 //---------------------------------------------------------------------------
@@ -313,16 +307,14 @@ celVector3PropertySeqOp::celVector3PropertySeqOp (
 		rel_par)
 {
   proptype = CEL_DATA_VECTOR3;
-  // XXX duplicate looking for quest/parameter manager
-//  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
     (plugin_mgr, "cel.parameters.manager");
 
-  end.x = ToFloat(pm->ResolveParameter (params, vx));
-  end.y = ToFloat(pm->ResolveParameter (params, vy));
-  end.z = ToFloat(pm->ResolveParameter (params, vz));
+  endx_param = pm->GetParameter (params, vx);
+  endy_param = pm->GetParameter (params, vy);
+  endz_param = pm->GetParameter (params, vz);
 }
 
 //---------------------------------------------------------------------------

@@ -92,16 +92,18 @@ celDebugPrintSeqOp::celDebugPrintSeqOp (
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
     (plugin_mgr, "cel.parameters.manager");
 
-  msg = pm->ResolveParameter (params, msg_par);
+  msg = pm->GetParameter (params, msg_par);
 }
 
 celDebugPrintSeqOp::~celDebugPrintSeqOp ()
 {
 }
 
-void celDebugPrintSeqOp::Do (float time)
-{
-  printf ("%s (time=%g)\n", (const char*)msg, time);
+void celDebugPrintSeqOp::Do (float time, iCelParameterBlock* params)
+{  
+  const char* m = msg->Get (params); 
+  if (!m) return;
+  printf ("%s (time=%g)\n", m, time);
   fflush (stdout);
 }
 

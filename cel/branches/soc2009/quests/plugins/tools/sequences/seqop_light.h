@@ -90,10 +90,19 @@ private:
   bool do_abs;
   bool do_rel;
 
+  csRef<iParameter> entity_param;
+  csRef<iParameter> tag_param;
+  csRef<iParameter> rel_red_param;
+  csRef<iParameter>  rel_green_param;
+  csRef<iParameter>  rel_blue_param;
+  csRef<iParameter>  abs_red_param;
+  csRef<iParameter>  abs_green_param;
+  csRef<iParameter>  abs_blue_param;
+
   csColor start;
   csWeakRef<iLight> light;
 
-  void FindLight ();
+  void FindLight (iCelParameterBlock* params);
 
 public:
   celLightSeqOp (celLightSeqOpType* type,
@@ -107,8 +116,8 @@ public:
 
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void Save (iCelDataBuffer* databuf);
-  virtual void Init ();
-  virtual void Do (float time);
+  virtual void Init (iCelParameterBlock* params);
+  virtual void Do (float time, iCelParameterBlock* params);
 };
 
 #endif // __CEL_TOOLS_SEQOP_LIGHT__

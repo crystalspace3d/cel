@@ -150,24 +150,26 @@ celTransformSeqOp::celTransformSeqOp (
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
     (plugin_mgr, "cel.parameters.manager");
 
-  entity = pm->ResolveParameter (params, entity_par);
-  tag = pm->ResolveParameter (params, tag_par);
-  vector.x = ToFloat (pm->ResolveParameter (params, vectorx));
-  vector.y = ToFloat (pm->ResolveParameter (params, vectory));
-  vector.z = ToFloat (pm->ResolveParameter (params, vectorz));
+  entity_param = pm->GetParameter (params, entity_par);
+  tag_param = pm->GetParameter (params, tag_par);
+  vectorx_param = pm->GetParameter (params, vectorx);
+  vectory_param = pm->GetParameter (params, vectory);
+  vectorz_param = pm->GetParameter (params, vectorz);
 
-  do_move = !(vector < .00001f);
   rot_axis = axis;
-  rot_angle = ToFloat (pm->ResolveParameter (params, angle));
+  rot_angle_param = pm->GetParameter (params, angle);
 }
 
 celTransformSeqOp::~celTransformSeqOp ()
 {
 }
 
-void celTransformSeqOp::FindMesh ()
+void celTransformSeqOp::FindMesh (iCelParameterBlock* params)
 {
   if (mesh) return;
+
+  entity = entity_param->Get (params);
+  tag = tag_param->Get (params);
 
   // @@@ To many queries for efficiency?
   iCelPlLayer* pl = type->pl;
@@ -207,16 +209,21 @@ void celTransformSeqOp::Save (iCelDataBuffer* databuf)
   databuf->Add (start_matrix.Row3 ());
 }
 
-void celTransformSeqOp::Init ()
+void celTransformSeqOp::Init (iCelParameterBlock* params)
 {
   mesh = 0;
-  FindMesh ();
+  FindMesh (params);
 }
 
-void celTransformSeqOp::Do (float time)
+void celTransformSeqOp::Do (float time, iCelParameterBlock* params)
 {
   if (mesh)
   {
+    vector.x = ToFloat (vectorx_param->Get (params));
+	vector.y = ToFloat (vectory_param->Get (params));
+	vector.z = ToFloat (vectorz_param->Get (params));
+    do_move = !(vector < .00001f);
+
     if (do_move)
     {
       csVector3 v = start + time * vector;
@@ -224,6 +231,8 @@ void celTransformSeqOp::Do (float time)
     }
     if (rot_axis >= 0)
     {
+	  rot_angle = ToFloat (rot_angle_param->Get (params));
+
       csMatrix3 m = start_matrix;
       switch (rot_axis)
       {
