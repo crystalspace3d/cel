@@ -61,6 +61,9 @@ enum celAnimationName
  * - Jump.
  * - ToggleCameraMode.
  * - SetAnimation: parameters 'name' (string) and 'cycle' (bool default=true).
+ * - SetAnimationName: parameters 'mapping' (string) specifying the cel name  
+ *   (like walk, run, rotateleft...) and 'name' (string) specifying the model  
+ *   name for the animation. 
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
