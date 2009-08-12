@@ -338,6 +338,9 @@
 			Name="Resource Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\appwalktut.manifest">
+			</File>
+			<File
 				RelativePath="..\..\msvc\appwalktut.rc">
 			</File>
 		</Filter>

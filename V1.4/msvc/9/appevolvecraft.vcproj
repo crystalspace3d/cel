@@ -344,6 +344,9 @@
 			Name="Resource Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\appevolvecraft.manifest">
+			</File>
+			<File
 				RelativePath="..\..\msvc\appevolvecraft.rc">
 			</File>
 		</Filter>

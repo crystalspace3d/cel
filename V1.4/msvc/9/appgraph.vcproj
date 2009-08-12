@@ -338,6 +338,9 @@
 			Name="Resource Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\appgraph.manifest">
+			</File>
+			<File
 				RelativePath="..\..\msvc\appgraph.rc">
 			</File>
 		</Filter>

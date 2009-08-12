@@ -332,6 +332,9 @@
 			Name="Resource Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\appwheeledtest.manifest">
+			</File>
+			<File
 				RelativePath="..\..\msvc\appwheeledtest.rc">
 			</File>
 		</Filter>

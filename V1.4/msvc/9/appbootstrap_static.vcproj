@@ -335,6 +335,9 @@
 			Name="Resource Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\appbootstrap_static.manifest">
+			</File>
+			<File
 				RelativePath="..\..\msvc\appbootstrap_static.rc">
 			</File>
 		</Filter>

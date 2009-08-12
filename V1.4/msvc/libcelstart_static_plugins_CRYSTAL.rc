@@ -1,0 +1,35 @@
+// This file is generated automatically.
+
+
+1 VERSIONINFO
+FILEVERSION 1,4,0,0
+PRODUCTVERSION 1,4,0,0
+#ifdef CS_DEBUG
+FILEFLAGS 0x1
+#else
+FILEFLAGS 0x0
+#endif
+{
+  BLOCK "StringFileInfo"
+  {
+    BLOCK "040904E4"
+    {
+      VALUE "ProductName", "Crystal Entity Layer"
+      VALUE "ProductVersion", "1.4.0"
+      VALUE "FileVersion", "1.4.0"
+      VALUE "LegalCopyright", "Copyright (C)2002-2008 Jorrit Tyberghein and others."
+      VALUE "FileDescription", "celstart_static_plugins_CRYSTAL"
+#ifdef CS_DEBUG
+      VALUE "Comments", "Debug build"
+#else
+      VALUE "Comments", "Release build"
+#endif
+      VALUE "WWW", "http://www.crystalspace3d.org/main/CEL"
+    }
+  }
+  BLOCK "VarFileInfo"
+  {
+      VALUE "Translation", 0x409, 1200
+  }
+
+}

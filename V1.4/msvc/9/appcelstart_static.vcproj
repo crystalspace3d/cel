@@ -335,6 +335,9 @@
 			Name="Resource Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\appcelstart_static.manifest">
+			</File>
+			<File
 				RelativePath="..\..\msvc\appcelstart_static.rc">
 			</File>
 		</Filter>

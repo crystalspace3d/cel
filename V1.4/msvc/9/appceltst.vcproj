@@ -332,6 +332,9 @@
 			Name="Resource Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\appceltst.manifest">
+			</File>
+			<File
 				RelativePath="..\..\msvc\appceltst.rc">
 			</File>
 		</Filter>

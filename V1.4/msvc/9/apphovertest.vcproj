@@ -344,6 +344,9 @@
 			Name="Resource Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\apphovertest.manifest">
+			</File>
+			<File
 				RelativePath="..\..\msvc\apphovertest.rc">
 			</File>
 		</Filter>

@@ -577,7 +577,7 @@ iCelEntityTracker_swigregister = _blcelc.iCelEntityTracker_swigregister
 iCelEntityTracker_swigregister(iCelEntityTracker)
 
 csQueryRegistry_iCelPlLayer = _blcelc.csQueryRegistry_iCelPlLayer
-class iCelEntityTemplatePlFakeArray:
+class iCelEntityTemplatePlFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindEntityTemplate(obj): return True
@@ -594,14 +594,14 @@ class iCelEntityTemplatePlFakeArray:
 		print "Append not supported by this list"
 	def content_iterator(self):
 		for idx in xrange(len(self)):
-			yield self.parent.GetEntityTemplateByIndex(idx)
+			yield self.parent.GetEntityTemplate(idx)
 	def __iter__(self): return self.content_iterator()
 	def __getitem__(self,val):
 		if type(val) == type(""): return self.parent.FindEntityTemplate(val)
-		else: return self.parent.GetEntityTemplateByIndex(val)
+		else: return self.parent.GetEntityTemplate(val)
 	def append(self,obj): return self.parent.__noappend__(obj)
 
-class iCelEntityPlFakeArray:
+class iCelEntityPlFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindEntity(obj): return True
@@ -625,7 +625,7 @@ class iCelEntityPlFakeArray:
 		else: return self.parent.GetEntityByIndex(val)
 	def append(self,obj): return self.parent.__noappend__(obj)
 
-class iCelBlLayerPlFakeArray:
+class iCelBlLayerPlFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindBehaviourLayer(obj): return True
@@ -649,7 +649,7 @@ class iCelBlLayerPlFakeArray:
 		else: return self.parent.GetBehaviourLayer(val)
 	def append(self,obj): return self.parent.RegisterBehaviourLayer(obj)
 
-class iCelPropertyClassFactoryPlFakeArray:
+class iCelPropertyClassFactoryPlFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.FindPropertyClassFactory(obj): return True
@@ -3890,7 +3890,7 @@ iPcInventory_swigregister(iPcInventory)
 iPcInventory_scfGetVersion = _blcelc.iPcInventory_scfGetVersion
 
 scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
-class iCelEntityInvFakeArray:
+class iCelEntityInvFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.In(obj): return True
@@ -4061,6 +4061,10 @@ class iPcSoundSource(cspace.iBase):
     def GetSoundName(*args): return _blcelc.iPcSoundSource_GetSoundName(*args)
     def SetMode(*args): return _blcelc.iPcSoundSource_SetMode(*args)
     def GetMode(*args): return _blcelc.iPcSoundSource_GetMode(*args)
+    def Play(*args): return _blcelc.iPcSoundSource_Play(*args)
+    def Stop(*args): return _blcelc.iPcSoundSource_Stop(*args)
+    def Pause(*args): return _blcelc.iPcSoundSource_Pause(*args)
+    def Unpause(*args): return _blcelc.iPcSoundSource_Unpause(*args)
     SoundSource = _swig_property(_blcelc.iPcSoundSource_SoundSource_get, None, None,
                     "iPcSoundSource.SoundSource -> iSndSysSource*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSndSysSource* iPcSoundSource::GetSoundSource()")
 

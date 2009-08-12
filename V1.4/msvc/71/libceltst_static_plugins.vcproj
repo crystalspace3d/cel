@@ -313,6 +313,13 @@
 				RelativePath="..\..\msvc\appceltst_static_staticuse.cpp">
 			</File>
 		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libceltst_static_plugins.rc">
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
