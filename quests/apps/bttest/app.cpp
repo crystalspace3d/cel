@@ -213,56 +213,139 @@ void MainApp::CreateBehaviourTree ()
  
   //Build Nodes
   csRef<iBTNode> root_node = csLoadPlugin<iBTNode> (plugin_mgr,
-    "cel.selectors.random"); 
+    "cel.selectors.default"); 
 
-  //csRef<iBTNode> negatereturn_node = csLoadPlugin<iBTNode> (plugin_mgr,
-  //  "cel.decorators.negatereturn");
-  //csRef<iBTNode> loop_node = csLoadPlugin<iBTNode> (plugin_mgr,
-  //  "cel.decorators.loop");
-  //csRef<iBTNode> execution_limit_node = csLoadPlugin<iBTNode> (plugin_mgr,
-  //  "cel.decorators.executionlimit");
-
-  csRef<iBTNode> action_node = csLoadPlugin<iBTNode> (plugin_mgr,
+  csRef<iBTNode> initial_sequence_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.selectors.sequential"); 
+  csRef<iBTNode> negatereturn_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.decorators.negatereturn");
+  csRef<iBTNode> trigger_check_node =  csLoadPlugin<iBTNode> (plugin_mgr,
+	"cel.behaviourtree.triggerfired");  
+  csRef<iBTNode> looking_action_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");  
- // csRef<iBTNode> parameter_check_node =  csLoadPlugin<iBTNode> (plugin_mgr,
-	//"cel.behaviourtree.parametercheck");
-  csRef<iBTNode> action_node_2 = csLoadPlugin<iBTNode> (plugin_mgr,
+  
+
+  csRef<iBTNode> execution_limit_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.decorators.executionlimit");
+  csRef<iBTNode> angry_sequence_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.selectors.sequential"); 
+  csRef<iBTNode> angry_action_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.behaviourtree.action"); 
+  csRef<iBTNode> loop_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.decorators.loop");
+  csRef<iBTNode> calming_action_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.behaviourtree.action"); 
+
+
+  csRef<iBTNode> lottery_sequence_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.selectors.sequential"); 
+  csRef<iBTNode> parameter_check_node =  csLoadPlugin<iBTNode> (plugin_mgr,
+	"cel.behaviourtree.parametercheck");
+  csRef<iBTNode> lottery_action_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");
 
-  //Set Up Nodes
-  csRef<iBTAction> explicit_action_node =
-    scfQueryInterface<iBTAction> (action_node);
-  csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+
+  csRef<iBTNode> random_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.selectors.random"); 
+  csRef<iBTNode> irritable_action_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.behaviourtree.action");  
+  csRef<iBTNode> loving_action_node = csLoadPlugin<iBTNode> (plugin_mgr,
+    "cel.behaviourtree.action");
+
+  //Set Up Decorator Nodes
+  csRef<iExecutionLimitDecorator> explicit_execution_limit_node = 
+    scfQueryInterface<iExecutionLimitDecorator> (execution_limit_node);
+  explicit_execution_limit_node->SetExecutionLimit("1");
+
+  csRef<iLoopDecorator> explicit_loop_node = 
+    scfQueryInterface<iLoopDecorator> (loop_node);
+  explicit_loop_node->SetLoopLimit("3");
+
+  csRef<iParameterCheckCondition> explicit_parameter_check_node =
+    scfQueryInterface<iParameterCheckCondition> (parameter_check_node);
+  explicit_parameter_check_node->SetParameter("1");
+  explicit_parameter_check_node->SetValue("2");
+
+  //Set Up Trigger Check Node
+  //Create an inventory trigger and set to trigger node
+  csRef<iTriggerType> trigger_type = csLoadPlugin<iTriggerType> (plugin_mgr,
+    "cel.triggers.inventory");
+  csRef<iTriggerFactory> trigger_factory = trigger_type->CreateTriggerFactory ();
+  csRef<iInventoryTriggerFactory> explicit_trigger_factory =
+	  scfQueryInterface<iInventoryTriggerFactory> (trigger_factory);
+  explicit_trigger_factory->SetEntityParameter ("player");
+  explicit_trigger_factory->SetChildEntityParameter ("box3");
+  csRef<iTrigger> trigger = trigger_factory->CreateTrigger (params);
+  csRef<iTriggerFiredCondition> explicit_trigger_node =
+    scfQueryInterface<iTriggerFiredCondition> (trigger_check_node);
+  explicit_trigger_node->SetTrigger (trigger);
+
+
+  //Set Up Actions
+  //Create a debug print reward factory
+  csRef<iRewardType> reward_type = csLoadPlugin<iRewardType> (plugin_mgr,
     "cel.rewards.debugprint");
-  csRef<iRewardFactory> reward_factory = type->CreateRewardFactory ();
+  csRef<iRewardFactory> reward_factory = reward_type->CreateRewardFactory ();
   csRef<iDebugPrintRewardFactory> explicit_reward_factory = 
 	scfQueryInterface<iDebugPrintRewardFactory> (reward_factory);
-  explicit_reward_factory->SetMessageParameter ("ANGRY");
+
+  //Create rewards for action nodes
+  csRef<iBTAction> explicit_action_node =
+    scfQueryInterface<iBTAction> (looking_action_node);
+  explicit_reward_factory->SetMessageParameter ("Looking For Money Box :s");
   csRef<iReward> reward = reward_factory->CreateReward(params);
   explicit_action_node->SetReward (reward);
 
-  csRef<iBTAction> explicit_action_node_2 =
-    scfQueryInterface<iBTAction> (action_node_2);
-  explicit_reward_factory->SetMessageParameter ("sad :(");
-  csRef<iReward> reward_2 = reward_factory->CreateReward(params);
-  explicit_action_node_2->SetReward (reward_2);
+  explicit_action_node = scfQueryInterface<iBTAction> (angry_action_node);
+  explicit_reward_factory->SetMessageParameter ("ANGRY! >:");
+  reward = reward_factory->CreateReward(params);
+  explicit_action_node->SetReward (reward);
 
-  //csRef<iParameterCheckCondition> explicit_parameter_check_node =
-  //  scfQueryInterface<iParameterCheckCondition> (parameter_check_node);
-  //explicit_parameter_check_node->SetParameter("7");
-  //explicit_parameter_check_node->SetValue("5");
+  explicit_action_node = scfQueryInterface<iBTAction> (calming_action_node);
+  explicit_reward_factory->SetMessageParameter ("Calming down, calm... calm :|");
+  reward = reward_factory->CreateReward(params);
+  explicit_action_node->SetReward (reward);
 
-  //csRef<iLoopDecorator> explicit_loop_node = 
-  //  scfQueryInterface<iLoopDecorator> (loop_node);
-  //explicit_loop_node->SetLoopLimit("3");
+  explicit_action_node = scfQueryInterface<iBTAction> (lottery_action_node);
+  explicit_reward_factory->SetMessageParameter ("Won the Lottery! :D");
+  reward = reward_factory->CreateReward(params);
+  explicit_action_node->SetReward (reward);
+	  
+  explicit_action_node = scfQueryInterface<iBTAction> (irritable_action_node);
+  explicit_reward_factory->SetMessageParameter ("Irritable :(");
+  reward = reward_factory->CreateReward(params);
+  explicit_action_node->SetReward (reward);
 
-  //csRef<iExecutionLimitDecorator> explicit_execution_limit_node = 
-  //  scfQueryInterface<iExecutionLimitDecorator> (execution_limit_node);
-  //explicit_execution_limit_node->SetExecutionLimit("2");
+  explicit_action_node = scfQueryInterface<iBTAction> (loving_action_node);
+  explicit_reward_factory->SetMessageParameter ("Loving :)");
+  reward = reward_factory->CreateReward(params);
+  explicit_action_node->SetReward (reward);
+
 
   //Connect Tree
-  root_node->AddChild(action_node);
-  root_node->AddChild(action_node_2);
+  root_node->AddChild (initial_sequence_node);
+  root_node->AddChild (execution_limit_node);
+  root_node->AddChild (lottery_sequence_node);
+  root_node->AddChild (random_node);
+
+    initial_sequence_node->AddChild (negatereturn_node);
+    initial_sequence_node->AddChild (looking_action_node);
+
+      negatereturn_node->AddChild (trigger_check_node);
+
+    execution_limit_node->AddChild (angry_sequence_node);
+
+	  angry_sequence_node->AddChild (angry_action_node);
+	  angry_sequence_node->AddChild (loop_node);
+
+	    loop_node->AddChild (calming_action_node);
+
+	lottery_sequence_node->AddChild (parameter_check_node);
+	lottery_sequence_node->AddChild (lottery_action_node);
+
+	random_node->AddChild (irritable_action_node);
+	random_node->AddChild (loving_action_node);
+
 
   //Build Tree
   csRef<iBTNode> tree = csLoadPlugin<iBTNode> (plugin_mgr,

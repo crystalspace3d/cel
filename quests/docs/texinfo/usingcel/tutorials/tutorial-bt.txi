@@ -1,0 +1,27 @@
+@c -*-texinfo-*-
+@node Tutorial BTTest, , Tutorials, Tutorials
+@subsection BTTest Tutorial
+@cindex zone manager
+@cindex entity creation
+@cindex @code{csApplicationFramework}
+@cindex @code{csBaseEventHandler}
+
+This is a tutorial to show how you can use a Behaviour Tree in your application.
+
+The source files of this tutorial can be found in the ‘apps/bttest’ directory that is included with CEL. The world and entity file can be found in the ‘data’ directory (‘walktut_world’ and ‘walktut_entities’).
+
+During the game you can use the following inputs: @itemize @bullet
+@item
+@samp{arrow keys}: movement.
+@item
+@samp{m}: camera mode (first person, third person, @dots{}).
+@item
+@samp{left mouse button}: pick up an item and put in inventory.
+@item
+@samp{d}: drop the last item picked up.
+@end itemize
+
+This tutorial adds a Behaviour Tree to the previous tutorial WalkTut. As before with the QuestTest tutorial, this tutorial will focus only on the changes to WalkTut neccesary to add a Quest: 
+
+
+
