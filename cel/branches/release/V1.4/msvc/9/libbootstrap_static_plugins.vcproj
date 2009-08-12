@@ -313,6 +313,13 @@
 				RelativePath="..\..\msvc\appbootstrap_static_staticuse.cpp">
 			</File>
 		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libbootstrap_static_plugins.rc">
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

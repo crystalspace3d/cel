@@ -338,6 +338,9 @@
 			Name="Resource Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\appsteering.manifest">
+			</File>
+			<File
 				RelativePath="..\..\msvc\appsteering.rc">
 			</File>
 		</Filter>

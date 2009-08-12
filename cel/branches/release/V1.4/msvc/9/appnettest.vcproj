@@ -341,6 +341,9 @@
 			Name="Resource Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\appnettest.manifest">
+			</File>
+			<File
 				RelativePath="..\..\msvc\appnettest.rc">
 			</File>
 		</Filter>

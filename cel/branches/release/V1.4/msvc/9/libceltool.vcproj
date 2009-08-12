@@ -310,6 +310,9 @@
 				RelativePath="..\..\libs\celtool\camera.cpp">
 			</File>
 			<File
+				RelativePath="..\..\libs\celtool\celpaths.cpp">
+			</File>
+			<File
 				RelativePath="..\..\libs\celtool\initapp.cpp">
 			</File>
 			<File
@@ -335,6 +338,9 @@
 				RelativePath="..\..\libs\celtool\..\..\include\celtool\camera.h">
 			</File>
 			<File
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\celpaths.h">
+			</File>
+			<File
 				RelativePath="..\..\libs\celtool\..\..\include\celtool\celtoolextern.h">
 			</File>
 			<File
@@ -354,6 +360,13 @@
 			</File>
 			<File
 				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdpcimp.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\libceltool.rc">
 			</File>
 		</Filter>
 	</Files>
