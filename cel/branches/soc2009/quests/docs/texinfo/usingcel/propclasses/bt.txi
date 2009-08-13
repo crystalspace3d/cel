@@ -1,0 +1,109 @@
+@c -*-texinfo-*-
+@node PropClass Behaviour Tree, PropClass Quest Manager, PropClass Spawn, Property Classes
+@subsection Behaviour Tree
+@cindex behaviour tree
+@cindex @code{iBTNode}
+@cindex selectors
+@cindex lead nodes
+@cindex decorators
+
+@subsubheading Property Class Details
+
+@itemize @bullet
+@item @emph{Name}:
+@samp{cel.behaviourtree}
+@item @emph{Interface}:
+@code{iBTNode}
+@item @emph{Header}:
+@file{include/tools/behaviourtree.h}
+@end itemize
+
+@subsubheading General Information
+
+A behaviour tree is an ai tool for designing character behaviours and controlling enitities. A CEL behaviour 
+tree can replicate any standard FSM in an intuitive manner. Behaviour trees are responsive and useful for 
+programming standard behaviours with fallback plans.
+
+Anybody interested in this tool is highly recommended to visit @url{http://www.AiGameDev.com}, specifically these freely available resources: 
+@itemize @bullet
+@item
+@url{http://aigamedev.com/open/articles/bt-overview/, A Brief Written Overview }
+@item
+@url{http://aigamedev.com/open/articles/behavior-trees-part1/, A More Detailed Video Series}
+@end itemize
+
+
+@subsubheading Nodes
+
+Each node of a CEL behaviour tree must implement the iBTNode interface. That is it must have an execute method
+that returns a boolean indicating its success of failure and an add child method. It is possible for developers
+to create their own nodes if they wish to add unavailable functionality to their tree, however, the basic
+nodes provided are very descriptive and powerful when used in combination.
+
+@subsubheading Selectors (plgSelectors)
+
+A selector is a composite node, it has multiple children that it must decide which to execute. The following 
+selectors are available at this time in CEL:
+
+@itemize @bullet
+@item
+@samp{cel.selectors.default}:Executes children in order until one succeeds. Node itself succeeds if any one child does, or fails if all children do.
+@item
+@samp{cel.selectors.sequential}: Executes children in order until one fails (and the selector fails) or all succeed (and the selector succeeds).
+@item
+@samp{cel.selectors.random}: Executes one child at random. Fails or succeeds as child selected fails or succeeds.
+@end itemize
+
+
+@subsubheading Leaf Nodes (plgBehaviourTree)
+
+The leaf nodes of a behaviour tree are where conditions are evaluated or actions performed. To make use
+of CEL rewards, triggers and parameters, the following wrapping classes are available.
+
+@itemize @bullet
+@item
+@samp{cel.behaviourtree.btaction}: Executes a cel reward.
+@item
+@samp{cel.behaviourtree.triggerfired}: Checks if a specific cel trigger has fired already. Returns true if it has, false if it has not.
+@item
+@samp{cel.behaviourtree.parametercheck}: Checks if a parameter equals a value. Returns true if it does, or false otherwise.
+@end itemize
+
+
+It is possible to define your own leaf nodes and it is expected that many developers may choose to implement
+bespoke conditional nodes for checking game specific data.
+
+@subsubheading Decorators (plgDecorators)
+
+Decorators tend to have only one child (although they are not limited to as such). There purpose is not to 
+decide an action to take but to add some functionality to their child node/subtree. A number of decorators
+have been implemented as default in CEL, they are:
+
+@itemize @bullet
+@item
+@samp{cel.decorators.executionlimit}: Limits the number of times its child can be executed. If child executed, fails or succeeds as child does, but if execution limit reached fails and does not execute child.
+@item
+@samp{cel.decorators.loop}: Executes the child a set number of times. Fails if child does at any time, succeeds if all iterations of child succeed.
+@item
+@samp{cel.behaviourtree.negatereturn}: Executes the child and returns the opposite to the child.
+@end itemize
+
+Again it is possible to define your own decorators by implementing the iBTNode interace. It is hoped that
+as public use of the CEL behaviour tree grows, so will the library of available decorators. Their potential
+uses covers a wide spectrum of possibilities and the more available the more powerful the tool becomes. For
+example decorators that may be of use, please see @url{http://aigamedev.com/hierarchical-logic/decorator/}.
+ 
+
+@subsubheading Construction and Execution
+Finally to construct a behaviour tree, each node must be connected to its children using its own 
+AddChild (iBTNode* child) method from the interface iBTNode. 
+
+The root node must then be set as the child of an instance of cel.behaviourtree. The execute of 
+this instance can then be executed, and the tree will be evaluated each frame.
+
+Alternatively, if the tree need only be evaluated occasionally the developer may choose not to create
+the behaviour tree node and instead call the execute method of the root node whenever they require
+for single shot evaluations of the tree.
+
+
+
