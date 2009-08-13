@@ -63,16 +63,39 @@ celTCPGameServer::celTCPGameServer (iObjectRegistry* object_reg,
 
 celTCPGameServer::~celTCPGameServer ()
 {
+  // TODO: close game
+
+  // send DISCONNECT message
+  celNetworkBuffer* context = new celNetworkBuffer ();
+  //uint8 data_type = SERVER_DATA_DISCONNECT;
+  uint8 data_type = 50;
+  context->Write (data_type);
+  csHash<celPlayerData*, uint32>::GlobalIterator player_it = 
+    players_data.GetIterator ();
+  while (player_it.HasNext ())
+  {
+    celPlayerData* player_data  = player_it.Next ();
+
+    // TODO: send to players connecting and discard players unreachable
+
+    //fprintf(stdout, "celTCPGameServer::~celTCPGameServer: sending DISCONNECT message\n");
+    //fflush(stdout);
+    player_data->socket_cache->SendPacket (context);
+    player_data->socket_cache->FlushWriteSocket ();
+  }
+
+  // close main socket
   nlEnable (NL_BLOCKING_IO);
   nlClose (server_socket);
   nlDisable (NL_BLOCKING_IO);
 
+  // delete players data
   size_t i;
   for (i = 0; i < incoming_players.GetSize (); i++)
     delete incoming_players[i];
   incoming_players.DeleteAll ();
 
-  csHash<celPlayerData*, uint32>::GlobalIterator player_it = 
+  player_it = 
     players_data.GetIterator ();
   while (player_it.HasNext ())
     delete player_it.Next ();
@@ -654,6 +677,27 @@ void celTCPGameServer::ReadPlayerSockets (csTicks snapshot_time)
 
 	switch (data_type)
 	{
+	case CLIENT_DATA_DISCONNECT:
+	  {
+	    // call server manager
+	    celPlayerNetworkState previous_state = player_data->network_state;
+	    player_data->network_state = CEL_NET_PLAYER_DISCONNECTED;
+	    if (manager)
+	      manager->PlayerNetworkStateChanged (&player_data->player, 
+						  CEL_NET_PLAYER_DISCONNECTED, 
+						  previous_state);
+
+	    // TODO: if the player is the admin, we have to close the server
+
+	    // remove player
+	    player_list.Remove (&player_data->player);
+	    // TODO: is this valid? Doesn't it corrupt the iterator?
+	    players_data.DeleteAll (player_data->player.player_id);
+	    delete player_data;
+	  }
+
+	  break;
+
 	case CLIENT_DATA_EVENT:
 	  uint8 events_nb;
 	  new_packet->Read (events_nb);
