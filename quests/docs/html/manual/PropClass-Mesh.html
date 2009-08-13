@@ -78,6 +78,7 @@ This property class defines a visual representation for an entity.
 <tt>&lsquo;include/propclass/mesh.h&rsquo;</tt>
 </li></ul>
 
+
 <a name="2"></a>
 <h4 class="subsubheading"> General Information </h4>
 
@@ -107,6 +108,7 @@ then you can also control the <small>VFS</small> path from which the factory fil
 will be loaded.
 </li></ul>
 
+
 <p>Note that the file can be either a <samp>&lsquo;meshfact&rsquo;</samp> <small>XML</small> file or else
 a <samp>&lsquo;library&rsquo;</samp> <small>XML</small> file.
 </p>
@@ -118,12 +120,14 @@ a <samp>&lsquo;library&rsquo;</samp> <small>XML</small> file.
 <table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
 iMeshWrapper* mesh = pcmesh-&gt;GetMesh ();
 </pre></td></tr></table>
+
 <p>But you can also get from the mesh back to the entity very easily because
 the physical layer maintains a link:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">iMeshWrapper* mesh = ...;
 iCelEntity* entity = pl-&gt;FindAttachedEntity (mesh-&gt;QueryObject ());
 </pre></td></tr></table>
+
 
 
 <hr size="1">

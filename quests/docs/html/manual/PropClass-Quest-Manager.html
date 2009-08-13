@@ -44,7 +44,7 @@ ul.toc {list-style: none}
 <a name="0"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="PropClass-Projectile.html#0" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="PropClass-Spawn.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-Behaviour-Tree.html#0" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Up section"> Up </a>]</td>
@@ -78,6 +78,7 @@ this section will also explain the quest manager.
 <tt>&lsquo;include/propclass/quest.h&rsquo;</tt>
 </li></ul>
 
+
 <a name="2"></a>
 <h4 class="subsubheading"> General Information </h4>
 
@@ -93,14 +94,12 @@ like a template from wich to create quests. In every quest there are basically
 five different concepts: <em>states</em>, <em>responses</em>, <em>triggers</em>, <em>rewards</em>,
  and <em>sequences</em>.
 </p>
-
 <a name="3"></a>
 <h4 class="subsubheading"> States </h4>
 
 <p>A quest is made out of different states. Every state has zero or more
 responses.
 </p>
-
 <a name="4"></a>
 <h4 class="subsubheading"> Responses </h4>
 
@@ -108,7 +107,6 @@ responses.
 one state you can define multiple responses. Every response will define
 a different set of rewards.
 </p>
-
 <a name="5"></a>
 <h4 class="subsubheading"> Triggers </h4>
 
@@ -143,14 +141,15 @@ This triggers when a mesh is selected. See
 <code>iMeshSelectTriggerFactory</code>.
 </li><li> <samp>&lsquo;cel.triggers.watch&rsquo;</samp>:
 This triggers when a mesh becomes visible. See
-<code>iWatchTriggersFactory</code>.
+<code>iWatchTriggerFactory</code>.
 </li><li> <samp>&lsquo;cel.triggers.operation&rsquo;</samp>:
 This allows to combine several triggers with one simple logical operation. See
 <code>iOperationTriggerFactory</code>.
 </li></ul>
 
+
 <p>It is of course possible to define your own triggers and register them to
-the quest manager. Triggers can also be used outside of Quests wherever needed.
+the quest manager. Triggers can be used outside of Quests wherever needed.
 </p>
 <a name="6"></a>
 <h4 class="subsubheading"> Rewards </h4>
@@ -192,8 +191,9 @@ This run an action from a property class in an entity.
 See <code>iActionRewardFactory</code>.
 </li></ul>
 
-<p>It is also possible to define your own rewards. All rewards (except the quest 
-specific reward NewState) can also be used outside of Quests wherever needed.
+
+<p>It is also possible to define your own rewards. All rewards (except the Quest 
+specific reward NewState) can also be used outside of Quests wherever needed. 
 </p>
 <a name="7"></a>
 <h4 class="subsubheading"> Sequences </h4>
@@ -219,8 +219,9 @@ Animates a light color. See <code>iLightSeqOpFactory</code>.
 Animates a property class property. See <code>iLightPropertySeqOpFactory</code>.
 </li></ul>
 
-<p>You can define your own sequence operations for the quest manager. All sequences 
-can also be used outside of Quests wherever needed.
+
+<p>You can define your own sequence operations for the quest manager. Sequences and
+all Sequence Operators above can be used outside of Quests wherever needed.
 </p>
 <a name="8"></a>
 <h4 class="subsubheading"> Defining a quest in XML </h4>
@@ -275,6 +276,7 @@ embed the quest definition in a regular world file:
   &lt;/quest&gt;
 &lt;/addon&gt;
 </pre></td></tr></table>
+
 <p>This quest has three states: <samp>&lsquo;locked&rsquo;</samp>, <samp>&lsquo;closed&rsquo;</samp>, and <samp>&lsquo;opened&rsquo;</samp>.
 When using this quest you can start it in any of those three states depending
 on how you want the door to be when the game starts. To go from <samp>&lsquo;locked&rsquo;</samp>
@@ -321,10 +323,11 @@ addon (see section <a href="Addons-CelEntity.html#0">CelEntity Addon</a>) like t
 &lt;/addon&gt;
 </pre></td></tr></table>
 
+
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="PropClass-Projectile.html#0" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="PropClass-Spawn.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-Behaviour-Tree.html#0" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Up section"> Up </a>]</td>

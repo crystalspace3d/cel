@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Quest Manager, PropClass Timer, PropClass Projectile, Property Classes
+@node PropClass Quest Manager, PropClass Behaviour Tree, PropClass Projectile, Property Classes
 @subsection Quest Manager
 @cindex quest manager
 @cindex @code{iQuestManager}

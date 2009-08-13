@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Spawn, PropClass Mover, PropClass LinMove, Property Classes
+@node PropClass Spawn, PropClass Behaviour Tree, PropClass LinMove, Property Classes
 @subsection Spawn
 @cindex pcspawn property class
 @cindex pcspawn
