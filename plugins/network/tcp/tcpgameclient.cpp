@@ -55,13 +55,25 @@ celTCPGameClient::celTCPGameClient (iObjectRegistry* object_reg,
 
 celTCPGameClient::~celTCPGameClient ()
 {
+  // send DISCONNECT message
+  if (connection_state == CEL_NET_SERVER_CONNECTING
+      || connection_state == CEL_NET_SERVER_LOADING_DATA
+      || connection_state == CEL_NET_SERVER_PLAYING)
+  {
+    celNetworkBuffer* context = new celNetworkBuffer ();
+    uint8 data_type = CLIENT_DATA_DISCONNECT;
+    context->Write (data_type);
+    socket_cache->SendPacket (context);
+    socket_cache->UpdateSocket ();
+  }
+
   // close client socket
-  // TODO: this does not function correctly and the socket is not always really closed cleanly
+  /*
   nlEnable (NL_BLOCKING_IO);
   if (client_socket)
     nlClose (client_socket);
   nlDisable (NL_BLOCKING_IO);
-
+  */
   size_t i;
   for (i = 0; i < client_events.GetSize (); i++)
     delete client_events[i];
@@ -69,6 +81,7 @@ celTCPGameClient::~celTCPGameClient ()
 
   linked_entities.DeleteAll ();
 
+  // close client socket
   delete socket_cache;
 }
 
@@ -106,6 +119,11 @@ bool celTCPGameClient::InitializeClient (celTCPGame* game, celPlayer* player)
 
 void celTCPGameClient::UpdateNetwork ()
 {
+  if (connection_state == CEL_NET_SERVER_DISCONNECTED)
+  {
+    return;
+  }
+
   csTicks snapshot_time = csGetTicks ();
 
   // check if we are in default loop
@@ -119,7 +137,7 @@ void celTCPGameClient::UpdateNetwork ()
       // TODO: close game
       delete socket_cache;
       socket_cache = 0;
-      nlClose (client_socket);
+      //nlClose (client_socket);
       connecting_state = -1;
 
       // notify connection state to the factory manager
@@ -137,7 +155,7 @@ void celTCPGameClient::UpdateNetwork ()
       delete socket_cache;
       socket_cache = 0;
       nlEnable (NL_BLOCKING_IO);
-      nlClose (client_socket);
+      //nlClose (client_socket);
       nlDisable (NL_BLOCKING_IO);
       connecting_state = 1;
 
@@ -176,10 +194,13 @@ void celTCPGameClient::UpdateNetwork ()
 
 void celTCPGameClient::UpdateConnecting ()
 {
+  // TODO: check for disconnected message
+
   // establish the tcp connection from the client to the server if needed
   if (connecting_state == 1)
   {
     // notify connection state to the factory manager
+    // TODO: this is weird
     if (connection_state != CEL_NET_SERVER_TRYING_CONNECTION)
     {
       celServerNetworkState previous_state = connection_state;
@@ -264,9 +285,11 @@ void celTCPGameClient::UpdateConnecting ()
   {
     delete socket_cache;
     socket_cache = 0;
+    /*
     nlEnable (NL_BLOCKING_IO);
     nlClose (client_socket);
     nlDisable (NL_BLOCKING_IO);
+    */
     connecting_state = 1;
 
     // TODO: we should wait for the client socket to be released before re-allocating it
@@ -424,11 +447,36 @@ void celTCPGameClient::ReadServerSocket (csTicks snapshot_time)
       celServerNetworkState previous_state;
       uint8 links_nb;
 
+      if (data_type != SERVER_DATA_LINK_UPDATE && data_type != SERVER_DATA_LINK_CONTROL)
+	fprintf(stdout, "Received packet: %i\n", data_type);
+      fflush(stdout);
+
       switch (data_type)
       {
+      case SERVER_DATA_DISCONNECT:
+	fprintf(stdout, "SERVER_DATA_DISCONNECT\n");
+	fflush(stdout);
+	// TODO: close game
+	delete socket_cache;
+	socket_cache = 0;
+	nlClose (client_socket);
+	connecting_state = -1;
+
+	// notify connection state to the factory manager
+	previous_state = connection_state;
+	connection_state = CEL_NET_SERVER_DISCONNECTED;
+	factory->manager->ServerNetworkStateChanged (connection_state, previous_state);
+	return;
+
       case SERVER_DATA_KICKED:
 	new_packet->Read (reason);
 	
+	// TODO: close game
+	delete socket_cache;
+	socket_cache = 0;
+	nlClose (client_socket);
+	connecting_state = -1;
+
 	// notify connection state to the factory manager
 	previous_state = connection_state;
 	connection_state = CEL_NET_SERVER_KICKED;
