@@ -22,6 +22,7 @@
  * subdirectory of the top CEL include directory.
  */
 #include "celtool/camera.h"
+#include "celtool/celpaths.h"
 #include "celtool/celtoolextern.h"
 #include "celtool/initapp.h"
 #include "celtool/navigation.h"
