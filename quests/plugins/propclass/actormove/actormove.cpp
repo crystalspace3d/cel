@@ -812,21 +812,21 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
   if (persistence_type == CEL_PERSIST_TYPE_RECORD)
     return Save ();
 
-  // TODO: this is a hack
+  // @@@ TODO: this is a hack
   FindSiblingPropertyClasses ();
   GetSpriteStates ();
 
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (ACTORMOVE_SERIAL);
 
-  /*if (sprcal3d)
+  if (sprcal3d)
   {
-    // TODO: use GetAnimCount () instead of GetActiveAnimCount ();
+    // @@@ TODO: this doesn't work for idle animations, it seems they are not 
+    // put in the active anims of the cal3d mesh
     size_t anim_count = sprcal3d->GetActiveAnimCount ();
     databuf->Add ((uint32)anim_count);
     csSpriteCal3DActiveAnim* buffer = new csSpriteCal3DActiveAnim[anim_count];
 
     sprcal3d->GetActiveAnims (buffer, anim_count);
-    // TODO: use instead a new celData type: RAW_DATA?
     uint32 i;
     for (i = 0; i < anim_count; i++)
     {
@@ -835,12 +835,13 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
     }
     delete[] buffer;
   }
+  /*
   else if (spr3d)
   {
     databuf->Add ((int32)spr3d->GetCurFrame ());
     databuf->Add (spr3d->GetCurAction ()->GetName ());
-  }*/
-
+  }
+  */
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -866,12 +867,12 @@ celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time,
   if (persistence_type == CEL_PERSIST_TYPE_SERVER_FORCING)
     return CEL_PERSIST_RESULT_OK;
 
-  // TODO: this is a hack
+  // @@@ TODO: this is a hack
   FindSiblingPropertyClasses ();
   GetSpriteStates ();
 
-  // TODO: make some smooth update
-  /*if (sprcal3d)
+  // @@@ TODO: make some smooth updates
+  if (sprcal3d)
   {
     int anim_count = databuf->GetUInt32 ();
     csSpriteCal3DActiveAnim* buffer = new csSpriteCal3DActiveAnim[anim_count];
@@ -884,13 +885,15 @@ celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time,
     sprcal3d->SetActiveAnims (buffer, anim_count);
     delete[] buffer;
   }
+  /*
   else if (spr3d)
   {
     uint32 frame = databuf->GetUInt32 ();
     spr3d->SetFrame (frame);
     iString* action = databuf->GetString ();
     spr3d->SetAction (*action);
-  }*/
+  }
+  */
 
   return CEL_PERSIST_RESULT_OK;
 }

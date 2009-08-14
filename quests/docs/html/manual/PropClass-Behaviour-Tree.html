@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer 1.9dev: 4.3.9 Behaviour Tree</title>
+
+<meta name="description" content="Crystal Entity Layer 1.9dev: 4.3.9 Behaviour Tree">
+<meta name="keywords" content="Crystal Entity Layer 1.9dev: 4.3.9 Behaviour Tree">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="PropClass-Behaviour-Tree"></a>
+<a name="0"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="PropClass-Quest-Manager.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-Spawn.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<hr size="1">
+<h3 class="subsection"> 4.3.9 Behaviour Tree </h3>
+
+<a name="1"></a>
+<h4 class="subsubheading"> Property Class Details </h4>
+
+<ul>
+<li> <em>Name</em>:
+<samp>&lsquo;cel.behaviourtree&rsquo;</samp>
+</li><li> <em>Interface</em>:
+<code>iBTNode</code>
+</li><li> <em>Header</em>:
+<tt>&lsquo;include/tools/behaviourtree.h&rsquo;</tt>
+</li></ul>
+
+
+<a name="2"></a>
+<h4 class="subsubheading"> General Information </h4>
+
+<p>A behaviour tree is an ai tool for designing character behaviours and controlling enitities. A CEL behaviour 
+tree can replicate any standard FSM in an intuitive manner. Behaviour trees are responsive and useful for 
+programming standard behaviours with fallback plans.
+</p>
+<p>Anybody interested in this tool is highly recommended to visit <a href="http://www.AiGameDev.com">http://www.AiGameDev.com</a>, specifically these freely available resources: 
+</p><ul>
+<li>
+<a href="http://aigamedev.com/open/articles/bt-overview/">A Brief Written Overview</a>
+</li><li>
+<a href="http://aigamedev.com/open/articles/behavior-trees-part1/">A More Detailed Video Series</a>
+</li></ul>
+
+
+
+<a name="3"></a>
+<h4 class="subsubheading"> Nodes </h4>
+
+<p>Each node of a CEL behaviour tree must implement the iBTNode interface. That is it must have an execute method
+that returns a boolean indicating its success of failure and an add child method. It is possible for developers
+to create their own nodes if they wish to add unavailable functionality to their tree, however, the basic
+nodes provided are very descriptive and powerful when used in combination.
+</p>
+<a name="4"></a>
+<h4 class="subsubheading"> Selectors (plgSelectors) </h4>
+
+<p>A selector is a composite node, it has multiple children that it must decide which to execute. The following 
+selectors are available at this time in CEL:
+</p>
+<ul>
+<li>
+<samp>&lsquo;cel.selectors.default&rsquo;</samp>:Executes children in order until one succeeds. Node itself succeeds if any one child does, or fails if all children do.
+</li><li>
+<samp>&lsquo;cel.selectors.sequential&rsquo;</samp>: Executes children in order until one fails (and the selector fails) or all succeed (and the selector succeeds).
+</li><li>
+<samp>&lsquo;cel.selectors.random&rsquo;</samp>: Executes one child at random. Fails or succeeds as child selected fails or succeeds.
+</li></ul>
+
+
+
+<a name="5"></a>
+<h4 class="subsubheading"> Leaf Nodes (plgBehaviourTree) </h4>
+
+<p>The leaf nodes of a behaviour tree are where conditions are evaluated or actions performed. To make use
+of CEL rewards, triggers and parameters, the following wrapping classes are available.
+</p>
+<ul>
+<li>
+<samp>&lsquo;cel.behaviourtree.btaction&rsquo;</samp>: Executes a cel reward.
+</li><li>
+<samp>&lsquo;cel.behaviourtree.triggerfired&rsquo;</samp>: Checks if a specific cel trigger has fired already. Returns true if it has, false if it has not.
+</li><li>
+<samp>&lsquo;cel.behaviourtree.parametercheck&rsquo;</samp>: Checks if a parameter equals a value. Returns true if it does, or false otherwise.
+</li></ul>
+
+
+
+<p>It is possible to define your own leaf nodes and it is expected that many developers may choose to implement
+bespoke conditional nodes for checking game specific data.
+</p>
+<a name="6"></a>
+<h4 class="subsubheading"> Decorators (plgDecorators) </h4>
+
+<p>Decorators tend to have only one child (although they are not limited to as such). There purpose is not to 
+decide an action to take but to add some functionality to their child node/subtree. A number of decorators
+have been implemented as default in CEL, they are:
+</p>
+<ul>
+<li>
+<samp>&lsquo;cel.decorators.executionlimit&rsquo;</samp>: Limits the number of times its child can be executed. If child executed, fails or succeeds as child does, but if execution limit reached fails and does not execute child.
+</li><li>
+<samp>&lsquo;cel.decorators.loop&rsquo;</samp>: Executes the child a set number of times. Fails if child does at any time, succeeds if all iterations of child succeed.
+</li><li>
+<samp>&lsquo;cel.behaviourtree.negatereturn&rsquo;</samp>: Executes the child and returns the opposite to the child.
+</li></ul>
+
+
+<p>Again it is possible to define your own decorators by implementing the iBTNode interace. It is hoped that
+as public use of the CEL behaviour tree grows, so will the library of available decorators. Their potential
+uses covers a wide spectrum of possibilities and the more available the more powerful the tool becomes. For
+example decorators that may be of use, please see <a href="http://aigamedev.com/hierarchical-logic/decorator/">http://aigamedev.com/hierarchical-logic/decorator/</a>.
+</p> 
+
+<a name="7"></a>
+<h4 class="subsubheading"> Construction and Execution </h4>
+<p>Finally to construct a behaviour tree, each node must be connected to its children using its own 
+AddChild (iBTNode* child) method from the interface iBTNode. 
+</p>
+<p>The root node must then be set as the child of an instance of cel.behaviourtree. The execute of 
+this instance can then be executed, and the tree will be evaluated each frame.
+</p>
+<p>Alternatively, if the tree need only be evaluated occasionally the developer may choose not to create
+the behaviour tree node and instead call the execute method of the root node whenever they require
+for single shot evaluations of the tree.
+</p>
+
+
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="PropClass-Quest-Manager.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-Spawn.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

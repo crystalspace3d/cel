@@ -86,6 +86,7 @@ MainApp::~MainApp ()
 {
 }
 </pre></td></tr></table>
+
 <p>In <code>LoadLevel()</code> we create the level entity. <code>iCelPlLayer</code> has
 a <code>CreateEntity()</code> convenience function which creates the entity,
 assigns a behaviour to it and also creates the property classes for it. In
@@ -139,6 +140,7 @@ for entities in our game.
   return true;
 }
 </pre></td></tr></table>
+
 <p>Here we create the player. This time we use the <samp>&lsquo;player_behave&rsquo;</samp>
 behaviour that we define later. The player entity also uses a lot more
 property classes. We need a camera, a mesh (3D geometry), the movement
@@ -230,6 +232,7 @@ you probably want to read the key definitions from a configuration file.
   return true;
 }
 </pre></td></tr></table>
+
 <p>The following three methods are called by the event handler whenever
 a certain event occurs. <code>ProcessFrame()</code> is called every frame. Normally
 you would put the code here to draw 3D graphics. However in case of CRystal
@@ -268,6 +271,7 @@ bool MainApp::OnKeyboard(iEvent&amp; ev)
   return false;
 }
 </pre></td></tr></table>
+
 <p>Initialization routines. <code>OnInitialize()</code> is called by the
 application framework. In this routine we call <code>RequestPlugins()</code>
 to load various plugins that we will need. In addition to the standard
@@ -358,6 +362,7 @@ void MainApp::OnExit ()
   printer.Invalidate ();
 }
 </pre></td></tr></table>
+
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="Tutorial-App-Header.html#0" title="Previous section in reading order"> &lt; </a>]</td>

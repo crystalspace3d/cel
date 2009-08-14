@@ -284,13 +284,14 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
     state_start->CreateTriggerResponseFactory ();
   qm->SetMeshSelectTrigger(start_response2, "templateBox");
   qm->AddDebugPrintReward(start_response2, "You Picked Up The Money Box & Stopped The Self Destruct\n");
-  qm->AddSequenceFinishReward(start_response2, name, "sequence_destruct");
   qm->AddNewStateReward (start_response2, name, "box_pickup");
+  qm->AddSequenceFinishReward(start_response2, name, "sequence_destruct");
 
 
   iQuestTriggerResponseFactory* start_response3 =
     state_start->CreateTriggerResponseFactory ();
   qm->SetSequenceFinishTrigger(start_response3, name, "sequence_destruct");
+  qm->AddDestroyEntityReward (start_response3, "templateBox");
   qm->AddDebugPrintReward(start_response3, "SELF-DESTRUCT HAS OCCURRED\n");
   qm->AddNewStateReward (start_response3, name, "box_explode");
 
