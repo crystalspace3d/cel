@@ -274,6 +274,14 @@ class celPlayer
     for ( ; i < 32; i++)
       printf("%d", ip_address[i]);
     printf("\n");
+    // TODO: print in IPv6 notation
+    /*
+    printf("\taddress: ");
+    i = 0;
+    for ( ; i < 32; i++)
+      printf("%X-", ip_address[i]);
+    printf("\n");
+    */
     printf("\tport: %d\n", port_nb);
   }
 };
@@ -285,7 +293,6 @@ struct iCelPlayerList : public virtual iBase
 {
   SCF_INTERFACE (iCelPlayerList, 0, 0, 1);
 
-  virtual ~iCelPlayerList () = 0;
   virtual size_t GetCount () const = 0;
   virtual celPlayer* Get (size_t index) const = 0;
   virtual size_t Add (celPlayer* player) = 0;

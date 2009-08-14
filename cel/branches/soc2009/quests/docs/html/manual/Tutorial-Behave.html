@@ -113,6 +113,7 @@ iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity,
   return behave;
 }
 </pre></td></tr></table>
+
 <p>In <code>SendMessage()</code> of <code>BehaviourCommon</code> we use the
 <code>FetchStringID()</code> function to <samp>&lsquo;intern&rsquo;</samp> the message string
 to an <small>ID</small>. In the actual implementations of <code>SendMessage()</code> in the
@@ -162,6 +163,7 @@ bool BehaviourCommon::SendMessage (csStringID,
   return false;
 }
 </pre></td></tr></table>
+
 <p>The level behaviour does not do anything in this tutorial.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">bool BehaviourLevel::SendMessage (csStringID msg_id,
@@ -171,6 +173,7 @@ bool BehaviourCommon::SendMessage (csStringID,
   return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);
 }
 </pre></td></tr></table>
+
 <p>The player behaviour is responsible for managing input (from
 <samp>&lsquo;pcinput.standard&rsquo;</samp>) and moving the actor in response to that input
 (with <samp>&lsquo;pcmove.actor.standard&rsquo;</samp>). First we request <small>ID</small>'s from the
@@ -316,6 +319,7 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
   return true;
 }
 </pre></td></tr></table>
+
 <p>The box behaviour supports picking up and putting itself in the player
 inventory. To do that entities that use this behaviour need to use the
 <samp>&lsquo;pcobject.mesh.select&rsquo;</samp> property class so that they get a message whenever
@@ -367,6 +371,7 @@ bool BehaviourBox::SendMessage (csStringID msg_id,
   return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);
 }
 </pre></td></tr></table>
+
 <p>This behaviour represents an entity that moves around on a path. We use
 catmull rom splines to calculate a smooth path. The <code>csPath</code> class
 from Crystal Space helps with this. In the <code>ReadPath()</code> function we
@@ -473,6 +478,7 @@ bool BehaviourBadOne::SendMessage (csStringID msg_id,
   return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);
 }
 </pre></td></tr></table>
+
 
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">

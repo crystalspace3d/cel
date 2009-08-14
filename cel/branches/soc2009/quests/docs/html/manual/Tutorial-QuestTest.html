@@ -44,7 +44,7 @@ ul.toc {list-style: none}
 <a name="0"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="Tutorial-Behave.html#0" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="Tutorial-QuestTest-App-Header.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="Tutorial-QuestTest-Behave-Header.html#0" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="Tutorials.html#0" title="Up section"> Up </a>]</td>
@@ -61,9 +61,10 @@ ul.toc {list-style: none}
 <hr size="1">
 <h3 class="subsection"> 4.2.2 QuestTest Tutorial </h3>
 
+
 <p>This is a tutorial to show how you can use Quests in your application.
 </p>
-<p>The source files of this tutorial can be found in the ‘apps/questtest’ directory that is included with CEL. The world and entity file can be found in the ‘data’ directory (‘walktut_world’ and ‘questtest_entities’).
+<p>The source files of this tutorial can be found in the 'apps/questtest' directory that is included with CEL. The world and entity file can be found in the 'data' directory ('walktut_world' and 'questtest_entities').
 </p>
 <p>During the game you can use the following inputs: </p><ul>
 <li>
@@ -76,16 +77,22 @@ ul.toc {list-style: none}
 <samp>&lsquo;d&rsquo;</samp>: drop the last item picked up.
 </li></ul>
 
-<p>This tutorial adds a Quest to the previous tutorial WalkTut:
+
+<p>This tutorial adds a Quest to the previous tutorial WalkTut. The example Quest is a simple game involving a self destructing
+money box. If the player picks it up before it blows, they win, but if they do not the bad-one haunts them and they lose.
 </p>
 <p>Here is the tutorial, focusing only on the changes to WalkTut neccesary to add a Quest: 
 </p>
 <table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top"><a href="Tutorial-QuestTest-App-Header.html#0">4.2.2.1 app.h</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
-<tr><td align="left" valign="top"><a href="Tutorial-QuestTest-App.html#0">4.2.2.2 app.cpp</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
-<tr><td align="left" valign="top"><a href="Tutorial-QuestTest-Behave-Header.html#0">4.2.2.3 behave.h</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
-<tr><td align="left" valign="top"><a href="Tutorial-QuestTest-Behave.html#0">4.2.2.4 behave.cpp</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="Tutorial-QuestTest-Behave-Header.html#0">4.2.2.1 behave.h</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="Tutorial-QuestTest-Behave.html#0">4.2.2.2 behave.cpp</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="Tutorial-QuestTest-App-Header.html#0">4.2.2.3 app.h</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="Tutorial-QuestTest-App.html#0">4.2.2.4 app.cpp</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
 </table>
+
+
+
+
 
 
 <hr size="1">

@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node Tutorial WalkTut, , Tutorials, Tutorials
+@node Tutorial WalkTut, Tutorial QuestTest, Tutorials, Tutorials
 @subsection WalkTut Tutorial
 @cindex zone manager
 @cindex entity creation

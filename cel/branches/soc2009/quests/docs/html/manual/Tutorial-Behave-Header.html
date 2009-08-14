@@ -76,6 +76,7 @@ layer and also the implementations of every behaviour.
 #include &lt;propclass/camera.h&gt;
 #include &lt;propclass/inv.h&gt;
 </pre></td></tr></table>
+
 <p><code>BehaviourLayer</code> is our behaviour layer. It is a simple class that
 will create the right behaviour depending on the given name.
 </p>
@@ -97,6 +98,7 @@ public:
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
 };
 </pre></td></tr></table>
+
 <p><code>BehaviourCommon</code> is the common superclass for all our behaviours. It
 takes care of overriding the standard <code>SendMessage()</code> routine and
 to replace it with a version that uses an <small>ID</small> instead of a string. That
@@ -142,6 +144,7 @@ public:
   }
 };
 </pre></td></tr></table>
+
 <p>The level behaviour doesn't do much.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">class BehaviourLevel : public BehaviourCommon
@@ -161,6 +164,7 @@ public:
 };
 
 </pre></td></tr></table>
+
 <p>This is the behaviour for a box. This behaviour will be used for entities
 in the <samp>&lsquo;entities&rsquo;</samp> file.
 </p>
@@ -188,6 +192,7 @@ public:
   	celData&amp; ret, iCelParameterBlock* params, va_list arg);
 };
 </pre></td></tr></table>
+
 <p>Another behaviour used for entities in the <samp>&lsquo;entities&rsquo;</samp> file.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">class BehaviourBadOne : public BehaviourCommon
@@ -214,6 +219,7 @@ public:
   	celData&amp; ret, iCelParameterBlock* params, va_list arg);
 };
 </pre></td></tr></table>
+
 <p>And finally the behaviour for our player. This one takes care of matching
 commands from the <samp>&lsquo;pcinput.standard&rsquo;</samp> property class to actual operations
 on <samp>&lsquo;pcmove.actor.standard&rsquo;</samp>.
@@ -261,6 +267,7 @@ public:
 };
 #endif
 </pre></td></tr></table>
+
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="Tutorial-App.html#0" title="Previous section in reading order"> &lt; </a>]</td>
