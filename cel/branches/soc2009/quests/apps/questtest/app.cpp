@@ -221,8 +221,7 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
   csRef<iQuestManager> qm = csQueryRegistryOrLoad<iQuestManager> (object_reg,
     	"cel.manager.quests"); 
 
-  //iChangePropertyQuestRewardFactory* rf_changeprop;
-  iChangePropertyRewardFactory* rf_changeprop;
+  
   //----------------------------------------------------------- 
   // Create 'testquest'. 
   //----------------------------------------------------------- 
@@ -234,109 +233,113 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
 	return 0;
   }
 
-  // ---- init ----
+  // ---- init state ----
   iQuestStateFactory* state_init = fact->CreateState ("init");
-  iQuestTriggerResponseFactory* init_response1 =
-        state_init->CreateTriggerResponseFactory ();
+  iQuestTriggerResponseFactory* init_response =
+    state_init->CreateTriggerResponseFactory ();
 	
-  qm->SetTimeoutTrigger (init_response1, "1");
-  qm->AddDebugPrintReward (init_response1, "Timeout Trigger Fired\n Debug Print Functional\n New State Attempted");
-  qm->AddNewStateReward (init_response1, name, "start");
-  rf_changeprop = qm->AddChangePropertyReward (init_response1,
-	        name, "counter");
-  rf_changeprop->SetLongParameter ("1");
+  qm->SetTimeoutTrigger (init_response, "10");
+  qm->AddDebugPrintReward (init_response, "\n\nWelcome To The Example Quest");
+  
+  qm->AddDebugPrintReward (init_response, " -Initalising counter parameter");
+  iChangePropertyRewardFactory* rf_changeprop = qm->AddChangePropertyReward 
+    (init_response, name, "counter");
+  rf_changeprop->SetLongParameter ("0");
 
-  // ---- start ----
+  qm->AddDebugPrintReward (init_response, " -Clearing all walktut boxes");
+  qm->AddDestroyEntityReward (init_response, "box1");
+  qm->AddDestroyEntityReward (init_response, "box2");
+  qm->AddDestroyEntityReward (init_response, "box3");
+
+  qm->AddDebugPrintReward (init_response, " -Creating money box");
+  const celEntityTemplateParams tpl_params;
+  qm->AddCreateEntityReward (init_response, "BoxTemplate", "templateBox", tpl_params);
+
+  qm->AddDebugPrintReward (init_response, " -Entering 1st State\n");
+  qm->AddNewStateReward (init_response, name, "start");
+
+  // ---- start state ----
   iQuestStateFactory* state_start = fact->CreateState ("start");
-  
-  iQuestTriggerResponseFactory* start_response1 =
-	  state_start->CreateTriggerResponseFactory ();
 
-  qm->SetTimeoutTrigger (start_response1, "1");
-  qm->AddDebugPrintReward (start_response1, "State Changed\n Change Property Attempted");
-  rf_changeprop = qm->AddChangePropertyReward (start_response1,
-	        name, "counter");
-  rf_changeprop->SetLongParameter ("123");
-  
+  iRewardType* type = qm->GetRewardType ("cel.rewards.debugprint");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iDebugPrintRewardFactory> dbg_rewfact = scfQueryInterface<iDebugPrintRewardFactory> (rewfact);
+  dbg_rewfact->SetMessageParameter ("State Changed => The Game Has Begun");
+  state_start->AddInitRewardFactory (rewfact);
+
+  iQuestTriggerResponseFactory* start_response1 =
+	state_start->CreateTriggerResponseFactory ();
+  qm->SetTimeoutTrigger (start_response1, "10");
+
+  qm->AddDebugPrintReward (start_response1, " -Money Box Self Destuct Sequence Has Begun\n");
+  csRef<iCelSequenceFactory> destruct_seq = fact->CreateSequence("sequence_destruct");
+  csRef<iSeqOpFactory> seqopfact = qm->GetSeqOpType("cel.seqops.debugprint")->CreateSeqOpFactory();
+  csRef<iDebugPrintSeqOpFactory> destruct_seqopfact = 
+	scfQueryInterface<iDebugPrintSeqOpFactory> (seqopfact);
+  destruct_seqopfact->SetMessageParameter("Self Destruct Progress : ");
+  destruct_seq->AddSeqOpFactory(seqopfact, "1000");
+  qm->AddSequenceReward(start_response1, name, "sequence_destruct", "10");
 
   iQuestTriggerResponseFactory* start_response2 =
     state_start->CreateTriggerResponseFactory ();
-  qm->SetPropertyChangeTrigger (start_response2, name, "counter", "123");
-  qm->AddDebugPrintReward (start_response2, "Property Change Trigger Fired \n Sequences Should Start");
+  qm->SetMeshSelectTrigger(start_response2, "templateBox");
+  qm->AddDebugPrintReward(start_response2, "You Picked Up The Money Box & Stopped The Self Destruct\n");
+  qm->AddSequenceFinishReward(start_response2, name, "sequence_destruct");
+  qm->AddNewStateReward (start_response2, name, "box_pickup");
 
-
-
-  //Refactored Sequence Test
-  csRef<iCelSequenceFactory> dbg_seq = fact->CreateSequence("sequence_debug");
-  csRef<iSeqOpFactory> seqopfact = qm->GetSeqOpType("cel.seqops.debugprint")->CreateSeqOpFactory();
-  csRef<iDebugPrintSeqOpFactory> dbg_seqopfact = 
-	  scfQueryInterface<iDebugPrintSeqOpFactory> (seqopfact);
-  dbg_seqopfact->SetMessageParameter("Refactored Sequence Running");
-  dbg_seq->AddSeqOpFactory(seqopfact, "1000");
-  qm->AddSequenceReward(start_response2, name, "sequence_debug", "10");
 
   iQuestTriggerResponseFactory* start_response3 =
     state_start->CreateTriggerResponseFactory ();
-  qm->SetTimeoutTrigger(start_response3, "100");
-  qm->AddDebugPrintReward(start_response3, "Attempting To Stop Sequence");
-  qm->AddSequenceFinishReward(start_response3, name, "sequence_debug");
+  qm->SetSequenceFinishTrigger(start_response3, name, "sequence_destruct");
+  qm->AddDebugPrintReward(start_response3, "SELF-DESTRUCT HAS OCCURRED\n");
+  qm->AddNewStateReward (start_response3, name, "box_explode");
 
-  iQuestTriggerResponseFactory* start_response4 =
-    state_start->CreateTriggerResponseFactory ();
-  qm->SetSequenceFinishTrigger(start_response4, name, "sequence_debug");
-  qm->AddDebugPrintReward(start_response4, "SequenceFinish Trigger Fired\n Deleting 2 Existing Boxes");
-  qm->AddDebugPrintReward(start_response4, " Deleting Non-Existant Entity (Should Raise Error)\n Creating New Box");
-  qm->AddDebugPrintReward(start_response4, " Attempting To Add Badone To Inventory \n");
-  qm->AddDebugPrintReward(start_response4, " Please check visually that only two boxes remains \n");
+  // ---- box_pickup state ----
+  iQuestStateFactory* state_box_pickup = fact->CreateState ("box_pickup");
+  
+  iQuestTriggerResponseFactory* box_pickup_response1 =
+	state_box_pickup->CreateTriggerResponseFactory ();
+  qm->SetTimeoutTrigger (box_pickup_response1, "10");
+  rf_changeprop = qm->AddChangePropertyReward 
+    (box_pickup_response1, name, "counter");
+  rf_changeprop->SetLongParameter ("1");
+  
 
-  iQuestTriggerResponseFactory* start_response = 
-	  state_start->CreateTriggerResponseFactory ();
-  qm->SetWatchTrigger(start_response, "player", "box", "5", "100000000000");
-  qm->AddDebugPrintReward(start_response, "You are looking at box number 3");
+  iQuestTriggerResponseFactory* box_pickup_response2 =
+    state_box_pickup->CreateTriggerResponseFactory ();
+  qm->SetPropertyChangeTrigger (box_pickup_response2, name, "counter", "1");
+  qm->AddDebugPrintReward(box_pickup_response2, "Counter Updated To Reflect Pickup => You Have Won");
+  
 
-  const celEntityTemplateParams tpl_params;
-  qm->AddCreateEntityReward (start_response4, "BoxTemplate", "templateBox", tpl_params);
-  qm->AddDestroyEntityReward (start_response4, "box1");
-  qm->AddDestroyEntityReward (start_response4, "box2");
- // qm->AddDestroyEntityReward_NEW (start_response4, "box3");
-  qm->AddDestroyEntityReward (start_response4, "non-existant_entity");
-  qm->AddInventoryReward (start_response4, "player", "badone");
 
-  iQuestTriggerResponseFactory* start_response5 =
-    state_start->CreateTriggerResponseFactory ();
-  qm->SetInventoryTrigger(start_response5, "player", "badone");
-  qm->AddDebugPrintReward(start_response5, "Inventory Trigger Fired => Player received badone");
-  qm->AddDebugPrintReward(start_response5, " Attempting to send a message to the player");
-  qm->AddMessageReward(start_response5, "player", "Message sent via reward to player");
+  // ---- box_explode state ----
+  iQuestStateFactory* state_box_explode = fact->CreateState ("box_explode");
 
-  iQuestTriggerResponseFactory* start_response6 =
-	  state_start->CreateTriggerResponseFactory ();
-  qm->SetMessageTrigger(start_response6, "player", "Message sent via reward to player");
-  qm->AddDebugPrintReward(start_response6, "Message Trigger Fired => Player received message\n");
-  qm->AddDebugPrintReward(start_response6, " Please now attempt to pick up box number 3\n");
+  iQuestTriggerResponseFactory* box_explode_response1 =
+	state_box_explode->CreateTriggerResponseFactory ();
+  qm->SetTimeoutTrigger (box_explode_response1, "10");
+  qm->AddInventoryReward (box_explode_response1, "player", "badone");
 
-  iQuestTriggerResponseFactory* start_response7 = 
-	  state_start->CreateTriggerResponseFactory ();
-  qm->SetMeshSelectTrigger(start_response7, "box3");
-  qm->AddDebugPrintReward(start_response7, "Mesh Select Trigger Fired => You selected the correct box");
-  qm->AddDebugPrintReward(start_response7, " Attempting to invoke action Hide in templateBox\n");
-  qm->AddDebugPrintReward(start_response7, " Please now check template box is moving\n");
+  iQuestTriggerResponseFactory* box_explode_response2 =
+    state_box_explode->CreateTriggerResponseFactory ();
+  qm->SetInventoryTrigger(box_explode_response2, "player", "badone");
+  qm->AddDebugPrintReward(box_explode_response2, "Badone Hid In Your Cloak From The Explosion");
+  
+  iQuestTriggerResponseFactory* box_explode_response3 =
+	  state_box_explode->CreateTriggerResponseFactory ();
+  qm->SetTimeoutTrigger (box_explode_response3, "50");
+  qm->AddMessageReward(box_explode_response3, "player", "You Lose");
 
-  //csRef<iActionRewardFactory> action_rewfact = 
-  //  scfQueryInterface<iActionRewardFactory>
-	 // (qm->AddActionReward(start_response7, "templateBox", "SetVelocity", "pcmove.linear"));
-  //action_rewfact->AddParameter(CEL_DATA_VECTOR3, , "velocity", "0,1,0");
-
-//  iQuestTriggerResponseFactory* start_response8 =
-//	  state_start->CreateTriggerResponseFactory ();
-
+  iQuestTriggerResponseFactory* box_explode_response4 =
+	  state_box_explode->CreateTriggerResponseFactory ();
+  qm->SetMessageTrigger(box_explode_response4, "player", "You Lose");
+  qm->AddDebugPrintReward(box_explode_response4, "Message Trigger Fired => You Have Lost");
+  
 
    //-----------------------------------------------------------
 
   csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest, iPcQuest); 
   celParams params;
-  params.Put("message", "FINALLY: HELLO\n");
-  params.Put ("ent", name); 
 
   if (!pcquest->NewQuest ("testquest", params)) 
   { 
