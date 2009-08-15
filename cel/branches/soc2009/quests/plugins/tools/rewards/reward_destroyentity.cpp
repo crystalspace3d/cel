@@ -108,11 +108,12 @@ celDestroyEntityReward::celDestroyEntityReward (
 	const char* entity_par) : scfImplementationType (this)
 {
   celDestroyEntityReward::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   pm = csLoadPlugin<iParameterManager> (plugin_mgr,
     "cel.parameters.manager");
+
   entity = pm->GetParameter (params, entity_par);
 }
 
@@ -144,11 +145,12 @@ celDestroyClassReward::celDestroyClassReward (
 	const char* class_par) : scfImplementationType (this)
 {
   celDestroyClassReward::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   pm = csLoadPlugin<iParameterManager> (plugin_mgr,
     "cel.parameters.manager");
+
   ent_class = pm->GetParameter (params, class_par);
 }
 

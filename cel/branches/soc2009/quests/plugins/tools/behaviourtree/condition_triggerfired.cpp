@@ -54,6 +54,7 @@ bool celTriggerFiredCondition::AddChild (iBTNode* child)
 
 void celTriggerFiredCondition::SetTrigger (iTrigger* trigger)
 {
+  trigger->ActivateTrigger ();
   celTriggerFiredCondition::trigger = trigger;
   trigger->RegisterCallback (this);
 }

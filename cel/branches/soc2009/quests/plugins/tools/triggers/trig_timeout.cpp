@@ -92,12 +92,11 @@ celTimeoutTrigger::celTimeoutTrigger (
 {
   celTimeoutTrigger::type = type;
   timer = new csEventTimer (type->object_reg);
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   pm = csLoadPlugin<iParameterManager> (plugin_mgr,
     "cel.parameters.manager");
-
 
   const char* to = pm->ResolveParameter (params, timeout_par);
   fired = false;

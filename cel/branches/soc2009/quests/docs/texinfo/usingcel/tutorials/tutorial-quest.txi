@@ -247,12 +247,12 @@ Below is the code for the next state, which is the main part of the game logic.
   destruct_seq->AddSeqOpFactory(seqopfact, "1000");
   qm->AddSequenceReward(start_response1, name, "sequence_destruct", "10");
 
+  
   iQuestTriggerResponseFactory* start_response2 =
     state_start->CreateTriggerResponseFactory ();
   qm->SetMeshSelectTrigger(start_response2, "templateBox");
   qm->AddDebugPrintReward(start_response2, "You Picked Up The Money Box & Stopped The Self Destruct\n");
   qm->AddNewStateReward (start_response2, name, "box_pickup");
-  qm->AddSequenceFinishReward(start_response2, name, "sequence_destruct");
 
 
   iQuestTriggerResponseFactory* start_response3 =
@@ -276,16 +276,16 @@ of the money box. This sequence simply uses a debug message, but the sequence to
 seq ops. Current potential examples, include closing doors and changing light colors.
 
 The second is triggered by the money box being picked up. The player can pick up the box by clicking on it, and the mesh select
-trigger will fire upon this occuring. The sequence finish reward will then stop the self destruct and move the quest
-in to the final state.
+trigger will fire upon this occuring. The quest moves into the final state where on init it stops the self destruct sequence.
 
 The final response is triggered if the sequence ends in its own time, this is then reported to the player and the quest is 
-moved into a different final state. This response is not triggered when the sequence is finished by the trigger firing because 
-the quest has moved into a different state.
+moved into a different final state. This response is not triggered when the sequence is finished by the player
+picking up the box because the quest has moved into a different state before the sequence finish reward is executed.
 
 The two final states, denote success or failure in the game. If the player has picked up the box they will have moved into
 the box_pickup state where the counter is updated to show their success and the player informed. This makes use of the 
-property manipulation reward and a trigger that fires upon a property change.
+property manipulation reward and a trigger that fires upon a property change. This state also includes another example of 
+the reward on init feature.
 
 However, if the player has not picked up the box the bad_one will haunt them. That is it will be added to their inventory
 to symbolise hiding in their jacket. This shows the inventory reward that can add entities to a players inventory. This response
@@ -295,6 +295,14 @@ also makes use of the message send reward and message received trigger to announ
   // ---- box_pickup state ----
   iQuestStateFactory* state_box_pickup = fact->CreateState ("box_pickup");
   
+  type = qm->GetRewardType ("cel.rewards.sequencefinish");
+  csRef<iRewardFactory> seq_fin_rewfact = type->CreateRewardFactory ();
+  csRef<iSequenceFinishRewardFactory> explicit_seq_fin_rewfact = 
+  	scfQueryInterface<iSequenceFinishRewardFactory> (seq_fin_rewfact);
+  explicit_seq_fin_rewfact->SetEntityParameter (name);
+  explicit_seq_fin_rewfact->SetSequenceParameter ("sequence_destruct");
+  state_box_pickup->AddInitRewardFactory(seq_fin_rewfact);
+
   iQuestTriggerResponseFactory* box_pickup_response1 =
 	state_box_pickup->CreateTriggerResponseFactory ();
   qm->SetTimeoutTrigger (box_pickup_response1, "10");
@@ -308,7 +316,6 @@ also makes use of the message send reward and message received trigger to announ
   qm->SetPropertyChangeTrigger (box_pickup_response2, name, "counter", "1");
   qm->AddDebugPrintReward(box_pickup_response2, "Counter Updated To Reflect Pickup => You Have Won");
   
-
 
   // ---- box_explode state ----
   iQuestStateFactory* state_box_explode = fact->CreateState ("box_explode");

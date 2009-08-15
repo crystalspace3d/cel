@@ -285,7 +285,6 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
   qm->SetMeshSelectTrigger(start_response2, "templateBox");
   qm->AddDebugPrintReward(start_response2, "You Picked Up The Money Box & Stopped The Self Destruct\n");
   qm->AddNewStateReward (start_response2, name, "box_pickup");
-  qm->AddSequenceFinishReward(start_response2, name, "sequence_destruct");
 
 
   iQuestTriggerResponseFactory* start_response3 =
@@ -298,6 +297,14 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
   // ---- box_pickup state ----
   iQuestStateFactory* state_box_pickup = fact->CreateState ("box_pickup");
   
+  type = qm->GetRewardType ("cel.rewards.sequencefinish");
+  csRef<iRewardFactory> seq_fin_rewfact = type->CreateRewardFactory ();
+  csRef<iSequenceFinishRewardFactory> explicit_seq_fin_rewfact = 
+  	scfQueryInterface<iSequenceFinishRewardFactory> (seq_fin_rewfact);
+  explicit_seq_fin_rewfact->SetEntityParameter (name);
+  explicit_seq_fin_rewfact->SetSequenceParameter ("sequence_destruct");
+  state_box_pickup->AddInitRewardFactory(seq_fin_rewfact);
+
   iQuestTriggerResponseFactory* box_pickup_response1 =
 	state_box_pickup->CreateTriggerResponseFactory ();
   qm->SetTimeoutTrigger (box_pickup_response1, "10");

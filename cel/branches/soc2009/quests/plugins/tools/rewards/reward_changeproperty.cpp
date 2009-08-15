@@ -183,7 +183,7 @@ celChangePropertyRewardBase::celChangePropertyRewardBase (
 	bool do_toggle) : scfImplementationType (this)
 {
   celChangePropertyRewardBase::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+
   csRef<iPluginManager> plugin_mgr = 
     csQueryRegistry<iPluginManager> (type->object_reg);
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> (plugin_mgr,
@@ -425,6 +425,7 @@ celChangePropertyReward::celChangePropertyReward (
     csQueryRegistry<iPluginManager> (type->object_reg);
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> (plugin_mgr,
     "cel.parameters.manager");
+
   entity = pm->GetParameter (params, entity_par);
 }
 
@@ -493,6 +494,7 @@ celClassChangePropertyReward::celClassChangePropertyReward (
     csQueryRegistry<iPluginManager> (type->object_reg);
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> (plugin_mgr,
     "cel.parameters.manager");
+
   clazz = pm->GetParameter (params, class_par);
 }
 

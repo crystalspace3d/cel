@@ -138,18 +138,15 @@ celCreateEntityReward::celCreateEntityReward (
   	const celParams& params,
 	const char* template_par,
 	const char* name_par,
-        const celEntityTemplateParams &tpl_params) : scfImplementationType (this)
+    const celEntityTemplateParams &tpl_params) : scfImplementationType (this)
 {
   celCreateEntityReward::type = type;
-  //csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  //entity_tpl = qm->GetParameter (params, template_par);
-  //name = qm->GetParameter (params, name_par);
 
-  //New
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   pm = csLoadPlugin<iParameterManager> (plugin_mgr,
     "cel.parameters.manager");
+
   entity_tpl = pm->GetParameter (params, template_par);
   name = pm->GetParameter (params, name_par);
 
@@ -159,8 +156,7 @@ celCreateEntityReward::celCreateEntityReward (
   {
     csStringFast<12> name;
     // @@@ Support dynamic parameters?
-    //const char * val = qm->ResolveParameter (params, iter.Next(name));
-	const char * val = pm->ResolveParameter (params, iter.Next(name));  //NEW
+	const char * val = pm->ResolveParameter (params, iter.Next(name));  
     celCreateEntityReward::params.Put (name, val);
   }
 }
