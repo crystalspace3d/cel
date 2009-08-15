@@ -143,9 +143,9 @@ celOperationTrigger::celOperationTrigger (
 {
   checking = false;
   celOperationTrigger::type = type;
+
   csRef<iPluginManager> plugin_mgr = 
     csQueryRegistry<iPluginManager> (type->object_reg);
-
   csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
     (plugin_mgr, "cel.parameters.manager");
 

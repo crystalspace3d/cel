@@ -30,7 +30,6 @@
 #include "iutil/virtclk.h"
 #include "tools/rewards.h"
 #include "physicallayer/entity.h"
-//#include "propclass/quest.h"
 #include "ivaria/engseq.h"
 
 struct iObjectRegistry;

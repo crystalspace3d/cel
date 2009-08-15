@@ -120,7 +120,7 @@ celInventoryReward::celInventoryReward (
 	scfImplementationType (this)
 {
   celInventoryReward::type = type;
-  //NEW
+
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   pm = csLoadPlugin<iParameterManager> (plugin_mgr,

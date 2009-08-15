@@ -227,7 +227,7 @@ celActionReward::celActionReward (
   : scfImplementationType (this), parameters (parameters)
 {
   celActionReward::type = type;
-  //qm = csQueryRegistry<iQuestManager> (type->object_reg);
+
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   pm = csLoadPlugin<iParameterManager> (plugin_mgr,
@@ -307,7 +307,7 @@ celClassActionReward::celClassActionReward (
   : scfImplementationType (this), parameters (parameters)
 {
   celClassActionReward::type = type;
-  //qm = csQueryRegistry<iQuestManager> (type->object_reg);
+
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);
   pm = csLoadPlugin<iParameterManager> (plugin_mgr,
