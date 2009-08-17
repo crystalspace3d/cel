@@ -78,9 +78,18 @@ csPtr<iReward> celSequenceFinishRewardFactory::CreateReward (
   }
   else
   {
-    reward = new celSequenceFinishReward (type,
-  	params, entity_par, tag_par, sequence_par); 
+    if (seq.IsValid())
+	{
+	  reward = new celSequenceFinishReward (type,
+  	    params, entity_par, tag_par, sequence_par, seq);
+	}
+	else
+	{
+	  reward = new celSequenceFinishReward (type,
+  	    params, entity_par, tag_par, sequence_par);
+	}
   }
+
   return reward;
 }
 
@@ -113,13 +122,20 @@ void celSequenceFinishRewardFactory::SetSequenceParameter (
   sequence_par = sequence;
 }
 
+void celSequenceFinishRewardFactory::SetSequence (
+	iCelSequence* sequence)
+{
+  seq = sequence;
+}
+
 //---------------------------------------------------------------------------
 
 celSequenceFinishReward::celSequenceFinishReward (
 	celSequenceFinishRewardType* type,
   	const celParams& params,
 	const char* entity_par, const char* tag_par,
-	const char* sequence_par) : scfImplementationType (this)
+	const char* sequence_par,
+	iCelSequence* sequence) : scfImplementationType (this)
 {
   celSequenceFinishReward::type = type;
 
@@ -130,44 +146,49 @@ celSequenceFinishReward::celSequenceFinishReward (
 
   entity = pm->GetParameter (params, entity_par);
   tag = pm->GetParameter (params, tag_par);
-  sequence = pm->GetParameter (params, sequence_par);
+  sequence_name = pm->GetParameter (params, sequence_par);
+
+  seq = sequence;
 }
 
 void celSequenceFinishReward::Reward (iCelParameterBlock* params)
 {
-  bool changed;
-  const char* e = entity->Get (params, changed);
-  if (changed) { quest = 0; ent = 0; }
-  const char* t = tag->Get (params, changed);
-  if (changed) quest = 0;
-  if (!quest)
-  {
-    if (!ent)
-    {
-      iCelPlLayer* pl = type->pl;
-      ent = pl->FindEntity (e);
-      if (!ent) return;
-    }
-    quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
-    if (!quest) return;
-  }
-
-  // @@@
-  // Remove Quest Dependency
-  iQuest* q = quest->GetQuest ();
-  const char* s = sequence->Get (params);
-  if (!s) return;
-  iCelSequence* seq = q->FindSequence (s);
   if (!seq)
   {
-    if (t)
-      Report (type->object_reg,
-      	"Can't find sequence '%s' in entity '%s' and tag '%s'!",
-	s, e, t);
-    else
-      Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!",
-    	  s, e);
-    return;
+    bool changed;
+    const char* e = entity->Get (params, changed);
+    if (changed) { quest = 0; ent = 0; }
+    const char* t = tag->Get (params, changed);
+    if (changed) quest = 0;
+    if (!quest)
+    {
+      if (!ent)
+      {
+        iCelPlLayer* pl = type->pl;
+        ent = pl->FindEntity (e);
+        if (!ent) return;
+      }
+      quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
+      if (!quest) return;
+    }
+
+    // @@@
+    // Remove Quest Dependency?
+    iQuest* q = quest->GetQuest ();
+    const char* s = sequence_name->Get (params);
+    if (!s) return;
+    seq = q->FindSequence (s);
+    if (!seq)
+    {
+      if (t)
+        Report (type->object_reg,
+          "Can't find sequence '%s' in entity '%s' and tag '%s'!",
+	      s, e, t);
+      else
+        Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!",
+      	  s, e);
+      return;
+    }
   }
   seq->Finish ();
 }
@@ -191,7 +212,7 @@ celClassSequenceFinishReward::celClassSequenceFinishReward (
   // Get the entity class list pointer.
   clazz = pm->GetParameter (params, class_par);
   tag = pm->GetParameter (params, tag_par);
-  sequence = pm->GetParameter (params, sequence_par);
+  sequence_name = pm->GetParameter (params, sequence_par);
 }
 
 void celClassSequenceFinishReward::Reward (iCelParameterBlock* params)
@@ -205,7 +226,7 @@ void celClassSequenceFinishReward::Reward (iCelParameterBlock* params)
   }
 
   const char* t = tag->Get (params);
-  const char* s = sequence->Get (params);
+  const char* s = sequence_name->Get (params);
   if (!s) return;
 
   iCelEntity *ent;

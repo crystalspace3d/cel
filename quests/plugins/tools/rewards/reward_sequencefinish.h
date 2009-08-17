@@ -54,6 +54,7 @@ private:
   csString class_par;
   csString tag_par;
   csString sequence_par;
+  csRef<iCelSequence> seq;
 
 public:
   celSequenceFinishRewardFactory (celSequenceFinishRewardType* type);
@@ -67,6 +68,7 @@ public:
   virtual void SetClassParameter (const char* pclass) { class_par = pclass; };
   virtual void SetTagParameter (const char* tag) { tag_par = tag; };
   virtual void SetSequenceParameter (const char* sequence);
+  virtual void SetSequence (iCelSequence* sequence);
 };
 
 /**
@@ -79,15 +81,17 @@ private:
   celSequenceFinishRewardType* type;
   csRef<iParameter> entity;
   csRef<iParameter> tag;
-  csRef<iParameter> sequence;
+  csRef<iParameter> sequence_name;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcQuest> quest;
+  csWeakRef<iCelSequence> seq;
 
 public:
   celSequenceFinishReward (celSequenceFinishRewardType* type,
   	const celParams& params,
 	const char* entity_par, const char* tag_par,
-	const char* sequence_par);
+	const char* sequence_par,
+	iCelSequence* sequence = 0);
   virtual ~celSequenceFinishReward () {};
 
   virtual void Reward (iCelParameterBlock* params);
@@ -102,7 +106,7 @@ class celClassSequenceFinishReward : public scfImplementation1<
 private:
   celSequenceFinishRewardType* type;
   csRef<iParameter> tag;
-  csRef<iParameter> sequence;
+  csRef<iParameter> sequence_name;
   csRef<iParameter> clazz;
   csRef<iCelEntityList> entlist;
 

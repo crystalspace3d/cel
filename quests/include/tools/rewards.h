@@ -23,6 +23,7 @@
 #include "behaviourlayer/behave.h"
 #include "iutil/document.h"
 #include "tools/parameters.h"
+#include "tools/sequences.h"
 
 //-------------------------------------------------------------------------
 // Rewards
@@ -544,11 +545,20 @@ struct iSequenceRewardFactory : public virtual iBase
   virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
-   * Set the name of the sequence.
+   * Set the name of the sequence. If this method is used, with no call to
+   * the SetSequence method, the trigger will look for the sequence
+   * inside a quest inside the entity set.
    * \param sequence is the name of the sequence or a parameter (starts
-   * with '$').
+   * with '$'). 
    */
   virtual void SetSequenceParameter (const char* sequence) = 0;
+
+  /**
+   * Set the sequence to observe. If this method is used, 
+   * the trigger will observe the sequence given.
+   * \param sequence is a pointer to the sequence.
+   */
+  virtual void SetSequence (iCelSequence* sequence) = 0;
 
   /**
    * Set the delay.
@@ -605,11 +615,20 @@ struct iSequenceFinishRewardFactory : public virtual iBase
   virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
-   * Set the name of the sequence.
+   * Set the name of the sequence. If this method is used, with no call to
+   * the SetSequence method, the trigger will look for the sequence
+   * inside a quest inside the entity set.
    * \param sequence is the name of the sequence or a parameter (starts
-   * with '$').
+   * with '$'). 
    */
   virtual void SetSequenceParameter (const char* sequence) = 0;
+
+  /**
+   * Set the sequence to observe. If this method is used, 
+   * the trigger will observe the sequence given.
+   * \param sequence is a pointer to the sequence.
+   */
+  virtual void SetSequence (iCelSequence* sequence) = 0;
 };
 
 //-------------------------------------------------------------------------
