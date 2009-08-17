@@ -36,7 +36,7 @@
 #include "iengine/sector.h"
 
 // @@@
-// Remove Quest Dependency
+// Remove Quest Dependency?
 #include "tools/questmanager.h"
 
 
@@ -62,6 +62,7 @@ private:
   csString entity_par;
   csString tag_par;
   csString sequence_par;
+  csWeakRef<iCelSequence> seq;
 
 public:
   celSequenceFinishTriggerFactory (celSequenceFinishTriggerType* type);
@@ -73,6 +74,7 @@ public:
   //----------------- iSequenceFinishTriggerFactory ---------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetSequenceParameter (const char* sequence);
+  virtual void SetSequence (iCelSequence* sequence);
 };
 
 /**
@@ -87,7 +89,7 @@ private:
   csRef<iTriggerCallback> callback;
   csString entity;
   csString tag;
-  csString sequence;
+  csString sequence_name;
   csWeakRef<iCelSequence> seq;
 
   void FindSequence ();
@@ -98,7 +100,8 @@ public:
   celSequenceFinishTrigger (celSequenceFinishTriggerType* type,
   	const celParams& params,
 	const char* entity_par, const char* tag_par,
-	const char* sequence_par);
+	const char* sequence_par,
+	iCelSequence* sequence = 0);
   virtual ~celSequenceFinishTrigger ();
 
   virtual void RegisterCallback (iTriggerCallback* callback);

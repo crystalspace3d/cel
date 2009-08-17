@@ -57,8 +57,18 @@ celSequenceFinishTriggerFactory::~celSequenceFinishTriggerFactory ()
 csPtr<iTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
     const celParams& params)
 {
-  celSequenceFinishTrigger* trig = new celSequenceFinishTrigger (type,
-  	params, entity_par, tag_par, sequence_par);
+  celSequenceFinishTrigger* trig;
+  if (seq.IsValid())
+  {
+    trig = new celSequenceFinishTrigger (type,
+  	  params, entity_par, tag_par, sequence_par, seq);
+  }
+  else
+  {
+    trig = new celSequenceFinishTrigger (type,
+  	  params, entity_par, tag_par, sequence_par);
+  }
+
   return trig;
 }
 
@@ -98,13 +108,19 @@ void celSequenceFinishTriggerFactory::SetSequenceParameter (
   sequence_par = sequence;
 }
 
+void celSequenceFinishTriggerFactory::SetSequence (iCelSequence* sequence)
+{
+  seq = sequence;
+}
+
 //---------------------------------------------------------------------------
 
 celSequenceFinishTrigger::celSequenceFinishTrigger (
 	celSequenceFinishTriggerType* type,
   	const celParams& params,
 	const char* entity_par, const char* tag_par,
-	const char* sequence_par) : scfImplementationType (this)
+	const char* sequence_par,
+	iCelSequence* sequence) : scfImplementationType (this)
 {
   celSequenceFinishTrigger::type = type;
 
@@ -115,7 +131,9 @@ celSequenceFinishTrigger::celSequenceFinishTrigger (
 
   entity = pm->ResolveParameter (params, entity_par);
   tag = pm->ResolveParameter (params, tag_par);
-  sequence = pm->ResolveParameter (params, sequence_par);
+  sequence_name = pm->ResolveParameter (params, sequence_par);
+
+  seq = sequence;
 
   finished = false;
 }
@@ -151,7 +169,7 @@ void celSequenceFinishTrigger::FindSequence ()
   csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, tag);
   if (!pcquest) return;
   iQuest* quest = pcquest->GetQuest ();
-  seq = quest->FindSequence (sequence);
+  seq = quest->FindSequence (sequence_name);
 }
 
 void celSequenceFinishTrigger::ActivateTrigger ()

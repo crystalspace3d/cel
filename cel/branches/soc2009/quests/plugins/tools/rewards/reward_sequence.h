@@ -55,6 +55,7 @@ private:
   csString tag_par;
   csString sequence_par;
   csString delay_par;
+  csRef<iCelSequence> seq;
 
 public:
   celSequenceRewardFactory (celSequenceRewardType* type);
@@ -68,6 +69,7 @@ public:
   virtual void SetClassParameter (const char* ent_class) {class_par=ent_class;};
   virtual void SetTagParameter (const char* tag) {tag_par = tag;};
   virtual void SetSequenceParameter (const char* sequence);
+  virtual void SetSequence (iCelSequence* sequence);
   virtual void SetDelayParameter (const char* delay);
 };
 
@@ -81,10 +83,11 @@ private:
   celSequenceRewardType* type;
   csRef<iParameter> entity;
   csRef<iParameter> tag;
-  csRef<iParameter> sequence;
+  csRef<iParameter> sequence_name;
   csRef<iParameter> pdelay;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcQuest> quest;
+  csWeakRef<iCelSequence> seq;
 
 public:
   celSequenceReward (celSequenceRewardType* type,
@@ -92,7 +95,8 @@ public:
 	const char* entity_par,
 	const char* tag_par,
 	const char* sequence_par,
-	const char* delay_par);
+	const char* delay_par,
+	iCelSequence* sequence = 0);
   virtual ~celSequenceReward () {};
 
   virtual void Reward (iCelParameterBlock* params);
@@ -107,7 +111,7 @@ class celClassSequenceReward : public scfImplementation1<
 private:
   celSequenceRewardType* type;
   csRef<iParameter> tag;
-  csRef<iParameter> sequence;
+  csRef<iParameter> sequence_name;
   csRef<iParameter> clazz;
   csRef<iParameter> pdelay;
   csRef<iCelEntityList> entlist;
