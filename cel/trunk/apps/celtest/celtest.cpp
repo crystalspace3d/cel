@@ -236,7 +236,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
   trackcam->SetPanSpeed (8);
-  trackcam->SetTiltSpeed (2.5);
+  trackcam->SetTiltSpeed (4.5);
   csRef<iPcDelegateCamera> delegcam = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
   //delegcam->SetCurrentMode (trackcam);
 
