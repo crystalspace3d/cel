@@ -135,7 +135,7 @@ bool CelTest::OnKeyboard (iEvent &ev)
       csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
       q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
     }
-    else if (code == 's')
+    else if (code == CSKEY_F1)
     {
       csRef<iCelPersistence> p = 
       	csQueryRegistry<iCelPersistence> (object_reg);
@@ -156,7 +156,7 @@ bool CelTest::OnKeyboard (iEvent &ev)
 	pl->RemoveEntities ();
       }
     }
-    else if (code == 'l')
+    else if (code == CSKEY_F2)
     {
       csRef<iCelPersistence> p = 
       	csQueryRegistry<iCelPersistence> (object_reg);
@@ -212,6 +212,10 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("right", "right");
   pcinp->Bind ("up", "up");
   pcinp->Bind ("down", "down");
+  pcinp->Bind ("a", "left");
+  pcinp->Bind ("d", "right");
+  pcinp->Bind ("w", "up");
+  pcinp->Bind ("s", "down");
   pcinp->Bind ("space", "jump");
   pcinp->Bind ("m", "freeze");
   pcinp->Bind ("shift", "roll");
