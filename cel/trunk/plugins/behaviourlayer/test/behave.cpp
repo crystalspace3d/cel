@@ -292,8 +292,8 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     CEL_FETCH_FLOAT_PAR (y, params, id_param_y);
     csRef<iPcTrackingCamera> trackcam =
       celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
-    trackcam->SetPanDirection (-x * 100000);
-    trackcam->SetTiltDirection (-y * 100000);
+    trackcam->SetPanDirection (-x * 200);
+    trackcam->SetTiltDirection (-y * 200);
     return true;
   }
   else if (msgid == id_input_joyaxis0)
