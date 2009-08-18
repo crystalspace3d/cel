@@ -251,18 +251,18 @@ float celPcTrackingCamera::SpringForce (const float movement)
   return spring;
 }
 
-void celPcTrackingCamera::Accelerator::Accelerate (int direction, float elapsedsecs)
+void celPcTrackingCamera::Accelerator::Accelerate (float direction, float elapsedsecs)
 {
   // calculate current acceleration... do we go left... right? nothing?
   float cacc;
   // no direction but have some speed, then slowdown in opposite direction
-  if (!direction && fabs (speed) > EPSILON)
+  if (fabs (direction) >= 0.0000001 && fabs (speed) > EPSILON)
     cacc = (speed < 0) ? accel : -accel;
   else  // normal
     cacc = direction * accel;
 
   // this is to actually stop if we're slowing down.
-  if (!direction &&
+  if (fabs (direction) >= 0.0000001 &&
     ((speed > 0 && speed + cacc < 0) || (speed < 0 && speed + cacc > 0)))
     speed = 0.0f;
   // otherwise we can just speed up using v = a t
