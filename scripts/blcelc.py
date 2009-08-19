@@ -3075,6 +3075,8 @@ class iPcDelegateCamera(iPcCamera):
     def GetCurrentMode(*args): return _blcelc.iPcDelegateCamera_GetCurrentMode(*args)
     def SetTransitionTime(*args): return _blcelc.iPcDelegateCamera_SetTransitionTime(*args)
     def GetTransitionTime(*args): return _blcelc.iPcDelegateCamera_GetTransitionTime(*args)
+    def GetContinousTransitionSpeed(*args): return _blcelc.iPcDelegateCamera_GetContinousTransitionSpeed(*args)
+    def SetContinousTransitionSpeed(*args): return _blcelc.iPcDelegateCamera_SetContinousTransitionSpeed(*args)
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
