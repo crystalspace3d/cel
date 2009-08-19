@@ -311,8 +311,10 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
     pos, tar, true);
   if (beam.sqdistance > 0)
   {
-    const csVector3 lookat (tar - pos), dir (lookat.Unit ());
-    float lookat_len = lookat.Norm (), beam_distance = sqrt (beam.sqdistance);
+    const csVector3 lookat (tar - pos);
+    float lookat_len = lookat.Norm ();
+    const csVector3 dir (lookat / lookat_len);
+    float beam_distance = sqrt (beam.sqdistance);
     // 0.1f is our epsilon value
     // we add a correction to the beam when it collides with the wall by 10%
     // but to avoid a jump when camera first hits the wall and is moved 10% down the beam
@@ -347,7 +349,7 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
         i = 0.0f;
       float corrlen = clookat.Norm ();
       // go down from the target because i felt like coding this a bit differently for fun
-      corrpos = corrtar - clookat.Unit () * (i * corrlen + (1.0f - i) * old_reallen);
+      corrpos = corrtar - (clookat / corrlen) * (i * corrlen + (1.0f - i) * old_reallen);
     }
     // so switch this off if we finished the interpolating at last
     else
@@ -395,7 +397,7 @@ bool celPcTrackingCamera::DecideState ()
     csVector3 camplay (playpos - pos);
     camplay.y = 0.0f;
     float dist = camplay.Norm ();
-    camplay.Normalize ();
+    camplay /= dist;
     // Now get a 2D vector of the camera's direction
     csVector3 camdir (tar - pos);
     camdir.y = 0.0f;
