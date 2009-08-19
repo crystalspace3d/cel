@@ -70,7 +70,7 @@ celPcDelegateCamera::celPcDelegateCamera (iObjectRegistry* object_reg)
   prev.up.Set (0.0f);
 
   last = prev;
-  continuous_transition_speed = 3.0f;
+  continuous_transition_speed = 4.0f;
 
   propholder = &propinfo;
 
