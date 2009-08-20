@@ -11,7 +11,6 @@
 	    <par name="percentage" float="$per" />
 	</action>
     </propclass>
-    <behaviour layer="bltest" name="printer" />
 </addon>
 </library>
 
