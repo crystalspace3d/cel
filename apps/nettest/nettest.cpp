@@ -301,8 +301,7 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
 	const char* /*factname*/, const csVector3& /*pos*/)
 {
   // The Real Camera
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest,
-	"actorcameraold", // behaviour name
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, 0, 0,
   	"pcinput.standard",
 	"pccamera.old",
 	"pcmove.actor.standard",
@@ -403,8 +402,7 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
 csPtr<iCelEntity> NetTest::CreateActorNPC (const char* name,
 	const char* /*factname*/, const csVector3& /*pos*/)
 {
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest,
-        "actorcameraold", // behaviour name
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, 0, 0,
 	"pcmove.actor.standard",
 	"pcobject.mesh",
 	"pcmove.linear",
@@ -456,7 +454,7 @@ csPtr<iCelEntity> NetTest::CreateActorNPC (const char* name,
 
 csPtr<iCelEntity> NetTest::CreateDefaultCamera (const char *name)
 {
-  csRef<iCelEntity> default_camera = pl->CreateEntity (name, bltest, "actor",
+  csRef<iCelEntity> default_camera = pl->CreateEntity (name, 0, 0,
 	"pcdefaultcamera",
 	CEL_PROPCLASS_END);
   if (!default_camera) return 0;
@@ -484,7 +482,7 @@ bool NetTest::CreateRoom (const csString path, const csString file)
   fflush (stdout);
 
   // Create the room entity.
-  entity_room = pl->CreateEntity ("room", bltest, "room",
+  entity_room = pl->CreateEntity ("room", 0, 0,
   	"pczonemanager",
 	"pcinventory",
   	CEL_PROPCLASS_END);
@@ -625,11 +623,6 @@ bool NetTest::Application ()
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
-
-  bltest = csQueryRegistryTagInterface<iCelBlLayer> (
-  	object_reg, "iCelBlLayer.Test");
-  if (!bltest) return ReportError ("CEL test behaviour layer missing!");
-  pl->RegisterBehaviourLayer (bltest);
 
   // initialize game factory
   game_factory = csQueryRegistry<iCelGameFactory> (object_reg);

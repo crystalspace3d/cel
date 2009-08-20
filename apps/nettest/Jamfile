@@ -19,7 +19,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     addon_celentity
     addon_celentitytpl
     addon_questdef
-    bltest
     mgr_quests
     pfactormove
     pfbillboard
