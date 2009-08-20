@@ -119,42 +119,5 @@ public:
   celBehaviourQuest (iCelEntity* entity, iObjectRegistry* object_reg);
 };
 
-/**
- *  behaviour for a wheeled vehicle.
- */
-class celBehaviourWheeled : public celBehaviourGeneral
-{
-private:
-  csRef<iPcMeshDeform> pcmeshdeform;
-  // For input PC messages
-  csStringID id_input_accelerate_up;
-  csStringID id_input_accelerate_down;
-  csStringID id_input_reverse_up;
-  csStringID id_input_reverse_down;
-  csStringID id_input_steerleft_up;
-  csStringID id_input_steerleft_down;
-  csStringID id_input_steerright_up;
-  csStringID id_input_steerright_down;
-  csStringID id_input_handbrake_up;
-  csStringID id_input_handbrake_down;
-  csStringID id_input_lookup_up;
-  csStringID id_input_lookup_down;
-  csStringID id_input_lookdown_up;
-  csStringID id_input_lookdown_down;
-  csStringID id_input_center_down;
-  // For mechanics PC messages
-  csStringID id_mech_collision;
-  csStringID id_mech_par_position;
-  csStringID id_mech_par_normal;
-  csStringID id_mech_par_depth;
-
-public:
-  celBehaviourWheeled (iCelEntity* entity, iObjectRegistry* object_reg);
-  virtual ~celBehaviourWheeled() { }
-
-  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
-      celData& ret, iCelParameterBlock* params);
-};
-
 #endif // __CEL_BLTEST_BEHAVE__
 
