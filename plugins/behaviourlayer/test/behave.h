@@ -124,67 +124,8 @@ public:
  */
 class celBehaviourActor : public celBehaviourGeneral
 {
-private:
-  int fpscam;
-  float speed;
-  csRef<celBehaviourRoom> bhroom;
-  // For input messages
-  csStringID id_input_mouseaxis0;
-  csStringID id_input_joyaxis0;
-  csStringID id_input_joyaxis1;
-  csStringID id_input_left_down;
-  csStringID id_input_left_up;
-  csStringID id_input_right_down;
-  csStringID id_input_right_up;
-  csStringID id_input_up_up;
-  csStringID id_input_up_down;
-  csStringID id_input_down_up;
-  csStringID id_input_down_down;
-  csStringID id_input_jump_up;
-  csStringID id_input_jump_down;
-  csStringID id_input_freeze_down;
-  csStringID id_input_roll_down;
-  csStringID id_input_roll_up;
-  csStringID id_input_showstates_up;
-  csStringID id_input_camleft_down;
-  csStringID id_input_camleft_up;
-  csStringID id_input_camright_down;
-  csStringID id_input_camright_up;
-  csStringID id_input_camdown_down;
-  csStringID id_input_camdown_up;
-  csStringID id_input_camup_up;
-  csStringID id_input_camup_down;
-  csStringID id_input_ready_down;
-  csStringID id_input_ready_up;
-  csStringID id_input_lockon_down;
-  csStringID id_input_lockon_up;
-  csStringID id_input_resetcam_down;
-  csStringID id_input_tiltcam;
-  csStringID id_input_pancam;
-  // For move messages
-  csStringID id_move_jump_landed;
-  csStringID id_move_jump_started;
-  // For timer messages
-  csStringID id_timer_wakeup;
-  // For parameters
-  csStringID id_param_x;
-  csStringID id_param_y;
-  csStringID id_param_value;
-
-  csWeakRef<iPcAnalogMotion> pcactor;
-  csWeakRef<iPcJump> jump;
-  csWeakRef<iPcGrab> grab;
-  csWeakRef<iPcLinearMovement> linmove;
-  csWeakRef<iPcTrackingCamera> trackcam;
-
-  iPcTrackingCamera* GetTrackingCamera ();
-
 public:
   celBehaviourActor (iCelEntity* entity, iObjectRegistry* object_reg);
-  virtual ~celBehaviourActor();
-
-  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
-      celData& ret, iCelParameterBlock* params);
 };
 
 /**
