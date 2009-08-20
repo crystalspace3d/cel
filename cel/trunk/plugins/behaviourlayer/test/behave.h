@@ -28,6 +28,11 @@
 #include "physicallayer/messaging.h"
 #include "physicallayer/pl.h"
 #include "propclass/meshdeform.h"
+#include "propclass/analogmotion.h"
+#include "propclass/jump.h"
+#include "propclass/grab.h"
+#include "propclass/linmove.h"
+#include "propclass/cameras/tracking.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -165,6 +170,14 @@ private:
   csStringID id_param_x;
   csStringID id_param_y;
   csStringID id_param_value;
+
+  csWeakRef<iPcAnalogMotion> pcactor;
+  csWeakRef<iPcJump> jump;
+  csWeakRef<iPcGrab> grab;
+  csWeakRef<iPcLinearMovement> linmove;
+  csWeakRef<iPcTrackingCamera> trackcam;
+
+  iPcTrackingCamera* GetTrackingCamera ();
 
 public:
   celBehaviourActor (iCelEntity* entity, iObjectRegistry* object_reg);
