@@ -51,24 +51,6 @@ class celPcWasdMove : public scfImplementationExt2<
 	celPcWasdMove, celPcCommon, iPcWasdMove, iMessageReceiver>
 {
 private:
-  // For SendMessage parameters.
-  static csStringID id_message;
-  celOneParameterBlock* params;
-
-  // For actions.
-  enum actionids
-  {
-    action_print = 0
-  };
-
-  // For properties.
-  enum propids
-  {
-    propid_counter = 0,
-    propid_max
-  };
-  static PropertyHolder propinfo;
-
   // For input messages
   static csStringID id_input_mouseaxis0;
   static csStringID id_input_joyaxis0;

@@ -74,27 +74,9 @@ csStringID celPcWasdMove::id_param_value = csInvalidStringID;
 
 csStringID celPcWasdMove::id_timer_wakeup = csInvalidStringID;
 
-csStringID celPcWasdMove::id_message = csInvalidStringID;
-
-PropertyHolder celPcWasdMove::propinfo;
-
 celPcWasdMove::celPcWasdMove (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  // For SendMessage parameters.
-  if (id_message == csInvalidStringID)
-    id_message = pl->FetchStringID ("cel.parameter.message");
-  params = new celOneParameterBlock ();
-  params->SetParameterDef (id_message, "message");
-
-  propholder = &propinfo;
-
-  // For actions.
-  if (!propinfo.actions_done)
-  {
-    AddAction (action_print, "cel.action.Print");
-  }
-
   if (id_input_mouseaxis0 == csInvalidStringID)
   {
     id_input_mouseaxis0 = pl->FetchStringID ("cel.input.mouseaxis0");
@@ -140,22 +122,11 @@ celPcWasdMove::celPcWasdMove (iObjectRegistry* object_reg)
     id_timer_wakeup = pl->FetchStringID ("cel.timer.wakeup");
   }
 
-  // For properties.
-  propinfo.SetCount (2);
-  AddProperty (propid_counter, "cel.property.counter",
-	CEL_DATA_LONG, false, "Print counter.", &counter);
-  AddProperty (propid_max, "cel.property.max",
-	CEL_DATA_LONG, false, "Max length.", 0);
-
-  counter = 0;
-  max = 0;
-
   try_grab_jump = true;
 }
 
 celPcWasdMove::~celPcWasdMove ()
 {
-  delete params;
 }
 
 void celPcWasdMove::SetEntity (iCelEntity* entity)
@@ -167,21 +138,11 @@ void celPcWasdMove::SetEntity (iCelEntity* entity)
 
 bool celPcWasdMove::SetPropertyIndexed (int idx, long b)
 {
-  if (idx == propid_max)
-  {
-    max = b;
-    return true;
-  }
   return false;
 }
 
 bool celPcWasdMove::GetPropertyIndexed (int idx, long& l)
 {
-  if (idx == propid_max)
-  {
-    l = max;
-    return true;
-  }
   return false;
 }
 
@@ -190,8 +151,6 @@ bool celPcWasdMove::GetPropertyIndexed (int idx, long& l)
 csPtr<iCelDataBuffer> celPcWasdMove::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (WASDMOVE_SERIAL);
-  databuf->Add (int32 (counter));
-  databuf->Add (int32 (max));
   return csPtr<iCelDataBuffer> (databuf);
 }
 
@@ -200,9 +159,6 @@ bool celPcWasdMove::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != WASDMOVE_SERIAL) return false;
 
-  counter = databuf->GetInt32 ();
-  max = databuf->GetInt32 ();
-
   return true;
 }
 
@@ -210,17 +166,6 @@ bool celPcWasdMove::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  switch (idx)
-  {
-    case action_print:
-      {
-        CEL_FETCH_STRING_PAR (msg,params,id_message);
-        if (!p_msg) return false;
-        return true;
-      }
-    default:
-      return false;
-  }
   return false;
 }
 
