@@ -54,9 +54,9 @@ iCelBehaviour* celBlTest::CreateBehaviour (iCelEntity* entity, const char* name)
   else if (!strcmp (name, "box"))
     ent = new celBehaviourBox (entity, object_reg);
   else if (!strcmp (name, "actor"))
-    ent = new celBehaviourActor (entity, object_reg);
+    ent = new celBehaviourGeneral (entity, object_reg);
   else if (!strcmp (name, "dynactor"))
-    ent = new celBehaviourDynActor (entity, object_reg);
+    ent = new celBehaviourGeneral (entity, object_reg);
   else if (!strcmp (name, "wheeled"))
     ent = new celBehaviourWheeled (entity, object_reg);
   if (ent)
