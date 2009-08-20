@@ -97,10 +97,6 @@ private:
   static csStringID id_param_y;
   static csStringID id_param_value;
 
-  // Other fields.
-  int counter;
-  size_t max;
-
   csRef<iMessageDispatcher> dispatcher_print;
 
   csWeakRef<iPcTrackingCamera> trackcam;
