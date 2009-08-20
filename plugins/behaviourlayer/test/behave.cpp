@@ -33,16 +33,11 @@
 #include "propclass/defcam.h"
 #include "propclass/newcamera.h"
 #include "propclass/delegcam.h"
-#include "propclass/cameras/tracking.h"
-#include "propclass/analogmotion.h"
-#include "propclass/jump.h"
-#include "propclass/grab.h"
 #include "propclass/inv.h"
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
 #include "propclass/mechsys.h"
 #include "propclass/wheeled.h"
-#include "propclass/linmove.h"
 #include "plugins/behaviourlayer/test/behave.h"
 #include "celtool/stdparams.h"
 #include <iostream>
@@ -241,24 +236,40 @@ celBehaviourActor::~celBehaviourActor()
 {
 }
 
+iPcTrackingCamera* celBehaviourActor::GetTrackingCamera ()
+{
+  if (!trackcam)
+  {
+    trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
+  }
+  return trackcam;
+}
+
 bool celBehaviourActor::ReceiveMessage (csStringID msgid,
 	iMessageSender* sender,
 	celData& ret, iCelParameterBlock* params)
 {
-  csRef<iPcAnalogMotion> pcactor = celQueryPropertyClassEntity
-    <iPcAnalogMotion> (entity);
   if (!pcactor)
-    return false;
-  csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity);
+  {
+    pcactor = celQueryPropertyClassEntity<iPcAnalogMotion> (entity);
+    if (!pcactor) return false;
+  }
   if (!jump)
-    return false;
-  csRef<iPcGrab> grab = celQueryPropertyClassEntity<iPcGrab> (entity);
+  {
+    jump = celQueryPropertyClassEntity<iPcJump> (entity);
+    if (!jump) return false;
+  }
   if (!grab)
-    return false;
-  csRef<iPcLinearMovement> linmove =
-    celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-  if (!pcactor && !linmove)
-    return false;
+  {
+    grab = celQueryPropertyClassEntity<iPcGrab> (entity);
+    if (!grab) return false;
+  }
+  if (!linmove)
+  {
+    csRef<iPcLinearMovement> linmove =
+      celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+    if (!pcactor && !linmove) return false;
+  }
 
   if (msgid == id_move_jump_landed)
   {
@@ -290,8 +301,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
   {
     CEL_FETCH_FLOAT_PAR (x, params, id_param_x);
     CEL_FETCH_FLOAT_PAR (y, params, id_param_y);
-    csRef<iPcTrackingCamera> trackcam =
-      celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
+    GetTrackingCamera ();
     trackcam->SetPanDirection (-x * 400);
     trackcam->SetTiltDirection (-y * 200);
     return true;
@@ -460,8 +470,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
       // do a crouch (target set downwards)
       else
       {
-        csRef<iPcTrackingCamera> trackcam =
-          celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
+	GetTrackingCamera ();
         trackcam->SetTargetYOffset (0.5f);
       }
     }
@@ -472,8 +481,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
   {
     if (pcactor->GetAxis () < EPSILON)
     {
-      csRef<iPcTrackingCamera> trackcam =
-        celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
+      GetTrackingCamera ();
       trackcam->SetTargetYOffset (1.5f);
     }
     return true;
@@ -509,8 +517,7 @@ bool celBehaviourActor::ReceiveMessage (csStringID msgid,
     return true;
   }
 
-  csRef<iPcTrackingCamera> trackcam =
-    celQueryPropertyClassEntity<iPcTrackingCamera> (entity);
+  GetTrackingCamera ();
   if (!trackcam)
     return false;
 
