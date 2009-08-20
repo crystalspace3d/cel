@@ -120,40 +120,6 @@ public:
 };
 
 /**
- * 'actor' behaviour, using new camera and analog move
- */
-class celBehaviourActor : public celBehaviourGeneral
-{
-public:
-  celBehaviourActor (iCelEntity* entity, iObjectRegistry* object_reg);
-};
-
-/**
- * 'move' behaviour.
- */
-class celBehaviourDynActor : public celBehaviourGeneral
-{
-private:
-  csStringID id_input_forward_down;
-  csStringID id_input_backward_down;
-  csStringID id_input_strafeleft_down;
-  csStringID id_input_straferight_down;
-  csStringID id_input_jump_down;
-  csStringID id_input_lookup_down;
-  csStringID id_input_lookup_up;
-  csStringID id_input_lookdown_down;
-  csStringID id_input_lookdown_up;
-  csStringID id_input_center_down;
-
-public:
-  celBehaviourDynActor (iCelEntity* entity, iObjectRegistry* object_reg);
-  virtual ~celBehaviourDynActor() { }
-
-  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
-      celData& ret, iCelParameterBlock* params);
-};
-
-/**
  *  behaviour for a wheeled vehicle.
  */
 class celBehaviourWheeled : public celBehaviourGeneral

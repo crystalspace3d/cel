@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass dynmove ;
+
+Plugin pfdynmove
+	: dynmove.cpp dynmove.h
+;
+ExternalLibs pfdynmove : CRYSTAL ;
+LinkWith pfdynmove : celtool ;
+

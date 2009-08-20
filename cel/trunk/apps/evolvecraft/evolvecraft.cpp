@@ -158,6 +158,7 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
         "pcphysics.object",
         "pcvehicle.hover",
         "pcvehicle.craft",
+	"pcmove.actor.dynamic",
         (void*)0);
   if (!player) return false;
 
