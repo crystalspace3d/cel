@@ -97,8 +97,6 @@ private:
   static csStringID id_param_y;
   static csStringID id_param_value;
 
-  csRef<iMessageDispatcher> dispatcher_print;
-
   csWeakRef<iPcTrackingCamera> trackcam;
   csWeakRef<iPcAnalogMotion> pcactor;
   csWeakRef<iPcJump> jump;
