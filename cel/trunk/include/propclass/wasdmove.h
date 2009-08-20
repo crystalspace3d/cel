@@ -26,19 +26,8 @@
 /**
  * This is a property class for wasd movement.
  *
- * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - cel.misc.test.print: a message has been printed (message)
- *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
- * - Print: parameters 'message' (string).
- *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * - counter (long, read/write): how many times something has been printed.
- * - max (long, read/write): maximum length of what was printed.
  */
 struct iPcWasdMove : public virtual iBase
 {
