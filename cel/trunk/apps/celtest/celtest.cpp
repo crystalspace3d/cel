@@ -179,7 +179,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 	const char* /*factname*/, const csVector3& /*pos*/)
 {
   // The Real Camera
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, 0, 0,
     "pcinput.standard",
     "pcmove.analogmotion",
     "pcmove.jump",
@@ -284,7 +284,7 @@ bool CelTest::CreateRoom ()
   //===============================
   // Create the room entity.
   //===============================
-  entity_room = pl->CreateEntity ("room", bltest, "room",
+  entity_room = pl->CreateEntity ("room", 0, 0,
   	"pcworld.zonemanager",
 	"pctools.inventory",
   	CEL_PROPCLASS_END);
@@ -411,16 +411,6 @@ bool CelTest::Application ()
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
-
-  // we find the scf object already in cel's example behaviour layer
-  // in plugins/behaviourlayer/test to use
-  bltest = csQueryRegistryTagInterface<iCelBlLayer> (
-    object_reg, "iCelBlLayer.Test");
-  if (!bltest) return ReportError ("CEL test behaviour layer missing!");
-  // after we have a pointer to the behaviourlayer we want to use
-  // able to create the behaviours we want, then we register it for usage
-  // with the physical layer.
-  pl->RegisterBehaviourLayer (bltest);
 
   if (!CreateRoom ()) return false;
 

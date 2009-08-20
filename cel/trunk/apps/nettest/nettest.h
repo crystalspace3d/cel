@@ -66,7 +66,6 @@ private:
   csRef<iVirtualClock> vc;
 
   csRef<iCelPlLayer> pl;
-  csRef<iCelBlLayer> bltest;
   csRef<iCelEntity> entity_room;
   csRef<iPcZoneManager> pczonemgr;
   csRef<iCelGameFactory> game_factory;

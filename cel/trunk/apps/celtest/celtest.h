@@ -59,7 +59,6 @@ private:
   csRef<FramePrinter> printer;
 
   csRef<iCelPlLayer> pl;
-  csRef<iCelBlLayer> bltest;
   csRef<iCelEntity> game;
  
   /**
