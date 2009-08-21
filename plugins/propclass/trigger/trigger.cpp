@@ -759,7 +759,7 @@ void celPcTrigger::TickOnce ()
         break;
       }
       default:
-        break;
+        return;
     }
     size_t i;
 
