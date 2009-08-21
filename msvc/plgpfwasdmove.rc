@@ -18,7 +18,7 @@ FILEFLAGS 0x0
       VALUE "ProductVersion", "1.9"
       VALUE "FileVersion", "1.9"
       VALUE "LegalCopyright", "Copyright (C)2002-2008 Jorrit Tyberghein and others."
-      VALUE "FileDescription", "bltest"
+      VALUE "FileDescription", "pfwasdmove"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
 #else
@@ -38,14 +38,14 @@ FILEFLAGS 0x0
 17485 RCDATA 
 {
   "<?xml version=""1.0""?>",
-  "<!-- bltest.csplugin -->",
+  "<!-- pfwasdmove.csplugin -->",
   "<plugin>",
   "  <scf>",
   "    <classes>",
   "      <class>",
-  "        <name>cel.behaviourlayer.test</name>",
-  "        <implementation>celBlTest</implementation>",
-  "	<description>CEL Test Behaviour Layer</description>",
+  "        <name>cel.pcfactory.move.actor.wasd</name>",
+  "        <implementation>celPfWasdMove</implementation>",
+  "        <description>CEL WASD Mover Property Class Factory</description>",
   "      </class>",
   "    </classes>",
   "  </scf>",

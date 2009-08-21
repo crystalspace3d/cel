@@ -34,6 +34,7 @@
 #include "propclass/damage.h"
 #include "propclass/defcam.h"
 #include "propclass/delegcam.h"
+#include "propclass/dynmove.h"
 #include "propclass/evolve.h"
 #include "propclass/grab.h"
 #include "propclass/gravity.h"
@@ -72,7 +73,9 @@
 #include "propclass/timer.h"
 #include "propclass/tooltip.h"
 #include "propclass/trigger.h"
+#include "propclass/wasdmove.h"
 #include "propclass/wheeled.h"
+#include "propclass/wheeledmove.h"
 #include "propclass/zone.h"
 #endif /* __PROPCLASS_H__ */
 

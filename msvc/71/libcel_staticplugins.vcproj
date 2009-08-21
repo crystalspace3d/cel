@@ -660,51 +660,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libbltest_staticreg.cpp">
-                                  				    					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libbltest_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with static libs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\msvc_libbltest_staticreg.cpp.obj"/>
-					</FileConfiguration>				    					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libbltest_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\msvc_libbltest_staticreg.cpp.obj"/>
-					</FileConfiguration>
-                                  				    					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libbltest_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with static libs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libbltest_staticreg.cpp.obj"/>
-					</FileConfiguration>				    					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libbltest_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libbltest_staticreg.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\msvc\libblxml_staticreg.cpp">
                                   				    					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -1287,6 +1242,51 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libpfdelegcam_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\libpfdynmove_staticreg.cpp">
+                                  				    					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfdynmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\msvc_libpfdynmove_staticreg.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfdynmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\msvc_libpfdynmove_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  				    					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfdynmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libpfdynmove_staticreg.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfdynmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libpfdynmove_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -2505,6 +2505,51 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfwasdmove_staticreg.cpp">
+                                  				    					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfwasdmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\msvc_libpfwasdmove_staticreg.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfwasdmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\msvc_libpfwasdmove_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  				    					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfwasdmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libpfwasdmove_staticreg.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfwasdmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libpfwasdmove_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfwheeled_staticreg.cpp">
                                   				    					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -2547,6 +2592,51 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libpfwheeled_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\libpfwheeledmove_staticreg.cpp">
+                                  				    					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfwheeledmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\msvc_libpfwheeledmove_staticreg.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfwheeledmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\msvc_libpfwheeledmove_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  				    					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfwheeledmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libpfwheeledmove_staticreg.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfwheeledmove_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libpfwheeledmove_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -3180,96 +3270,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\behaviourlayer\test\behave.cpp">
-                                  				    					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_behaviourlayer_test_behave.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with static libs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_behaviourlayer_test_behave.cpp.obj"/>
-					</FileConfiguration>				    					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_behaviourlayer_test_behave.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_behaviourlayer_test_behave.cpp.obj"/>
-					</FileConfiguration>
-                                  				    					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_behaviourlayer_test_behave.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with static libs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_behaviourlayer_test_behave.cpp.obj"/>
-					</FileConfiguration>				    					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_behaviourlayer_test_behave.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_behaviourlayer_test_behave.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\behaviourlayer\test\bl.cpp">
-                                  				    					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_behaviourlayer_test_bl.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with static libs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_behaviourlayer_test_bl.cpp.obj"/>
-					</FileConfiguration>				    					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_behaviourlayer_test_bl.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_behaviourlayer_test_bl.cpp.obj"/>
-					</FileConfiguration>
-                                  				    					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_behaviourlayer_test_bl.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with static libs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_behaviourlayer_test_bl.cpp.obj"/>
-					</FileConfiguration>				    					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_behaviourlayer_test_bl.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|x64">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_behaviourlayer_test_bl.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\behaviourlayer\xml\behave_xml.cpp">
                                   				    					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -3897,6 +3897,51 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_propclass_delegcam_delegate.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\dynmove\dynmove.cpp">
+                                  				    					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_dynmove_dynmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_propclass_dynmove_dynmove.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_dynmove_dynmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_propclass_dynmove_dynmove.cpp.obj"/>
+					</FileConfiguration>
+                                  				    					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_dynmove_dynmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_propclass_dynmove_dynmove.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_dynmove_dynmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_propclass_dynmove_dynmove.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -5790,6 +5835,51 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\wasdmove\wasdmove.cpp">
+                                  				    					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_wasdmove_wasdmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_propclass_wasdmove_wasdmove.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_wasdmove_wasdmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_propclass_wasdmove_wasdmove.cpp.obj"/>
+					</FileConfiguration>
+                                  				    					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_wasdmove_wasdmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_propclass_wasdmove_wasdmove.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_wasdmove_wasdmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_propclass_wasdmove_wasdmove.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\wheeled\wheeled.cpp">
                                   				    					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -5832,6 +5922,51 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_propclass_wheeled_wheeled.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\wheeledmove\wheeledmove.cpp">
+                                  				    					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_wheeledmove_wheeledmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_propclass_wheeledmove_wheeledmove.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_wheeledmove_wheeledmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_propclass_wheeledmove_wheeledmove.cpp.obj"/>
+					</FileConfiguration>
+                                  				    					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_wheeledmove_wheeledmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_propclass_wheeledmove_wheeledmove.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_wheeledmove_wheeledmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_propclass_wheeledmove_wheeledmove.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -7708,12 +7843,6 @@
 				RelativePath="..\..\plugins\behaviourlayer\python\blpython.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\behaviourlayer\test\behave.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\behaviourlayer\test\bl.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\behaviourlayer\xml\behave_xml.h">
 			</File>
 			<File
@@ -7754,6 +7883,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\delegcam\delegate.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\dynmove\dynmove.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\engine\engfact.h">
@@ -7891,10 +8023,16 @@
 				RelativePath="..\..\plugins\propclass\trigger\trigger.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\wasdmove\wasdmove.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\wheeled\wheeled.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\wheeled\wheeledcb.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\wheeledmove\wheeledmove.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\zone\zone.h">

@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="plgbltest"
-	ProjectGUID="{E15D3136-619B-861B-D8FF-561A1F846B6C}"
+	Name="plgpfwasdmove"
+	ProjectGUID="{2C575623-B12B-4ABE-1797-5F7EB2ABB8F8}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,8 +12,8 @@
 	<Configurations>
             		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release71\build\plgbltest\"
-			IntermediateDirectory="..\..\out\release71\build\plgbltest\"
+			OutputDirectory="..\..\out\release71\build\plgpfwasdmove\"
+			IntermediateDirectory="..\..\out\release71\build\plgpfwasdmove\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -25,14 +25,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release71\build\plgbltest\Win32\bltest.pdb"
+				ProgramDataBaseFileName="..\..\out\release71\build\plgpfwasdmove\Win32\pfwasdmove.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release71\build\plgbltest\plgbltest.pch"
-				AssemblerListingLocation="..\..\out\release71\build\plgbltest\"
-				ObjectFile="..\..\out\release71\build\plgbltest\"
+				PrecompiledHeaderFile="..\..\out\release71\build\plgpfwasdmove\plgpfwasdmove.pch"
+				AssemblerListingLocation="..\..\out\release71\build\plgpfwasdmove\"
+				ObjectFile="..\..\out\release71\build\plgpfwasdmove\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -49,11 +49,11 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\bltest.dll"
-				ProgramDatabaseFile="..\..\out\release71\build\plgbltest\Win32\bltest.pdb"
+				OutputFile="..\..\pfwasdmove.dll"
+				ProgramDatabaseFile="..\..\out\release71\build\plgpfwasdmove\Win32\pfwasdmove.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release71\build\plgbltest\Win32\plgbltest.lib"
+				ImportLibrary="..\..\out\release71\build\plgpfwasdmove\Win32\plgpfwasdmove.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
@@ -68,7 +68,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\plgbltest\plgbltest.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\plgpfwasdmove\plgpfwasdmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release71\bin\&#x0D;&#x0A;"
@@ -80,7 +80,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\plugins\behaviourlayer\test;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\wasdmove;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -89,8 +89,8 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release71\build\plgbltest\"
-			IntermediateDirectory="..\..\out\release71\build\plgbltest\"
+			OutputDirectory="..\..\out\release71\build\plgpfwasdmove\"
+			IntermediateDirectory="..\..\out\release71\build\plgpfwasdmove\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -102,14 +102,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release71\build\plgbltest\Win32\bltest.pdb"
+				ProgramDataBaseFileName="..\..\out\release71\build\plgpfwasdmove\Win32\pfwasdmove.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release71\build\plgbltest\plgbltest.pch"
-				AssemblerListingLocation="..\..\out\release71\build\plgbltest\"
-				ObjectFile="..\..\out\release71\build\plgbltest\"
+				PrecompiledHeaderFile="..\..\out\release71\build\plgpfwasdmove\plgpfwasdmove.pch"
+				AssemblerListingLocation="..\..\out\release71\build\plgpfwasdmove\"
+				ObjectFile="..\..\out\release71\build\plgpfwasdmove\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -126,11 +126,11 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\bltest.dll"
-				ProgramDatabaseFile="..\..\out\release71\build\plgbltest\Win32\bltest.pdb"
+				OutputFile="..\..\pfwasdmove.dll"
+				ProgramDatabaseFile="..\..\out\release71\build\plgpfwasdmove\Win32\pfwasdmove.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release71\build\plgbltest\Win32\plgbltest.lib"
+				ImportLibrary="..\..\out\release71\build\plgpfwasdmove\Win32\plgpfwasdmove.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
@@ -145,7 +145,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\plgbltest\plgbltest.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\plgpfwasdmove\plgpfwasdmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release71\bin\&#x0D;&#x0A;"
@@ -157,7 +157,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\plugins\behaviourlayer\test;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\wasdmove;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -166,8 +166,8 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug71\build\plgbltest\"
-			IntermediateDirectory="..\..\out\debug71\build\plgbltest\"
+			OutputDirectory="..\..\out\debug71\build\plgpfwasdmove\"
+			IntermediateDirectory="..\..\out\debug71\build\plgpfwasdmove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -178,14 +178,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug71\build\plgbltest\Win32\bltest.pdb"
+				ProgramDataBaseFileName="..\..\out\debug71\build\plgpfwasdmove\Win32\pfwasdmove.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug71\build\plgbltest\plgbltest.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\plgbltest\"
-				ObjectFile="..\..\out\debug71\build\plgbltest\"
+				PrecompiledHeaderFile="..\..\out\debug71\build\plgpfwasdmove\plgpfwasdmove.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\plgpfwasdmove\"
+				ObjectFile="..\..\out\debug71\build\plgpfwasdmove\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -200,11 +200,11 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\bltest.dll"
-				ProgramDatabaseFile="..\..\out\debug71\build\plgbltest\Win32\bltest.pdb"
+				OutputFile="..\..\pfwasdmove.dll"
+				ProgramDatabaseFile="..\..\out\debug71\build\plgpfwasdmove\Win32\pfwasdmove.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug71\build\plgbltest\Win32\plgbltest.lib"
+				ImportLibrary="..\..\out\debug71\build\plgpfwasdmove\Win32\plgpfwasdmove.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
@@ -219,7 +219,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\plgbltest\plgbltest.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\plgpfwasdmove\plgpfwasdmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug71\bin\&#x0D;&#x0A;"
@@ -231,7 +231,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\plugins\behaviourlayer\test;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\wasdmove;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -240,8 +240,8 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug71\build\plgbltest\"
-			IntermediateDirectory="..\..\out\debug71\build\plgbltest\"
+			OutputDirectory="..\..\out\debug71\build\plgpfwasdmove\"
+			IntermediateDirectory="..\..\out\debug71\build\plgpfwasdmove\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -252,14 +252,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug71\build\plgbltest\Win32\bltest.pdb"
+				ProgramDataBaseFileName="..\..\out\debug71\build\plgpfwasdmove\Win32\pfwasdmove.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug71\build\plgbltest\plgbltest.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\plgbltest\"
-				ObjectFile="..\..\out\debug71\build\plgbltest\"
+				PrecompiledHeaderFile="..\..\out\debug71\build\plgpfwasdmove\plgpfwasdmove.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\plgpfwasdmove\"
+				ObjectFile="..\..\out\debug71\build\plgpfwasdmove\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -274,11 +274,11 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\bltest.dll"
-				ProgramDatabaseFile="..\..\out\debug71\build\plgbltest\Win32\bltest.pdb"
+				OutputFile="..\..\pfwasdmove.dll"
+				ProgramDatabaseFile="..\..\out\debug71\build\plgpfwasdmove\Win32\pfwasdmove.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug71\build\plgbltest\Win32\plgbltest.lib"
+				ImportLibrary="..\..\out\debug71\build\plgpfwasdmove\Win32\plgpfwasdmove.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
@@ -293,7 +293,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\plgbltest\plgbltest.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\plgpfwasdmove\plgpfwasdmove.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug71\bin\&#x0D;&#x0A;"
@@ -305,7 +305,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\plugins\behaviourlayer\test;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\wasdmove;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -318,30 +318,24 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\behaviourlayer\test\behave.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\behaviourlayer\test\bl.cpp">
+				RelativePath="..\..\plugins\propclass\wasdmove\wasdmove.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\behaviourlayer\test\behave.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\behaviourlayer\test\bl.h">
+				RelativePath="..\..\plugins\propclass\wasdmove\wasdmove.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\plgbltest.rc">
+				RelativePath="..\..\msvc\plgpfwasdmove.rc">
 			</File>
 			<File
-				RelativePath="..\..\plugins\behaviourlayer\test\bltest.csplugin">
+				RelativePath="..\..\plugins\propclass\wasdmove\pfwasdmove.csplugin">
 			</File>
 		</Filter>
 	</Files>
