@@ -210,7 +210,7 @@ bool celPcWasdMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   {
     CEL_FETCH_FLOAT_PAR (x, params, id_param_x);
     CEL_FETCH_FLOAT_PAR (y, params, id_param_y);
-    trackcam->SetPanDirection (-x * 400);	//@@@Config
+    trackcam->SetPanDirection (-x * 200);	//@@@Config
     trackcam->SetTiltDirection (-y * 200);	//@@@Config
     return true;
   }
