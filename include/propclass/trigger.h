@@ -233,6 +233,26 @@ struct iPcTrigger : public virtual iBase
    * case it will return true if the entity is already in the trigger.
    */
   virtual bool Check () = 0;
+
+  /// Get update delay for checking trigger.
+  virtual csTicks GetUpdateDelay () const = 0;
+  /// Get random jitter for update delay.
+  virtual csTicks GetUpdateJitter () const = 0;
+  /// Get flag to control checking on invisible entities.
+  virtual bool HasCheckingOnInvisibleEntities () const = 0;
+  /// Get flag to let the trigger follow its own mesh.
+  virtual bool HasFollowEntity () const = 0;
+  /// Set flag to let the trigger follow its own mesh (default off).
+  virtual void SetFollowEntity (bool c) = 0;
+  /// Get flag to let the trigger do strict checking for monitored entity.
+  virtual bool HasStrictChecking () const = 0;
+  /**
+   * Set flag to let the trigger do strict checking for monitored entity.
+   * If true an error will be reported if the entity is not there. Default on.
+   */
+  virtual void SetStrictChecking (bool c) = 0;
+  /// Get the type of this trigger.
+  virtual TriggerType GetTriggerType () const = 0;
 };
 
 #endif // __CEL_PF_TRIGGER__
