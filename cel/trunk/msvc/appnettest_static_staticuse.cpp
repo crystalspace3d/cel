@@ -17,7 +17,6 @@ _static_use::_static_use () {}
 SCF_USE_STATIC_PLUGIN(addon_celentity)
 SCF_USE_STATIC_PLUGIN(addon_celentitytpl)
 SCF_USE_STATIC_PLUGIN(addon_questdef)
-SCF_USE_STATIC_PLUGIN(bltest)
 SCF_USE_STATIC_PLUGIN(mgr_quests)
 SCF_USE_STATIC_PLUGIN(pfactormove)
 SCF_USE_STATIC_PLUGIN(pfbillboard)

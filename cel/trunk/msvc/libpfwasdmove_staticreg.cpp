@@ -15,36 +15,36 @@
 
 namespace csStaticPluginInit
 {
-static char const metainfo_bltest[] =
+static char const metainfo_pfwasdmove[] =
 "<?xml version=\"1.0\"?>"
-"<!-- bltest.csplugin -->"
+"<!-- pfwasdmove.csplugin -->"
 "<plugin>"
 "  <scf>"
 "    <classes>"
 "      <class>"
-"        <name>cel.behaviourlayer.test</name>"
-"        <implementation>celBlTest</implementation>"
-"	<description>CEL Test Behaviour Layer</description>"
+"        <name>cel.pcfactory.move.actor.wasd</name>"
+"        <implementation>celPfWasdMove</implementation>"
+"        <description>CEL WASD Mover Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef celBlTest_FACTORY_REGISTER_DEFINED 
-  #define celBlTest_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celBlTest) 
+  #ifndef celPfWasdMove_FACTORY_REGISTER_DEFINED 
+  #define celPfWasdMove_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfWasdMove) 
   #endif
 
-class bltest
+class pfwasdmove
 {
-SCF_REGISTER_STATIC_LIBRARY(bltest,metainfo_bltest)
-  #ifndef celBlTest_FACTORY_REGISTERED 
-  #define celBlTest_FACTORY_REGISTERED 
-    celBlTest_StaticInit celBlTest_static_init__; 
+SCF_REGISTER_STATIC_LIBRARY(pfwasdmove,metainfo_pfwasdmove)
+  #ifndef celPfWasdMove_FACTORY_REGISTERED 
+  #define celPfWasdMove_FACTORY_REGISTERED 
+    celPfWasdMove_StaticInit celPfWasdMove_static_init__; 
   #endif
 public:
- bltest();
+ pfwasdmove();
 };
-bltest::bltest() {}
+pfwasdmove::pfwasdmove() {}
 
 }
