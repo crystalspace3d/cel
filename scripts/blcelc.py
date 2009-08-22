@@ -3420,6 +3420,14 @@ class iPcTrigger(cspace.iBase):
     def IsEnabled(*args): return _blcelc.iPcTrigger_IsEnabled(*args)
     def GetEntitiesInTrigger(*args): return _blcelc.iPcTrigger_GetEntitiesInTrigger(*args)
     def Check(*args): return _blcelc.iPcTrigger_Check(*args)
+    def GetUpdateDelay(*args): return _blcelc.iPcTrigger_GetUpdateDelay(*args)
+    def GetUpdateJitter(*args): return _blcelc.iPcTrigger_GetUpdateJitter(*args)
+    def HasCheckingOnInvisibleEntities(*args): return _blcelc.iPcTrigger_HasCheckingOnInvisibleEntities(*args)
+    def HasFollowEntity(*args): return _blcelc.iPcTrigger_HasFollowEntity(*args)
+    def SetFollowEntity(*args): return _blcelc.iPcTrigger_SetFollowEntity(*args)
+    def HasStrictChecking(*args): return _blcelc.iPcTrigger_HasStrictChecking(*args)
+    def SetStrictChecking(*args): return _blcelc.iPcTrigger_SetStrictChecking(*args)
+    def GetTriggerType(*args): return _blcelc.iPcTrigger_GetTriggerType(*args)
     MonitorDelay = _swig_property(None, fix_args(_blcelc.iPcTrigger_SetMonitorDelay), None,
                     "iPcTrigger.MonitorDelay -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcTrigger::getmethod()\n\tset: void iPcTrigger::SetMonitorDelay(...)")
 
