@@ -262,7 +262,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
       csVector3 (0.0f, -0.4f, 0.0f));
   }
 
-#if 1
   csRef<iPcTrigger> trigger = celQueryPropertyClassEntity<iPcTrigger> (entity_cam);
   trigger->SetupTriggerSphere (0, csVector3 (0), 1.0);
   trigger->SetFollowEntity (true);
@@ -276,7 +275,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   msg_param->GetParameter (0).Set ("We're close to some entity!");
   wire->AddOutputAction (pl->FetchStringID ("cel.action.Print"),
       entity_cam->GetPropertyClassList ()->FindByName ("pcmisc.test"), msg_param);
-#endif
 
   return csPtr<iCelEntity> (entity_cam);
 }
