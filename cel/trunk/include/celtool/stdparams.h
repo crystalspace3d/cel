@@ -27,6 +27,7 @@
 #include "csutil/array.h"
 #include "csutil/stringarray.h"
 #include "behaviourlayer/behave.h"
+#include "tools/expression.h"
 
 // The following macros will set 'var' to the required variable and
 // 'p_var' will be made to 0 if there is a failure.
@@ -372,6 +373,86 @@ public:
     }
   }
 };
+
+struct celParameterMapping
+{
+  csString source;
+  csString dest;
+  csRef<iCelExpression> expression;
+};
+
+#if 0
+
+// Below is work in progress @@@
+
+/**
+ * Parameter block implementation which supports parameter mapping
+ * and expressions.
+ */
+class celMappedParameterBlock : public scfImplementation1<
+	celMappedParameterBlock, iCelParameterBlock>
+{
+private:
+  csRef<iCelParameterBlock> params;
+  const csArray<celParameterMapping>& mapping;
+
+public:
+  celMappedParameterBlock (iCelParameterBlock* params,
+      const csArray<celParameterMapping>& mapping)
+    : scfImplementationType (this), params (params),
+      mapping (mapping)
+  {
+    for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
+
+  }
+  virtual ~celMappedParameterBlock ()
+  {
+  }
+
+  virtual size_t GetParameterCount () const
+  {
+    return params->GetParameterCount () + (b2 ? b2->GetParameterCount () : 0);
+  }
+  virtual const char* GetParameter (size_t idx, csStringID& id,
+  	celDataType& t) const
+  {
+    if (idx < b1->GetParameterCount ())
+    {
+      return b1->GetParameter (idx, id, t);
+    }
+    else if (b2)
+    {
+      return b2->GetParameter (idx-b1->GetParameterCount (), id, t);
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  virtual const celData* GetParameter (csStringID id) const
+  {
+    const celData* data = b1->GetParameter (id);
+    if (data) return data;
+    if (!b2) return 0;
+    return b2->GetParameter (id);
+  }
+  virtual const celData* GetParameterByIndex (size_t idx) const
+  {
+    if (idx < b1->GetParameterCount ())
+    {
+      return b1->GetParameterByIndex (idx);
+    }
+    else if (b2)
+    {
+      return b2->GetParameterByIndex (idx-b1->GetParameterCount ());
+    }
+    else
+    {
+      return 0;
+    }
+  }
+};
+#endif
 
 #endif // __CEL_CELTOOL_PARAMS__
 

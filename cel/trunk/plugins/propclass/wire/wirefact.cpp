@@ -33,11 +33,60 @@ CEL_IMPLEMENT_FACTORY (Wire, "pcmisc.wire")
 
 //---------------------------------------------------------------------------
 
+csRef<iCelParameterBlock> celWireOutput::CombineParams (iCelParameterBlock* p1, iCelParameterBlock* p2)
+{
+  if (!p1) return p2;
+  if (!p2) return p1;
+  csRef<iCelParameterBlock> b;
+  b.AttachNew (new celCombineParameterBlock (p1, p2));
+  return b;
+}
+
+csRef<iCelParameterBlock> celWireOutput::MapParams (iCelEntity* entity, iCelParameterBlock* params)
+{
+  if (mappings.GetSize () == 0)
+    return params;
+  //csRef<celMappedParameterBlock> newparams;
+  //newparams.AttachNew (new celMappedParameterBlock (params, mapping));
+  //return newparams;
+  return 0;
+}
+
+void celWireOutput::AddMapping (const char* source, const char* dest, iCelExpression* expression)
+{
+  celParameterMapping mapping;
+  mapping.source = source;
+  mapping.dest = dest;
+  mapping.expression = expression;
+  mappings.Push (mapping);
+}
+
+void celWireOutputMessage::Do (celPcWire* wire, iCelParameterBlock* params)
+{
+  if (channel)
+    channel->SendMessage (msgid, wire, MapParams (wire->GetEntity (), CombineParams (extra_params, params)));
+}
+
+void celWireOutputAction::Do (celPcWire* wire, iCelParameterBlock* params)
+{
+  if (pc)
+  {
+    celData ret;
+    pc->PerformAction (actionID, MapParams (wire->GetEntity (), CombineParams (extra_params, params)), ret);
+  }
+}
+
+//---------------------------------------------------------------------------
+
 csStringID celPcWire::id_mask = csInvalidStringID;
 csStringID celPcWire::id_entity = csInvalidStringID;
 csStringID celPcWire::id_msgid = csInvalidStringID;
 csStringID celPcWire::id_actionid = csInvalidStringID;
 csStringID celPcWire::id_pc = csInvalidStringID;
+csStringID celPcWire::id_id = csInvalidStringID;
+csStringID celPcWire::id_source = csInvalidStringID;
+csStringID celPcWire::id_dest = csInvalidStringID;
+csStringID celPcWire::id_expression = csInvalidStringID;
 
 PropertyHolder celPcWire::propinfo;
 
@@ -52,6 +101,10 @@ celPcWire::celPcWire (iObjectRegistry* object_reg)
     id_msgid = pl->FetchStringID ("cel.parameter.msgid");
     id_actionid = pl->FetchStringID ("cel.parameter.actionid");
     id_pc = pl->FetchStringID ("cel.parameter.pc");
+    id_id = pl->FetchStringID ("cel.parameter.id");
+    id_source = pl->FetchStringID ("cel.parameter.source");
+    id_dest = pl->FetchStringID ("cel.parameter.dest");
+    id_expression = pl->FetchStringID ("cel.parameter.expression");
   }
 
   propholder = &propinfo;
@@ -62,6 +115,7 @@ celPcWire::celPcWire (iObjectRegistry* object_reg)
     AddAction (action_addinput, "cel.action.AddInput");
     AddAction (action_addoutput, "cel.action.AddOutput");
     AddAction (action_addaction, "cel.action.AddAction");
+    AddAction (action_mapparameter, "cel.action.MapParameter");
   }
 }
 
@@ -134,40 +188,32 @@ bool celPcWire::PerformActionIndexed (int idx,
 	AddOutputAction (actionID, pc, params);
         return true;
       }
+    case action_mapparameter:
+      {
+        CEL_FETCH_LONG_PAR (id,params,id_id);
+        if (!p_id) return false;
+        CEL_FETCH_STRING_PAR (source,params,id_source);
+        if (!p_source) return false;
+        CEL_FETCH_STRING_PAR (dest,params,id_dest);
+        if (!p_dest) return false;
+        CEL_FETCH_STRING_PAR (expression,params,id_expression);
+        //if (!p_expression) return false;
+	//@@@ TODO!!!
+	MapParameter (id, source, dest);
+	return true;
+      }
     default:
       return false;
   }
   return false;
 }
 
-static csRef<iCelParameterBlock> CombineParams (iCelParameterBlock* p1, iCelParameterBlock* p2)
-{
-  if (!p1) return p2;
-  if (!p2) return p1;
-  csRef<iCelParameterBlock> b;
-  b.AttachNew (new celCombineParameterBlock (p1, p2));
-  return b;
-}
-
 bool celPcWire::ReceiveMessage (csStringID msgid, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params)
 {
   size_t i;
-  for (i = 0 ; i < output_messages.GetSize () ; i++)
-  {
-    const celWireOutputMessage& out = output_messages[i];
-    if (out.channel)
-      out.channel->SendMessage (out.msgid, this, CombineParams (out.extra_params, params));
-  }
-  for (i = 0 ; i < output_actions.GetSize () ; i++)
-  {
-    const celWireOutputAction& out = output_actions[i];
-    if (out.pc)
-    {
-      celData ret;
-      out.pc->PerformAction (out.actionID, CombineParams (out.extra_params, params), ret);
-    }
-  }
+  for (i = 0 ; i < output.GetSize () ; i++)
+    output[i]->Do (this, params);
   return true;
 }
 
@@ -178,27 +224,30 @@ void celPcWire::AddInput (const char* msg_mask, iMessageChannel* channel)
   channel->Subscribe (this, msg_mask);
 }
 
-void celPcWire::AddOutput (const char* msgid, iMessageChannel* channel,
+size_t celPcWire::AddOutput (const char* msgid, iMessageChannel* channel,
       iCelParameterBlock* extra_params)
 {
-  celWireOutputMessage out;
-  out.msgid = msgid;
+  csRef<celWireOutputMessage> out;
   if (channel == 0)
-    out.channel = entity->QueryMessageChannel ();
-  else
-    out.channel = channel;
-  out.extra_params = extra_params;
-  output_messages.Push (out);
+    channel = entity->QueryMessageChannel ();
+  out.AttachNew (new celWireOutputMessage (msgid, channel));
+  out->extra_params = extra_params;
+  return output.Push (out);
 }
 
-void celPcWire::AddOutputAction (csStringID actionID, iCelPropertyClass* pc,
+size_t celPcWire::AddOutputAction (csStringID actionID, iCelPropertyClass* pc,
       iCelParameterBlock* extra_params)
 {
-  celWireOutputAction out;
-  out.actionID = actionID;
-  out.pc = pc;
-  out.extra_params = extra_params;
-  output_actions.Push (out);
+  csRef<celWireOutputAction> out;
+  out.AttachNew (new celWireOutputAction (actionID, pc));
+  out->extra_params = extra_params;
+  return output.Push (out);
+}
+
+void celPcWire::MapParameter (size_t id, const char* source, const char* dest,
+      iCelExpression* expression)
+{
+  output[id]->AddMapping (source, dest, expression);
 }
 
 //---------------------------------------------------------------------------
