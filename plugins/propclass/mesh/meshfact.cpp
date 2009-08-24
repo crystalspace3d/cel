@@ -872,22 +872,16 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 {
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
-  if (!path.IsEmpty ())
+  csString newpath = path;
+  if (newpath.IsEmpty ())
   {
-    // If we have a path then we first ChDir to that.
-    vfs->PushDir ();
-    vfs->ChDir (path);
-    vfs->SetSyncDir(vfs->GetCwd());
+    csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+    newpath = vfs->GetCwd();
   }
 
   csRef<iThreadedLoader> tloader = csQueryRegistry<iThreadedLoader> (object_reg);
-  csRef<iThreadReturn> ret = tloader->LoadFileWait(vfs->GetCwd(), fileName, 0);
-  if (!path.IsEmpty ())
-  {
-    vfs->PopDir ();
-    vfs->SetSyncDir(vfs->GetCwd());
-  }
+  csRef<iThreadReturn> ret = tloader->LoadFileWait(newpath, fileName, 0);
+
   if(!ret->WasSuccessful())
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
