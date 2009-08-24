@@ -92,6 +92,7 @@
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
 #include "propclass/sound.h"
+#include "propclass/wire.h"
 
 #define PATHFIND_VERBOSE 0
 
@@ -194,6 +195,9 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
     "pctools.inventory",
     "pctools.timer",
     "pcsound.listener",
+    "pclogic.trigger",
+    "pcmisc.wire",
+    "pcmisc.test",
     CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -226,10 +230,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("pageup", "camup");
   pcinp->Bind ("pagedown", "camdown");
 
-  csRef<iPcAnalogMotion> actor = celQueryPropertyClassEntity<iPcAnalogMotion> (entity_cam);
-  //actor->SetMinimumTurningSpeed (5.0f);
-  //actor->SetMovementSpeed (1.5f);
-
   csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity_cam);
   jump->SetBoostJump (false);
   jump->SetJumpHeight (1.0f);
@@ -238,25 +238,15 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
   trackcam->SetPanSpeed (8);
   trackcam->SetTiltSpeed (4.5);
-  csRef<iPcDelegateCamera> delegcam = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
-  //delegcam->SetCurrentMode (trackcam);
 
-  /*csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
-    entity_cam, iPcNewCamera);
-  newcamera->AttachCameraMode(iPcNewCamera::CCM_TRACKING);
-  newcamera->AttachCameraMode(iPcNewCamera::CCM_THIRD_PERSON);
-  newcamera->SetCurrentCameraMode (0);*/
-
-  //csRef<iPcTimer> timer = celQueryPropertyClassEntity<iPcTimer> (entity_cam);
-  //timer->WakeUpFrame (0);
-
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity_cam);
   bool hascal3d = true;
   pcmesh->SetPath ("/cellib/objects");
   hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
+  //pcmesh->SetPath ("/lib/kwartz");
+  //hascal3d = pcmesh->SetMesh ("kwartz_fact", "kwartz.lib");
 
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-    iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity_cam);
   if (hascal3d)
   {
     pclinmove->InitCD (
@@ -271,6 +261,22 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
       csVector3 (0.5f,  0.4f, 0.5f),
       csVector3 (0.0f, -0.4f, 0.0f));
   }
+
+#if 1
+  csRef<iPcTrigger> trigger = celQueryPropertyClassEntity<iPcTrigger> (entity_cam);
+  trigger->SetupTriggerSphere (0, csVector3 (0), 1.0);
+  trigger->SetFollowEntity (true);
+
+  csRef<iPcWire> wire = celQueryPropertyClassEntity<iPcWire> (entity_cam);
+  wire->AddInput ("cel.trigger.entity.");
+  csRef<celOneParameterBlock> msg_param;
+  msg_param.AttachNew (new celOneParameterBlock ());
+  csStringID message_id = pl->FetchStringID ("cel.parameter.message");
+  msg_param->SetParameterDef (message_id, "message");
+  msg_param->GetParameter (0).Set ("We're close to some entity!");
+  wire->AddOutputAction (pl->FetchStringID ("cel.action.Print"),
+      entity_cam->GetPropertyClassList ()->FindByName ("pcmisc.test"), msg_param);
+#endif
 
   return csPtr<iCelEntity> (entity_cam);
 }
@@ -361,8 +367,6 @@ bool CelTest::OnInitialize (int argc, char* argv[])
 	CS_REQUEST_REPORTER,
 	CS_REQUEST_REPORTERLISTENER,
 	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
-	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test:iCelBlLayer.Test",
-		iCelBlLayer),
 	CS_REQUEST_PLUGIN ("cel.persistence.xml", iCelPersistence),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
