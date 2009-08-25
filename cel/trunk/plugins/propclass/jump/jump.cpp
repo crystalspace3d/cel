@@ -234,7 +234,7 @@ float celPcJump::GetJumpHeight () const
 }
 csTicks celPcJump::GetAirTime () const
 {
-  return 2 * 1000.0f * jumpspeed / gravity;
+  return csTicks (2 * 1000.0f * jumpspeed / gravity);
 }
 void celPcJump::SetDoubleJumpSpeed (float spd)
 {
@@ -272,11 +272,11 @@ bool celPcJump::GetBoostJump () const
 }
 void celPcJump::SetBoostTime (float t)
 {
-  boost_maxtime = t;
+  boost_maxtime = csTicks (t);
 }
 float celPcJump::GetBoostTime () const
 {
-  return boost_maxtime;
+  return float (boost_maxtime);
 }
 void celPcJump::SetBoostAcceleration (float a)
 {

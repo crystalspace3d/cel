@@ -248,8 +248,8 @@ celPcSolid::celPcSolid (iObjectRegistry* object_reg)
 
   if (id_min == csInvalidStringID)
   {
-    id_min = pl->FetchStringID ("cel.parameter.min");
-    id_max = pl->FetchStringID ("cel.parameter.max");
+    id_min = pl->FetchStringID ("min");
+    id_max = pl->FetchStringID ("max");
   }
 
   propholder = &propinfo;
@@ -555,8 +555,7 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 
   if (id_force == csInvalidStringID)
   {
-    id_force = pl->FetchStringID (
-    	"cel.parameter.force");
+    id_force = pl->FetchStringID ("force");
   }
 }
 

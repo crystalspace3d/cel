@@ -60,23 +60,23 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
   sourceset = false;
   if (id_amount == csInvalidStringID)
   {
-    id_amount = pl->FetchStringID ("cel.parameter.amount");
-    id_source = pl->FetchStringID ("cel.parameter.source");
-    id_sector = pl->FetchStringID ("cel.parameter.sector");
-    id_position = pl->FetchStringID ("cel.parameter.position");
-    id_type = pl->FetchStringID ("cel.parameter.type");
-    id_radius = pl->FetchStringID ("cel.parameter.radius");
-    id_direction = pl->FetchStringID ("cel.parameter.direction");
-    id_maxdist = pl->FetchStringID ("cel.parameter.maxdist");
-    id_target = pl->FetchStringID ("cel.parameter.target");
+    id_amount = pl->FetchStringID ("amount");
+    id_source = pl->FetchStringID ("source");
+    id_sector = pl->FetchStringID ("sector");
+    id_position = pl->FetchStringID ("position");
+    id_type = pl->FetchStringID ("type");
+    id_radius = pl->FetchStringID ("radius");
+    id_direction = pl->FetchStringID ("direction");
+    id_maxdist = pl->FetchStringID ("maxdist");
+    id_target = pl->FetchStringID ("target");
   }
 
   params = new celVariableParameterBlock ();
-  params->SetParameterDef (0, id_amount, "amount");
-  params->SetParameterDef (1, id_source, "source");
-  params->SetParameterDef (2, id_sector, "sector");
-  params->SetParameterDef (3, id_position, "position");
-  params->SetParameterDef (4, id_type, "type");
+  params->SetParameterDef (0, id_amount);
+  params->SetParameterDef (1, id_source);
+  params->SetParameterDef (2, id_sector);
+  params->SetParameterDef (3, id_position);
+  params->SetParameterDef (4, id_type);
 
   propholder = &propinfo;
 

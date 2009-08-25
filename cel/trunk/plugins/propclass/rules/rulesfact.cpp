@@ -77,8 +77,8 @@ celPcRules::celPcRules (iObjectRegistry* object_reg)
   // For actions.
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("cel.parameter.name");
-    id_time = pl->FetchStringID ("cel.parameter.time");
+    id_name = pl->FetchStringID ("name");
+    id_time = pl->FetchStringID ("time");
   }
 
   propholder = &propinfo;
@@ -91,7 +91,7 @@ celPcRules::celPcRules (iObjectRegistry* object_reg)
 
   // For SendMessage parameters.
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_name, "name");
+  params->SetParameterDef (id_name);
 
   vc = csQueryRegistry<iVirtualClock> (object_reg);
 

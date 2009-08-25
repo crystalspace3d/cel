@@ -54,18 +54,18 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
   // For SendMessage parameters.
   if (id_direction == csInvalidStringID)
   {
-    id_direction = pl->FetchStringID ("cel.parameter.direction");
-    id_speed = pl->FetchStringID ("cel.parameter.speed");
-    id_maxdist = pl->FetchStringID ("cel.parameter.maxdist");
-    id_maxhits = pl->FetchStringID ("cel.parameter.maxhits");
-    id_entity = pl->FetchStringID ("cel.parameter.entity");
-    id_intersection = pl->FetchStringID ("cel.parameter.intersection");
-    id_meshname = pl->FetchStringID ("cel.parameter.meshname");
+    id_direction = pl->FetchStringID ("direction");
+    id_speed = pl->FetchStringID ("speed");
+    id_maxdist = pl->FetchStringID ("maxdist");
+    id_maxhits = pl->FetchStringID ("maxhits");
+    id_entity = pl->FetchStringID ("entity");
+    id_intersection = pl->FetchStringID ("intersection");
+    id_meshname = pl->FetchStringID ("meshname");
   }
   params.AttachNew (new celVariableParameterBlock ());
-  params->SetParameterDef (0, id_entity, "entity");
-  params->SetParameterDef (1, id_intersection, "intersection");
-  params->SetParameterDef (2, id_meshname, "meshname");
+  params->SetParameterDef (0, id_entity);
+  params->SetParameterDef (1, id_intersection);
+  params->SetParameterDef (2, id_meshname);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)

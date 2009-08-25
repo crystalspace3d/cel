@@ -57,16 +57,16 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
   // For actions.
   if (id_sectorname == csInvalidStringID)
   {
-    id_sectorname = pl->FetchStringID ("cel.parameter.sectorname");
-    id_position = pl->FetchStringID ("cel.parameter.position");
-    id_up = pl->FetchStringID ("cel.parameter.up");
-    id_sqradius = pl->FetchStringID ("cel.parameter.sqradius");
-    id_meshname = pl->FetchStringID ("cel.parameter.meshname");
-    id_checklos = pl->FetchStringID ("cel.parameter.checklos");
+    id_sectorname = pl->FetchStringID ("sectorname");
+    id_position = pl->FetchStringID ("position");
+    id_up = pl->FetchStringID ("up");
+    id_sqradius = pl->FetchStringID ("sqradius");
+    id_meshname = pl->FetchStringID ("meshname");
+    id_checklos = pl->FetchStringID ("checklos");
   }
 
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_meshname, "meshname");
+  params->SetParameterDef (id_meshname);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)

@@ -122,9 +122,7 @@ bool celActionRewardFactory::Load (iDocumentNode* node)
       if (!name)
         return Report (type->object_reg,
           "Missing name attribute in a parameter for the action reward!");
-      csString fullname = "cel.parameter.";
-      fullname += name;
-      csStringID id = pl->FetchStringID (fullname);
+      csStringID id = pl->FetchStringID (name);
       const char* str_value = child->GetAttributeValue ("string");
       if (str_value)
       {

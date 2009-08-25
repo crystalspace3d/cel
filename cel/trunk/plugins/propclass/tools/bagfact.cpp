@@ -71,7 +71,7 @@ celPcBag::celPcBag (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   if (id_value == csInvalidStringID)
-    id_value = pl->FetchStringID ("cel.parameter.value");
+    id_value = pl->FetchStringID ("value");
 
   propholder = &propinfo;
   if (!propinfo.actions_done)

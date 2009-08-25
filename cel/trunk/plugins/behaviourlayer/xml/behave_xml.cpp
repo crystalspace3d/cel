@@ -270,11 +270,11 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
      {
        const celData* cd;
        cd = params->GetParameter (
-    	  pl->FetchStringID ("cel.parameter.parameter1"));
+    	  pl->FetchStringID ("parameter1"));
        if (cd)
          path = csString(((iString const *)(cd->value.s))->GetData());
        cd = params->GetParameter (
-    	 pl->FetchStringID ("cel.parameter.parameter2"));
+    	 pl->FetchStringID ("parameter2"));
        if (cd)
          worldname = csString(((iString const *)(cd->value.s))->GetData());
     }

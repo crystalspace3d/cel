@@ -120,23 +120,23 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
 
   if (id_repeat_param == csInvalidStringID)
   {
-    id_repeat_param = pl->FetchStringID ("cel.parameter.repeat");
-    id_random_param = pl->FetchStringID ("cel.parameter.random");
-    id_mindelay_param = pl->FetchStringID ("cel.parameter.mindelay");
-    id_maxdelay_param = pl->FetchStringID ("cel.parameter.maxdelay");
-    id_chance_param = pl->FetchStringID ("cel.parameter.chance");
-    id_entity_param = pl->FetchStringID ("cel.parameter.entity");
-    id_template_param = pl->FetchStringID ("cel.parameter.template");
-    id_behaviour_param = pl->FetchStringID ("cel.parameter.behaviour");
-    id_layer_param = pl->FetchStringID ("cel.parameter.layer");
-    id_call_param = pl->FetchStringID ("cel.parameter.call");
-    id_enabled_param = pl->FetchStringID ("cel.parameter.enabled");
-    id_count_param = pl->FetchStringID ("cel.parameter.count");
-    id_sector_param = pl->FetchStringID ("cel.parameter.sector");
-    id_position_param = pl->FetchStringID ("cel.parameter.position");
-    id_yrot_param = pl->FetchStringID ("cel.parameter.yrot");
-    id_entity = pl->FetchStringID ("cel.parameter.entity");
-    id_behaviour = pl->FetchStringID ("cel.parameter.behaviour");
+    id_repeat_param = pl->FetchStringID ("repeat");
+    id_random_param = pl->FetchStringID ("random");
+    id_mindelay_param = pl->FetchStringID ("mindelay");
+    id_maxdelay_param = pl->FetchStringID ("maxdelay");
+    id_chance_param = pl->FetchStringID ("chance");
+    id_entity_param = pl->FetchStringID ("entity");
+    id_template_param = pl->FetchStringID ("template");
+    id_behaviour_param = pl->FetchStringID ("behaviour");
+    id_layer_param = pl->FetchStringID ("layer");
+    id_call_param = pl->FetchStringID ("call");
+    id_enabled_param = pl->FetchStringID ("enabled");
+    id_count_param = pl->FetchStringID ("count");
+    id_sector_param = pl->FetchStringID ("sector");
+    id_position_param = pl->FetchStringID ("position");
+    id_yrot_param = pl->FetchStringID ("yrot");
+    id_entity = pl->FetchStringID ("entity");
+    id_behaviour = pl->FetchStringID ("behaviour");
   }
 
   propholder = &propinfo;
@@ -161,8 +161,8 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   	CEL_DATA_BOOL, false, "Enable unique spawning.", &do_spawn_unique);
 
   params = new celGenericParameterBlock (2);
-  params->SetParameterDef (0, id_entity, "entity");
-  params->SetParameterDef (1, id_behaviour, "behaviour");
+  params->SetParameterDef (0, id_entity);
+  params->SetParameterDef (1, id_behaviour);
 }
 
 celPcSpawn::~celPcSpawn ()

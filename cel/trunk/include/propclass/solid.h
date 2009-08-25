@@ -32,8 +32,7 @@ class csBox3;
  * for collision detection.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - Setup: no parameters. Call this after creation to actually setup
  *   the collider from the mesh that is attached so same entity.
  * - SetupBox: parameters 'min' (vector3) and 'max' (vector3).

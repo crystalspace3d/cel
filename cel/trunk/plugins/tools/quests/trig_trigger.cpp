@@ -99,7 +99,7 @@ celTriggerTrigger::celTriggerTrigger (
   tag = qm->ResolveParameter (params, tag_par);
   celTriggerTrigger::do_leave = do_leave;
   params_entity.AttachNew (new celOneParameterBlock ());
-  params_entity->SetParameterDef (type->pl->FetchStringID ("cel.parameter.entity"), "entity");
+  params_entity->SetParameterDef (type->pl->FetchStringID ("entity"));
 }
 
 celTriggerTrigger::~celTriggerTrigger ()

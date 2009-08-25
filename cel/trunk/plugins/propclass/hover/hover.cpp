@@ -74,15 +74,15 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   if (param_hover == csInvalidStringID)
   {
     // Parameters.
-    param_hbeamcutoff = pl->FetchStringID ("cel.parameter.heightcutoff");
-    param_angoff = pl->FetchStringID ("cel.parameter.offset");
-    param_angheight = pl->FetchStringID ("cel.parameter.angheight");
-    param_angstr = pl->FetchStringID ("cel.parameter.angstrength");
-    param_hover = pl->FetchStringID ("cel.parameter.hover");
-    param_p_factor = pl->FetchStringID ("cel.parameter.pfactor");
-    param_i_factor = pl->FetchStringID ("cel.parameter.ifactor");
-    param_d_factor = pl->FetchStringID ("cel.parameter.dfactor");
-    param_hoverheight = pl->FetchStringID ("cel.parameter.hoverheight");
+    param_hbeamcutoff = pl->FetchStringID ("heightcutoff");
+    param_angoff = pl->FetchStringID ("offset");
+    param_angheight = pl->FetchStringID ("angheight");
+    param_angstr = pl->FetchStringID ("angstrength");
+    param_hover = pl->FetchStringID ("hover");
+    param_p_factor = pl->FetchStringID ("pfactor");
+    param_i_factor = pl->FetchStringID ("ifactor");
+    param_d_factor = pl->FetchStringID ("dfactor");
+    param_hoverheight = pl->FetchStringID ("hoverheight");
   }
 
   propholder = &propinfo;

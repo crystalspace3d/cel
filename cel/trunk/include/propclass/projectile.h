@@ -28,7 +28,7 @@
  * of a projectile from one spot to another (or in some direction).
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pcprojectile_stopped: the projectile movement has stopped but no object
  *     was hit.
  * - pcprojectile_hit: we hit some object (entity, intersection, meshname).
@@ -37,8 +37,7 @@
  *     to see what mesh has been hit).
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - Start: start movement in some direction. Parameters 'direction'
  *     (vector3), 'speed' (float), 'maxdist' (float), and 'maxhits' (long).
  * - Interrupt: interrupt the current movement.

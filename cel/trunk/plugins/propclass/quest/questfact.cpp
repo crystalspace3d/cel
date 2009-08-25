@@ -65,12 +65,12 @@ celPcQuest::celPcQuest (iObjectRegistry* object_reg)
 {
   // For SendMessage parameters.
   //params = new celOneParameterBlock ();
-  //params->SetParameterDef (id_message, "message");
+  //params->SetParameterDef (id_message);
 
   // For actions.
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_name = pl->FetchStringID ("name");
   }
 
   propholder = &propinfo;
@@ -202,15 +202,9 @@ bool celPcQuest::PerformActionIndexed (int idx,
         size_t i;
         for (i = 0 ; i < params->GetParameterCount () ; i++)
         {
-          csStringID id;
           celDataType t;
-          const char* n = params->GetParameter (i, id, t);
-	  if (n == 0 || *n == 0)
-	  {
-	    // Parameter is not defined with a name. In that
-	    // case we try to fetch the name from the id.
-	    n = pl->FetchString (id);
-	  }
+          csStringID id = params->GetParameter (i, t);
+	  const char* n = pl->FetchString (id);
           if (t == CEL_DATA_STRING && strcmp ("name", n) != 0)
           {
             const celData* cd = params->GetParameter (id);

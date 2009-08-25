@@ -28,8 +28,7 @@
  * for creating other entities based on time related rules.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - AddEntityType: parameters 'chance' (float), 'entity' (string),
  *     'behaviour' (string), 'layer' (string), 'call' (string)
  * - AddEntityTemplateType: parameters 'chance' (float), 'entity' (string),
@@ -52,7 +51,7 @@
  *   of entities with same name (default false).
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pcspawn_newentity: new entity has been created (entity,behaviour)
  */
 struct iPcSpawn : public virtual iBase

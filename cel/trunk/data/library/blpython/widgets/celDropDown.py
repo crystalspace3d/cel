@@ -30,11 +30,11 @@ class celDropDown:
         pass
     
     def setparameters(self,pc,args):
-        self.message = args[getid('cel.parameter.message')]
-        self.owner = args[getid('cel.parameter.owner')]
+        self.message = args[getid('message')]
+        self.owner = args[getid('owner')]
         
     def additem(self, pc, args):
-        name = args[getid('cel.parameter.Name')]
+        name = args[getid('Name')]
         self.items.append(name)
         
     def setactive(self, pc, args):
@@ -54,7 +54,7 @@ class celDropDown:
         self.menu.clear()
         
     def item_clicked(self, pc, args):
-        name = args[getid('cel.parameter.sender')]
+        name = args[getid('sender')]
         self.active = False
         self.menu.clear()
         self.bb.SetText(name)
@@ -64,7 +64,7 @@ class celDropDown:
         
     def selectindex(self, pc, args):
         if not self.locked:
-            index = int(args[getid('cel.parameter.index')])
+            index = int(args[getid('index')])
             self.active = False
             self.menu.clear()
             self.bb.SetText(self.items[index])

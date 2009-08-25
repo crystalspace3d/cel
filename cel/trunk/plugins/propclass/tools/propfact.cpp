@@ -53,9 +53,9 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
 {
   if (id_index == csInvalidStringID)
   {
-    id_index = pl->FetchStringID ("cel.parameter.index");
-    id_name = pl->FetchStringID ("cel.parameter.name");
-    id_value = pl->FetchStringID ("cel.parameter.value");
+    id_index = pl->FetchStringID ("index");
+    id_name = pl->FetchStringID ("name");
+    id_value = pl->FetchStringID ("value");
   }
 
   propholder = &propinfo;
@@ -65,7 +65,7 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
   }
 
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_index, "index");
+  params->SetParameterDef (id_index);
   properties_hash_dirty = false;
 }
 

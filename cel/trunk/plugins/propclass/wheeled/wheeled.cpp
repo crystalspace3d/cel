@@ -138,46 +138,37 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   if(param_meshfile==csInvalidStringID)
   {
 // Parameters.
-    param_meshfile = pl->FetchStringID("cel.parameter.meshfile");
-    param_meshfact = pl->FetchStringID("cel.parameter.meshfact");
-    param_position = pl->FetchStringID("cel.parameter.position");
-    param_rotation = pl->FetchStringID("cel.parameter.rotation");
-    param_wheelnum = pl->FetchStringID("cel.parameter.wheelnum");
-    param_gear = pl->FetchStringID("cel.parameter.gear");
-    param_velocity = pl->FetchStringID("cel.parameter.velocity");
-    param_force = pl->FetchStringID("cel.parameter.force");
-    param_number = pl->FetchStringID("cel.parameter.number");
-    param_steeramount = pl->FetchStringID("cel.parameter.steeramount");
-    param_applied = pl->FetchStringID("cel.parameter.applied");
+    param_meshfile = pl->FetchStringID("meshfile");
+    param_meshfact = pl->FetchStringID("meshfact");
+    param_position = pl->FetchStringID("position");
+    param_rotation = pl->FetchStringID("rotation");
+    param_wheelnum = pl->FetchStringID("wheelnum");
+    param_gear = pl->FetchStringID("gear");
+    param_velocity = pl->FetchStringID("velocity");
+    param_force = pl->FetchStringID("force");
+    param_number = pl->FetchStringID("number");
+    param_steeramount = pl->FetchStringID("steeramount");
+    param_applied = pl->FetchStringID("applied");
     
-    param_mass =
-      pl->FetchStringID("cel.parameter.mass");
-    param_friction =
-      pl->FetchStringID("cel.parameter.friction");
-    param_suspensionsoftness =
-      pl->FetchStringID("cel.parameter.suspensionsoftness");
-    param_suspensiondamping =
-      pl->FetchStringID("cel.parameter.suspensiondamping");
-    param_steersensitivity =
-      pl->FetchStringID("cel.parameter.steersensitivity");
-    param_leftsteersensitivity =
-      pl->FetchStringID("cel.parameter.leftsteersensitivity");
-    param_rightsteersensitivity =
-      pl->FetchStringID("cel.parameter.rightsteersensitivity");
-    param_steersensitivity =
-      pl->FetchStringID("cel.parameter.steersensitivity");
-    param_turnspeed = pl->FetchStringID("cel.parameter.turnspeed");
-    param_returnspeed = pl->FetchStringID("cel.parameter.returnspeed");
-    param_enginepower = pl->FetchStringID("cel.parameter.enginepower");
-    param_brakepower = pl->FetchStringID("cel.parameter.brakepower");
-    param_steerinverted = pl->FetchStringID("cel.parameter.steerinverted");
-    param_handbrakeaffected =
-      pl->FetchStringID("cel.parameter.handbrakeaffected");
+    param_mass = pl->FetchStringID("mass");
+    param_friction = pl->FetchStringID("friction");
+    param_suspensionsoftness = pl->FetchStringID("suspensionsoftness");
+    param_suspensiondamping = pl->FetchStringID("suspensiondamping");
+    param_steersensitivity = pl->FetchStringID("steersensitivity");
+    param_leftsteersensitivity = pl->FetchStringID("leftsteersensitivity");
+    param_rightsteersensitivity = pl->FetchStringID("rightsteersensitivity");
+    param_steersensitivity = pl->FetchStringID("steersensitivity");
+    param_turnspeed = pl->FetchStringID("turnspeed");
+    param_returnspeed = pl->FetchStringID("returnspeed");
+    param_enginepower = pl->FetchStringID("enginepower");
+    param_brakepower = pl->FetchStringID("brakepower");
+    param_steerinverted = pl->FetchStringID("steerinverted");
+    param_handbrakeaffected = pl->FetchStringID("handbrakeaffected");
     
-    param_normal = pl->FetchStringID ("cel.parameter.normal");
-    param_otherbody = pl->FetchStringID ("cel.parameter.otherbody");
-    param_depth = pl->FetchStringID ("cel.parameter.depth");
-    param_index = pl->FetchStringID ("cel.parameter.index");
+    param_normal = pl->FetchStringID ("normal");
+    param_otherbody = pl->FetchStringID ("otherbody");
+    param_depth = pl->FetchStringID ("depth");
+    param_index = pl->FetchStringID ("index");
   }
   
   propholder = &propinfo;
@@ -279,11 +270,11 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
          CEL_DATA_FLOAT, true, "Anti-sway limit.",&antiswaylimit);
   
   params = new celGenericParameterBlock (5);
-  params->SetParameterDef (0, param_otherbody, "otherbody");
-  params->SetParameterDef (1, param_position, "position");
-  params->SetParameterDef (2, param_normal, "normal");
-  params->SetParameterDef (3, param_depth, "depth");
-  params->SetParameterDef (4, param_index, "index");
+  params->SetParameterDef (0, param_otherbody);
+  params->SetParameterDef (1, param_position);
+  params->SetParameterDef (2, param_normal);
+  params->SetParameterDef (3, param_depth);
+  params->SetParameterDef (4, param_index);
   
   pl->CallbackOnce ((iCelTimerListener*)this, 25, CEL_EVENT_PRE);
 }

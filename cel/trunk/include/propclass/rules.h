@@ -38,13 +38,12 @@
  * for string, 0-vector for vectors, and black for colors).
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pcrules_modifypar: a parameter has been modified: parameters
  *     'name' (name of the parameter).
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - AddRule: parameters 'name' (string). Optional 'time' (long) parameter.
  * - DeleteRule: parameters 'name' (string).
  * - DeleteAllRules: no parameters.

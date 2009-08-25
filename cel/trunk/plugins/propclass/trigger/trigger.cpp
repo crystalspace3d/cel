@@ -137,18 +137,18 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
 
   if (id_entity == csInvalidStringID)
   {
-    id_entity = pl->FetchStringID ("cel.parameter.entity");
-    id_sector = pl->FetchStringID ("cel.parameter.sector");
-    id_position = pl->FetchStringID ("cel.parameter.position");
-    id_radius = pl->FetchStringID ("cel.parameter.radius");
-    id_minbox = pl->FetchStringID ("cel.parameter.minbox");
-    id_maxbox = pl->FetchStringID ("cel.parameter.maxbox");
-    id_start = pl->FetchStringID ("cel.parameter.start");
-    id_end = pl->FetchStringID ("cel.parameter.end");
-    id_maxdistance = pl->FetchStringID ("cel.parameter.maxdistance");
+    id_entity = pl->FetchStringID ("entity");
+    id_sector = pl->FetchStringID ("sector");
+    id_position = pl->FetchStringID ("position");
+    id_radius = pl->FetchStringID ("radius");
+    id_minbox = pl->FetchStringID ("minbox");
+    id_maxbox = pl->FetchStringID ("maxbox");
+    id_start = pl->FetchStringID ("start");
+    id_end = pl->FetchStringID ("end");
+    id_maxdistance = pl->FetchStringID ("maxdistance");
   }
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_entity, "entity");
+  params->SetParameterDef (id_entity);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)

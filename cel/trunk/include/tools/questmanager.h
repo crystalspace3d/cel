@@ -1880,8 +1880,7 @@ struct iMessageQuestRewardFactory : public virtual iBase
    * Add a parameter to send with the message.
    * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
    * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
-   * \param id is the id of the parameter (calculated from the string
-   * "cel.parameter." appended with the name).
+   * \param id is the id of the parameter (calculated from iCelPlLayer->FetchStringID(name)).
    * \param name is the name of the parameter.
    * \param value is the value string or a parameter for it (starts with '$').
    */
@@ -1949,8 +1948,7 @@ struct iActionQuestRewardFactory : public virtual iBase
    * Add a parameter to send with the action.
    * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
    * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
-   * \param id is the id of the parameter (calculated from the string
-   * "cel.parameter." appended with the name).
+   * \param id is the id of the parameter (calculated from iCelPlLayer->FetchStringID(name)).
    * \param name is the name of the parameter.
    * \param value is the value string or a parameter for it (starts with '$').
    */

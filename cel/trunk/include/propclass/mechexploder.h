@@ -30,8 +30,7 @@
  * extends their functionality.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - Explode: no parameters.
  *
  * This property class supports the following properties (add prefix

@@ -31,7 +31,7 @@ struct iPcLinearMovement;
  * while checking collision detection along the way.
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pcmover_impossible: don't even start the move: impossible. This
  *   message will have a 'meshname' parameter containing the name of the
  *   mesh that was preventing the move.
@@ -40,8 +40,7 @@ struct iPcLinearMovement;
  * - pcmover_interrupted: movement has been interrupted.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - MoveTo: parameters 'sectorname' (string), 'position' (vector3),
  *     ,'sqradius' (float) and optional 'checklos' (bool, default false).
  * - Start: parameters 'sectorname' (string), 'position' (vector3),

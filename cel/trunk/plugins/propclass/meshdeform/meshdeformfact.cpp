@@ -58,9 +58,9 @@ celPcMeshDeform::celPcMeshDeform (iObjectRegistry* object_reg)
 {
   if (param_position == csInvalidStringID)
   {
-    param_position = pl->FetchStringID ("cel.parameter.position");
-    param_direction = pl->FetchStringID ("cel.parameter.direction");
-    param_worldspace = pl->FetchStringID ("cel.parameter.worldspace");
+    param_position = pl->FetchStringID ("position");
+    param_direction = pl->FetchStringID ("direction");
+    param_worldspace = pl->FetchStringID ("worldspace");
   }
   propholder = &propinfo;
   if (!propinfo.actions_done)

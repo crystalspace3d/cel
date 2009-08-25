@@ -115,9 +115,9 @@ celPcWasdMove::celPcWasdMove (iObjectRegistry* object_reg)
     id_move_jump_landed = pl->FetchStringID ("cel.move.jump.landed");
     id_move_jump_started = pl->FetchStringID ("cel.move.jump.started");
 
-    id_param_x = pl->FetchStringID ("cel.parameter.x");
-    id_param_y = pl->FetchStringID ("cel.parameter.y");
-    id_param_value = pl->FetchStringID ("cel.parameter.value");
+    id_param_x = pl->FetchStringID ("x");
+    id_param_y = pl->FetchStringID ("y");
+    id_param_value = pl->FetchStringID ("value");
 
     id_timer_wakeup = pl->FetchStringID ("cel.timer.wakeup");
   }

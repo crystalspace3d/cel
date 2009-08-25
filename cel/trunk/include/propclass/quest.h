@@ -31,12 +31,11 @@
  * load the quest manager if it is missing.
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pcquest_???: ??? (???)
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - NewQuest: parameters 'name' (string). All other string parameters will be
  *     passed to the quest itself.
  * - StopQuest: no parameters.

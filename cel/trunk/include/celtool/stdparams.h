@@ -115,7 +115,6 @@ private:
   size_t count;
   csStringID* ids;
   celData* data;
-  char** names;
 
 public:
   celGenericParameterBlock (size_t count) :
@@ -124,40 +123,29 @@ public:
     celGenericParameterBlock::count = count;
     ids = new csStringID[count];
     data = new celData[count];
-    names = new char*[count];
-    memset (names, 0, sizeof (char*)*count);
   }
   virtual ~celGenericParameterBlock ()
   {
     delete[] ids;
     delete[] data;
-    size_t i;
-    for (i = 0 ; i < count ; i++)
-      delete[] names[i];
-    delete[] names;
   }
 
-  void SetParameterDef (size_t idx, csStringID id, const char* parname)
+  void SetParameterDef (size_t idx, csStringID id)
   {
     ids[idx] = id;
-    delete[] names[idx];
-    names[idx] = csStrNew (parname);
   }
   celData& GetParameter (size_t idx) { return data[idx]; }
 
   virtual size_t GetParameterCount () const { return count; }
-  virtual const char* GetParameter (size_t idx, csStringID& id,
-  	celDataType& t) const
+  virtual csStringID GetParameter (size_t idx, celDataType& t) const
   {
     if (/*idx < 0 || */idx >= count)
     {
-      id = csInvalidStringID;
       t = CEL_DATA_NONE;
-      return 0;
+      return csInvalidStringID;
     }
-    id = ids[idx];
     t = data[idx].type;
-    return names[idx];
+    return ids[idx];
   }
   virtual const celData* GetParameter (csStringID id) const
   {
@@ -182,7 +170,6 @@ class celVariableParameterBlock : public scfImplementation1<
 private:
   csArray<csStringID> ids;
   csArray<celData> data;
-  csStringArray names;
 
 public:
   celVariableParameterBlock () : scfImplementationType (this)
@@ -196,13 +183,12 @@ public:
   {
     if (other != 0)
     {
-      const char* name = 0;
       csStringID id;
       celDataType type;
       for (size_t idx = 0; idx < other->GetParameterCount (); idx++)
       {
-        name = other->GetParameter (idx, id, type);
-        SetParameterDef (idx, id, name);
+        id = other->GetParameter (idx, type);
+        SetParameterDef (idx, id);
         data.GetExtend (idx) = *other->GetParameter (id);
       }
     }
@@ -211,28 +197,22 @@ public:
   {
   }
 
-  void SetParameterDef (size_t idx, csStringID id, const char* parname)
+  void SetParameterDef (size_t idx, csStringID id)
   {
     ids.GetExtend (idx) = id;
-    if (idx >= names.GetSize ())
-      names.SetSize (idx+1);
-    names.Put (idx, parname);
   }
   celData& GetParameter (size_t idx) { return data.GetExtend (idx); }
 
   virtual size_t GetParameterCount () const { return data.GetSize (); }
-  virtual const char* GetParameter (size_t idx, csStringID& id,
-  	celDataType& t) const
+  virtual csStringID GetParameter (size_t idx, celDataType& t) const
   {
     if (/*idx < 0 || */idx >= data.GetSize ())
     {
-      id = csInvalidStringID;
       t = CEL_DATA_NONE;
-      return 0;
+      return csInvalidStringID;
     }
-    id = ids[idx];
     t = data[idx].type;
-    return names[idx];
+    return ids[idx];
   }
   virtual const celData* GetParameter (csStringID id) const
   {
@@ -257,7 +237,6 @@ class celOneParameterBlock : public scfImplementation1<
 private:
   csStringID id;
   celData data;
-  csString name;
 
 public:
   celOneParameterBlock () : scfImplementationType (this)
@@ -267,26 +246,22 @@ public:
   {
   }
 
-  void SetParameterDef (csStringID id, const char* parname)
+  void SetParameterDef (csStringID id)
   {
     celOneParameterBlock::id = id;
-    name = parname;
   }
   celData& GetParameter (int) { return data; }
 
   virtual size_t GetParameterCount () const { return 1; }
-  virtual const char* GetParameter (size_t idx, csStringID& id,
-  	celDataType& t) const
+  virtual csStringID GetParameter (size_t idx, celDataType& t) const
   {
     if (idx != 0)
     {
-      id = csInvalidStringID;
       t = CEL_DATA_NONE;
-      return 0;
+      return csInvalidStringID;
     }
-    id = celOneParameterBlock::id;
     t = data.type;
-    return name;
+    return celOneParameterBlock::id;
   }
   virtual const celData* GetParameter (csStringID id) const
   {
@@ -334,20 +309,19 @@ public:
   {
     return b1->GetParameterCount () + (b2 ? b2->GetParameterCount () : 0);
   }
-  virtual const char* GetParameter (size_t idx, csStringID& id,
-  	celDataType& t) const
+  virtual csStringID GetParameter (size_t idx, celDataType& t) const
   {
     if (idx < b1->GetParameterCount ())
     {
-      return b1->GetParameter (idx, id, t);
+      return b1->GetParameter (idx, t);
     }
     else if (b2)
     {
-      return b2->GetParameter (idx-b1->GetParameterCount (), id, t);
+      return b2->GetParameter (idx-b1->GetParameterCount (), t);
     }
     else
     {
-      return 0;
+      return csInvalidStringID;
     }
   }
   virtual const celData* GetParameter (csStringID id) const

@@ -146,29 +146,29 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("cel.parameter.name");
-    id_path = pl->FetchStringID ("cel.parameter.path");
-    id_filename = pl->FetchStringID ("cel.parameter.filename");
-    id_factoryname = pl->FetchStringID ("cel.parameter.factoryname");
-    id_sector = pl->FetchStringID ("cel.parameter.sector");
-    id_position = pl->FetchStringID ("cel.parameter.position");
-    id_rotation = pl->FetchStringID ("cel.parameter.rotation");
-    id_forward = pl->FetchStringID ("cel.parameter.forward");
-    id_up = pl->FetchStringID ("cel.parameter.up");
-    id_visible = pl->FetchStringID ("cel.parameter.visible");
-    id_material = pl->FetchStringID ("cel.parameter.material");
-    id_value = pl->FetchStringID ("cel.parameter.value");
-    id_type = pl->FetchStringID ("cel.parameter.type");
-    id_animation = pl->FetchStringID ("cel.parameter.animation");
-    id_cycle = pl->FetchStringID ("cel.parameter.cycle");
-    id_reset = pl->FetchStringID ("cel.parameter.reset");
-    id_min = pl->FetchStringID ("cel.parameter.min");
-    id_max = pl->FetchStringID ("cel.parameter.max");
-    id_entity = pl->FetchStringID ("cel.parameter.entity");
-    id_tag = pl->FetchStringID ("cel.parameter.tag");
-    id_socket = pl->FetchStringID ("cel.parameter.socket");
-    id_factory = pl->FetchStringID ("cel.parameter.factory");
-    id_object = pl->FetchStringID ("cel.parameter.object");
+    id_name = pl->FetchStringID ("name");
+    id_path = pl->FetchStringID ("path");
+    id_filename = pl->FetchStringID ("filename");
+    id_factoryname = pl->FetchStringID ("factoryname");
+    id_sector = pl->FetchStringID ("sector");
+    id_position = pl->FetchStringID ("position");
+    id_rotation = pl->FetchStringID ("rotation");
+    id_forward = pl->FetchStringID ("forward");
+    id_up = pl->FetchStringID ("up");
+    id_visible = pl->FetchStringID ("visible");
+    id_material = pl->FetchStringID ("material");
+    id_value = pl->FetchStringID ("value");
+    id_type = pl->FetchStringID ("type");
+    id_animation = pl->FetchStringID ("animation");
+    id_cycle = pl->FetchStringID ("cycle");
+    id_reset = pl->FetchStringID ("reset");
+    id_min = pl->FetchStringID ("min");
+    id_max = pl->FetchStringID ("max");
+    id_entity = pl->FetchStringID ("entity");
+    id_tag = pl->FetchStringID ("tag");
+    id_socket = pl->FetchStringID ("socket");
+    id_factory = pl->FetchStringID ("factory");
+    id_object = pl->FetchStringID ("object");
   }
 
   propholder = &propinfo;
@@ -1435,19 +1435,19 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 
   if (id_x == csInvalidStringID)
   {
-    id_x = pl->FetchStringID ("cel.parameter.x");
-    id_y = pl->FetchStringID ("cel.parameter.y");
-    id_button = pl->FetchStringID ("cel.parameter.button");
-    id_entity = pl->FetchStringID ("cel.parameter.entity");
-    id_buttons = pl->FetchStringID ("cel.parameter.buttons");
-    id_normal = pl->FetchStringID ("cel.parameter.normal");
-    id_camera = pl->FetchStringID ("cel.parameter.camera");
+    id_x = pl->FetchStringID ("x");
+    id_y = pl->FetchStringID ("y");
+    id_button = pl->FetchStringID ("button");
+    id_entity = pl->FetchStringID ("entity");
+    id_buttons = pl->FetchStringID ("buttons");
+    id_normal = pl->FetchStringID ("normal");
+    id_camera = pl->FetchStringID ("camera");
   }
   params = new celGenericParameterBlock (4);
-  params->SetParameterDef (0, id_x, "x");
-  params->SetParameterDef (1, id_y, "y");
-  params->SetParameterDef (2, id_button, "button");
-  params->SetParameterDef (3, id_entity, "entity");
+  params->SetParameterDef (0, id_x);
+  params->SetParameterDef (1, id_y);
+  params->SetParameterDef (2, id_button);
+  params->SetParameterDef (3, id_entity);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)

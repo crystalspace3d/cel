@@ -270,8 +270,8 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   wire->AddInput ("cel.trigger.entity.");
   csRef<celOneParameterBlock> msg_param;
   msg_param.AttachNew (new celOneParameterBlock ());
-  csStringID message_id = pl->FetchStringID ("cel.parameter.message");
-  msg_param->SetParameterDef (message_id, "message");
+  csStringID message_id = pl->FetchStringID ("message");
+  msg_param->SetParameterDef (message_id);
   msg_param->GetParameter (0).Set ("We're close to some entity!");
   wire->AddOutputAction (pl->FetchStringID ("cel.action.Print"),
       entity_cam->GetPropertyClassList ()->FindByName ("pcmisc.test"), msg_param);

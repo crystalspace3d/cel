@@ -71,18 +71,18 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
 {
   if (id_movement == csInvalidStringID)
   {
-    id_movement = pl->FetchStringID ("cel.parameter.movement");
-    id_running = pl->FetchStringID ("cel.parameter.running");
-    id_rotation = pl->FetchStringID ("cel.parameter.rotation");
-    id_jumping = pl->FetchStringID ("cel.parameter.jumping");
-    id_start = pl->FetchStringID ("cel.parameter.start");
-    id_yrot = pl->FetchStringID ("cel.parameter.yrot");
-    id_x = pl->FetchStringID ("cel.parameter.x");
-    id_y = pl->FetchStringID ("cel.parameter.y");
-    id_animation = pl->FetchStringID ("cel.parameter.animation");
-    id_anicycle = pl->FetchStringID ("cel.parameter.cycle");
-    id_animationid = pl->FetchStringID ("cel.parameter.mapping");
-    id_animationname = pl->FetchStringID ("cel.parameter.name");
+    id_movement = pl->FetchStringID ("movement");
+    id_running = pl->FetchStringID ("running");
+    id_rotation = pl->FetchStringID ("rotation");
+    id_jumping = pl->FetchStringID ("jumping");
+    id_start = pl->FetchStringID ("start");
+    id_yrot = pl->FetchStringID ("yrot");
+    id_x = pl->FetchStringID ("x");
+    id_y = pl->FetchStringID ("y");
+    id_animation = pl->FetchStringID ("animation");
+    id_anicycle = pl->FetchStringID ("cycle");
+    id_animationid = pl->FetchStringID ("mapping");
+    id_animationname = pl->FetchStringID ("name");
   }
 
   movement_speed = 2.0f;

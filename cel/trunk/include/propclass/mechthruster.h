@@ -34,8 +34,7 @@ struct iPcMechanicsThrusterGroup;
  * object.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - InitThruster: parameters 'objectpctag' (string), 'position' (vector3).
  */
 struct iPcMechanicsThruster : public virtual iBase
@@ -127,8 +126,7 @@ enum celAxisType
  * or rotate the object in a certain axis. 
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - SetType: parameters 'type' (string, "rotation" or "translation").
  * - AddThruster: parameters 'thrusterpctag' (string), 'multiplier' (float).
  */
@@ -194,8 +192,7 @@ struct iPcMechanicsBalancedGroup : public virtual iBase
  * use of balanced thruster groups.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - InitThrusterController: parameters 'objectpctag' (string).
  * - AddAxis: parameters 'axisname' (string), 'axistype' (string, "rotation"
  *   or "translation"), 'axisdir' (vector3).

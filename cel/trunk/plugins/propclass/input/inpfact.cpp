@@ -105,14 +105,14 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 
   if (id_trigger == csInvalidStringID)
   {
-    id_trigger = pl->FetchStringID ("cel.parameter.trigger");
-    id_state = pl->FetchStringID ("cel.parameter.state");
-    id_command = pl->FetchStringID ("cel.parameter.command");
-    id_x = pl->FetchStringID ("cel.parameter.x");
-    id_y = pl->FetchStringID ("cel.parameter.y");
-    id_prefix = pl->FetchStringID ("cel.parameter.prefix");
-    id_activate = pl->FetchStringID ("cel.parameter.activate");
-    id_value = pl->FetchStringID ("cel.parameter.value");
+    id_trigger = pl->FetchStringID ("trigger");
+    id_state = pl->FetchStringID ("state");
+    id_command = pl->FetchStringID ("command");
+    id_x = pl->FetchStringID ("x");
+    id_y = pl->FetchStringID ("y");
+    id_prefix = pl->FetchStringID ("prefix");
+    id_activate = pl->FetchStringID ("activate");
+    id_value = pl->FetchStringID ("value");
   }
 
   // For properties.
@@ -137,19 +137,19 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   	CEL_DATA_BOOL, false, "Send trigger.", &do_sendtrigger);
 
   mouse_params = new celGenericParameterBlock (3);
-  mouse_params->SetParameterDef (0, id_x, "x");
-  mouse_params->SetParameterDef (1, id_y, "y");
-  mouse_params->SetParameterDef (2, id_value, "value");
+  mouse_params->SetParameterDef (0, id_x);
+  mouse_params->SetParameterDef (1, id_y);
+  mouse_params->SetParameterDef (2, id_value);
 
   key_params = new celGenericParameterBlock (2);
-  key_params->SetParameterDef (0,id_trigger, "trigger");
-  key_params->SetParameterDef (1,id_state, "state");
+  key_params->SetParameterDef (0,id_trigger);
+  key_params->SetParameterDef (1,id_state);
 
   joy_params = new celOneParameterBlock ();
-  joy_params->SetParameterDef (id_value, "value");
+  joy_params->SetParameterDef (id_value);
 
   but_params = new celOneParameterBlock ();
-  but_params->SetParameterDef (id_state, "state");
+  but_params->SetParameterDef (id_state);
 }
 
 celPcCommandInput::~celPcCommandInput ()

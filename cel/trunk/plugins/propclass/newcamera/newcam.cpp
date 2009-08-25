@@ -156,21 +156,21 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
 
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("cel.parameter.name");
-    id_nr = pl->FetchStringID ("cel.parameter.nr");
-    id_x = pl->FetchStringID ("cel.parameter.x");
-    id_y = pl->FetchStringID ("cel.parameter.y");
-    id_w = pl->FetchStringID ("cel.parameter.w");
-    id_h = pl->FetchStringID ("cel.parameter.h");
-    id_enable = pl->FetchStringID ("cel.parameter.enable");
-    id_minfps = pl->FetchStringID ("cel.parameter.min_fps");
-    id_maxfps = pl->FetchStringID ("cel.parameter.max_fps");
-    id_mindist = pl->FetchStringID ("cel.parameter.min_distance");
-    id_dist = pl->FetchStringID ("cel.parameter.distance");
+    id_name = pl->FetchStringID ("name");
+    id_nr = pl->FetchStringID ("nr");
+    id_x = pl->FetchStringID ("x");
+    id_y = pl->FetchStringID ("y");
+    id_w = pl->FetchStringID ("w");
+    id_h = pl->FetchStringID ("h");
+    id_enable = pl->FetchStringID ("enable");
+    id_minfps = pl->FetchStringID ("min_fps");
+    id_maxfps = pl->FetchStringID ("max_fps");
+    id_mindist = pl->FetchStringID ("min_distance");
+    id_dist = pl->FetchStringID ("distance");
   }
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_name, "name");
-  params->SetParameterDef (id_nr, "nr");
+  params->SetParameterDef (id_name);
+  params->SetParameterDef (id_nr);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)

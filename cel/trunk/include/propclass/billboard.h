@@ -29,7 +29,7 @@ struct iBillboard;
  * Billboard property class.
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pcbillboard_select: billboard is selected (x,y,button)
  * - pcbillboard_move: mouse moves over billboard (x,y,button)
  * - pcbillboard_moveaway: mouse moves away from billboard (x,y,button)
@@ -37,8 +37,7 @@ struct iBillboard;
  * - pcbillboard_doubleclick: billboard is double clicked (x,y,button)
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - DrawMesh: parameters 'materialname' (string),
  *     'factory' (string), optional: 'distance' (float),
  *     optional: 'rotate' (vector3), optional: 'angle' (float).

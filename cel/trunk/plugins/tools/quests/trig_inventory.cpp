@@ -119,7 +119,7 @@ celInventoryTrigger::celInventoryTrigger (
   if (child_entity_par)
     child_entity = qm->ResolveParameter (params, child_entity_par);
   params_entity.AttachNew (new celOneParameterBlock ());
-  params_entity->SetParameterDef (type->pl->FetchStringID ("cel.parameter.child"), "child");
+  params_entity->SetParameterDef (type->pl->FetchStringID ("child"));
 }
 
 celInventoryTrigger::~celInventoryTrigger ()

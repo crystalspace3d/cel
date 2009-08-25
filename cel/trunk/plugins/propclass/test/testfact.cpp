@@ -42,9 +42,9 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
 {
   // For SendMessage parameters.
   if (id_message == csInvalidStringID)
-    id_message = pl->FetchStringID ("cel.parameter.message");
+    id_message = pl->FetchStringID ("message");
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_message, "message");
+  params->SetParameterDef (id_message);
 
   propholder = &propinfo;
 

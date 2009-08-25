@@ -67,11 +67,11 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   if (id_materialname == csInvalidStringID)
   {
-    id_materialname = pl->FetchStringID ("cel.parameter.materialname");
-    id_factory = pl->FetchStringID ("cel.parameter.factory");
-    id_distance = pl->FetchStringID ("cel.parameter.distance");
-    id_angle = pl->FetchStringID ("cel.parameter.angle");
-    id_rotate = pl->FetchStringID ("cel.parameter.rotate");
+    id_materialname = pl->FetchStringID ("materialname");
+    id_factory = pl->FetchStringID ("factory");
+    id_distance = pl->FetchStringID ("distance");
+    id_angle = pl->FetchStringID ("angle");
+    id_rotate = pl->FetchStringID ("rotate");
   }
 
   propholder = &propinfo;
@@ -151,14 +151,14 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   if (id_x == csInvalidStringID)
   {
-    id_x = pl->FetchStringID ("cel.parameter.x");
-    id_y = pl->FetchStringID ("cel.parameter.y");
-    id_button = pl->FetchStringID ("cel.parameter.button");
+    id_x = pl->FetchStringID ("x");
+    id_y = pl->FetchStringID ("y");
+    id_button = pl->FetchStringID ("button");
   }
   params = new celGenericParameterBlock (3);
-  params->SetParameterDef (0, id_x, "x");
-  params->SetParameterDef (1, id_y, "y");
-  params->SetParameterDef (2, id_button, "button");
+  params->SetParameterDef (0, id_x);
+  params->SetParameterDef (1, id_y);
+  params->SetParameterDef (2, id_button);
 }
 
 celPcBillboard::~celPcBillboard ()

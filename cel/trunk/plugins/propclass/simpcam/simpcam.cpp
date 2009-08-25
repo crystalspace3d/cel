@@ -95,10 +95,10 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
   // Parameters for action_initcam
   if (param_campos == csInvalidStringID)
   {
-    param_campos = pl->FetchStringID ("cel.parameter.campos");
-    param_lookat = pl->FetchStringID ("cel.parameter.lookat");
-    param_drawmesh = pl->FetchStringID ("cel.parameter.drawmesh");
-    param_mesh = pl->FetchStringID ("cel.parameter.meshpctag");
+    param_campos = pl->FetchStringID ("campos");
+    param_lookat = pl->FetchStringID ("lookat");
+    param_drawmesh = pl->FetchStringID ("drawmesh");
+    param_mesh = pl->FetchStringID ("meshpctag");
   }
 }
 
