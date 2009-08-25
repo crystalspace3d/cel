@@ -1071,6 +1071,21 @@ class celCombineParameterBlock(scfCombineParameterBlock):
 celCombineParameterBlock_swigregister = _blcelc.celCombineParameterBlock_swigregister
 celCombineParameterBlock_swigregister(celCombineParameterBlock)
 
+class celParameterMapping(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    source = _swig_property(_blcelc.celParameterMapping_source_get, _blcelc.celParameterMapping_source_set)
+    dest = _swig_property(_blcelc.celParameterMapping_dest_get, _blcelc.celParameterMapping_dest_set)
+    expression = _swig_property(_blcelc.celParameterMapping_expression_get, _blcelc.celParameterMapping_expression_set)
+    def __init__(self, *args): 
+        this = _blcelc.new_celParameterMapping(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celParameterMapping
+    __del__ = lambda self : None;
+celParameterMapping_swigregister = _blcelc.celParameterMapping_swigregister
+celParameterMapping_swigregister(celParameterMapping)
+
 class iCelPropertyClassFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"

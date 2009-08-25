@@ -76,6 +76,7 @@
 #include "propclass/wasdmove.h"
 #include "propclass/wheeled.h"
 #include "propclass/wheeledmove.h"
+#include "propclass/wire.h"
 #include "propclass/zone.h"
 #endif /* __PROPCLASS_H__ */
 
