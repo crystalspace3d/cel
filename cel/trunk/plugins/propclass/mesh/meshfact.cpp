@@ -541,8 +541,8 @@ bool celPcMesh::PerformActionIndexed (int idx,
         if (!p_par_name) return false;
         CEL_FETCH_STRING_PAR (par_type,params,id_type);
         if (!p_par_type) return false;
-        csRef<iStringSet> strset = csQueryRegistryTagInterface<iStringSet> (
-        	object_reg, "crystalspace.shared.stringset");
+	csRef<iShaderVarStringSet> strset = csQueryRegistryTagInterface<iShaderVarStringSet> (
+	    object_reg, "crystalspace.shader.variablenameset");
         if (!strcmp(par_type,"float"))
         {
           CEL_FETCH_FLOAT_PAR (par_value,params,id_value);
@@ -2082,7 +2082,7 @@ bool celPcMeshSelect::PerformActionIndexed (int idx,
   }
 }
 
-bool celPcMesh::SetShaderVarExpr (csStringID name, const char* exprname)
+bool celPcMesh::SetShaderVarExpr (CS::ShaderVarStringID name, const char* exprname)
 {
   if (mesh)
   {
@@ -2100,7 +2100,7 @@ bool celPcMesh::SetShaderVarExpr (csStringID name, const char* exprname)
   return true;
 }
 
-void celPcMesh::SetShaderVar (csStringID name, float value)
+void celPcMesh::SetShaderVar (CS::ShaderVarStringID name, float value)
 {
   if (mesh)
   {
@@ -2110,7 +2110,7 @@ void celPcMesh::SetShaderVar (csStringID name, float value)
   }
 }
 
-void celPcMesh::SetShaderVar (csStringID name, int value)
+void celPcMesh::SetShaderVar (CS::ShaderVarStringID name, int value)
 {
   if (mesh)
   {
@@ -2120,7 +2120,7 @@ void celPcMesh::SetShaderVar (csStringID name, int value)
   }
 }
 
-void celPcMesh::SetShaderVar (csStringID name, csVector2 value)
+void celPcMesh::SetShaderVar (CS::ShaderVarStringID name, csVector2 value)
 {
   if (mesh)
   {
@@ -2130,7 +2130,7 @@ void celPcMesh::SetShaderVar (csStringID name, csVector2 value)
   }
 }
 
-void celPcMesh::SetShaderVar (csStringID name, csVector3 value)
+void celPcMesh::SetShaderVar (CS::ShaderVarStringID name, csVector3 value)
 {
   if (mesh)
   {
@@ -2140,7 +2140,7 @@ void celPcMesh::SetShaderVar (csStringID name, csVector3 value)
   }
 }
 
-void celPcMesh::SetShaderVar (csStringID name, csVector4 value)
+void celPcMesh::SetShaderVar (CS::ShaderVarStringID name, csVector4 value)
 {
   if (mesh)
   {
