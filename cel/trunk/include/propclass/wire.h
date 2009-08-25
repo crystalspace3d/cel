@@ -35,7 +35,8 @@ struct iCelExpression;
  * - AddInput: parameters 'mask' (string), optional 'entity' (string), ...
  * - AddOutput: parameters 'msgid' (string), optional 'entity' (string), ...
  * - AddAction: parameters 'actionid' (string), optional 'entity' (string), 'pc' (string), ...
- * - MapParameter: parameters 'id' (long), 'source' (string), 'dest' (string), optional 'expression' (string).
+ * - MapParameter: parameters 'id' (long), optional 'source' (string),
+ *   'dest' (string), optional 'expression' (string).
  */
 struct iPcWire : public virtual iBase
 {
@@ -83,15 +84,27 @@ struct iPcWire : public virtual iBase
    * expression the value can be modified.
    * \param id is the id as return by AddOutput() or AddOutputAction(). This
    * function will affect the parameter as given to that specific output.
-   * \param source is the name of the parameter in the source.
+   * \param source is the optional name of the parameter in the source. This parameter
+   *        is not used if you give an expression.
    * \param dest is the name of the parameter as it should become in the destination.
    * \param expression is an optional expression that can be used to modify
-   * the value in the destination. The expression will have access to the
-   * combined parameter block (parameters from original message as well as the
-   * extra parameters from the given output).
+   *        the value in the destination. The expression will have access to the
+   *        combined parameter block (parameters from original message as well as the
+   *        extra parameters from the given output).
    */
   virtual void MapParameter (size_t id, const char* source, const char* dest,
       iCelExpression* expression = 0) = 0;
+
+  /**
+   * Map a parameter from one name to another directly. This is a conveniance
+   * version that takes a string as an expression. In this version the expression
+   * is not optional.
+   * \param id is the id as return by AddOutput() or AddOutputAction(). This
+   * function will affect the parameter as given to that specific output.
+   * \param dest is the name of the parameter as it should become in the destination.
+   * \param expression is the expression string.
+   */
+  virtual void MapParameterExpression (size_t id, const char* dest, const char* expression) = 0;
 };
 
 #endif // __CEL_PF_WIRE__

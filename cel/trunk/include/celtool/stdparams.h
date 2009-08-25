@@ -348,16 +348,6 @@ public:
   }
 };
 
-#if 1
-struct celParameterMapping
-{
-  csString source;
-  csString dest;
-  csRef<iCelExpression> expression;
-};
-
-#else
-
 struct celParameterMapping
 {
   csStringID source;
@@ -369,96 +359,47 @@ struct celParameterMapping
  * Parameter block implementation which supports parameter mapping
  * and expressions.
  */
-class celMappedParameterBlock : public scfImplementation1<
-	celMappedParameterBlock, iCelParameterBlock>
+class celMappedParameterBlock : public celVariableParameterBlock
 {
-private:
-  csRef<iCelParameterBlock> params;
-  const csArray<celParameterMapping>& mapping;
-  csArray<size_t> source_ids;
-  csWeakRef<iCelEntity> entity;
-
 public:
   celMappedParameterBlock (iCelEntity* entity, iCelParameterBlock* params,
       const csArray<celParameterMapping>& mapping)
-    : scfImplementationType (this),
-      entity (entity), params (params), mapping (mapping)
   {
-    source_ids.SetSize (mappings.GetSize ());
     for (size_t mi = 0 ; mi < mapping.GetSize () ; mi++)
     {
-      celParameterMapping& m = mapping[mi];
-      if (!m.expression)
+      const celParameterMapping& m = mapping[mi];
+      SetParameterDef (mi, m.dest);
+      if (m.expression)
+	m.expression->Execute (entity, GetParameter (mi), params);
+      else
+      {
         for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
         {
-          celData& ret;
-          csStringID id = params->GetParameterDef (i, ret);
+          celDataType t;
+          csStringID id = params->GetParameterDef (i, t);
           if (id == m.source)
-	    source_ids[mi] = i;
+	  {
+	    GetParameter (mi) = *params->GetParameterByIndex (i);
+	    break;
+	  }
         }
+      }
+    }
+    for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
+    {
+      celDataType t;
+      csStringID id = params->GetParameterDef (i, t);
+      size_t idx = i+mapping.GetSize ();
+      SetParameterDef (idx, id);
+      const celData* data = params->GetParameterByIndex (i);
+      if (data)
+        GetParameter (idx) = *data;
     }
   }
   virtual ~celMappedParameterBlock ()
   {
   }
-
-  virtual size_t GetParameterCount () const
-  {
-    // @@@ Not entirely correct as the mapping could map to parameters
-    // that already exist.
-    return params->GetParameterCount () + mapping.GetSize ();
-  }
-  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
-  {
-    if (idx < mapping.GetSize ())
-    {
-      celParameterMapping& m = mapping[idx];
-      if (m.expression)
-      {
-	celData ret;
-	m.expression->Execute (entity, ret, params);
-	t = ret.type;
-      }
-      else
-      {
-	celData* d = params->GetParameterByIndex (source_ids[idx]);
-	t = d->type;
-      }
-      return m.dest;
-    }
-    else
-    {
-      return params->GetParameterDef (idx-mapping.GetSize (), t);
-    }
-  }
-  virtual const celData* GetParameter (csStringID id) const
-  {
-    for (size_t i = 0 ; i < mapping.GetSize () ; i++)
-      if (mapping[i].dest == id)
-      {
-      }
-    const celData* data = b1->GetParameter (id);
-    if (data) return data;
-    if (!b2) return 0;
-    return b2->GetParameter (id);
-  }
-  virtual const celData* GetParameterByIndex (size_t idx) const
-  {
-    if (idx < b1->GetParameterCount ())
-    {
-      return b1->GetParameterByIndex (idx);
-    }
-    else if (b2)
-    {
-      return b2->GetParameterByIndex (idx-b1->GetParameterCount ());
-    }
-    else
-    {
-      return 0;
-    }
-  }
 };
-#endif
 
 #endif // __CEL_CELTOOL_PARAMS__
 
