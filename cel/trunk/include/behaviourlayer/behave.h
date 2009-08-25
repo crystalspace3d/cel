@@ -48,7 +48,7 @@ struct iCelParameterBlock : public virtual iBase
    * Get parameter with index. Returns the id and sets
    * 'type' to the appropriate value.
    */
-  virtual csStringID GetParameter (size_t idx, celDataType& t) const = 0;
+  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const = 0;
 
   /**
    * Get parameter given an id.

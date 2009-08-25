@@ -1305,7 +1305,7 @@ void celXmlScriptEventHandler::DumpCallStack (celBlXml* cbl)
       for (j = 0 ; j < p->GetParameterCount () ; j++)
       {
         celDataType t;
-        csStringID id = p->GetParameter (j, t);
+        csStringID id = p->GetParameterDef (j, t);
         const char* idstr = pl->FetchString (id);
         const celData* param = p->GetParameter (id);
         printf ("  par:%lu id=%s val=%s\n", (unsigned long)j,

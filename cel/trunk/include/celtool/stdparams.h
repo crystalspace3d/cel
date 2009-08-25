@@ -137,7 +137,7 @@ public:
   celData& GetParameter (size_t idx) { return data[idx]; }
 
   virtual size_t GetParameterCount () const { return count; }
-  virtual csStringID GetParameter (size_t idx, celDataType& t) const
+  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
   {
     if (/*idx < 0 || */idx >= count)
     {
@@ -187,7 +187,7 @@ public:
       celDataType type;
       for (size_t idx = 0; idx < other->GetParameterCount (); idx++)
       {
-        id = other->GetParameter (idx, type);
+        id = other->GetParameterDef (idx, type);
         SetParameterDef (idx, id);
         data.GetExtend (idx) = *other->GetParameter (id);
       }
@@ -204,7 +204,7 @@ public:
   celData& GetParameter (size_t idx) { return data.GetExtend (idx); }
 
   virtual size_t GetParameterCount () const { return data.GetSize (); }
-  virtual csStringID GetParameter (size_t idx, celDataType& t) const
+  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
   {
     if (/*idx < 0 || */idx >= data.GetSize ())
     {
@@ -253,7 +253,7 @@ public:
   celData& GetParameter (int) { return data; }
 
   virtual size_t GetParameterCount () const { return 1; }
-  virtual csStringID GetParameter (size_t idx, celDataType& t) const
+  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
   {
     if (idx != 0)
     {
@@ -309,15 +309,15 @@ public:
   {
     return b1->GetParameterCount () + (b2 ? b2->GetParameterCount () : 0);
   }
-  virtual csStringID GetParameter (size_t idx, celDataType& t) const
+  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
   {
     if (idx < b1->GetParameterCount ())
     {
-      return b1->GetParameter (idx, t);
+      return b1->GetParameterDef (idx, t);
     }
     else if (b2)
     {
-      return b2->GetParameter (idx-b1->GetParameterCount (), t);
+      return b2->GetParameterDef (idx-b1->GetParameterCount (), t);
     }
     else
     {
@@ -348,6 +348,7 @@ public:
   }
 };
 
+#if 1
 struct celParameterMapping
 {
   csString source;
@@ -355,9 +356,14 @@ struct celParameterMapping
   csRef<iCelExpression> expression;
 };
 
-#if 0
+#else
 
-// Below is work in progress @@@
+struct celParameterMapping
+{
+  csStringID source;
+  csStringID dest;
+  csRef<iCelExpression> expression;
+};
 
 /**
  * Parameter block implementation which supports parameter mapping
@@ -369,15 +375,28 @@ class celMappedParameterBlock : public scfImplementation1<
 private:
   csRef<iCelParameterBlock> params;
   const csArray<celParameterMapping>& mapping;
+  csArray<size_t> source_ids;
+  csWeakRef<iCelEntity> entity;
 
 public:
-  celMappedParameterBlock (iCelParameterBlock* params,
+  celMappedParameterBlock (iCelEntity* entity, iCelParameterBlock* params,
       const csArray<celParameterMapping>& mapping)
-    : scfImplementationType (this), params (params),
-      mapping (mapping)
+    : scfImplementationType (this),
+      entity (entity), params (params), mapping (mapping)
   {
-    for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
-
+    source_ids.SetSize (mappings.GetSize ());
+    for (size_t mi = 0 ; mi < mapping.GetSize () ; mi++)
+    {
+      celParameterMapping& m = mapping[mi];
+      if (!m.expression)
+        for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
+        {
+          celData& ret;
+          csStringID id = params->GetParameterDef (i, ret);
+          if (id == m.source)
+	    source_ids[mi] = i;
+        }
+    }
   }
   virtual ~celMappedParameterBlock ()
   {
@@ -385,26 +404,39 @@ public:
 
   virtual size_t GetParameterCount () const
   {
-    return params->GetParameterCount () + (b2 ? b2->GetParameterCount () : 0);
+    // @@@ Not entirely correct as the mapping could map to parameters
+    // that already exist.
+    return params->GetParameterCount () + mapping.GetSize ();
   }
-  virtual const char* GetParameter (size_t idx, csStringID& id,
-  	celDataType& t) const
+  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
   {
-    if (idx < b1->GetParameterCount ())
+    if (idx < mapping.GetSize ())
     {
-      return b1->GetParameter (idx, id, t);
-    }
-    else if (b2)
-    {
-      return b2->GetParameter (idx-b1->GetParameterCount (), id, t);
+      celParameterMapping& m = mapping[idx];
+      if (m.expression)
+      {
+	celData ret;
+	m.expression->Execute (entity, ret, params);
+	t = ret.type;
+      }
+      else
+      {
+	celData* d = params->GetParameterByIndex (source_ids[idx]);
+	t = d->type;
+      }
+      return m.dest;
     }
     else
     {
-      return 0;
+      return params->GetParameterDef (idx-mapping.GetSize (), t);
     }
   }
   virtual const celData* GetParameter (csStringID id) const
   {
+    for (size_t i = 0 ; i < mapping.GetSize () ; i++)
+      if (mapping[i].dest == id)
+      {
+      }
     const celData* data = b1->GetParameter (id);
     if (data) return data;
     if (!b2) return 0;
