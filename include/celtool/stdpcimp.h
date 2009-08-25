@@ -119,7 +119,7 @@ protected:
   /**
    * Helper function to setup properties.
    * \param idx is a numerical index for the property starting at 0.
-   * \param id is the id string ('cel.property.bla').
+   * \param id is the id string ('bla').
    * \param type is the type for the property.
    * \param readonly
    * \param desc is the description.

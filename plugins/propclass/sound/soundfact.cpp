@@ -130,15 +130,15 @@ celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (5);
-  AddProperty (propid_front, "cel.property.front",
+  AddProperty (propid_front, "front",
   	CEL_DATA_VECTOR3, false, "Front direction vector.", 0);
-  AddProperty (propid_top, "cel.property.top",
+  AddProperty (propid_top, "top",
   	CEL_DATA_VECTOR3, false, "Top direction vector.", 0);
-  AddProperty (propid_position, "cel.property.position",
+  AddProperty (propid_position, "position",
   	CEL_DATA_VECTOR3, false, "Position vector.", 0);
-  AddProperty (propid_distancefactor, "cel.property.distancefactor",
+  AddProperty (propid_distancefactor, "distancefactor",
   	CEL_DATA_FLOAT, false, "Distance factor.", 0);
-  AddProperty (propid_rollofffactor, "cel.property.rollofffactor",
+  AddProperty (propid_rollofffactor, "rollofffactor",
   	CEL_DATA_FLOAT, false, "Rolloff factor.", 0);
 
   renderer = csQueryRegistryOrLoad<iSndSysRenderer> (object_reg,
@@ -332,23 +332,23 @@ celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (9);
-  AddProperty (propid_soundname, "cel.property.soundname",
+  AddProperty (propid_soundname, "soundname",
 	CEL_DATA_STRING, false, "Name of the sound.", 0);
-  AddProperty (propid_volume, "cel.property.volume",
+  AddProperty (propid_volume, "volume",
 	CEL_DATA_FLOAT, false, "Volume.", 0);
-  AddProperty (propid_directionalradiation, "cel.property.directionalradiation",
+  AddProperty (propid_directionalradiation, "directionalradiation",
 	CEL_DATA_FLOAT, false, "Directional radiation.", 0);
-  AddProperty (propid_position, "cel.property.position",
+  AddProperty (propid_position, "position",
 	CEL_DATA_VECTOR3, false, "Position vector.", 0);
-  AddProperty (propid_minimumdistance, "cel.property.minimumdistance",
+  AddProperty (propid_minimumdistance, "minimumdistance",
 	CEL_DATA_FLOAT, false, "Minimum distance.", 0);
-  AddProperty (propid_maximumdistance, "cel.property.maximumdistance",
+  AddProperty (propid_maximumdistance, "maximumdistance",
 	CEL_DATA_FLOAT, false, "Maximum distance.", 0);
-  AddProperty (propid_loop, "cel.property.loop",
+  AddProperty (propid_loop, "loop",
 	CEL_DATA_BOOL, false, "Loop.", 0);
-  AddProperty (propid_follow, "cel.property.follow",
+  AddProperty (propid_follow, "follow",
 	CEL_DATA_BOOL, false, "Whether to follow own entity pcmesh.", 0);
-  AddProperty (propid_mode, "cel.property.mode",
+  AddProperty (propid_mode, "mode",
 	CEL_DATA_STRING, false, "'absolute', 'relative', or 'disable'.", 0);
 
   follow = 0;

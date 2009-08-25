@@ -550,7 +550,7 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   }
 
   propinfo.SetCount (1);
-  AddProperty (propid_weight, "cel.property.weight",
+  AddProperty (propid_weight, "weight",
   	CEL_DATA_FLOAT, false, "Weight of this object", &weight);
 
   if (id_force == csInvalidStringID)

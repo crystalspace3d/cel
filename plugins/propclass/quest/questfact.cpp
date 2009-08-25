@@ -82,9 +82,9 @@ celPcQuest::celPcQuest (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (2);
-  AddProperty (propid_name, "cel.property.name",
+  AddProperty (propid_name, "name",
 	CEL_DATA_STRING, true, "Quest Factory Name.", 0);
-  AddProperty (propid_state, "cel.property.state",
+  AddProperty (propid_state, "state",
 	CEL_DATA_STRING, false, "Current State.", 0);
 
   GetQuestManager ();

@@ -96,11 +96,11 @@ celPcRegion::celPcRegion (iObjectRegistry* object_reg)
   }
 
   propinfo.SetCount (3);
-  AddProperty (propid_worlddir, "cel.property.worlddir",
+  AddProperty (propid_worlddir, "worlddir",
   	CEL_DATA_STRING, false, "Map VFS path.", &worlddir);
-  AddProperty (propid_worldfile, "cel.property.worldfile",
+  AddProperty (propid_worldfile, "worldfile",
   	CEL_DATA_STRING, false, "Map VFS file name.", &worldfile);
-  AddProperty (propid_regionname, "cel.property.regionname",
+  AddProperty (propid_regionname, "regionname",
   	CEL_DATA_STRING, false, "Name of this region.", &regionname);
 
   worlddir = 0;

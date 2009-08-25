@@ -97,11 +97,11 @@ celPcPortal::celPcPortal (iObjectRegistry* object_reg)
   // For properties.
   propholder = &propinfo;
   propinfo.SetCount (3);
-  AddProperty (propid_mesh, "cel.property.mesh",
+  AddProperty (propid_mesh, "mesh",
   	CEL_DATA_STRING, false, "Portal mesh name.", 0);
-  AddProperty (propid_portal, "cel.property.portal",
+  AddProperty (propid_portal, "portal",
   	CEL_DATA_STRING, false, "Portal name.", 0);
-  AddProperty (propid_closed, "cel.property.closed",
+  AddProperty (propid_closed, "closed",
   	CEL_DATA_BOOL, false, "Closed status.", 0);
 }
 

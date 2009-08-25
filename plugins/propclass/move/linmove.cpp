@@ -202,13 +202,13 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (4);
-  AddProperty (propid_anchor, "cel.property.anchor",
+  AddProperty (propid_anchor, "anchor",
   	CEL_DATA_STRING, false, "Mesh Anchor.", 0);
-  AddProperty (propid_gravity, "cel.property.gravity",
+  AddProperty (propid_gravity, "gravity",
   	CEL_DATA_FLOAT, false, "Gravity.", &gravity);
-  AddProperty (propid_hug, "cel.property.hug",
+  AddProperty (propid_hug, "hug",
   	CEL_DATA_BOOL, false, "Hug to ground.", &hugGround);
-  AddProperty (propid_speed, "cel.property.speed",
+  AddProperty (propid_speed, "speed",
   	CEL_DATA_FLOAT, false, "Movement speed.", &speed);
 
   ResetGravity ();

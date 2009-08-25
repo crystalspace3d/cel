@@ -89,27 +89,27 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (11);
-  AddProperty (propid_turnmax, "cel.property.turnmax",
+  AddProperty (propid_turnmax, "turnmax",
         CEL_DATA_FLOAT, false, "Maximum turning.", 0);
-  AddProperty (propid_turnacc, "cel.property.turnacc",
+  AddProperty (propid_turnacc, "turnacc",
         CEL_DATA_FLOAT, false, "Maximum turning rate.", 0);
-  AddProperty (propid_pitchmax, "cel.property.pitchmax",
+  AddProperty (propid_pitchmax, "pitchmax",
         CEL_DATA_FLOAT, false, "Maximum pitch.", 0);
-  AddProperty (propid_pitchacc, "cel.property.pitchacc",
+  AddProperty (propid_pitchacc, "pitchacc",
         CEL_DATA_FLOAT, false, "Maximum pitch rate.", 0);
-  AddProperty (propid_roll, "cel.property.roll",
+  AddProperty (propid_roll, "roll",
         CEL_DATA_FLOAT, false, "Rolling ratio.", 0);
-  AddProperty (propid_thrust, "cel.property.thrust",
+  AddProperty (propid_thrust, "thrust",
         CEL_DATA_FLOAT, false, "Thruster force.", 0);
-  AddProperty (propid_topspeed, "cel.property.topspeed",
+  AddProperty (propid_topspeed, "topspeed",
         CEL_DATA_FLOAT, false, "Maximum thruster speed.", 0);
-  AddProperty (propid_atopspeed, "cel.property.atopspeed",
+  AddProperty (propid_atopspeed, "atopspeed",
         CEL_DATA_FLOAT, false, "Maximum afterbruner speed.", 0);
-  AddProperty (propid_brakingspeed, "cel.property.brakingspeed",
+  AddProperty (propid_brakingspeed, "brakingspeed",
         CEL_DATA_FLOAT, false, "Braking speed.", 0);
-  AddProperty (propid_decelrate, "cel.property.decelrate",
+  AddProperty (propid_decelrate, "decelrate",
         CEL_DATA_FLOAT, false, "Deceleration rate.", 0);
-  AddProperty (propid_rvelratio, "cel.property.rvelratio",
+  AddProperty (propid_rvelratio, "rvelratio",
         CEL_DATA_FLOAT, false, "Redirect velocity ratio.", 0);
 }
 

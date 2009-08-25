@@ -186,73 +186,73 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   }
 
   propinfo.SetCount (22);
-  AddProperty (propid_colldet, "cel.property.colldet",
+  AddProperty (propid_colldet, "colldet",
     CEL_DATA_BOOL, false, "Whether camera will use collision detection.", &docolldet);
-  AddProperty (propid_colldet_yfocusoff, "cel.property.yfocusoff",
+  AddProperty (propid_colldet_yfocusoff, "yfocusoff",
     CEL_DATA_FLOAT, false, "Y offset from player position for collision detection focus.", &collyfocusoff);
-  AddProperty (propid_colldet_corrmult, "cel.property.corrmult",
+  AddProperty (propid_colldet_corrmult, "corrmult",
     CEL_DATA_FLOAT, false, "Correction to add to camera after collision.", &corrmult);
-  AddProperty (propid_colldet_avoid_radsq, "cel.property.avoid_radsq",
+  AddProperty (propid_colldet_avoid_radsq, "avoid_radsq",
     CEL_DATA_FLOAT, false, "Player avoidance squared radius.", &avoidradsq);
-  AddProperty (propid_colldet_avoid_yoff, "cel.property.avoid_yoff",
+  AddProperty (propid_colldet_avoid_yoff, "avoid_yoff",
     CEL_DATA_FLOAT, false, "Y offset for avoiding the player.", &avoidyoff);
-  AddProperty (propid_colldet_avoid_inter, "cel.property.avoid_inter",
+  AddProperty (propid_colldet_avoid_inter, "avoid_inter",
     CEL_DATA_FLOAT, false, "Interpolation between normal and Y offsetted height.", &avoidinter);
-  AddProperty (propid_colldet_spring, "cel.property.colldet_spring",
+  AddProperty (propid_colldet_spring, "colldet_spring",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Springiness in case of collision.",
     0);
   AddProperty (propid_colldet_origin_radius,
-    "cel.property.colldet_origin_radius",
+    "colldet_origin_radius",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Space between wall and camera origin in case of collision.",
     0);
   AddProperty (propid_colldet_target_radius,
-    "cel.property.colldet_target_radius",
+    "colldet_target_radius",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Offset for target collision detection.",
     0);
-  AddProperty (propid_offset, "cel.property.offset",
+  AddProperty (propid_offset, "offset",
     CEL_DATA_VECTOR3, false, "Offset from the center of the mesh.",
     &offsetTarget);
-  AddProperty (propid_offset_origin, "cel.property.offset_origin",
+  AddProperty (propid_offset_origin, "offset_origin",
     CEL_DATA_VECTOR3, false,
     "Offset of the camera origin point from the center of the mesh.",
     &offsetOrigin);
-  AddProperty (propid_offset_target, "cel.property.offset_target",
+  AddProperty (propid_offset_target, "offset_target",
     CEL_DATA_VECTOR3, false,
     "Offset of the target point from the center of the mesh.",
     &offsetTarget);
-  AddProperty (propid_offset_min, "cel.property.minoffset",
+  AddProperty (propid_offset_min, "minoffset",
     CEL_DATA_FLOAT, false, "Minimum distance between camera and player on X-Z plane.", &minoffset);
-  AddProperty (propid_spring, "cel.property.spring",
+  AddProperty (propid_spring, "spring",
     CEL_DATA_FLOAT, false, "Common spring coefficient.", 0);
-  AddProperty (propid_spring_origin, "cel.property.spring_origin",
+  AddProperty (propid_spring_origin, "spring_origin",
     CEL_DATA_FLOAT, false, "Spring coefficient for origin.",
     &originSpringCoef);
-  AddProperty (propid_spring_target, "cel.property.spring_target",
+  AddProperty (propid_spring_target, "spring_target",
     CEL_DATA_FLOAT, false, "Spring coefficient for target.",
     &targetSpringCoef);
-  AddProperty (propid_spring_up, "cel.property.spring_up",
+  AddProperty (propid_spring_up, "spring_up",
     CEL_DATA_FLOAT, false, "Spring coefficient for up vector.",
     &upSpringCoef);
-  AddProperty (propid_trans_spring, "cel.property.transition_spring",
+  AddProperty (propid_trans_spring, "transition_spring",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Springyness of the transition to a new camera mode.",
     &transitionSpringCoef);
   AddProperty (propid_trans_cutofforigin,
-    "cel.property.transition_cutofforigin",
+    "transition_cutofforigin",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Camera transition mode cutoff distance from origin to origin.",
     &transitionCutoffOriginDist);
   AddProperty (propid_trans_cutofftarget,
-    "cel.property.transition_cutofftarget",
+    "transition_cutofftarget",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Camera transition mode cutoff distance from target to target.",
     &transitionCutoffTargetDist);
-  AddProperty (propid_trans_time, "cel.property.trans_time",
+  AddProperty (propid_trans_time, "trans_time",
     CEL_DATA_FLOAT, false, "Time to transition to the new mode.", &transtime);
-  AddProperty (propid_trans_on, "cel.property.trans_on",
+  AddProperty (propid_trans_on, "trans_on",
     CEL_DATA_BOOL, true, "Whether currently in a transition.", &inTransition);
 }
 

@@ -45,8 +45,7 @@ struct iBillboard;
  * - GetTextHeight: no parameters, returns an integer with current text height
  *   in billboard coordinates.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - name (string, read/write): name of the billboard.
  * - materialname (string, read/write): name of the material. Warning!
  *     It is important to make sure the materials using the billboard

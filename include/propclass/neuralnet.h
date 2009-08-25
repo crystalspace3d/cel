@@ -63,8 +63,7 @@ struct iCelNNWeights : public virtual iBase
 /**
  * A property class implementing a feed-forward neural network.
  *
- * The property class holds the following properties (add prefix
- * "cel.property." to get a property ID):
+ * The property class holds the following properties:
  * - "inputs" (long) The number of inputs in the neural network.
  * - "outputs" (long) The number of outputs in the neural network.
  * - "layers" (long) The number of hidden layers in the neural network.
@@ -79,7 +78,7 @@ struct iCelNNWeights : public virtual iBase
  *   Parameter: "func" (string). See iCelNNActivationFunc and its subclasses.
  *   This also sets the datatype of the inputs and outputs.
  * - "SetInputs" Sets the values of the inputs. Parameters:
- *   "input0"..."inputN" the values (N = "cel.property.inputs" - 1).
+ *   "input0"..."inputN" the values (N = "inputs" - 1).
  * - "Process" Runs one iteration through the neural network, reading the
  *   inputs and setting the outputs. May send "pcneuralnet_outputs" message.
  * - "SaveCache" Saves the weightings to VFS path /cellib/cache/pcneuralnet.
@@ -90,7 +89,7 @@ struct iCelNNWeights : public virtual iBase
  * And can send the following message to the behaviour:
  * - "pcneuralnet_outputs" Sent after every call to "Process".
  *   Parameters: "output0"..."outputN" the output values from the neural
- *   network (N - "cel.property.outputs" - 1).
+ *   network (N - "outputs" - 1).
  */
 struct iPcNeuralNet : public virtual iBase
 {

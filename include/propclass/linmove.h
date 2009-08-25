@@ -80,8 +80,7 @@ struct iPcGravityCallback : public virtual iBase
  * - AddVelocity: parameters 'velocity' (vector3) in world coordinates.
  * - SetAngularVelocity: parameters 'velocity' (vector3).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - speed (float, read/write): control speed (default 1.0).
  * - anchor (string, read/write): name of the entity on which we are
  *   anchored.

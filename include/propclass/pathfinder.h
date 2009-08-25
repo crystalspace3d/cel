@@ -47,8 +47,7 @@ struct iCelGraph;
  * - FollowTwoWayPath: parameters 'path' (iCelPath*). 
  * - Interrupt: interrupt the current movement.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - position (vector3, read only): current end position.
  * - active (bool, read only): returns true if currently tracking.
  * - pursue_max_prediction (float, read/write): current max prediction

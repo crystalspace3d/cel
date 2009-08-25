@@ -96,13 +96,13 @@ celPcEvolve::celPcEvolve(iObjectRegistry *objreg)
   }
 
   propinfo.SetCount(EVO_PROP_LAST);
-  AddProperty(EVO_POPSIZE, "cel.property.population", CEL_DATA_LONG,
+  AddProperty(EVO_POPSIZE, "population", CEL_DATA_LONG,
 	false, descriptions[EVO_POPSIZE], &popSize);
-  AddProperty(EVO_SUBJECT, "cel.property.subject", CEL_DATA_PCLASS,
+  AddProperty(EVO_SUBJECT, "subject", CEL_DATA_PCLASS,
 	false, descriptions[EVO_SUBJECT], &subject);
-  AddProperty(EVO_SELECTPROB, "cel.property.selectProbability", CEL_DATA_FLOAT,
+  AddProperty(EVO_SELECTPROB, "selectProbability", CEL_DATA_FLOAT,
 	false, descriptions[EVO_SELECTPROB], &selectProb);
-  AddProperty(EVO_MUTATEPROB, "cel.property.mutateProbability", CEL_DATA_FLOAT,
+  AddProperty(EVO_MUTATEPROB, "mutateProbability", CEL_DATA_FLOAT,
 	false, descriptions[EVO_MUTATEPROB], &mutateProb);
 
   if (paramid[0] == csInvalidStringID)

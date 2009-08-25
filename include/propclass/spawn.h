@@ -42,8 +42,7 @@
  * - AddSpawnPosition: parameters 'sector' (string), 'yrot' (float),
  *     'position' (vector or name of the node)
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - namecounter (bool, read/write): enable/disable unique name counter
  *   (default true).
  * - spawnunique (bool, read/write): enable/disable prevention of spawning

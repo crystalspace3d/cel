@@ -76,8 +76,7 @@ class csBox3;
  *   or 'object' (string)
  * - DetachSocketMesh: parameters 'socket'
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - position (vector3, read): current position.
  * - fullposition (vector3, read): current full position.
  * - rotation (vector3, read): current rotation.

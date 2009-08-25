@@ -81,28 +81,28 @@ celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (8);
-  AddProperty (propid_axisx, "cel.property.axisx",
+  AddProperty (propid_axisx, "axisx",
     CEL_DATA_FLOAT, false, "Left/Right axis value (-1.0 to 1.0).",
     &target_axis.x);
-  AddProperty (propid_axisy, "cel.property.axisy",
+  AddProperty (propid_axisy, "axisy",
     CEL_DATA_FLOAT, false, "Forward/Backwards axis value (-1.0 to 1.0).",
     &target_axis.y);
-  AddProperty (propid_movespeed, "cel.property.movespeed",
+  AddProperty (propid_movespeed, "movespeed",
     CEL_DATA_FLOAT, false, "Movement speed.",
     &movespeed);
-  AddProperty (propid_moveaccel, "cel.property.moveaccel",
+  AddProperty (propid_moveaccel, "moveaccel",
     CEL_DATA_FLOAT, false, "Movement acceleration.",
     &moveaccel);
-  AddProperty (propid_movedecel, "cel.property.movedecel",
+  AddProperty (propid_movedecel, "movedecel",
     CEL_DATA_FLOAT, false, "Movement deceleration.",
     &movedecel);
-  AddProperty (propid_minturnspeed, "cel.property.minturnspeed",
+  AddProperty (propid_minturnspeed, "minturnspeed",
     CEL_DATA_FLOAT, false, "Minimum turning speed.",
     &minturnspeed);
-  AddProperty (propid_maxturnspeed, "cel.property.maxturnspeed",
+  AddProperty (propid_maxturnspeed, "maxturnspeed",
     CEL_DATA_FLOAT, false, "Maximum turning speed.",
     &maxturnspeed);
-  AddProperty (propid_enabled, "cel.property.enabled",
+  AddProperty (propid_enabled, "enabled",
     CEL_DATA_BOOL, false, "Is this component updating the player every frame?",
     &enabled);
 

@@ -63,8 +63,7 @@ enum celAnimationName
  *   (like walk, run, rotateleft...) and 'name' (string) specifying the model
  *   name for the animation.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - mousemove (bool, read/write): enable/disable mousemove.
  * - mousemove_inverted (bool, read/write): enable/disable inverted mousemove.
  * - mousemove_xfactor (float, read/write): horizontal mousemove speed.

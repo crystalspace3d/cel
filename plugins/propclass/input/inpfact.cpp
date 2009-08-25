@@ -129,11 +129,11 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   }
 
   propinfo.SetCount (3);
-  AddProperty (propid_cooked, "cel.property.cooked",
+  AddProperty (propid_cooked, "cooked",
   	CEL_DATA_BOOL, false, "Cooked mode.", &do_cooked);
-  AddProperty (propid_screenspace, "cel.property.screenspace",
+  AddProperty (propid_screenspace, "screenspace",
   	CEL_DATA_BOOL, false, "Screenspace mode.", &screenspace);
-  AddProperty (propid_sendtrigger, "cel.property.sendtrigger",
+  AddProperty (propid_sendtrigger, "sendtrigger",
   	CEL_DATA_BOOL, false, "Send trigger.", &do_sendtrigger);
 
   mouse_params = new celGenericParameterBlock (3);

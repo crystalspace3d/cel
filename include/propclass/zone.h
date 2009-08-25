@@ -283,8 +283,7 @@ struct iCelZone : public virtual iBase
  * - LinkRegion: parameters 'zone' (string) 'region' (string).
  * - UnlinkRegion: parameters 'zone' (string) 'region' (string).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - laststart (string, read only): last used start location.
  * - lastregion (string, read only): last used region.
  *

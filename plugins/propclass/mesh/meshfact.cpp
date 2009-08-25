@@ -196,25 +196,25 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (10);
-  AddProperty (propid_position, "cel.property.position",
+  AddProperty (propid_position, "position",
   	CEL_DATA_VECTOR3, true, "Current position of mesh.", 0);
-  AddProperty (propid_fullposition, "cel.property.fullposition",
+  AddProperty (propid_fullposition, "fullposition",
   	CEL_DATA_VECTOR3, true, "Current full position of mesh.", 0);
-  AddProperty (propid_rotation, "cel.property.rotation",
+  AddProperty (propid_rotation, "rotation",
   	CEL_DATA_VECTOR3, true, "Current rotation of mesh.", 0);
-  AddProperty (propid_eulerrotation, "cel.property.eulerrotation",
+  AddProperty (propid_eulerrotation, "eulerrotation",
   	CEL_DATA_VECTOR3, true, "Current euler rotation of mesh.", 0);
-  AddProperty (propid_sector, "cel.property.sector",
+  AddProperty (propid_sector, "sector",
   	CEL_DATA_STRING, true, "Current sector of mesh.", 0);
-  AddProperty (propid_path, "cel.property.path",
+  AddProperty (propid_path, "path",
   	CEL_DATA_STRING, true, "VFS path for model.", 0);
-  AddProperty (propid_factory, "cel.property.factory",
+  AddProperty (propid_factory, "factory",
   	CEL_DATA_STRING, true, "Factory name for the model.", 0);
-  AddProperty (propid_filename, "cel.property.filename",
+  AddProperty (propid_filename, "filename",
   	CEL_DATA_STRING, true, "Filename for the model.", 0);
-  AddProperty (propid_hitbeam, "cel.property.hitbeam",
+  AddProperty (propid_hitbeam, "hitbeam",
   	CEL_DATA_BOOL, false, "Allow hitbeams for the mesh.", 0);
-  AddProperty (propid_meshname, "cel.property.meshname",
+  AddProperty (propid_meshname, "meshname",
   	CEL_DATA_STRING, true, "Mesh object name for the model.", 0);
 }
 
@@ -1459,21 +1459,21 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (8);
-  AddProperty (propid_global, "cel.property.global",
+  AddProperty (propid_global, "global",
   	CEL_DATA_BOOL, false, "Global Selection.", 0);
-  AddProperty (propid_follow, "cel.property.follow",
+  AddProperty (propid_follow, "follow",
   	CEL_DATA_BOOL, false, "Follow Mode.", 0);
-  AddProperty (propid_followalways, "cel.property.followalways",
+  AddProperty (propid_followalways, "followalways",
   	CEL_DATA_BOOL, false, "Follow Always Mode.", 0);
-  AddProperty (propid_drag, "cel.property.drag",
+  AddProperty (propid_drag, "drag",
   	CEL_DATA_BOOL, false, "Drag Mode.", 0);
-  AddProperty (propid_sendmove, "cel.property.sendmove",
+  AddProperty (propid_sendmove, "sendmove",
   	CEL_DATA_BOOL, false, "Send Move Events.", 0);
-  AddProperty (propid_sendup, "cel.property.sendup",
+  AddProperty (propid_sendup, "sendup",
   	CEL_DATA_BOOL, false, "Send Up Events.", 0);
-  AddProperty (propid_senddown, "cel.property.senddown",
+  AddProperty (propid_senddown, "senddown",
   	CEL_DATA_BOOL, false, "Send Down Events.", 0);
-  AddProperty (propid_maxdistance, "cel.property.maxdistance",
+  AddProperty (propid_maxdistance, "maxdistance",
   	CEL_DATA_FLOAT, false, "Maximum Selection Distance.", &max_distance);
 
   SetupEventHandler ();

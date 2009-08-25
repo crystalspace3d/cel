@@ -321,7 +321,7 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
     {
       case XMLTOKEN_PROPERTY:
         {
-	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
+	  csStringID propid = GetAttributeID (child, "name");
 	  if (propid == csInvalidStringID) return false;
 
 	  csRef<iDocumentAttributeIterator> attr_it = child->GetAttributes ();

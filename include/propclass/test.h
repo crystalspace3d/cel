@@ -33,8 +33,7 @@
  * This property class supports the following actions:
  * - Print: parameters 'message' (string).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - counter (long, read/write): how many times something has been printed.
  * - max (long, read/write): maximum length of what was printed.
  */

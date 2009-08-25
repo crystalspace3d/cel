@@ -32,8 +32,7 @@ struct iPcInventory;
  * This property class supports the following actions:
  * - HasCharacteristic: parameters 'name' (string), returns true/false.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - <name> (float, read/write): the specific characteristic.
  */
 struct iPcCharacteristics : public virtual iBase

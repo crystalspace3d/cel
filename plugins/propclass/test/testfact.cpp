@@ -56,9 +56,9 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (2);
-  AddProperty (propid_counter, "cel.property.counter",
+  AddProperty (propid_counter, "counter",
 	CEL_DATA_LONG, false, "Print counter.", &counter);
-  AddProperty (propid_max, "cel.property.max",
+  AddProperty (propid_max, "max",
 	CEL_DATA_LONG, false, "Max length.", 0);
 
   counter = 0;

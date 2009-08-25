@@ -58,7 +58,7 @@ celPcJump::celPcJump (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (1);
-  AddProperty (propid_jumpspeed, "cel.property.jumpspeed",
+  AddProperty (propid_jumpspeed, "jumpspeed",
     CEL_DATA_FLOAT, false, "Jumping speed.", &jumpspeed);
 
   currstate = STAND;

@@ -85,16 +85,7 @@ size_t celPcProperties::FindProperty (csStringID id)
   {
     property* p = properties[i];
     if (p->id == csInvalidStringID)
-    {
-      char* buf = new char[30+strlen (p->propName)];
-      if (p->type == CEL_DATA_ACTION)
-        buf[0] = 0;
-      else
-        strcpy (buf, "cel.property.");
-      strcat (buf, p->propName);
-      p->id = pl->FetchStringID (buf);
-      delete[] buf;
-    }
+      p->id = pl->FetchStringID (p->propName);
     if (p->id == id) return i;
   }
   return csArrayItemNotFound;
@@ -119,16 +110,7 @@ csStringID celPcProperties::GetPropertyOrActionID (size_t i)
 {
   property* p = properties[i];
   if (p->id == csInvalidStringID)
-  {
-    char* buf = new char[30+strlen (p->propName)];
-    if (p->type == CEL_DATA_ACTION)
-      buf[0] = 0;
-    else
-      strcpy (buf, "cel.property.");
-    strcat (buf, p->propName);
-    p->id = pl->FetchStringID (buf);
-    delete[] buf;
-  }
+    p->id = pl->FetchStringID (p->propName);
   return p->id;
 }
 

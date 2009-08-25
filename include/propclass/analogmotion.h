@@ -33,8 +33,7 @@
  * - SetMovementSpeed: parameters 'value' (float).
  * - SetTurningSpeed: parameters 'value' (float).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - axisx (float, read/write): Left/Right axis value (-1.0 to 1.0).
  * - axisy (float, read/write): Forward/Backwards axis value (-1.0 to 1.0).
  * - movespeed (float, read/write): Movement speed.

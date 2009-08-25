@@ -78,13 +78,13 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (4);
-  AddProperty (propid_position, "cel.property.position",
+  AddProperty (propid_position, "position",
 	CEL_DATA_VECTOR3, true, "Desired end position.", &position);
-  AddProperty (propid_up, "cel.property.up",
+  AddProperty (propid_up, "up",
 	CEL_DATA_VECTOR3, true, "Current up vector.", &up);
-  AddProperty (propid_sqradius, "cel.property.sqradius",
+  AddProperty (propid_sqradius, "sqradius",
 	CEL_DATA_FLOAT, false, "Current squared radius.", &sqradius);
-  AddProperty (propid_moving, "cel.property.moving",
+  AddProperty (propid_moving, "moving",
 	CEL_DATA_BOOL, true, "Is moving?", &is_moving);
 
   is_moving = false;

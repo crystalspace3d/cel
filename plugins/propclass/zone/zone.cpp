@@ -475,9 +475,9 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (2);
-  AddProperty (propid_laststart, "cel.property.laststart",
+  AddProperty (propid_laststart, "laststart",
   	CEL_DATA_STRING, true, "Last used start location.", 0);
-  AddProperty (propid_lastregion, "cel.property.lastregion",
+  AddProperty (propid_lastregion, "lastregion",
   	CEL_DATA_STRING, true, "Last used region name.", 0);
 }
 

@@ -213,51 +213,51 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   }
   
   propinfo.SetCount (20);
-  AddProperty (propid_speed, "cel.property.speed",
+  AddProperty (propid_speed, "speed",
          CEL_DATA_FLOAT, true, "Vehicle Speed.", &speed);
-  AddProperty (propid_tankmode, "cel.property.tankmode",
+  AddProperty (propid_tankmode, "tankmode",
          CEL_DATA_BOOL, false, "Tank Steering.", &tankmode);
-  AddProperty (propid_steer, "cel.property.steer",
+  AddProperty (propid_steer, "steer",
          CEL_DATA_FLOAT, false, "Absolute steer.", 0);
-  AddProperty (propid_accelamount, "cel.property.accelamount",
+  AddProperty (propid_accelamount, "accelamount",
          CEL_DATA_FLOAT, false, "Amount of accelerator.", 0);
-  AddProperty (propid_brakeamount, "cel.property.brakeamount",
+  AddProperty (propid_brakeamount, "brakeamount",
          CEL_DATA_FLOAT, false, "Amount of brakes applied", 0);
-  AddProperty (propid_handbraking, "cel.property.handbraking",
+  AddProperty (propid_handbraking, "handbraking",
          CEL_DATA_BOOL, false, "Handbrake is applied.",
          &handbrakeapplied);
-  AddProperty (propid_steeramount, "cel.property.steeramount",
+  AddProperty (propid_steeramount, "steeramount",
          CEL_DATA_FLOAT, false, "Vehicle Steer Amount.", &steeramount);
-  AddProperty (propid_autotransmission, "cel.property.autotransmission",
+  AddProperty (propid_autotransmission, "autotransmission",
          CEL_DATA_BOOL, false, "Automatic Gear Shifts.",
          &autotransmission);
-  AddProperty (propid_gear, "cel.property.gear",
+  AddProperty (propid_gear, "gear",
          CEL_DATA_LONG, false, "Current gear", 0);
-  AddProperty (propid_brakeforce, "cel.property.brakeforce",
+  AddProperty (propid_brakeforce, "brakeforce",
          CEL_DATA_FLOAT, false, "Force applied to brakes.",
          &brakeforce);
-  AddProperty (propid_autoreverse, "cel.property.autoreverse",
+  AddProperty (propid_autoreverse, "autoreverse",
          CEL_DATA_BOOL, false, "Vehicle automatically reverses.",
          &autoreverse);
   AddProperty (propid_outerwheelsteerpreset,
-         "cel.property.outerwheelsteerpreset",
+         "outerwheelsteerpreset",
          CEL_DATA_FLOAT, false, "Vehicle outer wheel steer.", 0);
-  AddProperty (propid_abs, "cel.property.abs",
+  AddProperty (propid_abs, "abs",
          CEL_DATA_BOOL, false, "Vehicle anti-lock brakes enabled.",
          &abs);
-  AddProperty (propid_currentgearvelocity, "cel.property.currentgearvelocity",
+  AddProperty (propid_currentgearvelocity, "currentgearvelocity",
          CEL_DATA_FLOAT, true, "Current gear velocity.", 0);
-  AddProperty (propid_currentgearforce, "cel.property.currentgearforce",
+  AddProperty (propid_currentgearforce, "currentgearforce",
          CEL_DATA_FLOAT, true, "Current gear force.", 0);
-  AddProperty (propid_averagewheelspin, "cel.property.averagewheelspin",
+  AddProperty (propid_averagewheelspin, "averagewheelspin",
          CEL_DATA_FLOAT, true, "Average wheel spin.", 0);
-  AddProperty (propid_differential, "cel.property.differential",
+  AddProperty (propid_differential, "differential",
          CEL_DATA_BOOL, true, "Differential is enabled.",&differential);
-  AddProperty (propid_antisway, "cel.property.antisway",
+  AddProperty (propid_antisway, "antisway",
          CEL_DATA_BOOL, true, "Anti-sway bar is enabled.",&antisway);
-  AddProperty (propid_antiswayfactor, "cel.property.antiswayfactor",
+  AddProperty (propid_antiswayfactor, "antiswayfactor",
          CEL_DATA_FLOAT, true, "Anti-sway factor.",&antiswayfactor);
-  AddProperty (propid_antiswaylimit, "cel.property.antiswaylimit",
+  AddProperty (propid_antiswaylimit, "antiswaylimit",
          CEL_DATA_FLOAT, true, "Anti-sway limit.",&antiswaylimit);
   
   params = new celGenericParameterBlock (5);
