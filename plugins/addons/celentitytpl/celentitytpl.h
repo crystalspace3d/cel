@@ -49,6 +49,8 @@ private:
   const char* GetAttributeValue (iDocumentNode* child,
 	const char* propname);
   csStringID GetAttributeID (iDocumentNode* child,
+	const char* propname);
+  csStringID GetAttributeID (iDocumentNode* child,
 	const char* prefix, const char* propname);
   bool ParseProperties (iCelPropertyClassTemplate* pc, iDocumentNode* child);
   csRef<celVariableParameterBlock> ParseParameterBlock (iDocumentNode* child);

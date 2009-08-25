@@ -29,8 +29,7 @@
  * This property class depends on iPcMechanicsObject and iPcAttractor, and
  * extends their functionality.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - Explode: no parameters.
  *
  * This property class supports the following properties (add prefix

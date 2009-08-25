@@ -78,9 +78,9 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   if (!propinfo.actions_done)
   {
-    AddAction (action_drawmesh, "cel.action.DrawMesh");
-    AddAction (action_gettextwidth, "cel.action.GetTextWidth");
-    AddAction (action_gettextheight, "cel.action.GetTextHeight");
+    AddAction (action_drawmesh, "DrawMesh");
+    AddAction (action_gettextwidth, "GetTextWidth");
+    AddAction (action_gettextheight, "GetTextHeight");
   }
 
   propinfo.SetCount (28);

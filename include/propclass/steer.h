@@ -36,8 +36,7 @@ struct iPcLinearMovement;
  * - pcsteer_arrived: arrived at final position.
  * - pcsteer_interrupted: movement has been interrupted.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - Seek: parameters 'sectorname' (string), 'position' (vector3).
  * - Flee: parameters 'sectorname' (string), 'position' (vector3).
  * - Pursue: parameters 'target' (iCelEntity*), 'max_prediction' (float),

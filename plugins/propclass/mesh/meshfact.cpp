@@ -174,24 +174,24 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setmesh, "cel.action.SetMesh");
-    AddAction (action_loadmesh, "cel.action.LoadMesh");
-    AddAction (action_loadmeshpath, "cel.action.LoadMeshPath");
-    AddAction (action_movemesh, "cel.action.MoveMesh");
-    AddAction (action_rotatemesh, "cel.action.RotateMesh");
-    AddAction (action_clearrotation, "cel.action.ClearRotation");
-    AddAction (action_lookat, "cel.action.LookAt");
-    AddAction (action_setvisible, "cel.action.SetVisible");
-    AddAction (action_setmaterial, "cel.action.SetMaterial");
-    AddAction (action_setshadervar, "cel.action.SetShaderVar");
-    AddAction (action_setanimation, "cel.action.SetAnimation");
-    AddAction (action_createemptything, "cel.action.CreateEmptyThing");
-    AddAction (action_createemptygenmesh, "cel.action.CreateEmptyGenmesh");
-    AddAction (action_createnullmesh, "cel.action.CreateNullMesh");
-    AddAction (action_parentmesh, "cel.action.ParentMesh");
-    AddAction (action_clearparent, "cel.action.ClearParent");
-    AddAction (action_attachsocketmesh, "cel.action.AttachSocketMesh");
-    AddAction (action_detachsocketmesh, "cel.action.DetachSocketMesh");
+    AddAction (action_setmesh, "SetMesh");
+    AddAction (action_loadmesh, "LoadMesh");
+    AddAction (action_loadmeshpath, "LoadMeshPath");
+    AddAction (action_movemesh, "MoveMesh");
+    AddAction (action_rotatemesh, "RotateMesh");
+    AddAction (action_clearrotation, "ClearRotation");
+    AddAction (action_lookat, "LookAt");
+    AddAction (action_setvisible, "SetVisible");
+    AddAction (action_setmaterial, "SetMaterial");
+    AddAction (action_setshadervar, "SetShaderVar");
+    AddAction (action_setanimation, "SetAnimation");
+    AddAction (action_createemptything, "CreateEmptyThing");
+    AddAction (action_createemptygenmesh, "CreateEmptyGenmesh");
+    AddAction (action_createnullmesh, "CreateNullMesh");
+    AddAction (action_parentmesh, "ParentMesh");
+    AddAction (action_clearparent, "ClearParent");
+    AddAction (action_attachsocketmesh, "AttachSocketMesh");
+    AddAction (action_detachsocketmesh, "DetachSocketMesh");
   }
 
   // For properties.
@@ -1452,9 +1452,9 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setcamera, "cel.action.SetCamera");
-    AddAction (action_setmousebuttons, "cel.action.SetMouseButtons");
-    AddAction (action_setdragplanenormal, "cel.action.SetDragPlaneNormal");
+    AddAction (action_setcamera, "SetCamera");
+    AddAction (action_setmousebuttons, "SetMouseButtons");
+    AddAction (action_setdragplanenormal, "SetDragPlaneNormal");
   }
 
   // For properties.

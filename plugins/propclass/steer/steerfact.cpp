@@ -99,10 +99,10 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_seek, "cel.action.Seek");
-    AddAction (action_flee, "cel.action.Flee");
-    AddAction (action_pursue, "cel.action.Pursue");
-    AddAction (action_interrupt, "cel.action.Interrupt");
+    AddAction (action_seek, "Seek");
+    AddAction (action_flee, "Flee");
+    AddAction (action_pursue, "Pursue");
+    AddAction (action_interrupt, "Interrupt");
   }
 
   // For properties.

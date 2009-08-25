@@ -38,8 +38,7 @@ struct iCelGraph;
  * to the behaviour:
  * - pcpathfinder_interrupted: movement has been interrupted.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - Seek: parameters 'sectorname' (string), 'position' (vector3).
  * - Wander: parameters 'distance' (int).
  * - Pursue: parameters 'target' (iCelEntity*), 'max_prediction' (float).

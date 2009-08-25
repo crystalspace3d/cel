@@ -225,7 +225,6 @@ returns a string @sc{id} from the given property identifier string.
 This adds @samp{cel.property.} prefix to the given string automatically.
 @item @code{pycel.actid(string)}
 returns a string @sc{id} from the given action identifier string.
-This adds @samp{cel.action.} prefix to the given string automatically.
 @item @code{pycel.fromid(stringid)} 
 returns a string from the given stringid.
 @end itemize

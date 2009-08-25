@@ -87,9 +87,9 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
   // Actions
   if (!propinfo.actions_done)
   {
-    AddAction (action_initcam, "cel.action.InitCamera");
-    AddAction (action_setpos, "cel.action.SetPosition");
-    AddAction (action_setmesh, "cel.action.SetMesh");
+    AddAction (action_initcam, "InitCamera");
+    AddAction (action_setpos, "SetPosition");
+    AddAction (action_setmesh, "SetMesh");
   }
 
   // Parameters for action_initcam

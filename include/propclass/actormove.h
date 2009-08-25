@@ -41,8 +41,7 @@ enum celAnimationName
  * This class is also aware of animation actions using sprcal3d or
  * spr3d.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - SetSpeed: parameters 'movement' (float), 'running' (float),
  *   'rotation' (float) and 'jumping' (float).
  * - Forward: parameters 'start' (bool).

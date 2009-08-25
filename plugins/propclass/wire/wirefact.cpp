@@ -112,10 +112,10 @@ celPcWire::celPcWire (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_addinput, "cel.action.AddInput");
-    AddAction (action_addoutput, "cel.action.AddOutput");
-    AddAction (action_addaction, "cel.action.AddAction");
-    AddAction (action_mapparameter, "cel.action.MapParameter");
+    AddAction (action_addinput, "AddInput");
+    AddAction (action_addoutput, "AddOutput");
+    AddAction (action_addaction, "AddAction");
+    AddAction (action_mapparameter, "MapParameter");
   }
 }
 

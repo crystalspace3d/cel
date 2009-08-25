@@ -84,9 +84,9 @@ celPcRules::celPcRules (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_addrule, "cel.action.AddRule");
-    AddAction (action_deleterule, "cel.action.DeleteRule");
-    AddAction (action_deleteallrules, "cel.action.DeleteAllRules");
+    AddAction (action_addrule, "AddRule");
+    AddAction (action_deleterule, "DeleteRule");
+    AddAction (action_deleteallrules, "DeleteAllRules");
   }
 
   // For SendMessage parameters.

@@ -69,14 +69,14 @@ celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_setaxis, "cel.action.SetAxis");
-    AddAction (action_addaxis, "cel.action.AddAxis");
-    AddAction (action_setmovespeed, "cel.action.SetMovementSpeed");
-    AddAction (action_setmoveaccel, "cel.action.SetMovementAcceleration");
-    AddAction (action_setmoveaccel, "cel.action.SetMovementDeceleration");
-    AddAction (action_setminturnspeed, "cel.action.SetMinimumTurningSpeed");
-    AddAction (action_setmaxturnspeed, "cel.action.SetMaximumTurningSpeed");
-    AddAction (action_enable, "cel.action.Enable");
+    AddAction (action_setaxis, "SetAxis");
+    AddAction (action_addaxis, "AddAxis");
+    AddAction (action_setmovespeed, "SetMovementSpeed");
+    AddAction (action_setmoveaccel, "SetMovementAcceleration");
+    AddAction (action_setmoveaccel, "SetMovementDeceleration");
+    AddAction (action_setminturnspeed, "SetMinimumTurningSpeed");
+    AddAction (action_setmaxturnspeed, "SetMaximumTurningSpeed");
+    AddAction (action_enable, "Enable");
   }
 
   // For properties.

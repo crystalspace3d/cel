@@ -27,8 +27,7 @@
  * Spawn property class. This property class is responsible
  * for creating other entities based on time related rules.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - AddEntityType: parameters 'chance' (float), 'entity' (string),
  *     'behaviour' (string), 'layer' (string), 'call' (string)
  * - AddEntityTemplateType: parameters 'chance' (float), 'entity' (string),

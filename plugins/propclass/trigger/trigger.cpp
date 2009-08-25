@@ -153,10 +153,10 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setuptriggersphere, "cel.action.SetupTriggerSphere");
-    AddAction (action_setuptriggerbox, "cel.action.SetupTriggerBox");
-    AddAction (action_setuptriggerbeam, "cel.action.SetupTriggerBeam");
-    AddAction (action_setuptriggerabovemesh, "cel.action.SetupTriggerAboveMesh");
+    AddAction (action_setuptriggersphere, "SetupTriggerSphere");
+    AddAction (action_setuptriggerbox, "SetupTriggerBox");
+    AddAction (action_setuptriggerbeam, "SetupTriggerBeam");
+    AddAction (action_setuptriggerabovemesh, "SetupTriggerAboveMesh");
   };
 
   // For properties.

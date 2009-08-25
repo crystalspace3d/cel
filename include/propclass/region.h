@@ -31,8 +31,7 @@ struct iCollection;
 /**
  * The representation of a region.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - Load: no parameters.
  * - Unload: no parameters.
  *

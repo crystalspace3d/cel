@@ -88,11 +88,11 @@ celPcEvolve::celPcEvolve(iObjectRegistry *objreg)
 
   if (! propinfo.actions_done)
   {
-    AddAction(EVO_GENERATE, "cel.action.Generate");
-    AddAction(EVO_RTNFITNESS, "cel.action.ReturnFitness");
-    AddAction(EVO_GETFITNESS, "cel.action.GetFitness");
-    AddAction(EVO_SELECT, "cel.action.Select");
-    AddAction(EVO_RESET, "cel.action.Reset");
+    AddAction(EVO_GENERATE, "Generate");
+    AddAction(EVO_RTNFITNESS, "ReturnFitness");
+    AddAction(EVO_GETFITNESS, "GetFitness");
+    AddAction(EVO_SELECT, "Select");
+    AddAction(EVO_RESET, "Reset");
   }
 
   propinfo.SetCount(EVO_PROP_LAST);

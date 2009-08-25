@@ -69,8 +69,7 @@ struct iPcGravityCallback : public virtual iBase
  * - pclinearmovement_collision: sent when we could move but not all the way.
  * - pclinearmovement_arrived: when we arrived without problems.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset'
  *     (vector3 default=0,0,0).
  * - InitCDMesh: parameters 'percentage' (float).

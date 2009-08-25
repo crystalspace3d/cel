@@ -36,8 +36,7 @@ struct iCelPropertyClass;
  * - pcbag_addstring: A string is added to the bag (string).
  * - pcbag_removestring: A string is removed from the bag (string).
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - AddString: parameters 'value' (string).
  * - RemoveString: parameters 'value' (string).
  * - Clear: no parameters.

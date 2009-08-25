@@ -88,13 +88,13 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_sethbeamcutoff, "cel.action.SetHeightBeamCutoff");
-    AddAction (action_setangoff, "cel.action.SetAngularBeamOffset");
-    AddAction (action_setangheight, "cel.action.SetAngularCutoffHeight");
-    AddAction (action_setangstr, "cel.action.SetAngularCorrectionStrength");
-    AddAction (action_hoveron, "cel.action.HoverOn");
-    AddAction (action_setfactors, "cel.action.SetFactors");
-    AddAction (action_sethoverheight, "cel.action.SetHoverHeight");
+    AddAction (action_sethbeamcutoff, "SetHeightBeamCutoff");
+    AddAction (action_setangoff, "SetAngularBeamOffset");
+    AddAction (action_setangheight, "SetAngularCutoffHeight");
+    AddAction (action_setangstr, "SetAngularCorrectionStrength");
+    AddAction (action_hoveron, "HoverOn");
+    AddAction (action_setfactors, "SetFactors");
+    AddAction (action_sethoverheight, "SetHoverHeight");
   }
 
   propinfo.SetCount (4);

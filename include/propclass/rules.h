@@ -42,8 +42,7 @@
  * - pcrules_modifypar: a parameter has been modified: parameters
  *     'name' (name of the parameter).
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - AddRule: parameters 'name' (string). Optional 'time' (long) parameter.
  * - DeleteRule: parameters 'name' (string).
  * - DeleteAllRules: no parameters.

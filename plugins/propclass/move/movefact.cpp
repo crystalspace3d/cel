@@ -255,8 +255,8 @@ celPcSolid::celPcSolid (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setup, "cel.action.Setup");
-    AddAction (action_setupbox, "cel.action.SetupBox");
+    AddAction (action_setup, "Setup");
+    AddAction (action_setupbox, "SetupBox");
   }
 }
 
@@ -546,7 +546,7 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 
   if (!propinfo.actions_done)
   {
-    AddAction (action_applypermanentforce, "cel.action.ApplyPermanentForce");
+    AddAction (action_applypermanentforce, "ApplyPermanentForce");
   }
 
   propinfo.SetCount (1);

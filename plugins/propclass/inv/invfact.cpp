@@ -794,7 +794,7 @@ celPcCharacteristics::celPcCharacteristics (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_hascharacteristic, "cel.action.HasCharacteristic");
+    AddAction (action_hascharacteristic, "HasCharacteristic");
   }
 
   if (id_name == csInvalidStringID)

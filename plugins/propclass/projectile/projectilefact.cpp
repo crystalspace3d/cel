@@ -70,8 +70,8 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_start, "cel.action.Start");
-    AddAction (action_interrupt, "cel.action.Interrupt");
+    AddAction (action_start, "Start");
+    AddAction (action_interrupt, "Interrupt");
   }
 
   // For properties.

@@ -70,8 +70,8 @@ celPcMechanicsBalancedGroup::celPcMechanicsBalancedGroup (
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_addthruster, "cel.action.AddThruster");
-    AddAction (action_settype, "cel.action.SetType");
+    AddAction (action_addthruster, "AddThruster");
+    AddAction (action_settype, "SetType");
   }
 }
 
@@ -308,10 +308,10 @@ celPcMechanicsThrusterController::celPcMechanicsThrusterController (
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_addaxis, "cel.action.AddAxis");
-    AddAction (action_applythrust, "cel.action.ApplyThrust");
-    AddAction (action_addbalancedgroup, "cel.action.AddBalancedGroup");
-    AddAction (action_inittc, "cel.action.InitThrusterController");
+    AddAction (action_addaxis, "AddAxis");
+    AddAction (action_applythrust, "ApplyThrust");
+    AddAction (action_addbalancedgroup, "AddBalancedGroup");
+    AddAction (action_inittc, "InitThrusterController");
   }
 }
 

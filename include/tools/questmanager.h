@@ -1925,7 +1925,7 @@ struct iActionQuestRewardFactory : public virtual iBase
   virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
-   * Set the action name (without the cel.action part).
+   * Set the action name.
    * \param id is the action name or a parameter (starts with '$').
    */
   virtual void SetIDParameter (const char* id) = 0;

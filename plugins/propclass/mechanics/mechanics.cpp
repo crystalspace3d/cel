@@ -87,13 +87,13 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setsystem, "cel.action.SetSystem");
-    AddAction (action_setgravity, "cel.action.SetGravity");
-    AddAction (action_quickstep, "cel.action.QuickStep");
-    AddAction (action_enablestepfast, "cel.action.EnableStepFast");
-    AddAction (action_disablestepfast, "cel.action.DisableStepFast");
-    AddAction (action_setsteptime, "cel.action.SetStepTime");
-    AddAction (action_setsimulationspeed, "cel.action.SetSimulationSpeed");
+    AddAction (action_setsystem, "SetSystem");
+    AddAction (action_setgravity, "SetGravity");
+    AddAction (action_quickstep, "QuickStep");
+    AddAction (action_enablestepfast, "EnableStepFast");
+    AddAction (action_disablestepfast, "DisableStepFast");
+    AddAction (action_setsteptime, "SetStepTime");
+    AddAction (action_setsimulationspeed, "SetSimulationSpeed");
   }
 }
 
@@ -659,31 +659,31 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_initphys, "cel.action.InitPhys");
-    AddAction (action_makestatic, "cel.action.MakeStatic");
-    AddAction (action_setsystem, "cel.action.SetSystem");
-    AddAction (action_setmesh, "cel.action.SetMesh");
-    AddAction (action_setcolliderboundingsphere, "cel.action.SetColliderBoundingSphere");
-    AddAction (action_setcollidersphere, "cel.action.SetColliderSphere");
-    AddAction (action_setcollidercylinder, "cel.action.SetColliderCylinder");
-    AddAction (action_setcolliderboundingbox, "cel.action.SetColliderBoundingBox");
-    AddAction (action_setcolliderbox, "cel.action.SetColliderBox");
-    AddAction (action_setcolliderplane, "cel.action.SetColliderPlane");
-    AddAction (action_setcollidermesh, "cel.action.SetColliderMesh");
-    AddAction (action_setcolliderconvexmesh, "cel.action.SetColliderConvexMesh");
-    AddAction (action_setlinearvelocity, "cel.action.SetLinearVelocity");
-    AddAction (action_setangularvelocity, "cel.action.SetAngularVelocity");
-    AddAction (action_addforceonce, "cel.action.AddForceOnce");
-    AddAction (action_addforceduration, "cel.action.AddForceDuration");
-    AddAction (action_addforceframe, "cel.action.AddForceFrame");
-    AddAction (action_addforcetagged, "cel.action.AddForceTagged");
-    AddAction (action_removeforcetagged, "cel.action.RemoveForceTagged");
-    AddAction (action_clearforces, "cel.action.ClearForces");
-    AddAction (action_setposition, "cel.action.SetPosition");
-    AddAction (action_clearrotation, "cel.action.ClearRotation");
-    AddAction (action_rotate, "cel.action.Rotate");
-    AddAction (action_lookat, "cel.action.LookAt");
-    AddAction (action_addtogroup, "cel.action.AddToGroup");
+    AddAction (action_initphys, "InitPhys");
+    AddAction (action_makestatic, "MakeStatic");
+    AddAction (action_setsystem, "SetSystem");
+    AddAction (action_setmesh, "SetMesh");
+    AddAction (action_setcolliderboundingsphere, "SetColliderBoundingSphere");
+    AddAction (action_setcollidersphere, "SetColliderSphere");
+    AddAction (action_setcollidercylinder, "SetColliderCylinder");
+    AddAction (action_setcolliderboundingbox, "SetColliderBoundingBox");
+    AddAction (action_setcolliderbox, "SetColliderBox");
+    AddAction (action_setcolliderplane, "SetColliderPlane");
+    AddAction (action_setcollidermesh, "SetColliderMesh");
+    AddAction (action_setcolliderconvexmesh, "SetColliderConvexMesh");
+    AddAction (action_setlinearvelocity, "SetLinearVelocity");
+    AddAction (action_setangularvelocity, "SetAngularVelocity");
+    AddAction (action_addforceonce, "AddForceOnce");
+    AddAction (action_addforceduration, "AddForceDuration");
+    AddAction (action_addforceframe, "AddForceFrame");
+    AddAction (action_addforcetagged, "AddForceTagged");
+    AddAction (action_removeforcetagged, "RemoveForceTagged");
+    AddAction (action_clearforces, "ClearForces");
+    AddAction (action_setposition, "SetPosition");
+    AddAction (action_clearrotation, "ClearRotation");
+    AddAction (action_rotate, "Rotate");
+    AddAction (action_lookat, "LookAt");
+    AddAction (action_addtogroup, "AddToGroup");
   }
 
   // For properties.
@@ -1757,12 +1757,12 @@ celPcMechanicsJoint::celPcMechanicsJoint (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setparentbody, "cel.action.SetParentBody");
-    AddAction (action_setposition, "cel.action.SetPosition");
-    AddAction (action_setconstraindist, "cel.action.SetConstrainDist");
-    AddAction (action_setdistances, "cel.action.SetDistances");
-    AddAction (action_setconstrainangle, "cel.action.SetConstrainAngle");
-    AddAction (action_setangles, "cel.action.SetAngles");
+    AddAction (action_setparentbody, "SetParentBody");
+    AddAction (action_setposition, "SetPosition");
+    AddAction (action_setconstraindist, "SetConstrainDist");
+    AddAction (action_setdistances, "SetDistances");
+    AddAction (action_setconstrainangle, "SetConstrainAngle");
+    AddAction (action_setangles, "SetAngles");
   }
 }
 

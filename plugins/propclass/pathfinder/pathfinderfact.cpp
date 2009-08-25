@@ -78,10 +78,10 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_seek, "cel.action.Seek");
-    AddAction (action_wander, "cel.action.Wander");
-    AddAction (action_pursue, "cel.action.Pursue");
-    AddAction (action_interrupt, "cel.action.Interrupt");
+    AddAction (action_seek, "Seek");
+    AddAction (action_wander, "Wander");
+    AddAction (action_pursue, "Pursue");
+    AddAction (action_interrupt, "Interrupt");
   }
 
   // For properties.

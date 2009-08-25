@@ -65,8 +65,8 @@ celPcMeshDeform::celPcMeshDeform (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_deformmesh, "cel.action.DeformMesh");
-    AddAction (action_resetdeform, "cel.action.ResetDeform");
+    AddAction (action_deformmesh, "DeformMesh");
+    AddAction (action_resetdeform, "ResetDeform");
   }
   propinfo.SetCount (5);
   AddProperty (propid_deformfactor, "cel.property.deformfactor",

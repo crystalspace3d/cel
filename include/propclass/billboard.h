@@ -36,8 +36,7 @@ struct iBillboard;
  * - pcbillboard_unselect: billboard is unselected (x,y,button)
  * - pcbillboard_doubleclick: billboard is double clicked (x,y,button)
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - DrawMesh: parameters 'materialname' (string),
  *     'factory' (string), optional: 'distance' (float),
  *     optional: 'rotate' (vector3), optional: 'angle' (float).

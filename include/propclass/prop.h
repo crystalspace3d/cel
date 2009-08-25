@@ -52,8 +52,7 @@ struct iPcPropertyListener : public virtual iBase
  * - pcproperties_setproperty: sets the property (index)
  * - pcproperties_clearproperty: clears the property (index)
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - SetProperty: parameters 'name' (string) and 'value'
  *   (string/bool/float/long/vector).
  */

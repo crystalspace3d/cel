@@ -126,22 +126,22 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_setspeed, "cel.action.SetSpeed");
-    AddAction (action_forward, "cel.action.Forward");
-    AddAction (action_backward, "cel.action.Backward");
-    AddAction (action_strafeleft, "cel.action.StrafeLeft");
-    AddAction (action_straferight, "cel.action.StrafeRight");
-    AddAction (action_rotateleft, "cel.action.RotateLeft");
-    AddAction (action_rotateright, "cel.action.RotateRight");
-    AddAction (action_rotateto, "cel.action.RotateTo");
-    AddAction (action_mousemove, "cel.action.MouseMove");
-    AddAction (action_run, "cel.action.Run");
-    AddAction (action_autorun, "cel.action.AutoRun");
-    AddAction (action_clear, "cel.action.Clear");
-    AddAction (action_jump, "cel.action.Jump");
-    AddAction (action_togglecameramode, "cel.action.ToggleCameraMode");
-    AddAction (action_setanimation, "cel.action.SetAnimation");
-    AddAction (action_setanimationname, "cel.action.SetAnimationName");
+    AddAction (action_setspeed, "SetSpeed");
+    AddAction (action_forward, "Forward");
+    AddAction (action_backward, "Backward");
+    AddAction (action_strafeleft, "StrafeLeft");
+    AddAction (action_straferight, "StrafeRight");
+    AddAction (action_rotateleft, "RotateLeft");
+    AddAction (action_rotateright, "RotateRight");
+    AddAction (action_rotateto, "RotateTo");
+    AddAction (action_mousemove, "MouseMove");
+    AddAction (action_run, "Run");
+    AddAction (action_autorun, "AutoRun");
+    AddAction (action_clear, "Clear");
+    AddAction (action_jump, "Jump");
+    AddAction (action_togglecameramode, "ToggleCameraMode");
+    AddAction (action_setanimation, "SetAnimation");
+    AddAction (action_setanimationname, "SetAnimationName");
   }
 
   // For properties.

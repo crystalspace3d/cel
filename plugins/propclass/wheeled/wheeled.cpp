@@ -174,51 +174,42 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setwheelmesh, "cel.action.SetWheelMesh");
-    AddAction (action_addwheelauto, "cel.action.AddWheelAuto");
-    AddAction (action_addwheel, "cel.action.AddWheel");
-    AddAction (action_deletewheel, "cel.action.DeleteWheel");
-    AddAction (action_deleteallwheels, "cel.action.DeleteAllWheels");
-    AddAction (action_destroywheel, "cel.action.DestroyWheel");
-    AddAction (action_destroyallwheels, "cel.action.DestroyAllWheels");
-    AddAction (action_restorewheel, "cel.action.RestoreWheel");
-    AddAction (action_restoreallwheels, "cel.action.RestoreAllWheels");
+    AddAction (action_setwheelmesh, "SetWheelMesh");
+    AddAction (action_addwheelauto, "AddWheelAuto");
+    AddAction (action_addwheel, "AddWheel");
+    AddAction (action_deletewheel, "DeleteWheel");
+    AddAction (action_deleteallwheels, "DeleteAllWheels");
+    AddAction (action_destroywheel, "DestroyWheel");
+    AddAction (action_destroyallwheels, "DestroyAllWheels");
+    AddAction (action_restorewheel, "RestoreWheel");
+    AddAction (action_restoreallwheels, "RestoreAllWheels");
     
-    AddAction (action_steerleft, "cel.action.SteerLeft");
-    AddAction (action_steerright, "cel.action.SteerRight");
-    AddAction (action_steerstraight, "cel.action.SteerStraight");
-    AddAction (action_reverse, "cel.action.Reverse");
-    AddAction (action_neutral, "cel.action.Neutral");
-    AddAction (action_setgearsettings, "cel.action.SetGearSettings");
+    AddAction (action_steerleft, "SteerLeft");
+    AddAction (action_steerright, "SteerRight");
+    AddAction (action_steerstraight, "SteerStraight");
+    AddAction (action_reverse, "Reverse");
+    AddAction (action_neutral, "Neutral");
+    AddAction (action_setgearsettings, "SetGearSettings");
     
 //Presets
-    AddAction (action_setfrontwheelpreset,
-           "cel.action.SetFrontWheelPreset");
-    AddAction (action_setrearwheelpreset, "cel.action.SetRearWheelPreset");
+    AddAction (action_setfrontwheelpreset, "SetFrontWheelPreset");
+    AddAction (action_setrearwheelpreset, "SetRearWheelPreset");
     
 //Per-wheel actions
-    AddAction (action_setwheelposition, "cel.action.SetWheelPosition");
-    AddAction (action_setwheelrotation, "cel.action.SetWheelRotation");
-    AddAction (action_setwheelsuspensionsoftness,
-           "cel.action.SetWheelSuspensionSoftness");
-    AddAction (action_setwheelsuspensiondamping,
-           "cel.action.SetWheelSuspensionDamping");
-    AddAction (action_setwheelleftsteersensitivity,
-           "cel.action.SetWheelLeftSteerSensitivity");
-    AddAction (action_setwheelrightsteersensitivity,
-           "cel.action.SetWheelRightSteerSensitivity");
-    AddAction (action_setwheelfriction, "cel.action.SetWheelFriction");
-    AddAction (action_setwheelmass, "cel.action.SetWheelMass");
-    AddAction (action_setwheelturnspeed, "cel.action.SetWheelTurnSpeed");
-    AddAction (action_setwheelreturnspeed,
-           "cel.action.SetWheelReturnSpeed");
-    AddAction (action_setwheelenginepower,
-           "cel.action.SetWheelEnginePower");
-    AddAction (action_setwheelbrakepower, "cel.action.SetWheelBrakePower");
-    AddAction (action_setwheelsteerinverted,
-           "cel.action.SetWheelSteerInverted");
-    AddAction (action_setwheelhandbrakeaffected,
-           "cel.action.SetWheelHandbrakeAffected");
+    AddAction (action_setwheelposition, "SetWheelPosition");
+    AddAction (action_setwheelrotation, "SetWheelRotation");
+    AddAction (action_setwheelsuspensionsoftness, "SetWheelSuspensionSoftness");
+    AddAction (action_setwheelsuspensiondamping, "SetWheelSuspensionDamping");
+    AddAction (action_setwheelleftsteersensitivity, "SetWheelLeftSteerSensitivity");
+    AddAction (action_setwheelrightsteersensitivity, "SetWheelRightSteerSensitivity");
+    AddAction (action_setwheelfriction, "SetWheelFriction");
+    AddAction (action_setwheelmass, "SetWheelMass");
+    AddAction (action_setwheelturnspeed, "SetWheelTurnSpeed");
+    AddAction (action_setwheelreturnspeed, "SetWheelReturnSpeed");
+    AddAction (action_setwheelenginepower, "SetWheelEnginePower");
+    AddAction (action_setwheelbrakepower, "SetWheelBrakePower");
+    AddAction (action_setwheelsteerinverted, "SetWheelSteerInverted");
+    AddAction (action_setwheelhandbrakeaffected, "SetWheelHandbrakeAffected");
   }
   
   propinfo.SetCount (20);

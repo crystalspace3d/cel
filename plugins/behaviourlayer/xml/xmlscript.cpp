@@ -1538,8 +1538,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           CHECK_STACK(1)
           celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: calcactid %s\n", i-1, A2S (top)));
-          csString str = "cel.action.";
-          str += ArgToString (top);
+          csString str = ArgToString (top);
           csStringID id = pl->FetchStringID ((const char*)str);
           top.SetID (id);
         }
