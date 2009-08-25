@@ -268,13 +268,9 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   csRef<iPcWire> wire = celQueryPropertyClassEntity<iPcWire> (entity_cam);
   wire->AddInput ("cel.trigger.entity.");
-  csRef<celOneParameterBlock> msg_param;
-  msg_param.AttachNew (new celOneParameterBlock ());
-  csStringID message_id = pl->FetchStringID ("message");
-  msg_param->SetParameterDef (message_id);
-  msg_param->GetParameter (0).Set ("We're close to some entity!");
-  wire->AddOutputAction (pl->FetchStringID ("Print"),
-      entity_cam->GetPropertyClassList ()->FindByName ("pcmisc.test"), msg_param);
+  size_t idx = wire->AddOutputAction (pl->FetchStringID ("Print"),
+      entity_cam->GetPropertyClassList ()->FindByName ("pcmisc.test"));
+  wire->MapParameterExpression (idx, "message", "'We found '+@entity");
 
   return csPtr<iCelEntity> (entity_cam);
 }

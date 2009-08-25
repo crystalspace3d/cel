@@ -56,7 +56,7 @@ protected:
 public:
   virtual ~celWireOutput () { }
   virtual void Do (celPcWire* wire, iCelParameterBlock* params) = 0;
-  void AddMapping (const char* source, const char* dest, iCelExpression* expression);
+  void AddMapping (csStringID source, csStringID dest, iCelExpression* expression);
 };
 
 class celWireOutputMessage : public celWireOutput
@@ -134,6 +134,7 @@ public:
   // For iMessageReceiver.
   virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params);
+  virtual void MapParameterExpression (size_t id, const char* dest, const char* expression);
 };
 
 #endif // __CEL_PF_WIREFACT__

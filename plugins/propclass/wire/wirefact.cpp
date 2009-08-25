@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
+#include "iutil/plugin.h"
 #include "plugins/propclass/wire/wirefact.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -42,17 +43,26 @@ csRef<iCelParameterBlock> celWireOutput::CombineParams (iCelParameterBlock* p1, 
   return b;
 }
 
+static iCelPlLayer* global_pl;
+
 csRef<iCelParameterBlock> celWireOutput::MapParams (iCelEntity* entity, iCelParameterBlock* params)
 {
   if (mappings.GetSize () == 0)
     return params;
-  //csRef<celMappedParameterBlock> newparams;
-  //newparams.AttachNew (new celMappedParameterBlock (params, mapping));
-  //return newparams;
-  return 0;
+  csRef<celMappedParameterBlock> newparams;
+  newparams.AttachNew (new celMappedParameterBlock (entity, params, mappings));
+  //for (size_t i = 0 ; i < newparams->GetParameterCount () ; i++)
+  //{
+    //celDataType t;
+    //csStringID id = newparams->GetParameterDef (i, t);
+    //const celData* data = newparams->GetParameterByIndex (i);
+    //printf ("%d %d %s = '%s'\n", i, (size_t)id, global_pl->FetchString (id), data->value.s);
+  //}
+  return newparams;
 }
 
-void celWireOutput::AddMapping (const char* source, const char* dest, iCelExpression* expression)
+void celWireOutput::AddMapping (csStringID source, csStringID dest,
+    iCelExpression* expression)
 {
   celParameterMapping mapping;
   mapping.source = source;
@@ -93,6 +103,7 @@ PropertyHolder celPcWire::propinfo;
 celPcWire::celPcWire (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
+  global_pl = pl;
   // For SendMessage parameters.
   if (id_mask == csInvalidStringID)
   {
@@ -192,14 +203,19 @@ bool celPcWire::PerformActionIndexed (int idx,
       {
         CEL_FETCH_LONG_PAR (id,params,id_id);
         if (!p_id) return false;
-        CEL_FETCH_STRING_PAR (source,params,id_source);
-        if (!p_source) return false;
         CEL_FETCH_STRING_PAR (dest,params,id_dest);
         if (!p_dest) return false;
         CEL_FETCH_STRING_PAR (expression,params,id_expression);
-        //if (!p_expression) return false;
-	//@@@ TODO!!!
-	MapParameter (id, source, dest);
+        if (p_expression)
+	{
+	  MapParameterExpression (id, dest, expression);
+	}
+	else
+	{
+          CEL_FETCH_STRING_PAR (source,params,id_source);
+          if (!p_source) return false;
+	  MapParameter (id, source, dest);
+	}
 	return true;
       }
     default:
@@ -247,7 +263,47 @@ size_t celPcWire::AddOutputAction (csStringID actionID, iCelPropertyClass* pc,
 void celPcWire::MapParameter (size_t id, const char* source, const char* dest,
       iCelExpression* expression)
 {
-  output[id]->AddMapping (source, dest, expression);
+  output[id]->AddMapping (pl->FetchStringID (source), pl->FetchStringID (dest), expression);
+}
+
+static iCelExpressionParser* GetParser (iObjectRegistry* object_reg)
+{
+  csRef<iObjectRegistryIterator> it = object_reg->Get (
+      scfInterfaceTraits<iCelExpressionParser>::GetID (),
+      scfInterfaceTraits<iCelExpressionParser>::GetVersion ());
+  iBase* b = it->Next ();
+  csRef<iCelExpressionParser> parser;
+  if (b)
+  {
+    parser = scfQueryInterface<iCelExpressionParser> (b);
+  }
+  if (!parser)
+  {
+    csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
+    	object_reg);
+    parser = csLoadPlugin<iCelExpressionParser> (plugmgr,
+      "cel.behaviourlayer.xml");
+    if (!parser)
+    {
+      // @@@ Error report.
+      return 0;
+    }
+    object_reg->Register (parser, "iCelExpressionParser");
+  }
+  return parser;
+}
+
+void celPcWire::MapParameterExpression (size_t id, const char* dest, const char* expression)
+{
+  iCelExpressionParser* parser = GetParser (object_reg);
+  // @@@ Error?
+  if (parser)
+  {
+    csRef<iCelExpression> exp = parser->Parse (expression);
+    // @@@ Error?
+    if (exp)
+      output[id]->AddMapping (csInvalidStringID, pl->FetchStringID (dest), exp);
+  }
 }
 
 //---------------------------------------------------------------------------
