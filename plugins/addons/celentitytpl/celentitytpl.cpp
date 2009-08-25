@@ -159,11 +159,9 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
     csStringID par_id = xmltokens.Request (par_value);
     if (par_id == XMLTOKEN_PAR)
     {
-      csStringID parid = GetAttributeID (par_child, "cel.parameter.",
-      	"name");
+      csStringID parid = GetAttributeID (par_child, "", "name");
       if (parid == csInvalidStringID) return 0;
-      params->SetParameterDef (par_idx, parid,
-      	par_child->GetAttributeValue ("name"));
+      params->SetParameterDef (par_idx, parid);
       par_idx++;
 
       const char* str_value = par_child->GetAttributeValue ("string");

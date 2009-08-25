@@ -88,13 +88,13 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
 
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("cel.parameter.name");
-    id_pos = pl->FetchStringID ("cel.parameter.pos");
-    id_sector = pl->FetchStringID ("cel.parameter.sector");
-    id_radius = pl->FetchStringID ("cel.parameter.radius");
-    id_color = pl->FetchStringID ("cel.parameter.color");
-    id_entity = pl->FetchStringID ("cel.parameter.entity");
-    id_tag = pl->FetchStringID ("cel.parameter.tag");
+    id_name = pl->FetchStringID ("name");
+    id_pos = pl->FetchStringID ("pos");
+    id_sector = pl->FetchStringID ("sector");
+    id_radius = pl->FetchStringID ("radius");
+    id_color = pl->FetchStringID ("color");
+    id_entity = pl->FetchStringID ("entity");
+    id_tag = pl->FetchStringID ("tag");
   }
 
   propholder = &propinfo;

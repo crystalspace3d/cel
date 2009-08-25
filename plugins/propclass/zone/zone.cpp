@@ -437,18 +437,18 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
 
   if (id_region == csInvalidStringID)
   {
-    id_region = pl->FetchStringID ("cel.parameter.region");
-    id_path = pl->FetchStringID ("cel.parameter.path");
-    id_file = pl->FetchStringID ("cel.parameter.file");
-    id_entityname = pl->FetchStringID ("cel.parameter.entity");
-    id_regionname = pl->FetchStringID ("cel.parameter.region");
-    id_startname = pl->FetchStringID ("cel.parameter.start");
-    id_zonename = pl->FetchStringID ("cel.parameter.zone");
-    id_mode = pl->FetchStringID ("cel.parameter.mode");
-    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_region = pl->FetchStringID ("region");
+    id_path = pl->FetchStringID ("path");
+    id_file = pl->FetchStringID ("file");
+    id_entityname = pl->FetchStringID ("entity");
+    id_regionname = pl->FetchStringID ("region");
+    id_startname = pl->FetchStringID ("start");
+    id_zonename = pl->FetchStringID ("zone");
+    id_mode = pl->FetchStringID ("mode");
+    id_name = pl->FetchStringID ("name");
   }
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_region, "region");
+  params->SetParameterDef (id_region);
 
   InitTokenTable (xmltokens);
 

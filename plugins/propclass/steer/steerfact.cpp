@@ -73,28 +73,28 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
   // For actions.
   if (id_sectorname == csInvalidStringID)
   {
-    id_sectorname = pl->FetchStringID ("cel.parameter.sectorname");
-    id_cur_sector = pl->FetchStringID ("cel.parameter.cur_sector");
-    id_position = pl->FetchStringID ("cel.parameter.position");
-    id_cur_position = pl->FetchStringID ("cel.parameter.cur_position");
-    id_cur_direction = pl->FetchStringID ("cel.parameter.cur_direction");
-    id_up = pl->FetchStringID ("cel.parameter.up");
-    id_meshname = pl->FetchStringID ("cel.parameter.meshname");
-    id_cur_yrot = pl->FetchStringID ("cel.parameter.cur_yrot");
-    id_arrival_radius = pl->FetchStringID ("cel.parameter.arrival_radius");
-    id_ca_lookahead = pl->FetchStringID ("cel.parameter.ca_lookahead");
-    id_ca_weight = pl->FetchStringID ("cel.parameter.ca_weight");
-    id_cohesion_radius = pl->FetchStringID ("cel.parameter.cohesion_radius");
-    id_separation_radius = pl->FetchStringID ("cel.parameter.separation_radius");
-    id_dm_radius = pl->FetchStringID ("cel.parameter.dm_radius");
-    id_pursue_max_prediction = pl->FetchStringID ("cel.parameter.pursue_max_prediction");
-    id_separation_weight = pl->FetchStringID ("cel.parameter.separation_weight");
-    id_cohesion_weight = pl->FetchStringID ("cel.parameter.cohesion_weight");
-    id_dm_weight = pl->FetchStringID ("cel.parameter.dm_weight");
+    id_sectorname = pl->FetchStringID ("sectorname");
+    id_cur_sector = pl->FetchStringID ("cur_sector");
+    id_position = pl->FetchStringID ("position");
+    id_cur_position = pl->FetchStringID ("cur_position");
+    id_cur_direction = pl->FetchStringID ("cur_direction");
+    id_up = pl->FetchStringID ("up");
+    id_meshname = pl->FetchStringID ("meshname");
+    id_cur_yrot = pl->FetchStringID ("cur_yrot");
+    id_arrival_radius = pl->FetchStringID ("arrival_radius");
+    id_ca_lookahead = pl->FetchStringID ("ca_lookahead");
+    id_ca_weight = pl->FetchStringID ("ca_weight");
+    id_cohesion_radius = pl->FetchStringID ("cohesion_radius");
+    id_separation_radius = pl->FetchStringID ("separation_radius");
+    id_dm_radius = pl->FetchStringID ("dm_radius");
+    id_pursue_max_prediction = pl->FetchStringID ("pursue_max_prediction");
+    id_separation_weight = pl->FetchStringID ("separation_weight");
+    id_cohesion_weight = pl->FetchStringID ("cohesion_weight");
+    id_dm_weight = pl->FetchStringID ("dm_weight");
   }
 
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_meshname, "meshname");
+  params->SetParameterDef (id_meshname);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)

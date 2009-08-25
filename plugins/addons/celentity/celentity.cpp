@@ -155,11 +155,9 @@ csRef<celVariableParameterBlock> celAddOnCelEntity::ParseParameterBlock (
     csStringID par_id = xmltokens.Request (par_value);
     if (par_id == XMLTOKEN_PAR)
     {
-      csStringID parid = GetAttributeID (par_child, "cel.parameter.",
-              "name");
+      csStringID parid = GetAttributeID (par_child, "", "name");
       if (parid == csInvalidStringID) return 0;
-      params->SetParameterDef (par_idx, parid,
-              par_child->GetAttributeValue ("name"));
+      params->SetParameterDef (par_idx, parid);
       par_idx++;
       const char* str_value = par_child->GetAttributeValue ("string");
       if (str_value)
@@ -553,7 +551,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
   }
   celData msgret;
   celOneParameterBlock* msgparams = new celOneParameterBlock ();
-  msgparams->SetParameterDef (pl->FetchStringID (entityname), "entityname");
+  msgparams->SetParameterDef (pl->FetchStringID (entityname));
   if (ent->GetBehaviour ())
   {
     ent->GetBehaviour ()->SendMessage ("cel.entity.loaded",

@@ -31,16 +31,14 @@
  * way is appropriate.
  *
  * This property class can send out the following messages
- * to the behaviour of affecting entities (add prefix 'cel.parameter.' to
- * get the ID for parameters):
+ * to the behaviour of affecting entities:
  * - pcdamage_hurt: damage has been done. Parameters: amount (float: amount
  *   of damage), source (string: name of source entity), sector (string:
  *   name of source sector), position (vector3: origin of damage),
  *   type (string: type of damage, application dependend).
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - AreaDamage: 'radius' (float: default very large). In case of
  *   'normal' falloff this is actually ignored.
  * - BeamDamage: 'direction' (vector3), 'maxdist' (float: default very large).

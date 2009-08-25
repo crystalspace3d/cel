@@ -30,8 +30,7 @@ struct iCelEntity;
  * or iPcLinearMovement.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - SetCamera: parameters 'modename' (string), 'spring' (vector3),
  *   'turnspeed' (float), 'swingcoef' (float), 'fpoffset' (vector3),
  *   'tpoffset' (vector3), 'pitch' (float), 'pitchvelocity' (float),

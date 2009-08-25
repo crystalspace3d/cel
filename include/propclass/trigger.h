@@ -75,8 +75,7 @@ struct iPcTriggerListener : public virtual iBase
  * that enter/leave the trigger area.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - SetupTriggerSphere: parameters 'sector' (string),
  *     'position' (vector3 or string (name of mapnode in that case)),
  *     and 'radius' (float).
@@ -88,7 +87,7 @@ struct iPcTriggerListener : public virtual iBase
  *     'maxdistance' (float),
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pctrigger_entityenters: an entity enters this trigger (entity).
  * - pctrigger_entityleaves: an entity leaves this trigger (entity).
  * - pctrigger_entertrigger: this entity enters a trigger (entity).

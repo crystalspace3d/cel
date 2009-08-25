@@ -107,17 +107,17 @@ celPcEvolve::celPcEvolve(iObjectRegistry *objreg)
 
   if (paramid[0] == csInvalidStringID)
   {
-    paramid[EVO_FITNESS] = pl->FetchStringID("cel.parameter.fitness");
-    paramid[EVO_INDEX] = pl->FetchStringID("cel.parameter.index");
-    paramid[EVO_MAXFITNESS] = pl->FetchStringID("cel.parameter.max_fitness");
-    paramid[EVO_MINFITNESS] = pl->FetchStringID("cel.parameter.min_fitness");
-    paramid[EVO_AVGFITNESS] = pl->FetchStringID("cel.parameter.avg_fitness");
+    paramid[EVO_FITNESS] = pl->FetchStringID("fitness");
+    paramid[EVO_INDEX] = pl->FetchStringID("index");
+    paramid[EVO_MAXFITNESS] = pl->FetchStringID("max_fitness");
+    paramid[EVO_MINFITNESS] = pl->FetchStringID("min_fitness");
+    paramid[EVO_AVGFITNESS] = pl->FetchStringID("avg_fitness");
   }
 
   params.AttachNew(new celGenericParameterBlock (3));
-  params->SetParameterDef(0, paramid[EVO_MAXFITNESS], "max_fitness");
-  params->SetParameterDef(1, paramid[EVO_MINFITNESS], "min_fitness");
-  params->SetParameterDef(2, paramid[EVO_AVGFITNESS], "avg_fitness");
+  params->SetParameterDef(0, paramid[EVO_MAXFITNESS]);
+  params->SetParameterDef(1, paramid[EVO_MINFITNESS]);
+  params->SetParameterDef(2, paramid[EVO_AVGFITNESS]);
 }
 
 celPcEvolve::~celPcEvolve()

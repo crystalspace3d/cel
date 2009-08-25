@@ -263,8 +263,7 @@ struct iCelZone : public virtual iBase
  * The representation of a region.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - DisableCD: no parameters. Don't create collider wrappers.
  * - EnableCD: no parameters. Create collider wrappers (default).
  * - Load: parameters 'path' (string: optional), and 'file' (string).
@@ -291,7 +290,7 @@ struct iCelZone : public virtual iBase
  * - lastregion (string, read only): last used region.
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pczonemanager_addregion: new region has been added (region)
  * - pczonemanager_remregion: region will be removed (region)
  * - pczonemanager_startloading: loading of regions starts

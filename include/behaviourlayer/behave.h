@@ -33,8 +33,7 @@ struct iCelPropertyClass;
 /**
  * This interface is a parameter block that can be used to pass parameters
  * through SendMessage() in a behaviour.
- * Parameter ids are constructed from the following string:
- *     cel.parameter."name"
+ * Parameter ids are constructed directly from the name with iCelPlLayer->FetchStringID().
  */
 struct iCelParameterBlock : public virtual iBase
 {
@@ -46,11 +45,10 @@ struct iCelParameterBlock : public virtual iBase
   virtual size_t GetParameterCount () const = 0;
 
   /**
-   * Get parameter with index. Returns the name and sets 'id'
-   * and 'type' to the appropriate values.
+   * Get parameter with index. Returns the id and sets
+   * 'type' to the appropriate value.
    */
-  virtual const char* GetParameter (size_t idx, csStringID& id,
-  	celDataType& t) const = 0;
+  virtual csStringID GetParameter (size_t idx, celDataType& t) const = 0;
 
   /**
    * Get parameter given an id.

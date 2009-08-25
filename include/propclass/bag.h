@@ -32,13 +32,12 @@ struct iCelPropertyClass;
  * This is a bag of strings property class.
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pcbag_addstring: A string is added to the bag (string).
  * - pcbag_removestring: A string is removed from the bag (string).
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - AddString: parameters 'value' (string).
  * - RemoveString: parameters 'value' (string).
  * - Clear: no parameters.

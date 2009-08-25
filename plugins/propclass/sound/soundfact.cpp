@@ -118,8 +118,8 @@ celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
   // For actions.
   if (id_front == csInvalidStringID)
   {
-    id_front = pl->FetchStringID ("cel.parameter.front");
-    id_top = pl->FetchStringID ("cel.parameter.top");
+    id_front = pl->FetchStringID ("front");
+    id_top = pl->FetchStringID ("top");
   }
 
   propholder = &propinfo;

@@ -233,8 +233,7 @@ bool celPcNeuralNet::Validate()
   for (size_t i = 0; i < size_t(numOutputs); i++)
   {
     csString id ("output"); id << i;
-    csString fqid ("cel.parameter."); fqid << id;
-    params->SetParameterDef(i, pl->FetchStringID(fqid), id);
+    params->SetParameterDef(i, pl->FetchStringID(id));
   }
 
   valid = true;
@@ -354,9 +353,9 @@ bool celPcNeuralNet::SetLayerSizes(iCelParameterBlock *params)
 bool celPcNeuralNet::SaveCache(iCelParameterBlock *params)
 {
   const celData *scope_d = params->GetParameter
-	(pl->FetchStringID("cel.parameter.scope"));
+	(pl->FetchStringID("scope"));
   const celData *id_d = params->GetParameter
-	(pl->FetchStringID("cel.parameter.id"));
+	(pl->FetchStringID("id"));
   if (! (scope_d && scope_d->type == CEL_DATA_STRING
 	&& id_d && id_d->type == CEL_DATA_LONG))
     return Error("SaveCache takes 2 parameters, string 'scope' and long 'id'.");
@@ -369,9 +368,9 @@ bool celPcNeuralNet::SaveCache(iCelParameterBlock *params)
 bool celPcNeuralNet::LoadCache(iCelParameterBlock *params)
 {
   const celData *scope_d = params->GetParameter
-	(pl->FetchStringID("cel.parameter.scope"));
+	(pl->FetchStringID("scope"));
   const celData *id_d = params->GetParameter
-	(pl->FetchStringID("cel.parameter.id"));
+	(pl->FetchStringID("id"));
   if (! (scope_d && scope_d->type == CEL_DATA_STRING
 	&& id_d && id_d->type == CEL_DATA_LONG))
     return Error("LoadCache takes 2 parameters, string 'scope' and long 'id'.");

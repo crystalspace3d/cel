@@ -352,30 +352,30 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
 
   if (id_modename == csInvalidStringID)
   {
-    id_modename = pl->FetchStringID ("cel.parameter.modename");
-    id_spring = pl->FetchStringID ("cel.parameter.spring");
-    id_turnspeed = pl->FetchStringID ("cel.parameter.turnspeed");
-    id_swingcoef = pl->FetchStringID ("cel.parameter.swingcoef");
-    id_fpoffset = pl->FetchStringID ("cel.parameter.fpoffset");
-    id_tpoffset = pl->FetchStringID ("cel.parameter.tpoffset");
-    id_pitch = pl->FetchStringID ("cel.parameter.pitch");
-    id_pitchvelocity = pl->FetchStringID ("cel.parameter.pitchvelocity");
-    id_yaw = pl->FetchStringID ("cel.parameter.yaw");
-    id_yawvelocity = pl->FetchStringID ("cel.parameter.yawvelocity");
-    id_distance = pl->FetchStringID ("cel.parameter.distance");
-    id_distancevelocity = pl->FetchStringID ("cel.parameter.distancevelocity");
-    id_entityname = pl->FetchStringID ("cel.parameter.entity");
-    id_regionname = pl->FetchStringID ("cel.parameter.region");
-    id_startname = pl->FetchStringID ("cel.parameter.start");
-    id_x = pl->FetchStringID ("cel.parameter.x");
-    id_y = pl->FetchStringID ("cel.parameter.y");
-    id_w = pl->FetchStringID ("cel.parameter.w");
-    id_h = pl->FetchStringID ("cel.parameter.h");
-    id_enable = pl->FetchStringID ("cel.parameter.enable");
-    id_minfps = pl->FetchStringID ("cel.parameter.min_fps");
-    id_maxfps = pl->FetchStringID ("cel.parameter.max_fps");
-    id_mindist = pl->FetchStringID ("cel.parameter.min_distance");
-    id_dist = pl->FetchStringID ("cel.parameter.distance");
+    id_modename = pl->FetchStringID ("modename");
+    id_spring = pl->FetchStringID ("spring");
+    id_turnspeed = pl->FetchStringID ("turnspeed");
+    id_swingcoef = pl->FetchStringID ("swingcoef");
+    id_fpoffset = pl->FetchStringID ("fpoffset");
+    id_tpoffset = pl->FetchStringID ("tpoffset");
+    id_pitch = pl->FetchStringID ("pitch");
+    id_pitchvelocity = pl->FetchStringID ("pitchvelocity");
+    id_yaw = pl->FetchStringID ("yaw");
+    id_yawvelocity = pl->FetchStringID ("yawvelocity");
+    id_distance = pl->FetchStringID ("distance");
+    id_distancevelocity = pl->FetchStringID ("distancevelocity");
+    id_entityname = pl->FetchStringID ("entity");
+    id_regionname = pl->FetchStringID ("region");
+    id_startname = pl->FetchStringID ("start");
+    id_x = pl->FetchStringID ("x");
+    id_y = pl->FetchStringID ("y");
+    id_w = pl->FetchStringID ("w");
+    id_h = pl->FetchStringID ("h");
+    id_enable = pl->FetchStringID ("enable");
+    id_minfps = pl->FetchStringID ("min_fps");
+    id_maxfps = pl->FetchStringID ("max_fps");
+    id_mindist = pl->FetchStringID ("min_distance");
+    id_dist = pl->FetchStringID ("distance");
   }
 
   SetMode (iPcDefaultCamera::firstperson);

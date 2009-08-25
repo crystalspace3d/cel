@@ -32,8 +32,7 @@ struct iSndSysSource;
  * game).
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - SetDirection: parameters 'front' (vector3), 'top' (vector3).
  *
  * This property class supports the following properties (add prefix
@@ -57,8 +56,7 @@ struct iPcSoundListener : public virtual iBase
  * This is the sound source property class.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - Play: no parameters.
  * - Stop: no parameters.
  * - Pause: no parameters.

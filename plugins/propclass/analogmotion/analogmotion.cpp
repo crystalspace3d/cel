@@ -59,9 +59,9 @@ celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
   // For SendMessage parameters.
   if (id_axis == csInvalidStringID)
   {
-    id_axis = pl->FetchStringID ("cel.parameter.axis");
-    id_value = pl->FetchStringID ("cel.parameter.value");
-    id_enabled = pl->FetchStringID ("cel.parameter.enabled");
+    id_axis = pl->FetchStringID ("axis");
+    id_value = pl->FetchStringID ("value");
+    id_enabled = pl->FetchStringID ("enabled");
   }
 
   propholder = &propinfo;

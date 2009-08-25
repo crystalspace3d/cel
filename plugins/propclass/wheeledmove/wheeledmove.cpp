@@ -74,9 +74,9 @@ celPcWheeledMove::celPcWheeledMove (iObjectRegistry* object_reg)
     id_input_lookdown_down = pl->FetchStringID ("cel.input.lookdown.down");
     id_input_center_down = pl->FetchStringID ("cel.input.center.down");
     id_mech_collision = pl->FetchStringID ("cel.mechanics.collision");
-    id_mech_par_position = pl->FetchStringID ("cel.parameter.position");
-    id_mech_par_normal = pl->FetchStringID ("cel.parameter.normal");
-    id_mech_par_depth = pl->FetchStringID ("cel.parameter.depth");
+    id_mech_par_position = pl->FetchStringID ("position");
+    id_mech_par_normal = pl->FetchStringID ("normal");
+    id_mech_par_depth = pl->FetchStringID ("depth");
   }
 }
 

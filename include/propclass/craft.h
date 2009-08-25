@@ -30,8 +30,7 @@
  * and supresses angular velocity of object.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - SetSliding: parameters 'enabled' (bool: optional). If 'enabled' is not
  *   given then default is true.
  * - SetBraking: parameters 'enabled' (bool: optional). If 'enabled' is not

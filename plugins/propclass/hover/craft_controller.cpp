@@ -45,7 +45,7 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
 {
   if (id_enabled == csInvalidStringID)
   {
-    id_enabled = pl->FetchStringID ("cel.parameter.enabled");
+    id_enabled = pl->FetchStringID ("enabled");
   }
 
   turn_left = false;

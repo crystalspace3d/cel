@@ -96,15 +96,15 @@ celPcWire::celPcWire (iObjectRegistry* object_reg)
   // For SendMessage parameters.
   if (id_mask == csInvalidStringID)
   {
-    id_mask = pl->FetchStringID ("cel.parameter.mask");
-    id_entity = pl->FetchStringID ("cel.parameter.entity");
-    id_msgid = pl->FetchStringID ("cel.parameter.msgid");
-    id_actionid = pl->FetchStringID ("cel.parameter.actionid");
-    id_pc = pl->FetchStringID ("cel.parameter.pc");
-    id_id = pl->FetchStringID ("cel.parameter.id");
-    id_source = pl->FetchStringID ("cel.parameter.source");
-    id_dest = pl->FetchStringID ("cel.parameter.dest");
-    id_expression = pl->FetchStringID ("cel.parameter.expression");
+    id_mask = pl->FetchStringID ("mask");
+    id_entity = pl->FetchStringID ("entity");
+    id_msgid = pl->FetchStringID ("msgid");
+    id_actionid = pl->FetchStringID ("actionid");
+    id_pc = pl->FetchStringID ("pc");
+    id_id = pl->FetchStringID ("id");
+    id_source = pl->FetchStringID ("source");
+    id_dest = pl->FetchStringID ("dest");
+    id_expression = pl->FetchStringID ("expression");
   }
 
   propholder = &propinfo;

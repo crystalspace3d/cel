@@ -63,14 +63,13 @@ struct iPcMeshSelectListener : public virtual iBase
  * This is a property class for selecting meshes.
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pcmeshsel_down: mesh is selected (x,y,button,entity)
  * - pcmeshsel_up: mesh is unselected (x,y,button,entity)
  * - pcmeshsel_move: mesh is moved (x,y,button,entity)
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - SetCamera: parameters 'entity' (string).
  * - SetMouseButtons: parameters 'buttons' (string or long). In case
  *     of string it should be a string with 'l', 'm', or 'r' (or a combination).

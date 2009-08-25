@@ -61,19 +61,19 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
   // For actions.
   if (id_sectorname == csInvalidStringID)
   {
-    id_sectorname = pl->FetchStringID ("cel.parameter.sectorname");
-    id_position = pl->FetchStringID ("cel.parameter.position");
-    id_pursue_max_prediction = pl->FetchStringID ("cel.parameter.pursue_max_prediction");
-    id_is_active = pl->FetchStringID ("cel.parameter.is_active");
-    id_min_distance = pl->FetchStringID ("cel.parameter.min_distance");
-    id_meshname = pl->FetchStringID ("cel.parameter.meshname");
+    id_sectorname = pl->FetchStringID ("sectorname");
+    id_position = pl->FetchStringID ("position");
+    id_pursue_max_prediction = pl->FetchStringID ("pursue_max_prediction");
+    id_is_active = pl->FetchStringID ("is_active");
+    id_min_distance = pl->FetchStringID ("min_distance");
+    id_meshname = pl->FetchStringID ("meshname");
     // for receiving messages
     id_msg_arrived = pl->FetchStringID ("cel.move.arrived");
     id_msg_interrupted = pl->FetchStringID ("cel.move.interrupted");
 }
 
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_meshname, "meshname");
+  params->SetParameterDef (id_meshname);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)

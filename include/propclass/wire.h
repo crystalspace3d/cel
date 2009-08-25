@@ -32,8 +32,7 @@ struct iCelExpression;
  * an 'action'.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - AddInput: parameters 'mask' (string), optional 'entity' (string), ...
  * - AddOutput: parameters 'msgid' (string), optional 'entity' (string), ...
  * - AddAction: parameters 'actionid' (string), optional 'entity' (string), 'pc' (string), ...

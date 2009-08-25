@@ -29,7 +29,7 @@
  * cars, tanks.
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pcwheeled_collision: an entity has collided with this entity.
  *   Parameters are 'otherbody' (string: entity name), 'position' (vector3:
  *   point of collision, 'normal' (vector3: normal of collision),
@@ -37,8 +37,7 @@
  *   wheel).
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - SetWheelMesh: parameters 'meshfact' (string), 'meshfile' (string).
  * - AddWheelAuto: parameters 'position' (vector3), 'rotation' (vector3),
  *                 'meshfact' (string), 'meshfile' (string).

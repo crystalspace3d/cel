@@ -32,13 +32,12 @@ struct iPcLinearMovement;
  * while checking collision detection along the way.
  *
  * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * to the behaviour:
  * - pcsteer_arrived: arrived at final position.
  * - pcsteer_interrupted: movement has been interrupted.
  *
  * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * 'cel.action.' to get the ID of the action):
  * - Seek: parameters 'sectorname' (string), 'position' (vector3).
  * - Flee: parameters 'sectorname' (string), 'position' (vector3).
  * - Pursue: parameters 'target' (iCelEntity*), 'max_prediction' (float),

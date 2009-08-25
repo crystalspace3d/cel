@@ -179,14 +179,14 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 
   if (id_percentage == csInvalidStringID)
   {
-    id_percentage = pl->FetchStringID ("cel.parameter.percentage");
-    id_body = pl->FetchStringID ("cel.parameter.body");
-    id_legs = pl->FetchStringID ("cel.parameter.legs");
-    id_offset = pl->FetchStringID ("cel.parameter.offset");
-    id_sector = pl->FetchStringID ("cel.parameter.sector");
-    id_position = pl->FetchStringID ("cel.parameter.position");
-    id_yrot = pl->FetchStringID ("cel.parameter.yrot");
-    id_velocity = pl->FetchStringID ("cel.parameter.velocity");
+    id_percentage = pl->FetchStringID ("percentage");
+    id_body = pl->FetchStringID ("body");
+    id_legs = pl->FetchStringID ("legs");
+    id_offset = pl->FetchStringID ("offset");
+    id_sector = pl->FetchStringID ("sector");
+    id_position = pl->FetchStringID ("position");
+    id_yrot = pl->FetchStringID ("yrot");
+    id_velocity = pl->FetchStringID ("velocity");
   }
 
   propholder = &propinfo;

@@ -64,9 +64,9 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   if (id_entity == csInvalidStringID)
-    id_entity = pl->FetchStringID ("cel.parameter.entity");
+    id_entity = pl->FetchStringID ("entity");
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_entity, "entity");
+  params->SetParameterDef (id_entity);
 }
 
 celPcInventory::~celPcInventory ()
@@ -799,7 +799,7 @@ celPcCharacteristics::celPcCharacteristics (iObjectRegistry* object_reg)
 
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_name = pl->FetchStringID ("name");
   }
 }
 
