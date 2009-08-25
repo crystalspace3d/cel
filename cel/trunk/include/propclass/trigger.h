@@ -74,8 +74,7 @@ struct iPcTriggerListener : public virtual iBase
  * entity that contains this property class and/or the entities
  * that enter/leave the trigger area.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - SetupTriggerSphere: parameters 'sector' (string),
  *     'position' (vector3 or string (name of mapnode in that case)),
  *     and 'radius' (float).

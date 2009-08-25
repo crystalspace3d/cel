@@ -30,8 +30,7 @@
  * to the behaviour:
  * - cel.misc.test.print: a message has been printed (message)
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - Print: parameters 'message' (string).
  *
  * This property class supports the following properties (add prefix

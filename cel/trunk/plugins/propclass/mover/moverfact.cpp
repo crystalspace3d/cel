@@ -71,9 +71,9 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_start, "cel.action.Start");
-    AddAction (action_interrupt, "cel.action.Interrupt");
-    AddAction (action_moveto, "cel.action.MoveTo");
+    AddAction (action_start, "Start");
+    AddAction (action_interrupt, "Interrupt");
+    AddAction (action_moveto, "MoveTo");
   }
 
   // For properties.

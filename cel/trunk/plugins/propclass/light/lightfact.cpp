@@ -102,12 +102,12 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_setlight, "cel.action.SetLight");
-    AddAction (action_movelight, "cel.action.MoveLight");
-    AddAction (action_createlight, "cel.action.CreateLight");
-    AddAction (action_changecolor, "cel.action.ChangeColor");
-    AddAction (action_parentmesh, "cel.action.ParentMesh");
-    AddAction (action_clearparent, "cel.action.ClearParent");
+    AddAction (action_setlight, "SetLight");
+    AddAction (action_movelight, "MoveLight");
+    AddAction (action_createlight, "CreateLight");
+    AddAction (action_changecolor, "ChangeColor");
+    AddAction (action_parentmesh, "ParentMesh");
+    AddAction (action_clearparent, "ClearParent");
   }
 }
 

@@ -273,7 +273,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   csStringID message_id = pl->FetchStringID ("message");
   msg_param->SetParameterDef (message_id);
   msg_param->GetParameter (0).Set ("We're close to some entity!");
-  wire->AddOutputAction (pl->FetchStringID ("cel.action.Print"),
+  wire->AddOutputAction (pl->FetchStringID ("Print"),
       entity_cam->GetPropertyClassList ()->FindByName ("pcmisc.test"), msg_param);
 
   return csPtr<iCelEntity> (entity_cam);

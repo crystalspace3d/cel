@@ -267,10 +267,8 @@ void celActionReward::Reward (iCelParameterBlock* params)
   propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
   if (propertyclass)
   {
-    csString fullname = "cel.action.";
     const char* idname = id->Get (params);
-    fullname += idname;
-    csStringID actionID = pl->FetchStringID(fullname);
+    csStringID actionID = pl->FetchStringID(idname);
     if (actionID)
     {
       celData ret;
@@ -279,7 +277,7 @@ void celActionReward::Reward (iCelParameterBlock* params)
     }
     else
       Report (type->object_reg,
-		"No action  'cel.action.%s' in the specified pc!", idname);
+		"No action  '%s' in the specified pc!", idname);
   }
   else
     Report (type->object_reg,
@@ -332,9 +330,7 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
   const char* aid = id->Get (params, changed);
   if (changed || actionID == csInvalidStringID)
   {
-    csString fullname = "cel.action.";
-    fullname += aid;
-    actionID = type->pl->FetchStringID (fullname);
+    actionID = type->pl->FetchStringID (aid);
   }
 
   const char* pc = pcclass->Get (params);

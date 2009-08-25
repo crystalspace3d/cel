@@ -37,8 +37,7 @@ enum celKeyState
 /**
  * Input propery class.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - Activate: parameter 'activate' (bool default=true).
  * - Bind: parameters 'trigger' (string) and 'command' (string). The 'trigger'
  *   can be equal to 'key' in which cases all keys will be bound.

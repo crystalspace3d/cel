@@ -120,12 +120,12 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 
   if (!propinfo.actions_done)
   {
-    AddAction (action_activate, "cel.action.Activate");
-    AddAction (action_bind, "cel.action.Bind");
-    AddAction (action_removebind, "cel.action.RemoveBind");
-    AddAction (action_removeallbinds, "cel.action.RemoveAllBinds");
-    AddAction (action_loadconfig, "cel.action.LoadConfig");
-    AddAction (action_saveconfig, "cel.action.SaveConfig");
+    AddAction (action_activate, "Activate");
+    AddAction (action_bind, "Bind");
+    AddAction (action_removebind, "RemoveBind");
+    AddAction (action_removeallbinds, "RemoveAllBinds");
+    AddAction (action_loadconfig, "LoadConfig");
+    AddAction (action_saveconfig, "SaveConfig");
   }
 
   propinfo.SetCount (3);

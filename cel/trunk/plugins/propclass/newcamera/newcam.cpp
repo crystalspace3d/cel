@@ -175,14 +175,14 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_attachcameramode, "cel.action.AttachCameraMode");
-    AddAction (action_setcameramode, "cel.action.SetCameraMode");
-    AddAction (action_nextcameramode, "cel.action.NextCameraMode");
-    AddAction (action_prevcameramode, "cel.action.PrevCameraMode");
-    AddAction (action_setrectangle, "cel.action.SetRectangle");
-    AddAction (action_setperspcenter, "cel.action.SetPerspectiveCenter");
-    AddAction (action_adaptiveclipping, "cel.action.AdaptiveDistanceClipping");
-    AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
+    AddAction (action_attachcameramode, "AttachCameraMode");
+    AddAction (action_setcameramode, "SetCameraMode");
+    AddAction (action_nextcameramode, "NextCameraMode");
+    AddAction (action_prevcameramode, "PrevCameraMode");
+    AddAction (action_setrectangle, "SetRectangle");
+    AddAction (action_setperspcenter, "SetPerspectiveCenter");
+    AddAction (action_adaptiveclipping, "AdaptiveDistanceClipping");
+    AddAction (action_fixedclipping, "FixedDistanceClipping");
   }
 
   propinfo.SetCount (22);

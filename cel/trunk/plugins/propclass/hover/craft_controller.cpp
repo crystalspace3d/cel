@@ -81,10 +81,10 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_sliding, "cel.action.SetSliding");
-    AddAction (action_braking, "cel.action.SetBraking");
-    AddAction (action_thruster, "cel.action.SetThruster");
-    AddAction (action_aburner, "cel.action.SetAfterBurner");
+    AddAction (action_sliding, "SetSliding");
+    AddAction (action_braking, "SetBraking");
+    AddAction (action_thruster, "SetThruster");
+    AddAction (action_aburner, "SetAfterBurner");
   }
 
   // For properties.

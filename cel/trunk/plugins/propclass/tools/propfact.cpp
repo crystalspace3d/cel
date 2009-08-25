@@ -61,7 +61,7 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setproperty, "cel.action.SetProperty");
+    AddAction (action_setproperty, "SetProperty");
   }
 
   params = new celOneParameterBlock ();
@@ -88,7 +88,7 @@ size_t celPcProperties::FindProperty (csStringID id)
     {
       char* buf = new char[30+strlen (p->propName)];
       if (p->type == CEL_DATA_ACTION)
-        strcpy (buf, "cel.action.");
+        buf[0] = 0;
       else
         strcpy (buf, "cel.property.");
       strcat (buf, p->propName);
@@ -122,7 +122,7 @@ csStringID celPcProperties::GetPropertyOrActionID (size_t i)
   {
     char* buf = new char[30+strlen (p->propName)];
     if (p->type == CEL_DATA_ACTION)
-      strcpy (buf, "cel.action.");
+      buf[0] = 0;
     else
       strcpy (buf, "cel.property.");
     strcat (buf, p->propName);

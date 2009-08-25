@@ -76,10 +76,10 @@ celPcBag::celPcBag (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_addstring, "cel.action.AddString");
-    AddAction (action_removestring, "cel.action.RemoveString");
-    AddAction (action_clear, "cel.action.Clear");
-    AddAction (action_hasstring, "cel.action.HasString");
+    AddAction (action_addstring, "AddString");
+    AddAction (action_removestring, "RemoveString");
+    AddAction (action_clear, "Clear");
+    AddAction (action_hasstring, "HasString");
   }
 }
 

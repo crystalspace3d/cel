@@ -77,7 +77,7 @@ celPcDelegateCamera::celPcDelegateCamera (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_setcurrmode, "cel.action.SetCurrentMode");
+    AddAction (action_setcurrmode, "SetCurrentMode");
   }
 
   // For properties.

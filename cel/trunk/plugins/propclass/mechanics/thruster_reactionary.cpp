@@ -62,7 +62,7 @@ celPcMechanicsThrusterReactionary::celPcMechanicsThrusterReactionary (
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_initthruster, "cel.action.InitThruster");
+    AddAction (action_initthruster, "InitThruster");
   }
 
   // Parameters for action_initthruster

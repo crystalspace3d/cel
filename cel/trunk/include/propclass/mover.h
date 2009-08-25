@@ -39,8 +39,7 @@ struct iPcLinearMovement;
  * - pcmover_arrived: arrived at final position.
  * - pcmover_interrupted: movement has been interrupted.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - MoveTo: parameters 'sectorname' (string), 'position' (vector3),
  *     ,'sqradius' (float) and optional 'checklos' (bool, default false).
  * - Start: parameters 'sectorname' (string), 'position' (vector3),

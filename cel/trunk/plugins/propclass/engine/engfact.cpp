@@ -91,8 +91,8 @@ celPcRegion::celPcRegion (iObjectRegistry* object_reg)
 
   if (!propinfo.actions_done)
   {
-    AddAction (action_load, "cel.action.Load");
-    AddAction (action_unload, "cel.action.Unload");
+    AddAction (action_load, "Load");
+    AddAction (action_unload, "Unload");
   }
 
   propinfo.SetCount (3);

@@ -95,7 +95,7 @@ const char* const descriptions[] = {
 
 // Instances of these templates are associated with csStringIDs in a csHash,
 // so that the activation function can be selected with a string param passed
-// to "cel.action.SetActivationFunc".
+// to "SetActivationFunc".
 template <typename T>
 celNNActivationFunc* gen_nop() { return new celNopActivationFunc<T>; }
 template <typename T>
@@ -142,13 +142,13 @@ celPcNeuralNet::celPcNeuralNet(iObjectRegistry *objreg)
 
   if (! propinfo.actions_done)
   {
-    AddAction(NN_SETFUNC, "cel.action.SetActivationFunc");
-    AddAction(NN_SETCOMP, "cel.action.SetComplexity");
-    AddAction(NN_SETLAYERS, "cel.action.SetLayerSizes");
-    AddAction(NN_SETINPUTS, "cel.action.SetInputs");
-    AddAction(NN_PROCESS, "cel.action.Process");
-    AddAction(NN_SAVECACHE, "cel.action.SaveCache");
-    AddAction(NN_LOADCACHE, "cel.action.LoadCache");
+    AddAction(NN_SETFUNC, "SetActivationFunc");
+    AddAction(NN_SETCOMP, "SetComplexity");
+    AddAction(NN_SETLAYERS, "SetLayerSizes");
+    AddAction(NN_SETINPUTS, "SetInputs");
+    AddAction(NN_PROCESS, "Process");
+    AddAction(NN_SAVECACHE, "SaveCache");
+    AddAction(NN_LOADCACHE, "LoadCache");
   }
 
   propinfo.SetCount(NN_PROP_LAST);

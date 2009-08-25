@@ -34,8 +34,7 @@
  * to the behaviour:
  * - pcquest_???: ??? (???)
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - NewQuest: parameters 'name' (string). All other string parameters will be
  *     passed to the quest itself.
  * - StopQuest: no parameters.

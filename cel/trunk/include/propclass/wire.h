@@ -31,8 +31,7 @@ struct iCelExpression;
  * it into either another message (to possibly another channel) or else it performs
  * an 'action'.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - AddInput: parameters 'mask' (string), optional 'entity' (string), ...
  * - AddOutput: parameters 'msgid' (string), optional 'entity' (string), ...
  * - AddAction: parameters 'actionid' (string), optional 'entity' (string), 'pc' (string), ...

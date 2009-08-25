@@ -385,15 +385,15 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_setcamera, "cel.action.SetCamera");
-    AddAction (action_pointcamera, "cel.action.PointCamera");
-    AddAction (action_setzonemanager, "cel.action.SetZoneManager");
-    AddAction (action_centercamera, "cel.action.CenterCamera");
-    AddAction (action_setfollowentity, "cel.action.SetFollowEntity");
-    AddAction (action_setrectangle, "cel.action.SetRectangle");
-    AddAction (action_setperspcenter, "cel.action.SetPerspectiveCenter");
-    AddAction (action_adaptiveclipping, "cel.action.AdaptiveDistanceClipping");
-    AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
+    AddAction (action_setcamera, "SetCamera");
+    AddAction (action_pointcamera, "PointCamera");
+    AddAction (action_setzonemanager, "SetZoneManager");
+    AddAction (action_centercamera, "CenterCamera");
+    AddAction (action_setfollowentity, "SetFollowEntity");
+    AddAction (action_setrectangle, "SetRectangle");
+    AddAction (action_setperspcenter, "SetPerspectiveCenter");
+    AddAction (action_adaptiveclipping, "AdaptiveDistanceClipping");
+    AddAction (action_fixedclipping, "FixedDistanceClipping");
   }
 
   // For properties.

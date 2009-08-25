@@ -142,15 +142,15 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_addentitytype, "cel.action.AddEntityType");
-    AddAction (action_addentitytpltype, "cel.action.AddEntityTemplateType");
-    AddAction (action_settiming, "cel.action.SetTiming");
-    AddAction (action_resettiming, "cel.action.ResetTiming");
-    AddAction (action_setenabled, "cel.action.SetEnabled");
-    AddAction (action_clearentitylist, "cel.action.ClearEntityList");
-    AddAction (action_inhibit, "cel.action.Inhibit");
-    AddAction (action_spawn, "cel.action.Spawn");
-    AddAction (action_addspawnposition, "cel.action.AddSpawnPosition");
+    AddAction (action_addentitytype, "AddEntityType");
+    AddAction (action_addentitytpltype, "AddEntityTemplateType");
+    AddAction (action_settiming, "SetTiming");
+    AddAction (action_resettiming, "ResetTiming");
+    AddAction (action_setenabled, "SetEnabled");
+    AddAction (action_clearentitylist, "ClearEntityList");
+    AddAction (action_inhibit, "Inhibit");
+    AddAction (action_spawn, "Spawn");
+    AddAction (action_addspawnposition, "AddSpawnPosition");
   }
 
   // For properties.

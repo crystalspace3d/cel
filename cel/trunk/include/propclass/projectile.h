@@ -36,8 +36,7 @@
  *     be sent but with entity equal to 0 (you can then use the 'meshname'
  *     to see what mesh has been hit).
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - Start: start movement in some direction. Parameters 'direction'
  *     (vector3), 'speed' (float), 'maxdist' (float), and 'maxhits' (long).
  * - Interrupt: interrupt the current movement.

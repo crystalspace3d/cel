@@ -44,7 +44,7 @@
  * - "select_probability" (float) Parameter for stochastic selection.
  * - "mutate_probability" (float) Parameter for stochastic mutation.
  *
- * And the following actions (add prefix "cel.action." to get the ID of an action):
+ * And the following actions:
  * - "Generate"	Begins evolution of one generation.
  * - "ReturnFitness" The behaviour calls this after evaluating the fitness
  *   of the presently selected genome. Parameter: "fitness" (float).

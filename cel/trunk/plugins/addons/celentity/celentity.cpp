@@ -141,6 +141,20 @@ csStringID celAddOnCelEntity::GetAttributeID (iDocumentNode* child,
   return pl->FetchStringID ((const char*)p);
 }
 
+csStringID celAddOnCelEntity::GetAttributeID (iDocumentNode* child,
+        const char* propname)
+{
+  const char* rc = child->GetAttributeValue (propname);
+  if (!rc)
+  {
+    synldr->ReportError (
+        "cel.addons.celentity", child,
+        "Can't find attribute '%s'!", propname);
+    return csInvalidStringID;
+  }
+  return pl->FetchStringID (rc);
+}
+
 csRef<celVariableParameterBlock> celAddOnCelEntity::ParseParameterBlock (
         iDocumentNode* child)
 {
@@ -155,7 +169,7 @@ csRef<celVariableParameterBlock> celAddOnCelEntity::ParseParameterBlock (
     csStringID par_id = xmltokens.Request (par_value);
     if (par_id == XMLTOKEN_PAR)
     {
-      csStringID parid = GetAttributeID (par_child, "", "name");
+      csStringID parid = GetAttributeID (par_child, "name");
       if (parid == csInvalidStringID) return 0;
       params->SetParameterDef (par_idx, parid);
       par_idx++;
@@ -313,7 +327,7 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
         break;
       case XMLTOKEN_ACTION:
         {
-          csStringID propid = GetAttributeID (child, "cel.action.", "name");
+          csStringID propid = GetAttributeID (child, "name");
           if (propid == csInvalidStringID) return false;
           csRef<celVariableParameterBlock> params = ParseParameterBlock (
                   child);

@@ -192,12 +192,12 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_initcd, "cel.action.InitCD");
-    AddAction (action_initcdmesh, "cel.action.InitCDMesh");
-    AddAction (action_setposition, "cel.action.SetPosition");
-    AddAction (action_setvelocity, "cel.action.SetVelocity");
-    AddAction (action_addvelocity, "cel.action.AddVelocity");
-    AddAction (action_setangularvelocity, "cel.action.SetAngularVelocity");
+    AddAction (action_initcd, "InitCD");
+    AddAction (action_initcdmesh, "InitCDMesh");
+    AddAction (action_setposition, "SetPosition");
+    AddAction (action_setvelocity, "SetVelocity");
+    AddAction (action_addvelocity, "AddVelocity");
+    AddAction (action_setangularvelocity, "SetAngularVelocity");
   }
 
   // For properties.

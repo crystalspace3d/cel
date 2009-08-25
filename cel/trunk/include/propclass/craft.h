@@ -29,8 +29,7 @@
  * Allows changing yaw and pitch, as well as thruster and afterburner,
  * and supresses angular velocity of object.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - SetSliding: parameters 'enabled' (bool: optional). If 'enabled' is not
  *   given then default is true.
  * - SetBraking: parameters 'enabled' (bool: optional). If 'enabled' is not

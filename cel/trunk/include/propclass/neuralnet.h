@@ -70,7 +70,7 @@ struct iCelNNWeights : public virtual iBase
  * - "layers" (long) The number of hidden layers in the neural network.
  * - "dispatch" (bool) If true, pcneuralnet_outputs messages will be sent.
  *
- * And the following actions (add prefix "cel.action." to get the ID of an action):
+ * And the following actions:
  * - "SetComplexity" Sets the method to use to set the sizes of the layers.
  *   Add prefix "cel.complexity." to the heuristic name to get the param.
  * - "SetLayerSizes" Instead of SetComplexity, this sets the sizes of the
@@ -88,7 +88,7 @@ struct iCelNNWeights : public virtual iBase
  *   Parameters: "scope" (string), "id" (long). See iCacheManager in CS.
  *
  * And can send the following message to the behaviour:
- * - "pcneuralnet_outputs" Sent after every call to "cel.action.process".
+ * - "pcneuralnet_outputs" Sent after every call to "Process".
  *   Parameters: "output0"..."outputN" the output values from the neural
  *   network (N - "cel.property.outputs" - 1).
  */
@@ -196,7 +196,7 @@ struct iPcNeuralNet : public virtual iBase
  * celActivationFunc, or they can implement their own.
  *
  * The supplied implementations can also be selected using pcneuralnet's
- * "cel.action.SetActivationFunc" action. See the specific implementation
+ * "SetActivationFunc" action. See the specific implementation
  * class for the "cel.activationFunc." string ID to use.
  */
 class celNNActivationFunc : public virtual csRefCount
@@ -319,7 +319,7 @@ inline celDataType celNNActivationFunc::DataType<float>()
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.none", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */
@@ -339,7 +339,7 @@ public:
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.step", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */
@@ -363,7 +363,7 @@ public:
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.log", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */
@@ -388,7 +388,7 @@ public:
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.atan", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */
@@ -413,7 +413,7 @@ public:
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.tanh", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */
@@ -437,7 +437,7 @@ public:
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.exp", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */
@@ -461,7 +461,7 @@ public:
  * This activation function works on floats only.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.float.inv".
  */
 class celInvActivationFunc : public celNNActivationFunc
@@ -483,7 +483,7 @@ public:
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.sqr", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */
@@ -507,7 +507,7 @@ public:
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.gauss", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */
@@ -531,7 +531,7 @@ public:
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.sin", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */
@@ -555,7 +555,7 @@ public:
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.cos", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */
@@ -579,7 +579,7 @@ public:
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.elliott", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */
@@ -603,7 +603,7 @@ public:
  * use any other type for the template parameter will result in an error.
  *
  * This activation function can also be selected with pcneuralnet's
- * "cel.action.SetActivationFunc" action, with the string parameter
+ * "SetActivationFunc" action, with the string parameter
  * "func" set to "cel.activationFunc.TYPE.sig", where TYPE is
  * either int8, int16, int32, uint8, uint16, uint32 or float.
  */

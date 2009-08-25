@@ -546,7 +546,7 @@ bool celBlXml::ParseID (const char*& input, csStringArray& local_vars,
     else if (fun_id == XMLFUNCTION_PROPID)
       prefix = "cel.property.";
     else if (fun_id == XMLFUNCTION_ACTID)
-      prefix = "cel.action.";
+      prefix = "";
     else
       prefix = "";
     char* str = new char [strlen (prefix) + i-input+1];
@@ -639,9 +639,7 @@ bool celBlXml::ParseAction (const char*& input, const char* pinput,
   h->AddOperation (CEL_OPERATION_PUSH);
   h->GetArgument ().SetPC (0);
 
-  csString actid = "cel.action.";
-  actid += str;
-  csStringID id = pl->FetchStringID (actid);
+  csStringID id = pl->FetchStringID (str);
   h->AddOperation (CEL_OPERATION_PUSH);
   h->GetArgument ().SetID (id);
 
@@ -2594,8 +2592,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           }
           else if (child->GetAttributeValue ("name"))
           {
-            csString actid = "cel.action.";
-            actid += child->GetAttributeValue ("name");
+            csString actid = child->GetAttributeValue ("name");
             csStringID id = pl->FetchStringID (actid);
             h->AddOperation (CEL_OPERATION_PUSH);
             h->GetArgument ().SetID (id);

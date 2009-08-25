@@ -40,8 +40,7 @@ struct iJoint;
 /**
  * Property class representing a dynamic system.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - SetSystem: parameters 'dynsys' (string).
  * - SetGravity: parameters 'gravity' (float).
  * - SetStepTime: parameters 'time' (float).
@@ -237,8 +236,7 @@ struct iPcMechanicsSystem : public virtual iBase
  *   point of collision, 'normal' (vector3: normal of collision), and
  *   'depth' (float: penetration depth).
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - InitPhys: parameters 'mass' (float: optional), 'friction' (float:
  *      optional), 'elasticity' (float: optional), 'density' (float: optional),
  *      'softness' (float: optional), 'lift' (vector3: optional), and 'drag'
@@ -647,8 +645,7 @@ struct iPcMechanicsObject : public virtual iBase
 /**
  * A joint.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action):
+ * This property class supports the following actions:
  * - SetParentBody: parameters 'body' (string).
  * - SetPosition: parameters 'position' (vector3).
  * - SetConstrainDist: parameters 'x' (bool), 'y' (bool), and 'z' (bool).
