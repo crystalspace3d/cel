@@ -146,17 +146,17 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (5);
-  AddProperty (propid_mousemove, "cel.property.mousemove",
+  AddProperty (propid_mousemove, "mousemove",
   	CEL_DATA_BOOL, false, "Mouse movement.", 0);
-  AddProperty (propid_mousemove_inverted, "cel.property.mousemove_inverted",
+  AddProperty (propid_mousemove_inverted, "mousemove_inverted",
   	CEL_DATA_BOOL, false, "Mouse movement inverted.", &mousemove_inverted);
   AddProperty (propid_mousemove_accelerated,
-        "cel.property.mousemove_accelerated", CEL_DATA_BOOL,
+        "mousemove_accelerated", CEL_DATA_BOOL,
 	false, "Mouse movement accelerated.", &mousemove_accelerated);
-  AddProperty (propid_mousemove_xfactor, "cel.property.mousemove_xfactor",
+  AddProperty (propid_mousemove_xfactor, "mousemove_xfactor",
   	CEL_DATA_FLOAT, false, "Mouse movement x speed factor.",
   	&mousemove_hor_factor);
-  AddProperty (propid_mousemove_yfactor, "cel.property.mousemove_yfactor",
+  AddProperty (propid_mousemove_yfactor, "mousemove_yfactor",
   	CEL_DATA_FLOAT, false, "Mouse movement y speed factor.",
   	&mousemove_vert_factor);
 

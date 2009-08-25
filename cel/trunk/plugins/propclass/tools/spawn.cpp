@@ -155,9 +155,9 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (2);
-  AddProperty (propid_namecounter, "cel.property.namecounter",
+  AddProperty (propid_namecounter, "namecounter",
   	CEL_DATA_BOOL, false, "Enable name counter.", &do_name_counter);
-  AddProperty (propid_spawnunique, "cel.property.spawnunique",
+  AddProperty (propid_spawnunique, "spawnunique",
   	CEL_DATA_BOOL, false, "Enable unique spawning.", &do_spawn_unique);
 
   params = new celGenericParameterBlock (2);

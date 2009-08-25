@@ -398,17 +398,17 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (6);
-  AddProperty (propid_pitchvelocity, "cel.property.pitchvelocity",
+  AddProperty (propid_pitchvelocity, "pitchvelocity",
   	CEL_DATA_FLOAT, false, "Pitch velocity.", &pitchVelocity);
-  AddProperty (propid_yawvelocity, "cel.property.yawvelocity",
+  AddProperty (propid_yawvelocity, "yawvelocity",
   	CEL_DATA_FLOAT, false, "Yaw velocity.", &yawVelocity);
-  AddProperty (propid_distancevelocity, "cel.property.distancevelocity",
+  AddProperty (propid_distancevelocity, "distancevelocity",
   	CEL_DATA_FLOAT, false, "Distance (zoom) velocity.", &distanceVelocity);
-  AddProperty (propid_pitch, "cel.property.pitch",
+  AddProperty (propid_pitch, "pitch",
   	CEL_DATA_FLOAT, false, "Pitch.", 0);
-  AddProperty (propid_yaw, "cel.property.yaw",
+  AddProperty (propid_yaw, "yaw",
   	CEL_DATA_FLOAT, false, "Yaw.", 0);
-  AddProperty (propid_distance, "cel.property.distance",
+  AddProperty (propid_distance, "distance",
   	CEL_DATA_FLOAT, false, "Distance (zoom).", 0);
 }
 

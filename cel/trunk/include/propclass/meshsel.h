@@ -74,8 +74,7 @@ struct iPcMeshSelectListener : public virtual iBase
  *     of string it should be a string with 'l', 'm', or 'r' (or a combination).
  * - SetDragPlaneNormal: parameters 'normal' (vector3), 'camera' (bool).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - global (bool, read/write): global selection, default false.
  * - follow (bool, read/write): follow mode, default false.
  * - followalways (bool, read/write): follow always mode, default false.

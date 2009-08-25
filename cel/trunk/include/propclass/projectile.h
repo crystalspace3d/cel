@@ -41,8 +41,7 @@
  *     (vector3), 'speed' (float), 'maxdist' (float), and 'maxhits' (long).
  * - Interrupt: interrupt the current movement.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - moving (bool, read only): returns true if currently moving.
  */
 struct iPcProjectile : public virtual iBase

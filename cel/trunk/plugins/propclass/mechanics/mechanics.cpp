@@ -688,17 +688,17 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (6);
-  AddProperty (propid_lasttag, "cel.property.lasttag",
+  AddProperty (propid_lasttag, "lasttag",
 	CEL_DATA_LONG, true, "Last tag from AddForceTagged.", &last_tag);
-  AddProperty (propid_linearvelocity, "cel.property.linearvelocity",
+  AddProperty (propid_linearvelocity, "linearvelocity",
 	CEL_DATA_VECTOR3, false, "Linear velocity.", 0);
-  AddProperty (propid_angularvelocity, "cel.property.angularvelocity",
+  AddProperty (propid_angularvelocity, "angularvelocity",
 	CEL_DATA_VECTOR3, false, "Angular velocity.", 0);
-  AddProperty (propid_static, "cel.property.static",
+  AddProperty (propid_static, "static",
 	CEL_DATA_BOOL, false, "Static yes/no.", 0);
-  AddProperty (propid_cdcallback, "cel.property.cdcallback",
+  AddProperty (propid_cdcallback, "cdcallback",
 	CEL_DATA_BOOL, false, "CD callback enabled yes/no.", &cd_enabled);
-  AddProperty (propid_enabled, "cel.property.enabled",
+  AddProperty (propid_enabled, "enabled",
 	CEL_DATA_BOOL, false, "CD enabled yes/no.", 0);
 }
 

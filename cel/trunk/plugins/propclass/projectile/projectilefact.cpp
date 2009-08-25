@@ -76,7 +76,7 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (1);
-  AddProperty (propid_moving, "cel.property.moving",
+  AddProperty (propid_moving, "moving",
   	CEL_DATA_BOOL, true, "Moving.", 0);
 
   is_moving = false;

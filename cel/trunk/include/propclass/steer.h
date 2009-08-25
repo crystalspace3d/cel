@@ -41,8 +41,7 @@ struct iPcLinearMovement;
  * - Flee: parameters 'sectorname' (string), 'position' (vector3).
  * - Pursue: parameters 'target' (iCelEntity*), 'max_prediction' (float),
  * - Interrupt: interrupt the current movement.
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - position (vector3, read only): current end position.
  * - sqradius (float, read/write): current squared radius.
  * - moving (bool, read only): returns true if currently moving.

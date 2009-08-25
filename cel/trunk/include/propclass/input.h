@@ -63,8 +63,7 @@ enum celKeyState
  *   has optional 'trigger' parameter.
  * - pccommandinput_<axis>: movement on the given axis.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - screenspace (bool, read/write): use screenspace instead of -1/1
  *   normalized coordinates (default is -1/1).
  * - cooked (bool, read/write): use cooked mode instead of raw (default

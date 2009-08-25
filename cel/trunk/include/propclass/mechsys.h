@@ -270,7 +270,7 @@ struct iPcMechanicsSystem : public virtual iBase
  *     false), and 'position' (vector3: default 0,0,0).
  * - AddForceTagged: parameters 'force' (vector3), 'relative' (bool: default
  *     false), and 'position' (vector3: default 0,0,0). The tag will be set in
- *     the property 'cel.property.lasttag'.
+ *     the property 'lasttag'.
  * - RemoveForceTagged: parameters 'tag' (long).
  * - ClearForces: no parameters.
  * - SetPosition: parameters 'position' (vector3).
@@ -279,8 +279,7 @@ struct iPcMechanicsSystem : public virtual iBase
  * - LookAt: parameters 'forward' (vector3: default 0,0,1) and 'up' (vector3:
  *     default 0,1,0).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - lasttag (long, read): last tag returned by AddForceTagged action.
  * - linearvelocity (vector3, read/write): get current linear velocity.
  * - angularvelocity (vector3, read/write): get current angular velocity.

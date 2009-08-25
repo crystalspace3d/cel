@@ -26,8 +26,7 @@
 /**
  * This is a property class for wasd movement.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  */
 struct iPcWasdMove : public virtual iBase
 {

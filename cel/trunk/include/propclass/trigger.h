@@ -92,8 +92,7 @@ struct iPcTriggerListener : public virtual iBase
  * - pctrigger_entertrigger: this entity enters a trigger (entity).
  * - pctrigger_leavetrigger: this entity leaves a trigger (entity).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - delay (long, read/write): update delay for checking trigger.
  * - jitter (long, read/write): random jitter added to update delay.
  * - monitor (string, read/write): name of entity to monitor.

@@ -35,8 +35,7 @@ class csVector3;
  * This property class supports the following actions:
  * - ApplyPermanentForce: parameters 'force' (csVector3).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property):
+ * This property class supports the following properties:
  * - weight (float, read/write): the weight of the object.
  */
 struct iPcGravity : public virtual iBase

@@ -43,8 +43,7 @@ struct iCelEntity;
  * - SetRectangle: parameters 'x' (long), 'y' (long), 'w' (long), 'h' (long).
  * - SetPerspectiveCenter: parameters 'x' (float), 'y' (float).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - pitchvelocity (float, read/write): pitch velocity.
  * - yawvelocity (float, read/write): yaw velocity.
  * - distancevelocity (float, read/write): distance (zoom) velocity.

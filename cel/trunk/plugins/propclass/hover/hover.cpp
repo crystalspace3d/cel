@@ -98,13 +98,13 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   }
 
   propinfo.SetCount (4);
-  AddProperty (propid_p_factor, "cel.property.p_factor",
+  AddProperty (propid_p_factor, "p_factor",
         CEL_DATA_FLOAT, false, "Proportional factor.", &pid.p_factor);
-  AddProperty (propid_i_factor, "cel.property.i_factor",
+  AddProperty (propid_i_factor, "i_factor",
         CEL_DATA_FLOAT, false, "Integral factor.", &pid.i_factor);
-  AddProperty (propid_d_factor, "cel.property.d_factor",
+  AddProperty (propid_d_factor, "d_factor",
         CEL_DATA_FLOAT, false, "Differential factor.", &pid.d_factor);
-  AddProperty (propid_hover_height, "cel.property.hover_height",
+  AddProperty (propid_hover_height, "hover_height",
         CEL_DATA_FLOAT, false, "Height for the object to hover at.", &pid.hover_height);
 }
 

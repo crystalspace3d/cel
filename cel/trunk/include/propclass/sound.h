@@ -34,8 +34,7 @@ struct iSndSysSource;
  * This property class supports the following actions:
  * - SetDirection: parameters 'front' (vector3), 'top' (vector3).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - front (vector3, read/write): front direction.
  * - top (vector3, read/write): top direction.
  * - position (vector3, read/write): position.
@@ -60,8 +59,7 @@ struct iPcSoundListener : public virtual iBase
  * - Pause: no parameters.
  * - Unpause: no parameters.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - soundname (string, read/write): name of the sound that will be used.
  * - volume (float, read/write): 0=off, 1=normal, >1 is above normal.
  * - directionalradiation (float, read/write): directional radiation.

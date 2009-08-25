@@ -35,8 +35,7 @@ struct iCollection;
  * - Load: no parameters.
  * - Unload: no parameters.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - worlddir (string, read/write): the VFS directory of the world file.
  * - worldfile (string, read/write): the world filename.
  * - regionname (string, read/write): region name.

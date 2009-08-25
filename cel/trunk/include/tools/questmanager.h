@@ -2252,7 +2252,7 @@ struct iPropertyQuestSeqOpFactory : public virtual iBase
 
   /**
    * Set the property name for this sequence.
-   * \param property_name is the property name (like cel.property.gravity).
+   * \param property_name is the property name (like 'gravity').
    * It can also be a parameter if it starts with '$'.
    */
   virtual void SetPropertyParameter (const char* property_name) = 0;

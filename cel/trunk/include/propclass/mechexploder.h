@@ -32,8 +32,7 @@
  * This property class supports the following actions:
  * - Explode: no parameters.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property):
+ * This property class supports the following properties:
  * - force (float, read/write): the force of the explosion.
  */
 struct iPcMechanicsExploder : public virtual iBase

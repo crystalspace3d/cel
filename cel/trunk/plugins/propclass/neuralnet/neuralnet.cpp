@@ -152,13 +152,13 @@ celPcNeuralNet::celPcNeuralNet(iObjectRegistry *objreg)
   }
 
   propinfo.SetCount(NN_PROP_LAST);
-  AddProperty(NN_INPUTS, "cel.property.inputs", CEL_DATA_LONG, false,
+  AddProperty(NN_INPUTS, "inputs", CEL_DATA_LONG, false,
 	descriptions[NN_INPUTS], &numInputs);
-  AddProperty(NN_OUTPUTS, "cel.property.outputs", CEL_DATA_LONG, false,
+  AddProperty(NN_OUTPUTS, "outputs", CEL_DATA_LONG, false,
 	descriptions[NN_OUTPUTS], &numOutputs);
-  AddProperty(NN_LAYERS, "cel.property.layers", CEL_DATA_LONG, false,
+  AddProperty(NN_LAYERS, "layers", CEL_DATA_LONG, false,
 	descriptions[NN_LAYERS], &numLayers);
-  AddProperty(NN_DISPATCH, "cel.property.dispatch", CEL_DATA_BOOL, false,
+  AddProperty(NN_DISPATCH, "dispatch", CEL_DATA_BOOL, false,
 	descriptions[NN_DISPATCH], &doDispatch);
 
   // Associate funcgen_t function pointers with csStringIDs.

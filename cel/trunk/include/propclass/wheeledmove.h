@@ -25,9 +25,6 @@
 
 /**
  * This is a property class for wheeled movement.
- *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
  */
 struct iPcWheeledMove : public virtual iBase
 {

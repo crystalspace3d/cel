@@ -44,8 +44,7 @@
  *   In case of 'normal' falloff the maxdist is ignored.
  * - SingleDamage: 'target' (string: name of target entity).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - amount (float, read/write): amount of damage to do.
  * - type (string, read/write): application dependend type of damage to do.
  * - sector (string, read/write): optional sector where the damage

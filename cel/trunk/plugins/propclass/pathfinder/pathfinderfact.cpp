@@ -86,11 +86,11 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (4);
-  AddProperty (propid_position, "cel.property.position",
+  AddProperty (propid_position, "position",
     CEL_DATA_VECTOR3, true, "Desired end position.", &position);
-  AddProperty (propid_pursue_max_prediction, "cel.property.pursue_max_prediction",
+  AddProperty (propid_pursue_max_prediction, "pursue_max_prediction",
     CEL_DATA_FLOAT, false, "Pursue Max Prediction.", &pursue_max_prediction);
-  AddProperty (propid_is_active, "cel.property.is_active",
+  AddProperty (propid_is_active, "is_active",
     CEL_DATA_BOOL, true, "Is pathfinding activated?", &is_active);
 
   delay_recheck = 20;

@@ -82,25 +82,25 @@ celPcDelegateCamera::celPcDelegateCamera (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (10);
-  AddProperty (propid_trans_in, "cel.property.trans",
+  AddProperty (propid_trans_in, "trans",
     CEL_DATA_BOOL, true, "Whether in a transition.", &in_transition);
-  AddProperty (propid_trans_time, "cel.property.trans_time",
+  AddProperty (propid_trans_time, "trans_time",
     CEL_DATA_LONG, false, "Time to transition to a new mode.", &transtime);
-  AddProperty (propid_trans_step, "cel.property.trans_curr",
+  AddProperty (propid_trans_step, "trans_curr",
     CEL_DATA_FLOAT, true, "0 -> 1 value indicating stage in the transition.", &currtrans);
-  AddProperty (propid_prev_pos, "cel.property.prev_position",
+  AddProperty (propid_prev_pos, "prev_position",
     CEL_DATA_VECTOR3, true, "Previous mode's position.", &prev.pos);
-  AddProperty (propid_prev_tar, "cel.property.prev_target",
+  AddProperty (propid_prev_tar, "prev_target",
     CEL_DATA_VECTOR3, true, "Previous mode's target.", &prev.tar);
-  AddProperty (propid_prev_up, "cel.property.prev_up",
+  AddProperty (propid_prev_up, "prev_up",
     CEL_DATA_VECTOR3, true, "Previous mode's up vector.", &prev.up);
-  AddProperty (propid_pos, "cel.property.position",
+  AddProperty (propid_pos, "position",
     CEL_DATA_VECTOR3, true, "Current position.", &curr.pos);
-  AddProperty (propid_tar, "cel.property.target",
+  AddProperty (propid_tar, "target",
     CEL_DATA_VECTOR3, true, "Current target.", &curr.tar);
-  AddProperty (propid_up, "cel.property.up",
+  AddProperty (propid_up, "up",
     CEL_DATA_VECTOR3, true, "Current up vector.", &curr.up);
-  AddProperty (propid_trans_speed, "cel.property.cont_trans_speed",
+  AddProperty (propid_trans_speed, "cont_trans_speed",
     CEL_DATA_FLOAT, true, "Continous transition speed.", &continuous_transition_speed);
 }
 

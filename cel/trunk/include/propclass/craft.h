@@ -39,8 +39,7 @@
  * - SetAfterBurner: parameters 'enabled' (bool: optional). If 'enabled' is not
  *   given then default is true.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - turnmax (float, read/write): maximum turning.
  * - turnacc (float, read/write): turning rate.
  * - pitchmax (float, read/write): maximum pitch.

@@ -90,15 +90,15 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
 
   // For properties.
   propinfo.SetCount (5);
-  AddProperty (propid_amount, "cel.property.amount",
+  AddProperty (propid_amount, "amount",
   	CEL_DATA_FLOAT, false, "Amount of damage.", &amount);
-  AddProperty (propid_type, "cel.property.type",
+  AddProperty (propid_type, "type",
   	CEL_DATA_STRING, false, "Type of damage.", 0);
-  AddProperty (propid_sector, "cel.property.sector",
+  AddProperty (propid_sector, "sector",
   	CEL_DATA_STRING, false, "Originating sector.", 0);
-  AddProperty (propid_position, "cel.property.position",
+  AddProperty (propid_position, "position",
   	CEL_DATA_VECTOR3, false, "Originating position.", &position);
-  AddProperty (propid_source, "cel.property.source",
+  AddProperty (propid_source, "source",
   	CEL_DATA_STRING, false, "Source of damage.", &amount);
 
   engine = csQueryRegistry<iEngine> (object_reg);

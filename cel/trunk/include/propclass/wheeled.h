@@ -90,8 +90,7 @@
  * - SetWheelHandbrakeAffected : parameters 'wheelnum' (long),
  *                   'handbrakeaffected' (bool).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - speed (float, read): the current speed of the vehicle.
  * - tankmode (bool, read/write): Whether tank mode is enabled.
  * - steer(float, read/write): Absolute steer(-1 to 1) of the vehicle.

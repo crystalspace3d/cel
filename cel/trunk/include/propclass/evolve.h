@@ -37,8 +37,7 @@
  * celPcNeuralNet, but it would be fairly easy to extend it to support
  * evolving other property classes where applicable.
  *
- * The property class holds the following properties (add prefix
- * "cel.property." to get a property ID):
+ * The property class holds the following properties:
  * - "population" (long) The size of the population (number of genomes).
  * - "subject" (propclass) The property class that will be evolved.
  * - "select_probability" (float) Parameter for stochastic selection.

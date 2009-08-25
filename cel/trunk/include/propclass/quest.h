@@ -39,8 +39,7 @@
  *     passed to the quest itself.
  * - StopQuest: no parameters.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - name (string, read only): name of the quest factory or null if no quest.
  * - state (string, read/write): name of the current state.
  */
