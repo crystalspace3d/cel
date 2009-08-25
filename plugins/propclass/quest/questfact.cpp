@@ -203,7 +203,7 @@ bool celPcQuest::PerformActionIndexed (int idx,
         for (i = 0 ; i < params->GetParameterCount () ; i++)
         {
           celDataType t;
-          csStringID id = params->GetParameter (i, t);
+          csStringID id = params->GetParameterDef (i, t);
 	  const char* n = pl->FetchString (id);
           if (t == CEL_DATA_STRING && strcmp ("name", n) != 0)
           {

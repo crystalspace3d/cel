@@ -350,7 +350,7 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
     for (k = 0 ; k < act_params->GetParameterCount () ; k++)
     {
       celDataType t;
-      csStringID id = act_params->GetParameter (k, t);
+      csStringID id = act_params->GetParameterDef (k, t);
       const celData* par = act_params->GetParameter (id);
       converted_params->SetParameterDef (k, id);
       if (t == CEL_DATA_PARAMETER)
