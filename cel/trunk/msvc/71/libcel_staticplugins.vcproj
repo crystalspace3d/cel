@@ -2640,6 +2640,51 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfwire_staticreg.cpp">
+                                  				    					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfwire_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\msvc_libpfwire_staticreg.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfwire_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\msvc_libpfwire_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  				    					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfwire_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libpfwire_staticreg.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfwire_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\msvc_libpfwire_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfzone_staticreg.cpp">
                                   				    					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -5970,6 +6015,51 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\wire\wirefact.cpp">
+                                  				    					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_wire_wirefact.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_propclass_wire_wirefact.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_wire_wirefact.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71-x64\build\libcel_staticplugins\plugins_propclass_wire_wirefact.cpp.obj"/>
+					</FileConfiguration>
+                                  				    					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_wire_wirefact.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with static libs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_propclass_wire_wirefact.cpp.obj"/>
+					</FileConfiguration>				    					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_wire_wirefact.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|x64">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71-x64\build\libcel_staticplugins\plugins_propclass_wire_wirefact.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\zone\zone.cpp">
                                   				    					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -8033,6 +8123,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\wheeledmove\wheeledmove.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\wire\wirefact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\zone\zone.h">
