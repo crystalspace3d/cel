@@ -65,6 +65,7 @@
 
 #include "celtool/initapp.h"
 #include "celtool/persisthelper.h"
+#include "tools/billboard.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
@@ -93,6 +94,7 @@
 #include "propclass/zone.h"
 #include "propclass/sound.h"
 #include "propclass/wire.h"
+#include "propclass/billboard.h"
 
 #define PATHFIND_VERBOSE 0
 
@@ -176,8 +178,28 @@ bool CelTest::OnKeyboard (iEvent &ev)
   return false;
 }
 
-csPtr<iCelEntity> CelTest::CreateActor (const char* name,
-	const char* /*factname*/, const csVector3& /*pos*/)
+void CelTest::CreateActionIcon ()
+{
+  csRef<iCelEntity> entity = pl->CreateEntity ("action_icon", 0, 0,
+      "pc2d.billboard",
+      CEL_PROPCLASS_END);
+  if (!entity) return;
+
+  iTextureWrapper* txt = engine->CreateTexture ("action_icon", "/lib/stdtex/tile.png",
+      0, CS_TEXTURE_2D);
+  txt->Register (g3d->GetTextureManager ());
+  engine->CreateMaterial ("action_icon", txt);
+
+  csRef<iPcBillboard> pcbb = celQueryPropertyClassEntity<iPcBillboard> (entity);
+  pcbb->SetBillboardName ("action_icon");
+  iBillboard* bb = pcbb->GetBillboard ();
+  bb->SetMaterialName ("action_icon");
+  bb->SetPosition (1000, 1000);
+  bb->SetSize (30000, 30000);
+  bb->GetFlags ().SetAll (CEL_BILLBOARD_VISIBLE);
+}
+
+csPtr<iCelEntity> CelTest::CreateActor (const char* name)
 {
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, 0, 0,
@@ -196,13 +218,11 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
     "pctools.timer",
     "pcsound.listener",
     "pclogic.trigger",
-    "pcmisc.wire",
     "pcmisc.test",
     CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
-  csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-    iPcCommandInput);
+  csRef<iPcCommandInput> pcinp = celQueryPropertyClassEntity<iPcCommandInput> (entity_cam);
   pcinp->Bind ("JoystickButton4", "ready");
   pcinp->Bind ("JoystickButton6", "lockon");
   pcinp->Bind ("JoystickButton2", "resetcam");
@@ -266,11 +286,23 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   trigger->SetupTriggerSphere (0, csVector3 (0), 1.0);
   trigger->SetFollowEntity (true);
 
-  csRef<iPcWire> wire = celQueryPropertyClassEntity<iPcWire> (entity_cam);
-  wire->AddInput ("cel.trigger.entity.");
-  size_t idx = wire->AddOutputAction (pl->FetchStringID ("Print"),
+  iCelPropertyClass* pc;
+  csRef<iPcWire> wire;
+  size_t idx;
+
+  pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire", "p1");
+  wire = scfQueryInterface<iPcWire> (pc);
+  wire->AddInput ("cel.trigger.entity.enter");
+  idx = wire->AddOutputAction (pl->FetchStringID ("Print"),
       entity_cam->GetPropertyClassList ()->FindByName ("pcmisc.test"));
   wire->MapParameterExpression (idx, "message", "'We found '+@entity");
+
+  pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire", "p2");
+  wire = scfQueryInterface<iPcWire> (pc);
+  wire->AddInput ("cel.trigger.entity.leave");
+  idx = wire->AddOutputAction (pl->FetchStringID ("Print"),
+      entity_cam->GetPropertyClassList ()->FindByName ("pcmisc.test"));
+  wire->MapParameterExpression (idx, "message", "'We leave '+@entity");
 
   return csPtr<iCelEntity> (entity_cam);
 }
@@ -316,8 +348,7 @@ bool CelTest::CreateRoom ()
     return ReportError ("Bad file path '%s' at '%s'!", file.GetData (),
     	path.GetData ());
 
-  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity_room,
-  	iPcZoneManager);
+  csRef<iPcZoneManager> pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (entity_room);
   if (!pczonemgr->Load (0, file))
     return ReportError ("Error loading level '%s' at '%s'!", file.GetData (),
     	path.GetData ());
@@ -325,20 +356,21 @@ bool CelTest::CreateRoom ()
   scfString regionname, startname;
   pczonemgr->GetLastStartLocation (&regionname, &startname);
 
-  entity_dummy = CreateActor ("camera", "", csVector3 (0,0,0));
+  entity_dummy = CreateActor ("camera");
   if (!entity_dummy) return false;
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
+  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (entity_dummy);
   if (!pccamera) return false;
   pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
   if (pczonemgr->PointMesh ("camera", regionname, startname)
   	!= CEL_ZONEERROR_OK)
     return ReportError ("Error finding start position!");
 
-  csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (entity_room,
-  	iPcInventory);
+  csRef<iPcInventory> pcinv_room = celQueryPropertyClassEntity<iPcInventory> (entity_room);
   if (!pcinv_room->AddEntity (entity_dummy)) return false;
 
   game = entity_room;
+
+  //CreateActionIcon ();
 
   return true;
 }
