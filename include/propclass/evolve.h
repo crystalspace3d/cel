@@ -43,7 +43,8 @@
  * - "select_probability" (float) Parameter for stochastic selection.
  * - "mutate_probability" (float) Parameter for stochastic mutation.
  *
- * And the following actions:
+ * This property class supports the following actions (add prefix 'cel.evolve.action.'
+ * if you want to access this action through a message):
  * - "Generate"	Begins evolution of one generation.
  * - "ReturnFitness" The behaviour calls this after evaluating the fitness
  *   of the presently selected genome. Parameter: "fitness" (float).

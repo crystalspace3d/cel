@@ -29,7 +29,8 @@ struct iCelEntity;
  * third-person camera and related functionality. It depends on either iPcMesh
  * or iPcLinearMovement.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.camera.default.action.'
+ * if you want to access this action through a message):
  * - SetCamera: parameters 'modename' (string), 'spring' (vector3),
  *   'turnspeed' (float), 'swingcoef' (float), 'fpoffset' (vector3),
  *   'tpoffset' (vector3), 'pitch' (float), 'pitchvelocity' (float),

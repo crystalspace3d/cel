@@ -40,7 +40,8 @@ struct iBillboard;
  * - 'cel.billboard.select.select.double' (old 'pcbillboard_doubleclick'):
  *   billboard is double clicked (x,y,button)
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.billboard.action.'
+ * if you want to access this action through a message):
  * - DrawMesh: parameters 'materialname' (string),
  *     'factory' (string), optional: 'distance' (float),
  *     optional: 'rotate' (vector3), optional: 'angle' (float).

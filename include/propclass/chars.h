@@ -29,7 +29,8 @@ struct iPcInventory;
 /**
  * This is a characteristics property class.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.characteristics.action.'
+ * if you want to access this action through a message):
  * - HasCharacteristic: parameters 'name' (string), returns true/false.
  *
  * This property class supports the following properties:

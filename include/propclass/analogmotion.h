@@ -27,7 +27,8 @@
  * This is a property class for analog character movement using a joystick
  * or analog pad.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.move.analog.action.'
+ * if you want to access this action through a message):
  * - SetAxis: parameters 'axis' (long), 'value' (float).
  * - AddAxis: parameters 'axis' (long), 'value' (float).
  * - SetMovementSpeed: parameters 'value' (float).

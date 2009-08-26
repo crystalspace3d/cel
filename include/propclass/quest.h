@@ -30,7 +30,8 @@
  * to manage quests. Note that this property class will automatically
  * load the quest manager if it is missing.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.quest.action.'
+ * if you want to access this action through a message):
  * - NewQuest: parameters 'name' (string). All other string parameters will be
  *     passed to the quest itself.
  * - StopQuest: no parameters.

@@ -30,7 +30,8 @@ struct iCelExpression;
  * Basically a wire listens to a certain message on a channel and transforms
  * it into another message (to possibly another channel).
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.wire.action.'
+ * if you want to access this action through a message):
  * - AddInput: parameters 'mask' (string), optional 'entity' (string), ...
  * - AddOutput: parameters 'msgid' (string), optional 'entity' (string), ...
  * - MapParameter: parameters 'id' (long), optional 'source' (string),

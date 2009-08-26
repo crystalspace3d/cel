@@ -262,7 +262,8 @@ struct iCelZone : public virtual iBase
  * then all zones that contain that region will be in memory,
  * The representation of a region.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.zone.action.'
+ * if you want to access this action through a message):
  * - DisableCD: no parameters. Don't create collider wrappers.
  * - EnableCD: no parameters. Create collider wrappers (default).
  * - Load: parameters 'path' (string: optional), and 'file' (string).

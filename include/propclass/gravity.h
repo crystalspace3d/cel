@@ -32,7 +32,8 @@ class csVector3;
 /**
  * Gravity handling property class.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.move.gravity.action.'
+ * if you want to access this action through a message):
  * - ApplyPermanentForce: parameters 'force' (csVector3).
  *
  * This property class supports the following properties:
