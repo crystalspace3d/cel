@@ -76,9 +76,9 @@ private:
   virtual bool OnKeyboard (iEvent &event);
 
   bool CreateRoom ();
-  csPtr<iCelEntity> CreateActor (const char *name, const char* factName,
-	const csVector3& pos);
-  
+  csPtr<iCelEntity> CreateActor (const char *name);
+  void CreateActionIcon ();
+
 public:
   CelTest ();
   virtual ~CelTest ();
