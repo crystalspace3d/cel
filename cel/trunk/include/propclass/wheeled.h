@@ -35,7 +35,8 @@
  *   'depth' (float: penetration depth), and 'index' (int: index of colliding
  *   wheel).
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.mechanics.wheeled.action.'
+ * if you want to access this action through a message):
  * - SetWheelMesh: parameters 'meshfact' (string), 'meshfile' (string).
  * - AddWheelAuto: parameters 'position' (vector3), 'rotation' (vector3),
  *                 'meshfact' (string), 'meshfile' (string).

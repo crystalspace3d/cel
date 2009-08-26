@@ -38,7 +38,8 @@ class csBox3;
 /**
  * This is a property class holding the representation of a mesh.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.mesh.action.'
+ * if you want to access this action through a message):
  * - SetMesh: parameters 'name' (string). This sets an already existing
  *   mesh for this pcmesh and sets property 'meshname'.
  * - LoadMesh: parameters 'filename' (string) and 'factoryname' (string).

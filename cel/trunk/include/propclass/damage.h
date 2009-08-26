@@ -37,7 +37,8 @@
  *   name of source sector), position (vector3: origin of damage),
  *   type (string: type of damage, application dependend).
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.damage.action.'
+ * if you want to access this action through a message):
  * - AreaDamage: 'radius' (float: default very large). In case of
  *   'normal' falloff this is actually ignored.
  * - BeamDamage: 'direction' (vector3), 'maxdist' (float: default very large).

@@ -41,7 +41,8 @@
  * - 'cel.rules.modifypar' (old 'pcrules_modifypar'): a parameter has been modified: parameters
  *     'name' (name of the parameter).
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.rules.action.'
+ * if you want to access this action through a message):
  * - AddRule: parameters 'name' (string). Optional 'time' (long) parameter.
  * - DeleteRule: parameters 'name' (string).
  * - DeleteAllRules: no parameters.

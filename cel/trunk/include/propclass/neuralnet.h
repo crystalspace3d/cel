@@ -69,7 +69,8 @@ struct iCelNNWeights : public virtual iBase
  * - "layers" (long) The number of hidden layers in the neural network.
  * - "dispatch" (bool) If true, pcneuralnet_outputs messages will be sent.
  *
- * And the following actions:
+ * This property class supports the following actions (add prefix 'cel.neuralnet.action.'
+ * if you want to access this action through a message):
  * - "SetComplexity" Sets the method to use to set the sizes of the layers.
  *   Add prefix "cel.complexity." to the heuristic name to get the param.
  * - "SetLayerSizes" Instead of SetComplexity, this sets the sizes of the

@@ -29,7 +29,8 @@
  * This property class depends on iPcMechanicsObject and iPcAttractor, and
  * extends their functionality.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.mechanics.explode.action.'
+ * if you want to access this action through a message):
  * - Explode: no parameters.
  *
  * This property class supports the following properties:

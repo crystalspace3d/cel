@@ -35,7 +35,8 @@
  *   this message will still be sent but with entity equal to 0 (you can then
  *   use the 'meshname' to see what mesh has been hit).
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.move.projectile.action.'
+ * if you want to access this action through a message):
  * - Start: start movement in some direction. Parameters 'direction'
  *     (vector3), 'speed' (float), 'maxdist' (float), and 'maxhits' (long).
  * - Interrupt: interrupt the current movement.

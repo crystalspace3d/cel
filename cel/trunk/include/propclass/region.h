@@ -31,7 +31,8 @@ struct iCollection;
 /**
  * The representation of a region.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.region.action.'
+ * if you want to access this action through a message):
  * - Load: no parameters.
  * - Unload: no parameters.
  *

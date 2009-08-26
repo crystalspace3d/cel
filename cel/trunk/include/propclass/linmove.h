@@ -71,7 +71,8 @@ struct iPcGravityCallback : public virtual iBase
  * - 'cel.move.arrived' (old 'pclinearmovement_arrived'):
  *   when we arrived without problems.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.move.linear.action.'
+ * if you want to access this action through a message):
  * - InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset'
  *     (vector3 default=0,0,0).
  * - InitCDMesh: parameters 'percentage' (float).

@@ -37,7 +37,8 @@ struct iCelGraph;
  * This property class can send out the following messages:
  * - 'cel.move.interrupted' (old 'pcpathfinder_interrupted'): movement has been interrupted.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.move.pathfinder.action.'
+ * if you want to access this action through a message):
  * - Seek: parameters 'sectorname' (string), 'position' (vector3).
  * - Wander: parameters 'distance' (int).
  * - Pursue: parameters 'target' (iCelEntity*), 'max_prediction' (float).

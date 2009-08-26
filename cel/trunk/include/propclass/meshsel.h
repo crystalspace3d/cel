@@ -67,7 +67,8 @@ struct iPcMeshSelectListener : public virtual iBase
  * - 'cel.mesh.select.up' (old 'pcmeshsel_up'): mesh is unselected (x,y,button,entity)
  * - 'cel.mesh.select.move' (old 'pcmeshsel_move'): mesh is moved (x,y,button,entity)
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.mesh.select.action.'
+ * if you want to access this action through a message):
  * - SetCamera: parameters 'entity' (string).
  * - SetMouseButtons: parameters 'buttons' (string or long). In case
  *     of string it should be a string with 'l', 'm', or 'r' (or a combination).

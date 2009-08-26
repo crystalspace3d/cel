@@ -36,7 +36,8 @@ struct iPcLinearMovement;
  * - 'cel.move.avoiding_collision' (old 'pcsteer_avoiding_collision'): ?
  * - 'cel.move.interrupted' (old 'pcsteer_interrupted'): movement has been interrupted.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.move.steer.action.'
+ * if you want to access this action through a message):
  * - Seek: parameters 'sectorname' (string), 'position' (vector3).
  * - Flee: parameters 'sectorname' (string), 'position' (vector3).
  * - Pursue: parameters 'target' (iCelEntity*), 'max_prediction' (float),

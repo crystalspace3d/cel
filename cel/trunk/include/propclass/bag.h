@@ -31,7 +31,8 @@ struct iCelPropertyClass;
 /**
  * This is a bag of strings property class.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.bag.action.'
+ * if you want to access this action through a message):
  * - AddString: parameters 'value' (string).
  * - RemoveString: parameters 'value' (string).
  * - Clear: no parameters.

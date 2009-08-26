@@ -29,7 +29,8 @@
  * This property class can send out the following messages:
  * - 'cel.misc.test.print' (old 'pcmisc.test_print'): a message has been printed (message)
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.test.action.'
+ * if you want to access this action through a message):
  * - Print: parameters 'message' (string).
  *
  * This property class supports the following properties:

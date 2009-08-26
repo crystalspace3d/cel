@@ -27,7 +27,8 @@
 /**
  * Timer propery class.
  *
- * This property class supports the following actions:
+ * This property class supports the following actions (add prefix 'cel.timer.action.'
+ * if you want to access this action through a message):
  * - WakeUp: parameters 'time' (long) and 'repeat' (bool).
  *   Optional 'name' (string) parameter for a named timer event.
  * - WakeUpFrame: no parameters.
