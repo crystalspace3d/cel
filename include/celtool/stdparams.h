@@ -242,6 +242,13 @@ public:
   celOneParameterBlock () : scfImplementationType (this)
   {
   }
+  /// Conveniance method to have a parameter block with one parameter of type string.
+  celOneParameterBlock (csStringID id, const char* str)
+    : scfImplementationType (this)
+  {
+    SetParameterDef (id);
+    GetParameter (0).Set (str);
+  }
   virtual ~celOneParameterBlock ()
   {
   }
