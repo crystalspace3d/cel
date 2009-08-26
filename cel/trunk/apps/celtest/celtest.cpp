@@ -95,6 +95,7 @@
 #include "propclass/sound.h"
 #include "propclass/wire.h"
 #include "propclass/billboard.h"
+#include "propclass/prop.h"
 
 #define PATHFIND_VERBOSE 0
 
@@ -196,13 +197,14 @@ void CelTest::CreateActionIcon ()
   bb->SetMaterialName ("action_icon");
   bb->SetPosition (1000, 1000);
   bb->SetSize (30000, 30000);
-  bb->GetFlags ().SetAll (CEL_BILLBOARD_VISIBLE);
+  //bb->GetFlags ().SetAll (CEL_BILLBOARD_VISIBLE);
+  bb->GetFlags ().SetAll (0);
 }
 
-csPtr<iCelEntity> CelTest::CreateActor (const char* name)
+iCelEntity* CelTest::CreateActor ()
 {
   // The Real Camera
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, 0, 0,
+  csRef<iCelEntity> entity_cam = pl->CreateEntity ("camera", 0, 0,
     "pcinput.standard",
     "pcmove.analogmotion",
     "pcmove.jump",
@@ -219,6 +221,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name)
     "pcsound.listener",
     "pclogic.trigger",
     "pcmisc.test",
+    "pctools.properties",
     CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -286,23 +289,55 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name)
   trigger->SetupTriggerSphere (0, csVector3 (0), 1.0);
   trigger->SetFollowEntity (true);
 
+  csRef<iPcProperties> props = celQueryPropertyClassEntity<iPcProperties> (entity_cam);
+  props->SetProperty ("entities", long (0));
+
+  return entity_cam;
+}
+
+void CelTest::ConnectWires ()
+{
+  iCelEntity* entity_cam = pl->FindEntity ("camera");
+  iCelEntity* action_icon = pl->FindEntity ("action_icon");
+
   iCelPropertyClass* pc;
   csRef<iPcWire> wire;
+  csRef<celOneParameterBlock> params;
   size_t idx;
 
-  pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire", "p1");
+  // For debugging, print out when we are near an entity.
+  // Increment the 'entities' counter when we get near an entity.
+  pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire");
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.trigger.entity.enter");
   idx = wire->AddOutput ("cel.test.action.Print");
   wire->MapParameterExpression (idx, "message", "'We found '+@entity");
+  params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "entities"));
+  idx = wire->AddOutput ("cel.properties.action.SetProperty", 0, params);
+  wire->MapParameterExpression (idx, "value", "?entities+1");
 
-  pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire", "p2");
+  // For debugging, print out when we are far from an entity.
+  // Decrement the 'entities' counter when we are far from an entity.
+  pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire");
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.trigger.entity.leave");
   idx = wire->AddOutput ("cel.test.action.Print");
   wire->MapParameterExpression (idx, "message", "'We leave '+@entity");
+  params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "entities"));
+  idx = wire->AddOutput ("cel.properties.action.SetProperty", 0, params);
+  wire->MapParameterExpression (idx, "value", "?entities-1");
 
-  return csPtr<iCelEntity> (entity_cam);
+  // Every time the 'entities' counter changes we recheck the visibility of our action icon.
+  pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire");
+  wire = scfQueryInterface<iPcWire> (pc);
+  wire->AddInput ("cel.properties.set");
+  params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "visible"));
+  idx = wire->AddOutput ("cel.billboard.action.SetProperty",
+      action_icon->QueryMessageChannel (), params);
+  // @@@ Use > 2 because the 'camera' entity itself is for some reason counted twice.
+  wire->MapParameterExpression (idx, "value", "?entities>2");
+  idx = wire->AddOutput ("cel.test.action.Print");
+  wire->MapParameterExpression (idx, "message", "'Counter:'+?entities");
 }
 
 
@@ -354,7 +389,7 @@ bool CelTest::CreateRoom ()
   scfString regionname, startname;
   pczonemgr->GetLastStartLocation (&regionname, &startname);
 
-  entity_dummy = CreateActor ("camera");
+  entity_dummy = CreateActor ();
   if (!entity_dummy) return false;
   csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (entity_dummy);
   if (!pccamera) return false;
@@ -368,7 +403,9 @@ bool CelTest::CreateRoom ()
 
   game = entity_room;
 
-  //CreateActionIcon ();
+  CreateActionIcon ();
+
+  ConnectWires ();
 
   return true;
 }

@@ -108,6 +108,9 @@ private:
   // the name of the property class stored in the iObject
   csObject csobj;
 
+  static csStringID id_name;
+  static csStringID id_value;
+
 protected:
   iCelEntity* entity;
   iObjectRegistry* object_reg;
@@ -119,10 +122,7 @@ protected:
   /**
    * Setup the mask used for receiving action messages.
    */
-  void SetActionMask (const char* mask)
-  {
-    propholder->mask = mask;
-  }
+  void SetActionMask (const char* mask);
 
   /**
    * Helper function to setup an action.
