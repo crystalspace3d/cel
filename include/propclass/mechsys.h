@@ -229,9 +229,9 @@ struct iPcMechanicsSystem : public virtual iBase
 /**
  * A dynamic body.
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pcdynamicbody_collision: an entity has collided with this entity.
+ * This property class can send out the following messages:
+ * - 'cel.mechanics.collision' (old 'pcdynamicbody_collision'):
+ *   an entity has collided with this entity.
  *   Parameters are 'otherbody' (string: entity name), 'position' (vector3:
  *   point of collision, 'normal' (vector3: normal of collision), and
  *   'depth' (float: penetration depth).

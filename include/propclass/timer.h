@@ -37,10 +37,10 @@
  *   the name. Note that if no name is given then the frame event is
  *   also cleared.
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - cel.timer.wakeup: wakeup message
- * - cel.timer.wakeup.frame: wakeup every frame (elapsedticks,currentticks)
+ * This property class can send out the following messages:
+ * - 'cel.timer.wakeup' (old 'pctimer_wakeup'): wakeup message
+ * - 'cel.timer.wakeup.frame' (old 'pctimer_wakeupframe'):
+ *   wakeup every frame (elapsedticks,currentticks)
  */
 struct iPcTimer : public virtual iBase
 {

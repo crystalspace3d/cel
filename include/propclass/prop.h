@@ -47,10 +47,9 @@ struct iPcPropertyListener : public virtual iBase
 /**
  * This is a general property class.
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pcproperties_setproperty: sets the property (index)
- * - pcproperties_clearproperty: clears the property (index)
+ * This property class can send out the following messages:
+ * - 'cel.properties.set' (old 'pcproperties_setproperty'): sets the property (index)
+ * - 'cel.properties.clear' (old 'pcproperties_clearproperty'): clears the property (index)
  *
  * This property class supports the following actions:
  * - SetProperty: parameters 'name' (string) and 'value'

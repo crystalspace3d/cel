@@ -287,13 +287,13 @@ struct iCelZone : public virtual iBase
  * - laststart (string, read only): last used start location.
  * - lastregion (string, read only): last used region.
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pczonemanager_addregion: new region has been added (region)
- * - pczonemanager_remregion: region will be removed (region)
- * - pczonemanager_startloading: loading of regions starts
- * - pczonemanager_stoploading: loading of regions stops
- * - pczonemanager_errorloading: loading of regions stops with error (region)
+ * This property class can send out the following messages:
+ * - 'cel.region.add' (old 'pczonemanager_addregion'): new region has been added (region)
+ * - 'cel.region.remove' (old 'pczonemanager_remregion'): region will be removed (region)
+ * - 'cel.region.load.start' (old 'pczonemanager_startloading'): loading of regions starts
+ * - 'cel.region.load.stop' (old 'pczonemanager_stoploading'): loading of regions stops
+ * - 'cel.region.load.error' (old 'pczonemanager_errorloading'):
+ *   loading of regions stops with error (region)
  */
 struct iPcZoneManager : public virtual iBase
 {

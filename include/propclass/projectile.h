@@ -27,14 +27,13 @@
  * This is a projectile property class. This class controls movement
  * of a projectile from one spot to another (or in some direction).
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pcprojectile_stopped: the projectile movement has stopped but no object
- *     was hit.
- * - pcprojectile_hit: we hit some object (entity, intersection, meshname).
- *     If we hit a mesh that is not an entity then this message will still
- *     be sent but with entity equal to 0 (you can then use the 'meshname'
- *     to see what mesh has been hit).
+ * This property class can send out the following messages:
+ * - 'cel.move.interrupted' (old 'pcprojectile_stopped'): the projectile movement
+ *   has stopped but no object was hit.
+ * - 'cel.move.collision' (old 'pcprojectile_hit'): we hit some object
+ *   (entity, intersection, meshname). If we hit a mesh that is not an entity then
+ *   this message will still be sent but with entity equal to 0 (you can then
+ *   use the 'meshname' to see what mesh has been hit).
  *
  * This property class supports the following actions:
  * - Start: start movement in some direction. Parameters 'direction'

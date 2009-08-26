@@ -48,9 +48,8 @@
  * - spawnunique (bool, read/write): enable/disable prevention of spawning
  *   of entities with same name (default false).
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pcspawn_newentity: new entity has been created (entity,behaviour)
+ * This property class can send out the following messages:
+ * - 'cel.entity.new' (old 'pcspawn_newentity'): new entity has been created (entity,behaviour)
  */
 struct iPcSpawn : public virtual iBase
 {

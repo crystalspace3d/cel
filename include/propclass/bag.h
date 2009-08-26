@@ -31,11 +31,6 @@ struct iCelPropertyClass;
 /**
  * This is a bag of strings property class.
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pcbag_addstring: A string is added to the bag (string).
- * - pcbag_removestring: A string is removed from the bag (string).
- *
  * This property class supports the following actions:
  * - AddString: parameters 'value' (string).
  * - RemoveString: parameters 'value' (string).
