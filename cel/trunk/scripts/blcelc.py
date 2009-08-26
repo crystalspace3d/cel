@@ -861,6 +861,7 @@ class iCelParameterBlock(cspace.iBase):
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetParameterCount(*args): return _blcelc.iCelParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.iCelParameterBlock_GetParameterDef(*args)
     def GetParameter(*args): return _blcelc.iCelParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterByIndex(*args)
     ParameterCount = _swig_property(_blcelc.iCelParameterBlock_ParameterCount_get, None, None,
@@ -999,6 +1000,7 @@ class celGenericParameterBlock(scfGenericParameterBlock):
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celGenericParameterBlock_SetParameterDef(*args)
     def GetParameterCount(*args): return _blcelc.celGenericParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.celGenericParameterBlock_GetParameterDef(*args)
     def GetParameter(*args): return _blcelc.celGenericParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celGenericParameterBlock_GetParameterByIndex(*args)
     ParameterDef = _swig_property(None, fix_args(_blcelc.celGenericParameterBlock_SetParameterDef), None,
@@ -1021,6 +1023,7 @@ class celVariableParameterBlock(scfVariableParameterBlock):
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celVariableParameterBlock_SetParameterDef(*args)
     def GetParameterCount(*args): return _blcelc.celVariableParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.celVariableParameterBlock_GetParameterDef(*args)
     def GetParameter(*args): return _blcelc.celVariableParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celVariableParameterBlock_GetParameterByIndex(*args)
     ParameterDef = _swig_property(None, fix_args(_blcelc.celVariableParameterBlock_SetParameterDef), None,
@@ -1043,6 +1046,7 @@ class celOneParameterBlock(scfOneParameterBlock):
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celOneParameterBlock_SetParameterDef(*args)
     def GetParameterCount(*args): return _blcelc.celOneParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.celOneParameterBlock_GetParameterDef(*args)
     def GetParameter(*args): return _blcelc.celOneParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celOneParameterBlock_GetParameterByIndex(*args)
     ParameterDef = _swig_property(None, fix_args(_blcelc.celOneParameterBlock_SetParameterDef), None,
@@ -1066,6 +1070,7 @@ class celCombineParameterBlock(scfCombineParameterBlock):
     def SetParameterBlock1(*args): return _blcelc.celCombineParameterBlock_SetParameterBlock1(*args)
     def SetParameterBlock2(*args): return _blcelc.celCombineParameterBlock_SetParameterBlock2(*args)
     def GetParameterCount(*args): return _blcelc.celCombineParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.celCombineParameterBlock_GetParameterDef(*args)
     def GetParameter(*args): return _blcelc.celCombineParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celCombineParameterBlock_GetParameterByIndex(*args)
 celCombineParameterBlock_swigregister = _blcelc.celCombineParameterBlock_swigregister
@@ -1085,6 +1090,18 @@ class celParameterMapping(object):
     __del__ = lambda self : None;
 celParameterMapping_swigregister = _blcelc.celParameterMapping_swigregister
 celParameterMapping_swigregister(celParameterMapping)
+
+class celMappedParameterBlock(celVariableParameterBlock):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_celMappedParameterBlock(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celMappedParameterBlock
+    __del__ = lambda self : None;
+celMappedParameterBlock_swigregister = _blcelc.celMappedParameterBlock_swigregister
+celMappedParameterBlock_swigregister(celMappedParameterBlock)
 
 class iCelPropertyClassFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
