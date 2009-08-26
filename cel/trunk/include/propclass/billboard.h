@@ -28,13 +28,17 @@ struct iBillboard;
 /**
  * Billboard property class.
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pcbillboard_select: billboard is selected (x,y,button)
- * - pcbillboard_move: mouse moves over billboard (x,y,button)
- * - pcbillboard_moveaway: mouse moves away from billboard (x,y,button)
- * - pcbillboard_unselect: billboard is unselected (x,y,button)
- * - pcbillboard_doubleclick: billboard is double clicked (x,y,button)
+ * This property class can send out the following messages:
+ * - 'cel.billboard.select.down' (old 'pcbillboard_select'):
+ *   billboard is selected (x,y,button)
+ * - 'cel.billboard.select.move' (old 'pcbillboard_move'):
+ *   mouse moves over billboard (x,y,button)
+ * - 'cel.billboard.select.moveaway' (old 'pcbillboard_moveaway'):
+ *   mouse moves away from billboard (x,y,button)
+ * - 'cel.billboard.select.select.up' (old 'pcbillboard_unselect'):
+ *   billboard is unselected (x,y,button)
+ * - 'cel.billboard.select.select.double' (old 'pcbillboard_doubleclick'):
+ *   billboard is double clicked (x,y,button)
  *
  * This property class supports the following actions:
  * - DrawMesh: parameters 'materialname' (string),

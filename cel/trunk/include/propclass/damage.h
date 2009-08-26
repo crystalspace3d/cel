@@ -30,10 +30,10 @@
  * entities. The affecting entity will have to handle the damage in whatever
  * way is appropriate.
  *
- * This property class can send out the following messages
- * to the behaviour of affecting entities:
- * - pcdamage_hurt: damage has been done. Parameters: amount (float: amount
- *   of damage), source (string: name of source entity), sector (string:
+ * This property class can send out the following messages:
+ * - 'cel.damage.hurt' (old 'pcdamage_hurt'): damage has been done.
+ *   Parameters: amount (float: amount of damage),
+ *   source (string: name of source entity), sector (string:
  *   name of source sector), position (vector3: origin of damage),
  *   type (string: type of damage, application dependend).
  *

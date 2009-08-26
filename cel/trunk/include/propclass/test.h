@@ -26,9 +26,8 @@
 /**
  * This is a test property class.
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - cel.misc.test.print: a message has been printed (message)
+ * This property class can send out the following messages:
+ * - 'cel.misc.test.print' (old 'pcmisc.test_print'): a message has been printed (message)
  *
  * This property class supports the following actions:
  * - Print: parameters 'message' (string).

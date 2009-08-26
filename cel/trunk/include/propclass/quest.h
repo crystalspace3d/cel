@@ -30,10 +30,6 @@
  * to manage quests. Note that this property class will automatically
  * load the quest manager if it is missing.
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pcquest_???: ??? (???)
- *
  * This property class supports the following actions:
  * - NewQuest: parameters 'name' (string). All other string parameters will be
  *     passed to the quest itself.

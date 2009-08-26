@@ -28,9 +28,8 @@
  * This is a property class to make and control wheeled vehicles, eg bikes,
  * cars, tanks.
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pcwheeled_collision: an entity has collided with this entity.
+ * This property class can send out the following messages:
+ * - 'cel.mechanics.collision' (old 'pcwheeled_collision'): an entity has collided with this entity.
  *   Parameters are 'otherbody' (string: entity name), 'position' (vector3:
  *   point of collision, 'normal' (vector3: normal of collision),
  *   'depth' (float: penetration depth), and 'index' (int: index of colliding

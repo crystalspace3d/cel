@@ -85,12 +85,15 @@ struct iPcTriggerListener : public virtual iBase
  * - SetupTriggerAboveMesh: parameters 'entity' (string) and
  *     'maxdistance' (float),
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pctrigger_entityenters: an entity enters this trigger (entity).
- * - pctrigger_entityleaves: an entity leaves this trigger (entity).
- * - pctrigger_entertrigger: this entity enters a trigger (entity).
- * - pctrigger_leavetrigger: this entity leaves a trigger (entity).
+ * This property class can send out the following messages:
+ * - 'cel.trigger.entity.enter' (old 'pctrigger_entityenters'):
+ *   an entity enters this trigger (entity).
+ * - 'cel.trigger.entity.leave' (old 'pctrigger_entityleaves'):
+ *   an entity leaves this trigger (entity).
+ * - 'cel.trigger.entity.enter.this' (old 'pctrigger_entertrigger'):
+ *   this entity enters a trigger (entity).
+ * - 'cel.trigger.entity.leave.this' (old 'pctrigger_leavetrigger'):
+ *   this entity leaves a trigger (entity).
  *
  * This property class supports the following properties:
  * - delay (long, read/write): update delay for checking trigger.

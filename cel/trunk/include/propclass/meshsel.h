@@ -62,11 +62,10 @@ struct iPcMeshSelectListener : public virtual iBase
 /**
  * This is a property class for selecting meshes.
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pcmeshsel_down: mesh is selected (x,y,button,entity)
- * - pcmeshsel_up: mesh is unselected (x,y,button,entity)
- * - pcmeshsel_move: mesh is moved (x,y,button,entity)
+ * This property class can send out the following messages:
+ * - 'cel.mesh.select.down' (old 'pcmeshsel_down'): mesh is selected (x,y,button,entity)
+ * - 'cel.mesh.select.up' (old 'pcmeshsel_up'): mesh is unselected (x,y,button,entity)
+ * - 'cel.mesh.select.move' (old 'pcmeshsel_move'): mesh is moved (x,y,button,entity)
  *
  * This property class supports the following actions:
  * - SetCamera: parameters 'entity' (string).

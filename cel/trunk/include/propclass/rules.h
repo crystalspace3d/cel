@@ -37,9 +37,8 @@
  * is not present a default value is assumed (0 for numbers, empty string
  * for string, 0-vector for vectors, and black for colors).
  *
- * This property class can send out the following messages
- * to the behaviour:
- * - pcrules_modifypar: a parameter has been modified: parameters
+ * This property class can send out the following messages:
+ * - 'cel.rules.modifypar' (old 'pcrules_modifypar'): a parameter has been modified: parameters
  *     'name' (name of the parameter).
  *
  * This property class supports the following actions:
