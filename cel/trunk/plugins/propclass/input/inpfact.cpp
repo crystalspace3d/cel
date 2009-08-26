@@ -120,6 +120,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.commandinput.action.");
     AddAction (action_activate, "Activate");
     AddAction (action_bind, "Bind");
     AddAction (action_removebind, "RemoveBind");

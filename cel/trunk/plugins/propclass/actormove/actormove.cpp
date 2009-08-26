@@ -126,6 +126,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.actormove.action.");
     AddAction (action_setspeed, "SetSpeed");
     AddAction (action_forward, "Forward");
     AddAction (action_backward, "Backward");

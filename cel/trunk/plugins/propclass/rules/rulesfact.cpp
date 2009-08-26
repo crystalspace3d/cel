@@ -84,6 +84,7 @@ celPcRules::celPcRules (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.rules.action.");
     AddAction (action_addrule, "AddRule");
     AddAction (action_deleterule, "DeleteRule");
     AddAction (action_deleteallrules, "DeleteAllRules");

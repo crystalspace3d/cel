@@ -76,6 +76,7 @@ celPcQuest::celPcQuest (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.quest.action.");
     AddAction (action_newquest, "NewQuest");
     AddAction (action_stopquest, "StopQuest");
   }

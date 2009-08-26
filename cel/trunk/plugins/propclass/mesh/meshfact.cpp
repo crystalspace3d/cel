@@ -174,6 +174,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.mesh.action.");
     AddAction (action_setmesh, "SetMesh");
     AddAction (action_loadmesh, "LoadMesh");
     AddAction (action_loadmeshpath, "LoadMeshPath");
@@ -1452,6 +1453,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.mesh.select.action.");
     AddAction (action_setcamera, "SetCamera");
     AddAction (action_setmousebuttons, "SetMouseButtons");
     AddAction (action_setdragplanenormal, "SetDragPlaneNormal");

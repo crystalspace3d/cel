@@ -28,13 +28,11 @@ struct iCelExpression;
 /**
  * This is a wire property class. A wire can connect two property classes.
  * Basically a wire listens to a certain message on a channel and transforms
- * it into either another message (to possibly another channel) or else it performs
- * an 'action'.
+ * it into another message (to possibly another channel).
  *
  * This property class supports the following actions:
  * - AddInput: parameters 'mask' (string), optional 'entity' (string), ...
  * - AddOutput: parameters 'msgid' (string), optional 'entity' (string), ...
- * - AddAction: parameters 'actionid' (string), optional 'entity' (string), 'pc' (string), ...
  * - MapParameter: parameters 'id' (long), optional 'source' (string),
  *   'dest' (string), optional 'expression' (string).
  */
@@ -66,17 +64,6 @@ struct iPcWire : public virtual iBase
    * \param msgid is a fully qualified message id which will be used to send out.
    */
   virtual size_t AddOutput (const char* msgid, iMessageChannel* channel = 0,
-      iCelParameterBlock* extra_params = 0) = 0;
-
-  /**
-   * Add an output action.
-   * The resulting parameter block for the output message will be a combination of
-   * the parameter block from the input message overwritten by the parameters given
-   * here (if given).
-   * This function returns a unique identifier that you can use to give to the
-   * functions that affect the parameter modifications.
-   */
-  virtual size_t AddOutputAction (csStringID actionID, iCelPropertyClass* pc,
       iCelParameterBlock* extra_params = 0) = 0;
 
   /**

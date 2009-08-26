@@ -135,6 +135,9 @@ void celPcWheeledMove::GetPCS ()
 bool celPcWheeledMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params)
 {
+  if (celPcCommon::ReceiveMessage (msgid, sender, ret, params))
+    return true;
+
   GetPCS ();
 
   if (msgid == id_input_accelerate_down)

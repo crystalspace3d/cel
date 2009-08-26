@@ -255,6 +255,7 @@ celPcSolid::celPcSolid (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.move.solid.action.");
     AddAction (action_setup, "Setup");
     AddAction (action_setupbox, "SetupBox");
   }
@@ -546,6 +547,7 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.move.gravity.action.");
     AddAction (action_applypermanentforce, "ApplyPermanentForce");
   }
 

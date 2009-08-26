@@ -104,8 +104,11 @@ bool celPcGrab::PerformActionIndexed (int idx, iCelParameterBlock* params, celDa
 
 //---------------------------------------------------------------------------
 
-bool celPcGrab::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params)
+bool celPcGrab::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret,
+    iCelParameterBlock *params)
 {
+  if (celPcCommon::ReceiveMessage (msg_id, sender, ret, params))
+    return true;
   AttemptGrab ();
   return true;
 }

@@ -455,6 +455,7 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.zone.action.");
     AddAction (action_disablecd, "DisableCD");
     AddAction (action_enablecd, "EnableCD");
     AddAction (action_load, "Load");

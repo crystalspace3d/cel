@@ -189,6 +189,9 @@ void celPcWasdMove::GetPCS ()
 bool celPcWasdMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params)
 {
+  if (celPcCommon::ReceiveMessage (msgid, sender, ret, params))
+    return true;
+
   GetPCS ();
 
   if (msgid == id_move_jump_landed)

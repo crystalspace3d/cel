@@ -86,6 +86,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.camera.tracking.action.");
     AddAction (action_reset, "ResetCamera");
   }
 

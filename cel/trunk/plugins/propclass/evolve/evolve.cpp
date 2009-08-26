@@ -88,6 +88,7 @@ celPcEvolve::celPcEvolve(iObjectRegistry *objreg)
 
   if (! propinfo.actions_done)
   {
+    SetActionMask ("cel.evolve.action.");
     AddAction(EVO_GENERATE, "Generate");
     AddAction(EVO_RTNFITNESS, "ReturnFitness");
     AddAction(EVO_GETFITNESS, "GetFitness");

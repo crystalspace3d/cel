@@ -142,6 +142,7 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.spawn.action.");
     AddAction (action_addentitytype, "AddEntityType");
     AddAction (action_addentitytpltype, "AddEntityTemplateType");
     AddAction (action_settiming, "SetTiming");

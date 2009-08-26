@@ -192,6 +192,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.move.linear.action.");
     AddAction (action_initcd, "InitCD");
     AddAction (action_initcdmesh, "InitCDMesh");
     AddAction (action_setposition, "SetPosition");

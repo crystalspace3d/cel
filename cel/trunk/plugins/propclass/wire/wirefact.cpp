@@ -71,19 +71,11 @@ void celWireOutput::AddMapping (csStringID source, csStringID dest,
   mappings.Push (mapping);
 }
 
-void celWireOutputMessage::Do (celPcWire* wire, iCelParameterBlock* params)
+void celWireOutput::Do (celPcWire* wire, iCelParameterBlock* params)
 {
   if (channel)
-    channel->SendMessage (msgid, wire, MapParams (wire->GetEntity (), CombineParams (extra_params, params)));
-}
-
-void celWireOutputAction::Do (celPcWire* wire, iCelParameterBlock* params)
-{
-  if (pc)
-  {
-    celData ret;
-    pc->PerformAction (actionID, MapParams (wire->GetEntity (), CombineParams (extra_params, params)), ret);
-  }
+    channel->SendMessage (msgid, wire, MapParams (wire->GetEntity (),
+	  CombineParams (extra_params, params)));
 }
 
 //---------------------------------------------------------------------------
@@ -91,8 +83,6 @@ void celWireOutputAction::Do (celPcWire* wire, iCelParameterBlock* params)
 csStringID celPcWire::id_mask = csInvalidStringID;
 csStringID celPcWire::id_entity = csInvalidStringID;
 csStringID celPcWire::id_msgid = csInvalidStringID;
-csStringID celPcWire::id_actionid = csInvalidStringID;
-csStringID celPcWire::id_pc = csInvalidStringID;
 csStringID celPcWire::id_id = csInvalidStringID;
 csStringID celPcWire::id_source = csInvalidStringID;
 csStringID celPcWire::id_dest = csInvalidStringID;
@@ -110,8 +100,6 @@ celPcWire::celPcWire (iObjectRegistry* object_reg)
     id_mask = pl->FetchStringID ("mask");
     id_entity = pl->FetchStringID ("entity");
     id_msgid = pl->FetchStringID ("msgid");
-    id_actionid = pl->FetchStringID ("actionid");
-    id_pc = pl->FetchStringID ("pc");
     id_id = pl->FetchStringID ("id");
     id_source = pl->FetchStringID ("source");
     id_dest = pl->FetchStringID ("dest");
@@ -123,9 +111,9 @@ celPcWire::celPcWire (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.wire.action.");
     AddAction (action_addinput, "AddInput");
     AddAction (action_addoutput, "AddOutput");
-    AddAction (action_addaction, "AddAction");
     AddAction (action_mapparameter, "MapParameter");
   }
 }
@@ -180,25 +168,6 @@ bool celPcWire::PerformActionIndexed (int idx,
 	AddOutput (msgid, ent->QueryMessageChannel (), params);
         return true;
       }
-    case action_addaction:
-      {
-        CEL_FETCH_STRING_PAR (actionid,params,id_actionid);
-        if (!p_actionid) return false;
-        CEL_FETCH_STRING_PAR (entity,params,id_entity);
-	iCelEntity* ent = this->entity;
-        if (p_entity)
-	  ent = pl->FindEntity (entity);
-	// @@@ Error check on ent!
-        CEL_FETCH_STRING_PAR (pcname,params,id_pc);
-        if (!p_pcname) return false;
-	iCelPropertyClassList* pclist = ent->GetPropertyClassList ();
-	iCelPropertyClass* pc = pclist->FindByName (pcname);
-	// @@@ Produce error?
-	if (!pc) return false;
-	csStringID actionID = pl->FetchStringID (actionid);
-	AddOutputAction (actionID, pc, params);
-        return true;
-      }
     case action_mapparameter:
       {
         CEL_FETCH_LONG_PAR (id,params,id_id);
@@ -227,6 +196,8 @@ bool celPcWire::PerformActionIndexed (int idx,
 bool celPcWire::ReceiveMessage (csStringID msgid, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params)
 {
+  if (celPcCommon::ReceiveMessage (msgid, sender, ret, params))
+    return true;
   size_t i;
   for (i = 0 ; i < output.GetSize () ; i++)
     output[i]->Do (this, params);
@@ -243,19 +214,10 @@ void celPcWire::AddInput (const char* msg_mask, iMessageChannel* channel)
 size_t celPcWire::AddOutput (const char* msgid, iMessageChannel* channel,
       iCelParameterBlock* extra_params)
 {
-  csRef<celWireOutputMessage> out;
+  csRef<celWireOutput> out;
   if (channel == 0)
     channel = entity->QueryMessageChannel ();
-  out.AttachNew (new celWireOutputMessage (msgid, channel));
-  out->extra_params = extra_params;
-  return output.Push (out);
-}
-
-size_t celPcWire::AddOutputAction (csStringID actionID, iCelPropertyClass* pc,
-      iCelParameterBlock* extra_params)
-{
-  csRef<celWireOutputAction> out;
-  out.AttachNew (new celWireOutputAction (actionID, pc));
+  out.AttachNew (new celWireOutput (msgid, channel));
   out->extra_params = extra_params;
   return output.Push (out);
 }

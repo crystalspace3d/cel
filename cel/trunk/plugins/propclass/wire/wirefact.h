@@ -40,63 +40,38 @@ class celPcWire;
 CEL_DECLARE_FACTORY (Wire)
 
 /**
- * A representation of an output.
+ * An output message.
  */
 class celWireOutput : public csRefCount
 {
 public:
   csRef<iCelParameterBlock> extra_params;
 
-protected:
+private:
+  csString msgid;
+  csWeakRef<iMessageChannel> channel;
   csArray<celParameterMapping> mappings;
 
   static csRef<iCelParameterBlock> CombineParams (iCelParameterBlock* p1, iCelParameterBlock* p2);
   csRef<iCelParameterBlock> MapParams (iCelEntity* entity, iCelParameterBlock* params);
 
 public:
-  virtual ~celWireOutput () { }
-  virtual void Do (celPcWire* wire, iCelParameterBlock* params) = 0;
-  void AddMapping (csStringID source, csStringID dest, iCelExpression* expression);
-};
-
-class celWireOutputMessage : public celWireOutput
-{
-private:
-  csString msgid;
-  csWeakRef<iMessageChannel> channel;
-
-public:
-  celWireOutputMessage (csString msgid, iMessageChannel* channel) :
+  celWireOutput (csString msgid, iMessageChannel* channel) :
     msgid (msgid), channel (channel) { }
-  virtual ~celWireOutputMessage () { }
-  virtual void Do (celPcWire* wire, iCelParameterBlock* params);
-};
-
-class celWireOutputAction : public celWireOutput
-{
-private:
-  csStringID actionID;
-  csWeakRef<iCelPropertyClass> pc;
-
-public:
-  celWireOutputAction (csStringID actionID, iCelPropertyClass* pc) :
-    actionID (actionID), pc (pc) { }
-  virtual ~celWireOutputAction() { }
-  virtual void Do (celPcWire* wire, iCelParameterBlock* params);
+  void Do (celPcWire* wire, iCelParameterBlock* params);
+  void AddMapping (csStringID source, csStringID dest, iCelExpression* expression);
 };
 
 /**
  * This is a test property class.
  */
-class celPcWire : public scfImplementationExt2<
-	celPcWire, celPcCommon, iPcWire, iMessageReceiver>
+class celPcWire : public scfImplementationExt1<
+	celPcWire, celPcCommon, iPcWire>
 {
 private:
   static csStringID id_mask;
   static csStringID id_entity;
   static csStringID id_msgid;
-  static csStringID id_actionid;
-  static csStringID id_pc;
   static csStringID id_id;
   static csStringID id_source;
   static csStringID id_dest;
@@ -107,7 +82,6 @@ private:
   {
     action_addinput = 0,
     action_addoutput,
-    action_addaction,
     action_mapparameter
   };
   static PropertyHolder propinfo;
@@ -126,15 +100,13 @@ public:
   virtual void AddInput (const char* msg_mask, iMessageChannel* channel = 0);
   virtual size_t AddOutput (const char* msgid, iMessageChannel* channel = 0,
       iCelParameterBlock* extra_params = 0);
-  virtual size_t AddOutputAction (csStringID actionID, iCelPropertyClass* pc,
-      iCelParameterBlock* extra_params = 0);
   virtual void MapParameter (size_t id, const char* source, const char* dest,
       iCelExpression* expression = 0);
+  virtual void MapParameterExpression (size_t id, const char* dest, const char* expression);
 
   // For iMessageReceiver.
   virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params);
-  virtual void MapParameterExpression (size_t id, const char* dest, const char* expression);
 };
 
 #endif // __CEL_PF_WIREFACT__

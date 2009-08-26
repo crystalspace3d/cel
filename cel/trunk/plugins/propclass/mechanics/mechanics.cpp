@@ -87,6 +87,7 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.mechanics.system.action.");
     AddAction (action_setsystem, "SetSystem");
     AddAction (action_setgravity, "SetGravity");
     AddAction (action_quickstep, "QuickStep");
@@ -659,6 +660,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.mechanics.object.action.");
     AddAction (action_initphys, "InitPhys");
     AddAction (action_makestatic, "MakeStatic");
     AddAction (action_setsystem, "SetSystem");
@@ -1757,6 +1759,7 @@ celPcMechanicsJoint::celPcMechanicsJoint (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.mechanics.joint.action.");
     AddAction (action_setparentbody, "SetParentBody");
     AddAction (action_setposition, "SetPosition");
     AddAction (action_setconstraindist, "SetConstrainDist");

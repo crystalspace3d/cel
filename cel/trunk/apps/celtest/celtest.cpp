@@ -293,15 +293,13 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name)
   pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire", "p1");
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.trigger.entity.enter");
-  idx = wire->AddOutputAction (pl->FetchStringID ("Print"),
-      entity_cam->GetPropertyClassList ()->FindByName ("pcmisc.test"));
+  idx = wire->AddOutput ("cel.test.action.Print");
   wire->MapParameterExpression (idx, "message", "'We found '+@entity");
 
   pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire", "p2");
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.trigger.entity.leave");
-  idx = wire->AddOutputAction (pl->FetchStringID ("Print"),
-      entity_cam->GetPropertyClassList ()->FindByName ("pcmisc.test"));
+  idx = wire->AddOutput ("cel.test.action.Print");
   wire->MapParameterExpression (idx, "message", "'We leave '+@entity");
 
   return csPtr<iCelEntity> (entity_cam);

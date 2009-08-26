@@ -47,8 +47,8 @@ CEL_DECLARE_FACTORY (WasdMove)
 /**
  * This is a property class for wasd movement.
  */
-class celPcWasdMove : public scfImplementationExt2<
-	celPcWasdMove, celPcCommon, iPcWasdMove, iMessageReceiver>
+class celPcWasdMove : public scfImplementationExt1<
+	celPcWasdMove, celPcCommon, iPcWasdMove>
 {
 private:
   // For input messages

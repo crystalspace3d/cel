@@ -78,6 +78,7 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.billboard.action.");
     AddAction (action_drawmesh, "DrawMesh");
     AddAction (action_gettextwidth, "GetTextWidth");
     AddAction (action_gettextheight, "GetTextHeight");

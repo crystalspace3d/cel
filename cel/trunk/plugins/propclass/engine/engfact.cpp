@@ -91,6 +91,7 @@ celPcRegion::celPcRegion (iObjectRegistry* object_reg)
 
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.region.action.");
     AddAction (action_load, "Load");
     AddAction (action_unload, "Unload");
   }
