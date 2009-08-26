@@ -81,6 +81,7 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.craft.action.");
     AddAction (action_sliding, "SetSliding");
     AddAction (action_braking, "SetBraking");
     AddAction (action_thruster, "SetThruster");

@@ -78,6 +78,7 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.move.pathfinder.action.");
     AddAction (action_seek, "Seek");
     AddAction (action_wander, "Wander");
     AddAction (action_pursue, "Pursue");
@@ -380,6 +381,9 @@ bool celPcPathFinder::FollowPath ()
 bool celPcPathFinder::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
 		celData& ret, iCelParameterBlock* params)
 {
+  if (celPcCommon::ReceiveMessage (msg_id, sender, ret, params))
+    return true;
+
   if (msg_id == id_msg_arrived)
   {
     if(cur_path->HasNext())

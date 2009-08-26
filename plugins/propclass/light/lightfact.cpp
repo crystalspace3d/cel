@@ -102,6 +102,7 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.light.action.");
     AddAction (action_setlight, "SetLight");
     AddAction (action_movelight, "MoveLight");
     AddAction (action_createlight, "CreateLight");

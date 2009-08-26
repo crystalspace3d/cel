@@ -42,8 +42,8 @@ CEL_DECLARE_FACTORY (DynamicMove)
 /**
  * This is a property class for dynamic movement.
  */
-class celPcDynamicMove : public scfImplementationExt2<
-	celPcDynamicMove, celPcCommon, iPcDynamicMove, iMessageReceiver>
+class celPcDynamicMove : public scfImplementationExt1<
+	celPcDynamicMove, celPcCommon, iPcDynamicMove>
 {
 private:
   // For input messages

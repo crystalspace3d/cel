@@ -99,6 +99,7 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.move.steer.action.");
     AddAction (action_seek, "Seek");
     AddAction (action_flee, "Flee");
     AddAction (action_pursue, "Pursue");

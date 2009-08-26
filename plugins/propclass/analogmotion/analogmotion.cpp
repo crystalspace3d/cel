@@ -69,6 +69,7 @@ celPcAnalogMotion::celPcAnalogMotion (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.analogmove.action.");
     AddAction (action_setaxis, "SetAxis");
     AddAction (action_addaxis, "AddAxis");
     AddAction (action_setmovespeed, "SetMovementSpeed");

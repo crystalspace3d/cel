@@ -51,6 +51,7 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.test.action.");
     AddAction (action_print, "Print");
   }
 

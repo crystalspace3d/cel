@@ -142,6 +142,7 @@ celPcNeuralNet::celPcNeuralNet(iObjectRegistry *objreg)
 
   if (! propinfo.actions_done)
   {
+    SetActionMask ("cel.neural.action.");
     AddAction(NN_SETFUNC, "SetActivationFunc");
     AddAction(NN_SETCOMP, "SetComplexity");
     AddAction(NN_SETLAYERS, "SetLayerSizes");

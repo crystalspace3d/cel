@@ -125,6 +125,7 @@ celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.sound.listener.action.");
     AddAction (action_setdirection, "SetDirection");
   }
 
@@ -324,6 +325,7 @@ celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.sound.source.action.");
     AddAction (action_pause, "Pause");
     AddAction (action_unpause, "Unpause");
     AddAction (action_play, "Play");

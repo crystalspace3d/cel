@@ -72,7 +72,11 @@ iObject *celPcCommon::QueryObject ()
 
 void celPcCommon::SetEntity (iCelEntity* entity)
 {
+  if (celPcCommon::entity)
+    celPcCommon::entity->QueryMessageChannel ()->Unsubscribe (this);
   celPcCommon::entity = entity;
+  if (entity && propholder && propholder->mask.Length () > 0)
+    entity->QueryMessageChannel ()->Subscribe (this, propholder->mask);
 }
 
 void celPcCommon::FirePropertyChangeCallback (int propertyId)
@@ -413,6 +417,16 @@ bool celPcCommon::PerformAction (csStringID actionId,
     // @@@ Warning?
     return false;
   }
+  return PerformActionIndexed (i, params, ret);
+}
+
+bool celPcCommon::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params)
+{
+  if (!propholder) return false;
+  int i = propholder->new_constants.Get (msg_id, -1);
+  if (i == -1)
+    return false;
   return PerformActionIndexed (i, params, ret);
 }
 

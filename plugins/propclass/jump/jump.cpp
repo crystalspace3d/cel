@@ -53,6 +53,7 @@ celPcJump::celPcJump (iObjectRegistry* object_reg)
   // For states.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.move.jump.action.");
     AddAction (action_jump, "cel.state.Jump");
   }
 
@@ -287,8 +288,11 @@ float celPcJump::GetBoostAcceleration () const
   return boost_accel;
 }
 
-bool celPcJump::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params)
+bool celPcJump::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret,
+    iCelParameterBlock *params)
 {
+  if (celPcCommon::ReceiveMessage (msg_id, sender, ret, params))
+    return true;
   if (!FindSiblingPropertyClasses ())
     return false;
   if (currstate != STAND && currstate != FROZEN)

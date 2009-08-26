@@ -114,6 +114,9 @@ void celPcDynamicMove::GetPCS ()
 bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params)
 {
+  if (celPcCommon::ReceiveMessage (msgid, sender, ret, params))
+    return true;
+
   GetPCS ();
 
   if (msgid == id_input_forward_down)

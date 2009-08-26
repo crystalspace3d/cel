@@ -174,6 +174,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.mechanics.wheeled.action.");
     AddAction (action_setwheelmesh, "SetWheelMesh");
     AddAction (action_addwheelauto, "AddWheelAuto");
     AddAction (action_addwheel, "AddWheel");

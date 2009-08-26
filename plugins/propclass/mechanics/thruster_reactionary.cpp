@@ -62,6 +62,7 @@ celPcMechanicsThrusterReactionary::celPcMechanicsThrusterReactionary (
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.mechanics.reactionary.action.");
     AddAction (action_initthruster, "InitThruster");
   }
 

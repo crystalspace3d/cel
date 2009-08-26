@@ -794,6 +794,7 @@ celPcCharacteristics::celPcCharacteristics (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.characteristics.action.");
     AddAction (action_hascharacteristic, "HasCharacteristic");
   }
 

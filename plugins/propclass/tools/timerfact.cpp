@@ -73,6 +73,7 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.timer.action.");
     AddAction (action_wakeup, "WakeUp");
     AddAction (action_wakeupframe, "WakeUpFrame");
     AddAction (action_clear, "Clear");

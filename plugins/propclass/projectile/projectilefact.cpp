@@ -70,6 +70,7 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.move.projectile.action.");
     AddAction (action_start, "Start");
     AddAction (action_interrupt, "Interrupt");
   }

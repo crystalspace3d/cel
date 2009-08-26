@@ -61,6 +61,7 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.properties.action.");
     AddAction (action_setproperty, "SetProperty");
   }
 

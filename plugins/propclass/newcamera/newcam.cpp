@@ -175,6 +175,7 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.camera.new.action.");
     AddAction (action_attachcameramode, "AttachCameraMode");
     AddAction (action_setcameramode, "SetCameraMode");
     AddAction (action_nextcameramode, "NextCameraMode");

@@ -45,8 +45,8 @@ CEL_DECLARE_FACTORY (WheeledMove)
 /**
  * This is a property class for wheeled movement.
  */
-class celPcWheeledMove : public scfImplementationExt2<
-	celPcWheeledMove, celPcCommon, iPcWheeledMove, iMessageReceiver>
+class celPcWheeledMove : public scfImplementationExt1<
+	celPcWheeledMove, celPcCommon, iPcWheeledMove>
 {
 private:
   // For input PC messages

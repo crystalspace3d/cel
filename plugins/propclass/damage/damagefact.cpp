@@ -83,6 +83,7 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.damage.action.");
     AddAction (action_areadamage, "AreaDamage");
     AddAction (action_beamdamage, "BeamDamage");
     AddAction (action_singledamage, "SingleDamage");

@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "csutil/util.h"
 #include "csutil/stringarray.h"
+#include "csutil/set.h"
 #include "celtool/stdmsgchannel.h"
 
 //---------------------------------------------------------------------------
@@ -91,13 +92,6 @@ void celMessageChannel::Subscribe (iMessageReceiver* receiver, const char* mask)
   newsub.receiver = receiver;
   newsub.mask = mask;
 
-  // if we are sending messages we queue the subscription request
-  // so as to not mess up the subscriptions iterator.
-  if (sending)
-  {
-    subscriptionQueue.Push(newsub);
-    return;
-  }
   // First check all subscriptions for this receiver and see if we
   // are already subscribed.
   celSubscriptions::Iterator it = messageSubscriptions.GetIterator (
@@ -130,15 +124,6 @@ void celMessageChannel::Subscribe (iMessageReceiver* receiver, const char* mask)
 void celMessageChannel::Unsubscribe (iMessageReceiver* receiver,
     const char* mask)
 {
-  if (sending)
-  {
-    // we're sending messages, so can't modify the hash now..
-    celMessageSubscription newsub;
-    newsub.receiver = receiver;
-    newsub.mask = mask;
-    unsubscriptionQueue.Push(newsub);
-    return;
-  }
   size_t i;
   csString maskStr = mask;
   csStringArray retained_masks;
@@ -202,45 +187,35 @@ bool celMessageChannel::SendMessage (const char* msgid,
       iMessageSender* sender, iCelParameterBlock* params,
       iCelDataArray* ret)
 {
-  csString message = msgid;
   csStringID id = pl->FetchStringID (msgid);
-  bool handled = false;
+
+  // Two passes. In the first pass we will gather all receivers in a set
+  // so that every receiver will only get this message once.
+  csSet<csPtrKey<iMessageReceiver> > receivers;
   celSubscriptions::GlobalIterator it = messageSubscriptions.GetIterator ();
-  // queue subscriptions, otherwise the iterator will get messed up.
-  // we use a counter here, in case this function ends calling
-  // itself.
-  sending++;
   while (it.HasNext ())
   {
     celMessageSubscription& sub = it.Next ();
     iMessageReceiver* receiver = sub.receiver;
-    if (receiver && Match (sub.mask, message))
-    {
-      celData ret1;
-      bool rc = receiver->ReceiveMessage (id, sender, ret1, params);
-      if (rc)
-      {
-	handled = true;
-	if (ret1.type != CEL_DATA_NONE && ret) ret->Push (ret1);
-      }
-    }
+    if (receiver && Match (sub.mask, msgid))
+      receivers.Add (receiver);
   }
-  sending--; // end queuing of subscriptions
-  // now apply all un/subscription requests resulting from latest message
-  // sending.
-  if (!sending)
+
+  // In the second pass we actually send the messages.
+  bool handled = false;
+  csSet<csPtrKey<iMessageReceiver> >::GlobalIterator rit = receivers.GetIterator ();
+  while (rit.HasNext ())
   {
-    while(unsubscriptionQueue.GetSize())
+    iMessageReceiver* receiver = rit.Next ();
+    celData ret1;
+    bool rc = receiver->ReceiveMessage (id, sender, ret1, params);
+    if (rc)
     {
-      const celMessageSubscription &subscriptionRequest = unsubscriptionQueue.Pop();
-      Unsubscribe(subscriptionRequest.receiver,subscriptionRequest.mask);
-    }
-    while(subscriptionQueue.GetSize())
-    {
-      const celMessageSubscription &subscriptionRequest =  subscriptionQueue.Pop();
-      Subscribe(subscriptionRequest.receiver,subscriptionRequest.mask);
+      handled = true;
+      if (ret1.type != CEL_DATA_NONE && ret) ret->Push (ret1);
     }
   }
+
   return handled;
 }
 

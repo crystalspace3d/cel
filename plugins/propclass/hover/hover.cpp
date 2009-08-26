@@ -88,6 +88,7 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.hover.action.");
     AddAction (action_sethbeamcutoff, "SetHeightBeamCutoff");
     AddAction (action_setangoff, "SetAngularBeamOffset");
     AddAction (action_setangheight, "SetAngularCutoffHeight");

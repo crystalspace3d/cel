@@ -385,6 +385,7 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.camera.default.action.");
     AddAction (action_setcamera, "SetCamera");
     AddAction (action_pointcamera, "PointCamera");
     AddAction (action_setzonemanager, "SetZoneManager");

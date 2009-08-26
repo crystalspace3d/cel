@@ -153,6 +153,7 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.trigger.action.");
     AddAction (action_setuptriggersphere, "SetupTriggerSphere");
     AddAction (action_setuptriggerbox, "SetupTriggerBox");
     AddAction (action_setuptriggerbeam, "SetupTriggerBeam");
