@@ -307,7 +307,7 @@ void CelTest::ConnectWires ()
 
   // For debugging, print out when we are near an entity.
   // Increment the 'entities' counter when we get near an entity.
-  pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire");
+  pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.trigger.entity.enter");
   idx = wire->AddOutput ("cel.test.action.Print");
@@ -318,7 +318,7 @@ void CelTest::ConnectWires ()
 
   // For debugging, print out when we are far from an entity.
   // Decrement the 'entities' counter when we are far from an entity.
-  pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire");
+  pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.trigger.entity.leave");
   idx = wire->AddOutput ("cel.test.action.Print");
@@ -328,7 +328,7 @@ void CelTest::ConnectWires ()
   wire->MapParameterExpression (idx, "value", "?entities-1");
 
   // Every time the 'entities' counter changes we recheck the visibility of our action icon.
-  pc = pl->CreatePropertyClass (entity_cam, "pcmisc.wire");
+  pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.properties.set");
   params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "visible"));

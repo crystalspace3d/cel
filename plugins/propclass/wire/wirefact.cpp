@@ -30,7 +30,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Wire, "pcmisc.wire")
+CEL_IMPLEMENT_FACTORY (Wire, "pclogic.wire")
 
 //---------------------------------------------------------------------------
 
