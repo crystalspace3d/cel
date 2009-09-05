@@ -22,7 +22,7 @@ static char const metainfo_pfwire[] =
 "  <scf>"
 "    <classes>"
 "      <class>"
-"        <name>cel.pcfactory.misc.wire</name>"
+"        <name>cel.pcfactory.logic.wire</name>"
 "        <implementation>celPfWire</implementation>"
 "        <description>CEL Wire Property Class Factory</description>"
 "      </class>"
