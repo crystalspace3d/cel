@@ -234,6 +234,7 @@ iCelEntity* CelTest::CreateActor ()
   pcinp->Bind ("JoystickAxis1", "joyaxis1");
   pcinp->Bind ("MouseAxis0_centered", "mouseaxis0");
 
+  pcinp->Bind ("e", "action");
   pcinp->Bind ("z", "ready");
   pcinp->Bind ("x", "lockon");
   pcinp->Bind ("c", "resetcam");
@@ -336,10 +337,11 @@ void CelTest::ConnectWires ()
   wire->MapParameterExpression (idx, "value", "property(pc(pctools.bag),id(size))>2");
 
   // If the action key is pressed we send out a 'cel.game.action' to the current entity.
-  //pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
-  //wire = scfQueryInterface<iPcWire> (pc);
-  //wire->AddInput ("cel.input.command.up");
-  //wire->AddOutput ("cel.game.action");
+  pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
+  wire = scfQueryInterface<iPcWire> (pc);
+  wire->AddInput ("cel.input.action.up");
+  params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("msgid"), "cel.game.action"));
+  wire->AddOutput ("cel.bag.action.SendMessage", 0, params);
 }
 
 

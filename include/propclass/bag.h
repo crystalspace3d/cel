@@ -37,13 +37,14 @@ struct iCelPropertyClass;
  * - RemoveString: parameters 'value' (string).
  * - Clear: no parameters.
  * - HasString: parameters 'value' (string), returns bool.
+ * - SendMessage: parameters 'msgid' (string), ...
  *
  * This property class supports the following properties:
  * - size (long, read only): the size of the bag.
  */
 struct iPcBag : public virtual iBase
 {
-  SCF_INTERFACE (iPcBag, 0, 0, 1);
+  SCF_INTERFACE (iPcBag, 0, 0, 2);
 
   /**
    * Add an string to this bag.
@@ -69,6 +70,14 @@ struct iPcBag : public virtual iBase
    * Return an iterator iterating over all strings.
    */
   virtual csSet<csString>::GlobalIterator GetIterator () = 0;
+
+  /**
+   * Treat the strings in this bag as names of entities and then
+   * send this message to all entities in the bag.
+   * @return true if at least one of the entities handled the message (returned
+   * true).
+   */
+  virtual bool SendMessage (const char* msgid, iCelParameterBlock* params = 0) = 0;
 };
 
 #endif // __CEL_PF_BAG

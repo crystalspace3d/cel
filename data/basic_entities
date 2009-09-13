@@ -125,6 +125,16 @@
       </quest>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="bla" >
+      <propclass name="pclogic.wire">
+        <action name="AddInput" >
+          <par name="mask" string="cel.game.action" />
+        </action>
+        <action name="AddOutput" >
+          <par name="msgid" string="cel.test.action.Print" />
+	  <par name="entity" string="camera" />
+	  <par name="message" string="We activated bla!" />
+        </action>
+      </propclass>
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
           <par name="path" string="/cellib/objects" />
@@ -217,6 +227,16 @@
       </propclass>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy3" >
+      <propclass name="pclogic.wire">
+        <action name="AddInput" >
+          <par name="mask" string="cel.game.action" />
+        </action>
+        <action name="AddOutput" >
+          <par name="msgid" string="cel.test.action.Print" />
+	  <par name="entity" string="camera" />
+	  <par name="message" string="We activated dummy3!" />
+        </action>
+      </propclass>
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
@@ -236,6 +256,16 @@
       </propclass>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy4" >
+      <propclass name="pclogic.wire">
+        <action name="AddInput" >
+          <par name="mask" string="cel.game.action" />
+        </action>
+        <action name="AddOutput" >
+          <par name="msgid" string="cel.test.action.Print" />
+	  <par name="entity" string="camera" />
+	  <par name="message" string="We activated dummy4!" />
+        </action>
+      </propclass>
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
@@ -255,6 +285,16 @@
       </propclass>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy5" >
+      <propclass name="pclogic.wire">
+        <action name="AddInput" >
+          <par name="mask" string="cel.game.action" />
+        </action>
+        <action name="AddOutput" >
+          <par name="msgid" string="cel.test.action.Print" />
+	  <par name="entity" string="camera" />
+	  <par name="message" string="We activated dummy5!" />
+        </action>
+      </propclass>
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
@@ -274,6 +314,16 @@
       </propclass>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy6" >
+      <propclass name="pclogic.wire">
+        <action name="AddInput" >
+          <par name="mask" string="cel.game.action" />
+        </action>
+        <action name="AddOutput" >
+          <par name="msgid" string="cel.test.action.Print" />
+	  <par name="entity" string="camera" />
+	  <par name="message" string="We activated dummy6!" />
+        </action>
+      </propclass>
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
@@ -298,6 +348,16 @@
       </script>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="box" >
+      <propclass name="pclogic.wire">
+        <action name="AddInput" >
+          <par name="mask" string="cel.game.action" />
+        </action>
+        <action name="AddOutput" >
+          <par name="msgid" string="cel.test.action.Print" />
+	  <par name="entity" string="camera" />
+	  <par name="message" string="We activated box!" />
+        </action>
+      </propclass>
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh.select" >
         <action name="SetCamera" >
