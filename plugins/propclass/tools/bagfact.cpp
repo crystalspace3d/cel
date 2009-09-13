@@ -82,6 +82,11 @@ celPcBag::celPcBag (iObjectRegistry* object_reg)
     AddAction (action_clear, "Clear");
     AddAction (action_hasstring, "HasString");
   }
+
+  // For properties.
+  propinfo.SetCount (1);
+  AddProperty (propid_size, "size",
+	CEL_DATA_LONG, true, "Size of the bag.", 0);
 }
 
 celPcBag::~celPcBag ()
@@ -167,6 +172,16 @@ bool celPcBag::HasString (const char* str)
 csSet<csString>::GlobalIterator celPcBag::GetIterator ()
 {
   return bag.GetIterator ();
+}
+
+bool celPcBag::GetPropertyIndexed (int idx, long& l)
+{
+  if (idx == propid_size)
+  {
+    l = bag.GetSize ();
+    return true;
+  }
+  return false;
 }
 
 //---------------------------------------------------------------------------

@@ -222,6 +222,7 @@ iCelEntity* CelTest::CreateActor ()
     "pclogic.trigger",
     "pcmisc.test",
     "pctools.properties",
+    "pctools.bag",
     CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -289,9 +290,6 @@ iCelEntity* CelTest::CreateActor ()
   trigger->SetupTriggerSphere (0, csVector3 (0), 1.0);
   trigger->SetFollowEntity (true);
 
-  csRef<iPcProperties> props = celQueryPropertyClassEntity<iPcProperties> (entity_cam);
-  props->SetProperty ("entities", long (0));
-
   return entity_cam;
 }
 
@@ -305,39 +303,43 @@ void CelTest::ConnectWires ()
   csRef<celOneParameterBlock> params;
   size_t idx;
 
-  // For debugging, print out when we are near an entity.
-  // Increment the 'entities' counter when we get near an entity.
   pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
+  // 1: For debugging, print out when we are near an entity.
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.trigger.entity.enter");
   idx = wire->AddOutput ("cel.test.action.Print");
   wire->MapParameterExpression (idx, "message", "'We found '+@entity");
-  params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "entities"));
-  idx = wire->AddOutput ("cel.properties.action.SetProperty", 0, params);
-  wire->MapParameterExpression (idx, "value", "?entities+1");
+  // 2: Add the name of the entity to the bag.
+  idx = wire->AddOutput ("cel.bag.action.AddString");
+  wire->MapParameterExpression (idx, "value", "entname(@entity)");
+  // 3: Set the visibility state of the billboard.
+  params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "visible"));
+  idx = wire->AddOutput ("cel.billboard.action.SetProperty",
+      action_icon->QueryMessageChannel (), params);
+  // @@@ Use > 2 because the 'camera' entity itself is for some reason counted twice.
+  wire->MapParameterExpression (idx, "value", "property(pc(pctools.bag),id(size))>2");
 
-  // For debugging, print out when we are far from an entity.
-  // Decrement the 'entities' counter when we are far from an entity.
+  // 1: For debugging, print out when we are far from an entity.
   pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.trigger.entity.leave");
   idx = wire->AddOutput ("cel.test.action.Print");
   wire->MapParameterExpression (idx, "message", "'We leave '+@entity");
-  params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "entities"));
-  idx = wire->AddOutput ("cel.properties.action.SetProperty", 0, params);
-  wire->MapParameterExpression (idx, "value", "?entities-1");
-
-  // Every time the 'entities' counter changes we recheck the visibility of our action icon.
-  pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
-  wire = scfQueryInterface<iPcWire> (pc);
-  wire->AddInput ("cel.properties.set");
+  // 2: Remove the name of the entity from the bag.
+  idx = wire->AddOutput ("cel.bag.action.RemoveString");
+  wire->MapParameterExpression (idx, "value", "entname(@entity)");
+  // 3: Set the visibility state of the billboard.
   params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "visible"));
   idx = wire->AddOutput ("cel.billboard.action.SetProperty",
       action_icon->QueryMessageChannel (), params);
   // @@@ Use > 2 because the 'camera' entity itself is for some reason counted twice.
-  wire->MapParameterExpression (idx, "value", "?entities>2");
-  idx = wire->AddOutput ("cel.test.action.Print");
-  wire->MapParameterExpression (idx, "message", "'Counter:'+?entities");
+  wire->MapParameterExpression (idx, "value", "property(pc(pctools.bag),id(size))>2");
+
+  // If the action key is pressed we send out a 'cel.game.action' to the current entity.
+  //pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
+  //wire = scfQueryInterface<iPcWire> (pc);
+  //wire->AddInput ("cel.input.command.up");
+  //wire->AddOutput ("cel.game.action");
 }
 
 

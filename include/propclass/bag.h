@@ -37,6 +37,9 @@ struct iCelPropertyClass;
  * - RemoveString: parameters 'value' (string).
  * - Clear: no parameters.
  * - HasString: parameters 'value' (string), returns bool.
+ *
+ * This property class supports the following properties:
+ * - size (long, read only): the size of the bag.
  */
 struct iPcBag : public virtual iBase
 {
