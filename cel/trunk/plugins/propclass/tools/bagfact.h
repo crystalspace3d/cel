@@ -69,6 +69,12 @@ private:
     action_hasstring
   };
 
+  // For properties.
+  enum propids
+  {
+    propid_size = 0
+  };
+
   static PropertyHolder propinfo;
 
 public:
@@ -85,6 +91,8 @@ public:
   virtual void Clear ();
   virtual bool HasString (const char* str);
   virtual csSet<csString>::GlobalIterator GetIterator ();
+
+  virtual bool GetPropertyIndexed (int, long&);
 };
 
 #endif // __CEL_PF_BAGFACT__
