@@ -64,6 +64,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 }
 
 csStringID celPcBag::id_value = csInvalidStringID;
+csStringID celPcBag::id_msgid = csInvalidStringID;
 
 PropertyHolder celPcBag::propinfo;
 
@@ -71,7 +72,10 @@ celPcBag::celPcBag (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   if (id_value == csInvalidStringID)
+  {
     id_value = pl->FetchStringID ("value");
+    id_msgid = pl->FetchStringID ("msgid");
+  }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
@@ -81,6 +85,7 @@ celPcBag::celPcBag (iObjectRegistry* object_reg)
     AddAction (action_removestring, "RemoveString");
     AddAction (action_clear, "Clear");
     AddAction (action_hasstring, "HasString");
+    AddAction (action_sendmessage, "SendMessage");
   }
 
   // For properties.
@@ -144,6 +149,15 @@ bool celPcBag::PerformActionIndexed (int idx,
 	ret.Set (HasString (value));
       }
       return true;
+    case action_sendmessage:
+      {
+        CEL_FETCH_STRING_PAR (msgid,params,id_msgid);
+        if (!p_msgid)
+	  return Report (object_reg,
+	      "Missing parameter 'msgid' for action SendMessage!");
+	SendMessage (msgid, params);
+      }
+      return true;
     default:
       return false;
   }
@@ -172,6 +186,23 @@ bool celPcBag::HasString (const char* str)
 csSet<csString>::GlobalIterator celPcBag::GetIterator ()
 {
   return bag.GetIterator ();
+}
+
+bool celPcBag::SendMessage (const char* msgid, iCelParameterBlock* params)
+{
+  csSet<csString>::GlobalIterator it = bag.GetIterator ();
+  bool total_rc = false;
+  while (it.HasNext ())
+  {
+    csString str = it.Next ();
+    iCelEntity* ent = pl->FindEntity (str);
+    if (ent)
+    {
+      bool rc = ent->QueryMessageChannel ()->SendMessage (msgid, this, params);
+      if (rc) total_rc = true;
+    }
+  }
+  return total_rc;
 }
 
 bool celPcBag::GetPropertyIndexed (int idx, long& l)
