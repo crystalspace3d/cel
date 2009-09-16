@@ -104,10 +104,11 @@ private:
   // entity). It is set to true by PropertyClassesHaveChanged()
   // and cleared by HavePropertyClassesChanged().
   bool propclasses_dirty;
-  char* tag;
+  csString tag;
   // the name of the property class stored in the iObject
   csObject csobj;
 
+  static csStringID id_tag;
   static csStringID id_name;
   static csStringID id_value;
 

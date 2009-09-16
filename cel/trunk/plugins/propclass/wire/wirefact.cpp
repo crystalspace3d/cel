@@ -74,8 +74,26 @@ void celWireOutput::AddMapping (csStringID source, csStringID dest,
 void celWireOutput::Do (celPcWire* wire, iCelParameterBlock* params)
 {
   if (channel)
-    channel->SendMessage (msgid, wire, MapParams (wire->GetEntity (),
-	  CombineParams (extra_params, params)));
+  {
+    csRef<iCelParameterBlock> block = CombineParams (extra_params, params);
+#if 0
+  printf ("    msgid=%s\n", (const char*)msgid);
+  if (block)
+  for (size_t i = 0 ; i < block->GetParameterCount () ; i++)
+  {
+    celDataType t;
+    csStringID id = block->GetParameterDef (i, t);
+    const celData* data = block->GetParameterByIndex (i);
+    if (!data)
+      printf ("    %d: null\n", i);
+    else if (data->type == CEL_DATA_STRING)
+      printf ("    %d %d %s = '%s'\n", i, (size_t)id, global_pl->FetchString (id), data->value.s ? data->value.s->GetData () : 0);
+    else
+      printf ("    %d %d %s\n", i, (size_t)id, global_pl->FetchString (id));
+  }
+#endif
+    channel->SendMessage (msgid, wire, MapParams (wire->GetEntity (), block));
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -198,8 +216,7 @@ bool celPcWire::ReceiveMessage (csStringID msgid, iMessageSender* sender,
 {
   if (celPcCommon::ReceiveMessage (msgid, sender, ret, params))
     return true;
-  size_t i;
-  for (i = 0 ; i < output.GetSize () ; i++)
+  for (size_t i = 0 ; i < output.GetSize () ; i++)
     output[i]->Do (this, params);
   return true;
 }
