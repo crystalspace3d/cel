@@ -31,6 +31,7 @@
 
 //---------------------------------------------------------------------------
 
+csStringID celPcCommon::id_tag = csInvalidStringID;
 csStringID celPcCommon::id_name = csInvalidStringID;
 csStringID celPcCommon::id_value = csInvalidStringID;
 
@@ -43,12 +44,12 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
   propdata = 0;
   propholder = 0;
   propclasses_dirty = true;
-  tag = 0;
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
 
-  if (id_name == csInvalidStringID)
+  if (id_tag == csInvalidStringID)
   {
+    id_tag = pl->FetchStringID ("tag");
     id_name = pl->FetchStringID ("name");
     id_value = pl->FetchStringID ("value");
   }
@@ -56,13 +57,11 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
 
 celPcCommon::~celPcCommon ()
 {
-  delete[] tag;
 }
 
 void celPcCommon::SetTag (const char* tagname)
 {
-  delete[] tag;
-  tag = csStrNew (tagname);
+  tag = tagname;
 }
 
 const char* celPcCommon::GetName () const
@@ -448,7 +447,15 @@ bool celPcCommon::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
   int i = propholder->new_constants.Get (msg_id, -1);
   if (i == -1)
     return false;
-  else if (i == IDX_SETPROPERTY)
+
+  // Check if this message is for this tag first.
+  CEL_FETCH_STRING_PAR(msgtag,params,id_tag);
+  if (msgtag && *msgtag != 0)
+  {
+    if (tag != msgtag) return false;
+  }
+
+  if (i == IDX_SETPROPERTY)
   {
     // @@@ Error reporting.
     CEL_FETCH_STRING_PAR(property,params,id_name);
@@ -458,6 +465,7 @@ bool celPcCommon::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
     if (!p_value) return false;
     switch (p_value->type)
     {
+      case CEL_DATA_STRING: SetProperty (propertyID, p_value->value.s->GetData ()); break;
       case CEL_DATA_BOOL: SetProperty (propertyID, p_value->value.bo); break;
       case CEL_DATA_BYTE: SetProperty (propertyID, long (p_value->value.b)); break;
       case CEL_DATA_UBYTE: SetProperty (propertyID, long (p_value->value.ub)); break;
