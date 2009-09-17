@@ -25,6 +25,9 @@
 #include "csutil/csbaseeventh.h"
 #include "cstool/csapplicationframework.h"
 
+// CEL Includes
+#include "physicallayer/messaging.h"
+
 struct iEngine;
 struct iLoader;
 struct iGraphics3D;
@@ -44,6 +47,26 @@ struct iCelBlLayer;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 
+class CelTest;
+
+/**
+ * Listen to messages.
+ */
+class CelTestMessageReceiver : public scfImplementation1<CelTestMessageReceiver,
+  	iMessageReceiver>
+{
+private:
+  CelTest* celtest;
+
+public:
+  CelTestMessageReceiver (CelTest* celtest) :
+    scfImplementationType (this), celtest (celtest)
+  { }
+  virtual ~CelTestMessageReceiver () { }
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params);
+};
+
 /**
  * Main application class of CelTest.
  */
@@ -60,6 +83,29 @@ private:
 
   csRef<iCelPlLayer> pl;
   csRef<iCelEntity> game;
+  csRef<iCelEntity> entity_cam;
+
+  csRef<CelTestMessageReceiver> receiver;
+  csStringID id_toggle_setting_bar;
+  csStringID id_next_setting;
+  csStringID id_prev_setting;
+  csStringID id_decrease_setting;
+  csStringID id_increase_setting;
+  csStringID id_decrease_setting_slow;
+  csStringID id_increase_setting_slow;
+  csStringID id_decrease_setting_fast;
+  csStringID id_increase_setting_fast;
+  csStringID id_next_setting_repeat;
+  csStringID id_prev_setting_repeat;
+  csStringID id_decrease_setting_repeat;
+  csStringID id_increase_setting_repeat;
+  csStringID id_decrease_setting_slow_repeat;
+  csStringID id_increase_setting_slow_repeat;
+  csStringID id_decrease_setting_fast_repeat;
+  csStringID id_increase_setting_fast_repeat;
+  int current_setting;
+  void UpdateSetting ();
+  void ChangeSetting (float dir);
  
   /**
    * Setup everything that needs to be rendered on screen. This routine
@@ -76,13 +122,16 @@ private:
   virtual bool OnKeyboard (iEvent &event);
 
   bool CreateRoom ();
-  iCelEntity* CreateActor ();
+  void CreateActor ();
   void CreateActionIcon ();
+  void CreateSettingBar ();
   void ConnectWires ();
 
 public:
   CelTest ();
   virtual ~CelTest ();
+
+  bool ReceiveMessage (csStringID msg_id, iCelParameterBlock* params);
 
   /**
    * Final cleanup.
