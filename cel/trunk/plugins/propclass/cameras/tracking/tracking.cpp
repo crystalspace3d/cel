@@ -219,7 +219,7 @@ void celPcTrackingCamera::SetFollowMinimumSpringFactor (float smin)
 {
   minspring = smin;
 }
-float celPcTrackingCamera::SetFollowMinimumSpringFactor () const
+float celPcTrackingCamera::GetFollowMinimumSpringFactor () const
 {
   return minspring;
 }

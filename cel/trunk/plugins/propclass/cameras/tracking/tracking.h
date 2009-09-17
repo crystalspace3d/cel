@@ -95,7 +95,7 @@ public:
   void SetFollowSpringLength (float slen);
   float GetFollowSpringLength () const;
   void SetFollowMinimumSpringFactor (float smin);
-  float SetFollowMinimumSpringFactor () const;
+  float GetFollowMinimumSpringFactor () const;
   bool DecideState ();
 
   bool ResetCamera ();
