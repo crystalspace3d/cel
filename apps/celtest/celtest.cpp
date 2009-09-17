@@ -101,6 +101,14 @@
 
 //-----------------------------------------------------------------------------
 
+bool CelTestMessageReceiver::ReceiveMessage (csStringID msg_id, iMessageSender*,
+      celData&, iCelParameterBlock* params)
+{
+  return celtest->ReceiveMessage (msg_id, params);
+}
+
+//-----------------------------------------------------------------------------
+
 CelTest::CelTest ()
 {
   SetApplicationName ("celtest");
@@ -201,10 +209,26 @@ void CelTest::CreateActionIcon ()
   bb->GetFlags ().SetAll (0);
 }
 
-iCelEntity* CelTest::CreateActor ()
+void CelTest::CreateSettingBar ()
+{
+  csRef<iCelEntity> entity = pl->CreateEntity ("setting_bar", 0, 0,
+      "pc2d.billboard",
+      CEL_PROPCLASS_END);
+  if (!entity) return;
+
+  csRef<iPcBillboard> pcbb = celQueryPropertyClassEntity<iPcBillboard> (entity);
+  pcbb->SetBillboardName ("setting_bar");
+  iBillboard* bb = pcbb->GetBillboard ();
+  bb->SetText ("Setting:");
+  bb->SetPosition (100000, 1000);
+  bb->SetSize (200000, 30000);
+  bb->GetFlags ().SetAll (0);
+}
+
+void CelTest::CreateActor ()
 {
   // The Real Camera
-  csRef<iCelEntity> entity_cam = pl->CreateEntity ("camera", 0, 0,
+  entity_cam = pl->CreateEntity ("camera", 0, 0,
     "pcinput.standard",
     "pcmove.analogmotion",
     "pcmove.jump",
@@ -224,7 +248,7 @@ iCelEntity* CelTest::CreateActor ()
     "pctools.properties",
     "pctools.bag",
     CEL_PROPCLASS_END);
-  if (!entity_cam) return 0;
+  if (!entity_cam) return;
 
   csRef<iPcCommandInput> pcinp = celQueryPropertyClassEntity<iPcCommandInput> (entity_cam);
   pcinp->Bind ("JoystickButton4", "ready");
@@ -255,6 +279,16 @@ iCelEntity* CelTest::CreateActor ()
   pcinp->Bind ("pageup", "camup");
   pcinp->Bind ("pagedown", "camdown");
 
+  pcinp->Bind ("pad5", "settings");
+  pcinp->Bind ("pad2", "settings_down");
+  pcinp->Bind ("pad8", "settings_up");
+  pcinp->Bind ("pad4", "settings_left");
+  pcinp->Bind ("pad6", "settings_right");
+  pcinp->Bind ("pad7", "settings_fastleft");
+  pcinp->Bind ("pad9", "settings_fastright");
+  pcinp->Bind ("pad1", "settings_slowleft");
+  pcinp->Bind ("pad3", "settings_slowright");
+
   csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity_cam);
   jump->SetBoostJump (false);
   jump->SetJumpHeight (1.0f);
@@ -275,8 +309,8 @@ iCelEntity* CelTest::CreateActor ()
   if (hascal3d)
   {
     pclinmove->InitCD (
-      csVector3 (1.0f, 0.8f,  1.0f),
-      csVector3 (0.5f, 0.4f,  0.5f),
+      csVector3 (0.8f, 0.8f,  0.8f),
+      csVector3 (0.5f, 0.5f,  0.5f),
       csVector3 (0.0f, 0.01f, 0.0f));
   }
   else
@@ -290,13 +324,10 @@ iCelEntity* CelTest::CreateActor ()
   csRef<iPcTrigger> trigger = celQueryPropertyClassEntity<iPcTrigger> (entity_cam);
   trigger->SetupTriggerSphere (0, csVector3 (0), 1.0);
   trigger->SetFollowEntity (true);
-
-  return entity_cam;
 }
 
 void CelTest::ConnectWires ()
 {
-  iCelEntity* entity_cam = pl->FindEntity ("camera");
   iCelEntity* action_icon = pl->FindEntity ("action_icon");
 
   iCelPropertyClass* pc;
@@ -317,8 +348,8 @@ void CelTest::ConnectWires ()
   params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "visible"));
   idx = wire->AddOutput ("cel.billboard.action.SetProperty",
       action_icon->QueryMessageChannel (), params);
-  // @@@ Use > 2 because the 'camera' entity itself is for some reason counted twice.
-  wire->MapParameterExpression (idx, "value", "property(pc(pctools.bag),id(size))>2");
+  // Use > 1 because there is also the 'camera' entity itself.
+  wire->MapParameterExpression (idx, "value", "property(pc(pctools.bag),id(size))>1");
 
   // 1: For debugging, print out when we are far from an entity.
   pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
@@ -333,10 +364,10 @@ void CelTest::ConnectWires ()
   params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "visible"));
   idx = wire->AddOutput ("cel.billboard.action.SetProperty",
       action_icon->QueryMessageChannel (), params);
-  // @@@ Use > 2 because the 'camera' entity itself is for some reason counted twice.
-  wire->MapParameterExpression (idx, "value", "property(pc(pctools.bag),id(size))>2");
+  // Use > 1 because there is also the 'camera' entity itself.
+  wire->MapParameterExpression (idx, "value", "property(pc(pctools.bag),id(size))>1");
 
-  // If the action key is pressed we send out a 'cel.game.action' to the current entity.
+  // If the action key is pressed we send out a 'cel.game.action' to the current entities.
   pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.input.action.up");
@@ -344,11 +375,34 @@ void CelTest::ConnectWires ()
   wire->AddOutput ("cel.bag.action.SendMessage", 0, params);
 }
 
+enum {
+  CELSET_TRACK_TGT_INTERPOLATION_TIME,
+  CELSET_TRACK_FOLLOW_SPRING_LENGTH,
+  CELSET_TRACK_FOLLOW_MIN_SPRING_FACTOR,
+  CELSET_TRACK_PAN_SPEED,
+  CELSET_TRACK_PAN_ACCEL,
+  CELSET_TRACK_TILT_SPEED,
+  CELSET_TRACK_TILT_ACCEL,
+  CELSET_TRACK_ZOOMOUT_CORR_SPEED,
+  CELSET_LINMOVE_DELTA_LIMIT,
+  CELSET_LINMOVE_SPEED,
+  CELSET_LINMOVE_GRAVITY,
+  CELSET_ANALOG_MOVE_SPEED,
+  CELSET_ANALOG_MOVE_ACCEL,
+  CELSET_ANALOG_MOVE_DECEL,
+  CELSET_ANALOG_TURNING_SPEED,
+  CELSET_ANALOG_MIN_TURNING_SPEED,
+  CELSET_ANALOG_MAX_TURNING_SPEED,
+  CELSET_DELEGCAM_TRANSITION_TIME,
+  CELSET_DELEGCAM_CONT_TRANS_SPEED
+};
+
+#define CELSET_FIRST CELSET_TRACK_TGT_INTERPOLATION_TIME
+#define CELSET_LAST CELSET_DELEGCAM_CONT_TRANS_SPEED
 
 bool CelTest::CreateRoom ()
 {
   csRef<iCelEntity> entity_room;
-  csRef<iCelEntity> entity_dummy;
 
   //===============================
   // Create the room entity.
@@ -393,9 +447,9 @@ bool CelTest::CreateRoom ()
   scfString regionname, startname;
   pczonemgr->GetLastStartLocation (&regionname, &startname);
 
-  entity_dummy = CreateActor ();
-  if (!entity_dummy) return false;
-  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (entity_dummy);
+  CreateActor ();
+  if (!entity_cam) return false;
+  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (entity_cam);
   if (!pccamera) return false;
   pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
   if (pczonemgr->PointMesh ("camera", regionname, startname)
@@ -403,15 +457,251 @@ bool CelTest::CreateRoom ()
     return ReportError ("Error finding start position!");
 
   csRef<iPcInventory> pcinv_room = celQueryPropertyClassEntity<iPcInventory> (entity_room);
-  if (!pcinv_room->AddEntity (entity_dummy)) return false;
+  if (!pcinv_room->AddEntity (entity_cam)) return false;
 
   game = entity_room;
 
   CreateActionIcon ();
+  CreateSettingBar ();
 
   ConnectWires ();
 
+  // Setup our receiver.
+  receiver.AttachNew (new CelTestMessageReceiver (this));
+  entity_cam->QueryMessageChannel ()->Subscribe (receiver, "cel.input.settings");
+  id_toggle_setting_bar = pl->FetchStringID ("cel.input.settings.down");
+  id_next_setting = pl->FetchStringID ("cel.input.settings_down.down");
+  id_prev_setting = pl->FetchStringID ("cel.input.settings_up.down");
+  id_decrease_setting = pl->FetchStringID ("cel.input.settings_left.down");
+  id_increase_setting = pl->FetchStringID ("cel.input.settings_right.down");
+  id_decrease_setting_slow = pl->FetchStringID ("cel.input.settings_slowleft.down");
+  id_increase_setting_slow = pl->FetchStringID ("cel.input.settings_slowright.down");
+  id_decrease_setting_fast = pl->FetchStringID ("cel.input.settings_fastleft.down");
+  id_increase_setting_fast = pl->FetchStringID ("cel.input.settings_fastright.down");
+  id_next_setting_repeat = pl->FetchStringID ("cel.input.settings_down.repeat");
+  id_prev_setting_repeat = pl->FetchStringID ("cel.input.settings_up.repeat");
+  id_decrease_setting_repeat = pl->FetchStringID ("cel.input.settings_left.repeat");
+  id_increase_setting_repeat = pl->FetchStringID ("cel.input.settings_right.repeat");
+  id_decrease_setting_slow_repeat = pl->FetchStringID ("cel.input.settings_slowleft.repeat");
+  id_increase_setting_slow_repeat = pl->FetchStringID ("cel.input.settings_slowright.repeat");
+  id_decrease_setting_fast_repeat = pl->FetchStringID ("cel.input.settings_fastleft.repeat");
+  id_increase_setting_fast_repeat = pl->FetchStringID ("cel.input.settings_fastright.repeat");
+  current_setting = CELSET_TRACK_TGT_INTERPOLATION_TIME;
+  UpdateSetting ();
+
   return true;
+}
+
+void CelTest::UpdateSetting ()
+{
+  csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
+  csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity_cam);
+  csRef<iPcAnalogMotion> analog = celQueryPropertyClassEntity<iPcAnalogMotion> (entity_cam);
+  csRef<iPcDelegateCamera> deleg = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
+  csString str;
+  str = "...";
+  switch (current_setting)
+  {
+    case CELSET_TRACK_TGT_INTERPOLATION_TIME:
+      str.Format ("Track(target interpolation time): %d", trackcam->GetTargetInterpolationTime ());
+      break;
+    case CELSET_TRACK_FOLLOW_SPRING_LENGTH:
+      str.Format ("Track(follow spring length): %g", trackcam->GetFollowSpringLength ());
+      break;
+    case CELSET_TRACK_FOLLOW_MIN_SPRING_FACTOR:
+      str.Format ("Track(follow min spring factor): %g", trackcam->GetFollowMinimumSpringFactor ());
+      break;
+    case CELSET_TRACK_PAN_SPEED:
+      str.Format ("Track(pan speed): %g", trackcam->GetPanSpeed ());
+      break;
+    case CELSET_TRACK_PAN_ACCEL:
+      str.Format ("Track(pan acceleration): %g", trackcam->GetPanAcceleration ());
+      break;
+    case CELSET_TRACK_TILT_SPEED:
+      str.Format ("Track(tilt speed): %g", trackcam->GetTiltSpeed ());
+      break;
+    case CELSET_TRACK_TILT_ACCEL:
+      str.Format ("Track(tilt acceleration): %g", trackcam->GetTiltAcceleration ());
+      break;
+    case CELSET_TRACK_ZOOMOUT_CORR_SPEED:
+      str.Format ("Track(zoomout correction speed): %g", trackcam->GetZoomOutCorrectionSpeed ());
+      break;
+    case CELSET_LINMOVE_DELTA_LIMIT:
+      str.Format ("LinMove(delta limit): %g", linmove->GetDeltaLimit ());
+      break;
+    case CELSET_LINMOVE_SPEED:
+      str.Format ("LinMove(speed): %g", linmove->GetSpeed ());
+      break;
+    case CELSET_LINMOVE_GRAVITY:
+      str.Format ("LinMove(gravity): %g", linmove->GetGravity ());
+      break;
+    case CELSET_ANALOG_MOVE_SPEED:
+      str.Format ("Analog(movement speed): %g", analog->GetMovementSpeed ());
+      break;
+    case CELSET_ANALOG_MOVE_ACCEL:
+      str.Format ("Analog(movement acceleration): %g", analog->GetMovementAcceleration ());
+      break;
+    case CELSET_ANALOG_MOVE_DECEL:
+      str.Format ("Analog(movement deceleration): %g", analog->GetMovementDeceleration ());
+      break;
+    case CELSET_ANALOG_TURNING_SPEED:
+      str.Format ("Analog(turning speed): %g", analog->GetTurningSpeed ());
+      break;
+    case CELSET_ANALOG_MIN_TURNING_SPEED:
+      str.Format ("Analog(minimum turning speed): %g", analog->GetMinimumTurningSpeed ());
+      break;
+    case CELSET_ANALOG_MAX_TURNING_SPEED:
+      str.Format ("Analog(maximum turning speed): %g", analog->GetMaximumTurningSpeed ());
+      break;
+    case CELSET_DELEGCAM_TRANSITION_TIME:
+      str.Format ("Delegate(transition time): %d", deleg->GetTransitionTime ());
+      break;
+    case CELSET_DELEGCAM_CONT_TRANS_SPEED:
+      str.Format ("Delegate(continous transition speed): %g", deleg->GetContinousTransitionSpeed ());
+      break;
+  }
+
+  iCelEntity* setting_bar = pl->FindEntity ("setting_bar");
+  csRef<iPcBillboard> pcbb = celQueryPropertyClassEntity<iPcBillboard> (setting_bar);
+  iBillboard* bb = pcbb->GetBillboard ();
+  bb->SetText (str);
+}
+
+void CelTest::ChangeSetting (float dir)
+{
+  csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
+  csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity_cam);
+  csRef<iPcAnalogMotion> analog = celQueryPropertyClassEntity<iPcAnalogMotion> (entity_cam);
+  csRef<iPcDelegateCamera> deleg = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
+  switch (current_setting)
+  {
+    case CELSET_TRACK_TGT_INTERPOLATION_TIME:
+      trackcam->SetTargetInterpolationTime (trackcam->GetTargetInterpolationTime () + int (dir));
+      break;
+    case CELSET_TRACK_FOLLOW_SPRING_LENGTH:
+      trackcam->SetFollowSpringLength (trackcam->GetFollowSpringLength () + 0.1 * dir);
+      break;
+    case CELSET_TRACK_FOLLOW_MIN_SPRING_FACTOR:
+      trackcam->SetFollowMinimumSpringFactor (trackcam->GetFollowMinimumSpringFactor () + 0.1 * dir);
+      break;
+    case CELSET_TRACK_PAN_SPEED:
+      trackcam->SetPanSpeed (trackcam->GetPanSpeed () + 0.1 * dir);
+      break;
+    case CELSET_TRACK_PAN_ACCEL:
+      trackcam->SetPanAcceleration (trackcam->GetPanAcceleration () + 0.1 * dir);
+      break;
+    case CELSET_TRACK_TILT_SPEED:
+      trackcam->SetTiltSpeed (trackcam->GetTiltSpeed () + 0.1 * dir);
+      break;
+    case CELSET_TRACK_TILT_ACCEL:
+      trackcam->SetTiltAcceleration (trackcam->GetTiltAcceleration () + 0.1 * dir);
+      break;
+    case CELSET_TRACK_ZOOMOUT_CORR_SPEED:
+      trackcam->SetZoomOutCorrectionSpeed (trackcam->GetZoomOutCorrectionSpeed () + 0.1 * dir);
+      break;
+    case CELSET_LINMOVE_DELTA_LIMIT:
+      linmove->SetDeltaLimit (linmove->GetDeltaLimit () + 0.1 * dir);
+      break;
+    case CELSET_LINMOVE_SPEED:
+      linmove->SetSpeed (linmove->GetSpeed () + 0.1 * dir);
+      break;
+    case CELSET_LINMOVE_GRAVITY:
+      linmove->SetGravity (linmove->GetGravity () + 0.1 * dir);
+      break;
+    case CELSET_ANALOG_MOVE_SPEED:
+      analog->SetMovementSpeed (analog->GetMovementSpeed () + 0.1 * dir);
+      break;
+    case CELSET_ANALOG_MOVE_ACCEL:
+      analog->SetMovementAcceleration (analog->GetMovementAcceleration () + 0.1 * dir);
+      break;
+    case CELSET_ANALOG_MOVE_DECEL:
+      analog->SetMovementDeceleration (analog->GetMovementDeceleration () + 0.1 * dir);
+      break;
+    case CELSET_ANALOG_TURNING_SPEED:
+      analog->SetTurningSpeed (analog->GetTurningSpeed () + 0.1 * dir);
+      break;
+    case CELSET_ANALOG_MIN_TURNING_SPEED:
+      analog->SetMinimumTurningSpeed (analog->GetMinimumTurningSpeed () + 0.1 * dir);
+      break;
+    case CELSET_ANALOG_MAX_TURNING_SPEED:
+      analog->SetMaximumTurningSpeed (analog->GetMaximumTurningSpeed () + 0.1 * dir);
+      break;
+    case CELSET_DELEGCAM_TRANSITION_TIME:
+      deleg->SetTransitionTime (deleg->GetTransitionTime () + int(10.0 * dir));
+      break;
+    case CELSET_DELEGCAM_CONT_TRANS_SPEED:
+      deleg->SetContinousTransitionSpeed (deleg->GetContinousTransitionSpeed () + 0.1 * dir);
+      break;
+  }
+}
+
+bool CelTest::ReceiveMessage (csStringID msg_id, iCelParameterBlock* params)
+{
+  if (msg_id == id_toggle_setting_bar)
+  {
+    iCelEntity* setting_bar = pl->FindEntity ("setting_bar");
+    csRef<iPcBillboard> pcbb = celQueryPropertyClassEntity<iPcBillboard> (setting_bar);
+    iBillboard* bb = pcbb->GetBillboard ();
+    csFlags& f = bb->GetFlags ();
+    if (f.Check (CEL_BILLBOARD_VISIBLE))
+      f.Reset (CEL_BILLBOARD_VISIBLE);
+    else
+      f.Set (CEL_BILLBOARD_VISIBLE);
+    return true;
+  }
+  if (msg_id == id_next_setting || msg_id == id_next_setting_repeat)
+  {
+    current_setting++;
+    if (current_setting > CELSET_LAST)
+      current_setting = CELSET_FIRST;
+    UpdateSetting ();
+    return true;
+  }
+  if (msg_id == id_prev_setting || msg_id == id_prev_setting_repeat)
+  {
+    current_setting--;
+    if (current_setting < CELSET_FIRST)
+      current_setting = CELSET_LAST;
+    UpdateSetting ();
+    return true;
+  }
+  if (msg_id == id_decrease_setting || msg_id == id_decrease_setting_repeat)
+  {
+    ChangeSetting (-1);
+    UpdateSetting ();
+    return true;
+  }
+  if (msg_id == id_increase_setting || msg_id == id_increase_setting_repeat)
+  {
+    ChangeSetting (1);
+    UpdateSetting ();
+    return true;
+  }
+  if (msg_id == id_decrease_setting_slow || msg_id == id_decrease_setting_slow_repeat)
+  {
+    ChangeSetting (-0.1);
+    UpdateSetting ();
+    return true;
+  }
+  if (msg_id == id_increase_setting_slow || msg_id == id_increase_setting_slow_repeat)
+  {
+    ChangeSetting (0.1);
+    UpdateSetting ();
+    return true;
+  }
+  if (msg_id == id_decrease_setting_fast || msg_id == id_decrease_setting_fast_repeat)
+  {
+    ChangeSetting (-10);
+    UpdateSetting ();
+    return true;
+  }
+  if (msg_id == id_increase_setting_fast || msg_id == id_increase_setting_fast_repeat)
+  {
+    ChangeSetting (10);
+    UpdateSetting ();
+    return true;
+  }
+  return false;
 }
 
 bool CelTest::OnInitialize (int argc, char* argv[])
@@ -451,6 +741,7 @@ bool CelTest::OnInitialize (int argc, char* argv[])
   // initialization) happens in an event.
   if (!RegisterQueue (object_reg, csevAllEvents (object_reg)))
     return ReportError ("Can't setup event handler!");
+
   return true;
 }
 
