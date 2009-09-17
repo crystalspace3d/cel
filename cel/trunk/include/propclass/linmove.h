@@ -92,7 +92,7 @@ struct iPcGravityCallback : public virtual iBase
  */
 struct iPcLinearMovement : public virtual iBase
 {
-  SCF_INTERFACE (iPcLinearMovement, 0, 0, 2);
+  SCF_INTERFACE (iPcLinearMovement, 0, 0, 3);
 
   /**
    * Set an anchor for this movement class. When this linmove is
@@ -123,6 +123,8 @@ struct iPcLinearMovement : public virtual iBase
    * Set the current speed.
    */
   virtual void SetSpeed (float speedZ) = 0;
+  /// Get the current speed.
+  virtual float GetSpeed () const = 0;
 
   CS_DEPRECATED_METHOD_MSG("Use void SetBodyVelocity () instead.")
   /**
@@ -380,6 +382,9 @@ struct iPcLinearMovement : public virtual iBase
    * Set maximum time delta to use when extrapolating positions.
    */
   virtual void SetDeltaLimit (float deltaLimit) = 0;
+
+  /// Get the delta limit.
+  virtual float GetDeltaLimit () const = 0;
 
   /*
    * Rotates the mesh by a certain amount. This function is intended to be
