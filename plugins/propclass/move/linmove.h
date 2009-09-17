@@ -234,6 +234,7 @@ public:
   	csVector3& shift, iPcCollisionDetection*& pc_cd);
   virtual bool InitCD (iPcCollisionDetection *pc_cd=0);
   virtual void SetSpeed (float speedz);
+  virtual float GetSpeed () const { return speed; }
 
   virtual float GetYRotation ();
   const csVector3 GetPosition ();
@@ -404,6 +405,8 @@ public:
 
   virtual void SetDeltaLimit (float deltaLimit)
   { this->deltaLimit = deltaLimit; }
+  virtual float GetDeltaLimit () const
+  { return deltaLimit; }
 
   /// Get the total displacement caused by space warping portals.
   virtual csVector3 GetPortalDisplacement ()
