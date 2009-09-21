@@ -27,6 +27,7 @@
 
 // CEL Includes
 #include "physicallayer/messaging.h"
+#include "actorsettings.h"
 
 struct iEngine;
 struct iLoader;
@@ -50,24 +51,6 @@ struct iCelPropertyClassFactory;
 class CelTest;
 
 /**
- * Listen to messages.
- */
-class CelTestMessageReceiver : public scfImplementation1<CelTestMessageReceiver,
-  	iMessageReceiver>
-{
-private:
-  CelTest* celtest;
-
-public:
-  CelTestMessageReceiver (CelTest* celtest) :
-    scfImplementationType (this), celtest (celtest)
-  { }
-  virtual ~CelTestMessageReceiver () { }
-  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
-      celData& ret, iCelParameterBlock* params);
-};
-
-/**
  * Main application class of CelTest.
  */
 class CelTest : public csApplicationFramework,
@@ -85,28 +68,8 @@ private:
   csRef<iCelEntity> game;
   csRef<iCelEntity> entity_cam;
 
-  csRef<CelTestMessageReceiver> receiver;
-  csStringID id_toggle_setting_bar;
-  csStringID id_next_setting;
-  csStringID id_prev_setting;
-  csStringID id_decrease_setting;
-  csStringID id_increase_setting;
-  csStringID id_decrease_setting_slow;
-  csStringID id_increase_setting_slow;
-  csStringID id_decrease_setting_fast;
-  csStringID id_increase_setting_fast;
-  csStringID id_next_setting_repeat;
-  csStringID id_prev_setting_repeat;
-  csStringID id_decrease_setting_repeat;
-  csStringID id_increase_setting_repeat;
-  csStringID id_decrease_setting_slow_repeat;
-  csStringID id_increase_setting_slow_repeat;
-  csStringID id_decrease_setting_fast_repeat;
-  csStringID id_increase_setting_fast_repeat;
-  int current_setting;
-  void UpdateSetting ();
-  void ChangeSetting (float dir);
- 
+  ActorSettings actorsettings;
+
   /**
    * Setup everything that needs to be rendered on screen. This routine
    * is called from the event handler in response to a csevFrame
@@ -130,8 +93,6 @@ private:
 public:
   CelTest ();
   virtual ~CelTest ();
-
-  bool ReceiveMessage (csStringID msg_id, iCelParameterBlock* params);
 
   /**
    * Final cleanup.
