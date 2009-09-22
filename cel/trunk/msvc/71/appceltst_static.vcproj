@@ -314,6 +314,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\apps\celtest\actorsettings.cpp">
+			</File>
+			<File
 				RelativePath="..\..\apps\celtest\celtest.cpp">
 			</File>
 			<File
@@ -329,6 +332,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\apps\celtest\actorsettings.h">
+			</File>
 			<File
 				RelativePath="..\..\apps\celtest\celtest.h">
 			</File>
