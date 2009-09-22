@@ -395,8 +395,10 @@ bool CelTest::CreateRoom ()
   }
   else
   {
-    path = "/cellib/lev";
-    file = "basic_level.xml";
+    //path = "/cellib/lev";
+    //file = "basic_level.xml";
+    path = "/cellib/smallhouse";
+    file = "level.xml";
   }
 
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
