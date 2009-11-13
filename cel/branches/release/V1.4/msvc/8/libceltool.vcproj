@@ -361,6 +361,9 @@
 			<File
 				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdpcimp.h">
 			</File>
+			<File
+				RelativePath="..\..\libs\celtool\packagedefs.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
