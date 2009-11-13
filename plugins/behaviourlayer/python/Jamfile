@@ -39,6 +39,7 @@ if $(PYTHON.AVAILABLE) = yes
   # Swig-generated files.
   #--------
   local blcelcpp = blcel.cpp ;
+  local blcelh = blcel.h ;
   local blcelpy = [ DoSourceGrist blcelc.py ] ;
   local used_py ;
   MakeLocate $(blcelpy) : [ ConcatDirs $(LOCATE.OBJECTS) bindings python ] ;
@@ -46,10 +47,11 @@ if $(PYTHON.AVAILABLE) = yes
   if ! [ Property build : projgen ]
   {
     blcelcpp = [ DoSourceGrist $(blcelcpp) ] ;
+    blcelh = [ DoSourceGrist $(blcelh) ] ;
 
     if $(DO_SWIG_PYTHON)
     {
-      Swig $(blcelcpp) $(blcelpy) :
+      Swig $(blcelcpp) $(blcelh) $(blcelpy) :
         [ DoSourceGrist blcel.i ] :
         python :
 	-c++ -shadow -modern [ FIncludes [ Match -I(.*) : $(CRYSTAL.CFLAGS) ] ] :
@@ -64,6 +66,7 @@ if $(PYTHON.AVAILABLE) = yes
     else
     {
       SEARCH on $(blcelcpp) = $(SEARCH_SOURCE) ;
+      SEARCH on $(blcelh) = $(SEARCH_SOURCE) ;
       local frozenpy = $(blcelpy:G=frozenmodulepy) ;
       SEARCH on $(frozenpy) = [ ConcatDirs $(TOP) scripts ] ;
       Copy $(blcelpy) : $(frozenpy) ;
