@@ -278,7 +278,10 @@ public:
   virtual bool IsPropertyReadOnly (csStringID);
 
   virtual csPtr<iCelDataBuffer> SaveFirstPass () { return 0; }
-  virtual bool LoadFirstPass (iCelDataBuffer*) { return 0; }
+  virtual bool LoadFirstPass (iCelDataBuffer*) { return false; }
+
+  virtual csPtr<iCelDataBuffer> Save () { return 0; }
+  virtual bool Load (iCelDataBuffer* databuf) { return false; }
 
   virtual csPtr<iCelDataBuffer> GetPersistentData (
 	celPersistenceType persistence_type)
