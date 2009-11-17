@@ -868,7 +868,6 @@ class iCelParameterBlock(cspace.iBase):
                     "iCelParameterBlock.ParameterCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelParameterBlock::GetParameterCount()")
 
     def GetParameterIDByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterIDByIndex(*args)
-    def GetParameterNameByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterNameByIndex(*args)
     def __contains__(*args): return _blcelc.iCelParameterBlock___contains__(*args)
     def value_iterator(parblock):
     	for idx in xrange(len(parblock)):
@@ -876,28 +875,18 @@ class iCelParameterBlock(cspace.iBase):
     def key_iterator(parblock):
     	for idx in xrange(len(parblock)):
     		yield parblock.GetParameterIDByIndex(idx)
-    def name_iterator(parblock):
-    	for idx in xrange(len(parblock)):
-    		yield parblock.GetParameterNameByIndex(idx)
     def GetParameterValue(self,id):
     	return self.GetParameter(id)
     def __iter__(self):
     	return self.value_iterator()
     def iterkeys(self):
     	return self.key_iterator()
-    def iternames(self):
-    	return self.name_iterator()
     def __getitem__(self,i):
     	return self.GetParameter(i)
     def keys(self):
     	keys = []
     	for idx in xrange(len(self)):
     		keys.append(self.GetParameterIDByIndex(idx))
-    	return keys
-    def names(self):
-    	keys = []
-    	for idx in xrange(len(self)):
-    		keys.append(self.GetParameterNameByIndex(idx))
     	return keys
     def has_key(self,id):
     	return self.__contains__(id)
@@ -6036,6 +6025,8 @@ class celPcCommon(object):
     def IsPropertyReadOnly(*args): return _blcelc.celPcCommon_IsPropertyReadOnly(*args)
     def SaveFirstPass(*args): return _blcelc.celPcCommon_SaveFirstPass(*args)
     def LoadFirstPass(*args): return _blcelc.celPcCommon_LoadFirstPass(*args)
+    def Save(*args): return _blcelc.celPcCommon_Save(*args)
+    def Load(*args): return _blcelc.celPcCommon_Load(*args)
     def GetPersistentData(*args): return _blcelc.celPcCommon_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.celPcCommon_SetPersistentData(*args)
     def TickEveryFrame(*args): return _blcelc.celPcCommon_TickEveryFrame(*args)
