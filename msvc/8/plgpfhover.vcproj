@@ -7,11 +7,11 @@
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
-  		<Platform Name="Win32"/>
-    		<Platform Name="x64"/>
-  	</Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
 	<Configurations>
-            		<Configuration
+  		<Configuration
 			Name="Release (with static libs)|Win32"
 			OutputDirectory="..\..\out\release8\build\plgpfhover\"
 			IntermediateDirectory="..\..\out\release8\build\plgpfhover\"
@@ -25,8 +25,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8\build\plgpfhover\Win32\pfhover.pdb"
+				ProgramDataBaseFileName="..\..\out\release8\build\plgpfhover\pfhover.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -36,10 +37,9 @@
 				ObjectFile="..\..\out\release8\build\plgpfhover\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -51,10 +51,10 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\pfhover.dll"
-				ProgramDatabaseFile="..\..\out\release8\build\plgpfhover\Win32\pfhover.pdb"
+				ProgramDatabaseFile="..\..\out\release8\build\plgpfhover\pfhover.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release8\build\plgpfhover\Win32\plgpfhover.lib"
+				ImportLibrary="..\..\out\release8\build\plgpfhover\plgpfhover.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
@@ -88,7 +88,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-      		<Configuration
+  		<Configuration
 			Name="Release (with DLLs)|Win32"
 			OutputDirectory="..\..\out\release8\build\plgpfhover\"
 			IntermediateDirectory="..\..\out\release8\build\plgpfhover\"
@@ -102,8 +102,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8\build\plgpfhover\Win32\pfhover.pdb"
+				ProgramDataBaseFileName="..\..\out\release8\build\plgpfhover\pfhover.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -113,10 +114,9 @@
 				ObjectFile="..\..\out\release8\build\plgpfhover\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -128,10 +128,10 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\pfhover.dll"
-				ProgramDatabaseFile="..\..\out\release8\build\plgpfhover\Win32\pfhover.pdb"
+				ProgramDatabaseFile="..\..\out\release8\build\plgpfhover\pfhover.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release8\build\plgpfhover\Win32\plgpfhover.lib"
+				ImportLibrary="..\..\out\release8\build\plgpfhover\plgpfhover.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
@@ -165,7 +165,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-                		<Configuration
+    		<Configuration
 			Name="Debug (with static libs)|Win32"
 			OutputDirectory="..\..\out\debug8\build\plgpfhover\"
 			IntermediateDirectory="..\..\out\debug8\build\plgpfhover\"
@@ -176,10 +176,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8\build\plgpfhover\Win32\pfhover.pdb"
+				ProgramDataBaseFileName="..\..\out\debug8\build\plgpfhover\pfhover.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -189,10 +190,9 @@
 				ObjectFile="..\..\out\debug8\build\plgpfhover\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -202,10 +202,10 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				OutputFile="..\..\pfhover.dll"
-				ProgramDatabaseFile="..\..\out\debug8\build\plgpfhover\Win32\pfhover.pdb"
+				ProgramDatabaseFile="..\..\out\debug8\build\plgpfhover\pfhover.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug8\build\plgpfhover\Win32\plgpfhover.lib"
+				ImportLibrary="..\..\out\debug8\build\plgpfhover\plgpfhover.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
@@ -239,7 +239,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-      		<Configuration
+  		<Configuration
 			Name="Debug (with DLLs)|Win32"
 			OutputDirectory="..\..\out\debug8\build\plgpfhover\"
 			IntermediateDirectory="..\..\out\debug8\build\plgpfhover\"
@@ -250,10 +250,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8\build\plgpfhover\Win32\pfhover.pdb"
+				ProgramDataBaseFileName="..\..\out\debug8\build\plgpfhover\pfhover.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -263,10 +264,9 @@
 				ObjectFile="..\..\out\debug8\build\plgpfhover\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -276,10 +276,10 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				OutputFile="..\..\pfhover.dll"
-				ProgramDatabaseFile="..\..\out\debug8\build\plgpfhover\Win32\pfhover.pdb"
+				ProgramDatabaseFile="..\..\out\debug8\build\plgpfhover\pfhover.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug8\build\plgpfhover\Win32\plgpfhover.lib"
+				ImportLibrary="..\..\out\debug8\build\plgpfhover\plgpfhover.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
@@ -313,309 +313,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-                        		<Configuration
-			Name="Release (with static libs)|x64"
-			OutputDirectory="..\..\out\release8-x64\build\plgpfhover\"
-			IntermediateDirectory="..\..\out\release8-x64\build\plgpfhover\"
-			ConfigurationType="2"
-			WholeProgramOptimization="1"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				StringPooling="TRUE"
-				EnableFunctionLevelLinking="TRUE"
-				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8-x64\build\plgpfhover\x64\pfhover.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release8-x64\build\plgpfhover\plgpfhover.pch"
-				AssemblerListingLocation="..\..\out\release8-x64\build\plgpfhover\"
-				ObjectFile="..\..\out\release8-x64\build\plgpfhover\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
-				CompileAs="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\pfhover.dll"
-				ProgramDatabaseFile="..\..\out\release8-x64\build\plgpfhover\x64\pfhover.pdb"
-				IgnoreImportLibrary="TRUE"
-				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release8-x64\build\plgpfhover\x64\plgpfhover.lib"
-				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="17"/>
-			<Tool
-				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8-x64\build\plgpfhover\plgpfhover.tlb"/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8-x64\bin\&#x0D;&#x0A;"
-				/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\plugins\propclass\hover;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-		</Configuration>
-      		<Configuration
-			Name="Release (with DLLs)|x64"
-			OutputDirectory="..\..\out\release8-x64\build\plgpfhover\"
-			IntermediateDirectory="..\..\out\release8-x64\build\plgpfhover\"
-			ConfigurationType="2"
-			WholeProgramOptimization="1"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				StringPooling="TRUE"
-				EnableFunctionLevelLinking="TRUE"
-				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8-x64\build\plgpfhover\x64\pfhover.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release8-x64\build\plgpfhover\plgpfhover.pch"
-				AssemblerListingLocation="..\..\out\release8-x64\build\plgpfhover\"
-				ObjectFile="..\..\out\release8-x64\build\plgpfhover\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
-				CompileAs="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\pfhover.dll"
-				ProgramDatabaseFile="..\..\out\release8-x64\build\plgpfhover\x64\pfhover.pdb"
-				IgnoreImportLibrary="TRUE"
-				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release8-x64\build\plgpfhover\x64\plgpfhover.lib"
-				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="17"/>
-			<Tool
-				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8-x64\build\plgpfhover\plgpfhover.tlb"/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8-x64\bin\&#x0D;&#x0A;"
-				/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\plugins\propclass\hover;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-		</Configuration>
-                		<Configuration
-			Name="Debug (with static libs)|x64"
-			OutputDirectory="..\..\out\debug8-x64\build\plgpfhover\"
-			IntermediateDirectory="..\..\out\debug8-x64\build\plgpfhover\"
-			ConfigurationType="2"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				MinimalRebuild="TRUE"
-				RuntimeTypeInfo="TRUE"
-				RuntimeLibrary="3"
-
-				ProgramDataBaseFileName="..\..\out\debug8-x64\build\plgpfhover\x64\pfhover.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug8-x64\build\plgpfhover\plgpfhover.pch"
-				AssemblerListingLocation="..\..\out\debug8-x64\build\plgpfhover\"
-				ObjectFile="..\..\out\debug8-x64\build\plgpfhover\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
-				CompileAs="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\pfhover.dll"
-				ProgramDatabaseFile="..\..\out\debug8-x64\build\plgpfhover\x64\pfhover.pdb"
-				IgnoreImportLibrary="TRUE"
-				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug8-x64\build\plgpfhover\x64\plgpfhover.lib"
-				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="17"/>
-			<Tool
-				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8-x64\build\plgpfhover\plgpfhover.tlb"/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8-x64\bin\&#x0D;&#x0A;"
-				/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\plugins\propclass\hover;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-		</Configuration>
-      		<Configuration
-			Name="Debug (with DLLs)|x64"
-			OutputDirectory="..\..\out\debug8-x64\build\plgpfhover\"
-			IntermediateDirectory="..\..\out\debug8-x64\build\plgpfhover\"
-			ConfigurationType="2"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				MinimalRebuild="TRUE"
-				RuntimeTypeInfo="TRUE"
-				RuntimeLibrary="3"
-
-				ProgramDataBaseFileName="..\..\out\debug8-x64\build\plgpfhover\x64\pfhover.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug8-x64\build\plgpfhover\plgpfhover.pch"
-				AssemblerListingLocation="..\..\out\debug8-x64\build\plgpfhover\"
-				ObjectFile="..\..\out\debug8-x64\build\plgpfhover\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
-				CompileAs="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\pfhover.dll"
-				ProgramDatabaseFile="..\..\out\debug8-x64\build\plgpfhover\x64\pfhover.pdb"
-				IgnoreImportLibrary="TRUE"
-				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug8-x64\build\plgpfhover\x64\plgpfhover.lib"
-				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="17"/>
-			<Tool
-				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8-x64\build\plgpfhover\plgpfhover.tlb"/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8-x64\bin\&#x0D;&#x0A;"
-				/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\plugins\propclass\hover;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-		</Configuration>
-            	</Configurations>
+  	</Configurations>
 	<Files>
 		<Filter
 			Name="Source Files"

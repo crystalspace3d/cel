@@ -44,7 +44,8 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/material.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
+#include "imesh/thing.h"
 #include "imesh/sprite3d.h"
 #include "imesh/object.h"
 #include "ivideo/graph3d.h"
@@ -103,13 +104,9 @@ void NetTest::OnExit ()
   if (pl) pl->CleanCache ();
 }
 
-void NetTest::Frame ()
+void NetTest::ProcessFrame ()
 {
-  PostProcessFrame ();
-  FinishFrame ();
-
-  // We sleep a little bit in order to not eat all process working time
-  csSleep(40);
+  // We let the entity system do this so there is nothing here.
 }
 
 void NetTest::PostProcessFrame ()
@@ -174,13 +171,6 @@ bool NetTest::OnKeyboard (iEvent &ev)
     utf32_char code = csKeyEventHelper::GetCookedCode (&ev);
     if (code == CSKEY_ESC)
     {
-      printf ("Key ESC pressed: closing game\n");
-      fflush (stdout);
-
-      gfm->factory->CloseGame ();
-      delete gfm;
-      gfm = 0;
-
       // The user pressed escape. For now we will simply exit the
       // application. The proper way to quit a Crystal Space application
       // is by broadcasting a csevQuit event. That will cause the
@@ -188,8 +178,6 @@ bool NetTest::OnKeyboard (iEvent &ev)
       // the object registry and then post the event.
       csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
       q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
-
-      exit(0);
     }
 
     if (gfm && gfm->IsClientAvailable ())
@@ -284,15 +272,7 @@ bool NetTest::OnKeyboard (iEvent &ev)
     }
 
     if (code == CSKEY_F6)
-    {
-        printf ("Key F6 pressed: closing game\n");
-	fflush (stdout);
-
-	gfm->factory->CloseGame ();
-
-        printf ("Game closed\n");
-	fflush (stdout);
-    }
+      gfm->factory->CloseGame ();
   }
   return false;
 }
@@ -301,7 +281,8 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
 	const char* /*factname*/, const csVector3& /*pos*/)
 {
   // The Real Camera
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, 0, 0,
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest,
+        "actorcameraold", // behaviour name
   	"pcinput.standard",
 	"pccamera.old",
 	"pcmove.actor.standard",
@@ -322,11 +303,11 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
   pcinp->Bind ("left", "rotateleft");
   pcinp->Bind ("right", "rotateright");
   pcinp->Bind ("a", "strafeleft");
-  pcinp->Bind ("e", "straferight");
+  pcinp->Bind ("d", "straferight");
   pcinp->Bind ("space", "jump");
   pcinp->Bind ("x", "center");
-  pcinp->Bind ("pgup", "action_lookup");
-  pcinp->Bind ("pgdn", "action_lookdown");
+  pcinp->Bind ("pgup", "lookup");
+  pcinp->Bind ("pgdn", "lookdown");
 
   csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
   	entity_cam, iPcDefaultCamera);
@@ -402,7 +383,8 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
 csPtr<iCelEntity> NetTest::CreateActorNPC (const char* name,
 	const char* /*factname*/, const csVector3& /*pos*/)
 {
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, 0, 0,
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest,
+        "actorcameraold", // behaviour name
 	"pcmove.actor.standard",
 	"pcobject.mesh",
 	"pcmove.linear",
@@ -454,7 +436,7 @@ csPtr<iCelEntity> NetTest::CreateActorNPC (const char* name,
 
 csPtr<iCelEntity> NetTest::CreateDefaultCamera (const char *name)
 {
-  csRef<iCelEntity> default_camera = pl->CreateEntity (name, 0, 0,
+  csRef<iCelEntity> default_camera = pl->CreateEntity (name, bltest, "actor",
 	"pcdefaultcamera",
 	CEL_PROPCLASS_END);
   if (!default_camera) return 0;
@@ -482,7 +464,7 @@ bool NetTest::CreateRoom (const csString path, const csString file)
   fflush (stdout);
 
   // Create the room entity.
-  entity_room = pl->CreateEntity ("room", 0, 0,
+  entity_room = pl->CreateEntity ("room", bltest, "room",
   	"pczonemanager",
 	"pcinventory",
   	CEL_PROPCLASS_END);
@@ -527,16 +509,12 @@ bool NetTest::OnInitialize (int argc, char* argv[])
     csPrintf (" -serverhost      The hostname of the server (when there is only a client)\n");
     csPrintf (" -singleplayer    If the game is in single player mode\n");
     csPrintf (" -player=[value]  To specify the name of the player\n");
-    csPrintf (" -nethelp         Print this help message\n");
+    csPrintf (" -nethelp         This help message\n");
     csPrintf ("\n");
     csPrintf ("  When used without any options, the default behavior is to create\n");
     csPrintf ("  a client and a server.\n");
     csPrintf ("\n");
-    csPrintf ("Basic example:\n");
-    csPrintf ("  'nettest' (it creates a client+server), then, in another terminal:\n");
-    csPrintf ("  'nettest -client' (it creates a client that will connect to the first server)\n");
-    csPrintf ("\n");
-    csPrintf ("Other examples:\n");
+    csPrintf ("Examples:\n");
     csPrintf ("  nettest -server -path=cellib/lev -file=basic_world\n");
     csPrintf ("  nettest -server -path=lev/terrainf -file=world\n");
     csPrintf ("  nettest -client -player=Marc -serverhost=192.168.1.15\n");
@@ -624,9 +602,14 @@ bool NetTest::Application ()
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
 
+  bltest = csQueryRegistryTagInterface<iCelBlLayer> (
+  	object_reg, "iCelBlLayer.Test");
+  if (!bltest) return ReportError ("CEL test behaviour layer missing!");
+  pl->RegisterBehaviourLayer (bltest);
+
   // initialize game factory
   game_factory = csQueryRegistry<iCelGameFactory> (object_reg);
-  if (!game_factory) return ReportError ("CEL network layer missing! Please make sure you compiled CEL with the HawkNL library enabled (use the --with-NL tag of the configure script for that).");
+  if (!game_factory) return ReportError ("CEL network layer missing!");
   game_factory->SetGameName ("CEL network test");
   game_factory->SetProtocolVersion ("v0.1");
 
@@ -687,16 +670,8 @@ bool NetTest::Application ()
   }
   else
   {
-    level_path = "/cellib/track4";
-    level_file = "world";
-
-    //level_path = "/cellib/lev";
-    //level_file = "walktut_world";
-
-    //level_path = "/cellib/terrain";
-    //level_file = "world";
-
-    //level_file = "basic_world";
+    level_path = "/cellib/lev";
+    level_file = "basic_world";
     //level_file = "basic_level.xml";
   }
 
@@ -706,8 +681,7 @@ bool NetTest::Application ()
 # define APP_SERVER 1
 # define APP_CLIENT 2
 # define APP_CLIENTSERVER 3
-  //int app_type = APP_CLIENT;
-  int app_type = APP_CLIENTSERVER;
+  int app_type = APP_CLIENT;
 
   if (cmdline->GetOption ("server") != 0)
   {
@@ -735,8 +709,7 @@ bool NetTest::Application ()
   celGameInfo game_info;
   game_info.game_name = "Test game";
   game_info.hostname = "127.0.0.1";
-  //game_info.port_nb = 25000;
-  game_info.port_nb = 25001;
+  game_info.port_nb = 25000;
   game_info.password = "nice password";
   game_info.max_players = 3;
   game_info.custom_data = pl->CreateDataBuffer (0);
@@ -778,6 +751,7 @@ bool NetTest::Application ()
         return false;
       break;
   }
+
   // This calls the default runloop. This will basically just keep
   // broadcasting process events to keep the game going.
   Run ();

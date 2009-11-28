@@ -28,7 +28,6 @@
 #include "tools/entitytplloader.h"
 #include "tools/expression.h"
 #include "tools/graphloader.h"
-#include "tools/ledges.h"
 #include "tools/questmanager.h"
 #include "tools/rulebase.h"
 #endif /* __TOOLS_H__ */

@@ -7,10 +7,11 @@
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
-  		<Platform Name="Win32"/>
-    	</Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
 	<Configurations>
-            		<Configuration
+  		<Configuration
 			Name="Release (with static libs)|Win32"
 			OutputDirectory="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\"
 			IntermediateDirectory="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\"
@@ -23,8 +24,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL.pdb"
+				ProgramDataBaseFileName="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\celstart_static_plugins_CRYSTAL.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
@@ -34,10 +36,9 @@
 				ObjectFile="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -48,7 +49,7 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7.lib bulletdynamics-vc7.lib bulletmath-vc7.lib CEGUIBase-vc7.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc7.lib "
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib cal3d-vc7.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7.lib bulletdynamics-vc7.lib bulletmath-vc7.lib CEGUIBase-vc7.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
@@ -82,7 +83,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-      		<Configuration
+  		<Configuration
 			Name="Release (with DLLs)|Win32"
 			OutputDirectory="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\"
 			IntermediateDirectory="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\"
@@ -96,8 +97,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDatabaseFileName="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL-1.9-vc7.pdb"
+				ProgramDatabaseFileName="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\celstart_static_plugins_CRYSTAL-1.4-vc7.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
@@ -107,10 +109,9 @@
 				ObjectFile="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -121,10 +122,10 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-                        OutputFile="..\..\celstart_static_plugins_CRYSTAL-1.9-vc7.dll"
+                                OutputFile="..\..\celstart_static_plugins_CRYSTAL-1.4-vc7.dll"
 				ImportLibrary="..\..\out\release7\libs\libcelstart_static_plugins_CRYSTAL.lib"
-				ProgramDatabaseFile="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL-1.9-vc7.pdb"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7.lib bulletdynamics-vc7.lib bulletmath-vc7.lib CEGUIBase-vc7.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc7.lib "
+				ProgramDatabaseFile="..\..\out\release7\build\libcelstart_static_plugins_CRYSTAL\celstart_static_plugins_CRYSTAL-1.4-vc7.pdb"
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib cal3d-vc7.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7.lib bulletdynamics-vc7.lib bulletmath-vc7.lib CEGUIBase-vc7.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
@@ -157,7 +158,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-                		<Configuration
+    		<Configuration
 			Name="Debug (with static libs)|Win32"
 			OutputDirectory="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\"
 			IntermediateDirectory="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\"
@@ -168,10 +169,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL.pdb"
+				ProgramDataBaseFileName="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\celstart_static_plugins_CRYSTAL.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
@@ -181,10 +183,9 @@
 				ObjectFile="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -193,7 +194,7 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7_d.lib bulletdynamics-vc7_d.lib bulletmath-vc7_d.lib CEGUIBase-vc7_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc7_d.lib "
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib cal3d-vc7_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7_d.lib bulletdynamics-vc7_d.lib bulletmath-vc7_d.lib CEGUIBase-vc7_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
@@ -227,7 +228,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-      		<Configuration
+  		<Configuration
 			Name="Debug (with DLLs)|Win32"
 			OutputDirectory="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\"
 			IntermediateDirectory="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\"
@@ -238,11 +239,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
 
-				ProgramDatabaseFileName="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL-1.9-vc7_d.pdb"
+				ProgramDatabaseFileName="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\celstart_static_plugins_CRYSTAL-1.4-vc7_d.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
@@ -252,10 +254,9 @@
 				ObjectFile="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -264,10 +265,10 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-                        OutputFile="..\..\celstart_static_plugins_CRYSTAL-1.9-vc7_d.dll"
+                                OutputFile="..\..\celstart_static_plugins_CRYSTAL-1.4-vc7_d.dll"
 				ImportLibrary="..\..\out\debug7\libs\libcelstart_static_plugins_CRYSTAL_d.lib"
-				ProgramDatabaseFile="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL-1.9-vc7_d.pdb"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7_d.lib bulletdynamics-vc7_d.lib bulletmath-vc7_d.lib CEGUIBase-vc7_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc7_d.lib "
+				ProgramDatabaseFile="..\..\out\debug7\build\libcelstart_static_plugins_CRYSTAL\celstart_static_plugins_CRYSTAL-1.4-vc7_d.pdb"
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib cal3d-vc7_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc7_d.lib bulletdynamics-vc7_d.lib bulletmath-vc7_d.lib CEGUIBase-vc7_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
@@ -300,7 +301,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-              	</Configurations>
+  	</Configurations>
 	<Files>
 		<Filter
 			Name="Source Files"

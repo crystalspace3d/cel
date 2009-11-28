@@ -8,11 +8,13 @@
 	pars[id_control] = "hello"
 	pars[id_x] = 1000.0
 	pars.keys()
+	pars.names()
 	pars.iterkeys()
+	pars.iternames()
 	if id_control in pars:
 		print pars[id_control]
 	pars.GetParameterValue(id_control) # same as parblock[id_control]
-	pars.GetParameterByIndex(0)
+	pars.GetParameterValueByIndex(0)
 	pars.GetParameterName(0)
 	pars.GetParameterID(0)
 */
@@ -22,8 +24,13 @@
 	csStringID GetParameterIDByIndex(size_t idx) {
 		csStringID id;
 		celDataType t;
-		id = self->GetParameterDef(idx, t);
+		const char *name = self->GetParameter(idx, id, t);
 		return id;
+	}
+	const char * GetParameterNameByIndex(size_t idx) {
+		csStringID id;
+		celDataType t;
+		return self->GetParameter(idx, id, t);
 	}
 	bool __contains__(csStringID id) {
 		if (self->GetParameter(id))
@@ -37,18 +44,28 @@
 		def key_iterator(parblock):
 			for idx in xrange(len(parblock)):
 				yield parblock.GetParameterIDByIndex(idx)
+		def name_iterator(parblock):
+			for idx in xrange(len(parblock)):
+				yield parblock.GetParameterNameByIndex(idx)
 		def GetParameterValue(self,id):
 			return self.GetParameter(id)
 		def __iter__(self):
 			return self.value_iterator()
 		def iterkeys(self):
 			return self.key_iterator()
+		def iternames(self):
+			return self.name_iterator()
 		def __getitem__(self,i):
 			return self.GetParameter(i)
 		def keys(self):
 			keys = []
 			for idx in xrange(len(self)):
 				keys.append(self.GetParameterIDByIndex(idx))
+			return keys
+		def names(self):
+			keys = []
+			for idx in xrange(len(self)):
+				keys.append(self.GetParameterNameByIndex(idx))
 			return keys
 		def has_key(self,id):
 			return self.__contains__(id)

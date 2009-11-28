@@ -122,11 +122,14 @@ class CEL_CELTOOL_EXPORT celMessageChannel : public scfImplementation1<
 					     celMessageChannel, iMessageChannel>
 {
 private:
+  csArray<celMessageSubscription,csArraySafeCopyElementHandler<celMessageSubscription> > subscriptionQueue;
+  csArray<celMessageSubscription,csArraySafeCopyElementHandler<celMessageSubscription> > unsubscriptionQueue;
   csWeakRef<iCelPlLayer> pl;
   csRefArray<celMessageDispatcher> messageDispatchers;
   celSubscriptions messageSubscriptions;
+  int sending;
 public:
-  celMessageChannel () : scfImplementationType (this) { }
+  celMessageChannel () : scfImplementationType (this) { sending = 0; }
   virtual ~celMessageChannel () { RemoveMessageDispatchers (); }
 
   virtual iMessageChannel* QueryMessageChannel ()

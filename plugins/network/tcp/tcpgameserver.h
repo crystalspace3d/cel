@@ -46,7 +46,7 @@ private:
 
 public:
   celPlayerList ();
-  ~celPlayerList ();
+  virtual ~celPlayerList ();
 
   virtual size_t GetCount () const;
   virtual celPlayer* Get (size_t index) const;

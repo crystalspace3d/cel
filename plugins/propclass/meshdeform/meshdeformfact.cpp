@@ -58,27 +58,26 @@ celPcMeshDeform::celPcMeshDeform (iObjectRegistry* object_reg)
 {
   if (param_position == csInvalidStringID)
   {
-    param_position = pl->FetchStringID ("position");
-    param_direction = pl->FetchStringID ("direction");
-    param_worldspace = pl->FetchStringID ("worldspace");
+    param_position = pl->FetchStringID ("cel.parameter.position");
+    param_direction = pl->FetchStringID ("cel.parameter.direction");
+    param_worldspace = pl->FetchStringID ("cel.parameter.worldspace");
   }
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.mesh.deform.action.");
-    AddAction (action_deformmesh, "DeformMesh");
-    AddAction (action_resetdeform, "ResetDeform");
+    AddAction (action_deformmesh, "cel.action.DeformMesh");
+    AddAction (action_resetdeform, "cel.action.ResetDeform");
   }
   propinfo.SetCount (5);
-  AddProperty (propid_deformfactor, "deformfactor",
+  AddProperty (propid_deformfactor, "cel.property.deformfactor",
         CEL_DATA_FLOAT, false, "Deform Factor.", &deformfactor);
-  AddProperty (propid_noise, "noise",
+  AddProperty (propid_noise, "cel.property.noise",
         CEL_DATA_FLOAT, false, "Noise.", 0);
-  AddProperty (propid_maxfrequency, "maxfrequency",
+  AddProperty (propid_maxfrequency, "cel.property.maxfrequency",
         CEL_DATA_FLOAT, false, "Max frequency.", &frequency);
-  AddProperty (propid_maxdeform, "maxdeform",
+  AddProperty (propid_maxdeform, "cel.property.maxdeform",
         CEL_DATA_FLOAT, false, "Max deform.", 0);
-  AddProperty (propid_radius, "radius",
+  AddProperty (propid_radius, "cel.property.radius",
         CEL_DATA_FLOAT, false, "Radius.", 0);
 
   noise = 0.2f;

@@ -43,7 +43,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/camera.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
 #include "iengine/campos.h"
 #include "iengine/sector.h"
 #include "cstool/csview.h"
@@ -87,19 +87,18 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
   // Actions
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.camera.simple.action.");
-    AddAction (action_initcam, "InitCamera");
-    AddAction (action_setpos, "SetPosition");
-    AddAction (action_setmesh, "SetMesh");
+    AddAction (action_initcam, "cel.action.InitCamera");
+    AddAction (action_setpos, "cel.action.SetPosition");
+    AddAction (action_setmesh, "cel.action.SetMesh");
   }
 
   // Parameters for action_initcam
   if (param_campos == csInvalidStringID)
   {
-    param_campos = pl->FetchStringID ("campos");
-    param_lookat = pl->FetchStringID ("lookat");
-    param_drawmesh = pl->FetchStringID ("drawmesh");
-    param_mesh = pl->FetchStringID ("meshpctag");
+    param_campos = pl->FetchStringID ("cel.parameter.campos");
+    param_lookat = pl->FetchStringID ("cel.parameter.lookat");
+    param_drawmesh = pl->FetchStringID ("cel.parameter.drawmesh");
+    param_mesh = pl->FetchStringID ("cel.parameter.meshpctag");
   }
 }
 
@@ -307,5 +306,4 @@ bool celPcSimpleCamera::Load (iCelDataBuffer* databuf)
 }
 
 //---------------------------------------------------------------------------
-
 

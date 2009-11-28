@@ -48,6 +48,7 @@
 #include <ivaria/reporter.h>
 #include "ivaria/mapnode.h"
 
+#include <imesh/thing.h>
 #include <imesh/objmodel.h>
 #include <igeom/path.h>
 #include <csgeom/path.h>
@@ -179,37 +180,36 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 
   if (id_percentage == csInvalidStringID)
   {
-    id_percentage = pl->FetchStringID ("percentage");
-    id_body = pl->FetchStringID ("body");
-    id_legs = pl->FetchStringID ("legs");
-    id_offset = pl->FetchStringID ("offset");
-    id_sector = pl->FetchStringID ("sector");
-    id_position = pl->FetchStringID ("position");
-    id_yrot = pl->FetchStringID ("yrot");
-    id_velocity = pl->FetchStringID ("velocity");
+    id_percentage = pl->FetchStringID ("cel.parameter.percentage");
+    id_body = pl->FetchStringID ("cel.parameter.body");
+    id_legs = pl->FetchStringID ("cel.parameter.legs");
+    id_offset = pl->FetchStringID ("cel.parameter.offset");
+    id_sector = pl->FetchStringID ("cel.parameter.sector");
+    id_position = pl->FetchStringID ("cel.parameter.position");
+    id_yrot = pl->FetchStringID ("cel.parameter.yrot");
+    id_velocity = pl->FetchStringID ("cel.parameter.velocity");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.move.linear.action.");
-    AddAction (action_initcd, "InitCD");
-    AddAction (action_initcdmesh, "InitCDMesh");
-    AddAction (action_setposition, "SetPosition");
-    AddAction (action_setvelocity, "SetVelocity");
-    AddAction (action_addvelocity, "AddVelocity");
-    AddAction (action_setangularvelocity, "SetAngularVelocity");
+    AddAction (action_initcd, "cel.action.InitCD");
+    AddAction (action_initcdmesh, "cel.action.InitCDMesh");
+    AddAction (action_setposition, "cel.action.SetPosition");
+    AddAction (action_setvelocity, "cel.action.SetVelocity");
+    AddAction (action_addvelocity, "cel.action.AddVelocity");
+    AddAction (action_setangularvelocity, "cel.action.SetAngularVelocity");
   }
 
   // For properties.
   propinfo.SetCount (4);
-  AddProperty (propid_anchor, "anchor",
+  AddProperty (propid_anchor, "cel.property.anchor",
   	CEL_DATA_STRING, false, "Mesh Anchor.", 0);
-  AddProperty (propid_gravity, "gravity",
+  AddProperty (propid_gravity, "cel.property.gravity",
   	CEL_DATA_FLOAT, false, "Gravity.", &gravity);
-  AddProperty (propid_hug, "hug",
+  AddProperty (propid_hug, "cel.property.hug",
   	CEL_DATA_BOOL, false, "Hug to ground.", &hugGround);
-  AddProperty (propid_speed, "speed",
+  AddProperty (propid_speed, "cel.property.speed",
   	CEL_DATA_FLOAT, false, "Movement speed.", &speed);
 
   ResetGravity ();
@@ -559,51 +559,6 @@ static float Matrix2YRot (const csMatrix3& mat)
   return GetAngle (vec.z, vec.x);
 }
 
-void celPcLinearMovement::SetBodyVelocity (const csVector3& vel)
-{
-  velBody = vel;
-}
-void celPcLinearMovement::SetWorldVelocity (const csVector3& vel)
-{
-  velWorld = vel;
-}
-
-/// Adds on a velocity to this body in world coordinates
-void celPcLinearMovement::AddVelocity (const csVector3& vel)
-{
-  // Y movement here can be used for lift and gravity effects.
-  velWorld += vel;
-}
-
-/// Resets the velocity of this body in world coordinates.
-void celPcLinearMovement::ClearWorldVelocity ()
-{
-  // Y movement here can be used for lift and gravity effects.
-  velWorld = 0.0f;
-}
-
-void celPcLinearMovement::GetVelocity (csVector3 &v) const
-{
-  v = GetVelocity ();
-}
-
-const csVector3 &celPcLinearMovement::GetBodyVelocity () const
-{
-  return velBody;
-}
-const csVector3 &celPcLinearMovement::GetWorldVelocity () const
-{
-  return velWorld;
-}
-const csVector3 celPcLinearMovement::GetVelocity () const
-{
-  csVector3 velworld = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
-      .Other2ThisRelative (velWorld);
-
-  // Return the composite of the object and world velocity
-  // in the OBJECT coordinate system.
-  return velworld + velBody;
-}
 // --------------------------------------------------------------------------
 //Does the actual rotation
 bool celPcLinearMovement::RotateV (float delta)
@@ -639,7 +594,8 @@ bool celPcLinearMovement::RotateV (float delta)
   }
 
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-  movable->SetTransform (movable->GetTransform ().GetT2O () * csXRotMatrix3 (angle.x) * csYRotMatrix3 (angle.y) * csZRotMatrix3 (angle.z));
+  csYRotMatrix3 rotMat (angle.y);
+  movable->SetTransform (movable->GetTransform ().GetT2O () * rotMat);
   movable->UpdateMove ();
   //pcmesh->GetMesh ()->GetMovable ()->Transform (rotMat);
   return true;
@@ -1384,12 +1340,6 @@ const csVector3 celPcLinearMovement::GetFullPosition ()
   // user will get a warning and a nothing if theres no mesh
   if (!GetMesh ())  return csVector3 ();
   return pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
-}
-const csReversibleTransform celPcLinearMovement::GetFullTransform ()
-{
-  // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ())  return csReversibleTransform ();
-  return pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
 }
 
 void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,

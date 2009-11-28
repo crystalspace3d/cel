@@ -29,11 +29,13 @@
  * This property class depends on iPcMechanicsObject and iPcAttractor, and
  * extends their functionality.
  *
- * This property class supports the following actions (add prefix 'cel.mechanics.explode.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - Explode: no parameters.
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property):
  * - force (float, read/write): the force of the explosion.
  */
 struct iPcMechanicsExploder : public virtual iBase

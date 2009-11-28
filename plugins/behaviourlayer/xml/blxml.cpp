@@ -540,9 +540,19 @@ bool celBlXml::ParseID (const char*& input, csStringArray& local_vars,
   }
   if (idconstant)
   {
-    char* str = new char [i-input+1];
-    strncpy (str, input, i-input);
-    str[i-input] = 0;
+    const char* prefix;
+    if (fun_id == XMLFUNCTION_PARID)
+      prefix = "cel.parameter.";
+    else if (fun_id == XMLFUNCTION_PROPID)
+      prefix = "cel.property.";
+    else if (fun_id == XMLFUNCTION_ACTID)
+      prefix = "cel.action.";
+    else
+      prefix = "";
+    char* str = new char [strlen (prefix) + i-input+1];
+    strcpy (str, prefix);
+    strncpy (str+strlen (prefix), input, i-input);
+    str[strlen (prefix) + i-input] = 0;
     csStringID id = pl->FetchStringID (str);
     delete[] str;
     h->AddOperation (CEL_OPERATION_PUSH);
@@ -629,7 +639,9 @@ bool celBlXml::ParseAction (const char*& input, const char* pinput,
   h->AddOperation (CEL_OPERATION_PUSH);
   h->GetArgument ().SetPC (0);
 
-  csStringID id = pl->FetchStringID (str);
+  csString actid = "cel.action.";
+  actid += str;
+  csStringID id = pl->FetchStringID (actid);
   h->AddOperation (CEL_OPERATION_PUSH);
   h->GetArgument ().SetID (id);
 
@@ -1488,9 +1500,11 @@ bool celBlXml::ParseExpressionInt (
                   "Missing parameter name after '@' for '%s'!", name);
           return false;
         }
-        char* str = new char [i-input+1];
-        strncpy (str, input, i-input);
-        str[i-input] = 0;
+        const char* prefix = "cel.parameter.";
+        char* str = new char [strlen (prefix) + i-input+1];
+        strcpy (str, prefix);
+        strncpy (str+strlen (prefix), input, i-input);
+        str[strlen (prefix) + i-input] = 0;
         input = i;
         csStringID id = pl->FetchStringID (str);
         delete[] str;
@@ -2501,7 +2515,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
                 }
                 else if (c->GetAttributeValue ("name"))
                 {
-                  csString parid = c->GetAttributeValue ("name");
+                  csString parid = "cel.parameter.";
+                  parid += c->GetAttributeValue ("name");
                   csStringID pid = pl->FetchStringID (parid);
                   h->AddOperation (CEL_OPERATION_PUSH);
                   h->GetArgument ().SetID (pid);
@@ -2560,7 +2575,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
               }
               else if (c->GetAttributeValue ("name"))
               {
-                csString parid = c->GetAttributeValue ("name");
+                csString parid = "cel.parameter.";
+                parid += c->GetAttributeValue ("name");
                 csStringID pid = pl->FetchStringID (parid);
                 h->AddOperation (CEL_OPERATION_PUSH);
                 h->GetArgument ().SetID (pid);
@@ -2582,7 +2598,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           }
           else if (child->GetAttributeValue ("name"))
           {
-            csString actid = child->GetAttributeValue ("name");
+            csString actid = "cel.action.";
+            actid += child->GetAttributeValue ("name");
             csStringID id = pl->FetchStringID (actid);
             h->AddOperation (CEL_OPERATION_PUSH);
             h->GetArgument ().SetID (id);
@@ -3013,7 +3030,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           }
           else if (child->GetAttributeValue ("name"))
           {
-            csString proid = child->GetAttributeValue ("name");
+            csString proid = "cel.property.";
+            proid += child->GetAttributeValue ("name");
             csStringID id = pl->FetchStringID (proid);
             h->AddOperation (CEL_OPERATION_PUSH);
             h->GetArgument ().SetID (id);
@@ -3168,7 +3186,6 @@ bool celBlXml::CreateBehaviourScriptFromFile (const char* name,
 iCelBehaviour* celBlXml::CreateBehaviour (iCelEntity* entity, const char* name)
 {
   celXmlScript* script = scripts_hash.Get (name, 0);
-printf ("name=%s script=%p\n", name, script); fflush (stdout);
   if (!script)
   {
     // First check if we have the predefined 'bootstrap' script.

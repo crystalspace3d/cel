@@ -1880,7 +1880,8 @@ struct iMessageQuestRewardFactory : public virtual iBase
    * Add a parameter to send with the message.
    * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
    * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
-   * \param id is the id of the parameter (calculated from iCelPlLayer->FetchStringID(name)).
+   * \param id is the id of the parameter (calculated from the string
+   * "cel.parameter." appended with the name).
    * \param name is the name of the parameter.
    * \param value is the value string or a parameter for it (starts with '$').
    */
@@ -1925,7 +1926,7 @@ struct iActionQuestRewardFactory : public virtual iBase
   virtual void SetClassParameter (const char* ent_class) = 0;
 
   /**
-   * Set the action name.
+   * Set the action name (without the cel.action part).
    * \param id is the action name or a parameter (starts with '$').
    */
   virtual void SetIDParameter (const char* id) = 0;
@@ -1948,7 +1949,8 @@ struct iActionQuestRewardFactory : public virtual iBase
    * Add a parameter to send with the action.
    * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
    * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
-   * \param id is the id of the parameter (calculated from iCelPlLayer->FetchStringID(name)).
+   * \param id is the id of the parameter (calculated from the string
+   * "cel.parameter." appended with the name).
    * \param name is the name of the parameter.
    * \param value is the value string or a parameter for it (starts with '$').
    */
@@ -2252,7 +2254,7 @@ struct iPropertyQuestSeqOpFactory : public virtual iBase
 
   /**
    * Set the property name for this sequence.
-   * \param property_name is the property name (like 'gravity').
+   * \param property_name is the property name (like cel.property.gravity).
    * It can also be a parameter if it starts with '$'.
    */
   virtual void SetPropertyParameter (const char* property_name) = 0;

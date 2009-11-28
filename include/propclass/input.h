@@ -37,8 +37,9 @@ enum celKeyState
 /**
  * Input propery class.
  *
- * This property class supports the following actions (add prefix 'cel.commandinput.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - Activate: parameter 'activate' (bool default=true).
  * - Bind: parameters 'trigger' (string) and 'command' (string). The 'trigger'
  *   can be equal to 'key' in which cases all keys will be bound.
@@ -51,19 +52,21 @@ enum celKeyState
  *
  * This property class can send out the following messages
  * to the behaviour:
- * - 'cel.input.<key>' (old 'pccommandinput_<key>'): key event. Message receives 'state' parameter 
+ * - pccommandinput_<key>: key event. Message receives 'state' parameter 
  *   filled with values from celKeyState enum. Also has optional 'trigger' 
  *   parameter.
  *   This is received instead of the other key messages below depending on 
  *   '.args' suffix on command specification (see above).
- * - 'cel.input.<key>.up' (old 'pccommandinput_<key>0'): key is unpressed. Message has optional
+ * - pccommandinput_<key>0: key is unpressed. Message has optional
  *   'trigger' parameter.
- * - 'cel.input.<key>.down' (old 'pccommandinput_<key>1'): key is pressed. Message has optional
+ * - pccommandinput_<key>1: key is pressed. Message has optional
  *   'trigger' parameter.
- * - 'cel.input.<key>.repeat' (old 'pccommandinput_<key>_'): key is pressed and auto-repeating.
- *   Message has optional 'trigger' parameter.
+ * - pccommandinput_<key>_: key is pressed and auto-repeating. Message
+ *   has optional 'trigger' parameter.
+ * - pccommandinput_<axis>: movement on the given axis.
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - screenspace (bool, read/write): use screenspace instead of -1/1
  *   normalized coordinates (default is -1/1).
  * - cooked (bool, read/write): use cooked mode instead of raw (default

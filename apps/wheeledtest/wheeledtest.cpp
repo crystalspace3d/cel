@@ -28,7 +28,6 @@
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
 #include "csutil/event.h"
-#include "csutil/common_handlers.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"
 #include "iutil/objreg.h"
@@ -44,7 +43,8 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/material.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
+#include "imesh/thing.h"
 #include "imesh/sprite3d.h"
 #include "imesh/object.h"
 #include "ivideo/graph3d.h"
@@ -107,13 +107,17 @@ WheeledTest::~WheeledTest ()
 void WheeledTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
-
-  printer.Invalidate ();
 }
 
-void WheeledTest::Frame ()
+void WheeledTest::ProcessFrame ()
 {
   // We let the entity system do this so there is nothing here.
+}
+
+void WheeledTest::FinishFrame ()
+{
+  g3d->FinishDraw ();
+  g3d->Print (0);
 }
 
 bool WheeledTest::OnKeyboard (iEvent &ev)
@@ -180,14 +184,13 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
                                               const char* sectorname, const csVector3& pos)
 {
   // The vehicle
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, 0, 0,
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "wheeled",
       "pcinput.standard",
       "pcobject.mesh",
       "pccamera.old",
       "pcphysics.object",
       "pcvehicle.wheeled",
       "pcobject.mesh.deform",
-      "pcmove.actor.wheeled",
       CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -434,9 +437,12 @@ bool WheeledTest::Application ()
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
 
-  if (!CreateMap ()) return false;
+  bltest = csQueryRegistryTagInterface<iCelBlLayer> (
+                                            object_reg, "iCelBlLayer.Test");
+  if (!bltest) return ReportError ("CEL test behaviour layer missing!");
+  pl->RegisterBehaviourLayer (bltest);
 
-  printer.AttachNew (new FramePrinter (object_reg));
+  if (!CreateMap ()) return false;
 
   // This calls the default runloop. This will basically just keep
   // broadcasting process events to keep the game going.

@@ -27,8 +27,9 @@
 /**
  * Timer propery class.
  *
- * This property class supports the following actions (add prefix 'cel.timer.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - WakeUp: parameters 'time' (long) and 'repeat' (bool).
  *   Optional 'name' (string) parameter for a named timer event.
  * - WakeUpFrame: no parameters.
@@ -38,10 +39,10 @@
  *   the name. Note that if no name is given then the frame event is
  *   also cleared.
  *
- * This property class can send out the following messages:
- * - 'cel.timer.wakeup' (old 'pctimer_wakeup'): wakeup message
- * - 'cel.timer.wakeup.frame' (old 'pctimer_wakeupframe'):
- *   wakeup every frame (elapsedticks,currentticks)
+ * This property class can send out the following messages
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * - pctimer_wakeup: wakeup message
+ * - pctimer_wakeupframe: wakeup every frame (elapsedticks,currentticks)
  */
 struct iPcTimer : public virtual iBase
 {

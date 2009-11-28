@@ -791,13 +791,8 @@ celTCPCachedSocket::celTCPCachedSocket (NLsocket &socket)
 celTCPCachedSocket::~celTCPCachedSocket ()
 {
   // close socket
-  if (socket) {
-    fprintf(stdout, "celTCPCachedSocket::~celTCPCachedSocket: closing socket\n");
-    nlEnable (NL_BLOCKING_IO);
+  if (socket)
     nlClose (socket);
-    nlDisable (NL_BLOCKING_IO);
-    fflush(stdout);
-  }
 
   // delete all packets
   size_t i;
@@ -905,19 +900,13 @@ int celTCPCachedSocket::UpdateSocket ()
 
 int celTCPCachedSocket::FlushReadSocket ()
 {
-  // TODO: only read
+  // TODO
   return 0;
 }
 
 int celTCPCachedSocket::FlushWriteSocket ()
 {
-  // TODO: only write
-  while (IsRemainingSentPacket ())
-  {
-    fprintf(stdout, "Flushing socket\n");
-    UpdateSocket();
-  }
-
+  // TODO
   return 0;
 }
 
@@ -928,7 +917,7 @@ bool celTCPCachedSocket::IsReceivedPacket ()
 
 bool celTCPCachedSocket::IsRemainingSentPacket ()
 {
-  return !packets_to_be_sent.IsEmpty () || current_packet_sent != 0;
+  return !packets_to_be_sent.IsEmpty () || current_packet_sent != 0;;
 
 }
 

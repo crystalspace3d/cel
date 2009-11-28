@@ -1554,7 +1554,9 @@ csPtr<iQuestParameter> celQuestManager::GetParameter (
   if (val == 0) return new celQuestConstantParameter ();
   if (*val == '@' && *(val+1) != '@')
   {
-    csStringID dynamic_id = pl->FetchStringID (val+1);
+    csString fullname = "cel.parameter.";
+    fullname += val+1;
+    csStringID dynamic_id = pl->FetchStringID (fullname);
     return new celQuestDynamicParameter (object_reg, dynamic_id, val+1);
   }
   else if (*val == '=' && *(val+1) != '=')
@@ -1616,7 +1618,7 @@ csPtr<celVariableParameterBlock> celQuestManager::GetParameterBlock (
   {
     csRef<iQuestParameter> par = GetParameter (params, parameters[i].value);
     quest_parameters.Put (i, par);
-    act_params->SetParameterDef (i, parameters[i].id);
+    act_params->SetParameterDef (i, parameters[i].id, parameters[i].name);
   }
   return act_params;
 }

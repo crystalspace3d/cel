@@ -74,8 +74,9 @@ struct iPcTriggerListener : public virtual iBase
  * entity that contains this property class and/or the entities
  * that enter/leave the trigger area.
  *
- * This property class supports the following actions (add prefix 'cel.trigger.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - SetupTriggerSphere: parameters 'sector' (string),
  *     'position' (vector3 or string (name of mapnode in that case)),
  *     and 'radius' (float).
@@ -86,17 +87,15 @@ struct iPcTriggerListener : public virtual iBase
  * - SetupTriggerAboveMesh: parameters 'entity' (string) and
  *     'maxdistance' (float),
  *
- * This property class can send out the following messages:
- * - 'cel.trigger.entity.enter' (old 'pctrigger_entityenters'):
- *   an entity enters this trigger (entity).
- * - 'cel.trigger.entity.leave' (old 'pctrigger_entityleaves'):
- *   an entity leaves this trigger (entity).
- * - 'cel.trigger.entity.enter.this' (old 'pctrigger_entertrigger'):
- *   this entity enters a trigger (entity).
- * - 'cel.trigger.entity.leave.this' (old 'pctrigger_leavetrigger'):
- *   this entity leaves a trigger (entity).
+ * This property class can send out the following messages
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * - pctrigger_entityenters: an entity enters this trigger (entity).
+ * - pctrigger_entityleaves: an entity leaves this trigger (entity).
+ * - pctrigger_entertrigger: this entity enters a trigger (entity).
+ * - pctrigger_leavetrigger: this entity leaves a trigger (entity).
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - delay (long, read/write): update delay for checking trigger.
  * - jitter (long, read/write): random jitter added to update delay.
  * - monitor (string, read/write): name of entity to monitor.
@@ -234,26 +233,6 @@ struct iPcTrigger : public virtual iBase
    * case it will return true if the entity is already in the trigger.
    */
   virtual bool Check () = 0;
-
-  /// Get update delay for checking trigger.
-  virtual csTicks GetUpdateDelay () const = 0;
-  /// Get random jitter for update delay.
-  virtual csTicks GetUpdateJitter () const = 0;
-  /// Get flag to control checking on invisible entities.
-  virtual bool HasCheckingOnInvisibleEntities () const = 0;
-  /// Get flag to let the trigger follow its own mesh.
-  virtual bool HasFollowEntity () const = 0;
-  /// Set flag to let the trigger follow its own mesh (default off).
-  virtual void SetFollowEntity (bool c) = 0;
-  /// Get flag to let the trigger do strict checking for monitored entity.
-  virtual bool HasStrictChecking () const = 0;
-  /**
-   * Set flag to let the trigger do strict checking for monitored entity.
-   * If true an error will be reported if the entity is not there. Default on.
-   */
-  virtual void SetStrictChecking (bool c) = 0;
-  /// Get the type of this trigger.
-  virtual TriggerType GetTriggerType () const = 0;
 };
 
 #endif // __CEL_PF_TRIGGER__

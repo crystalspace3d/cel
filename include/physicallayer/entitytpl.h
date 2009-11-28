@@ -162,7 +162,8 @@ struct iCelPropertyClassTemplate : public virtual iBase
    * This function returns false if the property could
    * not be set for some reason.
    *
-   * The physical layer maintains a registry of ID's to use.
+   * The physical layer maintains a registry of ID's to use. The convention
+   * is to use property names like: 'cel.property.num'.
    */
   virtual void SetProperty (csStringID propertyID, long value) = 0;
 

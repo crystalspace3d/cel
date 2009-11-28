@@ -7,10 +7,11 @@
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
-  		<Platform Name="Win32"/>
-    	</Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
 	<Configurations>
-            		<Configuration
+  		<Configuration
 			Name="Release (with static libs)|Win32"
 			OutputDirectory="..\..\out\release7\build\plgaddon_celentitytpl\"
 			IntermediateDirectory="..\..\out\release7\build\plgaddon_celentitytpl\"
@@ -24,8 +25,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\plgaddon_celentitytpl\Win32\addon_celentitytpl.pdb"
+				ProgramDataBaseFileName="..\..\out\release7\build\plgaddon_celentitytpl\addon_celentitytpl.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -35,10 +37,9 @@
 				ObjectFile="..\..\out\release7\build\plgaddon_celentitytpl\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -50,10 +51,10 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\addon_celentitytpl.dll"
-				ProgramDatabaseFile="..\..\out\release7\build\plgaddon_celentitytpl\Win32\addon_celentitytpl.pdb"
+				ProgramDatabaseFile="..\..\out\release7\build\plgaddon_celentitytpl\addon_celentitytpl.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release7\build\plgaddon_celentitytpl\Win32\plgaddon_celentitytpl.lib"
+				ImportLibrary="..\..\out\release7\build\plgaddon_celentitytpl\plgaddon_celentitytpl.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
@@ -87,7 +88,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-      		<Configuration
+  		<Configuration
 			Name="Release (with DLLs)|Win32"
 			OutputDirectory="..\..\out\release7\build\plgaddon_celentitytpl\"
 			IntermediateDirectory="..\..\out\release7\build\plgaddon_celentitytpl\"
@@ -101,8 +102,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\plgaddon_celentitytpl\Win32\addon_celentitytpl.pdb"
+				ProgramDataBaseFileName="..\..\out\release7\build\plgaddon_celentitytpl\addon_celentitytpl.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -112,10 +114,9 @@
 				ObjectFile="..\..\out\release7\build\plgaddon_celentitytpl\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -127,10 +128,10 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\addon_celentitytpl.dll"
-				ProgramDatabaseFile="..\..\out\release7\build\plgaddon_celentitytpl\Win32\addon_celentitytpl.pdb"
+				ProgramDatabaseFile="..\..\out\release7\build\plgaddon_celentitytpl\addon_celentitytpl.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release7\build\plgaddon_celentitytpl\Win32\plgaddon_celentitytpl.lib"
+				ImportLibrary="..\..\out\release7\build\plgaddon_celentitytpl\plgaddon_celentitytpl.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
@@ -164,7 +165,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-                		<Configuration
+    		<Configuration
 			Name="Debug (with static libs)|Win32"
 			OutputDirectory="..\..\out\debug7\build\plgaddon_celentitytpl\"
 			IntermediateDirectory="..\..\out\debug7\build\plgaddon_celentitytpl\"
@@ -175,10 +176,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\plgaddon_celentitytpl\Win32\addon_celentitytpl.pdb"
+				ProgramDataBaseFileName="..\..\out\debug7\build\plgaddon_celentitytpl\addon_celentitytpl.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -188,10 +190,9 @@
 				ObjectFile="..\..\out\debug7\build\plgaddon_celentitytpl\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -201,10 +202,10 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				OutputFile="..\..\addon_celentitytpl.dll"
-				ProgramDatabaseFile="..\..\out\debug7\build\plgaddon_celentitytpl\Win32\addon_celentitytpl.pdb"
+				ProgramDatabaseFile="..\..\out\debug7\build\plgaddon_celentitytpl\addon_celentitytpl.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug7\build\plgaddon_celentitytpl\Win32\plgaddon_celentitytpl.lib"
+				ImportLibrary="..\..\out\debug7\build\plgaddon_celentitytpl\plgaddon_celentitytpl.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
@@ -238,7 +239,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-      		<Configuration
+  		<Configuration
 			Name="Debug (with DLLs)|Win32"
 			OutputDirectory="..\..\out\debug7\build\plgaddon_celentitytpl\"
 			IntermediateDirectory="..\..\out\debug7\build\plgaddon_celentitytpl\"
@@ -249,10 +250,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\plgaddon_celentitytpl\Win32\addon_celentitytpl.pdb"
+				ProgramDataBaseFileName="..\..\out\debug7\build\plgaddon_celentitytpl\addon_celentitytpl.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -262,10 +264,9 @@
 				ObjectFile="..\..\out\debug7\build\plgaddon_celentitytpl\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -275,10 +276,10 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				OutputFile="..\..\addon_celentitytpl.dll"
-				ProgramDatabaseFile="..\..\out\debug7\build\plgaddon_celentitytpl\Win32\addon_celentitytpl.pdb"
+				ProgramDatabaseFile="..\..\out\debug7\build\plgaddon_celentitytpl\addon_celentitytpl.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug7\build\plgaddon_celentitytpl\Win32\plgaddon_celentitytpl.lib"
+				ImportLibrary="..\..\out\debug7\build\plgaddon_celentitytpl\plgaddon_celentitytpl.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
@@ -312,7 +313,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-              	</Configurations>
+  	</Configurations>
 	<Files>
 		<Filter
 			Name="Source Files"

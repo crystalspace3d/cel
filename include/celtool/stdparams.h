@@ -27,7 +27,6 @@
 #include "csutil/array.h"
 #include "csutil/stringarray.h"
 #include "behaviourlayer/behave.h"
-#include "tools/expression.h"
 
 // The following macros will set 'var' to the required variable and
 // 'p_var' will be made to 0 if there is a failure.
@@ -115,6 +114,7 @@ private:
   size_t count;
   csStringID* ids;
   celData* data;
+  char** names;
 
 public:
   celGenericParameterBlock (size_t count) :
@@ -123,29 +123,40 @@ public:
     celGenericParameterBlock::count = count;
     ids = new csStringID[count];
     data = new celData[count];
+    names = new char*[count];
+    memset (names, 0, sizeof (char*)*count);
   }
   virtual ~celGenericParameterBlock ()
   {
     delete[] ids;
     delete[] data;
+    size_t i;
+    for (i = 0 ; i < count ; i++)
+      delete[] names[i];
+    delete[] names;
   }
 
-  void SetParameterDef (size_t idx, csStringID id)
+  void SetParameterDef (size_t idx, csStringID id, const char* parname)
   {
     ids[idx] = id;
+    delete[] names[idx];
+    names[idx] = csStrNew (parname);
   }
   celData& GetParameter (size_t idx) { return data[idx]; }
 
   virtual size_t GetParameterCount () const { return count; }
-  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
+  virtual const char* GetParameter (size_t idx, csStringID& id,
+  	celDataType& t) const
   {
     if (/*idx < 0 || */idx >= count)
     {
+      id = csInvalidStringID;
       t = CEL_DATA_NONE;
-      return csInvalidStringID;
+      return 0;
     }
+    id = ids[idx];
     t = data[idx].type;
-    return ids[idx];
+    return names[idx];
   }
   virtual const celData* GetParameter (csStringID id) const
   {
@@ -170,6 +181,7 @@ class celVariableParameterBlock : public scfImplementation1<
 private:
   csArray<csStringID> ids;
   csArray<celData> data;
+  csStringArray names;
 
 public:
   celVariableParameterBlock () : scfImplementationType (this)
@@ -183,12 +195,13 @@ public:
   {
     if (other != 0)
     {
+      const char* name = 0;
       csStringID id;
       celDataType type;
       for (size_t idx = 0; idx < other->GetParameterCount (); idx++)
       {
-        id = other->GetParameterDef (idx, type);
-        SetParameterDef (idx, id);
+        name = other->GetParameter (idx, id, type);
+        SetParameterDef (idx, id, name);
         data.GetExtend (idx) = *other->GetParameter (id);
       }
     }
@@ -197,22 +210,28 @@ public:
   {
   }
 
-  void SetParameterDef (size_t idx, csStringID id)
+  void SetParameterDef (size_t idx, csStringID id, const char* parname)
   {
     ids.GetExtend (idx) = id;
+    if (idx >= names.GetSize ())
+      names.SetSize (idx+1);
+    names.Put (idx, parname);
   }
   celData& GetParameter (size_t idx) { return data.GetExtend (idx); }
 
   virtual size_t GetParameterCount () const { return data.GetSize (); }
-  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
+  virtual const char* GetParameter (size_t idx, csStringID& id,
+  	celDataType& t) const
   {
     if (/*idx < 0 || */idx >= data.GetSize ())
     {
+      id = csInvalidStringID;
       t = CEL_DATA_NONE;
-      return csInvalidStringID;
+      return 0;
     }
+    id = ids[idx];
     t = data[idx].type;
-    return ids[idx];
+    return names[idx];
   }
   virtual const celData* GetParameter (csStringID id) const
   {
@@ -237,38 +256,36 @@ class celOneParameterBlock : public scfImplementation1<
 private:
   csStringID id;
   celData data;
+  csString name;
 
 public:
   celOneParameterBlock () : scfImplementationType (this)
   {
   }
-  /// Conveniance method to have a parameter block with one parameter of type string.
-  celOneParameterBlock (csStringID id, const char* str)
-    : scfImplementationType (this)
-  {
-    SetParameterDef (id);
-    GetParameter (0).Set (str);
-  }
   virtual ~celOneParameterBlock ()
   {
   }
 
-  void SetParameterDef (csStringID id)
+  void SetParameterDef (csStringID id, const char* parname)
   {
     celOneParameterBlock::id = id;
+    name = parname;
   }
   celData& GetParameter (int) { return data; }
 
   virtual size_t GetParameterCount () const { return 1; }
-  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
+  virtual const char* GetParameter (size_t idx, csStringID& id,
+  	celDataType& t) const
   {
     if (idx != 0)
     {
+      id = csInvalidStringID;
       t = CEL_DATA_NONE;
-      return csInvalidStringID;
+      return 0;
     }
+    id = celOneParameterBlock::id;
     t = data.type;
-    return celOneParameterBlock::id;
+    return name;
   }
   virtual const celData* GetParameter (csStringID id) const
   {
@@ -316,19 +333,20 @@ public:
   {
     return b1->GetParameterCount () + (b2 ? b2->GetParameterCount () : 0);
   }
-  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
+  virtual const char* GetParameter (size_t idx, csStringID& id,
+  	celDataType& t) const
   {
     if (idx < b1->GetParameterCount ())
     {
-      return b1->GetParameterDef (idx, t);
+      return b1->GetParameter (idx, id, t);
     }
     else if (b2)
     {
-      return b2->GetParameterDef (idx-b1->GetParameterCount (), t);
+      return b2->GetParameter (idx-b1->GetParameterCount (), id, t);
     }
     else
     {
-      return csInvalidStringID;
+      return 0;
     }
   }
   virtual const celData* GetParameter (csStringID id) const
@@ -352,59 +370,6 @@ public:
     {
       return 0;
     }
-  }
-};
-
-struct celParameterMapping
-{
-  csStringID source;
-  csStringID dest;
-  csRef<iCelExpression> expression;
-};
-
-/**
- * Parameter block implementation which supports parameter mapping
- * and expressions.
- */
-class celMappedParameterBlock : public celVariableParameterBlock
-{
-public:
-  celMappedParameterBlock (iCelEntity* entity, iCelParameterBlock* params,
-      const csArray<celParameterMapping>& mapping)
-  {
-    for (size_t mi = 0 ; mi < mapping.GetSize () ; mi++)
-    {
-      const celParameterMapping& m = mapping[mi];
-      SetParameterDef (mi, m.dest);
-      if (m.expression)
-	m.expression->Execute (entity, GetParameter (mi), params);
-      else
-      {
-        for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
-        {
-          celDataType t;
-          csStringID id = params->GetParameterDef (i, t);
-          if (id == m.source)
-	  {
-	    GetParameter (mi) = *params->GetParameterByIndex (i);
-	    break;
-	  }
-        }
-      }
-    }
-    for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
-    {
-      celDataType t;
-      csStringID id = params->GetParameterDef (i, t);
-      size_t idx = i+mapping.GetSize ();
-      SetParameterDef (idx, id);
-      const celData* data = params->GetParameterByIndex (i);
-      if (data)
-        GetParameter (idx) = *data;
-    }
-  }
-  virtual ~celMappedParameterBlock ()
-  {
   }
 };
 

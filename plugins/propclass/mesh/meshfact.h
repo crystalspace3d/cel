@@ -33,7 +33,6 @@
 #include "celtool/stdparams.h"
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
-#include "csgfx/shadervar.h"
 
 struct iCelEntity;
 struct iMeshWrapper;
@@ -224,12 +223,12 @@ public:
   virtual bool SetPropertyIndexed (int, bool);
 
   // Functions to set ShaderVars in the mesh
-  virtual bool SetShaderVarExpr (CS::ShaderVarStringID name, const char* exprname);
-  virtual void SetShaderVar (CS::ShaderVarStringID name, float value);
-  virtual void SetShaderVar (CS::ShaderVarStringID name, int value);
-  virtual void SetShaderVar (CS::ShaderVarStringID name, csVector2 value);
-  virtual void SetShaderVar (CS::ShaderVarStringID name, csVector3 value);
-  virtual void SetShaderVar (CS::ShaderVarStringID name, csVector4 value);
+  virtual bool SetShaderVarExpr (csStringID name, const char* exprname);
+  virtual void SetShaderVar (csStringID name, float value);
+  virtual void SetShaderVar (csStringID name, int value);
+  virtual void SetShaderVar (csStringID name, csVector2 value);
+  virtual void SetShaderVar (csStringID name, csVector3 value);
+  virtual void SetShaderVar (csStringID name, csVector4 value);
   virtual bool AttachSocketMesh (const char* socket,
   	iMeshWrapper* meshwrapper);
   virtual bool DetachSocketMesh (const char* socket);

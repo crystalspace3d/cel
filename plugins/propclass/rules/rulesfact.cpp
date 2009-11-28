@@ -77,22 +77,21 @@ celPcRules::celPcRules (iObjectRegistry* object_reg)
   // For actions.
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("name");
-    id_time = pl->FetchStringID ("time");
+    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_time = pl->FetchStringID ("cel.parameter.time");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.rules.action.");
-    AddAction (action_addrule, "AddRule");
-    AddAction (action_deleterule, "DeleteRule");
-    AddAction (action_deleteallrules, "DeleteAllRules");
+    AddAction (action_addrule, "cel.action.AddRule");
+    AddAction (action_deleterule, "cel.action.DeleteRule");
+    AddAction (action_deleteallrules, "cel.action.DeleteAllRules");
   }
 
   // For SendMessage parameters.
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_name);
+  params->SetParameterDef (id_name, "name");
 
   vc = csQueryRegistry<iVirtualClock> (object_reg);
 

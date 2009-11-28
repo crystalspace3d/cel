@@ -32,7 +32,8 @@ struct iPortal;
  * a door that closes off the portal and it doesn't make sense to use
  * the portal anyway.
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - mesh (string, read/write): the name of the portal mesh.
  * - portal (string, read/write): the name of the portal.
  * - closed (bool, read/write): if the portal is closed or not.

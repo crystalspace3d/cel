@@ -5,18 +5,10 @@ IconsFromSVG gnome-mime-application-x-zip-celstart ;
 IconsMakeWin32ICO CELstart.ico : CELstart ;
 IconsMakeWin32ICO celzip.ico : gnome-mime-application-x-zip-celstart ;
 
-CELSTART_SOURCE_WRAPPER = wrapper_main.cpp ;
-CELSTART_SOURCE_CORE = [ Filter [ Wildcard *.cpp *.h ] : $(CELSTART_SOURCE_WRAPPER) ] ;
-
-Library celstartcore : $(CELSTART_SOURCE_CORE) : shared ;
-CFlags celstartcore : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-MsvcDefine celstartcore : CEL_CELSTARTCORE_LIB ;
-LibDepends celstartcore : celtool ;
-ExternalLibs celstartcore : CRYSTAL ;
-
 ApplicationIcon win32 : celstart : CELstart.ico ;
-Application celstart : $(CELSTART_SOURCE_WRAPPER) ;
-LinkWith celstart : celstartcore ;
+Application celstart : [ Wildcard *.cpp *.h ] ;
+CFlags celstart : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+LinkWith celstart : celtool ;
 ExternalLibs celstart : CRYSTAL ;
 Win32Resource celstart : [ ConcatDirs $(SUBDIR) celstart.rc ] ;
 FileListEntryApplications celstart : app-celstart ;
@@ -26,12 +18,13 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   SubVariant static ;
 
   ApplicationIcon win32 : celstart_static : CELstart.ico ;
-  Application celstart_static : $(CELSTART_SOURCE_WRAPPER) :
+  Application celstart_static : [ Wildcard *.cpp *.h ]
+        [ Wildcard [ ConcatDirs behaviours ] : *.cpp *.h ]
+        [ Wildcard [ ConcatDirs screens ] : *.cpp *.h ] :
      independent noinstall ;
   CFlags celstart_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine celstart_static : CS_STATIC_LINKED ;
-  LinkWith celstart_static : celstartcore ;
-  ExternalLibs celstart : CRYSTAL ;
+  LinkWith celstart_static : cel_staticplugins celtool ;
   Win32Resource celstart_static : [ ConcatDirs $(SUBDIR) celstart.rc ] ;
   FileListEntryApplications celstart_static : app-celstart-static ;
 
@@ -97,15 +90,20 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     skeleton2
     skeleton2ldr
     skelldr
+    softshader
     spr2d
     spr3d
+    sprcal3d
     spr3dbin
     spr3dldr
     spr2dldr
+    sprcal3dldr
     stdrep
     terrain2
     terrain2ldr
     terrainldr
+    thing
+    thingldr
     trans_std
     vfs
     xmlread
@@ -123,9 +121,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     glshader_cg
     glshader_ps1
     odedynam
-    rm_rlcompat
-    rm_shadow_pssm
-    rm_unshadowed
     sndmanager
     sndsysopenal
     sndsyssoft
@@ -133,8 +128,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     sndsysnull
     sndsysogg
     sndsyswav
-    sprcal3d
-    sprcal3dldr
     ;
 
   if $(TARGET.OS) = "WIN32" { STATIC.PLUGINLIST += glwin32 joywin sndsyswin ; }
@@ -143,6 +136,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   {
     STATIC.PLUGINLIST += glx2d ;
     STATIC.PLUGINLIST += joylin ;
+    STATIC.PLUGINLIST += x2d ;
     STATIC.PLUGINLIST += xwin ;
     STATIC.OPTIONALPLUGINLIST += sndsysoss ;
     STATIC.OPTIONALPLUGINLIST += sndsysalsa ;
@@ -166,7 +160,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     mgr_quests
     mgr_billboard
     pfactormove
-    pfanalogmotion
     pfbillboard
     pfdamage
     pfdefcam
@@ -174,7 +167,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfengine
     pfinput
     pfinv
-    pfjump
     pflight
     pfmechanics
     pfmeshdeform

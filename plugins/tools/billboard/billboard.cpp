@@ -893,16 +893,13 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   csEventID esub[] = { 
     csevMouseEvent (object_reg),
     csevFrame (object_reg),
-    csevFrame (object_reg),
+    csevPreProcess (object_reg),
+    csevPostProcess (object_reg),
+    csevProcess (object_reg),
     CanvasResize,
     CS_EVENTLIST_END 
   };
   q->RegisterListener (scfiEventHandler, esub);
-
-  scfiEventHandler2D = new EventHandler2D (this);
-  CS_ASSERT (q != 0);
-  q->RemoveListener (scfiEventHandler2D);
-  q->RegisterListener (scfiEventHandler2D, csevFrame (object_reg));
 
   screen_w_fact = BSX / g3d->GetWidth ();
   screen_h_fact = BSY / g3d->GetHeight ();
@@ -1058,17 +1055,66 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
     screen_w_fact = BSX / g3d->GetWidth ();
     screen_h_fact = BSY / g3d->GetHeight ();
   }
-  else if (ev.Name == csevFrame (object_reg))
+  else if (ev.Name == csevPreProcess (object_reg))
   {
     HandleMovingBillboards (vc->GetElapsedTicks ());
+  }
+  else if (ev.Name == csevPostProcess (object_reg))
+  {
+    if (billboards.GetSize () > 0)
+    {
+      // reset perspective center in case user is drawing some other
+      // view. this assumes bb space is fullscreen.
+      g3d->SetPerspectiveCenter(g3d->GetWidth()/2,g3d->GetHeight()/2);
+      g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+      mesh_reset ();
+      size_t i;
+      float z = z_max;
+      float dz = (z_max-z_min) / float (billboards.GetSize ());
+      g3d->SetWorldToCamera (csReversibleTransform ());
+      for (i = 0 ; i < billboards.GetSize () ; i++)
+      {
+	celBillboard* bb = billboards[i];
+	if (bb->flags.Check (CEL_BILLBOARD_VISIBLE))
+	{
+          bb->Draw (g3d, z);
+	  const char* t = bb->GetText ();
+	  if (t)
+	  {
+	    iFont* font = bb->GetFont ();
+	    if (!font) font = default_font;
+	    if (font)
+	    {
+	      mesh_draw (g3d);
+	      g3d->BeginDraw (CSDRAW_2DGRAPHICS);
+	      csRect r;
+	      bb->GetRect (r);
+              int text_dx = bb->GetTextDX ();
+              int text_dy = bb->GetTextDY ();
+              BillboardToScreenspace(text_dx,text_dy);
+	      int fg = bb->UseTextFgColor () ? bb->GetTextFgColorNum () :
+		  	default_fg_color;
+	      int bg = bb->UseTextBgColor () ? bb->GetTextBgColorNum () :
+		  	default_bg_color;
+	      g3d->GetDriver2D ()->Write (font,
+			r.xmin+text_dx, r.ymin+text_dy,
+			fg, bg, t);
+	      g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+	    }
+	  }
+	}
+	z -= dz;
+      }
+      mesh_draw (g3d);
+    }
   }
   else if (ev.Name == csevMouseUp (name_reg, 0))
   {
     if (moving_billboard)
     {
       moving_billboard->SetPositionScreen (
-        csMouseEventHelper::GetX(&ev) + moving_dx,
-        csMouseEventHelper::GetY(&ev) + moving_dy);
+	  	csMouseEventHelper::GetX(&ev) + moving_dx,
+		csMouseEventHelper::GetY(&ev) + moving_dy);
       moving_billboard = 0;
     }
 
@@ -1145,56 +1191,6 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 				    csMouseEventHelper::GetButton(&ev));
   }
   return false;
-}
-
-void celBillboardManager::DrawBillboards ()
-{
-  if (billboards.GetSize () > 0)
-  {
-    // reset perspective center in case user is drawing some other
-    // view. this assumes bb space is fullscreen.
-    g3d->SetPerspectiveCenter(g3d->GetWidth()/2,g3d->GetHeight()/2);
-    g3d->BeginDraw (CSDRAW_3DGRAPHICS);
-    mesh_reset ();
-    size_t i;
-    float z = z_max;
-    float dz = (z_max-z_min) / float (billboards.GetSize ());
-    g3d->SetWorldToCamera (csReversibleTransform ());
-    for (i = 0 ; i < billboards.GetSize () ; i++)
-    {
-      celBillboard* bb = billboards[i];
-      if (bb->flags.Check (CEL_BILLBOARD_VISIBLE))
-      {
-        bb->Draw (g3d, z);
-        const char* t = bb->GetText ();
-        if (t)
-        {
-          iFont* font = bb->GetFont ();
-          if (!font) font = default_font;
-          if (font)
-          {
-            mesh_draw (g3d);
-            g3d->BeginDraw (CSDRAW_2DGRAPHICS);
-            csRect r;
-            bb->GetRect (r);
-            int text_dx = bb->GetTextDX ();
-            int text_dy = bb->GetTextDY ();
-            BillboardToScreenspace(text_dx,text_dy);
-            int fg = bb->UseTextFgColor () ? bb->GetTextFgColorNum () :
-              default_fg_color;
-            int bg = bb->UseTextBgColor () ? bb->GetTextBgColorNum () :
-              default_bg_color;
-            g3d->GetDriver2D ()->Write (font,
-              r.xmin+text_dx, r.ymin+text_dy,
-              fg, bg, t);
-            g3d->BeginDraw (CSDRAW_3DGRAPHICS);
-          }
-        }
-      }
-      z -= dz;
-    }
-    mesh_draw (g3d);
-  }
 }
 
 void celBillboardManager::StackTop (iBillboard* bb)

@@ -75,7 +75,7 @@ bool celTCPGameFactory::Initialize (iObjectRegistry* object_reg)
   // register callback to every frame
   scfiEventHandler = new EventHandler (this);
   csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
-  csEventID events[] = { Frame, CS_EVENTLIST_END };
+  csEventID events[] = { PreProcess, PostProcess, CS_EVENTLIST_END };
   q->RegisterListener (scfiEventHandler, events);
 
   // init network library

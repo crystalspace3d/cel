@@ -55,9 +55,7 @@ SCF_IMPLEMENT_FACTORY (celPlLayer)
 celPlLayer::celPlLayer (iBase* parent) : scfImplementationType (this, parent)
 {
   entities_hash_dirty = false;
-  scfiEventHandlerLogic = 0;
-  scfiEventHandler3D = 0;
-  scfiEventHandler2D = 0;
+  scfiEventHandler = 0;
 
   compress_delay = 1000;
   allow_entity_addon = true;
@@ -71,34 +69,25 @@ celPlLayer::~celPlLayer ()
   entities_hash.DeleteAll ();
   entityclasses_hash.DeleteAll ();
 
-  if (scfiEventHandlerLogic)
+  if (scfiEventHandler)
   {
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
     if (q != 0)
-      q->RemoveListener (scfiEventHandlerLogic);
-    scfiEventHandlerLogic->DecRef ();
-  }
-
-  if (scfiEventHandler3D)
-  {
-    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
-    if (q != 0)
-      q->RemoveListener (scfiEventHandler3D);
-    scfiEventHandler3D->DecRef ();
-  }
-
-  if (scfiEventHandler2D)
-  {
-    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
-    if (q != 0)
-      q->RemoveListener (scfiEventHandler2D);
-    scfiEventHandler2D->DecRef ();
+      q->RemoveListener (scfiEventHandler);
+    scfiEventHandler->DecRef ();
   }
 }
 
-bool celPlLayer::HandleEvent (iEvent& ev, int where)
+bool celPlLayer::HandleEvent (iEvent& ev)
 {
-  if (ev.Name != csevFrame (object_reg))
+  int where;
+  if (ev.Name == csevPreProcess (object_reg))
+    where = CEL_EVENT_PRE;
+  else if (ev.Name == csevProcess (object_reg))
+    where = CEL_EVENT_VIEW;
+  else if (ev.Name == csevPostProcess (object_reg))
+    where = CEL_EVENT_POST;
+  else
     return false;
 
   CallbackInfo* cbinfo = GetCBInfo (where);
@@ -152,19 +141,16 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine) return false;	// Engine is required.
 
-  scfiEventHandlerLogic = new EventHandlerLogic (this);
+  scfiEventHandler = new EventHandler (this);
   csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
   csEventID esub[] = { 
-    csevFrame (object_reg),
+    csevPreProcess (object_reg),   // this goes away...
+    csevPostProcess (object_reg),  // this goes away...
+    csevProcess (object_reg),      // this goes away...
+    csevFrame (object_reg),        // this replaces the above!
     CS_EVENTLIST_END 
   };
-  q->RegisterListener (scfiEventHandlerLogic, esub);
-
-  scfiEventHandler3D = new EventHandler3D (this);
-  q->RegisterListener (scfiEventHandler3D, esub);
-
-  scfiEventHandler2D = new EventHandler2D (this);
-  q->RegisterListener (scfiEventHandler2D, esub);
+  q->RegisterListener (scfiEventHandler, esub);
 
   return true;
 }
@@ -349,10 +335,11 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
     size_t k;
     for (k = 0 ; k < act_params->GetParameterCount () ; k++)
     {
+      csStringID id;
       celDataType t;
-      csStringID id = act_params->GetParameterDef (k, t);
+      const char* parname = act_params->GetParameter (k, id, t);
       const celData* par = act_params->GetParameter (id);
-      converted_params->SetParameterDef (k, id);
+      converted_params->SetParameterDef (k, id, parname);
       if (t == CEL_DATA_PARAMETER)
       {
 	celData& converted_par = converted_params->GetParameter (k);
@@ -793,12 +780,8 @@ iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
   // use cel.pcfactory.propname if it is able to load
   // and propclass is queried successfully
   csString pfid ("cel.pcfactory.");
-  // skip the first 2 characters if they have the 'pc' bit
-  // because of historical reasons
-  if (propname[0] == 'p' && propname[1] == 'c')
-    pfid += &propname[2];
-  else
-    pfid += propname;
+  // skip the first 2 characters since they have the 'pc' bit
+  pfid += &propname[2];
   // try to load property class factory using constructed id
   if (!LoadPropertyClassFactory (pfid))
     return 0;
@@ -1130,8 +1113,8 @@ bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
 
   csRef<iPluginManager> plugin_mgr =
   	csQueryRegistry<iPluginManager> (object_reg);
-  csRef<iComponent> pf;
-  pf = csQueryPluginClass<iComponent> (plugin_mgr, plugin_id);
+  csRef<iBase> pf;
+  pf = CS_QUERY_PLUGIN_CLASS (plugin_mgr, plugin_id, iBase);
   if (!pf)
   {
     pf = csLoadPluginAlways (plugin_mgr, plugin_id);

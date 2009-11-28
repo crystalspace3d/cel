@@ -86,10 +86,10 @@ private:
 
 private:
   /**
-   * Returns the CS collection associated to this entity. No check performed,
+   * Returns the CS region associated to this entity. No check performed,
    * the caller of this function is responsable of performing them
    */
-  iCollection* GetCollection (csRef<iEngine> engine);
+  iRegion* GetRegionInternal (csRef<iEngine> engine);
 
 public:
   celPcRegion (iObjectRegistry* object_reg);
@@ -141,8 +141,8 @@ public:
   virtual void PointCamera (iPcCamera* pccamera, const char* name);
   /// Find a sector named "name".
   virtual iSector* FindSector (const char* name);
-  /// Get the CS collection
-  virtual iCollection* GetCollection ();
+  /// Get the CS region
+  virtual iRegion* GetRegion ();
 
   virtual csPtr<iCelDataBuffer> SaveFirstPass ();
   virtual bool LoadFirstPass (iCelDataBuffer* databuf);

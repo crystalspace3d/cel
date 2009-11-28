@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer 1.9dev: 4.2.1.3 app.cpp</title>
+<title>Crystal Entity Layer 1.4.0: 4.2.1.3 app.cpp</title>
 
-<meta name="description" content="Crystal Entity Layer 1.9dev: 4.2.1.3 app.cpp">
-<meta name="keywords" content="Crystal Entity Layer 1.9dev: 4.2.1.3 app.cpp">
+<meta name="description" content="Crystal Entity Layer 1.4.0: 4.2.1.3 app.cpp">
+<meta name="keywords" content="Crystal Entity Layer 1.4.0: 4.2.1.3 app.cpp">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -234,14 +234,22 @@ you probably want to read the key definitions from a configuration file.
 a certain event occurs. <code>ProcessFrame()</code> is called every frame. Normally
 you would put the code here to draw 3D graphics. However in case of CRystal
 Entity Layer it is the camera property class that actually takes care of
-this so the implementation here is empty.
+this so the implementation here is empty. In <code>FinishFrame()</code> we
+actually render everything on screen.
 </p>
 <p>When the player presses a key the <code>OnKeyboard()</code> routine is called. In
 this case we only listen to the escape key to exit the application since
 all other keys are handled by the player entity.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">void MainApp::Frame ()
+<table><tr><td>&nbsp;</td><td><pre class="example">void MainApp::ProcessFrame ()
 {
+}
+
+void MainApp::FinishFrame ()
+{
+  // Just tell the 3D renderer that everything has been rendered.
+  g3d-&gt;FinishDraw ();
+  g3d-&gt;Print (0);
 }
 
 bool MainApp::OnKeyboard(iEvent&amp; ev)
@@ -345,17 +353,10 @@ bool MainApp::Application ()
     return ReportError (&quot;Error loading level!&quot;);
   if (!CreatePlayer ())
     return ReportError (&quot;Couldn't create player!&quot;);
-    
-  printer.AttachNew (new FramePrinter (object_reg));
 
   Run ();
 
   return true;
-}
-
-void MainApp::OnExit ()
-{
-  printer.Invalidate ();
 }
 </pre></td></tr></table>
 <hr size="1">

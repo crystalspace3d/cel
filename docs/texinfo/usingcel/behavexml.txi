@@ -607,11 +607,14 @@ behaviour layer:
 @item @strong{id( idname )}
 Calculate the @sc{id} from the given string.
 @item @strong{parid( idname )}
-Calculate the @sc{id} from the given string.
+Calculate the @sc{id} from the given string. The substring
+@samp{cel.parameter.} is added in front of @samp{idname}.
 @item @strong{actid( idname )}
-Calculate the @sc{id} from the given string.
+Calculate the @sc{id} from the given string. The substring @samp{cel.action.}
+is added in front of @samp{idname}.
 @item @strong{propid( idname )}
-Calculate the @sc{id} from the given string.
+Calculate the @sc{id} from the given string. The substring
+@samp{cel.property.} is added in front of @samp{idname}.
 @end table
 
 @subsubheading Entity and Property Class Functions

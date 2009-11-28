@@ -7,10 +7,11 @@
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
-  		<Platform Name="Win32"/>
-    	</Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
 	<Configurations>
-            		<Configuration
+  		<Configuration
 			Name="Release (with static libs)|Win32"
 			OutputDirectory="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\"
 			IntermediateDirectory="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\"
@@ -23,8 +24,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\Win32\celtst_static_plugins_CRYSTAL.pdb"
+				ProgramDataBaseFileName="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\celtst_static_plugins_CRYSTAL.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
@@ -34,10 +36,9 @@
 				ObjectFile="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -82,7 +83,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-      		<Configuration
+  		<Configuration
 			Name="Release (with DLLs)|Win32"
 			OutputDirectory="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\"
 			IntermediateDirectory="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\"
@@ -96,8 +97,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDatabaseFileName="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\Win32\celtst_static_plugins_CRYSTAL-1.9-vc71.pdb"
+				ProgramDatabaseFileName="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\celtst_static_plugins_CRYSTAL-1.4-vc71.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
@@ -107,10 +109,9 @@
 				ObjectFile="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -121,9 +122,9 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-                        OutputFile="..\..\celtst_static_plugins_CRYSTAL-1.9-vc71.dll"
+                                OutputFile="..\..\celtst_static_plugins_CRYSTAL-1.4-vc71.dll"
 				ImportLibrary="..\..\out\release71\libs\libceltst_static_plugins_CRYSTAL.lib"
-				ProgramDatabaseFile="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\Win32\celtst_static_plugins_CRYSTAL-1.9-vc71.pdb"
+				ProgramDatabaseFile="..\..\out\release71\build\libceltst_static_plugins_CRYSTAL\celtst_static_plugins_CRYSTAL-1.4-vc71.pdb"
 				AdditionalOptions="libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc71.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib libcrystalspace_directx.lib zlib.lib dsound.lib ddraw.lib dinput.lib "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -157,7 +158,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-                		<Configuration
+    		<Configuration
 			Name="Debug (with static libs)|Win32"
 			OutputDirectory="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\"
 			IntermediateDirectory="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\"
@@ -168,10 +169,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\Win32\celtst_static_plugins_CRYSTAL.pdb"
+				ProgramDataBaseFileName="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\celtst_static_plugins_CRYSTAL.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
@@ -181,10 +183,9 @@
 				ObjectFile="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -227,7 +228,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-      		<Configuration
+  		<Configuration
 			Name="Debug (with DLLs)|Win32"
 			OutputDirectory="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\"
 			IntermediateDirectory="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\"
@@ -238,11 +239,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
 
-				ProgramDatabaseFileName="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\Win32\celtst_static_plugins_CRYSTAL-1.9-vc71_d.pdb"
+				ProgramDatabaseFileName="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\celtst_static_plugins_CRYSTAL-1.4-vc71_d.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
@@ -252,10 +254,9 @@
 				ObjectFile="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -264,9 +265,9 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-                        OutputFile="..\..\celtst_static_plugins_CRYSTAL-1.9-vc71_d.dll"
+                                OutputFile="..\..\celtst_static_plugins_CRYSTAL-1.4-vc71_d.dll"
 				ImportLibrary="..\..\out\debug71\libs\libceltst_static_plugins_CRYSTAL_d.lib"
-				ProgramDatabaseFile="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\Win32\celtst_static_plugins_CRYSTAL-1.9-vc71_d.pdb"
+				ProgramDatabaseFile="..\..\out\debug71\build\libceltst_static_plugins_CRYSTAL\celtst_static_plugins_CRYSTAL-1.4-vc71_d.pdb"
 				AdditionalOptions="libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc71_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib libcrystalspace_directx_d.lib zlib.lib dsound.lib ddraw.lib dinput.lib "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -300,7 +301,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-              	</Configurations>
+  	</Configurations>
 	<Files>
 		<Filter
 			Name="Source Files"

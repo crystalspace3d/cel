@@ -30,7 +30,7 @@
 #include "csutil/scf.h"
 #include "csutil/strhash.h"
 
-class csReversibleTransform;
+
 struct iDataBuffer;
 struct iSector;
 struct iPath;
@@ -63,16 +63,15 @@ struct iPcGravityCallback : public virtual iBase
  * This property class supports dead reckoning which is useful for
  * networking.
  *
- * This property class can send out the following messages:
- * - 'cel.move.impossible' (old 'pclinearmovement_stuck'):
- *   sent when couldn't move at all.
- * - 'cel.move.interrupted' (old 'pclinearmovement_collision'):
- *   sent when we could move but not all the way.
- * - 'cel.move.arrived' (old 'pclinearmovement_arrived'):
- *   when we arrived without problems.
+ * This property class can send out the following messages
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * - pclinearmovement_stuck: sent when couldn't move at all.
+ * - pclinearmovement_collision: sent when we could move but not all the way.
+ * - pclinearmovement_arrived: when we arrived without problems.
  *
- * This property class supports the following actions (add prefix 'cel.move.linear.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset'
  *     (vector3 default=0,0,0).
  * - InitCDMesh: parameters 'percentage' (float).
@@ -83,7 +82,8 @@ struct iPcGravityCallback : public virtual iBase
  * - AddVelocity: parameters 'velocity' (vector3) in world coordinates.
  * - SetAngularVelocity: parameters 'velocity' (vector3).
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - speed (float, read/write): control speed (default 1.0).
  * - anchor (string, read/write): name of the entity on which we are
  *   anchored.
@@ -92,7 +92,7 @@ struct iPcGravityCallback : public virtual iBase
  */
 struct iPcLinearMovement : public virtual iBase
 {
-  SCF_INTERFACE (iPcLinearMovement, 0, 0, 3);
+  SCF_INTERFACE (iPcLinearMovement, 0, 0, 2);
 
   /**
    * Set an anchor for this movement class. When this linmove is
@@ -123,32 +123,21 @@ struct iPcLinearMovement : public virtual iBase
    * Set the current speed.
    */
   virtual void SetSpeed (float speedZ) = 0;
-  /// Get the current speed.
-  virtual float GetSpeed () const = 0;
 
-  CS_DEPRECATED_METHOD_MSG("Use void SetBodyVelocity () instead.")
   /**
    * Set the current velocity vector in body coordinates.
    */
   virtual void SetVelocity (const csVector3& vel) = 0;
 
   /**
-   * Set the current velocity vector in body coordinates.
-   */
-  virtual void SetBodyVelocity (const csVector3& vel) = 0;
-
-  /**
-   * Set the current world velocity vector in body coordinates.
-   */
-  virtual void SetWorldVelocity (const csVector3& vel) = 0;
-
-  /**
    * Exerts a velocity on the body in world coordinates
    */
+
   virtual void AddVelocity (const csVector3& vel) = 0;
 
   /// Resets the velocity of this body in world coordinates.
   virtual void ClearWorldVelocity () = 0;
+
 
   /**
    * Get the current velocity vector.
@@ -158,18 +147,7 @@ struct iPcLinearMovement : public virtual iBase
   virtual void GetVelocity (csVector3& v) const = 0;
 
   /**
-   * Get the body's velocity- velocity minus physical effects like gravity.
-   */
-  virtual const csVector3 &GetBodyVelocity () const = 0;
-
-  /**
-   * Get the world's velocity- velocity for simulating physical effects like gravity.
-   */
-  virtual const csVector3 &GetWorldVelocity () const = 0;
-
-  /**
-   * Get the current velocity vector in local coordinate space:
-   *   WorldToObject(worldvel) + bodyvel.
+   * Get the current velocity vector.
    */
   virtual const csVector3 GetVelocity () const = 0;
 
@@ -280,11 +258,6 @@ struct iPcLinearMovement : public virtual iBase
    */
   virtual const csVector3 GetFullPosition () = 0;
 
-  /**
-   * Get the full transform describing the world to this transform.
-   */
-  virtual const csReversibleTransform GetFullTransform () = 0;
-
   /// Is a csPath active now or standard DR movement?
   virtual bool IsPath () const = 0;
 
@@ -382,9 +355,6 @@ struct iPcLinearMovement : public virtual iBase
    * Set maximum time delta to use when extrapolating positions.
    */
   virtual void SetDeltaLimit (float deltaLimit) = 0;
-
-  /// Get the delta limit.
-  virtual float GetDeltaLimit () const = 0;
 
   /*
    * Rotates the mesh by a certain amount. This function is intended to be

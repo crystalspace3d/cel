@@ -29,11 +29,13 @@ struct iPcInventory;
 /**
  * This is a characteristics property class.
  *
- * This property class supports the following actions (add prefix 'cel.characteristics.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - HasCharacteristic: parameters 'name' (string), returns true/false.
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - <name> (float, read/write): the specific characteristic.
  */
 struct iPcCharacteristics : public virtual iBase

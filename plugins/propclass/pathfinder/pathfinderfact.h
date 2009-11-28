@@ -47,8 +47,8 @@ CEL_DECLARE_FACTORY (PathFinder)
 /**
  * This is the PathFinder property class.
  */
-class celPcPathFinder : public scfImplementationExt1<celPcPathFinder,
-  celPcCommon, iPcPathFinder>
+class celPcPathFinder : public scfImplementationExt2<celPcPathFinder,
+  celPcCommon, iPcPathFinder, iMessageReceiver>
 {
 private: 
   csWeakRef<iEngine> engine;

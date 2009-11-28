@@ -26,17 +26,19 @@
 
 struct iSector;
 struct iPcCamera;
-struct iCollection;
+struct iRegion;
 
 /**
  * The representation of a region.
  *
- * This property class supports the following actions (add prefix 'cel.region.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - Load: no parameters.
  * - Unload: no parameters.
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - worlddir (string, read/write): the VFS directory of the world file.
  * - worldfile (string, read/write): the world filename.
  * - regionname (string, read/write): region name.
@@ -115,10 +117,10 @@ struct iPcRegion : public virtual iBase
   virtual void PointCamera (iPcCamera* pccamera, const char* name = 0) = 0;
 
   /**
-   * Returns the CS collection associated to this propclass. This function has a
+   * Returns the CS region associated to this propclass. This function has a
    * meaning only if the region has been loaded.
    */
-  virtual iCollection* GetCollection() = 0;
+  virtual iRegion* GetRegion() = 0;
 };
 
 #endif // __CEL_PF_REGION__

@@ -65,27 +65,26 @@ celPcQuest::celPcQuest (iObjectRegistry* object_reg)
 {
   // For SendMessage parameters.
   //params = new celOneParameterBlock ();
-  //params->SetParameterDef (id_message);
+  //params->SetParameterDef (id_message, "message");
 
   // For actions.
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("name");
+    id_name = pl->FetchStringID ("cel.parameter.name");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.quest.action.");
-    AddAction (action_newquest, "NewQuest");
-    AddAction (action_stopquest, "StopQuest");
+    AddAction (action_newquest, "cel.action.NewQuest");
+    AddAction (action_stopquest, "cel.action.StopQuest");
   }
 
   // For properties.
   propinfo.SetCount (2);
-  AddProperty (propid_name, "name",
+  AddProperty (propid_name, "cel.property.name",
 	CEL_DATA_STRING, true, "Quest Factory Name.", 0);
-  AddProperty (propid_state, "state",
+  AddProperty (propid_state, "cel.property.state",
 	CEL_DATA_STRING, false, "Current State.", 0);
 
   GetQuestManager ();
@@ -203,9 +202,15 @@ bool celPcQuest::PerformActionIndexed (int idx,
         size_t i;
         for (i = 0 ; i < params->GetParameterCount () ; i++)
         {
+          csStringID id;
           celDataType t;
-          csStringID id = params->GetParameterDef (i, t);
-	  const char* n = pl->FetchString (id);
+          const char* n = params->GetParameter (i, id, t);
+	  if (n == 0 || *n == 0)
+	  {
+	    // Parameter is not defined with a name. In that
+	    // case we try to fetch the name from the id.
+	    n = pl->FetchString (id);
+	  }
           if (t == CEL_DATA_STRING && strcmp ("name", n) != 0)
           {
             const celData* cd = params->GetParameter (id);

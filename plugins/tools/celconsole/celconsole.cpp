@@ -528,6 +528,9 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
     csevKeyboardEvent (object_reg),
     csevMouseEvent (object_reg),
     csevFrame (object_reg),
+    csevPreProcess (object_reg),
+    csevPostProcess (object_reg),
+    csevProcess (object_reg),
     CS_EVENTLIST_END 
   };
   q->RegisterListener (scfiEventHandler, esub);

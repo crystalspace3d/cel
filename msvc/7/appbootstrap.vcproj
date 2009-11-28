@@ -7,10 +7,11 @@
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
-  		<Platform Name="Win32"/>
-    	</Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
 	<Configurations>
-            		<Configuration
+  		<Configuration
 			Name="Release (with static libs)|Win32"
 			OutputDirectory="..\..\out\release7\build\appbootstrap\"
 			IntermediateDirectory="..\..\out\release7\build\appbootstrap\"
@@ -25,8 +26,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\appbootstrap\Win32\bootstrap.pdb"
+				ProgramDataBaseFileName="..\..\out\release7\build\appbootstrap\bootstrap.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -36,10 +38,9 @@
 				ObjectFile="..\..\out\release7\build\appbootstrap\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -51,7 +52,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\bootstrap.exe"
-				ProgramDatabaseFile="..\..\out\release7\build\appbootstrap\Win32\bootstrap.pdb"
+				ProgramDatabaseFile="..\..\out\release7\build\appbootstrap\bootstrap.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -86,7 +87,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-      		<Configuration
+  		<Configuration
 			Name="Release (with DLLs)|Win32"
 			OutputDirectory="..\..\out\release7\build\appbootstrap\"
 			IntermediateDirectory="..\..\out\release7\build\appbootstrap\"
@@ -101,8 +102,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\appbootstrap\Win32\bootstrap.pdb"
+				ProgramDataBaseFileName="..\..\out\release7\build\appbootstrap\bootstrap.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -112,10 +114,9 @@
 				ObjectFile="..\..\out\release7\build\appbootstrap\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -127,7 +128,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\bootstrap.exe"
-				ProgramDatabaseFile="..\..\out\release7\build\appbootstrap\Win32\bootstrap.pdb"
+				ProgramDatabaseFile="..\..\out\release7\build\appbootstrap\bootstrap.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -162,7 +163,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-                		<Configuration
+    		<Configuration
 			Name="Debug (with static libs)|Win32"
 			OutputDirectory="..\..\out\debug7\build\appbootstrap\"
 			IntermediateDirectory="..\..\out\debug7\build\appbootstrap\"
@@ -174,10 +175,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\appbootstrap\Win32\bootstrap.pdb"
+				ProgramDataBaseFileName="..\..\out\debug7\build\appbootstrap\bootstrap.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -187,10 +189,9 @@
 				ObjectFile="..\..\out\debug7\build\appbootstrap\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -200,7 +201,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				OutputFile="..\..\bootstrap.exe"
-				ProgramDatabaseFile="..\..\out\debug7\build\appbootstrap\Win32\bootstrap.pdb"
+				ProgramDatabaseFile="..\..\out\debug7\build\appbootstrap\bootstrap.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -235,7 +236,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-      		<Configuration
+  		<Configuration
 			Name="Debug (with DLLs)|Win32"
 			OutputDirectory="..\..\out\debug7\build\appbootstrap\"
 			IntermediateDirectory="..\..\out\debug7\build\appbootstrap\"
@@ -247,10 +248,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\appbootstrap\Win32\bootstrap.pdb"
+				ProgramDataBaseFileName="..\..\out\debug7\build\appbootstrap\bootstrap.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
@@ -260,10 +262,9 @@
 				ObjectFile="..\..\out\debug7\build\appbootstrap\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
+				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -273,7 +274,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				OutputFile="..\..\bootstrap.exe"
-				ProgramDatabaseFile="..\..\out\debug7\build\appbootstrap\Win32\bootstrap.pdb"
+				ProgramDatabaseFile="..\..\out\debug7\build\appbootstrap\bootstrap.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -308,7 +309,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-              	</Configurations>
+  	</Configurations>
 	<Files>
 		<Filter
 			Name="Source Files"

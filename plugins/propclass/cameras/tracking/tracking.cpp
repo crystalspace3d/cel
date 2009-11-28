@@ -36,8 +36,6 @@
 // CEL Includes
 #include "propclass/mesh.h"
 
-#include "iengine/engine.h"
-
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
@@ -55,7 +53,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   posoff.angle = PI / 6;
-  posoff.dist = 8.0f;
+  posoff.dist = 6.5f;
   relaxspringlen = 2.0f;
   minspring = 0.01f;
 
@@ -65,15 +63,12 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   tracktarget = 0;
   targetstate = TARGET_BASE;
   targetyoffset = 1.5f;
-  in_tartransition = false;
-  tarintime = 100;
-  currtartrans = 0.0f;
 
-  pandir = 0.0f;
+  pandir = PAN_NONE;
   pan.topspeed = 3.0f;
   pan.speed = 0.0f;
   pan.accel = 8.0f;
-  tiltdir = 0.0f;
+  tiltdir = TILT_NONE;
   tilt.topspeed = 1.0f;
   tilt.speed = 0.0f;
   tilt.accel = 3.0f;
@@ -86,51 +81,44 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.camera.tracking.action.");
-    AddAction (action_reset, "ResetCamera");
+    AddAction (action_reset, "cel.action.ResetCamera");
   }
 
   // For properties.
-  propinfo.SetCount (20);
-  AddProperty (propid_pos, "position",
+  propinfo.SetCount (17);
+  AddProperty (propid_pos, "cel.property.position",
     CEL_DATA_VECTOR3, false, "Position.", &corrpos);
-  AddProperty (propid_tar, "target",
+  AddProperty (propid_tar, "cel.property.target",
     CEL_DATA_VECTOR3, false, "Target position.", &corrtar);
-  AddProperty (propid_up, "up",
+  AddProperty (propid_up, "cel.property.up",
     CEL_DATA_VECTOR3, false, "Up direction.", &up);
-  AddProperty (propid_pan_topspeed, "pan_topspeed",
+  AddProperty (propid_pan_topspeed, "cel.property.pan_topspeed",
     CEL_DATA_FLOAT, true, "Top speed limit for panning.", &pan.topspeed);
-  AddProperty (propid_pan_currspeed, "pan_currspeed",
+  AddProperty (propid_pan_currspeed, "cel.property.pan_currspeed",
     CEL_DATA_FLOAT, false, "Current panning speed.", &pan.speed);
-  AddProperty (propid_pan_accel, "pan_accel",
+  AddProperty (propid_pan_accel, "cel.property.pan_accel",
     CEL_DATA_FLOAT, true, "Pan acceleration.", &pan.accel);
-  AddProperty (propid_pan_dir, "pan_dir",
-    CEL_DATA_LONG, true, "Pan direction -1 left, 0 none, 1 right.", &pandir);
-  AddProperty (propid_tilt_topspeed, "tilt_topspeed",
+  AddProperty (propid_pan_dir, "cel.property.pan_dir",
+    CEL_DATA_LONG, true, "Pan direction -1 left, 0 none, 1 right.", 0);
+  AddProperty (propid_tilt_topspeed, "cel.property.tilt_topspeed",
     CEL_DATA_FLOAT, true, "Top speed limit for tilting.", &tilt.topspeed);
-  AddProperty (propid_tilt_currspeed, "tilt_currspeed",
+  AddProperty (propid_tilt_currspeed, "cel.property.tilt_currspeed",
     CEL_DATA_FLOAT, false, "Current tilt speed.", &tilt.speed);
-  AddProperty (propid_tilt_accel, "tilt_accel",
+  AddProperty (propid_tilt_accel, "cel.property.tilt_accel",
     CEL_DATA_FLOAT, true, "Tilt acceleration.", &tilt.accel);
-  AddProperty (propid_tilt_dir, "tilt_dir",
-    CEL_DATA_LONG, true, "Tilt direction -1 down, 0 none, 1 up.", &tiltdir);
-  AddProperty (propid_taryoff, "targetyoffset",
-    CEL_DATA_FLOAT, true, "Y offset from target for lookat.", 0);
-  AddProperty (propid_tarintrans, "target_intransition",
-    CEL_DATA_BOOL, false, "Is target transitioning?", &in_tartransition);
-  AddProperty (propid_tarintime, "targettranstime",
-    CEL_DATA_LONG, true, "Time to transition to a new target.", &tarintime);
-  AddProperty (propid_currtartrans, "targetcurrtrans",
-    CEL_DATA_FLOAT, true, "Current transition of target between 0 and 1.", &currtartrans);
-  AddProperty (propid_posoff_angle, "posoff_angle",
+  AddProperty (propid_tilt_dir, "cel.property.tilt_dir",
+    CEL_DATA_LONG, true, "Tilt direction -1 down, 0 none, 1 up.", 0);
+  AddProperty (propid_taryoff, "cel.property.targetyoffset",
+    CEL_DATA_FLOAT, true, "Y offset from target for lookat.", &targetyoffset);
+  AddProperty (propid_posoff_angle, "cel.property.posoff_angle",
     CEL_DATA_FLOAT, true, "Position offset elevation angle.", &posoff.angle);
-  AddProperty (propid_posoff_dist, "posoff_dist",
+  AddProperty (propid_posoff_dist, "cel.property.posoff_dist",
     CEL_DATA_FLOAT, true, "Position offset distance.", &posoff.dist);
-  AddProperty (propid_spring_relaxlen, "spring_relaxlen",
+  AddProperty (propid_spring_relaxlen, "cel.property.spring_relaxlen",
     CEL_DATA_FLOAT, true, "Relaxed length of spring that follows player.", &relaxspringlen);
-  AddProperty (propid_spring_minlen, "spring_minlen",
+  AddProperty (propid_spring_minlen, "cel.property.spring_minlen",
     CEL_DATA_FLOAT, true, "Minimum length of the spring (small values are good).", &minspring);
-  AddProperty (propid_zoomoutcorrspeed, "zoomoutcorrspeed",
+  AddProperty (propid_zoomoutcorrspeed, "cel.property.zoomoutcorrspeed",
     CEL_DATA_FLOAT, true, "Zooming out correction speed.", &zoomoutcorrspeed);
 }
 
@@ -138,20 +126,51 @@ celPcTrackingCamera::~celPcTrackingCamera ()
 {
 }
 
-bool celPcTrackingCamera::SetPropertyIndexed (int idx, float f)
+bool celPcTrackingCamera::SetPropertyIndexed (int idx, long l)
 {
-  if (idx == propid_taryoff)
+  if (idx == propid_tilt_dir)
   {
-    SetTargetYOffset (f);
+    if (l < 0)
+      tiltdir = TILT_DOWN;
+    else if (l == 0)
+      tiltdir = TILT_NONE;
+    else //if (l > 0)
+      tiltdir = TILT_UP;
+    return true;
+  }
+  else if (idx == propid_pan_dir)
+  {
+    if (l < 0)
+      pandir = PAN_LEFT;
+    else if (l == 0)
+      pandir = PAN_NONE;
+    else //if (l > 0)
+      pandir = PAN_RIGHT;
     return true;
   }
   return false;
 }
-bool celPcTrackingCamera::GetPropertyIndexed (int idx, float &f)
+
+bool celPcTrackingCamera::GetPropertyIndexed (int idx, long &l)
 {
-  if (idx == propid_taryoff)
+  if (idx == propid_tilt_dir)
   {
-    f = targetyoffset;
+    if (tiltdir == TILT_DOWN)
+      l = -1;
+    else if (tiltdir == TILT_NONE)
+      l = 0;
+    else //if (tiltdir == TILT_UP)
+      l = 1;
+    return true;
+  }
+  else if (idx == propid_pan_dir)
+  {
+    if (pandir == PAN_LEFT)
+      l = -1;
+    else if (pandir == PAN_NONE)
+      l = 0;
+    else //if (pandir == PAN_RIGHT)
+      l = 1;
     return true;
   }
   return false;
@@ -219,7 +238,7 @@ void celPcTrackingCamera::SetFollowMinimumSpringFactor (float smin)
 {
   minspring = smin;
 }
-float celPcTrackingCamera::GetFollowMinimumSpringFactor () const
+float celPcTrackingCamera::SetFollowMinimumSpringFactor () const
 {
   return minspring;
 }
@@ -252,18 +271,18 @@ float celPcTrackingCamera::SpringForce (const float movement)
   return spring;
 }
 
-void celPcTrackingCamera::Accelerator::Accelerate (float direction, float elapsedsecs)
+void celPcTrackingCamera::Accelerator::Accelerate (int direction, float elapsedsecs)
 {
   // calculate current acceleration... do we go left... right? nothing?
   float cacc;
   // no direction but have some speed, then slowdown in opposite direction
-  if (fabs (direction) <= 0.0000001 && fabs (speed) > EPSILON)
+  if (!direction && fabs (speed) > EPSILON)
     cacc = (speed < 0) ? accel : -accel;
   else  // normal
     cacc = direction * accel;
 
   // this is to actually stop if we're slowing down.
-  if (fabs (direction) <= 0.0000001 &&
+  if (!direction &&
     ((speed > 0 && speed + cacc < 0) || (speed < 0 && speed + cacc > 0)))
     speed = 0.0f;
   // otherwise we can just speed up using v = a t
@@ -281,7 +300,19 @@ void celPcTrackingCamera::PanAroundPlayer (const csVector3 &playpos, float elaps
 {
   // perform a rotation around the character
   // accelerate speed in desired direction
-  pan.Accelerate (pandir, elapsedsecs);
+  switch (pandir)
+  {
+    case PAN_NONE:
+      pan.Accelerate (0, elapsedsecs);
+      break;
+    case PAN_LEFT:
+      pan.Accelerate (-1, elapsedsecs);
+      break;
+    case PAN_RIGHT:
+      pan.Accelerate (1, elapsedsecs);
+      break;
+  }
+
   float angle = pan.speed * elapsedsecs;
   // minor optimisation
   if (fabs (angle) > EPSILON)
@@ -293,8 +324,20 @@ void celPcTrackingCamera::PanAroundPlayer (const csVector3 &playpos, float elaps
     pos.z = pc.x * sin (angle) + pc.z * cos (angle) + playpos.z;
   }
 
-  tilt.Accelerate (tiltdir, elapsedsecs);
-  posoff.angle -= tilt.speed * elapsedsecs;
+  switch (tiltdir)
+  {
+    case TILT_NONE:
+      tilt.Accelerate (0, elapsedsecs);
+      break;
+    case TILT_UP:
+      tilt.Accelerate (1, elapsedsecs);
+      break;
+    case TILT_DOWN:
+      tilt.Accelerate (-1, elapsedsecs);
+      break;
+  }
+
+  posoff.angle += tilt.speed * elapsedsecs;
   // we limit the angles between epsilon and PI/2 - epsilon
   // to stop the evilness of rotating to the front of the character!!
   if (posoff.angle < 0.1)
@@ -312,10 +355,8 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
     pos, tar, true);
   if (beam.sqdistance > 0)
   {
-    const csVector3 lookat (tar - pos);
-    float lookat_len = lookat.Norm ();
-    const csVector3 dir (lookat / lookat_len);
-    float beam_distance = sqrt (beam.sqdistance);
+    const csVector3 lookat (tar - pos), dir (lookat.Unit ());
+    float lookat_len = lookat.Norm (), beam_distance = sqrt (beam.sqdistance);
     // 0.1f is our epsilon value
     // we add a correction to the beam when it collides with the wall by 10%
     // but to avoid a jump when camera first hits the wall and is moved 10% down the beam
@@ -334,7 +375,7 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
   // target unchanged
   corrtar = tar;
 
-  if (was_corrected)
+  if (false && was_corrected)
   {
     // reverse lookat vector
     const csVector3 clookat (corrtar - corrpos);
@@ -350,18 +391,12 @@ void celPcTrackingCamera::FindCorrectedTransform (float elapsedsecs)
         i = 0.0f;
       float corrlen = clookat.Norm ();
       // go down from the target because i felt like coding this a bit differently for fun
-      corrpos = corrtar - (clookat / corrlen) * (i * corrlen + (1.0f - i) * old_reallen);
+      corrpos = corrtar - clookat.Unit () * (i * corrlen + (1.0f - i) * old_reallen);
     }
     // so switch this off if we finished the interpolating at last
     else
       was_corrected = false;
   }
-}
-void celPcTrackingCamera::TransitionTarget ()
-{
-  in_tartransition = true;
-  currtartrans = 0.0f;
-  prevtar = corrtar;
 }
 
 bool celPcTrackingCamera::DecideState ()
@@ -381,12 +416,7 @@ bool celPcTrackingCamera::DecideState ()
 
   // a bit of fun, but not really needed :)
   // might keep it since it looks nice though
-  float finp = 1 + posoff.angle / PI, fexp = finp;
-  for (size_t exiter = 0; exiter < 4; exiter++)
-    fexp *= finp;
-  // we multiply out the fexp value to make function a lot faster so
-  // it's not so huge difference between pi/2 and pi
-  float dxf = posoff.dist * (1 - (1 / fexp));
+  float dxf = 5 * posoff.dist * posoff.angle / PI;
   float
     posoffset_y = dxf * sin (posoff.angle),
     posoffset_z = dxf * cos (posoff.angle);
@@ -398,7 +428,7 @@ bool celPcTrackingCamera::DecideState ()
     csVector3 camplay (playpos - pos);
     camplay.y = 0.0f;
     float dist = camplay.Norm ();
-    camplay /= dist;
+    camplay.Normalize ();
     // Now get a 2D vector of the camera's direction
     csVector3 camdir (tar - pos);
     camdir.y = 0.0f;
@@ -424,62 +454,17 @@ bool celPcTrackingCamera::DecideState ()
   }
   else if (targetstate == TARGET_NONE)
   {
-    PanAroundPlayer (playpos, elapsedsecs);
-
-    pos = playpos - cam_dir * posoffset_z;
-    pos.y = playpos.y + posoffset_y;
-
-    tar = playpos;
-    tar.y += targetyoffset;
-
-    // get flat 2D vector (zero out y) of camera to the player
-    /*csVector3 camplay (playpos - pos);
-    camplay.y = 0.0f;
-    float dist = camplay.Norm ();
-    camplay.Normalize ();
-    // Now get a 2D vector of the camera's direction
+    // Get a 2D vector of the camera's direction
     csVector3 camdir (tar - pos);
-    camdir.y = 0.0f;
     camdir.Normalize ();
-
-    // plug it into our simplified equation to get the movement needed
-    //   cos (x) = camdir . camplay
-    //   move = dist * cos (x)
-    // in case you don't realise, it's the distance along camdir until
-    // there's a perpendicular bisecting camera -> player...
-    // ... this is so the camera only follows player in and out of the screen
-    float move = dist * camdir * camplay - posoffset_z;
-
-    pos += SpringForce (move) * move * camdir;
+    // stay lined up but move to behind the player
+    pos = playpos - camdir * posoffset_z;
     // lock y axis to fixed distance above player
     pos.y = playpos.y + posoffset_y;
+    // update target to continue facing old direction
+    tar = pos + camdir;
 
     PanAroundPlayer (playpos, elapsedsecs);
-
-    // setup the target
-    tar = (dist * camdir * camplay) * camdir + pos;
-    tar.y = playpos.y + targetyoffset;
-
-    // --------------
-    camdir = pos - tar;
-    camdir.y = 0.0;
-    CS::Swap(camdir.x, camdir.z);
-    //camdir.Normalize ();
-    //tar += camdir;
-
-    csVector3 offset (pos - tar);*/
-    //tar = playpos + csVector3 (0, targetyoffset, 0);
-
-    //pos -= (offset >> csVector3 (1, 0, 0));
-    //pos = playpos + csVector3 (0, targetyoffset, 0) + offset;
-
-    //tar += offset;
-    //pos += offset.Norm () * camdir;
-    /*csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-    iMovable *corn = engine->FindMeshObject ("Corner0")->GetMovable ();
-    iMovable *corn1 = engine->FindMeshObject ("Corner1")->GetMovable ();
-    corn->SetPosition (playpos + csVector3 (0, targetyoffset, 0));
-    corn1->SetPosition (tar);*/
   }
   else if (targetstate == TARGET_OBJ)
   {
@@ -500,22 +485,6 @@ bool celPcTrackingCamera::DecideState ()
 
   const csReversibleTransform &trans = parent->GetFullTransform ();
   up  = trans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
-
-  // do the target interpolation thing
-  if (in_tartransition)
-  {
-    // update counter
-    currtartrans += 1000.0f * elapsedsecs / float (tarintime);
-    if (currtartrans > 1.0f)
-    {
-      // switch transition off
-      in_tartransition = false;
-      // and clip this for usage below
-      currtartrans = 1.0f;
-    }
-    // a classic
-    corrtar = currtartrans * (corrtar - prevtar) + prevtar;
-  }
   return true;
 }
 
@@ -552,49 +521,23 @@ bool celPcTrackingCamera::SetTargetEntity (const char* name)
     return false;
   // get movable
   tracktarget = pcmesh->GetMesh ()->GetMovable ();
-  TransitionTarget ();
   // great success!
   return true;
 }
-void celPcTrackingCamera::SetTargetState (TargetState ntstate)
+void celPcTrackingCamera::SetTargetState (TargetState targetstate)
 {
-  // save the camera direction since it's locked now
-  if (ntstate != TARGET_BASE)
-  {
-    cam_dir = tar - pos;
-    cam_dir.Normalize();
-  }
-  //if (targetstate != TARGET_OBJ && ntstate != TARGET_NONE)
-    //TransitionTarget ();
-  targetstate = ntstate;
-}
-celPcTrackingCamera::TargetState celPcTrackingCamera::GetTargetState ()
-{
-  return targetstate;
+  celPcTrackingCamera::targetstate = targetstate;
 }
 void celPcTrackingCamera::SetTargetYOffset (float yoff)
 {
   targetyoffset = yoff;
-  TransitionTarget ();
-}
-float celPcTrackingCamera::GetTargetYOffset () const
-{
-  return targetyoffset;
-}
-void celPcTrackingCamera::SetTargetInterpolationTime (csTicks t)
-{
-  tarintime = t;
-}
-csTicks celPcTrackingCamera::GetTargetInterpolationTime () const
-{
-  return tarintime;
 }
 
-void celPcTrackingCamera::SetPanDirection (float pdir)
+void celPcTrackingCamera::Pan (PanDirection pdir)
 {
   pandir = pdir;
 }
-float celPcTrackingCamera::GetPanDirection () const
+celPcTrackingCamera::PanDirection celPcTrackingCamera::GetPanDirection () const
 {
   return pandir;
 }
@@ -617,11 +560,11 @@ float celPcTrackingCamera::GetPanAcceleration () const
   return pan.accel;
 }
 
-void celPcTrackingCamera::SetTiltDirection (float tdir)
+void celPcTrackingCamera::Tilt (TiltDirection tdir)
 {
   tiltdir = tdir;
 }
-float celPcTrackingCamera::GetTiltDirection () const
+celPcTrackingCamera::TiltDirection celPcTrackingCamera::GetTiltDirection () const
 {
   return tiltdir;
 }
@@ -642,6 +585,11 @@ void celPcTrackingCamera::SetTiltAcceleration (float taccel)
 float celPcTrackingCamera::GetTiltAcceleration () const
 {
   return tilt.accel;
+}
+
+celPcTrackingCamera::TargetState celPcTrackingCamera::GetTargetState ()
+{
+  return targetstate;
 }
 
 const csVector3 &celPcTrackingCamera::GetPosition ()

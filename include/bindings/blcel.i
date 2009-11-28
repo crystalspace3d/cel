@@ -473,17 +473,8 @@ CEL_PC(iPcActorMove, ActorMove, pcmove.actor.standard)
 
 //-----------------------------------------------------------------------------
 
-// yeah lets deprecate
 %include "propclass/actoranalog.h"
 CEL_PC(iPcActorAnalog, ActorAnalog, pcmove.actor.analog)
-
-%include "propclass/analogmotion.h"
-CEL_PC(iPcAnalogMotion, AnalogMotion, pcmove.analogmotion)
-
-//-----------------------------------------------------------------------------
-
-%include "propclass/jump.h"
-CEL_PC(iPcJump, Jump, pcmove.jump)
 
 //-----------------------------------------------------------------------------
 

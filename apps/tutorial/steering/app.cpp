@@ -193,8 +193,15 @@ bool MainApp::LoadSteering ()
 }
 
 
-void MainApp::Frame ()
+void MainApp::ProcessFrame ()
 {
+}
+
+void MainApp::FinishFrame ()
+{
+  // Just tell the 3D renderer that everything has been rendered.
+  g3d->FinishDraw ();
+  g3d->Print (0);
 }
 
 bool MainApp::OnKeyboard(iEvent& ev)
@@ -272,16 +279,9 @@ bool MainApp::Application ()
  if (!CreatePlayer ())
     return ReportError ("Couldn't create player!"); 
  if (!LoadSteering ())
-    return ReportError ("Couldn't create steering entity!");
-    
-  printer.AttachNew (new FramePrinter (object_reg));
+    return ReportError ("Couldn't create steering entity!"); 
 
   Run ();
 
   return true;
-}
-
-void MainApp::OnExit ()
-{
-  printer.Invalidate ();
 }

@@ -297,7 +297,7 @@ BehaviourBadOne::BehaviourBadOne (iCelEntity* entity, BehaviourLayer* bl, iCelPl
   : BehaviourCommon (entity, bl, pl)
 {
   id_pctimer_wakeup = pl->FetchStringID ("pctimer_wakeup");
-  id_par_elapsedticks = pl->FetchStringID ("elapsedticks");
+  id_par_elapsedticks = pl->FetchStringID ("cel.parameter.elapsedticks");
 
   ReadPath ();
 } 
@@ -724,124 +724,124 @@ bool BehaviourPF::LoadGraph ()
    */
 
 
-  csVector3 v0(-4.231915f, -0.010000f, 17.180994f);
+  csVector3 v0(-4.231915, -0.010000, 17.180994);
   csRef<iCelNode> gn0 = celgraph->CreateNode("n0",v0);
 
-  csVector3 v1(-4.430651f, -0.010000f, 14.289759f);
+  csVector3 v1(-4.430651, -0.010000, 14.289759);
   csRef<iCelNode> gn1 = celgraph->CreateNode("n1",v1);
 
-  csVector3 v2(1.032714f, -0.010000f, 14.351811f);
+  csVector3 v2(1.032714, -0.010000, 14.351811);
   csRef<iCelNode> gn2 = celgraph->CreateNode("n2",v2);
 
-  csVector3 v3(7.803181f, -0.010000f, 14.259256f);
+  csVector3 v3(7.803181, -0.010000, 14.259256);
   csRef<iCelNode> gn3 = celgraph->CreateNode("n3",v3);
 
-  csVector3 v4(14.358644f, -0.010000f, 14.077885f);
+  csVector3 v4(14.358644, -0.010000, 14.077885);
   csRef<iCelNode> gn4 = celgraph->CreateNode("n4",v4);
 
-  csVector3 v5(14.484720f, -0.010000f, 10.981868f);
+  csVector3 v5(14.484720, -0.010000, 10.981868);
   csRef<iCelNode> gn5 = celgraph->CreateNode("n5",v5);
 
-  csVector3 v6(8.788480f, -0.010000f, 10.698524f);
+  csVector3 v6(8.788480, -0.010000, 10.698524);
   csRef<iCelNode> gn6 = celgraph->CreateNode("n6",v6);
 
-  csVector3 v7(8.669841f, -0.010000f, 6.518142f);
+  csVector3 v7(8.669841, -0.010000, 6.518142);
   csRef<iCelNode> gn7 = celgraph->CreateNode("n7",v7);
 
-  csVector3 v8(14.774999f, -0.010000f, 6.613670f);
+  csVector3 v8(14.774999, -0.010000, 6.613670);
   csRef<iCelNode> gn8 = celgraph->CreateNode("n8",v8);
   
-  csVector3 v9(15.233424f, -0.010000f, 1.920429f);
+  csVector3 v9(15.233424, -0.010000, 1.920429);
   csRef<iCelNode> gn9 = celgraph->CreateNode("n9",v9);
 
-  csVector3 v10(9.145017f, -0.010000f, 1.344137f);
+  csVector3 v10(9.145017, -0.010000, 1.344137);
   csRef<iCelNode> gn10 = celgraph->CreateNode("n10",v10);
 
-  csVector3 v11(2.833345f, -0.010000f, 1.165757f);
+  csVector3 v11(2.833345, -0.010000, 1.165757);
   csRef<iCelNode> gn11 = celgraph->CreateNode("n11",v11);
 
-  csVector3 v12(2.356894f, -0.010000f, 6.514668f);
+  csVector3 v12(2.356894, -0.010000, 6.514668);
   csRef<iCelNode> gn12 = celgraph->CreateNode("n12",v12);
 
-  csVector3 v13(-2.893554f, -0.010000f, 6.227006f);
+  csVector3 v13(-2.893554, -0.010000, 6.227006);
   csRef<iCelNode> gn13 = celgraph->CreateNode("n13",v13);
 
-  csVector3 v14(-2.903145f, -0.010000f, 1.717835f);
+  csVector3 v14(-2.903145, -0.010000, 1.717835);
   csRef<iCelNode> gn14 = celgraph->CreateNode("n14",v14);
 
-  csVector3 v15(-11.967916f, -0.010000f, 0.879896f);
+  csVector3 v15(-11.967916, -0.010000, 0.879896);
   csRef<iCelNode> gn15 = celgraph->CreateNode("n15",v15);
 
-  csVector3 v16(-15.036117f, -0.010000f, 1.189961f);
+  csVector3 v16(-15.036117, -0.010000, 1.189961);
   csRef<iCelNode> gn16 = celgraph->CreateNode("n16",v16);
 
-  csVector3 v17(-15.543516f, -0.010000f, 7.151457f);
+  csVector3 v17(-15.543516, -0.010000, 7.151457);
   csRef<iCelNode> gn17 = celgraph->CreateNode("n17",v17);
 
-  csVector3 v18(-15.300305f, -0.010000f, 15.084600f);
+  csVector3 v18(-15.300305, -0.010000, 15.084600);
   csRef<iCelNode> gn18 = celgraph->CreateNode("n18",v18);
 
-  csVector3 v19(-12.349187f, -0.010000f, -3.802047f);
+  csVector3 v19(-12.349187, -0.010000, -3.802047);
   csRef<iCelNode> gn19 = celgraph->CreateNode("n19",v19);
 
-  csVector3 v20(-13.103723f, -0.010000f, -15.752377f);
+  csVector3 v20(-13.103723, -0.010000, -15.752377);
   csRef<iCelNode> gn20 = celgraph->CreateNode("n20",v20);
 
-  csVector3 v21(-4.216733f, -0.010000f, -16.036676f);
+  csVector3 v21(-4.216733, -0.010000, -16.036676);
   csRef<iCelNode> gn21 = celgraph->CreateNode("n21",v21);
 
-  csVector3 v22(-3.987110f, -0.010000f, -7.525320f);
+  csVector3 v22(-3.987110, -0.010000, -7.525320);
   csRef<iCelNode> gn22 = celgraph->CreateNode("n22",v22);
 
-  csVector3 v23(11.559246f, -0.010000f, -8.344143f);
+  csVector3 v23(11.559246, -0.010000, -8.344143);
   csRef<iCelNode> gn23 = celgraph->CreateNode("n23",v23);
 
-  csVector3 v24(2.692560f, -0.010000f, -15.649880f);
+  csVector3 v24(2.692560, -0.010000, -15.649880);
   csRef<iCelNode> gn24 = celgraph->CreateNode("n24",v24);
 
-  csVector3 v25(9.992839f, -0.010000f, -15.765086f);
+  csVector3 v25(9.992839, -0.010000, -15.765086);
   csRef<iCelNode> gn25 = celgraph->CreateNode("n25",v25);
 
-  csVector3 v26(10.636127f, -0.010000f, -20.355223f);
+  csVector3 v26(10.636127, -0.010000, -20.355223);
   csRef<iCelNode> gn26 = celgraph->CreateNode("n26",v26);
 
-  csVector3 v27(-4.475250f, -0.010000f, -25.567820f);
+  csVector3 v27(-4.475250, -0.010000, -25.567820);
   csRef<iCelNode> gn27 = celgraph->CreateNode("n27",v27);
 
-  csVector3 v28(10.864666f, -0.010000f, -29.258404f);
+  csVector3 v28(10.864666, -0.010000, -29.258404);
   csRef<iCelNode> gn28 = celgraph->CreateNode("n28",v28);
 
-  csVector3 v29(17.533041f, -0.010000f, -26.618723f);
+  csVector3 v29(17.533041, -0.010000, -26.618723);
   csRef<iCelNode> gn29 = celgraph->CreateNode("n29",v29);
 
-  csVector3 v30(31.384747f, -0.010000f, -25.544930f);
+  csVector3 v30(31.384747, -0.010000, -25.544930);
   csRef<iCelNode> gn30 = celgraph->CreateNode("n30",v30);
 
-  csVector3 v31(40.078514f, -0.010000f, -25.190439f);
+  csVector3 v31(40.078514, -0.010000, -25.190439);
   csRef<iCelNode> gn31 = celgraph->CreateNode("n31",v31);
 
-  csVector3 v32(40.769016f, -0.010000f, -6.522462f);
+  csVector3 v32(40.769016, -0.010000, -6.522462);
   csRef<iCelNode> gn32= celgraph->CreateNode("n32",v32);
 
-  csVector3 v33(35.519592f, -0.010000f, -6.484916f);
+  csVector3 v33(35.519592, -0.010000, -6.484916);
   csRef<iCelNode> gn33 = celgraph->CreateNode("n33",v33);
 
-  csVector3 v34(35.171139f, -0.010000f, 25.075426f);
+  csVector3 v34(35.171139, -0.010000, 25.075426);
   csRef<iCelNode> gn34 = celgraph->CreateNode("n34",v34);
 
-  csVector3 v35(41.059860f, -0.010000f, 25.295612f);
+  csVector3 v35(41.059860, -0.010000, 25.295612);
   csRef<iCelNode> gn35 = celgraph->CreateNode("n35",v35);
 
-  csVector3 v36(37.357365f, -0.010000f, 48.972939f);
+  csVector3 v36(37.357365, -0.010000, 48.972939);
   csRef<iCelNode> gn36 = celgraph->CreateNode("n36",v36);
 
-  csVector3 v37(20.817465f, -0.010000f, 50.163624f);
+  csVector3 v37(20.817465, -0.010000, 50.163624);
   csRef<iCelNode> gn37 = celgraph->CreateNode("n37",v37);
 
-  csVector3 v38(-2.660369f, -0.010000f, 50.823647f);
+  csVector3 v38(-2.660369, -0.010000, 50.823647);
   csRef<iCelNode> gn38 = celgraph->CreateNode("n38",v38);
 
-  csVector3 v39(-4.116637f, -0.010000f, 22.688683f);
+  csVector3 v39(-4.116637, -0.010000, 22.688683);
   csRef<iCelNode> gn39 = celgraph->CreateNode("n39",v39);
 
 

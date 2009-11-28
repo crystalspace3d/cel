@@ -47,7 +47,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/camera.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
 #include "iengine/campos.h"
 #include "iengine/sector.h"
 #include "cstool/csview.h"
@@ -137,49 +137,48 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
 
   if (id_entity == csInvalidStringID)
   {
-    id_entity = pl->FetchStringID ("entity");
-    id_sector = pl->FetchStringID ("sector");
-    id_position = pl->FetchStringID ("position");
-    id_radius = pl->FetchStringID ("radius");
-    id_minbox = pl->FetchStringID ("minbox");
-    id_maxbox = pl->FetchStringID ("maxbox");
-    id_start = pl->FetchStringID ("start");
-    id_end = pl->FetchStringID ("end");
-    id_maxdistance = pl->FetchStringID ("maxdistance");
+    id_entity = pl->FetchStringID ("cel.parameter.entity");
+    id_sector = pl->FetchStringID ("cel.parameter.sector");
+    id_position = pl->FetchStringID ("cel.parameter.position");
+    id_radius = pl->FetchStringID ("cel.parameter.radius");
+    id_minbox = pl->FetchStringID ("cel.parameter.minbox");
+    id_maxbox = pl->FetchStringID ("cel.parameter.maxbox");
+    id_start = pl->FetchStringID ("cel.parameter.start");
+    id_end = pl->FetchStringID ("cel.parameter.end");
+    id_maxdistance = pl->FetchStringID ("cel.parameter.maxdistance");
   }
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_entity);
+  params->SetParameterDef (id_entity, "entity");
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.trigger.action.");
-    AddAction (action_setuptriggersphere, "SetupTriggerSphere");
-    AddAction (action_setuptriggerbox, "SetupTriggerBox");
-    AddAction (action_setuptriggerbeam, "SetupTriggerBeam");
-    AddAction (action_setuptriggerabovemesh, "SetupTriggerAboveMesh");
+    AddAction (action_setuptriggersphere, "cel.action.SetupTriggerSphere");
+    AddAction (action_setuptriggerbox, "cel.action.SetupTriggerBox");
+    AddAction (action_setuptriggerbeam, "cel.action.SetupTriggerBeam");
+    AddAction (action_setuptriggerabovemesh, "cel.action.SetupTriggerAboveMesh");
   };
 
   // For properties.
   propinfo.SetCount (9);
-  AddProperty (propid_delay, "delay",
+  AddProperty (propid_delay, "cel.property.delay",
   	CEL_DATA_LONG, false, "Update delay to check for entities.", 0);
-  AddProperty (propid_jitter, "jitter",
+  AddProperty (propid_jitter, "cel.property.jitter",
   	CEL_DATA_LONG, false, "Random jitter to add to update delay.", 0);
-  AddProperty (propid_monitor, "monitor",
+  AddProperty (propid_monitor, "cel.property.monitor",
   	CEL_DATA_STRING, false, "Entity name to monitor.", 0);
-  AddProperty (propid_class, "class",
+  AddProperty (propid_class, "cel.property.class",
   	CEL_DATA_STRING, false, "Entity class to monitor.", 0);
-  AddProperty (propid_invisible, "invisible",
+  AddProperty (propid_invisible, "cel.property.invisible",
   	CEL_DATA_BOOL, false, "Monitor invisible entities.", 0);
-  AddProperty (propid_follow, "follow",
+  AddProperty (propid_follow, "cel.property.follow",
   	CEL_DATA_BOOL, false, "Follow own entity pcmesh.", 0);
-  AddProperty (propid_enabled, "enabled",
+  AddProperty (propid_enabled, "cel.property.enabled",
   	CEL_DATA_BOOL, false, "Enable/Disable trigger.", 0);
-  AddProperty (propid_strict, "strict",
-  	CEL_DATA_BOOL, false, "Use strict checking for monitored entity.",
+  AddProperty (propid_strict, "cel.property.strict",
+  	CEL_DATA_BOOL, false, "Use strict checking for monitoried entity.", 
 			&strict);
-  AddProperty (propid_type, "type",
+  AddProperty (propid_type, "cel.property.type",
   	CEL_DATA_LONG, true, "Trigger type.", &trigger_type);
 
   enabled = true;
@@ -760,7 +759,7 @@ void celPcTrigger::TickOnce ()
         break;
       }
       default:
-        return;
+        break;
     }
     size_t i;
 
@@ -977,7 +976,7 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
       break;
     }
     default:
-      break;
+      break;  
   }
 
   EnableTrigger (en);

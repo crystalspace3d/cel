@@ -54,12 +54,6 @@ celPersistenceResult SetEntityPersistentData (iCelEntity* entity,
       if (pc_persist_code > persist_code)
 	persist_code = pc_persist_code;
     }
-
-    else
-    {
-      printf("SetEntityPersistentData: Unvalid property class: %s:%s\n",
-	     pc_name.GetData (), pc_tag.GetData ());
-    }
   }
 
   return persist_code;
@@ -92,8 +86,8 @@ void GameFactoryManager::ServerNetworkStateChanged (
 	celServerNetworkState new_state, 
         celServerNetworkState previous_state, csString reason)
 {
-  printf ("The state of the connection has changed from %d to %d\n",
-  	previous_state, new_state);
+  printf ("The state of the connection has changed from %d to %d, reason %s\n",
+  	previous_state, new_state, reason.GetData ());
 
   switch (new_state)
   {
@@ -191,7 +185,6 @@ bool GameFactoryManager::InitClient (iCelGame* game)
   // we are ready to play
   game->GetGameClient ()->SetReady ();
 
-  fprintf(stdout, "Initialization of network client done.\n");
   return true;
 }
 
@@ -219,7 +212,6 @@ bool GameFactoryManager::InitServer (iCelGame* game)
   	server_manager->npc_entity, iPcActorMove);
   pcactormove->Forward(true);
 
-  fprintf(stdout, "Initialization of network server done.\n");
   return true;
 }
 
@@ -323,6 +315,7 @@ void GameServerManager::PlayerNetworkStateChanged (celPlayer* player,
       factory->GetServer ()->LaunchServerEvent (other_player, event);
   }
 
+
   // if it is a new player
   if (new_state == CEL_NET_PLAYER_PLAYING)
   {
@@ -378,7 +371,7 @@ void GameServerManager::PlayerNetworkStateChanged (celPlayer* player,
     }
   }
 
-  // if it is a player leaving
+  // if it is player leaving
   if (new_state == CEL_NET_PLAYER_DISCONNECTED
   	|| new_state == CEL_NET_PLAYER_LOST)
   {
@@ -465,15 +458,8 @@ void GameServerManager::PersistenceProblem (celPlayer* player, iCelEntity* entit
 {
   printf ("Persistence problem encountered while updating data from player %s\n",
   	player->player_name.GetData ());
-  if (entity)
-    printf ("Problem was for entity %d", entity->GetID ());
-  else
-    printf ("Problem was for entity 'unknown'");
-  if (pc)
-    printf (", pc %s:%s", pc->GetName (), pc->GetTag ());
-  else
-    printf (", pc 'unknown'");
-  printf (". Persistence result: %d\n", persist_code);
+  printf ("Problem was for entity %d, pc %s:%s. Persistence result: %d\n",
+  	entity->GetID (), pc->GetName (), pc->GetTag (), persist_code);
   fflush (stdout);
 }
 
@@ -511,8 +497,6 @@ void GameClientManager::HandleServerEvent (celServerEventType event_type,
         csTicks event_time, iCelDataBuffer* event_data)
 
 {
-  printf ("GameClientManager::HandleServerEvent\n");
-
   if (event_type == SERVER_EVENT_FORWARDED_TEST)
   {
     // read forwarded message

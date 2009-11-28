@@ -57,35 +57,34 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
   // For actions.
   if (id_sectorname == csInvalidStringID)
   {
-    id_sectorname = pl->FetchStringID ("sectorname");
-    id_position = pl->FetchStringID ("position");
-    id_up = pl->FetchStringID ("up");
-    id_sqradius = pl->FetchStringID ("sqradius");
-    id_meshname = pl->FetchStringID ("meshname");
-    id_checklos = pl->FetchStringID ("checklos");
+    id_sectorname = pl->FetchStringID ("cel.parameter.sectorname");
+    id_position = pl->FetchStringID ("cel.parameter.position");
+    id_up = pl->FetchStringID ("cel.parameter.up");
+    id_sqradius = pl->FetchStringID ("cel.parameter.sqradius");
+    id_meshname = pl->FetchStringID ("cel.parameter.meshname");
+    id_checklos = pl->FetchStringID ("cel.parameter.checklos");
   }
 
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_meshname);
+  params->SetParameterDef (id_meshname, "meshname");
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.mover.action.");
-    AddAction (action_start, "Start");
-    AddAction (action_interrupt, "Interrupt");
-    AddAction (action_moveto, "MoveTo");
+    AddAction (action_start, "cel.action.Start");
+    AddAction (action_interrupt, "cel.action.Interrupt");
+    AddAction (action_moveto, "cel.action.MoveTo");
   }
 
   // For properties.
   propinfo.SetCount (4);
-  AddProperty (propid_position, "position",
+  AddProperty (propid_position, "cel.property.position",
 	CEL_DATA_VECTOR3, true, "Desired end position.", &position);
-  AddProperty (propid_up, "up",
+  AddProperty (propid_up, "cel.property.up",
 	CEL_DATA_VECTOR3, true, "Current up vector.", &up);
-  AddProperty (propid_sqradius, "sqradius",
+  AddProperty (propid_sqradius, "cel.property.sqradius",
 	CEL_DATA_FLOAT, false, "Current squared radius.", &sqradius);
-  AddProperty (propid_moving, "moving",
+  AddProperty (propid_moving, "cel.property.moving",
 	CEL_DATA_BOOL, true, "Is moving?", &is_moving);
 
   is_moving = false;

@@ -122,7 +122,9 @@ bool celActionRewardFactory::Load (iDocumentNode* node)
       if (!name)
         return Report (type->object_reg,
           "Missing name attribute in a parameter for the action reward!");
-      csStringID id = pl->FetchStringID (name);
+      csString fullname = "cel.parameter.";
+      fullname += name;
+      csStringID id = pl->FetchStringID (fullname);
       const char* str_value = child->GetAttributeValue ("string");
       if (str_value)
       {
@@ -267,8 +269,10 @@ void celActionReward::Reward (iCelParameterBlock* params)
   propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
   if (propertyclass)
   {
+    csString fullname = "cel.action.";
     const char* idname = id->Get (params);
-    csStringID actionID = pl->FetchStringID(idname);
+    fullname += idname;
+    csStringID actionID = pl->FetchStringID(fullname);
     if (actionID)
     {
       celData ret;
@@ -277,7 +281,7 @@ void celActionReward::Reward (iCelParameterBlock* params)
     }
     else
       Report (type->object_reg,
-		"No action  '%s' in the specified pc!", idname);
+		"No action  'cel.action.%s' in the specified pc!", idname);
   }
   else
     Report (type->object_reg,
@@ -330,7 +334,9 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
   const char* aid = id->Get (params, changed);
   if (changed || actionID == csInvalidStringID)
   {
-    actionID = type->pl->FetchStringID (aid);
+    csString fullname = "cel.action.";
+    fullname += aid;
+    actionID = type->pl->FetchStringID (fullname);
   }
 
   const char* pc = pcclass->Get (params);

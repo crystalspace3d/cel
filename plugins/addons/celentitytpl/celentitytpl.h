@@ -49,8 +49,6 @@ private:
   const char* GetAttributeValue (iDocumentNode* child,
 	const char* propname);
   csStringID GetAttributeID (iDocumentNode* child,
-	const char* propname);
-  csStringID GetAttributeID (iDocumentNode* child,
 	const char* prefix, const char* propname);
   bool ParseProperties (iCelPropertyClassTemplate* pc, iDocumentNode* child);
   csRef<celVariableParameterBlock> ParseParameterBlock (iDocumentNode* child);
@@ -74,8 +72,6 @@ public:
 
   virtual iCelEntityTemplate* Load (iDocumentNode* node);
   virtual iCelEntityTemplate* Load (const char* path, const char* file);
-
-  virtual bool IsThreadSafe(void) { return true; }
 };
 
 #endif // __CEL_ADDON_CELENTITYTPL__

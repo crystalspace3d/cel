@@ -59,14 +59,12 @@ struct iPcCameraMode : public virtual iBase
 
 struct iPcDelegateCamera : public virtual iPcCamera
 {
-  SCF_INTERFACE (iPcDelegateCamera, 0, 0, 2);
+  SCF_INTERFACE (iPcDelegateCamera, 0, 0, 1);
 
   virtual void SetCurrentMode (iPcCameraMode* mode) = 0;
   virtual iPcCameraMode* GetCurrentMode () const = 0;
-  virtual void SetTransitionTime (csTicks t) = 0;
-  virtual csTicks GetTransitionTime () const = 0;
-  virtual float GetContinousTransitionSpeed () const = 0;
-  virtual void SetContinousTransitionSpeed (float s) = 0;
+  virtual void SetTransitionTime (float t) = 0;
+  virtual float GetTransitionTime () const = 0;
 };
 
 #endif // __CEL_PF_DELEGATECAMERA__

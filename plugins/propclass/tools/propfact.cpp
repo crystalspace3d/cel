@@ -42,6 +42,14 @@ CEL_IMPLEMENT_FACTORY_ALT (Properties, "pctools.properties", "pcproperties")
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE_EXT (celPcProperties)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcProperties)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcProperties::PcProperties)
+  SCF_IMPLEMENTS_INTERFACE (iPcProperties)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 csStringID celPcProperties::id_index = csInvalidStringID;
 csStringID celPcProperties::id_name = csInvalidStringID;
 csStringID celPcProperties::id_value = csInvalidStringID;
@@ -49,24 +57,24 @@ csStringID celPcProperties::id_value = csInvalidStringID;
 PropertyHolder celPcProperties::propinfo;
 
 celPcProperties::celPcProperties (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg)
+	: celPcCommon (object_reg)
 {
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcProperties);
   if (id_index == csInvalidStringID)
   {
-    id_index = pl->FetchStringID ("index");
-    id_name = pl->FetchStringID ("name");
-    id_value = pl->FetchStringID ("value");
+    id_index = pl->FetchStringID ("cel.parameter.index");
+    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_value = pl->FetchStringID ("cel.parameter.value");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.properties.action.");
-    AddAction (action_setproperty, "SetProperty");
+    AddAction (action_setproperty, "cel.action.SetProperty");
   }
 
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_index);
+  params->SetParameterDef (id_index, "index");
   properties_hash_dirty = false;
 }
 
@@ -77,6 +85,7 @@ celPcProperties::~celPcProperties ()
   listeners.DeleteAll ();
   Clear ();
   delete params;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcProperties);
 }
 
 size_t celPcProperties::FindProperty (csStringID id)
@@ -86,7 +95,16 @@ size_t celPcProperties::FindProperty (csStringID id)
   {
     property* p = properties[i];
     if (p->id == csInvalidStringID)
-      p->id = pl->FetchStringID (p->propName);
+    {
+      char* buf = new char[30+strlen (p->propName)];
+      if (p->type == CEL_DATA_ACTION)
+        strcpy (buf, "cel.action.");
+      else
+        strcpy (buf, "cel.property.");
+      strcat (buf, p->propName);
+      p->id = pl->FetchStringID (buf);
+      delete[] buf;
+    }
     if (p->id == id) return i;
   }
   return csArrayItemNotFound;
@@ -111,7 +129,16 @@ csStringID celPcProperties::GetPropertyOrActionID (size_t i)
 {
   property* p = properties[i];
   if (p->id == csInvalidStringID)
-    p->id = pl->FetchStringID (p->propName);
+  {
+    char* buf = new char[30+strlen (p->propName)];
+    if (p->type == CEL_DATA_ACTION)
+      strcpy (buf, "cel.action.");
+    else
+      strcpy (buf, "cel.property.");
+    strcat (buf, p->propName);
+    p->id = pl->FetchStringID (buf);
+    delete[] buf;
+  }
   return p->id;
 }
 
@@ -822,7 +849,7 @@ void celPcProperties::FirePropertyListeners (size_t idx)
   while (i > 0)
   {
     i--;
-    listeners[i]->PropertyChanged (this, idx);
+    listeners[i]->PropertyChanged (&scfiPcProperties, idx);
   }
 }
 

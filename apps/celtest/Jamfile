@@ -20,6 +20,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     addon_celentitytpl
     addon_questdef
     addon_ruledef
+    bltest
     blxml
     celconsole
     mgr_quests
@@ -46,6 +47,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   : blpython
   ;
   LinkStaticPlugins celtst_static : 
+    bezier
+    bezierldr
     bruteblock
     terrainldr
     bugplug
@@ -97,6 +100,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     sprcal3dldr
     stdpt
     stdrep
+    thing
+    thingldr
     vfs
     xmlread
     xmlshader

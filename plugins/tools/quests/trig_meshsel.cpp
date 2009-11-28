@@ -109,7 +109,7 @@ celMeshSelectTrigger::celMeshSelectTrigger (
   entity = qm->ResolveParameter (params, entity_par);
   tag = qm->ResolveParameter (params, tag_par);
   params_entity.AttachNew (new celOneParameterBlock ());
-  params_entity->SetParameterDef (type->pl->FetchStringID ("entity"));
+  params_entity->SetParameterDef (type->pl->FetchStringID ("cel.parameter.entity"), "entity");
 }
 
 celMeshSelectTrigger::~celMeshSelectTrigger ()

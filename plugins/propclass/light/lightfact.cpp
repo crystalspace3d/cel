@@ -88,13 +88,13 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
 
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("name");
-    id_pos = pl->FetchStringID ("pos");
-    id_sector = pl->FetchStringID ("sector");
-    id_radius = pl->FetchStringID ("radius");
-    id_color = pl->FetchStringID ("color");
-    id_entity = pl->FetchStringID ("entity");
-    id_tag = pl->FetchStringID ("tag");
+    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_pos = pl->FetchStringID ("cel.parameter.pos");
+    id_sector = pl->FetchStringID ("cel.parameter.sector");
+    id_radius = pl->FetchStringID ("cel.parameter.radius");
+    id_color = pl->FetchStringID ("cel.parameter.color");
+    id_entity = pl->FetchStringID ("cel.parameter.entity");
+    id_tag = pl->FetchStringID ("cel.parameter.tag");
   }
 
   propholder = &propinfo;
@@ -102,13 +102,12 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.light.action.");
-    AddAction (action_setlight, "SetLight");
-    AddAction (action_movelight, "MoveLight");
-    AddAction (action_createlight, "CreateLight");
-    AddAction (action_changecolor, "ChangeColor");
-    AddAction (action_parentmesh, "ParentMesh");
-    AddAction (action_clearparent, "ClearParent");
+    AddAction (action_setlight, "cel.action.SetLight");
+    AddAction (action_movelight, "cel.action.MoveLight");
+    AddAction (action_createlight, "cel.action.CreateLight");
+    AddAction (action_changecolor, "cel.action.ChangeColor");
+    AddAction (action_parentmesh, "cel.action.ParentMesh");
+    AddAction (action_clearparent, "cel.action.ClearParent");
   }
 }
 
@@ -132,7 +131,10 @@ iLight* celPcLight::CreateLight (const char* lightname,
   light = engine->CreateLight (lightname, pos, radius, color,
       CS_LIGHT_DYNAMICTYPE_DYNAMIC);
   if (sector)
+  {
     sector->GetLights ()->Add (light);
+    light->Setup ();
+  }
   return light;
 }
 
@@ -203,6 +205,8 @@ bool celPcLight::PerformActionIndexed (int idx,
 	    sectorptr->GetLights ()->Add (light);
 	    light->GetMovable ()->SetSector (sectorptr);
 	    light->GetMovable ()->UpdateMove ();
+	    light->Setup ();
+	    light->Setup ();
 	  }
 	  else
 	  {
@@ -244,6 +248,7 @@ bool celPcLight::PerformActionIndexed (int idx,
 	light->QuerySceneNode ()->SetParent (parent_mesh->GetMesh ()
 	    ->QuerySceneNode ());
 	light->GetMovable ()->UpdateMove ();
+	light->Setup ();
 
 	return true;
       }

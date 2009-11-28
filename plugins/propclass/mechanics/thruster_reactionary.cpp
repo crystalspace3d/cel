@@ -62,17 +62,16 @@ celPcMechanicsThrusterReactionary::celPcMechanicsThrusterReactionary (
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.mechanics.reactionary.action.");
-    AddAction (action_initthruster, "InitThruster");
+    AddAction (action_initthruster, "cel.action.InitThruster");
   }
 
   // Parameters for action_initthruster
   if (param_object == csInvalidStringID)
   {
-    param_object = pl->FetchStringID ("objectpctag");
-    param_position = pl->FetchStringID ("position");
-    param_orientation = pl->FetchStringID ("orientation");
-    param_maxthrust = pl->FetchStringID ("maxthrust");
+    param_object = pl->FetchStringID ("cel.parameter.objectpctag");
+    param_position = pl->FetchStringID ("cel.parameter.position");
+    param_orientation = pl->FetchStringID ("cel.parameter.orientation");
+    param_maxthrust = pl->FetchStringID ("cel.parameter.maxthrust");
   }
 }
 

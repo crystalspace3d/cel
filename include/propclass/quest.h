@@ -30,13 +30,19 @@
  * to manage quests. Note that this property class will automatically
  * load the quest manager if it is missing.
  *
- * This property class supports the following actions (add prefix 'cel.quest.action.'
- * if you want to access this action through a message):
+ * This property class can send out the following messages
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * - pcquest_???: ??? (???)
+ *
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - NewQuest: parameters 'name' (string). All other string parameters will be
  *     passed to the quest itself.
  * - StopQuest: no parameters.
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - name (string, read only): name of the quest factory or null if no quest.
  * - state (string, read/write): name of the current state.
  */

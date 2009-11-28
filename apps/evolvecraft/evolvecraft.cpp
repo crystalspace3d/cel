@@ -27,7 +27,6 @@
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
 #include "csutil/event.h"
-#include "csutil/common_handlers.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"
 #include "iutil/objreg.h"
@@ -43,7 +42,8 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/material.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
+#include "imesh/thing.h"
 #include "imesh/sprite3d.h"
 #include "imesh/object.h"
 #include "ivaria/dynamics.h"
@@ -112,13 +112,17 @@ HoverTest::~HoverTest ()
 void HoverTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
-  
-  printer.Invalidate ();
 }
 
-void HoverTest::Frame ()
+void HoverTest::ProcessFrame ()
 {
   // We let the entity system do this so there is nothing here.
+}
+
+void HoverTest::FinishFrame ()
+{
+  g3d->FinishDraw ();
+  g3d->Print (0);
 }
 
 bool HoverTest::OnKeyboard (iEvent &ev)
@@ -158,7 +162,6 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
         "pcphysics.object",
         "pcvehicle.hover",
         "pcvehicle.craft",
-	"pcmove.actor.dynamic",
         (void*)0);
   if (!player) return false;
 
@@ -433,8 +436,6 @@ bool HoverTest::Application()
     return ReportError ("unable to register behaviour layer!");
 
   if (!CreateRoom ()) return false;
-
-  printer.AttachNew (new FramePrinter (object_reg));
 
   // Start the default run/event loop.  This will return only when some code,
   // such as OnKeyboard(), has asked the run loop to terminate.

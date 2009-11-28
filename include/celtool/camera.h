@@ -36,7 +36,6 @@ struct iGraphics3D;
 struct iEngine;
 struct iVirtualClock;
 struct iCamera;
-struct iPerspectiveCamera;
 struct iView;
 struct iPcRegion;
 struct iPcZoneManager;
@@ -93,7 +92,6 @@ public:
   void SetPerspectiveCenter (float x, float y);
 
   iCamera* GetCamera () const;
-  iPerspectiveCamera* GetPerspectiveCamera () const;
   iView* GetView () const { return view; }
 
   void SetClearZBuffer (bool flag) { clear_zbuf = flag; }

@@ -270,7 +270,7 @@ BehaviourBadOne::BehaviourBadOne (iCelEntity* entity, BehaviourLayer* bl, iCelPl
   : BehaviourCommon (entity, bl, pl)
 {
   id_pctimer_wakeup = pl->FetchStringID ("pctimer_wakeup");
-  id_par_elapsedticks = pl->FetchStringID ("elapsedticks");
+  id_par_elapsedticks = pl->FetchStringID ("cel.parameter.elapsedticks");
 
   ReadPath ();
 }

@@ -4,8 +4,6 @@
   <mime-type type="application/x-zip-celstart">
     <comment>CELstart package</comment>
     <comment xml:lang="de">CELstart-Paket</comment>
-    <sub-class-of type="application/zip"/>
-    <generic-icon name="package-x-generic"/>
     <glob pattern="*.celzip" />
     <apkg:icon>gnome-mime-application-x-zip-celstart.png</apkg:icon>
   </mime-type>

@@ -39,8 +39,8 @@ htBehaviourActor::htBehaviourActor(iCelBlLayer* bl, iCelEntity* entity,
   	bl (bl), entity (entity), evolving (false),
   	bestFitness (0), targetFitness (100000000.0), doCallFitnessCB (false)
 {
-  parid_currentticks = pl->FetchStringID("currentticks");
-  parid_maxfitness = pl->FetchStringID("max_fitness");
+  parid_currentticks = pl->FetchStringID("cel.parameter.currentticks");
+  parid_maxfitness = pl->FetchStringID("cel.parameter.max_fitness");
 }
 
 htBehaviourActor::~htBehaviourActor()

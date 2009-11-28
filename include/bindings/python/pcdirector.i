@@ -455,18 +455,3 @@ public:
 };
 %}
 
-/*  iPcInventoryListener */
-CALLBACK_INTERFACE_HDR(pyPcInventoryListener,iPcInventoryListener)
-%inline %{
-class pyPcInventoryListener :
-      public scfImplementation1<pyPcInventoryListener,iPcInventoryListener>
-{
-public:
-    pyPcInventoryListener(iObjectRegistry* object_reg) : scfImplementationType (this) {}
-~pyPcInventoryListener() {}
-    virtual void AddChild (iPcInventory*  inventory, iCelEntity*  entity) { }
-    virtual void RemoveChild (iPcInventory*  inventory, iCelEntity*  entity) { }
-};
-%}
-
-

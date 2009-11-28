@@ -118,28 +118,27 @@ celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
   // For actions.
   if (id_front == csInvalidStringID)
   {
-    id_front = pl->FetchStringID ("front");
-    id_top = pl->FetchStringID ("top");
+    id_front = pl->FetchStringID ("cel.parameter.front");
+    id_top = pl->FetchStringID ("cel.parameter.top");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.sound.listener.action.");
-    AddAction (action_setdirection, "SetDirection");
+    AddAction (action_setdirection, "cel.action.SetDirection");
   }
 
   // For properties.
   propinfo.SetCount (5);
-  AddProperty (propid_front, "front",
+  AddProperty (propid_front, "cel.property.front",
   	CEL_DATA_VECTOR3, false, "Front direction vector.", 0);
-  AddProperty (propid_top, "top",
+  AddProperty (propid_top, "cel.property.top",
   	CEL_DATA_VECTOR3, false, "Top direction vector.", 0);
-  AddProperty (propid_position, "position",
+  AddProperty (propid_position, "cel.property.position",
   	CEL_DATA_VECTOR3, false, "Position vector.", 0);
-  AddProperty (propid_distancefactor, "distancefactor",
+  AddProperty (propid_distancefactor, "cel.property.distancefactor",
   	CEL_DATA_FLOAT, false, "Distance factor.", 0);
-  AddProperty (propid_rollofffactor, "rollofffactor",
+  AddProperty (propid_rollofffactor, "cel.property.rollofffactor",
   	CEL_DATA_FLOAT, false, "Rolloff factor.", 0);
 
   renderer = csQueryRegistryOrLoad<iSndSysRenderer> (object_reg,
@@ -325,32 +324,31 @@ celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.sound.source.action.");
-    AddAction (action_pause, "Pause");
-    AddAction (action_unpause, "Unpause");
-    AddAction (action_play, "Play");
-    AddAction (action_stop, "Stop");
+    AddAction (action_pause, "cel.action.Pause");
+    AddAction (action_unpause, "cel.action.Unpause");
+    AddAction (action_play, "cel.action.Play");
+    AddAction (action_stop, "cel.action.Stop");
   }
 
   // For properties.
   propinfo.SetCount (9);
-  AddProperty (propid_soundname, "soundname",
+  AddProperty (propid_soundname, "cel.property.soundname",
 	CEL_DATA_STRING, false, "Name of the sound.", 0);
-  AddProperty (propid_volume, "volume",
+  AddProperty (propid_volume, "cel.property.volume",
 	CEL_DATA_FLOAT, false, "Volume.", 0);
-  AddProperty (propid_directionalradiation, "directionalradiation",
+  AddProperty (propid_directionalradiation, "cel.property.directionalradiation",
 	CEL_DATA_FLOAT, false, "Directional radiation.", 0);
-  AddProperty (propid_position, "position",
+  AddProperty (propid_position, "cel.property.position",
 	CEL_DATA_VECTOR3, false, "Position vector.", 0);
-  AddProperty (propid_minimumdistance, "minimumdistance",
+  AddProperty (propid_minimumdistance, "cel.property.minimumdistance",
 	CEL_DATA_FLOAT, false, "Minimum distance.", 0);
-  AddProperty (propid_maximumdistance, "maximumdistance",
+  AddProperty (propid_maximumdistance, "cel.property.maximumdistance",
 	CEL_DATA_FLOAT, false, "Maximum distance.", 0);
-  AddProperty (propid_loop, "loop",
+  AddProperty (propid_loop, "cel.property.loop",
 	CEL_DATA_BOOL, false, "Loop.", 0);
-  AddProperty (propid_follow, "follow",
+  AddProperty (propid_follow, "cel.property.follow",
 	CEL_DATA_BOOL, false, "Whether to follow own entity pcmesh.", 0);
-  AddProperty (propid_mode, "mode",
+  AddProperty (propid_mode, "cel.property.mode",
 	CEL_DATA_STRING, false, "'absolute', 'relative', or 'disable'.", 0);
 
   follow = 0;

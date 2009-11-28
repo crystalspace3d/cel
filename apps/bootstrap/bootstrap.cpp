@@ -23,7 +23,6 @@
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
 #include "csutil/event.h"
-#include "csutil/common_handlers.h"
 #include "csutil/cmdhelp.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"
@@ -70,8 +69,20 @@ Bootstrap::~Bootstrap ()
   }
 }
 
+void Bootstrap::FinishFrame ()
+{
+  g3d->FinishDraw ();
+  g3d->Print (0);
+}
+
 bool Bootstrap::HandleEvent (iEvent& ev)
 {
+  if (ev.Name == csevFinalProcess (object_reg))
+  {
+    bootstrap->FinishFrame ();
+    return true;
+  }
+
   csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
   if (eventtype == csKeyEventTypeDown)
   {
@@ -207,16 +218,16 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     const char* extra_arg3 = cmdline->GetName (5);
     celData ret;
     celGenericParameterBlock* params = NULL;
-    csStringID id_par1 = pl->FetchStringID ("parameter1");
-    csStringID id_par2 = pl->FetchStringID ("parameter2");
-    csStringID id_par3 = pl->FetchStringID ("parameter3");
+    csStringID id_par1 = pl->FetchStringID ("cel.parameter.parameter1");
+    csStringID id_par2 = pl->FetchStringID ("cel.parameter.parameter2");
+    csStringID id_par3 = pl->FetchStringID ("cel.parameter.parameter3");
 
     if (extra_arg3)
     {
       params = new celGenericParameterBlock (3);
-      params->SetParameterDef (0, id_par1);
-      params->SetParameterDef (1, id_par2);
-      params->SetParameterDef (2, id_par3);
+      params->SetParameterDef (0, id_par1, "parameter1");
+      params->SetParameterDef (1, id_par2, "parameter2");
+      params->SetParameterDef (2, id_par3, "parameter3");
       params->GetParameter(0).Set(extra_arg1);
       params->GetParameter(1).Set(extra_arg2);
       params->GetParameter(2).Set(extra_arg3);
@@ -224,21 +235,19 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     else if (extra_arg2)
     {
       params = new celGenericParameterBlock (2);
-      params->SetParameterDef (0, id_par1);
-      params->SetParameterDef (1, id_par2);
+      params->SetParameterDef (0, id_par1, "parameter1");
+      params->SetParameterDef (1, id_par2, "parameter2");
       params->GetParameter(0).Set(extra_arg1);
       params->GetParameter(1).Set(extra_arg2);
     }
     else if (extra_arg1)
     {
       params = new celGenericParameterBlock (1);
-      params->SetParameterDef (0, id_par1);
+      params->SetParameterDef (0, id_par1, "parameter1");
       params->GetParameter(0).Set(extra_arg1);
     }
     behave->SendMessage (extra_method, 0, ret, params);
   }
-
-  printer.AttachNew (new FramePrinter (object_reg));
 
   return true;
 }
@@ -247,11 +256,6 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
 void Bootstrap::Start ()
 {
   csDefaultRunLoop (object_reg);
-}
-
-void Bootstrap::Stop ()
-{
-  printer.Invalidate ();
 }
 
 /*---------------------------------------------------------------------*
@@ -263,8 +267,6 @@ int main (int argc, char* argv[])
 
   if (bootstrap->Initialize (argc, argv))
     bootstrap->Start ();
-
-  bootstrap->Stop ();
 
   iObjectRegistry* object_reg = bootstrap->object_reg;
   delete bootstrap;
