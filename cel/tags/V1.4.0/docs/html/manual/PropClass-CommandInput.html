@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer 1.4.0: 4.3.2 Command Input</title>
+
+<meta name="description" content="Crystal Entity Layer 1.4.0: 4.3.2 Command Input">
+<meta name="keywords" content="Crystal Entity Layer 1.4.0: 4.3.2 Command Input">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="PropClass-CommandInput"></a>
+<a name="0"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="PropClass-Billboard.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-Hover.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<hr size="1">
+<h3 class="subsection"> 4.3.2 Command Input </h3>
+
+<p>The commandinput property class implements a simple way to register input
+binds and get appropriate callbacks in response to them.
+</p>
+<a name="1"></a>
+<h4 class="subsubheading"> Property Class Details </h4>
+
+<ul>
+<li> <em>Name</em>:
+<samp>&lsquo;pcinput.standard&rsquo;</samp>
+</li><li> <em>Factory ID</em>:
+<samp>&lsquo;cel.pcfactory.input.standard&rsquo;</samp>
+</li><li> <em>Interface</em>:
+<code>iPcCommandInput</code>
+</li><li> <em>Header</em>:
+<tt>&lsquo;include/propclass/input.h&rsquo;</tt>
+</li></ul>
+
+
+<a name="2"></a>
+<h4 class="subsubheading"> General Information </h4>
+
+<p>PcCommandInput serves for receiving mouse, keyboard and joystick input messages
+inside entities. Also handles loading/saving of config files for easy
+specification of commands attached to each kind of input events.
+</p>
+<p>This property class works by defining a series of <code>Binds</code> that link input events codes to the desired messages to receive at the entity behaviour.
+</p>
+<p>This <code>Binds</code> can be specified either by using xml actions (for blxml and
+map format) or <code>iPcCommandInput</code> api (for c++ or blpython).
+</p>
+<a name="3"></a>
+<h4 class="subsubheading"> Bind codes </h4>
+
+<p>Bind codes can correspond to key codes or to special codes to handle different
+situations, here is a list of currently supported codes:
+</p>
+<ul>
+<li> <em>&lt;keycode&gt;</em>: Used to bind a certain key. Also some special codes can be used for invisible characters (most important being left, right, up and down for the cursor keys, and ctrl, shift, space, alt and tab).
+Optionally sends <samp>&lsquo;trigger&rsquo;</samp> and <samp>&lsquo;state&rsquo;</samp> parameters in messages.
+</li><li> <em>key</em>: This binds all keys to a certain message.
+Optionally sends <samp>&lsquo;trigger&rsquo;</samp> and <samp>&lsquo;state&rsquo;</samp> parameters in messages.
+</li><li> <em>MouseButton&lt;num&gt;</em>: This binds mouse button &lt;num&gt;.
+Sends no parameters.
+</li><li> <em>MouseX/Y</em>: This binds mouse movement in specified axis.
+Sends <samp>&lsquo;x&rsquo;</samp> and <samp>&lsquo;y&rsquo;</samp> parameters inside messages.
+</li><li> <em>JoystickButton&lt;num&gt;</em>: This binds joystick button &lt;num&gt;.
+Optionally sends <samp>&lsquo;state&rsquo;</samp> parameter in messages.
+</li><li> <em>JoystickAxis&lt;num&gt;</em>: This binds joystick axis &lt;num&gt;.
+Sends <samp>&lsquo;value&rsquo;</samp> parameter in messages.
+</li></ul>
+
+
+<p>Also for joystick/mouse move events <samp>&lsquo;_centered&rsquo;</samp> can be appended to the bind code to get coordinates relative to the center of the screen.
+</p>
+<a name="4"></a>
+<h4 class="subsubheading"> Message callbacks at behaviours </h4>
+
+<p>Message callbacks received when a bind is fullfilled always start with <samp>&lsquo;pccommandinput_&rsquo;</samp>, with the specified command code appended afterwards. 
+</p>
+<p>For example, for a bind defined as <code>pitch = MouseY</code>, the message would be <samp>&lsquo;pccommandinput_pitch&rsquo;</samp>.
+</p>
+<p>Also for key/button messages the key state can be included in the message name, so for example a bind defined as <code>forward = up</code>, the received messages would be <samp>&lsquo;pccommandinput_forward1&rsquo;</samp> (key down), <samp>&lsquo;pccommandinput_forward0&rsquo;</samp> (key press) and <samp>&lsquo;pccommandinput_forward_&rsquo;</samp> (key autorepeat).
+</p>
+<p>Note this the default behaviour but can be turned off to get only one message for all states. 
+For this <samp>&lsquo;.args&rsquo;</samp> must be appended to the command name, so for example a bind defined as <code>forward.args = up</code> would receive only <samp>&lsquo;pccommandinput_forward&rsquo;</samp> message, with <samp>&lsquo;state&rsquo;</samp> parameter holding the state.
+</p>
+<a name="5"></a>
+<h4 class="subsubheading"> Config file. </h4>
+
+<p>Config files can hold binds, by using the following notation:
+</p>
+<p><code>&lt;section&gt;.Input.Bind.&lt;commandcode&gt; = &lt;bindcode&gt; [bindcode2] ... [bindcodeN]</code>
+</p>
+<p>This would be an example config file:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">; this is a command definition for a spaceship.
+Ecksdee.Input.Bind.fire = JoystickButton0
+Ecksdee.Input.Bind.forward = JoystickButton1
+Ecksdee.Input.Bind.turbo = JoystickButton2
+Ecksdee.Input.Bind.brake = JoystickButton3
+Ecksdee.Input.Bind.slide = JoystickButton4
+Ecksdee.Input.Bind.afterburner = JoystickButton5
+Ecksdee.Input.Bind.yaw = JoystickAxis0
+Ecksdee.Input.Bind.pitch = JoystickAxis1
+Ecksdee.Input.Bind.yaw = JoystickAxis2
+Ecksdee.Input.Bind.pitch = JoystickAxis3
+
+Ecksdee.Input.Bind.rotateup = up
+Ecksdee.Input.Bind.rotatedown = down
+
+Ecksdee.Input.Bind.rotateleft = left
+Ecksdee.Input.Bind.rotateright = right
+
+Ecksdee.Input.Bind.fire = c
+Ecksdee.Input.Bind.forward = x
+Ecksdee.Input.Bind.turbo = space
+Ecksdee.Input.Bind.brake = shift
+Ecksdee.Input.Bind.slide = alt
+Ecksdee.Input.Bind.afterburner = ctrl
+
+Ecksdee.Input.Bind.dumpinventory = i
+Ecksdee.Input.Bind.cammode = tab
+Ecksdee.Input.Bind.resetpos = r
+Ecksdee.Input.Bind.nextreg = t
+</pre></td></tr></table>
+
+<p>The binds can then be loaded from the property class by doing LoadConfig(&lt;section&gt;), note for this the config file must already be loaded. LoadConfig is available both as xml action for blxml/map files, and from iPcCommandInput api for c++ and python.
+</p>
+<a name="6"></a>
+<h4 class="subsubheading"> PcCommandInput properties </h4>
+
+<p>PcCommandInput also has several properties that can be set to further customize
+behaviour from this property class, these are:
+</p><ul>
+<li> <em>cooked (bool, read/write)</em>: use cooked mode instead of raw (default is raw).  
+</li><li> <em>screenspace (bool, read/write)</em>: use screenspace instead of -1/1 normalized coordinates. Default is false. 
+</li><li> <em>trigger (bool, read/write)</em>: send out trigger name in the message to the behaviour. Default is false.
+</li></ul>
+
+
+<a name="7"></a>
+<h4 class="subsubheading"> Defining command input for an entity in map xml. </h4>
+
+<p>To define an entity that uses this property class we add a &lt;propclass&gt; stance
+to the entity or entity template &lt;addon&gt; section.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;SpaceShip&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
+  &lt;propclass name=&quot;pcinput.standard&quot;&gt;
+    &lt;action name=&quot;LoadConfig&quot;&gt;
+      &lt;par name=&quot;prefix&quot; string=&quot;Ecksdee&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pcobject.mesh&quot;&gt;
+    &lt;action name=&quot;SetMesh&quot;&gt;
+      &lt;par string=&quot;orogor&quot; name=&quot;name&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;behaviour layer=&quot;blpython&quot; name=&quot;spaceship&quot;/&gt;
+&lt;/addon&gt;
+</pre></td></tr></table>
+
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="PropClass-Billboard.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-Hover.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

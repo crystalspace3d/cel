@@ -1,0 +1,7 @@
+SubDir TOP plugins tools billboard ;
+
+Plugin mgr_billboard
+	: billboard.cpp billboard.h
+;
+ExternalLibs mgr_billboard : CRYSTAL ;
+
