@@ -322,7 +322,6 @@ bool celPcRegion::Load (bool allow_entity_addon)
     EngReport (object_reg, "Could not load map file '%s/%s'.",
     	worlddir, worldfile);
     VFS->PopDir ();
-    VFS->SetSyncDir(VFS->GetCwd());
     return false;
   }
 
