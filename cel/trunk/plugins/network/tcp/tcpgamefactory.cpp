@@ -29,8 +29,6 @@
 #include "plugins/network/tcp/tcputils.h"
 #include "plugins/network/tcp/tcpgamefactory.h"
 
-CS_IMPLEMENT_PLUGIN
-
 CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
 {
 

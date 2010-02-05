@@ -42,8 +42,6 @@ struct iVirtualClock;
 /**
  * Factory for hover.
  */
-CS_IMPLEMENT_PLUGIN
-
 CEL_DECLARE_FACTORY (Hover)
 
 /**

@@ -32,7 +32,6 @@
 
 #include <math.h>
 
-CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY(NeuralNet, "pcai.neuralnet")
 
 // portable rounding function

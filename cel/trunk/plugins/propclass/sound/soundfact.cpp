@@ -36,8 +36,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (SoundListener, "pcsound.listener", "pcsoundlistener")
 CEL_IMPLEMENT_FACTORY_ALT (SoundSource, "pcsound.source", "pcsoundsource")
 

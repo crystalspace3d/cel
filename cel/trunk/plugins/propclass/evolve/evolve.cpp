@@ -28,7 +28,6 @@
 
 #include <stdlib.h>
 
-CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY(Evolve, "pcai.evolve")
 
 inline void celRandSeed() { srand(csGetTicks()); }
