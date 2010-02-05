@@ -38,8 +38,6 @@
 // define this to track save/loading problems
 // #define PERSIST_DEBUG
 
-CS_IMPLEMENT_PLUGIN
-
 SCF_IMPLEMENT_FACTORY (celPersistClassic)
 
 celPersistClassic::celPersistClassic (iBase* parent) :

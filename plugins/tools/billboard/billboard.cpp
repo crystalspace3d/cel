@@ -843,8 +843,6 @@ void celBillboard::RemoveEventHandler (iBillboardEventHandler* evh)
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 SCF_IMPLEMENT_FACTORY (celBillboardManager)
 
 celBillboardManager::celBillboardManager (iBase* parent) :

@@ -40,8 +40,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY (TrackingCamera, "pccamera.mode.tracking")
 
 PropertyHolder celPcTrackingCamera::propinfo;

@@ -41,8 +41,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY (DelegateCamera, "pccamera.delegate")
 
 csStringID celPcDelegateCamera::id_pclass = csInvalidStringID;

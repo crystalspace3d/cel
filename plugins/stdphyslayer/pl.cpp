@@ -48,8 +48,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 SCF_IMPLEMENT_FACTORY (celPlLayer)
 
 celPlLayer::celPlLayer (iBase* parent) : scfImplementationType (this, parent)

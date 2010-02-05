@@ -30,8 +30,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (Quest, "pclogic.quest", "pcquest")
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)

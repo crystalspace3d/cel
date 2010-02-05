@@ -45,7 +45,6 @@ Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 
 //--------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY_ALT (Wheeled, "pcvehicle.wheeled", "pcwheeled")
 
 //--------------------------------------------------------------------------

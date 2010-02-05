@@ -52,8 +52,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (Movable, "pcmove.movable", "pcmovable")
 CEL_IMPLEMENT_FACTORY_ALT (Solid, "pcmove.solid", "pcsolid")
 CEL_IMPLEMENT_FACTORY_ALT (MovableConstraintCD, "pcmove.movableconst_cd", "pcmovableconst_cd")

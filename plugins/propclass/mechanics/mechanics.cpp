@@ -48,8 +48,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (MechanicsSystem, "pcphysics.system", "pcmechsys")
 CEL_IMPLEMENT_FACTORY_ALT (MechanicsObject, "pcphysics.object", "pcmechobject")
 CEL_IMPLEMENT_FACTORY_ALT (MechanicsJoint, "pcphysics.joint", "pcmechjoint")

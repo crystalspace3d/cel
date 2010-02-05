@@ -41,8 +41,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (Billboard, "pc2d.billboard", "pcbillboard")
 
 csStringID celPcBillboard::id_materialname = csInvalidStringID;
