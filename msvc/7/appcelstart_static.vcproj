@@ -317,9 +317,6 @@
 				RelativePath="..\..\apps\celstart\wrapper_main.cpp">
 			</File>
 			<File
-				RelativePath="..\..\msvc\appcelstart_static_static_glue_app.cpp">
-			</File>
-			<File
 				RelativePath="..\..\msvc\appcelstart_static_static_glue_app_CRYSTAL.cpp">
 			</File>
 		</Filter>

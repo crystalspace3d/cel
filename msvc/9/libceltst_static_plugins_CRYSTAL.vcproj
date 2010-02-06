@@ -29,7 +29,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release9\build\libceltst_static_plugins_CRYSTAL\libceltst_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libceltst_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release9\build\libceltst_static_plugins_CRYSTAL\"
@@ -50,9 +50,9 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions="libcrystalspace_windows.lib libcrystalspace_opengl.lib libcrystalspace_staticplugins.lib libcrystalspace.lib libcrystalspace_directx.lib "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -102,7 +102,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release9\build\libceltst_static_plugins_CRYSTAL\libceltst_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libceltst_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release9\build\libceltst_static_plugins_CRYSTAL\"
@@ -126,9 +126,9 @@
 				ImportLibrary="..\..\out\release9\libs\libceltst_static_plugins_CRYSTAL.lib"
 				ProgramDatabaseFile="..\..\out\release9\build\libceltst_static_plugins_CRYSTAL\Win32\celtst_static_plugins_CRYSTAL-1.9-vc9.pdb"
 				AdditionalOptions="libcrystalspace_windows.lib libcrystalspace_opengl.lib libcrystalspace_staticplugins.lib libcrystalspace.lib libcrystalspace_directx.lib "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -151,7 +151,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -176,7 +176,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libceltst_static_plugins_CRYSTAL\libceltst_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libceltst_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug9\build\libceltst_static_plugins_CRYSTAL\"
@@ -195,9 +195,9 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions="libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib libcrystalspace_directx_d.lib "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -221,7 +221,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -247,7 +247,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libceltst_static_plugins_CRYSTAL\libceltst_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libceltst_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug9\build\libceltst_static_plugins_CRYSTAL\"
@@ -269,9 +269,9 @@
 				ImportLibrary="..\..\out\debug9\libs\libceltst_static_plugins_CRYSTAL_d.lib"
 				ProgramDatabaseFile="..\..\out\debug9\build\libceltst_static_plugins_CRYSTAL\Win32\celtst_static_plugins_CRYSTAL-1.9-vc9_d.pdb"
 				AdditionalOptions="libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib libcrystalspace_directx_d.lib "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -294,7 +294,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -319,7 +319,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libceltst_static_plugins_CRYSTAL\libceltst_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libceltst_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release9-x64\build\libceltst_static_plugins_CRYSTAL\"
@@ -340,9 +340,9 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions="libcrystalspace_windows.lib libcrystalspace_opengl.lib libcrystalspace_staticplugins.lib libcrystalspace.lib libcrystalspace_directx.lib "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -366,7 +366,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -392,7 +392,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libceltst_static_plugins_CRYSTAL\libceltst_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libceltst_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release9-x64\build\libceltst_static_plugins_CRYSTAL\"
@@ -416,9 +416,9 @@
 				ImportLibrary="..\..\out\release9-x64\libs\libceltst_static_plugins_CRYSTAL.lib"
 				ProgramDatabaseFile="..\..\out\release9-x64\build\libceltst_static_plugins_CRYSTAL\x64\celtst_static_plugins_CRYSTAL-1.9-vc9-x64.pdb"
 				AdditionalOptions="libcrystalspace_windows.lib libcrystalspace_opengl.lib libcrystalspace_staticplugins.lib libcrystalspace.lib libcrystalspace_directx.lib "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -441,7 +441,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -466,7 +466,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libceltst_static_plugins_CRYSTAL\libceltst_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libceltst_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug9-x64\build\libceltst_static_plugins_CRYSTAL\"
@@ -485,9 +485,9 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions="libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib libcrystalspace_directx_d.lib "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -511,7 +511,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -537,7 +537,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libceltst_static_plugins_CRYSTAL\libceltst_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libceltst_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug9-x64\build\libceltst_static_plugins_CRYSTAL\"
@@ -559,9 +559,9 @@
 				ImportLibrary="..\..\out\debug9-x64\libs\libceltst_static_plugins_CRYSTAL_d.lib"
 				ProgramDatabaseFile="..\..\out\debug9-x64\build\libceltst_static_plugins_CRYSTAL\x64\celtst_static_plugins_CRYSTAL-1.9-vc9-x64_d.pdb"
 				AdditionalOptions="libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib libcrystalspace_directx_d.lib "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -584,7 +584,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

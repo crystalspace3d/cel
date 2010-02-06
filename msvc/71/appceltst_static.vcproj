@@ -29,7 +29,7 @@
 				ProgramDataBaseFileName="..\..\out\release71\build\appceltst_static\Win32\celtst_static.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions="/D CS_HAVE_CAL3D "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release71\build\appceltst_static\appceltst_static.pch"
 				AssemblerListingLocation="..\..\out\release71\build\appceltst_static\"
@@ -53,7 +53,7 @@
 				OutputFile="..\..\celtst_static.exe"
 				ProgramDatabaseFile="..\..\out\release71\build\appceltst_static\Win32\celtst_static.pdb"
 				SubSystem="2"
-				AdditionalOptions="libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc71.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib libcrystalspace_directx.lib zlib.lib dsound.lib ddraw.lib dinput.lib "
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -105,7 +105,7 @@
 				ProgramDataBaseFileName="..\..\out\release71\build\appceltst_static\Win32\celtst_static.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="/D CS_HAVE_CAL3D "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release71\build\appceltst_static\appceltst_static.pch"
 				AssemblerListingLocation="..\..\out\release71\build\appceltst_static\"
@@ -129,7 +129,7 @@
 				OutputFile="..\..\celtst_static.exe"
 				ProgramDatabaseFile="..\..\out\release71\build\appceltst_static\Win32\celtst_static.pdb"
 				SubSystem="2"
-				AdditionalOptions="libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc71.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib libcrystalspace_directx.lib zlib.lib dsound.lib ddraw.lib dinput.lib "
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -180,7 +180,7 @@
 				ProgramDataBaseFileName="..\..\out\debug71\build\appceltst_static\Win32\celtst_static.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions="/D CS_HAVE_CAL3D "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug71\build\appceltst_static\appceltst_static.pch"
 				AssemblerListingLocation="..\..\out\debug71\build\appceltst_static\"
@@ -202,7 +202,7 @@
 				OutputFile="..\..\celtst_static.exe"
 				ProgramDatabaseFile="..\..\out\debug71\build\appceltst_static\Win32\celtst_static.pdb"
 				SubSystem="1"
-				AdditionalOptions="libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc71_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib libcrystalspace_directx_d.lib zlib.lib dsound.lib ddraw.lib dinput.lib "
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -253,7 +253,7 @@
 				ProgramDataBaseFileName="..\..\out\debug71\build\appceltst_static\Win32\celtst_static.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="/D CS_HAVE_CAL3D "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug71\build\appceltst_static\appceltst_static.pch"
 				AssemblerListingLocation="..\..\out\debug71\build\appceltst_static\"
@@ -275,7 +275,7 @@
 				OutputFile="..\..\celtst_static.exe"
 				ProgramDatabaseFile="..\..\out\debug71\build\appceltst_static\Win32\celtst_static.pdb"
 				SubSystem="1"
-				AdditionalOptions="libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc71_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib libcrystalspace_directx_d.lib zlib.lib dsound.lib ddraw.lib dinput.lib "
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -324,9 +324,6 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\appceltst_static_static_glue_app.cpp">
-			</File>
-			<File
-				RelativePath="..\..\msvc\appceltst_static_static_glue_app_CRYSTAL.cpp">
 			</File>
 		</Filter>
 		<Filter
