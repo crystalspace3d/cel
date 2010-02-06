@@ -27,7 +27,7 @@
 				ProgramDataBaseFileName="..\..\out\release71\build\libnettest_static_plugins\Win32\nettest_static_plugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions="/D CS_HAVE_CAL3D "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release71\build\libnettest_static_plugins\libnettest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\release71\build\libnettest_static_plugins\"
@@ -48,7 +48,7 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				AdditionalOptions=" "
+				AdditionalOptions="libjpeg.lib libpng.lib cal3d-vc71.lib cg.lib cgGL.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -100,7 +100,7 @@
 				ProgramDatabaseFileName="..\..\out\release71\build\libnettest_static_plugins\Win32\nettest_static_plugins-1.9-vc71.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions="/D CS_HAVE_CAL3D "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release71\build\libnettest_static_plugins\libnettest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\release71\build\libnettest_static_plugins\"
@@ -124,7 +124,7 @@
                         OutputFile="..\..\nettest_static_plugins-1.9-vc71.dll"
 				ImportLibrary="..\..\out\release71\libs\libnettest_static_plugins.lib"
 				ProgramDatabaseFile="..\..\out\release71\build\libnettest_static_plugins\Win32\nettest_static_plugins-1.9-vc71.pdb"
-				AdditionalOptions=" "
+				AdditionalOptions="libjpeg.lib libpng.lib cal3d-vc71.lib cg.lib cgGL.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -174,7 +174,7 @@
 				ProgramDataBaseFileName="..\..\out\debug71\build\libnettest_static_plugins\Win32\nettest_static_plugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions="/D CS_HAVE_CAL3D "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug71\build\libnettest_static_plugins\libnettest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\debug71\build\libnettest_static_plugins\"
@@ -193,7 +193,7 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				AdditionalOptions=" "
+				AdditionalOptions="libjpeg.lib libpng.lib cal3d-vc71_d.lib cg.lib cgGL.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -245,7 +245,7 @@
 				ProgramDatabaseFileName="..\..\out\debug71\build\libnettest_static_plugins\Win32\nettest_static_plugins-1.9-vc71_d.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions="/D CS_HAVE_CAL3D "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug71\build\libnettest_static_plugins\libnettest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\debug71\build\libnettest_static_plugins\"
@@ -267,7 +267,7 @@
                         OutputFile="..\..\nettest_static_plugins-1.9-vc71_d.dll"
 				ImportLibrary="..\..\out\debug71\libs\libnettest_static_plugins_d.lib"
 				ProgramDatabaseFile="..\..\out\debug71\build\libnettest_static_plugins\Win32\nettest_static_plugins-1.9-vc71_d.pdb"
-				AdditionalOptions=" "
+				AdditionalOptions="libjpeg.lib libpng.lib cal3d-vc71_d.lib cg.lib cgGL.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -305,6 +305,9 @@
 		<Filter
 			Name="Source Files"
 			Filter="">
+			<File
+				RelativePath="..\..\msvc\appnettest_static_static_glue_app_CRYSTAL.cpp">
+			</File>
 			<File
 				RelativePath="..\..\msvc\appnettest_static_static_glue_lib.cpp">
 			</File>

@@ -318,6 +318,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\plugin_impl.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\billboard\billboard.cpp">
 			</File>
 		</Filter>

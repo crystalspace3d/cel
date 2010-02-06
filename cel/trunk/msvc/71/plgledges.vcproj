@@ -318,6 +318,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\plugin_impl.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\ledges\ledges.cpp">
 			</File>
 		</Filter>

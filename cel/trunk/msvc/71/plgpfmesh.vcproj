@@ -318,6 +318,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\plugin_impl.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\mesh\meshfact.cpp">
 			</File>
 		</Filter>
