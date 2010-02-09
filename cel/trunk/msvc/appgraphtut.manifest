@@ -4,10 +4,10 @@
 <assemblyIdentity
     version="1.9.0.0"
     processorArchitecture="X86"
-    name="cel.graph"
+    name="cel.graphtut"
     type="win32"
 />
-<description>graph</description>
+<description>graphtut</description>
 <dependency>
     <dependentAssembly>
 	  <assemblyIdentity
