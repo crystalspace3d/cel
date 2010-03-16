@@ -597,9 +597,6 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\appceltst_static_static_glue_app_CRYSTAL.cpp">
-			</File>
-			<File
 				RelativePath="..\..\msvc\appceltst_static_static_glue_lib.cpp">
 			</File>
 			<File
