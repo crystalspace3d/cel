@@ -1,0 +1,7 @@
+SubDir TOP apps tutorial graph ;
+
+Application graphtut : [ Wildcard *.cpp *.h ] ;
+CFlags graphtut : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+LinkWith graphtut : celtool ;
+ExternalLibs graphtut : CRYSTAL ;
+FileListEntryApplications graphtut : app-demo ;

@@ -1,0 +1,93 @@
+<!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+      Quest for analog character moving by keyboard arrows.
+      oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<library>
+  <addon plugin="cel.addons.questdef">
+    <quest name="AnalogMotionControl">
+    <state name="default">
+        <oninit>
+        <reward type="action" pc="pcinput.standard" id="Bind" entity="$this">
+            <par name="trigger" string="Up" />
+            <par name="command" string="north" />
+        </reward>
+        <reward type="action" pc="pcinput.standard" id="Bind" entity="$this">
+            <par name="trigger" string="Down" />
+            <par name="command" string="south" />
+        </reward>
+        <reward type="action" pc="pcinput.standard" id="Bind" entity="$this">
+            <par name="trigger" string="Left" />
+            <par name="command" string="west" />
+        </reward>
+        <reward type="action" pc="pcinput.standard" id="Bind" entity="$this">
+            <par name="trigger" string="Right" />
+            <par name="command" string="east" />
+        </reward>
+        </oninit>
+        <trigger type="message">
+        <fireon  entity="$this" mask="cel.input.north.down" />
+        <reward type="action" pc="pcmove.analogmotion" id="SetAxis" entity="$this">
+            <par name="value" float="1.0" />
+            <par name="axis" long="1" />
+        </reward>
+        <reward type="newstate" state="default" entity="$this" />
+        </trigger>
+        <trigger type="message">
+        <fireon  entity="$this" mask="cel.input.north.up" />
+        <reward type="action" pc="pcmove.analogmotion" id="SetAxis" entity="$this">
+            <par name="value" float="0.0" />
+            <par name="axis" long="1" />
+        </reward>
+        <reward type="newstate" state="default" entity="$this" />
+        </trigger>
+        <trigger type="message">
+        <fireon  entity="$this" mask="cel.input.south.down" />
+        <reward type="action" pc="pcmove.analogmotion" id="SetAxis" entity="$this">
+            <par name="value" float="-1.0" />
+            <par name="axis" long="1" />
+        </reward>
+        <reward type="newstate" state="default" entity="$this" />
+        </trigger>
+        <trigger type="message">
+        <fireon  entity="$this" mask="cel.input.south.up" />
+        <reward type="action" pc="pcmove.analogmotion" id="SetAxis" entity="$this">
+            <par name="value" float="0.0" />
+            <par name="axis" long="1" />
+        </reward>
+        <reward type="newstate" state="default" entity="$this" />
+        </trigger>
+        <trigger type="message">
+        <fireon  entity="$this" mask="cel.input.west.down" />
+        <reward type="action" pc="pcmove.analogmotion" id="SetAxis" entity="$this">
+            <par name="value" float="-1.0" />
+            <par name="axis" long="0" />
+        </reward>
+        <reward type="newstate" state="default" entity="$this" />
+        </trigger>
+        <trigger type="message">
+        <fireon  entity="$this" mask="cel.input.west.up" />
+        <reward type="action" pc="pcmove.analogmotion" id="SetAxis" entity="$this">
+            <par name="value" float="0.0" />
+            <par name="axis" long="0" />
+        </reward>
+        <reward type="newstate" state="default" entity="$this" />
+        </trigger>
+        <trigger type="message">
+        <fireon  entity="$this" mask="cel.input.east.down" />
+        <reward type="action" pc="pcmove.analogmotion" id="SetAxis" entity="$this">
+            <par name="value" float="1.0" />
+            <par name="axis" long="0" />
+        </reward>
+        <reward type="newstate" state="default" entity="$this" />
+        </trigger>
+        <trigger type="message">
+        <fireon  entity="$this" mask="cel.input.east.up" />
+        <reward type="action" pc="pcmove.analogmotion" id="SetAxis" entity="$this">
+            <par name="value" float="0.0" />
+            <par name="axis" long="0" />
+        </reward>
+        <reward type="newstate" state="default" entity="$this" />
+        </trigger>
+    </state>
+    </quest>
+  </addon>
+</library>

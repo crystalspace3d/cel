@@ -1,0 +1,60 @@
+if ! $(BUILDTOP)
+{
+BUILDTOP = . ;
+}
+                                                                               
+# Include config
+JAMCONFIG ?= $(BUILDTOP)/Jamconfig ;
+include $(JAMCONFIG) ;
+
+#don't scan swig files
+NO_SWIG_HEADER_SCANNING = yes ;
+
+#CFLAGS
+COMPILER.CFLAGS += -DPACKAGE_NAME="CEL" ;
+COMPILER.CFLAGS += -Wall ;
+COMPILER.CFLAGS.debug += -g3 -DCS_DEBUG ;
+COMPILER.LFLAGS.debug += -g3 -DCS_DEBUG ;
+COMPILER.CFLAGS.optimize += -O3 ;
+COMPILER.CFLAGS.profile += -g3 -pg ;
+COMPILER.LFLAGS.profile += -g3 -pg ;
+
+# we don't link statically
+#NO_STATIC_LINKING = yes ;
+
+STATIC.PLUGINLIST =
+    addon_celentity
+    addon_xmlscripts
+    blxml
+    cpersist
+    mgr_billboard
+    pfbillboard
+    pfdynmove
+    pfengine
+    pfinput
+    pfinv
+    pfmesh
+    pfmove
+    pftools
+    stdphyslayer
+    ;
+
+include $(TOP)/mk/jam/build.jam ;
+include $(jamrulesdir)/pymarshall.jam ;
+
+# Some CEL-specific customizations of vars
+PACKAGE_VERSION_SIGNIFICANT = "$(PACKAGE_VERSION_LIST[1]).$(PACKAGE_VERSION_LIST[2])" ;
+APPLICATION_SUFFIX = $(PACKAGE_VERSION_SIGNIFICANT) ;
+appdatadir = [ ConcatDirs $(datadir) $(PACKAGE_NAME)-$(PACKAGE_VERSION_SIGNIFICANT) ] ;
+appconfdir = [ ConcatDirs $(sysconfdir) $(PACKAGE_NAME)-$(PACKAGE_VERSION_SIGNIFICANT) ] ;
+appincdir = [ ConcatDirs $(includedir) $(PACKAGE_NAME)-$(PACKAGE_VERSION_SIGNIFICANT) ] ;
+plugindir = [ ConcatDirs $(libdir) $(PACKAGE_NAME)-$(PACKAGE_VERSION_SIGNIFICANT) ] ;
+
+# Set up a property which clients can query to determine if the build directory
+# differs from source directory.  This allows clients to perform conditional
+# actions based upon this knowledge.
+local standalonecheck = [ GLOB [ ConcatDirs $(BUILDTOP) include ] : *.h ] ;
+if ! [ IsElem celversion.h : $(standalonecheck:BS) ]
+{
+  SetProperty build : standalone ;
+}

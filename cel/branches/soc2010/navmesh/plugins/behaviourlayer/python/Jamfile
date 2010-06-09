@@ -1,0 +1,155 @@
+SubDir TOP plugins behaviourlayer python ;
+
+if $(PYTHON.AVAILABLE) = yes
+{
+  if $(CMD.SWIG)
+  {
+    if $(PYTHON.VERSION) >= "2.5"
+    {
+      if $(CMD.SWIG.VERSION) >= "1.3.31"
+      {
+        DO_SWIG_PYTHON = "yes" ;
+      }
+    }
+    else
+    {
+      if $(CMD.SWIG.VERSION) >= "1.3.28"
+      {
+        DO_SWIG_PYTHON = "yes" ;
+      }
+    }
+  }
+  #--------
+  # pycel.py marshalling
+  #--------
+  local pycelcpp = [ DoSourceGrist PYCEL_py.cpp ] ;
+  MarshallPyFile $(pycelcpp) : pycel.py : [ ConcatDirs $(TOP) scripts ] ;
+  {
+    # Copy PYCEL_py.cpp to source dir, needed for MSVC.
+    # Everywhere else the file can just be rebuilt ... the MarshallPyFile rule
+    # requires Python, but so does blpython as a whole.
+    local frozenpycelcpp = $(pycelcpp:G=frozenpycelcpp) ;
+    MakeLocate $(frozenpycelcpp) : $(SUBDIR) ;
+    Copy $(frozenpycelcpp) : $(pycelcpp) ;
+    Depends $(frozenpycelcpp) : $(pycelcpp) ;
+    Depends blcelfreeze : $(frozenpycelcpp) ;
+  }
+
+  #--------
+  # Swig-generated files.
+  #--------
+  local blcelcpp = blcel.cpp ;
+  local blcelh = blcel.h ;
+  local blcelpy = [ DoSourceGrist blcelc.py ] ;
+  local used_py ;
+  MakeLocate $(blcelpy) : [ ConcatDirs $(LOCATE.OBJECTS) bindings python ] ;
+
+  if ! [ Property build : projgen ]
+  {
+    blcelcpp = [ DoSourceGrist $(blcelcpp) ] ;
+    blcelh = [ DoSourceGrist $(blcelh) ] ;
+
+    if $(DO_SWIG_PYTHON)
+    {
+      Swig $(blcelcpp) $(blcelh) $(blcelpy) :
+        [ DoSourceGrist blcel.i ] :
+        python :
+	-c++ -shadow -modern [ FIncludes [ Match -I(.*) : $(CRYSTAL.CFLAGS) ] ] :
+	[ ConcatDirs $(TOP) include ] :
+	[ ConcatDirs $(TOP) include bindings ] :
+	$(SEARCH_SOURCE) [ ConcatDirs $(TOP) scripts ] :
+	blcel :
+	[ on $(blcelpy) GetVar LOCATE ] ;
+      Depends blpythonclean : blcelswigclean ;
+      used_py = $(blcelpy) ;
+    }
+    else
+    {
+      SEARCH on $(blcelcpp) = $(SEARCH_SOURCE) ;
+      SEARCH on $(blcelh) = $(SEARCH_SOURCE) ;
+      local frozenpy = $(blcelpy:G=frozenmodulepy) ;
+      SEARCH on $(frozenpy) = [ ConcatDirs $(TOP) scripts ] ;
+      Copy $(blcelpy) : $(frozenpy) ;
+      Depends $(blcelpy) : $(frozenpy) ;
+      used_py = $(frozenpy) ;
+    }
+  }
+  Clean blpythonclean : $(blcelpy) ;
+
+  rule InstallCelPythonPY
+  {
+    # Temporary override for InstallData.
+    local SUBDIR = [ on $(<) GetVar LOCATE ] ;
+    InstallData $(<) : $(>) ;
+  }
+  InstallCelPythonPY $(blcelpy) : bindings python ;
+  Depends filelists : [ DoFileListEntries $(used_py) : : python-bindings ] ;
+
+  #--------
+  # Compiler flags for Swig-generated code.
+  #--------
+  CELPYTHON.CFLAGS =
+    $(COMPILER.C++FLAGS.WARNING.NO_UNUSED)
+    $(COMPILER.C++FLAGS.WARNING.NO_UNINITIALIZED)
+    $(COMPILER.C++FLAGS.STRICTALIASING.DISABLE) ;
+
+  #--------
+  # blpython plugin.
+  #--------
+  local swigruntime = swigpyruntime.h ;
+  if $(DO_SWIG_PYTHON)
+  {
+    SwigExternalRuntime $(swigruntime) :
+      python :
+      -c++ -shadow -modern :
+      $(SEARCH_SOURCE) [ ConcatDirs $(TOP) scripts python ] :
+      blpython ;
+    Depends blpythonclean : blpythonswigclean ;
+  }
+  else
+  {
+    SEARCH on $(swigruntime) = $(SEARCH_SOURCE) ;
+  }
+
+  save_HDRS = $(HDRS) ;
+  HDRS = [ on $(swigruntime) GetVar LOCATE ] $(SEARCH_SOURCE) $(HDRS) ;
+  Plugin blpython : blpython.cpp blpython.h pytocel.cpp PYCEL_py.cpp : nodefaultfilelist ;
+  ExternalLibs blpython : PYTHON CRYSTAL ; 
+  LinkWith blpython : celtool ;
+  CFlags blpython : $(CELPYTHON.CFLAGS) ;
+  FileListEntryPlugin blpython : plugin-python ;
+  HDRS = $(save_HDRS) ;
+
+  #--------
+  # blcelmod -- Pure Python module
+  #--------
+  PythMod blcelmod : _blcelc : $(blcelcpp) celmod.cpp : bindings python : celtool :
+    CRYSTAL : "pure Python module" ;
+  Depends blcelmod : $(blcelpy) ;
+  ExternalLibs blcelmod : PYTHON CRYSTAL ;
+  CFlags blcelmod : $(CELPYTHON.CFLAGS) ;
+    
+  FileListEntryPythMod blcelmod : : python-modules ;
+
+actions CelPthGen bind PACKAGEPATH
+{
+  echo $(PACKAGEPATH) > $(<)
+}
+
+rule InstallCelPth
+{
+  local blcelc_pth = blcelc.pth ;
+  MakeLocate $(blcelc_pth) : [ ConcatDirs $(DESTDIR) $(libdir) python$(PYTHON.VERSION) site-packages ] ;
+  local destdir = [ ConcatDirs $(appdatadir) bindings python ] ;
+  NotFile $(destdir) ;
+  PACKAGEPATH on $(blcelc_pth) = $(destdir) ;
+  CelPthGen $(blcelc_pth) ;
+  Depends install_bindings : $(blcelc_pth) ;
+}
+
+if $(PYTHON.AVAILABLE) = "yes"
+{
+  InstallCelPth ;
+}
+
+}

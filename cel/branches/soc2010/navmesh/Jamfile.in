@@ -1,0 +1,129 @@
+TOP ?= "@CS_TOP_SRCDIR@" ;
+BUILDTOP ?= "@CS_TOP_BUILDDIR@" ;
+
+SubDir TOP ;
+
+IncludeDir ;
+IncludeDir $(BUILDTOP) include : : literal transient ;
+IncludeDir "include" ;
+
+# Construct a distclean target
+CleanDir clean : out ;
+
+Clean distclean : configure.lineno config.status config.status.lineno
+		  config.log config.cache aclocal.m4
+		  Jamconfig Jamfile
+		  scripts/autopackage/celstart_static.apspec 
+		  include/celconfig.h ;
+CleanDir distclean : autom4te.cache ;
+Depends distclean : clean ;
+Help distclean : "Remove configuration information and built targets" ;
+
+Clean maintainerclean : configure aclocal.m4 config.h.in ;
+Depends maintainerclean : distclean ;
+
+# Enable msvcgen
+MsvcGenVariable customize : custom.cellib ;
+MsvcGenSubDir TOP msvc : common ;
+MsvcGenSubDir TOP msvc 8 : 8 ;
+MsvcGenSubDir TOP msvc 9 : 9 ;
+MsvcGenTemplateDir TOP mk msvcgen ;
+
+# What the typical user will need. 
+MsvcGenWorkspace cel : : "grp.+_(?!cel$)" static py ;
+
+# Similar to "typical", but with Python.
+MsvcGenWorkspace pycel : : "grp.+_(?!pycel$)" static ;
+
+# Workspace for static variants of plugins and apps.
+MsvcGenWorkspace static : static ^lib.* : "grp.+_(?!static$)" py ;
+
+local hash = "\$" ;
+MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
+MsvcGenConfig CRYSTAL.DEFINES ;
+MsvcGenConfig CRYSTAL.CFLAGS ;
+MsvcGenConfig CRYSTAL.LFLAGS ;
+MsvcGenConfig CRYSTAL.LIBS : "libcrystalspace.lib" ;
+MsvcGenConfig CRYSTAL.LIBS.DEBUG : "libcrystalspace_d.lib" ;
+MsvcGenConfig CRYSTAL.INCDIRS :
+  [ ConcatDirs .. .. .. CS include ]
+  [ ConcatDirs .. .. .. CS include csutil win32 ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" include ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" include csutil win32 ] ;
+MsvcGenConfig CRYSTAL.LIBDIRS :
+  [ ConcatDirs .. .. .. CS out release$(MSVC_VERSION) libs ]
+  [ ConcatDirs .. .. .. CS libs csutil win32 libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" out release$(MSVC_VERSION) libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 libs ] ;
+MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG :
+  [ ConcatDirs .. .. .. CS out debug$(MSVC_VERSION) libs ]
+  [ ConcatDirs .. .. .. CS libs csutil win32 libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" out debug$(MSVC_VERSION) libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 libs ] ;
+MsvcGenConfig CRYSTAL.STATICDEPS : $(TOP)/crystalspace_staticplugins_msvc.jam ;
+MsvcGenConfig HAVE_STATIC_PLUGINS : yes ;
+
+MsvcGenConfig PYTHON.AVAILABLE : yes ;
+MsvcGenConfig PYTHON.CFLAGS ;
+MsvcGenConfig PYTHON.LFLAGS ;
+MsvcGenConfig PYTHON.LIBS ;
+
+# Create a string combining compiler type and version.
+# Can be used for ABI identification
+if $(COMPILER.C++.VERSION_LIST)
+{
+  CS_COMPILER_NAME_AND_VERSION = "$(COMPILER.C++.TYPE)_$(COMPILER.C++.VERSION_LIST[1]).$(COMPILER.C++.VERSION_LIST[2])" ;
+}
+else
+{
+  CS_COMPILER_NAME_AND_VERSION = "$(COMPILER.C++.TYPE)" ;
+}
+
+# Header subdirectories (order sensitive: libraries before plugins and apps)
+SubInclude TOP docs ;
+SubInclude TOP "include" ;
+SubInclude TOP libs ;
+SubInclude TOP plugins ;
+SubInclude TOP apps ;
+SubInclude TOP data ;
+SubInclude TOP scripts ;
+
+# helper rules to create cel vfs.cfg
+rule VfsCfgGen
+{
+  Depends $(<) : $(>) ;
+  Always $(<) ;
+  Clean vfsclean : $(<) ;
+}
+
+actions VfsCfgGen
+{
+  cat $(>) > $(<)
+  echo "" >> $(<)
+  echo "; Configuration-time installation paths." >> $(<)
+  echo "VFS.$(TARGET.OS.NORMALIZED).CEL_DATADIR = $(appdatadir)/data" >> $(<)
+  echo "VFS.$(TARGET.OS.NORMALIZED).CEL_CONFIGDIR = $(appconfdir)" >> $(<)
+}
+
+# Build our own vfs.cfg
+VFS_CONFIGFILE = vfs.cfg ;
+MakeLocate $(VFS_CONFIGFILE) : $(LOCATE_TARGET) ;
+SEARCH on $(VFS_CONFIGFILE) = $(LOCATE_TARGET) ;
+VfsCfgGen $(VFS_CONFIGFILE) : $(SUBDIR)/vfs.cfg.template ;
+
+Depends install_config : [ DoInstall $(VFS_CONFIGFILE) : $(appconfdir) ] ;
+
+# When build directory differs from source directory, also arrange for
+# 'distclean' to remove the $(BUILDDIR)/scripts and $(BUILDDIR)/include
+# directories created by configure.  Also ensure that 'install' installs the 
+# generated $(BUILDDIR)/include/celconfig.h.
+if [ Property build : standalone ]
+{
+  CleanDir distclean : include scripts ;
+  
+  local SUBDIR = [ ConcatDirs $(BUILDTOP) include ] ; # Temporary for Recurse.
+  Recurse InstallHeader : .h ;
+}
+
+# Create a file list for vfs.cfg
+FileListEntriesData vfs.cfg : : vfs ;
