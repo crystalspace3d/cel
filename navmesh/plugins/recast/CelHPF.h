@@ -1,0 +1,114 @@
+/*
+    Crystal Space Entity Layer
+    Copyright (C) 2009 by Jorrit Tyberghein
+  
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+  
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+  
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
+
+#ifndef __CEL_HPF__
+#define __CEL_HPF__
+
+#include <cssysdef.h>
+#include <csgeom/vector3.h>
+#include <csutil/csstring.h>
+#include <csutil/scf_implementation.h>
+#include <iengine/sector.h>
+#include <iutil/comp.h>
+#include <iutil/objreg.h>
+#include <ivaria/mapnode.h>
+#include <tools/celgraph.h>
+#include <tools/celhpf.h>
+#include "CelNavMesh.h"
+#include "Recast.h"
+
+
+
+/**
+ * Path between two map nodes.
+ */
+class celHPath : public scfImplementation1<celHPath, iCelPath>
+{
+public:
+  celHPath ();
+  virtual ~celHPath ();
+
+  // iCelPath methods
+  virtual iObject* QueryObject ();
+  virtual void AddNode (iMapNode* node);
+  virtual void InsertNode (size_t pos, iMapNode* node);
+  virtual iMapNode* Next ();
+  virtual iMapNode* Previous ();
+  virtual iMapNode* Current ();
+  virtual csVector3 CurrentPosition ();
+  virtual iSector* CurrentSector ();
+  virtual bool HasNext ();
+  virtual bool HasPrevious ();
+  virtual void Restart ();
+  virtual void Clear ();
+  virtual iMapNode* GetFirst ();
+  virtual iMapNode* GetLast ();
+  virtual void Invert ();
+  virtual size_t GetNodeCount();
+};
+
+
+
+/**
+ * Hierarchical navigation mesh representing the navigable areas of a Map.
+ */
+class celHNavStruct : public scfImplementation1<celHNavStruct, iCelHNavStruct>
+{
+private:
+  csRef<iCelNavMeshParams> parameters;
+
+public:
+  celHNavStruct ();
+  virtual ~celHNavStruct ();
+
+  virtual iCelPath* ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
+    iSector* goalSector) const;
+  virtual iCelPath* ShortestPath (iMapNode* from, iMapNode* goal) const;
+  virtual bool SaveToFile (const csString& file);
+  virtual bool LoadFromFile (const csString& file);
+  virtual iCelNavMeshParams* GetNavMeshParams ();
+  virtual void SetNavMeshParams (iCelNavMeshParams* parameters);
+};
+
+
+
+/**
+ * Hierarchical navigation mesh creator.
+ */
+class celHNavStructBuilder : public scfImplementation2<celHNavStructBuilder, iCelHNavStructBuilder, iComponent>
+{
+private:
+  csRef<iObjectRegistry> objectRegistry;
+  csRef<iCelNavMeshParams> parameters;
+
+public:
+  celHNavStructBuilder (iBase* parent);
+  virtual ~celHNavStructBuilder ();
+  virtual bool Initialize (iObjectRegistry*);
+
+  // API
+  virtual void SetSectors(iSectorList* sectorList);
+  virtual iCelHNavStruct* BuildHNavStruct ();
+  virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csBox3& boundingBox, iSector* sector = 0);
+  virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csOBB& boundingBox, iSector* sector = 0);
+  virtual iCelNavMeshParams* GetNavMeshParams ();
+  virtual void SetNavMeshParams (iCelNavMeshParams* parameters);
+};
+
+#endif // __CEL_HPF__
