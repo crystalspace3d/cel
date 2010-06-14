@@ -47,6 +47,8 @@
 #include "DetourNavMeshBuilder.h"
 #include "Recast.h"
 
+CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
+{
 
 // TODO remove
 #include <iutil/object.h>
@@ -335,5 +337,8 @@ public:
   virtual void SetNavMeshParams (iCelNavMeshParams* parameters);
 
 };
+
+}
+CS_PLUGIN_NAMESPACE_END(celNavMesh)
 
 #endif // __CEL_NAVMESH__

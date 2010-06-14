@@ -20,6 +20,9 @@
 
 #include "CelHPF.h"
 
+CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
+{
+
 // TODO already declared in CelNavMeshApi.cpp
 //CS_IMPLEMENT_PLUGIN
 
@@ -34,13 +37,13 @@ celHPath::celHPath () : scfImplementationType (this)
 celHPath::~celHPath ()
 {
 }
-
+/*
 // TODO implement
 iObject* celHPath::QueryObject ()
 {
   return 0;
 }
-
+*/
 // TODO implement
 void celHPath::AddNode (iMapNode* node)
 {
@@ -237,3 +240,6 @@ void celHNavStructBuilder::SetNavMeshParams (iCelNavMeshParams* parameters)
 {
   this->parameters.AttachNew(new celNavMeshParams(parameters));
 }
+
+}
+CS_PLUGIN_NAMESPACE_END(celNavMesh)
