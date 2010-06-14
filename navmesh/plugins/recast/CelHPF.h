@@ -33,6 +33,8 @@
 #include "CelNavMesh.h"
 #include "Recast.h"
 
+CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
+{
 
 
 /**
@@ -45,7 +47,7 @@ public:
   virtual ~celHPath ();
 
   // iCelPath methods
-  virtual iObject* QueryObject ();
+  //virtual iObject* QueryObject ();
   virtual void AddNode (iMapNode* node);
   virtual void InsertNode (size_t pos, iMapNode* node);
   virtual iMapNode* Next ();
@@ -110,5 +112,8 @@ public:
   virtual iCelNavMeshParams* GetNavMeshParams ();
   virtual void SetNavMeshParams (iCelNavMeshParams* parameters);
 };
+
+}
+CS_PLUGIN_NAMESPACE_END(celNavMesh)
 
 #endif // __CEL_HPF__

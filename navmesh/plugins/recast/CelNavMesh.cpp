@@ -20,8 +20,10 @@
 
 #include "CelNavMesh.h"
 
-CS_IMPLEMENT_PLUGIN
+CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
+{
 
+  //CS_IMPLEMENT_PLUGIN
 
 
 inline unsigned int nextPow2 (unsigned int v)
@@ -1396,3 +1398,6 @@ void celNavMeshBuilder::SetNavMeshParams (iCelNavMeshParams* parameters)
 {
   this->parameters = parameters;
 }
+
+}
+CS_PLUGIN_NAMESPACE_END(celNavMesh)
