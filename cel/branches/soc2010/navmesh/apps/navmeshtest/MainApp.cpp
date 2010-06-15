@@ -261,6 +261,10 @@ bool MainApp::Application ()
 
   printer.AttachNew(new FramePrinter(object_reg));
 
+  csRef<iCelNavMeshParams> params;
+  params.AttachNew(navMeshBuilder->GetNavMeshParams()->Clone());
+  params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
+  navMeshBuilder->SetNavMeshParams(params);
   int size = engine->GetSectors()->GetCount();
   for (int i = 0; i < size; i++)
   {

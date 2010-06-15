@@ -34,48 +34,15 @@ struct iSector;
  */
 struct iCelNavMeshParams : public virtual iBase
 {
-  /// Set default values
-  virtual void SetDefaultValues () = 0;
+  /**
+   * Create a new object with the same instance variable's values as this one's
+   * \remarks Don't assign the returned value directly to a smart pointer. Use the AttachNew()
+   * method instead.
+   */  
+  virtual iCelNavMeshParams* Clone () const = 0;
 
-  /// Get width of the rasterized heighfield
-  virtual int GetWidth () const = 0;
-  /// Set width of the rasterized heighfield
-  virtual void SetWidth (const int width) = 0;
-
-  /// Get height of the rasterized heighfield
-  virtual int GetHeight () const = 0;
-  /// Set height of the rasterized heighfield
-  virtual void SetHeight (const int height) = 0;
-
-  /// Get cell size
-  virtual float GetCellSize () const = 0;
-  /// Set cell size
-  virtual void SetCellsize (float size) = 0;
-
-  /// Get cell height
-  virtual float GetCellHeight () const = 0;
-  /// Set cell height
-  virtual void SetCellHeight (float height) = 0;
-
-  /// Get bounding box's min point
-  virtual void GetBoundingMin (csVector3& min) const = 0;
-  /// Set bounding box's min point
-  virtual void SetBoundingMin (const csVector3& min) = 0;
-
-  /// Get bounding box's max point
-  virtual void GetBoundingMax (csVector3& max) const = 0;
-  /// Set bounding box's max point
-  virtual void SetBoundingMax (const csVector3& max) = 0;
-
-  /// Get tile size (Width and Height of a tile)
-  virtual int GetTileSize () const = 0;
-  /// Set tile size (Width and Height of a tile)
-  virtual void SetTilesize (const int size) = 0;
-
-  /// Get border size
-  virtual int GetBorderSize () const = 0;
-  /// Set border size
-  virtual void SetBorderSize (const int size) = 0;
+  /// Set suggested values, given the agent parameters values
+  virtual void SetSuggestedValues (float agentHeight, float agentRadius, float agentMaxSlopeAngle) = 0;
 
   /// Get agent height
   virtual float GetAgentHeight () const = 0;
@@ -87,25 +54,45 @@ struct iCelNavMeshParams : public virtual iBase
   /// Set agent radius
   virtual void SetAgentRadius (const float radius) = 0;
 
-  /// Get agent max climb
-  virtual float GetAgentMaxClimb () const = 0;
-  /// Set agent max climb
-  virtual void SetAgentMaxClimb (const float maxClimb) = 0;
-
   /// Get agent maximum walkable slope angle (in degrees)
   virtual float GetAgentMaxSlopeAngle () const = 0;
   /// Set agent maximum walkable slope angle (in degrees)
   virtual void SetAgentMaxSlopeAngle (const float angle) = 0;
 
-  /// Get maximum contour edge length
-  virtual int GetMaxEdgeLength () const = 0;
-  /// Set maximum contour edge length
-  virtual void SetMaxEdgeLength (const int length) = 0;
+  /// Get agent max climb
+  virtual float GetAgentMaxClimb () const = 0;
+  /// Set agent max climb
+  virtual void SetAgentMaxClimb (const float maxClimb) = 0;
+
+  /// Get cell size
+  virtual float GetCellSize () const = 0;
+  /// Set cell size
+  virtual void SetCellsize (float size) = 0;
+
+  /// Get cell height
+  virtual float GetCellHeight () const = 0;
+  /// Set cell height
+  virtual void SetCellHeight (float height) = 0;
 
   /// Get maximum distance error from contour to cells
   virtual float GetMaxSimplificationError () const = 0;
   /// Set maximum distance error from contour to cells
   virtual void SetMaxSimplificationError (const float error) = 0;
+
+  /// Get detail mesh sample spacing
+  virtual float GetDetailSampleDist () const = 0;
+  /// Set detail mesh sample spacing
+  virtual void SetDetailSampleDist (const float dist) = 0;
+
+  /// Get detail mesh simplification max sample error
+  virtual float GetDetailSampleMaxError () const = 0;
+  /// Set detail mesh simplification max sample error
+  virtual void SetDetailSampleMaxError (const float error) = 0;
+  
+  /// Get maximum contour edge length
+  virtual int GetMaxEdgeLength () const = 0;
+  /// Set maximum contour edge length
+  virtual void SetMaxEdgeLength (const int length) = 0;
 
   /// Get minimum regions size (smaller regions will be deleted)
   virtual int GetMinRegionSize () const = 0;
@@ -122,24 +109,15 @@ struct iCelNavMeshParams : public virtual iBase
   /// Set max number of vertices per polygon
   virtual void SetMaxVertsPerPoly (const int maxVerts) = 0;
 
-  /// Get detail mesh sample spacing
-  virtual float GetDetailSampleDist () const = 0;
-  /// Set detail mesh sample spacing
-  virtual void SetDetailSampleDist (const float dist) = 0;
+  /// Get tile size (Width and Height of a tile)
+  virtual int GetTileSize () const = 0;
+  /// Set tile size (Width and Height of a tile)
+  virtual void SetTilesize (const int size) = 0;
 
-  /// Get detail mesh simplification max sample error
-  virtual float GetDetailSampleMaxError () const = 0;
-  /// Set detail mesh simplification max sample error
-  virtual void SetDetailSampleMaxError (const float error) = 0;
-
-  /// Get maximum number of tiles a navmesh can contain
-  virtual int GetMaxTiles () const = 0;
-
-  /// Get maximum number of polygons per tile
-  virtual int GetMaxPolysPerTile () const = 0;
-
-  /// Get maximum number of A* nodes
-  virtual int GetMaxNodes () const = 0;
+  /// Get border size
+  virtual int GetBorderSize () const = 0;
+  /// Set border size
+  virtual void SetBorderSize (const int size) = 0;
 };
 
 /**
@@ -231,6 +209,8 @@ struct iCelNavMesh : public virtual iBase
    * \param goal Destination of the path.
    * \return Pointer to the shortest path between the two points, or 0 in case 
    * something went wrong.
+   * \remarks Don't assign the returned value directly to a smart pointer. Use the AttachNew()
+   * method instead.
    */
   virtual iCelNavMeshPath* ShortestPath (const csVector3& from, const csVector3& goal, 
                                          int maxPathSize = 32) const = 0;
@@ -309,14 +289,12 @@ struct iCelNavMeshBuilder : public virtual iBase
    * Get an object representation of the navigation mesh parameters.
    * \return Pointer to navigation mesh parameters object.
    */
-  virtual iCelNavMeshParams* GetNavMeshParams () const = 0;
+  virtual const iCelNavMeshParams* GetNavMeshParams () const = 0;
 
   /**
    * Set navigation mesh parameters.
-   * \remarks If you wish to set a specific parameter, use iCelNavMeshBuilder::GetNavMeshParams()
-   * instead and call the appropriate setter method.
    */
-  virtual void SetNavMeshParams (iCelNavMeshParams* parameters) = 0;
+  virtual void SetNavMeshParams (const iCelNavMeshParams* parameters) = 0;
  
 };
 

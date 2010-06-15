@@ -20,10 +20,11 @@
 
 #include "CelNavMesh.h"
 
+CS_IMPLEMENT_PLUGIN
+
 CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
 {
-
-  //CS_IMPLEMENT_PLUGIN
+  
 
 
 inline unsigned int nextPow2 (unsigned int v)
@@ -345,6 +346,8 @@ void celNavMeshTile::SetData (unsigned char* data, int dataSize)
  * celNavMesh
  */
 
+const int celNavMesh::MAX_NODES = 2048;
+
 celNavMesh::celNavMesh () : scfImplementationType (this)
 {
   parameters = 0;
@@ -363,26 +366,43 @@ celNavMesh::~celNavMesh ()
   delete detourNavMesh;
 }
 
- // Based on Recast Sample_TileMesh::handleBuild()
-bool celNavMesh::Initialize (iCelNavMeshParams* parameters)
+ // Based on Recast Sample_TileMesh::handleBuild() and Sample_TileMesh::handleSettings()
+bool celNavMesh::Initialize (iCelNavMeshParams* parameters, float* boundingMin, float* boundingMax)
 {
   this->parameters.AttachNew(new celNavMeshParams(parameters));
+  rcVcopy(this->boundingMin, boundingMin);
+  rcVcopy(this->boundingMax, boundingMax);
+
+  int gw = 0, gh = 0;
+  rcCalcGridSize(boundingMin, boundingMax, parameters->GetCellSize(), &gw, &gh);
+  const int ts = parameters->GetTileSize();
+  const int tw = (gw + ts - 1) / ts;
+  const int th = (gh + ts - 1) / ts;
+  
+  // Max tiles and max polys affect how the tile IDs are caculated.
+  // There are 22 bits available for identifying a tile and a polygon.
+  int tileBits = rcMin((int)ilog2(nextPow2(tw * th)), 14);
+  if (tileBits > 14)
+  {
+    tileBits = 14;
+  }
+  int polyBits = 22 - tileBits;
+  int maxTiles = 1 << tileBits;
+  int maxPolysPerTile = 1 << polyBits;
+
   dtNavMeshParams params;
-  csVector3 vector;
-  parameters->GetBoundingMin(vector);
-  params.orig[0] = vector[0];
-  params.orig[1] = vector[1];
-  params.orig[2] = vector[2];
+  params.orig[0] = boundingMin[0];
+  params.orig[1] = boundingMin[1];
+  params.orig[2] = boundingMin[2];
   params.tileWidth = parameters->GetTileSize() * parameters->GetCellSize();
   params.tileHeight = params.tileWidth;
-  params.maxTiles = parameters->GetMaxTiles();
-  params.maxPolys = parameters->GetMaxPolysPerTile();
-  params.maxNodes = parameters->GetMaxNodes();
+  params.maxTiles = maxTiles;
+  params.maxPolys = maxPolysPerTile;
+  params.maxNodes = MAX_NODES;
   detourNavMesh = new dtNavMesh;
   return !detourNavMesh->init(&params);
 }
 
-// TODO implement
 // Based on Recast NavMeshTesterTool::recalc()
 iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector3& goal, const int maxPathSize) const
 {
@@ -545,194 +565,55 @@ void celNavMesh::DebugRenderAgent(const csVector3& pos, int red, int green, int 
 
 celNavMeshParams::celNavMeshParams () : scfImplementationType (this)
 {
-  SetDefaultValues();
+  SetSuggestedValues(2.0f, 0.6f, 45);
 }
 
-celNavMeshParams::celNavMeshParams (iCelNavMeshParams* parameters) : scfImplementationType (this)
+celNavMeshParams::celNavMeshParams (const iCelNavMeshParams* parameters) : scfImplementationType (this)
 {
-  width = parameters->GetWidth();
-  height = parameters->GetHeight();
-  cellSize = parameters->GetCellSize();
-  cellHeight = parameters->GetCellHeight();
-  csVector3 vector;
-  parameters->GetBoundingMin(vector);
-  boundingMin[0] = vector[0];
-  boundingMin[1] = vector[1];
-  boundingMin[2] = vector[2];
-  parameters->GetBoundingMax(vector);
-  boundingMax[0] = vector[0];
-  boundingMax[1] = vector[1];
-  boundingMax[2] = vector[2];
   agentHeight = parameters->GetAgentHeight();
   agentRadius = parameters->GetAgentRadius();
-  agentMaxClimb = parameters->GetAgentMaxClimb();
   agentMaxSlopeAngle = parameters->GetAgentMaxSlopeAngle();
-  maxEdgeLength = parameters->GetMaxEdgeLength();
+  agentMaxClimb = parameters->GetAgentMaxClimb();
+  cellSize = parameters->GetCellSize();
+  cellHeight = parameters->GetCellHeight();
   maxSimplificationError = parameters->GetMaxSimplificationError();
+  detailSampleDist = parameters->GetDetailSampleDist();
+  detailSampleMaxError = parameters->GetDetailSampleMaxError();
+  maxEdgeLength = parameters->GetMaxEdgeLength();
   minRegionSize = parameters->GetMinRegionSize();
   mergeRegionSize = parameters->GetMergeRegionSize();
   maxVertsPerPoly = parameters->GetMaxVertsPerPoly();
   tileSize = parameters->GetTileSize();
   borderSize = parameters->GetBorderSize();
-  detailSampleDist = parameters->GetDetailSampleDist();
-  detailSampleMaxError = parameters->GetDetailSampleMaxError();
-  maxTiles = parameters->GetMaxTiles();
-  maxPolysPerTile = parameters->GetMaxPolysPerTile();
-  maxNodes = parameters->GetMaxNodes();
 }
 
 celNavMeshParams::~celNavMeshParams ()
 {
 }
 
-// TODO check values and document them
-void celNavMeshParams::SetDefaultValues ()
+iCelNavMeshParams* celNavMeshParams::Clone () const
 {
-/*
-   cellSize = 0.3f;
-  cellHeight = 0.2f;
-  agentHeight = 2.0f;
-  agentRadius = 0.6f;
-  agentMaxClimb = 0.9f;
-  agentMaxSlopeAngle = 45.0f;
-  maxEdgeLength = 12;
+  celNavMeshParams* params = new celNavMeshParams(this);
+  return params;
+}
+
+void celNavMeshParams::SetSuggestedValues (float agentHeight, float agentRadius, float agentMaxSlopeAngle)
+{
+  this->agentHeight = agentHeight;
+  this->agentRadius = agentRadius;
+  this->agentMaxSlopeAngle = agentMaxSlopeAngle;
+  agentMaxClimb = agentHeight / 4.0f;
+  cellSize = agentRadius / 2.0f;
+  cellHeight = cellSize / 2.0f;
   maxSimplificationError = 1.3f;
+  detailSampleDist = 6.0f;
+  detailSampleMaxError = 1.0f;
+  maxEdgeLength = ((int)ceilf(agentRadius / cellSize)) * 8;  
   minRegionSize = 50;
   mergeRegionSize = 20;
   maxVertsPerPoly = 6;
   tileSize = 32;
-  borderSize = agentRadius + 3;
-  detailSampleDist = 6.0f;
-  detailSampleMaxError = 1.0f;
-  maxNodes = 2048;
-  CalculateDetourParameters();
-*/
-  cellSize = 0.1f;
-  cellHeight = 0.05f;
-  agentHeight = 0.8f;
-  agentRadius = 0.2f;
-  agentMaxClimb = 0.2f;
-  agentMaxSlopeAngle = 45.0f;
-  maxEdgeLength = 12;
-  maxSimplificationError = 1.3f;
-  minRegionSize = 50;
-  mergeRegionSize = 20;
-  maxVertsPerPoly = 6;
-  tileSize = 32;
-  borderSize = agentRadius + 3;
-  detailSampleDist = 6.0f;
-  detailSampleMaxError = 1.0f;
-  maxNodes = 2048;
-  CalculateDetourParameters();
-
-}
-
-void celNavMeshParams::CalculateDetourParameters ()
-{
-  int gw = 0, gh = 0;
-  rcCalcGridSize(boundingMin, boundingMax, cellSize, &gw, &gh);
-  const int ts = tileSize;
-  const int tw = (gw + ts - 1) / ts;
-  const int th = (gh + ts - 1) / ts;
-  
-  // Max tiles and max polys affect how the tile IDs are caculated.
-  // There are 22 bits available for identifying a tile and a polygon.
-  int tileBits = rcMin((int)ilog2(nextPow2(tw * th)), 14);
-  if (tileBits > 14)
-  {
-    tileBits = 14;
-  }
-  int polyBits = 22 - tileBits;
-  maxTiles = 1 << tileBits;
-  maxPolysPerTile = 1 << polyBits;
-}
-
-int celNavMeshParams::GetWidth () const
-{
-  return width;
-}
-
-void celNavMeshParams::SetWidth (const int width)
-{
-  this->width = width;
-}
-
-int celNavMeshParams::GetHeight () const
-{
-  return height;
-}
-
-void celNavMeshParams::SetHeight (const int height)
-{
-  this->height = height;
-}
-
-float celNavMeshParams::GetCellSize () const
-{
-  return cellSize;
-}
-
-void celNavMeshParams::SetCellsize (float size)
-{
-  cellSize = size;
-  CalculateDetourParameters();
-}
-
-float celNavMeshParams::GetCellHeight () const
-{
-  return cellHeight;
-}
-
-void celNavMeshParams::SetCellHeight (float height)
-{
-  cellHeight = height;
-}
-
-void celNavMeshParams::GetBoundingMin (csVector3& min) const
-{
-  min.Set(boundingMin[0], boundingMin[1], boundingMin[2]);
-}
-
-void celNavMeshParams::SetBoundingMin (const csVector3& min)
-{
-  boundingMin[0] = min[0];
-  boundingMin[1] = min[1];
-  boundingMin[2] = min[2];
-  CalculateDetourParameters();
-}
-
-void celNavMeshParams::GetBoundingMax (csVector3& max) const
-{
-  max.Set(boundingMax[0], boundingMax[1], boundingMax[2]);
-}
-
-void celNavMeshParams::SetBoundingMax (const csVector3& max)
-{
-  boundingMax[0] = max[0];
-  boundingMax[1] = max[1];
-  boundingMax[2] = max[2];
-  CalculateDetourParameters();
-}
-
-int celNavMeshParams::GetTileSize () const
-{
-  return tileSize;
-}
-
-void celNavMeshParams::SetTilesize (const int size)
-{
-  tileSize = size;
-  CalculateDetourParameters();
-}
-
-int celNavMeshParams::GetBorderSize () const
-{
-  return borderSize;
-}
-
-void celNavMeshParams::SetBorderSize (const int size)
-{
-  borderSize = size;
+  borderSize = (int)ceilf(agentRadius / cellSize) + 3;  
 }
 
 float celNavMeshParams::GetAgentHeight () const
@@ -755,16 +636,6 @@ void celNavMeshParams::SetAgentRadius (const float radius)
   agentRadius = radius;
 }
 
-float celNavMeshParams::GetAgentMaxClimb () const
-{
-  return agentMaxClimb;
-}
-
-void celNavMeshParams::SetAgentMaxClimb (const float climb)
-{
-  agentMaxClimb = climb;
-}
-
 float celNavMeshParams::GetAgentMaxSlopeAngle () const 
 {
   return agentMaxSlopeAngle;
@@ -775,14 +646,34 @@ void celNavMeshParams::SetAgentMaxSlopeAngle (const float angle)
   agentMaxSlopeAngle = angle;
 }
 
-int celNavMeshParams::GetMaxEdgeLength () const
+float celNavMeshParams::GetAgentMaxClimb () const
 {
-  return maxEdgeLength;
+  return agentMaxClimb;
 }
 
-void celNavMeshParams::SetMaxEdgeLength (const int length)
+void celNavMeshParams::SetAgentMaxClimb (const float climb)
 {
-  maxEdgeLength = length;
+  agentMaxClimb = climb;
+}
+
+float celNavMeshParams::GetCellSize () const
+{
+  return cellSize;
+}
+
+void celNavMeshParams::SetCellsize (float size)
+{
+  cellSize = size;
+}
+
+float celNavMeshParams::GetCellHeight () const
+{
+  return cellHeight;
+}
+
+void celNavMeshParams::SetCellHeight (float height)
+{
+  cellHeight = height;
 }
 
 float celNavMeshParams::GetMaxSimplificationError () const
@@ -793,6 +684,36 @@ float celNavMeshParams::GetMaxSimplificationError () const
 void celNavMeshParams::SetMaxSimplificationError (const float error)
 {
   maxSimplificationError = error;
+}
+
+float celNavMeshParams::GetDetailSampleDist () const
+{
+  return detailSampleDist;
+}
+
+void celNavMeshParams::SetDetailSampleDist (const float dist)
+{
+  detailSampleDist = dist;
+}
+
+float celNavMeshParams::GetDetailSampleMaxError () const
+{
+  return detailSampleMaxError;
+}
+
+void celNavMeshParams::SetDetailSampleMaxError (const float error)
+{
+  detailSampleMaxError = error;
+}
+
+int celNavMeshParams::GetMaxEdgeLength () const
+{
+  return maxEdgeLength;
+}
+
+void celNavMeshParams::SetMaxEdgeLength (const int length)
+{
+  maxEdgeLength = length;
 }
 
 int celNavMeshParams::GetMinRegionSize () const
@@ -825,39 +746,24 @@ void celNavMeshParams::SetMaxVertsPerPoly (const int maxVerts)
   maxVertsPerPoly = maxVerts;
 }
 
-float celNavMeshParams::GetDetailSampleDist () const
+int celNavMeshParams::GetTileSize () const
 {
-  return detailSampleDist;
+  return tileSize;
 }
 
-void celNavMeshParams::SetDetailSampleDist (const float dist)
+void celNavMeshParams::SetTilesize (const int size)
 {
-  detailSampleDist = dist;
+  tileSize = size;
 }
 
-float celNavMeshParams::GetDetailSampleMaxError () const
+int celNavMeshParams::GetBorderSize () const
 {
-  return detailSampleMaxError;
+  return borderSize;
 }
 
-void celNavMeshParams::SetDetailSampleMaxError (const float error)
+void celNavMeshParams::SetBorderSize (const int size)
 {
-  detailSampleMaxError = error;
-}
-
-int celNavMeshParams::GetMaxTiles () const
-{
-  return maxTiles;
-}
-
-int celNavMeshParams::GetMaxPolysPerTile () const
-{
-  return maxPolysPerTile;
-}
-
-int celNavMeshParams::GetMaxNodes () const
-{
-  return maxNodes;
+  borderSize = size;
 }
 
 
@@ -1012,10 +918,6 @@ bool celNavMeshBuilder::GetSectorData ()
 
   // Calculate a bounding box for the map triangles
   rcCalcBounds(triangleVertices, numberOfVertices, boundingMin, boundingMax);
-  csVector3 vector(boundingMin[0], boundingMin[1], boundingMin[2]);
-  parameters->SetBoundingMin(vector);
-  vector.Set(boundingMax[0], boundingMax[1], boundingMax[2]);
-  parameters->SetBoundingMax(vector);
 
   // ChunkyTriMesh is a structure used by Recast
   chunkyTriMesh = new rcChunkyTriMesh;
@@ -1040,7 +942,7 @@ iCelNavMesh* celNavMeshBuilder::BuildNavMesh ()
   }
 
   celNavMesh* navMesh = new celNavMesh();
-  navMesh->Initialize(parameters);
+  navMesh->Initialize(parameters, boundingMin, boundingMax);
 
   const float cellSize = parameters->GetCellSize();
   const int tileSize = parameters->GetTileSize();
@@ -1389,14 +1291,15 @@ bool celNavMeshBuilder::UpdateNavMesh (iCelNavMesh* navMesh, const csOBB& boundi
   return false;
 }
 
-iCelNavMeshParams* celNavMeshBuilder::GetNavMeshParams () const
+const iCelNavMeshParams* celNavMeshBuilder::GetNavMeshParams () const
 {
   return parameters;
 }
 
-void celNavMeshBuilder::SetNavMeshParams (iCelNavMeshParams* parameters)
+void celNavMeshBuilder::SetNavMeshParams (const iCelNavMeshParams* parameters)
 {
-  this->parameters = parameters;
+  this->parameters.Invalidate();
+  this->parameters.AttachNew(new celNavMeshParams(parameters));
 }
 
 }
