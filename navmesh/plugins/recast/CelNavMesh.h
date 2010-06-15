@@ -105,81 +105,60 @@ struct DebugDrawGL : public duDebugDraw
 class celNavMeshParams : public scfImplementation1<celNavMeshParams, iCelNavMeshParams>
 {
 private:
-  //rcConfig recastConfig;
-  int width;
-  int height;
-  float cellSize;
-  float cellHeight;
-  float boundingMin[3];
-  float boundingMax[3];
   float agentHeight;
   float agentRadius;
-  float agentMaxClimb;
   float agentMaxSlopeAngle;
-  int maxEdgeLength;
+  float agentMaxClimb;
+  float cellSize;
+  float cellHeight;
   float maxSimplificationError;
+  float detailSampleDist;
+  float detailSampleMaxError;
+  int maxEdgeLength;  
   int minRegionSize;
   int mergeRegionSize;
   int maxVertsPerPoly;
   int tileSize;
-  int borderSize;
-  float detailSampleDist;
-  float detailSampleMaxError;
-  int maxTiles;
-  int maxPolysPerTile;
-  int maxNodes;
-  void CalculateDetourParameters();
+  int borderSize;  
 
 public:
-
   celNavMeshParams ();
-  celNavMeshParams (iCelNavMeshParams* parameters);
+  celNavMeshParams (const iCelNavMeshParams* parameters);
   virtual ~celNavMeshParams ();
 
-  virtual void SetDefaultValues ();
+  iCelNavMeshParams* Clone () const;
+  virtual void SetSuggestedValues (float agentHeight, float agentRadius, float agentMaxSlopeAngle);
 
-  virtual int GetWidth () const;
-  virtual void SetWidth (const int width);
-  virtual int GetHeight () const;
-  virtual void SetHeight (const int height);
-  virtual float GetCellSize () const;
-  virtual void SetCellsize (float size);
-  virtual float GetCellHeight () const;
-  virtual void SetCellHeight (float height);
-  virtual void GetBoundingMin (csVector3& min) const;
-  virtual void SetBoundingMin (const csVector3& min);
-  virtual void GetBoundingMax (csVector3& max) const;
-  virtual void SetBoundingMax (const csVector3& max);
-  virtual int GetTileSize () const;
-  virtual void SetTilesize (const int size);
-  virtual int GetBorderSize () const;
-  virtual void SetBorderSize (const int size);
   virtual float GetAgentHeight () const;
   virtual void SetAgentHeight (const float height);
   virtual float GetAgentRadius () const;
   virtual void SetAgentRadius (const float radius);
-  virtual float GetAgentMaxClimb () const;
-  virtual void SetAgentMaxClimb (const float maxClimb);
   virtual float GetAgentMaxSlopeAngle () const;
   virtual void SetAgentMaxSlopeAngle (const float angle);
-  virtual int GetMaxEdgeLength () const;
-  virtual void SetMaxEdgeLength (const int length);
+  virtual float GetAgentMaxClimb () const;
+  virtual void SetAgentMaxClimb (const float maxClimb);
+  virtual float GetCellSize () const;
+  virtual void SetCellsize (float size);
+  virtual float GetCellHeight () const;
+  virtual void SetCellHeight (float height);
   virtual float GetMaxSimplificationError () const;
   virtual void SetMaxSimplificationError (const float error);
+  virtual float GetDetailSampleDist () const;
+  virtual void SetDetailSampleDist (const float dist);
+  virtual float GetDetailSampleMaxError () const;
+  virtual void SetDetailSampleMaxError (const float error);
+  virtual int GetMaxEdgeLength () const;
+  virtual void SetMaxEdgeLength (const int length);
   virtual int GetMinRegionSize () const;
   virtual void SetMinRegionSize (const int size);
   virtual int GetMergeRegionSize () const;
   virtual void SetMergeRegionSize (const int size);
   virtual int GetMaxVertsPerPoly () const;
   virtual void SetMaxVertsPerPoly (const int maxVerts);
-  virtual float GetDetailSampleDist () const;
-  virtual void SetDetailSampleDist (const float dist);
-  virtual float GetDetailSampleMaxError () const;
-  virtual void SetDetailSampleMaxError (const float error);
-  virtual int GetMaxTiles () const;
-  virtual int GetMaxPolysPerTile () const;
-  virtual int GetMaxNodes () const;
-
+  virtual int GetTileSize () const;
+  virtual void SetTilesize (const int size);
+  virtual int GetBorderSize () const;
+  virtual void SetBorderSize (const int size);
 };
 
 
@@ -249,13 +228,16 @@ private:
   dtQueryFilter filter;
   dtNavMesh* detourNavMesh;
   csRef<iCelNavMeshParams> parameters;
+  float boundingMin[3];
+  float boundingMax[3];
   unsigned char navMeshDrawFlags;
+  static const int MAX_NODES;
 
 public:
   celNavMesh ();
   virtual ~celNavMesh ();
 
-  bool Initialize (iCelNavMeshParams* parameters);
+  bool Initialize (iCelNavMeshParams* parameters, float* boundingMin, float* boundingMax);
   bool AddTile (unsigned char* data, int dataSize);
 
   // API
@@ -333,8 +315,8 @@ public:
   virtual iCelNavMesh* BuildNavMesh ();
   virtual bool UpdateNavMesh (iCelNavMesh* navMesh, const csBox3& boundingBox);
   virtual bool UpdateNavMesh (iCelNavMesh* navMesh, const csOBB& boundingBox);
-  virtual iCelNavMeshParams* GetNavMeshParams () const;
-  virtual void SetNavMeshParams (iCelNavMeshParams* parameters);
+  virtual const iCelNavMeshParams* GetNavMeshParams () const;
+  virtual void SetNavMeshParams (const iCelNavMeshParams* parameters);
 
 };
 
