@@ -201,7 +201,7 @@ bool celHNavStructBuilder::Initialize (iObjectRegistry* objectRegistry)
 }
 
 // TODO implement
-void celHNavStructBuilder::SetSectors(iSectorList* sectorList)
+void celHNavStructBuilder::SetSectors(csList<iSector*> sectorList)
 {
 }
 

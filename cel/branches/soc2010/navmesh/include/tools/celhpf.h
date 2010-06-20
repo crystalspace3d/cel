@@ -21,6 +21,7 @@
 #define __CEL_HPFAPI__
 
 #include <csutil/scf.h>
+#include <csutil/list.h>
 
 class csBox3;
 class csOBB;
@@ -99,11 +100,11 @@ struct iCelHNavStructBuilder : public virtual iBase
 
   /**
    * Set the Sectors used to build the navigation structure.
-   * \param sector Pointer to the new iSectorList.
+   * \param sectorList List containing the sectors for which navmeshes will be built.
    * \return True in case everything went right and false otherwise.
    * \remarks Even in case of a false return, the old sector information is lost.
    */
-  virtual void SetSectors(iSectorList* sectorList) = 0;
+  virtual void SetSectors(csList<iSector*> sectorList) = 0;
 
   /**
    * Build a hierarchical navigation structure using the current configurations.
