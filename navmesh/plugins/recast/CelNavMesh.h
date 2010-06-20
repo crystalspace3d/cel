@@ -26,6 +26,7 @@
 #else
 #include <GL/gl.h>
 #endif
+#include <csgeom/plane3.h>
 #include <csgeom/tri.h>
 #include <csgeom/vector3.h>
 #include <cstool/csapplicationframework.h>
@@ -34,6 +35,8 @@
 #include <csutil/scf_implementation.h>
 #include <iengine/mesh.h>
 #include <iengine/movable.h>
+#include <iengine/portal.h>
+#include <iengine/portalcontainer.h>
 #include <iengine/sector.h>
 #include <igeom/trimesh.h>
 #include <imesh/objmodel.h>

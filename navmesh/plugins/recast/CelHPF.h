@@ -105,7 +105,7 @@ public:
   virtual bool Initialize (iObjectRegistry*);
 
   // API
-  virtual void SetSectors(iSectorList* sectorList);
+  virtual void SetSectors(csList<iSector*> sectorList);
   virtual iCelHNavStruct* BuildHNavStruct ();
   virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csBox3& boundingBox, iSector* sector = 0);
   virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csOBB& boundingBox, iSector* sector = 0);
