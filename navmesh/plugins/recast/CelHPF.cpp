@@ -19,6 +19,7 @@
 
 
 #include "CelHPF.h"
+#include "cstool/mapnode.h"
 
 CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
 {
@@ -159,12 +160,12 @@ bool celHNavStruct::BuildHighLevelGraph()
     return false;
   }
 
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>::GlobalIterator it = navMeshes.GetIterator();
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
   while (it.HasNext())
   {
     csPtrKey<iSector> sector;
     it.Next(sector);
-    csSet<csPtrKey<iMeshWrapper>>::GlobalIterator portalMeshesIt = sector->GetPortalMeshes().GetIterator();
+    csSet<csPtrKey<iMeshWrapper> >::GlobalIterator portalMeshesIt = sector->GetPortalMeshes().GetIterator();
     while (portalMeshesIt.HasNext())
     {
       csRef<iPortalContainer> container = portalMeshesIt.Next()->GetPortalContainer();
@@ -334,7 +335,7 @@ iCelHNavStruct* celHNavStructBuilder::BuildHNavStruct ()
 
   celHNavStruct* navStruct = new celHNavStruct(parameters);
 
-  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector>>::GlobalIterator it = builders.GetIterator();
+  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> >::GlobalIterator it = builders.GetIterator();
   while (it.HasNext())
   {
     csRef<iCelNavMeshBuilder> builder = it.Next();
