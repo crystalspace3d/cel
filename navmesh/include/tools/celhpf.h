@@ -79,14 +79,7 @@ struct iCelHNavStruct : public virtual iBase
    * Get an object representation of the navigation mesh parameters.
    * \return Pointer to navigation mesh parameters object.
    */
-  virtual iCelNavMeshParams* GetNavMeshParams () = 0;
-
-  /**
-   * Set navigation mesh parameters.
-   * \remarks If you wish to set a specific parameter, use iCelHNavStructBuilder::GetNavMeshParams()
-   * instead and call the appropriate setter method.
-   */
-  virtual void SetNavMeshParams (iCelNavMeshParams* parameters) = 0;
+  virtual const iCelNavMeshParams* GetNavMeshParams () const = 0;
 };
 
 
@@ -103,6 +96,7 @@ struct iCelHNavStructBuilder : public virtual iBase
    * \param sectorList List containing the sectors for which navmeshes will be built.
    * \return True in case everything went right and false otherwise.
    * \remarks Even in case of a false return, the old sector information is lost.
+   *          You should call iCelHNavStructBuilder::SetNavMeshParams() before this method.
    */
   virtual void SetSectors(csList<iSector*> sectorList) = 0;
 
@@ -136,14 +130,13 @@ struct iCelHNavStructBuilder : public virtual iBase
    * Get an object representation of the navigation mesh parameters.
    * \return Pointer to navigation mesh parameters object.
    */
-  virtual iCelNavMeshParams* GetNavMeshParams () = 0;
+  virtual const iCelNavMeshParams* GetNavMeshParams () const = 0;
 
   /**
    * Set navigation mesh parameters.
-   * \remarks If you wish to set a specific parameter, use iCelHNavStructBuilder::GetNavMeshParams()
-   * instead and call the appropriate setter method.
+   * \remarks Should be called before iCelHNavStructBuilder::SetSectors().
    */
-  virtual void SetNavMeshParams (iCelNavMeshParams* parameters) = 0;
+  virtual void SetNavMeshParams (const iCelNavMeshParams* parameters) = 0;
 };
 
 #endif // __CEL_HPFAPI__

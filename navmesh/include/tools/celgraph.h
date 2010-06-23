@@ -75,69 +75,57 @@ struct iCelEdge : public virtual iBase
  */
 struct iCelNode : public virtual iBase
 {
-  SCF_INTERFACE (iCelNode, 1, 0, 0);
+  SCF_INTERFACE (iCelNode, 1, 0, 1);
 
   /**
-   * Adds a successor to this node (This will create a new edge.
+   * Adds a successor to this node (This will create a new edge).
    */
-  virtual void AddSuccessor (iCelNode* node, bool state) = 0;
+  virtual size_t AddSuccessor (iCelNode* node, bool state) = 0;
   
   /**
    * Sets mapnode of this node.
    */
-
   virtual void SetMapNode (iMapNode* node) = 0;
 
   /**
    * Sets parent to this node.
    */
-
-
   virtual void SetParent (iCelNode* par)= 0;
   
   /**
    * Calculates euclidean distance between this node and goal.
    */
-
   virtual void SetName (const char* par)= 0;
   
   /**
    * Calculates euclidean distance between this node and goal.
    */
-
-
   virtual void Heuristic (float cost, iCelNode* goal)= 0;
 
-
-
- /**
+  /**
    * Get MapNode of this node.
    */
   virtual iMapNode* GetMapNode () = 0;
-  
 
- /**
+  /**
    * Get position of this node.
    */
   virtual csVector3 GetPosition () = 0;
 
- /**
+  /**
    * Get name of this node.
    */
   virtual const char* GetName () = 0;
-
   
   /**
    * Get Parent to this node.
    */
   virtual iCelNode* GetParent () = 0;
 
-
   /**
    * Get reachable successors to this node.
    */
   virtual csArray<iCelNode*> GetSuccessors () = 0;
-
 
   /**
    * Get all successors to this node.
@@ -154,12 +142,12 @@ struct iCelNode : public virtual iBase
    */
   virtual float  GetCost () = 0;
 
-  /*
+  /**
    * Get Number of Edges
    */
    virtual size_t GetEdgeCount() = 0;
 
-  /*
+  /**
    * Get a node by index
    */
   virtual iCelEdge *GetEdge(size_t idx) = 0;
@@ -168,6 +156,11 @@ struct iCelNode : public virtual iBase
    * Get predecessors to this node.
    */
   //virtual csRefArray<iCelNode> GetPredecessors() = 0;
+
+  /**
+   * Remove an edge
+   */
+  virtual void RemoveEdge(size_t idx) = 0;
 };
 
 
@@ -269,7 +262,7 @@ struct iCelPath : public virtual iBase
  */
 struct iCelGraph : public virtual iBase
 {
-  SCF_INTERFACE (iCelGraph, 1, 0, 0);
+  SCF_INTERFACE (iCelGraph, 1, 0, 1);
 
   /**
    * Query the underlying iObject
@@ -279,12 +272,12 @@ struct iCelGraph : public virtual iBase
   /**
    * Create a node for this graph. The node will be added to the graph.
    */
-  virtual iCelNode *CreateNode (const char* name, csVector3 &pos) = 0;
+  virtual iCelNode* CreateNode (const char* name, csVector3 &pos) = 0;
 
   /**
    * Adds a node to the graph.
    */
-  virtual void AddNode (iCelNode* node) = 0;
+  virtual size_t AddNode (iCelNode* node) = 0;
 
   /**
    * Adds an edge to the graph.
@@ -320,13 +313,23 @@ struct iCelGraph : public virtual iBase
   /*
    * Get a node by index
    */
-  virtual iCelNode *GetNode(size_t idx) = 0;
+  virtual iCelNode* GetNode(size_t idx) = 0;
 
   /**
    * Calculates the euclidian distance heuristic from one
    * node to another.
    */
   //virtual float Heuristic (iCelNode* from, iCelNode* to) = 0;
+
+  /**
+   * Removes a node from the graph.
+   */
+  virtual void RemoveNode (size_t idx) = 0;
+
+  /**
+   * Removes an edge from the graph.
+   */
+  virtual void RemoveEdge (iCelNode* from, size_t idx) = 0;
   
 };
 

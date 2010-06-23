@@ -90,14 +90,13 @@ celNode::~celNode ()
 {
 }
 
-void celNode:: AddSuccessor(iCelNode* node, bool state)
+size_t celNode:: AddSuccessor (iCelNode* node, bool state)
 {
   csRef<iCelEdge> edge;
   edge.AttachNew(new celEdge());
   edge->SetState(state);
   edge->SetSuccessor(node);
-  edges.Push(edge);
-
+  return edges.Push(edge);
 }
 
 void celNode:: SetMapNode (iMapNode* node)
@@ -167,6 +166,11 @@ csArray<iCelNode*> celNode:: GetAllSuccessors ()
     nodes.Push(edges[i]->GetSuccessor());
   
   return nodes;
+}
+
+void celNode::RemoveEdge(size_t idx)
+{
+  edges.DeleteIndex(idx);
 }
 
 //---------------------------------------------------------------------------
@@ -307,9 +311,9 @@ bool celGraph::Initialize(iObjectRegistry* object_reg)
   return true;
 }
 
-void celGraph:: AddNode(iCelNode* node)
+size_t celGraph:: AddNode(iCelNode* node)
 {
-  nodes.Push(node);
+  return nodes.Push(node);
 }
 
 void celGraph:: AddEdge(iCelNode* from, iCelNode* to, bool state)
@@ -464,7 +468,7 @@ iCelNode* celGraph::RandomPath (iCelNode* from, int distance, iCelPath* path)
   }
 }
 
-iCelNode *celGraph::CreateNode(const char *name, csVector3 &pos)
+iCelNode* celGraph::CreateNode(const char *name, csVector3 &pos)
 {
   csRef<iMapNode> n;
   n.AttachNew(new csMapNode("n0"));
@@ -478,4 +482,13 @@ iCelNode *celGraph::CreateNode(const char *name, csVector3 &pos)
   return newnode;
 }
 
+void celGraph::RemoveNode (size_t idx)
+{
+  nodes.DeleteIndex(idx);
+}
 
+// TODO implement
+void celGraph::RemoveEdge (iCelNode* from, size_t idx)
+{
+  from->RemoveEdge(idx);
+}

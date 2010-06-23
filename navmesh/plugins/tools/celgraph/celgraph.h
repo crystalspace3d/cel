@@ -79,7 +79,7 @@ class celNode : public scfImplementation1<
  public:
   celNode ();
   virtual ~celNode ();
-  virtual void AddSuccessor (iCelNode* node, bool state);
+  virtual size_t AddSuccessor (iCelNode* node, bool state);
   virtual void SetMapNode (iMapNode* node);
   virtual void SetParent (iCelNode* par);
   virtual void SetName (const char* n);
@@ -94,11 +94,11 @@ class celNode : public scfImplementation1<
   virtual float GetCost () {return cost;};
   virtual float GetMultiplier () {return multiplier;}
   virtual void SetMultiplier (float mult);
-  virtual size_t GetEdgeCount()
+  virtual size_t GetEdgeCount ()
   { return edges.GetSize(); }
-  virtual iCelEdge *GetEdge(size_t idx)
+  virtual iCelEdge* GetEdge (size_t idx)
   { return edges.Get(idx); }
-
+  virtual void RemoveEdge (size_t idx);
 };
 
 /**
@@ -153,8 +153,8 @@ public:
   virtual ~celGraph ();
   virtual iObject* QueryObject () { return this; }
   virtual bool Initialize (iObjectRegistry* object_reg);
-  virtual iCelNode *CreateNode(const char *name, csVector3 &pos);
-  virtual void AddNode(iCelNode* node);
+  virtual iCelNode* CreateNode(const char *name, csVector3 &pos);
+  virtual size_t AddNode(iCelNode* node);
   virtual void AddEdge(iCelNode* from, iCelNode* to, bool state);
   virtual bool AddEdgeByNames(const char* from, const char* to, bool state);
   virtual iCelNode* GetClosest(csVector3 position);
@@ -164,6 +164,8 @@ public:
   { return nodes.GetSize(); }
   virtual iCelNode *GetNode(size_t idx)
   { return nodes.Get(idx); }
+  virtual void RemoveNode (size_t idx);
+  virtual void RemoveEdge (iCelNode* from, size_t idx);
 };
 
 #endif //__CEL_TOOLS_CELGRAPH__ 
