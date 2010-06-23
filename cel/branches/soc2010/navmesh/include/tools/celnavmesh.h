@@ -120,6 +120,8 @@ struct iCelNavMeshParams : public virtual iBase
   virtual void SetBorderSize (const int size) = 0;
 };
 
+
+
 /**
  * Path between two points which lay in the same Sector.
  */
@@ -162,6 +164,9 @@ struct iCelNavMeshPath : public virtual iBase
 
   /// Add a new node in position pos
   virtual void InsertNode (int pos, csVector3 node) = 0;
+
+  /// Calculate path length
+  virtual float Length() const = 0;
 
   /// Render path
   virtual void DebugRenderPath () = 0;
@@ -256,6 +261,7 @@ struct iCelNavMeshBuilder : public virtual iBase
    * \param sector Pointer to the new iSector
    * \return True in case everything went right and false otherwise.
    * \remarks Even in case of a false return, the old sector information is lost.
+   *          You should call iCelNavMeshBuilder::SetNavMeshParams() before this method.
    */
   virtual bool SetSector (iSector* sector) = 0;
 
@@ -263,9 +269,9 @@ struct iCelNavMeshBuilder : public virtual iBase
    * Build a navigation mesh from the triangles in a Sector, using current configuration.
    * \return Pointer to the navigation mesh, or 0 if something went wrong.
    * \remarks A valid iSector must have been set using iCelNavMeshBuilder::SetSector()
-   * before calling this method.
-   * Don't assign the returned value directly to a smart pointer. Use the AttachNew()
-   * method instead.
+   *          before calling this method.
+   *          Don't assign the returned value directly to a smart pointer. Use the AttachNew()
+   *          method instead.
    */
   virtual iCelNavMesh* BuildNavMesh () = 0;
 
@@ -293,6 +299,7 @@ struct iCelNavMeshBuilder : public virtual iBase
 
   /**
    * Set navigation mesh parameters.
+   * \remarks Should be called before iCelNavMeshBuilder::SetSector().
    */
   virtual void SetNavMeshParams (const iCelNavMeshParams* parameters) = 0;
  

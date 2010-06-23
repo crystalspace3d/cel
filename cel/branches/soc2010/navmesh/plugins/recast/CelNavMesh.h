@@ -29,6 +29,7 @@
 #include <csgeom/plane3.h>
 #include <csgeom/tri.h>
 #include <csgeom/vector3.h>
+#include <csqsqrt.h>
 #include <cstool/csapplicationframework.h>
 #include <csutil/list.h>
 #include <csutil/ref.h>
@@ -174,7 +175,7 @@ class celNavMeshPath : public scfImplementation1<celNavMeshPath, iCelNavMeshPath
 {
 private:
   float* path;
-  int pathSize;
+  int pathSize; // In nodes
   int maxPathSize;
   int currentPosition; // Path array position, not point index
   int increasePosition; // Value to be added to currentPosition to get next element
@@ -196,6 +197,7 @@ public:
   virtual void Restart ();
   virtual void AddNode (csVector3 node);  
   virtual void InsertNode (int pos, csVector3 node);
+  virtual float Length() const;
   virtual void DebugRenderPath ();
 };
 
@@ -240,7 +242,7 @@ public:
   celNavMesh ();
   virtual ~celNavMesh ();
 
-  bool Initialize (iCelNavMeshParams* parameters, float* boundingMin, float* boundingMax);
+  bool Initialize (const iCelNavMeshParams* parameters, const float* boundingMin, const float* boundingMax);
   bool AddTile (unsigned char* data, int dataSize);
 
   // API

@@ -23,12 +23,14 @@
 #include <cssysdef.h>
 #include <csgeom/vector3.h>
 #include <csutil/csstring.h>
+#include <csutil/hash.h>
 #include <csutil/scf_implementation.h>
 #include <iengine/sector.h>
 #include <iutil/comp.h>
 #include <iutil/objreg.h>
 #include <ivaria/mapnode.h>
 #include <tools/celgraph.h>
+#include <tools/celnavmesh.h>
 #include <tools/celhpf.h>
 #include "CelNavMesh.h"
 #include "Recast.h"
@@ -74,18 +76,24 @@ class celHNavStruct : public scfImplementation1<celHNavStruct, iCelHNavStruct>
 {
 private:
   csRef<iCelNavMeshParams> parameters;
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>> navMeshes;
+  csRef<iCelGraph> hlGraph; // High level graph
 
 public:
-  celHNavStruct ();
+  celHNavStruct (const iCelNavMeshParams* params);
   virtual ~celHNavStruct ();
 
+  void AddNavMesh(iCelNavMesh* navMesh);
+  bool BuildHighLevelGraph();
+
+  // API
   virtual iCelPath* ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
-    iSector* goalSector) const;
+      iSector* goalSector) const;
   virtual iCelPath* ShortestPath (iMapNode* from, iMapNode* goal) const;
   virtual bool SaveToFile (const csString& file);
   virtual bool LoadFromFile (const csString& file);
-  virtual iCelNavMeshParams* GetNavMeshParams ();
-  virtual void SetNavMeshParams (iCelNavMeshParams* parameters);
+  virtual const iCelNavMeshParams* GetNavMeshParams () const;
+  
 };
 
 
@@ -98,6 +106,10 @@ class celHNavStructBuilder : public scfImplementation2<celHNavStructBuilder, iCe
 private:
   csRef<iObjectRegistry> objectRegistry;
   csRef<iCelNavMeshParams> parameters;
+  csList<iSector*>* sectors;
+  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector>> builders;
+
+  bool InstantiateNavMeshBuilders();
 
 public:
   celHNavStructBuilder (iBase* parent);
@@ -105,12 +117,12 @@ public:
   virtual bool Initialize (iObjectRegistry*);
 
   // API
-  virtual void SetSectors(csList<iSector*> sectorList);
+  virtual void SetSectors (csList<iSector*> sectorList);
   virtual iCelHNavStruct* BuildHNavStruct ();
   virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csBox3& boundingBox, iSector* sector = 0);
   virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csOBB& boundingBox, iSector* sector = 0);
-  virtual iCelNavMeshParams* GetNavMeshParams ();
-  virtual void SetNavMeshParams (iCelNavMeshParams* parameters);
+  virtual const iCelNavMeshParams* GetNavMeshParams () const;
+  virtual void SetNavMeshParams (const iCelNavMeshParams* parameters);
 };
 
 }

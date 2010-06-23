@@ -269,6 +269,23 @@ void celNavMeshPath::InsertNode (int pos, csVector3 node)
   pathSize++;
 }
 
+float celNavMeshPath::Length() const
+{
+  float length = 0;
+  int index;
+  float f0, f1, f2;
+  for (int i = 1; i < pathSize; i++)
+  {
+    index = i * 3;
+    f0 = (path[index] - path[index - 3]);
+    f1 = (path[index + 1] - path[index - 2]);
+    f2 = (path[index + 2] - path[index - 1]);
+    length += csQsqrt(f0 * f0 + f1 * f1 + f2 * f2);
+  }
+
+  return length;
+}
+
 // Based on Detour NavMeshTesterTool::handleRender()
 void celNavMeshPath::DebugRenderPath ()
 {
@@ -367,7 +384,7 @@ celNavMesh::~celNavMesh ()
 }
 
  // Based on Recast Sample_TileMesh::handleBuild() and Sample_TileMesh::handleSettings()
-bool celNavMesh::Initialize (iCelNavMeshParams* parameters, float* boundingMin, float* boundingMax)
+bool celNavMesh::Initialize (const iCelNavMeshParams* parameters, const float* boundingMin, const float* boundingMax)
 {
   this->parameters.AttachNew(new celNavMeshParams(parameters));
   rcVcopy(this->boundingMin, boundingMin);
@@ -943,7 +960,6 @@ bool celNavMeshBuilder::GetSectorData ()
         numberOfVertices += 2;
 
         // Create two triangles for edge v1v2, v1-lastVertexIndex-v2 and v2-lastVertexIndex-thisVertexIndex
-        // TODO v1-v2-lastVertexIndex and v2-thisVertexIndex-lastVertexIndex
         indices.PushBack(indicesPortal[0] + firstVertexIndex);
         indices.PushBack(indicesPortal[1] + firstVertexIndex);
         indices.PushBack(lastVertexIndex);
@@ -969,7 +985,6 @@ bool celNavMeshBuilder::GetSectorData ()
           numberOfVertices++;
 
           // Create two triangles for edge v2v3, v2-lastVertexIndex-v3 and v3-lastVertexIndex-thisVertexIndex
-          // TODO v2-v3-lastVertexIndex and v3-thisVertexIndex-lastVertexIndex
           indices.PushBack(indicesPortal[j] + firstVertexIndex);
           indices.PushBack(indicesPortal[j + 1] + firstVertexIndex);
           indices.PushBack(lastVertexIndex);          
@@ -981,7 +996,6 @@ bool celNavMeshBuilder::GetSectorData ()
 
         // Create two triangles for edge v3v1 of the last triangle
         // v3-thisVertexIndex-v1 v1-thisVertexIndex-firstVertexIndex
-        // TODO v3-v1-thisVertexIndex v1-firstVertexIndex-thisVertexIndex
         indices.PushBack(indicesPortal[indicesSize - 1] + firstVertexIndex);
         indices.PushBack(indicesPortal[0] + firstVertexIndex);
         indices.PushBack(thisVertexIndex);
