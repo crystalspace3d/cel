@@ -22,6 +22,7 @@
 
 #include <cssysdef.h>
 #include <csgeom/vector3.h>
+#include <cstool/mapnode.h>
 #include <csutil/csstring.h>
 #include <csutil/hash.h>
 #include <csutil/scf_implementation.h>
