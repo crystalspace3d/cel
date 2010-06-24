@@ -19,7 +19,6 @@
 
 
 #include "CelHPF.h"
-#include "cstool/mapnode.h"
 
 CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
 {
@@ -150,7 +149,7 @@ void celHNavStruct::AddNavMesh(iCelNavMesh* navMesh)
   navMeshes.Put(key, navMesh);
 }
 
-// TODO finish
+// TODO test
 bool celHNavStruct::BuildHighLevelGraph()
 {
   hlGraph.Invalidate();
@@ -160,12 +159,20 @@ bool celHNavStruct::BuildHighLevelGraph()
     return false;
   }
 
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
+  csArray<csRef<iCelNode>>** nodes;
+  nodes = new csArray<csRef<iCelNode>>*[navMeshes.GetSize()];
+  for (size_t i = 0; i < navMeshes.GetSize(); i++)
+  {
+    nodes[i] = new csArray<csRef<iCelNode>>(64);
+  }
+
+  int x = 0;
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>::GlobalIterator it = navMeshes.GetIterator();
   while (it.HasNext())
   {
     csPtrKey<iSector> sector;
     it.Next(sector);
-    csSet<csPtrKey<iMeshWrapper> >::GlobalIterator portalMeshesIt = sector->GetPortalMeshes().GetIterator();
+    csSet<csPtrKey<iMeshWrapper>>::GlobalIterator portalMeshesIt = sector->GetPortalMeshes().GetIterator();
     while (portalMeshesIt.HasNext())
     {
       csRef<iPortalContainer> container = portalMeshesIt.Next()->GetPortalContainer();
@@ -173,6 +180,7 @@ bool celHNavStruct::BuildHighLevelGraph()
       for (int i = 0; i < size; i++)
       {
         csRef<iPortal> portal = container->GetPortal(i);
+        csFlags flags = portal->GetFlags();
 
         // Get portal indices
         int indicesSize = portal->GetVertexIndicesCount();
@@ -201,7 +209,7 @@ bool celHNavStruct::BuildHighLevelGraph()
             }
           }
           
-          // Add the portal bounding box's center as a node to the graph
+          // Add the portal bounding box's center as a node in the current sector to the graph
           csVector3 center(boundingMin[0] + (boundingMax[0] / 2), boundingMin[1] + (boundingMax[1] / 2),
               boundingMin[2] + (boundingMax[2] / 2));
           csRef<iMapNode> mapNode;
@@ -211,35 +219,89 @@ bool celHNavStruct::BuildHighLevelGraph()
           csRef<iCelNode> node = scfCreateInstance<iCelNode>("cel.celnode");
           if (!node)
           {
+            for (size_t m = 0; m < navMeshes.GetSize(); m++)
+            {
+              delete nodes[m];
+            }
+            delete [] nodes;
             return false;
           }
           node->SetName(""); // TODO set name?
           node->SetMapNode(mapNode);
           hlGraph->AddNode(node);
 
-          // TODO add point at the "same" coordinate (warped?) on destination sector, and create edge 
-          // between it and the original node (zero cost).
-          csReversibleTransform warp = portal->GetWarp();
-          csVector3 warped = warp.This2Other(center);
+          // Add the portal bounding box's center as a node in the destination sector to the graph
+          // Warp if necessary
+          csVector3 center2 = center;
+          if (flags.Check(CS_PORTAL_WARP))
+          {
+            csReversibleTransform warp = portal->GetWarp();
+            center2 = warp.This2Other(center);
+          }
           csRef<iMapNode> mapNode2;
           mapNode2.AttachNew(new csMapNode("n")); // TODO set name?
-          mapNode2->SetPosition(warped);
+          mapNode2->SetPosition(center2);
           mapNode2->SetSector(portal->GetSector());
           csRef<iCelNode> node2 = scfCreateInstance<iCelNode>("cel.celnode");
           if (!node2)
           {
+            for (size_t m = 0; m < navMeshes.GetSize(); m++)
+            {
+              delete nodes[m];
+            }
+            delete [] nodes;
             return false;
           }
           node2->SetName(""); // TODO set name?
           node2->SetMapNode(mapNode2);
           hlGraph->AddNode(node2);
 
-          hlGraph->AddEdge(node, node2, true); // TODO state?
-          // TODO edge weight???
+          // Add an edge between the two points
+          hlGraph->AddEdge(node, node2, true, 0.0f);
+
+          nodes[x]->Push(node);
+          nodes[x]->Push(node2);
         }
       }
     }
+    x++;
   }
+
+  // Create edges between nodes from the same sector
+  csPtrKey<iSector> key;
+  for (size_t i = 0; i < navMeshes.GetSize(); i++)
+  {
+    int size = nodes[i]->GetSize();
+    if (size > 0) {
+      key = (*nodes[i])[0]->GetMapNode()->GetSector();
+      csRef<iCelNavMesh> navMesh = navMeshes.Get(key, 0);
+      if (!navMesh)
+      {
+        for (size_t m = 0; m < navMeshes.GetSize(); m++)
+        {
+          delete nodes[m];
+        }
+        delete [] nodes;
+        return false;
+      }
+      for (int j = 0; j < size - 1; j++)
+      {
+        csRef<iCelNode> node1 = (*nodes[i])[j];
+        for (int k = j + 1; k < size; k++)
+        {
+          csRef<iCelNode> node2 = (*nodes[i])[k];
+          csRef<iCelNavMeshPath> path = navMesh->ShortestPath(node1->GetPosition(), node2->GetPosition(), 256);
+          hlGraph->AddEdge(node1, node2, true, path->Length());
+        }        
+      }
+    }
+  }
+
+  for (size_t i = 0; i < navMeshes.GetSize(); i++)
+  {
+    delete nodes[i];
+  }
+  delete [] nodes;
 
   return true;
 }
@@ -335,7 +397,7 @@ iCelHNavStruct* celHNavStructBuilder::BuildHNavStruct ()
 
   celHNavStruct* navStruct = new celHNavStruct(parameters);
 
-  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> >::GlobalIterator it = builders.GetIterator();
+  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector>>::GlobalIterator it = builders.GetIterator();
   while (it.HasNext())
   {
     csRef<iCelNavMeshBuilder> builder = it.Next();

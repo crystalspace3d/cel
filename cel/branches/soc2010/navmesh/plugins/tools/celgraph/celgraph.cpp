@@ -50,6 +50,7 @@
   : scfImplementationType (this)
 {
   state = true;
+  weight = 0;
 }
 
 celEdge::~celEdge ()
@@ -76,6 +77,16 @@ iCelNode* celEdge::GetSuccessor ()
   return successor;
 }
 
+float celEdge::GetWeight () const
+{
+  return weight;
+}
+
+void celEdge::SetWeight (float weight)
+{
+  this->weight = weight;
+}
+
 //---------------------------------------------------------------------------
 
 //SCF_IMPLEMENT_FACTORY (celNode)
@@ -96,6 +107,7 @@ size_t celNode:: AddSuccessor (iCelNode* node, bool state)
   edge.AttachNew(new celEdge());
   edge->SetState(state);
   edge->SetSuccessor(node);
+  edge->SetWeight(csSquaredDist::PointPoint(GetPosition(), node->GetPosition()));
   return edges.Push(edge);
 }
 
@@ -118,9 +130,6 @@ void celNode::SetMultiplier (float mult)
 {
   multiplier = mult;
 }
-
-
-
 
 void celNode:: Heuristic (float cost, iCelNode* goal)
 {
@@ -171,6 +180,31 @@ csArray<iCelNode*> celNode:: GetAllSuccessors ()
 void celNode::RemoveEdge(size_t idx)
 {
   edges.DeleteIndex(idx);
+}
+
+size_t celNode::AddSuccessor (iCelNode* node, bool state, float weight)
+{
+  csRef<iCelEdge> edge;
+  edge.AttachNew(new celEdge());
+  edge->SetState(state);
+  edge->SetSuccessor(node);
+  edge->SetWeight(weight);
+  return edges.Push(edge);
+}
+
+csArray<iCelEdge*> celNode::GetEdges () const
+{
+  csArray<iCelEdge*> edges;
+  size_t n = edges.GetSize();
+  
+  for (size_t i = 0; i < n; i++)
+  {
+    if (edges[i]->GetState()) {
+      edges.Push(edges[i]);
+    }
+  }
+
+  return edges;
 }
 
 //---------------------------------------------------------------------------
@@ -412,19 +446,21 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
       }
     }
 
-    //Get successors
-    csArray<iCelNode*> suc = current->GetSuccessors();
-    for(size_t i=0; i<suc.GetSize(); i++)
+    // Get edges
+    csArray<iCelEdge*> edges = current->GetEdges();
+    size_t size = edges.GetSize();
+    for (size_t i = 0; i < size; i++)
     {
-      //Check if this Node is already in the queue
-      array = hash.GetAll(computer.ComputeHash(suc[i]->GetPosition().x + suc[i]->GetPosition().y));
+      iCelNode* suc = edges[i]->GetSuccessor();
+      // Check if this Node is already in the queue
+      array = hash.GetAll(computer.ComputeHash(suc->GetPosition().x + suc->GetPosition().y));
       csArray<iCelNode*> :: Iterator it = array.GetIterator();
       bool in = false;
 
       while(it.HasNext())
       {
         iCelNode* cur = it.Next();
-        if(cur == suc[i])
+        if(cur == suc)
         {
           in = true;
           break;
@@ -436,11 +472,10 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
         continue;
       }
 
-      suc[i]->SetParent(current);
-      float cost = csSquaredDist::PointPoint(current->GetPosition(), suc[i]->GetPosition());
-      suc[i]->Heuristic(current->GetCost()+cost, goal);
-      queue.Insert(suc[i]);
-      hash.Put(computer.ComputeHash(suc[i]->GetPosition().x+suc[i]->GetPosition().y), suc[i]);
+      suc->SetParent(current);
+      suc->Heuristic(current->GetCost() + edges[i]->GetWeight(), goal);
+      queue.Insert(suc);
+      hash.Put(computer.ComputeHash(suc->GetPosition().x + suc->GetPosition().y), suc);
     }
   }
   //goal is unreachable from here
@@ -487,8 +522,12 @@ void celGraph::RemoveNode (size_t idx)
   nodes.DeleteIndex(idx);
 }
 
-// TODO implement
 void celGraph::RemoveEdge (iCelNode* from, size_t idx)
 {
   from->RemoveEdge(idx);
+}
+
+void celGraph::AddEdge (iCelNode* from, iCelNode* to, bool state, float weight)
+{
+  from->AddSuccessor(to, state, weight);
 }

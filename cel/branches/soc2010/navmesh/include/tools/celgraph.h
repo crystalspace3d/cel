@@ -34,39 +34,38 @@ struct iCelNode;
  */
 struct iCelEdge : public virtual iBase
 {
-  SCF_INTERFACE (iCelEdge, 1, 0, 0);
+  SCF_INTERFACE (iCelEdge, 1, 0, 1);
 
   /**
    * Sets if the edge is open or closed.
-   */
-  
+   */  
   virtual void SetState (bool open) = 0;
 
   /**
    * Sets successor node.
-   */
-  
+   */  
   virtual void SetSuccessor (iCelNode* node) = 0;
-
-
   
   /**
    * Get state.
-   */
-  
+   */  
   virtual bool GetState () = 0;
-
 
   /**
    * Get end-side Node.
    */
   virtual iCelNode* GetSuccessor () = 0;
-
   
   /**
    * Get beggining-side Node.
    */
   //virtual iCelNode* GetPredecessor () = 0;
+
+  /// Get weight
+  virtual float GetWeight () const = 0;
+
+  /// Set weight
+  virtual void SetWeight (float weight) = 0;
 };
 
 
@@ -75,7 +74,7 @@ struct iCelEdge : public virtual iBase
  */
 struct iCelNode : public virtual iBase
 {
-  SCF_INTERFACE (iCelNode, 1, 0, 1);
+  SCF_INTERFACE (iCelNode, 1, 0, 2);
 
   /**
    * Adds a successor to this node (This will create a new edge).
@@ -143,12 +142,12 @@ struct iCelNode : public virtual iBase
   virtual float  GetCost () = 0;
 
   /**
-   * Get Number of Edges
+   * Get Number of Edges.
    */
    virtual size_t GetEdgeCount() = 0;
 
   /**
-   * Get a node by index
+   * Get a node by index.
    */
   virtual iCelEdge *GetEdge(size_t idx) = 0;
 
@@ -158,9 +157,18 @@ struct iCelNode : public virtual iBase
   //virtual csRefArray<iCelNode> GetPredecessors() = 0;
 
   /**
-   * Remove an edge
+   * Remove an edge.
    */
   virtual void RemoveEdge(size_t idx) = 0;
+
+  /**
+   * Adds a successor to this node, using a weight different then the euclidean
+   * distance between the two nodes (This will create a new edge).
+   */
+  virtual size_t AddSuccessor (iCelNode* node, bool state, float weight) = 0;
+
+  /// Get edges.
+  virtual csArray<iCelEdge*> GetEdges () const = 0;
 };
 
 
@@ -262,7 +270,7 @@ struct iCelPath : public virtual iBase
  */
 struct iCelGraph : public virtual iBase
 {
-  SCF_INTERFACE (iCelGraph, 1, 0, 1);
+  SCF_INTERFACE (iCelGraph, 1, 0, 2);
 
   /**
    * Query the underlying iObject
@@ -330,6 +338,12 @@ struct iCelGraph : public virtual iBase
    * Removes an edge from the graph.
    */
   virtual void RemoveEdge (iCelNode* from, size_t idx) = 0;
+
+  /**
+   * Adds an edge to the graph, using a weight different then the euclidean
+   * distance between the two nodes
+   */
+  virtual void AddEdge (iCelNode* from, iCelNode* to, bool state, float weight) = 0;
   
 };
 

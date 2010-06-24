@@ -54,6 +54,7 @@ class celEdge : public scfImplementation1<
  private:
   csRef<iCelNode> successor;
   bool state;
+  float weight;
 
  public:
   celEdge ();
@@ -62,6 +63,8 @@ class celEdge : public scfImplementation1<
   virtual void SetSuccessor (iCelNode* node);
   virtual bool GetState ();
   virtual iCelNode* GetSuccessor ();
+  virtual float GetWeight () const;
+  virtual void SetWeight (float weight);
 };
 
 class celNode : public scfImplementation1<
@@ -99,6 +102,8 @@ class celNode : public scfImplementation1<
   virtual iCelEdge* GetEdge (size_t idx)
   { return edges.Get(idx); }
   virtual void RemoveEdge (size_t idx);
+  virtual size_t AddSuccessor (iCelNode* node, bool state, float weight);
+  virtual csArray<iCelEdge*> GetEdges () const;
 };
 
 /**
@@ -166,6 +171,7 @@ public:
   { return nodes.Get(idx); }
   virtual void RemoveNode (size_t idx);
   virtual void RemoveEdge (iCelNode* from, size_t idx);
+  virtual void AddEdge (iCelNode* from, iCelNode* to, bool state, float weight);
 };
 
 #endif //__CEL_TOOLS_CELGRAPH__ 
