@@ -159,20 +159,20 @@ bool celHNavStruct::BuildHighLevelGraph()
     return false;
   }
 
-  csArray<csRef<iCelNode>>** nodes;
-  nodes = new csArray<csRef<iCelNode>>*[navMeshes.GetSize()];
+  csArray<csRef<iCelNode> >** nodes;
+  nodes = new csArray<csRef<iCelNode> >*[navMeshes.GetSize()];
   for (size_t i = 0; i < navMeshes.GetSize(); i++)
   {
-    nodes[i] = new csArray<csRef<iCelNode>>(64);
+    nodes[i] = new csArray<csRef<iCelNode> >(64);
   }
 
   int x = 0;
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>::GlobalIterator it = navMeshes.GetIterator();
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
   while (it.HasNext())
   {
     csPtrKey<iSector> sector;
     it.Next(sector);
-    csSet<csPtrKey<iMeshWrapper>>::GlobalIterator portalMeshesIt = sector->GetPortalMeshes().GetIterator();
+    csSet<csPtrKey<iMeshWrapper> >::GlobalIterator portalMeshesIt = sector->GetPortalMeshes().GetIterator();
     while (portalMeshesIt.HasNext())
     {
       csRef<iPortalContainer> container = portalMeshesIt.Next()->GetPortalContainer();
@@ -397,7 +397,7 @@ iCelHNavStruct* celHNavStructBuilder::BuildHNavStruct ()
 
   celHNavStruct* navStruct = new celHNavStruct(parameters);
 
-  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector>>::GlobalIterator it = builders.GetIterator();
+  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> >::GlobalIterator it = builders.GetIterator();
   while (it.HasNext())
   {
     csRef<iCelNavMeshBuilder> builder = it.Next();
