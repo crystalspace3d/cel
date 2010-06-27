@@ -45,12 +45,18 @@ CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
  */
 class celHPath : public scfImplementation1<celHPath, iCelPath>
 {
+private:
+  csRef<iCelPath> hlPath;
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>& navMeshes;
+
 public:
-  celHPath ();
+  celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>& navMeshes);
   virtual ~celHPath ();
 
+  void Initialize(iCelPath* highLevelPath);
+
   // iCelPath methods
-  //virtual iObject* QueryObject ();
+  virtual iObject* QueryObject ();
   virtual void AddNode (iMapNode* node);
   virtual void InsertNode (size_t pos, iMapNode* node);
   virtual iMapNode* Next ();
@@ -77,7 +83,7 @@ class celHNavStruct : public scfImplementation1<celHNavStruct, iCelHNavStruct>
 {
 private:
   csRef<iCelNavMeshParams> parameters;
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> > navMeshes;
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>> navMeshes;
   csRef<iCelGraph> hlGraph; // High level graph
 
 public:
@@ -89,12 +95,13 @@ public:
 
   // API
   virtual iCelPath* ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
-      iSector* goalSector) const;
-  virtual iCelPath* ShortestPath (iMapNode* from, iMapNode* goal) const;
+      iSector* goalSector);
+  virtual iCelPath* ShortestPath (iMapNode* from, iMapNode* goal);
   virtual bool SaveToFile (const csString& file);
   virtual bool LoadFromFile (const csString& file);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
-  
+  virtual void DebugRender ();
+  virtual void DebugRenderAgent(const csVector3& pos, int red, int green, int blue, int alpha) const;
 };
 
 
@@ -108,7 +115,7 @@ private:
   csRef<iObjectRegistry> objectRegistry;
   csRef<iCelNavMeshParams> parameters;
   csList<iSector*>* sectors;
-  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> > builders;
+  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector>> builders;
 
   bool InstantiateNavMeshBuilders();
 

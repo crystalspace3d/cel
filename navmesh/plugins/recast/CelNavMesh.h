@@ -242,7 +242,7 @@ public:
   celNavMesh ();
   virtual ~celNavMesh ();
 
-  bool Initialize (const iCelNavMeshParams* parameters, const float* boundingMin, const float* boundingMax);
+  bool Initialize (const iCelNavMeshParams* parameters, iSector* sector, const float* boundingMin, const float* boundingMax);
   bool AddTile (unsigned char* data, int dataSize);
 
   // API
@@ -322,6 +322,7 @@ public:
   virtual bool UpdateNavMesh (iCelNavMesh* navMesh, const csOBB& boundingBox);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
   virtual void SetNavMeshParams (const iCelNavMeshParams* parameters);
+  virtual iSector* GetSector () const;
 
 };
 

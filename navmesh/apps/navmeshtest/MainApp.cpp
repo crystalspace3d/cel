@@ -83,7 +83,7 @@ void MainApp::Frame ()
 
   // Tell the camera to render into the frame buffer.
   rm->RenderView(view);
-
+/*
   csHash<iCelNavMesh*, iSector*>::GlobalIterator navMeshIt = navMeshes.GetIterator();
   while (navMeshIt.HasNext())
   {
@@ -106,6 +106,19 @@ void MainApp::Frame ()
   if (destinationSet)
   {
     navMeshes.Get(view->GetCamera()->GetSector(), 0)->DebugRenderAgent(destination, 50, 255, 120, 150);
+  }
+*/
+
+  navStruct->DebugRender();
+
+  if (originSet)
+  {
+    navStruct->DebugRenderAgent(origin, 70, 140, 255, 150);
+  }
+
+  if (destinationSet)
+  {
+    navStruct->DebugRenderAgent(destination, 50, 255, 120, 150);
   }
 }
 
@@ -153,20 +166,29 @@ void MainApp::MouseClick1Handler (iEvent& ev)
 
   // TODO get triangle normal?
   csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, view->GetCamera());
+  csRef<iSectorList> sectorList = st.mesh->GetMovable()->GetSectors();
+  if (sectorList->GetCount() != 1)
+  {
+    return;
+  }
+  
   if (kbd->GetKeyState(CSKEY_SHIFT))
   {
     origin = st.isect;
+    originSector = sectorList->Get(0);
     originSet = true;
   }
   else
   {
     destination = st.isect;
+    destinationSector = sectorList->Get(0);
     destinationSet = true;
   }
 
   if (originSet && destinationSet)
   {
-    path = navMeshes.Get(view->GetCamera()->GetSector(), 0)->ShortestPath(origin, destination);
+    path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
+    //path = navMeshes.Get(view->GetCamera()->GetSector(), 0)->ShortestPath(origin, destination);
   }
 }
 
@@ -194,7 +216,7 @@ bool MainApp::OnInitialize (int argc, char* argv[])
     CS_REQUEST_REPORTER,
     CS_REQUEST_REPORTERLISTENER,
     CS_REQUEST_PLUGIN("crystalspace.collisiondetection.opcode", iCollideSystem),
-    CS_REQUEST_PLUGIN("cel.navmeshbuilder", iCelNavMeshBuilder),
+//    CS_REQUEST_PLUGIN("cel.navmeshbuilder", iCelNavMeshBuilder),
     CS_REQUEST_PLUGIN("cel.hnavstructbuilder", iCelHNavStructBuilder),    
     CS_REQUEST_END)) 
   {
@@ -260,7 +282,7 @@ bool MainApp::Application ()
   collider_actor.SetGravity(0);
 
   printer.AttachNew(new FramePrinter(object_reg));
-
+/*
   csRef<iCelNavMeshParams> params;
   params.AttachNew(navMeshBuilder->GetNavMeshParams()->Clone());
   params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
@@ -272,6 +294,19 @@ bool MainApp::Application ()
     iCelNavMesh* navMesh = navMeshBuilder->BuildNavMesh();
     navMeshes.Put(engine->GetSectors()->Get(i), navMesh);
   }
+*/
+  csRef<iCelNavMeshParams> params;
+  params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
+  params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
+  navStructBuilder->SetNavMeshParams(params);
+  csList<iSector*> sectorList;
+  int size = engine->GetSectors()->GetCount();
+  for (int i = 0; i < size; i++)
+  {
+    sectorList.PushBack(engine->GetSectors()->Get(i));    
+  }
+  navStructBuilder->SetSectors(sectorList);
+  navStruct = navStructBuilder->BuildHNavStruct();
 
   Run();
 
@@ -321,13 +356,13 @@ bool MainApp::SetupModules ()
   {
     return ReportError("Failed to locate VFS");
   }
-
+/*
   navMeshBuilder = csQueryRegistry<iCelNavMeshBuilder>(object_reg);
   if (!navMeshBuilder)
   {
     return ReportError("Failed to locate Navigation Mesh Builder");
   }
-
+*/
   navStructBuilder = csQueryRegistry<iCelHNavStructBuilder>(object_reg);
   if (!navStructBuilder)
   {

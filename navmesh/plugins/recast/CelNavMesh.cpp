@@ -384,9 +384,11 @@ celNavMesh::~celNavMesh ()
 }
 
  // Based on Recast Sample_TileMesh::handleBuild() and Sample_TileMesh::handleSettings()
-bool celNavMesh::Initialize (const iCelNavMeshParams* parameters, const float* boundingMin, const float* boundingMax)
+bool celNavMesh::Initialize (const iCelNavMeshParams* parameters, iSector* sector, 
+                             const float* boundingMin, const float* boundingMax)
 {
   this->parameters.AttachNew(new celNavMeshParams(parameters));
+  this->sector = sector;
   rcVcopy(this->boundingMin, boundingMin);
   rcVcopy(this->boundingMax, boundingMax);
 
@@ -529,7 +531,7 @@ void celNavMesh::DebugRender () const
   duDebugDrawBoxWire(&dd, m_tileBmin[0],m_tileBmin[1],m_tileBmin[2], m_tileBmax[0],m_tileBmax[1],m_tileBmax[2], m_tileCol, 2.0f);
 */
   //glDepthMask(GL_FALSE);
-  glDepthMask(GL_TRUE);
+  //glDepthMask(GL_TRUE);
   duDebugDrawNavMesh(&dd, *detourNavMesh, navMeshDrawFlags);
   //glDepthMask(GL_FALSE);
 /*
@@ -838,7 +840,6 @@ bool celNavMeshBuilder::Initialize (iObjectRegistry* objectRegistry)
 {
   this->objectRegistry = objectRegistry;
   strings = csQueryRegistryTagInterface<iStringSet>(objectRegistry, "crystalspace.shared.stringset");
-  //strings = csQueryRegistry<iStringSet>(objectRegistry);
   if (!strings)
   {
     return csApplicationFramework::ReportError("Failed to locate the standard stringset!");
@@ -1059,7 +1060,7 @@ iCelNavMesh* celNavMeshBuilder::BuildNavMesh ()
   }
 
   celNavMesh* navMesh = new celNavMesh();
-  navMesh->Initialize(parameters, boundingMin, boundingMax);
+  navMesh->Initialize(parameters, currentSector, boundingMin, boundingMax);
 
   const float cellSize = parameters->GetCellSize();
   const int tileSize = parameters->GetTileSize();
@@ -1417,6 +1418,11 @@ void celNavMeshBuilder::SetNavMeshParams (const iCelNavMeshParams* parameters)
 {
   this->parameters.Invalidate();
   this->parameters.AttachNew(new celNavMeshParams(parameters));
+}
+
+iSector* celNavMeshBuilder::GetSector () const
+{
+  return currentSector;
 }
 
 }

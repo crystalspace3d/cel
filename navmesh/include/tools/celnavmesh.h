@@ -302,6 +302,8 @@ struct iCelNavMeshBuilder : public virtual iBase
    * \remarks Should be called before iCelNavMeshBuilder::SetSector().
    */
   virtual void SetNavMeshParams (const iCelNavMeshParams* parameters) = 0;
+
+  virtual iSector* GetSector () const = 0;
  
 };
 

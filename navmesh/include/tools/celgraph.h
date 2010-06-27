@@ -270,7 +270,7 @@ struct iCelPath : public virtual iBase
  */
 struct iCelGraph : public virtual iBase
 {
-  SCF_INTERFACE (iCelGraph, 1, 0, 2);
+  SCF_INTERFACE (iCelGraph, 1, 0, 3);
 
   /**
    * Query the underlying iObject
@@ -341,9 +341,14 @@ struct iCelGraph : public virtual iBase
 
   /**
    * Adds an edge to the graph, using a weight different then the euclidean
-   * distance between the two nodes
+   * distance between the two nodes.
    */
-  virtual void AddEdge (iCelNode* from, iCelNode* to, bool state, float weight) = 0;
+  virtual size_t AddEdge (iCelNode* from, iCelNode* to, bool state, float weight) = 0;
+
+  /**
+   * Creates an empty node and adds it to the graph.
+   */
+  virtual iCelNode* CreateEmptyNode (size_t& index) = 0;
   
 };
 
