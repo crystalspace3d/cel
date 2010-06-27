@@ -2,6 +2,7 @@
 #define MAINAPP_H
 
 #include <crystalspace.h>
+#include <tools/celgraph.h>
 #include <tools/celnavmesh.h>
 #include <tools/celhpf.h>
 #include <iostream>
@@ -32,12 +33,16 @@ private:
 
   csVector3 agentStartPosition;
   csVector3 origin;
+  csRef<iSector> originSector;
   csVector3 destination;
+  csRef<iSector> destinationSector;
   bool originSet;
   bool destinationSet;
 
   csHash<iCelNavMesh*, iSector*> navMeshes;
-  csRef<iCelNavMeshPath> path;
+  //csRef<iCelNavMeshPath> path;
+  csRef<iCelPath> path;
+  csRef<iCelHNavStruct> navStruct;
   
   bool LoadMap ();
   bool CreateAgent ();

@@ -167,11 +167,12 @@ public:
   virtual iCelNode* RandomPath(iCelNode* from, int distance, iCelPath* path);
   virtual size_t GetNodeCount()
   { return nodes.GetSize(); }
-  virtual iCelNode *GetNode(size_t idx)
+  virtual iCelNode* GetNode(size_t idx)
   { return nodes.Get(idx); }
   virtual void RemoveNode (size_t idx);
   virtual void RemoveEdge (iCelNode* from, size_t idx);
-  virtual void AddEdge (iCelNode* from, iCelNode* to, bool state, float weight);
+  virtual size_t AddEdge (iCelNode* from, iCelNode* to, bool state, float weight);
+  virtual iCelNode* CreateEmptyNode (size_t& index);
 };
 
 #endif //__CEL_TOOLS_CELGRAPH__ 

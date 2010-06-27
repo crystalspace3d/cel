@@ -527,7 +527,15 @@ void celGraph::RemoveEdge (iCelNode* from, size_t idx)
   from->RemoveEdge(idx);
 }
 
-void celGraph::AddEdge (iCelNode* from, iCelNode* to, bool state, float weight)
+size_t celGraph::AddEdge (iCelNode* from, iCelNode* to, bool state, float weight)
 {
-  from->AddSuccessor(to, state, weight);
+  return from->AddSuccessor(to, state, weight);
+}
+
+iCelNode* celGraph::CreateEmptyNode (size_t& index)
+{
+  csRef<iCelNode> newnode;
+  newnode.AttachNew(new celNode());
+  index = AddNode(newnode);
+  return newnode;
 }

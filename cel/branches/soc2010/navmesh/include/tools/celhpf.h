@@ -49,17 +49,21 @@ struct iCelHNavStruct : public virtual iBase
    * \param goal Destination coordinates.
    * \param goalSector Destination sector.
    * \return Pointer to the shortest path between the two points, or 0 in case something went wrong.
+   * \remarks The path returned by this method will be rendered useless if the originating iCelHNavStruct
+   *          is destroyed.
    */
   virtual iCelPath* ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
-    iSector* goalSector) const = 0;
+    iSector* goalSector) = 0;
 
   /**
    * Find the shortest path between two points.
    * \param from Origin of the path.
    * \param goal Destination of the path.
    * \return Pointer to the shortest path between the two points, or 0 in case something went wrong.
+   * \remarks The path returned by this method will be rendered useless if the originating iCelHNavStruct
+   *          is destroyed.
    */
-  virtual iCelPath* ShortestPath (iMapNode* from, iMapNode* goal) const = 0;
+  virtual iCelPath* ShortestPath (iMapNode* from, iMapNode* goal) = 0;
 
   /**
    * Save this structure to a file.
@@ -75,11 +79,17 @@ struct iCelHNavStruct : public virtual iBase
    */
   virtual bool LoadFromFile (const csString& file) = 0;
 
-    /**
+  /**
    * Get an object representation of the navigation mesh parameters.
    * \return Pointer to navigation mesh parameters object.
    */
   virtual const iCelNavMeshParams* GetNavMeshParams () const = 0;
+
+  /// Render navigation structure
+  virtual void DebugRender () = 0;
+
+  /// Render proxy agent of the specified color
+  virtual void DebugRenderAgent(const csVector3& pos, int red, int green, int blue, int alpha) const = 0;
 };
 
 

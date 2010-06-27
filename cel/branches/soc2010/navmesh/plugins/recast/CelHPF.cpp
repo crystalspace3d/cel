@@ -29,20 +29,26 @@ CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
  * celHPath
  */
 
-celHPath::celHPath () : scfImplementationType (this)
+celHPath::celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>& navmeshes)
+    : scfImplementationType (this), navMeshes(navmeshes)
 {
 }
 
 celHPath::~celHPath ()
 {
 }
-/*
+
+void celHPath::Initialize(iCelPath* highLevelPath)
+{
+  hlPath = highLevelPath;
+}
+
 // TODO implement
 iObject* celHPath::QueryObject ()
 {
   return 0;
 }
-*/
+
 // TODO implement
 void celHPath::AddNode (iMapNode* node)
 {
@@ -149,7 +155,6 @@ void celHNavStruct::AddNavMesh(iCelNavMesh* navMesh)
   navMeshes.Put(key, navMesh);
 }
 
-// TODO test
 bool celHNavStruct::BuildHighLevelGraph()
 {
   hlGraph.Invalidate();
@@ -216,19 +221,10 @@ bool celHNavStruct::BuildHighLevelGraph()
           mapNode.AttachNew(new csMapNode("n")); // TODO set name?
           mapNode->SetPosition(center);
           mapNode->SetSector(sector);
-          csRef<iCelNode> node = scfCreateInstance<iCelNode>("cel.celnode");
-          if (!node)
-          {
-            for (size_t m = 0; m < navMeshes.GetSize(); m++)
-            {
-              delete nodes[m];
-            }
-            delete [] nodes;
-            return false;
-          }
+          size_t nodeIndex;
+          csRef<iCelNode> node = hlGraph->CreateEmptyNode(nodeIndex);
           node->SetName(""); // TODO set name?
           node->SetMapNode(mapNode);
-          hlGraph->AddNode(node);
 
           // Add the portal bounding box's center as a node in the destination sector to the graph
           // Warp if necessary
@@ -242,19 +238,9 @@ bool celHNavStruct::BuildHighLevelGraph()
           mapNode2.AttachNew(new csMapNode("n")); // TODO set name?
           mapNode2->SetPosition(center2);
           mapNode2->SetSector(portal->GetSector());
-          csRef<iCelNode> node2 = scfCreateInstance<iCelNode>("cel.celnode");
-          if (!node2)
-          {
-            for (size_t m = 0; m < navMeshes.GetSize(); m++)
-            {
-              delete nodes[m];
-            }
-            delete [] nodes;
-            return false;
-          }
+          csRef<iCelNode> node2 = hlGraph->CreateEmptyNode(nodeIndex);
           node2->SetName(""); // TODO set name?
           node2->SetMapNode(mapNode2);
-          hlGraph->AddNode(node2);
 
           // Add an edge between the two points
           hlGraph->AddEdge(node, node2, true, 0.0f);
@@ -291,7 +277,9 @@ bool celHNavStruct::BuildHighLevelGraph()
         {
           csRef<iCelNode> node2 = (*nodes[i])[k];
           csRef<iCelNavMeshPath> path = navMesh->ShortestPath(node1->GetPosition(), node2->GetPosition(), 256);
-          hlGraph->AddEdge(node1, node2, true, path->Length());
+          float length = path->Length();
+          hlGraph->AddEdge(node1, node2, true, length);
+          hlGraph->AddEdge(node2, node1, true, length);
         }        
       }
     }
@@ -306,17 +294,101 @@ bool celHNavStruct::BuildHighLevelGraph()
   return true;
 }
 
-// TODO implement
 iCelPath* celHNavStruct::ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
-    iSector* goalSector) const
+    iSector* goalSector)
 {
-  return 0;
+  csRef<iMapNode> fromNode;
+  fromNode.AttachNew(new csMapNode("n")); // TODO set name?
+  fromNode->SetPosition(from);
+  fromNode->SetSector(fromSector);
+
+  csRef<iMapNode> goalNode;
+  goalNode.AttachNew(new csMapNode("n")); // TODO set name?
+  goalNode->SetPosition(goal);
+  goalNode->SetSector(goalSector);
+
+  return ShortestPath(fromNode, goalNode);
 }
 
-// TODO implement
-iCelPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal) const
+iCelPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
 {
-  return 0;
+  // Add from and goal nodes to the high level graph
+  size_t fromNodeIdx, goalNodeIdx;
+  csRef<iCelNode> fromNode = hlGraph->CreateEmptyNode(fromNodeIdx); // TODO set name?
+  csRef<iCelNode> goalNode = hlGraph->CreateEmptyNode(goalNodeIdx); // TODO set name?
+  fromNode->SetMapNode(from);
+  goalNode->SetMapNode(goal);
+
+  // Create edges between from and goal nodes and all portals from their respective sectors
+  csPtrKey<iSector> fromSector = from->GetSector();
+  csPtrKey<iSector> goalSector = goal->GetSector();  
+  csRef<iCelNavMesh> fromNavMesh = navMeshes.Get(fromSector, 0);
+  csRef<iCelNavMesh> goalNavMesh = navMeshes.Get(goalSector, 0);  
+  if (!fromNavMesh || !goalNavMesh)
+  {
+    hlGraph->RemoveNode(fromNodeIdx);
+    hlGraph->RemoveNode(goalNodeIdx);
+    return 0;
+  }
+  csList<size_t> tmpEdges; // Only for edges from some node to goal node
+  size_t size = hlGraph->GetNodeCount();
+  for (size_t i = 0; i < size; i++)
+  {
+    if (i != fromNodeIdx && i != goalNodeIdx)
+    {
+      csRef<iCelNode> node = hlGraph->GetNode(i);
+      csRef<iMapNode> mapNode = node->GetMapNode();
+      csRef<iSector> sector = mapNode->GetSector();
+      // From node
+      if (sector->QueryObject()->GetID() == fromSector->QueryObject()->GetID())
+      {
+        csRef<iCelNavMeshPath> tmpPath;
+        tmpPath.AttachNew(fromNavMesh->ShortestPath(from->GetPosition(), mapNode->GetPosition()));
+        // TODO check if path is reachable
+        hlGraph->AddEdge(fromNode, node, true, tmpPath->Length());
+      }
+      // Goal node
+      if (sector->QueryObject()->GetID() == goalSector->QueryObject()->GetID())
+      {
+        csRef<iCelNavMeshPath> tmpPath;
+        tmpPath.AttachNew(goalNavMesh->ShortestPath(mapNode->GetPosition(), goal->GetPosition()));
+        // TODO check if path is reachable
+        tmpEdges.PushBack(hlGraph->AddEdge(node, goalNode, true, tmpPath->Length()));
+      }
+    }
+  }
+
+  // Find path in high level graph
+  csRef<iCelPath> hlPath = scfCreateInstance<iCelPath>("cel.celpath");
+  if (!hlPath)
+  {
+    csList<size_t>::Iterator it(tmpEdges);
+    while (it.HasNext())
+    {
+      hlGraph->RemoveEdge(goalNode, it.Next());
+    }
+    hlGraph->RemoveNode(fromNodeIdx);
+    hlGraph->RemoveNode(goalNodeIdx);
+    return 0;
+  }
+  hlGraph->ShortestPath(fromNode, goalNode, hlPath);
+
+  // Remove edges that connect any node to the goal node
+  csList<size_t>::Iterator it(tmpEdges);
+  while (it.HasNext())
+  {
+    hlGraph->RemoveEdge(goalNode, it.Next());
+  }
+
+  // Remove from and goal nodes from the high level graph (and the edges we added and didn't explicitly remove)
+  hlGraph->RemoveNode(fromNodeIdx);
+  hlGraph->RemoveNode(goalNodeIdx);
+  
+  // Initialize path
+  csRef<celHPath> path = new celHPath(navMeshes);
+  path->Initialize(hlPath);
+
+  return path;
 }
 
 // TODO implement
@@ -334,6 +406,26 @@ bool celHNavStruct::LoadFromFile (const csString& file)
 const iCelNavMeshParams* celHNavStruct::GetNavMeshParams () const
 {
   return parameters;
+}
+
+void celHNavStruct::DebugRender ()
+{
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>::GlobalIterator it = navMeshes.GetIterator();
+  while (it.HasNext())
+  {
+    csRef<iCelNavMesh> navMesh = it.Next();
+    navMesh->DebugRender();
+  }
+}
+
+void celHNavStruct::DebugRenderAgent(const csVector3& pos, int red, int green, int blue, int alpha) const
+{
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>::ConstGlobalIterator it = navMeshes.GetIterator();
+  if (it.HasNext())
+  {
+    csRef<iCelNavMesh> navMesh = it.Next();
+    navMesh->DebugRenderAgent(pos, red, green, blue, alpha);
+  }
 }
 
 
@@ -374,15 +466,14 @@ bool celHNavStructBuilder::InstantiateNavMeshBuilders ()
   csList<iSector*>::Iterator it(*sectors);
   while (it.HasNext())
   {
-    iSector* sector = it.Next();    
-    csRef<iCelNavMeshBuilder> builder = scfCreateInstance<iCelNavMeshBuilder>("cel.navmeshbuilder");
+    csPtrKey<iSector> key = it.Next();
+    csRef<iCelNavMeshBuilder> builder = csLoadPlugin<iCelNavMeshBuilder>(objectRegistry, "cel.navmeshbuilder");
     if (!builder)
     {
       return false;
     }
     builder->SetNavMeshParams(parameters);
-    builder->SetSector(sector);
-    csPtrKey<iSector> key = sector;
+    builder->SetSector(key);
     builders.Put(key, builder);
   }
   return true;
