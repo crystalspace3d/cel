@@ -29,7 +29,7 @@ CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
  * celHPath
  */
 
-celHPath::celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>& navmeshes)
+celHPath::celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navmeshes)
     : scfImplementationType (this), navMeshes(navmeshes)
 {
 }
@@ -410,7 +410,7 @@ const iCelNavMeshParams* celHNavStruct::GetNavMeshParams () const
 
 void celHNavStruct::DebugRender ()
 {
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>::GlobalIterator it = navMeshes.GetIterator();
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
   while (it.HasNext())
   {
     csRef<iCelNavMesh> navMesh = it.Next();
@@ -420,7 +420,7 @@ void celHNavStruct::DebugRender ()
 
 void celHNavStruct::DebugRenderAgent(const csVector3& pos, int red, int green, int blue, int alpha) const
 {
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>::ConstGlobalIterator it = navMeshes.GetIterator();
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::ConstGlobalIterator it = navMeshes.GetIterator();
   if (it.HasNext())
   {
     csRef<iCelNavMesh> navMesh = it.Next();

@@ -47,10 +47,10 @@ class celHPath : public scfImplementation1<celHPath, iCelPath>
 {
 private:
   csRef<iCelPath> hlPath;
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>& navMeshes;
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navMeshes;
 
 public:
-  celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>& navMeshes);
+  celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navMeshes);
   virtual ~celHPath ();
 
   void Initialize(iCelPath* highLevelPath);
@@ -83,7 +83,7 @@ class celHNavStruct : public scfImplementation1<celHNavStruct, iCelHNavStruct>
 {
 private:
   csRef<iCelNavMeshParams> parameters;
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>> navMeshes;
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> > navMeshes;
   csRef<iCelGraph> hlGraph; // High level graph
 
 public:
@@ -115,7 +115,7 @@ private:
   csRef<iObjectRegistry> objectRegistry;
   csRef<iCelNavMeshParams> parameters;
   csList<iSector*>* sectors;
-  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector>> builders;
+  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> > builders;
 
   bool InstantiateNavMeshBuilders();
 
