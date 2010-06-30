@@ -77,7 +77,6 @@ class celNode : public scfImplementation1<
   float heuristic;
   float cost;
   csString name;
-  float multiplier;
 
  public:
   celNode ();
@@ -95,15 +94,13 @@ class celNode : public scfImplementation1<
   virtual csArray<iCelNode*> GetAllSuccessors ();
   virtual float GetHeuristic () {return heuristic;};
   virtual float GetCost () {return cost;};
-  virtual float GetMultiplier () {return multiplier;}
-  virtual void SetMultiplier (float mult);
   virtual size_t GetEdgeCount ()
   { return edges.GetSize(); }
   virtual iCelEdge* GetEdge (size_t idx)
   { return edges.Get(idx); }
   virtual void RemoveEdge (size_t idx);
   virtual size_t AddSuccessor (iCelNode* node, bool state, float weight);
-  virtual csArray<iCelEdge*> GetEdges () const;
+  virtual csRefArray<iCelEdge> GetEdges () const;
 };
 
 /**
@@ -115,7 +112,6 @@ celPath, csObject, iCelPath, iComponent>
 {
  private:
   iObjectRegistry* object_reg;
-  size_t size;
   size_t cur_node;
   csRefArray<iMapNode> nodes;
   
@@ -173,6 +169,7 @@ public:
   virtual void RemoveEdge (iCelNode* from, size_t idx);
   virtual size_t AddEdge (iCelNode* from, iCelNode* to, bool state, float weight);
   virtual iCelNode* CreateEmptyNode (size_t& index);
+  virtual bool ShortestPath2(iCelNode* from, iCelNode* goal, iCelPath* path);
 };
 
 #endif //__CEL_TOOLS_CELGRAPH__ 

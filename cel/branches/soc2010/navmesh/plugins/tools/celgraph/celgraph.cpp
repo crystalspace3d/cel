@@ -42,6 +42,8 @@
 #include "tools/expression.h"
 #include "plugins/tools/celgraph/celgraph.h"
 
+#include <iengine/sector.h>
+
 //--------------------------------------------------------------------------
 
 //SCF_IMPLEMENT_FACTORY (celEdge)
@@ -94,7 +96,6 @@ void celEdge::SetWeight (float weight)
 celNode::celNode ()
   : scfImplementationType (this)
 {
-  multiplier = 1;
 }
 
 celNode::~celNode ()
@@ -126,15 +127,10 @@ void celNode:: SetName (const char* n)
   name = n;
 }
 
-void celNode::SetMultiplier (float mult)
-{
-  multiplier = mult;
-}
-
 void celNode:: Heuristic (float cost, iCelNode* goal)
 {
   heuristic = csSquaredDist::PointPoint(GetPosition(), goal->GetPosition());
-  cost = cost*multiplier;
+  this->cost = cost;
 }
 
 iMapNode* celNode:: GetMapNode ()
@@ -192,18 +188,9 @@ size_t celNode::AddSuccessor (iCelNode* node, bool state, float weight)
   return edges.Push(edge);
 }
 
-csArray<iCelEdge*> celNode::GetEdges () const
+csRefArray<iCelEdge> celNode::GetEdges () const
 {
-  csArray<iCelEdge*> edges;
-  size_t n = edges.GetSize();
-  
-  for (size_t i = 0; i < n; i++)
-  {
-    if (edges[i]->GetState()) {
-      edges.Push(edges[i]);
-    }
-  }
-
+  csRefArray<iCelEdge> edges(this->edges);
   return edges;
 }
 
@@ -214,7 +201,6 @@ SCF_IMPLEMENT_FACTORY (celPath)
 celPath::celPath (iBase* parent)
   : scfImplementationType (this, parent)
 {
-  size = 0;
   cur_node = 0;
 }
 
@@ -279,14 +265,18 @@ void celPath::Clear ()
   Restart();
 }
 
-void celPath ::Invert ()
+void celPath::Invert ()
 {
-  csRef <iMapNode> dum;
+  csRef<iMapNode> temp;
 
-  for(unsigned int i=0;i<nodes.GetSize(); i++){
-    dum = nodes[nodes.GetSize()-i-1];
-    nodes[nodes.GetSize()-i-1] = nodes[i];
-    nodes[i] = dum;
+  size_t size = nodes.GetSize() / 2;
+  size_t j = nodes.GetSize() - 1;
+  for (size_t i = 0; i < size; i++)
+  {
+    temp = nodes[j];
+    nodes[j] = nodes[i];
+    nodes[i] = temp;
+    j--;
   }
 }
 
@@ -412,7 +402,7 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
 {
   path->Clear();
 
-  CS::Utility::PriorityQueue<iCelNode*, csArray<iCelNode*>, Comparator<iCelNode*, iCelNode*> > queue;
+  CS::Utility::PriorityQueue<iCelNode*, csArray<iCelNode*>, Comparator<iCelNode*, iCelNode*>> queue;
   csHash<iCelNode*, uint> hash;
   csHashComputer<float> computer;
   csArray<iCelNode*> array;
@@ -447,7 +437,8 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
     }
 
     // Get edges
-    csArray<iCelEdge*> edges = current->GetEdges();
+    const char* name = current->GetMapNode()->GetSector()->QueryObject()->GetName();
+    csRefArray<iCelEdge> edges = current->GetEdges();
     size_t size = edges.GetSize();
     for (size_t i = 0; i < size; i++)
     {
@@ -476,6 +467,70 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
       suc->Heuristic(current->GetCost() + edges[i]->GetWeight(), goal);
       queue.Insert(suc);
       hash.Put(computer.ComputeHash(suc->GetPosition().x + suc->GetPosition().y), suc);
+    }
+  }
+  //goal is unreachable from here
+  return false;
+}
+
+bool celGraph::ShortestPath2 (iCelNode* from, iCelNode* goal, iCelPath* path)
+{
+  CS::Utility::PriorityQueue<iCelNode*, csArray<iCelNode*>, Comparator<iCelNode*, iCelNode*>> queue;
+  csHash<iCelNode*, csPtrKey<iCelNode>> openSet;
+  csHash<iCelNode*, csPtrKey<iCelNode>> closedSet;
+
+  path->Clear();
+  from->Heuristic(0, goal);
+  queue.Insert(from);
+
+  while (!queue.IsEmpty())
+  {
+    // Get the node with the least estimated cost
+    iCelNode* current = queue.Pop();
+
+    // Found path
+    if (current == goal)
+    {
+      while (current != from)
+      {
+        path->AddNode(current->GetMapNode());
+        current = current->GetParent();
+      }
+      path->AddNode(from->GetMapNode());
+      path->Invert();
+      return true;
+    }
+
+    closedSet.Put(current, current);
+
+    // Get successors
+    csRefArray<iCelEdge> edges = current->GetEdges();
+    size_t size = edges.GetSize();
+    for (size_t i = 0; i < size; i++)
+    {
+      iCelNode* successor = edges[i]->GetSuccessor();
+
+      if (closedSet.Contains(successor))
+      {
+        continue;
+      }
+
+      float cost = current->GetCost() + edges[i]->GetWeight();
+      if (!openSet.Contains(successor))
+      {
+        successor->SetParent(current);
+        successor->Heuristic(cost, goal);
+        queue.Insert(successor);
+        openSet.Put(successor, successor);
+      }
+      else
+      {
+        if (cost < successor->GetCost())
+        {
+          successor->SetParent(current);
+          successor->Heuristic(cost, goal);
+        }
+      }
     }
   }
   //goal is unreachable from here
