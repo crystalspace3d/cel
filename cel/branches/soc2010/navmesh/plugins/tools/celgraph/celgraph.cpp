@@ -533,7 +533,7 @@ bool celGraph::ShortestPath2 (iCelNode* from, iCelNode* goal, iCelPath* path)
       }
     }
   }
-  //goal is unreachable from here
+  // Goal is unreachable from here
   return false;
 }
 
