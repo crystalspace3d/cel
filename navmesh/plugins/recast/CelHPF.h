@@ -43,14 +43,24 @@ CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
 /**
  * Path between two map nodes.
  */
-class celHPath : public scfImplementation1<celHPath, iCelPath>
+class celHPath : public scfImplementationExt1<celHPath, csObject, iCelPath>
 {
 private:
-  csRef<iCelPath> hlPath;
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navMeshes;
+  csRef<iCelPath> hlPath; // High level path
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>& navMeshes;
+  csArray<csRef<iCelNavMeshPath>> llPaths; // Low level paths
+  size_t llSize; // Low level paths array size
+  size_t currentllPosition; // Current position for low level paths array
+  csRef<iMapNode> currentNode;
+  csRef<iMapNode> tmpNode;
+  csPtrKey<iSector> currentSector;
+  csRef<iMapNode> firstFrom; // Optimization for celHPath::GetFirst
+  csRef<iMapNode> firstGoal; // Optimization for celHPath::GetFirst
+  csRef<iMapNode> lastFrom; // Optimization for celHPath::GetLast
+  csRef<iMapNode> lastGoal; // Optimization for celHPath::GetLast
 
 public:
-  celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navMeshes);
+  celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>& navMeshes);
   virtual ~celHPath ();
 
   void Initialize(iCelPath* highLevelPath);
@@ -83,7 +93,7 @@ class celHNavStruct : public scfImplementation1<celHNavStruct, iCelHNavStruct>
 {
 private:
   csRef<iCelNavMeshParams> parameters;
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> > navMeshes;
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>> navMeshes;
   csRef<iCelGraph> hlGraph; // High level graph
 
 public:
@@ -115,7 +125,7 @@ private:
   csRef<iObjectRegistry> objectRegistry;
   csRef<iCelNavMeshParams> parameters;
   csList<iSector*>* sectors;
-  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> > builders;
+  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector>> builders;
 
   bool InstantiateNavMeshBuilders();
 
