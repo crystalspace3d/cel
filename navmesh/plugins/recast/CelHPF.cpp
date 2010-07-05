@@ -29,7 +29,7 @@ CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
  * celHPath
  */
 
-celHPath::celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>& navmeshes)
+celHPath::celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navmeshes)
     : scfImplementationType (this), navMeshes(navmeshes)
 {
 }
@@ -367,15 +367,15 @@ bool celHNavStruct::BuildHighLevelGraph()
     return false;
   }
 
-  csHash<csRef<iCelNode>, csPtrKey<iSector>> nodes;
+  csHash<csRef<iCelNode>, csPtrKey<iSector> > nodes;
 
   int x = 0;
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>::GlobalIterator it = navMeshes.GetIterator();
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
   while (it.HasNext())
   {
     csPtrKey<iSector> sector;
     it.Next(sector);
-    csSet<csPtrKey<iMeshWrapper>>::GlobalIterator portalMeshesIt = sector->GetPortalMeshes().GetIterator();
+    csSet<csPtrKey<iMeshWrapper> >::GlobalIterator portalMeshesIt = sector->GetPortalMeshes().GetIterator();
     while (portalMeshesIt.HasNext())
     {
       csRef<iPortalContainer> container = portalMeshesIt.Next()->GetPortalContainer();
@@ -453,7 +453,7 @@ bool celHNavStruct::BuildHighLevelGraph()
   }
 
   // Create edges between nodes from the same sector
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector>>::GlobalIterator it2 = navMeshes.GetIterator();
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it2 = navMeshes.GetIterator();
   while (it2.HasNext())
   {
     csPtrKey<iSector> sector;
@@ -462,7 +462,7 @@ bool celHNavStruct::BuildHighLevelGraph()
     {
       return false;
     }
-    csArray<csRef<iCelNode>> sectorNodes = nodes.GetAll(sector);
+    csArray<csRef<iCelNode> > sectorNodes = nodes.GetAll(sector);
     int size = sectorNodes.GetSize();
     for (int i = 0; i < size - 1; i++)
     {
@@ -675,7 +675,7 @@ iCelHNavStruct* celHNavStructBuilder::BuildHNavStruct ()
 
   celHNavStruct* navStruct = new celHNavStruct(parameters);
 
-  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector>>::GlobalIterator it = builders.GetIterator();
+  csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> >::GlobalIterator it = builders.GetIterator();
   while (it.HasNext())
   {
     csRef<iCelNavMeshBuilder> builder = it.Next();
