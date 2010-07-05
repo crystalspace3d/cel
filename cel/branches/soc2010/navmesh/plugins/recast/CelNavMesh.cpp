@@ -910,7 +910,7 @@ bool celNavMeshBuilder::GetSectorData ()
   }
 
   // Create fake triangles, normal to the portals
-  csSet<csPtrKey<iMeshWrapper>>::GlobalIterator portalMeshesIt = 
+  csSet<csPtrKey<iMeshWrapper> >::GlobalIterator portalMeshesIt = 
       currentSector->GetPortalMeshes().GetIterator();
   while (portalMeshesIt.HasNext())
   {

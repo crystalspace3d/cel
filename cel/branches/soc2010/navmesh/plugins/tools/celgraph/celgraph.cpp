@@ -402,7 +402,7 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
 {
   path->Clear();
 
-  CS::Utility::PriorityQueue<iCelNode*, csArray<iCelNode*>, Comparator<iCelNode*, iCelNode*>> queue;
+  CS::Utility::PriorityQueue<iCelNode*, csArray<iCelNode*>, Comparator<iCelNode*, iCelNode*> > queue;
   csHash<iCelNode*, uint> hash;
   csHashComputer<float> computer;
   csArray<iCelNode*> array;
@@ -475,9 +475,9 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
 
 bool celGraph::ShortestPath2 (iCelNode* from, iCelNode* goal, iCelPath* path)
 {
-  CS::Utility::PriorityQueue<iCelNode*, csArray<iCelNode*>, Comparator<iCelNode*, iCelNode*>> queue;
-  csHash<iCelNode*, csPtrKey<iCelNode>> openSet;
-  csHash<iCelNode*, csPtrKey<iCelNode>> closedSet;
+  CS::Utility::PriorityQueue<iCelNode*, csArray<iCelNode*>, Comparator<iCelNode*, iCelNode*> > queue;
+  csHash<iCelNode*, csPtrKey<iCelNode> > openSet;
+  csHash<iCelNode*, csPtrKey<iCelNode> > closedSet;
 
   path->Clear();
   from->Heuristic(0, goal);
