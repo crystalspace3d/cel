@@ -43,21 +43,23 @@ CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
 /**
  * Path between two map nodes.
  */
-class celHPath : public scfImplementationExt1<celHPath, csObject, iCelPath>
+class celHPath : public scfImplementation1<celHPath, iCelHPath>
 {
 private:
   csRef<iCelPath> hlPath; // High level path
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navMeshes;
   csArray<csRef<iCelNavMeshPath> > llPaths; // Low level paths
-  size_t llSize; // Low level paths array size
   size_t currentllPosition; // Current position for low level paths array
   csRef<iMapNode> currentNode;
-  csRef<iMapNode> tmpNode;
   csPtrKey<iSector> currentSector;
-  csRef<iMapNode> firstFrom; // Optimization for celHPath::GetFirst
-  csRef<iMapNode> firstGoal; // Optimization for celHPath::GetFirst
-  csRef<iMapNode> lastFrom; // Optimization for celHPath::GetLast
-  csRef<iMapNode> lastGoal; // Optimization for celHPath::GetLast
+  csRef<iMapNode> firstNode; // Optimization for celHPath::GetFirst
+  csRef<iMapNode> lastNode; // Optimization for celHPath::GetLast
+  bool reverse;
+
+  virtual bool HasNextInternal ();
+  virtual bool HasPreviousInternal ();
+  virtual iMapNode* NextInternal ();
+  virtual iMapNode* PreviousInternal ();
 
 public:
   celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navMeshes);
@@ -65,23 +67,16 @@ public:
 
   void Initialize(iCelPath* highLevelPath);
 
-  // iCelPath methods
-  virtual iObject* QueryObject ();
-  virtual void AddNode (iMapNode* node);
-  virtual void InsertNode (size_t pos, iMapNode* node);
+  // API
+  virtual bool HasNext ();
+  virtual bool HasPrevious ();
   virtual iMapNode* Next ();
   virtual iMapNode* Previous ();
   virtual iMapNode* Current ();
-  virtual csVector3 CurrentPosition ();
-  virtual iSector* CurrentSector ();
-  virtual bool HasNext ();
-  virtual bool HasPrevious ();
-  virtual void Restart ();
-  virtual void Clear ();
   virtual iMapNode* GetFirst ();
   virtual iMapNode* GetLast ();
   virtual void Invert ();
-  virtual size_t GetNodeCount();
+  virtual void Restart ();
 };
 
 
@@ -104,9 +99,9 @@ public:
   bool BuildHighLevelGraph();
 
   // API
-  virtual iCelPath* ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
+  virtual iCelHPath* ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
       iSector* goalSector);
-  virtual iCelPath* ShortestPath (iMapNode* from, iMapNode* goal);
+  virtual iCelHPath* ShortestPath (iMapNode* from, iMapNode* goal);
   virtual bool SaveToFile (const csString& file);
   virtual bool LoadFromFile (const csString& file);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;

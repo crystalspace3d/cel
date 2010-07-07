@@ -32,6 +32,7 @@ CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
 celHPath::celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navmeshes)
     : scfImplementationType (this), navMeshes(navmeshes)
 {
+  reverse = false;
 }
 
 celHPath::~celHPath ()
@@ -42,60 +43,78 @@ void celHPath::Initialize(iCelPath* highLevelPath)
 {
   hlPath = highLevelPath;
 
-  // Get first two nodes and last two nodes of the high level graph
-  hlPath->Invert();
-  lastGoal = hlPath->Current();
-  lastFrom = hlPath->Next();
-  hlPath->Invert();
-  hlPath->Restart();  
-  firstFrom = hlPath->Current();
-  firstGoal = hlPath->Next();
+  // Get first and last node of the high level graph
+  firstNode = hlPath->GetFirst();
+  lastNode = hlPath->GetLast();
 
   // Resize low level path array. High level paths always have two nodes for each segment of the
   // path in a sector (entry and exit point).
-  llSize = hlPath->GetNodeCount() / 2;
-  llPaths.SetMinimalCapacity(llSize);
+  size_t llSize = hlPath->GetNodeCount() / 2;
+  llPaths.SetSize(llSize);
   currentllPosition = 0;
 
   // Construct first part of the low level path
-  currentSector = firstFrom->GetSector();
+  csRef<iMapNode> goal = hlPath->Next();
+  currentSector = firstNode->GetSector();
   csRef<iCelNavMesh> navMesh = navMeshes.Get(currentSector, 0);
-  csRef<iCelNavMeshPath> path = navMesh->ShortestPath(firstFrom->GetPosition(), firstGoal->GetPosition());
+  csRef<iCelNavMeshPath> path = navMesh->ShortestPath(firstNode->GetPosition(), goal->GetPosition());
   llPaths[0] = path;
 
   // Set current node
-  csRef<iMapNode> currentNode;
-  currentNode.AttachNew(new csMapNode(""));
-  currentNode->SetSector(currentSector);
-  csVector3 currentPosition;
-  path->Current(currentPosition);
-  currentNode->SetPosition(currentPosition);
-  this->currentNode = currentNode;
+  currentNode = firstNode;
 }
 
-iObject* celHPath::QueryObject ()
+bool celHPath::HasNextInternal ()
 {
-  return this;
+  if (!llPaths[currentllPosition]->HasNext())
+  {
+    if (currentllPosition + 1 >= llPaths.GetSize())
+    {
+      return false;
+    }
+  }
+
+  return true;
 }
 
-// TODO implement
-void celHPath::AddNode (iMapNode* node)
+bool celHPath::HasPreviousInternal ()
 {
-  // TODO add node which causes a sector switch?
+  if (!llPaths[currentllPosition]->HasPrevious())
+  {
+    if (currentllPosition <= 0)
+    {
+      return false;
+    }
+  }
+
+  return true;
 }
 
-// TODO implement
-void celHPath::InsertNode (size_t pos, iMapNode* node)
+bool celHPath::HasNext ()
 {
+  if (reverse)
+  {
+    return HasPreviousInternal();
+  }
+  return HasNextInternal();
 }
 
-iMapNode* celHPath::Next ()
+bool celHPath::HasPrevious ()
+{
+  if (reverse)
+  {
+    return HasNextInternal();
+  }
+  return HasPreviousInternal();
+}
+
+iMapNode* celHPath::NextInternal ()
 {
   csVector3 position;
   
   if (!llPaths[currentllPosition]->HasNext())
   {
-    if (currentllPosition + 1 >= llSize)
+    if (currentllPosition + 1 >= llPaths.GetSize())
     {
       return 0;
     }
@@ -126,7 +145,7 @@ iMapNode* celHPath::Next ()
   return node;
 }
 
-iMapNode* celHPath::Previous ()
+iMapNode* celHPath::PreviousInternal ()
 {
   csVector3 position;
   bool changellPath = !llPaths[currentllPosition]->HasPrevious();
@@ -134,7 +153,7 @@ iMapNode* celHPath::Previous ()
   if (!changellPath)
   {
     llPaths[currentllPosition]->Previous(position); 
-    if (llPaths[currentllPosition]->HasPrevious() && currentllPosition > 0)
+    if (!llPaths[currentllPosition]->HasPrevious() && currentllPosition > 0)
     {
       changellPath = true; // We don't use the first point of each path (except for the first path)
     }
@@ -180,161 +199,86 @@ iMapNode* celHPath::Previous ()
   return node;
 }
 
+iMapNode* celHPath::Next ()
+{
+  if (reverse)
+  {
+    return PreviousInternal();
+  }
+  return NextInternal();
+}
+
+iMapNode* celHPath::Previous ()
+{
+  if (reverse)
+  {
+    return NextInternal();
+  }
+  return PreviousInternal();
+}
+
 iMapNode* celHPath::Current ()
 {
   return currentNode;
 }
 
-csVector3 celHPath::CurrentPosition ()
-{
-  return currentNode->GetPosition();
-}
-
-iSector* celHPath::CurrentSector ()
-{
-  return currentNode->GetSector();
-}
-
-bool celHPath::HasNext ()
-{
-  if (!llPaths[currentllPosition]->HasNext())
-  {
-    if (currentllPosition + 1 >= llSize)
-    {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-bool celHPath::HasPrevious ()
-{
-  if (!llPaths[currentllPosition]->HasPrevious())
-  {
-    if (currentllPosition <= 0)
-    {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-void celHPath::Restart ()
-{
-  for (size_t i = 0; i < llSize; i++)
-  {
-    if (llPaths[i].IsValid())
-    {
-      llPaths[i]->Restart();
-    }
-  }
-  currentllPosition = 0;
-  hlPath->Restart();
-
-  // Set current node
-  csVector3 position;
-  currentSector = hlPath->Next()->GetSector();
-  if (!llPaths[0].IsValid())
-  {
-    // This should be reached if the user inverts the path and then restarts it, for example
-    currentSector = firstFrom->GetSector();
-    csRef<iCelNavMesh> navMesh = navMeshes.Get(currentSector, 0);
-    csRef<iCelNavMeshPath> path = navMesh->ShortestPath(firstFrom->GetPosition(), firstGoal->GetPosition());
-    llPaths[0] = path;    
-  }
-  llPaths[0]->Current(position);
-  csRef<iMapNode> node;
-  node.AttachNew(new csMapNode(""));
-  node->SetPosition(position);
-  node->SetSector(currentSector);
-  currentNode = node;
-}
-
-void celHPath::Clear ()
-{
-  for (size_t i = 0; i < llSize; i++)
-  {
-    llPaths[i].Invalidate();
-  }
-  llSize = 0;
-  hlPath->Clear();
-  currentllPosition = 0;
-  currentNode = 0;
-  currentSector = 0;
-}
-
 iMapNode* celHPath::GetFirst ()
 {
-  csVector3 position;
-  if (!llPaths[0].IsValid())
+  if (reverse)
   {
-    // This should be reached if the user inverts the path and then asks for the first element, for example
-    csPtrKey<iSector> currentSector = firstFrom->GetSector(); // Can't write over celHPath::currentSector
-    csRef<iCelNavMesh> navMesh = navMeshes.Get(currentSector, 0);
-    csRef<iCelNavMeshPath> path = navMesh->ShortestPath(firstFrom->GetPosition(), firstGoal->GetPosition());
-    llPaths[0] = path;    
+    return lastNode;
   }
-  llPaths[0]->GetFirst(position);
-
-  csRef<iMapNode> node;
-  node.AttachNew(new csMapNode(""));
-  node->SetPosition(position);
-  node->SetSector(firstFrom->GetSector());
-  tmpNode = node; // Can't write over celHPath::currentNode
-  
-  return node;
+  return firstNode;
 }
 
 iMapNode* celHPath::GetLast ()
 {
-  csVector3 position;
-  size_t index = llSize - 1;
-  if (!llPaths[index].IsValid())
+  if (reverse)
   {
-    csPtrKey<iSector> currentSector = lastFrom->GetSector(); // Can't write over celHPath::currentSector
-    csRef<iCelNavMesh> navMesh = navMeshes.Get(currentSector, 0);
-    csRef<iCelNavMeshPath> path = navMesh->ShortestPath(lastFrom->GetPosition(), lastGoal->GetPosition());
-    llPaths[index] = path;    
+    return firstNode;
   }
-  llPaths[index]->GetLast(position);
-
-  csRef<iMapNode> node;
-  node.AttachNew(new csMapNode(""));
-  node->SetPosition(position);
-  node->SetSector(lastFrom->GetSector());
-  tmpNode = node; // Can't write over celHPath::currentNode
-  
-  return node;
+  return lastNode;
 }
 
 void celHPath::Invert ()
 {
-  for (size_t i = 0; i < llSize; i++)
-  {
-    if (llPaths[i].IsValid())
-    {
-      llPaths[i]->Invert();
-    }
-  }
-  hlPath->Invert();
-
-  csRef<iMapNode> tmp = lastGoal;
-  lastGoal = firstFrom;
-  firstFrom = tmp;
-
-  tmp = lastFrom;
-  lastFrom = firstGoal;
-  firstGoal = tmp;
+  reverse = reverse ? false : true;
 }
 
-// TODO implement
-size_t celHPath::GetNodeCount()
+void celHPath::Restart ()
 {
-  size_t size = 0;
+  if (reverse)
+  {
+    while (HasNextInternal())
+    {
+      NextInternal();
+    }
+  }
+  else
+  {
+    for (size_t i = 0; i < llPaths.GetSize(); i++)
+    {
+      if (llPaths[i].IsValid())
+      {
+        llPaths[i]->Restart();
+      }
+    }
+    currentllPosition = 0;
+    hlPath->Restart();
 
-  return size;
+    // Set current node
+    csRef<iMapNode> goal = hlPath->Next();
+    currentSector = firstNode->GetSector();
+    if (!llPaths[0].IsValid())
+    {
+      // This should be reached if the user inverts the path and then restarts it, for example
+      csRef<iCelNavMesh> navMesh = navMeshes.Get(currentSector, 0);
+      csRef<iCelNavMeshPath> path = navMesh->ShortestPath(firstNode->GetPosition(), goal->GetPosition());
+      llPaths[0] = path;    
+    }
+
+    currentNode = firstNode;
+  }
 }
 
 
@@ -481,7 +425,7 @@ bool celHNavStruct::BuildHighLevelGraph()
   return true;
 }
 
-iCelPath* celHNavStruct::ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
+iCelHPath* celHNavStruct::ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
     iSector* goalSector)
 {
   csRef<iMapNode> fromNode;
@@ -497,7 +441,7 @@ iCelPath* celHNavStruct::ShortestPath (const csVector3& from, iSector* fromSecto
   return ShortestPath(fromNode, goalNode);
 }
 
-iCelPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
+iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
 {
   // Add from and goal nodes to the high level graph
   size_t fromNodeIdx, goalNodeIdx;
@@ -543,6 +487,13 @@ iCelPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
         tmpEdges.PushBack(hlGraph->AddEdge(node, goalNode, true, tmpPath->Length()));
       }
     }
+  }
+  if (fromSector->QueryObject()->GetID() == goalSector->QueryObject()->GetID())
+  {
+    csRef<iCelNavMeshPath> tmpPath;
+    tmpPath.AttachNew(goalNavMesh->ShortestPath(from->GetPosition(), goal->GetPosition()));
+    // TODO check if path is reachable
+    hlGraph->AddEdge(fromNode, goalNode, true, tmpPath->Length());
   }
 
   // Find path in high level graph
