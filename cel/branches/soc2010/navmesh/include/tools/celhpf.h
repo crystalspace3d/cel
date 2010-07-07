@@ -34,6 +34,42 @@ struct iSectorList;
 
 
 
+/**
+ * Hierarchical path between two points.
+ */
+struct iCelHPath : public virtual iBase
+{
+  SCF_INTERFACE (iCelHPath, 1, 0, 0);
+
+  /// Check if the path can be transversed forward from the current position.
+  virtual bool HasNext () = 0;
+
+  /// Check if the path can be transversed backward from the current position.
+  virtual bool HasPrevious () = 0;
+
+  /// Get next node.
+  virtual iMapNode* Next () = 0;
+  
+  /// Get previous node.
+  virtual iMapNode* Previous () = 0;
+    
+  /// Get current node.
+  virtual iMapNode* Current () = 0;
+
+  /// Get first node.
+  virtual iMapNode* GetFirst () = 0;
+  
+  /// Get last node.
+  virtual iMapNode* GetLast () = 0;
+  
+  /// Invert path.
+  virtual void Invert () = 0;
+
+  /// Restart path.  
+  virtual void Restart () = 0;
+};
+
+
 
 /**
  * Hierarchical navigation structure representing the navigable areas of a Map.
@@ -52,7 +88,7 @@ struct iCelHNavStruct : public virtual iBase
    * \remarks The path returned by this method will be rendered useless if the originating iCelHNavStruct
    *          is destroyed.
    */
-  virtual iCelPath* ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
+  virtual iCelHPath* ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
     iSector* goalSector) = 0;
 
   /**
@@ -63,7 +99,7 @@ struct iCelHNavStruct : public virtual iBase
    * \remarks The path returned by this method will be rendered useless if the originating iCelHNavStruct
    *          is destroyed.
    */
-  virtual iCelPath* ShortestPath (iMapNode* from, iMapNode* goal) = 0;
+  virtual iCelHPath* ShortestPath (iMapNode* from, iMapNode* goal) = 0;
 
   /**
    * Save this structure to a file.

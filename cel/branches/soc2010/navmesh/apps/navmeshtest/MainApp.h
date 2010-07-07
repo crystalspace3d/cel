@@ -41,7 +41,7 @@ private:
 
   csHash<iCelNavMesh*, iSector*> navMeshes;
   //csRef<iCelNavMeshPath> path;
-  csRef<iCelPath> path;
+  csRef<iCelHPath> path;
   csRef<iCelHNavStruct> navStruct;
   
   bool LoadMap ();
