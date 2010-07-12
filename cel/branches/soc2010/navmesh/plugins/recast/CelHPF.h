@@ -28,6 +28,7 @@
 #include <csutil/scf_implementation.h>
 #include <iengine/sector.h>
 #include <iutil/comp.h>
+#include <iutil/document.h>
 #include <iutil/objreg.h>
 #include <ivaria/mapnode.h>
 #include <tools/celgraph.h>
@@ -87,23 +88,30 @@ public:
 class celHNavStruct : public scfImplementation1<celHNavStruct, iCelHNavStruct>
 {
 private:
+  csRef<iObjectRegistry> objectRegistry;
   csRef<iCelNavMeshParams> parameters;
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> > navMeshes;
   csRef<iCelGraph> hlGraph; // High level graph
+  csRef<celHPath> path;
+
+  // Helpers for the SaveToFile method
+  void SaveParameters (iDocumentNode* node);
+  void SaveNavMeshes (iDocumentNode* node, iVFS* vfs);
+  void SaveHighLevelGraph (iDocumentNode* node1, iDocumentNode* node2);
 
 public:
-  celHNavStruct (const iCelNavMeshParams* params);
+  celHNavStruct (const iCelNavMeshParams* params, iObjectRegistry* objectRegistry);
   virtual ~celHNavStruct ();
 
   void AddNavMesh(iCelNavMesh* navMesh);
   bool BuildHighLevelGraph();
+  void SetHighLevelGraph(iCelGraph* graph);
 
   // API
   virtual iCelHPath* ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
-      iSector* goalSector);
+                                   iSector* goalSector);
   virtual iCelHPath* ShortestPath (iMapNode* from, iMapNode* goal);
-  virtual bool SaveToFile (const csString& file);
-  virtual bool LoadFromFile (const csString& file);
+  virtual bool SaveToFile (iVFS* vfs, const char* file);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
   virtual void DebugRender ();
   virtual void DebugRenderAgent(const csVector3& pos, int red, int green, int blue, int alpha) const;
@@ -121,8 +129,15 @@ private:
   csRef<iCelNavMeshParams> parameters;
   csList<iSector*>* sectors;
   csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> > builders;
+  csRef<celHNavStruct> navStruct;
 
   bool InstantiateNavMeshBuilders();
+
+  // Helpers for LoadFromFile()
+  bool ParseParameters (iDocumentNode* node, iCelNavMeshParams* params);
+  bool ParseMeshes (iDocumentNode* node, csHash<csRef<iSector>, const char*>& sectors, 
+                    celHNavStruct* navStruct, iVFS* vfs, iCelNavMeshParams* params);
+  bool ParseGraph (iDocumentNode* node, iCelGraph* graph, csHash<csRef<iSector>, const char*> sectors);  
 
 public:
   celHNavStructBuilder (iBase* parent);
@@ -132,6 +147,7 @@ public:
   // API
   virtual void SetSectors (csList<iSector*> sectorList);
   virtual iCelHNavStruct* BuildHNavStruct ();
+  virtual iCelHNavStruct* LoadHNavStruct (iVFS* vfs, const char* file);
   virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csBox3& boundingBox, iSector* sector = 0);
   virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csOBB& boundingBox, iSector* sector = 0);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;

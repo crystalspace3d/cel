@@ -103,17 +103,12 @@ struct iCelHNavStruct : public virtual iBase
 
   /**
    * Save this structure to a file.
-   * \param file File location.
+   * \param vfs Pointer to the virtual file system. The file will be saved the file at the current directory 
+   *            of this file system.
+   * \param file File name.
    * \return True in case everything went right and false otherwise.
    */
-  virtual bool SaveToFile (const csString& file) = 0;
-
-  /**
-   * Load this structure from a file.
-   * \param file File location.
-   * \return True in case everything went right and false otherwise.
-   */
-  virtual bool LoadFromFile (const csString& file) = 0;
+  virtual bool SaveToFile (iVFS* vfs, const char* file) = 0;
 
   /**
    * Get an object representation of the navigation mesh parameters.
@@ -151,6 +146,15 @@ struct iCelHNavStructBuilder : public virtual iBase
    * \return Pointer to the navigation mesh, or 0 if something went wrong.
    */
   virtual iCelHNavStruct* BuildHNavStruct () = 0;
+
+  /**
+   * Load a hierarchical navigation structure from a file.
+   * \param vfs Pointer to the virtual file system. The file will be loaded from the current directory 
+   *            of this file system.
+   * \param file File name.
+   * \return Pointer to the navigation mesh, or 0 if something went wrong.
+   */
+  virtual iCelHNavStruct* LoadHNavStruct (iVFS* vfs, const char* file) = 0;
 
   /**
    * Update the tiles of the hierarchical navigation structure that intersect with an axis aligned bounding box.
