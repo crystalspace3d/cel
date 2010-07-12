@@ -42,10 +42,13 @@
 #include <igeom/trimesh.h>
 #include <imesh/objmodel.h>
 #include <iutil/comp.h>
+#include <iutil/document.h>
 #include <iutil/objreg.h>
+#include <iutil/vfs.h>
 #include <tools/celnavmesh.h>
 #include "ChunkyTriMesh.h"
 #include "DebugDraw.h"
+#include "DetourCommon.h"
 #include "DetourDebugDraw.h"
 #include "DetourNavMesh.h"
 #include "DetourNavMeshBuilder.h"
@@ -142,7 +145,7 @@ public:
   virtual float GetAgentMaxClimb () const;
   virtual void SetAgentMaxClimb (const float maxClimb);
   virtual float GetCellSize () const;
-  virtual void SetCellsize (float size);
+  virtual void SetCellSize (float size);
   virtual float GetCellHeight () const;
   virtual void SetCellHeight (float height);
   virtual float GetMaxSimplificationError () const;
@@ -160,7 +163,7 @@ public:
   virtual int GetMaxVertsPerPoly () const;
   virtual void SetMaxVertsPerPoly (const int maxVerts);
   virtual int GetTileSize () const;
-  virtual void SetTilesize (const int size);
+  virtual void SetTileSize (const int size);
   virtual int GetBorderSize () const;
   virtual void SetBorderSize (const int size);
 };
@@ -204,31 +207,28 @@ public:
 
 
 /**
- * Navigation mesh tile.
- */
-class celNavMeshTile : public scfImplementation1<celNavMeshTile, iCelNavMeshTile>
-{
-private:
-  unsigned char* data;
-  int dataSize;
-
-public:
-  celNavMeshTile ();
-  virtual ~celNavMeshTile ();
-
-  virtual int GetData (const unsigned char* data) const;
-  virtual void SetData (unsigned char* data, int dataSize);
-};
-
-
-
-/**
  * Polygon mesh representing the navigable areas of a Sector.
  */
 class celNavMesh : public scfImplementation1<celNavMesh, iCelNavMesh>
 {
 private:
+  struct NavMeshSetHeader
+  {
+    int magic;
+    int version;
+    int numTiles;
+    dtNavMeshParams params;
+  };
+
+  struct NavMeshTileHeader
+  {
+    dtTileRef tileRef;
+    int dataSize;
+  };
+
   csRef<iSector> sector;
+  csRef<iObjectRegistry> objectRegistry;
+  csRef<iCelNavMeshPath> path;
   float polyPickExt[3];
   dtQueryFilter filter;
   dtNavMesh* detourNavMesh;
@@ -237,23 +237,29 @@ private:
   float boundingMax[3];
   unsigned char navMeshDrawFlags;
   static const int MAX_NODES;
+  static const int NAVMESHSET_MAGIC;
+  static const int NAVMESHSET_VERSION;
 
 public:
-  celNavMesh ();
+  celNavMesh (iObjectRegistry* objectRegistry);
   virtual ~celNavMesh ();
 
   bool Initialize (const iCelNavMeshParams* parameters, iSector* sector, const float* boundingMin, const float* boundingMax);
   bool AddTile (unsigned char* data, int dataSize);
+  bool LoadNavMesh (iFile* file);
+  bool LoadNavMesh2 (iFile* file);
 
   // API
-  virtual iCelNavMeshPath* ShortestPath (const csVector3& from, const csVector3& goal, int maxPathSize = 32) const;
-  virtual bool SetTile (iCelNavMeshTile* tile);  
+  virtual iCelNavMeshPath* ShortestPath (const csVector3& from, const csVector3& goal, int maxPathSize = 32);
   virtual iSector* GetSector () const;
   virtual void SetSector (iSector* sector);
   virtual iCelNavMeshParams* GetParameters () const;
+  virtual csBox3 GetBoundingBox() const;
+  virtual bool SaveToFile (iFile* file) const;
+  virtual bool SaveToFile2 (iFile* file) const;
   virtual void DebugRender () const;
   virtual void DebugRenderAgent (const csVector3& pos) const;
-  virtual void DebugRenderAgent (const csVector3& pos, int red, int green, int blue, int alpha) const;
+  virtual void DebugRenderAgent (const csVector3& pos, int red, int green, int blue, int alpha) const;  
 };
 
 
@@ -295,6 +301,7 @@ private:
   int numberOfVolumes;
 
   csRef<iCelNavMeshParams> parameters;
+  csRef<celNavMesh> navMesh;
 
   // Others
   int numberOfVertices;
@@ -318,6 +325,7 @@ public:
   // API
   virtual bool SetSector (iSector* sector);
   virtual iCelNavMesh* BuildNavMesh ();
+  iCelNavMesh* LoadNavMesh (iFile* file);
   virtual bool UpdateNavMesh (iCelNavMesh* navMesh, const csBox3& boundingBox);
   virtual bool UpdateNavMesh (iCelNavMesh* navMesh, const csOBB& boundingBox);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;

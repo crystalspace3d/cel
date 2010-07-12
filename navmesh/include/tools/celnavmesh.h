@@ -25,6 +25,7 @@
 class csVector3;
 class csOBB;
 class csBox3;
+struct iFile;
 struct iSector;
 
 
@@ -67,7 +68,7 @@ struct iCelNavMeshParams : public virtual iBase
   /// Get cell size
   virtual float GetCellSize () const = 0;
   /// Set cell size
-  virtual void SetCellsize (float size) = 0;
+  virtual void SetCellSize (float size) = 0;
 
   /// Get cell height
   virtual float GetCellHeight () const = 0;
@@ -112,7 +113,7 @@ struct iCelNavMeshParams : public virtual iBase
   /// Get tile size (Width and Height of a tile)
   virtual int GetTileSize () const = 0;
   /// Set tile size (Width and Height of a tile)
-  virtual void SetTilesize (const int size) = 0;
+  virtual void SetTileSize (const int size) = 0;
 
   /// Get border size
   virtual int GetBorderSize () const = 0;
@@ -175,33 +176,6 @@ struct iCelNavMeshPath : public virtual iBase
 
 
 /**
- * Navigation mesh tile.
- */
-// This is a wrapper for recast's internal representation of a tile.
-struct iCelNavMeshTile : public virtual iBase
-{
-  SCF_INTERFACE (iCelNavMeshTile, 1, 0, 0);
-
-  /**
-   * Get serialized version of the tile data.
-   * \param data Serialized data array.
-   * \return Size of the data array.
-   */
-  virtual int GetData (const unsigned char* data) const = 0;
-
-  /**
-   * Set tile data in the serialized form.
-   * \param data Serialized data array.
-   * \param dataSize Size of the data array.
-   * \remarks This method gives ownership of the data array to the iCelNavMeshTile 
-   * object, and the object will properly dispose of the array in it's destructor.
-   */
-  virtual void SetData (unsigned char* data, int dataSize) = 0;
-};
-
-
-
-/**
  * Polygon mesh representing the navigable areas of a Sector.
  */
 struct iCelNavMesh : public virtual iBase
@@ -214,19 +188,9 @@ struct iCelNavMesh : public virtual iBase
    * \param goal Destination of the path.
    * \return Pointer to the shortest path between the two points, or 0 in case 
    * something went wrong.
-   * \remarks Don't assign the returned value directly to a smart pointer. Use the AttachNew()
-   * method instead.
    */
   virtual iCelNavMeshPath* ShortestPath (const csVector3& from, const csVector3& goal, 
-                                         int maxPathSize = 32) const = 0;
-
-  /**
-   * Replace the old tile with the one described in the parameteres.
-   * \param tile Pointer to the navigation mesh tile.
-   * \return True in case everything went right and false otherwise.
-   * \remarks Normally, this method will be called from iCelNavMeshBuilder::UpdateNavMesh().
-   */
-  virtual bool SetTile (iCelNavMeshTile* tile) = 0;
+                                         int maxPathSize = 32) = 0;
 
   /// Get navigation mesh sector
   virtual iSector* GetSector () const = 0;
@@ -236,6 +200,13 @@ struct iCelNavMesh : public virtual iBase
 
   /// Get navigation mesh parameters
   virtual iCelNavMeshParams* GetParameters () const = 0;
+
+  /// Get navigation mesh bounding box
+  virtual csBox3 GetBoundingBox() const = 0;
+
+  /// Save to file
+  virtual bool SaveToFile (iFile* file) const = 0;
+  virtual bool SaveToFile2 (iFile* file) const = 0;
 
   /// Render navigation mesh
   virtual void DebugRender () const = 0;
@@ -258,7 +229,7 @@ struct iCelNavMeshBuilder : public virtual iBase
 
   /**
    * Set an iSector as the current working sector and loads it's triangles.
-   * \param sector Pointer to the new iSector
+   * \param sector Pointer to the new iSector.
    * \return True in case everything went right and false otherwise.
    * \remarks Even in case of a false return, the old sector information is lost.
    *          You should call iCelNavMeshBuilder::SetNavMeshParams() before this method.
@@ -270,10 +241,15 @@ struct iCelNavMeshBuilder : public virtual iBase
    * \return Pointer to the navigation mesh, or 0 if something went wrong.
    * \remarks A valid iSector must have been set using iCelNavMeshBuilder::SetSector()
    *          before calling this method.
-   *          Don't assign the returned value directly to a smart pointer. Use the AttachNew()
-   *          method instead.
    */
   virtual iCelNavMesh* BuildNavMesh () = 0;
+
+  /**
+   * Load a navigation mesh from a file.
+   * \param file Pointer to file in the virtual filesystem.
+   * \return Pointer to the navigation mesh, or 0 if something went wrong.
+   */
+  virtual iCelNavMesh* LoadNavMesh (iFile* file) = 0;
 
   /**
    * Update the tiles of the navigation mesh that intersect with an axis aligned bounding box.

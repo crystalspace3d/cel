@@ -332,40 +332,14 @@ void celNavMeshPath::DebugRenderPath ()
 
 
 /*
- * celNavMeshTile
- */
-celNavMeshTile::celNavMeshTile () : scfImplementationType (this)
-{
-  data = 0;
-}
-
-celNavMeshTile::~celNavMeshTile ()
-{
-  delete data;
-}
-
-int celNavMeshTile::GetData (const unsigned char* data) const
-{
-  data = this->data;
-  return dataSize;
-}
-
-void celNavMeshTile::SetData (unsigned char* data, int dataSize)
-{
-  delete this->data;
-  this->data = data;
-  this->dataSize = dataSize;
-}
-
-
-
-/*
  * celNavMesh
  */
 
 const int celNavMesh::MAX_NODES = 2048;
+const int celNavMesh::NAVMESHSET_MAGIC = 'M' << 24 | 'S' << 16 | 'E' << 8 | 'T'; //'MSET';
+const int celNavMesh::NAVMESHSET_VERSION = 1;
 
-celNavMesh::celNavMesh () : scfImplementationType (this)
+celNavMesh::celNavMesh (iObjectRegistry* objectRegistry) : scfImplementationType (this)
 {
   parameters = 0;
   sector = 0;
@@ -376,6 +350,7 @@ celNavMesh::celNavMesh () : scfImplementationType (this)
   polyPickExt[0] = 2;
   polyPickExt[1] = 4;
   polyPickExt[2] = 2;
+  this->objectRegistry = objectRegistry;
 }
 
 celNavMesh::~celNavMesh ()
@@ -423,10 +398,8 @@ bool celNavMesh::Initialize (const iCelNavMeshParams* parameters, iSector* secto
 }
 
 // Based on Recast NavMeshTesterTool::recalc()
-iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector3& goal, const int maxPathSize) const
+iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector3& goal, const int maxPathSize)
 {
-  celNavMeshPath* path = 0;
-
   float startPos[3];
   float endPos[3];
   for (int i = 0; i < 3; i++) 
@@ -456,7 +429,7 @@ iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector
 
   if (nstraightPath)
   {
-    path = new celNavMeshPath(straightPath, nstraightPath, maxPathSize);
+    path.AttachNew(new celNavMeshPath(straightPath, nstraightPath, maxPathSize));
   }
   else
   {
@@ -469,14 +442,6 @@ iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector
   delete [] straightPathPolys;
 
   return path;
-}
-
-// TODO implement
-bool celNavMesh::SetTile (iCelNavMeshTile* tile)
-{
-  // Remove old tile, if it exists
-  //detourNavMesh->removeTile(detourNavMesh->getTileRefAt(x, y), 0, 0);
-  return false;
 }
 
 bool celNavMesh::AddTile (unsigned char* data, int dataSize)
@@ -502,6 +467,981 @@ iCelNavMeshParams* celNavMesh::GetParameters () const
 {
   return parameters;
 }
+
+csBox3 celNavMesh::GetBoundingBox() const
+{
+  return csBox3(boundingMin[0], boundingMin[1], boundingMin[2], boundingMax[0], boundingMax[1], boundingMax[2]);
+}
+
+// Based on Recast Sample_TileMesh::SaveAll()
+bool celNavMesh::SaveToFile2 (iFile* file) const
+{
+  // Store header.
+  NavMeshSetHeader header;
+  header.magic = NAVMESHSET_MAGIC;
+  header.version = NAVMESHSET_VERSION;
+  header.numTiles = 0;
+  for (int i = 0; i < detourNavMesh->getMaxTiles(); ++i)
+  {
+    const dtMeshTile* tile = detourNavMesh->getTile(i);
+    if (!tile || !tile->header || !tile->dataSize)
+    {
+      continue;
+    }
+    header.numTiles++;
+  }
+  memcpy(&header.params, detourNavMesh->getParams(), sizeof(dtNavMeshParams));
+  file->Write((char*)&header, sizeof(NavMeshSetHeader));
+
+  // Store tiles.
+  for (int i = 0; i < detourNavMesh->getMaxTiles(); ++i)
+  {
+    const dtMeshTile* tile = detourNavMesh->getTile(i);
+    if (!tile || !tile->header || !tile->dataSize)
+    {
+      continue;
+    }
+
+    NavMeshTileHeader tileHeader;
+    tileHeader.tileRef = detourNavMesh->getTileRef(tile);
+    tileHeader.dataSize = tile->dataSize;
+    file->Write((char*)&tileHeader, sizeof(tileHeader));
+    file->Write((char*)tile->data, tile->dataSize);
+  }
+  file->Flush();
+
+  return true;
+}
+
+bool celNavMesh::SaveToFile (iFile* file) const
+{
+  csRef<iDocumentSystem> docsys = csLoadPluginCheck<iDocumentSystem>(objectRegistry, "crystalspace.documentsystem.tinyxml");
+  if (!docsys)
+  {
+    return false;
+  }
+  
+  // Create XML file
+  csRef<iDocument> doc = docsys->CreateDocument();
+  csRef<iDocumentNode> root = doc->CreateRoot();
+  csRef<iDocumentNode> mainNode = root->CreateNodeBefore(CS_NODE_ELEMENT);
+  mainNode->SetValue("iCelNavMesh");
+  mainNode->SetAttribute("sector", sector->QueryObject()->GetName());
+  
+  // Bounding box node
+  csRef<iDocumentNode> boundingBoxNode = mainNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  boundingBoxNode->SetValue("boundingbox");
+  csRef<iDocumentNode> min = boundingBoxNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  min->SetValue("min");
+  min->SetAttributeAsFloat("x", boundingMin[0]);
+  min->SetAttributeAsFloat("y", boundingMin[1]);
+  min->SetAttributeAsFloat("z", boundingMin[2]);
+  csRef<iDocumentNode> max = boundingBoxNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  max->SetValue("max");
+  max->SetAttributeAsFloat("x", boundingMax[0]);
+  max->SetAttributeAsFloat("y", boundingMax[1]);
+  max->SetAttributeAsFloat("z", boundingMax[2]);
+
+  // Create parameters node
+  csRef<iDocumentNode> parametersNode = mainNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  parametersNode->SetValue("parameters");
+  csRef<iDocumentNode> node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("agentheight");
+  node->SetAttributeAsFloat("value", parameters->GetAgentHeight());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("agentradius");
+  node->SetAttributeAsFloat("value", parameters->GetAgentRadius());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("agentmaxslopeangle");
+  node->SetAttributeAsFloat("value", parameters->GetAgentMaxSlopeAngle());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("agentmaxclimb");
+  node->SetAttributeAsFloat("value", parameters->GetAgentMaxClimb());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("cellsize");
+  node->SetAttributeAsFloat("value", parameters->GetCellSize());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("cellheight");
+  node->SetAttributeAsFloat("value", parameters->GetCellHeight());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("maxsimplificationerror");
+  node->SetAttributeAsFloat("value", parameters->GetMaxSimplificationError());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("detailsampledist");
+  node->SetAttributeAsFloat("value", parameters->GetDetailSampleDist());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("detailsamplemaxerror");
+  node->SetAttributeAsFloat("value", parameters->GetDetailSampleMaxError());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("maxedgelength");
+  node->SetAttributeAsInt("value", parameters->GetMaxEdgeLength());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("minregionsize");
+  node->SetAttributeAsInt("value", parameters->GetMinRegionSize());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("mergeregionsize");
+  node->SetAttributeAsInt("value", parameters->GetMergeRegionSize());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("maxvertsperpoly");
+  node->SetAttributeAsInt("value", parameters->GetMaxVertsPerPoly());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("tilesize");
+  node->SetAttributeAsInt("value", parameters->GetTileSize());
+
+  node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("bordersize");
+  node->SetAttributeAsInt("value", parameters->GetBorderSize());
+
+  // Navigation mesh header node
+  csRef<iDocumentNode> navMeshHeader = mainNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  navMeshHeader->SetValue("navmeshsetheader");
+
+  node = navMeshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("magic");
+  node->SetAttributeAsInt("value", NAVMESHSET_MAGIC);
+
+  node = navMeshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("version");
+  node->SetAttributeAsInt("value", NAVMESHSET_VERSION);
+
+  int numTiles = 0;
+  for (int i = 0; i < detourNavMesh->getMaxTiles(); ++i)
+  {
+    const dtMeshTile* tile = detourNavMesh->getTile(i);
+    if (!tile || !tile->header || !tile->dataSize)
+    {
+      continue;
+    }
+    numTiles++;
+  }
+  node = navMeshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("numtiles");
+  node->SetAttributeAsInt("value", numTiles);
+
+  csRef<iDocumentNode> paramsNode = navMeshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+  paramsNode->SetValue("dtnavmeshparams");
+  const dtNavMeshParams* params = detourNavMesh->getParams();
+  node = paramsNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("origin");
+  node->SetAttributeAsFloat("x", params->orig[0]);
+  node->SetAttributeAsFloat("y", params->orig[1]);
+  node->SetAttributeAsFloat("z", params->orig[2]);
+
+  node = paramsNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("tilewidth");
+  node->SetAttributeAsFloat("value", params->tileWidth);
+
+  node = paramsNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("tileheight");
+  node->SetAttributeAsFloat("value", params->tileHeight);
+
+  node = paramsNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("maxtiles");
+  node->SetAttributeAsInt("value", params->maxTiles);
+
+  node = paramsNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("maxpolys");
+  node->SetAttributeAsInt("value", params->maxPolys);
+
+  node = paramsNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  node->SetValue("maxnodes");
+  node->SetAttributeAsInt("value", params->maxNodes);
+
+  // Create tiles node
+  csRef<iDocumentNode> tilesNode = mainNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  tilesNode->SetValue("tiles");
+
+  for (int i = 0; i < detourNavMesh->getMaxTiles(); ++i)
+  {
+    const dtMeshTile* tile = detourNavMesh->getTile(i);
+    if (!tile || !tile->header || !tile->dataSize)
+    {
+      continue;
+    }
+    csRef<iDocumentNode> tileNode = tilesNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    tileNode->SetValue("tile");
+
+    // Create tile header node
+    csRef<iDocumentNode> tileHeader = tileNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    tileHeader->SetValue("tileheader");
+    tileHeader->SetAttributeAsInt("tileref", detourNavMesh->getTileRef(tile));
+    tileHeader->SetAttributeAsInt("datasize", tile->dataSize);
+
+    // Create mesh header node
+    csRef<iDocumentNode> meshHeader = tileNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    meshHeader->SetValue("meshheader");
+    unsigned char* data = tile->data;
+    dtMeshHeader* header = (dtMeshHeader*)data;
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("magic");
+    node->SetAttributeAsInt("value", header->magic);
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("version");
+    node->SetAttributeAsInt("value", header->version);
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("location");
+    node->SetAttributeAsInt("x", header->x);
+    node->SetAttributeAsInt("y", header->y);
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("userid");
+    node->SetAttributeAsInt("value", header->userId);
+    
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("polycount");
+    node->SetAttributeAsInt("value", header->polyCount);
+    
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("vertcount");
+    node->SetAttributeAsInt("value", header->vertCount);
+    
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("maxlinkcount");
+    node->SetAttributeAsInt("value", header->maxLinkCount);
+    
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("detailmeshcount");
+    node->SetAttributeAsInt("value", header->detailMeshCount);
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("detailvertcount");
+    node->SetAttributeAsInt("value", header->detailVertCount);
+    
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("detailtricount");
+    node->SetAttributeAsInt("value", header->detailTriCount);
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("bvnodecount");
+    node->SetAttributeAsInt("value", header->bvNodeCount);
+    
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("offmeshconcount");
+    node->SetAttributeAsInt("value", header->offMeshConCount);
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("offmeshbase");
+    node->SetAttributeAsInt("value", header->offMeshBase);
+    
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("walkableheight");
+    node->SetAttributeAsFloat("value", header->walkableHeight);
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("walkableradius");
+    node->SetAttributeAsFloat("value", header->walkableRadius);
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("walkableclimb");
+    node->SetAttributeAsFloat("value", header->walkableClimb);
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("boundingmin");
+    node->SetAttributeAsFloat("x", header->bmin[0]);
+    node->SetAttributeAsFloat("y", header->bmin[1]);
+    node->SetAttributeAsFloat("z", header->bmin[2]);
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("boundingmax");
+    node->SetAttributeAsFloat("x", header->bmax[0]);
+    node->SetAttributeAsFloat("y", header->bmax[1]);
+    node->SetAttributeAsFloat("z", header->bmax[2]);
+
+    node = meshHeader->CreateNodeBefore(CS_NODE_ELEMENT);
+    node->SetValue("bvquantfactor");
+    node->SetAttributeAsFloat("value", header->bvQuantFactor);
+
+    // Create verts node
+    csRef<iDocumentNode> vertsNode = tileNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    vertsNode->SetValue("verts");
+    const int headerSize = dtAlign4(sizeof(dtMeshHeader));
+    data += headerSize;
+    float* verts = (float*)data;    
+    int index = 0;
+    for (int j = 0; j < header->vertCount; j++)
+    {
+      node = vertsNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("vertex");
+      node->SetAttributeAsFloat("x", verts[index++]);
+      node->SetAttributeAsFloat("y", verts[index++]);
+      node->SetAttributeAsFloat("z", verts[index++]);
+    }
+
+    // Create polys node
+    csRef<iDocumentNode> polysNode = tileNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    polysNode->SetValue("polys");
+    const int vertsSize = dtAlign4(sizeof(float) * 3 * header->vertCount);
+    data += vertsSize;
+    dtPoly* polys = (dtPoly*)data;
+    index = 0;
+    for (int j = 0; j < header->polyCount; j++)
+    {
+      csRef<iDocumentNode> polyNode = polysNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      polyNode->SetValue("poly");
+
+      node = polyNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("firstlink");
+      node->SetAttributeAsInt("value", polys[j].firstLink);
+
+      csRef<iDocumentNode> vertsNode2 = polyNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      vertsNode2->SetValue("verts");
+      csRef<iDocumentNode> neisNode = polyNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      neisNode->SetValue("neis");
+      for (int k = 0; k < DT_VERTS_PER_POLYGON; k++)
+      {
+        node = vertsNode2->CreateNodeBefore(CS_NODE_ELEMENT);
+        node->SetValue("vertex");
+        node->SetAttributeAsInt("indice", polys[j].verts[k]);
+
+        node = neisNode->CreateNodeBefore(CS_NODE_ELEMENT);
+        node->SetValue("neighbour");
+        node->SetAttributeAsInt("indice", polys[j].neis[k]);
+      }
+
+      node = polyNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("flags");
+      node->SetAttributeAsInt("value", polys[j].flags);
+
+      node = polyNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("vertcount");
+      node->SetAttributeAsInt("value", polys[j].vertCount);
+
+      node = polyNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("area");
+      node->SetAttributeAsInt("value", polys[j].area);
+
+      node = polyNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("type");
+      node->SetAttributeAsInt("value", polys[j].type);
+    }
+
+    // Create links node
+    csRef<iDocumentNode> linksNode = tileNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    linksNode->SetValue("links");
+    const int polysSize = dtAlign4(sizeof(dtPoly) * header->polyCount);
+    data += polysSize; 
+    dtLink* links = (dtLink*)data;
+    for (int j = 0; j < header->maxLinkCount; j++)
+    {
+      csRef<iDocumentNode> linkNode = linksNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      linkNode->SetValue("link");
+
+      node = linkNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("ref");
+      node->SetAttributeAsInt("value", links[j].ref);
+
+      node = linkNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("next");
+      node->SetAttributeAsInt("value", links[j].next);
+
+      node = linkNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("edge");
+      node->SetAttributeAsInt("value", links[j].edge);
+
+      node = linkNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("side");
+      node->SetAttributeAsInt("value", links[j].side);
+
+      node = linkNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("bmin");
+      node->SetAttributeAsInt("value", links[j].bmin);
+
+      node = linkNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("bmax");
+      node->SetAttributeAsInt("value", links[j].bmax);
+    }
+
+    // Create detail meshes node
+    csRef<iDocumentNode> detailMeshesNode = tileNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    detailMeshesNode->SetValue("detailmeshes");
+    const int linksSize = dtAlign4(sizeof(dtLink) * (header->maxLinkCount));
+    data += linksSize;
+    dtPolyDetail* detailMeshes = (dtPolyDetail*)data;
+    for (int j = 0; j < header->detailMeshCount; j++)
+    {
+      csRef<iDocumentNode> detailMeshNode = detailMeshesNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      detailMeshNode->SetValue("detailmesh");
+
+      node = detailMeshNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("vertbase");
+      node->SetAttributeAsInt("value", detailMeshes[j].vertBase);
+
+      node = detailMeshNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("vertcount");
+      node->SetAttributeAsInt("value", detailMeshes[j].vertCount);
+
+      node = detailMeshNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("tribase");
+      node->SetAttributeAsInt("value", detailMeshes[j].triBase);
+
+      node = detailMeshNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("tricount");
+      node->SetAttributeAsInt("value", detailMeshes[j].triCount);
+    }
+    
+    // Create detail vertices node
+    csRef<iDocumentNode> detailVertsNode = tileNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    detailVertsNode->SetValue("detailverts");
+    const int detailMeshesSize = dtAlign4(sizeof(dtPolyDetail) * header->detailMeshCount);
+    data += detailMeshesSize;
+    float* detailVerts = (float*)data;
+    index = 0;
+    for (int j = 0; j < header->detailVertCount; j++)
+    {
+      node = detailVertsNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("vertex");
+      node->SetAttributeAsFloat("x", detailVerts[index++]);
+      node->SetAttributeAsFloat("y", detailVerts[index++]);
+      node->SetAttributeAsFloat("z", detailVerts[index++]);
+    }
+
+    // Create detail triangles node
+    csRef<iDocumentNode> detailTrisNode = tileNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    detailTrisNode->SetValue("detailtris");
+    const int detailVertsSize = dtAlign4(sizeof(float) * 3 * header->detailVertCount);
+    data += detailVertsSize;
+    unsigned char* detailTris = (unsigned char*)data;
+    index = 0;
+    for (int j = 0; j < header->detailTriCount; j++)
+    {
+      node = detailTrisNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("tri");
+      node->SetAttributeAsInt("a", detailTris[index++]);
+      node->SetAttributeAsInt("b", detailTris[index++]);
+      node->SetAttributeAsInt("c", detailTris[index++]);
+      node->SetAttributeAsInt("d", detailTris[index++]);
+    }
+    
+    // Create bv tree node
+    csRef<iDocumentNode> bvTreeNode = tileNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    bvTreeNode->SetValue("bvtree");
+    const int detailTrisSize = dtAlign4(sizeof(unsigned char) * 4 * header->detailTriCount);
+    data += detailTrisSize;
+    dtBVNode* bvTree = (dtBVNode*)data;
+    index = 0;
+    for (int j = 0; j < header->bvNodeCount; j++)
+    {
+      csRef<iDocumentNode> bvTreeNodeNode = bvTreeNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      bvTreeNodeNode->SetValue("bvtreenode");
+
+      node = bvTreeNodeNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("bmin");
+      node->SetAttributeAsInt("x", bvTree[j].bmin[0]);
+      node->SetAttributeAsInt("y", bvTree[j].bmin[1]);
+      node->SetAttributeAsInt("z", bvTree[j].bmin[2]);
+
+      node = bvTreeNodeNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("bmax");
+      node->SetAttributeAsInt("x", bvTree[j].bmax[0]);
+      node->SetAttributeAsInt("y", bvTree[j].bmax[1]);
+      node->SetAttributeAsInt("z", bvTree[j].bmax[2]);
+
+      node = bvTreeNodeNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("index");
+      node->SetAttributeAsInt("value", bvTree[j].i);
+    }
+
+    // Create offmesh links node
+    csRef<iDocumentNode> offMeshLinksNode = tileNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    offMeshLinksNode->SetValue("offmeshlinks");
+    const int bvtreeSize = dtAlign4(sizeof(dtBVNode) * header->bvNodeCount);
+    data += bvtreeSize;
+    dtOffMeshConnection* offMeshCons = (dtOffMeshConnection*)data;
+    for (int j = 0; j < header->offMeshConCount; j++)
+    {
+      csRef<iDocumentNode> offMeshLinkNode = offMeshLinksNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      offMeshLinkNode->SetValue("offmeshlink");
+
+      node = offMeshLinkNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("pos");
+      node->SetAttributeAsFloat("x1", offMeshCons[j].pos[0]);
+      node->SetAttributeAsFloat("y1", offMeshCons[j].pos[1]);
+      node->SetAttributeAsFloat("z1", offMeshCons[j].pos[2]);
+      node->SetAttributeAsFloat("x2", offMeshCons[j].pos[3]);
+      node->SetAttributeAsFloat("y2", offMeshCons[j].pos[4]);
+      node->SetAttributeAsFloat("z2", offMeshCons[j].pos[5]);
+
+      node = offMeshLinkNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("rad");
+      node->SetAttributeAsFloat("value", offMeshCons[j].rad);
+
+      node = offMeshLinkNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("poly");
+      node->SetAttributeAsInt("value", offMeshCons[j].poly);
+
+      node = offMeshLinkNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("flags");
+      node->SetAttributeAsInt("value", offMeshCons[j].flags);
+
+      node = offMeshLinkNode->CreateNodeBefore(CS_NODE_ELEMENT);
+      node->SetValue("side");
+      node->SetAttributeAsInt("value", offMeshCons[j].side);      
+    }
+  }
+
+  doc->Write(file);
+
+  return true;
+}
+
+bool celNavMesh::LoadNavMesh2 (iFile* file)
+{
+  // Read header.
+  NavMeshSetHeader header;
+  file->Read((char*)&header, sizeof(NavMeshSetHeader));
+  if (header.magic != NAVMESHSET_MAGIC)
+  {
+    return false;
+  }
+  if (header.version != NAVMESHSET_VERSION)
+  {
+    return false;
+  }
+
+  detourNavMesh = new dtNavMesh;
+  if (!detourNavMesh || !detourNavMesh->init(&header.params))
+  {
+    return false;
+  }
+
+  // Read tiles.
+  for (int i = 0; i < header.numTiles; ++i)
+  {
+    NavMeshTileHeader tileHeader;
+    file->Read((char*)&tileHeader, sizeof(tileHeader));
+    if (!tileHeader.tileRef || !tileHeader.dataSize)
+    {
+      break;
+    }
+
+    unsigned char* data = new unsigned char[tileHeader.dataSize];
+    if (!data)
+    {
+      break;
+    }
+    memset(data, 0, tileHeader.dataSize);
+    file->Read((char*)data, tileHeader.dataSize);
+
+    detourNavMesh->addTile(data, tileHeader.dataSize, DT_TILE_FREE_DATA, tileHeader.tileRef);
+  }
+  return true;
+}
+
+bool celNavMesh::LoadNavMesh (iFile* file)
+{
+  csRef<iDocumentSystem> docsys = csLoadPluginCheck<iDocumentSystem>(objectRegistry, "crystalspace.documentsystem.tinyxml");
+  if (!docsys)
+  {
+    return false;
+  }
+  
+  // Read XML file
+  csRef<iDocument> doc = docsys->CreateDocument();
+  const char* log = doc->Parse(file);
+  if (log)
+  {
+    return false;
+  }
+  csRef<iDocumentNode> root = doc->GetRoot();
+  csRef<iDocumentNode> mainNode = root->GetNode("iCelNavMesh");
+
+  // Get sector
+  const char* sectorName = mainNode->GetAttributeValue("sector");
+  csString sectorNameString(sectorName);
+  csRef<iEngine> engine = csLoadPluginCheck<iEngine>(objectRegistry, "crystalspace.engine.3d");
+  if (!engine)
+  {
+    return false;
+  }
+  size_t size = engine->GetSectors()->GetCount();
+  for (size_t i = 0; i < size; i++)
+  {
+    csRef<iSector> sector = engine->GetSectors()->Get(i);
+    if (sectorNameString == sector->QueryObject()->GetName())
+    {
+      this->sector = sector;
+      break;
+    }
+  }
+
+  // Read bounding box
+  csRef<iDocumentNode> boundingBoxNode = mainNode->GetNode("boundingbox");
+  csRef<iDocumentNode> node = boundingBoxNode->GetNode("min");
+  boundingMin[0] = node->GetAttributeValueAsFloat("x");
+  boundingMin[1] = node->GetAttributeValueAsFloat("y");
+  boundingMin[2] = node->GetAttributeValueAsFloat("z");
+  node = boundingBoxNode->GetNode("max");
+  boundingMax[0] = node->GetAttributeValueAsFloat("x");
+  boundingMax[1] = node->GetAttributeValueAsFloat("y");
+  boundingMax[2] = node->GetAttributeValueAsFloat("z");
+
+  // Read parameters
+  this->parameters.AttachNew(new celNavMeshParams());
+  csRef<iDocumentNode> parametersNode = mainNode->GetNode("parameters");
+  node = parametersNode->GetNode("agentheight");
+  float value = node->GetAttributeValueAsFloat("value");
+  parameters->SetAgentHeight(value);
+  node = parametersNode->GetNode("agentradius");
+  value = node->GetAttributeValueAsFloat("value");
+  parameters->SetAgentRadius(value);
+  node = parametersNode->GetNode("agentmaxslopeangle");
+  value = node->GetAttributeValueAsFloat("value");
+  parameters->SetAgentMaxSlopeAngle(value);
+  node = parametersNode->GetNode("agentmaxclimb");
+  value = node->GetAttributeValueAsFloat("value");
+  parameters->SetAgentMaxClimb(value);
+  node = parametersNode->GetNode("cellsize");
+  value = node->GetAttributeValueAsFloat("value");
+  parameters->SetCellSize(value);
+  node = parametersNode->GetNode("cellheight");
+  value = node->GetAttributeValueAsFloat("value");
+  parameters->SetCellHeight(value);
+  node = parametersNode->GetNode("maxsimplificationerror");
+  value = node->GetAttributeValueAsFloat("value");
+  parameters->SetMaxSimplificationError(value);
+  node = parametersNode->GetNode("detailsampledist");
+  value = node->GetAttributeValueAsFloat("value");
+  parameters->SetDetailSampleDist(value);
+  node = parametersNode->GetNode("detailsamplemaxerror");
+  value = node->GetAttributeValueAsFloat("value");
+  parameters->SetDetailSampleMaxError(value);
+  node = parametersNode->GetNode("maxedgelength");
+  int value2 = node->GetAttributeValueAsInt("value");
+  parameters->SetMaxEdgeLength(value2);
+  node = parametersNode->GetNode("minregionsize");
+  value2 = node->GetAttributeValueAsInt("value");
+  parameters->SetMinRegionSize(value2);
+  node = parametersNode->GetNode("mergeregionsize");
+  value2 = node->GetAttributeValueAsInt("value");
+  parameters->SetMergeRegionSize(value2);
+  node = parametersNode->GetNode("maxvertsperpoly");
+  value2 = node->GetAttributeValueAsInt("value");
+  parameters->SetMaxVertsPerPoly(value2);
+  node = parametersNode->GetNode("tilesize");
+  value2 = node->GetAttributeValueAsInt("value");
+  parameters->SetTileSize(value2);
+  node = parametersNode->GetNode("bordersize");
+  value2 = node->GetAttributeValueAsInt("value");
+  parameters->SetBorderSize(value2);
+
+  // Read header
+  NavMeshSetHeader header;
+  csRef<iDocumentNode> navMeshHeaderNode = mainNode->GetNode("navmeshsetheader");
+  node = navMeshHeaderNode->GetNode("magic");
+  header.magic = node->GetAttributeValueAsInt("value");
+  node = navMeshHeaderNode->GetNode("version");
+  header.version = node->GetAttributeValueAsInt("value");
+  node = navMeshHeaderNode->GetNode("numtiles");
+  header.numTiles = node->GetAttributeValueAsInt("value");
+  csRef<iDocumentNode> paramsNode = navMeshHeaderNode->GetNode("dtnavmeshparams");
+  node = paramsNode->GetNode("origin");
+  header.params.orig[0] = node->GetAttributeValueAsFloat("x");
+  header.params.orig[1] = node->GetAttributeValueAsFloat("y");
+  header.params.orig[2] = node->GetAttributeValueAsFloat("z");
+  node = paramsNode->GetNode("tilewidth");
+  header.params.tileWidth = node->GetAttributeValueAsFloat("value");
+  node = paramsNode->GetNode("tileheight");
+  header.params.tileHeight = node->GetAttributeValueAsFloat("value");
+  node = paramsNode->GetNode("maxtiles");
+  header.params.maxTiles = node->GetAttributeValueAsInt("value");
+  node = paramsNode->GetNode("maxpolys");
+  header.params.maxPolys = node->GetAttributeValueAsInt("value");
+  node = paramsNode->GetNode("maxnodes");
+  header.params.maxNodes = node->GetAttributeValueAsInt("value");
+
+  if (header.magic != NAVMESHSET_MAGIC)
+  {
+    return false;
+  }
+  if (header.version != NAVMESHSET_VERSION)
+  {
+    return false;
+  }
+  detourNavMesh = new dtNavMesh;
+  if (!detourNavMesh || !detourNavMesh->init(&header.params))
+  {
+    return false;
+  }
+  
+  // Read tiles
+  csRef<iDocumentNode> tilesNode = mainNode->GetNode("tiles");
+  csRef<iDocumentNodeIterator> tileNodes = tilesNode->GetNodes("tile");
+  while (tileNodes->HasNext())
+  {
+    csRef<iDocumentNode> tileNode = tileNodes->Next();
+
+    // Read tile header
+    NavMeshTileHeader tileHeader;
+    csRef<iDocumentNode> tileHeaderNode = tileNode->GetNode("tileheader");
+    tileHeader.tileRef = (unsigned int)tileHeaderNode->GetAttributeValueAsInt("tileref");
+    tileHeader.dataSize = tileHeaderNode->GetAttributeValueAsInt("datasize");
+
+    if (!tileHeader.tileRef || !tileHeader.dataSize)
+    {
+      break;
+    }
+    unsigned char* data = new unsigned char[tileHeader.dataSize];
+    if (!data)
+    {
+      break;
+    }
+    memset(data, 0, tileHeader.dataSize);
+
+    // Read mesh header
+    dtMeshHeader* meshHeader = (dtMeshHeader*)data;
+    csRef<iDocumentNode> meshHeaderNode = tileNode->GetNode("meshheader");
+    node = meshHeaderNode->GetNode("magic");
+    meshHeader->magic = node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("version");
+    meshHeader->version = node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("location");
+    meshHeader->x = node->GetAttributeValueAsInt("x");
+    meshHeader->y = node->GetAttributeValueAsInt("y");
+    node = meshHeaderNode->GetNode("userid");
+    meshHeader->userId = (unsigned int)node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("polycount");
+    meshHeader->polyCount = node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("vertcount");
+    meshHeader->vertCount = node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("maxlinkcount");
+    meshHeader->maxLinkCount = node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("detailmeshcount");
+    meshHeader->detailMeshCount = node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("detailvertcount");
+    meshHeader->detailVertCount = node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("detailtricount");
+    meshHeader->detailTriCount = node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("bvnodecount");
+    meshHeader->bvNodeCount = node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("offmeshconcount");
+    meshHeader->offMeshConCount = node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("offmeshbase");
+    meshHeader->offMeshBase = node->GetAttributeValueAsInt("value");
+    node = meshHeaderNode->GetNode("walkableheight");
+    meshHeader->walkableHeight = node->GetAttributeValueAsFloat("value");
+    node = meshHeaderNode->GetNode("walkableradius");
+    meshHeader->walkableRadius = node->GetAttributeValueAsFloat("value");
+    node = meshHeaderNode->GetNode("walkableclimb");
+    meshHeader->walkableClimb = node->GetAttributeValueAsFloat("value");
+    node = meshHeaderNode->GetNode("boundingmin");
+    meshHeader->bmin[0] = node->GetAttributeValueAsFloat("x");
+    meshHeader->bmin[1] = node->GetAttributeValueAsFloat("y");
+    meshHeader->bmin[2] = node->GetAttributeValueAsFloat("z");
+    node = meshHeaderNode->GetNode("boundingmax");
+    meshHeader->bmax[0] = node->GetAttributeValueAsFloat("x");
+    meshHeader->bmax[1] = node->GetAttributeValueAsFloat("y");
+    meshHeader->bmax[2] = node->GetAttributeValueAsFloat("z");
+    node = meshHeaderNode->GetNode("bvquantfactor");
+    meshHeader->bvQuantFactor = node->GetAttributeValueAsFloat("value");
+
+    // Read verts node
+    const int headerSize = dtAlign4(sizeof(dtMeshHeader));
+    unsigned char* d = data + headerSize;
+    float* verts = (float*)d;
+    csRef<iDocumentNode> vertsNode = tileNode->GetNode("verts");
+    csRef<iDocumentNodeIterator> vertices = vertsNode->GetNodes("vertex");
+    int index = 0;
+    while (vertices->HasNext())
+    {
+      csRef<iDocumentNode> vertex = vertices->Next();
+      verts[index++] = vertex->GetAttributeValueAsFloat("x");
+      verts[index++] = vertex->GetAttributeValueAsFloat("y");
+      verts[index++] = vertex->GetAttributeValueAsFloat("z");
+    }
+
+    // Read polys node
+    const int vertsSize = dtAlign4(sizeof(float) * 3 * meshHeader->vertCount);
+    d += vertsSize;    
+    dtPoly* polys = (dtPoly*)d;
+    csRef<iDocumentNode> polysNode = tileNode->GetNode("polys");
+    csRef<iDocumentNodeIterator> polyNodes = polysNode->GetNodes("poly");
+    index = 0;
+    while (polyNodes->HasNext())
+    {
+      csRef<iDocumentNode> polyNode = polyNodes->Next();
+      node = polyNode->GetNode("firstlink");
+      polys[index].firstLink = (unsigned int)node->GetAttributeValueAsInt("value");
+      csRef<iDocumentNode> vertsNode = polyNode->GetNode("verts");
+      csRef<iDocumentNodeIterator> verts = vertsNode->GetNodes("vertex");
+      int index2 = 0;
+      while (verts->HasNext())
+      {
+        polys[index].verts[index2++] = (unsigned short)verts->Next()->GetAttributeValueAsInt("indice");
+      }
+      csRef<iDocumentNode> neisNode = polyNode->GetNode("neis");
+      csRef<iDocumentNodeIterator> neighbours = neisNode->GetNodes("neighbour");
+      index2 = 0;
+      while (neighbours->HasNext())
+      {
+        polys[index].neis[index2++] = (unsigned short)neighbours->Next()->GetAttributeValueAsInt("indice");;
+      }
+      node = polyNode->GetNode("flags");
+      polys[index].flags = (unsigned short)node->GetAttributeValueAsInt("value");
+      node = polyNode->GetNode("vertcount");
+      polys[index].vertCount = (unsigned char)node->GetAttributeValueAsInt("value");
+      node = polyNode->GetNode("area");
+      polys[index].area = (unsigned char)node->GetAttributeValueAsInt("value");
+      node = polyNode->GetNode("type");
+      polys[index].type = (unsigned char)node->GetAttributeValueAsInt("value");
+      index++;
+    }
+
+    // Read links node
+    const int polysSize = dtAlign4(sizeof(dtPoly) * meshHeader->polyCount);
+    d += polysSize;    
+    dtLink* links = (dtLink*)d;
+    csRef<iDocumentNode> linksNode = tileNode->GetNode("links");
+    csRef<iDocumentNodeIterator> linksNodes = linksNode->GetNodes("link");
+    index = 0;
+    while (linksNodes->HasNext())
+    {
+      csRef<iDocumentNode> linkNode = linksNodes->Next();
+      node = linkNode->GetNode("ref");
+      links[index].ref = (unsigned int)node->GetAttributeValueAsInt("value");
+      node = linkNode->GetNode("next");
+      links[index].next = (unsigned int)node->GetAttributeValueAsInt("value");
+      node = linkNode->GetNode("edge");
+      links[index].edge = (unsigned char)node->GetAttributeValueAsInt("value");
+      node = linkNode->GetNode("side");
+      links[index].side = (unsigned char)node->GetAttributeValueAsInt("value");
+      node = linkNode->GetNode("bmin");
+      links[index].bmin = (unsigned char)node->GetAttributeValueAsInt("value");
+      node = linkNode->GetNode("bmax");
+      links[index].bmax = (unsigned char)node->GetAttributeValueAsInt("value");
+      index++;
+    }
+
+    // Read detail meshes node
+    const int linksSize = dtAlign4(sizeof(dtLink) * (meshHeader->maxLinkCount));
+    d += linksSize;
+    dtPolyDetail* detailMeshes = (dtPolyDetail*)d;
+    csRef<iDocumentNode> detailMeshesNode = tileNode->GetNode("detailmeshes");
+    csRef<iDocumentNodeIterator> detailMeshesNodes = detailMeshesNode->GetNodes("detailmesh");
+    index = 0;
+    while (detailMeshesNodes->HasNext())
+    {
+      csRef<iDocumentNode> detailMeshNode = detailMeshesNodes->Next();
+      node = detailMeshNode->GetNode("vertbase");
+      detailMeshes[index].vertBase = (unsigned short)node->GetAttributeValueAsInt("value");
+      node = detailMeshNode->GetNode("vertcount");
+      detailMeshes[index].vertCount = (unsigned short)node->GetAttributeValueAsInt("value");
+      node = detailMeshNode->GetNode("tribase");
+      detailMeshes[index].triBase = (unsigned short)node->GetAttributeValueAsInt("value");
+      node = detailMeshNode->GetNode("tricount");
+      detailMeshes[index].triCount = (unsigned short)node->GetAttributeValueAsInt("value");
+      index++;
+    }
+
+    // Read detail vertices node
+    const int detailMeshesSize = dtAlign4(sizeof(dtPolyDetail) * meshHeader->detailMeshCount);
+    d += detailMeshesSize;
+    float* detailVerts = (float*)d;
+    csRef<iDocumentNode> detailVertsNode = tileNode->GetNode("detailverts");
+    csRef<iDocumentNodeIterator> vertices2 = detailVertsNode->GetNodes("vertex");
+    index = 0;
+    while (vertices2->HasNext())
+    {
+      csRef<iDocumentNode> vertex = vertices2->Next();
+      detailVerts[index++] = vertex->GetAttributeValueAsFloat("x");
+      detailVerts[index++] = vertex->GetAttributeValueAsFloat("y");
+      detailVerts[index++] = vertex->GetAttributeValueAsFloat("z");
+    }
+
+    // Read detail tris node
+    const int detailVertsSize = dtAlign4(sizeof(float) * 3 * meshHeader->detailVertCount);
+    d += detailVertsSize;
+    unsigned char* detailTris = (unsigned char*)d;
+    csRef<iDocumentNode> detailTrisNode = tileNode->GetNode("detailtris");
+    csRef<iDocumentNodeIterator> triangles = detailTrisNode->GetNodes("tri");
+    index = 0;
+    while (triangles->HasNext())
+    {
+      csRef<iDocumentNode> tri = triangles->Next();
+      detailTris[index++] = (unsigned char)tri->GetAttributeValueAsInt("a");
+      detailTris[index++] = (unsigned char)tri->GetAttributeValueAsInt("b");
+      detailTris[index++] = (unsigned char)tri->GetAttributeValueAsInt("c");
+      detailTris[index++] = (unsigned char)tri->GetAttributeValueAsInt("d");
+    }
+
+    // Read bv tree node
+    const int detailTrisSize = dtAlign4(sizeof(unsigned char) * 4 * meshHeader->detailTriCount);
+    d += detailTrisSize;
+    dtBVNode* bvTree = (dtBVNode*)d;
+    csRef<iDocumentNode> bvTreeNode = tileNode->GetNode("bvtree");
+    csRef<iDocumentNodeIterator> bvTreeNodeNodes = bvTreeNode->GetNodes("bvtreenode");
+    index = 0;
+    while (bvTreeNodeNodes->HasNext())
+    {
+      csRef<iDocumentNode> bvTreeNodeNode = bvTreeNodeNodes->Next();
+      node = bvTreeNodeNode->GetNode("bmin");
+      bvTree[index].bmin[0] = (unsigned short)node->GetAttributeValueAsInt("x");
+      bvTree[index].bmin[1] = (unsigned short)node->GetAttributeValueAsInt("y");
+      bvTree[index].bmin[2] = (unsigned short)node->GetAttributeValueAsInt("z");
+      
+      node = bvTreeNodeNode->GetNode("bmax");
+      bvTree[index].bmax[0] = (unsigned short)node->GetAttributeValueAsInt("x");
+      bvTree[index].bmax[1] = (unsigned short)node->GetAttributeValueAsInt("y");
+      bvTree[index].bmax[2] = (unsigned short)node->GetAttributeValueAsInt("z");
+
+      node = bvTreeNodeNode->GetNode("index");
+      bvTree[index].i = node->GetAttributeValueAsInt("value");
+      index++;
+    }
+
+    // Read off mesh links node
+    const int bvtreeSize = dtAlign4(sizeof(dtBVNode) * meshHeader->bvNodeCount);
+    d += bvtreeSize;
+    dtOffMeshConnection* offMeshCons = (dtOffMeshConnection*)d;
+    csRef<iDocumentNode> offMeshLinksNode = tileNode->GetNode("offmeshlinks");
+    csRef<iDocumentNodeIterator> offMeshLinksNodes = offMeshLinksNode->GetNodes("offmeshlink");
+    index = 0;
+    while (offMeshLinksNodes->HasNext())
+    {
+      csRef<iDocumentNode> offMeshLinkNode = offMeshLinksNodes->Next();
+      node = offMeshLinkNode->GetNode("pos");
+      offMeshCons[index].pos[0] = node->GetAttributeValueAsFloat("x1");
+      offMeshCons[index].pos[1] = node->GetAttributeValueAsFloat("y1");
+      offMeshCons[index].pos[2] = node->GetAttributeValueAsFloat("z1");
+      offMeshCons[index].pos[3] = node->GetAttributeValueAsFloat("x2");
+      offMeshCons[index].pos[4] = node->GetAttributeValueAsFloat("y2");
+      offMeshCons[index].pos[5] = node->GetAttributeValueAsFloat("z2");
+
+      node = offMeshLinkNode->GetNode("rad");
+      offMeshCons[index].rad = node->GetAttributeValueAsFloat("value");
+
+      node = offMeshLinkNode->GetNode("poly");
+      offMeshCons[index].poly = (unsigned short)node->GetAttributeValueAsInt("value");
+
+      node = offMeshLinkNode->GetNode("flags");
+      offMeshCons[index].flags = (unsigned char)node->GetAttributeValueAsInt("value");
+
+      node = offMeshLinkNode->GetNode("side");
+      offMeshCons[index].side = (unsigned char)node->GetAttributeValueAsInt("value");
+      index++;
+    }
+
+    detourNavMesh->addTile(data, tileHeader.dataSize, DT_TILE_FREE_DATA, tileHeader.tileRef);
+  }
+
+  return true;
+}
+
 
 void celNavMesh::DebugRender () const
 {
@@ -681,7 +1621,7 @@ float celNavMeshParams::GetCellSize () const
   return cellSize;
 }
 
-void celNavMeshParams::SetCellsize (float size)
+void celNavMeshParams::SetCellSize (float size)
 {
   cellSize = size;
 }
@@ -771,7 +1711,7 @@ int celNavMeshParams::GetTileSize () const
   return tileSize;
 }
 
-void celNavMeshParams::SetTilesize (const int size)
+void celNavMeshParams::SetTileSize (const int size)
 {
   tileSize = size;
 }
@@ -1059,7 +1999,7 @@ iCelNavMesh* celNavMeshBuilder::BuildNavMesh ()
     return 0;
   }
 
-  celNavMesh* navMesh = new celNavMesh();
+  navMesh.AttachNew(new celNavMesh(objectRegistry));
   navMesh->Initialize(parameters, currentSector, boundingMin, boundingMax);
 
   const float cellSize = parameters->GetCellSize();
@@ -1395,6 +2335,20 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
 
   dataSize = navDataSize;
   return navData;
+}
+
+iCelNavMesh* celNavMeshBuilder::LoadNavMesh (iFile* file)
+{
+  float bMin[3];
+  float bMax[3];
+  for (int i = 0; i < 3; i++)
+  {
+    bMin[i] = boundingMin[i];
+    bMax[i] = boundingMax[i];
+  }
+  navMesh.AttachNew(new celNavMesh(objectRegistry));
+  navMesh->LoadNavMesh(file);
+  return navMesh;
 }
 
 // TODO implement

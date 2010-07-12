@@ -287,8 +287,9 @@ void celHPath::Restart ()
  * celHNavStruct
  */
 
-celHNavStruct::celHNavStruct (const iCelNavMeshParams* params) : scfImplementationType (this)
+celHNavStruct::celHNavStruct (const iCelNavMeshParams* params, iObjectRegistry* objectRegistry) : scfImplementationType (this)
 {
+  this->objectRegistry = objectRegistry;
   parameters.AttachNew(params->Clone());
 }
 
@@ -425,6 +426,11 @@ bool celHNavStruct::BuildHighLevelGraph()
   return true;
 }
 
+void celHNavStruct::SetHighLevelGraph(iCelGraph* graph)
+{
+  hlGraph = graph;
+}
+
 iCelHPath* celHNavStruct::ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
     iSector* goalSector)
 {
@@ -473,16 +479,14 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
       // From node
       if (sector->QueryObject()->GetID() == fromSector->QueryObject()->GetID())
       {
-        csRef<iCelNavMeshPath> tmpPath;
-        tmpPath.AttachNew(fromNavMesh->ShortestPath(from->GetPosition(), mapNode->GetPosition()));
+        csRef<iCelNavMeshPath> tmpPath = fromNavMesh->ShortestPath(from->GetPosition(), mapNode->GetPosition());
         // TODO check if path is reachable
         hlGraph->AddEdge(fromNode, node, true, tmpPath->Length());
       }
       // Goal node
       if (sector->QueryObject()->GetID() == goalSector->QueryObject()->GetID())
       {
-        csRef<iCelNavMeshPath> tmpPath;
-        tmpPath.AttachNew(goalNavMesh->ShortestPath(mapNode->GetPosition(), goal->GetPosition()));
+        csRef<iCelNavMeshPath> tmpPath = goalNavMesh->ShortestPath(mapNode->GetPosition(), goal->GetPosition());
         // TODO check if path is reachable
         tmpEdges.PushBack(hlGraph->AddEdge(node, goalNode, true, tmpPath->Length()));
       }
@@ -490,8 +494,7 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
   }
   if (fromSector->QueryObject()->GetID() == goalSector->QueryObject()->GetID())
   {
-    csRef<iCelNavMeshPath> tmpPath;
-    tmpPath.AttachNew(goalNavMesh->ShortestPath(from->GetPosition(), goal->GetPosition()));
+    csRef<iCelNavMeshPath> tmpPath = goalNavMesh->ShortestPath(from->GetPosition(), goal->GetPosition());
     // TODO check if path is reachable
     hlGraph->AddEdge(fromNode, goalNode, true, tmpPath->Length());
   }
@@ -523,22 +526,198 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
   hlGraph->RemoveNode(goalNodeIdx);
   
   // Initialize path
-  csRef<celHPath> path = new celHPath(navMeshes);
+  path = new celHPath(navMeshes);
   path->Initialize(hlPath);
 
   return path;
 }
 
-// TODO implement
-bool celHNavStruct::SaveToFile (const csString& file)
+void celHNavStruct::SaveParameters (iDocumentNode* node)
 {
-  return false;
+  csRef<iDocumentNode> param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("agentheight");
+  param->SetAttributeAsFloat("value", parameters->GetAgentHeight());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("agentradius");
+  param->SetAttributeAsFloat("value", parameters->GetAgentRadius());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("agentmaxslopeangle");
+  param->SetAttributeAsFloat("value", parameters->GetAgentMaxSlopeAngle());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("agentmaxclimb");
+  param->SetAttributeAsFloat("value", parameters->GetAgentMaxClimb());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("cellsize");
+  param->SetAttributeAsFloat("value", parameters->GetCellSize());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("cellheight");
+  param->SetAttributeAsFloat("value", parameters->GetCellHeight());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("maxsimplificationerror");
+  param->SetAttributeAsFloat("value", parameters->GetMaxSimplificationError());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("detailsampledist");
+  param->SetAttributeAsFloat("value", parameters->GetDetailSampleDist());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("detailsamplemaxerror");
+  param->SetAttributeAsFloat("value", parameters->GetDetailSampleMaxError());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("maxedgelength");
+  param->SetAttributeAsInt("value", parameters->GetMaxEdgeLength());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("minregionsize");
+  param->SetAttributeAsInt("value", parameters->GetMinRegionSize());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("mergeregionsize");
+  param->SetAttributeAsInt("value", parameters->GetMergeRegionSize());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("maxvertsperpoly");
+  param->SetAttributeAsInt("value", parameters->GetMaxVertsPerPoly());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("tilesize");
+  param->SetAttributeAsInt("value", parameters->GetTileSize());
+
+  param = node->CreateNodeBefore(CS_NODE_ELEMENT);
+  param->SetValue("bordersize");
+  param->SetAttributeAsInt("value", parameters->GetBorderSize());
 }
 
-// TODO implement
-bool celHNavStruct::LoadFromFile (const csString& file)
+void celHNavStruct::SaveNavMeshes (iDocumentNode* node, iVFS* vfs)
 {
-  return false;
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator navMeshIt = navMeshes.GetIterator();
+  csPtrKey<iSector> key;
+  int i = 1;
+  csString fileName;
+  while (navMeshIt.HasNext())
+  {
+    csRef<iCelNavMesh> navMesh = navMeshIt.Next(key);
+    csRef<iDocumentNode> navMeshNode = node->CreateNodeBefore(CS_NODE_ELEMENT);
+    navMeshNode->SetValue("navmesh");
+    navMeshNode->SetAttributeAsInt("id", i);
+    navMeshNode->SetAttribute("sector", key->QueryObject()->GetName());
+    csBox3 boundingBox = navMesh->GetBoundingBox();
+    csRef<iDocumentNode> boundingBoxNode = navMeshNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    boundingBoxNode->SetValue("boundingbox");
+    csRef<iDocumentNode> min = boundingBoxNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    min->SetValue("min");
+    min->SetAttributeAsFloat("x", boundingBox.GetMin(0));
+    min->SetAttributeAsFloat("y", boundingBox.GetMin(1));
+    min->SetAttributeAsFloat("z", boundingBox.GetMin(2));
+    csRef<iDocumentNode> max = boundingBoxNode->CreateNodeBefore(CS_NODE_ELEMENT);
+    max->SetValue("max");
+    max->SetAttributeAsFloat("x", boundingBox.GetMax(0));
+    max->SetAttributeAsFloat("y", boundingBox.GetMax(1));
+    max->SetAttributeAsFloat("z", boundingBox.GetMax(2));
+    fileName = i;
+    csRef<iFile> meshFile = vfs->Open(fileName.GetDataSafe(), VFS_FILE_WRITE);
+    navMesh->SaveToFile(meshFile);
+    i++;
+  }
+}
+
+void celHNavStruct::SaveHighLevelGraph (iDocumentNode* node1, iDocumentNode* node2)
+{
+  // Nodes
+  size_t size = hlGraph->GetNodeCount();
+  for (size_t i = 0; i < size; i++)
+  {
+    csRef<iCelNode> graphNode = hlGraph->GetNode(i);
+    csRef<iDocumentNode> n = node1->CreateNodeBefore(CS_NODE_ELEMENT);
+    n->SetValue("node");
+    n->SetAttributeAsInt("id", i);
+    csVector3 position = graphNode->GetPosition();
+    n->SetAttributeAsFloat("x", position[0]);
+    n->SetAttributeAsFloat("y", position[1]);
+    n->SetAttributeAsFloat("z", position[2]);
+    n->SetAttribute("sector", graphNode->GetMapNode()->GetSector()->QueryObject()->GetName());
+    csString name;
+    name = i;    
+    graphNode->SetName(name.GetDataSafe());
+  }
+
+  // Edges
+  for (size_t i = 0; i < size; i++)
+  {
+    csRef<iCelNode> graphNode = hlGraph->GetNode(i);
+    csRefArray<iCelEdge> edges = graphNode->GetEdges();
+    for (size_t j = 0; j < edges.GetSize(); j++)
+    {
+      csRef<iDocumentNode> e = node2->CreateNodeBefore(CS_NODE_ELEMENT);
+      e->SetValue("edge");
+      e->SetAttribute("from", graphNode->GetName());
+      e->SetAttribute("to", edges[j]->GetSuccessor()->GetName());
+      e->SetAttributeAsFloat("weight", edges[j]->GetWeight());
+    }    
+  }
+}
+
+bool celHNavStruct::SaveToFile (iVFS* vfs, const char* file)
+{
+  csRef<iDocumentSystem> docsys = csLoadPluginCheck<iDocumentSystem>(objectRegistry, "crystalspace.documentsystem.tinyxml");
+  if (!docsys)
+  {
+    return false;
+  }
+
+  // Create zip file and mount it
+  const char* workingDir = vfs->GetCwd();
+  csRef<iDataBuffer> wdBuffer = vfs->GetRealPath(workingDir);
+  csString realPath(wdBuffer->GetData());
+  realPath += file;
+  csString virtualPath(workingDir);
+  virtualPath += file;
+  vfs->Mount(virtualPath.GetDataSafe(), realPath.GetDataSafe());
+  vfs->ChDir(virtualPath.GetDataSafe());
+
+  // Create XML file
+  csRef<iDocument> doc = docsys->CreateDocument();
+  csRef<iDocumentNode> root = doc->CreateRoot();
+  csRef<iDocumentNode> mainNode = root->CreateNodeBefore(CS_NODE_ELEMENT);
+  mainNode->SetValue("iCelHNavStruct");
+
+  // Create parameters subtree
+  csRef<iDocumentNode> params = mainNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  params->SetValue("parameters");
+  SaveParameters(params);
+
+  // Create navmeshes subtree
+  csRef<iDocumentNode> navmeshes = mainNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  navmeshes->SetValue("navmeshes");
+  SaveNavMeshes(navmeshes, vfs);
+
+  // Create highlevelgraph subtree
+  csRef<iDocumentNode> hlgraph = mainNode->CreateNodeBefore(CS_NODE_ELEMENT);
+  hlgraph->SetValue("highlevelgraph");
+  csRef<iDocumentNode> nodes = hlgraph->CreateNodeBefore(CS_NODE_ELEMENT);
+  nodes->SetValue("nodes");
+  csRef<iDocumentNode> edges = hlgraph->CreateNodeBefore(CS_NODE_ELEMENT);
+  edges->SetValue("edges");
+  SaveHighLevelGraph(nodes, edges);
+
+  // Write xml file
+  const char* log = doc->Write(vfs, "navstruct.xml");
+  vfs->ChDir(workingDir);
+  vfs->Sync();
+
+  if (log)
+  {    
+    return false;
+  }
+
+  return true;
 }
 
 const iCelNavMeshParams* celHNavStruct::GetNavMeshParams () const
@@ -569,7 +748,7 @@ void celHNavStruct::DebugRenderAgent(const csVector3& pos, int red, int green, i
 
 
 /*
- * celHNavMeshBuilder
+ * celHNavStructBuilder
  */
 
 SCF_IMPLEMENT_FACTORY (celHNavStructBuilder)
@@ -624,7 +803,7 @@ iCelHNavStruct* celHNavStructBuilder::BuildHNavStruct ()
     return 0;
   }
 
-  celHNavStruct* navStruct = new celHNavStruct(parameters);
+  navStruct.AttachNew(new celHNavStruct(parameters, objectRegistry));
 
   csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> >::GlobalIterator it = builders.GetIterator();
   while (it.HasNext())
@@ -634,6 +813,237 @@ iCelHNavStruct* celHNavStructBuilder::BuildHNavStruct ()
     navStruct->AddNavMesh(navMesh);
   }
   navStruct->BuildHighLevelGraph();
+
+  return navStruct;
+}
+
+bool celHNavStructBuilder::ParseParameters (iDocumentNode* node, iCelNavMeshParams* params)
+{
+  csRef<iDocumentNode> param = node->GetNode("agentheight");
+  float value = param->GetAttributeValueAsFloat("value");
+  params->SetAgentHeight(value);
+
+  param = node->GetNode("agentradius");
+  value = param->GetAttributeValueAsFloat("value");
+  params->SetAgentRadius(value);
+
+  param = node->GetNode("agentmaxslopeangle");
+  value = param->GetAttributeValueAsFloat("value");
+  params->SetAgentMaxSlopeAngle(value);
+
+  param = node->GetNode("agentmaxclimb");
+  value = param->GetAttributeValueAsFloat("value");
+  params->SetAgentMaxClimb(value);
+
+  param = node->GetNode("cellsize");
+  value = param->GetAttributeValueAsFloat("value");
+  params->SetCellSize(value);
+
+  param = node->GetNode("cellheight");
+  value = param->GetAttributeValueAsFloat("value");
+  params->SetCellHeight(value);
+
+  param = node->GetNode("maxsimplificationerror");
+  value = param->GetAttributeValueAsFloat("value");
+  params->SetMaxSimplificationError(value);
+
+  param = node->GetNode("detailsampledist");
+  value = param->GetAttributeValueAsFloat("value");
+  params->SetDetailSampleDist(value);
+
+  param = node->GetNode("detailsamplemaxerror");
+  value = param->GetAttributeValueAsFloat("value");
+  params->SetDetailSampleMaxError(value);
+
+  param = node->GetNode("maxedgelength");
+  int value2 = param->GetAttributeValueAsInt("value");
+  params->SetMaxEdgeLength(value2);
+
+  param = node->GetNode("minregionsize");
+  value2 = param->GetAttributeValueAsInt("value");
+  params->SetMinRegionSize(value2);
+
+  param = node->GetNode("mergeregionsize");
+  value2 = param->GetAttributeValueAsInt("value");
+  params->SetMergeRegionSize(value2);
+
+  param = node->GetNode("maxvertsperpoly");
+  value2 = param->GetAttributeValueAsInt("value");
+  params->SetMaxVertsPerPoly(value2);
+
+  param = node->GetNode("tilesize");
+  value2 = param->GetAttributeValueAsInt("value");
+  params->SetTileSize(value2);
+
+  param = node->GetNode("bordersize");
+  value2 = param->GetAttributeValueAsInt("value");
+  params->SetBorderSize(value2);
+
+  return true;
+}
+
+// TODO only reads sectors for now
+bool celHNavStructBuilder::ParseMeshes (iDocumentNode* node, csHash<csRef<iSector>, const char*>& sectors, 
+                                        celHNavStruct* navStruct, iVFS* vfs, iCelNavMeshParams* params)
+{
+  csRef<iEngine> engine = csLoadPluginCheck<iEngine>(objectRegistry, "crystalspace.engine.3d");
+  if (!engine)
+  {
+    return false;
+  }
+  csList<csRef<iSector> > sectorList;
+  size_t size = engine->GetSectors()->GetCount();
+  for (size_t i = 0; i < size; i++)
+  {
+    sectorList.PushBack(engine->GetSectors()->Get(i));    
+  }
+
+  csRef<iDocumentNodeIterator> it = node->GetNodes("navmesh");
+  while (it->HasNext())
+  {
+    csRef<iDocumentNode> navMeshNode = it->Next();
+
+    // Get sector
+    const char* sectorName = navMeshNode->GetAttributeValue("sector");
+    csString sectorNameString(sectorName);
+    csList<csRef<iSector> >::Iterator sectorIt(sectorList);
+    csRef<iSector> sector;
+    while (sectorIt.HasNext())
+    {
+      sector = sectorIt.Next();
+      if (sectorNameString == sector->QueryObject()->GetName())
+      {
+        sectors.Put(sectorName, sector);
+        break;
+      }
+    }
+
+    // Get bounding box
+    csRef<iDocumentNode> boundingBoxNode = navMeshNode->GetNode("boundingbox");
+    csRef<iDocumentNode> min = boundingBoxNode->GetNode("min");
+    csRef<iDocumentNode> max = boundingBoxNode->GetNode("max");
+    csVector3 bbMin, bbMax;
+    float x = min->GetAttributeValueAsFloat("x");
+    float y = min->GetAttributeValueAsFloat("y");
+    float z = min->GetAttributeValueAsFloat("z");
+    bbMin.Set(x, y, z);
+    x = max->GetAttributeValueAsFloat("x");
+    y = max->GetAttributeValueAsFloat("y");
+    z = max->GetAttributeValueAsFloat("z");
+    bbMax.Set(x, y, z);
+
+    // Get navmesh
+    int id = navMeshNode->GetAttributeValueAsInt("id");
+    csString fileName;
+    fileName = id;
+    csRef<iFile> file = vfs->Open(fileName.GetDataSafe(), VFS_FILE_READ);
+    csRef<iCelNavMeshBuilder> builder = csLoadPluginCheck<iCelNavMeshBuilder>(objectRegistry, "cel.navmeshbuilder");
+    csRef<iCelNavMesh> navMesh = builder->LoadNavMesh(file);
+    navStruct->AddNavMesh(navMesh);
+  }
+  return true;
+}
+
+bool celHNavStructBuilder::ParseGraph (iDocumentNode* node, iCelGraph* graph, csHash<csRef<iSector>, const char*> sectors)
+{
+  csRef<iDocumentNode> nodesNode = node->GetNode("nodes");
+  csRef<iDocumentNodeIterator> it = nodesNode->GetNodes("node");
+  size_t nodeCount = it->GetEndPosition();
+  csArray<csRef<iCelNode> > celNodes(nodeCount);
+  celNodes.SetSize(nodeCount);
+  while (it->HasNext())
+  {
+    csRef<iDocumentNode> graphNode = it->Next();
+    size_t id = graphNode->GetAttributeValueAsInt("id");
+
+    // Get sector
+    const char* sectorName = graphNode->GetAttributeValue("sector");
+    csRef<iSector> sector = sectors.Get(sectorName, 0);
+
+    // Get position
+    csVector3 position;
+    float x = graphNode->GetAttributeValueAsFloat("x");
+    float y = graphNode->GetAttributeValueAsFloat("y");
+    float z = graphNode->GetAttributeValueAsFloat("z");
+    position.Set(x, y, z);
+    
+    // Crete node
+    csRef<iCelNode> node = graph->CreateEmptyNode(id);
+    celNodes[id] = node;
+    csRef<iMapNode> mapNode;
+    mapNode.AttachNew(new csMapNode("n"));
+    mapNode->SetPosition(position);
+    mapNode->SetSector(sector);
+    node->SetMapNode(mapNode);
+  }
+
+  csRef<iDocumentNode> edgesNode = node->GetNode("edges");
+  it = edgesNode->GetNodes("edge");
+  while (it->HasNext())
+  {
+    csRef<iDocumentNode> graphEdge = it->Next();
+    int from = graphEdge->GetAttributeValueAsInt("from");
+    int to = graphEdge->GetAttributeValueAsInt("to");
+    float weight = graphEdge->GetAttributeValueAsFloat("weight");
+    celNodes[from]->AddSuccessor(celNodes[to], true, weight);
+  }
+
+  return true;
+}
+
+iCelHNavStruct* celHNavStructBuilder::LoadHNavStruct (iVFS* vfs, const char* file)
+{
+  csRef<iDocumentSystem> docsys = csLoadPluginCheck<iDocumentSystem>(objectRegistry, "crystalspace.documentsystem.tinyxml");
+  if (!docsys)
+  {
+    return 0;
+  }
+
+  // Mount file
+  const char* workingDir = vfs->GetCwd();
+  csRef<iDataBuffer> wdBuffer = vfs->GetRealPath(workingDir);
+  csString realPath(wdBuffer->GetData());
+  realPath += file;
+  csString virtualPath(workingDir);
+  virtualPath += file;
+  vfs->Mount(virtualPath.GetDataSafe(), realPath.GetDataSafe());
+  vfs->ChDir(virtualPath.GetDataSafe());
+
+  // Read XML file
+  csRef<iDocument> doc = docsys->CreateDocument();
+  csRef<iFile> xmlFile = vfs->Open("navstruct.xml", VFS_FILE_READ);
+  const char* log = doc->Parse(xmlFile);
+  if (log)
+  {
+    return 0;
+  }
+  csRef<iDocumentNode> root = doc->GetRoot();
+  csRef<iDocumentNode> mainNode = root->GetNode("iCelHNavStruct");
+
+  // Read parameters
+  csRef<iDocumentNode> paramsNode = mainNode->GetNode("parameters");
+  csRef<iCelNavMeshParams> params;
+  params.AttachNew(new celNavMeshParams());
+  ParseParameters(paramsNode, params);
+  
+  // Create navigation structure
+  csRef<celHNavStruct> navStruct;
+  navStruct.AttachNew(new celHNavStruct(params, objectRegistry));
+
+  // Read navigation meshes
+  csRef<iDocumentNode> meshesNode = mainNode->GetNode("navmeshes");
+  csHash<csRef<iSector>, const char*> sectors;
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> > navMeshes;
+  ParseMeshes(meshesNode, sectors, navStruct, vfs, params);
+
+  // Read high level graph
+  csRef<iDocumentNode> graphNode = mainNode->GetNode("highlevelgraph");
+  csRef<iCelGraph> graph = scfCreateInstance<iCelGraph>("cel.celgraph");
+  ParseGraph(graphNode, graph, sectors);
+  navStruct->SetHighLevelGraph(graph);
+
+  this->navStruct = navStruct;
+  vfs->ChDir(workingDir);
 
   return navStruct;
 }

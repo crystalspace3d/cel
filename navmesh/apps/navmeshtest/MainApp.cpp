@@ -295,6 +295,8 @@ bool MainApp::Application ()
     navMeshes.Put(engine->GetSectors()->Get(i), navMesh);
   }
 */
+
+/*
   csRef<iCelNavMeshParams> params;
   params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
   params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
@@ -307,6 +309,10 @@ bool MainApp::Application ()
   }
   navStructBuilder->SetSectors(sectorList);
   navStruct = navStructBuilder->BuildHNavStruct();
+  navStruct->SaveToFile(vfs, "navigationStructure.zip");
+*/
+
+  navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure.zip");
 
   Run();
 
@@ -377,8 +383,7 @@ bool MainApp::SetupModules ()
 bool MainApp::LoadMap () {
 
   // Set VFS current directory to the level we want to load.
-  csRef<iVFS> VFS(csQueryRegistry<iVFS>(object_reg));
-  VFS->ChDir("/lev/castle");
+  vfs->ChDir("/lev/castle");
   // Load the level file which is called 'world'.
   if (!loader->LoadMapFile("world"))
   {
@@ -414,6 +419,7 @@ bool MainApp::LoadMap () {
 
 bool MainApp::CreateAgent ()
 {
+  // TODO change back dir or use another vfs if this method is used
   vfs->PushDir();
   vfs->ChDir("/lib/kwartz");
   if (!loader->LoadLibraryFile("kwartz.lib"))
