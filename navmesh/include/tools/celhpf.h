@@ -67,6 +67,9 @@ struct iCelHPath : public virtual iBase
 
   /// Restart path.  
   virtual void Restart () = 0;
+  
+  /// Render path.
+  virtual void DebugRender () = 0;
 };
 
 
@@ -116,10 +119,10 @@ struct iCelHNavStruct : public virtual iBase
    */
   virtual const iCelNavMeshParams* GetNavMeshParams () const = 0;
 
-  /// Render navigation structure
+  /// Render navigation structure.
   virtual void DebugRender () = 0;
 
-  /// Render proxy agent of the specified color
+  /// Render proxy agent of the specified color.
   virtual void DebugRenderAgent(const csVector3& pos, int red, int green, int blue, int alpha) const = 0;
 };
 

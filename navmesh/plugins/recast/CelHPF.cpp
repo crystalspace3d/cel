@@ -281,6 +281,58 @@ void celHPath::Restart ()
   }
 }
 
+void celHPath::DebugRender ()
+{
+  int backCount = 0;
+  while (HasPrevious())
+  {
+    Previous();
+    backCount++;
+  }
+
+  csRef<iMapNode> current = Current();
+  csRef<iMapNode> previous = Current();
+  csVector3 currentPosition = current->GetPosition();
+  csVector3 previousPosition = previous->GetPosition();  
+
+  DebugDrawGL dd;
+  dd.depthMask(false);
+
+  const unsigned int lineCol = duRGBA(255, 255, 255, 230);
+  const unsigned int vertexCol = duRGBA(255, 150, 0, 230);
+  dd.begin(DU_DRAW_LINES, 4.0f);
+  while (HasNext())
+  {
+    previous = current;
+    previousPosition = currentPosition;
+    current = Next();
+    currentPosition = current->GetPosition();
+    
+    dd.vertex(previousPosition[0], previousPosition[1], previousPosition[2], lineCol);
+    dd.vertex(currentPosition[0], currentPosition[1], currentPosition[2], lineCol);
+  }
+  dd.end();
+
+  current = Current();
+  currentPosition = current->GetPosition();
+  Restart();
+  dd.begin(DU_DRAW_POINTS, 10.0f);
+  while (HasNext())
+  {
+    current = Next();
+    currentPosition = current->GetPosition();
+    dd.vertex(currentPosition[0], currentPosition[1], currentPosition[2], vertexCol);
+  }
+  dd.end();
+
+  dd.depthMask(true);
+  Restart();
+  for (int i = 0; i < backCount; i++)
+  {
+    Next();
+  }
+}
+
 
 
 /*
@@ -608,19 +660,6 @@ void celHNavStruct::SaveNavMeshes (iDocumentNode* node, iVFS* vfs)
     navMeshNode->SetValue("navmesh");
     navMeshNode->SetAttributeAsInt("id", i);
     navMeshNode->SetAttribute("sector", key->QueryObject()->GetName());
-    csBox3 boundingBox = navMesh->GetBoundingBox();
-    csRef<iDocumentNode> boundingBoxNode = navMeshNode->CreateNodeBefore(CS_NODE_ELEMENT);
-    boundingBoxNode->SetValue("boundingbox");
-    csRef<iDocumentNode> min = boundingBoxNode->CreateNodeBefore(CS_NODE_ELEMENT);
-    min->SetValue("min");
-    min->SetAttributeAsFloat("x", boundingBox.GetMin(0));
-    min->SetAttributeAsFloat("y", boundingBox.GetMin(1));
-    min->SetAttributeAsFloat("z", boundingBox.GetMin(2));
-    csRef<iDocumentNode> max = boundingBoxNode->CreateNodeBefore(CS_NODE_ELEMENT);
-    max->SetValue("max");
-    max->SetAttributeAsFloat("x", boundingBox.GetMax(0));
-    max->SetAttributeAsFloat("y", boundingBox.GetMax(1));
-    max->SetAttributeAsFloat("z", boundingBox.GetMax(2));
     fileName = i;
     csRef<iFile> meshFile = vfs->Open(fileName.GetDataSafe(), VFS_FILE_WRITE);
     navMesh->SaveToFile(meshFile);
@@ -674,6 +713,7 @@ bool celHNavStruct::SaveToFile (iVFS* vfs, const char* file)
 
   // Create zip file and mount it
   const char* workingDir = vfs->GetCwd();
+  csString workingDirBkp(workingDir);
   csRef<iDataBuffer> wdBuffer = vfs->GetRealPath(workingDir);
   csString realPath(wdBuffer->GetData());
   realPath += file;
@@ -709,7 +749,7 @@ bool celHNavStruct::SaveToFile (iVFS* vfs, const char* file)
 
   // Write xml file
   const char* log = doc->Write(vfs, "navstruct.xml");
-  vfs->ChDir(workingDir);
+  vfs->ChDir(workingDirBkp.GetDataSafe());
   vfs->Sync();
 
   if (log)
@@ -918,20 +958,6 @@ bool celHNavStructBuilder::ParseMeshes (iDocumentNode* node, csHash<csRef<iSecto
       }
     }
 
-    // Get bounding box
-    csRef<iDocumentNode> boundingBoxNode = navMeshNode->GetNode("boundingbox");
-    csRef<iDocumentNode> min = boundingBoxNode->GetNode("min");
-    csRef<iDocumentNode> max = boundingBoxNode->GetNode("max");
-    csVector3 bbMin, bbMax;
-    float x = min->GetAttributeValueAsFloat("x");
-    float y = min->GetAttributeValueAsFloat("y");
-    float z = min->GetAttributeValueAsFloat("z");
-    bbMin.Set(x, y, z);
-    x = max->GetAttributeValueAsFloat("x");
-    y = max->GetAttributeValueAsFloat("y");
-    z = max->GetAttributeValueAsFloat("z");
-    bbMax.Set(x, y, z);
-
     // Get navmesh
     int id = navMeshNode->GetAttributeValueAsInt("id");
     csString fileName;
@@ -1001,6 +1027,7 @@ iCelHNavStruct* celHNavStructBuilder::LoadHNavStruct (iVFS* vfs, const char* fil
 
   // Mount file
   const char* workingDir = vfs->GetCwd();
+  csString workingDirBkp(workingDir);
   csRef<iDataBuffer> wdBuffer = vfs->GetRealPath(workingDir);
   csString realPath(wdBuffer->GetData());
   realPath += file;
@@ -1033,7 +1060,6 @@ iCelHNavStruct* celHNavStructBuilder::LoadHNavStruct (iVFS* vfs, const char* fil
   // Read navigation meshes
   csRef<iDocumentNode> meshesNode = mainNode->GetNode("navmeshes");
   csHash<csRef<iSector>, const char*> sectors;
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> > navMeshes;
   ParseMeshes(meshesNode, sectors, navStruct, vfs, params);
 
   // Read high level graph
@@ -1043,7 +1069,7 @@ iCelHNavStruct* celHNavStructBuilder::LoadHNavStruct (iVFS* vfs, const char* fil
   navStruct->SetHighLevelGraph(graph);
 
   this->navStruct = navStruct;
-  vfs->ChDir(workingDir);
+  vfs->ChDir(workingDirBkp.GetDataSafe());
 
   return navStruct;
 }

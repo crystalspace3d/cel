@@ -247,7 +247,6 @@ public:
   bool Initialize (const iCelNavMeshParams* parameters, iSector* sector, const float* boundingMin, const float* boundingMax);
   bool AddTile (unsigned char* data, int dataSize);
   bool LoadNavMesh (iFile* file);
-  bool LoadNavMesh2 (iFile* file);
 
   // API
   virtual iCelNavMeshPath* ShortestPath (const csVector3& from, const csVector3& goal, int maxPathSize = 32);
@@ -256,7 +255,6 @@ public:
   virtual iCelNavMeshParams* GetParameters () const;
   virtual csBox3 GetBoundingBox() const;
   virtual bool SaveToFile (iFile* file) const;
-  virtual bool SaveToFile2 (iFile* file) const;
   virtual void DebugRender () const;
   virtual void DebugRenderAgent (const csVector3& pos) const;
   virtual void DebugRenderAgent (const csVector3& pos, int red, int green, int blue, int alpha) const;  
@@ -325,7 +323,7 @@ public:
   // API
   virtual bool SetSector (iSector* sector);
   virtual iCelNavMesh* BuildNavMesh ();
-  iCelNavMesh* LoadNavMesh (iFile* file);
+  virtual iCelNavMesh* LoadNavMesh (iFile* file);
   virtual bool UpdateNavMesh (iCelNavMesh* navMesh, const csBox3& boundingBox);
   virtual bool UpdateNavMesh (iCelNavMesh* navMesh, const csOBB& boundingBox);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;

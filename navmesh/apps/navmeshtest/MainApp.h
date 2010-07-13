@@ -39,10 +39,9 @@ private:
   bool originSet;
   bool destinationSet;
 
-  csHash<iCelNavMesh*, iSector*> navMeshes;
-  //csRef<iCelNavMeshPath> path;
   csRef<iCelHPath> path;
   csRef<iCelHNavStruct> navStruct;
+  csRef<iCelNavMeshParams> params;
   
   bool LoadMap ();
   bool CreateAgent ();
