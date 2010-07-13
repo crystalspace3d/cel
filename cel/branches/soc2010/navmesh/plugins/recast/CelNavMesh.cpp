@@ -473,46 +473,6 @@ csBox3 celNavMesh::GetBoundingBox() const
   return csBox3(boundingMin[0], boundingMin[1], boundingMin[2], boundingMax[0], boundingMax[1], boundingMax[2]);
 }
 
-// Based on Recast Sample_TileMesh::SaveAll()
-bool celNavMesh::SaveToFile2 (iFile* file) const
-{
-  // Store header.
-  NavMeshSetHeader header;
-  header.magic = NAVMESHSET_MAGIC;
-  header.version = NAVMESHSET_VERSION;
-  header.numTiles = 0;
-  for (int i = 0; i < detourNavMesh->getMaxTiles(); ++i)
-  {
-    const dtMeshTile* tile = detourNavMesh->getTile(i);
-    if (!tile || !tile->header || !tile->dataSize)
-    {
-      continue;
-    }
-    header.numTiles++;
-  }
-  memcpy(&header.params, detourNavMesh->getParams(), sizeof(dtNavMeshParams));
-  file->Write((char*)&header, sizeof(NavMeshSetHeader));
-
-  // Store tiles.
-  for (int i = 0; i < detourNavMesh->getMaxTiles(); ++i)
-  {
-    const dtMeshTile* tile = detourNavMesh->getTile(i);
-    if (!tile || !tile->header || !tile->dataSize)
-    {
-      continue;
-    }
-
-    NavMeshTileHeader tileHeader;
-    tileHeader.tileRef = detourNavMesh->getTileRef(tile);
-    tileHeader.dataSize = tile->dataSize;
-    file->Write((char*)&tileHeader, sizeof(tileHeader));
-    file->Write((char*)tile->data, tile->dataSize);
-  }
-  file->Flush();
-
-  return true;
-}
-
 bool celNavMesh::SaveToFile (iFile* file) const
 {
   csRef<iDocumentSystem> docsys = csLoadPluginCheck<iDocumentSystem>(objectRegistry, "crystalspace.documentsystem.tinyxml");
@@ -997,49 +957,6 @@ bool celNavMesh::SaveToFile (iFile* file) const
 
   doc->Write(file);
 
-  return true;
-}
-
-bool celNavMesh::LoadNavMesh2 (iFile* file)
-{
-  // Read header.
-  NavMeshSetHeader header;
-  file->Read((char*)&header, sizeof(NavMeshSetHeader));
-  if (header.magic != NAVMESHSET_MAGIC)
-  {
-    return false;
-  }
-  if (header.version != NAVMESHSET_VERSION)
-  {
-    return false;
-  }
-
-  detourNavMesh = new dtNavMesh;
-  if (!detourNavMesh || !detourNavMesh->init(&header.params))
-  {
-    return false;
-  }
-
-  // Read tiles.
-  for (int i = 0; i < header.numTiles; ++i)
-  {
-    NavMeshTileHeader tileHeader;
-    file->Read((char*)&tileHeader, sizeof(tileHeader));
-    if (!tileHeader.tileRef || !tileHeader.dataSize)
-    {
-      break;
-    }
-
-    unsigned char* data = new unsigned char[tileHeader.dataSize];
-    if (!data)
-    {
-      break;
-    }
-    memset(data, 0, tileHeader.dataSize);
-    file->Read((char*)data, tileHeader.dataSize);
-
-    detourNavMesh->addTile(data, tileHeader.dataSize, DT_TILE_FREE_DATA, tileHeader.tileRef);
-  }
   return true;
 }
 

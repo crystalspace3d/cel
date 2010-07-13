@@ -78,6 +78,7 @@ public:
   virtual iMapNode* GetLast ();
   virtual void Invert ();
   virtual void Restart ();
+  virtual void DebugRender ();
 };
 
 

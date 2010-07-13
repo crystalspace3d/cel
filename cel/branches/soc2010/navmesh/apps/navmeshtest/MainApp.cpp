@@ -83,42 +83,25 @@ void MainApp::Frame ()
 
   // Tell the camera to render into the frame buffer.
   rm->RenderView(view);
-/*
-  csHash<iCelNavMesh*, iSector*>::GlobalIterator navMeshIt = navMeshes.GetIterator();
-  while (navMeshIt.HasNext())
+
+  if (navStruct)
   {
-    navMeshIt.Next()->DebugRender();
+    navStruct->DebugRender();
   }
 
-  if (originSet && destinationSet)
-  {
-    if (path) 
-    {
-      path->DebugRenderPath();
-    }
-  }
-
-  if (originSet)
-  {
-    navMeshes.Get(view->GetCamera()->GetSector(), 0)->DebugRenderAgent(origin, 70, 140, 255, 150);
-  }
-
-  if (destinationSet)
-  {
-    navMeshes.Get(view->GetCamera()->GetSector(), 0)->DebugRenderAgent(destination, 50, 255, 120, 150);
-  }
-*/
-
-  navStruct->DebugRender();
-
-  if (originSet)
+  if (originSet && navStruct)
   {
     navStruct->DebugRenderAgent(origin, 70, 140, 255, 150);
   }
 
-  if (destinationSet)
+  if (destinationSet && navStruct)
   {
     navStruct->DebugRenderAgent(destination, 50, 255, 120, 150);
+  }
+
+  if (path)
+  {
+    path->DebugRender();
   }
 }
 
@@ -135,6 +118,43 @@ bool MainApp::OnKeyboard(iEvent& ev)
       {
         q->GetEventOutlet()->Broadcast(csevQuit(object_reg));
       }
+    }
+    else if (code == 'b') // Build navstruct
+    {
+      navStruct.Invalidate();
+      if (!params)
+      {
+        params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
+        params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
+        navStructBuilder->SetNavMeshParams(params);
+      }
+      csList<iSector*> sectorList;
+      int size = engine->GetSectors()->GetCount();
+      for (int i = 0; i < size; i++)
+      {
+        sectorList.PushBack(engine->GetSectors()->Get(i));    
+      }
+      navStructBuilder->SetSectors(sectorList);
+      navStruct = navStructBuilder->BuildHNavStruct();
+    }
+    else if (code == 's') // Save navstruct
+    {
+      if (navStruct)
+      {
+        navStruct->SaveToFile(vfs, "navigationStructure.zip");
+      }
+    }
+    else if (code == 'l') // Load navstruct
+    {
+      navStruct.Invalidate();
+      navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure.zip");
+    }
+    else if (code == 'c') // Clear navstruct, positions and path
+    {
+      navStruct.Invalidate();
+      path.Invalidate();
+      originSet = false;
+      destinationSet = false;
     }
   }
   return false;
@@ -185,7 +205,7 @@ void MainApp::MouseClick1Handler (iEvent& ev)
     destinationSet = true;
   }
 
-  if (originSet && destinationSet)
+  if (originSet && destinationSet && navStruct)
   {
     path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
     //path = navMeshes.Get(view->GetCamera()->GetSector(), 0)->ShortestPath(origin, destination);
@@ -216,7 +236,6 @@ bool MainApp::OnInitialize (int argc, char* argv[])
     CS_REQUEST_REPORTER,
     CS_REQUEST_REPORTERLISTENER,
     CS_REQUEST_PLUGIN("crystalspace.collisiondetection.opcode", iCollideSystem),
-//    CS_REQUEST_PLUGIN("cel.navmeshbuilder", iCelNavMeshBuilder),
     CS_REQUEST_PLUGIN("cel.hnavstructbuilder", iCelHNavStructBuilder),    
     CS_REQUEST_END)) 
   {
@@ -282,22 +301,8 @@ bool MainApp::Application ()
   collider_actor.SetGravity(0);
 
   printer.AttachNew(new FramePrinter(object_reg));
-/*
-  csRef<iCelNavMeshParams> params;
-  params.AttachNew(navMeshBuilder->GetNavMeshParams()->Clone());
-  params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
-  navMeshBuilder->SetNavMeshParams(params);
-  int size = engine->GetSectors()->GetCount();
-  for (int i = 0; i < size; i++)
-  {
-    navMeshBuilder->SetSector(engine->GetSectors()->Get(i));    
-    iCelNavMesh* navMesh = navMeshBuilder->BuildNavMesh();
-    navMeshes.Put(engine->GetSectors()->Get(i), navMesh);
-  }
-*/
 
 /*
-  csRef<iCelNavMeshParams> params;
   params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
   params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
   navStructBuilder->SetNavMeshParams(params);
@@ -310,10 +315,10 @@ bool MainApp::Application ()
   navStructBuilder->SetSectors(sectorList);
   navStruct = navStructBuilder->BuildHNavStruct();
   navStruct->SaveToFile(vfs, "navigationStructure.zip");
-*/
+
 
   navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure.zip");
-
+*/
   Run();
 
   return true;
@@ -362,13 +367,7 @@ bool MainApp::SetupModules ()
   {
     return ReportError("Failed to locate VFS");
   }
-/*
-  navMeshBuilder = csQueryRegistry<iCelNavMeshBuilder>(object_reg);
-  if (!navMeshBuilder)
-  {
-    return ReportError("Failed to locate Navigation Mesh Builder");
-  }
-*/
+
   navStructBuilder = csQueryRegistry<iCelHNavStructBuilder>(object_reg);
   if (!navStructBuilder)
   {

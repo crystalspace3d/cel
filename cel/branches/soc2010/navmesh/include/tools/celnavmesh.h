@@ -206,7 +206,6 @@ struct iCelNavMesh : public virtual iBase
 
   /// Save to file
   virtual bool SaveToFile (iFile* file) const = 0;
-  virtual bool SaveToFile2 (iFile* file) const = 0;
 
   /// Render navigation mesh
   virtual void DebugRender () const = 0;
