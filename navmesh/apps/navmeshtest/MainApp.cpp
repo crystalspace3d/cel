@@ -125,7 +125,8 @@ bool MainApp::OnKeyboard(iEvent& ev)
       if (!params)
       {
         params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
-        params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
+        //params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
+        params->SetSuggestedValues(10.0f, 2.0f, 45.0f);
         navStructBuilder->SetNavMeshParams(params);
       }
       csList<iSector*> sectorList;
@@ -208,7 +209,6 @@ void MainApp::MouseClick1Handler (iEvent& ev)
   if (originSet && destinationSet && navStruct)
   {
     path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
-    //path = navMeshes.Get(view->GetCamera()->GetSector(), 0)->ShortestPath(origin, destination);
   }
 }
 
@@ -302,23 +302,6 @@ bool MainApp::Application ()
 
   printer.AttachNew(new FramePrinter(object_reg));
 
-/*
-  params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
-  params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
-  navStructBuilder->SetNavMeshParams(params);
-  csList<iSector*> sectorList;
-  int size = engine->GetSectors()->GetCount();
-  for (int i = 0; i < size; i++)
-  {
-    sectorList.PushBack(engine->GetSectors()->Get(i));    
-  }
-  navStructBuilder->SetSectors(sectorList);
-  navStruct = navStructBuilder->BuildHNavStruct();
-  navStruct->SaveToFile(vfs, "navigationStructure.zip");
-
-
-  navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure.zip");
-*/
   Run();
 
   return true;
@@ -382,7 +365,8 @@ bool MainApp::SetupModules ()
 bool MainApp::LoadMap () {
 
   // Set VFS current directory to the level we want to load.
-  vfs->ChDir("/lev/castle");
+  //vfs->ChDir("/lev/castle");
+  vfs->ChDir("/lev/terrainf");
   // Load the level file which is called 'world'.
   if (!loader->LoadMapFile("world"))
   {

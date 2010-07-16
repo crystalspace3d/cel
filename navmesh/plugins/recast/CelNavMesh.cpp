@@ -1725,6 +1725,57 @@ bool celNavMeshBuilder::GetSectorData ()
   {
     csRef<iMeshWrapper> meshWrapper = meshList->Get(i);
     csReversibleTransform transform = meshWrapper->GetMovable()->GetTransform();
+
+    // Check if mesh is a terrain2 mesh
+    csRef<iTerrainSystem> terrainSystem = scfQueryInterface<iTerrainSystem>(meshWrapper->GetMeshObject());
+    if (terrainSystem)
+    {
+      size_t size = terrainSystem->GetCellCount();
+      for (size_t j = 0; j < size; j++)
+      {
+        csRef<iTerrainCell> cell = terrainSystem->GetCell(j);
+
+        int width = cell->GetGridWidth();
+        int height = cell->GetGridHeight();
+
+        float offset_x = cell->GetPosition().x;
+        float offset_y = cell->GetPosition().y;
+
+        float scale_x = cell->GetSize().x / (width - 1);
+        float scale_z = cell->GetSize().z / (height - 1);
+
+        // Add triangles
+        for (int y = 0; y < height - 1; y++)
+        {
+          int yr = y * width;
+          for (int x = 0 ; x < width - 1 ; x++)
+          {
+            indices.PushBack(yr + x + numberOfVertices);
+            indices.PushBack(yr + x + 1 + numberOfVertices);
+            indices.PushBack(yr + x + width + numberOfVertices);
+            indices.PushBack(yr + x + 1 + numberOfVertices);
+            indices.PushBack(yr + x + width + 1 + numberOfVertices);
+            indices.PushBack(yr + x + width + numberOfVertices);
+            numberOfTriangles += 2;
+          }
+        }
+
+        // Add vertices
+        for (int y = 0; y < height; y++)
+        {
+          for (int x = 0 ; x < width ; x++)
+          {
+            csVector3 vertex(x * scale_x + offset_x, cell->GetHeight(x, y), (height - 1 - y) * scale_z + offset_y);
+            csVector3 vertexTransformed = transform.This2Other(vertex);
+            vertices.PushBack(vertexTransformed.x);
+            vertices.PushBack(vertexTransformed.y);
+            vertices.PushBack(vertexTransformed.z);
+            numberOfVertices++;
+          }
+        }
+      }
+    }
+
     csRef<iObjectModel> objectModel = meshWrapper->GetMeshObject()->GetObjectModel();
     csRef<iTriangleMesh> triangleMesh;
     if (objectModel->IsTriangleDataSet(collDet))

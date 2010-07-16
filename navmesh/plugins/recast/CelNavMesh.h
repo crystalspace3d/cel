@@ -41,6 +41,7 @@
 #include <iengine/sector.h>
 #include <igeom/trimesh.h>
 #include <imesh/objmodel.h>
+#include <imesh/terrain2.h>
 #include <iutil/comp.h>
 #include <iutil/document.h>
 #include <iutil/objreg.h>

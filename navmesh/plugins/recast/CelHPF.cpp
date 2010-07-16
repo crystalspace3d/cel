@@ -283,6 +283,13 @@ void celHPath::Restart ()
 
 void celHPath::DebugRender ()
 {
+  float halfHeight;
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
+  if (it.HasNext())
+  {
+    halfHeight = it.Next()->GetParameters()->GetAgentHeight() / 2.0;
+  }
+
   int backCount = 0;
   while (HasPrevious())
   {
@@ -308,20 +315,19 @@ void celHPath::DebugRender ()
     current = Next();
     currentPosition = current->GetPosition();
     
-    dd.vertex(previousPosition[0], previousPosition[1], previousPosition[2], lineCol);
-    dd.vertex(currentPosition[0], currentPosition[1], currentPosition[2], lineCol);
+    dd.vertex(previousPosition[0], previousPosition[1] + halfHeight, previousPosition[2], lineCol);
+    dd.vertex(currentPosition[0], currentPosition[1] + halfHeight, currentPosition[2], lineCol);
   }
   dd.end();
 
-  current = Current();
-  currentPosition = current->GetPosition();
   Restart();
+  currentPosition = Current()->GetPosition();
   dd.begin(DU_DRAW_POINTS, 10.0f);
+  dd.vertex(currentPosition[0], currentPosition[1] + halfHeight, currentPosition[2], vertexCol);
   while (HasNext())
   {
-    current = Next();
-    currentPosition = current->GetPosition();
-    dd.vertex(currentPosition[0], currentPosition[1], currentPosition[2], vertexCol);
+    currentPosition = Next()->GetPosition();
+    dd.vertex(currentPosition[0], currentPosition[1] + halfHeight, currentPosition[2], vertexCol);
   }
   dd.end();
 
@@ -411,7 +417,7 @@ bool celHNavStruct::BuildHighLevelGraph()
           }
           
           // Add the portal bounding box's center as a node in the current sector to the graph
-          csVector3 center(((boundingMin[0] + boundingMax[0]) / 2), ((boundingMin[1] + boundingMax[1]) / 2),
+          csVector3 center(((boundingMin[0] + boundingMax[0]) / 2), boundingMin[1],
               ((boundingMin[2] + boundingMax[2]) / 2));
           csRef<iMapNode> mapNode;
           mapNode.AttachNew(new csMapNode("n")); // TODO set name?
