@@ -1,8 +1,8 @@
-SubDir TOP apps navmeshtest ;
+SubDir TOP apps pathfindingtest ;
 
-Application navmeshtest : [ Wildcard *.cpp *.h ] ;
-CFlags navmeshtest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-LinkWith navmeshtest : celtool ;
-ExternalLibs navmeshtest : CRYSTAL ;
-FileListEntryApplications navmeshtest : app-demo ;
+Application pathfindingtest : [ Wildcard *.cpp *.h ] ;
+CFlags pathfindingtest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+LinkWith pathfindingtest : celtool ;
+ExternalLibs pathfindingtest : CRYSTAL ;
+FileListEntryApplications pathfindingtest : app-demo ;
 
