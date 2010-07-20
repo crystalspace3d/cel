@@ -5,6 +5,7 @@ SubInclude TOP apps celstart ;
 SubInclude TOP apps bootstrap ;
 SubInclude TOP apps navmeshtest ;
 SubInclude TOP apps nettest ;
+SubInclude TOP apps pathfindingtest ;
 SubInclude TOP apps tutorial ;
 SubInclude TOP apps hovertest ;
 SubInclude TOP apps wheeledtest ;
