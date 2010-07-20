@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libceltool"
-	ProjectGUID="{FE8C31C7-8C7C-B982-16AE-C6CA39940D52}"
+	Name="apppathfindingtest"
+	ProjectGUID="{E7C7C8A7-8E08-4BB5-9BEF-C14497489B9E}"
 	TargetFrameworkVersion="0"
 	>
 	<Platforms>
@@ -19,95 +19,12 @@
 	<Configurations>
 		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release9\build\libceltool\"
-			IntermediateDirectory="..\..\out\release9\build\libceltool\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\release9\build\apppathfindingtest\"
+			IntermediateDirectory="..\..\out\release9\build\apppathfindingtest\"
+			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\libceltool\libceltool.tlb"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalOptions=" "
-				Optimization="2"
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;..\..\plugins\recast"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32"
-				StringPooling="true"
-				RuntimeLibrary="2"
-				BufferSecurityCheck="false"
-				EnableFunctionLevelLinking="true"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				PrecompiledHeaderFile="..\..\out\release9\build\libceltool\libceltool.pch"
-				AssemblerListingLocation="..\..\out\release9\build\libceltool\"
-				ObjectFile="..\..\out\release9\build\libceltool\"
-				ProgramDataBaseFileName="..\..\out\release9\build\libceltool\Win32\celtool.pdb"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
-				CompileAs="0"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
-				Culture="1033"
-				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9\libs\libceltool.lib"
-				SuppressStartupBanner="true"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release9\build\libceltool\"
-			IntermediateDirectory="..\..\out\release9\build\libceltool\"
-			ConfigurationType="2"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -124,28 +41,28 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\libceltool\libceltool.tlb"
+				TypeLibraryName="..\..\out\release9\build\apppathfindingtest\apppathfindingtest.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions=" "
 				Optimization="2"
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;..\..\plugins\recast"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;..\..\plugins\recast\Recast\Include;..\..\plugins\recast\Detour\Include;..\..\plugins\recast\RecastDemo\Include"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="false"
 				EnableFunctionLevelLinking="true"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
-				PrecompiledHeaderFile="..\..\out\release9\build\libceltool\libceltool.pch"
-				AssemblerListingLocation="..\..\out\release9\build\libceltool\"
-				ObjectFile="..\..\out\release9\build\libceltool\"
-				ProgramDataBaseFileName="..\..\out\release9\build\libceltool\Win32\celtool-1.9-vc9.pdb"
+				PrecompiledHeaderFile="..\..\out\release9\build\apppathfindingtest\apppathfindingtest.pch"
+				AssemblerListingLocation="..\..\out\release9\build\apppathfindingtest\"
+				ObjectFile="..\..\out\release9\build\apppathfindingtest\"
+				ProgramDataBaseFileName="..\..\out\release9\build\apppathfindingtest\Win32\pathfinding.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
@@ -157,9 +74,9 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
 				Culture="1033"
-				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -168,16 +85,119 @@
 				Name="VCLinkerTool"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
-				OutputFile="..\..\celtool-1.9-vc9.dll"
+				OutputFile="..\..\pathfinding.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\..\out\release9\build\libceltool\Win32\celtool-1.9-vc9.pdb"
+				ProgramDatabaseFile="..\..\out\release9\build\apppathfindingtest\Win32\pathfinding.pdb"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\out\release9\libs\libceltool.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release (with DLLs)|Win32"
+			OutputDirectory="..\..\out\release9\build\apppathfindingtest\"
+			IntermediateDirectory="..\..\out\release9\build\apppathfindingtest\"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\release9\build\apppathfindingtest\apppathfindingtest.tlb"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" "
+				Optimization="2"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;&quot;$(CRYSTAL)\include&quot;;&quot;$(CRYSTAL)\include\csutil\win32&quot;;&quot;..\..\plugins\recast&quot;"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				PrecompiledHeaderFile="..\..\out\release9\build\apppathfindingtest\apppathfindingtest.pch"
+				AssemblerListingLocation="..\..\out\release9\build\apppathfindingtest\"
+				ObjectFile="..\..\out\release9\build\apppathfindingtest\"
+				ProgramDataBaseFileName="..\..\out\release9\build\apppathfindingtest\Win32\pathfinding.pdb"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+				CompileAs="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				Culture="1033"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions=" "
+				AdditionalDependencies="libcrystalspace.lib"
+				OutputFile="..\..\pathfinding.exe"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\out\release9\bin;..\..\out\release9\build\plgrecast"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\..\out\release9\build\apppathfindingtest\Win32\pathfinding.pdb"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -205,11 +225,12 @@
 		</Configuration>
 		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\libceltool\"
-			IntermediateDirectory="..\..\out\debug9\build\libceltool\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug9\build\apppathfindingtest\"
+			IntermediateDirectory="..\..\out\debug9\build\apppathfindingtest\"
+			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -225,27 +246,27 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\libceltool\libceltool.tlb"
+				TypeLibraryName="..\..\out\debug9\build\apppathfindingtest\apppathfindingtest.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions=" "
 				Optimization="0"
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;..\..\plugins\recast"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;..\..\plugins\recast\Recast\Include;..\..\plugins\recast\Detour\Include;..\..\plugins\recast\RecastDemo\Include"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile="..\..\out\debug9\build\libceltool\libceltool.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\libceltool\"
-				ObjectFile="..\..\out\debug9\build\libceltool\"
-				ProgramDataBaseFileName="..\..\out\debug9\build\libceltool\Win32\celtool.pdb"
+				PrecompiledHeaderFile="..\..\out\debug9\build\apppathfindingtest\apppathfindingtest.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\apppathfindingtest\"
+				ObjectFile="..\..\out\debug9\build\apppathfindingtest\"
+				ProgramDataBaseFileName="..\..\out\debug9\build\apppathfindingtest\Win32\pathfinding.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
@@ -257,20 +278,32 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
 				Culture="1033"
-				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9\libs\libceltool_d.lib"
+				Name="VCLinkerTool"
+				AdditionalOptions=" "
+				AdditionalDependencies="libcrystalspace_d.lib"
+				OutputFile="..\..\pathfinding.exe"
+				LinkIncremental="2"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\..\out\debug9\build\apppathfindingtest\Win32\pathfinding.pdb"
+				SubSystem="1"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -282,17 +315,21 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\libceltool\"
-			IntermediateDirectory="..\..\out\debug9\build\libceltool\"
-			ConfigurationType="2"
+			OutputDirectory="..\..\out\debug9\build\apppathfindingtest\"
+			IntermediateDirectory="..\..\out\debug9\build\apppathfindingtest\"
+			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -308,27 +345,27 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\libceltool\libceltool.tlb"
+				TypeLibraryName="..\..\out\debug9\build\apppathfindingtest\apppathfindingtest.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions=" "
 				Optimization="0"
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;..\..\plugins\recast"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;&quot;$(CRYSTAL)\include&quot;;&quot;$(CRYSTAL)\include\csutil\win32&quot;;&quot;..\..\plugins\recast&quot;"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile="..\..\out\debug9\build\libceltool\libceltool.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\libceltool\"
-				ObjectFile="..\..\out\debug9\build\libceltool\"
-				ProgramDataBaseFileName="..\..\out\debug9\build\libceltool\Win32\celtool-1.9-vc9_d.pdb"
+				PrecompiledHeaderFile="..\..\out\debug9\build\apppathfindingtest\apppathfindingtest.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\apppathfindingtest\"
+				ObjectFile="..\..\out\debug9\build\apppathfindingtest\"
+				ProgramDataBaseFileName="..\..\out\debug9\build\apppathfindingtest\Win32\pathfinding.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
@@ -340,9 +377,9 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
 				Culture="1033"
-				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -351,14 +388,14 @@
 				Name="VCLinkerTool"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
-				OutputFile="..\..\celtool-1.9-vc9_d.dll"
+				OutputFile="..\..\pathfinding.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\..\out\debug9\build\libceltool\Win32\celtool-1.9-vc9_d.pdb"
-				ImportLibrary="..\..\out\debug9\libs\libceltool_d.lib"
+				ProgramDatabaseFile="..\..\out\debug9\build\apppathfindingtest\Win32\pathfinding.pdb"
+				SubSystem="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -386,92 +423,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release (with static libs)|x64"
-			OutputDirectory="..\..\out\release9-x64\build\libceltool\"
-			IntermediateDirectory="..\..\out\release9-x64\build\libceltool\"
-			ConfigurationType="4"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				StringPooling="TRUE"
-				EnableFunctionLevelLinking="TRUE"
-				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9-x64\build\libceltool\x64\celtool.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\libceltool\libceltool.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\libceltool\"
-				ObjectFile="..\..\out\release9-x64\build\libceltool\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="false"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				DebugInformationFormat="3"
-				CompileAs="0"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				TargetMachine="17"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9-x64\libs\libceltool.lib"
-				SuppressStartupBanner="TRUE"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\libceltool\libceltool.tlb"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
-			/>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release (with DLLs)|x64"
-			OutputDirectory="..\..\out\release9-x64\build\libceltool\"
-			IntermediateDirectory="..\..\out\release9-x64\build\libceltool\"
-			ConfigurationType="2"
+			OutputDirectory="..\..\out\release9-x64\build\apppathfindingtest\"
+			IntermediateDirectory="..\..\out\release9-x64\build\apppathfindingtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -483,14 +438,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDatabaseFileName="..\..\out\release9-x64\build\libceltool\x64\celtool-1.9-vc9-x64.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\apppathfindingtest\x64\pathfinding.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\libceltool\libceltool.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\libceltool\"
-				ObjectFile="..\..\out\release9-x64\build\libceltool\"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\apppathfindingtest\apppathfindingtest.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\apppathfindingtest\"
+				ObjectFile="..\..\out\release9-x64\build\apppathfindingtest\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -509,9 +464,9 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\celtool-1.9-vc9-x64.dll"
-				ImportLibrary="..\..\out\release9-x64\libs\libceltool.lib"
-				ProgramDatabaseFile="..\..\out\release9-x64\build\libceltool\x64\celtool-1.9-vc9-x64.pdb"
+				OutputFile="..\..\pathfinding.exe"
+				ProgramDatabaseFile="..\..\out\release9-x64\build\apppathfindingtest\x64\pathfinding.pdb"
+				SubSystem="2"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
@@ -524,11 +479,11 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\libceltool\libceltool.tlb"
+				TypeLibraryName="..\..\out\release9-x64\build\apppathfindingtest\apppathfindingtest.tlb"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -542,8 +497,95 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release (with DLLs)|x64"
+			OutputDirectory="..\..\out\release9-x64\build\apppathfindingtest\"
+			IntermediateDirectory="..\..\out\release9-x64\build\apppathfindingtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				StringPooling="TRUE"
+				EnableFunctionLevelLinking="TRUE"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="FALSE"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\apppathfindingtest\x64\pathfinding.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\apppathfindingtest\apppathfindingtest.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\apppathfindingtest\"
+				ObjectFile="..\..\out\release9-x64\build\apppathfindingtest\"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="3"
+				CompileAs="0"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\pathfinding.exe"
+				ProgramDatabaseFile="..\..\out\release9-x64\build\apppathfindingtest\x64\pathfinding.pdb"
+				SubSystem="2"
+				AdditionalOptions=" "
+				AdditionalDependencies="libcrystalspace.lib"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\release9-x64\build\apppathfindingtest\apppathfindingtest.tlb"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
+			/>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"
 			/>
 			<Tool
@@ -555,9 +597,10 @@
 		</Configuration>
 		<Configuration
 			Name="Debug (with static libs)|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\libceltool\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\libceltool\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug9-x64\build\apppathfindingtest\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\apppathfindingtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			>
@@ -567,14 +610,14 @@
 				MinimalRebuild="TRUE"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libceltool\x64\celtool.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\apppathfindingtest\x64\pathfinding.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libceltool\libceltool.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\libceltool\"
-				ObjectFile="..\..\out\debug9-x64\build\libceltool\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\apppathfindingtest\apppathfindingtest.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\apppathfindingtest\"
+				ObjectFile="..\..\out\debug9-x64\build\apppathfindingtest\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -591,6 +634,9 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\pathfinding.exe"
+				ProgramDatabaseFile="..\..\out\debug9-x64\build\apppathfindingtest\x64\pathfinding.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
@@ -599,16 +645,15 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9-x64\libs\libceltool_d.lib"
 				SuppressStartupBanner="TRUE"
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\libceltool\libceltool.tlb"
+				TypeLibraryName="..\..\out\debug9-x64\build\apppathfindingtest\apppathfindingtest.tlb"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -622,8 +667,8 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"
 			/>
 			<Tool
@@ -635,9 +680,10 @@
 		</Configuration>
 		<Configuration
 			Name="Debug (with DLLs)|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\libceltool\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\libceltool\"
-			ConfigurationType="2"
+			OutputDirectory="..\..\out\debug9-x64\build\apppathfindingtest\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\apppathfindingtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			>
@@ -647,14 +693,14 @@
 				MinimalRebuild="TRUE"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				ProgramDatabaseFileName="..\..\out\debug9-x64\build\libceltool\x64\celtool-1.9-vc9-x64_d.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\apppathfindingtest\x64\pathfinding.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libceltool\libceltool.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\libceltool\"
-				ObjectFile="..\..\out\debug9-x64\build\libceltool\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\apppathfindingtest\apppathfindingtest.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\apppathfindingtest\"
+				ObjectFile="..\..\out\debug9-x64\build\apppathfindingtest\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -671,9 +717,9 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\celtool-1.9-vc9-x64_d.dll"
-				ImportLibrary="..\..\out\debug9-x64\libs\libceltool_d.lib"
-				ProgramDatabaseFile="..\..\out\debug9-x64\build\libceltool\x64\celtool-1.9-vc9-x64_d.pdb"
+				OutputFile="..\..\pathfinding.exe"
+				ProgramDatabaseFile="..\..\out\debug9-x64\build\apppathfindingtest\x64\pathfinding.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
@@ -686,11 +732,11 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\libceltool\libceltool.tlb"
+				TypeLibraryName="..\..\out\debug9-x64\build\apppathfindingtest\apppathfindingtest.tlb"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -704,8 +750,8 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"
 			/>
 			<Tool
@@ -721,91 +767,41 @@
 	<Files>
 		<Filter
 			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\libs\celtool\camera.cpp"
+				RelativePath="..\..\apps\pathfindingtest\BehaviourLayer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\celpaths.cpp"
+				RelativePath="..\..\apps\pathfindingtest\main.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\initapp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\navigation.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\persisthelper.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\staticvarcleanup.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\stdmsgchannel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\stdpcimp.cpp"
+				RelativePath="..\..\apps\pathfindingtest\MainApp.cpp"
 				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\camera.h"
+				RelativePath="..\..\apps\pathfindingtest\BehaviourLayer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\celpaths.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\celtoolextern.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\initapp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\navigation.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\packagedefs.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\persisthelper.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdmsgchannel.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdparams.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdpcimp.h"
+				RelativePath="..\..\apps\pathfindingtest\MainApp.h"
 				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-			<File
-				RelativePath="..\..\msvc\libceltool.rc"
-				>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

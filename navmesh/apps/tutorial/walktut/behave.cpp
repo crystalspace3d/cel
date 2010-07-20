@@ -5,7 +5,7 @@
 #include <propclass/linmove.h>
 #include <propclass/prop.h>
 
-#include "behave.h"
+#include "BehaviourLayer.h"
 
 BehaviourLayer::BehaviourLayer (iCelPlLayer* pl) : scfImplementationType (this)
 {
