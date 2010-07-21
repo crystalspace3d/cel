@@ -125,8 +125,8 @@ bool MainApp::OnKeyboard(iEvent& ev)
       if (!params)
       {
         params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
-        //params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
-        params->SetSuggestedValues(10.0f, 2.0f, 45.0f);
+        params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
+        //params->SetSuggestedValues(10.0f, 2.0f, 45.0f);
         navStructBuilder->SetNavMeshParams(params);
       }
       csList<iSector*> sectorList;
@@ -365,8 +365,8 @@ bool MainApp::SetupModules ()
 bool MainApp::LoadMap () {
 
   // Set VFS current directory to the level we want to load.
-  //vfs->ChDir("/lev/castle");
-  vfs->ChDir("/lev/terrainf");
+  vfs->ChDir("/lev/castle");
+  //vfs->ChDir("/lev/terrainf");
   // Load the level file which is called 'world'.
   if (!loader->LoadMapFile("world"))
   {

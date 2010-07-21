@@ -64,11 +64,25 @@ bool MainApp::CreatePlayer ()
   {
     return ReportError("Error loading model!");
   }
-  csMatrix3 m;
-  m.Identity();
-  m /= 5.0;
-  csReversibleTransform scaleTransform(m, csVector3(0, 0, 0));
-  mesh->HardTransform(scaleTransform);
+  csRef<iObjectModel> objectModel = mesh->GetMeshObject()->GetObjectModel();
+
+  // Get height before scaling the model, and then scale it.
+  // At the time this demo application was created, the model's bounding box was not updated
+  // after scaling it, so this is the safest way to get the height.  
+  float y = objectModel->GetObjectBoundingBox().MaxY() - objectModel->GetObjectBoundingBox().MinY();
+  
+  // Scale model
+  float scaleFactor = 0.5f;
+  csRef<iSpriteCal3DFactoryState> cal3dSprite = scfQueryInterface<iSpriteCal3DFactoryState> 
+      (mesh->GetFactory()->GetMeshObjectFactory());
+  cal3dSprite->RescaleFactory(scaleFactor);
+
+  // Calculate approximate height and radius
+  agentHeight = y * scaleFactor;
+  // If we use the bounding box to calculate an approximate radius, it will give a high value,
+  // probably because it takes the arms into account. Lets just say The agent radius is about
+  // one fourth of it's height
+  agentRadius = agentHeight / 4.0f;
 
   if (pcZoneMgr->PointMesh("player", "main", "Camera"))
   {
@@ -97,10 +111,6 @@ bool MainApp::CreatePlayer ()
   pcInput->Bind("m", "cammode");
   pcInput->Bind("d", "drop");
   pcInput->Bind("MouseButton0", "setposition");
-  pcInput->Bind("b", "buildnavstruct");
-  pcInput->Bind("s", "savenavstruct");
-  pcInput->Bind("l", "loadnavstruct");
-  pcInput->Bind("c", "clearnavstruct");
 
   return true;
 }
@@ -149,6 +159,46 @@ bool MainApp::OnKeyboard(iEvent& ev)
       {
         q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
       }
+    }
+    else if (code == 'b') // Build navstruct
+    {
+      navStruct.Invalidate();
+      if (!params)
+      {
+        params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
+        params->SetSuggestedValues(agentHeight, agentRadius, 45.0f);
+        //params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
+        navStructBuilder->SetNavMeshParams(params);
+      }
+      csList<iSector*> sectorList;
+      int size = engine->GetSectors()->GetCount();
+      for (int i = 0; i < size; i++)
+      {
+        sectorList.PushBack(engine->GetSectors()->Get(i));    
+      }
+      navStructBuilder->SetSectors(sectorList);
+      navStruct = navStructBuilder->BuildHNavStruct();
+      behaviourLayer->SetNavStruct(navStruct);
+    }
+    else if (code == 's') // Save navstruct
+    {
+      if (navStruct)
+      {
+        navStruct->SaveToFile(vfs, "navigationStructure.zip");
+      }
+    }
+    else if (code == 'l') // Load navstruct
+    {
+      navStruct.Invalidate();
+      navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure.zip");
+      behaviourLayer->SetNavStruct(navStruct);
+    }
+    else if (code == 'c') // Clear navstruct, positions and path
+    {
+      navStruct.Invalidate();
+      path.Invalidate();
+      originSet = false;
+      destinationSet = false;
     }
   }
   return false;

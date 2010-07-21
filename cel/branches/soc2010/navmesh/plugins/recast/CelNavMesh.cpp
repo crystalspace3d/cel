@@ -434,6 +434,7 @@ iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector
   else
   {
     delete [] straightPath;
+    path.AttachNew(new celNavMeshPath(0, 0, 0));
   }
 
   // For now, these are not really used
@@ -1486,8 +1487,8 @@ void celNavMeshParams::SetSuggestedValues (float agentHeight, float agentRadius,
   detailSampleDist = 6.0f;
   detailSampleMaxError = 1.0f;
   maxEdgeLength = ((int)ceilf(agentRadius / cellSize)) * 8;  
-  minRegionSize = 50;
-  mergeRegionSize = 20;
+  minRegionSize = 20;
+  mergeRegionSize = 50;
   maxVertsPerPoly = 6;
   tileSize = 32;
   borderSize = (int)ceilf(agentRadius / cellSize) + 3;  

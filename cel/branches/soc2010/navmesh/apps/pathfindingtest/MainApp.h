@@ -3,6 +3,7 @@
 
 #include <crystalspace.h>
 #include <celtool/initapp.h>
+#include "csutil/algorithms.h"
 #include <physicallayer/entity.h>
 #include <physicallayer/pl.h>
 #include <physicallayer/propclas.h>
@@ -31,13 +32,15 @@ private:
   csRef<iVFS> vfs;
   csRef<FramePrinter> printer;
   csRef<iCelPlLayer> physicalLayer;
-  csRef<iCelBlLayer> behaviourLayer;
+  csRef<BehaviourLayer> behaviourLayer; // iCelBlLayer
   csRef<iCelHNavStructBuilder> navStructBuilder;
 
   // Hierarchical pathfinding
   csRef<iCelHPath> path;
   csRef<iCelHNavStruct> navStruct;
   csRef<iCelNavMeshParams> params;
+  float agentHeight;
+  float agentRadius;
 
   // Path
   csVector3 origin;
@@ -51,8 +54,8 @@ private:
   csRef<iCelZone> zone;
   csRef<iCelRegion> region;
   csRef<iCelMapFile> mapfile;
-  csRef<iCelEntity> levelEntity;
-  csRef<iCelEntity> playerEntity;
+  csRef<iCelEntity> levelEntity; // iCelEntity
+  csRef<iCelEntity> playerEntity; // iCelEntity
 
   void Frame ();
   bool LoadLevel ();
