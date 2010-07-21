@@ -20,6 +20,9 @@ class BehaviourLayer : public scfImplementation1<BehaviourLayer, iCelBlLayer>
 private:
   csRef<iCelPlLayer> physicalLayer;
   csRef<iObjectRegistry> objectRegistry;
+  
+  // Tranference region
+  csRef<iCelHNavStruct> navStruct;
 
 public:
   BehaviourLayer (iCelPlLayer* physicalLayer, iObjectRegistry* objectRegistry);
@@ -27,6 +30,8 @@ public:
 
   virtual const char* GetName () const;
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
+  void SetNavStruct (iCelHNavStruct* navStruct);
+  iCelHNavStruct* GetNavStruct () const;
 };
 
 class BehaviourCommon : public scfImplementation1<BehaviourCommon, iCelBehaviour>
@@ -84,10 +89,6 @@ private:
   csStringID id_pccommandinput_cammode1;
   csStringID id_pccommandinput_drop1;
   csStringID id_pccommandinput_setposition;
-  csStringID id_pccommandinput_buildnavstruct;
-  csStringID id_pccommandinput_savenavstruct;
-  csStringID id_pccommandinput_loadnavstruct;
-  csStringID id_pccommandinput_clearnavstruct;
   csStringID id_pcinventory_addchild;
   csStringID id_pcinventory_removechild;
   csStringID id_pcmover_arrived;
@@ -112,9 +113,6 @@ private:
 
   // Hierarchical pathfinding
   csRef<iCelHPath> path;
-  csRef<iCelHNavStruct> navStruct;
-  csRef<iCelNavMeshParams> params;
-  csRef<iCelHNavStructBuilder> navStructBuilder;
 
   csRef<iObjectRegistry> objectRegistry;
   csRef<iCamera> camera;

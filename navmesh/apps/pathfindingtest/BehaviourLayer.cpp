@@ -46,6 +46,16 @@ const char* BehaviourLayer::GetName () const
   return "behaviourlayer";
 }
 
+void BehaviourLayer::SetNavStruct(iCelHNavStruct* navStruct)
+{
+  this->navStruct = navStruct;
+}
+
+iCelHNavStruct* BehaviourLayer::GetNavStruct() const
+{ 
+  return navStruct;
+}
+
 
 
 /*
@@ -126,13 +136,6 @@ BehaviourPlayer::BehaviourPlayer (iCelEntity* entity, BehaviourLayer* behaviourL
 {
   this->objectRegistry = objectRegistry;
 
-  navStructBuilder = csLoadPluginCheck<iCelHNavStructBuilder>(objectRegistry, "cel.hnavstructbuilder");
-
-  params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
-  params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
-    //params->SetSuggestedValues(10.0f, 2.0f, 45.0f);
-  navStructBuilder->SetNavMeshParams(params);
-
   id_pccommandinput_forward1 = physicalLayer->FetchStringID("pccommandinput_forward1");
   id_pccommandinput_forward0 = physicalLayer->FetchStringID("pccommandinput_forward0");
   id_pccommandinput_backward1 = physicalLayer->FetchStringID("pccommandinput_backward1");
@@ -144,10 +147,6 @@ BehaviourPlayer::BehaviourPlayer (iCelEntity* entity, BehaviourLayer* behaviourL
   id_pccommandinput_cammode1 = physicalLayer->FetchStringID("pccommandinput_cammode1");
   id_pccommandinput_drop1 = physicalLayer->FetchStringID("pccommandinput_drop1");
   id_pccommandinput_setposition = physicalLayer->FetchStringID("pccommandinput_setposition0");
-  id_pccommandinput_buildnavstruct = physicalLayer->FetchStringID("pccommandinput_buildnavstruct0");
-  id_pccommandinput_savenavstruct = physicalLayer->FetchStringID("pccommandinput_savenavstruct0");
-  id_pccommandinput_loadnavstruct = physicalLayer->FetchStringID("pccommandinput_loadnavstruct0");
-  id_pccommandinput_clearnavstruct = physicalLayer->FetchStringID("pccommandinput_clearnavstruct0");
 
   id_pcinventory_addchild = physicalLayer->FetchStringID("pcinventory_addchild");
   id_pcinventory_removechild = physicalLayer->FetchStringID("pcinventory_removechild");
@@ -283,7 +282,7 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
   }
   else if (msg_id == id_pccommandinput_setposition)
   {
-    
+    csRef<iCelHNavStruct> navStruct = behaviourLayer->GetNavStruct();
     if (navStruct)
     {
       GetLinearMovement();
@@ -314,52 +313,8 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
       path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
       GetMover();
       csRef<iMapNode> node = path->Next();
-      pcMover->MoveTo(node->GetSector(), node->GetPosition(), 1.1f);
+      pcMover->MoveTo(node->GetSector(), node->GetPosition(), 0.1f);
     }
-  }
-  else if (msg_id == id_pccommandinput_buildnavstruct)
-  {
-    navStruct.Invalidate();
-    csList<iSector*> sectorList;
-    csRef<iEngine> engine = csLoadPluginCheck<iEngine>(objectRegistry, "crystalspace.engine.3d");
-    if (!engine)
-    {
-      return false;
-    }
-    int size = engine->GetSectors()->GetCount();
-    for (int i = 0; i < size; i++)
-    {
-      sectorList.PushBack(engine->GetSectors()->Get(i));    
-    }
-    navStructBuilder->SetSectors(sectorList);
-    navStruct = navStructBuilder->BuildHNavStruct();
-  }
-  else if (msg_id == id_pccommandinput_savenavstruct)
-  {
-    if (navStruct)
-    {
-      csRef<iVFS> vfs = csLoadPluginCheck<iVFS>(objectRegistry, "crystalspace.kernel.vfs");
-      if (!vfs)
-      {
-        return false;
-      }
-      navStruct->SaveToFile(vfs, "navigationStructure.zip");
-    }
-  }
-  else if (msg_id == id_pccommandinput_loadnavstruct)
-  {
-    csRef<iVFS> vfs = csLoadPluginCheck<iVFS>(objectRegistry, "crystalspace.kernel.vfs");
-    if (!vfs)
-    {
-      return false;
-    }
-    navStruct.Invalidate();
-    navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure.zip");
-  }
-  else if (msg_id == id_pccommandinput_clearnavstruct)
-  {
-    navStruct.Invalidate();
-    path.Invalidate();
   }
   else if (msg_id == id_pcinventory_addchild)
   {
