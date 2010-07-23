@@ -56,6 +56,16 @@ iCelHNavStruct* BehaviourLayer::GetNavStruct() const
   return navStruct;
 }
 
+void BehaviourLayer::SetPath (iCelHPath* path)
+{
+  this->path = path;
+}
+
+iCelHPath* BehaviourLayer::GetPath () const
+{
+  return path;
+}
+
 
 
 /*
@@ -242,7 +252,11 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
 
   if (msg_id == id_pccommandinput_forward1)
   {
-    pcActorMove->Forward(true);
+    //pcActorMove->Forward(true);
+    csRef<iPcCamera> pcCamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcCamera);
+    csRef<iCamera> camera = pcCamera->GetCamera();
+    camera->MoveWorld(csVector3(0, 0, 0.5));
+    pcCamera->UpdateCamera();
   }
   else if (msg_id == id_pccommandinput_forward0)
   {
@@ -311,9 +325,10 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
       csRef<iSector> destinationSector = sectorList->Get(0);
 
       path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
+      behaviourLayer->SetPath(path);
       GetMover();
       csRef<iMapNode> node = path->Next();
-      pcMover->MoveTo(node->GetSector(), node->GetPosition(), 0.1f);
+      pcMover->MoveTo(node->GetSector(), node->GetPosition(), 0.005f);
     }
   }
   else if (msg_id == id_pcinventory_addchild)
@@ -334,9 +349,9 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
     {
       if (path->HasNext())
       {
-        GetMover();
+        GetMover();        
         csRef<iMapNode> node = path->Next();
-        pcMover->MoveTo(node->GetSector(), node->GetPosition(), 1.0f);
+        pcMover->MoveTo(node->GetSector(), node->GetPosition(), 0.005f);
       }
     }
   }

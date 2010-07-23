@@ -5,13 +5,15 @@ MainApp::MainApp ()
   SetApplicationName("Navigation Mesh Test");
   originSet = false;
   destinationSet = false;
+  renderNavMesh = true;
+  renderDestination = true;
+  renderPath = true;
 }
 
 MainApp::~MainApp () 
 {
 }
 
-// TODO ver o que precisa ficar na classe mesmo
 bool MainApp::LoadLevel ()
 {
   levelEntity = physicalLayer->CreateEntity("level", behaviourLayer, "levelBehaviour", 
@@ -28,8 +30,6 @@ bool MainApp::LoadLevel ()
   zone->LinkRegion(region);
 
   mapfile = region->CreateMapFile();
-  //mapfile->SetPath("/cellib/lev");
-  //mapfile->SetFile("walktut_world");
   mapfile->SetPath("/lev/castle");  
   mapfile->SetFile("world");
   vfs->ChDir("/lev/castle");
@@ -48,8 +48,13 @@ bool MainApp::CreatePlayer ()
   }
 
   // Get the iPcCamera interface so that we can set the camera.
-  csRef<iPcCamera> pcCamera = CEL_QUERY_PROPCLASS_ENT(playerEntity, iPcCamera);
+  pcCamera = CEL_QUERY_PROPCLASS_ENT(playerEntity, iPcCamera);
   camera = pcCamera->GetCamera();
+
+  // Since we want to be able to see the navigation meshes and paths, we have to turn AutoDraw off
+  // and Draw the camera manually in the Frame method, along with the navmeshes and in the right
+  // order.
+  pcCamera->SetAutoDraw(false);
 
   // Get the zone manager from the level entity which should have been created by now.
   csRef<iPcZoneManager> pcZoneMgr = CEL_QUERY_PROPCLASS_ENT(levelEntity, iPcZoneManager);
@@ -69,20 +74,26 @@ bool MainApp::CreatePlayer ()
   // Get height before scaling the model, and then scale it.
   // At the time this demo application was created, the model's bounding box was not updated
   // after scaling it, so this is the safest way to get the height.  
+  float x = objectModel->GetObjectBoundingBox().MaxY() - objectModel->GetObjectBoundingBox().MinY();
   float y = objectModel->GetObjectBoundingBox().MaxY() - objectModel->GetObjectBoundingBox().MinY();
+  float z = objectModel->GetObjectBoundingBox().MaxY() - objectModel->GetObjectBoundingBox().MinY();
   
-  // Scale model
-  float scaleFactor = 0.5f;
+  // Scale model. A tiny model will be used, since her bounding box is big and the map has
+  // a lot of closed spaces.
+  float scaleFactor = 0.25f;
   csRef<iSpriteCal3DFactoryState> cal3dSprite = scfQueryInterface<iSpriteCal3DFactoryState> 
       (mesh->GetFactory()->GetMeshObjectFactory());
   cal3dSprite->RescaleFactory(scaleFactor);
 
-  // Calculate approximate height and radius
-  agentHeight = y * scaleFactor;
-  // If we use the bounding box to calculate an approximate radius, it will give a high value,
-  // probably because it takes the arms into account. Lets just say The agent radius is about
-  // one fourth of it's height
-  agentRadius = agentHeight / 4.0f;
+  // Scale bounding box
+  x *= scaleFactor;
+  y *= scaleFactor;
+  z *= scaleFactor;
+
+  // Calculate approximate height and radius. Height will be the height of the bounding box, and
+  // radius will be half of the diagonal lenght of the bounding box, in the xz plane.
+  agentHeight = y;
+  agentRadius = csQsqrt(csSquare(x) + csSquare(z)) * 0.5f;
 
   if (pcZoneMgr->PointMesh("player", "main", "Camera"))
   {
@@ -92,12 +103,19 @@ bool MainApp::CreatePlayer ()
   // Get iPcLinearMovement so we can setup the movement system.
   csRef<iPcLinearMovement> pcLinMove = CEL_QUERY_PROPCLASS_ENT(playerEntity, iPcLinearMovement);
   pcLinMove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.4f,0.5f), csVector3(0,0,0));
+  pcLinMove->SetFullPosition(pcLinMove->GetPosition(), PI, pcLinMove->GetSector());
 
   // Get the iPcActorMove interface so that we can set movement speed.
   csRef<iPcActorMove> pcActorMove = CEL_QUERY_PROPCLASS_ENT (playerEntity, iPcActorMove);
-  pcActorMove->SetMovementSpeed(3.0f);
-  pcActorMove->SetRunningSpeed(5.0f);
+  pcActorMove->SetMovementSpeed(1.5f);
+  pcActorMove->SetRunningSpeed(2.5f);
   pcActorMove->SetRotationSpeed(1.75f);
+  pcActorMove->ToggleCameraMode();
+
+  // Remove the smooth behaviour from iPcMover (it causes our actor to walk where we
+  // don't want it to go).
+  csRef<iPcMover> pcMover = CEL_QUERY_PROPCLASS_ENT (playerEntity, iPcMover);
+  pcMover->SetSmoothMovement(false);
 
   // Get iPcCommandInput so we can do key bindings. The behaviour layer will interprete the 
   // commands so the actor can move.
@@ -115,25 +133,22 @@ bool MainApp::CreatePlayer ()
   return true;
 }
 
-// TODO not working. Rendering before the rest?
 void MainApp::Frame ()
 {
-  if (navStruct)
+  pcCamera->Draw();
+
+  if (renderNavMesh && navStruct)
   {
     navStruct->DebugRender();
   }
 
-  if (originSet && navStruct)
-  {
-    navStruct->DebugRenderAgent(origin, 70, 140, 255, 150);
-  }
-
-  if (destinationSet && navStruct)
+  if (renderDestination && destinationSet && navStruct)
   {
     navStruct->DebugRenderAgent(destination, 50, 255, 120, 150);
   }
 
-  if (path)
+  path = behaviourLayer->GetPath();
+  if (renderPath && path)
   {
     path->DebugRender();
   }
@@ -143,7 +158,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
 {
   // We got a keyboard event.
   csKeyEventType eventType = csKeyEventHelper::GetEventType(&ev);
-  if (eventType == csKeyEventTypeDown)
+  if (eventType == csKeyEventTypeUp)
   {
     // The user pressed a key (as opposed to releasing it).
     utf32_char code = csKeyEventHelper::GetCookedCode(&ev);
@@ -167,6 +182,9 @@ bool MainApp::OnKeyboard(iEvent& ev)
       {
         params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
         params->SetSuggestedValues(agentHeight, agentRadius, 45.0f);
+        // Our agent is tiny and the map has stairs, so lets change agentMaxClimb so she can
+        // go everywhere
+        params->SetAgentMaxClimb(agentHeight);
         //params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
         navStructBuilder->SetNavMeshParams(params);
       }
@@ -199,6 +217,19 @@ bool MainApp::OnKeyboard(iEvent& ev)
       path.Invalidate();
       originSet = false;
       destinationSet = false;
+      behaviourLayer->SetPath(0);
+    }
+    else if (code == '1') // Switch navmesh rendering
+    {
+      renderNavMesh = !renderNavMesh;
+    }
+    else if (code == '2') // Switch destination rendering
+    {
+      renderDestination = !renderDestination;
+    }
+    else if (code == '3') // Switch path rendering
+    {
+      renderPath = !renderPath;
     }
   }
   return false;
@@ -224,6 +255,11 @@ bool MainApp::OnMouseClick (iEvent& ev)
 // left
 void MainApp::MouseClick1Handler (iEvent& ev)
 {
+  if (!navStruct)
+  {
+    return;
+  }
+
   csVector2 screenPoint;
   screenPoint.x = csMouseEventHelper::GetX(&ev);
   screenPoint.y = csMouseEventHelper::GetY(&ev);

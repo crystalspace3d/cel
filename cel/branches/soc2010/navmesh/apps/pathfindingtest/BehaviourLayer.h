@@ -21,8 +21,9 @@ private:
   csRef<iCelPlLayer> physicalLayer;
   csRef<iObjectRegistry> objectRegistry;
   
-  // Tranference region
+  // Members used to transfer data between the behaviour layer and the application
   csRef<iCelHNavStruct> navStruct;
+  csRef<iCelHPath> path;
 
 public:
   BehaviourLayer (iCelPlLayer* physicalLayer, iObjectRegistry* objectRegistry);
@@ -32,6 +33,8 @@ public:
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
   void SetNavStruct (iCelHNavStruct* navStruct);
   iCelHNavStruct* GetNavStruct () const;
+  void SetPath (iCelHPath* path);
+  iCelHPath* GetPath () const;
 };
 
 class BehaviourCommon : public scfImplementation1<BehaviourCommon, iCelBehaviour>
