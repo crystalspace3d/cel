@@ -51,11 +51,15 @@ private:
   bool destinationSet;
   
   csRef<iCamera> camera;
+  csRef<iPcCamera> pcCamera;
   csRef<iCelZone> zone;
   csRef<iCelRegion> region;
   csRef<iCelMapFile> mapfile;
   csRef<iCelEntity> levelEntity; // iCelEntity
   csRef<iCelEntity> playerEntity; // iCelEntity
+  bool renderNavMesh;
+  bool renderDestination;
+  bool renderPath;
 
   void Frame ();
   bool LoadLevel ();

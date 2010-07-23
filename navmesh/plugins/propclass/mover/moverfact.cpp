@@ -88,6 +88,8 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
 
   is_moving = false;
   up = csVector3(0,1,0);
+
+  smooth = true;
 }
 
 celPcMover::~celPcMover ()
@@ -142,6 +144,23 @@ static float GetAngle (const csVector3& v1, const csVector3& v2)
   if ((v2.z-v1.z) > 0) angle = 2*PI - angle;
   angle += PI / 2.0f;
   if (angle > 2*PI) angle -= 2*PI;
+  return angle;
+}
+
+static float GetAngle2 (const csVector3& vector)
+{
+  float length = vector.Norm();
+  float angle = acos(vector.z / length);
+
+  if (vector.x > 0)
+  {
+    angle = - angle;
+  }
+  angle = PI - angle;
+  if (angle >= (2 * PI))
+  {
+    angle = angle - (2 * PI);
+  }
   return angle;
 }
 
@@ -205,10 +224,18 @@ bool celPcMover::MoveTo (iSector* sector, const csVector3& position,
       return false;
     }
   }
-
-  csVector3 vec (0,0,1);
-  float yrot = GetAngle (position-cur_position, vec);
-  pcactormove->RotateTo (yrot);
+ 
+  if (smooth)
+  {
+    csVector3 vec (0,0,1);
+    float yrot = GetAngle (position-cur_position, vec);
+    pcactormove->RotateTo (yrot);
+  }
+  else
+  {
+    float yrot = GetAngle2 (position - cur_position);
+    pclinmove->SetFullPosition (pclinmove->GetPosition(), yrot, pclinmove->GetSector());
+  }
   pcactormove->Forward (true);
 
   pl->CallbackOnce ((iCelTimerListener*)this, DELAY_RECHECK, CEL_EVENT_PRE);
@@ -293,10 +320,18 @@ void celPcMover::TickOnce ()
 	dispatcher_arrived);
     return;
   }
-
-  csVector3 vec (0,0,1);
-  float yrot = GetAngle (position-cur_position, vec);
-  pcactormove->RotateTo (yrot);
+  
+  if (smooth)
+  {
+    csVector3 vec (0,0,1);
+    float yrot = GetAngle (position-cur_position, vec);
+    pcactormove->RotateTo (yrot);
+  }
+  else
+  {
+    float yrot = GetAngle2 (position - cur_position);
+    pclinmove->SetFullPosition (pclinmove->GetPosition(), yrot, pclinmove->GetSector());
+  }
   pl->CallbackOnce ((iCelTimerListener*)this, DELAY_RECHECK, CEL_EVENT_PRE);
 }
 
