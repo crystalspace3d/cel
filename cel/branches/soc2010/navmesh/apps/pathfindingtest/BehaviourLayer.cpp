@@ -252,11 +252,7 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
 
   if (msg_id == id_pccommandinput_forward1)
   {
-    //pcActorMove->Forward(true);
-    csRef<iPcCamera> pcCamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcCamera);
-    csRef<iCamera> camera = pcCamera->GetCamera();
-    camera->MoveWorld(csVector3(0, 0, 0.5));
-    pcCamera->UpdateCamera();
+    pcActorMove->Forward(true);
   }
   else if (msg_id == id_pccommandinput_forward0)
   {

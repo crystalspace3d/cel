@@ -125,10 +125,17 @@ bool MainApp::OnKeyboard(iEvent& ev)
       if (!params)
       {
         params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
-        params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
-        //params->SetSuggestedValues(10.0f, 2.0f, 45.0f);
+        if (mapLocation == "/lev/castle")
+        {
+          params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
+        }
+        else
+        {
+          params->SetSuggestedValues(10.0f, 2.0f, 45.0f);
+        }
         navStructBuilder->SetNavMeshParams(params);
       }
+      navStructBuilder->SetNavMeshParams(params);
       csList<iSector*> sectorList;
       int size = engine->GetSectors()->GetCount();
       for (int i = 0; i < size; i++)
@@ -226,6 +233,27 @@ void MainApp::MouseClick3Handler (iEvent& ev)
 
 bool MainApp::OnInitialize (int argc, char* argv[]) 
 {
+  if (argc < 2)
+  {
+    mapLocation = "/lev/castle";
+  }
+  else
+  {
+    csString mapName(argv[1]);
+    if (mapName == "terrain")
+    {
+      mapLocation = "/lev/terrainf";
+    }
+    else if (mapName == "castle")
+    {
+      mapLocation = "/lev/castle";
+    }
+    else  
+    {
+      return ReportError("Map not supported!");
+    }
+  }
+
   if (!csInitializer::RequestPlugins(object_reg,
     CS_REQUEST_VFS,
     CS_REQUEST_OPENGL3D,
@@ -277,18 +305,10 @@ bool MainApp::Application ()
     return false;
   }
 
-/*  if (!CreateAgent())
-  {
-    return false;
-  }
-*/
-
   // Initialize collision objects for all loaded objects.
   csColliderHelper::InitializeCollisionWrappers(cdsys, engine);
 
   engine->Prepare();
-
-
 
   // Initialize our collider actor.
   collider_actor.SetCollideSystem(cdsys);
@@ -365,8 +385,7 @@ bool MainApp::SetupModules ()
 bool MainApp::LoadMap () {
 
   // Set VFS current directory to the level we want to load.
-  vfs->ChDir("/lev/castle");
-  //vfs->ChDir("/lev/terrainf");
+  vfs->ChDir(mapLocation.GetDataSafe());
   // Load the level file which is called 'world'.
   if (!loader->LoadMapFile("world"))
   {

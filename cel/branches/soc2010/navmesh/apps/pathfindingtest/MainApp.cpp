@@ -184,8 +184,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
         params->SetSuggestedValues(agentHeight, agentRadius, 45.0f);
         // Our agent is tiny and the map has stairs, so lets change agentMaxClimb so she can
         // go everywhere
-        params->SetAgentMaxClimb(agentHeight);
-        //params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
+        params->SetAgentMaxClimb(3.0f * agentHeight / 4.0f);
         navStructBuilder->SetNavMeshParams(params);
       }
       csList<iSector*> sectorList;
