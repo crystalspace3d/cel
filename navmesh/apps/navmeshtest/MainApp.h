@@ -27,6 +27,7 @@ private:
   csRef<iSector> currentSector;
   csRef<iMeshWrapper> actor;
   csColliderActor collider_actor;
+  csString mapLocation;
 
   csRef<iCelNavMeshBuilder> navMeshBuilder;
   csRef<iCelHNavStructBuilder> navStructBuilder;
