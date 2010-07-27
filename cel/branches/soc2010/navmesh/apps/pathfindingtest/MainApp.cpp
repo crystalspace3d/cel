@@ -183,8 +183,12 @@ bool MainApp::OnKeyboard(iEvent& ev)
         params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
         params->SetSuggestedValues(agentHeight, agentRadius, 45.0f);
         // Our agent is tiny and the map has stairs, so lets change agentMaxClimb so she can
-        // go everywhere
+        // go everywhere.
         params->SetAgentMaxClimb(3.0f * agentHeight / 4.0f);
+        // Reduce minium region size so we can see the navmeshes inside the cells in the dungeon
+        // sector. The cells remain inaccessible however, since the model's bounding box is too
+        // big.
+        params->SetMinRegionSize(10);
         navStructBuilder->SetNavMeshParams(params);
       }
       csList<iSector*> sectorList;
