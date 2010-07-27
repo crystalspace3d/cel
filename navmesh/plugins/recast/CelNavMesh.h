@@ -26,6 +26,7 @@
 #else
 #include <GL/gl.h>
 #endif
+#include <csgeom/obb.h>
 #include <csgeom/plane3.h>
 #include <csgeom/tri.h>
 #include <csgeom/vector3.h>
@@ -247,6 +248,7 @@ public:
 
   bool Initialize (const iCelNavMeshParams* parameters, iSector* sector, const float* boundingMin, const float* boundingMax);
   bool AddTile (unsigned char* data, int dataSize);
+  bool RemoveTile (int x, int y);
   bool LoadNavMesh (iFile* file);
 
   // API

@@ -454,6 +454,11 @@ bool celNavMesh::AddTile (unsigned char* data, int dataSize)
   return true;
 }
 
+bool celNavMesh::RemoveTile (int x, int y)
+{
+  return detourNavMesh->removeTile(detourNavMesh->getTileRefAt(x, y), 0, 0);
+}
+
 iSector* celNavMesh::GetSector () const
 {
   return sector;
@@ -2320,16 +2325,140 @@ iCelNavMesh* celNavMeshBuilder::LoadNavMesh (iFile* file)
   return navMesh;
 }
 
-// TODO implement
 bool celNavMeshBuilder::UpdateNavMesh (iCelNavMesh* navMesh, const csBox3& boundingBox)
 {
-  return false;
+  const float cellSize = parameters->GetCellSize();
+  const int tileSize = parameters->GetTileSize();
+  int gridWidth = 0, gridHeight = 0;
+  rcCalcGridSize(boundingMin, boundingMax, cellSize, &gridWidth, &gridHeight);
+  const int tw = (gridWidth + tileSize - 1) / tileSize;
+  const int th = (gridHeight + tileSize - 1) / tileSize;
+  const float tcs = tileSize * cellSize;
+
+  csVector3 min = boundingBox.Min();
+  csVector3 max = boundingBox.Max();
+
+  // No intersection between object and navmesh
+  if (min.y > boundingMax[1] || max.y < boundingMin[1])
+  {
+    return true;
+  }
+
+  // Calculate which tiles intersect with the object
+  unsigned xmin = ceil(min.x / tcs);
+  unsigned xmax = ceil(max.x / tcs);
+  unsigned zmin = ceil(min.z / tcs);
+  unsigned zmax = ceil(max.z / tcs);
+
+  // No intersection between object and navmesh
+  if (xmin > boundingMax[0] || xmax < boundingMin[0] || zmin > boundingMax[2] || zmax < boundingMin[2])
+  {
+    return true;
+  }
+
+  // Adjust boundaries to be within the navmesh
+  if (xmin < 0)
+  {
+    xmin = 0;
+  }
+  if (zmin < 0)
+  {
+    zmin = 0;
+  }
+  if (xmax > (unsigned)tw)
+  {
+    xmax = tw;
+  }
+  if (zmax > (unsigned)th)
+  {
+    zmax = th;
+  }
+
+  // Set tile parameters
+  rcConfig tileConfig;
+  memset(&tileConfig, 0, sizeof(tileConfig));
+  tileConfig.cs = cellSize;
+  tileConfig.ch = parameters->GetCellHeight();  
+  tileConfig.walkableHeight = (int)ceilf(parameters->GetAgentHeight() / tileConfig.ch);
+  tileConfig.walkableRadius = (int)ceilf(parameters->GetAgentRadius() / cellSize);
+  tileConfig.walkableClimb = (int)floorf(parameters->GetAgentMaxClimb() / tileConfig.ch);  
+  tileConfig.walkableSlopeAngle = parameters->GetAgentMaxSlopeAngle();
+  tileConfig.maxEdgeLen = (int)(parameters->GetMaxEdgeLength() / cellSize);
+  tileConfig.maxSimplificationError = parameters->GetMaxSimplificationError();
+  tileConfig.minRegionSize = (int)rcSqr(parameters->GetMinRegionSize());
+  tileConfig.mergeRegionSize = (int)rcSqr(parameters->GetMergeRegionSize());
+  tileConfig.maxVertsPerPoly = parameters->GetMaxVertsPerPoly();
+  tileConfig.tileSize = tileSize;
+  tileConfig.borderSize = tileConfig.walkableRadius + 3; // Reserve enough padding.
+  tileConfig.width = tileConfig.tileSize + tileConfig.borderSize * 2;
+  tileConfig.height = tileConfig.tileSize + tileConfig.borderSize * 2;
+  tileConfig.detailSampleDist = parameters->GetDetailSampleDist() < 0.9f ? 0 : cellSize * 
+    parameters->GetDetailSampleDist();
+  tileConfig.detailSampleMaxError = tileConfig.ch * parameters->GetDetailSampleMaxError();
+
+  // Get the navmesh implementation. Some of the methods we will use are hidden there.
+  csRef<celNavMesh> navMeshImpl = static_cast<celNavMesh*>(navMesh);
+
+  // Update tiles
+  float tileBoundingMin[3];
+  float tileBoundingMax[3];
+  tileBoundingMin[1] = boundingMin[1];
+  tileBoundingMax[1] = boundingMax[1];
+  for (unsigned y = zmin; y <= zmax; ++y)
+  {
+    for (unsigned x = xmin; x <= xmax; ++x)
+    {
+      tileBoundingMin[0] = boundingMin[0] + x * tcs;
+      tileBoundingMin[2] = boundingMin[2] + y * tcs;
+
+      tileBoundingMax[0] = boundingMin[0] + (x + 1) * tcs;
+      tileBoundingMax[2] = boundingMin[2] + (y + 1) * tcs;
+
+      rcVcopy(tileConfig.bmin, tileBoundingMin);
+      rcVcopy(tileConfig.bmax, tileBoundingMax);
+      tileConfig.bmin[0] -= tileConfig.borderSize * tileConfig.cs;
+      tileConfig.bmin[2] -= tileConfig.borderSize * tileConfig.cs;
+      tileConfig.bmax[0] += tileConfig.borderSize * tileConfig.cs;
+      tileConfig.bmax[2] += tileConfig.borderSize * tileConfig.cs;
+
+      int dataSize = 0;
+      unsigned char* data = BuildTile(x, y, tileBoundingMin, tileBoundingMax, tileConfig, dataSize);
+      if (data)
+      {        
+        if (!navMeshImpl->RemoveTile(x, y) || !navMeshImpl->AddTile(data, dataSize))
+        {
+          delete [] data;
+          return false;
+        }
+      }
+    }
+  }
+  return true;
 }
 
-// TODO implement
 bool celNavMeshBuilder::UpdateNavMesh (iCelNavMesh* navMesh, const csOBB& boundingBox)
 {
-  return false;
+  csVector3 min;
+  csVector3 max;
+  for (int i = 0; i < 8; i++)
+  {
+    csVector3 v = boundingBox.GetCorner(i);
+    for (int j = 0; j < 3; j++)
+    {
+      if (v[j] < min[j])
+      {
+        min[j] = v[j];
+      }
+      if (v[j] > max[j])
+      {
+        max[j] = v[j];
+      }
+    }
+  }
+
+  csBox3 aabb(min, max);
+
+  return UpdateNavMesh(navMesh, aabb);
 }
 
 const iCelNavMeshParams* celNavMeshBuilder::GetNavMeshParams () const
