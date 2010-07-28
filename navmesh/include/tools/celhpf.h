@@ -103,6 +103,24 @@ struct iCelHNavStruct : public virtual iBase
    *          is destroyed.
    */
   virtual iCelHPath* ShortestPath (iMapNode* from, iMapNode* goal) = 0;
+  
+  /**
+   * Update the tiles of the hierarchical navigation structure that intersect with an axis aligned bounding box.
+   * \param boundingBox Bounding box representing the area to be updated.
+   * \param sector Only update tiles from this sector, if specified.
+   * \return True in case everything went right and false otherwise.
+   * \remarks A sector should be specified whenever possible.
+   */
+  virtual bool UpdateNavMesh (const csBox3& boundingBox, iSector* sector = 0) = 0;
+
+  /**
+   * Update the tiles of the hierarchical navigation structure that intersect with an oriented bounding box.
+   * \param boundingBox Bounding box representing the area to be updated.
+   * \param sector Only update tiles from this sector, if specified.
+   * \return True in case everything went right and false otherwise.
+   * \remarks A sector should be specified whenever possible.
+   */
+  virtual bool UpdateNavMesh (const csOBB& boundingBox, iSector* sector = 0) = 0;
 
   /**
    * Save this structure to a file.
@@ -158,26 +176,6 @@ struct iCelHNavStructBuilder : public virtual iBase
    * \return Pointer to the navigation mesh, or 0 if something went wrong.
    */
   virtual iCelHNavStruct* LoadHNavStruct (iVFS* vfs, const char* file) = 0;
-
-  /**
-   * Update the tiles of the hierarchical navigation structure that intersect with an axis aligned bounding box.
-   * \param hNavStruct Pointer to the hierarchical navigation structure.
-   * \param boundingBox Bounding box representing the area to be updated.
-   * \param sector Only update tiles from this sector, if specified.
-   * \return True in case everything went right and false otherwise.
-   * \remarks A sector should be specified whenever possible.
-   */
-  virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csBox3& boundingBox, iSector* sector = 0) = 0;
-
-  /**
-   * Update the tiles of the hierarchical navigation structure that intersect with an oriented bounding box.
-   * \param hNavStruct Pointer to the hierarchical navigation structure.
-   * \param boundingBox Bounding box representing the area to be updated.
-   * \param sector Only update tiles from this sector, if specified.
-   * \return True in case everything went right and false otherwise.
-   * \remarks A sector should be specified whenever possible.
-   */
-  virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csOBB& boundingBox, iSector* sector = 0) = 0;
 
   /**
    * Get an object representation of the navigation mesh parameters.

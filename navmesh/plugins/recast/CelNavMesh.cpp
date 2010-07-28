@@ -445,6 +445,42 @@ iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector
   return path;
 }
 
+bool celNavMesh::Update (const csBox3& boundingBox)
+{
+  // Construct a new builder interface
+  csRef<celNavMeshBuilder> builder;
+  builder.AttachNew(new celNavMeshBuilder(0));
+  builder->SetNavMeshParams(parameters);
+  builder->SetSector(sector);
+
+  return builder->UpdateNavMesh(this, boundingBox);
+}
+
+bool celNavMesh::Update (const csOBB& boundingBox)
+{
+  csVector3 min;
+  csVector3 max;
+  for (int i = 0; i < 8; i++)
+  {
+    csVector3 v = boundingBox.GetCorner(i);
+    for (int j = 0; j < 3; j++)
+    {
+      if (v[j] < min[j])
+      {
+        min[j] = v[j];
+      }
+      if (v[j] > max[j])
+      {
+        max[j] = v[j];
+      }
+    }
+  }
+
+  csBox3 aabb(min, max);
+
+  return Update(aabb);
+}
+
 bool celNavMesh::AddTile (unsigned char* data, int dataSize)
 {
   if (!detourNavMesh->addTile(data, dataSize, true))
@@ -2325,7 +2361,7 @@ iCelNavMesh* celNavMeshBuilder::LoadNavMesh (iFile* file)
   return navMesh;
 }
 
-bool celNavMeshBuilder::UpdateNavMesh (iCelNavMesh* navMesh, const csBox3& boundingBox)
+bool celNavMeshBuilder::UpdateNavMesh (celNavMesh* navMesh, const csBox3& boundingBox)
 {
   const float cellSize = parameters->GetCellSize();
   const int tileSize = parameters->GetTileSize();
@@ -2393,11 +2429,8 @@ bool celNavMeshBuilder::UpdateNavMesh (iCelNavMesh* navMesh, const csBox3& bound
   tileConfig.width = tileConfig.tileSize + tileConfig.borderSize * 2;
   tileConfig.height = tileConfig.tileSize + tileConfig.borderSize * 2;
   tileConfig.detailSampleDist = parameters->GetDetailSampleDist() < 0.9f ? 0 : cellSize * 
-    parameters->GetDetailSampleDist();
+                                parameters->GetDetailSampleDist();
   tileConfig.detailSampleMaxError = tileConfig.ch * parameters->GetDetailSampleMaxError();
-
-  // Get the navmesh implementation. Some of the methods we will use are hidden there.
-  csRef<celNavMesh> navMeshImpl = static_cast<celNavMesh*>(navMesh);
 
   // Update tiles
   float tileBoundingMin[3];
@@ -2425,7 +2458,7 @@ bool celNavMeshBuilder::UpdateNavMesh (iCelNavMesh* navMesh, const csBox3& bound
       unsigned char* data = BuildTile(x, y, tileBoundingMin, tileBoundingMax, tileConfig, dataSize);
       if (data)
       {        
-        if (!navMeshImpl->RemoveTile(x, y) || !navMeshImpl->AddTile(data, dataSize))
+        if (!navMesh->RemoveTile(x, y) || !navMesh->AddTile(data, dataSize))
         {
           delete [] data;
           return false;
@@ -2434,31 +2467,6 @@ bool celNavMeshBuilder::UpdateNavMesh (iCelNavMesh* navMesh, const csBox3& bound
     }
   }
   return true;
-}
-
-bool celNavMeshBuilder::UpdateNavMesh (iCelNavMesh* navMesh, const csOBB& boundingBox)
-{
-  csVector3 min;
-  csVector3 max;
-  for (int i = 0; i < 8; i++)
-  {
-    csVector3 v = boundingBox.GetCorner(i);
-    for (int j = 0; j < 3; j++)
-    {
-      if (v[j] < min[j])
-      {
-        min[j] = v[j];
-      }
-      if (v[j] > max[j])
-      {
-        max[j] = v[j];
-      }
-    }
-  }
-
-  csBox3 aabb(min, max);
-
-  return UpdateNavMesh(navMesh, aabb);
 }
 
 const iCelNavMeshParams* celNavMeshBuilder::GetNavMeshParams () const

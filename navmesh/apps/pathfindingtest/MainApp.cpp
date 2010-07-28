@@ -133,6 +133,63 @@ bool MainApp::CreatePlayer ()
   return true;
 }
 
+bool MainApp::CreateBox ()
+{
+  boxEntity = physicalLayer->CreateEntity("box", behaviourLayer, "boxBehaviour", "pccamera.old",
+                                          "pcobject.mesh", "pcmove.linear", "pcmove.actor.standard",
+                                          "pcmove.mover", CEL_PROPCLASS_END);
+  if (!boxEntity)
+  {
+    return ReportError("Error creating box entity!");
+  }
+
+  // Get the iPcCamera interface so that we can set the camera.
+  csRef<iPcCamera> pcCamera = CEL_QUERY_PROPCLASS_ENT(boxEntity, iPcCamera);
+  pcCamera->SetAutoDraw(false);
+
+  // Get the zone manager from the level entity which should have been created by now.
+  csRef<iPcZoneManager> pcZoneMgr = CEL_QUERY_PROPCLASS_ENT(levelEntity, iPcZoneManager);
+  pcCamera->SetZoneManager(pcZoneMgr, true, "main", "Camera");
+
+  // Create mesh
+  using namespace CS::Geometry;
+  Box box(csVector3(0.0f, 0.0f, 0.0f), csVector3(2.0f, 2.0f, 2.0f));
+  csRef<iSector> sector = engine->FindSector("interior");
+  csRef<iMeshWrapper> mesh = GeneralMeshBuilder::CreateFactoryAndMesh(engine, sector, "cube", "cubeFact", &box);
+  if (!loader->LoadTexture ("stone", "/lib/std/stone4.gif"))
+  {
+    ReportWarning ("Could not load texture 'stone'");
+  }
+  iMaterialWrapper* materialWrapper = engine->GetMaterialList()->FindByName("stone");
+  mesh->GetMeshObject()->SetMaterialWrapper(materialWrapper);
+
+  // Get the iPcMesh interface so we can load the right mesh for our box.
+  csRef<iPcMesh> pcMesh = CEL_QUERY_PROPCLASS_ENT(boxEntity, iPcMesh);
+  pcMesh->SetMesh(mesh);
+  
+  // Get iPcLinearMovement so we can setup the movement system.
+  csRef<iPcLinearMovement> pcLinMove = CEL_QUERY_PROPCLASS_ENT(boxEntity, iPcLinearMovement);
+  pcLinMove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.4f,0.5f), csVector3(0,0,0));
+
+  // Get the iPcActorMove interface so that we can set movement speed.
+  csRef<iPcActorMove> pcActorMove = CEL_QUERY_PROPCLASS_ENT (boxEntity, iPcActorMove);
+  pcActorMove->SetMovementSpeed(1.5f);
+  pcActorMove->SetRunningSpeed(2.5f);
+  pcActorMove->SetRotationSpeed(1.75f);
+  pcActorMove->ToggleCameraMode();
+
+  // Remove the smooth behaviour from iPcMover (it causes our actor to walk where we
+  // don't want it to go).
+  csRef<iPcMover> pcMover = CEL_QUERY_PROPCLASS_ENT (boxEntity, iPcMover);
+  pcMover->SetSmoothMovement(false);
+  csVector3 point1(24.8f, 1.0f, 13.5f);
+  csVector3 point2(24.8f, 1.0f, 21.8f);
+  pcLinMove->SetFullPosition(point2, PI, sector);
+  pcMover->MoveTo(sector, point1, 0.005f);
+
+  return true;
+}
+
 void MainApp::Frame ()
 {
   pcCamera->Draw();
@@ -352,6 +409,11 @@ bool MainApp::Application ()
   {
     return ReportError("Couldn't create player!");
   }
+  if (!CreateBox())
+  {
+    return ReportError("Couldn't create box!");
+  }
+  
 
   printer.AttachNew(new FramePrinter(object_reg));
 

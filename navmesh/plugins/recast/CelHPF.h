@@ -112,6 +112,8 @@ public:
   virtual iCelHPath* ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
                                    iSector* goalSector);
   virtual iCelHPath* ShortestPath (iMapNode* from, iMapNode* goal);
+  virtual bool UpdateNavMesh (const csBox3& boundingBox, iSector* sector = 0);
+  virtual bool UpdateNavMesh (const csOBB& boundingBox, iSector* sector = 0);
   virtual bool SaveToFile (iVFS* vfs, const char* file);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
   virtual void DebugRender ();
@@ -149,8 +151,6 @@ public:
   virtual void SetSectors (csList<iSector*> sectorList);
   virtual iCelHNavStruct* BuildHNavStruct ();
   virtual iCelHNavStruct* LoadHNavStruct (iVFS* vfs, const char* file);
-  virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csBox3& boundingBox, iSector* sector = 0);
-  virtual bool UpdateNavMesh (iCelHNavStruct* hNavStruct, const csOBB& boundingBox, iSector* sector = 0);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
   virtual void SetNavMeshParams (const iCelNavMeshParams* parameters);
 };
