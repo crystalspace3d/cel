@@ -253,6 +253,8 @@ public:
 
   // API
   virtual iCelNavMeshPath* ShortestPath (const csVector3& from, const csVector3& goal, int maxPathSize = 32);
+  virtual bool Update (const csBox3& boundingBox);
+  virtual bool Update (const csOBB& boundingBox);
   virtual iSector* GetSector () const;
   virtual void SetSector (iSector* sector);
   virtual iCelNavMeshParams* GetParameters () const;
@@ -322,13 +324,12 @@ public:
   celNavMeshBuilder (iBase* parent);
   virtual ~celNavMeshBuilder ();
   virtual bool Initialize (iObjectRegistry*);
+  bool UpdateNavMesh (celNavMesh* navMesh, const csBox3& boundingBox);
 
   // API
   virtual bool SetSector (iSector* sector);
   virtual iCelNavMesh* BuildNavMesh ();
   virtual iCelNavMesh* LoadNavMesh (iFile* file);
-  virtual bool UpdateNavMesh (iCelNavMesh* navMesh, const csBox3& boundingBox);
-  virtual bool UpdateNavMesh (iCelNavMesh* navMesh, const csOBB& boundingBox);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
   virtual void SetNavMeshParams (const iCelNavMeshParams* parameters);
   virtual iSector* GetSector () const;

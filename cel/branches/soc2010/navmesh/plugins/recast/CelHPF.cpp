@@ -590,6 +590,45 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
   return path;
 }
 
+bool celHNavStruct::UpdateNavMesh (const csBox3& boundingBox, iSector* sector)
+{
+  if (!sector) 
+  {
+    bool ret;
+    csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
+    csPtrKey<iSector> key;
+    while (it.HasNext())
+    {
+      csRef<iCelNavMesh> navMesh = it.Next(key);
+      csBox3 navMeshBoundingBox = navMesh->GetBoundingBox();
+      if (boundingBox.Overlap(navMeshBoundingBox))
+      {
+        ret = UpdateNavMesh(boundingBox, key);
+        if (!ret)
+        {
+          return false;
+        }
+      }
+    }
+  }
+
+  csPtrKey<iSector> key = sector;
+  csRef<iCelNavMesh> navMesh = navMeshes.Get(key, 0);
+  navMesh->Update(boundingBox);
+
+  return true;
+}
+
+// TODO implement
+bool celHNavStruct::UpdateNavMesh (const csOBB& boundingBox, iSector* sector)
+{
+  if (sector)
+  {
+
+  }
+  return false;
+}
+
 void celHNavStruct::SaveParameters (iDocumentNode* node)
 {
   csRef<iDocumentNode> param = node->CreateNodeBefore(CS_NODE_ELEMENT);
@@ -928,7 +967,6 @@ bool celHNavStructBuilder::ParseParameters (iDocumentNode* node, iCelNavMeshPara
   return true;
 }
 
-// TODO only reads sectors for now
 bool celHNavStructBuilder::ParseMeshes (iDocumentNode* node, csHash<csRef<iSector>, const char*>& sectors, 
                                         celHNavStruct* navStruct, iVFS* vfs, iCelNavMeshParams* params)
 {
@@ -1079,27 +1117,6 @@ iCelHNavStruct* celHNavStructBuilder::LoadHNavStruct (iVFS* vfs, const char* fil
 
   return navStruct;
 }
-
-// TODO implement
-bool celHNavStructBuilder::UpdateNavMesh (iCelHNavStruct* hNavStruct, const csBox3& boundingBox, iSector* sector)
-{
-  if (sector) 
-  {
-
-  }
-  return false;
-}
-
-// TODO implement
-bool celHNavStructBuilder::UpdateNavMesh (iCelHNavStruct* hNavStruct, const csOBB& boundingBox, iSector* sector)
-{
-  if (sector)
-  {
-
-  }
-  return false;
-}
-
 
 const iCelNavMeshParams* celHNavStructBuilder::GetNavMeshParams () const
 {

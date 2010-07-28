@@ -57,6 +57,7 @@ private:
   csRef<iCelMapFile> mapfile;
   csRef<iCelEntity> levelEntity; // iCelEntity
   csRef<iCelEntity> playerEntity; // iCelEntity
+  csRef<iCelEntity> boxEntity; // iCelEntity
   bool renderNavMesh;
   bool renderDestination;
   bool renderPath;
@@ -65,6 +66,7 @@ private:
   bool LoadLevel ();
   bool LoadPlugins ();
   bool CreatePlayer ();
+  bool CreateBox ();
 
   // Event handlers
   virtual bool OnKeyboard (iEvent& ev);

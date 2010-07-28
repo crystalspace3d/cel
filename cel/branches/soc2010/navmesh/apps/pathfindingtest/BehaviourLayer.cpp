@@ -33,6 +33,10 @@ iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity, const char* 
   {
     behaviour = new BehaviourPlayer(entity, this, physicalLayer, objectRegistry);
   }
+  else if (!strcmp(name, "boxBehaviour"))
+  {
+    behaviour = new BehaviourBox(entity, this, physicalLayer, objectRegistry);
+  }  
 
   if (behaviour)
   {
@@ -236,7 +240,7 @@ void BehaviourPlayer::Drop ()
     csVector3 pos = pcMesh->GetMesh()->GetMovable()->GetTransform().This2Other(csVector3(0, 2, -2));
     csRef<iSector> sector = pcMesh->GetMesh()->GetMovable()->GetSectors()->Get(0);
     pcLinMove->SetPosition(pos, 0, sector);
-    pcLinMove->SetVelocity(csVector3 (0, .1f, 0));
+    pcLinMove->SetBodyVelocity(csVector3 (0, .1f, 0));
     csRef<iPcMesh> pcMeshChild = CEL_QUERY_PROPCLASS_ENT(child, iPcMesh);
     if (pcMeshChild)
     {
@@ -362,4 +366,84 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
 const char* BehaviourPlayer::GetName () const
 {
   return "playerBehaviour";
+}
+
+
+
+/*
+ * BehaviourBox
+ */
+
+BehaviourBox::BehaviourBox (iCelEntity* entity, BehaviourLayer* behaviourLayer, 
+                                  iCelPlLayer* physicalLayer, iObjectRegistry* objectRegistry)
+    : BehaviourCommon (entity, behaviourLayer, physicalLayer), point1(24.8f, 1.0f, 13.5f), 
+      point2(24.8f, 1.0f, 21.8f)
+{
+  id_box_arrived = physicalLayer->FetchStringID("pcmover_arrived");
+  oneIsCurrent = true;
+
+  csRef<iEngine> engine = csLoadPluginCheck<iEngine>(objectRegistry, "crystalspace.engine.3d");
+  point1Sector = engine->FindSector("interior");
+  point2Sector = point1Sector;
+}
+
+void BehaviourBox::GetLinearMovement ()
+{
+  if (!pcLinearMovement)
+  {
+    pcLinearMovement = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+  }
+}
+
+void BehaviourBox::GetActorMove ()
+{
+  if (!pcActorMove)
+  {
+    pcActorMove = CEL_QUERY_PROPCLASS_ENT(entity, iPcActorMove);
+  }
+}
+
+void BehaviourBox::GetMover ()
+{
+  if (!pcMover)
+  {
+    pcMover = CEL_QUERY_PROPCLASS_ENT(entity, iPcMover);
+  }
+}
+
+void BehaviourBox::GetMesh ()
+{
+  if (!pcMesh)
+  {
+    pcMesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+  }
+}
+
+bool BehaviourBox::SendMessage (csStringID msg_id, iCelPropertyClass* pc, celData& ret, 
+                                   iCelParameterBlock* params, va_list arg)
+{
+ if (msg_id == id_box_arrived)
+  {
+    GetMover();
+    if (oneIsCurrent)
+    {
+      pcMover->MoveTo(point2Sector, point2, 0.005f);
+    }
+    else
+    {
+      pcMover->MoveTo(point1Sector, point1, 0.005f);
+    }
+    oneIsCurrent = !oneIsCurrent;
+  }
+  else
+  {
+    return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);;
+  }
+
+  return true;
+}
+
+const char* BehaviourBox::GetName () const
+{
+  return "boxBehaviour";
 }

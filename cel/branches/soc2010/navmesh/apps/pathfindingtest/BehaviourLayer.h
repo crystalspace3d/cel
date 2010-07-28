@@ -130,4 +130,36 @@ public:
                             iCelParameterBlock* params, va_list arg);
 };
 
+class BehaviourBox : public BehaviourCommon
+{
+private:
+  csStringID id_box_arrived;
+  csVector3 point1;
+  csRef<iSector> point1Sector;
+  csVector3 point2;
+  csRef<iSector> point2Sector;
+  bool oneIsCurrent; // True if one is the current destination
+
+  void GetLinearMovement();
+  csWeakRef<iPcLinearMovement> pcLinearMovement;
+
+  void GetActorMove ();
+  csWeakRef<iPcActorMove> pcActorMove;
+
+  void GetMover ();
+  csWeakRef<iPcMover> pcMover;
+
+  void GetMesh ();
+  csWeakRef<iPcMesh> pcMesh;
+
+public:
+  BehaviourBox (iCelEntity* entity, BehaviourLayer* behaviourLayer, iCelPlLayer* physicalLayer, 
+                   iObjectRegistry* objectRegistry);
+  virtual ~BehaviourBox () { }
+
+  virtual const char* GetName () const;
+  virtual bool SendMessage (csStringID msg_id, iCelPropertyClass* pc, celData& ret, 
+                            iCelParameterBlock* params, va_list arg);
+};
+
 #endif

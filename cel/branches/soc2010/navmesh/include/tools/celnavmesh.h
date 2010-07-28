@@ -192,6 +192,20 @@ struct iCelNavMesh : public virtual iBase
   virtual iCelNavMeshPath* ShortestPath (const csVector3& from, const csVector3& goal, 
                                          int maxPathSize = 32) = 0;
 
+  /**
+   * Update the tiles of the navigation mesh that intersect with an axis aligned bounding box.
+   * \param boundingBox Bounding box representing the area to be updated.
+   * \return True in case everything went right and false otherwise.
+   */
+  virtual bool Update (const csBox3& boundingBox) = 0;
+
+  /**
+   * Update the tiles of the navigation mesh that intersect with an oriented bounding box.
+   * \param boundingBox Bounding box representing the area to be updated.
+   * \return True in case everything went right and false otherwise.
+   */
+  virtual bool Update (const csOBB& boundingBox) = 0;
+
   /// Get navigation mesh sector
   virtual iSector* GetSector () const = 0;
 
@@ -249,22 +263,6 @@ struct iCelNavMeshBuilder : public virtual iBase
    * \return Pointer to the navigation mesh, or 0 if something went wrong.
    */
   virtual iCelNavMesh* LoadNavMesh (iFile* file) = 0;
-
-  /**
-   * Update the tiles of the navigation mesh that intersect with an axis aligned bounding box.
-   * \param navMesh Pointer to the navigation mesh.
-   * \param boundingBox Bounding box representing the area to be updated.
-   * \return True in case everything went right and false otherwise.
-   */
-  virtual bool UpdateNavMesh (iCelNavMesh* navMesh, const csBox3& boundingBox) = 0;
-
-  /**
-   * Update the tiles of the navigation mesh that intersect with an oriented bounding box.
-   * \param navMesh Pointer to the navigation mesh.
-   * \param boundingBox Bounding box representing the area to be updated.
-   * \return True in case everything went right and false otherwise.
-   */
-  virtual bool UpdateNavMesh (iCelNavMesh* navMesh, const csOBB& boundingBox) = 0;
 
   /**
    * Get an object representation of the navigation mesh parameters.
