@@ -450,6 +450,7 @@ bool celNavMesh::Update (const csBox3& boundingBox)
   // Construct a new builder interface
   csRef<celNavMeshBuilder> builder;
   builder.AttachNew(new celNavMeshBuilder(0));
+  builder->Initialize(objectRegistry);
   builder->SetNavMeshParams(parameters);
   builder->SetSector(sector);
 
@@ -2375,22 +2376,17 @@ bool celNavMeshBuilder::UpdateNavMesh (celNavMesh* navMesh, const csBox3& boundi
   csVector3 max = boundingBox.Max();
 
   // No intersection between object and navmesh
-  if (min.y > boundingMax[1] || max.y < boundingMin[1])
+  if (min.y > boundingMax[1] || max.y < boundingMin[1] || min.x > boundingMax[0] || max.x < boundingMin[0] ||
+      min.z > boundingMax[2] || max.z < boundingMin[2])
   {
     return true;
   }
 
   // Calculate which tiles intersect with the object
-  unsigned xmin = ceil(min.x / tcs);
-  unsigned xmax = ceil(max.x / tcs);
-  unsigned zmin = ceil(min.z / tcs);
-  unsigned zmax = ceil(max.z / tcs);
-
-  // No intersection between object and navmesh
-  if (xmin > boundingMax[0] || xmax < boundingMin[0] || zmin > boundingMax[2] || zmax < boundingMin[2])
-  {
-    return true;
-  }
+  unsigned xmin = (min.x - boundingMin[0]) / tcs;
+  unsigned xmax = (max.x - boundingMin[0]) / tcs;
+  unsigned zmin = (min.z - boundingMin[2]) / tcs;
+  unsigned zmax = (max.z - boundingMin[2]) / tcs;
 
   // Adjust boundaries to be within the navmesh
   if (xmin < 0)

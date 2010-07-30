@@ -111,7 +111,7 @@ struct iCelHNavStruct : public virtual iBase
    * \return True in case everything went right and false otherwise.
    * \remarks A sector should be specified whenever possible.
    */
-  virtual bool UpdateNavMesh (const csBox3& boundingBox, iSector* sector = 0) = 0;
+  virtual bool Update (const csBox3& boundingBox, iSector* sector = 0) = 0;
 
   /**
    * Update the tiles of the hierarchical navigation structure that intersect with an oriented bounding box.
@@ -120,7 +120,7 @@ struct iCelHNavStruct : public virtual iBase
    * \return True in case everything went right and false otherwise.
    * \remarks A sector should be specified whenever possible.
    */
-  virtual bool UpdateNavMesh (const csOBB& boundingBox, iSector* sector = 0) = 0;
+  virtual bool Update (const csOBB& boundingBox, iSector* sector = 0) = 0;
 
   /**
    * Save this structure to a file.

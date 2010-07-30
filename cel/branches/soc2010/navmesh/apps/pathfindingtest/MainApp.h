@@ -61,6 +61,9 @@ private:
   bool renderNavMesh;
   bool renderDestination;
   bool renderPath;
+  bool renderBox;
+  bool updateNavmesh;
+  csBox3 updateArea;
 
   void Frame ();
   bool LoadLevel ();

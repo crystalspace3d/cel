@@ -24,6 +24,9 @@
 #include "DetourNode.h"
 #include "DetourCommon.h"
 
+// CHANGE 07-30-2010
+#include <climits>
+
 
 inline int opposite(int side) { return (side+4) & 0x7; }
 
@@ -834,6 +837,12 @@ bool dtNavMesh::removeTile(dtTileRef ref, unsigned char** data, int* dataSize)
 	tile->offMeshCons = 0;
 		
 	tile->salt++;
+
+        // CHANGE 07-30-2010
+        if (tile->salt == (1 << (sizeof(unsigned int) * CHAR_BIT - m_polyBits - m_tileBits)))
+        {
+          tile->salt = 0;
+        }
 
 	// Add to free list.
 	tile->next = m_nextFree;
