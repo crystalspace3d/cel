@@ -112,8 +112,8 @@ public:
   virtual iCelHPath* ShortestPath (const csVector3& from, iSector* fromSector, const csVector3& goal,
                                    iSector* goalSector);
   virtual iCelHPath* ShortestPath (iMapNode* from, iMapNode* goal);
-  virtual bool UpdateNavMesh (const csBox3& boundingBox, iSector* sector = 0);
-  virtual bool UpdateNavMesh (const csOBB& boundingBox, iSector* sector = 0);
+  virtual bool Update (const csBox3& boundingBox, iSector* sector = 0);
+  virtual bool Update (const csOBB& boundingBox, iSector* sector = 0);
   virtual bool SaveToFile (iVFS* vfs, const char* file);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
   virtual void DebugRender ();

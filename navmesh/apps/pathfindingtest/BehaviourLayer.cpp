@@ -376,8 +376,8 @@ const char* BehaviourPlayer::GetName () const
 
 BehaviourBox::BehaviourBox (iCelEntity* entity, BehaviourLayer* behaviourLayer, 
                                   iCelPlLayer* physicalLayer, iObjectRegistry* objectRegistry)
-    : BehaviourCommon (entity, behaviourLayer, physicalLayer), point1(24.8f, 1.0f, 13.5f), 
-      point2(24.8f, 1.0f, 21.8f)
+    : BehaviourCommon (entity, behaviourLayer, physicalLayer), point1(24.8f, 1.0f, 13.7f), 
+      point2(24.8f, 1.0f, 21.3f)
 {
   id_box_arrived = physicalLayer->FetchStringID("pcmover_arrived");
   oneIsCurrent = true;

@@ -590,7 +590,7 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
   return path;
 }
 
-bool celHNavStruct::UpdateNavMesh (const csBox3& boundingBox, iSector* sector)
+bool celHNavStruct::Update (const csBox3& boundingBox, iSector* sector)
 {
   if (!sector) 
   {
@@ -603,7 +603,7 @@ bool celHNavStruct::UpdateNavMesh (const csBox3& boundingBox, iSector* sector)
       csBox3 navMeshBoundingBox = navMesh->GetBoundingBox();
       if (boundingBox.Overlap(navMeshBoundingBox))
       {
-        ret = UpdateNavMesh(boundingBox, key);
+        ret = Update(boundingBox, key);
         if (!ret)
         {
           return false;
@@ -620,7 +620,7 @@ bool celHNavStruct::UpdateNavMesh (const csBox3& boundingBox, iSector* sector)
 }
 
 // TODO implement
-bool celHNavStruct::UpdateNavMesh (const csOBB& boundingBox, iSector* sector)
+bool celHNavStruct::Update (const csOBB& boundingBox, iSector* sector)
 {
   if (sector)
   {

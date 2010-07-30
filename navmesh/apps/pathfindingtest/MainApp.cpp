@@ -8,6 +8,9 @@ MainApp::MainApp ()
   renderNavMesh = true;
   renderDestination = true;
   renderPath = true;
+  renderBox = true;
+  updateNavmesh = false;
+  updateArea = csBox3(csVector3(24.3f, 1.0f, 13.7f), csVector3(25.3f, 2.0f, 21.3f));
 }
 
 MainApp::~MainApp () 
@@ -153,7 +156,11 @@ bool MainApp::CreateBox ()
 
   // Create mesh
   using namespace CS::Geometry;
-  Box box(csVector3(0.0f, 0.0f, 0.0f), csVector3(2.0f, 2.0f, 2.0f));
+  csBox3 boundingBox;
+  boundingBox.SetCenter(csVector3(1.5f, 1.5f, 1.5f));
+  boundingBox.SetSize(csVector3(1.0f, 1.0f, 1.0f));
+  Box box(boundingBox);
+  //Box box(csVector3(-0.5f, -0.5f, -0.5f), csVector3(0.5f, 0.5f, 0.5f));
   csRef<iSector> sector = engine->FindSector("interior");
   csRef<iMeshWrapper> mesh = GeneralMeshBuilder::CreateFactoryAndMesh(engine, sector, "cube", "cubeFact", &box);
   if (!loader->LoadTexture ("stone", "/lib/std/stone4.gif"))
@@ -169,7 +176,7 @@ bool MainApp::CreateBox ()
   
   // Get iPcLinearMovement so we can setup the movement system.
   csRef<iPcLinearMovement> pcLinMove = CEL_QUERY_PROPCLASS_ENT(boxEntity, iPcLinearMovement);
-  pcLinMove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.4f,0.5f), csVector3(0,0,0));
+  pcLinMove->InitCD(mesh, 100.0f);
 
   // Get the iPcActorMove interface so that we can set movement speed.
   csRef<iPcActorMove> pcActorMove = CEL_QUERY_PROPCLASS_ENT (boxEntity, iPcActorMove);
@@ -182,8 +189,8 @@ bool MainApp::CreateBox ()
   // don't want it to go).
   csRef<iPcMover> pcMover = CEL_QUERY_PROPCLASS_ENT (boxEntity, iPcMover);
   pcMover->SetSmoothMovement(false);
-  csVector3 point1(24.8f, 1.0f, 13.5f);
-  csVector3 point2(24.8f, 1.0f, 21.8f);
+  csVector3 point1(24.8f, 1.0f, 13.7f);
+  csVector3 point2(24.8f, 1.0f, 21.3f);
   pcLinMove->SetFullPosition(point2, PI, sector);
   pcMover->MoveTo(sector, point1, 0.005f);
 
@@ -208,6 +215,11 @@ void MainApp::Frame ()
   if (renderPath && path)
   {
     path->DebugRender();
+  }
+
+  if (navStruct && updateNavmesh)
+  {
+    navStruct->Update(updateArea, engine->FindSector("interior"));
   }
 }
 
@@ -290,6 +302,31 @@ bool MainApp::OnKeyboard(iEvent& ev)
     else if (code == '3') // Switch path rendering
     {
       renderPath = !renderPath;
+    }
+    else if (code == '4') // Switch stone block rendering
+    {
+      if (renderBox)
+      {
+        csRef<iPcMesh> pcMesh = CEL_QUERY_PROPCLASS_ENT(boxEntity, iPcMesh);
+        pcMesh->Hide();
+        renderBox = false;
+      }
+      else
+      {
+        csRef<iPcMesh> pcMesh = CEL_QUERY_PROPCLASS_ENT(boxEntity, iPcMesh);
+        pcMesh->Show();
+        renderBox = true;
+      }
+
+    }
+    else if (code == 'u') // Update navmesh now
+    {
+      navStruct->Update(updateArea, engine->FindSector("interior"));
+      
+    }
+    else if (code == 'y') // Update navmesh every time the big stone block moves
+    {
+      updateNavmesh = !updateNavmesh;
     }
   }
   return false;
