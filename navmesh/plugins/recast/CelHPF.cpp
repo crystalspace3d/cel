@@ -420,12 +420,12 @@ bool celHNavStruct::BuildHighLevelGraph()
           csVector3 center(((boundingMin[0] + boundingMax[0]) / 2), boundingMin[1],
               ((boundingMin[2] + boundingMax[2]) / 2));
           csRef<iMapNode> mapNode;
-          mapNode.AttachNew(new csMapNode("n")); // TODO set name?
+          mapNode.AttachNew(new csMapNode("hlg"));
           mapNode->SetPosition(center);
           mapNode->SetSector(sector);
           size_t nodeIndex;
           csRef<iCelNode> node = hlGraph->CreateEmptyNode(nodeIndex);
-          node->SetName(""); // TODO set name?
+          node->SetName("hlg");
           node->SetMapNode(mapNode);
 
           // Add the portal bounding box's center as a node in the destination sector to the graph
@@ -437,11 +437,11 @@ bool celHNavStruct::BuildHighLevelGraph()
             center2 = warp.This2Other(center);
           }
           csRef<iMapNode> mapNode2;
-          mapNode2.AttachNew(new csMapNode("n")); // TODO set name?
+          mapNode2.AttachNew(new csMapNode("hlg"));
           mapNode2->SetPosition(center2);
           mapNode2->SetSector(portal->GetSector());
           csRef<iCelNode> node2 = hlGraph->CreateEmptyNode(nodeIndex);
-          node2->SetName(""); // TODO set name?
+          node2->SetName("hlg");
           node2->SetMapNode(mapNode2);
 
           // Add an edge between the two points
@@ -493,12 +493,12 @@ iCelHPath* celHNavStruct::ShortestPath (const csVector3& from, iSector* fromSect
     iSector* goalSector)
 {
   csRef<iMapNode> fromNode;
-  fromNode.AttachNew(new csMapNode("n")); // TODO set name?
+  fromNode.AttachNew(new csMapNode("n"));
   fromNode->SetPosition(from);
   fromNode->SetSector(fromSector);
 
   csRef<iMapNode> goalNode;
-  goalNode.AttachNew(new csMapNode("n")); // TODO set name?
+  goalNode.AttachNew(new csMapNode("n"));
   goalNode->SetPosition(goal);
   goalNode->SetSector(goalSector);
 
@@ -509,8 +509,8 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
 {
   // Add from and goal nodes to the high level graph
   size_t fromNodeIdx, goalNodeIdx;
-  csRef<iCelNode> fromNode = hlGraph->CreateEmptyNode(fromNodeIdx); // TODO set name?
-  csRef<iCelNode> goalNode = hlGraph->CreateEmptyNode(goalNodeIdx); // TODO set name?
+  csRef<iCelNode> fromNode = hlGraph->CreateEmptyNode(fromNodeIdx);
+  csRef<iCelNode> goalNode = hlGraph->CreateEmptyNode(goalNodeIdx);
   fromNode->SetMapNode(from);
   goalNode->SetMapNode(goal);
 
@@ -619,14 +619,29 @@ bool celHNavStruct::Update (const csBox3& boundingBox, iSector* sector)
   return true;
 }
 
-// TODO implement
 bool celHNavStruct::Update (const csOBB& boundingBox, iSector* sector)
 {
-  if (sector)
+  csVector3 min;
+  csVector3 max;
+  for (int i = 0; i < 8; i++)
   {
-
+    csVector3 v = boundingBox.GetCorner(i);
+    for (int j = 0; j < 3; j++)
+    {
+      if (v[j] < min[j])
+      {
+        min[j] = v[j];
+      }
+      if (v[j] > max[j])
+      {
+        max[j] = v[j];
+      }
+    }
   }
-  return false;
+
+  csBox3 aabb(min, max);
+
+  return Update(aabb, sector);
 }
 
 void celHNavStruct::SaveParameters (iDocumentNode* node)

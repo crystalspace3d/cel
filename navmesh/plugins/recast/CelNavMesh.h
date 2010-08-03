@@ -185,11 +185,13 @@ private:
   int currentPosition; // Path array position, not point index
   int increasePosition; // Value to be added to currentPosition to get next element
   static const int INCREASE_PATH_BY; // Increase path vector by this amount when the it gets full
+  csRef<iSector> sector;
 
 public:
-  celNavMeshPath (float* path, int pathSize, int maxPathSize);
+  celNavMeshPath (float* path, int pathSize, int maxPathSize, iSector* sector);
   virtual ~celNavMeshPath ();
 
+  // API
   virtual iSector* GetSector () const;
   virtual void Current (csVector3& vector) const;
   virtual void Next (csVector3& vector);
@@ -282,7 +284,7 @@ private:
   rcChunkyTriMesh* chunkyTriMesh;
   
   // Tile specific
-  unsigned char* triangleFlags;
+  unsigned char* triangleAreas;
   rcHeightfield* solid;
   rcCompactHeightfield* chf;
   rcContourSet* cSet;
@@ -291,7 +293,7 @@ private:
   
   // Off-Mesh connections.
   static const int MAX_OFFMESH_CONNECTIONS = 256;
-  float offMeshConVerts[MAX_OFFMESH_CONNECTIONS*3*2];
+  float offMeshConVerts[MAX_OFFMESH_CONNECTIONS * 3 * 2];
   float offMeshConRads[MAX_OFFMESH_CONNECTIONS];
   unsigned char offMeshConDirs[MAX_OFFMESH_CONNECTIONS];
   unsigned char offMeshConAreas[MAX_OFFMESH_CONNECTIONS];

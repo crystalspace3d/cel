@@ -23,6 +23,7 @@
 #include "DetourNavMesh.h"
 #include "DetourCommon.h"
 #include "DetourNavMeshBuilder.h"
+#include "DetourAlloc.h"
 
 static unsigned short MESH_NULL_IDX = 0xffff;
 
@@ -172,7 +173,7 @@ static int createBVTree(const unsigned short* verts, const int /*nverts*/,
 						const int /*nnodes*/, dtBVNode* nodes)
 {
 	// Build tree
-	BVItem* items = new BVItem[npolys];
+	BVItem* items = (BVItem*)dtAlloc(sizeof(BVItem)*npolys, DT_ALLOC_TEMP);
 	for (int i = 0; i < npolys; i++)
 	{
 		BVItem& it = items[i];
@@ -206,7 +207,7 @@ static int createBVTree(const unsigned short* verts, const int /*nverts*/,
 	int curNode = 0;
 	subdivide(items, npolys, 0, npolys, curNode, nodes);
 	
-	delete [] items;
+	dtFree(items);
 	
 	return curNode;
 }
@@ -257,26 +258,30 @@ bool dtCreateNavMeshData(dtNavMeshCreateParams* params, unsigned char** outData,
 	
 	// Classify off-mesh connection points. We store only the connections
 	// whose start point is inside the tile.
-	unsigned char* offMeshConClass = new unsigned char [params->offMeshConCount*2];
-	if (!offMeshConClass)
-		return false;
-
+	unsigned char* offMeshConClass = 0;
 	int storedOffMeshConCount = 0;
 	int offMeshConLinkCount = 0;
-
-	for (int i = 0; i < params->offMeshConCount; ++i)
+	
+	if (params->offMeshConCount > 0)
 	{
-		offMeshConClass[i*2+0] = classifyOffMeshPoint(&params->offMeshConVerts[(i*2+0)*3], params->bmin, params->bmax);
-		offMeshConClass[i*2+1] = classifyOffMeshPoint(&params->offMeshConVerts[(i*2+1)*3], params->bmin, params->bmax);
+		offMeshConClass = (unsigned char*)dtAlloc(sizeof(unsigned char)*params->offMeshConCount*2, DT_ALLOC_TEMP);
+		if (!offMeshConClass)
+			return false;
 
-		// Cound how many links should be allocated for off-mesh connections.
-		if (offMeshConClass[i*2+0] == 0xff)
-			offMeshConLinkCount++;
-		if (offMeshConClass[i*2+1] == 0xff)
-			offMeshConLinkCount++;
+		for (int i = 0; i < params->offMeshConCount; ++i)
+		{
+			offMeshConClass[i*2+0] = classifyOffMeshPoint(&params->offMeshConVerts[(i*2+0)*3], params->bmin, params->bmax);
+			offMeshConClass[i*2+1] = classifyOffMeshPoint(&params->offMeshConVerts[(i*2+1)*3], params->bmin, params->bmax);
 
-		if (offMeshConClass[i*2+0] == 0xff)
-			storedOffMeshConCount++;
+			// Cound how many links should be allocated for off-mesh connections.
+			if (offMeshConClass[i*2+0] == 0xff)
+				offMeshConLinkCount++;
+			if (offMeshConClass[i*2+1] == 0xff)
+				offMeshConLinkCount++;
+
+			if (offMeshConClass[i*2+0] == 0xff)
+				storedOffMeshConCount++;
+		}
 	}
 	
 	// Off-mesh connectionss are stored as polygons, adjust values.
@@ -346,10 +351,10 @@ bool dtCreateNavMeshData(dtNavMeshCreateParams* params, unsigned char** outData,
 						 detailMeshesSize + detailVertsSize + detailTrisSize +
 						 bvTreeSize + offMeshConsSize;
 						 
-	unsigned char* data = new unsigned char[dataSize];
+	unsigned char* data = (unsigned char*)dtAlloc(sizeof(unsigned char)*dataSize, DT_ALLOC_PERM);
 	if (!data)
 	{
-		delete [] offMeshConClass;
+		dtFree(offMeshConClass);
 		return false;
 	}
 	memset(data, 0, dataSize);
@@ -528,16 +533,13 @@ bool dtCreateNavMeshData(dtNavMeshCreateParams* params, unsigned char** outData,
 		}
 	}
 		
-	delete [] offMeshConClass;
+	dtFree(offMeshConClass);
 	
 	*outData = data;
 	*outDataSize = dataSize;
 	
 	return true;
 }
-
-
-
 
 inline void swapByte(unsigned char* a, unsigned char* b)
 {

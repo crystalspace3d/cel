@@ -25,6 +25,7 @@
 #include "Recast.h"
 #include "RecastLog.h"
 #include "RecastTimer.h"
+#include "RecastAlloc.h"
 
 
 static const unsigned RC_UNSET_HEIGHT = 0xffff;
@@ -32,7 +33,7 @@ static const unsigned RC_UNSET_HEIGHT = 0xffff;
 struct rcHeightPatch
 {
 	inline rcHeightPatch() : data(0), xmin(0), ymin(0), width(0), height(0) {}
-	inline ~rcHeightPatch() { delete [] data; }
+	inline ~rcHeightPatch() { rcFree(data); }
 	unsigned short* data;
 	int xmin, ymin, width, height;
 };
@@ -845,18 +846,22 @@ static void getHeightData(const rcCompactHeightfield& chf,
 		hp.data[idx] = cs.y;
 	}
 	
-	while (stack.size() > 0)
+	static const int RETRACT_SIZE = 256;
+	int head = 0;
+	
+	while (head*3 < stack.size())
 	{
-/*		int cx = stack[0];
-		int cy = stack[1];
-		int ci = stack[2];
-		if (stack.size() >= 3)
-			memmove(&stack[0], &stack[3], sizeof(int)*(stack.size()-3));
-		stack.resize(stack.size()-3);*/
-
-		int ci = stack.pop();
-		int cy = stack.pop();
-		int cx = stack.pop();
+		int cx = stack[head*3+0];
+		int cy = stack[head*3+1];
+		int ci = stack[head*3+2];
+		head++;
+		if (head >= RETRACT_SIZE)
+		{
+			head = 0;
+			if (stack.size() > RETRACT_SIZE*3)
+				memmove(&stack[0], &stack[RETRACT_SIZE*3], sizeof(int)*(stack.size()-RETRACT_SIZE*3));
+			stack.resize(stack.size()-RETRACT_SIZE*3);
+		}
 
 		const rcCompactSpan& cs = chf.spans[ci];
 		for (int dir = 0; dir < 4; ++dir)
@@ -936,14 +941,14 @@ bool rcBuildPolyMeshDetail(const rcPolyMesh& mesh, const rcCompactHeightfield& c
 	int nPolyVerts = 0;
 	int maxhw = 0, maxhh = 0;
 	
-	rcScopedDelete<int> bounds = new int[mesh.npolys*4];
+	rcScopedDelete<int> bounds = (int*)rcAlloc(sizeof(int)*mesh.npolys*4, RC_ALLOC_TEMP);
 	if (!bounds)
 	{
 		if (rcGetLog())
 			rcGetLog()->log(RC_LOG_ERROR, "rcBuildPolyMeshDetail: Out of memory 'bounds' (%d).", mesh.npolys*4);
 		return false;
 	}
-	rcScopedDelete<float> poly = new float[nvp*3];
+	rcScopedDelete<float> poly = (float*)rcAlloc(sizeof(float)*nvp*3, RC_ALLOC_TEMP);
 	if (!poly)
 	{
 		if (rcGetLog())
@@ -982,7 +987,7 @@ bool rcBuildPolyMeshDetail(const rcPolyMesh& mesh, const rcCompactHeightfield& c
 		maxhh = rcMax(maxhh, ymax-ymin);
 	}
 	
-	hp.data = new unsigned short[maxhw*maxhh];
+	hp.data = (unsigned short*)rcAlloc(sizeof(unsigned short)*maxhw*maxhh, RC_ALLOC_TEMP);
 	if (!hp.data)
 	{
 		if (rcGetLog())
@@ -993,7 +998,7 @@ bool rcBuildPolyMeshDetail(const rcPolyMesh& mesh, const rcCompactHeightfield& c
 	dmesh.nmeshes = mesh.npolys;
 	dmesh.nverts = 0;
 	dmesh.ntris = 0;
-	dmesh.meshes = new unsigned short[dmesh.nmeshes*4];
+	dmesh.meshes = (unsigned short*)rcAlloc(sizeof(unsigned short)*dmesh.nmeshes*4, RC_ALLOC_PERM);
 	if (!dmesh.meshes)
 	{
 		if (rcGetLog())
@@ -1005,7 +1010,7 @@ bool rcBuildPolyMeshDetail(const rcPolyMesh& mesh, const rcCompactHeightfield& c
 	int tcap = vcap*2;
 
 	dmesh.nverts = 0;
-	dmesh.verts = new float[vcap*3];
+	dmesh.verts = (float*)rcAlloc(sizeof(float)*vcap*3, RC_ALLOC_PERM);
 	if (!dmesh.verts)
 	{
 		if (rcGetLog())
@@ -1013,7 +1018,7 @@ bool rcBuildPolyMeshDetail(const rcPolyMesh& mesh, const rcCompactHeightfield& c
 		return false;
 	}
 	dmesh.ntris = 0;
-	dmesh.tris = new unsigned char[tcap*4];
+	dmesh.tris = (unsigned char*)rcAlloc(sizeof(unsigned char*)*tcap*4, RC_ALLOC_PERM);
 	if (!dmesh.tris)
 	{
 		if (rcGetLog())
@@ -1083,7 +1088,7 @@ bool rcBuildPolyMeshDetail(const rcPolyMesh& mesh, const rcCompactHeightfield& c
 			while (dmesh.nverts+nverts > vcap)
 				vcap += 256;
 				
-			float* newv = new float[vcap*3];
+			float* newv = (float*)rcAlloc(sizeof(float)*vcap*3, RC_ALLOC_PERM);
 			if (!newv)
 			{
 				if (rcGetLog())
@@ -1092,7 +1097,7 @@ bool rcBuildPolyMeshDetail(const rcPolyMesh& mesh, const rcCompactHeightfield& c
 			}
 			if (dmesh.nverts)
 				memcpy(newv, dmesh.verts, sizeof(float)*3*dmesh.nverts);
-			delete [] dmesh.verts;
+			rcFree(dmesh.verts);
 			dmesh.verts = newv;
 		}
 		for (int j = 0; j < nverts; ++j)
@@ -1108,7 +1113,7 @@ bool rcBuildPolyMeshDetail(const rcPolyMesh& mesh, const rcCompactHeightfield& c
 		{
 			while (dmesh.ntris+ntris > tcap)
 				tcap += 256;
-			unsigned char* newt = new unsigned char[tcap*4];
+			unsigned char* newt = (unsigned char*)rcAlloc(sizeof(unsigned char)*tcap*4, RC_ALLOC_PERM);
 			if (!newt)
 			{
 				if (rcGetLog())
@@ -1117,7 +1122,7 @@ bool rcBuildPolyMeshDetail(const rcPolyMesh& mesh, const rcCompactHeightfield& c
 			}
 			if (dmesh.ntris)
 				memcpy(newt, dmesh.tris, sizeof(unsigned char)*4*dmesh.ntris);
-			delete [] dmesh.tris;
+			rcFree(dmesh.tris);
 			dmesh.tris = newt;
 		}
 		for (int j = 0; j < ntris; ++j)
@@ -1156,7 +1161,7 @@ bool rcMergePolyMeshDetails(rcPolyMeshDetail** meshes, const int nmeshes, rcPoly
 	}
 
 	mesh.nmeshes = 0;
-	mesh.meshes = new unsigned short[maxMeshes*4];
+	mesh.meshes = (unsigned short*)rcAlloc(sizeof(unsigned short)*maxMeshes*4, RC_ALLOC_PERM);
 	if (!mesh.meshes)
 	{
 		if (rcGetLog())
@@ -1165,7 +1170,7 @@ bool rcMergePolyMeshDetails(rcPolyMeshDetail** meshes, const int nmeshes, rcPoly
 	}
 
 	mesh.ntris = 0;
-	mesh.tris = new unsigned char[maxTris*4];
+	mesh.tris = (unsigned char*)rcAlloc(sizeof(unsigned char)*maxTris*4, RC_ALLOC_PERM);
 	if (!mesh.tris)
 	{
 		if (rcGetLog())
@@ -1174,7 +1179,7 @@ bool rcMergePolyMeshDetails(rcPolyMeshDetail** meshes, const int nmeshes, rcPoly
 	}
 
 	mesh.nverts = 0;
-	mesh.verts = new float[maxVerts*3];
+	mesh.verts = (float*)rcAlloc(sizeof(float)*maxVerts*3, RC_ALLOC_PERM);
 	if (!mesh.verts)
 	{
 		if (rcGetLog())

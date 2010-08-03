@@ -39,11 +39,11 @@ static float distancePtLine2d(const float* pt, const float* p, const float* q)
 	return dx*dx + dz*dz;
 }
 
-// CHANGE colors
 static void drawPolyBoundaries(duDebugDraw* dd, const dtMeshTile* tile,
 							   const unsigned int col, const float linew,
 							   bool inner)
 {
+	// CHANGE 2010-06-11
 	unsigned int tileBorder = duRGBA(255, 255, 100, 80);
 
 	static const float thr = 0.01f*0.01f;
@@ -76,6 +76,7 @@ static void drawPolyBoundaries(duDebugDraw* dd, const dtMeshTile* tile,
 						}
 					}
 					if (con)
+						// CHANGE 2010-06-11
 						c = tileBorder;
 					else
 						c = duRGBA(0,0,0,128);
@@ -118,19 +119,14 @@ static void drawPolyBoundaries(duDebugDraw* dd, const dtMeshTile* tile,
 	dd->end();
 }
 
-// CHANGE colors
 static void drawMeshTile(duDebugDraw* dd, const dtNavMesh& mesh, const dtMeshTile* tile, unsigned char flags)
 {
-	// Colors
-	//unsigned int polygonColor = duRGBA(70, 255, 90, 30);
-	//unsigned int innerBorder = duRGBA(50, 170, 50, 35);
-	//unsigned int outerBorder = duRGBA(50, 170, 50, 110);
+	// CHANGE 2010-06-11
 	unsigned int polygonColor = duRGBA(255, 230, 20, 40);
 	unsigned int innerBorder = duRGBA(225, 160, 0, 80);
 	unsigned int outerBorder = duRGBA(225, 160, 0, 120);
 	float innerBorderSize = 2.0f;
 	float outerBorderSize = 3.0f;
-
 
 	dtPolyRef base = mesh.getTilePolyRefBase(tile);
 
@@ -151,6 +147,7 @@ static void drawMeshTile(duDebugDraw* dd, const dtNavMesh& mesh, const dtMeshTil
 		else
 		{
 			if (p->area == 0) // Treat zero area type as default.
+				// CHANGE 2010-06-11
 				col = polygonColor;
 			else
 				col = duIntToCol(p->area, 64);
@@ -171,9 +168,11 @@ static void drawMeshTile(duDebugDraw* dd, const dtNavMesh& mesh, const dtMeshTil
 	dd->end();
 	
 	// Draw inter poly boundaries
-	drawPolyBoundaries(dd, tile,innerBorder , innerBorderSize, true);
-                	
+	// CHANGE 2010-06-11
+	drawPolyBoundaries(dd, tile, innerBorder, innerBorderSize, true);
+	
 	// Draw outer poly boundaries
+	// CHANGE 2010-06-11
 	drawPolyBoundaries(dd, tile, outerBorder, outerBorderSize, false);
 
 	if (flags & DU_DRAWNAVMESH_OFFMESHCONS)

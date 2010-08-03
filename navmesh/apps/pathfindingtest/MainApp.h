@@ -47,7 +47,6 @@ private:
   csVector3 destination;
   csRef<iSector> originSector;  
   csRef<iSector> destinationSector;
-  bool originSet;
   bool destinationSet;
   
   csRef<iCamera> camera;

@@ -115,7 +115,7 @@ void DebugDrawGL::end ()
 
 const int celNavMeshPath::INCREASE_PATH_BY = 10;
 
-celNavMeshPath::celNavMeshPath (float* path, int pathSize, int maxPathSize) 
+celNavMeshPath::celNavMeshPath (float* path, int pathSize, int maxPathSize, iSector* sector) 
     : scfImplementationType (this)
 {
   this->path = path;
@@ -123,6 +123,7 @@ celNavMeshPath::celNavMeshPath (float* path, int pathSize, int maxPathSize)
   this->maxPathSize = maxPathSize;
   currentPosition = 0;
   increasePosition = 3;
+  this->sector = sector;
 }
 
 celNavMeshPath::~celNavMeshPath ()
@@ -130,10 +131,9 @@ celNavMeshPath::~celNavMeshPath ()
   delete [] path;
 }
 
-// TODO implement
 iSector* celNavMeshPath::GetSector () const
 {
-  return 0;
+  return sector;
 }
 
 void celNavMeshPath::Current (csVector3& vector) const
@@ -294,17 +294,10 @@ void celNavMeshPath::DebugRenderPath ()
     DebugDrawGL dd;
     dd.depthMask(false);
     const unsigned int pathCol = duRGBA(255, 255, 255, 230);
-//    const unsigned int offMeshCol = duRGBA(128, 96, 0, 220);
     dd.begin(DU_DRAW_LINES, 4.0f);
     for (int i = 0; i < pathSize - 1; ++i)
     {
-//      unsigned int col = 0;
-//      if (m_straightPathFlags[i] & DT_STRAIGHTPATH_OFFMESH_CONNECTION)
-//        col = offMeshCol;
-//      else
-//        col = pathCol;
       unsigned int col = pathCol;
-
       dd.vertex(path[i * 3], path[i * 3 + 1] + 0.4f, path[i * 3 + 2], col);
       dd.vertex(path[(i + 1) * 3], path[(i + 1) * 3 + 1] + 0.4f, path[(i + 1) * 3 + 2], col);
     }
@@ -313,15 +306,6 @@ void celNavMeshPath::DebugRenderPath ()
     for (int i = 0; i < pathSize; ++i)
     {
       unsigned int col = 0;
-/*      if (m_straightPathFlags[i] & DT_STRAIGHTPATH_START)
-        col = startCol;
-      else if (m_straightPathFlags[i] & DT_STRAIGHTPATH_START)
-        col = endCol;
-      else if (m_straightPathFlags[i] & DT_STRAIGHTPATH_OFFMESH_CONNECTION)
-        col = offMeshCol;
-      else
-        col = pathCol;
-*/
       dd.vertex(path[i*3], path[i * 3 + 1] + 0.4f, path[i * 3 + 2], duRGBA(255, 150, 0, 230));
     }
     dd.end();
@@ -429,12 +413,12 @@ iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector
 
   if (nstraightPath)
   {
-    path.AttachNew(new celNavMeshPath(straightPath, nstraightPath, maxPathSize));
+    path.AttachNew(new celNavMeshPath(straightPath, nstraightPath, maxPathSize, sector));
   }
   else
   {
     delete [] straightPath;
-    path.AttachNew(new celNavMeshPath(0, 0, 0));
+    path.AttachNew(new celNavMeshPath(0, 0, 0, 0));
   }
 
   // For now, these are not really used
@@ -1406,42 +1390,7 @@ bool celNavMesh::LoadNavMesh (iFile* file)
 void celNavMesh::DebugRender () const
 {
   DebugDrawGL dd;
-/*
-  // Draw mesh
-  duDebugDrawTriMesh(&dd, m_geom->getMesh()->getVerts(), m_geom->getMesh()->getVertCount(),
-    m_geom->getMesh()->getTris(), m_geom->getMesh()->getNormals(), m_geom->getMesh()->getTriCount(), 0);
-  m_geom->drawOffMeshConnections(&dd);
-
-  glDepthMask(GL_FALSE);
-
-  // Draw bounds
-  const float* bmin = m_geom->getMeshBoundsMin();
-  const float* bmax = m_geom->getMeshBoundsMax();
-  duDebugDrawBoxWire(&dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], duRGBA(255,255,255,128), 1.0f);
-
-  // Tiling grid.
-  int gw = 0, gh = 0;
-  rcCalcGridSize(bmin, bmax, m_cellSize, &gw, &gh);
-  const int tw = (gw + (int)m_tileSize-1) / (int)m_tileSize;
-  const int th = (gh + (int)m_tileSize-1) / (int)m_tileSize;
-  const float s = m_tileSize*m_cellSize;
-  duDebugDrawGridXZ(&dd, bmin[0],bmin[1],bmin[2], tw,th, s, duRGBA(0,0,0,64), 1.0f);
-
-  // Draw active tile
-  duDebugDrawBoxWire(&dd, m_tileBmin[0],m_tileBmin[1],m_tileBmin[2], m_tileBmax[0],m_tileBmax[1],m_tileBmax[2], m_tileCol, 2.0f);
-*/
-  //glDepthMask(GL_FALSE);
-  //glDepthMask(GL_TRUE);
   duDebugDrawNavMesh(&dd, *detourNavMesh, navMeshDrawFlags);
-  //glDepthMask(GL_FALSE);
-/*
-  if (m_tool)
-    m_tool->handleRender();
-
-  m_geom->drawConvexVolumes(&dd);
-
-  glDepthMask(GL_TRUE);
-  */
 }
 
 void celNavMesh::DebugRenderAgent(const csVector3& pos) const
@@ -1461,7 +1410,6 @@ void celNavMesh::DebugRenderAgent(const csVector3& pos, int red, int green, int 
 
   // Agent dimensions.	
   duDebugDrawCylinderWire(&dd, pos[0] - r, pos[1] + 0.02f, pos[2] - r, pos[0] + r, pos[1] + h, pos[2] + r, col, 4.0f);
-
   duDebugDrawCircle(&dd, pos[0], pos[1] + c, pos[2], r, duRGBA(0, 0, 0, 180), 4.0f);
 
   unsigned int colb = duRGBA(0, 0, 0, 180);
@@ -1700,7 +1648,7 @@ celNavMeshBuilder::celNavMeshBuilder (iBase* parent) : scfImplementationType (th
   triangleVertices = 0;
   triangleIndices = 0;
   chunkyTriMesh = 0;
-  triangleFlags = 0;
+  triangleAreas = 0;
   solid = 0;
   chf = 0;
   cSet = 0;
@@ -2069,7 +2017,7 @@ iCelNavMesh* celNavMeshBuilder::BuildNavMesh ()
       {
         if (!navMesh->AddTile(data, dataSize))
         {
-          delete [] data;
+          dtFree(data);
           return 0;
         }
       }
@@ -2081,24 +2029,22 @@ iCelNavMesh* celNavMeshBuilder::BuildNavMesh ()
 
 void celNavMeshBuilder::CleanUpTileData()
 {
-  delete [] triangleFlags;
-  triangleFlags = 0;
-  delete solid;
+  delete [] triangleAreas;
+  triangleAreas = 0;
+  rcFreeHeightField(solid);
   solid = 0;
-  delete chf;
+  rcFreeCompactHeightfield(chf);
   chf = 0;
-  delete cSet;
+  rcFreeContourSet(cSet);
   cSet = 0;
-  delete pMesh;
+  rcFreePolyMesh(pMesh);
   pMesh = 0;
-  delete dMesh;
+  rcFreePolyMeshDetail(dMesh);
   dMesh = 0;
 }
 
 // Based on Recast Sample_TileMesh::buildTileMesh()
 // NOTE I left the original Recast comments
-// TODO update navigation mesh areas
-// TODO check offmesh connections
 unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const float* bmin, const float* bmax, 
                                             const rcConfig& tileConfig, int& dataSize)
 {
@@ -2113,7 +2059,7 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
   CleanUpTileData();
 
   // Allocate voxel heighfield where we rasterize our input data to.
-  solid = new rcHeightfield;
+  solid = rcAllocHeightfield();
   if (!solid)
   {
     csApplicationFramework::ReportError("Out of memory building navigation mesh.");
@@ -2128,8 +2074,8 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
   // Allocate array that can hold triangle flags.
   // If you have multiple meshes you need to process, allocate
   // and array which can hold the max number of triangles you need to process.
-  triangleFlags = new unsigned char[chunkyTriMesh->maxTrisPerChunk];
-  if (!triangleFlags)
+  triangleAreas = new unsigned char[chunkyTriMesh->maxTrisPerChunk];
+  if (!triangleAreas)
   {
     csApplicationFramework::ReportError("Out of memory building navigation mesh.");
     return 0;
@@ -2156,16 +2102,16 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
 
     tileTriangleCount += ntris;
 
-    memset(triangleFlags, 0, ntris * sizeof(unsigned char));
+    memset(triangleAreas, 0, ntris * sizeof(unsigned char));
     rcMarkWalkableTriangles(tileConfig.walkableSlopeAngle, triangleVertices, numberOfVertices, tris, 
-                            ntris, triangleFlags);
+                            ntris, triangleAreas);
 
-    rcRasterizeTriangles(triangleVertices, numberOfVertices, tris, triangleFlags, ntris, *solid, 
+    rcRasterizeTriangles(triangleVertices, numberOfVertices, tris, triangleAreas, ntris, *solid, 
                          tileConfig.walkableClimb);
   }
 
-  delete [] triangleFlags;
-  triangleFlags = 0;
+  delete [] triangleAreas;
+  triangleAreas = 0;
 
   // Once all geoemtry is rasterized, we do initial pass of filtering to
   // remove unwanted overhangs caused by the conservative rasterization
@@ -2177,22 +2123,22 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
   // Compact the heightfield so that it is faster to handle from now on.
   // This will result more cache coherent data as well as the neighbours
   // between walkable cells will be calculated.
-  chf = new rcCompactHeightfield;
+  chf = rcAllocCompactHeightfield();
   if (!chf)
   {
     csApplicationFramework::ReportError("Out of memory building navigation mesh.");
     return 0;
   }
-  if (!rcBuildCompactHeightfield(tileConfig.walkableHeight, tileConfig.walkableClimb, RC_WALKABLE, *solid, *chf))
+  if (!rcBuildCompactHeightfield(tileConfig.walkableHeight, tileConfig.walkableClimb, *solid, *chf))
   {
     return 0;
   }
 
-  delete solid;
+  rcFreeHeightField(solid);
   solid = 0;
 
   // Erode the walkable area by agent radius.
-  if (!rcErodeArea(RC_WALKABLE_AREA, tileConfig.walkableRadius, *chf))
+  if (!rcErodeWalkableArea(tileConfig.walkableRadius, *chf))
   {
     return 0;
   }
@@ -2217,7 +2163,7 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
   }
 
   // Create contours.
-  cSet = new rcContourSet;
+  cSet = rcAllocContourSet();
   if (!cSet)
   {
     csApplicationFramework::ReportError("Out of memory building navigation mesh.");
@@ -2233,7 +2179,7 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
   }
 
   // Build polygon navmesh from the contours.
-  pMesh = new rcPolyMesh;
+  pMesh = rcAllocPolyMesh();
   if (!pMesh)
   {
     csApplicationFramework::ReportError("Out of memory building navigation mesh.");
@@ -2245,7 +2191,7 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
   }
 
   // Build detail mesh.
-  dMesh = new rcPolyMeshDetail;
+  dMesh = rcAllocPolyMeshDetail();
   if (!dMesh)
   {
     csApplicationFramework::ReportError("Out of memory building navigation mesh.");
@@ -2256,9 +2202,9 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
     return 0;
   }
 
-  delete chf;
+  rcFreeCompactHeightfield(chf);
   chf = 0;
-  delete cSet;
+  rcFreeContourSet(cSet);
   cSet = 0;
 
   unsigned char* navData = 0;
@@ -2279,7 +2225,6 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
       return 0;
     }
 
-    // TODO areas
     // Update poly flags from areas.
     for (int i = 0; i < pMesh->npolys; ++i)
     {
@@ -2339,9 +2284,9 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
     }
   }
 
-  delete pMesh;
+  rcFreePolyMesh(pMesh);
   pMesh = 0;
-  delete dMesh;
+  rcFreePolyMeshDetail(dMesh);
   dMesh = 0;
 
   dataSize = navDataSize;
@@ -2456,7 +2401,7 @@ bool celNavMeshBuilder::UpdateNavMesh (celNavMesh* navMesh, const csBox3& boundi
       {        
         if (!navMesh->RemoveTile(x, y) || !navMesh->AddTile(data, dataSize))
         {
-          delete [] data;
+          dtFree(data);
           return false;
         }
       }

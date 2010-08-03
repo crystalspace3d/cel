@@ -3,7 +3,6 @@
 MainApp::MainApp () 
 {
   SetApplicationName("Navigation Mesh Test");
-  originSet = false;
   destinationSet = false;
   renderNavMesh = true;
   renderDestination = true;
@@ -247,6 +246,9 @@ bool MainApp::OnKeyboard(iEvent& ev)
     else if (code == 'b') // Build navstruct
     {
       navStruct.Invalidate();
+      path.Invalidate();
+      destinationSet = false;
+      behaviourLayer->SetPath(0);
       if (!params)
       {
         params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
@@ -287,7 +289,6 @@ bool MainApp::OnKeyboard(iEvent& ev)
     {
       navStruct.Invalidate();
       path.Invalidate();
-      originSet = false;
       destinationSet = false;
       behaviourLayer->SetPath(0);
     }
@@ -368,20 +369,11 @@ void MainApp::MouseClick1Handler (iEvent& ev)
     return;
   }
   
-  if (kbd->GetKeyState(CSKEY_SHIFT))
-  {
-    origin = st.isect;
-    originSector = sectorList->Get(0);
-    originSet = true;
-  }
-  else
-  {
-    destination = st.isect;
-    destinationSector = sectorList->Get(0);
-    destinationSet = true;
-  }
+  destination = st.isect;
+  destinationSector = sectorList->Get(0);
+  destinationSet = true;
 
-  if (originSet && destinationSet && navStruct)
+  if (destinationSet && navStruct)
   {
     path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
   }
