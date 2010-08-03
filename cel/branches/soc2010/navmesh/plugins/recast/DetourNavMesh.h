@@ -19,6 +19,8 @@
 #ifndef DETOURNAVMESH_H
 #define DETOURNAVMESH_H
 
+#include "DetourAlloc.h"
+
 // Reference to navigation polygon.
 typedef unsigned int dtPolyRef;
 
@@ -272,7 +274,7 @@ public:
 	dtPolyRef findNearestPoly(const float* center, const float* extents,
 							  const dtQueryFilter* filter, float* nearestPt) const;
 	
-	// Returns polygons which touch the query box.
+	// Returns polygons which overlap the query box.
 	// Params:
 	//	center[3] - (in) the center of the search box.
 	//	extents[3] - (in) the extents of the search box.
@@ -336,7 +338,7 @@ public:
 	int moveAlongPathCorridor(const float* startPos, const float* endPos, float* resultPos,
 							  const dtPolyRef* path, const int pathSize) const;
 	
-	// Castst 'walkability' ray along the navmesh surface from startPos towards the endPos.
+	// Casts 'walkability' ray along the navmesh surface from startPos towards the endPos.
 	// Params:
 	//	startRef - (in) ref to the polygon where the start lies.
 	//	startPos[3] - (in) start position of the query.
@@ -364,18 +366,35 @@ public:
 
 	// Finds polygons found along the navigation graph which touch the specified circle.
 	// Params:
-	//	centerRef - (in) ref to the polygon where the center lies.
-	//	centerPos[3] - (in) center if the query circle
-	//	radius - (in) radius of the query circle
+	//	startRef - (in) ref to the polygon where the search starts.
+	//	centerPos[3] - (in) center if the query circle.
+	//	radius - (in) radius of the query circle.
 	//  filter - (in) path polygon filter.
 	//	resultRef - (out, opt) refs to the polygons touched by the circle.
 	//	resultParent - (out, opt) parent of each result polygon.
 	//	resultCost - (out, opt) search cost at each result polygon.
 	//	maxResult - (int) maximum capacity of search results.
 	// Returns: Number of results.
-	int	findPolysAround(dtPolyRef centerRef, const float* centerPos, float radius, const dtQueryFilter* filter,
-						dtPolyRef* resultRef, dtPolyRef* resultParent, float* resultCost,
-						const int maxResult) const;
+	int	findPolysAroundCircle(dtPolyRef startRef, const float* centerPos, float radius,
+							  const dtQueryFilter* filter,
+							  dtPolyRef* resultRef, dtPolyRef* resultParent, float* resultCost,
+							  const int maxResult) const;
+
+	// Finds polygons found along the navigation graph which touch the convex polygon shape.
+	// Params:
+	//	startRef - (in) ref to the polygon where the search starts.
+	//	verts[3*n] - (in) vertices describing convex polygon shape (CCW).
+	//	nverts - (in) number of vertices in the polygon.
+	//  filter - (in) path polygon filter.
+	//	resultRef - (out, opt) refs to the polygons touched by the circle.
+	//	resultParent - (out, opt) parent of each result polygon.
+	//	resultCost - (out, opt) search cost at each result polygon.
+	//	maxResult - (int) maximum capacity of search results.
+	// Returns: Number of results.
+	int	findPolysAroundShape(dtPolyRef startRef, const float* verts, const int nverts,
+							 const dtQueryFilter* filter,
+							 dtPolyRef* resultRef, dtPolyRef* resultParent, float* resultCost,
+							 const int maxResult) const;
 	
 	// Returns closest point on navigation polygon.
 	// Uses detail polygons to find the closest point to the navigation polygon surface. 
@@ -452,14 +471,14 @@ public:
 	// Encodes a tile id.
 	inline dtPolyRef encodePolyId(unsigned int salt, unsigned int it, unsigned int ip) const
 	{
-		return (salt << (m_polyBits+m_tileBits)) | ((it+1) << m_polyBits) | ip;
+		return (salt << (m_polyBits+m_tileBits)) | (it << m_polyBits) | ip;
 	}
 	
 	// Decodes a tile id.
 	inline void decodePolyId(dtPolyRef ref, unsigned int& salt, unsigned int& it, unsigned int& ip) const
 	{
 		salt = (ref >> (m_polyBits+m_tileBits)) & ((1<<m_saltBits)-1);
-		it = ((ref >> m_polyBits) - 1) & ((1<<m_tileBits)-1);
+		it = (ref >> m_polyBits) & ((1<<m_tileBits)-1);
 		ip = ref & ((1<<m_polyBits)-1);
 	}
 
@@ -472,7 +491,7 @@ public:
 	// Decodes a tile id.
 	inline unsigned int decodePolyIdTile(dtPolyRef ref) const
 	{
-		return ((ref >> m_polyBits) - 1) & ((1<<m_tileBits)-1);
+		return (ref >> m_polyBits) & ((1<<m_tileBits)-1);
 	}
 	
 	// Decodes a poly id.
@@ -545,5 +564,9 @@ private:
 	class dtNodePool* m_nodePool;		// Pointer to node pool.
 	class dtNodeQueue* m_openList;		// Pointer to open list queue.
 };
+
+// Helper function to allocate navmesh class using Detour allocator.
+dtNavMesh* dtAllocNavMesh();
+void dtFreeNavMesh(dtNavMesh* navmesh);
 
 #endif // DETOURNAVMESH_H

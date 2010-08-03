@@ -19,14 +19,14 @@
 #ifndef DETOURCOMMON_H
 #define DETOURCOMMON_H
 
-//////////////////////////////////////////////////////////////////////////////////////////
-
 template<class T> inline void dtSwap(T& a, T& b) { T t = a; a = b; b = t; }
 template<class T> inline T dtMin(T a, T b) { return a < b ? a : b; }
 template<class T> inline T dtMax(T a, T b) { return a > b ? a : b; }
 template<class T> inline T dtAbs(T a) { return a < 0 ? -a : a; }
 template<class T> inline T dtSqr(T a) { return a*a; }
 template<class T> inline T dtClamp(T v, T mn, T mx) { return v < mn ? mn : (v > mx ? mx : v); }
+
+float dtSqrt(float x);
 
 inline void dtVcross(float* dest, const float* v1, const float* v2)
 {
@@ -68,6 +68,13 @@ inline void dtVsub(float* dest, const float* v1, const float* v2)
 	dest[2] = v1[2]-v2[2];
 }
 
+inline void dtVscale(float* dest, const float* v, const float t)
+{
+	dest[0] = v[0]*t;
+	dest[1] = v[1]*t;
+	dest[2] = v[2]*t;
+}
+
 inline void dtVmin(float* mn, const float* v)
 {
 	mn[0] = dtMin(mn[0], v[0]);
@@ -94,7 +101,7 @@ inline float dtVdist(const float* v1, const float* v2)
 	float dx = v2[0] - v1[0];
 	float dy = v2[1] - v1[1];
 	float dz = v2[2] - v1[2];
-	return sqrtf(dx*dx + dy*dy + dz*dz);
+	return dtSqrt(dx*dx + dy*dy + dz*dz);
 }
 
 inline float dtVdistSqr(const float* v1, const float* v2)
@@ -107,7 +114,7 @@ inline float dtVdistSqr(const float* v1, const float* v2)
 
 inline void dtVnormalize(float* v)
 {
-	float d = 1.0f / sqrtf(dtSqr(v[0]) + dtSqr(v[1]) + dtSqr(v[2]));
+	float d = 1.0f / dtSqrt(dtSqr(v[0]) + dtSqr(v[1]) + dtSqr(v[2]));
 	v[0] *= d;
 	v[1] *= d;
 	v[2] *= d;

@@ -793,6 +793,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\plugins\recast\DetourAlloc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\plugins\recast\DetourCommon.cpp"
 				>
 			</File>
@@ -814,6 +818,10 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\Recast.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\RecastAlloc.cpp"
 				>
 			</File>
 			<File
@@ -857,19 +865,19 @@
 			Name="Header Files"
 			>
 			<File
-				RelativePath="..\..\plugins\recast\CelHPF.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\include\tools\celhpf.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\tools\celnavmesh.h"
+				RelativePath="..\..\plugins\recast\CelHPF.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\CelNavMesh.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\tools\celnavmesh.h"
 				>
 			</File>
 			<File
@@ -878,6 +886,10 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\DebugDraw.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\DetourAlloc.h"
 				>
 			</File>
 			<File
@@ -902,6 +914,10 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\Recast.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\RecastAlloc.h"
 				>
 			</File>
 			<File
