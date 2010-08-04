@@ -310,17 +310,22 @@ private:
 
   // Others
   int numberOfVertices;
+  int numberOfRealVertices;
   float* triangleVertices;
   int numberOfTriangles;
+  int numberOfRealTriangles;
   int* triangleIndices;
   float boundingMin[3];
   float boundingMax[3];
 
   void CleanUpSectorData ();
   void CleanUpTileData ();
-  bool GetSectorData ();
+  bool GetSectorData ();  
   unsigned char* BuildTile(const int tx, const int ty, const float* bmin, const float* bmax, 
                            const rcConfig& tileConfig, int& dataSize);
+  void CreateFakeTriangles (csList<float>& vertices, csList<int>& indices, int& numberOfVertices, 
+                            int& numberOfTriangles, int firstIndex);
+  bool UpdateFakeTriangles ();
 
 public:
   celNavMeshBuilder (iBase* parent);

@@ -1679,7 +1679,9 @@ void celNavMeshBuilder::CleanUpSectorData ()
   chunkyTriMesh = 0;
 
   numberOfVertices = 0;
-  numberOfTriangles = 0;
+  numberOfRealVertices = 0;
+  numberOfTriangles = 0;    
+  numberOfRealTriangles = 0;
   numberOfOffMeshCon = 0;
   numberOfVolumes = 0;
 }
@@ -1808,104 +1810,15 @@ bool celNavMeshBuilder::GetSectorData ()
     }
   }
 
+  numberOfRealVertices = numberOfVertices;
+  numberOfRealTriangles = numberOfTriangles;
+
   // Create fake triangles, normal to the portals
-  csSet<csPtrKey<iMeshWrapper> >::GlobalIterator portalMeshesIt = 
-      currentSector->GetPortalMeshes().GetIterator();
-  while (portalMeshesIt.HasNext())
-  {
-    csRef<iPortalContainer> container = portalMeshesIt.Next()->GetPortalContainer();
-    int size = container->GetPortalCount();
-    for (int i = 0; i < size; i++)
-    {
-      csRef<iPortal> portal = container->GetPortal(i);
-
-      // Get portal indices
-      int indicesSize = portal->GetVertexIndicesCount();
-      const int* indicesPortal = portal->GetVertexIndices();
-
-      // Get portal vertices
-      int verticesSize = portal->GetVerticesCount();
-      const csVector3* verticesPortal = portal->GetWorldVertices();
-
-      if (indicesSize >= 3)
-      {
-        int firstVertexIndex = numberOfVertices;
-
-        // Copy portal vertices
-        for (int j = 0; j < verticesSize; j++)
-        {
-          vertices.PushBack(verticesPortal[j][0]);
-          vertices.PushBack(verticesPortal[j][1]);
-          vertices.PushBack(verticesPortal[j][2]);
-        }
-        numberOfVertices += verticesSize;
-
-        const csVector3 direction = portal->GetObjectPlane().Normal() * parameters->GetBorderSize() 
-            * parameters->GetCellSize();
-        const csVector3 v1 = verticesPortal[indicesPortal[0]];
-        const csVector3 v2 = verticesPortal[indicesPortal[1]];
-
-        // For the first triangle, add new vertices for the first and second vertices of current triangle
-        csVector3 v = v1 + direction;
-        vertices.PushBack(v[0]);
-        vertices.PushBack(v[1]);
-        vertices.PushBack(v[2]);
-        v = v2 + direction;
-        vertices.PushBack(v[0]);
-        vertices.PushBack(v[1]);
-        vertices.PushBack(v[2]);
-        
-        int lastVertexIndex = numberOfVertices;
-        int thisVertexIndex = lastVertexIndex + 1;
-        numberOfVertices += 2;
-
-        // Create two triangles for edge v1v2, v1-lastVertexIndex-v2 and v2-lastVertexIndex-thisVertexIndex
-        indices.PushBack(indicesPortal[0] + firstVertexIndex);
-        indices.PushBack(indicesPortal[1] + firstVertexIndex);
-        indices.PushBack(lastVertexIndex);
-        indices.PushBack(indicesPortal[1] + firstVertexIndex);
-        indices.PushBack(thisVertexIndex);
-        indices.PushBack(lastVertexIndex);        
-        numberOfTriangles += 2;
-
-        // For each triangle on the triangle fan, create new triangles in the direction of the plane normal
-        // We are basically extruding the polygon by agentRadius, in the direction of the polygon normal
-        int size2 = indicesSize - 2;
-        for (int j = 1; j <= size2; j++)
-        {
-          lastVertexIndex = thisVertexIndex;
-          thisVertexIndex++;
-          const csVector3 v3 = verticesPortal[indicesPortal[j + 1]];
-
-          // Add new vertex for the third vertex of current triangle          
-          v = v3 + direction;
-          vertices.PushBack(v[0]);
-          vertices.PushBack(v[1]);
-          vertices.PushBack(v[2]);
-          numberOfVertices++;
-
-          // Create two triangles for edge v2v3, v2-lastVertexIndex-v3 and v3-lastVertexIndex-thisVertexIndex
-          indices.PushBack(indicesPortal[j] + firstVertexIndex);
-          indices.PushBack(indicesPortal[j + 1] + firstVertexIndex);
-          indices.PushBack(lastVertexIndex);          
-          indices.PushBack(indicesPortal[j + 1] + firstVertexIndex);
-          indices.PushBack(thisVertexIndex);
-          indices.PushBack(lastVertexIndex);          
-          numberOfTriangles += 2;
-        }
-
-        // Create two triangles for edge v3v1 of the last triangle
-        // v3-thisVertexIndex-v1 v1-thisVertexIndex-firstVertexIndex
-        indices.PushBack(indicesPortal[indicesSize - 1] + firstVertexIndex);
-        indices.PushBack(indicesPortal[0] + firstVertexIndex);
-        indices.PushBack(thisVertexIndex);
-        indices.PushBack(indicesPortal[0] + firstVertexIndex);
-        indices.PushBack(firstVertexIndex);
-        indices.PushBack(thisVertexIndex);
-        numberOfTriangles += 2;
-      }
-    }    
-  }
+  int numberOfFakeTriangles;
+  int numberOfFakeVertices;
+  CreateFakeTriangles(vertices, indices, numberOfFakeVertices, numberOfFakeTriangles, numberOfVertices);
+  numberOfVertices += numberOfFakeVertices;
+  numberOfTriangles += numberOfFakeTriangles;
 
   // Copy vertices from list to array
   triangleVertices = new float[numberOfVertices * 3];
@@ -1947,6 +1860,159 @@ bool celNavMeshBuilder::GetSectorData ()
     return csApplicationFramework::ReportError("Error creating ChunkyTriMesh.");
   }	
 
+  return true;
+}
+
+void celNavMeshBuilder::CreateFakeTriangles (csList<float>& vertices, csList<int>& indices, int& numberOfVertices, 
+                                             int& numberOfTriangles, int firstIndex)
+{
+  numberOfVertices = 0;
+  numberOfTriangles = 0;
+
+  csSet<csPtrKey<iMeshWrapper> >::GlobalIterator portalMeshesIt = 
+      currentSector->GetPortalMeshes().GetIterator();
+  while (portalMeshesIt.HasNext())
+  {
+    csRef<iPortalContainer> container = portalMeshesIt.Next()->GetPortalContainer();
+    int size = container->GetPortalCount();
+    for (int i = 0; i < size; i++)
+    {
+      csRef<iPortal> portal = container->GetPortal(i);
+
+      // Get portal indices
+      int indicesSize = portal->GetVertexIndicesCount();
+      const int* indicesPortal = portal->GetVertexIndices();
+
+      // Get portal vertices
+      int verticesSize = portal->GetVerticesCount();
+      const csVector3* verticesPortal = portal->GetWorldVertices();
+
+      if (indicesSize >= 3)
+      {
+        int firstPortalIndex = firstIndex + numberOfVertices;
+
+        // Copy portal vertices
+        for (int j = 0; j < verticesSize; j++)
+        {
+          vertices.PushBack(verticesPortal[j][0]);
+          vertices.PushBack(verticesPortal[j][1]);
+          vertices.PushBack(verticesPortal[j][2]);
+        }
+        numberOfVertices += verticesSize;
+
+        const csVector3 direction = portal->GetObjectPlane().Normal() * parameters->GetBorderSize() 
+            * parameters->GetCellSize();
+        const csVector3 v1 = verticesPortal[indicesPortal[0]];
+        const csVector3 v2 = verticesPortal[indicesPortal[1]];
+
+        // For the first triangle, add new vertices for the first and second vertices of current triangle
+        csVector3 v = v1 + direction;
+        vertices.PushBack(v[0]);
+        vertices.PushBack(v[1]);
+        vertices.PushBack(v[2]);
+        v = v2 + direction;
+        vertices.PushBack(v[0]);
+        vertices.PushBack(v[1]);
+        vertices.PushBack(v[2]);
+        
+        int lastVertexIndex = firstIndex + numberOfVertices;
+        int thisVertexIndex = lastVertexIndex + 1;
+        numberOfVertices += 2;
+
+        // Create two triangles for edge v1v2, v1-lastVertexIndex-v2 and v2-lastVertexIndex-thisVertexIndex
+        indices.PushBack(indicesPortal[0] + firstPortalIndex);
+        indices.PushBack(indicesPortal[1] + firstPortalIndex);
+        indices.PushBack(lastVertexIndex);
+        indices.PushBack(indicesPortal[1] + firstPortalIndex);
+        indices.PushBack(thisVertexIndex);
+        indices.PushBack(lastVertexIndex);        
+        numberOfTriangles += 2;
+
+        // For each triangle on the triangle fan, create new triangles in the direction of the plane normal
+        // We are basically extruding the polygon by agentRadius, in the direction of the polygon normal
+        int size2 = indicesSize - 2;
+        for (int j = 1; j <= size2; j++)
+        {
+          lastVertexIndex = thisVertexIndex;
+          thisVertexIndex++;
+          const csVector3 v3 = verticesPortal[indicesPortal[j + 1]];
+
+          // Add new vertex for the third vertex of current triangle          
+          v = v3 + direction;
+          vertices.PushBack(v[0]);
+          vertices.PushBack(v[1]);
+          vertices.PushBack(v[2]);
+          numberOfVertices++;
+
+          // Create two triangles for edge v2v3, v2-lastVertexIndex-v3 and v3-lastVertexIndex-thisVertexIndex
+          indices.PushBack(indicesPortal[j] + firstPortalIndex);
+          indices.PushBack(indicesPortal[j + 1] + firstPortalIndex);
+          indices.PushBack(lastVertexIndex);          
+          indices.PushBack(indicesPortal[j + 1] + firstPortalIndex);
+          indices.PushBack(thisVertexIndex);
+          indices.PushBack(lastVertexIndex);          
+          numberOfTriangles += 2;
+        }
+
+        // Create two triangles for edge v3v1 of the last triangle
+        // v3-thisVertexIndex-v1 v1-thisVertexIndex-firstVertexIndex
+        indices.PushBack(indicesPortal[indicesSize - 1] + firstPortalIndex);
+        indices.PushBack(indicesPortal[0] + firstPortalIndex);
+        indices.PushBack(thisVertexIndex);
+        indices.PushBack(indicesPortal[0] + firstPortalIndex);
+        indices.PushBack(firstPortalIndex);
+        indices.PushBack(thisVertexIndex);
+        numberOfTriangles += 2;
+      }
+    }    
+  }
+}
+
+bool celNavMeshBuilder::UpdateFakeTriangles ()
+{
+  if (!currentSector || ! triangleVertices || !triangleIndices)
+  {
+    return true;
+  }
+
+  csList<int> indices;
+  csList<float> vertices;
+
+  // Create fake triangles, normal to the portals
+  int numberOfFakeTriangles;
+  int numberOfFakeVertices;
+  CreateFakeTriangles(vertices, indices, numberOfFakeVertices, numberOfFakeTriangles, numberOfRealVertices);
+
+  // Copy vertices from list to array
+  int i = numberOfRealVertices * 3;
+  csList<float>::Iterator verticesIt(vertices);
+  while (verticesIt.HasNext()) 
+  {
+    triangleVertices[i++] = verticesIt.Next();
+  }
+
+  // Copy indices from list to array
+  i = numberOfRealTriangles * 3;
+  csList<int>::Iterator indicesIt(indices);
+  while (indicesIt.HasNext()) 
+  {
+    triangleIndices[i++] = indicesIt.Next();
+  }
+
+  // Calculate a bounding box for the map triangles
+  rcCalcBounds(triangleVertices, numberOfVertices, boundingMin, boundingMax);
+
+  // ChunkyTriMesh is a structure used by Recast
+  delete chunkyTriMesh;
+  chunkyTriMesh = new rcChunkyTriMesh;
+  if (!chunkyTriMesh) 
+  {
+    return csApplicationFramework::ReportError("Out of memory while loading triangle data from sector.");
+  }
+  if (!rcCreateChunkyTriMesh(triangleVertices, triangleIndices, numberOfTriangles, 256, chunkyTriMesh)) 
+  {
+    return csApplicationFramework::ReportError("Error creating ChunkyTriMesh.");
+  }
   return true;
 }
 
@@ -2419,6 +2485,7 @@ void celNavMeshBuilder::SetNavMeshParams (const iCelNavMeshParams* parameters)
 {
   this->parameters.Invalidate();
   this->parameters.AttachNew(new celNavMeshParams(parameters));
+  UpdateFakeTriangles();
 }
 
 iSector* celNavMeshBuilder::GetSector () const

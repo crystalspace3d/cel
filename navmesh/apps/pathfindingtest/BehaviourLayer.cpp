@@ -162,9 +162,6 @@ BehaviourPlayer::BehaviourPlayer (iCelEntity* entity, BehaviourLayer* behaviourL
   id_pccommandinput_drop1 = physicalLayer->FetchStringID("pccommandinput_drop1");
   id_pccommandinput_setposition = physicalLayer->FetchStringID("pccommandinput_setposition0");
 
-  id_pcinventory_addchild = physicalLayer->FetchStringID("pcinventory_addchild");
-  id_pcinventory_removechild = physicalLayer->FetchStringID("pcinventory_removechild");
-
   id_pcmover_arrived = physicalLayer->FetchStringID("pcmover_arrived");
 }
 
@@ -192,60 +189,11 @@ void BehaviourPlayer::GetMover ()
   }
 }
 
-void BehaviourPlayer::GetInventory ()
-{
-  if (!pcInventory)
-  {
-    pcInventory = CEL_QUERY_PROPCLASS_ENT(entity, iPcInventory);
-  }
-}
-
 void BehaviourPlayer::GetMesh ()
 {
   if (!pcMesh)
   {
     pcMesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-  }
-}
-
-void BehaviourPlayer::ShowInventory ()
-{
-  size_t count = pcInventory->GetEntityCount();
-  size_t i;
-  for (i = 0 ; i < count ; i++)
-  {
-    iCelEntity* child = pcInventory->GetEntity(i);
-    printf("  child %zu is '%s'\n", i, child->GetName());
-  }
-}
-
-void BehaviourPlayer::Drop ()
-{
-  GetInventory();
-  size_t count = pcInventory->GetEntityCount();
-  if (count <= 0)
-  {
-    printf("Inventory is empty!\n");
-    return;
-  }
-  csRef<iCelEntity> child = pcInventory->GetEntity(0);
-  pcInventory->RemoveEntity(child);
-  csRef<iPcLinearMovement> pcLinMove = CEL_QUERY_PROPCLASS_ENT(child, iPcLinearMovement);
-  if (pcLinMove)
-  {
-    GetMesh ();
-    // Now we get current position and orientation from player mesh and from
-    // that we calculate a spot in front of the player where we will drop down
-    // the item.
-    csVector3 pos = pcMesh->GetMesh()->GetMovable()->GetTransform().This2Other(csVector3(0, 2, -2));
-    csRef<iSector> sector = pcMesh->GetMesh()->GetMovable()->GetSectors()->Get(0);
-    pcLinMove->SetPosition(pos, 0, sector);
-    pcLinMove->SetBodyVelocity(csVector3 (0, .1f, 0));
-    csRef<iPcMesh> pcMeshChild = CEL_QUERY_PROPCLASS_ENT(child, iPcMesh);
-    if (pcMeshChild)
-    {
-      pcMeshChild->Show();
-    }
   }
 }
 
@@ -290,10 +238,6 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
   {
     pcActorMove->ToggleCameraMode();
   }
-  else if (msg_id == id_pccommandinput_drop1)
-  {
-    Drop();
-  }
   else if (msg_id == id_pccommandinput_setposition)
   {
     csRef<iCelHNavStruct> navStruct = behaviourLayer->GetNavStruct();
@@ -330,18 +274,6 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
       csRef<iMapNode> node = path->Next();
       pcMover->MoveTo(node->GetSector(), node->GetPosition(), 0.005f);
     }
-  }
-  else if (msg_id == id_pcinventory_addchild)
-  {
-    GetInventory();
-    printf ("Got a new object! Objects in inventory:\n");
-    ShowInventory();
-  }
-  else if (msg_id == id_pcinventory_removechild)
-  {
-    GetInventory();
-    printf ("Object removed from inventory! Objects in inventory:\n");
-    ShowInventory();
   }
   else if (msg_id == id_pcmover_arrived)
   {
