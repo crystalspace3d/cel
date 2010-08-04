@@ -43,7 +43,7 @@ bool MainApp::CreatePlayer ()
 {
   playerEntity = physicalLayer->CreateEntity("player", behaviourLayer, "playerBehaviour", "pccamera.old", 
                                    "pcobject.mesh", "pcmove.linear", "pcmove.actor.standard", "pcmove.mover",
-                                   "pcinput.standard", "pctools.inventory", CEL_PROPCLASS_END);
+                                   "pcinput.standard", CEL_PROPCLASS_END);
   if (!playerEntity)
   {
     return ReportError("Error creating player entity!");
@@ -129,7 +129,6 @@ bool MainApp::CreatePlayer ()
   pcInput->Bind("left", "rotateleft");
   pcInput->Bind("right", "rotateright");
   pcInput->Bind("m", "cammode");
-  pcInput->Bind("d", "drop");
   pcInput->Bind("MouseButton0", "setposition");
 
   return true;

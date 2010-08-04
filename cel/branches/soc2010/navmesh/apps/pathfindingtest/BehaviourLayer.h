@@ -92,8 +92,6 @@ private:
   csStringID id_pccommandinput_cammode1;
   csStringID id_pccommandinput_drop1;
   csStringID id_pccommandinput_setposition;
-  csStringID id_pcinventory_addchild;
-  csStringID id_pcinventory_removechild;
   csStringID id_pcmover_arrived;
 
   void GetLinearMovement();
@@ -105,14 +103,8 @@ private:
   void GetMover ();
   csWeakRef<iPcMover> pcMover;
 
-  void GetInventory ();
-  csWeakRef<iPcInventory> pcInventory;
-
   void GetMesh ();
   csWeakRef<iPcMesh> pcMesh;
-
-  void ShowInventory ();
-  void Drop ();
 
   // Hierarchical pathfinding
   csRef<iCelHPath> path;

@@ -1142,6 +1142,14 @@ void celHNavStructBuilder::SetNavMeshParams (const iCelNavMeshParams* parameters
 {
   this->parameters.Invalidate();
   this->parameters.AttachNew(new celNavMeshParams(parameters));
+  if (sectors)
+  {
+    csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> >::GlobalIterator it = builders.GetIterator();
+    while (it.HasNext())
+    {
+      it.Next()->SetNavMeshParams(parameters);
+    }    
+  }
 }
 
 } CS_PLUGIN_NAMESPACE_END(celNavMesh)
