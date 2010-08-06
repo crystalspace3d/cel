@@ -468,11 +468,7 @@ bool celNavMesh::Update (const csOBB& boundingBox)
 
 bool celNavMesh::AddTile (unsigned char* data, int dataSize)
 {
-  if (!detourNavMesh->addTile(data, dataSize, true))
-  {
-    return false;
-  }
-  return true;
+  return detourNavMesh->addTile(data, dataSize, true);
 }
 
 bool celNavMesh::RemoveTile (int x, int y)
@@ -2483,7 +2479,6 @@ const iCelNavMeshParams* celNavMeshBuilder::GetNavMeshParams () const
 
 void celNavMeshBuilder::SetNavMeshParams (const iCelNavMeshParams* parameters)
 {
-  this->parameters.Invalidate();
   this->parameters.AttachNew(new celNavMeshParams(parameters));
   UpdateFakeTriangles();
 }

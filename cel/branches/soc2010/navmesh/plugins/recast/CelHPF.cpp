@@ -525,7 +525,8 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
     hlGraph->RemoveNode(goalNodeIdx);
     return 0;
   }
-  csList<size_t> tmpEdges; // Only for edges from some node to goal node
+  csList<csRef<iCelNode> > tmpEdgesOrigins; // Only for edges from some node to goal node
+  csList<size_t> tmpEdgesIndices;
   size_t size = hlGraph->GetNodeCount();
   for (size_t i = 0; i < size; i++)
   {
@@ -546,7 +547,8 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
       {
         csRef<iCelNavMeshPath> tmpPath = goalNavMesh->ShortestPath(mapNode->GetPosition(), goal->GetPosition());
         // TODO check if path is reachable
-        tmpEdges.PushBack(hlGraph->AddEdge(node, goalNode, true, tmpPath->Length()));
+        tmpEdgesOrigins.PushBack(node);
+        tmpEdgesIndices.PushBack(hlGraph->AddEdge(node, goalNode, true, tmpPath->Length()));
       }
     }
   }
@@ -561,10 +563,11 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
   csRef<iCelPath> hlPath = scfCreateInstance<iCelPath>("cel.celpath");
   if (!hlPath)
   {
-    csList<size_t>::Iterator it(tmpEdges);
-    while (it.HasNext())
+    csList<size_t>::Iterator itIndices(tmpEdgesIndices);
+    csList<csRef<iCelNode> >::Iterator itOrigins(tmpEdgesOrigins);
+    while (itIndices.HasNext()) // No need to check both iterators, since they have the same element count
     {
-      hlGraph->RemoveEdge(goalNode, it.Next());
+      hlGraph->RemoveEdge(itOrigins.Next(), itIndices.Next());
     }
     hlGraph->RemoveNode(fromNodeIdx);
     hlGraph->RemoveNode(goalNodeIdx);
@@ -573,10 +576,11 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
   hlGraph->ShortestPath2(fromNode, goalNode, hlPath);
 
   // Remove edges that connect any node to the goal node
-  csList<size_t>::Iterator it(tmpEdges);
-  while (it.HasNext())
+  csList<size_t>::Iterator itIndices(tmpEdgesIndices);
+  csList<csRef<iCelNode> >::Iterator itOrigins(tmpEdgesOrigins);
+  while (itIndices.HasNext()) // No need to check both iterators, since they have the same element count
   {
-    hlGraph->RemoveEdge(goalNode, it.Next());
+    hlGraph->RemoveEdge(itOrigins.Next(), itIndices.Next());
   }
 
   // Remove from and goal nodes from the high level graph (and the edges we added and didn't explicitly remove)
@@ -584,7 +588,7 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
   hlGraph->RemoveNode(goalNodeIdx);
   
   // Initialize path
-  path = new celHPath(navMeshes);
+  path.AttachNew(new celHPath(navMeshes));
   path->Initialize(hlPath);
 
   return path;
@@ -1140,7 +1144,6 @@ const iCelNavMeshParams* celHNavStructBuilder::GetNavMeshParams () const
 
 void celHNavStructBuilder::SetNavMeshParams (const iCelNavMeshParams* parameters)
 {
-  this->parameters.Invalidate();
   this->parameters.AttachNew(new celNavMeshParams(parameters));
   if (sectors)
   {

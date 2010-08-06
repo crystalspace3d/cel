@@ -147,7 +147,6 @@ class celGraph : public scfImplementationExt2<
 private:
   iObjectRegistry* object_reg;
    csRefArray <iCelNode> nodes;
-  //csHash<csRef<iCelNode>, csStringBase> nodes;
 
 public: 
   celGraph (iBase* parent);
