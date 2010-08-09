@@ -27,7 +27,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release9\build\plgpfwheeledmove\Win32\pfwheeledmove.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -59,6 +59,7 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -104,7 +105,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release9\build\plgpfwheeledmove\Win32\pfwheeledmove.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -136,6 +137,7 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -180,7 +182,7 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug9\build\plgpfwheeledmove\Win32\pfwheeledmove.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -210,6 +212,7 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -254,7 +257,7 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug9\build\plgpfwheeledmove\Win32\pfwheeledmove.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -284,6 +287,7 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -329,7 +333,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release9-x64\build\plgpfwheeledmove\x64\pfwheeledmove.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -361,6 +365,7 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -406,7 +411,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release9-x64\build\plgpfwheeledmove\x64\pfwheeledmove.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -438,6 +443,7 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -482,7 +488,7 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug9-x64\build\plgpfwheeledmove\x64\pfwheeledmove.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -512,6 +518,7 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -556,7 +563,7 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug9-x64\build\plgpfwheeledmove\x64\pfwheeledmove.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -586,6 +593,7 @@
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -640,6 +648,10 @@
 			<File
 				RelativePath="..\..\msvc\plgpfwheeledmove.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\propclass\wheeledmove\pfwheeledmove.csplugin">
 			</File>

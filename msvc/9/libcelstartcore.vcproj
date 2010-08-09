@@ -26,7 +26,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release9\build\libcelstartcore\Win32\celstartcore.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELSTARTCORE_LIB;WIN32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELSTARTCORE_LIB;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -53,6 +53,7 @@
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -99,7 +100,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDatabaseFileName="..\..\out\release9\build\libcelstartcore\Win32\celstartcore-1.9-vc9.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELSTARTCORE_LIB;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELSTARTCORE_LIB;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -129,6 +130,7 @@
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -173,7 +175,7 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug9\build\libcelstartcore\Win32\celstartcore.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELSTARTCORE_LIB;WIN32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELSTARTCORE_LIB;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -198,6 +200,7 @@
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -244,7 +247,7 @@
 
 
 				ProgramDatabaseFileName="..\..\out\debug9\build\libcelstartcore\Win32\celstartcore-1.9-vc9_d.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELSTARTCORE_LIB;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELSTARTCORE_LIB;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -272,6 +275,7 @@
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -316,7 +320,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release9-x64\build\libcelstartcore\x64\celstartcore.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELSTARTCORE_LIB;WIN32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELSTARTCORE_LIB;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -343,6 +347,7 @@
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -389,7 +394,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDatabaseFileName="..\..\out\release9-x64\build\libcelstartcore\x64\celstartcore-1.9-vc9-x64.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELSTARTCORE_LIB;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELSTARTCORE_LIB;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -419,6 +424,7 @@
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -463,7 +469,7 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libcelstartcore\x64\celstartcore.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELSTARTCORE_LIB;WIN32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELSTARTCORE_LIB;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -488,6 +494,7 @@
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -534,7 +541,7 @@
 
 
 				ProgramDatabaseFileName="..\..\out\debug9-x64\build\libcelstartcore\x64\celstartcore-1.9-vc9-x64_d.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELSTARTCORE_LIB;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELSTARTCORE_LIB;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
@@ -562,6 +569,7 @@
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
