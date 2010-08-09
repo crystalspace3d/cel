@@ -27,6 +27,7 @@ MsvcGenVariable customize : custom.cellib ;
 MsvcGenSubDir TOP msvc : common ;
 MsvcGenSubDir TOP msvc 8 : 8 ;
 MsvcGenSubDir TOP msvc 9 : 9 ;
+MsvcGenSubDir TOP msvc 10 : 10 ;
 MsvcGenTemplateDir TOP mk msvcgen ;
 
 # What the typical user will need. 
