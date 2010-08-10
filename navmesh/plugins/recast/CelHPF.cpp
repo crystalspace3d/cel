@@ -474,9 +474,21 @@ bool celHNavStruct::BuildHighLevelGraph()
       {
         csRef<iCelNode> node2 = sectorNodes[j];
         csRef<iCelNavMeshPath> path = navMesh->ShortestPath(node1->GetPosition(), node2->GetPosition(), 256);
-        float length = path->Length();
-        hlGraph->AddEdge(node1, node2, true, length);
-        hlGraph->AddEdge(node2, node1, true, length);
+        if (path->GetNodeCount() > 0)
+        {
+          csVector3 last;
+          path->GetLast(last);
+          csVector3 box = parameters->GetPolygonSearchBox();
+          // Check if last calculated point is within reach of the last given point
+          if (ABS(last[0] - node2->GetPosition()[0]) <= box[0] && 
+              ABS(last[1] - node2->GetPosition()[1]) <= box[1] &&
+              ABS(last[2] - node2->GetPosition()[2]) <= box[2]) 
+          {
+            float length = path->Length();
+            hlGraph->AddEdge(node1, node2, true, length);
+            hlGraph->AddEdge(node2, node1, true, length);
+          }
+        }
       }        
     }
   }
@@ -528,6 +540,8 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
   csList<csRef<iCelNode> > tmpEdgesOrigins; // Only for edges from some node to goal node
   csList<size_t> tmpEdgesIndices;
   size_t size = hlGraph->GetNodeCount();
+  csVector3 first;
+  csVector3 last;
   for (size_t i = 0; i < size; i++)
   {
     if (i != fromNodeIdx && i != goalNodeIdx)
@@ -539,24 +553,57 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
       if (sector->QueryObject()->GetID() == fromSector->QueryObject()->GetID())
       {
         csRef<iCelNavMeshPath> tmpPath = fromNavMesh->ShortestPath(from->GetPosition(), mapNode->GetPosition());
-        // TODO check if path is reachable
-        hlGraph->AddEdge(fromNode, node, true, tmpPath->Length());
+        if (tmpPath->GetNodeCount() > 0)
+        {
+          csVector3 last;
+          tmpPath->GetLast(last);
+          csVector3 box = parameters->GetPolygonSearchBox();
+          // Check if last calculated point is within reach of the last given point
+          if (ABS(last[0] - node->GetPosition()[0]) <= box[0] && 
+              ABS(last[1] - node->GetPosition()[1]) <= box[1] &&
+              ABS(last[2] - node->GetPosition()[2]) <= box[2]) 
+          {
+            hlGraph->AddEdge(fromNode, node, true, tmpPath->Length());
+          }
+        }
       }
       // Goal node
       if (sector->QueryObject()->GetID() == goalSector->QueryObject()->GetID())
       {
         csRef<iCelNavMeshPath> tmpPath = goalNavMesh->ShortestPath(mapNode->GetPosition(), goal->GetPosition());
-        // TODO check if path is reachable
-        tmpEdgesOrigins.PushBack(node);
-        tmpEdgesIndices.PushBack(hlGraph->AddEdge(node, goalNode, true, tmpPath->Length()));
+        if (tmpPath->GetNodeCount() > 0)
+        {
+          csVector3 last;
+          tmpPath->GetLast(last);
+          csVector3 box = parameters->GetPolygonSearchBox();
+          // Check if last calculated point is within reach of the last given point
+          if (ABS(last[0] - goalNode->GetPosition()[0]) <= box[0] && 
+              ABS(last[1] - goalNode->GetPosition()[1]) <= box[1] &&
+              ABS(last[2] - goalNode->GetPosition()[2]) <= box[2]) 
+          {
+            tmpEdgesOrigins.PushBack(node);
+            tmpEdgesIndices.PushBack(hlGraph->AddEdge(node, goalNode, true, tmpPath->Length()));
+          }
+        }
       }
     }
   }
   if (fromSector->QueryObject()->GetID() == goalSector->QueryObject()->GetID())
   {
     csRef<iCelNavMeshPath> tmpPath = goalNavMesh->ShortestPath(from->GetPosition(), goal->GetPosition());
-    // TODO check if path is reachable
-    hlGraph->AddEdge(fromNode, goalNode, true, tmpPath->Length());
+    if (tmpPath->GetNodeCount() > 0)
+    {
+      csVector3 last;
+      tmpPath->GetLast(last);
+      csVector3 box = parameters->GetPolygonSearchBox();
+      // Check if last calculated point is within reach of the last given point
+      if (ABS(last[0] - goalNode->GetPosition()[0]) <= box[0] && 
+          ABS(last[1] - goalNode->GetPosition()[1]) <= box[1] &&
+          ABS(last[2] - goalNode->GetPosition()[2]) <= box[2]) 
+      {
+        hlGraph->AddEdge(fromNode, goalNode, true, tmpPath->Length());
+      }
+    }
   }
 
   // Find path in high level graph
@@ -586,6 +633,11 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
   // Remove from and goal nodes from the high level graph (and the edges we added and didn't explicitly remove)
   hlGraph->RemoveNode(fromNodeIdx);
   hlGraph->RemoveNode(goalNodeIdx);
+
+  if (hlPath->GetNodeCount() == 0)
+  {
+    return 0;
+  }
   
   // Initialize path
   path.AttachNew(new celHPath(navMeshes));

@@ -123,12 +123,14 @@ private:
   float maxSimplificationError;
   float detailSampleDist;
   float detailSampleMaxError;
-  int maxEdgeLength;  
+  float distanceThreshold;
+  int maxEdgeLength;
   int minRegionSize;
   int mergeRegionSize;
   int maxVertsPerPoly;
   int tileSize;
-  int borderSize;  
+  int borderSize;
+  csVector3 polygonSearchBox;
 
 public:
   celNavMeshParams ();
@@ -168,6 +170,8 @@ public:
   virtual void SetTileSize (const int size);
   virtual int GetBorderSize () const;
   virtual void SetBorderSize (const int size);
+  virtual csVector3 GetPolygonSearchBox () const;
+  virtual void SetPolygonSearchBox (csVector3 box);
 };
 
 
@@ -204,7 +208,8 @@ public:
   virtual void Restart ();
   virtual void AddNode (csVector3 node);  
   virtual void InsertNode (int pos, csVector3 node);
-  virtual float Length() const;
+  virtual float Length () const;
+  virtual int GetNodeCount () const;
   virtual void DebugRenderPath ();
 };
 
@@ -233,7 +238,6 @@ private:
   csRef<iSector> sector;
   csRef<iObjectRegistry> objectRegistry;
   csRef<iCelNavMeshPath> path;
-  float polyPickExt[3];
   dtQueryFilter filter;
   dtNavMesh* detourNavMesh;
   csRef<iCelNavMeshParams> parameters;

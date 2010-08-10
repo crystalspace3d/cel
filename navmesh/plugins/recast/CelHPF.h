@@ -21,6 +21,7 @@
 #define __CEL_HPF__
 
 #include <cssysdef.h>
+#include <csgeom/math3d.h>
 #include <csgeom/vector3.h>
 #include <cstool/mapnode.h>
 #include <csutil/csstring.h>

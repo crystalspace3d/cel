@@ -104,7 +104,7 @@ void DebugDrawGL::end ()
   glLineWidth(1.0f);
   glPointSize(1.0f);
   glDisable(GL_LINE_SMOOTH);
-  glDisable(GL_POINT_SMOOTH);  
+  glDisable(GL_POINT_SMOOTH);
 }
 
 
@@ -271,7 +271,7 @@ void celNavMeshPath::InsertNode (int pos, csVector3 node)
 
 float celNavMeshPath::Length() const
 {
-  float length = 0;
+  float length = 0.0f;
   int index;
   float f0, f1, f2;
   for (int i = 1; i < pathSize; i++)
@@ -284,6 +284,11 @@ float celNavMeshPath::Length() const
   }
 
   return length;
+}
+
+int celNavMeshPath::GetNodeCount () const
+{
+  return pathSize;
 }
 
 // Based on Detour NavMeshTesterTool::handleRender()
@@ -331,9 +336,6 @@ celNavMesh::celNavMesh (iObjectRegistry* objectRegistry) : scfImplementationType
   navMeshDrawFlags = DU_DRAWNAVMESH_OFFMESHCONS;
   filter.includeFlags = SAMPLE_POLYFLAGS_ALL;
   filter.excludeFlags = 0;
-  polyPickExt[0] = 2;
-  polyPickExt[1] = 4;
-  polyPickExt[2] = 2;
   this->objectRegistry = objectRegistry;
 }
 
@@ -393,6 +395,10 @@ iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector
   }
 
   // Find starting polygons
+  float polyPickExt[3];
+  polyPickExt[0] = parameters->GetPolygonSearchBox()[0];
+  polyPickExt[1] = parameters->GetPolygonSearchBox()[1];
+  polyPickExt[2] = parameters->GetPolygonSearchBox()[2];
   dtPolyRef startRef = detourNavMesh->findNearestPoly(startPos, polyPickExt, &filter, 0);
   dtPolyRef endRef = detourNavMesh->findNearestPoly(endPos, polyPickExt, &filter, 0);
 
@@ -468,7 +474,7 @@ bool celNavMesh::Update (const csOBB& boundingBox)
 
 bool celNavMesh::AddTile (unsigned char* data, int dataSize)
 {
-  return detourNavMesh->addTile(data, dataSize, true);
+  return (detourNavMesh->addTile(data, dataSize, true) != 0);
 }
 
 bool celNavMesh::RemoveTile (int x, int y)
@@ -1449,6 +1455,7 @@ celNavMeshParams::celNavMeshParams (const iCelNavMeshParams* parameters) : scfIm
   maxVertsPerPoly = parameters->GetMaxVertsPerPoly();
   tileSize = parameters->GetTileSize();
   borderSize = parameters->GetBorderSize();
+  polygonSearchBox = parameters->GetPolygonSearchBox();
 }
 
 celNavMeshParams::~celNavMeshParams ()
@@ -1477,7 +1484,8 @@ void celNavMeshParams::SetSuggestedValues (float agentHeight, float agentRadius,
   mergeRegionSize = 50;
   maxVertsPerPoly = 6;
   tileSize = 32;
-  borderSize = (int)ceilf(agentRadius / cellSize) + 3;  
+  borderSize = (int)ceilf(agentRadius / cellSize) + 3;
+  polygonSearchBox = csVector3(2, 4, 2); 
 }
 
 float celNavMeshParams::GetAgentHeight () const
@@ -1628,6 +1636,16 @@ int celNavMeshParams::GetBorderSize () const
 void celNavMeshParams::SetBorderSize (const int size)
 {
   borderSize = size;
+}
+
+csVector3 celNavMeshParams::GetPolygonSearchBox () const
+{
+  return polygonSearchBox;
+}
+
+void celNavMeshParams::SetPolygonSearchBox (csVector3 box)
+{
+  polygonSearchBox = box;
 }
 
 
