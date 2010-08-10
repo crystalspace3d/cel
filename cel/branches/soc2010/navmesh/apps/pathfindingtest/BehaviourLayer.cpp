@@ -270,9 +270,12 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
 
       path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
       behaviourLayer->SetPath(path);
-      GetMover();
-      csRef<iMapNode> node = path->Next();
-      pcMover->MoveTo(node->GetSector(), node->GetPosition(), 0.005f);
+      if (path)
+      {
+        GetMover();
+        csRef<iMapNode> node = path->Next();
+        pcMover->MoveTo(node->GetSector(), node->GetPosition(), 0.005f);
+      }
     }
   }
   else if (msg_id == id_pcmover_arrived)

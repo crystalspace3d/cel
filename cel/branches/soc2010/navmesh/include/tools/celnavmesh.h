@@ -119,6 +119,11 @@ struct iCelNavMeshParams : public virtual iBase
   virtual int GetBorderSize () const = 0;
   /// Set border size
   virtual void SetBorderSize (const int size) = 0;
+
+  /// Set the size of the polygon search bounding box
+  virtual csVector3 GetPolygonSearchBox () const = 0;
+  /// Get the size of the polygon search bounding box
+  virtual void SetPolygonSearchBox (csVector3 box) = 0;
 };
 
 
@@ -168,6 +173,9 @@ struct iCelNavMeshPath : public virtual iBase
 
   /// Calculate path length
   virtual float Length() const = 0;
+
+  /// Get the number of nodes in this path
+  virtual int GetNodeCount () const = 0;
 
   /// Render path
   virtual void DebugRenderPath () = 0;

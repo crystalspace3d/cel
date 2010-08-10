@@ -259,6 +259,12 @@ bool MainApp::OnKeyboard(iEvent& ev)
         // sector. The cells remain inaccessible however, since the model's bounding box is too
         // big.
         params->SetMinRegionSize(10);
+        // This parameter sets how far from the navmesh I can click and still get an approximated
+        // path (for example, clicking on walls and ceilings). It also determines how far the final
+        // node of a path can be from it's intended destination (Detour always returns a path, 
+        // either to the destination or the closest possible point. We need to see if the path reached
+        // the destination and was off by some approximation factor or didn't reach the destination at all).
+        params->SetPolygonSearchBox(csVector3(2, 4, 2));
         navStructBuilder->SetNavMeshParams(params);
       }
       csList<iSector*> sectorList;
