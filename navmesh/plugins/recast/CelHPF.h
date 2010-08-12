@@ -79,7 +79,7 @@ public:
   virtual iMapNode* GetLast ();
   virtual void Invert ();
   virtual void Restart ();
-  virtual void DebugRender ();
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes ();
 };
 
 
@@ -117,8 +117,9 @@ public:
   virtual bool Update (const csOBB& boundingBox, iSector* sector = 0);
   virtual bool SaveToFile (iVFS* vfs, const char* file);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
-  virtual void DebugRender ();
-  virtual void DebugRenderAgent(const csVector3& pos, int red, int green, int blue, int alpha) const;
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes ();
+  virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
+                                                           int blue, int alpha) const;
 };
 
 

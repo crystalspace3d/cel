@@ -255,7 +255,6 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
       csVector2 screenPoint;
       screenPoint.x = mouse->GetLastX();
       screenPoint.y = mouse->GetLastY();
-
       
       csRef<iPcCamera> pcCamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcCamera);
       csRef<iCamera> camera = pcCamera->GetCamera();

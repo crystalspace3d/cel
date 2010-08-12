@@ -27,6 +27,7 @@ class csBox3;
 class csOBB;
 class csString;
 class csVector3;
+struct csSimpleRenderMesh;
 struct iCelNavMeshParams;
 struct iCelPath;
 struct iSector;
@@ -68,8 +69,11 @@ struct iCelHPath : public virtual iBase
   /// Restart path.  
   virtual void Restart () = 0;
   
-  /// Render path.
-  virtual void DebugRender () = 0;
+  /**
+   * Render path.
+   * \remarks The user is responsible for freeing the returned pointer.
+   */
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () = 0;
 };
 
 
@@ -137,11 +141,18 @@ struct iCelHNavStruct : public virtual iBase
    */
   virtual const iCelNavMeshParams* GetNavMeshParams () const = 0;
 
-  /// Render navigation structure.
-  virtual void DebugRender () = 0;
+  /**
+   * Render navigation structure.
+   * \remarks The user is responsible for freeing the returned pointer.
+   */
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () = 0;
 
-  /// Render proxy agent of the specified color.
-  virtual void DebugRenderAgent(const csVector3& pos, int red, int green, int blue, int alpha) const = 0;
+  /**
+   * Render proxy agent of the specified color.
+   * \remarks The user is responsible for freeing the returned pointer.
+   */
+  virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos, int red, int green,
+                                                           int blue, int alpha) const = 0;
 };
 
 

@@ -1,14 +1,42 @@
 #include "MainApp.h"
 
+inline void disposeDebugMeshes(csList<csSimpleRenderMesh>* meshes)
+{
+  if (meshes)
+  {
+    csList<csSimpleRenderMesh>::Iterator it(*meshes);
+    while (it.HasNext())
+    {
+      csSimpleRenderMesh mesh = it.Next();
+      delete [] mesh.vertices;
+      delete [] mesh.colors;
+    }
+    delete meshes;
+  }
+}
+
 MainApp::MainApp () 
 {
   SetApplicationName("Navigation Mesh Test");
   originSet = false;
   destinationSet = false;
+  navStructMeshes = 0;
+  pathMeshes = 0;
+  originMeshes = 0;
+  destinationMeshes = 0;
+  clearMeshes = false;
+  updateMeshes = false;
+  updatePathMeshes = false;
+  updateOriginMeshes = false;
+  updateDestinationMeshes = false;
 }
 
 MainApp::~MainApp () 
 {
+  disposeDebugMeshes(navStructMeshes);
+  disposeDebugMeshes(pathMeshes);
+  disposeDebugMeshes(originMeshes);
+  disposeDebugMeshes(destinationMeshes);
 }
 
 void MainApp::Frame ()
@@ -84,25 +112,90 @@ void MainApp::Frame ()
   // Tell the camera to render into the frame buffer.
   rm->RenderView(view);
 
-  if (navStruct)
+  if (navStructMeshes)
   {
-    navStruct->DebugRender();
+    csList<csSimpleRenderMesh>::Iterator it(*navStructMeshes);
+    while (it.HasNext())
+    {
+      g3d->DrawSimpleMesh(it.Next());
+    }
+    
   }
 
-  if (originSet && navStruct)
+  if (originMeshes)
   {
-    navStruct->DebugRenderAgent(origin, 70, 140, 255, 150);
+    csList<csSimpleRenderMesh>::Iterator it(*originMeshes);
+    while (it.HasNext())
+    {
+      g3d->DrawSimpleMesh(it.Next());
+    }
   }
 
-  if (destinationSet && navStruct)
+  if (destinationMeshes)
   {
-    navStruct->DebugRenderAgent(destination, 50, 255, 120, 150);
+    csList<csSimpleRenderMesh>::Iterator it(*destinationMeshes);
+    while (it.HasNext())
+    {
+      g3d->DrawSimpleMesh(it.Next());
+    }
   }
 
-  if (path)
+  if (pathMeshes && path)
   {
-    path->DebugRender();
+    csList<csSimpleRenderMesh>::Iterator it(*pathMeshes);
+    while (it.HasNext())
+    {
+      g3d->DrawSimpleMesh(it.Next());
+    }
   }
+
+  // If we just modifying the meshes in the OnKeyboard method, they may be deleted
+  // while rendering a frame, causing a crash.
+  if (clearMeshes || updateMeshes)
+  {
+    disposeDebugMeshes(navStructMeshes);
+    navStructMeshes = 0;
+    if (updateMeshes)
+    {
+      navStructMeshes = navStruct->GetDebugMeshes();
+      updateMeshes = false;
+    }
+  }
+  if (clearMeshes || updatePathMeshes)
+  {
+    disposeDebugMeshes(pathMeshes);
+    pathMeshes = 0;
+    if (updatePathMeshes)
+    {
+      pathMeshes = path->GetDebugMeshes();
+      updatePathMeshes = false;
+    }
+  }
+  if (clearMeshes || updateOriginMeshes)
+  {
+    disposeDebugMeshes(originMeshes);
+    originMeshes = 0;
+    originSet = false;
+    if (updateOriginMeshes)
+    {
+      originMeshes = navStruct->GetAgentDebugMeshes(origin, 70, 140, 255, 150);
+      updateOriginMeshes = false;
+      originSet = true;
+    }
+  }
+  if (clearMeshes || updateDestinationMeshes)
+  {
+    disposeDebugMeshes(destinationMeshes);
+    destinationMeshes = 0;
+    destinationSet = false;
+    if (updateDestinationMeshes)
+    {
+      destinationMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
+      updateDestinationMeshes = false;
+      destinationSet = true;
+    }
+  }
+  clearMeshes = false;
 }
 
 bool MainApp::OnKeyboard(iEvent& ev) 
@@ -144,6 +237,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
       }
       navStructBuilder->SetSectors(sectorList);
       navStruct = navStructBuilder->BuildHNavStruct();
+      updateMeshes = true;
     }
     else if (code == 's') // Save navstruct
     {
@@ -156,6 +250,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
     {
       navStruct.Invalidate();
       navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure.zip");
+      updateMeshes = true;
     }
     else if (code == 'c') // Clear navstruct, positions and path
     {
@@ -163,6 +258,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
       path.Invalidate();
       originSet = false;
       destinationSet = false;
+      clearMeshes = true;
     }
   }
   return false;
@@ -192,7 +288,6 @@ void MainApp::MouseClick1Handler (iEvent& ev)
   screenPoint.x = csMouseEventHelper::GetX(&ev);
   screenPoint.y = csMouseEventHelper::GetY(&ev);
 
-  // TODO get triangle normal?
   csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, view->GetCamera());
   csRef<iSectorList> sectorList = st.mesh->GetMovable()->GetSectors();
   if (sectorList->GetCount() != 1)
@@ -204,18 +299,29 @@ void MainApp::MouseClick1Handler (iEvent& ev)
   {
     origin = st.isect;
     originSector = sectorList->Get(0);
-    originSet = true;
+    updateOriginMeshes = true;
+    if (destinationSet && navStruct)
+    {
+      path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
+      if (path)
+      {
+        updatePathMeshes = true;
+      }
+    }
   }
   else
   {
     destination = st.isect;
     destinationSector = sectorList->Get(0);
-    destinationSet = true;
-  }
-
-  if (originSet && destinationSet && navStruct)
-  {
-    path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
+    updateDestinationMeshes = true;
+    if (originSet && navStruct)
+    {
+      path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
+      if (path)
+      {
+        updatePathMeshes = true;
+      }
+    }
   }
 }
 

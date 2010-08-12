@@ -281,7 +281,7 @@ void celHPath::Restart ()
   }
 }
 
-void celHPath::DebugRender ()
+csList<csSimpleRenderMesh>* celHPath::GetDebugMeshes ()
 {
   float halfHeight;
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
@@ -337,6 +337,8 @@ void celHPath::DebugRender ()
   {
     Next();
   }
+
+  return dd.GetMeshes();
 }
 
 
@@ -881,24 +883,34 @@ const iCelNavMeshParams* celHNavStruct::GetNavMeshParams () const
   return parameters;
 }
 
-void celHNavStruct::DebugRender ()
+csList<csSimpleRenderMesh>* celHNavStruct::GetDebugMeshes ()
 {
+  csList<csSimpleRenderMesh>* meshes = new csList<csSimpleRenderMesh>();
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
   while (it.HasNext())
   {
     csRef<iCelNavMesh> navMesh = it.Next();
-    navMesh->DebugRender();
+    csList<csSimpleRenderMesh>* tmp = navMesh->GetDebugMeshes();
+    csList<csSimpleRenderMesh>::Iterator tmpIt(*tmp);
+    while (tmpIt.HasNext())
+    {
+      meshes->PushBack(tmpIt.Next());
+    }
+    delete tmp;
   }
+  return meshes;
 }
 
-void celHNavStruct::DebugRenderAgent(const csVector3& pos, int red, int green, int blue, int alpha) const
+csList<csSimpleRenderMesh>* celHNavStruct::GetAgentDebugMeshes (const csVector3& pos, int red, int green,
+                                                                int blue, int alpha) const
 {
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::ConstGlobalIterator it = navMeshes.GetIterator();
   if (it.HasNext())
   {
     csRef<iCelNavMesh> navMesh = it.Next();
-    navMesh->DebugRenderAgent(pos, red, green, blue, alpha);
+    return navMesh->GetAgentDebugMeshes(pos, red, green, blue, alpha);
   }
+  return 0;
 }
 
 
