@@ -21,10 +21,12 @@
 #define __CEL_NAVMESHAPI__
 
 #include <csutil/scf.h>
+#include <csutil/list.h>
 
-class csVector3;
-class csOBB;
 class csBox3;
+class csOBB;
+class csVector3;
+struct csSimpleRenderMesh;
 struct iFile;
 struct iSector;
 
@@ -177,8 +179,11 @@ struct iCelNavMeshPath : public virtual iBase
   /// Get the number of nodes in this path
   virtual int GetNodeCount () const = 0;
 
-  /// Render path
-  virtual void DebugRenderPath () = 0;
+  /**
+   * Render path.
+   * \remarks The user is responsible for freeing the returned pointer.
+   */
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () = 0;
 };
 
 
@@ -229,14 +234,24 @@ struct iCelNavMesh : public virtual iBase
   /// Save to file
   virtual bool SaveToFile (iFile* file) const = 0;
 
-  /// Render navigation mesh
-  virtual void DebugRender () const = 0;
+  /**
+   * Render navigation mesh.
+   * \remarks The user is responsible for freeing the returned pointer.
+   */
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const = 0;
 
-  /// Render proxy agent
-  virtual void DebugRenderAgent (const csVector3& pos) const = 0;
+  /**
+   * Render proxy agent.
+   * \remarks The user is responsible for freeing the returned pointer.
+   */
+  virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos) const = 0;
 
-  /// Render proxy agent of the specified color
-  virtual void DebugRenderAgent(const csVector3& pos, int red, int green, int blue, int alpha) const = 0;
+  /**
+   * Render proxy agent of the specified color.
+   * \remarks The user is responsible for freeing the returned pointer.
+   */
+  virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
+                                                           int blue, int alpha) const = 0;
 };
 
 

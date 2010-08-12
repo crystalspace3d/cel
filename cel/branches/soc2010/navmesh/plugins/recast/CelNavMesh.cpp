@@ -57,54 +57,99 @@ inline unsigned int ilog2 (unsigned int v)
  * DebugDrawGL
  */
 
+DebugDrawGL::DebugDrawGL ()
+{
+  currentMesh = 0;
+  currentZBufMode = CS_ZBUF_USE;
+  nVertices = 0;
+  meshes = new csList<csSimpleRenderMesh>();
+}
+
+DebugDrawGL::~DebugDrawGL ()
+{
+  delete currentMesh;
+}
+
 void DebugDrawGL::depthMask (bool state)
 {
-  glDepthMask(state ? GL_TRUE : GL_FALSE);
+  if (state)
+  {
+    currentZBufMode = CS_ZBUF_USE;
+  }
+  else
+  {
+    currentZBufMode = CS_ZBUF_TEST;
+  }
 }
 
 void DebugDrawGL::begin (duDebugDrawPrimitives prim, float size)
-{
-  glEnable(GL_LINE_SMOOTH);
-  glEnable(GL_POINT_SMOOTH);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+{  
+  currentMesh = new csSimpleRenderMesh();
+  currentMesh->z_buf_mode = currentZBufMode;
+  currentMesh->alphaType.autoAlphaMode = false;
+  currentMesh->alphaType.alphaType = currentMesh->alphaType.alphaSmooth;
   switch (prim)
   {
   case DU_DRAW_POINTS:
-    glPointSize(size);
-    glBegin(GL_POINTS);
+    currentMesh->meshtype = CS_MESHTYPE_POINTS;
     break;
-  case DU_DRAW_LINES:    
-    glLineWidth(size);
-    glBegin(GL_LINES);
+  case DU_DRAW_LINES:
+    currentMesh->meshtype = CS_MESHTYPE_LINES;
     break;
   case DU_DRAW_TRIS:
-    glBegin(GL_TRIANGLES);
+    currentMesh->meshtype = CS_MESHTYPE_TRIANGLES;
     break;
   case DU_DRAW_QUADS:
-    glBegin(GL_QUADS);
+    currentMesh->meshtype = CS_MESHTYPE_QUADS;
     break;
   };
 }
 
 void DebugDrawGL::vertex (const float* pos, unsigned int color)
 {
-  glColor4ubv((GLubyte*)&color);
-  glVertex3fv(pos);
+  vertex(pos[0], pos[1], pos[2], color);
 }
 
 void DebugDrawGL::vertex (const float x, const float y, const float z, unsigned int color)
 {
-  glColor4ubv((GLubyte*)&color);
-  glVertex3f(x,y,z);
+  float r = (color & 0xFF) / 255.0f;
+  float g = ((color >> 8) & 0xFF) / 255.0f;
+  float b = ((color >> 16) & 0xFF) / 255.0f;
+  float a = ((color >> 24) & 0xFF) / 255.0f;
+  vertices.PushBack(csVector3(x, y, z));
+  colors.PushBack(csVector4(r, g, b, a));
+  nVertices++;
 }
 
 void DebugDrawGL::end ()
 {
-  glEnd();
-  glLineWidth(1.0f);
-  glPointSize(1.0f);
-  glDisable(GL_LINE_SMOOTH);
-  glDisable(GL_POINT_SMOOTH);
+  csVector3* verts = new csVector3[nVertices];
+  csVector4* cols = new csVector4[nVertices];
+  csList<csVector3>::Iterator vertsIt(vertices);
+  csList<csVector4>::Iterator colsIt(colors);
+  int index = 0;
+  while (vertsIt.HasNext())
+  {
+    verts[index] = vertsIt.Next();
+    cols[index] = colsIt.Next();
+    index++;
+  }
+
+  currentMesh->vertices = verts;
+  currentMesh->colors = cols;
+  currentMesh->vertexCount = nVertices;
+  meshes->PushBack(*currentMesh);
+
+  nVertices = 0;
+  vertices.DeleteAll();
+  colors.DeleteAll();  
+  delete currentMesh;
+  currentMesh = 0;
+}
+
+csList<csSimpleRenderMesh>* DebugDrawGL::GetMeshes ()
+{
+  return meshes;
 }
 
 
@@ -292,7 +337,7 @@ int celNavMeshPath::GetNodeCount () const
 }
 
 // Based on Detour NavMeshTesterTool::handleRender()
-void celNavMeshPath::DebugRenderPath ()
+csList<csSimpleRenderMesh>* celNavMeshPath::GetDebugMeshes ()
 {
   if (pathSize)
   {
@@ -315,7 +360,9 @@ void celNavMeshPath::DebugRenderPath ()
     }
     dd.end();
     dd.depthMask(true);
+    return dd.GetMeshes();
   }
+  return 0;
 }
 
 
@@ -1389,18 +1436,20 @@ bool celNavMesh::LoadNavMesh (iFile* file)
 }
 
 
-void celNavMesh::DebugRender () const
+csList<csSimpleRenderMesh>* celNavMesh::GetDebugMeshes () const
 {
   DebugDrawGL dd;
   duDebugDrawNavMesh(&dd, *detourNavMesh, navMeshDrawFlags);
+  return dd.GetMeshes();
 }
 
-void celNavMesh::DebugRenderAgent(const csVector3& pos) const
+csList<csSimpleRenderMesh>* celNavMesh::GetAgentDebugMeshes (const csVector3& pos) const
 {
-  DebugRenderAgent(pos, 51, 102, 0, 129);
+  return GetAgentDebugMeshes(pos, 51, 102, 0, 129);
 }
 
-void celNavMesh::DebugRenderAgent(const csVector3& pos, int red, int green, int blue, int alpha) const
+csList<csSimpleRenderMesh>* celNavMesh::GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
+                                                             int blue, int alpha) const
 {
   DebugDrawGL dd;
   glDepthMask(GL_FALSE);
@@ -1425,6 +1474,7 @@ void celNavMesh::DebugRenderAgent(const csVector3& pos, int red, int green, int 
   dd.end();
 
   glDepthMask(GL_TRUE);
+  return dd.GetMeshes();
 }
 
 

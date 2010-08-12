@@ -40,6 +40,16 @@ private:
   bool originSet;
   bool destinationSet;
 
+  csList<csSimpleRenderMesh>* navStructMeshes;
+  csList<csSimpleRenderMesh>* pathMeshes;
+  csList<csSimpleRenderMesh>* originMeshes;
+  csList<csSimpleRenderMesh>* destinationMeshes;
+  bool clearMeshes;
+  bool updateMeshes;
+  bool updatePathMeshes;
+  bool updateOriginMeshes;
+  bool updateDestinationMeshes;
+
   csRef<iCelHPath> path;
   csRef<iCelHNavStruct> navStruct;
   csRef<iCelNavMeshParams> params;

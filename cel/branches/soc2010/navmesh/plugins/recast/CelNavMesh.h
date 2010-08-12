@@ -97,8 +97,22 @@ enum SamplePolyFlags
 };
 
 // OpenGL debug draw implementation.
-struct DebugDrawGL : public duDebugDraw
+class DebugDrawGL : public duDebugDraw
 {
+private:
+  csSimpleRenderMesh* currentMesh;
+  csZBufMode currentZBufMode;
+  csList<csSimpleRenderMesh>* meshes;
+  csList<csVector3> vertices;
+  csList<csVector4> colors;
+  int nVertices;
+  
+public:
+  DebugDrawGL ();
+  virtual ~DebugDrawGL ();
+  csList<csSimpleRenderMesh>* GetMeshes ();
+
+  // duDebugDraw
   virtual void depthMask (bool state);
   virtual void begin (duDebugDrawPrimitives prim, float size = 1.0f);
   virtual void vertex (const float* pos, unsigned int color);
@@ -210,7 +224,7 @@ public:
   virtual void InsertNode (int pos, csVector3 node);
   virtual float Length () const;
   virtual int GetNodeCount () const;
-  virtual void DebugRenderPath ();
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes ();
 };
 
 
@@ -252,7 +266,8 @@ public:
   celNavMesh (iObjectRegistry* objectRegistry);
   virtual ~celNavMesh ();
 
-  bool Initialize (const iCelNavMeshParams* parameters, iSector* sector, const float* boundingMin, const float* boundingMax);
+  bool Initialize (const iCelNavMeshParams* parameters, iSector* sector, const float* boundingMin, 
+                   const float* boundingMax);
   bool AddTile (unsigned char* data, int dataSize);
   bool RemoveTile (int x, int y);
   bool LoadNavMesh (iFile* file);
@@ -266,9 +281,10 @@ public:
   virtual iCelNavMeshParams* GetParameters () const;
   virtual csBox3 GetBoundingBox() const;
   virtual bool SaveToFile (iFile* file) const;
-  virtual void DebugRender () const;
-  virtual void DebugRenderAgent (const csVector3& pos) const;
-  virtual void DebugRenderAgent (const csVector3& pos, int red, int green, int blue, int alpha) const;  
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const;
+  virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos) const;
+  virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
+                                                           int blue, int alpha) const;  
 };
 
 

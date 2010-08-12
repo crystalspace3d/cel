@@ -48,6 +48,14 @@ private:
   csRef<iSector> originSector;  
   csRef<iSector> destinationSector;
   bool destinationSet;
+
+  csList<csSimpleRenderMesh>* navStructMeshes;
+  csList<csSimpleRenderMesh>* pathMeshes;
+  csList<csSimpleRenderMesh>* destinationMeshes;
+  bool clearMeshes;
+  bool updateMeshes;
+  bool updatePathMeshes;
+  bool updateDestinationMeshes;
   
   csRef<iCamera> camera;
   csRef<iPcCamera> pcCamera;
