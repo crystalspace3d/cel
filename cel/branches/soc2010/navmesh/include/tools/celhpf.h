@@ -43,10 +43,10 @@ struct iCelHPath : public virtual iBase
   SCF_INTERFACE (iCelHPath, 1, 0, 0);
 
   /// Check if the path can be transversed forward from the current position.
-  virtual bool HasNext () = 0;
+  virtual bool HasNext () const = 0;
 
   /// Check if the path can be transversed backward from the current position.
-  virtual bool HasPrevious () = 0;
+  virtual bool HasPrevious () const = 0;
 
   /// Get next node.
   virtual iMapNode* Next () = 0;
@@ -145,7 +145,7 @@ struct iCelHNavStruct : public virtual iBase
    * Render navigation structure.
    * \remarks The user is responsible for freeing the returned pointer.
    */
-  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () = 0;
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const = 0;
 
   /**
    * Render proxy agent of the specified color.

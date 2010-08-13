@@ -139,17 +139,17 @@ struct iCelNode : public virtual iBase
   /**
    * Get Number of Edges.
    */
-   virtual size_t GetEdgeCount() = 0;
+   virtual size_t GetEdgeCount () = 0;
 
   /**
    * Get a node by index.
    */
-  virtual iCelEdge *GetEdge(size_t idx) = 0;
+  virtual iCelEdge* GetEdge (size_t idx) = 0;
 
   /**
    * Remove an edge.
    */
-  virtual void RemoveEdge(size_t idx) = 0;
+  virtual void RemoveEdge (size_t idx) = 0;
 
   /**
    * Adds a successor to this node, using a weight different then the euclidean
@@ -249,7 +249,7 @@ struct iCelPath : public virtual iBase
   /*
    * Get number of nodes in the path.
    */
-  virtual size_t GetNodeCount() = 0;
+  virtual size_t GetNodeCount () = 0;
 };
 
 
@@ -303,12 +303,12 @@ struct iCelGraph : public virtual iBase
   /**
    * Get Number of Nodes
    */
-   virtual size_t GetNodeCount() = 0;
+   virtual size_t GetNodeCount () = 0;
 
   /*
    * Get a node by index
    */
-  virtual iCelNode* GetNode(size_t idx) = 0;
+  virtual iCelNode* GetNode (size_t idx) = 0;
 
   /**
    * Removes a node from the graph.

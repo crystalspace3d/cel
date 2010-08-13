@@ -295,7 +295,7 @@ iMapNode* celPath::GetLast ()
   return NULL;
 }
 
-bool celPath::Initialize(iObjectRegistry* object_reg)
+bool celPath::Initialize (iObjectRegistry* object_reg)
 {
   celPath::object_reg = object_reg;
 
@@ -326,7 +326,7 @@ celGraph::~celGraph ()
 {
 }
 
-bool celGraph::Initialize(iObjectRegistry* object_reg)
+bool celGraph::Initialize (iObjectRegistry* object_reg)
 {
   celGraph::object_reg = object_reg;
   
@@ -335,17 +335,17 @@ bool celGraph::Initialize(iObjectRegistry* object_reg)
   return true;
 }
 
-size_t celGraph:: AddNode(iCelNode* node)
+size_t celGraph:: AddNode (iCelNode* node)
 {
   return nodes.Push(node);
 }
 
-void celGraph:: AddEdge(iCelNode* from, iCelNode* to, bool state)
+void celGraph:: AddEdge (iCelNode* from, iCelNode* to, bool state)
 {
   from->AddSuccessor(to, state);
 }
 
-bool celGraph:: AddEdgeByNames(const char* from, const char* to, bool state)
+bool celGraph:: AddEdgeByNames (const char* from, const char* to, bool state)
 {
   iCelNode* f = 0;
   iCelNode* t = 0;
@@ -558,7 +558,7 @@ iCelNode* celGraph::RandomPath (iCelNode* from, int distance, iCelPath* path)
   }
 }
 
-iCelNode* celGraph::CreateNode(const char *name, csVector3 &pos)
+iCelNode* celGraph::CreateNode (const char *name, csVector3 &pos)
 {
   csRef<iMapNode> n;
   n.AttachNew(new csMapNode("n0"));

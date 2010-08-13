@@ -70,12 +70,12 @@ struct iCelNavMeshParams : public virtual iBase
   /// Get cell size
   virtual float GetCellSize () const = 0;
   /// Set cell size
-  virtual void SetCellSize (float size) = 0;
+  virtual void SetCellSize (const float size) = 0;
 
   /// Get cell height
   virtual float GetCellHeight () const = 0;
   /// Set cell height
-  virtual void SetCellHeight (float height) = 0;
+  virtual void SetCellHeight (const float height) = 0;
 
   /// Get maximum distance error from contour to cells
   virtual float GetMaxSimplificationError () const = 0;
@@ -125,7 +125,7 @@ struct iCelNavMeshParams : public virtual iBase
   /// Set the size of the polygon search bounding box
   virtual csVector3 GetPolygonSearchBox () const = 0;
   /// Get the size of the polygon search bounding box
-  virtual void SetPolygonSearchBox (csVector3 box) = 0;
+  virtual void SetPolygonSearchBox (const csVector3 box) = 0;
 };
 
 
@@ -183,7 +183,7 @@ struct iCelNavMeshPath : public virtual iBase
    * Render path.
    * \remarks The user is responsible for freeing the returned pointer.
    */
-  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () = 0;
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const = 0;
 };
 
 

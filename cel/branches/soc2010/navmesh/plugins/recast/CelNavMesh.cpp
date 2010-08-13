@@ -337,7 +337,7 @@ int celNavMeshPath::GetNodeCount () const
 }
 
 // Based on Detour NavMeshTesterTool::handleRender()
-csList<csSimpleRenderMesh>* celNavMeshPath::GetDebugMeshes ()
+csList<csSimpleRenderMesh>* celNavMeshPath::GetDebugMeshes () const
 {
   if (pathSize)
   {
@@ -1583,7 +1583,7 @@ float celNavMeshParams::GetCellSize () const
   return cellSize;
 }
 
-void celNavMeshParams::SetCellSize (float size)
+void celNavMeshParams::SetCellSize (const float size)
 {
   cellSize = size;
 }
@@ -1593,7 +1593,7 @@ float celNavMeshParams::GetCellHeight () const
   return cellHeight;
 }
 
-void celNavMeshParams::SetCellHeight (float height)
+void celNavMeshParams::SetCellHeight (const float height)
 {
   cellHeight = height;
 }
@@ -1693,7 +1693,7 @@ csVector3 celNavMeshParams::GetPolygonSearchBox () const
   return polygonSearchBox;
 }
 
-void celNavMeshParams::SetPolygonSearchBox (csVector3 box)
+void celNavMeshParams::SetPolygonSearchBox (const csVector3 box)
 {
   polygonSearchBox = box;
 }

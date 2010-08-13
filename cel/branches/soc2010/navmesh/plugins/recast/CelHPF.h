@@ -58,8 +58,8 @@ private:
   csRef<iMapNode> lastNode; // Optimization for celHPath::GetLast
   bool reverse;
 
-  virtual bool HasNextInternal ();
-  virtual bool HasPreviousInternal ();
+  virtual bool HasNextInternal () const;
+  virtual bool HasPreviousInternal () const;
   virtual iMapNode* NextInternal ();
   virtual iMapNode* PreviousInternal ();
 
@@ -70,8 +70,8 @@ public:
   void Initialize(iCelPath* highLevelPath);
 
   // API
-  virtual bool HasNext ();
-  virtual bool HasPrevious ();
+  virtual bool HasNext () const;
+  virtual bool HasPrevious () const;
   virtual iMapNode* Next ();
   virtual iMapNode* Previous ();
   virtual iMapNode* Current ();
@@ -117,7 +117,7 @@ public:
   virtual bool Update (const csOBB& boundingBox, iSector* sector = 0);
   virtual bool SaveToFile (iVFS* vfs, const char* file);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
-  virtual csList<csSimpleRenderMesh>* GetDebugMeshes ();
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const;
   virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
                                                            int blue, int alpha) const;
 };

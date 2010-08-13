@@ -85,7 +85,7 @@ class celNode : public scfImplementation1<
   virtual void SetMapNode (iMapNode* node);
   virtual void SetParent (iCelNode* par);
   virtual void SetName (const char* n);
-  virtual void Heuristic(float cost, iCelNode* goal);
+  virtual void Heuristic (float cost, iCelNode* goal);
   virtual iMapNode* GetMapNode ();
   virtual csVector3 GetPosition ();
   virtual const char* GetName ();
@@ -134,7 +134,7 @@ celPath, csObject, iCelPath, iComponent>
   virtual iMapNode* GetFirst ();
   virtual iMapNode* GetLast ();
   virtual void Invert ();
-  virtual size_t GetNodeCount()
+  virtual size_t GetNodeCount ()
   { return nodes.GetSize(); }
 };
 
@@ -153,22 +153,22 @@ public:
   virtual ~celGraph ();
   virtual iObject* QueryObject () { return this; }
   virtual bool Initialize (iObjectRegistry* object_reg);
-  virtual iCelNode* CreateNode(const char *name, csVector3 &pos);
-  virtual size_t AddNode(iCelNode* node);
-  virtual void AddEdge(iCelNode* from, iCelNode* to, bool state);
-  virtual bool AddEdgeByNames(const char* from, const char* to, bool state);
-  virtual iCelNode* GetClosest(csVector3 position);
-  virtual bool ShortestPath(iCelNode* from, iCelNode* goal, iCelPath* path);
-  virtual iCelNode* RandomPath(iCelNode* from, int distance, iCelPath* path);
-  virtual size_t GetNodeCount()
+  virtual iCelNode* CreateNode (const char *name, csVector3 &pos);
+  virtual size_t AddNode (iCelNode* node);
+  virtual void AddEdge (iCelNode* from, iCelNode* to, bool state);
+  virtual bool AddEdgeByNames (const char* from, const char* to, bool state);
+  virtual iCelNode* GetClosest (csVector3 position);
+  virtual bool ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path);
+  virtual iCelNode* RandomPath (iCelNode* from, int distance, iCelPath* path);
+  virtual size_t GetNodeCount ()
   { return nodes.GetSize(); }
-  virtual iCelNode* GetNode(size_t idx)
+  virtual iCelNode* GetNode (size_t idx)
   { return nodes.Get(idx); }
   virtual void RemoveNode (size_t idx);
   virtual void RemoveEdge (iCelNode* from, size_t idx);
   virtual size_t AddEdge (iCelNode* from, iCelNode* to, bool state, float weight);
   virtual iCelNode* CreateEmptyNode (size_t& index);
-  virtual bool ShortestPath2(iCelNode* from, iCelNode* goal, iCelPath* path);
+  virtual bool ShortestPath2 (iCelNode* from, iCelNode* goal, iCelPath* path);
 };
 
 #endif //__CEL_TOOLS_CELGRAPH__ 
