@@ -59,9 +59,6 @@
 CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
 {
 
-// TODO remove
-#include <iutil/object.h>
-
 
 
 /*
@@ -163,9 +160,9 @@ public:
   virtual float GetAgentMaxClimb () const;
   virtual void SetAgentMaxClimb (const float maxClimb);
   virtual float GetCellSize () const;
-  virtual void SetCellSize (float size);
+  virtual void SetCellSize (const float size);
   virtual float GetCellHeight () const;
-  virtual void SetCellHeight (float height);
+  virtual void SetCellHeight (const float height);
   virtual float GetMaxSimplificationError () const;
   virtual void SetMaxSimplificationError (const float error);
   virtual float GetDetailSampleDist () const;
@@ -185,7 +182,7 @@ public:
   virtual int GetBorderSize () const;
   virtual void SetBorderSize (const int size);
   virtual csVector3 GetPolygonSearchBox () const;
-  virtual void SetPolygonSearchBox (csVector3 box);
+  virtual void SetPolygonSearchBox (const csVector3 box);
 };
 
 
@@ -224,7 +221,7 @@ public:
   virtual void InsertNode (int pos, csVector3 node);
   virtual float Length () const;
   virtual int GetNodeCount () const;
-  virtual csList<csSimpleRenderMesh>* GetDebugMeshes ();
+  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const;
 };
 
 
