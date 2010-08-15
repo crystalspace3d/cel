@@ -134,7 +134,9 @@ iMapNode* celHPath::NextInternal ()
       currentllPosition++;
     }
   }
-  llPaths[currentllPosition]->Next(position); // We don't use the first point of each path (except for the first path)
+  // We don't use the first point of each low level path (except for the first path),
+  // since it should at the same position of the last point in the previous low level path.
+  llPaths[currentllPosition]->Next(position); 
 
   csRef<iMapNode> node;
   node.AttachNew(new csMapNode(""));
@@ -155,7 +157,9 @@ iMapNode* celHPath::PreviousInternal ()
     llPaths[currentllPosition]->Previous(position); 
     if (!llPaths[currentllPosition]->HasPrevious() && currentllPosition > 0)
     {
-      changellPath = true; // We don't use the first point of each path (except for the first path)
+      // We don't use the first point of each low level path (except for the first path),
+      // since it should at the same position of the last point in the previous low level path.
+      changellPath = true;
     }
   }
 
@@ -302,7 +306,7 @@ csList<csSimpleRenderMesh>* celHPath::GetDebugMeshes ()
   csVector3 currentPosition = current->GetPosition();
   csVector3 previousPosition = previous->GetPosition();  
 
-  DebugDrawGL dd;
+  DebugDrawCS dd;
   dd.depthMask(false);
 
   const unsigned int lineCol = duRGBA(255, 255, 255, 230);
@@ -363,6 +367,11 @@ void celHNavStruct::AddNavMesh(iCelNavMesh* navMesh)
   navMeshes.Put(key, navMesh);
 }
 
+/*
+ * This method builds a high level graph, where each node represents a portal. If there is an
+ * edge from node 'a' to 'b', then there is a path connecting the portals represented by these
+ * nodes, and the length of this path is equal to the edges weight.
+ */
 bool celHNavStruct::BuildHighLevelGraph()
 {
   hlGraph.Invalidate();
@@ -519,6 +528,14 @@ iCelHPath* celHNavStruct::ShortestPath (const csVector3& from, iSector* fromSect
   return ShortestPath(fromNode, goalNode);
 }
 
+/*
+ * Finding the shortest path in a navigation structure is done in two steps:
+ * 1- Add the origin and destination points of the path to the high level graph, and connect
+ * them to edges in their sectors. Then, find a path in this graph.
+ * 2- For each two adjascent nodes in the high level path, find the corresponding low level
+ * path between those points, using the navigation mesh for their sector.
+ * After that, the nodes and edges that were added to the graph can be removed.
+ */
 iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
 {
   // Add from and goal nodes to the high level graph
@@ -648,6 +665,12 @@ iCelHPath* celHNavStruct::ShortestPath (iMapNode* from, iMapNode* goal)
   return path;
 }
 
+/*
+ * In order to update the navigation structure, we have to update the navigation meshes for the
+ * affected area, as well as the high level graph. When a navmesh gets updated, a path between
+ * two portals may be closed or opened, and we have to add or remove edges to the graph to
+ * account for this.
+ */
 bool celHNavStruct::Update (const csBox3& boundingBox, iSector* sector)
 {
   if (!sector) 
