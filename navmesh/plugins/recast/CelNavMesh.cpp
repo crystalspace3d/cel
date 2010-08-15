@@ -54,10 +54,10 @@ inline unsigned int ilog2 (unsigned int v)
 
 
 /*
- * DebugDrawGL
+ * DebugDrawCS
  */
 
-DebugDrawGL::DebugDrawGL ()
+DebugDrawCS::DebugDrawCS ()
 {
   currentMesh = 0;
   currentZBufMode = CS_ZBUF_USE;
@@ -65,12 +65,12 @@ DebugDrawGL::DebugDrawGL ()
   meshes = new csList<csSimpleRenderMesh>();
 }
 
-DebugDrawGL::~DebugDrawGL ()
+DebugDrawCS::~DebugDrawCS ()
 {
   delete currentMesh;
 }
 
-void DebugDrawGL::depthMask (bool state)
+void DebugDrawCS::depthMask (bool state)
 {
   if (state)
   {
@@ -82,7 +82,7 @@ void DebugDrawGL::depthMask (bool state)
   }
 }
 
-void DebugDrawGL::begin (duDebugDrawPrimitives prim, float size)
+void DebugDrawCS::begin (duDebugDrawPrimitives prim, float size)
 {  
   currentMesh = new csSimpleRenderMesh();
   currentMesh->z_buf_mode = currentZBufMode;
@@ -105,12 +105,12 @@ void DebugDrawGL::begin (duDebugDrawPrimitives prim, float size)
   };
 }
 
-void DebugDrawGL::vertex (const float* pos, unsigned int color)
+void DebugDrawCS::vertex (const float* pos, unsigned int color)
 {
   vertex(pos[0], pos[1], pos[2], color);
 }
 
-void DebugDrawGL::vertex (const float x, const float y, const float z, unsigned int color)
+void DebugDrawCS::vertex (const float x, const float y, const float z, unsigned int color)
 {
   float r = (color & 0xFF) / 255.0f;
   float g = ((color >> 8) & 0xFF) / 255.0f;
@@ -121,7 +121,7 @@ void DebugDrawGL::vertex (const float x, const float y, const float z, unsigned 
   nVertices++;
 }
 
-void DebugDrawGL::end ()
+void DebugDrawCS::end ()
 {
   csVector3* verts = new csVector3[nVertices];
   csVector4* cols = new csVector4[nVertices];
@@ -147,7 +147,7 @@ void DebugDrawGL::end ()
   currentMesh = 0;
 }
 
-csList<csSimpleRenderMesh>* DebugDrawGL::GetMeshes ()
+csList<csSimpleRenderMesh>* DebugDrawCS::GetMeshes ()
 {
   return meshes;
 }
@@ -341,7 +341,7 @@ csList<csSimpleRenderMesh>* celNavMeshPath::GetDebugMeshes () const
 {
   if (pathSize)
   {
-    DebugDrawGL dd;
+    DebugDrawCS dd;
     dd.depthMask(false);
     const unsigned int pathCol = duRGBA(255, 255, 255, 230);
     dd.begin(DU_DRAW_LINES, 4.0f);
@@ -441,7 +441,7 @@ iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector
     endPos[i] = goal[i];
   }
 
-  // Find starting polygons
+  // Find nearest polygons around the origin and destination of the path
   float polyPickExt[3];
   polyPickExt[0] = parameters->GetPolygonSearchBox()[0];
   polyPickExt[1] = parameters->GetPolygonSearchBox()[1];
@@ -453,7 +453,7 @@ iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector
   dtPolyRef* polys = new dtPolyRef[maxPathSize];
   int npolys = detourNavMesh->findPath(startRef, endRef, startPos, endPos, &filter, polys, maxPathSize);
 
-  // Find the actual path
+  // Find the actual path inside those polygons
   float* straightPath = new float[maxPathSize * 3];
   unsigned char* straightPathFlags = new unsigned char[maxPathSize];
   dtPolyRef* straightPathPolys = new dtPolyRef[maxPathSize];
@@ -463,7 +463,6 @@ iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector
     nstraightPath = detourNavMesh->findStraightPath(startPos, endPos, polys, npolys, straightPath, 
                                                     straightPathFlags, straightPathPolys, maxPathSize);
   }
-
   if (nstraightPath)
   {
     path.AttachNew(new celNavMeshPath(straightPath, nstraightPath, maxPathSize, sector));
@@ -1438,7 +1437,7 @@ bool celNavMesh::LoadNavMesh (iFile* file)
 
 csList<csSimpleRenderMesh>* celNavMesh::GetDebugMeshes () const
 {
-  DebugDrawGL dd;
+  DebugDrawCS dd;
   duDebugDrawNavMesh(&dd, *detourNavMesh, navMeshDrawFlags);
   return dd.GetMeshes();
 }
@@ -1451,7 +1450,7 @@ csList<csSimpleRenderMesh>* celNavMesh::GetAgentDebugMeshes (const csVector3& po
 csList<csSimpleRenderMesh>* celNavMesh::GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
                                                              int blue, int alpha) const
 {
-  DebugDrawGL dd;
+  DebugDrawCS dd;
   glDepthMask(GL_FALSE);
 
   const float r = parameters->GetAgentRadius();
@@ -1767,6 +1766,10 @@ bool celNavMeshBuilder::SetSector (iSector* sector) {
   return GetSectorData();
 }
 
+/*
+ * This method gets the triangles for all the meshes in the sector and stores them, in order to
+ * be able to build the navigation meshes later.
+ */
 // Based on Recast InputGeom::loadMesh
 bool celNavMeshBuilder::GetSectorData () 
 {
@@ -1927,6 +1930,16 @@ bool celNavMeshBuilder::GetSectorData ()
   return true;
 }
 
+/*
+ * When building a navigation mesh, recast removes a border from the walkable area of the sector, proportional
+ * to the agent's radius. This is done to ensure that any linear path can be chosen inside the navigation mesh, 
+ * without fear of part of the agent going into walls or not being able to walk that path due to collision with
+ * walls. This however causes problems near a portal, since the area between two sectors will not be considered
+ * walkable. In order to fix this, the navigation meshes are expanded near portals by creating "fake triangles"
+ * that can be fed to Recast. This triangles form a tunnel going in the direction of the portal's normal, with
+ * depth equal to the navmesh border. This way, the border will be removed from this fake triangles, and the
+ * area that connects the sectors will still be walkable.
+ */
 void celNavMeshBuilder::CreateFakeTriangles (csList<float>& vertices, csList<int>& indices, int& numberOfVertices, 
                                              int& numberOfTriangles, int firstIndex)
 {
@@ -2032,6 +2045,8 @@ void celNavMeshBuilder::CreateFakeTriangles (csList<float>& vertices, csList<int
   }
 }
 
+// The fake triangles have to be updated if some parameter that affects the border size
+// of the navigation mesh is changed.
 bool celNavMeshBuilder::UpdateFakeTriangles ()
 {
   if (!currentSector || ! triangleVertices || !triangleIndices)

@@ -419,6 +419,18 @@ bool MainApp::OnKeyboard(iEvent& ev)
     {
       updateNavmesh = !updateNavmesh;
     }
+    else if (code == 't') // Test pathfinding algorithms
+    {
+      if (!TestPath())
+      {
+        // Exit app
+        csRef<iEventQueue> q = csQueryRegistry<iEventQueue>(GetObjectRegistry());
+        if (q.IsValid())
+        {
+          q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
+        }
+      }
+    }
   }
   return false;
 }
@@ -594,4 +606,96 @@ bool MainApp::LoadPlugins ()
 void MainApp::OnExit ()
 {
   printer.Invalidate();
+}
+
+/*
+ * Check agains a precalculated path to see if pathfinding algorithms are still functional.
+ * Note that this may not work if the navmesh parameters are changed, or if the portal positions
+ * are changed in the world file.
+ */
+bool MainApp::TestPath ()
+{
+  if (!navStruct)
+  {
+    return true;
+  }
+
+  csVector3 origin(1.185f, 2.5f, 21.39f);
+  csRef<iSector> originSector = engine->FindSector("throne-room");
+  csVector3 destination(20.218f, -3.05f, 16.015f);
+  csRef<iSector> destinationSector = engine->FindSector("basement02");
+
+  csRef<iCelHPath> testPath = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
+
+  // Precalculated positions and sectors for this path
+  csVector3 nodes[19];
+  nodes[0].Set(1.18f, 2.50f, 21.39f);
+  nodes[1].Set(5.13f, 2.56f, 22.01f);
+  nodes[2].Set(7.96f, 2.56f, 21.07f);
+  nodes[3].Set(10.95f, 2.56f, 19.34f);
+  nodes[4].Set(17.04f, 2.42f, 17.64f);
+  nodes[5].Set(17.99f, 2.57f, 18.31f);
+  nodes[6].Set(20.82f, 2.57f, 20.51f);
+  nodes[7].Set(21.29f, 2.02f, 20.67f);
+  nodes[8].Set(21.92f, 1.71f, 20.83f);
+  nodes[9].Set(28.04f, 1.08f, 21.93f);
+  nodes[10].Set(28.04f, 2.57f, 27.74f);
+  nodes[11].Set(27.62f, 2.44f, 28.4f);
+  nodes[12].Set(14.43f, -2.90f, 28.50f);
+  nodes[13].Set(12.54f, -3.00f, 28.35f);
+  nodes[14].Set(12.16f, -2.97f, 27.93f);
+  nodes[15].Set(10.75f, -2.97f, 23.69f);
+  nodes[16].Set(10.54f, -3.00f, 22.9f);
+  nodes[17].Set(12.32f, -2.98f, 20.61f);
+  nodes[18].Set(20.22f, -3.05f, 16.01f);
+  csRef<iSector> sectors[5];
+  sectors[0] = originSector;
+  sectors[1] = engine->FindSector("interior");
+  sectors[2] = engine->FindSector("basement00");
+  sectors[3] = engine->FindSector("basement01");
+  sectors[4] = destinationSector;
+
+  // A variation of about 0.1 in each coordinate should be fine
+  float threshold = 0.03f;
+    
+  int nodesIndex = 0;
+  csRef<iMapNode> current = testPath->Current();
+  if (csSquaredDist::PointPoint(current->GetPosition(), nodes[nodesIndex++]) > threshold || 
+      current->GetSector() != sectors[0])
+  {
+    return false;
+  }
+  int sectorsIndex = 0;
+  while (testPath->HasNext())
+  {
+    if (nodesIndex < 5)
+    {
+      sectorsIndex = 0;
+    }
+    else if (nodesIndex < 12)
+    {
+      sectorsIndex = 1;
+    }
+    else if (nodesIndex < 14)
+    {
+      sectorsIndex = 2;
+    }
+    else if (nodesIndex < 17)
+    {
+      sectorsIndex = 3;
+    }
+    else
+    {
+      sectorsIndex = 4;
+    }
+    current = testPath->Next();
+    csVector3 position = current->GetPosition();
+    if (csSquaredDist::PointPoint(position, nodes[nodesIndex++]) > threshold || 
+        current->GetSector() != sectors[sectorsIndex])
+    {
+      return false;
+    }
+  }
+
+  return true;
 }

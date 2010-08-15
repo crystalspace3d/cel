@@ -77,6 +77,7 @@ private:
   bool LoadPlugins ();
   bool CreatePlayer ();
   bool CreateBox ();
+  bool TestPath ();
 
   // Event handlers
   virtual bool OnKeyboard (iEvent& ev);

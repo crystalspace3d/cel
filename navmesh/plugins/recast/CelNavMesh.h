@@ -93,8 +93,15 @@ enum SamplePolyFlags
   SAMPLE_POLYFLAGS_ALL = 0xffff		// All abilities.
 };
 
-// OpenGL debug draw implementation.
-class DebugDrawGL : public duDebugDraw
+/**
+ * CrystalSpace debug draw implementation for Recast & Detour structures.
+ * When the begin() method is called, a new csSimpleRenderMesh is created. After
+ * that, whenever one of the vertex() methods is called, a new vertex is added to
+ * a list. Finally, when the end() method is called, the vertices are copied to
+ * the csSimpleRenderMesh, and this method is added to a list. This list can be
+ * later retrieved using the GetMeshes() method.
+ */
+class DebugDrawCS : public duDebugDraw
 {
 private:
   csSimpleRenderMesh* currentMesh;
@@ -105,8 +112,8 @@ private:
   int nVertices;
   
 public:
-  DebugDrawGL ();
-  virtual ~DebugDrawGL ();
+  DebugDrawCS ();
+  virtual ~DebugDrawCS ();
   csList<csSimpleRenderMesh>* GetMeshes ();
 
   // duDebugDraw
@@ -120,7 +127,7 @@ public:
 
 
 /**
- * Wrapper for the parameters used to build the navigation mesh
+ * Wrapper for the parameters used to build the navigation mesh.
  */
 class celNavMeshParams : public scfImplementation1<celNavMeshParams, iCelNavMeshParams>
 {
