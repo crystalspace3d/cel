@@ -423,12 +423,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
     {
       if (!TestPath())
       {
-        // Exit app
-        csRef<iEventQueue> q = csQueryRegistry<iEventQueue>(GetObjectRegistry());
-        if (q.IsValid())
-        {
-          q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
-        }
+        ReportError("Error with pathfinding algorithms.");
       }
     }
   }
