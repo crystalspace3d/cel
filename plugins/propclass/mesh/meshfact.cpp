@@ -55,7 +55,7 @@
 #include "imesh/sprite3d.h"
 #include "imesh/gmeshskel2.h"
 #include "imesh/animesh.h"
-#include "imesh/skeleton2anim.h"
+#include "imesh/animnode/skeleton2anim.h"
 #include "imesh/nullmesh.h"
 #include "imesh/spritecal3d.h"
 #include "imesh/skeleton.h"
