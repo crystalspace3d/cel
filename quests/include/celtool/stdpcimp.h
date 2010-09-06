@@ -62,12 +62,20 @@ struct PropertyHolder
   size_t propertycount;
   // Set to true if we have done an action.
   bool actions_done;
+  // The mask that we will use to listen for messages.
+  csString mask;
 
   /**
    * This is a special hash that maps ID's to constants
    * so that we can use a switch to see which ID it is.
    */
   csHash<int, csStringID> constants;
+
+  /**
+   * This hash is like 'constants' except that it is used for new-style
+   * action id's (like 'cel.wire.addinput').
+   */
+  csHash<int, csStringID> new_constants;
 
   PropertyHolder () : properties (0), propertycount (0), actions_done (false)
   { }
@@ -86,7 +94,8 @@ struct PropertyHolder
  * This makes it easier to write a property class.
  */
 class CEL_CELTOOL_EXPORT celPcCommon
-  : public scfImplementation3<celPcCommon, iCelPropertyClass, iCelTimerListener, iMessageSender>
+  : public scfImplementation4<celPcCommon, iCelPropertyClass, iCelTimerListener,
+    iMessageSender,iMessageReceiver>
 {
 private:
   csRefArray<iCelPropertyChangeCallback> callbacks;
@@ -95,9 +104,13 @@ private:
   // entity). It is set to true by PropertyClassesHaveChanged()
   // and cleared by HavePropertyClassesChanged().
   bool propclasses_dirty;
-  char* tag;
+  csString tag;
   // the name of the property class stored in the iObject
   csObject csobj;
+
+  static csStringID id_tag;
+  static csStringID id_name;
+  static csStringID id_value;
 
 protected:
   iCelEntity* entity;
@@ -108,18 +121,27 @@ protected:
   void FirePropertyChangeCallback (int propertyId);
 
   /**
+   * Setup the mask used for receiving action messages.
+   */
+  void SetActionMask (const char* mask);
+
+  /**
    * Helper function to setup an action.
    */
   void AddAction (int idx, const char* id)
   {
     propholder->actions_done = true;
     propholder->constants.Put (pl->FetchStringID (id), idx);
+    csString newid = propholder->mask;
+    CS_ASSERT (newid.Length () > 0);
+    newid += id;
+    propholder->new_constants.Put (pl->FetchStringID (newid), idx);
   }
 
   /**
    * Helper function to setup properties.
    * \param idx is a numerical index for the property starting at 0.
-   * \param id is the id string ('cel.property.bla').
+   * \param id is the id string ('bla').
    * \param type is the type for the property.
    * \param readonly
    * \param desc is the description.
@@ -256,7 +278,10 @@ public:
   virtual bool IsPropertyReadOnly (csStringID);
 
   virtual csPtr<iCelDataBuffer> SaveFirstPass () { return 0; }
-  virtual bool LoadFirstPass (iCelDataBuffer*) { return 0; }
+  virtual bool LoadFirstPass (iCelDataBuffer*) { return false; }
+
+  virtual csPtr<iCelDataBuffer> Save () { return 0; }
+  virtual bool Load (iCelDataBuffer* databuf) { return false; }
 
   virtual csPtr<iCelDataBuffer> GetPersistentData (
 	celPersistenceType persistence_type)
@@ -270,8 +295,11 @@ public:
   virtual void TickOnce () { }
 
   // --- For iMessageSender --------------------------------------------
-  virtual void MessageDispatcherRemoved (
-      iMessageDispatcher* dispatcher) { }
+  virtual void MessageDispatcherRemoved (iMessageDispatcher* dispatcher) { }
+
+  // --- For iMessageReceiver ------------------------------------------
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params);
 };
 
 #endif // __CEL_CELTOOL_STDPC__

@@ -39,8 +39,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (Light, "pcobject.light", "pclight")
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
@@ -88,13 +86,13 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
 
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("cel.parameter.name");
-    id_pos = pl->FetchStringID ("cel.parameter.pos");
-    id_sector = pl->FetchStringID ("cel.parameter.sector");
-    id_radius = pl->FetchStringID ("cel.parameter.radius");
-    id_color = pl->FetchStringID ("cel.parameter.color");
-    id_entity = pl->FetchStringID ("cel.parameter.entity");
-    id_tag = pl->FetchStringID ("cel.parameter.tag");
+    id_name = pl->FetchStringID ("name");
+    id_pos = pl->FetchStringID ("pos");
+    id_sector = pl->FetchStringID ("sector");
+    id_radius = pl->FetchStringID ("radius");
+    id_color = pl->FetchStringID ("color");
+    id_entity = pl->FetchStringID ("entity");
+    id_tag = pl->FetchStringID ("tag");
   }
 
   propholder = &propinfo;
@@ -102,12 +100,13 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_setlight, "cel.action.SetLight");
-    AddAction (action_movelight, "cel.action.MoveLight");
-    AddAction (action_createlight, "cel.action.CreateLight");
-    AddAction (action_changecolor, "cel.action.ChangeColor");
-    AddAction (action_parentmesh, "cel.action.ParentMesh");
-    AddAction (action_clearparent, "cel.action.ClearParent");
+    SetActionMask ("cel.light.action.");
+    AddAction (action_setlight, "SetLight");
+    AddAction (action_movelight, "MoveLight");
+    AddAction (action_createlight, "CreateLight");
+    AddAction (action_changecolor, "ChangeColor");
+    AddAction (action_parentmesh, "ParentMesh");
+    AddAction (action_clearparent, "ClearParent");
   }
 }
 

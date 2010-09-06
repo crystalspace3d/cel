@@ -152,12 +152,11 @@ struct iCelInventorySpace : public virtual iBase
  * This is an inventory property class.
  *
  * This property class can send out the following messages
- * to the behaviour (possibly the behaviour of the child entity too):
- * (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pcinventory_addchild: new child will be added (entity)
- * - pcinventory_added: this entity is added as a new child (entity)
- * - pcinventory_removechild: new child will be removed (entity)
- * - pcinventory_removed: this entity is removed (entity)
+ * (possibly to the containing entity as well as the child entity):
+ * - 'cel.entity.add' (old 'pcinventory_addchild'): new child will be added (entity)
+ * - 'cel.entity.add.this' (old 'pcinventory_added'): this entity is added as a new child (entity)
+ * - 'cel.entity.remove' (old 'pcinventory_removechild'): new child will be removed (entity)
+ * - 'cel.entity.remove.this' (old 'pcinventory_removed'): this entity is removed (entity)
  */
 struct iPcInventory : public virtual iBase
 {

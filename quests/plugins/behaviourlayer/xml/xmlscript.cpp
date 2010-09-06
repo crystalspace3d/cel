@@ -1304,14 +1304,12 @@ void celXmlScriptEventHandler::DumpCallStack (celBlXml* cbl)
       iCelParameterBlock* p = cbl->call_stack_params[i];
       for (j = 0 ; j < p->GetParameterCount () ; j++)
       {
-        csStringID id;
         celDataType t;
-        const char* parm;
-        parm = p->GetParameter (j, id, t);
+        csStringID id = p->GetParameterDef (j, t);
         const char* idstr = pl->FetchString (id);
         const celData* param = p->GetParameter (id);
-        printf ("  par:%lu name=%s id=%s val=%s\n", (unsigned long)j,
-        	parm, idstr, D2S (*param));
+        printf ("  par:%lu id=%s val=%s\n", (unsigned long)j,
+        	idstr, D2S (*param));
       }
     }
   }
@@ -1530,8 +1528,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           CHECK_STACK(1)
           celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: calcparid %s\n", i-1, A2S (top)));
-          csString str = "cel.parameter.";
-          str += ArgToString (top);
+          csString str = ArgToString (top);
           csStringID id = pl->FetchStringID ((const char*)str);
           top.SetID (id);
         }
@@ -1541,8 +1538,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           CHECK_STACK(1)
           celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: calcactid %s\n", i-1, A2S (top)));
-          csString str = "cel.action.";
-          str += ArgToString (top);
+          csString str = ArgToString (top);
           csStringID id = pl->FetchStringID ((const char*)str);
           top.SetID (id);
         }
@@ -1552,8 +1548,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           CHECK_STACK(1)
           celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: calcpropid %s\n", i-1, A2S (top)));
-          csString str = "cel.property.";
-          str += ArgToString (top);
+          csString str = ArgToString (top);
           csStringID id = pl->FetchStringID ((const char*)str);
           top.SetID (id);
         }
@@ -4514,7 +4509,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CS_ASSERT (action_params != 0);
 	  celVariableParameterBlock* vb = (celVariableParameterBlock*)(
 	      	iCelParameterBlock*) action_params;
-	  vb->SetParameterDef (op.arg.arg.ui, ArgToID (a_id), "");
+	  vb->SetParameterDef (op.arg.arg.ui, ArgToID (a_id));
 	  celData& data = vb->GetParameter ((int)op.arg.arg.ui);
 	  switch (a_val.type)
 	  {

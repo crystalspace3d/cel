@@ -27,8 +27,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY (Test, "pcmisc.test")
 
 //---------------------------------------------------------------------------
@@ -42,23 +40,24 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
 {
   // For SendMessage parameters.
   if (id_message == csInvalidStringID)
-    id_message = pl->FetchStringID ("cel.parameter.message");
+    id_message = pl->FetchStringID ("message");
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_message, "message");
+  params->SetParameterDef (id_message);
 
   propholder = &propinfo;
 
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_print, "cel.action.Print");
+    SetActionMask ("cel.test.action.");
+    AddAction (action_print, "Print");
   }
 
   // For properties.
   propinfo.SetCount (2);
-  AddProperty (propid_counter, "cel.property.counter",
+  AddProperty (propid_counter, "counter",
 	CEL_DATA_LONG, false, "Print counter.", &counter);
-  AddProperty (propid_max, "cel.property.max",
+  AddProperty (propid_max, "max",
 	CEL_DATA_LONG, false, "Max length.", 0);
 
   counter = 0;

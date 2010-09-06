@@ -45,7 +45,7 @@ CEL_DECLARE_FACTORY (Grab)
 /**
  * This is a test property class.
  */
-class celPcGrab : public scfImplementationExt2<celPcGrab, celPcCommon, iPcGrab, iMessageReceiver>
+class celPcGrab : public scfImplementationExt1<celPcGrab, celPcCommon, iPcGrab>
 {
 public:
   celPcGrab (iObjectRegistry* object_reg);
@@ -58,7 +58,8 @@ public:
   // Callback to update the character
   void TickEveryFrame ();
   // only used for getting jump.started events
-  bool ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params);
+  bool ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret,
+      iCelParameterBlock *params);
 
   void SetState (GrabState state);
   GrabState GetState () const;

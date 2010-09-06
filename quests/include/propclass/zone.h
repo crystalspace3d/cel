@@ -262,9 +262,8 @@ struct iCelZone : public virtual iBase
  * then all zones that contain that region will be in memory,
  * The representation of a region.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.zone.action.'
+ * if you want to access this action through a message):
  * - DisableCD: no parameters. Don't create collider wrappers.
  * - EnableCD: no parameters. Create collider wrappers (default).
  * - Load: parameters 'path' (string: optional), and 'file' (string).
@@ -285,18 +284,17 @@ struct iCelZone : public virtual iBase
  * - LinkRegion: parameters 'zone' (string) 'region' (string).
  * - UnlinkRegion: parameters 'zone' (string) 'region' (string).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - laststart (string, read only): last used start location.
  * - lastregion (string, read only): last used region.
  *
- * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pczonemanager_addregion: new region has been added (region)
- * - pczonemanager_remregion: region will be removed (region)
- * - pczonemanager_startloading: loading of regions starts
- * - pczonemanager_stoploading: loading of regions stops
- * - pczonemanager_errorloading: loading of regions stops with error (region)
+ * This property class can send out the following messages:
+ * - 'cel.region.add' (old 'pczonemanager_addregion'): new region has been added (region)
+ * - 'cel.region.remove' (old 'pczonemanager_remregion'): region will be removed (region)
+ * - 'cel.region.load.start' (old 'pczonemanager_startloading'): loading of regions starts
+ * - 'cel.region.load.stop' (old 'pczonemanager_stoploading'): loading of regions stops
+ * - 'cel.region.load.error' (old 'pczonemanager_errorloading'):
+ *   loading of regions stops with error (region)
  */
 struct iPcZoneManager : public virtual iBase
 {

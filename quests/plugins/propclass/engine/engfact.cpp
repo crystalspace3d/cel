@@ -57,8 +57,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (Region, "pcworld.region", "pcregion")
 
 void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
@@ -91,16 +89,17 @@ celPcRegion::celPcRegion (iObjectRegistry* object_reg)
 
   if (!propinfo.actions_done)
   {
-    AddAction (action_load, "cel.action.Load");
-    AddAction (action_unload, "cel.action.Unload");
+    SetActionMask ("cel.region.action.");
+    AddAction (action_load, "Load");
+    AddAction (action_unload, "Unload");
   }
 
   propinfo.SetCount (3);
-  AddProperty (propid_worlddir, "cel.property.worlddir",
+  AddProperty (propid_worlddir, "worlddir",
   	CEL_DATA_STRING, false, "Map VFS path.", &worlddir);
-  AddProperty (propid_worldfile, "cel.property.worldfile",
+  AddProperty (propid_worldfile, "worldfile",
   	CEL_DATA_STRING, false, "Map VFS file name.", &worldfile);
-  AddProperty (propid_regionname, "cel.property.regionname",
+  AddProperty (propid_regionname, "regionname",
   	CEL_DATA_STRING, false, "Name of this region.", &regionname);
 
   worlddir = 0;
@@ -321,7 +320,6 @@ bool celPcRegion::Load (bool allow_entity_addon)
     EngReport (object_reg, "Could not load map file '%s/%s'.",
     	worlddir, worldfile);
     VFS->PopDir ();
-    VFS->SetSyncDir(VFS->GetCwd());
     return false;
   }
 

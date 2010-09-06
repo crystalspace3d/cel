@@ -179,36 +179,37 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 
   if (id_percentage == csInvalidStringID)
   {
-    id_percentage = pl->FetchStringID ("cel.parameter.percentage");
-    id_body = pl->FetchStringID ("cel.parameter.body");
-    id_legs = pl->FetchStringID ("cel.parameter.legs");
-    id_offset = pl->FetchStringID ("cel.parameter.offset");
-    id_sector = pl->FetchStringID ("cel.parameter.sector");
-    id_position = pl->FetchStringID ("cel.parameter.position");
-    id_yrot = pl->FetchStringID ("cel.parameter.yrot");
-    id_velocity = pl->FetchStringID ("cel.parameter.velocity");
+    id_percentage = pl->FetchStringID ("percentage");
+    id_body = pl->FetchStringID ("body");
+    id_legs = pl->FetchStringID ("legs");
+    id_offset = pl->FetchStringID ("offset");
+    id_sector = pl->FetchStringID ("sector");
+    id_position = pl->FetchStringID ("position");
+    id_yrot = pl->FetchStringID ("yrot");
+    id_velocity = pl->FetchStringID ("velocity");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_initcd, "cel.action.InitCD");
-    AddAction (action_initcdmesh, "cel.action.InitCDMesh");
-    AddAction (action_setposition, "cel.action.SetPosition");
-    AddAction (action_setvelocity, "cel.action.SetVelocity");
-    AddAction (action_addvelocity, "cel.action.AddVelocity");
-    AddAction (action_setangularvelocity, "cel.action.SetAngularVelocity");
+    SetActionMask ("cel.move.linear.action.");
+    AddAction (action_initcd, "InitCD");
+    AddAction (action_initcdmesh, "InitCDMesh");
+    AddAction (action_setposition, "SetPosition");
+    AddAction (action_setvelocity, "SetVelocity");
+    AddAction (action_addvelocity, "AddVelocity");
+    AddAction (action_setangularvelocity, "SetAngularVelocity");
   }
 
   // For properties.
   propinfo.SetCount (4);
-  AddProperty (propid_anchor, "cel.property.anchor",
+  AddProperty (propid_anchor, "anchor",
   	CEL_DATA_STRING, false, "Mesh Anchor.", 0);
-  AddProperty (propid_gravity, "cel.property.gravity",
+  AddProperty (propid_gravity, "gravity",
   	CEL_DATA_FLOAT, false, "Gravity.", &gravity);
-  AddProperty (propid_hug, "cel.property.hug",
+  AddProperty (propid_hug, "hug",
   	CEL_DATA_BOOL, false, "Hug to ground.", &hugGround);
-  AddProperty (propid_speed, "cel.property.speed",
+  AddProperty (propid_speed, "speed",
   	CEL_DATA_FLOAT, false, "Movement speed.", &speed);
 
   ResetGravity ();

@@ -42,7 +42,7 @@ CEL_DECLARE_FACTORY (Jump)
 /**
  * This is a test property class.
  */
-class celPcJump : public scfImplementationExt2<celPcJump, celPcCommon, iPcJump, iMessageReceiver>
+class celPcJump : public scfImplementationExt1<celPcJump, celPcCommon, iPcJump>
 {
 public:
   celPcJump (iObjectRegistry* object_reg);
@@ -90,7 +90,8 @@ public:
   float GetBoostAcceleration () const;
 
   // only used for getting move.impossible events
-  bool ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params);
+  bool ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret,
+      iCelParameterBlock *params);
 
 private:
   // Called regularly and any movement change

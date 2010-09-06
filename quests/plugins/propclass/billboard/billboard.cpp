@@ -41,8 +41,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (Billboard, "pc2d.billboard", "pcbillboard")
 
 csStringID celPcBillboard::id_materialname = csInvalidStringID;
@@ -67,83 +65,84 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   if (id_materialname == csInvalidStringID)
   {
-    id_materialname = pl->FetchStringID ("cel.parameter.materialname");
-    id_factory = pl->FetchStringID ("cel.parameter.factory");
-    id_distance = pl->FetchStringID ("cel.parameter.distance");
-    id_angle = pl->FetchStringID ("cel.parameter.angle");
-    id_rotate = pl->FetchStringID ("cel.parameter.rotate");
+    id_materialname = pl->FetchStringID ("materialname");
+    id_factory = pl->FetchStringID ("factory");
+    id_distance = pl->FetchStringID ("distance");
+    id_angle = pl->FetchStringID ("angle");
+    id_rotate = pl->FetchStringID ("rotate");
   }
 
   propholder = &propinfo;
 
   if (!propinfo.actions_done)
   {
-    AddAction (action_drawmesh, "cel.action.DrawMesh");
-    AddAction (action_gettextwidth, "cel.action.GetTextWidth");
-    AddAction (action_gettextheight, "cel.action.GetTextHeight");
+    SetActionMask ("cel.billboard.action.");
+    AddAction (action_drawmesh, "DrawMesh");
+    AddAction (action_gettextwidth, "GetTextWidth");
+    AddAction (action_gettextheight, "GetTextHeight");
   }
 
   propinfo.SetCount (28);
-  AddProperty (propid_billboardname, "cel.property.name",
+  AddProperty (propid_billboardname, "name",
 	CEL_DATA_STRING, false, "Name of billboard.", &billboard_name);
-  AddProperty (propid_materialname, "cel.property.materialname",
+  AddProperty (propid_materialname, "materialname",
 	CEL_DATA_STRING, false, "Name of material.", 0);
-  AddProperty (propid_materialnamefast, "cel.property.materialnamefast",
+  AddProperty (propid_materialnamefast, "materialnamefast",
 	CEL_DATA_STRING, false, "Name of material (fast version).", 0);
-  AddProperty (propid_clickable, "cel.property.clickable",
+  AddProperty (propid_clickable, "clickable",
 	CEL_DATA_BOOL, false, "Enable mouse events.", 0);
-  AddProperty (propid_movable, "cel.property.movable",
+  AddProperty (propid_movable, "movable",
 	CEL_DATA_BOOL, false, "Make movable.", 0);
-  AddProperty (propid_visible, "cel.property.visible",
+  AddProperty (propid_visible, "visible",
 	CEL_DATA_BOOL, false, "Make visible.", 0);
-  AddProperty (propid_restack, "cel.property.restack",
+  AddProperty (propid_restack, "restack",
 	CEL_DATA_BOOL, false, "Make restackable on selection.", 0);
-  AddProperty (propid_sendmove, "cel.property.sendmove",
+  AddProperty (propid_sendmove, "sendmove",
 	CEL_DATA_BOOL, false, "Send move and moveaway events.", 0);
-  AddProperty (propid_color, "cel.property.color",
+  AddProperty (propid_color, "color",
 	CEL_DATA_COLOR, false, "Color of this billboard.", 0);
-  AddProperty (propid_width, "cel.property.width",
+  AddProperty (propid_width, "width",
 	CEL_DATA_LONG, false, "Width in pixels.", 0);
-  AddProperty (propid_height, "cel.property.height",
+  AddProperty (propid_height, "height",
 	CEL_DATA_LONG, false, "Height in pixels.", 0);
-  AddProperty (propid_widthpct, "cel.property.widthpct",
+  AddProperty (propid_widthpct, "widthpct",
 	CEL_DATA_FLOAT, false,
 	"Width in percentage relative to original texture (1==full size).", 0);
-  AddProperty (propid_heightpct, "cel.property.heightpct",
+  AddProperty (propid_heightpct, "heightpct",
 	CEL_DATA_FLOAT, false,
 	"Height in percentage relative to original texture (1==full size).", 0);
-  AddProperty (propid_x, "cel.property.x",
+  AddProperty (propid_x, "x",
 	CEL_DATA_LONG, false, "X position of billboard.", 0);
-  AddProperty (propid_y, "cel.property.y",
+  AddProperty (propid_y, "y",
 	CEL_DATA_LONG, false, "Y position of billboard.", 0);
-  AddProperty (propid_uv_topleft, "cel.property.uv_topleft",
+  AddProperty (propid_uv_topleft, "uv_topleft",
 	CEL_DATA_VECTOR2, false, "Top-left UV coordinate.", 0);
-  AddProperty (propid_uv_botright, "cel.property.uv_botright",
+  AddProperty (propid_uv_botright, "uv_botright",
 	CEL_DATA_VECTOR2, false, "Bottom-right UV coordinate.", 0);
-  AddProperty (propid_layer, "cel.property.layer",
+  AddProperty (propid_layer, "layer",
 	CEL_DATA_STRING, false, "Layer for this billboard.", 0);
-  AddProperty (propid_text, "cel.property.text",
+  AddProperty (propid_text, "text",
 	CEL_DATA_STRING, false, "Text placed on the billboard.", 0);
-  AddProperty (propid_text_offset, "cel.property.text_offset",
+  AddProperty (propid_text_offset, "text_offset",
 	CEL_DATA_VECTOR2, false, "Offset for the text in bb space.", 0);
-  AddProperty (propid_text_fg_color, "cel.property.text_fg_color",
+  AddProperty (propid_text_fg_color, "text_fg_color",
 	CEL_DATA_COLOR, false, "Foreground text color", 0);
-  AddProperty (propid_text_bg_color, "cel.property.text_bg_color",
+  AddProperty (propid_text_bg_color, "text_bg_color",
 	CEL_DATA_COLOR, false, "Background text color.", 0);
-  AddProperty (propid_text_font_size, "cel.property.text_font_size",
+  AddProperty (propid_text_font_size, "text_font_size",
 	CEL_DATA_FLOAT, false, "Text font size.", 0);
-  AddProperty (propid_text_font, "cel.property.text_font",
+  AddProperty (propid_text_font, "text_font",
 	CEL_DATA_STRING, false, "Text font.", 0);
   AddProperty (propid_text_default_fg_color,
-        "cel.property.text_default_fg_color",
+        "text_default_fg_color",
 	CEL_DATA_COLOR, false, "Default foreground text color.", 0);
   AddProperty (propid_text_default_bg_color,
-        "cel.property.text_default_bg_color",
+        "text_default_bg_color",
 	CEL_DATA_COLOR, false, "Default background text color.", 0);
   AddProperty (propid_text_default_font_size,
-        "cel.property.text_default_font_size",
+        "text_default_font_size",
 	CEL_DATA_FLOAT, false, "Default text font size.", 0);
-  AddProperty (propid_text_default_font, "cel.property.text_default_font",
+  AddProperty (propid_text_default_font, "text_default_font",
 	CEL_DATA_STRING, false, "Default text font.", 0);
 
   font_size = 10.0f;
@@ -151,14 +150,14 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   if (id_x == csInvalidStringID)
   {
-    id_x = pl->FetchStringID ("cel.parameter.x");
-    id_y = pl->FetchStringID ("cel.parameter.y");
-    id_button = pl->FetchStringID ("cel.parameter.button");
+    id_x = pl->FetchStringID ("x");
+    id_y = pl->FetchStringID ("y");
+    id_button = pl->FetchStringID ("button");
   }
   params = new celGenericParameterBlock (3);
-  params->SetParameterDef (0, id_x, "x");
-  params->SetParameterDef (1, id_y, "y");
-  params->SetParameterDef (2, id_button, "button");
+  params->SetParameterDef (0, id_x);
+  params->SetParameterDef (1, id_y);
+  params->SetParameterDef (2, id_button);
 }
 
 celPcBillboard::~celPcBillboard ()

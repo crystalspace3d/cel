@@ -131,7 +131,7 @@ struct iPcTrackingCamera : public virtual iPcCameraMode
   /**
    * Get the minimum cutoff for the follow spring.
    */
-  virtual float SetFollowMinimumSpringFactor () const = 0;
+  virtual float GetFollowMinimumSpringFactor () const = 0;
 
   /**
    * Pan the camera around the player in the direction specified.

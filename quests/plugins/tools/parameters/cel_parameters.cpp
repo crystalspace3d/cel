@@ -219,9 +219,7 @@ csPtr<iParameter> celParameterManager::GetParameter (
   if (val == 0) return new celConstantParameter ();
   if (*val == '@' && *(val+1) != '@')
   {
-    csString fullname = "cel.parameters.";
-    fullname += val+1;
-    csStringID dynamic_id = pl->FetchStringID (fullname);
+    csStringID dynamic_id = pl->FetchStringID (val+1);
     return new celDynamicParameter (object_reg, dynamic_id, val+1);
   }
   else if (*val == '=' && *(val+1) != '=')
@@ -283,7 +281,7 @@ csPtr<celVariableParameterBlock> celParameterManager::GetParameterBlock (
   {
     csRef<iParameter> par = GetParameter (params, parameters[i].value);
     quest_parameters.Put (i, par);
-    act_params->SetParameterDef (i, parameters[i].id, parameters[i].name);
+    act_params->SetParameterDef (i, parameters[i].id);
   }
   return act_params;
 }

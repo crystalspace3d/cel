@@ -20,7 +20,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     addon_celentitytpl
     addon_questdef
     addon_ruledef
-    bltest
     blxml
     celconsole
     mgr_quests

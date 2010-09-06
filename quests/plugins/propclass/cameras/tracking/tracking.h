@@ -95,7 +95,7 @@ public:
   void SetFollowSpringLength (float slen);
   float GetFollowSpringLength () const;
   void SetFollowMinimumSpringFactor (float smin);
-  float SetFollowMinimumSpringFactor () const;
+  float GetFollowMinimumSpringFactor () const;
   bool DecideState ();
 
   bool ResetCamera ();
@@ -125,7 +125,7 @@ private:
 
   struct Accelerator
   {
-    void Accelerate (int direction, float elapsedsecs);
+    void Accelerate (float direction, float elapsedsecs);
     float topspeed;
     float speed, accel;
   } pan, tilt;

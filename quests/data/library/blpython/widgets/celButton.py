@@ -21,8 +21,8 @@ class celButton:
         pass
     
     def setparameters(self,pc,args):
-        self.message = args[getid('cel.parameter.message')]
-        self.owner = args[getid('cel.parameter.owner')]
+        self.message = args[getid('message')]
+        self.owner = args[getid('owner')]
 
     def setactive(self, pc, args):
         if not self.active:

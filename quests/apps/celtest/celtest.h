@@ -25,6 +25,10 @@
 #include "csutil/csbaseeventh.h"
 #include "cstool/csapplicationframework.h"
 
+// CEL Includes
+#include "physicallayer/messaging.h"
+#include "actorsettings.h"
+
 struct iEngine;
 struct iLoader;
 struct iGraphics3D;
@@ -44,6 +48,8 @@ struct iCelBlLayer;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 
+class CelTest;
+
 /**
  * Main application class of CelTest.
  */
@@ -59,9 +65,11 @@ private:
   csRef<FramePrinter> printer;
 
   csRef<iCelPlLayer> pl;
-  csRef<iCelBlLayer> bltest;
   csRef<iCelEntity> game;
- 
+  csRef<iCelEntity> entity_cam;
+
+  ActorSettings actorsettings;
+
   /**
    * Setup everything that needs to be rendered on screen. This routine
    * is called from the event handler in response to a csevFrame
@@ -77,9 +85,11 @@ private:
   virtual bool OnKeyboard (iEvent &event);
 
   bool CreateRoom ();
-  csPtr<iCelEntity> CreateActor (const char *name, const char* factName,
-	const csVector3& pos);
-  
+  void CreateActor ();
+  void CreateActionIcon ();
+  void CreateSettingBar ();
+  void ConnectWires ();
+
 public:
   CelTest ();
   virtual ~CelTest ();

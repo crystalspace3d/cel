@@ -48,8 +48,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (MechanicsSystem, "pcphysics.system", "pcmechsys")
 CEL_IMPLEMENT_FACTORY_ALT (MechanicsObject, "pcphysics.object", "pcmechobject")
 CEL_IMPLEMENT_FACTORY_ALT (MechanicsJoint, "pcphysics.joint", "pcmechjoint")
@@ -78,22 +76,23 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
   if (param_dynsys == csInvalidStringID)
   {
     // Parameters.
-    param_dynsys = pl->FetchStringID ("cel.parameter.dynsys");
-    param_gravity = pl->FetchStringID ("cel.parameter.gravity");
-    param_time = pl->FetchStringID ("cel.parameter.time");
-    param_simulationspeed = pl->FetchStringID ("cel.parameter.simulationspeed");
+    param_dynsys = pl->FetchStringID ("dynsys");
+    param_gravity = pl->FetchStringID ("gravity");
+    param_time = pl->FetchStringID ("time");
+    param_simulationspeed = pl->FetchStringID ("simulationspeed");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setsystem, "cel.action.SetSystem");
-    AddAction (action_setgravity, "cel.action.SetGravity");
-    AddAction (action_quickstep, "cel.action.QuickStep");
-    AddAction (action_enablestepfast, "cel.action.EnableStepFast");
-    AddAction (action_disablestepfast, "cel.action.DisableStepFast");
-    AddAction (action_setsteptime, "cel.action.SetStepTime");
-    AddAction (action_setsimulationspeed, "cel.action.SetSimulationSpeed");
+    SetActionMask ("cel.mechanics.system.action.");
+    AddAction (action_setsystem, "SetSystem");
+    AddAction (action_setgravity, "SetGravity");
+    AddAction (action_quickstep, "QuickStep");
+    AddAction (action_enablestepfast, "EnableStepFast");
+    AddAction (action_disablestepfast, "DisableStepFast");
+    AddAction (action_setsteptime, "SetStepTime");
+    AddAction (action_setsimulationspeed, "SetSimulationSpeed");
   }
 }
 
@@ -614,91 +613,92 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   if (param_friction == csInvalidStringID)
   {
     // Parameters.
-    param_friction = pl->FetchStringID ("cel.parameter.friction");
-    param_mass = pl->FetchStringID ("cel.parameter.mass");
-    param_elasticity = pl->FetchStringID ("cel.parameter.elasticity");
-    param_density = pl->FetchStringID ("cel.parameter.density");
-    param_softness = pl->FetchStringID ("cel.parameter.softness");
-    param_lift = pl->FetchStringID ("cel.parameter.lift");
-    param_drag = pl->FetchStringID ("cel.parameter.drag");
-    param_static = pl->FetchStringID ("cel.parameter.static");
-    param_systempcent = pl->FetchStringID ("cel.parameter.systempcent");
-    param_systempctag = pl->FetchStringID ("cel.parameter.systempctag");
-    param_meshpctag = pl->FetchStringID ("cel.parameter.meshpctag");
-    param_radius = pl->FetchStringID ("cel.parameter.radius");
-    param_radiusadjustment = pl->FetchStringID ("cel.parameter.radiusadjustment");
-    param_offset = pl->FetchStringID ("cel.parameter.offset");
-    param_length = pl->FetchStringID ("cel.parameter.length");
-    param_axis = pl->FetchStringID ("cel.parameter.axis");
-    param_angle = pl->FetchStringID ("cel.parameter.angle");
-    param_size = pl->FetchStringID ("cel.parameter.size");
-    param_sizeadjustment = pl->FetchStringID ("cel.parameter.sizeadjustment");
-    param_normal = pl->FetchStringID ("cel.parameter.normal");
-    param_otherbody = pl->FetchStringID ("cel.parameter.otherbody");
-    param_force = pl->FetchStringID ("cel.parameter.force");
-    param_relative = pl->FetchStringID ("cel.parameter.relative");
-    param_position = pl->FetchStringID ("cel.parameter.position");
-    param_seconds = pl->FetchStringID ("cel.parameter.seconds");
-    param_velocity = pl->FetchStringID ("cel.parameter.velocity");
-    param_tag = pl->FetchStringID ("cel.parameter.tag");
-    param_forward = pl->FetchStringID ("cel.parameter.forward");
-    param_up = pl->FetchStringID ("cel.parameter.up");
-    param_rotation = pl->FetchStringID ("cel.parameter.rotation");
-    param_depth = pl->FetchStringID ("cel.parameter.depth");
-    param_group = pl->FetchStringID ("cel.parameter.group");
+    param_friction = pl->FetchStringID ("friction");
+    param_mass = pl->FetchStringID ("mass");
+    param_elasticity = pl->FetchStringID ("elasticity");
+    param_density = pl->FetchStringID ("density");
+    param_softness = pl->FetchStringID ("softness");
+    param_lift = pl->FetchStringID ("lift");
+    param_drag = pl->FetchStringID ("drag");
+    param_static = pl->FetchStringID ("static");
+    param_systempcent = pl->FetchStringID ("systempcent");
+    param_systempctag = pl->FetchStringID ("systempctag");
+    param_meshpctag = pl->FetchStringID ("meshpctag");
+    param_radius = pl->FetchStringID ("radius");
+    param_radiusadjustment = pl->FetchStringID ("radiusadjustment");
+    param_offset = pl->FetchStringID ("offset");
+    param_length = pl->FetchStringID ("length");
+    param_axis = pl->FetchStringID ("axis");
+    param_angle = pl->FetchStringID ("angle");
+    param_size = pl->FetchStringID ("size");
+    param_sizeadjustment = pl->FetchStringID ("sizeadjustment");
+    param_normal = pl->FetchStringID ("normal");
+    param_otherbody = pl->FetchStringID ("otherbody");
+    param_force = pl->FetchStringID ("force");
+    param_relative = pl->FetchStringID ("relative");
+    param_position = pl->FetchStringID ("position");
+    param_seconds = pl->FetchStringID ("seconds");
+    param_velocity = pl->FetchStringID ("velocity");
+    param_tag = pl->FetchStringID ("tag");
+    param_forward = pl->FetchStringID ("forward");
+    param_up = pl->FetchStringID ("up");
+    param_rotation = pl->FetchStringID ("rotation");
+    param_depth = pl->FetchStringID ("depth");
+    param_group = pl->FetchStringID ("group");
   }
 
   params = new celGenericParameterBlock (4);
-  params->SetParameterDef (0, param_otherbody, "otherbody");
-  params->SetParameterDef (1, param_position, "position");
-  params->SetParameterDef (2, param_normal, "normal");
-  params->SetParameterDef (3, param_depth, "depth");
+  params->SetParameterDef (0, param_otherbody);
+  params->SetParameterDef (1, param_position);
+  params->SetParameterDef (2, param_normal);
+  params->SetParameterDef (3, param_depth);
 
   propholder = &propinfo;
 
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_initphys, "cel.action.InitPhys");
-    AddAction (action_makestatic, "cel.action.MakeStatic");
-    AddAction (action_setsystem, "cel.action.SetSystem");
-    AddAction (action_setmesh, "cel.action.SetMesh");
-    AddAction (action_setcolliderboundingsphere, "cel.action.SetColliderBoundingSphere");
-    AddAction (action_setcollidersphere, "cel.action.SetColliderSphere");
-    AddAction (action_setcollidercylinder, "cel.action.SetColliderCylinder");
-    AddAction (action_setcolliderboundingbox, "cel.action.SetColliderBoundingBox");
-    AddAction (action_setcolliderbox, "cel.action.SetColliderBox");
-    AddAction (action_setcolliderplane, "cel.action.SetColliderPlane");
-    AddAction (action_setcollidermesh, "cel.action.SetColliderMesh");
-    AddAction (action_setcolliderconvexmesh, "cel.action.SetColliderConvexMesh");
-    AddAction (action_setlinearvelocity, "cel.action.SetLinearVelocity");
-    AddAction (action_setangularvelocity, "cel.action.SetAngularVelocity");
-    AddAction (action_addforceonce, "cel.action.AddForceOnce");
-    AddAction (action_addforceduration, "cel.action.AddForceDuration");
-    AddAction (action_addforceframe, "cel.action.AddForceFrame");
-    AddAction (action_addforcetagged, "cel.action.AddForceTagged");
-    AddAction (action_removeforcetagged, "cel.action.RemoveForceTagged");
-    AddAction (action_clearforces, "cel.action.ClearForces");
-    AddAction (action_setposition, "cel.action.SetPosition");
-    AddAction (action_clearrotation, "cel.action.ClearRotation");
-    AddAction (action_rotate, "cel.action.Rotate");
-    AddAction (action_lookat, "cel.action.LookAt");
-    AddAction (action_addtogroup, "cel.action.AddToGroup");
+    SetActionMask ("cel.mechanics.object.action.");
+    AddAction (action_initphys, "InitPhys");
+    AddAction (action_makestatic, "MakeStatic");
+    AddAction (action_setsystem, "SetSystem");
+    AddAction (action_setmesh, "SetMesh");
+    AddAction (action_setcolliderboundingsphere, "SetColliderBoundingSphere");
+    AddAction (action_setcollidersphere, "SetColliderSphere");
+    AddAction (action_setcollidercylinder, "SetColliderCylinder");
+    AddAction (action_setcolliderboundingbox, "SetColliderBoundingBox");
+    AddAction (action_setcolliderbox, "SetColliderBox");
+    AddAction (action_setcolliderplane, "SetColliderPlane");
+    AddAction (action_setcollidermesh, "SetColliderMesh");
+    AddAction (action_setcolliderconvexmesh, "SetColliderConvexMesh");
+    AddAction (action_setlinearvelocity, "SetLinearVelocity");
+    AddAction (action_setangularvelocity, "SetAngularVelocity");
+    AddAction (action_addforceonce, "AddForceOnce");
+    AddAction (action_addforceduration, "AddForceDuration");
+    AddAction (action_addforceframe, "AddForceFrame");
+    AddAction (action_addforcetagged, "AddForceTagged");
+    AddAction (action_removeforcetagged, "RemoveForceTagged");
+    AddAction (action_clearforces, "ClearForces");
+    AddAction (action_setposition, "SetPosition");
+    AddAction (action_clearrotation, "ClearRotation");
+    AddAction (action_rotate, "Rotate");
+    AddAction (action_lookat, "LookAt");
+    AddAction (action_addtogroup, "AddToGroup");
   }
 
   // For properties.
   propinfo.SetCount (6);
-  AddProperty (propid_lasttag, "cel.property.lasttag",
+  AddProperty (propid_lasttag, "lasttag",
 	CEL_DATA_LONG, true, "Last tag from AddForceTagged.", &last_tag);
-  AddProperty (propid_linearvelocity, "cel.property.linearvelocity",
+  AddProperty (propid_linearvelocity, "linearvelocity",
 	CEL_DATA_VECTOR3, false, "Linear velocity.", 0);
-  AddProperty (propid_angularvelocity, "cel.property.angularvelocity",
+  AddProperty (propid_angularvelocity, "angularvelocity",
 	CEL_DATA_VECTOR3, false, "Angular velocity.", 0);
-  AddProperty (propid_static, "cel.property.static",
+  AddProperty (propid_static, "static",
 	CEL_DATA_BOOL, false, "Static yes/no.", 0);
-  AddProperty (propid_cdcallback, "cel.property.cdcallback",
+  AddProperty (propid_cdcallback, "cdcallback",
 	CEL_DATA_BOOL, false, "CD callback enabled yes/no.", &cd_enabled);
-  AddProperty (propid_enabled, "cel.property.enabled",
+  AddProperty (propid_enabled, "enabled",
 	CEL_DATA_BOOL, false, "CD enabled yes/no.", 0);
 }
 
@@ -1742,13 +1742,13 @@ celPcMechanicsJoint::celPcMechanicsJoint (iObjectRegistry* object_reg)
   if (param_body == csInvalidStringID)
   {
     // Parameters.
-    param_body = pl->FetchStringID ("cel.parameter.body");
-    param_position = pl->FetchStringID ("cel.parameter.position");
-    param_min = pl->FetchStringID ("cel.parameter.min");
-    param_max = pl->FetchStringID ("cel.parameter.max");
-    param_x = pl->FetchStringID ("cel.parameter.x");
-    param_y = pl->FetchStringID ("cel.parameter.y");
-    param_z = pl->FetchStringID ("cel.parameter.z");
+    param_body = pl->FetchStringID ("body");
+    param_position = pl->FetchStringID ("position");
+    param_min = pl->FetchStringID ("min");
+    param_max = pl->FetchStringID ("max");
+    param_x = pl->FetchStringID ("x");
+    param_y = pl->FetchStringID ("y");
+    param_z = pl->FetchStringID ("z");
   }
 
   params = new celOneParameterBlock ();
@@ -1757,12 +1757,13 @@ celPcMechanicsJoint::celPcMechanicsJoint (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setparentbody, "cel.action.SetParentBody");
-    AddAction (action_setposition, "cel.action.SetPosition");
-    AddAction (action_setconstraindist, "cel.action.SetConstrainDist");
-    AddAction (action_setdistances, "cel.action.SetDistances");
-    AddAction (action_setconstrainangle, "cel.action.SetConstrainAngle");
-    AddAction (action_setangles, "cel.action.SetAngles");
+    SetActionMask ("cel.mechanics.joint.action.");
+    AddAction (action_setparentbody, "SetParentBody");
+    AddAction (action_setposition, "SetPosition");
+    AddAction (action_setconstraindist, "SetConstrainDist");
+    AddAction (action_setdistances, "SetDistances");
+    AddAction (action_setconstrainangle, "SetConstrainAngle");
+    AddAction (action_setangles, "SetAngles");
   }
 }
 

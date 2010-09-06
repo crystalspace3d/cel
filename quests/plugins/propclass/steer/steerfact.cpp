@@ -39,8 +39,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (Steer, "pcmove.steer", "pcsteer")
 
 //---------------------------------------------------------------------------
@@ -73,81 +71,82 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
   // For actions.
   if (id_sectorname == csInvalidStringID)
   {
-    id_sectorname = pl->FetchStringID ("cel.parameter.sectorname");
-    id_cur_sector = pl->FetchStringID ("cel.parameter.cur_sector");
-    id_position = pl->FetchStringID ("cel.parameter.position");
-    id_cur_position = pl->FetchStringID ("cel.parameter.cur_position");
-    id_cur_direction = pl->FetchStringID ("cel.parameter.cur_direction");
-    id_up = pl->FetchStringID ("cel.parameter.up");
-    id_meshname = pl->FetchStringID ("cel.parameter.meshname");
-    id_cur_yrot = pl->FetchStringID ("cel.parameter.cur_yrot");
-    id_arrival_radius = pl->FetchStringID ("cel.parameter.arrival_radius");
-    id_ca_lookahead = pl->FetchStringID ("cel.parameter.ca_lookahead");
-    id_ca_weight = pl->FetchStringID ("cel.parameter.ca_weight");
-    id_cohesion_radius = pl->FetchStringID ("cel.parameter.cohesion_radius");
-    id_separation_radius = pl->FetchStringID ("cel.parameter.separation_radius");
-    id_dm_radius = pl->FetchStringID ("cel.parameter.dm_radius");
-    id_pursue_max_prediction = pl->FetchStringID ("cel.parameter.pursue_max_prediction");
-    id_separation_weight = pl->FetchStringID ("cel.parameter.separation_weight");
-    id_cohesion_weight = pl->FetchStringID ("cel.parameter.cohesion_weight");
-    id_dm_weight = pl->FetchStringID ("cel.parameter.dm_weight");
+    id_sectorname = pl->FetchStringID ("sectorname");
+    id_cur_sector = pl->FetchStringID ("cur_sector");
+    id_position = pl->FetchStringID ("position");
+    id_cur_position = pl->FetchStringID ("cur_position");
+    id_cur_direction = pl->FetchStringID ("cur_direction");
+    id_up = pl->FetchStringID ("up");
+    id_meshname = pl->FetchStringID ("meshname");
+    id_cur_yrot = pl->FetchStringID ("cur_yrot");
+    id_arrival_radius = pl->FetchStringID ("arrival_radius");
+    id_ca_lookahead = pl->FetchStringID ("ca_lookahead");
+    id_ca_weight = pl->FetchStringID ("ca_weight");
+    id_cohesion_radius = pl->FetchStringID ("cohesion_radius");
+    id_separation_radius = pl->FetchStringID ("separation_radius");
+    id_dm_radius = pl->FetchStringID ("dm_radius");
+    id_pursue_max_prediction = pl->FetchStringID ("pursue_max_prediction");
+    id_separation_weight = pl->FetchStringID ("separation_weight");
+    id_cohesion_weight = pl->FetchStringID ("cohesion_weight");
+    id_dm_weight = pl->FetchStringID ("dm_weight");
   }
 
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_meshname, "meshname");
+  params->SetParameterDef (id_meshname);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_seek, "cel.action.Seek");
-    AddAction (action_flee, "cel.action.Flee");
-    AddAction (action_pursue, "cel.action.Pursue");
-    AddAction (action_interrupt, "cel.action.Interrupt");
+    SetActionMask ("cel.move.steer.action.");
+    AddAction (action_seek, "Seek");
+    AddAction (action_flee, "Flee");
+    AddAction (action_pursue, "Pursue");
+    AddAction (action_interrupt, "Interrupt");
   }
 
   // For properties.
   propinfo.SetCount (24);
-  AddProperty (propid_position, "cel.property.position",
+  AddProperty (propid_position, "position",
     CEL_DATA_VECTOR3, true, "Desired end position.", &position);
-  AddProperty (propid_cur_position, "cel.property.cur_position",
+  AddProperty (propid_cur_position, "cur_position",
     CEL_DATA_VECTOR3, true, "Current position.", &cur_position);
-  AddProperty (propid_cur_direction, "cel.property.cur_direction",
+  AddProperty (propid_cur_direction, "cur_direction",
     CEL_DATA_VECTOR3, true, "Current direction.", &cur_direction);
-  AddProperty (propid_up, "cel.property.up",
+  AddProperty (propid_up, "up",
     CEL_DATA_VECTOR3, true, "Current up vector.", &up);
-  AddProperty (propid_cur_yrot, "cel.property.cur_yrot",
+  AddProperty (propid_cur_yrot, "cur_yrot",
     CEL_DATA_FLOAT, false, "Current rotation.", &cur_yrot);
-  AddProperty (propid_arrival_radius, "cel.property.arrival_radius",
+  AddProperty (propid_arrival_radius, "arrival_radius",
     CEL_DATA_FLOAT, false, "Arrival Radius.", &arrival_radius);
-  AddProperty (propid_ca_lookahead, "cel.property.ca_lookahead",
+  AddProperty (propid_ca_lookahead, "ca_lookahead",
     CEL_DATA_FLOAT, false, "CA Lookahead.", &ca_lookahead);
-  AddProperty (propid_ca_weight, "cel.property.ca_weight",
+  AddProperty (propid_ca_weight, "ca_weight",
     CEL_DATA_FLOAT, false, "CA weight.", &ca_weight);
-  AddProperty (propid_cohesion_radius, "cel.property.cohesion_radius",
+  AddProperty (propid_cohesion_radius, "cohesion_radius",
     CEL_DATA_FLOAT, false, "Cohesion Radius.", &cohesion_radius);
-  AddProperty (propid_separation_radius, "cel.property.separation_radius",
+  AddProperty (propid_separation_radius, "separation_radius",
     CEL_DATA_FLOAT, false, "Separation Radius.", &separation_radius);
-  AddProperty (propid_dm_radius, "cel.property.dm_radius",
+  AddProperty (propid_dm_radius, "dm_radius",
     CEL_DATA_FLOAT, false, "Direction Matching Radius.", &dm_radius);
-  AddProperty (propid_pursue_max_prediction, "cel.property.pursue_max_prediction",
+  AddProperty (propid_pursue_max_prediction, "pursue_max_prediction",
     CEL_DATA_FLOAT, false, "Pursue Max Prediction.", &pursue_max_prediction);
-  AddProperty (propid_separation_weight, "cel.property.separation_weight",
+  AddProperty (propid_separation_weight, "separation_weight",
     CEL_DATA_FLOAT, false, "Separation Weight.", &separation_weight);
-  AddProperty (propid_cohesion_weight, "cel.property.cohesion_weight",
+  AddProperty (propid_cohesion_weight, "cohesion_weight",
     CEL_DATA_FLOAT, false, "Cohesion Wegight.", &cohesion_weight);
-  AddProperty (propid_dm_weight, "cel.property.dm_weight",
+  AddProperty (propid_dm_weight, "dm_weight",
     CEL_DATA_FLOAT, false, "Direction Matching Weight.", &dm_weight);
-  AddProperty (propid_moving, "cel.property.moving",
+  AddProperty (propid_moving, "moving",
     CEL_DATA_BOOL, true, "Is moving?", &is_moving);
-  AddProperty (propid_check_arrival, "cel.property.check_arrival",
+  AddProperty (propid_check_arrival, "check_arrival",
     CEL_DATA_BOOL, true, "Check if arrived at position?", &check_arrival);
-  AddProperty (propid_collision_avoidance, "cel.property.collision_avoidance",
+  AddProperty (propid_collision_avoidance, "collision_avoidance",
     CEL_DATA_BOOL, true, "Avoid Collisions?", &collision_avoidance);
-  AddProperty (propid_check_cohesion, "cel.property.check_cohesion",
+  AddProperty (propid_check_cohesion, "check_cohesion",
     CEL_DATA_BOOL, true, "Check for Cohesion?", &check_cohesion);
-  AddProperty (propid_check_separation, "cel.property.check_separation",
+  AddProperty (propid_check_separation, "check_separation",
     CEL_DATA_BOOL, true, "Check for separation", &check_separation);
-  AddProperty (propid_check_dm, "cel.property.check_dm",
+  AddProperty (propid_check_dm, "check_dm",
     CEL_DATA_BOOL, true, "Check for Direction Matching", &check_dm);
 
   is_moving = false;

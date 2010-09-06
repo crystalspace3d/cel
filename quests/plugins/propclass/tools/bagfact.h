@@ -60,13 +60,21 @@ private:
   csSet<csString> bag;
 
   static csStringID id_value;
+  static csStringID id_msgid;
 
   enum actionids
   {
     action_addstring = 0,
     action_removestring,
     action_clear,
-    action_hasstring
+    action_hasstring,
+    action_sendmessage
+  };
+
+  // For properties.
+  enum propids
+  {
+    propid_size = 0
   };
 
   static PropertyHolder propinfo;
@@ -85,6 +93,9 @@ public:
   virtual void Clear ();
   virtual bool HasString (const char* str);
   virtual csSet<csString>::GlobalIterator GetIterator ();
+  virtual bool SendMessage (const char* msgid, iCelParameterBlock* params = 0);
+
+  virtual bool GetPropertyIndexed (int, long&);
 };
 
 #endif // __CEL_PF_BAGFACT__

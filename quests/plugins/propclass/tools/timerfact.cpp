@@ -60,22 +60,23 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
   CS_ASSERT (vc != 0);
   if (id_elapsedticks == csInvalidStringID)
   {
-    id_elapsedticks = pl->FetchStringID ("cel.parameter.elapsedticks");
-    id_currentticks = pl->FetchStringID ("cel.parameter.currentticks");
-    id_time = pl->FetchStringID ("cel.parameter.time");
-    id_repeat = pl->FetchStringID ("cel.parameter.repeat");
-    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_elapsedticks = pl->FetchStringID ("elapsedticks");
+    id_currentticks = pl->FetchStringID ("currentticks");
+    id_time = pl->FetchStringID ("time");
+    id_repeat = pl->FetchStringID ("repeat");
+    id_name = pl->FetchStringID ("name");
   }
   params = new celGenericParameterBlock (2);
-  params->SetParameterDef (0, id_elapsedticks, "elapsedticks");
-  params->SetParameterDef (1, id_currentticks, "currentticks");
+  params->SetParameterDef (0, id_elapsedticks);
+  params->SetParameterDef (1, id_currentticks);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_wakeup, "cel.action.WakeUp");
-    AddAction (action_wakeupframe, "cel.action.WakeUpFrame");
-    AddAction (action_clear, "cel.action.Clear");
+    SetActionMask ("cel.timer.action.");
+    AddAction (action_wakeup, "WakeUp");
+    AddAction (action_wakeupframe, "WakeUpFrame");
+    AddAction (action_clear, "Clear");
   }
 }
 

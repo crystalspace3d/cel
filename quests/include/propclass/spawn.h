@@ -27,9 +27,8 @@
  * Spawn property class. This property class is responsible
  * for creating other entities based on time related rules.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.spawn.action.'
+ * if you want to access this action through a message):
  * - AddEntityType: parameters 'chance' (float), 'entity' (string),
  *     'behaviour' (string), 'layer' (string), 'call' (string)
  * - AddEntityTemplateType: parameters 'chance' (float), 'entity' (string),
@@ -44,16 +43,14 @@
  * - AddSpawnPosition: parameters 'sector' (string), 'yrot' (float),
  *     'position' (vector or name of the node)
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - namecounter (bool, read/write): enable/disable unique name counter
  *   (default true).
  * - spawnunique (bool, read/write): enable/disable prevention of spawning
  *   of entities with same name (default false).
  *
- * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pcspawn_newentity: new entity has been created (entity,behaviour)
+ * This property class can send out the following messages:
+ * - 'cel.entity.new' (old 'pcspawn_newentity'): new entity has been created (entity,behaviour)
  */
 struct iPcSpawn : public virtual iBase
 {

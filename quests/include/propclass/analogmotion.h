@@ -27,16 +27,14 @@
  * This is a property class for analog character movement using a joystick
  * or analog pad.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.move.analog.action.'
+ * if you want to access this action through a message):
  * - SetAxis: parameters 'axis' (long), 'value' (float).
  * - AddAxis: parameters 'axis' (long), 'value' (float).
  * - SetMovementSpeed: parameters 'value' (float).
  * - SetTurningSpeed: parameters 'value' (float).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - axisx (float, read/write): Left/Right axis value (-1.0 to 1.0).
  * - axisy (float, read/write): Forward/Backwards axis value (-1.0 to 1.0).
  * - movespeed (float, read/write): Movement speed.

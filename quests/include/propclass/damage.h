@@ -30,25 +30,22 @@
  * entities. The affecting entity will have to handle the damage in whatever
  * way is appropriate.
  *
- * This property class can send out the following messages
- * to the behaviour of affecting entities (add prefix 'cel.parameter.' to
- * get the ID for parameters):
- * - pcdamage_hurt: damage has been done. Parameters: amount (float: amount
- *   of damage), source (string: name of source entity), sector (string:
+ * This property class can send out the following messages:
+ * - 'cel.damage.hurt' (old 'pcdamage_hurt'): damage has been done.
+ *   Parameters: amount (float: amount of damage),
+ *   source (string: name of source entity), sector (string:
  *   name of source sector), position (vector3: origin of damage),
  *   type (string: type of damage, application dependend).
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.damage.action.'
+ * if you want to access this action through a message):
  * - AreaDamage: 'radius' (float: default very large). In case of
  *   'normal' falloff this is actually ignored.
  * - BeamDamage: 'direction' (vector3), 'maxdist' (float: default very large).
  *   In case of 'normal' falloff the maxdist is ignored.
  * - SingleDamage: 'target' (string: name of target entity).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - amount (float, read/write): amount of damage to do.
  * - type (string, read/write): application dependend type of damage to do.
  * - sector (string, read/write): optional sector where the damage

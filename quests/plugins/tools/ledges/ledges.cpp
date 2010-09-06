@@ -42,8 +42,6 @@
 #include "tools/expression.h"
 #include "plugins/tools/ledges/ledges.h"
 
-CS_IMPLEMENT_PLUGIN
-
 //--------------------------------------------------------------------------
 
 celLedge::celLedge () : scfImplementationType (this)

@@ -41,8 +41,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY (DelegateCamera, "pccamera.delegate")
 
 csStringID celPcDelegateCamera::id_pclass = csInvalidStringID;
@@ -51,10 +49,8 @@ PropertyHolder celPcDelegateCamera::propinfo;
 
 //---------------------------------------------------------------------------
 
-csVector3 InterpolateVector (float i, const csVector3 &curr, const csVector3 &next)
+static csVector3 InterpolateVector (float i, const csVector3 &curr, const csVector3 &next)
 {
-  // a bit of a clamp [0, 1]
-  i = (i > 1.0f) ? 1.0f : ((i < 0.0f) ? 0.0f : i);
   // a classic
   return i * (next - curr) + curr;
 }
@@ -71,34 +67,40 @@ celPcDelegateCamera::celPcDelegateCamera (iObjectRegistry* object_reg)
   prev.tar.Set (0.0f);
   prev.up.Set (0.0f);
 
+  last = prev;
+  continuous_transition_speed = 4.0f;
+
   propholder = &propinfo;
 
   // For actions.
   if (!propinfo.actions_done)
   {
-    AddAction (action_setcurrmode, "cel.action.SetCurrentMode");
+    SetActionMask ("cel.camera.delegate.action.");
+    AddAction (action_setcurrmode, "SetCurrentMode");
   }
 
   // For properties.
-  propinfo.SetCount (9);
-  AddProperty (propid_trans_in, "cel.property.trans",
+  propinfo.SetCount (10);
+  AddProperty (propid_trans_in, "trans",
     CEL_DATA_BOOL, true, "Whether in a transition.", &in_transition);
-  AddProperty (propid_trans_time, "cel.property.trans_time",
+  AddProperty (propid_trans_time, "trans_time",
     CEL_DATA_LONG, false, "Time to transition to a new mode.", &transtime);
-  AddProperty (propid_trans_step, "cel.property.trans_curr",
+  AddProperty (propid_trans_step, "trans_curr",
     CEL_DATA_FLOAT, true, "0 -> 1 value indicating stage in the transition.", &currtrans);
-  AddProperty (propid_prev_pos, "cel.property.prev_position",
+  AddProperty (propid_prev_pos, "prev_position",
     CEL_DATA_VECTOR3, true, "Previous mode's position.", &prev.pos);
-  AddProperty (propid_prev_tar, "cel.property.prev_target",
+  AddProperty (propid_prev_tar, "prev_target",
     CEL_DATA_VECTOR3, true, "Previous mode's target.", &prev.tar);
-  AddProperty (propid_prev_up, "cel.property.prev_up",
+  AddProperty (propid_prev_up, "prev_up",
     CEL_DATA_VECTOR3, true, "Previous mode's up vector.", &prev.up);
-  AddProperty (propid_pos, "cel.property.position",
+  AddProperty (propid_pos, "position",
     CEL_DATA_VECTOR3, true, "Current position.", &curr.pos);
-  AddProperty (propid_tar, "cel.property.target",
+  AddProperty (propid_tar, "target",
     CEL_DATA_VECTOR3, true, "Current target.", &curr.tar);
-  AddProperty (propid_up, "cel.property.up",
+  AddProperty (propid_up, "up",
     CEL_DATA_VECTOR3, true, "Current up vector.", &curr.up);
+  AddProperty (propid_trans_speed, "cont_trans_speed",
+    CEL_DATA_FLOAT, true, "Continous transition speed.", &continuous_transition_speed);
 }
 
 celPcDelegateCamera::~celPcDelegateCamera ()
@@ -197,7 +199,7 @@ void celPcDelegateCamera::UpdateCamera ()
     {
       csReversibleTransform trans = player->GetFullTransform ();
       desired.pos = trans.GetOrigin () + trans.This2OtherRelative (csVector3 (0, 2, 5));
-      desired.tar = trans.This2OtherRelative (csVector3 (0, -0.2, -1));;
+      desired.tar = trans.This2OtherRelative (csVector3 (0, -0.2, -1));
       desired.up = trans.This2OtherRelative (csVector3 (0, 1, 0));
     }
     else  // uh-oh, now we're really guessing :P
@@ -220,6 +222,8 @@ void celPcDelegateCamera::UpdateCamera ()
       // and clip this for usage below
       currtrans = 1.0f;
     }
+    else if (currtrans < 0.0f)
+      currtrans = 0.0f;
     // actually do the interpolation
     curr.pos = InterpolateVector (currtrans, prev.pos, desired.pos);
     curr.tar = InterpolateVector (currtrans, prev.tar, desired.tar);
@@ -233,8 +237,26 @@ void celPcDelegateCamera::UpdateCamera ()
 
   // now build the transform
   csReversibleTransform camtrans;
-  camtrans.SetOrigin (desired.pos);
-  camtrans.LookAt (desired.tar - desired.pos, desired.up);
+
+  CameraDescription real;
+  float seconds = vc->GetElapsedTicks () / 1000.0;
+  float factor = continuous_transition_speed * seconds;
+  if (factor >= 1.0f)
+  {
+    real = desired;
+  }
+  else
+  {
+    real.pos = InterpolateVector (factor, last.pos, desired.pos);
+    real.tar = InterpolateVector (factor, last.tar, desired.tar);
+    real.up = InterpolateVector (factor, last.up, desired.up);
+  }
+  camtrans.SetOrigin (real.pos);
+  camtrans.LookAt (real.tar - real.pos, real.up);
+  last = real;
+
+  //camtrans.SetOrigin (desired.pos);
+  //camtrans.LookAt (desired.tar - desired.pos, desired.up);
 
   iCamera* c = view->GetCamera ();
   // needs to be in the right sector
@@ -249,8 +271,7 @@ void celPcDelegateCamera::UpdateCamera ()
 
 int celPcDelegateCamera::GetDrawFlags ()
 {
-  return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-    | CSDRAW_CLEARZBUFFER;
+  return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS;
 }
 void celPcDelegateCamera::Draw ()
 {
