@@ -144,20 +144,20 @@ class celPcEvolve
   csPtr<iCelGenome> Crossover(size_t point);
 
   /**
-   * The private method called by the "cel.action.ReturnFitness" action.
+   * The private method called by the "ReturnFitness" action.
    * Stores the returned fitness value (from params) in the genome and calls
    * the re-entrant method Evolve().
    */
   bool FitnessCallback(iCelParameterBlock *params);
 
   /**
-   * The private method called by the "cel.action.GetFitness" action.
+   * The private method called by the "GetFitness" action.
    * Returns (in ret) the fitness value of the genome specified by the param.
    */
   bool GetFitness(iCelParameterBlock *params, celData &ret);
 
   /**
-   * The private method called by the "cel.action.Select" action. Stores in
+   * The private method called by the "Select" action. Stores in
    * subject the genome specified by the param.
    */
   bool SelectGenome(iCelParameterBlock *params);

@@ -180,13 +180,14 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
                                               const char* sectorname, const csVector3& pos)
 {
   // The vehicle
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "wheeled",
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, 0, 0,
       "pcinput.standard",
       "pcobject.mesh",
       "pccamera.old",
       "pcphysics.object",
       "pcvehicle.wheeled",
       "pcobject.mesh.deform",
+      "pcmove.actor.wheeled",
       CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -432,11 +433,6 @@ bool WheeledTest::Application ()
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
-
-  bltest = csQueryRegistryTagInterface<iCelBlLayer> (
-                                            object_reg, "iCelBlLayer.Test");
-  if (!bltest) return ReportError ("CEL test behaviour layer missing!");
-  pl->RegisterBehaviourLayer (bltest);
 
   if (!CreateMap ()) return false;
 

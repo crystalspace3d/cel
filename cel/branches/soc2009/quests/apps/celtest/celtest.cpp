@@ -65,6 +65,7 @@
 
 #include "celtool/initapp.h"
 #include "celtool/persisthelper.h"
+#include "tools/billboard.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
@@ -92,6 +93,9 @@
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
 #include "propclass/sound.h"
+#include "propclass/wire.h"
+#include "propclass/billboard.h"
+#include "propclass/prop.h"
 
 #define PATHFIND_VERBOSE 0
 
@@ -135,7 +139,7 @@ bool CelTest::OnKeyboard (iEvent &ev)
       csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
       q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
     }
-    else if (code == 's')
+    else if (code == CSKEY_F1)
     {
       csRef<iCelPersistence> p = 
       	csQueryRegistry<iCelPersistence> (object_reg);
@@ -156,7 +160,7 @@ bool CelTest::OnKeyboard (iEvent &ev)
 	pl->RemoveEntities ();
       }
     }
-    else if (code == 'l')
+    else if (code == CSKEY_F2)
     {
       csRef<iCelPersistence> p = 
       	csQueryRegistry<iCelPersistence> (object_reg);
@@ -175,11 +179,48 @@ bool CelTest::OnKeyboard (iEvent &ev)
   return false;
 }
 
-csPtr<iCelEntity> CelTest::CreateActor (const char* name,
-	const char* /*factname*/, const csVector3& /*pos*/)
+void CelTest::CreateActionIcon ()
+{
+  csRef<iCelEntity> entity = pl->CreateEntity ("action_icon", 0, 0,
+      "pc2d.billboard",
+      CEL_PROPCLASS_END);
+  if (!entity) return;
+
+  iTextureWrapper* txt = engine->CreateTexture ("action_icon", "/lib/stdtex/tile.png",
+      0, CS_TEXTURE_2D);
+  txt->Register (g3d->GetTextureManager ());
+  engine->CreateMaterial ("action_icon", txt);
+
+  csRef<iPcBillboard> pcbb = celQueryPropertyClassEntity<iPcBillboard> (entity);
+  pcbb->SetBillboardName ("action_icon");
+  iBillboard* bb = pcbb->GetBillboard ();
+  bb->SetMaterialName ("action_icon");
+  bb->SetPosition (1000, 1000);
+  bb->SetSize (30000, 30000);
+  //bb->GetFlags ().SetAll (CEL_BILLBOARD_VISIBLE);
+  bb->GetFlags ().SetAll (0);
+}
+
+void CelTest::CreateSettingBar ()
+{
+  csRef<iCelEntity> entity = pl->CreateEntity ("setting_bar", 0, 0,
+      "pc2d.billboard",
+      CEL_PROPCLASS_END);
+  if (!entity) return;
+
+  csRef<iPcBillboard> pcbb = celQueryPropertyClassEntity<iPcBillboard> (entity);
+  pcbb->SetBillboardName ("setting_bar");
+  iBillboard* bb = pcbb->GetBillboard ();
+  bb->SetText ("Setting:");
+  bb->SetPosition (100000, 1000);
+  bb->SetSize (200000, 30000);
+  bb->GetFlags ().SetAll (0);
+}
+
+void CelTest::CreateActor ()
 {
   // The Real Camera
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
+  entity_cam = pl->CreateEntity ("camera", 0, 0,
     "pcinput.standard",
     "pcmove.analogmotion",
     "pcmove.jump",
@@ -189,15 +230,19 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
     "pcobject.mesh",
     "pcobject.mesh.select",
     "pcmove.linear",
+    "pcmove.actor.wasd",
     //"pc2d.tooltip",
     "pctools.inventory",
     "pctools.timer",
     "pcsound.listener",
+    "pclogic.trigger",
+    "pcmisc.test",
+    "pctools.properties",
+    "pctools.bag",
     CEL_PROPCLASS_END);
-  if (!entity_cam) return 0;
+  if (!entity_cam) return;
 
-  csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-    iPcCommandInput);
+  csRef<iPcCommandInput> pcinp = celQueryPropertyClassEntity<iPcCommandInput> (entity_cam);
   pcinp->Bind ("JoystickButton4", "ready");
   pcinp->Bind ("JoystickButton6", "lockon");
   pcinp->Bind ("JoystickButton2", "resetcam");
@@ -205,6 +250,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("JoystickAxis1", "joyaxis1");
   pcinp->Bind ("MouseAxis0_centered", "mouseaxis0");
 
+  pcinp->Bind ("e", "action");
   pcinp->Bind ("z", "ready");
   pcinp->Bind ("x", "lockon");
   pcinp->Bind ("c", "resetcam");
@@ -212,6 +258,10 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("right", "right");
   pcinp->Bind ("up", "up");
   pcinp->Bind ("down", "down");
+  pcinp->Bind ("a", "left");
+  pcinp->Bind ("d", "right");
+  pcinp->Bind ("w", "up");
+  pcinp->Bind ("s", "down");
   pcinp->Bind ("space", "jump");
   pcinp->Bind ("m", "freeze");
   pcinp->Bind ("shift", "roll");
@@ -221,9 +271,15 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("pageup", "camup");
   pcinp->Bind ("pagedown", "camdown");
 
-  csRef<iPcAnalogMotion> actor = celQueryPropertyClassEntity<iPcAnalogMotion> (entity_cam);
-  //actor->SetMinimumTurningSpeed (5.0f);
-  //actor->SetMovementSpeed (1.5f);
+  pcinp->Bind ("pad5", "settings");
+  pcinp->Bind ("pad2", "settings_down");
+  pcinp->Bind ("pad8", "settings_up");
+  pcinp->Bind ("pad4", "settings_left");
+  pcinp->Bind ("pad6", "settings_right");
+  pcinp->Bind ("pad7", "settings_fastleft");
+  pcinp->Bind ("pad9", "settings_fastright");
+  pcinp->Bind ("pad1", "settings_slowleft");
+  pcinp->Bind ("pad3", "settings_slowright");
 
   csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (entity_cam);
   jump->SetBoostJump (false);
@@ -232,31 +288,21 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (entity_cam);
   trackcam->SetPanSpeed (8);
-  trackcam->SetTiltSpeed (2.5);
-  csRef<iPcDelegateCamera> delegcam = celQueryPropertyClassEntity<iPcDelegateCamera> (entity_cam);
-  //delegcam->SetCurrentMode (trackcam);
+  trackcam->SetTiltSpeed (4.5);
 
-  /*csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
-    entity_cam, iPcNewCamera);
-  newcamera->AttachCameraMode(iPcNewCamera::CCM_TRACKING);
-  newcamera->AttachCameraMode(iPcNewCamera::CCM_THIRD_PERSON);
-  newcamera->SetCurrentCameraMode (0);*/
-
-  //csRef<iPcTimer> timer = celQueryPropertyClassEntity<iPcTimer> (entity_cam);
-  //timer->WakeUpFrame (0);
-
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity_cam);
   bool hascal3d = true;
   pcmesh->SetPath ("/cellib/objects");
   hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
+  //pcmesh->SetPath ("/lib/kwartz");
+  //hascal3d = pcmesh->SetMesh ("kwartz_fact", "kwartz.lib");
 
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-    iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity_cam);
   if (hascal3d)
   {
     pclinmove->InitCD (
-      csVector3 (1.0f, 0.8f,  1.0f),
-      csVector3 (0.5f, 0.4f,  0.5f),
+      csVector3 (0.8f, 0.8f,  0.8f),
+      csVector3 (0.5f, 0.5f,  0.5f),
       csVector3 (0.0f, 0.01f, 0.0f));
   }
   else
@@ -267,19 +313,68 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
       csVector3 (0.0f, -0.4f, 0.0f));
   }
 
-  return csPtr<iCelEntity> (entity_cam);
+  csRef<iPcTrigger> trigger = celQueryPropertyClassEntity<iPcTrigger> (entity_cam);
+  trigger->SetupTriggerSphere (0, csVector3 (0), 1.0);
+  trigger->SetFollowEntity (true);
 }
 
+void CelTest::ConnectWires ()
+{
+  iCelEntity* action_icon = pl->FindEntity ("action_icon");
+
+  iCelPropertyClass* pc;
+  csRef<iPcWire> wire;
+  csRef<celOneParameterBlock> params;
+  size_t idx;
+
+  pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
+  // 1: For debugging, print out when we are near an entity.
+  wire = scfQueryInterface<iPcWire> (pc);
+  wire->AddInput ("cel.trigger.entity.enter");
+  idx = wire->AddOutput ("cel.test.action.Print");
+  wire->MapParameterExpression (idx, "message", "'We found '+@entity");
+  // 2: Add the name of the entity to the bag.
+  idx = wire->AddOutput ("cel.bag.action.AddString");
+  wire->MapParameterExpression (idx, "value", "entname(@entity)");
+  // 3: Set the visibility state of the billboard.
+  params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "visible"));
+  idx = wire->AddOutput ("cel.billboard.action.SetProperty",
+      action_icon->QueryMessageChannel (), params);
+  // Use > 1 because there is also the 'camera' entity itself.
+  wire->MapParameterExpression (idx, "value", "property(pc(pctools.bag),id(size))>1");
+
+  // 1: For debugging, print out when we are far from an entity.
+  pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
+  wire = scfQueryInterface<iPcWire> (pc);
+  wire->AddInput ("cel.trigger.entity.leave");
+  idx = wire->AddOutput ("cel.test.action.Print");
+  wire->MapParameterExpression (idx, "message", "'We leave '+@entity");
+  // 2: Remove the name of the entity from the bag.
+  idx = wire->AddOutput ("cel.bag.action.RemoveString");
+  wire->MapParameterExpression (idx, "value", "entname(@entity)");
+  // 3: Set the visibility state of the billboard.
+  params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "visible"));
+  idx = wire->AddOutput ("cel.billboard.action.SetProperty",
+      action_icon->QueryMessageChannel (), params);
+  // Use > 1 because there is also the 'camera' entity itself.
+  wire->MapParameterExpression (idx, "value", "property(pc(pctools.bag),id(size))>1");
+
+  // If the action key is pressed we send out a 'cel.game.action' to the current entities.
+  pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
+  wire = scfQueryInterface<iPcWire> (pc);
+  wire->AddInput ("cel.input.action.up");
+  params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("msgid"), "cel.game.action"));
+  wire->AddOutput ("cel.bag.action.SendMessage", 0, params);
+}
 
 bool CelTest::CreateRoom ()
 {
   csRef<iCelEntity> entity_room;
-  csRef<iCelEntity> entity_dummy;
 
   //===============================
   // Create the room entity.
   //===============================
-  entity_room = pl->CreateEntity ("room", bltest, "room",
+  entity_room = pl->CreateEntity ("room", 0, 0,
   	"pcworld.zonemanager",
 	"pctools.inventory",
   	CEL_PROPCLASS_END);
@@ -300,8 +395,10 @@ bool CelTest::CreateRoom ()
   }
   else
   {
-    path = "/cellib/lev";
-    file = "basic_level.xml";
+    //path = "/cellib/lev";
+    //file = "basic_level.xml";
+    path = "/cellib/smallhouse";
+    file = "level.xml";
   }
 
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
@@ -311,8 +408,7 @@ bool CelTest::CreateRoom ()
     return ReportError ("Bad file path '%s' at '%s'!", file.GetData (),
     	path.GetData ());
 
-  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity_room,
-  	iPcZoneManager);
+  csRef<iPcZoneManager> pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (entity_room);
   if (!pczonemgr->Load (0, file))
     return ReportError ("Error loading level '%s' at '%s'!", file.GetData (),
     	path.GetData ());
@@ -320,20 +416,26 @@ bool CelTest::CreateRoom ()
   scfString regionname, startname;
   pczonemgr->GetLastStartLocation (&regionname, &startname);
 
-  entity_dummy = CreateActor ("camera", "", csVector3 (0,0,0));
-  if (!entity_dummy) return false;
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
+  CreateActor ();
+  if (!entity_cam) return false;
+  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (entity_cam);
   if (!pccamera) return false;
   pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
   if (pczonemgr->PointMesh ("camera", regionname, startname)
   	!= CEL_ZONEERROR_OK)
     return ReportError ("Error finding start position!");
 
-  csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (entity_room,
-  	iPcInventory);
-  if (!pcinv_room->AddEntity (entity_dummy)) return false;
+  csRef<iPcInventory> pcinv_room = celQueryPropertyClassEntity<iPcInventory> (entity_room);
+  if (!pcinv_room->AddEntity (entity_cam)) return false;
 
   game = entity_room;
+
+  CreateActionIcon ();
+  CreateSettingBar ();
+
+  ConnectWires ();
+
+  actorsettings.Initialize (pl);
 
   return true;
 }
@@ -356,8 +458,6 @@ bool CelTest::OnInitialize (int argc, char* argv[])
 	CS_REQUEST_REPORTER,
 	CS_REQUEST_REPORTERLISTENER,
 	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
-	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test:iCelBlLayer.Test",
-		iCelBlLayer),
 	CS_REQUEST_PLUGIN ("cel.persistence.xml", iCelPersistence),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
@@ -377,6 +477,7 @@ bool CelTest::OnInitialize (int argc, char* argv[])
   // initialization) happens in an event.
   if (!RegisterQueue (object_reg, csevAllEvents (object_reg)))
     return ReportError ("Can't setup event handler!");
+
   return true;
 }
 
@@ -406,16 +507,6 @@ bool CelTest::Application ()
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
-
-  // we find the scf object already in cel's example behaviour layer
-  // in plugins/behaviourlayer/test to use
-  bltest = csQueryRegistryTagInterface<iCelBlLayer> (
-    object_reg, "iCelBlLayer.Test");
-  if (!bltest) return ReportError ("CEL test behaviour layer missing!");
-  // after we have a pointer to the behaviourlayer we want to use
-  // able to create the behaviours we want, then we register it for usage
-  // with the physical layer.
-  pl->RegisterBehaviourLayer (bltest);
 
   if (!CreateRoom ()) return false;
 

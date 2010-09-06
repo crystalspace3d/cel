@@ -34,13 +34,11 @@ struct iCelGraph;
  * in order to move an object from one position to another
  * using celgraph to navigate correctly through the map.
  *
- * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pcpathfinder_interrupted: movement has been interrupted.
+ * This property class can send out the following messages:
+ * - 'cel.move.interrupted' (old 'pcpathfinder_interrupted'): movement has been interrupted.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.move.pathfinder.action.'
+ * if you want to access this action through a message):
  * - Seek: parameters 'sectorname' (string), 'position' (vector3).
  * - Wander: parameters 'distance' (int).
  * - Pursue: parameters 'target' (iCelEntity*), 'max_prediction' (float).
@@ -49,8 +47,7 @@ struct iCelGraph;
  * - FollowTwoWayPath: parameters 'path' (iCelPath*). 
  * - Interrupt: interrupt the current movement.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - position (vector3, read only): current end position.
  * - active (bool, read only): returns true if currently tracking.
  * - pursue_max_prediction (float, read/write): current max prediction

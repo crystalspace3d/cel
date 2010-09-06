@@ -151,6 +151,15 @@ public:
     celPcCameraCommon::SetAutoDraw (auto_draw);
   }
 
+  virtual float GetContinousTransitionSpeed () const
+  {
+    return continuous_transition_speed;
+  }
+  virtual void SetContinousTransitionSpeed (float s)
+  {
+    continuous_transition_speed = s;
+  }
+
 private:
   // currently transitioning to new mode?
   bool in_transition;
@@ -163,6 +172,12 @@ private:
   {
     csVector3 pos, tar, up;
   } prev, curr;
+
+  // Speed for continuous transition.
+  float continuous_transition_speed;
+  // 'last' is used for continuous transitions.
+  struct CameraDescription last;
+
   csRef<iPcCameraMode> currmode;
 
   // used just for reading the current active sector
@@ -189,6 +204,7 @@ private:
     propid_pos,
     propid_tar,
     propid_up,
+    propid_trans_speed,
   };
   static PropertyHolder propinfo;
 };

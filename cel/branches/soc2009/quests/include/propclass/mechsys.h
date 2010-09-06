@@ -40,9 +40,8 @@ struct iJoint;
 /**
  * Property class representing a dynamic system.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.mechanics.system.action.'
+ * if you want to access this action through a message):
  * - SetSystem: parameters 'dynsys' (string).
  * - SetGravity: parameters 'gravity' (float).
  * - SetStepTime: parameters 'time' (float).
@@ -231,16 +230,15 @@ struct iPcMechanicsSystem : public virtual iBase
 /**
  * A dynamic body.
  *
- * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pcdynamicbody_collision: an entity has collided with this entity.
+ * This property class can send out the following messages:
+ * - 'cel.mechanics.collision' (old 'pcdynamicbody_collision'):
+ *   an entity has collided with this entity.
  *   Parameters are 'otherbody' (string: entity name), 'position' (vector3:
  *   point of collision, 'normal' (vector3: normal of collision), and
  *   'depth' (float: penetration depth).
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.mechanics.object.action.'
+ * if you want to access this action through a message):
  * - InitPhys: parameters 'mass' (float: optional), 'friction' (float:
  *      optional), 'elasticity' (float: optional), 'density' (float: optional),
  *      'softness' (float: optional), 'lift' (vector3: optional), and 'drag'
@@ -274,7 +272,7 @@ struct iPcMechanicsSystem : public virtual iBase
  *     false), and 'position' (vector3: default 0,0,0).
  * - AddForceTagged: parameters 'force' (vector3), 'relative' (bool: default
  *     false), and 'position' (vector3: default 0,0,0). The tag will be set in
- *     the property 'cel.property.lasttag'.
+ *     the property 'lasttag'.
  * - RemoveForceTagged: parameters 'tag' (long).
  * - ClearForces: no parameters.
  * - SetPosition: parameters 'position' (vector3).
@@ -283,8 +281,7 @@ struct iPcMechanicsSystem : public virtual iBase
  * - LookAt: parameters 'forward' (vector3: default 0,0,1) and 'up' (vector3:
  *     default 0,1,0).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - lasttag (long, read): last tag returned by AddForceTagged action.
  * - linearvelocity (vector3, read/write): get current linear velocity.
  * - angularvelocity (vector3, read/write): get current angular velocity.
@@ -649,9 +646,8 @@ struct iPcMechanicsObject : public virtual iBase
 /**
  * A joint.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.mechanics.joint.action.'
+ * if you want to access this action through a message):
  * - SetParentBody: parameters 'body' (string).
  * - SetPosition: parameters 'position' (vector3).
  * - SetConstrainDist: parameters 'x' (bool), 'y' (bool), and 'z' (bool).

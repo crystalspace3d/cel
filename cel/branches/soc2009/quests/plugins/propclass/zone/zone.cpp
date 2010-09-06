@@ -60,8 +60,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (ZoneManager, "pcworld.zonemanager", "pczonemanager")
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
@@ -437,47 +435,48 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
 
   if (id_region == csInvalidStringID)
   {
-    id_region = pl->FetchStringID ("cel.parameter.region");
-    id_path = pl->FetchStringID ("cel.parameter.path");
-    id_file = pl->FetchStringID ("cel.parameter.file");
-    id_entityname = pl->FetchStringID ("cel.parameter.entity");
-    id_regionname = pl->FetchStringID ("cel.parameter.region");
-    id_startname = pl->FetchStringID ("cel.parameter.start");
-    id_zonename = pl->FetchStringID ("cel.parameter.zone");
-    id_mode = pl->FetchStringID ("cel.parameter.mode");
-    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_region = pl->FetchStringID ("region");
+    id_path = pl->FetchStringID ("path");
+    id_file = pl->FetchStringID ("file");
+    id_entityname = pl->FetchStringID ("entity");
+    id_regionname = pl->FetchStringID ("region");
+    id_startname = pl->FetchStringID ("start");
+    id_zonename = pl->FetchStringID ("zone");
+    id_mode = pl->FetchStringID ("mode");
+    id_name = pl->FetchStringID ("name");
   }
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_region, "region");
+  params->SetParameterDef (id_region);
 
   InitTokenTable (xmltokens);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_disablecd, "cel.action.DisableCD");
-    AddAction (action_enablecd, "cel.action.EnableCD");
-    AddAction (action_load, "cel.action.Load");
-    AddAction (action_pointmesh, "cel.action.PointMesh");
-    AddAction (action_pointcamera, "cel.action.PointCamera");
-    AddAction (action_setloadingmode, "cel.action.SetLoadingMode");
-    AddAction (action_activateregion, "cel.action.ActivateRegion");
-    AddAction (action_createregion, "cel.action.CreateRegion");
-    AddAction (action_removeregion, "cel.action.RemoveRegion");
-    AddAction (action_createzone, "cel.action.CreateZone");
-    AddAction (action_removezone, "cel.action.RemoveZone");
-    AddAction (action_createmap, "cel.action.CreateMap");
-    AddAction (action_removemap, "cel.action.RemoveMap");
-    AddAction (action_setcache, "cel.action.SetCache");
-    AddAction (action_linkregion, "cel.action.LinkRegion");
-    AddAction (action_unlinkregion, "cel.action.UnlinkRegion");
+    SetActionMask ("cel.zone.action.");
+    AddAction (action_disablecd, "DisableCD");
+    AddAction (action_enablecd, "EnableCD");
+    AddAction (action_load, "Load");
+    AddAction (action_pointmesh, "PointMesh");
+    AddAction (action_pointcamera, "PointCamera");
+    AddAction (action_setloadingmode, "SetLoadingMode");
+    AddAction (action_activateregion, "ActivateRegion");
+    AddAction (action_createregion, "CreateRegion");
+    AddAction (action_removeregion, "RemoveRegion");
+    AddAction (action_createzone, "CreateZone");
+    AddAction (action_removezone, "RemoveZone");
+    AddAction (action_createmap, "CreateMap");
+    AddAction (action_removemap, "RemoveMap");
+    AddAction (action_setcache, "SetCache");
+    AddAction (action_linkregion, "LinkRegion");
+    AddAction (action_unlinkregion, "UnlinkRegion");
   }
 
   // For properties.
   propinfo.SetCount (2);
-  AddProperty (propid_laststart, "cel.property.laststart",
+  AddProperty (propid_laststart, "laststart",
   	CEL_DATA_STRING, true, "Last used start location.", 0);
-  AddProperty (propid_lastregion, "cel.property.lastregion",
+  AddProperty (propid_lastregion, "lastregion",
   	CEL_DATA_STRING, true, "Last used region name.", 0);
 }
 

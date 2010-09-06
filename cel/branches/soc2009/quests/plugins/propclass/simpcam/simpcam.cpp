@@ -56,8 +56,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (SimpleCamera, "pccamera.simple", "pcsimplecamera")
 
 //---------------------------------------------------------------------------
@@ -87,18 +85,19 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
   // Actions
   if (!propinfo.actions_done)
   {
-    AddAction (action_initcam, "cel.action.InitCamera");
-    AddAction (action_setpos, "cel.action.SetPosition");
-    AddAction (action_setmesh, "cel.action.SetMesh");
+    SetActionMask ("cel.camera.simple.action.");
+    AddAction (action_initcam, "InitCamera");
+    AddAction (action_setpos, "SetPosition");
+    AddAction (action_setmesh, "SetMesh");
   }
 
   // Parameters for action_initcam
   if (param_campos == csInvalidStringID)
   {
-    param_campos = pl->FetchStringID ("cel.parameter.campos");
-    param_lookat = pl->FetchStringID ("cel.parameter.lookat");
-    param_drawmesh = pl->FetchStringID ("cel.parameter.drawmesh");
-    param_mesh = pl->FetchStringID ("cel.parameter.meshpctag");
+    param_campos = pl->FetchStringID ("campos");
+    param_lookat = pl->FetchStringID ("lookat");
+    param_drawmesh = pl->FetchStringID ("drawmesh");
+    param_mesh = pl->FetchStringID ("meshpctag");
   }
 }
 

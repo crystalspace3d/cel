@@ -74,37 +74,38 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   if (param_hover == csInvalidStringID)
   {
     // Parameters.
-    param_hbeamcutoff = pl->FetchStringID ("cel.parameter.heightcutoff");
-    param_angoff = pl->FetchStringID ("cel.parameter.offset");
-    param_angheight = pl->FetchStringID ("cel.parameter.angheight");
-    param_angstr = pl->FetchStringID ("cel.parameter.angstrength");
-    param_hover = pl->FetchStringID ("cel.parameter.hover");
-    param_p_factor = pl->FetchStringID ("cel.parameter.pfactor");
-    param_i_factor = pl->FetchStringID ("cel.parameter.ifactor");
-    param_d_factor = pl->FetchStringID ("cel.parameter.dfactor");
-    param_hoverheight = pl->FetchStringID ("cel.parameter.hoverheight");
+    param_hbeamcutoff = pl->FetchStringID ("heightcutoff");
+    param_angoff = pl->FetchStringID ("offset");
+    param_angheight = pl->FetchStringID ("angheight");
+    param_angstr = pl->FetchStringID ("angstrength");
+    param_hover = pl->FetchStringID ("hover");
+    param_p_factor = pl->FetchStringID ("pfactor");
+    param_i_factor = pl->FetchStringID ("ifactor");
+    param_d_factor = pl->FetchStringID ("dfactor");
+    param_hoverheight = pl->FetchStringID ("hoverheight");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_sethbeamcutoff, "cel.action.SetHeightBeamCutoff");
-    AddAction (action_setangoff, "cel.action.SetAngularBeamOffset");
-    AddAction (action_setangheight, "cel.action.SetAngularCutoffHeight");
-    AddAction (action_setangstr, "cel.action.SetAngularCorrectionStrength");
-    AddAction (action_hoveron, "cel.action.HoverOn");
-    AddAction (action_setfactors, "cel.action.SetFactors");
-    AddAction (action_sethoverheight, "cel.action.SetHoverHeight");
+    SetActionMask ("cel.hover.action.");
+    AddAction (action_sethbeamcutoff, "SetHeightBeamCutoff");
+    AddAction (action_setangoff, "SetAngularBeamOffset");
+    AddAction (action_setangheight, "SetAngularCutoffHeight");
+    AddAction (action_setangstr, "SetAngularCorrectionStrength");
+    AddAction (action_hoveron, "HoverOn");
+    AddAction (action_setfactors, "SetFactors");
+    AddAction (action_sethoverheight, "SetHoverHeight");
   }
 
   propinfo.SetCount (4);
-  AddProperty (propid_p_factor, "cel.property.p_factor",
+  AddProperty (propid_p_factor, "p_factor",
         CEL_DATA_FLOAT, false, "Proportional factor.", &pid.p_factor);
-  AddProperty (propid_i_factor, "cel.property.i_factor",
+  AddProperty (propid_i_factor, "i_factor",
         CEL_DATA_FLOAT, false, "Integral factor.", &pid.i_factor);
-  AddProperty (propid_d_factor, "cel.property.d_factor",
+  AddProperty (propid_d_factor, "d_factor",
         CEL_DATA_FLOAT, false, "Differential factor.", &pid.d_factor);
-  AddProperty (propid_hover_height, "cel.property.hover_height",
+  AddProperty (propid_hover_height, "hover_height",
         CEL_DATA_FLOAT, false, "Height for the object to hover at.", &pid.hover_height);
 }
 

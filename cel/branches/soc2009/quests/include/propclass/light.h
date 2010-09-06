@@ -31,9 +31,8 @@ class csColor;
 /**
  * This is a property class holding the representation of a light.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.light.action.'
+ * if you want to access this action through a message):
  * - SetLight: parameters 'name' (string). This sets an already existing
  *     light for this pclight.
  * - CreateLight: parameters 'name' (string), 'sector' (string: optional),

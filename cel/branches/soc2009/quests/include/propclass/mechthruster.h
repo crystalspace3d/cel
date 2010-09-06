@@ -33,9 +33,8 @@ struct iPcMechanicsThrusterGroup;
  * Property class representing a thruster that affect forces on the attached
  * object.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.mechanics.reactionary.action.'
+ * if you want to access this action through a message):
  * - InitThruster: parameters 'objectpctag' (string), 'position' (vector3).
  */
 struct iPcMechanicsThruster : public virtual iBase
@@ -126,9 +125,8 @@ enum celAxisType
  * Property class representing a balanced group of thrusters that can translate
  * or rotate the object in a certain axis. 
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.mechanics.group.action.'
+ * if you want to access this action through a message):
  * - SetType: parameters 'type' (string, "rotation" or "translation").
  * - AddThruster: parameters 'thrusterpctag' (string), 'multiplier' (float).
  */
@@ -193,9 +191,8 @@ struct iPcMechanicsBalancedGroup : public virtual iBase
  * Property class that controls the thrusters attached to an object through the
  * use of balanced thruster groups.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.mechanics.thruster.action.'
+ * if you want to access this action through a message):
  * - InitThrusterController: parameters 'objectpctag' (string).
  * - AddAxis: parameters 'axisname' (string), 'axistype' (string, "rotation"
  *   or "translation"), 'axisdir' (vector3).

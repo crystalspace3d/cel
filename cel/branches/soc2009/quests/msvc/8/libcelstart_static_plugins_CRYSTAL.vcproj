@@ -26,10 +26,10 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release8\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release8\build\libcelstart_static_plugins_CRYSTAL\libcelstart_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release8\build\libcelstart_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release8\build\libcelstart_static_plugins_CRYSTAL\"
@@ -49,10 +49,11 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc8.lib bulletdynamics-vc8.lib bulletmath-vc8.lib CEGUIBase-vc8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc8.lib "
-				AdditionalDependencies=""
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib bulletsoftbody-vc8.lib bulletcollision-vc8.lib bulletdynamics-vc8.lib bulletmath-vc8.lib CEGUIBase-vc8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc8.lib "
+				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -76,7 +77,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -99,10 +100,10 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDatabaseFileName="..\..\out\release8\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL-1.9-vc8.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release8\build\libcelstart_static_plugins_CRYSTAL\libcelstart_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release8\build\libcelstart_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release8\build\libcelstart_static_plugins_CRYSTAL\"
@@ -125,10 +126,11 @@
                         OutputFile="..\..\celstart_static_plugins_CRYSTAL-1.9-vc8.dll"
 				ImportLibrary="..\..\out\release8\libs\libcelstart_static_plugins_CRYSTAL.lib"
 				ProgramDatabaseFile="..\..\out\release8\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL-1.9-vc8.pdb"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc8.lib bulletdynamics-vc8.lib bulletmath-vc8.lib CEGUIBase-vc8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc8.lib "
-				AdditionalDependencies=""
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib bulletsoftbody-vc8.lib bulletcollision-vc8.lib bulletdynamics-vc8.lib bulletmath-vc8.lib CEGUIBase-vc8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc8.lib "
+				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -151,7 +153,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -173,10 +175,10 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug8\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug8\build\libcelstart_static_plugins_CRYSTAL\libcelstart_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\libcelstart_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug8\build\libcelstart_static_plugins_CRYSTAL\"
@@ -194,10 +196,11 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc8_d.lib bulletdynamics-vc8_d.lib bulletmath-vc8_d.lib CEGUIBase-vc8_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc8_d.lib "
-				AdditionalDependencies=""
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib bulletsoftbody-vc8_d.lib bulletcollision-vc8_d.lib bulletdynamics-vc8_d.lib bulletmath-vc8_d.lib CEGUIBase-vc8_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc8_d.lib "
+				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -221,7 +224,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -244,10 +247,10 @@
 
 
 				ProgramDatabaseFileName="..\..\out\debug8\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL-1.9-vc8_d.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug8\build\libcelstart_static_plugins_CRYSTAL\libcelstart_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\libcelstart_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug8\build\libcelstart_static_plugins_CRYSTAL\"
@@ -268,10 +271,11 @@
                         OutputFile="..\..\celstart_static_plugins_CRYSTAL-1.9-vc8_d.dll"
 				ImportLibrary="..\..\out\debug8\libs\libcelstart_static_plugins_CRYSTAL_d.lib"
 				ProgramDatabaseFile="..\..\out\debug8\build\libcelstart_static_plugins_CRYSTAL\Win32\celstart_static_plugins_CRYSTAL-1.9-vc8_d.pdb"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc8_d.lib bulletdynamics-vc8_d.lib bulletmath-vc8_d.lib CEGUIBase-vc8_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc8_d.lib "
-				AdditionalDependencies=""
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib bulletsoftbody-vc8_d.lib bulletcollision-vc8_d.lib bulletdynamics-vc8_d.lib bulletmath-vc8_d.lib CEGUIBase-vc8_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc8_d.lib "
+				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -294,7 +298,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -316,10 +320,10 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release8-x64\build\libcelstart_static_plugins_CRYSTAL\x64\celstart_static_plugins_CRYSTAL.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release8-x64\build\libcelstart_static_plugins_CRYSTAL\libcelstart_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release8-x64\build\libcelstart_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release8-x64\build\libcelstart_static_plugins_CRYSTAL\"
@@ -339,10 +343,11 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc8.lib bulletdynamics-vc8.lib bulletmath-vc8.lib CEGUIBase-vc8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc8.lib "
-				AdditionalDependencies=""
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib bulletsoftbody-vc8.lib bulletcollision-vc8.lib bulletdynamics-vc8.lib bulletmath-vc8.lib CEGUIBase-vc8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc8.lib "
+				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -366,7 +371,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -389,10 +394,10 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDatabaseFileName="..\..\out\release8-x64\build\libcelstart_static_plugins_CRYSTAL\x64\celstart_static_plugins_CRYSTAL-1.9-vc8-x64.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release8-x64\build\libcelstart_static_plugins_CRYSTAL\libcelstart_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release8-x64\build\libcelstart_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release8-x64\build\libcelstart_static_plugins_CRYSTAL\"
@@ -415,10 +420,11 @@
                         OutputFile="..\..\celstart_static_plugins_CRYSTAL-1.9-vc8-x64.dll"
 				ImportLibrary="..\..\out\release8-x64\libs\libcelstart_static_plugins_CRYSTAL.lib"
 				ProgramDatabaseFile="..\..\out\release8-x64\build\libcelstart_static_plugins_CRYSTAL\x64\celstart_static_plugins_CRYSTAL-1.9-vc8-x64.pdb"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc8.lib bulletdynamics-vc8.lib bulletmath-vc8.lib CEGUIBase-vc8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc8.lib "
-				AdditionalDependencies=""
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib bulletsoftbody-vc8.lib bulletcollision-vc8.lib bulletdynamics-vc8.lib bulletmath-vc8.lib CEGUIBase-vc8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib cal3d-vc8.lib "
+				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -441,7 +447,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -463,10 +469,10 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug8-x64\build\libcelstart_static_plugins_CRYSTAL\x64\celstart_static_plugins_CRYSTAL.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libcelstart_static_plugins_CRYSTAL\libcelstart_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug8-x64\build\libcelstart_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug8-x64\build\libcelstart_static_plugins_CRYSTAL\"
@@ -484,10 +490,11 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc8_d.lib bulletdynamics-vc8_d.lib bulletmath-vc8_d.lib CEGUIBase-vc8_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc8_d.lib "
-				AdditionalDependencies=""
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib bulletsoftbody-vc8_d.lib bulletcollision-vc8_d.lib bulletdynamics-vc8_d.lib bulletmath-vc8_d.lib CEGUIBase-vc8_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc8_d.lib "
+				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -511,7 +518,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -534,10 +541,10 @@
 
 
 				ProgramDatabaseFileName="..\..\out\debug8-x64\build\libcelstart_static_plugins_CRYSTAL\x64\celstart_static_plugins_CRYSTAL-1.9-vc8-x64_d.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions="/D CS_HAVE_CAL3D "
-				AdditionalIncludeDirectories=".;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libcelstart_static_plugins_CRYSTAL\libcelstart_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug8-x64\build\libcelstart_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug8-x64\build\libcelstart_static_plugins_CRYSTAL\"
@@ -558,10 +565,11 @@
                         OutputFile="..\..\celstart_static_plugins_CRYSTAL-1.9-vc8-x64_d.dll"
 				ImportLibrary="..\..\out\debug8-x64\libs\libcelstart_static_plugins_CRYSTAL_d.lib"
 				ProgramDatabaseFile="..\..\out\debug8-x64\build\libcelstart_static_plugins_CRYSTAL\x64\celstart_static_plugins_CRYSTAL-1.9-vc8-x64_d.pdb"
-				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib bulletcollision-vc8_d.lib bulletdynamics-vc8_d.lib bulletmath-vc8_d.lib CEGUIBase-vc8_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc8_d.lib "
-				AdditionalDependencies=""
+				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib bulletsoftbody-vc8_d.lib bulletcollision-vc8_d.lib bulletdynamics-vc8_d.lib bulletmath-vc8_d.lib CEGUIBase-vc8_d.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib ode.lib openal32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib cal3d-vc8_d.lib "
+				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -584,7 +592,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\celstart;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -601,6 +609,9 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\appcelstart_static_staticuse_CRYSTAL.cpp">
+			</File>
+			<File
+				RelativePath="..\..\msvc\OPENAL.fake_stub.c">
 			</File>
 		</Filter>
 		<Filter

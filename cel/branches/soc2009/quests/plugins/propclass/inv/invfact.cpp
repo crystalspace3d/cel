@@ -32,8 +32,6 @@
 
 #define DEF 0
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (Inventory, "pctools.inventory", "pcinventory")
 CEL_IMPLEMENT_FACTORY_ALT (Characteristics, "pctools.inventory.characteristics", "pccharacteristics")
 
@@ -64,9 +62,9 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   if (id_entity == csInvalidStringID)
-    id_entity = pl->FetchStringID ("cel.parameter.entity");
+    id_entity = pl->FetchStringID ("entity");
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_entity, "entity");
+  params->SetParameterDef (id_entity);
 }
 
 celPcInventory::~celPcInventory ()
@@ -794,12 +792,13 @@ celPcCharacteristics::celPcCharacteristics (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_hascharacteristic, "cel.action.HasCharacteristic");
+    SetActionMask ("cel.characteristics.action.");
+    AddAction (action_hascharacteristic, "HasCharacteristic");
   }
 
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_name = pl->FetchStringID ("name");
   }
 }
 
@@ -827,10 +826,7 @@ bool celPcCharacteristics::SetProperty (csStringID propertyId, float b)
   const char* property = pl->FetchString (propertyId);
   if (property)
   {
-    if (!strncasecmp ("cel.property.", property, 13))
-    {
-      return SetCharacteristic (property+13, b);
-    }
+    return SetCharacteristic (property, b);
   }
 
   return celPcCommon::SetProperty (propertyId, b);
@@ -841,10 +837,7 @@ float celPcCharacteristics::GetPropertyFloat (csStringID propertyId)
   const char* property = pl->FetchString (propertyId);
   if (property)
   {
-    if (!strncasecmp ("cel.property.", property, 13))
-    {
-      return GetLocalCharacteristic (property+13);
-    }
+    return GetLocalCharacteristic (property);
   }
   return celPcCommon::GetPropertyFloatByID (propertyId);
 }

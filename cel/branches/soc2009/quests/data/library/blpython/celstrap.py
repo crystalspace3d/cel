@@ -154,7 +154,7 @@ class celstrap:
 	# starting command, here we can pass map name, player name...
 	def load(self,pc,args):
 		# mount the file at some path in vfs
-		self.map = args[getid("cel.parameter.parameter1")]
+		self.map = args[getid("parameter1")]
 		#vfs.ChDirAuto("/celstrap/");
 		self.loadMap(self.map)
 	

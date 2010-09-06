@@ -42,8 +42,6 @@
 #include "tools/expression.h"
 #include "plugins/tools/celgraph/celgraph.h"
 
-CS_IMPLEMENT_PLUGIN
-
 //--------------------------------------------------------------------------
 
 //SCF_IMPLEMENT_FACTORY (celEdge)

@@ -31,8 +31,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (Rules, "pclogic.rules", "pcrules")
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
@@ -77,21 +75,22 @@ celPcRules::celPcRules (iObjectRegistry* object_reg)
   // For actions.
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("cel.parameter.name");
-    id_time = pl->FetchStringID ("cel.parameter.time");
+    id_name = pl->FetchStringID ("name");
+    id_time = pl->FetchStringID ("time");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_addrule, "cel.action.AddRule");
-    AddAction (action_deleterule, "cel.action.DeleteRule");
-    AddAction (action_deleteallrules, "cel.action.DeleteAllRules");
+    SetActionMask ("cel.rules.action.");
+    AddAction (action_addrule, "AddRule");
+    AddAction (action_deleterule, "DeleteRule");
+    AddAction (action_deleteallrules, "DeleteAllRules");
   }
 
   // For SendMessage parameters.
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_name, "name");
+  params->SetParameterDef (id_name);
 
   vc = csQueryRegistry<iVirtualClock> (object_reg);
 

@@ -52,8 +52,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY_ALT (Movable, "pcmove.movable", "pcmovable")
 CEL_IMPLEMENT_FACTORY_ALT (Solid, "pcmove.solid", "pcsolid")
 CEL_IMPLEMENT_FACTORY_ALT (MovableConstraintCD, "pcmove.movableconst_cd", "pcmovableconst_cd")
@@ -248,15 +246,16 @@ celPcSolid::celPcSolid (iObjectRegistry* object_reg)
 
   if (id_min == csInvalidStringID)
   {
-    id_min = pl->FetchStringID ("cel.parameter.min");
-    id_max = pl->FetchStringID ("cel.parameter.max");
+    id_min = pl->FetchStringID ("min");
+    id_max = pl->FetchStringID ("max");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setup, "cel.action.Setup");
-    AddAction (action_setupbox, "cel.action.SetupBox");
+    SetActionMask ("cel.move.solid.action.");
+    AddAction (action_setup, "Setup");
+    AddAction (action_setupbox, "SetupBox");
   }
 }
 
@@ -546,17 +545,17 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 
   if (!propinfo.actions_done)
   {
-    AddAction (action_applypermanentforce, "cel.action.ApplyPermanentForce");
+    SetActionMask ("cel.move.gravity.action.");
+    AddAction (action_applypermanentforce, "ApplyPermanentForce");
   }
 
   propinfo.SetCount (1);
-  AddProperty (propid_weight, "cel.property.weight",
+  AddProperty (propid_weight, "weight",
   	CEL_DATA_FLOAT, false, "Weight of this object", &weight);
 
   if (id_force == csInvalidStringID)
   {
-    id_force = pl->FetchStringID (
-    	"cel.parameter.force");
+    id_force = pl->FetchStringID ("force");
   }
 }
 

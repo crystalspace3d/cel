@@ -41,9 +41,8 @@ enum celAnimationName
  * This class is also aware of animation actions using sprcal3d or
  * spr3d.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.move.actor.action.'
+ * if you want to access this action through a message):
  * - SetSpeed: parameters 'movement' (float), 'running' (float),
  *   'rotation' (float) and 'jumping' (float).
  * - Forward: parameters 'start' (bool).
@@ -65,8 +64,7 @@ enum celAnimationName
  *   (like walk, run, rotateleft...) and 'name' (string) specifying the model  
  *   name for the animation. 
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - mousemove (bool, read/write): enable/disable mousemove.
  * - mousemove_inverted (bool, read/write): enable/disable inverted mousemove.
  * - mousemove_xfactor (float, read/write): horizontal mousemove speed.

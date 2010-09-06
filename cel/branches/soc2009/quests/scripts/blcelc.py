@@ -861,13 +861,13 @@ class iCelParameterBlock(cspace.iBase):
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetParameterCount(*args): return _blcelc.iCelParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.iCelParameterBlock_GetParameterDef(*args)
     def GetParameter(*args): return _blcelc.iCelParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterByIndex(*args)
     ParameterCount = _swig_property(_blcelc.iCelParameterBlock_ParameterCount_get, None, None,
                     "iCelParameterBlock.ParameterCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelParameterBlock::GetParameterCount()")
 
     def GetParameterIDByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterIDByIndex(*args)
-    def GetParameterNameByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterNameByIndex(*args)
     def __contains__(*args): return _blcelc.iCelParameterBlock___contains__(*args)
     def value_iterator(parblock):
     	for idx in xrange(len(parblock)):
@@ -875,28 +875,18 @@ class iCelParameterBlock(cspace.iBase):
     def key_iterator(parblock):
     	for idx in xrange(len(parblock)):
     		yield parblock.GetParameterIDByIndex(idx)
-    def name_iterator(parblock):
-    	for idx in xrange(len(parblock)):
-    		yield parblock.GetParameterNameByIndex(idx)
     def GetParameterValue(self,id):
     	return self.GetParameter(id)
     def __iter__(self):
     	return self.value_iterator()
     def iterkeys(self):
     	return self.key_iterator()
-    def iternames(self):
-    	return self.name_iterator()
     def __getitem__(self,i):
     	return self.GetParameter(i)
     def keys(self):
     	keys = []
     	for idx in xrange(len(self)):
     		keys.append(self.GetParameterIDByIndex(idx))
-    	return keys
-    def names(self):
-    	keys = []
-    	for idx in xrange(len(self)):
-    		keys.append(self.GetParameterNameByIndex(idx))
     	return keys
     def has_key(self,id):
     	return self.__contains__(id)
@@ -999,6 +989,7 @@ class celGenericParameterBlock(scfGenericParameterBlock):
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celGenericParameterBlock_SetParameterDef(*args)
     def GetParameterCount(*args): return _blcelc.celGenericParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.celGenericParameterBlock_GetParameterDef(*args)
     def GetParameter(*args): return _blcelc.celGenericParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celGenericParameterBlock_GetParameterByIndex(*args)
     ParameterDef = _swig_property(None, fix_args(_blcelc.celGenericParameterBlock_SetParameterDef), None,
@@ -1021,6 +1012,7 @@ class celVariableParameterBlock(scfVariableParameterBlock):
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celVariableParameterBlock_SetParameterDef(*args)
     def GetParameterCount(*args): return _blcelc.celVariableParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.celVariableParameterBlock_GetParameterDef(*args)
     def GetParameter(*args): return _blcelc.celVariableParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celVariableParameterBlock_GetParameterByIndex(*args)
     ParameterDef = _swig_property(None, fix_args(_blcelc.celVariableParameterBlock_SetParameterDef), None,
@@ -1043,6 +1035,7 @@ class celOneParameterBlock(scfOneParameterBlock):
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celOneParameterBlock_SetParameterDef(*args)
     def GetParameterCount(*args): return _blcelc.celOneParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.celOneParameterBlock_GetParameterDef(*args)
     def GetParameter(*args): return _blcelc.celOneParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celOneParameterBlock_GetParameterByIndex(*args)
     ParameterDef = _swig_property(None, fix_args(_blcelc.celOneParameterBlock_SetParameterDef), None,
@@ -1066,10 +1059,38 @@ class celCombineParameterBlock(scfCombineParameterBlock):
     def SetParameterBlock1(*args): return _blcelc.celCombineParameterBlock_SetParameterBlock1(*args)
     def SetParameterBlock2(*args): return _blcelc.celCombineParameterBlock_SetParameterBlock2(*args)
     def GetParameterCount(*args): return _blcelc.celCombineParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.celCombineParameterBlock_GetParameterDef(*args)
     def GetParameter(*args): return _blcelc.celCombineParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celCombineParameterBlock_GetParameterByIndex(*args)
 celCombineParameterBlock_swigregister = _blcelc.celCombineParameterBlock_swigregister
 celCombineParameterBlock_swigregister(celCombineParameterBlock)
+
+class celParameterMapping(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    source = _swig_property(_blcelc.celParameterMapping_source_get, _blcelc.celParameterMapping_source_set)
+    dest = _swig_property(_blcelc.celParameterMapping_dest_get, _blcelc.celParameterMapping_dest_set)
+    expression = _swig_property(_blcelc.celParameterMapping_expression_get, _blcelc.celParameterMapping_expression_set)
+    def __init__(self, *args): 
+        this = _blcelc.new_celParameterMapping(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celParameterMapping
+    __del__ = lambda self : None;
+celParameterMapping_swigregister = _blcelc.celParameterMapping_swigregister
+celParameterMapping_swigregister(celParameterMapping)
+
+class celMappedParameterBlock(celVariableParameterBlock):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_celMappedParameterBlock(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celMappedParameterBlock
+    __del__ = lambda self : None;
+celMappedParameterBlock_swigregister = _blcelc.celMappedParameterBlock_swigregister
+celMappedParameterBlock_swigregister(celMappedParameterBlock)
 
 class iCelPropertyClassFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -2188,6 +2209,7 @@ class iPcLinearMovement(cspace.iBase):
     def GetAnchor(*args): return _blcelc.iPcLinearMovement_GetAnchor(*args)
     def SetAngularVelocity(*args): return _blcelc.iPcLinearMovement_SetAngularVelocity(*args)
     def SetSpeed(*args): return _blcelc.iPcLinearMovement_SetSpeed(*args)
+    def GetSpeed(*args): return _blcelc.iPcLinearMovement_GetSpeed(*args)
     def SetVelocity(*args): return _blcelc.iPcLinearMovement_SetVelocity(*args)
     def SetBodyVelocity(*args): return _blcelc.iPcLinearMovement_SetBodyVelocity(*args)
     def SetWorldVelocity(*args): return _blcelc.iPcLinearMovement_SetWorldVelocity(*args)
@@ -2223,6 +2245,7 @@ class iPcLinearMovement(cspace.iBase):
     def SetOnGround(*args): return _blcelc.iPcLinearMovement_SetOnGround(*args)
     def SetHugGround(*args): return _blcelc.iPcLinearMovement_SetHugGround(*args)
     def SetDeltaLimit(*args): return _blcelc.iPcLinearMovement_SetDeltaLimit(*args)
+    def GetDeltaLimit(*args): return _blcelc.iPcLinearMovement_GetDeltaLimit(*args)
     def RotateV(*args): return _blcelc.iPcLinearMovement_RotateV(*args)
     def SetGravity(*args): return _blcelc.iPcLinearMovement_SetGravity(*args)
     def GetGravity(*args): return _blcelc.iPcLinearMovement_GetGravity(*args)
@@ -3075,6 +3098,8 @@ class iPcDelegateCamera(iPcCamera):
     def GetCurrentMode(*args): return _blcelc.iPcDelegateCamera_GetCurrentMode(*args)
     def SetTransitionTime(*args): return _blcelc.iPcDelegateCamera_SetTransitionTime(*args)
     def GetTransitionTime(*args): return _blcelc.iPcDelegateCamera_GetTransitionTime(*args)
+    def GetContinousTransitionSpeed(*args): return _blcelc.iPcDelegateCamera_GetContinousTransitionSpeed(*args)
+    def SetContinousTransitionSpeed(*args): return _blcelc.iPcDelegateCamera_SetContinousTransitionSpeed(*args)
     _PC = None
     def __getattr__(self,attr):
          if hasattr(iCelPropertyClass,attr):
@@ -3125,6 +3150,7 @@ class iPcTrackingCamera(iPcCameraMode):
     def SetFollowSpringLength(*args): return _blcelc.iPcTrackingCamera_SetFollowSpringLength(*args)
     def GetFollowSpringLength(*args): return _blcelc.iPcTrackingCamera_GetFollowSpringLength(*args)
     def SetFollowMinimumSpringFactor(*args): return _blcelc.iPcTrackingCamera_SetFollowMinimumSpringFactor(*args)
+    def GetFollowMinimumSpringFactor(*args): return _blcelc.iPcTrackingCamera_GetFollowMinimumSpringFactor(*args)
     def SetPanDirection(*args): return _blcelc.iPcTrackingCamera_SetPanDirection(*args)
     def GetPanDirection(*args): return _blcelc.iPcTrackingCamera_GetPanDirection(*args)
     def SetPanSpeed(*args): return _blcelc.iPcTrackingCamera_SetPanSpeed(*args)
@@ -3418,6 +3444,14 @@ class iPcTrigger(cspace.iBase):
     def IsEnabled(*args): return _blcelc.iPcTrigger_IsEnabled(*args)
     def GetEntitiesInTrigger(*args): return _blcelc.iPcTrigger_GetEntitiesInTrigger(*args)
     def Check(*args): return _blcelc.iPcTrigger_Check(*args)
+    def GetUpdateDelay(*args): return _blcelc.iPcTrigger_GetUpdateDelay(*args)
+    def GetUpdateJitter(*args): return _blcelc.iPcTrigger_GetUpdateJitter(*args)
+    def HasCheckingOnInvisibleEntities(*args): return _blcelc.iPcTrigger_HasCheckingOnInvisibleEntities(*args)
+    def HasFollowEntity(*args): return _blcelc.iPcTrigger_HasFollowEntity(*args)
+    def SetFollowEntity(*args): return _blcelc.iPcTrigger_SetFollowEntity(*args)
+    def HasStrictChecking(*args): return _blcelc.iPcTrigger_HasStrictChecking(*args)
+    def SetStrictChecking(*args): return _blcelc.iPcTrigger_SetStrictChecking(*args)
+    def GetTriggerType(*args): return _blcelc.iPcTrigger_GetTriggerType(*args)
     MonitorDelay = _swig_property(None, fix_args(_blcelc.iPcTrigger_SetMonitorDelay), None,
                     "iPcTrigger.MonitorDelay -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcTrigger::getmethod()\n\tset: void iPcTrigger::SetMonitorDelay(...)")
 
@@ -5937,7 +5971,9 @@ class PropertyHolder(object):
     properties = _swig_property(_blcelc.PropertyHolder_properties_get, _blcelc.PropertyHolder_properties_set)
     propertycount = _swig_property(_blcelc.PropertyHolder_propertycount_get, _blcelc.PropertyHolder_propertycount_set)
     actions_done = _swig_property(_blcelc.PropertyHolder_actions_done_get, _blcelc.PropertyHolder_actions_done_set)
+    mask = _swig_property(_blcelc.PropertyHolder_mask_get, _blcelc.PropertyHolder_mask_set)
     constants = _swig_property(_blcelc.PropertyHolder_constants_get, _blcelc.PropertyHolder_constants_set)
+    new_constants = _swig_property(_blcelc.PropertyHolder_new_constants_get, _blcelc.PropertyHolder_new_constants_set)
     def __init__(self, *args): 
         this = _blcelc.new_PropertyHolder(*args)
         try: self.this.append(this)
@@ -5948,10 +5984,13 @@ class PropertyHolder(object):
 PropertyHolder_swigregister = _blcelc.PropertyHolder_swigregister
 PropertyHolder_swigregister(PropertyHolder)
 
-class celPcCommon(PcCommonBase):
+class celPcCommon(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_celPcCommon(*args)
+        try: self.this.append(this)
+        except: self.this = this
     __swig_destroy__ = _blcelc.delete_celPcCommon
     __del__ = lambda self : None;
     def HavePropertyClassesChanged(*args): return _blcelc.celPcCommon_HavePropertyClassesChanged(*args)
@@ -5971,8 +6010,7 @@ class celPcCommon(PcCommonBase):
     def GetPropertyFloatByID(*args): return _blcelc.celPcCommon_GetPropertyFloatByID(*args)
     def GetPropertyBoolByID(*args): return _blcelc.celPcCommon_GetPropertyBoolByID(*args)
     def GetPropertyStringByID(*args): return _blcelc.celPcCommon_GetPropertyStringByID(*args)
-    def GetPropertyVector2ByID(*args): return _blcelc.celPcCommon_GetPropertyVector2ByID(*args)
-    def GetPropertyVector3ByID(*args): return _blcelc.celPcCommon_GetPropertyVector3ByID(*args)
+    def GetPropertyVectorByID(*args): return _blcelc.celPcCommon_GetPropertyVectorByID(*args)
     def GetPropertyColorByID(*args): return _blcelc.celPcCommon_GetPropertyColorByID(*args)
     def GetPropertyPClassByID(*args): return _blcelc.celPcCommon_GetPropertyPClassByID(*args)
     def GetPropertyEntityByID(*args): return _blcelc.celPcCommon_GetPropertyEntityByID(*args)
@@ -5987,11 +6025,14 @@ class celPcCommon(PcCommonBase):
     def IsPropertyReadOnly(*args): return _blcelc.celPcCommon_IsPropertyReadOnly(*args)
     def SaveFirstPass(*args): return _blcelc.celPcCommon_SaveFirstPass(*args)
     def LoadFirstPass(*args): return _blcelc.celPcCommon_LoadFirstPass(*args)
+    def Save(*args): return _blcelc.celPcCommon_Save(*args)
+    def Load(*args): return _blcelc.celPcCommon_Load(*args)
     def GetPersistentData(*args): return _blcelc.celPcCommon_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.celPcCommon_SetPersistentData(*args)
     def TickEveryFrame(*args): return _blcelc.celPcCommon_TickEveryFrame(*args)
     def TickOnce(*args): return _blcelc.celPcCommon_TickOnce(*args)
     def MessageDispatcherRemoved(*args): return _blcelc.celPcCommon_MessageDispatcherRemoved(*args)
+    def ReceiveMessage(*args): return _blcelc.celPcCommon_ReceiveMessage(*args)
 celPcCommon_swigregister = _blcelc.celPcCommon_swigregister
 celPcCommon_swigregister(celPcCommon)
 
@@ -6129,8 +6170,7 @@ class pyPcCommon(swigPyPcCommon):
     def GetPropertyBoolByID(*args): return _blcelc.pyPcCommon_GetPropertyBoolByID(*args)
     def SetEntity(*args): return _blcelc.pyPcCommon_SetEntity(*args)
     def GetPropertyStringByID(*args): return _blcelc.pyPcCommon_GetPropertyStringByID(*args)
-    def GetPropertyVector2ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector2ByID(*args)
-    def GetPropertyVector3ByID(*args): return _blcelc.pyPcCommon_GetPropertyVector3ByID(*args)
+    def GetPropertyVectorByID(*args): return _blcelc.pyPcCommon_GetPropertyVectorByID(*args)
     def GetPropertyColorByID(*args): return _blcelc.pyPcCommon_GetPropertyColorByID(*args)
     def GetPropertyEntityByID(*args): return _blcelc.pyPcCommon_GetPropertyEntityByID(*args)
     def GetPropertyPClassByID(*args): return _blcelc.pyPcCommon_GetPropertyPClassByID(*args)

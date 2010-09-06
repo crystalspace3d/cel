@@ -28,9 +28,8 @@ struct iPcMesh;
  * A class representing a simple camera, with capabilities for both
  * first-person and third-person modes.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.camera.simple.action.'
+ * if you want to access this action through a message):
  * - InitCamera: parameters 'campos' (vector3), 'lookat' (vector3),
  *   'drawmesh' (bool).
  * - SetPosition: parameters 'campos' (vector3), 'lookat' (vector3).

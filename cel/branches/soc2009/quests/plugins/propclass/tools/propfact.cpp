@@ -53,19 +53,20 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
 {
   if (id_index == csInvalidStringID)
   {
-    id_index = pl->FetchStringID ("cel.parameter.index");
-    id_name = pl->FetchStringID ("cel.parameter.name");
-    id_value = pl->FetchStringID ("cel.parameter.value");
+    id_index = pl->FetchStringID ("index");
+    id_name = pl->FetchStringID ("name");
+    id_value = pl->FetchStringID ("value");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setproperty, "cel.action.SetProperty");
+    SetActionMask ("cel.properties.action.");
+    AddAction (action_setproperty, "SetProperty");
   }
 
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_index, "index");
+  params->SetParameterDef (id_index);
   properties_hash_dirty = false;
 }
 
@@ -85,16 +86,7 @@ size_t celPcProperties::FindProperty (csStringID id)
   {
     property* p = properties[i];
     if (p->id == csInvalidStringID)
-    {
-      char* buf = new char[30+strlen (p->propName)];
-      if (p->type == CEL_DATA_ACTION)
-        strcpy (buf, "cel.action.");
-      else
-        strcpy (buf, "cel.property.");
-      strcat (buf, p->propName);
-      p->id = pl->FetchStringID (buf);
-      delete[] buf;
-    }
+      p->id = pl->FetchStringID (p->propName);
     if (p->id == id) return i;
   }
   return csArrayItemNotFound;
@@ -119,16 +111,7 @@ csStringID celPcProperties::GetPropertyOrActionID (size_t i)
 {
   property* p = properties[i];
   if (p->id == csInvalidStringID)
-  {
-    char* buf = new char[30+strlen (p->propName)];
-    if (p->type == CEL_DATA_ACTION)
-      strcpy (buf, "cel.action.");
-    else
-      strcpy (buf, "cel.property.");
-    strcat (buf, p->propName);
-    p->id = pl->FetchStringID (buf);
-    delete[] buf;
-  }
+    p->id = pl->FetchStringID (p->propName);
   return p->id;
 }
 

@@ -56,11 +56,11 @@ celPcMechanicsBalancedGroup::celPcMechanicsBalancedGroup (
   if (param_thruster == csInvalidStringID)
   {
     // Parameters for action_addthruster
-    param_thruster = pl->FetchStringID ("cel.parameter.thrusterpctag");
-    param_multiplier = pl->FetchStringID ("cel.parameter.multiplier");
+    param_thruster = pl->FetchStringID ("thrusterpctag");
+    param_multiplier = pl->FetchStringID ("multiplier");
 
     // Parameters for action_settype
-    param_type = pl->FetchStringID ("cel.parameter.type");
+    param_type = pl->FetchStringID ("type");
 
     // Group types
     type_rotation = pl->FetchStringID ("rotation");
@@ -70,8 +70,9 @@ celPcMechanicsBalancedGroup::celPcMechanicsBalancedGroup (
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_addthruster, "cel.action.AddThruster");
-    AddAction (action_settype, "cel.action.SetType");
+    SetActionMask ("cel.mechanics.group.action.");
+    AddAction (action_addthruster, "AddThruster");
+    AddAction (action_settype, "SetType");
   }
 }
 
@@ -287,18 +288,18 @@ celPcMechanicsThrusterController::celPcMechanicsThrusterController (
   if (param_object == csInvalidStringID)
   {
     // Parameters for action_inittc
-    param_object = pl->FetchStringID ("cel.parameter.objectpctag");
+    param_object = pl->FetchStringID ("objectpctag");
 
     // Parameters for action_addaxis
-    param_axisname = pl->FetchStringID ("cel.parameter.axisname");
-    param_axistype = pl->FetchStringID ("cel.parameter.axistype");
-    param_axisdir = pl->FetchStringID ("cel.parameter.axisdir");
+    param_axisname = pl->FetchStringID ("axisname");
+    param_axistype = pl->FetchStringID ("axistype");
+    param_axisdir = pl->FetchStringID ("axisdir");
 
     // Parameters for action_applythrust
-    param_thrust = pl->FetchStringID ("cel.parameter.thrust");
+    param_thrust = pl->FetchStringID ("thrust");
 
     // Parameters for action_addbalancedgroup
-    param_balancedgroup = pl->FetchStringID ("cel.parameter.balancedgroup");
+    param_balancedgroup = pl->FetchStringID ("balancedgroup");
 
     // Axis types
     type_rotation = pl->FetchStringID ("rotation");
@@ -308,10 +309,11 @@ celPcMechanicsThrusterController::celPcMechanicsThrusterController (
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_addaxis, "cel.action.AddAxis");
-    AddAction (action_applythrust, "cel.action.ApplyThrust");
-    AddAction (action_addbalancedgroup, "cel.action.AddBalancedGroup");
-    AddAction (action_inittc, "cel.action.InitThrusterController");
+    SetActionMask ("cel.mechanics.thruster.action.");
+    AddAction (action_addaxis, "AddAxis");
+    AddAction (action_applythrust, "ApplyThrust");
+    AddAction (action_addbalancedgroup, "AddBalancedGroup");
+    AddAction (action_inittc, "InitThrusterController");
   }
 }
 

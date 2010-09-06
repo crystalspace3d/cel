@@ -36,8 +36,7 @@ class csVector3;
  *
  * This property class acts on nearby entities with an iPcDynamicBody.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property):
+ * This property class supports the following properties:
  * - strength (float, read/write): the strength of the field at its center.
  * - radius (float, read/write): the maximum radius at which the field affects
  *   an object.

@@ -34,8 +34,6 @@
 #include "tools/expression.h"
 #include "plugins/tools/celconsole/celconsole.h"
 
-CS_IMPLEMENT_PLUGIN
-
 SCF_IMPLEMENT_FACTORY (celConsole)
 
 //--------------------------------------------------------------------------

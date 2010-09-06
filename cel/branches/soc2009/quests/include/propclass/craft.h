@@ -29,9 +29,8 @@
  * Allows changing yaw and pitch, as well as thruster and afterburner,
  * and supresses angular velocity of object.
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.craft.action.'
+ * if you want to access this action through a message):
  * - SetSliding: parameters 'enabled' (bool: optional). If 'enabled' is not
  *   given then default is true.
  * - SetBraking: parameters 'enabled' (bool: optional). If 'enabled' is not
@@ -41,8 +40,7 @@
  * - SetAfterBurner: parameters 'enabled' (bool: optional). If 'enabled' is not
  *   given then default is true.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - turnmax (float, read/write): maximum turning.
  * - turnacc (float, read/write): turning rate.
  * - pitchmax (float, read/write): maximum pitch.

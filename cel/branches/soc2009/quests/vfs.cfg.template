@@ -12,6 +12,7 @@ VFS.Mount.cellib/images = $(CEL_DATADIR)$/images$/
 VFS.Mount.cellib/objects = $(CEL_DATADIR)$/
 VFS.Mount.cellib/lev = $(CEL_DATADIR)$/
 VFS.Mount.cellib/track4 = $(CEL_DATADIR)$/track4.zip
+VFS.Mount.cellib/smallhouse = $(CEL_DATADIR)$/smallhouse.zip
 VFS.Mount.cellib/cache = $(CEL_DATADIR)$/cache$/
 VFS.Mount.cellib/library = $(CEL_DATADIR)$/library$/
 VFS.Mount.celconfig = $(CEL_CONFIGDIR)$/

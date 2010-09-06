@@ -48,8 +48,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 SCF_IMPLEMENT_FACTORY (celPlLayer)
 
 celPlLayer::celPlLayer (iBase* parent) : scfImplementationType (this, parent)
@@ -349,11 +347,10 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
     size_t k;
     for (k = 0 ; k < act_params->GetParameterCount () ; k++)
     {
-      csStringID id;
       celDataType t;
-      const char* parname = act_params->GetParameter (k, id, t);
+      csStringID id = act_params->GetParameterDef (k, t);
       const celData* par = act_params->GetParameter (id);
-      converted_params->SetParameterDef (k, id, parname);
+      converted_params->SetParameterDef (k, id);
       if (t == CEL_DATA_PARAMETER)
       {
 	celData& converted_par = converted_params->GetParameter (k);

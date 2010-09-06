@@ -28,17 +28,15 @@
  * This is a property class to make and control wheeled vehicles, eg bikes,
  * cars, tanks.
  *
- * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pcwheeled_collision: an entity has collided with this entity.
+ * This property class can send out the following messages:
+ * - 'cel.mechanics.collision' (old 'pcwheeled_collision'): an entity has collided with this entity.
  *   Parameters are 'otherbody' (string: entity name), 'position' (vector3:
  *   point of collision, 'normal' (vector3: normal of collision),
  *   'depth' (float: penetration depth), and 'index' (int: index of colliding
  *   wheel).
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.mechanics.wheeled.action.'
+ * if you want to access this action through a message):
  * - SetWheelMesh: parameters 'meshfact' (string), 'meshfile' (string).
  * - AddWheelAuto: parameters 'position' (vector3), 'rotation' (vector3),
  *                 'meshfact' (string), 'meshfile' (string).
@@ -92,8 +90,7 @@
  * - SetWheelHandbrakeAffected : parameters 'wheelnum' (long),
  *                   'handbrakeaffected' (bool).
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - speed (float, read): the current speed of the vehicle.
  * - tankmode (bool, read/write): Whether tank mode is enabled.
  * - steer(float, read/write): Absolute steer(-1 to 1) of the vehicle.

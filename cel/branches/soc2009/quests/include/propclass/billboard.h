@@ -28,17 +28,20 @@ struct iBillboard;
 /**
  * Billboard property class.
  *
- * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pcbillboard_select: billboard is selected (x,y,button)
- * - pcbillboard_move: mouse moves over billboard (x,y,button)
- * - pcbillboard_moveaway: mouse moves away from billboard (x,y,button)
- * - pcbillboard_unselect: billboard is unselected (x,y,button)
- * - pcbillboard_doubleclick: billboard is double clicked (x,y,button)
+ * This property class can send out the following messages:
+ * - 'cel.billboard.select.down' (old 'pcbillboard_select'):
+ *   billboard is selected (x,y,button)
+ * - 'cel.billboard.select.move' (old 'pcbillboard_move'):
+ *   mouse moves over billboard (x,y,button)
+ * - 'cel.billboard.select.moveaway' (old 'pcbillboard_moveaway'):
+ *   mouse moves away from billboard (x,y,button)
+ * - 'cel.billboard.select.select.up' (old 'pcbillboard_unselect'):
+ *   billboard is unselected (x,y,button)
+ * - 'cel.billboard.select.select.double' (old 'pcbillboard_doubleclick'):
+ *   billboard is double clicked (x,y,button)
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.billboard.action.'
+ * if you want to access this action through a message):
  * - DrawMesh: parameters 'materialname' (string),
  *     'factory' (string), optional: 'distance' (float),
  *     optional: 'rotate' (vector3), optional: 'angle' (float).
@@ -47,8 +50,7 @@ struct iBillboard;
  * - GetTextHeight: no parameters, returns an integer with current text height
  *   in billboard coordinates.
  *
- * This property class supports the following properties (add prefix
- * 'cel.property.' to get the ID of the property:
+ * This property class supports the following properties:
  * - name (string, read/write): name of the billboard.
  * - materialname (string, read/write): name of the material. Warning!
  *     It is important to make sure the materials using the billboard

@@ -81,11 +81,11 @@ class celTextInput:
             self.bb.SetText(newtext.join(self.text))
     
     def setparameters(self,pc,args):
-        self.message = args[getid('cel.parameter.message')]
-        self.owner = args[getid('cel.parameter.owner')]
+        self.message = args[getid('message')]
+        self.owner = args[getid('owner')]
         
     def pccommandinput_keypress1(self, pc, args):
-        trigger = args[getid('cel.parameter.trigger')]
+        trigger = args[getid('trigger')]
         if self.active and not self.skip:
             self.handlekey(trigger)
         else:
@@ -152,7 +152,7 @@ class celTextInput:
         pass
     
     def pccommandinput_keypress_(self, pc, args):
-        trigger = args[getid('cel.parameter.trigger')]
+        trigger = args[getid('trigger')]
         if self.active:
             self.handlekey(trigger)
     

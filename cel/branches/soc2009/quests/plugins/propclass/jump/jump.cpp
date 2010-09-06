@@ -38,8 +38,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 CEL_IMPLEMENT_FACTORY (Jump, "pcmove.jump")
 
 //---------------------------------------------------------------------------
@@ -53,12 +51,13 @@ celPcJump::celPcJump (iObjectRegistry* object_reg)
   // For states.
   if (!propinfo.actions_done)
   {
+    SetActionMask ("cel.move.jump.action.");
     AddAction (action_jump, "cel.state.Jump");
   }
 
   // For properties.
   propinfo.SetCount (1);
-  AddProperty (propid_jumpspeed, "cel.property.jumpspeed",
+  AddProperty (propid_jumpspeed, "jumpspeed",
     CEL_DATA_FLOAT, false, "Jumping speed.", &jumpspeed);
 
   currstate = STAND;
@@ -234,7 +233,7 @@ float celPcJump::GetJumpHeight () const
 }
 csTicks celPcJump::GetAirTime () const
 {
-  return 2 * 1000.0f * jumpspeed / gravity;
+  return csTicks (2 * 1000.0f * jumpspeed / gravity);
 }
 void celPcJump::SetDoubleJumpSpeed (float spd)
 {
@@ -272,11 +271,11 @@ bool celPcJump::GetBoostJump () const
 }
 void celPcJump::SetBoostTime (float t)
 {
-  boost_maxtime = t;
+  boost_maxtime = csTicks (t);
 }
 float celPcJump::GetBoostTime () const
 {
-  return boost_maxtime;
+  return float (boost_maxtime);
 }
 void celPcJump::SetBoostAcceleration (float a)
 {
@@ -287,8 +286,11 @@ float celPcJump::GetBoostAcceleration () const
   return boost_accel;
 }
 
-bool celPcJump::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret, iCelParameterBlock *params)
+bool celPcJump::ReceiveMessage (csStringID msg_id, iMessageSender *sender, celData &ret,
+    iCelParameterBlock *params)
 {
+  if (celPcCommon::ReceiveMessage (msg_id, sender, ret, params))
+    return true;
   if (!FindSiblingPropertyClasses ())
     return false;
   if (currstate != STAND && currstate != FROZEN)

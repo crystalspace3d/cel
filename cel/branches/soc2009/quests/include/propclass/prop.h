@@ -47,14 +47,12 @@ struct iPcPropertyListener : public virtual iBase
 /**
  * This is a general property class.
  *
- * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pcproperties_setproperty: sets the property (index)
- * - pcproperties_clearproperty: clears the property (index)
+ * This property class can send out the following messages:
+ * - 'cel.properties.set' (old 'pcproperties_setproperty'): sets the property (index)
+ * - 'cel.properties.clear' (old 'pcproperties_clearproperty'): clears the property (index)
  *
- * This property class supports the following actions (add prefix
- * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
- * to get the ID of the parameter):
+ * This property class supports the following actions (add prefix 'cel.properties.action.'
+ * if you want to access this action through a message):
  * - SetProperty: parameters 'name' (string) and 'value'
  *   (string/bool/float/long/vector).
  */

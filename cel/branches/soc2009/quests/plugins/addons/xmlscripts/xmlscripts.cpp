@@ -37,8 +37,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 SCF_IMPLEMENT_FACTORY (celAddOnXmlScripts)
 
 enum

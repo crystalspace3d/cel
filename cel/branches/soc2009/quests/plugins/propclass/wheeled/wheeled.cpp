@@ -45,7 +45,6 @@ Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 
 //--------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY_ALT (Wheeled, "pcvehicle.wheeled", "pcwheeled")
 
 //--------------------------------------------------------------------------
@@ -138,152 +137,135 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   if(param_meshfile==csInvalidStringID)
   {
 // Parameters.
-    param_meshfile = pl->FetchStringID("cel.parameter.meshfile");
-    param_meshfact = pl->FetchStringID("cel.parameter.meshfact");
-    param_position = pl->FetchStringID("cel.parameter.position");
-    param_rotation = pl->FetchStringID("cel.parameter.rotation");
-    param_wheelnum = pl->FetchStringID("cel.parameter.wheelnum");
-    param_gear = pl->FetchStringID("cel.parameter.gear");
-    param_velocity = pl->FetchStringID("cel.parameter.velocity");
-    param_force = pl->FetchStringID("cel.parameter.force");
-    param_number = pl->FetchStringID("cel.parameter.number");
-    param_steeramount = pl->FetchStringID("cel.parameter.steeramount");
-    param_applied = pl->FetchStringID("cel.parameter.applied");
+    param_meshfile = pl->FetchStringID("meshfile");
+    param_meshfact = pl->FetchStringID("meshfact");
+    param_position = pl->FetchStringID("position");
+    param_rotation = pl->FetchStringID("rotation");
+    param_wheelnum = pl->FetchStringID("wheelnum");
+    param_gear = pl->FetchStringID("gear");
+    param_velocity = pl->FetchStringID("velocity");
+    param_force = pl->FetchStringID("force");
+    param_number = pl->FetchStringID("number");
+    param_steeramount = pl->FetchStringID("steeramount");
+    param_applied = pl->FetchStringID("applied");
     
-    param_mass =
-      pl->FetchStringID("cel.parameter.mass");
-    param_friction =
-      pl->FetchStringID("cel.parameter.friction");
-    param_suspensionsoftness =
-      pl->FetchStringID("cel.parameter.suspensionsoftness");
-    param_suspensiondamping =
-      pl->FetchStringID("cel.parameter.suspensiondamping");
-    param_steersensitivity =
-      pl->FetchStringID("cel.parameter.steersensitivity");
-    param_leftsteersensitivity =
-      pl->FetchStringID("cel.parameter.leftsteersensitivity");
-    param_rightsteersensitivity =
-      pl->FetchStringID("cel.parameter.rightsteersensitivity");
-    param_steersensitivity =
-      pl->FetchStringID("cel.parameter.steersensitivity");
-    param_turnspeed = pl->FetchStringID("cel.parameter.turnspeed");
-    param_returnspeed = pl->FetchStringID("cel.parameter.returnspeed");
-    param_enginepower = pl->FetchStringID("cel.parameter.enginepower");
-    param_brakepower = pl->FetchStringID("cel.parameter.brakepower");
-    param_steerinverted = pl->FetchStringID("cel.parameter.steerinverted");
-    param_handbrakeaffected =
-      pl->FetchStringID("cel.parameter.handbrakeaffected");
+    param_mass = pl->FetchStringID("mass");
+    param_friction = pl->FetchStringID("friction");
+    param_suspensionsoftness = pl->FetchStringID("suspensionsoftness");
+    param_suspensiondamping = pl->FetchStringID("suspensiondamping");
+    param_steersensitivity = pl->FetchStringID("steersensitivity");
+    param_leftsteersensitivity = pl->FetchStringID("leftsteersensitivity");
+    param_rightsteersensitivity = pl->FetchStringID("rightsteersensitivity");
+    param_steersensitivity = pl->FetchStringID("steersensitivity");
+    param_turnspeed = pl->FetchStringID("turnspeed");
+    param_returnspeed = pl->FetchStringID("returnspeed");
+    param_enginepower = pl->FetchStringID("enginepower");
+    param_brakepower = pl->FetchStringID("brakepower");
+    param_steerinverted = pl->FetchStringID("steerinverted");
+    param_handbrakeaffected = pl->FetchStringID("handbrakeaffected");
     
-    param_normal = pl->FetchStringID ("cel.parameter.normal");
-    param_otherbody = pl->FetchStringID ("cel.parameter.otherbody");
-    param_depth = pl->FetchStringID ("cel.parameter.depth");
-    param_index = pl->FetchStringID ("cel.parameter.index");
+    param_normal = pl->FetchStringID ("normal");
+    param_otherbody = pl->FetchStringID ("otherbody");
+    param_depth = pl->FetchStringID ("depth");
+    param_index = pl->FetchStringID ("index");
   }
   
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setwheelmesh, "cel.action.SetWheelMesh");
-    AddAction (action_addwheelauto, "cel.action.AddWheelAuto");
-    AddAction (action_addwheel, "cel.action.AddWheel");
-    AddAction (action_deletewheel, "cel.action.DeleteWheel");
-    AddAction (action_deleteallwheels, "cel.action.DeleteAllWheels");
-    AddAction (action_destroywheel, "cel.action.DestroyWheel");
-    AddAction (action_destroyallwheels, "cel.action.DestroyAllWheels");
-    AddAction (action_restorewheel, "cel.action.RestoreWheel");
-    AddAction (action_restoreallwheels, "cel.action.RestoreAllWheels");
+    SetActionMask ("cel.mechanics.wheeled.action.");
+    AddAction (action_setwheelmesh, "SetWheelMesh");
+    AddAction (action_addwheelauto, "AddWheelAuto");
+    AddAction (action_addwheel, "AddWheel");
+    AddAction (action_deletewheel, "DeleteWheel");
+    AddAction (action_deleteallwheels, "DeleteAllWheels");
+    AddAction (action_destroywheel, "DestroyWheel");
+    AddAction (action_destroyallwheels, "DestroyAllWheels");
+    AddAction (action_restorewheel, "RestoreWheel");
+    AddAction (action_restoreallwheels, "RestoreAllWheels");
     
-    AddAction (action_steerleft, "cel.action.SteerLeft");
-    AddAction (action_steerright, "cel.action.SteerRight");
-    AddAction (action_steerstraight, "cel.action.SteerStraight");
-    AddAction (action_reverse, "cel.action.Reverse");
-    AddAction (action_neutral, "cel.action.Neutral");
-    AddAction (action_setgearsettings, "cel.action.SetGearSettings");
+    AddAction (action_steerleft, "SteerLeft");
+    AddAction (action_steerright, "SteerRight");
+    AddAction (action_steerstraight, "SteerStraight");
+    AddAction (action_reverse, "Reverse");
+    AddAction (action_neutral, "Neutral");
+    AddAction (action_setgearsettings, "SetGearSettings");
     
 //Presets
-    AddAction (action_setfrontwheelpreset,
-           "cel.action.SetFrontWheelPreset");
-    AddAction (action_setrearwheelpreset, "cel.action.SetRearWheelPreset");
+    AddAction (action_setfrontwheelpreset, "SetFrontWheelPreset");
+    AddAction (action_setrearwheelpreset, "SetRearWheelPreset");
     
 //Per-wheel actions
-    AddAction (action_setwheelposition, "cel.action.SetWheelPosition");
-    AddAction (action_setwheelrotation, "cel.action.SetWheelRotation");
-    AddAction (action_setwheelsuspensionsoftness,
-           "cel.action.SetWheelSuspensionSoftness");
-    AddAction (action_setwheelsuspensiondamping,
-           "cel.action.SetWheelSuspensionDamping");
-    AddAction (action_setwheelleftsteersensitivity,
-           "cel.action.SetWheelLeftSteerSensitivity");
-    AddAction (action_setwheelrightsteersensitivity,
-           "cel.action.SetWheelRightSteerSensitivity");
-    AddAction (action_setwheelfriction, "cel.action.SetWheelFriction");
-    AddAction (action_setwheelmass, "cel.action.SetWheelMass");
-    AddAction (action_setwheelturnspeed, "cel.action.SetWheelTurnSpeed");
-    AddAction (action_setwheelreturnspeed,
-           "cel.action.SetWheelReturnSpeed");
-    AddAction (action_setwheelenginepower,
-           "cel.action.SetWheelEnginePower");
-    AddAction (action_setwheelbrakepower, "cel.action.SetWheelBrakePower");
-    AddAction (action_setwheelsteerinverted,
-           "cel.action.SetWheelSteerInverted");
-    AddAction (action_setwheelhandbrakeaffected,
-           "cel.action.SetWheelHandbrakeAffected");
+    AddAction (action_setwheelposition, "SetWheelPosition");
+    AddAction (action_setwheelrotation, "SetWheelRotation");
+    AddAction (action_setwheelsuspensionsoftness, "SetWheelSuspensionSoftness");
+    AddAction (action_setwheelsuspensiondamping, "SetWheelSuspensionDamping");
+    AddAction (action_setwheelleftsteersensitivity, "SetWheelLeftSteerSensitivity");
+    AddAction (action_setwheelrightsteersensitivity, "SetWheelRightSteerSensitivity");
+    AddAction (action_setwheelfriction, "SetWheelFriction");
+    AddAction (action_setwheelmass, "SetWheelMass");
+    AddAction (action_setwheelturnspeed, "SetWheelTurnSpeed");
+    AddAction (action_setwheelreturnspeed, "SetWheelReturnSpeed");
+    AddAction (action_setwheelenginepower, "SetWheelEnginePower");
+    AddAction (action_setwheelbrakepower, "SetWheelBrakePower");
+    AddAction (action_setwheelsteerinverted, "SetWheelSteerInverted");
+    AddAction (action_setwheelhandbrakeaffected, "SetWheelHandbrakeAffected");
   }
   
   propinfo.SetCount (20);
-  AddProperty (propid_speed, "cel.property.speed",
+  AddProperty (propid_speed, "speed",
          CEL_DATA_FLOAT, true, "Vehicle Speed.", &speed);
-  AddProperty (propid_tankmode, "cel.property.tankmode",
+  AddProperty (propid_tankmode, "tankmode",
          CEL_DATA_BOOL, false, "Tank Steering.", &tankmode);
-  AddProperty (propid_steer, "cel.property.steer",
+  AddProperty (propid_steer, "steer",
          CEL_DATA_FLOAT, false, "Absolute steer.", 0);
-  AddProperty (propid_accelamount, "cel.property.accelamount",
+  AddProperty (propid_accelamount, "accelamount",
          CEL_DATA_FLOAT, false, "Amount of accelerator.", 0);
-  AddProperty (propid_brakeamount, "cel.property.brakeamount",
+  AddProperty (propid_brakeamount, "brakeamount",
          CEL_DATA_FLOAT, false, "Amount of brakes applied", 0);
-  AddProperty (propid_handbraking, "cel.property.handbraking",
+  AddProperty (propid_handbraking, "handbraking",
          CEL_DATA_BOOL, false, "Handbrake is applied.",
          &handbrakeapplied);
-  AddProperty (propid_steeramount, "cel.property.steeramount",
+  AddProperty (propid_steeramount, "steeramount",
          CEL_DATA_FLOAT, false, "Vehicle Steer Amount.", &steeramount);
-  AddProperty (propid_autotransmission, "cel.property.autotransmission",
+  AddProperty (propid_autotransmission, "autotransmission",
          CEL_DATA_BOOL, false, "Automatic Gear Shifts.",
          &autotransmission);
-  AddProperty (propid_gear, "cel.property.gear",
+  AddProperty (propid_gear, "gear",
          CEL_DATA_LONG, false, "Current gear", 0);
-  AddProperty (propid_brakeforce, "cel.property.brakeforce",
+  AddProperty (propid_brakeforce, "brakeforce",
          CEL_DATA_FLOAT, false, "Force applied to brakes.",
          &brakeforce);
-  AddProperty (propid_autoreverse, "cel.property.autoreverse",
+  AddProperty (propid_autoreverse, "autoreverse",
          CEL_DATA_BOOL, false, "Vehicle automatically reverses.",
          &autoreverse);
   AddProperty (propid_outerwheelsteerpreset,
-         "cel.property.outerwheelsteerpreset",
+         "outerwheelsteerpreset",
          CEL_DATA_FLOAT, false, "Vehicle outer wheel steer.", 0);
-  AddProperty (propid_abs, "cel.property.abs",
+  AddProperty (propid_abs, "abs",
          CEL_DATA_BOOL, false, "Vehicle anti-lock brakes enabled.",
          &abs);
-  AddProperty (propid_currentgearvelocity, "cel.property.currentgearvelocity",
+  AddProperty (propid_currentgearvelocity, "currentgearvelocity",
          CEL_DATA_FLOAT, true, "Current gear velocity.", 0);
-  AddProperty (propid_currentgearforce, "cel.property.currentgearforce",
+  AddProperty (propid_currentgearforce, "currentgearforce",
          CEL_DATA_FLOAT, true, "Current gear force.", 0);
-  AddProperty (propid_averagewheelspin, "cel.property.averagewheelspin",
+  AddProperty (propid_averagewheelspin, "averagewheelspin",
          CEL_DATA_FLOAT, true, "Average wheel spin.", 0);
-  AddProperty (propid_differential, "cel.property.differential",
+  AddProperty (propid_differential, "differential",
          CEL_DATA_BOOL, true, "Differential is enabled.",&differential);
-  AddProperty (propid_antisway, "cel.property.antisway",
+  AddProperty (propid_antisway, "antisway",
          CEL_DATA_BOOL, true, "Anti-sway bar is enabled.",&antisway);
-  AddProperty (propid_antiswayfactor, "cel.property.antiswayfactor",
+  AddProperty (propid_antiswayfactor, "antiswayfactor",
          CEL_DATA_FLOAT, true, "Anti-sway factor.",&antiswayfactor);
-  AddProperty (propid_antiswaylimit, "cel.property.antiswaylimit",
+  AddProperty (propid_antiswaylimit, "antiswaylimit",
          CEL_DATA_FLOAT, true, "Anti-sway limit.",&antiswaylimit);
   
   params = new celGenericParameterBlock (5);
-  params->SetParameterDef (0, param_otherbody, "otherbody");
-  params->SetParameterDef (1, param_position, "position");
-  params->SetParameterDef (2, param_normal, "normal");
-  params->SetParameterDef (3, param_depth, "depth");
-  params->SetParameterDef (4, param_index, "index");
+  params->SetParameterDef (0, param_otherbody);
+  params->SetParameterDef (1, param_position);
+  params->SetParameterDef (2, param_normal);
+  params->SetParameterDef (3, param_depth);
+  params->SetParameterDef (4, param_index);
   
   pl->CallbackOnce ((iCelTimerListener*)this, 25, CEL_EVENT_PRE);
 }

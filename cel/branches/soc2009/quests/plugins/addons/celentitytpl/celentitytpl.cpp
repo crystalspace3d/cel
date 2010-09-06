@@ -39,8 +39,6 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
-
 SCF_IMPLEMENT_FACTORY (celAddOnCelEntityTemplate)
 
 enum
@@ -129,6 +127,20 @@ const char* celAddOnCelEntityTemplate::GetAttributeValue (iDocumentNode* child,
 }
 
 csStringID celAddOnCelEntityTemplate::GetAttributeID (iDocumentNode* child,
+	const char* propname)
+{
+  const char* rc = child->GetAttributeValue (propname);
+  if (!rc)
+  {
+    synldr->ReportError (
+	"cel.addons.celentitytpl", child,
+	"Can't find attribute '%s'!", propname);
+    return csInvalidStringID;
+  }
+  return pl->FetchStringID (rc);
+}
+
+csStringID celAddOnCelEntityTemplate::GetAttributeID (iDocumentNode* child,
 	const char* prefix, const char* propname)
 {
   const char* rc = child->GetAttributeValue (propname);
@@ -159,11 +171,9 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
     csStringID par_id = xmltokens.Request (par_value);
     if (par_id == XMLTOKEN_PAR)
     {
-      csStringID parid = GetAttributeID (par_child, "cel.parameter.",
-      	"name");
+      csStringID parid = GetAttributeID (par_child, "name");
       if (parid == csInvalidStringID) return 0;
-      params->SetParameterDef (par_idx, parid,
-      	par_child->GetAttributeValue ("name"));
+      params->SetParameterDef (par_idx, parid);
       par_idx++;
 
       const char* str_value = par_child->GetAttributeValue ("string");
@@ -309,7 +319,7 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
     {
       case XMLTOKEN_PROPERTY:
         {
-	  csStringID propid = GetAttributeID (child, "cel.property.", "name");
+	  csStringID propid = GetAttributeID (child, "name");
 	  if (propid == csInvalidStringID) return false;
 
 	  csRef<iDocumentAttributeIterator> attr_it = child->GetAttributes ();
@@ -409,7 +419,7 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	break;
       case XMLTOKEN_ACTION:
         {
-	  csStringID propid = GetAttributeID (child, "cel.action.", "name");
+	  csStringID propid = GetAttributeID (child, "name");
 	  if (propid == csInvalidStringID) return false;
 	  csRef<celVariableParameterBlock> params = ParseParameterBlock (child);
 	  if (!params) return false;
