@@ -130,7 +130,7 @@ private:
   csRef<iRewardFactory> LoadReward (iDocumentNode* child);
   bool LoadRewards (iQuestStateFactory* statefact, bool oninit,
   	iDocumentNode* node);
-  bool celQuestFactory::LoadSequenceFactory (iCelSequenceFactory* seqFact, 
+  bool LoadSequenceFactory (iCelSequenceFactory* seqFact, 
 	iDocumentNode* node);
   bool LoadTriggerResponse (iQuestTriggerResponseFactory* respfact,
   	iTriggerFactory* trigfact, iDocumentNode* node);

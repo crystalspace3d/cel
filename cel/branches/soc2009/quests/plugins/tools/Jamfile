@@ -1,8 +1,15 @@
 SubDir TOP plugins tools ;
 
+SubInclude TOP plugins tools behaviourtree ;
 SubInclude TOP plugins tools billboard ;
 SubInclude TOP plugins tools celconsole ;
-SubInclude TOP plugins tools quests ;
-SubInclude TOP plugins tools rulebase ;
 SubInclude TOP plugins tools celgraph ;
+SubInclude TOP plugins tools decorators ;
 SubInclude TOP plugins tools ledges ;
+SubInclude TOP plugins tools parameters ;
+SubInclude TOP plugins tools quests ;
+SubInclude TOP plugins tools rewards ;
+SubInclude TOP plugins tools rulebase ;
+SubInclude TOP plugins tools selectors ;
+SubInclude TOP plugins tools sequences ;
+SubInclude TOP plugins tools triggers ;

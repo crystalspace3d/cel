@@ -40,7 +40,7 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
+//CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celQuestManager)
 

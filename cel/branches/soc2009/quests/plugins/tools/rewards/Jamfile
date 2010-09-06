@@ -1,0 +1,6 @@
+SubDir TOP plugins tools rewards ;
+
+Plugin rewards
+       : [ Wildcard *.cpp *.h ]
+;
+ExternalLibs rewards : CRYSTAL ;
