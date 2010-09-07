@@ -1,6 +1,7 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2004 by Jorrit Tyberghein
+    Copyright (C) 2009 by Jorrit Tyberghein
+	Copyright (C) 2009 by Sam Devlin
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -31,287 +32,28 @@
 #include "ivaria/reporter.h"
 
 #include "physicallayer/persist.h"
+#include "tools/parameters.h"
 
 #include "plugins/tools/quests/quests.h"
-#include "plugins/tools/quests/trig_entersector.h"
-#include "plugins/tools/quests/trig_meshentersector.h"
-#include "plugins/tools/quests/trig_timeout.h"
-#include "plugins/tools/quests/trig_propertychange.h"
-#include "plugins/tools/quests/trig_sequencefinish.h"
-#include "plugins/tools/quests/trig_trigger.h"
-#include "plugins/tools/quests/trig_message.h"
-#include "plugins/tools/quests/trig_inventory.h"
-#include "plugins/tools/quests/trig_meshsel.h"
-#include "plugins/tools/quests/trig_watch.h"
-#include "plugins/tools/quests/trig_operation.h"
-#include "plugins/tools/quests/reward_debugprint.h"
 #include "plugins/tools/quests/reward_newstate.h"
-#include "plugins/tools/quests/reward_changeproperty.h"
-#include "plugins/tools/quests/reward_inventory.h"
-#include "plugins/tools/quests/reward_cssequence.h"
-#include "plugins/tools/quests/reward_sequence.h"
-#include "plugins/tools/quests/reward_sequencefinish.h"
-#include "plugins/tools/quests/reward_message.h"
-#include "plugins/tools/quests/reward_action.h"
-#include "plugins/tools/quests/reward_createentity.h"
-#include "plugins/tools/quests/reward_destroyentity.h"
-#include "plugins/tools/quests/seqop_debugprint.h"
-#include "plugins/tools/quests/seqop_transform.h"
-#include "plugins/tools/quests/seqop_movepath.h"
-#include "plugins/tools/quests/seqop_light.h"
-#include "plugins/tools/quests/seqop_property.h"
+
 
 //---------------------------------------------------------------------------
+
+//CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celQuestManager)
 
 //---------------------------------------------------------------------------
 
-static const celData celDataNone;
-
-static const char* ToString (csString& str, const celData* data)
-{
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: return data->value.s->GetData ();
-    case CEL_DATA_BOOL: if (data->value.bo) str = "true"; else str = "false"; break;
-    case CEL_DATA_BYTE: str.Format ("%d", data->value.b); break;
-    case CEL_DATA_UBYTE: str.Format ("%d", data->value.ub); break;
-    case CEL_DATA_WORD: str.Format ("%d", data->value.w); break;
-    case CEL_DATA_UWORD: str.Format ("%d", data->value.uw); break;
-    case CEL_DATA_LONG: str.Format ("%d", data->value.l); break;
-    case CEL_DATA_ULONG: str.Format ("%d", data->value.ul); break;
-    case CEL_DATA_FLOAT: str.Format ("%g", data->value.f); break;
-    case CEL_DATA_VECTOR2: str.Format ("%g,%g", data->value.v.x, data->value.v.y); break;
-    case CEL_DATA_VECTOR3: str.Format ("%g,%g,%g",
-				 data->value.v.x, data->value.v.y, data->value.v.z);
-			     break;
-    case CEL_DATA_VECTOR4: str.Format ("%g,%g,%g,%g", data->value.v.x, data->value.v.y,
-				 data->value.v.z, data->value.v.w);
-			     break;
-    case CEL_DATA_COLOR4: str.Format ("%g,%g,%g,%g", data->value.col.red,
-				data->value.col.green, data->value.col.blue, data->value.col.alpha);
-			     break;
-    case CEL_DATA_PCLASS: str.Format ("pc(%p)", (iCelPropertyClass*)data->value.pc); break;
-    case CEL_DATA_IBASE: str.Format ("ibase(%p)", (iBase*)data->value.ibase); break;
-    case CEL_DATA_ENTITY: str.Format ("ent('%s')", data->value.ent->GetName ()); break;
-    case CEL_DATA_ACTION: str.Format ("action('%s')", data->value.s->GetData ()); break;
-    case CEL_DATA_PARAMETER: str.Format ("par('%s')", data->value.par.parname->GetData ()); break;
-    case CEL_DATA_NONE: str.Free (); break;
-    default: str = "unknown()"; break;
-  }
-  return str;
-}
-
-static int32 ToLong (const celData* data)
-{
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: return atol (data->value.s->GetData ());
-    case CEL_DATA_BOOL: return data->value.bo;
-    case CEL_DATA_BYTE: return data->value.b;
-    case CEL_DATA_UBYTE: return data->value.ub;
-    case CEL_DATA_WORD: return data->value.w;
-    case CEL_DATA_UWORD: return data->value.uw;
-    case CEL_DATA_LONG: return data->value.l;
-    case CEL_DATA_ULONG: return data->value.ul;
-    case CEL_DATA_FLOAT: return (int32) data->value.f;
-    default: return 0;
-  }
-}
-
-static float ToFloat (const celData* data)
-{
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: return atof (data->value.s->GetData ());
-    case CEL_DATA_BOOL: return (float)data->value.bo;
-    case CEL_DATA_BYTE: return (float)data->value.b;
-    case CEL_DATA_UBYTE: return (float)data->value.ub;
-    case CEL_DATA_WORD: return (float)data->value.w;
-    case CEL_DATA_UWORD: return (float)data->value.uw;
-    case CEL_DATA_LONG: return (float)data->value.l;
-    case CEL_DATA_ULONG: return (float)data->value.ul;
-    case CEL_DATA_FLOAT: return data->value.f;
-    default: return 0.0f;
-  }
-}
-
-static bool ToBool (const celData* data)
-{
-  bool rc;
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%b", &rc);
-			  return rc;
-    case CEL_DATA_BOOL: return data->value.bo;
-    case CEL_DATA_BYTE: return data->value.b != 0;
-    case CEL_DATA_UBYTE: return data->value.ub != 0;
-    case CEL_DATA_WORD: return data->value.w != 0;
-    case CEL_DATA_UWORD: return data->value.uw != 0;
-    case CEL_DATA_LONG: return data->value.l != 0;
-    case CEL_DATA_ULONG: return data->value.ul != 0;
-    case CEL_DATA_FLOAT: return fabs (data->value.f) > 0.000001;
-    case CEL_DATA_PCLASS: return data->value.pc != 0;
-    case CEL_DATA_IBASE: return data->value.ibase != 0;
-    case CEL_DATA_ENTITY: return data->value.ent != 0;
-    default: return false;
-  }
-}
-
-static csVector2 ToVector2 (const celData* data)
-{
-  csVector2 v;
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f", &v.x, &v.y);
-			  return v;
-    case CEL_DATA_VECTOR2: v.x = data->value.v.x; v.y = data->value.v.y;
-			   return v;
-    default: v.x = v.y = 0.0f;
-	     return v;
-  }
-}
-
-static csVector3 ToVector3 (const celData* data)
-{
-  csVector3 v;
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f,%f", &v.x, &v.y, &v.z);
-			  return v;
-    case CEL_DATA_VECTOR3: v.x = data->value.v.x; v.y = data->value.v.y; v.z = data->value.v.z;
-			   return v;
-    default: v.x = v.y = v.z = 0.0f;
-	     return v;
-  }
-}
-
-static csColor ToColor (const celData* data)
-{
-  csColor v;
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f,%f",
-			      &v.red, &v.green, &v.blue);
-			  return v;
-    case CEL_DATA_VECTOR2: v.red = data->value.col.red;
-			   v.green = data->value.col.green;
-			   v.blue = data->value.col.blue;
-			   return v;
-    default: v.red = v.green = v.blue = 0.0f;
-	     return v;
-  }
-}
-
-const char* celQuestConstantParameter::Get (iCelParameterBlock*)
-{
-  return ToString (str, &data);
-}
-
-int32 celQuestConstantParameter::GetLong (iCelParameterBlock*)
-{
-  return ToLong (&data);
-}
-
-const celData* celQuestDynamicParameter::GetData (iCelParameterBlock* params)
-{
-  if (!params)
-  {
-    csReport (object_reg,
-	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.parameter",
-	"Cannot resolve dynamic parameter '%s' (no parameters given)!",
-	(const char*)parname);
-    return &celDataNone;
-  }
-
-  const celData* data = params->GetParameter (dynamic_id);
-  if (!data)
-  {
-    csReport (object_reg,
-	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.parameter",
-	"Cannot resolve dynamic parameter '%s'!", (const char*)parname);
-    return &celDataNone;
-  }
-  return data;
-}
-
-const char* celQuestDynamicParameter::Get (iCelParameterBlock* params)
-{
-  const celData* data = GetData (params);
-  return ToString (str, data);
-}
-
-int32 celQuestDynamicParameter::GetLong (iCelParameterBlock* params)
-{
-  const celData* data = GetData (params);
-  return ToLong (data);
-}
-
-const char* celQuestDynamicParameter::Get (iCelParameterBlock* params,
-    bool& changed)
-{
-  const char* s = Get (params);
-  if (s == 0)
-  {
-    changed = !oldvalue.IsEmpty ();
-    return s;
-  }
-  changed = oldvalue != s;
-  oldvalue = s;
-  return s;
-}
-
-//---------------------------------------------------------------------------
-
-const celData* celQuestExpressionParameter::GetData (iCelParameterBlock* params)
-{
-  if (!expression->Execute (entity, data, params))
-  {
-    csReport (object_reg,
-	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.parameter",
-	"Cannot execute expression '%s'!", (const char*)parname);
-    return &celDataNone;
-  }
-  return &data;
-}
-
-const char* celQuestExpressionParameter::Get (iCelParameterBlock* params)
-{
-  const celData* data = GetData (params);
-  return ToString (str, data);
-}
-
-int32 celQuestExpressionParameter::GetLong (iCelParameterBlock* params)
-{
-  const celData* data = GetData (params);
-  return ToLong (data);
-}
-
-const char* celQuestExpressionParameter::Get (iCelParameterBlock* params,
-    bool& changed)
-{
-  const char* s = Get (params);
-  if (s == 0)
-  {
-    changed = !oldvalue.IsEmpty ();
-    return s;
-  }
-  changed = oldvalue != s;
-  oldvalue = s;
-  return s;
-}
-
-//---------------------------------------------------------------------------
-
 void celQuestTriggerResponseFactory::SetTriggerFactory (
-	iQuestTriggerFactory* trigger_fact)
+	iTriggerFactory* trigger_fact)
 {
   trigger_factory = trigger_fact;
 }
 
 void celQuestTriggerResponseFactory::AddRewardFactory (
-	iQuestRewardFactory* reward_fact)
+	iRewardFactory* reward_fact)
 {
   reward_factories.Push (reward_fact);
 }
@@ -333,313 +75,16 @@ iQuestTriggerResponseFactory* celQuestStateFactory::
   return resp;
 }
 
-void celQuestStateFactory::AddInitRewardFactory (iQuestRewardFactory* reward_fact)
+void celQuestStateFactory::AddInitRewardFactory (iRewardFactory* reward_fact)
 {
   oninit_reward_factories.Push (reward_fact);
 }
 
-void celQuestStateFactory::AddExitRewardFactory (iQuestRewardFactory* reward_fact)
+void celQuestStateFactory::AddExitRewardFactory (iRewardFactory* reward_fact)
 {
   onexit_reward_factories.Push (reward_fact);
 }
 
-//---------------------------------------------------------------------------
-
-celQuestSequence::celQuestSequence (const char* name,
-	iCelPlLayer* pl, iVirtualClock* vc) : scfImplementationType (this)
-{
-  celQuestSequence::name = name;
-  celQuestSequence::pl = pl;
-  celQuestSequence::vc = vc;
-  idx = csArrayItemNotFound;
-}
-
-celQuestSequence::~celQuestSequence ()
-{
-  Abort ();
-}
-
-void celQuestSequence::AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end)
-{
-  celSeqOp seq;
-  seq.seqop = seqop;
-  seq.start = start;
-  seq.end = end;
-  seq.idx = seqops.GetSize ();
-  seqops.Push (seq);
-}
-
-bool celQuestSequence::Start (csTicks delay)
-{
-  if (IsRunning ()) return false;
-  idx = 0;
-  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  start_time = vc->GetCurrentTicks () + delay;
-  return true;
-}
-
-void celQuestSequence::Finish ()
-{
-  if (!IsRunning ()) return;
-  Perform (total_time+1);
-}
-
-void celQuestSequence::Abort ()
-{
-  if (!IsRunning ()) return;
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  idx = csArrayItemNotFound;
-  ops_in_progress.Empty ();
-}
-
-bool celQuestSequence::IsRunning ()
-{
-  return idx != csArrayItemNotFound;
-}
-
-void celQuestSequence::Perform (csTicks rel)
-{
-  // Find all operations that have to be performed.
-  while (idx < seqops.GetSize () && rel >= seqops[idx].start)
-  {
-    seqops[idx].seqop->Init ();
-    if (rel >= seqops[idx].end)
-    {
-      // Single shot operation or operation has already ended. Will not
-      // be put in the progress array.
-      seqops[idx].seqop->Do (1.0f);
-    }
-    else
-    {
-      ops_in_progress.Push (seqops[idx]);
-    }
-    idx++;
-  }
-
-  // Perform the operations that are still in progress.
-  size_t i = 0;
-  while (i < ops_in_progress.GetSize ())
-  {
-    if (rel >= ops_in_progress[i].end)
-    {
-      ops_in_progress[i].seqop->Do (1.0f);
-      ops_in_progress.DeleteIndex (i);
-    }
-    else
-    {
-      float dt = float (rel - ops_in_progress[i].start)
-      	/ float (ops_in_progress[i].end - ops_in_progress[i].start);
-      ops_in_progress[i].seqop->Do (dt);
-      i++;
-    }
-  }
-
-  if (rel > total_time)
-  {
-    // Sequence has ended.
-    FireSequenceCallbacks ();
-    Abort ();
-    return;
-  }
-}
-
-void celQuestSequence::TickEveryFrame ()
-{
-  csTicks current_time = vc->GetCurrentTicks ();
-  if (current_time < start_time) return;
-  csTicks rel = current_time - start_time;
-  Perform (rel);
-}
-
-void celQuestSequence::SaveState (iCelDataBuffer* databuf)
-{
-  databuf->Add ((uint32)(vc->GetCurrentTicks ()-start_time));
-
-  // Save all operations that are still in progress.
-  databuf->Add ((uint16)ops_in_progress.GetSize ());
-  size_t i;
-  for (i = 0 ; i < ops_in_progress.GetSize () ; i++)
-  {
-    databuf->Add ((uint32)ops_in_progress[i].idx);
-    ops_in_progress[i].seqop->Save (databuf);
-  }
-}
-
-bool celQuestSequence::LoadState (iCelDataBuffer* databuf)
-{
-  // First start the sequence.
-  Start (0);
-
-  csTicks current_time = vc->GetCurrentTicks ();
-  start_time = current_time - databuf->GetUInt32 ();
-  //csTicks rel = current_time - start_time;
-
-  // When loading state it is important to realize that we assume
-  // that the objects on which this sequence operates will load
-  // their own state on their own. So we don't have to actually
-  // perform the already performed operations again here. We just
-  // have to setup the right datastructures so that we can resume
-  // de sequence where we left off.
-
-  uint16 cnt_op = databuf->GetUInt16 ();
-  size_t i;
-  idx = 0;
-  for (i = 0 ; i < cnt_op ; i++)
-  {
-    uint32 id = databuf->GetUInt32 ();
-    if (id > idx) idx = id;
-    if (!seqops[id].seqop->Load (databuf))
-      return false;
-    ops_in_progress.Push (seqops[id]);
-  }
-#if 0
-  // Find all operations that have to be performed.
-  idx = 0;
-  while (idx < seqops.GetSize () && rel >= seqops[idx].start)
-  {
-    if (rel < seqops[idx].end)
-      ops_in_progress.Push (seqops[idx]);
-    idx++;
-  }
-#endif
-
-  return true;
-}
-
-void celQuestSequence::AddSequenceCallback (iQuestSequenceCallback* cb)
-{
-  callbacks.Push (cb);
-}
-
-void celQuestSequence::RemoveSequenceCallback (iQuestSequenceCallback* cb)
-{
-  callbacks.Delete (cb);
-}
-
-void celQuestSequence::FireSequenceCallbacks ()
-{
-  size_t i = callbacks.GetSize ();
-  while (i > 0)
-  {
-    i--;
-    callbacks[i]->SequenceFinished (this);
-  }
-}
-
-celQuestSequenceFactory::celQuestSequenceFactory (const char* name,
-	celQuestFactory* parent) : scfImplementationType (this)
-{
-  celQuestSequenceFactory::name = name;
-  parent_factory = parent;
-}
-
-bool celQuestSequenceFactory::Load (iDocumentNode* node)
-{
-  csRef<iDocumentNodeIterator> it = node->GetNodes ();
-  while (it->HasNext ())
-  {
-    csRef<iDocumentNode> child = it->Next ();
-    if (child->GetType () != CS_NODE_ELEMENT) continue;
-    const char* value = child->GetValue ();
-    csStringID id = parent_factory->xmltokens.Request (value);
-    switch (id)
-    {
-      case celQuestFactory::XMLTOKEN_OP:
-        {
-	  csString type = child->GetAttributeValue ("type");
-	  iQuestSeqOpType* seqoptype = parent_factory->GetQuestManager ()
-	  	->GetSeqOpType ("cel.questseqop."+type);
-	  if (!seqoptype)
-	    seqoptype = parent_factory->GetQuestManager ()->GetSeqOpType (type);
-	  if (!seqoptype)
-	  {
-            csReport (parent_factory->GetQuestManager ()->object_reg,
-	    	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
-		"Unknown sequence type '%s' while loading quest '%s'!",
-		(const char*)type, (const char*)name);
-	    return false;
-	  }
-	  csRef<iQuestSeqOpFactory> seqopfact = seqoptype
-		->CreateSeqOpFactory ();
-	  if (!seqopfact->Load (child))
-	    return false;
-	  const char* duration = child->GetAttributeValue ("duration");
-	  AddSeqOpFactory (seqopfact, duration);
-	}
-        break;
-      case celQuestFactory::XMLTOKEN_DELAY:
-        {
-	  const char* time = child->GetAttributeValue ("time");
-	  AddDelay (time);
-	}
-        break;
-
-      default:
-        csReport (parent_factory->GetQuestManager ()->object_reg,
-		CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
-		"Unknown token '%s' while loading sequence!",
-		value);
-        return false;
-    }
-  }
-  return true;
-}
-
-void celQuestSequenceFactory::AddSeqOpFactory (iQuestSeqOpFactory* seqopfact,
-  	const char* duration)
-{
-  celSeqOpFact s;
-  s.seqop = seqopfact;
-  s.duration = duration;
-  seqops.Push (s);
-}
-
-void celQuestSequenceFactory::AddDelay (const char* delay)
-{
-  celSeqOpFact s;
-  s.seqop = 0;
-  s.duration = delay;
-  seqops.Push (s);
-}
-
-static uint ToUInt (const char* s)
-{
-  if (!s) return 0;
-  int f;
-  sscanf (s, "%ud", &f);
-  return f;
-}
-
-csPtr<celQuestSequence> celQuestSequenceFactory::CreateSequence (
-	const celQuestParams& params)
-{
-  celQuestSequence* seq = new celQuestSequence (name,
-  	parent_factory->GetQuestManager ()->pl,
-	parent_factory->GetQuestManager ()->vc);
-  size_t i;
-  csTicks total_time = 0;
-  csTicks max_time = 0;
-  for (i = 0 ; i < seqops.GetSize () ; i++)
-  {
-    // @@@ Support dynamic parameters here?
-    csTicks duration = ToUInt (parent_factory->GetQuestManager ()->
-    	ResolveParameter (params, seqops[i].duration));
-    if (total_time + duration > max_time) max_time = total_time + duration;
-    if (seqops[i].seqop)
-    {
-      // It is not a delay.
-      csRef<iQuestSeqOp> seqop = seqops[i].seqop->CreateSeqOp (params);
-      seq->AddSeqOp (seqop, total_time, total_time+duration);
-    }
-    else
-    {
-      // A delay.
-      total_time += duration;
-    }
-  }
-  seq->SetTotalTime (max_time);
-  return csPtr<celQuestSequence> (seq);
-}
 
 //---------------------------------------------------------------------------
 
@@ -667,16 +112,18 @@ void celQuestFactory::ClearDefaultParameters ()
 }
 
 csPtr<iQuest> celQuestFactory::CreateQuest (
-      const celQuestParams& params)
+	  const celParams& params)
 {
   celQuest* q = new celQuest (questmgr->pl);
   // Set defaults
-  const celQuestParams *p_params;
-  celQuestParams result_params;
+  const celParams *p_params;
+  celParams result_params;
+
+
   if (params.GetSize() && defaults.GetSize())
   {
     result_params = params;
-    celQuestParams::GlobalIterator def_it = defaults.GetIterator ();
+    celParams::GlobalIterator def_it = defaults.GetIterator ();
     csStringBase it_key;
     const char* name;
     while (def_it.HasNext ())
@@ -697,9 +144,9 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
   while (sta_it.HasNext ())
   {
     celQuestStateFactory* sf = sta_it.Next ();
-    const csRefArray<iQuestRewardFactory>& oninit_reward_Factories
+    const csRefArray<iRewardFactory>& oninit_reward_Factories
         = sf->GetOninitRewardFactories ();
-    const csRefArray<iQuestRewardFactory>& onexit_reward_Factories
+    const csRefArray<iRewardFactory>& onexit_reward_Factories
         = sf->GetOnexitRewardFactories ();
     const csRefArray<celQuestTriggerResponseFactory>& responses
     	= sf->GetResponses ();
@@ -707,55 +154,55 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
     size_t i;
     for (i = 0 ; i < oninit_reward_Factories.GetSize () ; i++)
     {
-      csRef<iQuestReward> rew = oninit_reward_Factories[i]->CreateReward ((iQuest*)q,
-	  *p_params);
+      csRef<iReward> rew = oninit_reward_Factories[i]->CreateReward (*p_params);
       q->AddOninitReward (stateidx, rew);
     }
     for (i = 0 ; i < onexit_reward_Factories.GetSize () ; i++)
     {
-      csRef<iQuestReward> rew = onexit_reward_Factories[i]->CreateReward ((iQuest*)q,
-	  *p_params);
+      csRef<iReward> rew = onexit_reward_Factories[i]->CreateReward (*p_params);
       q->AddOnexitReward (stateidx, rew);
     }
     for (i = 0 ; i < responses.GetSize () ; i++)
     {
       celQuestTriggerResponseFactory* respfact = responses[i];
-      iQuestTriggerFactory* trigfact = respfact->GetTriggerFactory ();
-      const csRefArray<iQuestRewardFactory>& rewfacts
+
+	  const csRefArray<iRewardFactory>& rewfacts
         = respfact->GetRewardFactories ();
 
       size_t respidx = q->AddStateResponse (stateidx);
-      csRef<iQuestTrigger> trig = trigfact->CreateTrigger ((iQuest*)q,
-      		*p_params);
+      
+      iTriggerFactory* trigfact = respfact->GetTriggerFactory ();
+      csRef<iTrigger> trig = trigfact->CreateTrigger (*p_params);
       if (!trig) return 0;	// @@@ Report
-      q->SetStateTrigger (stateidx, respidx, trig);
+	  q->SetStateTrigger (stateidx, respidx, trig);
+	  
       size_t j;
       for (j = 0 ; j < rewfacts.GetSize () ; j++)
       {
-        csRef<iQuestReward> rew = rewfacts[j]->CreateReward ((iQuest*)q,
-		*p_params);
-	if (!rew) return 0;
+        csRef<iReward> rew = rewfacts[j]->CreateReward (*p_params);
+
+	    if (!rew) return 0;
         q->AddStateReward (stateidx, respidx, rew);
       }
     }
   }
 
   // Set sequences
-  celQuestFactorySequences::GlobalIterator seq_it = sequences.GetIterator ();
+  celFactorySequences::GlobalIterator seq_it = sequences.GetIterator ();
   while (seq_it.HasNext ())
   {
-    celQuestSequenceFactory* sf = seq_it.Next ();
-    csRef<celQuestSequence> seq = sf->CreateSequence (*p_params);
+    iCelSequenceFactory* sf = seq_it.Next ();
+    csRef<iCelSequence> seq = sf->CreateSequence (*p_params);
     q->AddSequence (seq);
   }
 
   return csPtr<iQuest> (q);
 }
 
-csRef<iQuestRewardFactory> celQuestFactory::LoadReward (iDocumentNode* child)
+csRef<iRewardFactory> celQuestFactory::LoadReward (iDocumentNode* child)
 {
   csString type = child->GetAttributeValue ("type");
-  iQuestRewardType* rewardtype = questmgr->GetRewardType ("cel.questreward."+type);
+  iRewardType* rewardtype = questmgr->GetRewardType ("cel.rewards."+type);
   if (!rewardtype)
     rewardtype = questmgr->GetRewardType (type);
   if (!rewardtype)
@@ -766,7 +213,7 @@ csRef<iQuestRewardFactory> celQuestFactory::LoadReward (iDocumentNode* child)
 		(const char*)type, (const char*)name);
     return 0;
   }
-  csRef<iQuestRewardFactory> rewardfact = rewardtype->CreateRewardFactory ();
+  csRef<iRewardFactory> rewardfact = rewardtype->CreateRewardFactory ();
   if (!rewardfact->Load (child))
     return 0;
   return rewardfact;
@@ -787,7 +234,7 @@ bool celQuestFactory::LoadRewards (
     {
       case XMLTOKEN_REWARD:
         {
-	  csRef<iQuestRewardFactory> rewardfact = LoadReward (child);
+	  csRef<iRewardFactory> rewardfact = LoadReward (child);
 	  if (!rewardfact) return false;
 	  if (oninit)
 	    statefact->AddInitRewardFactory (rewardfact);
@@ -806,9 +253,59 @@ bool celQuestFactory::LoadRewards (
   return true;
 }
 
+bool celQuestFactory::LoadSequenceFactory (iCelSequenceFactory* seqFact, iDocumentNode* node)
+{
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    csStringID id = xmltokens.Request (value);
+    switch (id)
+    {
+      case XMLTOKEN_OP:
+        {
+		  csString type = child->GetAttributeValue ("type");
+		  iSeqOpType* seqoptype = questmgr->GetSeqOpType ("cel.seqops."+type);
+		  if (!seqoptype)
+			seqoptype = questmgr->GetSeqOpType (type);
+		  if (!seqoptype)
+		  {
+			csReport (questmgr->object_reg,
+			  CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
+			  "Unknown sequence type '%s' while loading quest '%s'!",
+			  (const char*)type, (const char*)name);
+			return false;
+		  }
+		  csRef<iSeqOpFactory> seqopfact = seqoptype->CreateSeqOpFactory ();
+		  if (!seqopfact->Load (child))
+			return false;
+		  const char* duration = child->GetAttributeValue ("duration");
+		  seqFact->AddSeqOpFactory (seqopfact, duration);
+		}
+       break;
+      case XMLTOKEN_DELAY:
+        {
+		  const char* time = child->GetAttributeValue ("time");
+		  seqFact->AddDelay (time); 
+		}
+      break;
+
+      default:
+        csReport (questmgr->object_reg,
+		  CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
+		  "Unknown token '%s' while loading sequence!",
+		  value);
+        return false;
+    }
+  }
+  return true;
+}
+
 bool celQuestFactory::LoadTriggerResponse (
 	iQuestTriggerResponseFactory* respfact,
-  	iQuestTriggerFactory* trigfact, iDocumentNode* node)
+  	iTriggerFactory* trigfact, iDocumentNode* node)
 {
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -825,7 +322,7 @@ bool celQuestFactory::LoadTriggerResponse (
         break;
       case XMLTOKEN_REWARD:
         {
-	  csRef<iQuestRewardFactory> rewardfact = LoadReward (child);
+	  csRef<iRewardFactory> rewardfact = LoadReward (child);
 	  if (!rewardfact) return false;
 	  respfact->AddRewardFactory (rewardfact);
 	}
@@ -864,8 +361,8 @@ bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
       case XMLTOKEN_TRIGGER:
         {
 	  csString type = child->GetAttributeValue ("type");
-	  iQuestTriggerType* triggertype = questmgr->GetTriggerType (
-	  	"cel.questtrigger."+type);
+	  iTriggerType* triggertype = questmgr->GetTriggerType (
+	  	"cel.triggers."+type);
 	  if (!triggertype)
 	    triggertype = questmgr->GetTriggerType (type);
 	  if (!triggertype)
@@ -880,7 +377,7 @@ bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
 	  csRef<iQuestTriggerResponseFactory> respfact = statefact
 	  	->CreateTriggerResponseFactory ();
 	  // We create the actual trigger factory for that response factory.
-	  csRef<iQuestTriggerFactory> triggerfact = triggertype
+	  csRef<iTriggerFactory> triggerfact = triggertype
 		->CreateTriggerFactory ();
 	  respfact->SetTriggerFactory (triggerfact);
 	  if (!LoadTriggerResponse (respfact, triggerfact, child))
@@ -946,10 +443,10 @@ bool celQuestFactory::Load (iDocumentNode* node)
 	  iQuestStateFactory* statefact = CreateState (statename);
 	  if (!statefact)
 	  {
-            csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		"cel.questmanager.load",
-		"Couldn't load state '%s' while loading quest '%s'!",
-		(const char*)statename, (const char*)name);
+        csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		  "cel.questmanager.load",
+		  "Couldn't load state '%s' while loading quest '%s'!",
+		  (const char*)statename, (const char*)name);
 	    return false;
 	  }
 	  if (!LoadState (statefact, child))
@@ -960,20 +457,20 @@ bool celQuestFactory::Load (iDocumentNode* node)
         break;
       case XMLTOKEN_SEQUENCE:
         {
-	  const char* seqname = child->GetAttributeValue ("name");
-	  iQuestSequenceFactory* seqfact = CreateSequence (seqname);
-	  if (!seqfact)
-	  {
-            csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		"cel.questmanager.load",
-		"Couldn't load sequence '%s' while loading quest '%s'!",
-		(const char*)seqname, (const char*)name);
-	    return false;
-	  }
-	  if (!seqfact->Load (child))
-	    return false;
-	}
-	break;
+		  const char* seqname = child->GetAttributeValue ("name");
+		  iCelSequenceFactory* seqfact = CreateSequence (seqname);
+		  if (!seqfact)
+		  {
+			csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+			  "cel.questmanager.load",
+			  "Couldn't load sequence '%s' while loading quest '%s'!",
+			(  const char*)seqname, (const char*)name);
+			return false;
+		  }
+		  if (!LoadSequenceFactory (seqfact, child))
+			return false;
+		}
+		break;
       default:
         csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
@@ -1002,19 +499,24 @@ iQuestStateFactory* celQuestFactory::CreateState (const char* name)
   return state;
 }
 
-iQuestSequenceFactory* celQuestFactory::GetSequence (const char* name)
+
+iCelSequenceFactory* celQuestFactory::GetSequence (const char* name)
 {
-  celQuestSequenceFactory* seq = sequences.Get (name, 0);
-  return (iQuestSequenceFactory*)seq;
+  iCelSequenceFactory* seq = sequences.Get (name, 0);
+  return (iCelSequenceFactory*)seq;
 }
 
-iQuestSequenceFactory* celQuestFactory::CreateSequence (const char* name)
+iCelSequenceFactory* celQuestFactory::CreateSequence (const char* name)
 {
-  iQuestSequenceFactory* iseq = GetSequence (name);
+  iCelSequenceFactory* iseq = GetSequence (name);
   if (iseq) return 0;
 
-  celQuestSequenceFactory* seq = new celQuestSequenceFactory (name,
-  	this);
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (questmgr->object_reg);
+  csRef<iCelSequenceFactory> seq = csLoadPlugin<iCelSequenceFactory> 
+	  (plugin_mgr, "cel.sequence.factory");  
+
+  seq->SetName(name);
   sequences.Put (name, seq);
   seq->DecRef ();
   return seq;
@@ -1029,23 +531,26 @@ celQuestStateResponse::celQuestStateResponse (iCelPlLayer* pl,
   celQuestStateResponse::quest = quest;
 }
 
-void celQuestStateResponse::SetTrigger (iQuestTrigger* trigger)
+
+void celQuestStateResponse::SetTrigger(iTrigger* trigger)
 {
   celQuestStateResponse::trigger = trigger;
   trigger->RegisterCallback (this);
 }
 
-void celQuestStateResponse::AddReward (iQuestReward* reward)
+void celQuestStateResponse::AddReward (iReward* reward)
 {
   rewards.Push (reward);
 }
 
-void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger,
+
+void celQuestStateResponse::TriggerFired (iTrigger* trigger,
     iCelParameterBlock* params)
 {
   size_t i;
   for (i = 0 ; i < rewards.GetSize () ; i++)
     rewards[i]->Reward (params);
+
   return;
 }
 
@@ -1078,7 +583,11 @@ void celQuest::DeactivateState (size_t stateidx, bool exec_onexit)
   celQuestState* st = states[stateidx];
   size_t j;
   for (j = 0 ; j < st->GetResponseCount () ; j++)
-    st->GetResponse (j)->GetTrigger ()->DeactivateTrigger ();
+  { 
+	csRef<celQuestStateResponse> r = st->GetResponse (j);
+	r->GetTrigger ()->DeactivateTrigger ();
+  }
+
   if (exec_onexit)
     for (j = 0 ; j < st->GetOnexitRewardCount () ; j++)
       st->GetOnexitReward (j)->Reward (0);
@@ -1105,20 +614,21 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
       celQuestState* st = states[current_state];
       for (j = 0 ; j < st->GetResponseCount () ; j++)
       {
-        iQuestTrigger* trigger = st->GetResponse (j)->GetTrigger ();
-	if (databuf)
-	{
-          if (!trigger->LoadAndActivateTrigger (databuf))
-	    return false;	// @@@ Report?
-	  if (trigger->Check ())
-	    return true;
-	}
-	else
-	{
-          trigger->ActivateTrigger ();
-	  if (trigger->Check ())
-	    return true;
-        }
+	    csRef<celQuestStateResponse> r = st->GetResponse (j);
+		iTrigger* trigger = r->GetTrigger ();
+		if (databuf)
+		{
+		  if (!trigger->LoadAndActivateTrigger (databuf))
+			return false;	// @@@ Report?
+		  if (trigger->Check ())
+			return true;
+		}
+		else
+		{
+		  trigger->ActivateTrigger ();
+		  if (trigger->Check ())
+			return true;
+		}
       }
       if (!samestate)
         for (j = 0 ; j < st->GetOninitRewardCount () ; j++)
@@ -1142,17 +652,20 @@ bool celQuest::LoadState (const char* state, iCelDataBuffer* databuf)
   iString* seqname = databuf->GetString ();
   while (!seqname->IsEmpty ())
   {
-    celQuestSequence* seq = FindCelSequence (seqname->GetData ());
+    iCelSequence* seq = FindCelSequence (seqname->GetData ());
     if (!seq)
     {
-      //@@@
-      //csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-		//"cel.questmanager.load",
-		//"Error finding sequence '%s'!", seqname->GetData ());
-      return false;
-    }
-    if (!seq->LoadState (databuf))
-      return false;
+	  //@@@
+   	  //csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  //  "cel.questmanager.load",
+	  //  "Error finding sequence '%s'!", seqname->GetData ());
+	  printf("cel.questmanager.load: Error finding sequence '%s' !", 
+	    seqname->GetData ());
+	  return false;
+	} else {
+      if (!seq->LoadState (databuf))
+        return false;
+	}
 
     seqname = databuf->GetString ();
   }
@@ -1167,7 +680,10 @@ void celQuest::SaveState (iCelDataBuffer* databuf)
   {
     celQuestState* st = states[current_state];
     for (i = 0 ; i < st->GetResponseCount () ; i++)
-      st->GetResponse (i)->GetTrigger ()->SaveTriggerState (databuf);
+	{	
+		csRef<celQuestStateResponse> r = st->GetResponse (i);
+		r->GetTrigger ()->SaveTriggerState (databuf);
+	}
   }
 
   for (i = 0 ; i < sequences.GetSize () ; i++)
@@ -1195,34 +711,36 @@ size_t celQuest::AddStateResponse (size_t stateidx)
   return states[stateidx]->AddResponse (this);
 }
 
+
 void celQuest::SetStateTrigger (size_t stateidx, size_t responseidx,
-	iQuestTrigger* trigger)
+	iTrigger* trigger)
 {
   states[stateidx]->GetResponse (responseidx)->SetTrigger (trigger);
 }
 
+
 void celQuest::AddStateReward (size_t stateidx, size_t responseidx,
-	iQuestReward* reward)
+	iReward* reward)
 {
   states[stateidx]->GetResponse (responseidx)->AddReward (reward);
 }
 
-void celQuest::AddOninitReward (size_t stateidx, iQuestReward* reward)
+void celQuest::AddOninitReward (size_t stateidx, iReward* reward)
 {
   states[stateidx]->AddOninitReward (reward);
 }
 
-void celQuest::AddOnexitReward (size_t stateidx, iQuestReward* reward)
+void celQuest::AddOnexitReward (size_t stateidx, iReward* reward)
 {
   states[stateidx]->AddOnexitReward (reward);
 }
 
-void celQuest::AddSequence (celQuestSequence* sequence)
+void celQuest::AddSequence (iCelSequence* sequence)
 {
   sequences.Push (sequence);
 }
 
-celQuestSequence* celQuest::FindCelSequence (const char* name)
+iCelSequence* celQuest::FindCelSequence (const char* name)
 {
   size_t i;
   for (i = 0 ; i < sequences.GetSize () ; i++)
@@ -1230,6 +748,7 @@ celQuestSequence* celQuest::FindCelSequence (const char* name)
       return sequences[i];
   return 0;
 }
+
 
 //---------------------------------------------------------------------------
 
@@ -1249,89 +768,129 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   vc = csQueryRegistry<iVirtualClock> (object_reg);
 
   //--- Triggers -----------------------------------------------------
+  csRef<iPluginManager> plugin_mgr = 
+    csQueryRegistry<iPluginManager> (object_reg);
+
   {
-    celPropertyChangeTriggerType* type = new celPropertyChangeTriggerType (
-  	object_reg);
-    RegisterTriggerType (type);
-    type->DecRef ();
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.propertychange");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celMeshSelectTriggerType* type = new celMeshSelectTriggerType (
-  	object_reg);
-    RegisterTriggerType (type);
-    type->DecRef ();
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.meshselect");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celInventoryTriggerType* type = new celInventoryTriggerType (
-  	object_reg);
-    RegisterTriggerType (type);
-    type->DecRef ();
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.inventory");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celTimeoutTriggerType* type = new celTimeoutTriggerType (
-  	object_reg);
-    RegisterTriggerType (type);
-    type->DecRef ();
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.timeout");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celEnterSectorTriggerType* type = new celEnterSectorTriggerType (
-  	object_reg);
-    RegisterTriggerType (type);
-    type->DecRef ();
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.entersector");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celMeshEnterSectorTriggerType* type = new celMeshEnterSectorTriggerType (
-  	object_reg);
-    RegisterTriggerType (type);
-    type->DecRef ();
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.meshentersector");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celSequenceFinishTriggerType* type = new celSequenceFinishTriggerType (
-  	object_reg);
-    RegisterTriggerType (type);
-    type->DecRef ();
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.sequencefinish");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celTriggerTriggerType* type = new celTriggerTriggerType (
-  	object_reg);
-    RegisterTriggerType (type);
-    type->DecRef ();
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.trigger");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celWatchTriggerType* type = new celWatchTriggerType (
-  	object_reg);
-    RegisterTriggerType (type);
-    type->DecRef ();
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.watch");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celMessageTriggerType* type = new celMessageTriggerType (
-  	object_reg);
-    RegisterTriggerType (type);
-    type->DecRef ();
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.message");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celOperationTriggerType* type = new celOperationTriggerType (
-  	object_reg);
-    RegisterTriggerType (type);
-    type->DecRef ();
+    csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
+      "cel.triggers.operation");        
+    if (type.IsValid())
+    {
+      RegisterTriggerType (type);
+      type->DecRef ();
+    }
   }
 
   //--- Rewards ------------------------------------------------------
+
   {
-    celDebugPrintRewardType* type = new celDebugPrintRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.debugprint");        
+    if (type.IsValid())
+    {
+      RegisterRewardType (type);
+      type->DecRef ();
+    }
   }
 
   {
@@ -1342,102 +901,144 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
-    celChangePropertyRewardType* type = new celChangePropertyRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.changeproperty");        
+    if (type.IsValid())
+    {
+      RegisterRewardType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celInventoryRewardType* type = new celInventoryRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.inventory");        
+    if (type.IsValid())
+    {
+      RegisterRewardType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celCsSequenceRewardType* type = new celCsSequenceRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.cssequence");        
+    if (type.IsValid())
+    {
+      RegisterRewardType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celSequenceRewardType* type = new celSequenceRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.sequence");        
+    if (type.IsValid())
+    {
+      RegisterRewardType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celSequenceFinishRewardType* type = new celSequenceFinishRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.sequencefinish");        
+    if (type.IsValid())
+    {
+      RegisterRewardType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celMessageRewardType* type = new celMessageRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.message");        
+    if (type.IsValid())
+    {
+      RegisterRewardType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celActionRewardType* type = new celActionRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.action");        
+    if (type.IsValid())
+    {
+      RegisterRewardType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celDestroyEntityRewardType* type = new celDestroyEntityRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.createentity");        
+    if (type.IsValid())
+    {
+      RegisterRewardType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celCreateEntityRewardType* type = new celCreateEntityRewardType (
-    	object_reg);
-    RegisterRewardType (type);
-    type->DecRef ();
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.destroyentity");        
+    if (type.IsValid())
+    {
+      RegisterRewardType (type);
+      type->DecRef ();
+    }
   }
-
   //--- Sequence Operations ------------------------------------------
   {
-    celDebugPrintSeqOpType* type = new celDebugPrintSeqOpType (
-    	object_reg);
-    RegisterSeqOpType (type);
-    type->DecRef ();
+    csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
+      "cel.seqops.debugprint");        
+    if (type.IsValid())
+    {
+      RegisterSeqOpType(type);
+      type->DecRef ();
+    }
+  }
+
+
+  {
+    csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
+      "cel.seqops.transform");        
+    if (type.IsValid())
+    {
+      RegisterSeqOpType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celTransformSeqOpType* type = new celTransformSeqOpType (
-    	object_reg);
-    RegisterSeqOpType (type);
-    type->DecRef ();
+    csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
+      "cel.seqops.movepath");        
+    if (type.IsValid())
+    {
+      RegisterSeqOpType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celMovePathSeqOpType* type = new celMovePathSeqOpType (
-    	object_reg);
-    RegisterSeqOpType (type);
-    type->DecRef ();
+    csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
+      "cel.seqops.light");        
+    if (type.IsValid())
+    {
+      RegisterSeqOpType (type);
+      type->DecRef ();
+    }
   }
 
   {
-    celLightSeqOpType* type = new celLightSeqOpType (
-    	object_reg);
-    RegisterSeqOpType (type);
-    type->DecRef ();
-  }
-
-  {
-    celPropertySeqOpType* type = new celPropertySeqOpType (
-    	object_reg);
-    RegisterSeqOpType (type);
-    type->DecRef ();
+    csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
+      "cel.seqops.property");        
+    if (type.IsValid())
+    {
+      RegisterSeqOpType (type);
+      type->DecRef ();
+    }
   }
 
   return true;
@@ -1473,7 +1074,7 @@ iQuestFactory* celQuestManager::CreateQuestFactory (const char* name)
   return fact;
 }
 
-bool celQuestManager::RegisterTriggerType (iQuestTriggerType* trigger)
+bool celQuestManager::RegisterTriggerType (iTriggerType* trigger)
 {
   const char* name = trigger->GetName ();
   if (trigger_types.Get (name, 0) != 0)
@@ -1482,12 +1083,15 @@ bool celQuestManager::RegisterTriggerType (iQuestTriggerType* trigger)
   return true;
 }
 
-iQuestTriggerType* celQuestManager::GetTriggerType (const char* name)
+
+iTriggerType* celQuestManager::GetTriggerType (const char* name)
 {
   return trigger_types.Get (name, 0);
 }
 
-bool celQuestManager::RegisterRewardType (iQuestRewardType* reward)
+
+
+bool celQuestManager::RegisterRewardType (iRewardType* reward)
 {
   const char* name = reward->GetName ();
   if (reward_types.Get (name, 0) != 0)
@@ -1496,12 +1100,13 @@ bool celQuestManager::RegisterRewardType (iQuestRewardType* reward)
   return true;
 }
 
-iQuestRewardType* celQuestManager::GetRewardType (const char* name)
+iRewardType* celQuestManager::GetRewardType (const char* name)
 {
   return reward_types.Get (name, 0);
 }
 
-bool celQuestManager::RegisterSeqOpType (iQuestSeqOpType* seqop)
+
+bool celQuestManager::RegisterSeqOpType (iSeqOpType* seqop)
 {
   const char* name = seqop->GetName ();
   if (seqop_types.Get (name, 0) != 0)
@@ -1510,154 +1115,14 @@ bool celQuestManager::RegisterSeqOpType (iQuestSeqOpType* seqop)
   return true;
 }
 
-iQuestSeqOpType* celQuestManager::GetSeqOpType (const char* name)
+
+iSeqOpType* celQuestManager::GetSeqOpType (const char* name)
 {
   return seqop_types.Get (name, 0);
 }
 
-iCelExpressionParser* celQuestManager::GetParser ()
-{
-  csRef<iObjectRegistryIterator> it = object_reg->Get (
-      scfInterfaceTraits<iCelExpressionParser>::GetID (),
-      scfInterfaceTraits<iCelExpressionParser>::GetVersion ());
-  iBase* b = it->Next ();
-  if (b)
-  {
-    expparser = scfQueryInterface<iCelExpressionParser> (b);
-  }
-  if (!expparser)
-  {
-    csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
-	object_reg);
-    expparser = csLoadPlugin<iCelExpressionParser> (plugmgr,
-      "cel.behaviourlayer.xml");
-    if (!expparser)
 
-    {
-      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-		"cel.questmanager",
-		"Can't find the expression parser!");
-      return 0;
-    }
-    object_reg->Register (expparser, "iCelExpressionParser");
-  }
-  return expparser;
-}
 
-csPtr<iQuestParameter> celQuestManager::GetParameter (
-  	const celQuestParams& params,
-	const char* param)
-{
-  const char* val = ResolveParameter (params, param);
-  if (val == 0) return new celQuestConstantParameter ();
-  if (*val == '@' && *(val+1) != '@')
-  {
-    csStringID dynamic_id = pl->FetchStringID (val+1);
-    return new celQuestDynamicParameter (object_reg, dynamic_id, val+1);
-  }
-  else if (*val == '=' && *(val+1) != '=')
-  {
-    csRef<iCelExpression> expression = GetParser ()->Parse (val+1);
-    if (!expression)
-    {
-      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-		"cel.questmanager",
-		"Can't parse expression '%s'!", val+1);
-      return 0;
-    }
-    // We are looking for 'this' in the parameter block. If we can find it
-    // then it indicates the name of the entity. We will find the entity for
-    // the expression so that the expression can show things local to the
-    // entity (or access properties from the current entity).
-    celQuestParams::ConstGlobalIterator def_it = params.GetIterator ();
-    csStringBase it_key;
-    iCelEntity* entity = 0;
-    while (def_it.HasNext ())
-    {
-      const char* name = def_it.Next (it_key);
-      if (it_key == "this")
-      {
-	entity = pl->FindEntity (name);
-	break;
-      }
-    }
-    return new celQuestExpressionParameter (object_reg, entity, expression, val+1);
-  }
-  return new celQuestConstantParameter (val);
-}
-
-const char* celQuestManager::ResolveParameter (
-  	const celQuestParams& params,
-	const char* param)
-{
-  if (param == 0) return param;
-  if (*param != '$') return param;
-  if (*(param+1) == '$') return param+1;	// Double $ means to quote the '$'.
-  const char* val = params.Get (param+1, (const char*)0);
-  if (!val)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-		"cel.questmanager",
-		"Can't resolve parameter %s!", param);
-  }
-  return val;
-}
-
-csPtr<celVariableParameterBlock> celQuestManager::GetParameterBlock (
-  	const celQuestParams& params,
-	const csArray<celParSpec>& parameters,
-	csRefArray<iQuestParameter>& quest_parameters)
-{
-  celVariableParameterBlock *act_params = new celVariableParameterBlock ();
-  size_t i;
-  for (i = 0 ; i < parameters.GetSize () ; i++)
-  {
-    csRef<iQuestParameter> par = GetParameter (params, parameters[i].value);
-    quest_parameters.Put (i, par);
-    act_params->SetParameterDef (i, parameters[i].id);
-  }
-  return act_params;
-}
-
-void celQuestManager::FillParameterBlock (
-        iCelParameterBlock* params,
-	celVariableParameterBlock* act_params,
-	const csArray<celParSpec>& parameters,
-	const csRefArray<iQuestParameter>& quest_parameters)
-{
-  size_t i;
-  for (i = 0 ; i < quest_parameters.GetSize () ; i++)
-  {
-    iQuestParameter* p = quest_parameters[i];
-    switch (parameters[i].type)
-    {
-      case CEL_DATA_STRING:
-	act_params->GetParameter (i).Set (p->Get (params));
-	break;
-      case CEL_DATA_LONG:
-	act_params->GetParameter (i).Set (p->GetLong (params));
-	break;
-      case CEL_DATA_FLOAT:
-	act_params->GetParameter (i).Set (ToFloat (p->GetData (params)));
-	break;
-      case CEL_DATA_BOOL:
-	act_params->GetParameter (i).Set (ToBool (p->GetData (params)));
-	break;
-      case CEL_DATA_VECTOR2:
-	act_params->GetParameter (i).Set (ToVector2 (p->GetData (params)));
-	break;
-      case CEL_DATA_VECTOR3:
-	act_params->GetParameter (i).Set (ToVector3 (p->GetData (params)));
-	break;
-      case CEL_DATA_COLOR:
-	act_params->GetParameter (i).Set (ToColor (p->GetData (params)));
-	break;
-      default:
-	//@@@?
-	break;
-    }
-  }
-}
 
 bool celQuestManager::Load (iDocumentNode* node)
 {
@@ -1712,12 +1177,12 @@ bool celQuestManager::Load (iDocumentNode* node)
   return true;
 }
 
-iQuestRewardFactory* celQuestManager::AddNewStateReward (
+iRewardFactory* celQuestManager::AddNewStateReward (
 	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* state_par)
 {
-  iQuestRewardType* type = GetRewardType ("cel.questreward.newstate");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
+  iRewardType* type = GetRewardType ("cel.questreward.newstate");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iNewStateQuestRewardFactory> newstate = scfQueryInterface<iNewStateQuestRewardFactory> (rewfact);
   newstate->SetStateParameter (state_par);
   newstate->SetEntityParameter (entity_par);
@@ -1725,39 +1190,41 @@ iQuestRewardFactory* celQuestManager::AddNewStateReward (
   return rewfact;
 }
 
-iQuestRewardFactory* celQuestManager::AddDebugPrintReward (
+
+iRewardFactory* celQuestManager::AddDebugPrintReward (
 	iQuestTriggerResponseFactory* response,
   	const char* msg_par)
 {
-  iQuestRewardType* type = GetRewardType ("cel.questreward.debugprint");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iDebugPrintQuestRewardFactory> newstate = scfQueryInterface<iDebugPrintQuestRewardFactory> (rewfact);
+  iRewardType* type = GetRewardType ("cel.rewards.debugprint");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iDebugPrintRewardFactory> newstate = scfQueryInterface<iDebugPrintRewardFactory> (rewfact);
   newstate->SetMessageParameter (msg_par);
   response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iQuestRewardFactory* celQuestManager::AddInventoryReward (
+iRewardFactory* celQuestManager::AddInventoryReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* child_entity_par)
 {
-  iQuestRewardType* type = GetRewardType ("cel.questreward.inventory");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iInventoryQuestRewardFactory> newstate = scfQueryInterface<iInventoryQuestRewardFactory> (rewfact);
+  iRewardType* type = GetRewardType("cel.rewards.inventory");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iInventoryRewardFactory> newstate = scfQueryInterface<iInventoryRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetChildEntityParameter (child_entity_par);
   response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iQuestRewardFactory* celQuestManager::AddSequenceReward (
+
+iRewardFactory* celQuestManager::AddSequenceReward(
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par,
 	const char* delay_par)
 {
-  iQuestRewardType* type = GetRewardType ("cel.questreward.sequence");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iSequenceQuestRewardFactory> newstate = scfQueryInterface<iSequenceQuestRewardFactory> (rewfact);
+  iRewardType* type = GetRewardType ("cel.rewards.sequence");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iSequenceRewardFactory> newstate = scfQueryInterface<iSequenceRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetSequenceParameter (sequence_par);
   newstate->SetDelayParameter (delay_par);
@@ -1765,108 +1232,182 @@ iQuestRewardFactory* celQuestManager::AddSequenceReward (
   return rewfact;
 }
 
-iQuestRewardFactory* celQuestManager::AddCsSequenceReward (
+iRewardFactory* celQuestManager::AddCsSequenceReward (
   	iQuestTriggerResponseFactory* response,
   	const char* sequence_par, const char* delay_par)
 {
-  iQuestRewardType* type = GetRewardType ("cel.questreward.cssequence");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iCsSequenceQuestRewardFactory> newstate = scfQueryInterface<iCsSequenceQuestRewardFactory> (rewfact);
+  iRewardType* type = GetRewardType ("cel.rewards.cssequence");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iCsSequenceRewardFactory> newstate = scfQueryInterface<iCsSequenceRewardFactory> (rewfact);
   newstate->SetSequenceParameter (sequence_par);
   newstate->SetDelayParameter (delay_par);
   response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iQuestRewardFactory* celQuestManager::AddSequenceFinishReward (
+iRewardFactory* celQuestManager::AddSequenceFinishReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par)
 {
-  iQuestRewardType* type = GetRewardType ("cel.questreward.sequencefinish");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iSequenceFinishQuestRewardFactory> newstate = 
-  	scfQueryInterface<iSequenceFinishQuestRewardFactory> (rewfact);
+  iRewardType* type = GetRewardType ("cel.rewards.sequencefinish");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iSequenceFinishRewardFactory> newstate = 
+  	scfQueryInterface<iSequenceFinishRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetSequenceParameter (sequence_par);
   response->AddRewardFactory (rewfact);
   return rewfact;
 }
 
-iChangePropertyQuestRewardFactory* celQuestManager::AddChangePropertyReward (
+iChangePropertyRewardFactory* celQuestManager::AddChangePropertyReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par)
 {
-  iQuestRewardType* type = GetRewardType ("cel.questreward.changeproperty");
-  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
-  csRef<iChangePropertyQuestRewardFactory> newstate = 
-  	scfQueryInterface<iChangePropertyQuestRewardFactory> (rewfact);
+  iRewardType* type = GetRewardType ("cel.rewards.changeproperty");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iChangePropertyRewardFactory> newstate = 
+  	scfQueryInterface<iChangePropertyRewardFactory> (rewfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetPropertyParameter (prop_par);
   response->AddRewardFactory (rewfact);
   return newstate;
 }
 
-iQuestTriggerFactory* celQuestManager::SetTimeoutTrigger (
+
+
+iRewardFactory* celQuestManager::AddCreateEntityReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* template_par,
+	const char* name_par,
+    const celEntityTemplateParams &tpl_params)
+{
+  iRewardType* type = GetRewardType ("cel.rewards.createentity");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iCreateEntityRewardFactory> newstate = scfQueryInterface<iCreateEntityRewardFactory> (rewfact);
+  newstate->SetEntityTemplateParameter (template_par);
+  newstate->SetNameParameter (name_par);
+
+  celEntityTemplateParams::ConstGlobalIterator iter = tpl_params.GetIterator();
+  while (iter.HasNext())
+  {
+    csStringFast<12> name;
+    // @@@ Support dynamic parameters?
+    const char * val = iter.Next (name);
+	newstate->AddParameter (name, val);
+  }
+
+  response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
+iRewardFactory* celQuestManager::AddDestroyEntityReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par)
+{
+  iRewardType* type = GetRewardType ("cel.rewards.destroyentity");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iDestroyEntityRewardFactory> newstate = 
+  	scfQueryInterface<iDestroyEntityRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
+iRewardFactory* celQuestManager::AddMessageReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par)
+{
+  iRewardType* type = GetRewardType ("cel.rewards.message");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iMessageRewardFactory> newstate = 
+  	scfQueryInterface<iMessageRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetIDParameter (id_par);
+  response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
+iRewardFactory* celQuestManager::AddActionReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* id_par,
+	const char* pcclass_par)
+{
+  iRewardType* type = GetRewardType ("cel.rewards.action");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iActionRewardFactory> newstate = 
+  	scfQueryInterface<iActionRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetIDParameter (id_par);
+  newstate->SetPropertyClassParameter (pcclass_par);
+  response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
+
+iTriggerFactory* celQuestManager::SetTimeoutTrigger (
 	iQuestTriggerResponseFactory* response,
   	const char* timeout_par)
 {
-  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.timeout");
-  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
-  csRef<iTimeoutQuestTriggerFactory> newstate = scfQueryInterface<iTimeoutQuestTriggerFactory> (trigfact);
+  iTriggerType* type = GetTriggerType ("cel.triggers.timeout");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iTimeoutTriggerFactory> newstate = scfQueryInterface<iTimeoutTriggerFactory> (trigfact);
   newstate->SetTimeoutParameter (timeout_par);
   response->SetTriggerFactory (trigfact);
   return trigfact;
 }
 
-iQuestTriggerFactory* celQuestManager::SetEnterSectorTrigger (
+iTriggerFactory* celQuestManager::SetEnterSectorTrigger (
 	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sector_par)
 {
-  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.entersector");
-  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
-  csRef<iEnterSectorQuestTriggerFactory> newstate = 
-  	scfQueryInterface<iEnterSectorQuestTriggerFactory> (trigfact);
+  iTriggerType* type = GetTriggerType ("cel.triggers.entersector");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iEnterSectorTriggerFactory> newstate = 
+  	scfQueryInterface<iEnterSectorTriggerFactory> (trigfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetSectorParameter (sector_par);
   response->SetTriggerFactory (trigfact);
   return trigfact;
 }
 
-iQuestTriggerFactory* celQuestManager::SetMeshEnterSectorTrigger (
+iTriggerFactory* celQuestManager::SetMeshEnterSectorTrigger (
 	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sector_par)
 {
-  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.meshentersector");
-  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
-  csRef<iEnterSectorQuestTriggerFactory> newstate = 
-  	scfQueryInterface<iEnterSectorQuestTriggerFactory> (trigfact);
+  iTriggerType* type = GetTriggerType ("cel.triggers.meshentersector");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iEnterSectorTriggerFactory> newstate = 
+  	scfQueryInterface<iEnterSectorTriggerFactory> (trigfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetSectorParameter (sector_par);
   response->SetTriggerFactory (trigfact);
   return trigfact;
 }
 
-iQuestTriggerFactory* celQuestManager::SetSequenceFinishTrigger (
+iTriggerFactory* celQuestManager::SetSequenceFinishTrigger (
 	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par)
 {
-  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.sequencefinish");
-  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
-  csRef<iSequenceFinishQuestTriggerFactory> newstate = 
-  	scfQueryInterface<iSequenceFinishQuestTriggerFactory> (trigfact);
+  iTriggerType* type = GetTriggerType ("cel.triggers.sequencefinish");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iSequenceFinishTriggerFactory> newstate = 
+  	scfQueryInterface<iSequenceFinishTriggerFactory> (trigfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetSequenceParameter (sequence_par);
+  response->SetTriggerFactory (trigfact);
   return trigfact;
 }
 
-iQuestTriggerFactory* celQuestManager::SetPropertyChangeTrigger (
+iTriggerFactory* celQuestManager::SetPropertyChangeTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* prop_par, const char* value_par)
 {
-  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.propertychange");
-  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
-  csRef<iPropertyChangeQuestTriggerFactory> newstate = 
-  	scfQueryInterface<iPropertyChangeQuestTriggerFactory> (trigfact);
+  iTriggerType* type = GetTriggerType ("cel.triggers.propertychange");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iPropertyChangeTriggerFactory> newstate = 
+  	scfQueryInterface<iPropertyChangeTriggerFactory> (trigfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetPropertyParameter (prop_par);
   newstate->SetValueParameter (value_par);
@@ -1874,30 +1415,30 @@ iQuestTriggerFactory* celQuestManager::SetPropertyChangeTrigger (
   return trigfact;
 }
 
-iQuestTriggerFactory* celQuestManager::SetTriggerTrigger (
+iTriggerFactory* celQuestManager::SetTriggerTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, bool do_leave)
 {
-  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.trigger");
-  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
-  csRef<iTriggerQuestTriggerFactory> newstate = 
-  	scfQueryInterface<iTriggerQuestTriggerFactory> (trigfact);
+  iTriggerType* type = GetTriggerType ("cel.triggers.trigger");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iTriggerTriggerFactory> newstate = 
+  	scfQueryInterface<iTriggerTriggerFactory> (trigfact);
   newstate->SetEntityParameter (entity_par);
   if (do_leave) newstate->EnableLeave ();
   response->SetTriggerFactory (trigfact);
   return trigfact;
 }
 
-iQuestTriggerFactory* celQuestManager::SetWatchTrigger (
+iTriggerFactory* celQuestManager::SetWatchTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* target_entity_par,
 	const char* checktime_par,
 	const char* radius_par)
 {
-  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.watch");
-  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
-  csRef<iWatchQuestTriggerFactory> newstate = 
-  	scfQueryInterface<iWatchQuestTriggerFactory> (trigfact);
+  iTriggerType* type = GetTriggerType ("cel.triggers.watch");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iWatchTriggerFactory> newstate = 
+  	scfQueryInterface<iWatchTriggerFactory> (trigfact);
   newstate->SetEntityParameter (entity_par);
   newstate->SetTargetEntityParameter (target_entity_par);
   newstate->SetChecktimeParameter (checktime_par);
@@ -1906,24 +1447,67 @@ iQuestTriggerFactory* celQuestManager::SetWatchTrigger (
   return trigfact;
 }
 
-iQuestTriggerFactory* celQuestManager::SetOperationTrigger (
+iTriggerFactory* celQuestManager::SetOperationTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* operation_par,
-	csRefArray<iQuestTriggerFactory> &trigger_factories)
+	csRefArray<iTriggerFactory> &trigger_factories)
 {
-  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.operation");
-  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
-  csRef<iOperationQuestTriggerFactory> newstate = 
-  	scfQueryInterface<iOperationQuestTriggerFactory> (trigfact);
+  iTriggerType* type = GetTriggerType ("cel.triggers.operation");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iOperationTriggerFactory> newstate = 
+  	scfQueryInterface<iOperationTriggerFactory> (trigfact);
   newstate->SetOperationParameter (operation_par);
-  csRefArray<iQuestTriggerFactory> trigger_factories_list = 
+  csRefArray<iTriggerFactory> trigger_factories_list = 
 	newstate->GetTriggerFactories();
-  csRefArray<iQuestTriggerFactory>::Iterator iter = 
+  csRefArray<iTriggerFactory>::Iterator iter = 
 	trigger_factories.GetIterator();
   while (iter.HasNext())
   {
     trigger_factories_list.Push(iter.Next());
   }
+  return trigfact;
+}
+
+
+
+iTriggerFactory* celQuestManager::SetInventoryTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* child_par)
+{
+  iTriggerType* type = GetTriggerType ("cel.triggers.inventory");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iInventoryTriggerFactory> newstate = 
+  	scfQueryInterface<iInventoryTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetChildEntityParameter (child_par);
+  response->SetTriggerFactory(trigfact);
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetMessageTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* mask_par)
+{
+  iTriggerType* type = GetTriggerType ("cel.triggers.message");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iMessageTriggerFactory> newstate = 
+  	scfQueryInterface<iMessageTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetMaskParameter (mask_par);
+  response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
+iTriggerFactory* celQuestManager::SetMeshSelectTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par)
+{
+  iTriggerType* type = GetTriggerType ("cel.triggers.meshselect");
+  csRef<iTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iMeshSelectTriggerFactory> newstate = 
+  	scfQueryInterface<iMeshSelectTriggerFactory> (trigfact);
+  newstate->SetEntityParameter (entity_par);
+  response->SetTriggerFactory (trigfact);
   return trigfact;
 }
 

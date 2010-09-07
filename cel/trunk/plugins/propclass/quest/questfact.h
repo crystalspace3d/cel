@@ -73,7 +73,7 @@ private:
   csRef<iQuestManager> quest_mgr;
   void GetQuestManager ();
 
-  celQuestParams quest_params;
+  celParams quest_params;
   csString questname;
   csRef<iQuest> quest;
 
@@ -81,7 +81,7 @@ public:
   celPcQuest (iObjectRegistry* object_reg);
   virtual ~celPcQuest ();
 
-  virtual bool NewQuest (const char* name, celQuestParams& params);
+  virtual bool NewQuest (const char* name, celParams& params);
   virtual void StopQuest ();
   virtual iQuest* GetQuest () const { return quest; }
   virtual const char* GetQuestName () const { return questname; }

@@ -1,0 +1,6 @@
+SubDir TOP plugins tools triggers ;
+
+Plugin triggers
+       : [ Wildcard *.cpp *.h ]
+;
+ExternalLibs triggers : CRYSTAL ;
