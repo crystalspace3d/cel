@@ -36,7 +36,7 @@
 #include "plugins/tools/sequences/cel_sequences.h"
 
 //---------------------------------------------------------------------------
-  CS_IMPLEMENT_PLUGIN 
+//CS_IMPLEMENT_PLUGIN 
 //---------------------------------------------------------------------------
 
 celSequence::celSequence (const char* name,

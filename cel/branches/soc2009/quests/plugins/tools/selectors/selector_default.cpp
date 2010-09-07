@@ -24,7 +24,7 @@
 
 //---------------------------------------------------------------------------
 
-CS_IMPLEMENT_PLUGIN
+//CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celDefaultSelector)
 CEL_IMPLEMENT_BTNODE (DefaultSelector)
