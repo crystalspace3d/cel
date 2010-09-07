@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!-- sequences.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.sequence.factory</name>
+        <implementation>celSequenceFactory</implementation>
+        <description>CEL Sequence Factory</description>
+      </class>
+
+      <class>
+        <name>cel.seqops.debugprint</name>
+        <implementation>celDebugPrintSeqOpType</implementation>
+        <description>CEL Sequence: Sequence that prints a debug message</description>
+      </class>
+
+      <class>
+        <name>cel.seqops.light</name>
+        <implementation>celLightSeqOpType</implementation>
+        <description>CEL Sequence: Sequence that animates light colors</description>
+      </class>
+
+      <class>
+        <name>cel.seqops.movepath</name>
+        <implementation>celMovePathSeqOpType</implementation>
+        <description>CEL Sequence: Sequence that moves a mesh along a path</description>
+      </class>
+
+      <class>
+        <name>cel.seqops.property</name>
+        <implementation>celPropertySeqOpType</implementation>
+        <description>CEL Sequence: Sequence that changes properties</description>
+      </class>
+
+      <class>
+        <name>cel.seqops.transform</name>
+        <implementation>celTransformSeqOpType</implementation>
+        <description>CEL Sequence: Sequence that transforms a mesh</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

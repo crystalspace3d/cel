@@ -7,7 +7,11 @@ Here you will find a number of tutorials.
 
 @menu
 * Tutorial WalkTut:: WalkTut Tutorial
+* Tutorial QuestTest:: QuestTest Tutorial
+* Tutorial BTTest:: BTTest Tutorial
 @end menu
 
 @importss{usingcel,tutorials,tutorial1.txi}
+@importss{usingcel,tutorials,tutorial-quest.txi}
+@importss{usingcel,tutorials,tutorial-bt.txi}
 

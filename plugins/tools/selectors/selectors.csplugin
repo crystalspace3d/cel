@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!-- selectors.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.selectors.default</name>
+        <implementation>celDefaultSelector</implementation>
+        <description>CEL Selector: Executes children in order until one succeeds</description>
+      </class>
+    
+      <class>
+        <name>cel.selectors.sequential</name>
+        <implementation>celSequentialSelector</implementation>
+        <description>CEL Selector: Executes children in order until one fails</description>
+      </class>
+      
+      <class>
+        <name>cel.selectors.random</name>
+        <implementation>celRandomSelector</implementation>
+        <description>CEL Selector: Executes a randomly chosen child</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

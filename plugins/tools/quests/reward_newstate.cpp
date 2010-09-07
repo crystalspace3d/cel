@@ -1,6 +1,7 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2004 by Jorrit Tyberghein
+    Copyright (C) 2009 by Jorrit Tyberghein
+	Copyright (C) 2009 by Sam Devlin
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -24,6 +25,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
+#include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 
 #include "physicallayer/pl.h"
@@ -36,7 +38,7 @@
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_REWARDTYPE(NewState)
+CEL_IMPLEMENT_QUESTREWARDTYPE(NewState)
 
 //---------------------------------------------------------------------------
 
@@ -46,10 +48,10 @@ celNewStateRewardFactory::celNewStateRewardFactory (
   celNewStateRewardFactory::type = type;
 }
 
-csPtr<iQuestReward> celNewStateRewardFactory::CreateReward (
-    iQuest* q, const celQuestParams& params)
+csPtr<iReward> celNewStateRewardFactory::CreateReward (
+    const celParams& params)
 {
-  iQuestReward* reward;
+  iReward* reward;
   if (!class_par.IsEmpty())
   {
     reward = new celClassNewStateReward (type,
@@ -58,7 +60,8 @@ csPtr<iQuestReward> celNewStateRewardFactory::CreateReward (
   else
   {
     reward = new celNewStateReward (type,
-  	q, params, state_par, entity_par, tag_par);
+  	//q, 
+	params, state_par, entity_par, tag_par);
   }
   return reward;
 }
@@ -95,19 +98,23 @@ void celNewStateRewardFactory::SetEntityParameter (const char* entity,
 //---------------------------------------------------------------------------
 
 celNewStateReward::celNewStateReward (
-	celNewStateRewardType* type, iQuest* q,
-  	const celQuestParams& params,
+	celNewStateRewardType* type, //iQuest* q,
+  	const celParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par)
 	: scfImplementationType (this)
 {
   celNewStateReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
-  state = qm->GetParameter (params, state_par);
-  if (entity_par) entity = qm->GetParameter (params, entity_par);
-  if (tag_par) tag = qm->GetParameter (params, tag_par);
-  if (!entity_par && !tag_par)
-    quest = q;
+  csRef<iPluginManager> plugin_mgr = 
+   csQueryRegistry<iPluginManager> (type->object_reg);
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
+	(plugin_mgr, "cel.parameters.manager");
+
+  state = pm->GetParameter (params, state_par);
+  if (entity_par) entity = pm->GetParameter (params, entity_par);
+  if (tag_par) tag = pm->GetParameter (params, tag_par);
+  //if (!entity_par && !tag_par)
+  //  quest = q;
 }
 
 void celNewStateReward::Reward (iCelParameterBlock* params)
@@ -152,18 +159,21 @@ void celNewStateReward::TickEveryFrame ()
 
 celClassNewStateReward::celClassNewStateReward (
 	celNewStateRewardType* type,
-  	const celQuestParams& params,
+  	const celParams& params,
 	const char* state_par,
 	const char* class_par, const char* tag_par)
 	: scfImplementationType (this)
 {
   csPrintf("new class state reward %s\n!",state_par);
   celClassNewStateReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iPluginManager> plugin_mgr = 
+   csQueryRegistry<iPluginManager> (type->object_reg);
+  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> (plugin_mgr,
+    "cel.parameters.manager");
 
-  state = qm->GetParameter (params, state_par);
-  tag = qm->GetParameter (params, tag_par);
-  clazz = qm->GetParameter (params, class_par);
+  state = pm->GetParameter (params, state_par);
+  tag = pm->GetParameter (params, tag_par);
+  clazz = pm->GetParameter (params, class_par);
 }
 
 void celClassNewStateReward::Reward (iCelParameterBlock* params)
