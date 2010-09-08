@@ -1,10 +1,9 @@
 // This file is generated automatically.
 
+
 1 VERSIONINFO
-FILEVERSION 
-1,9,0,0
-PRODUCTVERSION 
-1,9,0,0
+FILEVERSION 1,9,0,0
+PRODUCTVERSION 1,9,0,0
 #ifdef CS_DEBUG
 FILEFLAGS 0x1
 #else
@@ -54,13 +53,13 @@ FILEFLAGS 0x0
   "        <implementation>celBehaviourTreeAction</implementation>",
   "        <description>Behaviour Tree Wrapper for Rewards</description>",
   "      </class>",
-  "",
+  "      ",
   "      <class>",
   "        <name>cel.behaviourtree.triggerfired</name>",
   "        <implementation>celTriggerFiredCondition</implementation>",
   "        <description>CEL Condition: True if trigger has already fired</description>",
   "      </class>",
-  "",
+  "  ",
   "      <class>",
   "        <name>cel.behaviourtree.parametercheck</name>",
   "        <implementation>celParameterCheckCondition</implementation>",
