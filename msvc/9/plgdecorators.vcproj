@@ -1,236 +1,671 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+<?xml version="1.0" encoding = "Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="plgdecorators"
-	ProjectGUID="{DD7582E4-9E97-4A16-B51E-5ACEE6C6182A}"
-	RootNamespace="plgdecorators"
-	Keyword="Win32Proj"
-	TargetFrameworkVersion="196613"
-	>
+	ProjectGUID="{86E8A259-1C23-7F7F-D26A-30014903BF02}"
+	SccProjectName=""
+	SccLocalPath="">
 	<Platforms>
-		<Platform
-			Name="Win32"
-		/>
-	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
+  		<Platform Name="Win32"/>
+    		<Platform Name="x64"/>
+  	</Platforms>
 	<Configurations>
-		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="..\..\out\debug9\build\plgdecorators\"
-			IntermediateDirectory="..\..\out\debug9\build\plgdecorators\"
+            		<Configuration
+			Name="Release (with static libs)|Win32"
+			OutputDirectory="..\..\out\release9\build\plgdecorators\"
+			IntermediateDirectory="..\..\out\release9\build\plgdecorators\"
 			ConfigurationType="2"
-			CharacterSet="0"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="0"
-				RuntimeLibrary="3"
-				TreatWChar_tAsBuiltInType="false"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile="..\..\out\debug9\build\plgdecorators\plgdecorators.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\plgdecorators\"
-				ObjectFile="..\..\out\debug9\build\plgdecorators\"
-				ProgramDataBaseFileName="..\..\out\debug9\build\plgdecorators\Win32\decorators.pdb"
-				WarningLevel="3"
-				DebugInformationFormat="4"
-				CompileAs="0"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				Culture="1033"
-				AdditionalIncludeDirectories=".;..\..\plugins\tools\decorators;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
-				OutputFile="..\..\decorators.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\..\out\debug9\build\plgdecorators\Win32\decorators.pdb"
-				SubSystem="0"
-				ImportLibrary="..\..\out\debug9\build\plgdecorators\Win32\plgdecorators.lib"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="1"
 			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				StringPooling="TRUE"
+				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
+				BufferSecurityCheck="FALSE"
+				ProgramDataBaseFileName="..\..\out\release9\build\plgdecorators\Win32\decorators.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PrecompiledHeaderFile="..\..\out\release9\build\plgdecorators\plgdecorators.pch"
+				AssemblerListingLocation="..\..\out\release9\build\plgdecorators\"
+				ObjectFile="..\..\out\release9\build\plgdecorators\"
 				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="3"
-			/>
+				CompileAs="0"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
-				GenerateDebugInformation="true"
-				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				TargetMachine="1"
-			/>
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\decorators.dll"
+				ProgramDatabaseFile="..\..\out\release9\build\plgdecorators\Win32\decorators.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\release9\build\plgdecorators\Win32\plgdecorators.lib"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
+				TargetMachine="1"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\release9\build\plgdecorators\plgdecorators.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-			/>
+				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\tools\decorators;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
-	</Configurations>
-	<References>
-	</References>
+      		<Configuration
+			Name="Release (with DLLs)|Win32"
+			OutputDirectory="..\..\out\release9\build\plgdecorators\"
+			IntermediateDirectory="..\..\out\release9\build\plgdecorators\"
+			ConfigurationType="2"
+			WholeProgramOptimization="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				StringPooling="TRUE"
+				EnableFunctionLevelLinking="TRUE"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="FALSE"
+				ProgramDataBaseFileName="..\..\out\release9\build\plgdecorators\Win32\decorators.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PrecompiledHeaderFile="..\..\out\release9\build\plgdecorators\plgdecorators.pch"
+				AssemblerListingLocation="..\..\out\release9\build\plgdecorators\"
+				ObjectFile="..\..\out\release9\build\plgdecorators\"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="3"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\decorators.dll"
+				ProgramDatabaseFile="..\..\out\release9\build\plgdecorators\Win32\decorators.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\release9\build\plgdecorators\Win32\plgdecorators.lib"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\release9\build\plgdecorators\plgdecorators.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\tools\decorators;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+                		<Configuration
+			Name="Debug (with static libs)|Win32"
+			OutputDirectory="..\..\out\debug9\build\plgdecorators\"
+			IntermediateDirectory="..\..\out\debug9\build\plgdecorators\"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				MinimalRebuild="TRUE"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+
+				ProgramDataBaseFileName="..\..\out\debug9\build\plgdecorators\Win32\decorators.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PrecompiledHeaderFile="..\..\out\debug9\build\plgdecorators\plgdecorators.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\plgdecorators\"
+				ObjectFile="..\..\out\debug9\build\plgdecorators\"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="4"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\decorators.dll"
+				ProgramDatabaseFile="..\..\out\debug9\build\plgdecorators\Win32\decorators.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\debug9\build\plgdecorators\Win32\plgdecorators.lib"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\debug9\build\plgdecorators\plgdecorators.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\tools\decorators;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+      		<Configuration
+			Name="Debug (with DLLs)|Win32"
+			OutputDirectory="..\..\out\debug9\build\plgdecorators\"
+			IntermediateDirectory="..\..\out\debug9\build\plgdecorators\"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				MinimalRebuild="TRUE"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+
+				ProgramDataBaseFileName="..\..\out\debug9\build\plgdecorators\Win32\decorators.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PrecompiledHeaderFile="..\..\out\debug9\build\plgdecorators\plgdecorators.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\plgdecorators\"
+				ObjectFile="..\..\out\debug9\build\plgdecorators\"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="4"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\decorators.dll"
+				ProgramDatabaseFile="..\..\out\debug9\build\plgdecorators\Win32\decorators.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\debug9\build\plgdecorators\Win32\plgdecorators.lib"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\debug9\build\plgdecorators\plgdecorators.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\tools\decorators;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+                        		<Configuration
+			Name="Release (with static libs)|x64"
+			OutputDirectory="..\..\out\release9-x64\build\plgdecorators\"
+			IntermediateDirectory="..\..\out\release9-x64\build\plgdecorators\"
+			ConfigurationType="2"
+			WholeProgramOptimization="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				StringPooling="TRUE"
+				EnableFunctionLevelLinking="TRUE"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="FALSE"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\plgdecorators\x64\decorators.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\plgdecorators\plgdecorators.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\plgdecorators\"
+				ObjectFile="..\..\out\release9-x64\build\plgdecorators\"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="3"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\decorators.dll"
+				ProgramDatabaseFile="..\..\out\release9-x64\build\plgdecorators\x64\decorators.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\release9-x64\build\plgdecorators\x64\plgdecorators.lib"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
+				TargetMachine="17"/>
+			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\release9-x64\build\plgdecorators\plgdecorators.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\tools\decorators;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+      		<Configuration
+			Name="Release (with DLLs)|x64"
+			OutputDirectory="..\..\out\release9-x64\build\plgdecorators\"
+			IntermediateDirectory="..\..\out\release9-x64\build\plgdecorators\"
+			ConfigurationType="2"
+			WholeProgramOptimization="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				StringPooling="TRUE"
+				EnableFunctionLevelLinking="TRUE"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="FALSE"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\plgdecorators\x64\decorators.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\plgdecorators\plgdecorators.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\plgdecorators\"
+				ObjectFile="..\..\out\release9-x64\build\plgdecorators\"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="3"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\decorators.dll"
+				ProgramDatabaseFile="..\..\out\release9-x64\build\plgdecorators\x64\decorators.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\release9-x64\build\plgdecorators\x64\plgdecorators.lib"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
+				TargetMachine="17"/>
+			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\release9-x64\build\plgdecorators\plgdecorators.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\tools\decorators;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+                		<Configuration
+			Name="Debug (with static libs)|x64"
+			OutputDirectory="..\..\out\debug9-x64\build\plgdecorators\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\plgdecorators\"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				MinimalRebuild="TRUE"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\plgdecorators\x64\decorators.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\plgdecorators\plgdecorators.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\plgdecorators\"
+				ObjectFile="..\..\out\debug9-x64\build\plgdecorators\"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="3"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\decorators.dll"
+				ProgramDatabaseFile="..\..\out\debug9-x64\build\plgdecorators\x64\decorators.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\debug9-x64\build\plgdecorators\x64\plgdecorators.lib"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
+				TargetMachine="17"/>
+			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\debug9-x64\build\plgdecorators\plgdecorators.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\tools\decorators;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+      		<Configuration
+			Name="Debug (with DLLs)|x64"
+			OutputDirectory="..\..\out\debug9-x64\build\plgdecorators\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\plgdecorators\"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				MinimalRebuild="TRUE"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\plgdecorators\x64\decorators.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\plgdecorators\plgdecorators.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\plgdecorators\"
+				ObjectFile="..\..\out\debug9-x64\build\plgdecorators\"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="3"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\decorators.dll"
+				ProgramDatabaseFile="..\..\out\debug9-x64\build\plgdecorators\x64\decorators.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\debug9-x64\build\plgdecorators\x64\plgdecorators.lib"
+				AdditionalOptions=" "
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				LargeAddressAware="2"
+				TargetMachine="17"/>
+			<Tool
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\debug9-x64\build\plgdecorators\plgdecorators.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\plugins\tools\decorators;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+            	</Configurations>
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-			>
+			Filter="">
 			<File
-				RelativePath="..\..\plugins\tools\decorators\decorator_executionlimit.cpp"
-				>
+				RelativePath="..\..\msvc\plugin_impl.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\decorators\decorator_loop.cpp"
-				>
+				RelativePath="..\..\plugins\tools\decorators\decorator_executionlimit.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\decorators\decorator_negatereturn.cpp"
-				>
+				RelativePath="..\..\plugins\tools\decorators\decorator_loop.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\decorators\decorator_negatereturn.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
+			Filter="">
 			<File
-				RelativePath="..\..\plugins\tools\decorators\decorator_executionlimit.h"
-				>
+				RelativePath="..\..\plugins\tools\decorators\decorator_executionlimit.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\decorators\decorator_loop.h"
-				>
+				RelativePath="..\..\plugins\tools\decorators\decorator_loop.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\decorators\decorator_negatereturn.h"
-				>
+				RelativePath="..\..\plugins\tools\decorators\decorator_negatereturn.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
+			Filter="">
 			<File
-				RelativePath="..\..\plugins\tools\decorators\decorators.csplugin"
-				>
+				RelativePath="..\..\msvc\plgdecorators.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
-				RelativePath="..\plgdecorators.rc"
-				>
+				RelativePath="..\..\plugins\tools\decorators\decorators.csplugin">
 			</File>
 		</Filter>
 	</Files>

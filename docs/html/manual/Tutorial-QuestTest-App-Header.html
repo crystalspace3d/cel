@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer 1.9dev: 4.2.2.1 app.h</title>
+<title>Crystal Entity Layer 1.9dev: 4.2.2.3 app.h</title>
 
-<meta name="description" content="Crystal Entity Layer 1.9dev: 4.2.2.1 app.h">
-<meta name="keywords" content="Crystal Entity Layer 1.9dev: 4.2.2.1 app.h">
+<meta name="description" content="Crystal Entity Layer 1.9dev: 4.2.2.3 app.h">
+<meta name="keywords" content="Crystal Entity Layer 1.9dev: 4.2.2.3 app.h">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -43,7 +43,7 @@ ul.toc {list-style: none}
 <a name="Tutorial-QuestTest-App-Header"></a>
 <a name="0"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="Tutorial-QuestTest.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="Tutorial-QuestTest-Behave.html#0" title="Previous section in reading order"> &lt; </a>]</td>
 <td valign="middle" align="left">[<a href="Tutorial-QuestTest-App.html#0" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
@@ -59,77 +59,19 @@ ul.toc {list-style: none}
 <td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <hr size="1">
-<h4 class="subsubsection"> 4.2.2.1 app.h </h4>
+<h4 class="subsubsection"> 4.2.2.3 app.h </h4>
 
 <p>In this header file we declare our main application class. This is the class
 where we store references to commonly used modules from Crystal Space and
 Crystal Entity Layer. This is also the class that contains the main event
 handling loop.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">#ifndef APP_H
-#define APP_H
-
-#include &lt;physicallayer/entity.h&gt;
-#include &lt;physicallayer/pl.h&gt;
-#include &lt;behaviourlayer/bl.h&gt;
-
-class FramePrinter;
-
-/*
- * Our main application class inherits from csApplicationFramework
- * and csBaseEventHandler.
- */
-class MainApp : public csApplicationFramework,
-                public csBaseEventHandler
-{
-private:
-  // References to modules from Crystal Space.
-  csRef&lt;iGraphics3D&gt; g3d;
-  csRef&lt;iEngine&gt; engine;
-  csRef&lt;iLoader&gt; loader;
-  csRef&lt;iVFS&gt; vfs;
-  csRef&lt;iVirtualClock&gt; vc;
-  csRef&lt;iKeyboardDriver&gt; kbd;
-  csRef&lt;FramePrinter&gt; printer;
-
-  // References to modules from Crystal Entity Layer.
-  csRef&lt;iCelPlLayer&gt; pl;
-  csRef&lt;iCelBlLayer&gt; bl;
-
-  // Our level and player entity.
-  csRef&lt;iCelEntity&gt; level_entity;
-  csRef&lt;iCelEntity&gt; player_entity;
-
-  // Inherited from csBaseEventHandler: handle a keyboard event.
-  bool OnKeyboard (iEvent&amp;);
-
-  // Inherited from csBaseEventHandler: handle a signle frame.
-  void Frame ();
-  
-  // Create the level entity and load the level in it.
-  // Returns false on failure. The error has been already reported to
-  // the reporter in that case.
-  bool LoadLevel ();
-
-  // Create the player.
-  // Returns false on failure. The error has been already reported to
-  // the reporter in that case.
-  bool CreatePlayer ();
-
-public:
-  MainApp ();
-  virtual ~MainApp ();
-
-  // Inherited from csApplicationFramework: initialization.
-  virtual bool OnInitialize (int argc, char* argv[]);
-
-  // Inherited from csApplicationFramework: initialization.
-  virtual bool Application ();
-  virtual void OnExit ();
-};
-
-#endif
+<p>The following method declaration is added:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csPtr&lt;iCelEntity&gt; CreateQuest (const char* name);
 </pre></td></tr></table>
+<p>This method will create the quest.
+</p>
 <hr size="1">
 <p>
  <font size="-1">

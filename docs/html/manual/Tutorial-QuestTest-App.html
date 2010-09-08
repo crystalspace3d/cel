@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer 1.9dev: 4.2.2.2 app.cpp</title>
+<title>Crystal Entity Layer 1.9dev: 4.2.2.4 app.cpp</title>
 
-<meta name="description" content="Crystal Entity Layer 1.9dev: 4.2.2.2 app.cpp">
-<meta name="keywords" content="Crystal Entity Layer 1.9dev: 4.2.2.2 app.cpp">
+<meta name="description" content="Crystal Entity Layer 1.9dev: 4.2.2.4 app.cpp">
+<meta name="keywords" content="Crystal Entity Layer 1.9dev: 4.2.2.4 app.cpp">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -44,7 +44,7 @@ ul.toc {list-style: none}
 <a name="0"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="Tutorial-QuestTest-App-Header.html#0" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="Tutorial-QuestTest-Behave-Header.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="Tutorial-BTTest.html#0" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="Tutorial-QuestTest.html#0" title="Up section"> Up </a>]</td>
@@ -59,309 +59,240 @@ ul.toc {list-style: none}
 <td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <hr size="1">
-<h4 class="subsubsection"> 4.2.2.2 app.cpp </h4>
+<h4 class="subsubsection"> 4.2.2.4 app.cpp </h4>
 
-<p>Here is our main application source file.
+<p>Here is our main application source file, the bulk of changes for this tutorial occur in this file.
+Before we can get into the details of creating a quest the following final set up must be performed in the Application ()
+method of the main app.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">#include &lt;crystalspace.h&gt;
+<table><tr><td>&nbsp;</td><td><pre class="example">if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.logic.quest&quot;)) 
+  return false; 
 
-#include &lt;celtool/initapp.h&gt;
-#include &lt;propclass/zone.h&gt;
-#include &lt;propclass/camera.h&gt;
-#include &lt;propclass/mesh.h&gt;
-#include &lt;propclass/linmove.h&gt;
-#include &lt;propclass/actormove.h&gt;
-#include &lt;propclass/input.h&gt;
-#include &lt;physicallayer/propclas.h&gt;
+//myQuest 
+csRef&lt;iCelEntity&gt; quest = CreateQuest(&quot;myquest&quot;); 
+if (!quest) printf (&quot;CreateQuest(&quot;&quot;myquest&quot;&quot;) Failed!\n&quot;);
 
-#include &quot;app.h&quot;
-#include &quot;behave.h&quot;
-
-MainApp::MainApp ()
-{
-  SetApplicationName (&quot;CEL Tutorial&quot;);
-}
-
-MainApp::~MainApp ()
-{
-}
 </pre></td></tr></table>
-<p>In <code>LoadLevel()</code> we create the level entity. <code>iCelPlLayer</code> has
-a <code>CreateEntity()</code> convenience function which creates the entity,
-assigns a behaviour to it and also creates the property classes for it. In
-this particular case we create an entity called <samp>&lsquo;level&rsquo;</samp> and assign it
-with the behaviour that is called <samp>&lsquo;level_behave&rsquo;</samp> (this one will be
-defined later in this tutorial). We also create a <samp>&lsquo;pcworld.zonemanager&rsquo;</samp>
-property class (see section <a href="PropClass-ZoneMgr.html#0">Zone Manager</a>) for it. This property class
-manages loading and unloading of levels (map files) in the game.
+<p>This simply loads the quest factory, and calls, with rudimentary error handling, the create quest method detailed below.
 </p>
-<p><code>CEL_QUERY_PROPCLASS_ENT</code> is an important macro that you can use
-to fetch a reference to one of the property classes in an entity. Every
-property class implements some interface in addition to the standard
-<code>iCelPropertyClass</code> interface. In case of the zone manager this
-interface is <code>iPcZoneManager</code>.
-</p>
-<p>The <code>ReportError()</code> method is part of <code>csApplicationFramework</code>
-and makes it easier to use the reporter (Crystal Space plugin) to report
-errors to the user.
-</p>
-<p>After creating the entity we need to setup the property classes. In this
-case this means the zone manager. It is possible to setup the zone manager
-from an <small>XML</small> descriptor file but in this case we set it up manually
-to load two files: one <tt>&lsquo;walktut_world&rsquo;</tt> file which is created in
-<samp>&lsquo;Blender&rsquo;</samp> and contains the 3D geometry and one <tt>&lsquo;walktut_entities&rsquo;</tt>
-file which we created manually. The entities file contains definitions
-for entities in our game.
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">bool MainApp::LoadLevel ()
-{
-  level_entity = pl-&gt;CreateEntity (&quot;level&quot;, bl, &quot;level_behave&quot;,
-    &quot;pcworld.zonemanager&quot;,
-    CEL_PROPCLASS_END);
-  if (!level_entity)
-    return ReportError (&quot;Error creating level entity!&quot;);
+<table><tr><td>&nbsp;</td><td><pre class="example">csPtr&lt;iCelEntity&gt; MainApp::CreateQuest (const char* name) 
+{ 
+  // The Quest Entity
+  entity_quest = pl-&gt;CreateEntity (name, bl, &quot;quest_behave&quot;,
+    &quot;pclogic.quest&quot;, &quot;pctools.properties&quot;, CEL_PROPCLASS_END);
 
-  // Now get the iPcZoneManager interface so we can setup the level.
-  csRef&lt;iPcZoneManager&gt; zonemgr = CEL_QUERY_PROPCLASS_ENT (level_entity,
-  	iPcZoneManager);
-  iCelZone* zone = zonemgr-&gt;CreateZone (&quot;main&quot;);
-  iCelRegion* region = zonemgr-&gt;CreateRegion (&quot;main&quot;);
-  zone-&gt;LinkRegion (region);
+  csRef&lt;iQuestManager&gt; qm = csQueryRegistryOrLoad&lt;iQuestManager&gt; (object_reg,
+    	&quot;cel.manager.quests&quot;); 
 
-  iCelMapFile* mapfile = region-&gt;CreateMapFile ();
-  mapfile-&gt;SetPath (&quot;/cellib/lev&quot;);
-  mapfile-&gt;SetFile (&quot;walktut_world&quot;);
-
-  iCelMapFile* entitiesfile = region-&gt;CreateMapFile ();
-  entitiesfile-&gt;SetPath (&quot;/cellib/lev&quot;);
-  entitiesfile-&gt;SetFile (&quot;walktut_entities&quot;);
-
-  return true;
-}
-</pre></td></tr></table>
-<p>Here we create the player. This time we use the <samp>&lsquo;player_behave&rsquo;</samp>
-behaviour that we define later. The player entity also uses a lot more
-property classes. We need a camera, a mesh (3D geometry), the movement
-system, keyboard input, and an inventory.
-</p>
-<p>After creating the entity we again have to setup the various property
-classes. The camera needs to know about the zone manager so we also fetch
-that from the level entity that we created earlier. In <code>SetZoneManager()</code>
-we also indicate where the camera should start. In this example we pick
-region <samp>&lsquo;main&rsquo;</samp> and the name of the camera is <samp>&lsquo;Camera&rsquo;</samp>.
-</p>
-<p>For our player mesh we pick the <samp>&lsquo;cally&rsquo;</samp> model that is part of
-Crystal Entity Layer.
-</p>
-<p>Since we are possibly using third-person camera mode the zone manager needs
-to know about the player mesh. This is needed so that the zone manager can
-load the needed regions depending on where the player moves.
-</p>
-<p>Then we setup <samp>&lsquo;pcmove.linear&rsquo;</samp> and <samp>&lsquo;pcmove.actor.standard&rsquo;</samp> with the
-proper movement parameters. This includes the dimensions of the collision
-box and various speed parameters with which we will move the player.
-</p>
-<p>Finally we need to bind various keys to actual commands. The behaviour
-will get these commands (and not the keys) so this cleanly separates the
-actual keys and the operations performed by those keys. In real games
-you probably want to read the key definitions from a configuration file.
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">bool MainApp::CreatePlayer ()
-{
-  player_entity = pl-&gt;CreateEntity (&quot;player&quot;, bl, &quot;player_behave&quot;,
-    &quot;pccamera.old&quot;,
-    &quot;pcobject.mesh&quot;,
-    &quot;pcmove.linear&quot;,
-    &quot;pcmove.actor.standard&quot;,
-    &quot;pcinput.standard&quot;,
-    &quot;pctools.inventory&quot;,
-    CEL_PROPCLASS_END);
-  if (!player_entity)
-    return ReportError (&quot;Error creating player entity!&quot;);
-
-  // Get the iPcCamera interface so that we can set the camera.
-  csRef&lt;iPcCamera&gt; pccamera = CEL_QUERY_PROPCLASS_ENT (
-  	player_entity, iPcCamera);
-  // Get the zone manager from the level entity which should have
-  // been created by now.
-  csRef&lt;iPcZoneManager&gt; pczonemgr = CEL_QUERY_PROPCLASS_ENT (
-  	level_entity, iPcZoneManager);
-  pccamera-&gt;SetZoneManager (pczonemgr, true, &quot;main&quot;, &quot;Camera&quot;);
-
-  // Get the iPcMesh interface so we can load the right mesh
-  // for our player.
-  csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_ENT (
-  	player_entity, iPcMesh);
-  pcmesh-&gt;SetPath (&quot;/cel/data&quot;);
-  pcmesh-&gt;SetMesh (&quot;test&quot;, &quot;cally.cal3d&quot;);
-  if (!pcmesh-&gt;GetMesh ())
-    return ReportError (&quot;Error loading model!&quot;);
-
-  if (pczonemgr-&gt;PointMesh (&quot;player&quot;, &quot;main&quot;, &quot;Camera&quot;))
-    return ReportError (&quot;Can't find region or start position in region!&quot;);
-
-  // Get iPcLinearMovement so we can setup the movement system.
-  csRef&lt;iPcLinearMovement&gt; pclinmove = CEL_QUERY_PROPCLASS_ENT (
-  	player_entity, iPcLinearMovement);
-  pclinmove-&gt;InitCD (
-  	csVector3 (0.5,0.8,0.5),
-  	csVector3 (0.5,0.4,0.5),
-  	csVector3 (0,0,0));
-
-  // Get the iPcActorMove interface so that we can set movement speed.
-  csRef&lt;iPcActorMove&gt; pcactormove = CEL_QUERY_PROPCLASS_ENT (
-  	player_entity, iPcActorMove);
-  pcactormove-&gt;SetMovementSpeed (3.0f);
-  pcactormove-&gt;SetRunningSpeed (5.0f);
-  pcactormove-&gt;SetRotationSpeed (1.75f);
-
-  // Get iPcCommandInput so we can do key bindings. The behaviour
-  // layer will interprete the commands so the actor can move.
-  csRef&lt;iPcCommandInput&gt; pcinput = CEL_QUERY_PROPCLASS_ENT (
-  	player_entity, iPcCommandInput);
-  // We read the key bindings from the standard config file.
-  pcinput-&gt;Bind (&quot;up&quot;, &quot;forward&quot;);
-  pcinput-&gt;Bind (&quot;down&quot;, &quot;backward&quot;);
-  pcinput-&gt;Bind (&quot;left&quot;, &quot;rotateleft&quot;);
-  pcinput-&gt;Bind (&quot;right&quot;, &quot;rotateright&quot;);
-  pcinput-&gt;Bind (&quot;m&quot;, &quot;cammode&quot;);
-  pcinput-&gt;Bind (&quot;d&quot;, &quot;drop&quot;);
-
-  return true;
-}
-</pre></td></tr></table>
-<p>The following three methods are called by the event handler whenever
-a certain event occurs. <code>ProcessFrame()</code> is called every frame. Normally
-you would put the code here to draw 3D graphics. However in case of CRystal
-Entity Layer it is the camera property class that actually takes care of
-this so the implementation here is empty.
-</p>
-<p>When the player presses a key the <code>OnKeyboard()</code> routine is called. In
-this case we only listen to the escape key to exit the application since
-all other keys are handled by the player entity.
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">void MainApp::Frame ()
-{
-}
-
-bool MainApp::OnKeyboard(iEvent&amp; ev)
-{
-  // We got a keyboard event.
-  csKeyEventType eventtype = csKeyEventHelper::GetEventType(&amp;ev);
-  if (eventtype == csKeyEventTypeDown)
+  
+  //----------------------------------------------------------- 
+  // Create 'testquest'. 
+  //----------------------------------------------------------- 
+  
+  iQuestFactory* fact = qm-&gt;CreateQuestFactory (&quot;testquest&quot;); 
+  if (!fact)
   {
-    // The user pressed a key (as opposed to releasing it).
-    utf32_char code = csKeyEventHelper::GetCookedCode(&amp;ev);
-    if (code == CSKEY_ESC)
-    {
-      // The user pressed escape to exit the application.
-      // The proper way to quit a Crystal Space application
-      // is by broadcasting a csevQuit event. That will cause the
-      // main runloop to stop. To do that we get the event queue from
-      // the object registry and then post the event.
-      csRef&lt;iEventQueue&gt; q =
-        CS_QUERY_REGISTRY(GetObjectRegistry(), iEventQueue);
-      if (q.IsValid()) q-&gt;GetEventOutlet()-&gt;Broadcast(
-      	csevQuit(GetObjectRegistry()));
-    }
-  }
-  return false;
-}
+	printf(&quot;Factory Create Failed&quot;);
+	return 0;
+  
 </pre></td></tr></table>
-<p>Initialization routines. <code>OnInitialize()</code> is called by the
-application framework. In this routine we call <code>RequestPlugins()</code>
-to load various plugins that we will need. In addition to the standard
-plugins that most Crystal Space applications need (like OpenGL renderer,
-engine, level loader, <small class="dots">...</small>) we also load the <small>CEL</small> physical layer
-and the <small>OPCODE</small> collision detection plugin. Most of these plugins we
-will not use directly but they are used by the property classes.
+<p>A Quest is an entity, and as such must be created with a call to the physical layer method CreateEntity (...).
 </p>
-<p><code>Application()</code> is called when it is time to open the application
-screen. Here we fetch various modules from the object registry and store
-a reference in our main class.
+<p>The Quest Manager (variable qm above) is a critical component for the construction and setup of quests. For example,
+the first task of the quest manager is create a quest factory for the constuction of the example quest 'testquest'.
 </p>
-<p>Here we also create our behaviour layer and we register it to the object
-registry and also to the physical layer (with <code>RegisterBehaviourLayer()</code>).
+<p>Quests are essentially Finite State Machines and as such they are made up by a number of states. 
+Each state has responses that will occur when an assigned trigger fires if the Quest is currently in that state. 
+Each response has one trigger. When the trigger fires any rewards assigned to that response will execute. Each response 
+can have multiple rewards.
 </p>
-<p>Then we need to load the property class factories for all property classes
-that we plan to use in this tutorial.
+<p>As an example, below is the state definition of the initial state of the example quest. The first two method calls
+create the state, and its sole response. The remainder sets up the assigned trigger and various rewards.
 </p>
-<p>Finally we load our level (<code>LoadLevel())</code> and create the player
-(<code>CreatePlayer()</code>).
-</p>
-<p>The last thing we do here is call <code>Run()</code> which will start the main
-event loop. This function only returns when the application exits.
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">bool MainApp::OnInitialize (int argc, char* argv[])
-{
-  if (!celInitializer::RequestPlugins (object_reg,
-        CS_REQUEST_VFS,
-    	CS_REQUEST_OPENGL3D,
-    	CS_REQUEST_ENGINE,
-    	CS_REQUEST_FONTSERVER,
-    	CS_REQUEST_IMAGELOADER,
-    	CS_REQUEST_LEVELLOADER,
-    	CS_REQUEST_REPORTER,
-    	CS_REQUEST_REPORTERLISTENER,
-    	CS_REQUEST_PLUGIN (&quot;cel.physicallayer&quot;, iCelPlLayer),
-    	CS_REQUEST_PLUGIN (&quot;crystalspace.collisiondetection.opcode&quot;,
-		    iCollideSystem),
-      CS_REQUEST_END))
-    return ReportError (&quot;Can't initialize plugins!&quot;);
+<table><tr><td>&nbsp;</td><td><pre class="example">
+  // ---- init state ----
+  iQuestStateFactory* state_init = fact-&gt;CreateState (&quot;init&quot;);
+  iQuestTriggerResponseFactory* init_response =
+    state_init-&gt;CreateTriggerResponseFactory ();
+	
+  qm-&gt;SetTimeoutTrigger (init_response, &quot;10&quot;);
+  qm-&gt;AddDebugPrintReward (init_response, &quot;\n\nWelcome To The Example Quest&quot;);
+  
+  qm-&gt;AddDebugPrintReward (init_response, &quot; -Initalising counter parameter&quot;);
+  iChangePropertyRewardFactory* rf_changeprop = qm-&gt;AddChangePropertyReward 
+    (init_response, name, &quot;counter&quot;);
+  rf_changeprop-&gt;SetLongParameter (&quot;0&quot;);
 
-  csBaseEventHandler::Initialize(object_reg);
+  qm-&gt;AddDebugPrintReward (init_response, &quot; -Clearing all walktut boxes&quot;);
+  qm-&gt;AddDestroyEntityReward (init_response, &quot;box1&quot;);
+  qm-&gt;AddDestroyEntityReward (init_response, &quot;box2&quot;);
+  qm-&gt;AddDestroyEntityReward (init_response, &quot;box3&quot;);
 
-  if (!RegisterQueue(object_reg, csevAllEvents(object_reg)))
-    return ReportError (&quot;Can't setup event handler!&quot;);
+  qm-&gt;AddDebugPrintReward (init_response, &quot; -Creating money box&quot;);
+  const celEntityTemplateParams tpl_params;
+  qm-&gt;AddCreateEntityReward (init_response, &quot;BoxTemplate&quot;, &quot;templateBox&quot;, tpl_params);
 
-  return true;
-}
-
-bool MainApp::Application ()
-{
-  if (!OpenApplication (object_reg))
-    return ReportError (&quot;Error opening system!&quot;);
-
-  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
-  vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
-
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  bl.AttachNew (new BehaviourLayer(pl));
-
-  // We also need to register it to the object registry.
-  if (!object_reg-&gt;Register (bl, &quot;iCelBlLayer&quot;))
-    return ReportError (&quot;Can't register our behaviour layer!&quot;);
-
-  // Make sure the application dir is mounted at /cel
-  vfs-&gt;Mount (&quot;cel&quot;, &quot;$.$/&quot;);
-
-  pl-&gt;RegisterBehaviourLayer (bl);
-
-  if (!LoadLevel ())
-    return ReportError (&quot;Error loading level!&quot;);
-  if (!CreatePlayer ())
-    return ReportError (&quot;Couldn't create player!&quot;);
-    
-  printer.AttachNew (new FramePrinter (object_reg));
-
-  Run ();
-
-  return true;
-}
-
-void MainApp::OnExit ()
-{
-  printer.Invalidate ();
-}
+  qm-&gt;AddDebugPrintReward (init_response, &quot; -Entering 1st State\n&quot;);
+  qm-&gt;AddNewStateReward (init_response, name, &quot;start&quot;);
 </pre></td></tr></table>
+<p>The sole response in this example, is fired by a time out trigger. Once the timer reaches 10 seconds the welcome message 
+is displayed and the game sets up. This state demonstrates a wide range of possible reward uses, from entity creation/deletion
+to parameter manipulation.
+</p>
+<p>This state makes extensive use of convenience methods available in the quest manager to simplify the process 
+of adding trigger and rewards to a response. At the time of writing all triggers and responses have a corresponding
+convenience method.
+</p>
+<p>The final reward moves the quest into another state. Once in the next state the above response will not occur again. However,
+if we were to later return to this state the game would begin again. A simple practical exercise to test your understanding 
+would be to implement a reset function on this small game, that would move back to this state after the winning or losing state is reached.
+</p>
+<p>Below is the code for the next state, which is the main part of the game logic.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">  // ---- start state ----
+  iQuestStateFactory* state_start = fact-&gt;CreateState (&quot;start&quot;);
+
+  iRewardType* type = qm-&gt;GetRewardType (&quot;cel.rewards.debugprint&quot;);
+  csRef&lt;iRewardFactory&gt; rewfact = type-&gt;CreateRewardFactory ();
+  csRef&lt;iDebugPrintRewardFactory&gt; dbg_rewfact = scfQueryInterface&lt;iDebugPrintRewardFactory&gt; (rewfact);
+  dbg_rewfact-&gt;SetMessageParameter (&quot;State Changed =&gt; The Game Has Begun&quot;);
+  state_start-&gt;AddInitRewardFactory (rewfact);
+
+  iQuestTriggerResponseFactory* start_response1 =
+	state_start-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetTimeoutTrigger (start_response1, &quot;10&quot;);
+
+  qm-&gt;AddDebugPrintReward (start_response1, &quot; -Money Box Self Destuct Sequence Has Begun\n&quot;);
+  csRef&lt;iCelSequenceFactory&gt; destruct_seq = fact-&gt;CreateSequence(&quot;sequence_destruct&quot;);
+  csRef&lt;iSeqOpFactory&gt; seqopfact = qm-&gt;GetSeqOpType(&quot;cel.seqops.debugprint&quot;)-&gt;CreateSeqOpFactory();
+  csRef&lt;iDebugPrintSeqOpFactory&gt; destruct_seqopfact = 
+	scfQueryInterface&lt;iDebugPrintSeqOpFactory&gt; (seqopfact);
+  destruct_seqopfact-&gt;SetMessageParameter(&quot;Self Destruct Progress : &quot;);
+  destruct_seq-&gt;AddSeqOpFactory(seqopfact, &quot;1000&quot;);
+  qm-&gt;AddSequenceReward(start_response1, name, &quot;sequence_destruct&quot;, &quot;10&quot;);
+
+  
+  iQuestTriggerResponseFactory* start_response2 =
+    state_start-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetMeshSelectTrigger(start_response2, &quot;templateBox&quot;);
+  qm-&gt;AddDebugPrintReward(start_response2, &quot;You Picked Up The Money Box &amp; Stopped The Self Destruct\n&quot;);
+  qm-&gt;AddNewStateReward (start_response2, name, &quot;box_pickup&quot;);
+
+
+  iQuestTriggerResponseFactory* start_response3 =
+    state_start-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetSequenceFinishTrigger(start_response3, name, &quot;sequence_destruct&quot;);
+  qm-&gt;AddDestroyEntityReward (start_response3, &quot;templateBox&quot;);
+  qm-&gt;AddDebugPrintReward(start_response3, &quot;SELF-DESTRUCT HAS OCCURRED\n&quot;);
+  qm-&gt;AddNewStateReward (start_response3, name, &quot;box_explode&quot;);
+</pre></td></tr></table>
+<p>This state starts slighlty different, with the construction of a reward without the use of the convenience methods.
+If you are using a new reward/trigger that does not have a corresponding convenience method, the factory must be created
+from the type and setup as here for the game start message.
+</p>
+<p>The reward factory created, however, is not assigned to a standard response. Instead it is set as the on init reward factory. This means
+the game started message will display as the state is entered. A similar method is available for the addition of on exit 
+rewards.
+</p>
+<p>The following three responses in this code example are regular in state responses. The first starts the self destruct sequence
+of the money box. This sequence simply uses a debug message, but the sequence tool can also be used to create effects combining any 
+seq ops. Current potential examples, include closing doors and changing light colors.
+</p>
+<p>The second is triggered by the money box being picked up. The player can pick up the box by clicking on it, and the mesh select
+trigger will fire upon this occuring. The quest moves into the final state where on init it stops the self destruct sequence.
+</p>
+<p>The final response is triggered if the sequence ends in its own time, this is then reported to the player and the quest is 
+moved into a different final state. This response is not triggered when the sequence is finished by the player
+picking up the box because the quest has moved into a different state before the sequence finish reward is executed.
+</p>
+<p>The two final states, denote success or failure in the game. If the player has picked up the box they will have moved into
+the box_pickup state where the counter is updated to show their success and the player informed. This makes use of the 
+property manipulation reward and a trigger that fires upon a property change. This state also includes another example of 
+the reward on init feature.
+</p>
+<p>However, if the player has not picked up the box the bad_one will haunt them. That is it will be added to their inventory
+to symbolise hiding in their jacket. This shows the inventory reward that can add entities to a players inventory. This response
+also makes use of the message send reward and message received trigger to announce the players failure.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">  // ---- box_pickup state ----
+  iQuestStateFactory* state_box_pickup = fact-&gt;CreateState (&quot;box_pickup&quot;);
+  
+  type = qm-&gt;GetRewardType (&quot;cel.rewards.sequencefinish&quot;);
+  csRef&lt;iRewardFactory&gt; seq_fin_rewfact = type-&gt;CreateRewardFactory ();
+  csRef&lt;iSequenceFinishRewardFactory&gt; explicit_seq_fin_rewfact = 
+  	scfQueryInterface&lt;iSequenceFinishRewardFactory&gt; (seq_fin_rewfact);
+  explicit_seq_fin_rewfact-&gt;SetEntityParameter (name);
+  explicit_seq_fin_rewfact-&gt;SetSequenceParameter (&quot;sequence_destruct&quot;);
+  state_box_pickup-&gt;AddInitRewardFactory(seq_fin_rewfact);
+
+  iQuestTriggerResponseFactory* box_pickup_response1 =
+	state_box_pickup-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetTimeoutTrigger (box_pickup_response1, &quot;10&quot;);
+  rf_changeprop = qm-&gt;AddChangePropertyReward 
+    (box_pickup_response1, name, &quot;counter&quot;);
+  rf_changeprop-&gt;SetLongParameter (&quot;1&quot;);
+  
+
+  iQuestTriggerResponseFactory* box_pickup_response2 =
+    state_box_pickup-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetPropertyChangeTrigger (box_pickup_response2, name, &quot;counter&quot;, &quot;1&quot;);
+  qm-&gt;AddDebugPrintReward(box_pickup_response2, &quot;Counter Updated To Reflect Pickup =&gt; You Have Won&quot;);
+  
+
+  // ---- box_explode state ----
+  iQuestStateFactory* state_box_explode = fact-&gt;CreateState (&quot;box_explode&quot;);
+
+  iQuestTriggerResponseFactory* box_explode_response1 =
+	state_box_explode-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetTimeoutTrigger (box_explode_response1, &quot;10&quot;);
+  qm-&gt;AddInventoryReward (box_explode_response1, &quot;player&quot;, &quot;badone&quot;);
+
+  iQuestTriggerResponseFactory* box_explode_response2 =
+    state_box_explode-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetInventoryTrigger(box_explode_response2, &quot;player&quot;, &quot;badone&quot;);
+  qm-&gt;AddDebugPrintReward(box_explode_response2, &quot;Badone Hid In Your Cloak From The Explosion&quot;);
+  
+  iQuestTriggerResponseFactory* box_explode_response3 =
+	  state_box_explode-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetTimeoutTrigger (box_explode_response3, &quot;50&quot;);
+  qm-&gt;AddMessageReward(box_explode_response3, &quot;player&quot;, &quot;You Lose&quot;);
+
+  iQuestTriggerResponseFactory* box_explode_response4 =
+	  state_box_explode-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetMessageTrigger(box_explode_response4, &quot;player&quot;, &quot;You Lose&quot;);
+  qm-&gt;AddDebugPrintReward(box_explode_response4, &quot;Message Trigger Fired =&gt; You Have Lost&quot;);
+</pre></td></tr></table>
+
+
+<p>Finally, the quest must be created and started.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">   //-----------------------------------------------------------
+
+  csRef&lt;iPcQuest&gt; pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest, iPcQuest); 
+  celParams params;
+
+  if (!pcquest-&gt;NewQuest (&quot;testquest&quot;, params)) 
+  { 
+	ReportError (&quot;Error creating quest '%s'!&quot;, &quot;testquest&quot;); 
+    return 0; 
+   
+
+  pcquest-&gt;GetQuest ()-&gt;SwitchState (&quot;init&quot;); 
+
+  return csPtr&lt;iCelEntity&gt; (entity_quest); 
+ 
+</pre></td></tr></table>
+<p>The NewQuest method creates the quest, with error handling to report any error that occurs.
+</p>
+<p>Any parameters used in the Quest must be stored in a celParams and passed to the NewQuest method. 
+However, none were used in this tutorial
+</p>
+<p>The Quest must then be switched to the initial state, from where it will begin execution.
+</p>
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="Tutorial-QuestTest-App-Header.html#0" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="Tutorial-QuestTest-Behave-Header.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="Tutorial-BTTest.html#0" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="Tutorial-QuestTest.html#0" title="Up section"> Up </a>]</td>

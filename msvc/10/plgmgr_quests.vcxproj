@@ -498,63 +498,11 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
   <ItemGroup>
     <ClCompile Include="..\..\msvc\plugin_impl.cpp" />
     <ClCompile Include="..\..\plugins\tools\quests\quests.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\reward_action.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\reward_changeproperty.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\reward_createentity.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\reward_cssequence.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\reward_debugprint.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\reward_destroyentity.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\reward_inventory.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\reward_message.cpp" />
     <ClCompile Include="..\..\plugins\tools\quests\reward_newstate.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\reward_sequence.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\reward_sequencefinish.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\seqop_debugprint.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\seqop_light.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\seqop_movepath.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\seqop_property.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\seqop_transform.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\trig_entersector.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\trig_inventory.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\trig_meshentersector.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\trig_meshsel.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\trig_message.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\trig_operation.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\trig_propertychange.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\trig_sequencefinish.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\trig_timeout.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\trig_trigger.cpp" />
-    <ClCompile Include="..\..\plugins\tools\quests\trig_watch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\plugins\tools\quests\quests.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\reward_action.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\reward_changeproperty.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\reward_createentity.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\reward_cssequence.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\reward_debugprint.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\reward_destroyentity.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\reward_inventory.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\reward_message.h" />
     <ClInclude Include="..\..\plugins\tools\quests\reward_newstate.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\reward_sequence.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\reward_sequencefinish.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\seqop_debugprint.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\seqop_light.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\seqop_movepath.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\seqop_property.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\seqop_transform.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\trig_entersector.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\trig_inventory.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\trig_meshentersector.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\trig_meshsel.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\trig_message.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\trig_operation.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\trig_propertychange.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\trig_sequencefinish.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\trig_timeout.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\trig_trigger.h" />
-    <ClInclude Include="..\..\plugins\tools\quests\trig_watch.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\msvc\plgmgr_quests.rc" />

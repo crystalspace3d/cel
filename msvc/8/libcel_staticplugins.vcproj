@@ -614,6 +614,9 @@
 				RelativePath="..\..\msvc\libaddon_xmlscripts_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libbehaviourtree_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libblpython_staticreg.cpp">
 			</File>
 			<File
@@ -629,6 +632,9 @@
 				RelativePath="..\..\msvc\libcpersist_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libdecorators_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libledges_staticreg.cpp">
 			</File>
 			<File
@@ -636,6 +642,9 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\libmgr_quests_staticreg.cpp">
+			</File>
+			<File
+				RelativePath="..\..\msvc\libparameters_staticreg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\msvc\libpfactormove_staticreg.cpp">
@@ -755,10 +764,22 @@
 				RelativePath="..\..\msvc\libpfzone_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\librewards_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\librulebase_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libselectors_staticreg.cpp">
+			</File>
+			<File
+				RelativePath="..\..\msvc\libsequences_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libstdphyslayer_staticreg.cpp">
+			</File>
+			<File
+				RelativePath="..\..\msvc\libtriggers_staticreg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\msvc\libxmlpersist_staticreg.cpp">
@@ -998,94 +1019,130 @@
 				RelativePath="..\..\plugins\stdphyslayer\propclas.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\BT.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\BTAction.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\condition_parametercheck.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\condition_triggerfired.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\celconsole\celconsole.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\decorators\decorator_executionlimit.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\decorators\decorator_loop.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\decorators\decorator_negatereturn.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\parameters\cel_parameters.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\quests.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_action.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_createentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_cssequence.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_debugprint.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_destroyentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_inventory.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_message.cpp">
-			</File>
-			<File
 				RelativePath="..\..\plugins\tools\quests\reward_newstate.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_sequence.cpp">
+				RelativePath="..\..\plugins\tools\rewards\reward_action.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_sequencefinish.cpp">
+				RelativePath="..\..\plugins\tools\rewards\reward_changeproperty.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_debugprint.cpp">
+				RelativePath="..\..\plugins\tools\rewards\reward_createentity.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_light.cpp">
+				RelativePath="..\..\plugins\tools\rewards\reward_cssequence.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_movepath.cpp">
+				RelativePath="..\..\plugins\tools\rewards\reward_debugprint.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_property.cpp">
+				RelativePath="..\..\plugins\tools\rewards\reward_destroyentity.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_transform.cpp">
+				RelativePath="..\..\plugins\tools\rewards\reward_inventory.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_entersector.cpp">
+				RelativePath="..\..\plugins\tools\rewards\reward_message.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_inventory.cpp">
+				RelativePath="..\..\plugins\tools\rewards\reward_sequence.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_meshentersector.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_meshsel.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_message.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_operation.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_propertychange.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_sequencefinish.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_timeout.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_trigger.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_watch.cpp">
+				RelativePath="..\..\plugins\tools\rewards\reward_sequencefinish.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\rulebase\rulebase.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\selectors\selector_default.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\selectors\selector_random.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\selectors\selector_sequential.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\cel_sequences.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_debugprint.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_light.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_movepath.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_property.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_transform.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_entersector.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_inventory.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_meshentersector.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_meshsel.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_message.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_operation.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_propertychange.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_sequencefinish.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_timeout.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_trigger.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_watch.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
@@ -1509,94 +1566,130 @@
 				RelativePath="..\..\plugins\stdphyslayer\propclas.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\BT.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\BTAction.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\condition_parametercheck.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\behaviourtree\condition_triggerfired.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\celconsole\celconsole.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\decorators\decorator_executionlimit.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\decorators\decorator_loop.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\decorators\decorator_negatereturn.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\parameters\cel_parameters.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\quests.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_action.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_createentity.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_cssequence.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_debugprint.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_destroyentity.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_inventory.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\reward_message.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\tools\quests\reward_newstate.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_sequence.h">
+				RelativePath="..\..\plugins\tools\rewards\reward_action.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\reward_sequencefinish.h">
+				RelativePath="..\..\plugins\tools\rewards\reward_changeproperty.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_debugprint.h">
+				RelativePath="..\..\plugins\tools\rewards\reward_createentity.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_light.h">
+				RelativePath="..\..\plugins\tools\rewards\reward_cssequence.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_movepath.h">
+				RelativePath="..\..\plugins\tools\rewards\reward_debugprint.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_property.h">
+				RelativePath="..\..\plugins\tools\rewards\reward_destroyentity.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\seqop_transform.h">
+				RelativePath="..\..\plugins\tools\rewards\reward_inventory.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_entersector.h">
+				RelativePath="..\..\plugins\tools\rewards\reward_message.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_inventory.h">
+				RelativePath="..\..\plugins\tools\rewards\reward_sequence.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\quests\trig_meshentersector.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_meshsel.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_message.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_operation.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_propertychange.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_sequencefinish.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_timeout.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_trigger.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\quests\trig_watch.h">
+				RelativePath="..\..\plugins\tools\rewards\reward_sequencefinish.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\rulebase\rulebase.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\selectors\selector_default.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\selectors\selector_random.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\selectors\selector_sequential.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\cel_sequences.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_debugprint.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_light.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_movepath.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_property.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_transform.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_entersector.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_inventory.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_meshentersector.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_meshsel.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_message.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_operation.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_propertychange.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_sequencefinish.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_timeout.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_trigger.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\triggers\trig_watch.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.h">
