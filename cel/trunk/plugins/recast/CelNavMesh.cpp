@@ -20,24 +20,8 @@
 
 #include "CelNavMesh.h"
 
-//CS_IMPLEMENT_PLUGIN
-
 CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
 {
-  
-
-
-inline unsigned int nextPow2 (unsigned int v)
-{
-  v--;
-  v |= v >> 1;
-  v |= v >> 2;
-  v |= v >> 4;
-  v |= v >> 8;
-  v |= v >> 16;
-  v++;
-  return v;
-}
 
 inline unsigned int ilog2 (unsigned int v)
 {
@@ -50,8 +34,6 @@ inline unsigned int ilog2 (unsigned int v)
   r |= (v >> 1);
   return r;
 }
-
-
 
 /*
  * DebugDrawCS
@@ -355,7 +337,6 @@ csList<csSimpleRenderMesh>* celNavMeshPath::GetDebugMeshes () const
     dd.begin(DU_DRAW_POINTS, 10.0f);
     for (int i = 0; i < pathSize; ++i)
     {
-      unsigned int col = 0;
       dd.vertex(path[i*3], path[i * 3 + 1] + 0.4f, path[i * 3 + 2], duRGBA(255, 150, 0, 230));
     }
     dd.end();
@@ -408,7 +389,7 @@ bool celNavMesh::Initialize (const iCelNavMeshParams* parameters, iSector* secto
   
   // Max tiles and max polys affect how the tile IDs are caculated.
   // There are 22 bits available for identifying a tile and a polygon.
-  int tileBits = rcMin((int)ilog2(nextPow2(tw * th)), 14);
+  int tileBits = rcMin((int)ilog2(csFindNearestPowerOf2 (tw * th)), 14);
   if (tileBits > 14)
   {
     tileBits = 14;
@@ -1451,7 +1432,7 @@ csList<csSimpleRenderMesh>* celNavMesh::GetAgentDebugMeshes (const csVector3& po
                                                              int blue, int alpha) const
 {
   DebugDrawCS dd;
-  glDepthMask(GL_FALSE);
+  dd.depthMask (false);
 
   const float r = parameters->GetAgentRadius();
   const float h = parameters->GetAgentHeight();
@@ -1472,7 +1453,7 @@ csList<csSimpleRenderMesh>* celNavMesh::GetAgentDebugMeshes (const csVector3& po
   dd.vertex(pos[0], pos[1] + 0.02f, pos[2] + r/2, colb);
   dd.end();
 
-  glDepthMask(GL_TRUE);
+  dd.depthMask (true);
   return dd.GetMeshes();
 }
 

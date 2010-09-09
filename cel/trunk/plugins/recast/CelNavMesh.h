@@ -21,11 +21,6 @@
 #define __CEL_NAVMESH__
 
 #include <cssysdef.h>
-#if defined(CS_OPENGL_PATH)
-#include CS_HEADER_GLOBAL(CS_OPENGL_PATH,gl.h)
-#else
-#include <GL/gl.h>
-#endif
 #include <csgeom/obb.h>
 #include <csgeom/plane3.h>
 #include <csgeom/tri.h>
