@@ -1,4 +1,7 @@
 SubDir TOP plugins recast ;
 
-Plugin recast : [ Wildcard *.cpp *.h ] ;
+Plugin recast :
+  [ Wildcard *.cpp *.h ]
+  [ Wildcard recastnavigation : *.cpp *.h ] ;
+IncludeDir recastnavigation : recast ;
 ExternalLibs recast : CRYSTAL ; 
