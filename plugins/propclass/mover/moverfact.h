@@ -88,6 +88,7 @@ private:
   csVector3 up;
   float sqradius;
   bool is_moving;
+  bool smooth;
 
   void FindSiblingPropertyClasses ();
   void SendMessage (const char* msgold,
@@ -118,6 +119,8 @@ public:
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();
+  virtual bool IsSmoothMovement () const { return smooth; }
+  virtual void SetSmoothMovement (bool smooth) { this->smooth = smooth; }
 };
 
 #endif // __CEL_PF_MOVERFACT__

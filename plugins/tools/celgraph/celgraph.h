@@ -54,6 +54,7 @@ class celEdge : public scfImplementation1<
  private:
   csRef<iCelNode> successor;
   bool state;
+  float weight;
 
  public:
   celEdge ();
@@ -62,6 +63,8 @@ class celEdge : public scfImplementation1<
   virtual void SetSuccessor (iCelNode* node);
   virtual bool GetState ();
   virtual iCelNode* GetSuccessor ();
+  virtual float GetWeight () const;
+  virtual void SetWeight (float weight);
 };
 
 class celNode : public scfImplementation1<
@@ -74,16 +77,15 @@ class celNode : public scfImplementation1<
   float heuristic;
   float cost;
   csString name;
-  float multiplier;
 
  public:
   celNode ();
   virtual ~celNode ();
-  virtual void AddSuccessor (iCelNode* node, bool state);
+  virtual size_t AddSuccessor (iCelNode* node, bool state);
   virtual void SetMapNode (iMapNode* node);
   virtual void SetParent (iCelNode* par);
   virtual void SetName (const char* n);
-  virtual void Heuristic(float cost, iCelNode* goal);
+  virtual void Heuristic (float cost, iCelNode* goal);
   virtual iMapNode* GetMapNode ();
   virtual csVector3 GetPosition ();
   virtual const char* GetName ();
@@ -92,13 +94,13 @@ class celNode : public scfImplementation1<
   virtual csArray<iCelNode*> GetAllSuccessors ();
   virtual float GetHeuristic () {return heuristic;};
   virtual float GetCost () {return cost;};
-  virtual float GetMultiplier () {return multiplier;}
-  virtual void SetMultiplier (float mult);
-  virtual size_t GetEdgeCount()
+  virtual size_t GetEdgeCount ()
   { return edges.GetSize(); }
-  virtual iCelEdge *GetEdge(size_t idx)
+  virtual iCelEdge* GetEdge (size_t idx)
   { return edges.Get(idx); }
-
+  virtual void RemoveEdge (size_t idx);
+  virtual size_t AddSuccessor (iCelNode* node, bool state, float weight);
+  virtual csRefArray<iCelEdge> GetEdges () const;
 };
 
 /**
@@ -110,7 +112,6 @@ celPath, csObject, iCelPath, iComponent>
 {
  private:
   iObjectRegistry* object_reg;
-  size_t size;
   size_t cur_node;
   csRefArray<iMapNode> nodes;
   
@@ -133,7 +134,7 @@ celPath, csObject, iCelPath, iComponent>
   virtual iMapNode* GetFirst ();
   virtual iMapNode* GetLast ();
   virtual void Invert ();
-  virtual size_t GetNodeCount()
+  virtual size_t GetNodeCount ()
   { return nodes.GetSize(); }
 };
 
@@ -146,24 +147,28 @@ class celGraph : public scfImplementationExt2<
 private:
   iObjectRegistry* object_reg;
    csRefArray <iCelNode> nodes;
-  //csHash<csRef<iCelNode>, csStringBase> nodes;
 
 public: 
   celGraph (iBase* parent);
   virtual ~celGraph ();
   virtual iObject* QueryObject () { return this; }
   virtual bool Initialize (iObjectRegistry* object_reg);
-  virtual iCelNode *CreateNode(const char *name, csVector3 &pos);
-  virtual void AddNode(iCelNode* node);
-  virtual void AddEdge(iCelNode* from, iCelNode* to, bool state);
-  virtual bool AddEdgeByNames(const char* from, const char* to, bool state);
-  virtual iCelNode* GetClosest(csVector3 position);
-  virtual bool ShortestPath(iCelNode* from, iCelNode* goal, iCelPath* path);
-  virtual iCelNode* RandomPath(iCelNode* from, int distance, iCelPath* path);
-  virtual size_t GetNodeCount()
+  virtual iCelNode* CreateNode (const char *name, csVector3 &pos);
+  virtual size_t AddNode (iCelNode* node);
+  virtual void AddEdge (iCelNode* from, iCelNode* to, bool state);
+  virtual bool AddEdgeByNames (const char* from, const char* to, bool state);
+  virtual iCelNode* GetClosest (csVector3 position);
+  virtual bool ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path);
+  virtual iCelNode* RandomPath (iCelNode* from, int distance, iCelPath* path);
+  virtual size_t GetNodeCount ()
   { return nodes.GetSize(); }
-  virtual iCelNode *GetNode(size_t idx)
+  virtual iCelNode* GetNode (size_t idx)
   { return nodes.Get(idx); }
+  virtual void RemoveNode (size_t idx);
+  virtual void RemoveEdge (iCelNode* from, size_t idx);
+  virtual size_t AddEdge (iCelNode* from, iCelNode* to, bool state, float weight);
+  virtual iCelNode* CreateEmptyNode (size_t& index);
+  virtual bool ShortestPath2 (iCelNode* from, iCelNode* goal, iCelPath* path);
 };
 
 #endif //__CEL_TOOLS_CELGRAPH__ 
