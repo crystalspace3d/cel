@@ -764,6 +764,9 @@
 				RelativePath="..\..\msvc\libpfzone_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\librecast_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\librewards_staticreg.cpp">
 			</File>
 			<File
@@ -996,6 +999,81 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\zone\zone.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\CelHPF.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\CelNavMesh.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\ChunkyTriMesh.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DebugDraw.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourAlloc.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourCommon.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourDebugDraw.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourNavMesh.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourNavMeshBuilder.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourNode.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\InputGeom.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\MeshLoaderObj.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\Recast.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastAlloc.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastArea.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastContour.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastDebugDraw.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastDump.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastFilter.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastLog.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastMesh.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastMeshDetail.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastRasterization.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastRegion.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastTimer.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\datatype.cpp">
@@ -1546,6 +1624,60 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\zone\zone.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\CelHPF.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\CelNavMesh.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\ChunkyTriMesh.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DebugDraw.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourAlloc.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourCommon.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourDebugDraw.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourNavMesh.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourNavMeshBuilder.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourNode.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\InputGeom.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\MeshLoaderObj.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\Recast.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastAlloc.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastDebugDraw.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastDump.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastLog.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastTimer.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\entity.h">

@@ -1,57 +1,28 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+<?xml version="1.0" encoding = "Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="libceltool"
 	ProjectGUID="{FE8C31C7-8C7C-B982-16AE-C6CA39940D52}"
-	TargetFrameworkVersion="0"
-	>
+	SccProjectName=""
+	SccLocalPath="">
 	<Platforms>
-		<Platform
-			Name="Win32"
-		/>
-		<Platform
-			Name="x64"
-		/>
-	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
+  		<Platform Name="Win32"/>
+    		<Platform Name="x64"/>
+  	</Platforms>
 	<Configurations>
-		<Configuration
+            		<Configuration
 			Name="Release (with static libs)|Win32"
 			OutputDirectory="..\..\out\release9\build\libceltool\"
 			IntermediateDirectory="..\..\out\release9\build\libceltool\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\libceltool\libceltool.tlb"
-			/>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=" "
 				Optimization="2"
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;..\..\plugins\recast"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32"
-				StringPooling="true"
+				StringPooling="TRUE"
+				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release9\build\libceltool\Win32\celtool.pdb"
@@ -62,16 +33,15 @@
 				PrecompiledHeaderFile="..\..\out\release9\build\libceltool\libceltool.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libceltool\"
 				ObjectFile="..\..\out\release9\build\libceltool\"
-				ProgramDataBaseFileName="..\..\out\release9\build\libceltool\Win32\celtool.pdb"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
+				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="3"
-				CompileAs="0"
-			/>
+				CompileAs="0"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
@@ -86,66 +56,47 @@
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\out\release9\libs\libceltool.lib"
-				SuppressStartupBanner="true"
-			/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\release9\build\libceltool\libceltool.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
-			/>
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
-		<Configuration
+      		<Configuration
 			Name="Release (with DLLs)|Win32"
 			OutputDirectory="..\..\out\release9\build\libceltool\"
 			IntermediateDirectory="..\..\out\release9\build\libceltool\"
 			ConfigurationType="2"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
 			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\libceltool\libceltool.tlb"
-			/>
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=" "
 				Optimization="2"
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;..\..\plugins\recast"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
-				StringPooling="true"
+				StringPooling="TRUE"
+				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDatabaseFileName="..\..\out\release9\build\libceltool\Win32\celtool-1.9-vc9.pdb"
@@ -156,38 +107,23 @@
 				PrecompiledHeaderFile="..\..\out\release9\build\libceltool\libceltool.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libceltool\"
 				ObjectFile="..\..\out\release9\build\libceltool\"
-				ProgramDataBaseFileName="..\..\out\release9\build\libceltool\Win32\celtool-1.9-vc9.pdb"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
+				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="3"
-				CompileAs="0"
-			/>
+				CompileAs="0"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
-				Culture="1033"
-				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib"
-				OutputFile="..\..\celtool-1.9-vc9.dll"
 				LinkIncremental="1"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\..\out\release9\build\libceltool\Win32\celtool-1.9-vc9.pdb"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+                        OutputFile="..\..\celtool-1.9-vc9.dll"
 				ImportLibrary="..\..\out\release9\libs\libceltool.lib"
 				ProgramDatabaseFile="..\..\out\release9\build\libceltool\Win32\celtool-1.9-vc9.pdb"
 				AdditionalOptions=" "
@@ -197,63 +133,45 @@
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\release9\build\libceltool\libceltool.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
-			/>
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
-		<Configuration
+                		<Configuration
 			Name="Debug (with static libs)|Win32"
 			OutputDirectory="..\..\out\debug9\build\libceltool\"
 			IntermediateDirectory="..\..\out\debug9\build\libceltool\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\libceltool\libceltool.tlb"
-			/>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=" "
 				Optimization="0"
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;..\..\plugins\recast"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32"
-				MinimalRebuild="true"
+				MinimalRebuild="TRUE"
+				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug9\build\libceltool\Win32\celtool.pdb"
@@ -264,16 +182,15 @@
 				PrecompiledHeaderFile="..\..\out\debug9\build\libceltool\libceltool.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libceltool\"
 				ObjectFile="..\..\out\debug9\build\libceltool\"
-				ProgramDataBaseFileName="..\..\out\debug9\build\libceltool\Win32\celtool.pdb"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
+				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="4"
-				CompileAs="0"
-			/>
+				CompileAs="0"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
@@ -286,65 +203,46 @@
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\out\debug9\libs\libceltool_d.lib"
-				SuppressStartupBanner="true"
-			/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\debug9\build\libceltool\libceltool.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
-			/>
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
-		<Configuration
+      		<Configuration
 			Name="Debug (with DLLs)|Win32"
 			OutputDirectory="..\..\out\debug9\build\libceltool\"
 			IntermediateDirectory="..\..\out\debug9\build\libceltool\"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\libceltool\libceltool.tlb"
-			/>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=" "
 				Optimization="0"
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;..\..\plugins\recast"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
-				MinimalRebuild="true"
+				MinimalRebuild="TRUE"
+				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
 
@@ -356,36 +254,21 @@
 				PrecompiledHeaderFile="..\..\out\debug9\build\libceltool\libceltool.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libceltool\"
 				ObjectFile="..\..\out\debug9\build\libceltool\"
-				ProgramDataBaseFileName="..\..\out\debug9\build\libceltool\Win32\celtool-1.9-vc9_d.pdb"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
+				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="4"
-				CompileAs="0"
-			/>
+				CompileAs="0"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
-				Culture="1033"
-				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib"
-				OutputFile="..\..\celtool-1.9-vc9_d.dll"
 				LinkIncremental="2"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\..\out\debug9\build\libceltool\Win32\celtool-1.9-vc9_d.pdb"
+                        OutputFile="..\..\celtool-1.9-vc9_d.dll"
 				ImportLibrary="..\..\out\debug9\libs\libceltool_d.lib"
 				ProgramDatabaseFile="..\..\out\debug9\build\libceltool\Win32\celtool-1.9-vc9_d.pdb"
 				AdditionalOptions=" "
@@ -395,36 +278,40 @@
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCLibrarianTool"
+				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\debug9\build\libceltool\libceltool.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
-			/>
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
-		<Configuration
+                        		<Configuration
 			Name="Release (with static libs)|x64"
 			OutputDirectory="..\..\out\release9-x64\build\libceltool\"
 			IntermediateDirectory="..\..\out\release9-x64\build\libceltool\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
@@ -446,11 +333,9 @@
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="3"
-				CompileAs="0"
-			/>
+				CompileAs="0"/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
@@ -467,48 +352,40 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\out\release9-x64\libs\libceltool.lib"
-				SuppressStartupBanner="TRUE"
-			/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\libceltool\libceltool.tlb"
-			/>
+				TypeLibraryName="..\..\out\release9-x64\build\libceltool\libceltool.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
-			/>
+				/>
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
 				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"
-			/>
+				Culture="1033"/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
-		<Configuration
+      		<Configuration
 			Name="Release (with DLLs)|x64"
 			OutputDirectory="..\..\out\release9-x64\build\libceltool\"
 			IntermediateDirectory="..\..\out\release9-x64\build\libceltool\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
@@ -530,11 +407,9 @@
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="3"
-				CompileAs="0"
-			/>
+				CompileAs="0"/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
@@ -542,7 +417,7 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\celtool-1.9-vc9-x64.dll"
+                        OutputFile="..\..\celtool-1.9-vc9-x64.dll"
 				ImportLibrary="..\..\out\release9-x64\libs\libceltool.lib"
 				ProgramDatabaseFile="..\..\out\release9-x64\build\libceltool\x64\celtool-1.9-vc9-x64.pdb"
 				AdditionalOptions=" "
@@ -553,53 +428,46 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"
-			/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\libceltool\libceltool.tlb"
-			/>
+				TypeLibraryName="..\..\out\release9-x64\build\libceltool\libceltool.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
-			/>
+				/>
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
 				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"
-			/>
+				Culture="1033"/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
-		<Configuration
+                		<Configuration
 			Name="Debug (with static libs)|x64"
 			OutputDirectory="..\..\out\debug9-x64\build\libceltool\"
 			IntermediateDirectory="..\..\out\debug9-x64\build\libceltool\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
+
 				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libceltool\x64\celtool.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
@@ -614,11 +482,9 @@
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="3"
-				CompileAs="0"
-			/>
+				CompileAs="0"/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
@@ -633,53 +499,47 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\out\debug9-x64\libs\libceltool_d.lib"
-				SuppressStartupBanner="TRUE"
-			/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\libceltool\libceltool.tlb"
-			/>
+				TypeLibraryName="..\..\out\debug9-x64\build\libceltool\libceltool.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
-			/>
+				/>
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
 				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"
-			/>
+				Culture="1033"/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
-		<Configuration
+      		<Configuration
 			Name="Debug (with DLLs)|x64"
 			OutputDirectory="..\..\out\debug9-x64\build\libceltool\"
 			IntermediateDirectory="..\..\out\debug9-x64\build\libceltool\"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
+
+
 				ProgramDatabaseFileName="..\..\out\debug9-x64\build\libceltool\x64\celtool-1.9-vc9-x64_d.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
@@ -694,17 +554,15 @@
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
 				DebugInformationFormat="3"
-				CompileAs="0"
-			/>
+				CompileAs="0"/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\celtool-1.9-vc9-x64_d.dll"
+                        OutputFile="..\..\celtool-1.9-vc9-x64_d.dll"
 				ImportLibrary="..\..\out\debug9-x64\libs\libceltool_d.lib"
 				ProgramDatabaseFile="..\..\out\debug9-x64\build\libceltool\x64\celtool-1.9-vc9-x64_d.pdb"
 				AdditionalOptions=" "
@@ -715,129 +573,101 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				SuppressStartupBanner="TRUE"
-			/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\libceltool\libceltool.tlb"
-			/>
+				TypeLibraryName="..\..\out\debug9-x64\build\libceltool\libceltool.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
-			/>
+				/>
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CEL_CELTOOL_LIB;CS_COMPILER_NAME_AND_VERSION=\&quot;VC_9\&quot;;PROJECTGEN_VERSION=9"
 				AdditionalIncludeDirectories=".;..\..\libs\celtool;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				Culture="1033"
-			/>
+				Culture="1033"/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
-	</Configurations>
-	<References>
-	</References>
+            	</Configurations>
 	<Files>
 		<Filter
 			Name="Source Files"
-			>
+			Filter="">
 			<File
-				RelativePath="..\..\libs\celtool\camera.cpp"
-				>
+				RelativePath="..\..\libs\celtool\camera.cpp">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\celpaths.cpp"
-				>
+				RelativePath="..\..\libs\celtool\celpaths.cpp">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\initapp.cpp"
-				>
+				RelativePath="..\..\libs\celtool\initapp.cpp">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\navigation.cpp"
-				>
+				RelativePath="..\..\libs\celtool\navigation.cpp">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\persisthelper.cpp"
-				>
+				RelativePath="..\..\libs\celtool\persisthelper.cpp">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\staticvarcleanup.cpp"
-				>
+				RelativePath="..\..\libs\celtool\staticvarcleanup.cpp">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\stdmsgchannel.cpp"
-				>
+				RelativePath="..\..\libs\celtool\stdmsgchannel.cpp">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\stdpcimp.cpp"
-				>
+				RelativePath="..\..\libs\celtool\stdpcimp.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			>
+			Filter="">
 			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\camera.h"
-				>
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\camera.h">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\celpaths.h"
-				>
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\celpaths.h">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\celtoolextern.h"
-				>
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\celtoolextern.h">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\initapp.h"
-				>
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\initapp.h">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\navigation.h"
-				>
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\navigation.h">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\packagedefs.h"
-				>
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\persisthelper.h">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\persisthelper.h"
-				>
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdmsgchannel.h">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdmsgchannel.h"
-				>
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdparams.h">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdparams.h"
-				>
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdpcimp.h">
 			</File>
 			<File
-				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdpcimp.h"
-				>
+				RelativePath="..\..\libs\celtool\packagedefs.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
-			>
+			Filter="">
 			<File
-				RelativePath="..\..\msvc\libceltool.rc"
-				>
+				RelativePath="..\..\msvc\libceltool.rc">
 			</File>
 		</Filter>
 	</Files>

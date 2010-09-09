@@ -4309,6 +4309,8 @@ class iPcMover(cspace.iBase):
     def GetUp(*args): return _blcelc.iPcMover_GetUp(*args)
     def GetSqRadius(*args): return _blcelc.iPcMover_GetSqRadius(*args)
     def IsMoving(*args): return _blcelc.iPcMover_IsMoving(*args)
+    def IsSmoothMovement(*args): return _blcelc.iPcMover_IsSmoothMovement(*args)
+    def SetSmoothMovement(*args): return _blcelc.iPcMover_SetSmoothMovement(*args)
     Sector = _swig_property(_blcelc.iPcMover_Sector_get, None, None,
                     "iPcMover.Sector -> iSector*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSector* iPcMover::GetSector()")
 
@@ -5061,6 +5063,8 @@ class iCelEdge(cspace.iBase):
     def SetSuccessor(*args): return _blcelc.iCelEdge_SetSuccessor(*args)
     def GetState(*args): return _blcelc.iCelEdge_GetState(*args)
     def GetSuccessor(*args): return _blcelc.iCelEdge_GetSuccessor(*args)
+    def GetWeight(*args): return _blcelc.iCelEdge_GetWeight(*args)
+    def SetWeight(*args): return _blcelc.iCelEdge_SetWeight(*args)
     State = _swig_property(_blcelc.iCelEdge_State_get, _blcelc.iCelEdge_State_set, None,
                     "iCelEdge.State -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iCelEdge::GetState()\n\tset: void iCelEdge::SetState(bool)")
 
@@ -5081,7 +5085,6 @@ class iCelNode(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def AddSuccessor(*args): return _blcelc.iCelNode_AddSuccessor(*args)
     def SetMapNode(*args): return _blcelc.iCelNode_SetMapNode(*args)
     def SetParent(*args): return _blcelc.iCelNode_SetParent(*args)
     def SetName(*args): return _blcelc.iCelNode_SetName(*args)
@@ -5096,6 +5099,9 @@ class iCelNode(cspace.iBase):
     def GetCost(*args): return _blcelc.iCelNode_GetCost(*args)
     def GetEdgeCount(*args): return _blcelc.iCelNode_GetEdgeCount(*args)
     def GetEdge(*args): return _blcelc.iCelNode_GetEdge(*args)
+    def RemoveEdge(*args): return _blcelc.iCelNode_RemoveEdge(*args)
+    def AddSuccessor(*args): return _blcelc.iCelNode_AddSuccessor(*args)
+    def GetEdges(*args): return _blcelc.iCelNode_GetEdges(*args)
     MapNode = _swig_property(_blcelc.iCelNode_MapNode_get, _blcelc.iCelNode_MapNode_set, None,
                     "iCelNode.MapNode -> iMapNode*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iMapNode* iCelNode::GetMapNode()\n\tset: void iCelNode::SetMapNode(iMapNode*)")
 
@@ -5163,13 +5169,17 @@ class iCelGraph(cspace.iBase):
     def QueryObject(*args): return _blcelc.iCelGraph_QueryObject(*args)
     def CreateNode(*args): return _blcelc.iCelGraph_CreateNode(*args)
     def AddNode(*args): return _blcelc.iCelGraph_AddNode(*args)
-    def AddEdge(*args): return _blcelc.iCelGraph_AddEdge(*args)
     def AddEdgeByNames(*args): return _blcelc.iCelGraph_AddEdgeByNames(*args)
     def GetClosest(*args): return _blcelc.iCelGraph_GetClosest(*args)
     def ShortestPath(*args): return _blcelc.iCelGraph_ShortestPath(*args)
     def RandomPath(*args): return _blcelc.iCelGraph_RandomPath(*args)
     def GetNodeCount(*args): return _blcelc.iCelGraph_GetNodeCount(*args)
     def GetNode(*args): return _blcelc.iCelGraph_GetNode(*args)
+    def RemoveNode(*args): return _blcelc.iCelGraph_RemoveNode(*args)
+    def RemoveEdge(*args): return _blcelc.iCelGraph_RemoveEdge(*args)
+    def AddEdge(*args): return _blcelc.iCelGraph_AddEdge(*args)
+    def CreateEmptyNode(*args): return _blcelc.iCelGraph_CreateEmptyNode(*args)
+    def ShortestPath2(*args): return _blcelc.iCelGraph_ShortestPath2(*args)
     scfGetVersion = staticmethod(_blcelc.iCelGraph_scfGetVersion)
     __swig_destroy__ = _blcelc.delete_iCelGraph
     __del__ = lambda self : None;
