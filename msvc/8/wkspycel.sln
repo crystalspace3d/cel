@@ -35,7 +35,17 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "apphovertest", "apphovertes
 		{FE8C31C7-8C7C-B982-16AE-C6CA39940D52} = {FE8C31C7-8C7C-B982-16AE-C6CA39940D52}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appnavmeshtest", "appnavmeshtest.vcproj", "{D843DD40-FC0A-7286-67AE-A3687E9820C4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FE8C31C7-8C7C-B982-16AE-C6CA39940D52} = {FE8C31C7-8C7C-B982-16AE-C6CA39940D52}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appnettest", "appnettest.vcproj", "{810EE67A-EF58-EF92-1367-E6FD972356CE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FE8C31C7-8C7C-B982-16AE-C6CA39940D52} = {FE8C31C7-8C7C-B982-16AE-C6CA39940D52}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "apppathfindingtest", "apppathfindingtest.vcproj", "{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FE8C31C7-8C7C-B982-16AE-C6CA39940D52} = {FE8C31C7-8C7C-B982-16AE-C6CA39940D52}
 	EndProjectSection
@@ -74,7 +84,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpall_pycel", "grpall_pyce
 		{CCB20F4A-BCF8-C6ED-2E54-6B5402A00A8D} = {CCB20F4A-BCF8-C6ED-2E54-6B5402A00A8D}
 		{913FC0B7-A1B2-5416-D85F-6033B0F2A733} = {913FC0B7-A1B2-5416-D85F-6033B0F2A733}
 		{E083067F-99E2-8C1C-3EE4-BB0ECA726556} = {E083067F-99E2-8C1C-3EE4-BB0ECA726556}
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4} = {D843DD40-FC0A-7286-67AE-A3687E9820C4}
 		{810EE67A-EF58-EF92-1367-E6FD972356CE} = {810EE67A-EF58-EF92-1367-E6FD972356CE}
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5} = {99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}
 		{9424B4D9-A4C3-98A9-9EF2-4BEE6F66B4A4} = {9424B4D9-A4C3-98A9-9EF2-4BEE6F66B4A4}
 		{FF3AAA5C-370E-34D4-7FB3-2AB1AAAC9807} = {FF3AAA5C-370E-34D4-7FB3-2AB1AAAC9807}
 		{894F6414-EF76-A9C4-B26F-7E17223A8FEF} = {894F6414-EF76-A9C4-B26F-7E17223A8FEF}
@@ -139,6 +151,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpall_pycel", "grpall_pyce
 		{20C747FA-CB3D-C28E-F7C8-4E263AEC255B} = {20C747FA-CB3D-C28E-F7C8-4E263AEC255B}
 		{22A14B54-44E9-3FA4-D9B4-23D91D9ACF65} = {22A14B54-44E9-3FA4-D9B4-23D91D9ACF65}
 		{9B942FB3-91A0-9E4F-1514-1286B4872502} = {9B942FB3-91A0-9E4F-1514-1286B4872502}
+		{75923200-1694-6BF2-8A0E-3D45BD120F86} = {75923200-1694-6BF2-8A0E-3D45BD120F86}
 		{42533C07-822B-665A-3B7A-9EEA41FDEC46} = {42533C07-822B-665A-3B7A-9EEA41FDEC46}
 		{E1C134D4-C658-E321-DBBE-7D11200B882E} = {E1C134D4-C658-E321-DBBE-7D11200B882E}
 		{2D7BBCE7-674D-1660-9BD8-42D4B5613041} = {2D7BBCE7-674D-1660-9BD8-42D4B5613041}
@@ -157,7 +170,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpapps_pycel", "grpapps_py
 		{CCB20F4A-BCF8-C6ED-2E54-6B5402A00A8D} = {CCB20F4A-BCF8-C6ED-2E54-6B5402A00A8D}
 		{913FC0B7-A1B2-5416-D85F-6033B0F2A733} = {913FC0B7-A1B2-5416-D85F-6033B0F2A733}
 		{E083067F-99E2-8C1C-3EE4-BB0ECA726556} = {E083067F-99E2-8C1C-3EE4-BB0ECA726556}
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4} = {D843DD40-FC0A-7286-67AE-A3687E9820C4}
 		{810EE67A-EF58-EF92-1367-E6FD972356CE} = {810EE67A-EF58-EF92-1367-E6FD972356CE}
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5} = {99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}
 		{9424B4D9-A4C3-98A9-9EF2-4BEE6F66B4A4} = {9424B4D9-A4C3-98A9-9EF2-4BEE6F66B4A4}
 		{FF3AAA5C-370E-34D4-7FB3-2AB1AAAC9807} = {FF3AAA5C-370E-34D4-7FB3-2AB1AAAC9807}
 		{894F6414-EF76-A9C4-B26F-7E17223A8FEF} = {894F6414-EF76-A9C4-B26F-7E17223A8FEF}
@@ -234,6 +249,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpplugins_pycel", "grpplug
 		{20C747FA-CB3D-C28E-F7C8-4E263AEC255B} = {20C747FA-CB3D-C28E-F7C8-4E263AEC255B}
 		{22A14B54-44E9-3FA4-D9B4-23D91D9ACF65} = {22A14B54-44E9-3FA4-D9B4-23D91D9ACF65}
 		{9B942FB3-91A0-9E4F-1514-1286B4872502} = {9B942FB3-91A0-9E4F-1514-1286B4872502}
+		{75923200-1694-6BF2-8A0E-3D45BD120F86} = {75923200-1694-6BF2-8A0E-3D45BD120F86}
 		{42533C07-822B-665A-3B7A-9EEA41FDEC46} = {42533C07-822B-665A-3B7A-9EEA41FDEC46}
 		{E1C134D4-C658-E321-DBBE-7D11200B882E} = {E1C134D4-C658-E321-DBBE-7D11200B882E}
 		{2D7BBCE7-674D-1660-9BD8-42D4B5613041} = {2D7BBCE7-674D-1660-9BD8-42D4B5613041}
@@ -505,6 +521,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgpfzone", "plgpfzone.vcpr
 		{FE8C31C7-8C7C-B982-16AE-C6CA39940D52} = {FE8C31C7-8C7C-B982-16AE-C6CA39940D52}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgrecast", "plgrecast.vcproj", "{75923200-1694-6BF2-8A0E-3D45BD120F86}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgrewards", "plgrewards.vcproj", "{42533C07-822B-665A-3B7A-9EEA41FDEC46}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgrulebase", "plgrulebase.vcproj", "{E1C134D4-C658-E321-DBBE-7D11200B882E}"
@@ -646,6 +664,22 @@ Global
 		{E083067F-99E2-8C1C-3EE4-BB0ECA726556}.Release (with static libs)|Win32.Build.0 = Release (with static libs)|Win32
 		{E083067F-99E2-8C1C-3EE4-BB0ECA726556}.Release (with static libs)|x64.ActiveCfg = Release (with static libs)|x64
 		{E083067F-99E2-8C1C-3EE4-BB0ECA726556}.Release (with static libs)|x64.Build.0 = Release (with static libs)|x64
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Debug (with DLLs)|Win32.ActiveCfg = Debug (with DLLs)|Win32
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Debug (with DLLs)|Win32.Build.0 = Debug (with DLLs)|Win32
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Debug (with DLLs)|x64.ActiveCfg = Debug (with DLLs)|x64
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Debug (with DLLs)|x64.Build.0 = Debug (with DLLs)|x64
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Debug (with static libs)|Win32.ActiveCfg = Debug (with static libs)|Win32
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Debug (with static libs)|Win32.Build.0 = Debug (with static libs)|Win32
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Debug (with static libs)|x64.ActiveCfg = Debug (with static libs)|x64
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Debug (with static libs)|x64.Build.0 = Debug (with static libs)|x64
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Release (with DLLs)|Win32.ActiveCfg = Release (with DLLs)|Win32
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Release (with DLLs)|Win32.Build.0 = Release (with DLLs)|Win32
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Release (with DLLs)|x64.ActiveCfg = Release (with DLLs)|x64
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Release (with DLLs)|x64.Build.0 = Release (with DLLs)|x64
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Release (with static libs)|Win32.ActiveCfg = Release (with static libs)|Win32
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Release (with static libs)|Win32.Build.0 = Release (with static libs)|Win32
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Release (with static libs)|x64.ActiveCfg = Release (with static libs)|x64
+		{D843DD40-FC0A-7286-67AE-A3687E9820C4}.Release (with static libs)|x64.Build.0 = Release (with static libs)|x64
 		{810EE67A-EF58-EF92-1367-E6FD972356CE}.Debug (with DLLs)|Win32.ActiveCfg = Debug (with DLLs)|Win32
 		{810EE67A-EF58-EF92-1367-E6FD972356CE}.Debug (with DLLs)|Win32.Build.0 = Debug (with DLLs)|Win32
 		{810EE67A-EF58-EF92-1367-E6FD972356CE}.Debug (with DLLs)|x64.ActiveCfg = Debug (with DLLs)|x64
@@ -662,6 +696,22 @@ Global
 		{810EE67A-EF58-EF92-1367-E6FD972356CE}.Release (with static libs)|Win32.Build.0 = Release (with static libs)|Win32
 		{810EE67A-EF58-EF92-1367-E6FD972356CE}.Release (with static libs)|x64.ActiveCfg = Release (with static libs)|x64
 		{810EE67A-EF58-EF92-1367-E6FD972356CE}.Release (with static libs)|x64.Build.0 = Release (with static libs)|x64
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Debug (with DLLs)|Win32.ActiveCfg = Debug (with DLLs)|Win32
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Debug (with DLLs)|Win32.Build.0 = Debug (with DLLs)|Win32
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Debug (with DLLs)|x64.ActiveCfg = Debug (with DLLs)|x64
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Debug (with DLLs)|x64.Build.0 = Debug (with DLLs)|x64
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Debug (with static libs)|Win32.ActiveCfg = Debug (with static libs)|Win32
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Debug (with static libs)|Win32.Build.0 = Debug (with static libs)|Win32
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Debug (with static libs)|x64.ActiveCfg = Debug (with static libs)|x64
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Debug (with static libs)|x64.Build.0 = Debug (with static libs)|x64
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Release (with DLLs)|Win32.ActiveCfg = Release (with DLLs)|Win32
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Release (with DLLs)|Win32.Build.0 = Release (with DLLs)|Win32
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Release (with DLLs)|x64.ActiveCfg = Release (with DLLs)|x64
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Release (with DLLs)|x64.Build.0 = Release (with DLLs)|x64
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Release (with static libs)|Win32.ActiveCfg = Release (with static libs)|Win32
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Release (with static libs)|Win32.Build.0 = Release (with static libs)|Win32
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Release (with static libs)|x64.ActiveCfg = Release (with static libs)|x64
+		{99DAE0EE-EFA8-40CF-6E81-FD8A8359F7D5}.Release (with static libs)|x64.Build.0 = Release (with static libs)|x64
 		{9424B4D9-A4C3-98A9-9EF2-4BEE6F66B4A4}.Debug (with DLLs)|Win32.ActiveCfg = Debug (with DLLs)|Win32
 		{9424B4D9-A4C3-98A9-9EF2-4BEE6F66B4A4}.Debug (with DLLs)|Win32.Build.0 = Debug (with DLLs)|Win32
 		{9424B4D9-A4C3-98A9-9EF2-4BEE6F66B4A4}.Debug (with DLLs)|x64.ActiveCfg = Debug (with DLLs)|x64
@@ -1766,6 +1816,22 @@ Global
 		{9B942FB3-91A0-9E4F-1514-1286B4872502}.Release (with static libs)|Win32.Build.0 = Release (with static libs)|Win32
 		{9B942FB3-91A0-9E4F-1514-1286B4872502}.Release (with static libs)|x64.ActiveCfg = Release (with static libs)|x64
 		{9B942FB3-91A0-9E4F-1514-1286B4872502}.Release (with static libs)|x64.Build.0 = Release (with static libs)|x64
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Debug (with DLLs)|Win32.ActiveCfg = Debug (with DLLs)|Win32
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Debug (with DLLs)|Win32.Build.0 = Debug (with DLLs)|Win32
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Debug (with DLLs)|x64.ActiveCfg = Debug (with DLLs)|x64
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Debug (with DLLs)|x64.Build.0 = Debug (with DLLs)|x64
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Debug (with static libs)|Win32.ActiveCfg = Debug (with static libs)|Win32
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Debug (with static libs)|Win32.Build.0 = Debug (with static libs)|Win32
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Debug (with static libs)|x64.ActiveCfg = Debug (with static libs)|x64
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Debug (with static libs)|x64.Build.0 = Debug (with static libs)|x64
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Release (with DLLs)|Win32.ActiveCfg = Release (with DLLs)|Win32
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Release (with DLLs)|Win32.Build.0 = Release (with DLLs)|Win32
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Release (with DLLs)|x64.ActiveCfg = Release (with DLLs)|x64
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Release (with DLLs)|x64.Build.0 = Release (with DLLs)|x64
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Release (with static libs)|Win32.ActiveCfg = Release (with static libs)|Win32
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Release (with static libs)|Win32.Build.0 = Release (with static libs)|Win32
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Release (with static libs)|x64.ActiveCfg = Release (with static libs)|x64
+		{75923200-1694-6BF2-8A0E-3D45BD120F86}.Release (with static libs)|x64.Build.0 = Release (with static libs)|x64
 		{42533C07-822B-665A-3B7A-9EEA41FDEC46}.Debug (with DLLs)|Win32.ActiveCfg = Debug (with DLLs)|Win32
 		{42533C07-822B-665A-3B7A-9EEA41FDEC46}.Debug (with DLLs)|Win32.Build.0 = Debug (with DLLs)|Win32
 		{42533C07-822B-665A-3B7A-9EEA41FDEC46}.Debug (with DLLs)|x64.ActiveCfg = Debug (with DLLs)|x64
