@@ -53,7 +53,7 @@ struct iPcLinearMovement;
  */
 struct iPcMover : public virtual iBase
 {
-  SCF_INTERFACE (iPcMover, 1, 0, 0);
+  SCF_INTERFACE (iPcMover, 1, 1, 0);
 
   /**
    * Start moving. When you call this function this property class will
@@ -129,6 +129,18 @@ struct iPcMover : public virtual iBase
    * Return true if currently moving.
    */
   virtual bool IsMoving () const = 0;
+
+  /**
+   * Return true if the rotations used during the movement will be smooth and
+   * false if they will be sudden.
+   */
+  virtual bool IsSmoothMovement () const = 0;
+
+  /**
+   * Define if the movement will have sudden of smooth turns. Having sudden turns will
+   * ensure the movement is done in straight lines.
+   */
+  virtual void SetSmoothMovement (bool smooth) = 0;
 };
 
 #endif // __CEL_PF_MOVER__
