@@ -171,7 +171,6 @@ INTERFACE_POST(pcType)
 // RefCounted Objects
 //=============================================================================
 
-%feature("ref")   celGenericParameterBlock "$this->IncRef();"
 %feature("unref") celGenericParameterBlock "$this->DecRef();"
 
 //=============================================================================
