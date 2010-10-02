@@ -537,8 +537,8 @@ class iCelPlLayer(cspace.iBase):
     	tuple"""
     	parblock = celGenericParameterBlock(len(valdict))
     	for idx,valkey in enumerate(valdict):
-    		keyid = self.FetchStringID("cel.parameter."+valkey)
-    		parblock.SetParameterDef (idx,keyid,valkey)
+    		keyid = self.FetchStringID(valkey)
+    		parblock.SetParameterDef (idx,keyid)
     		if type(valdict) == type({}):
     			parblock[keyid] = valdict[valkey]
     	return parblock	
