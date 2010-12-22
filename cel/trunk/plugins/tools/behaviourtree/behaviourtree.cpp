@@ -21,7 +21,7 @@
 #include <iutil/comp.h>
 #include <iutil/plugin.h>
 
-#include "plugins/tools/behaviourtree/BT.h"
+#include "plugins/tools/behaviourtree/behaviourtree.h"
 
 //---------------------------------------------------------------------------
 
