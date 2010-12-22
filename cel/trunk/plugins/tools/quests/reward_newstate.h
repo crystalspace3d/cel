@@ -37,7 +37,7 @@ struct iEvent;
 /**
  * A standard reward type that just prints a message on standard
  * output. This can be useful for debugging purposes.
- * This reward type listens to the name 'cel.questreward.newstate'.
+ * This reward type listens to the name 'cel.rewards.newstate'.
  */
 CEL_DECLARE_QUESTREWARDTYPE(NewState,"cel.rewards.newstate")
 
