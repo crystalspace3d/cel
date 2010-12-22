@@ -1,4 +1,21 @@
-#include "MainApp.h"
+/*
+    Copyright (C) 2010 by Leonardo Rodrigo Domingues
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
+#include "pathfindingtest.h"
 
 inline void disposeDebugMeshes(csList<csSimpleRenderMesh>* meshes)
 {
@@ -259,8 +276,11 @@ void MainApp::Frame ()
     }
   }
 
+  if (!navStruct)
+    return;
+
   // Auto-update navigation mesh
-  if (navStruct && updateNavmesh)
+  if (updateNavmesh)
   {
     navStruct->Update(updateArea, engine->FindSector("interior"));
     updateMeshes = true;
@@ -455,6 +475,9 @@ void MainApp::MouseClick1Handler (iEvent& ev)
   screenPoint.y = csMouseEventHelper::GetY(&ev);
 
   csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, camera);
+  if (!st.mesh)
+    return;
+
   csRef<iSectorList> sectorList = st.mesh->GetMovable()->GetSectors();
   if (sectorList->GetCount() != 1)
   {
