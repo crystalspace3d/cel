@@ -474,7 +474,7 @@ struct iPcWheeled : public virtual iBase
    * manually controlled.
    * \param auto Whether automatic transmission is enabled or not.
    */
-  virtual void SetAutoTransmission(bool auto) = 0;
+  virtual void SetAutoTransmission(bool autoTransmission) = 0;
 
   /**
    * Change the vehicle's gear.
