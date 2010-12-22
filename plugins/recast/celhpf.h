@@ -35,7 +35,7 @@
 #include <tools/celgraph.h>
 #include <tools/celnavmesh.h>
 #include <tools/celhpf.h>
-#include "CelNavMesh.h"
+#include "celnavmesh.h"
 
 CS_PLUGIN_NAMESPACE_BEGIN(celNavMesh)
 {
