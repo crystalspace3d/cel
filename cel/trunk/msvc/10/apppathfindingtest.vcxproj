@@ -484,13 +484,13 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\apps\pathfindingtest\BehaviourLayer.cpp" />
+    <ClCompile Include="..\..\apps\pathfindingtest\behave.cpp" />
     <ClCompile Include="..\..\apps\pathfindingtest\main.cpp" />
-    <ClCompile Include="..\..\apps\pathfindingtest\MainApp.cpp" />
+    <ClCompile Include="..\..\apps\pathfindingtest\pathfindingtest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\apps\pathfindingtest\BehaviourLayer.h" />
-    <ClInclude Include="..\..\apps\pathfindingtest\MainApp.h" />
+    <ClInclude Include="..\..\apps\pathfindingtest\behave.h" />
+    <ClInclude Include="..\..\apps\pathfindingtest\pathfindingtest.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\msvc\apppathfindingtest.rc" />

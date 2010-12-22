@@ -485,10 +485,10 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\apps\navmeshtest\main.cpp" />
-    <ClCompile Include="..\..\apps\navmeshtest\MainApp.cpp" />
+    <ClCompile Include="..\..\apps\navmeshtest\navmeshtest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\apps\navmeshtest\MainApp.h" />
+    <ClInclude Include="..\..\apps\navmeshtest\navmeshtest.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\msvc\appnavmeshtest.rc" />

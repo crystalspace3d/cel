@@ -1001,10 +1001,10 @@
 				RelativePath="..\..\plugins\propclass\zone\zone.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\recast\CelHPF.cpp">
+				RelativePath="..\..\plugins\recast\celhpf.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\recast\CelNavMesh.cpp">
+				RelativePath="..\..\plugins\recast\celnavmesh.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\ChunkyTriMesh.cpp">
@@ -1097,10 +1097,10 @@
 				RelativePath="..\..\plugins\stdphyslayer\propclas.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\BT.cpp">
+				RelativePath="..\..\plugins\tools\behaviourtree\behaviourtree.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\BTAction.cpp">
+				RelativePath="..\..\plugins\tools\behaviourtree\btaction.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\condition_parametercheck.cpp">
@@ -1626,10 +1626,10 @@
 				RelativePath="..\..\plugins\propclass\zone\zone.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\recast\CelHPF.h">
+				RelativePath="..\..\plugins\recast\celhpf.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\recast\CelNavMesh.h">
+				RelativePath="..\..\plugins\recast\celnavmesh.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\ChunkyTriMesh.h">
@@ -1698,10 +1698,10 @@
 				RelativePath="..\..\plugins\stdphyslayer\propclas.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\BT.h">
+				RelativePath="..\..\plugins\tools\behaviourtree\behaviourtree.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\BTAction.h">
+				RelativePath="..\..\plugins\tools\behaviourtree\btaction.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\condition_parametercheck.h">

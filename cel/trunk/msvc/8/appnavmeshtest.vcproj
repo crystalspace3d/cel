@@ -624,14 +624,14 @@
 				RelativePath="..\..\apps\navmeshtest\main.cpp">
 			</File>
 			<File
-				RelativePath="..\..\apps\navmeshtest\MainApp.cpp">
+				RelativePath="..\..\apps\navmeshtest\navmeshtest.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\apps\navmeshtest\MainApp.h">
+				RelativePath="..\..\apps\navmeshtest\navmeshtest.h">
 			</File>
 		</Filter>
 		<Filter

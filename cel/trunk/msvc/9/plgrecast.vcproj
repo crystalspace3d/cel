@@ -632,10 +632,10 @@
 				RelativePath="..\..\msvc\plugin_impl.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\recast\CelHPF.cpp">
+				RelativePath="..\..\plugins\recast\celhpf.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\recast\CelNavMesh.cpp">
+				RelativePath="..\..\plugins\recast\celnavmesh.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\ChunkyTriMesh.cpp">
@@ -711,10 +711,10 @@
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\recast\CelHPF.h">
+				RelativePath="..\..\plugins\recast\celhpf.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\recast\CelNavMesh.h">
+				RelativePath="..\..\plugins\recast\celnavmesh.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\ChunkyTriMesh.h">
