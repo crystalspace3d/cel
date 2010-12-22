@@ -39,7 +39,7 @@ struct iEvent;
  * output. This can be useful for debugging purposes.
  * This reward type listens to the name 'cel.questreward.newstate'.
  */
-CEL_DECLARE_QUESTREWARDTYPE(NewState,"cel.questreward.newstate")
+CEL_DECLARE_QUESTREWARDTYPE(NewState,"cel.rewards.newstate")
 
 /**
  * The 'newstate' reward factory.
