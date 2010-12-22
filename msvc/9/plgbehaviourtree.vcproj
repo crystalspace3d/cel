@@ -632,10 +632,10 @@
 				RelativePath="..\..\msvc\plugin_impl.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\BT.cpp">
+				RelativePath="..\..\plugins\tools\behaviourtree\behaviourtree.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\BTAction.cpp">
+				RelativePath="..\..\plugins\tools\behaviourtree\btaction.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\condition_parametercheck.cpp">
@@ -648,10 +648,10 @@
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\BT.h">
+				RelativePath="..\..\plugins\tools\behaviourtree\behaviourtree.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\BTAction.h">
+				RelativePath="..\..\plugins\tools\behaviourtree\btaction.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\condition_parametercheck.h">

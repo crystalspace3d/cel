@@ -621,23 +621,23 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\apps\pathfindingtest\BehaviourLayer.cpp">
+				RelativePath="..\..\apps\pathfindingtest\behave.cpp">
 			</File>
 			<File
 				RelativePath="..\..\apps\pathfindingtest\main.cpp">
 			</File>
 			<File
-				RelativePath="..\..\apps\pathfindingtest\MainApp.cpp">
+				RelativePath="..\..\apps\pathfindingtest\pathfindingtest.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\apps\pathfindingtest\BehaviourLayer.h">
+				RelativePath="..\..\apps\pathfindingtest\behave.h">
 			</File>
 			<File
-				RelativePath="..\..\apps\pathfindingtest\MainApp.h">
+				RelativePath="..\..\apps\pathfindingtest\pathfindingtest.h">
 			</File>
 		</Filter>
 		<Filter
