@@ -1,0 +1,586 @@
+<!-- This file was generated from level_src/level.blend with blend2cs 0.2.4 -->
+<!-- http://projects.blender.org/projects/blend2cs -->
+<world>
+    <plugins>
+        <plugin name="null">crystalspace.mesh.loader.null</plugin>
+        <plugin name="genmesh">crystalspace.mesh.loader.genmesh</plugin>
+        <plugin name="sprite3d">crystalspace.mesh.loader.sprite.3d</plugin>
+        <plugin name="genmeshfact">crystalspace.mesh.loader.factory.genmesh</plugin>
+    </plugins>
+    <library>lightmaps.cslib</library>
+    <textures>
+        <texture name="rock2.jpg">
+            <file>rock2.jpg</file>
+        </texture>
+        <texture name="stone4.jpg">
+            <file>/lib/std/stone4.gif</file>
+        </texture>
+        <texture name="tile.jpg">
+            <file>/lib/stdtex/tile.png</file>
+        </texture>
+        <texture name="bricks.jpg">
+            <file>/lib/stdtex/bricks.jpg</file>
+        </texture>
+        <texture name="marble_13_is___128.jp">
+            <file>/lib/stdtex/marble_13_is___128.jpg</file>
+        </texture>
+    </textures>
+    <materials>
+        <material name="rock2.jpg">
+            <texture>rock2.jpg</texture>
+        </material>
+        <material name="stone4.jpg">
+            <texture>stone4.jpg</texture>
+        </material>
+        <material name="tile.jpg">
+            <texture>tile.jpg</texture>
+        </material>
+        <material name="bricks.jpg">
+            <texture>bricks.jpg</texture>
+        </material>
+        <material name="marble_13_is___128.jp">
+            <texture>marble_13_is___128.jp</texture>
+        </material>
+    </materials>
+    <settings>
+        <clearzbuf>yes</clearzbuf>
+        <clearscreen>yes</clearscreen>
+    </settings>
+    <start name="Camera">
+        <sector>Scene</sector>
+        <position x="15.858" y="2.82921" z="11.1389" />
+    </start>
+    <meshfact name="Circle">
+        <plugin>genmeshfact</plugin>
+        <params>
+            <renderbuffer name="position" checkelementcount="no" file="bindata/Circle_v" />
+            <renderbuffer name="normal" file="bindata/Circle_n" />
+            <renderbuffer name="texture coordinate 0" file="bindata/Circle_tc" />
+            <material>marble_13_is___128.jp</material>
+            <mixmode>
+                <copy />
+            </mixmode>
+            <submesh name="">
+                <material>marble_13_is___128.jp</material>
+                <indexbuffer file="bindata/Circle_i0" />
+            </submesh>
+        </params>
+    </meshfact>
+    <meshfact name="Plane.005">
+        <plugin>genmeshfact</plugin>
+        <params>
+            <renderbuffer name="position" checkelementcount="no" file="bindata/Plane_005_v" />
+            <renderbuffer name="normal" file="bindata/Plane_005_n" />
+            <renderbuffer name="texture coordinate 0" file="bindata/Plane_005_tc" />
+            <material>rock2.jpg</material>
+            <mixmode>
+                <copy />
+            </mixmode>
+            <submesh name="">
+                <material>rock2.jpg</material>
+                <indexbuffer file="bindata/Plane_005_i0" />
+            </submesh>
+        </params>
+    </meshfact>
+    <meshfact name="factory_Scene_Cube.001">
+        <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+        <params>
+            <renderbuffer name="position" checkelementcount="no" file="bindata/factory_Scene_Cube_001_v" />
+            <renderbuffer name="normal" file="bindata/factory_Scene_Cube_001_n" />
+            <renderbuffer name="texture coordinate 0" file="bindata/factory_Scene_Cube_001_tc" />
+            <mixmode>
+                <copy />
+            </mixmode>
+            <submesh name="stone4.jpg_0">
+                <material>stone4.jpg</material>
+                <indexbuffer file="bindata/factory_Scene_Cube_001_i0" />
+            </submesh>
+        </params>
+    </meshfact>
+    <meshfact name="factory_Scene_Cube.002">
+        <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+        <params>
+            <renderbuffer name="position" checkelementcount="no" file="bindata/factory_Scene_Cube_002_v" />
+            <renderbuffer name="normal" file="bindata/factory_Scene_Cube_002_n" />
+            <renderbuffer name="texture coordinate 0" file="bindata/factory_Scene_Cube_002_tc" />
+            <mixmode>
+                <copy />
+            </mixmode>
+            <submesh name="bricks.jpg_0">
+                <material>bricks.jpg</material>
+                <indexbuffer file="bindata/factory_Scene_Cube_002_i0" />
+            </submesh>
+        </params>
+    </meshfact>
+    <meshfact name="factory_Scene_Cube.003">
+        <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+        <params>
+            <renderbuffer name="position" checkelementcount="no" file="bindata/factory_Scene_Cube_003_v" />
+            <renderbuffer name="normal" file="bindata/factory_Scene_Cube_003_n" />
+            <renderbuffer name="texture coordinate 0" file="bindata/factory_Scene_Cube_003_tc" />
+            <mixmode>
+                <copy />
+            </mixmode>
+            <submesh name="bricks.jpg_0">
+                <material>bricks.jpg</material>
+                <indexbuffer file="bindata/factory_Scene_Cube_003_i0" />
+            </submesh>
+        </params>
+    </meshfact>
+    <meshfact name="factory_Scene_Plane">
+        <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+        <params>
+            <renderbuffer name="position" checkelementcount="no" file="bindata/factory_Scene_Plane_v" />
+            <renderbuffer name="normal" file="bindata/factory_Scene_Plane_n" />
+            <renderbuffer name="texture coordinate 0" file="bindata/factory_Scene_Plane_tc" />
+            <mixmode>
+                <copy />
+            </mixmode>
+            <submesh name="tile.jpg_0">
+                <material>tile.jpg</material>
+                <indexbuffer file="bindata/factory_Scene_Plane_i0" />
+            </submesh>
+        </params>
+    </meshfact>
+    <meshfact name="factory_Scene_Cube">
+        <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+        <params>
+            <renderbuffer name="position" checkelementcount="no" file="bindata/factory_Scene_Cube_v" />
+            <renderbuffer name="normal" file="bindata/factory_Scene_Cube_n" />
+            <renderbuffer name="texture coordinate 0" file="bindata/factory_Scene_Cube_tc" />
+            <mixmode>
+                <copy />
+            </mixmode>
+            <submesh name="stone4.jpg_0">
+                <material>stone4.jpg</material>
+                <indexbuffer file="bindata/factory_Scene_Cube_i0" />
+            </submesh>
+        </params>
+    </meshfact>
+    <meshfact name="factory_Scene_Plane.001">
+        <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+        <params>
+            <renderbuffer name="position" checkelementcount="no" file="bindata/factory_Scene_Plane_001_v" />
+            <renderbuffer name="normal" file="bindata/factory_Scene_Plane_001_n" />
+            <renderbuffer name="texture coordinate 0" file="bindata/factory_Scene_Plane_001_tc" />
+            <mixmode>
+                <copy />
+            </mixmode>
+            <submesh name="tile.jpg_0">
+                <material>tile.jpg</material>
+                <indexbuffer file="bindata/factory_Scene_Plane_001_i0" />
+            </submesh>
+        </params>
+    </meshfact>
+    <meshfact name="factory_Scene_Plane.002">
+        <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+        <params>
+            <renderbuffer name="position" checkelementcount="no" file="bindata/factory_Scene_Plane_002_v" />
+            <renderbuffer name="normal" file="bindata/factory_Scene_Plane_002_n" />
+            <renderbuffer name="texture coordinate 0" file="bindata/factory_Scene_Plane_002_tc" />
+            <mixmode>
+                <copy />
+            </mixmode>
+            <submesh name="tile.jpg_0">
+                <material>tile.jpg</material>
+                <indexbuffer file="bindata/factory_Scene_Plane_002_i0" />
+            </submesh>
+        </params>
+    </meshfact>
+    <meshfact name="factory_Scene_Plane.003">
+        <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+        <params>
+            <renderbuffer name="position" checkelementcount="no" file="bindata/factory_Scene_Plane_003_v" />
+            <renderbuffer name="normal" file="bindata/factory_Scene_Plane_003_n" />
+            <renderbuffer name="texture coordinate 0" file="bindata/factory_Scene_Plane_003_tc" />
+            <mixmode>
+                <copy />
+            </mixmode>
+            <submesh name="tile.jpg_0">
+                <material>tile.jpg</material>
+                <indexbuffer file="bindata/factory_Scene_Plane_003_i0" />
+            </submesh>
+        </params>
+    </meshfact>
+    <meshfact name="factory_Scene_Plane.004">
+        <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+        <params>
+            <renderbuffer name="position" checkelementcount="no" file="bindata/factory_Scene_Plane_004_v" />
+            <renderbuffer name="normal" file="bindata/factory_Scene_Plane_004_n" />
+            <renderbuffer name="texture coordinate 0" file="bindata/factory_Scene_Plane_004_tc" />
+            <mixmode>
+                <copy />
+            </mixmode>
+            <submesh name="tile.jpg_0">
+                <material>tile.jpg</material>
+                <indexbuffer file="bindata/factory_Scene_Plane_004_i0" />
+            </submesh>
+        </params>
+    </meshfact>
+    <sector name="Scene">
+        <meshobj name="Cube.001">
+            <plugin>crystalspace.mesh.loader.genmesh</plugin>
+            <params>
+                <factory>factory_Scene_Cube.001</factory>
+                <color red="1" green="1" blue="1" />
+                <manualcolors />
+                <mixmode>
+                    <copy />
+                </mixmode>
+                <submesh name="stone4.jpg_0">
+                    <material>stone4.jpg</material>
+                    <shadervar name="tex lightmap" type="texture">lightmaps_7afc45e0_0_png</shadervar>
+                </submesh>
+                <renderbuffer name="texture coordinate lightmap" file="bindata/Cube_001_lm" />
+            </params>
+            <trimesh>
+                <mesh>
+                    <v x="-8" y="-1" z="-19.9521" />
+                    <v x="-8" y="-1" z="-18.9681" />
+                    <v x="-8" y="6" z="-19.9521" />
+                    <v x="-8" y="6" z="-18.9681" />
+                    <v x="-5" y="-1" z="-31.9521" />
+                    <v x="-5" y="-1" z="-19.9521" />
+                    <v x="-5" y="6" z="-31.9521" />
+                    <v x="-5" y="6" z="-19.9521" />
+                    <v x="-3.99161" y="-1" z="-31.9521" />
+                    <v x="-3.99161" y="-1" z="-19.9521" />
+                    <v x="-3.99161" y="6" z="-31.9521" />
+                    <v x="-3.99161" y="6" z="-19.9521" />
+                    <v x="-1" y="-1" z="1.78814e-007" />
+                    <v x="-1" y="-1" z="1" />
+                    <v x="-1" y="6" z="3.57628e-007" />
+                    <v x="-1" y="6" z="1" />
+                    <v x="0" y="-1" z="-29.0084" />
+                    <v x="0" y="-1" z="-27.9762" />
+                    <v x="0" y="6" z="-29.0084" />
+                    <v x="0" y="6" z="-27.9762" />
+                    <v x="8.01813" y="-1" z="-24.9521" />
+                    <v x="8.01813" y="-1" z="-19.9521" />
+                    <v x="8.01813" y="6" z="-24.9521" />
+                    <v x="8.01813" y="6" z="-19.9521" />
+                    <v x="9.02305" y="-1" z="-24.9521" />
+                    <v x="9.02305" y="-1" z="-19.9521" />
+                    <v x="9.02305" y="6" z="-24.9521" />
+                    <v x="9.02305" y="6" z="-19.9521" />
+                    <v x="14" y="-1" z="-37" />
+                    <v x="14" y="-1" z="-35.9361" />
+                    <v x="14" y="6" z="-37" />
+                    <v x="14" y="6" z="-35.9361" />
+                    <v x="20" y="-1" z="-37" />
+                    <v x="20" y="-1" z="-35.9361" />
+                    <v x="20" y="-1" z="-29.0084" />
+                    <v x="20" y="-1" z="-27.9762" />
+                    <v x="20" y="-1" z="-19.9521" />
+                    <v x="20" y="-1" z="-19" />
+                    <v x="20" y="-1" z="-18.9681" />
+                    <v x="20" y="-1" z="0" />
+                    <v x="20" y="6" z="-37" />
+                    <v x="20" y="6" z="-35.9361" />
+                    <v x="20" y="6" z="-29.0084" />
+                    <v x="20" y="6" z="-27.9762" />
+                    <v x="20" y="6" z="-19.9521" />
+                    <v x="20" y="6" z="-19" />
+                    <v x="20" y="6" z="-18.9681" />
+                    <v x="20" y="6" z="-5.96046e-007" />
+                    <v x="21" y="-1" z="-37" />
+                    <v x="21" y="-1" z="-19" />
+                    <v x="21" y="-1" z="0" />
+                    <v x="21" y="-1" z="1" />
+                    <v x="21" y="6" z="-37" />
+                    <v x="21" y="6" z="-19" />
+                    <v x="21" y="6" z="-5.96046e-007" />
+                    <v x="21" y="6" z="0.999999" />
+                    <t v1="13" v2="12" v3="50" />
+                    <t v1="13" v2="12" v3="51" />
+                    <t v1="54" v2="14" v3="15" />
+                    <t v1="54" v2="14" v3="55" />
+                    <t v1="13" v2="15" v3="14" />
+                    <t v1="13" v2="15" v3="12" />
+                    <t v1="15" v2="13" v3="51" />
+                    <t v1="15" v2="13" v3="55" />
+                    <t v1="14" v2="47" v3="39" />
+                    <t v1="14" v2="47" v3="12" />
+                    <t v1="31" v2="29" v3="33" />
+                    <t v1="31" v2="29" v3="41" />
+                    <t v1="31" v2="30" v3="28" />
+                    <t v1="31" v2="30" v3="29" />
+                    <t v1="30" v2="31" v3="41" />
+                    <t v1="30" v2="31" v3="40" />
+                    <t v1="28" v2="29" v3="33" />
+                    <t v1="28" v2="29" v3="32" />
+                    <t v1="36" v2="25" v3="27" />
+                    <t v1="36" v2="25" v3="44" />
+                    <t v1="3" v2="1" v3="38" />
+                    <t v1="3" v2="1" v3="46" />
+                    <t v1="1" v2="3" v3="2" />
+                    <t v1="1" v2="3" v3="0" />
+                    <t v1="0" v2="2" v3="7" />
+                    <t v1="0" v2="2" v3="5" />
+                    <t v1="9" v2="11" v3="23" />
+                    <t v1="9" v2="11" v3="21" />
+                    <t v1="8" v2="10" v3="11" />
+                    <t v1="8" v2="10" v3="9" />
+                    <t v1="6" v2="4" v3="5" />
+                    <t v1="6" v2="4" v3="7" />
+                    <t v1="8" v2="4" v3="6" />
+                    <t v1="8" v2="4" v3="10" />
+                    <t v1="11" v2="10" v3="6" />
+                    <t v1="11" v2="10" v3="7" />
+                    <t v1="9" v2="8" v3="4" />
+                    <t v1="9" v2="8" v3="5" />
+                    <t v1="24" v2="26" v3="27" />
+                    <t v1="24" v2="26" v3="25" />
+                    <t v1="23" v2="22" v3="20" />
+                    <t v1="23" v2="22" v3="21" />
+                    <t v1="24" v2="20" v3="22" />
+                    <t v1="24" v2="20" v3="26" />
+                    <t v1="27" v2="26" v3="22" />
+                    <t v1="27" v2="26" v3="23" />
+                    <t v1="25" v2="24" v3="20" />
+                    <t v1="25" v2="24" v3="21" />
+                    <t v1="19" v2="17" v3="35" />
+                    <t v1="19" v2="17" v3="43" />
+                    <t v1="34" v2="16" v3="18" />
+                    <t v1="34" v2="16" v3="42" />
+                    <t v1="19" v2="18" v3="16" />
+                    <t v1="19" v2="18" v3="17" />
+                    <t v1="18" v2="19" v3="43" />
+                    <t v1="18" v2="19" v3="42" />
+                    <t v1="16" v2="17" v3="35" />
+                    <t v1="16" v2="17" v3="34" />
+                    <t v1="44" v2="2" v3="3" />
+                    <t v1="44" v2="2" v3="46" />
+                    <t v1="36" v2="0" v3="1" />
+                    <t v1="36" v2="0" v3="38" />
+                    <t v1="54" v2="53" v3="45" />
+                    <t v1="54" v2="53" v3="47" />
+                    <t v1="47" v2="45" v3="37" />
+                    <t v1="47" v2="45" v3="39" />
+                </mesh>
+                <id>colldet</id>
+            </trimesh>
+            <zuse />
+            <move>
+                <v x="-2" y="1" z="18" />
+            </move>
+            <staticlit />
+        </meshobj>
+        <meshobj name="Cube.002">
+            <plugin>crystalspace.mesh.loader.genmesh</plugin>
+            <params>
+                <factory>factory_Scene_Cube.002</factory>
+                <color red="1" green="1" blue="1" />
+                <manualcolors />
+                <mixmode>
+                    <copy />
+                </mixmode>
+                <submesh name="bricks.jpg_0">
+                    <material>bricks.jpg</material>
+                    <shadervar name="tex lightmap" type="texture">lightmaps_7afc45e0_0_png</shadervar>
+                </submesh>
+                <renderbuffer name="texture coordinate lightmap" file="bindata/Cube_002_lm" />
+            </params>
+            <zuse />
+            <move>
+                <v x="-9" y="1" z="20" />
+            </move>
+            <staticlit />
+        </meshobj>
+        <meshobj name="Cube.003">
+            <plugin>crystalspace.mesh.loader.genmesh</plugin>
+            <params>
+                <factory>factory_Scene_Cube.003</factory>
+                <color red="1" green="1" blue="1" />
+                <manualcolors />
+                <mixmode>
+                    <copy />
+                </mixmode>
+                <submesh name="bricks.jpg_0">
+                    <material>bricks.jpg</material>
+                    <shadervar name="tex lightmap" type="texture">lightmaps_7afc45e0_0_png</shadervar>
+                </submesh>
+                <renderbuffer name="texture coordinate lightmap" file="bindata/Cube_003_lm" />
+            </params>
+            <zuse />
+            <move>
+                <v x="44" y="1" z="55" />
+            </move>
+            <staticlit />
+        </meshobj>
+        <light name="Lamp">
+            <center x="0.608393" y="14.1655" z="-10" />
+            <color red="1" green="1" blue="1" />
+            <radius>30</radius>
+        </light>
+        <light name="Lamp.001">
+            <center x="24.6917" y="24.8187" z="37.6689" />
+            <color red="1" green="0.380873" blue="0.450963" />
+            <radius>60</radius>
+        </light>
+        <meshobj name="Plane">
+            <plugin>crystalspace.mesh.loader.genmesh</plugin>
+            <params>
+                <factory>factory_Scene_Plane</factory>
+                <color red="1" green="1" blue="1" />
+                <manualcolors />
+                <mixmode>
+                    <copy />
+                </mixmode>
+                <submesh name="tile.jpg_0">
+                    <material>tile.jpg</material>
+                    <shadervar name="tex lightmap" type="texture">lightmaps_7afc45e0_0_png</shadervar>
+                </submesh>
+                <renderbuffer name="texture coordinate lightmap" file="bindata/Plane_lm" />
+            </params>
+            <zuse />
+            <move>
+                <v x="0" y="0" z="0" />
+            </move>
+            <staticlit />
+        </meshobj>
+        <meshobj name="Cube">
+            <plugin>crystalspace.mesh.loader.genmesh</plugin>
+            <params>
+                <factory>factory_Scene_Cube</factory>
+                <color red="1" green="1" blue="1" />
+                <manualcolors />
+                <mixmode>
+                    <copy />
+                </mixmode>
+                <submesh name="stone4.jpg_0">
+                    <material>stone4.jpg</material>
+                    <shadervar name="tex lightmap" type="texture">lightmaps_7afc45e0_0_png</shadervar>
+                </submesh>
+                <renderbuffer name="texture coordinate lightmap" file="bindata/Cube_lm" />
+            </params>
+            <zuse />
+            <move>
+                <v x="-18" y="1" z="0" />
+            </move>
+            <staticlit />
+        </meshobj>
+        <meshobj name="Plane.001">
+            <plugin>crystalspace.mesh.loader.genmesh</plugin>
+            <params>
+                <factory>factory_Scene_Plane.001</factory>
+                <color red="1" green="1" blue="1" />
+                <manualcolors />
+                <mixmode>
+                    <copy />
+                </mixmode>
+                <submesh name="tile.jpg_0">
+                    <material>tile.jpg</material>
+                    <shadervar name="tex lightmap" type="texture">lightmaps_7afc45e0_0_png</shadervar>
+                </submesh>
+                <renderbuffer name="texture coordinate lightmap" file="bindata/Plane_001_lm" />
+            </params>
+            <zuse />
+            <move>
+                <v x="0" y="0" z="38.3425" />
+            </move>
+            <staticlit />
+        </meshobj>
+        <meshobj name="Plane.002">
+            <plugin>crystalspace.mesh.loader.genmesh</plugin>
+            <params>
+                <factory>factory_Scene_Plane.002</factory>
+                <color red="1" green="1" blue="1" />
+                <manualcolors />
+                <mixmode>
+                    <copy />
+                </mixmode>
+                <submesh name="tile.jpg_0">
+                    <material>tile.jpg</material>
+                    <shadervar name="tex lightmap" type="texture">lightmaps_7afc45e0_0_png</shadervar>
+                </submesh>
+                <renderbuffer name="texture coordinate lightmap" file="bindata/Plane_002_lm" />
+            </params>
+            <zuse />
+            <move>
+                <v x="12" y="0" z="38.3425" />
+            </move>
+            <staticlit />
+        </meshobj>
+        <meshobj name="Plane.003">
+            <plugin>crystalspace.mesh.loader.genmesh</plugin>
+            <params>
+                <factory>factory_Scene_Plane.003</factory>
+                <color red="1" green="1" blue="1" />
+                <manualcolors />
+                <mixmode>
+                    <copy />
+                </mixmode>
+                <submesh name="tile.jpg_0">
+                    <material>tile.jpg</material>
+                    <shadervar name="tex lightmap" type="texture">lightmaps_7afc45e0_0_png</shadervar>
+                </submesh>
+                <renderbuffer name="texture coordinate lightmap" file="bindata/Plane_003_lm" />
+            </params>
+            <zuse />
+            <move>
+                <v x="43" y="0" z="26.4698" />
+            </move>
+            <staticlit />
+        </meshobj>
+        <meshobj name="Plane.004">
+            <plugin>crystalspace.mesh.loader.genmesh</plugin>
+            <params>
+                <factory>factory_Scene_Plane.004</factory>
+                <color red="1" green="1" blue="1" />
+                <manualcolors />
+                <mixmode>
+                    <copy />
+                </mixmode>
+                <submesh name="tile.jpg_0">
+                    <material>tile.jpg</material>
+                    <shadervar name="tex lightmap" type="texture">lightmaps_7afc45e0_0_png</shadervar>
+                </submesh>
+                <renderbuffer name="texture coordinate lightmap" file="bindata/Plane_004_lm" />
+            </params>
+            <zuse />
+            <move>
+                <v x="0.00109352" y="0" z="-39.8599" />
+            </move>
+            <staticlit />
+        </meshobj>
+        <meshobj name="Plane.005">
+            <plugin>genmesh</plugin>
+            <params>
+                <factory>Plane.005</factory>
+                <color red="0" green="0" blue="0" />
+                <manualcolors />
+                <material>rock2.jpg</material>
+                <mixmode>
+                    <copy />
+                </mixmode>
+                <renderbuffer name="texture coordinate lightmap" file="bindata/Plane_005_lm" />
+            </params>
+            <zuse />
+            <move>
+                <v x="12" y="0" z="26.4636" />
+            </move>
+            <staticlit />
+            <shadervar name="tex lightmap" type="texture">lightmaps_7afc45e0_0_png</shadervar>
+        </meshobj>
+        <meshobj name="Circle">
+            <plugin>genmesh</plugin>
+            <params>
+                <factory>Circle</factory>
+                <color red="0" green="0" blue="0" />
+                <manualcolors />
+                <material>marble_13_is___128.jp</material>
+                <mixmode>
+                    <copy />
+                </mixmode>
+                <renderbuffer name="texture coordinate lightmap" file="bindata/Circle_lm" />
+            </params>
+            <zuse />
+            <move>
+                <v x="-8" y="0" z="8" />
+            </move>
+            <staticlit />
+            <shadervar name="tex lightmap" type="texture">lightmaps_7afc45e0_0_png</shadervar>
+        </meshobj>
+    </sector>
+</world>

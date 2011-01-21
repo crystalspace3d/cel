@@ -1,0 +1,864 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release (with static libs)|Win32">
+      <Configuration>Release (with static libs)</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release (with DLLs)|Win32">
+      <Configuration>Release (with DLLs)</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug (with static libs)|Win32">
+      <Configuration>Debug (with static libs)</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug (with DLLs)|Win32">
+      <Configuration>Debug (with DLLs)</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release (with static libs)|x64">
+      <Configuration>Release (with static libs)</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release (with DLLs)|x64">
+      <Configuration>Release (with DLLs)</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug (with static libs)|x64">
+      <Configuration>Debug (with static libs)</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug (with DLLs)|x64">
+      <Configuration>Debug (with DLLs)</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F8C56937-E665-838E-0B34-DB3EF026DE9C}</ProjectGuid>
+    <SccProjectName />
+    <SccLocalPath />
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)'=='Release (with static libs)'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release (with DLLs)'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug (with static libs)'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug (with DLLs)'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Platform)'=='Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Platform)'=='x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|Win32'">..\..\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|Win32'">..\..\out\release10\build\libcel_staticplugins\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|Win32'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|Win32'">out\release10\libs\libcel_staticplugins</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|Win32'">..\..\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|Win32'">..\..\out\release10\build\libcel_staticplugins\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|Win32'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|Win32'">out\release10\libs\libcel_staticplugins</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|Win32'">..\..\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|Win32'">..\..\out\debug10\build\libcel_staticplugins\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|Win32'">true</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|Win32'">out\debug10\libs\libcel_staticplugins_d</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|Win32'">..\..\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|Win32'">..\..\out\debug10\build\libcel_staticplugins\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|Win32'">true</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|Win32'">out\debug10\libs\libcel_staticplugins_d</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|x64'">..\..\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|x64'">..\..\out\release10-x64\build\libcel_staticplugins\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|x64'">out\release10-x64\libs\libcel_staticplugins</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|x64'">..\..\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|x64'">..\..\out\release10-x64\build\libcel_staticplugins\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|x64'">out\release10-x64\libs\libcel_staticplugins</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|x64'">..\..\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|x64'">..\..\out\debug10-x64\build\libcel_staticplugins\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|x64'">true</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|x64'">out\debug10-x64\libs\libcel_staticplugins_d</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|x64'">..\..\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|x64'">..\..\out\debug10-x64\build\libcel_staticplugins\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|x64'">true</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|x64'">out\debug10-x64\libs\libcel_staticplugins_d</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <ProgramDataBaseFileName>..\..\out\release10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>..\..\out\release10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10\build\libcel_staticplugins\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10\build\libcel_staticplugins\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+    <Lib>
+      <OutputFile>..\..\out\release10\libs\libcel_staticplugins.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <PostBuildEvent>
+      <Command>md ..\..\out\release10\bin 2&gt; nul
+copy /y "$(TargetPath)" ..\..\out\release10\bin\
+</Command>
+    </PostBuildEvent>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <ProgramDataBaseFileName>..\..\out\release10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>..\..\out\release10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10\build\libcel_staticplugins\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10\build\libcel_staticplugins\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+    <Lib>
+      <OutputFile>..\..\out\release10\libs\libcel_staticplugins.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <PostBuildEvent>
+      <Command>md ..\..\out\release10\bin 2&gt; nul
+copy /y "$(TargetPath)" ..\..\out\release10\bin\
+</Command>
+    </PostBuildEvent>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>true</MinimalRebuild>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10\build\libcel_staticplugins\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10\build\libcel_staticplugins\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+    <Lib>
+      <OutputFile>..\..\out\debug10\libs\libcel_staticplugins_d.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <PostBuildEvent>
+      <Command>md ..\..\out\debug10\bin 2&gt; nul
+copy /y "$(TargetPath)" ..\..\out\debug10\bin\
+</Command>
+    </PostBuildEvent>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>true</MinimalRebuild>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10\build\libcel_staticplugins\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10\build\libcel_staticplugins\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+    <Lib>
+      <OutputFile>..\..\out\debug10\libs\libcel_staticplugins_d.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <PostBuildEvent>
+      <Command>md ..\..\out\debug10\bin 2&gt; nul
+copy /y "$(TargetPath)" ..\..\out\debug10\bin\
+</Command>
+    </PostBuildEvent>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <ProgramDataBaseFileName>..\..\out\release10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10-x64\build\libcel_staticplugins\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX64</TargetMachine>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+    <Lib>
+      <OutputFile>..\..\out\release10-x64\libs\libcel_staticplugins.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <PostBuildEvent>
+      <Command>md ..\..\out\release10-x64\bin 2&gt; nul
+copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
+</Command>
+    </PostBuildEvent>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <ProgramDataBaseFileName>..\..\out\release10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10-x64\build\libcel_staticplugins\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX64</TargetMachine>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+    <Lib>
+      <OutputFile>..\..\out\release10-x64\libs\libcel_staticplugins.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <PostBuildEvent>
+      <Command>md ..\..\out\release10-x64\bin 2&gt; nul
+copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
+</Command>
+    </PostBuildEvent>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>true</MinimalRebuild>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10-x64\build\libcel_staticplugins\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX64</TargetMachine>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+    <Lib>
+      <OutputFile>..\..\out\debug10-x64\libs\libcel_staticplugins_d.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <PostBuildEvent>
+      <Command>md ..\..\out\debug10-x64\bin 2&gt; nul
+copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
+</Command>
+    </PostBuildEvent>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>true</MinimalRebuild>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10-x64\build\libcel_staticplugins\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX64</TargetMachine>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+    <Lib>
+      <OutputFile>..\..\out\debug10-x64\libs\libcel_staticplugins_d.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <PostBuildEvent>
+      <Command>md ..\..\out\debug10-x64\bin 2&gt; nul
+copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
+</Command>
+    </PostBuildEvent>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\msvc\libaddon_celentity_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libaddon_celentitytpl_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libaddon_celgraph_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libaddon_ledges_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libaddon_questdef_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libaddon_ruledef_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libaddon_xmlscripts_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libbehaviourtree_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libblpython_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libblxml_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libcelconsole_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libcelgraph_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libcpersist_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libdecorators_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libledges_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libmgr_billboard_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libmgr_quests_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libparameters_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfactormove_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfanalogmotion_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfbillboard_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfdamage_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfdefcam_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfdelegcam_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfdynmove_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfengine_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfevolve_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfgrab_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfhover_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfinput_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfinv_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfjump_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpflight_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfmechanics_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfmesh_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfmeshdeform_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfmove_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfmover_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfneuralnet_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfnewcamera_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfpathfinder_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfportal_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfprojectile_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfquest_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfrules_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfsimpcam_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfsound_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfsteer_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpftest_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpftools_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpftrackingcam_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpftrigger_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfwasdmove_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfwheeled_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfwheeledmove_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfwire_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfzone_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\librecast_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\librewards_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\librulebase_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libselectors_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libsequences_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libstdphyslayer_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libtriggers_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libxmlpersist_staticreg.cpp" />
+    <ClCompile Include="..\..\plugins\addons\celentity\celentity.cpp" />
+    <ClCompile Include="..\..\plugins\addons\celentitytpl\celentitytpl.cpp" />
+    <ClCompile Include="..\..\plugins\addons\celgraph\celgraph.cpp" />
+    <ClCompile Include="..\..\plugins\addons\ledges\ledges.cpp" />
+    <ClCompile Include="..\..\plugins\addons\questdef\questdef.cpp" />
+    <ClCompile Include="..\..\plugins\addons\ruledef\ruledef.cpp" />
+    <ClCompile Include="..\..\plugins\addons\xmlscripts\xmlscripts.cpp" />
+    <ClCompile Include="..\..\plugins\behaviourlayer\python\blpython.cpp" />
+    <ClCompile Include="..\..\plugins\behaviourlayer\python\PYCEL_py.cpp" />
+    <ClCompile Include="..\..\plugins\behaviourlayer\python\pytocel.cpp" />
+    <ClCompile Include="..\..\plugins\behaviourlayer\xml\behave_xml.cpp" />
+    <ClCompile Include="..\..\plugins\behaviourlayer\xml\blxml.cpp" />
+    <ClCompile Include="..\..\plugins\behaviourlayer\xml\token.cpp" />
+    <ClCompile Include="..\..\plugins\behaviourlayer\xml\xmlscript.cpp" />
+    <ClCompile Include="..\..\plugins\persist\classic\cpersist.cpp" />
+    <ClCompile Include="..\..\plugins\persist\xml\xmlpersist.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\actormove\actormove.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\actormove\npcmove.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\analogmotion\analogmotion.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\billboard\billboard.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\cameras\tracking\tracking.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\damage\damagefact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\defcam\defcam.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\delegcam\delegate.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\dynmove\dynmove.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\engine\engfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\evolve\evolve.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\grab\grab.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\hover\craft_controller.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\hover\hover.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\input\inpfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\inv\invfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\jump\jump.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\light\lightfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\mechanics\mechanics.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\mechanics\thruster_controller.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\mechanics\thruster_reactionary.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\mesh\meshfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\meshdeform\deformanim.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\meshdeform\meshdeformfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\move\colldet.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\move\linmove.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\move\movefact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\mover\moverfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\neuralnet\neuralnet.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\newcamera\celcameramode.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\newcamera\modes\firstperson.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\newcamera\modes\horizontal.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\newcamera\modes\isometric.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\newcamera\modes\thirdperson.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\newcamera\newcam.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\pathfinder\pathfinderfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\portal\portalfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\projectile\projectilefact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\quest\questfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\rules\rulesfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\simpcam\simpcam.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\sound\soundfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\steer\steerfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\test\testfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\tools\bagfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\tools\propfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\tools\spawn.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\tools\timerfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\tools\toolfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\trigger\trigger.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\wasdmove\wasdmove.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\wheeled\wheeled.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\wheeledmove\wheeledmove.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\wire\wirefact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\zone\zone.cpp" />
+    <ClCompile Include="..\..\plugins\recast\celhpf.cpp" />
+    <ClCompile Include="..\..\plugins\recast\celnavmesh.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\ChunkyTriMesh.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\DebugDraw.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourAlloc.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourCommon.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourDebugDraw.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourNavMesh.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourNode.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\InputGeom.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\MeshLoaderObj.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\Recast.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastAlloc.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastArea.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastContour.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastDebugDraw.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastDump.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastFilter.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastLog.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastMesh.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastMeshDetail.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastRasterization.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastRegion.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastTimer.cpp" />
+    <ClCompile Include="..\..\plugins\stdphyslayer\datatype.cpp" />
+    <ClCompile Include="..\..\plugins\stdphyslayer\entity.cpp" />
+    <ClCompile Include="..\..\plugins\stdphyslayer\entitytpl.cpp" />
+    <ClCompile Include="..\..\plugins\stdphyslayer\etracker.cpp" />
+    <ClCompile Include="..\..\plugins\stdphyslayer\numreg.cpp" />
+    <ClCompile Include="..\..\plugins\stdphyslayer\pl.cpp" />
+    <ClCompile Include="..\..\plugins\stdphyslayer\propclas.cpp" />
+    <ClCompile Include="..\..\plugins\tools\behaviourtree\behaviourtree.cpp" />
+    <ClCompile Include="..\..\plugins\tools\behaviourtree\btaction.cpp" />
+    <ClCompile Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.cpp" />
+    <ClCompile Include="..\..\plugins\tools\behaviourtree\condition_triggerfired.cpp" />
+    <ClCompile Include="..\..\plugins\tools\celconsole\celconsole.cpp" />
+    <ClCompile Include="..\..\plugins\tools\decorators\decorator_executionlimit.cpp" />
+    <ClCompile Include="..\..\plugins\tools\decorators\decorator_loop.cpp" />
+    <ClCompile Include="..\..\plugins\tools\decorators\decorator_negatereturn.cpp" />
+    <ClCompile Include="..\..\plugins\tools\parameters\cel_parameters.cpp" />
+    <ClCompile Include="..\..\plugins\tools\quests\quests.cpp" />
+    <ClCompile Include="..\..\plugins\tools\quests\reward_newstate.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rewards\reward_action.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rewards\reward_changeproperty.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rewards\reward_createentity.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rewards\reward_cssequence.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rewards\reward_debugprint.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rewards\reward_destroyentity.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rewards\reward_inventory.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rewards\reward_message.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rewards\reward_sequence.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rewards\reward_sequencefinish.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rulebase\rulebase.cpp" />
+    <ClCompile Include="..\..\plugins\tools\selectors\selector_default.cpp" />
+    <ClCompile Include="..\..\plugins\tools\selectors\selector_random.cpp" />
+    <ClCompile Include="..\..\plugins\tools\selectors\selector_sequential.cpp" />
+    <ClCompile Include="..\..\plugins\tools\sequences\cel_sequences.cpp" />
+    <ClCompile Include="..\..\plugins\tools\sequences\seqop_debugprint.cpp" />
+    <ClCompile Include="..\..\plugins\tools\sequences\seqop_light.cpp" />
+    <ClCompile Include="..\..\plugins\tools\sequences\seqop_movepath.cpp" />
+    <ClCompile Include="..\..\plugins\tools\sequences\seqop_property.cpp" />
+    <ClCompile Include="..\..\plugins\tools\sequences\seqop_transform.cpp" />
+    <ClCompile Include="..\..\plugins\tools\triggers\trig_entersector.cpp" />
+    <ClCompile Include="..\..\plugins\tools\triggers\trig_inventory.cpp" />
+    <ClCompile Include="..\..\plugins\tools\triggers\trig_meshentersector.cpp" />
+    <ClCompile Include="..\..\plugins\tools\triggers\trig_meshsel.cpp" />
+    <ClCompile Include="..\..\plugins\tools\triggers\trig_message.cpp" />
+    <ClCompile Include="..\..\plugins\tools\triggers\trig_operation.cpp" />
+    <ClCompile Include="..\..\plugins\tools\triggers\trig_propertychange.cpp" />
+    <ClCompile Include="..\..\plugins\tools\triggers\trig_sequencefinish.cpp" />
+    <ClCompile Include="..\..\plugins\tools\triggers\trig_timeout.cpp" />
+    <ClCompile Include="..\..\plugins\tools\triggers\trig_trigger.cpp" />
+    <ClCompile Include="..\..\plugins\tools\triggers\trig_watch.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|Win32'">..\..\out\release10\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|x64'">..\..\out\release10-x64\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|Win32'">..\..\out\release10\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|x64'">..\..\out\release10-x64\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|Win32'">..\..\out\debug10\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|x64'">..\..\out\debug10-x64\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|Win32'">..\..\out\debug10\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|x64'">..\..\out\debug10-x64\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\plugins\tools\billboard\billboard.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|Win32'">..\..\out\release10\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|x64'">..\..\out\release10-x64\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|Win32'">..\..\out\release10\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|x64'">..\..\out\release10-x64\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|Win32'">..\..\out\debug10\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|x64'">..\..\out\debug10-x64\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|Win32'">..\..\out\debug10\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|x64'">..\..\out\debug10-x64\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\plugins\tools\celgraph\celgraph.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|Win32'">..\..\out\release10\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|x64'">..\..\out\release10-x64\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|Win32'">..\..\out\release10\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|x64'">..\..\out\release10-x64\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|Win32'">..\..\out\debug10\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|x64'">..\..\out\debug10-x64\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|Win32'">..\..\out\debug10\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|x64'">..\..\out\debug10-x64\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\plugins\tools\ledges\ledges.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|Win32'">..\..\out\release10\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with static libs)|x64'">..\..\out\release10-x64\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|Win32'">..\..\out\release10\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release (with DLLs)|x64'">..\..\out\release10-x64\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|Win32'">..\..\out\debug10\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with static libs)|x64'">..\..\out\debug10-x64\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|Win32'">..\..\out\debug10\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug (with DLLs)|x64'">..\..\out\debug10-x64\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj</ObjectFileName>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\plugins\addons\celentity\celentity.h" />
+    <ClInclude Include="..\..\plugins\addons\celentitytpl\celentitytpl.h" />
+    <ClInclude Include="..\..\plugins\addons\celgraph\celgraph.h" />
+    <ClInclude Include="..\..\plugins\addons\ledges\ledges.h" />
+    <ClInclude Include="..\..\plugins\addons\questdef\questdef.h" />
+    <ClInclude Include="..\..\plugins\addons\ruledef\ruledef.h" />
+    <ClInclude Include="..\..\plugins\addons\xmlscripts\xmlscripts.h" />
+    <ClInclude Include="..\..\plugins\behaviourlayer\python\blpython.h" />
+    <ClInclude Include="..\..\plugins\behaviourlayer\xml\behave_xml.h" />
+    <ClInclude Include="..\..\plugins\behaviourlayer\xml\blxml.h" />
+    <ClInclude Include="..\..\plugins\behaviourlayer\xml\token.h" />
+    <ClInclude Include="..\..\plugins\behaviourlayer\xml\xmlscript.h" />
+    <ClInclude Include="..\..\plugins\persist\classic\cpersist.h" />
+    <ClInclude Include="..\..\plugins\persist\xml\xmlpersist.h" />
+    <ClInclude Include="..\..\plugins\propclass\actormove\actormove.h" />
+    <ClInclude Include="..\..\plugins\propclass\actormove\npcmove.h" />
+    <ClInclude Include="..\..\plugins\propclass\analogmotion\analogmotion.h" />
+    <ClInclude Include="..\..\plugins\propclass\billboard\billboard.h" />
+    <ClInclude Include="..\..\plugins\propclass\cameras\tracking\tracking.h" />
+    <ClInclude Include="..\..\plugins\propclass\damage\damagefact.h" />
+    <ClInclude Include="..\..\plugins\propclass\defcam\defcam.h" />
+    <ClInclude Include="..\..\plugins\propclass\delegcam\delegate.h" />
+    <ClInclude Include="..\..\plugins\propclass\dynmove\dynmove.h" />
+    <ClInclude Include="..\..\plugins\propclass\engine\engfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\evolve\evolve.h" />
+    <ClInclude Include="..\..\plugins\propclass\grab\grab.h" />
+    <ClInclude Include="..\..\plugins\propclass\hover\craft_controller.h" />
+    <ClInclude Include="..\..\plugins\propclass\hover\hover.h" />
+    <ClInclude Include="..\..\plugins\propclass\input\inpfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\inv\invfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\jump\jump.h" />
+    <ClInclude Include="..\..\plugins\propclass\light\lightfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\mechanics\common.h" />
+    <ClInclude Include="..\..\plugins\propclass\mechanics\environment.h" />
+    <ClInclude Include="..\..\plugins\propclass\mechanics\mechanics.h" />
+    <ClInclude Include="..\..\plugins\propclass\mechanics\thruster_controller.h" />
+    <ClInclude Include="..\..\plugins\propclass\mechanics\thruster_reactionary.h" />
+    <ClInclude Include="..\..\plugins\propclass\mechanics\ticktimer.h" />
+    <ClInclude Include="..\..\plugins\propclass\mesh\meshfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\meshdeform\deformanim.h" />
+    <ClInclude Include="..\..\plugins\propclass\meshdeform\meshdeformfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\move\colldet.h" />
+    <ClInclude Include="..\..\plugins\propclass\move\linmove.h" />
+    <ClInclude Include="..\..\plugins\propclass\move\movefact.h" />
+    <ClInclude Include="..\..\plugins\propclass\mover\moverfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\neuralnet\neuralnet.h" />
+    <ClInclude Include="..\..\plugins\propclass\newcamera\celcameramode.h" />
+    <ClInclude Include="..\..\plugins\propclass\newcamera\modes\firstperson.h" />
+    <ClInclude Include="..\..\plugins\propclass\newcamera\modes\horizontal.h" />
+    <ClInclude Include="..\..\plugins\propclass\newcamera\modes\isometric.h" />
+    <ClInclude Include="..\..\plugins\propclass\newcamera\modes\thirdperson.h" />
+    <ClInclude Include="..\..\plugins\propclass\newcamera\newcam.h" />
+    <ClInclude Include="..\..\plugins\propclass\pathfinder\pathfinderfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\portal\portalfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\projectile\projectilefact.h" />
+    <ClInclude Include="..\..\plugins\propclass\quest\questfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\rules\rulesfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\simpcam\simpcam.h" />
+    <ClInclude Include="..\..\plugins\propclass\sound\soundfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\steer\steerfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\test\testfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\tools\bagfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\tools\propfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\tools\spawn.h" />
+    <ClInclude Include="..\..\plugins\propclass\tools\timerfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\tools\toolfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\trigger\trigger.h" />
+    <ClInclude Include="..\..\plugins\propclass\wasdmove\wasdmove.h" />
+    <ClInclude Include="..\..\plugins\propclass\wheeled\wheeled.h" />
+    <ClInclude Include="..\..\plugins\propclass\wheeled\wheeledcb.h" />
+    <ClInclude Include="..\..\plugins\propclass\wheeledmove\wheeledmove.h" />
+    <ClInclude Include="..\..\plugins\propclass\wire\wirefact.h" />
+    <ClInclude Include="..\..\plugins\propclass\zone\zone.h" />
+    <ClInclude Include="..\..\plugins\recast\celhpf.h" />
+    <ClInclude Include="..\..\plugins\recast\celnavmesh.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\ChunkyTriMesh.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DebugDraw.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourAlloc.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourCommon.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourDebugDraw.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourNavMesh.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourNavMeshBuilder.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourNode.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\InputGeom.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\MeshLoaderObj.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\Recast.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\RecastAlloc.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\RecastDebugDraw.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\RecastDump.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\RecastLog.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\RecastTimer.h" />
+    <ClInclude Include="..\..\plugins\stdphyslayer\entity.h" />
+    <ClInclude Include="..\..\plugins\stdphyslayer\entitytpl.h" />
+    <ClInclude Include="..\..\plugins\stdphyslayer\etracker.h" />
+    <ClInclude Include="..\..\plugins\stdphyslayer\numreg.h" />
+    <ClInclude Include="..\..\plugins\stdphyslayer\pl.h" />
+    <ClInclude Include="..\..\plugins\stdphyslayer\propclas.h" />
+    <ClInclude Include="..\..\plugins\tools\behaviourtree\behaviourtree.h" />
+    <ClInclude Include="..\..\plugins\tools\behaviourtree\btaction.h" />
+    <ClInclude Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.h" />
+    <ClInclude Include="..\..\plugins\tools\behaviourtree\condition_triggerfired.h" />
+    <ClInclude Include="..\..\plugins\tools\celconsole\celconsole.h" />
+    <ClInclude Include="..\..\plugins\tools\decorators\decorator_executionlimit.h" />
+    <ClInclude Include="..\..\plugins\tools\decorators\decorator_loop.h" />
+    <ClInclude Include="..\..\plugins\tools\decorators\decorator_negatereturn.h" />
+    <ClInclude Include="..\..\plugins\tools\parameters\cel_parameters.h" />
+    <ClInclude Include="..\..\plugins\tools\quests\quests.h" />
+    <ClInclude Include="..\..\plugins\tools\quests\reward_newstate.h" />
+    <ClInclude Include="..\..\plugins\tools\rewards\reward_action.h" />
+    <ClInclude Include="..\..\plugins\tools\rewards\reward_changeproperty.h" />
+    <ClInclude Include="..\..\plugins\tools\rewards\reward_createentity.h" />
+    <ClInclude Include="..\..\plugins\tools\rewards\reward_cssequence.h" />
+    <ClInclude Include="..\..\plugins\tools\rewards\reward_debugprint.h" />
+    <ClInclude Include="..\..\plugins\tools\rewards\reward_destroyentity.h" />
+    <ClInclude Include="..\..\plugins\tools\rewards\reward_inventory.h" />
+    <ClInclude Include="..\..\plugins\tools\rewards\reward_message.h" />
+    <ClInclude Include="..\..\plugins\tools\rewards\reward_sequence.h" />
+    <ClInclude Include="..\..\plugins\tools\rewards\reward_sequencefinish.h" />
+    <ClInclude Include="..\..\plugins\tools\rulebase\rulebase.h" />
+    <ClInclude Include="..\..\plugins\tools\selectors\selector_default.h" />
+    <ClInclude Include="..\..\plugins\tools\selectors\selector_random.h" />
+    <ClInclude Include="..\..\plugins\tools\selectors\selector_sequential.h" />
+    <ClInclude Include="..\..\plugins\tools\sequences\cel_sequences.h" />
+    <ClInclude Include="..\..\plugins\tools\sequences\seqop_debugprint.h" />
+    <ClInclude Include="..\..\plugins\tools\sequences\seqop_light.h" />
+    <ClInclude Include="..\..\plugins\tools\sequences\seqop_movepath.h" />
+    <ClInclude Include="..\..\plugins\tools\sequences\seqop_property.h" />
+    <ClInclude Include="..\..\plugins\tools\sequences\seqop_transform.h" />
+    <ClInclude Include="..\..\plugins\tools\triggers\trig_entersector.h" />
+    <ClInclude Include="..\..\plugins\tools\triggers\trig_inventory.h" />
+    <ClInclude Include="..\..\plugins\tools\triggers\trig_meshentersector.h" />
+    <ClInclude Include="..\..\plugins\tools\triggers\trig_meshsel.h" />
+    <ClInclude Include="..\..\plugins\tools\triggers\trig_message.h" />
+    <ClInclude Include="..\..\plugins\tools\triggers\trig_operation.h" />
+    <ClInclude Include="..\..\plugins\tools\triggers\trig_propertychange.h" />
+    <ClInclude Include="..\..\plugins\tools\triggers\trig_sequencefinish.h" />
+    <ClInclude Include="..\..\plugins\tools\triggers\trig_timeout.h" />
+    <ClInclude Include="..\..\plugins\tools\triggers\trig_trigger.h" />
+    <ClInclude Include="..\..\plugins\tools\triggers\trig_watch.h" />
+    <ClInclude Include="..\..\plugins\propclass\newcamera\modes\tracking.h" />
+    <ClInclude Include="..\..\plugins\tools\billboard\billboard.h" />
+    <ClInclude Include="..\..\plugins\tools\celgraph\celgraph.h" />
+    <ClInclude Include="..\..\plugins\tools\ledges\ledges.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
