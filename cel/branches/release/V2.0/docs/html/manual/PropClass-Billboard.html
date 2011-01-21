@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer 1.9dev: 4.3.1 Billboard</title>
+
+<meta name="description" content="Crystal Entity Layer 1.9dev: 4.3.1 Billboard">
+<meta name="keywords" content="Crystal Entity Layer 1.9dev: 4.3.1 Billboard">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="PropClass-Billboard"></a>
+<a name="0"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-CommandInput.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<hr size="1">
+<h3 class="subsection"> 4.3.1 Billboard </h3>
+
+<p>This is a property class to handle 2d on-screen billboards.
+</p>
+<a name="1"></a>
+<h4 class="subsubheading"> Property Class Details </h4>
+
+<ul>
+<li> <em>Name</em>:
+<samp>&lsquo;pc2d.billboard&rsquo;</samp>
+</li><li> <em>Factory ID</em>:
+<samp>&lsquo;cel.pcfactory.2d.billboard&rsquo;</samp>
+</li><li> <em>Interface</em>:
+<code>iPcBillboard</code>
+</li><li> <em>Header</em>:
+<tt>&lsquo;include/propclass/billboard.h&rsquo;</tt>
+</li></ul>
+
+
+<a name="2"></a>
+<h4 class="subsubheading"> General Information </h4>
+
+<p>You can use pcbillboard to handle an on-screen billboard and receive events
+when it is selected, unselected, clicked on, or when mouse moves over or out
+of it. Also it can draw a text or a mesh on itself, and allows restacking and
+moving of the billboard by the user.
+</p>
+<p>It is useful as a base for creating a variety of simple interface controls,
+like buttons or hud elements.
+</p>
+<p>This property class is controlled basically using properties through which
+you can define size, text, colours, and what events the billboard responds
+to.
+</p>
+<p>It is common to use many pcbillboard property classes in one entity to
+create a complete interface, although not strictly necessary.
+</p>
+<a name="3"></a>
+<h4 class="subsubheading"> PcBillboards and Billboards </h4>
+
+<p>To avoid confusion, note the difference among PcBillboard, which is the
+property class this section talks about, and Billboards which are the actual
+objects PcBillboard controls (each PcBillboard controls one Billboard).
+</p>
+<a name="4"></a>
+<h4 class="subsubheading"> Billboard Space </h4>
+
+<p>Billboard coordinates (width, height, x and y) are specified in a special
+coordinate system called <em>billboard space</em>. This coordinate system
+system basically works on a virtual screen with size 307200 x 307200.
+</p>
+<a name="5"></a>
+<h4 class="subsubheading"> Billboard Message Callbacks </h4>
+
+<p>There is a variety of messages this property class can send which can be
+turned on or off by using the pcbillboard properties. Note by default all
+events are disabled.
+</p>
+<p>Clicks can be controlled by the <code>clickable</code> property, and will send 
+<code>pcbillboard_select</code>, <code>pcbillboard_unselect</code> or 
+<code>pcbillboard_doubleclick</code> depending on the actual event.
+</p>
+<p>MouseOver events can be controlled by the <code>sendmove</code> property, and
+will make the property class send <code>pcbillboard_move</code> and 
+<code>pcbillboard_moveaway</code> events.
+</p>
+<p>All pcbillboard messages get <em>x</em>, <em>y</em> and <em>button</em> arguments.
+</p>
+<a name="6"></a>
+<h4 class="subsubheading"> Controlling moving and restacking of billboards. </h4>
+
+<p>Billboards can be allowed to be moved around by the user by using the
+<code>movable</code> property.
+</p>
+<p>They can also be allowed to be restacked on selection by using the 
+<code>restack</code> property. If this is activated the billboard will be put 
+on top of other overlapping billboards when selected.
+</p>
+<a name="7"></a>
+<h4 class="subsubheading"> Further control of billboards. </h4>
+
+<p>Check the iPcBillboard and iBillboard api to learn about all properties you
+can control, like text, text colour, billboard visibility, uv coordinates
+of underlying image. It is possible to draw a mesh on the billboard by using
+the DrawMesh action.
+</p>
+<p>You should also be aware of the iBillboardManager cel component by which
+you can handle billboards (which are used by the pcbillboard property class),
+although you won't need it unless you are doing everything purely from code,
+or for advanced usage.
+</p>
+<a name="8"></a>
+<h4 class="subsubheading"> Defining a billboard for an entity in map xml. </h4>
+
+<p>To define an entity that uses this property class we add a &lt;propclass&gt; stance
+to the entity or entity template &lt;addon&gt; section.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;config_button&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
+  &lt;propclass name=&quot;pc2d.billboard&quot;&gt;
+    &lt;property name=&quot;clickable&quot; bool=&quot;true&quot;/&gt;
+    &lt;property name=&quot;text&quot; string=&quot;Quit&quot;/&gt;
+    &lt;property name=&quot;text_fg_color&quot; vector=&quot;0.5,0,0&quot;/&gt;
+    &lt;property name=&quot;text_font_size&quot; float=&quot;20.0&quot;/&gt;
+    &lt;property name=&quot;text_offset&quot; vector2=&quot;10000,10000&quot;/&gt;
+    &lt;property name=&quot;x&quot; long=&quot;61440&quot;/&gt;
+    &lt;property name=&quot;y&quot; long=&quot;215039&quot;/&gt;
+    &lt;property name=&quot;text_font&quot; string=&quot;/fonts/ttf/Vera.ttf&quot;/&gt;
+    &lt;property name=&quot;materialname&quot; string=&quot;billboard_config_buttonbutton.png.001&quot;/&gt;
+  &lt;/propclass&gt;
+  &lt;behaviour layer=&quot;blpython&quot; name=&quot;config_button&quot;/&gt;
+&lt;/addon&gt;
+</pre></td></tr></table>
+
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-CommandInput.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

@@ -1,0 +1,29 @@
+SubDir TOP docs html ;
+
+rule FilelistEntryManual
+{
+  FileListEntriesData $(1) : $(2) : doc-manual ;
+}
+
+rule FilelistEntryAPI
+{
+  FileListEntriesData $(1) : $(2) : doc-api ;
+}
+
+CELDOCFILES_HTML = .html .jpg .jpeg .png .gif .css ;
+
+# The 'manual' and 'api' subdirectories are generated automatically by
+# jobber.pl on a daily basis. That script processes and knows about generated
+# files only, and will correctly 'cvs add' and 'cvs remove' items from those
+# directories as required.  Consequently, we can not have Jamfiles in those
+# directories (since jobber.pl would "cvs remove" them because they are not
+# "generated").  Therefore, we perform tasks for those subdirectories here
+# instead.
+
+SubDir TOP docs html manual ;
+Recurse InstallDoc : $(CELDOCFILES_HTML) : html manual ;
+Recurse FilelistEntryManual : $(CELDOCFILES_HTML) ;
+
+SubDir TOP docs html api ;
+Recurse InstallDoc : $(CELDOCFILES_HTML) : html api ;
+Recurse FilelistEntryAPI : $(CELDOCFILES_HTML) ;

@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer 1.9dev: 4.2.2.4 app.cpp</title>
+
+<meta name="description" content="Crystal Entity Layer 1.9dev: 4.2.2.4 app.cpp">
+<meta name="keywords" content="Crystal Entity Layer 1.9dev: 4.2.2.4 app.cpp">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Tutorial-QuestTest-App"></a>
+<a name="0"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="Tutorial-QuestTest-App-Header.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Tutorial-BTTest.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Tutorial-QuestTest.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<hr size="1">
+<h4 class="subsubsection"> 4.2.2.4 app.cpp </h4>
+
+<p>Here is our main application source file, the bulk of changes for this tutorial occur in this file.
+Before we can get into the details of creating a quest the following final set up must be performed in the Application ()
+method of the main app.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.logic.quest&quot;)) 
+  return false; 
+
+//myQuest 
+csRef&lt;iCelEntity&gt; quest = CreateQuest(&quot;myquest&quot;); 
+if (!quest) printf (&quot;CreateQuest(&quot;&quot;myquest&quot;&quot;) Failed!\n&quot;);
+
+</pre></td></tr></table>
+<p>This simply loads the quest factory, and calls, with rudimentary error handling, the create quest method detailed below.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csPtr&lt;iCelEntity&gt; MainApp::CreateQuest (const char* name) 
+{ 
+  // The Quest Entity
+  entity_quest = pl-&gt;CreateEntity (name, bl, &quot;quest_behave&quot;,
+    &quot;pclogic.quest&quot;, &quot;pctools.properties&quot;, CEL_PROPCLASS_END);
+
+  csRef&lt;iQuestManager&gt; qm = csQueryRegistryOrLoad&lt;iQuestManager&gt; (object_reg,
+    	&quot;cel.manager.quests&quot;); 
+
+  
+  //----------------------------------------------------------- 
+  // Create 'testquest'. 
+  //----------------------------------------------------------- 
+  
+  iQuestFactory* fact = qm-&gt;CreateQuestFactory (&quot;testquest&quot;); 
+  if (!fact)
+  {
+	printf(&quot;Factory Create Failed&quot;);
+	return 0;
+  
+</pre></td></tr></table>
+<p>A Quest is an entity, and as such must be created with a call to the physical layer method CreateEntity (...).
+</p>
+<p>The Quest Manager (variable qm above) is a critical component for the construction and setup of quests. For example,
+the first task of the quest manager is create a quest factory for the constuction of the example quest 'testquest'.
+</p>
+<p>Quests are essentially Finite State Machines and as such they are made up by a number of states. 
+Each state has responses that will occur when an assigned trigger fires if the Quest is currently in that state. 
+Each response has one trigger. When the trigger fires any rewards assigned to that response will execute. Each response 
+can have multiple rewards.
+</p>
+<p>As an example, below is the state definition of the initial state of the example quest. The first two method calls
+create the state, and its sole response. The remainder sets up the assigned trigger and various rewards.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">
+  // ---- init state ----
+  iQuestStateFactory* state_init = fact-&gt;CreateState (&quot;init&quot;);
+  iQuestTriggerResponseFactory* init_response =
+    state_init-&gt;CreateTriggerResponseFactory ();
+	
+  qm-&gt;SetTimeoutTrigger (init_response, &quot;10&quot;);
+  qm-&gt;AddDebugPrintReward (init_response, &quot;\n\nWelcome To The Example Quest&quot;);
+  
+  qm-&gt;AddDebugPrintReward (init_response, &quot; -Initalising counter parameter&quot;);
+  iChangePropertyRewardFactory* rf_changeprop = qm-&gt;AddChangePropertyReward 
+    (init_response, name, &quot;counter&quot;);
+  rf_changeprop-&gt;SetLongParameter (&quot;0&quot;);
+
+  qm-&gt;AddDebugPrintReward (init_response, &quot; -Clearing all walktut boxes&quot;);
+  qm-&gt;AddDestroyEntityReward (init_response, &quot;box1&quot;);
+  qm-&gt;AddDestroyEntityReward (init_response, &quot;box2&quot;);
+  qm-&gt;AddDestroyEntityReward (init_response, &quot;box3&quot;);
+
+  qm-&gt;AddDebugPrintReward (init_response, &quot; -Creating money box&quot;);
+  const celEntityTemplateParams tpl_params;
+  qm-&gt;AddCreateEntityReward (init_response, &quot;BoxTemplate&quot;, &quot;templateBox&quot;, tpl_params);
+
+  qm-&gt;AddDebugPrintReward (init_response, &quot; -Entering 1st State\n&quot;);
+  qm-&gt;AddNewStateReward (init_response, name, &quot;start&quot;);
+</pre></td></tr></table>
+<p>The sole response in this example, is fired by a time out trigger. Once the timer reaches 10 seconds the welcome message 
+is displayed and the game sets up. This state demonstrates a wide range of possible reward uses, from entity creation/deletion
+to parameter manipulation.
+</p>
+<p>This state makes extensive use of convenience methods available in the quest manager to simplify the process 
+of adding trigger and rewards to a response. At the time of writing all triggers and responses have a corresponding
+convenience method.
+</p>
+<p>The final reward moves the quest into another state. Once in the next state the above response will not occur again. However,
+if we were to later return to this state the game would begin again. A simple practical exercise to test your understanding 
+would be to implement a reset function on this small game, that would move back to this state after the winning or losing state is reached.
+</p>
+<p>Below is the code for the next state, which is the main part of the game logic.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">  // ---- start state ----
+  iQuestStateFactory* state_start = fact-&gt;CreateState (&quot;start&quot;);
+
+  iRewardType* type = qm-&gt;GetRewardType (&quot;cel.rewards.debugprint&quot;);
+  csRef&lt;iRewardFactory&gt; rewfact = type-&gt;CreateRewardFactory ();
+  csRef&lt;iDebugPrintRewardFactory&gt; dbg_rewfact = scfQueryInterface&lt;iDebugPrintRewardFactory&gt; (rewfact);
+  dbg_rewfact-&gt;SetMessageParameter (&quot;State Changed =&gt; The Game Has Begun&quot;);
+  state_start-&gt;AddInitRewardFactory (rewfact);
+
+  iQuestTriggerResponseFactory* start_response1 =
+	state_start-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetTimeoutTrigger (start_response1, &quot;10&quot;);
+
+  qm-&gt;AddDebugPrintReward (start_response1, &quot; -Money Box Self Destuct Sequence Has Begun\n&quot;);
+  csRef&lt;iCelSequenceFactory&gt; destruct_seq = fact-&gt;CreateSequence(&quot;sequence_destruct&quot;);
+  csRef&lt;iSeqOpFactory&gt; seqopfact = qm-&gt;GetSeqOpType(&quot;cel.seqops.debugprint&quot;)-&gt;CreateSeqOpFactory();
+  csRef&lt;iDebugPrintSeqOpFactory&gt; destruct_seqopfact = 
+	scfQueryInterface&lt;iDebugPrintSeqOpFactory&gt; (seqopfact);
+  destruct_seqopfact-&gt;SetMessageParameter(&quot;Self Destruct Progress : &quot;);
+  destruct_seq-&gt;AddSeqOpFactory(seqopfact, &quot;1000&quot;);
+  qm-&gt;AddSequenceReward(start_response1, name, &quot;sequence_destruct&quot;, &quot;10&quot;);
+
+  
+  iQuestTriggerResponseFactory* start_response2 =
+    state_start-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetMeshSelectTrigger(start_response2, &quot;templateBox&quot;);
+  qm-&gt;AddDebugPrintReward(start_response2, &quot;You Picked Up The Money Box &amp; Stopped The Self Destruct\n&quot;);
+  qm-&gt;AddNewStateReward (start_response2, name, &quot;box_pickup&quot;);
+
+
+  iQuestTriggerResponseFactory* start_response3 =
+    state_start-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetSequenceFinishTrigger(start_response3, name, &quot;sequence_destruct&quot;);
+  qm-&gt;AddDestroyEntityReward (start_response3, &quot;templateBox&quot;);
+  qm-&gt;AddDebugPrintReward(start_response3, &quot;SELF-DESTRUCT HAS OCCURRED\n&quot;);
+  qm-&gt;AddNewStateReward (start_response3, name, &quot;box_explode&quot;);
+</pre></td></tr></table>
+<p>This state starts slighlty different, with the construction of a reward without the use of the convenience methods.
+If you are using a new reward/trigger that does not have a corresponding convenience method, the factory must be created
+from the type and setup as here for the game start message.
+</p>
+<p>The reward factory created, however, is not assigned to a standard response. Instead it is set as the on init reward factory. This means
+the game started message will display as the state is entered. A similar method is available for the addition of on exit 
+rewards.
+</p>
+<p>The following three responses in this code example are regular in state responses. The first starts the self destruct sequence
+of the money box. This sequence simply uses a debug message, but the sequence tool can also be used to create effects combining any 
+seq ops. Current potential examples, include closing doors and changing light colors.
+</p>
+<p>The second is triggered by the money box being picked up. The player can pick up the box by clicking on it, and the mesh select
+trigger will fire upon this occuring. The quest moves into the final state where on init it stops the self destruct sequence.
+</p>
+<p>The final response is triggered if the sequence ends in its own time, this is then reported to the player and the quest is 
+moved into a different final state. This response is not triggered when the sequence is finished by the player
+picking up the box because the quest has moved into a different state before the sequence finish reward is executed.
+</p>
+<p>The two final states, denote success or failure in the game. If the player has picked up the box they will have moved into
+the box_pickup state where the counter is updated to show their success and the player informed. This makes use of the 
+property manipulation reward and a trigger that fires upon a property change. This state also includes another example of 
+the reward on init feature.
+</p>
+<p>However, if the player has not picked up the box the bad_one will haunt them. That is it will be added to their inventory
+to symbolise hiding in their jacket. This shows the inventory reward that can add entities to a players inventory. This response
+also makes use of the message send reward and message received trigger to announce the players failure.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">  // ---- box_pickup state ----
+  iQuestStateFactory* state_box_pickup = fact-&gt;CreateState (&quot;box_pickup&quot;);
+  
+  type = qm-&gt;GetRewardType (&quot;cel.rewards.sequencefinish&quot;);
+  csRef&lt;iRewardFactory&gt; seq_fin_rewfact = type-&gt;CreateRewardFactory ();
+  csRef&lt;iSequenceFinishRewardFactory&gt; explicit_seq_fin_rewfact = 
+  	scfQueryInterface&lt;iSequenceFinishRewardFactory&gt; (seq_fin_rewfact);
+  explicit_seq_fin_rewfact-&gt;SetEntityParameter (name);
+  explicit_seq_fin_rewfact-&gt;SetSequenceParameter (&quot;sequence_destruct&quot;);
+  state_box_pickup-&gt;AddInitRewardFactory(seq_fin_rewfact);
+
+  iQuestTriggerResponseFactory* box_pickup_response1 =
+	state_box_pickup-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetTimeoutTrigger (box_pickup_response1, &quot;10&quot;);
+  rf_changeprop = qm-&gt;AddChangePropertyReward 
+    (box_pickup_response1, name, &quot;counter&quot;);
+  rf_changeprop-&gt;SetLongParameter (&quot;1&quot;);
+  
+
+  iQuestTriggerResponseFactory* box_pickup_response2 =
+    state_box_pickup-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetPropertyChangeTrigger (box_pickup_response2, name, &quot;counter&quot;, &quot;1&quot;);
+  qm-&gt;AddDebugPrintReward(box_pickup_response2, &quot;Counter Updated To Reflect Pickup =&gt; You Have Won&quot;);
+  
+
+  // ---- box_explode state ----
+  iQuestStateFactory* state_box_explode = fact-&gt;CreateState (&quot;box_explode&quot;);
+
+  iQuestTriggerResponseFactory* box_explode_response1 =
+	state_box_explode-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetTimeoutTrigger (box_explode_response1, &quot;10&quot;);
+  qm-&gt;AddInventoryReward (box_explode_response1, &quot;player&quot;, &quot;badone&quot;);
+
+  iQuestTriggerResponseFactory* box_explode_response2 =
+    state_box_explode-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetInventoryTrigger(box_explode_response2, &quot;player&quot;, &quot;badone&quot;);
+  qm-&gt;AddDebugPrintReward(box_explode_response2, &quot;Badone Hid In Your Cloak From The Explosion&quot;);
+  
+  iQuestTriggerResponseFactory* box_explode_response3 =
+	  state_box_explode-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetTimeoutTrigger (box_explode_response3, &quot;50&quot;);
+  qm-&gt;AddMessageReward(box_explode_response3, &quot;player&quot;, &quot;You Lose&quot;);
+
+  iQuestTriggerResponseFactory* box_explode_response4 =
+	  state_box_explode-&gt;CreateTriggerResponseFactory ();
+  qm-&gt;SetMessageTrigger(box_explode_response4, &quot;player&quot;, &quot;You Lose&quot;);
+  qm-&gt;AddDebugPrintReward(box_explode_response4, &quot;Message Trigger Fired =&gt; You Have Lost&quot;);
+</pre></td></tr></table>
+
+
+<p>Finally, the quest must be created and started.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">   //-----------------------------------------------------------
+
+  csRef&lt;iPcQuest&gt; pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest, iPcQuest); 
+  celParams params;
+
+  if (!pcquest-&gt;NewQuest (&quot;testquest&quot;, params)) 
+  { 
+	ReportError (&quot;Error creating quest '%s'!&quot;, &quot;testquest&quot;); 
+    return 0; 
+   
+
+  pcquest-&gt;GetQuest ()-&gt;SwitchState (&quot;init&quot;); 
+
+  return csPtr&lt;iCelEntity&gt; (entity_quest); 
+ 
+</pre></td></tr></table>
+<p>The NewQuest method creates the quest, with error handling to report any error that occurs.
+</p>
+<p>Any parameters used in the Quest must be stored in a celParams and passed to the NewQuest method. 
+However, none were used in this tutorial
+</p>
+<p>The Quest must then be switched to the initial state, from where it will begin execution.
+</p>
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="Tutorial-QuestTest-App-Header.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Tutorial-BTTest.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Tutorial-QuestTest.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

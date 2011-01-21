@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer 1.9dev: 4.3 Property Classes</title>
+
+<meta name="description" content="Crystal Entity Layer 1.9dev: 4.3 Property Classes">
+<meta name="keywords" content="Crystal Entity Layer 1.9dev: 4.3 Property Classes">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Property-Classes"></a>
+<a name="0"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="Tutorial-BTTest.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-Billboard.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<hr size="1">
+<h2 class="section"> 4.3 Property Classes </h2>
+
+<p>A property class is a piece of functionality that you can attach to some 
+entity. By attaching the right property classes
+to an entity you define the characteristics of that entity.
+</p>
+<p>Here in this chapter the various property classes are documented, as well
+as generics on property class usage.
+</p>
+<p>For specific documentation on handling
+them from some programming/scripting language refer to the appropiate section 
+in the manual.
+</p>
+<a name="1"></a>
+<h3 class="subheading"> General Information </h3>
+
+<p>Property classes can be attached to entities by using the <code>API</code> for a specific language, or by using xml in map definition.
+</p>
+<p>Each of the property classes has some <em>actions</em> to control the entity, <em>properties</em> to customize property class behaviour, and an specific <em>API</em> for direct access to functionality.
+</p>
+<p>In general <code>actions</code> and <code>properties</code> can be accessed either from any of the supported languages or map/quest/behaviour xml. On the other hand cel <code>API</code> is only accessible from the <samp>&lsquo;real&rsquo;</samp> languages supported, at the moment <code>c++</code> or <code>python</code>, in the future more might be implemented.
+</p>
+<a name="2"></a>
+<h3 class="subheading"> Actions </h3>
+
+<p><code>Actions</code> are specific commands available to control a property class from xml or code. Most property classes have some actions, which mean that specific functionality can be used from quests, xml behaviours or map definition.
+</p>
+<p>As an example the PcTimer property class supports <code>WakeUp</code> and 
+<code>WakeUpFrame</code> actions and <code>Clear</code> actions, so timer can be set or
+cleared.
+</p>
+<p>Note usually functionality accessible through the API will be a bit more 
+extensive than that implemented in actions, but these should be enough to
+handle more usual (or sometimes simpler) situations.
+</p>
+<a name="3"></a>
+<h3 class="subheading"> Properties </h3>
+
+<p><code>Properties</code> can be used to customize property class behaviour. Most property classes have at least some of these, and unlike actions many times the same
+funtionality can't be directly accessed using API (other than by setting the
+properties), so you can say these are <em>very</em> important to understand well
+how property classes can be used, no matter what your programming environment
+might be.
+</p>
+<p>As an example, <code>PcTrigger</code> has <samp>&lsquo;delay&rsquo;</samp>, <samp>&lsquo;jitter&rsquo;</samp>, <samp>&lsquo;monitor&rsquo;</samp>, <samp>&lsquo;invisible&rsquo;</samp> and <samp>&lsquo;follow&rsquo;</samp> properties to control how often the trigger
+is checked, what entity it monitors, whether to check for invisible entities and
+whether to follow own entity around.
+</p>
+<a name="4"></a>
+<h3 class="subheading"> Property classes from map xml </h3>
+
+<p>Property classes can be specified in map xml by using the entity or entitytpl
+addons.
+</p>
+<p>An example follows with the typical xml for a player entity.
+</p><table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;player&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
+  &lt;propclass name=&quot;pcobject.mesh&quot;&gt;
+     &lt;action name=&quot;SetMesh&quot;&gt;
+        &lt;par string=&quot;PlayerMesh&quot; name=&quot;name&quot;/&gt;
+     &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pcmove.linear&quot;&gt;
+     &lt;action name=&quot;InitCDMesh&quot;&gt;
+        &lt;par float=&quot;10.0&quot; name=&quot;percentage&quot;/&gt;
+     &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pccamera.old&quot;&gt;
+    &lt;action name=&quot;SetCamera&quot;&gt;
+      &lt;par name=&quot;distance&quot; vector=&quot;2,6,10&quot;/&gt;
+      &lt;par name=&quot;modename&quot; string=&quot;thirdperson&quot;/&gt;
+      &lt;par name=&quot;pitch&quot; float=&quot;-0.5&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pcinput.standard&quot;&gt;
+    &lt;action name=&quot;LoadConfig&quot;&gt;
+      &lt;par name=&quot;prefix&quot; string=&quot;Player&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;behaviour layer=&quot;blpython&quot; name=&quot;actor&quot;/&gt;
+&lt;/addon&gt;
+</pre></td></tr></table>
+<p>Specific examples for each of the property classes can be found on their own
+sections.
+</p>
+<a name="5"></a>
+<h3 class="subheading"> The Property Classes </h3>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="PropClass-Billboard.html#0">4.3.1 Billboard</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-CommandInput.html#0">4.3.2 Command Input</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-Hover.html#0">4.3.3 Hover</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-LinMove.html#0">4.3.4 Linear Movement</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-Mesh.html#0">4.3.5 Mesh</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-Mover.html#0">4.3.6 Mover</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-Projectile.html#0">4.3.7 Projectile</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-Quest-Manager.html#0">4.3.8 Quest Manager</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-Behaviour-Tree.html#0">4.3.9 Behaviour Tree</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-Spawn.html#0">4.3.10 Spawn</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-Timer.html#0">4.3.11 Timer</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-Trigger.html#0">4.3.12 Trigger</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="PropClass-ZoneMgr.html#0">4.3.13 Zone Manager</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+</table>
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="Tutorial-BTTest.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-Billboard.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

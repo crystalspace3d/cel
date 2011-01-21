@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass wheeledmove ;
+
+Plugin pfwheeledmove
+	: wheeledmove.cpp wheeledmove.h
+;
+ExternalLibs pfwheeledmove : CRYSTAL ;
+LinkWith pfwheeledmove : celtool ;
+
