@@ -135,7 +135,7 @@
       <OutputFile>..\..\bootstrap_static.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\release10\build\appbootstrap_static\Win32\bootstrap_static.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -184,7 +184,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <OutputFile>..\..\bootstrap_static.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\release10\build\appbootstrap_static\Win32\bootstrap_static.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -229,7 +229,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <OutputFile>..\..\bootstrap_static.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\debug10\build\appbootstrap_static\Win32\bootstrap_static.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -274,7 +274,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <OutputFile>..\..\bootstrap_static.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\debug10\build\appbootstrap_static\Win32\bootstrap_static.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -323,7 +323,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <OutputFile>..\..\bootstrap_static.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\release10-x64\build\appbootstrap_static\x64\bootstrap_static.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -372,7 +372,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <OutputFile>..\..\bootstrap_static.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\release10-x64\build\appbootstrap_static\x64\bootstrap_static.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -417,7 +417,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <OutputFile>..\..\bootstrap_static.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\debug10-x64\build\appbootstrap_static\x64\bootstrap_static.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -462,7 +462,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <OutputFile>..\..\bootstrap_static.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\debug10-x64\build\appbootstrap_static\x64\bootstrap_static.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

@@ -111,7 +111,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\libquesttest_static_plugins_CRYSTAL\Win32\questtest_static_plugins_CRYSTAL.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D CS_HAVE_CAL3D  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libquesttest_static_plugins_CRYSTAL\libquesttest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libquesttest_static_plugins_CRYSTAL\</AssemblerListingLocation>
@@ -127,7 +127,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc10.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace_directx.lib libcrystalspace.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -158,7 +158,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\libquesttest_static_plugins_CRYSTAL\Win32\questtest_static_plugins_CRYSTAL-1.9-vc10.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D CS_HAVE_CAL3D  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libquesttest_static_plugins_CRYSTAL\libquesttest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libquesttest_static_plugins_CRYSTAL\</AssemblerListingLocation>
@@ -177,7 +177,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <OutputFile>..\..\questtest_static_plugins_CRYSTAL-1.9-vc10.dll</OutputFile>
       <ImportLibrary>..\..\out\release10\libs\libquesttest_static_plugins_CRYSTAL.lib</ImportLibrary>
       <ProgramDatabaseFile>..\..\out\release10\build\libquesttest_static_plugins_CRYSTAL\Win32\questtest_static_plugins_CRYSTAL-1.9-vc10.pdb</ProgramDatabaseFile>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc10.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace_directx.lib libcrystalspace.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -205,7 +205,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libquesttest_static_plugins_CRYSTAL\Win32\questtest_static_plugins_CRYSTAL.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D CS_HAVE_CAL3D  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libquesttest_static_plugins_CRYSTAL\libquesttest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libquesttest_static_plugins_CRYSTAL\</AssemblerListingLocation>
@@ -219,7 +219,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc10_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_directx_d.lib libcrystalspace_d.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -248,7 +248,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libquesttest_static_plugins_CRYSTAL\Win32\questtest_static_plugins_CRYSTAL-1.9-vc10_d.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D CS_HAVE_CAL3D  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libquesttest_static_plugins_CRYSTAL\libquesttest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libquesttest_static_plugins_CRYSTAL\</AssemblerListingLocation>
@@ -265,7 +265,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <OutputFile>..\..\questtest_static_plugins_CRYSTAL-1.9-vc10_d.dll</OutputFile>
       <ImportLibrary>..\..\out\debug10\libs\libquesttest_static_plugins_CRYSTAL_d.lib</ImportLibrary>
       <ProgramDatabaseFile>..\..\out\debug10\build\libquesttest_static_plugins_CRYSTAL\Win32\questtest_static_plugins_CRYSTAL-1.9-vc10_d.pdb</ProgramDatabaseFile>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc10_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_directx_d.lib libcrystalspace_d.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -295,7 +295,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\libquesttest_static_plugins_CRYSTAL\x64\questtest_static_plugins_CRYSTAL.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D CS_HAVE_CAL3D  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libquesttest_static_plugins_CRYSTAL\libquesttest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libquesttest_static_plugins_CRYSTAL\</AssemblerListingLocation>
@@ -311,7 +311,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc10.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace_directx.lib libcrystalspace.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -342,7 +342,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\libquesttest_static_plugins_CRYSTAL\x64\questtest_static_plugins_CRYSTAL-1.9-vc10-x64.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D CS_HAVE_CAL3D  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libquesttest_static_plugins_CRYSTAL\libquesttest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libquesttest_static_plugins_CRYSTAL\</AssemblerListingLocation>
@@ -361,7 +361,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <OutputFile>..\..\questtest_static_plugins_CRYSTAL-1.9-vc10-x64.dll</OutputFile>
       <ImportLibrary>..\..\out\release10-x64\libs\libquesttest_static_plugins_CRYSTAL.lib</ImportLibrary>
       <ProgramDatabaseFile>..\..\out\release10-x64\build\libquesttest_static_plugins_CRYSTAL\x64\questtest_static_plugins_CRYSTAL-1.9-vc10-x64.pdb</ProgramDatabaseFile>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc10.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace_directx.lib libcrystalspace.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -389,7 +389,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libquesttest_static_plugins_CRYSTAL\x64\questtest_static_plugins_CRYSTAL.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D CS_HAVE_CAL3D  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libquesttest_static_plugins_CRYSTAL\libquesttest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libquesttest_static_plugins_CRYSTAL\</AssemblerListingLocation>
@@ -403,7 +403,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc10_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_directx_d.lib libcrystalspace_d.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -432,7 +432,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libquesttest_static_plugins_CRYSTAL\x64\questtest_static_plugins_CRYSTAL-1.9-vc10-x64_d.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D CS_HAVE_CAL3D  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libquesttest_static_plugins_CRYSTAL\libquesttest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libquesttest_static_plugins_CRYSTAL\</AssemblerListingLocation>
@@ -449,7 +449,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <OutputFile>..\..\questtest_static_plugins_CRYSTAL-1.9-vc10-x64_d.dll</OutputFile>
       <ImportLibrary>..\..\out\debug10-x64\libs\libquesttest_static_plugins_CRYSTAL_d.lib</ImportLibrary>
       <ProgramDatabaseFile>..\..\out\debug10-x64\build\libquesttest_static_plugins_CRYSTAL\x64\questtest_static_plugins_CRYSTAL-1.9-vc10-x64_d.pdb</ProgramDatabaseFile>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>libjpeg.lib libpng.lib cg.lib cgGL.lib cal3d-vc10_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_directx_d.lib libcrystalspace_d.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
