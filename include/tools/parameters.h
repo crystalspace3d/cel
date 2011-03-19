@@ -32,11 +32,20 @@
 class celVariableParameterBlock;
 struct iCelDataBuffer;
 struct iCelParameterBlock;
+
+/// The description of a parameter
 struct celParSpec
 {
+  /// The type of the parameter
   celDataType type;
+
+  /// The ID of the parameter
   csStringID id;
+
+  /// The name of the parameter
   csString name;
+
+  /// The value of the parameter
   csString value;
 };
 
@@ -80,6 +89,7 @@ struct iParameter : public virtual iBase
 };
 
 //---------------------------------------------------------------------------
+/// A set of parameters, mapping a key to a value
 typedef csHash<csStringBase,csStringBase> celParams;
 //---------------------------------------------------------------------------
 
