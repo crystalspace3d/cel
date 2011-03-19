@@ -267,7 +267,6 @@ void celActionReward::Reward (iCelParameterBlock* params)
     if (changed) ent = 0;
     if (!ent)
     {
-      // TODO: segfault if e not found?
       ent = pl->FindEntity (e);
       if (!ent) return;
     }
