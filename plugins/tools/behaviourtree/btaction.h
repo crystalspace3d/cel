@@ -33,7 +33,7 @@ class celBehaviourTreeAction : public scfImplementation3<
 {		
 private: 
   iObjectRegistry* object_reg;						
-  csRef<iReward> action; 
+  csRefArray<iReward> actions; 
 
 public:									
   celBehaviourTreeAction (iBase* parent);			
@@ -45,7 +45,7 @@ public:
   virtual bool AddChild (iBTNode* child);
 
   //From iBTAction
-  virtual void SetReward (iReward* reward);
+  virtual void AddReward (iReward* reward);
 };
 
 #endif // __CEL_TOOLS_BTACTION__

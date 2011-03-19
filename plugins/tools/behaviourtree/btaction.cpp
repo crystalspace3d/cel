@@ -32,9 +32,8 @@ CEL_IMPLEMENT_BTNODE (BehaviourTreeAction)
 
 bool celBehaviourTreeAction::Execute (const celParams& params)
 {
-  iCelParameterBlock* param_block = 0;
-  if (action)
-    action->Reward (param_block);
+  for (size_t i = 0; i < actions.GetSize (); i++)
+    actions[i]->Reward (nullptr);
   return true;
 }
 
@@ -43,7 +42,7 @@ bool celBehaviourTreeAction::AddChild (iBTNode* child)
   return false;
 }
 
-void celBehaviourTreeAction::SetReward (iReward* reward)
+void celBehaviourTreeAction::AddReward (iReward* reward)
 {
-  action = reward;
+  actions.Push (reward);
 }

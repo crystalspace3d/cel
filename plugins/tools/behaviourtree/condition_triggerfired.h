@@ -24,8 +24,8 @@
 
 
 /**
- * A wrapper for triggers to use them within behaviour trees
- * Returns true if trigger has already fired, and false otherwise
+ * A wrapper for triggers to use them within behaviour trees.
+ * Returns false until the trigger has been fired.
  */
 
 class celTriggerFiredCondition : public scfImplementation4<		
