@@ -23,13 +23,13 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-// For animations.
+/// Base animations IDs.
 enum celAnimationName
 {
-  CEL_ANIM_IDLE = 0,
-  CEL_ANIM_WALK,
-  CEL_ANIM_RUN,
-  CEL_ANIM_JUMP
+  CEL_ANIM_IDLE = 0, /// Idle animation
+  CEL_ANIM_WALK,     /// Walking animation
+  CEL_ANIM_RUN,      /// Running animation
+  CEL_ANIM_JUMP      /// Jumping animation
 };
 
 /**
@@ -38,8 +38,7 @@ enum celAnimationName
  * movement for actors in a game. Typical usage would be to combine
  * it with pccommandinput and then in the behaviour layer send out
  * the appropriate calls here depending on the keys that are pressed.
- * This class is also aware of animation actions using sprcal3d or
- * spr3d.
+ * This class is also aware of animation actions using animated meshes.
  *
  * This property class supports the following actions (add prefix 'cel.move.actor.action.'
  * if you want to access this action through a message):
@@ -56,7 +55,7 @@ enum celAnimationName
  * - MouseMove: parameters 'x' (float) and 'y' (float).
  * - Run: parameters 'start' (bool).
  * - AutoRun: parameters 'start' (bool).
- * - Clear: clear all movement (equivalent to calling Forward,
+ * - Clear: clear all movement (therefore you don't need to stop a specific movement before going to another)
  * - Jump.
  * - ToggleCameraMode.
  * - SetAnimation: parameters 'name' (string) and 'cycle' (bool default=true).

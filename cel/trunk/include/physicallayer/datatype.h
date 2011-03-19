@@ -37,28 +37,28 @@ struct iCelEntity;
  */
 enum celDataType
 {
-  CEL_DATA_NONE = 0,
-  CEL_DATA_BOOL,
-  CEL_DATA_BYTE,
-  CEL_DATA_WORD,
-  CEL_DATA_LONG,
-  CEL_DATA_UBYTE,
-  CEL_DATA_UWORD,
-  CEL_DATA_ULONG,
-  CEL_DATA_FLOAT,
-  CEL_DATA_VECTOR2,
-  CEL_DATA_VECTOR3,
-  CEL_DATA_VECTOR4,
-  CEL_DATA_STRING,
-  CEL_DATA_PCLASS,
-  CEL_DATA_ENTITY,
-  CEL_DATA_ACTION,
-  CEL_DATA_COLOR,
-  CEL_DATA_COLOR4,
-  CEL_DATA_IBASE,
-  CEL_DATA_PARAMETER,
+  CEL_DATA_NONE = 0,  // Undefined type
+  CEL_DATA_BOOL,      // Boolean type
+  CEL_DATA_BYTE,      // Byte type (ie 8 bits)
+  CEL_DATA_WORD,      // Word type (ie 16 bits)
+  CEL_DATA_LONG,      // Long type (ie 32 bits)
+  CEL_DATA_UBYTE,     // Unsigned byte type
+  CEL_DATA_UWORD,     // Unsigned word type
+  CEL_DATA_ULONG,     // Unsigned long type
+  CEL_DATA_FLOAT,     // Float type
+  CEL_DATA_VECTOR2,   // csVector2 type
+  CEL_DATA_VECTOR3,   // csVector3 type
+  CEL_DATA_VECTOR4,   // csVector4 type
+  CEL_DATA_STRING,    // String type
+  CEL_DATA_PCLASS,    // Property class type
+  CEL_DATA_ENTITY,    // Entity type
+  CEL_DATA_ACTION,    // Action type
+  CEL_DATA_COLOR,     // csColor type
+  CEL_DATA_COLOR4,    // csColor4 type
+  CEL_DATA_IBASE,     // iBase type
+  CEL_DATA_PARAMETER, // A templated parameter 
 
-  CEL_DATA_LAST
+  CEL_DATA_LAST       // Count of different data types
 };
 
 /**
