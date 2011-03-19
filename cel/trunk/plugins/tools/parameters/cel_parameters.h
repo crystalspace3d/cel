@@ -59,7 +59,7 @@ public:
   	const celParams& params,
 	const csArray<celParSpec>& parameters,
 	csRefArray<iParameter>& quest_parameters);
-  virtual void FillParameterBlock (
+  virtual bool FillParameterBlock (
     iCelParameterBlock* params,
 	celVariableParameterBlock* act_params,
 	const csArray<celParSpec>& parameters,

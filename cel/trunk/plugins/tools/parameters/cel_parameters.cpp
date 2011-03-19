@@ -286,7 +286,7 @@ csPtr<celVariableParameterBlock> celParameterManager::GetParameterBlock (
   return act_params;
 }
 
-void celParameterManager::FillParameterBlock (
+bool celParameterManager::FillParameterBlock (
     iCelParameterBlock* params,
 	celVariableParameterBlock* act_params,
 	const csArray<celParSpec>& parameters,
@@ -296,9 +296,9 @@ void celParameterManager::FillParameterBlock (
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 		"cel.parameters.manager",
-		"Can't fill parameter blocks of different size!");
-    CS_ASSERT (false);
-    return;
+	      "Can't fill parameter blocks of different size (%i VS %i)!",
+	      parameters.GetSize (), quest_parameters.GetSize ());
+    return false;
   }
 
   size_t i;
@@ -333,6 +333,8 @@ void celParameterManager::FillParameterBlock (
 	break;
     }
   }
+
+  return true;
 }
 
 //---------------------------------------------------------------------------

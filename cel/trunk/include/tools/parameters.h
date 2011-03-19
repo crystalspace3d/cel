@@ -138,14 +138,15 @@ struct iParameterManager : public virtual iBase
 	csRefArray<iParameter>& quest_parameters) = 0;
 
    /**
-   * Fill in the dynamic parameters in a parameter block.
+   * Fill in the dynamic parameters in a parameter block. Return whether or
+   * not the filling has been made.
    * \param params is the parameter block given to the reward.
    * \param msg_params is the resolved parameter block as returned by
    * GetParameterBlock().
    * \param parameters is the parameter specifications and unparsed values.
    * \param quest_parameters is an array with quest parameters.
    */
-  virtual void FillParameterBlock (
+  virtual bool FillParameterBlock (
     iCelParameterBlock* params,
 	celVariableParameterBlock* act_params,
 	const csArray<celParSpec>& parameters,
