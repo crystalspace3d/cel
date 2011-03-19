@@ -292,6 +292,15 @@ void celParameterManager::FillParameterBlock (
 	const csArray<celParSpec>& parameters,
 	const csRefArray<iParameter>& quest_parameters)
 {
+  if (parameters.GetSize () != quest_parameters.GetSize ())
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		"cel.parameters.manager",
+		"Can't fill parameter blocks of different size!");
+    CS_ASSERT (false);
+    return;
+  }
+
   size_t i;
   for (i = 0 ; i < quest_parameters.GetSize () ; i++)
   {
