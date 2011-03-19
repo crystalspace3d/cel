@@ -32,9 +32,9 @@ CEL_IMPLEMENT_BTNODE (BehaviourTreeAction)
 
 bool celBehaviourTreeAction::Execute (const celParams& params)
 {
-  //printf("ACTION\n");
   iCelParameterBlock* param_block = 0;
-  action->Reward (param_block);
+  if (action)
+    action->Reward (param_block);
   return true;
 }
 
