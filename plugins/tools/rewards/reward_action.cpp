@@ -284,12 +284,15 @@ void celActionReward::Reward (iCelParameterBlock* params)
     if (actionID)
     {
       celData ret;
-      pm->FillParameterBlock (params, act_params, factory->parameters, quest_parameters);
-      propertyclass->PerformAction (actionID, act_params, ret);
+      if (!pm->FillParameterBlock (params, act_params, factory->parameters, quest_parameters))
+	Report (factory->type->object_reg,
+		"Could not fill parameters '%s' in the specified pc!", idname);
+      else
+	propertyclass->PerformAction (actionID, act_params, ret);
     }
     else
       Report (factory->type->object_reg,
-	      "No action  '%s' in the specified pc!", idname);
+	      "No action '%s' in the specified pc!", idname);
   }
   else
     Report (factory->type->object_reg,
@@ -357,8 +360,11 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
     propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
     if (propertyclass)
     {
-      pm->FillParameterBlock (params, act_params, factory->parameters, quest_parameters);
-      propertyclass->PerformAction (actionID, act_params, ret);
+      if (!pm->FillParameterBlock (params, act_params, factory->parameters, quest_parameters))
+	Report (factory->type->object_reg,
+		"Could not fill parameters in the specified pc '%s' '%s'!", pc, t);
+      else
+	propertyclass->PerformAction (actionID, act_params, ret);
     }
   }
 }
