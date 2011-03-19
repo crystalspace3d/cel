@@ -91,7 +91,7 @@ celTimeoutTrigger::celTimeoutTrigger (
 	const char* timeout_par) : scfImplementationType (this)
 {
   celTimeoutTrigger::type = type;
-  timer = new csEventTimer (type->object_reg);
+  timer.AttachNew (new csEventTimer (type->object_reg));
 
   csRef<iPluginManager> plugin_mgr = 
    csQueryRegistry<iPluginManager> (type->object_reg);

@@ -50,7 +50,7 @@ class celTriggerTriggerFactory : public scfImplementation2<
 	iTriggerTriggerFactory>
 {
 private:
-  celTriggerTriggerType* type;
+  csRef<celTriggerTriggerType> type;
   csString entity_par;
   csString tag_par;
   bool do_leave;
@@ -74,7 +74,7 @@ class celTriggerTrigger : public scfImplementation2<
 	celTriggerTrigger, iTrigger, iPcTriggerListener>
 {
 private:
-  celTriggerTriggerType* type;
+  csRef<celTriggerTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
   csString tag;

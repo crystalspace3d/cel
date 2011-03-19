@@ -49,7 +49,7 @@ class celCsSequenceRewardFactory : public scfImplementation2<
 	iCsSequenceRewardFactory>
 {
 private:
-  celCsSequenceRewardType* type;
+  csRef<celCsSequenceRewardType> type;
   csString sequence_par;
   csString delay_par;
 
@@ -72,7 +72,7 @@ class celCsSequenceReward : public scfImplementation1<
 	celCsSequenceReward, iReward>
 {
 private:
-  celCsSequenceRewardType* type;
+  csRef<celCsSequenceRewardType> type;
   csRef<iParameter> sequence;
   csRef<iParameter> pdelay;
   csWeakRef<iEngineSequenceManager> eseqmgr;

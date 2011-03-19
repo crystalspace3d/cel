@@ -45,7 +45,7 @@ class celCreateEntityRewardFactory : public scfImplementation2<
 	iCreateEntityRewardFactory>
 {
 private:
-  celCreateEntityRewardType* type;
+  csRef<celCreateEntityRewardType> type;
   csString template_par;
   csString name_par;
   celEntityTemplateParams params;
@@ -70,7 +70,7 @@ class celCreateEntityReward : public scfImplementation1<
 	celCreateEntityReward, iReward>
 {
 private:
-  celCreateEntityRewardType* type;
+  csRef<celCreateEntityRewardType> type;
   csRef<iParameter> name;
   csRef<iParameter> entity_tpl;
   celEntityTemplateParams params;

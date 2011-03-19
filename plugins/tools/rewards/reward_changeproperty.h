@@ -50,7 +50,7 @@ class celChangePropertyRewardFactory : public scfImplementation2<
 	iChangePropertyRewardFactory>
 {
 private:
-  celChangePropertyRewardType* type;
+  csRef<celChangePropertyRewardType> type;
   csString prop_par;
   csString entity_par;
   csString class_par;
@@ -90,7 +90,7 @@ class celChangePropertyRewardBase : public scfImplementation1<
 	celChangePropertyRewardBase, iReward>
 {
 protected:
-  celChangePropertyRewardType* type;
+  csRef<celChangePropertyRewardType> type;
   csRef<iParameter> prop;
   csRef<iParameter> pc;
   csRef<iParameter> tag;

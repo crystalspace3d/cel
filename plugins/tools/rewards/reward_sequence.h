@@ -49,7 +49,7 @@ class celSequenceRewardFactory : public scfImplementation2<
 	iSequenceRewardFactory>
 {
 private:
-  celSequenceRewardType* type;
+  csRef<celSequenceRewardType> type;
   csString entity_par;
   csString class_par;
   csString tag_par;
@@ -80,7 +80,7 @@ class celSequenceReward : public scfImplementation1<
 	celSequenceReward, iReward>
 {
 private:
-  celSequenceRewardType* type;
+  csRef<celSequenceRewardType> type;
   csRef<iParameter> entity;
   csRef<iParameter> tag;
   csRef<iParameter> sequence_name;
@@ -109,7 +109,7 @@ class celClassSequenceReward : public scfImplementation1<
 	celClassSequenceReward, iReward>
 {
 private:
-  celSequenceRewardType* type;
+  csRef<celSequenceRewardType> type;
   csRef<iParameter> tag;
   csRef<iParameter> sequence_name;
   csRef<iParameter> clazz;

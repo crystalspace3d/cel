@@ -45,7 +45,7 @@ class celDestroyEntityRewardFactory : public scfImplementation2<
 	iDestroyEntityRewardFactory>
 {
 private:
-  celDestroyEntityRewardType* type;
+  csRef<celDestroyEntityRewardType> type;
   csString entity_par;
   csString class_par;
 
@@ -68,7 +68,7 @@ class celDestroyEntityReward : public scfImplementation1<
 	celDestroyEntityReward, iReward>
 {
 private:
-  celDestroyEntityRewardType* type;
+  csRef<celDestroyEntityRewardType> type;
   csRef<iParameterManager> pm;
   csRef<iParameter> entity;
 
@@ -88,7 +88,7 @@ class celDestroyClassReward : public scfImplementation1<
 	celDestroyClassReward, iReward>
 {
 private:
-  celDestroyEntityRewardType* type;
+  csRef<celDestroyEntityRewardType> type;
   csRef<iParameterManager> pm;
   csRef<iParameter> ent_class;
 

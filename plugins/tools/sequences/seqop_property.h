@@ -58,7 +58,7 @@ class celPropertySeqOpFactory : public scfImplementation2<
 	iPropertySeqOpFactory>
 {
 private:
-  celPropertySeqOpType* type;
+  csRef<celPropertySeqOpType> type;
   csString entity_par;
   csString pc_par;
   csString prop_par;
@@ -99,7 +99,7 @@ class celPropertySeqOp : public scfImplementation1<
 	celPropertySeqOp, iSeqOp>
 {
 protected:
-  celPropertySeqOpType* type;
+  csRef<celPropertySeqOpType> type;
   csString entity;
   csString pcname;
   csString propname;

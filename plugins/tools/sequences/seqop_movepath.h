@@ -55,7 +55,7 @@ class celMovePathSeqOpFactory : public scfImplementation2<
 	iMovePathSeqOpFactory>
 {
 private:
-  celMovePathSeqOpType* type;
+  csRef<celMovePathSeqOpType> type;
   csString entity_par;
   csString tag_par;
   csStringArray sectors;
@@ -83,11 +83,12 @@ class celMovePathSeqOp : public scfImplementation1<
 	celMovePathSeqOp, iSeqOp>
 {
 private:
-  celMovePathSeqOpType* type;
+  csRef<celMovePathSeqOpType> type;
   csString entity;
   csString tag;
-  csPath* path;
-  iSector* sector;
+  // TODO: 
+  csRef<csPath> path;
+  csRef<iSector> sector;
   float maxtime;
 
   csRef<iParameter> entity_param;
