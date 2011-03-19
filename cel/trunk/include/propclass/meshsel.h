@@ -23,6 +23,7 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
+struct iCelEntity;
 struct iPcCamera;
 struct iPcMovable;
 struct iPcMesh;
