@@ -41,22 +41,17 @@ iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity, const char* 
 {
   csRef<iCelBehaviour> behaviour;
   if (!strcmp(name, "levelBehaviour"))
-  {
-    behaviour = new BehaviourLevel(entity, this, physicalLayer);
-  }
+    behaviour.AttachNew (new BehaviourLevel(entity, this, physicalLayer));
+
   else if (!strcmp(name, "playerBehaviour"))
-  {
-    behaviour = new BehaviourPlayer(entity, this, physicalLayer, objectRegistry);
-  }
+    behaviour.AttachNew (new BehaviourPlayer(entity, this, physicalLayer, objectRegistry));
+
   else if (!strcmp(name, "boxBehaviour"))
-  {
-    behaviour = new BehaviourBox(entity, this, physicalLayer, objectRegistry);
-  }  
+    behaviour.AttachNew (new BehaviourBox(entity, this, physicalLayer, objectRegistry));
 
   if (behaviour)
-  {
     entity->SetBehaviour(behaviour);
-  }
+
   return behaviour;
 }
 
