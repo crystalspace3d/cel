@@ -52,7 +52,7 @@ class celMessageRewardFactory : public scfImplementation2<
 	iMessageRewardFactory>
 {
 private:
-  celMessageRewardType* type;
+  csRef<celMessageRewardType> type;
   csString entity_par;
   csString class_par;
   csString id_par;
@@ -80,7 +80,7 @@ class celMessageReward : public scfImplementation2<
 	celMessageReward, iReward, iMessageSender>
 {
 private:
-  celMessageRewardType* type;
+  csRef<celMessageRewardType> type;
   //csWeakRef<iQuestManager> qm;
   csRef<iParameterManager> pm;
 
@@ -115,7 +115,7 @@ class celClassMessageReward : public scfImplementation1<
 	celClassMessageReward, iReward>
 {
 private:
-  celMessageRewardType* type;
+  csRef<celMessageRewardType> type;
   //csWeakRef<iQuestManager> qm;
   csRef<iParameterManager> pm;
 

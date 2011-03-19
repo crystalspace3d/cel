@@ -51,7 +51,7 @@ class celOperationTriggerFactory : public scfImplementation2<
 	iOperationTriggerFactory>
 {
 private:
-  celOperationTriggerType* type;
+  csRef<celOperationTriggerType> type;
   csString operation_par;
   csRefArray<iTriggerFactory> triggers;
 public:
@@ -75,7 +75,7 @@ class celOperationTrigger : public scfImplementation2<
 	celOperationTrigger, iTrigger, iTriggerCallback>
 {
 protected:
-  celOperationTriggerType* type;
+  csRef<celOperationTriggerType> type;
   csRef<iTriggerCallback> callback;
   csRefArray<iTrigger> triggers;
   bool checking;

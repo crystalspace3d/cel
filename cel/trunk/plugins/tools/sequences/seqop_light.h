@@ -50,7 +50,7 @@ class celLightSeqOpFactory : public scfImplementation2<
 	iLightSeqOpFactory>
 {
 private:
-  celLightSeqOpType* type;
+  csRef<celLightSeqOpType> type;
   csString entity_par;
   csString tag_par;
   csString rel_red_par;
@@ -83,7 +83,7 @@ class celLightSeqOp : public scfImplementation1<
 	celLightSeqOp, iSeqOp>
 {
 private:
-  celLightSeqOpType* type;
+  csRef<celLightSeqOpType> type;
   csString entity;
   csString tag;
   csColor rel;

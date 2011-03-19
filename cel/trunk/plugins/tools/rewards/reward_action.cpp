@@ -79,13 +79,20 @@ csPtr<iReward> celActionRewardFactory::CreateReward (
   iReward* reward;
   if (!entity_par.IsEmpty())
   {
-    reward = new celActionReward (type,
-  	params, entity_par, id_par, pcclass_par, tag_par, parameters);
+    reward = new celActionReward (this,
+  	params, entity_par, id_par, pcclass_par, tag_par);
   }
   else
   {
-    reward = new celClassActionReward (type,
-  	params, class_par, id_par, pcclass_par, tag_par, parameters);
+    if (!class_par)
+    {
+      Report (type->object_reg,
+	      "No entity or class defined while creating action reward!");
+      return csPtr<iReward> (nullptr);
+    }
+
+    reward = new celClassActionReward (this,
+  	params, class_par, id_par, pcclass_par, tag_par);
   }
   return reward;
 }
@@ -215,19 +222,16 @@ void celActionRewardFactory::AddParameter (celDataType type,
 //---------------------------------------------------------------------------
 
 celActionReward::celActionReward (
-	celActionRewardType* type,
+	celActionRewardFactory* factory,
   	const celParams& params,
 	const char* entity_par,
 	const char* id_par,
 	const char* pcclass_par,
-	const char* tag_par,
-	const csArray<celParSpec>& parameters)
-  : scfImplementationType (this), parameters (parameters)
+	 const char* tag_par)
+  : scfImplementationType (this), factory (factory)
 {
-  celActionReward::type = type;
-
   csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
+   csQueryRegistry<iPluginManager> (factory->type->object_reg);
   pm = csLoadPlugin<iParameterManager> (plugin_mgr,
     "cel.parameters.manager");
 
@@ -235,8 +239,8 @@ celActionReward::celActionReward (
   tag = pm->GetParameter (params, tag_par);
   entity = pm->GetParameter (params, entity_par);
   id = pm->GetParameter (params, id_par);
-  quest_parameters.SetSize (parameters.GetSize (), 0);
-  act_params = pm->GetParameterBlock (params, parameters, quest_parameters);
+  quest_parameters.SetSize (factory->parameters.GetSize (), 0);
+  act_params = pm->GetParameterBlock (params, factory->parameters, quest_parameters);
 }
 
 celActionReward::~celActionReward ()
@@ -245,22 +249,25 @@ celActionReward::~celActionReward ()
 
 void celActionReward::Reward (iCelParameterBlock* params)
 {
-  iCelPlLayer* pl = type->pl;
+  iCelPlLayer* pl = factory->type->pl;
 
   bool changed;
   // XXX parsing of entity has to be refactored as it is very commonly
   // done.
-  const celData * data = entity->GetData(params);
+
+  const celData * data = entity->GetData (params);
   if (data->type == CEL_DATA_ENTITY)
   {
     ent = data->value.ent;
   }
+
   else
   {
     const char* e = entity->Get (params, changed);
     if (changed) ent = 0;
     if (!ent)
     {
+      // TODO: segfault if e not found?
       ent = pl->FindEntity (e);
       if (!ent) return;
     }
@@ -278,34 +285,31 @@ void celActionReward::Reward (iCelParameterBlock* params)
     if (actionID)
     {
       celData ret;
-      pm->FillParameterBlock (params, act_params, parameters, quest_parameters);
+      pm->FillParameterBlock (params, act_params, factory->parameters, quest_parameters);
       propertyclass->PerformAction (actionID, act_params, ret);
     }
     else
-      Report (type->object_reg,
-		"No action  '%s' in the specified pc!", idname);
+      Report (factory->type->object_reg,
+	      "No action  '%s' in the specified pc!", idname);
   }
   else
-    Report (type->object_reg,
+    Report (factory->type->object_reg,
             "No propertyclass  '%s' in the specified entity!", pc);
 }
 
 //---------------------------------------------------------------------------
 
 celClassActionReward::celClassActionReward (
-	celActionRewardType* type,
+	celActionRewardFactory* factory,
   	const celParams& params,
 	const char* class_par,
 	const char* id_par,
 	const char* pcclass_par,
-	const char* tag_par,
-	const csArray<celParSpec>& parameters)
-  : scfImplementationType (this), parameters (parameters)
+	const char* tag_par)
+  : scfImplementationType (this), factory (factory)
 {
-  celClassActionReward::type = type;
-
   csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
+   csQueryRegistry<iPluginManager> (factory->type->object_reg);
   pm = csLoadPlugin<iParameterManager> (plugin_mgr,
     "cel.parameters.manager");
   
@@ -314,8 +318,8 @@ celClassActionReward::celClassActionReward (
   clazz = pm->GetParameter (params, class_par);
   id = pm->GetParameter (params, id_par);
 
-  quest_parameters.SetSize (parameters.GetSize (), 0);
-  act_params = pm->GetParameterBlock (params, parameters, quest_parameters);
+  quest_parameters.SetSize (factory->parameters.GetSize (), 0);
+  act_params = pm->GetParameterBlock (params, factory->parameters, quest_parameters);
   actionID = csInvalidStringID;
 }
 
@@ -334,13 +338,13 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
   const char* clz = clazz->Get (params, changed);
   if (changed || !entlist)
   {
-    csStringID ent_class = type->pl->FetchStringID (clz);
-    entlist = type->pl->GetClassEntitiesList (ent_class);
+    csStringID ent_class = factory->type->pl->FetchStringID (clz);
+    entlist = factory->type->pl->GetClassEntitiesList (ent_class);
   }
 
   const char* aid = id->Get (params, changed);
   if (changed || actionID == csInvalidStringID)
-    actionID = type->pl->FetchStringID (aid);
+    actionID = factory->type->pl->FetchStringID (aid);
 
   const char* pc = pcclass->Get (params);
   if (!pc) return;
@@ -354,7 +358,7 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
     propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
     if (propertyclass)
     {
-      pm->FillParameterBlock (params, act_params, parameters, quest_parameters);
+      pm->FillParameterBlock (params, act_params, factory->parameters, quest_parameters);
       propertyclass->PerformAction (actionID, act_params, ret);
     }
   }

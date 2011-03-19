@@ -49,7 +49,7 @@ class celTimeoutTriggerFactory : public scfImplementation2<
 	iTimeoutTriggerFactory>
 {
 private:
-  celTimeoutTriggerType* type;
+  csRef<celTimeoutTriggerType> type;
   csString timeout_par;
 
 public:
@@ -71,11 +71,11 @@ class celTimeoutTrigger : public scfImplementation2<
 	iTimerEvent>
 {
 private:
-  celTimeoutTriggerType* type;
+  csRef<celTimeoutTriggerType> type;
   csRef<iParameterManager> pm;
   csRef<iTriggerCallback> callback;
   csTicks timeout;
-  csEventTimer* timer;
+  csRef<csEventTimer> timer;
   bool fired;
 
 public:

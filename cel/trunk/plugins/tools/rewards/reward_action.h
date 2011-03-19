@@ -48,7 +48,10 @@ class celActionRewardFactory : public scfImplementation2<
 	celActionRewardFactory, iRewardFactory, iActionRewardFactory>
 {
 private:
-  celActionRewardType* type;
+  friend class celActionReward;
+  friend class celClassActionReward;
+
+  csRef<celActionRewardType> type;
   csString entity_par;
   csString class_par;
   csString id_par;
@@ -80,7 +83,7 @@ class celActionReward : public scfImplementation1<celActionReward,
 	iReward>
 {
 private:
-  celActionRewardType* type;
+  csRef<celActionRewardFactory> factory;
   //csWeakRef<iQuestManager> qm;
   csRef<iParameterManager> pm;
   csRef<iParameter> pcclass;
@@ -90,16 +93,14 @@ private:
   csWeakRef<iCelEntity> ent;
   csRef<celVariableParameterBlock> act_params;
   csRefArray<iParameter> quest_parameters;
-  const csArray<celParSpec>& parameters;
 
 public:
-  celActionReward (celActionRewardType* type,
+  celActionReward (celActionRewardFactory* factory,
   	const celParams& params,
 	const char* entity_par,
 	const char* id_par,
 	const char* pcclass_par,
-	const char* tag_par,
-	const csArray<celParSpec>& parameters);
+	const char* tag_par);
   virtual ~celActionReward ();
 
   virtual void Reward (iCelParameterBlock* params);
@@ -112,7 +113,7 @@ class celClassActionReward : public scfImplementation1<celClassActionReward,
 	iReward>
 {
 private:
-  celActionRewardType* type;
+  csRef<celActionRewardFactory> factory;
   //csWeakRef<iQuestManager> qm;
   csRef<iParameterManager> pm;
   csRef<iParameter> pcclass;
@@ -124,16 +125,14 @@ private:
   csRef<iCelEntityList> entlist;
   csRef<celVariableParameterBlock> act_params;
   csRefArray<iParameter> quest_parameters;
-  const csArray<celParSpec>& parameters;
 
 public:
-  celClassActionReward (celActionRewardType* type,
+  celClassActionReward (celActionRewardFactory* factory,
   	const celParams& params,
 	const char* class_par,
 	const char* id_par,
 	const char* pcclass_par,
-	const char* tag_par,
-	const csArray<celParSpec>& parameters);
+	const char* tag_par);
   virtual ~celClassActionReward ();
 
   virtual void Reward (iCelParameterBlock* params);

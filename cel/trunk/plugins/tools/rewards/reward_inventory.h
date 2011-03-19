@@ -49,7 +49,7 @@ class celInventoryRewardFactory : public scfImplementation2<
 	iInventoryRewardFactory>
 {
 private:
-  celInventoryRewardType* type;
+  csRef<celInventoryRewardType> type;
   csString entity_par;
   csString tag_par;
   csString child_entity_par;
@@ -75,7 +75,7 @@ class celInventoryReward : public scfImplementation1<
 	celInventoryReward, iReward>
 {
 private:
-  celInventoryRewardType* type;
+  csRef<celInventoryRewardType> type;
   csRef<iParameterManager> pm;
   csRef<iParameter> entity;
   csRef<iParameter> tag;
