@@ -1341,7 +1341,10 @@ void celPcLinearMovement::GetDRData (bool& on_ground, float& speed,
 iSector* celPcLinearMovement::GetSector ()
 {
   FindSiblingPropertyClasses ();
-  return pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
+  iSectorList* sectors = pcmesh->GetMesh ()->GetMovable ()->GetSectors ();
+  if (!sectors->GetCount ())
+    return nullptr;
+  return sectors->Get (0);
 }
 
 // --------------------------------------------------------------------------
