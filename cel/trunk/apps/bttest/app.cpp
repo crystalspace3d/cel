@@ -294,32 +294,32 @@ void MainApp::CreateBehaviourTree ()
     scfQueryInterface<iBTAction> (looking_action_node);
   explicit_reward_factory->SetMessageParameter ("Looking For Money Box :s");
   csRef<iReward> reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (angry_action_node);
   explicit_reward_factory->SetMessageParameter ("ANGRY! >:");
   reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (calming_action_node);
   explicit_reward_factory->SetMessageParameter ("Calming down, calm... calm :|");
   reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (lottery_action_node);
   explicit_reward_factory->SetMessageParameter ("Won the Lottery! :D");
   reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  explicit_action_node->AddReward (reward);
 	  
   explicit_action_node = scfQueryInterface<iBTAction> (irritable_action_node);
   explicit_reward_factory->SetMessageParameter ("Irritable :(");
   reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (loving_action_node);
   explicit_reward_factory->SetMessageParameter ("Loving :)");
   reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  explicit_action_node->AddReward (reward);
 
 
   //Connect Tree
