@@ -21,9 +21,8 @@
 */
 #include "cssysdef.h"
 
-#include <iengine/campos.h>
-#include <ivaria/collider.h>
-#include <cstool/collider.h>
+#include "iengine/campos.h"
+#include "cstool/collider.h"
 
 #include "celtool/initapp.h"
 
@@ -148,13 +147,13 @@ bool LifeSimulator::OnKeyboard (iEvent &ev)
 
 bool LifeSimulator::CreateScene ()
 {
-  printf ("Loading level...\n");
+  printf ("Loading level... ");
 
   // Load the level file named 'world'.
   csRef<iVFS> VFS (csQueryRegistry<iVFS> (GetObjectRegistry ()));
   VFS->ChDir ("/lev/island");
   if (!loader->LoadMapFile ("world"))
-    ReportError("Error couldn't load level!");
+    return ReportError(" Error couldn't load level!");
 
   // Setup the the sector and the camera
   room = engine->FindSector ("TerrainSector");
@@ -168,6 +167,9 @@ bool LifeSimulator::CreateScene ()
     positions->Get (0)->Load (view->GetCamera (), engine);
     cameraManager.SetStartPosition (view->GetCamera ()->GetTransform ().GetOrigin ());
   }
+
+  printf ("Done\n");
+  printf ("Initializing collision system... ");
 
   // Initialize the collision system
   csRef<iPluginManager> pluginManager = csQueryRegistry<iPluginManager> (GetObjectRegistry ());
@@ -183,7 +185,8 @@ bool LifeSimulator::CreateScene ()
   else
     csColliderHelper::InitializeCollisionWrappers (collideSystem, engine);
 
-  printf ("Level loaded...\n");
+  printf ("Done\n");
+  printf ("Precaching data... ");
 
   return true;
 }

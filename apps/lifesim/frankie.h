@@ -19,14 +19,9 @@
   License along with this library; if not, write to the Free
   Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-#ifndef FRANKIE_H
-#define FRANKIE_H
+#ifndef __FRANKIE_H
+#define __FRANKIE_H
 
-#include "propclass/actormove.h"
-#include "propclass/meshsel.h"
-#include "propclass/mesh.h"
-#include "propclass/camera.h"
-#include "propclass/inv.h"
 #include "tools/behaviourtree.h"
 
 #include "behave.h"
@@ -53,4 +48,4 @@ class FrankieBehaviour : public BehaviourCommon
   void TickOnce ();
 };
 
-#endif
+#endif // __FRANKIE_H

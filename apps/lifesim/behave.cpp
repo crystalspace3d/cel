@@ -19,7 +19,7 @@
   License along with this library; if not, write to the Free
   Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-#include <crystalspace.h>
+#include "cssysdef.h"
 
 #include "physicallayer/entity.h"
 
@@ -56,8 +56,6 @@ BehaviourCommon::BehaviourCommon (const char* name, iCelEntity* entity,
   : scfImplementationType (this), name (name), entity (entity),
     behaviourLayer (behaviourLayer), physicalLayer (physicalLayer)
 {
-  // Register for the first wake up (it will be the initalization one)
-  physicalLayer->CallbackOnce (this, 0, CEL_EVENT_PRE);
 }
 
 BehaviourCommon::~BehaviourCommon ()
@@ -95,15 +93,3 @@ iCelBlLayer* BehaviourCommon::GetBehaviourLayer () const
 {
   return behaviourLayer;
 }
-
-/**
- * LivingEntityBehaviour
- */
-/*
-LivingEntityBehaviour::LivingEntityBehaviour (iCelEntity* entity, BehaviourLayer* behaviourLayer, 
-					      iCelPlLayer* physicalLayer) 
-  : scfImplementationType (this), BehaviourCommon (entity, behaviourLayer, physicalLayer)
-{
-}
-
-*/

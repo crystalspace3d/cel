@@ -19,10 +19,10 @@
   License along with this library; if not, write to the Free
   Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-#ifndef BEHAVE_H
-#define BEHAVE_H
+#ifndef __BEHAVE_H
+#define __BEHAVE_H
 
-#include <iutil/objreg.h>
+#include "iutil/objreg.h"
 
 #include "physicallayer/pl.h"
 #include "behaviourlayer/bl.h"
@@ -84,36 +84,5 @@ public:
   virtual void TickEveryFrame () = 0;
   virtual void TickOnce () = 0;
 };
-/*
-class LivingEntityBehaviour
-: public scfImplementation2<LivingEntityBehaviour,
-  //scfFakeInterface<iCelBehaviour>,
-  iCelBehaviour,
-  iCelTimerListener>,
-  public BehaviourCommon
-{
- public:
-  LivingEntityBehaviour (iCelEntity* entity, BehaviourLayer* behaviourLayer,
-			 iCelPlLayer* physicalLayer);
-  virtual ~LivingEntityBehaviour () {}
 
-  //-- BehaviourCommon
-  virtual bool Initialize () { CreateBehaviourTree (); return true; }
-
-  virtual void CreateBehaviourTree () = 0;
-
-  virtual bool SendMessage (csStringID msg_id, iCelPropertyClass* pc, celData& ret, 
-                            iCelParameterBlock* params, va_list arg) = 0;
-
-  virtual const char* GetName () const { return name.GetData (); }
-
-  //-- iCelTimerListener
-  void TickEveryFrame () {}
-  void TickOnce () {}
-
- protected:
-  // The name of this behaviour
-  csString name;
-};
-*/
-#endif
+#endif // __BEHAVE_H
