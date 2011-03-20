@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="appnettest"
-	ProjectGUID="{810EE67A-EF58-EF92-1367-E6FD972356CE}"
+	Name="appcellifesim"
+	ProjectGUID="{504EC0A8-DF86-A983-A6EB-B60A56D8287E}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
             		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release9\build\appnettest\"
-			IntermediateDirectory="..\..\out\release9\build\appnettest\"
+			OutputDirectory="..\..\out\release9\build\appcellifesim\"
+			IntermediateDirectory="..\..\out\release9\build\appcellifesim\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -27,14 +27,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\appnettest\Win32\nettest.pdb"
+				ProgramDataBaseFileName="..\..\out\release9\build\appcellifesim\Win32\cellifesim.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9\build\appnettest\appnettest.pch"
-				AssemblerListingLocation="..\..\out\release9\build\appnettest\"
-				ObjectFile="..\..\out\release9\build\appnettest\"
+				PrecompiledHeaderFile="..\..\out\release9\build\appcellifesim\appcellifesim.pch"
+				AssemblerListingLocation="..\..\out\release9\build\appcellifesim\"
+				ObjectFile="..\..\out\release9\build\appcellifesim\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -51,8 +51,8 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\nettest.exe"
-				ProgramDatabaseFile="..\..\out\release9\build\appnettest\Win32\nettest.pdb"
+				OutputFile="..\..\cellifesim.exe"
+				ProgramDatabaseFile="..\..\out\release9\build\appcellifesim\Win32\cellifesim.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -69,7 +69,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\appnettest\appnettest.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\appcellifesim\appcellifesim.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\nettest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\lifesim;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -90,8 +90,8 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release9\build\appnettest\"
-			IntermediateDirectory="..\..\out\release9\build\appnettest\"
+			OutputDirectory="..\..\out\release9\build\appcellifesim\"
+			IntermediateDirectory="..\..\out\release9\build\appcellifesim\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -104,14 +104,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\appnettest\Win32\nettest.pdb"
+				ProgramDataBaseFileName="..\..\out\release9\build\appcellifesim\Win32\cellifesim.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9\build\appnettest\appnettest.pch"
-				AssemblerListingLocation="..\..\out\release9\build\appnettest\"
-				ObjectFile="..\..\out\release9\build\appnettest\"
+				PrecompiledHeaderFile="..\..\out\release9\build\appcellifesim\appcellifesim.pch"
+				AssemblerListingLocation="..\..\out\release9\build\appcellifesim\"
+				ObjectFile="..\..\out\release9\build\appcellifesim\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -128,8 +128,8 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\nettest.exe"
-				ProgramDatabaseFile="..\..\out\release9\build\appnettest\Win32\nettest.pdb"
+				OutputFile="..\..\cellifesim.exe"
+				ProgramDatabaseFile="..\..\out\release9\build\appcellifesim\Win32\cellifesim.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -146,7 +146,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\appnettest\appnettest.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\appcellifesim\appcellifesim.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -158,7 +158,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\nettest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\lifesim;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -167,8 +167,8 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\appnettest\"
-			IntermediateDirectory="..\..\out\debug9\build\appnettest\"
+			OutputDirectory="..\..\out\debug9\build\appcellifesim\"
+			IntermediateDirectory="..\..\out\debug9\build\appcellifesim\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			UseOfMFC="0"
@@ -180,14 +180,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\appnettest\Win32\nettest.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9\build\appcellifesim\Win32\cellifesim.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9\build\appnettest\appnettest.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\appnettest\"
-				ObjectFile="..\..\out\debug9\build\appnettest\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\appcellifesim\appcellifesim.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\appcellifesim\"
+				ObjectFile="..\..\out\debug9\build\appcellifesim\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -202,8 +202,8 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\nettest.exe"
-				ProgramDatabaseFile="..\..\out\debug9\build\appnettest\Win32\nettest.pdb"
+				OutputFile="..\..\cellifesim.exe"
+				ProgramDatabaseFile="..\..\out\debug9\build\appcellifesim\Win32\cellifesim.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -220,7 +220,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\appnettest\appnettest.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\appcellifesim\appcellifesim.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -232,7 +232,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\nettest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\lifesim;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -241,8 +241,8 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\appnettest\"
-			IntermediateDirectory="..\..\out\debug9\build\appnettest\"
+			OutputDirectory="..\..\out\debug9\build\appcellifesim\"
+			IntermediateDirectory="..\..\out\debug9\build\appcellifesim\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			UseOfMFC="0"
@@ -254,14 +254,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\appnettest\Win32\nettest.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9\build\appcellifesim\Win32\cellifesim.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9\build\appnettest\appnettest.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\appnettest\"
-				ObjectFile="..\..\out\debug9\build\appnettest\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\appcellifesim\appcellifesim.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\appcellifesim\"
+				ObjectFile="..\..\out\debug9\build\appcellifesim\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -276,8 +276,8 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\nettest.exe"
-				ProgramDatabaseFile="..\..\out\debug9\build\appnettest\Win32\nettest.pdb"
+				OutputFile="..\..\cellifesim.exe"
+				ProgramDatabaseFile="..\..\out\debug9\build\appcellifesim\Win32\cellifesim.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -294,7 +294,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\appnettest\appnettest.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\appcellifesim\appcellifesim.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -306,7 +306,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\nettest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\lifesim;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -315,8 +315,8 @@
 		</Configuration>
                         		<Configuration
 			Name="Release (with static libs)|x64"
-			OutputDirectory="..\..\out\release9-x64\build\appnettest\"
-			IntermediateDirectory="..\..\out\release9-x64\build\appnettest\"
+			OutputDirectory="..\..\out\release9-x64\build\appcellifesim\"
+			IntermediateDirectory="..\..\out\release9-x64\build\appcellifesim\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -329,14 +329,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9-x64\build\appnettest\x64\nettest.pdb"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\appcellifesim\x64\cellifesim.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\appnettest\appnettest.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\appnettest\"
-				ObjectFile="..\..\out\release9-x64\build\appnettest\"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\appcellifesim\appcellifesim.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\appcellifesim\"
+				ObjectFile="..\..\out\release9-x64\build\appcellifesim\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -353,8 +353,8 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\nettest.exe"
-				ProgramDatabaseFile="..\..\out\release9-x64\build\appnettest\x64\nettest.pdb"
+				OutputFile="..\..\cellifesim.exe"
+				ProgramDatabaseFile="..\..\out\release9-x64\build\appcellifesim\x64\cellifesim.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -371,7 +371,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\appnettest\appnettest.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\appcellifesim\appcellifesim.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
@@ -383,7 +383,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\nettest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\lifesim;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -392,8 +392,8 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|x64"
-			OutputDirectory="..\..\out\release9-x64\build\appnettest\"
-			IntermediateDirectory="..\..\out\release9-x64\build\appnettest\"
+			OutputDirectory="..\..\out\release9-x64\build\appcellifesim\"
+			IntermediateDirectory="..\..\out\release9-x64\build\appcellifesim\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -406,14 +406,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9-x64\build\appnettest\x64\nettest.pdb"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\appcellifesim\x64\cellifesim.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\appnettest\appnettest.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\appnettest\"
-				ObjectFile="..\..\out\release9-x64\build\appnettest\"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\appcellifesim\appcellifesim.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\appcellifesim\"
+				ObjectFile="..\..\out\release9-x64\build\appcellifesim\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -430,8 +430,8 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\nettest.exe"
-				ProgramDatabaseFile="..\..\out\release9-x64\build\appnettest\x64\nettest.pdb"
+				OutputFile="..\..\cellifesim.exe"
+				ProgramDatabaseFile="..\..\out\release9-x64\build\appcellifesim\x64\cellifesim.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -448,7 +448,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\appnettest\appnettest.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\appcellifesim\appcellifesim.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
@@ -460,7 +460,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\nettest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\lifesim;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -469,8 +469,8 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\appnettest\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\appnettest\"
+			OutputDirectory="..\..\out\debug9-x64\build\appcellifesim\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\appcellifesim\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			UseOfMFC="0"
@@ -482,14 +482,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9-x64\build\appnettest\x64\nettest.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\appcellifesim\x64\cellifesim.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\appnettest\appnettest.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\appnettest\"
-				ObjectFile="..\..\out\debug9-x64\build\appnettest\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\appcellifesim\appcellifesim.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\appcellifesim\"
+				ObjectFile="..\..\out\debug9-x64\build\appcellifesim\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -504,8 +504,8 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\nettest.exe"
-				ProgramDatabaseFile="..\..\out\debug9-x64\build\appnettest\x64\nettest.pdb"
+				OutputFile="..\..\cellifesim.exe"
+				ProgramDatabaseFile="..\..\out\debug9-x64\build\appcellifesim\x64\cellifesim.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -522,7 +522,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\appnettest\appnettest.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\appcellifesim\appcellifesim.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
@@ -534,7 +534,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\nettest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\lifesim;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -543,8 +543,8 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\appnettest\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\appnettest\"
+			OutputDirectory="..\..\out\debug9-x64\build\appcellifesim\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\appcellifesim\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			UseOfMFC="0"
@@ -556,14 +556,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9-x64\build\appnettest\x64\nettest.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\appcellifesim\x64\cellifesim.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\appnettest\appnettest.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\appnettest\"
-				ObjectFile="..\..\out\debug9-x64\build\appnettest\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\appcellifesim\appcellifesim.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\appcellifesim\"
+				ObjectFile="..\..\out\debug9-x64\build\appcellifesim\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -578,8 +578,8 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\nettest.exe"
-				ProgramDatabaseFile="..\..\out\debug9-x64\build\appnettest\x64\nettest.pdb"
+				OutputFile="..\..\cellifesim.exe"
+				ProgramDatabaseFile="..\..\out\debug9-x64\build\appcellifesim\x64\cellifesim.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -596,7 +596,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\appnettest\appnettest.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\appcellifesim\appcellifesim.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
@@ -608,7 +608,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\nettest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\lifesim;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -621,40 +621,40 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\apps\nettest\netmanagers.cpp">
+				RelativePath="..\..\apps\lifesim\behave.cpp">
 			</File>
 			<File
-				RelativePath="..\..\apps\nettest\nettest.cpp">
+				RelativePath="..\..\apps\lifesim\frankie.cpp">
 			</File>
 			<File
-				RelativePath="..\..\apps\nettest\ntmain.cpp">
+				RelativePath="..\..\apps\lifesim\lifesim.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\apps\nettest\netmanagers.h">
+				RelativePath="..\..\apps\lifesim\behave.h">
 			</File>
 			<File
-				RelativePath="..\..\apps\nettest\nettest.h">
+				RelativePath="..\..\apps\lifesim\frankie.h">
 			</File>
 			<File
-				RelativePath="..\..\apps\nettest\networktypes.h">
+				RelativePath="..\..\apps\lifesim\lifesim.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\appnettest.rc">
+				RelativePath="..\..\msvc\appcellifesim.rc">
 			</File>
 		</Filter>
 		<Filter
 			Name="Manifest Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\appnettest.manifest">
+				RelativePath="..\..\msvc\appcellifesim.manifest">
 			</File>
 		</Filter>
 	</Files>

@@ -4,10 +4,10 @@
 <assemblyIdentity
     version="1.9.0.0"
     processorArchitecture="X86"
-    name="cel.nettest_static"
+    name="cel.cellifesim"
     type="win32"
 />
-<description>nettest_static</description>
+<description>cellifesim</description>
 <dependency>
     <dependentAssembly>
 	  <assemblyIdentity

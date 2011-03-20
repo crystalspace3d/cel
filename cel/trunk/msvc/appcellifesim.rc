@@ -18,7 +18,7 @@ FILEFLAGS 0x0
       VALUE "ProductVersion", "1.9"
       VALUE "FileVersion", "1.9"
       VALUE "LegalCopyright", "Copyright (C)2002-2008 Jorrit Tyberghein and others."
-      VALUE "FileDescription", "nettest"
+      VALUE "FileDescription", "cellifesim"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
 #else
@@ -36,5 +36,5 @@ FILEFLAGS 0x0
 // This file is generated automatically.
 
 #if !defined(PROJECTGEN_VERSION) || (PROJECTGEN_VERSION < 8)
-1 24 "appnettest.manifest"
+1 24 "appcellifesim.manifest"
 #endif
