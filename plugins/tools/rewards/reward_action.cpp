@@ -280,7 +280,7 @@ void celActionReward::Reward (iCelParameterBlock* params)
   if (propertyclass)
   {
     const char* idname = id->Get (params);
-    csStringID actionID = pl->FetchStringID(idname);
+    csStringID actionID = pl->FetchStringID (idname);
     if (actionID)
     {
       celData ret;
