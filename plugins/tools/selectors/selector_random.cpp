@@ -32,9 +32,10 @@ CEL_IMPLEMENT_BTNODE (RandomSelector)
 
 //---------------------------------------------------------------------------
 
+static csRandomGen rng (csGetTicks ());
+
 bool celRandomSelector::Execute (const celParams& params)
 {
-  csRandomGen rng (csGetTicks ());
   int randChildIndex = rng.Get ((int) children.GetSize ());
   return children.Get(randChildIndex)->Execute(params);
 }
