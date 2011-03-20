@@ -23,6 +23,7 @@
 #define __LIFESIMULATOR_H__
 
 #include "cstool/csdemoapplication.h"
+#include "ivaria/collider.h"
 
 #include "physicallayer/pl.h"
 #include "behaviourlayer/bl.h"

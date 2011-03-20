@@ -19,16 +19,21 @@
   License along with this library; if not, write to the Free
   Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-#include <crystalspace.h>
-
-#include "frankie.h"
-#include "lifesim.h"
+#include "cssysdef.h"
 
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
+#include "propclass/actormove.h"
+#include "propclass/camera.h"
+#include "propclass/inv.h"
 #include "propclass/linmove.h"
 #include "propclass/mover.h"
+#include "propclass/meshsel.h"
+#include "propclass/mesh.h"
 #include "propclass/prop.h"
+
+#include "frankie.h"
+#include "lifesim.h"
 
 #define BTREE_UPDATE_RATE 200
 
@@ -68,8 +73,7 @@ bool LifeSimulator::CreateFrankieEntity (const csVector3 position)
   pcActorMove->SetRunningSpeed (2.5f);
   pcActorMove->SetRotationSpeed (1.75f);
 
-  // Initialize the behaviour
-  CS_ASSERT (entity->GetBehaviour ());
+  // Initialize the behaviour tree
   BehaviourCommon* behaviour = static_cast<BehaviourCommon*> (entity->GetBehaviour ());
   behaviour->CreateBehaviourTree ();
 
@@ -80,6 +84,8 @@ FrankieBehaviour::FrankieBehaviour (iCelEntity* entity, BehaviourLayer* behaviou
 				    iCelPlLayer* physicalLayer)
   : BehaviourCommon ("frankie_behaviour", entity, behaviourLayer, physicalLayer)
 {
+  // Register for the first wake up
+  physicalLayer->CallbackOnce (this, 0, CEL_EVENT_PRE);
 }
 
 void FrankieBehaviour::CreateBehaviourTree ()
@@ -174,6 +180,19 @@ void FrankieBehaviour::CreateBehaviourTree ()
 
   explicit_reward_factory->SetEntityParameter (entity->GetName ());
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
+  explicit_reward_factory->SetIDParameter ("Forward");
+  explicit_reward_factory->AddParameter
+    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
+
+  reward = reward_factory->CreateReward (celParams ());
+  explicit_action_node->AddReward (reward);
+
+  // Setup the reward for the new animation
+  reward_factory = reward_type->CreateRewardFactory ();
+  explicit_reward_factory = scfQueryInterface<iActionRewardFactory> (reward_factory);
+
+  explicit_reward_factory->SetEntityParameter (entity->GetName ());
+  explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Run");
   explicit_reward_factory->AddParameter
     (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
@@ -237,10 +256,6 @@ void FrankieBehaviour::TickEveryFrame ()
 
 void FrankieBehaviour::TickOnce ()
 {
-  // Initialize the behaviour tree if not yet made
-  if (!behaviourTree)
-    CreateBehaviourTree ();
-
   // Update the behaviour tree
   celParams params;
   behaviourTree->Execute (params);
