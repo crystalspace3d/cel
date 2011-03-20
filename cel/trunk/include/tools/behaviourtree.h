@@ -27,7 +27,7 @@
 #include "tools/triggers.h"
 
 //-------------------------------------------------------------------------
-// BTNodes
+// Behaviour tree nodes
 //-------------------------------------------------------------------------
 
 /**
@@ -41,21 +41,26 @@
  * Here is the list of different non-action nodes:
  * - "cel.behaviourtree": Default behaviour for a root node. It executes the
  * tree regularly.
- * - "cel.selectors.random": The default selector. Executes children in order
+ * - "cel.selectors.default": The default selector. It executes its children in order
  * until one succeeds.
- * - "cel.selectors.default": A random selector. Executes children in a random
+ * - "cel.selectors.random": A random selector. It executes its children in a random
  * order until one succeeds.
- * - "cel.selectors.sequential": A sequential selector. Executes children in order
+ * - "cel.selectors.sequential": A sequential selector. It executes its children in order
  * until one fails or all have succeeded. Often refered in behaviour tree
  * literature as a sequence.
- * - iTriggerFiredCondition: A wrapper for triggers to use them within
+ * - iTriggerFiredCondition: A wrapper to use triggers within
  * behaviour trees. Return \a false until the trigger has been fired.
- * - iParameterCheckCondition: A wrapper for parameters to use them within
+ * - iParameterCheckCondition: A wrapper to use parameters within
  * behaviour trees. Return whether or not the parameter is equal to the given value.
+ * - iExecutionLimitDecorator: A decorator limiting the number of times a child is executed.
+ * - iLoopDecorator: A loop decorator. It executes its child multiple times in a row.
+ * - "cel.decorators.negatereturn": A negation decorator. It executes its child and returns
+ * the opposite of the result.
  */
 struct iBTNode : public virtual iBase
 {
   SCF_INTERFACE (iBTNode, 0, 0, 1);
+
   /**
    * Execute this node.
    * Return whether or not the execution of the node was successful.
@@ -74,7 +79,7 @@ struct iBTNode : public virtual iBase
 //-------------------------------------------------------------------------
 
 /**
- * This interface is implemented by the leaf action node that 
+ * This interface is implemented by the leaf action iBTNode that 
  * launches a list of CEL rewards
  **/
 struct iBTAction: public virtual iBase
@@ -88,7 +93,7 @@ struct iBTAction: public virtual iBase
 };
 
 /**
- * This interface is implemented by the leaf node that 
+ * This interface is implemented by the leaf iBTNode that 
  * checks whether or not a parameter is equal to a given value.
  **/
 struct iParameterCheckCondition: public virtual iBase
@@ -108,7 +113,7 @@ struct iParameterCheckCondition: public virtual iBase
 
 
 /**
- * This interface is implemented by the leaf node that 
+ * This interface is implemented by the leaf iBTNode that 
  * monitors a CEL trigger. It returns \a false until the trigger has been fired.
  **/
 struct iTriggerFiredCondition: public virtual iBase

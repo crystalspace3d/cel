@@ -24,7 +24,7 @@
 
 
 /**
- * A decorator to limit the number of times a child executes.
+ * A decorator limiting the number of times a child is executed.
  */
 
 class celExecutionLimitDecorator : public scfImplementation3<		
