@@ -40,11 +40,6 @@ LifeSimulator::LifeSimulator ()
   cameraManager.SetMotionSpeed (10.0f);
 
   // Define the available keys
-  hudManager.SetEnabled (true);
-  hudManager.keyDescriptions.DeleteAll ();
-  hudManager.keyDescriptions.Push ("arrow keys: move camera");
-  hudManager.keyDescriptions.Push ("SHIFT-up/down keys: camera closer/farther");
-  hudManager.keyDescriptions.Push ("+/-: walk faster/slower");
   hudManager.keyDescriptions.Push ("p: print camera position");
   hudManager.keyDescriptions.Push ("f: spawn a frankie");
 }
