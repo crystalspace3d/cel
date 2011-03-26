@@ -81,49 +81,58 @@ struct iBTNode : public virtual iBase
 /**
  * This interface is implemented by the leaf action iBTNode that 
  * launches a list of CEL rewards
- **/
+ */
 struct iBTAction: public virtual iBase
 {
   SCF_INTERFACE (iBTAction, 0, 0, 1);
 
   /**
    * Add a reward to be launched when this action node is executed.
-   **/
+   */
   virtual void AddReward (iReward* reward) = 0;
 };
 
 /**
  * This interface is implemented by the leaf iBTNode that 
  * checks whether or not a parameter is equal to a given value.
- **/
+ */
 struct iParameterCheckCondition: public virtual iBase
 {
   SCF_INTERFACE (iParameterCheckCondition, 0, 0, 1);
 
   /**
    * Set the parameter to be checked by this node
-   **/
+   */
   virtual void SetParameter (const char* parameter) = 0;
 
   /**
    * Set the value that will be checked against the parameter
-   **/
+   */
   virtual void SetValue (const char* value) = 0;
 };
 
 
 /**
  * This interface is implemented by the leaf iBTNode that 
- * monitors a CEL trigger. It returns \a false until the trigger has been fired.
- **/
+ * monitors a CEL trigger. It returns whether or not a trigger has been fired.
+ * The exact behaviour depends on the value set by SetFireOnce().
+ */
 struct iTriggerFiredCondition: public virtual iBase
 {
   SCF_INTERFACE (iTriggerFiredCondition, 0, 0, 1);
 
   /**
    * Set the trigger to be monitored by this node
-   **/
+   */
   virtual void SetTrigger (iTrigger* trigger) = 0;
+
+  /**
+   * Set whether or not the trigger will be fired once or forever. If \p once
+   * is \a true, then iBTNode::Execute() will return \a true only once each time
+   * the trigger is fired. Otherwise, iBTNode::Execute() will return \a true
+   * forever once the trigger has been fired. The default value is false.
+   */
+  virtual void SetFireOnce (bool once) = 0;
 };
 
 //-------------------------------------------------------------------------
