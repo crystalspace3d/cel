@@ -46,7 +46,7 @@ struct iTriggerCallback : public virtual iBase
 /**
  * This is a trigger. Triggers are created by trigger factories. To
  * be able to use your own trigger implementations you must also make
- * associated trigger factories. See iQuestTriggerFactory.
+ * associated trigger factories. See iTriggerFactory.
  *
  * Triggers must start in deactivated state. 
  */
