@@ -127,7 +127,8 @@ struct iTriggerFiredCondition: public virtual iBase
   virtual void SetTrigger (iTrigger* trigger) = 0;
 
   /**
-   * Set whether or not the trigger will be fired once or forever. If \p once
+   * Set whether or not the execution of the condition will return \a true once
+   * or forever once the trigger has been fired. If \p once
    * is \a true, then iBTNode::Execute() will return \a true only once each time
    * the trigger is fired. Otherwise, iBTNode::Execute() will return \a true
    * forever once the trigger has been fired. The default value is false.
