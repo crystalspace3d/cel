@@ -34,13 +34,7 @@
 LifeSimulator::LifeSimulator ()
   : DemoApplication ("CrystalSpace.LifeSimulator")
 {
-  // Set the camera mode
-  cameraManager.SetCameraMode (CS::Demo::CAMERA_MOVE_FREE);
-  cameraManager.SetStartPosition (csVector3 (500.0f, 200.0f, 500.0f));
-  cameraManager.SetMotionSpeed (10.0f);
-
   // Define the available keys
-  hudManager.keyDescriptions.Push ("p: print camera position");
   hudManager.keyDescriptions.Push ("f: spawn a frankie");
 }
 
@@ -150,18 +144,12 @@ bool LifeSimulator::CreateScene ()
   if (!loader->LoadMapFile ("world"))
     return ReportError(" Error couldn't load level!");
 
-  // Setup the the sector and the camera
+  // Setup the sector and the camera
   room = engine->FindSector ("TerrainSector");
   view->GetCamera ()->SetSector (room);
   cameraManager.SetCamera (view->GetCamera ());
-
-  // Find the start position of the camera
-  iCameraPositionList* positions = engine->GetCameraPositions ();
-  if (positions->GetCount ())
-  {
-    positions->Get (0)->Load (view->GetCamera (), engine);
-    cameraManager.SetStartPosition (view->GetCamera ()->GetTransform ().GetOrigin ());
-  }
+  cameraManager.SetCameraMode (CS::Demo::CAMERA_MOVE_FREE);
+  cameraManager.SetMotionSpeed (10.0f);
 
   printf ("Done\n");
   printf ("Initializing collision system... ");
@@ -182,6 +170,10 @@ bool LifeSimulator::CreateScene ()
 
   printf ("Done\n");
   printf ("Precaching data... ");
+  engine->PrecacheDraw ();
+  printf ("Done\n");
+
+  printf ("Ready!\n");
 
   return true;
 }
