@@ -35,7 +35,7 @@ LifeSimulator::LifeSimulator ()
   : DemoApplication ("CrystalSpace.LifeSimulator")
 {
   // Define the available keys
-  hudManager.keyDescriptions.Push ("f: spawn a frankie");
+  hudManager.keyDescriptions.Push ("f: spawn a Frankie");
 }
 
 void LifeSimulator::PrintHelp ()
@@ -60,11 +60,6 @@ bool LifeSimulator::OnInitialize (int argc, char* argv[])
 			   iCollideSystem),
         CS_REQUEST_END))
     return ReportError ("Can't initialize plugins!");
-
-  // Register to the event queue
-  csBaseEventHandler::Initialize (GetObjectRegistry ());
-  if (!RegisterQueue (GetObjectRegistry (), csevAllEvents (GetObjectRegistry ())))
-    return ReportError ("Failed to set up the event handler!");
 
   return true;
 }
