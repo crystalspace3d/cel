@@ -303,7 +303,7 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
 void celPcLinearMovement::LoadAnchor (iPcMesh* a)
 {
   anchor_needsinit = false;
-  if (!pcmesh) return;
+  if (!pcmesh || !pcmesh->GetMesh ()) return;
 
   anchor = a;
   // Set the new anchor if needed.
@@ -324,7 +324,7 @@ void celPcLinearMovement::LoadAnchor (iPcMesh* a)
 void celPcLinearMovement::SetAnchor (iPcMesh* a)
 {
   anchor_needsinit = false;
-  if (!pcmesh) return;
+  if (!pcmesh || !pcmesh->GetMesh ()) return;
 
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
   csReversibleTransform trans = movable->GetFullTransform ();
@@ -398,6 +398,8 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return false;
+
   switch (idx)
   {
     case action_initcd:
@@ -597,6 +599,8 @@ const csVector3 &celPcLinearMovement::GetWorldVelocity () const
 }
 const csVector3 celPcLinearMovement::GetVelocity () const
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return csVector3 (0.0f);
+
   csVector3 velworld = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
       .Other2ThisRelative (velWorld);
 
@@ -608,13 +612,7 @@ const csVector3 celPcLinearMovement::GetVelocity () const
 //Does the actual rotation
 bool celPcLinearMovement::RotateV (float delta)
 {
-  if (!pcmesh || !pcmesh->GetMesh ())
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-            "cel.pfmove.linear.rotatev",
-            "Linear movement: No Mesh found on entity!");
-    return false;
-  }
+  if (!pcmesh || !pcmesh->GetMesh ()) return false;
 
   // rotation
   if (angularVelocity < SMALL_EPSILON)
@@ -668,6 +666,8 @@ bool celPcLinearMovement::RotateV (float delta)
 
 int celPcLinearMovement::MoveSprite (float delta)
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return CEL_MOVE_FAIL;
+
   //float local_max_interval;
   int ret = CEL_MOVE_SUCCEED;
 
@@ -763,6 +763,8 @@ int celPcLinearMovement::MoveSprite (float delta)
 // Apply the gradual offset correction from SetSoftDRUpdate to the mesh position
 void celPcLinearMovement::OffsetSprite (float delta)
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return;
+
   if (offset_err.IsZero ()) return;  // no offset correction to perform
 
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
@@ -806,6 +808,8 @@ void celPcLinearMovement::OffsetSprite (float delta)
 // Do the actual move
 int celPcLinearMovement::MoveV (float delta)
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return CEL_MOVE_FAIL;
+
   if (velBody < SMALL_EPSILON && velWorld < SMALL_EPSILON
   	&& (!pccolldet || pccolldet->IsOnGround ()))
     return CEL_MOVE_DONTMOVE;  // didn't move anywhere
@@ -946,6 +950,8 @@ int celPcLinearMovement::MoveV (float delta)
 
 void celPcLinearMovement::HugGround (const csVector3& pos, iSector* sector)
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return;
+
   csVector3 start, end;
   csIntersectingTriangle closest_tri;
   csVector3 isect[4];
@@ -1086,6 +1092,8 @@ csTicks celPcLinearMovement::TimeDiff ()
 
 void celPcLinearMovement::ExtrapolatePosition (float delta)
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return;
+
   if (path)
   {
     path_time += delta;
@@ -1183,7 +1191,7 @@ void celPcLinearMovement::TickEveryFrame ()
 
   if (anchor_needsinit) LoadAnchor (anchor);
 
-  if (!pcmesh)
+  if (!pcmesh || !pcmesh->GetMesh ())
   {
     MoveReport (object_reg, "No Mesh found on entity!");
     return;
@@ -1340,6 +1348,8 @@ void celPcLinearMovement::GetDRData (bool& on_ground, float& speed,
 
 iSector* celPcLinearMovement::GetSector ()
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return nullptr;
+
   FindSiblingPropertyClasses ();
   iSectorList* sectors = pcmesh->GetMesh ()->GetMovable ()->GetSectors ();
   if (!sectors->GetCount ())
@@ -1363,7 +1373,7 @@ iPcMesh* celPcLinearMovement::GetMesh ()
   if (!pcmesh || !pcmesh->GetMesh ())
   {
     MoveReport (object_reg, "No Mesh found on entity!");
-    return 0;
+    return nullptr;
   }
   return pcmesh;
 }
@@ -1371,7 +1381,7 @@ iPcMesh* celPcLinearMovement::GetMesh ()
 float celPcLinearMovement::GetYRotation ()
 {
   // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ())  return 0.0;
+  if (!GetMesh ()) return 0.0;
   const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
     ->GetTransform ().GetT2O ();
   return Matrix2YRot (transf);
@@ -1379,26 +1389,26 @@ float celPcLinearMovement::GetYRotation ()
 const csVector3 celPcLinearMovement::GetPosition ()
 {
   // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ())  return csVector3 ();
+  if (!GetMesh ()) return csVector3 ();
   return pcmesh->GetMesh ()->GetMovable ()->GetPosition ();
 }
 const csVector3 celPcLinearMovement::GetFullPosition ()
 {
   // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ())  return csVector3 ();
+  if (!GetMesh ()) return csVector3 ();
   return pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
 }
 const csReversibleTransform celPcLinearMovement::GetFullTransform ()
 {
   // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ())  return csReversibleTransform ();
+  if (!GetMesh ()) return csReversibleTransform ();
   return pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
 }
 
 void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
     iSector*& sector)
 {
-  if (!GetMesh ())  return;
+  if (!GetMesh ()) return;
 
   // Position
   pos = GetPosition ();
@@ -1413,7 +1423,7 @@ void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
 void celPcLinearMovement::GetLastFullPosition (csVector3& pos, float& yrot,
     iSector*& sector)
 {
-  if (!GetMesh ())  return;
+  if (!GetMesh ()) return;
 
   // Position
   pos = GetFullPosition ();
@@ -1428,6 +1438,8 @@ void celPcLinearMovement::GetLastFullPosition (csVector3& pos, float& yrot,
 void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
 	const iSector* sector)
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return;
+
   FindSiblingPropertyClasses ();
   // Position
   csVector3 newpos;
@@ -1454,6 +1466,8 @@ void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
 void celPcLinearMovement::SetFullPosition (const char* center_name, float yrot,
 	iSector* sector)
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return;
+
   csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
   	sector->QueryObject (), center_name);
   if (mapnode)
@@ -1470,6 +1484,8 @@ void celPcLinearMovement::SetFullPosition (const char* center_name, float yrot,
 void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
 	const iSector* sector)
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return;
+
   FindSiblingPropertyClasses ();
   // Position
   pcmesh->GetMesh ()->GetMovable ()->SetPosition ((iSector *)sector,pos);
@@ -1485,6 +1501,8 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
 void celPcLinearMovement::SetPosition (const char* center_name, float yrot,
 	iSector* sector)
 {
+  if (!pcmesh || !pcmesh->GetMesh ()) return;
+
   csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
   	sector->QueryObject (), center_name);
   if (mapnode)
