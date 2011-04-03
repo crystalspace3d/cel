@@ -37,28 +37,48 @@ struct iCelEntity;
  */
 enum celDataType
 {
-  CEL_DATA_NONE = 0,  /// Undefined type
-  CEL_DATA_BOOL,      /// Boolean type
-  CEL_DATA_BYTE,      /// Byte type (ie 8 bits)
-  CEL_DATA_WORD,      /// Word type (ie 16 bits)
-  CEL_DATA_LONG,      /// Long type (ie 32 bits)
-  CEL_DATA_UBYTE,     /// Unsigned byte type
-  CEL_DATA_UWORD,     /// Unsigned word type
-  CEL_DATA_ULONG,     /// Unsigned long type
-  CEL_DATA_FLOAT,     /// Float type
-  CEL_DATA_VECTOR2,   /// csVector2 type
-  CEL_DATA_VECTOR3,   /// csVector3 type
-  CEL_DATA_VECTOR4,   /// csVector4 type
-  CEL_DATA_STRING,    /// String type
-  CEL_DATA_PCLASS,    /// Property class type
-  CEL_DATA_ENTITY,    /// Entity type
-  CEL_DATA_ACTION,    /// Action type
-  CEL_DATA_COLOR,     /// csColor type
-  CEL_DATA_COLOR4,    /// csColor4 type
-  CEL_DATA_IBASE,     /// iBase type
-  CEL_DATA_PARAMETER, /// A templated parameter 
-
-  CEL_DATA_LAST       /// Count of different data types
+  /// Undefined type
+  CEL_DATA_NONE = 0,
+  /// Boolean type
+  CEL_DATA_BOOL,
+  /// Byte type (ie 8 bits)
+  CEL_DATA_BYTE,
+  /// Word type (ie 16 bits)
+  CEL_DATA_WORD,
+  /// Long type (ie 32 bits)
+  CEL_DATA_LONG,
+  /// Unsigned byte type
+  CEL_DATA_UBYTE,
+  /// Unsigned word type
+  CEL_DATA_UWORD,
+  /// Unsigned long type
+  CEL_DATA_ULONG,
+  /// Float type
+  CEL_DATA_FLOAT,
+  /// csVector2 type
+  CEL_DATA_VECTOR2,
+  /// csVector3 type
+  CEL_DATA_VECTOR3,
+  /// csVector4 type
+  CEL_DATA_VECTOR4,
+  /// String type
+  CEL_DATA_STRING,
+  /// Property class type
+  CEL_DATA_PCLASS,
+  /// Entity type
+  CEL_DATA_ENTITY,
+  /// Action type
+  CEL_DATA_ACTION,
+  /// csColor type
+  CEL_DATA_COLOR,
+  /// csColor4 type
+  CEL_DATA_COLOR4,
+  /// iBase type
+  CEL_DATA_IBASE,
+  /// A templated parameter 
+  CEL_DATA_PARAMETER,
+  /// Count of different data types
+  CEL_DATA_LAST
 };
 
 /**
