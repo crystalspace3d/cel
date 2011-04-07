@@ -39,7 +39,7 @@ MSIMergeModuleFromList cel.arch.$(MSM_ARCH).executable.celstart : app-celstart :
 MSIMergeModuleFromList cel.arch.$(MSM_ARCH).python : python-modules : $(MSM_VERSION) ;
 
 # Safeguard
-MSI_UPGRADE_CODES_FOR_VERSION = 1.9 ;
+MSI_UPGRADE_CODES_FOR_VERSION = 2.0 ;
 if "$(MSI_UPGRADE_CODES_FOR_VERSION)" != "$(MSI_VERSION_MAJORMINOR)"
 {
   Exit "CEL version was changed, please set new MSI upgrade codes" ;
