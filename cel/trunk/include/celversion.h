@@ -26,8 +26,8 @@
  */
 
 // *** NOTE ***
-// Also update configure.ac and docs/texinfo/version.txi when changing
-// the version number.
+// Also update configure.ac, docs/texinfo/version.txi, include/csver.h 
+// and mk/autoconf/cel.m4 when changing the version number.
 
 /// Major version
 #define CEL_VERSION_MAJOR CS_VER_QUOTE(2)
