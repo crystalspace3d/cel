@@ -271,12 +271,12 @@ void celPcDelegateCamera::UpdateCamera ()
 
 int celPcDelegateCamera::GetDrawFlags ()
 {
-  return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS;
+  return CSDRAW_3DGRAPHICS;
 }
 void celPcDelegateCamera::Draw ()
 {
   UpdateCamera ();
   // Tell 3D driver we're going to display 3D things.
-  if (g3d->BeginDraw (GetDrawFlags ()))
+  if (g3d->BeginDraw (CSDRAW_3DGRAPHICS))
     view->Draw ();
 }

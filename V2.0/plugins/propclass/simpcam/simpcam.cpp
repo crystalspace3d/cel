@@ -242,16 +242,14 @@ void celPcSimpleCamera::UpdateCamera ()
 
 int celPcSimpleCamera::GetDrawFlags ()
 {
-  return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-  	| (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
-  	| (clear_screen ? CSDRAW_CLEARSCREEN : 0);
+  return CSDRAW_3DGRAPHICS;
 }
 
 void celPcSimpleCamera::Draw ()
 {
   UpdateCamera ();
   // Tell 3D driver we're going to display 3D things.
-  if (g3d->BeginDraw (GetDrawFlags ()))
+  if (g3d->BeginDraw (CSDRAW_3DGRAPHICS))
     view->Draw ();
 }
 
