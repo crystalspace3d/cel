@@ -3,5 +3,6 @@ SubDir TOP plugins recast ;
 Plugin recast :
   [ Wildcard *.cpp *.h ]
   [ Wildcard recastnavigation : *.cpp *.h ] ;
+CFlags recast : [ FDefines _CRT_SECURE_NO_WARNINGS ] ;
 IncludeDir recastnavigation : recast ;
 ExternalLibs recast : CRYSTAL ; 
