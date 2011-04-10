@@ -33,7 +33,7 @@ struct iPcZoneManager;
  */
 struct iPcCamera : public virtual iBase
 {
-  SCF_INTERFACE (iPcCamera, 0, 0, 4);
+  SCF_INTERFACE (iPcCamera, 0, 0, 5);
 
   /**
    * Set Camera to a Region
@@ -91,11 +91,13 @@ struct iPcCamera : public virtual iBase
    * \param flag if set to true, the camera will clear the z-buffer every
    *        frame, otherwise it will not clear the z-buffer.
    */
+  CS_DEPRECATED_METHOD_MSG("Z buffer clearing handled automatically")
   virtual void SetClearZBuffer (bool flag) = 0;
 
   /**
    * Get the clear zbuffer flag.
    */
+  CS_DEPRECATED_METHOD_MSG("Z buffer clearing handled automatically")
   virtual bool GetClearZBuffer () const = 0;
 
   /**
@@ -104,11 +106,13 @@ struct iPcCamera : public virtual iBase
    * \param flag if set to true, the camera will clear the screen every frame,
    *        otherwise it will not clear the screen.
    */
+  CS_DEPRECATED_METHOD_MSG("Screen clearing handled automatically")
   virtual void SetClearScreen (bool flag) = 0;
 
   /**
    * Get the clear screen flag.
    */
+  CS_DEPRECATED_METHOD_MSG("Screen clearing handled automatically")
   virtual bool GetClearScreen () const = 0;
 
   /**
@@ -190,6 +194,7 @@ struct iPcCamera : public virtual iBase
   /**
    * Get camera drawing flags.
    */
+  CS_DEPRECATED_METHOD_MSG("Deprecated by screen and zbuffer clearing changes")
   virtual int GetDrawFlags () = 0;
 
   /**
