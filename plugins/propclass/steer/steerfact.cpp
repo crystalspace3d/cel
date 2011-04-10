@@ -357,9 +357,7 @@ bool celPcSteer::DoPursue (iCelEntity* target, float max_prediction)
   else
     prediction = distance/cur_speed;
   
-  csVector3 target_velocity;  
-  targetlinmove->GetVelocity(target_velocity);
-  position += target_velocity*prediction;
+  position += targetlinmove->GetVelocity() * prediction;
   
   cur_direction = position-cur_position;
   
@@ -642,7 +640,6 @@ void celPcSteer :: DirectionMatching ()
   if (check_dm)
   {
     csVector3 direction(0, 0, 0);
-    csVector3 target_velocity(0, 0, 0);
     pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
 
     csRef<iCelEntityIterator> it = dm_targets->GetIterator();
@@ -652,9 +649,8 @@ void celPcSteer :: DirectionMatching ()
       target = it->Next();
       csRef<iPcLinearMovement> targetlinmove =
         celQueryPropertyClassEntity<iPcLinearMovement> (target);
-      targetlinmove->GetVelocity(target_velocity);
 
-      direction += target_velocity;
+      direction += targetlinmove->GetVelocity();
     }
     cur_direction += direction;
   }
