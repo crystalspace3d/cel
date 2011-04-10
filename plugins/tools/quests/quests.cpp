@@ -1181,7 +1181,7 @@ iRewardFactory* celQuestManager::AddNewStateReward (
 	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* state_par)
 {
-  iRewardType* type = GetRewardType ("cel.questreward.newstate");
+  iRewardType* type = GetRewardType ("cel.rewards.newstate");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
   csRef<iNewStateQuestRewardFactory> newstate = scfQueryInterface<iNewStateQuestRewardFactory> (rewfact);
   newstate->SetStateParameter (state_par);
