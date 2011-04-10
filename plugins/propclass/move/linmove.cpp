@@ -398,7 +398,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return false;
+  if (!pcmesh || !pcmesh->GetMesh ()) return true;
 
   switch (idx)
   {
