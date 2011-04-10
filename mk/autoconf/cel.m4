@@ -23,7 +23,7 @@
 #==============================================================================
 AC_PREREQ([2.56])
 
-m4_define([cel_min_version_default], [2.0])
+m4_define([cel_min_version_default], [2.1])
 
 #------------------------------------------------------------------------------
 # CS_PATH_CEL_CHECK([MINIMUM-VERSION], [ACTION-IF-FOUND],
