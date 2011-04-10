@@ -1122,94 +1122,106 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle,
 {
   if (!actionName) return;
   if (!mesh) return;
+
+  // Sprite3D mesh
   csRef<iSprite3DState> spr3dstate (
   	scfQueryInterface<iSprite3DState> (mesh->GetMeshObject ()));
   if (spr3dstate)
   {
     spr3dstate->SetAction (actionName, cycle);
+    return;
   }
-  else
+
+
+  // Cal3D mesh
+  csRef<iSpriteCal3DState> sprcal3dstate
+    (scfQueryInterface<iSpriteCal3DState> (mesh->GetMeshObject ()));
+  if (sprcal3dstate)
   {
-    csRef<iSpriteCal3DState> sprcal3dstate (
-    	scfQueryInterface<iSpriteCal3DState> (mesh->GetMeshObject ()));
-    if (sprcal3dstate)
+    if (cycle)
+      sprcal3dstate->SetAnimCycle (actionName, weight);
+    else
+      sprcal3dstate->SetAnimAction (actionName, fadein, fadeout);
+    return;
+  }
+
+  // Animesh
+  csRef<CS::Mesh::iAnimatedMesh> animesh = scfQueryInterface<CS::Mesh::iAnimatedMesh> (mesh->GetMeshObject ());
+  if (animesh)
+  {
+    csRef<CS::Animation::iSkeletonAnimNode> root;
+    csRef<CS::Animation::iSkeletonAnimNode> anim;
+    csRef<CS::Animation::iSkeletonFSMNode> fsm;
+    root = animesh->GetSkeleton()->GetAnimationPacket()->GetAnimationRoot ();
+    if (!root) return;
+
+    // Search for an FSM node
+    anim = root->FindNode ("fsm");
+    if (anim)
+      fsm = scfQueryInterface<CS::Animation::iSkeletonFSMNode> (anim);
+    if (fsm)
     {
-      if (cycle)
-        sprcal3dstate->SetAnimCycle (actionName, weight);
-      else
-        sprcal3dstate->SetAnimAction (actionName, fadein, fadeout);
+      root->Play ();
+      csRef<CS::Animation::iSkeletonFSMNodeFactory> fsmfact =
+	scfQueryInterface<CS::Animation::iSkeletonFSMNodeFactory> (root->GetFactory ());
+      CS::Animation::StateID wanted_state = fsmfact->FindState (actionName);
+      if (wanted_state == CS::Animation::InvalidStateID)
+	return;
+      if (wanted_state != fsm->GetCurrentState ())
+	fsm->SwitchToState (wanted_state);
     }
+
     else
     {
-      
-      csRef<CS::Mesh::iAnimatedMesh> animesh = scfQueryInterface<CS::Mesh::iAnimatedMesh> (mesh->GetMeshObject ());
-      if (animesh)
-      {
-        csRef<CS::Animation::iSkeletonAnimNode> root;
-        csRef<CS::Animation::iSkeletonAnimNode> anim;
-        csRef<CS::Animation::iSkeletonFSMNode> fsm;
-        root = animesh->GetSkeleton()->GetAnimationPacket()->GetAnimationRoot();
-        fsm = scfQueryInterface<CS::Animation::iSkeletonFSMNode>(root);
-        if (fsm)
-        {
-          root->Play();
-          csRef<CS::Animation::iSkeletonFSMNodeFactory> fsmfact =
-	    scfQueryInterface<CS::Animation::iSkeletonFSMNodeFactory>(root->GetFactory());
-          CS::Animation::StateID wanted_state = fsmfact->FindState(actionName);
-          if (wanted_state == CS::Animation::InvalidStateID)
-            return;
-          if (wanted_state != fsm->GetCurrentState())
-            fsm->SwitchToState(wanted_state);
-        }
-        else
-        {
-          anim = root->FindNode(actionName);
-	  if (!anim || anim->IsActive())
-            return;
-          root->Stop();
-          csRef<CS::Animation::iSkeletonAnimationNodeFactory> animfact =
-	    scfQueryInterface<CS::Animation::iSkeletonAnimationNodeFactory>(anim->GetFactory());
-          animfact->SetCyclic(cycle);
-          anim->Play();
-        }
-      }
-    else
+      // TODO: create an FSM node?
+      anim = root->FindNode (actionName);
+      if (!anim || anim->IsActive ())
+	return;
+      root->Stop ();
+      csRef<CS::Animation::iSkeletonAnimationNodeFactory> animfact =
+	scfQueryInterface<CS::Animation::iSkeletonAnimationNodeFactory> (anim->GetFactory ());
+      animfact->SetCyclic (cycle);
+      anim->Play();
+    }
+
+    return;
+  }
+
+  // Genmesh
+  csRef<iGeneralMeshState> genstate =
+    scfQueryInterface<iGeneralMeshState> (mesh->GetMeshObject ());
+  if (genstate)
+  {
+    csRef<iGenMeshAnimationControl> skelstate = genstate
+      ->GetAnimationControl ();
+    if (skelstate)
     {
-      csRef<iGeneralMeshState> genstate =
-      	scfQueryInterface<iGeneralMeshState> (mesh->GetMeshObject ());
-      if (genstate)
+      csRef<iGenMeshSkeletonControlState> ctlstate =
+	scfQueryInterface<iGenMeshSkeletonControlState> (skelstate);
+      if (ctlstate)
       {
-        csRef<iGenMeshAnimationControl> skelstate = genstate
-        	->GetAnimationControl ();
-        if (skelstate)
-        {
-          csRef<iGenMeshSkeletonControlState> ctlstate =
-          	scfQueryInterface<iGenMeshSkeletonControlState> (skelstate);
-          if (ctlstate)
+	csRef<iSkeleton> skel = ctlstate->GetSkeleton ();
+	if (skel)
+	{
+	  iSkeletonAnimation* script;
+	  if (reset) script = 0;
+	  else script  = skel->FindAnimation (actionName);
+	  if (script)
           {
-            csRef<iSkeleton> skel = ctlstate->GetSkeleton ();
-            if (skel)
-            {
-              iSkeletonAnimation* script;
-              if (reset) script = 0;
-              else script  = skel->FindAnimation (actionName);
-              if (script)
-              {
-                if (script->GetLoop () != cycle)
-                  script->SetLoop (cycle);
-              }
-              else
-              {
-                skel->StopAll ();
-                script = skel->Execute (actionName);
-                if (script) script->SetLoop (cycle);
-              }
-            }
-          }
-        }
+	    if (script->GetLoop () != cycle)
+	      script->SetLoop (cycle);
+	  }
+	  else
+          {
+	    skel->StopAll ();
+	    script = skel->Execute (actionName);
+	    if (script) script->SetLoop (cycle);
+	  }
+	}
       }
     }
-    }
+
+    return;
   }
 }
 

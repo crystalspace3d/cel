@@ -245,7 +245,14 @@ void celMessageReward::Reward (iCelParameterBlock* params)
       if (!ent) return;
     }
   }
-  pm->FillParameterBlock (params, msg_params, parameters, quest_parameters);
+
+  if (!pm->FillParameterBlock (params, msg_params, parameters, quest_parameters))
+  {
+    Report (type->object_reg,
+	    "Could not fill parameters for message '%s'", msg);
+    return;
+  }
+
   iCelBehaviour* behave = ent->GetBehaviour ();
   if (behave)
   {
@@ -295,7 +302,12 @@ void celClassMessageReward::Reward (iCelParameterBlock* params)
     entlist = type->pl->GetClassEntitiesList (ent_class);
   }
 
-  pm->FillParameterBlock (params, msg_params, parameters, quest_parameters);
+  if (!pm->FillParameterBlock (params, msg_params, parameters, quest_parameters))
+  {
+    Report (type->object_reg,
+	    "Could not fill parameters for message '%s'", msg);
+    return;
+  }
 
   // Old method for behaviours.
   type->pl->SendMessage (entlist, msg, msg_params);

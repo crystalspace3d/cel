@@ -53,7 +53,7 @@ bool celBehaviourTree::Execute (const celParams& params)
 
 bool celBehaviourTree::AddChild (iBTNode* child)
 {
-  if (root_node.IsValid())
+  if (root_node.IsValid ())
   {
     //Tree already has a root
     return false;
@@ -67,5 +67,5 @@ bool celBehaviourTree::AddChild (iBTNode* child)
 
 void celBehaviourTree::TickEveryFrame ()
 {
-  root_node->Execute(params);
+  root_node->Execute (params);
 }

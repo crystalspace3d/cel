@@ -49,7 +49,7 @@ class celMeshSelectTriggerFactory : public scfImplementation2<
 	iMeshSelectTriggerFactory>
 {
 private:
-  celMeshSelectTriggerType* type;
+  csRef<celMeshSelectTriggerType> type;
   csString entity_par;
   csString tag_par;
 
@@ -72,7 +72,7 @@ class celMeshSelectTrigger : public scfImplementation2<
 	iPcMeshSelectListener>
 {
 private:
-  celMeshSelectTriggerType* type;
+  csRef<celMeshSelectTriggerType> type;
   csRef<iTriggerCallback> callback;
   csWeakRef<iPcMeshSelect> meshselect;
   csString entity;

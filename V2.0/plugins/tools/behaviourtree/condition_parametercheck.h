@@ -24,8 +24,8 @@
 
 
 /**
- * A wrapper for parameters to use them within behaviour trees
- * Returns true if parameter is equal to value
+ * A wrapper for parameters to use them within behaviour trees.
+ * Returns true if the parameter is equal to the given value.
  */
 class celParameterCheckCondition : public scfImplementation3<		
 		celParameterCheckCondition, 

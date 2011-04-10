@@ -44,13 +44,17 @@ struct iMeshWrapper;
  * iPcLinearMovement. This is usefully if you for example want to apply
  * certain gravity or something on the way up, but not on the way down
  * (Parachutes and things like that).
- * Register this callback with AddGravityCallback in iPcLinearMovement, and
- * remove with RemoveGravityCallback
+ * Register this callback with iPcLinearMovement::AddGravityCallback(), and
+ * remove it with iPcLinearMovement::RemoveGravityCallback()
  */
 struct iPcGravityCallback : public virtual iBase
 {
   SCF_INTERFACE (iPcGravityCallback, 0, 0, 2);
 
+  /**
+   * The gravity is applied on this frame on the iPcLinearMovementiPcLinearMovement
+   * of this entity, ie its vertical velocity is negative.
+   */
   virtual void Callback () = 0;
 };
 

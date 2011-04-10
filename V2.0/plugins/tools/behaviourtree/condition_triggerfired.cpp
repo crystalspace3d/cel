@@ -28,23 +28,29 @@ SCF_IMPLEMENT_FACTORY (celTriggerFiredCondition)
 
 //---------------------------------------------------------------------------
 
-celTriggerFiredCondition::celTriggerFiredCondition (				
-	iBase* parent) : scfImplementationType (this, parent),	
-	object_reg(0)											
-{															
-}															
-bool celTriggerFiredCondition::Initialize (					
-	iObjectRegistry* object_reg)							
-{									
-  celTriggerFiredCondition::object_reg = object_reg;			
-  trigger_fired = false;
-  return true;												
+celTriggerFiredCondition::celTriggerFiredCondition (
+	iBase* parent) : scfImplementationType (this, parent),
+  object_reg(0), triggerFired (false), fireOnce (false)
+{
+}
+
+bool celTriggerFiredCondition::Initialize (
+	iObjectRegistry* object_reg)
+{
+  celTriggerFiredCondition::object_reg = object_reg;
+  return true;
 }
 
 bool celTriggerFiredCondition::Execute (const celParams& params)
 {
   //printf("CONDITION: Trigger Fired Check\n");
-  return trigger_fired;
+  if (!triggerFired)
+    return false;
+
+  if (fireOnce) 
+    triggerFired = false;
+
+  return true;
 }
 
 bool celTriggerFiredCondition::AddChild (iBTNode* child)
@@ -54,12 +60,18 @@ bool celTriggerFiredCondition::AddChild (iBTNode* child)
 
 void celTriggerFiredCondition::SetTrigger (iTrigger* trigger)
 {
+  triggerFired = false;
   trigger->ActivateTrigger ();
   celTriggerFiredCondition::trigger = trigger;
   trigger->RegisterCallback (this);
 }
 
+void celTriggerFiredCondition::SetFireOnce (bool once)
+{
+  fireOnce = once;
+}
+
 void celTriggerFiredCondition::TriggerFired (iTrigger* trigger, iCelParameterBlock* params)
 {
-  trigger_fired = true;
+  triggerFired = true;
 }

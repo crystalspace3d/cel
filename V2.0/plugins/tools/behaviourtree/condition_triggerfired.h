@@ -24,8 +24,8 @@
 
 
 /**
- * A wrapper for triggers to use them within behaviour trees
- * Returns true if trigger has already fired, and false otherwise
+ * A wrapper for triggers to use them within behaviour trees.
+ * Returns false until the trigger has been fired.
  */
 
 class celTriggerFiredCondition : public scfImplementation4<		
@@ -34,23 +34,25 @@ class celTriggerFiredCondition : public scfImplementation4<
 		iBTNode, iComponent>			
 {		
 private: 
-  iObjectRegistry* object_reg;						
-  csRef<iTrigger> trigger; 
-  bool trigger_fired;
+  iObjectRegistry* object_reg;
+  csRef<iTrigger> trigger;
+  bool triggerFired;
+  bool fireOnce;
 
-public:									
-  celTriggerFiredCondition (iBase* parent);			
-  virtual ~celTriggerFiredCondition () { }					
-  virtual bool Initialize (iObjectRegistry*);	
+public:
+  celTriggerFiredCondition (iBase* parent);
+  virtual ~celTriggerFiredCondition () { }
+  virtual bool Initialize (iObjectRegistry*);
 
   //From iBTNode
-  virtual bool Execute (const celParams& params);		
+  virtual bool Execute (const celParams& params);
   virtual bool AddChild (iBTNode* child);
 
   //From iTriggerFiredCondition
   virtual void SetTrigger (iTrigger* trigger);
+  virtual void SetFireOnce (bool once);
 
-  // From iTriggerCallback 
+  // From iTriggerCallback
   virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params);
 };
 

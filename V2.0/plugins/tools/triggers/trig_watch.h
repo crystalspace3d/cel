@@ -52,7 +52,7 @@ class celWatchTriggerFactory : public scfImplementation2<
 	iWatchTriggerFactory>
 {
 private:
-  celWatchTriggerType* type;
+  csRef<celWatchTriggerType> type;
   csString entity_par;
   csString tag_par;
   csString target_entity_par;
@@ -87,7 +87,7 @@ class celWatchTrigger : public scfImplementation2<
 	celWatchTrigger, iTrigger, iCelTimerListener>
 {
 private:
-  celWatchTriggerType* type;
+  csRef<celWatchTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
   csString tag;
