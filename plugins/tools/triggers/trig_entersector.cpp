@@ -163,8 +163,8 @@ void celEnterSectorTrigger::ActivateTrigger ()
   FindSectorAndCamera ();
   // First remove to make sure we don't register ourselves multiple
   // times.
-  camera->RemoveCameraSectorListener ((iCameraSectorListener*)this);
-  camera->AddCameraSectorListener ((iCameraSectorListener*)this);
+  camera->RemoveCameraListener (this);
+  camera->AddCameraListener (this);
 }
 
 bool celEnterSectorTrigger::Check ()
@@ -182,7 +182,7 @@ bool celEnterSectorTrigger::Check ()
 void celEnterSectorTrigger::DeactivateTrigger ()
 {
   if (!camera) return;
-  camera->RemoveCameraSectorListener ((iCameraSectorListener*)this);
+  camera->RemoveCameraListener (this);
 }
 
 bool celEnterSectorTrigger::LoadAndActivateTrigger (iCelDataBuffer*)

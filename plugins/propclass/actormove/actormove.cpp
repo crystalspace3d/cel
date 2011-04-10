@@ -651,7 +651,7 @@ void celPcActorMove::HandleMovement (bool jump)
     return;
   }
   csVector3 velocity = FindVelocity();
-  pclinmove->SetVelocity (velocity);
+  pclinmove->SetBodyVelocity (velocity);
   if (sprcal3d) sprcal3d->SetVelocity (-velocity.z);
 
   // Since spr3d and genmesh don't handle animation

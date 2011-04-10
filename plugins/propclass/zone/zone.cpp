@@ -1299,13 +1299,12 @@ int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
   if (!camlistener)
     camlistener.AttachNew (new cameraSectorListener (this));
   if (celPcZoneManager::pccamera)
-    celPcZoneManager::pccamera->GetCamera ()
-    	->RemoveCameraSectorListener (camlistener);
+    celPcZoneManager::pccamera->GetCamera ()->RemoveCameraListener (camlistener);
   celPcZoneManager::pccamera = pccamera;
   // If there is a pcmesh then we use the mesh movable listener instead of
   // the camera listener.
   if (!pcmesh)
-    pccamera->GetCamera ()->AddCameraSectorListener (camlistener);
+    pccamera->GetCamera ()->AddCameraListener (camlistener);
 
   iCelRegion* region = FindRegion (regionname);
   if (!region) return CEL_ZONEERROR_BADREGION;
@@ -1388,8 +1387,7 @@ int celPcZoneManager::PointMesh (const char* entity, const char* regionname,
   // If there is a pcmesh then we use the mesh movable listener instead of
   // the camera listener.
   if (celPcZoneManager::pccamera && camlistener)
-    celPcZoneManager::pccamera->GetCamera ()
-    	->RemoveCameraSectorListener (camlistener);
+    celPcZoneManager::pccamera->GetCamera ()->RemoveCameraListener (camlistener);
 
   iCelRegion* region = FindRegion (regionname);
   if (!region) return CEL_ZONEERROR_BADREGION;
