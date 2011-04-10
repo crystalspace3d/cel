@@ -54,9 +54,6 @@ celPcCameraCommon::celPcCameraCommon (iObjectRegistry* object_reg)
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   CS_ASSERT (vc != 0);
 
-  clear_zbuf = false;
-  clear_screen = false;
-
   DisableDistanceClipping ();
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_VIEW);
@@ -282,9 +279,7 @@ void celPcCameraCommon::Draw ()
   AdaptDistanceClipping (elapsed_time);
 
   // Tell 3D driver we're going to display 3D things.
-  if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-  	| (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
-  	| (clear_screen ? CSDRAW_CLEARSCREEN : 0)))
+  if (g3d->BeginDraw (CSDRAW_3DGRAPHICS))
     view->Draw ();
 }
 
@@ -319,9 +314,6 @@ void celPcCameraCommon::SaveCommon (iCelDataBuffer* databuf)
   databuf->Add ((uint16)rect_y);
   databuf->Add ((uint16)rect_w);
   databuf->Add ((uint16)rect_h);
-
-  databuf->Add (clear_zbuf);
-  databuf->Add (clear_screen);
 
   databuf->Add (center_set);
   databuf->Add (rect_x);
@@ -380,9 +372,6 @@ bool celPcCameraCommon::LoadCommon (iCelDataBuffer* databuf)
   rect_y = databuf->GetUInt16 ();
   rect_w = databuf->GetUInt16 ();
   rect_h = databuf->GetUInt16 ();
-
-  clear_zbuf = databuf->GetBool ();
-  clear_screen = databuf->GetBool ();
 
   center_set = databuf->GetBool ();
   center_x = databuf->GetFloat ();
