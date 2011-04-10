@@ -760,19 +760,17 @@ public:
   }
   virtual void SetClearZBuffer (bool flag)
   {
-    celPcCameraCommon::SetClearZBuffer (flag);
   }
   virtual bool GetClearZBuffer () const
   {
-    return celPcCameraCommon::GetClearZBuffer ();
+    return false;
   }
   virtual void SetClearScreen (bool flag)
   {
-    celPcCameraCommon::SetClearScreen (flag);
   }
   virtual bool GetClearScreen () const
   {
-    return celPcCameraCommon::GetClearScreen ();
+    return false;
   }
   virtual void DisableDistanceClipping ()
   {

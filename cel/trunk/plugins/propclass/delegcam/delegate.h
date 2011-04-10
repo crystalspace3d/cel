@@ -95,19 +95,17 @@ public:
   }
   void SetClearZBuffer (bool flag)
   {
-    celPcCameraCommon::SetClearZBuffer (flag);
   }
   bool GetClearZBuffer () const
   {
-    return celPcCameraCommon::GetClearZBuffer ();
+    return false;
   }
   void SetClearScreen (bool flag)
   {
-    celPcCameraCommon::SetClearScreen (flag);
   }
   bool GetClearScreen () const
   {
-    return celPcCameraCommon::GetClearScreen ();
+    return false;
   }
   void DisableDistanceClipping ()
   {
