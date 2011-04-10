@@ -53,7 +53,7 @@ class celMeshEnterSectorTriggerFactory : public scfImplementation2<
 	iEnterSectorTriggerFactory>
 {
 private:
-  celMeshEnterSectorTriggerType* type;
+  csRef<celMeshEnterSectorTriggerType> type;
   csString entity_par;
   csString tag_par;
   csString sector_par;
@@ -78,7 +78,7 @@ class celMeshEnterSectorTrigger : public scfImplementation2<
 	iMovableListener>
 {
 private:
-  celMeshEnterSectorTriggerType* type;
+  csRef<celMeshEnterSectorTriggerType> type;
   csRef<iTriggerCallback> callback;
   csWeakRef<iSector> sect;
   csWeakRef<iMeshWrapper> mesh;

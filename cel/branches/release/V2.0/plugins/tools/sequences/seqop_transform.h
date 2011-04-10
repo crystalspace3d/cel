@@ -50,7 +50,7 @@ class celTransformSeqOpFactory : public scfImplementation2<
 	iTransformSeqOpFactory>
 {
 private:
-  celTransformSeqOpType* type;
+  csRef<celTransformSeqOpType> type;
   csString entity_par;
   csString tag_par;
   csString vectorx_par;
@@ -81,7 +81,7 @@ class celTransformSeqOp : public scfImplementation1<
 	celTransformSeqOp, iSeqOp>
 {
 private:
-  celTransformSeqOpType* type;
+  csRef<celTransformSeqOpType> type;
   csString entity;
   csString tag;
   csVector3 vector;

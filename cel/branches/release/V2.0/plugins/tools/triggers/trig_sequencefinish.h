@@ -58,7 +58,7 @@ class celSequenceFinishTriggerFactory : public scfImplementation2<
 	iSequenceFinishTriggerFactory>
 {
 private:
-  celSequenceFinishTriggerType* type;
+  csRef<celSequenceFinishTriggerType> type;
   csString entity_par;
   csString tag_par;
   csString sequence_par;
@@ -85,7 +85,7 @@ class celSequenceFinishTrigger : public scfImplementation2<
 	iCelSequenceCallback>
 {
 private:
-  celSequenceFinishTriggerType* type;
+  csRef<celSequenceFinishTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
   csString tag;

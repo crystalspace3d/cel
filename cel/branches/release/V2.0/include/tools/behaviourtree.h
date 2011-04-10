@@ -27,26 +27,48 @@
 #include "tools/triggers.h"
 
 //-------------------------------------------------------------------------
-// BTNodes
+// Behaviour tree nodes
 //-------------------------------------------------------------------------
 
 /**
- * This is a node of a behaviour tree.
- * You can implement your own types of node by
- * implementing this interface.
+ * This is a node of a behaviour tree. A behaviour tree allows to define the
+ * behaviour of an entity by combining behaviour nodes into a tree.
+ *
+ * There are different type of nodes. The main leaf nodes of the tree are iBTAction
+ * nodes that fire actions (eg by sending a message to an entity or a property class).
+ * Non-action nodes are used to select the actions that will be executed.
+ *
+ * Here is the list of different non-action nodes:
+ * - "cel.behaviourtree": Default behaviour for a root node. It executes the
+ * tree regularly.
+ * - "cel.selectors.default": The default selector. It executes its children in order
+ * until one succeeds.
+ * - "cel.selectors.random": A random selector. It executes its children in a random
+ * order until one succeeds.
+ * - "cel.selectors.sequential": A sequential selector. It executes its children in order
+ * until one fails or all have succeeded. Often refered in behaviour tree
+ * literature as a sequence.
+ * - iTriggerFiredCondition: A wrapper to use triggers within
+ * behaviour trees. Return \a false until the trigger has been fired.
+ * - iParameterCheckCondition: A wrapper to use parameters within
+ * behaviour trees. Return whether or not the parameter is equal to the given value.
+ * - iExecutionLimitDecorator: A decorator limiting the number of times a child is executed.
+ * - iLoopDecorator: A loop decorator. It executes its child multiple times in a row.
+ * - "cel.decorators.negatereturn": A negation decorator. It executes its child and returns
+ * the opposite of the result.
  */
 struct iBTNode : public virtual iBase
 {
   SCF_INTERFACE (iBTNode, 0, 0, 1);
+
   /**
-   * Perform this node.
-   * Returns true if node was succesful and 
-   * false otherwise.
+   * Execute this node.
+   * Return whether or not the execution of the node was successful.
    */
   virtual bool Execute (const celParams& params) = 0;
 
   /**
-   * Connect a child node
+   * Add a child node to this node
    */
   virtual bool AddChild (iBTNode* child) = 0;
 
@@ -57,52 +79,61 @@ struct iBTNode : public virtual iBase
 //-------------------------------------------------------------------------
 
 /**
- * This interface is implemented by the leaf node that 
- * executes a CEL reward
- **/
+ * This interface is implemented by the leaf action iBTNode that 
+ * launches a list of CEL rewards
+ */
 struct iBTAction: public virtual iBase
 {
   SCF_INTERFACE (iBTAction, 0, 0, 1);
 
   /**
-   * Set the reward to execute
-   **/
-  virtual void SetReward (iReward* reward) = 0;
+   * Add a reward to be launched when this action node is executed.
+   */
+  virtual void AddReward (iReward* reward) = 0;
 };
 
 /**
- * This interface is implemented by the leaf node that 
- * checks a parameter
- **/
+ * This interface is implemented by the leaf iBTNode that 
+ * checks whether or not a parameter is equal to a given value.
+ */
 struct iParameterCheckCondition: public virtual iBase
 {
   SCF_INTERFACE (iParameterCheckCondition, 0, 0, 1);
 
   /**
-   * Set the parameter to check
-   **/
+   * Set the parameter to be checked by this node
+   */
   virtual void SetParameter (const char* parameter) = 0;
 
   /**
-   * Set the value to check parameter equals
-   **/
+   * Set the value that will be checked against the parameter
+   */
   virtual void SetValue (const char* value) = 0;
 };
 
 
 /**
- * This interface is implemented by the leaf node that 
- * monitors a CEL trigger. Returning true if the trigger 
- * has already fired
- **/
+ * This interface is implemented by the leaf iBTNode that 
+ * monitors a CEL trigger. It returns whether or not a trigger has been fired.
+ * The exact behaviour depends on the value set by SetFireOnce().
+ */
 struct iTriggerFiredCondition: public virtual iBase
 {
   SCF_INTERFACE (iTriggerFiredCondition, 0, 0, 1);
 
   /**
-   * Set the trigger
-   **/
+   * Set the trigger to be monitored by this node
+   */
   virtual void SetTrigger (iTrigger* trigger) = 0;
+
+  /**
+   * Set whether or not the execution of the condition will return \a true once
+   * or forever once the trigger has been fired. If \p once
+   * is \a true, then iBTNode::Execute() will return \a true only once each time
+   * the trigger is fired. Otherwise, iBTNode::Execute() will return \a true
+   * forever once the trigger has been fired. The default value is false.
+   */
+  virtual void SetFireOnce (bool once) = 0;
 };
 
 //-------------------------------------------------------------------------

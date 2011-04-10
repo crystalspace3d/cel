@@ -49,7 +49,7 @@ class celNewStateRewardFactory : public scfImplementation2<
 	iNewStateQuestRewardFactory>
 {
 private:
-  celNewStateRewardType* type;
+  csRef<celNewStateRewardType> type;
   csString state_par;
   csString entity_par;
   csString class_par;
@@ -76,7 +76,7 @@ class celNewStateReward : public scfImplementation2<
 	celNewStateReward, iReward, iCelTimerListener>
 {
 private:
-  celNewStateRewardType* type;
+  csRef<celNewStateRewardType> type;
   csRef<iParameter> state;
   csRef<iParameter> entity;
   csRef<iParameter> tag;
@@ -106,7 +106,7 @@ class celClassNewStateReward : public scfImplementation2<
 	celClassNewStateReward, iReward, iCelTimerListener>
 {
 private:
-  celNewStateRewardType* type;
+  csRef<celNewStateRewardType> type;
   csRef<iParameter> state;
   csRef<iParameter> tag;
   csRef<iParameter> clazz;

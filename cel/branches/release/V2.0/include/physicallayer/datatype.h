@@ -37,27 +37,47 @@ struct iCelEntity;
  */
 enum celDataType
 {
+  /// Undefined type
   CEL_DATA_NONE = 0,
+  /// Boolean type
   CEL_DATA_BOOL,
+  /// Byte type (ie 8 bits)
   CEL_DATA_BYTE,
+  /// Word type (ie 16 bits)
   CEL_DATA_WORD,
+  /// Long type (ie 32 bits)
   CEL_DATA_LONG,
+  /// Unsigned byte type
   CEL_DATA_UBYTE,
+  /// Unsigned word type
   CEL_DATA_UWORD,
+  /// Unsigned long type
   CEL_DATA_ULONG,
+  /// Float type
   CEL_DATA_FLOAT,
+  /// csVector2 type
   CEL_DATA_VECTOR2,
+  /// csVector3 type
   CEL_DATA_VECTOR3,
+  /// csVector4 type
   CEL_DATA_VECTOR4,
+  /// String type
   CEL_DATA_STRING,
+  /// Property class type
   CEL_DATA_PCLASS,
+  /// Entity type
   CEL_DATA_ENTITY,
+  /// Action type
   CEL_DATA_ACTION,
+  /// csColor type
   CEL_DATA_COLOR,
+  /// csColor4 type
   CEL_DATA_COLOR4,
+  /// iBase type
   CEL_DATA_IBASE,
+  /// A templated parameter 
   CEL_DATA_PARAMETER,
-
+  /// Count of different data types
   CEL_DATA_LAST
 };
 

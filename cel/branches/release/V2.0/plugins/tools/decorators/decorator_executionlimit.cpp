@@ -56,7 +56,7 @@ bool celExecutionLimitDecorator::Execute (const celParams& params)
     csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
       (plugin_mgr, "cel.parameters.manager");
 
-	execution_limit = atoi (pm->ResolveParameter(params, execution_limit_param));
+    execution_limit = atoi (pm->ResolveParameter(params, execution_limit_param));
   }
 
   
@@ -84,5 +84,5 @@ bool celExecutionLimitDecorator::AddChild (iBTNode* child)
 
 void celExecutionLimitDecorator::SetExecutionLimit (const char* limit)
 {
-	execution_limit_param = limit;
+  execution_limit_param = limit;
 }

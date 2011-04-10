@@ -49,7 +49,7 @@ class celSequenceFinishRewardFactory : public scfImplementation2<
 	iSequenceFinishRewardFactory>
 {
 private:
-  celSequenceFinishRewardType* type;
+  csRef<celSequenceFinishRewardType> type;
   csString entity_par;
   csString class_par;
   csString tag_par;
@@ -78,7 +78,7 @@ class celSequenceFinishReward : public scfImplementation1<
 	celSequenceFinishReward, iReward>
 {
 private:
-  celSequenceFinishRewardType* type;
+  csRef<celSequenceFinishRewardType> type;
   csRef<iParameter> entity;
   csRef<iParameter> tag;
   csRef<iParameter> sequence_name;
@@ -104,7 +104,7 @@ class celClassSequenceFinishReward : public scfImplementation1<
 	celClassSequenceFinishReward, iReward>
 {
 private:
-  celSequenceFinishRewardType* type;
+  csRef<celSequenceFinishRewardType> type;
   csRef<iParameter> tag;
   csRef<iParameter> sequence_name;
   csRef<iParameter> clazz;

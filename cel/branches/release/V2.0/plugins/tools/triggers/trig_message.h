@@ -52,7 +52,7 @@ class celMessageTriggerFactory : public scfImplementation2<
 	iMessageTriggerFactory>
 {
 private:
-  celMessageTriggerType* type;
+  csRef<celMessageTriggerType> type;
   csString entity_par;
   csString mask_par;
 
@@ -75,7 +75,7 @@ class celMessageTrigger : public scfImplementation2<
 	celMessageTrigger, iTrigger, iMessageReceiver>
 {
 private:
-  celMessageTriggerType* type;
+  csRef<celMessageTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
   csString mask;

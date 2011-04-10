@@ -24,7 +24,7 @@
 
 
 /**
- * Executes child and returns the opposite to the child
+ * Executes its child and returns the opposite of the result
  */
 
 CEL_DECLARE_BTNODE(NegateReturnDecorator)

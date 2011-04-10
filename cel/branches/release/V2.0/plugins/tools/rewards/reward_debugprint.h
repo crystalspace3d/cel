@@ -50,7 +50,7 @@ class celDebugPrintRewardFactory : public scfImplementation2<
 	iDebugPrintRewardFactory>
 {
 private:
-  celDebugPrintRewardType* type;
+  csRef<celDebugPrintRewardType> type;
   csString msg_par;
 
 public:
@@ -71,7 +71,7 @@ class celDebugPrintReward : public scfImplementation1<
 	celDebugPrintReward, iReward>
 {
 private:
-  celDebugPrintRewardType* type;
+  csRef<celDebugPrintRewardType> type;
   csRef<iParameterManager> pm;
   csRef<iParameter> msg;
 

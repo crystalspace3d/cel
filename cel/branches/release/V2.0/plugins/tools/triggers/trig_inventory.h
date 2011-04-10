@@ -49,7 +49,7 @@ class celInventoryTriggerFactory : public scfImplementation2<
 	iInventoryTriggerFactory>
 {
 private:
-  celInventoryTriggerType* type;
+  csRef<celInventoryTriggerType> type;
   csString entity_par;
   csString tag_par;
   csString child_entity_par;
@@ -74,7 +74,7 @@ class celInventoryTrigger : public scfImplementation2<
 	iPcInventoryListener>
 {
 private:
-  celInventoryTriggerType* type;
+  csRef<celInventoryTriggerType> type;
   csRef<iTriggerCallback> callback;
   csWeakRef<iPcInventory> inventory;
   csString entity;

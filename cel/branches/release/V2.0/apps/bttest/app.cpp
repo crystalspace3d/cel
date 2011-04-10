@@ -206,8 +206,6 @@ void MainApp::OnExit ()
 
 void MainApp::CreateBehaviourTree ()
 {
-  celParams params;
-
   csRef<iPluginManager> plugin_mgr = 
     csQueryRegistry<iPluginManager> (object_reg);
  
@@ -275,7 +273,7 @@ void MainApp::CreateBehaviourTree ()
 	  scfQueryInterface<iInventoryTriggerFactory> (trigger_factory);
   explicit_trigger_factory->SetEntityParameter ("player");
   explicit_trigger_factory->SetChildEntityParameter ("box3");
-  csRef<iTrigger> trigger = trigger_factory->CreateTrigger (params);
+  csRef<iTrigger> trigger = trigger_factory->CreateTrigger (celParams ());
   csRef<iTriggerFiredCondition> explicit_trigger_node =
     scfQueryInterface<iTriggerFiredCondition> (trigger_check_node);
   explicit_trigger_node->SetTrigger (trigger);
@@ -293,33 +291,33 @@ void MainApp::CreateBehaviourTree ()
   csRef<iBTAction> explicit_action_node =
     scfQueryInterface<iBTAction> (looking_action_node);
   explicit_reward_factory->SetMessageParameter ("Looking For Money Box :s");
-  csRef<iReward> reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  csRef<iReward> reward = reward_factory->CreateReward(celParams ());
+  explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (angry_action_node);
   explicit_reward_factory->SetMessageParameter ("ANGRY! >:");
-  reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  reward = reward_factory->CreateReward(celParams ());
+  explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (calming_action_node);
   explicit_reward_factory->SetMessageParameter ("Calming down, calm... calm :|");
-  reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  reward = reward_factory->CreateReward(celParams ());
+  explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (lottery_action_node);
   explicit_reward_factory->SetMessageParameter ("Won the Lottery! :D");
-  reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  reward = reward_factory->CreateReward(celParams ());
+  explicit_action_node->AddReward (reward);
 	  
   explicit_action_node = scfQueryInterface<iBTAction> (irritable_action_node);
   explicit_reward_factory->SetMessageParameter ("Irritable :(");
-  reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  reward = reward_factory->CreateReward(celParams ());
+  explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (loving_action_node);
   explicit_reward_factory->SetMessageParameter ("Loving :)");
-  reward = reward_factory->CreateReward(params);
-  explicit_action_node->SetReward (reward);
+  reward = reward_factory->CreateReward(celParams ());
+  explicit_action_node->AddReward (reward);
 
 
   //Connect Tree
@@ -328,28 +326,28 @@ void MainApp::CreateBehaviourTree ()
   root_node->AddChild (lottery_sequence_node);
   root_node->AddChild (random_node);
 
-    initial_sequence_node->AddChild (negatereturn_node);
-    initial_sequence_node->AddChild (looking_action_node);
+  initial_sequence_node->AddChild (negatereturn_node);
+  initial_sequence_node->AddChild (looking_action_node);
 
-      negatereturn_node->AddChild (trigger_check_node);
+  negatereturn_node->AddChild (trigger_check_node);
 
-    execution_limit_node->AddChild (angry_sequence_node);
+  execution_limit_node->AddChild (angry_sequence_node);
 
-	  angry_sequence_node->AddChild (angry_action_node);
-	  angry_sequence_node->AddChild (loop_node);
+  angry_sequence_node->AddChild (angry_action_node);
+  angry_sequence_node->AddChild (loop_node);
 
-	    loop_node->AddChild (calming_action_node);
+  loop_node->AddChild (calming_action_node);
 
-	lottery_sequence_node->AddChild (parameter_check_node);
-	lottery_sequence_node->AddChild (lottery_action_node);
+  lottery_sequence_node->AddChild (parameter_check_node);
+  lottery_sequence_node->AddChild (lottery_action_node);
 
-	random_node->AddChild (irritable_action_node);
-	random_node->AddChild (loving_action_node);
+  random_node->AddChild (irritable_action_node);
+  random_node->AddChild (loving_action_node);
 
 
   //Build Tree
   csRef<iBTNode> tree = csLoadPlugin<iBTNode> (plugin_mgr,
-    "cel.behaviourtree");
+    "cel.behaviourtree.root");
   tree->AddChild(root_node);
-  tree->Execute(params);
+  tree->Execute(celParams ());
 }

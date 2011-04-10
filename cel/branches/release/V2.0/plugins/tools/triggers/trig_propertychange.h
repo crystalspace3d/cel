@@ -48,7 +48,7 @@ class celPropertyChangeTriggerFactory : public scfImplementation2<
 	iPropertyChangeTriggerFactory>
 {
 private:
-  celPropertyChangeTriggerType* type;
+  csRef<celPropertyChangeTriggerType> type;
   csString entity_par;
   csString tag_par;
   csString prop_par;

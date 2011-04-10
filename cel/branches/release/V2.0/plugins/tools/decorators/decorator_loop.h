@@ -24,7 +24,7 @@
 
 
 /**
- * A loop decorator. Executes child multiple times.
+ * A loop decorator. It executes its child multiple times in a row.
  */
 
 class celLoopDecorator : public scfImplementation3<		

@@ -26,17 +26,17 @@
  */
 
 // *** NOTE ***
-// Also update configure.ac and docs/texinfo/version.txi when changing
-// the version number.
+// Also update configure.ac, docs/texinfo/version.txi, and
+// mk/autoconf/cel.m4 when changing the version number.
 
 /// Major version
-#define CEL_VERSION_MAJOR CS_VER_QUOTE(1)
+#define CEL_VERSION_MAJOR CS_VER_QUOTE(2)
 /// Minor version (even are stable versions, odd are development versions)
-#define CEL_VERSION_MINOR CS_VER_QUOTE(9)
+#define CEL_VERSION_MINOR CS_VER_QUOTE(0)
 /// Maintenance release / RC
 #define CEL_VERSION_BUILD CS_VER_QUOTE(0)
 /// Date of release
-#define CEL_RELEASE_DATE  CS_VER_QUOTE(Thu 5-Jun-2008)
+#define CEL_RELEASE_DATE  CS_VER_QUOTE(Tue 5-Apr-2011)
 
 /// A complete version number
 #define CEL_VERSION_NUMBER CS_VERSION_MAJOR "." CS_VERSION_MINOR "." \
