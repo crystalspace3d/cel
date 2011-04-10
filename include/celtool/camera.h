@@ -76,8 +76,6 @@ protected:
   csWeakRef<iPcRegion> region;
   csWeakRef<iPcZoneManager> zonemgr;
 
-  bool clear_zbuf, clear_screen;
-
 public:
   static void Report(iObjectRegistry* reg, const char* msg, ...);
 
@@ -95,11 +93,6 @@ public:
   iCamera* GetCamera () const;
   iPerspectiveCamera* GetPerspectiveCamera () const;
   iView* GetView () const { return view; }
-
-  void SetClearZBuffer (bool flag) { clear_zbuf = flag; }
-  bool GetClearZBuffer () const { return clear_zbuf; }
-  void SetClearScreen (bool flag) { clear_screen = flag; }
-  bool GetClearScreen () const { return clear_screen; }
 
   // For distance clipping.
   void SetDistanceClipping (float dist);
