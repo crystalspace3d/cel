@@ -140,7 +140,7 @@ bool BufferReporter::ReportWrite (csString txt)
   csString report = "Error while writing data to celNetworkBuffer";
   if (!txt.IsEmpty ()) report.AppendFmt (": %s", txt.GetData ());
   csReport (buffer_object_reg, CS_REPORTER_SEVERITY_ERROR,
-            "cel.network.tcp", report);
+            "cel.network.tcp", "%s", report.GetData ());
   return false;
 }
 
@@ -149,7 +149,7 @@ bool BufferReporter::ReportRead (csString txt)
   csString report = "Error while reading data from celNetworkBuffer";
   if (!txt.IsEmpty ()) report.AppendFmt (": %s", txt.GetData ());
   csReport (buffer_object_reg, CS_REPORTER_SEVERITY_ERROR,
-            "cel.network.tcp", report);
+            "cel.network.tcp", "%s", report.GetData ());
   return false;
 }
 
