@@ -296,7 +296,7 @@ bool celParameterManager::FillParameterBlock (
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 		"cel.parameters.manager",
-	      "Can't fill parameter blocks of different size (%i VS %i)!",
+	      "Can't fill parameter blocks of different size (%zu VS %zu)!",
 	      parameters.GetSize (), quest_parameters.GetSize ());
     return false;
   }
