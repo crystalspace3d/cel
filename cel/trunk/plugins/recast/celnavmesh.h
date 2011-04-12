@@ -332,10 +332,8 @@ private:
 
   // Others
   int numberOfVertices;
-  int numberOfRealVertices;
   float* triangleVertices;
   int numberOfTriangles;
-  int numberOfRealTriangles;
   int* triangleIndices;
   float boundingMin[3];
   float boundingMax[3];
