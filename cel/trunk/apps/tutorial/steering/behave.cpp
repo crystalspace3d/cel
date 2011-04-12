@@ -150,7 +150,7 @@ void BehaviourPlayer::ShowInventory ()
   for (i = 0 ; i < count ; i++)
   {
     iCelEntity* child = pcinventory->GetEntity (i);
-    printf ("  child %zu is '%s'\n", i, child->GetName ());
+    csPrintf ("  child %zu is '%s'\n", i, child->GetName ());
   }
 }
 
@@ -160,7 +160,7 @@ void BehaviourPlayer::Drop ()
   size_t count = pcinventory->GetEntityCount ();
   if (count <= 0)
   {
-    printf ("Inventory is empty!\n");
+    csPrintf ("Inventory is empty!\n");
     return;
   }
   iCelEntity* child = pcinventory->GetEntity (0);
@@ -212,13 +212,13 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
   else if (msg_id == id_pcinventory_addchild)
   {
     GetInventory ();
-    printf ("Got a new object! Objects in inventory:\n");
+    csPrintf ("Got a new object! Objects in inventory:\n");
     ShowInventory ();
   }
   else if (msg_id == id_pcinventory_removechild)
   {
     GetInventory ();
-    printf ("Object removed from inventory! Objects in inventory:\n");
+    csPrintf ("Object removed from inventory! Objects in inventory:\n");
     ShowInventory ();
   }
   else
@@ -412,7 +412,7 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
   // This will print once we get the arrived message from pcsteer
 
   if (msg_id == id_pcsteer_arrived)
-    printf("Arrived\n");
+    csPrintf ("Arrived\n");
   else if (msg_id == id_pccommandinput_seek1){
   
     /*
@@ -421,7 +421,7 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
      *
      */
 
-    printf("Seek\n");
+    csPrintf ("Seek\n");
     csRef<iCelEntity> player_entity = pl->FindEntity("player");
     csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
 								  iPcLinearMovement);
@@ -454,7 +454,7 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
        *
        */
 
-    printf("Flee\n");
+    csPrintf ("Flee\n");
     csRef<iCelEntity> player_entity = pl->FindEntity("player");
     csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
 								  iPcLinearMovement);
@@ -486,7 +486,7 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
        * Pcsteer will calculate its position on its own.
        */
 
-      printf("Pursue\n");
+      csPrintf ("Pursue\n");
       csRef<iCelEntity> player_entity = pl->FindEntity("player");
       csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
       csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
@@ -503,11 +503,11 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 	//Turns Position Arrival Checking on with a sq radius of 1.0
 	pcsteer->CheckArrivalOn(1.0f);
 	arrival = true;
-	printf("Check Arrival On\n");
+	csPrintf ("Check Arrival On\n");
       } else {
 	pcsteer->CheckArrivalOff();
 	arrival = false;
-	printf("Check Arrival Off\n");
+	csPrintf ("Check Arrival Off\n");
       }
     }
   else if (msg_id == id_pccommandinput_ca1)
@@ -522,12 +522,12 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 	
 	pcsteer->CollisionAvoidanceOn(2.0f, 1.0f);
 	ca = true;
-	printf("Collision Avoidance On\n");
+	csPrintf ("Collision Avoidance On\n");
 	
       } else{
 	pcsteer->CollisionAvoidanceOff();
 	ca = false;
-	printf("Collision Avoidance Off\n");      
+	csPrintf ("Collision Avoidance Off\n");      
       }
     }
   else if (msg_id == id_pccommandinput_cohesion1)
@@ -541,12 +541,12 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 
 	pcsteer->CohesionOn(entities, 10.0f, 100.0f, 3.0f);
 	cohesion = true;
-	printf("Cohesion On\n");
+	csPrintf ("Cohesion On\n");
 	
       } else{
 	pcsteer->CohesionOff();
 	cohesion = false;
-	printf("Cohesion Off\n");      
+	csPrintf ("Cohesion Off\n");      
       }
     } else if (msg_id == id_pccommandinput_separation1)
     {
@@ -559,12 +559,12 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 	
        	pcsteer->SeparationOn(entities, 1.0f, 3.0f);
 	separation = true;
-	printf("Separation On\n");
+	csPrintf ("Separation On\n");
 	
       } else{
 	pcsteer->SeparationOff();
 	separation = false;
-	printf("Separation Off\n");      
+	csPrintf ("Separation Off\n");      
       }
     }
  else if (msg_id == id_pccommandinput_dm1)
@@ -579,12 +579,12 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 	
 	pcsteer->DirectionMatchingOn(entities, 1.0f);
 	dm = true;
-	printf("Direction Matching On\n");
+	csPrintf ("Direction Matching On\n");
 	
       } else{
 	pcsteer->DirectionMatchingOff();
 	dm = false;
-	printf("Direction Matching Off\n");      
+	csPrintf ("Direction Matching Off\n");      
       }
     }
   else
