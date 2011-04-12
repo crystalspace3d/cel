@@ -20,6 +20,8 @@
 #ifndef __NETMANAGERS_H__
 #define __NETMANAGERS_H__
 
+#include "csutil/stringarray.h"
+
 #include "physicallayer/nettypes.h"
 #include "physicallayer/network.h"
 #include "nettest.h"
@@ -47,14 +49,14 @@ class GameFactoryManager : public celGameFactoryManager
   GameClientManager* client_manager;
 
   GameFactoryManager (NetTest* nettest, iCelGameFactory* factory,
-  	csString level_path, csString level_file);
+  	const char* level_path, const char* level_file);
   virtual ~GameFactoryManager ();
 
   virtual void ServerNetworkStateChanged (celServerNetworkState new_state, 
-        celServerNetworkState previous_state, csString reason);
+        celServerNetworkState previous_state, const char* reason);
   virtual bool InitClient (iCelGame* game);
   virtual bool InitServer (iCelGame* game);
-  csString GetConnectionState () { return connection_state; }
+  const char* GetConnectionState () { return connection_state; }
   bool IsClientAvailable ()
   { return (game.IsValid() && game->IsClientAvailable ()); }
   bool IsServerAvailable ()
@@ -76,7 +78,7 @@ class GameServerManager : public celGameServerManager
   GameServerManager (GameFactoryManager* factory);
   virtual ~GameServerManager ();
 
-  virtual bool AuthorizePlayer (celPlayer* player, csString &reason);
+  virtual bool AuthorizePlayer (celPlayer* player, csString& reason);
   virtual celPlayer* ValidatePlayerUpdate (celPlayer* previous_player_data);
   virtual void PlayerNetworkStateChanged (celPlayer* player, 
         celPlayerNetworkState new_state, 
@@ -97,7 +99,7 @@ class GameClientManager : public celGameClientManager
   uint32 entity_counter;
 
  public:
-  csArray<csString> comments;
+  csStringArray comments;
 
   GameClientManager (GameFactoryManager* factory);
   virtual ~GameClientManager ();

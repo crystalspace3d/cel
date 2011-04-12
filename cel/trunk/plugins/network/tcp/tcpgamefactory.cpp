@@ -217,7 +217,7 @@ bool celTCPGameFactory::CloseGame ()
   return true;
 }
 
-void celTCPGameFactory::StartRecordingGame (csString filename)
+void celTCPGameFactory::StartRecordingGame (const char* filename)
 {
   // @@@ TODO
 }
@@ -227,7 +227,7 @@ void celTCPGameFactory::StopRecordingGame ()
   // @@@ TODO
 }
 
-void celTCPGameFactory::StartPlayBackGame (csString filename, 
+void celTCPGameFactory::StartPlayBackGame (const char* filename, 
 				  csTicks start_time, csTicks stop_time)
 {
   // @@@ TODO
