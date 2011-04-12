@@ -1761,9 +1761,7 @@ void celNavMeshBuilder::CleanUpSectorData ()
   chunkyTriMesh = 0;
 
   numberOfVertices = 0;
-  numberOfRealVertices = 0;
-  numberOfTriangles = 0;    
-  numberOfRealTriangles = 0;
+  numberOfTriangles = 0;
   numberOfOffMeshCon = 0;
   numberOfVolumes = 0;
 }
@@ -2098,6 +2096,7 @@ bool celNavMeshBuilder::GetSectorData ()
   }
 
   // copy vertex array data to the buffer
+  numberOfVertices = vertices.GetSize();
   for (int i = 0; i < vertices.GetSize(); ++i)
   {
     const csVector3& v = vertices[i];
@@ -2114,6 +2113,7 @@ bool celNavMeshBuilder::GetSectorData ()
   }
 
   // copy index array data to the buffer
+  numberOfTriangles = triangles.GetSize();
   for (int i = 0; i < triangles.GetSize(); ++i)
   {
     const csTriangle& t = triangles[i];
