@@ -436,10 +436,11 @@ csArray<csPoly3D> celNavMesh::QueryPolygons(const csBox3& box) const
 
     // convert detour poly to cs poly
     csPoly3D poly(detourPoly->vertCount);
-    for(int j = 0; j < detourPoly->vertCount; j += 3)
+    for(int j = 0; j < detourPoly->vertCount; ++j)
     {
-      const float* vertex = &tile->verts[detourPoly->verts[j]*3];
-      poly.AddVertex(vertex[0],vertex[1],vertex[2]);
+      poly.AddVertex(tile->verts[detourPoly->verts[j]*3],
+                     tile->verts[detourPoly->verts[j]*3+1],
+                     tile->verts[detourPoly->verts[j]*3+2]);
     }
 
     // add it to the result array
