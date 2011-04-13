@@ -1802,24 +1802,25 @@ bool celNavMeshBuilder::CheckClipping(const csPlane3& clipPlane, const csBox3& b
 void celNavMeshBuilder::SplitPolygon(int indexOffset, int vertCount, csVector3* verts, csArray<csVector3>& vertices, csArray<csTriangle>& triangles, const csReversibleTransform& transform, csPlane3& clipPlane, bool clipPolygon)
 {
   // do the intersection
-  int numVerts = vertCount;
-  if(clipPolygon && !clipPlane.ClipPolygon(verts,numVerts))
+  size_t numVerts = vertCount;
+  if(clipPolygon && !clipPlane.ClipPolygon(verts, vertCount))
   {
     // skip invisible polys if clipping is enabled
     return;
   }
 
+  size_t i;
   if(!transform.IsIdentity())
   {
-    for(int i = 0; i < numVerts; ++i)
+    for(i = 0; i < numVerts; ++i)
     {
       verts[i] = transform.This2Other(verts[i]);
     }
   }
 
   // get indices and add vertices if not yet present
-  int* indices = new int[numVerts];
-  for(int i = 0; i < numVerts; ++i)
+  size_t* indices = new size_t[numVerts];
+  for(i = 0; i < numVerts; ++i)
   {
     indices[i] = vertices.Find(verts[i]);
     if(indices[i] == csArrayItemNotFound)
@@ -1832,7 +1833,7 @@ void celNavMeshBuilder::SplitPolygon(int indexOffset, int vertCount, csVector3* 
 
   // add new triangles
   csTriangle tri;
-  for(int i = 2; i < numVerts; i++)
+  for(i = 2; i < numVerts; i++)
   {
     tri.Set(indices[0],indices[i-1],indices[i]);
     triangles.Push(tri);
@@ -2097,7 +2098,8 @@ bool celNavMeshBuilder::GetSectorData ()
 
   // copy vertex array data to the buffer
   numberOfVertices = vertices.GetSize();
-  for (int i = 0; i < vertices.GetSize(); ++i)
+  size_t i;
+  for (i = 0; i < vertices.GetSize(); ++i)
   {
     const csVector3& v = vertices[i];
     triangleVertices[3*i  ] = v[0];
@@ -2114,7 +2116,7 @@ bool celNavMeshBuilder::GetSectorData ()
 
   // copy index array data to the buffer
   numberOfTriangles = triangles.GetSize();
-  for (int i = 0; i < triangles.GetSize(); ++i)
+  for (i = 0; i < triangles.GetSize(); ++i)
   {
     const csTriangle& t = triangles[i];
     triangleIndices[3*i  ] = t[0];
