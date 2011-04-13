@@ -262,7 +262,10 @@ void celNavMeshPath::AddNode (csVector3 node)
 {
   if (pathSize == maxPathSize)
   {
-    path = (float*)realloc(path, (maxPathSize + INCREASE_PATH_BY));
+    float* newPath = new float[(maxPathSize + INCREASE_PATH_BY) * 3];
+    memcpy(newPath, path, pathSize * 3 * sizeof(float));
+    delete [] path;
+    path = newPath;
     maxPathSize += INCREASE_PATH_BY;
   }
   int index = pathSize * 3;
@@ -277,12 +280,17 @@ void celNavMeshPath::InsertNode (int pos, csVector3 node)
   int index = pos * 3;
   if (pathSize == maxPathSize)
   {
-    path = (float*)realloc(path, (maxPathSize + INCREASE_PATH_BY));
+    float* newPath = new float[(maxPathSize + INCREASE_PATH_BY) * 3];
+    memcpy(newPath, path, (pos * 3) * sizeof(float));
+    memcpy(newPath + ((pos + 1) * 3), path + (pos * 3), (pathSize - pos) * 3 * sizeof(float));
+    delete [] path;
+    path = newPath;
     maxPathSize += INCREASE_PATH_BY;
   }
-
-  memmove(path + ((pos + 1) * 3), path + (pos * 3), (pathSize - pos) * 3 * sizeof(float));
-
+  else
+  {
+    memmove(path + ((pos + 1) * 3), path + (pos * 3), (pathSize - pos) * 3 * sizeof(float));
+  }
   path[index] = node[0];
   path[index + 1] = node[1];
   path[index + 2] = node[2];
@@ -431,7 +439,7 @@ csArray<csPoly3D> celNavMesh::QueryPolygons(const csBox3& box) const
     for(int j = 0; j < detourPoly->vertCount; j += 3)
     {
       const float* vertex = &tile->verts[detourPoly->verts[j]*3];
-      poly.AddVertex(vertex[j],vertex[j+1],vertex[j+2]);
+      poly.AddVertex(vertex[0],vertex[1],vertex[2]);
     }
 
     // add it to the result array
