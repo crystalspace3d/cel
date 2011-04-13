@@ -51,17 +51,23 @@ void celHPath::Initialize(iCelPath* highLevelPath)
 
     iMapNode* src = hlPath->GetFirst();
     iMapNode* dst = hlPath->Next();
-    do
+    while(1)
     {
       // cross-sector connections are coincident
       if(src->GetSector() == dst->GetSector())
       {
         length += (dst->GetPosition()-src->GetPosition()).Norm();
       }
-      src = hlPath->Next();
-      dst = hlPath->Next();
+      if(hlPath->HasNext())
+      {
+        src = hlPath->Next();
+        dst = hlPath->Next();
+      }
+      else
+      {
+        break;
+      }
     }
-    while(hlPath->HasNext());
 
     // restart path for traversal
     hlPath->Restart();
@@ -88,170 +94,131 @@ void celHPath::Initialize(iCelPath* highLevelPath)
   currentNode = firstNode;
 }
 
-bool celHPath::HasNextInternal () const
+bool celHPath::HasNextInternal (bool reverse) const
 {
-  if (!llPaths[currentllPosition]->HasNext())
+  if(reverse)
   {
-    if (currentllPosition + 1 >= llPaths.GetSize())
+    if(llPaths[currentllPosition].IsValid())
     {
-      return false;
+      if(llPaths[currentllPosition]->HasPrevious() || currentllPosition > 0)
+      {
+        return true;
+      }
+    }
+    else
+    {
+      return true;
     }
   }
-
-  return true;
-}
-
-bool celHPath::HasPreviousInternal () const
-{
-  if (!llPaths[currentllPosition]->HasPrevious())
+  else
   {
-    if (currentllPosition <= 0)
+    if(llPaths[currentllPosition].IsValid())
     {
-      return false;
+      if(llPaths[currentllPosition]->HasNext() || currentllPosition + 1 < llPaths.GetSize())
+      {
+        return true;
+      }
+    }
+    else
+    {
+      return true;
     }
   }
-
-  return true;
+  return false;
 }
 
 bool celHPath::HasNext () const
 {
-  if (reverse)
-  {
-    return HasPreviousInternal();
-  }
-  return HasNextInternal();
+  return HasNextInternal(reverse);
 }
 
 bool celHPath::HasPrevious () const
 {
-  if (reverse)
-  {
-    return HasNextInternal();
-  }
-  return HasPreviousInternal();
+  return HasNextInternal(!reverse);
 }
 
-iMapNode* celHPath::NextInternal ()
+iMapNode* celHPath::NextInternal (bool reverse)
 {
-  csVector3 position;
-  
-  if (!llPaths[currentllPosition]->HasNext())
+  while(HasNextInternal(reverse))
   {
-    advanced += llPaths[currentllPosition]->Length();
-    if (currentllPosition + 1 >= llPaths.GetSize())
+    if(!llPaths[currentllPosition].IsValid())
     {
-      return 0;
-    }
-
-    if (!llPaths[currentllPosition + 1].IsValid())
-    {
-      csRef<iMapNode> from = hlPath->Next();
-      csRef<iMapNode> goal = hlPath->Next();
-      currentSector = from->GetSector();
-      csRef<iCelNavMesh> navMesh = navMeshes.Get(currentSector, 0);
-      csRef<iCelNavMeshPath> path = navMesh->ShortestPath(from->GetPosition(), goal->GetPosition());
-      currentllPosition++;
-      llPaths[currentllPosition] = path;
-      // naively walk towards the goal if we don't have a path
-      // this should only happen at warp portals
-      if(!path->HasNext())
+      csRef<iMapNode> src;
+      csRef<iMapNode> dst;
+      if(reverse)
       {
-        currentNode = goal;
-        return goal;
+        src = hlPath->Previous();
+        dst = hlPath->Previous();
       }
+      else
+      {
+        dst = hlPath->Next();
+        src = hlPath->Next();
+      }
+
+      csRef<iMapNode> target = reverse ? src : dst;
+      currentSector = target->GetSector();
+
+      if(src->GetSector() != dst->GetSector())
+      {
+        // cross-sector steps are coincident
+        currentNode = csPtr<iMapNode>(new csMapNode(""));
+        currentNode->SetPosition(target->GetPosition());
+        currentNode->SetSector(currentSector);
+        return currentNode;
+      }
+      else
+      {
+        csRef<iCelNavMesh> navMesh = navMeshes.Get(currentSector, 0);
+        llPaths[currentllPosition] = navMesh->ShortestPath(src->GetPosition(), dst->GetPosition());
+        if(reverse)
+        {
+          while(llPaths[currentllPosition]->HasNext())
+          {
+            csVector3 pos;
+            llPaths[currentllPosition]->Next(pos);
+          }
+        }
+        CS_ASSERT(llPaths[currentllPosition].IsValid());
+      }
+    }
+    else if(!reverse && !llPaths[currentllPosition]->HasNext()
+         || reverse && !llPaths[currentllPosition]->HasPrevious())
+    {
+      advanced += llPaths[currentllPosition]->Length();
+      currentllPosition += reverse ? -1 : 1;
     }
     else
     {
-      currentllPosition++;
-    }
-  }
-  // We don't use the first point of each low level path (except for the first path),
-  // since it should at the same position of the last point in the previous low level path.
-  llPaths[currentllPosition]->Next(position); 
-
-  csRef<iMapNode> node;
-  node.AttachNew(new csMapNode(""));
-  node->SetPosition(position);
-  node->SetSector(currentSector);
-  currentNode = node;
-
-  return node;
-}
-
-iMapNode* celHPath::PreviousInternal ()
-{
-  csVector3 position;
-  bool changellPath = !llPaths[currentllPosition]->HasPrevious();
-
-  if (!changellPath)
-  {
-    llPaths[currentllPosition]->Previous(position); 
-    if (!llPaths[currentllPosition]->HasPrevious() && currentllPosition > 0)
-    {
-      // We don't use the first point of each low level path (except for the first path),
-      // since it should at the same position of the last point in the previous low level path.
-      changellPath = true;
-    }
-  }
-
-  if (changellPath)
-  {
-    advanced += llPaths[currentllPosition]->Length();
-    if (currentllPosition <= 0)
-    {
-      return 0;
-    }
-
-    if (llPaths[currentllPosition - 1].IsValid())
-    {
-      currentllPosition--;
-    }
-    else
-    {
-      // This should only be reached if a user inverts a path after having read a few steps with Next(), and
-      // doesn't restart the path. In practice, this will probably never happen.
-      csRef<iMapNode> goal = hlPath->Previous();
-      csRef<iMapNode> from = hlPath->Previous();
-      currentSector = from->GetSector();
-      csRef<iCelNavMesh> navMesh = navMeshes.Get(currentSector, 0);
-      csRef<iCelNavMeshPath> path = navMesh->ShortestPath(from->GetPosition(), goal->GetPosition());
-      while (path->HasNext())
+      csVector3 position;
+      if(reverse)
       {
-        path->Next(position);
+        llPaths[currentllPosition]->Previous(position);
       }
-      currentllPosition--;
-      llPaths[currentllPosition] = path;
+      else
+      {
+        llPaths[currentllPosition]->Next(position);
+      }
+
+      currentNode = csPtr<iMapNode>(new csMapNode(""));
+      currentNode->SetPosition(position);
+      currentNode->SetSector(currentSector);
+
+      return currentNode;
     }
-    
-    llPaths[currentllPosition]->Current(position); // Always use the last point of a path
   }
 
-  csRef<iMapNode> node;
-  node.AttachNew(new csMapNode(""));
-  node->SetPosition(position);
-  node->SetSector(currentSector);
-  currentNode = node;
-
-  return node;
+  return 0;
 }
 
 iMapNode* celHPath::Next ()
 {
-  if (reverse)
-  {
-    return PreviousInternal();
-  }
-  return NextInternal();
+  return NextInternal(reverse);
 }
 
 iMapNode* celHPath::Previous ()
 {
-  if (reverse)
-  {
-    return NextInternal();
-  }
-  return PreviousInternal();
+  return NextInternal(!reverse);
 }
 
 iMapNode* celHPath::Current ()
@@ -279,42 +246,14 @@ iMapNode* celHPath::GetLast ()
 
 void celHPath::Invert ()
 {
-  reverse = reverse ? false : true;
+  reverse = !reverse;
 }
 
 void celHPath::Restart ()
 {
-  if (reverse)
+  while(HasNextInternal(reverse))
   {
-    while (HasNextInternal())
-    {
-      NextInternal();
-    }
-  }
-  else
-  {
-    for (size_t i = 0; i < llPaths.GetSize(); i++)
-    {
-      if (llPaths[i].IsValid())
-      {
-        llPaths[i]->Restart();
-      }
-    }
-    currentllPosition = 0;
-    hlPath->Restart();
-
-    // Set current node
-    csRef<iMapNode> goal = hlPath->Next();
-    currentSector = firstNode->GetSector();
-    if (!llPaths[0].IsValid())
-    {
-      // This should be reached if the user inverts the path and then restarts it, for example
-      csRef<iCelNavMesh> navMesh = navMeshes.Get(currentSector, 0);
-      csRef<iCelNavMeshPath> path = navMesh->ShortestPath(firstNode->GetPosition(), goal->GetPosition());
-      llPaths[0] = path;    
-    }
-
-    currentNode = firstNode;
+    NextInternal(reverse);
   }
 
   // reset travelled distance
@@ -451,20 +390,23 @@ bool celHNavStruct::BuildHighLevelGraph()
 
         if (indicesSize >= 3)
         {
-          // Calculate portal's bounding box
+          // Calculate portal's bounding box extended a little
+          // in the direction of it's normal
+          csVector3 extension = portal->GetWorldPlane().Normal()*0.1;
           csBox3 bbox(verticesPortal[0]);
+          bbox.AddBoundingVertexSmart(verticesPortal[0]+extension);
           for (int j = 1; j < verticesSize; j++)
           {
             bbox.AddBoundingVertexSmart(verticesPortal[j]);
+            bbox.AddBoundingVertexSmart(verticesPortal[j]+extension);
           }
+          bbox.SetSize(bbox.GetSize()+2*parameters->GetPolygonSearchBox());
 
           // find the navmesh polygons overlapping with the portal
           csArray<csPoly3D> polys = navmesh->QueryPolygons(bbox);
 
           if(polys.IsEmpty())
           {
-            csPrintf("no walkable polys found for portal %s in %s\n",
-                     portal->GetName(), sector->QueryObject()->GetName());
             continue;
           }
 
@@ -503,8 +445,6 @@ bool celHNavStruct::BuildHighLevelGraph()
 
           if(points.IsEmpty())
           {
-            csPrintf("no walkable points found for portal %s in %s\n",
-                     portal->GetName(), sector->QueryObject()->GetName());
             continue;
           }
 
@@ -545,7 +485,7 @@ bool celHNavStruct::BuildHighLevelGraph()
               csRef<iMapNode> mapNode;
               mapNode.AttachNew(new csMapNode("hlg"));
               mapNode->SetPosition(pos);
-              mapNode->SetSector(sector);
+              mapNode->SetSector(targetSector);
               end->SetMapNode(mapNode);
             }
             end->SetName("hlg");
