@@ -50,7 +50,7 @@ private:
   csRef<iCelPath> hlPath; // High level path
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navMeshes;
   csArray<csRef<iCelNavMeshPath> > llPaths; // Low level paths
-  size_t currentllPosition; // Current position for low level paths array
+  int currentllPosition; // Current position for low level paths array
   csRef<iMapNode> currentNode;
   csPtrKey<iSector> currentSector;
   csRef<iMapNode> firstNode; // Optimization for celHPath::GetFirst
@@ -59,10 +59,8 @@ private:
   float length;
   float advanced;
 
-  virtual bool HasNextInternal () const;
-  virtual bool HasPreviousInternal () const;
-  virtual iMapNode* NextInternal ();
-  virtual iMapNode* PreviousInternal ();
+  virtual bool HasNextInternal (bool reverse) const;
+  virtual iMapNode* NextInternal (bool reverse);
 
 public:
   celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navMeshes);
