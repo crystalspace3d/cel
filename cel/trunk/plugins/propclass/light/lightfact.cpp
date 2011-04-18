@@ -196,16 +196,18 @@ bool celPcLight::PerformActionIndexed (int idx,
             if (!sectorptr)
               return Report (object_reg,
 		  "Could not find sector '%s''!", sector);
-	    if (light->GetSector ())
-	      light->GetSector ()->GetLights ()->Remove (light);
+	    iSector* current = light->GetMovable ()->GetSectors ()->Get (0);
+	    if (current)
+	      current->GetLights ()->Remove (light);
 	    sectorptr->GetLights ()->Add (light);
 	    light->GetMovable ()->SetSector (sectorptr);
 	    light->GetMovable ()->UpdateMove ();
 	  }
 	  else
 	  {
-	    if (light->GetSector ())
-	      light->GetSector ()->GetLights ()->Remove (light);
+	    iSector* current = light->GetMovable ()->GetSectors ()->Get (0);
+	    if (current)
+	      current->GetLights ()->Remove (light);
 	    light->GetMovable ()->ClearSectors ();
 	    light->GetMovable ()->UpdateMove ();
 	  }
@@ -214,7 +216,7 @@ bool celPcLight::PerformActionIndexed (int idx,
         if (!p_pos)
           return Report (object_reg,
 	      "'pos' parameter missing for moving the light!");
-        light->SetCenter (pos);
+        light->GetMovable ()->SetPosition (pos);
         return true;
       }
     case action_parentmesh:
@@ -268,9 +270,9 @@ csPtr<iCelDataBuffer> celPcLight::Save ()
   if (light)
   {
     databuf->Add (light->QueryObject ()->GetName ());
-    const csVector3& center = light->GetCenter ();
+    const csVector3& center = light->GetMovable ()->GetPosition ();
     databuf->Add (center);
-    iSector* sector = light->GetSector ();
+    iSector* sector = light->GetMovable ()->GetSectors ()->Get (0);
     databuf->Add (sector->QueryObject ()->GetName ());
     const csColor& color = light->GetColor ();
     databuf->Add (color);
@@ -296,7 +298,7 @@ bool celPcLight::Load (iCelDataBuffer* databuf)
       return Report (object_reg, "Light '%s' could not be found!", lightn);
     csVector3 center;
     databuf->GetVector3 (center);
-    light->SetCenter (center);
+    light->GetMovable ()->SetPosition (center);
     const char* sectorn = databuf->GetString ()->GetData ();
     if (!sectorn)
       return Report (object_reg, "Sector name missing for light '%s'!", lightn);
