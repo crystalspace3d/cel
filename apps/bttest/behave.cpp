@@ -166,7 +166,7 @@ void BehaviourPlayer::Drop ()
       .This2Other (csVector3 (0, 2, -2));
     iSector* sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
     pclinmove->SetPosition (pos, 0, sector);
-    pclinmove->SetVelocity (csVector3 (0, .1f, 0));
+    pclinmove->SetBodyVelocity (csVector3 (0, .1f, 0));
     csRef<iPcMesh> pcmesh_child = CEL_QUERY_PROPCLASS_ENT (child, iPcMesh);
     if (pcmesh_child) pcmesh_child->Show ();
   }
