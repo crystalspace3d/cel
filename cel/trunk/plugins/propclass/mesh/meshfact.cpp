@@ -1845,8 +1845,14 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     mp += drag_offset;
 
     csVector3 v0, v1;
-
-    csVector2 p (mouse_x, camera->GetShiftY() * 2 - mouse_y);
+    float shy;
+    csRef<iPerspectiveCamera> pcamera =
+      scfQueryInterface<iPerspectiveCamera> (camera);
+    if (pcamera)
+      shy = pcamera->GetShiftY ();
+    else
+      shy = 0.0f;
+    csVector2 p (mouse_x, shy * 2 - mouse_y);
     // Vector from (0,0,0) to 'vc' in camera space corresponding to
     // the point we clicked on.
     csVector3 vc = camera->InvPerspective (p, 1);
@@ -1908,7 +1914,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       if (do_senddown && cur_on_top && (cur_on_top != old_cur_on_top))
         SendMessage (MSSM_TYPE_DOWN, sel_entity, mouse_x, mouse_y, mouse_but);
       else if (do_sendup && ((mouse_up && cur_on_top) ||
-           	!cur_on_top && (cur_on_top != old_cur_on_top)))
+           	(!cur_on_top && (cur_on_top != old_cur_on_top))))
         SendMessage (MSSM_TYPE_UP, sel_entity, mouse_x, mouse_y, mouse_but);
       else if (do_sendmove)
         SendMessage (MSSM_TYPE_MOVE, sel_entity, mouse_x, mouse_y, mouse_but);
