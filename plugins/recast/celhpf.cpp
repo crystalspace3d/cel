@@ -182,8 +182,8 @@ iMapNode* celHPath::NextInternal (bool reverse)
         CS_ASSERT(llPaths[currentllPosition].IsValid());
       }
     }
-    else if(!reverse && !llPaths[currentllPosition]->HasNext()
-         || reverse && !llPaths[currentllPosition]->HasPrevious())
+    else if((!reverse && !llPaths[currentllPosition]->HasNext())
+         || (reverse && !llPaths[currentllPosition]->HasPrevious()))
     {
       advanced += llPaths[currentllPosition]->Length();
       currentllPosition += reverse ? -1 : 1;
