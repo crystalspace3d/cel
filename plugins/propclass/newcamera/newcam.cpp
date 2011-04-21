@@ -946,8 +946,7 @@ void celPcNewCamera::UpdateCamera ()
 
 int celPcNewCamera::GetDrawFlags ()
 {
-  return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-    | CSDRAW_CLEARZBUFFER;
+  return CSDRAW_3DGRAPHICS | CSDRAW_CLEARZBUFFER;
 }
 
 void celPcNewCamera::Draw ()
