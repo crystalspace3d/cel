@@ -599,7 +599,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   mechsystem = 0;
 
   forceidseed = 1;
-  last_tag = csArrayItemNotFound;
+  last_tag = 0;
 
   friction = 1;
   elasticity = 0;
