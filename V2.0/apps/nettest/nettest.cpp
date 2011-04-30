@@ -139,7 +139,7 @@ void NetTest::PostProcessFrame ()
 
     // write network state
     WriteShadow( 0, 10, 22, g2d->FindRGB(219, 230, 222), "%s",
-    	gfm->GetConnectionState().GetData());
+    	gfm->GetConnectionState());
 
     // write comments
     if (gfm->client_manager)
@@ -149,7 +149,7 @@ void NetTest::PostProcessFrame ()
       for ( ; i < gfm->client_manager->comments.GetSize(); i++)
       {
 	WriteShadow( 0, 10, pos_y, g2d->FindRGB(119, 130, 122), "%s",
-		gfm->client_manager->comments[i].GetData());
+		gfm->client_manager->comments[i]);
 	pos_y += 12;
       }
     }

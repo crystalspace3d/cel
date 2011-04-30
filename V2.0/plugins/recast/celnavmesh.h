@@ -30,6 +30,7 @@
 #include <csutil/list.h>
 #include <csutil/ref.h>
 #include <csutil/scf_implementation.h>
+#include <csutil/threadmanager.h>
 #include <iengine/mesh.h>
 #include <iengine/movable.h>
 #include <iengine/portal.h>
@@ -279,6 +280,7 @@ public:
   virtual void SetSector (iSector* sector);
   virtual iCelNavMeshParams* GetParameters () const;
   virtual csBox3 GetBoundingBox() const;
+  virtual csArray<csPoly3D> QueryPolygons(const csBox3& box) const;
   virtual bool SaveToFile (iFile* file) const;
   virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const;
   virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos) const;
@@ -291,7 +293,8 @@ public:
 /**
  * Navigation mesh creator.
  */
-class celNavMeshBuilder : public scfImplementation2<celNavMeshBuilder, iCelNavMeshBuilder, iComponent>
+class celNavMeshBuilder : public ThreadedCallable<celNavMeshBuilder>,
+                          public scfImplementation2<celNavMeshBuilder, iCelNavMeshBuilder, iComponent>
 {
 private:
   // Crystal space & CEL
@@ -329,10 +332,8 @@ private:
 
   // Others
   int numberOfVertices;
-  int numberOfRealVertices;
   float* triangleVertices;
   int numberOfTriangles;
-  int numberOfRealTriangles;
   int* triangleIndices;
   float boundingMin[3];
   float boundingMax[3];
@@ -342,9 +343,17 @@ private:
   bool GetSectorData ();  
   unsigned char* BuildTile(const int tx, const int ty, const float* bmin, const float* bmax, 
                            const rcConfig& tileConfig, int& dataSize);
-  void CreateFakeTriangles (csList<float>& vertices, csList<int>& indices, int& numberOfVertices, 
-                            int& numberOfTriangles, int firstIndex);
-  bool UpdateFakeTriangles ();
+  iObjectRegistry* GetObjectRegistry() const { return objectRegistry; }
+
+  // helper function to check whether an object has to be clipped
+  // stores whether the object has to be clipped in result and returns true if it's visible
+  bool CheckClipping(const csPlane3& clipPlane, const csBox3& bbox, bool& result);
+
+  // helper function to clip a convex polygon to a plane and triangulate it apllying an object to world transform
+  void SplitPolygon(int indexOffset, int numVerts, csVector3* poly, csArray<csVector3>& vertices, csArray<csTriangle>& triangles,
+                    const csReversibleTransform& t, csPlane3& clipPlane, bool clipPolygon);
+
+  // helper function to add a bul of triangles to the sector data
 
 public:
   celNavMeshBuilder (iBase* parent);
@@ -354,7 +363,7 @@ public:
 
   // API
   virtual bool SetSector (iSector* sector);
-  virtual iCelNavMesh* BuildNavMesh ();
+  THREADED_CALLABLE_DECL(celNavMeshBuilder,BuildNavMesh,csThreadReturn,THREADEDL,false,false);
   virtual iCelNavMesh* LoadNavMesh (iFile* file);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
   virtual void SetNavMeshParams (const iCelNavMeshParams* parameters);

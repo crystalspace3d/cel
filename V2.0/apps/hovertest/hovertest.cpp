@@ -193,16 +193,13 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   pccamera->SetMinMaxCameraDistance (2.0f, 16.0f);
   pccamera->SetFirstPersonOffset (csVector3 (0, 1.0f, 0));
   pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, 3.0f));
-  pccamera->SetModeName ("lara_thirdperson");
+  pccamera->SetModeName ("thirdperson");
 
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
         iPcMechanicsObject);
-  csBox3 bbox = pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->
-      GetObjectBoundingBox();
-  //pcmechobj->GetBody ()->AttachColliderBox (bbox.GetSize (), csOrthoTransform (), 0.5, 3.0f, 1.0, 0.8);
+  csBox3 bbox = pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox();
   pcmechobj->SetFriction (0.05f);
-  //pcmechobj->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
-  pcmechobj->AttachColliderSphere (.42f, csVector3 (0, 0, 0));
+  pcmechobj->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
   pcmechobj->SetSoftness (1.0f);
   pcmechobj->SetMass (1.0f);
   pcmechobj->SetDensity (3.0f);
@@ -216,8 +213,8 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   pccraft->SetMaxTurn (1.5);
   pccraft->SetAccPitch (0.4f);
   pccraft->SetMaxPitch (0.5);
-  pccraft->SetThrustForce (10.0);
-  pccraft->SetTopSpeed (20.0);
+  pccraft->SetThrustForce (25.0);
+  pccraft->SetTopSpeed (100.0);
   pccraft->SetRedirectVelocityRatio (0.2f);
 
   return true;

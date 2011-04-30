@@ -34,8 +34,6 @@
 LifeSimulator::LifeSimulator ()
   : DemoApplication ("CrystalSpace.LifeSimulator")
 {
-  // Define the available keys
-  hudManager.keyDescriptions.Push ("f: spawn a Frankie");
 }
 
 void LifeSimulator::PrintHelp ()
@@ -83,6 +81,9 @@ bool LifeSimulator::Application ()
   if (!CreateScene ())
     return false;
 
+  // Define the available keys
+  hudManager->GetKeyDescriptions ()->Push ("f: spawn a Frankie");
+
   CreateFrankieEntity (csVector3 (256.0f, 66.0f, 395.0f));
 
    // Run the application
@@ -100,7 +101,7 @@ void LifeSimulator::Frame ()
 bool LifeSimulator::OnKeyboard (iEvent &ev)
 {
   // Default behavior from DemoApplication
-  if (CS::Demo::DemoApplication::OnKeyboard (ev))
+  if (CS::Utility::DemoApplication::OnKeyboard (ev))
     return true;
 
   csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
@@ -142,9 +143,9 @@ bool LifeSimulator::CreateScene ()
   // Setup the sector and the camera
   room = engine->FindSector ("TerrainSector");
   view->GetCamera ()->SetSector (room);
-  cameraManager.SetCamera (view->GetCamera ());
-  cameraManager.SetCameraMode (CS::Demo::CAMERA_MOVE_FREE);
-  cameraManager.SetMotionSpeed (10.0f);
+  cameraManager->SetCamera (view->GetCamera ());
+  cameraManager->SetCameraMode (CS::Utility::CAMERA_MOVE_FREE);
+  cameraManager->SetMotionSpeed (10.0f);
 
   printf ("Done\n");
   printf ("Initializing collision system... ");

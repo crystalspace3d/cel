@@ -168,7 +168,7 @@ iCelPropertyClass* celPropertyClassList::FindByNameAndTag (const char* name,
     iCelPropertyClass* obj = prop_classes[i];
     if (!strcmp (name, obj->GetName ()))
     {
-      if (tag == 0 || *tag == 0 && obj->GetTag () == 0)
+      if (tag == 0 || (*tag == 0 && obj->GetTag () == 0))
       {
         if (obj->GetTag () == 0)
           return obj;

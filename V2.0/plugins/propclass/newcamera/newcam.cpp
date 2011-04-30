@@ -880,7 +880,7 @@ void celPcNewCamera::UpdateCamera ()
 
   csVector3 corrorigin (camOrigin), corrtar (camTarget);
   // perform collision detection
-  if (GetCollisionDetection () && mode->AllowCollisionDetection ())
+  if (GetCollisionDetection () && mode->GetCollisionDetection ())
   {
     // project beam from bottom of character
     // offset upwards, so we don't zoom to feet
@@ -946,8 +946,7 @@ void celPcNewCamera::UpdateCamera ()
 
 int celPcNewCamera::GetDrawFlags ()
 {
-  return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-    | CSDRAW_CLEARZBUFFER;
+  return CSDRAW_3DGRAPHICS | CSDRAW_CLEARZBUFFER;
 }
 
 void celPcNewCamera::Draw ()

@@ -352,7 +352,7 @@ float celPcHover::Height (csVector3 offset, bool accurate)
   csSectorHitBeamResult bres = sector->HitBeam (start, end, true);
   // beam height * proportion of beam hit
   float height = (bres.isect - start).Norm ();
-  if (!csFinite (height))
+  if (!CS::IsFinite (height))
   {
     // reset flags to original state
     pcmesh->GetMesh()->GetFlags().SetAll (flags);

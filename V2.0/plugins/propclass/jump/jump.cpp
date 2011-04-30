@@ -71,10 +71,10 @@ celPcJump::celPcJump (iObjectRegistry* object_reg)
   boost_maxtime = 300;
   boost_accel = 0.5f;
   // glide
-  glide_gravity = 8.0;
-  glide_pitch_limit = PI * 40.0 / 360.0;
-  glide_pitch_speed = 2.5;
-  glide_turn_speed = 1.0;
+  glide_gravity = 8.0f;
+  glide_pitch_limit = PI * 40.0f / 360.0f;
+  glide_pitch_speed = 2.5f;
+  glide_turn_speed = 1.0f;
 }
 
 celPcJump::~celPcJump ()
@@ -314,7 +314,8 @@ bool celPcJump::FindSiblingPropertyClasses ()
     linmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
     linmove->SetGravity (gravity);  // our gravity is the only gravity
   }
-  return linmove;
+
+  return linmove.IsValid ();
 }
 
 void celPcJump::TickEveryFrame ()
@@ -358,7 +359,7 @@ void celPcJump::UpdateMovement ()
       glide_startspeed = linmove->GetVelocity ().z;
       if (glide_startspeed > -5)
         glide_startspeed = -5;
-      linmove->SetVelocity (csVector3 (0, 0, glide_startspeed));
+      linmove->SetBodyVelocity (csVector3 (0, 0, glide_startspeed));
       csRef<iPcAnalogMotion> motion = celQueryPropertyClassEntity<iPcAnalogMotion> (entity);
       if (motion)
         motion->Enable (false);

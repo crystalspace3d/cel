@@ -331,7 +331,7 @@ bool celPcWasdMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
         float glidespeed = linmove->GetVelocity ().z;
         if (glidespeed > -5)
           glidespeed = -5;
-        linmove->SetVelocity (csVector3 (0, 0, glidespeed));
+        linmove->SetBodyVelocity (csVector3 (0, 0, glidespeed));
         pcactor->Enable (false);
       }
       else
@@ -348,7 +348,7 @@ bool celPcWasdMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
       float glidespeed = linmove->GetVelocity ().z;
       if (glidespeed > -5)
         glidespeed = -5;
-      linmove->SetVelocity (csVector3 (0, 0, glidespeed));
+      linmove->SetBodyVelocity (csVector3 (0, 0, glidespeed));
       pcactor->Activate (false);
     }*/
     return true;
@@ -372,7 +372,7 @@ bool celPcWasdMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
       if (!(pcactor->GetAxis () < EPSILON))
       {
         timer->WakeUp (700, false);
-        linmove->SetVelocity (csVector3 (0, 0, -pcactor->GetMovementSpeed ()));
+        linmove->SetBodyVelocity (csVector3 (0, 0, -pcactor->GetMovementSpeed ()));
         pcactor->Enable (false);
       }
       // do a crouch (target set downwards)

@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2009 by Jorrit Tyberghein
+    Copyright (C) 2010 by Leonardo Rodrigo Domingues
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -22,6 +22,7 @@
 
 #include <csutil/scf.h>
 #include <csutil/list.h>
+#include <tools/celnavmesh.h>
 
 class csBox3;
 class csOBB;
@@ -32,6 +33,7 @@ struct iCelNavMeshParams;
 struct iCelPath;
 struct iSector;
 struct iSectorList;
+struct iMapNode;
 
 
 
@@ -68,6 +70,9 @@ struct iCelHPath : public virtual iBase
 
   /// Restart path.  
   virtual void Restart () = 0;
+
+  /// Distance to goal.
+  virtual float GetDistance () const = 0;
   
   /**
    * Render path.
@@ -133,7 +138,7 @@ struct iCelHNavStruct : public virtual iBase
    * \param file File name.
    * \return True in case everything went right and false otherwise.
    */
-  virtual bool SaveToFile (iVFS* vfs, const char* file) = 0;
+  virtual bool SaveToFile (iVFS* vfs, const char* directory) = 0;
 
   /**
    * Get an object representation of the navigation mesh parameters.
@@ -171,7 +176,7 @@ struct iCelHNavStructBuilder : public virtual iBase
    * \remarks Even in case of a false return, the old sector information is lost.
    *          You should call iCelHNavStructBuilder::SetNavMeshParams() before this method.
    */
-  virtual void SetSectors(csList<iSector*> sectorList) = 0;
+  virtual bool SetSectors(csList<iSector*> sectorList) = 0;
 
   /**
    * Build a hierarchical navigation structure using the current configurations.
@@ -183,10 +188,10 @@ struct iCelHNavStructBuilder : public virtual iBase
    * Load a hierarchical navigation structure from a file.
    * \param vfs Pointer to the virtual file system. The file will be loaded from the current directory 
    *            of this file system.
-   * \param file File name.
+   * \param directory Directory name (vfs path).
    * \return Pointer to the navigation mesh, or 0 if something went wrong.
    */
-  virtual iCelHNavStruct* LoadHNavStruct (iVFS* vfs, const char* file) = 0;
+  virtual iCelHNavStruct* LoadHNavStruct (iVFS* vfs, const char* directory) = 0;
 
   /**
    * Get an object representation of the navigation mesh parameters.

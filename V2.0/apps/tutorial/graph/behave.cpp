@@ -153,7 +153,7 @@ void BehaviourPlayer::ShowInventory ()
   for (i = 0 ; i < count ; i++)
   {
     iCelEntity* child = pcinventory->GetEntity (i);
-    printf ("  child %zu is '%s'\n", i, child->GetName ());
+    csPrintf ("  child %zu is '%s'\n", i, child->GetName ());
   }
 }
 
@@ -163,7 +163,7 @@ void BehaviourPlayer::Drop ()
   size_t count = pcinventory->GetEntityCount ();
   if (count <= 0)
   {
-    printf ("Inventory is empty!\n");
+    csPrintf ("Inventory is empty!\n");
     return;
   }
   iCelEntity* child = pcinventory->GetEntity (0);
@@ -180,7 +180,7 @@ void BehaviourPlayer::Drop ()
       .This2Other (csVector3 (0, 2, -2));
     iSector* sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
     pclinmove->SetPosition (pos, 0, sector);
-    pclinmove->SetVelocity (csVector3 (0, .1f, 0));
+    pclinmove->SetBodyVelocity (csVector3 (0, .1f, 0));
     csRef<iPcMesh> pcmesh_child = CEL_QUERY_PROPCLASS_ENT (child, iPcMesh);
     if (pcmesh_child) pcmesh_child->Show ();
   }
@@ -215,13 +215,13 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
   else if (msg_id == id_pcinventory_addchild)
   {
     GetInventory ();
-    printf ("Got a new object! Objects in inventory:\n");
+    csPrintf ("Got a new object! Objects in inventory:\n");
     ShowInventory ();
   }
   else if (msg_id == id_pcinventory_removechild)
   {
     GetInventory ();
-    printf ("Object removed from inventory! Objects in inventory:\n");
+    csPrintf ("Object removed from inventory! Objects in inventory:\n");
     ShowInventory ();
   }
   else if  (msg_id == id_pccommandinput_position1)
@@ -235,7 +235,7 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
 
       pclinmove->GetLastFullPosition (position, rot, sector);
 
-      printf("Position .x %f, .y %f, .z%f\n", position.x, position.y, position.z);
+      csPrintf ("Position .x %f, .y %f, .z%f\n", position.x, position.y, position.z);
     }
   else
     return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);;
@@ -439,7 +439,7 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
    */
 
   if (msg_id == id_pcsteer_arrived)
-    printf("Arrived\n");
+    csPrintf ("Arrived\n");
   else if (msg_id == id_pccommandinput_seek1)
     {
       /*
@@ -448,7 +448,7 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
        *
        */
 
-      printf("Seek\n");
+      csPrintf ("Seek\n");
       csRef<iCelEntity> player_entity = pl->FindEntity("player");
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
 								    iPcLinearMovement);
@@ -493,7 +493,7 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
   else if (msg_id == id_pccommandinput_cyclic1)
     {
       
-      printf("Follow Cyclic Path\n");
+      csPrintf ("Follow Cyclic Path\n");
       csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
     
       csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
@@ -516,7 +516,7 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
     }
   else if (msg_id == id_pccommandinput_oneway1)
     {
-    printf("Follow One Way Path\n");
+    csPrintf ("Follow One Way Path\n");
     csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
     
     csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
@@ -538,7 +538,7 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
     }
 else if (msg_id == id_pccommandinput_twoway1)
     {
-    printf("Follow Two Way Path\n");
+    csPrintf ("Follow Two Way Path\n");
     csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
     
     csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
@@ -562,7 +562,7 @@ else if (msg_id == id_pccommandinput_twoway1)
     }
   else if (msg_id == id_pccommandinput_wander1)
     {
-      printf("Wander\n");
+      csPrintf ("Wander\n");
           
       csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
 
@@ -615,11 +615,11 @@ else if (msg_id == id_pccommandinput_twoway1)
 	//Turns Position Arrival Checking on with a sq radius of 1.0
 	pcsteer->CheckArrivalOn(1.0f);
 	arrival = true;
-	printf("Check Arrival On\n");
+	csPrintf ("Check Arrival On\n");
       } else {
 	pcsteer->CheckArrivalOff();
 	arrival = false;
-	printf("Check Arrival Off\n");
+	csPrintf ("Check Arrival Off\n");
       }
     }
   else if (msg_id == id_pccommandinput_ca1)
@@ -634,12 +634,12 @@ else if (msg_id == id_pccommandinput_twoway1)
 	
 	pcsteer->CollisionAvoidanceOn(10.0f, 3.0f);
 	ca = true;
-	printf("Collision Avoidance On\n");
+	csPrintf ("Collision Avoidance On\n");
 	
       } else{
 	pcsteer->CollisionAvoidanceOff();
 	ca = false;
-	printf("Collision Avoidance Off\n");      
+	csPrintf ("Collision Avoidance Off\n");      
       }
     }
   else if (msg_id == id_pccommandinput_cohesion1)
@@ -653,12 +653,12 @@ else if (msg_id == id_pccommandinput_twoway1)
 
 	pcsteer->CohesionOn(entities, 10.0f, 100.0, 1.0f);
 	cohesion = true;
-	printf("Cohesion On\n");
+	csPrintf ("Cohesion On\n");
 	
       } else{
 	pcsteer->CohesionOff();
 	cohesion = false;
-	printf("Cohesion Off\n");      
+	csPrintf ("Cohesion Off\n");      
       }
     } else if (msg_id == id_pccommandinput_separation1)
     {
@@ -671,12 +671,12 @@ else if (msg_id == id_pccommandinput_twoway1)
 	
        	pcsteer->SeparationOn(entities, 1.0f, 3.0f);
 	separation = true;
-	printf("Separation On\n");
+	csPrintf ("Separation On\n");
 	
       } else{
 	pcsteer->SeparationOff();
 	separation = false;
-	printf("Separation Off\n");      
+	csPrintf ("Separation Off\n");      
       }
     }
  else if (msg_id == id_pccommandinput_dm1)
@@ -691,12 +691,12 @@ else if (msg_id == id_pccommandinput_twoway1)
 	
 	pcsteer->DirectionMatchingOn(entities, 1.0f);
 	dm = true;
-	printf("Direction Matching On\n");
+	csPrintf ("Direction Matching On\n");
 	
       } else{
 	pcsteer->DirectionMatchingOff();
 	dm = false;
-	printf("Direction Matching Off\n");      
+	csPrintf ("Direction Matching Off\n");      
       }
     }
  else

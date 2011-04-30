@@ -100,7 +100,7 @@ public:
   virtual iCelPlayerList* GetPlayerList ()
     { return &player_list; }
   virtual celPlayerNetworkState GetPlayerState (celPlayer* player);
-  virtual void KickPlayer (celPlayer* player, csString reason);
+  virtual void KickPlayer (celPlayer* player, const char* reason);
   virtual iCelPlayerList* CreateChannel (csStringID channel_id);
   virtual void RemoveChannel (csStringID channel_id);
   virtual void LaunchServerEvent (celPlayer* player, 
