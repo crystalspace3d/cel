@@ -58,7 +58,7 @@ class celPcZoneManager;
 CEL_DECLARE_FACTORY(ZoneManager)
 
 class cameraSectorListener : public scfImplementation1<
-	cameraSectorListener, iCameraSectorListener>
+	cameraSectorListener, iCameraListener>
 {
 private:
   csWeakRef<celPcZoneManager> zonemgr;
@@ -73,6 +73,7 @@ public:
   {
   }
   virtual void NewSector (iCamera* camera, iSector* sector);
+  virtual void CameraMoved (iCamera* camera) {}
 };
 
 class meshmoveListener : public scfImplementation1<

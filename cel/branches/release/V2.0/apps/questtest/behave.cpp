@@ -152,7 +152,7 @@ void BehaviourPlayer::ShowInventory ()
   for (i = 0 ; i < count ; i++)
   {
     iCelEntity* child = pcinventory->GetEntity (i);
-    printf ("  child %u is '%s'\n", i, child->GetName ());
+    csPrintf ("  child %zu is '%s'\n", i, child->GetName ());
   }
 }
 
@@ -162,7 +162,7 @@ void BehaviourPlayer::Drop ()
   size_t count = pcinventory->GetEntityCount ();
   if (count <= 0)
   {
-    printf ("Inventory is empty!\n");
+    csPrintf ("Inventory is empty!\n");
     return;
   }
   iCelEntity* child = pcinventory->GetEntity (0);
@@ -179,7 +179,7 @@ void BehaviourPlayer::Drop ()
       .This2Other (csVector3 (0, 2, -2));
     iSector* sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
     pclinmove->SetPosition (pos, 0, sector);
-    pclinmove->SetVelocity (csVector3 (0, .1f, 0));
+    pclinmove->SetBodyVelocity (csVector3 (0, .1f, 0));
     csRef<iPcMesh> pcmesh_child = CEL_QUERY_PROPCLASS_ENT (child, iPcMesh);
     if (pcmesh_child) pcmesh_child->Show ();
   }
@@ -214,13 +214,13 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
   else if (msg_id == id_pcinventory_addchild)
   {
     GetInventory ();
-    printf ("Got a new object! Objects in inventory:\n");
+    csPrintf ("Got a new object! Objects in inventory:\n");
     ShowInventory ();
   }
   else if (msg_id == id_pcinventory_removechild)
   {
     GetInventory ();
-    printf ("Object removed from inventory! Objects in inventory:\n");
+    csPrintf ("Object removed from inventory! Objects in inventory:\n");
     ShowInventory ();
   }
   else

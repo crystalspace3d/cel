@@ -64,13 +64,13 @@ class celTCPGameFactory : public scfImplementation2<
 
   bool HandleEvent (iEvent& ev);
 
-  virtual void SetGameName (csString game_name)
+  virtual void SetGameName (const char* game_name)
     { celTCPGameFactory::game_name = game_name; }
-  virtual csString GetGameName () const
+  virtual const char* GetGameName () const
     { return game_name; }
-  virtual void SetProtocolVersion (const csString protocol_version)
+  virtual void SetProtocolVersion (const char* protocol_version)
     { celTCPGameFactory::protocol_version = protocol_version; }
-  virtual csString GetProtocolVersion () const
+  virtual const char* GetProtocolVersion () const
     { return protocol_version; }
   virtual void RegisterGameFactoryManager (
         celGameFactoryManager* manager)
@@ -84,9 +84,9 @@ class celTCPGameFactory : public scfImplementation2<
   virtual bool ConnectGame (celGameInfo* game_info, 
         celPlayer* player);
   virtual bool CloseGame ();
-  virtual void StartRecordingGame (csString filename);
+  virtual void StartRecordingGame (const char* filename);
   virtual void StopRecordingGame ();
-  virtual void StartPlayBackGame (csString filename, 
+  virtual void StartPlayBackGame (const char* filename, 
 				  csTicks start_time, csTicks stop_time);
 
   CS_DECLARE_EVENT_SHORTCUTS;

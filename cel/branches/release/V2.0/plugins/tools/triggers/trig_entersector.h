@@ -74,7 +74,7 @@ public:
  */
 class celEnterSectorTrigger : public scfImplementation2<
 	celEnterSectorTrigger, iTrigger,
-	iCameraSectorListener>
+	iCameraListener>
 {
 private:
   csRef<celEnterSectorTriggerType> type;
@@ -104,6 +104,7 @@ public:
 
   //----------------------- iCameraSectorListener --------------------------
   virtual void NewSector (iCamera* camera, iSector* sector);
+  virtual void CameraMoved (iCamera* camera) {}
 };
 
 #endif // __CEL_TOOLS_TRIG_ENTERSECTOR__

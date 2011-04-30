@@ -22,13 +22,13 @@
 #ifndef __LIFESIMULATOR_H__
 #define __LIFESIMULATOR_H__
 
-#include "cstool/csdemoapplication.h"
+#include "cstool/demoapplication.h"
 #include "ivaria/collider.h"
 
 #include "physicallayer/pl.h"
 #include "behaviourlayer/bl.h"
 
-class LifeSimulator : public CS::Demo::DemoApplication
+class LifeSimulator : public CS::Utility::DemoApplication
 {
  private:
   bool CreateScene ();
@@ -43,7 +43,7 @@ class LifeSimulator : public CS::Demo::DemoApplication
  public:
   LifeSimulator ();
 
-  //-- CS::Demo::DemoApplication
+  //-- CS::Utility::DemoApplication
   void PrintHelp ();
   bool OnInitialize (int argc, char* argv[]);
   void Frame ();

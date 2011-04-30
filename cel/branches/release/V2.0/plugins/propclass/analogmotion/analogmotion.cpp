@@ -360,7 +360,7 @@ void celPcAnalogMotion::UpdateMovement ()
     // we only modify the z component really
     csVector3 cvel (pclinmove->GetBodyVelocity ());
     cvel.z = -newspeed;
-    pclinmove->SetVelocity (cvel);
+    pclinmove->SetBodyVelocity (cvel);
     pclinmove->SetAngularVelocity (csVector3 (0));
     pcmesh->SetAnimation ("stand", true);
     return;
@@ -433,13 +433,13 @@ void celPcAnalogMotion::UpdateMovement ()
       // clipping in case acceleration oversteps the target speed.
       if (newspeed > movespeed * i)
         newspeed = movespeed * i;
-      pclinmove->SetVelocity (csVector3 (0, 0, -newspeed));
+      pclinmove->SetBodyVelocity (csVector3 (0, 0, -newspeed));
     }
   }
   // slide effect when you suddenly move in opposite direction
   else if (delta_rot > PI - PI/4)
   {
-    pclinmove->SetVelocity (csVector3 (0, 0, 0));
+    pclinmove->SetBodyVelocity (csVector3 (0, 0, 0));
   }
 
   // the faster you move, the slower you turn

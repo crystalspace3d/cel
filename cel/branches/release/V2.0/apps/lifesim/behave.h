@@ -22,6 +22,7 @@
 #ifndef __BEHAVE_H
 #define __BEHAVE_H
 
+#include "csutil/weakref.h"
 #include "iutil/objreg.h"
 
 #include "physicallayer/pl.h"
@@ -50,9 +51,9 @@ class BehaviourCommon
 {
 protected:
   csString name;  
-  csRef<iCelEntity> entity;
-  csRef<BehaviourLayer> behaviourLayer;
-  csRef<iCelPlLayer> physicalLayer;
+  csWeakRef<iCelEntity> entity;
+  csWeakRef<BehaviourLayer> behaviourLayer;
+  csWeakRef<iCelPlLayer> physicalLayer;
 
 public:
   BehaviourCommon (const char* name, iCelEntity* entity,

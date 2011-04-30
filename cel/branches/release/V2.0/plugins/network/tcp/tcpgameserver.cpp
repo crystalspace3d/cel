@@ -1000,7 +1000,7 @@ celPlayerNetworkState celTCPGameServer::GetPlayerState (celPlayer* player)
   return player_data->network_state;
 }
 
-void celTCPGameServer::KickPlayer (celPlayer* player, csString reason)
+void celTCPGameServer::KickPlayer (celPlayer* player, const char* reason)
 {
   KickedPlayer kicked_player;
   kicked_player.player = player;

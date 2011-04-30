@@ -1,6 +1,7 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2009 by Leonardo Rodrigo Domingues
+    Copyright (C) 2010 by Leonardo Rodrigo Domingues
+    Copyright (C) 2011 by Matthieu Kraus
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -50,17 +51,17 @@ private:
   csRef<iCelPath> hlPath; // High level path
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navMeshes;
   csArray<csRef<iCelNavMeshPath> > llPaths; // Low level paths
-  size_t currentllPosition; // Current position for low level paths array
+  int currentllPosition; // Current position for low level paths array
   csRef<iMapNode> currentNode;
   csPtrKey<iSector> currentSector;
   csRef<iMapNode> firstNode; // Optimization for celHPath::GetFirst
   csRef<iMapNode> lastNode; // Optimization for celHPath::GetLast
   bool reverse;
+  float length;
+  float advanced;
 
-  virtual bool HasNextInternal () const;
-  virtual bool HasPreviousInternal () const;
-  virtual iMapNode* NextInternal ();
-  virtual iMapNode* PreviousInternal ();
+  virtual bool HasNextInternal (bool reverse) const;
+  virtual iMapNode* NextInternal (bool reverse);
 
 public:
   celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navMeshes);
@@ -78,6 +79,7 @@ public:
   virtual iMapNode* GetLast ();
   virtual void Invert ();
   virtual void Restart ();
+  virtual float GetDistance () const;
   virtual csList<csSimpleRenderMesh>* GetDebugMeshes ();
 };
 
@@ -114,7 +116,7 @@ public:
   virtual iCelHPath* ShortestPath (iMapNode* from, iMapNode* goal);
   virtual bool Update (const csBox3& boundingBox, iSector* sector = 0);
   virtual bool Update (const csOBB& boundingBox, iSector* sector = 0);
-  virtual bool SaveToFile (iVFS* vfs, const char* file);
+  virtual bool SaveToFile (iVFS* vfs, const char* directory);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
   virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const;
   virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
@@ -149,9 +151,9 @@ public:
   virtual bool Initialize (iObjectRegistry*);
 
   // API
-  virtual void SetSectors (csList<iSector*> sectorList);
+  virtual bool SetSectors (csList<iSector*> sectorList);
   virtual iCelHNavStruct* BuildHNavStruct ();
-  virtual iCelHNavStruct* LoadHNavStruct (iVFS* vfs, const char* file);
+  virtual iCelHNavStruct* LoadHNavStruct (iVFS* vfs, const char* directory);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
   virtual void SetNavMeshParams (const iCelNavMeshParams* parameters);
 };

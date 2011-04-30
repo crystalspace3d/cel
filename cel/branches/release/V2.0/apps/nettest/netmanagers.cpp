@@ -70,7 +70,7 @@ celPersistenceResult SetEntityPersistentData (iCelEntity* entity,
  ****************************/
 
 GameFactoryManager::GameFactoryManager (NetTest* nettest,
-	iCelGameFactory* factory, csString level_path, csString level_file)
+	iCelGameFactory* factory, const char* level_path, const char* level_file)
 {
   GameFactoryManager::nettest = nettest;
   GameFactoryManager::factory = factory;
@@ -90,7 +90,7 @@ GameFactoryManager::~GameFactoryManager ()
 
 void GameFactoryManager::ServerNetworkStateChanged (
 	celServerNetworkState new_state, 
-        celServerNetworkState previous_state, csString reason)
+        celServerNetworkState previous_state, const char* reason)
 {
   printf ("The state of the connection has changed from %d to %d\n",
   	previous_state, new_state);
@@ -105,7 +105,7 @@ void GameFactoryManager::ServerNetworkStateChanged (
     break;
   case CEL_NET_SERVER_INVALID_HOSTNAME:
     connection_state.Format ("Invalid server hostname: ""%s""",
-    	reason.GetData ());
+    	reason);
     break;
   case CEL_NET_SERVER_TRYING_CONNECTION:
     connection_state = "Trying to connect";
@@ -114,12 +114,14 @@ void GameFactoryManager::ServerNetworkStateChanged (
     connection_state = "Connected, sending initialization data";
     break;
   case CEL_NET_SERVER_REJECTED_BAD_GAME:
-    connection_state.Format ("Rejected: the client is playing game ""%s"" while the server is playing game ""%s""", factory->GetGameName ().GetData (),
-    	reason.GetData ());
+    connection_state.Format
+      ("Rejected: the client is playing game ""%s"" while the server is playing game ""%s""",
+       factory->GetGameName (), reason);
     break;
   case CEL_NET_SERVER_REJECTED_BAD_PROTOCOL:
-    connection_state.Format ("Rejected: the client has protocol version ""%s"" while the server has version ""%s""",
-    	factory->GetProtocolVersion ().GetData (), reason.GetData ());
+    connection_state.Format
+      ("Rejected: the client has protocol version ""%s"" while the server has version ""%s""",
+       factory->GetProtocolVersion (), reason);
     break;
   case CEL_NET_SERVER_REJECTED_BAD_PASSWORD:
     connection_state = "Rejected: invalid password";
@@ -128,8 +130,9 @@ void GameFactoryManager::ServerNetworkStateChanged (
     connection_state = "Rejected: the server is playing a single player game";
     break;
   case CEL_NET_SERVER_REJECTED_UNAUTHORIZED:
-    connection_state.Format ("Rejected: the player is not authorized to join the game. Reason: ""%s""",
-    	reason.GetData ());
+    connection_state.Format
+      ("Rejected: the player is not authorized to join the game. Reason: ""%s""",
+    	reason);
     break;
   case CEL_NET_SERVER_REJECTED_MAX_PLAYERS:
     connection_state = "Rejected: server full";
@@ -145,7 +148,7 @@ void GameFactoryManager::ServerNetworkStateChanged (
     break;
   case CEL_NET_SERVER_KICKED:
     connection_state.Format ("Player kicked from the game. Reason: ""%s""",
-    	reason.GetData ());
+    	reason);
     break;
   case CEL_NET_SERVER_UNREACHABLE:
     connection_state = "Server unreachable";
@@ -240,7 +243,7 @@ GameServerManager::~GameServerManager ()
 
 }
 
-bool GameServerManager::AuthorizePlayer (celPlayer* player, csString &reason)
+bool GameServerManager::AuthorizePlayer (celPlayer* player, csString& reason)
 {
   // check if the player name is already used
   iCelPlayerList* player_list = factory->GetServer ()->GetPlayerList ();
