@@ -12,7 +12,7 @@
   	</Platforms>
 	<Configurations>
             		<Configuration
-			Name="Release (with static libs)|Win32"
+			Name="ReleaseWithStaticLibs|Win32"
 			OutputDirectory="..\..\out\release8\build\libcel_staticplugins\"
 			IntermediateDirectory="..\..\out\release8\build\libcel_staticplugins\"
 			ConfigurationType="4"
@@ -85,7 +85,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
       		<Configuration
-			Name="Release (with DLLs)|Win32"
+			Name="ReleaseWithDlls|Win32"
 			OutputDirectory="..\..\out\release8\build\libcel_staticplugins\"
 			IntermediateDirectory="..\..\out\release8\build\libcel_staticplugins\"
 			ConfigurationType="4"
@@ -158,7 +158,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
                 		<Configuration
-			Name="Debug (with static libs)|Win32"
+			Name="DebugWithStaticLibs|Win32"
 			OutputDirectory="..\..\out\debug8\build\libcel_staticplugins\"
 			IntermediateDirectory="..\..\out\debug8\build\libcel_staticplugins\"
 			ConfigurationType="4"
@@ -229,7 +229,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
       		<Configuration
-			Name="Debug (with DLLs)|Win32"
+			Name="DebugWithDlls|Win32"
 			OutputDirectory="..\..\out\debug8\build\libcel_staticplugins\"
 			IntermediateDirectory="..\..\out\debug8\build\libcel_staticplugins\"
 			ConfigurationType="4"
@@ -300,7 +300,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
                         		<Configuration
-			Name="Release (with static libs)|x64"
+			Name="ReleaseWithStaticLibs|x64"
 			OutputDirectory="..\..\out\release8-x64\build\libcel_staticplugins\"
 			IntermediateDirectory="..\..\out\release8-x64\build\libcel_staticplugins\"
 			ConfigurationType="4"
@@ -373,7 +373,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
       		<Configuration
-			Name="Release (with DLLs)|x64"
+			Name="ReleaseWithDlls|x64"
 			OutputDirectory="..\..\out\release8-x64\build\libcel_staticplugins\"
 			IntermediateDirectory="..\..\out\release8-x64\build\libcel_staticplugins\"
 			ConfigurationType="4"
@@ -446,7 +446,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
                 		<Configuration
-			Name="Debug (with static libs)|x64"
+			Name="DebugWithStaticLibs|x64"
 			OutputDirectory="..\..\out\debug8-x64\build\libcel_staticplugins\"
 			IntermediateDirectory="..\..\out\debug8-x64\build\libcel_staticplugins\"
 			ConfigurationType="4"
@@ -517,7 +517,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
       		<Configuration
-			Name="Debug (with DLLs)|x64"
+			Name="DebugWithDlls|x64"
 			OutputDirectory="..\..\out\debug8-x64\build\libcel_staticplugins\"
 			IntermediateDirectory="..\..\out\debug8-x64\build\libcel_staticplugins\"
 			ConfigurationType="4"
@@ -1225,43 +1225,43 @@
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
                                   				    					<FileConfiguration
-						Name="Release (with static libs)|Win32">
+						Name="ReleaseWithStaticLibs|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Release (with static libs)|x64">
+						Name="ReleaseWithStaticLibs|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8-x64\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
 					</FileConfiguration>				    					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
+						Name="ReleaseWithDlls|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|x64">
+						Name="ReleaseWithDlls|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8-x64\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
 					</FileConfiguration>
                                   				    					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
+						Name="DebugWithStaticLibs|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with static libs)|x64">
+						Name="DebugWithStaticLibs|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8-x64\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
 					</FileConfiguration>				    					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
+						Name="DebugWithDlls|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|x64">
+						Name="DebugWithDlls|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8-x64\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
@@ -1270,43 +1270,43 @@
 			<File
 				RelativePath="..\..\plugins\tools\billboard\billboard.cpp">
                                   				    					<FileConfiguration
-						Name="Release (with static libs)|Win32">
+						Name="ReleaseWithStaticLibs|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Release (with static libs)|x64">
+						Name="ReleaseWithStaticLibs|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8-x64\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj"/>
 					</FileConfiguration>				    					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
+						Name="ReleaseWithDlls|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|x64">
+						Name="ReleaseWithDlls|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8-x64\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj"/>
 					</FileConfiguration>
                                   				    					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
+						Name="DebugWithStaticLibs|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with static libs)|x64">
+						Name="DebugWithStaticLibs|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8-x64\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj"/>
 					</FileConfiguration>				    					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
+						Name="DebugWithDlls|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|x64">
+						Name="DebugWithDlls|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8-x64\build\libcel_staticplugins\plugins_tools_billboard_billboard.cpp.obj"/>
@@ -1315,43 +1315,43 @@
 			<File
 				RelativePath="..\..\plugins\tools\celgraph\celgraph.cpp">
                                   				    					<FileConfiguration
-						Name="Release (with static libs)|Win32">
+						Name="ReleaseWithStaticLibs|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Release (with static libs)|x64">
+						Name="ReleaseWithStaticLibs|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8-x64\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj"/>
 					</FileConfiguration>				    					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
+						Name="ReleaseWithDlls|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|x64">
+						Name="ReleaseWithDlls|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8-x64\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj"/>
 					</FileConfiguration>
                                   				    					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
+						Name="DebugWithStaticLibs|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with static libs)|x64">
+						Name="DebugWithStaticLibs|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8-x64\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj"/>
 					</FileConfiguration>				    					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
+						Name="DebugWithDlls|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|x64">
+						Name="DebugWithDlls|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8-x64\build\libcel_staticplugins\plugins_tools_celgraph_celgraph.cpp.obj"/>
@@ -1360,43 +1360,43 @@
 			<File
 				RelativePath="..\..\plugins\tools\ledges\ledges.cpp">
                                   				    					<FileConfiguration
-						Name="Release (with static libs)|Win32">
+						Name="ReleaseWithStaticLibs|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Release (with static libs)|x64">
+						Name="ReleaseWithStaticLibs|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8-x64\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
 					</FileConfiguration>				    					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
+						Name="ReleaseWithDlls|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|x64">
+						Name="ReleaseWithDlls|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\release8-x64\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
 					</FileConfiguration>
                                   				    					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
+						Name="DebugWithStaticLibs|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with static libs)|x64">
+						Name="DebugWithStaticLibs|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8-x64\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
 					</FileConfiguration>				    					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
+						Name="DebugWithDlls|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|x64">
+						Name="DebugWithDlls|x64">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8-x64\build\libcel_staticplugins\plugins_tools_ledges_ledges.cpp.obj"/>

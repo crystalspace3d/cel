@@ -12,7 +12,7 @@
   	</Platforms>
 	<Configurations>
             		<Configuration
-			Name="Release (with static libs)|Win32"
+			Name="ReleaseWithStaticLibs|Win32"
 			OutputDirectory="..\..\out\release9\build\plgpfzone\"
 			IntermediateDirectory="..\..\out\release9\build\plgpfzone\"
 			ConfigurationType="2"
@@ -90,7 +90,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
       		<Configuration
-			Name="Release (with DLLs)|Win32"
+			Name="ReleaseWithDlls|Win32"
 			OutputDirectory="..\..\out\release9\build\plgpfzone\"
 			IntermediateDirectory="..\..\out\release9\build\plgpfzone\"
 			ConfigurationType="2"
@@ -168,7 +168,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
                 		<Configuration
-			Name="Debug (with static libs)|Win32"
+			Name="DebugWithStaticLibs|Win32"
 			OutputDirectory="..\..\out\debug9\build\plgpfzone\"
 			IntermediateDirectory="..\..\out\debug9\build\plgpfzone\"
 			ConfigurationType="2"
@@ -243,7 +243,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
       		<Configuration
-			Name="Debug (with DLLs)|Win32"
+			Name="DebugWithDlls|Win32"
 			OutputDirectory="..\..\out\debug9\build\plgpfzone\"
 			IntermediateDirectory="..\..\out\debug9\build\plgpfzone\"
 			ConfigurationType="2"
@@ -318,7 +318,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
                         		<Configuration
-			Name="Release (with static libs)|x64"
+			Name="ReleaseWithStaticLibs|x64"
 			OutputDirectory="..\..\out\release9-x64\build\plgpfzone\"
 			IntermediateDirectory="..\..\out\release9-x64\build\plgpfzone\"
 			ConfigurationType="2"
@@ -396,7 +396,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
       		<Configuration
-			Name="Release (with DLLs)|x64"
+			Name="ReleaseWithDlls|x64"
 			OutputDirectory="..\..\out\release9-x64\build\plgpfzone\"
 			IntermediateDirectory="..\..\out\release9-x64\build\plgpfzone\"
 			ConfigurationType="2"
@@ -474,7 +474,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
                 		<Configuration
-			Name="Debug (with static libs)|x64"
+			Name="DebugWithStaticLibs|x64"
 			OutputDirectory="..\..\out\debug9-x64\build\plgpfzone\"
 			IntermediateDirectory="..\..\out\debug9-x64\build\plgpfzone\"
 			ConfigurationType="2"
@@ -549,7 +549,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
       		<Configuration
-			Name="Debug (with DLLs)|x64"
+			Name="DebugWithDlls|x64"
 			OutputDirectory="..\..\out\debug9-x64\build\plgpfzone\"
 			IntermediateDirectory="..\..\out\debug9-x64\build\plgpfzone\"
 			ConfigurationType="2"
