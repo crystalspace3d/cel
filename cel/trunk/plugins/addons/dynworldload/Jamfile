@@ -1,0 +1,7 @@
+SubDir TOP plugins addons dynworldload ;
+
+Plugin addon_dynworldload
+	: dynworldload.cpp dynworldload.h
+;
+ExternalLibs addon_dynworldload : CRYSTAL ;
+LinkWith addon_dynworldload : celtool ;
