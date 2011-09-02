@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass dynworld ;
+
+Plugin pfdynworld
+	: dynworld.cpp dynworld.h
+;
+ExternalLibs pfdynworld : CRYSTAL ;
+LinkWith pfdynworld : celtool ;
+
