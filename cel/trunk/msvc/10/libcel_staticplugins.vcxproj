@@ -465,6 +465,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libaddon_celentity_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_celentitytpl_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_celgraph_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libaddon_dynworldload_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_ledges_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_questdef_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_ruledef_staticreg.cpp" />
@@ -487,6 +488,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libpfdefcam_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfdelegcam_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfdynmove_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfdynworld_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfengine_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfevolve_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfgrab_staticreg.cpp" />
@@ -530,6 +532,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\addons\celentity\celentity.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentitytpl\celentitytpl.cpp" />
     <ClCompile Include="..\..\plugins\addons\celgraph\celgraph.cpp" />
+    <ClCompile Include="..\..\plugins\addons\dynworldload\dynworldload.cpp" />
     <ClCompile Include="..\..\plugins\addons\ledges\ledges.cpp" />
     <ClCompile Include="..\..\plugins\addons\questdef\questdef.cpp" />
     <ClCompile Include="..\..\plugins\addons\ruledef\ruledef.cpp" />
@@ -552,6 +555,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\propclass\defcam\defcam.cpp" />
     <ClCompile Include="..\..\plugins\propclass\delegcam\delegate.cpp" />
     <ClCompile Include="..\..\plugins\propclass\dynmove\dynmove.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\dynworld\dynworld.cpp" />
     <ClCompile Include="..\..\plugins\propclass\engine\engfact.cpp" />
     <ClCompile Include="..\..\plugins\propclass\evolve\evolve.cpp" />
     <ClCompile Include="..\..\plugins\propclass\grab\grab.cpp" />
@@ -717,6 +721,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\addons\celentity\celentity.h" />
     <ClInclude Include="..\..\plugins\addons\celentitytpl\celentitytpl.h" />
     <ClInclude Include="..\..\plugins\addons\celgraph\celgraph.h" />
+    <ClInclude Include="..\..\plugins\addons\dynworldload\dynworldload.h" />
     <ClInclude Include="..\..\plugins\addons\ledges\ledges.h" />
     <ClInclude Include="..\..\plugins\addons\questdef\questdef.h" />
     <ClInclude Include="..\..\plugins\addons\ruledef\ruledef.h" />
@@ -737,6 +742,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\propclass\defcam\defcam.h" />
     <ClInclude Include="..\..\plugins\propclass\delegcam\delegate.h" />
     <ClInclude Include="..\..\plugins\propclass\dynmove\dynmove.h" />
+    <ClInclude Include="..\..\plugins\propclass\dynworld\dynworld.h" />
     <ClInclude Include="..\..\plugins\propclass\engine\engfact.h" />
     <ClInclude Include="..\..\plugins\propclass\evolve\evolve.h" />
     <ClInclude Include="..\..\plugins\propclass\grab\grab.h" />

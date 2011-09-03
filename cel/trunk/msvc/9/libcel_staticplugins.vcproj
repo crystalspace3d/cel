@@ -602,6 +602,9 @@
 				RelativePath="..\..\msvc\libaddon_celgraph_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libaddon_dynworldload_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libaddon_ledges_staticreg.cpp">
 			</File>
 			<File
@@ -666,6 +669,9 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\libpfdynmove_staticreg.cpp">
+			</File>
+			<File
+				RelativePath="..\..\msvc\libpfdynworld_staticreg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\msvc\libpfengine_staticreg.cpp">
@@ -797,6 +803,9 @@
 				RelativePath="..\..\plugins\addons\celgraph\celgraph.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\addons\dynworldload\dynworldload.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\addons\ledges\ledges.cpp">
 			</File>
 			<File
@@ -861,6 +870,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\dynmove\dynmove.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\dynworld\dynworld.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\engine\engfact.cpp">
@@ -1416,6 +1428,9 @@
 				RelativePath="..\..\plugins\addons\celgraph\celgraph.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\addons\dynworldload\dynworldload.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\addons\ledges\ledges.h">
 			</File>
 			<File
@@ -1474,6 +1489,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\dynmove\dynmove.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\dynworld\dynworld.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\engine\engfact.h">

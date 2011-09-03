@@ -35,6 +35,7 @@
 #include "propclass/defcam.h"
 #include "propclass/delegcam.h"
 #include "propclass/dynmove.h"
+#include "propclass/dynworld.h"
 #include "propclass/evolve.h"
 #include "propclass/grab.h"
 #include "propclass/gravity.h"

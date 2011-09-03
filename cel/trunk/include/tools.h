@@ -28,6 +28,7 @@
 #include "tools/celhpf.h"
 #include "tools/celnavmesh.h"
 #include "tools/decorators.h"
+#include "tools/dynworldload.h"
 #include "tools/entityloader.h"
 #include "tools/entitytplloader.h"
 #include "tools/expression.h"
