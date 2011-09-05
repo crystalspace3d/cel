@@ -266,31 +266,31 @@ bool celQuestFactory::LoadSequenceFactory (iCelSequenceFactory* seqFact, iDocume
     {
       case XMLTOKEN_OP:
         {
-		  csString type = child->GetAttributeValue ("type");
-		  iSeqOpType* seqoptype = questmgr->GetSeqOpType ("cel.seqops."+type);
-		  if (!seqoptype)
-			seqoptype = questmgr->GetSeqOpType (type);
-		  if (!seqoptype)
-		  {
-			csReport (questmgr->object_reg,
-			  CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
-			  "Unknown sequence type '%s' while loading quest '%s'!",
-			  (const char*)type, (const char*)name);
-			return false;
-		  }
-		  csRef<iSeqOpFactory> seqopfact = seqoptype->CreateSeqOpFactory ();
-		  if (!seqopfact->Load (child))
-			return false;
-		  const char* duration = child->GetAttributeValue ("duration");
-		  seqFact->AddSeqOpFactory (seqopfact, duration);
-		}
-       break;
+	  csString type = child->GetAttributeValue ("type");
+	  iSeqOpType* seqoptype = questmgr->GetSeqOpType ("cel.seqops."+type);
+	  if (!seqoptype)
+		seqoptype = questmgr->GetSeqOpType (type);
+	  if (!seqoptype)
+	  {
+		csReport (questmgr->object_reg,
+		  CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
+		  "Unknown sequence type '%s' while loading quest '%s'!",
+		  (const char*)type, (const char*)name);
+		return false;
+	  }
+	  csRef<iSeqOpFactory> seqopfact = seqoptype->CreateSeqOpFactory ();
+	  if (!seqopfact->Load (child))
+		return false;
+	  const char* duration = child->GetAttributeValue ("duration");
+	  seqFact->AddSeqOpFactory (seqopfact, duration);
+	}
+        break;
       case XMLTOKEN_DELAY:
         {
-		  const char* time = child->GetAttributeValue ("time");
-		  seqFact->AddDelay (time); 
-		}
-      break;
+	  const char* time = child->GetAttributeValue ("time");
+	  seqFact->AddDelay (time); 
+	}
+        break;
 
       default:
         csReport (questmgr->object_reg,
@@ -443,7 +443,7 @@ bool celQuestFactory::Load (iDocumentNode* node)
 	  iQuestStateFactory* statefact = CreateState (statename);
 	  if (!statefact)
 	  {
-        csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+            csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		  "cel.questmanager.load",
 		  "Couldn't load state '%s' while loading quest '%s'!",
 		  (const char*)statename, (const char*)name);
@@ -457,20 +457,20 @@ bool celQuestFactory::Load (iDocumentNode* node)
         break;
       case XMLTOKEN_SEQUENCE:
         {
-		  const char* seqname = child->GetAttributeValue ("name");
-		  iCelSequenceFactory* seqfact = CreateSequence (seqname);
-		  if (!seqfact)
-		  {
-			csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
-			  "cel.questmanager.load",
-			  "Couldn't load sequence '%s' while loading quest '%s'!",
-			(  const char*)seqname, (const char*)name);
-			return false;
-		  }
-		  if (!LoadSequenceFactory (seqfact, child))
-			return false;
-		}
-		break;
+	  const char* seqname = child->GetAttributeValue ("name");
+	  iCelSequenceFactory* seqfact = CreateSequence (seqname);
+	  if (!seqfact)
+	  {
+	    csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		  "cel.questmanager.load",
+		  "Couldn't load sequence '%s' while loading quest '%s'!",
+		(  const char*)seqname, (const char*)name);
+	    return false;
+	  }
+	  if (!LoadSequenceFactory (seqfact, child))
+	    return false;
+	}
+	break;
       default:
         csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
@@ -583,9 +583,9 @@ void celQuest::DeactivateState (size_t stateidx, bool exec_onexit)
   celQuestState* st = states[stateidx];
   size_t j;
   for (j = 0 ; j < st->GetResponseCount () ; j++)
-  { 
-	csRef<celQuestStateResponse> r = st->GetResponse (j);
-	r->GetTrigger ()->DeactivateTrigger ();
+  {
+    csRef<celQuestStateResponse> r = st->GetResponse (j);
+    r->GetTrigger ()->DeactivateTrigger ();
   }
 
   if (exec_onexit)
@@ -614,21 +614,21 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
       celQuestState* st = states[current_state];
       for (j = 0 ; j < st->GetResponseCount () ; j++)
       {
-	    csRef<celQuestStateResponse> r = st->GetResponse (j);
-		iTrigger* trigger = r->GetTrigger ();
-		if (databuf)
-		{
-		  if (!trigger->LoadAndActivateTrigger (databuf))
-			return false;	// @@@ Report?
-		  if (trigger->Check ())
-			return true;
-		}
-		else
-		{
-		  trigger->ActivateTrigger ();
-		  if (trigger->Check ())
-			return true;
-		}
+	csRef<celQuestStateResponse> r = st->GetResponse (j);
+	iTrigger* trigger = r->GetTrigger ();
+	if (databuf)
+	{
+	  if (!trigger->LoadAndActivateTrigger (databuf))
+		return false;	// @@@ Report?
+	  if (trigger->Check ())
+		return true;
+	}
+	else
+	{
+	  trigger->ActivateTrigger ();
+	  if (trigger->Check ())
+		return true;
+	}
       }
       if (!samestate)
         for (j = 0 ; j < st->GetOninitRewardCount () ; j++)
@@ -655,17 +655,19 @@ bool celQuest::LoadState (const char* state, iCelDataBuffer* databuf)
     iCelSequence* seq = FindCelSequence (seqname->GetData ());
     if (!seq)
     {
-	  //@@@
-   	  //csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  //  "cel.questmanager.load",
-	  //  "Error finding sequence '%s'!", seqname->GetData ());
-	  printf("cel.questmanager.load: Error finding sequence '%s' !", 
+	//@@@
+   	//csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	//  "cel.questmanager.load",
+	//  "Error finding sequence '%s'!", seqname->GetData ());
+	printf("cel.questmanager.load: Error finding sequence '%s' !", 
 	    seqname->GetData ());
 	  return false;
-	} else {
+    }
+    else
+    {
       if (!seq->LoadState (databuf))
         return false;
-	}
+    }
 
     seqname = databuf->GetString ();
   }
