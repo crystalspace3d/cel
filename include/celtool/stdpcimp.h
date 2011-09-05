@@ -290,6 +290,8 @@ public:
         iCelDataBuffer* data, celPersistenceType persistence_type)
     { return CEL_PERSIST_RESULT_OK; };
 
+  virtual iCelPositionInfo* QueryPositionInfo () { return 0; }
+
   // --- For iCelTimerListener -----------------------------------------
   virtual void TickEveryFrame () { }
   virtual void TickOnce () { }

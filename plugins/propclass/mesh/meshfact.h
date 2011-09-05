@@ -21,6 +21,7 @@
 #define __CEL_PF_MESHFACT__
 
 #include "cstypes.h"
+#include "csgeom/sphere.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/csinput.h"
@@ -34,6 +35,10 @@
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 #include "csgfx/shadervar.h"
+
+#include "iengine/mesh.h"
+#include "iengine/movable.h"
+#include "iengine/sector.h"
 
 struct iCelEntity;
 struct iMeshWrapper;
@@ -56,8 +61,8 @@ CEL_DECLARE_FACTORY (MeshSelect)
 /**
  * This is a mesh property class.
  */
-class celPcMesh : public scfImplementationExt1<
-	celPcMesh, celPcCommon, iPcMesh>
+class celPcMesh : public scfImplementationExt2<
+	celPcMesh, celPcCommon, iPcMesh, iCelPositionInfo>
 {
 private:
   csRef<iMeshWrapper> mesh;
@@ -233,6 +238,31 @@ public:
   virtual bool AttachSocketMesh (const char* socket,
   	iMeshWrapper* meshwrapper);
   virtual bool DetachSocketMesh (const char* socket);
+
+  virtual iCelPositionInfo* QueryPositionInfo () { return this; }
+
+  virtual iSector* GetSector ()
+  {
+    if (!mesh) return 0;
+    if (!mesh->GetMovable ()->InSector ()) return 0;
+    return mesh->GetMovable ()->GetSectors ()->Get (0);
+  }
+  virtual const csVector3 GetPosition ()
+  {
+    if (!mesh) return csVector3 (0);
+    return mesh->GetMovable ()->GetTransform ().GetOrigin ();
+  }
+  virtual iMovable* GetMovable ()
+  {
+    if (!mesh) return 0;
+    return mesh->GetMovable ();
+  }
+  virtual float GetBoundingRadius ()
+  {
+    if (!mesh) return 0.0f;
+    csSphere s = mesh->GetRadius ();
+    return s.GetRadius ();
+  }
 };
 
 class celPcMeshSelect;

@@ -99,6 +99,38 @@ struct iCelPropertyChangeCallback;
 struct iCelParameterBlock;
 
 /**
+ * If a property class represents a position in the world then it
+ * will also implement this interface.
+ */
+struct iCelPositionInfo : public virtual iBase
+{
+  SCF_INTERFACE (iCelPositionInfo, 0, 1, 0);
+
+  /**
+   * Get the main sector of this object (if an object spans multiple
+   * sectors then you have to get the iMovable information).
+   */
+  virtual iSector* GetSector () = 0;
+
+  /**
+   * Get the world space position of this object.
+   */
+  virtual const csVector3 GetPosition () = 0;
+
+  /**
+   * If the position of this entity is represented with a movable
+   * then you can get it with this function. This can return 0 if
+   * the entity doesn't support movables.
+   */
+  virtual iMovable* GetMovable () = 0;
+
+  /**
+   * Get a bounding radius for this entity.
+   */
+  virtual float GetBoundingRadius () = 0;
+};
+
+/**
  * This is a property class for an entity. A property class
  * describe physical attributes of an entity.
  */
@@ -377,6 +409,12 @@ struct iCelPropertyClass : public virtual iBase
    */
   virtual celPersistenceResult SetPersistentData (csTicks data_time, 
         iCelDataBuffer* data, celPersistenceType persistence_type) = 0;
+
+  /**
+   * Get the associated position information. Can be 0 if this
+   * property class doesn't support positional information.
+   */
+  virtual iCelPositionInfo* QueryPositionInfo () = 0;
 };
 
 

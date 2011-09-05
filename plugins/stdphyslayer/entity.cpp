@@ -34,6 +34,7 @@ celEntity::celEntity (celPlLayer* pl) : scfImplementationType (this)
   celEntity::pl = pl;
   channel.SetPL (pl);
   entity_ID = 0;
+  positional = false;
 }
 
 celEntity::~celEntity ()
@@ -61,10 +62,13 @@ void celEntity::SetName (const char *name)
 void celEntity::NotifySiblingPropertyClasses ()
 {
   size_t i;
+  positional = false;
   for (i = 0 ; i < plist->GetCount () ; i++)
   {
     iCelPropertyClass* pc = plist->Get (i);
     pc->PropertyClassesHaveChanged ();
+    if (pc->QueryPositionInfo ())
+      positional = true;
   }
 }
 

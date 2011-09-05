@@ -1,0 +1,6 @@
+SubDir TOP plugins tools elcm ;
+
+Plugin elcm
+       : [ Wildcard *.cpp *.h ]
+;
+ExternalLibs elcm : CRYSTAL ;
