@@ -33,6 +33,9 @@ struct iMessageDispatcher;
 struct iMessageSender;
 struct iObject;
 
+struct iSector;
+struct iMovable;
+
 /**
  * This is an entity in the CEL layer at the PL (physical layer) side.
  *
@@ -46,7 +49,8 @@ struct iObject;
  */
 struct iCelEntity : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntity, 0, 0, 3);
+  SCF_INTERFACE (iCelEntity, 0, 0, 4);
+
   /**
    * Get the iObject for this entity (if supported).
    * \return A pointer to the iObject for this entity if supported,
@@ -137,6 +141,12 @@ struct iCelEntity : public virtual iBase
   virtual csRef<iMessageDispatcher> CreateTaggedMessageDispatcher (
       iMessageSender* sender, const char* msg_id,
       const char* tag) = 0;
+
+  /**
+   * Returns true if this entity is 'positional'. That means that it
+   * has at least one property class which implements iCelPositionInfo.
+   */
+  virtual bool IsPositional () const = 0;
 };
 
 /**

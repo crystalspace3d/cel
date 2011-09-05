@@ -49,6 +49,8 @@ private:
 
   celMessageChannel channel;
 
+  bool positional;
+
 public:
   CS_LEAKGUARD_DECLARE (celEntity);
 
@@ -81,6 +83,8 @@ public:
   virtual csRef<iMessageDispatcher> CreateTaggedMessageDispatcher (
       iMessageSender* sender, const char* msg_id,
       const char* tag);
+
+  virtual bool IsPositional () const { return positional; }
 
   //------- For iMessageChannel ---------------------------------------------
   virtual iMessageChannel* QueryMessageChannel ()
