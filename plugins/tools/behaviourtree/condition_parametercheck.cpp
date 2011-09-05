@@ -34,10 +34,8 @@ bool celParameterCheckCondition::Execute (const celParams& params)
 {
   //printf("CONDITION: Parameter Check\n");
 
-  csRef<iPluginManager> plugin_mgr = 
-    csQueryRegistry<iPluginManager> (object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-    (plugin_mgr, "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (object_reg, "cel.parameters.manager");
 
   return (value == pm->ResolveParameter(params, parameter));
 }

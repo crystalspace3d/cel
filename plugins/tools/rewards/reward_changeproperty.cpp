@@ -184,10 +184,8 @@ celChangePropertyRewardBase::celChangePropertyRewardBase (
 {
   celChangePropertyRewardBase::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-    csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   prop = pm->GetParameter (params, prop_par);
   if (pc_par) pc = pm->GetParameter (params, pc_par);
@@ -421,10 +419,8 @@ celChangePropertyReward::celChangePropertyReward (
 				pc_par, tag_par, string_par, long_par,
 				float_par, bool_par, diff_par, do_toggle)
 {
-  csRef<iPluginManager> plugin_mgr = 
-    csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   entity = pm->GetParameter (params, entity_par);
 }
@@ -490,10 +486,8 @@ celClassChangePropertyReward::celClassChangePropertyReward (
 				pc_par, tag_par, string_par, long_par,
 				float_par, bool_par, diff_par, do_toggle)
 {
-  csRef<iPluginManager> plugin_mgr = 
-    csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   clazz = pm->GetParameter (params, class_par);
 }

@@ -87,10 +87,8 @@ celDebugPrintReward::celDebugPrintReward (
 {
   celDebugPrintReward::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   if (pm.IsValid()){
 	  msg = pm->GetParameter(params, msg_par);

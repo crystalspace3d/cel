@@ -139,10 +139,8 @@ celSequenceFinishReward::celSequenceFinishReward (
 {
   celSequenceFinishReward::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-    csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-    (plugin_mgr, "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   entity = pm->GetParameter (params, entity_par);
   tag = pm->GetParameter (params, tag_par);
@@ -203,11 +201,8 @@ celClassSequenceFinishReward::celClassSequenceFinishReward (
 {
   celClassSequenceFinishReward::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-    csQueryRegistry<iPluginManager> (type->object_reg);
-
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-    (plugin_mgr, "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   // Get the entity class list pointer.
   clazz = pm->GetParameter (params, class_par);

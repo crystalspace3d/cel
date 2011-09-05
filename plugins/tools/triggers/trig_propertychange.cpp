@@ -158,10 +158,8 @@ celPropertyChangeTrigger::celPropertyChangeTrigger (
 {
   celPropertyChangeTrigger::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-    csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-    (plugin_mgr, "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   entity = pm->ResolveParameter (params, entity_par);
   tag = pm->ResolveParameter (params, tag_par);

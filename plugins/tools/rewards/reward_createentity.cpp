@@ -142,10 +142,8 @@ celCreateEntityReward::celCreateEntityReward (
 {
   celCreateEntityReward::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   entity_tpl = pm->GetParameter (params, template_par);
   name = pm->GetParameter (params, name_par);

@@ -111,10 +111,8 @@ celCsSequenceReward::celCsSequenceReward (
 {
   celCsSequenceReward::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-    csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-    (plugin_mgr, "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   eseqmgr = csQueryRegistry<iEngineSequenceManager> (type->object_reg);
   sequence = pm->GetParameter (params, sequence_par);
