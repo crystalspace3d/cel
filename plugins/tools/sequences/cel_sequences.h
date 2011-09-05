@@ -120,8 +120,8 @@ struct celSeqOpFact
 /**
  * A sequence factory.
  */
-class celSequenceFactory : public scfImplementation2<
-	celSequenceFactory, iCelSequenceFactory, iComponent>
+class celSequenceFactory : public scfImplementation1<
+	celSequenceFactory, iCelSequenceFactory>
 {
 private:
   iObjectRegistry* object_reg;
@@ -131,11 +131,8 @@ private:
   csArray<celSeqOpFact> seqops;
 
 public:
-  celSequenceFactory (iBase* parent);
+  celSequenceFactory (iObjectRegistry* object_reg);
   virtual ~celSequenceFactory () { }
-
-  // From iComponent.
-  virtual bool Initialize (iObjectRegistry*);
 
   // From iCelSequenceFactory
   virtual csPtr<iCelSequence> CreateSequence (const celParams& params);
@@ -144,6 +141,26 @@ public:
   virtual void AddSeqOpFactory (iSeqOpFactory* seqopfact,
   	const char* duration);
   virtual void AddDelay (const char* delay);
+};
+
+/**
+ * A sequence factory generator.
+ */
+class celSequenceFactoryGenerator : public scfImplementation2<
+	celSequenceFactoryGenerator, iCelSequenceFactoryGenerator, iComponent>
+{
+private:
+  iObjectRegistry* object_reg;
+
+public:
+  celSequenceFactoryGenerator (iBase* parent);
+  virtual ~celSequenceFactoryGenerator () { }
+
+  // From iComponent.
+  virtual bool Initialize (iObjectRegistry*);
+
+  // From iCelSequenceFactory
+  virtual csPtr<iCelSequenceFactory> CreateSequenceFactory ();
 };
 
 

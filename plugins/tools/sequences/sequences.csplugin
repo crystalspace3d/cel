@@ -5,8 +5,8 @@
     <classes>
       <class>
         <name>cel.sequence.factory</name>
-        <implementation>celSequenceFactory</implementation>
-        <description>CEL Sequence Factory</description>
+        <implementation>celSequenceFactoryGenerator</implementation>
+        <description>CEL Sequence Factory Generator</description>
       </class>
 
       <class>
