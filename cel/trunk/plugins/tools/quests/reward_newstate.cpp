@@ -105,10 +105,8 @@ celNewStateReward::celNewStateReward (
 	: scfImplementationType (this)
 {
   celNewStateReward::type = type;
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-	(plugin_mgr, "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   state = pm->GetParameter (params, state_par);
   if (entity_par) entity = pm->GetParameter (params, entity_par);
@@ -166,10 +164,8 @@ celClassNewStateReward::celClassNewStateReward (
 {
   csPrintf("new class state reward %s\n!",state_par);
   celClassNewStateReward::type = type;
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   state = pm->GetParameter (params, state_par);
   tag = pm->GetParameter (params, tag_par);

@@ -230,10 +230,8 @@ celActionReward::celActionReward (
 	 const char* tag_par)
   : scfImplementationType (this), factory (factory)
 {
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (factory->type->object_reg);
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  pm = csQueryRegistryOrLoad<iParameterManager> 
+    (factory->type->object_reg, "cel.parameters.manager");
 
   pcclass = pm->GetParameter (params, pcclass_par);
   tag = pm->GetParameter (params, tag_par);
@@ -310,10 +308,8 @@ celClassActionReward::celClassActionReward (
 	const char* tag_par)
   : scfImplementationType (this), factory (factory)
 {
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (factory->type->object_reg);
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  pm = csQueryRegistryOrLoad<iParameterManager> 
+    (factory->type->object_reg, "cel.parameters.manager");
   
   pcclass = pm->GetParameter (params, pcclass_par);
   tag = pm->GetParameter (params, tag_par);

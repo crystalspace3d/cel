@@ -109,10 +109,8 @@ celDestroyEntityReward::celDestroyEntityReward (
 {
   celDestroyEntityReward::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   entity = pm->GetParameter (params, entity_par);
 }
@@ -146,10 +144,8 @@ celDestroyClassReward::celDestroyClassReward (
 {
   celDestroyClassReward::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   ent_class = pm->GetParameter (params, class_par);
 }

@@ -297,9 +297,8 @@ csPtr<iCelSequence> celSequenceFactory::CreateSequence (
   for (i = 0 ; i < seqops.GetSize () ; i++)
   {
     // @@@ Support dynamic parameters here?
-    csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> (object_reg);
-    csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-	  (plugin_mgr, "cel.parameters.manager");
+    csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+      (object_reg, "cel.parameters.manager");
 
     csTicks duration = ToUInt (pm->ResolveParameter (params, seqops[i].duration));
     if (total_time + duration > max_time) max_time = total_time + duration;
