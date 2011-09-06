@@ -179,7 +179,7 @@ void BehaviourPlayer::GetLinearMovement ()
 {
   if (!pcLinearMovement)
   {
-    pcLinearMovement = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+    pcLinearMovement = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
   }
 }
 
@@ -187,7 +187,7 @@ void BehaviourPlayer::GetActorMove ()
 {
   if (!pcActorMove)
   {
-    pcActorMove = CEL_QUERY_PROPCLASS_ENT(entity, iPcActorMove);
+    pcActorMove = celQueryPropertyClassEntity<iPcActorMove> (entity);
   }
 }
 
@@ -195,7 +195,7 @@ void BehaviourPlayer::GetMover ()
 {
   if (!pcMover)
   {
-    pcMover = CEL_QUERY_PROPCLASS_ENT(entity, iPcMover);
+    pcMover = celQueryPropertyClassEntity<iPcMover> (entity);
   }
 }
 
@@ -203,7 +203,7 @@ void BehaviourPlayer::GetMesh ()
 {
   if (!pcMesh)
   {
-    pcMesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+    pcMesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
 }
 
@@ -266,7 +266,7 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
       screenPoint.x = mouse->GetLastX();
       screenPoint.y = mouse->GetLastY();
       
-      csRef<iPcCamera> pcCamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcCamera);
+      csRef<iPcCamera> pcCamera = celQueryPropertyClassEntity<iPcCamera> (entity);
       csRef<iCamera> camera = pcCamera->GetCamera();
       csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, camera);
       if (!st.mesh)
@@ -338,7 +338,7 @@ void BehaviourBox::GetLinearMovement ()
 {
   if (!pcLinearMovement)
   {
-    pcLinearMovement = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+    pcLinearMovement = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
   }
 }
 
@@ -346,7 +346,7 @@ void BehaviourBox::GetActorMove ()
 {
   if (!pcActorMove)
   {
-    pcActorMove = CEL_QUERY_PROPCLASS_ENT(entity, iPcActorMove);
+    pcActorMove = celQueryPropertyClassEntity<iPcActorMove> (entity);
   }
 }
 
@@ -354,7 +354,7 @@ void BehaviourBox::GetMover ()
 {
   if (!pcMover)
   {
-    pcMover = CEL_QUERY_PROPCLASS_ENT(entity, iPcMover);
+    pcMover = celQueryPropertyClassEntity<iPcMover> (entity);
   }
 }
 
@@ -362,7 +362,7 @@ void BehaviourBox::GetMesh ()
 {
   if (!pcMesh)
   {
-    pcMesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+    pcMesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
 }
 

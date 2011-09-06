@@ -55,7 +55,7 @@ bool LifeSimulator::CreateFrankieEntity (const csVector3 position)
     return ReportError ("Error creating player entity!");
 
   // Get the iPcMesh interface so we can load the right mesh for our player.
-  csRef<iPcMesh> pcMesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+  csRef<iPcMesh> pcMesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   pcMesh->SetPath("/lib/frankie/");
   pcMesh->SetMesh("franky_frankie", "frankie.xml");
   csRef<iMeshWrapper> mesh = pcMesh->GetMesh();
@@ -63,12 +63,12 @@ bool LifeSimulator::CreateFrankieEntity (const csVector3 position)
     return false;
 
   // Get iPcLinearMovement so we can setup the movement system.
-  csRef<iPcLinearMovement> pcLinMove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+  csRef<iPcLinearMovement> pcLinMove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
   pcLinMove->InitCD (mesh->GetMeshObject ()->GetMeshWrapper (), 0.3f);
   pcLinMove->SetFullPosition (position, 0.0f, room);
 
   // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcActorMove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
+  csRef<iPcActorMove> pcActorMove = celQueryPropertyClassEntity<iPcActorMove> (entity);
   pcActorMove->SetMovementSpeed (1.5f);
   pcActorMove->SetRunningSpeed (2.5f);
   pcActorMove->SetRotationSpeed (1.75f);
@@ -90,7 +90,7 @@ FrankieBehaviour::FrankieBehaviour (iCelEntity* entity, BehaviourLayer* behaviou
 
 void FrankieBehaviour::CreateBehaviourTree ()
 {
-  csRef<iPcActorMove> actorMove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
+  csRef<iPcActorMove> actorMove = celQueryPropertyClassEntity<iPcActorMove> (entity);
   csRef<iCelPropertyClass> pcActorMove = scfQueryInterface<iCelPropertyClass> (actorMove);
 
   csRef<iPluginManager> pluginManager = 

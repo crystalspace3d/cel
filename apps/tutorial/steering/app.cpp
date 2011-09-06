@@ -39,8 +39,7 @@ bool MainApp::LoadLevel ()
     return ReportError ("Error creating level entity!");
 
   // Now get the iPcZoneManager interface so we can setup the level.
-  csRef<iPcZoneManager> zonemgr = CEL_QUERY_PROPCLASS_ENT (level_entity,
-  	iPcZoneManager);
+  csRef<iPcZoneManager> zonemgr = celQueryPropertyClassEntity<iPcZoneManager> (level_entity);
   iCelZone* zone = zonemgr->CreateZone ("main");
   iCelRegion* region = zonemgr->CreateRegion ("main");
   zone->LinkRegion (region);
@@ -70,16 +69,15 @@ bool MainApp::CreatePlayer ()
     return ReportError ("Error creating player entity!");
 
   // Get the iPcCamera interface so that we can set the camera.
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player_entity, iPcCamera);
+  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (player_entity);
   // Get the zone manager from the level entity which should have been created
   // by now.
-  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (level_entity,
-  	iPcZoneManager);
+  csRef<iPcZoneManager> pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (level_entity);
   pccamera->SetZoneManager (pczonemgr, true, "main", "Camera");
 
   // Get the iPcMesh interface so we can load the right mesh
   // for our player.
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (player_entity, iPcMesh);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (player_entity);
   pcmesh->SetPath ("/cellib/objects");
   pcmesh->SetMesh ("test", "cally.cal3d");
   if (!pcmesh->GetMesh ())
@@ -89,23 +87,21 @@ bool MainApp::CreatePlayer ()
     return ReportError ("Can't find region or start position in region!");
 
   // Get iPcLinearMovement so we can setup the movement system.
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
-  	iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (player_entity);
   pclinmove->InitCD (
   	csVector3 (0.5f,0.8f,0.5f),
   	csVector3 (0.5f,0.4f,0.5f),
   	csVector3 (0,0,0));
 
   // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (player_entity, iPcActorMove);
+  csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (player_entity);
   pcactormove->SetMovementSpeed (3.0f);
   pcactormove->SetRunningSpeed (5.0f);
   pcactormove->SetRotationSpeed (1.75f);
 
   // Get iPcCommandInput so we can do key bindings. The behaviour layer
   // will interprete the commands so the actor can move.
-  csRef<iPcCommandInput> pcinput = CEL_QUERY_PROPCLASS_ENT (player_entity,
-  	iPcCommandInput);
+  csRef<iPcCommandInput> pcinput = celQueryPropertyClassEntity<iPcCommandInput> (player_entity);
   // We read the key bindings from the standard config file.
   pcinput->Bind ("up", "forward");
   pcinput->Bind ("down", "backward");
@@ -141,29 +137,27 @@ bool MainApp::LoadSteering ()
   if (!steering_entity)
     return ReportError ("Error creating steering entity!");
   
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (steering_entity, iPcMesh);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (steering_entity);
   pcmesh->SetPath ("/cellib/objects");
   pcmesh->SetMesh ("test", "cally.cal3d");
   if (!pcmesh->GetMesh ())
     return ReportError ("Error loading model!");
 
-  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (level_entity,
-							     iPcZoneManager);
+  csRef<iPcZoneManager> pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (level_entity);
 
   if (pczonemgr->PointMesh ("steer", "main", "Camera"))
     return ReportError ("Can't find region or start position in region!");
 
 
   //Get iPcLinearMovement so we can setup the movement system.
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (steering_entity,
-								iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (steering_entity);
   pclinmove->InitCD (
 		     csVector3 (0.5f,0.8f,0.5f),
 		     csVector3 (0.5f,0.4f,0.5f),
 		     csVector3 (0,0,0));
 
   // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (steering_entity, iPcActorMove);
+  csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (steering_entity);
   pcactormove->SetMovementSpeed (3.0f);
   pcactormove->SetRunningSpeed (5.0f);
   pcactormove->SetRotationSpeed (2.75f);
@@ -172,8 +166,7 @@ bool MainApp::LoadSteering ()
 
   // Get iPcCommandInput so we can do key bindings. The behaviour layer
   // will interprete the commands so the steerer can move.
-  csRef<iPcCommandInput> pcinput = CEL_QUERY_PROPCLASS_ENT (steering_entity,
-							    iPcCommandInput);
+  csRef<iPcCommandInput> pcinput = celQueryPropertyClassEntity<iPcCommandInput> (steering_entity);
   /*
    * We bind each key needed for the steering behaviours
    *
