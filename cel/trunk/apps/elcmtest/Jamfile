@@ -1,0 +1,8 @@
+SubDir TOP apps elcmtest ;
+
+Application elcmtest : [ Wildcard *.cpp *.h ] ;
+CFlags elcmtest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+LinkWith elcmtest : celtool ;
+ExternalLibs elcmtest : CRYSTAL ;
+FileListEntryApplications elcmtest : app-demo ;
+
