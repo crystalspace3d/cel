@@ -218,8 +218,8 @@ bool GameFactoryManager::InitServer (iCelGame* game)
   if (!server_manager->npc_entity)
     return false;
 
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (
-  	server_manager->npc_entity, iPcActorMove);
+  csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (
+  	server_manager->npc_entity);
   pcactormove->Forward(true);
 
   fprintf(stdout, "Initialization of network server done.\n");

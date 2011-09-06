@@ -162,13 +162,12 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
         (void*)0);
   if (!player) return false;
 
-  csRef<iPcCommandInput> pcinput = CEL_QUERY_PROPCLASS_ENT (player,
-						iPcCommandInput);
+  csRef<iPcCommandInput> pcinput = celQueryPropertyClassEntity<iPcCommandInput> (player);
   pcinput->EnableKeyboardEvents();
   pcinput->Bind("space", "unfit");
   pcinput->Activate();
 
-  csRef<iPcNeuralNet> pcnn = CEL_QUERY_PROPCLASS_ENT (player, iPcNeuralNet);
+  csRef<iPcNeuralNet> pcnn = celQueryPropertyClassEntity<iPcNeuralNet> (player);
   pcnn->SetSize(6, 1, 3); // 6 inputs, 1 output, 3 hidden layers
   pcnn->SetComplexity("linear");
   pcnn->SetActivationFunc(csRef<celNNActivationFunc> (csPtr<celNNActivationFunc>
@@ -188,16 +187,15 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
     pcevolve->SetProbabilities(0.25, 2.0);
   }
 
-  csRef<iPcTimer> pctimer = CEL_QUERY_PROPCLASS_ENT (player, iPcTimer);
+  csRef<iPcTimer> pctimer = celQueryPropertyClassEntity<iPcTimer> (player);
   pctimer->WakeUpFrame(0);
   pctimer->WakeUp(1000, true);
 
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (player, iPcMesh);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (player);
   pcmesh->SetPath ("/cellib/objects");
   pcmesh->SetMesh ("craft", "orogor");
 
-  csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
-  	player, iPcDefaultCamera);
+  csRef<iPcDefaultCamera> pccamera = celQueryPropertyClassEntity<iPcDefaultCamera> (player);
   pccamera->SetMode (iPcDefaultCamera::firstperson);
   pccamera->SetSpringParameters (10.0f, 0.1f, 0.01f);
   pccamera->SetMode (iPcDefaultCamera::thirdperson);
@@ -218,8 +216,7 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, 3.0f));
   pccamera->SetModeName ("lara_thirdperson");
 
-  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
-        iPcMechanicsObject);
+  csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (player);
   csBox3 bbox = pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->
       GetObjectBoundingBox();
   //pcmechobj->GetBody ()->AttachColliderBox (bbox.GetSize (), csOrthoTransform (), 0.5, 3.0f, 1.0, 0.8);
@@ -230,11 +227,7 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   pcmechobj->SetMass (1.0f);
   pcmechobj->SetDensity (3.0f);
 
-  //csRef<iPcHover> pchover = CEL_QUERY_PROPCLASS_ENT (player, iPcHover);
-  // defaults are fine
-
-  csRef<iPcCraftController> pccraft = CEL_QUERY_PROPCLASS_ENT (player,
-        iPcCraftController);
+  csRef<iPcCraftController> pccraft = celQueryPropertyClassEntity<iPcCraftController> (player);
   pccraft->SetAccTurn (0.4f);
   pccraft->SetMaxTurn (1.5);
   pccraft->SetAccPitch (0.4f);
@@ -287,8 +280,7 @@ bool HoverTest::CreateRoom ()
     return ReportError ("Bad file path '%s' at '%s'!", file.GetData (),
     	path.GetData ());
 
-  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (level,
-  	iPcZoneManager);
+  csRef<iPcZoneManager> pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (level);
   pczonemgr->SetLoadingMode (CEL_ZONE_NORMAL);
   if (!pczonemgr->Load (0, file.GetData ()))
     return ReportError ("Error loading level '%s' at '%s'!", file.GetData (),
@@ -301,27 +293,24 @@ bool HoverTest::CreateRoom ()
   printf("Start position in region '%s', named '%s'\n",
         (const char*)regionname, (const char*)startname);
 
-  csRef<iPcMechanicsSystem> pcmechsys = CEL_QUERY_PROPCLASS_ENT (level,
-  	iPcMechanicsSystem);
+  csRef<iPcMechanicsSystem> pcmechsys = celQueryPropertyClassEntity<iPcMechanicsSystem> (level);
   pcmechsys->EnableQuickStep ();
   pcmechsys->SetStepTime (0.02f);
 
   if (!CreatePlayer (csVector3 (0, 0, 0)))
     return ReportError ("Could not create entity 'ent_player'!");
 
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player, iPcCamera);
+  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (player);
   if (!pccamera) return false;
   pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
   if (pczonemgr->PointMesh ("ent_player", regionname, startname) != CEL_ZONEERROR_OK)
     return ReportError ("Error finding start position!");
 
-  csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (level,
-  	iPcInventory);
+  csRef<iPcInventory> pcinv_room = celQueryPropertyClassEntity<iPcInventory> (level);
   if (!pcinv_room->AddEntity (player)) return false;
   //if (!pcinv_room->AddEntity (scene)) return false;
 
-   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
-         iPcMechanicsObject);
+   csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (player);
    // Get the first start position available.
    iCameraPosition* campos;
    campos = engine->GetCameraPositions ()->Get (0);

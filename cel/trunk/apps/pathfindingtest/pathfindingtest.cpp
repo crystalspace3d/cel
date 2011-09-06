@@ -68,7 +68,7 @@ bool MainApp::LoadLevel ()
   }
 
   // Now get the iPcZoneManager interface so we can setup the level.
-  csRef<iPcZoneManager> zonemgr = CEL_QUERY_PROPCLASS_ENT(levelEntity, iPcZoneManager);
+  csRef<iPcZoneManager> zonemgr = celQueryPropertyClassEntity<iPcZoneManager> (levelEntity);
   zone = zonemgr->CreateZone("main");
   region = zonemgr->CreateRegion("main");
   zone->LinkRegion(region);
@@ -92,7 +92,7 @@ bool MainApp::CreatePlayer ()
   }
 
   // Get the iPcCamera interface so that we can set the camera.
-  pcCamera = CEL_QUERY_PROPCLASS_ENT(playerEntity, iPcCamera);
+  pcCamera = celQueryPropertyClassEntity<iPcCamera> (playerEntity);
   camera = pcCamera->GetCamera();
 
   // Since we want to be able to see the navigation meshes and paths, we have to turn AutoDraw off
@@ -101,11 +101,11 @@ bool MainApp::CreatePlayer ()
   pcCamera->SetAutoDraw(false);
 
   // Get the zone manager from the level entity which should have been created by now.
-  csRef<iPcZoneManager> pcZoneMgr = CEL_QUERY_PROPCLASS_ENT(levelEntity, iPcZoneManager);
+  csRef<iPcZoneManager> pcZoneMgr = celQueryPropertyClassEntity<iPcZoneManager> (levelEntity);
   pcCamera->SetZoneManager(pcZoneMgr, true, "main", "Camera");
 
   // Get the iPcMesh interface so we can load the right mesh for our player.
-  csRef<iPcMesh> pcMesh = CEL_QUERY_PROPCLASS_ENT(playerEntity, iPcMesh);
+  csRef<iPcMesh> pcMesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
   pcMesh->SetPath("/cellib/objects");
   pcMesh->SetMesh("test", "cally.cal3d");
   csRef<iMeshWrapper> mesh = pcMesh->GetMesh();
@@ -145,12 +145,12 @@ bool MainApp::CreatePlayer ()
   }
 
   // Get iPcLinearMovement so we can setup the movement system.
-  csRef<iPcLinearMovement> pcLinMove = CEL_QUERY_PROPCLASS_ENT(playerEntity, iPcLinearMovement);
+  csRef<iPcLinearMovement> pcLinMove = celQueryPropertyClassEntity<iPcLinearMovement> (playerEntity);
   pcLinMove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.4f,0.5f), csVector3(0,0,0));
   pcLinMove->SetFullPosition(pcLinMove->GetPosition(), PI, pcLinMove->GetSector());
 
   // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcActorMove = CEL_QUERY_PROPCLASS_ENT (playerEntity, iPcActorMove);
+  csRef<iPcActorMove> pcActorMove = celQueryPropertyClassEntity<iPcActorMove> (playerEntity);
   pcActorMove->SetMovementSpeed(1.5f);
   pcActorMove->SetRunningSpeed(2.5f);
   pcActorMove->SetRotationSpeed(1.75f);
@@ -158,12 +158,12 @@ bool MainApp::CreatePlayer ()
 
   // Remove the smooth behaviour from iPcMover (it causes our actor to walk where we
   // don't want it to go).
-  csRef<iPcMover> pcMover = CEL_QUERY_PROPCLASS_ENT (playerEntity, iPcMover);
+  csRef<iPcMover> pcMover = celQueryPropertyClassEntity<iPcMover> (playerEntity);
   pcMover->SetSmoothMovement(false);
 
   // Get iPcCommandInput so we can do key bindings. The behaviour layer will interprete the 
   // commands so the actor can move.
-  csRef<iPcCommandInput> pcInput = CEL_QUERY_PROPCLASS_ENT(playerEntity, iPcCommandInput);
+  csRef<iPcCommandInput> pcInput = celQueryPropertyClassEntity<iPcCommandInput> (playerEntity);
 
   // We read the key bindings from the standard config file.
   pcInput->Bind("up", "forward");
@@ -187,11 +187,11 @@ bool MainApp::CreateBox ()
   }
 
   // Get the iPcCamera interface so that we can set the camera.
-  csRef<iPcCamera> pcCamera = CEL_QUERY_PROPCLASS_ENT(boxEntity, iPcCamera);
+  csRef<iPcCamera> pcCamera = celQueryPropertyClassEntity<iPcCamera> (boxEntity);
   pcCamera->SetAutoDraw(false);
 
   // Get the zone manager from the level entity which should have been created by now.
-  csRef<iPcZoneManager> pcZoneMgr = CEL_QUERY_PROPCLASS_ENT(levelEntity, iPcZoneManager);
+  csRef<iPcZoneManager> pcZoneMgr = celQueryPropertyClassEntity<iPcZoneManager> (levelEntity);
   pcCamera->SetZoneManager(pcZoneMgr, true, "main", "Camera");
 
   // Create mesh
@@ -211,15 +211,15 @@ bool MainApp::CreateBox ()
   mesh->GetMeshObject()->SetMaterialWrapper(materialWrapper);
 
   // Get the iPcMesh interface so we can load the right mesh for our box.
-  csRef<iPcMesh> pcMesh = CEL_QUERY_PROPCLASS_ENT(boxEntity, iPcMesh);
+  csRef<iPcMesh> pcMesh = celQueryPropertyClassEntity<iPcMesh> (boxEntity);
   pcMesh->SetMesh(mesh);
   
   // Get iPcLinearMovement so we can setup the movement system.
-  csRef<iPcLinearMovement> pcLinMove = CEL_QUERY_PROPCLASS_ENT(boxEntity, iPcLinearMovement);
+  csRef<iPcLinearMovement> pcLinMove = celQueryPropertyClassEntity<iPcLinearMovement> (boxEntity);
   pcLinMove->InitCD(mesh, 100.0f);
 
   // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcActorMove = CEL_QUERY_PROPCLASS_ENT (boxEntity, iPcActorMove);
+  csRef<iPcActorMove> pcActorMove = celQueryPropertyClassEntity<iPcActorMove> (boxEntity);
   pcActorMove->SetMovementSpeed(1.5f);
   pcActorMove->SetRunningSpeed(2.5f);
   pcActorMove->SetRotationSpeed(1.75f);
@@ -227,7 +227,7 @@ bool MainApp::CreateBox ()
 
   // Remove the smooth behaviour from iPcMover (it causes our actor to walk where we
   // don't want it to go).
-  csRef<iPcMover> pcMover = CEL_QUERY_PROPCLASS_ENT (boxEntity, iPcMover);
+  csRef<iPcMover> pcMover = celQueryPropertyClassEntity<iPcMover> (boxEntity);
   pcMover->SetSmoothMovement(false);
   csVector3 point1(24.8f, 1.0f, 13.7f);
   csVector3 point2(24.8f, 1.0f, 21.3f);
@@ -418,13 +418,13 @@ bool MainApp::OnKeyboard(iEvent& ev)
     {
       if (renderBox)
       {
-        csRef<iPcMesh> pcMesh = CEL_QUERY_PROPCLASS_ENT(boxEntity, iPcMesh);
+        csRef<iPcMesh> pcMesh = celQueryPropertyClassEntity<iPcMesh> (boxEntity);
         pcMesh->Hide();
         renderBox = false;
       }
       else
       {
-        csRef<iPcMesh> pcMesh = CEL_QUERY_PROPCLASS_ENT(boxEntity, iPcMesh);
+        csRef<iPcMesh> pcMesh = celQueryPropertyClassEntity<iPcMesh> (boxEntity);
         pcMesh->Show();
         renderBox = true;
       }

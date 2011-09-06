@@ -313,8 +313,7 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
 	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
-  csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-  	iPcCommandInput);
+  csRef<iPcCommandInput> pcinp = celQueryPropertyClassEntity<iPcCommandInput> (entity_cam);
   pcinp->Bind ("up", "forward");
   pcinp->Bind ("down", "backward");
   pcinp->Bind ("shift", "run");
@@ -328,8 +327,7 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
   pcinp->Bind ("pgup", "action_lookup");
   pcinp->Bind ("pgdn", "action_lookdown");
 
-  csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
-  	entity_cam, iPcDefaultCamera);
+  csRef<iPcDefaultCamera> pccamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity_cam);
   pccamera->SetMode (iPcDefaultCamera::firstperson);
   pccamera->SetSpringParameters (10.0f, 0.1f, 0.01f);
   pccamera->SetMode (iPcDefaultCamera::thirdperson);
@@ -351,20 +349,18 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
   pccamera->SetModeName ("thirdperson");
 
   // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-  	iPcActorMove);
+  csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (entity_cam);
   pcactormove->SetMovementSpeed (2.0f);
   pcactormove->SetRunningSpeed (5.0f);
   pcactormove->SetRotationSpeed (1.75f);
   pcactormove->SetJumpingVelocity (6.31f);
 
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity_cam);
   bool hascal3d = true;
   pcmesh->SetPath ("/cellib/objects");
   hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
 
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-    iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity_cam);
   if (hascal3d)
   {
     pclinmove->InitCD (
@@ -391,11 +387,6 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
     return 0;
   }
 
-  /*
-  csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (entity_room,
-  	iPcInventory);
-  if (!pcinv_room->AddEntity (entity_cam)) return 0;
-  */
   return csPtr<iCelEntity> (entity_cam);
 }
 
@@ -410,20 +401,18 @@ csPtr<iCelEntity> NetTest::CreateActorNPC (const char* name,
   if (!entity_cam) return 0;
 
   // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-  	iPcActorMove);
+  csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (entity_cam);
   pcactormove->SetMovementSpeed (2.0f);
   pcactormove->SetRunningSpeed (5.0f);
   pcactormove->SetRotationSpeed (1.75f);
   pcactormove->SetJumpingVelocity (6.31f);
 
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity_cam);
   bool hascal3d = true;
   pcmesh->SetPath ("/cellib/objects");
   hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
 
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-    iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity_cam);
   if (hascal3d)
   {
     pclinmove->InitCD (
@@ -462,8 +451,7 @@ csPtr<iCelEntity> NetTest::CreateDefaultCamera (const char *name)
   scfString regionname, startname;
   pczonemgr->GetLastStartLocation (&regionname, &startname);
     
-  csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
-  	default_camera, iPcDefaultCamera);
+  csRef<iPcDefaultCamera> pccamera = celQueryPropertyClassEntity<iPcDefaultCamera> (default_camera);
   pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
   if (pczonemgr->PointMesh (name, regionname, startname)
       != CEL_ZONEERROR_OK)
@@ -498,8 +486,7 @@ bool NetTest::CreateRoom (const csString path, const csString file)
     return ReportError ("Bad file path '%s' at '%s'!", file.GetData (),
     	path.GetData ());
 
-  pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity_room,
-  	iPcZoneManager);
+  pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (entity_room);
   if (!pczonemgr->Load (0, file))
     return ReportError ("Error loading level '%s' at '%s'!", file.GetData (),
     	path.GetData ());
