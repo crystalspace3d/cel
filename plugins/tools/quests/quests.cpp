@@ -772,111 +772,67 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   {
     csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
       "cel.triggers.propertychange");        
-    if (type.IsValid())
-    {
-      RegisterTriggerType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterTriggerType (type);
   }
 
   {
     csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
       "cel.triggers.meshselect");        
-    if (type.IsValid())
-    {
-      RegisterTriggerType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterTriggerType (type);
   }
 
   {
     csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
       "cel.triggers.inventory");        
-    if (type.IsValid())
-    {
-      RegisterTriggerType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterTriggerType (type);
   }
 
   {
     csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
       "cel.triggers.timeout");        
-    if (type.IsValid())
-    {
-      RegisterTriggerType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterTriggerType (type);
   }
 
   {
     csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
       "cel.triggers.entersector");        
-    if (type.IsValid())
-    {
-      RegisterTriggerType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterTriggerType (type);
   }
 
   {
     csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
       "cel.triggers.meshentersector");        
-    if (type.IsValid())
-    {
-      RegisterTriggerType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterTriggerType (type);
   }
 
   {
     csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
       "cel.triggers.sequencefinish");        
-    if (type.IsValid())
-    {
-      RegisterTriggerType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterTriggerType (type);
   }
 
   {
     csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
       "cel.triggers.trigger");        
-    if (type.IsValid())
-    {
-      RegisterTriggerType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterTriggerType (type);
   }
 
   {
     csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
       "cel.triggers.watch");        
-    if (type.IsValid())
-    {
-      RegisterTriggerType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterTriggerType (type);
   }
 
   {
     csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
       "cel.triggers.message");        
-    if (type.IsValid())
-    {
-      RegisterTriggerType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterTriggerType (type);
   }
 
   {
     csRef<iTriggerType> type = csLoadPlugin<iTriggerType> (plugin_mgr,
       "cel.triggers.operation");        
-    if (type.IsValid())
-    {
-      RegisterTriggerType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterTriggerType (type);
   }
 
   //--- Rewards ------------------------------------------------------
@@ -884,11 +840,7 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   {
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.debugprint");        
-    if (type.IsValid())
-    {
-      RegisterRewardType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterRewardType (type);
   }
 
   {
@@ -901,142 +853,86 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   {
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.changeproperty");        
-    if (type.IsValid())
-    {
-      RegisterRewardType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterRewardType (type);
   }
 
   {
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.inventory");        
-    if (type.IsValid())
-    {
-      RegisterRewardType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterRewardType (type);
   }
 
   {
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.cssequence");        
-    if (type.IsValid())
-    {
-      RegisterRewardType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterRewardType (type);
   }
 
   {
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.sequence");        
-    if (type.IsValid())
-    {
-      RegisterRewardType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterRewardType (type);
   }
 
   {
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.sequencefinish");        
-    if (type.IsValid())
-    {
-      RegisterRewardType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterRewardType (type);
   }
 
   {
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.message");        
-    if (type.IsValid())
-    {
-      RegisterRewardType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterRewardType (type);
   }
 
   {
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.action");        
-    if (type.IsValid())
-    {
-      RegisterRewardType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterRewardType (type);
   }
 
   {
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.createentity");        
-    if (type.IsValid())
-    {
-      RegisterRewardType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterRewardType (type);
   }
 
   {
     csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
       "cel.rewards.destroyentity");        
-    if (type.IsValid())
-    {
-      RegisterRewardType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterRewardType (type);
   }
   //--- Sequence Operations ------------------------------------------
   {
     csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
       "cel.seqops.debugprint");        
-    if (type.IsValid())
-    {
-      RegisterSeqOpType(type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterSeqOpType(type);
   }
 
 
   {
     csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
       "cel.seqops.transform");        
-    if (type.IsValid())
-    {
-      RegisterSeqOpType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterSeqOpType (type);
   }
 
   {
     csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
       "cel.seqops.movepath");        
-    if (type.IsValid())
-    {
-      RegisterSeqOpType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterSeqOpType (type);
   }
 
   {
     csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
       "cel.seqops.light");        
-    if (type.IsValid())
-    {
-      RegisterSeqOpType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterSeqOpType (type);
   }
 
   {
     csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
       "cel.seqops.property");        
-    if (type.IsValid())
-    {
-      RegisterSeqOpType (type);
-      type->DecRef ();
-    }
+    if (type.IsValid()) RegisterSeqOpType (type);
   }
 
   return true;
