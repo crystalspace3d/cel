@@ -164,7 +164,7 @@ iPcMesh* celPcMovable::GetMesh ()
 {
   if (!pcmesh)
   {
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
   return pcmesh;
 }
@@ -173,7 +173,7 @@ int celPcMovable::Move (iSector* sector, const csVector3& pos)
 {
   if (!pcmesh)
   {
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
   CS_ASSERT (pcmesh != 0);
   csVector3 realpos;
@@ -194,7 +194,7 @@ int celPcMovable::Move (const csVector3& relpos)
 //@@@ TODO IMPLEMENT TRAVERSAL THROUGH PORTALS!
   if (!pcmesh)
   {
-    pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
   CS_ASSERT (pcmesh != 0);
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
@@ -307,7 +307,7 @@ void celPcSolid::SetupBox (const csBox3& box)
   no_collider = false;
   if (!pcmesh)
   {
-    pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
   collider_wrap = 0;
   if (!pcmesh->GetMesh ())
@@ -330,7 +330,7 @@ iCollider* celPcSolid::GetCollider ()
   if (no_collider) return 0;
   if (!pcmesh)
   {
-    pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
   CS_ASSERT (pcmesh != 0);
   if (pcmesh->GetMesh ())
@@ -447,11 +447,9 @@ bool celPcMovableConstraintCD::Load (iCelDataBuffer* databuf)
 int celPcMovableConstraintCD::CheckMove (iSector* sector,
 	const csVector3& start, const csVector3& end, csVector3& pos)
 {
-  csRef<iPcMesh> pcmesh (CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-  	iPcMesh));
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   CS_ASSERT (pcmesh != 0);
-  csRef<iPcSolid> pcsolid (CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-  	iPcSolid));
+  csRef<iPcSolid> pcsolid = celQueryPropertyClassEntity<iPcSolid> (entity);
   CS_ASSERT (pcsolid != 0);
 
   // See if we're handling a single point.
@@ -486,14 +484,12 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
     {
       iCelEntity* ent = list->Get (i);
       if (ent == entity) continue;	// Ignore collisions with ourselves.
-      csRef<iPcSolid> pcsolid_ent (CEL_QUERY_PROPCLASS (
-      	ent->GetPropertyClassList (), iPcSolid));
+      csRef<iPcSolid> pcsolid_ent = celQueryPropertyClassEntity<iPcSolid> (ent);
       if (pcsolid_ent)
       {
         if (pcsolid_ent->GetCollider ())
         {
-          csRef<iPcMesh> pcmesh_ent (CEL_QUERY_PROPCLASS (
-		ent->GetPropertyClassList (), iPcMesh));
+          csRef<iPcMesh> pcmesh_ent = celQueryPropertyClassEntity<iPcMesh> (ent);
 	  if (pcmesh_ent)
 	  {
 	    csReversibleTransform& trans_ent = pcmesh_ent->GetMesh ()->
@@ -661,8 +657,7 @@ iPcMovable* celPcGravity::GetMovable ()
 {
   if (!pcmovable)
   {
-    pcmovable = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-    	iPcMovable);
+    pcmovable = celQueryPropertyClassEntity<iPcMovable> (entity);
     CS_ASSERT (pcmovable != 0);
   }
   return pcmovable;
@@ -677,8 +672,7 @@ iPcSolid* celPcGravity::GetSolid ()
 {
   if (!pcsolid)
   {
-    pcsolid = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-    	iPcSolid);
+    pcsolid = celQueryPropertyClassEntity<iPcSolid> (entity);
     CS_ASSERT (pcsolid != 0);
   }
   return pcsolid;
@@ -755,17 +749,13 @@ int celPcGravity::GetColliderArray (iCelEntityList* cd_list,
   for (i = 0 ; i < num_cdlist ; i++)
   {
     iCelEntity* ent = cd_list->Get (i);
-    csRef<iPcSolid> solid_ent (
-    	CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
-    	iPcSolid));
+    csRef<iPcSolid> solid_ent = celQueryPropertyClassEntity<iPcSolid> (ent);
     if (!solid_ent)
       continue;
     if (!solid_ent->GetCollider ())
       continue;
 
-    csRef<iPcMovable> mov_ent (
-    	CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
-    	iPcMovable));
+    csRef<iPcMovable> mov_ent = celQueryPropertyClassEntity<iPcMovable> (ent);
     csReversibleTransform* coltrans;
     // @@@ Should use GetFullTransform()???
     if (mov_ent) coltrans = &mov_ent->GetMesh ()->GetMesh ()->GetMovable ()->

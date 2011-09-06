@@ -185,7 +185,7 @@ void celMeshEnterSectorTrigger::FindSectorAndMesh ()
     	(const char*)entity);
     return;
   }
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
   if (!pcmesh)
   {
     Report (type->object_reg,

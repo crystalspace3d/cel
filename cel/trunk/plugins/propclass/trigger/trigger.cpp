@@ -527,8 +527,7 @@ bool celPcTrigger::Check ()
 		monitor_entity.GetData());
         return false;
       }
-      monitoring_entity_pcmesh = CEL_QUERY_PROPCLASS_ENT (monitoring_entity,
-      	iPcMesh);
+      monitoring_entity_pcmesh = celQueryPropertyClassEntity<iPcMesh> (monitoring_entity);
       size_t idx = EntityInTrigger (monitoring_entity);
       return idx != csArrayItemNotFound;
     }
@@ -554,7 +553,7 @@ void celPcTrigger::UpdateListener ()
   // Create a new listener if possible and requested
   if (follow && !above_mesh)
   {
-    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
     if (pcmesh)
     {
       movlistener.AttachNew (new celTriggerMovableListener (
@@ -600,8 +599,7 @@ void celPcTrigger::TickOnce ()
 			monitor_entity.GetData());
         goto end;
       }
-      monitoring_entity_pcmesh = CEL_QUERY_PROPCLASS_ENT (monitoring_entity,
-      	iPcMesh);
+      monitoring_entity_pcmesh = celQueryPropertyClassEntity<iPcMesh> (monitoring_entity);
     }
     if (monitoring_entity_pcmesh)
     {
@@ -787,7 +785,7 @@ void celPcTrigger::TickOnce ()
       // is really above the mesh.
       if (above_mesh)
       {
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+        csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (ent);
         if (!pcmesh) continue;
         csVector3 origin = pcmesh->GetMesh ()->GetMovable ()
         	->GetFullPosition ();
@@ -1100,7 +1098,7 @@ bool celPcTrigger::PerformActionIndexed (int idx,
           return Report (object_reg,
           	"Can't find entity '%s' for action SetupTriggerAboveMesh!",
           	entity);
-        csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+        csRef<iPcMesh> m = celQueryPropertyClassEntity<iPcMesh> (ent);
         if (!m)
           return Report (object_reg,
           	"Entity '%s' doesn't support pcmesh (action SetupTriggerAboveMesh)!",

@@ -30,67 +30,6 @@
 
 struct iCelPropertyClassList;
 
-/**
- * Find a property class by SCF interface. This function will first
- * try to find a property class that implements the interface but has tag
- * not set (0). If such a property class cannot be found then it will
- * return a random one that implements the given interface.
- */
-#define CEL_QUERY_PROPCLASS(PcList,Interface)				    \
-  (celQueryPropertyClass<Interface> (PcList))
-
-/**
- * Find a property class by SCF interface and tag. If tag is 0 then
- * it will find the default property class.
- */
-#define CEL_QUERY_PROPCLASS_TAG(PcList,Interface,Tag)			    \
-  (celQueryPropertyClassTag<Interface> (PcList,Tag))
-
-/**
- * Find a property class by SCF interface. This function will first
- * try to find a property class that implements the interface but has tag
- * not set (0). If such a property class cannot be found then it will
- * return a random one that implements the given interface.
- */
-#define CEL_QUERY_PROPCLASS_ENT(Ent,Interface)				    \
-  (celQueryPropertyClassEntity<Interface> (Ent))
-
-/**
- * Find a property class by SCF interface and tag. If tag is 0 then
- * it will find the default property class.
- */
-#define CEL_QUERY_PROPCLASS_TAG_ENT(Ent,Interface,Tag)			    \
-  CEL_QUERY_PROPCLASS_TAG((Ent)->GetPropertyClassList(),Interface,Tag)
-
-/**
- * Remove all property classes with given interface (ignores tag).
- */
-#define CEL_REMOVE_PROPCLASS(PcList,Interface)                              \
-  ((PcList)->RemoveByInterface (scfInterfaceTraits<Interface>::GetID(),           \
-				scfInterfaceTraits<Interface>::GetVersion()))
-
-/**
- * Remove all property classes with given interface and with the given tag.
- * 'tag' can be 0. In that case it will remove property classes with no tag.
- */
-#define CEL_REMOVE_PROPCLASS_TAG(PcList,Interface,Tag)                      \
-  ((PcList)->RemoveByInterfaceAndTag (					    \
-        scfInterfaceTraits<Interface>::GetID(),          			    \
-	scfInterfaceTraits<Interface>::GetVersion(), Tag))
-
-/**
- * Remove all property classes with given interface (ignores tag).
- */
-#define CEL_REMOVE_PROPCLASS_ENT(Ent, Interface)                            \
-  CEL_REMOVE_PROPCLASS((Ent)->GetPropertyClassList(),Interface)
-
-/**
- * Remove all property classes with given interface and with the given tag.
- * 'tag' can be 0. In that case it will remove property classes with no tag.
- */
-#define CEL_REMOVE_PROPCLASS_TAG_ENT(Ent,Interface,Tag)                     \
-  CEL_REMOVE_PROPCLASS_TAG((Ent)->GetPropertyClassList(),Interface,Tag)
-
 class csVector3;
 class csColor;
 struct iCelEntity;
@@ -563,6 +502,18 @@ inline csPtr<Interface> celQueryPropertyClassEntity (
   iCelEntity* entity)
 {
   return celQueryPropertyClass<Interface> (entity->GetPropertyClassList ());
+}
+
+/**
+ * Find a property class by SCF interface and tag. If tag is 0 then
+ * it will find the default property class.
+ */
+template<class Interface>
+inline csPtr<Interface> celQueryPropertyClassTagEntity (
+  iCelEntity* entity, const char* tag)
+{
+  return celQueryPropertyClassTag<Interface> (entity->GetPropertyClassList (),
+      tag);
 }
 
 #endif // __CEL_PL_PROPCLASS__

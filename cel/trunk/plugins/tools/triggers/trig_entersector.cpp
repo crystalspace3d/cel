@@ -150,7 +150,7 @@ void celEnterSectorTrigger::FindSectorAndCamera ()
   iCelPlLayer* pl = type->pl;
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcCamera, tag);
+  csRef<iPcCamera> pccamera = celQueryPropertyClassTagEntity<iPcCamera> (ent, tag);
   if (!pccamera) return;
   camera = pccamera->GetCamera ();
 }

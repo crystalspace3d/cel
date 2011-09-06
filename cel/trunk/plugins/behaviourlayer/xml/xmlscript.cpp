@@ -1387,7 +1387,7 @@ iPcRules* celXmlScriptEventHandler::GetRules (iCelEntity* entity,
   if (behave) return behave->GetRules ();
   if (!entity) return 0;
   csRef<iPcRules> p;
-  p = CEL_QUERY_PROPCLASS_ENT (entity, iPcRules);
+  p = celQueryPropertyClassEntity<iPcRules> (entity);
   return p;
 }
 
@@ -1397,7 +1397,7 @@ iPcProperties* celXmlScriptEventHandler::GetProperties (iCelEntity* entity,
   if (behave) return behave->GetProperties ();
   if (!entity) return 0;
   csRef<iPcProperties> p;
-  p = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
+  p = celQueryPropertyClassEntity<iPcProperties> (entity);
   return p;
 }
 
@@ -3188,8 +3188,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefarrent2_str'!",
 	    	EntityNameForError (top));
-	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
-	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  csRef<iPcProperties> props = celQueryPropertyClassEntity<iPcProperties> (other_ent);
 	  if (!props)
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
@@ -3217,8 +3216,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefarrent2_str'!",
 	    	EntityNameForError (top));
-	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
-	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  csRef<iPcProperties> props = celQueryPropertyClassEntity<iPcProperties> (other_ent);
 	  if (!props)
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
@@ -3283,8 +3281,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefarrent_str'!",
 	    	EntityNameForError (top));
-	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
-	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  csRef<iPcProperties> props = celQueryPropertyClassEntity<iPcProperties> (other_ent);
 	  if (!props)
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
@@ -3310,8 +3307,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefarrent_str'!",
 	    	EntityNameForError (top));
-	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
-	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  csRef<iPcProperties> props = celQueryPropertyClassEntity<iPcProperties> (other_ent);
 	  if (!props)
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
@@ -3451,8 +3447,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefvarent_str'!",
 	    	EntityNameForError (top));
-	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS_ENT (other_ent,
-	  	iPcProperties);
+	  csRef<iPcProperties> props = celQueryPropertyClassEntity<iPcProperties> (other_ent);
 	  if (!props)
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
@@ -3499,8 +3494,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefvarent'!",
 	    	EntityNameForError (top));
-	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
-	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  csRef<iPcProperties> props = celQueryPropertyClassEntity<iPcProperties> (other_ent);
 	  if (!props)
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
@@ -4565,8 +4559,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'varent_str'!",
 	    	EntityNameForError (a_ent));
-	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
-	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  csRef<iPcProperties> props = celQueryPropertyClassEntity<iPcProperties> (other_ent);
 	  if (!props)
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
@@ -4600,8 +4593,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'varent'!",
 		EntityNameForError (a_ent));
-	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
-	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  csRef<iPcProperties> props = celQueryPropertyClassEntity<iPcProperties> (other_ent);
 	  if (!props)
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
@@ -5490,7 +5482,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           if (!ent)
             return ReportError (cbl,
             	"Can't find entity '%s'!", A2S (a_navigator));
-          csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+          csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (ent);
           iMeshWrapper* mesh = pcmesh->GetMesh ();
           if (!mesh)
             return ReportError (cbl,

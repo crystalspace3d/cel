@@ -209,7 +209,7 @@ bool celWatchTrigger::FindEntities ()
     iCelPlLayer* pl = type->pl;
     iCelEntity* ent = pl->FindEntity (entity);
     if (!ent) return false;
-    source_mesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
+    source_mesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
     if (!source_mesh) return false;
   }
   if (!target_mesh)
@@ -217,7 +217,7 @@ bool celWatchTrigger::FindEntities ()
     iCelPlLayer* pl = type->pl;
     iCelEntity* ent = pl->FindEntity (target_entity);
     if (!ent) return false;
-    target_mesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, target_tag);
+    target_mesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, target_tag);
     if (!target_mesh) return false;
   }
   return true;

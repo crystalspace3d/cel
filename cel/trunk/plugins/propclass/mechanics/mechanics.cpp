@@ -297,8 +297,7 @@ iRigidBody* celPcMechanicsSystem::FindBody (const char* entityname)
 {
   iCelEntity* ent = pl->FindEntity (entityname);
   if (!ent) return 0;
-  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (
-  	ent, iPcMechanicsObject);
+  csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (ent);
   if (!pcmechobj) return 0;
   return pcmechobj->GetBody ();
 }
@@ -1157,7 +1156,7 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
         }
         csRef<iCelEntity> sysent = pl->FindEntity (syspcent);
         csRef<iPcMechanicsSystem> mechsyss = 0;
-        mechsyss = CEL_QUERY_PROPCLASS_TAG_ENT(sysent,iPcMechanicsSystem,syspctag);
+        mechsyss = celQueryPropertyClassTagEntity<iPcMechanicsSystem> (sysent, syspctag);
         assert (mechsyss);
         SetMechanicsSystem (mechsyss);
 	return true;
@@ -1167,10 +1166,9 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
         CEL_FETCH_STRING_PAR (meshpctag,params,param_meshpctag);
         csRef<iPcMesh> pcmesh;
         if (!p_meshpctag)
-          pcmesh = CEL_QUERY_PROPCLASS_ENT(GetEntity (),iPcMesh);
+          pcmesh = celQueryPropertyClassEntity<iPcMesh> (GetEntity ());
         else
-          pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),iPcMesh,
-		    meshpctag);
+          pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (GetEntity (), meshpctag);
         SetMesh (pcmesh);
 	return true;
       }
@@ -1337,13 +1335,13 @@ iRigidBody* celPcMechanicsObject::GetBody ()
 void celPcMechanicsObject::FindMeshLightCamera ()
 {
   if (pcmesh || pclight || pccamera) return;
-  pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+  pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   if (!pcmesh)
   {
-    pclight = CEL_QUERY_PROPCLASS_ENT (entity, iPcLight);
+    pclight = celQueryPropertyClassEntity<iPcLight> (entity);
     if (!pclight)
     {
-      pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
+      pccamera = celQueryPropertyClassEntity<iPcCamera> (entity);
     }
     else
     {
@@ -1805,13 +1803,11 @@ void celPcMechanicsJoint::CreateJoint ()
   iRigidBody* body1 = 0;
   if (parent_body)
   {
-    csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (
-    	parent_body, iPcMechanicsObject);
+    csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (parent_body);
     if (pcmechobj)
       body1 = pcmechobj->GetBody ();
   }
-  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (
-  	entity, iPcMechanicsObject);
+  csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
   if (!pcmechobj)
   {
     fprintf (stderr, "Can't find pcmechobject for entity!\n"); fflush (stderr);

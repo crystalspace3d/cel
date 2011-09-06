@@ -365,7 +365,7 @@ bool celPcLinearMovement::SetPropertyIndexed (int idx, const char* b)
     if (!ent)
       return MoveReport (object_reg,
       	"Can't find entity '%s' for property 'anchor' in pcmove.linear!", b);
-    csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+    csRef<iPcMesh> m = celQueryPropertyClassEntity<iPcMesh> (ent);
     if (!m)
       return MoveReport (object_reg,
       	"Entity '%s' doesn't have a pcmesh (property 'anchor' in pclinmove)!",
@@ -422,7 +422,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         if (!p_percentage)
           return MoveReport (object_reg,
           	"Missing parameter 'percentage' for action InitCDMesh!");
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+        csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
         if (!pcmesh)
           return MoveReport (object_reg,
           	"Can't find pcmesh in current entity for action InitCDMesh!");
@@ -1233,7 +1233,7 @@ void celPcLinearMovement::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
 }
 

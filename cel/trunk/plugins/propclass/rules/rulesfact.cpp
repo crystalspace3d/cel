@@ -344,7 +344,7 @@ void celPcRules::PropertyChanged (iPcProperties* pcprop, size_t idx)
 void celPcRules::GetProperties ()
 {
   if (pcprop) return;
-  pcprop = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
+  pcprop = celQueryPropertyClassEntity<iPcProperties> (entity);
   if (pcprop)
   {
     prop_listener.AttachNew (new rulePropertyListener (this));

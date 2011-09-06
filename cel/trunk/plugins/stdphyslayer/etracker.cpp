@@ -191,7 +191,7 @@ celEntityTracker::~celEntityTracker ()
 
 bool celEntityTracker::AddEntity (iCelEntity* entity)
 {
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   if (pcmesh && pcmesh->GetMesh ())
   {
     entities.Add (entity);
@@ -203,7 +203,7 @@ bool celEntityTracker::AddEntity (iCelEntity* entity)
 void celEntityTracker::RemoveEntity (iCelEntity* entity)
 {
   entities.Delete (entity);
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   if (pcmesh && pcmesh->GetMesh ())
     entity_meshes.Delete (pcmesh->GetMesh ());
 }

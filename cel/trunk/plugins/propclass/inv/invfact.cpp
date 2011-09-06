@@ -138,8 +138,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
   {
     iCelEntity* ent = databuf->GetEntity ();
     contents.Push (ent);
-    csRef<iPcCharacteristics> pcchar = CEL_QUERY_PROPCLASS_ENT (
-    	ent, iPcCharacteristics);
+    csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (ent);
     if (pcchar)
       pcchar->AddToInventory ((iPcInventory*)this);
   }
@@ -161,8 +160,7 @@ bool celPcInventory::AddEntity (iCelEntity* child)
   // Add our child. We will later test if this is valid and if
   // not undo this change.
   size_t idx = contents.Push (child);
-  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
-  	child->GetPropertyClassList (), iPcCharacteristics));
+  csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
   if (pcchar)
     pcchar->AddToInventory ((iPcInventory*)this);
 
@@ -229,8 +227,7 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
   // Add our child. We will later test if this is valid and if
   // not undo this change.
   size_t idx = contents.Push (child);
-  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
-    child->GetPropertyClassList (), iPcCharacteristics));
+  csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
   if (pcchar)
     pcchar->AddToInventory ((iPcInventory*)this);
 
@@ -299,8 +296,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   // make sure the entity isn't deleted too early
   csRef<iCelEntity> childref = child;
   contents.DeleteIndex (idx);
-  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
-  	child->GetPropertyClassList (), iPcCharacteristics));
+  csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
   if (pcchar)
     pcchar->RemoveFromInventory ((iPcInventory*)this);
 
@@ -374,8 +370,7 @@ bool celPcInventory::RemoveEntity (iCelParameterBlock* pparams)
   // make sure the entity isn't deleted too early
   csRef<iCelEntity> childref = child;
   contents.DeleteIndex (idx);
-  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
-    child->GetPropertyClassList (), iPcCharacteristics));
+  csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
   if (pcchar)
     pcchar->RemoveFromInventory ((iPcInventory*)this);
 
@@ -610,8 +605,7 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
     for (i = 0 ; i < contents.GetSize () ; i++)
     {
       iCelEntity* child = (iCelEntity*)contents[i];
-      csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
-      	child->GetPropertyClassList (), iPcCharacteristics));
+      csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
       if (pcchar)
         c->currentValue += pcchar->GetCharacteristic (charName);
       else
@@ -652,8 +646,7 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
     for (i = 0 ; i < contents.GetSize () ; i++)
     {
       iCelEntity* child = (iCelEntity*)contents[i];
-      csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
-      	child->GetPropertyClassList (), iPcCharacteristics));
+      csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
       float child_val = DEF;
       if (pcchar && pcchar->HasCharacteristic (charName))
       {
@@ -695,8 +688,7 @@ bool celPcInventory::TestConstraints (const char* charName)
   // Local contents seems to be ok. No check if this entity
   // also has characteristics and in that case check constraints
   // for that too.
-  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
-  	entity->GetPropertyClassList (), iPcCharacteristics));
+  csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (entity);
   if (pcchar)
   {
     bool rc = pcchar->TestConstraints (charName);
@@ -724,8 +716,7 @@ void celPcInventory::MarkDirty (const char* name)
     }
   }
   if (!entity) return;
-  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
-  	entity->GetPropertyClassList (), iPcCharacteristics));
+  csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (entity);
   if (pcchar)
     pcchar->MarkDirty (name);
 }
@@ -986,9 +977,7 @@ float celPcCharacteristics::GetInheritedCharacteristic (const char* name) const
 
   if (ABS (factor) < SMALL_EPSILON) return add;
 
-  csRef<iPcInventory> pcinv (
-  	CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-  	iPcInventory));
+  csRef<iPcInventory> pcinv = celQueryPropertyClassEntity<iPcInventory> (entity);
   if (pcinv)
   {
     float invval = pcinv->GetCurrentCharacteristic (name);

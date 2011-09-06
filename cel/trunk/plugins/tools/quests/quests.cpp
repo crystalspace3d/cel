@@ -165,23 +165,21 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
     for (i = 0 ; i < responses.GetSize () ; i++)
     {
       celQuestTriggerResponseFactory* respfact = responses[i];
-
-	  const csRefArray<iRewardFactory>& rewfacts
-        = respfact->GetRewardFactories ();
+      const csRefArray<iRewardFactory>& rewfacts = respfact->GetRewardFactories ();
 
       size_t respidx = q->AddStateResponse (stateidx);
       
       iTriggerFactory* trigfact = respfact->GetTriggerFactory ();
       csRef<iTrigger> trig = trigfact->CreateTrigger (*p_params);
       if (!trig) return 0;	// @@@ Report
-	  q->SetStateTrigger (stateidx, respidx, trig);
+      q->SetStateTrigger (stateidx, respidx, trig);
 	  
       size_t j;
       for (j = 0 ; j < rewfacts.GetSize () ; j++)
       {
         csRef<iReward> rew = rewfacts[j]->CreateReward (*p_params);
 
-	    if (!rew) return 0;
+	if (!rew) return 0;
         q->AddStateReward (stateidx, respidx, rew);
       }
     }
@@ -269,18 +267,17 @@ bool celQuestFactory::LoadSequenceFactory (iCelSequenceFactory* seqFact, iDocume
 	  csString type = child->GetAttributeValue ("type");
 	  iSeqOpType* seqoptype = questmgr->GetSeqOpType ("cel.seqops."+type);
 	  if (!seqoptype)
-		seqoptype = questmgr->GetSeqOpType (type);
+	    seqoptype = questmgr->GetSeqOpType (type);
 	  if (!seqoptype)
 	  {
-		csReport (questmgr->object_reg,
+	    csReport (questmgr->object_reg,
 		  CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
 		  "Unknown sequence type '%s' while loading quest '%s'!",
 		  (const char*)type, (const char*)name);
-		return false;
+	    return false;
 	  }
 	  csRef<iSeqOpFactory> seqopfact = seqoptype->CreateSeqOpFactory ();
-	  if (!seqopfact->Load (child))
-		return false;
+	  if (!seqopfact->Load (child)) return false;
 	  const char* duration = child->GetAttributeValue ("duration");
 	  seqFact->AddSeqOpFactory (seqopfact, duration);
 	}

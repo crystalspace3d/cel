@@ -149,40 +149,35 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_lookup_down)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
-      iPcDefaultCamera);
+    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (1.0f);
     return true;
   }
   else if (msgid == id_input_lookup_up)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
-      iPcDefaultCamera);
+    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (0.0f);
     return true;
   }
   else if (msgid == id_input_lookdown_down)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
-      iPcDefaultCamera);
+    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (-1.0f);
     return true;
   }
   else if (msgid == id_input_lookdown_up)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
-      iPcDefaultCamera);
+    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (0.0f);
     return true;
   }
   else if (msgid == id_input_center_down)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
-      iPcDefaultCamera);
+    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
     if (pcdefcamera)
       pcdefcamera->CenterCamera ();
     return true;

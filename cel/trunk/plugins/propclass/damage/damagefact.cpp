@@ -226,7 +226,7 @@ void celPcDamage::GetLocation (iSector*& s, csVector3& p)
     p = position;
     return;
   }
-  if (!pcmesh) pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+  if (!pcmesh) pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   if (!pcmesh)
   {
     s = 0;
@@ -268,7 +268,7 @@ void celPcDamage::DoDamage (iCelEntity* ent, const csVector3& p)
   if (entity == ent)
     return;	// Ignore source of explosion.
 
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (ent);
   if (!pcmesh) return;
   float new_amount;
   switch (falloff)

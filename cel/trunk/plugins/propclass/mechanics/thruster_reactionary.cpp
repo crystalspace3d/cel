@@ -124,8 +124,7 @@ bool celPcMechanicsThrusterReactionary::PerformActionIndexed (int idx,
     if (p_objectpctag)
     {
       csRef<iPcMechanicsObject> mechobj = 0;
-      mechobj = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),
-      	iPcMechanicsObject,objectpctag);
+      mechobj = celQueryPropertyClassTagEntity<iPcMechanicsObject> (GetEntity (), objectpctag);
       assert (mechobj);
       SetMechanicsObject (mechobj);
     }

@@ -164,7 +164,7 @@ void celSequenceFinishTrigger::FindSequence ()
   iCelPlLayer* pl = type->pl;
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, tag);
+  csRef<iPcQuest> pcquest = celQueryPropertyClassTagEntity<iPcQuest> (ent, tag);
   if (!pcquest) return;
   iQuest* quest = pcquest->GetQuest ();
   seq = quest->FindSequence (sequence_name);

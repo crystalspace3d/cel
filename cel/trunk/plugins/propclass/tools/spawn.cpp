@@ -459,8 +459,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
           pos = spawnposition[number].pos;
         }
 #if 0
-        csRef<iPcLight> pclight = CEL_QUERY_PROPCLASS_ENT (
-            spawninfo[idx].newent, iPcLight);
+        csRef<iPcLight> pclight = celQueryPropertyClassEntity<iPcLight> (spawninfo[idx].newent);
         if (pclight)
         {
           iMovable* movable = pclight->GetLight ()->GetMovable ();
@@ -478,8 +477,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
 	iPcLight* pclight = 0;
 #endif
 
-        csRef<iPcLinearMovement> linmove = CEL_QUERY_PROPCLASS_ENT (
-          spawninfo[idx].newent, iPcLinearMovement);
+        csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (spawninfo[idx].newent);
         if (linmove)
         {
           spawnposition[number].reserved = true;
@@ -492,8 +490,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
         }
         else
         {
-          csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (
-            spawninfo[idx].newent, iPcMesh);
+          csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (spawninfo[idx].newent);
           if (pcmesh)
           {
             iMovable* movable = pcmesh->GetMesh ()->GetMovable ();

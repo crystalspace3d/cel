@@ -138,8 +138,8 @@ bool celPcMechanicsBalancedGroup::PerformActionIndexed (int idx,
           CS_REPORT(ERROR,"Couldn't get multiplier for thruster!");
           mult = 1.0f;
         }
-        csRef<iPcMechanicsThruster> th = CEL_QUERY_PROPCLASS_TAG_ENT
-	    (GetEntity (), iPcMechanicsThruster, thruster);
+        csRef<iPcMechanicsThruster> th = celQueryPropertyClassTagEntity<iPcMechanicsThruster>
+	    (GetEntity (), thruster);
         if (!th)
         {
           csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -475,8 +475,8 @@ bool celPcMechanicsThrusterController::PerformActionIndexed (int idx,
           CS_REPORT(ERROR,"Couldn't get thruster group tag!");
           return false;
         }
-        csRef<iPcMechanicsBalancedGroup> tg = CEL_QUERY_PROPCLASS_TAG_ENT
-	    (GetEntity (), iPcMechanicsBalancedGroup, balancedgrouppctag);
+        csRef<iPcMechanicsBalancedGroup> tg = celQueryPropertyClassTagEntity<iPcMechanicsBalancedGroup>
+	    (GetEntity (), balancedgrouppctag);
         AddBalancedGroup (tg, axisname);
 	return true;
       }
@@ -486,8 +486,8 @@ bool celPcMechanicsThrusterController::PerformActionIndexed (int idx,
         if (p_objectpctag)
         {
           csRef<iPcMechanicsObject> mechobj = 0;
-          mechobj = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),
-      	    iPcMechanicsObject,objectpctag);
+          mechobj = celQueryPropertyClassTagEntity<iPcMechanicsObject> (GetEntity (),
+      	    objectpctag);
           assert (mechobj);
           SetMechanicsObject (mechobj);
 	  return true;

@@ -746,8 +746,7 @@ void celConsole::AssignVar (iCelEntity* ent, iCelExpression* exprvar,
     conout->PutText ("Variable expression must be a string!\n");
     return;
   }
-  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT (ent,
-      iPcProperties);
+  csRef<iPcProperties> pcprop = celQueryPropertyClassEntity<iPcProperties> (ent);
   switch (ret.type)
   {
     case CEL_DATA_LONG:

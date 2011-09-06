@@ -111,7 +111,7 @@ void celPcSimpleCamera::FindSiblingPropertyClasses ()
   {
     if (HavePropertyClassesChanged ())
     {
-      pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+      pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
     }
   }
 }
@@ -180,8 +180,7 @@ bool celPcSimpleCamera::PerformActionIndexed (int idx,
           Report (object_reg, "Couldn't get mesh tag!");
           return false;
         }
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT
-        	(GetEntity (), iPcMesh, mesh);
+        csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (GetEntity (), mesh);
         if (!pcmesh)
         {
           csString msg = "Couldn't find mesh with given tag: ";
@@ -273,7 +272,7 @@ void celPcSimpleCamera::SetMesh (iPcMesh* mesh)
   }
   else
   {
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
     meshExplicitlySet = false;
   }
 }

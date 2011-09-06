@@ -92,7 +92,7 @@ void celPcSoundSource::UpdateListener ()
   if (!GetSource ()) return;
   if (follow && source3d)
   {
-    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
     if (pcmesh)
     {
       movlistener.AttachNew (new celSoundSourceMovableListener (
@@ -163,7 +163,7 @@ void celPcSoundListener::PropertyClassesHaveChanged ()
   // look for pccamera and place it in separate var, so we can see if it
   // really changed.
   csWeakRef<iPcCamera> found_pccamera = 
-	CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
+	celQueryPropertyClassEntity<iPcCamera> (entity);
   if (found_pccamera == pccamera)
     return;
   // we found a new camera, so assign it to our weakref, and setup the

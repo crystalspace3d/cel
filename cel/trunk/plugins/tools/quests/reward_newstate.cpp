@@ -142,7 +142,7 @@ void celNewStateReward::TickEveryFrame ()
     const char* t = 0;
     if (tag) 
       t = tag->Get (params);
-    csWeakRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
+    csWeakRef<iPcQuest> pcquest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
     if (!pcquest) return;
     quest = pcquest->GetQuest ();
     if (!quest) return;
@@ -207,7 +207,7 @@ void celClassNewStateReward::TickEveryFrame ()
   {
     i--;
     ent = entlist->Get(i);
-    csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
+    csRef<iPcQuest> pcquest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
     if (pcquest)
       pcquest->GetQuest()->SwitchState (st);
   }

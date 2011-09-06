@@ -176,7 +176,7 @@ void celLightSeqOp::FindLight (iCelParameterBlock* params)
   iCelEntity* ent = pl->FindEntity (entity);
   if (ent)
   {
-    csRef<iPcLight> pclight = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcLight, tag);
+    csRef<iPcLight> pclight = celQueryPropertyClassTagEntity<iPcLight> (ent, tag);
     if (pclight)
     {
       light = pclight->GetLight ();

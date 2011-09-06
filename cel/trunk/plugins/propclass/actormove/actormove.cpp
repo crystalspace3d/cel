@@ -512,11 +512,11 @@ void celPcActorMove::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
-    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
-    pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
-    pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcDefaultCamera);
-    pcnewcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcNewCamera);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+    pccamera = celQueryPropertyClassEntity<iPcCamera> (entity);
+    pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    pcnewcamera = celQueryPropertyClassEntity<iPcNewCamera> (entity);
     checked_spritestate = false;
   }
 }

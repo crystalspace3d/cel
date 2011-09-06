@@ -460,7 +460,7 @@ void celChangePropertyReward::Reward (iCelParameterBlock* params)
     if (!properties)
     {
       pclass = 0;
-      properties = CEL_QUERY_PROPCLASS_ENT (ent, iPcProperties);
+      properties = celQueryPropertyClassEntity<iPcProperties> (ent);
       if (!properties) return;
     }
     ChangePropertyOnPcProp (properties, params);
@@ -526,7 +526,7 @@ void celClassChangePropertyReward::PcPropReward (iCelParameterBlock* params)
   {
     i--;
     ent = entlist->Get(i);
-    properties = CEL_QUERY_PROPCLASS_ENT (ent, iPcProperties);
+    properties = celQueryPropertyClassEntity<iPcProperties> (ent);
     if (properties)
       ChangePropertyOnPcProp (properties, params);
   }
