@@ -477,6 +477,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libcelgraph_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libcpersist_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libdecorators_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libelcm_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libledges_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libmgr_billboard_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libmgr_quests_staticreg.cpp" />
@@ -642,6 +643,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\tools\decorators\decorator_executionlimit.cpp" />
     <ClCompile Include="..\..\plugins\tools\decorators\decorator_loop.cpp" />
     <ClCompile Include="..\..\plugins\tools\decorators\decorator_negatereturn.cpp" />
+    <ClCompile Include="..\..\plugins\tools\elcm\elcm.cpp" />
     <ClCompile Include="..\..\plugins\tools\parameters\cel_parameters.cpp" />
     <ClCompile Include="..\..\plugins\tools\quests\quests.cpp" />
     <ClCompile Include="..\..\plugins\tools\quests\reward_newstate.cpp" />
@@ -825,6 +827,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\tools\decorators\decorator_executionlimit.h" />
     <ClInclude Include="..\..\plugins\tools\decorators\decorator_loop.h" />
     <ClInclude Include="..\..\plugins\tools\decorators\decorator_negatereturn.h" />
+    <ClInclude Include="..\..\plugins\tools\elcm\elcm.h" />
     <ClInclude Include="..\..\plugins\tools\parameters\cel_parameters.h" />
     <ClInclude Include="..\..\plugins\tools\quests\quests.h" />
     <ClInclude Include="..\..\plugins\tools\quests\reward_newstate.h" />

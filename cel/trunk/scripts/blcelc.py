@@ -691,6 +691,7 @@ class iCelEntity(cspace.iBase):
     def GetClasses(*args): return _blcelc.iCelEntity_GetClasses(*args)
     def QueryMessageChannel(*args): return _blcelc.iCelEntity_QueryMessageChannel(*args)
     def CreateTaggedMessageDispatcher(*args): return _blcelc.iCelEntity_CreateTaggedMessageDispatcher(*args)
+    def IsPositional(*args): return _blcelc.iCelEntity_IsPositional(*args)
     Object = _swig_property(_blcelc.iCelEntity_Object_get, None, None,
                     "iCelEntity.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntity::QueryObject()")
 
@@ -1106,6 +1107,19 @@ class iCelPropertyClassFactory(cspace.iBase):
 iCelPropertyClassFactory_swigregister = _blcelc.iCelPropertyClassFactory_swigregister
 iCelPropertyClassFactory_swigregister(iCelPropertyClassFactory)
 
+class iCelPositionInfo(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def GetSector(*args): return _blcelc.iCelPositionInfo_GetSector(*args)
+    def GetPosition(*args): return _blcelc.iCelPositionInfo_GetPosition(*args)
+    def GetMovable(*args): return _blcelc.iCelPositionInfo_GetMovable(*args)
+    def GetBoundingRadius(*args): return _blcelc.iCelPositionInfo_GetBoundingRadius(*args)
+    __swig_destroy__ = _blcelc.delete_iCelPositionInfo
+    __del__ = lambda self : None;
+iCelPositionInfo_swigregister = _blcelc.iCelPositionInfo_swigregister
+iCelPositionInfo_swigregister(iCelPositionInfo)
+
 class iCelPropertyClass(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -1143,6 +1157,7 @@ class iCelPropertyClass(cspace.iBase):
     def PropertyClassesHaveChanged(*args): return _blcelc.iCelPropertyClass_PropertyClassesHaveChanged(*args)
     def GetPersistentData(*args): return _blcelc.iCelPropertyClass_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.iCelPropertyClass_SetPersistentData(*args)
+    def QueryPositionInfo(*args): return _blcelc.iCelPropertyClass_QueryPositionInfo(*args)
     Name = _swig_property(_blcelc.iCelPropertyClass_Name_get, _blcelc.iCelPropertyClass_Name_set, None,
                     "iCelPropertyClass.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClass::GetName()\n\tset: void iCelPropertyClass::SetName(const char*)")
 
@@ -5319,6 +5334,7 @@ class celPcCommon(object):
     def Load(*args): return _blcelc.celPcCommon_Load(*args)
     def GetPersistentData(*args): return _blcelc.celPcCommon_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.celPcCommon_SetPersistentData(*args)
+    def QueryPositionInfo(*args): return _blcelc.celPcCommon_QueryPositionInfo(*args)
     def TickEveryFrame(*args): return _blcelc.celPcCommon_TickEveryFrame(*args)
     def TickOnce(*args): return _blcelc.celPcCommon_TickOnce(*args)
     def MessageDispatcherRemoved(*args): return _blcelc.celPcCommon_MessageDispatcherRemoved(*args)
