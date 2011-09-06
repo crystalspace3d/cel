@@ -638,6 +638,9 @@
 				RelativePath="..\..\msvc\libdecorators_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libelcm_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libledges_staticreg.cpp">
 			</File>
 			<File
@@ -1131,6 +1134,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\decorators\decorator_negatereturn.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\elcm\elcm.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\parameters\cel_parameters.cpp">
@@ -1738,6 +1744,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\decorators\decorator_negatereturn.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\elcm\elcm.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\parameters\cel_parameters.h">

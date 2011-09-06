@@ -23,8 +23,8 @@ static char const metainfo_sequences[] =
 "    <classes>"
 "      <class>"
 "        <name>cel.sequence.factory</name>"
-"        <implementation>celSequenceFactory</implementation>"
-"        <description>CEL Sequence Factory</description>"
+"        <implementation>celSequenceFactoryGenerator</implementation>"
+"        <description>CEL Sequence Factory Generator</description>"
 "      </class>"
 ""
 "      <class>"
@@ -60,9 +60,9 @@ static char const metainfo_sequences[] =
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef celSequenceFactory_FACTORY_REGISTER_DEFINED 
-  #define celSequenceFactory_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celSequenceFactory) 
+  #ifndef celSequenceFactoryGenerator_FACTORY_REGISTER_DEFINED 
+  #define celSequenceFactoryGenerator_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celSequenceFactoryGenerator) 
   #endif
   #ifndef celDebugPrintSeqOpType_FACTORY_REGISTER_DEFINED 
   #define celDebugPrintSeqOpType_FACTORY_REGISTER_DEFINED 
@@ -88,9 +88,9 @@ static char const metainfo_sequences[] =
 class sequences
 {
 SCF_REGISTER_STATIC_LIBRARY(sequences,metainfo_sequences)
-  #ifndef celSequenceFactory_FACTORY_REGISTERED 
-  #define celSequenceFactory_FACTORY_REGISTERED 
-    celSequenceFactory_StaticInit celSequenceFactory_static_init__; 
+  #ifndef celSequenceFactoryGenerator_FACTORY_REGISTERED 
+  #define celSequenceFactoryGenerator_FACTORY_REGISTERED 
+    celSequenceFactoryGenerator_StaticInit celSequenceFactoryGenerator_static_init__; 
   #endif
   #ifndef celDebugPrintSeqOpType_FACTORY_REGISTERED 
   #define celDebugPrintSeqOpType_FACTORY_REGISTERED 
