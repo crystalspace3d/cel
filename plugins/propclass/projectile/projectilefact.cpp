@@ -125,8 +125,8 @@ void celPcProjectile::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
 }
 

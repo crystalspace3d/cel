@@ -214,7 +214,7 @@ void celMovePathSeqOp::FindMesh (iCelParameterBlock* params)
   iCelEntity* ent = pl->FindEntity (entity);
   if (ent)
   {
-    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
+    csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
     if (pcmesh)
       mesh = pcmesh->GetMesh ();
   }

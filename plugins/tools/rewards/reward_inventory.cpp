@@ -150,7 +150,7 @@ void celInventoryReward::Reward (iCelParameterBlock* params)
       ent = pl->FindEntity (e);
       if (!ent) return;
     }
-    inventory = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcInventory, t);
+    inventory = celQueryPropertyClassTagEntity<iPcInventory> (ent, t);
     if (!inventory) return;
   }
 
@@ -171,7 +171,7 @@ void celInventoryReward::Reward (iCelParameterBlock* params)
 
   // Make the mesh invisible if the entity has one.
   const char* cet = child_tag->Get (params);
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (child_ent, iPcMesh, cet);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (child_ent, cet);
   if (pcmesh)
     pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE);
 

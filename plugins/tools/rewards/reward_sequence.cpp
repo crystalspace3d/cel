@@ -176,7 +176,9 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
         ent = pl->FindEntity (e);
         if (!ent) return;
       }
-      quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
+      printf ("1\n"); fflush (stdout);
+      quest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
+      printf ("2\n"); fflush (stdout);
       if (!quest) return;
     }
 
@@ -250,7 +252,9 @@ void celClassSequenceReward::Reward (iCelParameterBlock* params)
   {
     i--;
     ent = entlist->Get(i);
-    quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
+      printf ("3\n"); fflush (stdout);
+    quest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
+      printf ("4\n"); fflush (stdout);
     if (quest)
     {
       iCelSequence* seq = quest->GetQuest()->FindSequence (s);

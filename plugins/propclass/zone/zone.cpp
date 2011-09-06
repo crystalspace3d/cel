@@ -1293,7 +1293,7 @@ int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
 
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return CEL_ZONEERROR_OK;
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (ent, iPcCamera);
+  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (ent);
   if (!pccamera) return CEL_ZONEERROR_OK;
 
   if (!camlistener)
@@ -1374,7 +1374,7 @@ int celPcZoneManager::PointMesh (const char* entity, const char* regionname,
 
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return CEL_ZONEERROR_OK;
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (ent);
   if (!pcmesh) return CEL_ZONEERROR_OK;
 
   if (!meshlistener)

@@ -201,7 +201,7 @@ void celPcMeshDeform::TryGetMesh()
 {
   if (!mesh)
   {
-    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(GetEntity(), iPcMesh);
+    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (GetEntity());
     if (pcmesh)
       SetMesh(pcmesh->GetMesh());
   }

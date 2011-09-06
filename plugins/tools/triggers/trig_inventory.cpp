@@ -148,7 +148,7 @@ void celInventoryTrigger::FindInventory ()
   iCelPlLayer* pl = type->pl;
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  inventory = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcInventory, tag);
+  inventory = celQueryPropertyClassTagEntity<iPcInventory> (ent, tag);
 }
 
 void celInventoryTrigger::ActivateTrigger ()

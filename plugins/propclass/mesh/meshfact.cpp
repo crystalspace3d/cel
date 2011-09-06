@@ -1764,7 +1764,7 @@ void celPcMeshSelect::TryGetCamera ()
   if (camera_entity.IsEmpty ()) return;
   iCelEntity* ent = pl->FindEntity (camera_entity);
   if (!ent) return;
-  pccamera = CEL_QUERY_PROPCLASS_ENT (ent, iPcCamera);
+  pccamera = celQueryPropertyClassEntity<iPcCamera> (ent);
 }
 
 bool celPcMeshSelect::HandleEvent (iEvent& ev)
@@ -1827,14 +1827,12 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
   if (do_drag && sel_entity)
   {
-    csRef<iPcMovable> pcmovable (CEL_QUERY_PROPCLASS (
-    	sel_entity->GetPropertyClassList (), iPcMovable));
+    csRef<iPcMovable> pcmovable = celQueryPropertyClassEntity<iPcMovable> (sel_entity);
     csRef<iPcMesh> pcmesh;
     if (pcmovable)
       pcmesh = pcmovable->GetMesh ();
     else
-      pcmesh = CEL_QUERY_PROPCLASS (
-      	sel_entity->GetPropertyClassList (), iPcMesh);
+      pcmesh = celQueryPropertyClassEntity<iPcMesh> (sel_entity);
     CS_ASSERT (pcmesh != 0);
     iMeshWrapper* mesh = pcmesh->GetMesh ();
     CS_ASSERT (mesh != 0);
@@ -2059,7 +2057,7 @@ bool celPcMeshSelect::PerformActionIndexed (int idx,
 	  camera_entity = entity;
 	  return true;
 	}
-        csRef<iPcCamera> pccam = CEL_QUERY_PROPCLASS_ENT (ent, iPcCamera);
+        csRef<iPcCamera> pccam = celQueryPropertyClassEntity<iPcCamera> (ent);
         if (!pccam)
           return Report (object_reg,
           	"Entity '%s' doesn't have a camera (action SetCamera)!",

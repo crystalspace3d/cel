@@ -144,7 +144,7 @@ bool celPcCollisionDetection::Init (const csVector3& body,
   if (!pcmesh)
   {
     csRef<iPcMesh> pcmeshref;
-    pcmeshref = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
+    pcmeshref = celQueryPropertyClassEntity<iPcMesh> (entity);
 
     if (!pcmeshref)
       return MoveReport (object_reg, "Colldet: No Mesh found on entity!");
@@ -175,8 +175,7 @@ iCollider* celPcCollisionDetection::FindCollider (iObject* object)
     iCelEntity* ent = pl->FindAttachedEntity (object);
     if (ent)
     {
-      csRef<iPcSolid> pcsolid = CEL_QUERY_PROPCLASS (
-            ent->GetPropertyClassList (), iPcSolid);
+      csRef<iPcSolid> pcsolid = celQueryPropertyClassEntity<iPcSolid> (ent);
       if (pcsolid)
       {
 	// Calling pcsolid->GetCollider() will cause a csColliderWrapper

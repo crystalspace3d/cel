@@ -258,7 +258,7 @@ void celPropertyChangeTrigger::FindProperties ()
   iCelPlLayer* pl = type->pl;
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  properties = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcProperties, tag);
+  properties = celQueryPropertyClassTagEntity<iPcProperties> (ent, tag);
 }
 
 void celPropertyChangeTrigger::ActivateTrigger ()

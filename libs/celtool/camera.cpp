@@ -131,7 +131,7 @@ bool celPcCameraCommon::SetZoneManager (const char* entityname,
 {
   region = 0;
   csRef<iCelEntity> zoneent = pl->FindEntity (entityname);
-  zonemgr = CEL_QUERY_PROPCLASS_ENT (zoneent, iPcZoneManager);
+  zonemgr = celQueryPropertyClassEntity<iPcZoneManager> (zoneent);
 
   if (point)
   {

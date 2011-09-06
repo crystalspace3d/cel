@@ -95,8 +95,8 @@ void celPcNpcMove::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
-    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
     checked_spritestate = false;
   }
 }

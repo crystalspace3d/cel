@@ -154,7 +154,7 @@ void celTriggerTrigger::FindEntities ()
     iCelPlLayer* pl = type->pl;
     iCelEntity* ent = pl->FindEntity (entity);
     if (!ent) return;
-    pctrigger = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcTrigger, tag);
+    pctrigger = celQueryPropertyClassTagEntity<iPcTrigger> (ent, tag);
   }
 }
 

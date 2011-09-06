@@ -261,8 +261,7 @@ void celPcCraftController::DoTurningCalc (bool isturning, float &turn,
 
 void celPcCraftController::UpdateBody ()
 {
-  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(),
-        iPcMechanicsObject);
+  csRef<iPcMechanicsObject> ship_mech = celQueryPropertyClassEntity<iPcMechanicsObject> (GetEntity());
 
   DoTurningCalc (turn_left, current_turning_left, turn_acc, turn_max);
   DoTurningCalc (turn_right, current_turning_right, turn_acc, turn_max);

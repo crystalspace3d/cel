@@ -848,7 +848,7 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
 {
   GetMech();
 //Create the mesh
-  csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
+  csRef<iPcMesh> bodyMesh=celQueryPropertyClassEntity<iPcMesh> (GetEntity());
   csOrthoTransform
     bodytransform=bodyMesh->GetMesh()->GetMovable()->GetTransform();
   csVector3 realpos = bodytransform.This2Other(wheels[wheelnum].Position);
@@ -1076,7 +1076,7 @@ void celPcWheeled::GetMech()
 {
   if(!bodyMech)
   {
-    bodyMech=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMechanicsObject);
+    bodyMech=celQueryPropertyClassEntity<iPcMechanicsObject> (GetEntity());
     if(!bodyMech)
       return;
     dyn=bodyMech->GetMechanicsSystem()->GetDynamicSystem();
@@ -1415,7 +1415,7 @@ void celPcWheeled::SetWheelRotation(size_t wheelnum, csMatrix3 rotation)
 {
   wheels[wheelnum].Rotation = rotation;
 /*
-  csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
+  csRef<iPcMesh> bodyMesh=celQueryPropertyClassEntity<iPcMesh> (GetEntity());
   csOrthoTransform
   bodytransform=bodyMesh->GetMesh()->GetMovable()->GetTransform();
   

@@ -627,15 +627,15 @@ void celPcDefaultCamera::SetFollowEntity (iCelEntity* entity)
   follow_entity = entity;
   if (follow_entity)
   {
-    pclinmove = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcLinearMovement);
-    pcmechobj = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcMechanicsObject);
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcMesh);
+    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (follow_entity);
+    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (follow_entity);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (follow_entity);
   }
   else
   {
-    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
-    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
 }
 
@@ -644,9 +644,9 @@ void celPcDefaultCamera::FindSiblingPropertyClasses ()
   if (follow_entity) return;
   if (HavePropertyClassesChanged ())
   {
-    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
-    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
 }
 
