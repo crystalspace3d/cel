@@ -3,6 +3,7 @@
 
 #include <physicallayer/entity.h>
 #include <physicallayer/pl.h>
+#include <propclass/dynworld.h>
 
 class FramePrinter;
 
@@ -20,10 +21,20 @@ private:
 
   csRef<iCelPlLayer> pl;
   csRef<iCelEntity> playerEntity;
+  csRef<iCelEntity> worldEntity;
+  csRef<iPcDynamicWorld> dynworld;
+  iCamera* camera;
+  iSector* sector;
+
+  /// Physics.
+  csRef<iDynamics> dyn;
+  csRef<iDynamicSystem> dynSys;
+  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys;
 
   bool OnKeyboard (iEvent&);
   void Frame ();
 
+  bool InitPhysics ();
   bool CreateLevel ();
   bool CreatePlayer ();
 

@@ -20,8 +20,35 @@ ElcmTest::~ElcmTest ()
 {
 }
 
+bool ElcmTest::InitPhysics ()
+{
+  dyn = csQueryRegistry<iDynamics> (GetObjectRegistry ());
+  if (!dyn) return ReportError ("Error loading bullet plugin!");
+
+  dynSys = dyn->CreateSystem ();
+  if (!dynSys) return ReportError ("Error creating dynamic system!");
+  //dynSys->SetLinearDampener(.3f);
+  dynSys->SetRollingDampener(.995f);
+  dynSys->SetGravity (csVector3 (0.0f, -9.81f, 0.0f));
+
+  bullet_dynSys = scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (dynSys);
+  bullet_dynSys->SetInternalScale (1.0f);
+  bullet_dynSys->SetStepParameters (0.005f, 2, 10);
+
+  return true;
+}
+
 bool ElcmTest::CreateLevel ()
 {
+  worldEntity = pl->CreateEntity ("world", 0, 0,
+      "pcworld.dynamic", CEL_PROPCLASS_END);
+  if (!worldEntity)
+    return ReportError ("Error creating world entity!");
+
+  sector = engine->CreateSector ("room");
+
+  dynworld = celQueryPropertyClassEntity<iPcDynamicWorld> (worldEntity);
+  dynworld->Setup (sector, dynSys);
   return true;
 }
 
@@ -39,6 +66,7 @@ bool ElcmTest::CreatePlayer ()
 
   // Get the iPcCamera interface so that we can set the camera.
   csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (playerEntity);
+  camera = pccamera->GetCamera ();
 
   // Get the iPcMesh interface so we can load the right mesh
   // for our player.
@@ -77,6 +105,8 @@ bool ElcmTest::CreatePlayer ()
 
 void ElcmTest::Frame ()
 {
+  float elapsed_time = vc->GetElapsedSeconds ();
+  dynworld->PrepareView (camera, elapsed_time);
 }
 
 bool ElcmTest::OnKeyboard(iEvent& ev)
@@ -115,6 +145,7 @@ bool ElcmTest::OnInitialize (int argc, char* argv[])
     	CS_REQUEST_REPORTER,
     	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
+	CS_REQUEST_PLUGIN("crystalspace.dynamics.bullet", iDynamics),
         CS_REQUEST_END))
     return ReportError ("Can't initialize plugins!");
 
@@ -140,6 +171,8 @@ bool ElcmTest::Application ()
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
 
+  if (!InitPhysics ())
+    return ReportError ("Error initializing physics!");
   if (!CreateLevel ())
     return ReportError ("Error creating level!");
   if (!CreatePlayer ())
