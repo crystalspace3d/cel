@@ -314,7 +314,7 @@ bool celParameterManager::FillParameterBlock (
 	act_params->GetParameter (i).Set (p->GetLong (params));
 	break;
       case CEL_DATA_FLOAT:
-	act_params->GetParameter (i).Set (ToFloat (p->GetData (params)));
+	act_params->GetParameter (i).Set (p->GetFloat (params));
 	break;
       case CEL_DATA_BOOL:
 	act_params->GetParameter (i).Set (ToBool (p->GetData (params)));
@@ -347,6 +347,11 @@ const char* celConstantParameter::Get (iCelParameterBlock*)
 int32 celConstantParameter::GetLong (iCelParameterBlock*)
 {
   return ToLong (&data);
+}
+
+float celConstantParameter::GetFloat (iCelParameterBlock*)
+{
+  return ToFloat (&data);
 }
 
 //---------------------------------------------------------------------------
@@ -383,6 +388,12 @@ int32 celDynamicParameter::GetLong (iCelParameterBlock* params)
 {
   const celData* data = GetData (params);
   return ToLong (data);
+}
+
+float celDynamicParameter::GetFloat (iCelParameterBlock* params)
+{
+  const celData* data = GetData (params);
+  return ToFloat (data);
 }
 
 const char* celDynamicParameter::Get (iCelParameterBlock* params,
@@ -423,6 +434,12 @@ int32 celExpressionParameter::GetLong (iCelParameterBlock* params)
 {
   const celData* data = GetData (params);
   return ToLong (data);
+}
+
+float celExpressionParameter::GetFloat (iCelParameterBlock* params)
+{
+  const celData* data = GetData (params);
+  return ToFloat (data);
 }
 
 const char* celExpressionParameter::Get (iCelParameterBlock* params,

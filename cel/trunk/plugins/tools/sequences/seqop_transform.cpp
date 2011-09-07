@@ -129,14 +129,6 @@ void celTransformSeqOpFactory::SetRotationParameter (int axis,
 
 //---------------------------------------------------------------------------
 
-static float ToFloat (const char* s)
-{
-  if (!s) return 0.0f;
-  float f;
-  sscanf (s, "%f", &f);
-  return f;
-}
-
 celTransformSeqOp::celTransformSeqOp (
 	celTransformSeqOpType* type,
   	const celParams& params,
@@ -218,9 +210,9 @@ void celTransformSeqOp::Do (float time, iCelParameterBlock* params)
 {
   if (mesh)
   {
-    vector.x = ToFloat (vectorx_param->Get (params));
-	vector.y = ToFloat (vectory_param->Get (params));
-	vector.z = ToFloat (vectorz_param->Get (params));
+    vector.x = vectorx_param->GetFloat (params);
+    vector.y = vectory_param->GetFloat (params);
+    vector.z = vectorz_param->GetFloat (params);
     do_move = !(vector < .00001f);
 
     if (do_move)
@@ -230,7 +222,7 @@ void celTransformSeqOp::Do (float time, iCelParameterBlock* params)
     }
     if (rot_axis >= 0)
     {
-	  rot_angle = ToFloat (rot_angle_param->Get (params));
+      rot_angle = rot_angle_param->GetFloat (params);
 
       csMatrix3 m = start_matrix;
       switch (rot_axis)
