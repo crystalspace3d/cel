@@ -166,7 +166,6 @@ void celAmbientMeshSeqOp::SetAmbientColor (const csColor& color)
   {
     csRef<csShaderVariable> var = svc->GetVariableAdd(ambient);
     var->SetValue(csVector3(color.red,color.green,color.blue));
-    printf ("%p Color %g,%g,%g\n", this, color.red, color.green, color.blue); fflush (stdout);
   }
 }
 
@@ -238,16 +237,16 @@ void celAmbientMeshSeqOp::Do (float time, iCelParameterBlock* params)
       abs.red = abs_red_param->GetFloat (params);
       abs.green = abs_green_param->GetFloat (params);
       abs.blue = abs_blue_param->GetFloat (params);
-      col = abs;
+      col = (1.0f-time) * start + time * abs;
     }
-    else col = start;
-    if (do_rel)
+    else if (do_rel)
     {
       rel.red = rel_red_param->GetFloat (params);
       rel.green = rel_green_param->GetFloat (params);
       rel.blue = rel_blue_param->GetFloat (params);
-      col += time * rel;
+      col = start + time * rel;
     }
+    else col = start;
     SetAmbientColor (col);
   }
 }
