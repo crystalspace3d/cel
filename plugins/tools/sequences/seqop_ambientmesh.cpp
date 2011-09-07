@@ -124,14 +124,6 @@ void celAmbientMeshSeqOpFactory::SetAbsColorParameter (const char* red,
 
 //---------------------------------------------------------------------------
 
-static float ToFloat (const char* s)
-{
-  if (!s) return 0.0f;
-  float f = 0.0f;
-  sscanf (s, "%f", &f);
-  return f;
-}
-
 celAmbientMeshSeqOp::celAmbientMeshSeqOp (
 	celAmbientMeshSeqOpType* type,
   	const celParams& params,
@@ -174,6 +166,7 @@ void celAmbientMeshSeqOp::SetAmbientColor (const csColor& color)
   {
     csRef<csShaderVariable> var = svc->GetVariableAdd(ambient);
     var->SetValue(csVector3(color.red,color.green,color.blue));
+    printf ("%p Color %g,%g,%g\n", this, color.red, color.green, color.blue); fflush (stdout);
   }
 }
 
@@ -239,18 +232,22 @@ void celAmbientMeshSeqOp::Do (float time, iCelParameterBlock* params)
 {
   if (mesh)
   {
-    rel.red = ToFloat (rel_red_param->Get (params));
-    rel.green = ToFloat (rel_green_param->Get (params));
-    rel.blue = ToFloat (rel_blue_param->Get (params));
-    abs.red = ToFloat (abs_red_param->Get (params));
-    abs.green = ToFloat (abs_green_param->Get (params));
-    abs.blue = ToFloat (abs_blue_param->Get (params));
-
     csColor col;
-    if (do_abs) col = abs;
+    if (do_abs)
+    {
+      abs.red = abs_red_param->GetFloat (params);
+      abs.green = abs_green_param->GetFloat (params);
+      abs.blue = abs_blue_param->GetFloat (params);
+      col = abs;
+    }
     else col = start;
     if (do_rel)
+    {
+      rel.red = rel_red_param->GetFloat (params);
+      rel.green = rel_green_param->GetFloat (params);
+      rel.blue = rel_blue_param->GetFloat (params);
       col += time * rel;
+    }
     SetAmbientColor (col);
   }
 }

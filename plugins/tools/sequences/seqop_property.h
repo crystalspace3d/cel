@@ -31,14 +31,6 @@
 
 struct iObjectRegistry;
 
-static float ToFloat (const char* s)
-{
-  if (!s) return 0.0f;
-  float f;
-  sscanf (s, "%f", &f);
-  return f;
-}
-
 /**
  * A standard seqop type that can animate a property class property.
  * Any property can be animated this way, assuming it is of the right type
@@ -159,7 +151,7 @@ protected:
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-    end = ToFloat (end_param->Get (params));
+    end = end_param->GetFloat (params);
 
     start = pc->GetPropertyFloatByID(propID);
     if (relative)
@@ -186,7 +178,7 @@ class celLongPropertySeqOp : public celFloatPropertySeqOp
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-	end = ToFloat (end_param->Get (params));
+    end = end_param->GetFloat (params);
 
     start = (float)pc->GetPropertyLongByID(propID);
     if (relative)
@@ -223,8 +215,8 @@ class celVector2PropertySeqOp : public celPropertySeqOp
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-	end.x = ToFloat (endx_param->Get (params));
-	end.y = ToFloat (endy_param->Get (params));
+    end.x = endx_param->GetFloat (params);
+    end.y = endy_param->GetFloat (params);
 
     pc->GetPropertyVectorByID(propID,start);
     if (relative)
@@ -257,9 +249,9 @@ class celVector3PropertySeqOp : public celPropertySeqOp
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-    end.x = ToFloat (endy_param->Get (params));
-	end.y = ToFloat (endy_param->Get (params));
-	end.z = ToFloat (endy_param->Get (params));
+    end.x = endy_param->GetFloat (params);
+    end.y = endy_param->GetFloat (params);
+    end.z = endy_param->GetFloat (params);
 
     pc->GetPropertyVectorByID(propID,start);
     if (relative)

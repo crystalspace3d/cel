@@ -86,6 +86,12 @@ struct iParameter : public virtual iBase
    * \param params is an optional parameter block given to the reward.
    */
   virtual int32 GetLong (iCelParameterBlock* params) = 0;
+
+  /**
+   * Get the value of this expression as a float.
+   * \param params is an optional parameter block given to the reward.
+   */
+  virtual float GetFloat (iCelParameterBlock* params) = 0;
 };
 
 //---------------------------------------------------------------------------
