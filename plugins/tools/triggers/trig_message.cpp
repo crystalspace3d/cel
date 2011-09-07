@@ -53,7 +53,7 @@ celMessageTriggerFactory::~celMessageTriggerFactory ()
 }
 
 csPtr<iTrigger> celMessageTriggerFactory::CreateTrigger (
-    const celParams& params)
+    iQuest* q, const celParams& params)
 {
   celMessageTrigger* trig = new celMessageTrigger (type, params,
   	entity_par, mask_par);

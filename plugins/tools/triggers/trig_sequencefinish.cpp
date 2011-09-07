@@ -55,7 +55,7 @@ celSequenceFinishTriggerFactory::~celSequenceFinishTriggerFactory ()
 }
 
 csPtr<iTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
-    const celParams& params)
+    iQuest* q, const celParams& params)
 {
   celSequenceFinishTrigger* trig;
   if (seq.IsValid())

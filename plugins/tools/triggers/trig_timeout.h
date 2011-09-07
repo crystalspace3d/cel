@@ -56,7 +56,7 @@ public:
   celTimeoutTriggerFactory (celTimeoutTriggerType* type);
   virtual ~celTimeoutTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iTimeoutTriggerFactory ----------------------

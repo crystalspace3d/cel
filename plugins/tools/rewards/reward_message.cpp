@@ -70,7 +70,7 @@ celMessageRewardFactory::celMessageRewardFactory (
 }
 
 csPtr<iReward> celMessageRewardFactory::CreateReward (
-    const celParams& params)
+    iQuest* q, const celParams& params)
 {
   iReward* reward;
   if (!entity_par.IsEmpty())

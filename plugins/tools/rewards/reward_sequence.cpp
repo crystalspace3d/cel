@@ -68,7 +68,7 @@ celSequenceRewardFactory::celSequenceRewardFactory (
 }
 
 csPtr<iReward> celSequenceRewardFactory::CreateReward (
-    const celParams& params)
+    iQuest* q, const celParams& params)
 {
   iReward *reward;
   if (!class_par.IsEmpty())

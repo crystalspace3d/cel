@@ -72,7 +72,7 @@ celCsSequenceRewardFactory::~celCsSequenceRewardFactory ()
 }
 
 csPtr<iReward> celCsSequenceRewardFactory::CreateReward (
-    const celParams& params)
+    iQuest* q, const celParams& params)
 {
   celCsSequenceReward* trig = new celCsSequenceReward (type,
   	params, sequence_par, delay_par);

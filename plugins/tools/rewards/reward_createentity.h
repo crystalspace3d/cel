@@ -54,7 +54,7 @@ public:
   celCreateEntityRewardFactory (celCreateEntityRewardType* type);
   virtual ~celCreateEntityRewardFactory ();
 
-  virtual csPtr<iReward> CreateReward (const celParams& params);
+  virtual csPtr<iReward> CreateReward (iQuest* q, const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iCreateEntityRewardFactory -----------------------

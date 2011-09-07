@@ -24,6 +24,8 @@
 #include "tools/parameters.h"
 #include "tools/sequences.h"
 
+struct iQuest;
+
 //-------------------------------------------------------------------------
 // Triggers
 //-------------------------------------------------------------------------
@@ -111,7 +113,7 @@ struct iTriggerFactory : public virtual iBase
    * instantiated.
    */
   virtual csPtr<iTrigger> CreateTrigger (
-  	const celParams& params) = 0;
+  	iQuest* q, const celParams& params) = 0;
 
   /**
    * Load this factory from a document node.

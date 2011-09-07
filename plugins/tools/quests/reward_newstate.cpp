@@ -48,7 +48,7 @@ celNewStateRewardFactory::celNewStateRewardFactory (
   celNewStateRewardFactory::type = type;
 }
 
-csPtr<iReward> celNewStateRewardFactory::CreateReward (
+csPtr<iReward> celNewStateRewardFactory::CreateReward (iQuest* q,
     const celParams& params)
 {
   iReward* reward;
@@ -59,8 +59,7 @@ csPtr<iReward> celNewStateRewardFactory::CreateReward (
   }
   else
   {
-    reward = new celNewStateReward (type,
-  	//q, 
+    reward = new celNewStateReward (type, q, 
 	params, state_par, entity_par, tag_par);
   }
   return reward;
@@ -76,7 +75,7 @@ bool celNewStateRewardFactory::Load (iDocumentNode* node)
   if (state_par.IsEmpty())
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.debugprint",
+      "cel.questreward.newstate",
       "'state' attribute is missing for the newstate reward!");
     return false;
   }
@@ -98,7 +97,7 @@ void celNewStateRewardFactory::SetEntityParameter (const char* entity,
 //---------------------------------------------------------------------------
 
 celNewStateReward::celNewStateReward (
-	celNewStateRewardType* type, //iQuest* q,
+	celNewStateRewardType* type, iQuest* q,
   	const celParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par)
@@ -109,10 +108,21 @@ celNewStateReward::celNewStateReward (
     (type->object_reg, "cel.parameters.manager");
 
   state = pm->GetParameter (params, state_par);
-  if (entity_par) entity = pm->GetParameter (params, entity_par);
+  if (entity_par)
+  {
+    entity = pm->GetParameter (params, entity_par);
+    if (!entity)
+    {
+      csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
+        "cel.questreward.newstate",
+        "Entity (parameter '%s') could not be found for newstate reward!",
+	entity_par);
+      return;
+    }
+  }
   if (tag_par) tag = pm->GetParameter (params, tag_par);
-  //if (!entity_par && !tag_par)
-  //  quest = q;
+  if (!entity_par && !tag_par)
+    quest = q;
 }
 
 void celNewStateReward::Reward (iCelParameterBlock* params)
