@@ -910,7 +910,6 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     if (type.IsValid()) RegisterSeqOpType(type);
   }
 
-
   {
     csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
       "cel.seqops.transform");        
@@ -926,6 +925,12 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   {
     csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
       "cel.seqops.light");        
+    if (type.IsValid()) RegisterSeqOpType (type);
+  }
+
+  {
+    csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
+      "cel.seqops.ambientmesh");        
     if (type.IsValid()) RegisterSeqOpType (type);
   }
 

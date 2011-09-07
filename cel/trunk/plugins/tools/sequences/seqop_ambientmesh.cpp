@@ -1,7 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2009 by Jorrit Tyberghein
-	Copyright (C) 2009 by Sam Devlin
+    Copyright (C) 2011 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -34,36 +33,36 @@
 #include "physicallayer/propclas.h"
 #include "physicallayer/persist.h"
 
-#include "plugins/tools/sequences/seqop_light.h"
+#include "plugins/tools/sequences/seqop_ambientmesh.h"
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_FACTORY (celLightSeqOpType)
-CEL_IMPLEMENT_SEQOPTYPE(Light)
+SCF_IMPLEMENT_FACTORY (celAmbientMeshSeqOpType)
+CEL_IMPLEMENT_SEQOPTYPE(AmbientMesh)
 
 //---------------------------------------------------------------------------
 
-celLightSeqOpFactory::celLightSeqOpFactory (
-	celLightSeqOpType* type) : scfImplementationType (this)
+celAmbientMeshSeqOpFactory::celAmbientMeshSeqOpFactory (
+	celAmbientMeshSeqOpType* type) : scfImplementationType (this)
 {
-  celLightSeqOpFactory::type = type;
+  celAmbientMeshSeqOpFactory::type = type;
 }
 
-celLightSeqOpFactory::~celLightSeqOpFactory ()
+celAmbientMeshSeqOpFactory::~celAmbientMeshSeqOpFactory ()
 {
 }
 
-csPtr<iSeqOp> celLightSeqOpFactory::CreateSeqOp (
+csPtr<iSeqOp> celAmbientMeshSeqOpFactory::CreateSeqOp (
     const celParams& params)
 {
-  celLightSeqOp* seqop = new celLightSeqOp (type,
+  celAmbientMeshSeqOp* seqop = new celAmbientMeshSeqOp (type,
   	params, entity_par, tag_par,
 	rel_red_par, rel_green_par, rel_blue_par,
 	abs_red_par, abs_green_par, abs_blue_par);
   return seqop;
 }
 
-bool celLightSeqOpFactory::Load (iDocumentNode* node)
+bool celAmbientMeshSeqOpFactory::Load (iDocumentNode* node)
 {
   rel_red_par.Empty ();
   rel_green_par.Empty ();
@@ -76,8 +75,8 @@ bool celLightSeqOpFactory::Load (iDocumentNode* node)
   if (entity_par.IsEmpty ())
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.seqops.light",
-      "'entity' attribute is missing for the light seqop!");
+      "cel.seqops.ambientmesh",
+      "'entity' attribute is missing for the ambient mesh seqop!");
     return false;
   }
   tag_par = node->GetAttributeValue ("entity_tag");
@@ -100,14 +99,14 @@ bool celLightSeqOpFactory::Load (iDocumentNode* node)
   return true;
 }
 
-void celLightSeqOpFactory::SetEntityParameter (const char* entity,
+void celAmbientMeshSeqOpFactory::SetEntityParameter (const char* entity,
 	const char* tag)
 {
   entity_par = entity;
   tag_par = tag;
 }
 
-void celLightSeqOpFactory::SetRelColorParameter (const char* red,
+void celAmbientMeshSeqOpFactory::SetRelColorParameter (const char* red,
 	const char* green, const char* blue)
 {
   rel_red_par = red;
@@ -115,7 +114,7 @@ void celLightSeqOpFactory::SetRelColorParameter (const char* red,
   rel_blue_par = blue;
 }
 
-void celLightSeqOpFactory::SetAbsColorParameter (const char* red,
+void celAmbientMeshSeqOpFactory::SetAbsColorParameter (const char* red,
 	const char* green, const char* blue)
 {
   abs_red_par = red;
@@ -133,16 +132,16 @@ static float ToFloat (const char* s)
   return f;
 }
 
-celLightSeqOp::celLightSeqOp (
-	celLightSeqOpType* type,
+celAmbientMeshSeqOp::celAmbientMeshSeqOp (
+	celAmbientMeshSeqOpType* type,
   	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* rel_red_par, const char* rel_green_par,
-		const char* rel_blue_par,
+	const char* rel_blue_par,
 	const char* abs_red_par, const char* abs_green_par,
-		const char* abs_blue_par) : scfImplementationType (this)
+	const char* abs_blue_par) : scfImplementationType (this)
 {
-  celLightSeqOp::type = type;
+  celAmbientMeshSeqOp::type = type;
 
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
@@ -158,15 +157,45 @@ celLightSeqOp::celLightSeqOp (
 
   do_abs = abs_red_par != 0 && *abs_red_par != 0;
   do_rel = rel_red_par != 0 && *rel_red_par != 0;
+
+  csRef<iShaderVarStringSet> strings =
+    csQueryRegistryTagInterface<iShaderVarStringSet>
+    (type->object_reg, "crystalspace.shader.variablenameset");
+  ambient = strings->Request ("light ambient");
 }
 
-celLightSeqOp::~celLightSeqOp ()
+celAmbientMeshSeqOp::~celAmbientMeshSeqOp ()
 {
 }
 
-void celLightSeqOp::FindLight (iCelParameterBlock* params)
+void celAmbientMeshSeqOp::SetAmbientColor (const csColor& color)
 {
-  if (light) return;
+  if (svc)
+  {
+    csRef<csShaderVariable> var = svc->GetVariableAdd(ambient);
+    var->SetValue(csVector3(color.red,color.green,color.blue));
+  }
+}
+
+csColor celAmbientMeshSeqOp::GetAmbientColor ()
+{
+  csColor color (0, 0, 0);
+  if (svc)
+  {
+    csRef<csShaderVariable> var = svc->GetVariableAdd(ambient);
+    csVector3 v;
+    var->GetValue(v);
+    color.red = v.x;
+    color.green = v.y;
+    color.blue = v.z;
+  }
+  return color;
+}
+
+
+void celAmbientMeshSeqOp::FindMesh (iCelParameterBlock* params)
+{
+  if (mesh) return;
 
   entity = entity_param->Get (params);
   tag = tag_param->Get (params);
@@ -176,40 +205,43 @@ void celLightSeqOp::FindLight (iCelParameterBlock* params)
   iCelEntity* ent = pl->FindEntity (entity);
   if (ent)
   {
-    csRef<iPcLight> pclight = celQueryPropertyClassTagEntity<iPcLight> (ent, tag);
-    if (pclight)
+    csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
+    if (pcmesh)
     {
-      light = pclight->GetLight ();
-      start = light->GetColor ();
+      mesh = pcmesh->GetMesh ();
+      svc = scfQueryInterfaceSafe<iShaderVariableContext> (mesh);
+      start = GetAmbientColor ();
     }
   }
 }
 
-bool celLightSeqOp::Load (iCelDataBuffer* databuf)
+bool celAmbientMeshSeqOp::Load (iCelDataBuffer* databuf)
 {
-  light = 0;
+  mesh = 0;
+  svc = 0;
   databuf->GetColor (start);
   return true;
 }
 
-void celLightSeqOp::Save (iCelDataBuffer* databuf)
+void celAmbientMeshSeqOp::Save (iCelDataBuffer* databuf)
 {
   databuf->Add (start);
 }
 
-void celLightSeqOp::Init (iCelParameterBlock* params)
+void celAmbientMeshSeqOp::Init (iCelParameterBlock* params)
 {
-  light = 0;
-  FindLight (params);
+  mesh = 0;
+  svc = 0;
+  FindMesh (params);
 }
 
-void celLightSeqOp::Do (float time, iCelParameterBlock* params)
+void celAmbientMeshSeqOp::Do (float time, iCelParameterBlock* params)
 {
-  if (light)
+  if (mesh)
   {
-	rel.red = ToFloat (rel_red_param->Get (params));
-	rel.green = ToFloat (rel_green_param->Get (params));
-	rel.blue = ToFloat (rel_blue_param->Get (params));
+    rel.red = ToFloat (rel_red_param->Get (params));
+    rel.green = ToFloat (rel_green_param->Get (params));
+    rel.blue = ToFloat (rel_blue_param->Get (params));
     abs.red = ToFloat (abs_red_param->Get (params));
     abs.green = ToFloat (abs_green_param->Get (params));
     abs.blue = ToFloat (abs_blue_param->Get (params));
@@ -219,7 +251,7 @@ void celLightSeqOp::Do (float time, iCelParameterBlock* params)
     else col = start;
     if (do_rel)
       col += time * rel;
-    light->SetColor (col);
+    SetAmbientColor (col);
   }
 }
 

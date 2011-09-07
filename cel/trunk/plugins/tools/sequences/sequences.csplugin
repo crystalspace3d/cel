@@ -22,6 +22,12 @@
       </class>
 
       <class>
+        <name>cel.seqops.ambientmesh</name>
+        <implementation>celAmbientMeshSeqOpType</implementation>
+        <description>CEL Sequence: Sequence that animates mesh ambient colors</description>
+      </class>
+
+      <class>
         <name>cel.seqops.movepath</name>
         <implementation>celMovePathSeqOpType</implementation>
         <description>CEL Sequence: Sequence that moves a mesh along a path</description>
