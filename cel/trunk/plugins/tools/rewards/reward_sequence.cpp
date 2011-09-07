@@ -176,9 +176,7 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
         ent = pl->FindEntity (e);
         if (!ent) return;
       }
-      printf ("1\n"); fflush (stdout);
       quest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
-      printf ("2\n"); fflush (stdout);
       if (!quest) return;
     }
 
