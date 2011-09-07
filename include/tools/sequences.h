@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2004-2006 by Jorrit Tyberghein
+    Copyright (C) 2004-2011 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -20,7 +20,6 @@
 #ifndef __CEL_SEQUENCES__
 #define __CEL_SEQUENCES__
 
-#include "behaviourlayer/behave.h"
 #include "tools/parameters.h"
 
 
@@ -253,6 +252,52 @@ struct iDebugPrintSeqOpFactory : public virtual iBase
   virtual void SetMessageParameter (const char* msg) = 0;
 };
 
+
+/**
+ * This interface is implemented by the seqop that animates ambient
+ * light colors for a mesh.
+ * You can query this interface from the seqop factory if
+ * you want to manually control this factory as opposed to loading
+ * its definition from an XML document.
+ *
+ * The predefined name of this seqop type is 'cel.seqops.ambientmesh'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>entity</em>: the name of the entity containing the pcmesh
+ *   property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>relcolor</em>: relative color animation vector.
+ *   This node has 'red', 'green, and 'blue' attributes. Each of these
+ *   attributes can be a parameter.
+ * - <em>abscolor</em>: absolute color.
+ *   This node has 'red', 'green, and 'blue' attributes. Each of these
+ *   attributes can be a parameter.
+ */
+struct iAmbientMeshSeqOpFactory : public virtual iBase
+{
+  SCF_INTERFACE (iAmbientMeshSeqOpFactory, 0, 0, 1);
+
+  /**
+   * Set the entity containing the pcmesh (either entity name
+   * or a parameter if it starts with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Set the relative color animation vector.
+   */
+  virtual void SetRelColorParameter (const char* red, const char* green,
+  	const char* blue) = 0;
+
+  /**
+   * Set the absolute color.
+   */
+  virtual void SetAbsColorParameter (const char* red, const char* green,
+  	const char* blue) = 0;
+};
 
 /**
  * This interface is implemented by the seqop that animates light colors.
@@ -489,6 +534,7 @@ struct iTransformSeqOpFactory : public virtual iBase
    */
   virtual void SetRotationParameter (int rot_axis, const char* rot_angle) = 0;
 };
+
 //-------------------------------------------------------------------------
 
 /**

@@ -1,7 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2009 by Jorrit Tyberghein
-	Copyright (C) 2009 by Sam Devlin
+    Copyright (C) 2011 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -18,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_SEQOP_LIGHT__
-#define __CEL_TOOLS_SEQOP_LIGHT__
+#ifndef __CEL_TOOLS_SEQOP_AMBIENTMESH__
+#define __CEL_TOOLS_SEQOP_AMBIENTMESH__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -28,29 +27,30 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
-#include "iengine/light.h"
+#include "iengine/mesh.h"
 #include "tools/sequences.h"
+#include "csgfx/shadervarcontext.h"
 
-#include "propclass/light.h"
+#include "propclass/mesh.h"
 
 struct iObjectRegistry;
 struct iEvent;
 
 /**
- * A standard seqop type to animate a light.
- * This seqop type listens to the name 'cel.seqops.light'.
+ * A standard seqop type to animate the ambient of a mesh.
+ * This seqop type listens to the name 'cel.seqops.ambientmesh'.
  */
-CEL_DECLARE_SEQOPTYPE(Light,"cel.seqops.light")
+CEL_DECLARE_SEQOPTYPE(AmbientMesh,"cel.seqops.ambientmesh")
 
 /**
- * The 'light' seqop factory.
+ * The 'ambientmesh' seqop factory.
  */
-class celLightSeqOpFactory : public scfImplementation2<
-	celLightSeqOpFactory, iSeqOpFactory,
-	iLightSeqOpFactory>
+class celAmbientMeshSeqOpFactory : public scfImplementation2<
+	celAmbientMeshSeqOpFactory, iSeqOpFactory,
+	iAmbientMeshSeqOpFactory>
 {
 private:
-  csRef<celLightSeqOpType> type;
+  csRef<celAmbientMeshSeqOpType> type;
   csString entity_par;
   csString tag_par;
   csString rel_red_par;
@@ -61,14 +61,14 @@ private:
   csString abs_blue_par;
 
 public:
-  celLightSeqOpFactory (celLightSeqOpType* type);
-  virtual ~celLightSeqOpFactory ();
+  celAmbientMeshSeqOpFactory (celAmbientMeshSeqOpType* type);
+  virtual ~celAmbientMeshSeqOpFactory ();
 
   virtual csPtr<iSeqOp> CreateSeqOp (
       const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iLightSeqOpFactory -----------------------
+  //----------------- iAmbientMeshSeqOpFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetRelColorParameter (const char* red, const char* green,
   	const char* blue);
@@ -77,19 +77,20 @@ public:
 };
 
 /**
- * The 'light' seqop.
+ * The 'ambientmesh' seqop.
  */
-class celLightSeqOp : public scfImplementation1<
-	celLightSeqOp, iSeqOp>
+class celAmbientMeshSeqOp : public scfImplementation1<
+	celAmbientMeshSeqOp, iSeqOp>
 {
 private:
-  csRef<celLightSeqOpType> type;
+  csRef<celAmbientMeshSeqOpType> type;
   csString entity;
   csString tag;
   csColor rel;
   csColor abs;
   bool do_abs;
   bool do_rel;
+  CS::ShaderVarStringID ambient;
 
   csRef<iParameter> entity_param;
   csRef<iParameter> tag_param;
@@ -101,19 +102,22 @@ private:
   csRef<iParameter> abs_blue_param;
 
   csColor start;
-  csWeakRef<iLight> light;
+  csWeakRef<iMeshWrapper> mesh;
+  csWeakRef<iShaderVariableContext> svc;
 
-  void FindLight (iCelParameterBlock* params);
+  void SetAmbientColor (const csColor& color);
+  csColor GetAmbientColor ();
+  void FindMesh (iCelParameterBlock* params);
 
 public:
-  celLightSeqOp (celLightSeqOpType* type,
+  celAmbientMeshSeqOp (celAmbientMeshSeqOpType* type,
   	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* rel_red_par, const char* rel_green_par,
 	const char* rel_blue_par,
 	const char* abs_red_par, const char* abs_green_par,
 	const char* abs_blue_par);
-  virtual ~celLightSeqOp ();
+  virtual ~celAmbientMeshSeqOp ();
 
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void Save (iCelDataBuffer* databuf);
@@ -121,5 +125,5 @@ public:
   virtual void Do (float time, iCelParameterBlock* params);
 };
 
-#endif // __CEL_TOOLS_SEQOP_LIGHT__
+#endif // __CEL_TOOLS_SEQOP_AMBIENTMESH__
 
