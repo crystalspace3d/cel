@@ -91,7 +91,6 @@ celTimeoutTrigger::celTimeoutTrigger (
 	const char* timeout_par) : scfImplementationType (this)
 {
   celTimeoutTrigger::type = type;
-  timer.AttachNew (new csEventTimer (type->object_reg));
 
   pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
@@ -107,7 +106,6 @@ celTimeoutTrigger::celTimeoutTrigger (
 celTimeoutTrigger::~celTimeoutTrigger ()
 {
   DeactivateTrigger ();
-  delete timer;
 }
 
 void celTimeoutTrigger::RegisterCallback (iTriggerCallback* callback)
@@ -123,8 +121,7 @@ void celTimeoutTrigger::ClearCallback ()
 void celTimeoutTrigger::ActivateTrigger ()
 {
   fired = false;
-  timer->RemoveAllTimerEvents ();
-  timer->AddTimerEvent ((iTimerEvent*)this, timeout);
+  type->pl->CallbackOnce (this, timeout, CEL_EVENT_PRE);
 }
 
 bool celTimeoutTrigger::Check ()
@@ -139,27 +136,26 @@ bool celTimeoutTrigger::Check ()
 
 void celTimeoutTrigger::DeactivateTrigger ()
 {
-  timer->RemoveAllTimerEvents ();
+  type->pl->RemoveCallbackOnce (this, CEL_EVENT_PRE);
 }
 
-bool celTimeoutTrigger::Perform (iTimerEvent* ev)
+void celTimeoutTrigger::TickOnce ()
 {
   fired = true;
   if (callback) callback->TriggerFired ((iTrigger*)this, 0);
-  return false;
 }
 
 bool celTimeoutTrigger::LoadAndActivateTrigger (iCelDataBuffer* databuf)
 {
   uint32 tl = databuf->GetUInt32 ();
-  timer->RemoveAllTimerEvents ();
-  timer->AddTimerEvent ((iTimerEvent*)this, tl);
+  type->pl->RemoveCallbackOnce (this, CEL_EVENT_PRE);
+  type->pl->CallbackOnce (this, tl, CEL_EVENT_PRE);
   return true;
 }
 
 void celTimeoutTrigger::SaveTriggerState (iCelDataBuffer* databuf)
 {
-  databuf->Add ((uint32)timer->GetTimeLeft (0));
+  databuf->Add (type->pl->GetTicksLeft (this, CEL_EVENT_PRE));
 }
 
 //---------------------------------------------------------------------------

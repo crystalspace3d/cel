@@ -1452,6 +1452,26 @@ void celPlLayer::RemoveCallbackOnce (iCelTimerListener* listener, int where)
       i++;
 }
 
+csTicks celPlLayer::GetTicksLeft (iCelTimerListener* listener, int where)
+{
+  size_t pc_idx = weak_listeners_hash.Get (listener, (size_t)~0);
+  // If our pc is not yet in the weak_listeners table then it can't possibly
+  // be in the timed_callbacks table so we can return here already.
+  if (pc_idx == (size_t)~0) return csArrayItemNotFound;
+
+  CallbackInfo* cbinfo = GetCBInfo (where);
+  size_t i;
+  for (i = 0 ; i < cbinfo->timed_callbacks.GetSize () ; )
+    if (cbinfo->timed_callbacks[i].pc_idx == pc_idx)
+    {
+      csTicks time_to_fire = cbinfo->timed_callbacks[i].time_to_fire;
+      return time_to_fire - vc->GetCurrentTicks ();
+    }
+    else
+      i++;
+  return csArrayItemNotFound;
+}
+
 // Handling of class-entities lists
 void celPlLayer::EntityClassAdded(iCelEntity *ent,csStringID entclass)
 {

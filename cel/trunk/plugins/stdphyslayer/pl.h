@@ -234,6 +234,7 @@ public:
   virtual void RemoveCallbackEveryFrame (iCelTimerListener* listener,
   	int where);
   virtual void RemoveCallbackOnce (iCelTimerListener* listener, int where);
+  virtual csTicks GetTicksLeft (iCelTimerListener* listener, int where);
 
   virtual int AddScope (csString impl, int size);
 

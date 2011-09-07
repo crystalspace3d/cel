@@ -530,6 +530,12 @@ struct iCelPlLayer : public virtual iBase
   virtual void RemoveCallbackOnce (iCelTimerListener* listener, int where) = 0;
 
   /**
+   * Get the time left before a specific CallbackOnce callback fires.
+   * Returns csArrayItemNotFound in case there is no such listener.
+   */
+  virtual csTicks GetTicksLeft (iCelTimerListener* listener, int where) = 0;
+
+  /**
    * Add an ID scope to the physical layer.
    *
    * Entities are created by propclasses only in the default scope so you can

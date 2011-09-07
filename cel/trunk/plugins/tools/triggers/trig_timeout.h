@@ -24,8 +24,6 @@
 #include "csutil/util.h"
 #include "csutil/refarr.h"
 #include "csutil/weakref.h"
-#include "csutil/timer.h"
-#include "iutil/timer.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
@@ -68,14 +66,13 @@ public:
  */
 class celTimeoutTrigger : public scfImplementation2<
 	celTimeoutTrigger, iTrigger,
-	iTimerEvent>
+	iCelTimerListener>
 {
 private:
   csRef<celTimeoutTriggerType> type;
   csRef<iParameterManager> pm;
   csRef<iTriggerCallback> callback;
   csTicks timeout;
-  csRef<csEventTimer> timer;
   bool fired;
 
 public:
@@ -91,8 +88,9 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
-  //------------------------- iTimerEvent -------------------------------
-  virtual bool Perform (iTimerEvent* ev);
+  //------------------------- iCelTimerListener -------------------------------
+  virtual void TickEveryFrame () { }
+  virtual void TickOnce ();
 };
 
 #endif // __CEL_TOOLS_TRIG_TIMEOUT__
