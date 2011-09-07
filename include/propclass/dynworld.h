@@ -196,6 +196,14 @@ struct iDynamicObject : public virtual iBase
    * will not automatically do that.
    */
   virtual void SetTransform (const csReversibleTransform& trans) = 0;
+
+  /**
+   * Set the entity to use for this object.
+   * Returns false if this fails (for example, there is no entity
+   * template with the given name).
+   */
+  virtual bool SetEntityTemplate (const char* templateName,
+      const char* entityName, const celEntityTemplateParams& params) = 0;
 };
 
 /**

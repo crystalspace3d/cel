@@ -277,6 +277,11 @@ private:
   bool hilight_installed;
   float fade;
 
+  csRef<iCelEntityTemplate> entityTemplate;
+  csString entityName;
+  celEntityTemplateParams params;
+  csRef<iCelEntity> entity;	// @@@ Ref, csRef, or csWeakRef?
+
   void InstallHilight (bool hi);
   void Init ();
 
@@ -302,6 +307,8 @@ public:
   virtual void RefreshColliders ();
   virtual const csReversibleTransform& GetTransform ();
   virtual void SetTransform (const csReversibleTransform& trans);
+  virtual bool SetEntityTemplate (const char* templateName,
+      const char* entityName, const celEntityTemplateParams& params);
 
   virtual void MovableChanged (iMovable* movable);
   virtual void MovableDestroyed (iMovable* movable);
@@ -387,6 +394,7 @@ class celPcDynamicWorld : public scfImplementationExt1<celPcDynamicWorld,
 public:
   csRef<iEngine> engine;
   csRef<iDynamicSystem> dynSys;
+  csRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   csRefArray<DynamicObject> objects;
   csRefArray<DynamicFactory> factories;
