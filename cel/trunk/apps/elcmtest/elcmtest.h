@@ -18,6 +18,7 @@ private:
   csRef<iVirtualClock> vc;
   csRef<iKeyboardDriver> kbd;
   csRef<FramePrinter> printer;
+  csRef<iCollideSystem> cdsys;
 
   csRef<iCelPlLayer> pl;
   csRef<iCelEntity> playerEntity;
@@ -37,6 +38,8 @@ private:
   bool InitPhysics ();
   bool CreateLevel ();
   bool CreatePlayer ();
+  bool CreateFactories ();
+  bool FillDynamicWorld ();
 
 public:
   ElcmTest ();
