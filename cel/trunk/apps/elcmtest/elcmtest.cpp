@@ -57,7 +57,7 @@ bool ElcmTest::CreateLevel ()
       csVector3 (500, -1, -500));
 
   if (!loader->LoadTexture ("stone", "/lib/std/stone4.gif"))
-    ReportError ("Error loading %s texture!",
+    return ReportError ("Error loading %s texture!",
 		 CS::Quote::Single ("stone4"));
   iMaterialWrapper* tm = engine->GetMaterialList ()->FindByName ("stone");
   DensityTextureMapper mapper (0.3f);
@@ -100,7 +100,7 @@ bool ElcmTest::CreateFactories ()
   TesselatedBox box (csVector3 (-.3, 0, -.3), csVector3 (.3, .6, .3));
 
   if (!loader->LoadTexture ("wood", "/lib/stdtex/parket.jpg"))
-    ReportError ("Error loading %s texture!",
+    return ReportError ("Error loading %s texture!",
 		 CS::Quote::Single ("parket"));
   iMaterialWrapper* tm = engine->GetMaterialList ()->FindByName ("wood");
   DensityTextureMapper mapper (0.3f);
@@ -110,6 +110,10 @@ bool ElcmTest::CreateFactories ()
   csRef<iMeshFactoryWrapper> boxFactory = GeneralMeshBuilder::CreateFactory (
       engine, "Box", &box);
   boxFactory->GetMeshObjectFactory ()->SetMaterialWrapper (tm);
+
+  if (!loader->LoadLibraryFile ("/cellib/lev/elcmtest.xml"))
+    return false;
+
   return true;
 }
 
@@ -124,6 +128,11 @@ bool ElcmTest::FillDynamicWorld ()
     {
       obj = dynworld->AddObject ("Box", csReversibleTransform (
 	    matId, csVector3 (float (x*5), 0, float (y*5))));
+      csString name;
+      name.Format ("box%d_%d", x+50, y+50);
+      celEntityTemplateParams params;
+      if (!obj->SetEntityTemplate ("glowBox", name, params))
+	return ReportError ("Could not set entity template 'glowBox'!");
     }
   return true;
 }

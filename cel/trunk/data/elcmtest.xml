@@ -1,0 +1,41 @@
+<library>
+    <addon plugin="cel.addons.questdef" >
+      <quest name="glowQuest" >
+        <state name="init" >
+	  <oninit>
+	    <reward sequence='animglow' type='sequence' entity='$this' />
+	  </oninit>
+	  <trigger type="sequencefinish">
+	    <fireon entity="$this" sequence="animglow" />
+	    <reward type="newstate" state="init2" />
+	  </trigger>
+        </state>
+	<state name="init2">
+	  <trigger type="timeout">
+	    <fireon timeout='1' />
+	    <reward type="newstate" state="init" />
+	  </trigger>
+	</state>
+        <sequence name="animglow">
+          <op entity="$this" type="ambientmesh" duration="1000" >
+	    <abscolor red="0" green="0" blue="1" />
+          </op>
+	  <delay time="1000" />
+          <op entity="$this" type="ambientmesh" duration="1000" >
+	    <abscolor red="1" green="0" blue="0" />
+          </op>
+	  <delay time="1000" />
+        </sequence>
+      </quest>
+    </addon>
+
+    <addon plugin="cel.addons.celentitytpl" entityname="glowBox" >
+      <propclass name="pcobject.mesh" />
+      <propclass name="pclogic.quest" >
+        <action name="NewQuest" >
+          <par name="name" string="glowQuest" />
+        </action>
+        <property name="state" string="init" />
+      </propclass>
+    </addon>
+</library>

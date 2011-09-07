@@ -41,6 +41,8 @@
 #include "ivaria/bullet.h"
 #include "imesh/objmodel.h"
 
+#include "physicallayer/entitytpl.h"
+#include "propclass/mesh.h"
 #include "plugins/propclass/dynworld/dynworld.h"
 
 //---------------------------------------------------------------------------
@@ -325,6 +327,11 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
   mesh->GetMovable ()->RemoveListener (this);
   world->meshCache.RemoveMesh (mesh);
   mesh = 0;
+  if (entity)
+  {
+    world->pl->RemoveEntity (entity);
+    entity = 0;
+  }
 }
 
 void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
@@ -346,6 +353,13 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   }
   if (is_static)
     body->MakeStatic ();
+
+  if (entityTemplate)
+  {
+    entity = world->pl->CreateEntity (entityTemplate, entityName, params);
+    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcmesh->SetMesh (mesh);
+  }
 }
 
 void DynamicObject::RefreshColliders ()
@@ -476,6 +490,17 @@ const csBox3& DynamicObject::GetBBox () const
   return bbox;
 }
 
+bool DynamicObject::SetEntityTemplate (const char* templateName,
+      const char* entityName, const celEntityTemplateParams& params)
+{
+  entityTemplate = factory->GetWorld ()->pl->FindEntityTemplate (templateName);
+  if (!entityTemplate)
+    return false;
+  DynamicObject::entityName = entityName;
+  DynamicObject::params = params;
+  return true;
+}
+
 //---------------------------------------------------------------------------------------
 
 celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
@@ -484,6 +509,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   radius = 80;
   engine = csQueryRegistry<iEngine> (object_reg);
   vc = csQueryRegistry<iVirtualClock> (object_reg);
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
