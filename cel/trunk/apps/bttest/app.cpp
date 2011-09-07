@@ -271,7 +271,8 @@ void MainApp::CreateBehaviourTree ()
 	  scfQueryInterface<iInventoryTriggerFactory> (trigger_factory);
   explicit_trigger_factory->SetEntityParameter ("player");
   explicit_trigger_factory->SetChildEntityParameter ("box3");
-  csRef<iTrigger> trigger = trigger_factory->CreateTrigger (celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  csRef<iTrigger> trigger = trigger_factory->CreateTrigger (0, celParams ());
   csRef<iTriggerFiredCondition> explicit_trigger_node =
     scfQueryInterface<iTriggerFiredCondition> (trigger_check_node);
   explicit_trigger_node->SetTrigger (trigger);
@@ -289,32 +290,38 @@ void MainApp::CreateBehaviourTree ()
   csRef<iBTAction> explicit_action_node =
     scfQueryInterface<iBTAction> (looking_action_node);
   explicit_reward_factory->SetMessageParameter ("Looking For Money Box :s");
-  csRef<iReward> reward = reward_factory->CreateReward(celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  csRef<iReward> reward = reward_factory->CreateReward(0, celParams ());
   explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (angry_action_node);
   explicit_reward_factory->SetMessageParameter ("ANGRY! >:");
-  reward = reward_factory->CreateReward(celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward(0, celParams ());
   explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (calming_action_node);
   explicit_reward_factory->SetMessageParameter ("Calming down, calm... calm :|");
-  reward = reward_factory->CreateReward(celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward(0, celParams ());
   explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (lottery_action_node);
   explicit_reward_factory->SetMessageParameter ("Won the Lottery! :D");
-  reward = reward_factory->CreateReward(celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward(0, celParams ());
   explicit_action_node->AddReward (reward);
 	  
   explicit_action_node = scfQueryInterface<iBTAction> (irritable_action_node);
   explicit_reward_factory->SetMessageParameter ("Irritable :(");
-  reward = reward_factory->CreateReward(celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward(0, celParams ());
   explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (loving_action_node);
   explicit_reward_factory->SetMessageParameter ("Loving :)");
-  reward = reward_factory->CreateReward(celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward(0, celParams ());
   explicit_action_node->AddReward (reward);
 
 

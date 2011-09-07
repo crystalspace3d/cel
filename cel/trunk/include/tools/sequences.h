@@ -22,6 +22,7 @@
 
 #include "tools/parameters.h"
 
+struct iQuest;
 
 //-------------------------------------------------------------------------
 // Sequence operations
@@ -186,7 +187,8 @@ struct iCelSequenceFactory : public virtual iBase
 {
   SCF_INTERFACE (iCelSequenceFactory, 0, 0, 1);
 
-  virtual csPtr<iCelSequence> CreateSequence (const celParams& params) = 0;
+  virtual csPtr<iCelSequence> CreateSequence (iQuest* q,
+      const celParams& params) = 0;
 
   /**
    * Get the name of this factory.

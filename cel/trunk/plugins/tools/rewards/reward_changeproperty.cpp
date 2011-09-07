@@ -53,7 +53,8 @@ celChangePropertyRewardFactory::~celChangePropertyRewardFactory ()
 {
 }
 
-csPtr<iReward> celChangePropertyRewardFactory::CreateReward (const celParams& params)
+csPtr<iReward> celChangePropertyRewardFactory::CreateReward (iQuest* q,
+    const celParams& params)
 {
   iReward* reward;
   if (entity_par)

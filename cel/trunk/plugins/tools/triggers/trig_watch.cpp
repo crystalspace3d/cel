@@ -59,7 +59,7 @@ celWatchTriggerFactory::~celWatchTriggerFactory ()
 }
 
 csPtr<iTrigger> celWatchTriggerFactory::CreateTrigger (
-    const celParams& params)
+    iQuest* q, const celParams& params)
 {
   celWatchTrigger* trig = new celWatchTrigger (type, params,
   	entity_par, tag_par, target_entity_par, target_tag_par,

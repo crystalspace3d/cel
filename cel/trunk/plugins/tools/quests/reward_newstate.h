@@ -59,7 +59,7 @@ public:
   celNewStateRewardFactory (celNewStateRewardType* type);
   virtual ~celNewStateRewardFactory () {};
 
-  virtual csPtr<iReward> CreateReward (const celParams& params);
+  virtual csPtr<iReward> CreateReward (iQuest* q, const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iNewStateQuestRewardFactory -----------------------
@@ -87,7 +87,7 @@ private:
 
 public:
   celNewStateReward (celNewStateRewardType* type,
-  	//iQuest* q, 
+  	iQuest* q, 
 	const celParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par);

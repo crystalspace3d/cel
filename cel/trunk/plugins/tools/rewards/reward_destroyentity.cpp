@@ -66,7 +66,7 @@ celDestroyEntityRewardFactory::~celDestroyEntityRewardFactory ()
 }
 
 csPtr<iReward> celDestroyEntityRewardFactory::CreateReward (
-    const celParams& params)
+    iQuest* q, const celParams& params)
 {
   iReward* newquest;
   if (entity_par)

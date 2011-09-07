@@ -154,12 +154,12 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
     size_t i;
     for (i = 0 ; i < oninit_reward_Factories.GetSize () ; i++)
     {
-      csRef<iReward> rew = oninit_reward_Factories[i]->CreateReward (*p_params);
+      csRef<iReward> rew = oninit_reward_Factories[i]->CreateReward (q, *p_params);
       q->AddOninitReward (stateidx, rew);
     }
     for (i = 0 ; i < onexit_reward_Factories.GetSize () ; i++)
     {
-      csRef<iReward> rew = onexit_reward_Factories[i]->CreateReward (*p_params);
+      csRef<iReward> rew = onexit_reward_Factories[i]->CreateReward (q, *p_params);
       q->AddOnexitReward (stateidx, rew);
     }
     for (i = 0 ; i < responses.GetSize () ; i++)
@@ -170,14 +170,14 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
       size_t respidx = q->AddStateResponse (stateidx);
       
       iTriggerFactory* trigfact = respfact->GetTriggerFactory ();
-      csRef<iTrigger> trig = trigfact->CreateTrigger (*p_params);
+      csRef<iTrigger> trig = trigfact->CreateTrigger (q, *p_params);
       if (!trig) return 0;	// @@@ Report
       q->SetStateTrigger (stateidx, respidx, trig);
 	  
       size_t j;
       for (j = 0 ; j < rewfacts.GetSize () ; j++)
       {
-        csRef<iReward> rew = rewfacts[j]->CreateReward (*p_params);
+        csRef<iReward> rew = rewfacts[j]->CreateReward (q, *p_params);
 
 	if (!rew) return 0;
         q->AddStateReward (stateidx, respidx, rew);
@@ -190,7 +190,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
   while (seq_it.HasNext ())
   {
     iCelSequenceFactory* sf = seq_it.Next ();
-    csRef<iCelSequence> seq = sf->CreateSequence (*p_params);
+    csRef<iCelSequence> seq = sf->CreateSequence (q, *p_params);
     q->AddSequence (seq);
   }
 

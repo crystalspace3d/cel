@@ -67,7 +67,7 @@ public:
   celChangePropertyRewardFactory (celChangePropertyRewardType* type);
   virtual ~celChangePropertyRewardFactory ();
 
-  virtual csPtr<iReward> CreateReward (const celParams& params);
+  virtual csPtr<iReward> CreateReward (iQuest* q, const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iChangePropertyQuestRewardFactory -----------------------

@@ -63,7 +63,7 @@ public:
   celActionRewardFactory (celActionRewardType* type);
   virtual ~celActionRewardFactory ();
 
-  virtual csPtr<iReward> CreateReward (const celParams& params);
+  virtual csPtr<iReward> CreateReward (iQuest* q, const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iActionRewardFactory -----------------------

@@ -68,7 +68,7 @@ public:
   celSequenceFinishTriggerFactory (celSequenceFinishTriggerType* type);
   virtual ~celSequenceFinishTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iSequenceFinishTriggerFactory ---------------------

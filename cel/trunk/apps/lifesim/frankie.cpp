@@ -124,7 +124,8 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Clear");
 
-  reward = reward_factory->CreateReward (celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward (0, celParams ());
   explicit_action_node->AddReward (reward);
 
   // Setup the reward for the new animation
@@ -137,7 +138,8 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->AddParameter
     (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
 
-  reward = reward_factory->CreateReward (celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward (0, celParams ());
   explicit_action_node->AddReward (reward);
 
   // Create the 'idle' action node
@@ -154,7 +156,8 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Clear");
 
-  reward = reward_factory->CreateReward (celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward (0, celParams ());
   explicit_action_node->AddReward (reward);
 
   // Create the 'run' action node
@@ -171,7 +174,8 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Clear");
 
-  reward = reward_factory->CreateReward (celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward (0, celParams ());
   explicit_action_node->AddReward (reward);
 
   // Setup the reward for the new animation
@@ -184,7 +188,8 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->AddParameter
     (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
 
-  reward = reward_factory->CreateReward (celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward (0, celParams ());
   explicit_action_node->AddReward (reward);
 
   // Setup the reward for the new animation
@@ -197,7 +202,8 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->AddParameter
     (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
 
-  reward = reward_factory->CreateReward (celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward (0, celParams ());
   explicit_action_node->AddReward (reward);
 
   // Create the 'rotate_left' action node
@@ -216,7 +222,8 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->AddParameter
     (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
 
-  reward = reward_factory->CreateReward (celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward (0, celParams ());
   explicit_action_node->AddReward (reward);
 
   // Create the 'rotate_right' action node
@@ -235,7 +242,8 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->AddParameter
     (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
 
-  reward = reward_factory->CreateReward (celParams ());
+  // @@@ TODO: fix the quest parameter 0!
+  reward = reward_factory->CreateReward (0, celParams ());
   explicit_action_node->AddReward (reward);
 
   // Define the root of the behaviour tree

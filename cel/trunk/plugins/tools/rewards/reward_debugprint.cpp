@@ -54,7 +54,8 @@ celDebugPrintRewardFactory::~celDebugPrintRewardFactory ()
 {
 }
 
-csPtr<iReward> celDebugPrintRewardFactory::CreateReward (const celParams& params)
+csPtr<iReward> celDebugPrintRewardFactory::CreateReward (
+    iQuest* q, const celParams& params)
 {
   celDebugPrintReward* trig = new celDebugPrintReward (type, params, msg_par);
   return trig;

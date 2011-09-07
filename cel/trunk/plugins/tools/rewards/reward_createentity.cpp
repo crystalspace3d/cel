@@ -68,7 +68,7 @@ celCreateEntityRewardFactory::~celCreateEntityRewardFactory ()
 }
 
 csPtr<iReward> celCreateEntityRewardFactory::CreateReward (
-    const celParams& params)
+    iQuest* q, const celParams& params)
 {
   celCreateEntityReward* newquest = new celCreateEntityReward (type,
   	params, template_par, name_par, celCreateEntityRewardFactory::params);
