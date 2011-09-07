@@ -1332,6 +1332,11 @@ iRigidBody* celPcMechanicsObject::GetBody ()
   return body;
 }
 
+void celPcMechanicsObject::SetBody (iRigidBody* body)
+{
+  celPcMechanicsObject::body = body;
+}
+
 void celPcMechanicsObject::FindMeshLightCamera ()
 {
   if (pcmesh || pclight || pccamera) return;

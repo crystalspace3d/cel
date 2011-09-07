@@ -1,12 +1,32 @@
 <library>
     <addon plugin="cel.addons.questdef" >
-      <quest name="glowQuest" >
-        <state name="init" >
+
+      <quest name="jumperQuest">
+	<state name="init">
+	  <trigger type="meshselect">
+	    <fireon entity="$this" />
+	    <reward type="debugprint" message="select" />
+	    <reward type="action" entity="$this" pc="pcphysics.object" id="AddForceOnce">
+	      <par name="force" vector3="0,4,0" />
+	    </reward>
+	    <reward type="newstate" state="init2" />
+	  </trigger>
+	</state>
+	<state name="init2">
+	  <trigger type="timeout">
+	    <fireon timeout='1' />
+	    <reward type="newstate" state="init" />
+	  </trigger>
+	</state>
+      </quest>
+
+      <quest name="glowQuest">
+        <state name="init">
 	  <oninit>
-	    <reward sequence='animglow' type='sequence' entity='$this' />
+	    <reward sequence='animglow' type='sequence' entity='$this' entity_tag='glow' />
 	  </oninit>
 	  <trigger type="sequencefinish">
-	    <fireon entity="$this" sequence="animglow" />
+	    <fireon entity="$this" sequence="animglow" entity_tag='glow'/>
 	    <reward type="newstate" state="init2" />
 	  </trigger>
         </state>
@@ -31,9 +51,21 @@
 
     <addon plugin="cel.addons.celentitytpl" entityname="glowBox" >
       <propclass name="pcobject.mesh" />
-      <propclass name="pclogic.quest" >
+      <propclass name="pcobject.mesh.select">
+        <action name="SetCamera" >
+          <par name="entity" string="player" />
+        </action>
+      </propclass>
+      <propclass name="pcphysics.object" />
+      <propclass name="pclogic.quest" tag="glow">
         <action name="NewQuest" >
           <par name="name" string="glowQuest" />
+        </action>
+        <property name="state" string="init" />
+      </propclass>
+      <propclass name="pclogic.quest" tag="jump">
+        <action name="NewQuest" >
+          <par name="name" string="jumperQuest" />
         </action>
         <property name="state" string="init" />
       </propclass>

@@ -393,6 +393,7 @@ public:
   }
 
   virtual iRigidBody* GetBody ();
+  virtual void SetBody (iRigidBody* body);
 
   virtual void SetFriction (float friction);
 
