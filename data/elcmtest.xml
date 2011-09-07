@@ -9,12 +9,6 @@
 	    <reward type="action" entity="$this" pc="pcphysics.object" id="AddForceOnce">
 	      <par name="force" vector3="0,4,0" />
 	    </reward>
-	    <reward type="newstate" state="init2" />
-	  </trigger>
-	</state>
-	<state name="init2">
-	  <trigger type="timeout">
-	    <fireon timeout='1' />
 	    <reward type="newstate" state="init" />
 	  </trigger>
 	</state>
@@ -27,7 +21,7 @@
 	  </oninit>
 	  <trigger type="sequencefinish">
 	    <fireon entity="$this" sequence="animglow" entity_tag='glow'/>
-	    <reward type="newstate" state="init2" />
+	    <reward type="newstate" state="init" />
 	  </trigger>
         </state>
 	<state name="init2">
