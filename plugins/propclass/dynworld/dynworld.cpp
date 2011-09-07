@@ -43,6 +43,7 @@
 
 #include "physicallayer/entitytpl.h"
 #include "propclass/mesh.h"
+#include "propclass/mechsys.h"
 #include "plugins/propclass/dynworld/dynworld.h"
 
 //---------------------------------------------------------------------------
@@ -358,7 +359,11 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   {
     entity = world->pl->CreateEntity (entityTemplate, entityName, params);
     csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-    pcmesh->SetMesh (mesh);
+    if (pcmesh)
+      pcmesh->SetMesh (mesh);
+    csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
+    if (pcmechobj)
+      pcmechobj->SetBody (body);
   }
 }
 
