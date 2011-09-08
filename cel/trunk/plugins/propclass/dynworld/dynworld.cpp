@@ -45,6 +45,7 @@
 #include "propclass/mesh.h"
 #include "propclass/mechsys.h"
 #include "plugins/propclass/dynworld/dynworld.h"
+#include "tools/elcm.h"
 
 //---------------------------------------------------------------------------
 
@@ -330,8 +331,13 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
   mesh = 0;
   if (entity)
   {
-    world->pl->RemoveEntity (entity);
-    entity = 0;
+    // @@@ TEST THIS WELL!
+    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    if (pcmesh)
+      pcmesh->SetMesh (0);
+    csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
+    if (pcmechobj)
+      pcmechobj->SetBody (0);
   }
 }
 
@@ -355,9 +361,12 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   if (is_static)
     body->MakeStatic ();
 
-  if (entityTemplate)
+  if (entityTemplate && !entity)
   {
     entity = world->pl->CreateEntity (entityTemplate, entityName, params);
+  }
+  if (entity)
+  {
     csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
     if (pcmesh)
       pcmesh->SetMesh (mesh);
@@ -508,6 +517,24 @@ bool DynamicObject::SetEntityTemplate (const char* templateName,
 
 //---------------------------------------------------------------------------------------
 
+class DynWorldELCMListener : public scfImplementation1<DynWorldELCMListener,
+  iELCMListener>
+{
+private:
+  celPcDynamicWorld* dynworld;
+
+public:
+  DynWorldELCMListener (celPcDynamicWorld* dynworld) :
+    scfImplementationType (this), dynworld (dynworld) { }
+  virtual ~DynWorldELCMListener () { }
+  virtual void SafeToRemove (iCelEntity* entity)
+  {
+    dynworld->SafeToRemove (entity);
+  }
+};
+
+//---------------------------------------------------------------------------------------
+
 celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {  
@@ -520,6 +547,19 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
 celPcDynamicWorld::~celPcDynamicWorld ()
 {
   DeleteObjects ();
+}
+
+void celPcDynamicWorld::SetELCM (iELCM* elcm)
+{
+  celPcDynamicWorld::elcm = elcm;
+  DynWorldELCMListener* listener = new DynWorldELCMListener (this);
+  elcm->AddELCMListener (listener);
+  listener->DecRef ();
+}
+
+void celPcDynamicWorld::SafeToRemove (iCelEntity* entity)
+{
+  safeToRemove.Add (entity);
 }
 
 iDynamicFactory* celPcDynamicWorld::AddFactory (const char* factory, float maxradius,
@@ -585,60 +625,83 @@ void celPcDynamicWorld::DeleteObject (iDynamicObject* dynobj)
   }
 }
 
+void celPcDynamicWorld::RemoveSafeEntities ()
+{
+  csSet<csPtrKey<iCelEntity> >::GlobalIterator it = safeToRemove.GetIterator ();
+  while (it.HasNext ())
+  {
+    iCelEntity* entity = it.Next ();
+    printf ("Actually remove entity %s\n", entity->QueryObject ()->GetName ()); fflush (stdout);
+    pl->RemoveEntity (entity);
+  }
+  safeToRemove.DeleteAll ();
+}
+
+void celPcDynamicWorld::ProcessFadingIn (float fade_speed)
+{
+  csSet<csPtrKey<DynamicObject> > newset;
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingIn.GetIterator ();
+  while (it.HasNext ())
+  {
+    DynamicObject* dyn = it.Next ();
+    float f = dyn->GetFade ();
+    f -= fade_speed;
+    if (f <= 0)
+    {
+      f = 0;
+    }
+    else
+    {
+      newset.Add (dyn);
+    }
+    dyn->SetFade (f);
+  }
+  fadingIn = newset;
+}
+
+void celPcDynamicWorld::ProcessFadingOut (float fade_speed)
+{
+  csSet<csPtrKey<DynamicObject> > newset;
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingOut.GetIterator ();
+  while (it.HasNext ())
+  {
+    DynamicObject* dyn = it.Next ();
+    float f = dyn->GetFade ();
+    f += fade_speed;
+    if (f >= 1)
+    {
+      f = 1;
+      dyn->RemoveMesh (this);
+    }
+    else
+    {
+      newset.Add (dyn);
+    }
+    dyn->SetFade (f);
+  }
+  fadingOut = newset;
+}
+
 void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
 {
   float fade_speed = elapsed_time / 3.0;
-
-  {
-    csSet<csPtrKey<DynamicObject> > newset;
-    csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingIn.GetIterator ();
-    while (it.HasNext ())
-    {
-      DynamicObject* dyn = it.Next ();
-      float f = dyn->GetFade ();
-      f -= fade_speed;
-      if (f <= 0)
-      {
-        f = 0;
-      }
-      else
-      {
-        newset.Add (dyn);
-      }
-      dyn->SetFade (f);
-    }
-    fadingIn = newset;
-  }
-
-  {
-    csSet<csPtrKey<DynamicObject> > newset;
-    csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingOut.GetIterator ();
-    while (it.HasNext ())
-    {
-      DynamicObject* dyn = it.Next ();
-      float f = dyn->GetFade ();
-      f += fade_speed;
-      if (f >= 1)
-      {
-        f = 1;
-        dyn->RemoveMesh (this);
-      }
-      else
-      {
-        newset.Add (dyn);
-      }
-      dyn->SetFade (f);
-    }
-    fadingOut = newset;
-  }
+  ProcessFadingIn (fade_speed);
+  ProcessFadingOut (fade_speed);
 
   const csVector3& campos = camera->GetTransform ().GetOrigin ();
 
+  // Traverse the tree. This will discover all visible objects and
+  // put them in the 'visibleObjects' set. All visible entities
+  // are removed from the 'safeToRemove' set.
   csSet<csPtrKey<DynamicObject> > prevVisible = visibleObjects;
   visibleObjects.Empty ();
-  DOCollector collector (prevVisible, visibleObjects, campos, radius);
+  DOCollector collector (prevVisible, visibleObjects, safeToRemove,
+      campos, radius);
   DOCollectorInner inner (campos, radius);
   tree.Traverse (inner, collector);
+
+  // All entities remaining in 'safeToRemove' can really be removed.
+  RemoveSafeEntities ();
 
   csSet<csPtrKey<DynamicObject> >::GlobalIterator it = prevVisible.GetIterator ();
   while (it.HasNext ())
