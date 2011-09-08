@@ -283,6 +283,7 @@ bool ElcmTest::Application ()
   elcm = csQueryRegistry<iELCM> (object_reg);
 
   elcm->SetActivityRadius (12.0f);
+  elcm->SetDistanceThresshold (1.0f);
 
   if (!InitPhysics ())
     return ReportError ("Error initializing physics!");

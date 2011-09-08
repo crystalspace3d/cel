@@ -23,6 +23,7 @@
 #include "csutil/weakref.h"
 #include "csutil/event.h"
 #include "csutil/cfgacc.h"
+#include "csgeom/math3d.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/plugin.h"
@@ -93,6 +94,9 @@ celELCM::celELCM (iBase* parent)
   activityRadius = 500;
   distanceThresshold = 20;
   checkTime = 100;
+  forcedCheck = false;
+
+  prevSector = 0;
 
   activeEntities = &activeEntities1;
 }
@@ -143,8 +147,28 @@ void celELCM::SetCheckTime (csTicks t)
 
 void celELCM::Tick ()
 {
-  // @@@ TODO Check player distance thresshold!
-  UpdateActiveEntities ();
+  csVector3 pos;
+  iSector* sector = GetPlayerPosition (pos);
+  if (!player) return;
+  if (forcedCheck)
+  {
+    // Check is forced.
+    forcedCheck = false;
+    UpdateActiveEntities ();
+    return;
+  }
+  if (prevSector != sector)
+  {
+    // Player changed sector. We surely have to update.
+    UpdateActiveEntities ();
+    return;
+  }
+  float sqdist = csSquaredDist::PointPoint (pos, prevPos);
+  if (sqdist >= sqDistanceThresshold)
+  {
+    // We moved too far. Update.
+    UpdateActiveEntities ();
+  }
 }
 
 csSet<iCelEntity*>* celELCM::SwapActiveEntities ()
@@ -181,21 +205,16 @@ void celELCM::ClearActiveEntities ()
   }
 }
 
-void celELCM::UpdateActiveEntities ()
+iSector* celELCM::GetPlayerPosition (csVector3& pos)
 {
   GetPL ();
-
   iSector* sector;
-  csVector3 pos;
 
   if (playerMesh)
   {
     iMovable* movable = playerMesh->GetMesh ()->GetMovable ();
     if (!movable->InSector ())
-    {
-      ClearActiveEntities ();
-      return;
-    }
+      return 0;
     sector = movable->GetSectors ()->Get (0);
     pos = movable->GetPosition ();
   }
@@ -208,9 +227,27 @@ void celELCM::UpdateActiveEntities ()
   {
     printf ("Error! No camera or mesh found for player!\n");
     fflush (stdout);
+    return 0;
+  }
+  return sector;
+}
+
+void celELCM::UpdateActiveEntities ()
+{
+  csVector3 pos;
+  iSector* sector = GetPlayerPosition (pos);
+
+  if (!sector)
+  {
     ClearActiveEntities ();
     return;
   }
+
+  // Set the new anchor.
+  prevPos = pos;
+  prevSector = sector;
+
+  printf ("Update for %g,%g,%g\n", pos.x, pos.y, pos.z); fflush (stdout);
 
   csSet<iCelEntity*>* oldActiveEntities = SwapActiveEntities ();
 
@@ -287,6 +324,7 @@ void celELCM::SetActivityRadius (float radius)
 void celELCM::SetDistanceThresshold (float distance)
 {
   distanceThresshold = distance;
+  sqDistanceThresshold = distance * distance;
 }
 
 void celELCM::RegisterNewEntity (iCelEntity* entity)
@@ -297,6 +335,7 @@ void celELCM::RegisterNewEntity (iCelEntity* entity)
   // inactive with the next update if needed.
   activeEntities->Add (entity);
   entity->Activate ();
+  forcedCheck = true;
 }
 
 void celELCM::RegisterRemoveEntity (iCelEntity* entity)
