@@ -63,14 +63,14 @@ private:
   iSector* prevSector;
   csVector3 prevPos;
 
-  csSet<iCelEntity*> activeEntities1;
-  csSet<iCelEntity*> activeEntities2;
-  csSet<iCelEntity*>* activeEntities;
-  csHash<csTicks,iCelEntity*> inactiveEntities;
+  csSet<csPtrKey<iCelEntity> > activeEntities1;
+  csSet<csPtrKey<iCelEntity> > activeEntities2;
+  csSet<csPtrKey<iCelEntity> >* activeEntities;
+  csHash<csTicks,csPtrKey<iCelEntity> > inactiveEntities;
 
   csRefArray<iELCMListener> listeners;
 
-  csSet<iCelEntity*>* SwapActiveEntities ();
+  csSet<csPtrKey<iCelEntity> >* SwapActiveEntities ();
   void ClearActiveEntities ();
   void UpdateActiveEntities ();
   iSector* GetPlayerPosition (csVector3& pos);
