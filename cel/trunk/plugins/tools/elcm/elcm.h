@@ -47,11 +47,16 @@ private:
 
   float activityRadius;
   float distanceThresshold;
+  float sqDistanceThresshold;
   csTicks checkTime;
+  bool forcedCheck;
 
   csRef<iCelEntity> player;
   csRef<iPcCamera> playerCamera;
   csRef<iPcMesh> playerMesh;
+
+  iSector* prevSector;
+  csVector3 prevPos;
 
   csSet<iCelEntity*> activeEntities1;
   csSet<iCelEntity*> activeEntities2;
@@ -61,6 +66,8 @@ private:
   csSet<iCelEntity*>* SwapActiveEntities ();
   void ClearActiveEntities ();
   void UpdateActiveEntities ();
+
+  iSector* GetPlayerPosition (csVector3& pos);
 
 public:
   celELCM (iBase* parent);
