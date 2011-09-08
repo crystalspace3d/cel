@@ -280,7 +280,7 @@ private:
   csRef<iCelEntityTemplate> entityTemplate;
   csString entityName;
   celEntityTemplateParams params;
-  csRef<iCelEntity> entity;	// @@@ Ref, csRef, or csWeakRef?
+  csWeakRef<iCelEntity> entity;
 
   void InstallHilight (bool hi);
   void Init ();
@@ -320,6 +320,7 @@ public:
 
   void SetFade (float f);
   float GetFade () const { return fade; }
+  iCelEntity* GetEntity () const { return entity; }
 
   // Return true if a body is part of this dynamic object.
   bool HasBody (iRigidBody* body);
@@ -358,14 +359,17 @@ struct DOCollector
 {
   csSet<csPtrKey<DynamicObject> >& prevObjects;
   csSet<csPtrKey<DynamicObject> >& objects;
+  csSet<csPtrKey<iCelEntity> >& safeToRemove;
   csVector3 center;
   float sqradius;
 
   DOCollector (
       csSet<csPtrKey<DynamicObject> >& prevObjects,
-      csSet<csPtrKey<DynamicObject> >& objects, const csVector3& center,
-      float radius) :
+      csSet<csPtrKey<DynamicObject> >& objects,
+      csSet<csPtrKey<iCelEntity> >& safeToRemove,
+      const csVector3& center, float radius) :
     prevObjects (prevObjects), objects (objects),
+    safeToRemove (safeToRemove),
     center (center), sqradius (radius * radius) { }
   bool operator() (const DOTree::Node* node)
   {
@@ -382,6 +386,9 @@ struct DOCollector
       {
         prevObjects.Delete (dynobj);
         objects.Add (dynobj);
+	iCelEntity* entity = dynobj->GetEntity ();
+	if (entity)
+	  safeToRemove.Delete (entity);
       }
     }
     return true;
@@ -406,14 +413,29 @@ public:
   csSet<csPtrKey<DynamicObject> > fadingIn;
   csSet<csPtrKey<DynamicObject> > fadingOut;
   DOTree tree;
+  csRef<iELCM> elcm;
 
   csSet<csPtrKey<DynamicObject> > visibleObjects;
+
+  // A set of entities which are safe to remove. This information
+  // comes from the ELCM.
+  csSet<csPtrKey<iCelEntity> > safeToRemove;
+  // This function will remove all entities that are still in safeToRemove.
+  // The 'visibility' traversal should have removed all entities that
+  // are attached to a visible mesh from this set first.
+  void RemoveSafeEntities ();
+
+  void ProcessFadingIn (float fade_speed);
+  void ProcessFadingOut (float fade_speed);
 
 public:
   celPcDynamicWorld (iObjectRegistry* object_reg);
   virtual ~celPcDynamicWorld ();
 
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
+
+  virtual void SetELCM (iELCM* elcm);
+  void SafeToRemove (iCelEntity* entity);
 
   virtual iDynamicFactory* AddFactory (const char* factory, float maxradius,
       float imposterradius);

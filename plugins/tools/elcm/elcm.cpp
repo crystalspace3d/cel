@@ -331,9 +331,13 @@ void celELCM::CheckUnload ()
       toRemove.Push (ent);
     }
   }
+  // It is possible that the listeners to the ELCM don't yet manage to
+  // remove the entities (or they have reasons to decide against removal).
+  // So we reschedule the entities that we deemed right for removal again
+  // so this function will check them again later.
   for (size_t i = 0 ; i < toRemove.GetSize () ; i++)
   {
-    inactiveEntities.DeleteAll (toRemove[i]);
+    inactiveEntities.PutUnique (toRemove[i], time);
   }
 }
 

@@ -31,6 +31,7 @@ struct iDynamicSystem;
 struct iRigidBody;
 struct iString;
 struct iMeshWrapper;
+struct iELCM;
 
 /**
  * Geometry generator. This is typically attached to factories
@@ -212,6 +213,11 @@ struct iDynamicObject : public virtual iBase
 struct iPcDynamicWorld : public virtual iBase
 {
   SCF_INTERFACE(iPcDynamicWorld,0,0,1);
+
+  /**
+   * Set an optional ELCM plugin to use for managing life time of entities.
+   */
+  virtual void SetELCM (iELCM* elcm) = 0;
 
   //------------------------------------------------------------------------------
 

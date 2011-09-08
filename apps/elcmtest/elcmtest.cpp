@@ -87,6 +87,7 @@ bool ElcmTest::CreateLevel ()
   dynworld = celQueryPropertyClassEntity<iPcDynamicWorld> (worldEntity);
   dynworld->SetRadius (30);
   dynworld->Setup (sector, dynSys);
+  dynworld->SetELCM (elcm);
 
   csColliderHelper::InitializeCollisionWrappers (cdsys, engine);
   engine->Prepare ();
