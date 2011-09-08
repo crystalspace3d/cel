@@ -23,6 +23,22 @@
 struct iCelEntity;
 
 /**
+ * Implement this interface if you are interested in knowing when the ELCM
+ * considers entities to be ready for removal (i.e. an entity that has been
+ * inactive for some time can be considered ready for removal). It is up to
+ * the user of the ELCM to then decide what to do with the entity.
+ */
+struct iELCMListener: public virtual iBase
+{
+  SCF_INTERFACE (iELCMListener, 0, 0, 1);
+
+  /**
+   * The entity can be removed safely according to the ELCM.
+   */
+  virtual void SafeToRemove (iCelEntity* entity) = 0;
+};
+
+/**
  * The Entity Life Cycle Manager.
  * This plugin is responsible for maintaining the life cycle of every entity.
  * 
@@ -94,6 +110,23 @@ struct iELCM: public virtual iBase
   virtual csTicks GetCheckTime () const = 0;
 
   /**
+   * Set the frequency at which the ELCM will check if there are entities
+   * that are ready for removal (from Inactive to Unloaded state).
+   * This number is associated with the check time (see SetCheckTime()).
+   * The default is 10 which means that every 10 checks for activity there
+   * will be a check on unloaded entities.
+   */
+  virtual void SetUnloadCheckFrequency (int c) = 0;
+  virtual int GetUnloadCheckFrequency () const = 0;
+
+  /**
+   * Set the time (in ticks) after which the ELCM will consider an
+   * inactive entity to be ready for removal. Default is 10000 (10 seconds).
+   */
+  virtual void SetUnloadedTime (csTicks t) = 0;
+  virtual csTicks GetUnloadedTime () const = 0;
+
+  /**
    * Manually activate an entity. This is mostly useful for a global entity
    * which has recently been inactivated.
    */
@@ -104,6 +137,17 @@ struct iELCM: public virtual iBase
    * global entities.
    */
   virtual void DeactivateEntity (iCelEntity* entity) = 0;
+
+  /**
+   * Register a listener that wants to know when it is safe to remove
+   * entities.
+   */
+  virtual void AddELCMListener (iELCMListener* listener) = 0;
+
+  /**
+   * Remove a listener.
+   */
+  virtual void RemoveELCMListener (iELCMListener* listener) = 0;
 };
 
 #endif // __CEL_ELCM__
