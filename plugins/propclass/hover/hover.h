@@ -27,11 +27,10 @@
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
+#include "celtool/ticktimer.h"
 
 #include "propclass/hover.h"
 #include "propclass/mesh.h"
-
-#include "../mechanics/ticktimer.h"
 
 struct iSector;
 

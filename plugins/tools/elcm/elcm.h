@@ -22,16 +22,13 @@
 
 #include "csutil/util.h"
 #include "csutil/set.h"
-#include "iutil/eventhandlers.h"
-#include "csutil/eventhandlers.h"
 #include "iutil/comp.h"
-#include "iutil/eventh.h"
-#include "iutil/eventq.h"
 
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/entitytpl.h"
 #include "physicallayer/propclas.h"
+#include "celtool/ticktimer.h"
 
 #include "tools/elcm.h"
 
@@ -40,16 +37,17 @@ struct iEngine;
 /**
  * The ELCM.
  */
-class celELCM : public scfImplementation2<celELCM, iELCM, iComponent>
+class celELCM : public scfImplementation2<celELCM, iELCM, iComponent>,
+  public celPeriodicTimer
 {
 private:
   iObjectRegistry* object_reg;
-  csRef<iEventNameRegistry> name_reg;
   csRef<iCelPlLayer> pl;
   csRef<iEngine> engine;
 
   float activityRadius;
   float distanceThresshold;
+  csTicks checkTime;
 
   csRef<iCelEntity> player;
   csRef<iPcCamera> playerCamera;
@@ -75,54 +73,19 @@ public:
   virtual float GetActivityRadius () const { return activityRadius; }
   virtual void SetDistanceThresshold (float distance);
   virtual float GetDistanceThresshold () const { return distanceThresshold; }
+  virtual void SetCheckTime (csTicks t);
+  virtual csTicks GetCheckTime () const { return checkTime; }
   virtual void ActivateEntity (iCelEntity* entity);
   virtual void DeactivateEntity (iCelEntity* entity);
+
+  // For celPeriodicTimer
+  virtual void Tick ();
 
   void RegisterNewEntity (iCelEntity* entity);
   void RegisterRemoveEntity (iCelEntity* entity);
 
   iCelPlLayer* GetPL ();
   iEngine* GetEngine ();
-
-  // Not an embedded interface to avoid circular references!!!
-  class EventHandler : public scfImplementation1<EventHandler,
-		       iEventHandler>
-  {
-  private:
-    celELCM* parent;
-
-  public:
-    EventHandler (celELCM* parent)
-      : scfImplementationType (this), parent (parent)
-    {
-    }
-    virtual ~EventHandler ()
-    {
-    }
-
-    virtual bool HandleEvent (iEvent& ev)
-    {
-      //return parent->HandleEvent (ev);
-      return false;
-    }
-
-    CS_EVENTHANDLER_NAMES("cel.tools.elcm");
-    CS_EVENTHANDLER_DEFAULT_INSTANCE_CONSTRAINTS                            
-    virtual const csHandlerID * GenericPrec (
-	csRef<iEventHandlerRegistry> &, csRef<iEventNameRegistry> &, csEventID) const
-    {
-      return 0;
-    }
-    virtual const csHandlerID * GenericSucc (
-	csRef<iEventHandlerRegistry> &r1, csRef<iEventNameRegistry> &r2, csEventID event) const
-    {
-      static csHandlerID succConstraint[2];
-      //succConstraint[0] = FrameSignpost_Logic3D::StaticID(r1);
-      succConstraint[0] = r1->GetGenericID("cel.propclass.pcinput.standard");
-      succConstraint[1] = CS_HANDLERLIST_END;
-      return succConstraint;
-    }
-  } *scfiEventHandler;
 };
 
 #endif // __CEL_TOOLS_ELCM__

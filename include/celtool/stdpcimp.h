@@ -291,6 +291,8 @@ public:
     { return CEL_PERSIST_RESULT_OK; };
 
   virtual iCelPositionInfo* QueryPositionInfo () { return 0; }
+  virtual void Activate () { }
+  virtual void Deactivate () { }
 
   // --- For iCelTimerListener -----------------------------------------
   virtual void TickEveryFrame () { }

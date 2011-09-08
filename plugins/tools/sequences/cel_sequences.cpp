@@ -46,6 +46,7 @@ celSequence::celSequence (const char* name,
   celSequence::pl = pl;
   celSequence::vc = vc;
   idx = csArrayItemNotFound;
+  deactivationTime = 0;
 }
 
 celSequence::~celSequence ()
@@ -144,6 +145,25 @@ void celSequence::TickEveryFrame ()
   if (current_time < start_time) return;
   csTicks rel = current_time - start_time;
   Perform (rel);
+}
+
+void celSequence::Activate ()
+{
+  if (deactivationTime == 0) return;
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  csTicks current_time = vc->GetCurrentTicks ();
+  // @@@ Problem with wrap around of ticks!
+  start_time += current_time - deactivationTime;
+  deactivationTime = 0;
+}
+
+void celSequence::Deactivate ()
+{
+  if (deactivationTime != 0) return;
+  deactivationTime = vc->GetCurrentTicks ();
+  if (!deactivationTime) deactivationTime++;	// Correction in rare case this would be 0.
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 }
 
 void celSequence::SaveState (iCelDataBuffer* databuf)

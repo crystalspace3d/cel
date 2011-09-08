@@ -205,6 +205,16 @@ celPcTrigger::~celPcTrigger ()
   delete params;
 }
 
+void celPcTrigger::Activate ()
+{
+  ResetCallbackOnce ();
+}
+
+void celPcTrigger::Deactivate ()
+{
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+}
+
 void celPcTrigger::SetCenter (csVector3 &v)
 {
   switch(trigger_type)

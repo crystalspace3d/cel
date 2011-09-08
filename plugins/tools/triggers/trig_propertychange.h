@@ -117,6 +117,9 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
+  virtual void Activate () { ActivateTrigger (); }
+  virtual void Deactivate () { DeactivateTrigger (); }
+
   //----------------------- iPcPropertyListener ----------------------------
   virtual void PropertyChanged (iPcProperties* pcprop, size_t idx);
 };

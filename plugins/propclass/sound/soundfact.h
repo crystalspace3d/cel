@@ -168,6 +168,9 @@ public:
   virtual bool GetPropertyIndexed (int, const char*&);
 
   virtual void TickEveryFrame ();
+
+  virtual void Activate ();
+  virtual void Deactivate ();
 };
 
 #endif // __CEL_PF_SOUNDFACT__

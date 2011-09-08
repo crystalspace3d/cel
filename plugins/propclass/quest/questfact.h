@@ -93,6 +93,9 @@ public:
 
   virtual bool SetPropertyIndexed (int, const char*);
   virtual bool GetPropertyIndexed (int, const char*&);
+
+  virtual void Activate ();
+  virtual void Deactivate ();
 };
 
 #endif // __CEL_PF_QUESTFACT__

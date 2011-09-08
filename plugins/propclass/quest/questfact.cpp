@@ -259,5 +259,15 @@ void celPcQuest::StopQuest ()
   quest = 0;
 }
 
+void celPcQuest::Activate ()
+{
+  if (quest) quest->Activate ();
+}
+
+void celPcQuest::Deactivate ()
+{
+  if (quest) quest->Deactivate ();
+}
+
 //---------------------------------------------------------------------------
 

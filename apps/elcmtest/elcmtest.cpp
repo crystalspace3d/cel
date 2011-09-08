@@ -203,6 +203,8 @@ bool ElcmTest::CreatePlayer ()
   pcinput->Bind ("x", "lockon");
   pcinput->Bind ("c", "resetcam");
 
+  elcm->SetPlayer (playerEntity);
+
   return true;
 }
 
@@ -251,6 +253,7 @@ bool ElcmTest::OnInitialize (int argc, char* argv[])
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
     	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
+    	CS_REQUEST_PLUGIN ("cel.tools.elcm", iELCM),
 	CS_REQUEST_PLUGIN("crystalspace.dynamics.bullet", iDynamics),
         CS_REQUEST_END))
     return ReportError ("Can't initialize plugins!");
@@ -277,6 +280,9 @@ bool ElcmTest::Application ()
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  elcm = csQueryRegistry<iELCM> (object_reg);
+
+  elcm->SetActivityRadius (12.0f);
 
   if (!InitPhysics ())
     return ReportError ("Error initializing physics!");

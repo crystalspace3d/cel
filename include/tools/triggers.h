@@ -54,7 +54,7 @@ struct iTriggerCallback : public virtual iBase
  */
 struct iTrigger : public virtual iBase
 {
-  SCF_INTERFACE (iTrigger, 0, 0, 1);
+  SCF_INTERFACE (iTrigger, 0, 0, 2);
 
   /**
    * Register a callback with this trigger. When the trigger fires
@@ -97,6 +97,22 @@ struct iTrigger : public virtual iBase
    * Save trigger state.
    */
   virtual void SaveTriggerState (iCelDataBuffer* databuf) = 0;
+
+  /**
+   * Activate this trigger. This means it will process events again.
+   * Note that this is not equivalent to ActivateTrigger() since the
+   * this function will actually activate the trigger to the same state
+   * as it was when the trigger was deactivated. ActivateTrigger() on the
+   * other hand, just activates the trigger to its initial state.
+   */
+  virtual void Activate () = 0;
+
+  /**
+   * Deactivate this trigger. This is not the same as DeactivateTrigger()
+   * since this function will remember the state when it was deactivated
+   * and allow Activate() to restore it to exactly that state.
+   */
+  virtual void Deactivate () = 0;
 };
 
 /**

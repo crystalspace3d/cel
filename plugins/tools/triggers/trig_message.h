@@ -97,6 +97,9 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
+  virtual void Activate () { ActivateTrigger (); }
+  virtual void Deactivate () { DeactivateTrigger (); }
+
   //------------------------- iMessageReceiver ------------------------------
   virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params);

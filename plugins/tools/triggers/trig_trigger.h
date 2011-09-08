@@ -100,6 +100,9 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
+  virtual void Activate () { ActivateTrigger (); }
+  virtual void Deactivate () { DeactivateTrigger (); }
+
   //------------------------- iPcTriggerListener ----------------------------
   virtual void EntityEnters (iPcTrigger* trigger, iCelEntity* entity);
   virtual void EntityLeaves (iPcTrigger* trigger, iCelEntity* entity);

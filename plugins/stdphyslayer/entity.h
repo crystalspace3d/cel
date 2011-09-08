@@ -50,6 +50,7 @@ private:
   celMessageChannel channel;
 
   bool positional;
+  bool active;
 
 public:
   CS_LEAKGUARD_DECLARE (celEntity);
@@ -85,6 +86,9 @@ public:
       const char* tag);
 
   virtual bool IsPositional () const { return positional; }
+  virtual void Activate ();
+  virtual void Deactivate ();
+  virtual bool IsActive () const { return active; }
 
   //------- For iMessageChannel ---------------------------------------------
   virtual iMessageChannel* QueryMessageChannel ()

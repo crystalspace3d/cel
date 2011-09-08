@@ -74,6 +74,7 @@ private:
   csRef<iTriggerCallback> callback;
   csTicks timeout;
   bool fired;
+  csTicks deactivatedTicksLeft;
 
 public:
   celTimeoutTrigger (celTimeoutTriggerType* type,
@@ -87,6 +88,9 @@ public:
   virtual void DeactivateTrigger ();
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
+
+  virtual void Activate ();
+  virtual void Deactivate ();
 
   //------------------------- iCelTimerListener -------------------------------
   virtual void TickEveryFrame () { }

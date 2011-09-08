@@ -102,6 +102,9 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
+  virtual void Activate () { ActivateTrigger (); }
+  virtual void Deactivate () { DeactivateTrigger (); }
+
   //----------------------- iCameraSectorListener --------------------------
   virtual void NewSector (iCamera* camera, iSector* sector);
   virtual void CameraMoved (iCamera* camera) {}

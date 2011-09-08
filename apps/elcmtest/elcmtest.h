@@ -4,6 +4,7 @@
 #include <physicallayer/entity.h>
 #include <physicallayer/pl.h>
 #include <propclass/dynworld.h>
+#include <tools/elcm.h>
 
 class FramePrinter;
 
@@ -21,6 +22,7 @@ private:
   csRef<iCollideSystem> cdsys;
 
   csRef<iCelPlLayer> pl;
+  csRef<iELCM> elcm;
   csRef<iCelEntity> playerEntity;
   csRef<iCelEntity> worldEntity;
   csRef<iPcDynamicWorld> dynworld;

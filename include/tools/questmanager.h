@@ -49,7 +49,7 @@ class celQuestManager;
  */
 struct iQuest : public virtual iBase
 {
-  SCF_INTERFACE (iQuest, 0, 0, 1);
+  SCF_INTERFACE (iQuest, 0, 0, 2);
 
   /**
    * Switch this quest to some specific state.
@@ -78,7 +78,19 @@ struct iQuest : public virtual iBase
   /**
    * Find a sequence.
    */
-  virtual iCelSequence*   FindSequence (const char* name) = 0;
+  virtual iCelSequence* FindSequence (const char* name) = 0;
+
+  /**
+   * Activate this quest. This means it will process events again.
+   * Quests are activated by default.
+   */
+  virtual void Activate () = 0;
+
+  /**
+   * Deactivate this quest. This means that events will no longer be
+   * processed.
+   */
+  virtual void Deactivate () = 0;
 };
 
 /**
