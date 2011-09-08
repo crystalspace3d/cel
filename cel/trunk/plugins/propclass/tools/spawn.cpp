@@ -322,6 +322,27 @@ bool celPcSpawn::Load (iCelDataBuffer* databuf)
   return true;
 }
 
+void celPcSpawn::SetEnabled (bool e)
+{
+  if (enabled == e) return;
+  enabled = e;
+  if (enabled) Reset ();
+}
+
+void celPcSpawn::Activate ()
+{
+  if (enabled)
+  {
+    pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+    Reset ();
+  }
+}
+
+void celPcSpawn::Deactivate ()
+{
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+}
+
 void celPcSpawn::SetTiming (bool repeat, bool random,
 	csTicks mindelay, csTicks maxdelay)
 {

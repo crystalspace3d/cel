@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2005 by Jorrit Tyberghein
+    Copyright (C) 2005-2011 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_OBJ_TICK_TIMER__
-#define __CEL_OBJ_TICK_TIMER__
+#ifndef __CEL_TOOL_TICK_TIMER__
+#define __CEL_TOOL_TICK_TIMER__
 
 #include <csutil/scf_implementation.h>
 #include <csutil/weakref.h>
@@ -27,8 +27,13 @@
 class celPeriodicTimer
 {
 public:
-  celPeriodicTimer (csWeakRef<iCelPlLayer> pl) : tick (100),
-  	wref_physical_layer (pl)
+  celPeriodicTimer (csTicks tick = 100, bool repeat = true)
+    : tick (tick), repeat (repeat)
+  {
+    scfiCelTimerListener = new CelTimerListener (this);
+  }
+  celPeriodicTimer (csWeakRef<iCelPlLayer> pl, csTicks tick = 100, bool repeat = true)
+    : tick (tick), repeat (repeat), wref_physical_layer (pl)
   {
     scfiCelTimerListener = new CelTimerListener (this);
     pl->CallbackOnce (scfiCelTimerListener, tick, CEL_EVENT_PRE);
@@ -36,7 +41,13 @@ public:
   virtual ~celPeriodicTimer () { scfiCelTimerListener->DecRef (); }
 
   virtual void Tick () = 0;
-  virtual void SetTickTime (csTicks tck) { tick = tck; }
+  void SetTickTime (csTicks tck) { tick = tck; }
+  void SetRepeat (bool repeat) { celPeriodicTimer::repeat = repeat; }
+  void SetPL (iCelPlLayer* pl)
+  {
+    wref_physical_layer = pl;
+    pl->CallbackOnce (scfiCelTimerListener, tick, CEL_EVENT_PRE);
+  }
 
 private:
   // Made independent to avoid circular refs and leaks.
@@ -53,13 +64,14 @@ private:
     }
     virtual void TickOnce ()
     {
-      parent->wref_physical_layer->CallbackOnce (this, parent->tick,
-      	CEL_EVENT_PRE);
+      if (parent->repeat)
+        parent->wref_physical_layer->CallbackOnce (this, parent->tick, CEL_EVENT_PRE);
       parent->Tick ();
     }
   } * scfiCelTimerListener;
 
   csTicks tick;
+  bool repeat;
   csWeakRef<iCelPlLayer> wref_physical_layer;
 };
 

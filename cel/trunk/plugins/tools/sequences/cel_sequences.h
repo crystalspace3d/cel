@@ -62,6 +62,7 @@ private:
   size_t idx;
   csTicks start_time;
   csTicks total_time;
+  csTicks deactivationTime;	// Sequence was deactivated at this point.
   iCelParameterBlock* params;
 
   csRefArray<iCelSequenceCallback> callbacks;
@@ -102,6 +103,9 @@ public:
   virtual bool IsRunning ();
   virtual void AddSequenceCallback (iCelSequenceCallback* cb);
   virtual void RemoveSequenceCallback (iCelSequenceCallback* cb);
+
+  virtual void Activate ();
+  virtual void Deactivate ();
 
   // --- For iCelTimerListener ----------------------------
   virtual void TickEveryFrame ();

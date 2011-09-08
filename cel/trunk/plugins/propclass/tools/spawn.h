@@ -147,7 +147,10 @@ public:
   celPcSpawn (iObjectRegistry* object_reg);
   virtual ~celPcSpawn ();
 
-  virtual void SetEnabled (bool e) { enabled = e; }
+  virtual void Activate ();
+  virtual void Deactivate ();
+
+  virtual void SetEnabled (bool e);
   virtual bool IsEnabled () const { return enabled; }
   void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
   	const char* behaviour, const char* msg_id,

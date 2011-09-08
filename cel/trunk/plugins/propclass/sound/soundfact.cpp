@@ -70,13 +70,23 @@ public:
 void celPcSoundSource::CheckPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
-	  UpdateListener ();
+    UpdateListener ();
 }
 
 void celPcSoundSource::TickEveryFrame ()
 {
   if (follow)
     CheckPropertyClasses ();
+}
+
+void celPcSoundSource::Activate ()
+{
+  // @@@ TODO
+}
+
+void celPcSoundSource::Deactivate ()
+{
+  // @@@ TODO
 }
 
 void celPcSoundSource::UpdateListener ()

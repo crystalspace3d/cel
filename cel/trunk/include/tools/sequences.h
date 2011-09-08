@@ -177,6 +177,16 @@ struct iCelSequence : public virtual iBase
    * Remove a callback.
    */
   virtual void RemoveSequenceCallback (iCelSequenceCallback* cb) = 0;
+
+  /**
+   * Activate this sequence.
+   */
+  virtual void Activate () = 0;
+
+  /**
+   * Deactivate this sequence.
+   */
+  virtual void Deactivate () = 0;
 };
 
 /**

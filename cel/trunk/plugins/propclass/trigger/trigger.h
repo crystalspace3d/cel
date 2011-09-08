@@ -176,6 +176,9 @@ public:
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();
+  virtual void Activate ();
+  virtual void Deactivate ();
+
   // celPcTrigger only function to set center.
   void SetCenter (csVector3 &v);
 

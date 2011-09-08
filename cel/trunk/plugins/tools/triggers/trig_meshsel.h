@@ -95,6 +95,9 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
+  virtual void Activate () { ActivateTrigger (); }
+  virtual void Deactivate () { DeactivateTrigger (); }
+
   //----------------------- iPcMeshSelectListener --------------------------
   virtual void MouseDown (iPcMeshSelect* meshsel,
   	int x, int y, int button, iCelEntity* entity);

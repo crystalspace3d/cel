@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2001-2011 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -49,7 +49,7 @@ struct iMovable;
  */
 struct iCelEntity : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntity, 0, 0, 4);
+  SCF_INTERFACE (iCelEntity, 0, 0, 5);
 
   /**
    * Get the iObject for this entity (if supported).
@@ -147,6 +147,24 @@ struct iCelEntity : public virtual iBase
    * has at least one property class which implements iCelPositionInfo.
    */
   virtual bool IsPositional () const = 0;
+
+  /**
+   * Activate this entity. This means it will process events again
+   * (including all property classes and other things attached to this entity).
+   * Entities are activated by default.
+   */
+  virtual void Activate () = 0;
+
+  /**
+   * Deactivate this entity. This means that events will no longer be processed
+   * and the entity will be 'frozen'.
+   */
+  virtual void Deactivate () = 0;
+
+  /**
+   * Return true if the entity is active.
+   */
+  virtual bool IsActive () const = 0;
 };
 
 /**

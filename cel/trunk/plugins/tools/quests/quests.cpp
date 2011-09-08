@@ -560,6 +560,18 @@ size_t celQuestState::AddResponse (celQuest* quest)
   return idx;
 }
 
+void celQuestState::Activate ()
+{
+  for (size_t i = 0 ; i <responses.GetSize () ; i++)
+    responses[i]->GetTrigger ()->Activate ();
+}
+
+void celQuestState::Deactivate ()
+{
+  for (size_t i = 0 ; i <responses.GetSize () ; i++)
+    responses[i]->GetTrigger ()->Deactivate ();
+}
+
 //---------------------------------------------------------------------------
 
 celQuest::celQuest (iCelPlLayer* pl) : scfImplementationType (this)
@@ -651,13 +663,13 @@ bool celQuest::LoadState (const char* state, iCelDataBuffer* databuf)
     iCelSequence* seq = FindCelSequence (seqname->GetData ());
     if (!seq)
     {
-	//@@@
-   	//csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	//  "cel.questmanager.load",
-	//  "Error finding sequence '%s'!", seqname->GetData ());
-	printf("cel.questmanager.load: Error finding sequence '%s' !", 
-	    seqname->GetData ());
-	  return false;
+      //@@@
+      //csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      //  "cel.questmanager.load",
+      //  "Error finding sequence '%s'!", seqname->GetData ());
+      printf("cel.questmanager.load: Error finding sequence '%s' !", 
+          seqname->GetData ());
+      return false;
     }
     else
     {
@@ -678,10 +690,10 @@ void celQuest::SaveState (iCelDataBuffer* databuf)
   {
     celQuestState* st = states[current_state];
     for (i = 0 ; i < st->GetResponseCount () ; i++)
-	{	
-		csRef<celQuestStateResponse> r = st->GetResponse (i);
-		r->GetTrigger ()->SaveTriggerState (databuf);
-	}
+    {	
+      csRef<celQuestStateResponse> r = st->GetResponse (i);
+      r->GetTrigger ()->SaveTriggerState (databuf);
+    }
   }
 
   for (i = 0 ; i < sequences.GetSize () ; i++)
@@ -747,6 +759,21 @@ iCelSequence* celQuest::FindCelSequence (const char* name)
   return 0;
 }
 
+void celQuest::Activate ()
+{
+  if (current_state == csArrayItemNotFound) return;
+  states[current_state]->Activate ();
+  for (size_t i = 0 ; i < sequences.GetSize () ; i++)
+    sequences[i]->Activate ();
+}
+
+void celQuest::Deactivate ()
+{
+  if (current_state == csArrayItemNotFound) return;
+  states[current_state]->Deactivate ();
+  for (size_t i = 0 ; i < sequences.GetSize () ; i++)
+    sequences[i]->Deactivate ();
+}
 
 //---------------------------------------------------------------------------
 

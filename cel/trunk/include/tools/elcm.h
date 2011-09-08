@@ -87,6 +87,13 @@ struct iELCM: public virtual iBase
   virtual float GetDistanceThresshold () const = 0;
 
   /**
+   * Set the frequency with which the ELCM will recheck if it needs to
+   * recalculate the set of active entities. Default is 100ms.
+   */
+  virtual void SetCheckTime (csTicks t) = 0;
+  virtual csTicks GetCheckTime () const = 0;
+
+  /**
    * Manually activate an entity. This is mostly useful for a global entity
    * which has recently been inactivated.
    */

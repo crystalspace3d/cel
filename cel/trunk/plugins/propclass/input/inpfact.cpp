@@ -206,7 +206,8 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
       {
         CEL_FETCH_BOOL_PAR (activate,params,id_activate);
         if (!p_activate) activate = true;
-        Activate (activate);
+	if (activate) Activate ();
+	else Deactivate ();
         return true;
       }
     case action_bind:
@@ -316,35 +317,33 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-void celPcCommandInput::Activate (bool activate)
+void celPcCommandInput::Activate ()
 {
-  if (activate)
-  {
-    if (scfiEventHandler)
-      return;
+  if (scfiEventHandler)
+    return;
 
-    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
-    CS_ASSERT (q);
-    scfiEventHandler = new EventHandler (this);
-    csEventID esub[] = {
+  csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+  CS_ASSERT (q);
+  scfiEventHandler = new EventHandler (this);
+  csEventID esub[] = {
     	csevKeyboardEvent (object_reg),
     	csevMouseEvent (object_reg),
     	csevJoystickEvent (object_reg),
     	CS_EVENTLIST_END
     	};
-    q->RegisterListener (scfiEventHandler, esub);
-  }
-  else
-  {
-    if (!scfiEventHandler)
-      return;
+  q->RegisterListener (scfiEventHandler, esub);
+}
 
-    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
-    CS_ASSERT (q);
-    q->RemoveListener (scfiEventHandler);
-    scfiEventHandler->DecRef ();
-    scfiEventHandler = 0;
-  }
+void celPcCommandInput::Deactivate ()
+{
+  if (!scfiEventHandler)
+    return;
+
+  csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+  CS_ASSERT (q);
+  q->RemoveListener (scfiEventHandler);
+  scfiEventHandler->DecRef ();
+  scfiEventHandler = 0;
 }
 
 bool celPcCommandInput::LoadConfig (const char* prefix)

@@ -112,6 +112,9 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
+  virtual void Activate () { ActivateTrigger (); }
+  virtual void Deactivate () { DeactivateTrigger (); }
+
   //----------------------- iSequenceCallback --------------------------
   virtual void SequenceFinished (iCelSequence* sequence);
 };

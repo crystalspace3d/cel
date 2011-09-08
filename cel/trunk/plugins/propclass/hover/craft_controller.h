@@ -27,9 +27,9 @@
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
+#include "celtool/ticktimer.h"
 
 #include "propclass/craft.h"
-#include "../mechanics/ticktimer.h"
 
 /**
  * Factory for hover.

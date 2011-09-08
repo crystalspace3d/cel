@@ -165,7 +165,6 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   csRef<iPcCommandInput> pcinput = celQueryPropertyClassEntity<iPcCommandInput> (player);
   pcinput->EnableKeyboardEvents();
   pcinput->Bind("space", "unfit");
-  pcinput->Activate();
 
   csRef<iPcNeuralNet> pcnn = celQueryPropertyClassEntity<iPcNeuralNet> (player);
   pcnn->SetSize(6, 1, 3); // 6 inputs, 1 output, 3 hidden layers

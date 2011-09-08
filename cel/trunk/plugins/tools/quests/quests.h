@@ -203,6 +203,10 @@ public:
     celQuestState::name = name;
   }
   ~celQuestState () { }
+
+  void Activate ();
+  void Deactivate ();
+
   const char* GetName () const { return name; }
   size_t AddResponse (celQuest* quest);
   size_t GetResponseCount () const { return responses.GetSize (); }
@@ -268,7 +272,8 @@ public:
     return FindCelSequence (name);
   }
 
-
+  virtual void Activate ();
+  virtual void Deactivate ();
 
   /// Add a state, returns the state index.
   size_t AddState (const char* name);

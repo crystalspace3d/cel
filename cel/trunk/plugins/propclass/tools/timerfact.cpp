@@ -78,10 +78,38 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
     AddAction (action_wakeupframe, "WakeUpFrame");
     AddAction (action_clear, "Clear");
   }
+
+  deactivateTime = 0;
 }
 
 celPcTimer::~celPcTimer ()
 {
+}
+
+void celPcTimer::Activate ()
+{
+  if (deactivateTime == 0) return;
+  // @@@ wrap around of current ticks!
+  csTicks time = vc->GetCurrentTicks ();
+  for (size_t i = 0 ; i < timer_events.GetSize () ; i++)
+  {
+    timer_events[i].firetime += time - deactivateTime;
+    pl->CallbackOnce ((iCelTimerListener*)this,
+      timer_events[i].firetime - time, CEL_EVENT_PRE);
+  }
+  if (wakeupframe)
+    pl->CallbackEveryFrame ((iCelTimerListener*)this, whereframe);
+  deactivateTime = 0;
+}
+
+void celPcTimer::Deactivate ()
+{
+  if (deactivateTime != 0) return;
+
+  deactivateTime = vc->GetCurrentTicks ();
+  if (deactivateTime == 0) deactivateTime++;	// In the VERY rare event that this would be 0 we slightly correct it.
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, whereframe);
 }
 
 bool celPcTimer::PerformActionIndexed (int idx,

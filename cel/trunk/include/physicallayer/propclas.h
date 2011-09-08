@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2001-2011 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -75,7 +75,7 @@ struct iCelPositionInfo : public virtual iBase
  */
 struct iCelPropertyClass : public virtual iBase
 {
-  SCF_INTERFACE (iCelPropertyClass, 0, 0, 8);
+  SCF_INTERFACE (iCelPropertyClass, 0, 0, 9);
 
   /**
    * Set the name of this property class.
@@ -354,6 +354,18 @@ struct iCelPropertyClass : public virtual iBase
    * property class doesn't support positional information.
    */
   virtual iCelPositionInfo* QueryPositionInfo () = 0;
+
+  /**
+   * Activate this property class. This means it will process events again.
+   * Property classes are activated by default.
+   */
+  virtual void Activate () = 0;
+
+  /**
+   * Deactivate this property class. This means that events will no longer be
+   * processed.
+   */
+  virtual void Deactivate () = 0;
 };
 
 

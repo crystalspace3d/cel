@@ -23,10 +23,10 @@
 #include "csutil/weakref.h"
 #include "csutil/event.h"
 #include "csutil/cfgacc.h"
-#include "csutil/inputdef.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/plugin.h"
+#include "iutil/object.h"
 #include "ivideo/graph3d.h"
 #include "ivaria/reporter.h"
 #include "iengine/engine.h"
@@ -90,48 +90,20 @@ public:
 celELCM::celELCM (iBase* parent)
   : scfImplementationType (this, parent)
 {
-  scfiEventHandler = 0;
-
   activityRadius = 500;
   distanceThresshold = 20;
+  checkTime = 100;
 
   activeEntities = &activeEntities1;
 }
 
 celELCM::~celELCM ()
 {
-  if (scfiEventHandler)
-  {
-    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
-    if (q != 0)
-    {
-      q->RemoveListener (scfiEventHandler);
-    }
-    scfiEventHandler->DecRef ();
-  }
 }
 
 bool celELCM::Initialize (iObjectRegistry* object_reg)
 {
   celELCM::object_reg = object_reg;
-
-  csRef<iEventNameRegistry> namereg = csEventNameRegistry::GetRegistry (
-      object_reg);
-
-  scfiEventHandler = new EventHandler (this);
-  csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
-  CS_ASSERT (q != 0);
-  q->RemoveListener (scfiEventHandler);
-  csEventID esub[] = { 
-    csevKeyboardEvent (object_reg),
-    csevMouseEvent (object_reg),
-    csevFrame (object_reg),
-    CS_EVENTLIST_END 
-  };
-  q->RegisterListener (scfiEventHandler, esub);
-
-  name_reg = csEventNameRegistry::GetRegistry (object_reg);
-
   return true;
 }
 
@@ -156,8 +128,23 @@ iCelPlLayer* celELCM::GetPL ()
     rem_cb.AttachNew (new celEntityRemoveCallback (this));
     pl->AddNewEntityCallback (new_cb);
     pl->AddEntityRemoveCallback (rem_cb);
+
+    SetPL (pl);	// Set the periodic timer.
+    SetTickTime (checkTime);
   }
   return pl;
+}
+
+void celELCM::SetCheckTime (csTicks t)
+{
+  checkTime = t;
+  SetTickTime (checkTime);
+}
+
+void celELCM::Tick ()
+{
+  // @@@ TODO Check player distance thresshold!
+  UpdateActiveEntities ();
 }
 
 csSet<iCelEntity*>* celELCM::SwapActiveEntities ()
@@ -183,11 +170,13 @@ void celELCM::ClearActiveEntities ()
     if (entity->IsPositional ())
     {
       inactiveEntities.Add (entity);
+      entity->Deactivate ();
     }
     else
     {
       activeEntities->Add (entity);
       inactiveEntities.Delete (entity);
+      entity->Activate ();
     }
   }
 }
@@ -217,7 +206,7 @@ void celELCM::UpdateActiveEntities ()
   }
   else
   {
-    printf ("Error! No camera or mesh found for player!");
+    printf ("Error! No camera or mesh found for player!\n");
     fflush (stdout);
     ClearActiveEntities ();
     return;
@@ -228,7 +217,8 @@ void celELCM::UpdateActiveEntities ()
   // @@@ Problem: this function only finds entities with meshes but ignores
   // entities with no meshes but which still have positional information
   // like 3D sound objects, triggers, ...
-  csRef<iMeshWrapperIterator> objit = GetEngine ()->GetNearbyMeshes (sector, pos);
+  csRef<iMeshWrapperIterator> objit = GetEngine ()->GetNearbyMeshes (sector, pos,
+      activityRadius);
   while (objit->HasNext ())
   {
     iMeshWrapper* m = objit->Next ();
@@ -238,29 +228,45 @@ void celELCM::UpdateActiveEntities ()
       activeEntities->Add (ent);
       oldActiveEntities->Delete (ent);
       inactiveEntities.Delete (ent);
+      ent->Activate ();
     }
     else
     {
       // @@@ Future support for non-entity meshes?
     }
   }
-  // All entities that remain in 'oldActiveEntities' (the previous batch
-  // of active entities) are now inactive.
+  // Positional entities that remain in 'oldActiveEntities' (the previous batch
+  // of active entities) are now inactive. The others are active.
   csSet<iCelEntity*>::GlobalIterator it = oldActiveEntities->GetIterator ();
   while (it.HasNext ())
-    inactiveEntities.Add (it.Next ());
+  {
+    iCelEntity* ent = it.Next ();
+    if (ent->IsPositional ())
+    {
+      inactiveEntities.Add (ent);
+      ent->Deactivate ();
+    }
+    else
+    {
+      activeEntities->Add (ent);
+      inactiveEntities.Delete (ent);
+      ent->Activate ();
+    }
+  }
 }
 
 void celELCM::ActivateEntity (iCelEntity* entity)
 {
   activeEntities->Add (entity);
   inactiveEntities.Delete (entity);
+  entity->Activate ();
 }
 
 void celELCM::DeactivateEntity (iCelEntity* entity)
 {
   activeEntities->Delete (entity);
   inactiveEntities.Add (entity);
+  entity->Deactivate ();
 }
 
 void celELCM::SetPlayer (iCelEntity* entity)
@@ -274,7 +280,8 @@ void celELCM::SetPlayer (iCelEntity* entity)
 void celELCM::SetActivityRadius (float radius)
 {
   activityRadius = radius;
-  UpdateActiveEntities ();
+  if (player)
+    UpdateActiveEntities ();
 }
 
 void celELCM::SetDistanceThresshold (float distance)
@@ -289,6 +296,7 @@ void celELCM::RegisterNewEntity (iCelEntity* entity)
   // If it is a positional entity then it will automatically be made
   // inactive with the next update if needed.
   activeEntities->Add (entity);
+  entity->Activate ();
 }
 
 void celELCM::RegisterRemoveEntity (iCelEntity* entity)

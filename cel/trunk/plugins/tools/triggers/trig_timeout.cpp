@@ -101,6 +101,7 @@ celTimeoutTrigger::celTimeoutTrigger (
     timeout = 1;
   else
     sscanf (to, "%d", &timeout);
+  deactivatedTicksLeft = 0;
 }
 
 celTimeoutTrigger::~celTimeoutTrigger ()
@@ -136,6 +137,21 @@ bool celTimeoutTrigger::Check ()
 
 void celTimeoutTrigger::DeactivateTrigger ()
 {
+  type->pl->RemoveCallbackOnce (this, CEL_EVENT_PRE);
+}
+
+void celTimeoutTrigger::Activate ()
+{
+  if (deactivatedTicksLeft == 0) return;
+  type->pl->CallbackOnce (this, deactivatedTicksLeft, CEL_EVENT_PRE);
+  deactivatedTicksLeft = 0;
+}
+
+void celTimeoutTrigger::Deactivate ()
+{
+  if (deactivatedTicksLeft != 0) return;
+  deactivatedTicksLeft = type->pl->GetTicksLeft (this, CEL_EVENT_PRE);
+  if (!deactivatedTicksLeft) deactivatedTicksLeft++;	// To prevent problems in rare case it was 0.
   type->pl->RemoveCallbackOnce (this, CEL_EVENT_PRE);
 }
 

@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2001-2001 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -35,6 +35,7 @@ celEntity::celEntity (celPlLayer* pl) : scfImplementationType (this)
   channel.SetPL (pl);
   entity_ID = 0;
   positional = false;
+  active = true;
 }
 
 celEntity::~celEntity ()
@@ -119,6 +120,28 @@ csRef<iMessageDispatcher> celEntity::CreateTaggedMessageDispatcher (
   csRef<iMessageReceiverFilter> filter;
   filter.AttachNew (new celMessageReceiverFilterWithTag (tag));
   return channel.CreateMessageDispatcher (sender, msg_id, filter);
+}
+
+void celEntity::Activate ()
+{
+  if (active) return;
+  active = true;
+  for (size_t i = 0 ; i < plist->GetCount () ; i++)
+  {
+    iCelPropertyClass* pc = plist->Get (i);
+    pc->Activate ();
+  }
+}
+
+void celEntity::Deactivate ()
+{
+  if (!active) return;
+  active = false;
+  for (size_t i = 0 ; i < plist->GetCount () ; i++)
+  {
+    iCelPropertyClass* pc = plist->Get (i);
+    pc->Deactivate ();
+  }
 }
 
 //---------------------------------------------------------------------------

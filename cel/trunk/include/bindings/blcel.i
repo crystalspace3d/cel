@@ -97,11 +97,9 @@ pcType * funcName (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
   CS_ASSERT (entity != 0);
   csRef<pcType> pclm;
   if (tagname)
-    pclm = CEL_QUERY_PROPCLASS_TAG (
-      entity->GetPropertyClassList (), pcType, tagname);
+    pclm = celQueryPropertyClassTagEntity<pcType> (entity, tagname);
   else
-    pclm = CEL_QUERY_PROPCLASS (
-      entity->GetPropertyClassList (), pcType);
+    pclm = celQueryPropertyClassEntity<pcType> (entity);
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc;
   if (tagname)
@@ -123,11 +121,9 @@ pcType * funcName (iCelEntity *entity, const char* tagname = 0 )
   CS_ASSERT (entity != 0);
   csRef<pcType> pc;
   if (tagname)
-    pc = CEL_QUERY_PROPCLASS_TAG (
-      entity->GetPropertyClassList (), pcType, tagname);
+    pc = celQueryPropertyClassTagEntity<pcType> (entity, tagname);
   else
-    pc = CEL_QUERY_PROPCLASS (
-      entity->GetPropertyClassList (), pcType);
+    pc = celQueryPropertyClassEntity<pcType> (entity);
   if (!pc.IsValid()) return 0;
   return pc;
 }

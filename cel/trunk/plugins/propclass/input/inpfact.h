@@ -141,10 +141,11 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
   	celData& ret);
+  virtual void Activate ();
+  virtual void Deactivate ();
 
   bool HandleEvent (iEvent& ev);
 
-  virtual void Activate (bool activate = true);
   virtual void SetSendTrigger (bool send) { do_sendtrigger = send; }
   virtual bool IsSendTriggerEnabled () const { return do_sendtrigger; }
   virtual void SetCookedMode (bool cooked) { do_cooked = cooked; }

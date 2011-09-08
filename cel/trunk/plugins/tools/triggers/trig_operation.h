@@ -100,6 +100,9 @@ public:
   virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
   virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
+  virtual void Activate () { ActivateTrigger (); }
+  virtual void Deactivate () { DeactivateTrigger (); }
+
   /* iTriggerCallback */
   virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params) = 0;
 };
