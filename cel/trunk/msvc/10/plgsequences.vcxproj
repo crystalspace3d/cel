@@ -498,6 +498,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
   <ItemGroup>
     <ClCompile Include="..\..\msvc\plugin_impl.cpp" />
     <ClCompile Include="..\..\plugins\tools\sequences\cel_sequences.cpp" />
+    <ClCompile Include="..\..\plugins\tools\sequences\seqop_ambientmesh.cpp" />
     <ClCompile Include="..\..\plugins\tools\sequences\seqop_debugprint.cpp" />
     <ClCompile Include="..\..\plugins\tools\sequences\seqop_light.cpp" />
     <ClCompile Include="..\..\plugins\tools\sequences\seqop_movepath.cpp" />
@@ -506,6 +507,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\plugins\tools\sequences\cel_sequences.h" />
+    <ClInclude Include="..\..\plugins\tools\sequences\seqop_ambientmesh.h" />
     <ClInclude Include="..\..\plugins\tools\sequences\seqop_debugprint.h" />
     <ClInclude Include="..\..\plugins\tools\sequences\seqop_light.h" />
     <ClInclude Include="..\..\plugins\tools\sequences\seqop_movepath.h" />

@@ -40,6 +40,12 @@ static char const metainfo_sequences[] =
 "      </class>"
 ""
 "      <class>"
+"        <name>cel.seqops.ambientmesh</name>"
+"        <implementation>celAmbientMeshSeqOpType</implementation>"
+"        <description>CEL Sequence: Sequence that animates mesh ambient colors</description>"
+"      </class>"
+""
+"      <class>"
 "        <name>cel.seqops.movepath</name>"
 "        <implementation>celMovePathSeqOpType</implementation>"
 "        <description>CEL Sequence: Sequence that moves a mesh along a path</description>"
@@ -72,6 +78,10 @@ static char const metainfo_sequences[] =
   #define celLightSeqOpType_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celLightSeqOpType) 
   #endif
+  #ifndef celAmbientMeshSeqOpType_FACTORY_REGISTER_DEFINED 
+  #define celAmbientMeshSeqOpType_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celAmbientMeshSeqOpType) 
+  #endif
   #ifndef celMovePathSeqOpType_FACTORY_REGISTER_DEFINED 
   #define celMovePathSeqOpType_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celMovePathSeqOpType) 
@@ -99,6 +109,10 @@ SCF_REGISTER_STATIC_LIBRARY(sequences,metainfo_sequences)
   #ifndef celLightSeqOpType_FACTORY_REGISTERED 
   #define celLightSeqOpType_FACTORY_REGISTERED 
     celLightSeqOpType_StaticInit celLightSeqOpType_static_init__; 
+  #endif
+  #ifndef celAmbientMeshSeqOpType_FACTORY_REGISTERED 
+  #define celAmbientMeshSeqOpType_FACTORY_REGISTERED 
+    celAmbientMeshSeqOpType_StaticInit celAmbientMeshSeqOpType_static_init__; 
   #endif
   #ifndef celMovePathSeqOpType_FACTORY_REGISTERED 
   #define celMovePathSeqOpType_FACTORY_REGISTERED 
