@@ -1193,6 +1193,9 @@
 				RelativePath="..\..\plugins\tools\sequences\cel_sequences.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_ambientmesh.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\sequences\seqop_debugprint.cpp">
 			</File>
 			<File
@@ -1801,6 +1804,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\sequences\cel_sequences.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\sequences\seqop_ambientmesh.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\sequences\seqop_debugprint.h">
