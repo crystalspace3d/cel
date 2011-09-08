@@ -182,9 +182,9 @@ void celELCM::Tick ()
   }
 }
 
-csSet<iCelEntity*>* celELCM::SwapActiveEntities ()
+csSet<csPtrKey<iCelEntity> >* celELCM::SwapActiveEntities ()
 {
-  csSet<iCelEntity*>* oldActiveEntities = activeEntities;
+  csSet<csPtrKey<iCelEntity> >* oldActiveEntities = activeEntities;
   if (activeEntities == &activeEntities1)
     activeEntities = &activeEntities2;
   else
@@ -197,10 +197,10 @@ void celELCM::ClearActiveEntities ()
 {
   csTicks time = vc->GetCurrentTicks ();
 
-  csSet<iCelEntity*>* oldActiveEntities = SwapActiveEntities ();
+  csSet<csPtrKey<iCelEntity> >* oldActiveEntities = SwapActiveEntities ();
 
   // Inactivate all active positional entities but keep global active entities.
-  csSet<iCelEntity*>::GlobalIterator it = oldActiveEntities->GetIterator ();
+  csSet<csPtrKey<iCelEntity> >::GlobalIterator it = oldActiveEntities->GetIterator ();
   while (it.HasNext ())
   {
     iCelEntity* entity = it.Next ();
@@ -267,7 +267,7 @@ void celELCM::UpdateActiveEntities ()
 
   printf ("Update for %g,%g,%g\n", pos.x, pos.y, pos.z); fflush (stdout);
 
-  csSet<iCelEntity*>* oldActiveEntities = SwapActiveEntities ();
+  csSet<csPtrKey<iCelEntity> >* oldActiveEntities = SwapActiveEntities ();
 
   // @@@ Problem: this function only finds entities with meshes but ignores
   // entities with no meshes but which still have positional information
@@ -292,7 +292,7 @@ void celELCM::UpdateActiveEntities ()
   }
   // Positional entities that remain in 'oldActiveEntities' (the previous batch
   // of active entities) are now inactive. The others are active.
-  csSet<iCelEntity*>::GlobalIterator it = oldActiveEntities->GetIterator ();
+  csSet<csPtrKey<iCelEntity> >::GlobalIterator it = oldActiveEntities->GetIterator ();
   while (it.HasNext ())
   {
     iCelEntity* ent = it.Next ();
@@ -318,10 +318,10 @@ void celELCM::CheckUnload ()
   printf ("Check unload %d\n", inactiveEntities.GetSize ()); fflush (stdout);
   csTicks time = vc->GetCurrentTicks ();
   csArray<iCelEntity*> toRemove;
-  csHash<csTicks,iCelEntity*>::GlobalIterator it = inactiveEntities.GetIterator ();
+  csHash<csTicks,csPtrKey<iCelEntity> >::GlobalIterator it = inactiveEntities.GetIterator ();
   while (it.HasNext ())
   {
-    iCelEntity* ent;
+    csPtrKey<iCelEntity> ent;
     csTicks t = it.Next (ent);
     // @@@ Overflow in virtual clock!
     if (t+unloadedTime >= time)
