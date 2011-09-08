@@ -284,6 +284,8 @@ bool ElcmTest::Application ()
 
   elcm->SetActivityRadius (12.0f);
   elcm->SetDistanceThresshold (1.0f);
+  elcm->SetCheckTime (100);
+  elcm->SetUnloadCheckFrequency (30);
 
   if (!InitPhysics ())
     return ReportError ("Error initializing physics!");

@@ -28,6 +28,7 @@
 #include "iutil/event.h"
 #include "iutil/plugin.h"
 #include "iutil/object.h"
+#include "iutil/virtclk.h"
 #include "ivideo/graph3d.h"
 #include "ivaria/reporter.h"
 #include "iengine/engine.h"
@@ -95,6 +96,7 @@ celELCM::celELCM (iBase* parent)
   distanceThresshold = 20;
   checkTime = 100;
   forcedCheck = false;
+  unloadedTime = 10000;
 
   prevSector = 0;
 
@@ -108,6 +110,7 @@ celELCM::~celELCM ()
 bool celELCM::Initialize (iObjectRegistry* object_reg)
 {
   celELCM::object_reg = object_reg;
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   return true;
 }
 
@@ -150,6 +153,14 @@ void celELCM::Tick ()
   csVector3 pos;
   iSector* sector = GetPlayerPosition (pos);
   if (!player) return;
+
+  unload--;
+  if (unload <= 0)
+  {
+    unload = unloadCheckFrequency;
+    CheckUnload ();
+  }
+
   if (forcedCheck)
   {
     // Check is forced.
@@ -184,6 +195,8 @@ csSet<iCelEntity*>* celELCM::SwapActiveEntities ()
 
 void celELCM::ClearActiveEntities ()
 {
+  csTicks time = vc->GetCurrentTicks ();
+
   csSet<iCelEntity*>* oldActiveEntities = SwapActiveEntities ();
 
   // Inactivate all active positional entities but keep global active entities.
@@ -193,13 +206,16 @@ void celELCM::ClearActiveEntities ()
     iCelEntity* entity = it.Next ();
     if (entity->IsPositional ())
     {
-      inactiveEntities.Add (entity);
-      entity->Deactivate ();
+      if (!inactiveEntities.Contains (entity))
+      {
+        inactiveEntities.Put (entity, time);
+        entity->Deactivate ();
+      }
     }
     else
     {
       activeEntities->Add (entity);
-      inactiveEntities.Delete (entity);
+      inactiveEntities.DeleteAll (entity);
       entity->Activate ();
     }
   }
@@ -243,6 +259,8 @@ void celELCM::UpdateActiveEntities ()
     return;
   }
 
+  csTicks time = vc->GetCurrentTicks ();
+
   // Set the new anchor.
   prevPos = pos;
   prevSector = sector;
@@ -264,7 +282,7 @@ void celELCM::UpdateActiveEntities ()
     {
       activeEntities->Add (ent);
       oldActiveEntities->Delete (ent);
-      inactiveEntities.Delete (ent);
+      inactiveEntities.DeleteAll (ent);
       ent->Activate ();
     }
     else
@@ -280,30 +298,60 @@ void celELCM::UpdateActiveEntities ()
     iCelEntity* ent = it.Next ();
     if (ent->IsPositional ())
     {
-      inactiveEntities.Add (ent);
-      ent->Deactivate ();
+      if (!inactiveEntities.Contains (ent))
+      {
+        inactiveEntities.Put (ent, time);
+        ent->Deactivate ();
+      }
     }
     else
     {
       activeEntities->Add (ent);
-      inactiveEntities.Delete (ent);
+      inactiveEntities.DeleteAll (ent);
       ent->Activate ();
     }
+  }
+}
+
+void celELCM::CheckUnload ()
+{
+  printf ("Check unload %d\n", inactiveEntities.GetSize ()); fflush (stdout);
+  csTicks time = vc->GetCurrentTicks ();
+  csArray<iCelEntity*> toRemove;
+  csHash<csTicks,iCelEntity*>::GlobalIterator it = inactiveEntities.GetIterator ();
+  while (it.HasNext ())
+  {
+    iCelEntity* ent;
+    csTicks t = it.Next (ent);
+    // @@@ Overflow in virtual clock!
+    if (t+unloadedTime >= time)
+    {
+      printf ("Entity '%s' can be removed!\n", ent->QueryObject ()->GetName ()); fflush (stdout);
+      FireELCMListeners (ent);
+      toRemove.Push (ent);
+    }
+  }
+  for (size_t i = 0 ; i < toRemove.GetSize () ; i++)
+  {
+    inactiveEntities.DeleteAll (toRemove[i]);
   }
 }
 
 void celELCM::ActivateEntity (iCelEntity* entity)
 {
   activeEntities->Add (entity);
-  inactiveEntities.Delete (entity);
+  inactiveEntities.DeleteAll (entity);
   entity->Activate ();
 }
 
 void celELCM::DeactivateEntity (iCelEntity* entity)
 {
   activeEntities->Delete (entity);
-  inactiveEntities.Add (entity);
-  entity->Deactivate ();
+  if (!inactiveEntities.Contains (entity))
+  {
+    inactiveEntities.Put (entity, vc->GetCurrentTicks ());
+    entity->Deactivate ();
+  }
 }
 
 void celELCM::SetPlayer (iCelEntity* entity)
@@ -341,7 +389,35 @@ void celELCM::RegisterNewEntity (iCelEntity* entity)
 void celELCM::RegisterRemoveEntity (iCelEntity* entity)
 {
   activeEntities->Delete (entity);
-  inactiveEntities.Delete (entity);
+  inactiveEntities.DeleteAll (entity);
+}
+
+void celELCM::SetUnloadCheckFrequency (int c)
+{
+  unloadCheckFrequency = c;
+  unload = c;
+}
+
+void celELCM::SetUnloadedTime (csTicks t)
+{
+  unloadedTime = t;
+}
+
+void celELCM::AddELCMListener (iELCMListener* listener)
+{
+  listeners.Push (listener);
+}
+
+void celELCM::RemoveELCMListener (iELCMListener* listener)
+{
+  listeners.Delete (listener);
+}
+
+void celELCM::FireELCMListeners (iCelEntity* entity)
+{
+  for (size_t i = 0 ; i < listeners.GetSize () ; i++)
+    listeners[i]->SafeToRemove (entity);
 }
 
 //---------------------------------------------------------------------------
+

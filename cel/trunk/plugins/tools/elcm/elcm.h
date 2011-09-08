@@ -22,6 +22,7 @@
 
 #include "csutil/util.h"
 #include "csutil/set.h"
+#include "csutil/hash.h"
 #include "iutil/comp.h"
 
 #include "physicallayer/pl.h"
@@ -44,12 +45,16 @@ private:
   iObjectRegistry* object_reg;
   csRef<iCelPlLayer> pl;
   csRef<iEngine> engine;
+  csRef<iVirtualClock> vc;
 
   float activityRadius;
   float distanceThresshold;
   float sqDistanceThresshold;
   csTicks checkTime;
   bool forcedCheck;
+  csTicks unloadedTime;
+  int unloadCheckFrequency;
+  int unload;
 
   csRef<iCelEntity> player;
   csRef<iPcCamera> playerCamera;
@@ -61,13 +66,17 @@ private:
   csSet<iCelEntity*> activeEntities1;
   csSet<iCelEntity*> activeEntities2;
   csSet<iCelEntity*>* activeEntities;
-  csSet<iCelEntity*> inactiveEntities;
+  csHash<csTicks,iCelEntity*> inactiveEntities;
+
+  csRefArray<iELCMListener> listeners;
 
   csSet<iCelEntity*>* SwapActiveEntities ();
   void ClearActiveEntities ();
   void UpdateActiveEntities ();
-
   iSector* GetPlayerPosition (csVector3& pos);
+  void CheckUnload ();
+
+  void FireELCMListeners (iCelEntity* entity);
 
 public:
   celELCM (iBase* parent);
@@ -76,14 +85,22 @@ public:
 
   virtual void SetPlayer (iCelEntity* entity);
   virtual iCelEntity* GetPlayer () const { return player; }
+
   virtual void SetActivityRadius (float radius);
   virtual float GetActivityRadius () const { return activityRadius; }
   virtual void SetDistanceThresshold (float distance);
   virtual float GetDistanceThresshold () const { return distanceThresshold; }
   virtual void SetCheckTime (csTicks t);
   virtual csTicks GetCheckTime () const { return checkTime; }
+  virtual void SetUnloadCheckFrequency (int c);
+  virtual int GetUnloadCheckFrequency () const { return unloadCheckFrequency; }
+  virtual void SetUnloadedTime (csTicks t);
+  virtual csTicks GetUnloadedTime () const { return unloadedTime; }
+
   virtual void ActivateEntity (iCelEntity* entity);
   virtual void DeactivateEntity (iCelEntity* entity);
+  virtual void AddELCMListener (iELCMListener* listener);
+  virtual void RemoveELCMListener (iELCMListener* listener);
 
   // For celPeriodicTimer
   virtual void Tick ();
