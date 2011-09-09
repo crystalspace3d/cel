@@ -230,6 +230,7 @@ DynamicObject::DynamicObject (DynamicFactory* factory, const csReversibleTransfo
   Init ();
   DynamicObject::factory = factory;
   DynamicObject::trans = trans;
+  child = 0;
 }
 
 DynamicObject::~DynamicObject ()
@@ -466,18 +467,8 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
 
 void DynamicObject::MovableChanged (iMovable*)
 {
-  if (bboxValid)
-  {
-    csBox3 oldBbox = bbox;
-    bboxValid = false;
-    factory->GetWorld ()->tree.MoveObject (this, oldBbox);
-  }
-  else
-  {
-    bboxValid = false;
-    factory->GetWorld ()->tree.RemoveObject (this);
-    factory->GetWorld ()->tree.AddObject (this);
-  }
+  bboxValid = false;
+  factory->GetWorld ()->tree.MoveObject (child, GetBBox ());
 }
 
 void DynamicObject::MovableDestroyed (iMovable*)
@@ -592,7 +583,8 @@ iDynamicObject* celPcDynamicWorld::AddObject (const char* factory,
   if (!fact) return 0;
   obj.AttachNew (new DynamicObject (fact, trans));
   objects.Push (obj);
-  tree.AddObject (obj);
+  csKDTreeChild* child = tree.AddObject (obj->GetBBox (), obj);
+  obj->SetChild (child);
   return obj;
 }
 
@@ -619,7 +611,8 @@ void celPcDynamicWorld::DeleteObject (iDynamicObject* dynobj)
   size_t idx = objects.Find (dyn);
   if (idx != csArrayItemNotFound)
   {
-    tree.RemoveObject (dyn);
+    if (dyn->GetChild ())
+      tree.RemoveObject (dyn->GetChild ());
     dyn->RemoveMesh (this);
     objects.DeleteIndex (idx);
   }
@@ -682,6 +675,75 @@ void celPcDynamicWorld::ProcessFadingOut (float fade_speed)
   fadingOut = newset;
 }
 
+struct DynWorldKDData
+{
+  csSet<csPtrKey<DynamicObject> >& prevObjects;
+  csSet<csPtrKey<DynamicObject> >& objects;
+  csSet<csPtrKey<iCelEntity> >& safeToRemove;
+  csVector3 center;
+  float sqradius;
+
+  DynWorldKDData (
+      csSet<csPtrKey<DynamicObject> >& prevObjects,
+      csSet<csPtrKey<DynamicObject> >& objects,
+      csSet<csPtrKey<iCelEntity> >& safeToRemove,
+      const csVector3& center, float sqradius) :
+    prevObjects (prevObjects),
+    objects (objects),
+    safeToRemove (safeToRemove),
+    center (center), sqradius (sqradius) { }
+};
+
+static bool DynWorld_Front2Back (csKDTree* treenode,
+	void* userdata, uint32 cur_timestamp, uint32&)
+{
+  DynWorldKDData* data = (DynWorldKDData*)userdata;
+
+  // In the first part of this test we are going to test if the
+  // box vector intersects with the node. If not then we don't
+  // need to continue.
+  const csBox3& node_bbox = treenode->GetNodeBBox ();
+  if (!csIntersect3::BoxSphere (node_bbox, data->center, data->sqradius))
+  {
+    return false;
+  }
+
+  treenode->Distribute ();
+
+  int num_objects;
+  csKDTreeChild** objects;
+  num_objects = treenode->GetObjectCount ();
+  objects = treenode->GetObjects ();
+
+  int i;
+  for (i = 0 ; i < num_objects ; i++)
+  {
+    if (objects[i]->timestamp != cur_timestamp)
+    {
+      objects[i]->timestamp = cur_timestamp;
+
+      // Test the bounding box of the object.
+      DynamicObject* dynobj = (DynamicObject*)objects[i]->GetObject ();
+      float maxradiusRelative = dynobj->GetFactory ()->GetMaximumRadiusRelative ();
+      float sqrad = data->sqradius * maxradiusRelative * maxradiusRelative;
+      if (dynobj->IsStatic ())
+        sqrad *= 1.1f;
+
+      const csBox3& obj_bbox = dynobj->GetBBox ();
+      if (csIntersect3::BoxSphere (obj_bbox, data->center, sqrad))
+      {
+        data->prevObjects.Delete (dynobj);
+        data->objects.Add (dynobj);
+	iCelEntity* entity = dynobj->GetEntity ();
+	if (entity)
+	  data->safeToRemove.Delete (entity);
+      }
+    }
+  }
+
+  return true;
+}
+
 void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
 {
   float fade_speed = elapsed_time / 3.0;
@@ -695,10 +757,9 @@ void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
   // are removed from the 'safeToRemove' set.
   csSet<csPtrKey<DynamicObject> > prevVisible = visibleObjects;
   visibleObjects.Empty ();
-  DOCollector collector (prevVisible, visibleObjects, safeToRemove,
-      campos, radius);
-  DOCollectorInner inner (campos, radius);
-  tree.Traverse (inner, collector);
+  DynWorldKDData data (prevVisible, visibleObjects, safeToRemove,
+      campos, radius * radius);
+  tree.Front2Back (data.center, DynWorld_Front2Back, (void*)&data, 0);
 
   // All entities remaining in 'safeToRemove' can really be removed.
   RemoveSafeEntities ();
@@ -797,11 +858,19 @@ csRef<iString> celPcDynamicWorld::Load (iDocumentNode* node)
         return str;
       }
       objects.Push (dynobj);
-      tree.AddObject (dynobj);
+      csKDTreeChild* child = tree.AddObject (dynobj->GetBBox (), dynobj);
+      dynobj->SetChild (child);
     }
   }
 
   return 0;
 }
 
+void celPcDynamicWorld::Dump ()
+{
+  printf ("### DynWorld ###\n");
+  printf ("  Fading in=%d, out=%d\n", fadingIn.GetSize (), fadingOut.GetSize ());
+  printf ("  Visible objects=%d\n", visibleObjects.GetSize ());
+  printf ("  Safe to remove=%d\n", safeToRemove.GetSize ());
+}
 

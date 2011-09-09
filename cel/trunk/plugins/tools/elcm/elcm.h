@@ -102,6 +102,8 @@ public:
   virtual void AddELCMListener (iELCMListener* listener);
   virtual void RemoveELCMListener (iELCMListener* listener);
 
+  virtual void Dump ();
+
   // For celPeriodicTimer
   virtual void Tick ();
 

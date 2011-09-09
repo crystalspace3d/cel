@@ -30,7 +30,7 @@
 #include "iutil/comp.h"
 #include "iutil/virtclk.h"
 
-#include "csgeom/aabbtree.h"
+#include "csgeom/kdtree.h"
 #include "csgeom/math3d.h"
 
 #include "ivaria/dynamics.h"
@@ -276,6 +276,7 @@ private:
   bool is_hilight;
   bool hilight_installed;
   float fade;
+  csKDTreeChild* child;
 
   csRef<iCelEntityTemplate> entityTemplate;
   csString entityName;
@@ -292,6 +293,9 @@ public:
   DynamicObject ();
   DynamicObject (DynamicFactory* factory, const csReversibleTransform& trans);
   virtual ~DynamicObject ();
+
+  csKDTreeChild* GetChild () const { return child; }
+  void SetChild (csKDTreeChild* child) { DynamicObject::child = child; }
 
   virtual iDynamicFactory* GetFactory () const { return factory; }
   virtual void MakeStatic ();
@@ -340,61 +344,6 @@ struct DynamicObjectExtraData
   }
 };
 
-typedef CS::Geometry::AABBTree<DynamicObject, 10, DynamicObjectExtraData> DOTree;
-
-struct DOCollectorInner
-{
-  csVector3 center;
-  float sqradius;
-
-  DOCollectorInner (const csVector3& center, float radius) :
-    center (center), sqradius (radius * radius) { }
-  bool operator() (const DOTree::Node* node)
-  {
-    return csIntersect3::BoxSphere (node->GetBBox (), center, sqradius);
-  }
-};
-
-struct DOCollector
-{
-  csSet<csPtrKey<DynamicObject> >& prevObjects;
-  csSet<csPtrKey<DynamicObject> >& objects;
-  csSet<csPtrKey<iCelEntity> >& safeToRemove;
-  csVector3 center;
-  float sqradius;
-
-  DOCollector (
-      csSet<csPtrKey<DynamicObject> >& prevObjects,
-      csSet<csPtrKey<DynamicObject> >& objects,
-      csSet<csPtrKey<iCelEntity> >& safeToRemove,
-      const csVector3& center, float radius) :
-    prevObjects (prevObjects), objects (objects),
-    safeToRemove (safeToRemove),
-    center (center), sqradius (radius * radius) { }
-  bool operator() (const DOTree::Node* node)
-  {
-    if (!csIntersect3::BoxSphere (node->GetBBox (), center, sqradius))
-      return true;
-    for (size_t i = 0 ; i < node->GetObjectCount () ; i++)
-    {
-      DynamicObject* dynobj = node->GetLeafData (i);
-      float maxradiusRelative = dynobj->GetFactory ()->GetMaximumRadiusRelative ();
-      float sqrad = sqradius * maxradiusRelative * maxradiusRelative;
-      if (dynobj->IsStatic ())
-        sqrad *= 1.1f;
-      if (csIntersect3::BoxSphere (dynobj->GetBBox (), center, sqrad))
-      {
-        prevObjects.Delete (dynobj);
-        objects.Add (dynobj);
-	iCelEntity* entity = dynobj->GetEntity ();
-	if (entity)
-	  safeToRemove.Delete (entity);
-      }
-    }
-    return true;
-  }
-};
-
 class celPcDynamicWorld : public scfImplementationExt1<celPcDynamicWorld,
   celPcCommon, iPcDynamicWorld>
 {
@@ -412,7 +361,7 @@ public:
   float radius;
   csSet<csPtrKey<DynamicObject> > fadingIn;
   csSet<csPtrKey<DynamicObject> > fadingOut;
-  DOTree tree;
+  csKDTree tree;
   csRef<iELCM> elcm;
 
   csSet<csPtrKey<DynamicObject> > visibleObjects;
@@ -436,6 +385,7 @@ public:
 
   virtual void SetELCM (iELCM* elcm);
   void SafeToRemove (iCelEntity* entity);
+  virtual void Dump ();
 
   virtual iDynamicFactory* AddFactory (const char* factory, float maxradius,
       float imposterradius);
