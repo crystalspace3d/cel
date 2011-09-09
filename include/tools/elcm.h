@@ -148,6 +148,11 @@ struct iELCM: public virtual iBase
    * Remove a listener.
    */
   virtual void RemoveELCMListener (iELCMListener* listener) = 0;
+
+  /**
+   * For debugging: dump information about the ELCM status.
+   */
+  virtual void Dump () = 0;
 };
 
 #endif // __CEL_ELCM__

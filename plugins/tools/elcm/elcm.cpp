@@ -423,5 +423,12 @@ void celELCM::FireELCMListeners (iCelEntity* entity)
     listeners[i]->SafeToRemove (entity);
 }
 
+void celELCM::Dump ()
+{
+  printf ("### ELCM ###\n");
+  printf ("  Active entities=%d, ", activeEntities->GetSize ());
+  printf ("Inactive entities=%d\n", inactiveEntities.GetSize ());
+}
+
 //---------------------------------------------------------------------------
 

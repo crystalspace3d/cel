@@ -317,6 +317,11 @@ struct iPcDynamicWorld : public virtual iBase
    * Return 0 on success or otherwise a string with the error.
    */
   virtual csRef<iString> Load (iDocumentNode* node) = 0;
+
+  /**
+   * For debugging: dump information about the DynWorld status.
+   */
+  virtual void Dump () = 0;
 };
 
 #endif // __CEL_PF_DYNWORLD__

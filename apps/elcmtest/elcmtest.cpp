@@ -52,9 +52,9 @@ bool ElcmTest::CreateLevel ()
 
   using namespace CS::Geometry;
   TesselatedQuad quad (
-      csVector3 (-500, -1, -500),
-      csVector3 (-500, -1, 500),
-      csVector3 (500, -1, -500));
+      csVector3 (-5000, -1, -5000),
+      csVector3 (-5000, -1, 5000),
+      csVector3 (5000, -1, -5000));
 
   if (!loader->LoadTexture ("stone", "/lib/std/stone4.gif"))
     return ReportError ("Error loading %s texture!",
@@ -75,7 +75,7 @@ bool ElcmTest::CreateLevel ()
   body->AdjustTotalMass (1000.0f);
   //body->SetTransform (trans);
   body->AttachMesh (floor);
-  body->AttachColliderBox (csVector3 (1000, 10, 1000),
+  body->AttachColliderBox (csVector3 (10000, 10, 10000),
       csOrthoTransform (csMatrix3 (), csVector3 (0, -6, 0)), 10, 1, 0);
   body->MakeStatic ();
 
@@ -124,8 +124,8 @@ bool ElcmTest::FillDynamicWorld ()
   boxFact->AddRigidBox (csVector3 (0, .3, 0), csVector3 (.6, .6, .6), 1.0);
   csMatrix3 matId;
   iDynamicObject* obj;
-  for (int y = -50 ; y <= 50 ; y++)
-    for (int x = -50 ; x <= 50 ; x++)
+  for (int y = -250 ; y <= 250 ; y++)
+    for (int x = -250 ; x <= 250 ; x++)
     {
       obj = dynworld->AddObject ("Box", csReversibleTransform (
 	    matId, csVector3 (float (x*5), 0, float (y*5))));
@@ -235,6 +235,15 @@ bool ElcmTest::OnKeyboard(iEvent& ev)
         csQueryRegistry<iEventQueue> (GetObjectRegistry());
       if (q.IsValid()) q->GetEventOutlet()->Broadcast(
 	  csevQuit (GetObjectRegistry ()));
+    }
+    else if (code == 'p')
+    {
+      elcm->Dump ();
+      dynworld->Dump ();
+      printf ("### Physical Layer ###\n");
+      printf ("  Total entities=%d\n", pl->GetEntityCount ());
+      printf ("  Total meshes=%d\n", engine->GetMeshes ()->GetCount ());
+      fflush (stdout);
     }
   }
   return false;
