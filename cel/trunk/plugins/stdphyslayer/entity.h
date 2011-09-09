@@ -30,18 +30,18 @@
 #include "physicallayer/messaging.h"
 #include "plugins/stdphyslayer/pl.h"
 #include "celtool/stdmsgchannel.h"
+#include "physicallayer/propclas.h"
 
-class celPropertyClassList;
 class celPlLayer;
 
 /**
  * Implementation of iCelEntity.
  */
-class celEntity : public scfImplementationExt2<celEntity,csObject,
-  iCelEntity, iMessageChannel>
+class celEntity : public scfImplementationExt3<celEntity,csObject,
+  iCelEntity, iMessageChannel, iCelPropertyClassList>
 {
 private:
-  celPropertyClassList* plist;
+  csRefArray<iCelPropertyClass> prop_classes;
   csRef<iCelBehaviour> behaviour;
   uint entity_ID;
   celPlLayer* pl;
@@ -120,6 +120,24 @@ public:
   {
     return channel.SendMessage (msgid, sender, params, ret);
   }
+
+  //------- For iCelPropertyClassList ------------------------------------------
+  virtual size_t GetCount () const;
+  virtual iCelPropertyClass* Get (size_t n) const;
+  virtual size_t Add (iCelPropertyClass* obj);
+  virtual bool Remove (iCelPropertyClass* obj);
+  virtual bool Remove (size_t n);
+  virtual bool RemoveByInterface (scfInterfaceID id, int version);
+  virtual bool RemoveByInterfaceAndTag (scfInterfaceID id, int version,
+  	const char* tag);
+  virtual void RemoveAll ();
+  virtual size_t Find (iCelPropertyClass* obj) const;
+  virtual iCelPropertyClass* FindByName (const char* name) const;
+  virtual iCelPropertyClass* FindByNameAndTag (const char* name,
+  	const char* tag) const;
+  virtual iBase* FindByInterface (scfInterfaceID id, int version) const;
+  virtual iBase* FindByInterfaceAndTag (scfInterfaceID id, int version,
+  	const char* tag) const;
 };
 
 /**
