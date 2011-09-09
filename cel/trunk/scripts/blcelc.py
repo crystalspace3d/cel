@@ -693,6 +693,9 @@ class iCelEntity(cspace.iBase):
     def QueryMessageChannel(*args): return _blcelc.iCelEntity_QueryMessageChannel(*args)
     def CreateTaggedMessageDispatcher(*args): return _blcelc.iCelEntity_CreateTaggedMessageDispatcher(*args)
     def IsPositional(*args): return _blcelc.iCelEntity_IsPositional(*args)
+    def Activate(*args): return _blcelc.iCelEntity_Activate(*args)
+    def Deactivate(*args): return _blcelc.iCelEntity_Deactivate(*args)
+    def IsActive(*args): return _blcelc.iCelEntity_IsActive(*args)
     Object = _swig_property(_blcelc.iCelEntity_Object_get, None, None,
                     "iCelEntity.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntity::QueryObject()")
 
@@ -1159,6 +1162,8 @@ class iCelPropertyClass(cspace.iBase):
     def GetPersistentData(*args): return _blcelc.iCelPropertyClass_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.iCelPropertyClass_SetPersistentData(*args)
     def QueryPositionInfo(*args): return _blcelc.iCelPropertyClass_QueryPositionInfo(*args)
+    def Activate(*args): return _blcelc.iCelPropertyClass_Activate(*args)
+    def Deactivate(*args): return _blcelc.iCelPropertyClass_Deactivate(*args)
     Name = _swig_property(_blcelc.iCelPropertyClass_Name_get, _blcelc.iCelPropertyClass_Name_set, None,
                     "iCelPropertyClass.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClass::GetName()\n\tset: void iCelPropertyClass::SetName(const char*)")
 
@@ -2148,7 +2153,6 @@ class iPcCommandInput(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def Activate(*args): return _blcelc.iPcCommandInput_Activate(*args)
     def SetSendTrigger(*args): return _blcelc.iPcCommandInput_SetSendTrigger(*args)
     def IsSendTriggerEnabled(*args): return _blcelc.iPcCommandInput_IsSendTriggerEnabled(*args)
     def SetCookedMode(*args): return _blcelc.iPcCommandInput_SetCookedMode(*args)
@@ -4877,6 +4881,8 @@ class iQuest(cspace.iBase):
     def LoadState(*args): return _blcelc.iQuest_LoadState(*args)
     def SaveState(*args): return _blcelc.iQuest_SaveState(*args)
     def FindSequence(*args): return _blcelc.iQuest_FindSequence(*args)
+    def Activate(*args): return _blcelc.iQuest_Activate(*args)
+    def Deactivate(*args): return _blcelc.iQuest_Deactivate(*args)
     CurrentState = _swig_property(_blcelc.iQuest_CurrentState_get, None, None,
                     "iQuest.CurrentState -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuest::GetCurrentState()")
 
@@ -5337,6 +5343,8 @@ class celPcCommon(object):
     def GetPersistentData(*args): return _blcelc.celPcCommon_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.celPcCommon_SetPersistentData(*args)
     def QueryPositionInfo(*args): return _blcelc.celPcCommon_QueryPositionInfo(*args)
+    def Activate(*args): return _blcelc.celPcCommon_Activate(*args)
+    def Deactivate(*args): return _blcelc.celPcCommon_Deactivate(*args)
     def TickEveryFrame(*args): return _blcelc.celPcCommon_TickEveryFrame(*args)
     def TickOnce(*args): return _blcelc.celPcCommon_TickOnce(*args)
     def MessageDispatcherRemoved(*args): return _blcelc.celPcCommon_MessageDispatcherRemoved(*args)

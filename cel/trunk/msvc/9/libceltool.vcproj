@@ -660,6 +660,9 @@
 				RelativePath="..\..\libs\celtool\..\..\include\celtool\stdpcimp.h">
 			</File>
 			<File
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\ticktimer.h">
+			</File>
+			<File
 				RelativePath="..\..\libs\celtool\packagedefs.h">
 			</File>
 		</Filter>

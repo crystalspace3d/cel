@@ -30,5 +30,6 @@
 #include "celtool/stdmsgchannel.h"
 #include "celtool/stdparams.h"
 #include "celtool/stdpcimp.h"
+#include "celtool/ticktimer.h"
 #endif /* __CELTOOL_H__ */
 
