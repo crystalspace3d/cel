@@ -32,6 +32,7 @@
 
 #include "csgeom/kdtree.h"
 #include "csgeom/math3d.h"
+#include "csgeom/sphere.h"
 
 #include "ivaria/dynamics.h"
 #include "imap/services.h"
@@ -215,8 +216,7 @@ private:
   celPcDynamicWorld* world;
   iMeshFactoryWrapper* factory;
   csPDelArray<DOCollider> colliders;
-  float bsphereRadius;
-  csVector3 bsphereCenter;
+  csSphere bsphere;
   csBox3 bbox;
   csBox3 physBbox;
   float maxradiusRelative;
@@ -232,6 +232,8 @@ public:
   virtual ~DynamicFactory () { }
   virtual float GetMaximumRadiusRelative () const { return maxradiusRelative; }
   virtual const csBox3& GetBBox () const { return bbox; }
+  const csSphere& GetBSphere () const { return bsphere; }
+
   virtual const csBox3& GetPhysicsBBox () const { return physBbox; }
 
   virtual void SetGeometryGenerator (iGeometryGenerator* ggen)
@@ -257,8 +259,6 @@ public:
   const csPDelArray<DOCollider>& GetColliders () const { return colliders; }
   iMeshFactoryWrapper* GetMeshFactory () const { return factory; }
   virtual const char* GetName () const { return name; }
-  float GetBSphereRadius () const { return bsphereRadius; }
-  const csVector3& GetBSphereCenter () const { return bsphereCenter; }
   celPcDynamicWorld* GetWorld () const { return world; }
   iImposterFactory* GetImposterFactory () const { return imposterFactory; }
 };
@@ -289,6 +289,9 @@ private:
   mutable csBox3 bbox;
   mutable bool bboxValid;
 
+  mutable csSphere bsphere;
+  mutable bool bsphereValid;
+
 public:
   DynamicObject ();
   DynamicObject (DynamicFactory* factory, const csReversibleTransform& trans);
@@ -308,6 +311,7 @@ public:
   virtual iMeshWrapper* GetMesh () const { return mesh; }
   virtual iRigidBody* GetBody () const { return body; }
   virtual const csBox3& GetBBox () const;
+  const csSphere& GetBSphere () const;
   virtual void RefreshColliders ();
   virtual const csReversibleTransform& GetTransform ();
   virtual void SetTransform (const csReversibleTransform& trans);
