@@ -144,7 +144,11 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
   iObjectModel* model = factory->GetMeshObjectFactory ()->GetObjectModel ();
   if (model)
   {
-    model->GetRadius (bsphereRadius, bsphereCenter);
+    float r;
+    csVector3 c;
+    model->GetRadius (r, c);
+    bsphere.SetCenter (c);
+    bsphere.SetRadius (r);
     bbox = model->GetObjectBoundingBox ();
   }
   else
@@ -217,6 +221,7 @@ void DynamicObject::Init ()
   hilight_installed = false;
   fade = 0;
   bboxValid = false;
+  bsphereValid = false;
 }
 
 DynamicObject::DynamicObject () : scfImplementationType (this)
@@ -468,6 +473,7 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
 void DynamicObject::MovableChanged (iMovable*)
 {
   bboxValid = false;
+  bsphereValid = false;
   factory->GetWorld ()->tree.MoveObject (child, GetBBox ());
 }
 
@@ -493,6 +499,18 @@ const csBox3& DynamicObject::GetBBox () const
   bboxValid = true;
 
   return bbox;
+}
+
+const csSphere& DynamicObject::GetBSphere () const
+{
+  if (bsphereValid) return bsphere;
+  if (mesh)
+    trans = mesh->GetMovable ()->GetTransform ();
+
+  bsphere = trans.This2Other (factory->GetBSphere ());
+  bsphereValid = true;
+
+  return bsphere;
 }
 
 bool DynamicObject::SetEntityTemplate (const char* templateName,
@@ -681,17 +699,18 @@ struct DynWorldKDData
   csSet<csPtrKey<DynamicObject> >& objects;
   csSet<csPtrKey<iCelEntity> >& safeToRemove;
   csVector3 center;
+  float radius;
   float sqradius;
 
   DynWorldKDData (
       csSet<csPtrKey<DynamicObject> >& prevObjects,
       csSet<csPtrKey<DynamicObject> >& objects,
       csSet<csPtrKey<iCelEntity> >& safeToRemove,
-      const csVector3& center, float sqradius) :
+      const csVector3& center, float radius) :
     prevObjects (prevObjects),
     objects (objects),
     safeToRemove (safeToRemove),
-    center (center), sqradius (sqradius) { }
+    center (center), radius (radius), sqradius (radius * radius) { }
 };
 
 static bool DynWorld_Front2Back (csKDTree* treenode,
@@ -729,6 +748,18 @@ static bool DynWorld_Front2Back (csKDTree* treenode,
       if (dynobj->IsStatic ())
         sqrad *= 1.1f;
 
+#if 1
+      const csSphere& obj_bsphere = dynobj->GetBSphere ();
+      float sqdist = csSquaredDist::PointPoint (data->center, obj_bsphere.GetCenter ());
+      if ((sqdist-csSquare (obj_bsphere.GetRadius () + data->radius)) < 0)
+      {
+        data->prevObjects.Delete (dynobj);
+        data->objects.Add (dynobj);
+	iCelEntity* entity = dynobj->GetEntity ();
+	if (entity)
+	  data->safeToRemove.Delete (entity);
+      }
+#else
       const csBox3& obj_bbox = dynobj->GetBBox ();
       if (csIntersect3::BoxSphere (obj_bbox, data->center, sqrad))
       {
@@ -738,6 +769,7 @@ static bool DynWorld_Front2Back (csKDTree* treenode,
 	if (entity)
 	  data->safeToRemove.Delete (entity);
       }
+#endif
     }
   }
 
@@ -758,7 +790,7 @@ void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
   csSet<csPtrKey<DynamicObject> > prevVisible = visibleObjects;
   visibleObjects.Empty ();
   DynWorldKDData data (prevVisible, visibleObjects, safeToRemove,
-      campos, radius * radius);
+      campos, radius);
   tree.Front2Back (data.center, DynWorld_Front2Back, (void*)&data, 0);
 
   // All entities remaining in 'safeToRemove' can really be removed.
