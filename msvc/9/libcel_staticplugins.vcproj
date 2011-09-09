@@ -1545,9 +1545,6 @@
 				RelativePath="..\..\plugins\propclass\mechanics\thruster_reactionary.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\ticktimer.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\mesh\meshfact.h">
 			</File>
 			<File

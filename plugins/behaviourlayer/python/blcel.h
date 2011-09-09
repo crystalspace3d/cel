@@ -105,6 +105,8 @@ public:
     virtual celDataType GetPropertyOrActionType(csStringID id);
     virtual bool IsPropertyReadOnly(csStringID arg0);
     virtual iCelPositionInfo *QueryPositionInfo();
+    virtual void Activate();
+    virtual void Deactivate();
     virtual void TickEveryFrame();
     virtual void TickOnce();
     virtual void MessageDispatcherRemoved(iMessageDispatcher *dispatcher);
@@ -142,7 +144,7 @@ private:
       return method;
     }
 private:
-    mutable swig::PyObject_var vtable[43];
+    mutable swig::PyObject_var vtable[45];
 #endif
 
 };

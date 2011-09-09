@@ -490,6 +490,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\libs\celtool\..\..\include\celtool\stdmsgchannel.h" />
     <ClInclude Include="..\..\libs\celtool\..\..\include\celtool\stdparams.h" />
     <ClInclude Include="..\..\libs\celtool\..\..\include\celtool\stdpcimp.h" />
+    <ClInclude Include="..\..\libs\celtool\..\..\include\celtool\ticktimer.h" />
     <ClInclude Include="..\..\libs\celtool\packagedefs.h" />
   </ItemGroup>
   <ItemGroup>
