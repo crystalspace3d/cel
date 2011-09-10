@@ -634,7 +634,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\stdphyslayer\etracker.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\numreg.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\pl.cpp" />
-    <ClCompile Include="..\..\plugins\stdphyslayer\propclas.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\behaviourtree.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\btaction.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.cpp" />
@@ -818,7 +817,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\stdphyslayer\etracker.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\numreg.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\pl.h" />
-    <ClInclude Include="..\..\plugins\stdphyslayer\propclas.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\behaviourtree.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\btaction.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.h" />
