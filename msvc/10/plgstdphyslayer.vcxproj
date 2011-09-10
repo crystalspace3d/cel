@@ -503,7 +503,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\stdphyslayer\etracker.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\numreg.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\pl.cpp" />
-    <ClCompile Include="..\..\plugins\stdphyslayer\propclas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\plugins\stdphyslayer\entity.h" />
@@ -511,7 +510,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\stdphyslayer\etracker.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\numreg.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\pl.h" />
-    <ClInclude Include="..\..\plugins\stdphyslayer\propclas.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\msvc\plgstdphyslayer.rc" />
