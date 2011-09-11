@@ -42,10 +42,7 @@
             <texture>marble_13_is___128.jp</texture>
         </material>
     </materials>
-    <settings>
-        <clearzbuf>yes</clearzbuf>
-        <clearscreen>yes</clearscreen>
-    </settings>
+    <settings/>
     <start name="Camera">
         <sector>Scene</sector>
         <position x="15.858" y="2.82921" z="11.1389" />
