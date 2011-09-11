@@ -46,21 +46,18 @@ bool celLoopDecorator::Execute (const celParams& params)
 {
   if (loop_limit == 0)
   {
-    csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
-    csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-      (plugin_mgr, "cel.parameters.manager");
-
-	loop_limit = atoi (pm->ResolveParameter(params, loop_limit_param));
+    csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+      (object_reg, "cel.parameters.manager");
+    loop_limit = atoi (pm->ResolveParameter(params, loop_limit_param));
   }
 
   for (int i = 0; i < loop_limit; i++)
   {
     //printf("Loop Decorator, iteration = %i\n", i);
     if(!child_node->Execute(params))
-	{
-		return false;
-	}
+    {
+	return false;
+    }
   }
   return true;
 }

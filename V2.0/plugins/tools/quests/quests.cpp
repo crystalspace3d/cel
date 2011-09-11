@@ -511,14 +511,13 @@ iCelSequenceFactory* celQuestFactory::CreateSequence (const char* name)
   iCelSequenceFactory* iseq = GetSequence (name);
   if (iseq) return 0;
 
-  csRef<iPluginManager> plugin_mgr = 
-    csQueryRegistry<iPluginManager> (questmgr->object_reg);
-  csRef<iCelSequenceFactory> seq = csLoadPlugin<iCelSequenceFactory> 
-	  (plugin_mgr, "cel.sequence.factory");  
-
+  //csRef<iPluginManager> plugin_mgr = 
+    //csQueryRegistry<iPluginManager> (questmgr->object_reg);
+  csRef<iCelSequenceFactoryGenerator> seqgen = csQueryRegistryOrLoad<iCelSequenceFactoryGenerator> 
+	  (questmgr->object_reg, "cel.sequence.factory");  
+  csRef<iCelSequenceFactory> seq = seqgen->CreateSequenceFactory ();
   seq->SetName(name);
   sequences.Put (name, seq);
-  seq->DecRef ();
   return seq;
 }
 

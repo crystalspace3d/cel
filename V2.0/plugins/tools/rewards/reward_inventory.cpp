@@ -121,10 +121,8 @@ celInventoryReward::celInventoryReward (
 {
   celInventoryReward::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   entity = pm->GetParameter (params, entity_par);
   tag = pm->GetParameter (params, tag_par);
