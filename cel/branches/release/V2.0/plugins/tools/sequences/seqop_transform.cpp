@@ -146,10 +146,8 @@ celTransformSeqOp::celTransformSeqOp (
 {
   celTransformSeqOp::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-    (plugin_mgr, "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   entity_param = pm->GetParameter (params, entity_par);
   tag_param = pm->GetParameter (params, tag_par);

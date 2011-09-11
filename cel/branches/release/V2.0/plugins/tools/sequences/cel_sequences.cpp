@@ -224,9 +224,9 @@ void celSequence::FireSequenceCallbacks ()
   }
 }
 
-SCF_IMPLEMENT_FACTORY(celSequenceFactory)
+SCF_IMPLEMENT_FACTORY(celSequenceFactoryGenerator)
 
-celSequenceFactory::celSequenceFactory (iBase* parent) : 	
+celSequenceFactoryGenerator::celSequenceFactoryGenerator (iBase* parent) :
     scfImplementationType (this, parent),
 	object_reg(0)
 
@@ -234,10 +234,24 @@ celSequenceFactory::celSequenceFactory (iBase* parent) :
   //parent_factory = scfQueryInterface<iQuestFactory> (parent);
 }
 
-bool celSequenceFactory::Initialize (iObjectRegistry* r)
+bool celSequenceFactoryGenerator::Initialize (iObjectRegistry* object_reg)
 {
-  object_reg = r;
+  celSequenceFactoryGenerator::object_reg = object_reg;
   return true;
+}
+
+csPtr<iCelSequenceFactory> celSequenceFactoryGenerator::CreateSequenceFactory ()
+{
+  celSequenceFactory* fact = new celSequenceFactory (object_reg);
+  return fact;
+}
+
+celSequenceFactory::celSequenceFactory (iObjectRegistry* object_reg) : 	
+    scfImplementationType (this),
+	object_reg(object_reg)
+
+{
+  //parent_factory = scfQueryInterface<iQuestFactory> (parent);
 }
 
 void celSequenceFactory::SetName (const char *name)
@@ -283,9 +297,8 @@ csPtr<iCelSequence> celSequenceFactory::CreateSequence (
   for (i = 0 ; i < seqops.GetSize () ; i++)
   {
     // @@@ Support dynamic parameters here?
-    csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> (object_reg);
-    csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-	  (plugin_mgr, "cel.parameters.manager");
+    csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+      (object_reg, "cel.parameters.manager");
 
     csTicks duration = ToUInt (pm->ResolveParameter (params, seqops[i].duration));
     if (total_time + duration > max_time) max_time = total_time + duration;

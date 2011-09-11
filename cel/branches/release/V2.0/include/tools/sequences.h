@@ -195,7 +195,7 @@ struct iCelSequenceFactory : public virtual iBase
   virtual const char* GetName () const = 0;
   
   /**
-   * Set the name of this facotry.
+   * Set the name of this factory.
    */
   virtual void SetName (const char* name) = 0;
 
@@ -214,6 +214,16 @@ struct iCelSequenceFactory : public virtual iBase
    * \param delay is a the delay or a parameter.
    */
   virtual void AddDelay (const char* delay) = 0;
+};
+
+/**
+ * This is the actual plugin which can generate sequence factories.
+ */
+struct iCelSequenceFactoryGenerator : public virtual iBase
+{
+  SCF_INTERFACE (iCelSequenceFactoryGenerator, 0, 0, 1);
+
+  virtual csPtr<iCelSequenceFactory> CreateSequenceFactory () = 0;
 };
 
 //-------------------------------------------------------------------------

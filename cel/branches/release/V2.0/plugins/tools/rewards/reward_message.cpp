@@ -204,11 +204,8 @@ celMessageReward::celMessageReward (
 {
   celMessageReward::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
-
+  pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   msg_id = pm->GetParameter (params, id_par);
   entity = pm->GetParameter (params, entity_par);
@@ -277,10 +274,8 @@ celClassMessageReward::celClassMessageReward (
 {
   celClassMessageReward::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  pm = csLoadPlugin<iParameterManager> (plugin_mgr,
-    "cel.parameters.manager");
+  pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   // message id and parameters
   msg_id = pm->GetParameter (params, id_par);

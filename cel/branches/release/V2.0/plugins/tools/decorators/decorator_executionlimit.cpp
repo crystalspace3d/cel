@@ -51,10 +51,8 @@ bool celExecutionLimitDecorator::Execute (const celParams& params)
 
   if (execution_limit == 0)
   {
-    csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
-    csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-      (plugin_mgr, "cel.parameters.manager");
+    csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+      (object_reg, "cel.parameters.manager");
 
     execution_limit = atoi (pm->ResolveParameter(params, execution_limit_param));
   }

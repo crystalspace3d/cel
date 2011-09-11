@@ -193,10 +193,8 @@ celPropertySeqOp::celPropertySeqOp (
 {
   celPropertySeqOp::type = type;
 
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-    (plugin_mgr, "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   entity_param = pm->GetParameter (params, entity_par);
   pcname_param = pm->GetParameter (params, pc_par);
@@ -266,10 +264,8 @@ celFloatPropertySeqOp::celFloatPropertySeqOp (
 		rel_par)
 {
   proptype = CEL_DATA_FLOAT;
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-    (plugin_mgr, "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   end_param = pm->GetParameter (params, pfloat);
 }
@@ -286,10 +282,8 @@ celVector2PropertySeqOp::celVector2PropertySeqOp (
 		rel_par)
 {
   proptype = CEL_DATA_VECTOR2;
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-    (plugin_mgr, "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   endx_param = pm->GetParameter (params, vx);
   endy_param = pm->GetParameter (params, vy);
@@ -308,10 +302,8 @@ celVector3PropertySeqOp::celVector3PropertySeqOp (
 		rel_par)
 {
   proptype = CEL_DATA_VECTOR3;
-  csRef<iPluginManager> plugin_mgr = 
-   csQueryRegistry<iPluginManager> (type->object_reg);
-  csRef<iParameterManager> pm = csLoadPlugin<iParameterManager> 
-    (plugin_mgr, "cel.parameters.manager");
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
 
   endx_param = pm->GetParameter (params, vx);
   endy_param = pm->GetParameter (params, vy);
