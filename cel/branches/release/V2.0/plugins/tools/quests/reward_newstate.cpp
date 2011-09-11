@@ -131,6 +131,10 @@ void celNewStateReward::TickEveryFrame ()
 
   if (!quest)
   {
+    if (!entity)
+    {
+      return;
+    }
     bool changed;
     const char* e = entity->Get (params, changed);
     if (changed) ent = 0;
