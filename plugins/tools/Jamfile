@@ -14,3 +14,4 @@ SubInclude TOP plugins tools selectors ;
 SubInclude TOP plugins tools sequences ;
 SubInclude TOP plugins tools triggers ;
 SubInclude TOP plugins tools elcm ;
+SubInclude TOP plugins tools uitools ;

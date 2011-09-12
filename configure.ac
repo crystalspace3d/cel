@@ -169,6 +169,32 @@ CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS], [$LDFLAGS], [+])
 
 
 #----------------------------------------------------------------------------
+# Check for CEGUI.
+#----------------------------------------------------------------------------
+# The check fails on some distros with missing references to libdl
+# (eg on OpenSUSE), so pass -ldl along as well
+CS_CHECK_LIB_WITH([CEGUI],
+    [AC_LANG_PROGRAM([[#include <CEGUI.h>]],
+    [CEGUI::WindowManager::getSingleton();])], [], [C++],
+    [], [], [], [], [$cs_cv_libdl_libs], [CEGUIBase])
+
+AS_IF([test $cs_cv_libCEGUI = yes],
+    [CS_CHECK_BUILD([if CEGUI is sufficiently recent], [cs_cv_CEGUI_recent],
+	[AC_LANG_PROGRAM(
+	    [[#include <falagard/CEGUIFalWidgetLookManager.h>]],
+	    [CEGUI::WidgetLookManager::getSingleton();
+	    #if (CEGUI_VERSION_MAJOR == 0) && (CEGUI_VERSION_MINOR < 7)
+	    who took the ram from the ramalamadingdong?
+	    #endif
+	    ])],
+	[], [C++],
+	[CS_EMIT_BUILD_RESULT([cs_cv_libCEGUI], [CEGUI])], [], [],
+	[$cs_cv_libCEGUI_cflags],
+	[$cs_cv_libCEGUI_lflags],
+	[$cs_cv_libCEGUI_libs])])
+
+
+#----------------------------------------------------------------------------
 # Check for Crystal Space (CS)
 #----------------------------------------------------------------------------
 AC_ARG_WITH([cs], [AC_HELP_STRING([--without-cs],

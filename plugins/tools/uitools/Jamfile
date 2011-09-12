@@ -1,0 +1,3 @@
+SubDir TOP plugins tools uitools ;
+
+SubInclude TOP plugins tools uitools inventory ;

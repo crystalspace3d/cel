@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- ui_inventory.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.ui.inventory</name>
+        <implementation>celUIInventory</implementation>
+	<description>CEL Inventory UI</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

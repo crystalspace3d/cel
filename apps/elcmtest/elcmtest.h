@@ -1,6 +1,8 @@
 #ifndef ELCMTEST_H
 #define ELCMTEST_H
 
+#include <CEGUI.h>
+#include "ivaria/icegui.h"
 #include <physicallayer/entity.h>
 #include <physicallayer/pl.h>
 #include <propclass/dynworld.h>
@@ -29,6 +31,8 @@ private:
   iCamera* camera;
   iSector* sector;
 
+  csRef<iCEGUI> cegui;
+
   /// Physics.
   csRef<iDynamics> dyn;
   csRef<iDynamicSystem> dynSys;
@@ -37,6 +41,7 @@ private:
   bool OnKeyboard (iEvent&);
   void Frame ();
 
+  bool InitWindowSystem ();
   bool InitPhysics ();
   bool CreateLevel ();
   bool CreatePlayer ();
