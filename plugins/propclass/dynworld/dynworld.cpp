@@ -616,9 +616,19 @@ void celPcDynamicWorld::DeleteObjects ()
 {
   while (objects.GetSize () > 0)
   {
-    DeleteObject (objects[0]);
+    csRef<DynamicObject> dynobj = objects.Pop ();
+    DeleteObjectInt (dynobj);
   }
+  visibleObjects.DeleteAll ();
+  fadingOut.DeleteAll ();
+  fadingIn.DeleteAll ();
+  tree->Clear ();
   meshCache.RemoveMeshes ();
+}
+
+void celPcDynamicWorld::DeleteObjectInt (DynamicObject* dyn)
+{
+  dyn->RemoveMesh (this);
 }
 
 void celPcDynamicWorld::DeleteObject (iDynamicObject* dynobj)

@@ -43,7 +43,7 @@ class celELCM : public scfImplementation2<celELCM, iELCM, iComponent>,
 {
 private:
   iObjectRegistry* object_reg;
-  csRef<iCelPlLayer> pl;
+  csWeakRef<iCelPlLayer> pl;
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
 
