@@ -57,7 +57,7 @@ private:
   csArray<celSeqOp> seqops;
   csArray<celSeqOp> ops_in_progress;
   csString name;
-  csRef<iCelPlLayer> pl;
+  csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   size_t idx;
   csTicks start_time;

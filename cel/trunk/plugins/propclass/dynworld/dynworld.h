@@ -351,7 +351,7 @@ class celPcDynamicWorld : public scfImplementationExt1<celPcDynamicWorld,
 public:
   csRef<iEngine> engine;
   csRef<iDynamicSystem> dynSys;
-  csRef<iCelPlLayer> pl;
+  csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   csRefArray<DynamicObject> objects;
   csRefArray<DynamicFactory> factories;
@@ -377,6 +377,8 @@ public:
 
   void ProcessFadingIn (float fade_speed);
   void ProcessFadingOut (float fade_speed);
+
+  void DeleteObjectInt (DynamicObject* dynobj);
 
 public:
   celPcDynamicWorld (iObjectRegistry* object_reg);
