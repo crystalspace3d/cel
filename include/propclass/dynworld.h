@@ -165,11 +165,6 @@ struct iDynamicObject : public virtual iBase
   virtual bool IsHilight () const = 0;
 
   /**
-   * Get the bounding box in world space.
-   */
-  virtual const csBox3& GetBBox () const = 0;
-
-  /**
    * Get the mesh for this object. Can be 0 if the
    * object is currently not visible.
    */

@@ -220,7 +220,6 @@ void DynamicObject::Init ()
   is_hilight = false;
   hilight_installed = false;
   fade = 0;
-  bboxValid = false;
   bsphereValid = false;
 }
 
@@ -472,33 +471,12 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
 
 void DynamicObject::MovableChanged (iMovable*)
 {
-  bboxValid = false;
   bsphereValid = false;
-  factory->GetWorld ()->tree.MoveObject (child, GetBBox ());
+  factory->GetWorld ()->tree->MoveObject (child, GetBSphere ());
 }
 
 void DynamicObject::MovableDestroyed (iMovable*)
 {
-}
-
-const csBox3& DynamicObject::GetBBox () const
-{
-  if (bboxValid) return bbox;
-  if (mesh)
-    trans = mesh->GetMovable ()->GetTransform ();
-
-  const csBox3& factBBox = factory->GetBBox ();
-  bbox.StartBoundingBox (trans.This2Other (factBBox.GetCorner (0)));
-  bbox.AddBoundingVertexSmart (trans.This2Other (factBBox.GetCorner (1)));
-  bbox.AddBoundingVertexSmart (trans.This2Other (factBBox.GetCorner (2)));
-  bbox.AddBoundingVertexSmart (trans.This2Other (factBBox.GetCorner (3)));
-  bbox.AddBoundingVertexSmart (trans.This2Other (factBBox.GetCorner (4)));
-  bbox.AddBoundingVertexSmart (trans.This2Other (factBBox.GetCorner (5)));
-  bbox.AddBoundingVertexSmart (trans.This2Other (factBBox.GetCorner (6)));
-  bbox.AddBoundingVertexSmart (trans.This2Other (factBBox.GetCorner (7)));
-  bboxValid = true;
-
-  return bbox;
 }
 
 const csSphere& DynamicObject::GetBSphere () const
@@ -544,6 +522,24 @@ public:
 
 //---------------------------------------------------------------------------------------
 
+class ObjDes : public scfImplementation1<ObjDes, CS::Geometry::iObjectDescriptor>
+{
+public:
+  ObjDes () : scfImplementationType (this) { }
+  virtual ~ObjDes () {}
+  virtual csPtr<iString> DescribeObject (CS::Geometry::KDTreeChild* child)
+  {
+    DynamicObject* dynobj = (DynamicObject*)child->GetObject ();
+    scfString* str = new scfString ();
+    iCelEntity* ent = dynobj->GetEntity ();
+    iMeshWrapper* mesh = dynobj->GetMesh ();
+    str->Format ("%p (ent %s, mesh %s)", dynobj,
+	ent ? ent->QueryObject ()->GetName () : "<none>",
+	mesh ? mesh->QueryObject ()->GetName () : "<none>");
+    return str;
+  }
+};
+
 celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {  
@@ -551,11 +547,16 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  tree = new CS::Geometry::KDTree ();
+  ObjDes* objDes = new ObjDes ();
+  tree->SetObjectDescriptor (objDes);
+  objDes->DecRef ();
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
 {
   DeleteObjects ();
+  delete tree;
 }
 
 void celPcDynamicWorld::SetELCM (iELCM* elcm)
@@ -601,7 +602,7 @@ iDynamicObject* celPcDynamicWorld::AddObject (const char* factory,
   if (!fact) return 0;
   obj.AttachNew (new DynamicObject (fact, trans));
   objects.Push (obj);
-  csKDTreeChild* child = tree.AddObject (obj->GetBBox (), obj);
+  CS::Geometry::KDTreeChild* child = tree->AddObject (obj->GetBSphere (), obj);
   obj->SetChild (child);
   return obj;
 }
@@ -630,7 +631,7 @@ void celPcDynamicWorld::DeleteObject (iDynamicObject* dynobj)
   if (idx != csArrayItemNotFound)
   {
     if (dyn->GetChild ())
-      tree.RemoveObject (dyn->GetChild ());
+      tree->RemoveObject (dyn->GetChild ());
     dyn->RemoveMesh (this);
     objects.DeleteIndex (idx);
   }
@@ -713,7 +714,7 @@ struct DynWorldKDData
     center (center), radius (radius), sqradius (radius * radius) { }
 };
 
-static bool DynWorld_Front2Back (csKDTree* treenode,
+static bool DynWorld_Front2Back (CS::Geometry::KDTree* treenode,
 	void* userdata, uint32 cur_timestamp, uint32&)
 {
   DynWorldKDData* data = (DynWorldKDData*)userdata;
@@ -730,7 +731,7 @@ static bool DynWorld_Front2Back (csKDTree* treenode,
   treenode->Distribute ();
 
   int num_objects;
-  csKDTreeChild** objects;
+  CS::Geometry::KDTreeChild** objects;
   num_objects = treenode->GetObjectCount ();
   objects = treenode->GetObjects ();
 
@@ -791,7 +792,7 @@ void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
   visibleObjects.Empty ();
   DynWorldKDData data (prevVisible, visibleObjects, safeToRemove,
       campos, radius);
-  tree.Front2Back (data.center, DynWorld_Front2Back, (void*)&data, 0);
+  tree->Front2Back (data.center, DynWorld_Front2Back, (void*)&data, 0);
 
   // All entities remaining in 'safeToRemove' can really be removed.
   RemoveSafeEntities ();
@@ -890,7 +891,8 @@ csRef<iString> celPcDynamicWorld::Load (iDocumentNode* node)
         return str;
       }
       objects.Push (dynobj);
-      csKDTreeChild* child = tree.AddObject (dynobj->GetBBox (), dynobj);
+      CS::Geometry::KDTreeChild* child = tree->AddObject (dynobj->GetBSphere (),
+	  dynobj);
       dynobj->SetChild (child);
     }
   }
