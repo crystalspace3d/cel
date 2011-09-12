@@ -1,8 +1,12 @@
 SubDir TOP apps elcmtest ;
 
+if $(CEGUI.AVAILABLE) = "yes"
+{
 Application elcmtest : [ Wildcard *.cpp *.h ] ;
 CFlags elcmtest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
 LinkWith elcmtest : celtool ;
 ExternalLibs elcmtest : CRYSTAL ;
+ExternalLibs elcmtest : CEGUI ;
 FileListEntryApplications elcmtest : app-demo ;
+}
 

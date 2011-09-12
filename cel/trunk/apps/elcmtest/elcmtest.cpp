@@ -23,6 +23,29 @@ ElcmTest::~ElcmTest ()
 {
 }
 
+bool ElcmTest::InitWindowSystem ()
+{
+  cegui = csQueryRegistry<iCEGUI> (GetObjectRegistry ());
+  if (!cegui) return ReportError ("Failed to locate CEGUI plugin!");
+
+  cegui->Initialize ();
+  vfs->ChDir ("/cegui/");
+
+  cegui->GetSchemeManagerPtr ()->create("ice.scheme");
+  cegui->GetSystemPtr ()->setDefaultMouseCursor("ice", "MouseArrow");
+  cegui->GetFontManagerPtr ()->createFreeTypeFont("DejaVuSans", 10, true, "/fonts/ttf/DejaVuSans.ttf");
+
+  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+
+  // Load layout and set as root
+  //vfs->ChDir ("/this/data/windows/");
+  //cegui->GetSystemPtr ()->setGUISheet(winMgr->loadWindowLayout("ice.layout"));
+
+  //CEGUI::Window* btn;
+
+  return true;
+}
+
 bool ElcmTest::InitPhysics ()
 {
   dyn = csQueryRegistry<iDynamics> (GetObjectRegistry ());
@@ -217,6 +240,7 @@ void ElcmTest::Frame ()
   float elapsed_time = vc->GetElapsedSeconds ();
   dyn->Step (elapsed_time);
   dynworld->PrepareView (camera, elapsed_time);
+  cegui->Render ();
 }
 
 bool ElcmTest::OnKeyboard(iEvent& ev)
@@ -263,6 +287,7 @@ bool ElcmTest::OnInitialize (int argc, char* argv[])
     	CS_REQUEST_LEVELLOADER,
     	CS_REQUEST_REPORTER,
     	CS_REQUEST_REPORTERLISTENER,
+    	CS_REQUEST_PLUGIN ("crystalspace.cegui.wrapper", iCEGUI),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
     	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
@@ -300,6 +325,8 @@ bool ElcmTest::Application ()
   elcm->SetCheckTime (100);
   elcm->SetUnloadCheckFrequency (30);
 
+  if (!InitWindowSystem ())
+    return ReportError ("Error initializing windowing!");
   if (!InitPhysics ())
     return ReportError ("Error initializing physics!");
   if (!CreateLevel ())

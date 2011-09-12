@@ -1,0 +1,10 @@
+SubDir TOP plugins tools uitools inventory ;
+
+if $(CEGUI.AVAILABLE) = "yes"
+{
+Plugin ui_inventory : [ Wildcard *.cpp *.h ] ;
+ExternalLibs ui_inventory : CRYSTAL ;
+ExternalLibs ui_inventory : CEGUI ;
+LinkWith ui_inventory : celtool ;
+}
+
