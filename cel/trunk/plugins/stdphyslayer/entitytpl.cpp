@@ -105,6 +105,15 @@ void celPropertyClassTemplate::PerformAction (csStringID actionID,
   Create (actionID).params = params;
 }
 
+void celPropertyClassTemplate::Merge (celPropertyClassTemplate* other)
+{
+  for (size_t i = 0 ; i < other->properties.GetSize () ; i++)
+  {
+    ccfPropAct& prop = other->properties.Get (i);
+    properties.Push (prop);
+  }
+}
+
 //---------------------------------------------------------------------------
 
 celEntityTemplate::celEntityTemplate () : scfImplementationType (this)
@@ -144,6 +153,62 @@ void celEntityTemplate::RemoveClass (csStringID cls)
 bool celEntityTemplate::HasClass (csStringID cls)
 {
   return classes.In (cls);
+}
+
+celPropertyClassTemplate* celEntityTemplate::FindPCTemplate (
+    const char* name, const char* tag)
+{
+  for (size_t i = 0 ; i < propclasses.GetSize () ; i++)
+  {
+    celPropertyClassTemplate* pct = propclasses.Get (i);
+    if (pct->GetNameStr () == name)
+    {
+      if ((tag == 0 || *tag == 0) && pct->GetTagStr ().IsEmpty ())
+        return pct;
+      if (pct->GetTagStr () == tag)
+        return pct;
+    }
+  }
+  return 0;
+}
+
+void celEntityTemplate::Merge (iCelEntityTemplate* tpl)
+{
+  celEntityTemplate* other = static_cast<celEntityTemplate*> (tpl);
+
+  if (!other->layer.IsEmpty ())
+    layer = other->layer;
+  if (!other->behaviour.IsEmpty ())
+    behaviour = other->behaviour;
+
+  for (size_t i = 0 ; i < other->propclasses.GetSize () ; i++)
+  {
+    celPropertyClassTemplate* pct = other->propclasses.Get (i);
+    celPropertyClassTemplate* mergeWith = FindPCTemplate (pct->GetName (),
+        pct->GetTag ());
+    if (!mergeWith)
+    {
+      mergeWith = static_cast<celPropertyClassTemplate*> (
+          CreatePropertyClassTemplate ());
+      mergeWith->SetName (pct->GetName ());
+      if (pct->GetTag () && *pct->GetTag ())
+        mergeWith->SetTag (pct->GetTag ());
+    }
+    mergeWith->Merge (pct);
+  }
+
+  for (size_t i = 0 ; i < other->messages.GetSize () ; i++)
+  {
+    ccfMessage& msg = other->messages.Get (i);
+    AddMessage (msg.msgid, msg.params);
+  }
+
+  csSet<csStringID>::GlobalIterator it = other->classes.GetIterator ();
+  while (it.HasNext ())
+  {
+    csStringID id = it.Next ();
+    classes.Add (id);
+  }
 }
 
 //---------------------------------------------------------------------------

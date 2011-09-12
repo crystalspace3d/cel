@@ -40,7 +40,7 @@ struct iCelParameterBlock;
  */
 struct iCelEntityTemplate : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntityTemplate, 0, 0, 1);
+  SCF_INTERFACE (iCelEntityTemplate, 0, 0, 2);
 
   /**
    * Get the iObject for this entity template.
@@ -111,6 +111,11 @@ struct iCelEntityTemplate : public virtual iBase
    * Return the set of classes for this entity.
    */
   virtual const csSet<csStringID>& GetClasses () const = 0;
+
+  /**
+   * Merge another template into this one.
+   */
+  virtual void Merge (iCelEntityTemplate* tpl) = 0;
 };
 
 /**
