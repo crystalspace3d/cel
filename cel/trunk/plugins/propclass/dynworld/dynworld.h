@@ -30,7 +30,7 @@
 #include "iutil/comp.h"
 #include "iutil/virtclk.h"
 
-#include "csgeom/kdtree.h"
+#include "csgeom/kdtreex.h"
 #include "csgeom/math3d.h"
 #include "csgeom/sphere.h"
 
@@ -276,7 +276,7 @@ private:
   bool is_hilight;
   bool hilight_installed;
   float fade;
-  csKDTreeChild* child;
+  CS::Geometry::KDTreeChild* child;
 
   csRef<iCelEntityTemplate> entityTemplate;
   csString entityName;
@@ -286,9 +286,6 @@ private:
   void InstallHilight (bool hi);
   void Init ();
 
-  mutable csBox3 bbox;
-  mutable bool bboxValid;
-
   mutable csSphere bsphere;
   mutable bool bsphereValid;
 
@@ -297,8 +294,9 @@ public:
   DynamicObject (DynamicFactory* factory, const csReversibleTransform& trans);
   virtual ~DynamicObject ();
 
-  csKDTreeChild* GetChild () const { return child; }
-  void SetChild (csKDTreeChild* child) { DynamicObject::child = child; }
+  CS::Geometry::KDTreeChild* GetChild () const { return child; }
+  void SetChild (CS::Geometry::KDTreeChild* child)
+  { DynamicObject::child = child; }
 
   virtual iDynamicFactory* GetFactory () const { return factory; }
   virtual void MakeStatic ();
@@ -310,7 +308,6 @@ public:
   virtual bool IsHilight () const { return is_hilight; }
   virtual iMeshWrapper* GetMesh () const { return mesh; }
   virtual iRigidBody* GetBody () const { return body; }
-  virtual const csBox3& GetBBox () const;
   const csSphere& GetBSphere () const;
   virtual void RefreshColliders ();
   virtual const csReversibleTransform& GetTransform ();
@@ -365,7 +362,7 @@ public:
   float radius;
   csSet<csPtrKey<DynamicObject> > fadingIn;
   csSet<csPtrKey<DynamicObject> > fadingOut;
-  csKDTree tree;
+  CS::Geometry::KDTree* tree;
   csRef<iELCM> elcm;
 
   csSet<csPtrKey<DynamicObject> > visibleObjects;

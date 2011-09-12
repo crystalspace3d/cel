@@ -118,14 +118,17 @@ bool ElcmTest::CreateFactories ()
   return true;
 }
 
+#define SIZE 250
+//#define SIZE 1
+
 bool ElcmTest::FillDynamicWorld ()
 {
   iDynamicFactory* boxFact = dynworld->AddFactory ("Box", 1.0, -1.0f);
   boxFact->AddRigidBox (csVector3 (0, .3, 0), csVector3 (.6, .6, .6), 1.0);
   csMatrix3 matId;
   iDynamicObject* obj;
-  for (int y = -250 ; y <= 250 ; y++)
-    for (int x = -250 ; x <= 250 ; x++)
+  for (int y = -SIZE ; y <= SIZE ; y++)
+    for (int x = -SIZE ; x <= SIZE ; x++)
     {
       obj = dynworld->AddObject ("Box", csReversibleTransform (
 	    matId, csVector3 (float (x*5), 0, float (y*5))));
