@@ -57,15 +57,18 @@ public:
   virtual ~celPropertyClassTemplate ();
 
   const csArray<ccfPropAct>& GetProperties () const { return properties; }
+  void Merge (celPropertyClassTemplate* other);
 
   virtual void SetName (const char* name)
   {
     celPropertyClassTemplate::name = name;
   }
   virtual const char* GetName () const { return name; }
+  const csString& GetNameStr () const { return name; }
   virtual void SetTag (const char* tag) { celPropertyClassTemplate::tag = tag; }
   virtual const char* GetTag () const
   { return tag.IsEmpty () ? 0 : (const char*)tag; }
+  const csString& GetTagStr () const { return tag; }
   virtual void SetPropertyVariable (csStringID propertyID, celDataType type,
   	const char* varname);
   virtual void SetProperty (csStringID propertyID, long value);
@@ -93,6 +96,8 @@ private:
   csString layer, behaviour;
   csArray<ccfMessage> messages;
   csSet<csStringID> classes;
+
+  celPropertyClassTemplate* FindPCTemplate (const char* name, const char* tag);
 
 public:
   celEntityTemplate ();
@@ -123,6 +128,8 @@ public:
   virtual iObject* QueryObject () { return this; }
   virtual const char* GetName () const { return csObject::GetName (); }
   virtual void SetName (const char* n) { csObject::SetName (n); }
+
+  virtual void Merge (iCelEntityTemplate* tpl);
 };
 
 #endif // __CEL_PLIMP_ENTITYFACT__
