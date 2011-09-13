@@ -51,6 +51,7 @@
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
 #include "plugins/behaviourlayer/xml/blxml.h"
+#include "physicallayer/datatype.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/pl.h"
@@ -1066,6 +1067,50 @@ static bool prop2celXmlArg (iPcProperties* props, size_t idx, celXmlArg& out)
       {
         iBase* l = props->GetPropertyIBase (idx);
         out.SetIBase (l);
+      }
+      break;
+    default:
+      return false;
+  }
+  return true;
+}
+
+static bool celXmlArg2celData (const celXmlArg& in, celData& data)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_ENTITY: data.Set (in.arg.entity); break;
+    case CEL_DATA_IBASE: data.SetIBase (in.arg.ref); break;
+    case CEL_DATA_PCLASS: data.Set (in.arg.pc); break;
+    case CEL_DATA_LONG: data.Set (in.arg.i); break;
+    case CEL_DATA_ULONG: data.Set (in.arg.ui); break;
+    case CEL_DATA_BOOL: data.Set (in.arg.b); break;
+    case CEL_DATA_FLOAT: data.Set (in.arg.f); break;
+    case CEL_DATA_STRING: data.Set (in.arg.str.s); break;
+    case CEL_DATA_VECTOR2:
+      {
+        csVector2 v;
+        v.x = in.arg.vec.x;
+        v.y = in.arg.vec.y;
+        data.Set (v);
+      }
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+        csVector3 v;
+        v.x = in.arg.vec.x;
+        v.y = in.arg.vec.y;
+        v.z = in.arg.vec.z;
+        data.Set (v);
+      }
+      break;
+    case CEL_DATA_COLOR:
+      {
+        csColor v;
+        v.red = in.arg.col.red;
+        v.green = in.arg.col.green;
+        v.blue = in.arg.col.blue;
+        data.Set (v);
       }
       break;
     default:
@@ -3772,6 +3817,100 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  template_params.Put (ArgToString (a_name), ArgToStringTpl (a_val));
         }
         break;
+      case CEL_OPERATION_MESSAGE0:
+        {
+	  CHECK_STACK(2)
+          celXmlArg a_id = stack.Pop ();
+          celXmlArg& a_ent = stack.Top ();
+          DUMP_EXEC ((":%04d: message0 entity=%s id=%s\n", i-1,  A2S (a_ent),
+          	A2S (a_id)));
+
+	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
+	  if (!other_ent)
+	    return ReportError (cbl,
+	    	"Couldn't find entity '%s' for 'message'!",
+	    	EntityNameForError (a_ent));
+
+	  const char* msgid = ArgToString (a_id);
+          iMessageChannel* channel = other_ent->QueryMessageChannel ();
+          csRef<iCelDataArray> ret;
+          ret.AttachNew (new scfArray<iCelDataArray>);
+          bool rc = channel->SendMessage (msgid, pl->QueryMessageSender (), 0, ret);
+
+          if (ret->GetSize () == 0)
+            a_ent.Set (rc);
+          else
+            celData2celXmlArg (ret->Get (0), a_ent);
+        }
+        break;
+      case CEL_OPERATION_MESSAGE1:
+        {
+	  CHECK_STACK(3)
+          celXmlArg a_par1 = stack.Pop ();
+          celXmlArg a_id = stack.Pop ();
+          celXmlArg& a_ent = stack.Top ();
+          DUMP_EXEC ((":%04d: message1 entity=%s id=%s par1=%s\n", i-1,
+                A2S (a_ent), A2S (a_id), A2S (a_par1)));
+
+	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
+	  if (!other_ent)
+	    return ReportError (cbl,
+	    	"Couldn't find entity '%s' for 'message'!",
+	    	EntityNameForError (a_ent));
+
+	  const char* msgid = ArgToString (a_id);
+          iMessageChannel* channel = other_ent->QueryMessageChannel ();
+          csRef<iCelDataArray> ret;
+          ret.AttachNew (new scfArray<iCelDataArray>);
+          csRef<celOneParameterBlock> params;
+          params.AttachNew (new celOneParameterBlock ());
+          celData& data = params->GetParameter (0);
+          if (!celXmlArg2celData (a_par1, data))
+	    return ReportError (cbl, "Bad type of value for message!");
+          bool rc = channel->SendMessage (msgid, pl->QueryMessageSender (), params, ret);
+
+          if (ret->GetSize () == 0)
+            a_ent.Set (rc);
+          else
+            celData2celXmlArg (ret->Get (0), a_ent);
+        }
+        break;
+      case CEL_OPERATION_MESSAGE2:
+        {
+	  CHECK_STACK(4)
+          celXmlArg a_par2 = stack.Pop ();
+          celXmlArg a_par1 = stack.Pop ();
+          celXmlArg a_id = stack.Pop ();
+          celXmlArg& a_ent = stack.Top ();
+          DUMP_EXEC ((":%04d: message1 entity=%s id=%s par1=%s par2=%s\n", i-1,
+                A2S (a_ent), A2S (a_id), A2S (a_par1), A2S (a_par2)));
+
+	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
+	  if (!other_ent)
+	    return ReportError (cbl,
+	    	"Couldn't find entity '%s' for 'message'!",
+	    	EntityNameForError (a_ent));
+
+	  const char* msgid = ArgToString (a_id);
+          iMessageChannel* channel = other_ent->QueryMessageChannel ();
+          csRef<iCelDataArray> ret;
+          ret.AttachNew (new scfArray<iCelDataArray>);
+          csRef<celVariableParameterBlock> params;
+          params.AttachNew (new celVariableParameterBlock ());
+          celData& data1 = params->GetParameter (0);
+          if (!celXmlArg2celData (a_par1, data1))
+	    return ReportError (cbl, "Bad type of value for message!");
+          celData& data2 = params->GetParameter (1);
+          if (!celXmlArg2celData (a_par2, data2))
+	    return ReportError (cbl, "Bad type of value for message!");
+          bool rc = channel->SendMessage (msgid, pl->QueryMessageSender (), params, ret);
+
+          if (ret->GetSize () == 0)
+            a_ent.Set (rc);
+          else
+            celData2celXmlArg (ret->Get (0), a_ent);
+        }
+        break;
       case CEL_OPERATION_CALL_I:
         {
 	  celXmlScriptEventHandler* handler = op.arg.arg.h.h_true;
@@ -3981,7 +4120,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           CHECK_STACK(2)
           celXmlArg a_id = stack.Pop ();
           celXmlArg a_pc = stack.Pop ();
-          DUMP_EXEC ((":%04d: action pc=%s id=%d\n", i-1, A2S (a_pc),
+          DUMP_EXEC ((":%04d: action pc=%s id=%s\n", i-1, A2S (a_pc),
           	A2S (a_id)));
           iCelPropertyClass* pc = ArgToPClass (a_pc);
           if (!pc) pc = default_pc;
@@ -3999,7 +4138,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           CHECK_STACK(2)
           celXmlArg a_id = stack.Pop ();
           celXmlArg& a_pc = stack.Top ();
-          DUMP_EXEC ((":%04d: actionfun pc=%s id=%d\n", i-1, A2S (a_pc),
+          DUMP_EXEC ((":%04d: actionfun pc=%s id=%s\n", i-1, A2S (a_pc),
           	A2S (a_id)));
           iCelPropertyClass* pc = ArgToPClass (a_pc);
           if (!pc) pc = default_pc;
@@ -4505,45 +4644,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      	iCelParameterBlock*) action_params;
 	  vb->SetParameterDef (op.arg.arg.ui, ArgToID (a_id));
 	  celData& data = vb->GetParameter ((int)op.arg.arg.ui);
-	  switch (a_val.type)
-	  {
-	    case CEL_DATA_ENTITY: data.Set (a_val.arg.entity); break;
-	    case CEL_DATA_IBASE: data.SetIBase (a_val.arg.ref); break;
-	    case CEL_DATA_PCLASS: data.Set (a_val.arg.pc); break;
-	    case CEL_DATA_LONG: data.Set (a_val.arg.i); break;
-	    case CEL_DATA_ULONG: data.Set (a_val.arg.ui); break;
-	    case CEL_DATA_BOOL: data.Set (a_val.arg.b); break;
-	    case CEL_DATA_FLOAT: data.Set (a_val.arg.f); break;
-	    case CEL_DATA_STRING: data.Set (a_val.arg.str.s); break;
-	    case CEL_DATA_VECTOR2:
-	      {
-	        csVector2 v;
-		v.x = a_val.arg.vec.x;
-		v.y = a_val.arg.vec.y;
-	        data.Set (v);
-	      }
-	      break;
-	    case CEL_DATA_VECTOR3:
-	      {
-	        csVector3 v;
-		v.x = a_val.arg.vec.x;
-		v.y = a_val.arg.vec.y;
-		v.z = a_val.arg.vec.z;
-	        data.Set (v);
-	      }
-	      break;
-	    case CEL_DATA_COLOR:
-	      {
-	        csColor v;
-		v.red = a_val.arg.col.red;
-		v.green = a_val.arg.col.green;
-		v.blue = a_val.arg.col.blue;
-	        data.Set (v);
-	      }
-	      break;
-	    default:
-	      return ReportError (cbl, "Bad type of value for action/param!");
-	  }
+          if (!celXmlArg2celData (a_val, data))
+	    return ReportError (cbl, "Bad type of value for action/param!");
         }
         break;
       case CEL_OPERATION_VARENT_STR:
