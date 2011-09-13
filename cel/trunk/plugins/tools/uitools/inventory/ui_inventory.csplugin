@@ -7,6 +7,9 @@
         <name>cel.ui.inventory</name>
         <implementation>celUIInventory</implementation>
 	<description>CEL Inventory UI</description>
+        <requires>
+          <class>crystalspace.cegui.wrapper</class>
+        </requires>
       </class>
     </classes>
   </scf>

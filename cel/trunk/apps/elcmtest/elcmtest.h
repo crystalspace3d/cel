@@ -7,8 +7,22 @@
 #include <physicallayer/pl.h>
 #include <propclass/dynworld.h>
 #include <tools/elcm.h>
+#include <tools/uitools/inventory.h>
 
+class ElcmTest;
 class FramePrinter;
+
+class CeguiPrinter : public scfImplementation1<CeguiPrinter,iCelTimerListener>
+{
+private:
+  ElcmTest* parent;
+
+public:
+  CeguiPrinter (ElcmTest* parent) : scfImplementationType (this), parent (parent) { }
+  virtual ~CeguiPrinter () { }
+  virtual void TickEveryFrame ();
+  virtual void TickOnce () { }
+};
 
 class ElcmTest : public csApplicationFramework,
                 public csBaseEventHandler
@@ -31,7 +45,12 @@ private:
   iCamera* camera;
   iSector* sector;
 
+  csRef<CeguiPrinter> ceguiPrinter;
   csRef<iCEGUI> cegui;
+  csRef<iUIInventory> uiInventory;
+
+  csRef<iMessageReceiver> receiver;
+  csStringID msgInventory;
 
   /// Physics.
   csRef<iDynamics> dyn;
@@ -51,6 +70,12 @@ private:
 public:
   ElcmTest ();
   virtual ~ElcmTest ();
+
+  iGraphics3D* GetG3D () const { return g3d; }
+  iCEGUI* GetCEGUI () const { return cegui; }
+
+  bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params);
 
   virtual bool OnInitialize (int argc, char* argv[]);
   virtual bool Application ();

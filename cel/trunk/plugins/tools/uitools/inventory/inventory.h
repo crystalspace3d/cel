@@ -20,8 +20,11 @@
 #ifndef __CEL_UITOOLS_INVENTORY_IMP__
 #define __CEL_UITOOLS_INVENTORY_IMP__
 
+#include <CEGUI.h>
 #include "csutil/util.h"
+#include "ivaria/icegui.h"
 
+#include "propclass/inv.h"
 #include "tools/uitools/inventory.h"
 
 struct iEngine;
@@ -31,11 +34,32 @@ class celUIInventory : public scfImplementation2<celUIInventory,
 {
 private:
   iObjectRegistry* object_reg;
+  csRef<iCEGUI> cegui;
+  csRef<iPcInventory> inventory;
+
+  CEGUI::Window* window;
+
+  csRefArray<iUIInventorySelectionCallback> callbacks;
+
+  void FireSelectionListeners (iCelEntity* entity);
+
+  void UpdateLists (iPcInventory* inventory);
+  bool OkButton (const CEGUI::EventArgs& e);
+  bool CancelButton (const CEGUI::EventArgs& e);
+  bool Select (const CEGUI::EventArgs& e);
+
+  void Setup ();
 
 public:
   celUIInventory (iBase* parent);
   virtual ~celUIInventory ();
   virtual bool Initialize (iObjectRegistry* object_reg);
+
+  virtual void Open (iPcInventory* inventory);
+  virtual void Close ();
+
+  virtual void AddSelectionListener (iUIInventorySelectionCallback* cb);
+  virtual void RemoveSelectionListener (iUIInventorySelectionCallback* cb);
 };
 
 #endif // __CEL_UITOOLS_INVENTORY_IMP__
