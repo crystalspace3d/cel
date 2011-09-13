@@ -10,9 +10,44 @@
 #include "propclass/delegcam.h"
 #include "propclass/cameras/tracking.h"
 #include "propclass/jump.h"
+#include "propclass/inv.h"
 #include <physicallayer/propclas.h>
+#include <behaviourlayer/behave.h>
 
 #include "elcmtest.h"
+
+//-----------------------------------------------------------------------
+
+void CeguiPrinter::TickEveryFrame ()
+{
+  parent->GetG3D ()->BeginDraw (CSDRAW_2DGRAPHICS);
+  parent->GetCEGUI ()->Render ();
+}
+
+//-----------------------------------------------------------------------
+
+class ElcmMessageReceiver : public scfImplementation1<ElcmMessageReceiver,
+  iMessageReceiver>
+{
+private:
+  ElcmTest* elcmTest;
+
+public:
+  ElcmMessageReceiver (ElcmTest* elcmTest) :
+    scfImplementationType (this), elcmTest (elcmTest)
+  {
+  }
+
+  virtual ~ElcmMessageReceiver () { }
+
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params)
+  {
+    return elcmTest->ReceiveMessage (msg_id, sender, ret, params);
+  }
+};
+
+//-----------------------------------------------------------------------
 
 ElcmTest::ElcmTest ()
 {
@@ -37,11 +72,11 @@ bool ElcmTest::InitWindowSystem ()
 
   CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
 
-  // Load layout and set as root
-  //vfs->ChDir ("/this/data/windows/");
-  //cegui->GetSystemPtr ()->setGUISheet(winMgr->loadWindowLayout("ice.layout"));
+  vfs->ChDir ("/cellib/ui/");
+  cegui->GetSystemPtr ()->setGUISheet(winMgr->loadWindowLayout("ui.layout"));
 
-  //CEGUI::Window* btn;
+  uiInventory = csQueryRegistry<iUIInventory> (GetObjectRegistry ());
+  if (!uiInventory) return ReportError ("Failed to locate UI Inventory plugin!");
 
   return true;
 }
@@ -70,6 +105,9 @@ bool ElcmTest::CreateLevel ()
       "pcworld.dynamic", CEL_PROPCLASS_END);
   if (!worldEntity)
     return ReportError ("Error creating world entity!");
+
+  receiver.AttachNew (new ElcmMessageReceiver (this));
+  worldEntity->QueryMessageChannel ()->Subscribe (receiver, "elcm.");
 
   sector = engine->CreateSector ("room");
 
@@ -235,12 +273,36 @@ bool ElcmTest::CreatePlayer ()
   return true;
 }
 
+bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params)
+{
+  printf ("ReceiveMessage\n"); fflush (stdout);
+  if (msg_id == msgInventory)
+  {
+    const celData* data = params->GetParameterByIndex (0);
+    if (data->type != CEL_DATA_STRING)
+      return ReportError ("Invalid parameter for 'inventory' message. Expected string.");
+    iCelEntity* ent = pl->FindEntity (data->value.s->GetData ());
+    printf ("Entity %s\n", ent->QueryObject ()->GetName ());
+    fflush (stdout);
+    csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (ent);
+    if (!inventory)
+    {
+      printf ("There is no inventory for this entity!\n");
+      fflush (stdout);
+    }
+    else
+      uiInventory->Open (inventory);
+    return true;
+  }
+  return false;
+}
+
 void ElcmTest::Frame ()
 {
   float elapsed_time = vc->GetElapsedSeconds ();
   dyn->Step (elapsed_time);
   dynworld->PrepareView (camera, elapsed_time);
-  cegui->Render ();
 }
 
 bool ElcmTest::OnKeyboard(iEvent& ev)
@@ -288,6 +350,7 @@ bool ElcmTest::OnInitialize (int argc, char* argv[])
     	CS_REQUEST_REPORTER,
     	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN ("crystalspace.cegui.wrapper", iCEGUI),
+    	CS_REQUEST_PLUGIN ("cel.ui.inventory", iUIInventory),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
     	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
@@ -324,6 +387,11 @@ bool ElcmTest::Application ()
   elcm->SetDistanceThresshold (1.0f);
   elcm->SetCheckTime (100);
   elcm->SetUnloadCheckFrequency (30);
+
+  msgInventory = pl->FetchStringID ("elcm.inventory");
+
+  ceguiPrinter.AttachNew (new CeguiPrinter (this));
+  pl->CallbackEveryFrame (ceguiPrinter, CEL_EVENT_POST);
 
   if (!InitWindowSystem ())
     return ReportError ("Error initializing windowing!");

@@ -9,6 +9,9 @@
 	    <reward type="action" entity="$this" pc="pcphysics.object" id="AddForceOnce">
 	      <par name="force" vector3="0,4,0" />
 	    </reward>
+	    <reward type="message" entity="world" id="elcm.inventory">
+	      <par name="entity" string="$this" />
+	    </reward>
 	    <reward type="newstate" state="init" />
 	  </trigger>
 	</state>
@@ -62,6 +65,8 @@
           <par name="name" string="jumperQuest" />
         </action>
         <property name="state" string="init" />
+      </propclass>
+      <propclass name="pctools.inventory">
       </propclass>
     </addon>
 </library>
