@@ -111,6 +111,8 @@ public:
   const csArray<ccfMessage>& GetMessages () const { return messages; }
 
   virtual iCelPropertyClassTemplate* CreatePropertyClassTemplate ();
+  virtual iCelPropertyClassTemplate* FindPropertyClassTemplate (const char* name,
+      const char* tag);
   virtual void SetBehaviour (const char* layer, const char* behaviour)
   {
     celEntityTemplate::layer = layer;

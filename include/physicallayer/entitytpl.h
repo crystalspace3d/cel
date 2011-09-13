@@ -40,7 +40,7 @@ struct iCelParameterBlock;
  */
 struct iCelEntityTemplate : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntityTemplate, 0, 0, 2);
+  SCF_INTERFACE (iCelEntityTemplate, 0, 0, 3);
 
   /**
    * Get the iObject for this entity template.
@@ -64,6 +64,12 @@ struct iCelEntityTemplate : public virtual iBase
    * Create a new property class template for this entity.
    */
   virtual iCelPropertyClassTemplate* CreatePropertyClassTemplate () = 0;
+
+  /**
+   * Find a certain property class template.
+   */
+  virtual iCelPropertyClassTemplate* FindPropertyClassTemplate (const char* name,
+      const char* tag) = 0;
 
   /**
    * Set the behaviour associated with this template.

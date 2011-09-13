@@ -155,6 +155,14 @@ bool celEntityTemplate::HasClass (csStringID cls)
   return classes.In (cls);
 }
 
+iCelPropertyClassTemplate* celEntityTemplate::FindPropertyClassTemplate (
+    const char* name, const char* tag)
+{
+  iCelPropertyClassTemplate* pc = FindPCTemplate (name, tag);
+  if (!pc) return 0;
+  return static_cast<celPropertyClassTemplate*> (pc);
+}
+
 celPropertyClassTemplate* celEntityTemplate::FindPCTemplate (
     const char* name, const char* tag)
 {
