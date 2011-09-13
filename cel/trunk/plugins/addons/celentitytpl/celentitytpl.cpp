@@ -548,13 +548,17 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
 	        child, "Name of the property class is missing!");
 	    return 0;
 	  }
-	  pc = ent->CreatePropertyClassTemplate ();
-	  pc->SetName (name);
+	  const char* tag = child->GetAttributeValue ("tag");
+
+          pc = ent->FindPropertyClassTemplate (name, tag);
+          if (!pc)
+          {
+	    pc = ent->CreatePropertyClassTemplate ();
+	    pc->SetName (name);
+	    pc->SetTag (tag);
+          }
 	  if (!ParseProperties (pc, child))
 	    return 0;
-	  const char* tag = child->GetAttributeValue ("tag");
-	  if (tag)
-	    pc->SetTag (tag);
 	}
 	break;
       case XMLTOKEN_CALL:
