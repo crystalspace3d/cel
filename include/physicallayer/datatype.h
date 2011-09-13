@@ -177,6 +177,7 @@ struct celData
       default:
         printf ("INTERNAL ERROR! Bad type %d\n", type);
         fflush (stdout);
+        return false;
     }
   }
 
