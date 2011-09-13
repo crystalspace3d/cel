@@ -41,5 +41,6 @@
 #include "tools/rulebase.h"
 #include "tools/sequences.h"
 #include "tools/triggers.h"
+#include "tools/uitools/inventory.h"
 #endif /* __TOOLS_H__ */
 

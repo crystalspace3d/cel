@@ -792,6 +792,7 @@ class iCelEntityTemplate(cspace.iBase):
     def RemoveClass(*args): return _blcelc.iCelEntityTemplate_RemoveClass(*args)
     def HasClass(*args): return _blcelc.iCelEntityTemplate_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntityTemplate_GetClasses(*args)
+    def Merge(*args): return _blcelc.iCelEntityTemplate_Merge(*args)
     Object = _swig_property(_blcelc.iCelEntityTemplate_Object_get, None, None,
                     "iCelEntityTemplate.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntityTemplate::QueryObject()")
 
