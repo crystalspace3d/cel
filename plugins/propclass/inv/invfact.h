@@ -35,6 +35,7 @@
 #include "propclass/chars.h"
 
 struct iCelEntity;
+struct iCelEntityTemplate;
 struct iObjectRegistry;
 
 /**
@@ -53,15 +54,13 @@ private:
   csRefArray<iCelEntity> contents;
   struct constraint
   {
-    char* charName;
+    csString charName;
     float minValue;
     float maxValue;
     float totalMaxValue;
     float currentValue;
     bool strict;
     bool dirty;
-    constraint () : charName (0) { }
-    ~constraint () { delete[] charName; }
   };
   csPDelArray<constraint> constraints;
   csRefArray<iPcInventoryListener> listeners;
@@ -77,6 +76,8 @@ private:
   celOneParameterBlock* params;
 
   csRef<iCelInventorySpace> space;
+
+  csSet<csStringID> allowedClasses;
 
 public:
   celPcInventory (iObjectRegistry* object_reg);
@@ -119,6 +120,10 @@ public:
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+
+  virtual void AddAllowedClass (csStringID cls);
+  virtual void ClearAllowedClasses ();
+  virtual bool IsClassAllowed (csStringID cls) const;
 };
 
 /**
