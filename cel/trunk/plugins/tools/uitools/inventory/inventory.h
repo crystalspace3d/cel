@@ -55,7 +55,7 @@ public:
   virtual ~celUIInventory ();
   virtual bool Initialize (iObjectRegistry* object_reg);
 
-  virtual void Open (iPcInventory* inventory);
+  virtual void Open (const char* title, iPcInventory* inventory);
   virtual void Close ();
 
   virtual void AddSelectionListener (iUIInventorySelectionCallback* cb);

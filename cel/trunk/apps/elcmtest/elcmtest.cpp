@@ -206,6 +206,7 @@ bool ElcmTest::CreatePlayer ()
 {
   playerEntity = pl->CreateEntity ("player", 0, 0,
     "pcinput.standard",
+    "pctools.inventory",
     "pcmove.analogmotion",
     "pcmove.jump",
     "pcmove.grab",
@@ -268,6 +269,16 @@ bool ElcmTest::CreatePlayer ()
   pcinput->Bind ("x", "lockon");
   pcinput->Bind ("c", "resetcam");
 
+  csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (
+	  playerEntity);
+
+  csRef<iCelEntity> dummy = pl->CreateEntity ("Dummy 1", 0, 0, CEL_PROPCLASS_END);
+  inventory->AddEntity (dummy);
+  dummy = pl->CreateEntity ("Dummy 2", 0, 0, CEL_PROPCLASS_END);
+  inventory->AddEntity (dummy);
+  dummy = pl->CreateEntity ("Dummy 3", 0, 0, CEL_PROPCLASS_END);
+  inventory->AddEntity (dummy);
+
   elcm->SetPlayer (playerEntity);
 
   return true;
@@ -283,8 +294,6 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
     if (data->type != CEL_DATA_STRING)
       return ReportError ("Invalid parameter for 'inventory' message. Expected string.");
     iCelEntity* ent = pl->FindEntity (data->value.s->GetData ());
-    printf ("Entity %s\n", ent->QueryObject ()->GetName ());
-    fflush (stdout);
     csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (ent);
     if (!inventory)
     {
@@ -292,7 +301,11 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       fflush (stdout);
     }
     else
-      uiInventory->Open (inventory);
+    {
+      csString title;
+      title.Format ("Inventory for %s", ent->QueryObject ()->GetName ());
+      uiInventory->Open (title, inventory);
+    }
     return true;
   }
   return false;
@@ -333,6 +346,12 @@ bool ElcmTest::OnKeyboard(iEvent& ev)
       printf ("  Total entities=%d\n", pl->GetEntityCount ());
       printf ("  Total meshes=%d\n", engine->GetMeshes ()->GetCount ());
       fflush (stdout);
+    }
+    else if (code == 'i')
+    {
+      csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (
+	  playerEntity);
+      uiInventory->Open ("Inventory for player", inventory);
     }
   }
   return false;

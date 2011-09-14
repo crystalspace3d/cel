@@ -33,6 +33,7 @@
 #include "ivaria/reporter.h"
 
 #include "inventory.h"
+#include "physicallayer/entity.h"
 
 SCF_IMPLEMENT_FACTORY (celUIInventory)
 
@@ -93,11 +94,16 @@ void celUIInventory::UpdateLists (iPcInventory* inventory)
 
   list->resetList();
 
-  CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem("..");
-  //item->setTextColours(CEGUI::colour(0,0,0));
-  //item->setSelectionBrushImage("ice", "TextSelectionBrush");
-  //item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
-  list->addItem(item);
+  for (size_t i = 0 ; i < inventory->GetEntityCount () ; i++)
+  {
+    iCelEntity* ent = inventory->GetEntity (i);
+    CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem (
+        ent->QueryObject ()->GetName ());
+    item->setTextColours(CEGUI::colour(0,0,0));
+    item->setSelectionBrushImage("ice", "TextSelectionBrush");
+    item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
+    list->addItem(item);
+  }
 }
 
 bool celUIInventory::OkButton (const CEGUI::EventArgs& e)
@@ -145,9 +151,14 @@ void celUIInventory::FireSelectionListeners (iCelEntity* entity)
     callbacks[i]->SelectEntity (entity);
 }
 
-void celUIInventory::Open (iPcInventory* inventory)
+void celUIInventory::Open (const char* title, iPcInventory* inventory)
 {
   Setup ();
+
+  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+  CEGUI::Window* btn = winMgr->getWindow("UIInventory/Name");
+  btn->setProperty("Text", title);
+
   celUIInventory::inventory = inventory;
   UpdateLists (inventory);
   window->show ();
