@@ -41,7 +41,7 @@ struct iUIInventory: public virtual iBase
   SCF_INTERFACE (iUIInventory, 0, 0, 1);
 
   /// Open the inventory.
-  virtual void Open (iPcInventory* inventory) = 0;
+  virtual void Open (const char* title, iPcInventory* inventory) = 0;
   /// Close the inventory.
   virtual void Close () = 0;
 
