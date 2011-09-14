@@ -29,6 +29,7 @@
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
+#include "physicallayer/entitytpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
 #include "propclass/inv.h"
@@ -44,6 +45,12 @@ struct iObjectRegistry;
 CEL_DECLARE_FACTORY (Inventory)
 CEL_DECLARE_FACTORY (Characteristics)   
 
+//struct TemplateStack
+//{
+  //csRef<iCelEntityTemplate> tpl;
+  //int count;
+//};
+
 /**
  * This is an inventory property class.
  */
@@ -52,6 +59,7 @@ class celPcInventory : public scfImplementationExt1<
 {
 private:
   csRefArray<iCelEntity> contents;
+  //csArray<TemplateStack> templatedContents;
   struct constraint
   {
     csString charName;
@@ -83,8 +91,7 @@ public:
   celPcInventory (iObjectRegistry* object_reg);
   virtual ~celPcInventory ();
 
-  virtual bool AddEntity (iCelEntity* entity);
-  virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params);
+  virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params = 0);
   virtual bool RemoveEntity (iCelEntity* entity);
   virtual bool RemoveEntity (iCelParameterBlock* params);
   virtual bool RemoveAll ();
