@@ -25,6 +25,7 @@
 #include "behaviourlayer/behave.h"
 
 struct iCelEntity;
+struct iCelEntityTemplate;
 struct iPcInventory;
 
 /**
@@ -32,7 +33,7 @@ struct iPcInventory;
  */
 struct iPcInventoryListener : public virtual iBase
 {
-  SCF_INTERFACE (iPcInventoryListener, 0, 0, 1);
+  SCF_INTERFACE (iPcInventoryListener, 0, 1, 1);
 
   /**
    * A child is added to this inventory.
@@ -43,6 +44,18 @@ struct iPcInventoryListener : public virtual iBase
    * A child is removed from this inventory.
    */
   virtual void RemoveChild (iPcInventory* inventory, iCelEntity* entity) = 0;
+
+  /**
+   * An entity template is added to this inventory.
+   */
+  //virtual void AddChildTemplate (iPcInventory* inventory,
+      //iCelEntityTemplate* tpl, int count) = 0;
+
+  /**
+   * An entity template is removed from this inventory.
+   */
+  //virtual void RemoveChildTemplate (iPcInventory* inventory,
+      //iCelEntityTemplate* tpl, int count) = 0;
 };
 
 
@@ -93,7 +106,7 @@ struct iCelInventorySpaceSlot : public virtual iBase
  */
 struct iCelInventorySpace : public virtual iBase
 {
-  SCF_INTERFACE (iCelInventorySpace, 0, 0, 1);
+  SCF_INTERFACE (iCelInventorySpace, 0, 1, 1);
   
   /// Return how much space is available in total.
   virtual int GetSpaceTotal () const = 0;
@@ -105,25 +118,20 @@ struct iCelInventorySpace : public virtual iBase
   virtual int GetSpaceTaken () const = 0;
   
   /**
-   * When some code calls old-style AddEntity() (with no parameters) on the
-   * iPcInventory then this function will be called. We can pick a default
-   * slot or else reject this if a slot specification is always required.
+   * Add an entity on a given slot. The generic 'params' will be used to 
+   * indicate the slot. It is up to the implementation of this interface
+   * to decide on how to use this.
+   * If 'params' is not given then a default slot can be picked (or the
+   * add can be rejected in case slot specifications are always required).
    * /return false if there is no room or if this is not allowed.
    */
-  virtual bool AddEntity (iCelEntity* entity) = 0;
+  virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params = 0) = 0;
   /**
    * Remove the entity from its slot.
    * /return false if it couldn't be removed.
    */
   virtual bool RemoveEntity (iCelEntity* entity) = 0;
   
-  /**
-   * Add an entity on a given slot. The generic 'params' will be used to 
-   * indicate the slot. It is up to the implementation of this interface
-   * to decide on how to use this.
-   * /return false if there is no room or if this is not allowed.
-   */
-  virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params) = 0;
   /**
    * Remove an entity (or entities) from the specified slot (through 'params').
    * If needed the params can be extended with information to specify the
@@ -160,7 +168,7 @@ struct iCelInventorySpace : public virtual iBase
  */
 struct iPcInventory : public virtual iBase
 {
-  SCF_INTERFACE (iPcInventory, 1, 0, 0);
+  SCF_INTERFACE (iPcInventory, 1, 1, 0);
 
   /**
    * Add an inventory listener. Inventory listeners are called right before
@@ -177,17 +185,10 @@ struct iPcInventory : public virtual iBase
    * not be added (capacity exceeded for example).
    * Note that it is safe to add entities that are already in the inventory.
    * Nothing will happen then and true will be returned.
-   */
-  virtual bool AddEntity (iCelEntity* entity) = 0;
-
-  /**
-   * Add an entity on a given slot using the space system. Returns false if
-   * the entity could not be added (capacity exceeded for example).
-   * Note that it is safe to add entities that are already in the inventory.
-   * Nothing will happen then and true will be returned.
+   * If 'params' is given then this will be given to the space system.
    * \param params is a generic slot specification (used by iCelInventorySpace).
    */
-  virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params) = 0;
+  virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params = 0) = 0;
 
   /**
    * Remove an entity. This can fail if removing an entity causes

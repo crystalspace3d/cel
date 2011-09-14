@@ -146,76 +146,6 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcInventory::AddEntity (iCelEntity* child)
-{
-  if (contents.Find (child) != csArrayItemNotFound) return true;
-
-  if ((!allowedClasses.IsEmpty ()) && !allowedClasses.TestIntersect (
-        entity->GetClasses ()))
-    return false;
-
-  if (space)
-  {
-    bool ret = space->AddEntity (child);
-    if (!ret) return false;
-  }
-
-  // Add our child. We will later test if this is valid and if
-  // not undo this change.
-  size_t idx = contents.Push (child);
-  csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
-  if (pcchar)
-    pcchar->AddToInventory ((iPcInventory*)this);
-
-  // First try if everything is ok.
-  MarkDirty (0);
-  if (!TestConstraints (0))
-  {
-    // Constraints are not ok. Undo our change.
-    MarkDirty (0);
-    contents.DeleteIndex (idx);
-    if (pcchar)
-      pcchar->RemoveFromInventory ((iPcInventory*)this);
-
-    if(space)
-      space->RemoveEntity(child);
-    return false;
-  }
-
-  // Send messages.
-  FireInventoryListenersAdd (child);
-  iCelBehaviour* bh;
-  if (entity)
-  {
-    params->GetParameter (0).Set (child);
-    bh = entity->GetBehaviour ();
-    if (bh)
-    {
-      celData ret;
-      bh->SendMessage ("pcinventory_addchild", this, ret, params);
-    }
-    if (!dispatcher_add)
-      dispatcher_add = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	    this, "cel.entity.add");
-    if (dispatcher_add)
-      dispatcher_add->SendMessage (params);
-  }
-
-  params->GetParameter (0).Set (entity);
-  bh = child->GetBehaviour ();
-  if (bh)
-  {
-    celData ret;
-    bh->SendMessage ("pcinventory_added", this, ret, params);
-  }
-  // Direct message since the child is always different so we can't
-  // easily cache the dispatcher.
-  child->QueryMessageChannel ()->SendMessage ("cel.entity.add.this", this,
-      params);
-
-  return true;
-}
-
 bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
 {
   if (contents.Find (child) != csArrayItemNotFound) return true;
@@ -270,6 +200,7 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
     if (dispatcher_add)
       dispatcher_add->SendMessage (params);
   }
+
   params->GetParameter (0).Set (entity);
   bh = child->GetBehaviour ();
   if (bh)
