@@ -197,6 +197,7 @@ class celData(object):
     def assign(*args): return _blcelc.celData_assign(*args)
     __swig_destroy__ = _blcelc.delete_celData
     __del__ = lambda self : None;
+    def __eq__(*args): return _blcelc.celData___eq__(*args)
     def Clear(*args): return _blcelc.celData_Clear(*args)
     def Set(*args): return _blcelc.celData_Set(*args)
     def SetAction(*args): return _blcelc.celData_SetAction(*args)
@@ -784,6 +785,7 @@ class iCelEntityTemplate(cspace.iBase):
     def GetName(*args): return _blcelc.iCelEntityTemplate_GetName(*args)
     def SetName(*args): return _blcelc.iCelEntityTemplate_SetName(*args)
     def CreatePropertyClassTemplate(*args): return _blcelc.iCelEntityTemplate_CreatePropertyClassTemplate(*args)
+    def FindPropertyClassTemplate(*args): return _blcelc.iCelEntityTemplate_FindPropertyClassTemplate(*args)
     def SetBehaviour(*args): return _blcelc.iCelEntityTemplate_SetBehaviour(*args)
     def GetBehaviourLayer(*args): return _blcelc.iCelEntityTemplate_GetBehaviourLayer(*args)
     def GetBehaviour(*args): return _blcelc.iCelEntityTemplate_GetBehaviour(*args)
