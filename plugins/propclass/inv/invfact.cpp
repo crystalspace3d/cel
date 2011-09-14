@@ -58,6 +58,9 @@ void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 csStringID celPcInventory::id_entity = csInvalidStringID;
 csStringID celPcInventory::id_amount = csInvalidStringID;
+csStringID celPcInventory::id_name = csInvalidStringID;
+
+PropertyHolder celPcInventory::propinfo;
 
 celPcInventory::celPcInventory (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
@@ -66,16 +69,64 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
   {
     id_entity = pl->FetchStringID ("entity");
     id_amount = pl->FetchStringID ("amount");
+    id_name = pl->FetchStringID ("name");
   }
   params = new celVariableParameterBlock ();
   params->SetParameterDef (0, id_entity);
   params->SetParameterDef (1, id_amount);
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    SetActionMask ("cel.inventory.action.");
+    AddAction (action_addtemplate, "AddTemplate");
+    AddAction (action_removetemplate, "RemoveTemplate");
+  }
 }
 
 celPcInventory::~celPcInventory ()
 {
   RemoveAllConstraints ();
   delete params;
+}
+
+bool celPcInventory::PerformActionIndexed (int idx,
+	iCelParameterBlock* params,
+	celData& ret)
+{
+  if (idx == action_addtemplate)
+  {
+    CEL_FETCH_STRING_PAR (name,params,id_name);
+    CEL_FETCH_LONG_PAR (amount,params,id_amount);
+    if (!p_name) return false;
+    iCelEntityTemplate* tpl = pl->FindEntityTemplate (name);
+    if (!tpl)
+    {
+      // @@@ Proper error.
+      printf ("Can't find entity template '%s'!\n", name);
+      return false;
+    }
+    bool rc = AddEntityTemplate (tpl, amount);
+    ret.Set (rc);
+    return true;
+  }
+  else if (idx == action_removetemplate)
+  {
+    CEL_FETCH_STRING_PAR (name,params,id_name);
+    CEL_FETCH_LONG_PAR (amount,params,id_amount);
+    if (!p_name) return false;
+    iCelEntityTemplate* tpl = pl->FindEntityTemplate (name);
+    if (!tpl)
+    {
+      // @@@ Proper error.
+      printf ("Can't find entity template '%s'!\n", name);
+      return false;
+    }
+    bool rc = RemoveEntityTemplate (tpl, amount);
+    ret.Set (rc);
+    return true;
+  }
+  return false;
 }
 
 #define INVENTORY_SERIAL 2

@@ -88,6 +88,16 @@ private:
 
   csSet<csStringID> allowedClasses;
 
+  // For actions.
+  enum actionids
+  {
+    action_addtemplate = 0,
+    action_removetemplate
+  };
+  static csStringID id_name;
+
+  static PropertyHolder propinfo;
+
 public:
   celPcInventory (iObjectRegistry* object_reg);
   virtual ~celPcInventory ();
@@ -142,6 +152,8 @@ public:
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
+      celData& ret);
 
   virtual void AddAllowedClass (csStringID cls);
   virtual void ClearAllowedClasses ();

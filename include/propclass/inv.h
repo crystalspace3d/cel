@@ -159,6 +159,11 @@ struct iCelInventorySpace : public virtual iBase
 /**
  * This is an inventory property class.
  *
+ * This property class supports the following actions (add prefix 'cel.inventory.action.'
+ * if you want to access this action through a message):
+ * - AddTemplate: parameters 'name' (string), 'amount' (long), returns true/false.
+ * - RemoveTemplate: parameters 'name' (string), 'amount' (long), returns true/false.
+ *
  * This property class can send out the following messages
  * (possibly to the containing entity as well as the child entity):
  * - 'cel.entity.add' (old 'pcinventory_addchild'): new child will be added (entity)
