@@ -25,6 +25,7 @@
 #include "physicallayer/entitytpl.h"
 #include "physicallayer/datatype.h"
 #include "plugins/stdphyslayer/pl.h"
+#include "propclass/chars.h"
 
 class celPlLayer;
 
@@ -88,14 +89,15 @@ public:
 /**
  * Implementation of iCelEntityTemplate.
  */
-class celEntityTemplate : public scfImplementationExt1<
-	celEntityTemplate, csObject, iCelEntityTemplate>
+class celEntityTemplate : public scfImplementationExt2<
+	celEntityTemplate, csObject, iCelEntityTemplate, iTemplateCharacteristics>
 {
 private:
   csRefArray<celPropertyClassTemplate> propclasses;
   csString layer, behaviour;
   csArray<ccfMessage> messages;
   csSet<csStringID> classes;
+  csHash<float, csStringBase> characteristics;
 
   celPropertyClassTemplate* FindPCTemplate (const char* name, const char* tag);
 
@@ -132,6 +134,19 @@ public:
   virtual void SetName (const char* n) { csObject::SetName (n); }
 
   virtual void Merge (iCelEntityTemplate* tpl);
+
+  virtual iTemplateCharacteristics* GetCharacteristics ()
+  {
+    return this;
+  }
+
+  // ------ For iTemplateCharacteristics ------------------------
+
+  virtual void SetCharacteristic (const char* name, float value);
+  virtual float GetCharacteristic (const char* name) const;
+  virtual void ClearCharacteristic (const char* name);
+  virtual bool HasCharacteristic (const char* name) const;
+  virtual void ClearAll ();
 };
 
 #endif // __CEL_PLIMP_ENTITYFACT__

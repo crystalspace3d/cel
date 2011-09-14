@@ -132,5 +132,42 @@ struct iPcCharacteristics : public virtual iBase
   virtual void Dump () = 0;
 };
 
+/**
+ * This interface is used to represent characteristics for entity templates.
+ * This is a more limited interface since entity templates can be in multiple
+ * inventories at the same time so they have no notion of 'current entity'
+ * or 'current inventory'. Also entity templates have no children so there
+ * are only local characteristics.
+ */
+struct iTemplateCharacteristics : public virtual iBase
+{
+  SCF_INTERFACE (iTemplateCharacteristics, 0, 0, 1);
+
+  /**
+   * Set characteristic property.
+   */
+  virtual void SetCharacteristic (const char* name, float value) = 0;
+
+  /**
+   * Get characteristic property.
+   */
+  virtual float GetCharacteristic (const char* name) const = 0;
+
+  /**
+   * Clear a characteristic.
+   */
+  virtual void ClearCharacteristic (const char* name) = 0;
+
+  /**
+   * Returns true if a property is present.
+   */
+  virtual bool HasCharacteristic (const char* name) const = 0;
+
+  /**
+   * Clear all properties.
+   */
+  virtual void ClearAll () = 0;
+};
+
 #endif // __CEL_PF_CHARS__
 

@@ -33,6 +33,7 @@
 #include "physicallayer/entitytpl.h"
 #include "behaviourlayer/bl.h"
 #include "propclass/mesh.h"
+#include "propclass/chars.h"
 #include "celtool/stdparams.h"
 
 #include "celentitytpl.h"
@@ -51,6 +52,7 @@ enum
   XMLTOKEN_CALL,
   XMLTOKEN_CLASS,
   XMLTOKEN_PAR,
+  XMLTOKEN_CHARACTERISTIC,
 
   XMLTOKEN_FLOAT,
   XMLTOKEN_BOOL,
@@ -101,6 +103,7 @@ bool celAddOnCelEntityTemplate::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("call", XMLTOKEN_CALL);
   xmltokens.Register ("class", XMLTOKEN_CLASS);
   xmltokens.Register ("par", XMLTOKEN_PAR);
+  xmltokens.Register ("characteristic", XMLTOKEN_CHARACTERISTIC);
 
   xmltokens.Register ("float", XMLTOKEN_FLOAT);
   xmltokens.Register ("bool", XMLTOKEN_BOOL);
@@ -521,6 +524,13 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
 	    return 0;
           }
           ent->Merge (tpl);
+        }
+        break;
+      case XMLTOKEN_CHARACTERISTIC:
+        {
+	  const char* name = child->GetAttributeValue ("name");
+	  float value = child->GetAttributeValueAsFloat ("value");
+          ent->GetCharacteristics ()->SetCharacteristic (name, value);
         }
         break;
       case XMLTOKEN_BEHAVIOUR:

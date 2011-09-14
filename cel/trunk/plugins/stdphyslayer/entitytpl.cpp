@@ -184,6 +184,14 @@ void celEntityTemplate::Merge (iCelEntityTemplate* tpl)
 {
   celEntityTemplate* other = static_cast<celEntityTemplate*> (tpl);
 
+  csHash<float, csStringBase>::GlobalIterator itc = other->characteristics.GetIterator ();
+  while (itc.HasNext ())
+  {
+    csStringBase key;
+    float amount = itc.Next (key);
+    characteristics.Put (key, amount);
+  }
+
   if (!other->layer.IsEmpty ())
     layer = other->layer;
   if (!other->behaviour.IsEmpty ())
@@ -217,6 +225,31 @@ void celEntityTemplate::Merge (iCelEntityTemplate* tpl)
     csStringID id = it.Next ();
     classes.Add (id);
   }
+}
+
+void celEntityTemplate::SetCharacteristic (const char* name, float value)
+{
+  characteristics.Put (name, value);
+}
+
+float celEntityTemplate::GetCharacteristic (const char* name) const
+{
+  return characteristics.Get (name, 0.0f);
+}
+
+void celEntityTemplate::ClearCharacteristic (const char* name)
+{
+  characteristics.DeleteAll (name);
+}
+
+bool celEntityTemplate::HasCharacteristic (const char* name) const
+{
+  return characteristics.Contains (name);
+}
+
+void celEntityTemplate::ClearAll ()
+{
+  characteristics.DeleteAll ();
 }
 
 //---------------------------------------------------------------------------

@@ -72,8 +72,10 @@
 	  <par name="amount" long="123" />
 	</action>
       </propclass>
+      <characteristic name="weight" value="10.0" />
     </addon>
 
     <addon plugin="cel.addons.celentitytpl" entityname="gold" >
+      <characteristic name="weight" value="0.02" />
     </addon>
 </library>
