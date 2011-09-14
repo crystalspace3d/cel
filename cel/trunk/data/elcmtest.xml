@@ -67,6 +67,10 @@
         <property name="state" string="init" />
       </propclass>
       <propclass name="pctools.inventory">
+	<action name="AddTemplate">
+	  <par name="name" string="gold" />
+	  <par name="amount" long="123" />
+	</action>
       </propclass>
     </addon>
 
