@@ -34,13 +34,14 @@ struct iCelEntity;
 struct iCelPropertyClassTemplate;
 struct iCelPropertyClass;
 struct iCelParameterBlock;
+struct iTemplateCharacteristics;
 
 /**
  * This is an entity template. It can be used to create other entities.
  */
 struct iCelEntityTemplate : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntityTemplate, 0, 0, 3);
+  SCF_INTERFACE (iCelEntityTemplate, 0, 0, 4);
 
   /**
    * Get the iObject for this entity template.
@@ -122,6 +123,12 @@ struct iCelEntityTemplate : public virtual iBase
    * Merge another template into this one.
    */
   virtual void Merge (iCelEntityTemplate* tpl) = 0;
+
+  /**
+   * Get the template characteristics interface for this
+   * template.
+   */
+  virtual iTemplateCharacteristics* GetCharacteristics () = 0;
 };
 
 /**

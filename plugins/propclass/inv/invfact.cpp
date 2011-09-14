@@ -216,10 +216,6 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
     ts.amount = databuf->GetUInt32 ();
 
     templatedContents.Push (ts);
-    // @@@C
-    //csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (ent);
-    //if (pcchar)
-      //pcchar->AddToInventory ((iPcInventory*)this);
   }
 
   return true;
@@ -256,10 +252,6 @@ bool celPcInventory::AddEntityTemplate (iCelEntityTemplate* child, int amount)
     templatedContents[idx].amount += amount;
   }
 
-  //csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
-  //if (pcchar)
-    //pcchar->AddToInventory ((iPcInventory*)this);
-
   // First try if everything is ok.
   MarkDirty (0);
   if (!TestConstraints (0))
@@ -270,8 +262,6 @@ bool celPcInventory::AddEntityTemplate (iCelEntityTemplate* child, int amount)
       templatedContents.DeleteIndex (idx);
     else
       templatedContents[idx].amount -= amount;
-    //if (pcchar)
-      //pcchar->RemoveFromInventory ((iPcInventory*)this);
 
     //if(space)
       //space->RemoveEntity(child);
@@ -459,10 +449,6 @@ bool celPcInventory::RemoveEntityTemplate (iCelEntityTemplate* child, int amount
   templatedContents[idx].amount -= amount;
   if (templatedContents[idx].amount < 0) templatedContents[idx].amount = 0;
 
-  //csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
-  //if (pcchar)
-    //pcchar->RemoveFromInventory ((iPcInventory*)this);
-
   // First try if everything is ok.
   MarkDirty (0);
   if (!TestConstraints (0))
@@ -470,8 +456,6 @@ bool celPcInventory::RemoveEntityTemplate (iCelEntityTemplate* child, int amount
     // Constraints are not ok. Undo our change.
     MarkDirty (0);
     templatedContents[idx].amount = oldAmount;
-    //if (pcchar)
-      //pcchar->AddToInventory ((iPcInventory*)this);
     //if (space)
       //space->AddEntity(child);
     return false;
@@ -808,7 +792,7 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
     c->currentValue = 0;
     for (i = 0 ; i < contents.GetSize () ; i++)
     {
-      iCelEntity* child = (iCelEntity*)contents[i];
+      iCelEntity* child = contents[i];
       csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
       if (pcchar)
         c->currentValue += pcchar->GetCharacteristic (charName);
@@ -817,7 +801,10 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
     }
     for (i = 0 ; i < templatedContents.GetSize () ; i++)
     {
-      // @@@C
+      iCelEntityTemplate* child = templatedContents[i].tpl;
+      int amount = templatedContents[i].amount;
+      iTemplateCharacteristics* pcchar = child->GetCharacteristics ();
+      c->currentValue += pcchar->GetCharacteristic (charName) * amount;
     }
     c->dirty = false;
   }
@@ -873,7 +860,24 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
     }
     for (i = 0 ; i < templatedContents.GetSize () ; i++)
     {
-      // @@@C
+      iCelEntityTemplate* child = templatedContents[i].tpl;
+      int amount = templatedContents[i].amount;
+      iTemplateCharacteristics* pcchar = child->GetCharacteristics ();
+      float child_val = DEF;
+      if (pcchar->HasCharacteristic (charName))
+      {
+        child_val = amount * pcchar->GetCharacteristic (charName);
+      }
+      else if (strict)
+      {
+        // If this constraint is strict we fail here because this
+        // child doesn't have this characteristic.
+        return false;
+      }
+
+      if (child_val < minValue || child_val > maxValue) return false;
+      curValue += child_val;
+      if (child_val > totalMaxValue) return false;
     }
   }
   else
