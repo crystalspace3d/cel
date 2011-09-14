@@ -340,6 +340,24 @@ struct iPcInventory : public virtual iBase
    * functions instead.
    */
   virtual iCelInventorySpace* GetSpace () = 0;
+
+  /**
+   * Add an entity class which is allowed for this inventory.
+   * If no entity classes are added then there is no restriction.
+   */
+  virtual void AddAllowedClass (csStringID cls) = 0;
+
+  /**
+   * Clear the allowed entity classes which makes sure that all entities
+   * are allowed.
+   */
+  virtual void ClearAllowedClasses () = 0;
+
+  /**
+   * Return true if a given class is allowed. If no allowed classes
+   * were given then this will always return true.
+   */
+  virtual bool IsClassAllowed (csStringID cls) const = 0;
 };
 
 #endif // __CEL_PF_INV__

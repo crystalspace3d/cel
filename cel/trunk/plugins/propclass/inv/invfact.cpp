@@ -150,11 +150,14 @@ bool celPcInventory::AddEntity (iCelEntity* child)
 {
   if (contents.Find (child) != csArrayItemNotFound) return true;
 
-  if(space)
+  if ((!allowedClasses.IsEmpty ()) && !allowedClasses.TestIntersect (
+        entity->GetClasses ()))
+    return false;
+
+  if (space)
   {
-    bool ret = space->AddEntity(child);
-    if(!ret)
-      return false;
+    bool ret = space->AddEntity (child);
+    if (!ret) return false;
   }
 
   // Add our child. We will later test if this is valid and if
@@ -217,11 +220,14 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
 {
   if (contents.Find (child) != csArrayItemNotFound) return true;
 
-  if(space)
+  if ((!allowedClasses.IsEmpty ()) && !allowedClasses.TestIntersect (
+        entity->GetClasses ()))
+    return false;
+
+  if (space)
   {
-    bool ret = space->AddEntity(child, pparams);
-    if(!ret)
-      return false;
+    bool ret = space->AddEntity (child, pparams);
+    if (!ret) return false;
   }
 
   // Add our child. We will later test if this is valid and if
@@ -485,7 +491,7 @@ celPcInventory::constraint* celPcInventory::FindConstraint (
   for (i = 0 ; i < constraints.GetSize () ; i++)
   {
     constraint* c = constraints[i];
-    if (!strcmp (name, c->charName)) return c;
+    if (c->charName == name) return c;
   }
   return 0;
 }
@@ -504,7 +510,7 @@ celPcInventory::constraint* celPcInventory::NewConstraint (const char* name)
 {
   constraint* c = new constraint ();
   constraints.Push (c);
-  c->charName = csStrNew (name);
+  c->charName = name;
   c->strict = false;
   c->totalMaxValue = 1000000000.;
   c->minValue = -1000000000.;
@@ -581,7 +587,7 @@ void celPcInventory::RemoveConstraints (const char* charName)
   for (i = 0 ; i < constraints.GetSize () ; i++)
   {
     constraint* c = constraints[i];
-    if (!strcmp (charName, c->charName))
+    if (c->charName == charName)
     {
       constraints.DeleteIndex (i);
       return;
@@ -618,7 +624,7 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
 
 bool celPcInventory::TestLocalConstraints (const char* charName)
 {
-  if (charName)
+  if (charName && *charName)
   {
     //========
     // This case is for when a characteristic is given.
@@ -730,7 +736,7 @@ void celPcInventory::Dump ()
   {
     constraint* c = constraints[i];
     printf ("  '%s' min=%g max=%g totMax=%g current=%g strict=%d\n",
-    	    c->charName, c->minValue, c->maxValue, c->totalMaxValue,
+    	    (const char*)(c->charName), c->minValue, c->maxValue, c->totalMaxValue,
     	    GetCurrentCharacteristic (c->charName), c->strict);
   }
   printf ("Entities:\n");
@@ -770,6 +776,22 @@ void celPcInventory::FireInventoryListenersRemove (iCelEntity* entity)
     i--;
     listeners[i]->RemoveChild ((iPcInventory*)this, entity);
   }
+}
+
+void celPcInventory::AddAllowedClass (csStringID cls)
+{
+  allowedClasses.Add (cls);
+}
+
+void celPcInventory::ClearAllowedClasses ()
+{
+  allowedClasses.Empty ();
+}
+
+bool celPcInventory::IsClassAllowed (csStringID cls) const
+{
+  if (allowedClasses.IsEmpty ()) return true;
+  return allowedClasses.Contains (cls);
 }
 
 //---------------------------------------------------------------------------
