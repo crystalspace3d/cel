@@ -230,5 +230,17 @@ void celInventoryTrigger::RemoveChild (iPcInventory*, iCelEntity* entity)
   }
 }
 
+void celInventoryTrigger::AddChildTemplate (iPcInventory* inventory,
+      iCelEntityTemplate* tpl, int amount)
+{
+  // @@@ TODO! Support for templates!
+}
+
+void celInventoryTrigger::RemoveChildTemplate (iPcInventory* inventory,
+      iCelEntityTemplate* tpl, int amount)
+{
+  // @@@ TODO! Support for templates!
+}
+
 //---------------------------------------------------------------------------
 

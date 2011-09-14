@@ -278,6 +278,8 @@ bool ElcmTest::CreatePlayer ()
   inventory->AddEntity (dummy);
   dummy = pl->CreateEntity ("Dummy 3", 0, 0, CEL_PROPCLASS_END);
   inventory->AddEntity (dummy);
+  iCelEntityTemplate* goldTemplate = pl->FindEntityTemplate ("gold");
+  inventory->AddEntityTemplate (goldTemplate, 100);
 
   elcm->SetPlayer (playerEntity);
 
@@ -418,10 +420,10 @@ bool ElcmTest::Application ()
     return ReportError ("Error initializing physics!");
   if (!CreateLevel ())
     return ReportError ("Error creating level!");
-  if (!CreatePlayer ())
-    return ReportError ("Couldn't create player!");
   if (!CreateFactories ())
     return ReportError ("Couldn't create factories!");
+  if (!CreatePlayer ())
+    return ReportError ("Couldn't create player!");
   if (!FillDynamicWorld ())
     return ReportError ("Couldn't fill the dynamic world!");
 

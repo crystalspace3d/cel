@@ -69,4 +69,7 @@
       <propclass name="pctools.inventory">
       </propclass>
     </addon>
+
+    <addon plugin="cel.addons.celentitytpl" entityname="gold" >
+    </addon>
 </library>

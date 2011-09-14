@@ -57,14 +57,19 @@ void Report (iObjectRegistry* object_reg, const char* msg, ...)
 //---------------------------------------------------------------------------
 
 csStringID celPcInventory::id_entity = csInvalidStringID;
+csStringID celPcInventory::id_amount = csInvalidStringID;
 
 celPcInventory::celPcInventory (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   if (id_entity == csInvalidStringID)
+  {
     id_entity = pl->FetchStringID ("entity");
-  params = new celOneParameterBlock ();
-  params->SetParameterDef (id_entity);
+    id_amount = pl->FetchStringID ("amount");
+  }
+  params = new celVariableParameterBlock ();
+  params->SetParameterDef (0, id_entity);
+  params->SetParameterDef (1, id_amount);
 }
 
 celPcInventory::~celPcInventory ()
@@ -73,7 +78,7 @@ celPcInventory::~celPcInventory ()
   delete params;
 }
 
-#define INVENTORY_SERIAL 1
+#define INVENTORY_SERIAL 2
 
 csPtr<iCelDataBuffer> celPcInventory::Save ()
 {
@@ -94,6 +99,13 @@ csPtr<iCelDataBuffer> celPcInventory::Save ()
   {
     iCelEntity* ent = (iCelEntity*)contents[i];
     databuf->Add (ent);
+  }
+  databuf->Add ((uint16)templatedContents.GetSize ());
+  for (i = 0 ; i < templatedContents.GetSize () ; i++)
+  {
+    iCelEntityTemplate* tpl = templatedContents[i].tpl;
+    databuf->Add (tpl->GetName ());
+    databuf->Add ((uint32)templatedContents[i].amount);
   }
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -143,6 +155,91 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
       pcchar->AddToInventory ((iPcInventory*)this);
   }
 
+  cnt_contents = databuf->GetUInt16 ();
+  for (i = 0 ; i < cnt_contents ; i++)
+  {
+    const char* tplname = databuf->GetString ()->GetData ();
+    iCelEntityTemplate* tpl = pl->FindEntityTemplate (tplname);
+    TemplateStack ts;
+    ts.tpl = tpl;
+    ts.amount = databuf->GetUInt32 ();
+
+    templatedContents.Push (ts);
+    // @@@C
+    //csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (ent);
+    //if (pcchar)
+      //pcchar->AddToInventory ((iPcInventory*)this);
+  }
+
+  return true;
+}
+
+bool celPcInventory::AddEntityTemplate (iCelEntityTemplate* child, int amount)
+{
+  if ((!allowedClasses.IsEmpty ()) && !allowedClasses.TestIntersect (
+        child->GetClasses ()))
+    return false;
+
+  if (amount == 0) return true; // This works always.
+
+  //if (space)
+  //{
+    //bool ret = space->AddEntity (child, pparams);
+    //if (!ret) return false;
+  //}
+
+  // Add our child. We will later test if this is valid and if
+  // not undo this change.
+  bool newlyadded = false;
+  size_t idx = FindEntityTemplate (child);
+  if (idx == csArrayItemNotFound)
+  {
+    newlyadded = true;
+    TemplateStack ts;
+    ts.tpl = child;
+    ts.amount = amount;
+    idx = templatedContents.Push (ts);
+  }
+  else
+  {
+    templatedContents[idx].amount += amount;
+  }
+
+  //csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
+  //if (pcchar)
+    //pcchar->AddToInventory ((iPcInventory*)this);
+
+  // First try if everything is ok.
+  MarkDirty (0);
+  if (!TestConstraints (0))
+  {
+    // Constraints are not ok. Undo our change.
+    MarkDirty (0);
+    if (newlyadded)
+      templatedContents.DeleteIndex (idx);
+    else
+      templatedContents[idx].amount -= amount;
+    //if (pcchar)
+      //pcchar->RemoveFromInventory ((iPcInventory*)this);
+
+    //if(space)
+      //space->RemoveEntity(child);
+    return false;
+  }
+
+  // Send messages.
+  FireInventoryListenersAdd (child, amount);
+  if (entity)
+  {
+    params->GetParameter (0).Set (child->GetName ());
+    params->GetParameter (1).Set (amount);
+    if (!dispatcher_add)
+      dispatcher_add = entity->QueryMessageChannel ()->CreateMessageDispatcher (
+	    this, "cel.entity.add.template");
+    if (dispatcher_add)
+      dispatcher_add->SendMessage (params);
+  }
+
   return true;
 }
 
@@ -188,6 +285,7 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
   if (entity)
   {
     params->GetParameter (0).Set (child);
+    params->GetParameter (1).Set (1);
     bh = entity->GetBehaviour ();
     if (bh)
     {
@@ -202,6 +300,7 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
   }
 
   params->GetParameter (0).Set (entity);
+  params->GetParameter (1).Set (1);
   bh = child->GetBehaviour ();
   if (bh)
   {
@@ -257,6 +356,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   if (entity)
   {
     params->GetParameter (0).Set (child);
+    params->GetParameter (1).Set (1);
     bh = entity->GetBehaviour ();
     if (bh)
     {
@@ -270,6 +370,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
       dispatcher_remove->SendMessage (params);
   }
   params->GetParameter (0).Set (entity);
+  params->GetParameter (1).Set (1);
   bh = child->GetBehaviour ();
   if (bh)
   {
@@ -280,6 +381,68 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   // easily cache the dispatcher.
   child->QueryMessageChannel ()->SendMessage ("cel.entity.remove.this",
       this, params);
+
+  return true;
+}
+
+bool celPcInventory::RemoveEntityTemplate (iCelEntityTemplate* child, int amount)
+{
+  size_t idx = FindEntityTemplate (child);
+  if (idx == csArrayItemNotFound) return false;
+
+  if (amount == 0) return true; // This works allways.
+
+  //if (space)
+  //{
+    //bool ret = space->RemoveEntity(child);
+    //if(!ret)
+      //return false;
+  //}
+
+  // Remove our child. We will later test if this is valid and if
+  // not undo this change.
+  // make sure the entity isn't deleted too early
+  csRef<iCelEntityTemplate> childref = child;
+  int oldAmount = templatedContents[idx].amount;
+
+  templatedContents[idx].amount -= amount;
+  if (templatedContents[idx].amount < 0) templatedContents[idx].amount = 0;
+
+  //csRef<iPcCharacteristics> pcchar = celQueryPropertyClassEntity<iPcCharacteristics> (child);
+  //if (pcchar)
+    //pcchar->RemoveFromInventory ((iPcInventory*)this);
+
+  // First try if everything is ok.
+  MarkDirty (0);
+  if (!TestConstraints (0))
+  {
+    // Constraints are not ok. Undo our change.
+    MarkDirty (0);
+    templatedContents[idx].amount = oldAmount;
+    //if (pcchar)
+      //pcchar->AddToInventory ((iPcInventory*)this);
+    //if (space)
+      //space->AddEntity(child);
+    return false;
+  }
+  else
+  {
+    if (templatedContents[idx].amount == 0)
+      templatedContents.DeleteIndex (idx);
+  }
+
+  // Send messages.
+  FireInventoryListenersRemove (child, amount);
+  if (entity)
+  {
+    params->GetParameter (0).Set (child);
+    params->GetParameter (1).Set (amount);
+    if (!dispatcher_remove)
+      dispatcher_remove = entity->QueryMessageChannel ()
+	->CreateMessageDispatcher (this, "cel.entity.remove.template");
+    if (dispatcher_remove)
+      dispatcher_remove->SendMessage (params);
+  }
 
   return true;
 }
@@ -331,6 +494,7 @@ bool celPcInventory::RemoveEntity (iCelParameterBlock* pparams)
   if (entity)
   {
     params->GetParameter (0).Set (child);
+    params->GetParameter (1).Set (1);
     bh = entity->GetBehaviour ();
     if (bh)
     {
@@ -344,6 +508,7 @@ bool celPcInventory::RemoveEntity (iCelParameterBlock* pparams)
       dispatcher_remove->SendMessage (params);
   }
   params->GetParameter (0).Set (entity);
+  params->GetParameter (1).Set (1);
   bh = child->GetBehaviour ();
   if (bh)
   {
@@ -362,10 +527,15 @@ bool celPcInventory::RemoveAll ()
 {
   while (contents.GetSize () > 0)
   {
-    if (!RemoveEntity ((iCelEntity*)contents[0])) return false;
+    if (!RemoveEntity (contents[0])) return false;
+  }
+  while (templatedContents.GetSize () > 0)
+  {
+    TemplateStack& ts = templatedContents[0];
+    if (!RemoveEntityTemplate (ts.tpl, ts.amount)) return false;
   }
 
-  if(space) space->RemoveAll();
+  if (space) space->RemoveAll();
 
   return true;
 }
@@ -389,13 +559,16 @@ size_t celPcInventory::FindEntity (iCelEntity* entity) const
 
 bool celPcInventory::In (const char* name) const
 {
-  return FindEntity (name) != csArrayItemNotFound;
+  size_t idx;
+  idx = FindEntity (name);
+  if (idx != csArrayItemNotFound) return true;
+  idx = FindEntityTemplate (name);
+  return idx != csArrayItemNotFound;
 }
 
 size_t celPcInventory::FindEntity (const char* name) const
 {
-  size_t i;
-  for (i = 0 ; i < contents.GetSize () ; i++)
+  for (size_t i = 0 ; i < contents.GetSize () ; i++)
     if (!strcmp (name, contents[i]->GetName ()))
       return i;
   return csArrayItemNotFound;
@@ -403,9 +576,52 @@ size_t celPcInventory::FindEntity (const char* name) const
 
 size_t celPcInventory::FindEntity (csStringID classid) const
 {
-  size_t i;
-  for (i = 0 ; i < contents.GetSize () ; i++)
+  for (size_t i = 0 ; i < contents.GetSize () ; i++)
     if (contents[i]->HasClass(classid))
+      return i;
+  return csArrayItemNotFound;
+}
+
+size_t celPcInventory::GetEntityTemplateCount () const
+{
+  return templatedContents.GetSize ();
+}
+
+iCelEntityTemplate* celPcInventory::GetEntityTemplate (size_t idx) const
+{
+  return templatedContents[idx].tpl;
+}
+
+int celPcInventory::GetEntityTemplateAmount (size_t idx) const
+{
+  return templatedContents[idx].amount;
+}
+
+bool celPcInventory::In (iCelEntityTemplate* tpl) const
+{
+  return FindEntityTemplate (tpl) != csArrayItemNotFound;
+}
+
+size_t celPcInventory::FindEntityTemplate (iCelEntityTemplate* tpl) const
+{
+  for (size_t i = 0 ; i < templatedContents.GetSize () ; i++)
+    if (templatedContents[i].tpl == tpl)
+      return i;
+  return csArrayItemNotFound;
+}
+
+size_t celPcInventory::FindEntityTemplate (const char* name) const
+{
+  for (size_t i = 0 ; i < templatedContents.GetSize () ; i++)
+    if (!strcmp (name, templatedContents[i].tpl->GetName ()))
+      return i;
+  return csArrayItemNotFound;
+}
+
+size_t celPcInventory::FindEntityTemplate (csStringID classid) const
+{
+  for (size_t i = 0 ; i < templatedContents.GetSize () ; i++)
+    if (templatedContents[i].tpl->HasClass (classid))
       return i;
   return csArrayItemNotFound;
 }
@@ -548,6 +764,10 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
       else
         c->currentValue += DEF;
     }
+    for (i = 0 ; i < templatedContents.GetSize () ; i++)
+    {
+      // @@@C
+    }
     c->dirty = false;
   }
   return c->currentValue;
@@ -599,6 +819,10 @@ bool celPcInventory::TestLocalConstraints (const char* charName)
       if (child_val < minValue || child_val > maxValue) return false;
       curValue += child_val;
       if (child_val > totalMaxValue) return false;
+    }
+    for (i = 0 ; i < templatedContents.GetSize () ; i++)
+    {
+      // @@@C
     }
   }
   else
@@ -676,6 +900,11 @@ void celPcInventory::Dump ()
     iCelEntity* ent = (iCelEntity*)contents[i];
     printf ("  '%s'\n", ent->GetName ());
   }
+  for (i = 0 ; i < templatedContents.GetSize () ; i++)
+  {
+    iCelEntityTemplate* tpl = templatedContents[i].tpl;
+    printf ("  '%s'/%d\n", tpl->GetName (), templatedContents[i].amount);
+  }
   fflush (stdout);
 }
 
@@ -687,6 +916,26 @@ void celPcInventory::AddInventoryListener (iPcInventoryListener* listener)
 void celPcInventory::RemoveInventoryListener (iPcInventoryListener* listener)
 {
   listeners.Delete (listener);
+}
+
+void celPcInventory::FireInventoryListenersAdd (iCelEntityTemplate* tpl, int amount)
+{
+  size_t i = listeners.GetSize ();
+  while (i > 0)
+  {
+    i--;
+    listeners[i]->AddChildTemplate ((iPcInventory*)this, tpl, amount);
+  }
+}
+
+void celPcInventory::FireInventoryListenersRemove (iCelEntityTemplate* tpl, int amount)
+{
+  size_t i = listeners.GetSize ();
+  while (i > 0)
+  {
+    i--;
+    listeners[i]->RemoveChildTemplate ((iPcInventory*)this, tpl, amount);
+  }
 }
 
 void celPcInventory::FireInventoryListenersAdd (iCelEntity* entity)

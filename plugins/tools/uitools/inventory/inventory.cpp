@@ -34,6 +34,7 @@
 
 #include "inventory.h"
 #include "physicallayer/entity.h"
+#include "physicallayer/entitytpl.h"
 
 SCF_IMPLEMENT_FACTORY (celUIInventory)
 
@@ -99,6 +100,20 @@ void celUIInventory::UpdateLists (iPcInventory* inventory)
     iCelEntity* ent = inventory->GetEntity (i);
     CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem (
         ent->QueryObject ()->GetName ());
+    item->setTextColours(CEGUI::colour(0,0,0));
+    item->setSelectionBrushImage("ice", "TextSelectionBrush");
+    item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
+    list->addItem(item);
+  }
+
+  for (size_t i = 0 ; i < inventory->GetEntityTemplateCount () ; i++)
+  {
+    iCelEntityTemplate* ent = inventory->GetEntityTemplate (i);
+    int amount = inventory->GetEntityTemplateAmount (i);
+    csString itemString;
+    itemString.Format ("%s (%d)", ent->GetName (), amount);
+    CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem (
+        (const char*)itemString);
     item->setTextColours(CEGUI::colour(0,0,0));
     item->setSelectionBrushImage("ice", "TextSelectionBrush");
     item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));

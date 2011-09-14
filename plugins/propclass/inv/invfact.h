@@ -45,11 +45,11 @@ struct iObjectRegistry;
 CEL_DECLARE_FACTORY (Inventory)
 CEL_DECLARE_FACTORY (Characteristics)   
 
-//struct TemplateStack
-//{
-  //csRef<iCelEntityTemplate> tpl;
-  //int count;
-//};
+struct TemplateStack
+{
+  csRef<iCelEntityTemplate> tpl;
+  int amount;
+};
 
 /**
  * This is an inventory property class.
@@ -59,7 +59,7 @@ class celPcInventory : public scfImplementationExt1<
 {
 private:
   csRefArray<iCelEntity> contents;
-  //csArray<TemplateStack> templatedContents;
+  csArray<TemplateStack> templatedContents;
   struct constraint
   {
     csString charName;
@@ -81,7 +81,8 @@ private:
   bool TestLocalConstraints (const char* charName);
 
   static csStringID id_entity;
-  celOneParameterBlock* params;
+  static csStringID id_amount;
+  celVariableParameterBlock* params;
 
   csRef<iCelInventorySpace> space;
 
@@ -94,7 +95,10 @@ public:
   virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params = 0);
   virtual bool RemoveEntity (iCelEntity* entity);
   virtual bool RemoveEntity (iCelParameterBlock* params);
+  virtual bool AddEntityTemplate (iCelEntityTemplate* tpl, int count);
+  virtual bool RemoveEntityTemplate (iCelEntityTemplate* tpl, int count);
   virtual bool RemoveAll ();
+
   virtual size_t GetEntityCount () const { return contents.GetSize () ; }
   virtual iCelEntity* GetEntity (size_t idx) const;
   virtual bool In (iCelEntity* entity) const;
@@ -102,6 +106,15 @@ public:
   virtual size_t FindEntity (csStringID classid) const;
   virtual bool In (const char* name) const;
   virtual size_t FindEntity (const char* name) const;
+
+  virtual size_t GetEntityTemplateCount () const;
+  virtual iCelEntityTemplate* GetEntityTemplate (size_t idx) const;
+  virtual int GetEntityTemplateAmount (size_t idx) const;
+  virtual bool In (iCelEntityTemplate* tpl) const;
+  virtual size_t FindEntityTemplate (iCelEntityTemplate* tpl) const;
+  virtual size_t FindEntityTemplate (const char* name) const;
+  virtual size_t FindEntityTemplate (csStringID classid) const;
+
   virtual iCelEntity* GetEntitySlot (iCelParameterBlock* params) const;
   virtual bool SetStrictCharacteristics (const char* charName, bool strict);
   virtual bool HasStrictCharacteristics (const char* charName) const;
@@ -123,7 +136,9 @@ public:
   virtual void AddInventoryListener (iPcInventoryListener* listener);
   virtual void RemoveInventoryListener (iPcInventoryListener* listener);
   void FireInventoryListenersAdd (iCelEntity* entity);
+  void FireInventoryListenersAdd (iCelEntityTemplate* tpl, int amount);
   void FireInventoryListenersRemove (iCelEntity* entity);
+  void FireInventoryListenersRemove (iCelEntityTemplate* tpl, int amount);
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
