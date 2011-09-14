@@ -106,6 +106,10 @@ public:
   //----------------------- iPcInventoryListener ----------------------------
   virtual void AddChild (iPcInventory* inventory, iCelEntity* entity);
   virtual void RemoveChild (iPcInventory* inventory, iCelEntity* entity);
+  virtual void AddChildTemplate (iPcInventory* inventory,
+      iCelEntityTemplate* tpl, int amount);
+  virtual void RemoveChildTemplate (iPcInventory* inventory,
+      iCelEntityTemplate* tpl, int amount);
 };
 
 #endif // __CEL_TOOLS_TRIG_INVENTORY__

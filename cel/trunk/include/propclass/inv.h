@@ -48,14 +48,14 @@ struct iPcInventoryListener : public virtual iBase
   /**
    * An entity template is added to this inventory.
    */
-  //virtual void AddChildTemplate (iPcInventory* inventory,
-      //iCelEntityTemplate* tpl, int count) = 0;
+  virtual void AddChildTemplate (iPcInventory* inventory,
+      iCelEntityTemplate* tpl, int amount) = 0;
 
   /**
    * An entity template is removed from this inventory.
    */
-  //virtual void RemoveChildTemplate (iPcInventory* inventory,
-      //iCelEntityTemplate* tpl, int count) = 0;
+  virtual void RemoveChildTemplate (iPcInventory* inventory,
+      iCelEntityTemplate* tpl, int amount) = 0;
 };
 
 
@@ -162,8 +162,10 @@ struct iCelInventorySpace : public virtual iBase
  * This property class can send out the following messages
  * (possibly to the containing entity as well as the child entity):
  * - 'cel.entity.add' (old 'pcinventory_addchild'): new child will be added (entity)
+ * - 'cel.entity.add.template': new template will be added (entity as string, amount)
  * - 'cel.entity.add.this' (old 'pcinventory_added'): this entity is added as a new child (entity)
  * - 'cel.entity.remove' (old 'pcinventory_removechild'): new child will be removed (entity)
+ * - 'cel.entity.remove.template': new template will be removed (entity as string, amount (the amount that is removed))
  * - 'cel.entity.remove.this' (old 'pcinventory_removed'): this entity is removed (entity)
  */
 struct iPcInventory : public virtual iBase
@@ -205,7 +207,25 @@ struct iPcInventory : public virtual iBase
   virtual bool RemoveEntity (iCelParameterBlock* params) = 0;
 
   /**
-   * Remove all entities. This can fail if removing entities
+   * Add an entity template. Returns false if the template could
+   * not be added (capacity exceeded for example).
+   * If the given template is already in the inventory then the amount
+   * will be updated.
+   * The space/slot system is currently not yet supported for entity templates.
+   */
+  virtual bool AddEntityTemplate (iCelEntityTemplate* tpl, int amount) = 0;
+
+  /**
+   * Remove an entity template. This can fail if removing a template causes
+   * an upstream inventory to fail its constraints.
+   * If there are more of a given template in the inventory then the
+   * amount will be updated. If there are less then this will fail and
+   * nothing will happen.
+   */
+  virtual bool RemoveEntityTemplate (iCelEntityTemplate* tpl, int amount) = 0;
+
+  /**
+   * Remove all entities and templates. This can fail if removing entities
    * causes upstream inventories to fail its constraints.
    * In that case entities are removed until the first failure.
    * To ensure correct removal for this inventory you should
@@ -213,8 +233,10 @@ struct iPcInventory : public virtual iBase
    */
   virtual bool RemoveAll () = 0;
 
+  //--------------------------------------------------------------------
+
   /**
-   * Get the number of entities in this inventory.
+   * Get the number of entities in this inventory (not templates!).
    */
   virtual size_t GetEntityCount () const = 0;
 
@@ -229,7 +251,7 @@ struct iPcInventory : public virtual iBase
   virtual bool In (iCelEntity* entity) const = 0;
 
   /**
-   * Test if some entity is in the inventory by name.
+   * Test if some entity or template is in the inventory by name.
    */
   virtual bool In (const char* name) const = 0;
 
@@ -252,7 +274,52 @@ struct iPcInventory : public virtual iBase
    */
   virtual size_t FindEntity (csStringID classid) const = 0;
 
- /**
+  //--------------------------------------------------------------------
+
+  /**
+   * Get the number of templates in this inventory. This only counts
+   * distinct templates. The number of instances of every template is
+   * ignored.
+   */
+  virtual size_t GetEntityTemplateCount () const = 0;
+
+  /**
+   * Get some entity template.
+   */
+  virtual iCelEntityTemplate* GetEntityTemplate (size_t idx) const = 0;
+
+  /**
+   * Get the amount of instances for a given template.
+   */
+  virtual int GetEntityTemplateAmount (size_t idx) const = 0;
+
+  /**
+   * Test if some entity template is in the inventory.
+   */
+  virtual bool In (iCelEntityTemplate* tpl) const = 0;
+
+  /**
+   * Find the index of some entity template in the inventory.
+   * Return csArrayItemNotFound if not in inventory.
+   */
+  virtual size_t FindEntityTemplate (iCelEntityTemplate* tpl) const = 0;
+
+  /**
+   * Find the index of some entity template in the inventory by name.
+   * Return csArrayItemNotFound if not in inventory.
+   */
+  virtual size_t FindEntityTemplate (const char* name) const = 0;
+
+   /**
+   * Find the index of some entity template in the inventory by class.
+   * The first template with given class will be returned.
+   * Return csArrayItemNotFound if not in inventory.
+   */
+  virtual size_t FindEntityTemplate (csStringID classid) const = 0;
+
+  //--------------------------------------------------------------------
+
+  /**
    * Get an entity from a generic slot (space system).
    */
   virtual iCelEntity* GetEntitySlot (iCelParameterBlock* params) const = 0;
