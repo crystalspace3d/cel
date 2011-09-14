@@ -151,7 +151,7 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
   if (contents.Find (child) != csArrayItemNotFound) return true;
 
   if ((!allowedClasses.IsEmpty ()) && !allowedClasses.TestIntersect (
-        entity->GetClasses ()))
+        child->GetClasses ()))
     return false;
 
   if (space)
