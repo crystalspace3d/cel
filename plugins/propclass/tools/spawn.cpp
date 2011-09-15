@@ -393,7 +393,8 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
     	spawninfo[idx].templ);
     if (entpl)
     {
-      celEntityTemplateParams entpl_params;
+      csRef<iCelParameterBlock> entpl_params;
+      entpl_params.AttachNew (new celVariableParameterBlock ());
       spawninfo[idx].newent = pl->CreateEntity (entpl,
     	  entity_name, entpl_params);
       serialnr ++;

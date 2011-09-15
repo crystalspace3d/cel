@@ -199,7 +199,7 @@ struct iDynamicObject : public virtual iBase
    * template with the given name).
    */
   virtual bool SetEntityTemplate (const char* templateName,
-      const char* entityName, const celEntityTemplateParams& params) = 0;
+      const char* entityName, iCelParameterBlock* params) = 0;
 };
 
 /**

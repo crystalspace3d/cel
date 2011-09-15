@@ -12,6 +12,7 @@
 #include "app.h"
 #include "behave.h"
 #include "tools/rewards.h"
+#include "celtool/stdparams.h"
 
 #include <propclass/quest.h>
 
@@ -248,7 +249,8 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
   qm->AddDestroyEntityReward (init_response, "box3");
 
   qm->AddDebugPrintReward (init_response, " -Creating money box");
-  const celEntityTemplateParams tpl_params;
+  csRef<iCelParameterBlock> tpl_params;
+  tpl_params.AttachNew (new celVariableParameterBlock ());
   qm->AddCreateEntityReward (init_response, "BoxTemplate", "templateBox", tpl_params);
 
   qm->AddDebugPrintReward (init_response, " -Entering 1st State\n");

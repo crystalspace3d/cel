@@ -111,11 +111,11 @@ private:
 
   csRef<celVariableParameterBlock> ConvertTemplateParams (
     const char* entname,
-    iCelParameterBlock* act_params, const celEntityTemplateParams& params);
+    iCelParameterBlock* act_params, iCelParameterBlock* params);
 
   // Perform an action from a template on a real property class.
   bool PerformActionTemplate (const ccfPropAct& act, iCelPropertyClass* pc,
-  	const celEntityTemplateParams& params,
+  	iCelParameterBlock* params,
 	iCelEntity* ent, iCelEntityTemplate* factory);
 
   // Used by CreatePropertyClass*() - makes a guess at propfact id
@@ -160,7 +160,7 @@ public:
   virtual size_t GetEntityTemplateCount () const;
   virtual iCelEntityTemplate* GetEntityTemplate (size_t idx) const;
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
-  	const char* name, const celEntityTemplateParams& params);
+  	const char* name, iCelParameterBlock* params);
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
   	const char* name, ...);
 

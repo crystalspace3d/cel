@@ -4,3 +4,4 @@ Plugin parameters
        : [ Wildcard *.cpp *.h ]
 ;
 ExternalLibs parameters : CRYSTAL ;
+LinkWith parameters : celtool ;

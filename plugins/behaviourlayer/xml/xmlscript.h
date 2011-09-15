@@ -479,7 +479,7 @@ private:
   // Temporary variable to keep parameters for actions.
   csRef<iCelParameterBlock> action_params;
   // Temporary parameter hash for entity creation (out of templates).
-  celEntityTemplateParams template_params;
+  csRef<celVariableParameterBlock> template_params;
 
   bool ReportError (celBlXml* cbl, const char* msg, ...);
   bool EvaluateTrue (const celXmlArg& eval, celBlXml* cbl, bool& rc);

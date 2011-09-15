@@ -280,7 +280,7 @@ private:
 
   csRef<iCelEntityTemplate> entityTemplate;
   csString entityName;
-  celEntityTemplateParams params;
+  csRef<iCelParameterBlock> params;
   csWeakRef<iCelEntity> entity;
 
   void InstallHilight (bool hi);
@@ -313,7 +313,7 @@ public:
   virtual const csReversibleTransform& GetTransform ();
   virtual void SetTransform (const csReversibleTransform& trans);
   virtual bool SetEntityTemplate (const char* templateName,
-      const char* entityName, const celEntityTemplateParams& params);
+      const char* entityName, iCelParameterBlock* params);
 
   virtual void MovableChanged (iMovable* movable);
   virtual void MovableDestroyed (iMovable* movable);

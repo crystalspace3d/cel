@@ -124,6 +124,76 @@ public:
    */
   static csRef<iCelParameterBlock> ParseParams (iObjectRegistry* object_reg,
       iDocumentNode* node, ...);
+
+  /**
+   * Get the value of this data type as a string.
+   * Returns false if there is no sensible way to convert to string.
+   */
+  static bool ToString (const celData& in, csString& out);
+
+  /**
+   * Get the value of this data type as a long.
+   * Returns false if there is no sensible way to convert to long.
+   */
+  static bool ToLong (const celData& in, long& out);
+
+  /**
+   * Get the value of this data type as a bool.
+   * Returns false if there is no sensible way to convert to bool.
+   */
+  static bool ToBool (const celData& in, bool& out);
+
+  /**
+   * Get the value of this data type as a float.
+   * Returns false if there is no sensible way to convert to float.
+   */
+  static bool ToFloat (const celData& in, float& out);
+
+  /**
+   * Get the value of this data type as a vector2.
+   * Returns false if there is no sensible way to convert to vector2.
+   */
+  static bool ToVector2 (const celData& in, csVector2& out);
+
+  /**
+   * Get the value of this data type as a vector3.
+   * Returns false if there is no sensible way to convert to vector3.
+   */
+  static bool ToVector3 (const celData& in, csVector3& out);
+
+  /**
+   * Get the value of this data type as a vector4.
+   * Returns false if there is no sensible way to convert to vector4.
+   */
+  static bool ToVector4 (const celData& in, csVector4& out);
+
+  /**
+   * Get the value of this data type as a color.
+   * Returns false if there is no sensible way to convert to color.
+   */
+  static bool ToColor (const celData& in, csColor& out);
+
+  /**
+   * Get the value of this data type as a color4.
+   * Returns false if there is no sensible way to convert to color4.
+   */
+  static bool ToColor4 (const celData& in, csColor4& out);
+
+  /**
+   * Convert one celData to another type (if possible).
+   * Returns false if the conversion is not possible.
+   * Only the following types are supported as destination type:
+   * - CEL_DATA_BOOL
+   * - CEL_DATA_LONG
+   * - CEL_DATA_FLOAT
+   * - CEL_DATA_VECTOR2
+   * - CEL_DATA_VECTOR3
+   * - CEL_DATA_VECTOR4
+   * - CEL_DATA_COLOR
+   * - CEL_DATA_COLOR4
+   * - CEL_DATA_STRING
+   */
+  static bool Convert (const celData& in, celDataType type, celData& out);
 };
 
 /**
@@ -216,6 +286,12 @@ public:
   }
   virtual ~celVariableParameterBlock ()
   {
+  }
+
+  void Clear ()
+  {
+    ids.Empty ();
+    data.Empty ();
   }
 
   void SetParameterDef (size_t idx, csStringID id)
