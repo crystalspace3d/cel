@@ -45,6 +45,7 @@
 #include "iutil/virtclk.h"
 #include "ivaria/reporter.h"
 #include "cstool/enginetools.h"
+#include "celtool/stdparams.h"
 
 //---------------------------------------------------------------------------
 
@@ -344,8 +345,7 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
   if (act_params)
   {
     converted_params.AttachNew (new celVariableParameterBlock ());
-    size_t k;
-    for (k = 0 ; k < act_params->GetParameterCount () ; k++)
+    for (size_t k = 0 ; k < act_params->GetParameterCount () ; k++)
     {
       celDataType t;
       csStringID id = act_params->GetParameterDef (k, t);
@@ -416,13 +416,10 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   va_list args;
   va_start (args, name);
   char const* par = va_arg (args, char*);
-  size_t idx = 0;
   while (par != 0)
   {
     char const* val = va_arg (args, char*);
-    params->SetParameterDef (idx, FetchStringID (par));
-    params->GetParameter (idx).Set (val);
-    idx++;
+    params->AddParameter (FetchStringID (par)).Set (val);
     par = va_arg (args, char*);
   }
   va_end (args);

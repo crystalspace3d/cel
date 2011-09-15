@@ -100,9 +100,7 @@ void celQuestFactory::SetDefaultParameter (const char* name,const char* value)
 {
   if (!defaults)
     defaults.AttachNew (new celVariableParameterBlock ());
-  size_t idx = defaults->GetParameterCount ();
-  defaults->SetParameterDef (idx, questmgr->pl->FetchStringID (name));
-  defaults->GetParameter (idx).Set (value);
+  defaults->AddParameter (questmgr->pl->FetchStringID (name)).Set (value);
 }
 
 void celQuestFactory::ClearDefaultParameters ()

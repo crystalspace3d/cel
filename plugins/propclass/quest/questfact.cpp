@@ -165,13 +165,11 @@ bool celPcQuest::Load (iCelDataBuffer* databuf)
   csRef<celVariableParameterBlock> qp;
   qp.AttachNew (new celVariableParameterBlock ());
   uint32 count = databuf->GetUInt32 ();
-  size_t i;
-  for (i = 0 ; i < count ; i++)
+  for (size_t i = 0 ; i < count ; i++)
   {
     const char* key = databuf->GetString ()->GetData ();
     const char* value = databuf->GetString ()->GetData ();
-    qp->SetParameterDef (i, pl->FetchStringID (key));
-    qp->GetParameter (i).Set (value);
+    qp->AddParameter (pl->FetchStringID (key)).Set (value);
   }
 
   bool has_quest = databuf->GetBool ();
@@ -236,8 +234,7 @@ bool celPcQuest::NewQuest (const char* name, iCelParameterBlock* params)
     return Report (object_reg, "Couldn't find quest factory '%s'!", name);
   
   quest_params.AttachNew (new celVariableParameterBlock ());
-  quest_params->SetParameterDef (0, pl->FetchStringID ("this"));
-  quest_params->GetParameter (0).Set (entity->GetName ());
+  quest_params->AddParameter (pl->FetchStringID ("this")).Set (entity->GetName ());
   quest_params->Merge (params);
 
   quest = fact->CreateQuest (quest_params);

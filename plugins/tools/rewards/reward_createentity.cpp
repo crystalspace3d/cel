@@ -130,19 +130,11 @@ void celCreateEntityRewardFactory::AddParameter (const char* name,
 		const char* value)
 {
   csStringID id = type->pl->FetchStringID (name);
-  for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
-  {
-    celDataType t;
-    csStringID pid = params->GetParameterDef (i, t);
-    if (pid == id)
-    {
-      params->GetParameter (i).Set (value);
-      return;
-    }
-  }
-  size_t idx = params->GetParameterCount ();
-  params->SetParameterDef (idx, id);
-  params->GetParameter (idx).Set (value);
+  celData* data = params->GetParameter (id);
+  if (data)
+    data->Set (value);
+  else
+    params->AddParameter (id).Set (value);
 }
 
 //---------------------------------------------------------------------------
@@ -164,7 +156,6 @@ celCreateEntityReward::celCreateEntityReward (
   name = pm->GetParameter (params, name_par);
 
   // Resolve template parameters.
-  size_t idx = 0;
   celCreateEntityReward::params.AttachNew (new celVariableParameterBlock ());
   for (size_t i = 0 ; i < tpl_params->GetParameterCount () ; i++)
   {
@@ -176,9 +167,7 @@ celCreateEntityReward::celCreateEntityReward (
     csString val;
     celParameterTools::ToString (*data, val);
 
-    celCreateEntityReward::params->SetParameterDef (idx, type->pl->FetchStringID (name));
-    celCreateEntityReward::params->GetParameter (idx).Set (val);
-    idx++;
+    celCreateEntityReward::params->AddParameter (type->pl->FetchStringID (name)).Set (val);
   }
 }
 

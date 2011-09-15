@@ -1243,13 +1243,10 @@ void celConsole::CreateEntityFromTemplate (const csStringArray& args)
   const char* entname = args[2];
   csRef<celVariableParameterBlock> params;
   params.AttachNew (new celVariableParameterBlock ());
-  size_t idx = 0;
   for (size_t i = 3 ; i < args.GetSize ()-1 ; i += 2)
   {
     csStringID id = pl->FetchStringID (args[i]);
-    params->SetParameterDef (idx, id);
-    params->GetParameter (idx).Set (args[i+1]);
-    idx++;
+    params->AddParameter (id).Set (args[i+1]);
   }
   iCelEntity* ent = pl->CreateEntity (tpl, entname, params);
   if (!ent)

@@ -443,7 +443,8 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
     }
   }
   celData msgret;
-  celOneParameterBlock* msgparams = new celOneParameterBlock ();
+  csRef<celOneParameterBlock> msgparams;
+  msgparams.AttachNew (new celOneParameterBlock ());
   msgparams->SetParameterDef (pl->FetchStringID (entityname));
   if (ent->GetBehaviour ())
   {
