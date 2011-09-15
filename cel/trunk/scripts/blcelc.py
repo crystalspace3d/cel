@@ -795,6 +795,7 @@ class iCelEntityTemplate(cspace.iBase):
     def HasClass(*args): return _blcelc.iCelEntityTemplate_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntityTemplate_GetClasses(*args)
     def Merge(*args): return _blcelc.iCelEntityTemplate_Merge(*args)
+    def GetCharacteristics(*args): return _blcelc.iCelEntityTemplate_GetCharacteristics(*args)
     Object = _swig_property(_blcelc.iCelEntityTemplate_Object_get, None, None,
                     "iCelEntityTemplate.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntityTemplate::QueryObject()")
 
@@ -3902,6 +3903,8 @@ class iPcInventoryListener(cspace.iBase):
     __repr__ = _swig_repr
     def AddChild(*args): return _blcelc.iPcInventoryListener_AddChild(*args)
     def RemoveChild(*args): return _blcelc.iPcInventoryListener_RemoveChild(*args)
+    def AddChildTemplate(*args): return _blcelc.iPcInventoryListener_AddChildTemplate(*args)
+    def RemoveChildTemplate(*args): return _blcelc.iPcInventoryListener_RemoveChildTemplate(*args)
     __swig_destroy__ = _blcelc.delete_iPcInventoryListener
     __del__ = lambda self : None;
 iPcInventoryListener_swigregister = _blcelc.iPcInventoryListener_swigregister
@@ -3965,11 +3968,17 @@ class iPcInventory(cspace.iBase):
     def RemoveInventoryListener(*args): return _blcelc.iPcInventory_RemoveInventoryListener(*args)
     def AddEntity(*args): return _blcelc.iPcInventory_AddEntity(*args)
     def RemoveEntity(*args): return _blcelc.iPcInventory_RemoveEntity(*args)
+    def AddEntityTemplate(*args): return _blcelc.iPcInventory_AddEntityTemplate(*args)
+    def RemoveEntityTemplate(*args): return _blcelc.iPcInventory_RemoveEntityTemplate(*args)
     def RemoveAll(*args): return _blcelc.iPcInventory_RemoveAll(*args)
     def GetEntityCount(*args): return _blcelc.iPcInventory_GetEntityCount(*args)
     def GetEntity(*args): return _blcelc.iPcInventory_GetEntity(*args)
-    def In(*args): return _blcelc.iPcInventory_In(*args)
     def FindEntity(*args): return _blcelc.iPcInventory_FindEntity(*args)
+    def GetEntityTemplateCount(*args): return _blcelc.iPcInventory_GetEntityTemplateCount(*args)
+    def GetEntityTemplate(*args): return _blcelc.iPcInventory_GetEntityTemplate(*args)
+    def GetEntityTemplateAmount(*args): return _blcelc.iPcInventory_GetEntityTemplateAmount(*args)
+    def In(*args): return _blcelc.iPcInventory_In(*args)
+    def FindEntityTemplate(*args): return _blcelc.iPcInventory_FindEntityTemplate(*args)
     def GetEntitySlot(*args): return _blcelc.iPcInventory_GetEntitySlot(*args)
     def SetStrictCharacteristics(*args): return _blcelc.iPcInventory_SetStrictCharacteristics(*args)
     def HasStrictCharacteristics(*args): return _blcelc.iPcInventory_HasStrictCharacteristics(*args)
@@ -3983,6 +3992,9 @@ class iPcInventory(cspace.iBase):
     def Dump(*args): return _blcelc.iPcInventory_Dump(*args)
     def SetSpace(*args): return _blcelc.iPcInventory_SetSpace(*args)
     def GetSpace(*args): return _blcelc.iPcInventory_GetSpace(*args)
+    def AddAllowedClass(*args): return _blcelc.iPcInventory_AddAllowedClass(*args)
+    def ClearAllowedClasses(*args): return _blcelc.iPcInventory_ClearAllowedClasses(*args)
+    def IsClassAllowed(*args): return _blcelc.iPcInventory_IsClassAllowed(*args)
     EntityCount = _swig_property(_blcelc.iPcInventory_EntityCount_get, None, None,
                     "iPcInventory.EntityCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcInventory::GetEntityCount()")
 
@@ -4082,6 +4094,20 @@ celCreateInventory = _blcelc.celCreateInventory
 celGetSetInventory = _blcelc.celGetSetInventory
 celGetInventory = _blcelc.celGetInventory
 iPcCharacteristics_scfGetVersion = _blcelc.iPcCharacteristics_scfGetVersion
+
+class iTemplateCharacteristics(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetCharacteristic(*args): return _blcelc.iTemplateCharacteristics_SetCharacteristic(*args)
+    def GetCharacteristic(*args): return _blcelc.iTemplateCharacteristics_GetCharacteristic(*args)
+    def ClearCharacteristic(*args): return _blcelc.iTemplateCharacteristics_ClearCharacteristic(*args)
+    def HasCharacteristic(*args): return _blcelc.iTemplateCharacteristics_HasCharacteristic(*args)
+    def ClearAll(*args): return _blcelc.iTemplateCharacteristics_ClearAll(*args)
+    __swig_destroy__ = _blcelc.delete_iTemplateCharacteristics
+    __del__ = lambda self : None;
+iTemplateCharacteristics_swigregister = _blcelc.iTemplateCharacteristics_swigregister
+iTemplateCharacteristics_swigregister(iTemplateCharacteristics)
 
 scfQuery_iPcCharacteristics = _blcelc.scfQuery_iPcCharacteristics
 CEL_TOOLTIP_LEFT = _blcelc.CEL_TOOLTIP_LEFT

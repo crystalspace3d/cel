@@ -292,6 +292,8 @@ public:
     virtual ~SwigDirector_pyPcInventoryListener();
     virtual void AddChild(iPcInventory *inventory, iCelEntity *entity);
     virtual void RemoveChild(iPcInventory *inventory, iCelEntity *entity);
+    virtual void AddChildTemplate(iPcInventory *inventory, iCelEntityTemplate *tpl, int amount);
+    virtual void RemoveChildTemplate(iPcInventory *inventory, iCelEntityTemplate *tpl, int amount);
 
 
 /* Internal Director utilities */
@@ -325,7 +327,7 @@ private:
       return method;
     }
 private:
-    mutable swig::PyObject_var vtable[2];
+    mutable swig::PyObject_var vtable[4];
 #endif
 
 };
