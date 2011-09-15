@@ -3799,12 +3799,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* entname = ArgToString (aname);
 	  csRef<iCelEntity> ent = pl->CreateEntity (entpl, entname
 	      ? entname : tplname, template_params);
+          // Clear template_params so that in the case CreateEntity() would
+          // keep a reference we start a new one here.
+          template_params = 0;
 	}
         break;
       case CEL_OPERATION_CLEARTPLPARAM:
 	{
 	  DUMP_EXEC ((":%04d: cleartplparam\n", i-1));
-	  template_params.Empty ();
+          if (template_params)
+	    template_params->Clear ();
 	}
 	break;
       case CEL_OPERATION_TPLPARAM:
@@ -3814,7 +3818,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_name = stack.Pop ();
 	  DUMP_EXEC ((":%04d: tplparam name=%s val=%s\n", i-1,
 	  	A2S (a_name), A2S (a_val)));
-	  template_params.Put (ArgToString (a_name), ArgToStringTpl (a_val));
+          if (!template_params)
+            template_params.AttachNew (new celVariableParameterBlock ());
+          size_t idx = template_params->GetParameterCount ();
+          csStringID id = pl->FetchStringID (ArgToString (a_name));
+          template_params->SetParameterDef (idx, id);
+          template_params->GetParameter (idx).Set (ArgToStringTpl (a_val));
         }
         break;
       case CEL_OPERATION_MESSAGE0:

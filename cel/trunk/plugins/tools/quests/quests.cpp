@@ -1205,7 +1205,7 @@ iRewardFactory* celQuestManager::AddCreateEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* template_par,
 	const char* name_par,
-    const celEntityTemplateParams &tpl_params)
+        iCelParameterBlock* tpl_params)
 {
   iRewardType* type = GetRewardType ("cel.rewards.createentity");
   csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
@@ -1213,13 +1213,16 @@ iRewardFactory* celQuestManager::AddCreateEntityReward (
   newstate->SetEntityTemplateParameter (template_par);
   newstate->SetNameParameter (name_par);
 
-  celEntityTemplateParams::ConstGlobalIterator iter = tpl_params.GetIterator();
-  while (iter.HasNext())
+  for (size_t i = 0 ; i < tpl_params->GetParameterCount () ; i++)
   {
-    csStringFast<12> name;
+    celDataType t;
+    csStringID id = tpl_params->GetParameterDef (i, t);
+    const char* name = pl->FetchString (id);
     // @@@ Support dynamic parameters?
-    const char * val = iter.Next (name);
-	newstate->AddParameter (name, val);
+    const celData* data = tpl_params->GetParameterByIndex (i);
+    csString val;
+    celParameterTools::ToString (*data, val);
+    newstate->AddParameter (name, val);
   }
 
   response->AddRewardFactory (rewfact);

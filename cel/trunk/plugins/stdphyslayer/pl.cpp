@@ -338,7 +338,7 @@ iCelEntityTemplate* celPlLayer::GetEntityTemplate (size_t idx) const
 
 csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
     const char* entname,
-    iCelParameterBlock* act_params, const celEntityTemplateParams& params)
+    iCelParameterBlock* act_params, iCelParameterBlock* params)
 {
   csRef<celVariableParameterBlock> converted_params;
   if (act_params)
@@ -361,69 +361,22 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
 	  converted_par.Set (entname);
 	  continue;
 	}
-	const char* value = params.Get (parvalue, (const char*)0);
-	switch (par->value.par.partype)
-	{
-	  case CEL_DATA_LONG:
-	    {
-	      long l; if (value) sscanf (value, "%ld", &l); else l = 0;
-	      converted_par.Set ((int32)l);
-	    }
-	    break;
-	  case CEL_DATA_FLOAT:
-	    {
-	      float f; if (value) sscanf (value, "%f", &f); else f = 0;
-	      converted_par.Set (f);
-	    }
-	    break;
-	  case CEL_DATA_BOOL:
-	    {
-	      bool b;
-	      if (value) csScanStr (value, "%b", &b); else b = false;
-	      converted_par.Set (b);
-	    }
-	    break;
-	  case CEL_DATA_STRING:
-	    converted_par.Set (value);
-	    break;
-	  case CEL_DATA_VECTOR2:
-	    {
-	      csVector2 v;
-	      if (value)
-	        sscanf (value, "%f,%f", &v.x, &v.y);
-	      else
-	        v.Set (0, 0);
-	      converted_par.Set (v);
-	    }
-	    break;
-	  case CEL_DATA_VECTOR3:
-	    {
-	      csVector3 v;
-	      if (value)
-	        sscanf (value, "%f,%f,%f", &v.x, &v.y, &v.z);
-	      else
-	        v.Set (0, 0, 0);
-	      converted_par.Set (v);
-	    }
-	    break;
-	  case CEL_DATA_COLOR:
-	    {
-	      csColor v;
-	      if (value)
-	        sscanf (value, "%f,%f,%f", &v.red, &v.green, &v.blue);
-	      else
-	        v.Set (0, 0, 0);
-	      converted_par.Set (v);
-	    }
- 	    break;
-	  case CEL_DATA_ENTITY:
-	    {
-	      iCelEntity* ent = value ? FindEntity (value) : 0;
-	      converted_par.Set (ent);
-	    }
-	    break;
-	  default: break;
-	}
+        csStringID parvalueid = FetchStringID (parvalue);
+        const celData* data = params->GetParameter (parvalueid);
+        if (data)
+        {
+          if (par->value.par.partype == CEL_DATA_ENTITY)
+          {
+            csString entname;
+            celParameterTools::ToString (*data, entname);
+	    iCelEntity* ent = FindEntity (entname);
+	    converted_par.Set (ent);
+          }
+          else
+          {
+            celParameterTools::Convert (*data, par->value.par.partype, converted_par);
+          }
+        }
       }
       else
       {
@@ -436,7 +389,7 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
 
 bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
     	iCelPropertyClass* pc,
-  	const celEntityTemplateParams& params,
+  	iCelParameterBlock* params,
 	iCelEntity* ent, iCelEntityTemplate* factory)
 {
   csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
@@ -458,14 +411,18 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
 iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   	const char* name, ...)
 {
-  celEntityTemplateParams params;
+  csRef<celVariableParameterBlock> params;
+  params.AttachNew (new celVariableParameterBlock ());
   va_list args;
   va_start (args, name);
   char const* par = va_arg (args, char*);
+  size_t idx = 0;
   while (par != 0)
   {
     char const* val = va_arg (args, char*);
-    params.Put (par, val);
+    params->SetParameterDef (idx, FetchStringID (par));
+    params->GetParameter (idx).Set (val);
+    idx++;
     par = va_arg (args, char*);
   }
   va_end (args);
@@ -473,7 +430,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
 }
 
 iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
-  	const char* name, const celEntityTemplateParams& params)
+  	const char* name, iCelParameterBlock* params)
 {
   celEntityTemplate* cfact = static_cast<celEntityTemplate*> (factory);
   csRef<iCelBlLayer> bl;
@@ -576,56 +533,57 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
 	case CEL_DATA_PARAMETER:
 	  {
 	    const char* parname = d.value.par.parname->GetData ();
-	    const char* value = params.Get (parname, (const char*)0);
-	    if (value)
+            csStringID parnameid = FetchStringID (parname);
+            const celData* data = params->GetParameter (parnameid);
+	    if (data)
 	    {
 	      switch (d.value.par.partype)
 	      {
 		case CEL_DATA_LONG:
 		  {
-		    long l; sscanf (value, "%ld", &l);
+		    long l; celParameterTools::ToLong (*data, l);
 		    rc = pc->SetProperty (id, l);
 		  }
 		  break;
 		case CEL_DATA_FLOAT:
 		  {
-		    float f; sscanf (value, "%f", &f);
+		    float f; celParameterTools::ToFloat (*data, f);
 		    rc = pc->SetProperty (id, f);
 		  }
 		  break;
 		case CEL_DATA_BOOL:
 		  {
-		    bool b;
-		    csScanStr (value, "%b", &b);
+		    bool b; celParameterTools::ToBool (*data, b);
 		    rc = pc->SetProperty (id, b);
 		  }
 		  break;
 		case CEL_DATA_STRING:
-		  rc = pc->SetProperty (id, value);
+                  {
+                    csString value; celParameterTools::ToString (*data, value);
+		    rc = pc->SetProperty (id, value.GetData ());
+                  }
 		  break;
 		case CEL_DATA_VECTOR2:
 		  {
-		    csVector2 v;
-		    sscanf (value, "%f,%f", &v.x, &v.y);
+		    csVector2 v; celParameterTools::ToVector2 (*data, v);
 		    rc = pc->SetProperty (id, v);
 		  }
 		  break;
 		case CEL_DATA_VECTOR3:
 		  {
-		    csVector3 v;
-		    sscanf (value, "%f,%f,%f", &v.x, &v.y, &v.z);
+		    csVector3 v; celParameterTools::ToVector3 (*data, v);
 		    rc = pc->SetProperty (id, v);
 		  }
 		  break;
 		case CEL_DATA_COLOR:
 		  {
-		    csColor v;
-		    sscanf (value, "%f,%f,%f", &v.red, &v.green, &v.blue);
+		    csColor v; celParameterTools::ToColor (*data, v);
 		    rc = pc->SetProperty (id, v);
 		  }
 		  break;
 		case CEL_DATA_ENTITY:
 		  {
+                    csString value; celParameterTools::ToString (*data, value);
 		    iCelEntity* ent = FindEntity (value);
 		    if (ent)
 		      rc = pc->SetProperty (id, ent);

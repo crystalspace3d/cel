@@ -32,6 +32,7 @@
 #include "ivaria/script.h"
 
 #include "tools/expression.h"
+#include "celtool/stdparams.h"
 #include "plugins/tools/celconsole/celconsole.h"
 
 SCF_IMPLEMENT_FACTORY (celConsole)
@@ -1240,11 +1241,15 @@ void celConsole::CreateEntityFromTemplate (const csStringArray& args)
     return;
   }
   const char* entname = args[2];
-  celEntityTemplateParams params;
-  size_t i;
-  for (i = 3 ; i < args.GetSize ()-1 ; i += 2)
+  csRef<celVariableParameterBlock> params;
+  params.AttachNew (new celVariableParameterBlock ());
+  size_t idx = 0;
+  for (size_t i = 3 ; i < args.GetSize ()-1 ; i += 2)
   {
-    params.Put (args[i], args[i+1]);
+    csStringID id = pl->FetchStringID (args[i]);
+    params->SetParameterDef (idx, id);
+    params->GetParameter (idx).Set (args[i+1]);
+    idx++;
   }
   iCelEntity* ent = pl->CreateEntity (tpl, entname, params);
   if (!ent)

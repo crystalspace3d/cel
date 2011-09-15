@@ -361,7 +361,7 @@ public:
   	iQuestTriggerResponseFactory* response,
 	const char* template_par,
 	const char* name_par,
-    const celEntityTemplateParams &tpl_params);
+        iCelParameterBlock* tpl_params);
   virtual iRewardFactory* AddDestroyEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par); 

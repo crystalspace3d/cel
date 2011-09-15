@@ -13,6 +13,7 @@
 #include "propclass/inv.h"
 #include <physicallayer/propclas.h>
 #include <behaviourlayer/behave.h>
+#include <celtool/stdparams.h>
 
 #include "elcmtest.h"
 
@@ -195,7 +196,8 @@ bool ElcmTest::FillDynamicWorld ()
 	    matId, csVector3 (float (x*5), 0, float (y*5))));
       csString name;
       name.Format ("box%d_%d", x+50, y+50);
-      celEntityTemplateParams params;
+      csRef<iCelParameterBlock> params;
+      params.AttachNew (new celVariableParameterBlock ());
       if (!obj->SetEntityTemplate ("glowBox", name, params))
 	return ReportError ("Could not set entity template 'glowBox'!");
     }

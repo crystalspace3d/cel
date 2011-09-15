@@ -51,9 +51,6 @@ class csString;
 #define CEL_PROPCLASS_END (void*)0
 #define CEL_PARAM_END (void*)0
 
-/// Parameters used to create an entity from a template.
-typedef csHash<csStringFast<12>, csStringFast<12> > celEntityTemplateParams;
-
 struct iCelEntityTracker;
 
 /**
@@ -194,11 +191,10 @@ struct iCelPlLayer : public virtual iBase
    * Create an entity from a template.
    * \param factory is the template to create from.
    * \param name is the name of the new entity.
-   * \param params is a hash with parameters that will be used
-   * during entity creation.
+   * \param params contains parameters used during entity creation.
    */
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
-  	const char* name, const celEntityTemplateParams& params) = 0;
+  	const char* name, iCelParameterBlock* params) = 0;
 
   /**
    * Create an entity from a template.
@@ -206,7 +202,7 @@ struct iCelPlLayer : public virtual iBase
    * \param name is the name of the new entity.
    * After that comes a list of parameter pairs (two strings) with the
    * last one being equal to CEL_PARAM_END. This will construct
-   * a celEntityTemplateParams instance from these parameters and
+   * a parameter block instance from these parameters and
    * then call the other CreateEntity() variant.
    */
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,

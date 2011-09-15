@@ -40,137 +40,50 @@ static const celData celDataNone;
 
 static const char* ToString (csString& str, const celData* data)
 {
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: return data->value.s->GetData ();
-    case CEL_DATA_BOOL: if (data->value.bo) str = "true"; else str = "false"; break;
-    case CEL_DATA_BYTE: str.Format ("%d", data->value.b); break;
-    case CEL_DATA_UBYTE: str.Format ("%d", data->value.ub); break;
-    case CEL_DATA_WORD: str.Format ("%d", data->value.w); break;
-    case CEL_DATA_UWORD: str.Format ("%d", data->value.uw); break;
-    case CEL_DATA_LONG: str.Format ("%d", data->value.l); break;
-    case CEL_DATA_ULONG: str.Format ("%d", data->value.ul); break;
-    case CEL_DATA_FLOAT: str.Format ("%g", data->value.f); break;
-    case CEL_DATA_VECTOR2: str.Format ("%g,%g", data->value.v.x, data->value.v.y); break;
-    case CEL_DATA_VECTOR3: str.Format ("%g,%g,%g",
-				 data->value.v.x, data->value.v.y, data->value.v.z);
-			     break;
-    case CEL_DATA_VECTOR4: str.Format ("%g,%g,%g,%g", data->value.v.x, data->value.v.y,
-				 data->value.v.z, data->value.v.w);
-			     break;
-    case CEL_DATA_COLOR4: str.Format ("%g,%g,%g,%g", data->value.col.red,
-				data->value.col.green, data->value.col.blue, data->value.col.alpha);
-			     break;
-    case CEL_DATA_PCLASS: str.Format ("pc(%p)", (iCelPropertyClass*)data->value.pc); break;
-    case CEL_DATA_IBASE: str.Format ("ibase(%p)", (iBase*)data->value.ibase); break;
-    case CEL_DATA_ENTITY: str.Format ("ent('%s')", data->value.ent->GetName ()); break;
-    case CEL_DATA_ACTION: str.Format ("action('%s')", data->value.s->GetData ()); break;
-    case CEL_DATA_PARAMETER: str.Format ("par('%s')", data->value.par.parname->GetData ()); break;
-    case CEL_DATA_NONE: str.Free (); break;
-    default: str = "unknown()"; break;
-  }
+  celParameterTools::ToString (*data, str);
   return str;
 }
 
 static int32 ToLong (const celData* data)
 {
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: return atol (data->value.s->GetData ());
-    case CEL_DATA_BOOL: return data->value.bo;
-    case CEL_DATA_BYTE: return data->value.b;
-    case CEL_DATA_UBYTE: return data->value.ub;
-    case CEL_DATA_WORD: return data->value.w;
-    case CEL_DATA_UWORD: return data->value.uw;
-    case CEL_DATA_LONG: return data->value.l;
-    case CEL_DATA_ULONG: return data->value.ul;
-    case CEL_DATA_FLOAT: return (int32) data->value.f;
-    default: return 0;
-  }
+  long l;
+  celParameterTools::ToLong (*data, l);
+  return l;
 }
 
 static float ToFloat (const celData* data)
 {
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: return atof (data->value.s->GetData ());
-    case CEL_DATA_BOOL: return (float)data->value.bo;
-    case CEL_DATA_BYTE: return (float)data->value.b;
-    case CEL_DATA_UBYTE: return (float)data->value.ub;
-    case CEL_DATA_WORD: return (float)data->value.w;
-    case CEL_DATA_UWORD: return (float)data->value.uw;
-    case CEL_DATA_LONG: return (float)data->value.l;
-    case CEL_DATA_ULONG: return (float)data->value.ul;
-    case CEL_DATA_FLOAT: return data->value.f;
-    default: return 0.0f;
-  }
+  float f;
+  celParameterTools::ToFloat (*data, f);
+  return f;
 }
 
 static bool ToBool (const celData* data)
 {
   bool rc;
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%b", &rc);
-			  return rc;
-    case CEL_DATA_BOOL: return data->value.bo;
-    case CEL_DATA_BYTE: return data->value.b != 0;
-    case CEL_DATA_UBYTE: return data->value.ub != 0;
-    case CEL_DATA_WORD: return data->value.w != 0;
-    case CEL_DATA_UWORD: return data->value.uw != 0;
-    case CEL_DATA_LONG: return data->value.l != 0;
-    case CEL_DATA_ULONG: return data->value.ul != 0;
-    case CEL_DATA_FLOAT: return fabs (data->value.f) > 0.000001;
-    case CEL_DATA_PCLASS: return data->value.pc != 0;
-    case CEL_DATA_IBASE: return data->value.ibase != 0;
-    case CEL_DATA_ENTITY: return data->value.ent != 0;
-    default: return false;
-  }
+  celParameterTools::ToBool (*data, rc);
+  return rc;
 }
 
 static csVector2 ToVector2 (const celData* data)
 {
   csVector2 v;
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f", &v.x, &v.y);
-			  return v;
-    case CEL_DATA_VECTOR2: v.x = data->value.v.x; v.y = data->value.v.y;
-			   return v;
-    default: v.x = v.y = 0.0f;
-	     return v;
-  }
+  celParameterTools::ToVector2 (*data, v);
+  return v;
 }
 
 static csVector3 ToVector3 (const celData* data)
 {
   csVector3 v;
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f,%f", &v.x, &v.y, &v.z);
-			  return v;
-    case CEL_DATA_VECTOR3: v.x = data->value.v.x; v.y = data->value.v.y; v.z = data->value.v.z;
-			   return v;
-    default: v.x = v.y = v.z = 0.0f;
-	     return v;
-  }
+  celParameterTools::ToVector3 (*data, v);
+  return v;
 }
 
 static csColor ToColor (const celData* data)
 {
   csColor v;
-  switch (data->type)
-  {
-    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f,%f",
-			      &v.red, &v.green, &v.blue);
-			  return v;
-    case CEL_DATA_VECTOR2: v.red = data->value.col.red;
-			   v.green = data->value.col.green;
-			   v.blue = data->value.col.blue;
-			   return v;
-    default: v.red = v.green = v.blue = 0.0f;
-	     return v;
-  }
+  celParameterTools::ToColor (*data, v);
+  return v;
 }
 
 //---------------------------------------------------------------------------

@@ -325,32 +325,13 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
         node, "Can't find entity template '%s'!", templatename);
       return 0;
     }
-    celEntityTemplateParams params;
-    params.Put ("this", entityname);
+
     csRef<iDocumentNode> paramsnode = node->GetNode ("params");
-    if (paramsnode)
-    {
-      csRef<iDocumentNodeIterator> par_it = paramsnode->GetNodes ();
-      while (par_it->HasNext ())
-      {
-        csRef<iDocumentNode> par_child = par_it->Next ();
-        if (par_child->GetType () != CS_NODE_ELEMENT) continue;
-        const char* par_value = par_child->GetValue ();
-        csStringID par_id = xmltokens.Request (par_value);
-        if (par_id == XMLTOKEN_PAR)
-        {
-          const char* name = par_child->GetAttributeValue ("name");
-          const char* value = par_child->GetAttributeValue ("value");
-          if (name && value)
-            params.Put (name, value);
-        }
-        else
-        {
-          synldr->ReportBadToken (par_child);
-          return 0;
-        }
-      }
-    }
+    celData thisdata;
+    thisdata.Set (entityname);
+    csRef<iCelParameterBlock> params = celParameterTools::ParseParams (
+            object_reg, paramsnode, "this", &thisdata, CEL_PARAM_END);
+
     ent = pl->CreateEntity (templ, entityname, params);
   }
   else

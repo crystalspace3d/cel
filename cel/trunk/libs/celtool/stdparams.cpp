@@ -24,6 +24,8 @@
 #include "imap/services.h"
 
 #include "physicallayer/pl.h"
+#include "physicallayer/propclas.h"
+#include "physicallayer/entity.h"
 #include "celtool/stdparams.h"
 
 //---------------------------------------------------------------------------
@@ -165,4 +167,216 @@ csRef<iCelParameterBlock> celParameterTools::ParseParams (
 
   return params;
 }
+
+bool celParameterTools::ToLong (const celData& in, long& out)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_BOOL: if (in.value.bo) out = 1; else out = 0; return true;
+    case CEL_DATA_BYTE: out = in.value.b; return true;
+    case CEL_DATA_WORD: out = in.value.w; return true;
+    case CEL_DATA_LONG: out = in.value.l; return true;
+    case CEL_DATA_UBYTE: out = in.value.ub; return true;
+    case CEL_DATA_UWORD: out = in.value.uw; return true;
+    case CEL_DATA_ULONG: out = in.value.ul; return true;
+    case CEL_DATA_FLOAT: out = long (in.value.f); return true;
+    case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%d", &out); else out = 0; return true;
+    default: return false;
+  }
+}
+
+bool celParameterTools::ToBool (const celData& in, bool& out)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_BOOL: out = in.value.bo; return true;
+    case CEL_DATA_BYTE: out = bool (in.value.b); return true;
+    case CEL_DATA_WORD: out = bool (in.value.w); return true;
+    case CEL_DATA_LONG: out = bool (in.value.l); return true;
+    case CEL_DATA_UBYTE: out = bool (in.value.ub); return true;
+    case CEL_DATA_UWORD: out = bool (in.value.uw); return true;
+    case CEL_DATA_ULONG: out = bool (in.value.ul); return true;
+    case CEL_DATA_FLOAT: out = fabs (in.value.f) > 0.000001; return true;
+    case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%b", &out); else out = false; return true;
+    case CEL_DATA_PCLASS: out = in.value.pc != 0; return true;
+    case CEL_DATA_ENTITY: out = in.value.ent != 0; return true;
+    default: return false;
+  }
+}
+
+bool celParameterTools::ToFloat (const celData& in, float& out)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_BOOL: if (in.value.bo) out = 1; else out = 0; return true;
+    case CEL_DATA_BYTE: out = float (in.value.b); return true;
+    case CEL_DATA_WORD: out = float (in.value.w); return true;
+    case CEL_DATA_LONG: out = float (in.value.l); return true;
+    case CEL_DATA_UBYTE: out = float (in.value.ub); return true;
+    case CEL_DATA_UWORD: out = float (in.value.uw); return true;
+    case CEL_DATA_ULONG: out = float (in.value.ul); return true;
+    case CEL_DATA_FLOAT: out = in.value.f; return true;
+    case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f", &out); else out = 0; return true;
+    default: return false;
+  }
+}
+
+bool celParameterTools::ToVector2 (const celData& in, csVector2& out)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_VECTOR2: out.Set (in.value.v.x, in.value.v.y); return true;
+    case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f", &out.x, &out.y); else out.Set (0, 0); return true;
+    default: return false;
+  }
+}
+
+bool celParameterTools::ToVector3 (const celData& in, csVector3& out)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_VECTOR3: out.Set (in.value.v.x, in.value.v.y, in.value.v.z); return true;
+    case CEL_DATA_COLOR: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue); return true;
+    case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f", &out.x, &out.y, &out.z); else out.Set (0, 0, 0); return true;
+    default: return false;
+  }
+}
+
+bool celParameterTools::ToVector4 (const celData& in, csVector4& out)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_VECTOR4: out.Set (in.value.v.x, in.value.v.y, in.value.v.z, in.value.v.w); return true;
+    case CEL_DATA_COLOR4: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue, in.value.col.alpha); return true;
+    case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f,%f", &out.x, &out.y, &out.z, &out.w); else out.Set (0, 0, 0, 0); return true;
+    default: return false;
+  }
+}
+
+bool celParameterTools::ToColor (const celData& in, csColor& out)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_COLOR: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue); return true;
+    case CEL_DATA_VECTOR3: out.Set (in.value.v.x, in.value.v.y, in.value.v.z); return true;
+    case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f", &out.red, &out.green, &out.blue); else out.Set (0, 0, 0); return true;
+    default: return false;
+  }
+}
+
+bool celParameterTools::ToColor4 (const celData& in, csColor4& out)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_VECTOR4: out.Set (in.value.v.x, in.value.v.y, in.value.v.z, in.value.v.w); return true;
+    case CEL_DATA_COLOR4: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue, in.value.col.alpha); return true;
+    case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f,%f", &out.red, &out.green, &out.blue, &out.alpha); else out.Set (0, 0, 0, 0); return true;
+    default: return false;
+  }
+}
+
+bool celParameterTools::ToString (const celData& in, csString& out)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_BOOL: if (in.value.bo) out = "true"; else out = "false"; return true;
+    case CEL_DATA_BYTE: out.Format ("%d", in.value.b); return true;
+    case CEL_DATA_WORD: out.Format ("%d", in.value.w); return true;
+    case CEL_DATA_LONG: out.Format ("%d", in.value.l); return true;
+    case CEL_DATA_UBYTE: out.Format ("%d", in.value.ub); return true;
+    case CEL_DATA_UWORD: out.Format ("%d", in.value.uw); return true;
+    case CEL_DATA_ULONG: out.Format ("%d", in.value.ul); return true;
+    case CEL_DATA_FLOAT: out.Format ("%g", in.value.f); return true;
+    case CEL_DATA_VECTOR2: out.Format ("%g,%g", in.value.v.x, in.value.v.y); return true;
+    case CEL_DATA_VECTOR3: out.Format ("%g,%g,%g", in.value.v.x, in.value.v.y, in.value.v.z); return true;
+    case CEL_DATA_VECTOR4: out.Format ("%g,%g,%g,%g", in.value.v.x, in.value.v.y, in.value.v.z, in.value.v.w); return true;
+    case CEL_DATA_STRING: if (in.value.s) out = in.value.s->GetData (); else out = ""; return true;
+    case CEL_DATA_PCLASS: if (in.value.pc) out = in.value.pc->GetName (); else out = "null"; return true;
+    case CEL_DATA_ENTITY: if (in.value.ent) out = in.value.ent->GetName (); else out = "null"; return true;
+    case CEL_DATA_ACTION: return false;
+    case CEL_DATA_COLOR: out.Format ("col(%g,%g,%g)", in.value.col.red, in.value.col.green, in.value.col.blue); return true;
+    case CEL_DATA_COLOR4: out.Format ("col(%g,%g,%g,%g)", in.value.col.red, in.value.col.green, in.value.col.blue, in.value.col.alpha); return true;
+    case CEL_DATA_IBASE: return false;
+    case CEL_DATA_PARAMETER: return false;
+    default: return false;
+  }
+}
+
+bool celParameterTools::Convert (const celData& in, celDataType type, celData& out)
+{
+  if (type == in.type)
+  {
+    out.Copy (in);
+    return true;
+  }
+  switch (type)
+  {
+    case CEL_DATA_BOOL:
+      {
+        bool b;
+        if (!ToBool (in, b)) return false;
+        out.Set (b);
+      }
+      return true;
+    case CEL_DATA_LONG:
+      {
+        long l;
+        if (!ToLong (in, l)) return false;
+        out.Set ((int32)l);
+      }
+      return true;
+    case CEL_DATA_FLOAT:
+      {
+        float f;
+        if (!ToFloat (in, f)) return false;
+        out.Set (f);
+      }
+      return true;
+    case CEL_DATA_VECTOR2:
+      {
+        csVector2 v;
+        if (!ToVector2 (in, v)) return false;
+        out.Set (v);
+      }
+      return true;
+    case CEL_DATA_VECTOR3:
+      {
+        csVector3 v;
+        if (!ToVector3 (in, v)) return false;
+        out.Set (v);
+      }
+      return true;
+    case CEL_DATA_VECTOR4:
+      {
+        csVector4 v;
+        if (!ToVector4 (in, v)) return false;
+        out.Set (v);
+      }
+      return true;
+    case CEL_DATA_COLOR:
+      {
+        csColor v;
+        if (!ToColor (in, v)) return false;
+        out.Set (v);
+      }
+      return true;
+    case CEL_DATA_COLOR4:
+      {
+        csColor4 v;
+        if (!ToColor4 (in, v)) return false;
+        out.Set (v);
+      }
+      return true;
+    case CEL_DATA_STRING:
+      {
+        csString s;
+        if (!ToString (in, s)) return false;
+        out.Set (s.GetData ());
+      }
+      return true;
+    default:
+      return false;
+  }
+}
+
 

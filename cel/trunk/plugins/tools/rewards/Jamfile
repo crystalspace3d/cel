@@ -4,3 +4,4 @@ Plugin rewards
        : [ Wildcard *.cpp *.h ]
 ;
 ExternalLibs rewards : CRYSTAL ;
+LinkWith rewards : celtool ;

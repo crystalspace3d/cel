@@ -445,7 +445,7 @@ struct iQuestManager : public virtual iBase
   	iQuestTriggerResponseFactory* response,
 	const char* template_par,
 	const char* name_par,
-    const celEntityTemplateParams &tpl_params) = 0;
+        iCelParameterBlock* tpl_params) = 0;
 
     /**
    * Convenience method to add a 'destroyentity' reward factory

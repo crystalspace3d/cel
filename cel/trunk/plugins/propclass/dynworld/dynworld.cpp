@@ -492,7 +492,7 @@ const csSphere& DynamicObject::GetBSphere () const
 }
 
 bool DynamicObject::SetEntityTemplate (const char* templateName,
-      const char* entityName, const celEntityTemplateParams& params)
+      const char* entityName, iCelParameterBlock* params)
 {
   entityTemplate = factory->GetWorld ()->pl->FindEntityTemplate (templateName);
   if (!entityTemplate)
