@@ -153,107 +153,6 @@ csStringID celAddOnCelEntity::GetAttributeID (iDocumentNode* child,
   return pl->FetchStringID (rc);
 }
 
-csRef<celVariableParameterBlock> celAddOnCelEntity::ParseParameterBlock (
-        iDocumentNode* child)
-{
-  celVariableParameterBlock* params = new celVariableParameterBlock ();
-  csRef<iDocumentNodeIterator> par_it = child->GetNodes ();
-  size_t par_idx = 0;
-  while (par_it->HasNext ())
-  {
-    csRef<iDocumentNode> par_child = par_it->Next ();
-    if (par_child->GetType () != CS_NODE_ELEMENT) continue;
-    const char* par_value = par_child->GetValue ();
-    csStringID par_id = xmltokens.Request (par_value);
-    if (par_id == XMLTOKEN_PAR)
-    {
-      csStringID parid = GetAttributeID (par_child, "name");
-      if (parid == csInvalidStringID) return 0;
-      params->SetParameterDef (par_idx, parid);
-      par_idx++;
-      const char* str_value = par_child->GetAttributeValue ("string");
-      if (str_value)
-      {
-        params->GetParameter (par_idx-1).Set (str_value);
-        continue;
-      }
-      const char* vec_value = par_child->GetAttributeValue ("vector");
-      if (vec_value)
-      {
-        csVector3 v;
-        int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);
-        if (rc == 3)
-          params->GetParameter (par_idx-1).Set (v);
-        else
-        {
-          csVector2 v2;
-          csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
-          params->GetParameter (par_idx-1).Set (v2);
-        }
-        continue;
-      }
-      const char* vec3_value = par_child->GetAttributeValue ("vector3");
-      if (vec3_value)
-      {
-        csVector3 v;
-        csScanStr (vec3_value, "%f,%f,%f", &v.x, &v.y, &v.z);
-        params->GetParameter (par_idx-1).Set (v);
-        continue;
-      }
-      const char* vec2_value = par_child->GetAttributeValue ("vector2");
-      if (vec2_value)
-      {
-        csVector2 v;
-        csScanStr (vec2_value, "%f,%f", &v.x, &v.y);
-        params->GetParameter (par_idx-1).Set (v);
-        continue;
-      }
-      const char* col_value = par_child->GetAttributeValue ("color");
-      if (col_value)
-      {
-        csColor v;
-        csScanStr (col_value, "%f,%f,%f", &v.red, &v.green, &v.blue);
-        params->GetParameter (par_idx-1).Set (v);
-        continue;
-      }
-      const char* float_value = par_child->GetAttributeValue ("float");
-      if (float_value)
-      {
-        float f;
-        csScanStr (float_value, "%f", &f);
-        params->GetParameter (par_idx-1).Set (f);
-        continue;
-      }
-      const char* bool_value = par_child->GetAttributeValue ("bool");
-      if (bool_value)
-      {
-        bool b;
-        csScanStr (bool_value, "%b", &b);
-        params->GetParameter (par_idx-1).Set (b);
-        continue;
-      }
-      const char* long_value = par_child->GetAttributeValue ("long");
-      if (long_value)
-      {
-        int32 l;
-        csScanStr (long_value, "%d", &l);
-        params->GetParameter (par_idx-1).Set (l);
-        continue;
-      }
-      synldr->ReportError (
-        "cel.addons.celentity",
-        par_child, "Type for parameter not yet supported!");
-      return 0;
-    }
-    else
-    {
-      synldr->ReportBadToken (par_child);
-      return 0;
-    }
-  }
-  return params;
-}
-
 bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
         iDocumentNode* node)
 {
@@ -327,8 +226,8 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
         {
           csStringID propid = GetAttributeID (child, "name");
           if (propid == csInvalidStringID) return false;
-          csRef<celVariableParameterBlock> params = ParseParameterBlock (
-                  child);
+          csRef<iCelParameterBlock> params = celParameterTools::ParseParams (
+            object_reg, child, CEL_PARAM_END);
           celData ret;
           pc->PerformAction (propid, params, ret);
         }
@@ -537,7 +436,8 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
               child, "Behaviour is missing for 'call'!");
           return 0;
         }
-        csRef<celVariableParameterBlock> params = ParseParameterBlock (child);
+        csRef<iCelParameterBlock> params = celParameterTools::ParseParams (
+            object_reg, child, CEL_PARAM_END);
         if (!params) return 0;
         const char* msgid = child->GetAttributeValue ("event");
         if (!msgid)

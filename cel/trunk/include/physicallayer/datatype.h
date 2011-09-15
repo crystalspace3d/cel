@@ -126,17 +126,23 @@ struct celData
   }
   const celData& operator= (const celData& copy)
   {
-    Clear ();
-    type = copy.type;
-    value = copy.value;
-    if (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s->IncRef ();
-    else if (type == CEL_DATA_PARAMETER) value.par.parname->IncRef ();
+    Copy (copy);
     return *this;
   }
   ~celData()
   {
     Clear ();
   }
+
+  void Copy (const celData& copy)
+  {
+    Clear ();
+    type = copy.type;
+    value = copy.value;
+    if (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s->IncRef ();
+    else if (type == CEL_DATA_PARAMETER) value.par.parname->IncRef ();
+  }
+
   bool operator== (const celData& other) const
   {
     if (type != other.type) return false;

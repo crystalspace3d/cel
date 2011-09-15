@@ -53,7 +53,6 @@ private:
 	const char* prefix, const char* propname);
   csStringID GetAttributeID (iDocumentNode* child,
 	const char* propname);
-  csRef<celVariableParameterBlock> ParseParameterBlock (iDocumentNode* child);
   bool ParseProperties (iCelPropertyClass* pc, iDocumentNode* child);
 
   iCelPropertyClass* LoadPropclass (iDocumentNode* node, iCelEntity* ent);

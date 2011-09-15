@@ -34,14 +34,14 @@
 	  </trigger>
 	</state>
         <sequence name="animglow">
-          <op entity="$this" type="ambientmesh" duration="1000" >
+          <op entity="$this" type="ambientmesh" duration="$dur" >
 	    <abscolor red="0" green="0" blue="1" />
           </op>
-	  <delay time="1000" />
-          <op entity="$this" type="ambientmesh" duration="1000" >
+	  <delay time="$dur" />
+          <op entity="$this" type="ambientmesh" duration="$dur" >
 	    <abscolor red="1" green="0" blue="0" />
           </op>
-	  <delay time="1000" />
+	  <delay time="$dur" />
         </sequence>
       </quest>
     </addon>
@@ -57,6 +57,7 @@
       <propclass name="pclogic.quest" tag="glow">
         <action name="NewQuest" >
           <par name="name" string="glowQuest" />
+          <par name="dur" string="100" />
         </action>
         <property name="state" string="init" />
       </propclass>
