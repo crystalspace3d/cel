@@ -3820,10 +3820,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (a_name), A2S (a_val)));
           if (!template_params)
             template_params.AttachNew (new celVariableParameterBlock ());
-          size_t idx = template_params->GetParameterCount ();
           csStringID id = pl->FetchStringID (ArgToString (a_name));
-          template_params->SetParameterDef (idx, id);
-          template_params->GetParameter (idx).Set (ArgToStringTpl (a_val));
+          template_params->AddParameter (id).Set (ArgToStringTpl (a_val));
         }
         break;
       case CEL_OPERATION_MESSAGE0:

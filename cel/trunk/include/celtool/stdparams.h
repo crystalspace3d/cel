@@ -252,6 +252,15 @@ public:
   }
 };
 
+struct celVariable
+{
+  csStringID id;
+  celData data;
+
+  celVariable () { }
+  celVariable (csStringID id, const celData& data) : id (id), data (data) { }
+};
+
 /**
  * Variable parameter block implementation.
  */
@@ -259,8 +268,7 @@ class celVariableParameterBlock : public scfImplementation1<
 	celVariableParameterBlock,iCelParameterBlock>
 {
 private:
-  csArray<csStringID> ids;
-  csArray<celData> data;
+  csArray<celVariable> vars;
 
 public:
   celVariableParameterBlock () : scfImplementationType (this)
@@ -274,13 +282,10 @@ public:
   {
     if (other != 0)
     {
-      csStringID id;
       celDataType type;
       for (size_t idx = 0; idx < other->GetParameterCount (); idx++)
       {
-        id = other->GetParameterDef (idx, type);
-        SetParameterDef (idx, id);
-        data.GetExtend (idx) = *other->GetParameter (id);
+	AddParameter (other->GetParameterDef (idx, type), *other->GetParameterByIndex (idx));
       }
     }
   }
@@ -290,46 +295,68 @@ public:
 
   void Clear ()
   {
-    ids.Empty ();
-    data.Empty ();
+    vars.Empty ();
+  }
+
+  /**
+   * Add a new parameter and returns the index.
+   */
+  size_t AddParameter (csStringID id, const celData& data)
+  {
+    celVariable var (id, data);
+    return vars.Push (var);
+  }
+
+  /**
+   * Add a new parameter and return a reference to the data.
+   */
+  celData& AddParameter (csStringID id)
+  {
+    celVariable var;
+    var.id = id;
+    size_t idx = vars.Push (var);
+    return vars[idx].data;
   }
 
   void SetParameterDef (size_t idx, csStringID id)
   {
-    ids.GetExtend (idx) = id;
+    vars.GetExtend (idx).id = id;
   }
-  celData& GetParameter (size_t idx) { return data.GetExtend (idx); }
+  celData& GetParameter (size_t idx)
+  {
+    return vars.GetExtend (idx).data;
+  }
 
-  virtual size_t GetParameterCount () const { return data.GetSize (); }
+  virtual size_t GetParameterCount () const { return vars.GetSize (); }
   virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
   {
-    if (/*idx < 0 || */idx >= data.GetSize ())
+    if (/*idx < 0 || */idx >= vars.GetSize ())
     {
       t = CEL_DATA_NONE;
       return csInvalidStringID;
     }
-    t = data[idx].type;
-    return ids[idx];
+    t = vars[idx].data.type;
+    return vars[idx].id;
   }
   virtual const celData* GetParameter (csStringID id) const
   {
     size_t i;
-    for (i = 0 ; i < data.GetSize () ; i++)
-      if (id == ids[i])
-        return &data[i];
+    for (i = 0 ; i < vars.GetSize () ; i++)
+      if (id == vars[i].id)
+        return &vars[i].data;
     return 0;
   }
   virtual const celData* GetParameterByIndex (size_t idx) const
   {
-    return (idx >= data.GetSize ()) ? 0 : &data[idx];
+    return (idx >= vars.GetSize ()) ? 0 : &vars[idx].data;
   }
 
   celData* GetParameter (csStringID id)
   {
     size_t i;
-    for (i = 0 ; i < data.GetSize () ; i++)
-      if (id == ids[i])
-        return &data[i];
+    for (i = 0 ; i < vars.GetSize () ; i++)
+      if (id == vars[i].id)
+        return &vars[i].data;
     return 0;
   }
 

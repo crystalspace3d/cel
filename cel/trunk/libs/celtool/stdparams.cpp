@@ -39,19 +39,13 @@ csRef<iCelParameterBlock> celParameterTools::ParseParams (
   csRef<celVariableParameterBlock> params;
   params.AttachNew (new celVariableParameterBlock ());
 
-  size_t idx = 0;
-
   va_list args;
   va_start (args, node);
   char const* par = va_arg (args, char*);
   while (par != CEL_PARAM_END)
   {
     celData const* val = va_arg (args, celData*);
-    csStringID id = pl->FetchStringID (par);
-    params->SetParameterDef (idx, id);
-    celData& data = params->GetParameter (idx);
-    data.Copy (*val);
-    idx++;
+    params->AddParameter (pl->FetchStringID (par), *val);
     par = va_arg (args, char*);
   }
   va_end (args);
@@ -75,10 +69,7 @@ csRef<iCelParameterBlock> celParameterTools::ParseParams (
         return 0;
       }
 
-      csStringID id = pl->FetchStringID (name);
-      params->SetParameterDef (idx, id);
-      celData& data = params->GetParameter (idx);
-      idx++;
+      celData& data = params->AddParameter (pl->FetchStringID (name));
 
       const char* value = child->GetAttributeValue ("value");
       if (value) { data.Set (value); continue; }
@@ -389,11 +380,7 @@ void celVariableParameterBlock::Merge (iCelParameterBlock* params)
     if (data)
       data->Copy (*params->GetParameterByIndex (i));
     else
-    {
-      size_t idx = GetParameterCount ();
-      SetParameterDef (idx, id);
-      GetParameter (idx).Copy (*params->GetParameterByIndex (i));
-    }
+      AddParameter (id, *params->GetParameterByIndex (i));
   }
 }
 

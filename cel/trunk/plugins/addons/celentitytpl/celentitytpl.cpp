@@ -167,7 +167,6 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
   csRef<celVariableParameterBlock> params;
   params.AttachNew (new celVariableParameterBlock ());
   csRef<iDocumentNodeIterator> par_it = child->GetNodes ();
-  size_t par_idx = 0;
   while (par_it->HasNext ())
   {
     csRef<iDocumentNode> par_child = par_it->Next ();
@@ -178,36 +177,33 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
     {
       csStringID parid = GetAttributeID (par_child, "name");
       if (parid == csInvalidStringID) return 0;
-      params->SetParameterDef (par_idx, parid);
-      par_idx++;
+      celData& data = params->AddParameter (parid);
 
       const char* str_value = par_child->GetAttributeValue ("string");
       if (str_value)
       {
 	if (*str_value == '$')
-          params->GetParameter (par_idx-1).SetParameter (str_value+1,
-	  	CEL_DATA_STRING);
+          data.SetParameter (str_value+1, CEL_DATA_STRING);
 	else
-          params->GetParameter (par_idx-1).Set (str_value);
+          data.Set (str_value);
 	continue;
       }
       const char* vec_value = par_child->GetAttributeValue ("vector");
       if (vec_value)
       {
 	if (*vec_value == '$')
-          params->GetParameter (par_idx-1).SetParameter (vec_value+1,
-	  	CEL_DATA_VECTOR3);
+          data.SetParameter (vec_value+1, CEL_DATA_VECTOR3);
 	else
 	{
 	  csVector3 v;
 	  int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);
 	  if (rc == 3)
-	    params->GetParameter (par_idx-1).Set (v);
+	    data.Set (v);
 	  else
 	  {
 	    csVector2 v2;
 	    csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
-	    params->GetParameter (par_idx-1).Set (v2);
+	    data.Set (v2);
 	  }
 	}
         continue;
@@ -216,13 +212,12 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
       if (vec2_value)
       {
 	if (*vec2_value == '$')
-          params->GetParameter (par_idx-1).SetParameter (vec2_value+1,
-	  	CEL_DATA_VECTOR2);
+          data.SetParameter (vec2_value+1, CEL_DATA_VECTOR2);
 	else
 	{
 	  csVector2 v;
 	  csScanStr (vec2_value, "%f,%f", &v.x, &v.y);
-	  params->GetParameter (par_idx-1).Set (v);
+	  data.Set (v);
 	}
         continue;
       }
@@ -230,13 +225,12 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
       if (vec3_value)
       {
 	if (*vec3_value == '$')
-          params->GetParameter (par_idx-1).SetParameter (vec3_value+1,
-	  	CEL_DATA_VECTOR3);
+          data.SetParameter (vec3_value+1, CEL_DATA_VECTOR3);
 	else
 	{
 	  csVector3 v;
 	  csScanStr (vec3_value, "%f,%f,%f", &v.x, &v.y, &v.z);
-	  params->GetParameter (par_idx-1).Set (v);
+	  data.Set (v);
 	}
         continue;
       }
@@ -244,13 +238,12 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
       if (col_value)
       {
 	if (*col_value == '$')
-          params->GetParameter (par_idx-1).SetParameter (col_value+1,
-	  	CEL_DATA_COLOR);
+          data.SetParameter (col_value+1, CEL_DATA_COLOR);
 	else
 	{
 	  csColor v;
 	  csScanStr (col_value, "%f,%f,%f", &v.red, &v.green, &v.blue);
-	  params->GetParameter (par_idx-1).Set (v);
+	  data.Set (v);
 	}
         continue;
       }
@@ -258,13 +251,12 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
       if (float_value)
       {
 	if (*float_value == '$')
-          params->GetParameter (par_idx-1).SetParameter (float_value+1,
-	  	CEL_DATA_FLOAT);
+          data.SetParameter (float_value+1, CEL_DATA_FLOAT);
 	else
 	{
 	  float f;
 	  csScanStr (float_value, "%f", &f);
-	  params->GetParameter (par_idx-1).Set (f);
+	  data.Set (f);
 	}
         continue;
       }
@@ -272,13 +264,12 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
       if (bool_value)
       {
 	if (*bool_value == '$')
-          params->GetParameter (par_idx-1).SetParameter (bool_value+1,
-	  	CEL_DATA_BOOL);
+          data.SetParameter (bool_value+1, CEL_DATA_BOOL);
 	else
 	{
 	  bool b;
 	  csScanStr (bool_value, "%b", &b);
-	  params->GetParameter (par_idx-1).Set (b);
+	  data.Set (b);
         }
         continue;
       }
@@ -286,13 +277,12 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
       if (long_value)
       {
 	if (*long_value == '$')
-          params->GetParameter (par_idx-1).SetParameter (long_value+1,
-	  	CEL_DATA_LONG);
+          data.SetParameter (long_value+1, CEL_DATA_LONG);
 	else
 	{
 	  int l;
 	  csScanStr (long_value, "%d", &l);
-	  params->GetParameter (par_idx-1).Set ((int32)l);
+	  data.Set ((int32)l);
 	}
         continue;
       }
