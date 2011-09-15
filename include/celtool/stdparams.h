@@ -29,6 +29,8 @@
 #include "behaviourlayer/behave.h"
 #include "tools/expression.h"
 
+#include "celtool/celtoolextern.h"
+
 struct iObjectRegistry;
 struct iDocumentNode;
 
@@ -111,7 +113,7 @@ struct iDocumentNode;
 /**
  * Parameter tools.
  */
-class celParameterTools
+class CEL_CELTOOL_EXPORT celParameterTools
 {
 public:
   /**
@@ -199,7 +201,7 @@ public:
 /**
  * Generic parameter block implementation.
  */
-class celGenericParameterBlock : public scfImplementation1<
+class CEL_CELTOOL_EXPORT celGenericParameterBlock : public scfImplementation1<
 	celGenericParameterBlock, iCelParameterBlock>
 {
 private:
@@ -264,7 +266,7 @@ struct celVariable
 /**
  * Variable parameter block implementation.
  */
-class celVariableParameterBlock : public scfImplementation1<
+class CEL_CELTOOL_EXPORT celVariableParameterBlock : public scfImplementation1<
 	celVariableParameterBlock,iCelParameterBlock>
 {
 private:
@@ -370,7 +372,7 @@ public:
 /**
  * Parameter block implementation if only one parameter is desired.
  */
-class celOneParameterBlock : public scfImplementation1<
+class CEL_CELTOOL_EXPORT celOneParameterBlock : public scfImplementation1<
 	celOneParameterBlock, iCelParameterBlock>
 {
 private:
@@ -424,7 +426,7 @@ public:
  * Parameter block implementation to combine two existing parameter
  * blocks.
  */
-class celCombineParameterBlock : public scfImplementation1<
+class CEL_CELTOOL_EXPORT celCombineParameterBlock : public scfImplementation1<
 	celCombineParameterBlock, iCelParameterBlock>
 {
 private:
@@ -505,7 +507,7 @@ struct celParameterMapping
  * Parameter block implementation which supports parameter mapping
  * and expressions.
  */
-class celMappedParameterBlock : public celVariableParameterBlock
+class CEL_CELTOOL_EXPORT celMappedParameterBlock : public celVariableParameterBlock
 {
 public:
   celMappedParameterBlock (iCelEntity* entity, iCelParameterBlock* params,
