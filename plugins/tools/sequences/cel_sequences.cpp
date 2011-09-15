@@ -306,7 +306,7 @@ static uint ToUInt (const char* s)
 }
 
 csPtr<iCelSequence> celSequenceFactory::CreateSequence (
-	iQuest* q, const celParams& params)
+	iQuest* q, iCelParameterBlock* params)
 {
   celSequence* seq = new celSequence (name, 
     csQueryRegistry<iCelPlLayer> (object_reg), 

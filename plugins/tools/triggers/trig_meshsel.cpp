@@ -74,7 +74,7 @@ celMeshSelectTriggerFactory::~celMeshSelectTriggerFactory ()
 }
 
 csPtr<iTrigger> celMeshSelectTriggerFactory::CreateTrigger (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   celMeshSelectTrigger* trig = new celMeshSelectTrigger (type,
   	params, entity_par, tag_par);
@@ -102,7 +102,7 @@ void celMeshSelectTriggerFactory::SetEntityParameter (
 
 celMeshSelectTrigger::celMeshSelectTrigger (
 	celMeshSelectTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par) :
 	scfImplementationType (this)
 {

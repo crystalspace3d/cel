@@ -56,7 +56,7 @@ celTransformSeqOpFactory::~celTransformSeqOpFactory ()
 }
 
 csPtr<iSeqOp> celTransformSeqOpFactory::CreateSeqOp (
-    const celParams& params)
+    iCelParameterBlock* params)
 {
   celTransformSeqOp* seqop = new celTransformSeqOp (type,
   	params, entity_par, tag_par, vectorx_par, vectory_par, vectorz_par,
@@ -131,7 +131,7 @@ void celTransformSeqOpFactory::SetRotationParameter (int axis,
 
 celTransformSeqOp::celTransformSeqOp (
 	celTransformSeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* vectorx, const char* vectory, const char* vectorz,
 	int axis, const char* angle) : scfImplementationType (this)

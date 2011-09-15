@@ -67,7 +67,7 @@ public:
   virtual ~celMovePathSeqOpFactory ();
 
   virtual csPtr<iSeqOp> CreateSeqOp (
-      const celParams& params);
+      iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iMovePathSeqOpFactory -----------------------
@@ -100,7 +100,7 @@ private:
 
 public:
   celMovePathSeqOp (celMovePathSeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const csStringArray& sectors, const csStringArray& nodes,
 	const csStringArray& times);

@@ -55,7 +55,7 @@ celSequenceFinishTriggerFactory::~celSequenceFinishTriggerFactory ()
 }
 
 csPtr<iTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   celSequenceFinishTrigger* trig;
   if (seq.IsValid())
@@ -117,7 +117,7 @@ void celSequenceFinishTriggerFactory::SetSequence (iCelSequence* sequence)
 
 celSequenceFinishTrigger::celSequenceFinishTrigger (
 	celSequenceFinishTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par,
 	iCelSequence* sequence) : scfImplementationType (this)

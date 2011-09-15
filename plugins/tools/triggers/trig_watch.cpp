@@ -59,7 +59,7 @@ celWatchTriggerFactory::~celWatchTriggerFactory ()
 }
 
 csPtr<iTrigger> celWatchTriggerFactory::CreateTrigger (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   celWatchTrigger* trig = new celWatchTrigger (type, params,
   	entity_par, tag_par, target_entity_par, target_tag_par,
@@ -147,7 +147,7 @@ static float ToFloat (const char* s)
 
 celWatchTrigger::celWatchTrigger (
 	celWatchTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
 	const char* time_par, const char* radius_par,

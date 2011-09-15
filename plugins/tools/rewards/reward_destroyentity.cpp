@@ -66,7 +66,7 @@ celDestroyEntityRewardFactory::~celDestroyEntityRewardFactory ()
 }
 
 csPtr<iReward> celDestroyEntityRewardFactory::CreateReward (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   iReward* newquest;
   if (entity_par)
@@ -104,7 +104,7 @@ void celDestroyEntityRewardFactory::SetClassParameter (
 
 celDestroyEntityReward::celDestroyEntityReward (
 	celDestroyEntityRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par) : scfImplementationType (this)
 {
   celDestroyEntityReward::type = type;
@@ -139,7 +139,7 @@ void celDestroyEntityReward::Reward (iCelParameterBlock* params)
 
 celDestroyClassReward::celDestroyClassReward (
 	celDestroyEntityRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* class_par) : scfImplementationType (this)
 {
   celDestroyClassReward::type = type;

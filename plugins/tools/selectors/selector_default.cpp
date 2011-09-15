@@ -31,7 +31,7 @@ CEL_IMPLEMENT_BTNODE (DefaultSelector)
 
 //---------------------------------------------------------------------------
 
-bool celDefaultSelector::Execute (const celParams& params)
+bool celDefaultSelector::Execute (iCelParameterBlock* params)
 {
   //printf("DEFAULT SELECTOR\n");
 
@@ -39,9 +39,7 @@ bool celDefaultSelector::Execute (const celParams& params)
   for (int i = 0; i < noOfChildren; i++)
   {	
     if (children.Get(i)->Execute(params))
-    {
-	  return true;
-	}
+      return true;
   }
   return false;
 }

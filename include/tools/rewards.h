@@ -26,6 +26,7 @@
 #include "tools/sequences.h"
 
 struct iQuest;
+struct iCelParameterBlock;
 
 //-------------------------------------------------------------------------
 // Rewards
@@ -59,7 +60,7 @@ struct iRewardFactory : public virtual iBase
    * \param params are the parameters with which this reward is
    * instantiated.
    */
-  virtual csPtr<iReward> CreateReward (iQuest* q, const celParams& params) = 0;
+  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params) = 0;
 
   /**
    * Load this factory from a document node.

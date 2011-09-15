@@ -29,7 +29,7 @@ CEL_IMPLEMENT_BTNODE (SequentialSelector)
 
 //---------------------------------------------------------------------------
 
-bool celSequentialSelector::Execute (const celParams& params)
+bool celSequentialSelector::Execute (iCelParameterBlock* params)
 {
   //printf("SEQUENTIAL SELECTOR");
   int noOfChildren = children.GetSize();

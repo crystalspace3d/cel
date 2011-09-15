@@ -68,7 +68,7 @@ celSequenceFinishRewardFactory::celSequenceFinishRewardFactory (
 }
 
 csPtr<iReward> celSequenceFinishRewardFactory::CreateReward (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   iReward *reward;
   if (!class_par.IsEmpty())
@@ -132,7 +132,7 @@ void celSequenceFinishRewardFactory::SetSequence (
 
 celSequenceFinishReward::celSequenceFinishReward (
 	celSequenceFinishRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par,
 	iCelSequence* sequence) : scfImplementationType (this)
@@ -195,7 +195,7 @@ void celSequenceFinishReward::Reward (iCelParameterBlock* params)
 
 celClassSequenceFinishReward::celClassSequenceFinishReward (
 	celSequenceFinishRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* class_par, const char* tag_par,
 	const char* sequence_par) : scfImplementationType (this)
 {

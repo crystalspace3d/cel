@@ -45,7 +45,7 @@ bool celExecutionLimitDecorator::Initialize (
   return true;												
 }
 
-bool celExecutionLimitDecorator::Execute (const celParams& params)
+bool celExecutionLimitDecorator::Execute (iCelParameterBlock* params)
 {
   //printf("Execution Limit Decorator\n");
 
@@ -54,13 +54,14 @@ bool celExecutionLimitDecorator::Execute (const celParams& params)
     csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
       (object_reg, "cel.parameters.manager");
 
-    execution_limit = atoi (pm->ResolveParameter(params, execution_limit_param));
+    const char* s = pm->ResolveParameter(params, execution_limit_param);
+    execution_limit = atoi (s);
   }
 
   
   if(execution_count >= execution_limit)
   {
-	return false;
+    return false;
   }
   execution_count++;
   return child_node->Execute(params);

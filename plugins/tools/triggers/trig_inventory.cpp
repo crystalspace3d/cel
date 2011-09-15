@@ -75,7 +75,7 @@ celInventoryTriggerFactory::~celInventoryTriggerFactory ()
 }
 
 csPtr<iTrigger> celInventoryTriggerFactory::CreateTrigger (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   celInventoryTrigger* trig = new celInventoryTrigger (type,
   	params, entity_par, tag_par, child_entity_par);
@@ -110,7 +110,7 @@ void celInventoryTriggerFactory::SetChildEntityParameter (
 
 celInventoryTrigger::celInventoryTrigger (
 	celInventoryTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* child_entity_par) : scfImplementationType (this)
 {

@@ -54,7 +54,7 @@ celLightSeqOpFactory::~celLightSeqOpFactory ()
 }
 
 csPtr<iSeqOp> celLightSeqOpFactory::CreateSeqOp (
-    const celParams& params)
+    iCelParameterBlock* params)
 {
   celLightSeqOp* seqop = new celLightSeqOp (type,
   	params, entity_par, tag_par,
@@ -127,7 +127,7 @@ void celLightSeqOpFactory::SetAbsColorParameter (const char* red,
 
 celLightSeqOp::celLightSeqOp (
 	celLightSeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* rel_red_par, const char* rel_green_par,
 		const char* rel_blue_par,

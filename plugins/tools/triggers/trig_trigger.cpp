@@ -54,7 +54,7 @@ celTriggerTriggerFactory::~celTriggerTriggerFactory ()
 }
 
 csPtr<iTrigger> celTriggerTriggerFactory::CreateTrigger (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   celTriggerTrigger* trig = new celTriggerTrigger (type, params,
   	entity_par, tag_par, do_leave);
@@ -91,7 +91,7 @@ void celTriggerTriggerFactory::SetEntityParameter (
 
 celTriggerTrigger::celTriggerTrigger (
 	celTriggerTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	bool do_leave) : scfImplementationType (this)
 {

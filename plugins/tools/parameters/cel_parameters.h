@@ -40,6 +40,8 @@ private:
   csRef<iCelExpressionParser> expparser;
   iCelExpressionParser* GetParser ();
 
+  csString str;	// Temporary string returned by ResolveParameter().
+
 public:
   celParameterManager (iBase* parent) : 
 	  scfImplementationType (this, parent), object_reg(0) { }
@@ -49,14 +51,10 @@ public:
   virtual bool Initialize (iObjectRegistry*);
 
   // From iParameterManager
-  virtual csPtr<iParameter> GetParameter (
-  	const celParams& params,
-	const char* param);
-  virtual const char* ResolveParameter (
-  	const celParams& params,
-	const char* param);
+  virtual csPtr<iParameter> GetParameter (iCelParameterBlock* params, const char* param);
+  virtual const char* ResolveParameter (iCelParameterBlock* params, const char* param);
   virtual csPtr<celVariableParameterBlock> GetParameterBlock (
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const csArray<celParSpec>& parameters,
 	csRefArray<iParameter>& quest_parameters);
   virtual bool FillParameterBlock (

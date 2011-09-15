@@ -139,7 +139,7 @@ public:
   virtual ~celSequenceFactory () { }
 
   // From iCelSequenceFactory
-  virtual csPtr<iCelSequence> CreateSequence (iQuest* q, const celParams& params);
+  virtual csPtr<iCelSequence> CreateSequence (iQuest* q, iCelParameterBlock* params);
   virtual const char* GetName () const { return name; }
   virtual void SetName (const char* name);
   virtual void AddSeqOpFactory (iSeqOpFactory* seqopfact,

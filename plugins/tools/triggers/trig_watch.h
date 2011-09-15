@@ -67,7 +67,7 @@ public:
   celWatchTriggerFactory (celWatchTriggerType* type);
   virtual ~celWatchTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, const celParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iWatchTriggerFactory ----------------------
@@ -105,7 +105,7 @@ private:
 
 public:
   celWatchTrigger (celWatchTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
 	const char* time_par, const char* radius_par,

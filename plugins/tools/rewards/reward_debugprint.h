@@ -57,7 +57,7 @@ public:
   celDebugPrintRewardFactory (celDebugPrintRewardType* type);
   virtual ~celDebugPrintRewardFactory ();
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, const celParams& params);
+  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iDebugPrintRewardFactory -----------------------
@@ -77,7 +77,7 @@ private:
 
 public:
   celDebugPrintReward (celDebugPrintRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* msg_par);
   virtual ~celDebugPrintReward ();
 

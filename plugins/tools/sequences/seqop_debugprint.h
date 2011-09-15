@@ -56,7 +56,7 @@ public:
   virtual ~celDebugPrintSeqOpFactory ();
 
   virtual csPtr<iSeqOp> CreateSeqOp (
-      const celParams& params);
+      iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iDebugPrintSeqOpFactory -----------------------
@@ -75,7 +75,7 @@ private:
 
 public:
   celDebugPrintSeqOp (celDebugPrintSeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* msg_par);
   virtual ~celDebugPrintSeqOp ();
 

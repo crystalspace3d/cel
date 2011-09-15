@@ -53,7 +53,7 @@ celAmbientMeshSeqOpFactory::~celAmbientMeshSeqOpFactory ()
 }
 
 csPtr<iSeqOp> celAmbientMeshSeqOpFactory::CreateSeqOp (
-    const celParams& params)
+    iCelParameterBlock* params)
 {
   celAmbientMeshSeqOp* seqop = new celAmbientMeshSeqOp (type,
   	params, entity_par, tag_par,
@@ -126,7 +126,7 @@ void celAmbientMeshSeqOpFactory::SetAbsColorParameter (const char* red,
 
 celAmbientMeshSeqOp::celAmbientMeshSeqOp (
 	celAmbientMeshSeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* rel_red_par, const char* rel_green_par,
 	const char* rel_blue_par,

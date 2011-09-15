@@ -64,7 +64,7 @@ public:
   virtual ~celTransformSeqOpFactory ();
 
   virtual csPtr<iSeqOp> CreateSeqOp (
-      const celParams& params);
+      iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iTransformQuestSeqOpFactory -----------------------
@@ -104,7 +104,7 @@ private:
 
 public:
   celTransformSeqOp (celTransformSeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* vectorx, const char* vectory, const char* vectorz,
 	int axis, const char* angle);

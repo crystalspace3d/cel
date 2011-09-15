@@ -125,7 +125,7 @@ private:
   csString name;
   celQuestFactoryStates states;
   celFactorySequences sequences;
-  celParams defaults;
+  csRef<celVariableParameterBlock> defaults;
 
   csRef<iRewardFactory> LoadReward (iDocumentNode* child);
   bool LoadRewards (iQuestStateFactory* statefact, bool oninit,
@@ -148,14 +148,12 @@ public:
   virtual celQuestManager* GetQuestManager () const { return questmgr; }
 
   virtual const char* GetName () const { return name; }
-  virtual csPtr<iQuest> CreateQuest (
-      const celParams& params);
+  virtual csPtr<iQuest> CreateQuest (iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
   virtual iQuestStateFactory* GetState (const char* name);
   virtual iQuestStateFactory* CreateState (const char* name);
   virtual iCelSequenceFactory* GetSequence (const char* name);
   virtual iCelSequenceFactory* CreateSequence (const char* name);
-  virtual const char* GetDefaultParameter (const char* name) const;
   virtual void SetDefaultParameter (const char* name,const char* value);
   virtual void ClearDefaultParameters ();
 };

@@ -53,7 +53,7 @@ celMessageTriggerFactory::~celMessageTriggerFactory ()
 }
 
 csPtr<iTrigger> celMessageTriggerFactory::CreateTrigger (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   celMessageTrigger* trig = new celMessageTrigger (type, params,
   	entity_par, mask_par);
@@ -102,7 +102,7 @@ void celMessageTriggerFactory::SetMaskParameter (
 
 celMessageTrigger::celMessageTrigger (
 	celMessageTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* mask_par)
 	: scfImplementationType (this)
 {

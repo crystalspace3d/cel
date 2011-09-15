@@ -41,7 +41,7 @@ bool celTriggerFiredCondition::Initialize (
   return true;
 }
 
-bool celTriggerFiredCondition::Execute (const celParams& params)
+bool celTriggerFiredCondition::Execute (iCelParameterBlock* params)
 {
   //printf("CONDITION: Trigger Fired Check\n");
   if (!triggerFired)

@@ -54,7 +54,7 @@ celChangePropertyRewardFactory::~celChangePropertyRewardFactory ()
 }
 
 csPtr<iReward> celChangePropertyRewardFactory::CreateReward (iQuest* q,
-    const celParams& params)
+    iCelParameterBlock* params)
 {
   iReward* reward;
   if (entity_par)
@@ -172,7 +172,7 @@ void celChangePropertyRewardFactory::SetToggle ()
 
 celChangePropertyRewardBase::celChangePropertyRewardBase (
 	celChangePropertyRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* prop_par,
 	const char* pc_par,
 	const char* tag_par,
@@ -405,7 +405,7 @@ void celChangePropertyRewardBase::ChangePropertyOnPcProp (iPcProperties *propert
 //----  celChangePropertyReward
 celChangePropertyReward::celChangePropertyReward (
 	celChangePropertyRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* prop_par,
 	const char* entity_par,
 	const char* pc_par,
@@ -472,7 +472,7 @@ void celChangePropertyReward::Reward (iCelParameterBlock* params)
 //----  celClassChangePropertyReward
 celClassChangePropertyReward::celClassChangePropertyReward (
 	celChangePropertyRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* prop_par,
 	const char* class_par,
 	const char* pc_par,
