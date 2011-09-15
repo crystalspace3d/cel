@@ -29,6 +29,9 @@
 #include "behaviourlayer/behave.h"
 #include "tools/expression.h"
 
+struct iObjectRegistry;
+struct iDocumentNode;
+
 // The following macros will set 'var' to the required variable and
 // 'p_var' will be made to 0 if there is a failure.
 #define CEL_FETCH_STRING_PAR(var,params,id) \
@@ -104,6 +107,24 @@
     if (p_##var->type == CEL_DATA_PCLASS) \
       var = p_##var->value.pc; \
   }
+
+/**
+ * Parameter tools.
+ */
+class celParameterTools
+{
+public:
+  /**
+   * Parse the parameters in a 'params' node. and return
+   * an implementation of iCelParameterBlock.
+   * After the node comes a list of parameter pairs (a string and a
+   * celData pointer) with the parameter name being equal to CEL_PARAM_END.
+   * These parameter pairs are also added to the given parameter block by
+   * default.
+   */
+  static csRef<iCelParameterBlock> ParseParams (iObjectRegistry* object_reg,
+      iDocumentNode* node, ...);
+};
 
 /**
  * Generic parameter block implementation.
