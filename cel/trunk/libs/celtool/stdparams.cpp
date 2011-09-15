@@ -379,4 +379,21 @@ bool celParameterTools::Convert (const celData& in, celDataType type, celData& o
   }
 }
 
+void celVariableParameterBlock::Merge (iCelParameterBlock* params)
+{
+  for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
+  {
+    celDataType t;
+    csStringID id = params->GetParameterDef (i, t);
+    celData* data = GetParameter (id);
+    if (data)
+      data->Copy (*params->GetParameterByIndex (i));
+    else
+    {
+      size_t idx = GetParameterCount ();
+      SetParameterDef (idx, id);
+      GetParameter (idx).Copy (*params->GetParameterByIndex (i));
+    }
+  }
+}
 

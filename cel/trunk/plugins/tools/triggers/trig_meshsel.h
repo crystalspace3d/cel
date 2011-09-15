@@ -57,7 +57,7 @@ public:
   celMeshSelectTriggerFactory (celMeshSelectTriggerType* type);
   virtual ~celMeshSelectTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, const celParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iMeshSelectTriggerFactory ----------------------
@@ -83,7 +83,7 @@ private:
 
 public:
   celMeshSelectTrigger (celMeshSelectTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par);
   virtual ~celMeshSelectTrigger ();
 

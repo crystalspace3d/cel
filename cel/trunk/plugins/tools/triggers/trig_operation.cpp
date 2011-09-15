@@ -53,7 +53,7 @@ celOperationTriggerFactory::~celOperationTriggerFactory ()
 }
 
 csPtr<iTrigger> celOperationTriggerFactory::CreateTrigger (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
@@ -131,7 +131,7 @@ void celOperationTriggerFactory::SetOperationParameter (
 celOperationTrigger::celOperationTrigger (
 	celOperationTriggerType* type,
 	iQuest* q,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* operation_par,
 	csRefArray<iTriggerFactory> &trigger_factories) 
 	: scfImplementationType (this)

@@ -53,7 +53,7 @@ celEnterSectorTriggerFactory::~celEnterSectorTriggerFactory ()
 }
 
 csPtr<iTrigger> celEnterSectorTriggerFactory::CreateTrigger (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   celEnterSectorTrigger* trig = new celEnterSectorTrigger (type,
   	params, entity_par, tag_par, sector_par);
@@ -100,7 +100,7 @@ void celEnterSectorTriggerFactory::SetSectorParameter (
 
 celEnterSectorTrigger::celEnterSectorTrigger (
 	celEnterSectorTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* sector_par) : scfImplementationType (this)
 {

@@ -21,6 +21,7 @@
 #include "cssysdef.h"
 #include "plugins/tools/parameters/cel_parameters.h"
 
+#include "csutil/scfstr.h"
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
 #include "celtool/stdparams.h"
@@ -125,7 +126,7 @@ iCelExpressionParser* celParameterManager::GetParser ()
 }
 
 csPtr<iParameter> celParameterManager::GetParameter (
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* param)
 {
   const char* val = ResolveParameter (params, param);
@@ -149,16 +150,18 @@ csPtr<iParameter> celParameterManager::GetParameter (
     // then it indicates the name of the entity. We will find the entity for
     // the expression so that the expression can show things local to the
     // entity (or access properties from the current entity).
-    celParams::ConstGlobalIterator def_it = params.GetIterator ();
-    csStringBase it_key;
+    csStringID thisid = pl->FetchStringID ("this");
     iCelEntity* entity = 0;
-    while (def_it.HasNext ())
+    for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
     {
-      const char* name = def_it.Next (it_key);
-      if (it_key == "this")
+      celDataType t;
+      csStringID id = params->GetParameterDef (i, t);
+      if (thisid == id)
       {
-	    entity = pl->FindEntity (name);
-	    break;
+        csString name;
+        celParameterTools::ToString (*params->GetParameter (i), name);
+        entity = pl->FindEntity (name);
+	break;
       }
     }
     return new celExpressionParameter (object_reg, entity, expression, val+1);
@@ -167,24 +170,26 @@ csPtr<iParameter> celParameterManager::GetParameter (
 }
 
 const char* celParameterManager::ResolveParameter (
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* param)
 {
   if (param == 0) return param;
   if (*param != '$') return param;
   if (*(param+1) == '$') return param+1;	// Double $ means to quote the '$'.
-  const char* val = params.Get (param+1, (const char*)0);
-  if (!val)
+  csStringID id = pl->FetchStringID (param+1);
+  const celData* data = params->GetParameter (id);
+  if (!data)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 		"cel.parameters.manager",
 		"Can't resolve parameter %s!", param);
   }
-  return val;
+  celParameterTools::ToString (*data, str);
+  return str;
 }
 
 csPtr<celVariableParameterBlock> celParameterManager::GetParameterBlock (
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const csArray<celParSpec>& parameters,
 	csRefArray<iParameter>& quest_parameters)
 {

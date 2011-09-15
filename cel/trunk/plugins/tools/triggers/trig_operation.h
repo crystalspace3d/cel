@@ -59,7 +59,7 @@ public:
   virtual ~celOperationTriggerFactory ();
 
   //----------------- iTriggerFactory ----------------------
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, const celParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iOperationTriggerFactory ----------------------
@@ -85,7 +85,7 @@ protected:
 public:
   celOperationTrigger (celOperationTriggerType* type,
         iQuest* q,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* operation_par,
         csRefArray<iTriggerFactory> &trigger_factories);
 
@@ -112,7 +112,7 @@ class celAndOperationTrigger : public celOperationTrigger
 public:
   celAndOperationTrigger (celOperationTriggerType* type,
         iQuest* q,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* operation_par,
         csRefArray<iTriggerFactory> &trigger_factories)
 	: celOperationTrigger(type,q,params,operation_par,trigger_factories) {};
@@ -124,7 +124,7 @@ class celOrOperationTrigger : public celOperationTrigger
 public:
   celOrOperationTrigger (celOperationTriggerType* type,
         iQuest* q,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* operation_par,
         csRefArray<iTriggerFactory> &trigger_factories)
 	: celOperationTrigger(type,q,params,operation_par,trigger_factories) {};
@@ -136,7 +136,7 @@ class celXorOperationTrigger : public celOperationTrigger
 public:
   celXorOperationTrigger (celOperationTriggerType* type,
         iQuest* q,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* operation_par,
         csRefArray<iTriggerFactory> &trigger_factories)
 	: celOperationTrigger(type,q,params,operation_par,trigger_factories) {};

@@ -65,7 +65,7 @@ public:
   virtual ~celAmbientMeshSeqOpFactory ();
 
   virtual csPtr<iSeqOp> CreateSeqOp (
-      const celParams& params);
+      iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iAmbientMeshSeqOpFactory -----------------------
@@ -111,7 +111,7 @@ private:
 
 public:
   celAmbientMeshSeqOp (celAmbientMeshSeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* rel_red_par, const char* rel_green_par,
 	const char* rel_blue_par,

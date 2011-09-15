@@ -178,7 +178,7 @@ struct iQuestFactory : public virtual iBase
    * instantiated.
    */
   virtual csPtr<iQuest> CreateQuest (
-	  const celParams& params) = 0;
+	  iCelParameterBlock* params) = 0;
 
   /**
    * Load this factory from a document node.
@@ -210,12 +210,6 @@ struct iQuestFactory : public virtual iBase
    * Return 0 on failure (name already exists).
    */
   virtual iCelSequenceFactory* CreateSequence (const char* name) = 0;
-
-  /**
-   * Get a default parameter from this factory.
-   * Return 0 if the parameter does not exist.
-   */
-  virtual const char* GetDefaultParameter (const char* name) const = 0;
 
   /**
    * Set a default parameter on this factory.

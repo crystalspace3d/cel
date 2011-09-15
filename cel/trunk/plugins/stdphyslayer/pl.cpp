@@ -380,7 +380,7 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
       }
       else
       {
-	converted_params->GetParameter (k) = *par;
+	converted_params->GetParameter (k).Copy (*par);
       }
     }
   }

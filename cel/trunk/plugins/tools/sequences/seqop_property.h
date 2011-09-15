@@ -67,7 +67,7 @@ public:
   virtual ~celPropertySeqOpFactory ();
 
   virtual csPtr<iSeqOp> CreateSeqOp (
-      const celParams& params);
+      iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iPropertySeqOpFactory -----------------------
@@ -115,7 +115,7 @@ protected:
 
 public:
   celPropertySeqOp (celPropertySeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	const char* prop_par, bool rel_par);
   virtual ~celPropertySeqOp ();
@@ -160,7 +160,7 @@ protected:
   }
 public:
   celFloatPropertySeqOp (celPropertySeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* pc_par, const char* tag_par, 
 	bool rel_par, const char* prop_par, const char* pfloat);
 };
@@ -187,7 +187,7 @@ class celLongPropertySeqOp : public celFloatPropertySeqOp
   }
 public:
   celLongPropertySeqOp (celPropertySeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* pfloat) 
         : celFloatPropertySeqOp(type, params, entity_par, pc_par, tag_par,
@@ -225,7 +225,7 @@ class celVector2PropertySeqOp : public celPropertySeqOp
   }
 public:
   celVector2PropertySeqOp (celPropertySeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* vx, const char* vy);
 };
@@ -260,7 +260,7 @@ class celVector3PropertySeqOp : public celPropertySeqOp
   }
 public:
   celVector3PropertySeqOp (celPropertySeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* vx, const char* vy, 
 	const char* vz);

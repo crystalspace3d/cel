@@ -59,7 +59,7 @@ public:
   celInventoryRewardFactory (celInventoryRewardType* type);
   virtual ~celInventoryRewardFactory ();
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, const celParams& params);
+  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iInventoryQuestRewardFactory -----------------------
@@ -86,7 +86,7 @@ private:
 
 public:
   celInventoryReward (celInventoryRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* child_entity_par, const char* child_tag_par);
   virtual ~celInventoryReward ();

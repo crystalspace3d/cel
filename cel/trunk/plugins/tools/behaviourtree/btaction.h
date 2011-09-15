@@ -41,7 +41,7 @@ public:
   virtual bool Initialize (iObjectRegistry*);	
 
   //From iBTNode
-  virtual bool Execute (const celParams& params);		
+  virtual bool Execute (iCelParameterBlock* params);		
   virtual bool AddChild (iBTNode* child);
 
   //From iBTAction

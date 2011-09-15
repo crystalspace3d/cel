@@ -74,7 +74,7 @@ celPropertyChangeTriggerFactory::~celPropertyChangeTriggerFactory ()
 }
 
 csPtr<iTrigger> celPropertyChangeTriggerFactory::CreateTrigger (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   celPropertyChangeTrigger* trig = 0;
   if (!op_par)
@@ -151,7 +151,7 @@ void celPropertyChangeTriggerFactory::SetOperationParameter (
 
 celPropertyChangeTrigger::celPropertyChangeTrigger (
 	celPropertyChangeTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* prop_par, const char* value_par, bool onchange)
 	: scfImplementationType (this)

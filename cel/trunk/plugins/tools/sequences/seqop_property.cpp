@@ -51,7 +51,7 @@ celPropertySeqOpFactory::~celPropertySeqOpFactory ()
 }
 
 csPtr<iSeqOp> celPropertySeqOpFactory::CreateSeqOp (
-    const celParams& params)
+    iCelParameterBlock* params)
 {
   celPropertySeqOp *seqop = 0;
   if (float_par)
@@ -186,7 +186,7 @@ void celPropertySeqOpFactory::SetRelative (bool is_relative)
 
 celPropertySeqOp::celPropertySeqOp (
 	celPropertySeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	const char* prop_par, bool rel_par) 
 	: scfImplementationType (this)
@@ -257,7 +257,7 @@ void celPropertySeqOp::Do (float time, iCelParameterBlock* params)
 
 celFloatPropertySeqOp::celFloatPropertySeqOp (
 	celPropertySeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* pfloat) 
         : celPropertySeqOp(type,params,entity_par,pc_par,tag_par,prop_par,
@@ -275,7 +275,7 @@ celFloatPropertySeqOp::celFloatPropertySeqOp (
 
 celVector2PropertySeqOp::celVector2PropertySeqOp (
 	celPropertySeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* vx, const char* vy) 
         : celPropertySeqOp(type,params,entity_par,pc_par,tag_par,prop_par,
@@ -294,7 +294,7 @@ celVector2PropertySeqOp::celVector2PropertySeqOp (
 
 celVector3PropertySeqOp::celVector3PropertySeqOp (
 	celPropertySeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par,
 	const char* prop_par, const char* vx, const char* vy, const char* vz) 

@@ -344,11 +344,12 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
    //-----------------------------------------------------------
 
   csRef<iPcQuest> pcquest = celQueryPropertyClassEntity<iPcQuest> (entity_quest);
-  celParams params;
+  csRef<iCelParameterBlock> params;
+  params.AttachNew (new celVariableParameterBlock ());
 
   if (!pcquest->NewQuest ("testquest", params)) 
   { 
-	ReportError ("Error creating quest '%s'!", "testquest"); 
+    ReportError ("Error creating quest '%s'!", "testquest"); 
     return 0; 
   } 
 

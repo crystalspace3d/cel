@@ -49,7 +49,7 @@ celNewStateRewardFactory::celNewStateRewardFactory (
 }
 
 csPtr<iReward> celNewStateRewardFactory::CreateReward (iQuest* q,
-    const celParams& params)
+    iCelParameterBlock* params)
 {
   iReward* reward;
   if (!class_par.IsEmpty())
@@ -98,7 +98,7 @@ void celNewStateRewardFactory::SetEntityParameter (const char* entity,
 
 celNewStateReward::celNewStateReward (
 	celNewStateRewardType* type, iQuest* q,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par)
 	: scfImplementationType (this)
@@ -171,7 +171,7 @@ void celNewStateReward::TickEveryFrame ()
 
 celClassNewStateReward::celClassNewStateReward (
 	celNewStateRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* state_par,
 	const char* class_par, const char* tag_par)
 	: scfImplementationType (this)

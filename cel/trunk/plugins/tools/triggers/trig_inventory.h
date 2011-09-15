@@ -58,7 +58,7 @@ public:
   celInventoryTriggerFactory (celInventoryTriggerType* type);
   virtual ~celInventoryTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, const celParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iInventoryTriggerFactory ----------------------
@@ -87,7 +87,7 @@ private:
 
 public:
   celInventoryTrigger (celInventoryTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* child_entity_par);
   virtual ~celInventoryTrigger ();

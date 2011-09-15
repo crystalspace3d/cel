@@ -70,7 +70,7 @@ celCreateEntityRewardFactory::~celCreateEntityRewardFactory ()
 }
 
 csPtr<iReward> celCreateEntityRewardFactory::CreateReward (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   celCreateEntityReward* newquest = new celCreateEntityReward (type,
   	params, template_par, name_par, celCreateEntityRewardFactory::params);
@@ -150,7 +150,7 @@ void celCreateEntityRewardFactory::AddParameter (const char* name,
 
 celCreateEntityReward::celCreateEntityReward (
 	celCreateEntityRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* template_par,
 	const char* name_par,
         iCelParameterBlock* tpl_params) : scfImplementationType (this)

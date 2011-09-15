@@ -23,6 +23,7 @@
 #include "tools/parameters.h"
 
 struct iQuest;
+struct iCelParameterBlock;
 
 //-------------------------------------------------------------------------
 // Sequence operations
@@ -77,7 +78,7 @@ struct iSeqOpFactory : public virtual iBase
    * \param params are the parameters with which this reward is
    * instantiated.
    */
-  virtual csPtr<iSeqOp> CreateSeqOp (const celParams& params) = 0;
+  virtual csPtr<iSeqOp> CreateSeqOp (iCelParameterBlock* params) = 0;
 
   /**
    * Load this factory from a document node.
@@ -198,7 +199,7 @@ struct iCelSequenceFactory : public virtual iBase
   SCF_INTERFACE (iCelSequenceFactory, 0, 0, 1);
 
   virtual csPtr<iCelSequence> CreateSequence (iQuest* q,
-      const celParams& params) = 0;
+      iCelParameterBlock* params) = 0;
 
   /**
    * Get the name of this factory.

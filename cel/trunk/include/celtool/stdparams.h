@@ -323,6 +323,21 @@ public:
   {
     return (idx >= data.GetSize ()) ? 0 : &data[idx];
   }
+
+  celData* GetParameter (csStringID id)
+  {
+    size_t i;
+    for (i = 0 ; i < data.GetSize () ; i++)
+      if (id == ids[i])
+        return &data[i];
+    return 0;
+  }
+
+  /**
+   * Merge the given parameter block with this one.
+   * Existing properties will be overwritten.
+   */
+  void Merge (iCelParameterBlock* params);
 };
 
 /**

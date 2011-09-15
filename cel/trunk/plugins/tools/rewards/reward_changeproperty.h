@@ -67,7 +67,7 @@ public:
   celChangePropertyRewardFactory (celChangePropertyRewardType* type);
   virtual ~celChangePropertyRewardFactory ();
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, const celParams& params);
+  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iChangePropertyQuestRewardFactory -----------------------
@@ -103,7 +103,7 @@ protected:
 
 public:
   celChangePropertyRewardBase (celChangePropertyRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* prop_par,
 	const char* pc,
 	const char* tag,
@@ -132,7 +132,7 @@ private:
   csWeakRef<iCelPropertyClass> pclass;
 public:
   celChangePropertyReward (celChangePropertyRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* prop_par,
 	const char* entity_par,
 	const char* pc,
@@ -158,7 +158,7 @@ private:
 
 public:
   celClassChangePropertyReward (celChangePropertyRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* prop_par,
 	const char* class_par,
 	const char* pc,

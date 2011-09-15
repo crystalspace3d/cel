@@ -65,7 +65,7 @@ struct iBTNode : public virtual iBase
    * Execute this node.
    * Return whether or not the execution of the node was successful.
    */
-  virtual bool Execute (const celParams& params) = 0;
+  virtual bool Execute (iCelParameterBlock* params) = 0;
 
   /**
    * Add a child node to this node
@@ -152,7 +152,7 @@ public:									\
   cel##name (iBase* parent);			                        \
   virtual ~cel##name () { }					        \
   virtual bool Initialize (iObjectRegistry*);			        \
-  virtual bool Execute (const celParams& params);		        \
+  virtual bool Execute (iCelParameterBlock* params);		        \
   virtual bool AddChild (iBTNode* child);                               \
 };
 

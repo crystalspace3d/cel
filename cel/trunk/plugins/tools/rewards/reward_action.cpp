@@ -74,7 +74,7 @@ celActionRewardFactory::~celActionRewardFactory ()
 }
 
 csPtr<iReward> celActionRewardFactory::CreateReward (
-	iQuest* q, const celParams& params)
+	iQuest* q, iCelParameterBlock* params)
 {
   iReward* reward;
   if (!entity_par.IsEmpty())
@@ -223,7 +223,7 @@ void celActionRewardFactory::AddParameter (celDataType type,
 
 celActionReward::celActionReward (
 	celActionRewardFactory* factory,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par,
 	const char* id_par,
 	const char* pcclass_par,
@@ -301,7 +301,7 @@ void celActionReward::Reward (iCelParameterBlock* params)
 
 celClassActionReward::celClassActionReward (
 	celActionRewardFactory* factory,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* class_par,
 	const char* id_par,
 	const char* pcclass_par,

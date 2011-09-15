@@ -60,7 +60,7 @@ public:
   celMessageTriggerFactory (celMessageTriggerType* type);
   virtual ~celMessageTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, const celParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iMessageTriggerFactory ----------------------
@@ -85,7 +85,7 @@ private:
 
 public:
   celMessageTrigger (celMessageTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* mask_par);
   virtual ~celMessageTrigger ();
 

@@ -28,6 +28,7 @@
 #include "csgeom/vector3.h"
 #include "csutil/refarr.h"
 #include "physicallayer/pl.h"
+#include "iutil/string.h"
 
 class celVariableParameterBlock;
 struct iCelDataBuffer;
@@ -95,9 +96,6 @@ struct iParameter : public virtual iBase
 };
 
 //---------------------------------------------------------------------------
-/// A set of parameters, mapping a key to a value
-typedef csHash<csStringBase,csStringBase> celParams;
-//---------------------------------------------------------------------------
 
 /**
  * This interface provides a generic functions for
@@ -113,7 +111,7 @@ struct iParameterManager : public virtual iBase
    * Returns 0 for an illegal parameter (error reporting has been done).
    */
   virtual csPtr<iParameter> GetParameter (
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* param) = 0;
 
   /**
@@ -123,9 +121,11 @@ struct iParameterManager : public virtual iBase
    * that case try to resolve the parameter by finding it in 'params'. 
    * Otherwise it will just return the unmodified string. This version 
    * doesn't support dynamic parameters.
+   * The string which is returned is relatively short-lived. Store it in
+   * a more permanent location if you plan to use it later.
    */
   virtual const char* ResolveParameter (
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* param) = 0;
 
     /**
@@ -139,7 +139,7 @@ struct iParameterManager : public virtual iBase
    * as the 'paramspec' array. It will be filled with the parameters.
    */
   virtual csPtr<celVariableParameterBlock> GetParameterBlock (
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const csArray<celParSpec>& parameters,
 	csRefArray<iParameter>& quest_parameters) = 0;
 

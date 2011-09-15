@@ -68,7 +68,7 @@ celSequenceRewardFactory::celSequenceRewardFactory (
 }
 
 csPtr<iReward> celSequenceRewardFactory::CreateReward (
-    iQuest* q, const celParams& params)
+    iQuest* q, iCelParameterBlock* params)
 {
   iReward *reward;
   if (!class_par.IsEmpty())
@@ -138,7 +138,7 @@ void celSequenceRewardFactory::SetDelayParameter (
 
 celSequenceReward::celSequenceReward (
 	celSequenceRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par,
 	const char* tag_par,
 	const char* sequence_par,
@@ -212,7 +212,7 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
 
 celClassSequenceReward::celClassSequenceReward (
 	celSequenceRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* class_par,
 	const char* tag_par,
 	const char* sequence_par,

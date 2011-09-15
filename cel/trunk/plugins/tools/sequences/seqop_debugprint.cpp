@@ -53,7 +53,7 @@ celDebugPrintSeqOpFactory::~celDebugPrintSeqOpFactory ()
 }
 
 csPtr<iSeqOp> celDebugPrintSeqOpFactory::CreateSeqOp (
-    const celParams& params)
+    iCelParameterBlock* params)
 {
   celDebugPrintSeqOp* seqop = new celDebugPrintSeqOp (type,
   	params, msg_par);
@@ -83,7 +83,7 @@ void celDebugPrintSeqOpFactory::SetMessageParameter (const char* msg)
 
 celDebugPrintSeqOp::celDebugPrintSeqOp (
 	celDebugPrintSeqOpType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* msg_par) : scfImplementationType (this)
 {
   celDebugPrintSeqOp::type = type;

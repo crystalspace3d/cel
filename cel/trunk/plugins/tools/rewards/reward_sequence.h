@@ -61,7 +61,7 @@ public:
   celSequenceRewardFactory (celSequenceRewardType* type);
   virtual ~celSequenceRewardFactory () {};
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, const celParams& params);
+  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iSequenceRewardFactory -----------------------
@@ -91,7 +91,7 @@ private:
 
 public:
   celSequenceReward (celSequenceRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par,
 	const char* tag_par,
 	const char* sequence_par,
@@ -118,7 +118,7 @@ private:
 
 public:
   celClassSequenceReward (celSequenceRewardType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* class_par,
 	const char* tag_par,
 	const char* sequence_par,

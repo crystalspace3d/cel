@@ -59,7 +59,7 @@ public:
   celTriggerTriggerFactory (celTriggerTriggerType* type);
   virtual ~celTriggerTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, const celParams& params);
+  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iTriggerTriggerFactory ----------------------
@@ -87,7 +87,7 @@ private:
 
 public:
   celTriggerTrigger (celTriggerTriggerType* type,
-  	const celParams& params,
+  	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	bool do_leave);
   virtual ~celTriggerTrigger ();

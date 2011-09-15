@@ -35,7 +35,7 @@ private:
   iObjectRegistry* object_reg;	
   csRef<iCelPlLayer> pl;					
   csRef<iBTNode> root_node; 
-  celParams params;
+  csRef<iCelParameterBlock> params;
 
 public:									
   celBehaviourTree (iBase* parent);			
@@ -43,7 +43,7 @@ public:
   virtual bool Initialize (iObjectRegistry*);	
 
   //From iBTNode
-  virtual bool Execute (const celParams& params);		
+  virtual bool Execute (iCelParameterBlock* params);		
   virtual bool AddChild (iBTNode* child);
 
   // From iCelTimerListener 
