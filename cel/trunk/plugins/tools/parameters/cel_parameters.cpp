@@ -127,14 +127,15 @@ iCelExpressionParser* celParameterManager::GetParser ()
 
 csPtr<iParameter> celParameterManager::GetParameter (
   	iCelParameterBlock* params,
-	const char* param)
+	const char* param,
+        celDataType type)
 {
   const char* val = ResolveParameter (params, param);
   if (val == 0) return new celConstantParameter ();
   if (*val == '@' && *(val+1) != '@')
   {
     csStringID dynamic_id = pl->FetchStringID (val+1);
-    return new celDynamicParameter (object_reg, dynamic_id, val+1);
+    return new celDynamicParameter (object_reg, dynamic_id, val+1, type);
   }
   else if (*val == '=' && *(val+1) != '=')
   {
@@ -164,9 +165,55 @@ csPtr<iParameter> celParameterManager::GetParameter (
 	break;
       }
     }
-    return new celExpressionParameter (object_reg, entity, expression, val+1);
+    return new celExpressionParameter (object_reg, entity, expression, val+1, type);
   }
-  return new celConstantParameter (val);
+
+  return new celConstantParameter (val, type);
+}
+
+csPtr<iParameter> celParameterManager::GetParameter (const char* val,
+    celDataType type)
+{
+  if (val == 0) return new celConstantParameter ();
+  if ((*val == '@' && *(val+1) != '@') || (*val == '$' && *(val+1) != '$'))
+  {
+    csStringID dynamic_id = pl->FetchStringID (val+1);
+    return new celDynamicParameter (object_reg, dynamic_id, val+1, type);
+  }
+  else if (*val == '=' && *(val+1) != '=')
+  {
+    csRef<iCelExpression> expression = GetParser ()->Parse (val+1);
+    if (!expression)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		"cel.parameters.manager",
+		"Can't parse expression '%s'!", val+1);
+      return 0;
+    }
+    iCelEntity* entity = 0;
+    // @@@ Can we do this somehow?
+#if 0
+    // We are looking for 'this' in the parameter block. If we can find it
+    // then it indicates the name of the entity. We will find the entity for
+    // the expression so that the expression can show things local to the
+    // entity (or access properties from the current entity).
+    csStringID thisid = pl->FetchStringID ("this");
+    for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
+    {
+      celDataType t;
+      csStringID id = params->GetParameterDef (i, t);
+      if (thisid == id)
+      {
+        csString name;
+        celParameterTools::ToString (*params->GetParameter (i), name);
+        entity = pl->FindEntity (name);
+	break;
+      }
+    }
+#endif
+    return new celExpressionParameter (object_reg, entity, expression, val+1, type);
+  }
+  return new celConstantParameter (val, type);
 }
 
 const char* celParameterManager::ResolveParameter (
@@ -205,7 +252,7 @@ csPtr<celVariableParameterBlock> celParameterManager::GetParameterBlock (
 }
 
 bool celParameterManager::FillParameterBlock (
-    iCelParameterBlock* params,
+        iCelParameterBlock* params,
 	celVariableParameterBlock* act_params,
 	const csArray<celParSpec>& parameters,
 	const csRefArray<iParameter>& quest_parameters)
@@ -257,6 +304,20 @@ bool celParameterManager::FillParameterBlock (
 
 //---------------------------------------------------------------------------
 
+celConstantParameter::celConstantParameter (const char* c, celDataType type) :
+    scfImplementationType (this)
+{
+  if (type != CEL_DATA_NONE)
+  {
+    celData in; in.Set (c);
+    celParameterTools::Convert (in, type, data);
+  }
+  else
+  {
+    data.Set (c);
+  }
+}
+
 const char* celConstantParameter::Get (iCelParameterBlock*)
 {
   return ToString (str, &data);
@@ -293,7 +354,13 @@ const celData* celDynamicParameter::GetData (iCelParameterBlock* params)
 	"Cannot resolve dynamic parameter '%s'!", (const char*)parname);
     return &celDataNone;
   }
-  return data;
+  if (desiredType == data->type || desiredType == CEL_DATA_NONE)
+    return data;
+  else
+  {
+    celParameterTools::Convert (*data, desiredType, converted);
+    return &converted;
+  }
 }
 
 const char* celDynamicParameter::Get (iCelParameterBlock* params)
@@ -338,6 +405,11 @@ const celData* celExpressionParameter::GetData (iCelParameterBlock* params)
 	CS_REPORTER_SEVERITY_ERROR, "cel.parameters.expression",
 	"Cannot execute expression '%s'!", (const char*)parname);
     return &celDataNone;
+  }
+  if (desiredType != data.type && desiredType != CEL_DATA_NONE)
+  {
+    celData d = data;
+    celParameterTools::Convert (d, desiredType, data);
   }
   return &data;
 }

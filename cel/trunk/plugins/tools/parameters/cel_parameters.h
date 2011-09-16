@@ -51,7 +51,10 @@ public:
   virtual bool Initialize (iObjectRegistry*);
 
   // From iParameterManager
-  virtual csPtr<iParameter> GetParameter (iCelParameterBlock* params, const char* param);
+  virtual csPtr<iParameter> GetParameter (iCelParameterBlock* params,
+      const char* param, celDataType type = CEL_DATA_NONE);
+  virtual csPtr<iParameter> GetParameter (const char* param,
+      celDataType type = CEL_DATA_NONE);
   virtual const char* ResolveParameter (iCelParameterBlock* params, const char* param);
   virtual csPtr<celVariableParameterBlock> GetParameterBlock (
   	iCelParameterBlock* params,
@@ -78,6 +81,7 @@ public:
   {
     data.Set (c);
   }
+  celConstantParameter (const char* c, celDataType type);
   virtual ~celConstantParameter () { }
 
   // From iParamater
@@ -106,11 +110,14 @@ private:
   csString parname;
   csString oldvalue;
   csString str;	// This string is used to hold temporary conversion to string.
+  celData converted;
+  celDataType desiredType;
 
 public:
   celDynamicParameter (iObjectRegistry* object_reg, csStringID dynamic_id,
-      const char* parname) : scfImplementationType (this), object_reg (object_reg),
-      dynamic_id (dynamic_id), parname (parname) { }
+      const char* parname, celDataType desiredType) :
+    scfImplementationType (this), object_reg (object_reg),
+    dynamic_id (dynamic_id), parname (parname), desiredType (desiredType) { }
   virtual ~celDynamicParameter () { }
 
   // From iParamater
@@ -134,12 +141,14 @@ private:
   csString parname;
   csString oldvalue;
   csString str;	// This string is used to hold temporary conversion to string.
+  celDataType desiredType;
 
 public:
   celExpressionParameter (iObjectRegistry* object_reg, iCelEntity* entity,
-      iCelExpression* expression, const char* parname)
+      iCelExpression* expression, const char* parname, celDataType desiredType)
     : scfImplementationType (this), object_reg (object_reg),
-      entity (entity), expression (expression), parname (parname) { }
+      entity (entity), expression (expression), parname (parname),
+      desiredType (desiredType) { }
   virtual ~celExpressionParameter () { }
 
   // From iParamater

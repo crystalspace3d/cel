@@ -25,6 +25,7 @@
 #include "csutil/strhash.h"
 #include "csutil/weakref.h"
 #include "tools/entitytplloader.h"
+#include "tools/parameters.h"
 
 struct iObjectRegistry;
 struct iDocumentNode;
@@ -44,6 +45,7 @@ private:
   iObjectRegistry* object_reg;
   csWeakRef<iSyntaxService> synldr;
   csWeakRef<iCelPlLayer> pl;
+  csRef<iParameterManager> pm;
   csStringHash xmltokens;
 
   const char* GetAttributeValue (iDocumentNode* child,
@@ -53,7 +55,8 @@ private:
   csStringID GetAttributeID (iDocumentNode* child,
 	const char* prefix, const char* propname);
   bool ParseProperties (iCelPropertyClassTemplate* pc, iDocumentNode* child);
-  csRef<celVariableParameterBlock> ParseParameterBlock (iDocumentNode* child);
+  csRef<celVariableParameterBlock> ParseParameterBlockOld (iDocumentNode* child);
+  bool ParseParameterBlock (iDocumentNode* child, csHash<csRef<iParameter>, csStringID>& params);
 
 public:
   celAddOnCelEntityTemplate (iBase* parent);

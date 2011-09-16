@@ -100,7 +100,7 @@ void celPropertyClassTemplate::SetProperty (csStringID propertyID,
 }
 
 void celPropertyClassTemplate::PerformAction (csStringID actionID,
-  	iCelParameterBlock* params)
+    const csHash<csRef<iParameter>, csStringID>& params)
 {
   Create (actionID).params = params;
 }

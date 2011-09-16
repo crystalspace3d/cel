@@ -32,6 +32,7 @@
 #include "plugins/stdphyslayer/numreg.h"
 
 #include "celtool/stdparams.h"
+#include "tools/parameters.h"
 
 struct iObjectRegistry;
 struct iEngine;
@@ -112,6 +113,10 @@ private:
   csRef<celVariableParameterBlock> ConvertTemplateParams (
     const char* entname,
     iCelParameterBlock* act_params, iCelParameterBlock* params);
+  csRef<celVariableParameterBlock> ConvertTemplateParams (
+    const char* entname,
+    const csHash<csRef<iParameter>, csStringID>& act_params,
+    iCelParameterBlock* params);
 
   // Perform an action from a template on a real property class.
   bool PerformActionTemplate (const ccfPropAct& act, iCelPropertyClass* pc,
