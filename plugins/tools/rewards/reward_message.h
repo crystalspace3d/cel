@@ -69,8 +69,7 @@ public:
   virtual void SetEntityParameter (const char* entity);
   virtual void SetClassParameter (const char* ent_class);
   virtual void SetIDParameter (const char* id);
-  virtual void AddParameter (celDataType type, csStringID id,
-      const char* name, const char* value);
+  virtual void AddParameter (celDataType type, csStringID id, const char* value);
 };
 
 /**

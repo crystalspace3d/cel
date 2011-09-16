@@ -72,8 +72,7 @@ public:
   virtual void SetIDParameter (const char* id);
   virtual void SetPropertyClassParameter (const char* propertyclass);
   virtual void SetTagParameter (const char* pctag);
-  virtual void AddParameter (celDataType type, csStringID id,
-      const char* name, const char* value);
+  virtual void AddParameter (celDataType type, csStringID id, const char* value);
 };
 
 /**

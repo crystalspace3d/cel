@@ -117,37 +117,37 @@ bool celMessageRewardFactory::Load (iDocumentNode* node)
       const char* str_value = child->GetAttributeValue ("string");
       if (str_value)
       {
-	AddParameter (CEL_DATA_STRING, id, name, str_value);
+	AddParameter (CEL_DATA_STRING, id, str_value);
 	continue;
       }
       const char* vec3_value = child->GetAttributeValue ("vector3");
       if (vec3_value)
       {
-	AddParameter (CEL_DATA_VECTOR3, id, name, vec3_value);
+	AddParameter (CEL_DATA_VECTOR3, id, vec3_value);
 	continue;
       }
       const char* vec2_value = child->GetAttributeValue ("vector2");
       if (vec2_value)
       {
-	AddParameter (CEL_DATA_VECTOR2, id, name, vec2_value);
+	AddParameter (CEL_DATA_VECTOR2, id, vec2_value);
 	continue;
       }
       const char* float_value = child->GetAttributeValue ("float");
       if (float_value)
       {
-	AddParameter (CEL_DATA_FLOAT, id, name, float_value);
+	AddParameter (CEL_DATA_FLOAT, id, float_value);
 	continue;
       }
       const char* long_value = child->GetAttributeValue ("long");
       if (long_value)
       {
-	AddParameter (CEL_DATA_LONG, id, name, long_value);
+	AddParameter (CEL_DATA_LONG, id, long_value);
 	continue;
       }
       const char* bool_value = child->GetAttributeValue ("bool");
       if (bool_value)
       {
-	AddParameter (CEL_DATA_BOOL, id, name, bool_value);
+	AddParameter (CEL_DATA_BOOL, id, bool_value);
 	continue;
       }
       return Report (type->object_reg,
@@ -181,12 +181,11 @@ void celMessageRewardFactory::SetIDParameter (
 }
 
 void celMessageRewardFactory::AddParameter (celDataType type,
-    csStringID id, const char* name, const char* value)
+    csStringID id, const char* value)
 {
   size_t idx = parameters.Push (celParSpec ());
   parameters[idx].type = type;
   parameters[idx].id = id;
-  parameters[idx].name = name;
   parameters[idx].value = value;
 }
 
