@@ -197,6 +197,7 @@ class celData(object):
     def assign(*args): return _blcelc.celData_assign(*args)
     __swig_destroy__ = _blcelc.delete_celData
     __del__ = lambda self : None;
+    def Copy(*args): return _blcelc.celData_Copy(*args)
     def __eq__(*args): return _blcelc.celData___eq__(*args)
     def Clear(*args): return _blcelc.celData_Clear(*args)
     def Set(*args): return _blcelc.celData_Set(*args)
@@ -987,6 +988,40 @@ class scfOneParameterBlock(iCelParameterBlock):
 scfOneParameterBlock_swigregister = _blcelc.scfOneParameterBlock_swigregister
 scfOneParameterBlock_swigregister(scfOneParameterBlock)
 
+class celParameterTools(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    ParseParams = staticmethod(_blcelc.celParameterTools_ParseParams)
+    ToString = staticmethod(_blcelc.celParameterTools_ToString)
+    ToLong = staticmethod(_blcelc.celParameterTools_ToLong)
+    ToBool = staticmethod(_blcelc.celParameterTools_ToBool)
+    ToFloat = staticmethod(_blcelc.celParameterTools_ToFloat)
+    ToVector2 = staticmethod(_blcelc.celParameterTools_ToVector2)
+    ToVector3 = staticmethod(_blcelc.celParameterTools_ToVector3)
+    ToVector4 = staticmethod(_blcelc.celParameterTools_ToVector4)
+    ToColor = staticmethod(_blcelc.celParameterTools_ToColor)
+    ToColor4 = staticmethod(_blcelc.celParameterTools_ToColor4)
+    Convert = staticmethod(_blcelc.celParameterTools_Convert)
+    def __init__(self, *args): 
+        this = _blcelc.new_celParameterTools(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celParameterTools
+    __del__ = lambda self : None;
+celParameterTools_swigregister = _blcelc.celParameterTools_swigregister
+celParameterTools_swigregister(celParameterTools)
+celParameterTools_ParseParams = _blcelc.celParameterTools_ParseParams
+celParameterTools_ToString = _blcelc.celParameterTools_ToString
+celParameterTools_ToLong = _blcelc.celParameterTools_ToLong
+celParameterTools_ToBool = _blcelc.celParameterTools_ToBool
+celParameterTools_ToFloat = _blcelc.celParameterTools_ToFloat
+celParameterTools_ToVector2 = _blcelc.celParameterTools_ToVector2
+celParameterTools_ToVector3 = _blcelc.celParameterTools_ToVector3
+celParameterTools_ToVector4 = _blcelc.celParameterTools_ToVector4
+celParameterTools_ToColor = _blcelc.celParameterTools_ToColor
+celParameterTools_ToColor4 = _blcelc.celParameterTools_ToColor4
+celParameterTools_Convert = _blcelc.celParameterTools_Convert
+
 class celGenericParameterBlock(scfGenericParameterBlock):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
@@ -1010,6 +1045,20 @@ class celGenericParameterBlock(scfGenericParameterBlock):
 celGenericParameterBlock_swigregister = _blcelc.celGenericParameterBlock_swigregister
 celGenericParameterBlock_swigregister(celGenericParameterBlock)
 
+class celVariable(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    id = _swig_property(_blcelc.celVariable_id_get, _blcelc.celVariable_id_set)
+    data = _swig_property(_blcelc.celVariable_data_get, _blcelc.celVariable_data_set)
+    def __init__(self, *args): 
+        this = _blcelc.new_celVariable(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celVariable
+    __del__ = lambda self : None;
+celVariable_swigregister = _blcelc.celVariable_swigregister
+celVariable_swigregister(celVariable)
+
 class celVariableParameterBlock(scfVariableParameterBlock):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
@@ -1019,11 +1068,14 @@ class celVariableParameterBlock(scfVariableParameterBlock):
         except: self.this = this
     __swig_destroy__ = _blcelc.delete_celVariableParameterBlock
     __del__ = lambda self : None;
+    def Clear(*args): return _blcelc.celVariableParameterBlock_Clear(*args)
+    def AddParameter(*args): return _blcelc.celVariableParameterBlock_AddParameter(*args)
     def SetParameterDef(*args): return _blcelc.celVariableParameterBlock_SetParameterDef(*args)
     def GetParameterCount(*args): return _blcelc.celVariableParameterBlock_GetParameterCount(*args)
     def GetParameterDef(*args): return _blcelc.celVariableParameterBlock_GetParameterDef(*args)
-    def GetParameter(*args): return _blcelc.celVariableParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celVariableParameterBlock_GetParameterByIndex(*args)
+    def GetParameter(*args): return _blcelc.celVariableParameterBlock_GetParameter(*args)
+    def Merge(*args): return _blcelc.celVariableParameterBlock_Merge(*args)
     ParameterDef = _swig_property(None, fix_args(_blcelc.celVariableParameterBlock_SetParameterDef), None,
                     "celVariableParameterBlock.ParameterDef -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: celVariableParameterBlock::getmethod()\n\tset: void celVariableParameterBlock::SetParameterDef(...)")
 
@@ -4965,7 +5017,6 @@ class iQuestFactory(cspace.iBase):
     def CreateState(*args): return _blcelc.iQuestFactory_CreateState(*args)
     def GetSequence(*args): return _blcelc.iQuestFactory_GetSequence(*args)
     def CreateSequence(*args): return _blcelc.iQuestFactory_CreateSequence(*args)
-    def GetDefaultParameter(*args): return _blcelc.iQuestFactory_GetDefaultParameter(*args)
     def SetDefaultParameter(*args): return _blcelc.iQuestFactory_SetDefaultParameter(*args)
     def ClearDefaultParameters(*args): return _blcelc.iQuestFactory_ClearDefaultParameters(*args)
     Name = _swig_property(_blcelc.iQuestFactory_Name_get, None, None,
