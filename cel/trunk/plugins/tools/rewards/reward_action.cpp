@@ -169,7 +169,7 @@ celActionReward::celActionReward (
 	const char* entity_par,
 	const char* id_par,
 	const char* pcclass_par,
-	 const char* tag_par)
+	const char* tag_par)
   : scfImplementationType (this), factory (factory)
 {
   pm = csQueryRegistryOrLoad<iParameterManager> 

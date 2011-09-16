@@ -52,7 +52,6 @@ enum
   XMLTOKEN_ACTION,
   XMLTOKEN_CALL,
   XMLTOKEN_CLASS,
-  XMLTOKEN_PAR,
   XMLTOKEN_CHARACTERISTIC,
 
   XMLTOKEN_FLOAT,
@@ -104,7 +103,6 @@ bool celAddOnCelEntityTemplate::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("action", XMLTOKEN_ACTION);
   xmltokens.Register ("call", XMLTOKEN_CALL);
   xmltokens.Register ("class", XMLTOKEN_CLASS);
-  xmltokens.Register ("par", XMLTOKEN_PAR);
   xmltokens.Register ("characteristic", XMLTOKEN_CHARACTERISTIC);
 
   xmltokens.Register ("float", XMLTOKEN_FLOAT);
