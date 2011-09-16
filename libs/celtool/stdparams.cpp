@@ -163,6 +163,7 @@ bool celParameterTools::ToLong (const celData& in, long& out)
 {
   switch (in.type)
   {
+    case CEL_DATA_NONE: out = 0; return true;
     case CEL_DATA_BOOL: if (in.value.bo) out = 1; else out = 0; return true;
     case CEL_DATA_BYTE: out = in.value.b; return true;
     case CEL_DATA_WORD: out = in.value.w; return true;
@@ -180,6 +181,7 @@ bool celParameterTools::ToBool (const celData& in, bool& out)
 {
   switch (in.type)
   {
+    case CEL_DATA_NONE: out = false; return true;
     case CEL_DATA_BOOL: out = in.value.bo; return true;
     case CEL_DATA_BYTE: out = bool (in.value.b); return true;
     case CEL_DATA_WORD: out = bool (in.value.w); return true;
@@ -199,6 +201,7 @@ bool celParameterTools::ToFloat (const celData& in, float& out)
 {
   switch (in.type)
   {
+    case CEL_DATA_NONE: out = 0; return true;
     case CEL_DATA_BOOL: if (in.value.bo) out = 1; else out = 0; return true;
     case CEL_DATA_BYTE: out = float (in.value.b); return true;
     case CEL_DATA_WORD: out = float (in.value.w); return true;
@@ -216,6 +219,7 @@ bool celParameterTools::ToVector2 (const celData& in, csVector2& out)
 {
   switch (in.type)
   {
+    case CEL_DATA_NONE: out.Set (0, 0); return true;
     case CEL_DATA_VECTOR2: out.Set (in.value.v.x, in.value.v.y); return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f", &out.x, &out.y); else out.Set (0, 0); return true;
     default: return false;
@@ -226,6 +230,7 @@ bool celParameterTools::ToVector3 (const celData& in, csVector3& out)
 {
   switch (in.type)
   {
+    case CEL_DATA_NONE: out.Set (0, 0, 0); return true;
     case CEL_DATA_VECTOR3: out.Set (in.value.v.x, in.value.v.y, in.value.v.z); return true;
     case CEL_DATA_COLOR: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue); return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f", &out.x, &out.y, &out.z); else out.Set (0, 0, 0); return true;
@@ -237,6 +242,7 @@ bool celParameterTools::ToVector4 (const celData& in, csVector4& out)
 {
   switch (in.type)
   {
+    case CEL_DATA_NONE: out.Set (0, 0, 0, 0); return true;
     case CEL_DATA_VECTOR4: out.Set (in.value.v.x, in.value.v.y, in.value.v.z, in.value.v.w); return true;
     case CEL_DATA_COLOR4: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue, in.value.col.alpha); return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f,%f", &out.x, &out.y, &out.z, &out.w); else out.Set (0, 0, 0, 0); return true;
@@ -248,6 +254,7 @@ bool celParameterTools::ToColor (const celData& in, csColor& out)
 {
   switch (in.type)
   {
+    case CEL_DATA_NONE: out.Set (0, 0, 0); return true;
     case CEL_DATA_COLOR: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue); return true;
     case CEL_DATA_VECTOR3: out.Set (in.value.v.x, in.value.v.y, in.value.v.z); return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f", &out.red, &out.green, &out.blue); else out.Set (0, 0, 0); return true;
@@ -259,6 +266,7 @@ bool celParameterTools::ToColor4 (const celData& in, csColor4& out)
 {
   switch (in.type)
   {
+    case CEL_DATA_NONE: out.Set (0, 0, 0, 0); return true;
     case CEL_DATA_VECTOR4: out.Set (in.value.v.x, in.value.v.y, in.value.v.z, in.value.v.w); return true;
     case CEL_DATA_COLOR4: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue, in.value.col.alpha); return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f,%f", &out.red, &out.green, &out.blue, &out.alpha); else out.Set (0, 0, 0, 0); return true;
@@ -270,6 +278,7 @@ bool celParameterTools::ToString (const celData& in, csString& out)
 {
   switch (in.type)
   {
+    case CEL_DATA_NONE: out.Empty (); return true;
     case CEL_DATA_BOOL: if (in.value.bo) out = "true"; else out = "false"; return true;
     case CEL_DATA_BYTE: out.Format ("%d", in.value.b); return true;
     case CEL_DATA_WORD: out.Format ("%d", in.value.w); return true;
