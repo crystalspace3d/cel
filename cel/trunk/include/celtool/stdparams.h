@@ -123,9 +123,6 @@ struct celParSpec
   /// The ID of the parameter
   csStringID id;
 
-  /// The name of the parameter
-  csString name;
-
   /// The value of the parameter
   csString value;
 };

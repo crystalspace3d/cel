@@ -139,7 +139,7 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Forward");
   explicit_reward_factory->AddParameter
-    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
+    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "true");
 
   // @@@ TODO: fix the quest parameter 0!
   reward = reward_factory->CreateReward (0, params);
@@ -189,7 +189,7 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Forward");
   explicit_reward_factory->AddParameter
-    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
+    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "true");
 
   // @@@ TODO: fix the quest parameter 0!
   reward = reward_factory->CreateReward (0, params);
@@ -203,7 +203,7 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Run");
   explicit_reward_factory->AddParameter
-    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
+    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "true");
 
   // @@@ TODO: fix the quest parameter 0!
   reward = reward_factory->CreateReward (0, params);
@@ -223,7 +223,7 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("RotateLeft");
   explicit_reward_factory->AddParameter
-    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
+    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "true");
 
   // @@@ TODO: fix the quest parameter 0!
   reward = reward_factory->CreateReward (0, params);
@@ -243,7 +243,7 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("RotateRight");
   explicit_reward_factory->AddParameter
-    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
+    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "true");
 
   // @@@ TODO: fix the quest parameter 0!
   reward = reward_factory->CreateReward (0, params);
