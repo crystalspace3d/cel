@@ -166,76 +166,14 @@ csStringID celAddOnCelEntityTemplate::GetAttributeID (iDocumentNode* child,
 bool celAddOnCelEntityTemplate::ParseParameterBlock (
     iDocumentNode* child, csHash<csRef<iParameter>, csStringID>& params)
 {
-  csRef<iDocumentNodeIterator> par_it = child->GetNodes ();
-  while (par_it->HasNext ())
-  {
-    csRef<iDocumentNode> par_child = par_it->Next ();
-    if (par_child->GetType () != CS_NODE_ELEMENT) continue;
-    const char* par_value = par_child->GetValue ();
-    csStringID par_id = xmltokens.Request (par_value);
-    if (par_id == XMLTOKEN_PAR)
-    {
-      csStringID parid = GetAttributeID (par_child, "name");
-      if (parid == csInvalidStringID) return false;
+  csArray<celParSpec> pars;
+  if (!celParameterTools::ParseParSpecBlock (object_reg, child, pars))
+    return false;
 
-      celDataType type = CEL_DATA_NONE;
-      const char* value = par_child->GetAttributeValue ("value");
-      // @@@ Bah ugly code!
-      if (!value) value = par_child->GetAttributeValue ("string");
-      if (value)
-        type = CEL_DATA_STRING;
-      else
-      {
-        value = par_child->GetAttributeValue ("vector2");
-        if (value)
-          type = CEL_DATA_VECTOR2;
-        else
-        {
-          value = par_child->GetAttributeValue ("vector");
-          if (!value) value = par_child->GetAttributeValue ("vector3");
-          if (value)
-            type = CEL_DATA_VECTOR3;
-          else
-          {
-            value = par_child->GetAttributeValue ("color");
-            if (value)
-              type = CEL_DATA_COLOR;
-            else
-            {
-              value = par_child->GetAttributeValue ("long");
-              if (value)
-                type = CEL_DATA_LONG;
-              else
-              {
-                value = par_child->GetAttributeValue ("float");
-                if (value)
-                  type = CEL_DATA_FLOAT;
-                else
-                {
-                  value = par_child->GetAttributeValue ("bool");
-                  if (value)
-                    type = CEL_DATA_BOOL;
-                }
-              }
-            }
-          }
-        }
-      }
-      if (!value)
-      {
-        synldr->ReportError (
-          "cel.addons.celentitytpl",
-          par_child, "Type for parameter not yet supported!");
-        return false;
-      }
-      csRef<iParameter> par = pm->GetParameter (value, type);
-      params.PutUnique (parid, par);
-    }
-    else
-    {
-      synldr->ReportBadToken (par_child);
-      return false;
-    }
+  for (size_t i = 0 ; i < pars.GetSize () ; i++)
+  {
+    csRef<iParameter> par = pm->GetParameter (pars[i].value, pars[i].type);
+    params.PutUnique (pars[i].id, par);
   }
   return true;
 }
