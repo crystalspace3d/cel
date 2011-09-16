@@ -104,15 +104,36 @@ struct iParameter : public virtual iBase
  */
 struct iParameterManager : public virtual iBase
 {
-    SCF_INTERFACE (iParameterManager, 1, 0, 0);
+    SCF_INTERFACE (iParameterManager, 1, 0, 1);
 
   /**
    * Get a parameter that can be evalulated later on an as-needed basis.
    * Returns 0 for an illegal parameter (error reporting has been done).
+   * This version supports '$' (in which case the value of the parameter
+   * is fetched from the given 'params' block), '@' (in which case it is
+   * a dynamic parameter which will be resolved later), and '=' (in which
+   * case it is an expression to be resolved later).
+   * In case '$' is used the resulting value will itself be parsed (may
+   * contain '@' and '=').
+   * If the optional 'type' is given then this function will make a parameter
+   * that returns only the given type. Conversion will happen automatically
+   * in case it is needed.
    */
   virtual csPtr<iParameter> GetParameter (
   	iCelParameterBlock* params,
-	const char* param) = 0;
+	const char* param,
+        celDataType type = CEL_DATA_NONE) = 0;
+
+  /**
+   * Get a parameter that can be evalulated later on an as-needed basis.
+   * This version differs from the previous version in the sense that '$'
+   * is also seen as dynamic so '$' and '@' have the same meaning here.
+   * If the optional 'type' is given then this function will make a parameter
+   * that returns only the given type. Conversion will happen automatically
+   * in case it is needed.
+   */
+  virtual csPtr<iParameter> GetParameter (const char* param,
+      celDataType type = CEL_DATA_NONE) = 0;
 
   /**
    * This is a convenience function to resolve a quest parameter during
@@ -128,7 +149,7 @@ struct iParameterManager : public virtual iBase
   	iCelParameterBlock* params,
 	const char* param) = 0;
 
-    /**
+  /**
    * This is a convenience function to get a parameter block during
    * creation of rewards, triggers, and sequence operations. This routine
    * knows how to recognize parameter usage (starting with '$' or '@') and will in
@@ -153,7 +174,7 @@ struct iParameterManager : public virtual iBase
    * \param quest_parameters is an array with quest parameters.
    */
   virtual bool FillParameterBlock (
-    iCelParameterBlock* params,
+        iCelParameterBlock* params,
 	celVariableParameterBlock* act_params,
 	const csArray<celParSpec>& parameters,
 	const csRefArray<iParameter>& quest_parameters) = 0;

@@ -27,6 +27,8 @@
 #include "plugins/stdphyslayer/pl.h"
 #include "propclass/chars.h"
 
+#include "tools/parameters.h"
+
 class celPlLayer;
 
 struct ccfPropAct
@@ -34,7 +36,7 @@ struct ccfPropAct
   csStringID id;
   // If data.type == CEL_DATA_NONE then params will be used (action).
   celData data;
-  csRef<iCelParameterBlock> params;
+  csHash<csRef<iParameter>, csStringID> params;
 };
 
 struct ccfMessage
@@ -83,7 +85,7 @@ public:
   	iCelPropertyClass* value);
   virtual void SetProperty (csStringID propertyID, iCelEntity* entity);
   virtual void PerformAction (csStringID actionID,
-  	iCelParameterBlock* params);
+  	const csHash<csRef<iParameter>, csStringID>& params);
 };
 
 /**

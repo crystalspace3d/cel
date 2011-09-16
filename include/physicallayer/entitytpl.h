@@ -29,6 +29,7 @@
 #include "csutil/cscolor.h"
 
 #include "physicallayer/datatype.h"
+#include "tools/parameters.h"
 
 struct iCelEntity;
 struct iCelPropertyClassTemplate;
@@ -226,11 +227,10 @@ struct iCelPropertyClassTemplate : public virtual iBase
   virtual void SetProperty (csStringID propertyID, iCelEntity* entity) = 0;
 
   /**
-   * Perform an action with a generic parameter list. The parameters
-   * here support CEL_DATA_PARAMETER.
+   * Perform an action with a generic parameter list.
    */
   virtual void PerformAction (csStringID actionID,
-  	iCelParameterBlock* params) = 0;
+  	const csHash<csRef<iParameter>, csStringID>& params) = 0;
 };
 
 #endif // __CEL_PL_ENTITYTEMP__

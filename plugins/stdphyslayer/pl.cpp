@@ -387,6 +387,25 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
   return converted_params;
 }
 
+csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
+    const char* entname,
+    const csHash<csRef<iParameter>, csStringID>& act_params,
+    iCelParameterBlock* params)
+{
+  csRef<celVariableParameterBlock> converted_params;
+  converted_params.AttachNew (new celVariableParameterBlock ());
+  csHash<csRef<iParameter>, csStringID>::ConstGlobalIterator it = act_params.GetIterator ();
+  while (it.HasNext ())
+  {
+    csStringID key;
+    iParameter* par = it.Next (key);
+    const celData* data = par->GetData (params);
+    if (data)
+      converted_params->AddParameter (key, *data);
+  }
+  return converted_params;
+}
+
 bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
     	iCelPropertyClass* pc,
   	iCelParameterBlock* params,

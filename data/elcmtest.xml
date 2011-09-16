@@ -70,7 +70,7 @@
       <propclass name="pctools.inventory">
 	<action name="AddTemplate">
 	  <par name="name" string="gold" />
-	  <par name="amount" long="123" />
+	  <par name="amount" long="=rand(100)+50" />
 	</action>
       </propclass>
       <characteristic name="weight" value="10.0" />

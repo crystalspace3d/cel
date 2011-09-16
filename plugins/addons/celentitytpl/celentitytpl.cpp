@@ -23,6 +23,7 @@
 #include "iutil/objreg.h"
 #include "iutil/document.h"
 #include "iutil/object.h"
+#include "iutil/plugin.h"
 #include "iutil/vfs.h"
 #include "ivaria/reporter.h"
 #include "imap/services.h"
@@ -94,6 +95,7 @@ bool celAddOnCelEntityTemplate::Initialize (iObjectRegistry* object_reg)
 	"Can't find physical layer!");
     return false;
   }
+  pm = csQueryRegistryOrLoad<iParameterManager> (object_reg, "cel.parameters.manager");
 
   xmltokens.Register ("behaviour", XMLTOKEN_BEHAVIOUR);
   xmltokens.Register ("propclass", XMLTOKEN_PROPCLASS);
@@ -161,7 +163,84 @@ csStringID celAddOnCelEntityTemplate::GetAttributeID (iDocumentNode* child,
   return pl->FetchStringID ((const char*)p);
 }
 
-csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
+bool celAddOnCelEntityTemplate::ParseParameterBlock (
+    iDocumentNode* child, csHash<csRef<iParameter>, csStringID>& params)
+{
+  csRef<iDocumentNodeIterator> par_it = child->GetNodes ();
+  while (par_it->HasNext ())
+  {
+    csRef<iDocumentNode> par_child = par_it->Next ();
+    if (par_child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* par_value = par_child->GetValue ();
+    csStringID par_id = xmltokens.Request (par_value);
+    if (par_id == XMLTOKEN_PAR)
+    {
+      csStringID parid = GetAttributeID (par_child, "name");
+      if (parid == csInvalidStringID) return false;
+
+      celDataType type = CEL_DATA_NONE;
+      const char* value = par_child->GetAttributeValue ("value");
+      // @@@ Bah ugly code!
+      if (!value) value = par_child->GetAttributeValue ("string");
+      if (value)
+        type = CEL_DATA_STRING;
+      else
+      {
+        value = par_child->GetAttributeValue ("vector2");
+        if (value)
+          type = CEL_DATA_VECTOR2;
+        else
+        {
+          value = par_child->GetAttributeValue ("vector");
+          if (!value) value = par_child->GetAttributeValue ("vector3");
+          if (value)
+            type = CEL_DATA_VECTOR3;
+          else
+          {
+            value = par_child->GetAttributeValue ("color");
+            if (value)
+              type = CEL_DATA_COLOR;
+            else
+            {
+              value = par_child->GetAttributeValue ("long");
+              if (value)
+                type = CEL_DATA_LONG;
+              else
+              {
+                value = par_child->GetAttributeValue ("float");
+                if (value)
+                  type = CEL_DATA_FLOAT;
+                else
+                {
+                  value = par_child->GetAttributeValue ("bool");
+                  if (value)
+                    type = CEL_DATA_BOOL;
+                }
+              }
+            }
+          }
+        }
+      }
+      if (!value)
+      {
+        synldr->ReportError (
+          "cel.addons.celentitytpl",
+          par_child, "Type for parameter not yet supported!");
+        return false;
+      }
+      csRef<iParameter> par = pm->GetParameter (value, type);
+      params.PutUnique (parid, par);
+    }
+    else
+    {
+      synldr->ReportBadToken (par_child);
+      return false;
+    }
+  }
+  return true;
+}
+
+csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlockOld
 	(iDocumentNode* child)
 {
   csRef<celVariableParameterBlock> params;
@@ -416,8 +495,8 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
         {
 	  csStringID propid = GetAttributeID (child, "name");
 	  if (propid == csInvalidStringID) return false;
-	  csRef<celVariableParameterBlock> params = ParseParameterBlock (child);
-	  if (!params) return false;
+          csHash<csRef<iParameter>, csStringID> params;
+	  if (!ParseParameterBlock (child, params)) return false;
 	  pc->PerformAction (propid, params);
 	}
 	break;
@@ -563,7 +642,7 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
 	break;
       case XMLTOKEN_CALL:
         {
-	  csRef<celVariableParameterBlock> params = ParseParameterBlock (child);
+	  csRef<celVariableParameterBlock> params = ParseParameterBlockOld (child);
 	  if (!params) return 0;
 	  const char* msgid = child->GetAttributeValue ("event");
 	  if (!msgid)
