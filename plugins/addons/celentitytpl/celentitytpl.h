@@ -55,8 +55,8 @@ private:
   csStringID GetAttributeID (iDocumentNode* child,
 	const char* prefix, const char* propname);
   bool ParseProperties (iCelPropertyClassTemplate* pc, iDocumentNode* child);
-  csRef<celVariableParameterBlock> ParseParameterBlockOld (iDocumentNode* child);
-  bool ParseParameterBlock (iDocumentNode* child, csHash<csRef<iParameter>, csStringID>& params);
+  bool ParseParameterBlock (iDocumentNode* child,
+      csHash<csRef<iParameter>, csStringID>& params);
 
 public:
   celAddOnCelEntityTemplate (iBase* parent);

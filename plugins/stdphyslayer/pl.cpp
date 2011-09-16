@@ -339,56 +339,6 @@ iCelEntityTemplate* celPlLayer::GetEntityTemplate (size_t idx) const
 
 csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
     const char* entname,
-    iCelParameterBlock* act_params, iCelParameterBlock* params)
-{
-  csRef<celVariableParameterBlock> converted_params;
-  if (act_params)
-  {
-    converted_params.AttachNew (new celVariableParameterBlock ());
-    for (size_t k = 0 ; k < act_params->GetParameterCount () ; k++)
-    {
-      celDataType t;
-      csStringID id = act_params->GetParameterDef (k, t);
-      const celData* par = act_params->GetParameter (id);
-      converted_params->SetParameterDef (k, id);
-      if (t == CEL_DATA_PARAMETER)
-      {
-	celData& converted_par = converted_params->GetParameter (k);
-	const char* parvalue = par->value.par.parname->GetData ();
-	if (!strcmp ("this", parvalue))
-	{
-	  // Special case.
-	  converted_par.Set (entname);
-	  continue;
-	}
-        csStringID parvalueid = FetchStringID (parvalue);
-        const celData* data = params->GetParameter (parvalueid);
-        if (data)
-        {
-          if (par->value.par.partype == CEL_DATA_ENTITY)
-          {
-            csString entname;
-            celParameterTools::ToString (*data, entname);
-	    iCelEntity* ent = FindEntity (entname);
-	    converted_par.Set (ent);
-          }
-          else
-          {
-            celParameterTools::Convert (*data, par->value.par.partype, converted_par);
-          }
-        }
-      }
-      else
-      {
-	converted_params->GetParameter (k).Copy (*par);
-      }
-    }
-  }
-  return converted_params;
-}
-
-csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
-    const char* entname,
     const csHash<csRef<iParameter>, csStringID>& act_params,
     iCelParameterBlock* params)
 {
@@ -652,8 +602,8 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
     {
       const ccfMessage& msg = messages[i];
       celData ret;
-      csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams
-      	(name, msg.params, params);
+      csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
+        name, msg.params, params);
       ent->GetBehaviour ()->SendMessage (msg.msgid, 0, ret, converted_params);
     }
   }

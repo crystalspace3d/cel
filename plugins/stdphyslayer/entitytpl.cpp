@@ -133,7 +133,7 @@ iCelPropertyClassTemplate* celEntityTemplate::CreatePropertyClassTemplate ()
 }
 
 void celEntityTemplate::AddMessage (const char* msgid,
-    iCelParameterBlock* params)
+      csHash<csRef<iParameter>, csStringID>& params)
 {
   size_t i = messages.Push (ccfMessage ());
   messages[i].msgid = msgid;
