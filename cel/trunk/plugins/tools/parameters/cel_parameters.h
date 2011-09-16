@@ -56,16 +56,8 @@ public:
   virtual csPtr<iParameter> GetParameter (const char* param,
       celDataType type = CEL_DATA_NONE);
   virtual const char* ResolveParameter (iCelParameterBlock* params, const char* param);
-  virtual csPtr<celVariableParameterBlock> GetParameterBlock (
-  	iCelParameterBlock* params,
-	const csArray<celParSpec>& parameters,
-	csRefArray<iParameter>& quest_parameters);
-  virtual bool FillParameterBlock (
-    iCelParameterBlock* params,
-	celVariableParameterBlock* act_params,
-	const csArray<celParSpec>& parameters,
-	const csRefArray<iParameter>& quest_parameters);
 };
+
 //---------------------------------------------------------------------------
 
 class celConstantParameter : public scfImplementation1<celConstantParameter,

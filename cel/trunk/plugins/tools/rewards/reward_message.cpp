@@ -210,8 +210,7 @@ celMessageReward::celMessageReward (
   msg_id = pm->GetParameter (params, id_par);
   entity = pm->GetParameter (params, entity_par);
 
-  quest_parameters.SetSize (parameters.GetSize (), 0);
-  msg_params = pm->GetParameterBlock (params, parameters, quest_parameters);
+  msg_params = celParameterTools::GetParameterBlock (pm, params, parameters, quest_parameters);
 }
 
 void celMessageReward::Reward (iCelParameterBlock* params)
@@ -243,7 +242,7 @@ void celMessageReward::Reward (iCelParameterBlock* params)
     }
   }
 
-  if (!pm->FillParameterBlock (params, msg_params, parameters, quest_parameters))
+  if (!celParameterTools::FillParameterBlock (params, msg_params, parameters, quest_parameters))
   {
     Report (type->object_reg,
 	    "Could not fill parameters for message '%s'", msg);
@@ -281,8 +280,7 @@ celClassMessageReward::celClassMessageReward (
   msg_id = pm->GetParameter (params, id_par);
   clazz = pm->GetParameter (params, class_par);
 
-  quest_parameters.SetSize (parameters.GetSize (), 0);
-  msg_params = pm->GetParameterBlock (params, parameters, quest_parameters);
+  msg_params = celParameterTools::GetParameterBlock (pm, params, parameters, quest_parameters);
 }
 
 void celClassMessageReward::Reward (iCelParameterBlock* params)
@@ -297,7 +295,7 @@ void celClassMessageReward::Reward (iCelParameterBlock* params)
     entlist = type->pl->GetClassEntitiesList (ent_class);
   }
 
-  if (!pm->FillParameterBlock (params, msg_params, parameters, quest_parameters))
+  if (!celParameterTools::FillParameterBlock (params, msg_params, parameters, quest_parameters))
   {
     Report (type->object_reg,
 	    "Could not fill parameters for message '%s'", msg);

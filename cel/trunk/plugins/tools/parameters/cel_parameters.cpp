@@ -59,34 +59,6 @@ static float ToFloat (const celData* data)
   return f;
 }
 
-static bool ToBool (const celData* data)
-{
-  bool rc;
-  celParameterTools::ToBool (*data, rc);
-  return rc;
-}
-
-static csVector2 ToVector2 (const celData* data)
-{
-  csVector2 v;
-  celParameterTools::ToVector2 (*data, v);
-  return v;
-}
-
-static csVector3 ToVector3 (const celData* data)
-{
-  csVector3 v;
-  celParameterTools::ToVector3 (*data, v);
-  return v;
-}
-
-static csColor ToColor (const celData* data)
-{
-  csColor v;
-  celParameterTools::ToColor (*data, v);
-  return v;
-}
-
 //---------------------------------------------------------------------------
 
 bool celParameterManager::Initialize (iObjectRegistry* r)
@@ -233,73 +205,6 @@ const char* celParameterManager::ResolveParameter (
   }
   celParameterTools::ToString (*data, str);
   return str;
-}
-
-csPtr<celVariableParameterBlock> celParameterManager::GetParameterBlock (
-  	iCelParameterBlock* params,
-	const csArray<celParSpec>& parameters,
-	csRefArray<iParameter>& quest_parameters)
-{
-  celVariableParameterBlock *act_params = new celVariableParameterBlock ();
-  size_t i;
-  for (i = 0 ; i < parameters.GetSize () ; i++)
-  {
-    csRef<iParameter> par = GetParameter (params, parameters[i].value);
-    quest_parameters.Put (i, par);
-    act_params->SetParameterDef (i, parameters[i].id);
-  }
-  return act_params;
-}
-
-bool celParameterManager::FillParameterBlock (
-        iCelParameterBlock* params,
-	celVariableParameterBlock* act_params,
-	const csArray<celParSpec>& parameters,
-	const csRefArray<iParameter>& quest_parameters)
-{
-  if (parameters.GetSize () != quest_parameters.GetSize ())
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-		"cel.parameters.manager",
-	      "Can't fill parameter blocks of different size (%zu VS %zu)!",
-	      parameters.GetSize (), quest_parameters.GetSize ());
-    return false;
-  }
-
-  size_t i;
-  for (i = 0 ; i < quest_parameters.GetSize () ; i++)
-  {
-    iParameter* p = quest_parameters[i];
-    switch (parameters[i].type)
-    {
-      case CEL_DATA_STRING:
-	act_params->GetParameter (i).Set (p->Get (params));
-	break;
-      case CEL_DATA_LONG:
-	act_params->GetParameter (i).Set (p->GetLong (params));
-	break;
-      case CEL_DATA_FLOAT:
-	act_params->GetParameter (i).Set (p->GetFloat (params));
-	break;
-      case CEL_DATA_BOOL:
-	act_params->GetParameter (i).Set (ToBool (p->GetData (params)));
-	break;
-      case CEL_DATA_VECTOR2:
-	act_params->GetParameter (i).Set (ToVector2 (p->GetData (params)));
-	break;
-      case CEL_DATA_VECTOR3:
-	act_params->GetParameter (i).Set (ToVector3 (p->GetData (params)));
-	break;
-      case CEL_DATA_COLOR:
-	act_params->GetParameter (i).Set (ToColor (p->GetData (params)));
-	break;
-      default:
-	//@@@?
-	break;
-    }
-  }
-
-  return true;
 }
 
 //---------------------------------------------------------------------------
