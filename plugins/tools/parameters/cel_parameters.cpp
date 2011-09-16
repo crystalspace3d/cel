@@ -70,21 +70,23 @@ bool celParameterManager::Initialize (iObjectRegistry* r)
 
 iCelExpressionParser* celParameterManager::GetParser ()
 {
+  if (expparser) return expparser;
   csRef<iObjectRegistryIterator> it = object_reg->Get (
       scfInterfaceTraits<iCelExpressionParser>::GetID (),
       scfInterfaceTraits<iCelExpressionParser>::GetVersion ());
   iBase* b = it->Next ();
+  csRef<iCelExpressionParser> parser;
   if (b)
   {
-    expparser = scfQueryInterface<iCelExpressionParser> (b);
+    parser = scfQueryInterface<iCelExpressionParser> (b);
   }
-  if (!expparser)
+  if (!parser)
   {
     csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
 	object_reg);
-    expparser = csLoadPlugin<iCelExpressionParser> (plugmgr,
+    parser = csLoadPlugin<iCelExpressionParser> (plugmgr,
       "cel.behaviourlayer.xml");
-    if (!expparser)
+    if (!parser)
 
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
@@ -92,8 +94,9 @@ iCelExpressionParser* celParameterManager::GetParser ()
 		"Can't find the expression parser!");
       return 0;
     }
-    object_reg->Register (expparser, "iCelExpressionParser");
+    object_reg->Register (parser, "iCelExpressionParser");
   }
+  expparser = parser;
   return expparser;
 }
 
