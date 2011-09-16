@@ -34,7 +34,6 @@
 struct iCelEntity;
 struct iCelPropertyClassTemplate;
 struct iCelPropertyClass;
-struct iCelParameterBlock;
 struct iTemplateCharacteristics;
 
 /**
@@ -92,11 +91,12 @@ struct iCelEntityTemplate : public virtual iBase
   virtual const char* GetBehaviour () const = 0;
 
   /**
-   * Add a message to be sent to the created behaviour. The parameters
-   * here support CEL_DATA_PARAMETER. Note that all messages will be sent
-   * after all properties and property classes are created.
+   * Add a message to be sent to the created behaviour.
+   * Note that all messages will be sent after all properties and
+   * property classes are created.
    */
-  virtual void AddMessage (const char* msgid, iCelParameterBlock* params) = 0;
+  virtual void AddMessage (const char* msgid,
+      csHash<csRef<iParameter>, csStringID>& params) = 0;
 
   /**
    * Add a class to this entity. A class is an application defined

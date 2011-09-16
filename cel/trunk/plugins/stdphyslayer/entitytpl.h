@@ -42,7 +42,7 @@ struct ccfPropAct
 struct ccfMessage
 {
   csString msgid;
-  csRef<iCelParameterBlock> params;
+  csHash<csRef<iParameter>, csStringID> params;
 };
 
 class celPropertyClassTemplate : public scfImplementation1<
@@ -122,7 +122,8 @@ public:
     celEntityTemplate::layer = layer;
     celEntityTemplate::behaviour = behaviour;
   }
-  virtual void AddMessage (const char* msgid, iCelParameterBlock* params);
+  virtual void AddMessage (const char* msgid,
+      csHash<csRef<iParameter>, csStringID>& params);
   virtual const char* GetBehaviourLayer () const { return layer; }
   const char* GetLayer () const { return layer; }
   virtual const char* GetBehaviour () const { return behaviour; }

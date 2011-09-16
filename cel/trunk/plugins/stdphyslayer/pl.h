@@ -112,9 +112,6 @@ private:
 
   csRef<celVariableParameterBlock> ConvertTemplateParams (
     const char* entname,
-    iCelParameterBlock* act_params, iCelParameterBlock* params);
-  csRef<celVariableParameterBlock> ConvertTemplateParams (
-    const char* entname,
     const csHash<csRef<iParameter>, csStringID>& act_params,
     iCelParameterBlock* params);
 
