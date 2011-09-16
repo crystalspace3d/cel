@@ -320,7 +320,9 @@ csPtr<iCelSequence> celSequenceFactory::CreateSequence (
     csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
       (object_reg, "cel.parameters.manager");
 
-    csTicks duration = ToUInt (pm->ResolveParameter (params, seqops[i].duration));
+    const char* durationPar = pm->ResolveParameter (params, seqops[i].duration);
+    csTicks duration = ToUInt (durationPar);
+
     if (total_time + duration > max_time) max_time = total_time + duration;
     if (seqops[i].seqop)
     {

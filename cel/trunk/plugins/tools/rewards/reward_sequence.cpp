@@ -250,9 +250,7 @@ void celClassSequenceReward::Reward (iCelParameterBlock* params)
   {
     i--;
     ent = entlist->Get(i);
-      printf ("3\n"); fflush (stdout);
     quest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
-      printf ("4\n"); fflush (stdout);
     if (quest)
     {
       iCelSequence* seq = quest->GetQuest()->FindSequence (s);
