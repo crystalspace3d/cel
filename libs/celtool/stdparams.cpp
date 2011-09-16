@@ -173,7 +173,7 @@ bool celParameterTools::ToLong (const celData& in, long& out)
     case CEL_DATA_ULONG: out = in.value.ul; return true;
     case CEL_DATA_FLOAT: out = long (in.value.f); return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%d", &out); else out = 0; return true;
-    default: return false;
+    default: out = 0; return false;
   }
 }
 
@@ -193,7 +193,7 @@ bool celParameterTools::ToBool (const celData& in, bool& out)
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%b", &out); else out = false; return true;
     case CEL_DATA_PCLASS: out = in.value.pc != 0; return true;
     case CEL_DATA_ENTITY: out = in.value.ent != 0; return true;
-    default: return false;
+    default: out = false; return false;
   }
 }
 
@@ -211,7 +211,7 @@ bool celParameterTools::ToFloat (const celData& in, float& out)
     case CEL_DATA_ULONG: out = float (in.value.ul); return true;
     case CEL_DATA_FLOAT: out = in.value.f; return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f", &out); else out = 0; return true;
-    default: return false;
+    default: out = 0; return false;
   }
 }
 
@@ -222,7 +222,7 @@ bool celParameterTools::ToVector2 (const celData& in, csVector2& out)
     case CEL_DATA_NONE: out.Set (0, 0); return true;
     case CEL_DATA_VECTOR2: out.Set (in.value.v.x, in.value.v.y); return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f", &out.x, &out.y); else out.Set (0, 0); return true;
-    default: return false;
+    default: out.Set (0, 0); return false;
   }
 }
 
@@ -234,7 +234,7 @@ bool celParameterTools::ToVector3 (const celData& in, csVector3& out)
     case CEL_DATA_VECTOR3: out.Set (in.value.v.x, in.value.v.y, in.value.v.z); return true;
     case CEL_DATA_COLOR: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue); return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f", &out.x, &out.y, &out.z); else out.Set (0, 0, 0); return true;
-    default: return false;
+    default: out.Set (0, 0, 0); return false;
   }
 }
 
@@ -246,7 +246,7 @@ bool celParameterTools::ToVector4 (const celData& in, csVector4& out)
     case CEL_DATA_VECTOR4: out.Set (in.value.v.x, in.value.v.y, in.value.v.z, in.value.v.w); return true;
     case CEL_DATA_COLOR4: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue, in.value.col.alpha); return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f,%f", &out.x, &out.y, &out.z, &out.w); else out.Set (0, 0, 0, 0); return true;
-    default: return false;
+    default: out.Set (0, 0, 0, 0); return false;
   }
 }
 
@@ -258,7 +258,7 @@ bool celParameterTools::ToColor (const celData& in, csColor& out)
     case CEL_DATA_COLOR: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue); return true;
     case CEL_DATA_VECTOR3: out.Set (in.value.v.x, in.value.v.y, in.value.v.z); return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f", &out.red, &out.green, &out.blue); else out.Set (0, 0, 0); return true;
-    default: return false;
+    default: out.Set (0, 0, 0); return false;
   }
 }
 
@@ -270,7 +270,7 @@ bool celParameterTools::ToColor4 (const celData& in, csColor4& out)
     case CEL_DATA_VECTOR4: out.Set (in.value.v.x, in.value.v.y, in.value.v.z, in.value.v.w); return true;
     case CEL_DATA_COLOR4: out.Set (in.value.col.red, in.value.col.green, in.value.col.blue, in.value.col.alpha); return true;
     case CEL_DATA_STRING: if (in.value.s) csScanStr (in.value.s->GetData (), "%f,%f,%f,%f", &out.red, &out.green, &out.blue, &out.alpha); else out.Set (0, 0, 0, 0); return true;
-    default: return false;
+    default: out.Set (0, 0, 0, 0); return false;
   }
 }
 
@@ -293,12 +293,9 @@ bool celParameterTools::ToString (const celData& in, csString& out)
     case CEL_DATA_STRING: if (in.value.s) out = in.value.s->GetData (); else out = ""; return true;
     case CEL_DATA_PCLASS: if (in.value.pc) out = in.value.pc->GetName (); else out = "null"; return true;
     case CEL_DATA_ENTITY: if (in.value.ent) out = in.value.ent->GetName (); else out = "null"; return true;
-    case CEL_DATA_ACTION: return false;
     case CEL_DATA_COLOR: out.Format ("col(%g,%g,%g)", in.value.col.red, in.value.col.green, in.value.col.blue); return true;
     case CEL_DATA_COLOR4: out.Format ("col(%g,%g,%g,%g)", in.value.col.red, in.value.col.green, in.value.col.blue, in.value.col.alpha); return true;
-    case CEL_DATA_IBASE: return false;
-    case CEL_DATA_PARAMETER: return false;
-    default: return false;
+    default: out.Empty(); return false;
   }
 }
 
