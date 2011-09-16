@@ -125,6 +125,10 @@ struct celParSpec
 
   /// The value of the parameter
   csString value;
+
+  celParSpec () { }
+  celParSpec (celDataType type, csStringID id, const char* value) :
+    type (type), id (id), value (value) { }
 };
 
 /**
@@ -213,6 +217,14 @@ public:
    * - CEL_DATA_STRING
    */
   static bool Convert (const celData& in, celDataType type, celData& out);
+
+  /**
+   * Parse an XML node and fill a parameter specification array.
+   * The parameters array will be cleared first.
+   * Returns false on failure (error already reported).
+   */
+  static bool ParseParSpecBlock (iObjectRegistry* object_reg,
+    iDocumentNode* node, csArray<celParSpec>& parameters);
 
   /**
    * This is a convenience function to get a parameter block which

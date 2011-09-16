@@ -116,66 +116,9 @@ bool celActionRewardFactory::Load (iDocumentNode* node)
     Report (type->object_reg,
       "'pc' attribute is missing for the action reward!");
   
-  // get parameters
-  iCelPlLayer* pl = type->pl;
-  csRef<iDocumentNodeIterator> it = node->GetNodes ();
-  while (it->HasNext ())
-  {
-    csRef<iDocumentNode> child = it->Next ();
-    if (child->GetType () != CS_NODE_ELEMENT) continue;
-    const char* value = child->GetValue ();
-    if (!strcmp ("par", value))
-    {
-      const char* name = child->GetAttributeValue ("name");
-      if (!name)
-        return Report (type->object_reg,
-          "Missing name attribute in a parameter for the action reward!");
-      csStringID id = pl->FetchStringID (name);
-      const char* str_value = child->GetAttributeValue ("string");
-      if (str_value)
-      {
-	AddParameter (CEL_DATA_STRING, id, str_value);
-	continue;
-      }
-      const char* vec3_value = child->GetAttributeValue ("vector3");
-      if (vec3_value)
-      {
-	AddParameter (CEL_DATA_VECTOR3, id, vec3_value);
-	continue;
-      }
-      const char* vec2_value = child->GetAttributeValue ("vector2");
-      if (vec2_value)
-      {
-	AddParameter (CEL_DATA_VECTOR2, id, vec2_value);
-	continue;
-      }
-      const char* float_value = child->GetAttributeValue ("float");
-      if (float_value)
-      {
-	AddParameter (CEL_DATA_FLOAT, id, float_value);
-	continue;
-      }
-      const char* long_value = child->GetAttributeValue ("long");
-      if (long_value)
-      {
-	AddParameter (CEL_DATA_LONG, id, long_value);
-	continue;
-      }
-      const char* bool_value = child->GetAttributeValue ("bool");
-      if (bool_value)
-      {
-	AddParameter (CEL_DATA_BOOL, id, bool_value);
-	continue;
-      }
-      return Report (type->object_reg,
-        "Unknown parameter type for action reward!");
-    }
-    else
-    {
-      return Report (type->object_reg,
-        "Unexpected child '%s' in the action reward!", value);
-    }
-  }
+  // Get parameters
+  if (!celParameterTools::ParseParSpecBlock (type->object_reg, node, parameters))
+    return false;
   return true;
 }
 
