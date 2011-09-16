@@ -237,8 +237,8 @@ celActionReward::celActionReward (
   tag = pm->GetParameter (params, tag_par);
   entity = pm->GetParameter (params, entity_par);
   id = pm->GetParameter (params, id_par);
-  quest_parameters.SetSize (factory->parameters.GetSize (), 0);
-  act_params = pm->GetParameterBlock (params, factory->parameters, quest_parameters);
+  act_params = celParameterTools::GetParameterBlock (pm, params,
+      factory->parameters, quest_parameters);
 }
 
 celActionReward::~celActionReward ()
@@ -282,7 +282,7 @@ void celActionReward::Reward (iCelParameterBlock* params)
     if (actionID)
     {
       celData ret;
-      if (!pm->FillParameterBlock (params, act_params, factory->parameters, quest_parameters))
+      if (!celParameterTools::FillParameterBlock (params, act_params, factory->parameters, quest_parameters))
 	Report (factory->type->object_reg,
 		"Could not fill parameters '%s' in the specified pc!", idname);
       else
@@ -316,8 +316,8 @@ celClassActionReward::celClassActionReward (
   clazz = pm->GetParameter (params, class_par);
   id = pm->GetParameter (params, id_par);
 
-  quest_parameters.SetSize (factory->parameters.GetSize (), 0);
-  act_params = pm->GetParameterBlock (params, factory->parameters, quest_parameters);
+  act_params = celParameterTools::GetParameterBlock (pm, params,
+      factory->parameters, quest_parameters);
   actionID = csInvalidStringID;
 }
 
@@ -356,7 +356,7 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
     propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
     if (propertyclass)
     {
-      if (!pm->FillParameterBlock (params, act_params, factory->parameters, quest_parameters))
+      if (!celParameterTools::FillParameterBlock (params, act_params, factory->parameters, quest_parameters))
 	Report (factory->type->object_reg,
 		"Could not fill parameters in the specified pc '%s' '%s'!", pc, t);
       else

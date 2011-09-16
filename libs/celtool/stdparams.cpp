@@ -27,6 +27,7 @@
 #include "physicallayer/propclas.h"
 #include "physicallayer/entity.h"
 #include "celtool/stdparams.h"
+#include "tools/parameters.h"
 
 //---------------------------------------------------------------------------
 
@@ -375,6 +376,86 @@ bool celParameterTools::Convert (const celData& in, celDataType type, celData& o
       return false;
   }
 }
+
+
+csPtr<celVariableParameterBlock> celParameterTools::GetParameterBlock (
+        iParameterManager* pm,
+  	iCelParameterBlock* params,
+	const csArray<celParSpec>& parameters,
+	csRefArray<iParameter>& dyn_parameters)
+{
+  celVariableParameterBlock *act_params = new celVariableParameterBlock ();
+  size_t i;
+  dyn_parameters.Empty ();
+  for (i = 0 ; i < parameters.GetSize () ; i++)
+  {
+    csRef<iParameter> par = pm->GetParameter (params, parameters[i].value);
+    dyn_parameters.Push (par);
+    act_params->SetParameterDef (i, parameters[i].id);
+  }
+  return act_params;
+}
+
+bool celParameterTools::FillParameterBlock (
+        iCelParameterBlock* params,
+	celVariableParameterBlock* act_params,
+	const csArray<celParSpec>& parameters,
+	const csRefArray<iParameter>& dyn_parameters)
+{
+  if (parameters.GetSize () != dyn_parameters.GetSize ())
+  {
+    return false;
+  }
+
+  size_t i;
+  for (i = 0 ; i < dyn_parameters.GetSize () ; i++)
+  {
+    iParameter* p = dyn_parameters[i];
+    switch (parameters[i].type)
+    {
+      case CEL_DATA_STRING:
+	act_params->GetParameter (i).Set (p->Get (params));
+	break;
+      case CEL_DATA_LONG:
+	act_params->GetParameter (i).Set (p->GetLong (params));
+	break;
+      case CEL_DATA_FLOAT:
+	act_params->GetParameter (i).Set (p->GetFloat (params));
+	break;
+      case CEL_DATA_BOOL:
+        {
+          bool b; ToBool (*p->GetData (params), b);
+	  act_params->GetParameter (i).Set (b);
+        }
+	break;
+      case CEL_DATA_VECTOR2:
+        {
+          csVector2 v; ToVector2 (*p->GetData (params), v);
+	  act_params->GetParameter (i).Set (v);
+        }
+	break;
+      case CEL_DATA_VECTOR3:
+        {
+          csVector3 v; ToVector3 (*p->GetData (params), v);
+	  act_params->GetParameter (i).Set (v);
+        }
+	break;
+      case CEL_DATA_COLOR:
+        {
+          csColor v; ToColor (*p->GetData (params), v);
+	  act_params->GetParameter (i).Set (v);
+        }
+	break;
+      default:
+	//@@@?
+	break;
+    }
+  }
+
+  return true;
+}
+
+
 
 void celVariableParameterBlock::Merge (iCelParameterBlock* params)
 {

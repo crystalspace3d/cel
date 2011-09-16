@@ -26,6 +26,7 @@
 #include "csutil/util.h"
 #include "csutil/array.h"
 #include "csutil/stringarray.h"
+#include "csutil/refarr.h"
 #include "behaviourlayer/behave.h"
 #include "tools/expression.h"
 
@@ -33,6 +34,9 @@
 
 struct iObjectRegistry;
 struct iDocumentNode;
+struct iParameter;
+struct iParameterManager;
+class celVariableParameterBlock;
 
 // The following macros will set 'var' to the required variable and
 // 'p_var' will be made to 0 if there is a failure.
@@ -109,6 +113,22 @@ struct iDocumentNode;
     if (p_##var->type == CEL_DATA_PCLASS) \
       var = p_##var->value.pc; \
   }
+
+/// The description of a parameter
+struct celParSpec
+{
+  /// The type of the parameter
+  celDataType type;
+
+  /// The ID of the parameter
+  csStringID id;
+
+  /// The name of the parameter
+  csString name;
+
+  /// The value of the parameter
+  csString value;
+};
 
 /**
  * Parameter tools.
@@ -196,6 +216,35 @@ public:
    * - CEL_DATA_STRING
    */
   static bool Convert (const celData& in, celDataType type, celData& out);
+
+  /**
+   * This is a convenience function to get a parameter block which
+   * knows how to recognize parameter usage (starting with '$' or '@') and will in
+   * that case try to resolve the parameter by finding it in 'params'.
+   * \param params is an input block of parameters.
+   * \param paramspec is the parameter specifications and unparsed values.
+   * \param dyn_parameters will be filled with the parameters.
+   */
+  static csPtr<celVariableParameterBlock> GetParameterBlock (
+        iParameterManager* pm,
+  	iCelParameterBlock* params,
+	const csArray<celParSpec>& parameters,
+	csRefArray<iParameter>& dyn_parameters);
+
+   /**
+   * Fill in the dynamic parameters in a parameter block. Return whether or
+   * not the filling has been made.
+   * \param params is the parameter block given to the reward.
+   * \param msg_params is the resolved parameter block as returned by
+   * GetParameterBlock().
+   * \param parameters is the parameter specifications and unparsed values.
+   * \param dyn_parameters is an array with the dynamic parameters.
+   */
+  static bool FillParameterBlock (
+        iCelParameterBlock* params,
+	celVariableParameterBlock* act_params,
+	const csArray<celParSpec>& parameters,
+	const csRefArray<iParameter>& dyn_parameters);
 };
 
 struct celVariable
