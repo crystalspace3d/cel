@@ -66,9 +66,9 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
     id_repeat = pl->FetchStringID ("repeat");
     id_name = pl->FetchStringID ("name");
   }
-  params = new celGenericParameterBlock (2);
-  params->SetParameterDef (0, id_elapsedticks);
-  params->SetParameterDef (1, id_currentticks);
+  params.AttachNew (new celVariableParameterBlock (2));
+  params->AddParameter (id_elapsedticks);
+  params->AddParameter (id_currentticks);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)

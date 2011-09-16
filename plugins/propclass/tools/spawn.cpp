@@ -161,14 +161,13 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   AddProperty (propid_spawnunique, "spawnunique",
   	CEL_DATA_BOOL, false, "Enable unique spawning.", &do_spawn_unique);
 
-  params = new celGenericParameterBlock (2);
-  params->SetParameterDef (0, id_entity);
-  params->SetParameterDef (1, id_behaviour);
+  params.AttachNew (new celVariableParameterBlock (2));
+  params->AddParameter (id_entity);
+  params->AddParameter (id_behaviour);
 }
 
 celPcSpawn::~celPcSpawn ()
 {
-  delete params;
 }
 
 bool celPcSpawn::PerformActionIndexed (int idx,

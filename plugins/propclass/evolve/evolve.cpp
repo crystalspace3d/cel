@@ -114,10 +114,10 @@ celPcEvolve::celPcEvolve(iObjectRegistry *objreg)
     paramid[EVO_AVGFITNESS] = pl->FetchStringID("avg_fitness");
   }
 
-  params.AttachNew(new celGenericParameterBlock (3));
-  params->SetParameterDef(0, paramid[EVO_MAXFITNESS]);
-  params->SetParameterDef(1, paramid[EVO_MINFITNESS]);
-  params->SetParameterDef(2, paramid[EVO_AVGFITNESS]);
+  params.AttachNew (new celVariableParameterBlock (3));
+  params->AddParameter (paramid[EVO_MAXFITNESS]);
+  params->AddParameter (paramid[EVO_MINFITNESS]);
+  params->AddParameter (paramid[EVO_AVGFITNESS]);
 }
 
 celPcEvolve::~celPcEvolve()

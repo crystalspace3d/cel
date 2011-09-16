@@ -198,62 +198,6 @@ public:
   static bool Convert (const celData& in, celDataType type, celData& out);
 };
 
-/**
- * Generic parameter block implementation.
- */
-class CEL_CELTOOL_EXPORT celGenericParameterBlock : public scfImplementation1<
-	celGenericParameterBlock, iCelParameterBlock>
-{
-private:
-  size_t count;
-  csStringID* ids;
-  celData* data;
-
-public:
-  celGenericParameterBlock (size_t count) :
-    scfImplementationType (this)
-  {
-    celGenericParameterBlock::count = count;
-    ids = new csStringID[count];
-    data = new celData[count];
-  }
-  virtual ~celGenericParameterBlock ()
-  {
-    delete[] ids;
-    delete[] data;
-  }
-
-  void SetParameterDef (size_t idx, csStringID id)
-  {
-    ids[idx] = id;
-  }
-  celData& GetParameter (size_t idx) { return data[idx]; }
-
-  virtual size_t GetParameterCount () const { return count; }
-  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
-  {
-    if (/*idx < 0 || */idx >= count)
-    {
-      t = CEL_DATA_NONE;
-      return csInvalidStringID;
-    }
-    t = data[idx].type;
-    return ids[idx];
-  }
-  virtual const celData* GetParameter (csStringID id) const
-  {
-    size_t i;
-    for (i = 0 ; i < count ; i++)
-      if (id == ids[i])
-        return &data[i];
-    return 0;
-  }
-  virtual const celData* GetParameterByIndex (size_t idx) const
-  {
-    return (idx >= count) ? 0 : &data[idx];
-  }
-};
-
 struct celVariable
 {
   csStringID id;
@@ -273,7 +217,8 @@ private:
   csArray<celVariable> vars;
 
 public:
-  celVariableParameterBlock () : scfImplementationType (this)
+  celVariableParameterBlock (int capacity = 0) :
+    scfImplementationType (this), vars (capacity)
   {
   }
   /**

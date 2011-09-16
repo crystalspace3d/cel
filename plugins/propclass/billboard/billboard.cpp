@@ -154,10 +154,10 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
     id_y = pl->FetchStringID ("y");
     id_button = pl->FetchStringID ("button");
   }
-  params = new celGenericParameterBlock (3);
-  params->SetParameterDef (0, id_x);
-  params->SetParameterDef (1, id_y);
-  params->SetParameterDef (2, id_button);
+  params.AttachNew (new celVariableParameterBlock (3));
+  params->AddParameter (id_x);
+  params->AddParameter (id_y);
+  params->AddParameter (id_button);
 }
 
 celPcBillboard::~celPcBillboard ()
@@ -169,7 +169,6 @@ celPcBillboard::~celPcBillboard ()
     billboard_mgr->RemoveBillboard (billboard);
   }
   delete[] billboard_name;
-  delete params;
   delete scfiBillboardEventHandler;
 }
 

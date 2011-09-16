@@ -87,7 +87,7 @@ private:
   static csStringID id_time;
   static csStringID id_repeat;
   static csStringID id_name;
-  celGenericParameterBlock* params;
+  csRef<celVariableParameterBlock> params;
 
   csRef<iMessageDispatcher> dispatcher_wakeupframe;
 

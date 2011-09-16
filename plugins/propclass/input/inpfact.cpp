@@ -135,27 +135,24 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   AddProperty (propid_sendtrigger, "sendtrigger",
   	CEL_DATA_BOOL, false, "Send trigger.", &do_sendtrigger);
 
-  mouse_params = new celGenericParameterBlock (3);
-  mouse_params->SetParameterDef (0, id_x);
-  mouse_params->SetParameterDef (1, id_y);
-  mouse_params->SetParameterDef (2, id_value);
+  mouse_params.AttachNew (new celVariableParameterBlock (3));
+  mouse_params->AddParameter (id_x);
+  mouse_params->AddParameter (id_y);
+  mouse_params->AddParameter (id_value);
 
-  key_params = new celGenericParameterBlock (2);
-  key_params->SetParameterDef (0,id_trigger);
-  key_params->SetParameterDef (1,id_state);
+  key_params.AttachNew (new celVariableParameterBlock (2));
+  key_params->AddParameter (id_trigger);
+  key_params->AddParameter (id_state);
 
-  joy_params = new celOneParameterBlock ();
+  joy_params.AttachNew (new celOneParameterBlock ());
   joy_params->SetParameterDef (id_value);
 
-  but_params = new celOneParameterBlock ();
+  but_params.AttachNew (new celOneParameterBlock ());
   but_params->SetParameterDef (id_state);
 }
 
 celPcCommandInput::~celPcCommandInput ()
 {
-  mouse_params->DecRef ();
-  key_params->DecRef ();
-
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));

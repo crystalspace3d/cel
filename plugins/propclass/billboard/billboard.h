@@ -54,7 +54,7 @@ private:
   csRef<iBillboardManager> billboard_mgr;
   bool events_enabled;
   static csStringID id_x, id_y, id_button;
-  celGenericParameterBlock* params;
+  csRef<celVariableParameterBlock> params;
 
   csRef<iMessageDispatcher> dispatcher_select;
   csRef<iMessageDispatcher> dispatcher_selectup;

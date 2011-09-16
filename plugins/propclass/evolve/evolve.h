@@ -98,7 +98,7 @@ class celPcEvolve
 : public scfImplementationExt1<celPcEvolve, celPcCommon, iPcEvolve>
 {
   static PropertyHolder propinfo;
-  csRef<celGenericParameterBlock> params;
+  csRef<celVariableParameterBlock> params;
 
   csRef<iMessageDispatcher> dispatcher_result;
   csRef<iMessageDispatcher> dispatcher_fitness;

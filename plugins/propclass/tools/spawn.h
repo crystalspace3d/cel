@@ -116,7 +116,7 @@ private:
   static csStringID id_sector_param;
   static csStringID id_position_param;
   static csStringID id_yrot_param;
-  celGenericParameterBlock* params;
+  csRef<celVariableParameterBlock> params;
   static csStringID id_entity;
   static csStringID id_behaviour;
 
