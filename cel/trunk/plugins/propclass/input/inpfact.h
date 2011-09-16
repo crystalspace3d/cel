@@ -34,7 +34,7 @@ struct iCelEntity;
 struct iCelPlLayer;
 struct iObjectRegistry;
 struct iGraphics2D;
-class celGenericParameterBlock;
+class celVariableParameterBlock;
 class celOneParameterBlock;
 
 CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
@@ -108,10 +108,10 @@ private:
   bool handleMouse;
   bool handleJoystick;
 
-  celGenericParameterBlock* mouse_params;
-  celGenericParameterBlock* key_params;
-  celOneParameterBlock* joy_params;
-  celOneParameterBlock* but_params;
+  csRef<celVariableParameterBlock> mouse_params;
+  csRef<celVariableParameterBlock> key_params;
+  csRef<celOneParameterBlock> joy_params;
+  csRef<celOneParameterBlock> but_params;
 
   // For actions.
   enum actionids

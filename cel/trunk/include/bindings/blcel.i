@@ -167,8 +167,6 @@ INTERFACE_POST(pcType)
 // RefCounted Objects
 //=============================================================================
 
-%feature("unref") celGenericParameterBlock "$this->DecRef();"
-
 //=============================================================================
 // Published interfaces and functions.
 //=============================================================================
@@ -333,8 +331,6 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 //-----------------------------------------------------------------------------
 
 %ignore celVariableParameterBlock::GetParameter (size_t idx);
-%ignore celGenericParameterBlock::GetParameter (size_t idx);
-%template (scfGenericParameterBlock) scfImplementation1<celGenericParameterBlock, iCelParameterBlock >;
 %template (scfVariableParameterBlock) scfImplementation1<celVariableParameterBlock,iCelParameterBlock >;
 %template (scfCombineParameterBlock) scfImplementation1<celCombineParameterBlock,iCelParameterBlock >;
 %template (scfOneParameterBlock) scfImplementation1<celOneParameterBlock,iCelParameterBlock >;

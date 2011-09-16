@@ -206,34 +206,28 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     const char* extra_arg2 = cmdline->GetName (4);
     const char* extra_arg3 = cmdline->GetName (5);
     celData ret;
-    celGenericParameterBlock* params = NULL;
+    csRef<celVariableParameterBlock> params;
     csStringID id_par1 = pl->FetchStringID ("parameter1");
     csStringID id_par2 = pl->FetchStringID ("parameter2");
     csStringID id_par3 = pl->FetchStringID ("parameter3");
 
     if (extra_arg3)
     {
-      params = new celGenericParameterBlock (3);
-      params->SetParameterDef (0, id_par1);
-      params->SetParameterDef (1, id_par2);
-      params->SetParameterDef (2, id_par3);
-      params->GetParameter(0).Set(extra_arg1);
-      params->GetParameter(1).Set(extra_arg2);
-      params->GetParameter(2).Set(extra_arg3);
+      params.AttachNew (new celVariableParameterBlock (3));
+      params->AddParameter (id_par1).Set (extra_arg1);
+      params->AddParameter (id_par2).Set (extra_arg2);
+      params->AddParameter (id_par3).Set (extra_arg3);
     }
     else if (extra_arg2)
     {
-      params = new celGenericParameterBlock (2);
-      params->SetParameterDef (0, id_par1);
-      params->SetParameterDef (1, id_par2);
-      params->GetParameter(0).Set(extra_arg1);
-      params->GetParameter(1).Set(extra_arg2);
+      params.AttachNew (new celVariableParameterBlock (2));
+      params->AddParameter (id_par1).Set (extra_arg1);
+      params->AddParameter (id_par2).Set (extra_arg2);
     }
     else if (extra_arg1)
     {
-      params = new celGenericParameterBlock (1);
-      params->SetParameterDef (0, id_par1);
-      params->GetParameter(0).Set(extra_arg1);
+      params.AttachNew (new celVariableParameterBlock (1));
+      params->AddParameter (id_par1).Set (extra_arg1);
     }
     behave->SendMessage (extra_method, 0, ret, params);
   }

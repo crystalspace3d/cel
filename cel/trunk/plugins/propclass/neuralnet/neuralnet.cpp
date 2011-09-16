@@ -229,11 +229,11 @@ bool celPcNeuralNet::Validate()
   layers.SetSize(size_t(numLayers + 1));
   if (! InitLayerSizes()) return false;
 
-  params.AttachNew(new celGenericParameterBlock (numOutputs));
+  params.AttachNew (new celVariableParameterBlock (numOutputs));
   for (size_t i = 0; i < size_t(numOutputs); i++)
   {
     csString id ("output"); id << i;
-    params->SetParameterDef(i, pl->FetchStringID(id));
+    params->AddParameter (pl->FetchStringID(id));
   }
 
   valid = true;

@@ -646,11 +646,11 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     param_group = pl->FetchStringID ("group");
   }
 
-  params = new celGenericParameterBlock (4);
-  params->SetParameterDef (0, param_otherbody);
-  params->SetParameterDef (1, param_position);
-  params->SetParameterDef (2, param_normal);
-  params->SetParameterDef (3, param_depth);
+  params.AttachNew (new celVariableParameterBlock (4));
+  params->AddParameter (param_otherbody);
+  params->AddParameter (param_position);
+  params->AddParameter (param_normal);
+  params->AddParameter (param_depth);
 
   propholder = &propinfo;
 
@@ -716,7 +716,6 @@ celPcMechanicsObject::~celPcMechanicsObject ()
   if (scfiDynamicsCollisionCallback)
     scfiDynamicsCollisionCallback->DecRef ();
 
-  delete params;
   delete bdata;
 }
 

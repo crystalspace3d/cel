@@ -48,7 +48,7 @@ class celPcNeuralNet : public
   scfImplementationExt1<celPcNeuralNet, celPcCommon, iPcNeuralNet>
 {
   static PropertyHolder propinfo;
-  csRef<celGenericParameterBlock> params;
+  csRef<celVariableParameterBlock> params;
 
   csRef<iMessageDispatcher> dispatcher_outputs;
 

@@ -308,7 +308,7 @@ private:
   static csStringID param_depth;
   static csStringID param_group;
 
-  celGenericParameterBlock* params;
+  csRef<celVariableParameterBlock> params;
 
   csRef<iMessageDispatcher> dispatcher_cd;
 

@@ -403,7 +403,7 @@ private:
   static PropertyHolder propinfo;
 
   static csStringID id_x, id_y, id_button, id_entity;
-  celGenericParameterBlock* params;
+  csRef<celVariableParameterBlock> params;
 #define MSSM_TYPE_DOWN 0
 #define MSSM_TYPE_UP 1
 #define MSSM_TYPE_MOVE 2

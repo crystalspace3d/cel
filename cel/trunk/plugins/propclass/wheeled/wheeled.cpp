@@ -260,12 +260,12 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   AddProperty (propid_antiswaylimit, "antiswaylimit",
          CEL_DATA_FLOAT, true, "Anti-sway limit.",&antiswaylimit);
   
-  params = new celGenericParameterBlock (5);
-  params->SetParameterDef (0, param_otherbody);
-  params->SetParameterDef (1, param_position);
-  params->SetParameterDef (2, param_normal);
-  params->SetParameterDef (3, param_depth);
-  params->SetParameterDef (4, param_index);
+  params.AttachNew (new celVariableParameterBlock (5));
+  params->AddParameter (param_otherbody);
+  params->AddParameter (param_position);
+  params->AddParameter (param_normal);
+  params->AddParameter (param_depth);
+  params->AddParameter (param_index);
   
   pl->CallbackOnce ((iCelTimerListener*)this, 25, CEL_EVENT_PRE);
 }

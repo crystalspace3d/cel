@@ -235,7 +235,7 @@ private:
   //The csVector2 holds the indexes of left and right wheels in a group.
   csHash<csVector2, float> diffGroups;
   csRef<iPcMechanicsObject> bodyMech;
-  celGenericParameterBlock* params;
+  csRef<celVariableParameterBlock> params;
   int topgear;
   bool cd_enabled;
   // Other fields.

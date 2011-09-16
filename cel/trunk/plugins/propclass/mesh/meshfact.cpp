@@ -1456,11 +1456,11 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
     id_normal = pl->FetchStringID ("normal");
     id_camera = pl->FetchStringID ("camera");
   }
-  params = new celGenericParameterBlock (4);
-  params->SetParameterDef (0, id_x);
-  params->SetParameterDef (1, id_y);
-  params->SetParameterDef (2, id_button);
-  params->SetParameterDef (3, id_entity);
+  params.AttachNew (new celVariableParameterBlock (4));
+  params->AddParameter (id_x);
+  params->AddParameter (id_y);
+  params->AddParameter (id_button);
+  params->AddParameter (id_entity);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
@@ -1498,7 +1498,6 @@ celPcMeshSelect::~celPcMeshSelect ()
   if (handler)
     handler->UnregisterMeshSelect (this);
   SetCamera (0);
-  delete params;
 }
 
 bool celMeshSelectListener::HandleEvent (iEvent& ev)
