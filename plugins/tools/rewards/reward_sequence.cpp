@@ -79,15 +79,15 @@ csPtr<iReward> celSequenceRewardFactory::CreateReward (
   else
   {
     if (seq.IsValid())
-	{
-	  reward = new celSequenceReward (type,
-  	    params, entity_par, tag_par, sequence_par, delay_par, seq);
-	}
-	else
-	{
-	  reward = new celSequenceReward (type,
-  	    params, entity_par, tag_par, sequence_par, delay_par);
-	}
+    {
+      reward = new celSequenceReward (type,
+	params, entity_par, tag_par, sequence_par, delay_par, seq);
+    }
+    else
+    {
+      reward = new celSequenceReward (type,
+	params, entity_par, tag_par, sequence_par, delay_par);
+    }
   }
 
   return reward;

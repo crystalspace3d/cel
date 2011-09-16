@@ -46,7 +46,6 @@ enum
   XMLTOKEN_PROPCLASS,
   XMLTOKEN_PROPERTY,
   XMLTOKEN_ACTION,
-  XMLTOKEN_PAR,
   XMLTOKEN_PARAMS,
   XMLTOKEN_CALL,
   XMLTOKEN_CLASS,
@@ -94,7 +93,6 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("propclass", XMLTOKEN_PROPCLASS);
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
-  xmltokens.Register ("par", XMLTOKEN_PAR);
   xmltokens.Register ("params", XMLTOKEN_PARAMS);
   xmltokens.Register ("call", XMLTOKEN_CALL);
   xmltokens.Register ("class", XMLTOKEN_CLASS);
@@ -435,7 +433,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
         break;
       }
       case XMLTOKEN_PARAMS:
-              // Handled above.
+        // Handled above.
         break;
       default:
         synldr->ReportBadToken (child);
