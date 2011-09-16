@@ -37,7 +37,7 @@ class celParameterManager : public scfImplementation2<celParameterManager,
 private:
   iObjectRegistry* object_reg;
   csWeakRef<iCelPlLayer> pl;
-  csRef<iCelExpressionParser> expparser;
+  csWeakRef<iCelExpressionParser> expparser;
   iCelExpressionParser* GetParser ();
 
   csString str;	// Temporary string returned by ResolveParameter().
