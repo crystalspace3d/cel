@@ -626,6 +626,9 @@
 				RelativePath="..\..\libs\celtool\stdmsgchannel.cpp">
 			</File>
 			<File
+				RelativePath="..\..\libs\celtool\stdparams.cpp">
+			</File>
+			<File
 				RelativePath="..\..\libs\celtool\stdpcimp.cpp">
 			</File>
 		</Filter>

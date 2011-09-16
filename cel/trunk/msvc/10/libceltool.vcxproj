@@ -478,6 +478,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\libs\celtool\persisthelper.cpp" />
     <ClCompile Include="..\..\libs\celtool\staticvarcleanup.cpp" />
     <ClCompile Include="..\..\libs\celtool\stdmsgchannel.cpp" />
+    <ClCompile Include="..\..\libs\celtool\stdparams.cpp" />
     <ClCompile Include="..\..\libs\celtool\stdpcimp.cpp" />
   </ItemGroup>
   <ItemGroup>
