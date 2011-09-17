@@ -536,9 +536,9 @@ class iCelPlLayer(cspace.iBase):
     __swig_destroy__ = _blcelc.delete_iCelPlLayer
     __del__ = lambda self : None;
     def CreateParameterBlock(self,valdict):
-    	"""Create a celGenericParameterBlock from a dict, list or
+    	"""Create a celVariableParameterBlock from a dict, list or
     	tuple"""
-    	parblock = celGenericParameterBlock(len(valdict))
+    	parblock = celVariableParameterBlock(len(valdict))
     	for idx,valkey in enumerate(valdict):
     		keyid = self.FetchStringID(valkey)
     		parblock.SetParameterDef (idx,keyid)
@@ -932,20 +932,6 @@ class iCelBehaviour(cspace.iBase):
 iCelBehaviour_swigregister = _blcelc.iCelBehaviour_swigregister
 iCelBehaviour_swigregister(iCelBehaviour)
 
-class scfGenericParameterBlock(iCelParameterBlock):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def IncRef(*args): return _blcelc.scfGenericParameterBlock_IncRef(*args)
-    def DecRef(*args): return _blcelc.scfGenericParameterBlock_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.scfGenericParameterBlock_GetRefCount(*args)
-    def QueryInterface(*args): return _blcelc.scfGenericParameterBlock_QueryInterface(*args)
-    def AddRefOwner(*args): return _blcelc.scfGenericParameterBlock_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.scfGenericParameterBlock_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.scfGenericParameterBlock_GetInterfaceMetadata(*args)
-scfGenericParameterBlock_swigregister = _blcelc.scfGenericParameterBlock_swigregister
-scfGenericParameterBlock_swigregister(scfGenericParameterBlock)
-
 class scfVariableParameterBlock(iCelParameterBlock):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -988,6 +974,21 @@ class scfOneParameterBlock(iCelParameterBlock):
 scfOneParameterBlock_swigregister = _blcelc.scfOneParameterBlock_swigregister
 scfOneParameterBlock_swigregister(scfOneParameterBlock)
 
+class celParSpec(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    type = _swig_property(_blcelc.celParSpec_type_get, _blcelc.celParSpec_type_set)
+    id = _swig_property(_blcelc.celParSpec_id_get, _blcelc.celParSpec_id_set)
+    value = _swig_property(_blcelc.celParSpec_value_get, _blcelc.celParSpec_value_set)
+    def __init__(self, *args): 
+        this = _blcelc.new_celParSpec(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celParSpec
+    __del__ = lambda self : None;
+celParSpec_swigregister = _blcelc.celParSpec_swigregister
+celParSpec_swigregister(celParSpec)
+
 class celParameterTools(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
@@ -1002,6 +1003,9 @@ class celParameterTools(object):
     ToColor = staticmethod(_blcelc.celParameterTools_ToColor)
     ToColor4 = staticmethod(_blcelc.celParameterTools_ToColor4)
     Convert = staticmethod(_blcelc.celParameterTools_Convert)
+    ParseParSpecBlock = staticmethod(_blcelc.celParameterTools_ParseParSpecBlock)
+    GetParameterBlock = staticmethod(_blcelc.celParameterTools_GetParameterBlock)
+    FillParameterBlock = staticmethod(_blcelc.celParameterTools_FillParameterBlock)
     def __init__(self, *args): 
         this = _blcelc.new_celParameterTools(*args)
         try: self.this.append(this)
@@ -1021,29 +1025,9 @@ celParameterTools_ToVector4 = _blcelc.celParameterTools_ToVector4
 celParameterTools_ToColor = _blcelc.celParameterTools_ToColor
 celParameterTools_ToColor4 = _blcelc.celParameterTools_ToColor4
 celParameterTools_Convert = _blcelc.celParameterTools_Convert
-
-class celGenericParameterBlock(scfGenericParameterBlock):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_celGenericParameterBlock(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_celGenericParameterBlock
-    __del__ = lambda self : None;
-    def SetParameterDef(*args): return _blcelc.celGenericParameterBlock_SetParameterDef(*args)
-    def GetParameterCount(*args): return _blcelc.celGenericParameterBlock_GetParameterCount(*args)
-    def GetParameterDef(*args): return _blcelc.celGenericParameterBlock_GetParameterDef(*args)
-    def GetParameter(*args): return _blcelc.celGenericParameterBlock_GetParameter(*args)
-    def GetParameterByIndex(*args): return _blcelc.celGenericParameterBlock_GetParameterByIndex(*args)
-    ParameterDef = _swig_property(None, fix_args(_blcelc.celGenericParameterBlock_SetParameterDef), None,
-                    "celGenericParameterBlock.ParameterDef -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: celGenericParameterBlock::getmethod()\n\tset: void celGenericParameterBlock::SetParameterDef(...)")
-
-    ParameterCount = _swig_property(_blcelc.celGenericParameterBlock_ParameterCount_get, None, None,
-                    "celGenericParameterBlock.ParameterCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t celGenericParameterBlock::GetParameterCount()")
-
-celGenericParameterBlock_swigregister = _blcelc.celGenericParameterBlock_swigregister
-celGenericParameterBlock_swigregister(celGenericParameterBlock)
+celParameterTools_ParseParSpecBlock = _blcelc.celParameterTools_ParseParSpecBlock
+celParameterTools_GetParameterBlock = _blcelc.celParameterTools_GetParameterBlock
+celParameterTools_FillParameterBlock = _blcelc.celParameterTools_FillParameterBlock
 
 class celVariable(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
