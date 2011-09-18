@@ -76,6 +76,9 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   tilt.speed = 0.0f;
   tilt.accel = 3.0f;
 
+  corrpos.Set (0.0f);
+  corrtar.Set (0.0f);
+
   was_corrected = false;
   zoomoutcorrspeed = 1.0f;
 
