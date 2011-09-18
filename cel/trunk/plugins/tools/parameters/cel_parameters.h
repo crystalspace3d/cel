@@ -89,6 +89,7 @@ public:
   }
   virtual int32 GetLong (iCelParameterBlock*);
   virtual float GetFloat (iCelParameterBlock*);
+  virtual bool GetBool (iCelParameterBlock*);
 };
 
 //---------------------------------------------------------------------------
@@ -118,6 +119,7 @@ public:
   virtual const celData* GetData (iCelParameterBlock* params);
   virtual int32 GetLong (iCelParameterBlock* params);
   virtual float GetFloat (iCelParameterBlock*);
+  virtual bool GetBool (iCelParameterBlock*);
 };
 
 //---------------------------------------------------------------------------
@@ -149,6 +151,7 @@ public:
   virtual const celData* GetData (iCelParameterBlock* params);
   virtual int32 GetLong (iCelParameterBlock* params);
   virtual float GetFloat (iCelParameterBlock*);
+  virtual bool GetBool (iCelParameterBlock*);
 };
 
 //---------------------------------------------------------------------------
