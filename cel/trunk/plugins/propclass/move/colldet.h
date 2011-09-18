@@ -113,8 +113,7 @@ public:
                             float delta,
                             iMovable* movable);
 
-  virtual bool QueryRevert()
-  { return collider_actor.CheckRevertMove ();}
+  virtual bool QueryRevert() { return false; }
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
