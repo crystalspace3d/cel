@@ -78,7 +78,7 @@ public:
   virtual iCelEntity* Load (const char* path, const char* file,
       iMeshWrapper* mesh = 0);
 
-  virtual bool IsThreadSafe(void) { return true; }
+  virtual bool IsThreadSafe() { return false; }
 };
 
 #endif // __CEL_ADDON_CELENTITY__

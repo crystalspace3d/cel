@@ -78,7 +78,7 @@ public:
   virtual iCelEntityTemplate* Load (iDocumentNode* node);
   virtual iCelEntityTemplate* Load (const char* path, const char* file);
 
-  virtual bool IsThreadSafe(void) { return true; }
+  virtual bool IsThreadSafe() { return false; }
 };
 
 #endif // __CEL_ADDON_CELENTITYTPL__
