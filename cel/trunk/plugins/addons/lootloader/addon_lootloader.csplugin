@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- addon_lootloader.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.addons.lootloader</name>
+        <implementation>celAddOnLootLoader</implementation>
+	<description>CEL LootLoader Addon</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
