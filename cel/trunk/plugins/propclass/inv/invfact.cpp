@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "csutil/util.h"
 #include "iutil/objreg.h"
+#include "iutil/plugin.h"
 #include "plugins/propclass/inv/invfact.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/datatype.h"
@@ -27,6 +28,7 @@
 #include "physicallayer/entity.h"
 #include "behaviourlayer/behave.h"
 #include "ivaria/reporter.h"
+#include "tools/loot.h"
 
 //---------------------------------------------------------------------------
 
@@ -71,7 +73,7 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
     id_amount = pl->FetchStringID ("amount");
     id_name = pl->FetchStringID ("name");
   }
-  params = new celVariableParameterBlock ();
+  params.AttachNew (new celVariableParameterBlock ());
   params->SetParameterDef (0, id_entity);
   params->SetParameterDef (1, id_amount);
 
@@ -81,13 +83,14 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
     SetActionMask ("cel.inventory.action.");
     AddAction (action_addtemplate, "AddTemplate");
     AddAction (action_removetemplate, "RemoveTemplate");
+    AddAction (action_setlootgenerator, "SetLootGenerator");
   }
+  generatorActive = false;
 }
 
 celPcInventory::~celPcInventory ()
 {
   RemoveAllConstraints ();
-  delete params;
 }
 
 bool celPcInventory::PerformActionIndexed (int idx,
@@ -124,6 +127,27 @@ bool celPcInventory::PerformActionIndexed (int idx,
     }
     bool rc = RemoveEntityTemplate (tpl, amount);
     ret.Set (rc);
+    return true;
+  }
+  else if (idx == action_setlootgenerator)
+  {
+    csRef<iLootManager> lootmgr = csLoadPluginCheck<iLootManager> (object_reg, "cel.tools.lootmanager");
+    if (!lootmgr)
+    {
+      // @@@ Proper error.
+      printf ("Can't find loot manager!\n");
+      return false;
+    }
+    CEL_FETCH_STRING_PAR (name,params,id_name);
+    if (!p_name) return false;
+    iLootGenerator* gen = lootmgr->FindLootGenerator (name);
+    if (!gen)
+    {
+      // @@@ Proper error.
+      printf ("Can't find loot generator'%s'!\n", name);
+      return false;
+    }
+    SetLootGenerator (gen);
     return true;
   }
   return false;
@@ -1027,6 +1051,12 @@ bool celPcInventory::IsClassAllowed (csStringID cls) const
 {
   if (allowedClasses.IsEmpty ()) return true;
   return allowedClasses.Contains (cls);
+}
+
+void celPcInventory::SetLootGenerator (iLootGenerator* generator)
+{
+  celPcInventory::generator = generator;
+  generatorActive = true;
 }
 
 //---------------------------------------------------------------------------
