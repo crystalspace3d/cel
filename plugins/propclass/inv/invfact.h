@@ -82,9 +82,12 @@ private:
 
   static csStringID id_entity;
   static csStringID id_amount;
-  celVariableParameterBlock* params;
+  csRef<celVariableParameterBlock> params;
 
   csRef<iCelInventorySpace> space;
+
+  csRef<iLootGenerator> generator;
+  bool generatorActive;
 
   csSet<csStringID> allowedClasses;
 
@@ -92,7 +95,8 @@ private:
   enum actionids
   {
     action_addtemplate = 0,
-    action_removetemplate
+    action_removetemplate,
+    action_setlootgenerator
   };
   static csStringID id_name;
 
@@ -158,6 +162,9 @@ public:
   virtual void AddAllowedClass (csStringID cls);
   virtual void ClearAllowedClasses ();
   virtual bool IsClassAllowed (csStringID cls) const;
+
+  virtual void SetLootGenerator (iLootGenerator* generator);
+  virtual iLootGenerator* GetLootGenerator () const { return generator; }
 };
 
 /**

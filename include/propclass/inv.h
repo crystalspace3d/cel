@@ -27,6 +27,7 @@
 struct iCelEntity;
 struct iCelEntityTemplate;
 struct iPcInventory;
+struct iLootGenerator;
 
 /**
  * Listen to inventory changes.
@@ -163,6 +164,7 @@ struct iCelInventorySpace : public virtual iBase
  * if you want to access this action through a message):
  * - AddTemplate: parameters 'name' (string), 'amount' (long), returns true/false.
  * - RemoveTemplate: parameters 'name' (string), 'amount' (long), returns true/false.
+ * - SetLootGenerator: parameters 'name' (string, name of the generator)
  *
  * This property class can send out the following messages
  * (possibly to the containing entity as well as the child entity):
@@ -431,6 +433,20 @@ struct iPcInventory : public virtual iBase
    * were given then this will always return true.
    */
   virtual bool IsClassAllowed (csStringID cls) const = 0;
+
+  /**
+   * Set a loot generator for this inventory. As soon as this is set
+   * it will be used as soon as the inventory is opened (querried).
+   * If the inventory already contains items then the loot will be
+   * appended. To reactivate a given loot generator you just have
+   * to call this function again.
+   */
+  virtual void SetLootGenerator (iLootGenerator* generator) = 0;
+
+  /**
+   * Get the loot generator for this inventory.
+   */
+  virtual iLootGenerator* GetLootGenerator () const = 0;
 };
 
 #endif // __CEL_PF_INV__
