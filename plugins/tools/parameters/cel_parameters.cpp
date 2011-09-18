@@ -59,6 +59,13 @@ static float ToFloat (const celData* data)
   return f;
 }
 
+static bool ToBool (const celData* data)
+{
+  bool b;
+  celParameterTools::ToBool (*data, b);
+  return b;
+}
+
 //---------------------------------------------------------------------------
 
 bool celParameterManager::Initialize (iObjectRegistry* r)
@@ -241,6 +248,11 @@ float celConstantParameter::GetFloat (iCelParameterBlock*)
   return ToFloat (&data);
 }
 
+bool celConstantParameter::GetBool (iCelParameterBlock*)
+{
+  return ToBool (&data);
+}
+
 //---------------------------------------------------------------------------
 
 const celData* celDynamicParameter::GetData (iCelParameterBlock* params)
@@ -287,6 +299,12 @@ float celDynamicParameter::GetFloat (iCelParameterBlock* params)
 {
   const celData* data = GetData (params);
   return ToFloat (data);
+}
+
+bool celDynamicParameter::GetBool (iCelParameterBlock* params)
+{
+  const celData* data = GetData (params);
+  return ToBool (data);
 }
 
 const char* celDynamicParameter::Get (iCelParameterBlock* params,
@@ -338,6 +356,12 @@ float celExpressionParameter::GetFloat (iCelParameterBlock* params)
 {
   const celData* data = GetData (params);
   return ToFloat (data);
+}
+
+bool celExpressionParameter::GetBool (iCelParameterBlock* params)
+{
+  const celData* data = GetData (params);
+  return ToBool (data);
 }
 
 const char* celExpressionParameter::Get (iCelParameterBlock* params,
