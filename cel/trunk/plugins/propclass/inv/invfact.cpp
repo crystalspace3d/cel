@@ -84,6 +84,7 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
     AddAction (action_addtemplate, "AddTemplate");
     AddAction (action_removetemplate, "RemoveTemplate");
     AddAction (action_setlootgenerator, "SetLootGenerator");
+    AddAction (action_generateloot, "GenerateLoot");
   }
   generatorActive = false;
 }
@@ -91,6 +92,19 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
 celPcInventory::~celPcInventory ()
 {
   RemoveAllConstraints ();
+}
+
+bool celPcInventory::GenerateLoot ()
+{
+  if (!generatorActive) return true;
+  generatorActive = false;
+  if (!generator) return true;
+
+  csRef<celOneParameterBlock> params;
+  params.AttachNew (new celOneParameterBlock ());
+  params->SetParameterDef (pl->FetchStringID ("this"));
+  params->GetParameter (0).Set (entity);
+  return generator->GenerateLoot (this, params);
 }
 
 bool celPcInventory::PerformActionIndexed (int idx,
@@ -148,6 +162,11 @@ bool celPcInventory::PerformActionIndexed (int idx,
       return false;
     }
     SetLootGenerator (gen);
+    return true;
+  }
+  else if (idx == action_generateloot)
+  {
+    ret.Set (GenerateLoot ());
     return true;
   }
   return false;
@@ -593,6 +612,8 @@ bool celPcInventory::RemoveAll ()
     TemplateStack& ts = templatedContents[0];
     if (!RemoveEntityTemplate (ts.tpl, ts.amount)) return false;
   }
+  generatorActive = false;
+  generator = 0;
 
   if (space) space->RemoveAll();
 
@@ -601,6 +622,7 @@ bool celPcInventory::RemoveAll ()
 
 iCelEntity* celPcInventory::GetEntity (size_t idx) const
 {
+  // Loot doesn't affect entities (only templates).
   CS_ASSERT ((idx != csArrayItemNotFound) && idx < contents.GetSize ());
   iCelEntity* ent = (iCelEntity*)contents[idx];
   return ent;
@@ -608,6 +630,7 @@ iCelEntity* celPcInventory::GetEntity (size_t idx) const
 
 bool celPcInventory::In (iCelEntity* entity) const
 {
+  // Loot doesn't affect entities (only templates).
   return contents.Contains (entity) != csArrayItemNotFound;
 }
 
@@ -621,6 +644,7 @@ bool celPcInventory::In (const char* name) const
   size_t idx;
   idx = FindEntity (name);
   if (idx != csArrayItemNotFound) return true;
+
   idx = FindEntityTemplate (name);
   return idx != csArrayItemNotFound;
 }
@@ -702,12 +726,12 @@ celPcInventory::constraint* celPcInventory::FindConstraint (
   return 0;
 }
 
-void celPcInventory::SetSpace(iCelInventorySpace* space)
+void celPcInventory::SetSpace (iCelInventorySpace* space)
 {
   this->space = space;
 }
 
-iCelInventorySpace* celPcInventory::GetSpace()
+iCelInventorySpace* celPcInventory::GetSpace ()
 {
   return space;
 }

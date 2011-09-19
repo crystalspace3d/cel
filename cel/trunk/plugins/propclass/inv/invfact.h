@@ -96,7 +96,8 @@ private:
   {
     action_addtemplate = 0,
     action_removetemplate,
-    action_setlootgenerator
+    action_setlootgenerator,
+    action_generateloot
   };
   static csStringID id_name;
 
@@ -165,6 +166,7 @@ public:
 
   virtual void SetLootGenerator (iLootGenerator* generator);
   virtual iLootGenerator* GetLootGenerator () const { return generator; }
+  virtual bool GenerateLoot ();
 };
 
 /**

@@ -280,7 +280,7 @@ bool ElcmTest::CreatePlayer ()
   inventory->AddEntity (dummy);
   dummy = pl->CreateEntity ("Dummy 3", 0, 0, CEL_PROPCLASS_END);
   inventory->AddEntity (dummy);
-  iCelEntityTemplate* goldTemplate = pl->FindEntityTemplate ("gold");
+  iCelEntityTemplate* goldTemplate = pl->FindEntityTemplate ("Gold");
   inventory->AddEntityTemplate (goldTemplate, 100);
 
   elcm->SetPlayer (playerEntity);
@@ -308,6 +308,7 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
     {
       csString title;
       title.Format ("Inventory for %s", ent->QueryObject ()->GetName ());
+      inventory->GenerateLoot ();
       uiInventory->Open (title, inventory);
     }
     return true;

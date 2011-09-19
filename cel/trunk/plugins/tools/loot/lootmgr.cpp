@@ -86,6 +86,7 @@ bool celLootPackage::GenerateLoot (iPcInventory* inventory, iCelParameterBlock* 
       item.attempts--;
       itemsIdx++;
     }
+    if (itemsIdx >= itemsCopy.GetSize ()) itemsIdx = 0;	// Wrap
   }
 
   for (size_t i = 0 ; i < loot.GetSize () ; i++)
