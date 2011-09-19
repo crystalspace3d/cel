@@ -78,6 +78,8 @@ bool ElcmTest::InitWindowSystem ()
 
   uiInventory = csQueryRegistry<iUIInventory> (GetObjectRegistry ());
   if (!uiInventory) return ReportError ("Failed to locate UI Inventory plugin!");
+  uiInventory2 = csQueryRegistry<iUIInventory2> (GetObjectRegistry ());
+  if (!uiInventory2) return ReportError ("Failed to locate UI Double Inventory plugin!");
 
   return true;
 }
@@ -243,9 +245,6 @@ bool ElcmTest::CreatePlayer ()
   // Get iPcLinearMovement so we can setup the movement system.
   csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (playerEntity);
   pclinmove->InitCD (pcmesh->GetMesh (), 0.3f);
-      //csVector3 (0.5f,  0.8f, 0.5f),
-      //csVector3 (0.5f,  0.4f, 0.5f),
-      //csVector3 (0.0f, -0.4f, 0.0f));
 
   // Get the iPcActorMove interface so that we can set movement speed.
   //csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (playerEntity);
@@ -306,10 +305,12 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
     }
     else
     {
-      csString title;
-      title.Format ("Inventory for %s", ent->QueryObject ()->GetName ());
       inventory->GenerateLoot ();
-      uiInventory->Open (title, inventory);
+      csRef<iPcInventory> playerInv = celQueryPropertyClassEntity<iPcInventory> (
+	  playerEntity);
+      csString title;
+      title.Format ("Inventory '%s' <-> 'player'", ent->GetName ());
+      uiInventory2->Open (title, inventory, playerInv);
     }
     return true;
   }
@@ -375,6 +376,7 @@ bool ElcmTest::OnInitialize (int argc, char* argv[])
     	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN ("crystalspace.cegui.wrapper", iCEGUI),
     	CS_REQUEST_PLUGIN ("cel.ui.inventory", iUIInventory),
+    	CS_REQUEST_PLUGIN ("cel.ui.inventory2", iUIInventory2),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
     	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),

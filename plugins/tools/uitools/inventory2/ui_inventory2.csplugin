@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- ui_inventory2.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.ui.inventory2</name>
+        <implementation>celUIInventory2</implementation>
+	<description>CEL Double Inventory UI</description>
+        <requires>
+          <class>crystalspace.cegui.wrapper</class>
+        </requires>
+      </class>
+    </classes>
+  </scf>
+</plugin>

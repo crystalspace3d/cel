@@ -8,6 +8,7 @@
 #include <propclass/dynworld.h>
 #include <tools/elcm.h>
 #include <tools/uitools/inventory.h>
+#include <tools/uitools/inventory2.h>
 
 class ElcmTest;
 class FramePrinter;
@@ -48,6 +49,7 @@ private:
   csRef<CeguiPrinter> ceguiPrinter;
   csRef<iCEGUI> cegui;
   csRef<iUIInventory> uiInventory;
+  csRef<iUIInventory2> uiInventory2;
 
   csRef<iMessageReceiver> receiver;
   csStringID msgInventory;
