@@ -39,6 +39,7 @@
 #include "ivaria/reporter.h"
 #include "ivaria/dynamics.h"
 #include "ivaria/ode.h"
+#include "ivaria/bullet.h"
 
 #include "plugins/propclass/mechanics/common.h"
 #include "plugins/propclass/mechanics/mechanics.h"
@@ -59,6 +60,7 @@ csStringID celPcMechanicsSystem::param_dynsys = csInvalidStringID;
 csStringID celPcMechanicsSystem::param_gravity = csInvalidStringID;
 csStringID celPcMechanicsSystem::param_time = csInvalidStringID;
 csStringID celPcMechanicsSystem::param_simulationspeed = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_plugin = csInvalidStringID;
 PropertyHolder celPcMechanicsSystem::propinfo;
 
 celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
@@ -72,6 +74,7 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
   delta = 0.01f;
   remaining_delta = 0;
   simulationspeed=1.0f;
+  pluginName = "crystalspace.dynamics.ode";
 
   if (param_dynsys == csInvalidStringID)
   {
@@ -80,6 +83,7 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
     param_gravity = pl->FetchStringID ("gravity");
     param_time = pl->FetchStringID ("time");
     param_simulationspeed = pl->FetchStringID ("simulationspeed");
+    param_plugin = pl->FetchStringID ("plugin");
   }
 
   propholder = &propinfo;
@@ -93,6 +97,7 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
     AddAction (action_disablestepfast, "DisableStepFast");
     AddAction (action_setsteptime, "SetStepTime");
     AddAction (action_setsimulationspeed, "SetSimulationSpeed");
+    AddAction (action_setplugin, "SetPlugin");
   }
 }
 
@@ -160,8 +165,7 @@ void celPcMechanicsSystem::ApplyForce (celForce& f)
 
 iDynamics* celPcMechanicsSystem::GetDynamics ()
 {
-  dynamics = csQueryRegistryOrLoad<iDynamics> (object_reg,
-  	"crystalspace.dynamics.ode");
+  dynamics = csQueryRegistryOrLoad<iDynamics> (object_reg, pluginName);
   if (!dynamics)
   {
     if (!dynsystem_error_reported)
@@ -178,27 +182,35 @@ void celPcMechanicsSystem::TickEveryFrame ()
 {
   GetDynamicSystem ();
   if (!dynamics) return;
-  csTicks elapsed_time = vc->GetElapsedTicks ();
+  float elapsed_time = vc->GetElapsedSeconds ();
 
-  // For ODE it is recommended that all steps are done with the
-  // same size. So we always will call dynamics->Step(delta) with
-  // the constant delta. However, sometimes our elapsed time
-  // is not divisible by delta and in that case we have a small
-  // time (smaller then delta) left-over. We can't afford to drop
-  // that because then speed of physics simulation would differ
-  // depending on framerate. So we will put that remainder in
-  // remaining_delta and use that here too.
-  float delta_modulated=delta*simulationspeed;
-  float et = remaining_delta + (float (elapsed_time) / (1000.0/simulationspeed));
-  while (et >= delta_modulated)
+  if (bullet_dynSys)
   {
-    ProcessForces (delta_modulated);
-    dynamics->Step (delta_modulated);
-    et -= delta_modulated;
+    ProcessForces (elapsed_time * simulationspeed);
+    dynamics->Step (elapsed_time * simulationspeed);
   }
+  else
+  {
+    // For ODE it is recommended that all steps are done with the
+    // same size. So we always will call dynamics->Step(delta) with
+    // the constant delta. However, sometimes our elapsed time
+    // is not divisible by delta and in that case we have a small
+    // time (smaller then delta) left-over. We can't afford to drop
+    // that because then speed of physics simulation would differ
+    // depending on framerate. So we will put that remainder in
+    // remaining_delta and use that here too.
+    float delta_modulated = delta*simulationspeed;
+    float et = remaining_delta + (elapsed_time / simulationspeed);
+    while (et >= delta_modulated)
+    {
+      ProcessForces (delta_modulated);
+      dynamics->Step (delta_modulated);
+      et -= delta_modulated;
+    }
 
-  // Now we have a small remainder. We remember that in remaining_delta.
-  remaining_delta = et;
+    // Now we have a small remainder. We remember that in remaining_delta.
+    remaining_delta = et;
+  }
 
   // Delete all expired forces and forces that were only
   // meant to be here for one frame.
@@ -247,6 +259,14 @@ iDynamicSystem* celPcMechanicsSystem::GetDynamicSystem ()
     dynsystem->SetGravity (csVector3 (0, -9.8f, 0));
 
     EnableStepFast ();
+
+    bullet_dynSys = scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (dynsystem);
+    if (bullet_dynSys)
+    {
+      dynsystem->SetRollingDampener(.995f);
+      bullet_dynSys->SetInternalScale (1.0f);
+      bullet_dynSys->SetStepParameters (0.005f, 2, 10);
+    }
   }
   return dynsystem;
 }
@@ -308,6 +328,20 @@ bool celPcMechanicsSystem::PerformActionIndexed (int idx,
 {
   switch (idx)
   {
+    case action_setplugin:
+      {
+        CEL_FETCH_STRING_PAR (plugin,params,param_plugin);
+        if (p_plugin)
+        {
+	  pluginName = plugin;
+        }
+        else
+        {
+          CS_REPORT(ERROR,"Couldn't get plugin name!");
+          return false;
+        }
+        return true;
+      }
     case action_setsystem:
       {
         CEL_FETCH_STRING_PAR (dynsys,params,param_dynsys);
