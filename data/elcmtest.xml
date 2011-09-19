@@ -21,6 +21,27 @@
     <addon plugin="cel.addons.celentitytpl" entityname="Copper" >
       <characteristic name="weight" value="0.08" />
     </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Book" >
+      <characteristic name="weight" value="0.5" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Paper" >
+      <characteristic name="weight" value="0.1" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Pen" >
+      <characteristic name="weight" value="0.2" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Pencil" >
+      <characteristic name="weight" value="0.2" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Note" >
+      <characteristic name="weight" value="0.1" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Feather" >
+      <characteristic name="weight" value="0.1" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Glasses" >
+      <characteristic name="weight" value="0.4" />
+    </addon>
 
     <addon plugin="cel.addons.lootloader">
     	<package name="ores" minloot="2" maxloot="6">
@@ -32,6 +53,19 @@
 	    <item template="Iron" chance="0.4" minamount="1" maxamount="20" />
 	    <item template="Copper" chance="0.4" minamount="1" maxamount="20" />
 	</package>
+    	<package name="reader" minloot="3" maxloot="6">
+	    <item template="Book" chance="0.1" minamount="1" maxamount="2" />
+	    <item template="Paper" chance="0.1" minamount="1" maxamount="5" />
+	    <item template="Pen" chance="0.1" minamount="1" maxamount="4" />
+	    <item template="Pencil" chance="0.1" minamount="1" maxamount="3" />
+	    <item template="Note" chance="0.1" minamount="1" maxamount="1" />
+	    <item template="Feather" chance="0.1" minamount="1" maxamount="3" />
+	    <item template="Glasses" chance="0.1" minamount="1" maxamount="1" />
+	</package>
+	<selector name="simpleboxloot">
+	    <generator name="ores" chance="0.5" />
+	    <generator name="reader" chance="1" />
+	</selector>
     </addon>
 
     <addon plugin="cel.addons.questdef" >
@@ -104,7 +138,7 @@
       </propclass>
       <propclass name="pctools.inventory">
 	<action name="SetLootGenerator">
-	  <par name="name" string="ores" />
+	  <par name="name" string="simpleboxloot" />
 	</action>
       </propclass>
       <characteristic name="weight" value="10.0" />
