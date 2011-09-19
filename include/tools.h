@@ -35,6 +35,7 @@
 #include "tools/expression.h"
 #include "tools/graphloader.h"
 #include "tools/ledges.h"
+#include "tools/loot.h"
 #include "tools/parameters.h"
 #include "tools/questmanager.h"
 #include "tools/rewards.h"

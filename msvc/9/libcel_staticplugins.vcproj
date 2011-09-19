@@ -608,6 +608,9 @@
 				RelativePath="..\..\msvc\libaddon_ledges_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libaddon_lootloader_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libaddon_questdef_staticreg.cpp">
 			</File>
 			<File
@@ -642,6 +645,9 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\libledges_staticreg.cpp">
+			</File>
+			<File
+				RelativePath="..\..\msvc\liblootmgr_staticreg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\msvc\libmgr_billboard_staticreg.cpp">
@@ -813,6 +819,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\addons\ledges\ledges.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\addons\lootloader\lootloader.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\addons\questdef\questdef.cpp">
@@ -1139,6 +1148,9 @@
 				RelativePath="..\..\plugins\tools\elcm\elcm.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\loot\lootmgr.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\parameters\cel_parameters.cpp">
 			</File>
 			<File
@@ -1446,6 +1458,9 @@
 				RelativePath="..\..\plugins\addons\ledges\ledges.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\addons\lootloader\lootloader.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\addons\questdef\questdef.h">
 			</File>
 			<File
@@ -1747,6 +1762,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\elcm\elcm.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\loot\lootmgr.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\parameters\cel_parameters.h">

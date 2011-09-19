@@ -467,6 +467,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libaddon_celgraph_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_dynworldload_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_ledges_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libaddon_lootloader_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_questdef_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_ruledef_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_xmlscripts_staticreg.cpp" />
@@ -479,6 +480,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libdecorators_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libelcm_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libledges_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\liblootmgr_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libmgr_billboard_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libmgr_quests_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libparameters_staticreg.cpp" />
@@ -536,6 +538,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\addons\celgraph\celgraph.cpp" />
     <ClCompile Include="..\..\plugins\addons\dynworldload\dynworldload.cpp" />
     <ClCompile Include="..\..\plugins\addons\ledges\ledges.cpp" />
+    <ClCompile Include="..\..\plugins\addons\lootloader\lootloader.cpp" />
     <ClCompile Include="..\..\plugins\addons\questdef\questdef.cpp" />
     <ClCompile Include="..\..\plugins\addons\ruledef\ruledef.cpp" />
     <ClCompile Include="..\..\plugins\addons\xmlscripts\xmlscripts.cpp" />
@@ -644,6 +647,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\tools\decorators\decorator_loop.cpp" />
     <ClCompile Include="..\..\plugins\tools\decorators\decorator_negatereturn.cpp" />
     <ClCompile Include="..\..\plugins\tools\elcm\elcm.cpp" />
+    <ClCompile Include="..\..\plugins\tools\loot\lootmgr.cpp" />
     <ClCompile Include="..\..\plugins\tools\parameters\cel_parameters.cpp" />
     <ClCompile Include="..\..\plugins\tools\quests\quests.cpp" />
     <ClCompile Include="..\..\plugins\tools\quests\reward_newstate.cpp" />
@@ -727,6 +731,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\addons\celgraph\celgraph.h" />
     <ClInclude Include="..\..\plugins\addons\dynworldload\dynworldload.h" />
     <ClInclude Include="..\..\plugins\addons\ledges\ledges.h" />
+    <ClInclude Include="..\..\plugins\addons\lootloader\lootloader.h" />
     <ClInclude Include="..\..\plugins\addons\questdef\questdef.h" />
     <ClInclude Include="..\..\plugins\addons\ruledef\ruledef.h" />
     <ClInclude Include="..\..\plugins\addons\xmlscripts\xmlscripts.h" />
@@ -828,6 +833,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\tools\decorators\decorator_loop.h" />
     <ClInclude Include="..\..\plugins\tools\decorators\decorator_negatereturn.h" />
     <ClInclude Include="..\..\plugins\tools\elcm\elcm.h" />
+    <ClInclude Include="..\..\plugins\tools\loot\lootmgr.h" />
     <ClInclude Include="..\..\plugins\tools\parameters\cel_parameters.h" />
     <ClInclude Include="..\..\plugins\tools\quests\quests.h" />
     <ClInclude Include="..\..\plugins\tools\quests\reward_newstate.h" />
