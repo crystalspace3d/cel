@@ -21,6 +21,7 @@
 #define __CEL_UITOOLS_INVENTORY__
 
 struct iCelEntity;
+struct iCelEntityTemplate;
 struct iPcInventory;
 
 /**
@@ -31,6 +32,7 @@ struct iUIInventorySelectionCallback : public virtual iBase
   SCF_INTERFACE (iUIInventorySelectionCallback, 0, 0, 1);
 
   virtual void SelectEntity (iCelEntity* entity) = 0;
+  virtual void SelectTemplate (iCelEntityTemplate* tpl) = 0;
 };
 
 /**

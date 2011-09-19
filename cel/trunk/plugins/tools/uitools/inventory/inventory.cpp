@@ -147,6 +147,19 @@ bool celUIInventory::Select (const CEGUI::EventArgs& e)
   if (text.empty()) return true;
 
   printf ("Selected '%s'\n", text.c_str());
+  size_t idx = inventory->FindEntity (text.c_str());
+  if (idx != csArrayItemNotFound)
+  {
+    FireSelectionListeners (inventory->GetEntity (idx));
+    return true;
+  }
+  idx = inventory->FindEntityTemplate (text.c_str());
+  if (idx != csArrayItemNotFound)
+  {
+    FireSelectionListeners (inventory->GetEntityTemplate (idx));
+    return true;
+  }
+
   return true;
 }
 
@@ -164,6 +177,12 @@ void celUIInventory::FireSelectionListeners (iCelEntity* entity)
 {
   for (size_t i = 0 ; i < callbacks.GetSize () ; i++)
     callbacks[i]->SelectEntity (entity);
+}
+
+void celUIInventory::FireSelectionListeners (iCelEntityTemplate* tpl)
+{
+  for (size_t i = 0 ; i < callbacks.GetSize () ; i++)
+    callbacks[i]->SelectTemplate (tpl);
 }
 
 void celUIInventory::Open (const char* title, iPcInventory* inventory)
