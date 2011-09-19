@@ -198,7 +198,7 @@ bool ElcmTest::CreateFactories ()
   box.SetMapper (&mapper);
 
   csRef<iMeshFactoryWrapper> boxFactory = GeneralMeshBuilder::CreateFactory (
-      engine, "Box", &box);
+      engine, "GlowBox", &box);
   boxFactory->GetMeshObjectFactory ()->SetMaterialWrapper (tm);
 
   if (!loader->LoadLibraryFile ("/cellib/lev/elcmtest.xml"))
@@ -212,21 +212,21 @@ bool ElcmTest::CreateFactories ()
 
 bool ElcmTest::FillDynamicWorld ()
 {
-  iDynamicFactory* boxFact = dynworld->AddFactory ("Box", 1.0, -1.0f);
+  iDynamicFactory* boxFact = dynworld->AddFactory ("GlowBox", 1.0, -1.0f);
   boxFact->AddRigidBox (csVector3 (0, .3, 0), csVector3 (.6, .6, .6), 1.0);
   csMatrix3 matId;
   iDynamicObject* obj;
   for (int y = -SIZE ; y <= SIZE ; y++)
     for (int x = -SIZE ; x <= SIZE ; x++)
     {
-      obj = dynworld->AddObject ("Box", csReversibleTransform (
+      obj = dynworld->AddObject ("GlowBox", csReversibleTransform (
 	    matId, csVector3 (float (x*5), 0, float (y*5))));
       csString name;
       name.Format ("box%d_%d", x+50, y+50);
       csRef<iCelParameterBlock> params;
       params.AttachNew (new celVariableParameterBlock ());
-      if (!obj->SetEntityTemplate ("glowBox", name, params))
-	return ReportError ("Could not set entity template 'glowBox'!");
+      if (!obj->SetEntity (name, params))
+	return ReportError ("Could not set entity template 'GlowBox'!");
     }
   return true;
 }
