@@ -48,6 +48,9 @@ struct iUIInventory2: public virtual iBase
       iPcInventory* inventoryRight) = 0;
   /// Close the inventory.
   virtual void Close () = 0;
+  /// While the inventory is open you can query both inventories.
+  virtual iPcInventory* GetLeftInventory () const = 0;
+  virtual iPcInventory* GetRightInventory () const = 0;
 
   /// Add a new selection listener.
   virtual void AddSelectionListener (iUIInventory2SelectionCallback* cb) = 0;

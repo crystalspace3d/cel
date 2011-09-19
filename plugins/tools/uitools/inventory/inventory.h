@@ -22,6 +22,7 @@
 
 #include <CEGUI.h>
 #include "csutil/util.h"
+#include "csutil/stringarray.h"
 #include "ivaria/icegui.h"
 
 #include "propclass/inv.h"
@@ -36,6 +37,8 @@ private:
   iObjectRegistry* object_reg;
   csRef<iCEGUI> cegui;
   csRef<iPcInventory> inventory;
+
+  csStringArray listNames;
 
   CEGUI::Window* window;
 
@@ -55,6 +58,8 @@ public:
   celUIInventory (iBase* parent);
   virtual ~celUIInventory ();
   virtual bool Initialize (iObjectRegistry* object_reg);
+
+  void Refresh ();
 
   virtual void Open (const char* title, iPcInventory* inventory);
   virtual void Close ();

@@ -35,16 +35,37 @@ private:
 
 public:
   ElcmMessageReceiver (ElcmTest* elcmTest) :
-    scfImplementationType (this), elcmTest (elcmTest)
-  {
-  }
-
+    scfImplementationType (this), elcmTest (elcmTest) { }
   virtual ~ElcmMessageReceiver () { }
 
   virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params)
   {
     return elcmTest->ReceiveMessage (msg_id, sender, ret, params);
+  }
+};
+
+//-----------------------------------------------------------------------
+
+class ElcmSelectionCallback : public scfImplementation1<ElcmSelectionCallback,
+  iUIInventory2SelectionCallback>
+{
+private:
+  ElcmTest* elcmTest;
+
+public:
+  ElcmSelectionCallback (ElcmTest* elcmTest) :
+    scfImplementationType (this), elcmTest (elcmTest) { }
+  virtual ~ElcmSelectionCallback () { }
+
+  virtual void SelectEntity (iCelEntity* entity, bool left)
+  {
+    elcmTest->SelectEntity (entity, left);
+  }
+
+  virtual void SelectTemplate (iCelEntityTemplate* tpl, bool left)
+  {
+    elcmTest->SelectTemplate (tpl, left);
   }
 };
 
@@ -80,6 +101,10 @@ bool ElcmTest::InitWindowSystem ()
   if (!uiInventory) return ReportError ("Failed to locate UI Inventory plugin!");
   uiInventory2 = csQueryRegistry<iUIInventory2> (GetObjectRegistry ());
   if (!uiInventory2) return ReportError ("Failed to locate UI Double Inventory plugin!");
+
+  csRef<ElcmSelectionCallback> cb;
+  cb.AttachNew (new ElcmSelectionCallback (this));
+  uiInventory2->AddSelectionListener (cb);
 
   return true;
 }
@@ -287,6 +312,49 @@ bool ElcmTest::CreatePlayer ()
   return true;
 }
 
+void ElcmTest::SelectEntity (iCelEntity* entity, bool left)
+{
+  iPcInventory* from, * to;
+  if (left)
+  {
+    from = uiInventory2->GetLeftInventory ();
+    to = uiInventory2->GetRightInventory ();
+  }
+  else
+  {
+    from = uiInventory2->GetRightInventory ();
+    to = uiInventory2->GetLeftInventory ();
+  }
+  if (!from || !to) return;
+  from->RemoveEntity (entity);
+  to->AddEntity (entity);
+}
+
+void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl, bool left)
+{
+  iPcInventory* from, * to;
+  if (left)
+  {
+    from = uiInventory2->GetLeftInventory ();
+    to = uiInventory2->GetRightInventory ();
+  }
+  else
+  {
+    from = uiInventory2->GetRightInventory ();
+    to = uiInventory2->GetLeftInventory ();
+  }
+  if (!from || !to) return;
+  size_t idx = from->FindEntityTemplate (tpl);
+  if (idx == csArrayItemNotFound)
+  {
+    printf ("Weird? Where did it go?\n");
+    return;
+  }
+  int amount = from->GetEntityTemplateAmount (idx);
+  from->RemoveEntityTemplate (tpl, amount);
+  to->AddEntityTemplate (tpl, amount);
+}
+
 bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params)
 {
@@ -324,7 +392,7 @@ void ElcmTest::Frame ()
   dynworld->PrepareView (camera, elapsed_time);
 }
 
-bool ElcmTest::OnKeyboard(iEvent& ev)
+bool ElcmTest::OnKeyboard (iEvent& ev)
 {
   // We got a keyboard event.
   csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
