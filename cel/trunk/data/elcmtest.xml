@@ -1,4 +1,28 @@
 <library>
+  <textures>
+    <texture name="parket.jpg"> <file>/lib/stdtex/parket.jpg</file> </texture>
+  </textures>
+  <materials>
+    <material name="wood"> <texture>parket.jpg</texture> </material>
+  </materials>
+
+  <meshfact name="GlowBox">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box>
+        <min x="-.3" y="0" z="-.3" />
+        <max x=".3" y=".6" z=".3" />
+      </box>
+      <material>wood</material>
+    </params>
+  </meshfact>
+
+  <addon plugin="cel.addons.dynamicworld.loader">
+    <dynworld name="world" />
+    <factory name="GlowBox" maxradius="1.0" imposterradius="-1.0" mass="1">
+      <box /> 
+    </factory>
+  </addon>
 
     <addon plugin="cel.addons.celentitytpl" entityname="Gold" >
       <characteristic name="weight" value="0.02" />

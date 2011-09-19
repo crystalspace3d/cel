@@ -47,8 +47,8 @@ public:
 
 //-----------------------------------------------------------------------
 
-class ElcmSelectionCallback : public scfImplementation1<ElcmSelectionCallback,
-  iUIInventory2SelectionCallback>
+class ElcmSelectionCallback : public scfImplementation2<ElcmSelectionCallback,
+  iUIInventory2SelectionCallback, iUIInventorySelectionCallback>
 {
 private:
   ElcmTest* elcmTest;
@@ -66,6 +66,16 @@ public:
   virtual void SelectTemplate (iCelEntityTemplate* tpl, bool left)
   {
     elcmTest->SelectTemplate (tpl, left);
+  }
+
+  virtual void SelectEntity (iCelEntity* entity)
+  {
+    elcmTest->SelectEntity (entity);
+  }
+
+  virtual void SelectTemplate (iCelEntityTemplate* tpl)
+  {
+    elcmTest->SelectTemplate (tpl);
   }
 };
 
@@ -104,6 +114,7 @@ bool ElcmTest::InitWindowSystem ()
 
   csRef<ElcmSelectionCallback> cb;
   cb.AttachNew (new ElcmSelectionCallback (this));
+  uiInventory->AddSelectionListener (cb);
   uiInventory2->AddSelectionListener (cb);
 
   return true;
@@ -186,25 +197,7 @@ bool ElcmTest::CreateLevel ()
 
 bool ElcmTest::CreateFactories ()
 {
-  using namespace CS::Geometry;
-  TesselatedBox box (csVector3 (-.3, 0, -.3), csVector3 (.3, .6, .3));
-
-  if (!loader->LoadTexture ("wood", "/lib/stdtex/parket.jpg"))
-    return ReportError ("Error loading %s texture!",
-		 CS::Quote::Single ("parket"));
-  iMaterialWrapper* tm = engine->GetMaterialList ()->FindByName ("wood");
-  DensityTextureMapper mapper (0.3f);
-  box.SetLevel (3);
-  box.SetMapper (&mapper);
-
-  csRef<iMeshFactoryWrapper> boxFactory = GeneralMeshBuilder::CreateFactory (
-      engine, "GlowBox", &box);
-  boxFactory->GetMeshObjectFactory ()->SetMaterialWrapper (tm);
-
-  if (!loader->LoadLibraryFile ("/cellib/lev/elcmtest.xml"))
-    return false;
-
-  return true;
+  return loader->LoadLibraryFile ("/cellib/lev/elcmtest.xml");
 }
 
 #define SIZE 250
@@ -212,8 +205,6 @@ bool ElcmTest::CreateFactories ()
 
 bool ElcmTest::FillDynamicWorld ()
 {
-  iDynamicFactory* boxFact = dynworld->AddFactory ("GlowBox", 1.0, -1.0f);
-  boxFact->AddRigidBox (csVector3 (0, .3, 0), csVector3 (.6, .6, .6), 1.0);
   csMatrix3 matId;
   iDynamicObject* obj;
   for (int y = -SIZE ; y <= SIZE ; y++)
@@ -310,6 +301,14 @@ bool ElcmTest::CreatePlayer ()
   elcm->SetPlayer (playerEntity);
 
   return true;
+}
+
+void ElcmTest::SelectEntity (iCelEntity* entity)
+{
+}
+
+void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
+{
 }
 
 void ElcmTest::SelectEntity (iCelEntity* entity, bool left)
