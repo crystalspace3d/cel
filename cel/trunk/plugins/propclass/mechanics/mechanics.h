@@ -83,7 +83,8 @@ private:
     action_enablestepfast,
     action_disablestepfast,
     action_setsteptime,
-    action_setsimulationspeed
+    action_setsimulationspeed,
+    action_setplugin
   };
   static PropertyHolder propinfo;
 
@@ -92,9 +93,12 @@ private:
   static csStringID param_gravity;
   static csStringID param_time;
   static csStringID param_simulationspeed;
+  static csStringID param_plugin;
  
+  csString pluginName;
   csRef<iDynamics> dynamics;
   csRef<iDynamicSystem> dynsystem;
+  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys;
   bool dynsystem_error_reported;
   csRef<iVirtualClock> vc;
   csArray<celForce> forces;
