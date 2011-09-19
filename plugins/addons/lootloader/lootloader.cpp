@@ -45,8 +45,6 @@ enum
   XMLTOKEN_SELECTOR,
 
   XMLTOKEN_RANDOMGEN,
-  XMLTOKEN_MINLOOT,
-  XMLTOKEN_MAXLOOT,
   XMLTOKEN_ITEM,
 
   XMLTOKEN_GENERATOR,
@@ -102,8 +100,6 @@ bool celAddOnLootLoader::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("package", XMLTOKEN_PACKAGE);
   xmltokens.Register ("selector", XMLTOKEN_SELECTOR);
   xmltokens.Register ("randomgen", XMLTOKEN_RANDOMGEN);
-  xmltokens.Register ("minloot", XMLTOKEN_MINLOOT);
-  xmltokens.Register ("maxloot", XMLTOKEN_MAXLOOT);
   xmltokens.Register ("item", XMLTOKEN_ITEM);
   xmltokens.Register ("generator", XMLTOKEN_GENERATOR);
 
@@ -128,6 +124,11 @@ bool celAddOnLootLoader::ParsePackage (iDocumentNode* node)
 {
   csString name = node->GetAttributeValue ("name");
   csRef<iLootPackage> package = lootmgr->CreateLootPackage (name);
+  if (node->GetAttribute ("minloot"))
+    package->SetMinLoot (node->GetAttributeValueAsInt ("minloot"));
+  if (node->GetAttribute ("maxloot"))
+    package->SetMaxLoot (node->GetAttributeValueAsInt ("maxloot"));
+
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -140,12 +141,6 @@ bool celAddOnLootLoader::ParsePackage (iDocumentNode* node)
     {
       case XMLTOKEN_RANDOMGEN:
 	package->SetRandomGeneration (true);
-	break;
-      case XMLTOKEN_MINLOOT:
-	package->SetMinLoot (child->GetContentsValueAsInt ());
-	break;
-      case XMLTOKEN_MAXLOOT:
-	package->SetMaxLoot (child->GetContentsValueAsInt ());
 	break;
       case XMLTOKEN_ITEM:
 	{

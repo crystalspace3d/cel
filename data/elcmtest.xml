@@ -1,4 +1,39 @@
 <library>
+
+    <addon plugin="cel.addons.celentitytpl" entityname="Gold" >
+      <characteristic name="weight" value="0.02" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Diamond" >
+      <characteristic name="weight" value="0.05" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Silver" >
+      <characteristic name="weight" value="0.01" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Ruby" >
+      <characteristic name="weight" value="0.04" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Emerald" >
+      <characteristic name="weight" value="0.04" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Iron" >
+      <characteristic name="weight" value="0.08" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Copper" >
+      <characteristic name="weight" value="0.08" />
+    </addon>
+
+    <addon plugin="cel.addons.lootloader">
+    	<package name="ores" minloot="2" maxloot="6">
+	    <item template="Gold" chance="0.1" minamount="1" maxamount="10" />
+	    <item template="Diamond" chance="0.02" minamount="1" maxamount="5" />
+	    <item template="Silver" chance="0.2" minamount="1" maxamount="10" />
+	    <item template="Ruby" chance="0.04" minamount="1" maxamount="7" />
+	    <item template="Emerald" chance="0.04" minamount="1" maxamount="7" />
+	    <item template="Iron" chance="0.4" minamount="1" maxamount="20" />
+	    <item template="Copper" chance="0.4" minamount="1" maxamount="20" />
+	</package>
+    </addon>
+
     <addon plugin="cel.addons.questdef" >
 
       <quest name="jumperQuest">
@@ -68,15 +103,11 @@
         <property name="state" string="init" />
       </propclass>
       <propclass name="pctools.inventory">
-	<action name="AddTemplate">
-	  <par name="name" string="gold" />
-	  <par name="amount" long="=rand(100)+50" />
+	<action name="SetLootGenerator">
+	  <par name="name" string="ores" />
 	</action>
       </propclass>
       <characteristic name="weight" value="10.0" />
     </addon>
 
-    <addon plugin="cel.addons.celentitytpl" entityname="gold" >
-      <characteristic name="weight" value="0.02" />
-    </addon>
 </library>

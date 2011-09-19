@@ -165,6 +165,7 @@ struct iCelInventorySpace : public virtual iBase
  * - AddTemplate: parameters 'name' (string), 'amount' (long), returns true/false.
  * - RemoveTemplate: parameters 'name' (string), 'amount' (long), returns true/false.
  * - SetLootGenerator: parameters 'name' (string, name of the generator)
+ * - GenerateLoot: returns true/false.
  *
  * This property class can send out the following messages
  * (possibly to the containing entity as well as the child entity):
@@ -447,6 +448,13 @@ struct iPcInventory : public virtual iBase
    * Get the loot generator for this inventory.
    */
   virtual iLootGenerator* GetLootGenerator () const = 0;
+
+  /**
+   * Generate the loot (if any) in this inventory.
+   * The application would typically call this before opening the
+   * inventory.
+   */
+  virtual bool GenerateLoot () = 0;
 };
 
 #endif // __CEL_PF_INV__
