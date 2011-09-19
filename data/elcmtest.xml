@@ -11,21 +11,105 @@
   <meshfact name="GlowBox">
     <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
     <params>
-      <box>
-        <min x="-.3" y="0" z="-.3" />
-        <max x=".3" y=".6" z=".3" />
-      </box>
+      <box> <min x="-.3" y="0" z="-.3" /> <max x=".3" y=".6" z=".3" /> </box>
       <material>wood</material>
     </params>
   </meshfact>
-
   <meshfact name="Gold">
     <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
     <params>
-      <box>
-        <min x="-.1" y="0" z="-.1" />
-        <max x=".1" y=".2" z=".1" />
-      </box>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Diamond">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Silver">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Ruby">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Emerald">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Iron">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Copper">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Book">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Paper">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Pen">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Pencil">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Note">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Feather">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+  <meshfact name="Glasses">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
       <material>marble</material>
     </params>
   </meshfact>
@@ -34,6 +118,19 @@
     <dynworld name="world" />
     <factory name="GlowBox" maxradius="1.0" imposterradius="-1.0" mass="1"> <box /> </factory>
     <factory name="Gold" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Diamond" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Silver" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Ruby" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Emerald" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Iron" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Copper" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Book" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Paper" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Pen" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Pencil" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Note" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Feather" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Glasses" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
   </addon>
 
     <addon plugin="cel.addons.questdef" >
@@ -116,43 +213,56 @@
       <characteristic name="weight" value="0.02" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Diamond" >
+      <template name="Base" />
       <characteristic name="weight" value="0.05" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Silver" >
+      <template name="Base" />
       <characteristic name="weight" value="0.01" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Ruby" >
+      <template name="Base" />
       <characteristic name="weight" value="0.04" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Emerald" >
+      <template name="Base" />
       <characteristic name="weight" value="0.04" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Iron" >
+      <template name="Base" />
       <characteristic name="weight" value="0.08" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Copper" >
+      <template name="Base" />
       <characteristic name="weight" value="0.08" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Book" >
-      <characteristic name="weight" value="0.5" />
+      <template name="Base" />
+      <characteristic name="weight" value="1" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Paper" >
+      <template name="Base" />
       <characteristic name="weight" value="0.1" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Pen" >
+      <template name="Base" />
       <characteristic name="weight" value="0.2" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Pencil" >
+      <template name="Base" />
       <characteristic name="weight" value="0.2" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Note" >
+      <template name="Base" />
       <characteristic name="weight" value="0.1" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Feather" >
+      <template name="Base" />
       <characteristic name="weight" value="0.1" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Glasses" >
-      <characteristic name="weight" value="0.4" />
+      <template name="Base" />
+      <characteristic name="weight" value="0.3" />
     </addon>
 
     <addon plugin="cel.addons.lootloader">
