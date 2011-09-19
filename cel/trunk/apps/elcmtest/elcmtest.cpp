@@ -232,8 +232,8 @@ bool ElcmTest::CreatePlayer ()
   // Get the iPcMesh interface so we can load the right mesh
   // for our player.
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
-  pcmesh->SetPath ("/lib/kwartz");
-  pcmesh->SetMesh ("kwartz_fact", "kwartz.lib");
+  pcmesh->SetPath ("/lib/frankie");
+  pcmesh->SetMesh ("franky_frankie", "frankie.xml");
   pcmesh->MoveMesh (sector, csVector3 (0, 3, 0));
 
   csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (playerEntity);
@@ -242,10 +242,10 @@ bool ElcmTest::CreatePlayer ()
 
   // Get iPcLinearMovement so we can setup the movement system.
   csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (playerEntity);
-  pclinmove->InitCD (
-      csVector3 (0.5f,  0.8f, 0.5f),
-      csVector3 (0.5f,  0.4f, 0.5f),
-      csVector3 (0.0f, -0.4f, 0.0f));
+  pclinmove->InitCD (pcmesh->GetMesh (), 0.3f);
+      //csVector3 (0.5f,  0.8f, 0.5f),
+      //csVector3 (0.5f,  0.4f, 0.5f),
+      //csVector3 (0.0f, -0.4f, 0.0f));
 
   // Get the iPcActorMove interface so that we can set movement speed.
   //csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (playerEntity);
