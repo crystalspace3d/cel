@@ -38,6 +38,9 @@ private:
   csRef<iPcInventory> inventoryLeft;
   csRef<iPcInventory> inventoryRight;
 
+  csStringArray leftListNames;
+  csStringArray rightListNames;
+
   CEGUI::Window* window;
 
   csRefArray<iUIInventory2SelectionCallback> callbacks;
@@ -45,11 +48,13 @@ private:
   void FireSelectionListeners (iCelEntity* entity, bool left);
   void FireSelectionListeners (iCelEntityTemplate* tpl, bool left);
 
-  void FillList (CEGUI::Listbox* list, iPcInventory* inventory);
+  void FillList (CEGUI::Listbox* list, iPcInventory* inventory,
+      csStringArray& names);
   void UpdateLists ();
   bool OkButton (const CEGUI::EventArgs& e);
   bool CancelButton (const CEGUI::EventArgs& e);
-  bool Select (CEGUI::Listbox* list, iPcInventory* inventory, bool left);
+  bool Select (CEGUI::Listbox* list, iPcInventory* inventory,
+      const csStringArray& names, bool left);
   bool SelectLeft (const CEGUI::EventArgs& e);
   bool SelectRight (const CEGUI::EventArgs& e);
 
@@ -60,9 +65,13 @@ public:
   virtual ~celUIInventory2 ();
   virtual bool Initialize (iObjectRegistry* object_reg);
 
+  void Refresh ();
+
   virtual void Open (const char* title, iPcInventory* inventoryLeft,
       iPcInventory* inventoryRight);
   virtual void Close ();
+  virtual iPcInventory* GetLeftInventory () const { return inventoryLeft; }
+  virtual iPcInventory* GetRightInventory () const { return inventoryRight; }
 
   virtual void AddSelectionListener (iUIInventory2SelectionCallback* cb);
   virtual void RemoveSelectionListener (iUIInventory2SelectionCallback* cb);

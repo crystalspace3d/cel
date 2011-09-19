@@ -40,6 +40,37 @@ SCF_IMPLEMENT_FACTORY (celUIInventory)
 
 //--------------------------------------------------------------------------
 
+class InvListener : public scfImplementation1<InvListener, iPcInventoryListener>
+{
+private:
+  celUIInventory* ui;
+
+public:
+  InvListener (celUIInventory* ui) : scfImplementationType (this), ui (ui) { }
+  virtual ~InvListener () { }
+
+  virtual void AddChild (iPcInventory* inventory, iCelEntity* entity)
+  {
+    ui->Refresh ();
+  }
+  virtual void RemoveChild (iPcInventory* inventory, iCelEntity* entity)
+  {
+    ui->Refresh ();
+  }
+  virtual void AddChildTemplate (iPcInventory* inventory,
+      iCelEntityTemplate* tpl, int amount)
+  {
+    ui->Refresh ();
+  }
+  virtual void RemoveChildTemplate (iPcInventory* inventory,
+      iCelEntityTemplate* tpl, int amount)
+  {
+    ui->Refresh ();
+  }
+};
+
+//--------------------------------------------------------------------------
+
 
 celUIInventory::celUIInventory (iBase* parent)
   : scfImplementationType (this, parent)
@@ -87,6 +118,11 @@ void celUIInventory::Setup ()
     CEGUI::Event::Subscriber(&celUIInventory::Select, this));
 }
 
+void celUIInventory::Refresh ()
+{
+  UpdateLists (inventory);
+}
+
 void celUIInventory::UpdateLists (iPcInventory* inventory)
 {
   CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
@@ -94,16 +130,17 @@ void celUIInventory::UpdateLists (iPcInventory* inventory)
   CEGUI::Listbox* list = (CEGUI::Listbox*)winMgr->getWindow("UIInventory/InventoryList");
 
   list->resetList();
+  listNames.Empty ();
 
   for (size_t i = 0 ; i < inventory->GetEntityCount () ; i++)
   {
     iCelEntity* ent = inventory->GetEntity (i);
-    CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem (
-        ent->QueryObject ()->GetName ());
+    CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem (ent->GetName ());
     item->setTextColours(CEGUI::colour(0,0,0));
     item->setSelectionBrushImage("ice", "TextSelectionBrush");
     item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
     list->addItem(item);
+    listNames.Push (ent->GetName ());
   }
 
   for (size_t i = 0 ; i < inventory->GetEntityTemplateCount () ; i++)
@@ -118,6 +155,7 @@ void celUIInventory::UpdateLists (iPcInventory* inventory)
     item->setSelectionBrushImage("ice", "TextSelectionBrush");
     item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
     list->addItem(item);
+    listNames.Push (ent->GetName ());
   }
 }
 
@@ -146,14 +184,17 @@ bool celUIInventory::Select (const CEGUI::EventArgs& e)
   CEGUI::String text = item->getText();
   if (text.empty()) return true;
 
-  printf ("Selected '%s'\n", text.c_str());
-  size_t idx = inventory->FindEntity (text.c_str());
+  size_t itemIdx = list->getItemIndex(item);
+  csString n = listNames[itemIdx];
+  printf ("Selected '%s'\n", n.GetData ());
+
+  size_t idx = inventory->FindEntity (n);
   if (idx != csArrayItemNotFound)
   {
     FireSelectionListeners (inventory->GetEntity (idx));
     return true;
   }
-  idx = inventory->FindEntityTemplate (text.c_str());
+  idx = inventory->FindEntityTemplate (n);
   if (idx != csArrayItemNotFound)
   {
     FireSelectionListeners (inventory->GetEntityTemplate (idx));
@@ -194,6 +235,11 @@ void celUIInventory::Open (const char* title, iPcInventory* inventory)
   btn->setProperty("Text", title);
 
   celUIInventory::inventory = inventory;
+
+  csRef<InvListener> listener;
+  listener.AttachNew (new InvListener (this));
+  inventory->AddInventoryListener (listener);
+
   UpdateLists (inventory);
   window->show ();
 }

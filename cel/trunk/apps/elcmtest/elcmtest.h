@@ -78,6 +78,8 @@ public:
 
   bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params);
+  void SelectEntity (iCelEntity* entity, bool left);
+  void SelectTemplate (iCelEntityTemplate* tpl, bool left);
 
   virtual bool OnInitialize (int argc, char* argv[]);
   virtual bool Application ();
