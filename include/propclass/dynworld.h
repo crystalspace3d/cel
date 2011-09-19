@@ -32,6 +32,8 @@ struct iRigidBody;
 struct iString;
 struct iMeshWrapper;
 struct iELCM;
+struct iCelParameterBlock;
+struct iCelEntity;
 
 /**
  * Geometry generator. This is typically attached to factories
