@@ -315,8 +315,7 @@ public:
   virtual void RefreshColliders ();
   virtual const csReversibleTransform& GetTransform ();
   virtual void SetTransform (const csReversibleTransform& trans);
-  virtual bool SetEntityTemplate (const char* templateName,
-      const char* entityName, iCelParameterBlock* params);
+  virtual bool SetEntity (const char* entityName, iCelParameterBlock* params);
 
   virtual void MovableChanged (iMovable* movable);
   virtual void MovableDestroyed (iMovable* movable);

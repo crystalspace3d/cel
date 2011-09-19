@@ -115,7 +115,7 @@
       </quest>
     </addon>
 
-    <addon plugin="cel.addons.celentitytpl" entityname="glowBox" >
+    <addon plugin="cel.addons.celentitytpl" entityname="GlowBox" >
       <propclass name="pcobject.mesh" />
       <propclass name="pcobject.mesh.select">
         <action name="SetCamera" >
