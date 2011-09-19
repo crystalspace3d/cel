@@ -202,6 +202,11 @@ csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
   return csPtr<iCelEntity> (ientity);
 }
 
+void celPlLayer::RegisterID (iCelEntity* entity, uint id)
+{
+  idlist.RegisterWithID (entity, id);
+}
+
 csPtr<iCelEntity> celPlLayer::CreateEntity (uint entity_id)
 {
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));

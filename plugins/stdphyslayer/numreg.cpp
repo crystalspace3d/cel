@@ -267,7 +267,7 @@ size_t NumRegHash::GetSize ()
 celIDRegistry::celIDRegistry () :
   regs (2) // Most uses of registry will have either one or two scopes.
 {
-  DefaultScope = AddScope ("cel.numreg.lists", 100000);
+  DefaultScope = AddScope ("cel.numreg.lists", 1000000000);
 }
 
 celIDRegistry::~celIDRegistry ()

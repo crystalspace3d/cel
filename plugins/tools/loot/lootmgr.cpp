@@ -49,6 +49,9 @@ void celLootPackage::AddLootItem (const char* templateName, float chance, int mi
 
 bool celLootPackage::GenerateLoot (iPcInventory* inventory, iCelParameterBlock* params)
 {
+  csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (inventory);
+  rnd.Initialize (pc->GetEntity ()->GetID () + 1);      // +1 to get another seed compared to the loot selector.
+
   csArray<lpLoot> loot;
   // By making a copy we also copy the 'attempts' field which is set to a fixed number in
   // the base array. In the copy we also fill in the templatePtr from the templateName.
@@ -106,6 +109,9 @@ void celLootSelector::AddLootGenerator (iLootGenerator* generator, float chance,
 
 bool celLootSelector::GenerateLoot (iPcInventory* inventory, iCelParameterBlock* params)
 {
+  csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (inventory);
+  rnd.Initialize (pc->GetEntity ()->GetID ());
+
   for (size_t i = 0 ; i < generators.GetSize () ; i++)
   {
     if (generators[i].chance > rnd.Get ())

@@ -137,6 +137,8 @@ public:
   void RemoveEntityName (celEntity* ent);
   void AddEntityName (celEntity* ent);
 
+  void RegisterID (iCelEntity* entity, uint id);
+
   virtual csPtr<iCelEntity> CreateEntity ();
   virtual csPtr<iCelEntity> CreateEntityInScope (int scope);
   virtual csPtr<iCelEntity> CreateEntity (uint id);

@@ -277,6 +277,7 @@ private:
   bool hilight_installed;
   float fade;
   CS::Geometry::KDTreeChild* child;
+  uint id;
 
   csRef<iCelEntityTemplate> entityTemplate;
   csString entityName;
@@ -293,6 +294,8 @@ public:
   DynamicObject ();
   DynamicObject (DynamicFactory* factory, const csReversibleTransform& trans);
   virtual ~DynamicObject ();
+
+  void SetID (uint id) { DynamicObject::id = id; }
 
   CS::Geometry::KDTreeChild* GetChild () const { return child; }
   void SetChild (CS::Geometry::KDTreeChild* child)
@@ -353,6 +356,7 @@ public:
   csRef<iDynamicSystem> dynSys;
   csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
+  uint lastID;
   csRefArray<DynamicObject> objects;
   csRefArray<DynamicFactory> factories;
   //csRefArray<CurvedMeshDynamicObjectCreator> cmdocs;
@@ -385,6 +389,12 @@ public:
   virtual ~celPcDynamicWorld ();
 
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
+
+  uint GetLastID ()
+  {
+    lastID++;
+    return lastID-1;
+  }
 
   virtual void SetELCM (iELCM* elcm);
   void SafeToRemove (iCelEntity* entity);
