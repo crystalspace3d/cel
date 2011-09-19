@@ -247,6 +247,11 @@ struct iPcDynamicWorld : public virtual iBase
    */
   virtual iDynamicFactory* GetFactory (size_t index) const = 0;
 
+  /**
+   * Find a factory.
+   */
+  virtual iDynamicFactory* FindFactory (const char* name) const = 0;
+
   //------------------------------------------------------------------------------
 
   /**
@@ -271,6 +276,11 @@ struct iPcDynamicWorld : public virtual iBase
    * Delete all objects.
    */
   virtual void DeleteObjects () = 0;
+
+  /**
+   * Find a dynamic object from the entity.
+   */
+  virtual iDynamicObject* FindDynamicObject (iCelEntity* entity) const = 0;
 
   /**
    * Set the sector for this dynamic world.

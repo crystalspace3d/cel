@@ -259,6 +259,7 @@ public:
   const csPDelArray<DOCollider>& GetColliders () const { return colliders; }
   iMeshFactoryWrapper* GetMeshFactory () const { return factory; }
   virtual const char* GetName () const { return name; }
+  const csString& GetCsName () const { return name; }
   celPcDynamicWorld* GetWorld () const { return world; }
   iImposterFactory* GetImposterFactory () const { return imposterFactory; }
 };
@@ -405,9 +406,11 @@ public:
   virtual void DeleteFactories ();
   virtual size_t GetFactoryCount () const { return factories.GetSize () ; }
   virtual iDynamicFactory* GetFactory (size_t index) const { return factories[index]; }
+  virtual iDynamicFactory* FindFactory (const char* name) const;
 
   virtual iDynamicObject* AddObject (const char* factory,
       const csReversibleTransform& trans);
+  virtual iDynamicObject* FindDynamicObject (iCelEntity* entity) const;
   virtual void ForceVisible (iDynamicObject* dynobj);
   virtual void DeleteObject (iDynamicObject* dynobj);
   virtual void DeleteObjects ();

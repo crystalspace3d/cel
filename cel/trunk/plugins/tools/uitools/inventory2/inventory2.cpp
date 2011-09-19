@@ -173,6 +173,10 @@ void celUIInventory2::UpdateLists ()
 bool celUIInventory2::OkButton (const CEGUI::EventArgs& e)
 {
   window->hide();
+  if (inventoryLeft && listener)
+    inventoryLeft->RemoveInventoryListener (listener);
+  if (inventoryRight && listener)
+    inventoryRight->RemoveInventoryListener (listener);
   inventoryLeft = 0;
   inventoryRight = 0;
   return true;
@@ -181,6 +185,10 @@ bool celUIInventory2::OkButton (const CEGUI::EventArgs& e)
 bool celUIInventory2::CancelButton (const CEGUI::EventArgs& e)
 {
   window->hide();
+  if (inventoryLeft && listener)
+    inventoryLeft->RemoveInventoryListener (listener);
+  if (inventoryRight && listener)
+    inventoryRight->RemoveInventoryListener (listener);
   inventoryLeft = 0;
   inventoryRight = 0;
   return true;
@@ -265,9 +273,11 @@ void celUIInventory2::Open (const char* title, iPcInventory* inventoryLeft,
   celUIInventory2::inventoryLeft = inventoryLeft;
   celUIInventory2::inventoryRight = inventoryRight;
 
-  csRef<InvListener> listener;
-  listener.AttachNew (new InvListener (this));
+  if (!listener)
+    listener.AttachNew (new InvListener (this));
+  inventoryLeft->RemoveInventoryListener (listener);
   inventoryLeft->AddInventoryListener (listener);
+  inventoryRight->RemoveInventoryListener (listener);
   inventoryRight->AddInventoryListener (listener);
 
   UpdateLists ();
@@ -278,6 +288,10 @@ void celUIInventory2::Close ()
 {
   Setup ();
   window->hide();
+  if (inventoryLeft && listener)
+    inventoryLeft->RemoveInventoryListener (listener);
+  if (inventoryRight && listener)
+    inventoryRight->RemoveInventoryListener (listener);
   inventoryLeft = 0;
   inventoryRight = 0;
 }

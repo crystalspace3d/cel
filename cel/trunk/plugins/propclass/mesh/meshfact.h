@@ -323,7 +323,7 @@ private:
   // If the following var is non-0 then we
   // are busy selecting a mesh and are waiting for a mouse up
   // to arrive.
-  iCelEntity* sel_entity;
+  csWeakRef<iCelEntity> sel_entity;
 
   // Set to true if we are currently on top of the selected entity
   // (in do_follow mode).
