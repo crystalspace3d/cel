@@ -78,7 +78,11 @@ public:
   void NotifySiblingPropertyClasses ();
 
   virtual iObject* QueryObject () { return this; }
-  virtual void SetID  (uint n) { SetEntityID (n); }
+  virtual void SetID  (uint n)
+  {
+    SetEntityID (n);
+    pl->RegisterID (this, n);
+  }
   virtual uint GetID () const { return entity_ID; }
 
   virtual csRef<iMessageDispatcher> CreateTaggedMessageDispatcher (

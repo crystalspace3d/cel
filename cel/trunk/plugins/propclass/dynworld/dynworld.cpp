@@ -369,6 +369,7 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   if (entityTemplate && !entity)
   {
     entity = world->pl->CreateEntity (entityTemplate, entityName, params);
+    entity->SetID (id);
   }
   if (entity)
   {
@@ -437,6 +438,7 @@ void DynamicObject::Save (iDocumentNode* node, iSyntaxService* syn)
   csString vector;
   vector.Format ("%g %g %g", v.x, v.y, v.z);
   node->SetAttribute ("v", (const char*)vector);
+  node->SetAttributeAsInt ("id", id);
 }
 
 bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
@@ -447,6 +449,11 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
   if (!factory) return false;
   if (!syn->ParseBoolAttribute (node, "static", is_static, false, false))
     return false;
+
+  if (node->GetAttribute ("id"))
+    id = node->GetAttributeValueAsInt ("id");
+  else
+    id = world->GetLastID ();
 
   csMatrix3 m;
   csVector3 v (0);
@@ -547,10 +554,12 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  pl->AddScope ("cel.numreg.hash", 1000000000);
   tree = new CS::Geometry::KDTree ();
   ObjDes* objDes = new ObjDes ();
   tree->SetObjectDescriptor (objDes);
   objDes->DecRef ();
+  lastID = 1000000001;
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
@@ -602,6 +611,9 @@ iDynamicObject* celPcDynamicWorld::AddObject (const char* factory,
   if (!fact) return 0;
   obj.AttachNew (new DynamicObject (fact, trans));
   objects.Push (obj);
+
+  obj->SetID (GetLastID ());
+
   CS::Geometry::KDTreeChild* child = tree->AddObject (obj->GetBSphere (), obj);
   obj->SetChild (child);
   return obj;
@@ -614,6 +626,7 @@ void celPcDynamicWorld::ForceVisible (iDynamicObject* dynobj)
 
 void celPcDynamicWorld::DeleteObjects ()
 {
+  lastID = 1000000001;
   while (objects.GetSize () > 0)
   {
     csRef<DynamicObject> dynobj = objects.Pop ();
@@ -871,6 +884,8 @@ void celPcDynamicWorld::Save (iDocumentNode* node)
   csRef<iSyntaxService> syn = csQueryRegistryOrLoad<iSyntaxService> (object_reg,
       "crystalspace.syntax.loader.service.text");
 
+  node->SetAttributeAsInt ("lastid", lastID);
+
   for (size_t i = 0 ; i < objects.GetSize () ; i++)
   {
     csRef<iDocumentNode> el = node->CreateNodeBefore (CS_NODE_ELEMENT);
@@ -883,6 +898,11 @@ csRef<iString> celPcDynamicWorld::Load (iDocumentNode* node)
 {
   csRef<iSyntaxService> syn = csQueryRegistryOrLoad<iSyntaxService> (object_reg,
       "crystalspace.syntax.loader.service.text");
+
+  if (node->GetAttribute ("lastid"))
+    lastID = node->GetAttributeValueAsInt ("lastid");
+  else
+    lastID = 1000000001;        // @@@ Is this right?
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())

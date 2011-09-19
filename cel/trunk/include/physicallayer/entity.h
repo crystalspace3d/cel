@@ -78,8 +78,6 @@ struct iCelEntity : public virtual iBase
 
   /**
    * Set the (unique) ID of the entity.
-   * @@@ UGLY! This should be removed as soon as we find another solution
-   * for this problem!!!! See history.txt entry of 23-Jan-2003.
    * \param n A uint to uniquely represent this entity.
    */
   virtual void SetID (uint n) = 0;
