@@ -42,6 +42,7 @@ private:
   csRefArray<iUIInventorySelectionCallback> callbacks;
 
   void FireSelectionListeners (iCelEntity* entity);
+  void FireSelectionListeners (iCelEntityTemplate* tpl);
 
   void UpdateLists (iPcInventory* inventory);
   bool OkButton (const CEGUI::EventArgs& e);
