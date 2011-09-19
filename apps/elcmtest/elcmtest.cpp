@@ -12,6 +12,7 @@
 #include "propclass/jump.h"
 #include "propclass/inv.h"
 #include <physicallayer/propclas.h>
+#include <physicallayer/entitytpl.h>
 #include <behaviourlayer/behave.h>
 #include <celtool/stdparams.h>
 
@@ -305,10 +306,39 @@ bool ElcmTest::CreatePlayer ()
 
 void ElcmTest::SelectEntity (iCelEntity* entity)
 {
+  iPcInventory* inv = uiInventory->GetInventory ();
+  if (!inv) return;
+  //inv->RemoveEntity (entity);
 }
 
 void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
 {
+  iPcInventory* inv = uiInventory->GetInventory ();
+  if (!inv) return;
+
+  if (!dynworld->FindFactory (tpl->GetName ()))
+  {
+    printf ("This item cannot be dropped!\n");
+    fflush (stdout);
+    return;
+  }
+
+  size_t idx = inv->FindEntityTemplate (tpl);
+  if (idx == csArrayItemNotFound)
+  {
+    printf ("Weird? Where did it go?\n");
+    return;
+  }
+  //int amount = inv->GetEntityTemplateAmount (idx);
+  inv->RemoveEntityTemplate (tpl, 1);	// @@@ Temporary!
+
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
+  csReversibleTransform trans = pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
+  trans.SetOrigin (trans.GetOrigin () + trans.GetFront () / 5.0f + trans.GetUp ());
+  iDynamicObject* obj = dynworld->AddObject (tpl->GetName (), trans);
+  csRef<iCelParameterBlock> params;
+  params.AttachNew (new celVariableParameterBlock ());
+  obj->SetEntity (tpl->GetName (), params);
 }
 
 void ElcmTest::SelectEntity (iCelEntity* entity, bool left)
@@ -378,6 +408,27 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       csString title;
       title.Format ("Inventory '%s' <-> 'player'", ent->GetName ());
       uiInventory2->Open (title, inventory, playerInv);
+    }
+    return true;
+  }
+  else if (msg_id == msgPickupTpl)
+  {
+    const celData* data = params->GetParameterByIndex (0);
+    if (data->type != CEL_DATA_STRING)
+      return ReportError ("Invalid parameter for 'pickup' message. Expected string.");
+    iCelEntity* ent = pl->FindEntity (data->value.s->GetData ());
+    iDynamicObject* dynobj = dynworld->FindDynamicObject (ent);
+    if (dynobj)
+    {
+      iCelEntityTemplate* tpl = pl->FindEntityTemplate (dynobj->GetFactory ()->GetName ());
+      if (tpl)
+      {
+        csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (
+	    playerEntity);
+	inventory->AddEntityTemplate (tpl, 1);
+        dynworld->DeleteObject (dynobj);
+        pl->RemoveEntity (ent);
+      }
     }
     return true;
   }
@@ -482,6 +533,7 @@ bool ElcmTest::Application ()
   elcm->SetUnloadCheckFrequency (30);
 
   msgInventory = pl->FetchStringID ("elcm.inventory");
+  msgPickupTpl = pl->FetchStringID ("elcm.pickup.tpl");
 
   ceguiPrinter.AttachNew (new CeguiPrinter (this));
   pl->CallbackEveryFrame (ceguiPrinter, CEL_EVENT_POST);

@@ -46,6 +46,8 @@ struct iUIInventory: public virtual iBase
   virtual void Open (const char* title, iPcInventory* inventory) = 0;
   /// Close the inventory.
   virtual void Close () = 0;
+  /// While the inventory is open you can query the inventory.
+  virtual iPcInventory* GetInventory () const = 0;
 
   /// Add a new selection listener.
   virtual void AddSelectionListener (iUIInventorySelectionCallback* cb) = 0;

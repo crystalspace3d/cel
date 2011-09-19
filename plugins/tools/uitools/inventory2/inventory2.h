@@ -28,6 +28,7 @@
 #include "tools/uitools/inventory2.h"
 
 struct iEngine;
+class InvListener;
 
 class celUIInventory2 : public scfImplementation2<celUIInventory2,
   iUIInventory2, iComponent>
@@ -37,6 +38,7 @@ private:
   csRef<iCEGUI> cegui;
   csRef<iPcInventory> inventoryLeft;
   csRef<iPcInventory> inventoryRight;
+  csRef<InvListener> listener;
 
   csStringArray leftListNames;
   csStringArray rightListNames;

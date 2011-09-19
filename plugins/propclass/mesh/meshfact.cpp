@@ -1424,7 +1424,6 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   pccamera = 0;
-  sel_entity = 0;
   cur_on_top = false;
   mouse_buttons = CEL_MOUSE_BUTTON1;
 
@@ -1713,6 +1712,10 @@ void celPcMeshSelect::FireListenersMove (int x, int y, int button,
 void celPcMeshSelect::SendMessage (int t, iCelEntity* ent,
 	int x, int y, int but)
 {
+  // Prevent this entity from being deleted during message
+  // handling.
+  csRef<iCelEntity> keepme = entity;
+
   iMessageDispatcher* dispatcher = 0;
   const char* msg = "pcmeshsel_invalid";
   switch (t)

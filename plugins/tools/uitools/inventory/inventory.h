@@ -29,6 +29,7 @@
 #include "tools/uitools/inventory.h"
 
 struct iEngine;
+class InvListener;
 
 class celUIInventory : public scfImplementation2<celUIInventory,
   iUIInventory, iComponent>
@@ -41,6 +42,7 @@ private:
   csStringArray listNames;
 
   CEGUI::Window* window;
+  csRef<InvListener> listener;
 
   csRefArray<iUIInventorySelectionCallback> callbacks;
 
@@ -63,6 +65,7 @@ public:
 
   virtual void Open (const char* title, iPcInventory* inventory);
   virtual void Close ();
+  virtual iPcInventory* GetInventory () const { return inventory; }
 
   virtual void AddSelectionListener (iUIInventorySelectionCallback* cb);
   virtual void RemoveSelectionListener (iUIInventorySelectionCallback* cb);

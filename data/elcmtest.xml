@@ -1,9 +1,11 @@
 <library>
   <textures>
-    <texture name="parket.jpg"> <file>/lib/stdtex/parket.jpg</file> </texture>
+    <texture name="wood"> <file>/lib/stdtex/parket.jpg</file> </texture>
+    <texture name="marble"> <file>/lib/stdtex/andrew_marble4.jpg</file> </texture>
   </textures>
   <materials>
-    <material name="wood"> <texture>parket.jpg</texture> </material>
+    <material name="wood"> <texture>wood</texture> </material>
+    <material name="marble"> <texture>marble</texture> </material>
   </materials>
 
   <meshfact name="GlowBox">
@@ -17,14 +19,100 @@
     </params>
   </meshfact>
 
+  <meshfact name="Gold">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box>
+        <min x="-.1" y="0" z="-.1" />
+        <max x=".1" y=".2" z=".1" />
+      </box>
+      <material>marble</material>
+    </params>
+  </meshfact>
+
   <addon plugin="cel.addons.dynamicworld.loader">
     <dynworld name="world" />
-    <factory name="GlowBox" maxradius="1.0" imposterradius="-1.0" mass="1">
-      <box /> 
-    </factory>
+    <factory name="GlowBox" maxradius="1.0" imposterradius="-1.0" mass="1"> <box /> </factory>
+    <factory name="Gold" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
   </addon>
 
+    <addon plugin="cel.addons.questdef" >
+
+      <quest name="pickableObject">
+	<state name="init">
+	  <trigger type="meshselect">
+	    <fireon entity="$this" />
+	    <reward type="debugprint" message="pickme" />
+	    <reward type="message" entity="world" id="elcm.pickup.tpl">
+	      <par name="entity" string="$this" />
+	    </reward>
+	    <reward type="newstate" state="init" />
+	  </trigger>
+	</state>
+      </quest>
+
+      <quest name="jumperQuest">
+	<state name="init">
+	  <trigger type="meshselect">
+	    <fireon entity="$this" />
+	    <reward type="debugprint" message="select" />
+	    <reward type="action" entity="$this" pc="pcphysics.object" id="AddForceOnce">
+	      <par name="force" vector3="0,4,0" />
+	    </reward>
+	    <reward type="message" entity="world" id="elcm.inventory">
+	      <par name="entity" string="$this" />
+	    </reward>
+	    <reward type="newstate" state="init" />
+	  </trigger>
+	</state>
+      </quest>
+
+      <quest name="glowQuest">
+        <state name="init">
+	  <oninit>
+	    <reward sequence='animglow' type='sequence' entity='$this' entity_tag='glow' />
+	  </oninit>
+	  <trigger type="sequencefinish">
+	    <fireon entity="$this" sequence="animglow" entity_tag='glow'/>
+	    <reward type="newstate" state="init2" />
+	  </trigger>
+        </state>
+	<state name="init2">
+	  <trigger type="timeout">
+	    <fireon timeout='1' />
+	    <reward type="newstate" state="init" />
+	  </trigger>
+	</state>
+        <sequence name="animglow">
+          <op entity="$this" type="ambientmesh" duration="$dur" >
+	    <abscolor red="0" green="0" blue="1" />
+          </op>
+	  <delay time="$dur" />
+          <op entity="$this" type="ambientmesh" duration="$dur" >
+	    <abscolor red="1" green="0" blue="0" />
+          </op>
+	  <delay time="$dur" />
+        </sequence>
+      </quest>
+    </addon>
+
+    <addon plugin="cel.addons.celentitytpl" entityname="Base" >
+      <propclass name="pcobject.mesh" />
+      <propclass name="pcobject.mesh.select">
+        <action name="SetCamera" >
+          <par name="entity" string="player" />
+        </action>
+      </propclass>
+      <propclass name="pclogic.quest" tag="pickup">
+        <action name="NewQuest" >
+          <par name="name" string="pickableObject" />
+        </action>
+        <property name="state" string="init" />
+      </propclass>
+    </addon>
+
     <addon plugin="cel.addons.celentitytpl" entityname="Gold" >
+      <template name="Base" />
       <characteristic name="weight" value="0.02" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Diamond" >
@@ -90,53 +178,6 @@
 	    <generator name="ores" chance="0.5" />
 	    <generator name="reader" chance="1" />
 	</selector>
-    </addon>
-
-    <addon plugin="cel.addons.questdef" >
-
-      <quest name="jumperQuest">
-	<state name="init">
-	  <trigger type="meshselect">
-	    <fireon entity="$this" />
-	    <reward type="debugprint" message="select" />
-	    <reward type="action" entity="$this" pc="pcphysics.object" id="AddForceOnce">
-	      <par name="force" vector3="0,4,0" />
-	    </reward>
-	    <reward type="message" entity="world" id="elcm.inventory">
-	      <par name="entity" string="$this" />
-	    </reward>
-	    <reward type="newstate" state="init" />
-	  </trigger>
-	</state>
-      </quest>
-
-      <quest name="glowQuest">
-        <state name="init">
-	  <oninit>
-	    <reward sequence='animglow' type='sequence' entity='$this' entity_tag='glow' />
-	  </oninit>
-	  <trigger type="sequencefinish">
-	    <fireon entity="$this" sequence="animglow" entity_tag='glow'/>
-	    <reward type="newstate" state="init2" />
-	  </trigger>
-        </state>
-	<state name="init2">
-	  <trigger type="timeout">
-	    <fireon timeout='1' />
-	    <reward type="newstate" state="init" />
-	  </trigger>
-	</state>
-        <sequence name="animglow">
-          <op entity="$this" type="ambientmesh" duration="$dur" >
-	    <abscolor red="0" green="0" blue="1" />
-          </op>
-	  <delay time="$dur" />
-          <op entity="$this" type="ambientmesh" duration="$dur" >
-	    <abscolor red="1" green="0" blue="0" />
-          </op>
-	  <delay time="$dur" />
-        </sequence>
-      </quest>
     </addon>
 
     <addon plugin="cel.addons.celentitytpl" entityname="GlowBox" >

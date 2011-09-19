@@ -597,6 +597,14 @@ void celPcDynamicWorld::RemoveFactory (iDynamicFactory* factory)
   factories.Delete (static_cast<DynamicFactory*> (factory));
 }
 
+iDynamicFactory* celPcDynamicWorld::FindFactory (const char* name) const
+{
+  for (size_t i = 0 ; i < factories.GetSize () ; i++)
+    if (factories[i]->GetCsName () == name)
+      return factories[i];
+  return 0;
+}
+
 void celPcDynamicWorld::DeleteFactories ()
 {
   factory_hash.DeleteAll ();
@@ -660,13 +668,24 @@ void celPcDynamicWorld::DeleteObject (iDynamicObject* dynobj)
   }
 }
 
+iDynamicObject* celPcDynamicWorld::FindDynamicObject (iCelEntity* entity) const
+{
+  //@@@ Not very efficient!
+  for (size_t i = 0 ; i < objects.GetSize () ; i++)
+  {
+    if (objects[i]->GetEntity () == entity)
+      return objects[i];
+  }
+  return 0;
+}
+
 void celPcDynamicWorld::RemoveSafeEntities ()
 {
   csSet<csPtrKey<iCelEntity> >::GlobalIterator it = safeToRemove.GetIterator ();
   while (it.HasNext ())
   {
     iCelEntity* entity = it.Next ();
-    printf ("Actually remove entity %s\n", entity->QueryObject ()->GetName ()); fflush (stdout);
+    printf ("Actually remove entity %s\n", entity->GetName ()); fflush (stdout);
     pl->RemoveEntity (entity);
   }
   safeToRemove.DeleteAll ();
