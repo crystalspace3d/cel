@@ -298,6 +298,15 @@ struct iCelCompactDataBuffer : public virtual iBase
   virtual const char* GetString8 () = 0;
   virtual const char* GetString16 () = 0;
   virtual const char* GetString32 () = 0;
+
+  /**
+   * Get the data we accumulated so far.
+   */
+  virtual const char* GetData () const = 0;
+  /**
+   * Get the size of the total data block.
+   */
+  virtual size_t GetSize () const = 0;
 };
 
 /**

@@ -776,6 +776,9 @@ public:
   {
   }
 
+  virtual const char* GetData () const { return file.GetData (); }
+  virtual size_t GetSize () const { return file.GetDataSize (); }
+
   virtual void AddBool (bool v) { AddInt8 (int8 (v)); }
   virtual void AddInt8 (int8 v) { file.Write ((char*)&v, 1); }
   virtual void AddInt16 (int16 v)
