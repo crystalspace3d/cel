@@ -32,6 +32,7 @@ struct iCelEntity;
 struct iCelEntityList;
 struct iCelEntityIterator;
 struct iCelDataBuffer;
+struct iCelCompactDataBuffer;
 struct iCelParameterBlock;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
@@ -215,6 +216,12 @@ struct iCelPlLayer : public virtual iBase
    * as well make its own implementation of iCelDataBuffer.
    */
   virtual csPtr<iCelDataBuffer> CreateDataBuffer (long serialnr) = 0;
+
+  /**
+   * Create a compact data buffer. This is useful for persisting data
+   * in a really compact manner.
+   */
+  virtual csPtr<iCelCompactDataBuffer> CreateCompactDataBuffer () = 0;
 
   /**
    * Attach an entity to some object (usually an object from the engine).

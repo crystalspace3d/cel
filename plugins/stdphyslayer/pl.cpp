@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "csutil/scanstr.h"
+#include "csutil/csendian.h"
 #include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
 #include "plugins/stdphyslayer/pl.h"
@@ -36,6 +37,7 @@
 #include "csutil/cseventq.h"
 #include "csutil/cfgmgr.h"
 #include "csutil/event.h"
+#include "csutil/memfile.h"
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/sector.h"
@@ -759,6 +761,171 @@ iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
   return CreatePropertyClass (entity, propname, tagname);
 }
 
+// Implementation of iCelCompactDataBuffer.
+class celCompactDataBuffer : public scfImplementation1<
+	celCompactDataBuffer, iCelCompactDataBuffer>
+{
+private:
+  csMemFile file;
+
+public:
+  celCompactDataBuffer () : scfImplementationType (this)
+  {
+  }
+  virtual ~celCompactDataBuffer ()
+  {
+  }
+
+  virtual void AddBool (bool v) { AddInt8 (int8 (v)); }
+  virtual void AddInt8 (int8 v) { file.Write ((char*)&v, 1); }
+  virtual void AddInt16 (int16 v)
+  {
+    v = csLittleEndian::Convert (v);
+    file.Write ((char*)&v, sizeof (int16));
+  }
+  virtual void AddInt32 (int32 v)
+  {
+    v = csLittleEndian::Convert (v);
+    file.Write ((char*)&v, sizeof (int32));
+  }
+  virtual void AddUInt8 (uint8 v) { AddInt8 (int8 (v)); }
+  virtual void AddUInt16 (uint16 v) { AddInt16 (int16 (v)); }
+  virtual void AddUInt32 (uint32 v) { AddInt32 (int32 (v)); }
+  virtual void AddFloat (float v)
+  {
+    uint32 ieee = csIEEEfloat::FromNative (v);
+    ieee = csLittleEndian::Convert (ieee);
+    file.Write ((char*)&ieee, sizeof (uint32));
+  }
+  virtual void AddVector2 (const csVector2& v)
+  {
+    AddFloat (v.x);
+    AddFloat (v.y);
+  }
+  virtual void AddVector3 (const csVector3& v)
+  {
+    AddFloat (v.x);
+    AddFloat (v.y);
+    AddFloat (v.z);
+  }
+  virtual void AddVector4 (const csVector4& v)
+  {
+    AddFloat (v.x);
+    AddFloat (v.y);
+    AddFloat (v.z);
+    AddFloat (v.w);
+  }
+  virtual void AddColor (const csColor& v)
+  {
+    AddFloat (v.red);
+    AddFloat (v.green);
+    AddFloat (v.blue);
+  }
+  virtual void AddColor4 (const csColor4& v)
+  {
+    AddFloat (v.red);
+    AddFloat (v.green);
+    AddFloat (v.blue);
+    AddFloat (v.alpha);
+  }
+  virtual void AddString8 (const char* s)
+  {
+    size_t l = strlen (s);
+    AddUInt8 (l);
+    file.Write (s, l+1);
+  }
+  virtual void AddString16 (const char* s)
+  {
+    size_t l = strlen (s);
+    AddUInt16 (l);
+    file.Write (s, l+1);
+  }
+  virtual void AddString32 (const char* s)
+  {
+    size_t l = strlen (s);
+    AddUInt32 (l);
+    file.Write (s, l+1);
+  }
+
+  virtual bool GetBool () { return bool (GetInt8 ()); }
+  virtual int8 GetInt8 () { int8 v; file.Read ((char*)&v, 1); return v; }
+  virtual int16 GetInt16 ()
+  {
+    int16 v;
+    file.Read ((char*)&v, sizeof (int16));
+    return csLittleEndian::Convert (v);
+  }
+  virtual int32 GetInt32 ()
+  {
+    int32 v;
+    file.Read ((char*)&v, sizeof (int32));
+    return csLittleEndian::Convert (v);
+  }
+  virtual uint8 GetUInt8 () { return uint8 (GetInt8 ()); }
+  virtual uint16 GetUInt16 () { return uint16 (GetInt16 ()); }
+  virtual uint32 GetUInt32 () { return uint32 (GetInt32 ()); }
+  virtual float GetFloat ()
+  {
+    uint32 ieee;
+    file.Read ((char*)&ieee, sizeof (uint32));
+    ieee = csLittleEndian::Convert (ieee);
+    return csIEEEfloat::ToNative (ieee);
+  }
+  virtual void GetVector2 (csVector2& v)
+  {
+    v.x = GetFloat ();
+    v.y = GetFloat ();
+  }
+  virtual void GetVector3 (csVector3& v)
+  {
+    v.x = GetFloat ();
+    v.y = GetFloat ();
+    v.z = GetFloat ();
+  }
+  virtual void GetVector4 (csVector4& v)
+  {
+    v.x = GetFloat ();
+    v.y = GetFloat ();
+    v.z = GetFloat ();
+    v.w = GetFloat ();
+  }
+  virtual void GetColor (csColor& v)
+  {
+    v.red = GetFloat ();
+    v.green = GetFloat ();
+    v.blue = GetFloat ();
+  }
+  virtual void GetColor (csColor4& v)
+  {
+    v.red = GetFloat ();
+    v.green = GetFloat ();
+    v.blue = GetFloat ();
+    v.alpha = GetFloat ();
+  }
+  /// The returned pointer is only valid for the lifetime of the buffer.
+  virtual const char* GetString8 ()
+  {
+    uint8 l = GetUInt8 ();
+    const char* data = file.GetData ();
+    file.SetPos (file.GetPos () + l+1);
+    return data;
+  }
+  virtual const char* GetString16 ()
+  {
+    uint16 l = GetUInt16 ();
+    const char* data = file.GetData ();
+    file.SetPos (file.GetPos () + l+1);
+    return data;
+  }
+  virtual const char* GetString32 ()
+  {
+    uint32 l = GetUInt32 ();
+    const char* data = file.GetData ();
+    file.SetPos (file.GetPos () + l+1);
+    return data;
+  }
+};
+
 // Implementation of iCelDataBuffer.
 class celDataBuffer : public scfImplementation1<
 	celDataBuffer, iCelDataBuffer>
@@ -811,6 +978,11 @@ public:
 csPtr<iCelDataBuffer> celPlLayer::CreateDataBuffer (long serialnr)
 {
   return csPtr<iCelDataBuffer> (new celDataBuffer (serialnr));
+}
+
+csPtr<iCelCompactDataBuffer> celPlLayer::CreateCompactDataBuffer ()
+{
+  return csPtr<iCelCompactDataBuffer> (new celCompactDataBuffer ());
 }
 
 // Class which is used to attach to an iObject so that
