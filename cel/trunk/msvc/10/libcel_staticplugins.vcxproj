@@ -531,6 +531,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libsequences_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libstdphyslayer_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libtriggers_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libui_inventory2_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libxmlpersist_staticreg.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentity\celentity.cpp" />
@@ -684,6 +685,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\tools\triggers\trig_trigger.cpp" />
     <ClCompile Include="..\..\plugins\tools\triggers\trig_watch.cpp" />
     <ClCompile Include="..\..\plugins\tools\uitools\inventory\inventory.cpp" />
+    <ClCompile Include="..\..\plugins\tools\uitools\inventory2\inventory2.cpp" />
     <ClCompile Include="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">..\..\out\release10\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">..\..\out\release10-x64\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
@@ -870,6 +872,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\tools\triggers\trig_trigger.h" />
     <ClInclude Include="..\..\plugins\tools\triggers\trig_watch.h" />
     <ClInclude Include="..\..\plugins\tools\uitools\inventory\inventory.h" />
+    <ClInclude Include="..\..\plugins\tools\uitools\inventory2\inventory2.h" />
     <ClInclude Include="..\..\plugins\propclass\newcamera\modes\tracking.h" />
     <ClInclude Include="..\..\plugins\tools\billboard\billboard.h" />
     <ClInclude Include="..\..\plugins\tools\celgraph\celgraph.h" />
