@@ -140,6 +140,63 @@ void celEntity::Deactivate ()
   }
 }
 
+void celEntity::MarkBaseline ()
+{
+  for (size_t i = 0 ; i < prop_classes.GetSize () ; i++)
+    prop_classes[i]->MarkBaseline ();
+}
+
+bool celEntity::IsModifiedSinceBaseline () const
+{
+  for (size_t i = 0 ; i < prop_classes.GetSize () ; i++)
+    if (prop_classes[i]->IsModifiedSinceBaseline ()) return true;
+  return false;
+}
+
+void celEntity::SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings)
+{
+  for (size_t i = 0 ; i < prop_classes.GetSize () ; i++)
+    if (prop_classes[i]->IsModifiedSinceBaseline ())
+    {
+      csStringID nameID = strings->Request (prop_classes[i]->GetName ());
+      buf->AddUInt32 (nameID);
+      if (prop_classes[i]->GetTag () && *prop_classes[i]->GetTag ())
+      {
+	csStringID tagID = strings->Request (prop_classes[i]->GetTag ());
+	buf->AddUInt32 (tagID);
+      }
+      else
+      {
+	buf->AddUInt32 ((uint32)csArrayItemNotFound);
+      }
+      prop_classes[i]->SaveModifications (buf, strings);
+    }
+  buf->AddUInt32 ((uint32)csArrayItemNotFound);
+}
+
+void celEntity::RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings)
+{
+  csStringID nameID = buf->GetUInt32 ();
+  while (nameID != csArrayItemNotFound)
+  {
+    csStringID tagID = buf->GetUInt32 ();
+    csString tag;
+    iCelPropertyClass* pc;
+    const char* name = strings->Request (nameID);
+    if (tagID == csArrayItemNotFound)
+      pc = FindByName (name);
+    else
+      pc = FindByNameAndTag (name, strings->Request (tagID));
+    if (!pc)
+    {
+      printf ("Error finding pc '%s'\n!", name);
+      fflush (stdout);
+      return;
+    }
+    pc->RestoreModifications (buf, strings);
+  }
+}
+
 size_t celEntity::GetCount () const
 {
   return prop_classes.GetSize ();

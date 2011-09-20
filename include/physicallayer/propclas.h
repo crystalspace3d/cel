@@ -34,8 +34,10 @@ class csVector3;
 class csColor;
 struct iCelEntity;
 struct iCelDataBuffer;
+struct iCelCompactDataBuffer;
 struct iCelPropertyChangeCallback;
 struct iCelParameterBlock;
+struct iStringSet;
 
 /**
  * If a property class represents a position in the world then it
@@ -43,7 +45,7 @@ struct iCelParameterBlock;
  */
 struct iCelPositionInfo : public virtual iBase
 {
-  SCF_INTERFACE (iCelPositionInfo, 0, 1, 0);
+  SCF_INTERFACE (iCelPositionInfo, 0, 1, 1);
 
   /**
    * Get the main sector of this object (if an object spans multiple
@@ -366,6 +368,37 @@ struct iCelPropertyClass : public virtual iBase
    * processed.
    */
   virtual void Deactivate () = 0;
+
+  /**
+   * Mark the baseline for this property class. This means that the status of this
+   * property class as it is now doesn't have to be saved. Only changes to the property
+   * class that happen after this baseline have to be modified. A property class doesn't
+   * actually have to do this in a granular way. It can simply say that it saves itself
+   * completely as soon as it has been modified after the baseline.
+   */
+  virtual void MarkBaseline () = 0;
+
+  /**
+   * Return true if this property class was modified after the baseline.
+   */
+  virtual bool IsModifiedSinceBaseline () const = 0;
+
+  /**
+   * Return the data that represents the information that changed after the
+   * baseline. If it is too complicated to actually return the information that
+   * really changed it is allowed for this function to simply save the complete state.
+   * If this function wants to save strings effectively it is best to intern them first
+   * using the 'strings' set.
+   */
+  virtual void SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings) = 0;
+
+  /**
+   * Call this function if the property class is in the state as it was at the moment of
+   * the baseline. This function will put back the modifications that were made
+   * after the baseline.
+   * Interned strings can be fetched from the 'strings' set.
+   */
+  virtual void RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings) = 0;
 };
 
 

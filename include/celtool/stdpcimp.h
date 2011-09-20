@@ -294,6 +294,11 @@ public:
   virtual void Activate () { }
   virtual void Deactivate () { }
 
+  virtual void MarkBaseline () { }
+  virtual bool IsModifiedSinceBaseline () const { return false; }
+  virtual void SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings) { }
+  virtual void RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings) { }
+
   // --- For iCelTimerListener -----------------------------------------
   virtual void TickEveryFrame () { }
   virtual void TickOnce () { }
