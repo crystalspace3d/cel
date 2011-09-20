@@ -43,5 +43,6 @@
 #include "tools/sequences.h"
 #include "tools/triggers.h"
 #include "tools/uitools/inventory.h"
+#include "tools/uitools/inventory2.h"
 #endif /* __TOOLS_H__ */
 

@@ -4033,6 +4033,7 @@ class iPcInventory(cspace.iBase):
     def IsClassAllowed(*args): return _blcelc.iPcInventory_IsClassAllowed(*args)
     def SetLootGenerator(*args): return _blcelc.iPcInventory_SetLootGenerator(*args)
     def GetLootGenerator(*args): return _blcelc.iPcInventory_GetLootGenerator(*args)
+    def GenerateLoot(*args): return _blcelc.iPcInventory_GenerateLoot(*args)
     EntityCount = _swig_property(_blcelc.iPcInventory_EntityCount_get, None, None,
                     "iPcInventory.EntityCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcInventory::GetEntityCount()")
 

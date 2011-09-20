@@ -800,6 +800,9 @@
 				RelativePath="..\..\msvc\libtriggers_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libui_inventory2_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libui_inventory_staticreg.cpp">
 			</File>
 			<File
@@ -1257,6 +1260,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\uitools\inventory\inventory.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\uitools\inventory2\inventory2.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
@@ -1873,6 +1879,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\uitools\inventory\inventory.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\uitools\inventory2\inventory2.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.h">
