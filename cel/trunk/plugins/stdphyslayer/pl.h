@@ -173,6 +173,7 @@ public:
   virtual iCelPropertyClass* CreateTaggedPropertyClass (iCelEntity *entity,
 	  const char* propname, const char* tagname);
   virtual csPtr<iCelDataBuffer> CreateDataBuffer (long serialnr);
+  virtual csPtr<iCelCompactDataBuffer> CreateCompactDataBuffer ();
 
   virtual void AttachEntity (iObject* object, iCelEntity* entity);
   virtual void UnattachEntity (iObject* object, iCelEntity* entity);
