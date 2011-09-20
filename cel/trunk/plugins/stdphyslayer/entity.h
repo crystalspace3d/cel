@@ -94,6 +94,11 @@ public:
   virtual void Deactivate ();
   virtual bool IsActive () const { return active; }
 
+  virtual void MarkBaseline ();
+  virtual bool IsModifiedSinceBaseline () const;
+  virtual void SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings);
+  virtual void RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings);
+
   //------- For iMessageChannel ---------------------------------------------
   virtual iMessageChannel* QueryMessageChannel ()
   {

@@ -32,6 +32,8 @@ struct iMessageChannel;
 struct iMessageDispatcher;
 struct iMessageSender;
 struct iObject;
+struct iStringSet;
+struct iCelCompactDataBuffer;
 
 struct iSector;
 struct iMovable;
@@ -49,7 +51,7 @@ struct iMovable;
  */
 struct iCelEntity : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntity, 0, 0, 5);
+  SCF_INTERFACE (iCelEntity, 0, 0, 6);
 
   /**
    * Get the iObject for this entity (if supported).
@@ -163,6 +165,33 @@ struct iCelEntity : public virtual iBase
    * Return true if the entity is active.
    */
   virtual bool IsActive () const = 0;
+
+  /**
+   * Mark the baseline for this entity. This means that the status of this
+   * entity as it is now doesn't have to be saved. Only changes to the entity
+   * that happen after this baseline have to be modified. This function will
+   * delegate to the property classes.
+   */
+  virtual void MarkBaseline () = 0;
+
+  /**
+   * Return true if there is any property class that has been modified since
+   * the baseline.
+   */
+  virtual bool IsModifiedSinceBaseline () const = 0;
+
+  /**
+   * Return the data that represents the information that changed after the
+   * baseline. Only the modified property classes are saved here.
+   */
+  virtual void SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings) = 0;
+
+  /**
+   * Call this function if the entity is in the state as it was at the moment of
+   * the baseline. This function will put back the modifications that were made
+   * after the baseline.
+   */
+  virtual void RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings) = 0;
 };
 
 /**
