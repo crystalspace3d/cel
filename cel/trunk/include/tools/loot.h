@@ -33,6 +33,11 @@ struct iLootGenerator : public virtual iBase
   SCF_INTERFACE (iLootGenerator, 0, 0, 1);
 
   /**
+   * Get the name of this generator.
+   */
+  virtual const char* GetName () const = 0;
+
+  /**
    * Generate loot in an inventory. The inventory doesn't have to be empty for this to work.
    * If there are already items in the inventory then the loot is simply added.
    * If the constraints are set too strict then it is possible that no loot can
@@ -51,11 +56,6 @@ struct iLootGenerator : public virtual iBase
 struct iLootPackage : public virtual iBase
 {
   SCF_INTERFACE (iLootPackage, 0, 0, 1);
-
-  /**
-   * Get the name of this loot package.
-   */
-  virtual const char* GetName () const = 0;
 
   /**
    * Set and get the range of items that are allowed. Default range is 1
@@ -114,11 +114,6 @@ struct iLootPackage : public virtual iBase
 struct iLootSelector : public virtual iBase
 {
   SCF_INTERFACE (iLootSelector, 0, 0, 1);
-
-  /**
-   * Get the name of this loot selector.
-   */
-  virtual const char* GetName () const = 0;
 
   /**
    * Add a loot selection rule. Loot selection rules are considered in order that they are added
