@@ -26,7 +26,9 @@
 #include "csutil/csstring.h"
 #include "csutil/xmltiny.h"
 #include "csutil/scfstr.h"
+#include "csutil/scfstrset.h"
 #include "csutil/scanstr.h"
+#include "csutil/memfile.h"
 #include "cstool/csview.h"
 #include "cstool/simplestaticlighter.h"
 #include "iutil/objreg.h"
@@ -221,6 +223,7 @@ void DynamicObject::Init ()
   hilight_installed = false;
   fade = 0;
   bsphereValid = false;
+  atBaseline = false;
 }
 
 DynamicObject::DynamicObject () : scfImplementationType (this)
@@ -346,6 +349,26 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
   }
 }
 
+iCelEntity* DynamicObject::ForceEntity (celPcDynamicWorld* world)
+{
+  if (entityTemplate && !entity)
+  {
+printf ("entityTemplate=%s\n", entityTemplate->GetName ()); fflush (stdout);
+    entity = world->pl->CreateEntity (entityTemplate, entityName, params);
+    entity->SetID (id);
+    if (atBaseline)
+    {
+      // The elcm normally automatically registers new entities as
+      // being new after the baseline. But since we know this entity
+      // is part of the baseline (since our DynObj is part of the baseline)
+      // we must unregister it here.
+      if (world->elcm) world->elcm->UnregisterNewEntity (entity);
+      entity->MarkBaseline ();
+    }
+  }
+  return entity;
+}
+
 void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
 {
   if (mesh) return;
@@ -366,11 +389,7 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   if (is_static)
     body->MakeStatic ();
 
-  if (entityTemplate && !entity)
-  {
-    entity = world->pl->CreateEntity (entityTemplate, entityName, params);
-    entity->SetID (id);
-  }
+  ForceEntity (world);
   if (entity)
   {
     csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
@@ -554,12 +573,13 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
-  pl->AddScope ("cel.numreg.hash", 1000000000);
+  scopeIdx = pl->AddScope ("cel.numreg.hash", 1000000000);
   tree = new CS::Geometry::KDTree ();
   ObjDes* objDes = new ObjDes ();
   tree->SetObjectDescriptor (objDes);
   objDes->DecRef ();
   lastID = 1000000001;
+  scopeIdx = csArrayItemNotFound;
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
@@ -634,6 +654,8 @@ void celPcDynamicWorld::ForceVisible (iDynamicObject* dynobj)
 
 void celPcDynamicWorld::DeleteObjects ()
 {
+  if (scopeIdx != csArrayItemNotFound)
+    pl->ResetScope (scopeIdx);
   lastID = 1000000001;
   while (objects.GetSize () > 0)
   {
@@ -678,6 +700,18 @@ iDynamicObject* celPcDynamicWorld::FindDynamicObject (iCelEntity* entity) const
   }
   return 0;
 }
+
+iDynamicObject* celPcDynamicWorld::FindDynamicObject (uint id) const
+{
+  //@@@ Not very efficient!
+  for (size_t i = 0 ; i < objects.GetSize () ; i++)
+  {
+    if (objects[i]->GetID () == id)
+      return objects[i];
+  }
+  return 0;
+}
+
 
 void celPcDynamicWorld::RemoveSafeEntities ()
 {
@@ -947,6 +981,184 @@ csRef<iString> celPcDynamicWorld::Load (iDocumentNode* node)
   }
 
   return 0;
+}
+
+void celPcDynamicWorld::MarkBaseline ()
+{
+  if (elcm)
+    elcm->MarkBaseline ();
+  for (size_t i = 0 ; i < objects.GetSize () ; i++)
+    objects[i]->MarkBaseline ();
+}
+
+void celPcDynamicWorld::SaveStrings (iCelCompactDataBufferWriter* buf,
+    csScfStringSet* strings)
+{
+  csStringSet::GlobalIterator it = strings->GetIterator ();
+  while (it.HasNext ())
+  {
+    const char* str;
+    csStringID id = it.Next (str);
+    buf->AddUInt32 (id);
+    buf->AddString32 (str);
+  }
+  buf->AddUInt32 ((uint32)csArrayItemNotFound);
+}
+
+void celPcDynamicWorld::LoadStrings (iCelCompactDataBufferReader* buf,
+      csHash<csString,csStringID>& strings)
+{
+  csStringID id = buf->GetUInt32 ();
+  while (id != (csStringID)csArrayItemNotFound)
+  {
+    const char* str = buf->GetString32 ();
+    strings.Put (id, str);
+    id = buf->GetUInt32 ();
+  }
+}
+
+// @@@ TODO! Save dynobj's without entity!!!!!
+csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
+{
+  csRef<csScfStringSet> strings;
+  strings.AttachNew (new csScfStringSet ());
+  csRef<iCelCompactDataBufferWriter> buf = pl->CreateCompactDataBufferWriter ();
+
+  if (elcm)
+  {
+    const csSet<uint>& deletedEntities = elcm->GetDeletedEntities ();
+    buf->AddUInt32 (deletedEntities.GetSize ());
+    csSet<uint>::GlobalIterator delIt = deletedEntities.GetIterator ();
+    while (delIt.HasNext ())
+    {
+      uint id = delIt.Next ();
+      buf->AddUInt32 (id);
+    }
+
+    const csSet<csPtrKey<iCelEntity> >& newEntites = elcm->GetNewEntities ();
+
+    csRef<iCelEntityIterator> it = elcm->GetModifiedEntities ();
+    while (it->HasNext ())
+    {
+      iCelEntity* entity = it->Next ();
+      iDynamicObject* dynobj = FindDynamicObject (entity);
+      if (!dynobj)
+      {
+        printf ("Warning! Ignored entity '%s'!\n", entity->GetName ());
+        fflush (stdout);
+        continue;    // @@@???
+      }
+      else
+      {
+        printf ("Saving entity '%s'!\n", entity->GetName ());
+        fflush (stdout);
+      }
+
+      // @@@ SAVE ENTITIES IN INVENTORY
+
+      buf->AddUInt32 (entity->GetID ());
+      if (newEntites.Contains (entity))
+      {
+        iDynamicFactory* dynfact = dynobj->GetFactory ();
+        csStringID tmpID = strings->Request (dynfact->GetName ());
+        buf->AddUInt32 (tmpID);
+        csStringID entNameID = strings->Request (entity->GetName ());
+        buf->AddUInt32 (entNameID);
+      }
+      else
+      {
+        buf->AddUInt32 ((uint32)csArrayItemNotFound);
+      }
+      // @@@ For now we just save the position if the entity is modified.
+      // Perhaps this is even a good idea. Have to think about this more.
+      const csReversibleTransform& trans = dynobj->GetTransform ();
+      buf->AddVector3 (trans.GetOrigin ());
+      buf->AddVector3 (trans.GetO2T ().Row1 ());
+      buf->AddVector3 (trans.GetO2T ().Row2 ());
+      buf->AddVector3 (trans.GetO2T ().Row3 ());
+      entity->SaveModifications (buf, strings);
+    }
+    buf->AddUInt32 ((uint32)csArrayItemNotFound);
+  }
+  else
+  {
+    // @@@
+    printf ("Saving without ELCM is not yet supported!\n");
+  }
+
+  csRef<iCelCompactDataBufferWriter> sbuf = pl->CreateCompactDataBufferWriter ();
+  SaveStrings (sbuf, strings);
+  csMemFile file;
+  file.Write (sbuf->GetData (), sbuf->GetSize ());
+  file.Write (buf->GetData (), buf->GetSize ());
+  return file.GetAllData ();
+}
+
+void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
+{
+  csHash<csString,csStringID> strings;
+  csRef<iCelCompactDataBufferReader> buf = pl->CreateCompactDataBufferReader (dbuf);
+  LoadStrings (buf, strings);
+
+  if (elcm)
+  {
+    size_t delSize = (size_t)buf->GetUInt32 ();
+    for (size_t i = 0 ; i < delSize ; i++)
+    {
+      uint id = (uint)buf->GetUInt32 ();
+      elcm->RegisterDeletedEntity (id);
+    }
+
+    uint id = buf->GetUInt32 ();
+    while (id != (uint)csArrayItemNotFound)
+    {
+      csStringID tmpID = (csStringID)buf->GetUInt32 ();
+      csStringID entNameID = csArrayItemNotFound;
+      if (tmpID != csArrayItemNotFound)
+      {
+        entNameID = (csStringID)buf->GetUInt32 ();
+      }
+      csReversibleTransform trans;
+      csVector3 v, r1, r2, r3;
+      buf->GetVector3 (v);
+      buf->GetVector3 (r1);
+      buf->GetVector3 (r2);
+      buf->GetVector3 (r3);
+      trans.SetOrigin (v);
+      csMatrix3 m;
+      m.SetRow1 (r1);
+      m.SetRow2 (r2);
+      m.SetRow3 (r3);
+      trans.SetO2T (m);
+
+      DynamicObject* dynobj;
+printf ("id=%d\n", (uint)tmpID);
+      if (tmpID != csArrayItemNotFound)
+      {
+        // Entity has to be created.
+        const char* tmpName = strings.Get (tmpID, (const char*)0);
+        dynobj = static_cast<DynamicObject*> (AddObject (tmpName, trans));
+        dynobj->SetID (id);
+        const char* entName = strings.Get (entNameID, (const char*)0);
+printf ("New entity '%s'\n", entName); fflush (stdout);
+        dynobj->SetEntity (entName, 0); // @@@ params?
+        elcm->RegisterNewEntity (dynobj->ForceEntity (this));
+      }
+      else
+      {
+        dynobj = static_cast<DynamicObject*> (FindDynamicObject (id));
+        dynobj->SetTransform (trans);
+        // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
+        dynobj->ForceEntity (this);
+printf ("Existing entity '%s'\n", dynobj->GetEntity ()->GetName ()); fflush (stdout);
+      }
+      dynobj->ClearBaseline ();
+
+      dynobj->GetEntity ()->RestoreModifications (buf, strings);
+
+      id = buf->GetUInt32 ();
+    }
+  }
 }
 
 void celPcDynamicWorld::Dump ()

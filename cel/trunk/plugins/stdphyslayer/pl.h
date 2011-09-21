@@ -173,7 +173,9 @@ public:
   virtual iCelPropertyClass* CreateTaggedPropertyClass (iCelEntity *entity,
 	  const char* propname, const char* tagname);
   virtual csPtr<iCelDataBuffer> CreateDataBuffer (long serialnr);
-  virtual csPtr<iCelCompactDataBuffer> CreateCompactDataBuffer ();
+  virtual csPtr<iCelCompactDataBufferWriter> CreateCompactDataBufferWriter ();
+  virtual csPtr<iCelCompactDataBufferReader> CreateCompactDataBufferReader (
+      iDataBuffer* buf);
 
   virtual void AttachEntity (iObject* object, iCelEntity* entity);
   virtual void UnattachEntity (iObject* object, iCelEntity* entity);
@@ -241,7 +243,8 @@ public:
   virtual void RemoveCallbackOnce (iCelTimerListener* listener, int where);
   virtual csTicks GetTicksLeft (iCelTimerListener* listener, int where);
 
-  virtual int AddScope (csString impl, int size);
+  virtual size_t AddScope (csString impl, int size);
+  virtual void ResetScope (size_t scope_idx);
 
   void EntityClassAdded(iCelEntity*,csStringID entclass);
   void EntityClassRemoved(iCelEntity*,csStringID entclass);

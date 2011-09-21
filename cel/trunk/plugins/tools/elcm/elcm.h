@@ -78,6 +78,13 @@ private:
 
   void FireELCMListeners (iCelEntity* entity);
 
+  bool atBaseline;
+  // A set of all entity ID's that existed before the baseline and
+  // that were deleted later.
+  csSet<uint> deletedEntities;
+  // A set of all entities that were created after the baseline.
+  csSet<csPtrKey<iCelEntity> > newEntities;
+
 public:
   celELCM (iBase* parent);
   virtual ~celELCM ();
@@ -102,13 +109,36 @@ public:
   virtual void AddELCMListener (iELCMListener* listener);
   virtual void RemoveELCMListener (iELCMListener* listener);
 
+  virtual void MarkBaseline ();
+  virtual const csSet<uint>& GetDeletedEntities () const
+  {
+    return deletedEntities;
+  }
+  virtual void RegisterDeletedEntity (uint id)
+  {
+    deletedEntities.Add (id);
+  }
+  virtual const csSet<csPtrKey<iCelEntity> >& GetNewEntities () const
+  {
+    return newEntities;
+  }
+  virtual void RegisterNewEntity (iCelEntity* ent)
+  {
+    newEntities.Add (ent);
+  }
+  virtual void UnregisterNewEntity (iCelEntity* ent)
+  {
+    newEntities.Delete (ent);
+  }
+  virtual csPtr<iCelEntityIterator> GetModifiedEntities () const;
+
   virtual void Dump ();
 
   // For celPeriodicTimer
   virtual void Tick ();
 
-  void RegisterNewEntity (iCelEntity* entity);
-  void RegisterRemoveEntity (iCelEntity* entity);
+  void ListenNewEntity (iCelEntity* entity);
+  void ListenRemoveEntity (iCelEntity* entity);
 
   iCelPlLayer* GetPL ();
   iEngine* GetEngine ();

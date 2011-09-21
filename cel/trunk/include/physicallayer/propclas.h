@@ -34,7 +34,8 @@ class csVector3;
 class csColor;
 struct iCelEntity;
 struct iCelDataBuffer;
-struct iCelCompactDataBuffer;
+struct iCelCompactDataBufferWriter;
+struct iCelCompactDataBufferReader;
 struct iCelPropertyChangeCallback;
 struct iCelParameterBlock;
 struct iStringSet;
@@ -390,7 +391,7 @@ struct iCelPropertyClass : public virtual iBase
    * If this function wants to save strings effectively it is best to intern them first
    * using the 'strings' set.
    */
-  virtual void SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings) = 0;
+  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings) = 0;
 
   /**
    * Call this function if the property class is in the state as it was at the moment of
@@ -398,7 +399,8 @@ struct iCelPropertyClass : public virtual iBase
    * after the baseline.
    * Interned strings can be fetched from the 'strings' set.
    */
-  virtual void RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings) = 0;
+  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
+      const csHash<csString,csStringID>& strings) = 0;
 };
 
 
