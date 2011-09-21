@@ -219,7 +219,10 @@ void celPcInventory::RestoreModifications (iCelCompactDataBufferReader* buf,
       return;
     }
     const char* lootname = strings.Get (generatorID, (const char*)0);
-    generator = lootmgr->FindLootGenerator (lootname);
+    if (lootname)
+      generator = lootmgr->FindLootGenerator (lootname);
+    else
+      generator = 0;
   }
   size_t coSize = buf->GetUInt16 ();
   for (size_t i = 0 ; i < coSize ; i++)
