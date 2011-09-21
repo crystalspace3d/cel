@@ -87,6 +87,7 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
     AddAction (action_generateloot, "GenerateLoot");
   }
   generatorActive = false;
+  atBaseline = true;
 }
 
 celPcInventory::~celPcInventory ()
@@ -99,6 +100,8 @@ bool celPcInventory::GenerateLoot ()
   if (!generatorActive) return true;
   generatorActive = false;
   if (!generator) return true;
+
+  atBaseline = false;
 
   csRef<celOneParameterBlock> params;
   params.AttachNew (new celOneParameterBlock ());
@@ -170,6 +173,67 @@ bool celPcInventory::PerformActionIndexed (int idx,
     return true;
   }
   return false;
+}
+
+void celPcInventory::SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings)
+{
+  buf->AddBool (generatorActive);
+  if (generator)
+  {
+    csStringID generatorID = strings->Request (generator->GetName ());
+    buf->AddUInt32 (generatorID);
+  }
+  else
+  {
+    buf->AddUInt32 ((uint32) csArrayItemNotFound);
+  }
+#if 0
+  //@@@ TODO
+  buf->AddUInt16 (contents.GetSize ());
+  for (size_t i = 0 ; i < contents.GetSize () ; i++)
+  {
+    buf->AddUInt32 (contents[i]->GetID ());
+  }
+#endif
+  buf->AddUInt16 (templatedContents.GetSize ());
+  for (size_t i = 0 ; i < templatedContents.GetSize () ; i++)
+  {
+    csStringID tplID = strings->Request (templatedContents[i].tpl->GetName ());
+    buf->AddUInt32 (tplID); 
+    buf->AddInt32 (templatedContents[i].amount);
+  }
+}
+
+void celPcInventory::RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings)
+{
+  generatorActive = buf->GetBool ();
+  csStringID generatorID = buf->GetUInt32 ();
+  if (generatorID == csArrayItemNotFound)
+    generator = 0;
+  else
+  {
+    csRef<iLootManager> lootmgr = csLoadPluginCheck<iLootManager> (object_reg, "cel.tools.lootmanager");
+    if (!lootmgr)
+    {
+      printf ("Error! Couldn't find loot manager!\n");
+      return;
+    }
+    generator = lootmgr->FindLootGenerator (strings->Request (generatorID));
+  }
+  size_t tcSize = buf->GetUInt16 ();
+  for (size_t i = 0 ; i < tcSize ; i++)
+  {
+    csStringID tplID = buf->GetUInt32 ();
+    TemplateStack ts;
+    ts.tpl = pl->FindEntityTemplate (strings->Request (tplID));
+    if (!ts.tpl)
+    {
+      printf ("Error! Couldn't find template '%s'!\n", strings->Request (tplID));
+      return;
+    }
+    ts.amount = buf->GetInt32 ();
+    templatedContents.Push (ts);
+  }
 }
 
 #define INVENTORY_SERIAL 2
@@ -312,6 +376,7 @@ bool celPcInventory::AddEntityTemplate (iCelEntityTemplate* child, int amount)
   }
 
   // Send messages.
+  atBaseline = false;
   FireInventoryListenersAdd (child, amount);
   if (entity)
   {
@@ -364,6 +429,7 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
   }
 
   // Send messages.
+  atBaseline = false;
   FireInventoryListenersAdd (child);
   iCelBehaviour* bh;
   if (entity)
@@ -435,6 +501,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   }
 
   // Send messages.
+  atBaseline = false;
   FireInventoryListenersRemove (child);
   iCelBehaviour* bh;
   if (entity)
@@ -510,6 +577,7 @@ bool celPcInventory::RemoveEntityTemplate (iCelEntityTemplate* child, int amount
   }
 
   // Send messages.
+  atBaseline = false;
   FireInventoryListenersRemove (child, amount);
   if (entity)
   {
@@ -567,6 +635,7 @@ bool celPcInventory::RemoveEntity (iCelParameterBlock* pparams)
   }
 
   // Send messages.
+  atBaseline = false;
   FireInventoryListenersRemove (child);
   iCelBehaviour* bh;
   if (entity)
@@ -616,6 +685,7 @@ bool celPcInventory::RemoveAll ()
   generator = 0;
 
   if (space) space->RemoveAll();
+  atBaseline = false;
 
   return true;
 }
@@ -1081,6 +1151,7 @@ void celPcInventory::SetLootGenerator (iLootGenerator* generator)
 {
   celPcInventory::generator = generator;
   generatorActive = true;
+  atBaseline = false;
 }
 
 //---------------------------------------------------------------------------

@@ -103,6 +103,9 @@ private:
 
   static PropertyHolder propinfo;
 
+  // If this flag is true our inventory is still in 'baseline' state.
+  bool atBaseline;
+
 public:
   celPcInventory (iObjectRegistry* object_reg);
   virtual ~celPcInventory ();
@@ -167,6 +170,11 @@ public:
   virtual void SetLootGenerator (iLootGenerator* generator);
   virtual iLootGenerator* GetLootGenerator () const { return generator; }
   virtual bool GenerateLoot ();
+
+  virtual void MarkBaseline () { atBaseline = true; }
+  virtual bool IsModifiedSinceBaseline () const { return !atBaseline; }
+  virtual void SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings);
+  virtual void RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings);
 };
 
 /**
