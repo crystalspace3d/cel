@@ -833,21 +833,42 @@ public:
   }
   virtual void AddString8 (const char* s)
   {
-    size_t l = strlen (s);
-    AddUInt8 (l);
-    file.Write (s, l+1);
+    if (s)
+    {
+      size_t l = strlen (s);
+      AddUInt8 (l);
+      file.Write (s, l+1);
+    }
+    else
+    {
+      AddUInt8 ((uint8)~0);
+    }
   }
   virtual void AddString16 (const char* s)
   {
-    size_t l = strlen (s);
-    AddUInt16 (l);
-    file.Write (s, l+1);
+    if (s)
+    {
+      size_t l = strlen (s);
+      AddUInt16 (l);
+      file.Write (s, l+1);
+    }
+    else
+    {
+      AddUInt16 ((uint16)~0);
+    }
   }
   virtual void AddString32 (const char* s)
   {
-    size_t l = strlen (s);
-    AddUInt32 (l);
-    file.Write (s, l+1);
+    if (s)
+    {
+      size_t l = strlen (s);
+      AddUInt32 (l);
+      file.Write (s, l+1);
+    }
+    else
+    {
+      AddUInt32 ((uint32)~0);
+    }
   }
 
   virtual bool GetBool () { return bool (GetInt8 ()); }
@@ -909,6 +930,8 @@ public:
   virtual const char* GetString8 ()
   {
     uint8 l = GetUInt8 ();
+    if (l == (uint8)~0)
+      return 0;
     const char* data = file.GetData ();
     file.SetPos (file.GetPos () + l+1);
     return data;
@@ -916,6 +939,8 @@ public:
   virtual const char* GetString16 ()
   {
     uint16 l = GetUInt16 ();
+    if (l == (uint16)~0)
+      return 0;
     const char* data = file.GetData ();
     file.SetPos (file.GetPos () + l+1);
     return data;
@@ -923,6 +948,8 @@ public:
   virtual const char* GetString32 ()
   {
     uint32 l = GetUInt32 ();
+    if (l == (uint32)~0)
+      return 0;
     const char* data = file.GetData ();
     file.SetPos (file.GetPos () + l+1);
     return data;
