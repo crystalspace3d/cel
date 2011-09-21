@@ -187,14 +187,13 @@ void celPcInventory::SaveModifications (iCelCompactDataBuffer* buf, iStringSet* 
   {
     buf->AddUInt32 ((uint32) csArrayItemNotFound);
   }
-#if 0
-  //@@@ TODO
   buf->AddUInt16 (contents.GetSize ());
   for (size_t i = 0 ; i < contents.GetSize () ; i++)
   {
+    // We only save ID here. We assume the contents of the entities
+    // will be saved elsewhere.
     buf->AddUInt32 (contents[i]->GetID ());
   }
-#endif
   buf->AddUInt16 (templatedContents.GetSize ());
   for (size_t i = 0 ; i < templatedContents.GetSize () ; i++)
   {
@@ -219,6 +218,18 @@ void celPcInventory::RestoreModifications (iCelCompactDataBuffer* buf, iStringSe
       return;
     }
     generator = lootmgr->FindLootGenerator (strings->Request (generatorID));
+  }
+  size_t coSize = buf->GetUInt16 ();
+  for (size_t i = 0 ; i < coSize ; i++)
+  {
+    uint entID = (uint)buf->GetUInt32 ();
+    iCelEntity* ent = pl->GetEntity (entID);
+    if (!ent)
+    {
+      printf ("Error! Couldn't find entity '%d'!\n", entID);
+      return;
+    }
+    contents.Push (ent);
   }
   size_t tcSize = buf->GetUInt16 ();
   for (size_t i = 0 ; i < tcSize ; i++)
