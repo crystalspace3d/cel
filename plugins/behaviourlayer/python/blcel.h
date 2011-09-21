@@ -107,6 +107,10 @@ public:
     virtual iCelPositionInfo *QueryPositionInfo();
     virtual void Activate();
     virtual void Deactivate();
+    virtual void MarkBaseline();
+    virtual bool IsModifiedSinceBaseline() const;
+    virtual void SaveModifications(iCelCompactDataBuffer *buf, iStringSet *strings);
+    virtual void RestoreModifications(iCelCompactDataBuffer *buf, iStringSet *strings);
     virtual void TickEveryFrame();
     virtual void TickOnce();
     virtual void MessageDispatcherRemoved(iMessageDispatcher *dispatcher);
@@ -144,7 +148,7 @@ private:
       return method;
     }
 private:
-    mutable swig::PyObject_var vtable[45];
+    mutable swig::PyObject_var vtable[49];
 #endif
 
 };
