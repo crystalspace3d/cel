@@ -466,6 +466,7 @@ class iCelPlLayer(cspace.iBase):
     def GetEntityTemplate(*args): return _blcelc.iCelPlLayer_GetEntityTemplate(*args)
     def CreateEntity(*args): return _blcelc.iCelPlLayer_CreateEntity(*args)
     def CreateDataBuffer(*args): return _blcelc.iCelPlLayer_CreateDataBuffer(*args)
+    def CreateCompactDataBuffer(*args): return _blcelc.iCelPlLayer_CreateCompactDataBuffer(*args)
     def AttachEntity(*args): return _blcelc.iCelPlLayer_AttachEntity(*args)
     def UnattachEntity(*args): return _blcelc.iCelPlLayer_UnattachEntity(*args)
     def GetEntity(*args): return _blcelc.iCelPlLayer_GetEntity(*args)
@@ -698,6 +699,10 @@ class iCelEntity(cspace.iBase):
     def Activate(*args): return _blcelc.iCelEntity_Activate(*args)
     def Deactivate(*args): return _blcelc.iCelEntity_Deactivate(*args)
     def IsActive(*args): return _blcelc.iCelEntity_IsActive(*args)
+    def MarkBaseline(*args): return _blcelc.iCelEntity_MarkBaseline(*args)
+    def IsModifiedSinceBaseline(*args): return _blcelc.iCelEntity_IsModifiedSinceBaseline(*args)
+    def SaveModifications(*args): return _blcelc.iCelEntity_SaveModifications(*args)
+    def RestoreModifications(*args): return _blcelc.iCelEntity_RestoreModifications(*args)
     Object = _swig_property(_blcelc.iCelEntity_Object_get, None, None,
                     "iCelEntity.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntity::QueryObject()")
 
@@ -1204,6 +1209,10 @@ class iCelPropertyClass(cspace.iBase):
     def QueryPositionInfo(*args): return _blcelc.iCelPropertyClass_QueryPositionInfo(*args)
     def Activate(*args): return _blcelc.iCelPropertyClass_Activate(*args)
     def Deactivate(*args): return _blcelc.iCelPropertyClass_Deactivate(*args)
+    def MarkBaseline(*args): return _blcelc.iCelPropertyClass_MarkBaseline(*args)
+    def IsModifiedSinceBaseline(*args): return _blcelc.iCelPropertyClass_IsModifiedSinceBaseline(*args)
+    def SaveModifications(*args): return _blcelc.iCelPropertyClass_SaveModifications(*args)
+    def RestoreModifications(*args): return _blcelc.iCelPropertyClass_RestoreModifications(*args)
     Name = _swig_property(_blcelc.iCelPropertyClass_Name_get, _blcelc.iCelPropertyClass_Name_set, None,
                     "iCelPropertyClass.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClass::GetName()\n\tset: void iCelPropertyClass::SetName(const char*)")
 
@@ -5412,6 +5421,10 @@ class celPcCommon(object):
     def QueryPositionInfo(*args): return _blcelc.celPcCommon_QueryPositionInfo(*args)
     def Activate(*args): return _blcelc.celPcCommon_Activate(*args)
     def Deactivate(*args): return _blcelc.celPcCommon_Deactivate(*args)
+    def MarkBaseline(*args): return _blcelc.celPcCommon_MarkBaseline(*args)
+    def IsModifiedSinceBaseline(*args): return _blcelc.celPcCommon_IsModifiedSinceBaseline(*args)
+    def SaveModifications(*args): return _blcelc.celPcCommon_SaveModifications(*args)
+    def RestoreModifications(*args): return _blcelc.celPcCommon_RestoreModifications(*args)
     def TickEveryFrame(*args): return _blcelc.celPcCommon_TickEveryFrame(*args)
     def TickOnce(*args): return _blcelc.celPcCommon_TickOnce(*args)
     def MessageDispatcherRemoved(*args): return _blcelc.celPcCommon_MessageDispatcherRemoved(*args)
