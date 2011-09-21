@@ -636,7 +636,11 @@ iDynamicObject* celPcDynamicWorld::AddObject (const char* factory,
 {
   csRef<DynamicObject> obj;
   DynamicFactory* fact = factory_hash.Get (factory, 0);
-  if (!fact) return 0;
+  if (!fact)
+  {
+    printf ("Cannot find factory '%s' for AddObject!\n", factory);
+    return 0;
+  }
   obj.AttachNew (new DynamicObject (fact, trans));
   objects.Push (obj);
 
@@ -720,7 +724,17 @@ void celPcDynamicWorld::RemoveSafeEntities ()
   {
     iCelEntity* entity = it.Next ();
     printf ("Actually remove entity %s\n", entity->GetName ()); fflush (stdout);
+    uint id = entity->GetID ();
+    bool existedAtBaseline = entity->ExistedAtBaseline ();
     pl->RemoveEntity (entity);
+    // The elcm normally automatically registers deleted entities as
+    // being deleted if they existed before the baseline. But if this entity
+    // existed at the baseline then we don't want to do that because this
+    // entity deletion is not 'real'. We're just swapping out the entity.
+    if (existedAtBaseline && elcm)
+    {
+      elcm->UnregisterDeletedEntity (id);
+    }
   }
   safeToRemove.DeleteAll ();
 }
@@ -1136,11 +1150,11 @@ printf ("id=%d\n", (uint)tmpID);
       if (tmpID != csArrayItemNotFound)
       {
         // Entity has to be created.
+        const char* entName = strings.Get (entNameID, (const char*)0);
         const char* tmpName = strings.Get (tmpID, (const char*)0);
+printf ("New entity '%s' from '%s'\n", entName, tmpName); fflush (stdout);
         dynobj = static_cast<DynamicObject*> (AddObject (tmpName, trans));
         dynobj->SetID (id);
-        const char* entName = strings.Get (entNameID, (const char*)0);
-printf ("New entity '%s'\n", entName); fflush (stdout);
         dynobj->SetEntity (entName, 0); // @@@ params?
         elcm->RegisterNewEntity (dynobj->ForceEntity (this));
       }

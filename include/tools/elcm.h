@@ -171,6 +171,14 @@ struct iELCM: public virtual iBase
   virtual void RegisterDeletedEntity (uint id) = 0;
 
   /**
+   * Unregister an ID as being from a deleted entity.
+   * This is mainly needed if we know we're not deleting
+   * an entity for real but just clearing it for memory
+   * savings.
+   */
+  virtual void UnregisterDeletedEntity (uint id) = 0;
+
+  /**
    * Return the set of entities that didn't exist before the baseline
    * and were created afterwards.
    */

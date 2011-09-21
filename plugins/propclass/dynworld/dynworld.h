@@ -341,6 +341,7 @@ public:
   {
     atBaseline = false;
   }
+  bool ExistedAtBaseline () const { return atBaseline; }
 
   // Return true if a body is part of this dynamic object.
   bool HasBody (iRigidBody* body);

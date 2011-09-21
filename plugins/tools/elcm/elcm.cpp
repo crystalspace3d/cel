@@ -468,12 +468,13 @@ void celELCM::ListenRemoveEntity (iCelEntity* entity)
 {
   if (atBaseline)
   {
-    // If this entity is in newEntities it means that it was
-    // created after the baseline. In this case we don't have to save
-    // it in deletedEntities.
     if (newEntities.Contains (entity))
+      // If this entity is in newEntities it means that it was
+      // created after the baseline. In this case we don't have to save
+      // it in deletedEntities.
       newEntities.Delete (entity);
-    else
+    else if (entity->ExistedAtBaseline ())
+      // The entity existed at the baseline. So we must register it here.
       deletedEntities.Add (entity->GetID ());
   }
   activeEntities->Delete (entity);

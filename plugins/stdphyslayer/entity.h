@@ -52,6 +52,8 @@ private:
   bool positional;
   bool active;
 
+  bool entityExistedAtBaseline;
+
 public:
   CS_LEAKGUARD_DECLARE (celEntity);
 
@@ -96,6 +98,7 @@ public:
 
   virtual void MarkBaseline ();
   virtual bool IsModifiedSinceBaseline () const;
+  virtual bool ExistedAtBaseline () const { return entityExistedAtBaseline; }
   virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings);
   virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
       const csHash<csString,csStringID>& strings);
