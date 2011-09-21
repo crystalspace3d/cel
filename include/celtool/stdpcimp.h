@@ -296,8 +296,9 @@ public:
 
   virtual void MarkBaseline () { }
   virtual bool IsModifiedSinceBaseline () const { return false; }
-  virtual void SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings) { }
-  virtual void RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings) { }
+  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings) { }
+  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
+      const csHash<csString,csStringID>& strings) { }
 
   // --- For iCelTimerListener -----------------------------------------
   virtual void TickEveryFrame () { }

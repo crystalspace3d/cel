@@ -257,9 +257,9 @@ struct iCelDataBuffer : public virtual iBase
  * to make sure you get the information in exactly the same order
  * and type as it was written.
  */
-struct iCelCompactDataBuffer : public virtual iBase
+struct iCelCompactDataBufferWriter : public virtual iBase
 {
-  SCF_INTERFACE (iCelCompactDataBuffer, 0, 0, 1);
+  SCF_INTERFACE (iCelCompactDataBufferWriter, 0, 0, 1);
 
   virtual void AddBool (bool v) = 0;
   virtual void AddInt8 (int8 v) = 0;
@@ -281,6 +281,30 @@ struct iCelCompactDataBuffer : public virtual iBase
   // An unlimited string.
   virtual void AddString32 (const char* s) = 0;
 
+  /**
+   * Get the data we accumulated so far.
+   */
+  virtual const char* GetData () const = 0;
+  /**
+   * Get the size of the total data block.
+   */
+  virtual size_t GetSize () const = 0;
+};
+
+/**
+ * This interface describes persistable data in a very compact way.
+ * Only the actual data is saved. No type information is put in the
+ * buffer. That way the representation is very compact. The data is
+ * kept in a cross-platform binary format which can be safely read and
+ * write from/to files.
+ * Since no type checking is possible with this interface you will have
+ * to make sure you get the information in exactly the same order
+ * and type as it was written.
+ */
+struct iCelCompactDataBufferReader : public virtual iBase
+{
+  SCF_INTERFACE (iCelCompactDataBufferReader, 0, 0, 1);
+
   virtual bool GetBool () = 0;
   virtual int8 GetInt8 () = 0;
   virtual int16 GetInt16 () = 0;
@@ -298,15 +322,6 @@ struct iCelCompactDataBuffer : public virtual iBase
   virtual const char* GetString8 () = 0;
   virtual const char* GetString16 () = 0;
   virtual const char* GetString32 () = 0;
-
-  /**
-   * Get the data we accumulated so far.
-   */
-  virtual const char* GetData () const = 0;
-  /**
-   * Get the size of the total data block.
-   */
-  virtual size_t GetSize () const = 0;
 };
 
 /**

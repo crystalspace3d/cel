@@ -153,7 +153,7 @@ bool celEntity::IsModifiedSinceBaseline () const
   return false;
 }
 
-void celEntity::SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings)
+void celEntity::SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings)
 {
   for (size_t i = 0 ; i < prop_classes.GetSize () ; i++)
     if (prop_classes[i]->IsModifiedSinceBaseline ())
@@ -174,7 +174,8 @@ void celEntity::SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strin
   buf->AddUInt32 ((uint32)csArrayItemNotFound);
 }
 
-void celEntity::RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings)
+void celEntity::RestoreModifications (iCelCompactDataBufferReader* buf,
+    const csHash<csString,csStringID>& strings)
 {
   csStringID nameID = buf->GetUInt32 ();
   while (nameID != csArrayItemNotFound)
@@ -182,14 +183,14 @@ void celEntity::RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* st
     csStringID tagID = buf->GetUInt32 ();
     csString tag;
     iCelPropertyClass* pc;
-    const char* name = strings->Request (nameID);
+    const char* name = strings.Get (nameID, (const char*)0);
     if (tagID == csArrayItemNotFound)
       pc = FindByName (name);
     else
-      pc = FindByNameAndTag (name, strings->Request (tagID));
+      pc = FindByNameAndTag (name, strings.Get (tagID, (const char*)0));
     if (!pc)
     {
-      printf ("Error finding pc '%s'\n!", name);
+      printf ("Error finding pc '%s' on entity '%s'\n!", name, GetName ());
       fflush (stdout);
       return;
     }

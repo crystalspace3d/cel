@@ -276,6 +276,7 @@ private:
   bool is_kinematic;
   bool is_hilight;
   bool hilight_installed;
+  bool atBaseline;
   float fade;
   CS::Geometry::KDTreeChild* child;
   uint id;
@@ -297,6 +298,7 @@ public:
   virtual ~DynamicObject ();
 
   void SetID (uint id) { DynamicObject::id = id; }
+  uint GetID () const { return id; }
 
   CS::Geometry::KDTreeChild* GetChild () const { return child; }
   void SetChild (CS::Geometry::KDTreeChild* child)
@@ -329,6 +331,16 @@ public:
   void SetFade (float f);
   float GetFade () const { return fade; }
   iCelEntity* GetEntity () const { return entity; }
+  iCelEntity* ForceEntity (celPcDynamicWorld* world);
+  void MarkBaseline ()
+  {
+    if (entity) entity->MarkBaseline ();
+    atBaseline = true;
+  }
+  void ClearBaseline ()
+  {
+    atBaseline = false;
+  }
 
   // Return true if a body is part of this dynamic object.
   bool HasBody (iRigidBody* body);
@@ -368,6 +380,7 @@ public:
   csSet<csPtrKey<DynamicObject> > fadingOut;
   CS::Geometry::KDTree* tree;
   csRef<iELCM> elcm;
+  size_t scopeIdx;
 
   csSet<csPtrKey<DynamicObject> > visibleObjects;
 
@@ -383,6 +396,10 @@ public:
   void ProcessFadingOut (float fade_speed);
 
   void DeleteObjectInt (DynamicObject* dynobj);
+
+  void SaveStrings (iCelCompactDataBufferWriter* buf, csScfStringSet* strings);
+  void LoadStrings (iCelCompactDataBufferReader* buf,
+      csHash<csString,csStringID>& strings);
 
 public:
   celPcDynamicWorld (iObjectRegistry* object_reg);
@@ -411,6 +428,7 @@ public:
   virtual iDynamicObject* AddObject (const char* factory,
       const csReversibleTransform& trans);
   virtual iDynamicObject* FindDynamicObject (iCelEntity* entity) const;
+  virtual iDynamicObject* FindDynamicObject (uint id) const;
   virtual void ForceVisible (iDynamicObject* dynobj);
   virtual void DeleteObject (iDynamicObject* dynobj);
   virtual void DeleteObjects ();
@@ -422,6 +440,10 @@ public:
   virtual iDynamicObject* FindObject (iMeshWrapper* mesh);
   virtual void Save (iDocumentNode* node);
   virtual csRef<iString> Load (iDocumentNode* node);
+
+  virtual void MarkBaseline ();
+  virtual csPtr<iDataBuffer> SaveModifications ();
+  virtual void RestoreModifications (iDataBuffer* buf);
 };
 
 

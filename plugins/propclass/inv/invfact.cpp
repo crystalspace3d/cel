@@ -175,7 +175,7 @@ bool celPcInventory::PerformActionIndexed (int idx,
   return false;
 }
 
-void celPcInventory::SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings)
+void celPcInventory::SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings)
 {
   buf->AddBool (generatorActive);
   if (generator)
@@ -203,7 +203,8 @@ void celPcInventory::SaveModifications (iCelCompactDataBuffer* buf, iStringSet* 
   }
 }
 
-void celPcInventory::RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings)
+void celPcInventory::RestoreModifications (iCelCompactDataBufferReader* buf,
+    const csHash<csString,csStringID>& strings)
 {
   generatorActive = buf->GetBool ();
   csStringID generatorID = buf->GetUInt32 ();
@@ -217,7 +218,8 @@ void celPcInventory::RestoreModifications (iCelCompactDataBuffer* buf, iStringSe
       printf ("Error! Couldn't find loot manager!\n");
       return;
     }
-    generator = lootmgr->FindLootGenerator (strings->Request (generatorID));
+    const char* lootname = strings.Get (generatorID, (const char*)0);
+    generator = lootmgr->FindLootGenerator (lootname);
   }
   size_t coSize = buf->GetUInt16 ();
   for (size_t i = 0 ; i < coSize ; i++)
@@ -236,15 +238,17 @@ void celPcInventory::RestoreModifications (iCelCompactDataBuffer* buf, iStringSe
   {
     csStringID tplID = buf->GetUInt32 ();
     TemplateStack ts;
-    ts.tpl = pl->FindEntityTemplate (strings->Request (tplID));
+    const char* tplName = strings.Get (tplID, (const char*)0);
+    ts.tpl = pl->FindEntityTemplate (tplName);
     if (!ts.tpl)
     {
-      printf ("Error! Couldn't find template '%s'!\n", strings->Request (tplID));
+      printf ("Error! Couldn't find template '%s'!\n", tplName);
       return;
     }
     ts.amount = buf->GetInt32 ();
     templatedContents.Push (ts);
   }
+  atBaseline = false;
 }
 
 #define INVENTORY_SERIAL 2

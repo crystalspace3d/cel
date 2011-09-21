@@ -31,8 +31,10 @@ struct iObject;
 struct iCelEntity;
 struct iCelEntityList;
 struct iCelEntityIterator;
+struct iDataBuffer;
 struct iCelDataBuffer;
-struct iCelCompactDataBuffer;
+struct iCelCompactDataBufferWriter;
+struct iCelCompactDataBufferReader;
 struct iCelParameterBlock;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
@@ -218,10 +220,16 @@ struct iCelPlLayer : public virtual iBase
   virtual csPtr<iCelDataBuffer> CreateDataBuffer (long serialnr) = 0;
 
   /**
-   * Create a compact data buffer. This is useful for persisting data
+   * Create a compact data buffer for writing. This is useful for persisting data
    * in a really compact manner.
    */
-  virtual csPtr<iCelCompactDataBuffer> CreateCompactDataBuffer () = 0;
+  virtual csPtr<iCelCompactDataBufferWriter> CreateCompactDataBufferWriter () = 0;
+
+  /**
+   * Create a compact data buffer for reading.
+   */
+  virtual csPtr<iCelCompactDataBufferReader> CreateCompactDataBufferReader (
+      iDataBuffer* buf) = 0;
 
   /**
    * Attach an entity to some object (usually an object from the engine).
@@ -544,7 +552,13 @@ struct iCelPlLayer : public virtual iBase
    * Entities are created by propclasses only in the default scope so you can
    * completely manage the ID allocation of your own scopes. 
    */
-  virtual int AddScope (csString version, int size) = 0;
+  virtual size_t AddScope (csString version, int size) = 0;
+
+  /**
+   * Reset a scope (clear all IDs in the scope).
+   * The scope_idx is the number returned by AddScope().
+   */
+  virtual void ResetScope (size_t scope_idx) = 0;
 
   /*
    * Get a list of all entities with a certain class assigned.

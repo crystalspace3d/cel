@@ -96,8 +96,9 @@ public:
 
   virtual void MarkBaseline ();
   virtual bool IsModifiedSinceBaseline () const;
-  virtual void SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings);
-  virtual void RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings);
+  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings);
+  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
+      const csHash<csString,csStringID>& strings);
 
   //------- For iMessageChannel ---------------------------------------------
   virtual iMessageChannel* QueryMessageChannel ()

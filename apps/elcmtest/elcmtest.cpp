@@ -220,6 +220,7 @@ bool ElcmTest::FillDynamicWorld ()
       if (!obj->SetEntity (name, params))
 	return ReportError ("Could not set entity template 'GlowBox'!");
     }
+  dynworld->MarkBaseline ();
   return true;
 }
 
@@ -461,6 +462,22 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
         csQueryRegistry<iEventQueue> (GetObjectRegistry());
       if (q.IsValid()) q->GetEventOutlet()->Broadcast(
 	  csevQuit (GetObjectRegistry ()));
+    }
+    else if (code == '1')
+    {
+      csRef<iDataBuffer> buf = dynworld->SaveModifications ();
+      csRef<iFile> file = vfs->Open ("/this/savefile", VFS_FILE_WRITE);
+      size_t size = file->Write (buf->GetData (), buf->GetSize ());
+      printf ("%d bytes written to 'savefile'!\n", size);
+      fflush (stdout);
+    }
+    else if (code == '2')
+    {
+      dynworld->DeleteObjects ();
+      FillDynamicWorld ();
+      csRef<iFile> file = vfs->Open ("/this/savefile", VFS_FILE_READ);
+      csRef<iDataBuffer> buf = file->GetAllData ();
+      dynworld->RestoreModifications (buf);
     }
     else if (code == 'p')
     {

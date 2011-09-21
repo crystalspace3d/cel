@@ -153,6 +153,49 @@ struct iELCM: public virtual iBase
    * For debugging: dump information about the ELCM status.
    */
   virtual void Dump () = 0;
+
+  /**
+   * Mark the baseline.
+   */
+  virtual void MarkBaseline () = 0;
+
+  /**
+   * Return the set of entities that existed before the baseline and were
+   * deleted afterwards.
+   */
+  virtual const csSet<uint>& GetDeletedEntities () const = 0;
+
+  /**
+   * Register an ID as being from a deleted entity.
+   */
+  virtual void RegisterDeletedEntity (uint id) = 0;
+
+  /**
+   * Return the set of entities that didn't exist before the baseline
+   * and were created afterwards.
+   */
+  virtual const csSet<csPtrKey<iCelEntity> >& GetNewEntities () const = 0;
+
+  /**
+   * Register an entity as being new after the baseline.
+   */
+  virtual void RegisterNewEntity (iCelEntity* ent) = 0;
+
+  /**
+   * Unregister an entity as being new after the baseline.
+   * This is needed in case the entity creator knows that this entity
+   * is actually part of the baseline but wasn't yet created at that point
+   * because of delayed entity-creation. Normally the ELCM will automatically
+   * put new entities in the set of new entities after the baseline so you
+   * will have to undo this here.
+   */
+  virtual void UnregisterNewEntity (iCelEntity* ent) = 0;
+
+  /**
+   * Return an iterator for all active and inactive entities that
+   * have some modifications since the baseline.
+   */
+  virtual csPtr<iCelEntityIterator> GetModifiedEntities () const = 0;
 };
 
 #endif // __CEL_ELCM__

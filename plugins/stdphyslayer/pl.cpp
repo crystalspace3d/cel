@@ -170,9 +170,14 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-int celPlLayer::AddScope (csString version, int size)
+size_t celPlLayer::AddScope (csString version, int size)
 {
-  return (int)idlist.AddScope (version, size);
+  return idlist.AddScope (version, size);
+}
+
+void celPlLayer::ResetScope (size_t scope_idx)
+{
+  return idlist.ResetScope (scope_idx);
 }
 
 csPtr<iCelEntity> celPlLayer::CreateEntity ()
@@ -761,18 +766,18 @@ iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
   return CreatePropertyClass (entity, propname, tagname);
 }
 
-// Implementation of iCelCompactDataBuffer.
-class celCompactDataBuffer : public scfImplementation1<
-	celCompactDataBuffer, iCelCompactDataBuffer>
+// Implementation of iCelCompactDataBufferWriter.
+class celCompactDataBufferWriter : public scfImplementation1<
+	celCompactDataBufferWriter, iCelCompactDataBufferWriter>
 {
 private:
   csMemFile file;
 
 public:
-  celCompactDataBuffer () : scfImplementationType (this)
+  celCompactDataBufferWriter () : scfImplementationType (this)
   {
   }
-  virtual ~celCompactDataBuffer ()
+  virtual ~celCompactDataBufferWriter ()
   {
   }
 
@@ -870,6 +875,23 @@ public:
       AddUInt32 ((uint32)~0);
     }
   }
+};
+
+// Implementation of iCelCompactDataBufferReader.
+class celCompactDataBufferReader : public scfImplementation1<
+	celCompactDataBufferReader, iCelCompactDataBufferReader>
+{
+private:
+  csMemFile file;
+
+public:
+  celCompactDataBufferReader (iDataBuffer* buf) :
+    scfImplementationType (this), file (buf, true)
+  {
+  }
+  virtual ~celCompactDataBufferReader ()
+  {
+  }
 
   virtual bool GetBool () { return bool (GetInt8 ()); }
   virtual int8 GetInt8 () { int8 v; file.Read ((char*)&v, 1); return v; }
@@ -932,7 +954,7 @@ public:
     uint8 l = GetUInt8 ();
     if (l == (uint8)~0)
       return 0;
-    const char* data = file.GetData ();
+    const char* data = file.GetData () + file.GetPos ();
     file.SetPos (file.GetPos () + l+1);
     return data;
   }
@@ -941,7 +963,7 @@ public:
     uint16 l = GetUInt16 ();
     if (l == (uint16)~0)
       return 0;
-    const char* data = file.GetData ();
+    const char* data = file.GetData () + file.GetPos ();
     file.SetPos (file.GetPos () + l+1);
     return data;
   }
@@ -950,7 +972,7 @@ public:
     uint32 l = GetUInt32 ();
     if (l == (uint32)~0)
       return 0;
-    const char* data = file.GetData ();
+    const char* data = file.GetData () + file.GetPos ();
     file.SetPos (file.GetPos () + l+1);
     return data;
   }
@@ -1010,9 +1032,15 @@ csPtr<iCelDataBuffer> celPlLayer::CreateDataBuffer (long serialnr)
   return csPtr<iCelDataBuffer> (new celDataBuffer (serialnr));
 }
 
-csPtr<iCelCompactDataBuffer> celPlLayer::CreateCompactDataBuffer ()
+csPtr<iCelCompactDataBufferWriter> celPlLayer::CreateCompactDataBufferWriter ()
 {
-  return csPtr<iCelCompactDataBuffer> (new celCompactDataBuffer ());
+  return csPtr<iCelCompactDataBufferWriter> (new celCompactDataBufferWriter ());
+}
+
+csPtr<iCelCompactDataBufferReader> celPlLayer::CreateCompactDataBufferReader (
+    iDataBuffer* buf)
+{
+  return csPtr<iCelCompactDataBufferReader> (new celCompactDataBufferReader (buf));
 }
 
 // Class which is used to attach to an iObject so that

@@ -33,7 +33,8 @@ struct iMessageDispatcher;
 struct iMessageSender;
 struct iObject;
 struct iStringSet;
-struct iCelCompactDataBuffer;
+struct iCelCompactDataBufferWriter;
+struct iCelCompactDataBufferReader;
 
 struct iSector;
 struct iMovable;
@@ -184,14 +185,15 @@ struct iCelEntity : public virtual iBase
    * Return the data that represents the information that changed after the
    * baseline. Only the modified property classes are saved here.
    */
-  virtual void SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings) = 0;
+  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings) = 0;
 
   /**
    * Call this function if the entity is in the state as it was at the moment of
    * the baseline. This function will put back the modifications that were made
    * after the baseline.
    */
-  virtual void RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings) = 0;
+  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
+      const csHash<csString,csStringID>& strings) = 0;
 };
 
 /**

@@ -289,6 +289,11 @@ size_t celIDRegistry::GetScopeOfID (uint id)
   return (size_t)-1;
 }
 
+void celIDRegistry::ResetScope (size_t scope_idx)
+{
+  regs[scope_idx].numreg->Clear ();
+}
+
 size_t celIDRegistry::AddScope (csString impl, int size)
 {
   size_t id = regs.GetSize ();

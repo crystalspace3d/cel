@@ -138,6 +138,12 @@ public:
   size_t AddScope (csString impl, int size);
 
   /**
+   * Reset a scope (clear all IDs in the scope).
+   * The scope_idx is the number returned by AddScope().
+   */
+  void ResetScope (size_t scope_idx);
+
+  /**
    * Register an object in the given scope. Error case return 0
    */
   uint Register (void* obj, size_t scope);

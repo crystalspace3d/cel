@@ -46,6 +46,58 @@ SCF_IMPLEMENT_FACTORY (celELCM)
 
 //--------------------------------------------------------------------------
 
+class ElcmEntityIterator : public scfImplementation1<ElcmEntityIterator,
+  iCelEntityIterator>
+{
+private:
+  csSet<csPtrKey<iCelEntity> >::GlobalIterator activeIt;
+  csHash<csTicks,csPtrKey<iCelEntity> >::ConstGlobalIterator inactiveIt;
+  iCelEntity* nextEntity;
+
+  void ScanNextEntity ()
+  {
+    while (activeIt.HasNext ())
+    {
+      nextEntity = activeIt.Next ();
+      if (nextEntity->IsModifiedSinceBaseline ())
+	return;
+    }
+    while (inactiveIt.HasNext ())
+    {
+      csPtrKey<iCelEntity> ent;
+      inactiveIt.Next (ent);
+      nextEntity = ent;
+      if (nextEntity->IsModifiedSinceBaseline ())
+	return;
+    }
+    nextEntity = 0;
+  }
+
+public:
+  ElcmEntityIterator (const csSet<csPtrKey<iCelEntity> >::GlobalIterator& activeIt,
+      const csHash<csTicks,csPtrKey<iCelEntity> >::ConstGlobalIterator& inactiveIt) :
+    scfImplementationType (this), activeIt (activeIt), inactiveIt (inactiveIt)
+  {
+    ScanNextEntity ();
+  }
+  virtual ~ElcmEntityIterator () { }
+
+  virtual iCelEntity* Next ()
+  {
+    iCelEntity* ent = nextEntity;
+    ScanNextEntity ();
+    return ent;
+  }
+
+  virtual bool HasNext () const
+  {
+    return nextEntity != 0;
+  }
+};
+
+
+//--------------------------------------------------------------------------
+
 class celNewEntityCallback : public scfImplementation1<celNewEntityCallback,
   iCelNewEntityCallback>
 {
@@ -61,7 +113,7 @@ public:
   virtual void NewEntity (iCelEntity* entity)
   {
     if (elcm)
-      elcm->RegisterNewEntity (entity);
+      elcm->ListenNewEntity (entity);
   }
 };
 
@@ -81,7 +133,7 @@ public:
   virtual void RemoveEntity (iCelEntity* entity)
   {
     if (elcm)
-      elcm->RegisterRemoveEntity (entity);
+      elcm->ListenRemoveEntity (entity);
   }
 };
 
@@ -99,6 +151,7 @@ celELCM::celELCM (iBase* parent)
   unloadedTime = 10000;
 
   prevSector = 0;
+  atBaseline = false;
 
   activeEntities = &activeEntities1;
 }
@@ -326,8 +379,12 @@ void celELCM::CheckUnload ()
     // @@@ Overflow in virtual clock!
     if (t+unloadedTime >= time)
     {
-      printf ("Entity '%s' can be removed!\n", ent->QueryObject ()->GetName ()); fflush (stdout);
-      FireELCMListeners (ent);
+      // If the entity was modified since the baseline we can't remove it.
+      if (!ent->IsModifiedSinceBaseline ())
+      {
+        printf ("Entity '%s' can be removed!\n", ent->QueryObject ()->GetName ()); fflush (stdout);
+        FireELCMListeners (ent);
+      }
       toRemove.Push (ent);
     }
   }
@@ -379,7 +436,22 @@ void celELCM::SetDistanceThresshold (float distance)
   sqDistanceThresshold = distance * distance;
 }
 
-void celELCM::RegisterNewEntity (iCelEntity* entity)
+void celELCM::MarkBaseline ()
+{
+  deletedEntities.Empty ();
+  newEntities.Empty ();
+  atBaseline = true;
+}
+
+csPtr<iCelEntityIterator> celELCM::GetModifiedEntities () const
+{
+  csRef<ElcmEntityIterator> it;
+  it.AttachNew (new ElcmEntityIterator (activeEntities->GetIterator (),
+	inactiveEntities.GetIterator ()));
+  return csPtr<iCelEntityIterator> (it);
+}
+
+void celELCM::ListenNewEntity (iCelEntity* entity)
 {
   // A new entity is automatically made active regardless of where
   // it is in the world and if it even has a world position.
@@ -388,10 +460,22 @@ void celELCM::RegisterNewEntity (iCelEntity* entity)
   activeEntities->Add (entity);
   entity->Activate ();
   forcedCheck = true;
+  if (atBaseline)
+    newEntities.Add (entity);
 }
 
-void celELCM::RegisterRemoveEntity (iCelEntity* entity)
+void celELCM::ListenRemoveEntity (iCelEntity* entity)
 {
+  if (atBaseline)
+  {
+    // If this entity is in newEntities it means that it was
+    // created after the baseline. In this case we don't have to save
+    // it in deletedEntities.
+    if (newEntities.Contains (entity))
+      newEntities.Delete (entity);
+    else
+      deletedEntities.Add (entity->GetID ());
+  }
   activeEntities->Delete (entity);
   inactiveEntities.DeleteAll (entity);
 }

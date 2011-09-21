@@ -34,6 +34,7 @@ struct iMeshWrapper;
 struct iELCM;
 struct iCelParameterBlock;
 struct iCelEntity;
+struct iDataBuffer;
 
 /**
  * Geometry generator. This is typically attached to factories
@@ -324,6 +325,21 @@ struct iPcDynamicWorld : public virtual iBase
    * Return 0 on success or otherwise a string with the error.
    */
   virtual csRef<iString> Load (iDocumentNode* node) = 0;
+
+  /**
+   * Mark the baseline.
+   */
+  virtual void MarkBaseline () = 0;
+
+  /**
+   * Save the modifications since the baseline.
+   */
+  virtual csPtr<iDataBuffer> SaveModifications () = 0;
+
+  /**
+   * Restore a save file from the baseline.
+   */
+  virtual void RestoreModifications (iDataBuffer* buf) = 0;
 
   /**
    * For debugging: dump information about the DynWorld status.
