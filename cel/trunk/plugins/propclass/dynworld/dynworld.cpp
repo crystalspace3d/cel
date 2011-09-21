@@ -353,7 +353,6 @@ iCelEntity* DynamicObject::ForceEntity (celPcDynamicWorld* world)
 {
   if (entityTemplate && !entity)
   {
-printf ("entityTemplate=%s\n", entityTemplate->GetName ()); fflush (stdout);
     entity = world->pl->CreateEntity (entityTemplate, entityName, params);
     entity->SetID (id);
     if (atBaseline)
@@ -658,8 +657,6 @@ void celPcDynamicWorld::ForceVisible (iDynamicObject* dynobj)
 
 void celPcDynamicWorld::DeleteObjects ()
 {
-  if (scopeIdx != csArrayItemNotFound)
-    pl->ResetScope (scopeIdx);
   lastID = 1000000001;
   while (objects.GetSize () > 0)
   {
@@ -671,11 +668,15 @@ void celPcDynamicWorld::DeleteObjects ()
   fadingIn.DeleteAll ();
   tree->Clear ();
   meshCache.RemoveMeshes ();
+  if (scopeIdx != csArrayItemNotFound)
+    pl->ResetScope (scopeIdx);
 }
 
 void celPcDynamicWorld::DeleteObjectInt (DynamicObject* dyn)
 {
   dyn->RemoveMesh (this);
+  if (dyn->GetEntity ())
+    pl->RemoveEntity (dyn->GetEntity ());
 }
 
 void celPcDynamicWorld::DeleteObject (iDynamicObject* dynobj)
@@ -1128,10 +1129,11 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     {
       csStringID tmpID = (csStringID)buf->GetUInt32 ();
       csStringID entNameID = csArrayItemNotFound;
-      if (tmpID != csArrayItemNotFound)
+      if (tmpID != (csStringID)csArrayItemNotFound)
       {
         entNameID = (csStringID)buf->GetUInt32 ();
       }
+printf ("csArrayItemNotFound=%d id=%d tmpID=%d entNameID=%d\n", (uint)csArrayItemNotFound, (uint)id, (uint)tmpID, (uint)entNameID);
       csReversibleTransform trans;
       csVector3 v, r1, r2, r3;
       buf->GetVector3 (v);
@@ -1146,8 +1148,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       trans.SetO2T (m);
 
       DynamicObject* dynobj;
-printf ("id=%d\n", (uint)tmpID);
-      if (tmpID != csArrayItemNotFound)
+      if (tmpID != (csStringID)csArrayItemNotFound)
       {
         // Entity has to be created.
         const char* entName = strings.Get (entNameID, (const char*)0);

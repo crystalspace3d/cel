@@ -251,6 +251,7 @@ bool NumRegHash::Remove (void* obj)
 void NumRegHash::Clear ()
 {
   reg.DeleteAll ();
+  current_id = 1;
 }
 
 void* NumRegHash::Get (uint id)
