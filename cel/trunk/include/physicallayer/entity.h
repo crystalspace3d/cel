@@ -182,6 +182,11 @@ struct iCelEntity : public virtual iBase
   virtual bool IsModifiedSinceBaseline () const = 0;
 
   /**
+   * Returns true if this entity existed at the baseline.
+   */
+  virtual bool ExistedAtBaseline () const = 0;
+
+  /**
    * Return the data that represents the information that changed after the
    * baseline. Only the modified property classes are saved here.
    */

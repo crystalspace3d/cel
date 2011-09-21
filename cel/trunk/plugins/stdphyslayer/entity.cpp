@@ -34,6 +34,7 @@ celEntity::celEntity (celPlLayer* pl) : scfImplementationType (this)
   entity_ID = 0;
   positional = false;
   active = true;
+  entityExistedAtBaseline = false;
 }
 
 celEntity::~celEntity ()
@@ -142,6 +143,7 @@ void celEntity::Deactivate ()
 
 void celEntity::MarkBaseline ()
 {
+  entityExistedAtBaseline = true;
   for (size_t i = 0 ; i < prop_classes.GetSize () ; i++)
     prop_classes[i]->MarkBaseline ();
 }

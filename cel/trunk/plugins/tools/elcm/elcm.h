@@ -118,6 +118,10 @@ public:
   {
     deletedEntities.Add (id);
   }
+  virtual void UnregisterDeletedEntity (uint id)
+  {
+    deletedEntities.Delete (id);
+  }
   virtual const csSet<csPtrKey<iCelEntity> >& GetNewEntities () const
   {
     return newEntities;
