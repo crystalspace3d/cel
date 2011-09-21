@@ -171,7 +171,12 @@ public:
   virtual iLootGenerator* GetLootGenerator () const { return generator; }
   virtual bool GenerateLoot ();
 
-  virtual void MarkBaseline () { atBaseline = true; }
+  virtual void MarkBaseline ()
+  {
+    atBaseline = true;
+    for (size_t i = 0 ; i < contents.GetSize () ; i++)
+      contents[i]->MarkBaseline ();
+  }
   virtual bool IsModifiedSinceBaseline () const { return !atBaseline; }
   virtual void SaveModifications (iCelCompactDataBuffer* buf, iStringSet* strings);
   virtual void RestoreModifications (iCelCompactDataBuffer* buf, iStringSet* strings);

@@ -87,7 +87,7 @@ celPcInventory::celPcInventory (iObjectRegistry* object_reg)
     AddAction (action_generateloot, "GenerateLoot");
   }
   generatorActive = false;
-  atBaseline = true;
+  atBaseline = false;
 }
 
 celPcInventory::~celPcInventory ()
