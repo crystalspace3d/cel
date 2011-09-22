@@ -223,7 +223,10 @@ void DynamicObject::Init ()
   hilight_installed = false;
   fade = 0;
   bsphereValid = false;
+
   atBaseline = false;
+  hasMovedSufficiently = false;
+  lastUpdateNr = 0;
 }
 
 DynamicObject::DynamicObject () : scfImplementationType (this)
@@ -242,6 +245,28 @@ DynamicObject::DynamicObject (DynamicFactory* factory, const csReversibleTransfo
 
 DynamicObject::~DynamicObject ()
 {
+}
+
+bool DynamicObject::HasMovedSufficiently ()
+{
+  if (hasMovedSufficiently) return true;
+  if (!atBaseline) return false;
+  if (!mesh) return false;      // We don't know.
+  iMovable* movable = mesh->GetMovable ();
+  long updateNr = movable->GetUpdateNumber ();
+  if (updateNr != lastUpdateNr)
+  {
+    const csReversibleTransform& meshTrans = movable->GetTransform ();
+    lastUpdateNr = updateNr;
+    if (!((trans.GetOrigin ()-meshTrans.GetOrigin ()) < 0.1f))
+    {
+      printf ("Object '%s' has now moved sufficiently!\n",
+          entity ? entity->GetName () : "unknown"); fflush (stdout);
+      hasMovedSufficiently = true;
+    }
+    // @@@ TODO: implement further checks on transform/matrix.
+  }
+  return hasMovedSufficiently;
 }
 
 void DynamicObject::InstallHilight (bool hi)
@@ -374,6 +399,7 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   mesh = world->meshCache.AddMesh (world->engine, factory->GetMeshFactory (),
       world->sector, trans);
   mesh->GetMovable ()->AddListener (this);
+  lastUpdateNr = mesh->GetMovable ()->GetUpdateNumber ();
   iGeometryGenerator* ggen = factory->GetGeometryGenerator ();
   if (ggen)
     ggen->GenerateGeometry (mesh);
@@ -421,7 +447,7 @@ bool DynamicObject::HasBody (iRigidBody* body)
 const csReversibleTransform& DynamicObject::GetTransform ()
 {
   if (mesh)
-    trans = mesh->GetMovable ()->GetTransform ();
+    return mesh->GetMovable ()->GetTransform ();
   return trans;
 }
 
@@ -437,22 +463,23 @@ void DynamicObject::SetTransform (const csReversibleTransform& trans)
 
 void DynamicObject::Save (iDocumentNode* node, iSyntaxService* syn)
 {
+  csReversibleTransform& tr = trans;
   if (mesh)
-    trans = mesh->GetMovable ()->GetTransform ();
+    tr = mesh->GetMovable ()->GetTransform ();
 
   node->SetAttribute ("fact", factory->GetName ());
   if (is_static)
     node->SetAttribute ("static", "true");
 
   csString matrix;
-  const csMatrix3& m = trans.GetO2T ();
+  const csMatrix3& m = tr.GetO2T ();
   matrix.Format ("%g %g %g %g %g %g %g %g %g",
       m.m11, m.m12, m.m13,
       m.m21, m.m22, m.m23,
       m.m31, m.m32, m.m33);
   node->SetAttribute ("m", (const char*)matrix);
 
-  const csVector3& v = trans.GetO2TTranslation ();
+  const csVector3& v = tr.GetO2TTranslation ();
   csString vector;
   vector.Format ("%g %g %g", v.x, v.y, v.z);
   node->SetAttribute ("v", (const char*)vector);
@@ -494,10 +521,11 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
   return true;
 }
 
-void DynamicObject::MovableChanged (iMovable*)
+void DynamicObject::MovableChanged (iMovable* movable)
 {
   bsphereValid = false;
   factory->GetWorld ()->tree->MoveObject (child, GetBSphere ());
+  factory->GetWorld ()->checkForMovement.Add (this);
 }
 
 void DynamicObject::MovableDestroyed (iMovable*)
@@ -508,9 +536,11 @@ const csSphere& DynamicObject::GetBSphere () const
 {
   if (bsphereValid) return bsphere;
   if (mesh)
-    trans = mesh->GetMovable ()->GetTransform ();
+    bsphere = mesh->GetMovable ()->GetTransform ().This2Other (
+        factory->GetBSphere ());
+  else
+    bsphere = trans.This2Other (factory->GetBSphere ());
 
-  bsphere = trans.This2Other (factory->GetBSphere ());
   bsphereValid = true;
 
   return bsphere;
@@ -595,6 +625,20 @@ void celPcDynamicWorld::SetELCM (iELCM* elcm)
   listener->DecRef ();
 }
 
+void celPcDynamicWorld::CheckForMovement ()
+{
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = checkForMovement.GetIterator ();
+  while (it.HasNext ())
+  {
+    DynamicObject* dynobj = it.Next ();
+    if (dynobj->ExistedAtBaseline () && dynobj->HasMovedSufficiently ())
+    {
+      haveMovedFromBaseline.Add (dynobj);
+    }
+  }
+  checkForMovement.DeleteAll ();
+}
+
 void celPcDynamicWorld::SafeToRemove (iCelEntity* entity)
 {
   safeToRemove.Add (entity);
@@ -663,6 +707,8 @@ void celPcDynamicWorld::DeleteObjects ()
     csRef<DynamicObject> dynobj = objects.Pop ();
     DeleteObjectInt (dynobj);
   }
+  haveMovedFromBaseline.DeleteAll ();
+  checkForMovement.DeleteAll ();
   visibleObjects.DeleteAll ();
   fadingOut.DeleteAll ();
   fadingIn.DeleteAll ();
@@ -682,6 +728,8 @@ void celPcDynamicWorld::DeleteObjectInt (DynamicObject* dyn)
 void celPcDynamicWorld::DeleteObject (iDynamicObject* dynobj)
 {
   DynamicObject* dyn = static_cast<DynamicObject*> (dynobj);
+  checkForMovement.Delete (dyn);
+  haveMovedFromBaseline.Delete (dyn);
   visibleObjects.Delete (dyn);
   fadingOut.Delete (dyn);
   fadingIn.Delete (dyn);
@@ -884,6 +932,9 @@ void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
   DynWorldKDData data (prevVisible, visibleObjects, safeToRemove,
       campos, radius);
   tree->Front2Back (data.center, DynWorld_Front2Back, (void*)&data, 0);
+
+  // First we check if some of the dynamic objects moved sufficiently.
+  CheckForMovement ();
 
   // All entities remaining in 'safeToRemove' can really be removed.
   RemoveSafeEntities ();
@@ -1089,6 +1140,9 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
 
     csSet<csPtrKey<iCelEntity> > newEntites = elcm->GetNewEntities ();
 
+    // In this set we keep all dynamic objects that were already saved.
+    csSet<csPtrKey<DynamicObject> > alreadySaved;
+
     csRef<iCelEntityIterator> it = elcm->GetModifiedEntities ();
     while (it->HasNext ())
     {
@@ -1100,17 +1154,15 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
         fflush (stdout);
         continue;    // @@@???
       }
-      else
-      {
-        printf ("Saving entity '%s'!\n", entity->GetName ());
-        fflush (stdout);
-      }
 
       // @@@ SAVE ENTITIES IN INVENTORY
+
+      alreadySaved.Add (static_cast<DynamicObject*> (dynobj));
 
       buf->AddUInt32 (entity->GetID ());
       if (newEntites.Contains (entity))
       {
+        printf ("Saving new entity '%s'!\n", entity->GetName ());
 	newEntites.Delete (entity);
         iDynamicFactory* dynfact = dynobj->GetFactory ();
         buf->AddID (strings->Request (dynfact->GetName ()));
@@ -1118,6 +1170,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       }
       else
       {
+        printf ("Saving entity '%s'!\n", entity->GetName ());
         buf->AddID (csInvalidStringID);
       }
       // @@@ For now we just save the position if the entity is modified.
@@ -1132,6 +1185,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
     {
       iCelEntity* entity = newIt.Next ();
       DynamicObject* dynobj = static_cast<DynamicObject*> (FindDynamicObject (entity));
+      alreadySaved.Add (dynobj);
       buf->AddUInt32 (entity->GetID ());
       iDynamicFactory* dynfact = dynobj->GetFactory ();
       buf->AddID (strings->Request (dynfact->GetName ()));
@@ -1140,8 +1194,26 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       // Perhaps this is even a good idea. Have to think about this more.
       SaveTransform (buf, dynobj->GetTransform ());
       entity->SaveModifications (buf, strings);
+      printf ("Saving new pristine entity '%s'!\n", entity->GetName ());
     }
 
+    buf->AddUInt32 ((uint32)csArrayItemNotFound);
+
+    // Now it is possible that we still have dynamic objects for which
+    // the entity hasn't changed but the dynobj itself has changed (i.e. moved).
+    // We save those here.
+    csSet<csPtrKey<DynamicObject> >::GlobalIterator dynIt = haveMovedFromBaseline.GetIterator ();
+    while (dynIt.HasNext ())
+    {
+      DynamicObject* dynobj = dynIt.Next ();
+      if (!alreadySaved.Contains (dynobj))
+      {
+        printf ("Saving moved dynobj '%s'\n", dynobj->GetEntity () ?
+            dynobj->GetEntity ()->GetName () : "unknown");
+        buf->AddUInt32 (dynobj->GetID ());
+        SaveTransform (buf, dynobj->GetTransform ());
+      }
+    }
     buf->AddUInt32 ((uint32)csArrayItemNotFound);
   }
   else
@@ -1211,6 +1283,23 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
 
       dynobj->GetEntity ()->RestoreModifications (buf, strings);
 
+      id = buf->GetUInt32 ();
+    }
+
+    // Now load the remaining moved dynobjects.
+    id = buf->GetUInt32 ();
+    while (id != (uint)csArrayItemNotFound)
+    {
+      DynamicObject* dynobj = static_cast<DynamicObject*> (FindDynamicObject (id));
+      printf ("Loading moved dynobj\n"); fflush (stdout);
+      csReversibleTransform trans;
+      LoadTransform (buf, trans);
+      dynobj->SetTransform (trans);
+      // Note! We restore the haveMovedFromBaseline set (almost) as it
+      // was when we saved it. The reason for the difference is that
+      // we didn't save (in this section) the dynamic objects which also
+      // had modified entities. These were save dabove.
+      haveMovedFromBaseline.Add (dynobj);
       id = buf->GetUInt32 ();
     }
   }

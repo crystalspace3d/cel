@@ -61,6 +61,7 @@ private:
   csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys;
 
   bool OnKeyboard (iEvent&);
+  bool OnMouseDown (iEvent&);
   void Frame ();
 
   bool InitWindowSystem ();

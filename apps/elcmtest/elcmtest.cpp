@@ -443,6 +443,30 @@ void ElcmTest::Frame ()
   dynworld->PrepareView (camera, elapsed_time);
 }
 
+bool ElcmTest::OnMouseDown (iEvent& ev)
+{
+  uint but = csMouseEventHelper::GetButton (&ev);
+  if (but != 1) return false;
+  int x = csMouseEventHelper::GetX (&ev);
+  int y = csMouseEventHelper::GetY (&ev);
+
+  csVector2 v2d (x, g3d->GetDriver2D ()->GetHeight () - y);
+  csVector3 v3d = camera->InvPerspective (v2d, 100);
+  csVector3 start = camera->GetTransform ().GetOrigin ();
+  csVector3 end = camera->GetTransform ().This2Other (v3d);
+
+  CS::Physics::Bullet::HitBeamResult result = bullet_dynSys->HitBeam (start, end);
+  if (result.body)
+  {
+    iRigidBody* hitBody = result.body->QueryRigidBody ();
+    csVector3 force = end-start;
+    force.Normalize ();
+    force *= 2.0 * hitBody->GetMass ();
+    hitBody->AddForceAtPos (force, result.isect);
+  }
+  return true;
+}
+
 bool ElcmTest::OnKeyboard (iEvent& ev)
 {
   // We got a keyboard event.
