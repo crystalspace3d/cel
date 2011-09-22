@@ -161,32 +161,32 @@ void celEntity::SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet*
     if (prop_classes[i]->IsModifiedSinceBaseline ())
     {
       csStringID nameID = strings->Request (prop_classes[i]->GetName ());
-      buf->AddUInt32 (nameID);
+      buf->AddID (nameID);
       if (prop_classes[i]->GetTag () && *prop_classes[i]->GetTag ())
       {
 	csStringID tagID = strings->Request (prop_classes[i]->GetTag ());
-	buf->AddUInt32 (tagID);
+	buf->AddID (tagID);
       }
       else
       {
-	buf->AddUInt32 ((uint32)csArrayItemNotFound);
+	buf->AddID (csInvalidStringID);
       }
       prop_classes[i]->SaveModifications (buf, strings);
     }
-  buf->AddUInt32 ((uint32)csArrayItemNotFound);
+  buf->AddID (csInvalidStringID);
 }
 
 void celEntity::RestoreModifications (iCelCompactDataBufferReader* buf,
     const csHash<csString,csStringID>& strings)
 {
-  csStringID nameID = buf->GetUInt32 ();
-  while (nameID != (csStringID)csArrayItemNotFound)
+  csStringID nameID = buf->GetID ();
+  while (nameID != csInvalidStringID)
   {
-    csStringID tagID = buf->GetUInt32 ();
+    csStringID tagID = buf->GetID ();
     csString tag;
     iCelPropertyClass* pc;
     const char* name = strings.Get (nameID, (const char*)0);
-    if (tagID == (csStringID)csArrayItemNotFound)
+    if (tagID == csInvalidStringID)
       pc = FindByName (name);
     else
       pc = FindByNameAndTag (name, strings.Get (tagID, (const char*)0));
@@ -197,7 +197,7 @@ void celEntity::RestoreModifications (iCelCompactDataBufferReader* buf,
       return;
     }
     pc->RestoreModifications (buf, strings);
-    nameID = buf->GetUInt32 ();
+    nameID = buf->GetID ();
   }
 }
 

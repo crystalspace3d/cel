@@ -799,6 +799,7 @@ public:
   virtual void AddUInt8 (uint8 v) { AddInt8 (int8 (v)); }
   virtual void AddUInt16 (uint16 v) { AddInt16 (int16 (v)); }
   virtual void AddUInt32 (uint32 v) { AddInt32 (int32 (v)); }
+  virtual void AddID (csStringID v) { AddInt32 (int32 (v)); }
   virtual void AddFloat (float v)
   {
     uint32 ieee = csIEEEfloat::FromNative (v);
@@ -910,6 +911,7 @@ public:
   virtual uint8 GetUInt8 () { return uint8 (GetInt8 ()); }
   virtual uint16 GetUInt16 () { return uint16 (GetInt16 ()); }
   virtual uint32 GetUInt32 () { return uint32 (GetInt32 ()); }
+  virtual csStringID GetID () { return csStringID (GetInt32 ()); }
   virtual float GetFloat ()
   {
     uint32 ieee;

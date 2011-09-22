@@ -268,6 +268,7 @@ struct iCelCompactDataBufferWriter : public virtual iBase
   virtual void AddUInt8 (uint8 v) = 0;
   virtual void AddUInt16 (uint16 v) = 0;
   virtual void AddUInt32 (uint32 v) = 0;
+  virtual void AddID (csStringID v) = 0;
   virtual void AddFloat (float v) = 0;
   virtual void AddVector2 (const csVector2& v) = 0;
   virtual void AddVector3 (const csVector3& v) = 0;
@@ -312,6 +313,7 @@ struct iCelCompactDataBufferReader : public virtual iBase
   virtual uint8 GetUInt8 () = 0;
   virtual uint16 GetUInt16 () = 0;
   virtual uint32 GetUInt32 () = 0;
+  virtual csStringID GetID () = 0;
   virtual float GetFloat () = 0;
   virtual void GetVector2 (csVector2& v) = 0;
   virtual void GetVector3 (csVector3& v) = 0;

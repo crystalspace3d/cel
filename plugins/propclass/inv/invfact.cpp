@@ -181,11 +181,11 @@ void celPcInventory::SaveModifications (iCelCompactDataBufferWriter* buf, iStrin
   if (generator)
   {
     csStringID generatorID = strings->Request (generator->GetName ());
-    buf->AddUInt32 (generatorID);
+    buf->AddID (generatorID);
   }
   else
   {
-    buf->AddUInt32 ((uint32) csArrayItemNotFound);
+    buf->AddID (csInvalidStringID);
   }
   buf->AddUInt16 (contents.GetSize ());
   for (size_t i = 0 ; i < contents.GetSize () ; i++)
@@ -198,7 +198,7 @@ void celPcInventory::SaveModifications (iCelCompactDataBufferWriter* buf, iStrin
   for (size_t i = 0 ; i < templatedContents.GetSize () ; i++)
   {
     csStringID tplID = strings->Request (templatedContents[i].tpl->GetName ());
-    buf->AddUInt32 (tplID); 
+    buf->AddID (tplID); 
     buf->AddInt32 (templatedContents[i].amount);
   }
 }
@@ -207,8 +207,8 @@ void celPcInventory::RestoreModifications (iCelCompactDataBufferReader* buf,
     const csHash<csString,csStringID>& strings)
 {
   generatorActive = buf->GetBool ();
-  csStringID generatorID = buf->GetUInt32 ();
-  if (generatorID == (csStringID)csArrayItemNotFound)
+  csStringID generatorID = buf->GetID ();
+  if (generatorID == csInvalidStringID)
     generator = 0;
   else
   {
@@ -240,7 +240,7 @@ void celPcInventory::RestoreModifications (iCelCompactDataBufferReader* buf,
   size_t tcSize = buf->GetUInt16 ();
   for (size_t i = 0 ; i < tcSize ; i++)
   {
-    csStringID tplID = buf->GetUInt32 ();
+    csStringID tplID = buf->GetID ();
     TemplateStack ts;
     const char* tplName = strings.Get (tplID, (const char*)0);
     ts.tpl = pl->FindEntityTemplate (tplName);
