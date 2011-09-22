@@ -180,13 +180,13 @@ void celEntity::RestoreModifications (iCelCompactDataBufferReader* buf,
     const csHash<csString,csStringID>& strings)
 {
   csStringID nameID = buf->GetUInt32 ();
-  while (nameID != csArrayItemNotFound)
+  while (nameID != (csStringID)csArrayItemNotFound)
   {
     csStringID tagID = buf->GetUInt32 ();
     csString tag;
     iCelPropertyClass* pc;
     const char* name = strings.Get (nameID, (const char*)0);
-    if (tagID == csArrayItemNotFound)
+    if (tagID == (csStringID)csArrayItemNotFound)
       pc = FindByName (name);
     else
       pc = FindByNameAndTag (name, strings.Get (tagID, (const char*)0));
@@ -197,6 +197,7 @@ void celEntity::RestoreModifications (iCelCompactDataBufferReader* buf,
       return;
     }
     pc->RestoreModifications (buf, strings);
+    nameID = buf->GetUInt32 ();
   }
 }
 

@@ -1133,7 +1133,6 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       {
         entNameID = (csStringID)buf->GetUInt32 ();
       }
-printf ("csArrayItemNotFound=%d id=%d tmpID=%d entNameID=%d\n", (uint)csArrayItemNotFound, (uint)id, (uint)tmpID, (uint)entNameID);
       csReversibleTransform trans;
       csVector3 v, r1, r2, r3;
       buf->GetVector3 (v);
@@ -1153,7 +1152,7 @@ printf ("csArrayItemNotFound=%d id=%d tmpID=%d entNameID=%d\n", (uint)csArrayIte
         // Entity has to be created.
         const char* entName = strings.Get (entNameID, (const char*)0);
         const char* tmpName = strings.Get (tmpID, (const char*)0);
-printf ("New entity '%s' from '%s'\n", entName, tmpName); fflush (stdout);
+	printf ("Loading new entity '%s' from '%s'\n", entName, tmpName); fflush (stdout);
         dynobj = static_cast<DynamicObject*> (AddObject (tmpName, trans));
         dynobj->SetID (id);
         dynobj->SetEntity (entName, 0); // @@@ params?
@@ -1165,7 +1164,7 @@ printf ("New entity '%s' from '%s'\n", entName, tmpName); fflush (stdout);
         dynobj->SetTransform (trans);
         // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
         dynobj->ForceEntity (this);
-printf ("Existing entity '%s'\n", dynobj->GetEntity ()->GetName ()); fflush (stdout);
+	printf ("Loading existing entity '%s'\n", dynobj->GetEntity ()->GetName ()); fflush (stdout);
       }
       dynobj->ClearBaseline ();
 

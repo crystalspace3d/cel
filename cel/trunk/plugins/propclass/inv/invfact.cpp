@@ -208,7 +208,7 @@ void celPcInventory::RestoreModifications (iCelCompactDataBufferReader* buf,
 {
   generatorActive = buf->GetBool ();
   csStringID generatorID = buf->GetUInt32 ();
-  if (generatorID == csArrayItemNotFound)
+  if (generatorID == (csStringID)csArrayItemNotFound)
     generator = 0;
   else
   {
@@ -219,6 +219,7 @@ void celPcInventory::RestoreModifications (iCelCompactDataBufferReader* buf,
       return;
     }
     const char* lootname = strings.Get (generatorID, (const char*)0);
+    //printf ("this=%p generatorID=%d loot=%s\n", this, (uint)generatorID, lootname);
     if (lootname)
       generator = lootmgr->FindLootGenerator (lootname);
     else
