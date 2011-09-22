@@ -212,7 +212,7 @@ bool ElcmTest::FillDynamicWorld ()
     for (int x = -SIZE ; x <= SIZE ; x++)
     {
       obj = dynworld->AddObject ("GlowBox", csReversibleTransform (
-	    matId, csVector3 (float (x*5), 0, float (y*5))));
+	    matId, csVector3 (float (x*5), -.95, float (y*5))));
       csString name;
       name.Format ("box%d_%d", x+50, y+50);
       csRef<iCelParameterBlock> params;

@@ -1006,6 +1006,43 @@ void celPcDynamicWorld::MarkBaseline ()
     objects[i]->MarkBaseline ();
 }
 
+void celPcDynamicWorld::Dump ()
+{
+  printf ("### DynWorld ###\n");
+  printf ("  Fading in=%d, out=%d\n", fadingIn.GetSize (), fadingOut.GetSize ());
+  printf ("  Visible objects=%d\n", visibleObjects.GetSize ());
+  printf ("  Safe to remove=%d\n", safeToRemove.GetSize ());
+}
+
+// ---------------------------------------------------------------------------
+// Saving and loading
+// ---------------------------------------------------------------------------
+
+void celPcDynamicWorld::SaveTransform (iCelCompactDataBufferWriter* buf,
+      const csReversibleTransform& trans)
+{
+  buf->AddVector3 (trans.GetOrigin ());
+  buf->AddVector3 (trans.GetO2T ().Row1 ());
+  buf->AddVector3 (trans.GetO2T ().Row2 ());
+  buf->AddVector3 (trans.GetO2T ().Row3 ());
+}
+
+void celPcDynamicWorld::LoadTransform (iCelCompactDataBufferReader* buf,
+      csReversibleTransform& trans)
+{
+  csVector3 v, r1, r2, r3;
+  buf->GetVector3 (v);
+  buf->GetVector3 (r1);
+  buf->GetVector3 (r2);
+  buf->GetVector3 (r3);
+  trans.SetOrigin (v);
+  csMatrix3 m;
+  m.SetRow1 (r1);
+  m.SetRow2 (r2);
+  m.SetRow3 (r3);
+  trans.SetO2T (m);
+}
+
 void celPcDynamicWorld::SaveStrings (iCelCompactDataBufferWriter* buf,
     csScfStringSet* strings)
 {
@@ -1076,22 +1113,16 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       {
 	newEntites.Delete (entity);
         iDynamicFactory* dynfact = dynobj->GetFactory ();
-        csStringID tmpID = strings->Request (dynfact->GetName ());
-        buf->AddID (tmpID);
-        csStringID entNameID = strings->Request (entity->GetName ());
-        buf->AddID (entNameID);
+        buf->AddID (strings->Request (dynfact->GetName ()));
+        buf->AddID (strings->Request (entity->GetName ()));
       }
       else
       {
-        buf->AddUInt32 ((uint32)csInvalidStringID);
+        buf->AddID (csInvalidStringID);
       }
       // @@@ For now we just save the position if the entity is modified.
       // Perhaps this is even a good idea. Have to think about this more.
-      const csReversibleTransform& trans = dynobj->GetTransform ();
-      buf->AddVector3 (trans.GetOrigin ());
-      buf->AddVector3 (trans.GetO2T ().Row1 ());
-      buf->AddVector3 (trans.GetO2T ().Row2 ());
-      buf->AddVector3 (trans.GetO2T ().Row3 ());
+      SaveTransform (buf, dynobj->GetTransform ());
       entity->SaveModifications (buf, strings);
     }
 
@@ -1103,17 +1134,11 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       DynamicObject* dynobj = static_cast<DynamicObject*> (FindDynamicObject (entity));
       buf->AddUInt32 (entity->GetID ());
       iDynamicFactory* dynfact = dynobj->GetFactory ();
-      csStringID tmpID = strings->Request (dynfact->GetName ());
-      buf->AddID (tmpID);
-      csStringID entNameID = strings->Request (entity->GetName ());
-      buf->AddID (entNameID);
+      buf->AddID (strings->Request (dynfact->GetName ()));
+      buf->AddID (strings->Request (entity->GetName ()));
       // @@@ For now we just save the position if the entity is modified.
       // Perhaps this is even a good idea. Have to think about this more.
-      const csReversibleTransform& trans = dynobj->GetTransform ();
-      buf->AddVector3 (trans.GetOrigin ());
-      buf->AddVector3 (trans.GetO2T ().Row1 ());
-      buf->AddVector3 (trans.GetO2T ().Row2 ());
-      buf->AddVector3 (trans.GetO2T ().Row3 ());
+      SaveTransform (buf, dynobj->GetTransform ());
       entity->SaveModifications (buf, strings);
     }
 
@@ -1158,17 +1183,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
         entNameID = buf->GetID ();
       }
       csReversibleTransform trans;
-      csVector3 v, r1, r2, r3;
-      buf->GetVector3 (v);
-      buf->GetVector3 (r1);
-      buf->GetVector3 (r2);
-      buf->GetVector3 (r3);
-      trans.SetOrigin (v);
-      csMatrix3 m;
-      m.SetRow1 (r1);
-      m.SetRow2 (r2);
-      m.SetRow3 (r3);
-      trans.SetO2T (m);
+      LoadTransform (buf, trans);
 
       DynamicObject* dynobj;
       if (tmpID != csInvalidStringID)
@@ -1176,7 +1191,8 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
         // Entity has to be created.
         const char* entName = strings.Get (entNameID, (const char*)0);
         const char* tmpName = strings.Get (tmpID, (const char*)0);
-	printf ("Loading new entity '%s' from '%s'\n", entName, tmpName); fflush (stdout);
+	printf ("Loading new entity '%s' from '%s'\n", entName, tmpName);
+        fflush (stdout);
         dynobj = static_cast<DynamicObject*> (AddObject (tmpName, trans));
         dynobj->SetID (id);
         dynobj->SetEntity (entName, 0); // @@@ params?
@@ -1188,7 +1204,8 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
         dynobj->SetTransform (trans);
         // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
         dynobj->ForceEntity (this);
-	printf ("Loading existing entity '%s'\n", dynobj->GetEntity ()->GetName ()); fflush (stdout);
+	printf ("Loading existing entity '%s'\n",
+            dynobj->GetEntity ()->GetName ()); fflush (stdout);
       }
       dynobj->ClearBaseline ();
 
@@ -1197,13 +1214,5 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       id = buf->GetUInt32 ();
     }
   }
-}
-
-void celPcDynamicWorld::Dump ()
-{
-  printf ("### DynWorld ###\n");
-  printf ("  Fading in=%d, out=%d\n", fadingIn.GetSize (), fadingOut.GetSize ());
-  printf ("  Visible objects=%d\n", visibleObjects.GetSize ());
-  printf ("  Safe to remove=%d\n", safeToRemove.GetSize ());
 }
 
