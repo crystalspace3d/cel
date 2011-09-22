@@ -1014,21 +1014,21 @@ void celPcDynamicWorld::SaveStrings (iCelCompactDataBufferWriter* buf,
   {
     const char* str;
     csStringID id = it.Next (str);
-    buf->AddUInt32 (id);
+    buf->AddID (id);
     buf->AddString32 (str);
   }
-  buf->AddUInt32 ((uint32)csArrayItemNotFound);
+  buf->AddID (csInvalidStringID);
 }
 
 void celPcDynamicWorld::LoadStrings (iCelCompactDataBufferReader* buf,
       csHash<csString,csStringID>& strings)
 {
-  csStringID id = buf->GetUInt32 ();
-  while (id != (csStringID)csArrayItemNotFound)
+  csStringID id = buf->GetID ();
+  while (id != csInvalidStringID)
   {
     const char* str = buf->GetString32 ();
     strings.Put (id, str);
-    id = buf->GetUInt32 ();
+    id = buf->GetID ();
   }
 }
 
@@ -1077,13 +1077,13 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
 	newEntites.Delete (entity);
         iDynamicFactory* dynfact = dynobj->GetFactory ();
         csStringID tmpID = strings->Request (dynfact->GetName ());
-        buf->AddUInt32 (tmpID);
+        buf->AddID (tmpID);
         csStringID entNameID = strings->Request (entity->GetName ());
-        buf->AddUInt32 (entNameID);
+        buf->AddID (entNameID);
       }
       else
       {
-        buf->AddUInt32 ((uint32)csArrayItemNotFound);
+        buf->AddUInt32 ((uint32)csInvalidStringID);
       }
       // @@@ For now we just save the position if the entity is modified.
       // Perhaps this is even a good idea. Have to think about this more.
@@ -1104,9 +1104,9 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       buf->AddUInt32 (entity->GetID ());
       iDynamicFactory* dynfact = dynobj->GetFactory ();
       csStringID tmpID = strings->Request (dynfact->GetName ());
-      buf->AddUInt32 (tmpID);
+      buf->AddID (tmpID);
       csStringID entNameID = strings->Request (entity->GetName ());
-      buf->AddUInt32 (entNameID);
+      buf->AddID (entNameID);
       // @@@ For now we just save the position if the entity is modified.
       // Perhaps this is even a good idea. Have to think about this more.
       const csReversibleTransform& trans = dynobj->GetTransform ();
@@ -1151,11 +1151,11 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     uint id = buf->GetUInt32 ();
     while (id != (uint)csArrayItemNotFound)
     {
-      csStringID tmpID = (csStringID)buf->GetUInt32 ();
-      csStringID entNameID = csArrayItemNotFound;
-      if (tmpID != (csStringID)csArrayItemNotFound)
+      csStringID tmpID = buf->GetID ();
+      csStringID entNameID = csInvalidStringID;
+      if (tmpID != csInvalidStringID)
       {
-        entNameID = (csStringID)buf->GetUInt32 ();
+        entNameID = buf->GetID ();
       }
       csReversibleTransform trans;
       csVector3 v, r1, r2, r3;
@@ -1171,7 +1171,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       trans.SetO2T (m);
 
       DynamicObject* dynobj;
-      if (tmpID != (csStringID)csArrayItemNotFound)
+      if (tmpID != csInvalidStringID)
       {
         // Entity has to be created.
         const char* entName = strings.Get (entNameID, (const char*)0);
