@@ -109,8 +109,8 @@ public:
     virtual void Deactivate();
     virtual void MarkBaseline();
     virtual bool IsModifiedSinceBaseline() const;
-    virtual void SaveModifications(iCelCompactDataBuffer *buf, iStringSet *strings);
-    virtual void RestoreModifications(iCelCompactDataBuffer *buf, iStringSet *strings);
+    virtual void SaveModifications(iCelCompactDataBufferWriter *buf, iStringSet *strings);
+    virtual void RestoreModifications(iCelCompactDataBufferReader *buf, csHash< csString,csStringID > const &strings);
     virtual void TickEveryFrame();
     virtual void TickOnce();
     virtual void MessageDispatcherRemoved(iMessageDispatcher *dispatcher);
