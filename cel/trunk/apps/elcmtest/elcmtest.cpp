@@ -206,19 +206,36 @@ bool ElcmTest::CreateFactories ()
 
 bool ElcmTest::FillDynamicWorld ()
 {
+  csRandomGen rnd;
+  rnd.Initialize (1234567);
+
   csMatrix3 matId;
   iDynamicObject* obj;
   for (int y = -SIZE ; y <= SIZE ; y++)
     for (int x = -SIZE ; x <= SIZE ; x++)
     {
-      obj = dynworld->AddObject ("GlowBox", csReversibleTransform (
+      if (rnd.Get () < .6)
+      {
+        obj = dynworld->AddObject ("GlowBox", csReversibleTransform (
 	    matId, csVector3 (float (x*5), -.95, float (y*5))));
-      csString name;
-      name.Format ("box%d_%d", x+50, y+50);
-      csRef<iCelParameterBlock> params;
-      params.AttachNew (new celVariableParameterBlock ());
-      if (!obj->SetEntity (name, params))
-	return ReportError ("Could not set entity template 'GlowBox'!");
+        csString name;
+        name.Format ("box%d_%d", x+50, y+50);
+        csRef<iCelParameterBlock> params;
+        params.AttachNew (new celVariableParameterBlock ());
+        if (!obj->SetEntity (name, params))
+	  return ReportError ("Could not set entity template 'GlowBox'!");
+      }
+      else
+      {
+        obj = dynworld->AddObject ("Gold", csReversibleTransform (
+	    matId, csVector3 (float (x*5), -.95, float (y*5))));
+        csString name;
+        name.Format ("gld%d_%d", x+50, y+50);
+        csRef<iCelParameterBlock> params;
+        params.AttachNew (new celVariableParameterBlock ());
+        if (!obj->SetEntity (name, params))
+	  return ReportError ("Could not set entity template 'Gold'!");
+      }
     }
   dynworld->MarkBaseline ();
   return true;
