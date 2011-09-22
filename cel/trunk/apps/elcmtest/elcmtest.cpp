@@ -428,7 +428,6 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
 	    playerEntity);
 	inventory->AddEntityTemplate (tpl, 1);
         dynworld->DeleteObject (dynobj);
-        pl->RemoveEntity (ent);
       }
     }
     return true;
@@ -446,7 +445,6 @@ void ElcmTest::Frame ()
 bool ElcmTest::OnMouseDown (iEvent& ev)
 {
   uint but = csMouseEventHelper::GetButton (&ev);
-  if (but != 1) return false;
   int x = csMouseEventHelper::GetX (&ev);
   int y = csMouseEventHelper::GetY (&ev);
 
@@ -455,16 +453,33 @@ bool ElcmTest::OnMouseDown (iEvent& ev)
   csVector3 start = camera->GetTransform ().GetOrigin ();
   csVector3 end = camera->GetTransform ().This2Other (v3d);
 
-  CS::Physics::Bullet::HitBeamResult result = bullet_dynSys->HitBeam (start, end);
-  if (result.body)
+  if (but == 1)
   {
-    iRigidBody* hitBody = result.body->QueryRigidBody ();
-    csVector3 force = end-start;
-    force.Normalize ();
-    force *= 2.0 * hitBody->GetMass ();
-    hitBody->AddForceAtPos (force, result.isect);
+    CS::Physics::Bullet::HitBeamResult result = bullet_dynSys->HitBeam (start, end);
+    if (result.body)
+    {
+      iRigidBody* hitBody = result.body->QueryRigidBody ();
+      csVector3 force = end-start;
+      force.Normalize ();
+      force *= 2.0 * hitBody->GetMass ();
+      hitBody->AddForceAtPos (force, result.isect);
+    }
+    return true;
   }
-  return true;
+  else if (but == 2)
+  {
+    csSectorHitBeamResult result = camera->GetSector ()->HitBeamPortals (start, end);
+    if (result.mesh)
+    {
+      iDynamicObject* dynobj = dynworld->FindObject (result.mesh);
+      if (dynobj)
+      {
+	dynworld->DeleteObject (dynobj);
+      }
+    }
+    return true;
+  }
+  return false;
 }
 
 bool ElcmTest::OnKeyboard (iEvent& ev)
