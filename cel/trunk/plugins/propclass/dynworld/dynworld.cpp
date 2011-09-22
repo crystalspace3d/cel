@@ -1050,7 +1050,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       buf->AddUInt32 (id);
     }
 
-    const csSet<csPtrKey<iCelEntity> >& newEntites = elcm->GetNewEntities ();
+    csSet<csPtrKey<iCelEntity> > newEntites = elcm->GetNewEntities ();
 
     csRef<iCelEntityIterator> it = elcm->GetModifiedEntities ();
     while (it->HasNext ())
@@ -1074,6 +1074,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       buf->AddUInt32 (entity->GetID ());
       if (newEntites.Contains (entity))
       {
+	newEntites.Delete (entity);
         iDynamicFactory* dynfact = dynobj->GetFactory ();
         csStringID tmpID = strings->Request (dynfact->GetName ());
         buf->AddUInt32 (tmpID);
@@ -1093,6 +1094,29 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       buf->AddVector3 (trans.GetO2T ().Row3 ());
       entity->SaveModifications (buf, strings);
     }
+
+    // All remaining entities in 'newEntites' also have to be saved.
+    csSet<csPtrKey<iCelEntity> >::GlobalIterator newIt = newEntites.GetIterator ();
+    while (newIt.HasNext ())
+    {
+      iCelEntity* entity = newIt.Next ();
+      DynamicObject* dynobj = static_cast<DynamicObject*> (FindDynamicObject (entity));
+      buf->AddUInt32 (entity->GetID ());
+      iDynamicFactory* dynfact = dynobj->GetFactory ();
+      csStringID tmpID = strings->Request (dynfact->GetName ());
+      buf->AddUInt32 (tmpID);
+      csStringID entNameID = strings->Request (entity->GetName ());
+      buf->AddUInt32 (entNameID);
+      // @@@ For now we just save the position if the entity is modified.
+      // Perhaps this is even a good idea. Have to think about this more.
+      const csReversibleTransform& trans = dynobj->GetTransform ();
+      buf->AddVector3 (trans.GetOrigin ());
+      buf->AddVector3 (trans.GetO2T ().Row1 ());
+      buf->AddVector3 (trans.GetO2T ().Row2 ());
+      buf->AddVector3 (trans.GetO2T ().Row3 ());
+      entity->SaveModifications (buf, strings);
+    }
+
     buf->AddUInt32 ((uint32)csArrayItemNotFound);
   }
   else
