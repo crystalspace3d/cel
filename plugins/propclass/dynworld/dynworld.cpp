@@ -728,6 +728,8 @@ void celPcDynamicWorld::DeleteObjectInt (DynamicObject* dyn)
 void celPcDynamicWorld::DeleteObject (iDynamicObject* dynobj)
 {
   DynamicObject* dyn = static_cast<DynamicObject*> (dynobj);
+  if (dyn->GetEntity ())
+    pl->RemoveEntity (dyn->GetEntity ());
   checkForMovement.Delete (dyn);
   haveMovedFromBaseline.Delete (dyn);
   visibleObjects.Delete (dyn);
@@ -1131,6 +1133,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
   {
     const csSet<uint>& deletedEntities = elcm->GetDeletedEntities ();
     buf->AddUInt32 (deletedEntities.GetSize ());
+    printf ("Save %d deleted items\n", deletedEntities.GetSize ());
     csSet<uint>::GlobalIterator delIt = deletedEntities.GetIterator ();
     while (delIt.HasNext ())
     {
@@ -1239,10 +1242,14 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
   if (elcm)
   {
     size_t delSize = (size_t)buf->GetUInt32 ();
+    printf ("%d to delete\n", delSize);
     for (size_t i = 0 ; i < delSize ; i++)
     {
       uint id = (uint)buf->GetUInt32 ();
       elcm->RegisterDeletedEntity (id);
+      DynamicObject* dynobj = static_cast<DynamicObject*> (FindDynamicObject (id));
+      if (dynobj)
+	DeleteObject (dynobj);
     }
 
     uint id = buf->GetUInt32 ();
