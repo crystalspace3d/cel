@@ -381,10 +381,7 @@ void celELCM::CheckUnload ()
     {
       // If the entity was modified since the baseline we can't remove it.
       if (!ent->IsModifiedSinceBaseline ())
-      {
-        printf ("Entity '%s' can be removed!\n", ent->QueryObject ()->GetName ()); fflush (stdout);
         FireELCMListeners (ent);
-      }
       toRemove.Push (ent);
     }
   }

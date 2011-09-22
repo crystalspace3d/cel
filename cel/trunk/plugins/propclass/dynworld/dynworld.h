@@ -270,16 +270,27 @@ class DynamicObject : public scfImplementation2<DynamicObject,
 private:
   DynamicFactory* factory;
   csRef<iMeshWrapper> mesh;
-  mutable csReversibleTransform trans;
+  // If the mesh is not prepared yet this transform is the actual
+  // transform of this object. If the mesh is prepared then this
+  // represents the transform at the time the mesh is prepared.
+  csReversibleTransform trans;
   csRef<iRigidBody> body;
   bool is_static;
   bool is_kinematic;
   bool is_hilight;
   bool hilight_installed;
-  bool atBaseline;
   float fade;
   CS::Geometry::KDTreeChild* child;
   uint id;
+
+  bool atBaseline;
+  // A dynamic object that is at the baseline (atBaseline == true)
+  // will maintain the field below so that we can discover if it has moved
+  // sufficiently from the starting baseline. For objects that were not
+  // present at the baseline this field is not maintained.
+  // Once this field is set to true it will never be set to false again.
+  bool hasMovedSufficiently;
+  long lastUpdateNr;    // Helper field to see if we moved sufficiently.
 
   csRef<iCelEntityTemplate> entityTemplate;
   csString entityName;
@@ -343,6 +354,12 @@ public:
   }
   bool ExistedAtBaseline () const { return atBaseline; }
 
+  /**
+   * Check if this dynobj has moved sufficiently to warrant a save
+   * of its position.
+   */
+  bool HasMovedSufficiently ();
+
   // Return true if a body is part of this dynamic object.
   bool HasBody (iRigidBody* body);
 };
@@ -383,11 +400,20 @@ public:
   csRef<iELCM> elcm;
   size_t scopeIdx;
 
+  // Current visible objects.
   csSet<csPtrKey<DynamicObject> > visibleObjects;
 
-  // A set of entities which are safe to remove. This information
-  // comes from the ELCM.
+  // A set of entities which the ELCM thinks are safe to remove.
   csSet<csPtrKey<iCelEntity> > safeToRemove;
+
+  // A set of dynamic objects which we have to check if they moved
+  // sufficiently for us to remember its position.
+  csSet<csPtrKey<DynamicObject> > checkForMovement;
+
+  // A set of all dynamic objects which are pre-baseline and which
+  // have moved from their original position. These have to be saved.
+  csSet<csPtrKey<DynamicObject> > haveMovedFromBaseline;
+
   // This function will remove all entities that are still in safeToRemove.
   // The 'visibility' traversal should have removed all entities that
   // are attached to a visible mesh from this set first.
@@ -406,6 +432,10 @@ public:
       csScfStringSet* strings);
   void LoadStrings (iCelCompactDataBufferReader* buf,
       csHash<csString,csStringID>& strings);
+
+  // Check all objects which have moved recently to see if some of
+  // them have moved enough for them to be considered 'dirty'.
+  void CheckForMovement ();
 
 public:
   celPcDynamicWorld (iObjectRegistry* object_reg);
