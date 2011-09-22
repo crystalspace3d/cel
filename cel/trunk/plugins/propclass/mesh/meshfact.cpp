@@ -1507,7 +1507,8 @@ bool celMeshSelectListener::HandleEvent (iEvent& ev)
   while (it.HasNext ())
   {
     celPcMeshSelect* pcmeshsel = it.Next ();
-    pcmeshsel->HandleEvent (ev);
+    if (!todo_rem_listeners.Contains (pcmeshsel))
+      pcmeshsel->HandleEvent (ev);
   }
   if (ev.Name != csevMouseMove (name_reg, 0))
   {
@@ -1515,7 +1516,8 @@ bool celMeshSelectListener::HandleEvent (iEvent& ev)
     while (it.HasNext ())
     {
       celPcMeshSelect* pcmeshsel = it.Next ();
-      pcmeshsel->HandleEvent (ev);
+      if (!todo_rem_listeners.Contains (pcmeshsel))
+        pcmeshsel->HandleEvent (ev);
     }
   }
   CS_ASSERT (is_iterating);
