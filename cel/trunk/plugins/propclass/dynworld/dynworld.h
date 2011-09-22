@@ -398,7 +398,12 @@ public:
 
   void DeleteObjectInt (DynamicObject* dynobj);
 
-  void SaveStrings (iCelCompactDataBufferWriter* buf, csScfStringSet* strings);
+  void SaveTransform (iCelCompactDataBufferWriter* buf,
+      const csReversibleTransform& trans);
+  void LoadTransform (iCelCompactDataBufferReader* buf,
+      csReversibleTransform& trans);
+  void SaveStrings (iCelCompactDataBufferWriter* buf,
+      csScfStringSet* strings);
   void LoadStrings (iCelCompactDataBufferReader* buf,
       csHash<csString,csStringID>& strings);
 
