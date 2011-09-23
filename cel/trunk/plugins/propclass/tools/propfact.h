@@ -88,7 +88,9 @@ private:
   size_t FindOrNewProperty (csStringID id);
   void ClearPropertyValue (property* p);
 
-  celOneParameterBlock* params;
+  bool atBaseline;
+
+  csRef<celOneParameterBlock> params;
 
   csRef<iMessageDispatcher> dispatcher_set;
   csRef<iMessageDispatcher> dispatcher_clear;
@@ -207,6 +209,15 @@ public:
   iBase* GetPropertyIBase (size_t index) const
   { return GetPropertyIBaseIndex (index); }
   /** @} */
+
+  virtual void MarkBaseline ()
+  {
+    atBaseline = true;
+  }
+  virtual bool IsModifiedSinceBaseline () const { return !atBaseline; }
+  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings);
+  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
+      const csHash<csString,csStringID>& strings);
 };
 
 #endif // __CEL_PF_PROPFACT__

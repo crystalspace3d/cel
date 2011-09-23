@@ -65,9 +65,10 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
     AddAction (action_setproperty, "SetProperty");
   }
 
-  params = new celOneParameterBlock ();
+  params.AttachNew (new celOneParameterBlock ());
   params->SetParameterDef (id_index);
   properties_hash_dirty = false;
+  atBaseline = false;
 }
 
 celPcProperties::~celPcProperties ()
@@ -76,7 +77,6 @@ celPcProperties::~celPcProperties ()
   // further events.
   listeners.DeleteAll ();
   Clear ();
-  delete params;
 }
 
 size_t celPcProperties::FindProperty (csStringID id)
@@ -250,6 +250,159 @@ iBase* celPcProperties::GetPropertyIBaseByID (csStringID id)
   return GetPropertyIBaseIndex (idx);
 }
 
+void celPcProperties::SaveModifications (iCelCompactDataBufferWriter* buf,
+    iStringSet* strings)
+{
+  buf->AddUInt32 (properties.GetSize ());
+  for (size_t i = 0 ; i < properties.GetSize () ; i++)
+  {
+    property* prop = properties[i];
+    buf->AddID (prop->id);
+    buf->AddUInt8 (prop->type);
+    switch (prop->type)
+    {
+      case CEL_DATA_FLOAT: buf->AddFloat (prop->v.f); break;
+      case CEL_DATA_LONG: buf->AddInt32 (prop->v.l); break;
+      case CEL_DATA_BOOL: buf->AddBool (prop->v.b); break;
+      case CEL_DATA_STRING: buf->AddID (strings->Request (prop->v.s)); break;
+      case CEL_DATA_VECTOR2:
+        buf->AddFloat (prop->v.vec.x);
+        buf->AddFloat (prop->v.vec.y);
+        break;
+      case CEL_DATA_VECTOR3:
+        buf->AddFloat (prop->v.vec.x);
+        buf->AddFloat (prop->v.vec.y);
+        buf->AddFloat (prop->v.vec.z);
+        break;
+      case CEL_DATA_COLOR:
+        buf->AddFloat (prop->v.col.red);
+        buf->AddFloat (prop->v.col.green);
+        buf->AddFloat (prop->v.col.blue);
+        break;
+      case CEL_DATA_PCLASS:
+        {
+          if (prop->pclass)
+          {
+            buf->AddUInt32 (prop->pclass->GetEntity ()->GetID ());
+            buf->AddID (strings->Request (prop->pclass->GetName ()));
+            if (prop->pclass->GetTag ())
+              buf->AddID (strings->Request (prop->pclass->GetTag ()));
+            else
+              buf->AddID (csInvalidStringID);
+          }
+          else
+          {
+            buf->AddUInt32 (csArrayItemNotFound);
+          }
+        }
+        break;
+      case CEL_DATA_ENTITY:
+        {
+          if (prop->entity)
+            buf->AddUInt32 (prop->entity->GetID ());
+          else
+            buf->AddUInt32 (csArrayItemNotFound);
+        }
+        break;
+      case CEL_DATA_IBASE:
+        printf ("Saving of general iBase can't be done for property %s in entity %s!\n",
+            prop->propName, entity->GetName ());
+        break;
+      default:
+        printf ("Unknown datatype %d for property %s in entity %s!\n",
+            prop->type, prop->propName, entity->GetName ());
+        break;
+
+    }
+  }
+}
+
+void celPcProperties::RestoreModifications (iCelCompactDataBufferReader* buf,
+    const csHash<csString,csStringID>& strings)
+{
+  Clear ();
+  size_t size = buf->GetUInt32 ();
+  for (size_t i = 0 ; i < size ; i++)
+  {
+    csStringID id = buf->GetID ();
+    celDataType type = (celDataType) buf->GetUInt8 ();
+    switch (type)
+    {
+      case CEL_DATA_FLOAT: SetProperty (id, buf->GetFloat ()); break;
+      case CEL_DATA_LONG: SetProperty (id, (long)buf->GetInt32 ()); break;
+      case CEL_DATA_BOOL: SetProperty (id, buf->GetBool ()); break;
+      case CEL_DATA_STRING:
+        SetProperty (id, strings.Get (buf->GetID (), (const char*)0));
+        break;
+      case CEL_DATA_VECTOR2:
+        SetProperty (id, csVector2 (buf->GetFloat (), buf->GetFloat ()));
+        break;
+      case CEL_DATA_VECTOR3:
+        SetProperty (id, csVector3 (buf->GetFloat (), buf->GetFloat (),
+              buf->GetFloat ()));
+        break;
+      case CEL_DATA_COLOR:
+        SetProperty (id, csColor (buf->GetFloat (), buf->GetFloat (),
+              buf->GetFloat ()));
+        break;
+      case CEL_DATA_PCLASS:
+        {
+          iCelPropertyClass* pc = 0;
+          uint entid = (uint)buf->GetUInt32 ();
+          if (entid != (uint)csArrayItemNotFound)
+          {
+            iCelEntity* ent = pl->GetEntity (entid);
+            if (!ent)
+            {
+              //@@@ Error reporting
+              printf ("Can't find entity '%d'!\n", entid);
+              return;
+            }
+            const char* pcname = strings.Get (buf->GetID (), (const char*)0);
+            csStringID tagId = buf->GetID ();
+            if (tagId == csInvalidStringID)
+              pc = ent->GetPropertyClassList ()->FindByName (pcname);
+            else
+              pc = ent->GetPropertyClassList ()->FindByNameAndTag (pcname,
+                    strings.Get (tagId, (const char*)0));
+            if (!pc)
+            {
+              // @@@ Error reporting
+              printf ("Can't find property class '%s' for entity '%s'!\n",
+                    pcname, ent->GetName ());
+              return;
+            }
+          }
+          SetProperty (id, pc);
+        }
+        break;
+      case CEL_DATA_ENTITY:
+        {
+          iCelEntity* ent = 0;
+          uint entid = (uint)buf->GetUInt32 ();
+          if (entid != (uint)csArrayItemNotFound)
+          {
+            ent = pl->GetEntity (entid);
+            if (!ent)
+            {
+              //@@@ Error reporting
+              printf ("Can't find entity '%d'!\n", entid);
+              return;
+            }
+          }
+          SetProperty (id, ent);
+        }
+        break;
+      case CEL_DATA_IBASE:
+        break;
+      default:
+        break;
+    }
+  }
+
+  atBaseline = false;
+}
+
 #define PROPERTIES_SERIAL 1
 
 csPtr<iCelDataBuffer> celPcProperties::Save ()
@@ -415,12 +568,13 @@ bool celPcProperties::PerformActionIndexed (int idx,
 size_t celPcProperties::NewProperty (const char* name)
 {
   property* p = new property ();
-  p->id = csInvalidStringID;	// Fetch later if needed.
+  p->id = pl->FetchStringID (name);
   p->propName = csStrNew (name);
   p->type = CEL_DATA_NONE;
   size_t idx = properties.GetSize ();
   properties.Push (p);
   if (!properties_hash_dirty) properties_hash.Put (name, idx+1);	// +1 so that 0 is an error.
+  atBaseline = false;
   return idx;
 }
 
@@ -437,6 +591,7 @@ void celPcProperties::ClearPropertyValue (property* p)
   p->pclass = 0;
   p->entity = 0;
   p->type = CEL_DATA_NONE;
+  atBaseline = false;
 }
 
 void celPcProperties::SetProperty (const char* name, float value)
@@ -509,6 +664,7 @@ size_t celPcProperties::GetPropertyIndex (const char* name)
 
 void celPcProperties::HandlePropertyChange (size_t index)
 {
+  atBaseline = false;
   FirePropertyListeners (index);
   params->GetParameter (0).Set ((int32)index);
   iCelBehaviour* bh = entity->GetBehaviour ();
@@ -778,6 +934,7 @@ void celPcProperties::ClearProperty (size_t index)
   properties.DeleteIndex (index);
   // Properties hash is cleared because it is invalid now.
   properties_hash_dirty = true;
+  atBaseline = false;
 }
 
 void celPcProperties::Clear ()
