@@ -1122,7 +1122,6 @@ void celPcDynamicWorld::LoadStrings (iCelCompactDataBufferReader* buf,
   }
 }
 
-// @@@ TODO! Save dynobj's without entity!!!!!
 csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
 {
   csRef<csScfStringSet> strings;
@@ -1163,7 +1162,6 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
 	// the world) as we don't support them.
         printf ("Entity without dynobj '%s'!\n", entity->GetName ());
         buf->AddID (csInvalidStringID);	// No template.
-        entity->SaveModifications (buf, strings);
       }
       else
       {
