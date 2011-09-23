@@ -203,6 +203,12 @@ struct iDynamicObject : public virtual iBase
    * template with the given factory name).
    */
   virtual bool SetEntity (const char* entityName, iCelParameterBlock* params) = 0;
+
+  /**
+   * Unlink the entity from this object. This is useful if you want to
+   * put the entity in some inventory so you have to delete the dynobj afterwards.
+   */
+  virtual void UnlinkEntity () = 0;
 };
 
 /**

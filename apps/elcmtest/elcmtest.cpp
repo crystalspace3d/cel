@@ -438,13 +438,25 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
     iDynamicObject* dynobj = dynworld->FindDynamicObject (ent);
     if (dynobj)
     {
-      iCelEntityTemplate* tpl = pl->FindEntityTemplate (dynobj->GetFactory ()->GetName ());
-      if (tpl)
+      csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (
+	      playerEntity);
+      if (ent->IsModifiedSinceBaseline ())
       {
-        csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (
-	    playerEntity);
-	inventory->AddEntityTemplate (tpl, 1);
+	// This entity has state. We cannot convert it to a template in the
+	// inventory so we have to add the actual entity.
+	inventory->AddEntity (ent);
+	dynobj->UnlinkEntity ();
         dynworld->DeleteObject (dynobj);
+      }
+      else
+      {
+        iCelEntityTemplate* tpl = pl->FindEntityTemplate (
+	    dynobj->GetFactory ()->GetName ());
+        if (tpl)
+        {
+	  inventory->AddEntityTemplate (tpl, 1);
+          dynworld->DeleteObject (dynobj);
+        }
       }
     }
     return true;

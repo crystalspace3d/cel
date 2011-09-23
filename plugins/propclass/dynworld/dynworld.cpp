@@ -374,25 +374,6 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
   }
 }
 
-iCelEntity* DynamicObject::ForceEntity (celPcDynamicWorld* world)
-{
-  if (entityTemplate && !entity)
-  {
-    entity = world->pl->CreateEntity (entityTemplate, entityName, params);
-    entity->SetID (id);
-    if (atBaseline)
-    {
-      // The elcm normally automatically registers new entities as
-      // being new after the baseline. But since we know this entity
-      // is part of the baseline (since our DynObj is part of the baseline)
-      // we must unregister it here.
-      if (world->elcm) world->elcm->UnregisterNewEntity (entity);
-      entity->MarkBaseline ();
-    }
-  }
-  return entity;
-}
-
 void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
 {
   if (mesh) return;
@@ -555,6 +536,36 @@ bool DynamicObject::SetEntity (const char* entityName, iCelParameterBlock* param
   DynamicObject::entityName = entityName;
   DynamicObject::params = params;
   return true;
+}
+
+void DynamicObject::UnlinkEntity ()
+{
+  entity = 0;
+}
+
+iCelEntity* DynamicObject::ForceEntity (celPcDynamicWorld* world)
+{
+  if (!entity)
+  {
+    // First we check if the entity already exists.
+    entity = world->pl->GetEntity (id);
+  }
+  if (entityTemplate && !entity)
+  {
+    // No, create one with the given id.
+    entity = world->pl->CreateEntity (entityTemplate, entityName, params);
+    entity->SetID (id);
+    if (atBaseline)
+    {
+      // The elcm normally automatically registers new entities as
+      // being new after the baseline. But since we know this entity
+      // is part of the baseline (since our DynObj is part of the baseline)
+      // we must unregister it here.
+      if (world->elcm) world->elcm->UnregisterNewEntity (entity);
+      entity->MarkBaseline ();
+    }
+  }
+  return entity;
 }
 
 //---------------------------------------------------------------------------------------
