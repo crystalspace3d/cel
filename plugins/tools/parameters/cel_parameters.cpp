@@ -142,7 +142,7 @@ csPtr<iParameter> celParameterManager::GetParameter (
       if (thisid == id)
       {
         csString name;
-        celParameterTools::ToString (*params->GetParameter (i), name);
+        celParameterTools::ToString (*params->GetParameterByIndex (i), name);
         entity = pl->FindEntity (name);
 	break;
       }
