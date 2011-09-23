@@ -1149,36 +1149,44 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
     csRef<iCelEntityIterator> it = elcm->GetModifiedEntities ();
     while (it->HasNext ())
     {
+      // @@@ SAVE ENTITIES IN INVENTORY
       iCelEntity* entity = it->Next ();
+      buf->AddUInt32 (entity->GetID ());
+
       iDynamicObject* dynobj = FindDynamicObject (entity);
       if (!dynobj)
       {
-        printf ("Warning! Ignored entity '%s'!\n", entity->GetName ());
-        fflush (stdout);
-        continue;    // @@@???
-      }
-
-      // @@@ SAVE ENTITIES IN INVENTORY
-
-      alreadySaved.Add (static_cast<DynamicObject*> (dynobj));
-
-      buf->AddUInt32 (entity->GetID ());
-      if (newEntites.Contains (entity))
-      {
-        printf ("Saving new entity '%s'!\n", entity->GetName ());
-	newEntites.Delete (entity);
-        iDynamicFactory* dynfact = dynobj->GetFactory ();
-        buf->AddID (strings->Request (dynfact->GetName ()));
-        buf->AddID (strings->Request (entity->GetName ()));
+	// @@@ If there is no dynobj we assume that it can't be
+	// a new entity (i.e. it must be pre-baseline). Post-baseline new
+	// entities without dynobj are (not yet) supported.
+	// Also entities saved here should not have a pcmesh (position in
+	// the world) as we don't support them.
+        printf ("Entity without dynobj '%s'!\n", entity->GetName ());
+        buf->AddID (csInvalidStringID);	// No template.
+        entity->SaveModifications (buf, strings);
       }
       else
       {
-        printf ("Saving entity '%s'!\n", entity->GetName ());
-        buf->AddID (csInvalidStringID);
+        alreadySaved.Add (static_cast<DynamicObject*> (dynobj));
+
+        if (newEntites.Contains (entity))
+        {
+          printf ("Saving new entity '%s'!\n", entity->GetName ());
+	  newEntites.Delete (entity);
+          iDynamicFactory* dynfact = dynobj->GetFactory ();
+          buf->AddID (strings->Request (dynfact->GetName ()));
+          buf->AddID (strings->Request (entity->GetName ()));
+        }
+        else
+        {
+          printf ("Saving entity '%s'!\n", entity->GetName ());
+          buf->AddID (csInvalidStringID);	// No template.
+        }
+        // @@@ For now we just save the position if the entity is modified.
+        // Perhaps this is even a good idea. Have to think about this more.
+        SaveTransform (buf, dynobj->GetTransform ());
       }
-      // @@@ For now we just save the position if the entity is modified.
-      // Perhaps this is even a good idea. Have to think about this more.
-      SaveTransform (buf, dynobj->GetTransform ());
+
       entity->SaveModifications (buf, strings);
     }
 
@@ -1249,7 +1257,15 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       elcm->RegisterDeletedEntity (id);
       DynamicObject* dynobj = static_cast<DynamicObject*> (FindDynamicObject (id));
       if (dynobj)
+      {
 	DeleteObject (dynobj);
+      }
+      else
+      {
+	iCelEntity* entity = pl->GetEntity (id);
+	printf ("Delete entity %s\n", entity->GetName ());
+	pl->RemoveEntity (entity);
+      }
     }
 
     uint id = buf->GetUInt32 ();
@@ -1261,10 +1277,9 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       {
         entNameID = buf->GetID ();
       }
-      csReversibleTransform trans;
-      LoadTransform (buf, trans);
 
       DynamicObject* dynobj;
+      iCelEntity* entity;
       if (tmpID != csInvalidStringID)
       {
         // Entity has to be created.
@@ -1272,23 +1287,40 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
         const char* tmpName = strings.Get (tmpID, (const char*)0);
 	printf ("Loading new entity '%s' from '%s'\n", entName, tmpName);
         fflush (stdout);
+        csReversibleTransform trans;
+        LoadTransform (buf, trans);
         dynobj = static_cast<DynamicObject*> (AddObject (tmpName, trans));
         dynobj->SetID (id);
         dynobj->SetEntity (entName, 0); // @@@ params?
-        elcm->RegisterNewEntity (dynobj->ForceEntity (this));
+        entity = dynobj->ForceEntity (this);
+        elcm->RegisterNewEntity (entity);
       }
       else
       {
         dynobj = static_cast<DynamicObject*> (FindDynamicObject (id));
-        dynobj->SetTransform (trans);
-        // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
-        dynobj->ForceEntity (this);
-	printf ("Loading existing entity '%s'\n",
-            dynobj->GetEntity ()->GetName ()); fflush (stdout);
+	if (dynobj)
+	{
+          csReversibleTransform trans;
+          LoadTransform (buf, trans);
+          dynobj->SetTransform (trans);
+          // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
+          entity = dynobj->ForceEntity (this);
+	  printf ("Loading existing entity '%s'\n", entity->GetName ()); fflush (stdout);
+	}
+	else
+	{
+	  entity = pl->GetEntity (id);
+	  if (!entity)
+	  {
+	    printf ("ERROR! Can't find entity with id %d\n", id);
+	    return;
+	  }
+	  printf ("Loading existing entity without dynobj '%s'\n", entity->GetName ()); fflush (stdout);
+	}
       }
-      dynobj->ClearBaseline ();
 
-      dynobj->GetEntity ()->RestoreModifications (buf, strings);
+      if (dynobj) dynobj->ClearBaseline ();
+      entity->RestoreModifications (buf, strings);
 
       id = buf->GetUInt32 ();
     }
