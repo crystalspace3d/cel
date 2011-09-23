@@ -8,13 +8,6 @@
     <material name="marble"> <texture>marble</texture> </material>
   </materials>
 
-  <meshfact name="GlowBox">
-    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
-    <params>
-      <box> <min x="-.3" y="0" z="-.3" /> <max x=".3" y=".6" z=".3" /> </box>
-      <material>wood</material>
-    </params>
-  </meshfact>
   <meshfact name="Clicker">
     <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
     <params>
@@ -123,8 +116,9 @@
 
   <addon plugin="cel.addons.dynamicworld.loader">
     <dynworld name="world" />
-    <factory name="GlowBox" maxradius="1.0" imposterradius="-1.0" mass="1"> <box /> </factory>
+    <factory name="Barrel" maxradius="1.0" imposterradius="-1.0" mass="1"> <cylinder /> </factory>
     <factory name="Clicker" maxradius="0.9" imposterradius="-1.0" mass=".6"> <box /> </factory>
+    <factory name="Money" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Gold" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Diamond" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Silver" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
@@ -249,6 +243,10 @@
       <template name="BaseClicker" />
       <characteristic name="weight" value="1" />
     </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Money" >
+      <template name="BasePickup" />
+      <characteristic name="weight" value="0.02" />
+    </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Gold" >
       <template name="BasePickup" />
       <characteristic name="weight" value="0.02" />
@@ -331,7 +329,7 @@
 	</selector>
     </addon>
 
-    <addon plugin="cel.addons.celentitytpl" entityname="GlowBox" >
+    <addon plugin="cel.addons.celentitytpl" entityname="Barrel" >
       <propclass name="pcobject.mesh" />
       <propclass name="pcobject.mesh.select">
         <action name="SetCamera" >

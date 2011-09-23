@@ -198,6 +198,9 @@ bool ElcmTest::CreateLevel ()
 
 bool ElcmTest::CreateFactories ()
 {
+  vfs->ChDir ("/cellib/clutter/");
+  if (!loader->LoadLibraryFile ("library"))
+    return false;
   return loader->LoadLibraryFile ("/cellib/lev/elcmtest.xml");
 }
 
@@ -217,25 +220,25 @@ bool ElcmTest::FillDynamicWorld ()
       float r = rnd.Get ();
       if (r < .4)
       {
-        obj = dynworld->AddObject ("GlowBox", csReversibleTransform (
-	    matId, csVector3 (float (x*5), -.95, float (y*5))));
+        obj = dynworld->AddObject ("Barrel", csReversibleTransform (
+	    matId, csVector3 (float (x*5), -.4, float (y*5))));
         csString name;
-        name.Format ("box%d_%d", x+50, y+50);
+        name.Format ("barrel%d_%d", x+50, y+50);
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
         if (!obj->SetEntity (name, params))
-	  return ReportError ("Could not set entity template 'GlowBox'!");
+	  return ReportError ("Could not set entity template 'Barrel'!");
       }
       else if (r < .7)
       {
-        obj = dynworld->AddObject ("Gold", csReversibleTransform (
+        obj = dynworld->AddObject ("Money", csReversibleTransform (
 	    matId, csVector3 (float (x*5), -.95, float (y*5))));
         csString name;
-        name.Format ("gold%d_%d", x+50, y+50);
+        name.Format ("mon%d_%d", x+50, y+50);
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
         if (!obj->SetEntity (name, params))
-	  return ReportError ("Could not set entity template 'Gold'!");
+	  return ReportError ("Could not set entity template 'Money'!");
       }
       else
       {
@@ -291,7 +294,11 @@ bool ElcmTest::CreatePlayer ()
 
   // Get iPcLinearMovement so we can setup the movement system.
   csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (playerEntity);
-  pclinmove->InitCD (pcmesh->GetMesh (), 0.3f);
+  //pclinmove->InitCD (pcmesh->GetMesh (), 0.3f);
+  pclinmove->InitCD (
+      csVector3 (0.5f,  0.4f, 0.5f),
+      csVector3 (0.5f,  0.2f, 0.5f),
+      csVector3 (0.0f, -0.0f, 0.0f));
 
   // Get the iPcActorMove interface so that we can set movement speed.
   //csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (playerEntity);
@@ -326,8 +333,8 @@ bool ElcmTest::CreatePlayer ()
   inventory->AddEntity (dummy);
   dummy = pl->CreateEntity ("Dummy 3", 0, 0, CEL_PROPCLASS_END);
   inventory->AddEntity (dummy);
-  iCelEntityTemplate* goldTemplate = pl->FindEntityTemplate ("Gold");
-  inventory->AddEntityTemplate (goldTemplate, 100);
+  iCelEntityTemplate* moneyTemplate = pl->FindEntityTemplate ("Money");
+  inventory->AddEntityTemplate (moneyTemplate, 100);
 
   elcm->SetPlayer (playerEntity);
 
