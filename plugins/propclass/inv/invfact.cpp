@@ -206,6 +206,8 @@ void celPcInventory::SaveModifications (iCelCompactDataBufferWriter* buf, iStrin
 void celPcInventory::RestoreModifications (iCelCompactDataBufferReader* buf,
     const csHash<csString,csStringID>& strings)
 {
+  RemoveAll ();
+
   generatorActive = buf->GetBool ();
   csStringID generatorID = buf->GetID ();
   if (generatorID == csInvalidStringID)
