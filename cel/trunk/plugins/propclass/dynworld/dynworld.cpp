@@ -615,6 +615,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   scopeIdx = pl->AddScope ("cel.numreg.hash", 1000000000);
   tree = new CS::Geometry::KDTree ();
+  tree->SetMinimumSplitAmount (200);
   ObjDes* objDes = new ObjDes ();
   tree->SetObjectDescriptor (objDes);
   objDes->DecRef ();
@@ -785,7 +786,7 @@ void celPcDynamicWorld::RemoveSafeEntities ()
   while (it.HasNext ())
   {
     iCelEntity* entity = it.Next ();
-    printf ("Actually remove entity %s\n", entity->GetName ()); fflush (stdout);
+    printf ("Actually remove entity %s\n", entity->GetName ());
     uint id = entity->GetID ();
     bool existedAtBaseline = entity->ExistedAtBaseline ();
     pl->RemoveEntity (entity);
@@ -799,6 +800,7 @@ void celPcDynamicWorld::RemoveSafeEntities ()
     }
   }
   safeToRemove.DeleteAll ();
+  fflush (stdout);
 }
 
 void celPcDynamicWorld::ProcessFadingIn (float fade_speed)
@@ -872,13 +874,31 @@ static bool DynWorld_Front2Back (CS::Geometry::KDTree* treenode,
   DynWorldKDData* data = (DynWorldKDData*)userdata;
 
   // In the first part of this test we are going to test if the
-  // box vector intersects with the node. If not then we don't
+  // box intersects with the node. If not then we don't
   // need to continue.
   const csBox3& node_bbox = treenode->GetNodeBBox ();
   if (!csIntersect3::BoxSphere (node_bbox, data->center, data->sqradius))
   {
     return false;
   }
+
+#if 0
+  // Special case if our node is entirely in the sphere. Then we don't
+  // have to test our objects.
+  csBox3 b (node_bbox.Min () - data->center, node_bbox.Max () - data->center);
+  printf ("%g,%g,%g - %g,%g,%g: b.SquaredOriginMaxDist=%g data->sqradius=%g\n",
+      node_bbox.Min().x,
+      node_bbox.Min().y,
+      node_bbox.Min().z,
+      node_bbox.Max().x,
+      node_bbox.Max().y,
+      node_bbox.Max().z,
+      b.SquaredOriginMaxDist (), data->sqradius);
+  if (b.SquaredOriginMaxDist () < data->sqradius)
+  {
+    printf ("Special case!\n");
+  }
+#endif
 
   treenode->Distribute ();
 
