@@ -380,6 +380,10 @@ void celELCM::CheckUnload ()
     if (t+unloadedTime >= time)
     {
       // If the entity was modified since the baseline we can't remove it.
+      // @@@ This is dangerous! The function we call here can't really remove
+      // the entity because we're still iterating over the inactiveEntities list!
+      // Need to think about this.
+      printf ("test %p\n", (iCelEntity*)ent); fflush (stdout);
       if (!ent->IsModifiedSinceBaseline ())
         FireELCMListeners (ent);
       toRemove.Push (ent);
