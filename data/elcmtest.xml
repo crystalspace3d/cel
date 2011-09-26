@@ -124,9 +124,11 @@
 	  <trigger type="meshselect">
 	    <fireon entity="$this" />
 	    <reward type="debugprint" message="select" />
+	    <!--
 	    <reward type="action" entity="$this" pc="pcphysics.object" id="AddForceOnce">
 	      <par name="force" vector3="0,4,0" />
 	    </reward>
+	    -->
 	    <reward type="message" entity="world" id="elcm.inventory">
 	      <par name="entity" string="$this" />
 	    </reward>
