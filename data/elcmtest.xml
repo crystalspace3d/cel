@@ -64,55 +64,6 @@
       <material>marble</material>
     </params>
   </meshfact>
-  <meshfact name="Book">
-    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
-    <params>
-      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
-      <material>marble</material>
-    </params>
-  </meshfact>
-  <meshfact name="Paper">
-    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
-    <params>
-      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
-      <material>marble</material>
-    </params>
-  </meshfact>
-  <meshfact name="Pen">
-    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
-    <params>
-      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
-      <material>marble</material>
-    </params>
-  </meshfact>
-  <meshfact name="Pencil">
-    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
-    <params>
-      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
-      <material>marble</material>
-    </params>
-  </meshfact>
-  <meshfact name="Note">
-    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
-    <params>
-      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
-      <material>marble</material>
-    </params>
-  </meshfact>
-  <meshfact name="Feather">
-    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
-    <params>
-      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
-      <material>marble</material>
-    </params>
-  </meshfact>
-  <meshfact name="Glasses">
-    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
-    <params>
-      <box> <min x="-.1" y="0" z="-.1" /> <max x=".1" y=".2" z=".1" /> </box>
-      <material>marble</material>
-    </params>
-  </meshfact>
 
   <addon plugin="cel.addons.dynamicworld.loader">
     <dynworld name="world" />
@@ -127,6 +78,12 @@
     <factory name="Barrel" maxradius="1.0" imposterradius="-1.0" mass="1"> <cylinder /> </factory>
     <factory name="Clicker" maxradius="0.9" imposterradius="-1.0" mass=".6"> <box /> </factory>
     <factory name="Money" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Can" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Cup" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Milk" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Steak" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Apple" maxradius="0.6" imposterradius="-1.0" mass=".4"> <sphere /> </factory>
+
     <factory name="Gold" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Diamond" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Silver" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
@@ -134,13 +91,6 @@
     <factory name="Emerald" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Iron" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Copper" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Book" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Paper" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Pen" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Pencil" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Note" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Feather" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Glasses" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
   </addon>
 
     <addon plugin="cel.addons.questdef" >
@@ -263,6 +213,27 @@
       <template name="BasePickup" />
       <characteristic name="weight" value="0.02" />
     </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Apple" >
+      <template name="BasePickup" />
+      <characteristic name="weight" value="0.1" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Steak" >
+      <template name="BasePickup" />
+      <characteristic name="weight" value="0.2" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Can" >
+      <template name="BasePickup" />
+      <characteristic name="weight" value="0.5" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Milk" >
+      <template name="BasePickup" />
+      <characteristic name="weight" value="1" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Cup" >
+      <template name="BasePickup" />
+      <characteristic name="weight" value="0.5" />
+    </addon>
+
     <addon plugin="cel.addons.celentitytpl" entityname="Gold" >
       <template name="BasePickup" />
       <characteristic name="weight" value="0.02" />
@@ -291,34 +262,6 @@
       <template name="BasePickup" />
       <characteristic name="weight" value="0.08" />
     </addon>
-    <addon plugin="cel.addons.celentitytpl" entityname="Book" >
-      <template name="BasePickup" />
-      <characteristic name="weight" value="1" />
-    </addon>
-    <addon plugin="cel.addons.celentitytpl" entityname="Paper" >
-      <template name="BasePickup" />
-      <characteristic name="weight" value="0.1" />
-    </addon>
-    <addon plugin="cel.addons.celentitytpl" entityname="Pen" >
-      <template name="BasePickup" />
-      <characteristic name="weight" value="0.2" />
-    </addon>
-    <addon plugin="cel.addons.celentitytpl" entityname="Pencil" >
-      <template name="BasePickup" />
-      <characteristic name="weight" value="0.2" />
-    </addon>
-    <addon plugin="cel.addons.celentitytpl" entityname="Note" >
-      <template name="BasePickup" />
-      <characteristic name="weight" value="0.1" />
-    </addon>
-    <addon plugin="cel.addons.celentitytpl" entityname="Feather" >
-      <template name="BasePickup" />
-      <characteristic name="weight" value="0.1" />
-    </addon>
-    <addon plugin="cel.addons.celentitytpl" entityname="Glasses" >
-      <template name="BasePickup" />
-      <characteristic name="weight" value="0.3" />
-    </addon>
 
     <addon plugin="cel.addons.lootloader">
     	<package name="ores" minloot="2" maxloot="6">
@@ -330,18 +273,16 @@
 	    <item template="Iron" chance="0.4" minamount="1" maxamount="20" />
 	    <item template="Copper" chance="0.4" minamount="1" maxamount="20" />
 	</package>
-    	<package name="reader" minloot="3" maxloot="6">
-	    <item template="Book" chance="0.1" minamount="1" maxamount="2" />
-	    <item template="Paper" chance="0.1" minamount="1" maxamount="5" />
-	    <item template="Pen" chance="0.1" minamount="1" maxamount="4" />
-	    <item template="Pencil" chance="0.1" minamount="1" maxamount="3" />
-	    <item template="Note" chance="0.1" minamount="1" maxamount="1" />
-	    <item template="Feather" chance="0.1" minamount="1" maxamount="3" />
-	    <item template="Glasses" chance="0.1" minamount="1" maxamount="1" />
+    	<package name="food" minloot="3" maxloot="6">
+	    <item template="Can" chance="0.1" minamount="1" maxamount="2" />
+	    <item template="Cup" chance="0.1" minamount="1" maxamount="2" />
+	    <item template="Apple" chance="0.1" minamount="1" maxamount="4" />
+	    <item template="Steak" chance="0.1" minamount="1" maxamount="2" />
+	    <item template="Milk" chance="0.1" minamount="1" maxamount="2" />
 	</package>
 	<selector name="simpleboxloot">
 	    <generator name="ores" chance="0.5" />
-	    <generator name="reader" chance="1" />
+	    <generator name="food" chance="1" />
 	</selector>
     </addon>
 
