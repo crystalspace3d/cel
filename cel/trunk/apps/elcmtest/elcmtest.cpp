@@ -464,6 +464,7 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
 	// This entity has state. We cannot convert it to a template in the
 	// inventory so we have to add the actual entity.
 	inventory->AddEntity (ent);
+	dynworld->ForceInvisible (dynobj);
 	dynobj->UnlinkEntity ();
         dynworld->DeleteObject (dynobj);
       }

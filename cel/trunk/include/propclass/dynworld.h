@@ -277,6 +277,12 @@ struct iPcDynamicWorld : public virtual iBase
   virtual void ForceVisible (iDynamicObject* dynobj) = 0;
 
   /**
+   * Force a dynamic object to be invisible. This will force the
+   * removal of the mesh.
+   */
+  virtual void ForceInvisible (iDynamicObject* dynobj) = 0;
+
+  /**
    * Remove an object.
    */
   virtual void DeleteObject (iDynamicObject* dynobj) = 0;

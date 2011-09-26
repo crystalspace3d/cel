@@ -711,6 +711,12 @@ void celPcDynamicWorld::ForceVisible (iDynamicObject* dynobj)
   static_cast<DynamicObject*> (dynobj)->PrepareMesh (this);
 }
 
+void celPcDynamicWorld::ForceInvisible (iDynamicObject* dynobj)
+{
+  DynamicObject* dyn = static_cast<DynamicObject*> (dynobj);
+  dyn->RemoveMesh (this);
+}
+
 void celPcDynamicWorld::DeleteObjects ()
 {
   lastID = 1000000001;
