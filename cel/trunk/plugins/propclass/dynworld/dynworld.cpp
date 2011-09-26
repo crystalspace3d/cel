@@ -615,7 +615,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   scopeIdx = pl->AddScope ("cel.numreg.hash", 1000000000);
   tree = new CS::Geometry::KDTree ();
-  tree->SetMinimumSplitAmount (200);
+  tree->SetMinimumSplitAmount (50);
   ObjDes* objDes = new ObjDes ();
   tree->SetObjectDescriptor (objDes);
   objDes->DecRef ();
