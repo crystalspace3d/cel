@@ -467,6 +467,7 @@ public:
   virtual iDynamicObject* FindDynamicObject (iCelEntity* entity) const;
   virtual iDynamicObject* FindDynamicObject (uint id) const;
   virtual void ForceVisible (iDynamicObject* dynobj);
+  virtual void ForceInvisible (iDynamicObject* dynobj);
   virtual void DeleteObject (iDynamicObject* dynobj);
   virtual void DeleteObjects ();
   virtual void Setup (iSector* sector, iDynamicSystem* dynSys);
