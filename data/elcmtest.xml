@@ -116,6 +116,14 @@
 
   <addon plugin="cel.addons.dynamicworld.loader">
     <dynworld name="world" />
+    <factory name="Table" maxradius="0.5" imposterradius=".4" mass="4">
+      <box> <offset x="0" y="0.95" z="0" /> <size x="2" y="0.1" z="1.2" /> </box>
+      <box> <offset x="-0.91" y="0.475" z="-0.51" /> <size x=".08" y="0.9" z=".08" /> </box>
+      <box> <offset x="0.91" y="0.475" z="-0.51" /> <size x=".08" y="0.9" z=".08" /> </box>
+      <box> <offset x="-0.91" y="0.475" z="0.51" /> <size x=".08" y="0.9" z=".08" /> </box>
+      <box> <offset x="0.91" y="0.475" z="0.51" /> <size x=".08" y="0.9" z=".08" /> </box>
+    </factory>
+
     <factory name="Barrel" maxradius="1.0" imposterradius="-1.0" mass="1"> <cylinder /> </factory>
     <factory name="Clicker" maxradius="0.9" imposterradius="-1.0" mass=".6"> <box /> </factory>
     <factory name="Money" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
@@ -206,6 +214,10 @@
       </quest>
     </addon>
 
+    <addon plugin="cel.addons.celentitytpl" entityname="Base" >
+      <propclass name="pcobject.mesh" />
+    </addon>
+
     <addon plugin="cel.addons.celentitytpl" entityname="BaseClicker" >
       <propclass name="pcobject.mesh" />
       <propclass name="pcobject.mesh.select">
@@ -239,6 +251,10 @@
       </propclass>
     </addon>
 
+    <addon plugin="cel.addons.celentitytpl" entityname="Table" >
+      <template name="Base" />
+      <characteristic name="weight" value="10" />
+    </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Clicker" >
       <template name="BaseClicker" />
       <characteristic name="weight" value="1" />
