@@ -615,6 +615,10 @@ bool ElcmTest::OnInitialize (int argc, char* argv[])
 
   csBaseEventHandler::Initialize(object_reg);
 
+  // @@@ Should be temporary!
+  csRef<iThreadManager> threadmgr = csQueryRegistry<iThreadManager> (object_reg);
+  threadmgr->SetAlwaysRunNow (true);
+
   if (!RegisterQueue(object_reg, csevAllEvents(object_reg)))
     return ReportError ("Can't setup event handler!");
 
