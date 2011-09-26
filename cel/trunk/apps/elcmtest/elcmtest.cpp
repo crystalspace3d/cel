@@ -231,12 +231,17 @@ bool ElcmTest::FillDynamicWorld ()
       }
       else if (r < .7)
       {
-        obj = dynworld->AddObject ("Money", csReversibleTransform (
-	    matId, csVector3 (float (x*5), -.95, float (y*5))));
+        obj = dynworld->AddObject ("Table", csReversibleTransform (
+	    matId, csVector3 (float (x*5), -1, float (y*5))));
         csString name;
-        name.Format ("mon%d_%d", x+50, y+50);
+        name.Format ("tbl%d_%d", x+50, y+50);
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
+        if (!obj->SetEntity (name, params))
+	  return ReportError ("Could not set entity template 'Table'!");
+        obj = dynworld->AddObject ("Money", csReversibleTransform (
+	    matId, csVector3 (float (x*5), 0, float (y*5))));
+        name.Format ("mon%d_%d", x+50, y+50);
         if (!obj->SetEntity (name, params))
 	  return ReportError ("Could not set entity template 'Money'!");
       }
