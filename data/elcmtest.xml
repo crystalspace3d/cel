@@ -97,8 +97,8 @@
 
       <quest name="clickerObject">
 	<state name="init">
-	  <trigger type="meshselect">
-	    <fireon entity="$this" />
+	  <trigger type="message">
+	    <fireon entity="$this" mask="elcm.activate" />
 	    <reward type="debugprint" message="=?counter" />
 	    <reward type="changeproperty" entity="$this" property="counter" diff="1" />
 	    <reward type="newstate" state="init" />
@@ -141,11 +141,6 @@
 
     <addon plugin="cel.addons.celentitytpl" entityname="BaseClicker" >
       <propclass name="pcobject.mesh" />
-      <propclass name="pcobject.mesh.select">
-        <action name="SetCamera" >
-          <par name="entity" string="player" />
-        </action>
-      </propclass>
       <propclass name="pctools.properties">
 	<property name="counter" long="1" />
       </propclass>
@@ -248,11 +243,6 @@
 
     <addon plugin="cel.addons.celentitytpl" entityname="Barrel" >
       <propclass name="pcobject.mesh" />
-      <propclass name="pcobject.mesh.select">
-        <action name="SetCamera" >
-          <par name="entity" string="player" />
-        </action>
-      </propclass>
       <propclass name="pcphysics.object" />
       <propclass name="pclogic.quest" tag="glow">
         <action name="NewQuest" >
