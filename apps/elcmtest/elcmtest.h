@@ -76,6 +76,8 @@ private:
   iRigidBody* FindHitBody (int x, int y, csVector3& start, csVector3& end,
       csVector3& isect);
 
+  void PickUpDynObj (iDynamicObject* dynobj);
+
 public:
   ElcmTest ();
   virtual ~ElcmTest ();

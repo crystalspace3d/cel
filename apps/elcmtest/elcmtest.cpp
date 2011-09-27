@@ -442,14 +442,41 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl, bool left)
   to->AddEntityTemplate (tpl, amount);
 }
 
+void ElcmTest::PickUpDynObj (iDynamicObject* dynobj)
+{
+  iCelEntity* ent = dynobj->GetEntity ();
+  csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (
+	  playerEntity);
+  if (ent->IsModifiedSinceBaseline ())
+  {
+    // This entity has state. We cannot convert it to a template in the
+    // inventory so we have to add the actual entity.
+    inventory->AddEntity (ent);
+    dynworld->ForceInvisible (dynobj);
+    dynobj->UnlinkEntity ();
+    dynworld->DeleteObject (dynobj);
+  }
+  else
+  {
+    iCelEntityTemplate* tpl = pl->FindEntityTemplate (
+	dynobj->GetFactory ()->GetName ());
+    if (tpl)
+    {
+      inventory->AddEntityTemplate (tpl, 1);
+      dynworld->DeleteObject (dynobj);
+    }
+  }
+}
+
 bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params)
 {
   printf ("ReceiveMessage\n"); fflush (stdout);
   if (msg_id == msgInventory)
   {
-    const celData* data = params->GetParameterByIndex (0);
-    if (data->type != CEL_DATA_STRING)
+    csStringID inventoryEntityParID = pl->FetchStringID ("inventoryEntity");
+    const celData* data = params->GetParameter (inventoryEntityParID);
+    if (!data || data->type != CEL_DATA_STRING)
       return ReportError ("Invalid parameter for 'inventory' message. Expected string.");
     iCelEntity* ent = pl->FindEntity (data->value.s->GetData ());
     csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (ent);
@@ -476,30 +503,7 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       return ReportError ("Invalid parameter for 'pickup' message. Expected string.");
     iCelEntity* ent = pl->FindEntity (data->value.s->GetData ());
     iDynamicObject* dynobj = dynworld->FindDynamicObject (ent);
-    if (dynobj)
-    {
-      csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (
-	      playerEntity);
-      if (ent->IsModifiedSinceBaseline ())
-      {
-	// This entity has state. We cannot convert it to a template in the
-	// inventory so we have to add the actual entity.
-	inventory->AddEntity (ent);
-	dynworld->ForceInvisible (dynobj);
-	dynobj->UnlinkEntity ();
-        dynworld->DeleteObject (dynobj);
-      }
-      else
-      {
-        iCelEntityTemplate* tpl = pl->FindEntityTemplate (
-	    dynobj->GetFactory ()->GetName ());
-        if (tpl)
-        {
-	  inventory->AddEntityTemplate (tpl, 1);
-          dynworld->DeleteObject (dynobj);
-        }
-      }
-    }
+    if (dynobj) PickUpDynObj (dynobj);
     return true;
   }
   return false;
@@ -560,8 +564,21 @@ bool ElcmTest::OnMouseDown (iEvent& ev)
 
   if (but == 0)
   {
-    iCelEntity* entity = FindHitEntity (x, y);
-    if (!entity) return false;
+    uint32 mod = csMouseEventHelper::GetModifiers (&ev);
+    bool ctrl = (mod & CSMASK_CTRL) != 0;
+    if (ctrl)
+    {
+      iDynamicObject* dynobj = FindHitDynObj (x, y);
+      if (!dynobj) return false;
+      dynworld->DeleteObject (dynobj);
+    }
+    else
+    {
+      iCelEntity* entity = FindHitEntity (x, y);
+      if (!entity) return false;
+      iMessageChannel* channel = entity->QueryMessageChannel ();
+      channel->SendMessage ("elcm.activate", 0, 0);
+    }
     return true;
   }
   else if (but == 1)
@@ -579,7 +596,7 @@ bool ElcmTest::OnMouseDown (iEvent& ev)
   {
     iDynamicObject* dynobj = FindHitDynObj (x, y);
     if (!dynobj) return false;
-    dynworld->DeleteObject (dynobj);
+    PickUpDynObj (dynobj);
     return true;
   }
   return false;
