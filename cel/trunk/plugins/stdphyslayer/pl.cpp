@@ -354,6 +354,21 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
     const csHash<csRef<iParameter>, csStringID>& act_params,
     iCelParameterBlock* params)
 {
+  csRef<celOneParameterBlock> thisParam;
+  thisParam.AttachNew (new celOneParameterBlock ());
+  thisParam->SetParameterDef (FetchStringID ("this"));
+  thisParam->GetParameter (0).Set (entname);
+  csRef<celCombineParameterBlock> combinedParams;
+  if (!params)
+  {
+    params = thisParam;
+  }
+  else
+  {
+    combinedParams.AttachNew (new celCombineParameterBlock (thisParam, params));
+    params = combinedParams;
+  }
+
   csRef<celVariableParameterBlock> converted_params;
   converted_params.AttachNew (new celVariableParameterBlock ());
   csHash<csRef<iParameter>, csStringID>::ConstGlobalIterator it = act_params.GetIterator ();
@@ -361,7 +376,7 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
   {
     csStringID key;
     iParameter* par = it.Next (key);
-    const celData* data = par->GetData (params);
+    const celData* data = par->GetData (combinedParams);
     if (data)
       converted_params->AddParameter (key, *data);
   }
