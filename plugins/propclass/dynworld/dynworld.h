@@ -332,6 +332,7 @@ public:
   virtual bool SetEntity (const char* entityName, iCelParameterBlock* params);
   virtual void LinkEntity (iCelEntity* entity);
   virtual void UnlinkEntity ();
+  virtual iCelEntity* GetEntity () const { return entity; }
 
   virtual void MovableChanged (iMovable* movable);
   virtual void MovableDestroyed (iMovable* movable);
@@ -343,7 +344,6 @@ public:
 
   void SetFade (float f);
   float GetFade () const { return fade; }
-  iCelEntity* GetEntity () const { return entity; }
   iCelEntity* ForceEntity (celPcDynamicWorld* world);
   void MarkBaseline ()
   {
