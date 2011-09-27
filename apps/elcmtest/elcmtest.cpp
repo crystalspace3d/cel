@@ -496,16 +496,6 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
     }
     return true;
   }
-  else if (msg_id == msgPickupTpl)
-  {
-    const celData* data = params->GetParameterByIndex (0);
-    if (data->type != CEL_DATA_STRING)
-      return ReportError ("Invalid parameter for 'pickup' message. Expected string.");
-    iCelEntity* ent = pl->FindEntity (data->value.s->GetData ());
-    iDynamicObject* dynobj = dynworld->FindDynamicObject (ent);
-    if (dynobj) PickUpDynObj (dynobj);
-    return true;
-  }
   return false;
 }
 
@@ -713,7 +703,6 @@ bool ElcmTest::Application ()
   elcm->SetUnloadCheckFrequency (30);
 
   msgInventory = pl->FetchStringID ("elcm.inventory");
-  msgPickupTpl = pl->FetchStringID ("elcm.pickup.tpl");
 
   ceguiPrinter.AttachNew (new CeguiPrinter (this));
   pl->CallbackEveryFrame (ceguiPrinter, CEL_EVENT_POST);
