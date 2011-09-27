@@ -512,41 +512,74 @@ void ElcmTest::Frame ()
   dynworld->PrepareView (camera, elapsed_time);
 }
 
+iCelEntity* ElcmTest::FindHitEntity (int x, int y)
+{
+  iDynamicObject* dynobj = FindHitDynObj (x, y);
+  if (!dynobj) return 0;
+  return dynobj->GetEntity ();
+}
+
+iDynamicObject* ElcmTest::FindHitDynObj (int x, int y)
+{
+  csVector2 v2d (x, g3d->GetDriver2D ()->GetHeight () - y);
+  csVector3 v3d = camera->InvPerspective (v2d, 100);
+  csVector3 start = camera->GetTransform ().GetOrigin ();
+  csVector3 end = camera->GetTransform ().This2Other (v3d);
+
+  csSectorHitBeamResult result = camera->GetSector ()->HitBeamPortals (start, end);
+  if (result.mesh)
+  {
+    iDynamicObject* dynobj = dynworld->FindObject (result.mesh);
+    if (dynobj) return dynobj;
+  }
+  return 0;
+}
+
+iRigidBody* ElcmTest::FindHitBody (int x, int y, csVector3& start,
+    csVector3& end, csVector3& isect)
+{
+  csVector2 v2d (x, g3d->GetDriver2D ()->GetHeight () - y);
+  csVector3 v3d = camera->InvPerspective (v2d, 100);
+  start = camera->GetTransform ().GetOrigin ();
+  end = camera->GetTransform ().This2Other (v3d);
+  CS::Physics::Bullet::HitBeamResult result = bullet_dynSys->HitBeam (start, end);
+  if (result.body)
+  {
+    iRigidBody* hitBody = result.body->QueryRigidBody ();
+    isect = result.isect;
+    return hitBody;
+  }
+  return 0;
+}
+
 bool ElcmTest::OnMouseDown (iEvent& ev)
 {
   uint but = csMouseEventHelper::GetButton (&ev);
   int x = csMouseEventHelper::GetX (&ev);
   int y = csMouseEventHelper::GetY (&ev);
 
-  csVector2 v2d (x, g3d->GetDriver2D ()->GetHeight () - y);
-  csVector3 v3d = camera->InvPerspective (v2d, 100);
-  csVector3 start = camera->GetTransform ().GetOrigin ();
-  csVector3 end = camera->GetTransform ().This2Other (v3d);
-
-  if (but == 1)
+  if (but == 0)
   {
-    CS::Physics::Bullet::HitBeamResult result = bullet_dynSys->HitBeam (start, end);
-    if (result.body)
-    {
-      iRigidBody* hitBody = result.body->QueryRigidBody ();
-      csVector3 force = end-start;
-      force.Normalize ();
-      force *= 2.0 * hitBody->GetMass ();
-      hitBody->AddForceAtPos (force, result.isect);
-    }
+    iCelEntity* entity = FindHitEntity (x, y);
+    if (!entity) return false;
+    return true;
+  }
+  else if (but == 1)
+  {
+    csVector3 start, end, isect;
+    iRigidBody* hitBody = FindHitBody (x, y, start, end, isect);
+    if (!hitBody) return false;
+    csVector3 force = end-start;
+    force.Normalize ();
+    force *= 2.0 * hitBody->GetMass ();
+    hitBody->AddForceAtPos (force, isect);
     return true;
   }
   else if (but == 2)
   {
-    csSectorHitBeamResult result = camera->GetSector ()->HitBeamPortals (start, end);
-    if (result.mesh)
-    {
-      iDynamicObject* dynobj = dynworld->FindObject (result.mesh);
-      if (dynobj)
-      {
-	dynworld->DeleteObject (dynobj);
-      }
-    }
+    iDynamicObject* dynobj = FindHitDynObj (x, y);
+    if (!dynobj) return false;
+    dynworld->DeleteObject (dynobj);
     return true;
   }
   return false;

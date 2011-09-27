@@ -214,6 +214,11 @@ struct iDynamicObject : public virtual iBase
    * put the entity in some inventory so you have to delete the dynobj afterwards.
    */
   virtual void UnlinkEntity () = 0;
+
+  /**
+   * Get the (optional) entity for this dynamic object.
+   */
+  virtual iCelEntity* GetEntity () const = 0;
 };
 
 /**

@@ -71,6 +71,11 @@ private:
   bool CreateFactories ();
   bool FillDynamicWorld ();
 
+  iCelEntity* FindHitEntity (int x, int y);
+  iDynamicObject* FindHitDynObj (int x, int y);
+  iRigidBody* FindHitBody (int x, int y, csVector3& start, csVector3& end,
+      csVector3& isect);
+
 public:
   ElcmTest ();
   virtual ~ElcmTest ();
