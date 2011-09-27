@@ -538,6 +538,17 @@ bool DynamicObject::SetEntity (const char* entityName, iCelParameterBlock* param
   return true;
 }
 
+void DynamicObject::LinkEntity (iCelEntity* entity)
+{
+  entityTemplate = factory->GetWorld ()->pl->FindEntityTemplate (
+      factory->GetName ());
+  if (!entityTemplate)
+    return;
+  DynamicObject::entity = entity;
+  DynamicObject::entityName = entity->GetName ();
+  SetID (entity->GetID ());
+}
+
 void DynamicObject::UnlinkEntity ()
 {
   entity = 0;

@@ -982,6 +982,9 @@ void celPcMesh::SetMesh (iMeshWrapper* m, bool do_remove)
     pl->AttachEntity (mesh->QueryObject (), entity);
     attached_entity = entity;
     meshName = mesh->QueryObject ()->GetName ();
+    iMeshFactoryWrapper* fact = mesh->GetFactory ();
+    if (fact)
+      factName = fact->QueryObject ()->GetName ();
   }
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }

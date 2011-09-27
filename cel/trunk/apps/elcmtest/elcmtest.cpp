@@ -350,7 +350,23 @@ void ElcmTest::SelectEntity (iCelEntity* entity)
 {
   iPcInventory* inv = uiInventory->GetInventory ();
   if (!inv) return;
-  //inv->RemoveEntity (entity);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  if (pcmesh && pcmesh->GetFactoryName () != 0 && *pcmesh->GetFactoryName () != 0)
+  {
+    csString factName = pcmesh->GetFactoryName ();
+    csRef<iPcMesh> playerpcmesh = celQueryPropertyClassEntity<iPcMesh> (
+	playerEntity);
+    csReversibleTransform trans = playerpcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
+    trans.SetOrigin (trans.GetOrigin () + trans.GetFront () / 2.0f + trans.GetUp ());
+    iDynamicObject* obj = dynworld->AddObject (factName, trans);
+    obj->LinkEntity (entity);
+    inv->RemoveEntity (entity);
+  }
+  else
+  {
+    printf ("This item cannot be removed from the inventory!\n");
+    fflush (stdout);
+  }
 }
 
 void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
@@ -376,7 +392,7 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
 
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
   csReversibleTransform trans = pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
-  trans.SetOrigin (trans.GetOrigin () + trans.GetFront () / 5.0f + trans.GetUp ());
+  trans.SetOrigin (trans.GetOrigin () + trans.GetFront () / 2.0f + trans.GetUp ());
   iDynamicObject* obj = dynworld->AddObject (tpl->GetName (), trans);
   csRef<iCelParameterBlock> params;
   params.AttachNew (new celVariableParameterBlock ());

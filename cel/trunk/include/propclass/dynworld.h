@@ -205,6 +205,11 @@ struct iDynamicObject : public virtual iBase
   virtual bool SetEntity (const char* entityName, iCelParameterBlock* params) = 0;
 
   /**
+   * Link this dynamic object with the given entity.
+   */
+  virtual void LinkEntity (iCelEntity* entity) = 0;
+
+  /**
    * Unlink the entity from this object. This is useful if you want to
    * put the entity in some inventory so you have to delete the dynobj afterwards.
    */

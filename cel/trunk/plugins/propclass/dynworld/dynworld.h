@@ -330,6 +330,7 @@ public:
   virtual const csReversibleTransform& GetTransform ();
   virtual void SetTransform (const csReversibleTransform& trans);
   virtual bool SetEntity (const char* entityName, iCelParameterBlock* params);
+  virtual void LinkEntity (iCelEntity* entity);
   virtual void UnlinkEntity ();
 
   virtual void MovableChanged (iMovable* movable);

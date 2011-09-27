@@ -169,6 +169,7 @@ public:
   virtual void SetPath (const char* path);
   virtual bool SetMesh (const char* factname, const char* filename);
   virtual void SetMesh (iMeshWrapper* mesh, bool do_remove);
+  virtual const char* GetFactoryName () const { return factName; }
   virtual void CreateEmptyThing (const char* factname);
   virtual void CreateEmptyGenmesh (const char* factname);
   virtual void CreateNullMesh (const char* factname,
