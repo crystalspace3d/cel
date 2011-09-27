@@ -53,7 +53,6 @@ private:
 
   csRef<iMessageReceiver> receiver;
   csStringID msgInventory;
-  csStringID msgPickupTpl;
 
   /// Physics.
   csRef<iDynamics> dyn;
