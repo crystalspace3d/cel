@@ -123,6 +123,11 @@ struct iPcMesh : public virtual iBase
   virtual void SetMesh (iMeshWrapper* mesh, bool do_remove = false) = 0;
 
   /**
+   * Get the name of the factory for this mesh.
+   */
+  virtual const char* GetFactoryName () const = 0;
+
+  /**
    * Create an empty thing mesh (use instead of SetMesh()).
    * After this use GetMesh() to add polygons to the mesh.
    * Note that if the factory name already exists then the mesh
