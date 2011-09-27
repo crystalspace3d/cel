@@ -106,37 +106,6 @@
 	</state>
       </quest>
 
-      <quest name="pickableObject">
-	<state name="init">
-	  <trigger type="meshselect">
-	    <fireon entity="$this" />
-	    <reward type="debugprint" message="pickme" />
-	    <reward type="message" entity="world" id="elcm.pickup.tpl">
-	      <par name="entity" string="$this" />
-	    </reward>
-	    <reward type="newstate" state="init" />
-	  </trigger>
-	</state>
-      </quest>
-
-      <quest name="jumperQuest">
-	<state name="init">
-	  <trigger type="meshselect">
-	    <fireon entity="$this" />
-	    <reward type="debugprint" message="select" />
-	    <!--
-	    <reward type="action" entity="$this" pc="pcphysics.object" id="AddForceOnce">
-	      <par name="force" vector3="0,4,0" />
-	    </reward>
-	    -->
-	    <reward type="message" entity="world" id="elcm.inventory">
-	      <par name="entity" string="$this" />
-	    </reward>
-	    <reward type="newstate" state="init" />
-	  </trigger>
-	</state>
-      </quest>
-
       <quest name="glowQuest">
         <state name="init">
 	  <oninit>
@@ -190,17 +159,6 @@
 
     <addon plugin="cel.addons.celentitytpl" entityname="BasePickup" >
       <propclass name="pcobject.mesh" />
-      <propclass name="pcobject.mesh.select">
-        <action name="SetCamera" >
-          <par name="entity" string="player" />
-        </action>
-      </propclass>
-      <propclass name="pclogic.quest" tag="pickup">
-        <action name="NewQuest" >
-          <par name="name" string="pickableObject" />
-        </action>
-        <property name="state" string="init" />
-      </propclass>
     </addon>
 
     <addon plugin="cel.addons.celentitytpl" entityname="Table" >
@@ -303,11 +261,15 @@
         </action>
         <property name="state" string="init" />
       </propclass>
-      <propclass name="pclogic.quest" tag="jump">
-        <action name="NewQuest" >
-          <par name="name" string="jumperQuest" />
-        </action>
-        <property name="state" string="init" />
+      <propclass name="pclogic.wire">
+	<action name="AddInput">
+	  <par name="mask" string="elcm.activate" />
+	</action>
+	<action name="AddOutput">
+	  <par name="msgid" string="elcm.inventory" />
+	  <par name="entity" string="world" />
+	  <par name="inventoryEntity" string="$this" />
+	</action>
       </propclass>
       <propclass name="pctools.inventory">
 	<action name="SetLootGenerator">
