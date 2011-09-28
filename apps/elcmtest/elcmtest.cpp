@@ -23,6 +23,7 @@
 void CeguiPrinter::TickEveryFrame ()
 {
   parent->GetG3D ()->BeginDraw (CSDRAW_2DGRAPHICS);
+  parent->WriteStatusLine ();
   parent->GetCEGUI ()->Render ();
 }
 
@@ -558,6 +559,25 @@ iRigidBody* ElcmTest::FindHitBody (int x, int y, csVector3& start,
   return 0;
 }
 
+void ElcmTest::WriteStatusLine ()
+{
+  iGraphics2D* g2d = g3d->GetDriver2D ();
+  g2d->Write (font, 10, 10, colorWhite, -1, statusLine);
+}
+
+bool ElcmTest::OnMouseMove (iEvent& ev)
+{
+  // Save the mouse position
+  int x = csMouseEventHelper::GetX (&ev);
+  int y = csMouseEventHelper::GetY (&ev);
+  statusLine = "None";
+  iDynamicObject* dynobj = FindHitDynObj (x, y);
+  if (!dynobj) return false;
+  iCelEntity* ent = dynobj->GetEntity ();
+  statusLine.Format ("%s (%s)", dynobj->GetFactory ()->GetName (), ent ? ent->GetName () : "none");
+  return false;
+}
+
 bool ElcmTest::OnMouseDown (iEvent& ev)
 {
   uint but = csMouseEventHelper::GetButton (&ev);
@@ -713,6 +733,9 @@ bool ElcmTest::Application ()
   elcm->SetDistanceThresshold (1.0f);
   elcm->SetCheckTime (100);
   elcm->SetUnloadCheckFrequency (30);
+
+  colorWhite = g3d->GetDriver2D ()->FindRGB (255, 255, 255);
+  font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_COURIER);
 
   msgInventory = pl->FetchStringID ("elcm.inventory");
 
