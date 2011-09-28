@@ -303,11 +303,6 @@ struct iPcDynamicWorld : public virtual iBase
   virtual void DeleteObjects () = 0;
 
   /**
-   * Find a dynamic object from the entity.
-   */
-  virtual iDynamicObject* FindDynamicObject (iCelEntity* entity) const = 0;
-
-  /**
    * Set the sector for this dynamic world.
    */
   virtual void Setup (iSector* sector, iDynamicSystem* dynSys) = 0;
@@ -328,14 +323,19 @@ struct iPcDynamicWorld : public virtual iBase
   virtual void PrepareView (iCamera* camera, float elapsed_time) = 0;
 
   /**
+   * Find a dynamic object from the entity.
+   */
+  virtual iDynamicObject* FindObject (iCelEntity* entity) const = 0;
+
+  /**
    * Find an object given its rigid body.
    */
-  virtual iDynamicObject* FindObject (iRigidBody* body) = 0;
+  virtual iDynamicObject* FindObject (iRigidBody* body) const = 0;
 
   /**
    * Find an object given its mesh.
    */
-  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) = 0;
+  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const = 0;
 
   /**
    * Save the world to XML.

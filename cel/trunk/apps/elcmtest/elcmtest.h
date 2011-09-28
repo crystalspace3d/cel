@@ -54,12 +54,17 @@ private:
   csRef<iMessageReceiver> receiver;
   csStringID msgInventory;
 
+  csString statusLine;
+  csRef<iFont> font;
+  int colorWhite;
+
   /// Physics.
   csRef<iDynamics> dyn;
   csRef<iDynamicSystem> dynSys;
   csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys;
 
   bool OnKeyboard (iEvent&);
+  bool OnMouseMove (iEvent&);
   bool OnMouseDown (iEvent&);
   void Frame ();
 
@@ -83,6 +88,7 @@ public:
 
   iGraphics3D* GetG3D () const { return g3d; }
   iCEGUI* GetCEGUI () const { return cegui; }
+  void WriteStatusLine ();
 
   bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params);
@@ -94,6 +100,21 @@ public:
   virtual bool OnInitialize (int argc, char* argv[]);
   virtual bool Application ();
   virtual void OnExit ();
+
+  CS_EVENTHANDLER_NAMES("application.elcmtest")
+
+  /* Declare that we want to receive events *after* the CEGUI plugin. */
+  virtual const csHandlerID * GenericPrec (csRef<iEventHandlerRegistry> &r1, 
+    csRef<iEventNameRegistry> &r2, csEventID event) const 
+  {
+    static csHandlerID precConstraint[2];
+    
+    precConstraint[0] = r1->GetGenericID("crystalspace.cegui");
+    precConstraint[1] = CS_HANDLERLIST_END;
+    return precConstraint;
+  }
+
+  CS_EVENTHANDLER_DEFAULT_INSTANCE_CONSTRAINTS
 };
 
 

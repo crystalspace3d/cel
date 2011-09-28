@@ -402,6 +402,9 @@ public:
   csRef<iELCM> elcm;
   size_t scopeIdx;
 
+  // Mapping of meshes to dynamic objects.
+  csHash<iDynamicObject*,csPtrKey<iMeshWrapper> > meshToDynObj;
+
   // Current visible objects.
   csSet<csPtrKey<DynamicObject> > visibleObjects;
 
@@ -445,6 +448,8 @@ public:
 
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
 
+  csHash<iDynamicObject*,csPtrKey<iMeshWrapper> >& GetMeshToDynObj () { return meshToDynObj; }
+
   uint GetLastID ()
   {
     lastID++;
@@ -465,8 +470,6 @@ public:
 
   virtual iDynamicObject* AddObject (const char* factory,
       const csReversibleTransform& trans);
-  virtual iDynamicObject* FindDynamicObject (iCelEntity* entity) const;
-  virtual iDynamicObject* FindDynamicObject (uint id) const;
   virtual void ForceVisible (iDynamicObject* dynobj);
   virtual void ForceInvisible (iDynamicObject* dynobj);
   virtual void DeleteObject (iDynamicObject* dynobj);
@@ -475,8 +478,10 @@ public:
   virtual void SetRadius (float radius);
   virtual float GetRadius () const { return radius; }
   virtual void PrepareView (iCamera* camera, float elapsed_time);
-  virtual iDynamicObject* FindObject (iRigidBody* body);
-  virtual iDynamicObject* FindObject (iMeshWrapper* mesh);
+  virtual iDynamicObject* FindObject (iCelEntity* entity) const;
+  virtual iDynamicObject* FindObject (iRigidBody* body) const;
+  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const;
+  iDynamicObject* FindObject (uint id) const;
   virtual void Save (iDocumentNode* node);
   virtual csRef<iString> Load (iDocumentNode* node);
 

@@ -361,6 +361,7 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
     imposterFactory->RemoveImposter (mesh);
   mesh->GetMovable ()->RemoveListener (this);
   world->meshCache.RemoveMesh (mesh);
+  world->GetMeshToDynObj ().DeleteAll ((iMeshWrapper*)mesh);
   mesh = 0;
   if (entity)
   {
@@ -379,6 +380,7 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   if (mesh) return;
   mesh = world->meshCache.AddMesh (world->engine, factory->GetMeshFactory (),
       world->sector, trans);
+  world->GetMeshToDynObj ().PutUnique ((iMeshWrapper*)mesh, this);
   mesh->GetMovable ()->AddListener (this);
   lastUpdateNr = mesh->GetMovable ()->GetUpdateNumber ();
   iGeometryGenerator* ggen = factory->GetGeometryGenerator ();
@@ -766,6 +768,7 @@ void celPcDynamicWorld::DeleteObject (iDynamicObject* dynobj)
   visibleObjects.Delete (dyn);
   fadingOut.Delete (dyn);
   fadingIn.Delete (dyn);
+  // @@@ This is a pretty slow operation.
   size_t idx = objects.Find (dyn);
   if (idx != csArrayItemNotFound)
   {
@@ -774,28 +777,6 @@ void celPcDynamicWorld::DeleteObject (iDynamicObject* dynobj)
     dyn->RemoveMesh (this);
     objects.DeleteIndex (idx);
   }
-}
-
-iDynamicObject* celPcDynamicWorld::FindDynamicObject (iCelEntity* entity) const
-{
-  //@@@ Not very efficient!
-  for (size_t i = 0 ; i < objects.GetSize () ; i++)
-  {
-    if (objects[i]->GetEntity () == entity)
-      return objects[i];
-  }
-  return 0;
-}
-
-iDynamicObject* celPcDynamicWorld::FindDynamicObject (uint id) const
-{
-  //@@@ Not very efficient!
-  for (size_t i = 0 ; i < objects.GetSize () ; i++)
-  {
-    if (objects[i]->GetID () == id)
-      return objects[i];
-  }
-  return 0;
 }
 
 
@@ -1015,10 +996,30 @@ void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
   }
 }
 
-iDynamicObject* celPcDynamicWorld::FindObject (iRigidBody* body)
+iDynamicObject* celPcDynamicWorld::FindObject (iCelEntity* entity) const
 {
-  size_t i;
-  for (i = 0 ; i < objects.GetSize () ; i++)
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  if (!pcmesh) return 0;	// Impossible to find efficiently. We don't bother.
+  iMeshWrapper* mesh = pcmesh->GetMesh ();
+  if (!mesh) return 0;		// There will be no dynobj with this mesh.
+  return FindObject (mesh);
+}
+
+iDynamicObject* celPcDynamicWorld::FindObject (uint id) const
+{
+  //@@@ Not very efficient!
+  for (size_t i = 0 ; i < objects.GetSize () ; i++)
+  {
+    if (objects[i]->GetID () == id)
+      return objects[i];
+  }
+  return 0;
+}
+
+iDynamicObject* celPcDynamicWorld::FindObject (iRigidBody* body) const
+{
+  //@@@ Not very efficient!
+  for (size_t i = 0 ; i < objects.GetSize () ; i++)
   {
     DynamicObject* dyn = objects[i];
     if (dyn->HasBody (body))
@@ -1027,16 +1028,10 @@ iDynamicObject* celPcDynamicWorld::FindObject (iRigidBody* body)
   return 0;
 }
 
-iDynamicObject* celPcDynamicWorld::FindObject (iMeshWrapper* mesh)
+iDynamicObject* celPcDynamicWorld::FindObject (iMeshWrapper* mesh) const
 {
-  size_t i;
-  for (i = 0 ; i < objects.GetSize () ; i++)
-  {
-    DynamicObject* dyn = objects[i];
-    if (dyn->GetMesh () == mesh)
-      return dyn;
-  }
-  return 0;
+  iDynamicObject* dynobj = meshToDynObj.Get (mesh, 0);
+  return dynobj;
 }
 
 void celPcDynamicWorld::Setup (iSector* sector, iDynamicSystem* dynSys)
@@ -1202,7 +1197,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       iCelEntity* entity = it->Next ();
       buf->AddUInt32 (entity->GetID ());
 
-      iDynamicObject* dynobj = FindDynamicObject (entity);
+      iDynamicObject* dynobj = FindObject (entity);
       if (!dynobj)
       {
         // There are two cases:
@@ -1269,7 +1264,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
     while (newIt.HasNext ())
     {
       iCelEntity* entity = newIt.Next ();
-      DynamicObject* dynobj = static_cast<DynamicObject*> (FindDynamicObject (entity));
+      DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (entity));
       alreadySaved.Add (dynobj);
       buf->AddUInt32 (entity->GetID ());
       iDynamicFactory* dynfact = dynobj->GetFactory ();
@@ -1329,7 +1324,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     {
       uint id = (uint)buf->GetUInt32 ();
       elcm->RegisterDeletedEntity (id);
-      DynamicObject* dynobj = static_cast<DynamicObject*> (FindDynamicObject (id));
+      DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (id));
       if (dynobj)
       {
 	DeleteObject (dynobj);
@@ -1398,7 +1393,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       }
       else
       {
-        dynobj = static_cast<DynamicObject*> (FindDynamicObject (id));
+        dynobj = static_cast<DynamicObject*> (FindObject (id));
 	if (dynobj)
 	{
           csReversibleTransform trans;
@@ -1442,7 +1437,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     id = buf->GetUInt32 ();
     while (id != (uint)csArrayItemNotFound)
     {
-      DynamicObject* dynobj = static_cast<DynamicObject*> (FindDynamicObject (id));
+      DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (id));
       printf ("Loading moved dynobj\n"); fflush (stdout);
       csReversibleTransform trans;
       LoadTransform (buf, trans);
