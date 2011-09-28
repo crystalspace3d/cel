@@ -3379,6 +3379,7 @@ class iPcMesh(cspace.iBase):
     __repr__ = _swig_repr
     def SetPath(*args): return _blcelc.iPcMesh_SetPath(*args)
     def SetMesh(*args): return _blcelc.iPcMesh_SetMesh(*args)
+    def GetFactoryName(*args): return _blcelc.iPcMesh_GetFactoryName(*args)
     def CreateEmptyThing(*args): return _blcelc.iPcMesh_CreateEmptyThing(*args)
     def CreateEmptyGenmesh(*args): return _blcelc.iPcMesh_CreateEmptyGenmesh(*args)
     def CreateNullMesh(*args): return _blcelc.iPcMesh_CreateNullMesh(*args)
