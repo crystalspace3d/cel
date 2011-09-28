@@ -560,6 +560,8 @@ iCelEntity* DynamicObject::ForceEntity (celPcDynamicWorld* world)
   {
     // First we check if the entity already exists.
     entity = world->pl->GetEntity (id);
+    if (entity)
+      entity->SetName (entityName);
   }
   if (entityTemplate && !entity)
   {
@@ -1203,16 +1205,42 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       iDynamicObject* dynobj = FindDynamicObject (entity);
       if (!dynobj)
       {
-	// @@@ If there is no dynobj we assume that it can't be
-	// a new entity (i.e. it must be pre-baseline). Post-baseline new
-	// entities without dynobj are (not yet) supported.
-	// Also entities saved here should not have a pcmesh (position in
-	// the world) as we don't support them.
-        printf ("Entity without dynobj '%s'!\n", entity->GetName ());
-        buf->AddID (csInvalidStringID);	// No template.
+        // There are two cases:
+        // 1. This is an entity that used to belong to a pre-baseline
+        //    dynobj but is now put in an inventory. In this case we
+        //    must make sure that at load-time the DynObj is removed
+        //    again.
+        // 2. This is an entity was not part of a pre-baseline dynobj.
+        // Both situation can be solved by saving that a dynobj is not
+        // present and then at load time we can delete the pre-baseline
+        // DynObj if it exists (will be only for case 1).
+        // In case 2 we also need to store how to create the entity.
+        buf->AddBool (false);           // Indication that there is no dynobj.
+        if (newEntites.Contains (entity))
+        {
+          printf ("New entity without dynobj '%s'!\n", entity->GetName ());
+          // Try to get the factory/template name out of the mesh.
+          csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+          if (pcmesh && pcmesh->GetFactoryName () != 0 && *pcmesh->GetFactoryName () != 0)
+          {
+            buf->AddID (strings->Request (pcmesh->GetFactoryName ()));
+            buf->AddID (strings->Request (entity->GetName ()));
+          }
+          else
+          {
+            printf ("Can't save '%s'!\n", entity->GetName ());
+            return 0;
+          }
+        }
+        else
+        {
+          printf ("Existing entity without dynobj '%s'!\n", entity->GetName ());
+          buf->AddID (csInvalidStringID);	// No template.
+        }
       }
       else
       {
+        buf->AddBool (true);            // Indication that there is a dynobj.
         alreadySaved.Add (static_cast<DynamicObject*> (dynobj));
 
         if (newEntites.Contains (entity))
@@ -1317,6 +1345,8 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     uint id = buf->GetUInt32 ();
     while (id != (uint)csArrayItemNotFound)
     {
+      bool hasDynObj = buf->GetBool ();
+
       csStringID tmpID = buf->GetID ();
       csStringID entNameID = csInvalidStringID;
       if (tmpID != csInvalidStringID)
@@ -1324,21 +1354,46 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
         entNameID = buf->GetID ();
       }
 
-      DynamicObject* dynobj;
+      DynamicObject* dynobj = 0;
       iCelEntity* entity;
       if (tmpID != csInvalidStringID)
       {
         // Entity has to be created.
         const char* entName = strings.Get (entNameID, (const char*)0);
         const char* tmpName = strings.Get (tmpID, (const char*)0);
-	printf ("Loading new entity '%s' from '%s'\n", entName, tmpName);
-        fflush (stdout);
-        csReversibleTransform trans;
-        LoadTransform (buf, trans);
-        dynobj = static_cast<DynamicObject*> (AddObject (tmpName, trans));
-        dynobj->SetID (id);
-        dynobj->SetEntity (entName, 0); // @@@ params?
-        entity = dynobj->ForceEntity (this);
+        if (hasDynObj)
+        {
+	  printf ("Loading new entity/dynobj '%s' from '%s'\n", entName, tmpName);
+          csReversibleTransform trans;
+          LoadTransform (buf, trans);
+          dynobj = static_cast<DynamicObject*> (AddObject (tmpName, trans));
+          dynobj->SetID (id);
+          dynobj->SetEntity (entName, 0); // @@@ params?
+          entity = dynobj->ForceEntity (this);
+        }
+        else
+        {
+	  printf ("Loading new entity '%s' from '%s'\n", entName, tmpName);
+          iCelEntityTemplate* tmp = pl->FindEntityTemplate (tmpName);
+          if (!tmp)
+          {
+            printf ("Error locating entity template '%s'\n", tmpName);
+          }
+          // First we see if the entity already exists.
+          entity = pl->GetEntity (id);
+          if (!entity)
+          {
+            entity = pl->CreateEntity (tmp, entName, (iCelParameterBlock*)0);      // @@@ params?
+            entity->SetID (id);
+          }
+          else
+          {
+            entity->SetName (entName);
+          }
+          csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+          if (pcmesh)
+            pcmesh->SetFactoryName (tmpName);
+        }
         elcm->RegisterNewEntity (entity);
       }
       else
@@ -1351,7 +1406,17 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
           dynobj->SetTransform (trans);
           // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
           entity = dynobj->ForceEntity (this);
-	  printf ("Loading existing entity '%s'\n", entity->GetName ()); fflush (stdout);
+          if (hasDynObj)
+          {
+	    printf ("Loading existing entity '%s'\n", entity->GetName ());
+          }
+          else
+          {
+	    printf ("Loading existing entity but with deleted dynobj '%s'\n", entity->GetName ());
+            ForceInvisible (dynobj);
+            dynobj->UnlinkEntity ();
+            DeleteObject (dynobj);
+          }
 	}
 	else
 	{
@@ -1362,6 +1427,8 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
 	    return;
 	  }
 	  printf ("Loading existing entity without dynobj '%s'\n", entity->GetName ()); fflush (stdout);
+          // @@@ The case where hasDynObj = true is not handled here. Is
+          // this even possible?
 	}
       }
 

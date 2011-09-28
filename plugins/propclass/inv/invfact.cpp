@@ -231,11 +231,13 @@ void celPcInventory::RestoreModifications (iCelCompactDataBufferReader* buf,
   for (size_t i = 0 ; i < coSize ; i++)
   {
     uint entID = (uint)buf->GetUInt32 ();
-    iCelEntity* ent = pl->GetEntity (entID);
+    csRef<iCelEntity> ent = pl->GetEntity (entID);
     if (!ent)
     {
-      printf ("Error! Couldn't find entity '%d'!\n", entID);
-      return;
+      // If we can't find the entity we will create it here. We will then
+      // assume that later code will complete the loading of this entity.
+      printf ("Warning! Couldn't find entity '%d', creating dummy!\n", entID);
+      ent = pl->CreateEntity (entID);
     }
     contents.Push (ent);
   }
