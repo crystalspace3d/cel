@@ -218,6 +218,7 @@ bool ElcmTest::FillDynamicWorld ()
     for (int x = -SIZE ; x <= SIZE ; x++)
     {
       float r = rnd.Get ();
+      matId = csYRotMatrix3 (rnd.Get () * 3.1415926535);
       if (r < .4)
       {
         obj = dynworld->AddObject ("Barrel", csReversibleTransform (

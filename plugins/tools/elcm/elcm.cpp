@@ -383,7 +383,6 @@ void celELCM::CheckUnload ()
       // @@@ This is dangerous! The function we call here can't really remove
       // the entity because we're still iterating over the inactiveEntities list!
       // Need to think about this.
-      printf ("test %p\n", (iCelEntity*)ent); fflush (stdout);
       if (!ent->IsModifiedSinceBaseline ())
         FireELCMListeners (ent);
       toRemove.Push (ent);
