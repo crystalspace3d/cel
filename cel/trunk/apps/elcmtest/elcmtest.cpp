@@ -271,6 +271,7 @@ bool ElcmTest::FillDynamicWorld ()
       }
     }
   dynworld->MarkBaseline ();
+  printf ("Created %d objects!\n", dynworld->GetObjectCount ());
   return true;
 }
 

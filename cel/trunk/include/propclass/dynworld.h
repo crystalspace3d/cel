@@ -286,6 +286,11 @@ struct iPcDynamicWorld : public virtual iBase
       const csReversibleTransform& trans) = 0;
 
   /**
+   * Get the number of objects.
+   */
+  virtual size_t GetObjectCount () const = 0;
+
+  /**
    * Force a dynamic object to be visible. This will force the
    * creation of the mesh.
    */
