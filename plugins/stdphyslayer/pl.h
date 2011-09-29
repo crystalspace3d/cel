@@ -167,6 +167,8 @@ public:
   	const char* name, iCelParameterBlock* params);
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
   	const char* name, ...);
+  virtual bool ApplyTemplate (iCelEntity* entity, iCelEntityTemplate* factory,
+      iCelParameterBlock* params);
 
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
 	  const char* propname, const char* tagname = 0);

@@ -212,6 +212,13 @@ struct iCelPlLayer : public virtual iBase
   	const char* name, ...) = 0;
 
   /**
+   * Apply a template to an already existing entity.
+   * Returns false on failure.
+   */
+  virtual bool ApplyTemplate (iCelEntity* entity, iCelEntityTemplate* factory,
+      iCelParameterBlock* params) = 0;
+
+  /**
    * Create a data buffer. Usually property class implementations
    * will call this to create a data buffer for their own persistent
    * data. The use of this is not required. A property class can just

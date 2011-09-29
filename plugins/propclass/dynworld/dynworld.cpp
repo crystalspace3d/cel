@@ -563,7 +563,11 @@ iCelEntity* DynamicObject::ForceEntity (celPcDynamicWorld* world)
     // First we check if the entity already exists.
     entity = world->pl->GetEntity (id);
     if (entity)
+    {
       entity->SetName (entityName);
+      if (entityTemplate)
+        world->pl->ApplyTemplate (entity, entityTemplate, params);
+    }
   }
   if (entityTemplate && !entity)
   {
@@ -1431,14 +1435,14 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
         dynobj = static_cast<DynamicObject*> (FindObject (id));
 	if (dynobj)
 	{
-          csReversibleTransform trans;
-          LoadTransform (buf, trans);
-          dynobj->SetTransform (trans);
           // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
           entity = dynobj->ForceEntity (this);
           if (hasDynObj)
           {
 	    printf ("Loading existing entity '%s'\n", entity->GetName ());
+            csReversibleTransform trans;
+            LoadTransform (buf, trans);
+            dynobj->SetTransform (trans);
           }
           else
           {
@@ -1469,7 +1473,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     }
     if (marker != MARKER_END)
     {
-      printf ("Bad marker!\n");
+      printf ("Bad marker (1)!\n");
       return;
     }
 
@@ -1493,7 +1497,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     }
     if (marker != MARKER_END)
     {
-      printf ("Bad marker!\n");
+      printf ("Bad marker (2)!\n");
       return;
     }
   }
