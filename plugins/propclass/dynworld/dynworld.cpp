@@ -1196,6 +1196,9 @@ void celPcDynamicWorld::LoadStrings (iCelCompactDataBufferReader* buf,
   }
 }
 
+#define MARKER_NEW 0xe3
+#define MARKER_END 0x3e
+
 csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
 {
   csRef<csScfStringSet> strings;
@@ -1223,6 +1226,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
     while (it->HasNext ())
     {
       iCelEntity* entity = it->Next ();
+      buf->AddUInt8 (MARKER_NEW);
       buf->AddUInt32 (entity->GetID ());
 
       iDynamicObject* dynobj = FindObject (entity);
@@ -1294,6 +1298,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       iCelEntity* entity = newIt.Next ();
       DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (entity));
       alreadySaved.Add (dynobj);
+      buf->AddUInt8 (MARKER_NEW);
       buf->AddUInt32 (entity->GetID ());
       buf->AddBool (true);           // Indication that there is a dynobj.
       iDynamicFactory* dynfact = dynobj->GetFactory ();
@@ -1305,8 +1310,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       entity->SaveModifications (buf, strings);
       printf ("Saving new pristine entity '%s'!\n", entity->GetName ());
     }
-
-    buf->AddUInt32 ((uint32)csArrayItemNotFound);
+    buf->AddUInt8 (MARKER_END);
 
     // Now it is possible that we still have dynamic objects for which
     // the entity hasn't changed but the dynobj itself has changed (i.e. moved).
@@ -1319,11 +1323,12 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       {
         printf ("Saving moved dynobj '%s'\n", dynobj->GetEntity () ?
             dynobj->GetEntity ()->GetName () : "unknown");
+        buf->AddUInt8 (MARKER_NEW);
         buf->AddUInt32 (dynobj->GetID ());
         SaveTransform (buf, dynobj->GetTransform ());
       }
     }
-    buf->AddUInt32 ((uint32)csArrayItemNotFound);
+    buf->AddUInt8 (MARKER_END);
   }
   else
   {
@@ -1366,9 +1371,10 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       }
     }
 
-    uint id = buf->GetUInt32 ();
-    while (id != (uint)csArrayItemNotFound)
+    uint8 marker = buf->GetUInt8 ();
+    while (marker == MARKER_NEW)
     {
+      uint id = buf->GetUInt32 ();
       bool hasDynObj = buf->GetBool ();
 
       csStringID tmpID = buf->GetID ();
@@ -1459,13 +1465,19 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       if (dynobj) dynobj->ClearBaseline ();
       entity->RestoreModifications (buf, strings);
 
-      id = buf->GetUInt32 ();
+      marker = buf->GetUInt8 ();
+    }
+    if (marker != MARKER_END)
+    {
+      printf ("Bad marker!\n");
+      return;
     }
 
     // Now load the remaining moved dynobjects.
-    id = buf->GetUInt32 ();
-    while (id != (uint)csArrayItemNotFound)
+    marker = buf->GetUInt8 ();
+    while (marker == MARKER_NEW)
     {
+      uint id = buf->GetUInt32 ();
       DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (id));
       printf ("Loading moved dynobj\n"); fflush (stdout);
       csReversibleTransform trans;
@@ -1476,7 +1488,13 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       // we didn't save (in this section) the dynamic objects which also
       // had modified entities. These were save dabove.
       haveMovedFromBaseline.Add (dynobj);
-      id = buf->GetUInt32 ();
+
+      marker = buf->GetUInt8 ();
+    }
+    if (marker != MARKER_END)
+    {
+      printf ("Bad marker!\n");
+      return;
     }
   }
 }
