@@ -318,8 +318,6 @@ void celELCM::UpdateActiveEntities ()
   prevPos = pos;
   prevSector = sector;
 
-  printf ("Update for %g,%g,%g\n", pos.x, pos.y, pos.z); fflush (stdout);
-
   csSet<csPtrKey<iCelEntity> >* oldActiveEntities = SwapActiveEntities ();
 
   // @@@ Problem: this function only finds entities with meshes but ignores

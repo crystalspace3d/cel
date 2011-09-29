@@ -243,16 +243,17 @@ bool ElcmTest::FillDynamicWorld ()
 	  return ReportError ("Could not set entity template 'Table'!");
 
 	csString objName, tmpName;
+	float yoffset = 0;
 	switch (rnd.Get (5))
 	{
-	  case 0: objName = "Money"; tmpName = "mon"; break;
-	  case 1: objName = "Steak"; tmpName = "ste"; break;
-	  case 2: objName = "Can"; tmpName = "can"; break;
-	  case 3: objName = "Milk"; tmpName = "mil"; break;
+	  case 0: objName = "Money"; tmpName = "mon"; yoffset = 0.02; break;
+	  case 1: objName = "Steak"; tmpName = "ste"; yoffset = 0.02; break;
+	  case 2: objName = "Can"; tmpName = "can"; yoffset = 0.047; break;
+	  case 3: objName = "Milk"; tmpName = "mil"; yoffset = 0.106; break;
 	  case 4: objName = "Cup"; tmpName = "cup"; break;
 	}
         obj = dynworld->AddObject (objName, csReversibleTransform (
-	    matId, csVector3 (float (x*5), 0, float (y*5))));
+	    matId, csVector3 (float (x*5), yoffset, float (y*5))));
         name.Format ("%s%d_%d", tmpName.GetData (), x+50, y+50);
         if (!obj->SetEntity (name, params))
 	  return ReportError ("Could not set entity template '%s'!",
