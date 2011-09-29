@@ -219,6 +219,11 @@ struct iDynamicObject : public virtual iBase
    * Get the (optional) entity for this dynamic object.
    */
   virtual iCelEntity* GetEntity () const = 0;
+
+  /**
+   * Return a one-line string briefly describing this dynamic object.
+   */
+  virtual csPtr<iString> GetDescription () const = 0;
 };
 
 /**

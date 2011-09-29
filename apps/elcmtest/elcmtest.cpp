@@ -561,8 +561,11 @@ iRigidBody* ElcmTest::FindHitBody (int x, int y, csVector3& start,
 
 void ElcmTest::WriteStatusLine ()
 {
-  iGraphics2D* g2d = g3d->GetDriver2D ();
-  g2d->Write (font, 10, 10, colorWhite, -1, statusLine);
+  if (statusLine)
+  {
+    iGraphics2D* g2d = g3d->GetDriver2D ();
+    g2d->Write (font, 10, 10, colorWhite, -1, statusLine->GetData ());
+  }
 }
 
 bool ElcmTest::OnMouseMove (iEvent& ev)
@@ -570,11 +573,10 @@ bool ElcmTest::OnMouseMove (iEvent& ev)
   // Save the mouse position
   int x = csMouseEventHelper::GetX (&ev);
   int y = csMouseEventHelper::GetY (&ev);
-  statusLine = "None";
+  statusLine = 0;
   iDynamicObject* dynobj = FindHitDynObj (x, y);
   if (!dynobj) return false;
-  iCelEntity* ent = dynobj->GetEntity ();
-  statusLine.Format ("%s (%s)", dynobj->GetFactory ()->GetName (), ent ? ent->GetName () : "none");
+  statusLine = dynobj->GetDescription ();
   return false;
 }
 

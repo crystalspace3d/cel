@@ -583,6 +583,35 @@ iCelEntity* DynamicObject::ForceEntity (celPcDynamicWorld* world)
   return entity;
 }
 
+csPtr<iString> DynamicObject::GetDescription () const
+{
+  scfString* statusLine = new scfString ();
+  const char* bl, *mo;
+  if (atBaseline) bl = " base";
+  else bl = "";
+  if (hasMovedSufficiently) mo = " moved";
+  else mo = "";
+  if (!entity)
+  {
+    statusLine->Format ("%s (%d)%s%s", GetFactory ()->GetName (), id, bl, mo);
+  }
+  else
+  {
+    const char* ac;
+    if (entity->IsActive ()) ac = " active";
+    else ac = "";
+    const char* mod;
+    if (entity->IsModifiedSinceBaseline ()) mod = " mod";
+    else mod = "";
+    const char* entbl;
+    if (entity->ExistedAtBaseline ()) entbl = " ebase";
+    else entbl = "";
+    statusLine->Format ("%s (%d:%s)%s%s%s%s%s", GetFactory ()->GetName (), id,
+	entity->GetName (), bl, mo, ac, mod, entbl);
+  }
+  return statusLine;
+}
+
 //---------------------------------------------------------------------------------------
 
 class DynWorldELCMListener : public scfImplementation1<DynWorldELCMListener,

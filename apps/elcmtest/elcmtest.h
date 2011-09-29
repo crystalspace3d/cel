@@ -54,7 +54,7 @@ private:
   csRef<iMessageReceiver> receiver;
   csStringID msgInventory;
 
-  csString statusLine;
+  csRef<iString> statusLine;
   csRef<iFont> font;
   int colorWhite;
 
