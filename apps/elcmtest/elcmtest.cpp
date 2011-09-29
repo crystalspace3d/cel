@@ -187,7 +187,7 @@ bool ElcmTest::CreateLevel ()
   ll->Add (light);
 
   dynworld = celQueryPropertyClassEntity<iPcDynamicWorld> (worldEntity);
-  dynworld->SetRadius (30);
+  dynworld->SetRadius (40);
   dynworld->Setup (sector, dynSys);
   dynworld->SetELCM (elcm);
 
@@ -213,17 +213,18 @@ bool ElcmTest::FillDynamicWorld ()
   csRandomGen rnd;
   rnd.Initialize (1234567);
 
-  csMatrix3 matId;
+  csMatrix3 mat;
   iDynamicObject* obj;
   for (int y = -SIZE ; y <= SIZE ; y++)
     for (int x = -SIZE ; x <= SIZE ; x++)
     {
       float r = rnd.Get ();
-      matId = csYRotMatrix3 (rnd.Get () * 3.1415926535);
+      mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
+      float ox = float (x*5) + rnd.Get () * 4.0f - 2.0f;
+      float oy = float (y*5) + rnd.Get () * 4.0f - 2.0f;
       if (r < .4)
       {
-        obj = dynworld->AddObject ("Barrel", csReversibleTransform (
-	    matId, csVector3 (float (x*5), -.4, float (y*5))));
+        obj = dynworld->AddObject ("Barrel", csReversibleTransform (mat, csVector3 (ox, -.4, oy)));
         csString name;
         name.Format ("barrel%d_%d", x+50, y+50);
         csRef<iCelParameterBlock> params;
@@ -233,8 +234,7 @@ bool ElcmTest::FillDynamicWorld ()
       }
       else if (r < .7)
       {
-        obj = dynworld->AddObject ("Table", csReversibleTransform (
-	    matId, csVector3 (float (x*5), -1, float (y*5))));
+        obj = dynworld->AddObject ("Table", csReversibleTransform (mat, csVector3 (ox, -1, oy)));
         csString name;
         name.Format ("tbl%d_%d", x+50, y+50);
         csRef<iCelParameterBlock> params;
@@ -253,7 +253,7 @@ bool ElcmTest::FillDynamicWorld ()
 	  case 4: objName = "Cup"; tmpName = "cup"; break;
 	}
         obj = dynworld->AddObject (objName, csReversibleTransform (
-	    matId, csVector3 (float (x*5), yoffset, float (y*5))));
+	    mat, csVector3 (ox, yoffset, oy)));
         name.Format ("%s%d_%d", tmpName.GetData (), x+50, y+50);
         if (!obj->SetEntity (name, params))
 	  return ReportError ("Could not set entity template '%s'!",
@@ -261,8 +261,7 @@ bool ElcmTest::FillDynamicWorld ()
       }
       else
       {
-        obj = dynworld->AddObject ("Clicker", csReversibleTransform (
-	    matId, csVector3 (float (x*5), -.95, float (y*5))));
+        obj = dynworld->AddObject ("Clicker", csReversibleTransform (mat, csVector3 (ox, -.95, oy)));
         csString name;
         name.Format ("click%d_%d", x+50, y+50);
         csRef<iCelParameterBlock> params;
