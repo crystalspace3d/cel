@@ -819,7 +819,6 @@ void celPcDynamicWorld::RemoveSafeEntities ()
   while (it.HasNext ())
   {
     iCelEntity* entity = it.Next ();
-    printf ("Actually remove entity %s\n", entity->GetName ());
     uint id = entity->GetID ();
     bool existedAtBaseline = entity->ExistedAtBaseline ();
     pl->RemoveEntity (entity);
