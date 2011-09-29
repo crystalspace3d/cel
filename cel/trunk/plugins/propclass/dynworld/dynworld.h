@@ -333,6 +333,7 @@ public:
   virtual void LinkEntity (iCelEntity* entity);
   virtual void UnlinkEntity ();
   virtual iCelEntity* GetEntity () const { return entity; }
+  virtual csPtr<iString> GetDescription () const;
 
   virtual void MovableChanged (iMovable* movable);
   virtual void MovableDestroyed (iMovable* movable);
