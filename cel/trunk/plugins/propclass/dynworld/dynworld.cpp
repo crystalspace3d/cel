@@ -1447,6 +1447,9 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
           else
           {
 	    printf ("Loading existing entity but with deleted dynobj '%s'\n", entity->GetName ());
+            csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+            if (pcmesh)
+              pcmesh->SetFactoryName (dynobj->GetFactory ()->GetName ());
             ForceInvisible (dynobj);
             dynobj->UnlinkEntity ();
             DeleteObject (dynobj);
