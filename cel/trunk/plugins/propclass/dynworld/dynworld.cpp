@@ -1222,7 +1222,6 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
     csRef<iCelEntityIterator> it = elcm->GetModifiedEntities ();
     while (it->HasNext ())
     {
-      // @@@ SAVE ENTITIES IN INVENTORY
       iCelEntity* entity = it->Next ();
       buf->AddUInt32 (entity->GetID ());
 
@@ -1296,6 +1295,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (entity));
       alreadySaved.Add (dynobj);
       buf->AddUInt32 (entity->GetID ());
+      buf->AddBool (true);           // Indication that there is a dynobj.
       iDynamicFactory* dynfact = dynobj->GetFactory ();
       buf->AddID (strings->Request (dynfact->GetName ()));
       buf->AddID (strings->Request (entity->GetName ()));
