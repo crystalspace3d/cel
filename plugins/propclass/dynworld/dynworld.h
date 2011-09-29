@@ -471,6 +471,7 @@ public:
 
   virtual iDynamicObject* AddObject (const char* factory,
       const csReversibleTransform& trans);
+  virtual size_t GetObjectCount () const { return objects.GetSize (); }
   virtual void ForceVisible (iDynamicObject* dynobj);
   virtual void ForceInvisible (iDynamicObject* dynobj);
   virtual void DeleteObject (iDynamicObject* dynobj);
