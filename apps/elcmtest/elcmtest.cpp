@@ -141,6 +141,23 @@ bool ElcmTest::InitPhysics ()
   return true;
 }
 
+bool ElcmTest::CreateSky ()
+{
+  using namespace CS::Geometry;
+
+  csRef<iMeshWrapper> clouds = GeneralMeshBuilder::CreateMesh (engine,
+      sector, "Clouds", "clouddome");
+  CS::Graphics::RenderPriority transp = engine->GetRenderPriority ("transp");
+  clouds->SetRenderPriority (transp);
+
+  csRef<iMeshWrapper> sky = GeneralMeshBuilder::CreateMesh (engine,
+      sector, "Sky", "skydome");
+  CS::Graphics::RenderPriority object = engine->GetRenderPriority ("object");
+  sky->SetRenderPriority (object);
+
+  return true;
+}
+
 bool ElcmTest::CreateLevel ()
 {
   worldEntity = pl->CreateEntity ("world", 0, 0,
@@ -200,6 +217,9 @@ bool ElcmTest::CreateLevel ()
 
 bool ElcmTest::CreateFactories ()
 {
+  vfs->ChDir ("/lib/sky/");
+  if (!loader->LoadLibraryFile ("library"))
+    return false;
   vfs->ChDir ("/cellib/clutter/");
   if (!loader->LoadLibraryFile ("library"))
     return false;
@@ -777,6 +797,8 @@ bool ElcmTest::Application ()
     return ReportError ("Error creating level!");
   if (!CreateFactories ())
     return ReportError ("Couldn't create factories!");
+  if (!CreateSky ())
+    return ReportError ("Error creating sky!");
   if (!CreatePlayer ())
     return ReportError ("Couldn't create player!");
   if (!FillDynamicWorld ())
