@@ -54,7 +54,7 @@ private:
   csRef<iMessageReceiver> receiver;
   csStringID msgInventory;
 
-  csRef<iString> statusLine;
+  csString statusLine;
   csRef<iFont> font;
   int colorWhite;
 
@@ -89,6 +89,7 @@ public:
   iGraphics3D* GetG3D () const { return g3d; }
   iCEGUI* GetCEGUI () const { return cegui; }
   void WriteStatusLine ();
+  void UpdateStatusLine (iDynamicObject* dynobj);
 
   bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params);

@@ -11,6 +11,7 @@
 #include "propclass/cameras/tracking.h"
 #include "propclass/jump.h"
 #include "propclass/inv.h"
+#include "propclass/prop.h"
 #include <physicallayer/propclas.h>
 #include <physicallayer/entitytpl.h>
 #include <behaviourlayer/behave.h>
@@ -562,22 +563,43 @@ iRigidBody* ElcmTest::FindHitBody (int x, int y, csVector3& start,
 
 void ElcmTest::WriteStatusLine ()
 {
-  if (statusLine)
+  iGraphics2D* g2d = g3d->GetDriver2D ();
+  g2d->Write (font, 10, 10, colorWhite, -1, statusLine.GetData ());
+}
+
+void ElcmTest::UpdateStatusLine (iDynamicObject* dynobj)
+{
+  if (dynobj == 0)
   {
-    iGraphics2D* g2d = g3d->GetDriver2D ();
-    g2d->Write (font, 10, 10, colorWhite, -1, statusLine->GetData ());
+    statusLine = "...";
+    return;
   }
+  csRef<iString> desc = dynobj->GetDescription ();
+
+  iCelEntity* ent = dynobj->GetEntity ();
+  if (ent)
+  {
+    csRef<iPcProperties> pcprop = celQueryPropertyClassEntity<iPcProperties> (ent);
+    if (pcprop)
+    {
+      size_t idx = pcprop->GetPropertyIndex ("counter");
+      if (idx != csArrayItemNotFound)
+      {
+	long counter = pcprop->GetPropertyLong (idx);
+        statusLine.Format ("%s counter=%d", desc->GetData (), counter);
+	return;
+      }
+    }
+  }
+  statusLine = desc->GetData ();
 }
 
 bool ElcmTest::OnMouseMove (iEvent& ev)
 {
-  // Save the mouse position
   int x = csMouseEventHelper::GetX (&ev);
   int y = csMouseEventHelper::GetY (&ev);
-  statusLine = 0;
   iDynamicObject* dynobj = FindHitDynObj (x, y);
-  if (!dynobj) return false;
-  statusLine = dynobj->GetDescription ();
+  UpdateStatusLine (dynobj);
   return false;
 }
 
@@ -589,20 +611,21 @@ bool ElcmTest::OnMouseDown (iEvent& ev)
 
   if (but == 0)
   {
+    iDynamicObject* dynobj = FindHitDynObj (x, y);
+    if (!dynobj) return false;
     uint32 mod = csMouseEventHelper::GetModifiers (&ev);
     bool ctrl = (mod & CSMASK_CTRL) != 0;
     if (ctrl)
     {
-      iDynamicObject* dynobj = FindHitDynObj (x, y);
-      if (!dynobj) return false;
       dynworld->DeleteObject (dynobj);
+      UpdateStatusLine (0);
     }
     else
     {
-      iCelEntity* entity = FindHitEntity (x, y);
-      if (!entity) return false;
-      iMessageChannel* channel = entity->QueryMessageChannel ();
+      if (!dynobj->GetEntity ()) return false;
+      iMessageChannel* channel = dynobj->GetEntity ()->QueryMessageChannel ();
       channel->SendMessage ("elcm.activate", 0, 0);
+      UpdateStatusLine (dynobj);
     }
     return true;
   }
@@ -622,6 +645,7 @@ bool ElcmTest::OnMouseDown (iEvent& ev)
     iDynamicObject* dynobj = FindHitDynObj (x, y);
     if (!dynobj) return false;
     PickUpDynObj (dynobj);
+    UpdateStatusLine (0);
     return true;
   }
   return false;
