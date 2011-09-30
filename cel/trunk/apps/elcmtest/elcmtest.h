@@ -71,6 +71,7 @@ private:
   bool InitWindowSystem ();
   bool InitPhysics ();
   bool CreateLevel ();
+  bool CreateSky ();
   bool CreatePlayer ();
   bool CreateFactories ();
   bool FillDynamicWorld ();
