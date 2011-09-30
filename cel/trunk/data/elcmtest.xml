@@ -144,6 +144,13 @@
       <propclass name="pctools.properties">
 	<property name="counter" long="1" />
       </propclass>
+      <propclass name="pclogic.quest" tag="glow">
+        <action name="NewQuest" >
+          <par name="name" string="glowQuest" />
+          <par name="dur" string="100" />
+        </action>
+        <property name="state" string="init" />
+      </propclass>
       <propclass name="pclogic.quest" tag="clicker">
         <action name="NewQuest" >
           <par name="name" string="clickerObject" />
@@ -244,13 +251,6 @@
     <addon plugin="cel.addons.celentitytpl" entityname="Barrel" >
       <propclass name="pcobject.mesh" />
       <propclass name="pcphysics.object" />
-      <propclass name="pclogic.quest" tag="glow">
-        <action name="NewQuest" >
-          <par name="name" string="glowQuest" />
-          <par name="dur" string="100" />
-        </action>
-        <property name="state" string="init" />
-      </propclass>
       <propclass name="pclogic.wire">
 	<action name="AddInput">
 	  <par name="mask" string="elcm.activate" />
