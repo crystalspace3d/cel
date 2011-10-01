@@ -367,12 +367,6 @@ bool ElcmTest::CreatePlayer ()
   csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (
 	  playerEntity);
 
-  csRef<iCelEntity> dummy = pl->CreateEntity ("Dummy 1", 0, 0, CEL_PROPCLASS_END);
-  inventory->AddEntity (dummy);
-  dummy = pl->CreateEntity ("Dummy 2", 0, 0, CEL_PROPCLASS_END);
-  inventory->AddEntity (dummy);
-  dummy = pl->CreateEntity ("Dummy 3", 0, 0, CEL_PROPCLASS_END);
-  inventory->AddEntity (dummy);
   iCelEntityTemplate* moneyTemplate = pl->FindEntityTemplate ("Money");
   inventory->AddEntityTemplate (moneyTemplate, 100);
 
