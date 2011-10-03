@@ -78,8 +78,6 @@ public:
   celPcNpcMove (iObjectRegistry* object_reg);
   virtual ~celPcNpcMove ();
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickOnce ();
 };
 

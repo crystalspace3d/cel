@@ -277,30 +277,6 @@ void celPcSimpleCamera::SetMesh (iPcMesh* mesh)
   }
 }
 
-#define SIMPLE_CAMERA_SERIAL 3
-
-csPtr<iCelDataBuffer> celPcSimpleCamera::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SIMPLE_CAMERA_SERIAL);
-  SaveCommon (databuf);
-
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcSimpleCamera::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != SIMPLE_CAMERA_SERIAL)
-  {
-    Report (object_reg, "serialnr != SIMPLE_CAMERA_SERIAL.  Cannot load.");
-    return false;
-  }
-
-  if (!LoadCommon (databuf)) return false;
-
-  return true;
-}
-
 //---------------------------------------------------------------------------
 
 

@@ -151,8 +151,6 @@ public:
   virtual bool GetPropertyColor (const char* name, csColor& v);
   virtual const char* GetPropertyString (const char* name);
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickEveryFrame ();

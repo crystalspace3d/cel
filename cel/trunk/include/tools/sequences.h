@@ -48,16 +48,6 @@ struct iSeqOp : public virtual iBase
   virtual void Init (iCelParameterBlock* params) = 0;
 
   /**
-   * Load the sequence operation from persisted data.
-   */
-  virtual bool Load (iCelDataBuffer* databuf) = 0;
-
-  /**
-   * Save the sequence operation to persisted data.
-   */
-  virtual void Save (iCelDataBuffer* databuf) = 0;
-
-  /**
    * Do the operation. The parameter is a value between 0 and 1 which
    * will be interpolated over a specified time (specified in the sequence).
    * In case this is a single-shot operation the value will always be 1.
@@ -133,15 +123,6 @@ struct iCelSequence : public virtual iBase
    * Get the name of this sequence.
    */
   virtual const char* GetName () const = 0;
-
-  /**
-   * Save state of this sequence.
-   */
-  virtual void SaveState (iCelDataBuffer* databuf) = 0;
-  /**
-   * Load state of this sequence.
-   */
-  virtual bool LoadState (iCelDataBuffer* databuf) = 0;
 
   /**
    * Fire this sequence.

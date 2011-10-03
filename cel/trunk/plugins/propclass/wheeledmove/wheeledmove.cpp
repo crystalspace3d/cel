@@ -99,22 +99,6 @@ bool celPcWheeledMove::GetPropertyIndexed (int idx, long& l)
   return false;
 }
 
-#define DYNMOVE_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcWheeledMove::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DYNMOVE_SERIAL);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcWheeledMove::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != DYNMOVE_SERIAL) return false;
-
-  return true;
-}
-
 bool celPcWheeledMove::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)

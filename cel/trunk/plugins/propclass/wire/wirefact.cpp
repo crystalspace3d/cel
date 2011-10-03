@@ -138,22 +138,6 @@ celPcWire::~celPcWire ()
 {
 }
 
-#define WIRE_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcWire::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (WIRE_SERIAL);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcWire::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != WIRE_SERIAL) return false;
-
-  return true;
-}
-
 bool celPcWire::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)

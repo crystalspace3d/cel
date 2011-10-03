@@ -171,8 +171,6 @@ public:
 
   iEngine* GetEngine () const { return engine; }
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();

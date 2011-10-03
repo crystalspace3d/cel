@@ -194,16 +194,6 @@ void celOperationTrigger::DeactivateTrigger ()
   }
 }
 
-bool celOperationTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
-{
-  ActivateTrigger ();
-  return true;
-}
-
-void celOperationTrigger::SaveTriggerState (iCelDataBuffer*)
-{
-}
-
 //---------------------------------------------------------------------------
 // AND operation
 

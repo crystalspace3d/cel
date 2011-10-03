@@ -198,15 +198,5 @@ void celSequenceFinishTrigger::DeactivateTrigger ()
   seq->RemoveSequenceCallback ((iCelSequenceCallback*)this);
 }
 
-bool celSequenceFinishTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
-{
-  ActivateTrigger ();
-  return true;
-}
-
-void celSequenceFinishTrigger::SaveTriggerState (iCelDataBuffer*)
-{
-}
-
 //---------------------------------------------------------------------------
 

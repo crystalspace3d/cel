@@ -304,23 +304,6 @@ bool celPcSpawn::PerformActionIndexed (int idx,
   }
 }
 
-#define SPAWN_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcSpawn::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SPAWN_SERIAL);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcSpawn::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != SPAWN_SERIAL)
-    return Report (object_reg, "Couldn't load spawn property class!");
-
-  return true;
-}
-
 void celPcSpawn::SetEnabled (bool e)
 {
   if (enabled == e) return;

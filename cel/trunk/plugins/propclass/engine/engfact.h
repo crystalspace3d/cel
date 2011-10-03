@@ -144,11 +144,6 @@ public:
   /// Get the CS collection
   virtual iCollection* GetCollection ();
 
-  virtual csPtr<iCelDataBuffer> SaveFirstPass ();
-  virtual bool LoadFirstPass (iCelDataBuffer* databuf);
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
-
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
   	celData& ret);
 

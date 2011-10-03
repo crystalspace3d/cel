@@ -90,35 +90,6 @@ celPcCollisionDetection::~celPcCollisionDetection ()
 {
 }
 
-#define COLLDET_SERIAL 27
-
-csPtr<iCelDataBuffer> celPcCollisionDetection::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (COLLDET_SERIAL);
-
-  databuf->Add (topSize);
-  databuf->Add (bottomSize);
-  databuf->Add (shift);
-
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcCollisionDetection::Load (iCelDataBuffer* databuf)
-{
-  int seriallnr = databuf->GetSerialNumber ();
-  if (seriallnr != COLLDET_SERIAL)
-    return false;
-
-  databuf->GetVector3 (topSize);
-  databuf->GetVector3 (bottomSize);
-  databuf->GetVector3 (shift);
-
-  if (!Init (topSize, bottomSize, shift))
-    return false;
-
-  return true;
-}
-
 bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
                                                    csVector3& newpos,
                                                    csVector3& vel,

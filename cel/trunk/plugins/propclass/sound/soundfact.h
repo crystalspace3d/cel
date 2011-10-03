@@ -77,8 +77,6 @@ public:
 
   virtual iSndSysListener* GetSoundListener () { return listener; }
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
@@ -153,8 +151,6 @@ public:
   virtual void Pause ();
   virtual void Unpause ();
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 

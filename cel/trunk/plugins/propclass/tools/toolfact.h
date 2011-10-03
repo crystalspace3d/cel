@@ -86,8 +86,6 @@ public:
   virtual void SetJustify (celTooltipJustify justify)
   { this->justify = justify; }
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
 };
 

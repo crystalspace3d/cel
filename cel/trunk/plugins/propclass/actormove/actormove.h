@@ -219,8 +219,8 @@ public:
 
   virtual void SetAnimationMapping (celAnimationName idx, const char *name);
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
+  csPtr<iCelDataBuffer> Save ();
+  bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
 
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,

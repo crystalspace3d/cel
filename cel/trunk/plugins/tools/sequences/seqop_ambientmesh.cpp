@@ -207,19 +207,6 @@ void celAmbientMeshSeqOp::FindMesh (iCelParameterBlock* params)
   }
 }
 
-bool celAmbientMeshSeqOp::Load (iCelDataBuffer* databuf)
-{
-  mesh = 0;
-  svc = 0;
-  databuf->GetColor (start);
-  return true;
-}
-
-void celAmbientMeshSeqOp::Save (iCelDataBuffer* databuf)
-{
-  databuf->Add (start);
-}
-
 void celAmbientMeshSeqOp::Init (iCelParameterBlock* params)
 {
   mesh = 0;

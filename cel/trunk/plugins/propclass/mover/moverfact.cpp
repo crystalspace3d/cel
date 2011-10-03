@@ -99,21 +99,6 @@ celPcMover::~celPcMover ()
   delete params;
 }
 
-#define MOVER_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcMover::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MOVER_SERIAL);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcMover::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != MOVER_SERIAL) return false;
-  return true;
-}
-
 void celPcMover::SendMessage (const char* msgold,
     const char* msg, csRef<iMessageDispatcher>& dispatcher,
     const char* meshname)

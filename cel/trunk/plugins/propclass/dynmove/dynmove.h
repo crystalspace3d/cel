@@ -66,8 +66,6 @@ public:
   virtual ~celPcDynamicMove ();
   virtual void SetEntity (iCelEntity* entity);
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
 

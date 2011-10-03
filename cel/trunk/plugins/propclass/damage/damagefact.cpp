@@ -150,25 +150,6 @@ bool celPcDamage::GetPropertyIndexed (int idx, const char*& s)
   }
 }
 
-#define DAMAGE_SERIAL 2
-
-csPtr<iCelDataBuffer> celPcDamage::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DAMAGE_SERIAL);
-  // @@@ TODO
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcDamage::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != DAMAGE_SERIAL) return false;
-
-  // @@@ TODO
-
-  return true;
-}
-
 bool celPcDamage::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)

@@ -95,8 +95,6 @@ public:
 
   // --- For iCelSequence -------------------------------
   virtual const char* GetName () const { return name; }
-  virtual void SaveState (iCelDataBuffer* databuf);
-  virtual bool LoadState (iCelDataBuffer* databuf);
   virtual bool Start (csTicks delay, iCelParameterBlock* params);
   virtual void Finish ();
   virtual void Abort ();

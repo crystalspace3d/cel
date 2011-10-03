@@ -289,15 +289,5 @@ void celWatchTrigger::DeactivateTrigger ()
   	CEL_EVENT_PRE);
 }
 
-bool celWatchTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
-{
-  ActivateTrigger ();
-  return true;
-}
-
-void celWatchTrigger::SaveTriggerState (iCelDataBuffer*)
-{
-}
-
 //---------------------------------------------------------------------------
 

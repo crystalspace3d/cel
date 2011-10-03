@@ -166,15 +166,5 @@ void celMessageTrigger::DeactivateTrigger ()
     ent->QueryMessageChannel ()->Unsubscribe (this, mask);
 }
 
-bool celMessageTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
-{
-  ActivateTrigger ();
-  return true;
-}
-
-void celMessageTrigger::SaveTriggerState (iCelDataBuffer*)
-{
-}
-
 //---------------------------------------------------------------------------
 

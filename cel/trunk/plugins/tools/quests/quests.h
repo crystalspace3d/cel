@@ -249,9 +249,6 @@ private:
    */
   void DeactivateState (size_t stateidx, bool exec_onexit);
 
-  /// Load/switch state.
-  bool SwitchState (const char* state, iCelDataBuffer* databuf);
-
   csRefArray<iCelSequence> sequences;
   iCelSequence* FindCelSequence (const char* name);
 
@@ -261,9 +258,6 @@ public:
   
   virtual bool SwitchState (const char* state);
   virtual const char* GetCurrentState () const;
-
-  virtual bool LoadState (const char* state, iCelDataBuffer* databuf);
-  virtual void SaveState (iCelDataBuffer* databuf);
 
   virtual iCelSequence* FindSequence (const char* name)
   {

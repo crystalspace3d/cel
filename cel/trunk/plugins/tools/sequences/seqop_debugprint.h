@@ -79,8 +79,6 @@ public:
 	const char* msg_par);
   virtual ~celDebugPrintSeqOp ();
 
-  virtual bool Load (iCelDataBuffer*) { return true; }
-  virtual void Save (iCelDataBuffer*) { }
   virtual void Init (iCelParameterBlock* params) { }
   virtual void Do (float time, iCelParameterBlock* params);
 };

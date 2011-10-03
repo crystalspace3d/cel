@@ -179,15 +179,5 @@ void celTriggerTrigger::DeactivateTrigger ()
     pctrigger->RemoveTriggerListener ((iPcTriggerListener*)this);
 }
 
-bool celTriggerTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
-{
-  ActivateTrigger ();
-  return true;
-}
-
-void celTriggerTrigger::SaveTriggerState (iCelDataBuffer*)
-{
-}
-
 //---------------------------------------------------------------------------
 

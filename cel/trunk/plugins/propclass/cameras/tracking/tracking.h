@@ -51,8 +51,6 @@ public:
   celPcTrackingCamera (iObjectRegistry* object_reg);
   virtual ~celPcTrackingCamera ();
 
-  csPtr<iCelDataBuffer> Save ();
-  bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret);
   // support for tilt/pan direction properties
   bool SetPropertyIndexed (int idx, float f);

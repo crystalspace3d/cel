@@ -69,8 +69,6 @@ public:
   virtual float GetLift ();
   virtual const csVector3& CalculateFluidForces ();
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
 };
 

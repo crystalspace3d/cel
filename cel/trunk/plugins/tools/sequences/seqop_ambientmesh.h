@@ -119,8 +119,6 @@ public:
 	const char* abs_blue_par);
   virtual ~celAmbientMeshSeqOp ();
 
-  virtual bool Load (iCelDataBuffer* databuf);
-  virtual void Save (iCelDataBuffer* databuf);
   virtual void Init (iCelParameterBlock* params);
   virtual void Do (float time, iCelParameterBlock* params);
 };

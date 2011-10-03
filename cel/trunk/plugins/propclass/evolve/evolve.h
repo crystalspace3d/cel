@@ -196,8 +196,6 @@ public:
 
   //--------------------------------------------------------- celPcCommon --//
   virtual bool PerformActionIndexed(int index, iCelParameterBlock *params, celData &ret);
-  virtual csPtr<iCelDataBuffer> Save() { return pl->CreateDataBuffer(0); }
-  virtual bool Load(iCelDataBuffer *buf) { return true; }
 
   //----------------------------------------------------------- iPcEvolve --//
   virtual void SetPopulationSize(size_t size) { popSize = (int32)size; }

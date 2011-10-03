@@ -281,27 +281,6 @@ bool celPcSoundListener::GetPropertyIndexed (int idx, float& b)
   }
 }
 
-#define SOUNDLISTENER_SERIAL 2
-
-csPtr<iCelDataBuffer> celPcSoundListener::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SOUNDLISTENER_SERIAL);
-  //databuf->Add (int32 (counter));
-  //databuf->Add (int32 (max));
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcSoundListener::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != SOUNDLISTENER_SERIAL) return false;
-
-  //counter = databuf->GetInt32 ();
-  //max = databuf->GetInt32 ();
-
-  return true;
-}
-
 bool celPcSoundListener::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -541,27 +520,6 @@ bool celPcSoundSource::GetPropertyIndexed (int idx, const char*& b)
     return true;
   }
   return false;
-}
-
-#define SOUNDSOURCE_SERIAL 2
-
-csPtr<iCelDataBuffer> celPcSoundSource::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SOUNDSOURCE_SERIAL);
-  //databuf->Add (int32 (counter));
-  //databuf->Add (int32 (max));
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcSoundSource::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != SOUNDSOURCE_SERIAL) return false;
-
-  //counter = databuf->GetInt32 ();
-  //max = databuf->GetInt32 ();
-
-  return true;
 }
 
 bool celPcSoundSource::PerformActionIndexed (int idx,

@@ -86,8 +86,6 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
-  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
-  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   virtual void Activate ();
   virtual void Deactivate ();
