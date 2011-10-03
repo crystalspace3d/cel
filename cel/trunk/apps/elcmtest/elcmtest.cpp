@@ -355,6 +355,8 @@ bool ElcmTest::CreatePlayer ()
   pcinput->Bind ("d", "rotateright");
   pcinput->Bind ("w", "forward");
   pcinput->Bind ("s", "backward");
+  pcinput->Bind ("q", "strafeleft");
+  pcinput->Bind ("e", "straferight");
   pcinput->Bind ("space", "jump");
   pcinput->Bind ("[", "camleft");
   pcinput->Bind ("]", "camright");

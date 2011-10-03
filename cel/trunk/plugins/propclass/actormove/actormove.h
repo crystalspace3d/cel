@@ -129,6 +129,10 @@ private:
   static csStringID id_input_rotateleft0;
   static csStringID id_input_rotateright1;
   static csStringID id_input_rotateright0;
+  static csStringID id_input_strafeleft1;
+  static csStringID id_input_strafeleft0;
+  static csStringID id_input_straferight1;
+  static csStringID id_input_straferight0;
   static csStringID id_input_jump1;
   static csStringID id_input_cammode1;
 

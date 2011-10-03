@@ -70,6 +70,10 @@ csStringID celPcActorMove::id_input_rotateleft1 = csInvalidStringID;
 csStringID celPcActorMove::id_input_rotateleft0 = csInvalidStringID;
 csStringID celPcActorMove::id_input_rotateright1 = csInvalidStringID;
 csStringID celPcActorMove::id_input_rotateright0 = csInvalidStringID;
+csStringID celPcActorMove::id_input_strafeleft1 = csInvalidStringID;
+csStringID celPcActorMove::id_input_strafeleft0 = csInvalidStringID;
+csStringID celPcActorMove::id_input_straferight1 = csInvalidStringID;
+csStringID celPcActorMove::id_input_straferight0 = csInvalidStringID;
 csStringID celPcActorMove::id_input_jump1 = csInvalidStringID;
 csStringID celPcActorMove::id_input_cammode1 = csInvalidStringID;
 
@@ -101,6 +105,10 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     id_input_rotateleft0 = pl->FetchStringID ("cel.input.rotateleft.up");
     id_input_rotateright1 = pl->FetchStringID ("cel.input.rotateright.down");
     id_input_rotateright0 = pl->FetchStringID ("cel.input.rotateright.up");
+    id_input_strafeleft1 = pl->FetchStringID ("cel.input.strafeleft.down");
+    id_input_strafeleft0 = pl->FetchStringID ("cel.input.strafeleft.up");
+    id_input_straferight1 = pl->FetchStringID ("cel.input.straferight.down");
+    id_input_straferight0 = pl->FetchStringID ("cel.input.straferight.up");
     id_input_jump1 = pl->FetchStringID ("cel.input.jump.down");
     id_input_cammode1 = pl->FetchStringID ("cel.input.cammode.down");
   }
@@ -883,6 +891,14 @@ bool celPcActorMove::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
     RotateRight (true);
   else if (msg_id == id_input_rotateright0)
     RotateRight (false);
+  else if (msg_id == id_input_strafeleft1)
+    StrafeLeft (true);
+  else if (msg_id == id_input_strafeleft0)
+    StrafeLeft (false);
+  else if (msg_id == id_input_straferight1)
+    StrafeRight (true);
+  else if (msg_id == id_input_straferight0)
+    StrafeRight (false);
   else if (msg_id == id_input_cammode1)
     ToggleCameraMode ();
   else if (msg_id == id_input_jump1)
