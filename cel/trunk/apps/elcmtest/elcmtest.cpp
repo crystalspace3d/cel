@@ -321,10 +321,10 @@ bool ElcmTest::CreatePlayer ()
   // Get the iPcMesh interface so we can load the right mesh
   // for our player.
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
-  pcmesh->SetPath ("/lib/krystal");
-  pcmesh->SetMesh ("krystal", "krystal.xml");
-  //pcmesh->SetPath ("/lib/frankie");
-  //pcmesh->SetMesh ("franky_frankie", "frankie.xml");
+  //pcmesh->SetPath ("/lib/krystal");
+  //pcmesh->SetMesh ("krystal", "krystal.xml");
+  pcmesh->SetPath ("/lib/frankie");
+  pcmesh->SetMesh ("franky_frankie", "frankie.xml");
   pcmesh->MoveMesh (sector, csVector3 (0, 3, 0));
 
   // Get iPcLinearMovement so we can setup the movement system.
