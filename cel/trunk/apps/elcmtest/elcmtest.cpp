@@ -578,7 +578,15 @@ iRigidBody* ElcmTest::FindHitBody (int x, int y, csVector3& start,
 void ElcmTest::WriteStatusLine ()
 {
   iGraphics2D* g2d = g3d->GetDriver2D ();
-  g2d->Write (font, 10, 10, colorWhite, -1, statusLine.GetData ());
+  g2d->Write (font, 9, 23, colorBlack, -1, statusLine.GetData ());
+  g2d->Write (font, 10, 24, colorRed, -1, statusLine.GetData ());
+  csString line2;
+  const csVector3& pos = camera->GetTransform ().GetOrigin ();
+  line2.Format ("Pos (%g,%g,%g) #obj=%d #ent=%d #mesh=%d", pos.x, pos.y, pos.z,
+      dynworld->GetObjectCount (), pl->GetEntityCount (),
+      engine->GetMeshes ()->GetCount ());
+  g2d->Write (font, 9, 9, colorBlack, -1, line2.GetData ());
+  g2d->Write (font, 10, 10, colorRed, -1, line2.GetData ());
 }
 
 void ElcmTest::UpdateStatusLine (iDynamicObject* dynobj)
@@ -600,7 +608,7 @@ void ElcmTest::UpdateStatusLine (iDynamicObject* dynobj)
       if (idx != csArrayItemNotFound)
       {
 	long counter = pcprop->GetPropertyLong (idx);
-        statusLine.Format ("%s counter=%d", desc->GetData (), counter);
+        statusLine.Format ("%s counter=%ld", desc->GetData (), counter);
 	return;
       }
     }
@@ -776,6 +784,8 @@ bool ElcmTest::Application ()
   elcm->SetUnloadCheckFrequency (30);
 
   colorWhite = g3d->GetDriver2D ()->FindRGB (255, 255, 255);
+  colorBlack = g3d->GetDriver2D ()->FindRGB (0, 0, 0);
+  colorRed = g3d->GetDriver2D ()->FindRGB (255, 0, 0);
   font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_COURIER);
 
   msgInventory = pl->FetchStringID ("elcm.inventory");
