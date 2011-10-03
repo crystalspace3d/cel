@@ -301,14 +301,11 @@ bool ElcmTest::CreatePlayer ()
   playerEntity = pl->CreateEntity ("player", 0, 0,
     "pcinput.standard",
     "pctools.inventory",
-    "pcmove.analogmotion",
-    "pcmove.jump",
-    "pcmove.grab",
     "pccamera.delegate",
     "pccamera.mode.tracking",
     "pcobject.mesh",
     "pcmove.linear",
-    "pcmove.actor.wasd",
+    "pcmove.actor.standard",
     CEL_PROPCLASS_END);
   if (!playerEntity)
     return ReportError ("Error creating player entity!");
@@ -324,13 +321,11 @@ bool ElcmTest::CreatePlayer ()
   // Get the iPcMesh interface so we can load the right mesh
   // for our player.
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
-  pcmesh->SetPath ("/lib/frankie");
-  pcmesh->SetMesh ("franky_frankie", "frankie.xml");
+  pcmesh->SetPath ("/lib/krystal");
+  pcmesh->SetMesh ("krystal", "krystal.xml");
+  //pcmesh->SetPath ("/lib/frankie");
+  //pcmesh->SetMesh ("franky_frankie", "frankie.xml");
   pcmesh->MoveMesh (sector, csVector3 (0, 3, 0));
-
-  csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (playerEntity);
-  jump->SetBoostJump (false);
-  jump->SetJumpHeight (1.0f);
 
   // Get iPcLinearMovement so we can setup the movement system.
   csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (playerEntity);
@@ -338,23 +333,28 @@ bool ElcmTest::CreatePlayer ()
   pclinmove->InitCD (
       csVector3 (0.5f,  0.4f, 0.5f),
       csVector3 (0.5f,  0.2f, 0.5f),
-      csVector3 (0.0f, -0.0f, 0.0f));
+      csVector3 (0.0f,  0.0f, 0.0f));
 
   // Get the iPcActorMove interface so that we can set movement speed.
-  //csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (playerEntity);
-  //pcactormove->SetMovementSpeed (3.0f);
-  //pcactormove->SetRunningSpeed (5.0f);
-  //pcactormove->SetRotationSpeed (1.75f);
+  csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (playerEntity);
+  pcactormove->SetMovementSpeed (5.0f);
+  pcactormove->SetRunningSpeed (8.0f);
+  pcactormove->SetRotationSpeed (2.0f);
+  pcactormove->SubscribeMessages ();
+
+  //csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (playerEntity);
+  //jump->SetBoostJump (false);
+  //jump->SetJumpHeight (1.0f);
 
   csRef<iPcCommandInput> pcinput = celQueryPropertyClassEntity<iPcCommandInput> (playerEntity);
-  pcinput->Bind ("left", "left");
-  pcinput->Bind ("right", "right");
-  pcinput->Bind ("up", "up");
-  pcinput->Bind ("down", "down");
-  pcinput->Bind ("a", "left");
-  pcinput->Bind ("d", "right");
-  pcinput->Bind ("w", "up");
-  pcinput->Bind ("s", "down");
+  pcinput->Bind ("left", "rotateleft");
+  pcinput->Bind ("right", "rotateright");
+  pcinput->Bind ("up", "forward");
+  pcinput->Bind ("down", "backward");
+  pcinput->Bind ("a", "rotateleft");
+  pcinput->Bind ("d", "rotateright");
+  pcinput->Bind ("w", "forward");
+  pcinput->Bind ("s", "backward");
   pcinput->Bind ("space", "jump");
   pcinput->Bind ("[", "camleft");
   pcinput->Bind ("]", "camright");

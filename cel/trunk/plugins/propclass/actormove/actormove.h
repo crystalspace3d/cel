@@ -93,6 +93,7 @@ private:
   bool running;
   bool autorun;
   bool jumping;
+  bool subscribed;
 
   // For mouse move.
   csRef<iVirtualClock> vc;
@@ -120,6 +121,17 @@ private:
   static csStringID id_animationid;
   static csStringID id_animationname;
 
+  static csStringID id_input_forward1;
+  static csStringID id_input_forward0;
+  static csStringID id_input_backward1;
+  static csStringID id_input_backward0;
+  static csStringID id_input_rotateleft1;
+  static csStringID id_input_rotateleft0;
+  static csStringID id_input_rotateright1;
+  static csStringID id_input_rotateright0;
+  static csStringID id_input_jump1;
+  static csStringID id_input_cammode1;
+
   csVector3 FindVelocity();
   void HandleMovement (bool jump);
   void FindSiblingPropertyClasses ();
@@ -143,7 +155,8 @@ private:
     action_jump,
     action_togglecameramode,
     action_setanimation,
-    action_setanimationname
+    action_setanimationname,
+    action_subscribe
   };
 
   // For properties.
@@ -219,6 +232,8 @@ public:
 
   virtual void SetAnimationMapping (celAnimationName idx, const char *name);
 
+  virtual void SubscribeMessages ();
+
   csPtr<iCelDataBuffer> Save ();
   bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
@@ -230,10 +245,14 @@ public:
   virtual bool SetPropertyIndexed (int, bool);
   virtual bool GetPropertyIndexed (int, bool&);
 
-  csPtr<iCelDataBuffer> GetPersistentData (
+  virtual csPtr<iCelDataBuffer> GetPersistentData (
   	celPersistenceType persistence_type);
-  celPersistenceResult SetPersistentData (csTicks data_time,
+  virtual celPersistenceResult SetPersistentData (csTicks data_time,
   	iCelDataBuffer* data, celPersistenceType persistence_type);
+
+  // For iMessageReceiver.
+  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
+      celData& ret, iCelParameterBlock* params);
 };
 
 #endif // __CEL_PF_ACTORMOVEFACT__
