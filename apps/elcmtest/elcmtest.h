@@ -57,6 +57,8 @@ private:
   csString statusLine;
   csRef<iFont> font;
   int colorWhite;
+  int colorBlack;
+  int colorRed;
 
   /// Physics.
   csRef<iDynamics> dyn;
