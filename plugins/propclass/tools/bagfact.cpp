@@ -98,21 +98,6 @@ celPcBag::~celPcBag ()
 {
 }
 
-#define BAG_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcBag::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BAG_SERIAL);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcBag::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != BAG_SERIAL) return false;
-  return true;
-}
-
 bool celPcBag::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)

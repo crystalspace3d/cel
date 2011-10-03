@@ -580,7 +580,7 @@ void celQuest::DeactivateState (size_t stateidx, bool exec_onexit)
       st->GetOnexitReward (j)->Reward (0);
 }
 
-bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
+bool celQuest::SwitchState (const char* state)
 {
   // @@@ This code could be slow with really complex
   // quests that have lots of states. In practice most quests
@@ -603,19 +603,8 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
       {
 	csRef<celQuestStateResponse> r = st->GetResponse (j);
 	iTrigger* trigger = r->GetTrigger ();
-	if (databuf)
-	{
-	  if (!trigger->LoadAndActivateTrigger (databuf))
-		return false;	// @@@ Report?
-	  if (trigger->Check ())
-		return true;
-	}
-	else
-	{
-	  trigger->ActivateTrigger ();
-	  if (trigger->Check ())
-		return true;
-	}
+	trigger->ActivateTrigger ();
+	if (trigger->Check ()) return true;
       }
       if (!samestate)
         for (j = 0 ; j < st->GetOninitRewardCount () ; j++)
@@ -624,64 +613,6 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
     }
   }
   return false;
-}
-
-bool celQuest::SwitchState (const char* state)
-{
-  return SwitchState (state, 0);
-}
-
-bool celQuest::LoadState (const char* state, iCelDataBuffer* databuf)
-{
-  bool rc = SwitchState (state, databuf);
-  if (!rc) return false;
-
-  iString* seqname = databuf->GetString ();
-  while (!seqname->IsEmpty ())
-  {
-    iCelSequence* seq = FindCelSequence (seqname->GetData ());
-    if (!seq)
-    {
-      //@@@
-      //csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-      //  "cel.questmanager.load",
-      //  "Error finding sequence '%s'!", seqname->GetData ());
-      printf("cel.questmanager.load: Error finding sequence '%s' !", 
-          seqname->GetData ());
-      return false;
-    }
-    else
-    {
-      if (!seq->LoadState (databuf))
-        return false;
-    }
-
-    seqname = databuf->GetString ();
-  }
-
-  return true;
-}
-
-void celQuest::SaveState (iCelDataBuffer* databuf)
-{
-  size_t i;
-  if (current_state != csArrayItemNotFound)
-  {
-    celQuestState* st = states[current_state];
-    for (i = 0 ; i < st->GetResponseCount () ; i++)
-    {	
-      csRef<celQuestStateResponse> r = st->GetResponse (i);
-      r->GetTrigger ()->SaveTriggerState (databuf);
-    }
-  }
-
-  for (i = 0 ; i < sequences.GetSize () ; i++)
-    if (sequences[i]->IsRunning ())
-    {
-      databuf->Add (sequences[i]->GetName ());
-      sequences[i]->SaveState (databuf);
-    }
-  databuf->Add ((const char*)0);
 }
 
 const char* celQuest::GetCurrentState () const

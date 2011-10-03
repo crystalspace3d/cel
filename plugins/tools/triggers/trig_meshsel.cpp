@@ -166,16 +166,6 @@ void celMeshSelectTrigger::DeactivateTrigger ()
   meshselect->RemoveMeshSelectListener ((iPcMeshSelectListener*)this);
 }
 
-bool celMeshSelectTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
-{
-  ActivateTrigger ();
-  return true;
-}
-
-void celMeshSelectTrigger::SaveTriggerState (iCelDataBuffer*)
-{
-}
-
 void celMeshSelectTrigger::MouseDown (iPcMeshSelect*,
   	int, int, int, iCelEntity* ent)
 {

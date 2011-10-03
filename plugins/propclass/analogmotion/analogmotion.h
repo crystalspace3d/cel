@@ -52,8 +52,6 @@ public:
   celPcAnalogMotion (iObjectRegistry* object_reg);
   virtual ~celPcAnalogMotion ();
 
-  csPtr<iCelDataBuffer> Save ();
-  bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
 

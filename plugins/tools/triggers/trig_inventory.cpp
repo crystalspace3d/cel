@@ -195,16 +195,6 @@ void celInventoryTrigger::DeactivateTrigger ()
   inventory->RemoveInventoryListener ((iPcInventoryListener*)this);
 }
 
-bool celInventoryTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
-{
-  ActivateTrigger ();
-  return true;
-}
-
-void celInventoryTrigger::SaveTriggerState (iCelDataBuffer*)
-{
-}
-
 void celInventoryTrigger::AddChild (iPcInventory* inventory, iCelEntity* entity)
 {
   if (!child_entity)

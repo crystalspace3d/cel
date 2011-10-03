@@ -64,41 +64,6 @@ celPcTooltip::~celPcTooltip ()
 {
 }
 
-#define TOOLTIP_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcTooltip::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TOOLTIP_SERIAL);
-  databuf->Add (visible);
-  databuf->Add ((uint16)x);
-  databuf->Add ((uint16)y);
-  databuf->Add ((uint8)text_r);
-  databuf->Add ((uint8)text_g);
-  databuf->Add ((uint8)text_b);
-  databuf->Add ((int16)bg_r);	// Room for negative.
-  databuf->Add ((int16)bg_g);
-  databuf->Add ((int16)bg_b);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-
-bool celPcTooltip::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != TOOLTIP_SERIAL) return false;
-  visible = databuf->GetBool ();
-  x = databuf->GetUInt16 ();
-  y = databuf->GetUInt16 ();
-  text_r = databuf->GetUInt8 ();
-  text_g = databuf->GetUInt8 ();
-  text_b = databuf->GetUInt8 ();
-  bg_r = databuf->GetInt16 ();
-  bg_g = databuf->GetInt16 ();
-  bg_b = databuf->GetInt16 ();
-
-  return true;
-}
-
 void celPcTooltip::SetText (const char* t)
 {
   lines.DeleteAll ();

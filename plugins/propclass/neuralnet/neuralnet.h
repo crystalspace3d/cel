@@ -196,8 +196,6 @@ public:
 
   //--------------------------------------------------------- celPcCommon --//
   virtual bool PerformActionIndexed(int index, iCelParameterBlock *params, celData &ret);
-  virtual bool Load(iCelDataBuffer *) { return true; }
-  virtual csPtr<iCelDataBuffer> Save() { return pl->CreateDataBuffer(0); }
 
   //-------------------------------------------------------- iPcNeuralNet --//
   virtual void SetSize(size_t ins, size_t outs, size_t lays)

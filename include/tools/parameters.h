@@ -30,7 +30,6 @@
 #include "physicallayer/pl.h"
 #include "iutil/string.h"
 
-struct iCelDataBuffer;
 struct iCelParameterBlock;
 
 //---------------------------------------------------------------------------

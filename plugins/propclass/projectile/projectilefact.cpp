@@ -104,23 +104,6 @@ bool celPcProjectile::GetPropertyIndexed (int idx, bool& b)
   return false;
 }
 
-#define PROJECTILE_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcProjectile::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (PROJECTILE_SERIAL);
-  // @@@
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcProjectile::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != PROJECTILE_SERIAL) return false;
-  // @@@
-  return true;
-}
-
 void celPcProjectile::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())

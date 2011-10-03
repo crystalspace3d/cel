@@ -317,15 +317,5 @@ void celPropertyChangeTrigger::DeactivateTrigger ()
   properties->RemovePropertyListener ((iPcPropertyListener*)this);
 }
 
-bool celPropertyChangeTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
-{
-  ActivateTrigger ();
-  return true;
-}
-
-void celPropertyChangeTrigger::SaveTriggerState (iCelDataBuffer*)
-{
-}
-
 //---------------------------------------------------------------------------
 

@@ -121,11 +121,6 @@ public:
   virtual ~celPropertySeqOp ();
   virtual void Init (iCelParameterBlock* params);
   virtual void Do (float time, iCelParameterBlock* params);
-  // We don't need to save or load anything as the sequence is totally
-  // determined by the constructor and time passed (no internal data
-  // structures to take care of).
-  virtual bool Load (iCelDataBuffer* databuf) { return true; };
-  virtual void Save (iCelDataBuffer* databuf) {};
   // virtual functions to get and set the value in type dependent way.
   // must be implemented by all specializations.
   virtual void SetCurrentValue(float time) = 0;

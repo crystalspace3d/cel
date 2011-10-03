@@ -57,16 +57,11 @@ INTERFACE_POST(iPcPython)
 %feature("nodirector") pyPcCommon::QueryObject;
 %feature("nodirector") pyPcCommon::SetProperty;
 %feature("nodirector") pyPcCommon::GetInterfaceMetadata;
-%feature("nodirector") pyPcCommon::Save;
-%feature("nodirector") pyPcCommon::Load;
-%feature("nodirector") pyPcCommon::GetPersistentData;
-%feature("nodirector") pyPcCommon::SaveFirstPass;
 %feature("nodirector") pyPcCommon::SetName;
 %feature("nodirector") pyPcCommon::GetName;
 %feature("nodirector") pyPcCommon::SetTag;
 %feature("nodirector") pyPcCommon::GetTag;
 %feature("nodirector") pyPcCommon::GetEntity;
-%feature("nodirector") pyPcCommon::LoadFirstPass;
 %feature("nodirector") pyPcCommon::AddPropertyChangeCallback;
 %feature("nodirector") pyPcCommon::PropertyClassesHaveChanged;
 %feature("nodirector") pyPcCommon::RemovePropertyChangeCallback;

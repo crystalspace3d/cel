@@ -177,29 +177,6 @@ void celTransformSeqOp::FindMesh (iCelParameterBlock* params)
   }
 }
 
-bool celTransformSeqOp::Load (iCelDataBuffer* databuf)
-{
-  mesh = 0;
-  databuf->GetVector3 (start);
-  csVector3 row1, row2, row3;
-  databuf->GetVector3 (row1);
-  databuf->GetVector3 (row2);
-  databuf->GetVector3 (row3);
-  start_matrix.Set (
-  	row1.x, row1.y, row1.z,
-  	row2.x, row2.y, row2.z,
-  	row3.x, row3.y, row3.z);
-  return true;
-}
-
-void celTransformSeqOp::Save (iCelDataBuffer* databuf)
-{
-  databuf->Add (start);
-  databuf->Add (start_matrix.Row1 ());
-  databuf->Add (start_matrix.Row2 ());
-  databuf->Add (start_matrix.Row3 ());
-}
-
 void celTransformSeqOp::Init (iCelParameterBlock* params)
 {
   mesh = 0;

@@ -33,7 +33,6 @@
 
 struct iDocumentNode;
 struct iChangePropertyRewardFactory;
-struct iCelDataBuffer;
 struct iCelParameterBlock;
 
 class celQuestManager;
@@ -61,19 +60,6 @@ struct iQuest : public virtual iBase
    * Get current state name of this quest.
    */
   virtual const char* GetCurrentState () const = 0;
-
-  /**
-   * This is a special version of SwitchState() that needs to be used
-   * in case you are loading a quest from a CEL databuffer (persistence).
-   * \return false on failure (data in buffer doesn't match what we want).
-   */
-  virtual bool LoadState (const char* state, iCelDataBuffer* databuf) = 0;
-
-  /**
-   * Save the state to the persistence layer. To restore later use
-   * LoadState().
-   */
-  virtual void SaveState (iCelDataBuffer* databuf) = 0;
 
   /**
    * Find a sequence.

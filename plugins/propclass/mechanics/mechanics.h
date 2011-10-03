@@ -158,8 +158,6 @@ public:
   virtual void EnableStepFast ();
   virtual void EnableQuickStep ();
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
@@ -460,8 +458,6 @@ public:
   void Collision (iRigidBody *thisbody, iRigidBody *otherbody,
 	const csVector3& pos, const csVector3& normal, float depth);
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual bool SetPropertyIndexed (int, bool v);
@@ -534,8 +530,6 @@ public:
 
   virtual iJoint* GetJoint () { return joint; }
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 };

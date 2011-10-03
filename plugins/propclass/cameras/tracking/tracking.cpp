@@ -158,21 +158,6 @@ bool celPcTrackingCamera::GetPropertyIndexed (int idx, float &f)
   return false;
 }
 
-#define TEST_SERIAL 0
-
-csPtr<iCelDataBuffer> celPcTrackingCamera::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TEST_SERIAL);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcTrackingCamera::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != TEST_SERIAL) return false;
-  return true;
-}
-
 bool celPcTrackingCamera::PerformActionIndexed (int idx,
   iCelParameterBlock* params,
   celData& ret)

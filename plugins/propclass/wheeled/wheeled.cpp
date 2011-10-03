@@ -286,18 +286,6 @@ celPcWheeled::~celPcWheeled ()
 }
 
 
-#define TEST_SERIAL 2
-
-csPtr<iCelDataBuffer> celPcWheeled::Save ()
-{
-  return 0;
-}
-
-bool celPcWheeled::Load (iCelDataBuffer* databuf)
-{
-  return true;
-}
-
 bool celPcWheeled::GetPropertyIndexed (int idx, long& l)
 {
   if (idx == propid_gear)

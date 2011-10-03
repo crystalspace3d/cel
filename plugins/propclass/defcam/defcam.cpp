@@ -1402,38 +1402,4 @@ iPcDefaultCamera::CameraMode celPcDefaultCamera::GetNextMode () const
   }
 }
 
-#define DEFAULT_CAMERA_SERIAL 3
-
-csPtr<iCelDataBuffer> celPcDefaultCamera::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DEFAULT_CAMERA_SERIAL);
-  SaveCommon (databuf);
-
-  databuf->Add ((uint8)cammode);
-  databuf->Add (use_cd);
-
-  // @@@ TODO: save cammode specific parameters.
-
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcDefaultCamera::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != DEFAULT_CAMERA_SERIAL)
-  {
-    Report (object_reg, "serialnr != DEFAULT_CAMERA_SERIAL.  Cannot load.");
-    return false;
-  }
-
-  if (!LoadCommon (databuf)) return false;
-
-  iPcDefaultCamera::CameraMode mode = (iPcDefaultCamera::CameraMode)databuf
-  	->GetUInt8 ();
-  bool cd = databuf->GetBool ();
-  SetMode (mode, cd);
-
-  return true;
-}
-
 //---------------------------------------------------------------------------

@@ -177,18 +177,6 @@ void celLightSeqOp::FindLight (iCelParameterBlock* params)
   }
 }
 
-bool celLightSeqOp::Load (iCelDataBuffer* databuf)
-{
-  light = 0;
-  databuf->GetColor (start);
-  return true;
-}
-
-void celLightSeqOp::Save (iCelDataBuffer* databuf)
-{
-  databuf->Add (start);
-}
-
 void celLightSeqOp::Init (iCelParameterBlock* params)
 {
   light = 0;

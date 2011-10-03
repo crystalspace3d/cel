@@ -107,18 +107,6 @@ if (deformcontrol)
   delete deformcontrol;
 }
 
-#define TEST_SERIAL 2
-
-csPtr<iCelDataBuffer> celPcMeshDeform::Save ()
-{
- return 0;
-}
-
-bool celPcMeshDeform::Load (iCelDataBuffer* databuf)
-{
- return false;
-}
-
 bool celPcMeshDeform::GetPropertyIndexed (int idx, float& f)
 {
   if (idx == propid_noise)

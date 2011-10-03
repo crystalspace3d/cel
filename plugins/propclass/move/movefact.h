@@ -74,9 +74,6 @@ public:
   virtual void AddConstraint (iPcMovableConstraint* constraint);
   virtual void RemoveConstraint (iPcMovableConstraint* constraint);
   virtual void RemoveAllConstraints ();
-
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
 };
 
 /**
@@ -107,8 +104,6 @@ public:
   virtual iPcMesh* GetMesh () const { return pcmesh; }
   virtual iCollider* GetCollider ();
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
   	celData& ret);
 
@@ -136,9 +131,6 @@ public:
   virtual ~celPcMovableConstraintCD ();
   virtual int CheckMove (iSector* sector, const csVector3& start,
   	const csVector3& end, csVector3& pos);
-
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
 };
 
 /**
@@ -225,8 +217,6 @@ public:
   virtual void ApplyForce (const csVector3& force, float time);
   virtual void ApplyPermanentForce (const csVector3& force);
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickEveryFrame ();

@@ -115,8 +115,6 @@ public:
 	const char* abs_blue_par);
   virtual ~celLightSeqOp ();
 
-  virtual bool Load (iCelDataBuffer* databuf);
-  virtual void Save (iCelDataBuffer* databuf);
   virtual void Init (iCelParameterBlock* params);
   virtual void Do (float time, iCelParameterBlock* params);
 };

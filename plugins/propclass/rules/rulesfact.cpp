@@ -104,24 +104,6 @@ celPcRules::~celPcRules ()
   delete params;
 }
 
-#define RULES_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcRules::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (RULES_SERIAL);
-  // @@@ TODO
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcRules::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != RULES_SERIAL)
-    return Report (object_reg, "Couldn't load pcrules!");
-  // @@@ TODO
-  return true;
-}
-
 bool celPcRules::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)

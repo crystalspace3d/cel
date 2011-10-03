@@ -158,8 +158,6 @@ public:
   void FireInventoryListenersRemove (iCelEntity* entity);
   void FireInventoryListenersRemove (iCelEntityTemplate* tpl, int amount);
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
@@ -234,8 +232,6 @@ public:
   virtual bool TestConstraints (const char* charName);
   virtual void Dump ();
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 

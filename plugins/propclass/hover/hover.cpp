@@ -113,18 +113,6 @@ celPcHover::~celPcHover ()
 {
 }
 
-csPtr<iCelDataBuffer> celPcHover::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (1);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcHover::Load (iCelDataBuffer* databuf)
-{
-  csRef<iPcMechanicsObject> ship_mech = celQueryPropertyClassEntity<iPcMechanicsObject> (GetEntity());
-  return true;
-}
-
 bool celPcHover::PerformActionIndexed (int idx, iCelParameterBlock* params,
     celData& ret)
 {

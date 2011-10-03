@@ -1571,7 +1571,7 @@ csPtr<iCelDataBuffer> celPcLinearMovement::GetPersistentData (
 	celPersistenceType persistence_type)
 {
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
-    return SaveFirstPass ();
+    return 0;
 
   if (persistence_type == CEL_PERSIST_TYPE_RECORD)
     return Save ();
@@ -1607,7 +1607,6 @@ celPersistenceResult celPcLinearMovement::SetPersistentData (csTicks data_time,
 
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
   {
-    LoadFirstPass (databuf);
     return CEL_PERSIST_RESULT_OK;
   }
 

@@ -181,8 +181,6 @@ public:
   void RemovePropertyListener (iPcPropertyListener* listener);
   void FirePropertyListeners (size_t idx);
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
   	celData& ret);
 

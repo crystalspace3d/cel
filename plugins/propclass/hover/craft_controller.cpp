@@ -228,17 +228,6 @@ bool celPcCraftController::PerformActionIndexed (int idx,
   }
 }
 
-csPtr<iCelDataBuffer> celPcCraftController::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (1);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcCraftController::Load (iCelDataBuffer* databuf)
-{
-  return true;
-}
-
 void celPcCraftController::Tick ()
 {
   UpdateBody ();

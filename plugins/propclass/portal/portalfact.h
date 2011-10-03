@@ -84,8 +84,6 @@ public:
   virtual void OpenPortal ();
   virtual bool IsPortalClosed () const { return closed; }
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
   virtual bool SetPropertyIndexed (int, const char*);

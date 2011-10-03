@@ -142,34 +142,6 @@ bool celPcTimer::PerformActionIndexed (int idx,
   }
 }
 
-#define TIMER_SERIAL 3
-
-csPtr<iCelDataBuffer> celPcTimer::Save ()
-{
-  //@@@ BROKEN!
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TIMER_SERIAL);
-  databuf->Add (enabled);
-  //databuf->Add ((int32)wakeup);
-  //databuf->Add (repeat);
-  databuf->Add (wakeupframe);
-  //databuf->Add (wakeuponce);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcTimer::Load (iCelDataBuffer* databuf)
-{
-  //@@@ BROKEN!
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != TIMER_SERIAL) return false;
-  enabled = databuf->GetBool ();
-  //wakeup = databuf->GetInt32 ();
-  //repeat = databuf->GetBool ();
-  wakeupframe = databuf->GetBool ();
-  //wakeuponce = databuf->GetBool ();
-
-  return true;
-}
-
 void celPcTimer::Clear (const char* name)
 {
   if (name == 0)

@@ -168,36 +168,6 @@ bool celPcPortal::GetPropertyIndexed (int idx, bool& b)
   return false;
 }
 
-#define PORTAL_SERIAL 2
-
-csPtr<iCelDataBuffer> celPcPortal::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (PORTAL_SERIAL);
-  databuf->Add ((const char*)meshname);
-  databuf->Add ((const char*)portalname);
-  databuf->Add (closed);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcPortal::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != PORTAL_SERIAL)
-  {
-    Report (object_reg, "Serialnr != PORTAL_SERIAL.  Cannot load.");
-    return false;
-  }
-
-  portal = 0;
-  meshname = databuf->GetString ()->GetData ();
-  portalname = databuf->GetString ()->GetData ();
-  closed = databuf->GetBool ();
-
-  ResolvePortal ();
-
-  return true;
-}
-
 void celPcPortal::ResolvePortal ()
 {
   if (!portal)

@@ -166,64 +166,6 @@ void celSequence::Deactivate ()
   pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 }
 
-void celSequence::SaveState (iCelDataBuffer* databuf)
-{
-  databuf->Add ((uint32)(vc->GetCurrentTicks ()-start_time));
-
-  // Save all operations that are still in progress.
-  databuf->Add ((uint16)ops_in_progress.GetSize ());
-  size_t i;
-  for (i = 0 ; i < ops_in_progress.GetSize () ; i++)
-  {
-    databuf->Add ((uint32)ops_in_progress[i].idx);
-    ops_in_progress[i].seqop->Save (databuf);
-  }
-}
-
-bool celSequence::LoadState (iCelDataBuffer* databuf)
-{
-  // First start the sequence.
-  // @@@
-  // Params need to be saved and loaded for correct operation
-  iCelParameterBlock* params = 0;
-  Start (0, params);
-
-  csTicks current_time = vc->GetCurrentTicks ();
-  start_time = current_time - databuf->GetUInt32 ();
-  //csTicks rel = current_time - start_time;
-
-  // When loading state it is important to realize that we assume
-  // that the objects on which this sequence operates will load
-  // their own state on their own. So we don't have to actually
-  // perform the already performed operations again here. We just
-  // have to setup the right datastructures so that we can resume
-  // de sequence where we left off.
-
-  uint16 cnt_op = databuf->GetUInt16 ();
-  size_t i;
-  idx = 0;
-  for (i = 0 ; i < cnt_op ; i++)
-  {
-    uint32 id = databuf->GetUInt32 ();
-    if (id > idx) idx = id;
-    if (!seqops[id].seqop->Load (databuf))
-      return false;
-    ops_in_progress.Push (seqops[id]);
-  }
-#if 0
-  // Find all operations that have to be performed.
-  idx = 0;
-  while (idx < seqops.GetSize () && rel >= seqops[idx].start)
-  {
-    if (rel < seqops[idx].end)
-      ops_in_progress.Push (seqops[idx]);
-    idx++;
-  }
-#endif
-
-  return true;
-}
-
 void celSequence::AddSequenceCallback (iCelSequenceCallback* cb)
 {
   callbacks.Push (cb);

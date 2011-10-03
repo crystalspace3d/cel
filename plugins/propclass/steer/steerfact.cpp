@@ -175,21 +175,6 @@ celPcSteer::~celPcSteer ()
   delete params;
 }
 
-#define STEER_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcSteer::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (STEER_SERIAL);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcSteer::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != STEER_SERIAL) return false;
-  return true;
-}
-
 void celPcSteer::SendMessage (const char* msgold, const char* msg,
     csRef<iMessageDispatcher>& dispatcher, const char* meshname)
 {

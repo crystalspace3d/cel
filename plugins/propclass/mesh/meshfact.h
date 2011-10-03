@@ -221,8 +221,6 @@ public:
    */
   virtual bool IsVisible () const { return visible; }
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
   	celData& ret);
   virtual bool GetPropertyIndexed (int, csVector3&);
@@ -479,8 +477,6 @@ public:
   void FireListenersUp (int x, int y, int button, iCelEntity* entity);
   void FireListenersMove (int x, int y, int button, iCelEntity* entity);
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx, iCelParameterBlock* params,
   	celData& ret);
 

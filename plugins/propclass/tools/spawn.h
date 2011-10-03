@@ -173,8 +173,6 @@ public:
   virtual void EnableSpawnUnique (bool en) { do_spawn_unique = en; }
   virtual bool IsSpawnUniqueEnabled () const { return do_spawn_unique; }
 
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();

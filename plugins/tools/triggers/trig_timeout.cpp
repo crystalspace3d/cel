@@ -161,18 +161,5 @@ void celTimeoutTrigger::TickOnce ()
   if (callback) callback->TriggerFired ((iTrigger*)this, 0);
 }
 
-bool celTimeoutTrigger::LoadAndActivateTrigger (iCelDataBuffer* databuf)
-{
-  uint32 tl = databuf->GetUInt32 ();
-  type->pl->RemoveCallbackOnce (this, CEL_EVENT_PRE);
-  type->pl->CallbackOnce (this, tl, CEL_EVENT_PRE);
-  return true;
-}
-
-void celTimeoutTrigger::SaveTriggerState (iCelDataBuffer* databuf)
-{
-  databuf->Add (type->pl->GetTicksLeft (this, CEL_EVENT_PRE));
-}
-
 //---------------------------------------------------------------------------
 

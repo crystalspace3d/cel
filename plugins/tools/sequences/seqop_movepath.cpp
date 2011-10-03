@@ -220,16 +220,6 @@ void celMovePathSeqOp::FindMesh (iCelParameterBlock* params)
   }
 }
 
-bool celMovePathSeqOp::Load (iCelDataBuffer* databuf)
-{
-  mesh = 0;
-  return true;
-}
-
-void celMovePathSeqOp::Save (iCelDataBuffer* databuf)
-{
-}
-
 void celMovePathSeqOp::Init (iCelParameterBlock* params)
 {
   mesh = 0;

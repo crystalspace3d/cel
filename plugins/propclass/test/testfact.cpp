@@ -89,27 +89,6 @@ bool celPcTest::GetPropertyIndexed (int idx, long& l)
   return false;
 }
 
-#define TEST_SERIAL 2
-
-csPtr<iCelDataBuffer> celPcTest::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TEST_SERIAL);
-  databuf->Add (int32 (counter));
-  databuf->Add (int32 (max));
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-bool celPcTest::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != TEST_SERIAL) return false;
-
-  counter = databuf->GetInt32 ();
-  max = databuf->GetInt32 ();
-
-  return true;
-}
-
 bool celPcTest::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)

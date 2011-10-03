@@ -75,22 +75,6 @@ void celPcNpcMove::TickOnce ()
   //  skel->Execute ("stand");
 }
 
-#define NPCMOVE_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcNpcMove::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (NPCMOVE_SERIAL);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-
-bool celPcNpcMove::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != NPCMOVE_SERIAL) return false;
-  return true;
-}
-
 void celPcNpcMove::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())

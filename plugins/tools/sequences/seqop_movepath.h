@@ -106,8 +106,6 @@ public:
 	const csStringArray& times);
   virtual ~celMovePathSeqOp ();
 
-  virtual bool Load (iCelDataBuffer* databuf);
-  virtual void Save (iCelDataBuffer* databuf);
   virtual void Init (iCelParameterBlock* params);
   virtual void Do (float time, iCelParameterBlock* params);
 };

@@ -88,18 +88,6 @@ struct iTrigger : public virtual iBase
   virtual bool Check () = 0;
 
   /**
-   * Activate the trigger and load state from databuf (persistence).
-   * \return false on failure (data in buffer doesn't match what we
-   * expect).
-   */
-  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf) = 0;
-
-  /**
-   * Save trigger state.
-   */
-  virtual void SaveTriggerState (iCelDataBuffer* databuf) = 0;
-
-  /**
    * Activate this trigger. This means it will process events again.
    * Note that this is not equivalent to ActivateTrigger() since the
    * this function will actually activate the trigger to the same state
