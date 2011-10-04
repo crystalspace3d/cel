@@ -91,6 +91,7 @@ bool celUIInventory2::Initialize (iObjectRegistry* object_reg)
     printf ("Error locating cegui!\n"); fflush (stdout);
     return false;
   }
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
 
   return true;
 }
@@ -121,24 +122,28 @@ void celUIInventory2::Setup ()
     CEGUI::Event::Subscriber(&celUIInventory2::SelectRight, this));
 }
 
-void celUIInventory2::FillList (CEGUI::Listbox* list, iPcInventory* inventory,
-    csStringArray& names)
+void celUIInventory2::FillList (CEGUI::Listbox* list, iPcInventory* inventory)
 {
   list->resetList();
-  names.Empty ();
 
   for (size_t i = 0 ; i < inventory->GetEntityCount () ; i++)
   {
     iCelEntity* ent = inventory->GetEntity (i);
     csString n;
-    if (!ent->GetName ()) n = "noname";
+    if (!ent->GetName ())
+    {
+      csStringID tmpID = ent->GetTemplateNameID ();
+      if (tmpID != csInvalidStringID)
+        n = pl->FetchString (tmpID);
+      else
+        n = "?";
+    }
     else n = ent->GetName ();
     CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem (n.GetData ());
     item->setTextColours(CEGUI::colour(0,0,0));
     item->setSelectionBrushImage("ice", "TextSelectionBrush");
     item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
     list->addItem(item);
-    names.Push (n);
   }
 
   for (size_t i = 0 ; i < inventory->GetEntityTemplateCount () ; i++)
@@ -153,7 +158,6 @@ void celUIInventory2::FillList (CEGUI::Listbox* list, iPcInventory* inventory,
     item->setSelectionBrushImage("ice", "TextSelectionBrush");
     item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
     list->addItem(item);
-    names.Push (ent->GetName ());
   }
 }
 
@@ -169,8 +173,8 @@ void celUIInventory2::UpdateLists ()
   CEGUI::Listbox* listLeft = (CEGUI::Listbox*)winMgr->getWindow("UIInventory2/LeftInventoryList");
   CEGUI::Listbox* listRight = (CEGUI::Listbox*)winMgr->getWindow("UIInventory2/RightInventoryList");
 
-  FillList (listLeft, inventoryLeft, leftListNames);
-  FillList (listRight, inventoryRight, rightListNames);
+  FillList (listLeft, inventoryLeft);
+  FillList (listRight, inventoryRight);
 }
 
 bool celUIInventory2::OkButton (const CEGUI::EventArgs& e)
@@ -197,8 +201,7 @@ bool celUIInventory2::CancelButton (const CEGUI::EventArgs& e)
   return true;
 }
 
-bool celUIInventory2::Select (CEGUI::Listbox* list, iPcInventory* inventory,
-    const csStringArray& names, bool left)
+bool celUIInventory2::Select (CEGUI::Listbox* list, iPcInventory* inventory, bool left)
 {
   CEGUI::ListboxItem* item = list->getFirstSelectedItem();
   if (!item) return true;
@@ -207,21 +210,13 @@ bool celUIInventory2::Select (CEGUI::Listbox* list, iPcInventory* inventory,
   if (text.empty()) return true;
 
   size_t itemIdx = list->getItemIndex(item);
-  csString n = names[itemIdx];
-  printf ("Selected '%s'\n", n.GetData ());
-
-  size_t idx = inventory->FindEntity (n);
-  if (idx != csArrayItemNotFound)
+  if (itemIdx < inventory->GetEntityCount ())
   {
-    FireSelectionListeners (inventory->GetEntity (idx), left);
+    FireSelectionListeners (inventory->GetEntity (itemIdx), left);
     return true;
   }
-  idx = inventory->FindEntityTemplate (n);
-  if (idx != csArrayItemNotFound)
-  {
-    FireSelectionListeners (inventory->GetEntityTemplate (idx), left);
-    return true;
-  }
+  itemIdx -= inventory->GetEntityCount ();
+  FireSelectionListeners (inventory->GetEntityTemplate (itemIdx), left);
 
   return true;
 }
@@ -231,7 +226,7 @@ bool celUIInventory2::SelectLeft (const CEGUI::EventArgs& e)
   CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
 
   CEGUI::Listbox* list = (CEGUI::Listbox*) winMgr->getWindow("UIInventory2/LeftInventoryList");
-  return Select (list, inventoryLeft, leftListNames, true);
+  return Select (list, inventoryLeft, true);
 }
 
 bool celUIInventory2::SelectRight (const CEGUI::EventArgs& e)
@@ -239,7 +234,7 @@ bool celUIInventory2::SelectRight (const CEGUI::EventArgs& e)
   CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
 
   CEGUI::Listbox* list = (CEGUI::Listbox*) winMgr->getWindow("UIInventory2/RightInventoryList");
-  return Select (list, inventoryRight, rightListNames, false);
+  return Select (list, inventoryRight, false);
 }
 
 void celUIInventory2::AddSelectionListener (iUIInventory2SelectionCallback* cb)

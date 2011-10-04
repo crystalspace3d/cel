@@ -24,6 +24,7 @@
 #include "csutil/util.h"
 #include "ivaria/icegui.h"
 
+#include "physicallayer/pl.h"
 #include "propclass/inv.h"
 #include "tools/uitools/inventory2.h"
 
@@ -36,12 +37,10 @@ class celUIInventory2 : public scfImplementation2<celUIInventory2,
 private:
   iObjectRegistry* object_reg;
   csRef<iCEGUI> cegui;
+  csRef<iCelPlLayer> pl;
   csRef<iPcInventory> inventoryLeft;
   csRef<iPcInventory> inventoryRight;
   csRef<InvListener> listener;
-
-  csStringArray leftListNames;
-  csStringArray rightListNames;
 
   CEGUI::Window* window;
 
@@ -50,13 +49,11 @@ private:
   void FireSelectionListeners (iCelEntity* entity, bool left);
   void FireSelectionListeners (iCelEntityTemplate* tpl, bool left);
 
-  void FillList (CEGUI::Listbox* list, iPcInventory* inventory,
-      csStringArray& names);
+  void FillList (CEGUI::Listbox* list, iPcInventory* inventory);
   void UpdateLists ();
   bool OkButton (const CEGUI::EventArgs& e);
   bool CancelButton (const CEGUI::EventArgs& e);
-  bool Select (CEGUI::Listbox* list, iPcInventory* inventory,
-      const csStringArray& names, bool left);
+  bool Select (CEGUI::Listbox* list, iPcInventory* inventory, bool left);
   bool SelectLeft (const CEGUI::EventArgs& e);
   bool SelectRight (const CEGUI::EventArgs& e);
 

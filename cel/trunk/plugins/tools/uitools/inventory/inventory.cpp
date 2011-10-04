@@ -92,6 +92,7 @@ bool celUIInventory::Initialize (iObjectRegistry* object_reg)
     printf ("Error locating cegui!\n"); fflush (stdout);
     return false;
   }
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
 
   return true;
 }
@@ -130,20 +131,25 @@ void celUIInventory::UpdateLists (iPcInventory* inventory)
   CEGUI::Listbox* list = (CEGUI::Listbox*)winMgr->getWindow("UIInventory/InventoryList");
 
   list->resetList();
-  listNames.Empty ();
 
   for (size_t i = 0 ; i < inventory->GetEntityCount () ; i++)
   {
     iCelEntity* ent = inventory->GetEntity (i);
     csString n;
-    if (!ent->GetName ()) n = "noname";
+    if (!ent->GetName ())
+    {
+      csStringID tmpID = ent->GetTemplateNameID ();
+      if (tmpID != csInvalidStringID)
+        n = pl->FetchString (tmpID);
+      else
+        n = "?";
+    }
     else n = ent->GetName ();
     CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem (n.GetData ());
     item->setTextColours(CEGUI::colour(0,0,0));
     item->setSelectionBrushImage("ice", "TextSelectionBrush");
     item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
     list->addItem(item);
-    listNames.Push (n);
   }
 
   for (size_t i = 0 ; i < inventory->GetEntityTemplateCount () ; i++)
@@ -158,7 +164,6 @@ void celUIInventory::UpdateLists (iPcInventory* inventory)
     item->setSelectionBrushImage("ice", "TextSelectionBrush");
     item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
     list->addItem(item);
-    listNames.Push (ent->GetName ());
   }
 }
 
@@ -192,21 +197,13 @@ bool celUIInventory::Select (const CEGUI::EventArgs& e)
   if (text.empty()) return true;
 
   size_t itemIdx = list->getItemIndex(item);
-  csString n = listNames[itemIdx];
-  printf ("Selected '%s'\n", n.GetData ());
-
-  size_t idx = inventory->FindEntity (n);
-  if (idx != csArrayItemNotFound)
+  if (itemIdx < inventory->GetEntityCount ())
   {
-    FireSelectionListeners (inventory->GetEntity (idx));
+    FireSelectionListeners (inventory->GetEntity (itemIdx));
     return true;
   }
-  idx = inventory->FindEntityTemplate (n);
-  if (idx != csArrayItemNotFound)
-  {
-    FireSelectionListeners (inventory->GetEntityTemplate (idx));
-    return true;
-  }
+  itemIdx -= inventory->GetEntityCount ();
+  FireSelectionListeners (inventory->GetEntityTemplate (itemIdx));
 
   return true;
 }
