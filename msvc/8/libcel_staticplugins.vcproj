@@ -635,9 +635,6 @@
 				RelativePath="..\..\msvc\libcelgraph_staticreg.cpp">
 			</File>
 			<File
-				RelativePath="..\..\msvc\libcpersist_staticreg.cpp">
-			</File>
-			<File
 				RelativePath="..\..\msvc\libdecorators_staticreg.cpp">
 			</File>
 			<File
@@ -806,9 +803,6 @@
 				RelativePath="..\..\msvc\libui_inventory_staticreg.cpp">
 			</File>
 			<File
-				RelativePath="..\..\msvc\libxmlpersist_staticreg.cpp">
-			</File>
-			<File
 				RelativePath="..\..\plugins\addons\celentity\celentity.cpp">
 			</File>
 			<File
@@ -855,12 +849,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\behaviourlayer\xml\xmlscript.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\persist\classic\cpersist.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\persist\xml\xmlpersist.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.cpp">
@@ -1489,12 +1477,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\behaviourlayer\xml\xmlscript.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\persist\classic\cpersist.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\persist\xml\xmlpersist.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.h">
