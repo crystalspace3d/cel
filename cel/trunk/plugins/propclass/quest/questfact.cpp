@@ -167,7 +167,7 @@ bool celPcQuest::NewQuest (const char* name, iCelParameterBlock* params)
     return Report (object_reg, "Couldn't find quest factory '%s'!", name);
   
   quest_params.AttachNew (new celVariableParameterBlock ());
-  quest_params->AddParameter (pl->FetchStringID ("this")).Set (entity->GetName ());
+  quest_params->AddParameter (pl->FetchStringID ("this")).Set (entity);
   quest_params->Merge (params);
 
   quest = fact->CreateQuest (quest_params);

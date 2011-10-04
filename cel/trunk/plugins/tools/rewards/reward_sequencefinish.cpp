@@ -79,15 +79,15 @@ csPtr<iReward> celSequenceFinishRewardFactory::CreateReward (
   else
   {
     if (seq.IsValid())
-	{
-	  reward = new celSequenceFinishReward (type,
+    {
+      reward = new celSequenceFinishReward (type,
   	    params, entity_par, tag_par, sequence_par, seq);
-	}
-	else
-	{
-	  reward = new celSequenceFinishReward (type,
+    }
+    else
+    {
+      reward = new celSequenceFinishReward (type,
   	    params, entity_par, tag_par, sequence_par);
-	}
+    }
   }
 
   return reward;
@@ -139,7 +139,7 @@ celSequenceFinishReward::celSequenceFinishReward (
 {
   celSequenceFinishReward::type = type;
 
-  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+  pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity = pm->GetParameter (params, entity_par);
@@ -153,19 +153,14 @@ void celSequenceFinishReward::Reward (iCelParameterBlock* params)
 {
   if (!seq)
   {
+    iCelEntity* newent = pm->ResolveEntityParameter (type->pl, params, entity, ent);
+    if (!newent) return;
+    if (newent != ent) { quest = 0; ent = newent; }
     bool changed;
-    const char* e = entity->Get (params, changed);
-    if (changed) { quest = 0; ent = 0; }
     const char* t = tag->Get (params, changed);
     if (changed) quest = 0;
     if (!quest)
     {
-      if (!ent)
-      {
-        iCelPlLayer* pl = type->pl;
-        ent = pl->FindEntity (e);
-        if (!ent) return;
-      }
       quest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
       if (!quest) return;
     }
@@ -181,10 +176,10 @@ void celSequenceFinishReward::Reward (iCelParameterBlock* params)
       if (t)
         Report (type->object_reg,
           "Can't find sequence '%s' in entity '%s' and tag '%s'!",
-	      s, e, t);
+	      s, entity->Get (params), t);
       else
         Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!",
-      	  s, e);
+      	  s, entity->Get (params));
       return;
     }
   }

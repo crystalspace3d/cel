@@ -42,6 +42,11 @@ private:
 
   csString str;	// Temporary string returned by ResolveParameter().
 
+  void ResolveParameterData (
+    celData& out,
+    iCelParameterBlock* params,
+    const char* param);
+
 public:
   celParameterManager (iBase* parent) : 
 	  scfImplementationType (this, parent), object_reg(0) { }
@@ -55,7 +60,17 @@ public:
       const char* param, celDataType type = CEL_DATA_NONE);
   virtual csPtr<iParameter> GetParameter (const char* param,
       celDataType type = CEL_DATA_NONE);
-  virtual const char* ResolveParameter (iCelParameterBlock* params, const char* param);
+  virtual const char* ResolveParameter (iCelParameterBlock* params,
+      const char* param);
+  virtual const char* ResolveEntityParameter (
+      iCelParameterBlock* params,
+      const char* param,
+      uint& entid);
+
+  virtual iCelEntity* ResolveEntityParameter (
+      iCelPlLayer* pl,
+      iCelParameterBlock* params, iParameter* param,
+      iCelEntity* ent = 0);
 };
 
 //---------------------------------------------------------------------------
@@ -74,6 +89,7 @@ public:
     data.Set (c);
   }
   celConstantParameter (const char* c, celDataType type);
+  celConstantParameter (const celData& in, celDataType type);
   virtual ~celConstantParameter () { }
 
   // From iParamater

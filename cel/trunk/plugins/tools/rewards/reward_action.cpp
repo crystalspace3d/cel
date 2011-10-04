@@ -191,26 +191,8 @@ void celActionReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = factory->type->pl;
 
-  bool changed;
-  // XXX parsing of entity has to be refactored as it is very commonly
-  // done.
-
-  const celData * data = entity->GetData (params);
-  if (data->type == CEL_DATA_ENTITY)
-  {
-    ent = data->value.ent;
-  }
-
-  else
-  {
-    const char* e = entity->Get (params, changed);
-    if (changed) ent = 0;
-    if (!ent)
-    {
-      ent = pl->FindEntity (e);
-      if (!ent) return;
-    }
-  }
+  ent = pm->ResolveEntityParameter (pl, params, entity, ent);
+  if (!ent) return;
   csRef<iCelPropertyClass> propertyclass;
 
   const char* pc = pcclass->Get (params);
@@ -224,7 +206,8 @@ void celActionReward::Reward (iCelParameterBlock* params)
     if (actionID)
     {
       celData ret;
-      if (!celParameterTools::FillParameterBlock (params, act_params, factory->parameters, quest_parameters))
+      if (!celParameterTools::FillParameterBlock (pl, params, act_params,
+	    factory->parameters, quest_parameters))
 	Report (factory->type->object_reg,
 		"Could not fill parameters '%s' in the specified pc!", idname);
       else
@@ -298,7 +281,8 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
     propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
     if (propertyclass)
     {
-      if (!celParameterTools::FillParameterBlock (params, act_params, factory->parameters, quest_parameters))
+      if (!celParameterTools::FillParameterBlock (factory->type->pl, params, act_params,
+	    factory->parameters, quest_parameters))
 	Report (factory->type->object_reg,
 		"Could not fill parameters in the specified pc '%s' '%s'!", pc, t);
       else

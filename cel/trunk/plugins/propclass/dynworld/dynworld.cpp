@@ -564,7 +564,8 @@ iCelEntity* DynamicObject::ForceEntity (celPcDynamicWorld* world)
     entity = world->pl->GetEntity (id);
     if (entity)
     {
-      entity->SetName (entityName);
+      if (!entityName.IsEmpty ())
+        entity->SetName (entityName);
       if (entityTemplate)
         world->pl->ApplyTemplate (entity, entityTemplate, params);
     }

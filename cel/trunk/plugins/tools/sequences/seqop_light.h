@@ -99,6 +99,7 @@ private:
   csRef<iParameter> abs_red_param;
   csRef<iParameter> abs_green_param;
   csRef<iParameter> abs_blue_param;
+  csRef<iParameterManager> pm;
 
   csColor start;
   csWeakRef<iLight> light;

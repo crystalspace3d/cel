@@ -420,7 +420,7 @@ celChangePropertyReward::celChangePropertyReward (
 				pc_par, tag_par, string_par, long_par,
 				float_par, bool_par, diff_par, do_toggle)
 {
-  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+  pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity = pm->GetParameter (params, entity_par);
@@ -430,18 +430,13 @@ void celChangePropertyReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = type->pl;
   // check and/or find the entity.
-  bool changed;
-  const char* e = entity->Get (params, changed);
-  if (changed) ent = 0;
-  if (!ent)
-  {
-    ent = pl->FindEntity (e);
-    if (!ent) return;
-  }
+  ent = pm->ResolveEntityParameter (pl, params, entity, ent);
+  if (!ent) return;
 
   // Generic Property class style
   if (pc)
   {
+    bool changed;
     const char* p = pc->Get (params, changed);
     if (changed) pclass = 0;
     const char* t = 0;

@@ -102,6 +102,7 @@ protected:
   csRef<iParameter>  pcname_param;
   csRef<iParameter>  propname_param;
   csRef<iParameter>  tag_param;
+  csRef<iParameterManager> pm;
 
   csWeakRef<iCelPropertyClass> pc;
   celDataType proptype; // must be set in all specializations.

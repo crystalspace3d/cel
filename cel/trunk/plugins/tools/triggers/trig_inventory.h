@@ -78,6 +78,7 @@ private:
   csRef<iTriggerCallback> callback;
   csWeakRef<iPcInventory> inventory;
   csString entity;
+  uint entityID;
   csString tag;
   csString child_entity;
   csRef<celOneParameterBlock> params_entity;

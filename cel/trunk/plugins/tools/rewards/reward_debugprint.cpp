@@ -91,10 +91,13 @@ celDebugPrintReward::celDebugPrintReward (
   pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  if (pm.IsValid()){
-	  msg = pm->GetParameter(params, msg_par);
-  } else {
-	  printf("reward.debugprint: Failed To Load Parameter Manager");
+  if (pm.IsValid())
+  {
+    msg = pm->GetParameter(params, msg_par);
+  }
+  else
+  {
+    printf("reward.debugprint: Failed To Load Parameter Manager");
   }
 }
 

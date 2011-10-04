@@ -193,7 +193,7 @@ celPropertySeqOp::celPropertySeqOp (
 {
   celPropertySeqOp::type = type;
 
-  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+  pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity_param = pm->GetParameter (params, entity_par);
@@ -213,26 +213,24 @@ void celPropertySeqOp::FindPCProperty (iCelParameterBlock* params)
 {
   if (prop_ok) return;
 
+  iCelEntity* ent = pm->ResolveEntityParameter (type->pl, params, entity_param, 0);
+  if (!ent) return;
+
   //Get current values of parameters
-  entity   = entity_param->Get   (params);
   pcname   = pcname_param->Get   (params);
   tag      = tag_param->Get      (params);
   propname = propname_param->Get (params);
 
-  iCelEntity* ent = type->pl->FindEntity (entity);
-  if (ent)
+  pc = ent->GetPropertyClassList()->FindByNameAndTag(pcname,tag);
+  if (pc)
   {
-    pc = ent->GetPropertyClassList()->FindByNameAndTag(pcname,tag);
-    if (pc)
+    propID = type->pl->FetchStringID(propname);
+    celDataType proptype = pc->GetPropertyOrActionType(propID);
+    bool readonly = pc->IsPropertyReadOnly(propID);
+    if ((proptype == celPropertySeqOp::proptype) && (!readonly))
     {
-      propID = type->pl->FetchStringID(propname);
-      celDataType proptype = pc->GetPropertyOrActionType(propID);
-      bool readonly = pc->IsPropertyReadOnly(propID);
-      if ((proptype == celPropertySeqOp::proptype) && (!readonly))
-      {
-        prop_ok = 1;
-        GetStartValue(params);
-      }
+      prop_ok = 1;
+      GetStartValue(params);
     }
   }
 }
@@ -264,9 +262,6 @@ celFloatPropertySeqOp::celFloatPropertySeqOp (
 		rel_par)
 {
   proptype = CEL_DATA_FLOAT;
-  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
-    (type->object_reg, "cel.parameters.manager");
-
   end_param = pm->GetParameter (params, pfloat);
 }
 
@@ -282,9 +277,6 @@ celVector2PropertySeqOp::celVector2PropertySeqOp (
 		rel_par)
 {
   proptype = CEL_DATA_VECTOR2;
-  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
-    (type->object_reg, "cel.parameters.manager");
-
   endx_param = pm->GetParameter (params, vx);
   endy_param = pm->GetParameter (params, vy);
 }
@@ -302,9 +294,6 @@ celVector3PropertySeqOp::celVector3PropertySeqOp (
 		rel_par)
 {
   proptype = CEL_DATA_VECTOR3;
-  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
-    (type->object_reg, "cel.parameters.manager");
-
   endx_param = pm->GetParameter (params, vx);
   endy_param = pm->GetParameter (params, vy);
   endz_param = pm->GetParameter (params, vz);

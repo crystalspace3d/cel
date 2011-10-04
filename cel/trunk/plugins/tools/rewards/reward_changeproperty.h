@@ -130,6 +130,8 @@ private:
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcProperties> properties;
   csWeakRef<iCelPropertyClass> pclass;
+  csRef<iParameterManager> pm;
+
 public:
   celChangePropertyReward (celChangePropertyRewardType* type,
   	iCelParameterBlock* params,

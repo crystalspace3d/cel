@@ -282,7 +282,6 @@ struct celData
     value.par.parname = new scfString (s);
     value.par.partype = t;
   }
-  csString GetDebugInfo ();
 };
 
 struct iCelDataArrayReadOnly : public iArrayReadOnly<celData>

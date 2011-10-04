@@ -122,17 +122,16 @@ celDestroyEntityReward::~celDestroyEntityReward ()
 void celDestroyEntityReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = type->pl;
-  const char* e = entity->Get (params);
-  if (!e) return;
-  iCelEntity* ent = pl->FindEntity (e);
-  if (!ent)
+  iCelEntity *ent = pm->ResolveEntityParameter (pl, params, entity);
+  if (!ent) return;
   {
     Report (type->object_reg,
-      		"entity %s not found for destroyentity reward!", e);
+      		"entity %s not found for destroyentity reward!",
+		entity->Get (params));
     return;
   }
 
-  pl->RemoveEntity(ent);
+  pl->RemoveEntity (ent);
 }
 
 //---------------------------------------------------------------------------

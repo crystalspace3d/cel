@@ -82,6 +82,7 @@ private:
   csRef<iTriggerCallback> callback;
   csWeakRef<iPcProperties> properties;
   csString entity;
+  uint entityID;
   csString tag;
   csString prop;
   const char* value; // Do not change this to csString!

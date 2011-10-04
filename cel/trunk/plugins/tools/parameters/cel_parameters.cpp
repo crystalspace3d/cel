@@ -112,45 +112,60 @@ csPtr<iParameter> celParameterManager::GetParameter (
 	const char* param,
         celDataType type)
 {
-  const char* val = ResolveParameter (params, param);
-  if (val == 0) return new celConstantParameter ();
-  if (*val == '@' && *(val+1) != '@')
+  celData data;
+  ResolveParameterData (data, params, param);
+  if (data.type == CEL_DATA_NONE) return new celConstantParameter ();
+  if (data.type == CEL_DATA_STRING)
   {
-    csStringID dynamic_id = pl->FetchStringID (val+1);
-    return new celDynamicParameter (object_reg, dynamic_id, val+1, type);
-  }
-  else if (*val == '=' && *(val+1) != '=')
-  {
-    csRef<iCelExpression> expression = GetParser ()->Parse (val+1);
-    if (!expression)
+    const char* val = data.value.s->GetData ();
+    if (!val)
+      return new celConstantParameter ();
+    else if (*val == '@' && *(val+1) != '@')
     {
-      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-		"cel.parameters.manager",
-		"Can't parse expression '%s'!", val+1);
-      return 0;
+      csStringID dynamic_id = pl->FetchStringID (val+1);
+      return new celDynamicParameter (object_reg, dynamic_id, val+1, type);
     }
-    // We are looking for 'this' in the parameter block. If we can find it
-    // then it indicates the name of the entity. We will find the entity for
-    // the expression so that the expression can show things local to the
-    // entity (or access properties from the current entity).
-    csStringID thisid = pl->FetchStringID ("this");
-    iCelEntity* entity = 0;
-    for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
+    else if (*val == '=' && *(val+1) != '=')
     {
-      celDataType t;
-      csStringID id = params->GetParameterDef (i, t);
-      if (thisid == id)
+      csRef<iCelExpression> expression = GetParser ()->Parse (val+1);
+      if (!expression)
       {
-        csString name;
-        celParameterTools::ToString (*params->GetParameterByIndex (i), name);
-        entity = pl->FindEntity (name);
-	break;
+        csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		  "cel.parameters.manager",
+		  "Can't parse expression '%s'!", val+1);
+        return 0;
       }
+      // We are looking for 'this' in the parameter block. If we can find it
+      // then it indicates the name of the entity. We will find the entity for
+      // the expression so that the expression can show things local to the
+      // entity (or access properties from the current entity).
+      csStringID thisid = pl->FetchStringID ("this");
+      iCelEntity* entity = 0;
+      for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
+      {
+        celDataType t;
+        csStringID id = params->GetParameterDef (i, t);
+        if (thisid == id)
+        {
+          csString name;
+	  const celData* thisData = params->GetParameterByIndex (i);
+	  if (thisData->type == CEL_DATA_ENTITY) entity = thisData->value.ent;
+	  else
+	  {
+            celParameterTools::ToString (*thisData, name);
+            entity = pl->FindEntity (name);
+	  }
+          if (entity) break;
+        }
+      }
+      return new celExpressionParameter (object_reg, entity, expression, val+1, type);
     }
-    return new celExpressionParameter (object_reg, entity, expression, val+1, type);
+    return new celConstantParameter (val, type);
   }
-
-  return new celConstantParameter (val, type);
+  else
+  {
+    return new celConstantParameter (data, type);
+  }
 }
 
 csPtr<iParameter> celParameterManager::GetParameter (const char* val,
@@ -198,6 +213,27 @@ csPtr<iParameter> celParameterManager::GetParameter (const char* val,
   return new celConstantParameter (val, type);
 }
 
+void celParameterManager::ResolveParameterData (
+    celData& out,
+    iCelParameterBlock* params,
+    const char* param)
+{
+  if (param == 0) { out.Clear (); return; }
+  if (*param != '$') { out.Set (param); return; }
+  if (*(param+1) == '$') { out.Set (param+1); }
+  csStringID id = pl->FetchStringID (param+1);
+  const celData* data = params->GetParameter (id);
+  if (!data)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		"cel.parameters.manager",
+		"Can't resolve parameter %s!", param);
+    return;
+  }
+
+  out = *data;
+}
+
 const char* celParameterManager::ResolveParameter (
   	iCelParameterBlock* params,
 	const char* param)
@@ -212,12 +248,76 @@ const char* celParameterManager::ResolveParameter (
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 		"cel.parameters.manager",
 		"Can't resolve parameter %s!", param);
+    return 0;
   }
   celParameterTools::ToString (*data, str);
   return str;
 }
 
+const char* celParameterManager::ResolveEntityParameter (
+  	iCelParameterBlock* params,
+	const char* param,
+        uint& entid)
+{
+  entid = ~0;
+  if (param == 0) return 0;
+  if (*param != '$') return param;
+  if (*(param+1) == '$') return param+1;
+
+  csStringID id = pl->FetchStringID (param+1);
+  const celData* data = params->GetParameter (id);
+  if (!data)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		"cel.parameters.manager",
+		"Can't resolve parameter %s!", param);
+    return 0;
+  }
+  if (data->type == CEL_DATA_ENTITY)
+  {
+    entid = data->value.ent->GetID ();
+    return 0;
+  }
+  if (data->type == CEL_DATA_STRING)
+  {
+    celParameterTools::ToString (*data, str);
+    return str;
+  }
+  long lentid;
+  celParameterTools::ToLong (*data, lentid);
+  entid = (uint)lentid;
+  return 0;
+}
+
+iCelEntity* celParameterManager::ResolveEntityParameter (
+      iCelPlLayer* pl,
+      iCelParameterBlock* params, iParameter* param,
+      iCelEntity* ent)
+{
+  const celData* data = param->GetData (params);
+  if (data->type == CEL_DATA_ENTITY) return data->value.ent;
+  if (data->type == CEL_DATA_LONG)
+  {
+    long entid;
+    celParameterTools::ToLong (*data, entid);
+    return pl->GetEntity ((uint)entid);
+  }
+
+  bool changed;
+  const char* e = param->Get (params, changed);
+  if (changed) ent = 0;
+  if (!ent) ent = pl->FindEntity (e);
+  return ent;
+}
+
 //---------------------------------------------------------------------------
+
+celConstantParameter::celConstantParameter (const celData& in, celDataType type) :
+    scfImplementationType (this)
+{
+  if (type == CEL_DATA_NONE) type = in.type;
+  celParameterTools::Convert (in, type, data);
+}
 
 celConstantParameter::celConstantParameter (const char* c, celDataType type) :
     scfImplementationType (this)

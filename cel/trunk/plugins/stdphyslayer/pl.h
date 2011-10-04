@@ -111,7 +111,7 @@ private:
   csRefArray<iCelEntityTracker> trackers;
 
   csRef<celVariableParameterBlock> ConvertTemplateParams (
-    const char* entname,
+    iCelEntity* entity,
     const csHash<csRef<iParameter>, csStringID>& act_params,
     iCelParameterBlock* params);
 
