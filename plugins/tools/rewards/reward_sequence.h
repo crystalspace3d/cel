@@ -88,6 +88,7 @@ private:
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcQuest> quest;
   csWeakRef<iCelSequence> seq;
+  csRef<iParameterManager> pm;
 
 public:
   celSequenceReward (celSequenceRewardType* type,

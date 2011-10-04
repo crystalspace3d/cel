@@ -109,7 +109,7 @@ celEnterSectorTrigger::celEnterSectorTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveParameter (params, entity_par);
+  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
   tag = pm->ResolveParameter (params, tag_par);
   sector = pm->ResolveParameter (params, sector_par);
 }
@@ -148,7 +148,11 @@ void celEnterSectorTrigger::FindSectorAndCamera ()
   sect = engine->FindSector (sector);
   if (!sect) return;
   iCelPlLayer* pl = type->pl;
-  iCelEntity* ent = pl->FindEntity (entity);
+  iCelEntity* ent;
+  if (!entity.IsEmpty ())
+    ent = pl->FindEntity (entity);
+  else
+    ent = pl->GetEntity (entityID);
   if (!ent) return;
   csRef<iPcCamera> pccamera = celQueryPropertyClassTagEntity<iPcCamera> (ent, tag);
   if (!pccamera) return;

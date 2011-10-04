@@ -653,7 +653,7 @@ bool celPcInventory::In (const char* name) const
 size_t celPcInventory::FindEntity (const char* name) const
 {
   for (size_t i = 0 ; i < contents.GetSize () ; i++)
-    if (!strcmp (name, contents[i]->GetName ()))
+    if (contents[i]->GetName () && !strcmp (name, contents[i]->GetName ()))
       return i;
   return csArrayItemNotFound;
 }

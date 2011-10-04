@@ -136,7 +136,7 @@ celLightSeqOp::celLightSeqOp (
 {
   celLightSeqOp::type = type;
 
-  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+  pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity_param = pm->GetParameter (params, entity_par);
@@ -160,20 +160,15 @@ void celLightSeqOp::FindLight (iCelParameterBlock* params)
 {
   if (light) return;
 
-  entity = entity_param->Get (params);
+  iCelEntity* ent = pm->ResolveEntityParameter (type->pl, params, entity_param, 0);
+  if (!ent) return;
   tag = tag_param->Get (params);
 
-  // @@@ To many queries for efficiency?
-  iCelPlLayer* pl = type->pl;
-  iCelEntity* ent = pl->FindEntity (entity);
-  if (ent)
+  csRef<iPcLight> pclight = celQueryPropertyClassTagEntity<iPcLight> (ent, tag);
+  if (pclight)
   {
-    csRef<iPcLight> pclight = celQueryPropertyClassTagEntity<iPcLight> (ent, tag);
-    if (pclight)
-    {
-      light = pclight->GetLight ();
-      start = light->GetColor ();
-    }
+    light = pclight->GetLight ();
+    start = light->GetColor ();
   }
 }
 

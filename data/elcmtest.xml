@@ -283,7 +283,7 @@
 	<action name="AddOutput">
 	  <par name="msgid" string="elcm.inventory" />
 	  <par name="entity" string="world" />
-	  <par name="inventoryEntity" string="$this" />
+	  <par name="inventoryEntity" entity="$this" />
 	</action>
       </propclass>
       <propclass name="pctools.inventory">

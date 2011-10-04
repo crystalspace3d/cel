@@ -111,7 +111,7 @@ celMessageTrigger::celMessageTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveParameter (params, entity_par);
+  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
   mask = pm->ResolveParameter (params, mask_par);
 }
 
@@ -135,7 +135,10 @@ void celMessageTrigger::FindEntity ()
   if (!ent)
   {
     iCelPlLayer* pl = type->pl;
-    ent = pl->FindEntity (entity);
+    if (!entity.IsEmpty ())
+      ent = pl->FindEntity (entity);
+    else
+      ent = pl->GetEntity (entityID);
   }
 }
 

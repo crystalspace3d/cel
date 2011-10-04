@@ -88,6 +88,7 @@ private:
   csRef<celSequenceFinishTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
+  uint entityID;
   csString tag;
   csString sequence_name;
   csWeakRef<iCelSequence> seq;

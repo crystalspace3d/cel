@@ -90,8 +90,10 @@ private:
   csRef<celWatchTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
+  uint entityID;
   csString tag;
   csString target_entity;
+  uint target_entityID;
   csString target_tag;
   csTicks time;
   float radius, sqradius;

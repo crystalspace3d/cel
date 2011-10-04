@@ -240,7 +240,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntity (const char* entname,
 	"Error creating entity '%s'!", entname);
     return 0;
   }
-  if (entname) ent->SetName (entname);
+  if (entname && *entname) ent->SetName (entname);
   if (bl && bhname)
   {
     iCelBehaviour* behave = bl->CreateBehaviour (ent, bhname);
@@ -350,14 +350,12 @@ iCelEntityTemplate* celPlLayer::GetEntityTemplate (size_t idx) const
 }
 
 csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
-    const char* entname,
+    iCelEntity* entity,
     const csHash<csRef<iParameter>, csStringID>& act_params,
     iCelParameterBlock* params)
 {
-  csRef<celOneParameterBlock> thisParam;
-  thisParam.AttachNew (new celOneParameterBlock ());
-  thisParam->SetParameterDef (FetchStringID ("this"));
-  thisParam->GetParameter (0).Set (entname);
+  csRef<celEntityParameterBlock> thisParam;
+  thisParam.AttachNew (new celEntityParameterBlock (this, entity));
   csRef<celCombineParameterBlock> combinedParams;
   if (!params)
   {
@@ -389,7 +387,7 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
 	iCelEntity* ent, iCelEntityTemplate* factory)
 {
   csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
-    ent->GetName (), act.params, params);
+    ent, act.params, params);
   celData ret;
   if (!pc->PerformAction (act.id, converted_params, ret))
   {
@@ -638,7 +636,7 @@ bool celPlLayer::ApplyTemplate (iCelEntity* ent, iCelEntityTemplate* factory,
       const ccfMessage& msg = messages[i];
       celData ret;
       csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
-        ent->GetName (), msg.params, params);
+        ent, msg.params, params);
       ent->GetBehaviour ()->SendMessage (msg.msgid, 0, ret, converted_params);
     }
   }

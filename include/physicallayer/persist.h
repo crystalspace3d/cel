@@ -27,6 +27,7 @@
 #include "csutil/array.h"
 
 #include "physicallayer/datatype.h"
+#include "celtool/stdparams.h"
 
 struct iCelPropertyClass;
 struct iCelEntity;
@@ -241,7 +242,7 @@ struct iCelDataBuffer : public virtual iBase
     csString txt = "Data buffer:\n";
     size_t i = 0, count = GetDataCount ();
     for ( ; i < count; i++)
-      txt.AppendFmt("\t%s\n", GetData (i)->GetDebugInfo ().GetData ());
+      txt.AppendFmt("\t%s\n", celParameterTools::GetDebugData (GetData (i)).GetData ());
 
     return txt;
   }

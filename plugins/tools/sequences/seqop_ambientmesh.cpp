@@ -135,7 +135,7 @@ celAmbientMeshSeqOp::celAmbientMeshSeqOp (
 {
   celAmbientMeshSeqOp::type = type;
 
-  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+  pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity_param = pm->GetParameter (params, entity_par);
@@ -189,21 +189,16 @@ void celAmbientMeshSeqOp::FindMesh (iCelParameterBlock* params)
 {
   if (mesh) return;
 
-  entity = entity_param->Get (params);
+  iCelEntity* ent = pm->ResolveEntityParameter (type->pl, params, entity_param, 0);
+  if (!ent) return;
   tag = tag_param->Get (params);
 
-  // @@@ To many queries for efficiency?
-  iCelPlLayer* pl = type->pl;
-  iCelEntity* ent = pl->FindEntity (entity);
-  if (ent)
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
+  if (pcmesh)
   {
-    csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
-    if (pcmesh)
-    {
-      mesh = pcmesh->GetMesh ();
-      svc = scfQueryInterfaceSafe<iShaderVariableContext> (mesh);
-      start = GetAmbientColor ();
-    }
+    mesh = pcmesh->GetMesh ();
+    svc = scfQueryInterfaceSafe<iShaderVariableContext> (mesh);
+    start = GetAmbientColor ();
   }
 }
 

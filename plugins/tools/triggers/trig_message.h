@@ -78,6 +78,7 @@ private:
   csRef<celMessageTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
+  uint entityID;
   csString mask;
   csWeakRef<iCelEntity> ent;
 

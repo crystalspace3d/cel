@@ -100,7 +100,7 @@ celTriggerTrigger::celTriggerTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveParameter (params, entity_par);
+  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
   tag = pm->ResolveParameter (params, tag_par);
   celTriggerTrigger::do_leave = do_leave;
   params_entity.AttachNew (new celOneParameterBlock ());
@@ -152,7 +152,11 @@ void celTriggerTrigger::FindEntities ()
   if (!pctrigger)
   {
     iCelPlLayer* pl = type->pl;
-    iCelEntity* ent = pl->FindEntity (entity);
+    iCelEntity* ent;
+    if (!entity.IsEmpty ())
+      ent = pl->FindEntity (entity);
+    else
+      ent = pl->GetEntity (entityID);
     if (!ent) return;
     pctrigger = celQueryPropertyClassTagEntity<iPcTrigger> (ent, tag);
   }

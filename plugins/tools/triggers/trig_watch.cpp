@@ -160,9 +160,9 @@ celWatchTrigger::celWatchTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveParameter (params, entity_par);
+  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
   tag = pm->ResolveParameter (params, tag_par);
-  target_entity = pm->ResolveParameter (params, target_entity_par);
+  target_entity = pm->ResolveEntityParameter (params, target_entity_par, target_entityID);
   target_tag = pm->ResolveParameter (params, target_tag_par);
   const char* t = pm->ResolveParameter (params, time_par);
   if (t)
@@ -207,7 +207,11 @@ bool celWatchTrigger::FindEntities ()
   if (!source_mesh)
   {
     iCelPlLayer* pl = type->pl;
-    iCelEntity* ent = pl->FindEntity (entity);
+    iCelEntity* ent;
+    if (!entity.IsEmpty ())
+      ent = pl->FindEntity (entity);
+    else
+      ent = pl->GetEntity (entityID);
     if (!ent) return false;
     source_mesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
     if (!source_mesh) return false;
@@ -215,7 +219,11 @@ bool celWatchTrigger::FindEntities ()
   if (!target_mesh)
   {
     iCelPlLayer* pl = type->pl;
-    iCelEntity* ent = pl->FindEntity (target_entity);
+    iCelEntity* ent;
+    if (!target_entity.IsEmpty ())
+      ent = pl->FindEntity (target_entity);
+    else
+      ent = pl->GetEntity (target_entityID);
     if (!ent) return false;
     target_mesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, target_tag);
     if (!target_mesh) return false;

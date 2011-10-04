@@ -134,8 +134,6 @@ void celMessageRewardFactory::AddParameter (celDataType type,
 
 //---------------------------------------------------------------------------
 
-//---------------------------------------------------------------------------
-
 celMessageReward::celMessageReward (
 	celMessageRewardType* type,
   	iCelParameterBlock* params,
@@ -160,31 +158,12 @@ void celMessageReward::Reward (iCelParameterBlock* params)
   const char* msg = msg_id->Get (params);
   if (!msg) return;
 
-  bool changed;
-  // XXX parsing of entity has to be refactored as it is very commonly
-  // done.
-  const celData * data = entity->GetData(params);
-  if (data->type == CEL_DATA_ENTITY)
-  {
-    iCelEntity *new_ent = data->value.ent;
-    if (new_ent != ent)
-      dispatcher = 0;  // Clear previous dispatcher.
-    ent = new_ent;
-  }
-  else
-  {
-    const char* e = entity->Get (params, changed);
-    if (changed) { ent = 0; }
-    if (!ent)
-    {
-      dispatcher = 0;  // Clear previous dispatcher.
-      iCelPlLayer* pl = type->pl;
-      ent = pl->FindEntity (e);
-      if (!ent) return;
-    }
-  }
+  iCelEntity* newent = pm->ResolveEntityParameter (type->pl, params, entity, ent);
+  if (!newent) return;
+  if (newent != ent) { dispatcher = 0; ent = newent; }
 
-  if (!celParameterTools::FillParameterBlock (params, msg_params, parameters, quest_parameters))
+  if (!celParameterTools::FillParameterBlock (type->pl, params, msg_params,
+	parameters, quest_parameters))
   {
     Report (type->object_reg,
 	    "Could not fill parameters for message '%s'", msg);
@@ -237,7 +216,8 @@ void celClassMessageReward::Reward (iCelParameterBlock* params)
     entlist = type->pl->GetClassEntitiesList (ent_class);
   }
 
-  if (!celParameterTools::FillParameterBlock (params, msg_params, parameters, quest_parameters))
+  if (!celParameterTools::FillParameterBlock (type->pl, params, msg_params,
+	parameters, quest_parameters))
   {
     Report (type->object_reg,
 	    "Could not fill parameters for message '%s'", msg);

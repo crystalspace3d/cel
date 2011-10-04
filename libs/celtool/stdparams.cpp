@@ -31,6 +31,110 @@
 
 //---------------------------------------------------------------------------
 
+csStringID celEntityParameterBlock::thisID = csInvalidStringID;
+
+celEntityParameterBlock::celEntityParameterBlock (iCelPlLayer* pl, iCelEntity* entity) :
+  scfImplementationType (this), entity (entity)
+{
+  if (thisID == csInvalidStringID)
+    thisID = pl->FetchStringID ("this");
+  thisData.Set (entity);
+}
+
+//---------------------------------------------------------------------------
+
+csString celParameterTools::GetDebugData (const celData* data)
+{
+  csString buffer;
+  switch (data->type)
+  {
+  case CEL_DATA_NONE:
+    buffer = "\tData not typed!";
+    break;
+  case CEL_DATA_BOOL:
+    buffer.Format ("\tBool: %d", data->value.bo);
+    break;
+  case CEL_DATA_BYTE:
+    buffer.Format ("\tByte: %d", data->value.b);
+    break;
+  case CEL_DATA_WORD:
+    buffer.Format ("\tWord: %d", data->value.w);
+    break;
+  case CEL_DATA_LONG:
+    buffer.Format ("\tLong: %d", data->value.l);
+    break;
+  case CEL_DATA_UBYTE:
+    buffer.Format ("\tuByte: %d", data->value.ub);
+    break;
+  case CEL_DATA_UWORD:
+    buffer.Format ("\tuWord: %d", data->value.uw);
+    break;
+  case CEL_DATA_ULONG:
+    buffer.Format ("\tuLong: %d", data->value.ul);
+    break;
+  case CEL_DATA_FLOAT:
+    buffer.Format ("\tFloat: %f", data->value.f);
+    break;
+  case CEL_DATA_VECTOR2:
+    buffer.Format ("\tVector2: %f %f", data->value.v.x, data->value.v.y);
+    break;
+  case CEL_DATA_VECTOR3:
+    buffer.Format ("\tVector3: %f %f %f", data->value.v.x, data->value.v.y, data->value.v.z);
+    break;
+  case CEL_DATA_COLOR:
+    buffer.Format ("\tColor: %f %f %f", data->value.col.red, data->value.col.green, data->value.col.blue);
+    break;
+  case CEL_DATA_STRING:
+    buffer.Format ("\tString: %s", data->value.s->GetData ());
+    break;
+  case CEL_DATA_PCLASS:
+    buffer.Format ("\tPC: %s %s", data->value.pc->GetName (), data->value.pc->GetTag ());
+    break;
+  case CEL_DATA_ENTITY:
+    buffer.Format ("\tEnt: id %d", data->value.ent->GetID ());
+    break;
+  case CEL_DATA_ACTION:
+    buffer.Format ("\tAction: %s", data->value.s->GetData ());
+    break;
+  case CEL_DATA_IBASE:
+    buffer.Format ("\tiBase");
+    break;
+  case CEL_DATA_PARAMETER:
+    buffer.Format ("\tParameter: name %s type %d", data->value.par.parname->GetData (), data->value.par.partype);
+    break;
+  default:
+    buffer.Format ("\tError: not a type!");
+    break;
+  }
+  return buffer;
+}
+
+void celParameterTools::Dump (const char* title, iCelParameterBlock* params,
+    iCelPlLayer* pl)
+{
+  if (params)
+  {
+    printf ("%s\n", title);
+  }
+  else
+  {
+    printf ("%s (empty)\n", title);
+    return;
+  }
+  for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
+  {
+    csString parName;
+    celDataType t;
+    csStringID id = params->GetParameterDef (i, t);
+    if (pl) parName = pl->FetchString (id);
+    printf ("    %d: %d/%s -> ", i, (int)id, parName.GetData ());
+    const celData* data = params->GetParameterByIndex (i);
+    csString debugInfo = GetDebugData (data);
+    printf ("%s\n", debugInfo.GetData ());
+  }
+  fflush (stdout);
+}
+
 csRef<iCelParameterBlock> celParameterTools::ParseParams (
     iObjectRegistry* object_reg, iDocumentNode* node, ...)
 {
@@ -436,6 +540,7 @@ csPtr<celVariableParameterBlock> celParameterTools::GetParameterBlock (
 }
 
 bool celParameterTools::FillParameterBlock (
+        iCelPlLayer* pl,
         iCelParameterBlock* params,
 	celVariableParameterBlock* act_params,
 	const csArray<celParSpec>& parameters,
@@ -448,7 +553,30 @@ bool celParameterTools::FillParameterBlock (
   {
     iParameter* p = dyn_parameters[i];
     const celData* data = p->GetData (params);
-    celParameterTools::Convert (*data, parameters[i].type, act_params->GetParameter (i));
+    if (parameters[i].type == CEL_DATA_ENTITY)
+    {
+      if (data->type == CEL_DATA_ENTITY)
+        act_params->GetParameter (i).Set (data->value.ent);
+      else if (data->type == CEL_DATA_LONG)
+      {
+        long entid;
+        ToLong (*data, entid);
+        iCelEntity* ent = pl->GetEntity ((uint)entid);
+        act_params->GetParameter (i).Set (ent);
+      }
+      else
+      {
+        csString str;
+        ToString (*data, str);
+        iCelEntity* ent = pl->FindEntity (str);
+        act_params->GetParameter (i).Set (ent);
+      }
+    }
+    else
+    {
+      celParameterTools::Convert (*data, parameters[i].type,
+          act_params->GetParameter (i));
+    }
   }
 
   return true;
@@ -480,6 +608,12 @@ bool celParameterTools::ParseParSpecBlock (iObjectRegistry* object_reg,
         return 0;
       }
       csStringID id = pl->FetchStringID (name);
+      const char* ent_value = child->GetAttributeValue ("entity");
+      if (ent_value)
+      {
+	parameters.Push (celParSpec (CEL_DATA_ENTITY, id, ent_value));
+	continue;
+      }
       const char* str_value = child->GetAttributeValue ("string");
       if (!str_value) str_value = child->GetAttributeValue ("value");
       if (str_value)

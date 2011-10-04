@@ -119,7 +119,7 @@ celInventoryTrigger::celInventoryTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveParameter (params, entity_par);
+  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
   tag = pm->ResolveParameter (params, tag_par);
   if (child_entity_par)
     child_entity = pm->ResolveParameter (params, child_entity_par);
@@ -146,7 +146,11 @@ void celInventoryTrigger::FindInventory ()
 {
   if (inventory) return;
   iCelPlLayer* pl = type->pl;
-  iCelEntity* ent = pl->FindEntity (entity);
+  iCelEntity* ent;
+  if (!entity.IsEmpty ())
+    ent = pl->FindEntity (entity);
+  else
+    ent = pl->GetEntity (entityID);
   if (!ent) return;
   inventory = celQueryPropertyClassTagEntity<iPcInventory> (ent, tag);
 }

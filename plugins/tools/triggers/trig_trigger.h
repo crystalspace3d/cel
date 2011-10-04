@@ -77,6 +77,7 @@ private:
   csRef<celTriggerTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
+  uint entityID;
   csString tag;
   csWeakRef<iPcTrigger> pctrigger;
   bool do_leave;

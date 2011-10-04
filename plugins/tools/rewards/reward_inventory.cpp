@@ -137,19 +137,16 @@ celInventoryReward::~celInventoryReward ()
 void celInventoryReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = type->pl;
+  iCelEntity* newent = pm->ResolveEntityParameter (pl, params, entity, ent);
+  if (!newent) return;
+  if (newent != ent) { inventory = 0; ent = newent; }
+
   bool changed;
-  const char* e = entity->Get (params, changed);
-  if (changed) { ent = 0; inventory = 0; }
   const char* t = tag->Get (params, changed);
   if (changed) { inventory = 0; }
 
   if (!inventory)
   {
-    if (!ent)
-    {
-      ent = pl->FindEntity (e);
-      if (!ent) return;
-    }
     inventory = celQueryPropertyClassTagEntity<iPcInventory> (ent, t);
     if (!inventory) return;
   }

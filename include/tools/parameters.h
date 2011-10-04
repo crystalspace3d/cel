@@ -31,6 +31,8 @@
 #include "iutil/string.h"
 
 struct iCelParameterBlock;
+struct iCelEntity;
+struct iCelPlLayer;
 
 //---------------------------------------------------------------------------
 /**
@@ -136,6 +138,33 @@ struct iParameterManager : public virtual iBase
   virtual const char* ResolveParameter (
   	iCelParameterBlock* params,
 	const char* param) = 0;
+
+  /**
+   * This is a convenience function to resolve a quest parameter during
+   * creation of rewards, triggers, and sequence operations and convert
+   * the parameter to an entity name or ID. This routine knows how to recognize
+   * parameter usage (starting with '$') and will in that case try to
+   * resolve the parameter by finding it in 'params'. Otherwise it will
+   * return the string. This version doesn't support dynamic parameters.
+   * If the parameter is a long then it will be treated as an entity ID.
+   * In that case the function returns 0 and 'entid' will be set.
+   * The string which is returned is relatively short-lived. Store it in
+   * a more permanent location if you plan to use it later.
+   */
+  virtual const char* ResolveEntityParameter (
+      iCelParameterBlock* params,
+      const char* param,
+      uint& entid) = 0;
+
+  /**
+   * Conveniance function to get an entity out of an iParameter.
+   * This function accepts an old entity pointer that will be used
+   * in case the parameter didn't change (optimization).
+   */
+  virtual iCelEntity* ResolveEntityParameter (
+      iCelPlLayer* pl,
+      iCelParameterBlock* params, iParameter* param,
+      iCelEntity* ent = 0) = 0;
 };
 //---------------------------------------------------------------------------
 

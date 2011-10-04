@@ -95,6 +95,7 @@ private:
   csRef<iParameter> vectory_param;
   csRef<iParameter> vectorz_param;
   csRef<iParameter> rot_angle_param;
+  csRef<iParameterManager> pm;
 
   csVector3 start;
   csMatrix3 start_matrix;

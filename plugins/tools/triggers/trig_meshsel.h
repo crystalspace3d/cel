@@ -76,6 +76,7 @@ private:
   csRef<iTriggerCallback> callback;
   csWeakRef<iPcMeshSelect> meshselect;
   csString entity;
+  uint entityID;
   csString tag;
   csRef<celOneParameterBlock> params_entity;
 

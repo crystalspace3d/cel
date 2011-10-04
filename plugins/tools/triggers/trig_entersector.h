@@ -82,6 +82,7 @@ private:
   csWeakRef<iSector> sect;
   csWeakRef<iCamera> camera;
   csString entity;
+  uint entityID;
   csString tag;
   csString sector;
 

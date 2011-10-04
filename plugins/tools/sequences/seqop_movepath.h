@@ -93,6 +93,7 @@ private:
 
   csRef<iParameter> entity_param;
   csRef<iParameter> tag_param;
+  csRef<iParameterManager> pm;
 
   csWeakRef<iMeshWrapper> mesh;
 

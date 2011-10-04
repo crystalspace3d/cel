@@ -246,48 +246,41 @@ bool ElcmTest::FillDynamicWorld ()
       if (r < .4)
       {
         obj = dynworld->AddObject ("Barrel", csReversibleTransform (mat, csVector3 (ox, -.4, oy)));
-        csString name;
-        name.Format ("barrel%d_%d", x+50, y+50);
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
-        if (!obj->SetEntity (name, params))
+        if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template 'Barrel'!");
       }
       else if (r < .7)
       {
         obj = dynworld->AddObject ("Table", csReversibleTransform (mat, csVector3 (ox, -1, oy)));
-        csString name;
-        name.Format ("tbl%d_%d", x+50, y+50);
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
-        if (!obj->SetEntity (name, params))
+        if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template 'Table'!");
 
-	csString objName, tmpName;
+	csString objName;
 	float yoffset = 0;
 	switch (rnd.Get (5))
 	{
-	  case 0: objName = "Money"; tmpName = "mon"; yoffset = 0.02; break;
-	  case 1: objName = "Steak"; tmpName = "ste"; yoffset = 0.02; break;
-	  case 2: objName = "Can"; tmpName = "can"; yoffset = 0.047; break;
-	  case 3: objName = "Milk"; tmpName = "mil"; yoffset = 0.106; break;
-	  case 4: objName = "Cup"; tmpName = "cup"; break;
+	  case 0: objName = "Money"; yoffset = 0.02; break;
+	  case 1: objName = "Steak"; yoffset = 0.02; break;
+	  case 2: objName = "Can"; yoffset = 0.047; break;
+	  case 3: objName = "Milk"; yoffset = 0.106; break;
+	  case 4: objName = "Cup"; break;
 	}
         obj = dynworld->AddObject (objName, csReversibleTransform (
 	    mat, csVector3 (ox, yoffset, oy)));
-        name.Format ("%s%d_%d", tmpName.GetData (), x+50, y+50);
-        if (!obj->SetEntity (name, params))
+        if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template '%s'!",
 	      objName.GetData ());
       }
       else
       {
         obj = dynworld->AddObject ("Clicker", csReversibleTransform (mat, csVector3 (ox, -.95, oy)));
-        csString name;
-        name.Format ("click%d_%d", x+50, y+50);
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
-        if (!obj->SetEntity (name, params))
+        if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template 'Clicker'!");
       }
     }
@@ -427,7 +420,7 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
   iDynamicObject* obj = dynworld->AddObject (tpl->GetName (), trans);
   csRef<iCelParameterBlock> params;
   params.AttachNew (new celVariableParameterBlock ());
-  obj->SetEntity (tpl->GetName (), params);
+  obj->SetEntity (0, params);
 }
 
 void ElcmTest::SelectEntity (iCelEntity* entity, bool left)
@@ -507,9 +500,9 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
   {
     csStringID inventoryEntityParID = pl->FetchStringID ("inventoryEntity");
     const celData* data = params->GetParameter (inventoryEntityParID);
-    if (!data || data->type != CEL_DATA_STRING)
-      return ReportError ("Invalid parameter for 'inventory' message. Expected string.");
-    iCelEntity* ent = pl->FindEntity (data->value.s->GetData ());
+    if (!data || data->type != CEL_DATA_ENTITY)
+      return ReportError ("Invalid parameter for 'inventory' message. Expected long.");
+    iCelEntity* ent = data->value.ent;
     csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (ent);
     if (!inventory)
     {

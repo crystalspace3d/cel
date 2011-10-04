@@ -104,6 +104,7 @@ private:
   csColor start;
   csWeakRef<iMeshWrapper> mesh;
   csWeakRef<iShaderVariableContext> svc;
+  csRef<iParameterManager> pm;
 
   void SetAmbientColor (const csColor& color);
   csColor GetAmbientColor ();

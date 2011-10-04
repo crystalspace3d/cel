@@ -135,12 +135,15 @@ void celUIInventory::UpdateLists (iPcInventory* inventory)
   for (size_t i = 0 ; i < inventory->GetEntityCount () ; i++)
   {
     iCelEntity* ent = inventory->GetEntity (i);
-    CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem (ent->GetName ());
+    csString n;
+    if (!ent->GetName ()) n = "noname";
+    else n = ent->GetName ();
+    CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem (n.GetData ());
     item->setTextColours(CEGUI::colour(0,0,0));
     item->setSelectionBrushImage("ice", "TextSelectionBrush");
     item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
     list->addItem(item);
-    listNames.Push (ent->GetName ());
+    listNames.Push (n);
   }
 
   for (size_t i = 0 ; i < inventory->GetEntityTemplateCount () ; i++)

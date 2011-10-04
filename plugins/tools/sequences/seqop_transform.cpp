@@ -138,7 +138,7 @@ celTransformSeqOp::celTransformSeqOp (
 {
   celTransformSeqOp::type = type;
 
-  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+  pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity_param = pm->GetParameter (params, entity_par);
@@ -159,21 +159,16 @@ void celTransformSeqOp::FindMesh (iCelParameterBlock* params)
 {
   if (mesh) return;
 
-  entity = entity_param->Get (params);
+  iCelEntity* ent = pm->ResolveEntityParameter (type->pl, params, entity_param, 0);
+  if (!ent) return;
   tag = tag_param->Get (params);
 
-  // @@@ To many queries for efficiency?
-  iCelPlLayer* pl = type->pl;
-  iCelEntity* ent = pl->FindEntity (entity);
-  if (ent)
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
+  if (pcmesh)
   {
-    csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
-    if (pcmesh)
-    {
-      mesh = pcmesh->GetMesh ();
-      start = mesh->GetMovable ()->GetTransform ().GetOrigin ();
-      start_matrix = mesh->GetMovable ()->GetTransform ().GetO2T ();
-    }
+    mesh = pcmesh->GetMesh ();
+    start = mesh->GetMovable ()->GetTransform ().GetOrigin ();
+    start_matrix = mesh->GetMovable ()->GetTransform ().GetO2T ();
   }
 }
 

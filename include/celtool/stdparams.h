@@ -36,6 +36,7 @@ struct iObjectRegistry;
 struct iDocumentNode;
 struct iParameter;
 struct iParameterManager;
+struct iCelPlLayer;
 class celVariableParameterBlock;
 
 // The following macros will set 'var' to the required variable and
@@ -250,10 +251,23 @@ public:
    * \param dyn_parameters is an array with the dynamic parameters.
    */
   static bool FillParameterBlock (
+        iCelPlLayer* pl,
         iCelParameterBlock* params,
 	celVariableParameterBlock* act_params,
 	const csArray<celParSpec>& parameters,
 	const csRefArray<iParameter>& dyn_parameters);
+
+  /**
+   * Get a string representation of 'data' useful for debugging.
+   */
+  static csString GetDebugData (const celData* data);
+
+  /**
+   * Debugging utility to dump a parameter block.
+   * The 'pl' is optional but will be used to get the parameter names if given.
+   */
+  static void Dump (const char* title,
+      iCelParameterBlock* params, iCelPlLayer* pl = 0);
 };
 
 struct celVariable
@@ -370,6 +384,40 @@ public:
    * Existing properties will be overwritten.
    */
   void Merge (iCelParameterBlock* params);
+};
+
+/**
+ * Specific parameter block implementation that supports an entity
+ * parameter using "this".
+ */
+class CEL_CELTOOL_EXPORT celEntityParameterBlock : public scfImplementation1<
+	celEntityParameterBlock, iCelParameterBlock>
+{
+private:
+  static csStringID thisID;
+  celData thisData;
+  iCelEntity* entity;
+
+public:
+  celEntityParameterBlock (iCelPlLayer* pl, iCelEntity* entity);
+  virtual ~celEntityParameterBlock () { }
+
+  virtual size_t GetParameterCount () const { return 1; }
+  virtual csStringID GetParameterDef (size_t idx, celDataType& t) const
+  {
+    if (idx == 0) { t = CEL_DATA_ENTITY; return thisID; }
+    return csInvalidStringID;
+  }
+  virtual const celData* GetParameter (csStringID id) const
+  {
+    if (id == thisID) return &thisData;
+    return 0;
+  }
+  virtual const celData* GetParameterByIndex (size_t idx) const
+  {
+    if (idx == 0) return &thisData;
+    return 0;
+  }
 };
 
 /**

@@ -83,6 +83,7 @@ private:
   csWeakRef<iSector> sect;
   csWeakRef<iMeshWrapper> mesh;
   csString entity;
+  uint entityID;
   csString tag;
   csString sector;
 
