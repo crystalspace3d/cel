@@ -1184,10 +1184,6 @@ class iCelPropertyClass(cspace.iBase):
     def GetTag(*args): return _blcelc.iCelPropertyClass_GetTag(*args)
     def GetEntity(*args): return _blcelc.iCelPropertyClass_GetEntity(*args)
     def SetEntity(*args): return _blcelc.iCelPropertyClass_SetEntity(*args)
-    def SaveFirstPass(*args): return _blcelc.iCelPropertyClass_SaveFirstPass(*args)
-    def LoadFirstPass(*args): return _blcelc.iCelPropertyClass_LoadFirstPass(*args)
-    def Save(*args): return _blcelc.iCelPropertyClass_Save(*args)
-    def Load(*args): return _blcelc.iCelPropertyClass_Load(*args)
     def AddPropertyChangeCallback(*args): return _blcelc.iCelPropertyClass_AddPropertyChangeCallback(*args)
     def RemovePropertyChangeCallback(*args): return _blcelc.iCelPropertyClass_RemovePropertyChangeCallback(*args)
     def SetProperty(*args): return _blcelc.iCelPropertyClass_SetProperty(*args)
@@ -2463,6 +2459,7 @@ class iPcActorMove(cspace.iBase):
     def GetJumpingVelocity(*args): return _blcelc.iPcActorMove_GetJumpingVelocity(*args)
     def SetAnimation(*args): return _blcelc.iPcActorMove_SetAnimation(*args)
     def SetAnimationMapping(*args): return _blcelc.iPcActorMove_SetAnimationMapping(*args)
+    def SubscribeMessages(*args): return _blcelc.iPcActorMove_SubscribeMessages(*args)
     MovingForward = _swig_property(_blcelc.iPcActorMove_MovingForward_get, _blcelc.iPcActorMove_MovingForward_set, None,
                     "iPcActorMove.MovingForward -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsMovingForward()\n\tset: void iPcActorMove::Forward(bool)")
 
@@ -4961,8 +4958,6 @@ class iQuest(cspace.iBase):
     __repr__ = _swig_repr
     def SwitchState(*args): return _blcelc.iQuest_SwitchState(*args)
     def GetCurrentState(*args): return _blcelc.iQuest_GetCurrentState(*args)
-    def LoadState(*args): return _blcelc.iQuest_LoadState(*args)
-    def SaveState(*args): return _blcelc.iQuest_SaveState(*args)
     def FindSequence(*args): return _blcelc.iQuest_FindSequence(*args)
     def Activate(*args): return _blcelc.iQuest_Activate(*args)
     def Deactivate(*args): return _blcelc.iQuest_Deactivate(*args)
@@ -5418,10 +5413,6 @@ class celPcCommon(object):
     def PropertyClassesHaveChanged(*args): return _blcelc.celPcCommon_PropertyClassesHaveChanged(*args)
     def GetPropertyOrActionType(*args): return _blcelc.celPcCommon_GetPropertyOrActionType(*args)
     def IsPropertyReadOnly(*args): return _blcelc.celPcCommon_IsPropertyReadOnly(*args)
-    def SaveFirstPass(*args): return _blcelc.celPcCommon_SaveFirstPass(*args)
-    def LoadFirstPass(*args): return _blcelc.celPcCommon_LoadFirstPass(*args)
-    def Save(*args): return _blcelc.celPcCommon_Save(*args)
-    def Load(*args): return _blcelc.celPcCommon_Load(*args)
     def GetPersistentData(*args): return _blcelc.celPcCommon_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.celPcCommon_SetPersistentData(*args)
     def QueryPositionInfo(*args): return _blcelc.celPcCommon_QueryPositionInfo(*args)
@@ -5475,8 +5466,6 @@ class PcCommon(swigPcCommon):
         except: self.this = this
     __swig_destroy__ = _blcelc.delete_PcCommon
     __del__ = lambda self : None;
-    def Save(*args): return _blcelc.PcCommon_Save(*args)
-    def Load(*args): return _blcelc.PcCommon_Load(*args)
 PcCommon_swigregister = _blcelc.PcCommon_swigregister
 PcCommon_swigregister(PcCommon)
 

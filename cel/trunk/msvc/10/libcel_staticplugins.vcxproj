@@ -476,7 +476,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libblxml_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libcelconsole_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libcelgraph_staticreg.cpp" />
-    <ClCompile Include="..\..\msvc\libcpersist_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libdecorators_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libelcm_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libledges_staticreg.cpp" />
@@ -533,7 +532,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libtriggers_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory2_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory_staticreg.cpp" />
-    <ClCompile Include="..\..\msvc\libxmlpersist_staticreg.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentity\celentity.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentitytpl\celentitytpl.cpp" />
     <ClCompile Include="..\..\plugins\addons\celgraph\celgraph.cpp" />
@@ -550,8 +548,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\behaviourlayer\xml\blxml.cpp" />
     <ClCompile Include="..\..\plugins\behaviourlayer\xml\token.cpp" />
     <ClCompile Include="..\..\plugins\behaviourlayer\xml\xmlscript.cpp" />
-    <ClCompile Include="..\..\plugins\persist\classic\cpersist.cpp" />
-    <ClCompile Include="..\..\plugins\persist\xml\xmlpersist.cpp" />
     <ClCompile Include="..\..\plugins\propclass\actormove\actormove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\actormove\npcmove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\analogmotion\analogmotion.cpp" />
@@ -742,8 +738,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\behaviourlayer\xml\blxml.h" />
     <ClInclude Include="..\..\plugins\behaviourlayer\xml\token.h" />
     <ClInclude Include="..\..\plugins\behaviourlayer\xml\xmlscript.h" />
-    <ClInclude Include="..\..\plugins\persist\classic\cpersist.h" />
-    <ClInclude Include="..\..\plugins\persist\xml\xmlpersist.h" />
     <ClInclude Include="..\..\plugins\propclass\actormove\actormove.h" />
     <ClInclude Include="..\..\plugins\propclass\actormove\npcmove.h" />
     <ClInclude Include="..\..\plugins\propclass\analogmotion\analogmotion.h" />
