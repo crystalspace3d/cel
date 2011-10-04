@@ -47,6 +47,8 @@ private:
   celPlLayer* pl;
   csSet<csStringID> classes;
 
+  csStringID templateNameID;	// Optional name of the template.
+
   celMessageChannel channel;
 
   bool positional;
@@ -59,6 +61,9 @@ public:
 
   celEntity (celPlLayer* pl);
   virtual ~celEntity ();
+
+  void SetTemplateNameID (csStringID id) { templateNameID = id; }
+  virtual csStringID GetTemplateNameID () const { return templateNameID; }
 
   uint GetEntityID () { return entity_ID; }
   void SetEntityID (uint ID) { entity_ID = ID; }

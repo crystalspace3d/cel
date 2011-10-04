@@ -52,7 +52,7 @@ struct iMovable;
  */
 struct iCelEntity : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntity, 0, 0, 6);
+  SCF_INTERFACE (iCelEntity, 0, 0, 7);
 
   /**
    * Get the iObject for this entity (if supported).
@@ -84,6 +84,12 @@ struct iCelEntity : public virtual iBase
    * \param n A uint to uniquely represent this entity.
    */
   virtual void SetID (uint n) = 0;
+
+  /**
+   * Get the Id of the template that created this entity.
+   * Returns csInvalidStringID if this entity was not created from a template.
+   */
+  virtual csStringID GetTemplateNameID () const = 0;
 
   /**
    * Get the list of property classes.

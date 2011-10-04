@@ -426,6 +426,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   csRef<iCelEntity> ent = CreateEntity (name, 0, 0, CEL_PROPCLASS_END);
   if (!ApplyTemplate (ent, factory, params))
     return 0;
+  (static_cast<celEntity*> ((iCelEntity*)ent))->SetTemplateNameID (FetchStringID (factory->GetName ()));
   return ent;
 }
 
