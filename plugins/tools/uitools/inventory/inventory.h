@@ -25,6 +25,7 @@
 #include "csutil/stringarray.h"
 #include "ivaria/icegui.h"
 
+#include "physicallayer/pl.h"
 #include "propclass/inv.h"
 #include "tools/uitools/inventory.h"
 
@@ -37,9 +38,8 @@ class celUIInventory : public scfImplementation2<celUIInventory,
 private:
   iObjectRegistry* object_reg;
   csRef<iCEGUI> cegui;
+  csRef<iCelPlLayer> pl;
   csRef<iPcInventory> inventory;
-
-  csStringArray listNames;
 
   CEGUI::Window* window;
   csRef<InvListener> listener;
