@@ -64,6 +64,11 @@
       <material>marble</material>
     </params>
   </meshfact>
+  <meshfact name="MoneySpawn">
+    <nullmesh>
+      <min x="-1" y="-1" z="-1" /> <max x="1" y="1" z="1" />
+    </nullmesh>
+  </meshfact>
 
   <addon plugin="cel.addons.dynamicworld.loader">
     <dynworld name="world" />
@@ -91,6 +96,8 @@
     <factory name="Emerald" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Iron" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Copper" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+
+    <factory name="MoneySpawn" maxradius="1" imposterradius="-1.0" mass="0"> </factory>
   </addon>
 
     <addon plugin="cel.addons.questdef" >
@@ -161,6 +168,24 @@
 
     <addon plugin="cel.addons.celentitytpl" entityname="BasePickup" >
       <propclass name="pcobject.mesh" />
+    </addon>
+
+    <addon plugin="cel.addons.celentitytpl" entityname="MoneySpawn" >
+      <template name="Base" />
+      <propclass name="pclogic.spawn">
+        <action name="AddEntityTemplateType">
+	  <par name="entity" string="Money" />
+	</action>
+        <action name="SetTiming">
+	  <par name="repeat" bool="true" />
+	  <par name="mindelay" long="1000" />
+	  <par name="maxdelay" long="5000" />
+	</action>
+        <action name="AddSpawnPosition">
+	  <par name="sector" string="$sector" />
+	  <par name="position" vector3="$pos" />
+	</action>
+      </propclass>
     </addon>
 
     <addon plugin="cel.addons.celentitytpl" entityname="Table" >
