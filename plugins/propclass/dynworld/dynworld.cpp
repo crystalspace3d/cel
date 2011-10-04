@@ -567,7 +567,10 @@ iCelEntity* DynamicObject::ForceEntity (celPcDynamicWorld* world)
       if (!entityName.IsEmpty ())
         entity->SetName (entityName);
       if (entityTemplate)
+      {
         world->pl->ApplyTemplate (entity, entityTemplate, params);
+	entity->SetTemplateNameID (world->pl->FetchStringID (entityTemplate->GetName ()));
+      }
     }
   }
   if (entityTemplate && !entity)
@@ -1250,11 +1253,11 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
         if (newEntites.Contains (entity))
         {
           printf ("New entity without dynobj '%s'!\n", entity->GetName ());
-          // Try to get the factory/template name out of the mesh.
-          csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-          if (pcmesh && pcmesh->GetFactoryName () != 0 && *pcmesh->GetFactoryName () != 0)
+	  csStringID tmpID = entity->GetTemplateNameID ();
+          if (tmpID != csInvalidStringID)
           {
-            buf->AddID (strings->Request (pcmesh->GetFactoryName ()));
+	    csString tmpName = pl->FetchString (tmpID);
+            buf->AddID (strings->Request (tmpName));
             buf->AddID (strings->Request (entity->GetName ()));
           }
           else
@@ -1424,9 +1427,6 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
           {
             entity->SetName (entName);
           }
-          csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-          if (pcmesh)
-            pcmesh->SetFactoryName (tmpName);
         }
         elcm->RegisterNewEntity (entity);
       }
@@ -1447,9 +1447,6 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
           else
           {
 	    printf ("Loading existing entity but with deleted dynobj '%s'\n", entity->GetName ());
-            csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-            if (pcmesh)
-              pcmesh->SetFactoryName (dynobj->GetFactory ()->GetName ());
             ForceInvisible (dynobj);
             dynobj->UnlinkEntity ();
             DeleteObject (dynobj);

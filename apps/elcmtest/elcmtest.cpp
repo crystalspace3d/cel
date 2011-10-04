@@ -374,10 +374,10 @@ void ElcmTest::SelectEntity (iCelEntity* entity)
 {
   iPcInventory* inv = uiInventory->GetInventory ();
   if (!inv) return;
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-  if (pcmesh && pcmesh->GetFactoryName () != 0 && *pcmesh->GetFactoryName () != 0)
+  csStringID tmpID = entity->GetTemplateNameID ();
+  if (tmpID != csInvalidStringID)
   {
-    csString factName = pcmesh->GetFactoryName ();
+    csString factName = pl->FetchString (tmpID);
     csRef<iPcMesh> playerpcmesh = celQueryPropertyClassEntity<iPcMesh> (
 	playerEntity);
     csReversibleTransform trans = playerpcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
