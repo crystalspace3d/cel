@@ -62,7 +62,7 @@ public:
   celEntity (celPlLayer* pl);
   virtual ~celEntity ();
 
-  void SetTemplateNameID (csStringID id) { templateNameID = id; }
+  virtual void SetTemplateNameID (csStringID id) { templateNameID = id; }
   virtual csStringID GetTemplateNameID () const { return templateNameID; }
 
   uint GetEntityID () { return entity_ID; }

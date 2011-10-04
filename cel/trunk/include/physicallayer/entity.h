@@ -86,6 +86,13 @@ struct iCelEntity : public virtual iBase
   virtual void SetID (uint n) = 0;
 
   /**
+   * Set the ID for the template name. Normally this is not needed as this
+   * is done by the physical layer automatically if the entity is created
+   * from a template.
+   */
+  virtual void SetTemplateNameID (csStringID id) = 0;
+
+  /**
    * Get the Id of the template that created this entity.
    * Returns csInvalidStringID if this entity was not created from a template.
    */
