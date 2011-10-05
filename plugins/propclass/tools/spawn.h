@@ -155,6 +155,8 @@ private:
 
   size_t GetPositionIndex ();
 
+  bool atBaseline;
+
 public:
   celPcSpawn (iObjectRegistry* object_reg);
   virtual ~celPcSpawn ();
@@ -201,6 +203,15 @@ public:
     AddEntityType (chance, name, bl, behaviour, msg_id, params, arg);
     va_end (arg);
   }
+
+  virtual void MarkBaseline ()
+  {
+    atBaseline = true;
+  }
+  virtual bool IsModifiedSinceBaseline () const { return !atBaseline; }
+  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings);
+  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
+      const csHash<csString,csStringID>& strings);
 };
 
 #endif // __CEL_PF_SPAWNFACT__
