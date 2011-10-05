@@ -190,6 +190,7 @@
 	  <par name="count" long="5" />
 	</action>
 	<property name="spawnunique" bool="true" />
+	<property name="namecounter" bool="false" />
       </propclass>
     </addon>
 
