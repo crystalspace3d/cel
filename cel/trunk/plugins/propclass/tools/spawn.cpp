@@ -30,7 +30,6 @@
 #include "propclass/linmove.h"
 #include "csutil/util.h"
 #include "csutil/scanstr.h"
-#include "csutil/randomgen.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -102,6 +101,7 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   enabled = true;
   repeat = false;
   random = true;
+  position_index = 0;
   mindelay = 1000;
   maxdelay = 1000;
   delay_todo = 0;
@@ -167,6 +167,13 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
 
 celPcSpawn::~celPcSpawn ()
 {
+}
+
+void celPcSpawn::SetEntity (iCelEntity* entity)
+{
+  celPcCommon::SetEntity (entity);
+  if (entity)
+    rng.Initialize (entity->GetID ());
 }
 
 bool celPcSpawn::SetPropertyIndexed (int idx, bool b)
@@ -323,6 +330,7 @@ void celPcSpawn::SetTiming (bool repeat, bool random,
 void celPcSpawn::ResetTiming ()
 {
   sequence_cur = 0;
+  position_index = 0;
   Reset ();
 }
 
@@ -337,7 +345,6 @@ void celPcSpawn::Reset ()
 
 void celPcSpawn::Spawn ()
 {
-  csRandomGen rng (entity->GetID () + 5);
   SpawnEntityNr (rng.Get((uint32)spawninfo.GetSize ()));
 }
 
@@ -367,31 +374,91 @@ void celPcSpawn::UpdateFreeUniqueEntity (iCelEntity* entity)
   }
 }
 
+iCelEntity* celPcSpawn::CreateNewEntity (iCelEntityTemplate* tpl,
+      const char* entityName, iCelParameterBlock* params,
+      const csVector3& p, float yrot, const char* sector,
+      const char* node)
+{
+  csVector3 pos = p;
+  csRef<iCelEntity> newent = pl->CreateEntity (tpl, entityName, params);
+
+  iSector* sect = engine->FindSector (sector);
+  if (!sect)
+  {
+    Report (object_reg,
+          "Can't find sector '%s' for action SetPosition!",
+          sector);
+    return 0;
+  }
+
+  if (node && *node)
+  {
+    csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
+              sect->QueryObject (), node);
+    if (mapnode)
+      pos = mapnode->GetPosition ();
+    else
+      Report (object_reg, "Can't find node '%s' for trigger!", node);
+  }
+
+  csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (newent);
+  if (linmove)
+  {
+    if (node && *node)
+      linmove->SetFullPosition (node, yrot, sect);
+    else
+      linmove->SetFullPosition (pos, yrot, sect);
+  }
+  else
+  {
+    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (newent);
+    if (pcmesh && pcmesh->GetMesh ())
+    {
+      iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+      movable->SetPosition (sect, pos);
+      movable->GetTransform ().SetO2T (csYRotMatrix3 (yrot));
+      movable->UpdateMove ();
+    }
+  }
+  return newent;
+}
+
+size_t celPcSpawn::GetPositionIndex ()
+{
+  size_t len = spawnposition.GetSize ();
+  if (len <= 0) return csArrayItemNotFound;
+
+  size_t number = 0;
+  if (random)
+  {
+    number = rng.Get ((int)len);
+  }
+  else
+  {
+    number = position_index;
+    position_index++;
+    if (position_index >= len) position_index = 0;
+  }
+  return number;
+}
+
 void celPcSpawn::SpawnEntityNr (size_t idx)
 {
   CountUniqueEntities ();
-
   if (inhibit_count != 0 && count >= inhibit_count) return;
+
   // To prevent the entity from being deleted during
   // the call of pcspawn_newentity we keep a temporary reference
   // here.
   csRef<iCelEntity> ref = entity;
   csRef<iCelEntity> newent;
-  csRandomGen rng (entity->GetID ());
 
   csString entity_name = spawninfo[idx].name;
   if (do_name_counter)
     entity_name += serialnr;
   iCelEntityTemplate* entpl = pl->FindEntityTemplate (
       spawninfo[idx].templ);
-  if (entpl)
-  {
-    csRef<iCelParameterBlock> entpl_params;
-    entpl_params.AttachNew (new celVariableParameterBlock ());
-    newent = pl->CreateEntity (entpl, entity_name, entpl_params);
-    serialnr ++;
-  }
-  else
+  if (!entpl)
   {
     printf ("Warning: couldn't find template '%s'!\n",
         spawninfo[idx].templ.GetData ());
@@ -399,105 +466,32 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
     return;
   }
 
-  UpdateFreeUniqueEntity (newent);
-
-  // Set position
-  size_t len = spawnposition.GetSize ();
-  if (len > 0)
+  size_t number = GetPositionIndex ();
+  csVector3 pos (0);
+  float yrot = 0.0f;
+  csString sector, node;
+  if (number != csArrayItemNotFound)
   {
-    size_t number = 0;
-    if (random)
-    {
-      for (size_t i = 0; i != len; i ++)
-      {
-        number = rng.Get ((int)len);
-        if (spawnposition[number].reserved == false)
-          break;
-        else if (spawnposition[i].reserved == false)
-        {
-          number = i;
-          break;
-        }
-      }
-    }
-    else
-    {
-      for (number = 0; number != len; number ++)
-        if (spawnposition[number].reserved == false)
-          break;
-    }
-    if (number < len)
-    {
-      iSector* sect = engine->FindSector (spawnposition[number].sector);
-      if (!sect)
-      {
-        Report (object_reg,
-          "Can't find sector '%s' for action SetPosition!",
-          (const char*)(spawnposition[number].sector));
-      }
-      else
-      {
-        csVector3 pos;
-        if (!spawnposition[number].node.IsEmpty ())
-        {
-          csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
-              sect->QueryObject (), spawnposition[number].node);
-          if (mapnode)
-            pos = mapnode->GetPosition ();
-          else
-            Report (object_reg, "Can't find node '%s' for trigger!",
-                (const char*)spawnposition[number].node);
-        }
-        else
-        {
-          pos = spawnposition[number].pos;
-        }
-#if 0
-        csRef<iPcLight> pclight = celQueryPropertyClassEntity<iPcLight> (newent);
-        if (pclight)
-        {
-          iMovable* movable = pclight->GetLight ()->GetMovable ();
-          spawnposition[number].reserved = true;
-	  sect->GetLights ()->Add (pclight->GetLight ());
-          movable->SetPosition (sect, pos);
-          movable->GetTransform ().SetO2T (
-                (csMatrix3) csYRotMatrix3 (spawnposition[number].yrot));
-          movable->UpdateMove ();
-	  pclight->GetLight ()->Setup ();
-	  pclight->GetLight ()->Setup ();
-	  printf ("Moved light!\n"); fflush (stdout);
-        }
-#else
-	iPcLight* pclight = 0;
-#endif
-
-        csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (newent);
-        if (linmove)
-        {
-          spawnposition[number].reserved = true;
-          if (!spawnposition[number].node.IsEmpty ())
-            linmove->SetFullPosition (spawnposition[number].node,
-              spawnposition[number].yrot, sect);
-          else
-            linmove->SetFullPosition (spawnposition[number].pos,
-              spawnposition[number].yrot, sect);
-        }
-        else
-        {
-          csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (newent);
-          if (pcmesh && pcmesh->GetMesh ())
-          {
-            iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-            spawnposition[number].reserved = true;
-            movable->SetPosition (sect, pos);
-            movable->GetTransform ().SetO2T (
-                (csMatrix3) csYRotMatrix3 (spawnposition[number].yrot));
-            movable->UpdateMove ();
-          }
-        }
-      }
-    }
+    pos = spawnposition[number].pos;
+    yrot = spawnposition[number].yrot;
+    sector = spawnposition[number].sector;
+    node = spawnposition[number].node;
   }
+
+  csRef<iCelParameterBlock> entpl_params;
+  entpl_params.AttachNew (new celVariableParameterBlock ());
+  if (!spawner)
+    spawner = csQueryRegistryTagInterface<iCelSpawner> (object_reg, "cel.spawner");
+  if (spawner)
+    newent = spawner->CreateEntity (entpl, entity_name, entpl_params,
+      pos, yrot, sector, node);
+  else
+    newent = CreateNewEntity (entpl, entity_name, entpl_params,
+      pos, yrot, sector, node);
+  if (!newent) return;
+  serialnr++;
+
+  UpdateFreeUniqueEntity (newent);
 
   // First send a message to our new entity if needed.
   celData ret;
@@ -534,8 +528,10 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
 void celPcSpawn::TickOnce ()
 {
   if (!enabled) return;
-  if (inhibit_count != 0 && inhibit_count == count) return;
+
   if (repeat) Reset ();
+  CountUniqueEntities ();
+  if (inhibit_count != 0 && count >= inhibit_count) return;
 
   // First create our entity.
   size_t idx;

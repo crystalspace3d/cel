@@ -449,13 +449,21 @@ public:
 
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
 
-  csHash<iDynamicObject*,csPtrKey<iMeshWrapper> >& GetMeshToDynObj () { return meshToDynObj; }
+  csHash<iDynamicObject*,csPtrKey<iMeshWrapper> >& GetMeshToDynObj ()
+  {
+    return meshToDynObj;
+  }
 
   uint GetLastID ()
   {
     lastID++;
     return lastID-1;
   }
+
+  iCelEntity* CreateSpawnedEntity (iCelEntityTemplate* tpl,
+      const char* entityName, iCelParameterBlock* params,
+      const csVector3& pos, float yrot, const char* sector,
+      const char* node);
 
   virtual void SetELCM (iELCM* elcm);
   void SafeToRemove (iCelEntity* entity);

@@ -283,6 +283,21 @@ bool ElcmTest::FillDynamicWorld ()
         if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template 'Clicker'!");
       }
+      r = rnd.Get ();
+      if (r < .1)
+      {
+        float ox = float (x*5) + 2.5f;
+        float oy = float (y*5) + 2.5f;
+	csVector3 pos (ox, -1, oy);
+        obj = dynworld->AddObject ("MoneySpawn", csReversibleTransform (
+	      csMatrix3 (), pos));
+        csRef<celVariableParameterBlock> params;
+        params.AttachNew (new celVariableParameterBlock ());
+	params->AddParameter (pl->FetchStringID ("sector")).Set ("room");
+	params->AddParameter (pl->FetchStringID ("pos")).Set (pos);
+        if (!obj->SetEntity (0, params))
+	  return ReportError ("Could not set entity template 'MoneyTemplate'!");
+      }
     }
   dynworld->MarkBaseline ();
   printf ("Created %d objects!\n", dynworld->GetObjectCount ());

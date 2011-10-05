@@ -161,5 +161,27 @@ struct iPcSpawn : public virtual iBase
   	const char* sector) = 0;
 };
 
+/**
+ * This is an interface that can be implemented by an application
+ * in order to get more control over how entities should be spawned.
+ * If the pcspawn property class discovers that there is an iCelSpawner
+ * object in the object registry (with the tag 'cel.spawner') then
+ * it will automatically use this instead of creating entities on its
+ * own.
+ */
+struct iCelSpawner : public virtual iBase
+{
+  SCF_INTERFACE (iCelSpawner, 1, 1, 0);
+
+  /**
+   * A new entity has to be created.
+   */
+  virtual iCelEntity* CreateEntity (iCelEntityTemplate* tpl,
+      const char* entityName, iCelParameterBlock* params,
+      const csVector3& pos, float yrot, const char* sector,
+      const char* node) = 0;
+};
+
+
 #endif // __CEL_PF_SPAWN__
 

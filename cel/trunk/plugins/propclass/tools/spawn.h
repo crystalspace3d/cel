@@ -28,6 +28,7 @@
 #include "csutil/parray.h"
 #include "csutil/hash.h"
 #include "csutil/stringarray.h"
+#include "csutil/randomgen.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
@@ -60,7 +61,6 @@ struct SpawnInfo
 // Spawn position
 struct SpawnPosition
 {
-  bool reserved;
   csVector3 pos;
   float yrot;
   csString node;
@@ -68,7 +68,6 @@ struct SpawnPosition
 
   SpawnPosition ()
   {
-    reserved = false;
     pos.x = 0.0f;
     pos.y = 0.0f;
     pos.z = 0.0f;
@@ -83,12 +82,14 @@ class celPcSpawn : public scfImplementationExt1<
 	celPcSpawn, celPcCommon, iPcSpawn>
 {
 private:
+  csRandomGen rng;
   csRef<iVirtualClock> vc;
   csRef<iEngine> engine;
   bool enabled;
   csTicks mindelay, maxdelay, delay_todo;
   bool repeat;
   bool random;
+  size_t position_index;
   size_t sequence_cur;
   csArray<SpawnInfo> spawninfo;
   csArray<SpawnPosition> spawnposition;
@@ -100,6 +101,8 @@ private:
 
   bool do_spawn_unique;
   csSafeCopyArray<csWeakRef<iCelEntity> > uniqueEntities;
+
+  csRef<iCelSpawner> spawner;
 
   static csStringID id_repeat_param;
   static csStringID id_random_param;
@@ -145,9 +148,18 @@ private:
   void CountUniqueEntities ();
   void UpdateFreeUniqueEntity (iCelEntity* entity);
 
+  iCelEntity* CreateNewEntity (iCelEntityTemplate* tpl,
+      const char* entityName, iCelParameterBlock* params,
+      const csVector3& pos, float yrot, const char* sector,
+      const char* node);
+
+  size_t GetPositionIndex ();
+
 public:
   celPcSpawn (iObjectRegistry* object_reg);
   virtual ~celPcSpawn ();
+
+  virtual void SetEntity (iCelEntity* entity);
 
   virtual void Activate ();
   virtual void Deactivate ();
