@@ -689,6 +689,8 @@ class iCelEntity(cspace.iBase):
     def SetName(*args): return _blcelc.iCelEntity_SetName(*args)
     def GetID(*args): return _blcelc.iCelEntity_GetID(*args)
     def SetID(*args): return _blcelc.iCelEntity_SetID(*args)
+    def SetTemplateNameID(*args): return _blcelc.iCelEntity_SetTemplateNameID(*args)
+    def GetTemplateNameID(*args): return _blcelc.iCelEntity_GetTemplateNameID(*args)
     def GetPropertyClassList(*args): return _blcelc.iCelEntity_GetPropertyClassList(*args)
     def SetBehaviour(*args): return _blcelc.iCelEntity_SetBehaviour(*args)
     def GetBehaviour(*args): return _blcelc.iCelEntity_GetBehaviour(*args)
@@ -1015,6 +1017,8 @@ class celParameterTools(object):
     ParseParSpecBlock = staticmethod(_blcelc.celParameterTools_ParseParSpecBlock)
     GetParameterBlock = staticmethod(_blcelc.celParameterTools_GetParameterBlock)
     FillParameterBlock = staticmethod(_blcelc.celParameterTools_FillParameterBlock)
+    GetDebugData = staticmethod(_blcelc.celParameterTools_GetDebugData)
+    Dump = staticmethod(_blcelc.celParameterTools_Dump)
     def __init__(self, *args): 
         this = _blcelc.new_celParameterTools(*args)
         try: self.this.append(this)
@@ -1037,6 +1041,8 @@ celParameterTools_Convert = _blcelc.celParameterTools_Convert
 celParameterTools_ParseParSpecBlock = _blcelc.celParameterTools_ParseParSpecBlock
 celParameterTools_GetParameterBlock = _blcelc.celParameterTools_GetParameterBlock
 celParameterTools_FillParameterBlock = _blcelc.celParameterTools_FillParameterBlock
+celParameterTools_GetDebugData = _blcelc.celParameterTools_GetDebugData
+celParameterTools_Dump = _blcelc.celParameterTools_Dump
 
 class celVariable(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -1077,6 +1083,22 @@ class celVariableParameterBlock(scfVariableParameterBlock):
 
 celVariableParameterBlock_swigregister = _blcelc.celVariableParameterBlock_swigregister
 celVariableParameterBlock_swigregister(celVariableParameterBlock)
+
+class celEntityParameterBlock(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_celEntityParameterBlock(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_celEntityParameterBlock
+    __del__ = lambda self : None;
+    def GetParameterCount(*args): return _blcelc.celEntityParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.celEntityParameterBlock_GetParameterDef(*args)
+    def GetParameter(*args): return _blcelc.celEntityParameterBlock_GetParameter(*args)
+    def GetParameterByIndex(*args): return _blcelc.celEntityParameterBlock_GetParameterByIndex(*args)
+celEntityParameterBlock_swigregister = _blcelc.celEntityParameterBlock_swigregister
+celEntityParameterBlock_swigregister(celEntityParameterBlock)
 
 class celOneParameterBlock(scfOneParameterBlock):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
