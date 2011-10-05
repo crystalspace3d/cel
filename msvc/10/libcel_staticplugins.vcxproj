@@ -629,7 +629,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastRasterization.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastRegion.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastTimer.cpp" />
-    <ClCompile Include="..\..\plugins\stdphyslayer\datatype.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\entity.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\entitytpl.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\etracker.cpp" />

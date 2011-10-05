@@ -1094,9 +1094,6 @@
 				RelativePath="..\..\plugins\recast\recastnavigation\RecastTimer.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\stdphyslayer\datatype.cpp">
-			</File>
-			<File
 				RelativePath="..\..\plugins\stdphyslayer\entity.cpp">
 			</File>
 			<File

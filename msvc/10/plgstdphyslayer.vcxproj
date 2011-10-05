@@ -497,7 +497,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\msvc\plugin_impl.cpp" />
-    <ClCompile Include="..\..\plugins\stdphyslayer\datatype.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\entity.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\entitytpl.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\etracker.cpp" />

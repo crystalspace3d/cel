@@ -27,6 +27,7 @@ static char const metainfo_ui_inventory2[] =
 "	<description>CEL Double Inventory UI</description>"
 "        <requires>"
 "          <class>crystalspace.cegui.wrapper</class>"
+"          <class>cel.physicallayer</class>"
 "        </requires>"
 "      </class>"
 "    </classes>"
