@@ -29,8 +29,6 @@
  *
  * This property class supports the following actions (add prefix 'cel.spawn.action.'
  * if you want to access this action through a message):
- * - AddEntityType: parameters 'chance' (float), 'entity' (string),
- *     'behaviour' (string), 'layer' (string), 'call' (string)
  * - AddEntityTemplateType: parameters 'chance' (float), 'entity' (string),
  *     'template' (string), 'call' (string)
  * - SetTiming: parameters 'repeat' (bool), 'random' (bool),
@@ -68,32 +66,12 @@ struct iPcSpawn : public virtual iBase
 
   /**
    * Add an entry to the list of entities that can be created by
-   * this property class.
-   * \param chance is a number indicating the chance of this entity
-   *        being selected (only relevant if 'random' selection is
-   *        being used).
-   * \param name is the name of the entity that will be created.
-   * \param bl is the behaviour layer (can be 0).
-   * \param behaviour is the name of the behaviour (can be 0).
-   * \param msg_id if not 0 then we immediatelly send this message
-   *        to the behaviour of the new entity after creating it.
-   * \param params is the parameter block that is used to send the
-   *        message (can be 0).
-   * \param ... is a list of property class names.
-   */
-  virtual void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
-  	const char* behaviour, const char* msg_id,
-  	iCelParameterBlock* params, ...) = 0;
-
-  /**
-   * Add an entry to the list of entities that can be created by
    * this property class. This version works with templates.
    * \param chance is a number indicating the chance of this entity
    *        being selected (only relevant if 'random' selection is
    *        being used).
    * \param templ is the name of the template from which to create entity.
    * \param name is the name of the entity that will be created.
-   *        (can be 0 then got template name)
    * \param msg_id if not 0 then we immediatelly send this message
    *        to the behaviour of the new entity after creating it.
    * \param params is the parameter block that is used to send the
@@ -157,6 +135,9 @@ struct iPcSpawn : public virtual iBase
 
   /**
    * Inhibit respawn in case count will reach given number
+   * In combination with EnableSpawnUnique() this will ensure that
+   * the spawn property class will always try to keep the given
+   * number of entities alive.
    */
   virtual void InhibitCount (int number) = 0;
 
