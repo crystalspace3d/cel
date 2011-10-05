@@ -1568,7 +1568,6 @@ iCelEntity* celPcDynamicWorld::CreateSpawnedEntity (iCelEntityTemplate* tpl,
 
 {
   csVector3 pos = p;
-  csRef<iCelEntity> newent = pl->CreateEntity (tpl, entityName, params);
 
   iSector* sect = engine->FindSector (sector);
   if (!sect)
@@ -1587,12 +1586,11 @@ iCelEntity* celPcDynamicWorld::CreateSpawnedEntity (iCelEntityTemplate* tpl,
 
   csReversibleTransform trans (csYRotMatrix3 (yrot), pos);
 
-  csStringID tmpID = newent->GetTemplateNameID ();
-  csString tmpName = pl->FetchString (tmpID);
-  iDynamicObject* obj = AddObject (tmpName, trans);
-  obj->LinkEntity (newent);
-  newent->Activate ();
+  iDynamicObject* obj = AddObject (tpl->GetName (), trans);
+  obj->SetEntity (entityName, params);
+  iCelEntity* newent = obj->ForceEntity ();
   newent->MarkBaseline ();
+  newent->Activate ();
 
   return newent;
 }
