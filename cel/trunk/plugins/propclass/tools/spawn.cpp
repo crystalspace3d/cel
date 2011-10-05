@@ -163,6 +163,8 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   params.AttachNew (new celVariableParameterBlock (2));
   params->AddParameter (id_entity);
   params->AddParameter (id_behaviour);
+
+  atBaseline = false;
 }
 
 celPcSpawn::~celPcSpawn ()
@@ -366,6 +368,7 @@ void celPcSpawn::UpdateFreeUniqueEntity (iCelEntity* entity)
       if (!uniqueEntities[i])
       {
         uniqueEntities[i] = entity;
+        atBaseline = false;
         return;
       }
     printf ("No free slot for an entity? Impossible!!!\n");
@@ -455,7 +458,10 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
 
   csString entity_name = spawninfo[idx].name;
   if (do_name_counter)
+  {
     entity_name += serialnr;
+    atBaseline = false;
+  }
   iCelEntityTemplate* entpl = pl->FindEntityTemplate (
       spawninfo[idx].templ);
   if (!entpl)
@@ -620,5 +626,54 @@ void celPcSpawn::AddSpawnPosition (const csVector3& pos, float yrot,
   pi.yrot = yrot;
   pi.sector = sector;
 }
+
+void celPcSpawn::SaveModifications (iCelCompactDataBufferWriter* buf,
+    iStringSet* strings)
+{
+  if (do_spawn_unique)
+  {
+    buf->AddUInt32 (uniqueEntities.GetSize ());
+    for (size_t i = 0 ; i < uniqueEntities.GetSize () ; i++)
+    {
+      if (uniqueEntities[i])
+        buf->AddUInt32 (uniqueEntities[i]->GetID ());
+      else
+        buf->AddUInt32 (csArrayItemNotFound);
+    }
+  }
+  buf->AddUInt32 (serialnr);
+}
+
+void celPcSpawn::RestoreModifications (iCelCompactDataBufferReader* buf,
+    const csHash<csString,csStringID>& strings)
+{
+  if (do_spawn_unique)
+  {
+    size_t size = buf->GetUInt32 ();
+    uniqueEntities.SetSize (size, 0);
+    for (size_t i = 0 ; i < uniqueEntities.GetSize () ; i++)
+    {
+      uint entid = (uint) buf->GetUInt32 ();
+      if (entid == csArrayItemNotFound)
+        uniqueEntities[i] = 0;
+      else
+      {
+        csRef<iCelEntity> ent = pl->GetEntity (entid);
+        if (!ent)
+        {
+          // If we can't find the entity we will create it here. We will then
+          // assume that later code will complete the loading of this entity.
+          printf ("Spawn: Couldn't find entity '%d', creating dummy!\n", entid);
+          ent = pl->CreateEntity (entid);
+        }
+        uniqueEntities[i] = ent;
+      }
+    }
+  }
+  serialnr = buf->GetUInt32 ();
+
+  atBaseline = false;
+}
+
 
 //---------------------------------------------------------------------------
