@@ -397,7 +397,7 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   if (is_static)
     body->MakeStatic ();
 
-  ForceEntity (world);
+  ForceEntity ();
   if (entity)
   {
     csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
@@ -556,8 +556,9 @@ void DynamicObject::UnlinkEntity ()
   entity = 0;
 }
 
-iCelEntity* DynamicObject::ForceEntity (celPcDynamicWorld* world)
+iCelEntity* DynamicObject::ForceEntity ()
 {
+  celPcDynamicWorld* world = factory->GetWorld ();
   if (!entity)
   {
     // First we check if the entity already exists.
@@ -1406,7 +1407,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
           dynobj = static_cast<DynamicObject*> (AddObject (tmpName, trans));
           dynobj->SetID (id);
           dynobj->SetEntity (entName, 0); // @@@ params?
-          entity = dynobj->ForceEntity (this);
+          entity = dynobj->ForceEntity ();
         }
         else
         {
@@ -1436,7 +1437,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
 	if (dynobj)
 	{
           // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
-          entity = dynobj->ForceEntity (this);
+          entity = dynobj->ForceEntity ();
           if (hasDynObj)
           {
 	    printf ("Loading existing entity '%s'\n", entity->GetName ());
