@@ -46,12 +46,40 @@
 #include "physicallayer/entitytpl.h"
 #include "propclass/mesh.h"
 #include "propclass/mechsys.h"
+#include "propclass/spawn.h"
 #include "plugins/propclass/dynworld/dynworld.h"
 #include "tools/elcm.h"
 
 //---------------------------------------------------------------------------
 
 CEL_IMPLEMENT_FACTORY (DynamicWorld, "pcworld.dynamic")
+
+
+//---------------------------------------------------------------------------
+
+class celDynworldSpawner : public scfImplementation1<celDynworldSpawner,
+  iCelSpawner>
+{
+private:
+  csWeakRef<celPcDynamicWorld> dynworld;
+
+public:
+  celDynworldSpawner (celPcDynamicWorld* dynworld) : scfImplementationType (this),
+  	dynworld (dynworld)
+  {
+  }
+  virtual ~celDynworldSpawner () { }
+
+  virtual iCelEntity* CreateEntity (iCelEntityTemplate* tpl,
+      const char* entityName, iCelParameterBlock* params,
+      const csVector3& pos, float yrot, const char* sector,
+      const char* node)
+  {
+    if (!dynworld) return 0;
+    return dynworld->CreateSpawnedEntity (tpl, entityName, params,
+        pos, yrot, sector, node);
+  }
+};
 
 
 //---------------------------------------------------------------------------
@@ -364,7 +392,7 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
   if (!mesh) return;
   InstallHilight (false);
   CS_ASSERT (hilight_installed == false);
-  world->dynSys->RemoveBody (body);
+  if (body) world->dynSys->RemoveBody (body);
   body = 0;
   trans = mesh->GetMovable ()->GetTransform ();
   iImposterFactory* imposterFactory = factory->GetImposterFactory ();
@@ -689,6 +717,10 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   objDes->DecRef ();
   lastID = 1000000001;
   scopeIdx = csArrayItemNotFound;
+
+  csRef<celDynworldSpawner> spawner;
+  spawner.AttachNew (new celDynworldSpawner (this));
+  object_reg->Register (spawner, "cel.spawner");
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
@@ -1527,5 +1559,41 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       return;
     }
   }
+}
+
+iCelEntity* celPcDynamicWorld::CreateSpawnedEntity (iCelEntityTemplate* tpl,
+      const char* entityName, iCelParameterBlock* params,
+      const csVector3& p, float yrot, const char* sector,
+      const char* node)
+
+{
+  csVector3 pos = p;
+  csRef<iCelEntity> newent = pl->CreateEntity (tpl, entityName, params);
+
+  iSector* sect = engine->FindSector (sector);
+  if (!sect)
+  {
+    printf ("Can't find sector %s!", sector);
+    fflush (stdout);
+    return 0;
+  }
+
+  if (node && *node)
+  {
+    printf ("Nodes not yet supported by dynworld plugin!\n");
+    fflush (stdout);
+    return 0;
+  }
+
+  csReversibleTransform trans (csYRotMatrix3 (yrot), pos);
+
+  csStringID tmpID = newent->GetTemplateNameID ();
+  csString tmpName = pl->FetchString (tmpID);
+  iDynamicObject* obj = AddObject (tmpName, trans);
+  obj->LinkEntity (newent);
+  newent->Activate ();
+  newent->MarkBaseline ();
+
+  return newent;
 }
 

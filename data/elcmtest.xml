@@ -174,10 +174,11 @@
       <template name="Base" />
       <propclass name="pclogic.spawn">
         <action name="AddEntityTemplateType">
-	  <par name="entity" string="Money" />
+	  <par name="template" string="Money" />
 	</action>
         <action name="SetTiming">
 	  <par name="repeat" bool="true" />
+	  <par name="random" bool="true" />
 	  <par name="mindelay" long="1000" />
 	  <par name="maxdelay" long="5000" />
 	</action>
@@ -185,6 +186,10 @@
 	  <par name="sector" string="$sector" />
 	  <par name="position" vector3="$pos" />
 	</action>
+	<action name="Inhibit">
+	  <par name="count" long="5" />
+	</action>
+	<property name="spawnunique" bool="true" />
       </propclass>
     </addon>
 
