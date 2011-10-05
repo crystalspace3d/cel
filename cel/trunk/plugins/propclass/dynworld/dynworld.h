@@ -56,6 +56,7 @@ CEL_DECLARE_FACTORY (DynamicWorld)
 
 
 class celPcDynamicWorld;
+class DynamicCell;
 
 class MeshCacheFactory
 {
@@ -268,6 +269,7 @@ class DynamicObject : public scfImplementation2<DynamicObject,
   iDynamicObject, iMovableListener>
 {
 private:
+  DynamicCell* cell;
   DynamicFactory* factory;
   csRef<iMeshWrapper> mesh;
   // If the mesh is not prepared yet this transform is the actual
@@ -298,14 +300,15 @@ private:
   csWeakRef<iCelEntity> entity;
 
   void InstallHilight (bool hi);
-  void Init ();
+  void Init (DynamicCell* cell);
 
   mutable csSphere bsphere;
   mutable bool bsphereValid;
 
 public:
-  DynamicObject ();
-  DynamicObject (DynamicFactory* factory, const csReversibleTransform& trans);
+  DynamicObject (DynamicCell* cell);
+  DynamicObject (DynamicCell* cell, DynamicFactory* factory,
+      const csReversibleTransform& trans);
   virtual ~DynamicObject ();
 
   void SetID (uint id) { DynamicObject::id = id; }
@@ -381,6 +384,61 @@ struct DynamicObjectExtraData
   }
 };
 
+class DynamicCell
+{
+public:
+  celPcDynamicWorld* world;
+  iCelPlLayer* pl;
+
+  iSector* sector;
+  csRefArray<DynamicObject> objects;
+  csSet<csPtrKey<DynamicObject> > fadingIn;
+  csSet<csPtrKey<DynamicObject> > fadingOut;
+
+  // Mapping of meshes to dynamic objects.
+  csHash<iDynamicObject*,csPtrKey<iMeshWrapper> > meshToDynObj;
+
+  // Current visible objects.
+  csSet<csPtrKey<DynamicObject> > visibleObjects;
+
+  // A set of all dynamic objects which are pre-baseline and which
+  // have moved from their original position. These have to be saved.
+  csSet<csPtrKey<DynamicObject> > haveMovedFromBaseline;
+
+  CS::Geometry::KDTree* tree;
+
+  void ProcessFadingIn (float fade_speed);
+  void ProcessFadingOut (float fade_speed);
+
+  void DeleteObjectInt (DynamicObject* dynobj);
+
+public:
+  DynamicCell (celPcDynamicWorld* world);
+  virtual ~DynamicCell ();
+
+  csHash<iDynamicObject*,csPtrKey<iMeshWrapper> >& GetMeshToDynObj ()
+  {
+    return meshToDynObj;
+  }
+
+  void PrepareView (iCamera* camera, float elapsed_time);
+
+  virtual void DeleteObject (iDynamicObject* dynobj);
+  virtual void DeleteObjects ();
+  virtual iDynamicObject* AddObject (const char* factory,
+      const csReversibleTransform& trans);
+  virtual size_t GetObjectCount () const { return objects.GetSize (); }
+  virtual iDynamicObject* FindObject (iCelEntity* entity) const;
+  virtual iDynamicObject* FindObject (iRigidBody* body) const;
+  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const;
+  iDynamicObject* FindObject (uint id) const;
+
+  virtual void Save (iDocumentNode* node);
+  virtual csRef<iString> Load (iDocumentNode* node);
+
+  virtual void MarkBaseline ();
+};
+
 class celPcDynamicWorld : public scfImplementationExt1<celPcDynamicWorld,
   celPcCommon, iPcDynamicWorld>
 {
@@ -390,24 +448,15 @@ public:
   csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   uint lastID;
-  csRefArray<DynamicObject> objects;
   csRefArray<DynamicFactory> factories;
-  //csRefArray<CurvedMeshDynamicObjectCreator> cmdocs;
   csHash<DynamicFactory*,csString> factory_hash;
-  iSector* sector;
   MeshCache meshCache;
   float radius;
-  csSet<csPtrKey<DynamicObject> > fadingIn;
-  csSet<csPtrKey<DynamicObject> > fadingOut;
-  CS::Geometry::KDTree* tree;
   csRef<iELCM> elcm;
   size_t scopeIdx;
 
-  // Mapping of meshes to dynamic objects.
-  csHash<iDynamicObject*,csPtrKey<iMeshWrapper> > meshToDynObj;
-
-  // Current visible objects.
-  csSet<csPtrKey<DynamicObject> > visibleObjects;
+  // Current cell.
+  DynamicCell* currentCell;
 
   // A set of entities which the ELCM thinks are safe to remove.
   csSet<csPtrKey<iCelEntity> > safeToRemove;
@@ -416,19 +465,10 @@ public:
   // sufficiently for us to remember its position.
   csSet<csPtrKey<DynamicObject> > checkForMovement;
 
-  // A set of all dynamic objects which are pre-baseline and which
-  // have moved from their original position. These have to be saved.
-  csSet<csPtrKey<DynamicObject> > haveMovedFromBaseline;
-
   // This function will remove all entities that are still in safeToRemove.
   // The 'visibility' traversal should have removed all entities that
   // are attached to a visible mesh from this set first.
   void RemoveSafeEntities ();
-
-  void ProcessFadingIn (float fade_speed);
-  void ProcessFadingOut (float fade_speed);
-
-  void DeleteObjectInt (DynamicObject* dynobj);
 
   void SaveTransform (iCelCompactDataBufferWriter* buf,
       const csReversibleTransform& trans);
@@ -448,11 +488,6 @@ public:
   virtual ~celPcDynamicWorld ();
 
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
-
-  csHash<iDynamicObject*,csPtrKey<iMeshWrapper> >& GetMeshToDynObj ()
-  {
-    return meshToDynObj;
-  }
 
   uint GetLastID ()
   {
@@ -477,21 +512,60 @@ public:
   virtual iDynamicFactory* GetFactory (size_t index) const { return factories[index]; }
   virtual iDynamicFactory* FindFactory (const char* name) const;
 
+  // @@@ Temporary
   virtual iDynamicObject* AddObject (const char* factory,
-      const csReversibleTransform& trans);
-  virtual size_t GetObjectCount () const { return objects.GetSize (); }
+      const csReversibleTransform& trans)
+  {
+    return currentCell->AddObject (factory, trans);
+  }
+  // @@@ Temporary
+  virtual size_t GetObjectCount () const { return currentCell->GetObjectCount (); }
+
   virtual void ForceVisible (iDynamicObject* dynobj);
   virtual void ForceInvisible (iDynamicObject* dynobj);
-  virtual void DeleteObject (iDynamicObject* dynobj);
-  virtual void DeleteObjects ();
+  // @@@ Temporary
+  virtual void DeleteObject (iDynamicObject* dynobj)
+  {
+    DynamicObject* dyn = static_cast<DynamicObject*> (dynobj);
+    checkForMovement.Delete (dyn);
+    currentCell->DeleteObject (dynobj);
+  }
+  // @@@ Temporary
+  virtual void DeleteObjects ()
+  {
+    lastID = 1000000001;
+    checkForMovement.DeleteAll ();
+    meshCache.RemoveMeshes ();
+    currentCell->DeleteObjects ();
+    if (scopeIdx != csArrayItemNotFound)
+      pl->ResetScope (scopeIdx);
+  }
+  // @@@ Add DeleteAll instead (to set lastID to 1000000001!!!
   virtual void Setup (iSector* sector, iDynamicSystem* dynSys);
   virtual void SetRadius (float radius);
   virtual float GetRadius () const { return radius; }
   virtual void PrepareView (iCamera* camera, float elapsed_time);
-  virtual iDynamicObject* FindObject (iCelEntity* entity) const;
-  virtual iDynamicObject* FindObject (iRigidBody* body) const;
-  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const;
-  iDynamicObject* FindObject (uint id) const;
+  // @@@ Temporary
+  virtual iDynamicObject* FindObject (iCelEntity* entity) const
+  {
+    return currentCell->FindObject (entity);
+  }
+  // @@@ Temporary
+  virtual iDynamicObject* FindObject (iRigidBody* body) const
+  {
+    return currentCell->FindObject (body);
+  }
+  // @@@ Temporary
+  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const
+  {
+    return currentCell->FindObject (mesh);
+  }
+  // @@@ Temporary
+  iDynamicObject* FindObject (uint id) const
+  {
+    return currentCell->FindObject (id);
+  }
+
   virtual void Save (iDocumentNode* node);
   virtual csRef<iString> Load (iDocumentNode* node);
 

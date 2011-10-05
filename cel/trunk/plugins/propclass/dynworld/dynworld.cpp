@@ -81,6 +81,388 @@ public:
   }
 };
 
+//---------------------------------------------------------------------------
+
+class ObjDes : public scfImplementation1<ObjDes, CS::Geometry::iObjectDescriptor>
+{
+public:
+  ObjDes () : scfImplementationType (this) { }
+  virtual ~ObjDes () {}
+  virtual csPtr<iString> DescribeObject (CS::Geometry::KDTreeChild* child)
+  {
+    DynamicObject* dynobj = (DynamicObject*)child->GetObject ();
+    scfString* str = new scfString ();
+    iCelEntity* ent = dynobj->GetEntity ();
+    iMeshWrapper* mesh = dynobj->GetMesh ();
+    str->Format ("%p (ent %s, mesh %s)", dynobj,
+	ent ? ent->QueryObject ()->GetName () : "<none>",
+	mesh ? mesh->QueryObject ()->GetName () : "<none>");
+    return str;
+  }
+};
+
+//---------------------------------------------------------------------------
+
+struct DynWorldKDData
+{
+  csSet<csPtrKey<DynamicObject> >& prevObjects;
+  csSet<csPtrKey<DynamicObject> >& objects;
+  csSet<csPtrKey<iCelEntity> >& safeToRemove;
+  csVector3 center;
+  float radius;
+  float sqradius;
+
+  DynWorldKDData (
+      csSet<csPtrKey<DynamicObject> >& prevObjects,
+      csSet<csPtrKey<DynamicObject> >& objects,
+      csSet<csPtrKey<iCelEntity> >& safeToRemove,
+      const csVector3& center, float radius) :
+    prevObjects (prevObjects),
+    objects (objects),
+    safeToRemove (safeToRemove),
+    center (center), radius (radius), sqradius (radius * radius) { }
+};
+
+static bool DynWorld_Front2Back (CS::Geometry::KDTree* treenode,
+	void* userdata, uint32 cur_timestamp, uint32&)
+{
+  DynWorldKDData* data = (DynWorldKDData*)userdata;
+
+  // In the first part of this test we are going to test if the
+  // box intersects with the node. If not then we don't
+  // need to continue.
+  const csBox3& node_bbox = treenode->GetNodeBBox ();
+  if (!csIntersect3::BoxSphere (node_bbox, data->center, data->sqradius))
+  {
+    return false;
+  }
+
+#if 0
+  // Special case if our node is entirely in the sphere. Then we don't
+  // have to test our objects.
+  csBox3 b (node_bbox.Min () - data->center, node_bbox.Max () - data->center);
+  printf ("%g,%g,%g - %g,%g,%g: b.SquaredOriginMaxDist=%g data->sqradius=%g\n",
+      node_bbox.Min().x,
+      node_bbox.Min().y,
+      node_bbox.Min().z,
+      node_bbox.Max().x,
+      node_bbox.Max().y,
+      node_bbox.Max().z,
+      b.SquaredOriginMaxDist (), data->sqradius);
+  if (b.SquaredOriginMaxDist () < data->sqradius)
+  {
+    printf ("Special case!\n");
+  }
+#endif
+
+  treenode->Distribute ();
+
+  int num_objects;
+  CS::Geometry::KDTreeChild** objects;
+  num_objects = treenode->GetObjectCount ();
+  objects = treenode->GetObjects ();
+
+  int i;
+  for (i = 0 ; i < num_objects ; i++)
+  {
+    if (objects[i]->timestamp != cur_timestamp)
+    {
+      objects[i]->timestamp = cur_timestamp;
+
+      // Test the bounding box of the object.
+      DynamicObject* dynobj = (DynamicObject*)objects[i]->GetObject ();
+      float maxradiusRelative = dynobj->GetFactory ()->GetMaximumRadiusRelative ();
+      float sqrad = data->sqradius * maxradiusRelative * maxradiusRelative;
+      if (dynobj->IsStatic ())
+        sqrad *= 1.1f;
+
+#if 1
+      const csSphere& obj_bsphere = dynobj->GetBSphere ();
+      float sqdist = csSquaredDist::PointPoint (data->center, obj_bsphere.GetCenter ());
+      if ((sqdist-csSquare (obj_bsphere.GetRadius () + data->radius)) < 0)
+      {
+        data->prevObjects.Delete (dynobj);
+        data->objects.Add (dynobj);
+	iCelEntity* entity = dynobj->GetEntity ();
+	if (entity)
+	  data->safeToRemove.Delete (entity);
+      }
+#else
+      const csBox3& obj_bbox = dynobj->GetBBox ();
+      if (csIntersect3::BoxSphere (obj_bbox, data->center, sqrad))
+      {
+        data->prevObjects.Delete (dynobj);
+        data->objects.Add (dynobj);
+	iCelEntity* entity = dynobj->GetEntity ();
+	if (entity)
+	  data->safeToRemove.Delete (entity);
+      }
+#endif
+    }
+  }
+
+  return true;
+}
+
+//---------------------------------------------------------------------------
+
+DynamicCell::DynamicCell (celPcDynamicWorld* world) : world (world)
+{
+  pl = world->pl;
+  tree = new CS::Geometry::KDTree ();
+  tree->SetMinimumSplitAmount (50);
+  ObjDes* objDes = new ObjDes ();
+  tree->SetObjectDescriptor (objDes);
+  objDes->DecRef ();
+}
+
+DynamicCell::~DynamicCell ()
+{
+  delete tree;
+}
+
+void DynamicCell::DeleteObjectInt (DynamicObject* dyn)
+{
+  dyn->RemoveMesh (world);
+  if (dyn->GetEntity ())
+    pl->RemoveEntity (dyn->GetEntity ());
+}
+
+void DynamicCell::DeleteObject (iDynamicObject* dynobj)
+{
+  DynamicObject* dyn = static_cast<DynamicObject*> (dynobj);
+  if (dyn->GetEntity ())
+    pl->RemoveEntity (dyn->GetEntity ());
+  haveMovedFromBaseline.Delete (dyn);
+  visibleObjects.Delete (dyn);
+  fadingOut.Delete (dyn);
+  fadingIn.Delete (dyn);
+  // @@@ This is a pretty slow operation.
+  size_t idx = objects.Find (dyn);
+  if (idx != csArrayItemNotFound)
+  {
+    if (dyn->GetChild ())
+      tree->RemoveObject (dyn->GetChild ());
+    dyn->RemoveMesh (world);
+    objects.DeleteIndex (idx);
+  }
+}
+
+void DynamicCell::DeleteObjects ()
+{
+  while (objects.GetSize () > 0)
+  {
+    csRef<DynamicObject> dynobj = objects.Pop ();
+    DeleteObjectInt (dynobj);
+  }
+  haveMovedFromBaseline.DeleteAll ();
+  visibleObjects.DeleteAll ();
+  fadingOut.DeleteAll ();
+  fadingIn.DeleteAll ();
+  tree->Clear ();
+}
+
+iDynamicObject* DynamicCell::AddObject (const char* factory,
+    const csReversibleTransform& trans)
+{
+  csRef<DynamicObject> obj;
+  iDynamicFactory* ifact = world->FindFactory (factory);
+  if (!ifact)
+  {
+    printf ("Cannot find factory '%s' for AddObject!\n", factory);
+    return 0;
+  }
+  DynamicFactory* fact = static_cast<DynamicFactory*> (ifact);
+
+  obj.AttachNew (new DynamicObject (this, fact, trans));
+  objects.Push (obj);
+
+  obj->SetID (world->GetLastID ());
+
+  CS::Geometry::KDTreeChild* child = tree->AddObject (obj->GetBSphere (), obj);
+  obj->SetChild (child);
+  return obj;
+}
+
+void DynamicCell::ProcessFadingIn (float fade_speed)
+{
+  csSet<csPtrKey<DynamicObject> > newset;
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingIn.GetIterator ();
+  while (it.HasNext ())
+  {
+    DynamicObject* dyn = it.Next ();
+    float f = dyn->GetFade ();
+    f -= fade_speed;
+    if (f <= 0)
+    {
+      f = 0;
+    }
+    else
+    {
+      newset.Add (dyn);
+    }
+    dyn->SetFade (f);
+  }
+  fadingIn = newset;
+}
+
+void DynamicCell::ProcessFadingOut (float fade_speed)
+{
+  csSet<csPtrKey<DynamicObject> > newset;
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingOut.GetIterator ();
+  while (it.HasNext ())
+  {
+    DynamicObject* dyn = it.Next ();
+    float f = dyn->GetFade ();
+    f += fade_speed;
+    if (f >= 1)
+    {
+      f = 1;
+      dyn->RemoveMesh (world);
+    }
+    else
+    {
+      newset.Add (dyn);
+    }
+    dyn->SetFade (f);
+  }
+  fadingOut = newset;
+}
+
+void DynamicCell::PrepareView (iCamera* camera, float elapsed_time)
+{
+  float fade_speed = elapsed_time / 3.0;
+  ProcessFadingIn (fade_speed);
+  ProcessFadingOut (fade_speed);
+
+  const csVector3& campos = camera->GetTransform ().GetOrigin ();
+
+  // Traverse the tree. This will discover all visible objects and
+  // put them in the 'visibleObjects' set. All visible entities
+  // are removed from the 'safeToRemove' set.
+  csSet<csPtrKey<DynamicObject> > prevVisible = visibleObjects;
+  visibleObjects.Empty ();
+  DynWorldKDData data (prevVisible, visibleObjects, world->safeToRemove,
+      campos, world->radius);
+  tree->Front2Back (data.center, DynWorld_Front2Back, (void*)&data, 0);
+
+  // First we check if some of the dynamic objects moved sufficiently.
+  world->CheckForMovement ();
+
+  // All entities remaining in 'safeToRemove' can really be removed.
+  world->RemoveSafeEntities ();
+
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = prevVisible.GetIterator ();
+  while (it.HasNext ())
+  {
+    DynamicObject* dyn = it.Next ();
+    if (dyn->GetMesh ())
+    {
+      fadingIn.Delete (dyn);
+      fadingOut.Add (dyn);
+    }
+  }
+
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator it2 = visibleObjects.GetIterator ();
+  while (it2.HasNext ())
+  {
+    DynamicObject* dyn = it2.Next ();
+    if (!dyn->GetMesh ())
+    {
+      dyn->PrepareMesh (world);
+      fadingOut.Delete (dyn);
+      fadingIn.Add (dyn);
+    }
+  }
+}
+
+iDynamicObject* DynamicCell::FindObject (iCelEntity* entity) const
+{
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  if (!pcmesh) return 0;	// Impossible to find efficiently. We don't bother.
+  iMeshWrapper* mesh = pcmesh->GetMesh ();
+  if (!mesh) return 0;		// There will be no dynobj with this mesh.
+  return FindObject (mesh);
+}
+
+iDynamicObject* DynamicCell::FindObject (uint id) const
+{
+  //@@@ Not very efficient!
+  for (size_t i = 0 ; i < objects.GetSize () ; i++)
+  {
+    if (objects[i]->GetID () == id)
+      return objects[i];
+  }
+  return 0;
+}
+
+iDynamicObject* DynamicCell::FindObject (iRigidBody* body) const
+{
+  //@@@ Not very efficient!
+  for (size_t i = 0 ; i < objects.GetSize () ; i++)
+  {
+    DynamicObject* dyn = objects[i];
+    if (dyn->HasBody (body))
+      return dyn;
+  }
+  return 0;
+}
+
+iDynamicObject* DynamicCell::FindObject (iMeshWrapper* mesh) const
+{
+  iDynamicObject* dynobj = meshToDynObj.Get (mesh, 0);
+  return dynobj;
+}
+
+void DynamicCell::Save (iDocumentNode* node)
+{
+  csRef<iSyntaxService> syn = csQueryRegistryOrLoad<iSyntaxService> (
+      world->GetObjectRegistry (), "crystalspace.syntax.loader.service.text");
+
+  for (size_t i = 0 ; i < objects.GetSize () ; i++)
+  {
+    csRef<iDocumentNode> el = node->CreateNodeBefore (CS_NODE_ELEMENT);
+    el->SetValue ("obj");
+    objects[i]->Save (el, syn);
+  }
+}
+
+csRef<iString> DynamicCell::Load (iDocumentNode* node)
+{
+  csRef<iSyntaxService> syn = csQueryRegistryOrLoad<iSyntaxService> (
+      world->GetObjectRegistry (), "crystalspace.syntax.loader.service.text");
+
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    csString value = child->GetValue ();
+    if (value == "obj")
+    {
+      csRef<DynamicObject> dynobj;
+      dynobj.AttachNew (new DynamicObject (this));
+      if (!dynobj->Load (child, syn, world))
+      {
+        csRef<iString> str;
+        str.AttachNew (new scfString ("Error loading object!"));
+        return str;
+      }
+      objects.Push (dynobj);
+      CS::Geometry::KDTreeChild* child = tree->AddObject (dynobj->GetBSphere (),
+	  dynobj);
+      dynobj->SetChild (child);
+    }
+  }
+
+  return 0;
+}
+
+void DynamicCell::MarkBaseline ()
+{
+  for (size_t i = 0 ; i < objects.GetSize () ; i++)
+    objects[i]->MarkBaseline ();
+}
 
 //---------------------------------------------------------------------------
 
@@ -242,8 +624,9 @@ void DynamicFactory::AddRigidConvexMesh (const csVector3& offset, float mass)
 
 //---------------------------------------------------------------------------------------
 
-void DynamicObject::Init ()
+void DynamicObject::Init (DynamicCell* cell)
 {
+  DynamicObject::cell = cell;
   factory = 0;
   is_static = false;
   is_kinematic = false;
@@ -257,15 +640,15 @@ void DynamicObject::Init ()
   lastUpdateNr = 0;
 }
 
-DynamicObject::DynamicObject () : scfImplementationType (this)
+DynamicObject::DynamicObject (DynamicCell* cell) : scfImplementationType (this)
 {
-  Init ();
+  Init (cell);
 }
 
-DynamicObject::DynamicObject (DynamicFactory* factory, const csReversibleTransform& trans)
-  : scfImplementationType (this)
+DynamicObject::DynamicObject (DynamicCell* cell, DynamicFactory* factory,
+    const csReversibleTransform& trans) : scfImplementationType (this)
 {
-  Init ();
+  Init (cell);
   DynamicObject::factory = factory;
   DynamicObject::trans = trans;
   child = 0;
@@ -400,7 +783,7 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
     imposterFactory->RemoveImposter (mesh);
   mesh->GetMovable ()->RemoveListener (this);
   world->meshCache.RemoveMesh (mesh);
-  world->GetMeshToDynObj ().DeleteAll ((iMeshWrapper*)mesh);
+  cell->GetMeshToDynObj ().DeleteAll ((iMeshWrapper*)mesh);
   mesh = 0;
   if (entity)
   {
@@ -418,8 +801,8 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
 {
   if (mesh) return;
   mesh = world->meshCache.AddMesh (world->engine, factory->GetMeshFactory (),
-      world->sector, trans);
-  world->GetMeshToDynObj ().PutUnique ((iMeshWrapper*)mesh, this);
+      cell->sector, trans);
+  cell->GetMeshToDynObj ().PutUnique ((iMeshWrapper*)mesh, this);
   mesh->GetMovable ()->AddListener (this);
   lastUpdateNr = mesh->GetMovable ()->GetUpdateNumber ();
   iGeometryGenerator* ggen = factory->GetGeometryGenerator ();
@@ -546,7 +929,7 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
 void DynamicObject::MovableChanged (iMovable* movable)
 {
   bsphereValid = false;
-  factory->GetWorld ()->tree->MoveObject (child, GetBSphere ());
+  cell->tree->MoveObject (child, GetBSphere ());
   factory->GetWorld ()->checkForMovement.Add (this);
 }
 
@@ -684,24 +1067,6 @@ public:
 
 //---------------------------------------------------------------------------------------
 
-class ObjDes : public scfImplementation1<ObjDes, CS::Geometry::iObjectDescriptor>
-{
-public:
-  ObjDes () : scfImplementationType (this) { }
-  virtual ~ObjDes () {}
-  virtual csPtr<iString> DescribeObject (CS::Geometry::KDTreeChild* child)
-  {
-    DynamicObject* dynobj = (DynamicObject*)child->GetObject ();
-    scfString* str = new scfString ();
-    iCelEntity* ent = dynobj->GetEntity ();
-    iMeshWrapper* mesh = dynobj->GetMesh ();
-    str->Format ("%p (ent %s, mesh %s)", dynobj,
-	ent ? ent->QueryObject ()->GetName () : "<none>",
-	mesh ? mesh->QueryObject ()->GetName () : "<none>");
-    return str;
-  }
-};
-
 celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {  
@@ -710,23 +1075,20 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   scopeIdx = pl->AddScope ("cel.numreg.hash", 1000000000);
-  tree = new CS::Geometry::KDTree ();
-  tree->SetMinimumSplitAmount (50);
-  ObjDes* objDes = new ObjDes ();
-  tree->SetObjectDescriptor (objDes);
-  objDes->DecRef ();
   lastID = 1000000001;
   scopeIdx = csArrayItemNotFound;
 
   csRef<celDynworldSpawner> spawner;
   spawner.AttachNew (new celDynworldSpawner (this));
   object_reg->Register (spawner, "cel.spawner");
+
+  currentCell = new DynamicCell (this);
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
 {
   DeleteObjects ();
-  delete tree;
+  delete currentCell;
 }
 
 void celPcDynamicWorld::SetELCM (iELCM* elcm)
@@ -745,7 +1107,7 @@ void celPcDynamicWorld::CheckForMovement ()
     DynamicObject* dynobj = it.Next ();
     if (dynobj->ExistedAtBaseline () && dynobj->HasMovedSufficiently ())
     {
-      haveMovedFromBaseline.Add (dynobj);
+      currentCell->haveMovedFromBaseline.Add (dynobj);
     }
   }
   checkForMovement.DeleteAll ();
@@ -754,6 +1116,11 @@ void celPcDynamicWorld::CheckForMovement ()
 void celPcDynamicWorld::SafeToRemove (iCelEntity* entity)
 {
   safeToRemove.Add (entity);
+}
+
+iDynamicFactory* celPcDynamicWorld::FindFactory (const char* factory) const
+{
+  return factory_hash.Get (factory, 0);
 }
 
 iDynamicFactory* celPcDynamicWorld::AddFactory (const char* factory, float maxradius,
@@ -772,38 +1139,10 @@ void celPcDynamicWorld::RemoveFactory (iDynamicFactory* factory)
   factories.Delete (static_cast<DynamicFactory*> (factory));
 }
 
-iDynamicFactory* celPcDynamicWorld::FindFactory (const char* name) const
-{
-  for (size_t i = 0 ; i < factories.GetSize () ; i++)
-    if (factories[i]->GetCsName () == name)
-      return factories[i];
-  return 0;
-}
-
 void celPcDynamicWorld::DeleteFactories ()
 {
   factory_hash.DeleteAll ();
   factories.DeleteAll ();
-}
-
-iDynamicObject* celPcDynamicWorld::AddObject (const char* factory,
-    const csReversibleTransform& trans)
-{
-  csRef<DynamicObject> obj;
-  DynamicFactory* fact = factory_hash.Get (factory, 0);
-  if (!fact)
-  {
-    printf ("Cannot find factory '%s' for AddObject!\n", factory);
-    return 0;
-  }
-  obj.AttachNew (new DynamicObject (fact, trans));
-  objects.Push (obj);
-
-  obj->SetID (GetLastID ());
-
-  CS::Geometry::KDTreeChild* child = tree->AddObject (obj->GetBSphere (), obj);
-  obj->SetChild (child);
-  return obj;
 }
 
 void celPcDynamicWorld::ForceVisible (iDynamicObject* dynobj)
@@ -816,54 +1155,6 @@ void celPcDynamicWorld::ForceInvisible (iDynamicObject* dynobj)
   DynamicObject* dyn = static_cast<DynamicObject*> (dynobj);
   dyn->RemoveMesh (this);
 }
-
-void celPcDynamicWorld::DeleteObjects ()
-{
-  lastID = 1000000001;
-  while (objects.GetSize () > 0)
-  {
-    csRef<DynamicObject> dynobj = objects.Pop ();
-    DeleteObjectInt (dynobj);
-  }
-  haveMovedFromBaseline.DeleteAll ();
-  checkForMovement.DeleteAll ();
-  visibleObjects.DeleteAll ();
-  fadingOut.DeleteAll ();
-  fadingIn.DeleteAll ();
-  tree->Clear ();
-  meshCache.RemoveMeshes ();
-  if (scopeIdx != csArrayItemNotFound)
-    pl->ResetScope (scopeIdx);
-}
-
-void celPcDynamicWorld::DeleteObjectInt (DynamicObject* dyn)
-{
-  dyn->RemoveMesh (this);
-  if (dyn->GetEntity ())
-    pl->RemoveEntity (dyn->GetEntity ());
-}
-
-void celPcDynamicWorld::DeleteObject (iDynamicObject* dynobj)
-{
-  DynamicObject* dyn = static_cast<DynamicObject*> (dynobj);
-  if (dyn->GetEntity ())
-    pl->RemoveEntity (dyn->GetEntity ());
-  checkForMovement.Delete (dyn);
-  haveMovedFromBaseline.Delete (dyn);
-  visibleObjects.Delete (dyn);
-  fadingOut.Delete (dyn);
-  fadingIn.Delete (dyn);
-  // @@@ This is a pretty slow operation.
-  size_t idx = objects.Find (dyn);
-  if (idx != csArrayItemNotFound)
-  {
-    if (dyn->GetChild ())
-      tree->RemoveObject (dyn->GetChild ());
-    dyn->RemoveMesh (this);
-    objects.DeleteIndex (idx);
-  }
-}
-
 
 void celPcDynamicWorld::RemoveSafeEntities ()
 {
@@ -887,240 +1178,14 @@ void celPcDynamicWorld::RemoveSafeEntities ()
   fflush (stdout);
 }
 
-void celPcDynamicWorld::ProcessFadingIn (float fade_speed)
-{
-  csSet<csPtrKey<DynamicObject> > newset;
-  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingIn.GetIterator ();
-  while (it.HasNext ())
-  {
-    DynamicObject* dyn = it.Next ();
-    float f = dyn->GetFade ();
-    f -= fade_speed;
-    if (f <= 0)
-    {
-      f = 0;
-    }
-    else
-    {
-      newset.Add (dyn);
-    }
-    dyn->SetFade (f);
-  }
-  fadingIn = newset;
-}
-
-void celPcDynamicWorld::ProcessFadingOut (float fade_speed)
-{
-  csSet<csPtrKey<DynamicObject> > newset;
-  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingOut.GetIterator ();
-  while (it.HasNext ())
-  {
-    DynamicObject* dyn = it.Next ();
-    float f = dyn->GetFade ();
-    f += fade_speed;
-    if (f >= 1)
-    {
-      f = 1;
-      dyn->RemoveMesh (this);
-    }
-    else
-    {
-      newset.Add (dyn);
-    }
-    dyn->SetFade (f);
-  }
-  fadingOut = newset;
-}
-
-struct DynWorldKDData
-{
-  csSet<csPtrKey<DynamicObject> >& prevObjects;
-  csSet<csPtrKey<DynamicObject> >& objects;
-  csSet<csPtrKey<iCelEntity> >& safeToRemove;
-  csVector3 center;
-  float radius;
-  float sqradius;
-
-  DynWorldKDData (
-      csSet<csPtrKey<DynamicObject> >& prevObjects,
-      csSet<csPtrKey<DynamicObject> >& objects,
-      csSet<csPtrKey<iCelEntity> >& safeToRemove,
-      const csVector3& center, float radius) :
-    prevObjects (prevObjects),
-    objects (objects),
-    safeToRemove (safeToRemove),
-    center (center), radius (radius), sqradius (radius * radius) { }
-};
-
-static bool DynWorld_Front2Back (CS::Geometry::KDTree* treenode,
-	void* userdata, uint32 cur_timestamp, uint32&)
-{
-  DynWorldKDData* data = (DynWorldKDData*)userdata;
-
-  // In the first part of this test we are going to test if the
-  // box intersects with the node. If not then we don't
-  // need to continue.
-  const csBox3& node_bbox = treenode->GetNodeBBox ();
-  if (!csIntersect3::BoxSphere (node_bbox, data->center, data->sqradius))
-  {
-    return false;
-  }
-
-#if 0
-  // Special case if our node is entirely in the sphere. Then we don't
-  // have to test our objects.
-  csBox3 b (node_bbox.Min () - data->center, node_bbox.Max () - data->center);
-  printf ("%g,%g,%g - %g,%g,%g: b.SquaredOriginMaxDist=%g data->sqradius=%g\n",
-      node_bbox.Min().x,
-      node_bbox.Min().y,
-      node_bbox.Min().z,
-      node_bbox.Max().x,
-      node_bbox.Max().y,
-      node_bbox.Max().z,
-      b.SquaredOriginMaxDist (), data->sqradius);
-  if (b.SquaredOriginMaxDist () < data->sqradius)
-  {
-    printf ("Special case!\n");
-  }
-#endif
-
-  treenode->Distribute ();
-
-  int num_objects;
-  CS::Geometry::KDTreeChild** objects;
-  num_objects = treenode->GetObjectCount ();
-  objects = treenode->GetObjects ();
-
-  int i;
-  for (i = 0 ; i < num_objects ; i++)
-  {
-    if (objects[i]->timestamp != cur_timestamp)
-    {
-      objects[i]->timestamp = cur_timestamp;
-
-      // Test the bounding box of the object.
-      DynamicObject* dynobj = (DynamicObject*)objects[i]->GetObject ();
-      float maxradiusRelative = dynobj->GetFactory ()->GetMaximumRadiusRelative ();
-      float sqrad = data->sqradius * maxradiusRelative * maxradiusRelative;
-      if (dynobj->IsStatic ())
-        sqrad *= 1.1f;
-
-#if 1
-      const csSphere& obj_bsphere = dynobj->GetBSphere ();
-      float sqdist = csSquaredDist::PointPoint (data->center, obj_bsphere.GetCenter ());
-      if ((sqdist-csSquare (obj_bsphere.GetRadius () + data->radius)) < 0)
-      {
-        data->prevObjects.Delete (dynobj);
-        data->objects.Add (dynobj);
-	iCelEntity* entity = dynobj->GetEntity ();
-	if (entity)
-	  data->safeToRemove.Delete (entity);
-      }
-#else
-      const csBox3& obj_bbox = dynobj->GetBBox ();
-      if (csIntersect3::BoxSphere (obj_bbox, data->center, sqrad))
-      {
-        data->prevObjects.Delete (dynobj);
-        data->objects.Add (dynobj);
-	iCelEntity* entity = dynobj->GetEntity ();
-	if (entity)
-	  data->safeToRemove.Delete (entity);
-      }
-#endif
-    }
-  }
-
-  return true;
-}
-
 void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
 {
-  float fade_speed = elapsed_time / 3.0;
-  ProcessFadingIn (fade_speed);
-  ProcessFadingOut (fade_speed);
-
-  const csVector3& campos = camera->GetTransform ().GetOrigin ();
-
-  // Traverse the tree. This will discover all visible objects and
-  // put them in the 'visibleObjects' set. All visible entities
-  // are removed from the 'safeToRemove' set.
-  csSet<csPtrKey<DynamicObject> > prevVisible = visibleObjects;
-  visibleObjects.Empty ();
-  DynWorldKDData data (prevVisible, visibleObjects, safeToRemove,
-      campos, radius);
-  tree->Front2Back (data.center, DynWorld_Front2Back, (void*)&data, 0);
-
-  // First we check if some of the dynamic objects moved sufficiently.
-  CheckForMovement ();
-
-  // All entities remaining in 'safeToRemove' can really be removed.
-  RemoveSafeEntities ();
-
-  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = prevVisible.GetIterator ();
-  while (it.HasNext ())
-  {
-    DynamicObject* dyn = it.Next ();
-    if (dyn->GetMesh ())
-    {
-      fadingIn.Delete (dyn);
-      fadingOut.Add (dyn);
-    }
-  }
-
-  csSet<csPtrKey<DynamicObject> >::GlobalIterator it2 = visibleObjects.GetIterator ();
-  while (it2.HasNext ())
-  {
-    DynamicObject* dyn = it2.Next ();
-    if (!dyn->GetMesh ())
-    {
-      dyn->PrepareMesh (this);
-      fadingOut.Delete (dyn);
-      fadingIn.Add (dyn);
-    }
-  }
-}
-
-iDynamicObject* celPcDynamicWorld::FindObject (iCelEntity* entity) const
-{
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-  if (!pcmesh) return 0;	// Impossible to find efficiently. We don't bother.
-  iMeshWrapper* mesh = pcmesh->GetMesh ();
-  if (!mesh) return 0;		// There will be no dynobj with this mesh.
-  return FindObject (mesh);
-}
-
-iDynamicObject* celPcDynamicWorld::FindObject (uint id) const
-{
-  //@@@ Not very efficient!
-  for (size_t i = 0 ; i < objects.GetSize () ; i++)
-  {
-    if (objects[i]->GetID () == id)
-      return objects[i];
-  }
-  return 0;
-}
-
-iDynamicObject* celPcDynamicWorld::FindObject (iRigidBody* body) const
-{
-  //@@@ Not very efficient!
-  for (size_t i = 0 ; i < objects.GetSize () ; i++)
-  {
-    DynamicObject* dyn = objects[i];
-    if (dyn->HasBody (body))
-      return dyn;
-  }
-  return 0;
-}
-
-iDynamicObject* celPcDynamicWorld::FindObject (iMeshWrapper* mesh) const
-{
-  iDynamicObject* dynobj = meshToDynObj.Get (mesh, 0);
-  return dynobj;
+  currentCell->PrepareView (camera, elapsed_time);
 }
 
 void celPcDynamicWorld::Setup (iSector* sector, iDynamicSystem* dynSys)
 {
-  celPcDynamicWorld::sector = sector;
+  currentCell->sector = sector;
   celPcDynamicWorld::dynSys = dynSys;
 }
 
@@ -1131,68 +1196,32 @@ void celPcDynamicWorld::SetRadius (float radius)
 
 void celPcDynamicWorld::Save (iDocumentNode* node)
 {
-  csRef<iSyntaxService> syn = csQueryRegistryOrLoad<iSyntaxService> (object_reg,
-      "crystalspace.syntax.loader.service.text");
-
   node->SetAttributeAsInt ("lastid", lastID);
-
-  for (size_t i = 0 ; i < objects.GetSize () ; i++)
-  {
-    csRef<iDocumentNode> el = node->CreateNodeBefore (CS_NODE_ELEMENT);
-    el->SetValue ("obj");
-    objects[i]->Save (el, syn);
-  }
+  currentCell->Save (node);
 }
 
 csRef<iString> celPcDynamicWorld::Load (iDocumentNode* node)
 {
-  csRef<iSyntaxService> syn = csQueryRegistryOrLoad<iSyntaxService> (object_reg,
-      "crystalspace.syntax.loader.service.text");
-
   if (node->GetAttribute ("lastid"))
     lastID = node->GetAttributeValueAsInt ("lastid");
   else
     lastID = 1000000001;        // @@@ Is this right?
-
-  csRef<iDocumentNodeIterator> it = node->GetNodes ();
-  while (it->HasNext ())
-  {
-    csRef<iDocumentNode> child = it->Next ();
-    if (child->GetType () != CS_NODE_ELEMENT) continue;
-    csString value = child->GetValue ();
-    if (value == "obj")
-    {
-      csRef<DynamicObject> dynobj;
-      dynobj.AttachNew (new DynamicObject ());
-      if (!dynobj->Load (child, syn, this))
-      {
-        csRef<iString> str;
-        str.AttachNew (new scfString ("Error loading object!"));
-        return str;
-      }
-      objects.Push (dynobj);
-      CS::Geometry::KDTreeChild* child = tree->AddObject (dynobj->GetBSphere (),
-	  dynobj);
-      dynobj->SetChild (child);
-    }
-  }
-
-  return 0;
+  return currentCell->Load (node);
 }
 
 void celPcDynamicWorld::MarkBaseline ()
 {
   if (elcm)
     elcm->MarkBaseline ();
-  for (size_t i = 0 ; i < objects.GetSize () ; i++)
-    objects[i]->MarkBaseline ();
+  currentCell->MarkBaseline ();
 }
 
 void celPcDynamicWorld::Dump ()
 {
   printf ("### DynWorld ###\n");
-  printf ("  Fading in=%d, out=%d\n", fadingIn.GetSize (), fadingOut.GetSize ());
-  printf ("  Visible objects=%d\n", visibleObjects.GetSize ());
+  printf ("  Fading in=%d, out=%d\n", currentCell->fadingIn.GetSize (),
+      currentCell->fadingOut.GetSize ());
+  printf ("  Visible objects=%d\n", currentCell->visibleObjects.GetSize ());
   printf ("  Safe to remove=%d\n", safeToRemove.GetSize ());
 }
 
@@ -1379,7 +1408,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
     // Now it is possible that we still have dynamic objects for which
     // the entity hasn't changed but the dynobj itself has changed (i.e. moved).
     // We save those here.
-    csSet<csPtrKey<DynamicObject> >::GlobalIterator dynIt = haveMovedFromBaseline.GetIterator ();
+    csSet<csPtrKey<DynamicObject> >::GlobalIterator dynIt = currentCell->haveMovedFromBaseline.GetIterator ();
     while (dynIt.HasNext ())
     {
       DynamicObject* dynobj = dynIt.Next ();
@@ -1549,7 +1578,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       // was when we saved it. The reason for the difference is that
       // we didn't save (in this section) the dynamic objects which also
       // had modified entities. These were save dabove.
-      haveMovedFromBaseline.Add (dynobj);
+      currentCell->haveMovedFromBaseline.Add (dynobj);
 
       marker = buf->GetUInt8 ();
     }
