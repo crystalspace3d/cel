@@ -143,7 +143,6 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   if (!propinfo.actions_done)
   {
     SetActionMask ("cel.spawn.action.");
-    AddAction (action_addentitytype, "AddEntityType");
     AddAction (action_addentitytpltype, "AddEntityTemplateType");
     AddAction (action_settiming, "SetTiming");
     AddAction (action_resettiming, "ResetTiming");
@@ -159,7 +158,7 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   AddProperty (propid_namecounter, "namecounter",
   	CEL_DATA_BOOL, false, "Enable name counter.", &do_name_counter);
   AddProperty (propid_spawnunique, "spawnunique",
-  	CEL_DATA_BOOL, false, "Enable unique spawning.", &do_spawn_unique);
+  	CEL_DATA_BOOL, false, "Enable unique spawning.", 0);
 
   params.AttachNew (new celVariableParameterBlock (2));
   params->AddParameter (id_entity);
@@ -170,46 +169,32 @@ celPcSpawn::~celPcSpawn ()
 {
 }
 
+bool celPcSpawn::SetPropertyIndexed (int idx, bool b)
+{
+  if (idx == propid_spawnunique)
+  {
+    EnableSpawnUnique (b);
+    return true;
+  }
+  return false;
+}
+
+bool celPcSpawn::GetPropertyIndexed (int idx, bool& l)
+{
+  if (idx == propid_spawnunique)
+  {
+    l = do_spawn_unique;
+    return true;
+  }
+  return false;
+}
+
 bool celPcSpawn::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
   switch (idx)
   {
-    case action_addentitytype:
-      {
-        CEL_FETCH_FLOAT_PAR (chance_param,params,id_chance_param);
-        if (!p_chance_param) chance_param = 0.0f;
-        CEL_FETCH_STRING_PAR (entity_param,params,id_entity_param);
-        if (!p_entity_param)
-          return Report (object_reg,
-      	    "Missing parameter 'entity' for action AddEntityType!");
-        CEL_FETCH_STRING_PAR (behaviour_param,params,id_behaviour_param);
-        if (!p_behaviour_param) behaviour_param = 0;
-        CEL_FETCH_STRING_PAR (call_param,params,id_call_param);
-        if (!p_call_param) call_param = 0;
-        CEL_FETCH_STRING_PAR (layer_param,params,id_layer_param);
-        if (p_layer_param)
-        {
-          iCelBlLayer* bl = pl->FindBehaviourLayer (layer_param);
-          if (!bl)
-            return Report (object_reg,
-        	"Couldn't find '%s' behaviour layer in action AddEntityType!",
-        	layer_param);
-          AddEntityType (chance_param, entity_param, bl,
-      	    behaviour_param, call_param, params, 0);
-        }
-        else
-        {
-          csRef<iCelBlLayer> bl = csQueryRegistry<iCelBlLayer> (object_reg);
-          if (!bl)
-            return Report (object_reg,
-        	    "Couldn't find behaviour layer in action AddEntityType!");
-          AddEntityType (chance_param, entity_param, bl,
-      	    behaviour_param, call_param, params, 0);
-        }
-        return true;
-      }
     case action_addentitytpltype:
       {
         CEL_FETCH_FLOAT_PAR (chance_param,params,id_chance_param);
@@ -352,64 +337,69 @@ void celPcSpawn::Reset ()
 
 void celPcSpawn::Spawn ()
 {
-  csRandomGen rng;
+  csRandomGen rng (entity->GetID () + 5);
   SpawnEntityNr (rng.Get((uint32)spawninfo.GetSize ()));
+}
+
+void celPcSpawn::CountUniqueEntities ()
+{
+  if (do_spawn_unique)
+  {
+    count = 0;
+    for (size_t i = 0 ; i < uniqueEntities.GetSize () ; i++)
+      if (uniqueEntities[i]) count++;
+  }
+}
+
+void celPcSpawn::UpdateFreeUniqueEntity (iCelEntity* entity)
+{
+  if (do_spawn_unique)
+  {
+    for (size_t i = 0 ; i < uniqueEntities.GetSize () ; i++)
+      if (!uniqueEntities[i])
+      {
+        uniqueEntities[i] = entity;
+        return;
+      }
+    printf ("No free slot for an entity? Impossible!!!\n");
+    fflush (stdout);
+    CS_ASSERT (false);
+  }
 }
 
 void celPcSpawn::SpawnEntityNr (size_t idx)
 {
-  if (inhibit_count != 0 && inhibit_count == count) return;
+  CountUniqueEntities ();
+
+  if (inhibit_count != 0 && count >= inhibit_count) return;
   // To prevent the entity from being deleted during
   // the call of pcspawn_newentity we keep a temporary reference
   // here.
-  csRef<iCelEntity> ref;
-  csRandomGen rng (csGetTicks ());
-  if (spawninfo[idx].templ)
+  csRef<iCelEntity> ref = entity;
+  csRef<iCelEntity> newent;
+  csRandomGen rng (entity->GetID ());
+
+  csString entity_name = spawninfo[idx].name;
+  if (do_name_counter)
+    entity_name += serialnr;
+  iCelEntityTemplate* entpl = pl->FindEntityTemplate (
+      spawninfo[idx].templ);
+  if (entpl)
   {
-    csString entity_name = spawninfo[idx].name;
-    if (do_spawn_unique && pl->FindEntity (entity_name))
-      return;
-    if (do_name_counter)
-      entity_name += serialnr;
-    iCelEntityTemplate* entpl = pl->FindEntityTemplate (
-    	spawninfo[idx].templ);
-    if (entpl)
-    {
-      csRef<iCelParameterBlock> entpl_params;
-      entpl_params.AttachNew (new celVariableParameterBlock ());
-      spawninfo[idx].newent = pl->CreateEntity (entpl,
-    	  entity_name, entpl_params);
-      serialnr ++;
-    }
-    else
-    {
-      printf ("Warning: couldn't find template '%s'!\n",
-	  spawninfo[idx].templ.GetData ());
-      fflush (stdout);
-    }
+    csRef<iCelParameterBlock> entpl_params;
+    entpl_params.AttachNew (new celVariableParameterBlock ());
+    newent = pl->CreateEntity (entpl, entity_name, entpl_params);
+    serialnr ++;
   }
   else
   {
-    csString entity_name = spawninfo[idx].name;
-    if (do_spawn_unique && pl->FindEntity (entity_name))
-      return;
-    spawninfo[idx].newent = pl->CreateEntity (entity_name,
-    	spawninfo[idx].bl, spawninfo[idx].behaviour, CEL_PROPCLASS_END);
+    printf ("Warning: couldn't find template '%s'!\n",
+        spawninfo[idx].templ.GetData ());
+    fflush (stdout);
+    return;
   }
 
-  size_t i;
-  csStringArray& pcs = spawninfo[idx].pcs;
-  for (i = 0 ; i < pcs.GetSize () ; i++)
-  {
-    iCelPropertyClass* pc = pl->CreatePropertyClass (spawninfo[idx].newent,
-    	pcs[i]);
-    if (!pc)
-    {
-      Report (object_reg,
-      	"Error creating property class '%s' for entity '%s'!",
-      	(const char*)pcs[i], spawninfo[idx].newent->GetName ());
-    }
-  }
+  UpdateFreeUniqueEntity (newent);
 
   // Set position
   size_t len = spawnposition.GetSize ();
@@ -463,7 +453,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
           pos = spawnposition[number].pos;
         }
 #if 0
-        csRef<iPcLight> pclight = celQueryPropertyClassEntity<iPcLight> (spawninfo[idx].newent);
+        csRef<iPcLight> pclight = celQueryPropertyClassEntity<iPcLight> (newent);
         if (pclight)
         {
           iMovable* movable = pclight->GetLight ()->GetMovable ();
@@ -481,7 +471,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
 	iPcLight* pclight = 0;
 #endif
 
-        csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (spawninfo[idx].newent);
+        csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (newent);
         if (linmove)
         {
           spawnposition[number].reserved = true;
@@ -494,8 +484,8 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
         }
         else
         {
-          csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (spawninfo[idx].newent);
-          if (pcmesh)
+          csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (newent);
+          if (pcmesh && pcmesh->GetMesh ())
           {
             iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
             spawnposition[number].reserved = true;
@@ -504,11 +494,6 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
                 (csMatrix3) csYRotMatrix3 (spawnposition[number].yrot));
             movable->UpdateMove ();
           }
-          if (!pcmesh && !pclight)
-          {
-            Report (object_reg, "Error: entity '%s' is not a mesh or light!",
-              spawninfo[idx].newent->GetName ());
-          }
         }
       }
     }
@@ -516,23 +501,22 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
 
   // First send a message to our new entity if needed.
   celData ret;
-  if (spawninfo[idx].behaviour && !spawninfo[idx].newent->GetBehaviour ())
+  if (spawninfo[idx].behaviour && !newent->GetBehaviour ())
     Report (object_reg, "Error creating behaviour for entity '%s'!",
-    	spawninfo[idx].newent->GetName ());
+    	newent->GetName ());
   if ((!spawninfo[idx].msg_id.IsEmpty ()) &&
-  	spawninfo[idx].newent->GetBehaviour ())
+  	newent->GetBehaviour ())
   {
-    spawninfo[idx].newent->GetBehaviour ()->SendMessage (
+    newent->GetBehaviour ()->SendMessage (
     	spawninfo[idx].msg_id, this, ret, spawninfo[idx].params);
     // We use a direct SendMessage here because this is a one-time
     // only event.
-    spawninfo[idx].newent->QueryMessageChannel ()->SendMessage (
+    newent->QueryMessageChannel ()->SendMessage (
 	spawninfo[idx].msg_id, this, spawninfo[idx].params);
   }
 
   // Then send a message to our own entity.
-  ref = entity;
-  params->GetParameter (0).Set (spawninfo[idx].newent);
+  params->GetParameter (0).Set (newent);
   params->GetParameter (1).Set (spawninfo[idx].behaviour);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
@@ -576,27 +560,6 @@ void celPcSpawn::TickOnce ()
   SpawnEntityNr (idx);
 }
 
-void celPcSpawn::AddEntityType (float chance, const char* name, iCelBlLayer* bl,
-	const char* behaviour, const char* msg_id,
-	iCelParameterBlock* params, va_list pcclasses)
-{
-  size_t idx = spawninfo.Push (SpawnInfo ());
-  SpawnInfo& si = spawninfo[idx];
-  si.chance = chance;
-  si.name = name;
-  si.bl = bl;
-  si.behaviour = behaviour;
-  si.msg_id = msg_id;
-  si.params = params;
-  char const* pcname = va_arg (pcclasses, char*);
-  while (pcname != 0)
-  {
-    si.pcs.Push (pcname);
-    pcname = va_arg (pcclasses, char*);
-  }
-  total_chance += chance;
-}
-
 void celPcSpawn::AddEntityTemplateType (float chance, const char* templ,
 	const char* name, const char* msg_id, iCelParameterBlock* params)
 {
@@ -604,10 +567,7 @@ void celPcSpawn::AddEntityTemplateType (float chance, const char* templ,
   SpawnInfo& si = spawninfo[idx];
   si.chance = chance;
   si.templ = templ;
-  if (name != 0)
-    si.name = name;
-  else
-    si.name = templ;
+  si.name = name;
   si.msg_id = msg_id;
   si.params = params;
   total_chance += chance;
@@ -623,6 +583,26 @@ void celPcSpawn::ClearEntityList ()
 void celPcSpawn::InhibitCount (int number)
 {
   inhibit_count = number;
+  if (do_spawn_unique)
+  {
+    size_t size;
+    if (inhibit_count == 0) size = 1;
+    else size = inhibit_count;
+    uniqueEntities.SetSize (size, 0);
+  }
+}
+
+void celPcSpawn::EnableSpawnUnique (bool en)
+{
+  if (en == do_spawn_unique) return;
+  do_spawn_unique = en;
+  if (do_spawn_unique)
+  {
+    size_t size;
+    if (inhibit_count == 0) size = 1;
+    else size = inhibit_count;
+    uniqueEntities.SetSize (size, 0);
+  }
 }
 
 void celPcSpawn::AddSpawnPosition (const char* node, float yrot,

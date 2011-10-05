@@ -55,8 +55,6 @@ struct SpawnInfo
   csString behaviour;
   csString msg_id;
   csRef<iCelParameterBlock> params;
-  csStringArray pcs;
-  csWeakRef<iCelEntity> newent;
 };
 
 // Spawn position
@@ -99,7 +97,9 @@ private:
   int inhibit_count;
   uint32 serialnr;
   bool do_name_counter;
+
   bool do_spawn_unique;
+  csSafeCopyArray<csWeakRef<iCelEntity> > uniqueEntities;
 
   static csStringID id_repeat_param;
   static csStringID id_random_param;
@@ -124,8 +124,7 @@ private:
 
   enum actionids
   {
-    action_addentitytype = 0,
-    action_addentitytpltype,
+    action_addentitytpltype = 0,
     action_settiming,
     action_resettiming,
     action_setenabled,
@@ -143,6 +142,9 @@ private:
 
   static PropertyHolder propinfo;
 
+  void CountUniqueEntities ();
+  void UpdateFreeUniqueEntity (iCelEntity* entity);
+
 public:
   celPcSpawn (iObjectRegistry* object_reg);
   virtual ~celPcSpawn ();
@@ -152,9 +154,6 @@ public:
 
   virtual void SetEnabled (bool e);
   virtual bool IsEnabled () const { return enabled; }
-  void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
-  	const char* behaviour, const char* msg_id,
-  	iCelParameterBlock* params, va_list pcclasses);
   virtual void AddEntityTemplateType (float chance, const char* templ,
   	const char* name, const char* msg_id,
   	iCelParameterBlock* params);
@@ -170,11 +169,13 @@ public:
       const char* sector);
   virtual void SetEntityNameCounter (bool en) { do_name_counter = en; }
   virtual bool IsEntityNameCounterCounter () const { return do_name_counter; }
-  virtual void EnableSpawnUnique (bool en) { do_spawn_unique = en; }
+  virtual void EnableSpawnUnique (bool en);
   virtual bool IsSpawnUniqueEnabled () const { return do_spawn_unique; }
 
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
+  virtual bool SetPropertyIndexed (int idx, bool b);
+  virtual bool GetPropertyIndexed (int, bool&);
   virtual void TickOnce ();
   virtual void SpawnEntityNr (size_t idx);
   virtual void Reset ();
