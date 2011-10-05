@@ -385,6 +385,7 @@ void ElcmTest::SelectEntity (iCelEntity* entity)
     iDynamicObject* obj = dynworld->AddObject (factName, trans);
     obj->LinkEntity (entity);
     inv->RemoveEntity (entity);
+    entity->Activate ();
   }
   else
   {
@@ -421,7 +422,9 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
   csRef<iCelParameterBlock> params;
   params.AttachNew (new celVariableParameterBlock ());
   obj->SetEntity (0, params);
-  obj->ForceEntity ()->MarkBaseline ();
+  iCelEntity* entity = obj->ForceEntity ();
+  entity->MarkBaseline ();
+  entity->Activate ();
 }
 
 void ElcmTest::SelectEntity (iCelEntity* entity, bool left)
