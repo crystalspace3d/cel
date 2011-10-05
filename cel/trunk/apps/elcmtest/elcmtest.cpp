@@ -421,6 +421,7 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
   csRef<iCelParameterBlock> params;
   params.AttachNew (new celVariableParameterBlock ());
   obj->SetEntity (0, params);
+  obj->ForceEntity ()->MarkBaseline ();
 }
 
 void ElcmTest::SelectEntity (iCelEntity* entity, bool left)

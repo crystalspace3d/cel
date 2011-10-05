@@ -216,9 +216,15 @@ struct iDynamicObject : public virtual iBase
   virtual void UnlinkEntity () = 0;
 
   /**
-   * Get the (optional) entity for this dynamic object.
+   * Get the (optional) entity for this dynamic object. If the dynamic object
+   * is out of reach it is possible that the entity is not created yet.
    */
   virtual iCelEntity* GetEntity () const = 0;
+
+  /**
+   * Force creation of the entity.
+   */
+  virtual iCelEntity* ForceEntity () = 0;
 
   /**
    * Return a one-line string briefly describing this dynamic object.

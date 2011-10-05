@@ -345,7 +345,7 @@ public:
 
   void SetFade (float f);
   float GetFade () const { return fade; }
-  iCelEntity* ForceEntity (celPcDynamicWorld* world);
+  virtual iCelEntity* ForceEntity ();
   void MarkBaseline ()
   {
     if (entity) entity->MarkBaseline ();
