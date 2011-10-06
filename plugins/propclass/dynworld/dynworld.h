@@ -314,7 +314,7 @@ public:
       const csReversibleTransform& trans);
   virtual ~DynamicObject ();
 
-  void SetID (uint id) { DynamicObject::id = id; }
+  void SetID (uint id);
   uint GetID () const { return id; }
 
   virtual iDynamicCell* GetCell () const;
@@ -403,8 +403,8 @@ public:
   csSet<csPtrKey<DynamicObject> > fadingIn;
   csSet<csPtrKey<DynamicObject> > fadingOut;
 
-  // Mapping of meshes to dynamic objects.
-  csHash<iDynamicObject*,csPtrKey<iMeshWrapper> > meshToDynObj;
+  // Mapping of id to dynamic objects.
+  csHash<iDynamicObject*,uint> idToDynObj;
 
   // Current visible objects.
   csSet<csPtrKey<DynamicObject> > visibleObjects;
@@ -424,9 +424,9 @@ public:
   DynamicCell (const char* name, celPcDynamicWorld* world);
   virtual ~DynamicCell ();
 
-  csHash<iDynamicObject*,csPtrKey<iMeshWrapper> >& GetMeshToDynObj ()
+  csHash<iDynamicObject*,uint>& GetIdToDynObj ()
   {
-    return meshToDynObj;
+    return idToDynObj;
   }
 
   void Setup (iSector* sector, iDynamicSystem* dynSys)
