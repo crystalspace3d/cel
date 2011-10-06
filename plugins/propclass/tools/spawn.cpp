@@ -654,7 +654,7 @@ void celPcSpawn::RestoreModifications (iCelCompactDataBufferReader* buf,
     for (size_t i = 0 ; i < uniqueEntities.GetSize () ; i++)
     {
       uint entid = (uint) buf->GetUInt32 ();
-      if (entid == csArrayItemNotFound)
+      if (entid == ~0)
         uniqueEntities[i] = 0;
       else
       {
