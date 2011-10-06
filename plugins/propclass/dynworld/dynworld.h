@@ -384,13 +384,15 @@ struct DynamicObjectExtraData
   }
 };
 
-class DynamicCell
+class DynamicCell : public scfImplementation1<DynamicCell, iDynamicCell>
 {
 public:
+  csString name;
   celPcDynamicWorld* world;
   iCelPlLayer* pl;
 
   iSector* sector;
+  csRef<iDynamicSystem> dynSys;
   csRefArray<DynamicObject> objects;
   csSet<csPtrKey<DynamicObject> > fadingIn;
   csSet<csPtrKey<DynamicObject> > fadingOut;
@@ -413,7 +415,7 @@ public:
   void DeleteObjectInt (DynamicObject* dynobj);
 
 public:
-  DynamicCell (celPcDynamicWorld* world);
+  DynamicCell (const char* name, celPcDynamicWorld* world);
   virtual ~DynamicCell ();
 
   csHash<iDynamicObject*,csPtrKey<iMeshWrapper> >& GetMeshToDynObj ()
@@ -421,7 +423,15 @@ public:
     return meshToDynObj;
   }
 
+  void Setup (iSector* sector, iDynamicSystem* dynSys)
+  {
+    DynamicCell::sector = sector;
+    DynamicCell::dynSys = dynSys;
+  }
+
   void PrepareView (iCamera* camera, float elapsed_time);
+
+  virtual const char* GetName () const { return name; }
 
   virtual void DeleteObject (iDynamicObject* dynobj);
   virtual void DeleteObjects ();
@@ -444,7 +454,6 @@ class celPcDynamicWorld : public scfImplementationExt1<celPcDynamicWorld,
 {
 public:
   csRef<iEngine> engine;
-  csRef<iDynamicSystem> dynSys;
   csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   uint lastID;
@@ -457,6 +466,9 @@ public:
 
   // Current cell.
   DynamicCell* currentCell;
+
+  // All cells.
+  csHash<csRef<iDynamicCell>,csString> cells;
 
   // A set of entities which the ELCM thinks are safe to remove.
   csSet<csPtrKey<iCelEntity> > safeToRemove;
@@ -504,6 +516,12 @@ public:
   void SafeToRemove (iCelEntity* entity);
   virtual void Dump ();
 
+  virtual iDynamicCell* AddCell (const char* name, iSector* sector, iDynamicSystem* dynSys);
+  virtual iDynamicCell* FindCell (const char* name);
+  virtual void RemoveCell (iDynamicCell* cell);
+  virtual void SetCurrentCell (iDynamicCell* cell) { currentCell = static_cast<DynamicCell*> (cell); }
+  virtual iDynamicCell* GetCurrentCell () const { return currentCell; }
+
   virtual iDynamicFactory* AddFactory (const char* factory, float maxradius,
       float imposterradius);
   virtual void RemoveFactory (iDynamicFactory* factory);
@@ -512,26 +530,9 @@ public:
   virtual iDynamicFactory* GetFactory (size_t index) const { return factories[index]; }
   virtual iDynamicFactory* FindFactory (const char* name) const;
 
-  // @@@ Temporary
-  virtual iDynamicObject* AddObject (const char* factory,
-      const csReversibleTransform& trans)
-  {
-    return currentCell->AddObject (factory, trans);
-  }
-  // @@@ Temporary
-  virtual size_t GetObjectCount () const { return currentCell->GetObjectCount (); }
-
   virtual void ForceVisible (iDynamicObject* dynobj);
   virtual void ForceInvisible (iDynamicObject* dynobj);
-  // @@@ Temporary
-  virtual void DeleteObject (iDynamicObject* dynobj)
-  {
-    DynamicObject* dyn = static_cast<DynamicObject*> (dynobj);
-    checkForMovement.Delete (dyn);
-    currentCell->DeleteObject (dynobj);
-  }
-  // @@@ Temporary
-  virtual void DeleteObjects ()
+  virtual void DeleteAll ()
   {
     lastID = 1000000001;
     checkForMovement.DeleteAll ();
@@ -539,31 +540,16 @@ public:
     currentCell->DeleteObjects ();
     if (scopeIdx != csArrayItemNotFound)
       pl->ResetScope (scopeIdx);
+    cells.DeleteAll ();
+    currentCell = 0;
   }
-  // @@@ Add DeleteAll instead (to set lastID to 1000000001!!!
-  virtual void Setup (iSector* sector, iDynamicSystem* dynSys);
   virtual void SetRadius (float radius);
   virtual float GetRadius () const { return radius; }
   virtual void PrepareView (iCamera* camera, float elapsed_time);
-  // @@@ Temporary
   virtual iDynamicObject* FindObject (iCelEntity* entity) const
   {
+    // @@@ Try to look over all cells efficiently?
     return currentCell->FindObject (entity);
-  }
-  // @@@ Temporary
-  virtual iDynamicObject* FindObject (iRigidBody* body) const
-  {
-    return currentCell->FindObject (body);
-  }
-  // @@@ Temporary
-  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const
-  {
-    return currentCell->FindObject (mesh);
-  }
-  // @@@ Temporary
-  iDynamicObject* FindObject (uint id) const
-  {
-    return currentCell->FindObject (id);
   }
 
   virtual void Save (iDocumentNode* node);

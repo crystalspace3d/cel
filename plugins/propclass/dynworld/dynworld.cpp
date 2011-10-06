@@ -206,7 +206,8 @@ static bool DynWorld_Front2Back (CS::Geometry::KDTree* treenode,
 
 //---------------------------------------------------------------------------
 
-DynamicCell::DynamicCell (celPcDynamicWorld* world) : world (world)
+DynamicCell::DynamicCell (const char* name, celPcDynamicWorld* world) :
+  scfImplementationType (this), name (name), world (world)
 {
   pl = world->pl;
   tree = new CS::Geometry::KDTree ();
@@ -775,7 +776,7 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
   if (!mesh) return;
   InstallHilight (false);
   CS_ASSERT (hilight_installed == false);
-  if (body) world->dynSys->RemoveBody (body);
+  if (body) cell->dynSys->RemoveBody (body);
   body = 0;
   trans = mesh->GetMovable ()->GetTransform ();
   iImposterFactory* imposterFactory = factory->GetImposterFactory ();
@@ -814,7 +815,7 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
   for (size_t i = 0 ; i < colliders.GetSize () ; i++)
   {
-    body = colliders[i]->Create (world->dynSys, mesh, trans, body);
+    body = colliders[i]->Create (cell->dynSys, mesh, trans, body);
   }
   if (is_static)
     body->MakeStatic ();
@@ -838,7 +839,7 @@ void DynamicObject::RefreshColliders ()
   const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
   for (size_t i = 0 ; i < colliders.GetSize () ; i++)
   {
-    body = colliders[i]->Create (factory->GetWorld ()->dynSys, mesh, trans, body);
+    body = colliders[i]->Create (cell->dynSys, mesh, trans, body);
   }
   if (is_static)
     body->MakeStatic ();
@@ -1082,13 +1083,12 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   spawner.AttachNew (new celDynworldSpawner (this));
   object_reg->Register (spawner, "cel.spawner");
 
-  currentCell = new DynamicCell (this);
+  currentCell = 0;
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
 {
-  DeleteObjects ();
-  delete currentCell;
+  DeleteAll ();
 }
 
 void celPcDynamicWorld::SetELCM (iELCM* elcm)
@@ -1097,6 +1097,25 @@ void celPcDynamicWorld::SetELCM (iELCM* elcm)
   DynWorldELCMListener* listener = new DynWorldELCMListener (this);
   elcm->AddELCMListener (listener);
   listener->DecRef ();
+}
+
+iDynamicCell* celPcDynamicWorld::AddCell (const char* name, iSector* sector, iDynamicSystem* dynSys)
+{
+  csRef<DynamicCell> cell;
+  cell.AttachNew (new DynamicCell (name, this));
+  cell->Setup (sector, dynSys);
+  cells.Put (name, cell);
+  return cell;
+}
+
+iDynamicCell* celPcDynamicWorld::FindCell (const char* name)
+{
+  return cells.Get (name, 0);
+}
+
+void celPcDynamicWorld::RemoveCell (iDynamicCell* cell)
+{
+  cells.DeleteAll (cell->GetName ());
 }
 
 void celPcDynamicWorld::CheckForMovement ()
@@ -1181,12 +1200,6 @@ void celPcDynamicWorld::RemoveSafeEntities ()
 void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
 {
   currentCell->PrepareView (camera, elapsed_time);
-}
-
-void celPcDynamicWorld::Setup (iSector* sector, iDynamicSystem* dynSys)
-{
-  currentCell->sector = sector;
-  celPcDynamicWorld::dynSys = dynSys;
 }
 
 void celPcDynamicWorld::SetRadius (float radius)
@@ -1442,6 +1455,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
   csHash<csString,csStringID> strings;
   csRef<iCelCompactDataBufferReader> buf = pl->CreateCompactDataBufferReader (dbuf);
   LoadStrings (buf, strings);
+  // @@@ NEEDS TO MOVE PARTIALLY TO CELL!
 
   if (elcm)
   {
@@ -1451,10 +1465,10 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     {
       uint id = (uint)buf->GetUInt32 ();
       elcm->RegisterDeletedEntity (id);
-      DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (id));
+      DynamicObject* dynobj = static_cast<DynamicObject*> (currentCell->FindObject (id));
       if (dynobj)
       {
-	DeleteObject (dynobj);
+	currentCell->DeleteObject (dynobj);
       }
       else
       {
@@ -1489,7 +1503,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
 	  printf ("Loading new entity/dynobj '%s' from '%s'\n", entName, tmpName);
           csReversibleTransform trans;
           LoadTransform (buf, trans);
-          dynobj = static_cast<DynamicObject*> (AddObject (tmpName, trans));
+          dynobj = static_cast<DynamicObject*> (currentCell->AddObject (tmpName, trans));
           dynobj->SetID (id);
           dynobj->SetEntity (entName, 0); // @@@ params?
           entity = dynobj->ForceEntity ();
@@ -1518,7 +1532,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       }
       else
       {
-        dynobj = static_cast<DynamicObject*> (FindObject (id));
+        dynobj = static_cast<DynamicObject*> (currentCell->FindObject (id));
 	if (dynobj)
 	{
           // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
@@ -1535,7 +1549,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
 	    printf ("Loading existing entity but with deleted dynobj '%s'\n", GetEntityName (pl, entity).GetData ());
             ForceInvisible (dynobj);
             dynobj->UnlinkEntity ();
-            DeleteObject (dynobj);
+            currentCell->DeleteObject (dynobj);
           }
 	}
 	else
@@ -1569,7 +1583,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     while (marker == MARKER_NEW)
     {
       uint id = buf->GetUInt32 ();
-      DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (id));
+      DynamicObject* dynobj = static_cast<DynamicObject*> (currentCell->FindObject (id));
       printf ("Loading moved dynobj\n"); fflush (stdout);
       csReversibleTransform trans;
       LoadTransform (buf, trans);
@@ -1615,7 +1629,7 @@ iCelEntity* celPcDynamicWorld::CreateSpawnedEntity (iCelEntityTemplate* tpl,
 
   csReversibleTransform trans (csYRotMatrix3 (yrot), pos);
 
-  iDynamicObject* obj = AddObject (tpl->GetName (), trans);
+  iDynamicObject* obj = currentCell->AddObject (tpl->GetName (), trans);
   obj->SetEntity (entityName, params);
   iCelEntity* newent = obj->ForceEntity ();
   newent->MarkBaseline ();
