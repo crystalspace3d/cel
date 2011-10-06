@@ -475,6 +475,8 @@ public:
   csRef<iELCM> elcm;
   size_t scopeIdx;
 
+  csRef<iDynamicCellCreator> cellCreator;
+
   // Current cell.
   DynamicCell* currentCell;
 
@@ -523,6 +525,10 @@ public:
   virtual void RemoveCell (iDynamicCell* cell);
   virtual void SetCurrentCell (iDynamicCell* cell) { currentCell = static_cast<DynamicCell*> (cell); }
   virtual iDynamicCell* GetCurrentCell () const { return currentCell; }
+  virtual void SetDynamicCellCreator (iDynamicCellCreator* creator)
+  {
+    cellCreator = creator;
+  }
 
   virtual iDynamicFactory* AddFactory (const char* factory, float maxradius,
       float imposterradius);

@@ -50,6 +50,24 @@ struct iGeometryGenerator : public virtual iBase
 };
 
 /**
+ * This interface can be implemented by the application to control
+ * how cells are created. If this is not implemented then all cells
+ * should be created in advance before the dynworld plugin can use
+ * them.
+ */
+struct iDynamicCellCreator : public virtual iBase
+{
+  SCF_INTERFACE(iDynamicCellCreator,0,0,1);
+
+  /**
+   * The DynWorld plugin needs a cell with the given name.
+   * If the application cannot provide a cell with this name
+   * then it should return 0 here.
+   */
+  virtual iDynamicCell* CreateCell (const char* name) = 0;
+};
+
+/**
  * A factory object in the dynamic world.
  */
 struct iDynamicFactory : public virtual iBase
@@ -334,6 +352,12 @@ struct iPcDynamicWorld : public virtual iBase
    * Get the current cell.
    */
   virtual iDynamicCell* GetCurrentCell () const = 0;
+
+  /**
+   * Set a dynamic cell creator to be used when the dynamic world plugin
+   * needs to create a cell.
+   */
+  virtual void SetDynamicCellCreator (iDynamicCellCreator* creator) = 0;
 
   //------------------------------------------------------------------------------
 
