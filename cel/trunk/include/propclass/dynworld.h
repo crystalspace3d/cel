@@ -35,6 +35,7 @@ struct iELCM;
 struct iCelParameterBlock;
 struct iCelEntity;
 struct iDataBuffer;
+struct iDynamicCell;
 
 /**
  * Geometry generator. This is typically attached to factories
@@ -131,6 +132,11 @@ struct iDynamicObject : public virtual iBase
    * Get the factory from which this dynamic object was created.
    */
   virtual iDynamicFactory* GetFactory () const = 0;
+
+  /**
+   * Get the cell where this dynamic object lives.
+   */
+  virtual iDynamicCell* GetCell () const = 0;
 
   /**
    * Make static.

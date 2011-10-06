@@ -55,6 +55,9 @@
 CEL_DECLARE_FACTORY (DynamicWorld)
 
 
+#define MARKER_NEW 0xe3
+#define MARKER_END 0x3e
+
 class celPcDynamicWorld;
 class DynamicCell;
 
@@ -314,6 +317,9 @@ public:
   void SetID (uint id) { DynamicObject::id = id; }
   uint GetID () const { return id; }
 
+  virtual iDynamicCell* GetCell () const;
+  DynamicCell* GetCellInternal () const { return cell; }
+
   CS::Geometry::KDTreeChild* GetChild () const { return child; }
   void SetChild (CS::Geometry::KDTreeChild* child)
   { DynamicObject::child = child; }
@@ -447,6 +453,11 @@ public:
   virtual csRef<iString> Load (iDocumentNode* node);
 
   virtual void MarkBaseline ();
+
+  void SaveModifications (iCelCompactDataBufferWriter* buf,
+      iStringSet* strings, csSet<csPtrKey<DynamicObject> >& alreadySaved);
+  void RestoreModifications (iCelCompactDataBufferReader* buf,
+      const csHash<csString,csStringID>& strings);
 };
 
 class celPcDynamicWorld : public scfImplementationExt1<celPcDynamicWorld,
@@ -468,7 +479,7 @@ public:
   DynamicCell* currentCell;
 
   // All cells.
-  csHash<csRef<iDynamicCell>,csString> cells;
+  csHash<csRef<DynamicCell>,csString> cells;
 
   // A set of entities which the ELCM thinks are safe to remove.
   csSet<csPtrKey<iCelEntity> > safeToRemove;
@@ -481,15 +492,6 @@ public:
   // The 'visibility' traversal should have removed all entities that
   // are attached to a visible mesh from this set first.
   void RemoveSafeEntities ();
-
-  void SaveTransform (iCelCompactDataBufferWriter* buf,
-      const csReversibleTransform& trans);
-  void LoadTransform (iCelCompactDataBufferReader* buf,
-      csReversibleTransform& trans);
-  void SaveStrings (iCelCompactDataBufferWriter* buf,
-      csScfStringSet* strings);
-  void LoadStrings (iCelCompactDataBufferReader* buf,
-      csHash<csString,csStringID>& strings);
 
   // Check all objects which have moved recently to see if some of
   // them have moved enough for them to be considered 'dirty'.
@@ -532,17 +534,7 @@ public:
 
   virtual void ForceVisible (iDynamicObject* dynobj);
   virtual void ForceInvisible (iDynamicObject* dynobj);
-  virtual void DeleteAll ()
-  {
-    lastID = 1000000001;
-    checkForMovement.DeleteAll ();
-    meshCache.RemoveMeshes ();
-    currentCell->DeleteObjects ();
-    if (scopeIdx != csArrayItemNotFound)
-      pl->ResetScope (scopeIdx);
-    cells.DeleteAll ();
-    currentCell = 0;
-  }
+  virtual void DeleteAll ();
   virtual void SetRadius (float radius);
   virtual float GetRadius () const { return radius; }
   virtual void PrepareView (iCamera* camera, float elapsed_time);
@@ -551,6 +543,7 @@ public:
     // @@@ Try to look over all cells efficiently?
     return currentCell->FindObject (entity);
   }
+  iDynamicObject* FindObject (uint id) const;
 
   virtual void Save (iDocumentNode* node);
   virtual csRef<iString> Load (iDocumentNode* node);
