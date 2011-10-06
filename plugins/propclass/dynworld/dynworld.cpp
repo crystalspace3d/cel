@@ -1686,7 +1686,13 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
   {
     const char* cellName = strings.Get (cellID, (const char*)0);
     DynamicCell* cell = cells.Get (cellName, 0);
-    CS_ASSERT (cell != 0);
+    if (!cell && cellCreator)
+      cell = static_cast<DynamicCell*> (cellCreator->CreateCell (cellName));
+    if (!cell)
+    {
+      printf ("Failed to find/create the cell '%s'!\n", cellName);
+      return;
+    }
     cell->RestoreModifications (buf, strings);
     cellID = buf->GetID ();
   }
