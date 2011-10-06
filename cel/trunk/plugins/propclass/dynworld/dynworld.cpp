@@ -444,40 +444,24 @@ void DynamicCell::PrepareView (iCamera* camera, float elapsed_time)
 
 iDynamicObject* DynamicCell::FindObject (iCelEntity* entity) const
 {
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-  if (!pcmesh) return 0;	// Impossible to find efficiently. We don't bother.
-  iMeshWrapper* mesh = pcmesh->GetMesh ();
-  if (!mesh) return 0;		// There will be no dynobj with this mesh.
-  return FindObject (mesh);
+  return FindObject (entity->GetID ());
 }
 
 iDynamicObject* DynamicCell::FindObject (uint id) const
 {
-  //@@@ Not very efficient!
-  for (size_t i = 0 ; i < objects.GetSize () ; i++)
-  {
-    if (objects[i]->GetID () == id)
-      return objects[i];
-  }
-  return 0;
+  return idToDynObj.Get (id, 0);
 }
 
 iDynamicObject* DynamicCell::FindObject (iRigidBody* body) const
 {
-  //@@@ Not very efficient!
-  for (size_t i = 0 ; i < objects.GetSize () ; i++)
-  {
-    DynamicObject* dyn = objects[i];
-    if (dyn->HasBody (body))
-      return dyn;
-  }
-  return 0;
+  return FindObject (body->GetAttachedMesh ());
 }
 
 iDynamicObject* DynamicCell::FindObject (iMeshWrapper* mesh) const
 {
-  iDynamicObject* dynobj = meshToDynObj.Get (mesh, 0);
-  return dynobj;
+  iCelEntity* entity = pl->FindAttachedEntity (mesh->QueryObject ());
+  if (!entity) return 0;
+  return FindObject (entity->GetID ());
 }
 
 void DynamicCell::Save (iDocumentNode* node)
@@ -907,6 +891,13 @@ DynamicObject::~DynamicObject ()
 {
 }
 
+void DynamicObject::SetID (uint id)
+{
+  cell->GetIdToDynObj ().Delete (id, this);
+  DynamicObject::id = id;
+  cell->GetIdToDynObj ().Put (id, this);
+}
+
 iDynamicCell* DynamicObject::GetCell () const
 {
   return static_cast<iDynamicCell*> (cell);
@@ -1026,7 +1017,7 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
     imposterFactory->RemoveImposter (mesh);
   mesh->GetMovable ()->RemoveListener (this);
   world->meshCache.RemoveMesh (mesh);
-  cell->GetMeshToDynObj ().DeleteAll ((iMeshWrapper*)mesh);
+  cell->GetIdToDynObj ().Delete (id, this);
   mesh = 0;
   if (entity)
   {
@@ -1045,7 +1036,7 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   if (mesh) return;
   mesh = world->meshCache.AddMesh (world->engine, factory->GetMeshFactory (),
       cell->sector, trans);
-  cell->GetMeshToDynObj ().PutUnique ((iMeshWrapper*)mesh, this);
+  cell->GetIdToDynObj ().Put (id, this);
   mesh->GetMovable ()->AddListener (this);
   lastUpdateNr = mesh->GetMovable ()->GetUpdateNumber ();
   iGeometryGenerator* ggen = factory->GetGeometryGenerator ();
@@ -1484,7 +1475,6 @@ void celPcDynamicWorld::MarkBaseline ()
 
 iDynamicObject* celPcDynamicWorld::FindObject (uint id) const
 {
-  // @@@ This is not very fast!
   csHash<csRef<DynamicCell>,csString>::ConstGlobalIterator it = cells.GetIterator ();
   while (it.HasNext ())
   {
