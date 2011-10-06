@@ -3708,7 +3708,6 @@ class iPcSpawn(cspace.iBase):
     __repr__ = _swig_repr
     def SetEnabled(*args): return _blcelc.iPcSpawn_SetEnabled(*args)
     def IsEnabled(*args): return _blcelc.iPcSpawn_IsEnabled(*args)
-    def AddEntityType(*args): return _blcelc.iPcSpawn_AddEntityType(*args)
     def AddEntityTemplateType(*args): return _blcelc.iPcSpawn_AddEntityTemplateType(*args)
     def ClearEntityList(*args): return _blcelc.iPcSpawn_ClearEntityList(*args)
     def SetTiming(*args): return _blcelc.iPcSpawn_SetTiming(*args)
@@ -3761,6 +3760,16 @@ celCreatePathFinder = _blcelc.celCreatePathFinder
 celGetSetPathFinder = _blcelc.celGetSetPathFinder
 celGetPathFinder = _blcelc.celGetPathFinder
 iPcSpawn_scfGetVersion = _blcelc.iPcSpawn_scfGetVersion
+
+class iCelSpawner(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def CreateEntity(*args): return _blcelc.iCelSpawner_CreateEntity(*args)
+    __swig_destroy__ = _blcelc.delete_iCelSpawner
+    __del__ = lambda self : None;
+iCelSpawner_swigregister = _blcelc.iCelSpawner_swigregister
+iCelSpawner_swigregister(iCelSpawner)
 
 scfQuery_iPcSpawn = _blcelc.scfQuery_iPcSpawn
 class iPcProjectile(cspace.iBase):
