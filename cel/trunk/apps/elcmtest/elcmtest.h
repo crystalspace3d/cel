@@ -42,7 +42,10 @@ private:
   csRef<iELCM> elcm;
   csRef<iCelEntity> playerEntity;
   csRef<iCelEntity> worldEntity;
+
   csRef<iPcDynamicWorld> dynworld;
+  iDynamicCell* outsideCell;
+
   iCamera* camera;
   iSector* sector;
 

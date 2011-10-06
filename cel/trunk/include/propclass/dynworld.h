@@ -233,6 +233,64 @@ struct iDynamicObject : public virtual iBase
 };
 
 /**
+ * A Cell.
+ */
+struct iDynamicCell : public virtual iBase
+{
+  SCF_INTERFACE(iDynamicCell,0,0,1);
+
+  virtual const char* GetName () const = 0;
+
+  /**
+   * Add a new dynamic object to the cell. This object will have no physics
+   * properties yet.
+   */
+  virtual iDynamicObject* AddObject (const char* factory,
+      const csReversibleTransform& trans) = 0;
+
+  /**
+   * Get the number of objects.
+   */
+  virtual size_t GetObjectCount () const = 0;
+
+  /**
+   * Find a dynamic object from the entity.
+   */
+  virtual iDynamicObject* FindObject (iCelEntity* entity) const = 0;
+  /**
+   * Find an object given its rigid body.
+   */
+  virtual iDynamicObject* FindObject (iRigidBody* body) const = 0;
+  /**
+   * Find an object given its mesh.
+   */
+  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const = 0;
+
+  /**
+   * Remove an object.
+   */
+  virtual void DeleteObject (iDynamicObject* dynobj) = 0;
+  /**
+   * Delete all objects in this cell.
+   */
+  virtual void DeleteObjects () = 0;
+
+  /**
+   * Save the cell to XML.
+   */
+  virtual void Save (iDocumentNode* node) = 0;
+  /**
+   * Load the cell from XML.
+   */
+  virtual csRef<iString> Load (iDocumentNode* node) = 0;
+
+  /**
+   * Mark the baseline.
+   */
+  virtual void MarkBaseline () = 0;
+};
+
+/**
  * Interface to the dynamic world plugin.
  */
 struct iPcDynamicWorld : public virtual iBase
@@ -243,6 +301,33 @@ struct iPcDynamicWorld : public virtual iBase
    * Set an optional ELCM plugin to use for managing life time of entities.
    */
   virtual void SetELCM (iELCM* elcm) = 0;
+
+  //------------------------------------------------------------------------------
+
+  /**
+   * Add a new cell to the world.
+   */
+  virtual iDynamicCell* AddCell (const char* name, iSector* sector, iDynamicSystem* dynSys) = 0;
+
+  /**
+   * Find a cell by name.
+   */
+  virtual iDynamicCell* FindCell (const char* name) = 0;
+
+  /**
+   * Remove a cell.
+   */
+  virtual void RemoveCell (iDynamicCell* cell) = 0;
+
+  /**
+   * Set a cell as current.
+   */
+  virtual void SetCurrentCell (iDynamicCell* cell) = 0;
+
+  /**
+   * Get the current cell.
+   */
+  virtual iDynamicCell* GetCurrentCell () const = 0;
 
   //------------------------------------------------------------------------------
 
@@ -285,18 +370,6 @@ struct iPcDynamicWorld : public virtual iBase
   //------------------------------------------------------------------------------
 
   /**
-   * Add a new dynamic object to the world. This object will have no physics
-   * properties yet.
-   */
-  virtual iDynamicObject* AddObject (const char* factory,
-      const csReversibleTransform& trans) = 0;
-
-  /**
-   * Get the number of objects.
-   */
-  virtual size_t GetObjectCount () const = 0;
-
-  /**
    * Force a dynamic object to be visible. This will force the
    * creation of the mesh.
    */
@@ -309,19 +382,9 @@ struct iPcDynamicWorld : public virtual iBase
   virtual void ForceInvisible (iDynamicObject* dynobj) = 0;
 
   /**
-   * Remove an object.
+   * Delete everything.
    */
-  virtual void DeleteObject (iDynamicObject* dynobj) = 0;
-
-  /**
-   * Delete all objects.
-   */
-  virtual void DeleteObjects () = 0;
-
-  /**
-   * Set the sector for this dynamic world.
-   */
-  virtual void Setup (iSector* sector, iDynamicSystem* dynSys) = 0;
+  virtual void DeleteAll () = 0;
 
   /**
    * Set the view radius. Default radius is 20.
@@ -342,16 +405,6 @@ struct iPcDynamicWorld : public virtual iBase
    * Find a dynamic object from the entity.
    */
   virtual iDynamicObject* FindObject (iCelEntity* entity) const = 0;
-
-  /**
-   * Find an object given its rigid body.
-   */
-  virtual iDynamicObject* FindObject (iRigidBody* body) const = 0;
-
-  /**
-   * Find an object given its mesh.
-   */
-  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const = 0;
 
   /**
    * Save the world to XML.

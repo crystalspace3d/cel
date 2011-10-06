@@ -206,8 +206,9 @@ bool ElcmTest::CreateLevel ()
 
   dynworld = celQueryPropertyClassEntity<iPcDynamicWorld> (worldEntity);
   dynworld->SetRadius (40);
-  dynworld->Setup (sector, dynSys);
   dynworld->SetELCM (elcm);
+  outsideCell = dynworld->AddCell ("outside", sector, dynSys);
+  dynworld->SetCurrentCell (outsideCell);
 
   csColliderHelper::InitializeCollisionWrappers (cdsys, engine);
   engine->Prepare ();
@@ -245,7 +246,7 @@ bool ElcmTest::FillDynamicWorld ()
       float oy = float (y*5) + rnd.Get () * 4.0f - 2.0f;
       if (r < .4)
       {
-        obj = dynworld->AddObject ("Barrel", csReversibleTransform (mat, csVector3 (ox, -.4, oy)));
+        obj = outsideCell->AddObject ("Barrel", csReversibleTransform (mat, csVector3 (ox, -.4, oy)));
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
         if (!obj->SetEntity (0, params))
@@ -253,7 +254,7 @@ bool ElcmTest::FillDynamicWorld ()
       }
       else if (r < .7)
       {
-        obj = dynworld->AddObject ("Table", csReversibleTransform (mat, csVector3 (ox, -1, oy)));
+        obj = outsideCell->AddObject ("Table", csReversibleTransform (mat, csVector3 (ox, -1, oy)));
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
         if (!obj->SetEntity (0, params))
@@ -269,7 +270,7 @@ bool ElcmTest::FillDynamicWorld ()
 	  case 3: objName = "Milk"; yoffset = 0.106; break;
 	  case 4: objName = "Cup"; break;
 	}
-        obj = dynworld->AddObject (objName, csReversibleTransform (
+        obj = outsideCell->AddObject (objName, csReversibleTransform (
 	    mat, csVector3 (ox, yoffset, oy)));
         if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template '%s'!",
@@ -277,7 +278,7 @@ bool ElcmTest::FillDynamicWorld ()
       }
       else
       {
-        obj = dynworld->AddObject ("Clicker", csReversibleTransform (mat, csVector3 (ox, -.95, oy)));
+        obj = outsideCell->AddObject ("Clicker", csReversibleTransform (mat, csVector3 (ox, -.95, oy)));
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
         if (!obj->SetEntity (0, params))
@@ -289,7 +290,7 @@ bool ElcmTest::FillDynamicWorld ()
         float ox = float (x*5) + 2.5f;
         float oy = float (y*5) + 2.5f;
 	csVector3 pos (ox, -1, oy);
-        obj = dynworld->AddObject ("MoneySpawn", csReversibleTransform (
+        obj = outsideCell->AddObject ("MoneySpawn", csReversibleTransform (
 	      csMatrix3 (), pos));
         csRef<celVariableParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
@@ -300,7 +301,7 @@ bool ElcmTest::FillDynamicWorld ()
       }
     }
   dynworld->MarkBaseline ();
-  printf ("Created %d objects!\n", dynworld->GetObjectCount ());
+  printf ("Created %d objects!\n", outsideCell->GetObjectCount ());
   return true;
 }
 
@@ -397,7 +398,7 @@ void ElcmTest::SelectEntity (iCelEntity* entity)
 	playerEntity);
     csReversibleTransform trans = playerpcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
     trans.SetOrigin (trans.GetOrigin () + trans.GetFront () / 2.0f + trans.GetUp ());
-    iDynamicObject* obj = dynworld->AddObject (factName, trans);
+    iDynamicObject* obj = outsideCell->AddObject (factName, trans);
     obj->LinkEntity (entity);
     inv->RemoveEntity (entity);
     entity->Activate ();
@@ -433,7 +434,7 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
   csReversibleTransform trans = pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
   trans.SetOrigin (trans.GetOrigin () + trans.GetFront () / 2.0f + trans.GetUp ());
-  iDynamicObject* obj = dynworld->AddObject (tpl->GetName (), trans);
+  iDynamicObject* obj = outsideCell->AddObject (tpl->GetName (), trans);
   csRef<iCelParameterBlock> params;
   params.AttachNew (new celVariableParameterBlock ());
   obj->SetEntity (0, params);
@@ -497,7 +498,7 @@ void ElcmTest::PickUpDynObj (iDynamicObject* dynobj)
     inventory->AddEntity (ent);
     dynworld->ForceInvisible (dynobj);
     dynobj->UnlinkEntity ();
-    dynworld->DeleteObject (dynobj);
+    outsideCell->DeleteObject (dynobj);
   }
   else
   {
@@ -506,7 +507,7 @@ void ElcmTest::PickUpDynObj (iDynamicObject* dynobj)
     if (tpl)
     {
       inventory->AddEntityTemplate (tpl, 1);
-      dynworld->DeleteObject (dynobj);
+      outsideCell->DeleteObject (dynobj);
     }
   }
 }
@@ -566,7 +567,7 @@ iDynamicObject* ElcmTest::FindHitDynObj (int x, int y)
   csSectorHitBeamResult result = camera->GetSector ()->HitBeamPortals (start, end);
   if (result.mesh)
   {
-    iDynamicObject* dynobj = dynworld->FindObject (result.mesh);
+    iDynamicObject* dynobj = outsideCell->FindObject (result.mesh);
     if (dynobj) return dynobj;
   }
   return 0;
@@ -597,7 +598,7 @@ void ElcmTest::WriteStatusLine ()
   csString line2;
   const csVector3& pos = camera->GetTransform ().GetOrigin ();
   line2.Format ("Pos (%g,%g,%g) #obj=%d #ent=%d #mesh=%d", pos.x, pos.y, pos.z,
-      dynworld->GetObjectCount (), pl->GetEntityCount (),
+      outsideCell->GetObjectCount (), pl->GetEntityCount (),
       engine->GetMeshes ()->GetCount ());
   g2d->Write (font, 9, 9, colorBlack, -1, line2.GetData ());
   g2d->Write (font, 10, 10, colorRed, -1, line2.GetData ());
@@ -653,7 +654,7 @@ bool ElcmTest::OnMouseDown (iEvent& ev)
     bool ctrl = (mod & CSMASK_CTRL) != 0;
     if (ctrl)
     {
-      dynworld->DeleteObject (dynobj);
+      outsideCell->DeleteObject (dynobj);
       UpdateStatusLine (0);
     }
     else
@@ -717,7 +718,9 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
     }
     else if (code == '2')
     {
-      dynworld->DeleteObjects ();
+      dynworld->DeleteAll ();
+      outsideCell = dynworld->AddCell ("outside", sector, dynSys);
+      dynworld->SetCurrentCell (outsideCell);
       FillDynamicWorld ();
       csRef<iFile> file = vfs->Open ("/this/savefile", VFS_FILE_READ);
       csRef<iDataBuffer> buf = file->GetAllData ();
