@@ -57,6 +57,70 @@ CEL_IMPLEMENT_FACTORY (DynamicWorld, "pcworld.dynamic")
 
 //---------------------------------------------------------------------------
 
+static csString GetEntityName (iCelPlLayer* pl, iCelEntity* entity)
+{
+  if (!entity) return "unknown";
+  else if (entity->GetName ()) return entity->GetName ();
+  else
+  {
+    csStringID tmpID = entity->GetTemplateNameID ();
+    return pl->FetchString (tmpID);
+  }
+}
+
+static void SaveTransform (iCelCompactDataBufferWriter* buf,
+      const csReversibleTransform& trans)
+{
+  buf->AddVector3 (trans.GetOrigin ());
+  buf->AddVector3 (trans.GetO2T ().Row1 ());
+  buf->AddVector3 (trans.GetO2T ().Row2 ());
+  buf->AddVector3 (trans.GetO2T ().Row3 ());
+}
+
+static void LoadTransform (iCelCompactDataBufferReader* buf,
+      csReversibleTransform& trans)
+{
+  csVector3 v, r1, r2, r3;
+  buf->GetVector3 (v);
+  buf->GetVector3 (r1);
+  buf->GetVector3 (r2);
+  buf->GetVector3 (r3);
+  trans.SetOrigin (v);
+  csMatrix3 m;
+  m.SetRow1 (r1);
+  m.SetRow2 (r2);
+  m.SetRow3 (r3);
+  trans.SetO2T (m);
+}
+
+static void SaveStrings (iCelCompactDataBufferWriter* buf,
+    csScfStringSet* strings)
+{
+  csStringSet::GlobalIterator it = strings->GetIterator ();
+  while (it.HasNext ())
+  {
+    const char* str;
+    csStringID id = it.Next (str);
+    buf->AddID (id);
+    buf->AddString32 (str);
+  }
+  buf->AddID (csInvalidStringID);
+}
+
+static void LoadStrings (iCelCompactDataBufferReader* buf,
+      csHash<csString,csStringID>& strings)
+{
+  csStringID id = buf->GetID ();
+  while (id != csInvalidStringID)
+  {
+    const char* str = buf->GetString32 ();
+    strings.Put (id, str);
+    id = buf->GetID ();
+  }
+}
+
+//---------------------------------------------------------------------------
+
 class celDynworldSpawner : public scfImplementation1<celDynworldSpawner,
   iCelSpawner>
 {
@@ -219,6 +283,7 @@ DynamicCell::DynamicCell (const char* name, celPcDynamicWorld* world) :
 
 DynamicCell::~DynamicCell ()
 {
+  DeleteObjects ();
   delete tree;
 }
 
@@ -465,6 +530,189 @@ void DynamicCell::MarkBaseline ()
     objects[i]->MarkBaseline ();
 }
 
+void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
+      iStringSet* strings, csSet<csPtrKey<DynamicObject> >& alreadySaved)
+{
+  iELCM* elcm = world->elcm;
+  csSet<csPtrKey<iCelEntity> > newEntites = elcm->GetNewEntities ();
+
+  printf ("##### Saving cell %p/%s #####\n", this, GetName ());
+
+  // First we save entities that have no dynobj. They are not part of
+  // a single cell so we do that here.
+  csRef<iCelEntityIterator> it = elcm->GetModifiedEntities ();
+  while (it->HasNext ())
+  {
+    iCelEntity* entity = it->Next ();
+
+    iDynamicObject* dynobj = FindObject (entity);
+    if (dynobj && (dynobj->GetCell () == this))
+    {
+      buf->AddUInt8 (MARKER_NEW);
+      buf->AddUInt32 (entity->GetID ());
+      alreadySaved.Add (static_cast<DynamicObject*> (dynobj));
+
+      if (newEntites.Contains (entity))
+      {
+        printf ("Saving new entity '%s'!\n", GetEntityName (pl, entity).GetData ());
+        newEntites.Delete (entity);
+        iDynamicFactory* dynfact = dynobj->GetFactory ();
+        buf->AddID (strings->Request (dynfact->GetName ()));
+        if (entity->GetName ())
+          buf->AddID (strings->Request (entity->GetName ()));
+        else
+          buf->AddID (csInvalidStringID);
+      }
+      else
+      {
+        printf ("Saving entity '%s'!\n", GetEntityName (pl, entity).GetData ());
+        buf->AddID (csInvalidStringID);	// No template.
+      }
+      // @@@ For now we just save the position if the entity is modified.
+      // Perhaps this is even a good idea. Have to think about this more.
+      SaveTransform (buf, dynobj->GetTransform ());
+      entity->SaveModifications (buf, strings);
+    }
+  }
+
+  // All remaining entities in 'newEntites' also have to be saved.
+  csSet<csPtrKey<iCelEntity> >::GlobalIterator newIt = newEntites.GetIterator ();
+  while (newIt.HasNext ())
+  {
+    iCelEntity* entity = newIt.Next ();
+    DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (entity));
+    if (dynobj->GetCell () == this)
+    {
+      alreadySaved.Add (dynobj);
+      buf->AddUInt8 (MARKER_NEW);
+      buf->AddUInt32 (entity->GetID ());
+      iDynamicFactory* dynfact = dynobj->GetFactory ();
+      buf->AddID (strings->Request (dynfact->GetName ()));
+      if (entity->GetName ())
+        buf->AddID (strings->Request (entity->GetName ()));
+      else
+        buf->AddID (csInvalidStringID);
+      // @@@ For now we just save the position if the entity is modified.
+      // Perhaps this is even a good idea. Have to think about this more.
+      SaveTransform (buf, dynobj->GetTransform ());
+      entity->SaveModifications (buf, strings);
+      printf ("Saving new pristine entity '%s'!\n", GetEntityName (pl, entity).GetData ());
+    }
+  }
+  buf->AddUInt8 (MARKER_END);
+
+  // Now it is possible that we still have dynamic objects for which
+  // the entity hasn't changed but the dynobj itself has changed (i.e. moved).
+  // We save those here.
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator dynIt = haveMovedFromBaseline.GetIterator ();
+  while (dynIt.HasNext ())
+  {
+    DynamicObject* dynobj = dynIt.Next ();
+    if (!alreadySaved.Contains (dynobj) && dynobj->GetCell () == this)
+    {
+      printf ("Saving moved dynobj '%s'\n", dynobj->GetEntity () ?
+          dynobj->GetEntity ()->GetName () : "unknown");
+      buf->AddUInt8 (MARKER_NEW);
+      buf->AddUInt32 (dynobj->GetID ());
+      SaveTransform (buf, dynobj->GetTransform ());
+    }
+  }
+  buf->AddUInt8 (MARKER_END);
+}
+
+void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
+    const csHash<csString,csStringID>& strings)
+{
+  iELCM* elcm = world->elcm;
+  printf ("##### Loading cell %s #####\n", GetName ());
+
+  // Read all dynobj for this cell.
+  uint8 marker = buf->GetUInt8 ();
+  while (marker == MARKER_NEW)
+  {
+    uint id = buf->GetUInt32 ();
+
+    csStringID tmpID = buf->GetID ();
+    csStringID entNameID = csInvalidStringID;
+    if (tmpID != csInvalidStringID)
+    {
+      entNameID = buf->GetID ();
+    }
+
+    DynamicObject* dynobj = 0;
+    iCelEntity* entity;
+    if (tmpID != csInvalidStringID)
+    {
+      // Entity has to be created.
+      const char* entName = strings.Get (entNameID, (const char*)0);
+      const char* tmpName = strings.Get (tmpID, (const char*)0);
+      printf ("Loading new entity/dynobj '%s' from '%s'\n", entName, tmpName);
+      csReversibleTransform trans;
+      LoadTransform (buf, trans);
+      dynobj = static_cast<DynamicObject*> (AddObject (tmpName, trans));
+      dynobj->SetID (id);
+      dynobj->SetEntity (entName, 0); // @@@ params?
+      entity = dynobj->ForceEntity ();
+      elcm->RegisterNewEntity (entity);
+    }
+    else
+    {
+      dynobj = static_cast<DynamicObject*> (FindObject (id));
+      // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
+      entity = dynobj->ForceEntity ();
+      printf ("Loading existing entity '%s'\n", GetEntityName (pl, entity).GetData ());
+      csReversibleTransform trans;
+      LoadTransform (buf, trans);
+      dynobj->SetTransform (trans);
+#if 0
+      // @@@ What about this case?
+      else
+      {
+        printf ("Loading existing entity but with deleted dynobj '%s'\n", GetEntityName (pl, entity).GetData ());
+        ForceInvisible (dynobj);
+        dynobj->UnlinkEntity ();
+        DeleteObject (dynobj);
+      }
+#endif
+    }
+
+    dynobj->ClearBaseline ();
+    entity->MarkBaseline ();
+    entity->RestoreModifications (buf, strings);
+
+    marker = buf->GetUInt8 ();
+  }
+  if (marker != MARKER_END)
+  {
+    printf ("Bad marker (1)!\n");
+    return;
+  }
+
+  // Now load the remaining moved dynobjects.
+  marker = buf->GetUInt8 ();
+  while (marker == MARKER_NEW)
+  {
+    uint id = buf->GetUInt32 ();
+    DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (id));
+    printf ("Loading moved dynobj\n"); fflush (stdout);
+    csReversibleTransform trans;
+    LoadTransform (buf, trans);
+    dynobj->SetTransform (trans);
+    // Note! We restore the haveMovedFromBaseline set (almost) as it
+    // was when we saved it. The reason for the difference is that
+    // we didn't save (in this section) the dynamic objects which also
+    // had modified entities. These were save dabove.
+    haveMovedFromBaseline.Add (dynobj);
+
+    marker = buf->GetUInt8 ();
+  }
+  if (marker != MARKER_END)
+  {
+    printf ("Bad marker (2)!\n");
+    return;
+  }
+}
+
 //---------------------------------------------------------------------------
 
 MeshCache::MeshCache ()
@@ -659,15 +907,9 @@ DynamicObject::~DynamicObject ()
 {
 }
 
-csString GetEntityName (iCelPlLayer* pl, iCelEntity* entity)
+iDynamicCell* DynamicObject::GetCell () const
 {
-  if (!entity) return "unknown";
-  else if (entity->GetName ()) return entity->GetName ();
-  else
-  {
-    csStringID tmpID = entity->GetTemplateNameID ();
-    return pl->FetchString (tmpID);
-  }
+  return static_cast<iDynamicCell*> (cell);
 }
 
 bool DynamicObject::HasMovedSufficiently ()
@@ -1091,6 +1333,17 @@ celPcDynamicWorld::~celPcDynamicWorld ()
   DeleteAll ();
 }
 
+void celPcDynamicWorld::DeleteAll ()
+{
+  lastID = 1000000001;
+  checkForMovement.DeleteAll ();
+  meshCache.RemoveMeshes ();
+  if (scopeIdx != csArrayItemNotFound)
+    pl->ResetScope (scopeIdx);
+  cells.DeleteAll ();
+  currentCell = 0;
+}
+
 void celPcDynamicWorld::SetELCM (iELCM* elcm)
 {
   celPcDynamicWorld::elcm = elcm;
@@ -1229,6 +1482,20 @@ void celPcDynamicWorld::MarkBaseline ()
   currentCell->MarkBaseline ();
 }
 
+iDynamicObject* celPcDynamicWorld::FindObject (uint id) const
+{
+  // @@@ This is not very fast!
+  csHash<csRef<DynamicCell>,csString>::ConstGlobalIterator it = cells.GetIterator ();
+  while (it.HasNext ())
+  {
+    csString name;
+    csRef<DynamicCell> cell = it.Next (name);
+    iDynamicObject* dynobj = cell->FindObject (id);
+    if (dynobj) return dynobj;
+  }
+  return 0;
+}
+
 void celPcDynamicWorld::Dump ()
 {
   printf ("### DynWorld ###\n");
@@ -1242,205 +1509,92 @@ void celPcDynamicWorld::Dump ()
 // Saving and loading
 // ---------------------------------------------------------------------------
 
-void celPcDynamicWorld::SaveTransform (iCelCompactDataBufferWriter* buf,
-      const csReversibleTransform& trans)
-{
-  buf->AddVector3 (trans.GetOrigin ());
-  buf->AddVector3 (trans.GetO2T ().Row1 ());
-  buf->AddVector3 (trans.GetO2T ().Row2 ());
-  buf->AddVector3 (trans.GetO2T ().Row3 ());
-}
-
-void celPcDynamicWorld::LoadTransform (iCelCompactDataBufferReader* buf,
-      csReversibleTransform& trans)
-{
-  csVector3 v, r1, r2, r3;
-  buf->GetVector3 (v);
-  buf->GetVector3 (r1);
-  buf->GetVector3 (r2);
-  buf->GetVector3 (r3);
-  trans.SetOrigin (v);
-  csMatrix3 m;
-  m.SetRow1 (r1);
-  m.SetRow2 (r2);
-  m.SetRow3 (r3);
-  trans.SetO2T (m);
-}
-
-void celPcDynamicWorld::SaveStrings (iCelCompactDataBufferWriter* buf,
-    csScfStringSet* strings)
-{
-  csStringSet::GlobalIterator it = strings->GetIterator ();
-  while (it.HasNext ())
-  {
-    const char* str;
-    csStringID id = it.Next (str);
-    buf->AddID (id);
-    buf->AddString32 (str);
-  }
-  buf->AddID (csInvalidStringID);
-}
-
-void celPcDynamicWorld::LoadStrings (iCelCompactDataBufferReader* buf,
-      csHash<csString,csStringID>& strings)
-{
-  csStringID id = buf->GetID ();
-  while (id != csInvalidStringID)
-  {
-    const char* str = buf->GetString32 ();
-    strings.Put (id, str);
-    id = buf->GetID ();
-  }
-}
-
-#define MARKER_NEW 0xe3
-#define MARKER_END 0x3e
-
 csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
 {
   csRef<csScfStringSet> strings;
   strings.AttachNew (new csScfStringSet ());
   csRef<iCelCompactDataBufferWriter> buf = pl->CreateCompactDataBufferWriter ();
 
-  if (elcm)
+  const csSet<uint>& deletedEntities = elcm->GetDeletedEntities ();
+  buf->AddUInt32 (deletedEntities.GetSize ());
+  printf ("Save %d deleted items\n", deletedEntities.GetSize ());
+  csSet<uint>::GlobalIterator delIt = deletedEntities.GetIterator ();
+  while (delIt.HasNext ())
   {
-    const csSet<uint>& deletedEntities = elcm->GetDeletedEntities ();
-    buf->AddUInt32 (deletedEntities.GetSize ());
-    printf ("Save %d deleted items\n", deletedEntities.GetSize ());
-    csSet<uint>::GlobalIterator delIt = deletedEntities.GetIterator ();
-    while (delIt.HasNext ())
+    uint id = delIt.Next ();
+    buf->AddUInt32 (id);
+  }
+
+  // In this set we keep all dynamic objects that were already saved.
+  csSet<csPtrKey<DynamicObject> > alreadySaved;
+
+  csSet<csPtrKey<iCelEntity> > newEntites = elcm->GetNewEntities ();
+
+  // First we save entities that have no dynobj. They are not part of
+  // a single cell so we do that here.
+  csRef<iCelEntityIterator> it = elcm->GetModifiedEntities ();
+  while (it->HasNext ())
+  {
+    iCelEntity* entity = it->Next ();
+
+    iDynamicObject* dynobj = FindObject (entity);
+    if (!dynobj)
     {
-      uint id = delIt.Next ();
-      buf->AddUInt32 (id);
-    }
-
-    csSet<csPtrKey<iCelEntity> > newEntites = elcm->GetNewEntities ();
-
-    // In this set we keep all dynamic objects that were already saved.
-    csSet<csPtrKey<DynamicObject> > alreadySaved;
-
-    csRef<iCelEntityIterator> it = elcm->GetModifiedEntities ();
-    while (it->HasNext ())
-    {
-      iCelEntity* entity = it->Next ();
       buf->AddUInt8 (MARKER_NEW);
       buf->AddUInt32 (entity->GetID ());
 
-      iDynamicObject* dynobj = FindObject (entity);
-      if (!dynobj)
+      // There are two cases:
+      // 1. This is an entity that used to belong to a pre-baseline
+      //    dynobj but is now put in an inventory. In this case we
+      //    must make sure that at load-time the DynObj is removed
+      //    again.
+      // 2. This is an entity was not part of a pre-baseline dynobj.
+      // Both situation can be solved by saving that a dynobj is not
+      // present and then at load time we can delete the pre-baseline
+      // DynObj if it exists (will be only for case 1).
+      // In case 2 we also need to store how to create the entity.
+      if (newEntites.Contains (entity))
       {
-        // There are two cases:
-        // 1. This is an entity that used to belong to a pre-baseline
-        //    dynobj but is now put in an inventory. In this case we
-        //    must make sure that at load-time the DynObj is removed
-        //    again.
-        // 2. This is an entity was not part of a pre-baseline dynobj.
-        // Both situation can be solved by saving that a dynobj is not
-        // present and then at load time we can delete the pre-baseline
-        // DynObj if it exists (will be only for case 1).
-        // In case 2 we also need to store how to create the entity.
-        buf->AddBool (false);           // Indication that there is no dynobj.
-        if (newEntites.Contains (entity))
+        printf ("New entity without dynobj '%s'!\n", GetEntityName (pl, entity).GetData ());
+        csStringID tmpID = entity->GetTemplateNameID ();
+        if (tmpID != csInvalidStringID)
         {
-          printf ("New entity without dynobj '%s'!\n", GetEntityName (pl, entity).GetData ());
-	  csStringID tmpID = entity->GetTemplateNameID ();
-          if (tmpID != csInvalidStringID)
-          {
-	    csString tmpName = pl->FetchString (tmpID);
-            buf->AddID (strings->Request (tmpName));
-	    if (entity->GetName ())
-              buf->AddID (strings->Request (entity->GetName ()));
-	    else
-	      buf->AddID (csInvalidStringID);
-          }
-          else
-          {
-            printf ("Can't save '%s'!\n", GetEntityName (pl, entity).GetData ());
-            return 0;
-          }
-        }
-        else
-        {
-          printf ("Existing entity without dynobj '%s'!\n", GetEntityName (pl, entity).GetData ());
-          buf->AddID (csInvalidStringID);	// No template.
-        }
-      }
-      else
-      {
-        buf->AddBool (true);            // Indication that there is a dynobj.
-        alreadySaved.Add (static_cast<DynamicObject*> (dynobj));
-
-        if (newEntites.Contains (entity))
-        {
-          printf ("Saving new entity '%s'!\n", GetEntityName (pl, entity).GetData ());
-	  newEntites.Delete (entity);
-          iDynamicFactory* dynfact = dynobj->GetFactory ();
-          buf->AddID (strings->Request (dynfact->GetName ()));
-	  if (entity->GetName ())
+          csString tmpName = pl->FetchString (tmpID);
+          buf->AddID (strings->Request (tmpName));
+          if (entity->GetName ())
             buf->AddID (strings->Request (entity->GetName ()));
-	  else
+          else
             buf->AddID (csInvalidStringID);
         }
         else
         {
-          printf ("Saving entity '%s'!\n", GetEntityName (pl, entity).GetData ());
-          buf->AddID (csInvalidStringID);	// No template.
+          printf ("Can't save '%s'!\n", GetEntityName (pl, entity).GetData ());
+          return 0;
         }
-        // @@@ For now we just save the position if the entity is modified.
-        // Perhaps this is even a good idea. Have to think about this more.
-        SaveTransform (buf, dynobj->GetTransform ());
       }
-
-      entity->SaveModifications (buf, strings);
-    }
-
-    // All remaining entities in 'newEntites' also have to be saved.
-    csSet<csPtrKey<iCelEntity> >::GlobalIterator newIt = newEntites.GetIterator ();
-    while (newIt.HasNext ())
-    {
-      iCelEntity* entity = newIt.Next ();
-      DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (entity));
-      alreadySaved.Add (dynobj);
-      buf->AddUInt8 (MARKER_NEW);
-      buf->AddUInt32 (entity->GetID ());
-      buf->AddBool (true);           // Indication that there is a dynobj.
-      iDynamicFactory* dynfact = dynobj->GetFactory ();
-      buf->AddID (strings->Request (dynfact->GetName ()));
-      if (entity->GetName ())
-        buf->AddID (strings->Request (entity->GetName ()));
       else
-        buf->AddID (csInvalidStringID);
-      // @@@ For now we just save the position if the entity is modified.
-      // Perhaps this is even a good idea. Have to think about this more.
-      SaveTransform (buf, dynobj->GetTransform ());
-      entity->SaveModifications (buf, strings);
-      printf ("Saving new pristine entity '%s'!\n", GetEntityName (pl, entity).GetData ());
-    }
-    buf->AddUInt8 (MARKER_END);
-
-    // Now it is possible that we still have dynamic objects for which
-    // the entity hasn't changed but the dynobj itself has changed (i.e. moved).
-    // We save those here.
-    csSet<csPtrKey<DynamicObject> >::GlobalIterator dynIt = currentCell->haveMovedFromBaseline.GetIterator ();
-    while (dynIt.HasNext ())
-    {
-      DynamicObject* dynobj = dynIt.Next ();
-      if (!alreadySaved.Contains (dynobj))
       {
-        printf ("Saving moved dynobj '%s'\n", dynobj->GetEntity () ?
-            dynobj->GetEntity ()->GetName () : "unknown");
-        buf->AddUInt8 (MARKER_NEW);
-        buf->AddUInt32 (dynobj->GetID ());
-        SaveTransform (buf, dynobj->GetTransform ());
+        printf ("Existing entity without dynobj '%s'!\n", GetEntityName (pl, entity).GetData ());
+        buf->AddID (csInvalidStringID);	// No template.
       }
+
+      entity->SaveModifications (buf, strings);
     }
-    buf->AddUInt8 (MARKER_END);
   }
-  else
+
+  buf->AddUInt8 (MARKER_END);
+
   {
-    // @@@
-    printf ("Saving without ELCM is not yet supported!\n");
+    csHash<csRef<DynamicCell>,csString>::GlobalIterator it = cells.GetIterator ();
+    while (it.HasNext ())
+    {
+      csString name;
+      csRef<DynamicCell> cell = it.Next (name);
+      buf->AddID (strings->Request (cell->GetName ()));
+      cell->SaveModifications (buf, strings, alreadySaved);
+    }
   }
+  buf->AddID (csInvalidStringID);
 
   csRef<iCelCompactDataBufferWriter> sbuf = pl->CreateCompactDataBufferWriter ();
   SaveStrings (sbuf, strings);
@@ -1455,152 +1609,96 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
   csHash<csString,csStringID> strings;
   csRef<iCelCompactDataBufferReader> buf = pl->CreateCompactDataBufferReader (dbuf);
   LoadStrings (buf, strings);
-  // @@@ NEEDS TO MOVE PARTIALLY TO CELL!
 
-  if (elcm)
+  size_t delSize = (size_t)buf->GetUInt32 ();
+  printf ("%d to delete\n", delSize);
+  for (size_t i = 0 ; i < delSize ; i++)
   {
-    size_t delSize = (size_t)buf->GetUInt32 ();
-    printf ("%d to delete\n", delSize);
-    for (size_t i = 0 ; i < delSize ; i++)
+    uint id = (uint)buf->GetUInt32 ();
+    elcm->RegisterDeletedEntity (id);
+    DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (id));
+    if (dynobj)
     {
-      uint id = (uint)buf->GetUInt32 ();
-      elcm->RegisterDeletedEntity (id);
-      DynamicObject* dynobj = static_cast<DynamicObject*> (currentCell->FindObject (id));
-      if (dynobj)
+      dynobj->GetCell ()->DeleteObject (dynobj);
+    }
+    else
+    {
+      iCelEntity* entity = pl->GetEntity (id);
+      printf ("Delete entity %s\n", GetEntityName (pl, entity).GetData ());
+      pl->RemoveEntity (entity);
+    }
+  }
+
+  // First we read all entities that have no dynobj.
+  uint8 marker = buf->GetUInt8 ();
+  while (marker == MARKER_NEW)
+  {
+    uint id = buf->GetUInt32 ();
+
+    csStringID tmpID = buf->GetID ();
+    csStringID entNameID = csInvalidStringID;
+    if (tmpID != csInvalidStringID)
+    {
+      entNameID = buf->GetID ();
+    }
+
+    iCelEntity* entity;
+    if (tmpID != csInvalidStringID)
+    {
+      // Entity has to be created.
+      const char* entName = strings.Get (entNameID, (const char*)0);
+      const char* tmpName = strings.Get (tmpID, (const char*)0);
+      printf ("Loading new entity '%s' from '%s'\n", entName, tmpName);
+      iCelEntityTemplate* tmp = pl->FindEntityTemplate (tmpName);
+      if (!tmp)
       {
-	currentCell->DeleteObject (dynobj);
+        printf ("Error locating entity template '%s'\n", tmpName);
+      }
+      // First we see if the entity already exists.
+      entity = pl->GetEntity (id);
+      if (!entity)
+      {
+        entity = pl->CreateEntity (tmp, entName, (iCelParameterBlock*)0);      // @@@ params?
+        entity->SetID (id);
       }
       else
       {
-	iCelEntity* entity = pl->GetEntity (id);
-	printf ("Delete entity %s\n", GetEntityName (pl, entity).GetData ());
-	pl->RemoveEntity (entity);
+        entity->SetName (entName);
       }
+      elcm->RegisterNewEntity (entity);
     }
-
-    uint8 marker = buf->GetUInt8 ();
-    while (marker == MARKER_NEW)
+    else
     {
-      uint id = buf->GetUInt32 ();
-      bool hasDynObj = buf->GetBool ();
-
-      csStringID tmpID = buf->GetID ();
-      csStringID entNameID = csInvalidStringID;
-      if (tmpID != csInvalidStringID)
+      entity = pl->GetEntity (id);
+      if (!entity)
       {
-        entNameID = buf->GetID ();
+        printf ("ERROR! Can't find entity with id %d\n", id);
+        return;
       }
-
-      DynamicObject* dynobj = 0;
-      iCelEntity* entity;
-      if (tmpID != csInvalidStringID)
-      {
-        // Entity has to be created.
-        const char* entName = strings.Get (entNameID, (const char*)0);
-        const char* tmpName = strings.Get (tmpID, (const char*)0);
-        if (hasDynObj)
-        {
-	  printf ("Loading new entity/dynobj '%s' from '%s'\n", entName, tmpName);
-          csReversibleTransform trans;
-          LoadTransform (buf, trans);
-          dynobj = static_cast<DynamicObject*> (currentCell->AddObject (tmpName, trans));
-          dynobj->SetID (id);
-          dynobj->SetEntity (entName, 0); // @@@ params?
-          entity = dynobj->ForceEntity ();
-        }
-        else
-        {
-	  printf ("Loading new entity '%s' from '%s'\n", entName, tmpName);
-          iCelEntityTemplate* tmp = pl->FindEntityTemplate (tmpName);
-          if (!tmp)
-          {
-            printf ("Error locating entity template '%s'\n", tmpName);
-          }
-          // First we see if the entity already exists.
-          entity = pl->GetEntity (id);
-          if (!entity)
-          {
-            entity = pl->CreateEntity (tmp, entName, (iCelParameterBlock*)0);      // @@@ params?
-            entity->SetID (id);
-          }
-          else
-          {
-            entity->SetName (entName);
-          }
-        }
-        elcm->RegisterNewEntity (entity);
-      }
-      else
-      {
-        dynobj = static_cast<DynamicObject*> (currentCell->FindObject (id));
-	if (dynobj)
-	{
-          // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
-          entity = dynobj->ForceEntity ();
-          if (hasDynObj)
-          {
-	    printf ("Loading existing entity '%s'\n", GetEntityName (pl, entity).GetData ());
-            csReversibleTransform trans;
-            LoadTransform (buf, trans);
-            dynobj->SetTransform (trans);
-          }
-          else
-          {
-	    printf ("Loading existing entity but with deleted dynobj '%s'\n", GetEntityName (pl, entity).GetData ());
-            ForceInvisible (dynobj);
-            dynobj->UnlinkEntity ();
-            currentCell->DeleteObject (dynobj);
-          }
-	}
-	else
-	{
-	  entity = pl->GetEntity (id);
-	  if (!entity)
-	  {
-	    printf ("ERROR! Can't find entity with id %d\n", id);
-	    return;
-	  }
-	  printf ("Loading existing entity without dynobj '%s'\n", GetEntityName (pl, entity).GetData ()); fflush (stdout);
-          // @@@ The case where hasDynObj = true is not handled here. Is
-          // this even possible?
-	}
-      }
-
-      if (dynobj) dynobj->ClearBaseline ();
-      entity->MarkBaseline ();
-      entity->RestoreModifications (buf, strings);
-
-      marker = buf->GetUInt8 ();
-    }
-    if (marker != MARKER_END)
-    {
-      printf ("Bad marker (1)!\n");
-      return;
+      printf ("Loading existing entity without dynobj '%s'\n", GetEntityName (pl, entity).GetData ()); fflush (stdout);
+      // @@@ The case where hasDynObj = true is not handled here. Is
+      // this even possible?
     }
 
-    // Now load the remaining moved dynobjects.
+    entity->MarkBaseline ();
+    entity->RestoreModifications (buf, strings);
+
     marker = buf->GetUInt8 ();
-    while (marker == MARKER_NEW)
-    {
-      uint id = buf->GetUInt32 ();
-      DynamicObject* dynobj = static_cast<DynamicObject*> (currentCell->FindObject (id));
-      printf ("Loading moved dynobj\n"); fflush (stdout);
-      csReversibleTransform trans;
-      LoadTransform (buf, trans);
-      dynobj->SetTransform (trans);
-      // Note! We restore the haveMovedFromBaseline set (almost) as it
-      // was when we saved it. The reason for the difference is that
-      // we didn't save (in this section) the dynamic objects which also
-      // had modified entities. These were save dabove.
-      currentCell->haveMovedFromBaseline.Add (dynobj);
+  }
+  if (marker != MARKER_END)
+  {
+    printf ("Bad marker (1)!\n");
+    return;
+  }
 
-      marker = buf->GetUInt8 ();
-    }
-    if (marker != MARKER_END)
-    {
-      printf ("Bad marker (2)!\n");
-      return;
-    }
+  csStringID cellID = buf->GetID ();
+  while (cellID != csInvalidStringID)
+  {
+    const char* cellName = strings.Get (cellID, (const char*)0);
+    DynamicCell* cell = cells.Get (cellName, 0);
+    CS_ASSERT (cell != 0);
+    cell->RestoreModifications (buf, strings);
+    cellID = buf->GetID ();
   }
 }
 
