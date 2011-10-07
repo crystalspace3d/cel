@@ -88,6 +88,7 @@
     <factory name="Milk" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Steak" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Apple" maxradius="0.6" imposterradius="-1.0" mass=".4"> <sphere /> </factory>
+    <factory name="Door" maxradius="0.9" imposterradius=".4" mass="2"> <box /> </factory>
 
     <factory name="Gold" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Diamond" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
@@ -194,6 +195,10 @@
       </propclass>
     </addon>
 
+    <addon plugin="cel.addons.celentitytpl" entityname="Door" >
+      <template name="Base" />
+      <characteristic name="weight" value="50" />
+    </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Table" >
       <template name="Base" />
       <characteristic name="weight" value="10" />
