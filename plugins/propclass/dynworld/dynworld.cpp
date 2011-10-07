@@ -279,13 +279,55 @@ DynamicCell::DynamicCell (const char* name, celPcDynamicWorld* world) :
   ObjDes* objDes = new ObjDes ();
   tree->SetObjectDescriptor (objDes);
   objDes->DecRef ();
+  createdDynSys = false;
 }
 
 DynamicCell::~DynamicCell ()
 {
   DeleteObjects ();
   delete tree;
+  if (createdDynSys && dynSys)
+  {
+    csRef<iDynamics> dyn = csQueryRegistry<iDynamics> (world->GetObjectRegistry ());
+    if (dyn) dyn->RemoveSystem (dynSys);
+  }
 }
+
+void DynamicCell::Setup (iSector* sector, iDynamicSystem* ds)
+{
+  DynamicCell::sector = sector;
+
+  if (createdDynSys && dynSys)
+  {
+    csRef<iDynamics> dyn = csQueryRegistry<iDynamics> (world->GetObjectRegistry ());
+    if (dyn) dyn->RemoveSystem (dynSys);
+  }
+
+  dynSys = ds;
+  createdDynSys = false;
+
+  if (!dynSys)
+  {
+    csRef<iDynamics> dyn = csQueryRegistry<iDynamics> (world->GetObjectRegistry ());
+    dynSys = dyn->CreateSystem ();
+    if (!dynSys)
+    {
+      printf ("Could not create dynamics system!\n");
+      return;
+    }
+    createdDynSys = true;
+    //dynSys->SetLinearDampener(.3f);
+    dynSys->SetRollingDampener(.995f);
+    dynSys->SetGravity (csVector3 (0.0f, -9.81f, 0.0f));
+
+    csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
+      scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (dynSys);
+    bullet_dynSys = scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (dynSys);
+    bullet_dynSys->SetInternalScale (1.0f);
+    bullet_dynSys->SetStepParameters (0.005f, 2, 10);
+  }
+}
+
 
 void DynamicCell::DeleteObjectInt (DynamicObject* dyn)
 {
