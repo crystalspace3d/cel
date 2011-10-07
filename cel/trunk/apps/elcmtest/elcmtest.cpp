@@ -458,12 +458,12 @@ bool ElcmTest::FillDynamicWorld ()
         obj = outsideCell->AddObject ("Door", csReversibleTransform (mat, csVector3 (ox, .4, oy)));
 	obj->MakeStatic ();
 	csString cellName;
-	cellName.Format ("cell,%g,%g,%g,%d", ox, .4, oy, rnd.Get (1000000));
+	cellName.Format ("cell,%g,%g,%g,%d", ox, .4, oy+1, rnd.Get (1000000));
 
         csRef<celVariableParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
 	params->AddParameter (pl->FetchStringID ("cell")).Set (cellName);
-	params->AddParameter (pl->FetchStringID ("pos")).Set (csVector3 (0, 0, 0));
+	params->AddParameter (pl->FetchStringID ("pos")).Set (csVector3 (0, 0, 1));
         if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template 'Door'!");
       }
@@ -757,6 +757,9 @@ void ElcmTest::Teleport (const char* cellName, const csVector3& pos)
   iSector* sect = engine->FindSector (cellName);
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
   pcmesh->MoveMesh (sect, pos);
+  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+  movable->GetTransform ().LookAt (csVector3 (0, 0, -1), csVector3 (0, 1, 0));
+  movable->UpdateMove ();
 }
 
 void ElcmTest::Frame ()
