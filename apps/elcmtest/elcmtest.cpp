@@ -50,6 +50,25 @@ public:
 
 //-----------------------------------------------------------------------
 
+class ElcmCellCreator : public scfImplementation1<ElcmCellCreator,
+  iDynamicCellCreator>
+{
+private:
+  ElcmTest* elcmTest;
+
+public:
+  ElcmCellCreator (ElcmTest* elcmTest) :
+    scfImplementationType (this), elcmTest (elcmTest) { }
+  virtual ~ElcmCellCreator () { }
+
+  virtual iDynamicCell* CreateCell (const char* name)
+  {
+    return elcmTest->CreateCell (name);
+  }
+};
+
+//-----------------------------------------------------------------------
+
 class ElcmSelectionCallback : public scfImplementation2<ElcmSelectionCallback,
   iUIInventory2SelectionCallback, iUIInventorySelectionCallback>
 {
@@ -158,34 +177,28 @@ bool ElcmTest::CreateSky ()
   return true;
 }
 
-bool ElcmTest::CreateLevel ()
+void ElcmTest::MakeFloor (iSector* sect)
 {
-  worldEntity = pl->CreateEntity ("world", 0, 0,
-      "pcworld.dynamic", CEL_PROPCLASS_END);
-  if (!worldEntity)
-    return ReportError ("Error creating world entity!");
-
-  receiver.AttachNew (new ElcmMessageReceiver (this));
-  worldEntity->QueryMessageChannel ()->Subscribe (receiver, "elcm.");
-
-  sector = engine->CreateSector ("room");
-
   using namespace CS::Geometry;
-  TesselatedQuad quad (
+
+  iMaterialWrapper* tm = engine->GetMaterialList ()->FindByName ("stone");
+
+  csRef<iMeshFactoryWrapper> floorFact;
+  floorFact = engine->FindMeshFactory ("Floor");
+  if (!floorFact)
+  {
+    TesselatedQuad quad (
       csVector3 (-5000, -1, -5000),
       csVector3 (-5000, -1, 5000),
       csVector3 (5000, -1, -5000));
+    DensityTextureMapper mapper (0.3f);
+    quad.SetLevel (3);
+    quad.SetMapper (&mapper);
+    floorFact = GeneralMeshBuilder::CreateFactory (engine, "Floor", &quad);
+  }
 
-  if (!loader->LoadTexture ("stone", "/lib/std/stone4.gif"))
-    return ReportError ("Error loading %s texture!",
-		 CS::Quote::Single ("stone4"));
-  iMaterialWrapper* tm = engine->GetMaterialList ()->FindByName ("stone");
-  DensityTextureMapper mapper (0.3f);
-  quad.SetLevel (3);
-  quad.SetMapper (&mapper);
-
-  csRef<iMeshWrapper> floor = GeneralMeshBuilder::CreateFactoryAndMesh (engine,
-      sector, "Floor", "Floor", &quad);
+  csRef<iMeshWrapper> floor = GeneralMeshBuilder::CreateMesh (engine,
+      sect, "Floor", floorFact);
   floor->GetMeshObject ()->SetMaterialWrapper (tm);
   csRef<iRigidBody> body = dynSys->CreateBody ();
   csRef<CS::Physics::Bullet::iRigidBody> csBody = scfQueryInterface<CS::Physics::Bullet::iRigidBody> (body);
@@ -198,11 +211,34 @@ bool ElcmTest::CreateLevel ()
   body->AttachColliderBox (csVector3 (10000, 10, 10000),
       csOrthoTransform (csMatrix3 (), csVector3 (0, -6, 0)), 10, 1, 0);
   body->MakeStatic ();
+}
 
-  iLightList* ll = sector->GetLights ();
+void ElcmTest::AddLight (iSector* sect, const csVector3& pos, float radius,
+    const csColor& color)
+{
+  iLightList* ll = sect->GetLights ();
   csRef<iLight> light;
   light = engine->CreateLight (0, csVector3 (0, 200, 0), 10000, csColor (1, 1, 1));
   ll->Add (light);
+}
+
+bool ElcmTest::CreateLevel ()
+{
+  worldEntity = pl->CreateEntity ("world", 0, 0,
+      "pcworld.dynamic", CEL_PROPCLASS_END);
+  if (!worldEntity)
+    return ReportError ("Error creating world entity!");
+
+  receiver.AttachNew (new ElcmMessageReceiver (this));
+  worldEntity->QueryMessageChannel ()->Subscribe (receiver, "elcm.");
+
+  if (!loader->LoadTexture ("stone", "/lib/std/stone4.gif"))
+    return ReportError ("Error loading %s texture!",
+		 CS::Quote::Single ("stone4"));
+
+  sector = engine->CreateSector ("outside");
+  MakeFloor (sector);
+  AddLight (sector, csVector3 (0, 200, 0), 10000, csColor (1, 1, 1));
 
   dynworld = celQueryPropertyClassEntity<iPcDynamicWorld> (worldEntity);
   dynworld->SetRadius (50);
@@ -225,6 +261,138 @@ bool ElcmTest::CreateFactories ()
   if (!loader->LoadLibraryFile ("library"))
     return false;
   return loader->LoadLibraryFile ("/cellib/lev/elcmtest.xml");
+}
+
+void ElcmTest::FillTreasureCell (iDynamicCell* cell, int seed)
+{
+  csRandomGen rnd;
+  rnd.Initialize (1234567);
+  for (size_t i = 0 ; i < rnd.Get (400) + 200 ; i++)
+  {
+    csString objName = "Money";
+    float ox = rnd.Get () * 100.0f - 50.0f;
+    float oy = rnd.Get () * 100.0f + 1.0f;
+    float yoffset = 0.02;
+    csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
+    iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
+	mat, csVector3 (ox, yoffset-1.0f, oy)));
+    csRef<celVariableParameterBlock> params;
+    obj->SetEntity (0, params);
+  }
+}
+
+void ElcmTest::FillClickerCell (iDynamicCell* cell, int seed)
+{
+  csRandomGen rnd;
+  rnd.Initialize (1234567);
+  for (size_t i = 0 ; i < rnd.Get (400) + 200 ; i++)
+  {
+    csString objName = "Clicker";
+    float ox = rnd.Get () * 100.0f - 50.0f;
+    float oy = rnd.Get () * 100.0f + 1.0f;
+    float yoffset = 0.05;
+    csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
+    iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
+	mat, csVector3 (ox, yoffset-1.0f, oy)));
+    csRef<celVariableParameterBlock> params;
+    obj->SetEntity (0, params);
+  }
+}
+
+void ElcmTest::FillBarrelCell (iDynamicCell* cell, int seed)
+{
+  csRandomGen rnd;
+  rnd.Initialize (1234567);
+  for (size_t i = 0 ; i < rnd.Get (400) + 200 ; i++)
+  {
+    csString objName = "Barrel";
+    float ox = rnd.Get () * 100.0f - 50.0f;
+    float oy = rnd.Get () * 100.0f + 1.0f;
+    float yoffset = -.4;
+    csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
+    iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
+	mat, csVector3 (ox, yoffset-1.0f, oy)));
+    csRef<celVariableParameterBlock> params;
+    obj->SetEntity (0, params);
+  }
+}
+
+void ElcmTest::FillClutterCell (iDynamicCell* cell, int seed)
+{
+  csRandomGen rnd;
+  rnd.Initialize (1234567);
+  for (size_t i = 0 ; i < rnd.Get (400) + 200 ; i++)
+  {
+    csString objName;
+    float ox = rnd.Get () * 100.0f - 50.0f;
+    float oy = rnd.Get () * 100.0f + 1.0f;
+    float yoffset = 0;
+    switch (rnd.Get (5))
+    {
+      case 0: objName = "Money"; yoffset = 0.02; break;
+      case 1: objName = "Steak"; yoffset = 0.02; break;
+      case 2: objName = "Can"; yoffset = 0.047; break;
+      case 3: objName = "Milk"; yoffset = 0.106; break;
+      case 4: objName = "Cup"; break;
+    }
+    csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
+    iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
+	mat, csVector3 (ox, yoffset-1.0f, oy)));
+    csRef<celVariableParameterBlock> params;
+    obj->SetEntity (0, params);
+  }
+}
+
+iDynamicCell* ElcmTest::CreateCell (const char* name)
+{
+  csVector3 pos;
+  int random;
+  csScanStr (name, "cell,%f,%f,%f,%d", &pos.x, &pos.y, &pos.z, &random);
+
+  csColor color;
+  switch (random % 7)
+  {
+    case 0: color.Set (1, .5, .5); break;
+    case 1: color.Set (.5, 1, .5); break;
+    case 2: color.Set (.5, .5, 1); break;
+    case 3: color.Set (1, .5, 1); break;
+    case 4: color.Set (.5, 1, 1); break;
+    case 5: color.Set (1, 1, .5); break;
+    case 6: color.Set (.5, .5, .5); break;
+  }
+
+  iSector* sect = engine->CreateSector (name);
+  MakeFloor (sect);
+  AddLight (sect, csVector3 (0, 200, 0), 10000, color);
+  csColliderHelper::InitializeCollisionWrappers (cdsys, sect);
+
+  iDynamicCell* cell = dynworld->AddCell (name, sect, dynSys);
+
+  switch (random % 4)
+  {
+    case 0: FillTreasureCell (cell, random); break;
+    case 1: FillClickerCell (cell, random); break;
+    case 2: FillBarrelCell (cell, random); break;
+    case 3: FillClutterCell (cell, random); break;
+  }
+
+  iDynamicObject* obj;
+  obj = cell->AddObject ("Door", csReversibleTransform (csMatrix3 (),
+	csVector3 (0, .4, 0)));
+
+  csRef<celVariableParameterBlock> params;
+  params.AttachNew (new celVariableParameterBlock ());
+  params->AddParameter (pl->FetchStringID ("cell")).Set ("outside");
+  params->AddParameter (pl->FetchStringID ("pos")).Set (pos);
+  if (!obj->SetEntity (0, params))
+  {
+    ReportError ("Could not set entity template 'Door'!");
+    return 0;
+  }
+
+  obj->MakeStatic ();
+  cell->MarkBaseline ();
+  return cell;
 }
 
 #define SIZE 250
@@ -297,8 +465,13 @@ bool ElcmTest::FillDynamicWorld ()
 	cntDoor++;
         obj = outsideCell->AddObject ("Door", csReversibleTransform (mat, csVector3 (ox, .4, oy)));
 	obj->MakeStatic ();
-        csRef<iCelParameterBlock> params;
+	csString cellName;
+	cellName.Format ("cell,%g,%g,%g,%d", ox, .4, oy, rnd.Get (1000000));
+
+        csRef<celVariableParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
+	params->AddParameter (pl->FetchStringID ("cell")).Set (cellName);
+	params->AddParameter (pl->FetchStringID ("pos")).Set (csVector3 (0, 0, 0));
         if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template 'Door'!");
       }
@@ -312,7 +485,7 @@ bool ElcmTest::FillDynamicWorld ()
 	      csMatrix3 (), pos));
         csRef<celVariableParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
-	params->AddParameter (pl->FetchStringID ("sector")).Set ("room");
+	params->AddParameter (pl->FetchStringID ("sector")).Set ("outside");
 	params->AddParameter (pl->FetchStringID ("pos")).Set (pos);
         if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template 'MoneyTemplate'!");
@@ -417,7 +590,7 @@ void ElcmTest::SelectEntity (iCelEntity* entity)
 	playerEntity);
     csReversibleTransform trans = playerpcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
     trans.SetOrigin (trans.GetOrigin () + trans.GetFront () / 2.0f + trans.GetUp ());
-    iDynamicObject* obj = outsideCell->AddObject (factName, trans);
+    iDynamicObject* obj = dynworld->GetCurrentCell ()->AddObject (factName, trans);
     obj->LinkEntity (entity);
     inv->RemoveEntity (entity);
     entity->Activate ();
@@ -453,7 +626,8 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
   csReversibleTransform trans = pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
   trans.SetOrigin (trans.GetOrigin () + trans.GetFront () / 2.0f + trans.GetUp ());
-  iDynamicObject* obj = outsideCell->AddObject (tpl->GetName (), trans);
+  iDynamicObject* obj = dynworld->GetCurrentCell ()->AddObject (
+      tpl->GetName (), trans);
   csRef<iCelParameterBlock> params;
   params.AttachNew (new celVariableParameterBlock ());
   obj->SetEntity (0, params);
@@ -517,7 +691,7 @@ void ElcmTest::PickUpDynObj (iDynamicObject* dynobj)
     inventory->AddEntity (ent);
     dynworld->ForceInvisible (dynobj);
     dynobj->UnlinkEntity ();
-    outsideCell->DeleteObject (dynobj);
+    dynworld->GetCurrentCell ()->DeleteObject (dynobj);
   }
   else
   {
@@ -526,7 +700,7 @@ void ElcmTest::PickUpDynObj (iDynamicObject* dynobj)
     if (tpl)
     {
       inventory->AddEntityTemplate (tpl, 1);
-      outsideCell->DeleteObject (dynobj);
+      dynworld->GetCurrentCell ()->DeleteObject (dynobj);
     }
   }
 }
@@ -537,8 +711,7 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
   printf ("ReceiveMessage\n"); fflush (stdout);
   if (msg_id == msgInventory)
   {
-    csStringID inventoryEntityParID = pl->FetchStringID ("inventoryEntity");
-    const celData* data = params->GetParameter (inventoryEntityParID);
+    const celData* data = params->GetParameter (pl->FetchStringID ("inventoryEntity"));
     if (!data || data->type != CEL_DATA_ENTITY)
       return ReportError ("Invalid parameter for 'inventory' message. Expected long.");
     iCelEntity* ent = data->value.ent;
@@ -559,7 +732,39 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
     }
     return true;
   }
+  else if (msg_id == msgTeleport)
+  {
+    const celData* data = params->GetParameter (pl->FetchStringID ("cell"));
+    if (!data || data->type != CEL_DATA_STRING)
+      return ReportError ("Invalid parameter for 'teleport' message. Expected string for 'cell' parameter.");
+    csString cellName = data->value.s->GetData ();
+
+    data = params->GetParameter (pl->FetchStringID ("pos"));
+    if (!data || data->type != CEL_DATA_VECTOR3)
+      return ReportError ("Invalid parameter for 'teleport' message. Expected vector3 for 'pos' parameter.");
+    csVector3 pos (data->value.v.x, data->value.v.y, data->value.v.z);
+    Teleport (cellName, pos);
+    return true;
+  }
   return false;
+}
+
+void ElcmTest::Teleport (const char* cellName, const csVector3& pos)
+{
+  iDynamicCell* cell = dynworld->FindCell (cellName);
+  if (!cell)
+    cell = CreateCell (cellName);
+  if (!cell)
+  {
+    printf ("Can't teleport to cell '%s'!\n", cellName);
+    fflush (stdout);
+    return;
+  }
+  dynworld->SetCurrentCell (cell);
+
+  iSector* sect = engine->FindSector (cellName);
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
+  pcmesh->MoveMesh (sect, pos);
 }
 
 void ElcmTest::Frame ()
@@ -586,7 +791,7 @@ iDynamicObject* ElcmTest::FindHitDynObj (int x, int y)
   csSectorHitBeamResult result = camera->GetSector ()->HitBeamPortals (start, end);
   if (result.mesh)
   {
-    iDynamicObject* dynobj = outsideCell->FindObject (result.mesh);
+    iDynamicObject* dynobj = dynworld->GetCurrentCell ()->FindObject (result.mesh);
     if (dynobj) return dynobj;
   }
   return 0;
@@ -617,7 +822,7 @@ void ElcmTest::WriteStatusLine ()
   csString line2;
   const csVector3& pos = camera->GetTransform ().GetOrigin ();
   line2.Format ("Pos (%g,%g,%g) #obj=%d #ent=%d #mesh=%d", pos.x, pos.y, pos.z,
-      outsideCell->GetObjectCount (), pl->GetEntityCount (),
+      dynworld->GetCurrentCell ()->GetObjectCount (), pl->GetEntityCount (),
       engine->GetMeshes ()->GetCount ());
   g2d->Write (font, 9, 9, colorBlack, -1, line2.GetData ());
   g2d->Write (font, 10, 10, colorRed, -1, line2.GetData ());
@@ -673,7 +878,7 @@ bool ElcmTest::OnMouseDown (iEvent& ev)
     bool ctrl = (mod & CSMASK_CTRL) != 0;
     if (ctrl)
     {
-      outsideCell->DeleteObject (dynobj);
+      dynworld->GetCurrentCell ()->DeleteObject (dynobj);
       UpdateStatusLine (0);
     }
     else
@@ -825,6 +1030,7 @@ bool ElcmTest::Application ()
   font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_COURIER);
 
   msgInventory = pl->FetchStringID ("elcm.inventory");
+  msgTeleport = pl->FetchStringID ("elcm.teleport");
 
   ceguiPrinter.AttachNew (new CeguiPrinter (this));
   pl->CallbackEveryFrame (ceguiPrinter, CEL_EVENT_POST);
