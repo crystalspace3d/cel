@@ -312,6 +312,16 @@ struct iDynamicCell : public virtual iBase
    * Mark the baseline.
    */
   virtual void MarkBaseline () = 0;
+
+  /**
+   * Get the sector for this cell.
+   */
+  virtual iSector* GetSector () const = 0;
+
+  /**
+   * Get the dynamic system for this cell.
+   */
+  virtual iDynamicSystem* GetDynamicSystem () const = 0;
 };
 
 /**
@@ -330,8 +340,11 @@ struct iPcDynamicWorld : public virtual iBase
 
   /**
    * Add a new cell to the world.
+   * If dynSys is 0 then this function will create its own dynamic system and
+   * it will also destroy it in case the cell is removed.
    */
-  virtual iDynamicCell* AddCell (const char* name, iSector* sector, iDynamicSystem* dynSys) = 0;
+  virtual iDynamicCell* AddCell (const char* name, iSector* sector,
+      iDynamicSystem* dynSys = 0) = 0;
 
   /**
    * Find a cell by name.

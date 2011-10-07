@@ -66,8 +66,6 @@ private:
 
   /// Physics.
   csRef<iDynamics> dyn;
-  csRef<iDynamicSystem> dynSys;
-  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys;
 
   bool OnKeyboard (iEvent&);
   bool OnMouseMove (iEvent&);
@@ -92,7 +90,7 @@ private:
       csVector3& isect);
 
   void PickUpDynObj (iDynamicObject* dynobj);
-  void MakeFloor (iSector* sect);
+  void MakeFloor (iSector* sect, iDynamicSystem* dynSys);
   void AddLight (iSector* sect, const csVector3& pos, float radius, const csColor& color);
 
   void Teleport (const char* cellName, const csVector3& pos);

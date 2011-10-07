@@ -147,16 +147,6 @@ bool ElcmTest::InitPhysics ()
   dyn = csQueryRegistry<iDynamics> (GetObjectRegistry ());
   if (!dyn) return ReportError ("Error loading bullet plugin!");
 
-  dynSys = dyn->CreateSystem ();
-  if (!dynSys) return ReportError ("Error creating dynamic system!");
-  //dynSys->SetLinearDampener(.3f);
-  dynSys->SetRollingDampener(.995f);
-  dynSys->SetGravity (csVector3 (0.0f, -9.81f, 0.0f));
-
-  bullet_dynSys = scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (dynSys);
-  bullet_dynSys->SetInternalScale (1.0f);
-  bullet_dynSys->SetStepParameters (0.005f, 2, 10);
-
   return true;
 }
 
@@ -177,7 +167,7 @@ bool ElcmTest::CreateSky ()
   return true;
 }
 
-void ElcmTest::MakeFloor (iSector* sect)
+void ElcmTest::MakeFloor (iSector* sect, iDynamicSystem* dynSys)
 {
   using namespace CS::Geometry;
 
@@ -237,14 +227,15 @@ bool ElcmTest::CreateLevel ()
 		 CS::Quote::Single ("stone4"));
 
   sector = engine->CreateSector ("outside");
-  MakeFloor (sector);
-  AddLight (sector, csVector3 (0, 200, 0), 10000, csColor (1, 1, 1));
 
   dynworld = celQueryPropertyClassEntity<iPcDynamicWorld> (worldEntity);
   dynworld->SetRadius (50);
   dynworld->SetELCM (elcm);
-  outsideCell = dynworld->AddCell ("outside", sector, dynSys);
+  outsideCell = dynworld->AddCell ("outside", sector, 0);
   dynworld->SetCurrentCell (outsideCell);
+
+  MakeFloor (sector, outsideCell->GetDynamicSystem ());
+  AddLight (sector, csVector3 (0, 200, 0), 10000, csColor (1, 1, 1));
 
   csColliderHelper::InitializeCollisionWrappers (cdsys, engine);
   engine->Prepare ();
@@ -362,11 +353,12 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
   }
 
   iSector* sect = engine->CreateSector (name);
-  MakeFloor (sect);
+
+  iDynamicCell* cell = dynworld->AddCell (name, sect, 0);
+
+  MakeFloor (sect, cell->GetDynamicSystem ());
   AddLight (sect, csVector3 (0, 200, 0), 10000, color);
   csColliderHelper::InitializeCollisionWrappers (cdsys, sect);
-
-  iDynamicCell* cell = dynworld->AddCell (name, sect, dynSys);
 
   switch (random % 4)
   {
@@ -804,6 +796,9 @@ iRigidBody* ElcmTest::FindHitBody (int x, int y, csVector3& start,
   csVector3 v3d = camera->InvPerspective (v2d, 100);
   start = camera->GetTransform ().GetOrigin ();
   end = camera->GetTransform ().This2Other (v3d);
+  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
+    scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (
+      dynworld->GetCurrentCell ()->GetDynamicSystem ());
   CS::Physics::Bullet::HitBeamResult result = bullet_dynSys->HitBeam (start, end);
   if (result.body)
   {
@@ -943,7 +938,7 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
     else if (code == '2')
     {
       dynworld->DeleteAll ();
-      outsideCell = dynworld->AddCell ("outside", sector, dynSys);
+      outsideCell = dynworld->AddCell ("outside", sector, 0);
       dynworld->SetCurrentCell (outsideCell);
       FillDynamicWorld ();
       csRef<iFile> file = vfs->Open ("/this/savefile", VFS_FILE_READ);

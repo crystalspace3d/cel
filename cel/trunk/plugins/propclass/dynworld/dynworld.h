@@ -399,6 +399,7 @@ public:
 
   iSector* sector;
   csRef<iDynamicSystem> dynSys;
+  bool createdDynSys;
   csRefArray<DynamicObject> objects;
   csSet<csPtrKey<DynamicObject> > fadingIn;
   csSet<csPtrKey<DynamicObject> > fadingOut;
@@ -429,11 +430,7 @@ public:
     return idToDynObj;
   }
 
-  void Setup (iSector* sector, iDynamicSystem* dynSys)
-  {
-    DynamicCell::sector = sector;
-    DynamicCell::dynSys = dynSys;
-  }
+  void Setup (iSector* sector, iDynamicSystem* dynSys);
 
   void PrepareView (iCamera* camera, float elapsed_time);
 
@@ -453,6 +450,9 @@ public:
   virtual csRef<iString> Load (iDocumentNode* node);
 
   virtual void MarkBaseline ();
+
+  virtual iSector* GetSector () const { return sector; }
+  virtual iDynamicSystem* GetDynamicSystem () const { return dynSys; }
 
   void SaveModifications (iCelCompactDataBufferWriter* buf,
       iStringSet* strings, csSet<csPtrKey<DynamicObject> >& alreadySaved);
