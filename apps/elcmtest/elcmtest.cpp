@@ -296,6 +296,7 @@ bool ElcmTest::FillDynamicWorld ()
       {
 	cntDoor++;
         obj = outsideCell->AddObject ("Door", csReversibleTransform (mat, csVector3 (ox, .4, oy)));
+	obj->MakeStatic ();
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
         if (!obj->SetEntity (0, params))
