@@ -197,6 +197,17 @@
 
     <addon plugin="cel.addons.celentitytpl" entityname="Door" >
       <template name="Base" />
+      <propclass name="pclogic.wire">
+	<action name="AddInput">
+	  <par name="mask" string="elcm.activate" />
+	</action>
+	<action name="AddOutput">
+	  <par name="msgid" string="elcm.teleport" />
+	  <par name="entity" string="world" />
+	  <par name="cell" string="$cell" />
+	  <par name="pos" vector3="$pos" />
+	</action>
+      </propclass>
       <characteristic name="weight" value="50" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Table" >

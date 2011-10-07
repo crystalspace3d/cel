@@ -56,6 +56,7 @@ private:
 
   csRef<iMessageReceiver> receiver;
   csStringID msgInventory;
+  csStringID msgTeleport;
 
   csString statusLine;
   csRef<iFont> font;
@@ -80,6 +81,10 @@ private:
   bool CreatePlayer ();
   bool CreateFactories ();
   bool FillDynamicWorld ();
+  void FillTreasureCell (iDynamicCell* cell, int seed);
+  void FillClickerCell (iDynamicCell* cell, int seed);
+  void FillBarrelCell (iDynamicCell* cell, int seed);
+  void FillClutterCell (iDynamicCell* cell, int seed);
 
   iCelEntity* FindHitEntity (int x, int y);
   iDynamicObject* FindHitDynObj (int x, int y);
@@ -87,6 +92,10 @@ private:
       csVector3& isect);
 
   void PickUpDynObj (iDynamicObject* dynobj);
+  void MakeFloor (iSector* sect);
+  void AddLight (iSector* sect, const csVector3& pos, float radius, const csColor& color);
+
+  void Teleport (const char* cellName, const csVector3& pos);
 
 public:
   ElcmTest ();
@@ -96,6 +105,8 @@ public:
   iCEGUI* GetCEGUI () const { return cegui; }
   void WriteStatusLine ();
   void UpdateStatusLine (iDynamicObject* dynobj);
+
+  iDynamicCell* CreateCell (const char* name);
 
   bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params);
