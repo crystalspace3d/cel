@@ -205,7 +205,7 @@ bool ElcmTest::CreateLevel ()
   ll->Add (light);
 
   dynworld = celQueryPropertyClassEntity<iPcDynamicWorld> (worldEntity);
-  dynworld->SetRadius (40);
+  dynworld->SetRadius (50);
   dynworld->SetELCM (elcm);
   outsideCell = dynworld->AddCell ("outside", sector, dynSys);
   dynworld->SetCurrentCell (outsideCell);
@@ -229,12 +229,17 @@ bool ElcmTest::CreateFactories ()
 
 #define SIZE 250
 //#define SIZE 1
+#define MULT 7.0f
 
 bool ElcmTest::FillDynamicWorld ()
 {
   csRandomGen rnd;
   rnd.Initialize (1234567);
 
+  int cntBarrel = 0;
+  int cntTable = 0;
+  int cntClicker = 0;
+  int cntDoor = 0;
   csMatrix3 mat;
   iDynamicObject* obj;
   for (int y = -SIZE ; y <= SIZE ; y++)
@@ -242,18 +247,20 @@ bool ElcmTest::FillDynamicWorld ()
     {
       float r = rnd.Get ();
       mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
-      float ox = float (x*5) + rnd.Get () * 4.0f - 2.0f;
-      float oy = float (y*5) + rnd.Get () * 4.0f - 2.0f;
+      float ox = float (x*MULT) + rnd.Get () * 4.0f - 2.0f;
+      float oy = float (y*MULT) + rnd.Get () * 4.0f - 2.0f;
       if (r < .4)
       {
+	cntBarrel++;
         obj = outsideCell->AddObject ("Barrel", csReversibleTransform (mat, csVector3 (ox, -.4, oy)));
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
         if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template 'Barrel'!");
       }
-      else if (r < .7)
+      else if (r < .65)
       {
+	cntTable++;
         obj = outsideCell->AddObject ("Table", csReversibleTransform (mat, csVector3 (ox, -1, oy)));
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
@@ -276,19 +283,29 @@ bool ElcmTest::FillDynamicWorld ()
 	  return ReportError ("Could not set entity template '%s'!",
 	      objName.GetData ());
       }
-      else
+      else if (r < .9)
       {
+	cntClicker++;
         obj = outsideCell->AddObject ("Clicker", csReversibleTransform (mat, csVector3 (ox, -.95, oy)));
         csRef<iCelParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
         if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template 'Clicker'!");
       }
+      else
+      {
+	cntDoor++;
+        obj = outsideCell->AddObject ("Door", csReversibleTransform (mat, csVector3 (ox, .4, oy)));
+        csRef<iCelParameterBlock> params;
+        params.AttachNew (new celVariableParameterBlock ());
+        if (!obj->SetEntity (0, params))
+	  return ReportError ("Could not set entity template 'Door'!");
+      }
       r = rnd.Get ();
       if (r < .1)
       {
-        float ox = float (x*5) + 2.5f;
-        float oy = float (y*5) + 2.5f;
+        float ox = float (x*MULT) + MULT/2.0f;
+        float oy = float (y*MULT) + MULT/2.0f;
 	csVector3 pos (ox, -1, oy);
         obj = outsideCell->AddObject ("MoneySpawn", csReversibleTransform (
 	      csMatrix3 (), pos));
@@ -301,7 +318,8 @@ bool ElcmTest::FillDynamicWorld ()
       }
     }
   dynworld->MarkBaseline ();
-  printf ("Created %d objects!\n", outsideCell->GetObjectCount ());
+  printf ("Created %d objects (%d barrels, %d tables, %d clickers, %d doors)!\n",
+      outsideCell->GetObjectCount (), cntBarrel, cntTable, cntClicker, cntDoor);
   return true;
 }
 
@@ -795,7 +813,7 @@ bool ElcmTest::Application ()
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   elcm = csQueryRegistry<iELCM> (object_reg);
 
-  elcm->SetActivityRadius (12.0f);
+  elcm->SetActivityRadius (16.0f);
   elcm->SetDistanceThresshold (1.0f);
   elcm->SetCheckTime (100);
   elcm->SetUnloadCheckFrequency (30);
