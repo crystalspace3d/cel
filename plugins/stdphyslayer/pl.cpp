@@ -374,7 +374,7 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
   {
     csStringID key;
     iParameter* par = it.Next (key);
-    const celData* data = par->GetData (combinedParams);
+    const celData* data = par->GetData (params);
     if (data)
       converted_params->AddParameter (key, *data);
   }
