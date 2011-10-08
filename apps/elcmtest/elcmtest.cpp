@@ -299,7 +299,7 @@ void ElcmTest::FillBarrelCell (iDynamicCell* cell, int seed)
     csString objName = "Barrel";
     float ox = rnd.Get () * 100.0f - 50.0f;
     float oy = rnd.Get () * 100.0f + 1.0f;
-    float yoffset = -.4;
+    float yoffset = .6;
     csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
     iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	mat, csVector3 (ox, yoffset-1.0f, oy)));
