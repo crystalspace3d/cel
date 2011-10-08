@@ -765,6 +765,9 @@ void ElcmTest::Teleport (const char* cellName, const csVector3& pos)
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
   movable->GetTransform ().LookAt (csVector3 (0, 0, -1), csVector3 (0, 1, 0));
   movable->UpdateMove ();
+
+  csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (playerEntity);
+  trackcam->ResetCamera ();
 }
 
 void ElcmTest::Frame ()
