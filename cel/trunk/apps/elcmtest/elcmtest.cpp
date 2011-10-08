@@ -257,7 +257,7 @@ bool ElcmTest::CreateFactories ()
 void ElcmTest::FillTreasureCell (iDynamicCell* cell, int seed)
 {
   csRandomGen rnd;
-  rnd.Initialize (1234567);
+  rnd.Initialize (seed);
   for (size_t i = 0 ; i < rnd.Get (400) + 200 ; i++)
   {
     csString objName = "Money";
@@ -275,25 +275,30 @@ void ElcmTest::FillTreasureCell (iDynamicCell* cell, int seed)
 void ElcmTest::FillClickerCell (iDynamicCell* cell, int seed)
 {
   csRandomGen rnd;
-  rnd.Initialize (1234567);
-  for (size_t i = 0 ; i < rnd.Get (400) + 200 ; i++)
-  {
-    csString objName = "Clicker";
-    float ox = rnd.Get () * 100.0f - 50.0f;
-    float oy = rnd.Get () * 100.0f + 1.0f;
-    float yoffset = 0.05;
-    csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
-    iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
-	mat, csVector3 (ox, yoffset-1.0f, oy)));
-    csRef<celVariableParameterBlock> params;
-    obj->SetEntity (0, params);
-  }
+  rnd.Initialize (seed);
+  for (int y = 0 ; y <= 10 ; y++)
+    for (int x = -5 ; x <= 5 ; x++)
+    {
+      csString objName = "Block";
+      float ox = x * .5f;
+      float oy = y * .5f + 3.0f;
+      float yoffset = 0.05f;
+      csMatrix3 mat = csMatrix3 ();
+      for (int h = 0 ; h < rnd.Get (8)+2 ; h++)
+      {
+        iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
+	  mat, csVector3 (ox, yoffset-1.0f, oy)));
+        csRef<celVariableParameterBlock> params;
+        obj->SetEntity (0, params);
+	yoffset += .4f;
+      }
+    }
 }
 
 void ElcmTest::FillBarrelCell (iDynamicCell* cell, int seed)
 {
   csRandomGen rnd;
-  rnd.Initialize (1234567);
+  rnd.Initialize (seed);
   for (size_t i = 0 ; i < rnd.Get (400) + 200 ; i++)
   {
     csString objName = "Barrel";
@@ -311,7 +316,7 @@ void ElcmTest::FillBarrelCell (iDynamicCell* cell, int seed)
 void ElcmTest::FillClutterCell (iDynamicCell* cell, int seed)
 {
   csRandomGen rnd;
-  rnd.Initialize (1234567);
+  rnd.Initialize (seed);
   for (size_t i = 0 ; i < rnd.Get (400) + 200 ; i++)
   {
     csString objName;
@@ -343,13 +348,13 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
   csColor color;
   switch (random % 7)
   {
-    case 0: color.Set (1, .5, .5); break;
-    case 1: color.Set (.5, 1, .5); break;
-    case 2: color.Set (.5, .5, 1); break;
-    case 3: color.Set (1, .5, 1); break;
-    case 4: color.Set (.5, 1, 1); break;
-    case 5: color.Set (1, 1, .5); break;
-    case 6: color.Set (.5, .5, .5); break;
+    case 0: color.Set (1, .3, .3); break;
+    case 1: color.Set (.3, 1, .3); break;
+    case 2: color.Set (.3, .3, 1); break;
+    case 3: color.Set (1, .3, 1); break;
+    case 4: color.Set (.3, 1, 1); break;
+    case 5: color.Set (1, 1, .3); break;
+    case 6: color.Set (.3, .3, .3); break;
   }
 
   iSector* sect = engine->CreateSector (name);
