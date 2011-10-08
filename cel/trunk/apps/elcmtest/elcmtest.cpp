@@ -261,8 +261,8 @@ void ElcmTest::FillTreasureCell (iDynamicCell* cell, int seed)
   for (size_t i = 0 ; i < rnd.Get (400) + 200 ; i++)
   {
     csString objName = "Money";
-    float ox = rnd.Get () * 100.0f - 50.0f;
-    float oy = rnd.Get () * 100.0f + 1.0f;
+    float ox = rnd.Get () * 50.0f - 25.0f;
+    float oy = rnd.Get () * 50.0f + 10.0f;
     float yoffset = 0.02;
     csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
     iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
@@ -281,7 +281,7 @@ void ElcmTest::FillClickerCell (iDynamicCell* cell, int seed)
     {
       csString objName = "Block";
       float ox = x * .5f;
-      float oy = y * .5f + 3.0f;
+      float oy = y * .5f + 10.0f;
       float yoffset = 0.05f;
       csMatrix3 mat = csMatrix3 ();
       for (int h = 0 ; h < rnd.Get (8)+2 ; h++)
@@ -303,7 +303,7 @@ void ElcmTest::FillBarrelCell (iDynamicCell* cell, int seed)
   {
     csString objName = "Barrel";
     float ox = rnd.Get () * 100.0f - 50.0f;
-    float oy = rnd.Get () * 100.0f + 1.0f;
+    float oy = rnd.Get () * 100.0f + 10.0f;
     float yoffset = .6;
     csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
     iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
@@ -320,8 +320,8 @@ void ElcmTest::FillClutterCell (iDynamicCell* cell, int seed)
   for (size_t i = 0 ; i < rnd.Get (400) + 200 ; i++)
   {
     csString objName;
-    float ox = rnd.Get () * 100.0f - 50.0f;
-    float oy = rnd.Get () * 100.0f + 1.0f;
+    float ox = rnd.Get () * 50.0f - 25.0f;
+    float oy = rnd.Get () * 50.0f + 10.0f;
     float yoffset = 0;
     switch (rnd.Get (5))
     {
@@ -463,12 +463,12 @@ bool ElcmTest::FillDynamicWorld ()
         obj = outsideCell->AddObject ("Door", csReversibleTransform (mat, csVector3 (ox, .4, oy)));
 	obj->MakeStatic ();
 	csString cellName;
-	cellName.Format ("cell,%g,%g,%g,%d", ox, .4, oy+1, rnd.Get (1000000));
+	cellName.Format ("cell,%g,%g,%g,%d", ox, .4, oy+2, rnd.Get (1000000));
 
         csRef<celVariableParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
 	params->AddParameter (pl->FetchStringID ("cell")).Set (cellName);
-	params->AddParameter (pl->FetchStringID ("pos")).Set (csVector3 (0, 0, 1));
+	params->AddParameter (pl->FetchStringID ("pos")).Set (csVector3 (0, 0, 4));
         if (!obj->SetEntity (0, params))
 	  return ReportError ("Could not set entity template 'Door'!");
       }
