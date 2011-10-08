@@ -8,6 +8,13 @@
     <material name="marble"> <texture>marble</texture> </material>
   </materials>
 
+  <meshfact name="Block">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.2" y="0" z="-.2" /> <max x=".2" y=".4" z=".2" /> </box>
+      <material>wood</material>
+    </params>
+  </meshfact>
   <meshfact name="Clicker">
     <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
     <params>
@@ -81,6 +88,7 @@
     </factory>
 
     <factory name="Barrel" maxradius="1.0" imposterradius="-1.0" mass="1"> <cylinder /> </factory>
+    <factory name="Block" maxradius="0.9" imposterradius="-1.0" mass=".6"> <box /> </factory>
     <factory name="Clicker" maxradius="0.9" imposterradius="-1.0" mass=".6"> <box /> </factory>
     <factory name="Money" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Can" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
@@ -213,6 +221,10 @@
     <addon plugin="cel.addons.celentitytpl" entityname="Table" >
       <template name="Base" />
       <characteristic name="weight" value="10" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Block" >
+      <template name="Base" />
+      <characteristic name="weight" value="1" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Clicker" >
       <template name="BaseClicker" />
