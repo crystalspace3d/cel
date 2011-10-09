@@ -15,6 +15,13 @@
       <material>wood</material>
     </params>
   </meshfact>
+  <meshfact name="Domino">
+    <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
+    <params>
+      <box> <min x="-.5" y="0" z="-.06" /> <max x=".5" y="2" z=".06" /> </box>
+      <material>wood</material>
+    </params>
+  </meshfact>
   <meshfact name="Clicker">
     <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
     <params>
@@ -89,6 +96,7 @@
 
     <factory name="Barrel" maxradius="1.0" imposterradius="-1.0" mass="1"> <cylinder /> </factory>
     <factory name="Block" maxradius="0.9" imposterradius="-1.0" mass=".6"> <box /> </factory>
+    <factory name="Domino" maxradius="0.9" imposterradius="-1.0" mass="10"> <box /> </factory>
     <factory name="Clicker" maxradius="0.9" imposterradius="-1.0" mass=".6"> <box /> </factory>
     <factory name="Money" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
     <factory name="Can" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
@@ -223,6 +231,10 @@
       <characteristic name="weight" value="10" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Block" >
+      <template name="Base" />
+      <characteristic name="weight" value="1" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="Domino" >
       <template name="Base" />
       <characteristic name="weight" value="1" />
     </addon>

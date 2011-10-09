@@ -339,6 +339,24 @@ void ElcmTest::FillClutterCell (iDynamicCell* cell, int seed)
   }
 }
 
+void ElcmTest::FillDominoDayCell (iDynamicCell* cell, int seed)
+{
+  csRandomGen rnd;
+  rnd.Initialize (seed);
+  for (int y = 0 ; y < 200 ; y++)
+  {
+    csString objName = "Domino";
+    float ox = 0;
+    float oy = y * 1.3f + 10.0f;
+    float yoffset = 0.05f;
+    csMatrix3 mat = csMatrix3 ();
+    iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
+	mat, csVector3 (ox, yoffset-1.0f, oy)));
+    csRef<celVariableParameterBlock> params;
+    obj->SetEntity (0, params);
+  }
+}
+
 iDynamicCell* ElcmTest::CreateCell (const char* name)
 {
   csVector3 pos;
@@ -356,12 +374,13 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
   AddLight (sect, csVector3 (0, 200, 0), 10000, color);
   csColliderHelper::InitializeCollisionWrappers (cdsys, sect);
 
-  switch (rnd.Get (4))
+  switch (rnd.Get (5))
   {
     case 0: FillTreasureCell (cell, random); break;
     case 1: FillClickerCell (cell, random); break;
     case 2: FillBarrelCell (cell, random); break;
     case 3: FillClutterCell (cell, random); break;
+    case 4: FillDominoDayCell (cell, random); break;
   }
 
   iDynamicObject* obj;
