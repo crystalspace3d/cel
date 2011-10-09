@@ -83,6 +83,7 @@ private:
   void FillClickerCell (iDynamicCell* cell, int seed);
   void FillBarrelCell (iDynamicCell* cell, int seed);
   void FillClutterCell (iDynamicCell* cell, int seed);
+  void FillDominoDayCell (iDynamicCell* cell, int seed);
 
   iCelEntity* FindHitEntity (int x, int y);
   iDynamicObject* FindHitDynObj (int x, int y);
