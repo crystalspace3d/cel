@@ -278,19 +278,6 @@ struct iDynamicCell : public virtual iBase
   virtual size_t GetObjectCount () const = 0;
 
   /**
-   * Find a dynamic object from the entity.
-   */
-  virtual iDynamicObject* FindObject (iCelEntity* entity) const = 0;
-  /**
-   * Find an object given its rigid body.
-   */
-  virtual iDynamicObject* FindObject (iRigidBody* body) const = 0;
-  /**
-   * Find an object given its mesh.
-   */
-  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const = 0;
-
-  /**
    * Remove an object.
    */
   virtual void DeleteObject (iDynamicObject* dynobj) = 0;
@@ -448,6 +435,14 @@ struct iPcDynamicWorld : public virtual iBase
    * Find a dynamic object from the entity.
    */
   virtual iDynamicObject* FindObject (iCelEntity* entity) const = 0;
+  /**
+   * Find an object given its rigid body.
+   */
+  virtual iDynamicObject* FindObject (iRigidBody* body) const = 0;
+  /**
+   * Find an object given its mesh.
+   */
+  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const = 0;
 
   /**
    * Save the world to XML.
