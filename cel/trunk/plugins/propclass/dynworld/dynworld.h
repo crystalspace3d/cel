@@ -401,23 +401,8 @@ public:
   csRef<iDynamicSystem> dynSys;
   bool createdDynSys;
   csRefArray<DynamicObject> objects;
-  csSet<csPtrKey<DynamicObject> > fadingIn;
-  csSet<csPtrKey<DynamicObject> > fadingOut;
-
-  // Mapping of id to dynamic objects.
-  csHash<iDynamicObject*,uint> idToDynObj;
-
-  // Current visible objects.
-  csSet<csPtrKey<DynamicObject> > visibleObjects;
-
-  // A set of all dynamic objects which are pre-baseline and which
-  // have moved from their original position. These have to be saved.
-  csSet<csPtrKey<DynamicObject> > haveMovedFromBaseline;
 
   CS::Geometry::KDTree* tree;
-
-  void ProcessFadingIn (float fade_speed);
-  void ProcessFadingOut (float fade_speed);
 
   void DeleteObjectInt (DynamicObject* dynobj);
 
@@ -425,14 +410,7 @@ public:
   DynamicCell (const char* name, celPcDynamicWorld* world);
   virtual ~DynamicCell ();
 
-  csHash<iDynamicObject*,uint>& GetIdToDynObj ()
-  {
-    return idToDynObj;
-  }
-
   void Setup (iSector* sector, iDynamicSystem* dynSys);
-
-  void PrepareView (iCamera* camera, float elapsed_time);
 
   virtual const char* GetName () const { return name; }
 
@@ -441,10 +419,6 @@ public:
   virtual iDynamicObject* AddObject (const char* factory,
       const csReversibleTransform& trans);
   virtual size_t GetObjectCount () const { return objects.GetSize (); }
-  virtual iDynamicObject* FindObject (iCelEntity* entity) const;
-  virtual iDynamicObject* FindObject (iRigidBody* body) const;
-  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const;
-  iDynamicObject* FindObject (uint id) const;
 
   virtual void Save (iDocumentNode* node);
   virtual csRef<iString> Load (iDocumentNode* node);
@@ -475,6 +449,19 @@ public:
   csRef<iELCM> elcm;
   size_t scopeIdx;
 
+  csSet<csPtrKey<DynamicObject> > fadingIn;
+  csSet<csPtrKey<DynamicObject> > fadingOut;
+
+  // Mapping of id to dynamic objects.
+  csHash<iDynamicObject*,uint> idToDynObj;
+
+  // Current visible objects.
+  csSet<csPtrKey<DynamicObject> > visibleObjects;
+
+  // A set of all dynamic objects which are pre-baseline and which
+  // have moved from their original position. These have to be saved.
+  csSet<csPtrKey<DynamicObject> > hasMovedFromBaseline;
+
   csRef<iDynamicCellCreator> cellCreator;
 
   // Current cell.
@@ -499,9 +486,17 @@ public:
   // them have moved enough for them to be considered 'dirty'.
   void CheckForMovement ();
 
+  void ProcessFadingIn (float fade_speed);
+  void ProcessFadingOut (float fade_speed);
+
 public:
   celPcDynamicWorld (iObjectRegistry* object_reg);
   virtual ~celPcDynamicWorld ();
+
+  csHash<iDynamicObject*,uint>& GetIdToDynObj ()
+  {
+    return idToDynObj;
+  }
 
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
 
@@ -544,11 +539,9 @@ public:
   virtual void SetRadius (float radius);
   virtual float GetRadius () const { return radius; }
   virtual void PrepareView (iCamera* camera, float elapsed_time);
-  virtual iDynamicObject* FindObject (iCelEntity* entity) const
-  {
-    // @@@ Try to look over all cells efficiently?
-    return currentCell->FindObject (entity);
-  }
+  virtual iDynamicObject* FindObject (iCelEntity* entity) const;
+  virtual iDynamicObject* FindObject (iRigidBody* body) const;
+  virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const;
   iDynamicObject* FindObject (uint id) const;
 
   virtual void Save (iDocumentNode* node);

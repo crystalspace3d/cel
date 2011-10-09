@@ -334,6 +334,11 @@ void DynamicCell::DeleteObjectInt (DynamicObject* dyn)
   dyn->RemoveMesh (world);
   if (dyn->GetEntity ())
     pl->RemoveEntity (dyn->GetEntity ());
+  // @@@ Efficient?
+  world->hasMovedFromBaseline.Delete (dyn);
+  world->visibleObjects.Delete (dyn);
+  world->fadingOut.Delete (dyn);
+  world->fadingIn.Delete (dyn);
 }
 
 void DynamicCell::DeleteObject (iDynamicObject* dynobj)
@@ -341,10 +346,10 @@ void DynamicCell::DeleteObject (iDynamicObject* dynobj)
   DynamicObject* dyn = static_cast<DynamicObject*> (dynobj);
   if (dyn->GetEntity ())
     pl->RemoveEntity (dyn->GetEntity ());
-  haveMovedFromBaseline.Delete (dyn);
-  visibleObjects.Delete (dyn);
-  fadingOut.Delete (dyn);
-  fadingIn.Delete (dyn);
+  world->hasMovedFromBaseline.Delete (dyn);
+  world->visibleObjects.Delete (dyn);
+  world->fadingOut.Delete (dyn);
+  world->fadingIn.Delete (dyn);
   // @@@ This is a pretty slow operation.
   size_t idx = objects.Find (dyn);
   if (idx != csArrayItemNotFound)
@@ -363,10 +368,6 @@ void DynamicCell::DeleteObjects ()
     csRef<DynamicObject> dynobj = objects.Pop ();
     DeleteObjectInt (dynobj);
   }
-  haveMovedFromBaseline.DeleteAll ();
-  visibleObjects.DeleteAll ();
-  fadingOut.DeleteAll ();
-  fadingIn.DeleteAll ();
   tree->Clear ();
 }
 
@@ -390,120 +391,6 @@ iDynamicObject* DynamicCell::AddObject (const char* factory,
   CS::Geometry::KDTreeChild* child = tree->AddObject (obj->GetBSphere (), obj);
   obj->SetChild (child);
   return obj;
-}
-
-void DynamicCell::ProcessFadingIn (float fade_speed)
-{
-  csSet<csPtrKey<DynamicObject> > newset;
-  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingIn.GetIterator ();
-  while (it.HasNext ())
-  {
-    DynamicObject* dyn = it.Next ();
-    float f = dyn->GetFade ();
-    f -= fade_speed;
-    if (f <= 0)
-    {
-      f = 0;
-    }
-    else
-    {
-      newset.Add (dyn);
-    }
-    dyn->SetFade (f);
-  }
-  fadingIn = newset;
-}
-
-void DynamicCell::ProcessFadingOut (float fade_speed)
-{
-  csSet<csPtrKey<DynamicObject> > newset;
-  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingOut.GetIterator ();
-  while (it.HasNext ())
-  {
-    DynamicObject* dyn = it.Next ();
-    float f = dyn->GetFade ();
-    f += fade_speed;
-    if (f >= 1)
-    {
-      f = 1;
-      dyn->RemoveMesh (world);
-    }
-    else
-    {
-      newset.Add (dyn);
-    }
-    dyn->SetFade (f);
-  }
-  fadingOut = newset;
-}
-
-void DynamicCell::PrepareView (iCamera* camera, float elapsed_time)
-{
-  float fade_speed = elapsed_time / 3.0;
-  ProcessFadingIn (fade_speed);
-  ProcessFadingOut (fade_speed);
-
-  const csVector3& campos = camera->GetTransform ().GetOrigin ();
-
-  // Traverse the tree. This will discover all visible objects and
-  // put them in the 'visibleObjects' set. All visible entities
-  // are removed from the 'safeToRemove' set.
-  csSet<csPtrKey<DynamicObject> > prevVisible = visibleObjects;
-  visibleObjects.Empty ();
-  DynWorldKDData data (prevVisible, visibleObjects, world->safeToRemove,
-      campos, world->radius);
-  tree->Front2Back (data.center, DynWorld_Front2Back, (void*)&data, 0);
-
-  // First we check if some of the dynamic objects moved sufficiently.
-  world->CheckForMovement ();
-
-  // All entities remaining in 'safeToRemove' can really be removed.
-  world->RemoveSafeEntities ();
-
-  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = prevVisible.GetIterator ();
-  while (it.HasNext ())
-  {
-    DynamicObject* dyn = it.Next ();
-    if (dyn->GetMesh ())
-    {
-      fadingIn.Delete (dyn);
-      fadingOut.Add (dyn);
-    }
-  }
-
-  csSet<csPtrKey<DynamicObject> >::GlobalIterator it2 = visibleObjects.GetIterator ();
-  while (it2.HasNext ())
-  {
-    DynamicObject* dyn = it2.Next ();
-    if (!dyn->GetMesh ())
-    {
-      dyn->PrepareMesh (world);
-      fadingOut.Delete (dyn);
-      fadingIn.Add (dyn);
-    }
-  }
-}
-
-iDynamicObject* DynamicCell::FindObject (iCelEntity* entity) const
-{
-  return FindObject (entity->GetID ());
-}
-
-iDynamicObject* DynamicCell::FindObject (uint id) const
-{
-  return idToDynObj.Get (id, 0);
-}
-
-iDynamicObject* DynamicCell::FindObject (iRigidBody* body) const
-{
-  return FindObject (body->GetAttachedMesh ());
-}
-
-iDynamicObject* DynamicCell::FindObject (iMeshWrapper* mesh) const
-{
-  iCelEntity* entity = pl->FindAttachedEntity (mesh->QueryObject ());
-  if (!entity) return 0;
-  return FindObject (entity->GetID ());
 }
 
 void DynamicCell::Save (iDocumentNode* node)
@@ -571,7 +458,7 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
   {
     iCelEntity* entity = it->Next ();
 
-    iDynamicObject* dynobj = FindObject (entity);
+    iDynamicObject* dynobj = world->FindObject (entity);
     if (dynobj && (dynobj->GetCell () == this))
     {
       buf->AddUInt8 (MARKER_NEW);
@@ -606,7 +493,7 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
   while (newIt.HasNext ())
   {
     iCelEntity* entity = newIt.Next ();
-    DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (entity));
+    DynamicObject* dynobj = static_cast<DynamicObject*> (world->FindObject (entity));
     if (dynobj->GetCell () == this)
     {
       alreadySaved.Add (dynobj);
@@ -630,7 +517,7 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
   // Now it is possible that we still have dynamic objects for which
   // the entity hasn't changed but the dynobj itself has changed (i.e. moved).
   // We save those here.
-  csSet<csPtrKey<DynamicObject> >::GlobalIterator dynIt = haveMovedFromBaseline.GetIterator ();
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator dynIt = world->hasMovedFromBaseline.GetIterator ();
   while (dynIt.HasNext ())
   {
     DynamicObject* dynobj = dynIt.Next ();
@@ -683,7 +570,7 @@ void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
     }
     else
     {
-      dynobj = static_cast<DynamicObject*> (FindObject (id));
+      dynobj = static_cast<DynamicObject*> (world->FindObject (id));
       // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
       entity = dynobj->ForceEntity ();
       printf ("Loading existing entity '%s'\n", GetEntityName (pl, entity).GetData ());
@@ -719,16 +606,16 @@ void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
   while (marker == MARKER_NEW)
   {
     uint id = buf->GetUInt32 ();
-    DynamicObject* dynobj = static_cast<DynamicObject*> (FindObject (id));
+    DynamicObject* dynobj = static_cast<DynamicObject*> (world->FindObject (id));
     printf ("Loading moved dynobj\n"); fflush (stdout);
     csReversibleTransform trans;
     LoadTransform (buf, trans);
     dynobj->SetTransform (trans);
-    // Note! We restore the haveMovedFromBaseline set (almost) as it
+    // Note! We restore the hasMovedFromBaseline set (almost) as it
     // was when we saved it. The reason for the difference is that
     // we didn't save (in this section) the dynamic objects which also
     // had modified entities. These were save dabove.
-    haveMovedFromBaseline.Add (dynobj);
+    world->hasMovedFromBaseline.Add (dynobj);
 
     marker = buf->GetUInt8 ();
   }
@@ -935,9 +822,9 @@ DynamicObject::~DynamicObject ()
 
 void DynamicObject::SetID (uint id)
 {
-  cell->GetIdToDynObj ().Delete (id, this);
+  factory->GetWorld ()->GetIdToDynObj ().Delete (id, this);
   DynamicObject::id = id;
-  cell->GetIdToDynObj ().Put (id, this);
+  factory->GetWorld ()->GetIdToDynObj ().Put (id, this);
 }
 
 iDynamicCell* DynamicObject::GetCell () const
@@ -1059,7 +946,7 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
     imposterFactory->RemoveImposter (mesh);
   mesh->GetMovable ()->RemoveListener (this);
   world->meshCache.RemoveMesh (mesh);
-  cell->GetIdToDynObj ().Delete (id, this);
+  factory->GetWorld ()->GetIdToDynObj ().Delete (id, this);
   mesh = 0;
   if (entity)
   {
@@ -1078,7 +965,7 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   if (mesh) return;
   mesh = world->meshCache.AddMesh (world->engine, factory->GetMeshFactory (),
       cell->sector, trans);
-  cell->GetIdToDynObj ().Put (id, this);
+  factory->GetWorld ()->GetIdToDynObj ().Put (id, this);
   mesh->GetMovable ()->AddListener (this);
   lastUpdateNr = mesh->GetMovable ()->GetUpdateNumber ();
   iGeometryGenerator* ggen = factory->GetGeometryGenerator ();
@@ -1375,6 +1262,10 @@ void celPcDynamicWorld::DeleteAll ()
     pl->ResetScope (scopeIdx);
   cells.DeleteAll ();
   currentCell = 0;
+  hasMovedFromBaseline.DeleteAll ();
+  visibleObjects.DeleteAll ();
+  fadingOut.DeleteAll ();
+  fadingIn.DeleteAll ();
 }
 
 void celPcDynamicWorld::SetELCM (iELCM* elcm)
@@ -1412,7 +1303,7 @@ void celPcDynamicWorld::CheckForMovement ()
     DynamicObject* dynobj = it.Next ();
     if (dynobj->ExistedAtBaseline () && dynobj->HasMovedSufficiently ())
     {
-      currentCell->haveMovedFromBaseline.Add (dynobj);
+      hasMovedFromBaseline.Add (dynobj);
     }
   }
   checkForMovement.DeleteAll ();
@@ -1483,9 +1374,96 @@ void celPcDynamicWorld::RemoveSafeEntities ()
   fflush (stdout);
 }
 
+void celPcDynamicWorld::ProcessFadingIn (float fade_speed)
+{
+  csSet<csPtrKey<DynamicObject> > newset;
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingIn.GetIterator ();
+  while (it.HasNext ())
+  {
+    DynamicObject* dyn = it.Next ();
+    float f = dyn->GetFade ();
+    f -= fade_speed;
+    if (f <= 0)
+    {
+      f = 0;
+    }
+    else
+    {
+      newset.Add (dyn);
+    }
+    dyn->SetFade (f);
+  }
+  fadingIn = newset;
+}
+
+void celPcDynamicWorld::ProcessFadingOut (float fade_speed)
+{
+  csSet<csPtrKey<DynamicObject> > newset;
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = fadingOut.GetIterator ();
+  while (it.HasNext ())
+  {
+    DynamicObject* dyn = it.Next ();
+    float f = dyn->GetFade ();
+    f += fade_speed;
+    if (f >= 1)
+    {
+      f = 1;
+      dyn->RemoveMesh (this);
+    }
+    else
+    {
+      newset.Add (dyn);
+    }
+    dyn->SetFade (f);
+  }
+  fadingOut = newset;
+}
+
 void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
 {
-  currentCell->PrepareView (camera, elapsed_time);
+  float fade_speed = elapsed_time / 3.0;
+  ProcessFadingIn (fade_speed);
+  ProcessFadingOut (fade_speed);
+
+  const csVector3& campos = camera->GetTransform ().GetOrigin ();
+
+  // Traverse the tree. This will discover all visible objects and
+  // put them in the 'visibleObjects' set. All visible entities
+  // are removed from the 'safeToRemove' set.
+  csSet<csPtrKey<DynamicObject> > prevVisible = visibleObjects;
+  visibleObjects.Empty ();
+  DynWorldKDData data (prevVisible, visibleObjects, safeToRemove,
+      campos, radius);
+  currentCell->tree->Front2Back (data.center, DynWorld_Front2Back, (void*)&data, 0);
+
+  // First we check if some of the dynamic objects moved sufficiently.
+  CheckForMovement ();
+
+  // All entities remaining in 'safeToRemove' can really be removed.
+  RemoveSafeEntities ();
+
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator it = prevVisible.GetIterator ();
+  while (it.HasNext ())
+  {
+    DynamicObject* dyn = it.Next ();
+    if (dyn->GetMesh ())
+    {
+      fadingIn.Delete (dyn);
+      fadingOut.Add (dyn);
+    }
+  }
+
+  csSet<csPtrKey<DynamicObject> >::GlobalIterator it2 = visibleObjects.GetIterator ();
+  while (it2.HasNext ())
+  {
+    DynamicObject* dyn = it2.Next ();
+    if (!dyn->GetMesh ())
+    {
+      dyn->PrepareMesh (this);
+      fadingOut.Delete (dyn);
+      fadingIn.Add (dyn);
+    }
+  }
 }
 
 void celPcDynamicWorld::SetRadius (float radius)
@@ -1515,25 +1493,33 @@ void celPcDynamicWorld::MarkBaseline ()
   currentCell->MarkBaseline ();
 }
 
+iDynamicObject* celPcDynamicWorld::FindObject (iCelEntity* entity) const
+{
+  return FindObject (entity->GetID ());
+}
+
 iDynamicObject* celPcDynamicWorld::FindObject (uint id) const
 {
-  csHash<csRef<DynamicCell>,csString>::ConstGlobalIterator it = cells.GetIterator ();
-  while (it.HasNext ())
-  {
-    csString name;
-    csRef<DynamicCell> cell = it.Next (name);
-    iDynamicObject* dynobj = cell->FindObject (id);
-    if (dynobj) return dynobj;
-  }
-  return 0;
+  return idToDynObj.Get (id, 0);
+}
+
+iDynamicObject* celPcDynamicWorld::FindObject (iRigidBody* body) const
+{
+  return FindObject (body->GetAttachedMesh ());
+}
+
+iDynamicObject* celPcDynamicWorld::FindObject (iMeshWrapper* mesh) const
+{
+  iCelEntity* entity = pl->FindAttachedEntity (mesh->QueryObject ());
+  if (!entity) return 0;
+  return FindObject (entity->GetID ());
 }
 
 void celPcDynamicWorld::Dump ()
 {
   printf ("### DynWorld ###\n");
-  printf ("  Fading in=%d, out=%d\n", currentCell->fadingIn.GetSize (),
-      currentCell->fadingOut.GetSize ());
-  printf ("  Visible objects=%d\n", currentCell->visibleObjects.GetSize ());
+  printf ("  Fading in=%d, out=%d\n", fadingIn.GetSize (), fadingOut.GetSize ());
+  printf ("  Visible objects=%d\n", visibleObjects.GetSize ());
   printf ("  Safe to remove=%d\n", safeToRemove.GetSize ());
 }
 

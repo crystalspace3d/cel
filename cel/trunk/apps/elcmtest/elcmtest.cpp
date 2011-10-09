@@ -785,7 +785,7 @@ iDynamicObject* ElcmTest::FindHitDynObj (int x, int y)
   csSectorHitBeamResult result = camera->GetSector ()->HitBeamPortals (start, end);
   if (result.mesh)
   {
-    iDynamicObject* dynobj = dynworld->GetCurrentCell ()->FindObject (result.mesh);
+    iDynamicObject* dynobj = dynworld->FindObject (result.mesh);
     if (dynobj) return dynobj;
   }
   return 0;
