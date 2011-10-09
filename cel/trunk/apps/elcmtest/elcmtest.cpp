@@ -208,7 +208,7 @@ void ElcmTest::AddLight (iSector* sect, const csVector3& pos, float radius,
 {
   iLightList* ll = sect->GetLights ();
   csRef<iLight> light;
-  light = engine->CreateLight (0, csVector3 (0, 200, 0), 10000, csColor (1, 1, 1));
+  light = engine->CreateLight (0, csVector3 (0, 200, 0), 10000, color);
   ll->Add (light);
 }
 
@@ -344,19 +344,10 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
   csVector3 pos;
   int random;
   csScanStr (name, "cell,%f,%f,%f,%d", &pos.x, &pos.y, &pos.z, &random);
+  csRandomGen rnd;
+  rnd.Initialize (random);
 
-  csColor color;
-  switch (random % 7)
-  {
-    case 0: color.Set (1, .3, .3); break;
-    case 1: color.Set (.3, 1, .3); break;
-    case 2: color.Set (.3, .3, 1); break;
-    case 3: color.Set (1, .3, 1); break;
-    case 4: color.Set (.3, 1, 1); break;
-    case 5: color.Set (1, 1, .3); break;
-    case 6: color.Set (.3, .3, .3); break;
-  }
-
+  csColor color (rnd.Get (), rnd.Get (), rnd.Get ());
   iSector* sect = engine->CreateSector (name);
 
   iDynamicCell* cell = dynworld->AddCell (name, sect, 0);
@@ -365,7 +356,7 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
   AddLight (sect, csVector3 (0, 200, 0), 10000, color);
   csColliderHelper::InitializeCollisionWrappers (cdsys, sect);
 
-  switch (random % 4)
+  switch (rnd.Get (4))
   {
     case 0: FillTreasureCell (cell, random); break;
     case 1: FillClickerCell (cell, random); break;
@@ -463,7 +454,7 @@ bool ElcmTest::FillDynamicWorld ()
         obj = outsideCell->AddObject ("Door", csReversibleTransform (mat, csVector3 (ox, .4, oy)));
 	obj->MakeStatic ();
 	csString cellName;
-	cellName.Format ("cell,%g,%g,%g,%d", ox, .4, oy+2, rnd.Get (1000000));
+	cellName.Format ("cell,%g,%g,%g,%d", ox, .4, oy+2, rnd.Get (1000000000));
 
         csRef<celVariableParameterBlock> params;
         params.AttachNew (new celVariableParameterBlock ());
