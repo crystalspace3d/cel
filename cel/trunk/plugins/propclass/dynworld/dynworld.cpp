@@ -296,7 +296,7 @@ DynamicCell::~DynamicCell ()
 
 uint DynamicCell::AllocID ()
 {
-  if (allocatedIDBlocks.GetSize () == 0 || (lastID % IDBLOCK_SIZE == IDBLOCK_SIZE))
+  if (allocatedIDBlocks.GetSize () == 0 || (lastID % IDBLOCK_SIZE == 0))
   {
     // We need a new block.
     uint block = world->AllocIDBlock ();
