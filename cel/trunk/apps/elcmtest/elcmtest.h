@@ -44,10 +44,8 @@ private:
   csRef<iCelEntity> worldEntity;
 
   csRef<iPcDynamicWorld> dynworld;
-  iDynamicCell* outsideCell;
 
   iCamera* camera;
-  iSector* sector;
 
   csRef<CeguiPrinter> ceguiPrinter;
   csRef<iCEGUI> cegui;
@@ -75,10 +73,10 @@ private:
   bool InitWindowSystem ();
   bool InitPhysics ();
   bool CreateLevel ();
-  bool CreateSky ();
+  bool CreateSky (iSector* sector);
   bool CreatePlayer ();
   bool CreateFactories ();
-  bool FillDynamicWorld ();
+  bool FillDynamicWorld (iDynamicCell* cell);
   void FillTreasureCell (iDynamicCell* cell, int seed);
   void FillClickerCell (iDynamicCell* cell, int seed);
   void FillBarrelCell (iDynamicCell* cell, int seed);
