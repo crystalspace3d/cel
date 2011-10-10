@@ -229,6 +229,9 @@ bool ElcmTest::CreateLevel ()
   dynworld = celQueryPropertyClassEntity<iPcDynamicWorld> (worldEntity);
   dynworld->SetRadius (50);
   dynworld->SetELCM (elcm);
+  csRef<ElcmCellCreator> cellCreator;
+  cellCreator.AttachNew (new ElcmCellCreator (this));
+  dynworld->SetDynamicCellCreator (cellCreator);
 
   engine->Prepare ();
 
@@ -351,6 +354,8 @@ void ElcmTest::FillDominoDayCell (iDynamicCell* cell, int seed)
 
 iDynamicCell* ElcmTest::CreateCell (const char* name)
 {
+  printf ("Creating cell %s!\n", name); fflush (stdout);
+
   if (!strcmp ("outside", name))
   {
     iSector* sector = engine->CreateSector (name);
@@ -980,6 +985,11 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
       csRef<iFile> file = vfs->Open ("/this/savefile", VFS_FILE_READ);
       csRef<iDataBuffer> buf = file->GetAllData ();
       dynworld->RestoreModifications (buf);
+      // @@@ This should be automatically restored!
+      csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
+      pcmesh->MoveMesh (dynworld->GetCurrentCell ()->GetSector (),
+	  csVector3 (0, 3, 0));
+
     }
     else if (code == 'p')
     {

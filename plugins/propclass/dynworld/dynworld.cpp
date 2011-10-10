@@ -474,6 +474,14 @@ void DynamicCell::MarkBaseline ()
     objects[i]->MarkBaseline ();
 }
 
+void DynamicCell::SaveIDAllocations (iCelCompactDataBufferWriter* buf)
+{
+  // Save the ID information and allocations for this cell.
+  buf->AddUInt32 (allocatedIDBlocks.GetSize ());
+  for (size_t i = 0 ; i < allocatedIDBlocks.GetSize () ; i++)
+    buf->AddUInt32 (allocatedIDBlocks[i]);
+}
+
 void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
       iStringSet* strings, csSet<csPtrKey<DynamicObject> >& alreadySaved)
 {
@@ -481,11 +489,6 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
   csSet<csPtrKey<iCelEntity> > newEntites = elcm->GetNewEntities ();
 
   printf ("##### Saving cell %p/%s #####\n", this, GetName ());
-
-  // Save the ID information and allocations for this cell.
-  buf->AddUInt32 (allocatedIDBlocks.GetSize ());
-  for (size_t i = 0 ; i < allocatedIDBlocks.GetSize () ; i++)
-    buf->AddUInt32 (allocatedIDBlocks[i]);
 
   // First we save all modified dynamic objects that belong to this cell.
   csRef<iCelEntityIterator> it = elcm->GetModifiedEntities ();
@@ -574,18 +577,21 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
   buf->AddUInt8 (MARKER_END);
 }
 
-void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
-    const csHash<csString,csStringID>& strings)
+void DynamicCell::RestoreIDAllocations (iCelCompactDataBufferReader* buf)
 {
-  iELCM* elcm = world->elcm;
-  printf ("##### Loading cell %s #####\n", GetName ());
-
   // First restore the ID information and allocation.
   size_t s = (size_t)buf->GetUInt32 ();
   allocatedIDBlocks.DeleteAll ();
   for (size_t i = 0 ; i < s ; i++)
     allocatedIDBlocks.Push ((uint)buf->GetUInt32 ());
   lastID = 0;
+}
+
+void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
+    const csHash<csString,csStringID>& strings)
+{
+  iELCM* elcm = world->elcm;
+  printf ("##### Loading cell %s #####\n", GetName ());
 
   // Read all dynobj for this cell.
   uint8 marker = buf->GetUInt8 ();
@@ -1606,7 +1612,20 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
 
   // Save the last ID block.
   buf->AddUInt32 (lastIDBlock);
+  // For all cells, save the ID allocation.
+  {
+    csHash<csRef<DynamicCell>,csString>::GlobalIterator it = cells.GetIterator ();
+    while (it.HasNext ())
+    {
+      csString name;
+      csRef<DynamicCell> cell = it.Next (name);
+      buf->AddID (strings->Request (cell->GetName ()));
+      cell->SaveIDAllocations (buf);
+    }
+  }
+  buf->AddID (csInvalidStringID);
 
+  // Save all deleted entities.
   const csSet<uint>& deletedEntities = elcm->GetDeletedEntities ();
   buf->AddUInt32 (deletedEntities.GetSize ());
   printf ("Save %d deleted items\n", deletedEntities.GetSize ());
@@ -1676,6 +1695,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
 
   buf->AddUInt8 (MARKER_END);
 
+  // Now save thd dynamic objects in the cells.
   {
     csHash<csRef<DynamicCell>,csString>::GlobalIterator it = cells.GetIterator ();
     while (it.HasNext ())
@@ -1704,6 +1724,25 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
 
   lastIDBlock = (uint)buf->GetUInt32 ();
 
+  // Load all cells and their ID allocation table. Don't load the dynamic
+  // objects yet.
+  csStringID cellID = buf->GetID ();
+  while (cellID != csInvalidStringID)
+  {
+    const char* cellName = strings.Get (cellID, (const char*)0);
+    DynamicCell* cell = cells.Get (cellName, 0);
+    if (!cell && cellCreator)
+      cell = static_cast<DynamicCell*> (cellCreator->CreateCell (cellName));
+    if (!cell)
+    {
+      printf ("Failed to find/create the cell '%s'!\n", cellName);
+      return;
+    }
+    cell->RestoreIDAllocations (buf);
+    cellID = buf->GetID ();
+  }
+
+  // Restore all deleted entities.
   size_t delSize = (size_t)buf->GetUInt32 ();
   printf ("%d to delete\n", delSize);
   for (size_t i = 0 ; i < delSize ; i++)
@@ -1785,18 +1824,13 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     return;
   }
 
-  csStringID cellID = buf->GetID ();
+  // Now load the actual dynamic objects in the cells.
+  cellID = buf->GetID ();
   while (cellID != csInvalidStringID)
   {
     const char* cellName = strings.Get (cellID, (const char*)0);
     DynamicCell* cell = cells.Get (cellName, 0);
-    if (!cell && cellCreator)
-      cell = static_cast<DynamicCell*> (cellCreator->CreateCell (cellName));
-    if (!cell)
-    {
-      printf ("Failed to find/create the cell '%s'!\n", cellName);
-      return;
-    }
+    CS_ASSERT (cell != 0);
     cell->RestoreModifications (buf, strings);
     cellID = buf->GetID ();
   }
