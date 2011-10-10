@@ -390,6 +390,8 @@ struct DynamicObjectExtraData
   }
 };
 
+#define IDBLOCK_SIZE 10000
+
 class DynamicCell : public scfImplementation1<DynamicCell, iDynamicCell>
 {
 public:
@@ -404,11 +406,23 @@ public:
 
   CS::Geometry::KDTree* tree;
 
+  uint lastID;
+  csArray<uint> allocatedIDBlocks;
+
   void DeleteObjectInt (DynamicObject* dynobj);
 
 public:
   DynamicCell (const char* name, celPcDynamicWorld* world);
   virtual ~DynamicCell ();
+
+  uint AllocID ();
+  // Force allocation of an ID. This function will ensure that the given ID
+  // will not be used by future AllocID() calls. Note! This function does not
+  // test if the ID is in the cell's ID scope! Use IsAllocatedHere() first.
+  void AllocID (uint id);
+
+  // Find out if this id was allocated in this cell.
+  bool IsAllocatedHere (uint id);
 
   void Setup (iSector* sector, iDynamicSystem* dynSys);
 
@@ -441,13 +455,14 @@ public:
   csRef<iEngine> engine;
   csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
-  uint lastID;
   csRefArray<DynamicFactory> factories;
   csHash<DynamicFactory*,csString> factory_hash;
   MeshCache meshCache;
   float radius;
   csRef<iELCM> elcm;
   size_t scopeIdx;
+
+  uint lastIDBlock;
 
   csSet<csPtrKey<DynamicObject> > fadingIn;
   csSet<csPtrKey<DynamicObject> > fadingOut;
@@ -493,18 +508,20 @@ public:
   celPcDynamicWorld (iObjectRegistry* object_reg);
   virtual ~celPcDynamicWorld ();
 
+  uint AllocIDBlock ()
+  {
+    lastIDBlock += IDBLOCK_SIZE;
+    return lastIDBlock - IDBLOCK_SIZE;
+  }
+
   csHash<iDynamicObject*,uint>& GetIdToDynObj ()
   {
     return idToDynObj;
   }
+  // Given an ID, find the cell which allocated this ID.
+  DynamicCell* FindCellForID (uint id);
 
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
-
-  uint GetLastID ()
-  {
-    lastID++;
-    return lastID-1;
-  }
 
   iCelEntity* CreateSpawnedEntity (iCelEntityTemplate* tpl,
       const char* entityName, iCelParameterBlock* params,
