@@ -280,6 +280,7 @@ DynamicCell::DynamicCell (const char* name, celPcDynamicWorld* world) :
   tree->SetObjectDescriptor (objDes);
   objDes->DecRef ();
   createdDynSys = false;
+  lastID = 0;
 }
 
 DynamicCell::~DynamicCell ()
@@ -291,6 +292,35 @@ DynamicCell::~DynamicCell ()
     csRef<iDynamics> dyn = csQueryRegistry<iDynamics> (world->GetObjectRegistry ());
     if (dyn) dyn->RemoveSystem (dynSys);
   }
+}
+
+uint DynamicCell::AllocID ()
+{
+  if (allocatedIDBlocks.GetSize () == 0 || (lastID % IDBLOCK_SIZE == IDBLOCK_SIZE))
+  {
+    // We need a new block.
+    uint block = world->AllocIDBlock ();
+    allocatedIDBlocks.Push (block);
+    lastID = block;
+  }
+  lastID++;
+  return lastID-1;
+}
+
+void DynamicCell::AllocID (uint id)
+{
+  if (id >= lastID) lastID = id+1;
+}
+
+bool DynamicCell::IsAllocatedHere (uint id)
+{
+  for (size_t i = 0 ; i < allocatedIDBlocks.GetSize () ; i++)
+  {
+    if (id >= allocatedIDBlocks[i] && id < allocatedIDBlocks[i]+IDBLOCK_SIZE)
+      return true;
+  }
+  return false;
+
 }
 
 void DynamicCell::Setup (iSector* sector, iDynamicSystem* ds)
@@ -386,7 +416,7 @@ iDynamicObject* DynamicCell::AddObject (const char* factory,
   obj.AttachNew (new DynamicObject (this, fact, trans));
   objects.Push (obj);
 
-  obj->SetID (world->GetLastID ());
+  obj->SetID (AllocID ());
 
   CS::Geometry::KDTreeChild* child = tree->AddObject (obj->GetBSphere (), obj);
   obj->SetChild (child);
@@ -450,6 +480,11 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
   csSet<csPtrKey<iCelEntity> > newEntites = elcm->GetNewEntities ();
 
   printf ("##### Saving cell %p/%s #####\n", this, GetName ());
+
+  buf->AddUInt32 (lastID);
+  buf->AddUInt32 (allocatedIDBlocks.GetSize ());
+  for (size_t i = 0 ; i < allocatedIDBlocks.GetSize () ; i++)
+    buf->AddUInt32 (allocatedIDBlocks[i]);
 
   // First we save entities that have no dynobj. They are not part of
   // a single cell so we do that here.
@@ -538,6 +573,11 @@ void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
 {
   iELCM* elcm = world->elcm;
   printf ("##### Loading cell %s #####\n", GetName ());
+
+  lastID = (uint)buf->GetUInt32 ();
+  size_t s = (size_t)buf->GetUInt32 ();
+  for (size_t i = 0 ; i < s ; i++)
+    allocatedIDBlocks.Push ((uint)buf->GetUInt32 ());
 
   // Read all dynobj for this cell.
   uint8 marker = buf->GetUInt8 ();
@@ -822,9 +862,13 @@ DynamicObject::~DynamicObject ()
 
 void DynamicObject::SetID (uint id)
 {
-  factory->GetWorld ()->GetIdToDynObj ().Delete (id, this);
+  celPcDynamicWorld* world = factory->GetWorld ();
+  world->GetIdToDynObj ().Delete (id, this);
   DynamicObject::id = id;
-  factory->GetWorld ()->GetIdToDynObj ().Put (id, this);
+  DynamicCell* idCell = world->FindCellForID (id);
+  CS_ASSERT (idCell != 0);
+  idCell->AllocID (id);	// Force this Id to be allocated.
+  world->GetIdToDynObj ().Put (id, this);
 }
 
 iDynamicCell* DynamicObject::GetCell () const
@@ -1066,7 +1110,7 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
   if (node->GetAttribute ("id"))
     id = node->GetAttributeValueAsInt ("id");
   else
-    id = world->GetLastID ();
+    id = cell->AllocID ();
 
   csMatrix3 m;
   csVector3 v (0);
@@ -1238,7 +1282,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   scopeIdx = pl->AddScope ("cel.numreg.hash", 1000000000);
-  lastID = 1000000001;
+  lastIDBlock = 1000000000;
   scopeIdx = csArrayItemNotFound;
 
   csRef<celDynworldSpawner> spawner;
@@ -1253,9 +1297,22 @@ celPcDynamicWorld::~celPcDynamicWorld ()
   DeleteAll ();
 }
 
+DynamicCell* celPcDynamicWorld::FindCellForID (uint id)
+{
+  csHash<csRef<DynamicCell>,csString>::GlobalIterator it = cells.GetIterator ();
+  while (it.HasNext ())
+  {
+    csString name;
+    csRef<DynamicCell> cell = it.Next (name);
+    if (cell->IsAllocatedHere (id))
+      return cell;
+  }
+  return 0;
+}
+
 void celPcDynamicWorld::DeleteAll ()
 {
-  lastID = 1000000001;
+  lastIDBlock = 1000000000;
   checkForMovement.DeleteAll ();
   meshCache.RemoveMeshes ();
   if (scopeIdx != csArrayItemNotFound)
@@ -1473,16 +1530,18 @@ void celPcDynamicWorld::SetRadius (float radius)
 
 void celPcDynamicWorld::Save (iDocumentNode* node)
 {
-  node->SetAttributeAsInt ("lastid", lastID);
+  // @@@ Implement cells!
+  node->SetAttributeAsInt ("lastid", lastIDBlock);
   currentCell->Save (node);
 }
 
 csRef<iString> celPcDynamicWorld::Load (iDocumentNode* node)
 {
+  // @@@ Implement cells!
   if (node->GetAttribute ("lastid"))
-    lastID = node->GetAttributeValueAsInt ("lastid");
+    lastIDBlock = node->GetAttributeValueAsInt ("lastid");
   else
-    lastID = 1000000001;        // @@@ Is this right?
+    lastIDBlock = 1000000001;        // @@@ Is this right?
   return currentCell->Load (node);
 }
 
@@ -1532,6 +1591,9 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
   csRef<csScfStringSet> strings;
   strings.AttachNew (new csScfStringSet ());
   csRef<iCelCompactDataBufferWriter> buf = pl->CreateCompactDataBufferWriter ();
+
+  // Save the last ID block.
+  buf->AddUInt32 (lastIDBlock);
 
   const csSet<uint>& deletedEntities = elcm->GetDeletedEntities ();
   buf->AddUInt32 (deletedEntities.GetSize ());
@@ -1627,6 +1689,8 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
   csHash<csString,csStringID> strings;
   csRef<iCelCompactDataBufferReader> buf = pl->CreateCompactDataBufferReader (dbuf);
   LoadStrings (buf, strings);
+
+  lastIDBlock = (uint)buf->GetUInt32 ();
 
   size_t delSize = (size_t)buf->GetUInt32 ();
   printf ("%d to delete\n", delSize);
