@@ -229,6 +229,9 @@ static bool DynWorld_Front2Back (CS::Geometry::KDTree* treenode,
   int i;
   for (i = 0 ; i < num_objects ; i++)
   {
+    // Use timestamps to detect if we already checked this object before
+    // (note that objects can be in multiple nodes at once if the split
+    // planes happen to intersect objects).
     if (objects[i]->timestamp != cur_timestamp)
     {
       objects[i]->timestamp = cur_timestamp;
@@ -240,7 +243,6 @@ static bool DynWorld_Front2Back (CS::Geometry::KDTree* treenode,
       if (dynobj->IsStatic ())
         sqrad *= 1.1f;
 
-#if 1
       const csSphere& obj_bsphere = dynobj->GetBSphere ();
       float sqdist = csSquaredDist::PointPoint (data->center, obj_bsphere.GetCenter ());
       if ((sqdist-csSquare (obj_bsphere.GetRadius () + data->radius)) < 0)
@@ -251,17 +253,6 @@ static bool DynWorld_Front2Back (CS::Geometry::KDTree* treenode,
 	if (entity)
 	  data->safeToRemove.Delete (entity);
       }
-#else
-      const csBox3& obj_bbox = dynobj->GetBBox ();
-      if (csIntersect3::BoxSphere (obj_bbox, data->center, sqrad))
-      {
-        data->prevObjects.Delete (dynobj);
-        data->objects.Add (dynobj);
-	iCelEntity* entity = dynobj->GetEntity ();
-	if (entity)
-	  data->safeToRemove.Delete (entity);
-      }
-#endif
     }
   }
 
@@ -294,6 +285,12 @@ DynamicCell::~DynamicCell ()
   }
 }
 
+// We use an ID allocation scheme were every cell allocates blocks
+// of ID's (with size IDBLOCK_SIZE) and then generates ID from that block
+// until it is full at which point another block is requested.
+// These blocks are remembered when a cell is persisted so that objects
+// created in the cell get the same ID's next time the cell is loaded
+// again.
 uint DynamicCell::AllocID ()
 {
   if (allocatedIDBlocks.GetSize () == 0 || (lastID % IDBLOCK_SIZE == 0))
@@ -307,6 +304,10 @@ uint DynamicCell::AllocID ()
   return lastID-1;
 }
 
+// Mark that this ID has been allocated. This is typically used
+// when persisted objects are being restored. Note that this function
+// assumes that the ID is actually part of a block that has been allocated
+// by this cell. Don't use this otherwise!
 void DynamicCell::AllocID (uint id)
 {
   if (id >= lastID) lastID = id+1;
@@ -481,13 +482,12 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
 
   printf ("##### Saving cell %p/%s #####\n", this, GetName ());
 
-  buf->AddUInt32 (lastID);
+  // Save the ID information and allocations for this cell.
   buf->AddUInt32 (allocatedIDBlocks.GetSize ());
   for (size_t i = 0 ; i < allocatedIDBlocks.GetSize () ; i++)
     buf->AddUInt32 (allocatedIDBlocks[i]);
 
-  // First we save entities that have no dynobj. They are not part of
-  // a single cell so we do that here.
+  // First we save all modified dynamic objects that belong to this cell.
   csRef<iCelEntityIterator> it = elcm->GetModifiedEntities ();
   while (it->HasNext ())
   {
@@ -502,6 +502,8 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
 
       if (newEntites.Contains (entity))
       {
+        // This dynamic object represents a new entity (one that wasn't
+        // present at the baseline).
         printf ("Saving new entity '%s'!\n", GetEntityName (pl, entity).GetData ());
         newEntites.Delete (entity);
         iDynamicFactory* dynfact = dynobj->GetFactory ();
@@ -513,6 +515,8 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
       }
       else
       {
+        // This dynamic object represents a previously existing entity
+        // (belongs to a dynamic object that existed at the baseline).
         printf ("Saving entity '%s'!\n", GetEntityName (pl, entity).GetData ());
         buf->AddID (csInvalidStringID);	// No template.
       }
@@ -523,7 +527,9 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
     }
   }
 
-  // All remaining entities in 'newEntites' also have to be saved.
+  // All remaining entities in 'newEntites' (that belong to this cell)
+  // also have to be saved. These are entities that haven't been modified
+  // yet but they are new.
   csSet<csPtrKey<iCelEntity> >::GlobalIterator newIt = newEntites.GetIterator ();
   while (newIt.HasNext ())
   {
@@ -574,10 +580,12 @@ void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
   iELCM* elcm = world->elcm;
   printf ("##### Loading cell %s #####\n", GetName ());
 
-  lastID = (uint)buf->GetUInt32 ();
+  // First restore the ID information and allocation.
   size_t s = (size_t)buf->GetUInt32 ();
+  allocatedIDBlocks.DeleteAll ();
   for (size_t i = 0 ; i < s ; i++)
     allocatedIDBlocks.Push ((uint)buf->GetUInt32 ());
+  lastID = 0;
 
   // Read all dynobj for this cell.
   uint8 marker = buf->GetUInt8 ();
@@ -865,9 +873,13 @@ void DynamicObject::SetID (uint id)
   celPcDynamicWorld* world = factory->GetWorld ();
   world->GetIdToDynObj ().Delete (id, this);
   DynamicObject::id = id;
+
+  // We first try to find out in which cell this ID was allocated
+  // before. Then we can mark this ID as being used in the correct cell.
   DynamicCell* idCell = world->FindCellForID (id);
   CS_ASSERT (idCell != 0);
   idCell->AllocID (id);	// Force this Id to be allocated.
+
   world->GetIdToDynObj ().Put (id, this);
 }
 

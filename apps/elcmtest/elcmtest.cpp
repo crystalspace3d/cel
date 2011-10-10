@@ -150,7 +150,7 @@ bool ElcmTest::InitPhysics ()
   return true;
 }
 
-bool ElcmTest::CreateSky ()
+bool ElcmTest::CreateSky (iSector* sector)
 {
   using namespace CS::Geometry;
 
@@ -226,18 +226,10 @@ bool ElcmTest::CreateLevel ()
     return ReportError ("Error loading %s texture!",
 		 CS::Quote::Single ("stone4"));
 
-  sector = engine->CreateSector ("outside");
-
   dynworld = celQueryPropertyClassEntity<iPcDynamicWorld> (worldEntity);
   dynworld->SetRadius (50);
   dynworld->SetELCM (elcm);
-  outsideCell = dynworld->AddCell ("outside", sector, 0);
-  dynworld->SetCurrentCell (outsideCell);
 
-  MakeFloor (sector, outsideCell->GetDynamicSystem ());
-  AddLight (sector, csVector3 (0, 200, 0), 10000, csColor (1, 1, 1));
-
-  csColliderHelper::InitializeCollisionWrappers (cdsys, engine);
   engine->Prepare ();
 
   return true;
@@ -284,7 +276,7 @@ void ElcmTest::FillClickerCell (iDynamicCell* cell, int seed)
       float oy = y * .5f + 10.0f;
       float yoffset = 0.05f;
       csMatrix3 mat = csMatrix3 ();
-      for (int h = 0 ; h < rnd.Get (8)+2 ; h++)
+      for (size_t h = 0 ; h < rnd.Get (8)+2 ; h++)
       {
         iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	  mat, csVector3 (ox, yoffset-1.0f, oy)));
@@ -359,6 +351,28 @@ void ElcmTest::FillDominoDayCell (iDynamicCell* cell, int seed)
 
 iDynamicCell* ElcmTest::CreateCell (const char* name)
 {
+  if (!strcmp ("outside", name))
+  {
+    iSector* sector = engine->CreateSector (name);
+    iDynamicCell* outsideCell = dynworld->AddCell (name, sector, 0);
+    // @@@ Remove once we know how to move the player at restore time!
+    dynworld->SetCurrentCell (outsideCell);
+
+    MakeFloor (sector, outsideCell->GetDynamicSystem ());
+    AddLight (sector, csVector3 (0, 200, 0), 10000, csColor (1, 1, 1));
+
+    if (!CreateSky (sector))
+    {
+      ReportError ("Error creating sky!");
+      return 0;
+    }
+
+    csColliderHelper::InitializeCollisionWrappers (cdsys, sector);
+    FillDynamicWorld (outsideCell);
+
+    return outsideCell;
+  }
+
   csVector3 pos;
   int random;
   csScanStr (name, "cell,%f,%f,%f,%d", &pos.x, &pos.y, &pos.z, &random);
@@ -406,7 +420,7 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
 //#define SIZE 1
 #define MULT 7.0f
 
-bool ElcmTest::FillDynamicWorld ()
+bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
 {
   csRandomGen rnd;
   rnd.Initialize (1234567);
@@ -414,6 +428,7 @@ bool ElcmTest::FillDynamicWorld ()
   int cntBarrel = 0;
   int cntTable = 0;
   int cntClicker = 0;
+  int cntMoneySpawn = 0;
   int cntDoor = 0;
   csMatrix3 mat;
   iDynamicObject* obj;
@@ -485,6 +500,7 @@ bool ElcmTest::FillDynamicWorld ()
       r = rnd.Get ();
       if (r < .1)
       {
+	cntMoneySpawn++;
         float ox = float (x*MULT) + MULT/2.0f;
         float oy = float (y*MULT) + MULT/2.0f;
 	csVector3 pos (ox, -1, oy);
@@ -499,8 +515,9 @@ bool ElcmTest::FillDynamicWorld ()
       }
     }
   dynworld->MarkBaseline ();
-  printf ("Created %d objects (%d barrels, %d tables, %d clickers, %d doors)!\n",
-      outsideCell->GetObjectCount (), cntBarrel, cntTable, cntClicker, cntDoor);
+  printf ("Created %d objects (%d barrels, %d tables, %d clickers, %d doors, %d money)!\n",
+      outsideCell->GetObjectCount (), cntBarrel, cntTable, cntClicker, cntDoor,
+      cntMoneySpawn);
   return true;
 }
 
@@ -533,7 +550,7 @@ bool ElcmTest::CreatePlayer ()
   //pcmesh->SetMesh ("krystal", "krystal.xml");
   pcmesh->SetPath ("/lib/frankie");
   pcmesh->SetMesh ("franky_frankie", "frankie.xml");
-  pcmesh->MoveMesh (sector, csVector3 (0, 3, 0));
+  pcmesh->MoveMesh (dynworld->GetCurrentCell ()->GetSector (), csVector3 (0, 3, 0));
 
   // Get iPcLinearMovement so we can setup the movement system.
   csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (playerEntity);
@@ -959,9 +976,7 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
     else if (code == '2')
     {
       dynworld->DeleteAll ();
-      outsideCell = dynworld->AddCell ("outside", sector, 0);
-      dynworld->SetCurrentCell (outsideCell);
-      FillDynamicWorld ();
+      engine->DeleteAll ();
       csRef<iFile> file = vfs->Open ("/this/savefile", VFS_FILE_READ);
       csRef<iDataBuffer> buf = file->GetAllData ();
       dynworld->RestoreModifications (buf);
@@ -1059,12 +1074,9 @@ bool ElcmTest::Application ()
     return ReportError ("Error creating level!");
   if (!CreateFactories ())
     return ReportError ("Couldn't create factories!");
-  if (!CreateSky ())
-    return ReportError ("Error creating sky!");
+  CreateCell ("outside");
   if (!CreatePlayer ())
     return ReportError ("Couldn't create player!");
-  if (!FillDynamicWorld ())
-    return ReportError ("Couldn't fill the dynamic world!");
 
   printer.AttachNew (new FramePrinter (object_reg));
 
