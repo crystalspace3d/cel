@@ -442,8 +442,10 @@ public:
   virtual iSector* GetSector () const { return sector; }
   virtual iDynamicSystem* GetDynamicSystem () const { return dynSys; }
 
+  void SaveIDAllocations (iCelCompactDataBufferWriter* buf);
   void SaveModifications (iCelCompactDataBufferWriter* buf,
       iStringSet* strings, csSet<csPtrKey<DynamicObject> >& alreadySaved);
+  void RestoreIDAllocations (iCelCompactDataBufferReader* buf);
   void RestoreModifications (iCelCompactDataBufferReader* buf,
       const csHash<csString,csStringID>& strings);
 };
