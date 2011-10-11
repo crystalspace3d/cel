@@ -406,7 +406,8 @@ public:
 
   CS::Geometry::KDTree* tree;
 
-  uint lastID;
+  uint lastID;			// Next ID to generate
+  size_t idBlockIdx;		// Index into below array
   csArray<uint> allocatedIDBlocks;
 
   void DeleteObjectInt (DynamicObject* dynobj);
