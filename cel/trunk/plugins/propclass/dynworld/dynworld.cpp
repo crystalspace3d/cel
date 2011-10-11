@@ -603,7 +603,8 @@ void DynamicCell::RestoreIDAllocations (iCelCompactDataBufferReader* buf)
   allocatedIDBlocks.DeleteAll ();
   for (size_t i = 0 ; i < s ; i++)
     allocatedIDBlocks.Push ((uint)buf->GetUInt32 ());
-  lastID = 0;
+  if (s > 0) lastID = allocatedIDBlocks[0];
+  else lastID = 0;
   idBlockIdx = ~0;
 }
 
@@ -1751,13 +1752,19 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
   {
     const char* cellName = strings.Get (cellID, (const char*)0);
     DynamicCell* cell = cells.Get (cellName, 0);
+    bool created = false;
     if (!cell && cellCreator)
+    {
       cell = static_cast<DynamicCell*> (cellCreator->CreateCell (cellName));
+      created = true;
+    }
     if (!cell)
     {
       printf ("Failed to find/create the cell '%s'!\n", cellName);
       return;
     }
+    if (created)
+      cellCreator->FillCell (cell);
     cell->RestoreIDAllocations (buf);
     cellID = buf->GetID ();
   }
