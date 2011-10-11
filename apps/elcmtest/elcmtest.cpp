@@ -65,6 +65,11 @@ public:
   {
     return elcmTest->CreateCell (name);
   }
+
+  virtual void FillCell (iDynamicCell* cell)
+  {
+    elcmTest->FillCell (cell);
+  }
 };
 
 //-----------------------------------------------------------------------
@@ -382,8 +387,6 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
     }
 
     csColliderHelper::InitializeCollisionWrappers (cdsys, sector);
-    FillDynamicWorld (outsideCell);
-
     return outsideCell;
   }
 
@@ -401,6 +404,26 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
   MakeFloor (sect, cell->GetDynamicSystem ());
   AddLight (sect, csVector3 (0, 200, 0), 10000, color);
   csColliderHelper::InitializeCollisionWrappers (cdsys, sect);
+
+  return cell;
+}
+
+void ElcmTest::FillCell (iDynamicCell* cell)
+{
+  const char* name = cell->GetName ();
+  printf ("Filling cell %s!\n", name); fflush (stdout);
+
+  if (!strcmp ("outside", name))
+  {
+    FillDynamicWorld (cell);
+    return;
+  }
+
+  csVector3 pos;
+  int random;
+  csScanStr (name, "cell,%f,%f,%f,%d", &pos.x, &pos.y, &pos.z, &random);
+  csRandomGen rnd;
+  rnd.Initialize (random);
 
   switch (rnd.Get (5))
   {
@@ -422,12 +445,11 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
   if (!obj->SetEntity (0, params))
   {
     ReportError ("Could not set entity template 'Door'!");
-    return 0;
+    return;
   }
 
   obj->MakeStatic ();
   cell->MarkBaseline ();
-  return cell;
 }
 
 #define SIZE 250
@@ -798,6 +820,7 @@ void ElcmTest::Teleport (const char* cellName, const csVector3& pos)
     fflush (stdout);
     return;
   }
+  FillCell (cell);
   dynworld->SetCurrentCell (cell);
 
   iSector* sect = engine->FindSector (cellName);
@@ -1092,7 +1115,7 @@ bool ElcmTest::Application ()
     return ReportError ("Error creating level!");
   if (!CreateFactories ())
     return ReportError ("Couldn't create factories!");
-  CreateCell ("outside");
+  FillCell (CreateCell ("outside"));
   if (!CreatePlayer ())
     return ReportError ("Couldn't create player!");
 

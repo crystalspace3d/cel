@@ -62,9 +62,17 @@ struct iDynamicCellCreator : public virtual iBase
   /**
    * The DynWorld plugin needs a cell with the given name.
    * If the application cannot provide a cell with this name
-   * then it should return 0 here.
+   * then it should return 0 here. This function should only
+   * create the cell and fixed geometry but nothing more.
+   * The pre-baseline dynamic objects should be created by
+   * FillCell().
    */
   virtual iDynamicCell* CreateCell (const char* name) = 0;
+
+  /**
+   * Fill a cell with pre-baseline dynamic objects.
+   */
+  virtual void FillCell (iDynamicCell* cell) = 0;
 };
 
 /**

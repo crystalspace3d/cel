@@ -104,6 +104,7 @@ public:
   void UpdateStatusLine (iDynamicObject* dynobj);
 
   iDynamicCell* CreateCell (const char* name);
+  void FillCell (iDynamicCell* cell);
 
   bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params);
