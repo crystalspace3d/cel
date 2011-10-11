@@ -83,7 +83,8 @@ void celSequence::Finish ()
 void celSequence::Abort ()
 {
   if (!IsRunning ()) return;
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  if (pl)
+    pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
   idx = csArrayItemNotFound;
   ops_in_progress.Empty ();
 }
