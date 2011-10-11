@@ -466,6 +466,9 @@ public:
   size_t scopeIdx;
 
   uint lastIDBlock;
+  // The following flag is set to true while we are restoring ID blocks.
+  // During that time it is illegal to allocate new ID blocks.
+  bool restoringIDBlocks;
 
   csSet<csPtrKey<DynamicObject> > fadingIn;
   csSet<csPtrKey<DynamicObject> > fadingOut;
@@ -513,6 +516,7 @@ public:
 
   uint AllocIDBlock ()
   {
+    CS_ASSERT (!restoringIDBlocks);
     lastIDBlock += IDBLOCK_SIZE;
     return lastIDBlock - IDBLOCK_SIZE;
   }
