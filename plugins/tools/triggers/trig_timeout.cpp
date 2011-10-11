@@ -137,7 +137,8 @@ bool celTimeoutTrigger::Check ()
 
 void celTimeoutTrigger::DeactivateTrigger ()
 {
-  type->pl->RemoveCallbackOnce (this, CEL_EVENT_PRE);
+  if (type->pl)
+    type->pl->RemoveCallbackOnce (this, CEL_EVENT_PRE);
 }
 
 void celTimeoutTrigger::Activate ()
@@ -150,6 +151,7 @@ void celTimeoutTrigger::Activate ()
 void celTimeoutTrigger::Deactivate ()
 {
   if (deactivatedTicksLeft != 0) return;
+  if (!type->pl) return;
   deactivatedTicksLeft = type->pl->GetTicksLeft (this, CEL_EVENT_PRE);
   if (!deactivatedTicksLeft) deactivatedTicksLeft++;	// To prevent problems in rare case it was 0.
   type->pl->RemoveCallbackOnce (this, CEL_EVENT_PRE);

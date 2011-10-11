@@ -292,9 +292,8 @@ printf ("check sqdistance=%g sqradius=%g closest_mesh=%s\n", rc.sqdistance, sqra
 
 void celWatchTrigger::DeactivateTrigger ()
 {
-  iCelPlLayer* pl = type->pl;
-  pl->RemoveCallbackOnce (static_cast<iCelTimerListener*> (this),
-  	CEL_EVENT_PRE);
+  if (type->pl) type->pl->RemoveCallbackOnce (
+      static_cast<iCelTimerListener*> (this), CEL_EVENT_PRE);
 }
 
 //---------------------------------------------------------------------------
