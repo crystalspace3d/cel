@@ -283,7 +283,7 @@ size_t celIDRegistry::GetScopeOfID (uint id)
 {
   for (size_t i = 0; i < regs.GetSize (); i++)
   {
-    if (regs[i].start < id && id < regs[i].end)
+    if (regs[i].start <= id && id < regs[i].end)
       return i;
   }
 
