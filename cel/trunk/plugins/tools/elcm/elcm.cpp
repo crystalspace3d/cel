@@ -366,7 +366,6 @@ void celELCM::UpdateActiveEntities ()
 
 void celELCM::CheckUnload ()
 {
-  printf ("Check unload %d\n", inactiveEntities.GetSize ()); fflush (stdout);
   csTicks time = vc->GetCurrentTicks ();
   csArray<iCelEntity*> toRemove;
   csHash<csTicks,csPtrKey<iCelEntity> >::GlobalIterator it = inactiveEntities.GetIterator ();

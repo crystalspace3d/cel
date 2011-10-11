@@ -459,7 +459,7 @@ void ElcmTest::FillCell (iDynamicCell* cell)
 bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
 {
   csRandomGen rnd;
-  rnd.Initialize (1234567);
+  rnd.Initialize (7654321);
 
   int cntBarrel = 0;
   int cntTable = 0;
@@ -694,6 +694,7 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
   iCelEntity* entity = obj->ForceEntity ();
   entity->MarkBaseline ();
   entity->Activate ();
+  printf ("Dropping entity in cell '%s'\n", dynworld->GetCurrentCell ()->GetName ());
 }
 
 void ElcmTest::SelectEntity (iCelEntity* entity, bool left)
@@ -813,14 +814,17 @@ void ElcmTest::Teleport (const char* cellName, const csVector3& pos)
 {
   iDynamicCell* cell = dynworld->FindCell (cellName);
   if (!cell)
+  {
     cell = CreateCell (cellName);
+    if (cell)
+      FillCell (cell);
+  }
   if (!cell)
   {
     printf ("Can't teleport to cell '%s'!\n", cellName);
     fflush (stdout);
     return;
   }
-  FillCell (cell);
   dynworld->SetCurrentCell (cell);
 
   iSector* sect = engine->FindSector (cellName);
@@ -1012,6 +1016,7 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
     }
     else if (code == '2')
     {
+      printf ("-------------------------------------------------------------\n");
       dynworld->DeleteAll ();
       csRef<iFile> file = vfs->Open ("/this/savefile", VFS_FILE_READ);
       csRef<iDataBuffer> buf = file->GetAllData ();

@@ -310,8 +310,7 @@ uint DynamicCell::AllocID ()
     else
     {
       // Use the next available pre-allocated block.
-      uint block = allocatedIDBlocks[idBlockIdx];
-      lastID = block;
+      lastID = allocatedIDBlocks[idBlockIdx];
     }
   }
   lastID++;
@@ -603,8 +602,7 @@ void DynamicCell::RestoreIDAllocations (iCelCompactDataBufferReader* buf)
   allocatedIDBlocks.DeleteAll ();
   for (size_t i = 0 ; i < s ; i++)
     allocatedIDBlocks.Push ((uint)buf->GetUInt32 ());
-  if (s > 0) lastID = allocatedIDBlocks[0];
-  else lastID = 0;
+  lastID = 0;
   idBlockIdx = ~0;
 }
 
@@ -1322,6 +1320,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   scopeIdx = pl->AddScope ("cel.numreg.hash", 1000000000);
   lastIDBlock = 1000000000;
+  restoringIDBlocks = false;
   scopeIdx = csArrayItemNotFound;
 
   csRef<celDynworldSpawner> spawner;
@@ -1358,6 +1357,7 @@ void celPcDynamicWorld::DeleteAll ()
     pl->ResetScope (scopeIdx);
   cells.DeleteAll ();
   currentCell = 0;
+  idToDynObj.DeleteAll ();
   hasMovedFromBaseline.DeleteAll ();
   visibleObjects.DeleteAll ();
   fadingOut.DeleteAll ();
@@ -1744,6 +1744,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
   LoadStrings (buf, strings);
 
   lastIDBlock = (uint)buf->GetUInt32 ();
+  restoringIDBlocks = true;
 
   // Load all cells and their ID allocation table. Don't load the dynamic
   // objects yet.
@@ -1761,13 +1762,17 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     if (!cell)
     {
       printf ("Failed to find/create the cell '%s'!\n", cellName);
+      restoringIDBlocks = false;
       return;
     }
+    printf ("Restoring ID allocations for %s\n", cellName); fflush (stdout);
+    cell->RestoreIDAllocations (buf);
     if (created)
       cellCreator->FillCell (cell);
-    cell->RestoreIDAllocations (buf);
     cellID = buf->GetID ();
   }
+
+  restoringIDBlocks = false;
 
   // Restore all deleted entities.
   size_t delSize = (size_t)buf->GetUInt32 ();
