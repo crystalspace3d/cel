@@ -272,6 +272,7 @@ DynamicCell::DynamicCell (const char* name, celPcDynamicWorld* world) :
   objDes->DecRef ();
   createdDynSys = false;
   lastID = 0;
+  idBlockIdx = ~0;
 }
 
 DynamicCell::~DynamicCell ()
@@ -295,10 +296,23 @@ uint DynamicCell::AllocID ()
 {
   if (allocatedIDBlocks.GetSize () == 0 || (lastID % IDBLOCK_SIZE == 0))
   {
-    // We need a new block.
-    uint block = world->AllocIDBlock ();
-    allocatedIDBlocks.Push (block);
-    lastID = block;
+    // After restoring a cell it is possible that the allocatedIDBlocks is preset
+    // to a number of ID blocks. In that case we need to allocate from these pre-allocated
+    // blocks. We test for this case here.
+    idBlockIdx++;
+    if (idBlockIdx >= allocatedIDBlocks.GetSize ())
+    {
+      // We need a new block.
+      uint block = world->AllocIDBlock ();
+      allocatedIDBlocks.Push (block);
+      lastID = block;
+    }
+    else
+    {
+      // Use the next available pre-allocated block.
+      uint block = allocatedIDBlocks[idBlockIdx];
+      lastID = block;
+    }
   }
   lastID++;
   return lastID-1;
@@ -310,7 +324,12 @@ uint DynamicCell::AllocID ()
 // by this cell. Don't use this otherwise!
 void DynamicCell::AllocID (uint id)
 {
-  if (id >= lastID) lastID = id+1;
+  if (id >= lastID)
+  {
+    lastID = id+1;
+    while (lastID >= allocatedIDBlocks[idBlockIdx]+IDBLOCK_SIZE)
+      idBlockIdx++;
+  }
 }
 
 bool DynamicCell::IsAllocatedHere (uint id)
@@ -585,6 +604,7 @@ void DynamicCell::RestoreIDAllocations (iCelCompactDataBufferReader* buf)
   for (size_t i = 0 ; i < s ; i++)
     allocatedIDBlocks.Push ((uint)buf->GetUInt32 ());
   lastID = 0;
+  idBlockIdx = ~0;
 }
 
 void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,

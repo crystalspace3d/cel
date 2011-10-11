@@ -154,15 +154,20 @@ bool ElcmTest::CreateSky (iSector* sector)
 {
   using namespace CS::Geometry;
 
-  csRef<iMeshWrapper> clouds = GeneralMeshBuilder::CreateMesh (engine,
-      sector, "Clouds", "clouddome");
-  CS::Graphics::RenderPriority transp = engine->GetRenderPriority ("transp");
-  clouds->SetRenderPriority (transp);
+  if (!sector->GetMeshes ()->FindByName ("Clouds"))
+  {
+    csRef<iMeshWrapper> clouds = GeneralMeshBuilder::CreateMesh (engine, sector, "Clouds", "clouddome");
+    CS::Graphics::RenderPriority transp = engine->GetRenderPriority ("transp");
+    clouds->SetRenderPriority (transp);
+  }
 
-  csRef<iMeshWrapper> sky = GeneralMeshBuilder::CreateMesh (engine,
+  if (!sector->GetMeshes ()->FindByName ("Sky"))
+  {
+    csRef<iMeshWrapper> sky = GeneralMeshBuilder::CreateMesh (engine,
       sector, "Sky", "skydome");
-  CS::Graphics::RenderPriority object = engine->GetRenderPriority ("object");
-  sky->SetRenderPriority (object);
+    CS::Graphics::RenderPriority object = engine->GetRenderPriority ("object");
+    sky->SetRenderPriority (object);
+  }
 
   return true;
 }
@@ -171,25 +176,29 @@ void ElcmTest::MakeFloor (iSector* sect, iDynamicSystem* dynSys)
 {
   using namespace CS::Geometry;
 
-  iMaterialWrapper* tm = engine->GetMaterialList ()->FindByName ("stone");
-
-  csRef<iMeshFactoryWrapper> floorFact;
-  floorFact = engine->FindMeshFactory ("Floor");
-  if (!floorFact)
+  csRef<iMeshWrapper> floor = sect->GetMeshes ()->FindByName ("Floor");
+  if (!floor)
   {
-    TesselatedQuad quad (
-      csVector3 (-5000, -1, -5000),
-      csVector3 (-5000, -1, 5000),
-      csVector3 (5000, -1, -5000));
-    DensityTextureMapper mapper (0.3f);
-    quad.SetLevel (3);
-    quad.SetMapper (&mapper);
-    floorFact = GeneralMeshBuilder::CreateFactory (engine, "Floor", &quad);
+    iMaterialWrapper* tm = engine->GetMaterialList ()->FindByName ("stone");
+
+    csRef<iMeshFactoryWrapper> floorFact;
+    floorFact = engine->FindMeshFactory ("Floor");
+    if (!floorFact)
+    {
+      TesselatedQuad quad (
+        csVector3 (-5000, -1, -5000),
+        csVector3 (-5000, -1, 5000),
+        csVector3 (5000, -1, -5000));
+      DensityTextureMapper mapper (0.3f);
+      quad.SetLevel (3);
+      quad.SetMapper (&mapper);
+      floorFact = GeneralMeshBuilder::CreateFactory (engine, "Floor", &quad);
+    }
+
+    floor = GeneralMeshBuilder::CreateMesh (engine, sect, "Floor", floorFact);
+    floor->GetMeshObject ()->SetMaterialWrapper (tm);
   }
 
-  csRef<iMeshWrapper> floor = GeneralMeshBuilder::CreateMesh (engine,
-      sect, "Floor", floorFact);
-  floor->GetMeshObject ()->SetMaterialWrapper (tm);
   csRef<iRigidBody> body = dynSys->CreateBody ();
   csRef<CS::Physics::Bullet::iRigidBody> csBody = scfQueryInterface<CS::Physics::Bullet::iRigidBody> (body);
   csBody->SetLinearDampener (0.0f);
@@ -981,7 +990,6 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
     else if (code == '2')
     {
       dynworld->DeleteAll ();
-      engine->DeleteAll ();
       csRef<iFile> file = vfs->Open ("/this/savefile", VFS_FILE_READ);
       csRef<iDataBuffer> buf = file->GetAllData ();
       dynworld->RestoreModifications (buf);
