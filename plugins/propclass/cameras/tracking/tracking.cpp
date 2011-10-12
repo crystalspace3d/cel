@@ -100,7 +100,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   AddProperty (propid_up, "up",
     CEL_DATA_VECTOR3, false, "Up direction.", &up);
   AddProperty (propid_pan_topspeed, "pan_topspeed",
-    CEL_DATA_FLOAT, true, "Top speed limit for panning.", &pan.topspeed);
+    CEL_DATA_FLOAT, false, "Top speed limit for panning.", &pan.topspeed);
   AddProperty (propid_pan_currspeed, "pan_currspeed",
     CEL_DATA_FLOAT, false, "Current panning speed.", &pan.speed);
   AddProperty (propid_pan_accel, "pan_accel",
@@ -108,7 +108,7 @@ celPcTrackingCamera::celPcTrackingCamera (iObjectRegistry* object_reg)
   AddProperty (propid_pan_dir, "pan_dir",
     CEL_DATA_LONG, true, "Pan direction -1 left, 0 none, 1 right.", &pandir);
   AddProperty (propid_tilt_topspeed, "tilt_topspeed",
-    CEL_DATA_FLOAT, true, "Top speed limit for tilting.", &tilt.topspeed);
+    CEL_DATA_FLOAT, false, "Top speed limit for tilting.", &tilt.topspeed);
   AddProperty (propid_tilt_currspeed, "tilt_currspeed",
     CEL_DATA_FLOAT, false, "Current tilt speed.", &tilt.speed);
   AddProperty (propid_tilt_accel, "tilt_accel",
