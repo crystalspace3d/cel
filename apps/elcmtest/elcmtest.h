@@ -91,7 +91,8 @@ private:
 
   void PickUpDynObj (iDynamicObject* dynobj);
   void MakeFloor (iSector* sect, iDynamicSystem* dynSys);
-  void AddLight (iSector* sect, const csVector3& pos, float radius, const csColor& color);
+  void AddLight (iSector* sect, const char* name,
+      const csVector3& pos, float radius, const csColor& color);
 
   void Teleport (const char* cellName, const csVector3& pos);
 

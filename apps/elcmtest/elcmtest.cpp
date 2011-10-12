@@ -219,12 +219,13 @@ void ElcmTest::MakeFloor (iSector* sect, iDynamicSystem* dynSys)
   body->MakeStatic ();
 }
 
-void ElcmTest::AddLight (iSector* sect, const csVector3& pos, float radius,
-    const csColor& color)
+void ElcmTest::AddLight (iSector* sect, const char* name,
+    const csVector3& pos, float radius, const csColor& color)
 {
   iLightList* ll = sect->GetLights ();
   csRef<iLight> light;
-  light = engine->CreateLight (0, csVector3 (0, 200, 0), 10000, color);
+  if (ll->FindByName (name)) return;
+  light = engine->CreateLight (name, csVector3 (0, 200, 0), 10000, color);
   ll->Add (light);
 }
 
@@ -382,7 +383,7 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
     dynworld->SetCurrentCell (outsideCell);
 
     MakeFloor (sector, outsideCell->GetDynamicSystem ());
-    AddLight (sector, csVector3 (0, 200, 0), 10000, csColor (1, 1, 1));
+    AddLight (sector, "sun", csVector3 (0, 200, 0), 10000, csColor (1, 1, 1));
 
     if (!CreateSky (sector))
     {
@@ -408,7 +409,7 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
   iDynamicCell* cell = dynworld->AddCell (name, sect, 0);
 
   MakeFloor (sect, cell->GetDynamicSystem ());
-  AddLight (sect, csVector3 (0, 200, 0), 10000, color);
+  AddLight (sect, "sun", csVector3 (0, 200, 0), 10000, color);
   csColliderHelper::InitializeCollisionWrappers (cdsys, sect);
 
   return cell;
