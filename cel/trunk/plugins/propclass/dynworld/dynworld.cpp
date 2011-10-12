@@ -121,6 +121,8 @@ static void LoadStrings (iCelCompactDataBufferReader* buf,
 
 //---------------------------------------------------------------------------
 
+// This spawner implementation will be used by spawn property classes
+// to control the creation of dynamic objects when new entities are spawned.
 class celDynworldSpawner : public scfImplementation1<celDynworldSpawner,
   iCelSpawner>
 {
@@ -169,9 +171,14 @@ public:
 
 struct DynWorldKDData
 {
+  // Previously visible objects.
   csSet<csPtrKey<DynamicObject> >& prevObjects;
+  // New visible objects.
   csSet<csPtrKey<DynamicObject> >& objects;
+  // A set of objects that are safe to remove. If we find one of them is visible
+  // then we can remove that entity from this set.
   csSet<csPtrKey<iCelEntity> >& safeToRemove;
+
   csVector3 center;
   float radius;
   float sqradius;
@@ -247,9 +254,11 @@ static bool DynWorld_Front2Back (CS::Geometry::KDTree* treenode,
       float sqdist = csSquaredDist::PointPoint (data->center, obj_bsphere.GetCenter ());
       if ((sqdist-csSquare (obj_bsphere.GetRadius () + data->radius)) < 0)
       {
+	// Object is visible so we can remove it from 'prevObjects' and add it to 'objects'.
         data->prevObjects.Delete (dynobj);
         data->objects.Add (dynobj);
 	iCelEntity* entity = dynobj->GetEntity ();
+	// This object is visible so it is no longer safe to remove it.
 	if (entity)
 	  data->safeToRemove.Delete (entity);
       }
@@ -556,7 +565,7 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
   {
     iCelEntity* entity = newIt.Next ();
     DynamicObject* dynobj = static_cast<DynamicObject*> (world->FindObject (entity));
-    if (dynobj->GetCell () == this)
+    if (dynobj && dynobj->GetCell () == this)
     {
       alreadySaved.Add (dynobj);
       buf->AddUInt8 (MARKER_NEW);
@@ -687,7 +696,7 @@ void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
     // Note! We restore the hasMovedFromBaseline set (almost) as it
     // was when we saved it. The reason for the difference is that
     // we didn't save (in this section) the dynamic objects which also
-    // had modified entities. These were save dabove.
+    // had modified entities. These were saved above.
     world->hasMovedFromBaseline.Add (dynobj);
 
     marker = buf->GetUInt8 ();
@@ -873,6 +882,7 @@ void DynamicObject::Init (DynamicCell* cell)
   atBaseline = false;
   hasMovedSufficiently = false;
   lastUpdateNr = 0;
+  id = 0;
 }
 
 DynamicObject::DynamicObject (DynamicCell* cell) : scfImplementationType (this)
@@ -896,7 +906,11 @@ DynamicObject::~DynamicObject ()
 void DynamicObject::SetID (uint id)
 {
   celPcDynamicWorld* world = factory->GetWorld ();
-  world->GetIdToDynObj ().Delete (id, this);
+
+  // Unregister the previous id of this object (if any).
+  if (id)
+    world->GetIdToDynObj ().Delete (id, this);
+
   DynamicObject::id = id;
 
   // We first try to find out in which cell this ID was allocated
@@ -905,6 +919,7 @@ void DynamicObject::SetID (uint id)
   CS_ASSERT (idCell != 0);
   idCell->AllocID (id);	// Force this Id to be allocated.
 
+  // Now register the new id.
   world->GetIdToDynObj ().Put (id, this);
 }
 
@@ -1031,7 +1046,7 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
   mesh = 0;
   if (entity)
   {
-    // @@@ TEST THIS WELL!
+    // Clear the mesh/body from the property classes if they are present.
     csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
     if (pcmesh)
       pcmesh->SetMesh (0);
@@ -1066,6 +1081,7 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   ForceEntity ();
   if (entity)
   {
+    // Set the mesh/body on the property classes if they are present.
     csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
     if (pcmesh)
       pcmesh->SetMesh (mesh);
@@ -1293,6 +1309,7 @@ csPtr<iString> DynamicObject::GetDescription () const
 
 //---------------------------------------------------------------------------------------
 
+// Listen to the ELCM and see when it says an entity can be safely removed.
 class DynWorldELCMListener : public scfImplementation1<DynWorldELCMListener,
   iELCMListener>
 {
@@ -1318,10 +1335,10 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
+
   scopeIdx = pl->AddScope ("cel.numreg.hash", 1000000000);
   lastIDBlock = 1000000000;
   restoringIDBlocks = false;
-  scopeIdx = csArrayItemNotFound;
 
   csRef<celDynworldSpawner> spawner;
   spawner.AttachNew (new celDynworldSpawner (this));
@@ -1333,6 +1350,8 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
 celPcDynamicWorld::~celPcDynamicWorld ()
 {
   DeleteAll ();
+  if (scopeIdx != csArrayItemNotFound && pl)
+    pl->ResetScope (scopeIdx);
 }
 
 DynamicCell* celPcDynamicWorld::FindCellForID (uint id)
@@ -1353,8 +1372,6 @@ void celPcDynamicWorld::DeleteAll ()
   lastIDBlock = 1000000000;
   checkForMovement.DeleteAll ();
   meshCache.RemoveMeshes ();
-  if (scopeIdx != csArrayItemNotFound)
-    pl->ResetScope (scopeIdx);
   cells.DeleteAll ();
   currentCell = 0;
   idToDynObj.DeleteAll ();
