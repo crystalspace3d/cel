@@ -406,7 +406,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         if (!p_body)
           return MoveReport (object_reg,
           	"Missing parameter 'body' for action InitCD!");
-        CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);;
+        CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);
         if (!p_legs)
           return MoveReport (object_reg,
           	"Missing parameter 'legs' for action InitCD!");

@@ -8,6 +8,8 @@
     <material name="marble"> <texture>marble</texture> </material>
   </materials>
 
+  <library path="/lib/frankie" file="frankie.xml" />
+
   <meshfact name="Block">
     <plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
     <params>
@@ -86,6 +88,7 @@
 
   <addon plugin="cel.addons.dynamicworld.loader">
     <dynworld name="world" />
+    <factory name="franky_frankie" maxradius="1" imposterradius="-1.0" mass="50"> <cylinder /> </factory>
     <factory name="Table" maxradius="0.5" imposterradius=".4" mass="4">
       <box> <offset x="0" y="0.95" z="0" /> <size x="2" y="0.1" z="1.2" /> </box>
       <box> <offset x="-0.91" y="0.475" z="-0.51" /> <size x=".08" y="0.9" z=".08" /> </box>
@@ -159,6 +162,81 @@
       </quest>
     </addon>
 
+    <addon plugin="cel.addons.celentitytpl" entityname="BasePlayer" >
+      <propclass name="pcinput.standard">
+	<action name="Bind">
+	  <par name="trigger" string="left" />
+	  <par name="command" string="rotateleft" />
+	</action>
+	<action name="Bind">
+	  <par name="trigger" string="right" />
+	  <par name="command" string="rotateright" />
+	</action>
+	<action name="Bind">
+	  <par name="trigger" string="up" />
+	  <par name="command" string="forward" />
+	</action>
+	<action name="Bind">
+	  <par name="trigger" string="down" />
+	  <par name="command" string="backward" />
+	</action>
+	<action name="Bind">
+	  <par name="trigger" string="a" />
+	  <par name="command" string="rotateleft" />
+	</action>
+	<action name="Bind">
+	  <par name="trigger" string="d" />
+	  <par name="command" string="rotateright" />
+	</action>
+	<action name="Bind">
+	  <par name="trigger" string="w" />
+	  <par name="command" string="forward" />
+	</action>
+	<action name="Bind">
+	  <par name="trigger" string="s" />
+	  <par name="command" string="backward" />
+	</action>
+	<action name="Bind">
+	  <par name="trigger" string="q" />
+	  <par name="command" string="strafeleft" />
+	</action>
+	<action name="Bind">
+	  <par name="trigger" string="e" />
+	  <par name="command" string="straferight" />
+	</action>
+	<action name="Bind">
+	  <par name="trigger" string="space" />
+	  <par name="command" string="jump" />
+	</action>
+      </propclass>
+      <propclass name="pctools.inventory">
+	<action name="AddTemplate">
+	  <par name="name" string="Money" />
+	  <par name="amount" long="100" />
+	</action>
+      </propclass>
+      <propclass name="pccamera.delegate" />
+      <propclass name="pccamera.mode.tracking">
+	<property name="pan_topspeed" float="2.5" />
+	<property name="tilt_topspeed" float="1.2" />
+      </propclass>
+      <propclass name="pcmove.linear">
+        <action name="InitCD" >
+          <par name="body" vector3=".5,.4,.5" />
+          <par name="legs" vector3=".5,.2,.5" />
+          <par name="offset" vector3="0,0,0" />
+	</action>
+      </propclass>
+      <propclass name="pcmove.actor.standard">
+	<action name="SetSpeed">
+	  <par name="movement" float="5" />
+	  <par name="running" float="8" />
+	  <par name="rotation" float="2" />
+	</action>
+	<action name="Subscribe" />
+      </propclass>
+    </addon>
+
     <addon plugin="cel.addons.celentitytpl" entityname="Base" >
       <propclass name="pcobject.mesh" />
     </addon>
@@ -224,6 +302,15 @@
 	  <par name="pos" vector3="$pos" />
 	</action>
       </propclass>
+      <characteristic name="weight" value="50" />
+    </addon>
+    <addon plugin="cel.addons.celentitytpl" entityname="franky_frankie" >
+      <propclass name="pcobject.mesh">
+	<action name="LoadMesh">
+	  <par name="factoryname" string="franky_frankie" />
+	</action>
+      </propclass>
+      <template name="BasePlayer" />
       <characteristic name="weight" value="50" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Table" >
