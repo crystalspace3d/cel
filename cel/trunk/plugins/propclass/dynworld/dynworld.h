@@ -308,6 +308,9 @@ private:
   mutable csSphere bsphere;
   mutable bool bsphereValid;
 
+  // Update the mesh and body in the property classes of the entity.
+  void MeshBodyToEntity (iMeshWrapper* mesh, iRigidBody* body);
+
 public:
   DynamicObject (DynamicCell* cell);
   DynamicObject (DynamicCell* cell, DynamicFactory* factory,

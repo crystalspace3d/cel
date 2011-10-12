@@ -1028,6 +1028,17 @@ void DynamicObject::SetFade (float f)
   }
 }
 
+void DynamicObject::MeshBodyToEntity (iMeshWrapper* mesh, iRigidBody* body)
+{
+  if (!entity) return;
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  if (pcmesh)
+    pcmesh->SetMesh (mesh);
+  csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
+  if (pcmechobj)
+    pcmechobj->SetBody (body);
+}
+
 void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
 {
   if (!mesh) return;
@@ -1043,16 +1054,7 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
   world->meshCache.RemoveMesh (mesh);
   factory->GetWorld ()->GetIdToDynObj ().Delete (id, this);
   mesh = 0;
-  if (entity)
-  {
-    // Clear the mesh/body from the property classes if they are present.
-    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-    if (pcmesh)
-      pcmesh->SetMesh (0);
-    csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
-    if (pcmechobj)
-      pcmechobj->SetBody (0);
-  }
+  MeshBodyToEntity (0, 0);
 }
 
 void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
@@ -1078,16 +1080,7 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
     body->MakeStatic ();
 
   ForceEntity ();
-  if (entity)
-  {
-    // Set the mesh/body on the property classes if they are present.
-    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-    if (pcmesh)
-      pcmesh->SetMesh (mesh);
-    csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
-    if (pcmechobj)
-      pcmechobj->SetBody (body);
-  }
+  MeshBodyToEntity (mesh, body);
 }
 
 void DynamicObject::RefreshColliders ()
@@ -1230,10 +1223,12 @@ void DynamicObject::LinkEntity (iCelEntity* entity)
   DynamicObject::entity = entity;
   DynamicObject::entityName = entity->GetName ();
   SetID (entity->GetID ());
+  MeshBodyToEntity (mesh, body);
 }
 
 void DynamicObject::UnlinkEntity ()
 {
+  MeshBodyToEntity (0, 0);
   entity = 0;
 }
 
@@ -1270,6 +1265,7 @@ iCelEntity* DynamicObject::ForceEntity ()
       entity->MarkBaseline ();
     }
   }
+  MeshBodyToEntity (mesh, body);
   return entity;
 }
 
