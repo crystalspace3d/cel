@@ -21,6 +21,7 @@
 #define __CEL_ELCM__
 
 struct iCelEntity;
+struct iCelEntityIterator;
 
 /**
  * Implement this interface if you are interested in knowing when the ELCM
