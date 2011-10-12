@@ -64,6 +64,7 @@ private:
 
   /// Physics.
   csRef<iDynamics> dyn;
+  bool debugPhysics;
 
   bool OnKeyboard (iEvent&);
   bool OnMouseMove (iEvent&);
@@ -102,6 +103,7 @@ public:
   iCEGUI* GetCEGUI () const { return cegui; }
   void WriteStatusLine ();
   void UpdateStatusLine (iDynamicObject* dynobj);
+  void FrameDebugPhysics ();
 
   iDynamicCell* CreateCell (const char* name);
   void FillCell (iDynamicCell* cell);
