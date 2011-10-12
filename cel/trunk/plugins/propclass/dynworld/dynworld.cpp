@@ -741,7 +741,7 @@ iMeshWrapper* MeshCache::AddMesh (iEngine* engine,
   if (mf && mf->meshes.GetSize () > 0)
     mesh = mf->meshes.Pop ();
   else
-    mesh = engine->CreateMeshWrapper (factory, "", sector);
+    mesh = engine->CreateMeshWrapper (factory, 0, sector);
 
   iMovable* movable = mesh->GetMovable ();
   movable->SetSector (sector);
