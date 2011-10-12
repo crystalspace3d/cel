@@ -1586,19 +1586,50 @@ void celPcDynamicWorld::SetRadius (float radius)
 
 void celPcDynamicWorld::Save (iDocumentNode* node)
 {
-  // @@@ Implement cells!
   node->SetAttributeAsInt ("lastid", lastIDBlock);
-  currentCell->Save (node);
+  csHash<csRef<DynamicCell>,csString>::GlobalIterator it = cells.GetIterator ();
+  while (it.HasNext ())
+  {
+    csString name;
+    csRef<DynamicCell> cell = it.Next (name);
+    csRef<iDocumentNode> el = node->CreateNodeBefore (CS_NODE_ELEMENT);
+    el->SetValue ("cell");
+    el->SetAttribute ("name", cell->GetName ());
+    cell->Save (el);
+  }
 }
 
 csRef<iString> celPcDynamicWorld::Load (iDocumentNode* node)
 {
-  // @@@ Implement cells!
   if (node->GetAttribute ("lastid"))
     lastIDBlock = node->GetAttributeValueAsInt ("lastid");
   else
     lastIDBlock = 1000000001;        // @@@ Is this right?
-  return currentCell->Load (node);
+
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    csString value = child->GetValue ();
+    if (value == "cell")
+    {
+      csString cellName = child->GetAttributeValue ("name");
+      DynamicCell* cell = cells.Get (cellName, 0);
+      if (!cell && cellCreator)
+        cell = static_cast<DynamicCell*> (cellCreator->CreateCell (cellName));
+      if (!cell)
+      {
+        csRef<scfString> str;
+        str.AttachNew (new scfString ());
+        str->Format ("Can't find cell %s!", cellName.GetData ());
+        return str;
+      }
+      csRef<iString> error = cell->Load (child);
+      if (error) return error;
+    }
+  }
+  return 0;
 }
 
 void celPcDynamicWorld::MarkBaseline ()
