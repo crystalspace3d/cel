@@ -739,16 +739,12 @@ iMeshWrapper* MeshCache::AddMesh (iEngine* engine,
   csRef<iMeshWrapper> mesh;
   MeshCacheFactory* mf = meshFactories.Get (factname, 0);
   if (mf && mf->meshes.GetSize () > 0)
-  {
     mesh = mf->meshes.Pop ();
-    mesh->GetMovable ()->SetSector (sector);
-  }
   else
-  {
     mesh = engine->CreateMeshWrapper (factory, "", sector);
-  }
 
   iMovable* movable = mesh->GetMovable ();
+  movable->SetSector (sector);
   movable->SetTransform (trans);
   movable->UpdateMove ();
   return mesh;
@@ -1025,7 +1021,10 @@ void DynamicObject::SetFade (float f)
   fade = f;
   if (mesh)
   {
-    mesh->GetMeshObject ()->SetMixMode (CS_FX_SETALPHA(fade));
+    if (fade < .001)
+      mesh->GetMeshObject ()->SetMixMode (CS_FX_COPY);
+    else
+      mesh->GetMeshObject ()->SetMixMode (CS_FX_SETALPHA(fade));
   }
 }
 
@@ -1379,6 +1378,7 @@ void celPcDynamicWorld::DeleteAll ()
   visibleObjects.DeleteAll ();
   fadingOut.DeleteAll ();
   fadingIn.DeleteAll ();
+  safeToRemove.DeleteAll ();
 }
 
 void celPcDynamicWorld::SetELCM (iELCM* elcm)

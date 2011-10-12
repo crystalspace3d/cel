@@ -23,6 +23,7 @@
 
 void CeguiPrinter::TickEveryFrame ()
 {
+  parent->FrameDebugPhysics ();
   parent->GetG3D ()->BeginDraw (CSDRAW_2DGRAPHICS);
   parent->WriteStatusLine ();
   parent->GetCEGUI ()->Render ();
@@ -111,6 +112,7 @@ public:
 ElcmTest::ElcmTest ()
 {
   SetApplicationName ("ELCM Test");
+  debugPhysics = false;
 }
 
 ElcmTest::~ElcmTest ()
@@ -888,6 +890,17 @@ iRigidBody* ElcmTest::FindHitBody (int x, int y, csVector3& start,
   return 0;
 }
 
+void ElcmTest::FrameDebugPhysics ()
+{
+  if (!debugPhysics) return;
+  g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
+    scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (
+      dynworld->GetCurrentCell ()->GetDynamicSystem ());
+  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (playerEntity);
+  bullet_dynSys->DebugDraw (pccamera->GetView ());
+}
+
 void ElcmTest::WriteStatusLine ()
 {
   iGraphics2D* g2d = g3d->GetDriver2D ();
@@ -895,8 +908,9 @@ void ElcmTest::WriteStatusLine ()
   g2d->Write (font, 10, 24, colorRed, -1, statusLine.GetData ());
   csString line2;
   const csVector3& pos = camera->GetTransform ().GetOrigin ();
-  line2.Format ("Pos (%g,%g,%g) #obj=%d #ent=%d #mesh=%d", pos.x, pos.y, pos.z,
+  line2.Format ("Pos (%g,%g,%g) #obj=%d #ent=%d #mesh=%d/%d", pos.x, pos.y, pos.z,
       dynworld->GetCurrentCell ()->GetObjectCount (), pl->GetEntityCount (),
+      dynworld->GetCurrentCell ()->GetSector ()->GetMeshes ()->GetCount (),
       engine->GetMeshes ()->GetCount ());
   g2d->Write (font, 9, 9, colorBlack, -1, line2.GetData ());
   g2d->Write (font, 10, 10, colorRed, -1, line2.GetData ());
@@ -1026,6 +1040,10 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
       pcmesh->MoveMesh (dynworld->GetCurrentCell ()->GetSector (),
 	  csVector3 (0, 3, 0));
 
+    }
+    else if (code == 'b')
+    {
+      debugPhysics = !debugPhysics;
     }
     else if (code == 'p')
     {
