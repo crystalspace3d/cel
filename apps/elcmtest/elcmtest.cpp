@@ -374,7 +374,9 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
 
   if (!strcmp ("outside", name))
   {
-    iSector* sector = engine->CreateSector (name);
+    iSector* sector = engine->FindSector (name);
+    if (!sector)
+      sector = engine->CreateSector (name);
     iDynamicCell* outsideCell = dynworld->AddCell (name, sector, 0);
     // @@@ Remove once we know how to move the player at restore time!
     dynworld->SetCurrentCell (outsideCell);
@@ -399,7 +401,9 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
   rnd.Initialize (random);
 
   csColor color (rnd.Get (), rnd.Get (), rnd.Get ());
-  iSector* sect = engine->CreateSector (name);
+  iSector* sect = engine->FindSector (name);
+  if (!sect)
+    sect = engine->CreateSector (name);
 
   iDynamicCell* cell = dynworld->AddCell (name, sect, 0);
 
