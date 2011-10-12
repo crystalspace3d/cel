@@ -279,8 +279,7 @@ void ElcmTest::FillTreasureCell (iDynamicCell* cell, int seed)
     csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
     iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	mat, csVector3 (ox, yoffset-1.0f, oy)));
-    csRef<celVariableParameterBlock> params;
-    obj->SetEntity (0, params);
+    obj->SetEntity (0, 0);
   }
 }
 
@@ -300,8 +299,7 @@ void ElcmTest::FillClickerCell (iDynamicCell* cell, int seed)
       {
         iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	  mat, csVector3 (ox, yoffset-1.0f, oy)));
-        csRef<celVariableParameterBlock> params;
-        obj->SetEntity (0, params);
+        obj->SetEntity (0, 0);
 	yoffset += .4f;
       }
     }
@@ -320,8 +318,7 @@ void ElcmTest::FillBarrelCell (iDynamicCell* cell, int seed)
     csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
     iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	mat, csVector3 (ox, yoffset-1.0f, oy)));
-    csRef<celVariableParameterBlock> params;
-    obj->SetEntity (0, params);
+    obj->SetEntity (0, 0);
   }
 }
 
@@ -346,8 +343,7 @@ void ElcmTest::FillClutterCell (iDynamicCell* cell, int seed)
     csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
     iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	mat, csVector3 (ox, yoffset-1.0f, oy)));
-    csRef<celVariableParameterBlock> params;
-    obj->SetEntity (0, params);
+    obj->SetEntity (0, 0);
   }
 }
 
@@ -364,8 +360,7 @@ void ElcmTest::FillDominoDayCell (iDynamicCell* cell, int seed)
     csMatrix3 mat = csMatrix3 ();
     iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	mat, csVector3 (ox, yoffset-1.0f, oy)));
-    csRef<celVariableParameterBlock> params;
-    obj->SetEntity (0, params);
+    obj->SetEntity (0, 0);
   }
 }
 
@@ -486,18 +481,14 @@ bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
       {
 	cntBarrel++;
         obj = outsideCell->AddObject ("Barrel", csReversibleTransform (mat, csVector3 (ox, -.4, oy)));
-        csRef<iCelParameterBlock> params;
-        params.AttachNew (new celVariableParameterBlock ());
-        if (!obj->SetEntity (0, params))
+        if (!obj->SetEntity (0, 0))
 	  return ReportError ("Could not set entity template 'Barrel'!");
       }
       else if (r < .65)
       {
 	cntTable++;
         obj = outsideCell->AddObject ("Table", csReversibleTransform (mat, csVector3 (ox, -1, oy)));
-        csRef<iCelParameterBlock> params;
-        params.AttachNew (new celVariableParameterBlock ());
-        if (!obj->SetEntity (0, params))
+        if (!obj->SetEntity (0, 0))
 	  return ReportError ("Could not set entity template 'Table'!");
 
 	csString objName;
@@ -512,7 +503,7 @@ bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
 	}
         obj = outsideCell->AddObject (objName, csReversibleTransform (
 	    mat, csVector3 (ox, yoffset, oy)));
-        if (!obj->SetEntity (0, params))
+        if (!obj->SetEntity (0, 0))
 	  return ReportError ("Could not set entity template '%s'!",
 	      objName.GetData ());
       }
@@ -520,9 +511,7 @@ bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
       {
 	cntClicker++;
         obj = outsideCell->AddObject ("Clicker", csReversibleTransform (mat, csVector3 (ox, -.95, oy)));
-        csRef<iCelParameterBlock> params;
-        params.AttachNew (new celVariableParameterBlock ());
-        if (!obj->SetEntity (0, params))
+        if (!obj->SetEntity (0, 0))
 	  return ReportError ("Could not set entity template 'Clicker'!");
       }
       else
@@ -566,81 +555,28 @@ bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
 
 bool ElcmTest::CreatePlayer ()
 {
-  playerEntity = pl->CreateEntity ("player", 0, 0,
-    "pcinput.standard",
-    "pctools.inventory",
-    "pccamera.delegate",
-    "pccamera.mode.tracking",
-    "pcobject.mesh",
-    "pcmove.linear",
-    "pcmove.actor.standard",
-    CEL_PROPCLASS_END);
-  if (!playerEntity)
-    return ReportError ("Error creating player entity!");
-
-  // Get the iPcCamera interface so that we can set the camera.
+#if 0
+  csReversibleTransform trans;
+  trans.SetOrigin (csVector3 (0, 3, 0));
+  iDynamicObject* obj = dynworld->GetCurrentCell ()->AddObject (
+      "franky_frankie", trans);
+  obj->SetEntity ("player", 0);
+  playerEntity = obj->ForceEntity ();
+  dynworld->ForceVisible (obj);
   csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (playerEntity);
   camera = pccamera->GetCamera ();
-
-  csRef<iPcTrackingCamera> trackcam = celQueryPropertyClassEntity<iPcTrackingCamera> (playerEntity);
-  trackcam->SetPanSpeed (2.5f);
-  trackcam->SetTiltSpeed (1.2f);
-
-  // Get the iPcMesh interface so we can load the right mesh
-  // for our player.
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
-  //pcmesh->SetPath ("/lib/krystal");
-  //pcmesh->SetMesh ("krystal", "krystal.xml");
-  pcmesh->SetPath ("/lib/frankie");
-  pcmesh->SetMesh ("franky_frankie", "frankie.xml");
   pcmesh->MoveMesh (dynworld->GetCurrentCell ()->GetSector (), csVector3 (0, 3, 0));
-
-  // Get iPcLinearMovement so we can setup the movement system.
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (playerEntity);
-  //pclinmove->InitCD (pcmesh->GetMesh (), 0.3f);
-  pclinmove->InitCD (
-      csVector3 (0.5f,  0.4f, 0.5f),
-      csVector3 (0.5f,  0.2f, 0.5f),
-      csVector3 (0.0f,  0.0f, 0.0f));
-
-  // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (playerEntity);
-  pcactormove->SetMovementSpeed (5.0f);
-  pcactormove->SetRunningSpeed (8.0f);
-  pcactormove->SetRotationSpeed (2.0f);
-  pcactormove->SubscribeMessages ();
-
-  //csRef<iPcJump> jump = celQueryPropertyClassEntity<iPcJump> (playerEntity);
-  //jump->SetBoostJump (false);
-  //jump->SetJumpHeight (1.0f);
-
-  csRef<iPcCommandInput> pcinput = celQueryPropertyClassEntity<iPcCommandInput> (playerEntity);
-  pcinput->Bind ("left", "rotateleft");
-  pcinput->Bind ("right", "rotateright");
-  pcinput->Bind ("up", "forward");
-  pcinput->Bind ("down", "backward");
-  pcinput->Bind ("a", "rotateleft");
-  pcinput->Bind ("d", "rotateright");
-  pcinput->Bind ("w", "forward");
-  pcinput->Bind ("s", "backward");
-  pcinput->Bind ("q", "strafeleft");
-  pcinput->Bind ("e", "straferight");
-  pcinput->Bind ("space", "jump");
-  pcinput->Bind ("[", "camleft");
-  pcinput->Bind ("]", "camright");
-  pcinput->Bind ("pageup", "camup");
-  pcinput->Bind ("pagedown", "camdown");
-
-  pcinput->Bind ("x", "lockon");
-  pcinput->Bind ("c", "resetcam");
-
-  csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (
-	  playerEntity);
-
-  iCelEntityTemplate* moneyTemplate = pl->FindEntityTemplate ("Money");
-  inventory->AddEntityTemplate (moneyTemplate, 100);
-
   elcm->SetPlayer (playerEntity);
+#else
+  iCelEntityTemplate* tpl = pl->FindEntityTemplate ("franky_frankie");
+  playerEntity = pl->CreateEntity (tpl, "player", 0);
+  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (playerEntity);
+  camera = pccamera->GetCamera ();
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
+  pcmesh->MoveMesh (dynworld->GetCurrentCell ()->GetSector (), csVector3 (0, 3, 0));
+  elcm->SetPlayer (playerEntity);
+#endif
 
   return true;
 }
@@ -695,9 +631,7 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
   trans.SetOrigin (trans.GetOrigin () + trans.GetFront () / 2.0f + trans.GetUp ());
   iDynamicObject* obj = dynworld->GetCurrentCell ()->AddObject (
       tpl->GetName (), trans);
-  csRef<iCelParameterBlock> params;
-  params.AttachNew (new celVariableParameterBlock ());
-  obj->SetEntity (0, params);
+  obj->SetEntity (0, 0);
   iCelEntity* entity = obj->ForceEntity ();
   entity->MarkBaseline ();
   entity->Activate ();
