@@ -489,6 +489,7 @@ csRef<iString> DynamicCell::Load (iDocumentNode* node)
       CS::Geometry::KDTreeChild* child = tree->AddObject (dynobj->GetBSphere (),
 	  dynobj);
       dynobj->SetChild (child);
+      dynobj->SetEntity (0, 0);
     }
   }
 
@@ -1208,7 +1209,10 @@ bool DynamicObject::SetEntity (const char* entityName, iCelParameterBlock* param
   entityTemplate = factory->GetWorld ()->pl->FindEntityTemplate (
       factory->GetName ());
   if (!entityTemplate)
+  {
+    printf ("Can't find entity template '%s'!\n", factory->GetName ());
     return false;
+  }
   DynamicObject::entityName = entityName;
   DynamicObject::params = params;
   return true;
