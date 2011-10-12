@@ -285,15 +285,15 @@ void ElcmTest::FillClickerCell (iDynamicCell* cell, int seed)
 {
   csRandomGen rnd;
   rnd.Initialize (seed);
-  for (int y = 0 ; y <= 10 ; y++)
-    for (int x = -5 ; x <= 5 ; x++)
+  for (int y = 0 ; y <= 8 ; y++)
+    for (int x = -4 ; x <= 4 ; x++)
     {
       csString objName = "Block";
       float ox = x * .5f;
       float oy = y * .5f + 10.0f;
       float yoffset = 0.05f;
       csMatrix3 mat = csMatrix3 ();
-      for (size_t h = 0 ; h < rnd.Get (8)+2 ; h++)
+      for (size_t h = 0 ; h < rnd.Get (6)+2 ; h++)
       {
         iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	  mat, csVector3 (ox, yoffset-1.0f, oy)));
