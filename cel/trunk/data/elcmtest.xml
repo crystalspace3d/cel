@@ -144,10 +144,9 @@
 	  </trigger>
         </state>
 	<state name="init2">
-	  <trigger type="timeout">
-	    <fireon timeout='1' />
+	  <oninit>
 	    <reward type="newstate" state="init" />
-	  </trigger>
+	  </oninit>
 	</state>
         <sequence name="animglow">
           <op entity="$this" type="ambientmesh" duration="$dur" >
