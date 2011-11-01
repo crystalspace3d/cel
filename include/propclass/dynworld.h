@@ -230,11 +230,10 @@ struct iDynamicObject : public virtual iBase
 
   /**
    * Set the entity name to use for this object.
-   * The entity will be created with the factory name as template name.
    * Returns false if this fails (for example, there is no entity
-   * template with the given factory name).
+   * template with the given name).
    */
-  virtual bool SetEntity (const char* entityName, iCelParameterBlock* params) = 0;
+  virtual bool SetEntity (const char* entityName, const char* entityTplName, iCelParameterBlock* params) = 0;
 
   /**
    * Link this dynamic object with the given entity.

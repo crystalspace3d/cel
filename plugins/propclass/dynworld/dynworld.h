@@ -341,7 +341,7 @@ public:
   virtual void RefreshColliders ();
   virtual const csReversibleTransform& GetTransform ();
   virtual void SetTransform (const csReversibleTransform& trans);
-  virtual bool SetEntity (const char* entityName, iCelParameterBlock* params);
+  virtual bool SetEntity (const char* entityName, const char* entityTplName, iCelParameterBlock* params);
   virtual void LinkEntity (iCelEntity* entity);
   virtual void UnlinkEntity ();
   virtual iCelEntity* GetEntity () const { return entity; }

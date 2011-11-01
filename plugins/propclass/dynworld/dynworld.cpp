@@ -489,7 +489,7 @@ csRef<iString> DynamicCell::Load (iDocumentNode* node)
       CS::Geometry::KDTreeChild* child = tree->AddObject (dynobj->GetBSphere (),
 	  dynobj);
       dynobj->SetChild (child);
-      dynobj->SetEntity (0, 0);
+      dynobj->SetEntity (0, dynobj->GetFactory ()->GetName (), 0);
     }
   }
 
@@ -539,6 +539,7 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
         newEntites.Delete (entity);
         iDynamicFactory* dynfact = dynobj->GetFactory ();
         buf->AddID (strings->Request (dynfact->GetName ()));
+	buf->AddID (entity->GetTemplateNameID ());
         if (entity->GetName ())
           buf->AddID (strings->Request (entity->GetName ()));
         else
@@ -573,6 +574,7 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
       buf->AddUInt32 (entity->GetID ());
       iDynamicFactory* dynfact = dynobj->GetFactory ();
       buf->AddID (strings->Request (dynfact->GetName ()));
+      buf->AddID (entity->GetTemplateNameID ());
       if (entity->GetName ())
         buf->AddID (strings->Request (entity->GetName ()));
       else
@@ -628,26 +630,29 @@ void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
   {
     uint id = buf->GetUInt32 ();
 
-    csStringID tmpID = buf->GetID ();
+    csStringID dynNameID = buf->GetID ();
     csStringID entNameID = csInvalidStringID;
-    if (tmpID != csInvalidStringID)
+    csStringID tmpNameID = csInvalidStringID;
+    if (dynNameID != csInvalidStringID)
     {
+      tmpNameID = buf->GetID ();
       entNameID = buf->GetID ();
     }
 
     DynamicObject* dynobj = 0;
     iCelEntity* entity;
-    if (tmpID != csInvalidStringID)
+    if (dynNameID != csInvalidStringID)
     {
       // Entity has to be created.
+      const char* dynName = strings.Get (dynNameID, (const char*)0);
+      const char* tmpName = strings.Get (tmpNameID, (const char*)0);
       const char* entName = strings.Get (entNameID, (const char*)0);
-      const char* tmpName = strings.Get (tmpID, (const char*)0);
-      printf ("Loading new entity/dynobj '%s' from '%s'\n", entName, tmpName);
+      printf ("Loading new entity/dynobj '%s' from '%s' (template '%s')\n", entName, dynName, tmpName);
       csReversibleTransform trans;
       LoadTransform (buf, trans);
-      dynobj = static_cast<DynamicObject*> (AddObject (tmpName, trans));
+      dynobj = static_cast<DynamicObject*> (AddObject (dynName, trans));
       dynobj->SetID (id);
-      dynobj->SetEntity (entName, 0); // @@@ params?
+      dynobj->SetEntity (entName, tmpName, 0);
       entity = dynobj->ForceEntity ();
       elcm->RegisterNewEntity (entity);
     }
@@ -1034,7 +1039,10 @@ void DynamicObject::MeshBodyToEntity (iMeshWrapper* mesh, iRigidBody* body)
   if (!entity) return;
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   if (pcmesh)
+  {
+    pcmesh->SetFactoryName (factory->GetName ());
     pcmesh->SetMesh (mesh);
+  }
   csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
   if (pcmechobj)
     pcmechobj->SetBody (body);
@@ -1204,13 +1212,13 @@ const csSphere& DynamicObject::GetBSphere () const
   return bsphere;
 }
 
-bool DynamicObject::SetEntity (const char* entityName, iCelParameterBlock* params)
+bool DynamicObject::SetEntity (const char* entityName, const char* entityTplName,
+    iCelParameterBlock* params)
 {
-  entityTemplate = factory->GetWorld ()->pl->FindEntityTemplate (
-      factory->GetName ());
+  entityTemplate = factory->GetWorld ()->pl->FindEntityTemplate (entityTplName);
   if (!entityTemplate)
   {
-    printf ("Can't find entity template '%s'!\n", factory->GetName ());
+    printf ("Can't find entity template '%s'!\n", entityTplName);
     return false;
   }
   DynamicObject::entityName = entityName;
@@ -1220,8 +1228,9 @@ bool DynamicObject::SetEntity (const char* entityName, iCelParameterBlock* param
 
 void DynamicObject::LinkEntity (iCelEntity* entity)
 {
-  entityTemplate = factory->GetWorld ()->pl->FindEntityTemplate (
-      factory->GetName ());
+  csStringID tmpID = entity->GetTemplateNameID ();
+  const char* tmpName = factory->GetWorld ()->pl->FetchString (tmpID);
+  entityTemplate = factory->GetWorld ()->pl->FindEntityTemplate (tmpName);
   if (!entityTemplate)
     return;
   DynamicObject::entity = entity;
@@ -1745,6 +1754,11 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
             buf->AddID (strings->Request (entity->GetName ()));
           else
             buf->AddID (csInvalidStringID);
+	  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+	  if (pcmesh && pcmesh->GetFactoryName ())
+	    buf->AddID (strings->Request (pcmesh->GetFactoryName ()));
+	  else
+	    buf->AddID (csInvalidStringID);
         }
         else
         {
@@ -1764,7 +1778,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
 
   buf->AddUInt8 (MARKER_END);
 
-  // Now save thd dynamic objects in the cells.
+  // Now save the dynamic objects in the cells.
   {
     csHash<csRef<DynamicCell>,csString>::GlobalIterator it = cells.GetIterator ();
     while (it.HasNext ())
@@ -1861,7 +1875,9 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       // Entity has to be created.
       const char* entName = strings.Get (entNameID, (const char*)0);
       const char* tmpName = strings.Get (tmpID, (const char*)0);
-      printf ("Loading new entity '%s' from '%s'\n", entName, tmpName);
+      csStringID factID = buf->GetID ();
+      const char* factName = strings.Get (factID, (const char*)0);
+      printf ("Loading new entity '%s' from '%s' (factory name '%s')\n", entName, tmpName, factName);
       iCelEntityTemplate* tmp = pl->FindEntityTemplate (tmpName);
       if (!tmp)
       {
@@ -1877,6 +1893,11 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       else
       {
         entity->SetName (entName);
+      }
+      if (factName)
+      {
+	csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+	pcmesh->SetFactoryName (factName);
       }
       elcm->RegisterNewEntity (entity);
     }
@@ -1942,7 +1963,7 @@ iCelEntity* celPcDynamicWorld::CreateSpawnedEntity (iCelEntityTemplate* tpl,
   csReversibleTransform trans (csYRotMatrix3 (yrot), pos);
 
   iDynamicObject* obj = currentCell->AddObject (tpl->GetName (), trans);
-  obj->SetEntity (entityName, params);
+  obj->SetEntity (entityName, tpl->GetName (), params);
   iCelEntity* newent = obj->ForceEntity ();
   newent->MarkBaseline ();
   newent->Activate ();
