@@ -279,7 +279,7 @@ void ElcmTest::FillTreasureCell (iDynamicCell* cell, int seed)
     csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
     iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	mat, csVector3 (ox, yoffset-1.0f, oy)));
-    obj->SetEntity (0, objName, 0);
+    obj->SetEntity (0, 0, 0);
   }
 }
 
@@ -299,7 +299,7 @@ void ElcmTest::FillClickerCell (iDynamicCell* cell, int seed)
       {
         iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	  mat, csVector3 (ox, yoffset-1.0f, oy)));
-        obj->SetEntity (0, objName, 0);
+        obj->SetEntity (0, 0, 0);
 	yoffset += .4f;
       }
     }
@@ -318,7 +318,7 @@ void ElcmTest::FillBarrelCell (iDynamicCell* cell, int seed)
     csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
     iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	mat, csVector3 (ox, yoffset-1.0f, oy)));
-    obj->SetEntity (0, objName, 0);
+    obj->SetEntity (0, 0, 0);
   }
 }
 
@@ -343,7 +343,7 @@ void ElcmTest::FillClutterCell (iDynamicCell* cell, int seed)
     csMatrix3 mat = csYRotMatrix3 (rnd.Get () * 3.1415926535);
     iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	mat, csVector3 (ox, yoffset-1.0f, oy)));
-    obj->SetEntity (0, objName, 0);
+    obj->SetEntity (0, 0, 0);
   }
 }
 
@@ -360,7 +360,7 @@ void ElcmTest::FillDominoDayCell (iDynamicCell* cell, int seed)
     csMatrix3 mat = csMatrix3 ();
     iDynamicObject* obj = cell->AddObject (objName, csReversibleTransform (
 	mat, csVector3 (ox, yoffset-1.0f, oy)));
-    obj->SetEntity (0, objName, 0);
+    obj->SetEntity (0, 0, 0);
   }
 }
 
@@ -444,7 +444,7 @@ void ElcmTest::FillCell (iDynamicCell* cell)
   params.AttachNew (new celVariableParameterBlock ());
   params->AddParameter (pl->FetchStringID ("cell")).Set ("outside");
   params->AddParameter (pl->FetchStringID ("pos")).Set (pos);
-  if (!obj->SetEntity (0, "Door", params))
+  if (!obj->SetEntity (0, 0, params))
   {
     ReportError ("Could not set entity template 'Door'!");
     return;
@@ -481,14 +481,14 @@ bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
       {
 	cntBarrel++;
         obj = outsideCell->AddObject ("Barrel", csReversibleTransform (mat, csVector3 (ox, -.4, oy)));
-        if (!obj->SetEntity (0, "Barrel", 0))
+        if (!obj->SetEntity (0, 0, 0))
 	  return ReportError ("Could not set entity template 'Barrel'!");
       }
       else if (r < .65)
       {
 	cntTable++;
         obj = outsideCell->AddObject ("Table", csReversibleTransform (mat, csVector3 (ox, -1, oy)));
-        if (!obj->SetEntity (0, "Table", 0))
+        if (!obj->SetEntity (0, 0, 0))
 	  return ReportError ("Could not set entity template 'Table'!");
 
 	csString objName;
@@ -503,7 +503,7 @@ bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
 	}
         obj = outsideCell->AddObject (objName, csReversibleTransform (
 	    mat, csVector3 (ox, yoffset, oy)));
-        if (!obj->SetEntity (0, objName, 0))
+        if (!obj->SetEntity (0, 0, 0))
 	  return ReportError ("Could not set entity template '%s'!",
 	      objName.GetData ());
       }
@@ -511,7 +511,7 @@ bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
       {
 	cntClicker++;
         obj = outsideCell->AddObject ("Clicker", csReversibleTransform (mat, csVector3 (ox, -.95, oy)));
-        if (!obj->SetEntity (0, "Clicker", 0))
+        if (!obj->SetEntity (0, 0, 0))
 	  return ReportError ("Could not set entity template 'Clicker'!");
       }
       else
@@ -526,7 +526,7 @@ bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
         params.AttachNew (new celVariableParameterBlock ());
 	params->AddParameter (pl->FetchStringID ("cell")).Set (cellName);
 	params->AddParameter (pl->FetchStringID ("pos")).Set (csVector3 (0, 0, 4));
-        if (!obj->SetEntity (0, "Door", params))
+        if (!obj->SetEntity (0, 0, params))
 	  return ReportError ("Could not set entity template 'Door'!");
       }
       r = rnd.Get ();
@@ -542,7 +542,7 @@ bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
         params.AttachNew (new celVariableParameterBlock ());
 	params->AddParameter (pl->FetchStringID ("sector")).Set ("outside");
 	params->AddParameter (pl->FetchStringID ("pos")).Set (pos);
-        if (!obj->SetEntity (0, "MoneySpawn", params))
+        if (!obj->SetEntity (0, 0, params))
 	  return ReportError ("Could not set entity template 'MoneyTemplate'!");
       }
     }

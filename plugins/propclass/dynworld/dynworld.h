@@ -216,6 +216,7 @@ class DynamicFactory : public scfImplementation1<DynamicFactory,
 {
 private:
   csString name;
+  csString tplName;
 
   celPcDynamicWorld* world;
   iMeshFactoryWrapper* factory;
@@ -237,6 +238,9 @@ public:
   virtual float GetMaximumRadiusRelative () const { return maxradiusRelative; }
   virtual const csBox3& GetBBox () const { return bbox; }
   const csSphere& GetBSphere () const { return bsphere; }
+
+  virtual void SetDefaultEntityTemplate (const char* tmpName) { tplName = tmpName; }
+  virtual const char* GetDefaultEntityTemplate () const { return tplName; }
 
   virtual const csBox3& GetPhysicsBBox () const { return physBbox; }
 
