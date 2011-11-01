@@ -1150,6 +1150,19 @@ void DynamicObject::Save (iDocumentNode* node, iSyntaxService* syn)
   vector.Format ("%g %g %g", v.x, v.y, v.z);
   node->SetAttribute ("v", (const char*)vector);
   node->SetAttributeAsInt ("id", id);
+
+  if (entity)
+  {
+    csStringID tmpID = entity->GetTemplateNameID ();
+    if (tmpID != csInvalidStringID)
+    {
+      const char* tmpName = factory->GetWorld ()->pl->FetchString (tmpID);
+      csString defaultTmpName = factory->GetDefaultEntityTemplate ();
+      // The entity differs from the default factory template.
+      if (defaultTmpName != tmpName)
+        node->SetAttribute ("ent", tmpName);
+    }
+  }
 }
 
 bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
@@ -1184,6 +1197,12 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
   trans.SetO2T (m);
   trans.SetO2TTranslation (v);
 
+  csString tmpName = node->GetAttributeValue ("ent");
+  if (tmpName)
+    SetEntity (0, tmpName, 0);
+  else if (factory->GetDefaultEntityTemplate ())
+    SetEntity (0, factory->GetDefaultEntityTemplate (), 0);
+
   return true;
 }
 
@@ -1215,6 +1234,11 @@ const csSphere& DynamicObject::GetBSphere () const
 bool DynamicObject::SetEntity (const char* entityName, const char* entityTplName,
     iCelParameterBlock* params)
 {
+  if (!entityTplName)
+  {
+    entityTplName = factory->GetDefaultEntityTemplate ();
+    if (!entityTplName) return true;	// This is not an error. There is just no entity.
+  }
   entityTemplate = factory->GetWorld ()->pl->FindEntityTemplate (entityTplName);
   if (!entityTemplate)
   {

@@ -89,7 +89,7 @@
   <addon plugin="cel.addons.dynamicworld.loader">
     <dynworld name="world" />
     <factory name="franky_frankie" maxradius="1" imposterradius="-1.0" mass="50"> <cylinder /> </factory>
-    <factory name="Table" maxradius="0.5" imposterradius=".4" mass="4">
+    <factory name="Table" template="Table" maxradius="0.5" imposterradius=".4" mass="4">
       <box> <offset x="0" y="0.95" z="0" /> <size x="2" y="0.1" z="1.2" /> </box>
       <box> <offset x="-0.91" y="0.475" z="-0.51" /> <size x=".08" y="0.9" z=".08" /> </box>
       <box> <offset x="0.91" y="0.475" z="-0.51" /> <size x=".08" y="0.9" z=".08" /> </box>
@@ -97,27 +97,27 @@
       <box> <offset x="0.91" y="0.475" z="0.51" /> <size x=".08" y="0.9" z=".08" /> </box>
     </factory>
 
-    <factory name="Barrel" maxradius="1.0" imposterradius="-1.0" mass="1"> <cylinder /> </factory>
-    <factory name="Block" maxradius="0.9" imposterradius="-1.0" mass=".6"> <box /> </factory>
-    <factory name="Domino" maxradius="0.9" imposterradius="-1.0" mass="10"> <box /> </factory>
-    <factory name="Clicker" maxradius="0.9" imposterradius="-1.0" mass=".6"> <box /> </factory>
-    <factory name="Money" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Can" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Cup" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Milk" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Steak" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Apple" maxradius="0.6" imposterradius="-1.0" mass=".4"> <sphere /> </factory>
-    <factory name="Door" maxradius="0.9" imposterradius=".4" mass="2"> <box /> </factory>
+    <factory name="Barrel" template="Barrel" maxradius="1.0" imposterradius="-1.0" mass="1"> <cylinder /> </factory>
+    <factory name="Block" template="Block" maxradius="0.9" imposterradius="-1.0" mass=".6"> <box /> </factory>
+    <factory name="Domino" template="Domino" maxradius="0.9" imposterradius="-1.0" mass="10"> <box /> </factory>
+    <factory name="Clicker" template="Clicker" maxradius="0.9" imposterradius="-1.0" mass=".6"> <box /> </factory>
+    <factory name="Money" template="Money" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Can" template="Can" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Cup" template="Cup" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Milk" template="Milk" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Steak" template="Steak" maxradius="0.7" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Apple" template="Apple" maxradius="0.6" imposterradius="-1.0" mass=".4"> <sphere /> </factory>
+    <factory name="Door" template="Door" maxradius="0.9" imposterradius=".4" mass="2"> <box /> </factory>
 
-    <factory name="Gold" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Diamond" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Silver" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Ruby" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Emerald" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Iron" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
-    <factory name="Copper" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Gold" template="Gold" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Diamond" template="Diamond" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Silver" template="Silver" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Ruby" template="Ruby" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Emerald" template="Emerald" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Iron" template="Iron" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
+    <factory name="Copper" template="Copper" maxradius="0.8" imposterradius="-1.0" mass=".4"> <box /> </factory>
 
-    <factory name="MoneySpawn" maxradius="1" imposterradius="-1.0" mass="0"> </factory>
+    <factory name="MoneySpawn" template="MoneySpawn" maxradius="1" imposterradius="-1.0" mass="0"> </factory>
   </addon>
 
     <addon plugin="cel.addons.questdef" >

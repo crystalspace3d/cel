@@ -111,6 +111,11 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
 	"Could not add factory '%s'!", name.GetData ());
     return false;
   }
+  if (node->GetAttribute ("template"))
+  {
+    csString tmpName = node->GetAttributeValue ("template");
+    fact->SetDefaultEntityTemplate (tmpName);
+  }
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())

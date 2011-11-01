@@ -85,6 +85,18 @@ struct iDynamicFactory : public virtual iBase
   virtual const char* GetName () const = 0;
 
   /**
+   * Set the entity template that is linked to this factory.
+   * This represents the default entity template to be used when
+   * creating entities from this dynamic object.
+   */
+  virtual void SetDefaultEntityTemplate (const char* tmpName) = 0;
+
+  /**
+   * Get the default entity template name or 0 if none.
+   */
+  virtual const char* GetDefaultEntityTemplate () const = 0;
+
+  /**
    * Set a geometry generator that is going to be used as soon
    * as a mesh is created from this factory.
    */
