@@ -57,6 +57,56 @@ CEL_IMPLEMENT_FACTORY (DynamicWorld, "pcworld.dynamic")
 
 //---------------------------------------------------------------------------
 
+struct dynobjFinder : public scfImplementationExt1<
+	dynobjFinder, csObject, scfFakeInterface<dynobjFinder> >
+{
+public:
+  SCF_INTERFACE (dynobjFinder, 0, 0, 1);
+
+private:
+  iDynamicObject* dynobj;
+
+public:
+  dynobjFinder (iDynamicObject* dynobj) : scfImplementationType (this), dynobj (dynobj) { }
+  virtual ~dynobjFinder () { }
+  iDynamicObject* GetDynamicObject () const { return dynobj; }
+
+  static void AttachDynObj (iMeshWrapper* mesh, iDynamicObject* dynobj);
+  static void UnattachDynObj (iMeshWrapper* mesh, iDynamicObject* dynobj);
+
+  static iDynamicObject* FindAttachedDynObj (iMeshWrapper* mesh)
+  {
+    csRef<dynobjFinder> cef (CS::GetChildObject<dynobjFinder> (mesh->QueryObject ()));
+    if (cef)
+      return cef->GetDynamicObject ();
+    return 0;
+  }
+};
+
+void dynobjFinder::AttachDynObj (iMeshWrapper* mesh, iDynamicObject* dynobj)
+{
+  iDynamicObject* old_dynobj = FindAttachedDynObj (mesh);
+  if (old_dynobj == dynobj) return;
+  if (old_dynobj != 0) UnattachDynObj (mesh, old_dynobj);
+  csRef<dynobjFinder> cef =
+    csPtr<dynobjFinder> (new dynobjFinder (dynobj));
+  csRef<iObject> cef_obj (scfQueryInterface<iObject> (cef));
+  mesh->QueryObject ()->ObjAdd (cef_obj);
+}
+
+void dynobjFinder::UnattachDynObj (iMeshWrapper* mesh, iDynamicObject* dynobj)
+{
+  csRef<dynobjFinder> cef (CS::GetChildObject<dynobjFinder> (mesh->QueryObject ()));
+  if (cef)
+  {
+    if (cef->GetDynamicObject () != dynobj) { return; }
+    csRef<iObject> cef_obj (scfQueryInterface<iObject> (cef));
+    mesh->QueryObject ()->ObjRemove (cef_obj);
+  }
+}
+
+//---------------------------------------------------------------------------
+
 static csString GetEntityName (iCelPlLayer* pl, iCelEntity* entity)
 {
   if (!entity) return "unknown";
@@ -1062,6 +1112,7 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
   mesh->GetMovable ()->RemoveListener (this);
   world->meshCache.RemoveMesh (mesh);
   factory->GetWorld ()->GetIdToDynObj ().Delete (id, this);
+  dynobjFinder::UnattachDynObj (mesh, this);
   mesh = 0;
   MeshBodyToEntity (0, 0);
 }
@@ -1089,6 +1140,12 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
     body->MakeStatic ();
 
   ForceEntity ();
+  if (!entity)
+  {
+    // There is no entity so we need another way to find the dynobj from
+    // a mesh.
+    dynobjFinder::AttachDynObj (mesh, this);
+  }
   MeshBodyToEntity (mesh, body);
 }
 
@@ -1690,7 +1747,12 @@ iDynamicObject* celPcDynamicWorld::FindObject (iRigidBody* body) const
 iDynamicObject* celPcDynamicWorld::FindObject (iMeshWrapper* mesh) const
 {
   iCelEntity* entity = pl->FindAttachedEntity (mesh->QueryObject ());
-  if (!entity) return 0;
+  if (!entity)
+  {
+    // We couldn't find an entity but it is possible that there is a dynamic
+    // object associated with the mesh through a dynobjFinder object.
+    return dynobjFinder::FindAttachedDynObj (mesh);
+  }
   return FindObject (entity->GetID ());
 }
 
