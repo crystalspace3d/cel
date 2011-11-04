@@ -1094,7 +1094,6 @@ void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
   if (old_entity != 0) UnattachEntity (object, old_entity);
   csRef<celEntityFinder> cef =
     csPtr<celEntityFinder> (new celEntityFinder (entity));
-  cef->SetName ("__entfind__");	// @@@ For debugging mostly.
   csRef<iObject> cef_obj (scfQueryInterface<iObject> (cef));
   object->ObjAdd (cef_obj);
 }
