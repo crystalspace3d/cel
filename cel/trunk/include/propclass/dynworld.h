@@ -276,6 +276,17 @@ struct iDynamicObject : public virtual iBase
 };
 
 /**
+ * This iterator is returned by iPcDynamicWorld->GetCells().
+ */
+struct iDynamicCellIterator : public virtual iBase
+{
+  SCF_INTERFACE(iDynamicCellIterator,0,0,1);
+
+  virtual bool HasNext () const = 0;
+  virtual iDynamicCell* NextCell () = 0;
+};
+
+/**
  * A Cell.
  */
 struct iDynamicCell : public virtual iBase
@@ -371,6 +382,11 @@ struct iPcDynamicWorld : public virtual iBase
    * Get the current cell.
    */
   virtual iDynamicCell* GetCurrentCell () const = 0;
+
+  /**
+   * Get an iterator to iterate over all cells.
+   */
+  virtual csPtr<iDynamicCellIterator> GetCells () const = 0;
 
   /**
    * Set a dynamic cell creator to be used when the dynamic world plugin
