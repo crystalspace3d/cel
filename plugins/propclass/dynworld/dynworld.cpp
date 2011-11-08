@@ -57,6 +57,28 @@ CEL_IMPLEMENT_FACTORY (DynamicWorld, "pcworld.dynamic")
 
 //---------------------------------------------------------------------------
 
+class DynamicCellIterator : public scfImplementation1<DynamicCellIterator,
+  iDynamicCellIterator>
+{
+private:
+  csHash<csRef<DynamicCell>,csString>::ConstGlobalIterator it;
+
+public:
+  DynamicCellIterator (csHash<csRef<DynamicCell>,csString>::ConstGlobalIterator& it) :
+    scfImplementationType (this), it (it) { }
+  virtual ~DynamicCellIterator () { }
+  virtual bool HasNext () const { return it.HasNext (); }
+  virtual iDynamicCell* NextCell ()
+  {
+    csString name;
+    csRef<DynamicCell> cell = it.Next (name);
+    return static_cast<iDynamicCell*> (cell);
+  }
+};
+
+
+//---------------------------------------------------------------------------
+
 struct dynobjFinder : public scfImplementationExt1<
 	dynobjFinder, csObject, scfFakeInterface<dynobjFinder> >
 {
@@ -1497,6 +1519,13 @@ void celPcDynamicWorld::RemoveCell (iDynamicCell* cell)
 {
   cells.DeleteAll (cell->GetName ());
 }
+
+csPtr<iDynamicCellIterator> celPcDynamicWorld::GetCells () const
+{
+  csHash<csRef<DynamicCell>,csString>::ConstGlobalIterator it = cells.GetIterator ();
+  return new DynamicCellIterator (it);
+}
+
 
 void celPcDynamicWorld::CheckForMovement ()
 {

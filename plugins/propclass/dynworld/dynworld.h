@@ -551,6 +551,7 @@ public:
   virtual void RemoveCell (iDynamicCell* cell);
   virtual void SetCurrentCell (iDynamicCell* cell) { currentCell = static_cast<DynamicCell*> (cell); }
   virtual iDynamicCell* GetCurrentCell () const { return currentCell; }
+  virtual csPtr<iDynamicCellIterator> GetCells () const;
   virtual void SetDynamicCellCreator (iDynamicCellCreator* creator)
   {
     cellCreator = creator;
