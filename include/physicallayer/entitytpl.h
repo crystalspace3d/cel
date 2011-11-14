@@ -41,7 +41,7 @@ struct iTemplateCharacteristics;
  */
 struct iCelEntityTemplate : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntityTemplate, 0, 0, 4);
+  SCF_INTERFACE (iCelEntityTemplate, 0, 1, 0);
 
   /**
    * Get the iObject for this entity template.
@@ -71,6 +71,16 @@ struct iCelEntityTemplate : public virtual iBase
    */
   virtual iCelPropertyClassTemplate* FindPropertyClassTemplate (const char* name,
       const char* tag) = 0;
+
+  /**
+   * Get the amount of property class templates.
+   */
+  virtual size_t GetPropertyClassTemplateCount () const = 0;
+
+  /**
+   * Get a specific property class template.
+   */
+  virtual iCelPropertyClassTemplate* GetPropertyClassTemplate (size_t idx) const = 0;
 
   /**
    * Set the behaviour associated with this template.
