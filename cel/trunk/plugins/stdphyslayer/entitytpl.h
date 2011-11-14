@@ -117,6 +117,14 @@ public:
   virtual iCelPropertyClassTemplate* CreatePropertyClassTemplate ();
   virtual iCelPropertyClassTemplate* FindPropertyClassTemplate (const char* name,
       const char* tag);
+  virtual size_t GetPropertyClassTemplateCount () const
+  {
+    return propclasses.GetSize ();
+  }
+  virtual iCelPropertyClassTemplate* GetPropertyClassTemplate (size_t idx) const
+  {
+    return propclasses[idx];
+  }
   virtual void SetBehaviour (const char* layer, const char* behaviour)
   {
     celEntityTemplate::layer = layer;
