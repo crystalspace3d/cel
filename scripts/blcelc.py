@@ -798,6 +798,8 @@ class iCelEntityTemplate(cspace.iBase):
     def SetName(*args): return _blcelc.iCelEntityTemplate_SetName(*args)
     def CreatePropertyClassTemplate(*args): return _blcelc.iCelEntityTemplate_CreatePropertyClassTemplate(*args)
     def FindPropertyClassTemplate(*args): return _blcelc.iCelEntityTemplate_FindPropertyClassTemplate(*args)
+    def GetPropertyClassTemplateCount(*args): return _blcelc.iCelEntityTemplate_GetPropertyClassTemplateCount(*args)
+    def GetPropertyClassTemplate(*args): return _blcelc.iCelEntityTemplate_GetPropertyClassTemplate(*args)
     def SetBehaviour(*args): return _blcelc.iCelEntityTemplate_SetBehaviour(*args)
     def GetBehaviourLayer(*args): return _blcelc.iCelEntityTemplate_GetBehaviourLayer(*args)
     def GetBehaviour(*args): return _blcelc.iCelEntityTemplate_GetBehaviour(*args)
