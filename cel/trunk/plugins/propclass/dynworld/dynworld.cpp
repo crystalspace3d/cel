@@ -1775,6 +1775,7 @@ iDynamicObject* celPcDynamicWorld::FindObject (iRigidBody* body) const
 
 iDynamicObject* celPcDynamicWorld::FindObject (iMeshWrapper* mesh) const
 {
+  if (!mesh) return 0;
   iCelEntity* entity = pl->FindAttachedEntity (mesh->QueryObject ());
   if (!entity)
   {
