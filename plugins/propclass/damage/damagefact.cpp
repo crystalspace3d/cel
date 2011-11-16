@@ -288,7 +288,7 @@ void celPcDamage::DoDamage (iCelEntity* ent, const csVector3& p)
   if (!dispatcher_hurt)
   {
     dispatcher_hurt = ent->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, "cel.damage.hurt");
+	  this, pl->FetchStringID ("cel.damage.hurt"));
     if (!dispatcher_hurt) return;
   }
   dispatcher_hurt->SendMessage (params);

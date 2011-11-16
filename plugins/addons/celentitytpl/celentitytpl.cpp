@@ -449,7 +449,7 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
 	        child, "'event' name is missing for call!");
 	    return 0;
 	  }
-	  ent->AddMessage (msgid, params);
+	  ent->AddMessage (pl->FetchStringID (msgid), params);
 	}
         break;
       case XMLTOKEN_CLASS:

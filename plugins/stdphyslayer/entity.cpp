@@ -113,7 +113,7 @@ public:
 };
 
 csRef<iMessageDispatcher> celEntity::CreateTaggedMessageDispatcher (
-      iMessageSender* sender, const char* msg_id,
+      iMessageSender* sender, csStringID msg_id,
       const char* tag)
 {
   csRef<iMessageReceiverFilter> filter;

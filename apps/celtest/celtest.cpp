@@ -318,6 +318,12 @@ void CelTest::CreateActor ()
   trigger->SetFollowEntity (true);
 }
 
+size_t CelTest::WireAddOutput (iPcWire* wire, const char* msgid,
+		iCelParameterBlock* params)
+{
+  return wire->AddOutput (pl->FetchStringID (msgid), 0, params);
+}
+
 void CelTest::ConnectWires ()
 {
   iCelEntity* action_icon = pl->FindEntity ("action_icon");
@@ -331,14 +337,14 @@ void CelTest::ConnectWires ()
   // 1: For debugging, print out when we are near an entity.
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.trigger.entity.enter");
-  idx = wire->AddOutput ("cel.test.action.Print");
+  idx = WireAddOutput (wire, "cel.test.action.Print");
   wire->MapParameterExpression (idx, "message", "'We found '+@entity");
   // 2: Add the name of the entity to the bag.
-  idx = wire->AddOutput ("cel.bag.action.AddString");
+  idx = WireAddOutput (wire, "cel.bag.action.AddString");
   wire->MapParameterExpression (idx, "value", "entname(@entity)");
   // 3: Set the visibility state of the billboard.
   params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "visible"));
-  idx = wire->AddOutput ("cel.billboard.action.SetProperty",
+  idx = wire->AddOutput (pl->FetchStringID ("cel.billboard.action.SetProperty"),
       action_icon->QueryMessageChannel (), params);
   // Use > 1 because there is also the 'camera' entity itself.
   wire->MapParameterExpression (idx, "value", "property(pc(pctools.bag),id(size))>1");
@@ -347,14 +353,14 @@ void CelTest::ConnectWires ()
   pc = pl->CreatePropertyClass (entity_cam, "pclogic.wire");
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.trigger.entity.leave");
-  idx = wire->AddOutput ("cel.test.action.Print");
+  idx = WireAddOutput (wire, "cel.test.action.Print");
   wire->MapParameterExpression (idx, "message", "'We leave '+@entity");
   // 2: Remove the name of the entity from the bag.
-  idx = wire->AddOutput ("cel.bag.action.RemoveString");
+  idx = WireAddOutput (wire, "cel.bag.action.RemoveString");
   wire->MapParameterExpression (idx, "value", "entname(@entity)");
   // 3: Set the visibility state of the billboard.
   params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("name"), "visible"));
-  idx = wire->AddOutput ("cel.billboard.action.SetProperty",
+  idx = wire->AddOutput (pl->FetchStringID ("cel.billboard.action.SetProperty"),
       action_icon->QueryMessageChannel (), params);
   // Use > 1 because there is also the 'camera' entity itself.
   wire->MapParameterExpression (idx, "value", "property(pc(pctools.bag),id(size))>1");
@@ -364,7 +370,7 @@ void CelTest::ConnectWires ()
   wire = scfQueryInterface<iPcWire> (pc);
   wire->AddInput ("cel.input.action.up");
   params.AttachNew (new celOneParameterBlock (pl->FetchStringID ("msgid"), "cel.game.action"));
-  wire->AddOutput ("cel.bag.action.SendMessage", 0, params);
+  WireAddOutput (wire, "cel.bag.action.SendMessage", params);
 }
 
 bool CelTest::CreateRoom ()

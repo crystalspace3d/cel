@@ -37,11 +37,30 @@ struct iCelPropertyClass;
 struct iTemplateCharacteristics;
 
 /**
+ * Iterator to iterate over the parameters of a property class
+ * template.
+ */
+struct iCelParameterIterator : public virtual iBase
+{
+  SCF_INTERFACE (iCelParameterIterator, 0, 0, 1);
+
+  /**
+   * Is there another parameter?
+   */
+  virtual bool HasNext () const = 0;
+
+  /**
+   * Get next parameter.
+   */
+  virtual iParameter* Next (csStringID& id) = 0;
+};
+
+/**
  * This is an entity template. It can be used to create other entities.
  */
 struct iCelEntityTemplate : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntityTemplate, 0, 1, 0);
+  SCF_INTERFACE (iCelEntityTemplate, 0, 2, 0);
 
   /**
    * Get the iObject for this entity template.
@@ -105,8 +124,19 @@ struct iCelEntityTemplate : public virtual iBase
    * Note that all messages will be sent after all properties and
    * property classes are created.
    */
-  virtual void AddMessage (const char* msgid,
+  virtual void AddMessage (csStringID msgid,
       csHash<csRef<iParameter>, csStringID>& params) = 0;
+
+  /**
+   * Get the number of messages.
+   */
+  virtual size_t GetMessageCount () const = 0;
+
+  /**
+   * Get a message.
+   */
+  virtual csRef<iCelParameterIterator> GetMessage (size_t idx,
+		  csStringID& id) const = 0;
 
   /**
    * Add a class to this entity. A class is an application defined
@@ -241,6 +271,23 @@ struct iCelPropertyClassTemplate : public virtual iBase
    */
   virtual void PerformAction (csStringID actionID,
   	const csHash<csRef<iParameter>, csStringID>& params) = 0;
+
+  /**
+   * Get the number of properties and actions.
+   */
+  virtual size_t GetPropertyCount () const = 0;
+
+  /**
+   * Get a property. If the property is an action (data.type == CEL_DATA_NONE)
+   * then the returned iterator will iterate over all parameters of that action.
+   */
+  virtual csRef<iCelParameterIterator> GetProperty (size_t idx,
+		  csStringID& id, celData& data) const = 0;
+
+  /**
+   * Find a given property by it's id. Return csArrayItemNotFound if not found.
+   */
+  virtual size_t FindProperty (csStringID id) const = 0;
 };
 
 #endif // __CEL_PL_ENTITYTEMP__

@@ -612,7 +612,7 @@ struct iCelPlLayer : public virtual iBase
    * from the receivers. If 0 then information from the receivers is simply
    * ignored.
    */
-  virtual int SendMessage (const char* msgid, iMessageSender* sender,
+  virtual int SendMessage (csStringID msgid, iMessageSender* sender,
       iCelEntityList *entlist, iCelParameterBlock* params,
       iCelDataArray* ret = 0) = 0;
 

@@ -196,7 +196,7 @@ void celPcRules::SendModifyPar (const char* rulevar)
   if (!dispatcher_modifypar)
   {
     dispatcher_modifypar = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, "cel.rules.modifypar");
+      CreateMessageDispatcher (this, pl->FetchStringID ("cel.rules.modifypar"));
     if (!dispatcher_modifypar) return;
   }
   dispatcher_modifypar->SendMessage (params);

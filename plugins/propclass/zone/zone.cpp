@@ -750,7 +750,7 @@ void celPcZoneManager::SendZoneMessage (iCelRegion* region,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, msgid);
+      CreateMessageDispatcher (this, pl->FetchStringID (msgid));
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (params);

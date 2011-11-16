@@ -25,6 +25,28 @@
 
 //---------------------------------------------------------------------------
 
+class celParameterIterator : public scfImplementation1<celParameterIterator,
+	iCelParameterIterator>
+{
+private:
+  csHash<csRef<iParameter>, csStringID>::ConstGlobalIterator it;
+
+public:
+  celParameterIterator (const csHash<csRef<iParameter>, csStringID>::ConstGlobalIterator it) :
+	  scfImplementationType (this), it (it)
+  {
+  }
+  virtual ~celParameterIterator () { }
+  virtual bool HasNext () const { return it.HasNext (); }
+  virtual iParameter* Next (csStringID& id)
+  {
+    csRef<iParameter> par = it.Next (id);
+    return par;
+  }
+};
+
+//---------------------------------------------------------------------------
+
 celPropertyClassTemplate::celPropertyClassTemplate ()
 	: scfImplementationType (this)
 {
@@ -114,6 +136,24 @@ void celPropertyClassTemplate::Merge (celPropertyClassTemplate* other)
   }
 }
 
+csRef<iCelParameterIterator> celPropertyClassTemplate::GetProperty (size_t idx,
+		  csStringID& id, celData& data) const
+{
+  csRef<celParameterIterator> parit;
+  id = properties[idx].id;
+  data = properties[idx].data;
+  parit.AttachNew (new celParameterIterator (
+			  properties[idx].params.GetIterator ()));
+  return parit;
+}
+
+size_t celPropertyClassTemplate::FindProperty (csStringID id) const
+{
+  for (size_t i = 0 ; i < properties.GetSize () ; i++)
+    if (properties[i].id == id) return i;
+  return csArrayItemNotFound;
+}
+
 //---------------------------------------------------------------------------
 
 celEntityTemplate::celEntityTemplate () : scfImplementationType (this)
@@ -132,12 +172,22 @@ iCelPropertyClassTemplate* celEntityTemplate::CreatePropertyClassTemplate ()
   return f;
 }
 
-void celEntityTemplate::AddMessage (const char* msgid,
+void celEntityTemplate::AddMessage (csStringID msgid,
       csHash<csRef<iParameter>, csStringID>& params)
 {
   size_t i = messages.Push (ccfMessage ());
   messages[i].msgid = msgid;
   messages[i].params = params;
+}
+
+csRef<iCelParameterIterator> celEntityTemplate::GetMessage (size_t idx,
+		  csStringID& id) const
+{
+  csRef<celParameterIterator> parit;
+  id = messages[idx].msgid;
+  parit.AttachNew (new celParameterIterator (
+			  messages[idx].params.GetIterator ()));
+  return parit;
 }
 
 void celEntityTemplate::AddClass (csStringID cls)

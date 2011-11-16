@@ -561,7 +561,7 @@ void celPcProperties::HandlePropertyChange (size_t index)
   if (!dispatcher_set)
   {
     dispatcher_set = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, "cel.properties.set");
+      CreateMessageDispatcher (this, pl->FetchStringID ("cel.properties.set"));
     if (!dispatcher_set) return;
   }
   dispatcher_set->SendMessage (params);
@@ -809,7 +809,7 @@ void celPcProperties::ClearProperty (size_t index)
     if (!dispatcher_clear)
     {
       dispatcher_clear = entity->QueryMessageChannel ()->
-        CreateMessageDispatcher (this, "cel.properties.clear");
+        CreateMessageDispatcher (this, pl->FetchStringID ("cel.properties.clear"));
       if (!dispatcher_clear) return;
     }
     dispatcher_clear->SendMessage (params);

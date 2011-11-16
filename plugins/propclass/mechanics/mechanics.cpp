@@ -1113,7 +1113,7 @@ void celPcMechanicsObject::Collision (iRigidBody *thisbody,
   if (!dispatcher_cd)
   {
     dispatcher_cd = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, "cel.mechanics.collision");
+	  this, pl->FetchStringID ("cel.mechanics.collision"));
     if (!dispatcher_cd) return;
   }
   dispatcher_cd->SendMessage (params);

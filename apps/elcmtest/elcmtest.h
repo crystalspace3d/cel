@@ -55,6 +55,7 @@ private:
   csRef<iMessageReceiver> receiver;
   csStringID msgInventory;
   csStringID msgTeleport;
+  csStringID msgActivate;
 
   csString statusLine;
   csRef<iFont> font;

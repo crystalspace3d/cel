@@ -153,7 +153,7 @@ struct iCelEntity : public virtual iBase
    * are property classes that have a certain tag.
    */
   virtual csRef<iMessageDispatcher> CreateTaggedMessageDispatcher (
-      iMessageSender* sender, const char* msg_id,
+      iMessageSender* sender, csStringID msg_id,
       const char* tag) = 0;
 
   /**

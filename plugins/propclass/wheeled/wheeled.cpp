@@ -1378,7 +1378,7 @@ void celPcWheeled::WheelCollision (iRigidBody *thisbody,
     if (!dispatcher_collision)
     {
       dispatcher_collision = entity->QueryMessageChannel ()->
-        CreateMessageDispatcher (this, "cel.mechanics.collision");
+        CreateMessageDispatcher (this, pl->FetchStringID ("cel.mechanics.collision"));
       if (!dispatcher_collision) return;
     }
     dispatcher_collision->SendMessage (params);

@@ -381,7 +381,7 @@ void celPcJump::UpdateMovement ()
     if (!dispatcher.landed)
     {
       dispatcher.landed = entity->QueryMessageChannel ()->
-        CreateMessageDispatcher (this, "cel.move.jump.landed");
+        CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.jump.landed"));
       if (!dispatcher.landed)
         return;
     }
@@ -420,7 +420,7 @@ void celPcJump::DoJump ()
   if (!dispatcher.started)
   {
     dispatcher.started = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, "cel.move.jump.started");
+      CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.jump.started"));
     if (!dispatcher.started)
       return;
   }

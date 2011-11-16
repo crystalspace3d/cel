@@ -701,7 +701,7 @@ void celPcBillboard::Select (iBillboard* billboard, int mouse_button,
   if (!dispatcher_select)
   {
     dispatcher_select = entity->QueryMessageChannel ()
-      ->CreateMessageDispatcher (this, "cel.billboard.select.down");
+      ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.billboard.select.down"));
     if (!dispatcher_select) return;
   }
   dispatcher_select->SendMessage (params);
@@ -724,7 +724,7 @@ void celPcBillboard::MouseMove (iBillboard* billboard, int mouse_button,
   if (!dispatcher_move)
   {
     dispatcher_move = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, "cel.billboard.select.move");
+	  this, pl->FetchStringID ("cel.billboard.select.move"));
     if (!dispatcher_move) return;
   }
   dispatcher_move->SendMessage (params);
@@ -747,7 +747,7 @@ void celPcBillboard::MouseMoveAway (iBillboard* billboard, int mouse_button,
   if (!dispatcher_moveaway)
   {
     dispatcher_moveaway = entity->QueryMessageChannel ()
-      ->CreateMessageDispatcher (this, "cel.billboard.select.moveaway");
+      ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.billboard.select.moveaway"));
     if (!dispatcher_moveaway) return;
   }
   dispatcher_moveaway->SendMessage (params);
@@ -770,7 +770,7 @@ void celPcBillboard::Unselect (iBillboard* billboard, int mouse_button,
   if (!dispatcher_selectup)
   {
     dispatcher_selectup = entity->QueryMessageChannel ()
-      ->CreateMessageDispatcher (this, "cel.billboard.select.select.up");
+      ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.billboard.select.select.up"));
     if (!dispatcher_selectup) return;
   }
   dispatcher_selectup->SendMessage (params);
@@ -793,7 +793,7 @@ void celPcBillboard::DoubleClick (iBillboard* billboard, int mouse_button,
   if (!dispatcher_selectdbl)
   {
     dispatcher_selectdbl = entity->QueryMessageChannel ()
-      ->CreateMessageDispatcher (this, "cel.billboard.select.select.double");
+      ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.billboard.select.select.double"));
     if (!dispatcher_selectdbl) return;
   }
   dispatcher_selectdbl->SendMessage (params);

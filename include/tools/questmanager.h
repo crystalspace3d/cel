@@ -130,6 +130,27 @@ struct iQuestStateFactory : public virtual iBase
   virtual void AddExitRewardFactory (iRewardFactory* reward_fact) = 0;
 };
 
+/**
+ * Iterator to iterate over the quest factory states.
+ */
+struct iQuestStateFactoryIterator : public virtual iBase
+{
+  SCF_INTERFACE (iQuestStateFactoryIterator, 0, 0, 1);
+
+  virtual bool HasNext () const = 0;
+  virtual iQuestStateFactory* Next () = 0;
+};
+
+/**
+ * Iterator to iterate over the quest sequences.
+ */
+struct iCelSequenceFactoryIterator : public virtual iBase
+{
+  SCF_INTERFACE (iCelSequenceFactoryIterator, 0, 0, 1);
+
+  virtual bool HasNext () const = 0;
+  virtual iCelSequenceFactory* Next () = 0;
+};
 
 /**
  * A quest factory. A quest factory is a template to create a quest
@@ -186,6 +207,11 @@ struct iQuestFactory : public virtual iBase
   virtual iQuestStateFactory* CreateState (const char* name) = 0;
 
   /**
+   * Get an iterator over all the states.
+   */
+  virtual csRef<iQuestStateFactoryIterator> GetStates () const = 0;
+
+  /**
    * Get a sequence factory in this factory.
    * Return 0 if the factory doesn't exist.
    */
@@ -196,6 +222,11 @@ struct iQuestFactory : public virtual iBase
    * Return 0 on failure (name already exists).
    */
   virtual iCelSequenceFactory* CreateSequence (const char* name) = 0;
+
+  /**
+   * Get an iterator over all the sequences.
+   */
+  virtual csRef<iCelSequenceFactoryIterator> GetSequences () const = 0;
 
   /**
    * Set a default parameter on this factory.

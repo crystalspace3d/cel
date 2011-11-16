@@ -629,17 +629,21 @@ bool celPlLayer::ApplyTemplate (iCelEntity* ent, iCelEntityTemplate* factory,
       return false;
     }
   }
-  if (ent->GetBehaviour ())
+  const csArray<ccfMessage>& messages = cfact->GetMessages ();
+  for (i = 0 ; i < messages.GetSize () ; i++)
   {
-    const csArray<ccfMessage>& messages = cfact->GetMessages ();
-    for (i = 0 ; i < messages.GetSize () ; i++)
-    {
-      const ccfMessage& msg = messages[i];
-      celData ret;
-      csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
+    const ccfMessage& msg = messages[i];
+    celData ret;
+    csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
         ent, msg.params, params);
-      ent->GetBehaviour ()->SendMessage (msg.msgid, 0, ret, converted_params);
+    if (ent->GetBehaviour ())
+    {
+      csString message = FetchString (msg.msgid);;
+      ent->GetBehaviour ()->SendMessage (message, 0, ret, converted_params);
     }
+    ent->QueryMessageChannel ()->SendMessage (msg.msgid,
+		      static_cast<iMessageSender*> (this), converted_params,
+		      0);
   }
 
   return true;
@@ -1713,7 +1717,7 @@ int celPlLayer::SendMessageV (iCelEntityList *entlist, const char* msgname,
   return responses;
 }
 
-int celPlLayer::SendMessage (const char* msgid, iMessageSender* sender,
+int celPlLayer::SendMessage (csStringID msgid, iMessageSender* sender,
       iCelEntityList *entlist, iCelParameterBlock* params,
       iCelDataArray* ret)
 {

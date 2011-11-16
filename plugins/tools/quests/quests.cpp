@@ -88,6 +88,48 @@ void celQuestStateFactory::AddExitRewardFactory (iRewardFactory* reward_fact)
 
 //---------------------------------------------------------------------------
 
+class celQuestStateFactoryIterator : public scfImplementation1<celQuestStateFactoryIterator,
+	iQuestStateFactoryIterator>
+{
+private:
+  celQuestFactoryStates::ConstGlobalIterator it;
+
+public:
+  celQuestStateFactoryIterator (const celQuestFactoryStates::ConstGlobalIterator it) :
+	  scfImplementationType (this), it (it)
+  {
+  }
+  virtual ~celQuestStateFactoryIterator () { }
+  virtual bool HasNext () const { return it.HasNext (); }
+  virtual iQuestStateFactory* Next ()
+  {
+    csRef<iQuestStateFactory> par = it.Next ();
+    return par;
+  }
+};
+
+class celSequenceFactoryIterator : public scfImplementation1<celSequenceFactoryIterator,
+	iCelSequenceFactoryIterator>
+{
+private:
+  celFactorySequences::ConstGlobalIterator it;
+
+public:
+  celSequenceFactoryIterator (const celFactorySequences::ConstGlobalIterator it) :
+	  scfImplementationType (this), it (it)
+  {
+  }
+  virtual ~celSequenceFactoryIterator () { }
+  virtual bool HasNext () const { return it.HasNext (); }
+  virtual iCelSequenceFactory* Next ()
+  {
+    csRef<iCelSequenceFactory> par = it.Next ();
+    return par;
+  }
+};
+
+//---------------------------------------------------------------------------
+
 celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name) :
 	scfImplementationType (this)
 {
@@ -475,6 +517,12 @@ iQuestStateFactory* celQuestFactory::CreateState (const char* name)
   return state;
 }
 
+csRef<iQuestStateFactoryIterator> celQuestFactory::GetStates () const
+{
+  csRef<celQuestStateFactoryIterator> it;
+  it.AttachNew (new celQuestStateFactoryIterator (states.GetIterator ()));
+  return it;
+}
 
 iCelSequenceFactory* celQuestFactory::GetSequence (const char* name)
 {
@@ -495,6 +543,13 @@ iCelSequenceFactory* celQuestFactory::CreateSequence (const char* name)
   seq->SetName(name);
   sequences.Put (name, seq);
   return seq;
+}
+
+csRef<iCelSequenceFactoryIterator> celQuestFactory::GetSequences () const
+{
+  csRef<celSequenceFactoryIterator> it;
+  it.AttachNew (new celSequenceFactoryIterator (sequences.GetIterator ()));
+  return it;
 }
 
 //---------------------------------------------------------------------------

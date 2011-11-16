@@ -93,7 +93,7 @@ public:
   virtual uint GetID () const { return entity_ID; }
 
   virtual csRef<iMessageDispatcher> CreateTaggedMessageDispatcher (
-      iMessageSender* sender, const char* msg_id,
+      iMessageSender* sender, csStringID msg_id,
       const char* tag);
 
   virtual bool IsPositional () const { return positional; }
@@ -114,7 +114,7 @@ public:
     return static_cast<iMessageChannel*> (this);
   }
   virtual csRef<iMessageDispatcher> CreateMessageDispatcher (
-      iMessageSender* sender, const char* msg_id,
+      iMessageSender* sender, csStringID msg_id,
       iMessageReceiverFilter* receiver_filter = 0)
   {
     return channel.CreateMessageDispatcher (sender, msg_id,
@@ -132,7 +132,7 @@ public:
   {
     channel.Unsubscribe (receiver, mask);
   }
-  virtual bool SendMessage (const char* msgid,
+  virtual bool SendMessage (csStringID msgid,
       iMessageSender* sender, iCelParameterBlock* params,
       iCelDataArray* ret = 0)
   {

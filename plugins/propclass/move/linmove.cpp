@@ -1134,7 +1134,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_arrived)
 	{
 	  dispatcher_arrived = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, "cel.move.arrived");
+	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.arrived"));
 	  if (!dispatcher_arrived) return;
 	}
 	dispatcher_arrived->SendMessage (0);
@@ -1162,7 +1162,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_impossible)
 	{
 	  dispatcher_impossible = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, "cel.move.impossible");
+	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.impossible"));
 	  if (!dispatcher_impossible) return;
 	}
 	dispatcher_impossible->SendMessage (0);
@@ -1172,7 +1172,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_interrupted)
 	{
 	  dispatcher_interrupted = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, "cel.move.interrupted");
+	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.interrupted"));
 	  if (!dispatcher_interrupted) return;
 	}
 	dispatcher_interrupted->SendMessage (0);

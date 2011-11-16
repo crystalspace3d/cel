@@ -1515,7 +1515,7 @@ void celPcMeshSelect::SendMessage (int t, iCelEntity* ent,
       msg = "pcmeshsel_down";
       if (!dispatcher_down)
         dispatcher_down = entity->QueryMessageChannel ()
-	  ->CreateMessageDispatcher (this, "cel.mesh.select.down");
+	  ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.mesh.select.down"));
       dispatcher = dispatcher_down;
       break;
     case MSSM_TYPE_UP:
@@ -1523,7 +1523,7 @@ void celPcMeshSelect::SendMessage (int t, iCelEntity* ent,
       msg = "pcmeshsel_up";
       if (!dispatcher_up)
         dispatcher_up = entity->QueryMessageChannel ()
-	  ->CreateMessageDispatcher (this, "cel.mesh.select.up");
+	  ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.mesh.select.up"));
       dispatcher = dispatcher_up;
       break;
     case MSSM_TYPE_MOVE:
@@ -1531,7 +1531,7 @@ void celPcMeshSelect::SendMessage (int t, iCelEntity* ent,
       msg = "pcmeshsel_move";
       if (!dispatcher_move)
         dispatcher_move = entity->QueryMessageChannel ()
-	  ->CreateMessageDispatcher (this, "cel.mesh.select.move");
+	  ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.mesh.select.move"));
       dispatcher = dispatcher_move;
       break;
   }

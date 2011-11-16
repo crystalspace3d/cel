@@ -229,7 +229,7 @@ void celPcTimer::TickEveryFrame ()
     if (!dispatcher_wakeupframe)
     {
       dispatcher_wakeupframe = entity->QueryMessageChannel ()
-        ->CreateMessageDispatcher (this, "cel.timer.wakeup.frame");
+        ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.timer.wakeup.frame"));
       if (!dispatcher_wakeupframe) return;
     }
     dispatcher_wakeupframe->SendMessage (params);
@@ -265,7 +265,7 @@ void celPcTimer::TickOnce ()
       csString msg = "cel.timer.";
       msg += te.name;
       te.dispatcher = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	    this, msg);
+	    this, pl->FetchStringID (msg));
       if (!te.dispatcher) return;
     }
     te.dispatcher->SendMessage (0, 0);
