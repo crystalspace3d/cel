@@ -125,7 +125,7 @@ void celPcProjectile::SendMessage (const char* msgold,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, msg);
+      CreateMessageDispatcher (this, pl->FetchStringID (msg));
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (0);
@@ -148,7 +148,7 @@ void celPcProjectile::SendMessage (const char* msgold, const char* msg,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, msg);
+      CreateMessageDispatcher (this, pl->FetchStringID (msg));
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (params);

@@ -152,8 +152,10 @@ public:
   virtual bool Load (iDocumentNode* node);
   virtual iQuestStateFactory* GetState (const char* name);
   virtual iQuestStateFactory* CreateState (const char* name);
+  virtual csRef<iQuestStateFactoryIterator> GetStates () const;
   virtual iCelSequenceFactory* GetSequence (const char* name);
   virtual iCelSequenceFactory* CreateSequence (const char* name);
+  virtual csRef<iCelSequenceFactoryIterator> GetSequences () const;
   virtual void SetDefaultParameter (const char* name,const char* value);
   virtual void ClearDefaultParameters ();
 };

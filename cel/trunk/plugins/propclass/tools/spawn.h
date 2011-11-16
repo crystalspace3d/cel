@@ -54,7 +54,7 @@ struct SpawnInfo
   csString name;
   iCelBlLayer* bl;
   csString behaviour;
-  csString msg_id;
+  csStringID msg_id;
   csRef<iCelParameterBlock> params;
 };
 

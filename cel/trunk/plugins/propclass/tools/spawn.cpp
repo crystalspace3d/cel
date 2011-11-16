@@ -504,11 +504,12 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   if (spawninfo[idx].behaviour && !newent->GetBehaviour ())
     Report (object_reg, "Error creating behaviour for entity '%s'!",
     	newent->GetName ());
-  if ((!spawninfo[idx].msg_id.IsEmpty ()) &&
-  	newent->GetBehaviour ())
+  if (!spawninfo[idx].msg_id != csInvalidStringID)
   {
-    newent->GetBehaviour ()->SendMessage (
-    	spawninfo[idx].msg_id, this, ret, spawninfo[idx].params);
+    if (newent->GetBehaviour ())
+      newent->GetBehaviour ()->SendMessage (
+    	pl->FetchString (spawninfo[idx].msg_id), this, ret,
+	spawninfo[idx].params);
     // We use a direct SendMessage here because this is a one-time
     // only event.
     newent->QueryMessageChannel ()->SendMessage (
@@ -524,7 +525,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   if (!dispatcher_new)
   {
     dispatcher_new = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, "cel.entity.new");
+      CreateMessageDispatcher (this, pl->FetchStringID ("cel.entity.new"));
     if (!dispatcher_new) return;
   }
   dispatcher_new->SendMessage (params);
@@ -570,7 +571,10 @@ void celPcSpawn::AddEntityTemplateType (float chance, const char* templ,
   si.chance = chance;
   si.templ = templ;
   si.name = name;
-  si.msg_id = msg_id;
+  if (msg_id && *msg_id)
+    si.msg_id = pl->FetchStringID (msg_id);
+  else
+    si.msg_id = csInvalidStringID;
   si.params = params;
   total_chance += chance;
 }
@@ -654,7 +658,7 @@ void celPcSpawn::RestoreModifications (iCelCompactDataBufferReader* buf,
     for (size_t i = 0 ; i < uniqueEntities.GetSize () ; i++)
     {
       uint entid = (uint) buf->GetUInt32 ();
-      if (entid == ~0)
+      if (entid == (uint)~0)
         uniqueEntities[i] = 0;
       else
       {

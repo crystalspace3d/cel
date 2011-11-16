@@ -3842,7 +3842,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           iMessageChannel* channel = other_ent->QueryMessageChannel ();
           csRef<iCelDataArray> ret;
           ret.AttachNew (new scfArray<iCelDataArray>);
-          bool rc = channel->SendMessage (msgid, pl->QueryMessageSender (), 0, ret);
+          bool rc = channel->SendMessage (pl->FetchStringID (msgid),
+			  pl->QueryMessageSender (), 0, ret);
 
           if (ret->GetSize () == 0)
             a_ent.Set (rc);
@@ -3874,7 +3875,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           celData& data = params->GetParameter (0);
           if (!celXmlArg2celData (a_par1, data))
 	    return ReportError (cbl, "Bad type of value for message!");
-          bool rc = channel->SendMessage (msgid, pl->QueryMessageSender (), params, ret);
+          bool rc = channel->SendMessage (pl->FetchStringID (msgid),
+			  pl->QueryMessageSender (), params, ret);
 
           if (ret->GetSize () == 0)
             a_ent.Set (rc);
@@ -3910,7 +3912,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           celData& data2 = params->GetParameter (1);
           if (!celXmlArg2celData (a_par2, data2))
 	    return ReportError (cbl, "Bad type of value for message!");
-          bool rc = channel->SendMessage (msgid, pl->QueryMessageSender (), params, ret);
+          bool rc = channel->SendMessage (pl->FetchStringID (msgid),
+			  pl->QueryMessageSender (), params, ret);
 
           if (ret->GetSize () == 0)
             a_ent.Set (rc);

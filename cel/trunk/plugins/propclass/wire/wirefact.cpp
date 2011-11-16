@@ -165,7 +165,7 @@ bool celPcWire::PerformActionIndexed (int idx,
         if (p_entity)
 	  ent = pl->FindEntity (entity);
 	// @@@ Error check on ent!
-	AddOutput (msgid, ent->QueryMessageChannel (), params);
+	AddOutput (pl->FetchStringID (msgid), ent->QueryMessageChannel (), params);
         return true;
       }
     case action_mapparameter:
@@ -210,7 +210,7 @@ void celPcWire::AddInput (const char* msg_mask, iMessageChannel* channel)
   channel->Subscribe (this, msg_mask);
 }
 
-size_t celPcWire::AddOutput (const char* msgid, iMessageChannel* channel,
+size_t celPcWire::AddOutput (csStringID msgid, iMessageChannel* channel,
       iCelParameterBlock* extra_params)
 {
   csRef<celWireOutput> out;

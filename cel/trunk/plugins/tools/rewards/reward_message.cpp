@@ -178,7 +178,7 @@ void celMessageReward::Reward (iCelParameterBlock* params)
   }
   if (!dispatcher)
     dispatcher = ent->QueryMessageChannel ()->CreateMessageDispatcher (
-	this, msg);
+	this, type->pl->FetchStringID (msg));
   dispatcher->SendMessage (msg_params);
 }
 
@@ -228,6 +228,6 @@ void celClassMessageReward::Reward (iCelParameterBlock* params)
   type->pl->SendMessage (entlist, msg, msg_params);
 
   // New method for pclasses.
-  type->pl->SendMessage (msg, 0, entlist, msg_params);
+  type->pl->SendMessage (type->pl->FetchStringID (msg), 0, entlist, msg_params);
 }
 

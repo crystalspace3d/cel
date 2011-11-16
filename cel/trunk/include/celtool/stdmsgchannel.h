@@ -135,12 +135,12 @@ public:
   }
   /// Create a message dispatcher that supports a receiver filter.
   virtual csRef<iMessageDispatcher> CreateMessageDispatcher (
-      iMessageSender* sender, const char* msg_id,
+      iMessageSender* sender, csStringID msg_id,
       iMessageReceiverFilter* receiver_filter = 0);
   virtual void RemoveMessageDispatcher (iMessageDispatcher* msgdisp);
   virtual void Subscribe (iMessageReceiver* receiver, const char* mask);
   virtual void Unsubscribe (iMessageReceiver* receiver, const char* mask = 0);
-  virtual bool SendMessage (const char* msgid,
+  virtual bool SendMessage (csStringID msgid,
       iMessageSender* sender, iCelParameterBlock* params,
       iCelDataArray* ret = 0);
   void RemoveMessageDispatchers ();

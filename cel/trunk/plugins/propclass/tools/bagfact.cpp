@@ -183,7 +183,8 @@ bool celPcBag::SendMessage (const char* msgid, iCelParameterBlock* params)
     iCelEntity* ent = pl->FindEntity (str);
     if (ent)
     {
-      bool rc = ent->QueryMessageChannel ()->SendMessage (msgid, this, params);
+      bool rc = ent->QueryMessageChannel ()->SendMessage (
+		      pl->FetchStringID (msgid), this, params);
       if (rc) total_rc = true;
     }
   }

@@ -985,14 +985,15 @@ void celPcTrigger::SendTriggerMessage (iCelEntity* destentity,
   if (!dispatcher)
   {
     // Use direct message.
-    destentity->QueryMessageChannel ()->SendMessage (msg, this, params);
+    destentity->QueryMessageChannel ()->SendMessage (pl->FetchStringID (msg),
+		    this, params);
   }
   else
   {
     if (!*dispatcher)
     {
       *dispatcher = destentity->QueryMessageChannel ()->
-        CreateMessageDispatcher (this, msg);
+        CreateMessageDispatcher (this, pl->FetchStringID (msg));
       if (!*dispatcher) return;
     }
     (*dispatcher)->SendMessage (params);

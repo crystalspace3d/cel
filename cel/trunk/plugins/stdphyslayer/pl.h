@@ -256,7 +256,7 @@ public:
         iCelParameterBlock* params, ...);
   virtual int SendMessageV (iCelEntityList *entlist, const char* msgname, 
         iCelParameterBlock* params, va_list arg);
-  virtual int SendMessage (const char* msgid, iMessageSender* sender,
+  virtual int SendMessage (csStringID msgid, iMessageSender* sender,
       iCelEntityList *entlist, iCelParameterBlock* params,
       iCelDataArray* ret = 0);
   virtual void MessageDispatcherRemoved (iMessageDispatcher*) { }

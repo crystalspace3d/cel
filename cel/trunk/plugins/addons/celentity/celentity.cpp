@@ -428,7 +428,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
         }
         celData ret;
         ent->GetBehaviour ()->SendMessage (msgid, 0, ret, params);
-        ent->QueryMessageChannel ()->SendMessage (msgid,
+        ent->QueryMessageChannel ()->SendMessage (pl->FetchStringID (msgid),
             pl->QueryMessageSender (), params);
         break;
       }
@@ -449,7 +449,9 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
     ent->GetBehaviour ()->SendMessage ("cel.entity.loaded",
           0, msgret, msgparams);
   }
-  ent->QueryMessageChannel ()->SendMessage ("cel.entity.loaded", pl->QueryMessageSender (), msgparams);
+  ent->QueryMessageChannel ()->SendMessage (
+		  pl->FetchStringID ("cel.entity.loaded"),
+		  pl->QueryMessageSender (), msgparams);
   return ent;
 }
 

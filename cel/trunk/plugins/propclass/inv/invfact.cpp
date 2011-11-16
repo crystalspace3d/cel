@@ -315,7 +315,7 @@ bool celPcInventory::AddEntityTemplate (iCelEntityTemplate* child, int amount)
     params->GetParameter (1).Set (amount);
     if (!dispatcher_add)
       dispatcher_add = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	    this, "cel.entity.add.template");
+	    this, pl->FetchStringID ("cel.entity.add.template"));
     if (dispatcher_add)
       dispatcher_add->SendMessage (params);
   }
@@ -375,7 +375,7 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
     }
     if (!dispatcher_add)
       dispatcher_add = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	    this, "cel.entity.add");
+	    this, pl->FetchStringID ("cel.entity.add"));
     if (dispatcher_add)
       dispatcher_add->SendMessage (params);
   }
@@ -390,8 +390,8 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
   }
   // Direct message since the child is always different so we can't
   // easily cache the dispatcher.
-  child->QueryMessageChannel ()->SendMessage ("cel.entity.add.this", this,
-      params);
+  child->QueryMessageChannel ()->SendMessage (
+		  pl->FetchStringID ("cel.entity.add.this"), this, params);
 
   return true;
 }
@@ -447,7 +447,7 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
     }
     if (!dispatcher_remove)
       dispatcher_remove = entity->QueryMessageChannel ()
-	->CreateMessageDispatcher (this, "cel.entity.remove");
+	->CreateMessageDispatcher (this, pl->FetchStringID ("cel.entity.remove"));
     if (dispatcher_remove)
       dispatcher_remove->SendMessage (params);
   }
@@ -461,8 +461,8 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   }
   // Direct message since the child is always different so we can't
   // easily cache the dispatcher.
-  child->QueryMessageChannel ()->SendMessage ("cel.entity.remove.this",
-      this, params);
+  child->QueryMessageChannel ()->SendMessage (
+		  pl->FetchStringID ("cel.entity.remove.this"), this, params);
 
   return true;
 }
@@ -516,7 +516,7 @@ bool celPcInventory::RemoveEntityTemplate (iCelEntityTemplate* child, int amount
     params->GetParameter (1).Set (amount);
     if (!dispatcher_remove)
       dispatcher_remove = entity->QueryMessageChannel ()
-	->CreateMessageDispatcher (this, "cel.entity.remove.template");
+	->CreateMessageDispatcher (this, pl->FetchStringID ("cel.entity.remove.template"));
     if (dispatcher_remove)
       dispatcher_remove->SendMessage (params);
   }
@@ -581,7 +581,7 @@ bool celPcInventory::RemoveEntity (iCelParameterBlock* pparams)
     }
     if (!dispatcher_remove)
       dispatcher_remove = entity->QueryMessageChannel ()
-	->CreateMessageDispatcher (this, "cel.entity.remove");
+	->CreateMessageDispatcher (this, pl->FetchStringID ("cel.entity.remove"));
     if (dispatcher_remove)
       dispatcher_remove->SendMessage (params);
   }
@@ -595,8 +595,8 @@ bool celPcInventory::RemoveEntity (iCelParameterBlock* pparams)
   }
   // Direct message since the child is always different so we can't
   // easily cache the dispatcher.
-  child->QueryMessageChannel ()->SendMessage ("cel.entity.remove.this",
-      this, params);
+  child->QueryMessageChannel ()->SendMessage (
+		  pl->FetchStringID ("cel.entity.remove.this"), this, params);
 
   return true;
 }

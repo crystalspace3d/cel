@@ -191,7 +191,7 @@ void celPcSteer::SendMessage (const char* msgold, const char* msg,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, msg);
+      CreateMessageDispatcher (this, pl->FetchStringID (msg));
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (meshname ? params : 0);

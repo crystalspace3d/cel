@@ -822,7 +822,8 @@ void celPcCommandInput::SendMessage (const char* command, char updown,
   if (updown == '1') cmd += ".down";
   else if (updown == '0') cmd += ".up";
   else if (updown == '_') cmd += ".repeat";
-  entity->QueryMessageChannel ()->SendMessage (cmd, this, params);
+  csStringID id = pl->FetchStringID (cmd);
+  entity->QueryMessageChannel ()->SendMessage (id, this, params);
 }
 
 void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,

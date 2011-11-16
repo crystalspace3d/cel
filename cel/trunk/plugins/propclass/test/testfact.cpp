@@ -123,7 +123,7 @@ void celPcTest::Print (const char* msg)
   if (!dispatcher_print)
   {
     dispatcher_print = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, "cel.test.print");
+      CreateMessageDispatcher (this, pl->FetchStringID ("cel.test.print"));
     if (!dispatcher_print) return;
   }
   dispatcher_print->SendMessage (params);

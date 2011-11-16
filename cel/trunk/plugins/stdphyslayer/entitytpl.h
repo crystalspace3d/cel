@@ -41,7 +41,7 @@ struct ccfPropAct
 
 struct ccfMessage
 {
-  csString msgid;
+  csStringID msgid;
   csHash<csRef<iParameter>, csStringID> params;
 };
 
@@ -86,6 +86,10 @@ public:
   virtual void SetProperty (csStringID propertyID, iCelEntity* entity);
   virtual void PerformAction (csStringID actionID,
   	const csHash<csRef<iParameter>, csStringID>& params);
+  virtual size_t GetPropertyCount () const { return properties.GetSize (); }
+  virtual csRef<iCelParameterIterator> GetProperty (size_t idx,
+		  csStringID& id, celData& data) const;
+  virtual size_t FindProperty (csStringID id) const;
 };
 
 /**
@@ -113,6 +117,9 @@ public:
   virtual const csSet<csStringID>& GetClasses () const { return classes; }
 
   const csArray<ccfMessage>& GetMessages () const { return messages; }
+  virtual size_t GetMessageCount () const { return messages.GetSize (); }
+  virtual csRef<iCelParameterIterator> GetMessage (size_t idx,
+		  csStringID& id) const;
 
   virtual iCelPropertyClassTemplate* CreatePropertyClassTemplate ();
   virtual iCelPropertyClassTemplate* FindPropertyClassTemplate (const char* name,
@@ -130,7 +137,7 @@ public:
     celEntityTemplate::layer = layer;
     celEntityTemplate::behaviour = behaviour;
   }
-  virtual void AddMessage (const char* msgid,
+  virtual void AddMessage (csStringID msgid,
       csHash<csRef<iParameter>, csStringID>& params);
   virtual const char* GetBehaviourLayer () const { return layer; }
   const char* GetLayer () const { return layer; }

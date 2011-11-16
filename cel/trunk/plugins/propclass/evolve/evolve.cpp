@@ -219,7 +219,7 @@ void celPcEvolve::Evolve()
     if (!dispatcher_result)
     {
       dispatcher_result = entity->QueryMessageChannel ()
-	->CreateMessageDispatcher (this, "cel.evolve.result");
+	->CreateMessageDispatcher (this, pl->FetchStringID ("cel.evolve.result"));
       if (!dispatcher_result) return;
     }
     dispatcher_result->SendMessage (params);
@@ -253,7 +253,7 @@ void celPcEvolve::EvaluateFitness(size_t genome)
   if (!dispatcher_fitness)
   {
     dispatcher_fitness = entity->QueryMessageChannel ()
-      ->CreateMessageDispatcher (this, "cel.evolve.fitness");
+      ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.evolve.fitness"));
     if (!dispatcher_fitness) return;
   }
   dispatcher_fitness->SendMessage (params);

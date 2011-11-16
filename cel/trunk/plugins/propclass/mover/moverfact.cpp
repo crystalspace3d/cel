@@ -116,7 +116,7 @@ void celPcMover::SendMessage (const char* msgold,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	this, msg);
+	this, pl->FetchStringID (msg));
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (params);

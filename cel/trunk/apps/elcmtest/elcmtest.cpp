@@ -912,7 +912,7 @@ bool ElcmTest::OnMouseDown (iEvent& ev)
     {
       if (!dynobj->GetEntity ()) return false;
       iMessageChannel* channel = dynobj->GetEntity ()->QueryMessageChannel ();
-      channel->SendMessage ("elcm.activate", 0, 0);
+      channel->SendMessage (msgActivate, 0, 0);
       UpdateStatusLine (dynobj);
     }
     return true;
@@ -1065,6 +1065,7 @@ bool ElcmTest::Application ()
 
   msgInventory = pl->FetchStringID ("elcm.inventory");
   msgTeleport = pl->FetchStringID ("elcm.teleport");
+  msgActivate = pl->FetchStringID ("elcm.activate");
 
   ceguiPrinter.AttachNew (new CeguiPrinter (this));
   pl->CallbackEveryFrame (ceguiPrinter, CEL_EVENT_POST);

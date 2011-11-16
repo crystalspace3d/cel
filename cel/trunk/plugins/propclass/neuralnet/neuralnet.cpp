@@ -445,7 +445,7 @@ void celPcNeuralNet::SendMessage()
   if (!dispatcher_outputs)
   {
     dispatcher_outputs = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, "cel.neuralnet.outputs");
+      CreateMessageDispatcher (this, pl->FetchStringID ("cel.neuralnet.outputs"));
     if (!dispatcher_outputs) return;
   }
   dispatcher_outputs->SendMessage (params);
