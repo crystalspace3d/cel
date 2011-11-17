@@ -789,6 +789,18 @@ iCelEntityIterator_swigregister(iCelEntityIterator)
 celRegisterPCFactory = _blcelc.celRegisterPCFactory
 celCreateEntity = _blcelc.celCreateEntity
 scfQueryInterface_iCelEntity = _blcelc.scfQueryInterface_iCelEntity
+class iCelParameterIterator(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def HasNext(*args): return _blcelc.iCelParameterIterator_HasNext(*args)
+    def Next(*args): return _blcelc.iCelParameterIterator_Next(*args)
+    __swig_destroy__ = _blcelc.delete_iCelParameterIterator
+    __del__ = lambda self : None;
+iCelParameterIterator_swigregister = _blcelc.iCelParameterIterator_swigregister
+iCelParameterIterator_swigregister(iCelParameterIterator)
+celFindNearbyEntities = _blcelc.celFindNearbyEntities
+
 class iCelEntityTemplate(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -804,6 +816,8 @@ class iCelEntityTemplate(cspace.iBase):
     def GetBehaviourLayer(*args): return _blcelc.iCelEntityTemplate_GetBehaviourLayer(*args)
     def GetBehaviour(*args): return _blcelc.iCelEntityTemplate_GetBehaviour(*args)
     def AddMessage(*args): return _blcelc.iCelEntityTemplate_AddMessage(*args)
+    def GetMessageCount(*args): return _blcelc.iCelEntityTemplate_GetMessageCount(*args)
+    def GetMessage(*args): return _blcelc.iCelEntityTemplate_GetMessage(*args)
     def AddClass(*args): return _blcelc.iCelEntityTemplate_AddClass(*args)
     def RemoveClass(*args): return _blcelc.iCelEntityTemplate_RemoveClass(*args)
     def HasClass(*args): return _blcelc.iCelEntityTemplate_HasClass(*args)
@@ -830,7 +844,6 @@ class iCelEntityTemplate(cspace.iBase):
     __del__ = lambda self : None;
 iCelEntityTemplate_swigregister = _blcelc.iCelEntityTemplate_swigregister
 iCelEntityTemplate_swigregister(iCelEntityTemplate)
-celFindNearbyEntities = _blcelc.celFindNearbyEntities
 
 class iCelPropertyClassTemplate(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -843,6 +856,9 @@ class iCelPropertyClassTemplate(cspace.iBase):
     def SetPropertyVariable(*args): return _blcelc.iCelPropertyClassTemplate_SetPropertyVariable(*args)
     def SetProperty(*args): return _blcelc.iCelPropertyClassTemplate_SetProperty(*args)
     def PerformAction(*args): return _blcelc.iCelPropertyClassTemplate_PerformAction(*args)
+    def GetPropertyCount(*args): return _blcelc.iCelPropertyClassTemplate_GetPropertyCount(*args)
+    def GetProperty(*args): return _blcelc.iCelPropertyClassTemplate_GetProperty(*args)
+    def FindProperty(*args): return _blcelc.iCelPropertyClassTemplate_FindProperty(*args)
     Name = _swig_property(_blcelc.iCelPropertyClassTemplate_Name_get, _blcelc.iCelPropertyClassTemplate_Name_set, None,
                     "iCelPropertyClassTemplate.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClassTemplate::GetName()\n\tset: void iCelPropertyClassTemplate::SetName(const char*)")
 
@@ -5035,6 +5051,28 @@ class iQuestStateFactory(cspace.iBase):
 iQuestStateFactory_swigregister = _blcelc.iQuestStateFactory_swigregister
 iQuestStateFactory_swigregister(iQuestStateFactory)
 
+class iQuestStateFactoryIterator(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def HasNext(*args): return _blcelc.iQuestStateFactoryIterator_HasNext(*args)
+    def Next(*args): return _blcelc.iQuestStateFactoryIterator_Next(*args)
+    __swig_destroy__ = _blcelc.delete_iQuestStateFactoryIterator
+    __del__ = lambda self : None;
+iQuestStateFactoryIterator_swigregister = _blcelc.iQuestStateFactoryIterator_swigregister
+iQuestStateFactoryIterator_swigregister(iQuestStateFactoryIterator)
+
+class iCelSequenceFactoryIterator(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def HasNext(*args): return _blcelc.iCelSequenceFactoryIterator_HasNext(*args)
+    def Next(*args): return _blcelc.iCelSequenceFactoryIterator_Next(*args)
+    __swig_destroy__ = _blcelc.delete_iCelSequenceFactoryIterator
+    __del__ = lambda self : None;
+iCelSequenceFactoryIterator_swigregister = _blcelc.iCelSequenceFactoryIterator_swigregister
+iCelSequenceFactoryIterator_swigregister(iCelSequenceFactoryIterator)
+
 class iQuestFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -5045,8 +5083,10 @@ class iQuestFactory(cspace.iBase):
     def Load(*args): return _blcelc.iQuestFactory_Load(*args)
     def GetState(*args): return _blcelc.iQuestFactory_GetState(*args)
     def CreateState(*args): return _blcelc.iQuestFactory_CreateState(*args)
+    def GetStates(*args): return _blcelc.iQuestFactory_GetStates(*args)
     def GetSequence(*args): return _blcelc.iQuestFactory_GetSequence(*args)
     def CreateSequence(*args): return _blcelc.iQuestFactory_CreateSequence(*args)
+    def GetSequences(*args): return _blcelc.iQuestFactory_GetSequences(*args)
     def SetDefaultParameter(*args): return _blcelc.iQuestFactory_SetDefaultParameter(*args)
     def ClearDefaultParameters(*args): return _blcelc.iQuestFactory_ClearDefaultParameters(*args)
     Name = _swig_property(_blcelc.iQuestFactory_Name_get, None, None,
