@@ -62,15 +62,16 @@ public:
   celQuestTriggerResponseFactory () : scfImplementationType (this) { }
   virtual ~celQuestTriggerResponseFactory () { }
 
-  iTriggerFactory* GetTriggerFactory () const
+  virtual iTriggerFactory* GetTriggerFactory () const
   {
 	return trigger_factory;
   }
 
-  const csRefArray<iRewardFactory>& GetRewardFactories () const
+  const csRefArray<iRewardFactory>& GetRewardFactoriesInt () const
   {
     return reward_factories;
   }
+  virtual csRef<iRewardFactoryArray> GetRewardFactories () const;
 
   virtual void SetTriggerFactory (iTriggerFactory* trigger_fact);
   virtual void AddRewardFactory (iRewardFactory* reward_fact);

@@ -64,9 +64,13 @@ public:
 
   //----------------- iNewStateQuestRewardFactory -----------------------
   virtual void SetStateParameter (const char* state);
+  virtual const char* GetStateParameter () const { return state_par; }
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
+  virtual const char* GetEntityParameter () const { return entity_par; }
   virtual void SetTagParameter (const char* tag) { tag_par = tag; };
+  virtual const char* GetTagParameter () const { return tag_par; }
   virtual void SetClassParameter (const char* pclass) { class_par = pclass; };
+  virtual const char* GetClassParameter () const { return class_par; }
 };
 
 /**
