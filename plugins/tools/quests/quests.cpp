@@ -66,8 +66,7 @@ celQuestStateFactory::celQuestStateFactory (const char* name) :
   celQuestStateFactory::name = name;
 }
 
-iQuestTriggerResponseFactory* celQuestStateFactory::
-	CreateTriggerResponseFactory ()
+iQuestTriggerResponseFactory* celQuestStateFactory::CreateTriggerResponseFactory ()
 {
   celQuestTriggerResponseFactory* resp = new celQuestTriggerResponseFactory ();
   responses.Push (resp);
@@ -75,9 +74,25 @@ iQuestTriggerResponseFactory* celQuestStateFactory::
   return resp;
 }
 
+csRef<iQuestTriggerResponseFactoryArray> celQuestStateFactory::GetTriggerResponseFactories () const
+{
+  csRef<iQuestTriggerResponseFactoryArray> array;
+  array.AttachNew (new scfArrayWrapConst<iQuestTriggerResponseFactoryArray,
+      csRefArray<iQuestTriggerResponseFactory> > (responses));
+  return array;
+}
+
 void celQuestStateFactory::AddInitRewardFactory (iRewardFactory* reward_fact)
 {
   oninit_reward_factories.Push (reward_fact);
+}
+
+csRef<iRewardFactoryArray> celQuestStateFactory::GetInitRewardFactories () const
+{
+  csRef<iRewardFactoryArray> array;
+  array.AttachNew (new scfArrayWrapConst<iRewardFactoryArray,
+      csRefArray<iRewardFactory> > (oninit_reward_factories));
+  return array;
 }
 
 void celQuestStateFactory::AddExitRewardFactory (iRewardFactory* reward_fact)
@@ -85,6 +100,13 @@ void celQuestStateFactory::AddExitRewardFactory (iRewardFactory* reward_fact)
   onexit_reward_factories.Push (reward_fact);
 }
 
+csRef<iRewardFactoryArray> celQuestStateFactory::GetExitRewardFactories () const
+{
+  csRef<iRewardFactoryArray> array;
+  array.AttachNew (new scfArrayWrapConst<iRewardFactoryArray,
+      csRefArray<iRewardFactory> > (onexit_reward_factories));
+  return array;
+}
 
 //---------------------------------------------------------------------------
 
@@ -169,7 +191,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (iCelParameterBlock* params)
         = sf->GetOninitRewardFactories ();
     const csRefArray<iRewardFactory>& onexit_reward_Factories
         = sf->GetOnexitRewardFactories ();
-    const csRefArray<celQuestTriggerResponseFactory>& responses
+    const csRefArray<iQuestTriggerResponseFactory>& responses
     	= sf->GetResponses ();
     size_t stateidx = q->AddState (sf->GetName ());
     size_t i;
@@ -185,7 +207,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (iCelParameterBlock* params)
     }
     for (i = 0 ; i < responses.GetSize () ; i++)
     {
-      celQuestTriggerResponseFactory* respfact = responses[i];
+      celQuestTriggerResponseFactory* respfact = static_cast<celQuestTriggerResponseFactory*> (responses[i]);
       const csRefArray<iRewardFactory>& rewfacts = respfact->GetRewardFactories ();
 
       size_t respidx = q->AddStateResponse (stateidx);
