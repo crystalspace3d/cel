@@ -86,13 +86,13 @@ private:
   csString name;
   csRefArray<iRewardFactory> oninit_reward_factories;
   csRefArray<iRewardFactory> onexit_reward_factories;
-  csRefArray<celQuestTriggerResponseFactory> responses;
+  csRefArray<iQuestTriggerResponseFactory> responses;
 
 public:
   celQuestStateFactory (const char* name);
   virtual ~celQuestStateFactory () { }
 
-  const csRefArray<celQuestTriggerResponseFactory>& GetResponses () const
+  const csRefArray<iQuestTriggerResponseFactory>& GetResponses () const
   {
     return responses;
   }
@@ -106,9 +106,14 @@ public:
   }
 
   virtual const char* GetName () const { return name; }
+
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory ();
+  virtual csRef<iQuestTriggerResponseFactoryArray> GetTriggerResponseFactories () const;
+
   virtual void AddInitRewardFactory (iRewardFactory* reward_fact);
+  virtual csRef<iRewardFactoryArray> GetInitRewardFactories () const;
   virtual void AddExitRewardFactory (iRewardFactory* reward_fact);
+  virtual csRef<iRewardFactoryArray> GetExitRewardFactories () const;
 };
 
 typedef csHash<csRef<celQuestStateFactory>,csStringBase> celQuestFactoryStates;

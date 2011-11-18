@@ -101,13 +101,23 @@ struct iQuestTriggerResponseFactory : public virtual iBase
   virtual void AddRewardFactory (iRewardFactory* reward_fact) = 0;
 };
 
+struct iQuestTriggerResponseFactoryArray : public iArrayReadOnly<iQuestTriggerResponseFactory*>
+{
+  SCF_IARRAYREADONLY_INTERFACE(iQuestTriggerResponseFactoryArray);
+};
+
+struct iRewardFactoryArray : public iArrayReadOnly<iRewardFactory*>
+{
+  SCF_IARRAYREADONLY_INTERFACE(iRewardFactoryArray);
+};
+
 /**
  * A representation of a quest state in a quest factory.
  * A state is basically a collection of trigger response factories.
  */
 struct iQuestStateFactory : public virtual iBase
 {
-  SCF_INTERFACE (iQuestStateFactory, 0, 0, 1);
+  SCF_INTERFACE (iQuestStateFactory, 0, 1, 1);
 
   /**
    * Get the name of this state.
@@ -120,14 +130,27 @@ struct iQuestStateFactory : public virtual iBase
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory () = 0;
 
   /**
+   * Get all trigger responses.
+   */
+  virtual csRef<iQuestTriggerResponseFactoryArray> GetTriggerResponseFactories () const = 0;
+
+  /**
    * Add a new reward to be fired on state initialization.
    */
   virtual void AddInitRewardFactory (iRewardFactory* reward_fact) = 0;
+  /**
+   * Get the init reward factories.
+   */
+  virtual csRef<iRewardFactoryArray> GetInitRewardFactories () const = 0;
 
   /**
    * Add a new reward to be fired on state exit.
    */
   virtual void AddExitRewardFactory (iRewardFactory* reward_fact) = 0;
+  /**
+   * Get the exit reward factories.
+   */
+  virtual csRef<iRewardFactoryArray> GetExitRewardFactories () const = 0;
 };
 
 /**
