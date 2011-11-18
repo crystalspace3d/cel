@@ -58,6 +58,14 @@ void celQuestTriggerResponseFactory::AddRewardFactory (
   reward_factories.Push (reward_fact);
 }
 
+csRef<iRewardFactoryArray> celQuestTriggerResponseFactory::GetRewardFactories () const
+{
+  csRef<iRewardFactoryArray> array;
+  array.AttachNew (new scfArrayWrapConst<iRewardFactoryArray,
+      csRefArray<iRewardFactory> > (reward_factories));
+  return array;
+}
+
 //---------------------------------------------------------------------------
 
 celQuestStateFactory::celQuestStateFactory (const char* name) :
@@ -208,7 +216,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (iCelParameterBlock* params)
     for (i = 0 ; i < responses.GetSize () ; i++)
     {
       celQuestTriggerResponseFactory* respfact = static_cast<celQuestTriggerResponseFactory*> (responses[i]);
-      const csRefArray<iRewardFactory>& rewfacts = respfact->GetRewardFactories ();
+      const csRefArray<iRewardFactory>& rewfacts = respfact->GetRewardFactoriesInt ();
 
       size_t respidx = q->AddStateResponse (stateidx);
       

@@ -79,6 +79,11 @@ struct iQuest : public virtual iBase
   virtual void Deactivate () = 0;
 };
 
+struct iRewardFactoryArray : public iArrayReadOnly<iRewardFactory*>
+{
+  SCF_IARRAYREADONLY_INTERFACE(iRewardFactoryArray);
+};
+
 /**
  * A trigger with response as used in a quest state.
  * This is basically the representation of one trigger and one
@@ -95,20 +100,25 @@ struct iQuestTriggerResponseFactory : public virtual iBase
   virtual void SetTriggerFactory (iTriggerFactory* trigger_fact) = 0;
 
   /**
+   * Get the trigger factory.
+   */
+  virtual iTriggerFactory* GetTriggerFactory () const = 0;
+
+  /**
    * Add a reward factory. A reward of this factory will be obtained
    * when the trigger fires.
    */
   virtual void AddRewardFactory (iRewardFactory* reward_fact) = 0;
+
+  /**
+   * Get the reward factories.
+   */
+  virtual csRef<iRewardFactoryArray> GetRewardFactories () const = 0;
 };
 
 struct iQuestTriggerResponseFactoryArray : public iArrayReadOnly<iQuestTriggerResponseFactory*>
 {
   SCF_IARRAYREADONLY_INTERFACE(iQuestTriggerResponseFactoryArray);
-};
-
-struct iRewardFactoryArray : public iArrayReadOnly<iRewardFactory*>
-{
-  SCF_IARRAYREADONLY_INTERFACE(iRewardFactoryArray);
 };
 
 /**
@@ -643,6 +653,7 @@ struct iNewStateQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetStateParameter (const char* state) = 0;
+  virtual const char* GetStateParameter () const = 0;
 
   /**
    * Set the name of the entity containing the pcquest property class
@@ -653,6 +664,7 @@ struct iNewStateQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntityParameter () const = 0;
 
   /**
    * Set the tag of the property class this reward will apply to.
@@ -660,6 +672,7 @@ struct iNewStateQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetTagParameter (const char* tag_par) = 0;
+  virtual const char* GetTagParameter () const = 0;
 
   /**
    * Set the name of the entity class containing the property
@@ -668,6 +681,7 @@ struct iNewStateQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetClassParameter (const char* ent_class) = 0;
+  virtual const char* GetClassParameter () const = 0;
 };
 
 
