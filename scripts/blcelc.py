@@ -5021,12 +5021,26 @@ celCreateDamage = _blcelc.celCreateDamage
 celGetSetDamage = _blcelc.celGetSetDamage
 celGetDamage = _blcelc.celGetDamage
 
+class iRewardFactoryArray(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_iRewardFactoryArray(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_iRewardFactoryArray
+    __del__ = lambda self : None;
+iRewardFactoryArray_swigregister = _blcelc.iRewardFactoryArray_swigregister
+iRewardFactoryArray_swigregister(iRewardFactoryArray)
+
 class iQuestTriggerResponseFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetTriggerFactory(*args): return _blcelc.iQuestTriggerResponseFactory_SetTriggerFactory(*args)
+    def GetTriggerFactory(*args): return _blcelc.iQuestTriggerResponseFactory_GetTriggerFactory(*args)
     def AddRewardFactory(*args): return _blcelc.iQuestTriggerResponseFactory_AddRewardFactory(*args)
+    def GetRewardFactories(*args): return _blcelc.iQuestTriggerResponseFactory_GetRewardFactories(*args)
     TriggerFactory = _swig_property(None, _blcelc.iQuestTriggerResponseFactory_TriggerFactory_set, None,
                     "iQuestTriggerResponseFactory.TriggerFactory (write only) -> iQuestTriggerFactory*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iQuestTriggerResponseFactory::SetTriggerFactory(iQuestTriggerFactory*)")
 
@@ -5035,14 +5049,29 @@ class iQuestTriggerResponseFactory(cspace.iBase):
 iQuestTriggerResponseFactory_swigregister = _blcelc.iQuestTriggerResponseFactory_swigregister
 iQuestTriggerResponseFactory_swigregister(iQuestTriggerResponseFactory)
 
+class iQuestTriggerResponseFactoryArray(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_iQuestTriggerResponseFactoryArray(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _blcelc.delete_iQuestTriggerResponseFactoryArray
+    __del__ = lambda self : None;
+iQuestTriggerResponseFactoryArray_swigregister = _blcelc.iQuestTriggerResponseFactoryArray_swigregister
+iQuestTriggerResponseFactoryArray_swigregister(iQuestTriggerResponseFactoryArray)
+
 class iQuestStateFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestStateFactory_GetName(*args)
     def CreateTriggerResponseFactory(*args): return _blcelc.iQuestStateFactory_CreateTriggerResponseFactory(*args)
+    def GetTriggerResponseFactories(*args): return _blcelc.iQuestStateFactory_GetTriggerResponseFactories(*args)
     def AddInitRewardFactory(*args): return _blcelc.iQuestStateFactory_AddInitRewardFactory(*args)
+    def GetInitRewardFactories(*args): return _blcelc.iQuestStateFactory_GetInitRewardFactories(*args)
     def AddExitRewardFactory(*args): return _blcelc.iQuestStateFactory_AddExitRewardFactory(*args)
+    def GetExitRewardFactories(*args): return _blcelc.iQuestStateFactory_GetExitRewardFactories(*args)
     Name = _swig_property(_blcelc.iQuestStateFactory_Name_get, None, None,
                     "iQuestStateFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestStateFactory::GetName()")
 
@@ -5170,9 +5199,13 @@ class iNewStateQuestRewardFactory(cspace.iBase):
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetStateParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetStateParameter(*args)
+    def GetStateParameter(*args): return _blcelc.iNewStateQuestRewardFactory_GetStateParameter(*args)
     def SetEntityParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetEntityParameter(*args)
+    def GetEntityParameter(*args): return _blcelc.iNewStateQuestRewardFactory_GetEntityParameter(*args)
     def SetTagParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetTagParameter(*args)
+    def GetTagParameter(*args): return _blcelc.iNewStateQuestRewardFactory_GetTagParameter(*args)
     def SetClassParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetClassParameter(*args)
+    def GetClassParameter(*args): return _blcelc.iNewStateQuestRewardFactory_GetClassParameter(*args)
     StateParameter = _swig_property(None, _blcelc.iNewStateQuestRewardFactory_StateParameter_set, None,
                     "iNewStateQuestRewardFactory.StateParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iNewStateQuestRewardFactory::SetStateParameter(const char*)")
 
