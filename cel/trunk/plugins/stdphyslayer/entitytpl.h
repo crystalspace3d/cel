@@ -90,6 +90,7 @@ public:
   virtual csRef<iCelParameterIterator> GetProperty (size_t idx,
 		  csStringID& id, celData& data) const;
   virtual size_t FindProperty (csStringID id) const;
+  virtual void RemoveAllProperties ();
 };
 
 /**

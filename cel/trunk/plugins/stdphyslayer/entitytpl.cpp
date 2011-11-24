@@ -154,6 +154,11 @@ size_t celPropertyClassTemplate::FindProperty (csStringID id) const
   return csArrayItemNotFound;
 }
 
+void celPropertyClassTemplate::RemoveAllProperties ()
+{
+  properties.DeleteAll ();
+}
+
 //---------------------------------------------------------------------------
 
 celEntityTemplate::celEntityTemplate () : scfImplementationType (this)

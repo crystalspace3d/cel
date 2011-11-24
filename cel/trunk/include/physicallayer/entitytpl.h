@@ -288,6 +288,11 @@ struct iCelPropertyClassTemplate : public virtual iBase
    * Find a given property by it's id. Return csArrayItemNotFound if not found.
    */
   virtual size_t FindProperty (csStringID id) const = 0;
+
+  /**
+   * Remove all properties.
+   */
+  virtual void RemoveAllProperties () = 0;
 };
 
 #endif // __CEL_PL_ENTITYTEMP__
