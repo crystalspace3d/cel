@@ -228,7 +228,7 @@ celPropertyClassTemplate* celEntityTemplate::FindPCTemplate (
     {
       if ((tag == 0 || *tag == 0) && pct->GetTagStr ().IsEmpty ())
         return pct;
-      if (pct->GetTagStr () == tag)
+      if (tag && pct->GetTagStr () == tag)
         return pct;
     }
   }
