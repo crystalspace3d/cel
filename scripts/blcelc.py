@@ -859,6 +859,7 @@ class iCelPropertyClassTemplate(cspace.iBase):
     def GetPropertyCount(*args): return _blcelc.iCelPropertyClassTemplate_GetPropertyCount(*args)
     def GetProperty(*args): return _blcelc.iCelPropertyClassTemplate_GetProperty(*args)
     def FindProperty(*args): return _blcelc.iCelPropertyClassTemplate_FindProperty(*args)
+    def RemoveAllProperties(*args): return _blcelc.iCelPropertyClassTemplate_RemoveAllProperties(*args)
     Name = _swig_property(_blcelc.iCelPropertyClassTemplate_Name_get, _blcelc.iCelPropertyClassTemplate_Name_set, None,
                     "iCelPropertyClassTemplate.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClassTemplate::GetName()\n\tset: void iCelPropertyClassTemplate::SetName(const char*)")
 
