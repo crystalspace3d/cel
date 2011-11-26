@@ -158,7 +158,10 @@ csPtr<iParameter> celParameterManager::GetParameter (
           if (entity) break;
         }
       }
-      return new celExpressionParameter (object_reg, entity, expression, val+1, type);
+      celExpressionParameter* par = new celExpressionParameter (object_reg, entity, expression, val+1, type);
+      if (rememberExpression)
+        par->SetOriginalExpression (val);
+      return par;
     }
     return new celConstantParameter (val, type);
   }
@@ -208,7 +211,10 @@ csPtr<iParameter> celParameterManager::GetParameter (const char* val,
       }
     }
 #endif
-    return new celExpressionParameter (object_reg, entity, expression, val+1, type);
+    celExpressionParameter* par = new celExpressionParameter (object_reg, entity, expression, val+1, type);
+    if (rememberExpression)
+      par->SetOriginalExpression (val);
+    return par;
   }
   return new celConstantParameter (val, type);
 }

@@ -44,7 +44,7 @@ struct iCelPlLayer;
  */
 struct iParameter : public virtual iBase
 {
-  SCF_INTERFACE (iParameter, 0, 0, 2);
+  SCF_INTERFACE (iParameter, 0, 0, 3);
 
   /**
    * Get this variable as its correct datatype.
@@ -83,6 +83,22 @@ struct iParameter : public virtual iBase
    * \param params is an optional parameter block given to the reward.
    */
   virtual bool GetBool (iCelParameterBlock* params) = 0;
+
+  /**
+   * Get the original expression used to generate this parameter.
+   * This is only valid if the parameter manager has remembering of
+   * expressions enabled. Returns 0 otherwise.
+   */
+  virtual const char* GetOriginalExpression () = 0;
+
+  /**
+   * Get the possible type of this parameter. This is not always accurate
+   * since sometimes the type of this parameter cannot be known without more
+   * context (like the params blocks that is given to 'GetXxx()'). In the
+   * case that it is not known what type it will be, CEL_DATA_NONE is
+   * returned.
+   */
+  virtual celDataType GetPossibleType () const = 0;
 };
 
 //---------------------------------------------------------------------------
@@ -94,7 +110,7 @@ struct iParameter : public virtual iBase
  */
 struct iParameterManager : public virtual iBase
 {
-    SCF_INTERFACE (iParameterManager, 1, 0, 1);
+    SCF_INTERFACE (iParameterManager, 1, 0, 2);
 
   /**
    * Get a parameter that can be evalulated later on an as-needed basis.
@@ -165,7 +181,16 @@ struct iParameterManager : public virtual iBase
       iCelPlLayer* pl,
       iCelParameterBlock* params, iParameter* param,
       iCelEntity* ent = 0) = 0;
+
+  /**
+   * Enable remembering of the original expression used to create
+   * the parameter. This is useful for editors where you want to examine
+   * the expression used for making this parameter. Disabled by default.
+   */
+  virtual void SetRememberExpression (bool remember) = 0;
+  virtual bool IsRememberingExpressions () const = 0;
 };
+
 //---------------------------------------------------------------------------
 
 #endif // __CEL_PARAMETERS__
