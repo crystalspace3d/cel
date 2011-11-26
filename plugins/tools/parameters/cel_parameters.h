@@ -39,6 +39,7 @@ private:
   csWeakRef<iCelPlLayer> pl;
   csWeakRef<iCelExpressionParser> expparser;
   iCelExpressionParser* GetParser ();
+  bool rememberExpression;
 
   csString str;	// Temporary string returned by ResolveParameter().
 
@@ -49,7 +50,8 @@ private:
 
 public:
   celParameterManager (iBase* parent) : 
-	  scfImplementationType (this, parent), object_reg(0) { }
+	  scfImplementationType (this, parent), object_reg (0),
+	  rememberExpression (false) { }
   virtual ~celParameterManager() {}
 
   // From iComponent.
@@ -71,6 +73,9 @@ public:
       iCelPlLayer* pl,
       iCelParameterBlock* params, iParameter* param,
       iCelEntity* ent = 0);
+
+  virtual void SetRememberExpression (bool remember) { rememberExpression = remember; }
+  virtual bool IsRememberingExpressions () const { return rememberExpression; }
 };
 
 //---------------------------------------------------------------------------
@@ -106,6 +111,11 @@ public:
   virtual int32 GetLong (iCelParameterBlock*);
   virtual float GetFloat (iCelParameterBlock*);
   virtual bool GetBool (iCelParameterBlock*);
+  virtual const char* GetOriginalExpression ()
+  {
+    return Get (0);
+  }
+  virtual celDataType GetPossibleType () const { return data.type; }
 };
 
 //---------------------------------------------------------------------------
@@ -136,6 +146,13 @@ public:
   virtual int32 GetLong (iCelParameterBlock* params);
   virtual float GetFloat (iCelParameterBlock*);
   virtual bool GetBool (iCelParameterBlock*);
+  virtual const char* GetOriginalExpression ()
+  {
+    str = "@";
+    str += parname;
+    return str;
+  }
+  virtual celDataType GetPossibleType () const { return desiredType; }
 };
 
 //---------------------------------------------------------------------------
@@ -152,6 +169,7 @@ private:
   csString oldvalue;
   csString str;	// This string is used to hold temporary conversion to string.
   celDataType desiredType;
+  csString expressionString;	// Used to remember the expression.
 
 public:
   celExpressionParameter (iObjectRegistry* object_reg, iCelEntity* entity,
@@ -168,6 +186,15 @@ public:
   virtual int32 GetLong (iCelParameterBlock* params);
   virtual float GetFloat (iCelParameterBlock*);
   virtual bool GetBool (iCelParameterBlock*);
+  void SetOriginalExpression (const char* exp)
+  {
+    expressionString = exp;
+  }
+  virtual const char* GetOriginalExpression ()
+  {
+    return expressionString;
+  }
+  virtual celDataType GetPossibleType () const { return desiredType; }
 };
 
 //---------------------------------------------------------------------------
