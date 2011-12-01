@@ -360,7 +360,7 @@ bool celEntityTemplate::HasCharacteristic (const char* name) const
   return characteristics.Contains (name);
 }
 
-csPtr<iCharacteristicsIterator> celEntityTemplate::GetCharacteristics () const
+csPtr<iCharacteristicsIterator> celEntityTemplate::GetAllCharacteristics () const
 {
   return new celCharIterator (characteristics.GetIterator ());
 }
