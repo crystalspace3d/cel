@@ -48,6 +48,7 @@ enum
   XMLTOKEN_BEHAVIOUR,
   XMLTOKEN_PROPCLASS,
   XMLTOKEN_TEMPLATE,
+  XMLTOKEN_MERGE,
   XMLTOKEN_PROPERTY,
   XMLTOKEN_ACTION,
   XMLTOKEN_CALL,
@@ -99,6 +100,7 @@ bool celAddOnCelEntityTemplate::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("behaviour", XMLTOKEN_BEHAVIOUR);
   xmltokens.Register ("propclass", XMLTOKEN_PROPCLASS);
   xmltokens.Register ("template", XMLTOKEN_TEMPLATE);
+  xmltokens.Register ("merge", XMLTOKEN_MERGE);
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
   xmltokens.Register ("call", XMLTOKEN_CALL);
@@ -378,7 +380,7 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
-      case XMLTOKEN_TEMPLATE:
+      case XMLTOKEN_MERGE:
         {
 	  const char* tplname = child->GetAttributeValue ("name");
           iCelEntityTemplate* tpl = pl->FindEntityTemplate (tplname);
@@ -390,6 +392,20 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
 	    return 0;
           }
           ent->Merge (tpl);
+        }
+        break;
+      case XMLTOKEN_TEMPLATE:
+        {
+	  const char* tplname = child->GetAttributeValue ("name");
+          iCelEntityTemplate* tpl = pl->FindEntityTemplate (tplname);
+          if (!tplname)
+          {
+	    synldr->ReportError (
+	        "cel.addons.celentitytpl",
+	        child, "Can't find entity template '%s'!", tplname);
+	    return 0;
+          }
+          ent->AddParent (tpl);
         }
         break;
       case XMLTOKEN_CHARACTERISTIC:

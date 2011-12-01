@@ -282,6 +282,41 @@ void celEntityTemplate::Merge (iCelEntityTemplate* tpl)
   }
 }
 
+void celEntityTemplate::AddParent (iCelEntityTemplate* tpl)
+{
+  parents.Push (tpl);
+}
+
+void celEntityTemplate::RemoveParent (iCelEntityTemplate* tpl)
+{
+  parents.Delete (tpl);
+}
+
+class celTemplateIterator : public scfImplementation1<celTemplateIterator, iCelEntityTemplateIterator>
+{
+  csRefArray<iCelEntityTemplate>::ConstIterator it;
+
+public:
+  celTemplateIterator (const csRefArray<iCelEntityTemplate>::ConstIterator& it) :
+    scfImplementationType (this), it (it)
+  {
+  }
+  virtual ~celTemplateIterator ()
+  {
+  }
+  virtual bool HasNext () const { return it.HasNext (); }
+  virtual iCelEntityTemplate* Next ()
+  {
+    return it.Next ();
+  }
+};
+
+csPtr<iCelEntityTemplateIterator> celEntityTemplate::GetParents () const
+{
+  celTemplateIterator* it = new celTemplateIterator (parents.GetIterator ());
+  return it;
+}
+
 void celEntityTemplate::SetCharacteristic (const char* name, float value)
 {
   characteristics.Put (name, value);

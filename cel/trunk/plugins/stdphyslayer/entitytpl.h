@@ -105,6 +105,7 @@ private:
   csArray<ccfMessage> messages;
   csSet<csStringID> classes;
   csHash<float, csStringBase> characteristics;
+  csRefArray<iCelEntityTemplate> parents;
 
   celPropertyClassTemplate* FindPCTemplate (const char* name, const char* tag);
 
@@ -143,7 +144,11 @@ public:
   virtual const char* GetBehaviourLayer () const { return layer; }
   const char* GetLayer () const { return layer; }
   virtual const char* GetBehaviour () const { return behaviour; }
-  const csRefArray<celPropertyClassTemplate> GetPropClasses () const
+  const csRefArray<iCelEntityTemplate>& GetParentsInt () const
+  {
+    return parents;
+  }
+  const csRefArray<celPropertyClassTemplate>& GetPropClasses () const
   {
     return propclasses;
   }
@@ -153,6 +158,9 @@ public:
   virtual void SetName (const char* n) { csObject::SetName (n); }
 
   virtual void Merge (iCelEntityTemplate* tpl);
+  virtual void AddParent (iCelEntityTemplate* tpl);
+  virtual void RemoveParent (iCelEntityTemplate* tpl);
+  virtual csPtr<iCelEntityTemplateIterator> GetParents () const;
 
   virtual iTemplateCharacteristics* GetCharacteristics ()
   {

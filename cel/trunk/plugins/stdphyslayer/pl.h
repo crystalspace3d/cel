@@ -63,6 +63,8 @@ struct CallbackInfo
   CallbackInfo () : handling_every_frame (false) { }
 };
 
+typedef csHash<csRef<celEntityTemplate>, csStringBase> celTemplates;
+
 /**
  * Implementation of the physical layer.
  */
@@ -79,7 +81,7 @@ private:
   csHash<csRef<iCelEntityList>,csStringID> entityclasses_hash;
   bool entities_hash_dirty;
 
-  csHash<csRef<celEntityTemplate>, csStringBase> entity_templates;
+  celTemplates entity_templates;
 
   csRefArray<iCelEntityRemoveCallback> removecallbacks;
   csRefArray<iCelNewEntityCallback> newcallbacks;
@@ -161,8 +163,7 @@ public:
   virtual void RemoveEntityTemplate (iCelEntityTemplate* entfact);
   virtual void RemoveEntityTemplates ();
   virtual iCelEntityTemplate* FindEntityTemplate (const char* factname);
-  virtual size_t GetEntityTemplateCount () const;
-  virtual iCelEntityTemplate* GetEntityTemplate (size_t idx) const;
+  virtual csPtr<iCelEntityTemplateIterator> GetEntityTemplates () const;
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
   	const char* name, iCelParameterBlock* params);
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
