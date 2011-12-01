@@ -315,6 +315,11 @@ void celEntityTemplate::RemoveParent (iCelEntityTemplate* tpl)
   parents.Delete (tpl);
 }
 
+void celEntityTemplate::RemoveParents ()
+{
+  parents.DeleteAll ();
+}
+
 class celTemplateIterator : public scfImplementation1<celTemplateIterator, iCelEntityTemplateIterator>
 {
   csRefArray<iCelEntityTemplate>::ConstIterator it;
