@@ -203,6 +203,11 @@ struct iCelEntityTemplate : public virtual iBase
   virtual void RemoveParent (iCelEntityTemplate* tpl) = 0;
 
   /**
+   * Remove all parents.
+   */
+  virtual void RemoveParents () = 0;
+
+  /**
    * Get the parents of this template.
    */
   virtual csPtr<iCelEntityTemplateIterator> GetParents () const = 0;

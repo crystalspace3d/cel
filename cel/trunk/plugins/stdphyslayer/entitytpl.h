@@ -160,6 +160,7 @@ public:
   virtual void Merge (iCelEntityTemplate* tpl);
   virtual void AddParent (iCelEntityTemplate* tpl);
   virtual void RemoveParent (iCelEntityTemplate* tpl);
+  virtual void RemoveParents ();
   virtual csPtr<iCelEntityTemplateIterator> GetParents () const;
 
   virtual iTemplateCharacteristics* GetCharacteristics ()
