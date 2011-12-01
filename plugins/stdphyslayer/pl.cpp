@@ -328,25 +328,31 @@ iCelEntityTemplate* celPlLayer::FindEntityTemplate (const char* factname)
   return static_cast<iCelEntityTemplate*> (f);
 }
 
-size_t celPlLayer::GetEntityTemplateCount () const
+class celHashEntityTemplateIterator : public scfImplementation1<celHashEntityTemplateIterator, iCelEntityTemplateIterator>
 {
-  return entity_templates.GetSize ();
-}
+  celTemplates::ConstGlobalIterator it;
 
-iCelEntityTemplate* celPlLayer::GetEntityTemplate (size_t idx) const
-{
-  // @@@ This is not an efficient routine. Use only for debugging purposes!
-  size_t i;
-  csHash<csRef<celEntityTemplate>, csStringBase>::ConstGlobalIterator it =
-    entity_templates.GetIterator ();
-  iCelEntityTemplate* temp = 0;
-  for (i = 0 ; i <= idx ; i++)
+public:
+  celHashEntityTemplateIterator (const celTemplates::ConstGlobalIterator& it) :
+    scfImplementationType (this), it (it)
   {
-    if (!it.HasNext ()) return 0;
-    const csRef<celEntityTemplate>& tpl = it.Next ();
-    temp = static_cast<iCelEntityTemplate*> (tpl);
   }
-  return temp;
+  virtual ~celHashEntityTemplateIterator ()
+  {
+  }
+  virtual bool HasNext () const { return it.HasNext (); }
+  virtual iCelEntityTemplate* Next ()
+  {
+    celEntityTemplate* tpl = it.Next ();
+    return static_cast<iCelEntityTemplate*> (tpl);
+  }
+};
+
+csPtr<iCelEntityTemplateIterator> celPlLayer::GetEntityTemplates () const
+{
+  celHashEntityTemplateIterator* it = new celHashEntityTemplateIterator (
+      entity_templates.GetIterator ());
+  return it;
 }
 
 csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
@@ -434,6 +440,15 @@ bool celPlLayer::ApplyTemplate (iCelEntity* ent, iCelEntityTemplate* factory,
       iCelParameterBlock* params)
 {
   celEntityTemplate* cfact = static_cast<celEntityTemplate*> (factory);
+
+  // First apply all the parents.
+  const csRefArray<iCelEntityTemplate>& parents = cfact->GetParentsInt ();
+  for (size_t i = 0 ; i < parents.GetSize () ; i++)
+  {
+    if (!ApplyTemplate (ent, parents[i], params))
+      return false;
+  }
+
   csRef<iCelBlLayer> bl;
   if (cfact->GetLayer ())
   {

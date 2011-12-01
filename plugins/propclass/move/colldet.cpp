@@ -66,6 +66,7 @@ CEL_IMPLEMENT_FACTORY_ALT (CollisionDetection, "pcobject.mesh.collisiondetection
 celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
+  colliderActorReady = false;
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   if (!cdsys)
   {
@@ -99,6 +100,7 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
   if (!useCD)
     return true;
 
+  if (!InitActor ()) return true;
   return collider_actor.AdjustForCollisions (oldpos, newpos,
   	vel, delta);
 }
@@ -126,9 +128,18 @@ bool celPcCollisionDetection::Init (const csVector3& body,
   topSize = body;
   bottomSize = legs;
   celPcCollisionDetection::shift = _shift;
-  collider_actor.InitializeColliders (pcmesh->GetMesh (),
-  	legs, body, shift);
+  colliderActorReady = false;
   useCD = true;
+  return true;
+}
+
+bool celPcCollisionDetection::InitActor ()
+{
+  if (colliderActorReady) return true;
+  if (!pcmesh->GetMesh ()) return false;
+  collider_actor.InitializeColliders (pcmesh->GetMesh (),
+  	bottomSize, topSize, shift);
+  colliderActorReady = true;
   return true;
 }
 

@@ -41,6 +41,7 @@ struct iCelPropertyClassFactory;
 struct iCelBlLayer;
 struct iCelBehaviour;
 struct iCelEntityTemplate;
+struct iCelEntityTemplateIterator;
 struct iSector;
 struct iCamera;
 class csVector3;
@@ -181,14 +182,9 @@ struct iCelPlLayer : public virtual iBase
   virtual iCelEntityTemplate* FindEntityTemplate (const char* factname) = 0;
 
   /**
-   * Get the number of entity templates.
+   * Get all entity templates.
    */
-  virtual size_t GetEntityTemplateCount () const = 0;
-
-  /**
-   * Get a specific entity template.
-   */
-  virtual iCelEntityTemplate* GetEntityTemplate (size_t idx) const = 0;
+  virtual csPtr<iCelEntityTemplateIterator> GetEntityTemplates () const = 0;
 
   /**
    * Create an entity from a template.

@@ -32,6 +32,7 @@
 #include "tools/parameters.h"
 
 struct iCelEntity;
+struct iCelEntityTemplate;
 struct iCelPropertyClassTemplate;
 struct iCelPropertyClass;
 struct iTemplateCharacteristics;
@@ -56,11 +57,29 @@ struct iCelParameterIterator : public virtual iBase
 };
 
 /**
+ * Iterator to iterate over entity templates.
+ */
+struct iCelEntityTemplateIterator : public virtual iBase
+{
+  SCF_INTERFACE (iCelEntityTemplateIterator, 0, 0, 1);
+
+  /**
+   * Is there another template?
+   */
+  virtual bool HasNext () const = 0;
+
+  /**
+   * Get next template.
+   */
+  virtual iCelEntityTemplate* Next () = 0;
+};
+
+/**
  * This is an entity template. It can be used to create other entities.
  */
 struct iCelEntityTemplate : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntityTemplate, 0, 2, 0);
+  SCF_INTERFACE (iCelEntityTemplate, 0, 2, 1);
 
   /**
    * Get the iObject for this entity template.
@@ -161,9 +180,32 @@ struct iCelEntityTemplate : public virtual iBase
   virtual const csSet<csStringID>& GetClasses () const = 0;
 
   /**
-   * Merge another template into this one.
+   * Merge another template into this one. This physically merges
+   * all information from the other template into this one without
+   * leaving any trace that this merge has occured (this contrasts
+   * with AddParent() below).
    */
   virtual void Merge (iCelEntityTemplate* tpl) = 0;
+
+  /**
+   * Add a parent template to this one. When creating an entity
+   * from this template the parent templates are applied first in
+   * the order that they were added. This is different from Merge() since
+   * the parent templates are only used at the time the entities are
+   * created so every change that is done to the parent template will
+   * still have an effect.
+   */
+  virtual void AddParent (iCelEntityTemplate* tpl) = 0;
+
+  /**
+   * Remove a parent.
+   */
+  virtual void RemoveParent (iCelEntityTemplate* tpl) = 0;
+
+  /**
+   * Get the parents of this template.
+   */
+  virtual csPtr<iCelEntityTemplateIterator> GetParents () const = 0;
 
   /**
    * Get the template characteristics interface for this

@@ -1212,16 +1212,14 @@ void celConsole::ListEntities ()
 void celConsole::ListTemplates ()
 {
   if (!GetPL ()) return;
-  size_t cnt = pl->GetEntityTemplateCount ();
-  size_t i;
-  for (i = 0 ; i < cnt ; i++)
+  csRef<iCelEntityTemplateIterator> it = pl->GetEntityTemplates ();
+  while (it->HasNext ())
   {
-    iCelEntityTemplate* tpl = pl->GetEntityTemplate (i);
+    iCelEntityTemplate* tpl = it->Next ();
     const char* name = tpl->GetName ();
     const char* layer = tpl->GetBehaviourLayer ();
     const char* bh = tpl->GetBehaviour ();
-    conout->PutText ("Template %u: %s (%s/%s)\n", (unsigned int)i,
-	name, layer, bh);
+    conout->PutText ("Template: %s (%s/%s)\n", name, layer, bh);
   }
 }
 

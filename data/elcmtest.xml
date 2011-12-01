@@ -162,6 +162,7 @@
     </addon>
 
     <addon plugin="cel.addons.celentitytpl" entityname="BasePlayer" >
+      <propclass name="pcobject.mesh" />
       <propclass name="pcinput.standard">
 	<action name="Bind">
 	  <par name="trigger" string="left" />
