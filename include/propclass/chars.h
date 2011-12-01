@@ -178,7 +178,7 @@ struct iTemplateCharacteristics : public virtual iBase
   /**
    * Return all characteristics.
    */
-  virtual csPtr<iCharacteristicsIterator> GetCharacteristics () const = 0;
+  virtual csPtr<iCharacteristicsIterator> GetAllCharacteristics () const = 0;
 
   /**
    * Clear all properties.

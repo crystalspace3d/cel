@@ -173,7 +173,7 @@ public:
   virtual float GetCharacteristic (const char* name) const;
   virtual void ClearCharacteristic (const char* name);
   virtual bool HasCharacteristic (const char* name) const;
-  virtual csPtr<iCharacteristicsIterator> GetCharacteristics () const;
+  virtual csPtr<iCharacteristicsIterator> GetAllCharacteristics () const;
   virtual void ClearAll ();
 };
 
