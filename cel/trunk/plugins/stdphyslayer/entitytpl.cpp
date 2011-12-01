@@ -25,6 +25,29 @@
 
 //---------------------------------------------------------------------------
 
+class celCharIterator : public scfImplementation1<celCharIterator,
+	iCharacteristicsIterator>
+{
+private:
+  csHash<float, csStringBase>::ConstGlobalIterator it;
+  csString key;
+
+public:
+  celCharIterator (const csHash<float, csStringBase>::ConstGlobalIterator it) :
+	  scfImplementationType (this), it (it)
+  {
+  }
+  virtual ~celCharIterator () { }
+  virtual bool HasNext () const { return it.HasNext (); }
+  virtual const char* Next (float& value)
+  {
+    value = it.Next (key);
+    return key;
+  }
+};
+
+//---------------------------------------------------------------------------
+
 class celParameterIterator : public scfImplementation1<celParameterIterator,
 	iCelParameterIterator>
 {
@@ -335,6 +358,11 @@ void celEntityTemplate::ClearCharacteristic (const char* name)
 bool celEntityTemplate::HasCharacteristic (const char* name) const
 {
   return characteristics.Contains (name);
+}
+
+csPtr<iCharacteristicsIterator> celEntityTemplate::GetCharacteristics () const
+{
+  return new celCharIterator (characteristics.GetIterator ());
 }
 
 void celEntityTemplate::ClearAll ()

@@ -27,6 +27,18 @@ struct iCelEntity;
 struct iPcInventory;
 
 /**
+ * An iterator to get all characteristics.
+ */
+struct iCharacteristicsIterator : public virtual iBase
+{
+  SCF_INTERFACE (iCharacteristicsIterator, 0, 0, 1);
+
+  virtual bool HasNext () const = 0;
+  /// Get the next characteristic name.
+  virtual const char* Next (float& value) = 0;
+};
+
+/**
  * This is a characteristics property class.
  *
  * This property class supports the following actions (add prefix 'cel.characteristics.action.'
@@ -162,6 +174,11 @@ struct iTemplateCharacteristics : public virtual iBase
    * Returns true if a property is present.
    */
   virtual bool HasCharacteristic (const char* name) const = 0;
+
+  /**
+   * Return all characteristics.
+   */
+  virtual csPtr<iCharacteristicsIterator> GetCharacteristics () const = 0;
 
   /**
    * Clear all properties.
