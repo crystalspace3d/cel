@@ -170,6 +170,11 @@ struct iCelEntityTemplate : public virtual iBase
   virtual void RemoveClass (csStringID cls) = 0;
 
   /**
+   * Remove all classes.
+   */
+  virtual void RemoveClasses () = 0;
+
+  /**
    * Check if this entity belongs to some class.
    */
   virtual bool HasClass (csStringID cls) = 0;
