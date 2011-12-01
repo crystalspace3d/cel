@@ -115,6 +115,7 @@ public:
 
   virtual void AddClass (csStringID cls);
   virtual void RemoveClass (csStringID cls);
+  virtual void RemoveClasses ();
   virtual bool HasClass (csStringID cls);
   virtual const csSet<csStringID>& GetClasses () const { return classes; }
 

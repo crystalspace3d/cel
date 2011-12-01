@@ -228,6 +228,11 @@ void celEntityTemplate::RemoveClass (csStringID cls)
   classes.Delete (cls);
 }
 
+void celEntityTemplate::RemoveClasses ()
+{
+  classes.DeleteAll ();
+}
+
 bool celEntityTemplate::HasClass (csStringID cls)
 {
   return classes.In (cls);
