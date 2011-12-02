@@ -53,7 +53,7 @@ private:
   csString tag;
   csArray<ccfPropAct> properties;
 
-  ccfPropAct& Create (csStringID id);
+  ccfPropAct& GetOrCreate (csStringID id);
 
 public:
   celPropertyClassTemplate ();
