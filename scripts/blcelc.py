@@ -462,8 +462,7 @@ class iCelPlLayer(cspace.iBase):
     def RemoveEntityTemplate(*args): return _blcelc.iCelPlLayer_RemoveEntityTemplate(*args)
     def RemoveEntityTemplates(*args): return _blcelc.iCelPlLayer_RemoveEntityTemplates(*args)
     def FindEntityTemplate(*args): return _blcelc.iCelPlLayer_FindEntityTemplate(*args)
-    def GetEntityTemplateCount(*args): return _blcelc.iCelPlLayer_GetEntityTemplateCount(*args)
-    def GetEntityTemplate(*args): return _blcelc.iCelPlLayer_GetEntityTemplate(*args)
+    def GetEntityTemplates(*args): return _blcelc.iCelPlLayer_GetEntityTemplates(*args)
     def CreateEntity(*args): return _blcelc.iCelPlLayer_CreateEntity(*args)
     def ApplyTemplate(*args): return _blcelc.iCelPlLayer_ApplyTemplate(*args)
     def CreateDataBuffer(*args): return _blcelc.iCelPlLayer_CreateDataBuffer(*args)
@@ -801,6 +800,17 @@ iCelParameterIterator_swigregister = _blcelc.iCelParameterIterator_swigregister
 iCelParameterIterator_swigregister(iCelParameterIterator)
 celFindNearbyEntities = _blcelc.celFindNearbyEntities
 
+class iCelEntityTemplateIterator(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def HasNext(*args): return _blcelc.iCelEntityTemplateIterator_HasNext(*args)
+    def Next(*args): return _blcelc.iCelEntityTemplateIterator_Next(*args)
+    __swig_destroy__ = _blcelc.delete_iCelEntityTemplateIterator
+    __del__ = lambda self : None;
+iCelEntityTemplateIterator_swigregister = _blcelc.iCelEntityTemplateIterator_swigregister
+iCelEntityTemplateIterator_swigregister(iCelEntityTemplateIterator)
+
 class iCelEntityTemplate(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -820,9 +830,14 @@ class iCelEntityTemplate(cspace.iBase):
     def GetMessage(*args): return _blcelc.iCelEntityTemplate_GetMessage(*args)
     def AddClass(*args): return _blcelc.iCelEntityTemplate_AddClass(*args)
     def RemoveClass(*args): return _blcelc.iCelEntityTemplate_RemoveClass(*args)
+    def RemoveClasses(*args): return _blcelc.iCelEntityTemplate_RemoveClasses(*args)
     def HasClass(*args): return _blcelc.iCelEntityTemplate_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntityTemplate_GetClasses(*args)
     def Merge(*args): return _blcelc.iCelEntityTemplate_Merge(*args)
+    def AddParent(*args): return _blcelc.iCelEntityTemplate_AddParent(*args)
+    def RemoveParent(*args): return _blcelc.iCelEntityTemplate_RemoveParent(*args)
+    def RemoveParents(*args): return _blcelc.iCelEntityTemplate_RemoveParents(*args)
+    def GetParents(*args): return _blcelc.iCelEntityTemplate_GetParents(*args)
     def GetCharacteristics(*args): return _blcelc.iCelEntityTemplate_GetCharacteristics(*args)
     Object = _swig_property(_blcelc.iCelEntityTemplate_Object_get, None, None,
                     "iCelEntityTemplate.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntityTemplate::QueryObject()")
@@ -4153,6 +4168,20 @@ class iCelEntityInvFakeArray(object):
 		else: return self.parent.GetEntity(val)
 	def append(self,obj): return self.parent.AddEntity(obj)
 
+class iCharacteristicsIterator(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def HasNext(*args): return _blcelc.iCharacteristicsIterator_HasNext(*args)
+    def Next(*args): return _blcelc.iCharacteristicsIterator_Next(*args)
+    __swig_destroy__ = _blcelc.delete_iCharacteristicsIterator
+    __del__ = lambda self : None;
+iCharacteristicsIterator_swigregister = _blcelc.iCharacteristicsIterator_swigregister
+iCharacteristicsIterator_swigregister(iCharacteristicsIterator)
+celCreateInventory = _blcelc.celCreateInventory
+celGetSetInventory = _blcelc.celGetSetInventory
+celGetInventory = _blcelc.celGetInventory
+
 class iPcCharacteristics(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -4191,9 +4220,6 @@ class iPcCharacteristics(cspace.iBase):
     __del__ = lambda self : None;
 iPcCharacteristics_swigregister = _blcelc.iPcCharacteristics_swigregister
 iPcCharacteristics_swigregister(iPcCharacteristics)
-celCreateInventory = _blcelc.celCreateInventory
-celGetSetInventory = _blcelc.celGetSetInventory
-celGetInventory = _blcelc.celGetInventory
 iPcCharacteristics_scfGetVersion = _blcelc.iPcCharacteristics_scfGetVersion
 
 class iTemplateCharacteristics(cspace.iBase):
@@ -4204,6 +4230,7 @@ class iTemplateCharacteristics(cspace.iBase):
     def GetCharacteristic(*args): return _blcelc.iTemplateCharacteristics_GetCharacteristic(*args)
     def ClearCharacteristic(*args): return _blcelc.iTemplateCharacteristics_ClearCharacteristic(*args)
     def HasCharacteristic(*args): return _blcelc.iTemplateCharacteristics_HasCharacteristic(*args)
+    def GetAllCharacteristics(*args): return _blcelc.iTemplateCharacteristics_GetAllCharacteristics(*args)
     def ClearAll(*args): return _blcelc.iTemplateCharacteristics_ClearAll(*args)
     __swig_destroy__ = _blcelc.delete_iTemplateCharacteristics
     __del__ = lambda self : None;
