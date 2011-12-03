@@ -53,7 +53,7 @@ private:
   csString tag;
   csArray<ccfPropAct> properties;
 
-  ccfPropAct& GetOrCreate (csStringID id);
+  ccfPropAct& Create (csStringID id);
 
 public:
   celPropertyClassTemplate ();
@@ -91,6 +91,7 @@ public:
 		  csStringID& id, celData& data) const;
   virtual size_t FindProperty (csStringID id) const;
   virtual void RemoveAllProperties ();
+  virtual void RemoveProperty (csStringID id);
 };
 
 /**
