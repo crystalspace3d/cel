@@ -345,6 +345,11 @@ struct iCelPropertyClassTemplate : public virtual iBase
    * Remove all properties.
    */
   virtual void RemoveAllProperties () = 0;
+
+  /**
+   * Remove all properties with the given id.
+   */
+  virtual void RemoveProperty (csStringID id) = 0;
 };
 
 #endif // __CEL_PL_ENTITYTEMP__
