@@ -92,6 +92,7 @@ public:
   virtual size_t FindProperty (csStringID id) const;
   virtual void RemoveAllProperties ();
   virtual void RemoveProperty (csStringID id);
+  virtual void RemovePropertyByIndex (size_t idx);
 };
 
 /**

@@ -350,6 +350,11 @@ struct iCelPropertyClassTemplate : public virtual iBase
    * Remove all properties with the given id.
    */
   virtual void RemoveProperty (csStringID id) = 0;
+
+  /**
+   * Remove a property by index.
+   */
+  virtual void RemovePropertyByIndex (size_t idx) = 0;
 };
 
 #endif // __CEL_PL_ENTITYTEMP__
