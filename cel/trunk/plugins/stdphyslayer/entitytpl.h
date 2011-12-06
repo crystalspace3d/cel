@@ -86,6 +86,8 @@ public:
   virtual void SetProperty (csStringID propertyID, iCelEntity* entity);
   virtual void PerformAction (csStringID actionID,
   	const csHash<csRef<iParameter>, csStringID>& params);
+  virtual void ReplaceActionParameters (size_t idx,
+  	const csHash<csRef<iParameter>, csStringID>& params);
   virtual size_t GetPropertyCount () const { return properties.GetSize (); }
   virtual csRef<iCelParameterIterator> GetProperty (size_t idx,
 		  csStringID& id, celData& data) const;
