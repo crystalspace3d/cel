@@ -194,6 +194,11 @@ void celPropertyClassTemplate::RemoveProperty (csStringID id)
   }
 }
 
+void celPropertyClassTemplate::RemovePropertyByIndex (size_t idx)
+{
+  properties.DeleteIndex (idx);
+}
+
 //---------------------------------------------------------------------------
 
 celEntityTemplate::celEntityTemplate () : scfImplementationType (this)
