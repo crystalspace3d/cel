@@ -150,6 +150,12 @@ void celPropertyClassTemplate::PerformAction (csStringID actionID,
   Create (actionID).params = params;
 }
 
+void celPropertyClassTemplate::ReplaceActionParameters (size_t idx,
+  	const csHash<csRef<iParameter>, csStringID>& params)
+{
+  properties[idx].params = params;
+}
+
 void celPropertyClassTemplate::Merge (celPropertyClassTemplate* other)
 {
   for (size_t i = 0 ; i < other->properties.GetSize () ; i++)

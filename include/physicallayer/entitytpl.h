@@ -325,6 +325,12 @@ struct iCelPropertyClassTemplate : public virtual iBase
   	const csHash<csRef<iParameter>, csStringID>& params) = 0;
 
   /**
+   * Replace the parameterblock for a given action.
+   */
+  virtual void ReplaceActionParameters (size_t idx,
+  	const csHash<csRef<iParameter>, csStringID>& params) = 0;
+
+  /**
    * Get the number of properties and actions.
    */
   virtual size_t GetPropertyCount () const = 0;
