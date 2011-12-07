@@ -871,11 +871,13 @@ class iCelPropertyClassTemplate(cspace.iBase):
     def SetPropertyVariable(*args): return _blcelc.iCelPropertyClassTemplate_SetPropertyVariable(*args)
     def SetProperty(*args): return _blcelc.iCelPropertyClassTemplate_SetProperty(*args)
     def PerformAction(*args): return _blcelc.iCelPropertyClassTemplate_PerformAction(*args)
+    def ReplaceActionParameters(*args): return _blcelc.iCelPropertyClassTemplate_ReplaceActionParameters(*args)
     def GetPropertyCount(*args): return _blcelc.iCelPropertyClassTemplate_GetPropertyCount(*args)
     def GetProperty(*args): return _blcelc.iCelPropertyClassTemplate_GetProperty(*args)
     def FindProperty(*args): return _blcelc.iCelPropertyClassTemplate_FindProperty(*args)
     def RemoveAllProperties(*args): return _blcelc.iCelPropertyClassTemplate_RemoveAllProperties(*args)
     def RemoveProperty(*args): return _blcelc.iCelPropertyClassTemplate_RemoveProperty(*args)
+    def RemovePropertyByIndex(*args): return _blcelc.iCelPropertyClassTemplate_RemovePropertyByIndex(*args)
     Name = _swig_property(_blcelc.iCelPropertyClassTemplate_Name_get, _blcelc.iCelPropertyClassTemplate_Name_set, None,
                     "iCelPropertyClassTemplate.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClassTemplate::GetName()\n\tset: void iCelPropertyClassTemplate::SetName(const char*)")
 
