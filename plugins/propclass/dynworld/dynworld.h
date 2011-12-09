@@ -116,6 +116,16 @@ public:
       return body;
     }
   }
+  virtual celBodyInfo GetBodyInfo ()
+  {
+    celBodyInfo info;
+    info.offset = offset;
+    info.mass = mass;
+    info.radius = 0;
+    info.length = 0;
+    info.size.Set (0, 0, 0);
+    return info;
+  }
 };
 
 class DOColliderMesh : public DOCollider
@@ -133,6 +143,12 @@ public:
     body->AttachColliderMesh (mesh, t, 10, 1, 0.8f);
     return body;
   }
+  virtual celBodyInfo GetBodyInfo ()
+  {
+    celBodyInfo info = DOCollider::GetBodyInfo ();
+    info.type = BODY_MESH;
+    return info;
+  }
 };
 
 class DOColliderConvexMesh : public DOCollider
@@ -149,6 +165,12 @@ public:
     csOrthoTransform t (tm, offset);
     body->AttachColliderConvexMesh (mesh, t, 10, 1, 0.8f);
     return body;
+  }
+  virtual celBodyInfo GetBodyInfo ()
+  {
+    celBodyInfo info = DOCollider::GetBodyInfo ();
+    info.type = BODY_CONVEXMESH;
+    return info;
   }
 };
 
@@ -169,6 +191,13 @@ public:
     csOrthoTransform t (tm, offset);
     body->AttachColliderBox (size, t, 10, 1, 0);
     return body;
+  }
+  virtual celBodyInfo GetBodyInfo ()
+  {
+    celBodyInfo info = DOCollider::GetBodyInfo ();
+    info.type = BODY_BOX;
+    info.size = size;
+    return info;
   }
 };
 
@@ -191,6 +220,14 @@ public:
     body->AttachColliderCylinder (length, radius, t, 10, 1, 0.8f);
     return body;
   }
+  virtual celBodyInfo GetBodyInfo ()
+  {
+    celBodyInfo info = DOCollider::GetBodyInfo ();
+    info.type = BODY_CYLINDER;
+    info.radius = radius;
+    info.length = length;
+    return info;
+  }
 };
 
 class DOColliderSphere : public DOCollider
@@ -208,6 +245,13 @@ public:
     csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
     body->AttachColliderSphere (radius, offset, 100, .5, 0);
     return body;
+  }
+  virtual celBodyInfo GetBodyInfo ()
+  {
+    celBodyInfo info = DOCollider::GetBodyInfo ();
+    info.type = BODY_SPHERE;
+    info.radius = radius;
+    return info;
   }
 };
 
@@ -263,6 +307,11 @@ public:
       const csVector3& offset, float mass);
   virtual void AddRigidMesh (const csVector3& offset, float mass);
   virtual void AddRigidConvexMesh (const csVector3& offset, float mass);
+  virtual size_t GetBodyCount () const { return colliders.GetSize (); }
+  virtual celBodyInfo GetBody (size_t idx) const
+  {
+    return colliders[idx]->GetBodyInfo ();
+  }
 
   const csPDelArray<DOCollider>& GetColliders () const { return colliders; }
   iMeshFactoryWrapper* GetMeshFactory () const { return factory; }

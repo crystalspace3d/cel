@@ -75,6 +75,29 @@ struct iDynamicCellCreator : public virtual iBase
   virtual void FillCell (iDynamicCell* cell) = 0;
 };
 
+enum celBodyType
+{
+  BODY_NONE,
+  BODY_BOX,
+  BODY_SPHERE,
+  BODY_CYLINDER,
+  BODY_CONVEXMESH,
+  BODY_MESH,
+};
+
+/**
+ * Information for a body attached to a factory.
+ */
+struct celBodyInfo
+{
+  celBodyType type;
+  csVector3 offset;
+  float mass;
+  float radius;	// Only for cylinder and sphere.
+  float length; // Only for cylinder.
+  csVector3 size; // Only for box.
+};
+
 /**
  * A factory object in the dynamic world.
  */
@@ -157,6 +180,16 @@ struct iDynamicFactory : public virtual iBase
    * Create a convex mesh rigid body.
    */
   virtual void AddRigidConvexMesh (const csVector3& offset, float mass) = 0;
+
+  /**
+   * Get the number of bodies.
+   */
+  virtual size_t GetBodyCount () const = 0;
+
+  /**
+   * Get the body.
+   */
+  virtual celBodyInfo GetBody (size_t idx) const = 0;
 };
 
 /**
