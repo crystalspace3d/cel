@@ -25,9 +25,6 @@
 #include "tools/parameters.h"
 #include "tools/sequences.h"
 
-struct iQuest;
-struct iCelParameterBlock;
-
 //-------------------------------------------------------------------------
 // Rewards
 //-------------------------------------------------------------------------
@@ -60,7 +57,7 @@ struct iRewardFactory : public virtual iBase
    * \param params are the parameters with which this reward is
    * instantiated.
    */
-  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params) = 0;
+  virtual csPtr<iReward> CreateReward (const celParams& params) = 0;
 
   /**
    * Load this factory from a document node.
@@ -117,7 +114,7 @@ struct iRewardType : public virtual iBase
  */
 struct iActionRewardFactory : public virtual iBase
 {
-  SCF_INTERFACE (iActionRewardFactory, 0, 1, 0);
+  SCF_INTERFACE (iActionRewardFactory, 0, 0, 1);
 
   /**
    * Set the name of the entity.
@@ -158,9 +155,11 @@ struct iActionRewardFactory : public virtual iBase
    * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
    * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
    * \param id is the id of the parameter (calculated from iCelPlLayer->FetchStringID(name)).
+   * \param name is the name of the parameter.
    * \param value is the value string or a parameter for it (starts with '$').
    */
-  virtual void AddParameter (celDataType type, csStringID id, const char* value) = 0;
+  virtual void AddParameter (celDataType type, csStringID id,
+      const char* name, const char* value) = 0;
 };
 
 /**
@@ -430,7 +429,7 @@ struct iInventoryRewardFactory : public virtual iBase
  */
 struct iMessageRewardFactory : public virtual iBase
 {
-  SCF_INTERFACE (iMessageRewardFactory, 0, 1, 0);
+  SCF_INTERFACE (iMessageRewardFactory, 0, 0, 1);
 
   /**
    * Set the name of the entity.
@@ -457,9 +456,11 @@ struct iMessageRewardFactory : public virtual iBase
    * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
    * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
    * \param id is the id of the parameter (calculated from iCelPlLayer->FetchStringID(name)).
+   * \param name is the name of the parameter.
    * \param value is the value string or a parameter for it (starts with '$').
    */
-  virtual void AddParameter (celDataType type, csStringID id, const char* value) = 0;
+  virtual void AddParameter (celDataType type, csStringID id,
+      const char* name, const char* value) = 0;
 };
 
 /**

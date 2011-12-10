@@ -32,6 +32,15 @@ struct PcCommon : public scfImplementationExt0<PcCommon, celPcCommon>
 {
     PcCommon(iObjectRegistry* object_reg) : scfImplementationType (this, object_reg) {}
     virtual ~PcCommon (){}
+    virtual csPtr<iCelDataBuffer> Save()
+    {
+        return pl->CreateDataBuffer(0);
+    }
+    virtual bool Load(iCelDataBuffer*)
+    {
+        PcCommon *x= new PcCommon(object_reg); 
+        return false;
+    }
 };
 
 /*

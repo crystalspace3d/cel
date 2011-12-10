@@ -60,7 +60,7 @@ public:
   celPropertyChangeTriggerFactory (celPropertyChangeTriggerType* type);
   virtual ~celPropertyChangeTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iPropertyChangeQuestTriggerFactory ----------------------
@@ -82,7 +82,6 @@ private:
   csRef<iTriggerCallback> callback;
   csWeakRef<iPcProperties> properties;
   csString entity;
-  uint entityID;
   csString tag;
   csString prop;
   const char* value; // Do not change this to csString!
@@ -105,7 +104,7 @@ protected:
   { return (!strcmp (test_value, actual_value)); }
 public:
   celPropertyChangeTrigger (celPropertyChangeTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par, const char* prop_par,
 	const char* value_par, bool on_change);
   virtual ~celPropertyChangeTrigger ();
@@ -115,9 +114,8 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
-
-  virtual void Activate () { ActivateTrigger (); }
-  virtual void Deactivate () { DeactivateTrigger (); }
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   //----------------------- iPcPropertyListener ----------------------------
   virtual void PropertyChanged (iPcProperties* pcprop, size_t idx);
@@ -127,7 +125,7 @@ class celPropertyChangeTriggerLt : public celPropertyChangeTrigger
 {
 public:
   celPropertyChangeTriggerLt (celPropertyChangeTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par, const char* prop_par,
 	const char* value_par, bool on_change)
   : celPropertyChangeTrigger(type, params, entity_par, tag_par, prop_par,
@@ -149,7 +147,7 @@ class celPropertyChangeTriggerGt : public celPropertyChangeTrigger
 {
 public:
   celPropertyChangeTriggerGt (celPropertyChangeTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par, const char* prop_par,
 	const char* value_par, bool on_change)
   : celPropertyChangeTrigger(type, params, entity_par, tag_par, prop_par,
@@ -171,7 +169,7 @@ class celPropertyChangeTriggerNe : public celPropertyChangeTrigger
 {
 public:
   celPropertyChangeTriggerNe (celPropertyChangeTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par, const char* prop_par,
 	const char* value_par, bool on_change)
   : celPropertyChangeTrigger(type, params, entity_par, tag_par, prop_par,
@@ -192,7 +190,7 @@ class celPropertyChangeTriggerLe : public celPropertyChangeTrigger
 {
 public:
   celPropertyChangeTriggerLe (celPropertyChangeTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par, const char* prop_par,
 	const char* value_par, bool on_change)
   : celPropertyChangeTrigger(type, params, entity_par, tag_par, prop_par,
@@ -213,7 +211,7 @@ class celPropertyChangeTriggerGe : public celPropertyChangeTrigger
 {
 public:
   celPropertyChangeTriggerGe (celPropertyChangeTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par, const char* prop_par,
 	const char* value_par, bool on_change)
   : celPropertyChangeTrigger(type, params, entity_par, tag_par, prop_par,

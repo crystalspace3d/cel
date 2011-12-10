@@ -71,8 +71,6 @@ private:
   int whereframe;
   csArray<TimeEvent> timer_events;
 
-  csTicks deactivateTime;	// Time when this timer has been de-activated.
-
   static PropertyHolder propinfo;
 
   enum actionids
@@ -87,7 +85,7 @@ private:
   static csStringID id_time;
   static csStringID id_repeat;
   static csStringID id_name;
-  csRef<celVariableParameterBlock> params;
+  celGenericParameterBlock* params;
 
   csRef<iMessageDispatcher> dispatcher_wakeupframe;
 
@@ -98,9 +96,9 @@ public:
   virtual void WakeUp (csTicks t, bool repeat, const char* name);
   virtual void WakeUpFrame (int where);
   virtual void Clear (const char* name);
-  virtual void Activate ();
-  virtual void Deactivate ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();

@@ -365,7 +365,7 @@ bool celPcLinearMovement::SetPropertyIndexed (int idx, const char* b)
     if (!ent)
       return MoveReport (object_reg,
       	"Can't find entity '%s' for property 'anchor' in pcmove.linear!", b);
-    csRef<iPcMesh> m = celQueryPropertyClassEntity<iPcMesh> (ent);
+    csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
     if (!m)
       return MoveReport (object_reg,
       	"Entity '%s' doesn't have a pcmesh (property 'anchor' in pclinmove)!",
@@ -406,7 +406,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         if (!p_body)
           return MoveReport (object_reg,
           	"Missing parameter 'body' for action InitCD!");
-        CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);
+        CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);;
         if (!p_legs)
           return MoveReport (object_reg,
           	"Missing parameter 'legs' for action InitCD!");
@@ -422,7 +422,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         if (!p_percentage)
           return MoveReport (object_reg,
           	"Missing parameter 'percentage' for action InitCDMesh!");
-        csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
         if (!pcmesh)
           return MoveReport (object_reg,
           	"Can't find pcmesh in current entity for action InitCDMesh!");
@@ -1134,7 +1134,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_arrived)
 	{
 	  dispatcher_arrived = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.arrived"));
+	    CreateMessageDispatcher (this, "cel.move.arrived");
 	  if (!dispatcher_arrived) return;
 	}
 	dispatcher_arrived->SendMessage (0);
@@ -1162,7 +1162,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_impossible)
 	{
 	  dispatcher_impossible = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.impossible"));
+	    CreateMessageDispatcher (this, "cel.move.impossible");
 	  if (!dispatcher_impossible) return;
 	}
 	dispatcher_impossible->SendMessage (0);
@@ -1172,7 +1172,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_interrupted)
 	{
 	  dispatcher_interrupted = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.interrupted"));
+	    CreateMessageDispatcher (this, "cel.move.interrupted");
 	  if (!dispatcher_interrupted) return;
 	}
 	dispatcher_interrupted->SendMessage (0);
@@ -1233,7 +1233,7 @@ void celPcLinearMovement::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -1571,7 +1571,7 @@ csPtr<iCelDataBuffer> celPcLinearMovement::GetPersistentData (
 	celPersistenceType persistence_type)
 {
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
-    return 0;
+    return SaveFirstPass ();
 
   if (persistence_type == CEL_PERSIST_TYPE_RECORD)
     return Save ();
@@ -1607,6 +1607,7 @@ celPersistenceResult celPcLinearMovement::SetPersistentData (csTicks data_time,
 
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
   {
+    LoadFirstPass (databuf);
     return CEL_PERSIST_RESULT_OK;
   }
 

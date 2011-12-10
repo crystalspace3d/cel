@@ -54,7 +54,7 @@ celLightSeqOpFactory::~celLightSeqOpFactory ()
 }
 
 csPtr<iSeqOp> celLightSeqOpFactory::CreateSeqOp (
-    iCelParameterBlock* params)
+    const celParams& params)
 {
   celLightSeqOp* seqop = new celLightSeqOp (type,
   	params, entity_par, tag_par,
@@ -76,8 +76,8 @@ bool celLightSeqOpFactory::Load (iDocumentNode* node)
   if (entity_par.IsEmpty ())
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.seqops.light",
-      "'entity' attribute is missing for the light seqop!");
+      "cel.seqops.transform",
+      "'entity' attribute is missing for the transform seqop!");
     return false;
   }
   tag_par = node->GetAttributeValue ("entity_tag");
@@ -125,9 +125,17 @@ void celLightSeqOpFactory::SetAbsColorParameter (const char* red,
 
 //---------------------------------------------------------------------------
 
+static float ToFloat (const char* s)
+{
+  if (!s) return 0.0f;
+  float f = 0.0f;
+  sscanf (s, "%f", &f);
+  return f;
+}
+
 celLightSeqOp::celLightSeqOp (
 	celLightSeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* rel_red_par, const char* rel_green_par,
 		const char* rel_blue_par,
@@ -136,7 +144,7 @@ celLightSeqOp::celLightSeqOp (
 {
   celLightSeqOp::type = type;
 
-  pm = csQueryRegistryOrLoad<iParameterManager> 
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity_param = pm->GetParameter (params, entity_par);
@@ -160,16 +168,33 @@ void celLightSeqOp::FindLight (iCelParameterBlock* params)
 {
   if (light) return;
 
-  iCelEntity* ent = pm->ResolveEntityParameter (type->pl, params, entity_param, 0);
-  if (!ent) return;
+  entity = entity_param->Get (params);
   tag = tag_param->Get (params);
 
-  csRef<iPcLight> pclight = celQueryPropertyClassTagEntity<iPcLight> (ent, tag);
-  if (pclight)
+  // @@@ To many queries for efficiency?
+  iCelPlLayer* pl = type->pl;
+  iCelEntity* ent = pl->FindEntity (entity);
+  if (ent)
   {
-    light = pclight->GetLight ();
-    start = light->GetColor ();
+    csRef<iPcLight> pclight = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcLight, tag);
+    if (pclight)
+    {
+      light = pclight->GetLight ();
+      start = light->GetColor ();
+    }
   }
+}
+
+bool celLightSeqOp::Load (iCelDataBuffer* databuf)
+{
+  light = 0;
+  databuf->GetColor (start);
+  return true;
+}
+
+void celLightSeqOp::Save (iCelDataBuffer* databuf)
+{
+  databuf->Add (start);
 }
 
 void celLightSeqOp::Init (iCelParameterBlock* params)
@@ -182,22 +207,18 @@ void celLightSeqOp::Do (float time, iCelParameterBlock* params)
 {
   if (light)
   {
+	rel.red = ToFloat (rel_red_param->Get (params));
+	rel.green = ToFloat (rel_green_param->Get (params));
+	rel.blue = ToFloat (rel_blue_param->Get (params));
+    abs.red = ToFloat (abs_red_param->Get (params));
+    abs.green = ToFloat (abs_green_param->Get (params));
+    abs.blue = ToFloat (abs_blue_param->Get (params));
+
     csColor col;
-    if (do_abs)
-    {
-      abs.red = abs_red_param->GetFloat (params);
-      abs.green = abs_green_param->GetFloat (params);
-      abs.blue = abs_blue_param->GetFloat (params);
-      col = (1.0f-time) * start + time * abs;
-    }
-    else if (do_rel)
-    {
-      rel.red = rel_red_param->GetFloat (params);
-      rel.green = rel_green_param->GetFloat (params);
-      rel.blue = rel_blue_param->GetFloat (params);
-      col = start + time * rel;
-    }
+    if (do_abs) col = abs;
     else col = start;
+    if (do_rel)
+      col += time * rel;
     light->SetColor (col);
   }
 }

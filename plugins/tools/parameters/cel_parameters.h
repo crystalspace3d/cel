@@ -37,47 +37,34 @@ class celParameterManager : public scfImplementation2<celParameterManager,
 private:
   iObjectRegistry* object_reg;
   csWeakRef<iCelPlLayer> pl;
-  csWeakRef<iCelExpressionParser> expparser;
+  csRef<iCelExpressionParser> expparser;
   iCelExpressionParser* GetParser ();
-  bool rememberExpression;
-
-  csString str;	// Temporary string returned by ResolveParameter().
-
-  void ResolveParameterData (
-    celData& out,
-    iCelParameterBlock* params,
-    const char* param);
 
 public:
   celParameterManager (iBase* parent) : 
-	  scfImplementationType (this, parent), object_reg (0),
-	  rememberExpression (false) { }
+	  scfImplementationType (this, parent), object_reg(0) { }
   virtual ~celParameterManager() {}
 
   // From iComponent.
   virtual bool Initialize (iObjectRegistry*);
 
   // From iParameterManager
-  virtual csPtr<iParameter> GetParameter (iCelParameterBlock* params,
-      const char* param, celDataType type = CEL_DATA_NONE);
-  virtual csPtr<iParameter> GetParameter (const char* param,
-      celDataType type = CEL_DATA_NONE);
-  virtual const char* ResolveParameter (iCelParameterBlock* params,
-      const char* param);
-  virtual const char* ResolveEntityParameter (
-      iCelParameterBlock* params,
-      const char* param,
-      uint& entid);
-
-  virtual iCelEntity* ResolveEntityParameter (
-      iCelPlLayer* pl,
-      iCelParameterBlock* params, iParameter* param,
-      iCelEntity* ent = 0);
-
-  virtual void SetRememberExpression (bool remember) { rememberExpression = remember; }
-  virtual bool IsRememberingExpressions () const { return rememberExpression; }
+  virtual csPtr<iParameter> GetParameter (
+  	const celParams& params,
+	const char* param);
+  virtual const char* ResolveParameter (
+  	const celParams& params,
+	const char* param);
+  virtual csPtr<celVariableParameterBlock> GetParameterBlock (
+  	const celParams& params,
+	const csArray<celParSpec>& parameters,
+	csRefArray<iParameter>& quest_parameters);
+  virtual bool FillParameterBlock (
+    iCelParameterBlock* params,
+	celVariableParameterBlock* act_params,
+	const csArray<celParSpec>& parameters,
+	const csRefArray<iParameter>& quest_parameters);
 };
-
 //---------------------------------------------------------------------------
 
 class celConstantParameter : public scfImplementation1<celConstantParameter,
@@ -93,8 +80,6 @@ public:
   {
     data.Set (c);
   }
-  celConstantParameter (const char* c, celDataType type);
-  celConstantParameter (const celData& in, celDataType type);
   virtual ~celConstantParameter () { }
 
   // From iParamater
@@ -109,13 +94,6 @@ public:
     return Get (0);
   }
   virtual int32 GetLong (iCelParameterBlock*);
-  virtual float GetFloat (iCelParameterBlock*);
-  virtual bool GetBool (iCelParameterBlock*);
-  virtual const char* GetOriginalExpression ()
-  {
-    return Get (0);
-  }
-  virtual celDataType GetPossibleType () const { return data.type; }
 };
 
 //---------------------------------------------------------------------------
@@ -129,14 +107,11 @@ private:
   csString parname;
   csString oldvalue;
   csString str;	// This string is used to hold temporary conversion to string.
-  celData converted;
-  celDataType desiredType;
 
 public:
   celDynamicParameter (iObjectRegistry* object_reg, csStringID dynamic_id,
-      const char* parname, celDataType desiredType) :
-    scfImplementationType (this), object_reg (object_reg),
-    dynamic_id (dynamic_id), parname (parname), desiredType (desiredType) { }
+      const char* parname) : scfImplementationType (this), object_reg (object_reg),
+      dynamic_id (dynamic_id), parname (parname) { }
   virtual ~celDynamicParameter () { }
 
   // From iParamater
@@ -144,15 +119,6 @@ public:
   virtual const char* Get (iCelParameterBlock* params, bool& changed);
   virtual const celData* GetData (iCelParameterBlock* params);
   virtual int32 GetLong (iCelParameterBlock* params);
-  virtual float GetFloat (iCelParameterBlock*);
-  virtual bool GetBool (iCelParameterBlock*);
-  virtual const char* GetOriginalExpression ()
-  {
-    str = "@";
-    str += parname;
-    return str;
-  }
-  virtual celDataType GetPossibleType () const { return desiredType; }
 };
 
 //---------------------------------------------------------------------------
@@ -168,15 +134,12 @@ private:
   csString parname;
   csString oldvalue;
   csString str;	// This string is used to hold temporary conversion to string.
-  celDataType desiredType;
-  csString expressionString;	// Used to remember the expression.
 
 public:
   celExpressionParameter (iObjectRegistry* object_reg, iCelEntity* entity,
-      iCelExpression* expression, const char* parname, celDataType desiredType)
+      iCelExpression* expression, const char* parname)
     : scfImplementationType (this), object_reg (object_reg),
-      entity (entity), expression (expression), parname (parname),
-      desiredType (desiredType) { }
+      entity (entity), expression (expression), parname (parname) { }
   virtual ~celExpressionParameter () { }
 
   // From iParamater
@@ -184,17 +147,6 @@ public:
   virtual const char* Get (iCelParameterBlock* params, bool& changed);
   virtual const celData* GetData (iCelParameterBlock* params);
   virtual int32 GetLong (iCelParameterBlock* params);
-  virtual float GetFloat (iCelParameterBlock*);
-  virtual bool GetBool (iCelParameterBlock*);
-  void SetOriginalExpression (const char* exp)
-  {
-    expressionString = exp;
-  }
-  virtual const char* GetOriginalExpression ()
-  {
-    return expressionString;
-  }
-  virtual celDataType GetPossibleType () const { return desiredType; }
 };
 
 //---------------------------------------------------------------------------

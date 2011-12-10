@@ -62,21 +62,6 @@ csStringID celPcActorMove::id_anicycle = csInvalidStringID;
 csStringID celPcActorMove::id_animationid = csInvalidStringID;
 csStringID celPcActorMove::id_animationname = csInvalidStringID;
 
-csStringID celPcActorMove::id_input_forward1 = csInvalidStringID;
-csStringID celPcActorMove::id_input_forward0 = csInvalidStringID;
-csStringID celPcActorMove::id_input_backward1 = csInvalidStringID;
-csStringID celPcActorMove::id_input_backward0 = csInvalidStringID;
-csStringID celPcActorMove::id_input_rotateleft1 = csInvalidStringID;
-csStringID celPcActorMove::id_input_rotateleft0 = csInvalidStringID;
-csStringID celPcActorMove::id_input_rotateright1 = csInvalidStringID;
-csStringID celPcActorMove::id_input_rotateright0 = csInvalidStringID;
-csStringID celPcActorMove::id_input_strafeleft1 = csInvalidStringID;
-csStringID celPcActorMove::id_input_strafeleft0 = csInvalidStringID;
-csStringID celPcActorMove::id_input_straferight1 = csInvalidStringID;
-csStringID celPcActorMove::id_input_straferight0 = csInvalidStringID;
-csStringID celPcActorMove::id_input_jump1 = csInvalidStringID;
-csStringID celPcActorMove::id_input_cammode1 = csInvalidStringID;
-
 PropertyHolder celPcActorMove::propinfo;
 
 celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
@@ -96,21 +81,6 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     id_anicycle = pl->FetchStringID ("cycle");
     id_animationid = pl->FetchStringID ("mapping");
     id_animationname = pl->FetchStringID ("name");
-
-    id_input_forward1 = pl->FetchStringID ("cel.input.forward.down");
-    id_input_forward0 = pl->FetchStringID ("cel.input.forward.up");
-    id_input_backward1 = pl->FetchStringID ("cel.input.backward.down");
-    id_input_backward0 = pl->FetchStringID ("cel.input.backward.up");
-    id_input_rotateleft1 = pl->FetchStringID ("cel.input.rotateleft.down");
-    id_input_rotateleft0 = pl->FetchStringID ("cel.input.rotateleft.up");
-    id_input_rotateright1 = pl->FetchStringID ("cel.input.rotateright.down");
-    id_input_rotateright0 = pl->FetchStringID ("cel.input.rotateright.up");
-    id_input_strafeleft1 = pl->FetchStringID ("cel.input.strafeleft.down");
-    id_input_strafeleft0 = pl->FetchStringID ("cel.input.strafeleft.up");
-    id_input_straferight1 = pl->FetchStringID ("cel.input.straferight.down");
-    id_input_straferight0 = pl->FetchStringID ("cel.input.straferight.up");
-    id_input_jump1 = pl->FetchStringID ("cel.input.jump.down");
-    id_input_cammode1 = pl->FetchStringID ("cel.input.cammode.down");
   }
 
   movement_speed = 2.0f;
@@ -171,7 +141,6 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     AddAction (action_togglecameramode, "ToggleCameraMode");
     AddAction (action_setanimation, "SetAnimation");
     AddAction (action_setanimationname, "SetAnimationName");
-    AddAction (action_subscribe, "Subscribe");
   }
 
   // For properties.
@@ -195,8 +164,6 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   SetAnimationMapping (CEL_ANIM_WALK, "walk");
   SetAnimationMapping (CEL_ANIM_RUN, "run");
   SetAnimationMapping (CEL_ANIM_JUMP, "jump");
-
-  subscribed = false;
 }
 
 celPcActorMove::~celPcActorMove ()
@@ -400,11 +367,6 @@ bool celPcActorMove::PerformActionIndexed (int idx,
 {
   switch (idx)
   {
-    case action_subscribe:
-      {
-        SubscribeMessages ();
-        return true;
-      }
     case action_setspeed:
       {
         CEL_FETCH_FLOAT_PAR (movement,params,id_movement);
@@ -550,11 +512,11 @@ void celPcActorMove::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pccamera = celQueryPropertyClassEntity<iPcCamera> (entity);
-    pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
-    pcnewcamera = celQueryPropertyClassEntity<iPcNewCamera> (entity);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
+    pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcDefaultCamera);
+    pcnewcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcNewCamera);
     checked_spritestate = false;
   }
 }
@@ -750,105 +712,88 @@ void celPcActorMove::Forward (bool start)
   forward = start;
   HandleMovement (false);
 }
-
 bool celPcActorMove::IsMovingForward ()
 {
   HandleMovement (false);
   return forward;
 }
-
 void celPcActorMove::Backward (bool start)
 {
   backward = start;
   HandleMovement (false);
 }
-
 bool celPcActorMove::IsMovingBackward ()
 {
   HandleMovement (false);
   return backward;
 }
-
 bool celPcActorMove::IsMoving ()
 {
   HandleMovement (false);
   return (forward || backward);
 }
-
 void celPcActorMove::StrafeLeft (bool start)
 {
   strafeleft = start;
   HandleMovement (false);
 }
-
 bool celPcActorMove::IsStrafingLeft ()
 {
   HandleMovement (false);
   return strafeleft;
 }
-
 void celPcActorMove::StrafeRight (bool start)
 {
   straferight = start;
   HandleMovement (false);
 }
-
 bool celPcActorMove::IsStrafingRight ()
 {
   HandleMovement (false);
   return straferight;
 }
-
 void celPcActorMove::RotateLeft (bool start)
 {
   rotateleft = start;
   rotatetoreached = true;
   HandleMovement (false);
 }
-
 bool celPcActorMove::IsRotatingLeft ()
 {
   HandleMovement (false);
   return rotateleft;
 }
-
 void celPcActorMove::RotateRight (bool start)
 {
   rotateright = start;
   rotatetoreached = true;
   HandleMovement (false);
 }
-
 bool celPcActorMove::IsRotatingRight ()
 {
   HandleMovement (false);
   return rotateright;
 }
-
 void celPcActorMove::Run (bool start)
 {
   if (!autorun) running = start;
   HandleMovement (false);
 }
-
 bool celPcActorMove::IsRunning ()
 {
   HandleMovement (false);
   return running;
 }
-
 void celPcActorMove::AutoRun (bool start)
 {
   autorun = start;
   HandleMovement (false);
 }
-
 bool celPcActorMove::IsAutoRunning ()
 {
   HandleMovement (false);
   return autorun;
 }
-
 void celPcActorMove::Jump ()
 {
   if (!jumping && !mousemove)
@@ -857,62 +802,11 @@ void celPcActorMove::Jump ()
   HandleMovement (true);
 }
 
-void celPcActorMove::SubscribeMessages ()
-{
-  if (!entity)
-  {
-    printf ("Error in actormove: no entity set!\n");
-    fflush (stdout);
-    return;
-  }
-  entity->QueryMessageChannel ()->Subscribe (this, "cel.input.");
-  subscribed = true;
-}
-
-bool celPcActorMove::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
-      celData& ret, iCelParameterBlock* params)
-{
-  if (celPcCommon::ReceiveMessage (msg_id, sender, ret, params))
-    return true;
-
-  if (msg_id == id_input_forward1)
-    Forward (true);
-  else if (msg_id == id_input_forward0)
-    Forward (false);
-  else if (msg_id == id_input_backward1)
-    Backward (true);
-  else if (msg_id == id_input_backward0)
-    Backward (false);
-  else if (msg_id == id_input_rotateleft1)
-    RotateLeft (true);
-  else if (msg_id == id_input_rotateleft0)
-    RotateLeft (false);
-  else if (msg_id == id_input_rotateright1)
-    RotateRight (true);
-  else if (msg_id == id_input_rotateright0)
-    RotateRight (false);
-  else if (msg_id == id_input_strafeleft1)
-    StrafeLeft (true);
-  else if (msg_id == id_input_strafeleft0)
-    StrafeLeft (false);
-  else if (msg_id == id_input_straferight1)
-    StrafeRight (true);
-  else if (msg_id == id_input_straferight0)
-    StrafeRight (false);
-  else if (msg_id == id_input_cammode1)
-    ToggleCameraMode ();
-  else if (msg_id == id_input_jump1)
-    Jump ();
-  else
-    return false;
-  return true;
-}
-
 csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
 	celPersistenceType persistence_type)
 {
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
-    return 0;
+    return SaveFirstPass ();
 
   if (persistence_type == CEL_PERSIST_TYPE_RECORD)
     return Save ();
@@ -959,6 +853,7 @@ celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time,
 
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
   {
+    LoadFirstPass (databuf);
     return CEL_PERSIST_RESULT_OK;
   }
 

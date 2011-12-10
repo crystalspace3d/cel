@@ -31,17 +31,13 @@ struct iObject;
 struct iCelEntity;
 struct iCelEntityList;
 struct iCelEntityIterator;
-struct iDataBuffer;
 struct iCelDataBuffer;
-struct iCelCompactDataBufferWriter;
-struct iCelCompactDataBufferReader;
 struct iCelParameterBlock;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 struct iCelBlLayer;
 struct iCelBehaviour;
 struct iCelEntityTemplate;
-struct iCelEntityTemplateIterator;
 struct iSector;
 struct iCamera;
 class csVector3;
@@ -54,6 +50,9 @@ class csString;
 
 #define CEL_PROPCLASS_END (void*)0
 #define CEL_PARAM_END (void*)0
+
+/// Parameters used to create an entity from a template.
+typedef csHash<csStringFast<12>, csStringFast<12> > celEntityTemplateParams;
 
 struct iCelEntityTracker;
 
@@ -182,18 +181,24 @@ struct iCelPlLayer : public virtual iBase
   virtual iCelEntityTemplate* FindEntityTemplate (const char* factname) = 0;
 
   /**
-   * Get all entity templates.
+   * Get the number of entity templates.
    */
-  virtual csPtr<iCelEntityTemplateIterator> GetEntityTemplates () const = 0;
+  virtual size_t GetEntityTemplateCount () const = 0;
+
+  /**
+   * Get a specific entity template.
+   */
+  virtual iCelEntityTemplate* GetEntityTemplate (size_t idx) const = 0;
 
   /**
    * Create an entity from a template.
    * \param factory is the template to create from.
    * \param name is the name of the new entity.
-   * \param params contains parameters used during entity creation.
+   * \param params is a hash with parameters that will be used
+   * during entity creation.
    */
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
-  	const char* name, iCelParameterBlock* params) = 0;
+  	const char* name, const celEntityTemplateParams& params) = 0;
 
   /**
    * Create an entity from a template.
@@ -201,18 +206,11 @@ struct iCelPlLayer : public virtual iBase
    * \param name is the name of the new entity.
    * After that comes a list of parameter pairs (two strings) with the
    * last one being equal to CEL_PARAM_END. This will construct
-   * a parameter block instance from these parameters and
+   * a celEntityTemplateParams instance from these parameters and
    * then call the other CreateEntity() variant.
    */
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
   	const char* name, ...) = 0;
-
-  /**
-   * Apply a template to an already existing entity.
-   * Returns false on failure.
-   */
-  virtual bool ApplyTemplate (iCelEntity* entity, iCelEntityTemplate* factory,
-      iCelParameterBlock* params) = 0;
 
   /**
    * Create a data buffer. Usually property class implementations
@@ -221,18 +219,6 @@ struct iCelPlLayer : public virtual iBase
    * as well make its own implementation of iCelDataBuffer.
    */
   virtual csPtr<iCelDataBuffer> CreateDataBuffer (long serialnr) = 0;
-
-  /**
-   * Create a compact data buffer for writing. This is useful for persisting data
-   * in a really compact manner.
-   */
-  virtual csPtr<iCelCompactDataBufferWriter> CreateCompactDataBufferWriter () = 0;
-
-  /**
-   * Create a compact data buffer for reading.
-   */
-  virtual csPtr<iCelCompactDataBufferReader> CreateCompactDataBufferReader (
-      iDataBuffer* buf) = 0;
 
   /**
    * Attach an entity to some object (usually an object from the engine).
@@ -544,24 +530,12 @@ struct iCelPlLayer : public virtual iBase
   virtual void RemoveCallbackOnce (iCelTimerListener* listener, int where) = 0;
 
   /**
-   * Get the time left before a specific CallbackOnce callback fires.
-   * Returns csArrayItemNotFound in case there is no such listener.
-   */
-  virtual csTicks GetTicksLeft (iCelTimerListener* listener, int where) = 0;
-
-  /**
    * Add an ID scope to the physical layer.
    *
    * Entities are created by propclasses only in the default scope so you can
    * completely manage the ID allocation of your own scopes. 
    */
-  virtual size_t AddScope (csString version, int size) = 0;
-
-  /**
-   * Reset a scope (clear all IDs in the scope).
-   * The scope_idx is the number returned by AddScope().
-   */
-  virtual void ResetScope (size_t scope_idx) = 0;
+  virtual int AddScope (csString version, int size) = 0;
 
   /*
    * Get a list of all entities with a certain class assigned.
@@ -608,7 +582,7 @@ struct iCelPlLayer : public virtual iBase
    * from the receivers. If 0 then information from the receivers is simply
    * ignored.
    */
-  virtual int SendMessage (csStringID msgid, iMessageSender* sender,
+  virtual int SendMessage (const char* msgid, iMessageSender* sender,
       iCelEntityList *entlist, iCelParameterBlock* params,
       iCelDataArray* ret = 0) = 0;
 

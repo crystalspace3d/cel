@@ -57,12 +57,11 @@ private:
   csArray<celSeqOp> seqops;
   csArray<celSeqOp> ops_in_progress;
   csString name;
-  csWeakRef<iCelPlLayer> pl;
+  csRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   size_t idx;
   csTicks start_time;
   csTicks total_time;
-  csTicks deactivationTime;	// Sequence was deactivated at this point.
   iCelParameterBlock* params;
 
   csRefArray<iCelSequenceCallback> callbacks;
@@ -95,15 +94,14 @@ public:
 
   // --- For iCelSequence -------------------------------
   virtual const char* GetName () const { return name; }
+  virtual void SaveState (iCelDataBuffer* databuf);
+  virtual bool LoadState (iCelDataBuffer* databuf);
   virtual bool Start (csTicks delay, iCelParameterBlock* params);
   virtual void Finish ();
   virtual void Abort ();
   virtual bool IsRunning ();
   virtual void AddSequenceCallback (iCelSequenceCallback* cb);
   virtual void RemoveSequenceCallback (iCelSequenceCallback* cb);
-
-  virtual void Activate ();
-  virtual void Deactivate ();
 
   // --- For iCelTimerListener ----------------------------
   virtual void TickEveryFrame ();
@@ -137,7 +135,7 @@ public:
   virtual ~celSequenceFactory () { }
 
   // From iCelSequenceFactory
-  virtual csPtr<iCelSequence> CreateSequence (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iCelSequence> CreateSequence (const celParams& params);
   virtual const char* GetName () const { return name; }
   virtual void SetName (const char* name);
   virtual void AddSeqOpFactory (iSeqOpFactory* seqopfact,

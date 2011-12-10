@@ -113,6 +113,19 @@ celPcHover::~celPcHover ()
 {
 }
 
+csPtr<iCelDataBuffer> celPcHover::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (1);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcHover::Load (iCelDataBuffer* databuf)
+{
+  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(),
+  	iPcMechanicsObject);
+  return true;
+}
+
 bool celPcHover::PerformActionIndexed (int idx, iCelParameterBlock* params,
     celData& ret)
 {
@@ -276,7 +289,7 @@ float celPcHover::PIDStatus::Force (float curr_height)
 void celPcHover::PerformStabilising ()
 {
   if (!pcmechobj)
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (GetEntity());
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
   if (!pcmechobj)
     return;
 
@@ -320,7 +333,7 @@ void celPcHover::PerformStabilising ()
 float celPcHover::Height (csVector3 offset, bool accurate)
 {
   if (!pcmesh)
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (GetEntity ());
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (GetEntity (), iPcMesh);
   if (!pcmesh)
     // do something proper here
     return 999999999.9f;

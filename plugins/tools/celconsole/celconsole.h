@@ -19,7 +19,7 @@
 
 #ifndef __CEL_TOOLS_CELCONSOLE__
 #define __CEL_TOOLS_CELCONSOLE__
-
+#define CELPROMPT "cel> "
 #include "csutil/util.h"
 #include "csutil/hash.h"
 #include "csutil/weakrefarr.h"
@@ -41,8 +41,6 @@
 #include "tools/celconsole.h"
 #include "propclass/prop.h"
 #include "propclass/quest.h"
-
-#define CELPROMPT "cel> "
 
 struct iCelExpressionParser;
 

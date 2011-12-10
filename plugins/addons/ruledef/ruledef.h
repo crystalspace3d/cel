@@ -56,7 +56,7 @@ public:
   	iStreamSource*, iLoaderContext* ldr_context,
   	iBase* context);
 
-  virtual bool IsThreadSafe() { return false; }
+  virtual bool IsThreadSafe(void) { return true; }
 };
 
 #endif // __CEL_ADDON_RULEDEF__

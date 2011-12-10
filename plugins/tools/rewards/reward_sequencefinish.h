@@ -60,7 +60,7 @@ public:
   celSequenceFinishRewardFactory (celSequenceFinishRewardType* type);
   virtual ~celSequenceFinishRewardFactory () {};
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iReward> CreateReward (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iSequenceFinishRewardFactory -----------------------
@@ -85,11 +85,10 @@ private:
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcQuest> quest;
   csWeakRef<iCelSequence> seq;
-  csRef<iParameterManager> pm;
 
 public:
   celSequenceFinishReward (celSequenceFinishRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par,
 	iCelSequence* sequence = 0);
@@ -113,7 +112,7 @@ private:
 
 public:
   celClassSequenceFinishReward (celSequenceFinishRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par);
   virtual ~celClassSequenceFinishReward () {};

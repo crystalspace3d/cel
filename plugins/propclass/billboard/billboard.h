@@ -54,7 +54,7 @@ private:
   csRef<iBillboardManager> billboard_mgr;
   bool events_enabled;
   static csStringID id_x, id_y, id_button;
-  csRef<celVariableParameterBlock> params;
+  celGenericParameterBlock* params;
 
   csRef<iMessageDispatcher> dispatcher_select;
   csRef<iMessageDispatcher> dispatcher_selectup;
@@ -121,6 +121,8 @@ public:
   virtual void EnableEvents (bool e);
   virtual bool AreEventsEnabled () const { return events_enabled; }
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 

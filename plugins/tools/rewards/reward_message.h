@@ -62,14 +62,15 @@ public:
   celMessageRewardFactory (celMessageRewardType* type);
   virtual ~celMessageRewardFactory () {};
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iReward> CreateReward (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iMessageQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
   virtual void SetClassParameter (const char* ent_class);
   virtual void SetIDParameter (const char* id);
-  virtual void AddParameter (celDataType type, csStringID id, const char* value);
+  virtual void AddParameter (celDataType type, csStringID id,
+      const char* name, const char* value);
 };
 
 /**
@@ -94,7 +95,7 @@ private:
 
 public:
   celMessageReward (celMessageRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par,
 	const char* id_par,
 	const csArray<celParSpec>& parameters);
@@ -129,7 +130,7 @@ private:
 
 public:
   celClassMessageReward (celMessageRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* class_par,
 	const char* id_par,
 	const csArray<celParSpec>& parameters);

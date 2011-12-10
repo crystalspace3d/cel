@@ -229,11 +229,11 @@ bool celPcNeuralNet::Validate()
   layers.SetSize(size_t(numLayers + 1));
   if (! InitLayerSizes()) return false;
 
-  params.AttachNew (new celVariableParameterBlock (numOutputs));
+  params.AttachNew(new celGenericParameterBlock (numOutputs));
   for (size_t i = 0; i < size_t(numOutputs); i++)
   {
     csString id ("output"); id << i;
-    params->AddParameter (pl->FetchStringID(id));
+    params->SetParameterDef(i, pl->FetchStringID(id));
   }
 
   valid = true;
@@ -445,7 +445,7 @@ void celPcNeuralNet::SendMessage()
   if (!dispatcher_outputs)
   {
     dispatcher_outputs = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID ("cel.neuralnet.outputs"));
+      CreateMessageDispatcher (this, "cel.neuralnet.outputs");
     if (!dispatcher_outputs) return;
   }
   dispatcher_outputs->SendMessage (params);

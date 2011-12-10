@@ -57,7 +57,7 @@ public:
   celMeshSelectTriggerFactory (celMeshSelectTriggerType* type);
   virtual ~celMeshSelectTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iMeshSelectTriggerFactory ----------------------
@@ -76,7 +76,6 @@ private:
   csRef<iTriggerCallback> callback;
   csWeakRef<iPcMeshSelect> meshselect;
   csString entity;
-  uint entityID;
   csString tag;
   csRef<celOneParameterBlock> params_entity;
 
@@ -84,7 +83,7 @@ private:
 
 public:
   celMeshSelectTrigger (celMeshSelectTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par);
   virtual ~celMeshSelectTrigger ();
 
@@ -93,9 +92,8 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
-
-  virtual void Activate () { ActivateTrigger (); }
-  virtual void Deactivate () { DeactivateTrigger (); }
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   //----------------------- iPcMeshSelectListener --------------------------
   virtual void MouseDown (iPcMeshSelect* meshsel,

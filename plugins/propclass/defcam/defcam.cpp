@@ -627,15 +627,15 @@ void celPcDefaultCamera::SetFollowEntity (iCelEntity* entity)
   follow_entity = entity;
   if (follow_entity)
   {
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (follow_entity);
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (follow_entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (follow_entity);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcMechanicsObject);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcMesh);
   }
   else
   {
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -644,9 +644,9 @@ void celPcDefaultCamera::FindSiblingPropertyClasses ()
   if (follow_entity) return;
   if (HavePropertyClassesChanged ())
   {
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -1400,6 +1400,40 @@ iPcDefaultCamera::CameraMode celPcDefaultCamera::GetNextMode () const
     default:
       return cammode;
   }
+}
+
+#define DEFAULT_CAMERA_SERIAL 3
+
+csPtr<iCelDataBuffer> celPcDefaultCamera::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DEFAULT_CAMERA_SERIAL);
+  SaveCommon (databuf);
+
+  databuf->Add ((uint8)cammode);
+  databuf->Add (use_cd);
+
+  // @@@ TODO: save cammode specific parameters.
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcDefaultCamera::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != DEFAULT_CAMERA_SERIAL)
+  {
+    Report (object_reg, "serialnr != DEFAULT_CAMERA_SERIAL.  Cannot load.");
+    return false;
+  }
+
+  if (!LoadCommon (databuf)) return false;
+
+  iPcDefaultCamera::CameraMode mode = (iPcDefaultCamera::CameraMode)databuf
+  	->GetUInt8 ();
+  bool cd = databuf->GetBool ();
+  SetMode (mode, cd);
+
+  return true;
 }
 
 //---------------------------------------------------------------------------

@@ -117,6 +117,68 @@ celPcRegion::~celPcRegion ()
   delete[] regionname;
 }
 
+#define REGION_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcRegion::SaveFirstPass ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (REGION_SERIAL);
+
+  databuf->Add (empty_sector);
+  databuf->Add (worlddir);
+  databuf->Add (worldfile);
+  databuf->Add (regionname);
+  databuf->Add (loaded);
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcRegion::LoadFirstPass (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != REGION_SERIAL)
+  {
+    EngReport (object_reg, "serialnr != REGION_SERIAL.  Cannot load.");
+    return false;
+  }
+
+  Unload ();
+  delete[] worlddir; worlddir = 0;
+  delete[] worldfile; worldfile = 0;
+  delete[] regionname; regionname = 0;
+
+  empty_sector = databuf->GetBool ();
+  worlddir = csStrNew (databuf->GetString ()->GetData ());
+  worldfile = csStrNew (databuf->GetString ()->GetData ());
+  regionname = csStrNew (databuf->GetString ()->GetData ());
+  bool load = databuf->GetBool ();
+
+  if (load && !Load (false))
+  {
+    EngReport (object_reg,
+    	"Could not load the specified map into the region.  Cannot load.");
+    return false;
+  }
+
+  return true;
+}
+
+csPtr<iCelDataBuffer> celPcRegion::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (REGION_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcRegion::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != REGION_SERIAL)
+  {
+    EngReport (object_reg, "serialnr != REGION_SERIAL.  Cannot load.");
+    return false;
+  }
+  return true;
+}
+
 bool celPcRegion::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)

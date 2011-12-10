@@ -228,6 +228,17 @@ bool celPcCraftController::PerformActionIndexed (int idx,
   }
 }
 
+csPtr<iCelDataBuffer> celPcCraftController::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (1);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcCraftController::Load (iCelDataBuffer* databuf)
+{
+  return true;
+}
+
 void celPcCraftController::Tick ()
 {
   UpdateBody ();
@@ -250,7 +261,8 @@ void celPcCraftController::DoTurningCalc (bool isturning, float &turn,
 
 void celPcCraftController::UpdateBody ()
 {
-  csRef<iPcMechanicsObject> ship_mech = celQueryPropertyClassEntity<iPcMechanicsObject> (GetEntity());
+  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(),
+        iPcMechanicsObject);
 
   DoTurningCalc (turn_left, current_turning_left, turn_acc, turn_max);
   DoTurningCalc (turn_right, current_turning_right, turn_acc, turn_max);

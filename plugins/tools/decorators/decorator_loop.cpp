@@ -42,14 +42,13 @@ bool celLoopDecorator::Initialize (
   return true;												
 }
 
-bool celLoopDecorator::Execute (iCelParameterBlock* params)
+bool celLoopDecorator::Execute (const celParams& params)
 {
   if (loop_limit == 0)
   {
     csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
       (object_reg, "cel.parameters.manager");
-    const char* s = pm->ResolveParameter (params, loop_limit_param);
-    loop_limit = atoi (s);
+    loop_limit = atoi (pm->ResolveParameter(params, loop_limit_param));
   }
 
   for (int i = 0; i < loop_limit; i++)

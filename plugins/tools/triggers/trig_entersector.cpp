@@ -53,7 +53,7 @@ celEnterSectorTriggerFactory::~celEnterSectorTriggerFactory ()
 }
 
 csPtr<iTrigger> celEnterSectorTriggerFactory::CreateTrigger (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   celEnterSectorTrigger* trig = new celEnterSectorTrigger (type,
   	params, entity_par, tag_par, sector_par);
@@ -100,7 +100,7 @@ void celEnterSectorTriggerFactory::SetSectorParameter (
 
 celEnterSectorTrigger::celEnterSectorTrigger (
 	celEnterSectorTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sector_par) : scfImplementationType (this)
 {
@@ -109,7 +109,7 @@ celEnterSectorTrigger::celEnterSectorTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
+  entity = pm->ResolveParameter (params, entity_par);
   tag = pm->ResolveParameter (params, tag_par);
   sector = pm->ResolveParameter (params, sector_par);
 }
@@ -148,13 +148,9 @@ void celEnterSectorTrigger::FindSectorAndCamera ()
   sect = engine->FindSector (sector);
   if (!sect) return;
   iCelPlLayer* pl = type->pl;
-  iCelEntity* ent;
-  if (!entity.IsEmpty ())
-    ent = pl->FindEntity (entity);
-  else
-    ent = pl->GetEntity (entityID);
+  iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  csRef<iPcCamera> pccamera = celQueryPropertyClassTagEntity<iPcCamera> (ent, tag);
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcCamera, tag);
   if (!pccamera) return;
   camera = pccamera->GetCamera ();
 }
@@ -184,6 +180,16 @@ void celEnterSectorTrigger::DeactivateTrigger ()
 {
   if (!camera) return;
   camera->RemoveCameraListener (this);
+}
+
+bool celEnterSectorTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
+{
+  ActivateTrigger ();
+  return true;
+}
+
+void celEnterSectorTrigger::SaveTriggerState (iCelDataBuffer*)
+{
 }
 
 //---------------------------------------------------------------------------

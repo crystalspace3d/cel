@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001-2011 by Jorrit Tyberghein
+    Copyright (C) 2001 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -30,47 +30,73 @@
 
 struct iCelPropertyClassList;
 
+/**
+ * Find a property class by SCF interface. This function will first
+ * try to find a property class that implements the interface but has tag
+ * not set (0). If such a property class cannot be found then it will
+ * return a random one that implements the given interface.
+ */
+#define CEL_QUERY_PROPCLASS(PcList,Interface)				    \
+  (celQueryPropertyClass<Interface> (PcList))
+
+/**
+ * Find a property class by SCF interface and tag. If tag is 0 then
+ * it will find the default property class.
+ */
+#define CEL_QUERY_PROPCLASS_TAG(PcList,Interface,Tag)			    \
+  (celQueryPropertyClassTag<Interface> (PcList,Tag))
+
+/**
+ * Find a property class by SCF interface. This function will first
+ * try to find a property class that implements the interface but has tag
+ * not set (0). If such a property class cannot be found then it will
+ * return a random one that implements the given interface.
+ */
+#define CEL_QUERY_PROPCLASS_ENT(Ent,Interface)				    \
+  (celQueryPropertyClassEntity<Interface> (Ent))
+
+/**
+ * Find a property class by SCF interface and tag. If tag is 0 then
+ * it will find the default property class.
+ */
+#define CEL_QUERY_PROPCLASS_TAG_ENT(Ent,Interface,Tag)			    \
+  CEL_QUERY_PROPCLASS_TAG((Ent)->GetPropertyClassList(),Interface,Tag)
+
+/**
+ * Remove all property classes with given interface (ignores tag).
+ */
+#define CEL_REMOVE_PROPCLASS(PcList,Interface)                              \
+  ((PcList)->RemoveByInterface (scfInterfaceTraits<Interface>::GetID(),           \
+				scfInterfaceTraits<Interface>::GetVersion()))
+
+/**
+ * Remove all property classes with given interface and with the given tag.
+ * 'tag' can be 0. In that case it will remove property classes with no tag.
+ */
+#define CEL_REMOVE_PROPCLASS_TAG(PcList,Interface,Tag)                      \
+  ((PcList)->RemoveByInterfaceAndTag (					    \
+        scfInterfaceTraits<Interface>::GetID(),          			    \
+	scfInterfaceTraits<Interface>::GetVersion(), Tag))
+
+/**
+ * Remove all property classes with given interface (ignores tag).
+ */
+#define CEL_REMOVE_PROPCLASS_ENT(Ent, Interface)                            \
+  CEL_REMOVE_PROPCLASS((Ent)->GetPropertyClassList(),Interface)
+
+/**
+ * Remove all property classes with given interface and with the given tag.
+ * 'tag' can be 0. In that case it will remove property classes with no tag.
+ */
+#define CEL_REMOVE_PROPCLASS_TAG_ENT(Ent,Interface,Tag)                     \
+  CEL_REMOVE_PROPCLASS_TAG((Ent)->GetPropertyClassList(),Interface,Tag)
+
 class csVector3;
 class csColor;
 struct iCelEntity;
 struct iCelDataBuffer;
-struct iCelCompactDataBufferWriter;
-struct iCelCompactDataBufferReader;
 struct iCelPropertyChangeCallback;
 struct iCelParameterBlock;
-struct iStringSet;
-
-/**
- * If a property class represents a position in the world then it
- * will also implement this interface.
- */
-struct iCelPositionInfo : public virtual iBase
-{
-  SCF_INTERFACE (iCelPositionInfo, 0, 1, 1);
-
-  /**
-   * Get the main sector of this object (if an object spans multiple
-   * sectors then you have to get the iMovable information).
-   */
-  virtual iSector* GetSector () = 0;
-
-  /**
-   * Get the world space position of this object.
-   */
-  virtual const csVector3 GetPosition () = 0;
-
-  /**
-   * If the position of this entity is represented with a movable
-   * then you can get it with this function. This can return 0 if
-   * the entity doesn't support movables.
-   */
-  virtual iMovable* GetMovable () = 0;
-
-  /**
-   * Get a bounding radius for this entity.
-   */
-  virtual float GetBoundingRadius () = 0;
-};
 
 /**
  * This is a property class for an entity. A property class
@@ -78,7 +104,7 @@ struct iCelPositionInfo : public virtual iBase
  */
 struct iCelPropertyClass : public virtual iBase
 {
-  SCF_INTERFACE (iCelPropertyClass, 0, 0, 9);
+  SCF_INTERFACE (iCelPropertyClass, 0, 0, 8);
 
   /**
    * Set the name of this property class.
@@ -118,6 +144,33 @@ struct iCelPropertyClass : public virtual iBase
    * Set the entity for this property class.
    */
   virtual void SetEntity (iCelEntity* entity) = 0;
+
+  /**
+   * Save this object to a data buffer.
+   * This routine is the first pass saving routine. Few property classes
+   * need to implement this. The idea is that here information is saved
+   * which is important to make other property classes work. This can
+   * be information related to level data that is essential for other
+   * property classes. Most property classes will return 0 here.
+   */
+  virtual csPtr<iCelDataBuffer> SaveFirstPass () = 0;
+
+  /**
+   * Load this object from a data buffer.
+   * This is the first pass version. Most property classes will
+   * return 0 here.
+   */
+  virtual bool LoadFirstPass (iCelDataBuffer* databuf) = 0;
+
+  /**
+   * Save this object to a data buffer.
+   */
+  virtual csPtr<iCelDataBuffer> Save () = 0;
+
+  /**
+   * Load this object from a data buffer.
+   */
+  virtual bool Load (iCelDataBuffer* databuf) = 0;
 
   /**
    * Add a callback which will be fired when a property changes.
@@ -324,56 +377,6 @@ struct iCelPropertyClass : public virtual iBase
    */
   virtual celPersistenceResult SetPersistentData (csTicks data_time, 
         iCelDataBuffer* data, celPersistenceType persistence_type) = 0;
-
-  /**
-   * Get the associated position information. Can be 0 if this
-   * property class doesn't support positional information.
-   */
-  virtual iCelPositionInfo* QueryPositionInfo () = 0;
-
-  /**
-   * Activate this property class. This means it will process events again.
-   * Property classes are activated by default.
-   */
-  virtual void Activate () = 0;
-
-  /**
-   * Deactivate this property class. This means that events will no longer be
-   * processed.
-   */
-  virtual void Deactivate () = 0;
-
-  /**
-   * Mark the baseline for this property class. This means that the status of this
-   * property class as it is now doesn't have to be saved. Only changes to the property
-   * class that happen after this baseline have to be modified. A property class doesn't
-   * actually have to do this in a granular way. It can simply say that it saves itself
-   * completely as soon as it has been modified after the baseline.
-   */
-  virtual void MarkBaseline () = 0;
-
-  /**
-   * Return true if this property class was modified after the baseline.
-   */
-  virtual bool IsModifiedSinceBaseline () const = 0;
-
-  /**
-   * Return the data that represents the information that changed after the
-   * baseline. If it is too complicated to actually return the information that
-   * really changed it is allowed for this function to simply save the complete state.
-   * If this function wants to save strings effectively it is best to intern them first
-   * using the 'strings' set.
-   */
-  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings) = 0;
-
-  /**
-   * Call this function if the property class is in the state as it was at the moment of
-   * the baseline. This function will put back the modifications that were made
-   * after the baseline.
-   * Interned strings can be fetched from the 'strings' set.
-   */
-  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
-      const csHash<csString,csStringID>& strings) = 0;
 };
 
 
@@ -522,18 +525,6 @@ inline csPtr<Interface> celQueryPropertyClassEntity (
   iCelEntity* entity)
 {
   return celQueryPropertyClass<Interface> (entity->GetPropertyClassList ());
-}
-
-/**
- * Find a property class by SCF interface and tag. If tag is 0 then
- * it will find the default property class.
- */
-template<class Interface>
-inline csPtr<Interface> celQueryPropertyClassTagEntity (
-  iCelEntity* entity, const char* tag)
-{
-  return celQueryPropertyClassTag<Interface> (entity->GetPropertyClassList (),
-      tag);
 }
 
 #endif // __CEL_PL_PROPCLASS__

@@ -67,7 +67,7 @@ public:
   virtual ~celMovePathSeqOpFactory ();
 
   virtual csPtr<iSeqOp> CreateSeqOp (
-      iCelParameterBlock* params);
+      const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iMovePathSeqOpFactory -----------------------
@@ -93,7 +93,6 @@ private:
 
   csRef<iParameter> entity_param;
   csRef<iParameter> tag_param;
-  csRef<iParameterManager> pm;
 
   csWeakRef<iMeshWrapper> mesh;
 
@@ -101,12 +100,14 @@ private:
 
 public:
   celMovePathSeqOp (celMovePathSeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const csStringArray& sectors, const csStringArray& nodes,
 	const csStringArray& times);
   virtual ~celMovePathSeqOp ();
 
+  virtual bool Load (iCelDataBuffer* databuf);
+  virtual void Save (iCelDataBuffer* databuf);
   virtual void Init (iCelParameterBlock* params);
   virtual void Do (float time, iCelParameterBlock* params);
 };

@@ -13,9 +13,9 @@
 %extend iCelPlLayer {
 	%pythoncode %{
 	def CreateParameterBlock(self,valdict):
-		"""Create a celVariableParameterBlock from a dict, list or
+		"""Create a celGenericParameterBlock from a dict, list or
 		tuple"""
-		parblock = celVariableParameterBlock(len(valdict))
+		parblock = celGenericParameterBlock(len(valdict))
 		for idx,valkey in enumerate(valdict):
 			keyid = self.FetchStringID(valkey)
 			parblock.SetParameterDef (idx,keyid)

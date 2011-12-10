@@ -104,12 +104,29 @@ bool celPcProjectile::GetPropertyIndexed (int idx, bool& b)
   return false;
 }
 
+#define PROJECTILE_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcProjectile::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (PROJECTILE_SERIAL);
+  // @@@
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcProjectile::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != PROJECTILE_SERIAL) return false;
+  // @@@
+  return true;
+}
+
 void celPcProjectile::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -125,7 +142,7 @@ void celPcProjectile::SendMessage (const char* msgold,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID (msg));
+      CreateMessageDispatcher (this, msg);
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (0);
@@ -148,7 +165,7 @@ void celPcProjectile::SendMessage (const char* msgold, const char* msg,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID (msg));
+      CreateMessageDispatcher (this, msg);
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (params);

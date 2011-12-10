@@ -33,6 +33,7 @@
 
 struct iDocumentNode;
 struct iChangePropertyRewardFactory;
+struct iCelDataBuffer;
 struct iCelParameterBlock;
 
 class celQuestManager;
@@ -48,7 +49,7 @@ class celQuestManager;
  */
 struct iQuest : public virtual iBase
 {
-  SCF_INTERFACE (iQuest, 0, 0, 2);
+  SCF_INTERFACE (iQuest, 0, 0, 1);
 
   /**
    * Switch this quest to some specific state.
@@ -62,26 +63,22 @@ struct iQuest : public virtual iBase
   virtual const char* GetCurrentState () const = 0;
 
   /**
+   * This is a special version of SwitchState() that needs to be used
+   * in case you are loading a quest from a CEL databuffer (persistence).
+   * \return false on failure (data in buffer doesn't match what we want).
+   */
+  virtual bool LoadState (const char* state, iCelDataBuffer* databuf) = 0;
+
+  /**
+   * Save the state to the persistence layer. To restore later use
+   * LoadState().
+   */
+  virtual void SaveState (iCelDataBuffer* databuf) = 0;
+
+  /**
    * Find a sequence.
    */
-  virtual iCelSequence* FindSequence (const char* name) = 0;
-
-  /**
-   * Activate this quest. This means it will process events again.
-   * Quests are activated by default.
-   */
-  virtual void Activate () = 0;
-
-  /**
-   * Deactivate this quest. This means that events will no longer be
-   * processed.
-   */
-  virtual void Deactivate () = 0;
-};
-
-struct iRewardFactoryArray : public iArrayReadOnly<iRewardFactory*>
-{
-  SCF_IARRAYREADONLY_INTERFACE(iRewardFactoryArray);
+  virtual iCelSequence*   FindSequence (const char* name) = 0;
 };
 
 /**
@@ -100,25 +97,10 @@ struct iQuestTriggerResponseFactory : public virtual iBase
   virtual void SetTriggerFactory (iTriggerFactory* trigger_fact) = 0;
 
   /**
-   * Get the trigger factory.
-   */
-  virtual iTriggerFactory* GetTriggerFactory () const = 0;
-
-  /**
    * Add a reward factory. A reward of this factory will be obtained
    * when the trigger fires.
    */
   virtual void AddRewardFactory (iRewardFactory* reward_fact) = 0;
-
-  /**
-   * Get the reward factories.
-   */
-  virtual csRef<iRewardFactoryArray> GetRewardFactories () const = 0;
-};
-
-struct iQuestTriggerResponseFactoryArray : public iArrayReadOnly<iQuestTriggerResponseFactory*>
-{
-  SCF_IARRAYREADONLY_INTERFACE(iQuestTriggerResponseFactoryArray);
 };
 
 /**
@@ -127,7 +109,7 @@ struct iQuestTriggerResponseFactoryArray : public iArrayReadOnly<iQuestTriggerRe
  */
 struct iQuestStateFactory : public virtual iBase
 {
-  SCF_INTERFACE (iQuestStateFactory, 0, 1, 1);
+  SCF_INTERFACE (iQuestStateFactory, 0, 0, 1);
 
   /**
    * Get the name of this state.
@@ -140,50 +122,16 @@ struct iQuestStateFactory : public virtual iBase
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory () = 0;
 
   /**
-   * Get all trigger responses.
-   */
-  virtual csRef<iQuestTriggerResponseFactoryArray> GetTriggerResponseFactories () const = 0;
-
-  /**
    * Add a new reward to be fired on state initialization.
    */
   virtual void AddInitRewardFactory (iRewardFactory* reward_fact) = 0;
-  /**
-   * Get the init reward factories.
-   */
-  virtual csRef<iRewardFactoryArray> GetInitRewardFactories () const = 0;
 
   /**
    * Add a new reward to be fired on state exit.
    */
   virtual void AddExitRewardFactory (iRewardFactory* reward_fact) = 0;
-  /**
-   * Get the exit reward factories.
-   */
-  virtual csRef<iRewardFactoryArray> GetExitRewardFactories () const = 0;
 };
 
-/**
- * Iterator to iterate over the quest factory states.
- */
-struct iQuestStateFactoryIterator : public virtual iBase
-{
-  SCF_INTERFACE (iQuestStateFactoryIterator, 0, 0, 1);
-
-  virtual bool HasNext () const = 0;
-  virtual iQuestStateFactory* Next () = 0;
-};
-
-/**
- * Iterator to iterate over the quest sequences.
- */
-struct iCelSequenceFactoryIterator : public virtual iBase
-{
-  SCF_INTERFACE (iCelSequenceFactoryIterator, 0, 0, 1);
-
-  virtual bool HasNext () const = 0;
-  virtual iCelSequenceFactory* Next () = 0;
-};
 
 /**
  * A quest factory. A quest factory is a template to create a quest
@@ -218,7 +166,7 @@ struct iQuestFactory : public virtual iBase
    * instantiated.
    */
   virtual csPtr<iQuest> CreateQuest (
-	  iCelParameterBlock* params) = 0;
+	  const celParams& params) = 0;
 
   /**
    * Load this factory from a document node.
@@ -240,11 +188,6 @@ struct iQuestFactory : public virtual iBase
   virtual iQuestStateFactory* CreateState (const char* name) = 0;
 
   /**
-   * Get an iterator over all the states.
-   */
-  virtual csRef<iQuestStateFactoryIterator> GetStates () const = 0;
-
-  /**
    * Get a sequence factory in this factory.
    * Return 0 if the factory doesn't exist.
    */
@@ -257,9 +200,10 @@ struct iQuestFactory : public virtual iBase
   virtual iCelSequenceFactory* CreateSequence (const char* name) = 0;
 
   /**
-   * Get an iterator over all the sequences.
+   * Get a default parameter from this factory.
+   * Return 0 if the parameter does not exist.
    */
-  virtual csRef<iCelSequenceFactoryIterator> GetSequences () const = 0;
+  virtual const char* GetDefaultParameter (const char* name) const = 0;
 
   /**
    * Set a default parameter on this factory.
@@ -489,7 +433,7 @@ struct iQuestManager : public virtual iBase
   	iQuestTriggerResponseFactory* response,
 	const char* template_par,
 	const char* name_par,
-        iCelParameterBlock* tpl_params) = 0;
+    const celEntityTemplateParams &tpl_params) = 0;
 
     /**
    * Convenience method to add a 'destroyentity' reward factory
@@ -653,7 +597,6 @@ struct iNewStateQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetStateParameter (const char* state) = 0;
-  virtual const char* GetStateParameter () const = 0;
 
   /**
    * Set the name of the entity containing the pcquest property class
@@ -664,7 +607,6 @@ struct iNewStateQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntityParameter () const = 0;
 
   /**
    * Set the tag of the property class this reward will apply to.
@@ -672,7 +614,6 @@ struct iNewStateQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetTagParameter (const char* tag_par) = 0;
-  virtual const char* GetTagParameter () const = 0;
 
   /**
    * Set the name of the entity class containing the property
@@ -681,7 +622,6 @@ struct iNewStateQuestRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetClassParameter (const char* ent_class) = 0;
-  virtual const char* GetClassParameter () const = 0;
 };
 
 

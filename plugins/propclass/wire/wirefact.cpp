@@ -138,6 +138,22 @@ celPcWire::~celPcWire ()
 {
 }
 
+#define WIRE_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcWire::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (WIRE_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcWire::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != WIRE_SERIAL) return false;
+
+  return true;
+}
+
 bool celPcWire::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -165,7 +181,7 @@ bool celPcWire::PerformActionIndexed (int idx,
         if (p_entity)
 	  ent = pl->FindEntity (entity);
 	// @@@ Error check on ent!
-	AddOutput (pl->FetchStringID (msgid), ent->QueryMessageChannel (), params);
+	AddOutput (msgid, ent->QueryMessageChannel (), params);
         return true;
       }
     case action_mapparameter:
@@ -210,7 +226,7 @@ void celPcWire::AddInput (const char* msg_mask, iMessageChannel* channel)
   channel->Subscribe (this, msg_mask);
 }
 
-size_t celPcWire::AddOutput (csStringID msgid, iMessageChannel* channel,
+size_t celPcWire::AddOutput (const char* msgid, iMessageChannel* channel,
       iCelParameterBlock* extra_params)
 {
   csRef<celWireOutput> out;

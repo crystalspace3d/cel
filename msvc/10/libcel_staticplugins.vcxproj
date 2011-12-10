@@ -110,7 +110,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -157,7 +157,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -202,7 +202,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -245,7 +245,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -290,7 +290,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -337,7 +337,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -382,7 +382,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -425,7 +425,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -465,9 +465,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libaddon_celentity_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_celentitytpl_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_celgraph_staticreg.cpp" />
-    <ClCompile Include="..\..\msvc\libaddon_dynworldload_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_ledges_staticreg.cpp" />
-    <ClCompile Include="..\..\msvc\libaddon_lootloader_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_questdef_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_ruledef_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_xmlscripts_staticreg.cpp" />
@@ -476,10 +474,9 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libblxml_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libcelconsole_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libcelgraph_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libcpersist_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libdecorators_staticreg.cpp" />
-    <ClCompile Include="..\..\msvc\libelcm_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libledges_staticreg.cpp" />
-    <ClCompile Include="..\..\msvc\liblootmgr_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libmgr_billboard_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libmgr_quests_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libparameters_staticreg.cpp" />
@@ -490,7 +487,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libpfdefcam_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfdelegcam_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfdynmove_staticreg.cpp" />
-    <ClCompile Include="..\..\msvc\libpfdynworld_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfengine_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfevolve_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfgrab_staticreg.cpp" />
@@ -530,14 +526,11 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libsequences_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libstdphyslayer_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libtriggers_staticreg.cpp" />
-    <ClCompile Include="..\..\msvc\libui_inventory2_staticreg.cpp" />
-    <ClCompile Include="..\..\msvc\libui_inventory_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libxmlpersist_staticreg.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentity\celentity.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentitytpl\celentitytpl.cpp" />
     <ClCompile Include="..\..\plugins\addons\celgraph\celgraph.cpp" />
-    <ClCompile Include="..\..\plugins\addons\dynworldload\dynworldload.cpp" />
     <ClCompile Include="..\..\plugins\addons\ledges\ledges.cpp" />
-    <ClCompile Include="..\..\plugins\addons\lootloader\lootloader.cpp" />
     <ClCompile Include="..\..\plugins\addons\questdef\questdef.cpp" />
     <ClCompile Include="..\..\plugins\addons\ruledef\ruledef.cpp" />
     <ClCompile Include="..\..\plugins\addons\xmlscripts\xmlscripts.cpp" />
@@ -548,6 +541,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\behaviourlayer\xml\blxml.cpp" />
     <ClCompile Include="..\..\plugins\behaviourlayer\xml\token.cpp" />
     <ClCompile Include="..\..\plugins\behaviourlayer\xml\xmlscript.cpp" />
+    <ClCompile Include="..\..\plugins\persist\classic\cpersist.cpp" />
+    <ClCompile Include="..\..\plugins\persist\xml\xmlpersist.cpp" />
     <ClCompile Include="..\..\plugins\propclass\actormove\actormove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\actormove\npcmove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\analogmotion\analogmotion.cpp" />
@@ -557,7 +552,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\propclass\defcam\defcam.cpp" />
     <ClCompile Include="..\..\plugins\propclass\delegcam\delegate.cpp" />
     <ClCompile Include="..\..\plugins\propclass\dynmove\dynmove.cpp" />
-    <ClCompile Include="..\..\plugins\propclass\dynworld\dynworld.cpp" />
     <ClCompile Include="..\..\plugins\propclass\engine\engfact.cpp" />
     <ClCompile Include="..\..\plugins\propclass\evolve\evolve.cpp" />
     <ClCompile Include="..\..\plugins\propclass\grab\grab.cpp" />
@@ -629,11 +623,13 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastRasterization.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastRegion.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastTimer.cpp" />
+    <ClCompile Include="..\..\plugins\stdphyslayer\datatype.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\entity.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\entitytpl.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\etracker.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\numreg.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\pl.cpp" />
+    <ClCompile Include="..\..\plugins\stdphyslayer\propclas.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\behaviourtree.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\btaction.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.cpp" />
@@ -642,8 +638,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\tools\decorators\decorator_executionlimit.cpp" />
     <ClCompile Include="..\..\plugins\tools\decorators\decorator_loop.cpp" />
     <ClCompile Include="..\..\plugins\tools\decorators\decorator_negatereturn.cpp" />
-    <ClCompile Include="..\..\plugins\tools\elcm\elcm.cpp" />
-    <ClCompile Include="..\..\plugins\tools\loot\lootmgr.cpp" />
     <ClCompile Include="..\..\plugins\tools\parameters\cel_parameters.cpp" />
     <ClCompile Include="..\..\plugins\tools\quests\quests.cpp" />
     <ClCompile Include="..\..\plugins\tools\quests\reward_newstate.cpp" />
@@ -662,7 +656,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\tools\selectors\selector_random.cpp" />
     <ClCompile Include="..\..\plugins\tools\selectors\selector_sequential.cpp" />
     <ClCompile Include="..\..\plugins\tools\sequences\cel_sequences.cpp" />
-    <ClCompile Include="..\..\plugins\tools\sequences\seqop_ambientmesh.cpp" />
     <ClCompile Include="..\..\plugins\tools\sequences\seqop_debugprint.cpp" />
     <ClCompile Include="..\..\plugins\tools\sequences\seqop_light.cpp" />
     <ClCompile Include="..\..\plugins\tools\sequences\seqop_movepath.cpp" />
@@ -679,8 +672,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\tools\triggers\trig_timeout.cpp" />
     <ClCompile Include="..\..\plugins\tools\triggers\trig_trigger.cpp" />
     <ClCompile Include="..\..\plugins\tools\triggers\trig_watch.cpp" />
-    <ClCompile Include="..\..\plugins\tools\uitools\inventory\inventory.cpp" />
-    <ClCompile Include="..\..\plugins\tools\uitools\inventory2\inventory2.cpp" />
     <ClCompile Include="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">..\..\out\release10\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">..\..\out\release10-x64\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj</ObjectFileName>
@@ -726,9 +717,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\addons\celentity\celentity.h" />
     <ClInclude Include="..\..\plugins\addons\celentitytpl\celentitytpl.h" />
     <ClInclude Include="..\..\plugins\addons\celgraph\celgraph.h" />
-    <ClInclude Include="..\..\plugins\addons\dynworldload\dynworldload.h" />
     <ClInclude Include="..\..\plugins\addons\ledges\ledges.h" />
-    <ClInclude Include="..\..\plugins\addons\lootloader\lootloader.h" />
     <ClInclude Include="..\..\plugins\addons\questdef\questdef.h" />
     <ClInclude Include="..\..\plugins\addons\ruledef\ruledef.h" />
     <ClInclude Include="..\..\plugins\addons\xmlscripts\xmlscripts.h" />
@@ -737,6 +726,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\behaviourlayer\xml\blxml.h" />
     <ClInclude Include="..\..\plugins\behaviourlayer\xml\token.h" />
     <ClInclude Include="..\..\plugins\behaviourlayer\xml\xmlscript.h" />
+    <ClInclude Include="..\..\plugins\persist\classic\cpersist.h" />
+    <ClInclude Include="..\..\plugins\persist\xml\xmlpersist.h" />
     <ClInclude Include="..\..\plugins\propclass\actormove\actormove.h" />
     <ClInclude Include="..\..\plugins\propclass\actormove\npcmove.h" />
     <ClInclude Include="..\..\plugins\propclass\analogmotion\analogmotion.h" />
@@ -746,7 +737,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\propclass\defcam\defcam.h" />
     <ClInclude Include="..\..\plugins\propclass\delegcam\delegate.h" />
     <ClInclude Include="..\..\plugins\propclass\dynmove\dynmove.h" />
-    <ClInclude Include="..\..\plugins\propclass\dynworld\dynworld.h" />
     <ClInclude Include="..\..\plugins\propclass\engine\engfact.h" />
     <ClInclude Include="..\..\plugins\propclass\evolve\evolve.h" />
     <ClInclude Include="..\..\plugins\propclass\grab\grab.h" />
@@ -761,6 +751,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\propclass\mechanics\mechanics.h" />
     <ClInclude Include="..\..\plugins\propclass\mechanics\thruster_controller.h" />
     <ClInclude Include="..\..\plugins\propclass\mechanics\thruster_reactionary.h" />
+    <ClInclude Include="..\..\plugins\propclass\mechanics\ticktimer.h" />
     <ClInclude Include="..\..\plugins\propclass\mesh\meshfact.h" />
     <ClInclude Include="..\..\plugins\propclass\meshdeform\deformanim.h" />
     <ClInclude Include="..\..\plugins\propclass\meshdeform\meshdeformfact.h" />
@@ -819,6 +810,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\stdphyslayer\etracker.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\numreg.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\pl.h" />
+    <ClInclude Include="..\..\plugins\stdphyslayer\propclas.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\behaviourtree.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\btaction.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.h" />
@@ -827,8 +819,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\tools\decorators\decorator_executionlimit.h" />
     <ClInclude Include="..\..\plugins\tools\decorators\decorator_loop.h" />
     <ClInclude Include="..\..\plugins\tools\decorators\decorator_negatereturn.h" />
-    <ClInclude Include="..\..\plugins\tools\elcm\elcm.h" />
-    <ClInclude Include="..\..\plugins\tools\loot\lootmgr.h" />
     <ClInclude Include="..\..\plugins\tools\parameters\cel_parameters.h" />
     <ClInclude Include="..\..\plugins\tools\quests\quests.h" />
     <ClInclude Include="..\..\plugins\tools\quests\reward_newstate.h" />
@@ -847,7 +837,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\tools\selectors\selector_random.h" />
     <ClInclude Include="..\..\plugins\tools\selectors\selector_sequential.h" />
     <ClInclude Include="..\..\plugins\tools\sequences\cel_sequences.h" />
-    <ClInclude Include="..\..\plugins\tools\sequences\seqop_ambientmesh.h" />
     <ClInclude Include="..\..\plugins\tools\sequences\seqop_debugprint.h" />
     <ClInclude Include="..\..\plugins\tools\sequences\seqop_light.h" />
     <ClInclude Include="..\..\plugins\tools\sequences\seqop_movepath.h" />
@@ -864,8 +853,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\tools\triggers\trig_timeout.h" />
     <ClInclude Include="..\..\plugins\tools\triggers\trig_trigger.h" />
     <ClInclude Include="..\..\plugins\tools\triggers\trig_watch.h" />
-    <ClInclude Include="..\..\plugins\tools\uitools\inventory\inventory.h" />
-    <ClInclude Include="..\..\plugins\tools\uitools\inventory2\inventory2.h" />
     <ClInclude Include="..\..\plugins\propclass\newcamera\modes\tracking.h" />
     <ClInclude Include="..\..\plugins\tools\billboard\billboard.h" />
     <ClInclude Include="..\..\plugins\tools\celgraph\celgraph.h" />

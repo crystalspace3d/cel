@@ -9,7 +9,6 @@
 #include <propclass/actormove.h>
 #include <propclass/input.h>
 #include <physicallayer/propclas.h>
-#include <celtool/stdparams.h>
 
 #include "app.h"
 #include "behave.h"
@@ -32,8 +31,8 @@ bool MainApp::LoadLevel ()
     return ReportError ("Error creating level entity!");
 
   // Now get the iPcZoneManager interface so we can setup the level.
-  csRef<iPcZoneManager> zonemgr = celQueryPropertyClassEntity<iPcZoneManager> (
-      level_entity);
+  csRef<iPcZoneManager> zonemgr = CEL_QUERY_PROPCLASS_ENT (level_entity,
+  	iPcZoneManager);
   iCelZone* zone = zonemgr->CreateZone ("main");
   iCelRegion* region = zonemgr->CreateRegion ("main");
   zone->LinkRegion (region);
@@ -63,16 +62,16 @@ bool MainApp::CreatePlayer ()
     return ReportError ("Error creating player entity!");
 
   // Get the iPcCamera interface so that we can set the camera.
-  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (
-      player_entity);
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player_entity, iPcCamera);
   // Get the zone manager from the level entity which should have been created
   // by now.
-  csRef<iPcZoneManager> pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (level_entity);
+  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (level_entity,
+  	iPcZoneManager);
   pccamera->SetZoneManager (pczonemgr, true, "main", "Camera");
 
   // Get the iPcMesh interface so we can load the right mesh
   // for our player.
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (player_entity);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (player_entity, iPcMesh);
   pcmesh->SetPath ("/cellib/objects");
   pcmesh->SetMesh ("test", "cally.cal3d");
   if (!pcmesh->GetMesh ())
@@ -82,21 +81,23 @@ bool MainApp::CreatePlayer ()
     return ReportError ("Can't find region or start position in region!");
 
   // Get iPcLinearMovement so we can setup the movement system.
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (player_entity);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
+  	iPcLinearMovement);
   pclinmove->InitCD (
   	csVector3 (0.5f,0.8f,0.5f),
   	csVector3 (0.5f,0.4f,0.5f),
   	csVector3 (0,0,0));
 
   // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (player_entity);
+  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (player_entity, iPcActorMove);
   pcactormove->SetMovementSpeed (3.0f);
   pcactormove->SetRunningSpeed (5.0f);
   pcactormove->SetRotationSpeed (1.75f);
 
   // Get iPcCommandInput so we can do key bindings. The behaviour layer
   // will interprete the commands so the actor can move.
-  csRef<iPcCommandInput> pcinput = celQueryPropertyClassEntity<iPcCommandInput> (player_entity);
+  csRef<iPcCommandInput> pcinput = CEL_QUERY_PROPCLASS_ENT (player_entity,
+  	iPcCommandInput);
   // We read the key bindings from the standard config file.
   pcinput->Bind ("up", "forward");
   pcinput->Bind ("down", "backward");
@@ -272,10 +273,7 @@ void MainApp::CreateBehaviourTree ()
 	  scfQueryInterface<iInventoryTriggerFactory> (trigger_factory);
   explicit_trigger_factory->SetEntityParameter ("player");
   explicit_trigger_factory->SetChildEntityParameter ("box3");
-  // @@@ TODO: fix the quest parameter 0!
-  csRef<iCelParameterBlock> params;
-  params.AttachNew (new celVariableParameterBlock ());
-  csRef<iTrigger> trigger = trigger_factory->CreateTrigger (0, params);
+  csRef<iTrigger> trigger = trigger_factory->CreateTrigger (celParams ());
   csRef<iTriggerFiredCondition> explicit_trigger_node =
     scfQueryInterface<iTriggerFiredCondition> (trigger_check_node);
   explicit_trigger_node->SetTrigger (trigger);
@@ -293,38 +291,32 @@ void MainApp::CreateBehaviourTree ()
   csRef<iBTAction> explicit_action_node =
     scfQueryInterface<iBTAction> (looking_action_node);
   explicit_reward_factory->SetMessageParameter ("Looking For Money Box :s");
-  // @@@ TODO: fix the quest parameter 0!
-  csRef<iReward> reward = reward_factory->CreateReward(0, params);
+  csRef<iReward> reward = reward_factory->CreateReward(celParams ());
   explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (angry_action_node);
   explicit_reward_factory->SetMessageParameter ("ANGRY! >:");
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward(0, params);
+  reward = reward_factory->CreateReward(celParams ());
   explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (calming_action_node);
   explicit_reward_factory->SetMessageParameter ("Calming down, calm... calm :|");
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward(0, params);
+  reward = reward_factory->CreateReward(celParams ());
   explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (lottery_action_node);
   explicit_reward_factory->SetMessageParameter ("Won the Lottery! :D");
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward(0, params);
+  reward = reward_factory->CreateReward(celParams ());
   explicit_action_node->AddReward (reward);
 	  
   explicit_action_node = scfQueryInterface<iBTAction> (irritable_action_node);
   explicit_reward_factory->SetMessageParameter ("Irritable :(");
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward(0, params);
+  reward = reward_factory->CreateReward(celParams ());
   explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (loving_action_node);
   explicit_reward_factory->SetMessageParameter ("Loving :)");
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward(0, params);
+  reward = reward_factory->CreateReward(celParams ());
   explicit_action_node->AddReward (reward);
 
 
@@ -357,5 +349,5 @@ void MainApp::CreateBehaviourTree ()
   csRef<iBTNode> tree = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.root");
   tree->AddChild(root_node);
-  tree->Execute(params);
+  tree->Execute(celParams ());
 }

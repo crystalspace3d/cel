@@ -62,7 +62,7 @@ public:
   celMeshEnterSectorTriggerFactory (celMeshEnterSectorTriggerType* type);
   virtual ~celMeshEnterSectorTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iEnterSectorTriggerFactory ----------------------
@@ -83,7 +83,6 @@ private:
   csWeakRef<iSector> sect;
   csWeakRef<iMeshWrapper> mesh;
   csString entity;
-  uint entityID;
   csString tag;
   csString sector;
 
@@ -91,7 +90,7 @@ private:
 
 public:
   celMeshEnterSectorTrigger (celMeshEnterSectorTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sector_par);
   virtual ~celMeshEnterSectorTrigger ();
@@ -101,9 +100,8 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
-
-  virtual void Activate () { ActivateTrigger (); }
-  virtual void Deactivate () { DeactivateTrigger (); }
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   //------------------------- iMovableListener ----------------------------
   virtual void MovableChanged (iMovable* movable);

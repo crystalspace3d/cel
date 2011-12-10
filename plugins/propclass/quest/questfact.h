@@ -73,7 +73,7 @@ private:
   csRef<iQuestManager> quest_mgr;
   void GetQuestManager ();
 
-  csRef<celVariableParameterBlock> quest_params;
+  celParams quest_params;
   csString questname;
   csRef<iQuest> quest;
 
@@ -81,19 +81,18 @@ public:
   celPcQuest (iObjectRegistry* object_reg);
   virtual ~celPcQuest ();
 
-  virtual bool NewQuest (const char* name, iCelParameterBlock* params);
+  virtual bool NewQuest (const char* name, celParams& params);
   virtual void StopQuest ();
   virtual iQuest* GetQuest () const { return quest; }
   virtual const char* GetQuestName () const { return questname; }
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   virtual bool SetPropertyIndexed (int, const char*);
   virtual bool GetPropertyIndexed (int, const char*&);
-
-  virtual void Activate ();
-  virtual void Deactivate ();
 };
 
 #endif // __CEL_PF_QUESTFACT__

@@ -31,7 +31,6 @@
 #include "propclass/meshsel.h"
 #include "propclass/mesh.h"
 #include "propclass/prop.h"
-#include "celtool/stdparams.h"
 
 #include "frankie.h"
 #include "lifesim.h"
@@ -56,7 +55,7 @@ bool LifeSimulator::CreateFrankieEntity (const csVector3 position)
     return ReportError ("Error creating player entity!");
 
   // Get the iPcMesh interface so we can load the right mesh for our player.
-  csRef<iPcMesh> pcMesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  csRef<iPcMesh> pcMesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
   pcMesh->SetPath("/lib/frankie/");
   pcMesh->SetMesh("franky_frankie", "frankie.xml");
   csRef<iMeshWrapper> mesh = pcMesh->GetMesh();
@@ -64,12 +63,12 @@ bool LifeSimulator::CreateFrankieEntity (const csVector3 position)
     return false;
 
   // Get iPcLinearMovement so we can setup the movement system.
-  csRef<iPcLinearMovement> pcLinMove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+  csRef<iPcLinearMovement> pcLinMove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
   pcLinMove->InitCD (mesh->GetMeshObject ()->GetMeshWrapper (), 0.3f);
   pcLinMove->SetFullPosition (position, 0.0f, room);
 
   // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcActorMove = celQueryPropertyClassEntity<iPcActorMove> (entity);
+  csRef<iPcActorMove> pcActorMove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
   pcActorMove->SetMovementSpeed (1.5f);
   pcActorMove->SetRunningSpeed (2.5f);
   pcActorMove->SetRotationSpeed (1.75f);
@@ -91,7 +90,7 @@ FrankieBehaviour::FrankieBehaviour (iCelEntity* entity, BehaviourLayer* behaviou
 
 void FrankieBehaviour::CreateBehaviourTree ()
 {
-  csRef<iPcActorMove> actorMove = celQueryPropertyClassEntity<iPcActorMove> (entity);
+  csRef<iPcActorMove> actorMove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
   csRef<iCelPropertyClass> pcActorMove = scfQueryInterface<iCelPropertyClass> (actorMove);
 
   csRef<iPluginManager> pluginManager = 
@@ -125,10 +124,7 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Clear");
 
-  // @@@ TODO: fix the quest parameter 0!
-  csRef<iCelParameterBlock> params;
-  params.AttachNew (new celVariableParameterBlock ());
-  reward = reward_factory->CreateReward (0, params);
+  reward = reward_factory->CreateReward (celParams ());
   explicit_action_node->AddReward (reward);
 
   // Setup the reward for the new animation
@@ -139,10 +135,9 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Forward");
   explicit_reward_factory->AddParameter
-    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "true");
+    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
 
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward (0, params);
+  reward = reward_factory->CreateReward (celParams ());
   explicit_action_node->AddReward (reward);
 
   // Create the 'idle' action node
@@ -159,8 +154,7 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Clear");
 
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward (0, params);
+  reward = reward_factory->CreateReward (celParams ());
   explicit_action_node->AddReward (reward);
 
   // Create the 'run' action node
@@ -177,8 +171,7 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Clear");
 
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward (0, params);
+  reward = reward_factory->CreateReward (celParams ());
   explicit_action_node->AddReward (reward);
 
   // Setup the reward for the new animation
@@ -189,10 +182,9 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Forward");
   explicit_reward_factory->AddParameter
-    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "true");
+    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
 
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward (0, params);
+  reward = reward_factory->CreateReward (celParams ());
   explicit_action_node->AddReward (reward);
 
   // Setup the reward for the new animation
@@ -203,10 +195,9 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("Run");
   explicit_reward_factory->AddParameter
-    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "true");
+    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
 
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward (0, params);
+  reward = reward_factory->CreateReward (celParams ());
   explicit_action_node->AddReward (reward);
 
   // Create the 'rotate_left' action node
@@ -223,10 +214,9 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("RotateLeft");
   explicit_reward_factory->AddParameter
-    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "true");
+    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
 
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward (0, params);
+  reward = reward_factory->CreateReward (celParams ());
   explicit_action_node->AddReward (reward);
 
   // Create the 'rotate_right' action node
@@ -243,10 +233,9 @@ void FrankieBehaviour::CreateBehaviourTree ()
   explicit_reward_factory->SetPropertyClassParameter ("pcmove.actor.standard");
   explicit_reward_factory->SetIDParameter ("RotateRight");
   explicit_reward_factory->AddParameter
-    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "true");
+    (CEL_DATA_BOOL, physicalLayer->FetchStringID ("start"), "start", "true");
 
-  // @@@ TODO: fix the quest parameter 0!
-  reward = reward_factory->CreateReward (0, params);
+  reward = reward_factory->CreateReward (celParams ());
   explicit_action_node->AddReward (reward);
 
   // Define the root of the behaviour tree
@@ -268,8 +257,7 @@ void FrankieBehaviour::TickEveryFrame ()
 void FrankieBehaviour::TickOnce ()
 {
   // Update the behaviour tree
-  csRef<iCelParameterBlock> params;
-  params.AttachNew (new celVariableParameterBlock ());
+  celParams params;
   behaviourTree->Execute (params);
 
   // Register for the next update

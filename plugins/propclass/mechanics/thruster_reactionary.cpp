@@ -80,6 +80,40 @@ celPcMechanicsThrusterReactionary::~celPcMechanicsThrusterReactionary ()
 {
 }
 
+#define MECHSYS_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcMechanicsThrusterReactionary::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MECHSYS_SERIAL);
+  csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (
+      mechanicsobject);
+  databuf->Add (pc);
+  databuf->Add (position);
+  databuf->Add (orientation);
+  databuf->Add (lastforceid);
+  databuf->Add (maxthrust);
+  databuf->Add (thrust);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcMechanicsThrusterReactionary::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != MECHSYS_SERIAL)
+  {
+    CS_REPORT(ERROR,"serialnr != MECHSYS_SERIAL.  Cannot load.");
+    return false;
+  }
+  csRef<iCelPropertyClass> pc = databuf->GetPC ();
+  mechanicsobject = scfQueryInterface<iPcMechanicsObject> (pc);
+  databuf->GetVector3 (position);
+  databuf->GetVector3 (orientation);
+  lastforceid = databuf->GetUInt32 ();
+  maxthrust = databuf->GetFloat ();
+  thrust = databuf->GetFloat ();
+  return true;
+}
+
 bool celPcMechanicsThrusterReactionary::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -90,7 +124,8 @@ bool celPcMechanicsThrusterReactionary::PerformActionIndexed (int idx,
     if (p_objectpctag)
     {
       csRef<iPcMechanicsObject> mechobj = 0;
-      mechobj = celQueryPropertyClassTagEntity<iPcMechanicsObject> (GetEntity (), objectpctag);
+      mechobj = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),
+      	iPcMechanicsObject,objectpctag);
       assert (mechobj);
       SetMechanicsObject (mechobj);
     }

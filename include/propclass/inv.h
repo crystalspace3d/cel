@@ -25,16 +25,14 @@
 #include "behaviourlayer/behave.h"
 
 struct iCelEntity;
-struct iCelEntityTemplate;
 struct iPcInventory;
-struct iLootGenerator;
 
 /**
  * Listen to inventory changes.
  */
 struct iPcInventoryListener : public virtual iBase
 {
-  SCF_INTERFACE (iPcInventoryListener, 0, 1, 1);
+  SCF_INTERFACE (iPcInventoryListener, 0, 0, 1);
 
   /**
    * A child is added to this inventory.
@@ -45,18 +43,6 @@ struct iPcInventoryListener : public virtual iBase
    * A child is removed from this inventory.
    */
   virtual void RemoveChild (iPcInventory* inventory, iCelEntity* entity) = 0;
-
-  /**
-   * An entity template is added to this inventory.
-   */
-  virtual void AddChildTemplate (iPcInventory* inventory,
-      iCelEntityTemplate* tpl, int amount) = 0;
-
-  /**
-   * An entity template is removed from this inventory.
-   */
-  virtual void RemoveChildTemplate (iPcInventory* inventory,
-      iCelEntityTemplate* tpl, int amount) = 0;
 };
 
 
@@ -107,7 +93,7 @@ struct iCelInventorySpaceSlot : public virtual iBase
  */
 struct iCelInventorySpace : public virtual iBase
 {
-  SCF_INTERFACE (iCelInventorySpace, 0, 1, 1);
+  SCF_INTERFACE (iCelInventorySpace, 0, 0, 1);
   
   /// Return how much space is available in total.
   virtual int GetSpaceTotal () const = 0;
@@ -119,20 +105,25 @@ struct iCelInventorySpace : public virtual iBase
   virtual int GetSpaceTaken () const = 0;
   
   /**
-   * Add an entity on a given slot. The generic 'params' will be used to 
-   * indicate the slot. It is up to the implementation of this interface
-   * to decide on how to use this.
-   * If 'params' is not given then a default slot can be picked (or the
-   * add can be rejected in case slot specifications are always required).
+   * When some code calls old-style AddEntity() (with no parameters) on the
+   * iPcInventory then this function will be called. We can pick a default
+   * slot or else reject this if a slot specification is always required.
    * /return false if there is no room or if this is not allowed.
    */
-  virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params = 0) = 0;
+  virtual bool AddEntity (iCelEntity* entity) = 0;
   /**
    * Remove the entity from its slot.
    * /return false if it couldn't be removed.
    */
   virtual bool RemoveEntity (iCelEntity* entity) = 0;
   
+  /**
+   * Add an entity on a given slot. The generic 'params' will be used to 
+   * indicate the slot. It is up to the implementation of this interface
+   * to decide on how to use this.
+   * /return false if there is no room or if this is not allowed.
+   */
+  virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params) = 0;
   /**
    * Remove an entity (or entities) from the specified slot (through 'params').
    * If needed the params can be extended with information to specify the
@@ -160,25 +151,16 @@ struct iCelInventorySpace : public virtual iBase
 /**
  * This is an inventory property class.
  *
- * This property class supports the following actions (add prefix 'cel.inventory.action.'
- * if you want to access this action through a message):
- * - AddTemplate: parameters 'name' (string), 'amount' (long), returns true/false.
- * - RemoveTemplate: parameters 'name' (string), 'amount' (long), returns true/false.
- * - SetLootGenerator: parameters 'name' (string, name of the generator)
- * - GenerateLoot: returns true/false.
- *
  * This property class can send out the following messages
  * (possibly to the containing entity as well as the child entity):
  * - 'cel.entity.add' (old 'pcinventory_addchild'): new child will be added (entity)
- * - 'cel.entity.add.template': new template will be added (entity as string, amount)
  * - 'cel.entity.add.this' (old 'pcinventory_added'): this entity is added as a new child (entity)
  * - 'cel.entity.remove' (old 'pcinventory_removechild'): new child will be removed (entity)
- * - 'cel.entity.remove.template': new template will be removed (entity as string, amount (the amount that is removed))
  * - 'cel.entity.remove.this' (old 'pcinventory_removed'): this entity is removed (entity)
  */
 struct iPcInventory : public virtual iBase
 {
-  SCF_INTERFACE (iPcInventory, 1, 1, 0);
+  SCF_INTERFACE (iPcInventory, 1, 0, 0);
 
   /**
    * Add an inventory listener. Inventory listeners are called right before
@@ -195,10 +177,17 @@ struct iPcInventory : public virtual iBase
    * not be added (capacity exceeded for example).
    * Note that it is safe to add entities that are already in the inventory.
    * Nothing will happen then and true will be returned.
-   * If 'params' is given then this will be given to the space system.
+   */
+  virtual bool AddEntity (iCelEntity* entity) = 0;
+
+  /**
+   * Add an entity on a given slot using the space system. Returns false if
+   * the entity could not be added (capacity exceeded for example).
+   * Note that it is safe to add entities that are already in the inventory.
+   * Nothing will happen then and true will be returned.
    * \param params is a generic slot specification (used by iCelInventorySpace).
    */
-  virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params = 0) = 0;
+  virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params) = 0;
 
   /**
    * Remove an entity. This can fail if removing an entity causes
@@ -215,25 +204,7 @@ struct iPcInventory : public virtual iBase
   virtual bool RemoveEntity (iCelParameterBlock* params) = 0;
 
   /**
-   * Add an entity template. Returns false if the template could
-   * not be added (capacity exceeded for example).
-   * If the given template is already in the inventory then the amount
-   * will be updated.
-   * The space/slot system is currently not yet supported for entity templates.
-   */
-  virtual bool AddEntityTemplate (iCelEntityTemplate* tpl, int amount) = 0;
-
-  /**
-   * Remove an entity template. This can fail if removing a template causes
-   * an upstream inventory to fail its constraints.
-   * If there are more of a given template in the inventory then the
-   * amount will be updated. If there are less then this will fail and
-   * nothing will happen.
-   */
-  virtual bool RemoveEntityTemplate (iCelEntityTemplate* tpl, int amount) = 0;
-
-  /**
-   * Remove all entities and templates. This can fail if removing entities
+   * Remove all entities. This can fail if removing entities
    * causes upstream inventories to fail its constraints.
    * In that case entities are removed until the first failure.
    * To ensure correct removal for this inventory you should
@@ -241,10 +212,8 @@ struct iPcInventory : public virtual iBase
    */
   virtual bool RemoveAll () = 0;
 
-  //--------------------------------------------------------------------
-
   /**
-   * Get the number of entities in this inventory (not templates!).
+   * Get the number of entities in this inventory.
    */
   virtual size_t GetEntityCount () const = 0;
 
@@ -259,7 +228,7 @@ struct iPcInventory : public virtual iBase
   virtual bool In (iCelEntity* entity) const = 0;
 
   /**
-   * Test if some entity or template is in the inventory by name.
+   * Test if some entity is in the inventory by name.
    */
   virtual bool In (const char* name) const = 0;
 
@@ -282,52 +251,7 @@ struct iPcInventory : public virtual iBase
    */
   virtual size_t FindEntity (csStringID classid) const = 0;
 
-  //--------------------------------------------------------------------
-
-  /**
-   * Get the number of templates in this inventory. This only counts
-   * distinct templates. The number of instances of every template is
-   * ignored.
-   */
-  virtual size_t GetEntityTemplateCount () const = 0;
-
-  /**
-   * Get some entity template.
-   */
-  virtual iCelEntityTemplate* GetEntityTemplate (size_t idx) const = 0;
-
-  /**
-   * Get the amount of instances for a given template.
-   */
-  virtual int GetEntityTemplateAmount (size_t idx) const = 0;
-
-  /**
-   * Test if some entity template is in the inventory.
-   */
-  virtual bool In (iCelEntityTemplate* tpl) const = 0;
-
-  /**
-   * Find the index of some entity template in the inventory.
-   * Return csArrayItemNotFound if not in inventory.
-   */
-  virtual size_t FindEntityTemplate (iCelEntityTemplate* tpl) const = 0;
-
-  /**
-   * Find the index of some entity template in the inventory by name.
-   * Return csArrayItemNotFound if not in inventory.
-   */
-  virtual size_t FindEntityTemplate (const char* name) const = 0;
-
-   /**
-   * Find the index of some entity template in the inventory by class.
-   * The first template with given class will be returned.
-   * Return csArrayItemNotFound if not in inventory.
-   */
-  virtual size_t FindEntityTemplate (csStringID classid) const = 0;
-
-  //--------------------------------------------------------------------
-
-  /**
+ /**
    * Get an entity from a generic slot (space system).
    */
   virtual iCelEntity* GetEntitySlot (iCelParameterBlock* params) const = 0;
@@ -416,45 +340,6 @@ struct iPcInventory : public virtual iBase
    * functions instead.
    */
   virtual iCelInventorySpace* GetSpace () = 0;
-
-  /**
-   * Add an entity class which is allowed for this inventory.
-   * If no entity classes are added then there is no restriction.
-   */
-  virtual void AddAllowedClass (csStringID cls) = 0;
-
-  /**
-   * Clear the allowed entity classes which makes sure that all entities
-   * are allowed.
-   */
-  virtual void ClearAllowedClasses () = 0;
-
-  /**
-   * Return true if a given class is allowed. If no allowed classes
-   * were given then this will always return true.
-   */
-  virtual bool IsClassAllowed (csStringID cls) const = 0;
-
-  /**
-   * Set a loot generator for this inventory. As soon as this is set
-   * it will be used as soon as the inventory is opened (querried).
-   * If the inventory already contains items then the loot will be
-   * appended. To reactivate a given loot generator you just have
-   * to call this function again.
-   */
-  virtual void SetLootGenerator (iLootGenerator* generator) = 0;
-
-  /**
-   * Get the loot generator for this inventory.
-   */
-  virtual iLootGenerator* GetLootGenerator () const = 0;
-
-  /**
-   * Generate the loot (if any) in this inventory.
-   * The application would typically call this before opening the
-   * inventory.
-   */
-  virtual bool GenerateLoot () = 0;
 };
 
 #endif // __CEL_PF_INV__

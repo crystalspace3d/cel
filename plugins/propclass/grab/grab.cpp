@@ -75,6 +75,21 @@ celPcGrab::~celPcGrab ()
 {
 }
 
+#define TEST_SERIAL 0
+
+csPtr<iCelDataBuffer> celPcGrab::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TEST_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcGrab::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != TEST_SERIAL) return false;
+  return true;
+}
+
 bool celPcGrab::PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret)
 {
   /*switch (idx)

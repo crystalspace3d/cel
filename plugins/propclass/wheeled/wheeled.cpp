@@ -260,12 +260,12 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   AddProperty (propid_antiswaylimit, "antiswaylimit",
          CEL_DATA_FLOAT, true, "Anti-sway limit.",&antiswaylimit);
   
-  params.AttachNew (new celVariableParameterBlock (5));
-  params->AddParameter (param_otherbody);
-  params->AddParameter (param_position);
-  params->AddParameter (param_normal);
-  params->AddParameter (param_depth);
-  params->AddParameter (param_index);
+  params = new celGenericParameterBlock (5);
+  params->SetParameterDef (0, param_otherbody);
+  params->SetParameterDef (1, param_position);
+  params->SetParameterDef (2, param_normal);
+  params->SetParameterDef (3, param_depth);
+  params->SetParameterDef (4, param_index);
   
   pl->CallbackOnce ((iCelTimerListener*)this, 25, CEL_EVENT_PRE);
 }
@@ -285,6 +285,18 @@ celPcWheeled::~celPcWheeled ()
   wheels=0;
 }
 
+
+#define TEST_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcWheeled::Save ()
+{
+  return 0;
+}
+
+bool celPcWheeled::Load (iCelDataBuffer* databuf)
+{
+  return true;
+}
 
 bool celPcWheeled::GetPropertyIndexed (int idx, long& l)
 {
@@ -836,7 +848,7 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
 {
   GetMech();
 //Create the mesh
-  csRef<iPcMesh> bodyMesh=celQueryPropertyClassEntity<iPcMesh> (GetEntity());
+  csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
   csOrthoTransform
     bodytransform=bodyMesh->GetMesh()->GetMovable()->GetTransform();
   csVector3 realpos = bodytransform.This2Other(wheels[wheelnum].Position);
@@ -1064,7 +1076,7 @@ void celPcWheeled::GetMech()
 {
   if(!bodyMech)
   {
-    bodyMech=celQueryPropertyClassEntity<iPcMechanicsObject> (GetEntity());
+    bodyMech=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMechanicsObject);
     if(!bodyMech)
       return;
     dyn=bodyMech->GetMechanicsSystem()->GetDynamicSystem();
@@ -1378,7 +1390,7 @@ void celPcWheeled::WheelCollision (iRigidBody *thisbody,
     if (!dispatcher_collision)
     {
       dispatcher_collision = entity->QueryMessageChannel ()->
-        CreateMessageDispatcher (this, pl->FetchStringID ("cel.mechanics.collision"));
+        CreateMessageDispatcher (this, "cel.mechanics.collision");
       if (!dispatcher_collision) return;
     }
     dispatcher_collision->SendMessage (params);
@@ -1403,7 +1415,7 @@ void celPcWheeled::SetWheelRotation(size_t wheelnum, csMatrix3 rotation)
 {
   wheels[wheelnum].Rotation = rotation;
 /*
-  csRef<iPcMesh> bodyMesh=celQueryPropertyClassEntity<iPcMesh> (GetEntity());
+  csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
   csOrthoTransform
   bodytransform=bodyMesh->GetMesh()->GetMovable()->GetTransform();
   

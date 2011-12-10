@@ -28,11 +28,26 @@
 #include "csgeom/vector3.h"
 #include "csutil/refarr.h"
 #include "physicallayer/pl.h"
-#include "iutil/string.h"
 
+class celVariableParameterBlock;
+struct iCelDataBuffer;
 struct iCelParameterBlock;
-struct iCelEntity;
-struct iCelPlLayer;
+
+/// The description of a parameter
+struct celParSpec
+{
+  /// The type of the parameter
+  celDataType type;
+
+  /// The ID of the parameter
+  csStringID id;
+
+  /// The name of the parameter
+  csString name;
+
+  /// The value of the parameter
+  csString value;
+};
 
 //---------------------------------------------------------------------------
 /**
@@ -44,7 +59,7 @@ struct iCelPlLayer;
  */
 struct iParameter : public virtual iBase
 {
-  SCF_INTERFACE (iParameter, 0, 0, 3);
+  SCF_INTERFACE (iParameter, 0, 0, 2);
 
   /**
    * Get this variable as its correct datatype.
@@ -71,36 +86,11 @@ struct iParameter : public virtual iBase
    * \param params is an optional parameter block given to the reward.
    */
   virtual int32 GetLong (iCelParameterBlock* params) = 0;
-
-  /**
-   * Get the value of this expression as a float.
-   * \param params is an optional parameter block given to the reward.
-   */
-  virtual float GetFloat (iCelParameterBlock* params) = 0;
-
-  /**
-   * Get the value of this expression as a bool.
-   * \param params is an optional parameter block given to the reward.
-   */
-  virtual bool GetBool (iCelParameterBlock* params) = 0;
-
-  /**
-   * Get the original expression used to generate this parameter.
-   * This is only valid if the parameter manager has remembering of
-   * expressions enabled. Returns 0 otherwise.
-   */
-  virtual const char* GetOriginalExpression () = 0;
-
-  /**
-   * Get the possible type of this parameter. This is not always accurate
-   * since sometimes the type of this parameter cannot be known without more
-   * context (like the params blocks that is given to 'GetXxx()'). In the
-   * case that it is not known what type it will be, CEL_DATA_NONE is
-   * returned.
-   */
-  virtual celDataType GetPossibleType () const = 0;
 };
 
+//---------------------------------------------------------------------------
+/// A set of parameters, mapping a key to a value
+typedef csHash<csStringBase,csStringBase> celParams;
 //---------------------------------------------------------------------------
 
 /**
@@ -110,36 +100,15 @@ struct iParameter : public virtual iBase
  */
 struct iParameterManager : public virtual iBase
 {
-    SCF_INTERFACE (iParameterManager, 1, 0, 2);
+    SCF_INTERFACE (iParameterManager, 1, 0, 0);
 
   /**
    * Get a parameter that can be evalulated later on an as-needed basis.
    * Returns 0 for an illegal parameter (error reporting has been done).
-   * This version supports '$' (in which case the value of the parameter
-   * is fetched from the given 'params' block), '@' (in which case it is
-   * a dynamic parameter which will be resolved later), and '=' (in which
-   * case it is an expression to be resolved later).
-   * In case '$' is used the resulting value will itself be parsed (may
-   * contain '@' and '=').
-   * If the optional 'type' is given then this function will make a parameter
-   * that returns only the given type. Conversion will happen automatically
-   * in case it is needed.
    */
   virtual csPtr<iParameter> GetParameter (
-  	iCelParameterBlock* params,
-	const char* param,
-        celDataType type = CEL_DATA_NONE) = 0;
-
-  /**
-   * Get a parameter that can be evalulated later on an as-needed basis.
-   * This version differs from the previous version in the sense that '$'
-   * is also seen as dynamic so '$' and '@' have the same meaning here.
-   * If the optional 'type' is given then this function will make a parameter
-   * that returns only the given type. Conversion will happen automatically
-   * in case it is needed.
-   */
-  virtual csPtr<iParameter> GetParameter (const char* param,
-      celDataType type = CEL_DATA_NONE) = 0;
+  	const celParams& params,
+	const char* param) = 0;
 
   /**
    * This is a convenience function to resolve a quest parameter during
@@ -148,49 +117,43 @@ struct iParameterManager : public virtual iBase
    * that case try to resolve the parameter by finding it in 'params'. 
    * Otherwise it will just return the unmodified string. This version 
    * doesn't support dynamic parameters.
-   * The string which is returned is relatively short-lived. Store it in
-   * a more permanent location if you plan to use it later.
    */
   virtual const char* ResolveParameter (
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* param) = 0;
 
-  /**
-   * This is a convenience function to resolve a quest parameter during
-   * creation of rewards, triggers, and sequence operations and convert
-   * the parameter to an entity name or ID. This routine knows how to recognize
-   * parameter usage (starting with '$') and will in that case try to
-   * resolve the parameter by finding it in 'params'. Otherwise it will
-   * return the string. This version doesn't support dynamic parameters.
-   * If the parameter is a long then it will be treated as an entity ID.
-   * In that case the function returns 0 and 'entid' will be set.
-   * The string which is returned is relatively short-lived. Store it in
-   * a more permanent location if you plan to use it later.
+    /**
+   * This is a convenience function to get a parameter block during
+   * creation of rewards, triggers, and sequence operations. This routine
+   * knows how to recognize parameter usage (starting with '$' or '@') and will in
+   * that case try to resolve the parameter by finding it in 'params'.
+   * \param params is the quest parameters.
+   * \param paramspec is the parameter specifications and unparsed values.
+   * \param quest_parameters is an array that should have the same length
+   * as the 'paramspec' array. It will be filled with the parameters.
    */
-  virtual const char* ResolveEntityParameter (
-      iCelParameterBlock* params,
-      const char* param,
-      uint& entid) = 0;
+  virtual csPtr<celVariableParameterBlock> GetParameterBlock (
+  	const celParams& params,
+	const csArray<celParSpec>& parameters,
+	csRefArray<iParameter>& quest_parameters) = 0;
 
-  /**
-   * Conveniance function to get an entity out of an iParameter.
-   * This function accepts an old entity pointer that will be used
-   * in case the parameter didn't change (optimization).
+   /**
+   * Fill in the dynamic parameters in a parameter block. Return whether or
+   * not the filling has been made.
+   * \param params is the parameter block given to the reward.
+   * \param msg_params is the resolved parameter block as returned by
+   * GetParameterBlock().
+   * \param parameters is the parameter specifications and unparsed values.
+   * \param quest_parameters is an array with quest parameters.
    */
-  virtual iCelEntity* ResolveEntityParameter (
-      iCelPlLayer* pl,
-      iCelParameterBlock* params, iParameter* param,
-      iCelEntity* ent = 0) = 0;
+  virtual bool FillParameterBlock (
+    iCelParameterBlock* params,
+	celVariableParameterBlock* act_params,
+	const csArray<celParSpec>& parameters,
+	const csRefArray<iParameter>& quest_parameters) = 0;
 
-  /**
-   * Enable remembering of the original expression used to create
-   * the parameter. This is useful for editors where you want to examine
-   * the expression used for making this parameter. Disabled by default.
-   */
-  virtual void SetRememberExpression (bool remember) = 0;
-  virtual bool IsRememberingExpressions () const = 0;
+
 };
-
 //---------------------------------------------------------------------------
 
 #endif // __CEL_PARAMETERS__

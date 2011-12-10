@@ -24,9 +24,6 @@
 #include "tools/parameters.h"
 #include "tools/sequences.h"
 
-struct iQuest;
-struct iCelParameterBlock;
-
 //-------------------------------------------------------------------------
 // Triggers
 //-------------------------------------------------------------------------
@@ -55,7 +52,7 @@ struct iTriggerCallback : public virtual iBase
  */
 struct iTrigger : public virtual iBase
 {
-  SCF_INTERFACE (iTrigger, 0, 0, 2);
+  SCF_INTERFACE (iTrigger, 0, 0, 1);
 
   /**
    * Register a callback with this trigger. When the trigger fires
@@ -88,20 +85,16 @@ struct iTrigger : public virtual iBase
   virtual bool Check () = 0;
 
   /**
-   * Activate this trigger. This means it will process events again.
-   * Note that this is not equivalent to ActivateTrigger() since the
-   * this function will actually activate the trigger to the same state
-   * as it was when the trigger was deactivated. ActivateTrigger() on the
-   * other hand, just activates the trigger to its initial state.
+   * Activate the trigger and load state from databuf (persistence).
+   * \return false on failure (data in buffer doesn't match what we
+   * expect).
    */
-  virtual void Activate () = 0;
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf) = 0;
 
   /**
-   * Deactivate this trigger. This is not the same as DeactivateTrigger()
-   * since this function will remember the state when it was deactivated
-   * and allow Activate() to restore it to exactly that state.
+   * Save trigger state.
    */
-  virtual void Deactivate () = 0;
+  virtual void SaveTriggerState (iCelDataBuffer* databuf) = 0;
 };
 
 /**
@@ -118,7 +111,7 @@ struct iTriggerFactory : public virtual iBase
    * instantiated.
    */
   virtual csPtr<iTrigger> CreateTrigger (
-  	iQuest* q, iCelParameterBlock* params) = 0;
+  	const celParams& params) = 0;
 
   /**
    * Load this factory from a document node.

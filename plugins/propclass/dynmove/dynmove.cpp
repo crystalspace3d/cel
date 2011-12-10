@@ -81,6 +81,22 @@ bool celPcDynamicMove::GetPropertyIndexed (int idx, long& l)
   return false;
 }
 
+#define DYNMOVE_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcDynamicMove::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DYNMOVE_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcDynamicMove::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != DYNMOVE_SERIAL) return false;
+
+  return true;
+}
+
 bool celPcDynamicMove::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -133,35 +149,40 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_lookup_down)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcDefaultCamera);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (1.0f);
     return true;
   }
   else if (msgid == id_input_lookup_up)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcDefaultCamera);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (0.0f);
     return true;
   }
   else if (msgid == id_input_lookdown_down)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcDefaultCamera);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (-1.0f);
     return true;
   }
   else if (msgid == id_input_lookdown_up)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcDefaultCamera);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (0.0f);
     return true;
   }
   else if (msgid == id_input_center_down)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcDefaultCamera);
     if (pcdefcamera)
       pcdefcamera->CenterCamera ();
     return true;

@@ -39,7 +39,6 @@
 #include "ivaria/reporter.h"
 #include "ivaria/dynamics.h"
 #include "ivaria/ode.h"
-#include "ivaria/bullet.h"
 
 #include "plugins/propclass/mechanics/common.h"
 #include "plugins/propclass/mechanics/mechanics.h"
@@ -60,7 +59,6 @@ csStringID celPcMechanicsSystem::param_dynsys = csInvalidStringID;
 csStringID celPcMechanicsSystem::param_gravity = csInvalidStringID;
 csStringID celPcMechanicsSystem::param_time = csInvalidStringID;
 csStringID celPcMechanicsSystem::param_simulationspeed = csInvalidStringID;
-csStringID celPcMechanicsSystem::param_plugin = csInvalidStringID;
 PropertyHolder celPcMechanicsSystem::propinfo;
 
 celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
@@ -74,7 +72,6 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
   delta = 0.01f;
   remaining_delta = 0;
   simulationspeed=1.0f;
-  pluginName = "crystalspace.dynamics.ode";
 
   if (param_dynsys == csInvalidStringID)
   {
@@ -83,7 +80,6 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
     param_gravity = pl->FetchStringID ("gravity");
     param_time = pl->FetchStringID ("time");
     param_simulationspeed = pl->FetchStringID ("simulationspeed");
-    param_plugin = pl->FetchStringID ("plugin");
   }
 
   propholder = &propinfo;
@@ -97,7 +93,6 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
     AddAction (action_disablestepfast, "DisableStepFast");
     AddAction (action_setsteptime, "SetStepTime");
     AddAction (action_setsimulationspeed, "SetSimulationSpeed");
-    AddAction (action_setplugin, "SetPlugin");
   }
 }
 
@@ -165,7 +160,8 @@ void celPcMechanicsSystem::ApplyForce (celForce& f)
 
 iDynamics* celPcMechanicsSystem::GetDynamics ()
 {
-  dynamics = csQueryRegistryOrLoad<iDynamics> (object_reg, pluginName);
+  dynamics = csQueryRegistryOrLoad<iDynamics> (object_reg,
+  	"crystalspace.dynamics.ode");
   if (!dynamics)
   {
     if (!dynsystem_error_reported)
@@ -182,35 +178,27 @@ void celPcMechanicsSystem::TickEveryFrame ()
 {
   GetDynamicSystem ();
   if (!dynamics) return;
-  float elapsed_time = vc->GetElapsedSeconds ();
+  csTicks elapsed_time = vc->GetElapsedTicks ();
 
-  if (bullet_dynSys)
+  // For ODE it is recommended that all steps are done with the
+  // same size. So we always will call dynamics->Step(delta) with
+  // the constant delta. However, sometimes our elapsed time
+  // is not divisible by delta and in that case we have a small
+  // time (smaller then delta) left-over. We can't afford to drop
+  // that because then speed of physics simulation would differ
+  // depending on framerate. So we will put that remainder in
+  // remaining_delta and use that here too.
+  float delta_modulated=delta*simulationspeed;
+  float et = remaining_delta + (float (elapsed_time) / (1000.0/simulationspeed));
+  while (et >= delta_modulated)
   {
-    ProcessForces (elapsed_time * simulationspeed);
-    dynamics->Step (elapsed_time * simulationspeed);
+    ProcessForces (delta_modulated);
+    dynamics->Step (delta_modulated);
+    et -= delta_modulated;
   }
-  else
-  {
-    // For ODE it is recommended that all steps are done with the
-    // same size. So we always will call dynamics->Step(delta) with
-    // the constant delta. However, sometimes our elapsed time
-    // is not divisible by delta and in that case we have a small
-    // time (smaller then delta) left-over. We can't afford to drop
-    // that because then speed of physics simulation would differ
-    // depending on framerate. So we will put that remainder in
-    // remaining_delta and use that here too.
-    float delta_modulated = delta*simulationspeed;
-    float et = remaining_delta + (elapsed_time / simulationspeed);
-    while (et >= delta_modulated)
-    {
-      ProcessForces (delta_modulated);
-      dynamics->Step (delta_modulated);
-      et -= delta_modulated;
-    }
 
-    // Now we have a small remainder. We remember that in remaining_delta.
-    remaining_delta = et;
-  }
+  // Now we have a small remainder. We remember that in remaining_delta.
+  remaining_delta = et;
 
   // Delete all expired forces and forces that were only
   // meant to be here for one frame.
@@ -259,14 +247,6 @@ iDynamicSystem* celPcMechanicsSystem::GetDynamicSystem ()
     dynsystem->SetGravity (csVector3 (0, -9.8f, 0));
 
     EnableStepFast ();
-
-    bullet_dynSys = scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (dynsystem);
-    if (bullet_dynSys)
-    {
-      dynsystem->SetRollingDampener(.995f);
-      bullet_dynSys->SetInternalScale (1.0f);
-      bullet_dynSys->SetStepParameters (0.005f, 2, 10);
-    }
   }
   return dynsystem;
 }
@@ -317,7 +297,8 @@ iRigidBody* celPcMechanicsSystem::FindBody (const char* entityname)
 {
   iCelEntity* ent = pl->FindEntity (entityname);
   if (!ent) return 0;
-  csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (ent);
+  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (
+  	ent, iPcMechanicsObject);
   if (!pcmechobj) return 0;
   return pcmechobj->GetBody ();
 }
@@ -328,20 +309,6 @@ bool celPcMechanicsSystem::PerformActionIndexed (int idx,
 {
   switch (idx)
   {
-    case action_setplugin:
-      {
-        CEL_FETCH_STRING_PAR (plugin,params,param_plugin);
-        if (p_plugin)
-        {
-	  pluginName = plugin;
-        }
-        else
-        {
-          CS_REPORT(ERROR,"Couldn't get plugin name!");
-          return false;
-        }
-        return true;
-      }
     case action_setsystem:
       {
         CEL_FETCH_STRING_PAR (dynsys,params,param_dynsys);
@@ -406,6 +373,54 @@ bool celPcMechanicsSystem::PerformActionIndexed (int idx,
     default:
       return false;
   }
+}
+
+#define MECHSYS_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcMechanicsSystem::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MECHSYS_SERIAL);
+  int j = 0;
+  databuf->GetData (j++)->Set (dynsystem->GetGravity ());
+  databuf->GetData (j++)->Set (dynsystem->GetLinearDampener ());
+  databuf->GetData (j++)->Set (dynsystem->GetRollingDampener ());
+  databuf->GetData (j++)->Set (delta);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcMechanicsSystem::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != MECHSYS_SERIAL)
+  {
+    CS_REPORT(ERROR,"serialnr != MECHSYS_SERIAL.  Cannot load.");
+    return false;
+  }
+
+  if (databuf->GetDataCount () != 4)
+  {
+    CS_REPORT(ERROR,"Msg does not specify the correct data. Cannot load.");
+    return false;
+  }
+
+  csVector3 gravity;
+  float lineardampener;
+  float rollingdampener;
+  databuf->GetVector3 (gravity);
+  lineardampener = databuf->GetFloat ();
+  rollingdampener = databuf->GetFloat ();
+  delta = databuf->GetFloat ();
+
+  if (!GetDynamicSystem ())
+  {
+    return false;
+  }
+
+  dynsystem->SetGravity (gravity);
+  dynsystem->SetLinearDampener (lineardampener);
+  dynsystem->SetRollingDampener (rollingdampener);
+
+  return true;
 }
 
 void celPcMechanicsSystem::AddForceTagged (iPcMechanicsObject* pcobject,
@@ -632,11 +647,11 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     param_group = pl->FetchStringID ("group");
   }
 
-  params.AttachNew (new celVariableParameterBlock (4));
-  params->AddParameter (param_otherbody);
-  params->AddParameter (param_position);
-  params->AddParameter (param_normal);
-  params->AddParameter (param_depth);
+  params = new celGenericParameterBlock (4);
+  params->SetParameterDef (0, param_otherbody);
+  params->SetParameterDef (1, param_position);
+  params->SetParameterDef (2, param_normal);
+  params->SetParameterDef (3, param_depth);
 
   propholder = &propinfo;
 
@@ -702,7 +717,172 @@ celPcMechanicsObject::~celPcMechanicsObject ()
   if (scfiDynamicsCollisionCallback)
     scfiDynamicsCollisionCallback->DecRef ();
 
+  delete params;
   delete bdata;
+}
+
+#define DYNBODY_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcMechanicsObject::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DYNBODY_SERIAL);
+  csRef<iCelPropertyClass> pc;
+  if (pcmesh)
+  {
+    pc = scfQueryInterface<iCelPropertyClass> (pcmesh);
+    databuf->Add (pc);
+  }
+  else
+    databuf->Add ((iCelPropertyClass*) 0);
+  GetMechSystem ();
+  if (mechsystem)
+  {
+    pc = scfQueryInterface<iCelPropertyClass> (mechsystem);
+    databuf->Add (pc);
+  }
+  else
+    databuf->Add ((iCelPropertyClass*) 0);
+  databuf->Add (static_cast<int32> (btype));
+  switch (btype)
+  {
+    case CEL_BODY_SPHERE:
+      {
+        sphere_data* sd = (sphere_data*)bdata;
+        databuf->Add (sd->radius);
+        databuf->Add (sd->offset);
+      }
+      break;
+    case CEL_BODY_BOX:
+      {
+        box_data* bd = (box_data*)bdata;
+        databuf->Add (bd->size);
+        const csMatrix3& m = bd->transform.GetO2T ();
+        databuf->Add (m.Row1 ());
+        databuf->Add (m.Row2 ());
+        databuf->Add (m.Row3 ());
+        databuf->Add (bd->transform.GetO2TTranslation ());
+      }
+      break;
+    case CEL_BODY_CYLINDER:
+      {
+        cylinder_data* cd = (cylinder_data*)bdata;
+        databuf->Add (cd->length);
+        databuf->Add (cd->radius);
+        const csMatrix3& m = cd->transform.GetO2T ();
+        databuf->Add (m.Row1 ());
+        databuf->Add (m.Row2 ());
+        databuf->Add (m.Row3 ());
+        databuf->Add (cd->transform.GetO2TTranslation ());
+      }
+      break;
+    case CEL_BODY_PLANE:
+      {
+        plane_data* pd = (plane_data*)bdata;
+        databuf->Add (pd->plane.A ());
+        databuf->Add (pd->plane.B ());
+        databuf->Add (pd->plane.C ());
+        databuf->Add (pd->plane.D ());
+      }
+      break;
+    case CEL_BODY_MESH:
+      break;
+    case CEL_BODY_CONVEXMESH:
+      break;
+  }
+  databuf->Add (friction);
+  databuf->Add (elasticity);
+  databuf->Add (softness);
+  databuf->Add (density);
+  databuf->Add (mass);
+  databuf->Add (lift);
+  databuf->Add (drag);
+  databuf->Add (is_static);
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != DYNBODY_SERIAL)
+  {
+    CS_REPORT(ERROR,"serialnr != DYNBODY_SERIAL.  Cannot load.");
+    return false;
+  }
+  csRef<iPcMesh> pcm = scfQueryInterface<iPcMesh> (databuf->GetPC ());
+  SetMesh (pcm);
+  csRef<iPcMechanicsSystem> pcms = scfQueryInterface<iPcMechanicsSystem> (databuf->GetPC ());
+  SetMechanicsSystem (pcms);
+  btype = (int) databuf->GetInt32 ();
+  switch (btype)
+  {
+    case CEL_BODY_SPHERE:
+      {
+	float radius = databuf->GetFloat ();
+	csVector3 vec;
+	databuf->GetVector3 (vec);
+        delete bdata;
+        bdata = new sphere_data (radius, vec);
+      }
+      break;
+    case CEL_BODY_BOX:
+      {
+        csVector3 size, row1, row2, row3, trans;
+	databuf->GetVector3 (size);
+	databuf->GetVector3 (row1);
+	databuf->GetVector3 (row2);
+	databuf->GetVector3 (row3);
+	databuf->GetVector3 (trans);
+	delete bdata;
+	bdata = new box_data (size, csOrthoTransform (
+          csMatrix3 (row1.x, row1.y, row1.z,
+            row2.x, row2.y, row2.z,
+            row3.x, row3.y, row3.z), trans));
+      }
+      break;
+    case CEL_BODY_CYLINDER:
+      {
+        float length, radius;
+        length = databuf->GetFloat ();
+        radius = databuf->GetFloat ();
+        csVector3 row1, row2, row3, trans;
+	databuf->GetVector3 (row1);
+	databuf->GetVector3 (row2);
+	databuf->GetVector3 (row3);
+	databuf->GetVector3 (trans);
+	delete bdata;
+	bdata = new cylinder_data (length, radius, csOrthoTransform (
+          csMatrix3 (row1.x, row1.y, row1.z,
+            row2.x, row2.y, row2.z,
+            row3.x, row3.y, row3.z), trans));
+      }
+      break;
+    case CEL_BODY_PLANE:
+      {
+        float a, b, c, d;
+        a = databuf->GetFloat ();
+        b = databuf->GetFloat ();
+        c = databuf->GetFloat ();
+        d = databuf->GetFloat ();
+	delete bdata;
+	bdata = new plane_data (csPlane3 (databuf->GetFloat (),
+          databuf->GetFloat (), databuf->GetFloat (), databuf->GetFloat ()));
+      }
+      break;
+    case CEL_BODY_MESH:
+      break;
+    case CEL_BODY_CONVEXMESH:
+      break;
+  }
+  friction = databuf->GetFloat ();
+  elasticity = databuf->GetFloat ();
+  softness = databuf->GetFloat ();
+  density = databuf->GetFloat ();
+  mass = databuf->GetFloat ();
+  databuf->GetVector3 (lift);
+  drag = databuf->GetFloat ();
+  is_static = databuf->GetBool ();
+  return true;
 }
 
 bool celPcMechanicsObject::SetPropertyIndexed (int idx, bool v)
@@ -977,7 +1157,7 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
         }
         csRef<iCelEntity> sysent = pl->FindEntity (syspcent);
         csRef<iPcMechanicsSystem> mechsyss = 0;
-        mechsyss = celQueryPropertyClassTagEntity<iPcMechanicsSystem> (sysent, syspctag);
+        mechsyss = CEL_QUERY_PROPCLASS_TAG_ENT(sysent,iPcMechanicsSystem,syspctag);
         assert (mechsyss);
         SetMechanicsSystem (mechsyss);
 	return true;
@@ -987,9 +1167,10 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
         CEL_FETCH_STRING_PAR (meshpctag,params,param_meshpctag);
         csRef<iPcMesh> pcmesh;
         if (!p_meshpctag)
-          pcmesh = celQueryPropertyClassEntity<iPcMesh> (GetEntity ());
+          pcmesh = CEL_QUERY_PROPCLASS_ENT(GetEntity (),iPcMesh);
         else
-          pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (GetEntity (), meshpctag);
+          pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),iPcMesh,
+		    meshpctag);
         SetMesh (pcmesh);
 	return true;
       }
@@ -1113,7 +1294,7 @@ void celPcMechanicsObject::Collision (iRigidBody *thisbody,
   if (!dispatcher_cd)
   {
     dispatcher_cd = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, pl->FetchStringID ("cel.mechanics.collision"));
+	  this, "cel.mechanics.collision");
     if (!dispatcher_cd) return;
   }
   dispatcher_cd->SendMessage (params);
@@ -1153,21 +1334,16 @@ iRigidBody* celPcMechanicsObject::GetBody ()
   return body;
 }
 
-void celPcMechanicsObject::SetBody (iRigidBody* body)
-{
-  celPcMechanicsObject::body = body;
-}
-
 void celPcMechanicsObject::FindMeshLightCamera ()
 {
   if (pcmesh || pclight || pccamera) return;
-  pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   if (!pcmesh)
   {
-    pclight = celQueryPropertyClassEntity<iPcLight> (entity);
+    pclight = CEL_QUERY_PROPCLASS_ENT (entity, iPcLight);
     if (!pclight)
     {
-      pccamera = celQueryPropertyClassEntity<iPcCamera> (entity);
+      pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
     }
     else
     {
@@ -1602,17 +1778,40 @@ celPcMechanicsJoint::~celPcMechanicsJoint ()
   delete params;
 }
 
+#define DYNJOINT_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcMechanicsJoint::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DYNJOINT_SERIAL);
+  // @@@ TODO
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcMechanicsJoint::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != DYNJOINT_SERIAL)
+  {
+    CS_REPORT(ERROR,"serialnr != DYNJOINT_SERIAL.  Cannot load.");
+    return false;
+  }
+  // @@@ TODO
+  return true;
+}
+
 void celPcMechanicsJoint::CreateJoint ()
 {
   if (joint) return;
   iRigidBody* body1 = 0;
   if (parent_body)
   {
-    csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (parent_body);
+    csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (
+    	parent_body, iPcMechanicsObject);
     if (pcmechobj)
       body1 = pcmechobj->GetBody ();
   }
-  csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
+  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (
+  	entity, iPcMechanicsObject);
   if (!pcmechobj)
   {
     fprintf (stderr, "Can't find pcmechobject for entity!\n"); fflush (stderr);

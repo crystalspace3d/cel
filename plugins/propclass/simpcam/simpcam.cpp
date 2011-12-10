@@ -111,7 +111,7 @@ void celPcSimpleCamera::FindSiblingPropertyClasses ()
   {
     if (HavePropertyClassesChanged ())
     {
-      pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+      pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     }
   }
 }
@@ -180,7 +180,8 @@ bool celPcSimpleCamera::PerformActionIndexed (int idx,
           Report (object_reg, "Couldn't get mesh tag!");
           return false;
         }
-        csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (GetEntity (), mesh);
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT
+        	(GetEntity (), iPcMesh, mesh);
         if (!pcmesh)
         {
           csString msg = "Couldn't find mesh with given tag: ";
@@ -272,9 +273,33 @@ void celPcSimpleCamera::SetMesh (iPcMesh* mesh)
   }
   else
   {
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     meshExplicitlySet = false;
   }
+}
+
+#define SIMPLE_CAMERA_SERIAL 3
+
+csPtr<iCelDataBuffer> celPcSimpleCamera::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SIMPLE_CAMERA_SERIAL);
+  SaveCommon (databuf);
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcSimpleCamera::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != SIMPLE_CAMERA_SERIAL)
+  {
+    Report (object_reg, "serialnr != SIMPLE_CAMERA_SERIAL.  Cannot load.");
+    return false;
+  }
+
+  if (!LoadCommon (databuf)) return false;
+
+  return true;
 }
 
 //---------------------------------------------------------------------------

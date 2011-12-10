@@ -67,7 +67,7 @@ public:
   celWatchTriggerFactory (celWatchTriggerType* type);
   virtual ~celWatchTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iWatchTriggerFactory ----------------------
@@ -90,10 +90,8 @@ private:
   csRef<celWatchTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
-  uint entityID;
   csString tag;
   csString target_entity;
-  uint target_entityID;
   csString target_tag;
   csTicks time;
   float radius, sqradius;
@@ -107,7 +105,7 @@ private:
 
 public:
   celWatchTrigger (celWatchTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
 	const char* time_par, const char* radius_par,
@@ -123,9 +121,8 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
-
-  virtual void Activate () { ActivateTrigger (); }
-  virtual void Deactivate () { DeactivateTrigger (); }
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 };
 
 #endif // __CEL_TOOLS_TRIG_WATCH__

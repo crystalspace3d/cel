@@ -47,7 +47,6 @@ struct iCelPlLayer;
 struct iCelBlLayer;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
-struct iPcWire;
 
 class CelTest;
 
@@ -90,9 +89,6 @@ private:
   void CreateActionIcon ();
   void CreateSettingBar ();
   void ConnectWires ();
-
-  size_t WireAddOutput (iPcWire* wire, const char* msgid,
-		  iCelParameterBlock* params = 0);
 
 public:
   CelTest ();

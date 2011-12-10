@@ -277,22 +277,18 @@ public:
   virtual celDataType GetPropertyOrActionType (csStringID);
   virtual bool IsPropertyReadOnly (csStringID);
 
+  virtual csPtr<iCelDataBuffer> SaveFirstPass () { return 0; }
+  virtual bool LoadFirstPass (iCelDataBuffer*) { return false; }
+
+  virtual csPtr<iCelDataBuffer> Save () { return 0; }
+  virtual bool Load (iCelDataBuffer* databuf) { return false; }
+
   virtual csPtr<iCelDataBuffer> GetPersistentData (
 	celPersistenceType persistence_type)
     { return 0; }
   virtual celPersistenceResult SetPersistentData (csTicks data_time, 
         iCelDataBuffer* data, celPersistenceType persistence_type)
     { return CEL_PERSIST_RESULT_OK; };
-
-  virtual iCelPositionInfo* QueryPositionInfo () { return 0; }
-  virtual void Activate () { }
-  virtual void Deactivate () { }
-
-  virtual void MarkBaseline () { }
-  virtual bool IsModifiedSinceBaseline () const { return false; }
-  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings) { }
-  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
-      const csHash<csString,csStringID>& strings) { }
 
   // --- For iCelTimerListener -----------------------------------------
   virtual void TickEveryFrame () { }
