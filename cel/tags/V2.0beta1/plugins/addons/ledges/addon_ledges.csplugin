@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- addon_ledges.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.addons.ledges</name>
+        <implementation>celAddOnLedges</implementation>
+        <description>CEL AddOn for Ledges</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

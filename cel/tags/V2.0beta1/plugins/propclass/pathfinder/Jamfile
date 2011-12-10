@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass pathfinder ;
+
+Plugin pfpathfinder
+	: pathfinderfact.cpp pathfinderfact.h
+;
+ExternalLibs pfpathfinder : CRYSTAL ;
+LinkWith pfpathfinder : celtool ;
+

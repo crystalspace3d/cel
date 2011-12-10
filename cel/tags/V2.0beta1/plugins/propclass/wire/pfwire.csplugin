@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfwire.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.logic.wire</name>
+        <implementation>celPfWire</implementation>
+        <description>CEL Wire Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
