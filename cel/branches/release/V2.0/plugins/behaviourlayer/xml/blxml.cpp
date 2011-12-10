@@ -3166,7 +3166,6 @@ bool celBlXml::CreateBehaviourScriptFromFile (const char* name,
 iCelBehaviour* celBlXml::CreateBehaviour (iCelEntity* entity, const char* name)
 {
   celXmlScript* script = scripts_hash.Get (name, 0);
-printf ("name=%s script=%p\n", name, script); fflush (stdout);
   if (!script)
   {
     // First check if we have the predefined 'bootstrap' script.

@@ -606,6 +606,22 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     }
   }
 
+  // Load libraries.
+  it = cfg->Enumerate ("CelStart.Library.");
+  while (it && it->Next ())
+  {
+    const char* file = it->GetStr ();
+    if (!vfs->ChDirAuto (path, 0, 0, file))
+      return false;
+
+    csRef<iThreadedLoader> tloader = csQueryRegistry<iThreadedLoader>(object_reg);
+    csRef<iThreadReturn> ret = tloader->LoadLibraryFileWait (path, file);
+    if(!ret->WasSuccessful())
+    {
+      return false;
+    }
+  }
+
   // Load map files
   it = cfg->Enumerate ("CelStart.MapFile.");
   while (it && it->Next ())
