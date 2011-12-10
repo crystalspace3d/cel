@@ -1,2 +1,2 @@
 #!/bin/sh
-./celstart scripts/boulderdash.cfg
+./celstart scripts/boulderdash.cfg --silent
