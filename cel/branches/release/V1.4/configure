@@ -19078,7 +19078,7 @@ cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_NAME ?= $PACKAGE_NAME ;
 "
     cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_COPYRIGHT ?= \"$PACKAGE_COPYRIGHT\" ;
 "
-    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_VERSION_LIST ?= 1 4 0 ;
+    cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_VERSION_LIST ?= 1 4 1 ;
 "
 
 
