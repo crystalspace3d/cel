@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="appgraph"
-	ProjectGUID="{3D1F3248-B09B-2BB1-31F7-C4460A6D5AB8}"
+	Name="appgraphtut"
+	ProjectGUID="{913FC0B7-A1B2-5416-D85F-6033B0F2A733}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
   		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release9\build\appgraph\"
-			IntermediateDirectory="..\..\out\release9\build\appgraph\"
+			OutputDirectory="..\..\out\release9\build\appgraphtut\"
+			IntermediateDirectory="..\..\out\release9\build\appgraphtut\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -28,14 +28,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\appgraph\graph.pdb"
+				ProgramDataBaseFileName="..\..\out\release9\build\appgraphtut\graphtut.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9\build\appgraph\appgraph.pch"
-				AssemblerListingLocation="..\..\out\release9\build\appgraph\"
-				ObjectFile="..\..\out\release9\build\appgraph\"
+				PrecompiledHeaderFile="..\..\out\release9\build\appgraphtut\appgraphtut.pch"
+				AssemblerListingLocation="..\..\out\release9\build\appgraphtut\"
+				ObjectFile="..\..\out\release9\build\appgraphtut\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -51,8 +51,8 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\graph.exe"
-				ProgramDatabaseFile="..\..\out\release9\build\appgraph\graph.pdb"
+				OutputFile="..\..\graphtut.exe"
+				ProgramDatabaseFile="..\..\out\release9\build\appgraphtut\graphtut.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -68,7 +68,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\appgraph\appgraph.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\appgraphtut\appgraphtut.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -89,8 +89,8 @@
 		</Configuration>
   		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release9\build\appgraph\"
-			IntermediateDirectory="..\..\out\release9\build\appgraph\"
+			OutputDirectory="..\..\out\release9\build\appgraphtut\"
+			IntermediateDirectory="..\..\out\release9\build\appgraphtut\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -104,14 +104,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\appgraph\graph.pdb"
+				ProgramDataBaseFileName="..\..\out\release9\build\appgraphtut\graphtut.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9\build\appgraph\appgraph.pch"
-				AssemblerListingLocation="..\..\out\release9\build\appgraph\"
-				ObjectFile="..\..\out\release9\build\appgraph\"
+				PrecompiledHeaderFile="..\..\out\release9\build\appgraphtut\appgraphtut.pch"
+				AssemblerListingLocation="..\..\out\release9\build\appgraphtut\"
+				ObjectFile="..\..\out\release9\build\appgraphtut\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -127,8 +127,8 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\graph.exe"
-				ProgramDatabaseFile="..\..\out\release9\build\appgraph\graph.pdb"
+				OutputFile="..\..\graphtut.exe"
+				ProgramDatabaseFile="..\..\out\release9\build\appgraphtut\graphtut.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
@@ -144,7 +144,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\appgraph\appgraph.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\appgraphtut\appgraphtut.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -165,8 +165,8 @@
 		</Configuration>
     		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\appgraph\"
-			IntermediateDirectory="..\..\out\debug9\build\appgraph\"
+			OutputDirectory="..\..\out\debug9\build\appgraphtut\"
+			IntermediateDirectory="..\..\out\debug9\build\appgraphtut\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			UseOfMFC="0"
@@ -179,14 +179,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\appgraph\graph.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9\build\appgraphtut\graphtut.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9\build\appgraph\appgraph.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\appgraph\"
-				ObjectFile="..\..\out\debug9\build\appgraph\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\appgraphtut\appgraphtut.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\appgraphtut\"
+				ObjectFile="..\..\out\debug9\build\appgraphtut\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -200,8 +200,8 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\graph.exe"
-				ProgramDatabaseFile="..\..\out\debug9\build\appgraph\graph.pdb"
+				OutputFile="..\..\graphtut.exe"
+				ProgramDatabaseFile="..\..\out\debug9\build\appgraphtut\graphtut.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -217,7 +217,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\appgraph\appgraph.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\appgraphtut\appgraphtut.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -238,8 +238,8 @@
 		</Configuration>
   		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\appgraph\"
-			IntermediateDirectory="..\..\out\debug9\build\appgraph\"
+			OutputDirectory="..\..\out\debug9\build\appgraphtut\"
+			IntermediateDirectory="..\..\out\debug9\build\appgraphtut\"
 			ConfigurationType="1"
 			CharacterSet="2"
 			UseOfMFC="0"
@@ -252,14 +252,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\appgraph\graph.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9\build\appgraphtut\graphtut.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9\build\appgraph\appgraph.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\appgraph\"
-				ObjectFile="..\..\out\debug9\build\appgraph\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\appgraphtut\appgraphtut.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\appgraphtut\"
+				ObjectFile="..\..\out\debug9\build\appgraphtut\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -273,8 +273,8 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\graph.exe"
-				ProgramDatabaseFile="..\..\out\debug9\build\appgraph\graph.pdb"
+				OutputFile="..\..\graphtut.exe"
+				ProgramDatabaseFile="..\..\out\debug9\build\appgraphtut\graphtut.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
@@ -290,7 +290,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\appgraph\appgraph.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\appgraphtut\appgraphtut.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -338,10 +338,10 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\appgraph.manifest">
+				RelativePath="..\..\msvc\appgraphtut.manifest">
 			</File>
 			<File
-				RelativePath="..\..\msvc\appgraph.rc">
+				RelativePath="..\..\msvc\appgraphtut.rc">
 			</File>
 		</Filter>
 	</Files>
