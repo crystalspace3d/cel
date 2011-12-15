@@ -9,7 +9,7 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 # Don't forget to update include/celversion.h, docs/texinfo/version.txi
 # and mk/autoconf/cel.m4 when changing this version number.
-AC_INIT([cel], [1.4.0], [cel-main@lists.sourceforge.net])
+AC_INIT([cel], [1.4.1], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
     [Copyright (C)2002-2008 Jorrit Tyberghein and others.],
     [http://www.crystalspace3d.org/main/CEL])
@@ -179,7 +179,7 @@ AC_ARG_WITH([cs], [AC_HELP_STRING([--without-cs],
 AS_IF([test -z "$with_cs"], [with_cs=yes])
 
 AS_IF([test $with_cs != no],
-    [CS_PATH_CRYSTAL_EMIT([1.1], [],
+    [CS_PATH_CRYSTAL_EMIT([1.4], [],
 	[AC_MSG_ERROR([
 *** Crystal Space could not be found or was unusable. The latest version is
 *** always available from http://www.crystalspace3d.org/
