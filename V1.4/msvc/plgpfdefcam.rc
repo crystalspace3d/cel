@@ -2,8 +2,8 @@
 
 
 1 VERSIONINFO
-FILEVERSION 1,4,0,0
-PRODUCTVERSION 1,4,0,0
+FILEVERSION 1,4,1,0
+PRODUCTVERSION 1,4,1,0
 #ifdef CS_DEBUG
 FILEFLAGS 0x1
 #else
@@ -15,8 +15,8 @@ FILEFLAGS 0x0
     BLOCK "040904E4"
     {
       VALUE "ProductName", "Crystal Entity Layer"
-      VALUE "ProductVersion", "1.4.0"
-      VALUE "FileVersion", "1.4.0"
+      VALUE "ProductVersion", "1.4.1"
+      VALUE "FileVersion", "1.4.1"
       VALUE "LegalCopyright", "Copyright (C)2002-2008 Jorrit Tyberghein and others."
       VALUE "FileDescription", "pfdefcam"
 #ifdef CS_DEBUG
