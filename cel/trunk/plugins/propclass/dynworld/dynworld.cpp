@@ -899,45 +899,141 @@ const char* DynamicFactory::GetAttribute (const char* name) const
 }
 
 void DynamicFactory::AddRigidBox (const csVector3& offset, const csVector3& size,
-    float mass)
+    float mass, size_t idx)
 {
-  csBox3 b (-size / 2 + offset, size / 2 + offset);
-  for (size_t i = 0 ; i < 8 ; i++)
-    physBbox.AddBoundingVertex (b.GetCorner (i));
-  colliders.Push (new DOColliderBox (size, offset, mass));
+  if (idx == csArrayItemNotFound)
+  {
+    csBox3 b (-size / 2 + offset, size / 2 + offset);
+    for (size_t i = 0 ; i < 8 ; i++)
+      physBbox.AddBoundingVertex (b.GetCorner (i));
+    colliders.Push (new DOColliderBox (size, offset, mass));
+  }
+  else
+  {
+    colliders.Put (idx, new DOColliderBox (size, offset, mass));
+    UpdatePhysBBox ();
+  }
 }
 
 void DynamicFactory::AddRigidSphere (float radius, const csVector3& offset,
-    float mass)
+    float mass, size_t idx)
 {
-  csBox3 b (offset - csVector3 (radius), offset + csVector3 (radius));
-  for (size_t i = 0 ; i < 8 ; i++)
-    physBbox.AddBoundingVertex (b.GetCorner (i));
-  colliders.Push (new DOColliderSphere (offset, radius, mass));
+  if (idx == csArrayItemNotFound)
+  {
+    csBox3 b (offset - csVector3 (radius), offset + csVector3 (radius));
+    for (size_t i = 0 ; i < 8 ; i++)
+      physBbox.AddBoundingVertex (b.GetCorner (i));
+    colliders.Push (new DOColliderSphere (offset, radius, mass));
+  }
+  else
+  {
+    colliders.Put (idx, new DOColliderSphere (offset, radius, mass));
+    UpdatePhysBBox ();
+  }
 }
 
 void DynamicFactory::AddRigidCylinder (float radius, float length,
-      const csVector3& offset, float mass)
+      const csVector3& offset, float mass, size_t idx)
 {
-  csBox3 b (offset - csVector3 (radius, length/2, radius),
-      offset + csVector3 (radius, length/2, radius));
-  for (size_t i = 0 ; i < 8 ; i++)
-    physBbox.AddBoundingVertex (b.GetCorner (i));
-  colliders.Push (new DOColliderCylinder (offset, length, radius, mass));
+  if (idx == csArrayItemNotFound)
+  {
+    csBox3 b (offset - csVector3 (radius, length/2, radius),
+        offset + csVector3 (radius, length/2, radius));
+    for (size_t i = 0 ; i < 8 ; i++)
+      physBbox.AddBoundingVertex (b.GetCorner (i));
+    colliders.Push (new DOColliderCylinder (offset, length, radius, mass));
+  }
+  else
+  {
+    colliders.Put (idx, new DOColliderCylinder (offset, length, radius, mass));
+    UpdatePhysBBox ();
+  }
 }
 
-void DynamicFactory::AddRigidMesh (const csVector3& offset, float mass)
+void DynamicFactory::AddRigidMesh (const csVector3& offset, float mass,
+    size_t idx)
 {
-  for (size_t i = 0 ; i < 8 ; i++)
-    physBbox.AddBoundingVertex (bbox.GetCorner (i));
-  colliders.Push (new DOColliderMesh (offset, mass));
+  if (idx == csArrayItemNotFound)
+  {
+    for (size_t i = 0 ; i < 8 ; i++)
+      physBbox.AddBoundingVertex (bbox.GetCorner (i));
+    colliders.Push (new DOColliderMesh (offset, mass));
+  }
+  else
+  {
+    colliders.Put (idx, new DOColliderMesh (offset, mass));
+    UpdatePhysBBox ();
+  }
 }
 
-void DynamicFactory::AddRigidConvexMesh (const csVector3& offset, float mass)
+void DynamicFactory::AddRigidConvexMesh (const csVector3& offset, float mass,
+    size_t idx)
 {
-  for (size_t i = 0 ; i < 8 ; i++)
-    physBbox.AddBoundingVertex (bbox.GetCorner (i));
-  colliders.Push (new DOColliderConvexMesh (offset, mass));
+  if (idx == csArrayItemNotFound)
+  {
+    for (size_t i = 0 ; i < 8 ; i++)
+      physBbox.AddBoundingVertex (bbox.GetCorner (i));
+    colliders.Push (new DOColliderConvexMesh (offset, mass));
+  }
+  else
+  {
+    colliders.Put (idx, new DOColliderConvexMesh (offset, mass));
+    UpdatePhysBBox ();
+  }
+}
+
+void DynamicFactory::UpdatePhysBBox ()
+{
+  physBbox.StartBoundingBox ();
+  for (size_t i = 0 ; i < colliders.GetSize () ; i++)
+  {
+    celBodyInfo info = GetBody (i);
+    switch (info.type)
+    {
+      case BODY_BOX:
+	{
+	  csBox3 b (-info.size / 2 + info.offset, info.size / 2 + info.offset);
+	  for (size_t i = 0 ; i < 8 ; i++)
+	    physBbox.AddBoundingVertex (b.GetCorner (i));
+	  break;
+	}
+      case BODY_SPHERE:
+	{
+	  csBox3 b (info.offset - csVector3 (info.radius),
+	      info.offset + csVector3 (info.radius));
+	  for (size_t i = 0 ; i < 8 ; i++)
+	    physBbox.AddBoundingVertex (b.GetCorner (i));
+	  break;
+	}
+      case BODY_CYLINDER:
+	{
+	  csBox3 b (info.offset - csVector3 (info.radius, info.length/2, info.radius),
+	      info.offset + csVector3 (info.radius, info.length/2, info.radius));
+	  for (size_t i = 0 ; i < 8 ; i++)
+	    physBbox.AddBoundingVertex (b.GetCorner (i));
+	  break;
+	}
+      case BODY_MESH:
+      case BODY_CONVEXMESH:
+	for (size_t i = 0 ; i < 8 ; i++)
+	  physBbox.AddBoundingVertex (bbox.GetCorner (i));
+	break;
+      default:
+	break;
+    }
+  }
+}
+
+void DynamicFactory::DeleteBodies ()
+{
+  colliders.DeleteAll ();
+  physBbox.StartBoundingBox ();
+}
+
+void DynamicFactory::DeleteBody (size_t idx)
+{
+  colliders.DeleteIndex (idx);
+  UpdatePhysBBox ();
 }
 
 //---------------------------------------------------------------------------------------
