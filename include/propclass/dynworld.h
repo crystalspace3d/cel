@@ -155,31 +155,43 @@ struct iDynamicFactory : public virtual iBase
 
   /**
    * Create a box rigid body.
+   * If the optional index is given then this body will replace the
+   * body that was at that specific index.
    */
   virtual void AddRigidBox (const csVector3& offset, const csVector3& size,
-      float mass) = 0;
+      float mass, size_t idx = csArrayItemNotFound) = 0;
 
   /**
    * Create a sphere rigid body.
+   * If the optional index is given then this body will replace the
+   * body that was at that specific index.
    */
   virtual void AddRigidSphere (float radius, const csVector3& offset,
-      float mass) = 0;
+      float mass, size_t idx = csArrayItemNotFound) = 0;
 
   /**
-   * Create a sphere rigid body.
+   * Create a cylinder rigid body.
+   * If the optional index is given then this body will replace the
+   * body that was at that specific index.
    */
   virtual void AddRigidCylinder (float radius, float length,
-      const csVector3& offset, float mass) = 0;
+      const csVector3& offset, float mass, size_t idx = csArrayItemNotFound) = 0;
 
   /**
    * Create a mesh rigid body.
+   * If the optional index is given then this body will replace the
+   * body that was at that specific index.
    */
-  virtual void AddRigidMesh (const csVector3& offset, float mass) = 0;
+  virtual void AddRigidMesh (const csVector3& offset, float mass,
+      size_t idx = csArrayItemNotFound) = 0;
 
   /**
    * Create a convex mesh rigid body.
+   * If the optional index is given then this body will replace the
+   * body that was at that specific index.
    */
-  virtual void AddRigidConvexMesh (const csVector3& offset, float mass) = 0;
+  virtual void AddRigidConvexMesh (const csVector3& offset, float mass,
+      size_t idx = csArrayItemNotFound) = 0;
 
   /**
    * Get the number of bodies.
@@ -190,6 +202,16 @@ struct iDynamicFactory : public virtual iBase
    * Get the body.
    */
   virtual celBodyInfo GetBody (size_t idx) const = 0;
+
+  /**
+   * Delete a body at a specific index.
+   */
+  virtual void DeleteBody (size_t idx) = 0;
+  
+  /**
+   * Delete all bodies.
+   */
+  virtual void DeleteBodies () = 0;
 };
 
 /**

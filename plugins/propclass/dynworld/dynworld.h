@@ -275,6 +275,8 @@ private:
   float imposterradius;
   csHash<csString,csString> attributes;
 
+  void UpdatePhysBBox ();
+
 public:
   DynamicFactory (celPcDynamicWorld* world, const char* name,
       float maxradiusRelative, float imposterradius);
@@ -300,18 +302,22 @@ public:
   virtual const char* GetAttribute (const char* name) const;
 
   virtual void AddRigidBox (const csVector3& offset, const csVector3& size,
-      float mass);
+      float mass, size_t idx = csArrayItemNotFound);
   virtual void AddRigidSphere (float radius, const csVector3& offset,
-      float mass);
+      float mass, size_t idx = csArrayItemNotFound);
   virtual void AddRigidCylinder (float radius, float length,
-      const csVector3& offset, float mass);
-  virtual void AddRigidMesh (const csVector3& offset, float mass);
-  virtual void AddRigidConvexMesh (const csVector3& offset, float mass);
+      const csVector3& offset, float mass, size_t idx = csArrayItemNotFound);
+  virtual void AddRigidMesh (const csVector3& offset, float mass,
+      size_t idx = csArrayItemNotFound);
+  virtual void AddRigidConvexMesh (const csVector3& offset, float mass,
+      size_t idx = csArrayItemNotFound);
   virtual size_t GetBodyCount () const { return colliders.GetSize (); }
   virtual celBodyInfo GetBody (size_t idx) const
   {
     return colliders[idx]->GetBodyInfo ();
   }
+  virtual void DeleteBody (size_t idx);
+  virtual void DeleteBodies ();
 
   const csPDelArray<DOCollider>& GetColliders () const { return colliders; }
   iMeshFactoryWrapper* GetMeshFactory () const { return factory; }
