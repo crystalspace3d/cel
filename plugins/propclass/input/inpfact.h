@@ -34,7 +34,7 @@ struct iCelEntity;
 struct iCelPlLayer;
 struct iObjectRegistry;
 struct iGraphics2D;
-class celVariableParameterBlock;
+class celGenericParameterBlock;
 class celOneParameterBlock;
 
 CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
@@ -108,10 +108,10 @@ private:
   bool handleMouse;
   bool handleJoystick;
 
-  csRef<celVariableParameterBlock> mouse_params;
-  csRef<celVariableParameterBlock> key_params;
-  csRef<celOneParameterBlock> joy_params;
-  csRef<celOneParameterBlock> but_params;
+  celGenericParameterBlock* mouse_params;
+  celGenericParameterBlock* key_params;
+  celOneParameterBlock* joy_params;
+  celOneParameterBlock* but_params;
 
   // For actions.
   enum actionids
@@ -137,13 +137,14 @@ public:
   celPcCommandInput (iObjectRegistry* object_reg);
   virtual ~celPcCommandInput ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
   	celData& ret);
-  virtual void Activate ();
-  virtual void Deactivate ();
 
   bool HandleEvent (iEvent& ev);
 
+  virtual void Activate (bool activate = true);
   virtual void SetSendTrigger (bool send) { do_sendtrigger = send; }
   virtual bool IsSendTriggerEnabled () const { return do_sendtrigger; }
   virtual void SetCookedMode (bool cooked) { do_cooked = cooked; }

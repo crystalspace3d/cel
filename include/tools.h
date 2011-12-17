@@ -21,28 +21,14 @@
  * Directory master header. This header file includes all headers in a
  * subdirectory of the top CEL include directory.
  */
-#include "tools/behaviourtree.h"
 #include "tools/billboard.h"
 #include "tools/celconsole.h"
 #include "tools/celgraph.h"
-#include "tools/celhpf.h"
-#include "tools/celnavmesh.h"
-#include "tools/decorators.h"
-#include "tools/dynworldload.h"
-#include "tools/elcm.h"
 #include "tools/entityloader.h"
 #include "tools/entitytplloader.h"
 #include "tools/expression.h"
 #include "tools/graphloader.h"
-#include "tools/ledges.h"
-#include "tools/loot.h"
-#include "tools/parameters.h"
 #include "tools/questmanager.h"
-#include "tools/rewards.h"
 #include "tools/rulebase.h"
-#include "tools/sequences.h"
-#include "tools/triggers.h"
-#include "tools/uitools/inventory.h"
-#include "tools/uitools/inventory2.h"
 #endif /* __TOOLS_H__ */
 

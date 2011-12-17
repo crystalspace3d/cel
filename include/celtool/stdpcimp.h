@@ -24,7 +24,6 @@
 #include "iutil/comp.h"
 #include "iutil/objreg.h"
 #include "ivaria/reporter.h"
-#include "csutil/csobject.h"
 #include "csutil/scf.h"
 #include "csutil/scf_implementation.h"
 #include "csutil/refarr.h"
@@ -62,20 +61,12 @@ struct PropertyHolder
   size_t propertycount;
   // Set to true if we have done an action.
   bool actions_done;
-  // The mask that we will use to listen for messages.
-  csString mask;
 
   /**
    * This is a special hash that maps ID's to constants
    * so that we can use a switch to see which ID it is.
    */
   csHash<int, csStringID> constants;
-
-  /**
-   * This hash is like 'constants' except that it is used for new-style
-   * action id's (like 'cel.wire.addinput').
-   */
-  csHash<int, csStringID> new_constants;
 
   PropertyHolder () : properties (0), propertycount (0), actions_done (false)
   { }
@@ -93,9 +84,11 @@ struct PropertyHolder
  * from which all other property classes can inherit.
  * This makes it easier to write a property class.
  */
-class CEL_CELTOOL_EXPORT celPcCommon
-  : public scfImplementation4<celPcCommon, iCelPropertyClass, iCelTimerListener,
-    iMessageSender,iMessageReceiver>
+class CEL_CELTOOL_EXPORT celPcCommon : 
+  public scfImplementation3<celPcCommon, 
+			     iCelPropertyClass, 
+			     iCelTimerListener,
+			     iMessageSender>
 {
 private:
   csRefArray<iCelPropertyChangeCallback> callbacks;
@@ -104,13 +97,9 @@ private:
   // entity). It is set to true by PropertyClassesHaveChanged()
   // and cleared by HavePropertyClassesChanged().
   bool propclasses_dirty;
-  csString tag;
-  // the name of the property class stored in the iObject
-  csObject csobj;
-
-  static csStringID id_tag;
-  static csStringID id_name;
-  static csStringID id_value;
+  char* tag;
+  // the name of the property class
+  const char* name;
 
 protected:
   iCelEntity* entity;
@@ -121,27 +110,18 @@ protected:
   void FirePropertyChangeCallback (int propertyId);
 
   /**
-   * Setup the mask used for receiving action messages.
-   */
-  void SetActionMask (const char* mask);
-
-  /**
    * Helper function to setup an action.
    */
   void AddAction (int idx, const char* id)
   {
     propholder->actions_done = true;
     propholder->constants.Put (pl->FetchStringID (id), idx);
-    csString newid = propholder->mask;
-    CS_ASSERT (newid.Length () > 0);
-    newid += id;
-    propholder->new_constants.Put (pl->FetchStringID (newid), idx);
   }
 
   /**
    * Helper function to setup properties.
    * \param idx is a numerical index for the property starting at 0.
-   * \param id is the id string ('bla').
+   * \param id is the id string ('cel.property.bla').
    * \param type is the type for the property.
    * \param readonly
    * \param desc is the description.
@@ -160,10 +140,10 @@ protected:
       if (rep)
         rep->ReportError("crystalspace.cel.physicallayer",
             "celPcCommon::AddProperty out of bounds %zu >= %zu!",
-            idx, propholder->propertycount);
+            idx,propholder->propertycount);
       else
         csPrintf("Error: celPcCommon::AddProperty out of bounds %zu >= %zu!",
-            idx, propholder->propertycount);
+            idx,propholder->propertycount);
       return;
     }
     if (propdata == 0)
@@ -208,10 +188,8 @@ public:
   virtual void SetTag (const char* tagname);
   virtual const char* GetTag () const { return tag; }
 
-  virtual const char* GetName () const;
   virtual void SetName (const char* pcname);
-
-  iObject *QueryObject ();
+  virtual const char* GetName () const { return name; }
 
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
@@ -277,6 +255,9 @@ public:
   virtual celDataType GetPropertyOrActionType (csStringID);
   virtual bool IsPropertyReadOnly (csStringID);
 
+  virtual csPtr<iCelDataBuffer> SaveFirstPass () { return 0; }
+  virtual bool LoadFirstPass (iCelDataBuffer*) { return 0; }
+
   virtual csPtr<iCelDataBuffer> GetPersistentData (
 	celPersistenceType persistence_type)
     { return 0; }
@@ -284,26 +265,13 @@ public:
         iCelDataBuffer* data, celPersistenceType persistence_type)
     { return CEL_PERSIST_RESULT_OK; };
 
-  virtual iCelPositionInfo* QueryPositionInfo () { return 0; }
-  virtual void Activate () { }
-  virtual void Deactivate () { }
-
-  virtual void MarkBaseline () { }
-  virtual bool IsModifiedSinceBaseline () const { return false; }
-  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings) { }
-  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
-      const csHash<csString,csStringID>& strings) { }
-
   // --- For iCelTimerListener -----------------------------------------
   virtual void TickEveryFrame () { }
   virtual void TickOnce () { }
 
   // --- For iMessageSender --------------------------------------------
-  virtual void MessageDispatcherRemoved (iMessageDispatcher* dispatcher) { }
-
-  // --- For iMessageReceiver ------------------------------------------
-  virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
-      celData& ret, iCelParameterBlock* params);
+  virtual void MessageDispatcherRemoved (
+      iMessageDispatcher* dispatcher) { }
 };
 
 #endif // __CEL_CELTOOL_STDPC__

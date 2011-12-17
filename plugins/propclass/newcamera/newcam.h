@@ -177,6 +177,14 @@ public:
   celPcNewCamera (iObjectRegistry* object_reg);
   virtual ~celPcNewCamera ();
 
+  csPtr<iCelDataBuffer> Save ()
+  {
+    return 0;
+  }
+  bool Load (iCelDataBuffer* databuf)
+  {
+    return true;
+  }
   bool PerformActionIndexed (int, iCelParameterBlock* params,
   	celData& ret);
   bool SetPropertyIndexed (int, bool);
@@ -291,17 +299,19 @@ public:
   }
   void SetClearZBuffer (bool flag)
   {
+    celPcCameraCommon::SetClearZBuffer (flag);
   }
   bool GetClearZBuffer () const
   {
-    return false;
+    return celPcCameraCommon::GetClearZBuffer ();
   }
   void SetClearScreen (bool flag)
   {
+    celPcCameraCommon::SetClearScreen (flag);
   }
   bool GetClearScreen () const
   {
-    return false;
+    return celPcCameraCommon::GetClearScreen ();
   }
   void DisableDistanceClipping ()
   {

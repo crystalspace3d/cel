@@ -75,6 +75,8 @@ extern const size_t pycel_py_wrapper_size;
  * from observation, Not Good.) */
 #define INIT_PY_THROUGH_CSPYTHON
 
+CS_IMPLEMENT_PLUGIN
+
 SCF_IMPLEMENT_FACTORY (celBlPython)
 
 celBlPython* celBlPython::shared_instance = 0;

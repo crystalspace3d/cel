@@ -251,7 +251,6 @@ bool NumRegHash::Remove (void* obj)
 void NumRegHash::Clear ()
 {
   reg.DeleteAll ();
-  current_id = 1;
 }
 
 void* NumRegHash::Get (uint id)
@@ -268,7 +267,7 @@ size_t NumRegHash::GetSize ()
 celIDRegistry::celIDRegistry () :
   regs (2) // Most uses of registry will have either one or two scopes.
 {
-  DefaultScope = AddScope ("cel.numreg.lists", 1000000000);
+  DefaultScope = AddScope ("cel.numreg.lists", 100000);
 }
 
 celIDRegistry::~celIDRegistry ()
@@ -283,16 +282,11 @@ size_t celIDRegistry::GetScopeOfID (uint id)
 {
   for (size_t i = 0; i < regs.GetSize (); i++)
   {
-    if (regs[i].start <= id && id < regs[i].end)
+    if (regs[i].start < id && id < regs[i].end)
       return i;
   }
 
   return (size_t)-1;
-}
-
-void celIDRegistry::ResetScope (size_t scope_idx)
-{
-  regs[scope_idx].numreg->Clear ();
 }
 
 size_t celIDRegistry::AddScope (csString impl, int size)

@@ -36,7 +36,6 @@ struct iGraphics3D;
 struct iEngine;
 struct iVirtualClock;
 struct iCamera;
-struct iPerspectiveCamera;
 struct iView;
 struct iPcRegion;
 struct iPcZoneManager;
@@ -76,6 +75,8 @@ protected:
   csWeakRef<iPcRegion> region;
   csWeakRef<iPcZoneManager> zonemgr;
 
+  bool clear_zbuf, clear_screen;
+
 public:
   static void Report(iObjectRegistry* reg, const char* msg, ...);
 
@@ -91,8 +92,12 @@ public:
   void SetPerspectiveCenter (float x, float y);
 
   iCamera* GetCamera () const;
-  iPerspectiveCamera* GetPerspectiveCamera () const;
   iView* GetView () const { return view; }
+
+  void SetClearZBuffer (bool flag) { clear_zbuf = flag; }
+  bool GetClearZBuffer () const { return clear_zbuf; }
+  void SetClearScreen (bool flag) { clear_screen = flag; }
+  bool GetClearScreen () const { return clear_screen; }
 
   // For distance clipping.
   void SetDistanceClipping (float dist);
@@ -114,8 +119,21 @@ public:
 
   void SetAutoDraw (bool auto_draw);
 
+  /**
+   * In the Save() implementation of the subclass you can call this
+   * function to save the common data members.
+   */
+  void SaveCommon (iCelDataBuffer* databuf);
+  /**
+   * In the Load() implementation of the subclass you can call this
+   * function to load the common data members. Returns false on failure.
+   */
+  bool LoadCommon (iCelDataBuffer* databuf);
+
   virtual void Draw ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
 };
 

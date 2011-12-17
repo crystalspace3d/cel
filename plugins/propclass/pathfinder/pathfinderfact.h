@@ -47,8 +47,8 @@ CEL_DECLARE_FACTORY (PathFinder)
 /**
  * This is the PathFinder property class.
  */
-class celPcPathFinder : public scfImplementationExt1<celPcPathFinder,
-  celPcCommon, iPcPathFinder>
+class celPcPathFinder : public scfImplementationExt2<celPcPathFinder,
+  celPcCommon, iPcPathFinder, iMessageReceiver>
 {
 private: 
   csWeakRef<iEngine> engine;
@@ -143,6 +143,10 @@ private:
   virtual void SetMinDistance(int distance);
 
   virtual const csVector3& GetPosition () const { return position; }
+
+  virtual csPtr<iCelDataBuffer> Save ();
+
+  virtual bool Load (iCelDataBuffer* databuf);
 
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
     celData& ret);

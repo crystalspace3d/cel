@@ -21,7 +21,17 @@
 #define __CELTOOL_CELTOOLEXTERN_H__
 
 #include "cssysdef.h"
-#include "celplatform.h"
+/* Currently, the only thing provided by celconfig.h is CEL_BUILD_SHARED_LIBS.
+   On MSVC, this is set in the project options.
+   Also, this file is the only user of celconfig.h. So go with the cheap
+   solution and conditionally include celconfig.h if not on MSVC.
+   If either more files start to use celconfig.h or more settings are stored
+   in it, a better solution, such as the one used by CS to wrap csconfig.h,
+   should be sought.
+ */
+#if !defined(CS_COMPILER_MSVC)
+#include "celconfig.h"
+#endif
 
 #if defined(CS_PLATFORM_WIN32)
   #if defined(CEL_BUILD_SHARED_LIBS)

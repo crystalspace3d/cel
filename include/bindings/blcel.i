@@ -97,9 +97,11 @@ pcType * funcName (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
   CS_ASSERT (entity != 0);
   csRef<pcType> pclm;
   if (tagname)
-    pclm = celQueryPropertyClassTagEntity<pcType> (entity, tagname);
+    pclm = CEL_QUERY_PROPCLASS_TAG (
+      entity->GetPropertyClassList (), pcType, tagname);
   else
-    pclm = celQueryPropertyClassEntity<pcType> (entity);
+    pclm = CEL_QUERY_PROPCLASS (
+      entity->GetPropertyClassList (), pcType);
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc;
   if (tagname)
@@ -121,9 +123,11 @@ pcType * funcName (iCelEntity *entity, const char* tagname = 0 )
   CS_ASSERT (entity != 0);
   csRef<pcType> pc;
   if (tagname)
-    pc = celQueryPropertyClassTagEntity<pcType> (entity, tagname);
+    pc = CEL_QUERY_PROPCLASS_TAG (
+      entity->GetPropertyClassList (), pcType, tagname);
   else
-    pc = celQueryPropertyClassEntity<pcType> (entity);
+    pc = CEL_QUERY_PROPCLASS (
+      entity->GetPropertyClassList (), pcType);
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -166,6 +170,9 @@ INTERFACE_POST(pcType)
 //=============================================================================
 // RefCounted Objects
 //=============================================================================
+
+%feature("ref")   celGenericParameterBlock "$this->IncRef();"
+%feature("unref") celGenericParameterBlock "$this->DecRef();"
 
 //=============================================================================
 // Published interfaces and functions.
@@ -331,6 +338,8 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 //-----------------------------------------------------------------------------
 
 %ignore celVariableParameterBlock::GetParameter (size_t idx);
+%ignore celGenericParameterBlock::GetParameter (size_t idx);
+%template (scfGenericParameterBlock) scfImplementation1<celGenericParameterBlock, iCelParameterBlock >;
 %template (scfVariableParameterBlock) scfImplementation1<celVariableParameterBlock,iCelParameterBlock >;
 %template (scfCombineParameterBlock) scfImplementation1<celCombineParameterBlock,iCelParameterBlock >;
 %template (scfOneParameterBlock) scfImplementation1<celOneParameterBlock,iCelParameterBlock >;
@@ -464,17 +473,8 @@ CEL_PC(iPcActorMove, ActorMove, pcmove.actor.standard)
 
 //-----------------------------------------------------------------------------
 
-// yeah lets deprecate
 %include "propclass/actoranalog.h"
 CEL_PC(iPcActorAnalog, ActorAnalog, pcmove.actor.analog)
-
-%include "propclass/analogmotion.h"
-CEL_PC(iPcAnalogMotion, AnalogMotion, pcmove.analogmotion)
-
-//-----------------------------------------------------------------------------
-
-%include "propclass/jump.h"
-CEL_PC(iPcJump, Jump, pcmove.jump)
 
 //-----------------------------------------------------------------------------
 

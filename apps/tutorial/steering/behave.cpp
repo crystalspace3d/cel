@@ -123,7 +123,7 @@ void BehaviourPlayer::GetActorMove ()
 {
   if (!pcactormove)
   {
-    pcactormove = celQueryPropertyClassEntity<iPcActorMove> (entity);
+    pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
   }
 }
 
@@ -131,7 +131,7 @@ void BehaviourPlayer::GetInventory ()
 {
   if (!pcinventory)
     {
-      pcinventory = celQueryPropertyClassEntity<iPcInventory> (entity);
+      pcinventory = CEL_QUERY_PROPCLASS_ENT (entity, iPcInventory);
     }
 }
 
@@ -139,7 +139,7 @@ void BehaviourPlayer::GetMesh ()
 {
   if (!pcmesh)
   {
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -150,7 +150,7 @@ void BehaviourPlayer::ShowInventory ()
   for (i = 0 ; i < count ; i++)
   {
     iCelEntity* child = pcinventory->GetEntity (i);
-    csPrintf ("  child %zu is '%s'\n", i, child->GetName ());
+    printf ("  child %zu is '%s'\n", i, child->GetName ());
   }
 }
 
@@ -160,12 +160,13 @@ void BehaviourPlayer::Drop ()
   size_t count = pcinventory->GetEntityCount ();
   if (count <= 0)
   {
-    csPrintf ("Inventory is empty!\n");
+    printf ("Inventory is empty!\n");
     return;
   }
   iCelEntity* child = pcinventory->GetEntity (0);
   pcinventory->RemoveEntity (child);
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (child);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (child,
+      iPcLinearMovement);
   if (pclinmove)
   {
     GetMesh ();
@@ -176,8 +177,8 @@ void BehaviourPlayer::Drop ()
       .This2Other (csVector3 (0, 2, -2));
     iSector* sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
     pclinmove->SetPosition (pos, 0, sector);
-    pclinmove->SetBodyVelocity (csVector3 (0, .1f, 0));
-    csRef<iPcMesh> pcmesh_child = celQueryPropertyClassEntity<iPcMesh> (child);
+    pclinmove->SetVelocity (csVector3 (0, .1f, 0));
+    csRef<iPcMesh> pcmesh_child = CEL_QUERY_PROPCLASS_ENT (child, iPcMesh);
     if (pcmesh_child) pcmesh_child->Show ();
   }
 }
@@ -211,13 +212,13 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
   else if (msg_id == id_pcinventory_addchild)
   {
     GetInventory ();
-    csPrintf ("Got a new object! Objects in inventory:\n");
+    printf ("Got a new object! Objects in inventory:\n");
     ShowInventory ();
   }
   else if (msg_id == id_pcinventory_removechild)
   {
     GetInventory ();
-    csPrintf ("Object removed from inventory! Objects in inventory:\n");
+    printf ("Object removed from inventory! Objects in inventory:\n");
     ShowInventory ();
   }
   else
@@ -239,11 +240,11 @@ BehaviourBox::BehaviourBox (iCelEntity* entity, BehaviourLayer* bl,
 void BehaviourBox::PickUp ()
 {
   if (!player) return;
-  csRef<iPcInventory> pcinv = celQueryPropertyClassEntity<iPcInventory> (player);
+  csRef<iPcInventory> pcinv = CEL_QUERY_PROPCLASS_ENT (player, iPcInventory);
   if (pcinv)
   {
     pcinv->AddEntity (entity);
-    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     if (pcmesh) pcmesh->Hide ();
   }
 }
@@ -252,10 +253,10 @@ void BehaviourBox::GetPlayer ()
 {
   if (!pcmeshsel || !player)
   {
-    pcmeshsel = celQueryPropertyClassEntity<iPcMeshSelect> (entity);
+    pcmeshsel = CEL_QUERY_PROPCLASS_ENT (entity, iPcMeshSelect);
     player = pl->FindEntity ("player");
     if (!player) return;
-    csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (player);
+    csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player, iPcCamera);
     if (pccamera)
       pcmeshsel->SetCamera (pccamera);
   }
@@ -280,7 +281,7 @@ BehaviourBadOne::BehaviourBadOne (iCelEntity* entity, BehaviourLayer* bl, iCelPl
   : BehaviourCommon (entity, bl, pl)
 {
   id_pctimer_wakeup = pl->FetchStringID ("pctimer_wakeup");
-  id_par_elapsedticks = pl->FetchStringID ("elapsedticks");
+  id_par_elapsedticks = pl->FetchStringID ("cel.parameter.elapsedticks");
 
   ReadPath ();
 } 
@@ -307,7 +308,7 @@ static bool GetPropLong (iPcProperties* pcprop, const char* prefix, int i, long&
 
 void BehaviourBadOne::ReadPath ()
 {
-  csRef<iPcProperties> pcprop = celQueryPropertyClassEntity<iPcProperties> (entity);
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
 
   // Count the number of points we have.
   int count = 0;
@@ -337,7 +338,8 @@ void BehaviourBadOne::ReadPath ()
     totaltime += time;
   }
 
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcLinearMovement);
   if (pclinmove)
   {
     for (i = 0 ; i < count ; i++)
@@ -349,7 +351,8 @@ void BehaviourBadOne::ReadPath ()
 
 void BehaviourBadOne::Restart ()
 {
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcLinearMovement);
   if (pclinmove)
   {
     pclinmove->SetPath (path);
@@ -409,7 +412,7 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
   // This will print once we get the arrived message from pcsteer
 
   if (msg_id == id_pcsteer_arrived)
-    csPrintf ("Arrived\n");
+    printf("Arrived\n");
   else if (msg_id == id_pccommandinput_seek1){
   
     /*
@@ -418,9 +421,10 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
      *
      */
 
-    csPrintf ("Seek\n");
+    printf("Seek\n");
     csRef<iCelEntity> player_entity = pl->FindEntity("player");
-    csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (player_entity);
+    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
+								  iPcLinearMovement);
     iSector* sector;
     csVector3 position;
     float rot;
@@ -436,7 +440,8 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
    
     csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
 
-    csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+    csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+						       iPcSteer);
     
     pcsteer->Seek(sector, position);
     
@@ -449,9 +454,10 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
        *
        */
 
-    csPrintf ("Flee\n");
+    printf("Flee\n");
     csRef<iCelEntity> player_entity = pl->FindEntity("player");
-    csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (player_entity);
+    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
+								  iPcLinearMovement);
     iSector* sector;
     csVector3 position;
     float rot;
@@ -467,7 +473,8 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
      */
 
     csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
-    csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+    csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+						       iPcSteer);
     pcsteer->Flee(sector, position);
 
     }
@@ -479,32 +486,35 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
        * Pcsteer will calculate its position on its own.
        */
 
-      csPrintf ("Pursue\n");
+      printf("Pursue\n");
       csRef<iCelEntity> player_entity = pl->FindEntity("player");
       csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);    
       pcsteer->Pursue(player_entity, 0.5f);
     }
   else if(msg_id == id_pccommandinput_arrival1)
     {
       csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
 
       if(!arrival){
 	//Turns Position Arrival Checking on with a sq radius of 1.0
 	pcsteer->CheckArrivalOn(1.0f);
 	arrival = true;
-	csPrintf ("Check Arrival On\n");
+	printf("Check Arrival On\n");
       } else {
 	pcsteer->CheckArrivalOff();
 	arrival = false;
-	csPrintf ("Check Arrival Off\n");
+	printf("Check Arrival Off\n");
       }
     }
   else if (msg_id == id_pccommandinput_ca1)
     {
       csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
 
       if(!ca){
 	//Turns Collision Avoidance ON
@@ -512,53 +522,56 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 	
 	pcsteer->CollisionAvoidanceOn(2.0f, 1.0f);
 	ca = true;
-	csPrintf ("Collision Avoidance On\n");
+	printf("Collision Avoidance On\n");
 	
       } else{
 	pcsteer->CollisionAvoidanceOff();
 	ca = false;
-	csPrintf ("Collision Avoidance Off\n");      
+	printf("Collision Avoidance Off\n");      
       }
     }
   else if (msg_id == id_pccommandinput_cohesion1)
     {
       csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
       if(!cohesion){
 	//Turns Cohesion ON
 	//with radius 10.0, max radius 100.0f and weight 3.0 
 
 	pcsteer->CohesionOn(entities, 10.0f, 100.0f, 3.0f);
 	cohesion = true;
-	csPrintf ("Cohesion On\n");
+	printf("Cohesion On\n");
 	
       } else{
 	pcsteer->CohesionOff();
 	cohesion = false;
-	csPrintf ("Cohesion Off\n");      
+	printf("Cohesion Off\n");      
       }
     } else if (msg_id == id_pccommandinput_separation1)
     {
       csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
       if(!separation){
 	//Turns Separation On
 	//with radius 3.0 and weight 1.0
 	
        	pcsteer->SeparationOn(entities, 1.0f, 3.0f);
 	separation = true;
-	csPrintf ("Separation On\n");
+	printf("Separation On\n");
 	
       } else{
 	pcsteer->SeparationOff();
 	separation = false;
-	csPrintf ("Separation Off\n");      
+	printf("Separation Off\n");      
       }
     }
  else if (msg_id == id_pccommandinput_dm1)
     {
       csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
 
       if(!dm){
 	//Turns Direction Matching On
@@ -566,12 +579,12 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 	
 	pcsteer->DirectionMatchingOn(entities, 1.0f);
 	dm = true;
-	csPrintf ("Direction Matching On\n");
+	printf("Direction Matching On\n");
 	
       } else{
 	pcsteer->DirectionMatchingOff();
 	dm = false;
-	csPrintf ("Direction Matching Off\n");      
+	printf("Direction Matching Off\n");      
       }
     }
   else

@@ -37,6 +37,8 @@
 
 //---------------------------------------------------------------------------
 
+CS_IMPLEMENT_PLUGIN
+
 SCF_IMPLEMENT_FACTORY (celBlXml)
 
 enum
@@ -175,7 +177,6 @@ enum
   XMLFUNCTION_KEYTEXTURE,
   XMLFUNCTION_KEYMATERIAL,
   XMLFUNCTION_KEYLIGHT,
-  XMLFUNCTION_MESSAGE,
 
   XMLFUNCTION_LAST
 };
@@ -346,7 +347,6 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("key_texture", XMLFUNCTION_KEYTEXTURE);
   functions.Register ("key_material", XMLFUNCTION_KEYMATERIAL);
   functions.Register ("key_light", XMLFUNCTION_KEYLIGHT);
-  functions.Register ("message", XMLFUNCTION_MESSAGE);
 
   return true;
 }
@@ -540,9 +540,19 @@ bool celBlXml::ParseID (const char*& input, csStringArray& local_vars,
   }
   if (idconstant)
   {
-    char* str = new char [i-input+1];
-    strncpy (str, input, i-input);
-    str[i-input] = 0;
+    const char* prefix;
+    if (fun_id == XMLFUNCTION_PARID)
+      prefix = "cel.parameter.";
+    else if (fun_id == XMLFUNCTION_PROPID)
+      prefix = "cel.property.";
+    else if (fun_id == XMLFUNCTION_ACTID)
+      prefix = "cel.action.";
+    else
+      prefix = "";
+    char* str = new char [strlen (prefix) + i-input+1];
+    strcpy (str, prefix);
+    strncpy (str+strlen (prefix), input, i-input);
+    str[strlen (prefix) + i-input] = 0;
     csStringID id = pl->FetchStringID (str);
     delete[] str;
     h->AddOperation (CEL_OPERATION_PUSH);
@@ -629,7 +639,9 @@ bool celBlXml::ParseAction (const char*& input, const char* pinput,
   h->AddOperation (CEL_OPERATION_PUSH);
   h->GetArgument ().SetPC (0);
 
-  csStringID id = pl->FetchStringID (str);
+  csString actid = "cel.action.";
+  actid += str;
+  csStringID id = pl->FetchStringID (actid);
   h->AddOperation (CEL_OPERATION_PUSH);
   h->GetArgument ().SetID (id);
 
@@ -1225,7 +1237,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
           return false;
         h->AddOperation (CEL_OPERATION_GETMSG);
       }
-      break;
+    break;
     case XMLFUNCTION_KEYNODE:
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
@@ -1250,7 +1262,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
           h->AddOperation (CEL_OPERATION_KEYNODE3);
         }
       }
-      break;
+    break;
     case XMLFUNCTION_KEYMESHOBJ:
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
@@ -1272,7 +1284,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
           h->AddOperation (CEL_OPERATION_KEYMESHOBJ2);
         }
       }
-      break;
+    break;
     case XMLFUNCTION_KEYSECTOR:
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
@@ -1294,7 +1306,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
           h->AddOperation (CEL_OPERATION_KEYSECTOR2);
         }
       }
-      break;
+    break;
     case XMLFUNCTION_KEYMESHFACT:
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
@@ -1316,7 +1328,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
           h->AddOperation (CEL_OPERATION_KEYMESHFACT2);
         }
       }
-      break;
+    break;
     case XMLFUNCTION_KEYTEXTURE:
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
@@ -1338,7 +1350,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
           h->AddOperation (CEL_OPERATION_KEYTEXTURE2);
         }
       }
-      break;
+    break;
     case XMLFUNCTION_KEYMATERIAL:
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
@@ -1360,7 +1372,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
           h->AddOperation (CEL_OPERATION_KEYMATERIAL2);
         }
       }
-      break;
+    break;
     case XMLFUNCTION_KEYLIGHT:
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
@@ -1382,41 +1394,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
           h->AddOperation (CEL_OPERATION_KEYLIGHT2);
         }
       }
-      break;
-    case XMLFUNCTION_MESSAGE:
-      {
-        if (!ParseExpression (input, local_vars, child, h, name, 0))
-          return false;
-        if (!SkipComma (input, child, name)) return false;
-        if (!ParseExpression (input, local_vars, child, h, name, 0))
-          return false;
-        pinput = input;
-        input = celXmlParseToken (input, token);
-        if (token == CEL_TOKEN_COMMA)
-        {
-          if (!ParseExpression (input, local_vars, child, h, name, 0))
-            return false;
-          pinput = input;
-          input = celXmlParseToken (input, token);
-          if (token == CEL_TOKEN_COMMA)
-          {
-            if (!ParseExpression (input, local_vars, child, h, name, 0))
-              return false;
-            h->AddOperation (CEL_OPERATION_MESSAGE2);
-          }
-          else
-          {
-            input = pinput;
-            h->AddOperation (CEL_OPERATION_MESSAGE1);
-          }
-        }
-        else
-        {
-          input = pinput;
-          h->AddOperation (CEL_OPERATION_MESSAGE0);
-        }
-      }
-      break;
+    break;
     default:
       {
         // We have an unknown function. Try to parse it as an event handler
@@ -1522,9 +1500,11 @@ bool celBlXml::ParseExpressionInt (
                   "Missing parameter name after '@' for '%s'!", name);
           return false;
         }
-        char* str = new char [i-input+1];
-        strncpy (str, input, i-input);
-        str[i-input] = 0;
+        const char* prefix = "cel.parameter.";
+        char* str = new char [strlen (prefix) + i-input+1];
+        strcpy (str, prefix);
+        strncpy (str+strlen (prefix), input, i-input);
+        str[strlen (prefix) + i-input] = 0;
         input = i;
         csStringID id = pl->FetchStringID (str);
         delete[] str;
@@ -2535,7 +2515,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
                 }
                 else if (c->GetAttributeValue ("name"))
                 {
-                  csString parid = c->GetAttributeValue ("name");
+                  csString parid = "cel.parameter.";
+                  parid += c->GetAttributeValue ("name");
                   csStringID pid = pl->FetchStringID (parid);
                   h->AddOperation (CEL_OPERATION_PUSH);
                   h->GetArgument ().SetID (pid);
@@ -2594,7 +2575,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
               }
               else if (c->GetAttributeValue ("name"))
               {
-                csString parid = c->GetAttributeValue ("name");
+                csString parid = "cel.parameter.";
+                parid += c->GetAttributeValue ("name");
                 csStringID pid = pl->FetchStringID (parid);
                 h->AddOperation (CEL_OPERATION_PUSH);
                 h->GetArgument ().SetID (pid);
@@ -2616,7 +2598,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           }
           else if (child->GetAttributeValue ("name"))
           {
-            csString actid = child->GetAttributeValue ("name");
+            csString actid = "cel.action.";
+            actid += child->GetAttributeValue ("name");
             csStringID id = pl->FetchStringID (actid);
             h->AddOperation (CEL_OPERATION_PUSH);
             h->GetArgument ().SetID (id);
@@ -3047,7 +3030,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           }
           else if (child->GetAttributeValue ("name"))
           {
-            csString proid = child->GetAttributeValue ("name");
+            csString proid = "cel.property.";
+            proid += child->GetAttributeValue ("name");
             csStringID id = pl->FetchStringID (proid);
             h->AddOperation (CEL_OPERATION_PUSH);
             h->GetArgument ().SetID (id);

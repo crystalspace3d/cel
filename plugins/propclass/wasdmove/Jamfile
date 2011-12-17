@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass wasdmove ;
-
-Plugin pfwasdmove
-	: wasdmove.cpp wasdmove.h
-;
-ExternalLibs pfwasdmove : CRYSTAL ;
-LinkWith pfwasdmove : celtool ;
-

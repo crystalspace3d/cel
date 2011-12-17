@@ -202,19 +202,41 @@ public:
   	const csVector3& angle_to_reach);
 
   /// Sets a velocity for this body in body coordinates
-  void SetVelocity (const csVector3& vel) { SetBodyVelocity (vel); }
-  void SetBodyVelocity (const csVector3& vel);
-  void SetWorldVelocity (const csVector3& vel);
+  virtual void SetVelocity (const csVector3& vel)
+  {
+    // Y movement here is NOT lift and gravity effects. It IS for
+    // jumping & jetpacks.
+    velBody = vel;
+  }
 
   /// Adds on a velocity to this body in world coordinates
-  void AddVelocity (const csVector3& vel);
+  virtual void AddVelocity (const csVector3& vel)
+  {
+    // Y movement here can be used for lift and gravity effects.
+    velWorld += vel;
+  }
 
   /// Resets the velocity of this body in world coordinates.
-  void ClearWorldVelocity ();
-  void GetVelocity (csVector3 &v) const;
-  const csVector3 &GetBodyVelocity () const;
-  const csVector3 &GetWorldVelocity () const;
-  const csVector3 GetVelocity () const;
+  virtual void ClearWorldVelocity ()
+  {
+    // Y movement here can be used for lift and gravity effects.
+    velWorld = 0.0f;
+  }
+
+  virtual void GetVelocity (csVector3 &v) const
+  {
+    v = GetVelocity ();
+  }
+
+  virtual const csVector3 GetVelocity () const
+  {
+    csVector3 velworld = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
+        .Other2ThisRelative (velWorld);
+
+    // Return the composite of the object and world velocity
+    // in the OBJECT coordinate system.
+    return velworld + velBody;
+  }
 
   virtual bool RotateV (float delta);
 
@@ -234,12 +256,10 @@ public:
   	csVector3& shift, iPcCollisionDetection*& pc_cd);
   virtual bool InitCD (iPcCollisionDetection *pc_cd=0);
   virtual void SetSpeed (float speedz);
-  virtual float GetSpeed () const { return speed; }
 
   virtual float GetYRotation ();
   const csVector3 GetPosition ();
   const csVector3 GetFullPosition ();
-  const csReversibleTransform GetFullTransform ();
 
   virtual void GetLastPosition (csVector3& pos, float& yrot, iSector*& sector);
   virtual void GetLastFullPosition (csVector3& pos, float& yrot,
@@ -327,8 +347,8 @@ public:
   	float yrot, iSector *sector, csVector3& vel, csVector3& worldVel,
   	float ang_vel);
 
-  csPtr<iCelDataBuffer> Save ();
-  bool Load (iCelDataBuffer* databuf);
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
   	iCelParameterBlock* params,
   	celData& ret);
@@ -405,8 +425,6 @@ public:
 
   virtual void SetDeltaLimit (float deltaLimit)
   { this->deltaLimit = deltaLimit; }
-  virtual float GetDeltaLimit () const
-  { return deltaLimit; }
 
   /// Get the total displacement caused by space warping portals.
   virtual csVector3 GetPortalDisplacement ()

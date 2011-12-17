@@ -20,7 +20,6 @@
 #include "cssysdef.h"
 #include "csutil/util.h"
 #include "csutil/stringarray.h"
-#include "csutil/set.h"
 #include "celtool/stdmsgchannel.h"
 
 //---------------------------------------------------------------------------
@@ -39,13 +38,14 @@ static bool Match (const csString& mask, const csString& msg)
 }
 
 csRef<iMessageDispatcher> celMessageChannel::CreateMessageDispatcher (
-      iMessageSender* sender, csStringID id,
+      iMessageSender* sender, const char* msg_id,
       iMessageReceiverFilter* receiver_filter)
 {
   if (!pl) return 0;
   csRef<celMessageDispatcher> msgdisp;
-  csString message = pl->FetchString (id);;
-  msgdisp.AttachNew (new celMessageDispatcher (id, message, sender,
+  csString message = msg_id;
+  csStringID id = pl->FetchStringID (msg_id);
+  msgdisp.AttachNew (new celMessageDispatcher (id, msg_id, sender,
 	receiver_filter));
   messageDispatchers.Push (msgdisp);
 
@@ -91,6 +91,13 @@ void celMessageChannel::Subscribe (iMessageReceiver* receiver, const char* mask)
   newsub.receiver = receiver;
   newsub.mask = mask;
 
+  // if we are sending messages we queue the subscription request
+  // so as to not mess up the subscriptions iterator.
+  if (sending)
+  {
+    subscriptionQueue.Push(newsub);
+    return;
+  }
   // First check all subscriptions for this receiver and see if we
   // are already subscribed.
   celSubscriptions::Iterator it = messageSubscriptions.GetIterator (
@@ -123,6 +130,15 @@ void celMessageChannel::Subscribe (iMessageReceiver* receiver, const char* mask)
 void celMessageChannel::Unsubscribe (iMessageReceiver* receiver,
     const char* mask)
 {
+  if (sending)
+  {
+    // we're sending messages, so can't modify the hash now..
+    celMessageSubscription newsub;
+    newsub.receiver = receiver;
+    newsub.mask = mask;
+    unsubscriptionQueue.Push(newsub);
+    return;
+  }
   size_t i;
   csString maskStr = mask;
   csStringArray retained_masks;
@@ -182,39 +198,49 @@ void celMessageChannel::Unsubscribe (iMessageReceiver* receiver,
   }
 }
 
-bool celMessageChannel::SendMessage (csStringID id,
+bool celMessageChannel::SendMessage (const char* msgid,
       iMessageSender* sender, iCelParameterBlock* params,
       iCelDataArray* ret)
 {
-  csString msgid = pl->FetchString (id);
-
-  // Two passes. In the first pass we will gather all receivers in a set
-  // so that every receiver will only get this message once.
-  csSet<csPtrKey<iMessageReceiver> > receivers;
+  csString message = msgid;
+  csStringID id = pl->FetchStringID (msgid);
+  bool handled = false;
   celSubscriptions::GlobalIterator it = messageSubscriptions.GetIterator ();
+  // queue subscriptions, otherwise the iterator will get messed up.
+  // we use a counter here, in case this function ends calling
+  // itself.
+  sending++;
   while (it.HasNext ())
   {
     celMessageSubscription& sub = it.Next ();
     iMessageReceiver* receiver = sub.receiver;
-    if (receiver && Match (sub.mask, msgid))
-      receivers.Add (receiver);
-  }
-
-  // In the second pass we actually send the messages.
-  bool handled = false;
-  csSet<csPtrKey<iMessageReceiver> >::GlobalIterator rit = receivers.GetIterator ();
-  while (rit.HasNext ())
-  {
-    iMessageReceiver* receiver = rit.Next ();
-    celData ret1;
-    bool rc = receiver->ReceiveMessage (id, sender, ret1, params);
-    if (rc)
+    if (receiver && Match (sub.mask, message))
     {
-      handled = true;
-      if (ret1.type != CEL_DATA_NONE && ret) ret->Push (ret1);
+      celData ret1;
+      bool rc = receiver->ReceiveMessage (id, sender, ret1, params);
+      if (rc)
+      {
+	handled = true;
+	if (ret1.type != CEL_DATA_NONE && ret) ret->Push (ret1);
+      }
     }
   }
-
+  sending--; // end queuing of subscriptions
+  // now apply all un/subscription requests resulting from latest message
+  // sending.
+  if (!sending)
+  {
+    while(unsubscriptionQueue.GetSize())
+    {
+      const celMessageSubscription &subscriptionRequest = unsubscriptionQueue.Pop();
+      Unsubscribe(subscriptionRequest.receiver,subscriptionRequest.mask);
+    }
+    while(subscriptionQueue.GetSize())
+    {
+      const celMessageSubscription &subscriptionRequest =  subscriptionQueue.Pop();
+      Subscribe(subscriptionRequest.receiver,subscriptionRequest.mask);
+    }
+  }
   return handled;
 }
 

@@ -32,8 +32,9 @@
 #include "ivaria/script.h"
 
 #include "tools/expression.h"
-#include "celtool/stdparams.h"
 #include "plugins/tools/celconsole/celconsole.h"
+
+CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celConsole)
 
@@ -527,6 +528,9 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
     csevKeyboardEvent (object_reg),
     csevMouseEvent (object_reg),
     csevFrame (object_reg),
+    csevPreProcess (object_reg),
+    csevPostProcess (object_reg),
+    csevProcess (object_reg),
     CS_EVENTLIST_END 
   };
   q->RegisterListener (scfiEventHandler, esub);
@@ -747,7 +751,8 @@ void celConsole::AssignVar (iCelEntity* ent, iCelExpression* exprvar,
     conout->PutText ("Variable expression must be a string!\n");
     return;
   }
-  csRef<iPcProperties> pcprop = celQueryPropertyClassEntity<iPcProperties> (ent);
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT (ent,
+      iPcProperties);
   switch (ret.type)
   {
     case CEL_DATA_LONG:
@@ -1212,14 +1217,16 @@ void celConsole::ListEntities ()
 void celConsole::ListTemplates ()
 {
   if (!GetPL ()) return;
-  csRef<iCelEntityTemplateIterator> it = pl->GetEntityTemplates ();
-  while (it->HasNext ())
+  size_t cnt = pl->GetEntityTemplateCount ();
+  size_t i;
+  for (i = 0 ; i < cnt ; i++)
   {
-    iCelEntityTemplate* tpl = it->Next ();
+    iCelEntityTemplate* tpl = pl->GetEntityTemplate (i);
     const char* name = tpl->GetName ();
     const char* layer = tpl->GetBehaviourLayer ();
     const char* bh = tpl->GetBehaviour ();
-    conout->PutText ("Template: %s (%s/%s)\n", name, layer, bh);
+    conout->PutText ("Template %u: %s (%s/%s)\n", (unsigned int)i,
+	name, layer, bh);
   }
 }
 
@@ -1239,12 +1246,11 @@ void celConsole::CreateEntityFromTemplate (const csStringArray& args)
     return;
   }
   const char* entname = args[2];
-  csRef<celVariableParameterBlock> params;
-  params.AttachNew (new celVariableParameterBlock ());
-  for (size_t i = 3 ; i < args.GetSize ()-1 ; i += 2)
+  celEntityTemplateParams params;
+  size_t i;
+  for (i = 3 ; i < args.GetSize ()-1 ; i += 2)
   {
-    csStringID id = pl->FetchStringID (args[i]);
-    params->AddParameter (id).Set (args[i+1]);
+    params.Put (args[i], args[i+1]);
   }
   iCelEntity* ent = pl->CreateEntity (tpl, entname, params);
   if (!ent)

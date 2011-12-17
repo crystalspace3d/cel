@@ -39,6 +39,8 @@
 
 //---------------------------------------------------------------------------
 
+CS_IMPLEMENT_PLUGIN
+
 SCF_IMPLEMENT_FACTORY (celAddOnQuestDef)
 
 celAddOnQuestDef::celAddOnQuestDef (iBase* parent) :

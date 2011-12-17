@@ -1,7 +1,0 @@
-SubDir TOP plugins tools ledges ;
-
-Plugin ledges
-       : ledges.cpp ledges.h
-;
-ExternalLibs ledges : CRYSTAL ;
-

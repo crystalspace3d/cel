@@ -27,6 +27,8 @@
 #include "tools/expression.h"
 #include "plugins/tools/rulebase/rulebase.h"
 
+CS_IMPLEMENT_PLUGIN
+
 SCF_IMPLEMENT_FACTORY (celRuleBase)
 
 //--------------------------------------------------------------------------

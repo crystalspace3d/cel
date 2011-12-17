@@ -19,7 +19,6 @@
 
 #include "cssysdef.h"
 #include "csutil/scanstr.h"
-#include "csutil/csendian.h"
 #include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
 #include "plugins/stdphyslayer/pl.h"
@@ -37,7 +36,6 @@
 #include "csutil/cseventq.h"
 #include "csutil/cfgmgr.h"
 #include "csutil/event.h"
-#include "csutil/memfile.h"
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/sector.h"
@@ -47,18 +45,17 @@
 #include "iutil/virtclk.h"
 #include "ivaria/reporter.h"
 #include "cstool/enginetools.h"
-#include "celtool/stdparams.h"
 
 //---------------------------------------------------------------------------
+
+CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celPlLayer)
 
 celPlLayer::celPlLayer (iBase* parent) : scfImplementationType (this, parent)
 {
   entities_hash_dirty = false;
-  scfiEventHandlerLogic = 0;
-  scfiEventHandler3D = 0;
-  scfiEventHandler2D = 0;
+  scfiEventHandler = 0;
 
   compress_delay = 1000;
   allow_entity_addon = true;
@@ -72,34 +69,25 @@ celPlLayer::~celPlLayer ()
   entities_hash.DeleteAll ();
   entityclasses_hash.DeleteAll ();
 
-  if (scfiEventHandlerLogic)
+  if (scfiEventHandler)
   {
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
     if (q != 0)
-      q->RemoveListener (scfiEventHandlerLogic);
-    scfiEventHandlerLogic->DecRef ();
-  }
-
-  if (scfiEventHandler3D)
-  {
-    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
-    if (q != 0)
-      q->RemoveListener (scfiEventHandler3D);
-    scfiEventHandler3D->DecRef ();
-  }
-
-  if (scfiEventHandler2D)
-  {
-    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
-    if (q != 0)
-      q->RemoveListener (scfiEventHandler2D);
-    scfiEventHandler2D->DecRef ();
+      q->RemoveListener (scfiEventHandler);
+    scfiEventHandler->DecRef ();
   }
 }
 
-bool celPlLayer::HandleEvent (iEvent& ev, int where)
+bool celPlLayer::HandleEvent (iEvent& ev)
 {
-  if (ev.Name != csevFrame (object_reg))
+  int where;
+  if (ev.Name == csevPreProcess (object_reg))
+    where = CEL_EVENT_PRE;
+  else if (ev.Name == csevProcess (object_reg))
+    where = CEL_EVENT_VIEW;
+  else if (ev.Name == csevPostProcess (object_reg))
+    where = CEL_EVENT_POST;
+  else
     return false;
 
   CallbackInfo* cbinfo = GetCBInfo (where);
@@ -153,31 +141,23 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine) return false;	// Engine is required.
 
-  scfiEventHandlerLogic = new EventHandlerLogic (this);
+  scfiEventHandler = new EventHandler (this);
   csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
   csEventID esub[] = { 
-    csevFrame (object_reg),
+    csevPreProcess (object_reg),   // this goes away...
+    csevPostProcess (object_reg),  // this goes away...
+    csevProcess (object_reg),      // this goes away...
+    csevFrame (object_reg),        // this replaces the above!
     CS_EVENTLIST_END 
   };
-  q->RegisterListener (scfiEventHandlerLogic, esub);
-
-  scfiEventHandler3D = new EventHandler3D (this);
-  q->RegisterListener (scfiEventHandler3D, esub);
-
-  scfiEventHandler2D = new EventHandler2D (this);
-  q->RegisterListener (scfiEventHandler2D, esub);
+  q->RegisterListener (scfiEventHandler, esub);
 
   return true;
 }
 
-size_t celPlLayer::AddScope (csString version, int size)
+int celPlLayer::AddScope (csString version, int size)
 {
-  return idlist.AddScope (version, size);
-}
-
-void celPlLayer::ResetScope (size_t scope_idx)
-{
-  return idlist.ResetScope (scope_idx);
+  return (int)idlist.AddScope (version, size);
 }
 
 csPtr<iCelEntity> celPlLayer::CreateEntity ()
@@ -209,11 +189,6 @@ csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
   return csPtr<iCelEntity> (ientity);
 }
 
-void celPlLayer::RegisterID (iCelEntity* entity, uint id)
-{
-  idlist.RegisterWithID (entity, id);
-}
-
 csPtr<iCelEntity> celPlLayer::CreateEntity (uint entity_id)
 {
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
@@ -240,7 +215,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntity (const char* entname,
 	"Error creating entity '%s'!", entname);
     return 0;
   }
-  if (entname && *entname) ent->SetName (entname);
+  if (entname) ent->SetName (entname);
   if (bl && bhname)
   {
     iCelBehaviour* behave = bl->CreateBehaviour (ent, bhname);
@@ -328,72 +303,133 @@ iCelEntityTemplate* celPlLayer::FindEntityTemplate (const char* factname)
   return static_cast<iCelEntityTemplate*> (f);
 }
 
-class celHashEntityTemplateIterator : public scfImplementation1<celHashEntityTemplateIterator, iCelEntityTemplateIterator>
+size_t celPlLayer::GetEntityTemplateCount () const
 {
-  celTemplates::ConstGlobalIterator it;
+  return entity_templates.GetSize ();
+}
 
-public:
-  celHashEntityTemplateIterator (const celTemplates::ConstGlobalIterator& it) :
-    scfImplementationType (this), it (it)
-  {
-  }
-  virtual ~celHashEntityTemplateIterator ()
-  {
-  }
-  virtual bool HasNext () const { return it.HasNext (); }
-  virtual iCelEntityTemplate* Next ()
-  {
-    celEntityTemplate* tpl = it.Next ();
-    return static_cast<iCelEntityTemplate*> (tpl);
-  }
-};
-
-csPtr<iCelEntityTemplateIterator> celPlLayer::GetEntityTemplates () const
+iCelEntityTemplate* celPlLayer::GetEntityTemplate (size_t idx) const
 {
-  celHashEntityTemplateIterator* it = new celHashEntityTemplateIterator (
-      entity_templates.GetIterator ());
-  return it;
+  // @@@ This is not an efficient routine. Use only for debugging purposes!
+  size_t i;
+  csHash<csRef<celEntityTemplate>, csStringBase>::ConstGlobalIterator it =
+    entity_templates.GetIterator ();
+  iCelEntityTemplate* temp = 0;
+  for (i = 0 ; i <= idx ; i++)
+  {
+    if (!it.HasNext ()) return 0;
+    const csRef<celEntityTemplate>& tpl = it.Next ();
+    temp = static_cast<iCelEntityTemplate*> (tpl);
+  }
+  return temp;
 }
 
 csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
-    iCelEntity* entity,
-    const csHash<csRef<iParameter>, csStringID>& act_params,
-    iCelParameterBlock* params)
+    const char* entname,
+    iCelParameterBlock* act_params, const celEntityTemplateParams& params)
 {
-  csRef<celEntityParameterBlock> thisParam;
-  thisParam.AttachNew (new celEntityParameterBlock (this, entity));
-  csRef<celCombineParameterBlock> combinedParams;
-  if (!params)
-  {
-    params = thisParam;
-  }
-  else
-  {
-    combinedParams.AttachNew (new celCombineParameterBlock (thisParam, params));
-    params = combinedParams;
-  }
-
   csRef<celVariableParameterBlock> converted_params;
-  converted_params.AttachNew (new celVariableParameterBlock ());
-  csHash<csRef<iParameter>, csStringID>::ConstGlobalIterator it = act_params.GetIterator ();
-  while (it.HasNext ())
+  if (act_params)
   {
-    csStringID key;
-    iParameter* par = it.Next (key);
-    const celData* data = par->GetData (params);
-    if (data)
-      converted_params->AddParameter (key, *data);
+    converted_params.AttachNew (new celVariableParameterBlock ());
+    size_t k;
+    for (k = 0 ; k < act_params->GetParameterCount () ; k++)
+    {
+      csStringID id;
+      celDataType t;
+      const char* parname = act_params->GetParameter (k, id, t);
+      const celData* par = act_params->GetParameter (id);
+      converted_params->SetParameterDef (k, id, parname);
+      if (t == CEL_DATA_PARAMETER)
+      {
+	celData& converted_par = converted_params->GetParameter (k);
+	const char* parvalue = par->value.par.parname->GetData ();
+	if (!strcmp ("this", parvalue))
+	{
+	  // Special case.
+	  converted_par.Set (entname);
+	  continue;
+	}
+	const char* value = params.Get (parvalue, (const char*)0);
+	switch (par->value.par.partype)
+	{
+	  case CEL_DATA_LONG:
+	    {
+	      long l; if (value) sscanf (value, "%ld", &l); else l = 0;
+	      converted_par.Set ((int32)l);
+	    }
+	    break;
+	  case CEL_DATA_FLOAT:
+	    {
+	      float f; if (value) sscanf (value, "%f", &f); else f = 0;
+	      converted_par.Set (f);
+	    }
+	    break;
+	  case CEL_DATA_BOOL:
+	    {
+	      bool b;
+	      if (value) csScanStr (value, "%b", &b); else b = false;
+	      converted_par.Set (b);
+	    }
+	    break;
+	  case CEL_DATA_STRING:
+	    converted_par.Set (value);
+	    break;
+	  case CEL_DATA_VECTOR2:
+	    {
+	      csVector2 v;
+	      if (value)
+	        sscanf (value, "%f,%f", &v.x, &v.y);
+	      else
+	        v.Set (0, 0);
+	      converted_par.Set (v);
+	    }
+	    break;
+	  case CEL_DATA_VECTOR3:
+	    {
+	      csVector3 v;
+	      if (value)
+	        sscanf (value, "%f,%f,%f", &v.x, &v.y, &v.z);
+	      else
+	        v.Set (0, 0, 0);
+	      converted_par.Set (v);
+	    }
+	    break;
+	  case CEL_DATA_COLOR:
+	    {
+	      csColor v;
+	      if (value)
+	        sscanf (value, "%f,%f,%f", &v.red, &v.green, &v.blue);
+	      else
+	        v.Set (0, 0, 0);
+	      converted_par.Set (v);
+	    }
+ 	    break;
+	  case CEL_DATA_ENTITY:
+	    {
+	      iCelEntity* ent = value ? FindEntity (value) : 0;
+	      converted_par.Set (ent);
+	    }
+	    break;
+	  default: break;
+	}
+      }
+      else
+      {
+	converted_params->GetParameter (k) = *par;
+      }
+    }
   }
   return converted_params;
 }
 
 bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
     	iCelPropertyClass* pc,
-  	iCelParameterBlock* params,
+  	const celEntityTemplateParams& params,
 	iCelEntity* ent, iCelEntityTemplate* factory)
 {
   csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
-    ent, act.params, params);
+    ent->GetName (), act.params, params);
   celData ret;
   if (!pc->PerformAction (act.id, converted_params, ret))
   {
@@ -411,15 +447,14 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
 iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   	const char* name, ...)
 {
-  csRef<celVariableParameterBlock> params;
-  params.AttachNew (new celVariableParameterBlock ());
+  celEntityTemplateParams params;
   va_list args;
   va_start (args, name);
   char const* par = va_arg (args, char*);
   while (par != 0)
   {
     char const* val = va_arg (args, char*);
-    params->AddParameter (FetchStringID (par)).Set (val);
+    params.Put (par, val);
     par = va_arg (args, char*);
   }
   va_end (args);
@@ -427,28 +462,9 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
 }
 
 iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
-  	const char* name, iCelParameterBlock* params)
-{
-  csRef<iCelEntity> ent = CreateEntity (name, 0, 0, CEL_PROPCLASS_END);
-  if (!ApplyTemplate (ent, factory, params))
-    return 0;
-  (static_cast<celEntity*> ((iCelEntity*)ent))->SetTemplateNameID (FetchStringID (factory->GetName ()));
-  return ent;
-}
-
-bool celPlLayer::ApplyTemplate (iCelEntity* ent, iCelEntityTemplate* factory,
-      iCelParameterBlock* params)
+  	const char* name, const celEntityTemplateParams& params)
 {
   celEntityTemplate* cfact = static_cast<celEntityTemplate*> (factory);
-
-  // First apply all the parents.
-  const csRefArray<iCelEntityTemplate>& parents = cfact->GetParentsInt ();
-  for (size_t i = 0 ; i < parents.GetSize () ; i++)
-  {
-    if (!ApplyTemplate (ent, parents[i], params))
-      return false;
-  }
-
   csRef<iCelBlLayer> bl;
   if (cfact->GetLayer ())
   {
@@ -458,7 +474,7 @@ bool celPlLayer::ApplyTemplate (iCelEntity* ent, iCelEntityTemplate* factory,
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
 	"Can't find behaviour layer '%s' for entity '%s' from factory '%s'!",
-		cfact->GetLayer (), ent->GetName (), factory->GetName ());
+		cfact->GetLayer (), name, factory->GetName ());
       return 0;
     }
   }
@@ -470,10 +486,11 @@ bool celPlLayer::ApplyTemplate (iCelEntity* ent, iCelEntityTemplate* factory,
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.pllayer",
 	"Can't find default behaviour layer for entity '%s' from factory '%s'!",
-		ent->GetName (), factory->GetName ());
+		name, factory->GetName ());
       return 0;
     }
   }
+  csRef<iCelEntity> ent = CreateEntity (name, 0, 0, CEL_PROPCLASS_END);
 
   const csRefArray<celPropertyClassTemplate>& pcs = cfact->GetPropClasses ();
   size_t i;
@@ -490,9 +507,9 @@ bool celPlLayer::ApplyTemplate (iCelEntity* ent, iCelEntityTemplate* factory,
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.physicallayer",
 	"Error creating property class '%s' for entity '%s from factory '%s''!",
-		pcname, ent->GetName (), factory->GetName ());
+		pcname, name, factory->GetName ());
       RemoveEntity (ent);
-      return false;
+      return 0;
     }
     const csArray<ccfPropAct>& props = pcc->GetProperties ();
     size_t j;
@@ -507,7 +524,7 @@ bool celPlLayer::ApplyTemplate (iCelEntity* ent, iCelEntityTemplate* factory,
 	  {
 	    // Action.
 	    if (!PerformActionTemplate (props[j], pc, params, ent, factory))
-	      return false;
+	      return 0;
 	    rc = true;
 	  }
 	  break;
@@ -548,57 +565,56 @@ bool celPlLayer::ApplyTemplate (iCelEntity* ent, iCelEntityTemplate* factory,
 	case CEL_DATA_PARAMETER:
 	  {
 	    const char* parname = d.value.par.parname->GetData ();
-            csStringID parnameid = FetchStringID (parname);
-            const celData* data = params->GetParameter (parnameid);
-	    if (data)
+	    const char* value = params.Get (parname, (const char*)0);
+	    if (value)
 	    {
 	      switch (d.value.par.partype)
 	      {
 		case CEL_DATA_LONG:
 		  {
-		    long l; celParameterTools::ToLong (*data, l);
+		    long l; sscanf (value, "%ld", &l);
 		    rc = pc->SetProperty (id, l);
 		  }
 		  break;
 		case CEL_DATA_FLOAT:
 		  {
-		    float f; celParameterTools::ToFloat (*data, f);
+		    float f; sscanf (value, "%f", &f);
 		    rc = pc->SetProperty (id, f);
 		  }
 		  break;
 		case CEL_DATA_BOOL:
 		  {
-		    bool b; celParameterTools::ToBool (*data, b);
+		    bool b;
+		    csScanStr (value, "%b", &b);
 		    rc = pc->SetProperty (id, b);
 		  }
 		  break;
 		case CEL_DATA_STRING:
-                  {
-                    csString value; celParameterTools::ToString (*data, value);
-		    rc = pc->SetProperty (id, value.GetData ());
-                  }
+		  rc = pc->SetProperty (id, value);
 		  break;
 		case CEL_DATA_VECTOR2:
 		  {
-		    csVector2 v; celParameterTools::ToVector2 (*data, v);
+		    csVector2 v;
+		    sscanf (value, "%f,%f", &v.x, &v.y);
 		    rc = pc->SetProperty (id, v);
 		  }
 		  break;
 		case CEL_DATA_VECTOR3:
 		  {
-		    csVector3 v; celParameterTools::ToVector3 (*data, v);
+		    csVector3 v;
+		    sscanf (value, "%f,%f,%f", &v.x, &v.y, &v.z);
 		    rc = pc->SetProperty (id, v);
 		  }
 		  break;
 		case CEL_DATA_COLOR:
 		  {
-		    csColor v; celParameterTools::ToColor (*data, v);
+		    csColor v;
+		    sscanf (value, "%f,%f,%f", &v.red, &v.green, &v.blue);
 		    rc = pc->SetProperty (id, v);
 		  }
 		  break;
 		case CEL_DATA_ENTITY:
 		  {
-                    csString value; celParameterTools::ToString (*data, value);
 		    iCelEntity* ent = FindEntity (value);
 		    if (ent)
 		      rc = pc->SetProperty (id, ent);
@@ -616,9 +632,9 @@ bool celPlLayer::ApplyTemplate (iCelEntity* ent, iCelEntityTemplate* factory,
         csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	  "crystalspace.cel.physicallayer",
 	  "Error setting property in '%s' for entity '%s from factory '%s''!",
-		pcname, ent->GetName (), factory->GetName ());
+		pcname, name, factory->GetName ());
         RemoveEntity (ent);
-        return false;
+        return 0;
       }
     }
   }
@@ -639,29 +655,25 @@ bool celPlLayer::ApplyTemplate (iCelEntity* ent, iCelEntityTemplate* factory,
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	"crystalspace.cel.physicallayer",
 	"Error creating behaviour '%s' for entity '%s'!",
-	cfact->GetBehaviour (), ent->GetName ());
+	cfact->GetBehaviour (), name);
       RemoveEntity (ent);
-      return false;
+      return 0;
     }
   }
-  const csArray<ccfMessage>& messages = cfact->GetMessages ();
-  for (i = 0 ; i < messages.GetSize () ; i++)
+  if (ent->GetBehaviour ())
   {
-    const ccfMessage& msg = messages[i];
-    celData ret;
-    csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
-        ent, msg.params, params);
-    if (ent->GetBehaviour ())
+    const csArray<ccfMessage>& messages = cfact->GetMessages ();
+    for (i = 0 ; i < messages.GetSize () ; i++)
     {
-      csString message = FetchString (msg.msgid);;
-      ent->GetBehaviour ()->SendMessage (message, 0, ret, converted_params);
+      const ccfMessage& msg = messages[i];
+      celData ret;
+      csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams
+      	(name, msg.params, params);
+      ent->GetBehaviour ()->SendMessage (msg.msgid, 0, ret, converted_params);
     }
-    ent->QueryMessageChannel ()->SendMessage (msg.msgid,
-		      static_cast<iMessageSender*> (this), converted_params,
-		      0);
   }
 
-  return true;
+  return ent;
 }
 
 void celPlLayer::RemoveEntityIndex (size_t idx)
@@ -768,12 +780,8 @@ iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
   // use cel.pcfactory.propname if it is able to load
   // and propclass is queried successfully
   csString pfid ("cel.pcfactory.");
-  // skip the first 2 characters if they have the 'pc' bit
-  // because of historical reasons
-  if (propname[0] == 'p' && propname[1] == 'c')
-    pfid += &propname[2];
-  else
-    pfid += propname;
+  // skip the first 2 characters since they have the 'pc' bit
+  pfid += &propname[2];
   // try to load property class factory using constructed id
   if (!LoadPropertyClassFactory (pfid))
     return 0;
@@ -806,220 +814,6 @@ iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
 {
   return CreatePropertyClass (entity, propname, tagname);
 }
-
-// Implementation of iCelCompactDataBufferWriter.
-class celCompactDataBufferWriter : public scfImplementation1<
-	celCompactDataBufferWriter, iCelCompactDataBufferWriter>
-{
-private:
-  csMemFile file;
-
-public:
-  celCompactDataBufferWriter () : scfImplementationType (this)
-  {
-  }
-  virtual ~celCompactDataBufferWriter ()
-  {
-  }
-
-  virtual const char* GetData () const { return file.GetData (); }
-  virtual size_t GetSize () const { return file.GetDataSize (); }
-
-  virtual void AddBool (bool v) { AddInt8 (int8 (v)); }
-  virtual void AddInt8 (int8 v) { file.Write ((char*)&v, 1); }
-  virtual void AddInt16 (int16 v)
-  {
-    v = csLittleEndian::Convert (v);
-    file.Write ((char*)&v, sizeof (int16));
-  }
-  virtual void AddInt32 (int32 v)
-  {
-    v = csLittleEndian::Convert (v);
-    file.Write ((char*)&v, sizeof (int32));
-  }
-  virtual void AddUInt8 (uint8 v) { AddInt8 (int8 (v)); }
-  virtual void AddUInt16 (uint16 v) { AddInt16 (int16 (v)); }
-  virtual void AddUInt32 (uint32 v) { AddInt32 (int32 (v)); }
-  virtual void AddID (csStringID v) { AddInt32 (int32 (v)); }
-  virtual void AddFloat (float v)
-  {
-    uint32 ieee = csIEEEfloat::FromNative (v);
-    ieee = csLittleEndian::Convert (ieee);
-    file.Write ((char*)&ieee, sizeof (uint32));
-  }
-  virtual void AddVector2 (const csVector2& v)
-  {
-    AddFloat (v.x);
-    AddFloat (v.y);
-  }
-  virtual void AddVector3 (const csVector3& v)
-  {
-    AddFloat (v.x);
-    AddFloat (v.y);
-    AddFloat (v.z);
-  }
-  virtual void AddVector4 (const csVector4& v)
-  {
-    AddFloat (v.x);
-    AddFloat (v.y);
-    AddFloat (v.z);
-    AddFloat (v.w);
-  }
-  virtual void AddColor (const csColor& v)
-  {
-    AddFloat (v.red);
-    AddFloat (v.green);
-    AddFloat (v.blue);
-  }
-  virtual void AddColor4 (const csColor4& v)
-  {
-    AddFloat (v.red);
-    AddFloat (v.green);
-    AddFloat (v.blue);
-    AddFloat (v.alpha);
-  }
-  virtual void AddString8 (const char* s)
-  {
-    if (s)
-    {
-      size_t l = strlen (s);
-      AddUInt8 (l);
-      file.Write (s, l+1);
-    }
-    else
-    {
-      AddUInt8 ((uint8)~0);
-    }
-  }
-  virtual void AddString16 (const char* s)
-  {
-    if (s)
-    {
-      size_t l = strlen (s);
-      AddUInt16 (l);
-      file.Write (s, l+1);
-    }
-    else
-    {
-      AddUInt16 ((uint16)~0);
-    }
-  }
-  virtual void AddString32 (const char* s)
-  {
-    if (s)
-    {
-      size_t l = strlen (s);
-      AddUInt32 (l);
-      file.Write (s, l+1);
-    }
-    else
-    {
-      AddUInt32 ((uint32)~0);
-    }
-  }
-};
-
-// Implementation of iCelCompactDataBufferReader.
-class celCompactDataBufferReader : public scfImplementation1<
-	celCompactDataBufferReader, iCelCompactDataBufferReader>
-{
-private:
-  csMemFile file;
-
-public:
-  celCompactDataBufferReader (iDataBuffer* buf) :
-    scfImplementationType (this), file (buf, true)
-  {
-  }
-  virtual ~celCompactDataBufferReader ()
-  {
-  }
-
-  virtual bool GetBool () { return bool (GetInt8 ()); }
-  virtual int8 GetInt8 () { int8 v; file.Read ((char*)&v, 1); return v; }
-  virtual int16 GetInt16 ()
-  {
-    int16 v;
-    file.Read ((char*)&v, sizeof (int16));
-    return csLittleEndian::Convert (v);
-  }
-  virtual int32 GetInt32 ()
-  {
-    int32 v;
-    file.Read ((char*)&v, sizeof (int32));
-    return csLittleEndian::Convert (v);
-  }
-  virtual uint8 GetUInt8 () { return uint8 (GetInt8 ()); }
-  virtual uint16 GetUInt16 () { return uint16 (GetInt16 ()); }
-  virtual uint32 GetUInt32 () { return uint32 (GetInt32 ()); }
-  virtual csStringID GetID () { return csStringID (GetInt32 ()); }
-  virtual float GetFloat ()
-  {
-    uint32 ieee;
-    file.Read ((char*)&ieee, sizeof (uint32));
-    ieee = csLittleEndian::Convert (ieee);
-    return csIEEEfloat::ToNative (ieee);
-  }
-  virtual void GetVector2 (csVector2& v)
-  {
-    v.x = GetFloat ();
-    v.y = GetFloat ();
-  }
-  virtual void GetVector3 (csVector3& v)
-  {
-    v.x = GetFloat ();
-    v.y = GetFloat ();
-    v.z = GetFloat ();
-  }
-  virtual void GetVector4 (csVector4& v)
-  {
-    v.x = GetFloat ();
-    v.y = GetFloat ();
-    v.z = GetFloat ();
-    v.w = GetFloat ();
-  }
-  virtual void GetColor (csColor& v)
-  {
-    v.red = GetFloat ();
-    v.green = GetFloat ();
-    v.blue = GetFloat ();
-  }
-  virtual void GetColor (csColor4& v)
-  {
-    v.red = GetFloat ();
-    v.green = GetFloat ();
-    v.blue = GetFloat ();
-    v.alpha = GetFloat ();
-  }
-  /// The returned pointer is only valid for the lifetime of the buffer.
-  virtual const char* GetString8 ()
-  {
-    uint8 l = GetUInt8 ();
-    if (l == (uint8)~0)
-      return 0;
-    const char* data = file.GetData () + file.GetPos ();
-    file.SetPos (file.GetPos () + l+1);
-    return data;
-  }
-  virtual const char* GetString16 ()
-  {
-    uint16 l = GetUInt16 ();
-    if (l == (uint16)~0)
-      return 0;
-    const char* data = file.GetData () + file.GetPos ();
-    file.SetPos (file.GetPos () + l+1);
-    return data;
-  }
-  virtual const char* GetString32 ()
-  {
-    uint32 l = GetUInt32 ();
-    if (l == (uint32)~0)
-      return 0;
-    const char* data = file.GetData () + file.GetPos ();
-    file.SetPos (file.GetPos () + l+1);
-    return data;
-  }
-};
 
 // Implementation of iCelDataBuffer.
 class celDataBuffer : public scfImplementation1<
@@ -1075,17 +869,6 @@ csPtr<iCelDataBuffer> celPlLayer::CreateDataBuffer (long serialnr)
   return csPtr<iCelDataBuffer> (new celDataBuffer (serialnr));
 }
 
-csPtr<iCelCompactDataBufferWriter> celPlLayer::CreateCompactDataBufferWriter ()
-{
-  return csPtr<iCelCompactDataBufferWriter> (new celCompactDataBufferWriter ());
-}
-
-csPtr<iCelCompactDataBufferReader> celPlLayer::CreateCompactDataBufferReader (
-    iDataBuffer* buf)
-{
-  return csPtr<iCelCompactDataBufferReader> (new celCompactDataBufferReader (buf));
-}
-
 // Class which is used to attach to an iObject so that
 // we can find the iCelEntity again.
 
@@ -1113,6 +896,7 @@ void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
   if (old_entity != 0) UnattachEntity (object, old_entity);
   csRef<celEntityFinder> cef =
     csPtr<celEntityFinder> (new celEntityFinder (entity));
+  cef->SetName ("__entfind__");	// @@@ For debugging mostly.
   csRef<iObject> cef_obj (scfQueryInterface<iObject> (cef));
   object->ObjAdd (cef_obj);
 }
@@ -1329,8 +1113,8 @@ bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
 
   csRef<iPluginManager> plugin_mgr =
   	csQueryRegistry<iPluginManager> (object_reg);
-  csRef<iComponent> pf;
-  pf = csQueryPluginClass<iComponent> (plugin_mgr, plugin_id);
+  csRef<iBase> pf;
+  pf = CS_QUERY_PLUGIN_CLASS (plugin_mgr, plugin_id, iBase);
   if (!pf)
   {
     pf = csLoadPluginAlways (plugin_mgr, plugin_id);
@@ -1653,26 +1437,6 @@ void celPlLayer::RemoveCallbackOnce (iCelTimerListener* listener, int where)
       i++;
 }
 
-csTicks celPlLayer::GetTicksLeft (iCelTimerListener* listener, int where)
-{
-  size_t pc_idx = weak_listeners_hash.Get (listener, (size_t)~0);
-  // If our pc is not yet in the weak_listeners table then it can't possibly
-  // be in the timed_callbacks table so we can return here already.
-  if (pc_idx == (size_t)~0) return csArrayItemNotFound;
-
-  CallbackInfo* cbinfo = GetCBInfo (where);
-  size_t i;
-  for (i = 0 ; i < cbinfo->timed_callbacks.GetSize () ; )
-    if (cbinfo->timed_callbacks[i].pc_idx == pc_idx)
-    {
-      csTicks time_to_fire = cbinfo->timed_callbacks[i].time_to_fire;
-      return time_to_fire - vc->GetCurrentTicks ();
-    }
-    else
-      i++;
-  return csArrayItemNotFound;
-}
-
 // Handling of class-entities lists
 void celPlLayer::EntityClassAdded(iCelEntity *ent,csStringID entclass)
 {
@@ -1732,7 +1496,7 @@ int celPlLayer::SendMessageV (iCelEntityList *entlist, const char* msgname,
   return responses;
 }
 
-int celPlLayer::SendMessage (csStringID msgid, iMessageSender* sender,
+int celPlLayer::SendMessage (const char* msgid, iMessageSender* sender,
       iCelEntityList *entlist, iCelParameterBlock* params,
       iCelDataArray* ret)
 {

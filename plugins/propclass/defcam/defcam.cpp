@@ -42,7 +42,7 @@
 #include "iengine/campos.h"
 #include "iengine/movable.h"
 #include "iengine/camera.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
 #include "iengine/campos.h"
 #include "iengine/sector.h"
 #include "cstool/collider.h"
@@ -53,6 +53,8 @@
 #include "csqsqrt.h"
 
 //---------------------------------------------------------------------------
+
+CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY_ALT (DefaultCamera, "pccamera.old", "pcdefaultcamera")
 
@@ -350,30 +352,30 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
 
   if (id_modename == csInvalidStringID)
   {
-    id_modename = pl->FetchStringID ("modename");
-    id_spring = pl->FetchStringID ("spring");
-    id_turnspeed = pl->FetchStringID ("turnspeed");
-    id_swingcoef = pl->FetchStringID ("swingcoef");
-    id_fpoffset = pl->FetchStringID ("fpoffset");
-    id_tpoffset = pl->FetchStringID ("tpoffset");
-    id_pitch = pl->FetchStringID ("pitch");
-    id_pitchvelocity = pl->FetchStringID ("pitchvelocity");
-    id_yaw = pl->FetchStringID ("yaw");
-    id_yawvelocity = pl->FetchStringID ("yawvelocity");
-    id_distance = pl->FetchStringID ("distance");
-    id_distancevelocity = pl->FetchStringID ("distancevelocity");
-    id_entityname = pl->FetchStringID ("entity");
-    id_regionname = pl->FetchStringID ("region");
-    id_startname = pl->FetchStringID ("start");
-    id_x = pl->FetchStringID ("x");
-    id_y = pl->FetchStringID ("y");
-    id_w = pl->FetchStringID ("w");
-    id_h = pl->FetchStringID ("h");
-    id_enable = pl->FetchStringID ("enable");
-    id_minfps = pl->FetchStringID ("min_fps");
-    id_maxfps = pl->FetchStringID ("max_fps");
-    id_mindist = pl->FetchStringID ("min_distance");
-    id_dist = pl->FetchStringID ("distance");
+    id_modename = pl->FetchStringID ("cel.parameter.modename");
+    id_spring = pl->FetchStringID ("cel.parameter.spring");
+    id_turnspeed = pl->FetchStringID ("cel.parameter.turnspeed");
+    id_swingcoef = pl->FetchStringID ("cel.parameter.swingcoef");
+    id_fpoffset = pl->FetchStringID ("cel.parameter.fpoffset");
+    id_tpoffset = pl->FetchStringID ("cel.parameter.tpoffset");
+    id_pitch = pl->FetchStringID ("cel.parameter.pitch");
+    id_pitchvelocity = pl->FetchStringID ("cel.parameter.pitchvelocity");
+    id_yaw = pl->FetchStringID ("cel.parameter.yaw");
+    id_yawvelocity = pl->FetchStringID ("cel.parameter.yawvelocity");
+    id_distance = pl->FetchStringID ("cel.parameter.distance");
+    id_distancevelocity = pl->FetchStringID ("cel.parameter.distancevelocity");
+    id_entityname = pl->FetchStringID ("cel.parameter.entity");
+    id_regionname = pl->FetchStringID ("cel.parameter.region");
+    id_startname = pl->FetchStringID ("cel.parameter.start");
+    id_x = pl->FetchStringID ("cel.parameter.x");
+    id_y = pl->FetchStringID ("cel.parameter.y");
+    id_w = pl->FetchStringID ("cel.parameter.w");
+    id_h = pl->FetchStringID ("cel.parameter.h");
+    id_enable = pl->FetchStringID ("cel.parameter.enable");
+    id_minfps = pl->FetchStringID ("cel.parameter.min_fps");
+    id_maxfps = pl->FetchStringID ("cel.parameter.max_fps");
+    id_mindist = pl->FetchStringID ("cel.parameter.min_distance");
+    id_dist = pl->FetchStringID ("cel.parameter.distance");
   }
 
   SetMode (iPcDefaultCamera::firstperson);
@@ -383,31 +385,30 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   // For actions.
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.camera.default.action.");
-    AddAction (action_setcamera, "SetCamera");
-    AddAction (action_pointcamera, "PointCamera");
-    AddAction (action_setzonemanager, "SetZoneManager");
-    AddAction (action_centercamera, "CenterCamera");
-    AddAction (action_setfollowentity, "SetFollowEntity");
-    AddAction (action_setrectangle, "SetRectangle");
-    AddAction (action_setperspcenter, "SetPerspectiveCenter");
-    AddAction (action_adaptiveclipping, "AdaptiveDistanceClipping");
-    AddAction (action_fixedclipping, "FixedDistanceClipping");
+    AddAction (action_setcamera, "cel.action.SetCamera");
+    AddAction (action_pointcamera, "cel.action.PointCamera");
+    AddAction (action_setzonemanager, "cel.action.SetZoneManager");
+    AddAction (action_centercamera, "cel.action.CenterCamera");
+    AddAction (action_setfollowentity, "cel.action.SetFollowEntity");
+    AddAction (action_setrectangle, "cel.action.SetRectangle");
+    AddAction (action_setperspcenter, "cel.action.SetPerspectiveCenter");
+    AddAction (action_adaptiveclipping, "cel.action.AdaptiveDistanceClipping");
+    AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
   }
 
   // For properties.
   propinfo.SetCount (6);
-  AddProperty (propid_pitchvelocity, "pitchvelocity",
+  AddProperty (propid_pitchvelocity, "cel.property.pitchvelocity",
   	CEL_DATA_FLOAT, false, "Pitch velocity.", &pitchVelocity);
-  AddProperty (propid_yawvelocity, "yawvelocity",
+  AddProperty (propid_yawvelocity, "cel.property.yawvelocity",
   	CEL_DATA_FLOAT, false, "Yaw velocity.", &yawVelocity);
-  AddProperty (propid_distancevelocity, "distancevelocity",
+  AddProperty (propid_distancevelocity, "cel.property.distancevelocity",
   	CEL_DATA_FLOAT, false, "Distance (zoom) velocity.", &distanceVelocity);
-  AddProperty (propid_pitch, "pitch",
+  AddProperty (propid_pitch, "cel.property.pitch",
   	CEL_DATA_FLOAT, false, "Pitch.", 0);
-  AddProperty (propid_yaw, "yaw",
+  AddProperty (propid_yaw, "cel.property.yaw",
   	CEL_DATA_FLOAT, false, "Yaw.", 0);
-  AddProperty (propid_distance, "distance",
+  AddProperty (propid_distance, "cel.property.distance",
   	CEL_DATA_FLOAT, false, "Distance (zoom).", 0);
 }
 
@@ -627,15 +628,15 @@ void celPcDefaultCamera::SetFollowEntity (iCelEntity* entity)
   follow_entity = entity;
   if (follow_entity)
   {
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (follow_entity);
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (follow_entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (follow_entity);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcMechanicsObject);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcMesh);
   }
   else
   {
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -644,9 +645,9 @@ void celPcDefaultCamera::FindSiblingPropertyClasses ()
   if (follow_entity) return;
   if (HavePropertyClassesChanged ())
   {
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -1036,7 +1037,9 @@ void celPcDefaultCamera::UpdateCamera ()
 
 int celPcDefaultCamera::GetDrawFlags ()
 {
-  return CSDRAW_3DGRAPHICS;
+  return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
+    | (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
+    | (clear_screen ? CSDRAW_CLEARSCREEN : 0);
 }
 
 void celPcDefaultCamera::Draw()
@@ -1044,7 +1047,7 @@ void celPcDefaultCamera::Draw()
   UpdateCamera ();
 
   // Tell 3D driver we're going to display 3D things.
-  if (g3d->BeginDraw (CSDRAW_3DGRAPHICS))
+  if (g3d->BeginDraw (GetDrawFlags ()))
     view->Draw ();
 }
 
@@ -1400,6 +1403,40 @@ iPcDefaultCamera::CameraMode celPcDefaultCamera::GetNextMode () const
     default:
       return cammode;
   }
+}
+
+#define DEFAULT_CAMERA_SERIAL 3
+
+csPtr<iCelDataBuffer> celPcDefaultCamera::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DEFAULT_CAMERA_SERIAL);
+  SaveCommon (databuf);
+
+  databuf->Add ((uint8)cammode);
+  databuf->Add (use_cd);
+
+  // @@@ TODO: save cammode specific parameters.
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcDefaultCamera::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != DEFAULT_CAMERA_SERIAL)
+  {
+    Report (object_reg, "serialnr != DEFAULT_CAMERA_SERIAL.  Cannot load.");
+    return false;
+  }
+
+  if (!LoadCommon (databuf)) return false;
+
+  iPcDefaultCamera::CameraMode mode = (iPcDefaultCamera::CameraMode)databuf
+  	->GetUInt8 ();
+  bool cd = databuf->GetBool ();
+  SetMode (mode, cd);
+
+  return true;
 }
 
 //---------------------------------------------------------------------------

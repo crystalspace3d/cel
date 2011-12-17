@@ -76,8 +76,6 @@ public:
 
   virtual csPtr<iCelGraph> Load (iDocumentNode* node);
   virtual csPtr<iCelGraph> Load (const char* path, const char* file);
-
-  virtual bool IsThreadSafe() { return false; }
 };
 
 #endif // __CEL_ADDON_CELGRAPH__

@@ -171,12 +171,11 @@ public:
 
   iEngine* GetEngine () const { return engine; }
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();
-  virtual void Activate ();
-  virtual void Deactivate ();
-
   // celPcTrigger only function to set center.
   void SetCenter (csVector3 &v);
 
@@ -217,16 +216,6 @@ public:
   }
   virtual void AddTriggerListener (iPcTriggerListener* listener);
   virtual void RemoveTriggerListener (iPcTriggerListener* listener);
-
-  virtual csTicks GetUpdateDelay () const { return delay; }
-  virtual csTicks GetUpdateJitter () const { return jitter; }
-  virtual bool HasCheckingOnInvisibleEntities () const { return monitor_invisible; }
-  virtual bool HasFollowEntity () const { return follow; }
-  virtual void SetFollowEntity (bool c) { follow = c; UpdateListener (); }
-  virtual bool HasStrictChecking () const { return strict; }
-  virtual void SetStrictChecking (bool c) { strict = c; }
-  virtual TriggerType GetTriggerType () const { return trigger_type; }
-
   void FireTriggersEntityEnters (iCelEntity* entity);
   void FireTriggersEntityLeaves (iCelEntity* entity);
   void FireTriggersEnterTrigger (iCelEntity* entity);

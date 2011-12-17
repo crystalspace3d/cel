@@ -38,8 +38,9 @@ class csBox3;
 /**
  * This is a property class holding the representation of a mesh.
  *
- * This property class supports the following actions (add prefix 'cel.mesh.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - SetMesh: parameters 'name' (string). This sets an already existing
  *   mesh for this pcmesh and sets property 'meshname'.
  * - LoadMesh: parameters 'filename' (string) and 'factoryname' (string).
@@ -77,7 +78,8 @@ class csBox3;
  *   or 'object' (string)
  * - DetachSocketMesh: parameters 'socket'
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - position (vector3, read): current position.
  * - fullposition (vector3, read): current full position.
  * - rotation (vector3, read): current rotation.
@@ -121,17 +123,6 @@ struct iPcMesh : public virtual iBase
    * on an already existing mesh.
    */
   virtual void SetMesh (iMeshWrapper* mesh, bool do_remove = false) = 0;
-
-  /**
-   * Set the name of the factory for this mesh. No mesh will be loaded.
-   * This function only lets the pcmesh store the factory name for later usage.
-   */
-  virtual void SetFactoryName (const char* name) = 0;
-
-  /**
-   * Get the name of the factory for this mesh.
-   */
-  virtual const char* GetFactoryName () const = 0;
 
   /**
    * Create an empty thing mesh (use instead of SetMesh()).

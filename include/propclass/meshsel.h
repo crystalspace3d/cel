@@ -23,7 +23,6 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-struct iCelEntity;
 struct iPcCamera;
 struct iPcMovable;
 struct iPcMesh;
@@ -63,19 +62,22 @@ struct iPcMeshSelectListener : public virtual iBase
 /**
  * This is a property class for selecting meshes.
  *
- * This property class can send out the following messages:
- * - 'cel.mesh.select.down' (old 'pcmeshsel_down'): mesh is selected (x,y,button,entity)
- * - 'cel.mesh.select.up' (old 'pcmeshsel_up'): mesh is unselected (x,y,button,entity)
- * - 'cel.mesh.select.move' (old 'pcmeshsel_move'): mesh is moved (x,y,button,entity)
+ * This property class can send out the following messages
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * - pcmeshsel_down: mesh is selected (x,y,button,entity)
+ * - pcmeshsel_up: mesh is unselected (x,y,button,entity)
+ * - pcmeshsel_move: mesh is moved (x,y,button,entity)
  *
- * This property class supports the following actions (add prefix 'cel.mesh.select.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - SetCamera: parameters 'entity' (string).
  * - SetMouseButtons: parameters 'buttons' (string or long). In case
  *     of string it should be a string with 'l', 'm', or 'r' (or a combination).
  * - SetDragPlaneNormal: parameters 'normal' (vector3), 'camera' (bool).
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - global (bool, read/write): global selection, default false.
  * - follow (bool, read/write): follow mode, default false.
  * - followalways (bool, read/write): follow always mode, default false.

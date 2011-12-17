@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer 2.1.0: 4.6 The Python Behaviour Layer</title>
+<title>Crystal Entity Layer 1.4.1: 4.6 The Python Behaviour Layer</title>
 
-<meta name="description" content="Crystal Entity Layer 2.1.0: 4.6 The Python Behaviour Layer">
-<meta name="keywords" content="Crystal Entity Layer 2.1.0: 4.6 The Python Behaviour Layer">
+<meta name="description" content="Crystal Entity Layer 1.4.1: 4.6 The Python Behaviour Layer">
+<meta name="keywords" content="Crystal Entity Layer 1.4.1: 4.6 The Python Behaviour Layer">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -86,6 +86,7 @@ functionality in <small>CEL</small>, and usually this is what you'll import into
 scripts. Note pycel includes all functionality from both of the above.
 </li></ul>
 
+
 <p>Also it has to be noted pycel is automatically imported into each behaviour
 namespace, so you need not import it unless to <code>import *</code> from it.
 </p>
@@ -143,6 +144,7 @@ class fovcontrol:
                 self.camera.SetFOV(self.initfov,Graphics2D.GetWidth())
 
 </pre></td></tr></table>
+
 <p>As can be seen we have a class with several methods.
 </p>
 <p>First we have the constructor (<code>__init__</code> function) that gets a pointer
@@ -193,6 +195,7 @@ set to it:
   &lt;behaviour layer='blpython' name='actor'/&gt;
 &lt;/addon&gt;
 </pre></td></tr></table>
+
 <p>Note the python behaviour will be loaded from the <tt>&lsquo;actor.py&rsquo;</tt> file that
 must lie somewhere in PYTHONPATH (note <tt>&lsquo;celstart&rsquo;</tt> will add the main folder
 of your <small>ZIP</small> file to the PYTHONPATH if you're using it).
@@ -225,6 +228,7 @@ Used to get or register property class factories by <small>ID</small>
 </li><li> <samp>&lsquo;pycel.BehaviourLayers&rsquo;</samp>
 Used to get or register behaviour layers with <small>CEL</small>.
 </li></ul>
+
 <a name="7"></a>
 <h4 class="subsubheading"> Crystal Space plugins </h4>
 <p>Some often used plugins in <small>CS</small> are ready to use (if present). 
@@ -273,6 +277,7 @@ regular strings (<code>iStringSet</code> interface).
 The reporter plugin, used to report information.
 (<code>iReporter</code> interface).
 </li></ul>
+
 <a name="8"></a>
 <h4 class="subsubheading"> <code>getid</code> / <code>fromid</code> and other StringID related functions. </h4>
 <p>Functions to transform from string to stringid and back.
@@ -281,13 +286,17 @@ The reporter plugin, used to report information.
 returns a string <small>ID</small> from the given string.
 </li><li> <code>pycel.parid(string)</code>
 returns a string <small>ID</small> from the given parameter identifier string.
+This adds <samp>&lsquo;cel.parameter.&rsquo;</samp> prefix to the given string automatically.
 </li><li> <code>pycel.propid(string)</code>
 returns a string <small>ID</small> from the given property identifier string.
+This adds <samp>&lsquo;cel.property.&rsquo;</samp> prefix to the given string automatically.
 </li><li> <code>pycel.actid(string)</code>
 returns a string <small>ID</small> from the given action identifier string.
+This adds <samp>&lsquo;cel.action.&rsquo;</samp> prefix to the given string automatically.
 </li><li> <code>pycel.fromid(stringid)</code> 
 returns a string from the given stringid.
 </li></ul>
+
 <a name="9"></a>
 <h4 class="subsubheading"> <code>parblock</code> </h4>
 <p>Function to create a <code>celParameterBlock</code> from a python dict or list.
@@ -328,6 +337,7 @@ the pcclass with the appropriate tag (or with no tag if &quot;&quot; is used). E
 it will return a not tagged pcclass, or if it doesnt exist the first tagged
 pccclass found.
 </li></ul>
+
 <p>Where <samp>&lsquo;PropertyClass&rsquo;</samp> would be substituted for the appropiate name, like
 in <code>celGetTimer</code>, <code>celAddCommandInput</code>...
 </p>
@@ -339,6 +349,7 @@ in <code>celGetTimer</code>, <code>celAddCommandInput</code>...
           self.timer.WakeUpFrame (CEL_EVENT_POST)
           self.select = celMeshSelect(celEntity)
 </pre></td></tr></table>
+
 <a name="13"></a>
 <h3 class="subheading"> Accessing property class properties. </h3>
 
@@ -348,6 +359,7 @@ syntax. For example to query/set jitter for a pctrigger:
 <table><tr><td>&nbsp;</td><td><pre class="example">    oldjitter = trigger.jitter
     trigger.jitter = 100
 </pre></td></tr></table>
+
 <a name="14"></a>
 <h3 class="subheading"> Messages </h3>
 
@@ -386,6 +398,7 @@ def pcbillboard_select(self,pc,args):
        by = args[&quot;y&quot;]
        button = args[&quot;button&quot;]
 </pre></td></tr></table>
+
 <p>It is possible to test for existence of a certain parameter, or iterate over
 the values. Also note for efficiency you would save the StringIDs for later
 use instead of querying them each time.
@@ -395,6 +408,7 @@ use instead of querying them each time.
        for strid in args.keys():
 		print fromid(strid),args[strid]
 </pre></td></tr></table>
+
 <a name="15"></a>
 <h4 class="subsubheading"> New PcClass Messages Callback Style </h4>
 
@@ -409,10 +423,12 @@ can use the new message callback style (see initial example in this chapter).
 </p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,celEntity,args):
         ...
 </pre></td></tr></table>
+
 <p>And the new one in cel 1.2 is:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,pc,args):
         ...
 </pre></td></tr></table>
+
 <p>Although the old style is still default due to backwards compatibility reasons,
 you are recommended to start using the new one, as it gives access to the pc
 sending the message, required in case you want to discriminate among similar 
@@ -448,6 +464,7 @@ pars[&quot;y&quot;] = 200
 #Creating a parameter block from a dictionary.
 pars2 = parblock({&quot;control&quot;:&quot;shininess&quot;,&quot;x&quot;:30,&quot;y&quot;:200})
 </pre></td></tr></table>
+
 <p>The difference is in speed, usually if you'll be sending the same kind of
 parameter block many times, you'll want to build it in the constructor from the
 behaviour, and just fill values before sending. In other situations it can be
@@ -457,6 +474,7 @@ appropriate to create the entire parameter block from a dict when needed.
 behaviour:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">Entities[&quot;player&quot;].Behaviour.SendMessage(&quot;control_variable&quot;, None, pars)
 </pre></td></tr></table>
+
 <a name="17"></a>
 <h3 class="subheading"> A python world for <tt>&lsquo;celstart&rsquo;</tt> </h3>
 
@@ -475,6 +493,7 @@ CelStart.Entity.bootstrap = bootstrap
 CelStart.EntityBehaviour.bootstrap = appinit
 CelStart.EntityBehaviourLayer.bootstrap = blpython
 </pre></td></tr></table>
+
 <p>This would create a starting entity and load the python behaviour
 <code>appinit</code>, which would be loaded from the file <tt>&lsquo;appinit.py&rsquo;</tt>.
 </p>
@@ -486,6 +505,7 @@ property class (see section <a href="PropClass-ZoneMgr.html#0">Zone Manager</a>)
 	Vfs.ChDirAuto(&quot;/tmp/celstart/&quot;)
 	zoneMgr.Load(&quot;/tmp/celstart&quot;,&quot;level.xml&quot;)
 </pre></td></tr></table>
+
 <p>Note <tt>&lsquo;/tmp/celstart/&rsquo;</tt> is the <small>VFS</small> path where <tt>&lsquo;celstart&rsquo;</tt> maps the
 <small>ZIP</small> file initially, so this doesn't change depending on operating system
 or real file location.

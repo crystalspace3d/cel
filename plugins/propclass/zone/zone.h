@@ -45,6 +45,7 @@
 struct iCelEntity;
 struct iObjectRegistry;
 struct iEngine;
+struct iLoader;
 struct iVFS;
 struct iCollideSystem;
 struct iCelPlLayer;
@@ -58,7 +59,7 @@ class celPcZoneManager;
 CEL_DECLARE_FACTORY(ZoneManager)
 
 class cameraSectorListener : public scfImplementation1<
-	cameraSectorListener, iCameraListener>
+	cameraSectorListener, iCameraSectorListener>
 {
 private:
   csWeakRef<celPcZoneManager> zonemgr;
@@ -73,7 +74,6 @@ public:
   {
   }
   virtual void NewSector (iCamera* camera, iSector* sector);
-  virtual void CameraMoved (iCamera* camera) {}
 };
 
 class meshmoveListener : public scfImplementation1<
@@ -135,10 +135,10 @@ class celRegion : public scfImplementation3<
 private:
   celPcZoneManager* mgr;
   csString name;
-  csString cscollectionName;
+  csString csregionname;
   csString cache_path;
   bool loaded;
-  csRef<iCollection> cscollection;
+  csRef<iRegion> csregion;
   csRefArray<celMapFile> mapfiles;
   csSet<csRef<iSector> > sectors;
 
@@ -171,7 +171,7 @@ public:
   bool ContainsSector (iSector* sector) { return sectors.In (sector); }
 
   virtual const char* GetName () const { return name; }
-  virtual const char* GetCsCollectionName () const { return cscollectionName; }
+  virtual const char* GetCsRegionName () const { return csregionname; }
   virtual void SetCachePath (const char* path);
   virtual const char* GetCachePath () const { return cache_path; }
   virtual iCelMapFile* CreateMapFile ();
@@ -186,7 +186,7 @@ public:
   virtual void AssociateEntity (iCelEntity* entity);
   virtual void DissociateEntity (iCelEntity* entity);
   virtual bool ContainsEntity (iCelEntity* entity);
-  virtual iCollection* GetCollection ();
+  virtual iRegion* GetCsRegion ();
 
   // For iCelNewEntityCallback.
   virtual void NewEntity (iCelEntity* entity);
@@ -238,7 +238,7 @@ class celPcZoneManager : public scfImplementationExt1<
 {
 private:
   csRef<iEngine> engine;
-  csRef<iThreadedLoader> tloader;
+  csRef<iLoader> loader;
   csRef<iVFS> vfs;
   csRef<iCollideSystem> cdsys;
 
@@ -329,7 +329,7 @@ public:
   virtual ~celPcZoneManager ();
 
   iEngine* GetEngine () const { return engine; }
-  csPtr<iThreadedLoader> GetLoader () const { return csPtr<iThreadedLoader>(tloader); }
+  iLoader* GetLoader () const { return loader; }
   iVFS* GetVFS () const { return vfs; }
   iCelPlLayer* GetPL () const { return pl; }
   iCollideSystem* GetCDSystem () const { return cdsys; }
@@ -346,6 +346,10 @@ public:
   // sector is in and then it will activate that region.
   bool ActivateSector (iSector* sector);
 
+  virtual csPtr<iCelDataBuffer> SaveFirstPass ();
+  virtual bool LoadFirstPass (iCelDataBuffer* databuf);
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool GetPropertyIndexed (int, const char*&);
 
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,

@@ -49,7 +49,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/camera.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
 #include "iengine/campos.h"
 #include "iengine/sector.h"
 #include "cstool/csview.h"
@@ -64,6 +64,8 @@
 #include "csqsqrt.h"
 
 //---------------------------------------------------------------------------
+
+CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY_ALT (NewCamera, "pccamera.standard", "pcnewcamera")
 
@@ -128,8 +130,8 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
 
   minoffset = 6.0f;
 
+  offsetTarget.Set (0.0f, 0.0f, 0.0f);
   offsetOrigin.Set (0.0f, 0.0f, 0.0f);
-  offsetTarget.Set (0.0f, 1.7f, 0.0f);
 
   currMode = (size_t)-1;
 
@@ -139,10 +141,6 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   avoidradsq = 4.0f;
   avoidyoff = 2.0f;
   avoidinter = 3.0f;
-
-  originSpringCoef = 2.0;
-  targetSpringCoef = 2.0;
-  upSpringCoef = 2.0;
 
   inTransition = true;
   transitionSpringCoef = 2.0f;
@@ -154,104 +152,103 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
 
   if (id_name == csInvalidStringID)
   {
-    id_name = pl->FetchStringID ("name");
-    id_nr = pl->FetchStringID ("nr");
-    id_x = pl->FetchStringID ("x");
-    id_y = pl->FetchStringID ("y");
-    id_w = pl->FetchStringID ("w");
-    id_h = pl->FetchStringID ("h");
-    id_enable = pl->FetchStringID ("enable");
-    id_minfps = pl->FetchStringID ("min_fps");
-    id_maxfps = pl->FetchStringID ("max_fps");
-    id_mindist = pl->FetchStringID ("min_distance");
-    id_dist = pl->FetchStringID ("distance");
+    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_nr = pl->FetchStringID ("cel.parameter.nr");
+    id_x = pl->FetchStringID ("cel.parameter.x");
+    id_y = pl->FetchStringID ("cel.parameter.y");
+    id_w = pl->FetchStringID ("cel.parameter.w");
+    id_h = pl->FetchStringID ("cel.parameter.h");
+    id_enable = pl->FetchStringID ("cel.parameter.enable");
+    id_minfps = pl->FetchStringID ("cel.parameter.min_fps");
+    id_maxfps = pl->FetchStringID ("cel.parameter.max_fps");
+    id_mindist = pl->FetchStringID ("cel.parameter.min_distance");
+    id_dist = pl->FetchStringID ("cel.parameter.distance");
   }
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_name);
-  params->SetParameterDef (id_nr);
+  params->SetParameterDef (id_name, "name");
+  params->SetParameterDef (id_nr, "nr");
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.camera.new.action.");
-    AddAction (action_attachcameramode, "AttachCameraMode");
-    AddAction (action_setcameramode, "SetCameraMode");
-    AddAction (action_nextcameramode, "NextCameraMode");
-    AddAction (action_prevcameramode, "PrevCameraMode");
-    AddAction (action_setrectangle, "SetRectangle");
-    AddAction (action_setperspcenter, "SetPerspectiveCenter");
-    AddAction (action_adaptiveclipping, "AdaptiveDistanceClipping");
-    AddAction (action_fixedclipping, "FixedDistanceClipping");
+    AddAction (action_attachcameramode, "cel.action.AttachCameraMode");
+    AddAction (action_setcameramode, "cel.action.SetCameraMode");
+    AddAction (action_nextcameramode, "cel.action.NextCameraMode");
+    AddAction (action_prevcameramode, "cel.action.PrevCameraMode");
+    AddAction (action_setrectangle, "cel.action.SetRectangle");
+    AddAction (action_setperspcenter, "cel.action.SetPerspectiveCenter");
+    AddAction (action_adaptiveclipping, "cel.action.AdaptiveDistanceClipping");
+    AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
   }
 
   propinfo.SetCount (22);
-  AddProperty (propid_colldet, "colldet",
+  AddProperty (propid_colldet, "cel.property.colldet",
     CEL_DATA_BOOL, false, "Whether camera will use collision detection.", &docolldet);
-  AddProperty (propid_colldet_yfocusoff, "yfocusoff",
+  AddProperty (propid_colldet_yfocusoff, "cel.property.yfocusoff",
     CEL_DATA_FLOAT, false, "Y offset from player position for collision detection focus.", &collyfocusoff);
-  AddProperty (propid_colldet_corrmult, "corrmult",
+  AddProperty (propid_colldet_corrmult, "cel.property.corrmult",
     CEL_DATA_FLOAT, false, "Correction to add to camera after collision.", &corrmult);
-  AddProperty (propid_colldet_avoid_radsq, "avoid_radsq",
+  AddProperty (propid_colldet_avoid_radsq, "cel.property.avoid_radsq",
     CEL_DATA_FLOAT, false, "Player avoidance squared radius.", &avoidradsq);
-  AddProperty (propid_colldet_avoid_yoff, "avoid_yoff",
+  AddProperty (propid_colldet_avoid_yoff, "cel.property.avoid_yoff",
     CEL_DATA_FLOAT, false, "Y offset for avoiding the player.", &avoidyoff);
-  AddProperty (propid_colldet_avoid_inter, "avoid_inter",
+  AddProperty (propid_colldet_avoid_inter, "cel.property.avoid_inter",
     CEL_DATA_FLOAT, false, "Interpolation between normal and Y offsetted height.", &avoidinter);
-  AddProperty (propid_colldet_spring, "colldet_spring",
+  AddProperty (propid_colldet_spring, "cel.property.colldet_spring",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Springiness in case of collision.",
     0);
   AddProperty (propid_colldet_origin_radius,
-    "colldet_origin_radius",
+    "cel.property.colldet_origin_radius",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Space between wall and camera origin in case of collision.",
     0);
   AddProperty (propid_colldet_target_radius,
-    "colldet_target_radius",
+    "cel.property.colldet_target_radius",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Offset for target collision detection.",
     0);
-  AddProperty (propid_offset, "offset",
+  AddProperty (propid_offset, "cel.property.offset",
     CEL_DATA_VECTOR3, false, "Offset from the center of the mesh.",
     &offsetTarget);
-  AddProperty (propid_offset_origin, "offset_origin",
+  AddProperty (propid_offset_origin, "cel.property.offset_origin",
     CEL_DATA_VECTOR3, false,
     "Offset of the camera origin point from the center of the mesh.",
     &offsetOrigin);
-  AddProperty (propid_offset_target, "offset_target",
+  AddProperty (propid_offset_target, "cel.property.offset_target",
     CEL_DATA_VECTOR3, false,
     "Offset of the target point from the center of the mesh.",
     &offsetTarget);
-  AddProperty (propid_offset_min, "minoffset",
+  AddProperty (propid_offset_min, "cel.property.minoffset",
     CEL_DATA_FLOAT, false, "Minimum distance between camera and player on X-Z plane.", &minoffset);
-  AddProperty (propid_spring, "spring",
+  AddProperty (propid_spring, "cel.property.spring",
     CEL_DATA_FLOAT, false, "Common spring coefficient.", 0);
-  AddProperty (propid_spring_origin, "spring_origin",
+  AddProperty (propid_spring_origin, "cel.property.spring_origin",
     CEL_DATA_FLOAT, false, "Spring coefficient for origin.",
     &originSpringCoef);
-  AddProperty (propid_spring_target, "spring_target",
+  AddProperty (propid_spring_target, "cel.property.spring_target",
     CEL_DATA_FLOAT, false, "Spring coefficient for target.",
     &targetSpringCoef);
-  AddProperty (propid_spring_up, "spring_up",
+  AddProperty (propid_spring_up, "cel.property.spring_up",
     CEL_DATA_FLOAT, false, "Spring coefficient for up vector.",
     &upSpringCoef);
-  AddProperty (propid_trans_spring, "transition_spring",
+  AddProperty (propid_trans_spring, "cel.property.transition_spring",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Springyness of the transition to a new camera mode.",
     &transitionSpringCoef);
   AddProperty (propid_trans_cutofforigin,
-    "transition_cutofforigin",
+    "cel.property.transition_cutofforigin",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Camera transition mode cutoff distance from origin to origin.",
     &transitionCutoffOriginDist);
   AddProperty (propid_trans_cutofftarget,
-    "transition_cutofftarget",
+    "cel.property.transition_cutofftarget",
     CEL_DATA_FLOAT, false,
     "DEPRECATED: Camera transition mode cutoff distance from target to target.",
     &transitionCutoffTargetDist);
-  AddProperty (propid_trans_time, "trans_time",
+  AddProperty (propid_trans_time, "cel.property.trans_time",
     CEL_DATA_FLOAT, false, "Time to transition to the new mode.", &transtime);
-  AddProperty (propid_trans_on, "trans_on",
+  AddProperty (propid_trans_on, "cel.property.trans_on",
     CEL_DATA_BOOL, true, "Whether currently in a transition.", &inTransition);
 }
 
@@ -434,7 +431,7 @@ bool celPcNewCamera::GetPropertyIndexed (int idx, float& val)
 
 bool celPcNewCamera::Reset ()
 {
-  pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   if (pcmesh && pcmesh->GetMesh ())
   {
     iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
@@ -880,7 +877,7 @@ void celPcNewCamera::UpdateCamera ()
 
   csVector3 corrorigin (camOrigin), corrtar (camTarget);
   // perform collision detection
-  if (GetCollisionDetection () && mode->GetCollisionDetection ())
+  if (GetCollisionDetection () && mode->AllowCollisionDetection ())
   {
     // project beam from bottom of character
     // offset upwards, so we don't zoom to feet
@@ -946,7 +943,8 @@ void celPcNewCamera::UpdateCamera ()
 
 int celPcNewCamera::GetDrawFlags ()
 {
-  return CSDRAW_3DGRAPHICS | CSDRAW_CLEARZBUFFER;
+  return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
+    | CSDRAW_CLEARZBUFFER;
 }
 
 void celPcNewCamera::Draw ()

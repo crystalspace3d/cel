@@ -31,18 +31,20 @@ struct iPcLinearMovement;
  * pcactormove in order to move an object from one position to another
  * while checking collision detection along the way.
  *
- * This property class can send out the following messages:
- * - 'cel.move.arrived' (old 'pcsteer_arrived'): arrived at final position.
- * - 'cel.move.avoiding_collision' (old 'pcsteer_avoiding_collision'): ?
- * - 'cel.move.interrupted' (old 'pcsteer_interrupted'): movement has been interrupted.
+ * This property class can send out the following messages
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * - pcsteer_arrived: arrived at final position.
+ * - pcsteer_interrupted: movement has been interrupted.
  *
- * This property class supports the following actions (add prefix 'cel.move.steer.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - Seek: parameters 'sectorname' (string), 'position' (vector3).
  * - Flee: parameters 'sectorname' (string), 'position' (vector3).
  * - Pursue: parameters 'target' (iCelEntity*), 'max_prediction' (float),
  * - Interrupt: interrupt the current movement.
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - position (vector3, read only): current end position.
  * - sqradius (float, read/write): current squared radius.
  * - moving (bool, read only): returns true if currently moving.

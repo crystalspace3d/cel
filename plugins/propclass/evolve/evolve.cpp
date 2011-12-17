@@ -28,6 +28,7 @@
 
 #include <stdlib.h>
 
+CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY(Evolve, "pcai.evolve")
 
 inline void celRandSeed() { srand(csGetTicks()); }
@@ -87,37 +88,36 @@ celPcEvolve::celPcEvolve(iObjectRegistry *objreg)
 
   if (! propinfo.actions_done)
   {
-    SetActionMask ("cel.evolve.action.");
-    AddAction(EVO_GENERATE, "Generate");
-    AddAction(EVO_RTNFITNESS, "ReturnFitness");
-    AddAction(EVO_GETFITNESS, "GetFitness");
-    AddAction(EVO_SELECT, "Select");
-    AddAction(EVO_RESET, "Reset");
+    AddAction(EVO_GENERATE, "cel.action.Generate");
+    AddAction(EVO_RTNFITNESS, "cel.action.ReturnFitness");
+    AddAction(EVO_GETFITNESS, "cel.action.GetFitness");
+    AddAction(EVO_SELECT, "cel.action.Select");
+    AddAction(EVO_RESET, "cel.action.Reset");
   }
 
   propinfo.SetCount(EVO_PROP_LAST);
-  AddProperty(EVO_POPSIZE, "population", CEL_DATA_LONG,
+  AddProperty(EVO_POPSIZE, "cel.property.population", CEL_DATA_LONG,
 	false, descriptions[EVO_POPSIZE], &popSize);
-  AddProperty(EVO_SUBJECT, "subject", CEL_DATA_PCLASS,
+  AddProperty(EVO_SUBJECT, "cel.property.subject", CEL_DATA_PCLASS,
 	false, descriptions[EVO_SUBJECT], &subject);
-  AddProperty(EVO_SELECTPROB, "selectProbability", CEL_DATA_FLOAT,
+  AddProperty(EVO_SELECTPROB, "cel.property.selectProbability", CEL_DATA_FLOAT,
 	false, descriptions[EVO_SELECTPROB], &selectProb);
-  AddProperty(EVO_MUTATEPROB, "mutateProbability", CEL_DATA_FLOAT,
+  AddProperty(EVO_MUTATEPROB, "cel.property.mutateProbability", CEL_DATA_FLOAT,
 	false, descriptions[EVO_MUTATEPROB], &mutateProb);
 
   if (paramid[0] == csInvalidStringID)
   {
-    paramid[EVO_FITNESS] = pl->FetchStringID("fitness");
-    paramid[EVO_INDEX] = pl->FetchStringID("index");
-    paramid[EVO_MAXFITNESS] = pl->FetchStringID("max_fitness");
-    paramid[EVO_MINFITNESS] = pl->FetchStringID("min_fitness");
-    paramid[EVO_AVGFITNESS] = pl->FetchStringID("avg_fitness");
+    paramid[EVO_FITNESS] = pl->FetchStringID("cel.parameter.fitness");
+    paramid[EVO_INDEX] = pl->FetchStringID("cel.parameter.index");
+    paramid[EVO_MAXFITNESS] = pl->FetchStringID("cel.parameter.max_fitness");
+    paramid[EVO_MINFITNESS] = pl->FetchStringID("cel.parameter.min_fitness");
+    paramid[EVO_AVGFITNESS] = pl->FetchStringID("cel.parameter.avg_fitness");
   }
 
-  params.AttachNew (new celVariableParameterBlock (3));
-  params->AddParameter (paramid[EVO_MAXFITNESS]);
-  params->AddParameter (paramid[EVO_MINFITNESS]);
-  params->AddParameter (paramid[EVO_AVGFITNESS]);
+  params.AttachNew(new celGenericParameterBlock (3));
+  params->SetParameterDef(0, paramid[EVO_MAXFITNESS], "max_fitness");
+  params->SetParameterDef(1, paramid[EVO_MINFITNESS], "min_fitness");
+  params->SetParameterDef(2, paramid[EVO_AVGFITNESS], "avg_fitness");
 }
 
 celPcEvolve::~celPcEvolve()
@@ -219,7 +219,7 @@ void celPcEvolve::Evolve()
     if (!dispatcher_result)
     {
       dispatcher_result = entity->QueryMessageChannel ()
-	->CreateMessageDispatcher (this, pl->FetchStringID ("cel.evolve.result"));
+	->CreateMessageDispatcher (this, "cel.evolve.result");
       if (!dispatcher_result) return;
     }
     dispatcher_result->SendMessage (params);
@@ -253,7 +253,7 @@ void celPcEvolve::EvaluateFitness(size_t genome)
   if (!dispatcher_fitness)
   {
     dispatcher_fitness = entity->QueryMessageChannel ()
-      ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.evolve.fitness"));
+      ->CreateMessageDispatcher (this, "cel.evolve.fitness");
     if (!dispatcher_fitness) return;
   }
   dispatcher_fitness->SendMessage (params);

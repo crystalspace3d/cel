@@ -22,7 +22,6 @@
 #include "iutil/objreg.h"
 #include "ivaria/reporter.h"
 #include "celtool/stdpcimp.h"
-#include "celtool/stdparams.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propchg.h"
@@ -30,11 +29,6 @@
 #include "behaviourlayer/behave.h"
 
 //---------------------------------------------------------------------------
-
-csStringID celPcCommon::id_tag = csInvalidStringID;
-csStringID celPcCommon::id_name = csInvalidStringID;
-csStringID celPcCommon::id_value = csInvalidStringID;
-
 
 celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
 	scfImplementationType (this)
@@ -44,49 +38,35 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
   propdata = 0;
   propholder = 0;
   propclasses_dirty = true;
+  tag = 0;
+  name = 0;
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
-
-  if (id_tag == csInvalidStringID)
-  {
-    id_tag = pl->FetchStringID ("tag");
-    id_name = pl->FetchStringID ("name");
-    id_value = pl->FetchStringID ("value");
-  }
 }
 
 celPcCommon::~celPcCommon ()
 {
+  delete[] tag;
+  delete[] name;
 }
 
 void celPcCommon::SetTag (const char* tagname)
 {
-  tag = tagname;
-}
-
-const char* celPcCommon::GetName () const
-{
-  return csobj.GetName ();
+  delete[] tag;
+  tag = csStrNew (tagname);
 }
 // @@@ (ge) Please note that after the alternate names are deprecated
 //  that this can turn into a simple assignment and the macro factory
 //  definition should pass in a hard reference for the name.
 void celPcCommon::SetName (const char* pcname)
 {
-  csobj.SetName (pcname);
-}
-iObject *celPcCommon::QueryObject ()
-{
-  return &csobj;
+  delete[] name;
+  name = csStrNew (pcname);
 }
 
 void celPcCommon::SetEntity (iCelEntity* entity)
 {
-  if (celPcCommon::entity)
-    celPcCommon::entity->QueryMessageChannel ()->Unsubscribe (this);
   celPcCommon::entity = entity;
-  if (entity && propholder && propholder->mask.Length () > 0)
-    entity->QueryMessageChannel ()->Subscribe (this, propholder->mask);
 }
 
 void celPcCommon::FirePropertyChangeCallback (int propertyId)
@@ -428,69 +408,6 @@ bool celPcCommon::PerformAction (csStringID actionId,
     return false;
   }
   return PerformActionIndexed (i, params, ret);
-}
-
-#define IDX_SETPROPERTY 1000000000
-
-void celPcCommon::SetActionMask (const char* mask)
-{
-  propholder->mask = mask;
-  csString newid = mask;
-  newid += "SetProperty";
-  propholder->new_constants.Put (pl->FetchStringID (newid), IDX_SETPROPERTY);
-}
-
-bool celPcCommon::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
-      celData& ret, iCelParameterBlock* params)
-{
-  if (!propholder) return false;
-  int i = propholder->new_constants.Get (msg_id, -1);
-  if (i == -1)
-    return false;
-
-  // Check if this message is for this tag first.
-  CEL_FETCH_STRING_PAR(msgtag,params,id_tag);
-  if (msgtag && *msgtag != 0)
-  {
-    if (tag != msgtag) return false;
-  }
-
-  if (i == IDX_SETPROPERTY)
-  {
-    // @@@ Error reporting.
-    CEL_FETCH_STRING_PAR(property,params,id_name);
-    if (!p_property) return false;
-    csStringID propertyID = pl->FetchStringID (property);
-    const celData* p_value = params->GetParameter (id_value);
-    if (!p_value) return false;
-    switch (p_value->type)
-    {
-      case CEL_DATA_STRING: SetProperty (propertyID, p_value->value.s->GetData ()); break;
-      case CEL_DATA_BOOL: SetProperty (propertyID, p_value->value.bo); break;
-      case CEL_DATA_BYTE: SetProperty (propertyID, long (p_value->value.b)); break;
-      case CEL_DATA_UBYTE: SetProperty (propertyID, long (p_value->value.ub)); break;
-      case CEL_DATA_WORD: SetProperty (propertyID, long (p_value->value.w)); break;
-      case CEL_DATA_UWORD: SetProperty (propertyID, long (p_value->value.uw)); break;
-      case CEL_DATA_LONG: SetProperty (propertyID, long (p_value->value.l)); break;
-      case CEL_DATA_ULONG: SetProperty (propertyID, long (p_value->value.ul)); break;
-      case CEL_DATA_FLOAT: SetProperty (propertyID, p_value->value.f); break;
-      case CEL_DATA_VECTOR2: SetProperty (propertyID,
-		csVector2 (p_value->value.v.x, p_value->value.v.y));
-		break;
-      case CEL_DATA_VECTOR3: SetProperty (propertyID,
-		csVector3 (p_value->value.v.x, p_value->value.v.y, p_value->value.v.z));
-		break;
-      case CEL_DATA_COLOR: SetProperty (propertyID,
-		csColor (p_value->value.col.red, p_value->value.col.green, p_value->value.col.blue));
-		break;
-      case CEL_DATA_PCLASS: SetProperty (propertyID, p_value->value.pc); break;
-      case CEL_DATA_ENTITY: SetProperty (propertyID, p_value->value.ent); break;
-      case CEL_DATA_IBASE: SetProperty (propertyID, p_value->value.ibase); break;
-      default: break;	// @@@ Error?
-    }
-    return true;
-  }
-  else return PerformActionIndexed (i, params, ret);
 }
 
 //---------------------------------------------------------------------------

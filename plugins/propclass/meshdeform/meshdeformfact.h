@@ -97,6 +97,8 @@ public:
   celPcMeshDeform (iObjectRegistry* object_reg);
   virtual ~celPcMeshDeform ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
   virtual bool GetPropertyIndexed (int, float&);

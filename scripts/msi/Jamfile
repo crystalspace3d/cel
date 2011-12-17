@@ -39,13 +39,13 @@ MSIMergeModuleFromList cel.arch.$(MSM_ARCH).executable.celstart : app-celstart :
 MSIMergeModuleFromList cel.arch.$(MSM_ARCH).python : python-modules : $(MSM_VERSION) ;
 
 # Safeguard
-MSI_UPGRADE_CODES_FOR_VERSION = 2.1 ;
+MSI_UPGRADE_CODES_FOR_VERSION = 1.4 ;
 if "$(MSI_UPGRADE_CODES_FOR_VERSION)" != "$(MSI_VERSION_MAJORMINOR)"
 {
   Exit "CEL version was changed, please set new MSI upgrade codes" ;
 }
 
-MSI_UPGRADE_CODE.cel.celstart.GCC_3.4 = 666969f5-e086-4a9d-81cc-5bdaabc95909 ;
+MSI_UPGRADE_CODE.cel.celstart.GCC_3.4 = 826e874f-7988-4ec7-9c4a-eebeb59cddad ;
 
 rule GetMsiRelatedPath
 {

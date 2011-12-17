@@ -566,7 +566,7 @@
         <plugin name="xmlscripts">cel.addons.xmlscripts</plugin>
     </plugins>
 
-    <!--<library file="/cellib/library/blxml/buttons.xml" />-->
+    <library file="/cellib/library/blxml/buttons.xml" />
 
     <addon plugin="xmlscripts">
 	<!-- *****************************************************

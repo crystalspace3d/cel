@@ -1,7 +1,5 @@
 SubDir TOP apps nettest ;
 
-if $(HAWKNL.AVAILABLE) = "yes"
-{
 Application nettest : [ Wildcard *.cpp *.h ] ;
 CFlags nettest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
 LinkWith nettest : celtool ;
@@ -21,6 +19,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     addon_celentity
     addon_celentitytpl
     addon_questdef
+    bltest
     mgr_quests
     pfactormove
     pfbillboard
@@ -42,6 +41,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   : blpython
   ;
   LinkStaticPlugins nettest_static : 
+    bezier
+    bezierldr
     bruteblock
     terrainldr
     bugplug
@@ -90,6 +91,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     sprcal3dldr
     stdpt
     stdrep
+    thing
+    thingldr
     vfs
     xmlread
     xmlshader
@@ -99,5 +102,4 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   ExternalLibs nettest_static : CRYSTAL ;
   
   SubVariant ;
-}
 }

@@ -31,11 +31,13 @@ struct iSndSysSource;
  * one listener at any moment. It represents the listener (i.e. player of the
  * game).
  *
- * This property class supports the following actions (add prefix 'cel.sound.listener.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - SetDirection: parameters 'front' (vector3), 'top' (vector3).
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - front (vector3, read/write): front direction.
  * - top (vector3, read/write): top direction.
  * - position (vector3, read/write): position.
@@ -54,14 +56,16 @@ struct iPcSoundListener : public virtual iBase
 /**
  * This is the sound source property class.
  *
- * This property class supports the following actions (add prefix 'cel.sound.source.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - Play: no parameters.
  * - Stop: no parameters.
  * - Pause: no parameters.
  * - Unpause: no parameters.
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - soundname (string, read/write): name of the sound that will be used.
  * - volume (float, read/write): 0=off, 1=normal, >1 is above normal.
  * - directionalradiation (float, read/write): directional radiation.

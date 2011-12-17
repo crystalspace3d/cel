@@ -48,7 +48,7 @@ class celPcNeuralNet : public
   scfImplementationExt1<celPcNeuralNet, celPcCommon, iPcNeuralNet>
 {
   static PropertyHolder propinfo;
-  csRef<celVariableParameterBlock> params;
+  csRef<celGenericParameterBlock> params;
 
   csRef<iMessageDispatcher> dispatcher_outputs;
 
@@ -128,31 +128,31 @@ class celPcNeuralNet : public
   void LinearLayerSizes(int size1);
 
   /**
-   * The private method called by the "SetComplexity" action.
+   * The private method called by the "cel.action.SetComplexity" action.
    * Sets the heuristic that will be used to set the sizes of the layers.
    */
   bool SetComplexity(iCelParameterBlock *params);
 
   /**
-   * The private method called by the "SetLayerSizes" action.
+   * The private method called by the "cel.action.SetLayerSizes" action.
    * Manually sets the sizes of the hidden layers.
    */
   bool SetLayerSizes(iCelParameterBlock *params);
 
   /**
-   * The private method called by the "SetActivationFunc" action.
+   * The private method called by the "cel.action.SetActivationFunc" action.
    * Translates a descriptive string into a celActivationFunc.
    */
   bool SetActivationFunc(iCelParameterBlock *params);
 
   /**
-   * The private method called by the "SetInputs" action. Sets all
+   * The private method called by the "cel.action.SetInputs" action. Sets all
    * the inputs in one go.
    */
   bool SetInputs(iCelParameterBlock *params);
 
   /**
-   * The private method called by the "Process" action. Runs one
+   * The private method called by the "cel.action.Process" action. Runs one
    * iteration through the neural network, reading inputs and setting outputs.
    */
   bool ProcessLayers();
@@ -163,13 +163,13 @@ class celPcNeuralNet : public
   void SendMessage();
 
   /**
-   * The private method called by the "SaveCache" action. Saves
+   * The private method called by the "cel.action.SaveCache" action. Saves
    * the weightings to the iCacheManager.
    */
   bool SaveCache(iCelParameterBlock *params);
 
   /**
-   * The private method called by the "LoadCache" action. Loads
+   * The private method called by the "cel.action.LoadCache" action. Loads
    * the weightings from the iCacheManager.
    */
   bool LoadCache(iCelParameterBlock *params);
@@ -196,6 +196,8 @@ public:
 
   //--------------------------------------------------------- celPcCommon --//
   virtual bool PerformActionIndexed(int index, iCelParameterBlock *params, celData &ret);
+  virtual bool Load(iCelDataBuffer *) { return true; }
+  virtual csPtr<iCelDataBuffer> Save() { return pl->CreateDataBuffer(0); }
 
   //-------------------------------------------------------- iPcNeuralNet --//
   virtual void SetSize(size_t ins, size_t outs, size_t lays)

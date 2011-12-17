@@ -581,8 +581,10 @@
 
 /* iCelRegion (include/propclass/zone.h) */
 %cs_attribute(blcelc,iCelRegion,const char*,Name,GetName)
+%cs_attribute(blcelc,iCelRegion,const char*,CsRegionName,GetCsRegionName)
 %cs_attribute(blcelc,iCelRegion,const char*,CachePath)
 %cs_attribute(blcelc,iCelRegion,size_t,MapFileCount,GetMapFileCount)
+%cs_attribute(blcelc,iCelRegion,iRegion*,CsRegion,GetCsRegion)
 
 /* iCelZone (include/propclass/zone.h) */
 %cs_attribute(blcelc,iCelZone,const char*,Name,GetName)
@@ -652,6 +654,7 @@
 %cs_attribute(blcelc,iPcRegion,const char*,RegionName)
 %cs_multi_attr_readonly(blcelc,iPcRegion,StartSector,GetStartSector)
 %cs_multi_attr_readonly(blcelc,iPcRegion,StartPosition,GetStartPosition)
+%cs_attribute(blcelc,iPcRegion,iRegion*,Region,GetRegion)
 
 /* iCelBlLayer (include/behaviourlayer/bl.h) */
 %cs_attribute(blcelc,iCelBlLayer,const char*,Name,GetName)
@@ -664,6 +667,10 @@
 %cs_attribute(blcelc,iCelBehaviour,iCelBlLayer*,BehaviourLayer,GetBehaviourLayer)
 
 /* CEL_CELTOOL_EXPORT (include/celtool/stdpcimp.h) */
+
+/* celGenericParameterBlock (include/celtool/stdparams.h) */
+%cs_multi_attr_writeonly(blcelc,celGenericParameterBlock,ParameterDef,SetParameterDef)
+%cs_attribute(blcelc,celGenericParameterBlock,size_t,ParameterCount,GetParameterCount)
 
 /* celVariableParameterBlock (include/celtool/stdparams.h) */
 %cs_multi_attr_writeonly(blcelc,celVariableParameterBlock,ParameterDef,SetParameterDef)

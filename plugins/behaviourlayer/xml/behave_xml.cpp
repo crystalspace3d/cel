@@ -66,7 +66,7 @@ iPcBillboard* celBehaviourXml::GetBillboard ()
 {
   if (!billboard)
   {
-    csRef<iPcBillboard> b = celQueryPropertyClassEntity<iPcBillboard> (entity);
+    csRef<iPcBillboard> b = CEL_QUERY_PROPCLASS_ENT (entity, iPcBillboard);
     if (!b)
     {
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcbillboard");
@@ -82,7 +82,7 @@ iPcRules* celBehaviourXml::GetRules ()
 {
   if (!rules)
   {
-    csRef<iPcRules> p = celQueryPropertyClassEntity<iPcRules> (entity);
+    csRef<iPcRules> p = CEL_QUERY_PROPCLASS_ENT (entity, iPcRules);
     if (!p)
     {
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcrules");
@@ -99,7 +99,8 @@ iPcProperties* celBehaviourXml::GetProperties ()
   if (!props)
   {
     csRef<iPcProperties> p;
-    p = celQueryPropertyClassEntity<iPcProperties> (entity);
+    p = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+    	iPcProperties);
     if (!p)
     {
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity,
@@ -131,13 +132,14 @@ bool celBehaviourXml::SendMessage (const char* msg_id,
 bool celBehaviourXml::ReceiveMessage (csStringID msg_id,
     iMessageSender* /*sender*/, celData& ret, iCelParameterBlock* params)
 {
-  bool rc = SendMessageV (pl->FetchString (msg_id), 0, ret, params, 0);
+  va_list arg;
+  bool rc = SendMessageV (pl->FetchString (msg_id), 0, ret, params, arg);
   return rc;
 }
 
 bool celBehaviourXml::SendMessageV (const char* msg_id,
   	iCelPropertyClass* /*pc*/,
-        celData& ret, iCelParameterBlock* params, va_list /*arg*/)
+	celData& ret, iCelParameterBlock* params, va_list arg)
 {
   ret.Set ((int32)-1);
   celBlXml* cbl = (celBlXml*)bl;
@@ -268,10 +270,12 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
      if (params)
      {
        const celData* cd;
-       cd = params->GetParameter (pl->FetchStringID ("parameter1"));
+       cd = params->GetParameter (
+    	  pl->FetchStringID ("cel.parameter.parameter1"));
        if (cd)
          path = csString(((iString const *)(cd->value.s))->GetData());
-       cd = params->GetParameter (pl->FetchStringID ("parameter2"));
+       cd = params->GetParameter (
+    	 pl->FetchStringID ("cel.parameter.parameter2"));
        if (cd)
          worldname = csString(((iString const *)(cd->value.s))->GetData());
     }

@@ -27,7 +27,6 @@
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
 #include "csutil/event.h"
-#include "csutil/common_handlers.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"
 #include "iutil/objreg.h"
@@ -43,7 +42,8 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/material.h"
-#include "iengine/collection.h"
+#include "iengine/region.h"
+#include "imesh/thing.h"
 #include "imesh/sprite3d.h"
 #include "imesh/object.h"
 #include "ivaria/dynamics.h"
@@ -109,13 +109,17 @@ HoverTest::~HoverTest ()
 void HoverTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
-
-  printer.Invalidate ();
 }
 
-void HoverTest::Frame ()
+void HoverTest::ProcessFrame ()
 {
   // We let the entity system do this so there is nothing here.
+}
+
+void HoverTest::FinishFrame ()
+{
+  g3d->FinishDraw ();
+  g3d->Print (0);
 }
 
 bool HoverTest::OnKeyboard (iEvent &ev)
@@ -153,11 +157,11 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
         "pcphysics.object",
         "pcvehicle.hover",
         "pcvehicle.craft",
-	"pcmove.actor.dynamic",
         (void*)0);
   if (!player) return false;
 
-  csRef<iPcCommandInput> pcinp = celQueryPropertyClassEntity<iPcCommandInput> (player);
+  csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (player,
+  	iPcCommandInput);
   pcinp->Bind ("JoystickButton0", "up");
   pcinp->Bind ("JoystickAxis0", "down");
   pcinp->Bind ("left", "left");
@@ -168,11 +172,12 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
 
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (player);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (player, iPcMesh);
   pcmesh->SetPath ("/cellib/objects");
   pcmesh->SetMesh ("craft", "orogor");
 
-  csRef<iPcDefaultCamera> pccamera = celQueryPropertyClassEntity<iPcDefaultCamera> (player);
+  csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
+  	player, iPcDefaultCamera);
   pccamera->SetMode (iPcDefaultCamera::firstperson);
   pccamera->SetSpringParameters (10.0f, 0.1f, 0.01f);
   pccamera->SetMode (iPcDefaultCamera::thirdperson);
@@ -191,23 +196,31 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   pccamera->SetMinMaxCameraDistance (2.0f, 16.0f);
   pccamera->SetFirstPersonOffset (csVector3 (0, 1.0f, 0));
   pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, 3.0f));
-  pccamera->SetModeName ("thirdperson");
+  pccamera->SetModeName ("lara_thirdperson");
 
-  csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (player);
-  csBox3 bbox = pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox();
+  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
+        iPcMechanicsObject);
+  csBox3 bbox = pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->
+      GetObjectBoundingBox();
+  //pcmechobj->GetBody ()->AttachColliderBox (bbox.GetSize (), csOrthoTransform (), 0.5, 3.0f, 1.0, 0.8);
   pcmechobj->SetFriction (0.05f);
-  pcmechobj->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
+  //pcmechobj->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
+  pcmechobj->AttachColliderSphere (.42f, csVector3 (0, 0, 0));
   pcmechobj->SetSoftness (1.0f);
   pcmechobj->SetMass (1.0f);
   pcmechobj->SetDensity (3.0f);
 
-  csRef<iPcCraftController> pccraft = celQueryPropertyClassEntity<iPcCraftController> (player);
+  //csRef<iPcHover> pchover = CEL_QUERY_PROPCLASS_ENT (player, iPcHover);
+  // defaults are fine
+
+  csRef<iPcCraftController> pccraft = CEL_QUERY_PROPCLASS_ENT (player,
+        iPcCraftController);
   pccraft->SetAccTurn (0.4f);
   pccraft->SetMaxTurn (1.5);
   pccraft->SetAccPitch (0.4f);
   pccraft->SetMaxPitch (0.5);
-  pccraft->SetThrustForce (25.0);
-  pccraft->SetTopSpeed (100.0);
+  pccraft->SetThrustForce (10.0);
+  pccraft->SetTopSpeed (20.0);
   pccraft->SetRedirectVelocityRatio (0.2f);
 
   return true;
@@ -250,7 +263,8 @@ bool HoverTest::CreateRoom ()
     return ReportError ("Bad file path '%s' at '%s'!", file.GetData (),
     	path.GetData ());
 
-  csRef<iPcZoneManager> pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (level);
+  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (level,
+  	iPcZoneManager);
   pczonemgr->SetLoadingMode (CEL_ZONE_NORMAL);
   if (!pczonemgr->Load (0, file.GetData ()))
     return ReportError ("Error loading level '%s' at '%s'!", file.GetData (),
@@ -263,24 +277,27 @@ bool HoverTest::CreateRoom ()
   printf("Start position in region '%s', named '%s'\n",
         (const char*)regionname, (const char*)startname);
 
-  csRef<iPcMechanicsSystem> pcmechsys = celQueryPropertyClassEntity<iPcMechanicsSystem> (level);
+  csRef<iPcMechanicsSystem> pcmechsys = CEL_QUERY_PROPCLASS_ENT (level,
+  	iPcMechanicsSystem);
   pcmechsys->EnableQuickStep ();
   pcmechsys->SetStepTime (0.02f);
 
   if (!CreatePlayer (csVector3 (0, 0, 0)))
     return ReportError ("Could not create entity 'ent_player'!");
 
-  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (player);
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player, iPcCamera);
   if (!pccamera) return false;
   pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
   if (pczonemgr->PointMesh ("ent_player", regionname, startname) != CEL_ZONEERROR_OK)
     return ReportError ("Error finding start position!");
 
-  csRef<iPcInventory> pcinv_room = celQueryPropertyClassEntity<iPcInventory> (level);
+  csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (level,
+  	iPcInventory);
   if (!pcinv_room->AddEntity (player)) return false;
   //if (!pcinv_room->AddEntity (scene)) return false;
 
-   csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (player);
+   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
+         iPcMechanicsObject);
    // Get the first start position available.
    iCameraPosition* campos;
    campos = engine->GetCameraPositions ()->Get (0);
@@ -392,8 +409,6 @@ bool HoverTest::Application()
     return ReportError ("unable to register behaviour layer!");
 
   if (!CreateRoom ()) return false;
-
-  printer.AttachNew (new FramePrinter (object_reg));
 
   // Start the default run/event loop.  This will return only when some code,
   // such as OnKeyboard(), has asked the run loop to terminate.

@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001-2001 by Jorrit Tyberghein
+    Copyright (C) 2001 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "csutil/util.h"
 #include "plugins/stdphyslayer/entity.h"
+#include "plugins/stdphyslayer/propclas.h"
 #include "behaviourlayer/behave.h"
 
 //---------------------------------------------------------------------------
@@ -28,18 +29,16 @@ CS_LEAKGUARD_IMPLEMENT (celEntity);
 
 celEntity::celEntity (celPlLayer* pl) : scfImplementationType (this)
 {
+  plist = new celPropertyClassList (this);
   behaviour = 0;
   celEntity::pl = pl;
   channel.SetPL (pl);
   entity_ID = 0;
-  positional = false;
-  active = true;
-  entityExistedAtBaseline = false;
 }
 
 celEntity::~celEntity ()
 {
-  RemoveAll ();
+  delete plist;
 }
 
 void celEntity::SetBehaviour (iCelBehaviour* newbehaviour)
@@ -49,7 +48,7 @@ void celEntity::SetBehaviour (iCelBehaviour* newbehaviour)
 
 iCelPropertyClassList* celEntity::GetPropertyClassList ()
 {
-  return (iCelPropertyClassList*)this;
+  return (iCelPropertyClassList*)plist;
 }
 
 void celEntity::SetName (const char *name)
@@ -62,13 +61,10 @@ void celEntity::SetName (const char *name)
 void celEntity::NotifySiblingPropertyClasses ()
 {
   size_t i;
-  positional = false;
-  for (i = 0 ; i < prop_classes.GetSize () ; i++)
+  for (i = 0 ; i < plist->GetCount () ; i++)
   {
-    iCelPropertyClass* pc = prop_classes[i];
+    iCelPropertyClass* pc = plist->Get (i);
     pc->PropertyClassesHaveChanged ();
-    if (pc->QueryPositionInfo ())
-      positional = true;
   }
 }
 
@@ -113,284 +109,12 @@ public:
 };
 
 csRef<iMessageDispatcher> celEntity::CreateTaggedMessageDispatcher (
-      iMessageSender* sender, csStringID msg_id,
+      iMessageSender* sender, const char* msg_id,
       const char* tag)
 {
   csRef<iMessageReceiverFilter> filter;
   filter.AttachNew (new celMessageReceiverFilterWithTag (tag));
   return channel.CreateMessageDispatcher (sender, msg_id, filter);
-}
-
-void celEntity::Activate ()
-{
-  if (active) return;
-  active = true;
-  for (size_t i = 0 ; i < prop_classes.GetSize () ; i++)
-  {
-    prop_classes[i]->Activate ();
-  }
-}
-
-void celEntity::Deactivate ()
-{
-  if (!active) return;
-  active = false;
-  for (size_t i = 0 ; i < prop_classes.GetSize () ; i++)
-  {
-    prop_classes[i]->Deactivate ();
-  }
-}
-
-void celEntity::MarkBaseline ()
-{
-  entityExistedAtBaseline = true;
-  for (size_t i = 0 ; i < prop_classes.GetSize () ; i++)
-    prop_classes[i]->MarkBaseline ();
-}
-
-bool celEntity::IsModifiedSinceBaseline () const
-{
-  for (size_t i = 0 ; i < prop_classes.GetSize () ; i++)
-    if (prop_classes[i]->IsModifiedSinceBaseline ()) return true;
-  return false;
-}
-
-void celEntity::SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings)
-{
-  for (size_t i = 0 ; i < prop_classes.GetSize () ; i++)
-    if (prop_classes[i]->IsModifiedSinceBaseline ())
-    {
-      csStringID nameID = strings->Request (prop_classes[i]->GetName ());
-      buf->AddID (nameID);
-      if (prop_classes[i]->GetTag () && *prop_classes[i]->GetTag ())
-      {
-	csStringID tagID = strings->Request (prop_classes[i]->GetTag ());
-	buf->AddID (tagID);
-      }
-      else
-      {
-	buf->AddID (csInvalidStringID);
-      }
-      prop_classes[i]->SaveModifications (buf, strings);
-    }
-  buf->AddID (csInvalidStringID);
-}
-
-void celEntity::RestoreModifications (iCelCompactDataBufferReader* buf,
-    const csHash<csString,csStringID>& strings)
-{
-  csStringID nameID = buf->GetID ();
-  while (nameID != csInvalidStringID)
-  {
-    csStringID tagID = buf->GetID ();
-    csString tag;
-    iCelPropertyClass* pc;
-    const char* name = strings.Get (nameID, (const char*)0);
-    if (tagID == csInvalidStringID)
-      pc = FindByName (name);
-    else
-      pc = FindByNameAndTag (name, strings.Get (tagID, (const char*)0));
-    if (!pc)
-    {
-      printf ("Error finding pc '%s' on entity '%s'\n!", name, GetName ());
-      fflush (stdout);
-      return;
-    }
-    pc->RestoreModifications (buf, strings);
-    nameID = buf->GetID ();
-  }
-}
-
-size_t celEntity::GetCount () const
-{
-  return prop_classes.GetSize ();
-}
-
-iCelPropertyClass* celEntity::Get (size_t n) const
-{
-  CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.GetSize ());
-  iCelPropertyClass* pclass = prop_classes[n];
-  return pclass;
-}
-
-size_t celEntity::Add (iCelPropertyClass* obj)
-{
-  size_t idx = prop_classes.Push (obj);
-  obj->SetEntity (this);
-  NotifySiblingPropertyClasses ();
-  return idx;
-}
-
-bool celEntity::Remove (iCelPropertyClass* obj)
-{
-  size_t idx = prop_classes.Find (obj);
-  if (idx != csArrayItemNotFound)
-  {
-    obj->SetEntity (0);
-    prop_classes.DeleteIndex (idx);
-    NotifySiblingPropertyClasses ();
-    return true;
-  }
-  else return false;
-}
-
-bool celEntity::RemoveByInterface (scfInterfaceID scf_id, int ver)
-{
-  bool res = false;
-
-  for (size_t i = 0; i < prop_classes.GetSize (); i++)
-  {
-    iBase* interface = (iBase*)prop_classes[i]->QueryInterface (scf_id, ver);
-    if (!interface)
-      continue;
-    interface->DecRef ();	// Remove our reference.
-
-    Remove(i);
-    res = true;
-    // We continue, because there may be multiple property classes of the
-    // same type.
-  }
-
-  return res;
-}
-
-bool celEntity::RemoveByInterfaceAndTag (scfInterfaceID scf_id,
-	int ver, const char* tag)
-{
-  bool res = false;
-
-  for (size_t i = 0; i < prop_classes.GetSize (); i++)
-  {
-    const char* pctag = prop_classes[i]->GetTag ();
-    if (!(((tag == 0 || *tag == 0) && pctag == 0) ||
-		    ((tag != 0 && *tag != 0) && strcmp (tag, pctag) == 0)))
-      continue;
-    iBase* interface = (iBase*)prop_classes[i]->QueryInterface (scf_id, ver);
-    if (!interface)
-      continue;
-    interface->DecRef ();	// Remove our reference.
-
-    Remove(i);
-    res = true;
-    // We continue, because there may be multiple property classes of the
-    // same type and tag.
-  }
-
-  return res;
-}
-
-bool celEntity::Remove (size_t n)
-{
-  CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.GetSize ());
-  iCelPropertyClass* obj = prop_classes[n];
-  obj->SetEntity (0);
-  prop_classes.DeleteIndex (n);
-  NotifySiblingPropertyClasses ();
-
-  return true;
-}
-
-void celEntity::RemoveAll ()
-{
-  while (prop_classes.GetSize () > 0)
-    Remove ((size_t)0);
-}
-
-size_t celEntity::Find (iCelPropertyClass* obj) const
-{
-  return prop_classes.Find (obj);
-}
-
-iCelPropertyClass* celEntity::FindByName (const char* name) const
-{
-  size_t i;
-  iCelPropertyClass* found_pc = 0;
-  for (i = 0 ; i < prop_classes.GetSize () ; i++)
-  {
-    iCelPropertyClass* obj = prop_classes[i];
-    if (!strcmp (name, obj->GetName ()))
-    {
-      // We prefer to find a property class with no tag. So if we have
-      // no tag we can return immediately. Otherwise we have to wait
-      // until we find one with no tag.
-      if (obj->GetTag () == 0)
-        return obj;
-      else
-        found_pc = obj;
-    }
-  }
-  return found_pc;
-}
-
-iCelPropertyClass* celEntity::FindByNameAndTag (const char* name,
-	const char* tag) const
-{
-  size_t i;
-  for (i = 0 ; i < prop_classes.GetSize () ; i++)
-  {
-    iCelPropertyClass* obj = prop_classes[i];
-    if (!strcmp (name, obj->GetName ()))
-    {
-      if (tag == 0 || (*tag == 0 && obj->GetTag () == 0))
-      {
-        if (obj->GetTag () == 0)
-          return obj;
-      }
-      else if (obj->GetTag () != 0 && !strcmp (tag, obj->GetTag ()))
-      {
-        return obj;
-      }
-    }
-  }
-  return 0;
-}
-
-iBase* celEntity::FindByInterface (scfInterfaceID id,
-	int version) const
-{
-  size_t i;
-  csRef<iBase> found_interf;
-  for (i = 0 ; i < prop_classes.GetSize () ; i++)
-  {
-    iCelPropertyClass* obj = prop_classes[i];
-    if (!obj) continue;
-    void* interf = obj->QueryInterface (id, version);
-    if (interf)
-    {
-      // We prefer property classes with no tag.
-      if (obj->GetTag () == 0)
-        return (iBase*)obj;
-      else
-        found_interf = csPtr<iBase> (obj);
-    }
-  }
-  if (found_interf)
-    found_interf->IncRef ();
-  return found_interf;
-}
-
-iBase* celEntity::FindByInterfaceAndTag (scfInterfaceID id,
-	int version, const char* tag) const
-{
-  bool tag_empty = tag == 0 || *tag == 0;
-  size_t i;
-  for (i = 0 ; i < prop_classes.GetSize () ; i++)
-  {
-    iCelPropertyClass* obj = prop_classes[i];
-    if (!obj) continue;
-    if (tag_empty == true && obj->GetTag () != 0)
-      continue;
-    if (tag_empty == false && obj->GetTag () == 0)
-      continue;
-    if (tag_empty == false && strcmp (obj->GetTag (), tag) != 0)
-      continue;
-    void* interf = obj->QueryInterface (id, version);
-    if (interf)
-    {
-      return (iBase*)obj;
-    }
-  }
-  return 0;
 }
 
 //---------------------------------------------------------------------------

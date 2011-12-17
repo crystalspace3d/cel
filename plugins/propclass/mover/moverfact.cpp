@@ -34,6 +34,8 @@
 
 //---------------------------------------------------------------------------
 
+CS_IMPLEMENT_PLUGIN
+
 CEL_IMPLEMENT_FACTORY_ALT (Mover, "pcmove.mover", "pcmover")
 
 //---------------------------------------------------------------------------
@@ -55,41 +57,38 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
   // For actions.
   if (id_sectorname == csInvalidStringID)
   {
-    id_sectorname = pl->FetchStringID ("sectorname");
-    id_position = pl->FetchStringID ("position");
-    id_up = pl->FetchStringID ("up");
-    id_sqradius = pl->FetchStringID ("sqradius");
-    id_meshname = pl->FetchStringID ("meshname");
-    id_checklos = pl->FetchStringID ("checklos");
+    id_sectorname = pl->FetchStringID ("cel.parameter.sectorname");
+    id_position = pl->FetchStringID ("cel.parameter.position");
+    id_up = pl->FetchStringID ("cel.parameter.up");
+    id_sqradius = pl->FetchStringID ("cel.parameter.sqradius");
+    id_meshname = pl->FetchStringID ("cel.parameter.meshname");
+    id_checklos = pl->FetchStringID ("cel.parameter.checklos");
   }
 
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_meshname);
+  params->SetParameterDef (id_meshname, "meshname");
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.mover.action.");
-    AddAction (action_start, "Start");
-    AddAction (action_interrupt, "Interrupt");
-    AddAction (action_moveto, "MoveTo");
+    AddAction (action_start, "cel.action.Start");
+    AddAction (action_interrupt, "cel.action.Interrupt");
+    AddAction (action_moveto, "cel.action.MoveTo");
   }
 
   // For properties.
   propinfo.SetCount (4);
-  AddProperty (propid_position, "position",
+  AddProperty (propid_position, "cel.property.position",
 	CEL_DATA_VECTOR3, true, "Desired end position.", &position);
-  AddProperty (propid_up, "up",
+  AddProperty (propid_up, "cel.property.up",
 	CEL_DATA_VECTOR3, true, "Current up vector.", &up);
-  AddProperty (propid_sqradius, "sqradius",
+  AddProperty (propid_sqradius, "cel.property.sqradius",
 	CEL_DATA_FLOAT, false, "Current squared radius.", &sqradius);
-  AddProperty (propid_moving, "moving",
+  AddProperty (propid_moving, "cel.property.moving",
 	CEL_DATA_BOOL, true, "Is moving?", &is_moving);
 
   is_moving = false;
   up = csVector3(0,1,0);
-
-  smooth = true;
 }
 
 celPcMover::~celPcMover ()
@@ -97,6 +96,21 @@ celPcMover::~celPcMover ()
   if (pl)
     pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
   delete params;
+}
+
+#define MOVER_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcMover::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MOVER_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcMover::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != MOVER_SERIAL) return false;
+  return true;
 }
 
 void celPcMover::SendMessage (const char* msgold,
@@ -116,7 +130,7 @@ void celPcMover::SendMessage (const char* msgold,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	this, pl->FetchStringID (msg));
+	this, msg);
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (params);
@@ -129,23 +143,6 @@ static float GetAngle (const csVector3& v1, const csVector3& v2)
   if ((v2.z-v1.z) > 0) angle = 2*PI - angle;
   angle += PI / 2.0f;
   if (angle > 2*PI) angle -= 2*PI;
-  return angle;
-}
-
-static float GetAngle2 (const csVector3& vector)
-{
-  float length = vector.Norm();
-  float angle = acos(vector.z / length);
-
-  if (vector.x > 0)
-  {
-    angle = - angle;
-  }
-  angle = PI - angle;
-  if (angle >= (2 * PI))
-  {
-    angle = angle - (2 * PI);
-  }
   return angle;
 }
 
@@ -209,18 +206,10 @@ bool celPcMover::MoveTo (iSector* sector, const csVector3& position,
       return false;
     }
   }
- 
-  if (smooth)
-  {
-    csVector3 vec (0,0,1);
-    float yrot = GetAngle (position-cur_position, vec);
-    pcactormove->RotateTo (yrot);
-  }
-  else
-  {
-    float yrot = GetAngle2 (position - cur_position);
-    pclinmove->SetFullPosition (pclinmove->GetPosition(), yrot, pclinmove->GetSector());
-  }
+
+  csVector3 vec (0,0,1);
+  float yrot = GetAngle (position-cur_position, vec);
+  pcactormove->RotateTo (yrot);
   pcactormove->Forward (true);
 
   pl->CallbackOnce ((iCelTimerListener*)this, DELAY_RECHECK, CEL_EVENT_PRE);
@@ -305,18 +294,10 @@ void celPcMover::TickOnce ()
 	dispatcher_arrived);
     return;
   }
-  
-  if (smooth)
-  {
-    csVector3 vec (0,0,1);
-    float yrot = GetAngle (position-cur_position, vec);
-    pcactormove->RotateTo (yrot);
-  }
-  else
-  {
-    float yrot = GetAngle2 (position - cur_position);
-    pclinmove->SetFullPosition (pclinmove->GetPosition(), yrot, pclinmove->GetSector());
-  }
+
+  csVector3 vec (0,0,1);
+  float yrot = GetAngle (position-cur_position, vec);
+  pcactormove->RotateTo (yrot);
   pl->CallbackOnce ((iCelTimerListener*)this, DELAY_RECHECK, CEL_EVENT_PRE);
 }
 
@@ -324,9 +305,9 @@ void celPcMover::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pcactormove = celQueryPropertyClassEntity<iPcActorMove> (entity);
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 

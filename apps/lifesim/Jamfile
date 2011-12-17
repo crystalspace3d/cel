@@ -1,8 +1,0 @@
-SubDir TOP apps lifesim ;
-
-Application cellifesim : [ Wildcard *.cpp *.h ] ;
-CFlags cellifesim : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-LinkWith cellifesim : celtool ;
-ExternalLibs cellifesim : CRYSTAL ;
-FileListEntryApplications cellifesim : app-demo ;
-

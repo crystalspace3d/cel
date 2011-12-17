@@ -141,6 +141,8 @@ public:
 
   virtual int GetDrawFlags ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
@@ -178,17 +180,19 @@ public:
   }
   virtual void SetClearZBuffer (bool flag)
   {
+    celPcCameraCommon::SetClearZBuffer (flag);
   }
   virtual bool GetClearZBuffer () const
   {
-    return false;
+    return celPcCameraCommon::GetClearZBuffer ();
   }
   virtual void SetClearScreen (bool flag)
   {
+    celPcCameraCommon::SetClearScreen (flag);
   }
   virtual bool GetClearScreen () const
   {
-    return false;
+    return celPcCameraCommon::GetClearScreen ();
   }
   virtual void DisableDistanceClipping ()
   {

@@ -1,1 +1,1 @@
-celstart.exe scripts\boulderdash.cfg --silent
+celstart.exe scripts\boulderdash.cfg

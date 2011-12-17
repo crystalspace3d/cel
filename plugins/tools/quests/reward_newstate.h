@@ -1,7 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2009 by Jorrit Tyberghein
-	Copyright (C) 2009 by Sam Devlin
+    Copyright (C) 2004 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -37,19 +36,19 @@ struct iEvent;
 /**
  * A standard reward type that just prints a message on standard
  * output. This can be useful for debugging purposes.
- * This reward type listens to the name 'cel.rewards.newstate'.
+ * This reward type listens to the name 'cel.questreward.newstate'.
  */
-CEL_DECLARE_QUESTREWARDTYPE(NewState,"cel.rewards.newstate")
+CEL_DECLARE_REWARDTYPE(NewState,"cel.questreward.newstate")
 
 /**
  * The 'newstate' reward factory.
  */
 class celNewStateRewardFactory : public scfImplementation2<
-	celNewStateRewardFactory, iRewardFactory,
+	celNewStateRewardFactory, iQuestRewardFactory,
 	iNewStateQuestRewardFactory>
 {
 private:
-  csRef<celNewStateRewardType> type;
+  celNewStateRewardType* type;
   csString state_par;
   csString entity_par;
   csString class_par;
@@ -59,31 +58,28 @@ public:
   celNewStateRewardFactory (celNewStateRewardType* type);
   virtual ~celNewStateRewardFactory () {};
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iQuestReward> CreateReward (
+      iQuest* q, const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iNewStateQuestRewardFactory -----------------------
   virtual void SetStateParameter (const char* state);
-  virtual const char* GetStateParameter () const { return state_par; }
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual const char* GetEntityParameter () const { return entity_par; }
   virtual void SetTagParameter (const char* tag) { tag_par = tag; };
-  virtual const char* GetTagParameter () const { return tag_par; }
   virtual void SetClassParameter (const char* pclass) { class_par = pclass; };
-  virtual const char* GetClassParameter () const { return class_par; }
 };
 
 /**
  * The 'newstate' reward.
  */
 class celNewStateReward : public scfImplementation2<
-	celNewStateReward, iReward, iCelTimerListener>
+	celNewStateReward, iQuestReward, iCelTimerListener>
 {
 private:
-  csRef<celNewStateRewardType> type;
-  csRef<iParameter> state;
-  csRef<iParameter> entity;
-  csRef<iParameter> tag;
+  celNewStateRewardType* type;
+  csRef<iQuestParameter> state;
+  csRef<iQuestParameter> entity;
+  csRef<iQuestParameter> tag;
   csWeakRef<iCelEntity> ent;
   csWeakRef<iQuest> quest;
   // Keep reward parameters for next frame.
@@ -91,8 +87,7 @@ private:
 
 public:
   celNewStateReward (celNewStateRewardType* type,
-  	iQuest* q, 
-	iCelParameterBlock* params,
+  	iQuest* q, const celQuestParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par);
   virtual ~celNewStateReward () {};
@@ -107,20 +102,20 @@ public:
  * The 'newstate' reward for classes.
  */
 class celClassNewStateReward : public scfImplementation2<
-	celClassNewStateReward, iReward, iCelTimerListener>
+	celClassNewStateReward, iQuestReward, iCelTimerListener>
 {
 private:
-  csRef<celNewStateRewardType> type;
-  csRef<iParameter> state;
-  csRef<iParameter> tag;
-  csRef<iParameter> clazz;
+  celNewStateRewardType* type;
+  csRef<iQuestParameter> state;
+  csRef<iQuestParameter> tag;
+  csRef<iQuestParameter> clazz;
   csRef<iCelEntityList> entlist;
   // Keep reward parameters for next frame.
   csRef<iCelParameterBlock> reward_params;
 
 public:
   celClassNewStateReward (celNewStateRewardType* type,
-  	iCelParameterBlock* params,
+  	const celQuestParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par);
   virtual ~celClassNewStateReward () {};

@@ -45,16 +45,57 @@ CEL_DECLARE_FACTORY (DelegateCamera)
 class celPcDelegateCamera : public scfImplementationExt2<celPcDelegateCamera, celPcCameraCommon,
   iPcDelegateCamera, scfFakeInterface<iPcCamera> >
 {
+private:
+  // currently transitioning to new mode?
+  bool in_transition;
+  // time to transition to a new mode and current transition
+  float transtime, currtrans;
+
+  struct CameraDescription
+  {
+    csVector3 pos, tar, up;
+  } prev, curr;
+  csRef<iPcCameraMode> currmode;
+
+  // used just for reading the current active sector
+  iMovable* player;
+
+  // For action arguments
+  static csStringID id_pclass;
+
+  // For actions.
+  enum actionids
+  {
+    action_setcurrmode = 0
+  };
+
+  // For properties.
+  enum propids
+  {
+    propid_trans_in = 0,
+    propid_trans_time,
+    propid_trans_step,
+    propid_prev_pos,
+    propid_prev_tar,
+    propid_prev_up,
+    propid_pos,
+    propid_tar,
+    propid_up,
+  };
+  static PropertyHolder propinfo;
+
 public:
   celPcDelegateCamera (iObjectRegistry* object_reg);
   virtual ~celPcDelegateCamera ();
 
+  csPtr<iCelDataBuffer> Save ();
+  bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret);
 
   void SetCurrentMode (iPcCameraMode* mode);
   iPcCameraMode* GetCurrentMode () const;
-  void SetTransitionTime (csTicks t);
-  csTicks GetTransitionTime () const;
+  void SetTransitionTime (float t);
+  float GetTransitionTime () const;
 
   void Draw ();
   void UpdateCamera ();
@@ -93,17 +134,19 @@ public:
   }
   void SetClearZBuffer (bool flag)
   {
+    celPcCameraCommon::SetClearZBuffer (flag);
   }
   bool GetClearZBuffer () const
   {
-    return false;
+    return celPcCameraCommon::GetClearZBuffer ();
   }
   void SetClearScreen (bool flag)
   {
+    celPcCameraCommon::SetClearScreen (flag);
   }
   bool GetClearScreen () const
   {
-    return false;
+    return celPcCameraCommon::GetClearScreen ();
   }
   void DisableDistanceClipping ()
   {
@@ -146,63 +189,6 @@ public:
   {
     celPcCameraCommon::SetAutoDraw (auto_draw);
   }
-
-  virtual float GetContinousTransitionSpeed () const
-  {
-    return continuous_transition_speed;
-  }
-  virtual void SetContinousTransitionSpeed (float s)
-  {
-    continuous_transition_speed = s;
-  }
-
-private:
-  // currently transitioning to new mode?
-  bool in_transition;
-  // time to transition to a new mode
-  csTicks transtime;
-  // current transition between 0 and 1
-  float currtrans;
-
-  struct CameraDescription
-  {
-    csVector3 pos, tar, up;
-  } prev, curr;
-
-  // Speed for continuous transition.
-  float continuous_transition_speed;
-  // 'last' is used for continuous transitions.
-  struct CameraDescription last;
-
-  csRef<iPcCameraMode> currmode;
-
-  // used just for reading the current active sector
-  iMovable* player;
-
-  // For action arguments
-  static csStringID id_pclass;
-
-  // For actions.
-  enum actionids
-  {
-    action_setcurrmode = 0
-  };
-
-  // For properties.
-  enum propids
-  {
-    propid_trans_in = 0,
-    propid_trans_time,
-    propid_trans_step,
-    propid_prev_pos,
-    propid_prev_tar,
-    propid_prev_up,
-    propid_pos,
-    propid_tar,
-    propid_up,
-    propid_trans_speed,
-  };
-  static PropertyHolder propinfo;
 };
 
 #endif // __CEL_PF_TESTFACT__

@@ -74,7 +74,7 @@
             <reward type="debugprint" message="$message" />
             <reward type="changeproperty" long="0" entity="$this" property="counter" />
             <reward type="changeproperty" long="5" entity="$this" property="countdown" />
-            <!--<reward type="sequence" entity="$this" sequence="test" />-->
+            <reward type="sequence" entity="$this" sequence="test" />
             <reward type="newstate" state="sequencetest" />
           </trigger>
         </state>
@@ -119,22 +119,12 @@
           </trigger>
         </state>
         <state name="end" />
-        <!--<sequence name="test" >
+        <sequence name="test" >
           <op message="sequence" type="debugprint" duration="2000" />
-        </sequence>-->
+        </sequence>
       </quest>
     </addon>
     <addon plugin="cel.addons.celentity" entityname="bla" >
-      <propclass name="pclogic.wire">
-        <action name="AddInput" >
-          <par name="mask" string="cel.game.action" />
-        </action>
-        <action name="AddOutput" >
-          <par name="msgid" string="cel.test.action.Print" />
-	  <par name="entity" string="camera" />
-	  <par name="message" string="We activated bla!" />
-        </action>
-      </propclass>
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
           <par name="path" string="/cellib/objects" />
@@ -168,6 +158,7 @@
           <par name="percentage" float="10" />
         </action>
       </propclass>
+      <behaviour layer="bltest" name="printer" />
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy2a" template="dummyTemplate" >
       <propclass name="pcobject.mesh" >
@@ -225,18 +216,9 @@
           <par name="percentage" float="10" />
         </action>
       </propclass>
+      <behaviour layer="bltest" name="printer" />
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy3" >
-      <propclass name="pclogic.wire">
-        <action name="AddInput" >
-          <par name="mask" string="cel.game.action" />
-        </action>
-        <action name="AddOutput" >
-          <par name="msgid" string="cel.test.action.Print" />
-	  <par name="entity" string="camera" />
-	  <par name="message" string="We activated dummy3!" />
-        </action>
-      </propclass>
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
@@ -254,18 +236,9 @@
           <par name="percentage" float="10" />
         </action>
       </propclass>
+      <behaviour layer="bltest" name="printer" />
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy4" >
-      <propclass name="pclogic.wire">
-        <action name="AddInput" >
-          <par name="mask" string="cel.game.action" />
-        </action>
-        <action name="AddOutput" >
-          <par name="msgid" string="cel.test.action.Print" />
-	  <par name="entity" string="camera" />
-	  <par name="message" string="We activated dummy4!" />
-        </action>
-      </propclass>
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
@@ -283,18 +256,9 @@
           <par name="percentage" float="10" />
         </action>
       </propclass>
+      <behaviour layer="bltest" name="printer" />
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy5" >
-      <propclass name="pclogic.wire">
-        <action name="AddInput" >
-          <par name="mask" string="cel.game.action" />
-        </action>
-        <action name="AddOutput" >
-          <par name="msgid" string="cel.test.action.Print" />
-	  <par name="entity" string="camera" />
-	  <par name="message" string="We activated dummy5!" />
-        </action>
-      </propclass>
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
@@ -312,18 +276,9 @@
           <par name="percentage" float="10" />
         </action>
       </propclass>
+      <behaviour layer="bltest" name="printer" />
     </addon>
     <addon plugin="cel.addons.celentity" entityname="dummy6" >
-      <propclass name="pclogic.wire">
-        <action name="AddInput" >
-          <par name="mask" string="cel.game.action" />
-        </action>
-        <action name="AddOutput" >
-          <par name="msgid" string="cel.test.action.Print" />
-	  <par name="entity" string="camera" />
-	  <par name="message" string="We activated dummy6!" />
-        </action>
-      </propclass>
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh" >
         <action name="LoadMeshPath" >
@@ -341,23 +296,9 @@
           <par name="percentage" float="10" />
         </action>
       </propclass>
-    </addon>
-    <addon plugin="cel.addons.xmlscripts" >
-      <script name="box_script" >
-        <!-- TODO@@@: implement open/close of box with 'open' and 'close' action of box spr3d -->
-      </script>
+      <behaviour layer="bltest" name="printer" />
     </addon>
     <addon plugin="cel.addons.celentity" entityname="box" >
-      <propclass name="pclogic.wire">
-        <action name="AddInput" >
-          <par name="mask" string="cel.game.action" />
-        </action>
-        <action name="AddOutput" >
-          <par name="msgid" string="cel.test.action.Print" />
-	  <par name="entity" string="camera" />
-	  <par name="message" string="We activated box!" />
-        </action>
-      </propclass>
       <propclass name="pcmove.solid" />
       <propclass name="pcobject.mesh.select" >
         <action name="SetCamera" >
@@ -390,7 +331,7 @@
           <par name="percentage" float="10" />
         </action>
       </propclass>
-      <behaviour layer="blxml" name="box_script" />
+      <behaviour layer="bltest" name="box" />
     </addon>
     <addon plugin="cel.addons.celentity" entityname="box_small" >
       <propclass name="pcmove.solid" />
@@ -433,6 +374,7 @@
           <par name="radius" float="2" />
         </action>
       </propclass>
+      <behaviour layer="bltest" name="box" />
     </addon>
     <addon plugin="cel.addons.celentity" entityname="q1" >
       <propclass name="pclogic.quest" >
@@ -445,6 +387,7 @@
         <property string="init" name="state" />
       </propclass>
       <propclass name="pctools.properties" />
+      <behaviour layer="bltest" name="quest" />
     </addon>
     <addon plugin="cel.addons.celentity" entityname="q2" >
       <propclass name="pclogic.quest" >
@@ -454,6 +397,7 @@
         </action>
         <property string="start" name="state" />
       </propclass>
+      <behaviour layer="bltest" name="quest" />
     </addon>
     <addon plugin="cel.addons.celentity" entityname="globalselectionentity" >
       <propclass name="pcobject.mesh.select" >

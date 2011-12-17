@@ -46,7 +46,7 @@ private:
 
 public:
   celPlayerList ();
-  ~celPlayerList ();
+  virtual ~celPlayerList ();
 
   virtual size_t GetCount () const;
   virtual celPlayer* Get (size_t index) const;
@@ -100,7 +100,7 @@ public:
   virtual iCelPlayerList* GetPlayerList ()
     { return &player_list; }
   virtual celPlayerNetworkState GetPlayerState (celPlayer* player);
-  virtual void KickPlayer (celPlayer* player, const char* reason);
+  virtual void KickPlayer (celPlayer* player, csString reason);
   virtual iCelPlayerList* CreateChannel (csStringID channel_id);
   virtual void RemoveChannel (csStringID channel_id);
   virtual void LaunchServerEvent (celPlayer* player, 

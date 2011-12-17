@@ -49,7 +49,7 @@ struct iView;
 class csView;
 class celPcNewCamera;
 class csReversibleTransform;
-class csOrthoTransform;
+struct csOrthoTransform;
 struct iPcZoneManager;
 
 struct iPcNewCamera;

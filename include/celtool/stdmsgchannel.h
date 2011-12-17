@@ -122,11 +122,14 @@ class CEL_CELTOOL_EXPORT celMessageChannel : public scfImplementation1<
 					     celMessageChannel, iMessageChannel>
 {
 private:
+  csArray<celMessageSubscription,csArraySafeCopyElementHandler<celMessageSubscription> > subscriptionQueue;
+  csArray<celMessageSubscription,csArraySafeCopyElementHandler<celMessageSubscription> > unsubscriptionQueue;
   csWeakRef<iCelPlLayer> pl;
   csRefArray<celMessageDispatcher> messageDispatchers;
   celSubscriptions messageSubscriptions;
+  int sending;
 public:
-  celMessageChannel () : scfImplementationType (this) { }
+  celMessageChannel () : scfImplementationType (this) { sending = 0; }
   virtual ~celMessageChannel () { RemoveMessageDispatchers (); }
 
   virtual iMessageChannel* QueryMessageChannel ()
@@ -135,12 +138,12 @@ public:
   }
   /// Create a message dispatcher that supports a receiver filter.
   virtual csRef<iMessageDispatcher> CreateMessageDispatcher (
-      iMessageSender* sender, csStringID msg_id,
+      iMessageSender* sender, const char* msg_id,
       iMessageReceiverFilter* receiver_filter = 0);
   virtual void RemoveMessageDispatcher (iMessageDispatcher* msgdisp);
   virtual void Subscribe (iMessageReceiver* receiver, const char* mask);
   virtual void Unsubscribe (iMessageReceiver* receiver, const char* mask = 0);
-  virtual bool SendMessage (csStringID msgid,
+  virtual bool SendMessage (const char* msgid,
       iMessageSender* sender, iCelParameterBlock* params,
       iCelDataArray* ret = 0);
   void RemoveMessageDispatchers ();

@@ -23,13 +23,13 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-/// Base animations IDs.
+// For animations.
 enum celAnimationName
 {
-  CEL_ANIM_IDLE = 0, /// Idle animation
-  CEL_ANIM_WALK,     /// Walking animation
-  CEL_ANIM_RUN,      /// Running animation
-  CEL_ANIM_JUMP      /// Jumping animation
+  CEL_ANIM_IDLE = 0,
+  CEL_ANIM_WALK,
+  CEL_ANIM_RUN,
+  CEL_ANIM_JUMP
 };
 
 /**
@@ -38,13 +38,12 @@ enum celAnimationName
  * movement for actors in a game. Typical usage would be to combine
  * it with pccommandinput and then in the behaviour layer send out
  * the appropriate calls here depending on the keys that are pressed.
- * This class is also aware of animation actions using animated meshes.
- * Note! Since behaviours are deprecated this property class can now also
- * listen to messages from pclinmove directly.
+ * This class is also aware of animation actions using sprcal3d or
+ * spr3d.
  *
- * This property class supports the following actions (add prefix 'cel.move.actor.action.'
- * if you want to access this action through a message):
- * - Subscribe: no parameters.
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - SetSpeed: parameters 'movement' (float), 'running' (float),
  *   'rotation' (float) and 'jumping' (float).
  * - Forward: parameters 'start' (bool).
@@ -58,7 +57,7 @@ enum celAnimationName
  * - MouseMove: parameters 'x' (float) and 'y' (float).
  * - Run: parameters 'start' (bool).
  * - AutoRun: parameters 'start' (bool).
- * - Clear: clear all movement (therefore you don't need to stop a specific movement before going to another)
+ * - Clear: clear all movement (equivalent to calling Forward,
  * - Jump.
  * - ToggleCameraMode.
  * - SetAnimation: parameters 'name' (string) and 'cycle' (bool default=true).
@@ -66,7 +65,8 @@ enum celAnimationName
  *   (like walk, run, rotateleft...) and 'name' (string) specifying the model
  *   name for the animation.
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - mousemove (bool, read/write): enable/disable mousemove.
  * - mousemove_inverted (bool, read/write): enable/disable inverted mousemove.
  * - mousemove_xfactor (float, read/write): horizontal mousemove speed.
@@ -75,7 +75,7 @@ enum celAnimationName
  */
 struct iPcActorMove : public virtual iBase
 {
-  SCF_INTERFACE (iPcActorMove, 1, 0, 1);
+  SCF_INTERFACE (iPcActorMove, 1, 0, 0);
 
   /// Start/stop going forward.
   virtual void Forward (bool start) = 0;
@@ -183,25 +183,6 @@ struct iPcActorMove : public virtual iBase
   virtual void SetAnimation (const char *name, bool cycle = true) = 0;
   /// Set the mesh's animationname for internally used animations.
   virtual void SetAnimationMapping (celAnimationName idx, const char *name) = 0;
-
-  /**
-   * By default this property class will depend on the behaviour
-   * to listen to the pccommandinput property class and then call the
-   * right functions here. If you call this function this property class
-   * will itself listen to the correct messages.
-   * This property class will listen to the following messages:
-   *   - cel.input.forward.down
-   *   - cel.input.forward.up
-   *   - cel.input.backward.down
-   *   - cel.input.backward.up
-   *   - cel.input.rotateleft.down
-   *   - cel.input.rotateleft.up
-   *   - cel.input.rotateright.down
-   *   - cel.input.rotateright.up
-   *   - cel.input.jump.down
-   *   - cel.input.cammode.down
-   */
-  virtual void SubscribeMessages () = 0;
 };
 
 #endif // __CEL_PF_ACTORMOVE__

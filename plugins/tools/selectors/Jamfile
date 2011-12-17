@@ -1,6 +1,0 @@
-SubDir TOP plugins tools selectors ;
-
-Plugin selectors
-       : [ Wildcard *.cpp *.h ]
-;
-ExternalLibs selectors : CRYSTAL ;

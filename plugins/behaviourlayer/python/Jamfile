@@ -24,16 +24,6 @@ if $(PYTHON.AVAILABLE) = yes
   #--------
   local pycelcpp = [ DoSourceGrist PYCEL_py.cpp ] ;
   MarshallPyFile $(pycelcpp) : pycel.py : [ ConcatDirs $(TOP) scripts ] ;
-  {
-    # Copy PYCEL_py.cpp to source dir, needed for MSVC.
-    # Everywhere else the file can just be rebuilt ... the MarshallPyFile rule
-    # requires Python, but so does blpython as a whole.
-    local frozenpycelcpp = $(pycelcpp:G=frozenpycelcpp) ;
-    MakeLocate $(frozenpycelcpp) : $(SUBDIR) ;
-    Copy $(frozenpycelcpp) : $(pycelcpp) ;
-    Depends $(frozenpycelcpp) : $(pycelcpp) ;
-    Depends blcelfreeze : $(frozenpycelcpp) ;
-  }
 
   #--------
   # Swig-generated files.
@@ -123,10 +113,11 @@ if $(PYTHON.AVAILABLE) = yes
   #--------
   # blcelmod -- Pure Python module
   #--------
-  PythMod blcelmod : _blcelc : $(blcelcpp) celmod.cpp : bindings python : celtool :
+  PythMod blcelmod : _blcelc : $(blcelcpp) celmod.cpp : bindings python : :
     CRYSTAL : "pure Python module" ;
   Depends blcelmod : $(blcelpy) ;
   ExternalLibs blcelmod : PYTHON CRYSTAL ;
+  LinkWith blcelmod : celtool ;
   CFlags blcelmod : $(CELPYTHON.CFLAGS) ;
     
   FileListEntryPythMod blcelmod : : python-modules ;

@@ -184,7 +184,7 @@ Here is an example:
         <fireon entity="camera" child_entity="$key_ent" />
         <reward type="debugprint" message="The door is unlocked!" />
         <reward type="changeproperty" entity="$key_ent" pc="pcbillboard"
-          property="visible" bool="true" />
+          property="cel.property.visible" bool="true" />
         <reward type="newstate" state="closed" />
       </trigger>
     </state>

@@ -140,7 +140,7 @@ rule ExtraObjects
 ##    more information.
 rule RelayLFlags
 {
-  if $(TARGET.OS) = "WIN32" || ! $(CMD.RELAYTOOL)
+  if ! $(CMD.RELAYTOOL)
   {
     return $(1) ;
   }
@@ -181,7 +181,7 @@ rule RelayLFlags
 ##  RelayObjs target : relaylibs : identifier
 rule RelayObjs
 {
-  if $(TARGET.OS) = "WIN32" || ! $(CMD.RELAYTOOL)
+  if ! $(CMD.RELAYTOOL)
   {
     # Create fake libwhatever_is_present() symbols
     local stubfile = [ DoObjectGrist $(3).fake_stub.c ] ;
@@ -230,7 +230,7 @@ rule RelayLibs
     
     ExtraObjects $(<) : [ RelayObjs $(<) : $(3) : $(2) ] ;
     CFlags $(<) : $($(extlib).CFLAGS) ;
-    LFlags $(<) : [ RelayLFlags $(COMPILER.LFLAGS) $($(extlib).LFLAGS) : $(3) : $(minimal_list) ] : noexternal ;
+    LFlags $(<) : [ RelayLFlags $($(extlib).LFLAGS) : $(3) : $(minimal_list) ] : noexternal ;
     
     $(<).RELAYDEPS += $(extlib) ;
     $(<).RELAYLIBS.$(extlib) = $(3) ;

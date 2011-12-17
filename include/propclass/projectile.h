@@ -27,21 +27,24 @@
  * This is a projectile property class. This class controls movement
  * of a projectile from one spot to another (or in some direction).
  *
- * This property class can send out the following messages:
- * - 'cel.move.interrupted' (old 'pcprojectile_stopped'): the projectile movement
- *   has stopped but no object was hit.
- * - 'cel.move.collision' (old 'pcprojectile_hit'): we hit some object
- *   (entity, intersection, meshname). If we hit a mesh that is not an entity then
- *   this message will still be sent but with entity equal to 0 (you can then
- *   use the 'meshname' to see what mesh has been hit).
+ * This property class can send out the following messages
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * - pcprojectile_stopped: the projectile movement has stopped but no object
+ *     was hit.
+ * - pcprojectile_hit: we hit some object (entity, intersection, meshname).
+ *     If we hit a mesh that is not an entity then this message will still
+ *     be sent but with entity equal to 0 (you can then use the 'meshname'
+ *     to see what mesh has been hit).
  *
- * This property class supports the following actions (add prefix 'cel.move.projectile.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - Start: start movement in some direction. Parameters 'direction'
  *     (vector3), 'speed' (float), 'maxdist' (float), and 'maxhits' (long).
  * - Interrupt: interrupt the current movement.
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - moving (bool, read only): returns true if currently moving.
  */
 struct iPcProjectile : public virtual iBase

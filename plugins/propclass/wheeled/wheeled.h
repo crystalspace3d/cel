@@ -235,7 +235,7 @@ private:
   //The csVector2 holds the indexes of left and right wheels in a group.
   csHash<csVector2, float> diffGroups;
   csRef<iPcMechanicsObject> bodyMech;
-  csRef<celVariableParameterBlock> params;
+  celGenericParameterBlock* params;
   int topgear;
   bool cd_enabled;
   // Other fields.
@@ -453,6 +453,8 @@ public:
   void WheelCollision (iRigidBody *thisbody, iRigidBody *otherbody,
 	const csVector3& pos, const csVector3& normal, float depth, size_t index);
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
   virtual bool GetPropertyIndexed (int, long&);

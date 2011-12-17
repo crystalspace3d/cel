@@ -54,12 +54,6 @@ celPersistenceResult SetEntityPersistentData (iCelEntity* entity,
       if (pc_persist_code > persist_code)
 	persist_code = pc_persist_code;
     }
-
-    else
-    {
-      printf("SetEntityPersistentData: Unvalid property class: %s:%s\n",
-	     pc_name.GetData (), pc_tag.GetData ());
-    }
   }
 
   return persist_code;
@@ -70,7 +64,7 @@ celPersistenceResult SetEntityPersistentData (iCelEntity* entity,
  ****************************/
 
 GameFactoryManager::GameFactoryManager (NetTest* nettest,
-	iCelGameFactory* factory, const char* level_path, const char* level_file)
+	iCelGameFactory* factory, csString level_path, csString level_file)
 {
   GameFactoryManager::nettest = nettest;
   GameFactoryManager::factory = factory;
@@ -90,10 +84,10 @@ GameFactoryManager::~GameFactoryManager ()
 
 void GameFactoryManager::ServerNetworkStateChanged (
 	celServerNetworkState new_state, 
-        celServerNetworkState previous_state, const char* reason)
+        celServerNetworkState previous_state, csString reason)
 {
-  printf ("The state of the connection has changed from %d to %d\n",
-  	previous_state, new_state);
+  printf ("The state of the connection has changed from %d to %d, reason %s\n",
+  	previous_state, new_state, reason.GetData ());
 
   switch (new_state)
   {
@@ -105,7 +99,7 @@ void GameFactoryManager::ServerNetworkStateChanged (
     break;
   case CEL_NET_SERVER_INVALID_HOSTNAME:
     connection_state.Format ("Invalid server hostname: ""%s""",
-    	reason);
+    	reason.GetData ());
     break;
   case CEL_NET_SERVER_TRYING_CONNECTION:
     connection_state = "Trying to connect";
@@ -114,14 +108,12 @@ void GameFactoryManager::ServerNetworkStateChanged (
     connection_state = "Connected, sending initialization data";
     break;
   case CEL_NET_SERVER_REJECTED_BAD_GAME:
-    connection_state.Format
-      ("Rejected: the client is playing game ""%s"" while the server is playing game ""%s""",
-       factory->GetGameName (), reason);
+    connection_state.Format ("Rejected: the client is playing game ""%s"" while the server is playing game ""%s""", factory->GetGameName ().GetData (),
+    	reason.GetData ());
     break;
   case CEL_NET_SERVER_REJECTED_BAD_PROTOCOL:
-    connection_state.Format
-      ("Rejected: the client has protocol version ""%s"" while the server has version ""%s""",
-       factory->GetProtocolVersion (), reason);
+    connection_state.Format ("Rejected: the client has protocol version ""%s"" while the server has version ""%s""",
+    	factory->GetProtocolVersion ().GetData (), reason.GetData ());
     break;
   case CEL_NET_SERVER_REJECTED_BAD_PASSWORD:
     connection_state = "Rejected: invalid password";
@@ -130,9 +122,8 @@ void GameFactoryManager::ServerNetworkStateChanged (
     connection_state = "Rejected: the server is playing a single player game";
     break;
   case CEL_NET_SERVER_REJECTED_UNAUTHORIZED:
-    connection_state.Format
-      ("Rejected: the player is not authorized to join the game. Reason: ""%s""",
-    	reason);
+    connection_state.Format ("Rejected: the player is not authorized to join the game. Reason: ""%s""",
+    	reason.GetData ());
     break;
   case CEL_NET_SERVER_REJECTED_MAX_PLAYERS:
     connection_state = "Rejected: server full";
@@ -148,7 +139,7 @@ void GameFactoryManager::ServerNetworkStateChanged (
     break;
   case CEL_NET_SERVER_KICKED:
     connection_state.Format ("Player kicked from the game. Reason: ""%s""",
-    	reason);
+    	reason.GetData ());
     break;
   case CEL_NET_SERVER_UNREACHABLE:
     connection_state = "Server unreachable";
@@ -194,7 +185,6 @@ bool GameFactoryManager::InitClient (iCelGame* game)
   // we are ready to play
   game->GetGameClient ()->SetReady ();
 
-  fprintf(stdout, "Initialization of network client done.\n");
   return true;
 }
 
@@ -218,11 +208,10 @@ bool GameFactoryManager::InitServer (iCelGame* game)
   if (!server_manager->npc_entity)
     return false;
 
-  csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (
-  	server_manager->npc_entity);
+  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (
+  	server_manager->npc_entity, iPcActorMove);
   pcactormove->Forward(true);
 
-  fprintf(stdout, "Initialization of network server done.\n");
   return true;
 }
 
@@ -243,7 +232,7 @@ GameServerManager::~GameServerManager ()
 
 }
 
-bool GameServerManager::AuthorizePlayer (celPlayer* player, csString& reason)
+bool GameServerManager::AuthorizePlayer (celPlayer* player, csString &reason)
 {
   // check if the player name is already used
   iCelPlayerList* player_list = factory->GetServer ()->GetPlayerList ();
@@ -326,6 +315,7 @@ void GameServerManager::PlayerNetworkStateChanged (celPlayer* player,
       factory->GetServer ()->LaunchServerEvent (other_player, event);
   }
 
+
   // if it is a new player
   if (new_state == CEL_NET_PLAYER_PLAYING)
   {
@@ -381,7 +371,7 @@ void GameServerManager::PlayerNetworkStateChanged (celPlayer* player,
     }
   }
 
-  // if it is a player leaving
+  // if it is player leaving
   if (new_state == CEL_NET_PLAYER_DISCONNECTED
   	|| new_state == CEL_NET_PLAYER_LOST)
   {
@@ -468,15 +458,8 @@ void GameServerManager::PersistenceProblem (celPlayer* player, iCelEntity* entit
 {
   printf ("Persistence problem encountered while updating data from player %s\n",
   	player->player_name.GetData ());
-  if (entity)
-    printf ("Problem was for entity %d", entity->GetID ());
-  else
-    printf ("Problem was for entity 'unknown'");
-  if (pc)
-    printf (", pc %s:%s", pc->GetName (), pc->GetTag ());
-  else
-    printf (", pc 'unknown'");
-  printf (". Persistence result: %d\n", persist_code);
+  printf ("Problem was for entity %d, pc %s:%s. Persistence result: %d\n",
+  	entity->GetID (), pc->GetName (), pc->GetTag (), persist_code);
   fflush (stdout);
 }
 
@@ -514,8 +497,6 @@ void GameClientManager::HandleServerEvent (celServerEventType event_type,
         csTicks event_time, iCelDataBuffer* event_data)
 
 {
-  printf ("GameClientManager::HandleServerEvent\n");
-
   if (event_type == SERVER_EVENT_FORWARDED_TEST)
   {
     // read forwarded message

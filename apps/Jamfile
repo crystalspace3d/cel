@@ -1,16 +1,11 @@
 SubDir TOP apps ;
 
-SubInclude TOP apps bootstrap ;
-SubInclude TOP apps bttest ;
 SubInclude TOP apps celtest ;
 SubInclude TOP apps celstart ;
-SubInclude TOP apps evolvecraft ;
-SubInclude TOP apps hovertest ;
-SubInclude TOP apps lifesim ;
-SubInclude TOP apps navmeshtest ;
+SubInclude TOP apps bootstrap ;
 SubInclude TOP apps nettest ;
-SubInclude TOP apps pathfindingtest ;
-SubInclude TOP apps questtest ;
 SubInclude TOP apps tutorial ;
+SubInclude TOP apps hovertest ;
 SubInclude TOP apps wheeledtest ;
-SubInclude TOP apps elcmtest ;
+SubInclude TOP apps evolvecraft ;
+

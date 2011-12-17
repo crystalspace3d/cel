@@ -42,7 +42,7 @@
 #include "tools/expression.h"
 #include "plugins/tools/celgraph/celgraph.h"
 
-#include <iengine/sector.h>
+CS_IMPLEMENT_PLUGIN
 
 //--------------------------------------------------------------------------
 
@@ -52,7 +52,6 @@
   : scfImplementationType (this)
 {
   state = true;
-  weight = 0;
 }
 
 celEdge::~celEdge ()
@@ -79,16 +78,6 @@ iCelNode* celEdge::GetSuccessor ()
   return successor;
 }
 
-float celEdge::GetWeight () const
-{
-  return weight;
-}
-
-void celEdge::SetWeight (float weight)
-{
-  this->weight = weight;
-}
-
 //---------------------------------------------------------------------------
 
 //SCF_IMPLEMENT_FACTORY (celNode)
@@ -96,20 +85,21 @@ void celEdge::SetWeight (float weight)
 celNode::celNode ()
   : scfImplementationType (this)
 {
+  multiplier = 1;
 }
 
 celNode::~celNode ()
 {
 }
 
-size_t celNode:: AddSuccessor (iCelNode* node, bool state)
+void celNode:: AddSuccessor(iCelNode* node, bool state)
 {
   csRef<iCelEdge> edge;
   edge.AttachNew(new celEdge());
   edge->SetState(state);
   edge->SetSuccessor(node);
-  edge->SetWeight(csSquaredDist::PointPoint(GetPosition(), node->GetPosition()));
-  return edges.Push(edge);
+  edges.Push(edge);
+
 }
 
 void celNode:: SetMapNode (iMapNode* node)
@@ -127,10 +117,18 @@ void celNode:: SetName (const char* n)
   name = n;
 }
 
+void celNode::SetMultiplier (float mult)
+{
+  multiplier = mult;
+}
+
+
+
+
 void celNode:: Heuristic (float cost, iCelNode* goal)
 {
   heuristic = csSquaredDist::PointPoint(GetPosition(), goal->GetPosition());
-  this->cost = cost;
+  cost = cost*multiplier;
 }
 
 iMapNode* celNode:: GetMapNode ()
@@ -173,27 +171,6 @@ csArray<iCelNode*> celNode:: GetAllSuccessors ()
   return nodes;
 }
 
-void celNode::RemoveEdge(size_t idx)
-{
-  edges.DeleteIndex(idx);
-}
-
-size_t celNode::AddSuccessor (iCelNode* node, bool state, float weight)
-{
-  csRef<iCelEdge> edge;
-  edge.AttachNew(new celEdge());
-  edge->SetState(state);
-  edge->SetSuccessor(node);
-  edge->SetWeight(weight);
-  return edges.Push(edge);
-}
-
-csRefArray<iCelEdge> celNode::GetEdges () const
-{
-  csRefArray<iCelEdge> edges(this->edges);
-  return edges;
-}
-
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celPath)
@@ -201,6 +178,7 @@ SCF_IMPLEMENT_FACTORY (celPath)
 celPath::celPath (iBase* parent)
   : scfImplementationType (this, parent)
 {
+  size = 0;
   cur_node = 0;
 }
 
@@ -265,18 +243,14 @@ void celPath::Clear ()
   Restart();
 }
 
-void celPath::Invert ()
+void celPath ::Invert ()
 {
-  csRef<iMapNode> temp;
+  csRef <iMapNode> dum;
 
-  size_t size = nodes.GetSize() / 2;
-  size_t j = nodes.GetSize() - 1;
-  for (size_t i = 0; i < size; i++)
-  {
-    temp = nodes[j];
-    nodes[j] = nodes[i];
-    nodes[i] = temp;
-    j--;
+  for(unsigned int i=0;i<nodes.GetSize(); i++){
+    dum = nodes[nodes.GetSize()-i-1];
+    nodes[nodes.GetSize()-i-1] = nodes[i];
+    nodes[i] = dum;
   }
 }
 
@@ -295,7 +269,7 @@ iMapNode* celPath::GetLast ()
   return NULL;
 }
 
-bool celPath::Initialize (iObjectRegistry* object_reg)
+bool celPath::Initialize(iObjectRegistry* object_reg)
 {
   celPath::object_reg = object_reg;
 
@@ -326,7 +300,7 @@ celGraph::~celGraph ()
 {
 }
 
-bool celGraph::Initialize (iObjectRegistry* object_reg)
+bool celGraph::Initialize(iObjectRegistry* object_reg)
 {
   celGraph::object_reg = object_reg;
   
@@ -335,17 +309,17 @@ bool celGraph::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
-size_t celGraph:: AddNode (iCelNode* node)
+void celGraph:: AddNode(iCelNode* node)
 {
-  return nodes.Push(node);
+  nodes.Push(node);
 }
 
-void celGraph:: AddEdge (iCelNode* from, iCelNode* to, bool state)
+void celGraph:: AddEdge(iCelNode* from, iCelNode* to, bool state)
 {
   from->AddSuccessor(to, state);
 }
 
-bool celGraph:: AddEdgeByNames (const char* from, const char* to, bool state)
+bool celGraph:: AddEdgeByNames(const char* from, const char* to, bool state)
 {
   iCelNode* f = 0;
   iCelNode* t = 0;
@@ -436,21 +410,19 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
       }
     }
 
-    // Get edges
-    csRefArray<iCelEdge> edges = current->GetEdges();
-    size_t size = edges.GetSize();
-    for (size_t i = 0; i < size; i++)
+    //Get successors
+    csArray<iCelNode*> suc = current->GetSuccessors();
+    for(size_t i=0; i<suc.GetSize(); i++)
     {
-      iCelNode* suc = edges[i]->GetSuccessor();
-      // Check if this Node is already in the queue
-      array = hash.GetAll(computer.ComputeHash(suc->GetPosition().x + suc->GetPosition().y));
+      //Check if this Node is already in the queue
+      array = hash.GetAll(computer.ComputeHash(suc[i]->GetPosition().x + suc[i]->GetPosition().y));
       csArray<iCelNode*> :: Iterator it = array.GetIterator();
       bool in = false;
 
       while(it.HasNext())
       {
         iCelNode* cur = it.Next();
-        if(cur == suc)
+        if(cur == suc[i])
         {
           in = true;
           break;
@@ -462,77 +434,14 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
         continue;
       }
 
-      suc->SetParent(current);
-      suc->Heuristic(current->GetCost() + edges[i]->GetWeight(), goal);
-      queue.Insert(suc);
-      hash.Put(computer.ComputeHash(suc->GetPosition().x + suc->GetPosition().y), suc);
+      suc[i]->SetParent(current);
+      float cost = csSquaredDist::PointPoint(current->GetPosition(), suc[i]->GetPosition());
+      suc[i]->Heuristic(current->GetCost()+cost, goal);
+      queue.Insert(suc[i]);
+      hash.Put(computer.ComputeHash(suc[i]->GetPosition().x+suc[i]->GetPosition().y), suc[i]);
     }
   }
   //goal is unreachable from here
-  return false;
-}
-
-bool celGraph::ShortestPath2 (iCelNode* from, iCelNode* goal, iCelPath* path)
-{
-  CS::Utility::PriorityQueue<iCelNode*, csArray<iCelNode*>, Comparator<iCelNode*, iCelNode*> > queue;
-  csHash<iCelNode*, csPtrKey<iCelNode> > openSet;
-  csHash<iCelNode*, csPtrKey<iCelNode> > closedSet;
-
-  path->Clear();
-  from->Heuristic(0, goal);
-  queue.Insert(from);
-
-  while (!queue.IsEmpty())
-  {
-    // Get the node with the least estimated cost
-    iCelNode* current = queue.Pop();
-
-    // Found path
-    if (current == goal)
-    {
-      while (current != from)
-      {
-        path->AddNode(current->GetMapNode());
-        current = current->GetParent();
-      }
-      path->AddNode(from->GetMapNode());
-      path->Invert();
-      return true;
-    }
-
-    closedSet.Put(current, current);
-
-    // Get successors
-    csRefArray<iCelEdge> edges = current->GetEdges();
-    size_t size = edges.GetSize();
-    for (size_t i = 0; i < size; i++)
-    {
-      iCelNode* successor = edges[i]->GetSuccessor();
-
-      if (closedSet.Contains(successor))
-      {
-        continue;
-      }
-
-      float cost = current->GetCost() + edges[i]->GetWeight();
-      if (!openSet.Contains(successor))
-      {
-        successor->SetParent(current);
-        successor->Heuristic(cost, goal);
-        queue.Insert(successor);
-        openSet.Put(successor, successor);
-      }
-      else
-      {
-        if (cost < successor->GetCost())
-        {
-          successor->SetParent(current);
-          successor->Heuristic(cost, goal);
-        }
-      }
-    }
-  }
-  // Goal is unreachable from here
   return false;
 }
 
@@ -557,7 +466,7 @@ iCelNode* celGraph::RandomPath (iCelNode* from, int distance, iCelPath* path)
   }
 }
 
-iCelNode* celGraph::CreateNode (const char *name, csVector3 &pos)
+iCelNode *celGraph::CreateNode(const char *name, csVector3 &pos)
 {
   csRef<iMapNode> n;
   n.AttachNew(new csMapNode("n0"));
@@ -571,25 +480,4 @@ iCelNode* celGraph::CreateNode (const char *name, csVector3 &pos)
   return newnode;
 }
 
-void celGraph::RemoveNode (size_t idx)
-{
-  nodes.DeleteIndex(idx);
-}
 
-void celGraph::RemoveEdge (iCelNode* from, size_t idx)
-{
-  from->RemoveEdge(idx);
-}
-
-size_t celGraph::AddEdge (iCelNode* from, iCelNode* to, bool state, float weight)
-{
-  return from->AddSuccessor(to, state, weight);
-}
-
-iCelNode* celGraph::CreateEmptyNode (size_t& index)
-{
-  csRef<iCelNode> newnode;
-  newnode.AttachNew(new celNode());
-  index = AddNode(newnode);
-  return newnode;
-}

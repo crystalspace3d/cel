@@ -36,6 +36,8 @@
 
 //---------------------------------------------------------------------------
 
+CS_IMPLEMENT_PLUGIN
+
 CEL_IMPLEMENT_FACTORY_ALT (PathFinder, "pcmove.pathfinder", "pcpathfinder")
 
 //---------------------------------------------------------------------------
@@ -59,37 +61,36 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
   // For actions.
   if (id_sectorname == csInvalidStringID)
   {
-    id_sectorname = pl->FetchStringID ("sectorname");
-    id_position = pl->FetchStringID ("position");
-    id_pursue_max_prediction = pl->FetchStringID ("pursue_max_prediction");
-    id_is_active = pl->FetchStringID ("is_active");
-    id_min_distance = pl->FetchStringID ("min_distance");
-    id_meshname = pl->FetchStringID ("meshname");
+    id_sectorname = pl->FetchStringID ("cel.parameter.sectorname");
+    id_position = pl->FetchStringID ("cel.parameter.position");
+    id_pursue_max_prediction = pl->FetchStringID ("cel.parameter.pursue_max_prediction");
+    id_is_active = pl->FetchStringID ("cel.parameter.is_active");
+    id_min_distance = pl->FetchStringID ("cel.parameter.min_distance");
+    id_meshname = pl->FetchStringID ("cel.parameter.meshname");
     // for receiving messages
     id_msg_arrived = pl->FetchStringID ("cel.move.arrived");
     id_msg_interrupted = pl->FetchStringID ("cel.move.interrupted");
 }
 
   params = new celOneParameterBlock ();
-  params->SetParameterDef (id_meshname);
+  params->SetParameterDef (id_meshname, "meshname");
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.move.pathfinder.action.");
-    AddAction (action_seek, "Seek");
-    AddAction (action_wander, "Wander");
-    AddAction (action_pursue, "Pursue");
-    AddAction (action_interrupt, "Interrupt");
+    AddAction (action_seek, "cel.action.Seek");
+    AddAction (action_wander, "cel.action.Wander");
+    AddAction (action_pursue, "cel.action.Pursue");
+    AddAction (action_interrupt, "cel.action.Interrupt");
   }
 
   // For properties.
   propinfo.SetCount (4);
-  AddProperty (propid_position, "position",
+  AddProperty (propid_position, "cel.property.position",
     CEL_DATA_VECTOR3, true, "Desired end position.", &position);
-  AddProperty (propid_pursue_max_prediction, "pursue_max_prediction",
+  AddProperty (propid_pursue_max_prediction, "cel.property.pursue_max_prediction",
     CEL_DATA_FLOAT, false, "Pursue Max Prediction.", &pursue_max_prediction);
-  AddProperty (propid_is_active, "is_active",
+  AddProperty (propid_is_active, "cel.property.is_active",
     CEL_DATA_BOOL, true, "Is pathfinding activated?", &is_active);
 
   delay_recheck = 20;
@@ -114,6 +115,21 @@ celPcPathFinder::~celPcPathFinder ()
   delete params;
 }
 
+#define GRAPH_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcPathFinder::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (GRAPH_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcPathFinder::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != GRAPH_SERIAL) return false;
+  return true;
+}
+
 void celPcPathFinder::SendMessage (const char* msgold, const char* msg,
     csRef<iMessageDispatcher>& dispatcher, const char* meshname)
 {
@@ -129,7 +145,7 @@ void celPcPathFinder::SendMessage (const char* msgold, const char* msg,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID (msg));
+      CreateMessageDispatcher (this, msg);
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (params);
@@ -298,7 +314,9 @@ bool celPcPathFinder::FollowPath ()
   if (!pclinmove || !pcactormove || !pcsteer)
     return false;
 
+  float yrot;
   csVector3 cur_position;
+  iSector* cur_sector;
 
   if(goal->GetMapNode() == cur_path->Current())
   {
@@ -364,9 +382,6 @@ bool celPcPathFinder::FollowPath ()
 bool celPcPathFinder::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
 		celData& ret, iCelParameterBlock* params)
 {
-  if (celPcCommon::ReceiveMessage (msg_id, sender, ret, params))
-    return true;
-
   if (msg_id == id_msg_arrived)
   {
     if(cur_path->HasNext())

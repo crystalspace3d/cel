@@ -4,8 +4,6 @@
 #include <physicallayer/entity.h>
 #include <physicallayer/pl.h>
 
-class FramePrinter;
-
 class MainApp : public csApplicationFramework,
                 public csBaseEventHandler
 {
@@ -16,7 +14,6 @@ private:
   csRef<iVFS> vfs;
   csRef<iVirtualClock> vc;
   csRef<iKeyboardDriver> kbd;
-  csRef<FramePrinter> printer;
 
   csRef<iCelPlLayer> pl;
   csRef<iCelBlLayer> bl;
@@ -25,8 +22,9 @@ private:
   csRef<iCelEntity> steering_entity;
 
   bool OnKeyboard (iEvent&);
-  void Frame ();
-  
+  void ProcessFrame ();
+  void FinishFrame ();
+
   bool LoadLevel ();
   bool CreatePlayer ();
   bool LoadSteering ();
@@ -37,7 +35,6 @@ public:
 
   virtual bool OnInitialize (int argc, char* argv[]);
   virtual bool Application ();
-  virtual void OnExit ();
 };
 
 

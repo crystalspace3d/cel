@@ -188,7 +188,7 @@ struct iBillboard : public virtual iBase
 	float angle = 0.0f, float distance = -1.0f) = 0;
 
   /**
-   * Set the size of this billboard in billboard space.
+   * Set the size of this billboard in pixels.
    */
   virtual void SetSize (int w, int h) = 0;
 

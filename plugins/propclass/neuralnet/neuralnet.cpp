@@ -32,6 +32,7 @@
 
 #include <math.h>
 
+CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY(NeuralNet, "pcai.neuralnet")
 
 // portable rounding function
@@ -94,7 +95,7 @@ const char* const descriptions[] = {
 
 // Instances of these templates are associated with csStringIDs in a csHash,
 // so that the activation function can be selected with a string param passed
-// to "SetActivationFunc".
+// to "cel.action.SetActivationFunc".
 template <typename T>
 celNNActivationFunc* gen_nop() { return new celNopActivationFunc<T>; }
 template <typename T>
@@ -141,24 +142,23 @@ celPcNeuralNet::celPcNeuralNet(iObjectRegistry *objreg)
 
   if (! propinfo.actions_done)
   {
-    SetActionMask ("cel.neural.action.");
-    AddAction(NN_SETFUNC, "SetActivationFunc");
-    AddAction(NN_SETCOMP, "SetComplexity");
-    AddAction(NN_SETLAYERS, "SetLayerSizes");
-    AddAction(NN_SETINPUTS, "SetInputs");
-    AddAction(NN_PROCESS, "Process");
-    AddAction(NN_SAVECACHE, "SaveCache");
-    AddAction(NN_LOADCACHE, "LoadCache");
+    AddAction(NN_SETFUNC, "cel.action.SetActivationFunc");
+    AddAction(NN_SETCOMP, "cel.action.SetComplexity");
+    AddAction(NN_SETLAYERS, "cel.action.SetLayerSizes");
+    AddAction(NN_SETINPUTS, "cel.action.SetInputs");
+    AddAction(NN_PROCESS, "cel.action.Process");
+    AddAction(NN_SAVECACHE, "cel.action.SaveCache");
+    AddAction(NN_LOADCACHE, "cel.action.LoadCache");
   }
 
   propinfo.SetCount(NN_PROP_LAST);
-  AddProperty(NN_INPUTS, "inputs", CEL_DATA_LONG, false,
+  AddProperty(NN_INPUTS, "cel.property.inputs", CEL_DATA_LONG, false,
 	descriptions[NN_INPUTS], &numInputs);
-  AddProperty(NN_OUTPUTS, "outputs", CEL_DATA_LONG, false,
+  AddProperty(NN_OUTPUTS, "cel.property.outputs", CEL_DATA_LONG, false,
 	descriptions[NN_OUTPUTS], &numOutputs);
-  AddProperty(NN_LAYERS, "layers", CEL_DATA_LONG, false,
+  AddProperty(NN_LAYERS, "cel.property.layers", CEL_DATA_LONG, false,
 	descriptions[NN_LAYERS], &numLayers);
-  AddProperty(NN_DISPATCH, "dispatch", CEL_DATA_BOOL, false,
+  AddProperty(NN_DISPATCH, "cel.property.dispatch", CEL_DATA_BOOL, false,
 	descriptions[NN_DISPATCH], &doDispatch);
 
   // Associate funcgen_t function pointers with csStringIDs.
@@ -229,11 +229,12 @@ bool celPcNeuralNet::Validate()
   layers.SetSize(size_t(numLayers + 1));
   if (! InitLayerSizes()) return false;
 
-  params.AttachNew (new celVariableParameterBlock (numOutputs));
+  params.AttachNew(new celGenericParameterBlock (numOutputs));
   for (size_t i = 0; i < size_t(numOutputs); i++)
   {
     csString id ("output"); id << i;
-    params->AddParameter (pl->FetchStringID(id));
+    csString fqid ("cel.parameter."); fqid << id;
+    params->SetParameterDef(i, pl->FetchStringID(fqid), id);
   }
 
   valid = true;
@@ -353,9 +354,9 @@ bool celPcNeuralNet::SetLayerSizes(iCelParameterBlock *params)
 bool celPcNeuralNet::SaveCache(iCelParameterBlock *params)
 {
   const celData *scope_d = params->GetParameter
-	(pl->FetchStringID("scope"));
+	(pl->FetchStringID("cel.parameter.scope"));
   const celData *id_d = params->GetParameter
-	(pl->FetchStringID("id"));
+	(pl->FetchStringID("cel.parameter.id"));
   if (! (scope_d && scope_d->type == CEL_DATA_STRING
 	&& id_d && id_d->type == CEL_DATA_LONG))
     return Error("SaveCache takes 2 parameters, string 'scope' and long 'id'.");
@@ -368,9 +369,9 @@ bool celPcNeuralNet::SaveCache(iCelParameterBlock *params)
 bool celPcNeuralNet::LoadCache(iCelParameterBlock *params)
 {
   const celData *scope_d = params->GetParameter
-	(pl->FetchStringID("scope"));
+	(pl->FetchStringID("cel.parameter.scope"));
   const celData *id_d = params->GetParameter
-	(pl->FetchStringID("id"));
+	(pl->FetchStringID("cel.parameter.id"));
   if (! (scope_d && scope_d->type == CEL_DATA_STRING
 	&& id_d && id_d->type == CEL_DATA_LONG))
     return Error("LoadCache takes 2 parameters, string 'scope' and long 'id'.");
@@ -445,7 +446,7 @@ void celPcNeuralNet::SendMessage()
   if (!dispatcher_outputs)
   {
     dispatcher_outputs = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID ("cel.neuralnet.outputs"));
+      CreateMessageDispatcher (this, "cel.neuralnet.outputs");
     if (!dispatcher_outputs) return;
   }
   dispatcher_outputs->SendMessage (params);

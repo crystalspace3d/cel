@@ -1,6 +1,0 @@
-SubDir TOP plugins tools sequences ;
-
-Plugin sequences
-       : [ Wildcard *.cpp *.h ]
-;
-ExternalLibs sequences : CRYSTAL ;

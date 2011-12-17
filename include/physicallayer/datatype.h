@@ -37,47 +37,27 @@ struct iCelEntity;
  */
 enum celDataType
 {
-  /// Undefined type
   CEL_DATA_NONE = 0,
-  /// Boolean type
   CEL_DATA_BOOL,
-  /// Byte type (ie 8 bits)
   CEL_DATA_BYTE,
-  /// Word type (ie 16 bits)
   CEL_DATA_WORD,
-  /// Long type (ie 32 bits)
   CEL_DATA_LONG,
-  /// Unsigned byte type
   CEL_DATA_UBYTE,
-  /// Unsigned word type
   CEL_DATA_UWORD,
-  /// Unsigned long type
   CEL_DATA_ULONG,
-  /// Float type
   CEL_DATA_FLOAT,
-  /// csVector2 type
   CEL_DATA_VECTOR2,
-  /// csVector3 type
   CEL_DATA_VECTOR3,
-  /// csVector4 type
   CEL_DATA_VECTOR4,
-  /// String type
   CEL_DATA_STRING,
-  /// Property class type
   CEL_DATA_PCLASS,
-  /// Entity type
   CEL_DATA_ENTITY,
-  /// Action type
   CEL_DATA_ACTION,
-  /// csColor type
   CEL_DATA_COLOR,
-  /// csColor4 type
   CEL_DATA_COLOR4,
-  /// iBase type
   CEL_DATA_IBASE,
-  /// A templated parameter 
   CEL_DATA_PARAMETER,
-  /// Count of different data types
+
   CEL_DATA_LAST
 };
 
@@ -126,67 +106,17 @@ struct celData
   }
   const celData& operator= (const celData& copy)
   {
-    Copy (copy);
+    Clear ();
+    type = copy.type;
+    value = copy.value;
+    if (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s->IncRef ();
+    else if (type == CEL_DATA_PARAMETER) value.par.parname->IncRef ();
     return *this;
   }
   ~celData()
   {
     Clear ();
   }
-
-  void Copy (const celData& copy)
-  {
-    Clear ();
-    type = copy.type;
-    value = copy.value;
-    if (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s->IncRef ();
-    else if (type == CEL_DATA_PARAMETER) value.par.parname->IncRef ();
-  }
-
-  bool operator== (const celData& other) const
-  {
-    if (type != other.type) return false;
-    switch (type)
-    {
-      case CEL_DATA_NONE: return true;
-      case CEL_DATA_BOOL: return value.bo == other.value.bo;
-      case CEL_DATA_BYTE: return value.b == other.value.b;
-      case CEL_DATA_WORD: return value.w == other.value.w;
-      case CEL_DATA_LONG: return value.l == other.value.l;
-      case CEL_DATA_UBYTE: return value.ub == other.value.ub;
-      case CEL_DATA_UWORD: return value.uw == other.value.uw;
-      case CEL_DATA_ULONG: return value.ul == other.value.ul;
-      case CEL_DATA_FLOAT: return value.f == other.value.f;
-      case CEL_DATA_VECTOR2: return value.v.x == other.value.v.x &&
-                               value.v.y == other.value.v.y;
-      case CEL_DATA_VECTOR3: return value.v.x == other.value.v.x &&
-                               value.v.y == other.value.v.y &&
-                               value.v.z == other.value.v.z;
-      case CEL_DATA_VECTOR4: return value.v.x == other.value.v.x &&
-                               value.v.y == other.value.v.y &&
-                               value.v.z == other.value.v.z &&
-                               value.v.w == other.value.v.w;
-      case CEL_DATA_STRING: return value.s == other.value.s;
-      case CEL_DATA_PCLASS: return value.pc == other.value.pc;
-      case CEL_DATA_ENTITY: return value.ent == other.value.ent;
-      case CEL_DATA_ACTION: return value.s == other.value.s;
-      case CEL_DATA_COLOR: return value.col.red == other.value.col.red &&
-                             value.col.green == other.value.col.green &&
-                             value.col.blue == other.value.col.blue;
-      case CEL_DATA_COLOR4: return value.col.red == other.value.col.red &&
-                              value.col.green == other.value.col.green &&
-                              value.col.blue == other.value.col.blue &&
-                              value.col.alpha == other.value.col.alpha;
-      case CEL_DATA_IBASE: return value.ibase == other.value.ibase;
-      case CEL_DATA_PARAMETER: return value.par.partype == other.value.par.partype &&
-                                 value.par.parname == other.value.par.parname;
-      default:
-        printf ("INTERNAL ERROR! Bad type %d\n", type);
-        fflush (stdout);
-        return false;
-    }
-  }
-
   void Clear ()
   {
     if (type == CEL_DATA_STRING || type == CEL_DATA_ACTION) value.s->DecRef ();
@@ -282,6 +212,7 @@ struct celData
     value.par.parname = new scfString (s);
     value.par.partype = t;
   }
+  csString GetDebugInfo ();
 };
 
 struct iCelDataArrayReadOnly : public iArrayReadOnly<celData>
@@ -291,7 +222,7 @@ struct iCelDataArrayReadOnly : public iArrayReadOnly<celData>
 
 struct iCelDataArray : public iArrayChangeAll<celData>
 {
-  SCF_IARRAYCHANGEALL_INTERFACE(iCelDataArray);
+  SCF_IARRAYCHANGEALL_INTERFACE(iCelDataArrayReadOnly);
 };
 
 #endif // __CEL_PL_DATATYPE__

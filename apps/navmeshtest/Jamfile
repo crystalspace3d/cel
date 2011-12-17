@@ -1,8 +1,0 @@
-SubDir TOP apps navmeshtest ;
-
-Application navmeshtest : [ Wildcard *.cpp *.h ] ;
-CFlags navmeshtest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-LinkWith navmeshtest : celtool ;
-ExternalLibs navmeshtest : CRYSTAL ;
-FileListEntryApplications navmeshtest : app-demo ;
-

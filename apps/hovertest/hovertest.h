@@ -35,7 +35,6 @@ struct iEvent;
 struct iSector;
 struct iView;
 class csVector3;
-class FramePrinter;
 
 struct iPcCamera;
 struct iCelEntity;
@@ -57,7 +56,6 @@ private:
   csRef<iKeyboardDriver> kbd;
   csRef<iVirtualClock> vc;
   csRef<iVFS> vfs;
-  csRef<FramePrinter> printer;
 
   csRef<iCelPlLayer> pl;
   csRef<iCelBlLayer> behaviour_layer;
@@ -65,10 +63,16 @@ private:
 
   /**
    * Setup everything that needs to be rendered on screen. This routine
-   * is called from the event handler in response to a csevFrame
+   * is called from the event handler in response to a csevProcess
    * broadcast message.
    */
-  virtual void Frame ();
+  virtual void ProcessFrame ();
+
+  /**
+   * Finally render the screen. This routine is called from the event
+   * handler in response to a csevFinalProcess broadcast message.
+   */
+  virtual void FinishFrame ();
 
   /**
    * Handle keyboard events - ie key presses and releases.

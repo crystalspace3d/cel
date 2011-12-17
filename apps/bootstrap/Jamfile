@@ -75,6 +75,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     spr3dldr
     stdrep
     terrainldr
+    thing
+    thingldr
     vfs
     xmlread
     xmlshader
@@ -100,6 +102,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   {
     STATIC.PLUGINLIST += glx2d ;
     STATIC.PLUGINLIST += joylin ;
+    STATIC.PLUGINLIST += x2d ;
     STATIC.PLUGINLIST += xwin ;
     STATIC.OPTIONALPLUGINLIST += sndsysoss ;
     STATIC.OPTIONALPLUGINLIST += sndsysalsa ;

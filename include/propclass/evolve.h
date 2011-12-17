@@ -37,14 +37,15 @@
  * celPcNeuralNet, but it would be fairly easy to extend it to support
  * evolving other property classes where applicable.
  *
- * The property class holds the following properties:
+ * The property class holds the following properties (add prefix
+ * "cel.property." to get a property ID):
  * - "population" (long) The size of the population (number of genomes).
  * - "subject" (propclass) The property class that will be evolved.
  * - "select_probability" (float) Parameter for stochastic selection.
  * - "mutate_probability" (float) Parameter for stochastic mutation.
  *
- * This property class supports the following actions (add prefix 'cel.evolve.action.'
- * if you want to access this action through a message):
+ * And the following actions (add prefix "cel.action." or "cel.parameter."
+ * to get the ID of an action or parameter respectively):
  * - "Generate"	Begins evolution of one generation.
  * - "ReturnFitness" The behaviour calls this after evaluating the fitness
  *   of the presently selected genome. Parameter: "fitness" (float).

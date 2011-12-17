@@ -27,25 +27,15 @@ struct iCelEntity;
 struct iPcInventory;
 
 /**
- * An iterator to get all characteristics.
- */
-struct iCharacteristicsIterator : public virtual iBase
-{
-  SCF_INTERFACE (iCharacteristicsIterator, 0, 0, 1);
-
-  virtual bool HasNext () const = 0;
-  /// Get the next characteristic name.
-  virtual const char* Next (float& value) = 0;
-};
-
-/**
  * This is a characteristics property class.
  *
- * This property class supports the following actions (add prefix 'cel.characteristics.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - HasCharacteristic: parameters 'name' (string), returns true/false.
  *
- * This property class supports the following properties:
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
  * - <name> (float, read/write): the specific characteristic.
  */
 struct iPcCharacteristics : public virtual iBase
@@ -142,48 +132,6 @@ struct iPcCharacteristics : public virtual iBase
    * Debug dump information.
    */
   virtual void Dump () = 0;
-};
-
-/**
- * This interface is used to represent characteristics for entity templates.
- * This is a more limited interface since entity templates can be in multiple
- * inventories at the same time so they have no notion of 'current entity'
- * or 'current inventory'. Also entity templates have no children so there
- * are only local characteristics.
- */
-struct iTemplateCharacteristics : public virtual iBase
-{
-  SCF_INTERFACE (iTemplateCharacteristics, 0, 0, 1);
-
-  /**
-   * Set characteristic property.
-   */
-  virtual void SetCharacteristic (const char* name, float value) = 0;
-
-  /**
-   * Get characteristic property.
-   */
-  virtual float GetCharacteristic (const char* name) const = 0;
-
-  /**
-   * Clear a characteristic.
-   */
-  virtual void ClearCharacteristic (const char* name) = 0;
-
-  /**
-   * Returns true if a property is present.
-   */
-  virtual bool HasCharacteristic (const char* name) const = 0;
-
-  /**
-   * Return all characteristics.
-   */
-  virtual csPtr<iCharacteristicsIterator> GetAllCharacteristics () const = 0;
-
-  /**
-   * Clear all properties.
-   */
-  virtual void ClearAll () = 0;
 };
 
 #endif // __CEL_PF_CHARS__

@@ -98,7 +98,7 @@ class celPcEvolve
 : public scfImplementationExt1<celPcEvolve, celPcCommon, iPcEvolve>
 {
   static PropertyHolder propinfo;
-  csRef<celVariableParameterBlock> params;
+  csRef<celGenericParameterBlock> params;
 
   csRef<iMessageDispatcher> dispatcher_result;
   csRef<iMessageDispatcher> dispatcher_fitness;
@@ -144,20 +144,20 @@ class celPcEvolve
   csPtr<iCelGenome> Crossover(size_t point);
 
   /**
-   * The private method called by the "ReturnFitness" action.
+   * The private method called by the "cel.action.ReturnFitness" action.
    * Stores the returned fitness value (from params) in the genome and calls
    * the re-entrant method Evolve().
    */
   bool FitnessCallback(iCelParameterBlock *params);
 
   /**
-   * The private method called by the "GetFitness" action.
+   * The private method called by the "cel.action.GetFitness" action.
    * Returns (in ret) the fitness value of the genome specified by the param.
    */
   bool GetFitness(iCelParameterBlock *params, celData &ret);
 
   /**
-   * The private method called by the "Select" action. Stores in
+   * The private method called by the "cel.action.Select" action. Stores in
    * subject the genome specified by the param.
    */
   bool SelectGenome(iCelParameterBlock *params);
@@ -196,6 +196,8 @@ public:
 
   //--------------------------------------------------------- celPcCommon --//
   virtual bool PerformActionIndexed(int index, iCelParameterBlock *params, celData &ret);
+  virtual csPtr<iCelDataBuffer> Save() { return pl->CreateDataBuffer(0); }
+  virtual bool Load(iCelDataBuffer *buf) { return true; }
 
   //----------------------------------------------------------- iPcEvolve --//
   virtual void SetPopulationSize(size_t size) { popSize = (int32)size; }

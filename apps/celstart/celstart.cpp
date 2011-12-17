@@ -19,11 +19,9 @@
 
 #include "cssysdef.h"
 #include "celstart.h"
-#include "celstart/celstart.h"
 #include "csutil/cfgacc.h"
 #include "csutil/cmdhelp.h"
 #include "csutil/event.h"
-#include "csutil/common_handlers.h"
 #include "csutil/physfile.h"
 #include "csutil/sysfunc.h"
 #include "csutil/util.h"
@@ -56,6 +54,8 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 #include "celtool/stdparams.h"
+
+CS_IMPLEMENT_APPLICATION
 
 //-----------------------------------------------------------------------------
 
@@ -157,11 +157,24 @@ void CelStart::SetupFrame ()
   }
 }
 
+void CelStart::FinishFrame ()
+{
+  g3d->FinishDraw ();
+  g3d->Print (0);
+  // @@@
+  ///csSleep (5);
+}
+
 bool CelStart::HandleEvent (iEvent& ev)
 {
-  if (ev.Name == csevFrame (object_reg))
+  if (ev.Name == csevProcess (object_reg))
   {
     celstart->SetupFrame ();
+    return true;
+  }
+  else if (ev.Name == csevFinalProcess (object_reg))
+  {
+    celstart->FinishFrame ();
     return true;
   }
 
@@ -329,12 +342,13 @@ void CelStart::FindCelStartArchives ()
         icons.Push (0);
       else
       {
-        csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
-        csString iconpath = "/tmp/celstart_test/";
-        iconpath += icon;
-        csRef<iTextureHandle> txt = loader->LoadTexture (iconpath, CS_TEXTURE_2D, g3d->GetTextureManager ());
-        csSimplePixmap* pm = new csSimplePixmap (txt);
-        icons.Push (pm);
+	csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
+	csString iconpath = "/tmp/celstart_test/";
+	iconpath += icon;
+	csRef<iTextureHandle> txt = loader->LoadTexture (iconpath,
+	    CS_TEXTURE_2D, g3d->GetTextureManager ());
+	csSimplePixmap* pm = new csSimplePixmap (txt);
+	icons.Push (pm);
       }
     }
     csRef<iConfigManager> cfg = csQueryRegistry<iConfigManager> (object_reg);
@@ -478,11 +492,12 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     for (size_t i = 0; i < joystickClasses->GetSize (); i++)
     {
       const char* className = joystickClasses->Get (i);
-      csRef<iBase> b = csLoadPluginCheck<iBase> (plugmgr, className);
+      iBase* b = plugmgr->LoadPlugin (className);
 
       csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
-        "crystalspace.application.joytest", "Attempt to load plugin '%s' %s",
-        className, (b != 0) ? "successful" : "failed");
+	"crystalspace.application.joytest", "Attempt to load plugin '%s' %s",
+	className, (b != 0) ? "successful" : "failed");
+      if (b != 0) b->DecRef ();
     }
   }
 
@@ -501,6 +516,15 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.celstart",
     	"CEL physical layer missing!");
+    return false;
+  }
+
+  // Open the main system. This will open all the previously loaded plug-ins.
+  if (!csInitializer::OpenApplication (object_reg))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.celstart",
+    	"Error opening system!");
     return false;
   }
 
@@ -533,10 +557,6 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
   }
   vfs->PopDir();
 
-  // Check loader options.
-  checkDupes = cfg->GetBool("CelStart.Loader.CheckDupes", true);
-  seperateCollections = cfg->GetBool("CelStart.Loader.SeperateCollections");
-
   // Load behaviour layers
   csRef<iConfigIterator> it = cfg->Enumerate ("CelStart.BehaviourLayer.");
   while (it && it->Next ())
@@ -554,17 +574,6 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     object_reg->Register (bl, bhname);
     pl->RegisterBehaviourLayer (bl);
   }
-
-
-  // Open the main system. This will open all the previously loaded plug-ins.
-  if (!csInitializer::OpenApplication (object_reg))
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"crystalspace.application.celstart",
-    	"Error opening system!");
-    return false;
-  }
-  
 
   // Load initial entities specified in config file
   it = cfg->Enumerate ("CelStart.Entity.");
@@ -606,36 +615,16 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     }
   }
 
-  // Load libraries.
-  it = cfg->Enumerate ("CelStart.Library.");
-  while (it && it->Next ())
-  {
-    const char* file = it->GetStr ();
-    if (!vfs->ChDirAuto (path, 0, 0, file))
-      return false;
-
-    csRef<iThreadedLoader> tloader = csQueryRegistry<iThreadedLoader>(object_reg);
-    csRef<iThreadReturn> ret = tloader->LoadLibraryFileWait (path, file);
-    if(!ret->WasSuccessful())
-    {
-      return false;
-    }
-  }
-
   // Load map files
+  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
   it = cfg->Enumerate ("CelStart.MapFile.");
   while (it && it->Next ())
   {
     const char* file = it->GetStr ();
     if (!vfs->ChDirAuto (path, 0, 0, file))
       return false;
-
-    csRef<iThreadedLoader> tloader = csQueryRegistry<iThreadedLoader>(object_reg);
-    csRef<iThreadReturn> ret = tloader->LoadMapFileWait (path, file, false);
-    if(!ret->WasSuccessful())
-    {
+    if (!loader->LoadMapFile (file, false))
       return false;
-    }
   }
 
   do_clearscreen = cfg->GetBool ("CelStart.ClearScreen", false);
@@ -643,8 +632,6 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
   iNativeWindow* nw = g3d->GetDriver2D ()->GetNativeWindow ();
   if (nw) nw->SetTitle (
       cfg->GetStr ("CelStart.WindowTitle","CelStart Application"));
-
-  printer.AttachNew (new FramePrinter (object_reg));
 
   return true;
 }
@@ -801,53 +788,21 @@ void CelStart::Start ()
   }
 }
 
-void CelStart::Stop ()
+/*---------------------------------------------------------------------*
+ * Main function
+ *---------------------------------------------------------------------*/
+int main (int argc, char* argv[])
 {
-  printer.Invalidate ();
+  celstart = new CelStart ();
+
+  if (celstart->Initialize (argc, argv))
+    celstart->Start ();
+
+  iObjectRegistry* object_reg = celstart->object_reg;
+  delete celstart;
+  celstart = 0;
+
+  csInitializer::DestroyApplication (object_reg);
+  return 0;
 }
 
-namespace CEL
-{
-  /*---------------------------------------------------------------------*
-   * Main function
-   *---------------------------------------------------------------------*/
-  int CelStartMain (int argc, const char* const argv[])
-  {
-    celstart = new CelStart ();
-
-    if (celstart->Initialize (argc, argv))
-      celstart->Start ();
-
-    celstart->Stop ();
-
-    iObjectRegistry* object_reg = celstart->object_reg;
-    delete celstart;
-    celstart = 0;
-
-    csInitializer::DestroyApplication (object_reg);
-    return 0;
-  }
-
-  CelStartWrapper::CelStartWrapper (int argc, const char* const argv[])
-   : userArgsFirst (1), userArgsCount (argc-1)
-  {
-    for (int i = 0; i < argc; i++)
-      args.Push (argv[i]);
-  }
-
-  void CelStartWrapper::AddArgumentBeforeUserArgs (const char* arg)
-  {
-    args.Insert (userArgsFirst++, extraArgsPool.Store (arg));
-  }
-  
-  void CelStartWrapper::AddArgumentAfterUserArgs (const char* arg)
-  {
-    args.Push (extraArgsPool.Store (arg));
-  }
-
-  int CelStartWrapper::Main ()
-  {
-    args.Push (0);
-    return CelStartMain (int (args.GetSize()), args.GetArray());
-  }
-} // namespace CEL

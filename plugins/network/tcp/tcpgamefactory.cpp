@@ -29,6 +29,8 @@
 #include "plugins/network/tcp/tcputils.h"
 #include "plugins/network/tcp/tcpgamefactory.h"
 
+CS_IMPLEMENT_PLUGIN
+
 CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
 {
 
@@ -73,7 +75,7 @@ bool celTCPGameFactory::Initialize (iObjectRegistry* object_reg)
   // register callback to every frame
   scfiEventHandler = new EventHandler (this);
   csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
-  csEventID events[] = { Frame, CS_EVENTLIST_END };
+  csEventID events[] = { PreProcess, PostProcess, CS_EVENTLIST_END };
   q->RegisterListener (scfiEventHandler, events);
 
   // init network library
@@ -217,7 +219,7 @@ bool celTCPGameFactory::CloseGame ()
   return true;
 }
 
-void celTCPGameFactory::StartRecordingGame (const char* filename)
+void celTCPGameFactory::StartRecordingGame (csString filename)
 {
   // @@@ TODO
 }
@@ -227,7 +229,7 @@ void celTCPGameFactory::StopRecordingGame ()
   // @@@ TODO
 }
 
-void celTCPGameFactory::StartPlayBackGame (const char* filename, 
+void celTCPGameFactory::StartPlayBackGame (csString filename, 
 				  csTicks start_time, csTicks stop_time)
 {
   // @@@ TODO

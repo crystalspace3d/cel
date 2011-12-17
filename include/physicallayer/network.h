@@ -97,7 +97,7 @@ struct iCelGame : public virtual iBase
  */
 struct iCelGameFactory : public virtual iBase
 {
-  SCF_INTERFACE (iCelGameFactory, 1, 0, 0);
+  SCF_INTERFACE (iCelGameFactory, 0, 0, 1);
 
   /**
    * Set the name of the game. Client and server instances can talk 
@@ -105,13 +105,13 @@ struct iCelGameFactory : public virtual iBase
    * <P>A game name must be set before any operation on the factory.
    * \param game_name an arbitrary game name, like "Crystal Core".
    */
-  virtual void SetGameName (const char* game_name) = 0;
+  virtual void SetGameName (csString game_name) = 0;
 
   /**
    * Return the name of the game. Client and server instances can talk 
    * together only if they have the same game name and protocol version.
    */
-  virtual const char* GetGameName () const = 0;
+  virtual csString GetGameName () const = 0;
 
   /**
    * Set the name of the network protocol version used by this application.
@@ -125,14 +125,14 @@ struct iCelGameFactory : public virtual iBase
    * and server events, the network links and the baselines.
    * \param protocol_version an arbitrary protocol version name, like "v0.3".
    */
-  virtual void SetProtocolVersion (const char* protocol_version) = 0;
+  virtual void SetProtocolVersion (const csString protocol_version) = 0;
 
   /**
    * Return the network protocol version used by this application. Client
    * and server instances can talk together only if they have the same game
    * name and protocol version. 
    */
-  virtual const char* GetProtocolVersion () const = 0;
+  virtual csString GetProtocolVersion () const = 0;
 
   /**
    * Register a manager for this game factory. The manager will be notified
@@ -140,8 +140,8 @@ struct iCelGameFactory : public virtual iBase
    * registered at a time.
    * <P>A manager must be registered before any operation on the factory.
    */
-  virtual void RegisterGameFactoryManager
-    (celGameFactoryManager* manager) = 0;
+  virtual void RegisterGameFactoryManager (
+        celGameFactoryManager* manager) = 0;
 
   /**
    * Start to search for the list of available games with the same game name, 
@@ -207,7 +207,7 @@ struct iCelGameFactory : public virtual iBase
   /**
    * Incoming events are recorded in a file. A game must previously be running.
    */
-  virtual void StartRecordingGame (const char* filename) = 0;
+  virtual void StartRecordingGame (csString filename) = 0;
 
   /**
    * Incoming events are no more recorded in a file.
@@ -220,7 +220,7 @@ struct iCelGameFactory : public virtual iBase
    * factory was searching for available games or if a game was running, they
    * will be stopped.
    */
-  virtual void StartPlayBackGame (const char* filename, 
+  virtual void StartPlayBackGame (csString filename, 
         csTicks start_time, csTicks stop_time) = 0;
 };
 
@@ -266,7 +266,7 @@ public:
    *   explain why this player has been kicked from the game.
    */
   virtual void ServerNetworkStateChanged (celServerNetworkState new_state, 
-        celServerNetworkState previous_state, const char* reason = "") = 0;
+        celServerNetworkState previous_state, csString reason = "") = 0;
 
   /**
    * A client is created and has to be initialized. The iCelGameClient object
@@ -334,7 +334,7 @@ public:
  */
 struct iCelGameServer : public virtual iBase
 {
-  SCF_INTERFACE (iCelGameServer, 1, 0, 0);
+  SCF_INTERFACE (iCelGameServer, 0, 0, 1);
 
   /**
    * Register the manager of this server. Only one manager can be registered
@@ -369,7 +369,7 @@ struct iCelGameServer : public virtual iBase
    * disconnect from the game. A text explaining the reason can be 
    * specified.
    */
-  virtual void KickPlayer (celPlayer* player, const char* reason) = 0;
+  virtual void KickPlayer (celPlayer* player, csString reason) = 0;
 
   /**
    * Create a channel, ie a list of players. The list will be managed by the 
@@ -603,7 +603,7 @@ class celGameServerManager
    * banned). A text explaining the reason of a negative answer can be 
    * specified.
    */
-  virtual bool AuthorizePlayer (celPlayer* player, csString& reason) = 0;
+  virtual bool AuthorizePlayer (celPlayer* player, csString &reason) = 0;
 
   /**
    * Check if the new data of a player are valid. It happens when

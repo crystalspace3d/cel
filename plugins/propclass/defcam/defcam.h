@@ -723,6 +723,9 @@ public:
 
   virtual void Draw ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
+
   virtual bool SetRegion (iPcRegion* region, bool point = true,
         const char* name = 0)
   {
@@ -757,17 +760,19 @@ public:
   }
   virtual void SetClearZBuffer (bool flag)
   {
+    celPcCameraCommon::SetClearZBuffer (flag);
   }
   virtual bool GetClearZBuffer () const
   {
-    return false;
+    return celPcCameraCommon::GetClearZBuffer ();
   }
   virtual void SetClearScreen (bool flag)
   {
+    celPcCameraCommon::SetClearScreen (flag);
   }
   virtual bool GetClearScreen () const
   {
-    return false;
+    return celPcCameraCommon::GetClearScreen ();
   }
   virtual void DisableDistanceClipping ()
   {

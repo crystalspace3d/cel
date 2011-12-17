@@ -26,7 +26,6 @@
 #include "csutil/refarr.h"
 #include "csutil/strhash.h"
 #include "csutil/cscolor.h"
-#include "csutil/eventhandlers.h"
 #include "cstool/procmesh.h"
 #include "csgeom/csrect.h"
 #include "iutil/comp.h"
@@ -400,34 +399,9 @@ public:
     {
       return parent->HandleEvent (ev);
     }
-    CS_EVENTHANDLER_PHASE_LOGIC("cel.tools.billboardmgr")
+    CS_EVENTHANDLER_NAMES("cel.tools.billboardmgr")
+    CS_EVENTHANDLER_NIL_CONSTRAINTS
   } *scfiEventHandler;
-
-  class EventHandler2D : public scfImplementation1<
-    EventHandler2D, iEventHandler>
-  {
-  private:
-    celBillboardManager* parent;
-
-  public:
-    EventHandler2D (celBillboardManager* parent) : scfImplementationType (this)
-    {
-      EventHandler2D::parent = parent;
-    }
-    virtual ~EventHandler2D ()
-    {
-    }
-
-    virtual bool HandleEvent (iEvent& ev)
-    {
-      parent->DrawBillboards();
-
-      return false;
-    }
-    CS_EVENTHANDLER_PHASE_2D("cel.tools.billboardmgr.frame.2d")
-  } *scfiEventHandler2D;
-
-  virtual void DrawBillboards ();
 };
 
 #endif // __CEL_TOOLS_BILLBOARD__

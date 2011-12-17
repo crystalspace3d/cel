@@ -31,8 +31,9 @@ class csBox3;
  * A solid representation of an entity. This is used
  * for collision detection.
  *
- * This property class supports the following actions (add prefix 'cel.move.solid.action.'
- * if you want to access this action through a message):
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
  * - Setup: no parameters. Call this after creation to actually setup
  *   the collider from the mesh that is attached so same entity.
  * - SetupBox: parameters 'min' (vector3) and 'max' (vector3).

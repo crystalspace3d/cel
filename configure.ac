@@ -9,9 +9,9 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 # Don't forget to update include/celversion.h, docs/texinfo/version.txi
 # and mk/autoconf/cel.m4 when changing this version number.
-AC_INIT([cel], [2.1], [cel-main@lists.sourceforge.net])
+AC_INIT([cel], [1.4.1], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
-    [Copyright (C)2002-2011 Jorrit Tyberghein and others.],
+    [Copyright (C)2002-2008 Jorrit Tyberghein and others.],
     [http://www.crystalspace3d.org/main/CEL])
 AC_CONFIG_SRCDIR([mk/jam/build.jam])
 AC_CONFIG_AUX_DIR([mk/autoconf])
@@ -166,32 +166,6 @@ CS_CHECK_LIB_WITH([NL],
 CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS], [$CPPFLAGS $CFLAGS], [+])
 CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS], [$CPPFLAGS $CXXFLAGS], [+])
 CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS], [$LDFLAGS], [+])
-
-
-#----------------------------------------------------------------------------
-# Check for CEGUI.
-#----------------------------------------------------------------------------
-# The check fails on some distros with missing references to libdl
-# (eg on OpenSUSE), so pass -ldl along as well
-CS_CHECK_LIB_WITH([CEGUI],
-    [AC_LANG_PROGRAM([[#include <CEGUI.h>]],
-    [CEGUI::WindowManager::getSingleton();])], [], [C++],
-    [], [], [], [], [$cs_cv_libdl_libs], [CEGUIBase])
-
-AS_IF([test $cs_cv_libCEGUI = yes],
-    [CS_CHECK_BUILD([if CEGUI is sufficiently recent], [cs_cv_CEGUI_recent],
-	[AC_LANG_PROGRAM(
-	    [[#include <falagard/CEGUIFalWidgetLookManager.h>]],
-	    [CEGUI::WidgetLookManager::getSingleton();
-	    #if (CEGUI_VERSION_MAJOR == 0) && (CEGUI_VERSION_MINOR < 7)
-	    who took the ram from the ramalamadingdong?
-	    #endif
-	    ])],
-	[], [C++],
-	[CS_EMIT_BUILD_RESULT([cs_cv_libCEGUI], [CEGUI])], [], [],
-	[$cs_cv_libCEGUI_cflags],
-	[$cs_cv_libCEGUI_lflags],
-	[$cs_cv_libCEGUI_libs])])
 
 
 #----------------------------------------------------------------------------

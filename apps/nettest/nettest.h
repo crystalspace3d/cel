@@ -66,6 +66,7 @@ private:
   csRef<iVirtualClock> vc;
 
   csRef<iCelPlLayer> pl;
+  csRef<iCelBlLayer> bltest;
   csRef<iCelEntity> entity_room;
   csRef<iPcZoneManager> pczonemgr;
   csRef<iCelGameFactory> game_factory;
@@ -77,12 +78,17 @@ private:
 
 public:
   /**
-  * Setup everything that needs to be rendered on screen. This routine
-  * is called from the event handler in response to a csevFrame
-  * broadcast message.
-  */
-  virtual void Frame ();
+   * Setup everything that needs to be rendered on screen. This routine
+   * is called from the event handler in response to a csevProcess
+   * broadcast message.
+   */
+  virtual void ProcessFrame ();
   virtual void PostProcessFrame ();
+
+  /**
+   * Finally render the screen. This routine is called from the event
+   * handler in response to a csevFinalProcess broadcast message.
+   */
   virtual void FinishFrame ();
 
   /**
@@ -126,7 +132,8 @@ public:
    */
   virtual bool Application ();
 
-  CS_EVENTHANDLER_PHASE_2D("cel.apps.nettest")
+  CS_EVENTHANDLER_NAMES("cel.apps.nettest")
+  CS_EVENTHANDLER_NIL_CONSTRAINTS
 };
 
 #endif // __NETTEST_H__

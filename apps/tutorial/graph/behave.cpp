@@ -126,7 +126,7 @@ void BehaviourPlayer::GetActorMove ()
 {
   if (!pcactormove)
   {
-    pcactormove = celQueryPropertyClassEntity<iPcActorMove> (entity);
+    pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
   }
 }
 
@@ -134,7 +134,7 @@ void BehaviourPlayer::GetInventory ()
 {
   if (!pcinventory)
     {
-      pcinventory = celQueryPropertyClassEntity<iPcInventory> (entity);
+      pcinventory = CEL_QUERY_PROPCLASS_ENT (entity, iPcInventory);
     }
 }
 
@@ -142,7 +142,7 @@ void BehaviourPlayer::GetMesh ()
 {
   if (!pcmesh)
   {
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -153,7 +153,7 @@ void BehaviourPlayer::ShowInventory ()
   for (i = 0 ; i < count ; i++)
   {
     iCelEntity* child = pcinventory->GetEntity (i);
-    csPrintf ("  child %zu is '%s'\n", i, child->GetName ());
+    printf ("  child %zu is '%s'\n", i, child->GetName ());
   }
 }
 
@@ -163,12 +163,13 @@ void BehaviourPlayer::Drop ()
   size_t count = pcinventory->GetEntityCount ();
   if (count <= 0)
   {
-    csPrintf ("Inventory is empty!\n");
+    printf ("Inventory is empty!\n");
     return;
   }
   iCelEntity* child = pcinventory->GetEntity (0);
   pcinventory->RemoveEntity (child);
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (child);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (child,
+      iPcLinearMovement);
   if (pclinmove)
   {
     GetMesh ();
@@ -179,8 +180,8 @@ void BehaviourPlayer::Drop ()
       .This2Other (csVector3 (0, 2, -2));
     iSector* sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
     pclinmove->SetPosition (pos, 0, sector);
-    pclinmove->SetBodyVelocity (csVector3 (0, .1f, 0));
-    csRef<iPcMesh> pcmesh_child = celQueryPropertyClassEntity<iPcMesh> (child);
+    pclinmove->SetVelocity (csVector3 (0, .1f, 0));
+    csRef<iPcMesh> pcmesh_child = CEL_QUERY_PROPCLASS_ENT (child, iPcMesh);
     if (pcmesh_child) pcmesh_child->Show ();
   }
 }
@@ -214,26 +215,27 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
   else if (msg_id == id_pcinventory_addchild)
   {
     GetInventory ();
-    csPrintf ("Got a new object! Objects in inventory:\n");
+    printf ("Got a new object! Objects in inventory:\n");
     ShowInventory ();
   }
   else if (msg_id == id_pcinventory_removechild)
   {
     GetInventory ();
-    csPrintf ("Object removed from inventory! Objects in inventory:\n");
+    printf ("Object removed from inventory! Objects in inventory:\n");
     ShowInventory ();
   }
   else if  (msg_id == id_pccommandinput_position1)
     {
       csRef<iCelEntity> player_entity = pl->FindEntity("player");
-      csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (player_entity);
+      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
+								    iPcLinearMovement);	    
       iSector* sector;
       csVector3 position;
       float rot;
 
       pclinmove->GetLastFullPosition (position, rot, sector);
 
-      csPrintf ("Position .x %f, .y %f, .z%f\n", position.x, position.y, position.z);
+      printf("Position .x %f, .y %f, .z%f\n", position.x, position.y, position.z);
     }
   else
     return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);;
@@ -254,11 +256,11 @@ BehaviourBox::BehaviourBox (iCelEntity* entity, BehaviourLayer* bl,
 void BehaviourBox::PickUp ()
 {
   if (!player) return;
-  csRef<iPcInventory> pcinv = celQueryPropertyClassEntity<iPcInventory> (player);
+  csRef<iPcInventory> pcinv = CEL_QUERY_PROPCLASS_ENT (player, iPcInventory);
   if (pcinv)
   {
     pcinv->AddEntity (entity);
-    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     if (pcmesh) pcmesh->Hide ();
   }
 }
@@ -267,10 +269,10 @@ void BehaviourBox::GetPlayer ()
 {
   if (!pcmeshsel || !player)
   {
-    pcmeshsel = celQueryPropertyClassEntity<iPcMeshSelect> (entity);
+    pcmeshsel = CEL_QUERY_PROPCLASS_ENT (entity, iPcMeshSelect);
     player = pl->FindEntity ("player");
     if (!player) return;
-    csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (player);
+    csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player, iPcCamera);
     if (pccamera)
       pcmeshsel->SetCamera (pccamera);
   }
@@ -295,7 +297,7 @@ BehaviourBadOne::BehaviourBadOne (iCelEntity* entity, BehaviourLayer* bl, iCelPl
   : BehaviourCommon (entity, bl, pl)
 {
   id_pctimer_wakeup = pl->FetchStringID ("pctimer_wakeup");
-  id_par_elapsedticks = pl->FetchStringID ("elapsedticks");
+  id_par_elapsedticks = pl->FetchStringID ("cel.parameter.elapsedticks");
 
   ReadPath ();
 } 
@@ -322,7 +324,7 @@ static bool GetPropLong (iPcProperties* pcprop, const char* prefix, int i, long&
 
 void BehaviourBadOne::ReadPath ()
 {
-  csRef<iPcProperties> pcprop = celQueryPropertyClassEntity<iPcProperties> (entity);
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
 
   // Count the number of points we have.
   int count = 0;
@@ -352,7 +354,8 @@ void BehaviourBadOne::ReadPath ()
     totaltime += time;
   }
 
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcLinearMovement);
   if (pclinmove)
   {
     for (i = 0 ; i < count ; i++)
@@ -364,7 +367,8 @@ void BehaviourBadOne::ReadPath ()
 
 void BehaviourBadOne::Restart ()
 {
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcLinearMovement);
   if (pclinmove)
   {
     pclinmove->SetPath (path);
@@ -418,6 +422,8 @@ BehaviourPF::BehaviourPF (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* p
   LoadGraph();
 
   csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
+  //  csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+  //						       iPcPathFinder);
 
 }
  
@@ -433,7 +439,7 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
    */
 
   if (msg_id == id_pcsteer_arrived)
-    csPrintf ("Arrived\n");
+    printf("Arrived\n");
   else if (msg_id == id_pccommandinput_seek1)
     {
       /*
@@ -442,9 +448,10 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
        *
        */
 
-      csPrintf ("Seek\n");
+      printf("Seek\n");
       csRef<iCelEntity> player_entity = pl->FindEntity("player");
-      csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (player_entity);
+      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
+								    iPcLinearMovement);
       iSector* sector;
       csVector3 position;
       csVector3 cur_position;
@@ -454,9 +461,11 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
       
       csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
       
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (pf_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+							 iPcSteer);
       
-      csRef<iPcLinearMovement> pclinmove2 = celQueryPropertyClassEntity<iPcLinearMovement> (pf_entity);
+      csRef<iPcLinearMovement> pclinmove2 = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+								     iPcLinearMovement);
       
       pclinmove2->GetLastFullPosition (cur_position, rot, sector);
 
@@ -469,7 +478,8 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
      */
 
       
-      csRef<iPcPathFinder> pcpathfinder = celQueryPropertyClassEntity<iPcPathFinder> (pf_entity);
+      csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+								   iPcPathFinder);
 
       /*
        * First we call SetGraph in case the reference
@@ -483,10 +493,11 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
   else if (msg_id == id_pccommandinput_cyclic1)
     {
       
-      csPrintf ("Follow Cyclic Path\n");
+      printf("Follow Cyclic Path\n");
       csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
     
-      csRef<iPcPathFinder> pcpathfinder = celQueryPropertyClassEntity<iPcPathFinder> (pf_entity);
+      csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+								   iPcPathFinder);
       
       /*
        * First we call SetGraph in case the reference
@@ -505,10 +516,11 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
     }
   else if (msg_id == id_pccommandinput_oneway1)
     {
-    csPrintf ("Follow One Way Path\n");
+    printf("Follow One Way Path\n");
     csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
     
-    csRef<iPcPathFinder> pcpathfinder = celQueryPropertyClassEntity<iPcPathFinder> (pf_entity);
+    csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+								 iPcPathFinder);
     /*
      * First we call SetGraph in case the reference
      * in pathfinder is not actualized.
@@ -526,10 +538,11 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
     }
 else if (msg_id == id_pccommandinput_twoway1)
     {
-    csPrintf ("Follow Two Way Path\n");
+    printf("Follow Two Way Path\n");
     csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
     
-    csRef<iPcPathFinder> pcpathfinder = celQueryPropertyClassEntity<iPcPathFinder> (pf_entity);
+    csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+								 iPcPathFinder);
     /*
      * First we call SetGraph in case the reference
      * in pathfinder is not actualized.
@@ -549,11 +562,12 @@ else if (msg_id == id_pccommandinput_twoway1)
     }
   else if (msg_id == id_pccommandinput_wander1)
     {
-      csPrintf ("Wander\n");
+      printf("Wander\n");
           
       csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
 
-      csRef<iPcPathFinder> pcpathfinder = celQueryPropertyClassEntity<iPcPathFinder> (pf_entity);
+      csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+								   iPcPathFinder);
 
 	
     /*
@@ -574,7 +588,8 @@ else if (msg_id == id_pccommandinput_twoway1)
     {
       csRef<iCelEntity> player_entity = pl->FindEntity("player");
       csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
-      csRef<iPcPathFinder> pcpathfinder = celQueryPropertyClassEntity<iPcPathFinder> (pf_entity);
+      csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+								   iPcPathFinder);    
       
       /*
        * First we call SetGraph in case the reference
@@ -593,23 +608,25 @@ else if (msg_id == id_pccommandinput_twoway1)
   else if(msg_id == id_pccommandinput_arrival1)
     {
       csRef<iCelEntity> steering_entity = pl->FindEntity("pf");
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
 
       if(!arrival){
 	//Turns Position Arrival Checking on with a sq radius of 1.0
 	pcsteer->CheckArrivalOn(1.0f);
 	arrival = true;
-	csPrintf ("Check Arrival On\n");
+	printf("Check Arrival On\n");
       } else {
 	pcsteer->CheckArrivalOff();
 	arrival = false;
-	csPrintf ("Check Arrival Off\n");
+	printf("Check Arrival Off\n");
       }
     }
   else if (msg_id == id_pccommandinput_ca1)
     {
       csRef<iCelEntity> steering_entity = pl->FindEntity("pf");
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
 
       if(!ca){
 	//Turns Collision Avoidance ON
@@ -617,53 +634,56 @@ else if (msg_id == id_pccommandinput_twoway1)
 	
 	pcsteer->CollisionAvoidanceOn(10.0f, 3.0f);
 	ca = true;
-	csPrintf ("Collision Avoidance On\n");
+	printf("Collision Avoidance On\n");
 	
       } else{
 	pcsteer->CollisionAvoidanceOff();
 	ca = false;
-	csPrintf ("Collision Avoidance Off\n");      
+	printf("Collision Avoidance Off\n");      
       }
     }
   else if (msg_id == id_pccommandinput_cohesion1)
     {
       csRef<iCelEntity> steering_entity = pl->FindEntity("pf");
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
       if(!cohesion){
 	//Turns Cohesion ON
 	//with radius 10.0, max radius 100.0 and weight 1.0
 
 	pcsteer->CohesionOn(entities, 10.0f, 100.0, 1.0f);
 	cohesion = true;
-	csPrintf ("Cohesion On\n");
+	printf("Cohesion On\n");
 	
       } else{
 	pcsteer->CohesionOff();
 	cohesion = false;
-	csPrintf ("Cohesion Off\n");      
+	printf("Cohesion Off\n");      
       }
     } else if (msg_id == id_pccommandinput_separation1)
     {
       csRef<iCelEntity> steering_entity = pl->FindEntity("pf");
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
       if(!separation){
 	//Turns Separation On
 	//with radius 3.0 and weight 1.0
 	
        	pcsteer->SeparationOn(entities, 1.0f, 3.0f);
 	separation = true;
-	csPrintf ("Separation On\n");
+	printf("Separation On\n");
 	
       } else{
 	pcsteer->SeparationOff();
 	separation = false;
-	csPrintf ("Separation Off\n");      
+	printf("Separation Off\n");      
       }
     }
  else if (msg_id == id_pccommandinput_dm1)
     {
       csRef<iCelEntity> steering_entity = pl->FindEntity("pf");
-      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
 
       if(!dm){
 	//Turns Direction Matching On
@@ -671,12 +691,12 @@ else if (msg_id == id_pccommandinput_twoway1)
 	
 	pcsteer->DirectionMatchingOn(entities, 1.0f);
 	dm = true;
-	csPrintf ("Direction Matching On\n");
+	printf("Direction Matching On\n");
 	
       } else{
 	pcsteer->DirectionMatchingOff();
 	dm = false;
-	csPrintf ("Direction Matching Off\n");      
+	printf("Direction Matching Off\n");      
       }
     }
  else
@@ -704,124 +724,124 @@ bool BehaviourPF::LoadGraph ()
    */
 
 
-  csVector3 v0(-4.231915f, -0.010000f, 17.180994f);
+  csVector3 v0(-4.231915, -0.010000, 17.180994);
   csRef<iCelNode> gn0 = celgraph->CreateNode("n0",v0);
 
-  csVector3 v1(-4.430651f, -0.010000f, 14.289759f);
+  csVector3 v1(-4.430651, -0.010000, 14.289759);
   csRef<iCelNode> gn1 = celgraph->CreateNode("n1",v1);
 
-  csVector3 v2(1.032714f, -0.010000f, 14.351811f);
+  csVector3 v2(1.032714, -0.010000, 14.351811);
   csRef<iCelNode> gn2 = celgraph->CreateNode("n2",v2);
 
-  csVector3 v3(7.803181f, -0.010000f, 14.259256f);
+  csVector3 v3(7.803181, -0.010000, 14.259256);
   csRef<iCelNode> gn3 = celgraph->CreateNode("n3",v3);
 
-  csVector3 v4(14.358644f, -0.010000f, 14.077885f);
+  csVector3 v4(14.358644, -0.010000, 14.077885);
   csRef<iCelNode> gn4 = celgraph->CreateNode("n4",v4);
 
-  csVector3 v5(14.484720f, -0.010000f, 10.981868f);
+  csVector3 v5(14.484720, -0.010000, 10.981868);
   csRef<iCelNode> gn5 = celgraph->CreateNode("n5",v5);
 
-  csVector3 v6(8.788480f, -0.010000f, 10.698524f);
+  csVector3 v6(8.788480, -0.010000, 10.698524);
   csRef<iCelNode> gn6 = celgraph->CreateNode("n6",v6);
 
-  csVector3 v7(8.669841f, -0.010000f, 6.518142f);
+  csVector3 v7(8.669841, -0.010000, 6.518142);
   csRef<iCelNode> gn7 = celgraph->CreateNode("n7",v7);
 
-  csVector3 v8(14.774999f, -0.010000f, 6.613670f);
+  csVector3 v8(14.774999, -0.010000, 6.613670);
   csRef<iCelNode> gn8 = celgraph->CreateNode("n8",v8);
   
-  csVector3 v9(15.233424f, -0.010000f, 1.920429f);
+  csVector3 v9(15.233424, -0.010000, 1.920429);
   csRef<iCelNode> gn9 = celgraph->CreateNode("n9",v9);
 
-  csVector3 v10(9.145017f, -0.010000f, 1.344137f);
+  csVector3 v10(9.145017, -0.010000, 1.344137);
   csRef<iCelNode> gn10 = celgraph->CreateNode("n10",v10);
 
-  csVector3 v11(2.833345f, -0.010000f, 1.165757f);
+  csVector3 v11(2.833345, -0.010000, 1.165757);
   csRef<iCelNode> gn11 = celgraph->CreateNode("n11",v11);
 
-  csVector3 v12(2.356894f, -0.010000f, 6.514668f);
+  csVector3 v12(2.356894, -0.010000, 6.514668);
   csRef<iCelNode> gn12 = celgraph->CreateNode("n12",v12);
 
-  csVector3 v13(-2.893554f, -0.010000f, 6.227006f);
+  csVector3 v13(-2.893554, -0.010000, 6.227006);
   csRef<iCelNode> gn13 = celgraph->CreateNode("n13",v13);
 
-  csVector3 v14(-2.903145f, -0.010000f, 1.717835f);
+  csVector3 v14(-2.903145, -0.010000, 1.717835);
   csRef<iCelNode> gn14 = celgraph->CreateNode("n14",v14);
 
-  csVector3 v15(-11.967916f, -0.010000f, 0.879896f);
+  csVector3 v15(-11.967916, -0.010000, 0.879896);
   csRef<iCelNode> gn15 = celgraph->CreateNode("n15",v15);
 
-  csVector3 v16(-15.036117f, -0.010000f, 1.189961f);
+  csVector3 v16(-15.036117, -0.010000, 1.189961);
   csRef<iCelNode> gn16 = celgraph->CreateNode("n16",v16);
 
-  csVector3 v17(-15.543516f, -0.010000f, 7.151457f);
+  csVector3 v17(-15.543516, -0.010000, 7.151457);
   csRef<iCelNode> gn17 = celgraph->CreateNode("n17",v17);
 
-  csVector3 v18(-15.300305f, -0.010000f, 15.084600f);
+  csVector3 v18(-15.300305, -0.010000, 15.084600);
   csRef<iCelNode> gn18 = celgraph->CreateNode("n18",v18);
 
-  csVector3 v19(-12.349187f, -0.010000f, -3.802047f);
+  csVector3 v19(-12.349187, -0.010000, -3.802047);
   csRef<iCelNode> gn19 = celgraph->CreateNode("n19",v19);
 
-  csVector3 v20(-13.103723f, -0.010000f, -15.752377f);
+  csVector3 v20(-13.103723, -0.010000, -15.752377);
   csRef<iCelNode> gn20 = celgraph->CreateNode("n20",v20);
 
-  csVector3 v21(-4.216733f, -0.010000f, -16.036676f);
+  csVector3 v21(-4.216733, -0.010000, -16.036676);
   csRef<iCelNode> gn21 = celgraph->CreateNode("n21",v21);
 
-  csVector3 v22(-3.987110f, -0.010000f, -7.525320f);
+  csVector3 v22(-3.987110, -0.010000, -7.525320);
   csRef<iCelNode> gn22 = celgraph->CreateNode("n22",v22);
 
-  csVector3 v23(11.559246f, -0.010000f, -8.344143f);
+  csVector3 v23(11.559246, -0.010000, -8.344143);
   csRef<iCelNode> gn23 = celgraph->CreateNode("n23",v23);
 
-  csVector3 v24(2.692560f, -0.010000f, -15.649880f);
+  csVector3 v24(2.692560, -0.010000, -15.649880);
   csRef<iCelNode> gn24 = celgraph->CreateNode("n24",v24);
 
-  csVector3 v25(9.992839f, -0.010000f, -15.765086f);
+  csVector3 v25(9.992839, -0.010000, -15.765086);
   csRef<iCelNode> gn25 = celgraph->CreateNode("n25",v25);
 
-  csVector3 v26(10.636127f, -0.010000f, -20.355223f);
+  csVector3 v26(10.636127, -0.010000, -20.355223);
   csRef<iCelNode> gn26 = celgraph->CreateNode("n26",v26);
 
-  csVector3 v27(-4.475250f, -0.010000f, -25.567820f);
+  csVector3 v27(-4.475250, -0.010000, -25.567820);
   csRef<iCelNode> gn27 = celgraph->CreateNode("n27",v27);
 
-  csVector3 v28(10.864666f, -0.010000f, -29.258404f);
+  csVector3 v28(10.864666, -0.010000, -29.258404);
   csRef<iCelNode> gn28 = celgraph->CreateNode("n28",v28);
 
-  csVector3 v29(17.533041f, -0.010000f, -26.618723f);
+  csVector3 v29(17.533041, -0.010000, -26.618723);
   csRef<iCelNode> gn29 = celgraph->CreateNode("n29",v29);
 
-  csVector3 v30(31.384747f, -0.010000f, -25.544930f);
+  csVector3 v30(31.384747, -0.010000, -25.544930);
   csRef<iCelNode> gn30 = celgraph->CreateNode("n30",v30);
 
-  csVector3 v31(40.078514f, -0.010000f, -25.190439f);
+  csVector3 v31(40.078514, -0.010000, -25.190439);
   csRef<iCelNode> gn31 = celgraph->CreateNode("n31",v31);
 
-  csVector3 v32(40.769016f, -0.010000f, -6.522462f);
+  csVector3 v32(40.769016, -0.010000, -6.522462);
   csRef<iCelNode> gn32= celgraph->CreateNode("n32",v32);
 
-  csVector3 v33(35.519592f, -0.010000f, -6.484916f);
+  csVector3 v33(35.519592, -0.010000, -6.484916);
   csRef<iCelNode> gn33 = celgraph->CreateNode("n33",v33);
 
-  csVector3 v34(35.171139f, -0.010000f, 25.075426f);
+  csVector3 v34(35.171139, -0.010000, 25.075426);
   csRef<iCelNode> gn34 = celgraph->CreateNode("n34",v34);
 
-  csVector3 v35(41.059860f, -0.010000f, 25.295612f);
+  csVector3 v35(41.059860, -0.010000, 25.295612);
   csRef<iCelNode> gn35 = celgraph->CreateNode("n35",v35);
 
-  csVector3 v36(37.357365f, -0.010000f, 48.972939f);
+  csVector3 v36(37.357365, -0.010000, 48.972939);
   csRef<iCelNode> gn36 = celgraph->CreateNode("n36",v36);
 
-  csVector3 v37(20.817465f, -0.010000f, 50.163624f);
+  csVector3 v37(20.817465, -0.010000, 50.163624);
   csRef<iCelNode> gn37 = celgraph->CreateNode("n37",v37);
 
-  csVector3 v38(-2.660369f, -0.010000f, 50.823647f);
+  csVector3 v38(-2.660369, -0.010000, 50.823647);
   csRef<iCelNode> gn38 = celgraph->CreateNode("n38",v38);
 
-  csVector3 v39(-4.116637f, -0.010000f, 22.688683f);
+  csVector3 v39(-4.116637, -0.010000, 22.688683);
   csRef<iCelNode> gn39 = celgraph->CreateNode("n39",v39);
 
 

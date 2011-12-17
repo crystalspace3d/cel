@@ -37,6 +37,8 @@
 
 //---------------------------------------------------------------------------
 
+CS_IMPLEMENT_PLUGIN
+
 CEL_IMPLEMENT_FACTORY_ALT (Portal, "pcobject.portal", "pcportal")
 
 static void Report (iObjectRegistry* object_reg, const char* msg, ...)
@@ -95,11 +97,11 @@ celPcPortal::celPcPortal (iObjectRegistry* object_reg)
   // For properties.
   propholder = &propinfo;
   propinfo.SetCount (3);
-  AddProperty (propid_mesh, "mesh",
+  AddProperty (propid_mesh, "cel.property.mesh",
   	CEL_DATA_STRING, false, "Portal mesh name.", 0);
-  AddProperty (propid_portal, "portal",
+  AddProperty (propid_portal, "cel.property.portal",
   	CEL_DATA_STRING, false, "Portal name.", 0);
-  AddProperty (propid_closed, "closed",
+  AddProperty (propid_closed, "cel.property.closed",
   	CEL_DATA_BOOL, false, "Closed status.", 0);
 }
 
@@ -166,6 +168,36 @@ bool celPcPortal::GetPropertyIndexed (int idx, bool& b)
     return true;
   }
   return false;
+}
+
+#define PORTAL_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcPortal::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (PORTAL_SERIAL);
+  databuf->Add ((const char*)meshname);
+  databuf->Add ((const char*)portalname);
+  databuf->Add (closed);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcPortal::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != PORTAL_SERIAL)
+  {
+    Report (object_reg, "Serialnr != PORTAL_SERIAL.  Cannot load.");
+    return false;
+  }
+
+  portal = 0;
+  meshname = databuf->GetString ()->GetData ();
+  portalname = databuf->GetString ()->GetData ();
+  closed = databuf->GetBool ();
+
+  ResolvePortal ();
+
+  return true;
 }
 
 void celPcPortal::ResolvePortal ()

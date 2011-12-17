@@ -1,6 +1,0 @@
-SubDir TOP plugins tools decorators ;
-
-Plugin decorators
-       : [ Wildcard *.cpp *.h ]
-;
-ExternalLibs decorators : CRYSTAL ;

@@ -64,7 +64,6 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 }
 
 csStringID celPcBag::id_value = csInvalidStringID;
-csStringID celPcBag::id_msgid = csInvalidStringID;
 
 PropertyHolder celPcBag::propinfo;
 
@@ -72,30 +71,35 @@ celPcBag::celPcBag (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   if (id_value == csInvalidStringID)
-  {
-    id_value = pl->FetchStringID ("value");
-    id_msgid = pl->FetchStringID ("msgid");
-  }
+    id_value = pl->FetchStringID ("cel.parameter.value");
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.bag.action.");
-    AddAction (action_addstring, "AddString");
-    AddAction (action_removestring, "RemoveString");
-    AddAction (action_clear, "Clear");
-    AddAction (action_hasstring, "HasString");
-    AddAction (action_sendmessage, "SendMessage");
+    AddAction (action_addstring, "cel.action.AddString");
+    AddAction (action_removestring, "cel.action.RemoveString");
+    AddAction (action_clear, "cel.action.Clear");
+    AddAction (action_hasstring, "cel.action.HasString");
   }
-
-  // For properties.
-  propinfo.SetCount (1);
-  AddProperty (propid_size, "size",
-	CEL_DATA_LONG, true, "Size of the bag.", 0);
 }
 
 celPcBag::~celPcBag ()
 {
+}
+
+#define BAG_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcBag::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BAG_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcBag::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != BAG_SERIAL) return false;
+  return true;
 }
 
 bool celPcBag::PerformActionIndexed (int idx,
@@ -134,15 +138,6 @@ bool celPcBag::PerformActionIndexed (int idx,
 	ret.Set (HasString (value));
       }
       return true;
-    case action_sendmessage:
-      {
-        CEL_FETCH_STRING_PAR (msgid,params,id_msgid);
-        if (!p_msgid)
-	  return Report (object_reg,
-	      "Missing parameter 'msgid' for action SendMessage!");
-	SendMessage (msgid, params);
-      }
-      return true;
     default:
       return false;
   }
@@ -171,34 +166,6 @@ bool celPcBag::HasString (const char* str)
 csSet<csString>::GlobalIterator celPcBag::GetIterator ()
 {
   return bag.GetIterator ();
-}
-
-bool celPcBag::SendMessage (const char* msgid, iCelParameterBlock* params)
-{
-  csSet<csString>::GlobalIterator it = bag.GetIterator ();
-  bool total_rc = false;
-  while (it.HasNext ())
-  {
-    csString str = it.Next ();
-    iCelEntity* ent = pl->FindEntity (str);
-    if (ent)
-    {
-      bool rc = ent->QueryMessageChannel ()->SendMessage (
-		      pl->FetchStringID (msgid), this, params);
-      if (rc) total_rc = true;
-    }
-  }
-  return total_rc;
-}
-
-bool celPcBag::GetPropertyIndexed (int idx, long& l)
-{
-  if (idx == propid_size)
-  {
-    l = bag.GetSize ();
-    return true;
-  }
-  return false;
 }
 
 //---------------------------------------------------------------------------

@@ -48,6 +48,7 @@
 #include <ivaria/reporter.h>
 #include "ivaria/mapnode.h"
 
+#include <imesh/thing.h>
 #include <imesh/objmodel.h>
 #include <igeom/path.h>
 #include <csgeom/path.h>
@@ -179,37 +180,36 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 
   if (id_percentage == csInvalidStringID)
   {
-    id_percentage = pl->FetchStringID ("percentage");
-    id_body = pl->FetchStringID ("body");
-    id_legs = pl->FetchStringID ("legs");
-    id_offset = pl->FetchStringID ("offset");
-    id_sector = pl->FetchStringID ("sector");
-    id_position = pl->FetchStringID ("position");
-    id_yrot = pl->FetchStringID ("yrot");
-    id_velocity = pl->FetchStringID ("velocity");
+    id_percentage = pl->FetchStringID ("cel.parameter.percentage");
+    id_body = pl->FetchStringID ("cel.parameter.body");
+    id_legs = pl->FetchStringID ("cel.parameter.legs");
+    id_offset = pl->FetchStringID ("cel.parameter.offset");
+    id_sector = pl->FetchStringID ("cel.parameter.sector");
+    id_position = pl->FetchStringID ("cel.parameter.position");
+    id_yrot = pl->FetchStringID ("cel.parameter.yrot");
+    id_velocity = pl->FetchStringID ("cel.parameter.velocity");
   }
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.move.linear.action.");
-    AddAction (action_initcd, "InitCD");
-    AddAction (action_initcdmesh, "InitCDMesh");
-    AddAction (action_setposition, "SetPosition");
-    AddAction (action_setvelocity, "SetVelocity");
-    AddAction (action_addvelocity, "AddVelocity");
-    AddAction (action_setangularvelocity, "SetAngularVelocity");
+    AddAction (action_initcd, "cel.action.InitCD");
+    AddAction (action_initcdmesh, "cel.action.InitCDMesh");
+    AddAction (action_setposition, "cel.action.SetPosition");
+    AddAction (action_setvelocity, "cel.action.SetVelocity");
+    AddAction (action_addvelocity, "cel.action.AddVelocity");
+    AddAction (action_setangularvelocity, "cel.action.SetAngularVelocity");
   }
 
   // For properties.
   propinfo.SetCount (4);
-  AddProperty (propid_anchor, "anchor",
+  AddProperty (propid_anchor, "cel.property.anchor",
   	CEL_DATA_STRING, false, "Mesh Anchor.", 0);
-  AddProperty (propid_gravity, "gravity",
+  AddProperty (propid_gravity, "cel.property.gravity",
   	CEL_DATA_FLOAT, false, "Gravity.", &gravity);
-  AddProperty (propid_hug, "hug",
+  AddProperty (propid_hug, "cel.property.hug",
   	CEL_DATA_BOOL, false, "Hug to ground.", &hugGround);
-  AddProperty (propid_speed, "speed",
+  AddProperty (propid_speed, "cel.property.speed",
   	CEL_DATA_FLOAT, false, "Movement speed.", &speed);
 
   ResetGravity ();
@@ -303,7 +303,7 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
 void celPcLinearMovement::LoadAnchor (iPcMesh* a)
 {
   anchor_needsinit = false;
-  if (!pcmesh || !pcmesh->GetMesh ()) return;
+  if (!pcmesh) return;
 
   anchor = a;
   // Set the new anchor if needed.
@@ -324,7 +324,7 @@ void celPcLinearMovement::LoadAnchor (iPcMesh* a)
 void celPcLinearMovement::SetAnchor (iPcMesh* a)
 {
   anchor_needsinit = false;
-  if (!pcmesh || !pcmesh->GetMesh ()) return;
+  if (!pcmesh) return;
 
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
   csReversibleTransform trans = movable->GetFullTransform ();
@@ -365,7 +365,7 @@ bool celPcLinearMovement::SetPropertyIndexed (int idx, const char* b)
     if (!ent)
       return MoveReport (object_reg,
       	"Can't find entity '%s' for property 'anchor' in pcmove.linear!", b);
-    csRef<iPcMesh> m = celQueryPropertyClassEntity<iPcMesh> (ent);
+    csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
     if (!m)
       return MoveReport (object_reg,
       	"Entity '%s' doesn't have a pcmesh (property 'anchor' in pclinmove)!",
@@ -406,7 +406,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         if (!p_body)
           return MoveReport (object_reg,
           	"Missing parameter 'body' for action InitCD!");
-        CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);
+        CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);;
         if (!p_legs)
           return MoveReport (object_reg,
           	"Missing parameter 'legs' for action InitCD!");
@@ -422,7 +422,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         if (!p_percentage)
           return MoveReport (object_reg,
           	"Missing parameter 'percentage' for action InitCDMesh!");
-        csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
         if (!pcmesh)
           return MoveReport (object_reg,
           	"Can't find pcmesh in current entity for action InitCDMesh!");
@@ -559,58 +559,17 @@ static float Matrix2YRot (const csMatrix3& mat)
   return GetAngle (vec.z, vec.x);
 }
 
-void celPcLinearMovement::SetBodyVelocity (const csVector3& vel)
-{
-  velBody = vel;
-}
-void celPcLinearMovement::SetWorldVelocity (const csVector3& vel)
-{
-  velWorld = vel;
-}
-
-/// Adds on a velocity to this body in world coordinates
-void celPcLinearMovement::AddVelocity (const csVector3& vel)
-{
-  // Y movement here can be used for lift and gravity effects.
-  velWorld += vel;
-}
-
-/// Resets the velocity of this body in world coordinates.
-void celPcLinearMovement::ClearWorldVelocity ()
-{
-  // Y movement here can be used for lift and gravity effects.
-  velWorld = 0.0f;
-}
-
-void celPcLinearMovement::GetVelocity (csVector3 &v) const
-{
-  v = GetVelocity ();
-}
-
-const csVector3 &celPcLinearMovement::GetBodyVelocity () const
-{
-  return velBody;
-}
-const csVector3 &celPcLinearMovement::GetWorldVelocity () const
-{
-  return velWorld;
-}
-const csVector3 celPcLinearMovement::GetVelocity () const
-{
-  if (!pcmesh || !pcmesh->GetMesh ()) return csVector3 (0.0f);
-
-  csVector3 velworld = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
-      .Other2ThisRelative (velWorld);
-
-  // Return the composite of the object and world velocity
-  // in the OBJECT coordinate system.
-  return velworld + velBody;
-}
 // --------------------------------------------------------------------------
 //Does the actual rotation
 bool celPcLinearMovement::RotateV (float delta)
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return false;
+  if (!pcmesh || !pcmesh->GetMesh ())
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+            "cel.pfmove.linear.rotatev",
+            "Linear movement: No Mesh found on entity!");
+    return false;
+  }
 
   // rotation
   if (angularVelocity < SMALL_EPSILON)
@@ -635,7 +594,8 @@ bool celPcLinearMovement::RotateV (float delta)
   }
 
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-  movable->SetTransform (movable->GetTransform ().GetT2O () * csXRotMatrix3 (angle.x) * csYRotMatrix3 (angle.y) * csZRotMatrix3 (angle.z));
+  csYRotMatrix3 rotMat (angle.y);
+  movable->SetTransform (movable->GetTransform ().GetT2O () * rotMat);
   movable->UpdateMove ();
   //pcmesh->GetMesh ()->GetMovable ()->Transform (rotMat);
   return true;
@@ -664,8 +624,6 @@ bool celPcLinearMovement::RotateV (float delta)
 
 int celPcLinearMovement::MoveSprite (float delta)
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return CEL_MOVE_FAIL;
-
   //float local_max_interval;
   int ret = CEL_MOVE_SUCCEED;
 
@@ -761,8 +719,6 @@ int celPcLinearMovement::MoveSprite (float delta)
 // Apply the gradual offset correction from SetSoftDRUpdate to the mesh position
 void celPcLinearMovement::OffsetSprite (float delta)
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return;
-
   if (offset_err.IsZero ()) return;  // no offset correction to perform
 
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
@@ -806,8 +762,6 @@ void celPcLinearMovement::OffsetSprite (float delta)
 // Do the actual move
 int celPcLinearMovement::MoveV (float delta)
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return CEL_MOVE_FAIL;
-
   if (velBody < SMALL_EPSILON && velWorld < SMALL_EPSILON
   	&& (!pccolldet || pccolldet->IsOnGround ()))
     return CEL_MOVE_DONTMOVE;  // didn't move anywhere
@@ -948,8 +902,6 @@ int celPcLinearMovement::MoveV (float delta)
 
 void celPcLinearMovement::HugGround (const csVector3& pos, iSector* sector)
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return;
-
   csVector3 start, end;
   csIntersectingTriangle closest_tri;
   csVector3 isect[4];
@@ -1090,8 +1042,6 @@ csTicks celPcLinearMovement::TimeDiff ()
 
 void celPcLinearMovement::ExtrapolatePosition (float delta)
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return;
-
   if (path)
   {
     path_time += delta;
@@ -1134,7 +1084,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_arrived)
 	{
 	  dispatcher_arrived = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.arrived"));
+	    CreateMessageDispatcher (this, "cel.move.arrived");
 	  if (!dispatcher_arrived) return;
 	}
 	dispatcher_arrived->SendMessage (0);
@@ -1162,7 +1112,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_impossible)
 	{
 	  dispatcher_impossible = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.impossible"));
+	    CreateMessageDispatcher (this, "cel.move.impossible");
 	  if (!dispatcher_impossible) return;
 	}
 	dispatcher_impossible->SendMessage (0);
@@ -1172,7 +1122,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_interrupted)
 	{
 	  dispatcher_interrupted = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.interrupted"));
+	    CreateMessageDispatcher (this, "cel.move.interrupted");
 	  if (!dispatcher_interrupted) return;
 	}
 	dispatcher_interrupted->SendMessage (0);
@@ -1189,7 +1139,7 @@ void celPcLinearMovement::TickEveryFrame ()
 
   if (anchor_needsinit) LoadAnchor (anchor);
 
-  if (!pcmesh || !pcmesh->GetMesh ())
+  if (!pcmesh)
   {
     MoveReport (object_reg, "No Mesh found on entity!");
     return;
@@ -1233,7 +1183,7 @@ void celPcLinearMovement::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -1346,13 +1296,8 @@ void celPcLinearMovement::GetDRData (bool& on_ground, float& speed,
 
 iSector* celPcLinearMovement::GetSector ()
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return nullptr;
-
   FindSiblingPropertyClasses ();
-  iSectorList* sectors = pcmesh->GetMesh ()->GetMovable ()->GetSectors ();
-  if (!sectors->GetCount ())
-    return nullptr;
-  return sectors->Get (0);
+  return pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
 }
 
 // --------------------------------------------------------------------------
@@ -1371,7 +1316,7 @@ iPcMesh* celPcLinearMovement::GetMesh ()
   if (!pcmesh || !pcmesh->GetMesh ())
   {
     MoveReport (object_reg, "No Mesh found on entity!");
-    return nullptr;
+    return 0;
   }
   return pcmesh;
 }
@@ -1379,7 +1324,7 @@ iPcMesh* celPcLinearMovement::GetMesh ()
 float celPcLinearMovement::GetYRotation ()
 {
   // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ()) return 0.0;
+  if (!GetMesh ())  return 0.0;
   const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
     ->GetTransform ().GetT2O ();
   return Matrix2YRot (transf);
@@ -1387,26 +1332,20 @@ float celPcLinearMovement::GetYRotation ()
 const csVector3 celPcLinearMovement::GetPosition ()
 {
   // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ()) return csVector3 ();
+  if (!GetMesh ())  return csVector3 ();
   return pcmesh->GetMesh ()->GetMovable ()->GetPosition ();
 }
 const csVector3 celPcLinearMovement::GetFullPosition ()
 {
   // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ()) return csVector3 ();
+  if (!GetMesh ())  return csVector3 ();
   return pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
-}
-const csReversibleTransform celPcLinearMovement::GetFullTransform ()
-{
-  // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ()) return csReversibleTransform ();
-  return pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
 }
 
 void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
     iSector*& sector)
 {
-  if (!GetMesh ()) return;
+  if (!GetMesh ())  return;
 
   // Position
   pos = GetPosition ();
@@ -1421,7 +1360,7 @@ void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
 void celPcLinearMovement::GetLastFullPosition (csVector3& pos, float& yrot,
     iSector*& sector)
 {
-  if (!GetMesh ()) return;
+  if (!GetMesh ())  return;
 
   // Position
   pos = GetFullPosition ();
@@ -1436,8 +1375,6 @@ void celPcLinearMovement::GetLastFullPosition (csVector3& pos, float& yrot,
 void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
 	const iSector* sector)
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return;
-
   FindSiblingPropertyClasses ();
   // Position
   csVector3 newpos;
@@ -1464,8 +1401,6 @@ void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
 void celPcLinearMovement::SetFullPosition (const char* center_name, float yrot,
 	iSector* sector)
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return;
-
   csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
   	sector->QueryObject (), center_name);
   if (mapnode)
@@ -1482,8 +1417,6 @@ void celPcLinearMovement::SetFullPosition (const char* center_name, float yrot,
 void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
 	const iSector* sector)
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return;
-
   FindSiblingPropertyClasses ();
   // Position
   pcmesh->GetMesh ()->GetMovable ()->SetPosition ((iSector *)sector,pos);
@@ -1499,8 +1432,6 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
 void celPcLinearMovement::SetPosition (const char* center_name, float yrot,
 	iSector* sector)
 {
-  if (!pcmesh || !pcmesh->GetMesh ()) return;
-
   csRef<iMapNode> mapnode = CS::GetNamedChildObject<iMapNode> (
   	sector->QueryObject (), center_name);
   if (mapnode)
@@ -1571,7 +1502,7 @@ csPtr<iCelDataBuffer> celPcLinearMovement::GetPersistentData (
 	celPersistenceType persistence_type)
 {
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
-    return 0;
+    return SaveFirstPass ();
 
   if (persistence_type == CEL_PERSIST_TYPE_RECORD)
     return Save ();
@@ -1607,6 +1538,7 @@ celPersistenceResult celPcLinearMovement::SetPersistentData (csTicks data_time,
 
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
   {
+    LoadFirstPass (databuf);
     return CEL_PERSIST_RESULT_OK;
   }
 

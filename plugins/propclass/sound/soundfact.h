@@ -77,6 +77,8 @@ public:
 
   virtual iSndSysListener* GetSoundListener () { return listener; }
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
@@ -151,6 +153,8 @@ public:
   virtual void Pause ();
   virtual void Unpause ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
@@ -164,9 +168,6 @@ public:
   virtual bool GetPropertyIndexed (int, const char*&);
 
   virtual void TickEveryFrame ();
-
-  virtual void Activate ();
-  virtual void Deactivate ();
 };
 
 #endif // __CEL_PF_SOUNDFACT__
