@@ -1,0 +1,59 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product
+        Version="$(var.VERSION_MAJORMINOR).$(var.VERSION_PACKAGE)"
+        Name="CELstart $(var.VERSION_MAJORMINOR)" 
+        Manufacturer="The Crystal Space Project"
+        Id="*" 
+        UpgradeCode="$(var.UPGRADE_CODE)"
+        Language="1033">
+    <Package InstallerVersion="301"/>
+    <Media EmbedCab="yes" Id="1" Cabinet="celstart_$(var.ARCH).cab"/>
+    <UIRef Id="WixUI_FeatureTree"/>
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.TOP)/scripts/msi/lgpl.rtf"/>
+    <InstallExecuteSequence>
+      <RemoveExistingProducts After="InstallFinalize"/>
+    </InstallExecuteSequence>
+    <Directory Name="SourceDir" Id="TARGETDIR"/>
+    <DirectoryRef Id="TARGETDIR">
+      <Directory Name="PFiles" Id="ProgramFilesFolder"/>
+    </DirectoryRef>
+    <DirectoryRef Id="ProgramFilesFolder">
+      <Directory Name="CELstart $(var.VERSION_MAJORMINOR)" Id="CELSTARTDIR"/>
+    </DirectoryRef>
+    <?include $(var.CRYSTAL_WXINCLUDE)/CS-directory-runtime.wxi ?>
+    <?include cel-directory-runtime.wxi ?>
+    <DirectoryRef Id="CELSTARTDIR">
+      <Merge DiskId="1" SourceFile="$(var.CEL_MSM_PATH)/cel.arch.$(var.ARCH).executable.celstart.msm" Id="celstart.arch.executable" Language="1033" FileCompression="yes"/>
+      <Component Guid="2302ed09-dfb5-4a94-8bd1-7592d81274f0" Id="celstart.association">
+        <ProgId Id="CELstart.$(var.VERSION_MAJORMINOR).celzip" Description="CELstart package">
+          <Extension Id="celzip" ContentType="application/x-zip-celstart" />
+        </ProgId>
+        <RegistryValue
+            Key="CELstart.$(var.VERSION_MAJORMINOR).celzip\shell\open\command"
+            Action="write" Type="string" Root="HKCR" Id="cel.celstart.celzip.assoc"
+            Value="&quot;[CELSTARTDIR]celstart.exe&quot; &quot;%1&quot;"/>
+        <RegistryValue Key="CELstart.$(var.VERSION_MAJORMINOR).celzip\DefaultIcon"
+            Action="write" Type="string" Root="HKCR" Id="cel.celstart.celzip.icon"
+            Value="&quot;[CELSTARTDIR]celstart.exe&quot;,-2"/>
+      </Component>
+    </DirectoryRef>
+    <Upgrade Id="$(var.UPGRADE_CODE)">
+      <UpgradeVersion
+        Minimum="$(var.VERSION_MAJORMINOR).0" IncludeMinimum="yes"
+        Maximum="$(var.VERSION_MAJORMINOR).$(var.VERSION_PACKAGE)" IncludeMaximum="yes"
+        Property="PATCHFOUND" />
+    </Upgrade>
+    <Icon Id="CELstart.ico" SourceFile="$(var.TOP)/apps/celstart/CELstart.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="CELstart.ico" />
+    <Property Id="ARPURLINFOABOUT" Value="http://crystalspace3d.org/" />
+    <Property Id="ARPURLUPDATEINFO" Value="http://crystalspace3d.org/main/CELstart#Downloads" />
+    <Property Id="ARPHELPLINK" Value="http://www.crystalspace3d.org/forum/index.php" />
+    <Feature Title="CELstart Application" Id="celstart.executable" Level="1" ConfigurableDirectory="CELSTARTDIR" AllowAdvertise="no">
+      <MergeRef Id="celstart.arch.executable"/>
+      <ComponentRef Id="celstart.association" />
+    </Feature>
+    <?include cel-feature-runtime.wxi ?>
+    <?include $(var.CRYSTAL_WXINCLUDE)/CS-feature-runtime.wxi ?>
+  </Product>
+</Wix>
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet type='text/xsl' href='interface.xsl'?>
+<interface uri="http://crystalspace3d.org/0install/celstart-static.xml" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+  <name>CELstart</name>
+  <summary>launcher for celzip game packages</summary>
+  <description>
+CELstart is a launcher for self-contained &quot;celzip&quot; game packages.</description>
+  <homepage>http://crystalspace3d.org/main/CELstart</homepage>
+  <category>Game</category>
+  <icon href="http://crystalspace3d.org/mediawiki/images/1/10/CELstart-rocket.png" type="image/png"/>
+  <group arch="Linux-i686" license="OSI Approved :: GNU Lesser General Public License (LGPL)" main="celstart_wrapper">
+    <implementation id="sha1new=f29bf0bfd81aca18709d2c611ff03790a650c2cb" released="2008-08-03" stability="testing" version="1.9.30679.3601">
+      <archive extract="celstart-1.9-CSr30679-CELr3601-Linux-x86" href="http://download.blender.org/ftp/incoming/celstart-1.9-CSr30679-CELr3601-Linux-x86.tar.bz2" size="32131090" type="application/x-bzip-compressed-tar"/>
+    </implementation>
+  </group>
+</interface>
+<!-- Base64 Signature
+iEYEABECAAYFAkiWcHcACgkQNCTzcE/07exNzACgucu/pGiRTMhvu2PLqR2QXqO4to0AoJnRftMO
+YCnFg0mUCCEC0Vwf66gw
+
+-->
