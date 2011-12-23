@@ -1,0 +1,7 @@
+SubDir TOP plugins addons ledges ;
+
+Plugin addon_ledges
+	: ledges.cpp ledges.h
+;
+ExternalLibs addon_ledges : CRYSTAL ;
+LinkWith addon_ledges : celtool ;

@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass wire ;
+
+Plugin pfwire
+	: wirefact.cpp wirefact.h
+;
+ExternalLibs pfwire : CRYSTAL ;
+LinkWith pfwire : celtool ;
+

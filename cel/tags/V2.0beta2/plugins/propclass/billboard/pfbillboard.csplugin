@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- pfbillboard.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <!-- @@@ to be deprecated -->
+      <class>
+        <name>cel.pcfactory.billboard</name>
+        <implementation>celPfBillboard</implementation>
+        <description>CEL Billboard Property Class Factory</description>
+      </class>
+
+      <class>
+        <name>cel.pcfactory.2d.billboard</name>
+        <implementation>celPfBillboard</implementation>
+        <description>CEL Billboard Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

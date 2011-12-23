@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer 2.0.0: 4.3.10 Spawn</title>
+
+<meta name="description" content="Crystal Entity Layer 2.0.0: 4.3.10 Spawn">
+<meta name="keywords" content="Crystal Entity Layer 2.0.0: 4.3.10 Spawn">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="PropClass-Spawn"></a>
+<a name="0"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="PropClass-Behaviour-Tree.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-Timer.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<hr size="1">
+<h3 class="subsection"> 4.3.10 Spawn </h3>
+
+<p>The spawn property class is responsible for creating other entities based 
+on time related rules.
+</p>
+<a name="1"></a>
+<h4 class="subsubheading"> Property Class Details </h4>
+
+<ul>
+<li> <em>Name</em>:
+<samp>&lsquo;pclogic.spawn&rsquo;</samp>
+</li><li> <em>Factory ID</em>:
+<samp>&lsquo;cel.pcfactory.logic.spawn&rsquo;</samp>
+</li><li> <em>Interface</em>:
+<code>iPcSpawn</code>
+</li><li> <em>Header</em>:
+<tt>&lsquo;include/propclass/spawn.h&rsquo;</tt>
+</li></ul>
+
+
+<a name="2"></a>
+<h4 class="subsubheading"> General Information </h4>
+
+<p>This property class can create entities at positions selected by the user. 
+It can both create simple entities from scratch, or create them from
+entity templates.
+</p>
+<a name="3"></a>
+<h4 class="subsubheading"> Setting spawn positions </h4>
+
+<p>You can set locations to spawn at by specifying positions or map nodes.
+</p>
+<p>This is accomplished by using the <code>AddSpawnPosition</code> method/action.  
+</p>
+<a name="4"></a>
+<h4 class="subsubheading"> Setting entity definitions </h4>
+
+<p>You can specify full templates to spawn from, or just entities with some
+behaviour. This is done by using the <code>AddEntityTemplateType</code> or
+<code>AddEntityType</code> respectively.
+</p>
+<a name="5"></a>
+<h4 class="subsubheading"> Enabling spawning </h4>
+
+<p>Spawn is initially enabled, but it is necessary to specify timing information
+by using <code>SetTiming</code> before it can actually start spawning entities.
+</p>
+<p>After this you can disable or reenable the spawner by using <code>SetEnabled</code>.
+</p>
+<a name="6"></a>
+<h4 class="subsubheading"> Spawned entity names </h4>
+
+<p>By default spawned entities will get a number appended to their names to be 
+able to somehow differentiate them. However, this behaviour can be controlled
+by the use of <code>namecounter</code> and <code>spawnunique</code> boolean properties.
+</p>
+<p><code>namecounter</code> allows disabling numbering in entity names.
+</p>
+<p><code>spawnunique</code> allows to prevent spawning of entities with the same name.
+This is useful in combination with disabled namecounter to allow only one
+entity of each name at any one time, but respawning afer the entity 
+dissapears (like for example for item spawn points in games).
+</p>
+<a name="7"></a>
+<h4 class="subsubheading"> Message Callbacks </h4>
+
+<p>This property class can send the following message to the behaviour.
+</p>
+<p><code>pcspawn_newentity</code>: new entity has been created. Holds entity and 
+behaviour parameters.
+</p>
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="PropClass-Behaviour-Tree.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="PropClass-Timer.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

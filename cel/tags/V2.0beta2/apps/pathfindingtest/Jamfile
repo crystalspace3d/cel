@@ -1,0 +1,8 @@
+SubDir TOP apps pathfindingtest ;
+
+Application pathfindingtest : [ Wildcard *.cpp *.h ] ;
+CFlags pathfindingtest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+LinkWith pathfindingtest : celtool ;
+ExternalLibs pathfindingtest : CRYSTAL ;
+FileListEntryApplications pathfindingtest : app-demo ;
+
