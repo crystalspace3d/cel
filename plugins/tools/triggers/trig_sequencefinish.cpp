@@ -55,7 +55,7 @@ celSequenceFinishTriggerFactory::~celSequenceFinishTriggerFactory ()
 }
 
 csPtr<iTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   celSequenceFinishTrigger* trig;
   if (seq.IsValid())
@@ -117,7 +117,7 @@ void celSequenceFinishTriggerFactory::SetSequence (iCelSequence* sequence)
 
 celSequenceFinishTrigger::celSequenceFinishTrigger (
 	celSequenceFinishTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par,
 	iCelSequence* sequence) : scfImplementationType (this)
@@ -127,7 +127,7 @@ celSequenceFinishTrigger::celSequenceFinishTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
+  entity = pm->ResolveParameter (params, entity_par);
   tag = pm->ResolveParameter (params, tag_par);
   sequence_name = pm->ResolveParameter (params, sequence_par);
 
@@ -162,13 +162,9 @@ void celSequenceFinishTrigger::FindSequence ()
 {
   if (seq) return;
   iCelPlLayer* pl = type->pl;
-  iCelEntity* ent;
-  if (!entity.IsEmpty ())
-    ent = pl->FindEntity (entity);
-  else
-    ent = pl->GetEntity (entityID);
+  iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  csRef<iPcQuest> pcquest = celQueryPropertyClassTagEntity<iPcQuest> (ent, tag);
+  csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, tag);
   if (!pcquest) return;
   iQuest* quest = pcquest->GetQuest ();
   seq = quest->FindSequence (sequence_name);
@@ -200,6 +196,16 @@ void celSequenceFinishTrigger::DeactivateTrigger ()
   FindSequence ();
   if (!seq) return;
   seq->RemoveSequenceCallback ((iCelSequenceCallback*)this);
+}
+
+bool celSequenceFinishTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
+{
+  ActivateTrigger ();
+  return true;
+}
+
+void celSequenceFinishTrigger::SaveTriggerState (iCelDataBuffer*)
+{
 }
 
 //---------------------------------------------------------------------------

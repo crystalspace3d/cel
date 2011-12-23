@@ -723,6 +723,9 @@ public:
 
   virtual void Draw ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
+
   virtual bool SetRegion (iPcRegion* region, bool point = true,
         const char* name = 0)
   {

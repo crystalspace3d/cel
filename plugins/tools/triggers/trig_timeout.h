@@ -24,6 +24,8 @@
 #include "csutil/util.h"
 #include "csutil/refarr.h"
 #include "csutil/weakref.h"
+#include "csutil/timer.h"
+#include "iutil/timer.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
@@ -54,7 +56,7 @@ public:
   celTimeoutTriggerFactory (celTimeoutTriggerType* type);
   virtual ~celTimeoutTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iTimeoutTriggerFactory ----------------------
@@ -66,19 +68,19 @@ public:
  */
 class celTimeoutTrigger : public scfImplementation2<
 	celTimeoutTrigger, iTrigger,
-	iCelTimerListener>
+	iTimerEvent>
 {
 private:
   csRef<celTimeoutTriggerType> type;
   csRef<iParameterManager> pm;
   csRef<iTriggerCallback> callback;
   csTicks timeout;
+  csRef<csEventTimer> timer;
   bool fired;
-  csTicks deactivatedTicksLeft;
 
 public:
   celTimeoutTrigger (celTimeoutTriggerType* type,
-  	iCelParameterBlock* params, const char* timeout_par);
+  	const celParams& params, const char* timeout_par);
   virtual ~celTimeoutTrigger ();
 
   virtual void RegisterCallback (iTriggerCallback* callback);
@@ -86,13 +88,11 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
-  virtual void Activate ();
-  virtual void Deactivate ();
-
-  //------------------------- iCelTimerListener -------------------------------
-  virtual void TickEveryFrame () { }
-  virtual void TickOnce ();
+  //------------------------- iTimerEvent -------------------------------
+  virtual bool Perform (iTimerEvent* ev);
 };
 
 #endif // __CEL_TOOLS_TRIG_TIMEOUT__

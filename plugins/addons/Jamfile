@@ -6,5 +6,3 @@ SubInclude TOP plugins addons xmlscripts ;
 SubInclude TOP plugins addons ruledef ;
 SubInclude TOP plugins addons celgraph ;
 SubInclude TOP plugins addons ledges ;
-SubInclude TOP plugins addons dynworldload ;
-SubInclude TOP plugins addons lootloader ;

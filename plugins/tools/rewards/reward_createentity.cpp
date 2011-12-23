@@ -24,7 +24,6 @@
 #include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 #include "tools/parameters.h"
-#include "celtool/stdparams.h"
 
 #include "physicallayer/pl.h"
 
@@ -62,7 +61,6 @@ celCreateEntityRewardFactory::celCreateEntityRewardFactory (
 	celCreateEntityRewardType* type) : scfImplementationType (this)
 {
   celCreateEntityRewardFactory::type = type;
-  params.AttachNew (new celVariableParameterBlock ());
 }
 
 celCreateEntityRewardFactory::~celCreateEntityRewardFactory ()
@@ -70,7 +68,7 @@ celCreateEntityRewardFactory::~celCreateEntityRewardFactory ()
 }
 
 csPtr<iReward> celCreateEntityRewardFactory::CreateReward (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   celCreateEntityReward* newquest = new celCreateEntityReward (type,
   	params, template_par, name_par, celCreateEntityRewardFactory::params);
@@ -81,7 +79,7 @@ bool celCreateEntityRewardFactory::Load (iDocumentNode* node)
 {
   template_par.Empty ();
   name_par.Empty ();
-  params.AttachNew (new celVariableParameterBlock ());
+  params.DeleteAll();
 
   // required parameters
   template_par = node->GetAttributeValue ("template");
@@ -129,12 +127,7 @@ void celCreateEntityRewardFactory::SetNameParameter (
 void celCreateEntityRewardFactory::AddParameter (const char* name, 
 		const char* value)
 {
-  csStringID id = type->pl->FetchStringID (name);
-  celData* data = params->GetParameter (id);
-  if (data)
-    data->Set (value);
-  else
-    params->AddParameter (id).Set (value);
+  params.PutUnique(name,value);
 }
 
 //---------------------------------------------------------------------------
@@ -142,10 +135,10 @@ void celCreateEntityRewardFactory::AddParameter (const char* name,
 
 celCreateEntityReward::celCreateEntityReward (
 	celCreateEntityRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* template_par,
 	const char* name_par,
-        iCelParameterBlock* tpl_params) : scfImplementationType (this)
+    const celEntityTemplateParams &tpl_params) : scfImplementationType (this)
 {
   celCreateEntityReward::type = type;
 
@@ -156,18 +149,13 @@ celCreateEntityReward::celCreateEntityReward (
   name = pm->GetParameter (params, name_par);
 
   // Resolve template parameters.
-  celCreateEntityReward::params.AttachNew (new celVariableParameterBlock ());
-  for (size_t i = 0 ; i < tpl_params->GetParameterCount () ; i++)
+  celEntityTemplateParams::ConstGlobalIterator iter = tpl_params.GetIterator();
+  while (iter.HasNext())
   {
-    celDataType t;
-    csStringID id = tpl_params->GetParameterDef (i, t);
-    const char* name = type->pl->FetchString (id);
+    csStringFast<12> name;
     // @@@ Support dynamic parameters?
-    const celData* data = tpl_params->GetParameterByIndex (i);
-    csString val;
-    celParameterTools::ToString (*data, val);
-
-    celCreateEntityReward::params->AddParameter (type->pl->FetchStringID (name)).Set (val);
+	const char * val = pm->ResolveParameter (params, iter.Next(name));  
+    celCreateEntityReward::params.Put (name, val);
   }
 }
 

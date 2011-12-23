@@ -114,6 +114,8 @@ public:
   virtual float GetSqRadius () const { return sqradius; }
   virtual bool IsMoving () const { return is_moving; }
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();

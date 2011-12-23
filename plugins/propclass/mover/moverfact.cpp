@@ -99,6 +99,21 @@ celPcMover::~celPcMover ()
   delete params;
 }
 
+#define MOVER_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcMover::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MOVER_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcMover::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != MOVER_SERIAL) return false;
+  return true;
+}
+
 void celPcMover::SendMessage (const char* msgold,
     const char* msg, csRef<iMessageDispatcher>& dispatcher,
     const char* meshname)
@@ -116,7 +131,7 @@ void celPcMover::SendMessage (const char* msgold,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	this, pl->FetchStringID (msg));
+	this, msg);
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (params);
@@ -324,9 +339,9 @@ void celPcMover::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pcactormove = celQueryPropertyClassEntity<iPcActorMove> (entity);
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 

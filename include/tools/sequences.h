@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2004-2011 by Jorrit Tyberghein
+    Copyright (C) 2004-2006 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -20,10 +20,9 @@
 #ifndef __CEL_SEQUENCES__
 #define __CEL_SEQUENCES__
 
+#include "behaviourlayer/behave.h"
 #include "tools/parameters.h"
 
-struct iQuest;
-struct iCelParameterBlock;
 
 //-------------------------------------------------------------------------
 // Sequence operations
@@ -48,6 +47,16 @@ struct iSeqOp : public virtual iBase
   virtual void Init (iCelParameterBlock* params) = 0;
 
   /**
+   * Load the sequence operation from persisted data.
+   */
+  virtual bool Load (iCelDataBuffer* databuf) = 0;
+
+  /**
+   * Save the sequence operation to persisted data.
+   */
+  virtual void Save (iCelDataBuffer* databuf) = 0;
+
+  /**
    * Do the operation. The parameter is a value between 0 and 1 which
    * will be interpolated over a specified time (specified in the sequence).
    * In case this is a single-shot operation the value will always be 1.
@@ -68,7 +77,7 @@ struct iSeqOpFactory : public virtual iBase
    * \param params are the parameters with which this reward is
    * instantiated.
    */
-  virtual csPtr<iSeqOp> CreateSeqOp (iCelParameterBlock* params) = 0;
+  virtual csPtr<iSeqOp> CreateSeqOp (const celParams& params) = 0;
 
   /**
    * Load this factory from a document node.
@@ -125,6 +134,15 @@ struct iCelSequence : public virtual iBase
   virtual const char* GetName () const = 0;
 
   /**
+   * Save state of this sequence.
+   */
+  virtual void SaveState (iCelDataBuffer* databuf) = 0;
+  /**
+   * Load state of this sequence.
+   */
+  virtual bool LoadState (iCelDataBuffer* databuf) = 0;
+
+  /**
    * Fire this sequence.
    * \param delay is a delay before the sequence will really start.
    * \return false if the sequence is already running.
@@ -159,16 +177,6 @@ struct iCelSequence : public virtual iBase
    * Remove a callback.
    */
   virtual void RemoveSequenceCallback (iCelSequenceCallback* cb) = 0;
-
-  /**
-   * Activate this sequence.
-   */
-  virtual void Activate () = 0;
-
-  /**
-   * Deactivate this sequence.
-   */
-  virtual void Deactivate () = 0;
 };
 
 /**
@@ -179,8 +187,7 @@ struct iCelSequenceFactory : public virtual iBase
 {
   SCF_INTERFACE (iCelSequenceFactory, 0, 0, 1);
 
-  virtual csPtr<iCelSequence> CreateSequence (iQuest* q,
-      iCelParameterBlock* params) = 0;
+  virtual csPtr<iCelSequence> CreateSequence (const celParams& params) = 0;
 
   /**
    * Get the name of this factory.
@@ -246,52 +253,6 @@ struct iDebugPrintSeqOpFactory : public virtual iBase
   virtual void SetMessageParameter (const char* msg) = 0;
 };
 
-
-/**
- * This interface is implemented by the seqop that animates ambient
- * light colors for a mesh.
- * You can query this interface from the seqop factory if
- * you want to manually control this factory as opposed to loading
- * its definition from an XML document.
- *
- * The predefined name of this seqop type is 'cel.seqops.ambientmesh'.
- *
- * In XML, factories recognize the following attributes on the 'op' node:
- * - <em>entity</em>: the name of the entity containing the pcmesh
- *   property class.
- * - <em>entity_tag</em>: optional tag used to find the right
- *   property class from the entity.
- * - <em>relcolor</em>: relative color animation vector.
- *   This node has 'red', 'green, and 'blue' attributes. Each of these
- *   attributes can be a parameter.
- * - <em>abscolor</em>: absolute color.
- *   This node has 'red', 'green, and 'blue' attributes. Each of these
- *   attributes can be a parameter.
- */
-struct iAmbientMeshSeqOpFactory : public virtual iBase
-{
-  SCF_INTERFACE (iAmbientMeshSeqOpFactory, 0, 0, 1);
-
-  /**
-   * Set the entity containing the pcmesh (either entity name
-   * or a parameter if it starts with '$').
-   * \param tag is the optional tag of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-
-  /**
-   * Set the relative color animation vector.
-   */
-  virtual void SetRelColorParameter (const char* red, const char* green,
-  	const char* blue) = 0;
-
-  /**
-   * Set the absolute color.
-   */
-  virtual void SetAbsColorParameter (const char* red, const char* green,
-  	const char* blue) = 0;
-};
 
 /**
  * This interface is implemented by the seqop that animates light colors.
@@ -528,7 +489,6 @@ struct iTransformSeqOpFactory : public virtual iBase
    */
   virtual void SetRotationParameter (int rot_axis, const char* rot_angle) = 0;
 };
-
 //-------------------------------------------------------------------------
 
 /**

@@ -665,6 +665,10 @@
 
 /* CEL_CELTOOL_EXPORT (include/celtool/stdpcimp.h) */
 
+/* celGenericParameterBlock (include/celtool/stdparams.h) */
+%cs_multi_attr_writeonly(blcelc,celGenericParameterBlock,ParameterDef,SetParameterDef)
+%cs_attribute(blcelc,celGenericParameterBlock,size_t,ParameterCount,GetParameterCount)
+
 /* celVariableParameterBlock (include/celtool/stdparams.h) */
 %cs_multi_attr_writeonly(blcelc,celVariableParameterBlock,ParameterDef,SetParameterDef)
 %cs_attribute(blcelc,celVariableParameterBlock,size_t,ParameterCount,GetParameterCount)

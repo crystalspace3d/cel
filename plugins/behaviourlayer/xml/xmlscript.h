@@ -99,9 +99,6 @@ enum
   CEL_OPERATION_CALL_ER,	// A:-		S:E,S,S		OS:-
   CEL_OPERATION_CALL_ERS,	// A:S		S:E		OS:?
   CEL_OPERATION_CALL_ERS2,	// A:S		S:E		OS:?
-  CEL_OPERATION_MESSAGE0,	// A:-		S:E,ID		OS:?
-  CEL_OPERATION_MESSAGE1,	// A:-		S:E,ID,?	OS:?
-  CEL_OPERATION_MESSAGE2,	// A:-		S:E,ID,?,?	OS:?
   CEL_OPERATION_QUIT,		// A:-		S:-		OS:-
 
   CEL_OPERATION_BB_TESTCOLLIDE,	// A:-		S:PC		OS:-
@@ -479,7 +476,7 @@ private:
   // Temporary variable to keep parameters for actions.
   csRef<iCelParameterBlock> action_params;
   // Temporary parameter hash for entity creation (out of templates).
-  csRef<celVariableParameterBlock> template_params;
+  celEntityTemplateParams template_params;
 
   bool ReportError (celBlXml* cbl, const char* msg, ...);
   bool EvaluateTrue (const celXmlArg& eval, celBlXml* cbl, bool& rc);

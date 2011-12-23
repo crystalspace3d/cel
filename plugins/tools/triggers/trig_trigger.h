@@ -59,7 +59,7 @@ public:
   celTriggerTriggerFactory (celTriggerTriggerType* type);
   virtual ~celTriggerTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iTriggerTriggerFactory ----------------------
@@ -77,7 +77,6 @@ private:
   csRef<celTriggerTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
-  uint entityID;
   csString tag;
   csWeakRef<iPcTrigger> pctrigger;
   bool do_leave;
@@ -88,7 +87,7 @@ private:
 
 public:
   celTriggerTrigger (celTriggerTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	bool do_leave);
   virtual ~celTriggerTrigger ();
@@ -98,9 +97,8 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
-
-  virtual void Activate () { ActivateTrigger (); }
-  virtual void Deactivate () { DeactivateTrigger (); }
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   //------------------------- iPcTriggerListener ----------------------------
   virtual void EntityEnters (iPcTrigger* trigger, iCelEntity* entity);

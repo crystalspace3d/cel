@@ -39,13 +39,14 @@ static bool Match (const csString& mask, const csString& msg)
 }
 
 csRef<iMessageDispatcher> celMessageChannel::CreateMessageDispatcher (
-      iMessageSender* sender, csStringID id,
+      iMessageSender* sender, const char* msg_id,
       iMessageReceiverFilter* receiver_filter)
 {
   if (!pl) return 0;
   csRef<celMessageDispatcher> msgdisp;
-  csString message = pl->FetchString (id);;
-  msgdisp.AttachNew (new celMessageDispatcher (id, message, sender,
+  csString message = msg_id;
+  csStringID id = pl->FetchStringID (msg_id);
+  msgdisp.AttachNew (new celMessageDispatcher (id, msg_id, sender,
 	receiver_filter));
   messageDispatchers.Push (msgdisp);
 
@@ -182,11 +183,11 @@ void celMessageChannel::Unsubscribe (iMessageReceiver* receiver,
   }
 }
 
-bool celMessageChannel::SendMessage (csStringID id,
+bool celMessageChannel::SendMessage (const char* msgid,
       iMessageSender* sender, iCelParameterBlock* params,
       iCelDataArray* ret)
 {
-  csString msgid = pl->FetchString (id);
+  csStringID id = pl->FetchStringID (msgid);
 
   // Two passes. In the first pass we will gather all receivers in a set
   // so that every receiver will only get this message once.

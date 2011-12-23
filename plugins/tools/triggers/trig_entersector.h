@@ -61,7 +61,7 @@ public:
   celEnterSectorTriggerFactory (celEnterSectorTriggerType* type);
   virtual ~celEnterSectorTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iEnterSectorTriggerFactory ----------------------
@@ -82,7 +82,6 @@ private:
   csWeakRef<iSector> sect;
   csWeakRef<iCamera> camera;
   csString entity;
-  uint entityID;
   csString tag;
   csString sector;
 
@@ -90,7 +89,7 @@ private:
 
 public:
   celEnterSectorTrigger (celEnterSectorTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag,
 	const char* sector_par);
   virtual ~celEnterSectorTrigger ();
@@ -100,9 +99,8 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
-
-  virtual void Activate () { ActivateTrigger (); }
-  virtual void Deactivate () { DeactivateTrigger (); }
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   //----------------------- iCameraSectorListener --------------------------
   virtual void NewSector (iCamera* camera, iSector* sector);

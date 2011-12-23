@@ -29,7 +29,7 @@ CEL_IMPLEMENT_BTNODE (NegateReturnDecorator)
 
 //---------------------------------------------------------------------------
 
-bool celNegateReturnDecorator::Execute (iCelParameterBlock* params)
+bool celNegateReturnDecorator::Execute (const celParams& params)
 {
   //printf("Negate Return Decorator\n");
   return (!children.Get(0)->Execute(params));

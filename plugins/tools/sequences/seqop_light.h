@@ -65,7 +65,7 @@ public:
   virtual ~celLightSeqOpFactory ();
 
   virtual csPtr<iSeqOp> CreateSeqOp (
-      iCelParameterBlock* params);
+      const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iLightSeqOpFactory -----------------------
@@ -94,12 +94,11 @@ private:
   csRef<iParameter> entity_param;
   csRef<iParameter> tag_param;
   csRef<iParameter> rel_red_param;
-  csRef<iParameter> rel_green_param;
-  csRef<iParameter> rel_blue_param;
-  csRef<iParameter> abs_red_param;
-  csRef<iParameter> abs_green_param;
-  csRef<iParameter> abs_blue_param;
-  csRef<iParameterManager> pm;
+  csRef<iParameter>  rel_green_param;
+  csRef<iParameter>  rel_blue_param;
+  csRef<iParameter>  abs_red_param;
+  csRef<iParameter>  abs_green_param;
+  csRef<iParameter>  abs_blue_param;
 
   csColor start;
   csWeakRef<iLight> light;
@@ -108,7 +107,7 @@ private:
 
 public:
   celLightSeqOp (celLightSeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* rel_red_par, const char* rel_green_par,
 	const char* rel_blue_par,
@@ -116,6 +115,8 @@ public:
 	const char* abs_blue_par);
   virtual ~celLightSeqOp ();
 
+  virtual bool Load (iCelDataBuffer* databuf);
+  virtual void Save (iCelDataBuffer* databuf);
   virtual void Init (iCelParameterBlock* params);
   virtual void Do (float time, iCelParameterBlock* params);
 };

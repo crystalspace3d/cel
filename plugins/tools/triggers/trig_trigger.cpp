@@ -54,7 +54,7 @@ celTriggerTriggerFactory::~celTriggerTriggerFactory ()
 }
 
 csPtr<iTrigger> celTriggerTriggerFactory::CreateTrigger (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   celTriggerTrigger* trig = new celTriggerTrigger (type, params,
   	entity_par, tag_par, do_leave);
@@ -91,7 +91,7 @@ void celTriggerTriggerFactory::SetEntityParameter (
 
 celTriggerTrigger::celTriggerTrigger (
 	celTriggerTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	bool do_leave) : scfImplementationType (this)
 {
@@ -100,7 +100,7 @@ celTriggerTrigger::celTriggerTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
+  entity = pm->ResolveParameter (params, entity_par);
   tag = pm->ResolveParameter (params, tag_par);
   celTriggerTrigger::do_leave = do_leave;
   params_entity.AttachNew (new celOneParameterBlock ());
@@ -152,13 +152,9 @@ void celTriggerTrigger::FindEntities ()
   if (!pctrigger)
   {
     iCelPlLayer* pl = type->pl;
-    iCelEntity* ent;
-    if (!entity.IsEmpty ())
-      ent = pl->FindEntity (entity);
-    else
-      ent = pl->GetEntity (entityID);
+    iCelEntity* ent = pl->FindEntity (entity);
     if (!ent) return;
-    pctrigger = celQueryPropertyClassTagEntity<iPcTrigger> (ent, tag);
+    pctrigger = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcTrigger, tag);
   }
 }
 
@@ -181,6 +177,16 @@ void celTriggerTrigger::DeactivateTrigger ()
 {
   if (pctrigger)
     pctrigger->RemoveTriggerListener ((iPcTriggerListener*)this);
+}
+
+bool celTriggerTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
+{
+  ActivateTrigger ();
+  return true;
+}
+
+void celTriggerTrigger::SaveTriggerState (iCelDataBuffer*)
+{
 }
 
 //---------------------------------------------------------------------------

@@ -1,7 +1,0 @@
-SubDir TOP plugins tools loot ;
-
-Plugin lootmgr
-       : [ Wildcard *.cpp *.h ]
-;
-ExternalLibs lootmgr : CRYSTAL ;
-LinkWith lootmgr : celtool ;

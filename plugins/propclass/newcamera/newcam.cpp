@@ -434,7 +434,7 @@ bool celPcNewCamera::GetPropertyIndexed (int idx, float& val)
 
 bool celPcNewCamera::Reset ()
 {
-  pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   if (pcmesh && pcmesh->GetMesh ())
   {
     iMovable* movable = pcmesh->GetMesh ()->GetMovable ();

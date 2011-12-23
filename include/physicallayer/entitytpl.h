@@ -29,57 +29,18 @@
 #include "csutil/cscolor.h"
 
 #include "physicallayer/datatype.h"
-#include "tools/parameters.h"
 
 struct iCelEntity;
-struct iCelEntityTemplate;
 struct iCelPropertyClassTemplate;
 struct iCelPropertyClass;
-struct iTemplateCharacteristics;
-
-/**
- * Iterator to iterate over the parameters of a property class
- * template.
- */
-struct iCelParameterIterator : public virtual iBase
-{
-  SCF_INTERFACE (iCelParameterIterator, 0, 0, 1);
-
-  /**
-   * Is there another parameter?
-   */
-  virtual bool HasNext () const = 0;
-
-  /**
-   * Get next parameter.
-   */
-  virtual iParameter* Next (csStringID& id) = 0;
-};
-
-/**
- * Iterator to iterate over entity templates.
- */
-struct iCelEntityTemplateIterator : public virtual iBase
-{
-  SCF_INTERFACE (iCelEntityTemplateIterator, 0, 0, 1);
-
-  /**
-   * Is there another template?
-   */
-  virtual bool HasNext () const = 0;
-
-  /**
-   * Get next template.
-   */
-  virtual iCelEntityTemplate* Next () = 0;
-};
+struct iCelParameterBlock;
 
 /**
  * This is an entity template. It can be used to create other entities.
  */
 struct iCelEntityTemplate : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntityTemplate, 0, 2, 1);
+  SCF_INTERFACE (iCelEntityTemplate, 0, 0, 1);
 
   /**
    * Get the iObject for this entity template.
@@ -105,22 +66,6 @@ struct iCelEntityTemplate : public virtual iBase
   virtual iCelPropertyClassTemplate* CreatePropertyClassTemplate () = 0;
 
   /**
-   * Find a certain property class template.
-   */
-  virtual iCelPropertyClassTemplate* FindPropertyClassTemplate (const char* name,
-      const char* tag) = 0;
-
-  /**
-   * Get the amount of property class templates.
-   */
-  virtual size_t GetPropertyClassTemplateCount () const = 0;
-
-  /**
-   * Get a specific property class template.
-   */
-  virtual iCelPropertyClassTemplate* GetPropertyClassTemplate (size_t idx) const = 0;
-
-  /**
    * Set the behaviour associated with this template.
    * \param layer is the name of the behaviour layer (optional, can be 0
    * for default).
@@ -139,23 +84,11 @@ struct iCelEntityTemplate : public virtual iBase
   virtual const char* GetBehaviour () const = 0;
 
   /**
-   * Add a message to be sent to the created behaviour.
-   * Note that all messages will be sent after all properties and
-   * property classes are created.
+   * Add a message to be sent to the created behaviour. The parameters
+   * here support CEL_DATA_PARAMETER. Note that all messages will be sent
+   * after all properties and property classes are created.
    */
-  virtual void AddMessage (csStringID msgid,
-      csHash<csRef<iParameter>, csStringID>& params) = 0;
-
-  /**
-   * Get the number of messages.
-   */
-  virtual size_t GetMessageCount () const = 0;
-
-  /**
-   * Get a message.
-   */
-  virtual csRef<iCelParameterIterator> GetMessage (size_t idx,
-		  csStringID& id) const = 0;
+  virtual void AddMessage (const char* msgid, iCelParameterBlock* params) = 0;
 
   /**
    * Add a class to this entity. A class is an application defined
@@ -170,11 +103,6 @@ struct iCelEntityTemplate : public virtual iBase
   virtual void RemoveClass (csStringID cls) = 0;
 
   /**
-   * Remove all classes.
-   */
-  virtual void RemoveClasses () = 0;
-
-  /**
    * Check if this entity belongs to some class.
    */
   virtual bool HasClass (csStringID cls) = 0;
@@ -183,45 +111,6 @@ struct iCelEntityTemplate : public virtual iBase
    * Return the set of classes for this entity.
    */
   virtual const csSet<csStringID>& GetClasses () const = 0;
-
-  /**
-   * Merge another template into this one. This physically merges
-   * all information from the other template into this one without
-   * leaving any trace that this merge has occured (this contrasts
-   * with AddParent() below).
-   */
-  virtual void Merge (iCelEntityTemplate* tpl) = 0;
-
-  /**
-   * Add a parent template to this one. When creating an entity
-   * from this template the parent templates are applied first in
-   * the order that they were added. This is different from Merge() since
-   * the parent templates are only used at the time the entities are
-   * created so every change that is done to the parent template will
-   * still have an effect.
-   */
-  virtual void AddParent (iCelEntityTemplate* tpl) = 0;
-
-  /**
-   * Remove a parent.
-   */
-  virtual void RemoveParent (iCelEntityTemplate* tpl) = 0;
-
-  /**
-   * Remove all parents.
-   */
-  virtual void RemoveParents () = 0;
-
-  /**
-   * Get the parents of this template.
-   */
-  virtual csPtr<iCelEntityTemplateIterator> GetParents () const = 0;
-
-  /**
-   * Get the template characteristics interface for this
-   * template.
-   */
-  virtual iTemplateCharacteristics* GetCharacteristics () = 0;
 };
 
 /**
@@ -319,48 +208,11 @@ struct iCelPropertyClassTemplate : public virtual iBase
   virtual void SetProperty (csStringID propertyID, iCelEntity* entity) = 0;
 
   /**
-   * Perform an action with a generic parameter list.
+   * Perform an action with a generic parameter list. The parameters
+   * here support CEL_DATA_PARAMETER.
    */
   virtual void PerformAction (csStringID actionID,
-  	const csHash<csRef<iParameter>, csStringID>& params) = 0;
-
-  /**
-   * Replace the parameterblock for a given action.
-   */
-  virtual void ReplaceActionParameters (size_t idx,
-  	const csHash<csRef<iParameter>, csStringID>& params) = 0;
-
-  /**
-   * Get the number of properties and actions.
-   */
-  virtual size_t GetPropertyCount () const = 0;
-
-  /**
-   * Get a property. If the property is an action (data.type == CEL_DATA_NONE)
-   * then the returned iterator will iterate over all parameters of that action.
-   */
-  virtual csRef<iCelParameterIterator> GetProperty (size_t idx,
-		  csStringID& id, celData& data) const = 0;
-
-  /**
-   * Find a given property by it's id. Return csArrayItemNotFound if not found.
-   */
-  virtual size_t FindProperty (csStringID id) const = 0;
-
-  /**
-   * Remove all properties.
-   */
-  virtual void RemoveAllProperties () = 0;
-
-  /**
-   * Remove all properties with the given id.
-   */
-  virtual void RemoveProperty (csStringID id) = 0;
-
-  /**
-   * Remove a property by index.
-   */
-  virtual void RemovePropertyByIndex (size_t idx) = 0;
+  	iCelParameterBlock* params) = 0;
 };
 
 #endif // __CEL_PL_ENTITYTEMP__

@@ -88,9 +88,7 @@ private:
   size_t FindOrNewProperty (csStringID id);
   void ClearPropertyValue (property* p);
 
-  bool atBaseline;
-
-  csRef<celOneParameterBlock> params;
+  celOneParameterBlock* params;
 
   csRef<iMessageDispatcher> dispatcher_set;
   csRef<iMessageDispatcher> dispatcher_clear;
@@ -181,6 +179,8 @@ public:
   void RemovePropertyListener (iPcPropertyListener* listener);
   void FirePropertyListeners (size_t idx);
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
   	celData& ret);
 
@@ -207,15 +207,6 @@ public:
   iBase* GetPropertyIBase (size_t index) const
   { return GetPropertyIBaseIndex (index); }
   /** @} */
-
-  virtual void MarkBaseline ()
-  {
-    atBaseline = true;
-  }
-  virtual bool IsModifiedSinceBaseline () const { return !atBaseline; }
-  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings);
-  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
-      const csHash<csString,csStringID>& strings);
 };
 
 #endif // __CEL_PF_PROPFACT__

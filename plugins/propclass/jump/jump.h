@@ -48,6 +48,8 @@ public:
   celPcJump (iObjectRegistry* object_reg);
   virtual ~celPcJump ();
 
+  csPtr<iCelDataBuffer> Save ();
+  bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret);
 
   // Callback to update the character

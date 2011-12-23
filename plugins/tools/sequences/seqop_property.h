@@ -31,6 +31,14 @@
 
 struct iObjectRegistry;
 
+static float ToFloat (const char* s)
+{
+  if (!s) return 0.0f;
+  float f;
+  sscanf (s, "%f", &f);
+  return f;
+}
+
 /**
  * A standard seqop type that can animate a property class property.
  * Any property can be animated this way, assuming it is of the right type
@@ -67,7 +75,7 @@ public:
   virtual ~celPropertySeqOpFactory ();
 
   virtual csPtr<iSeqOp> CreateSeqOp (
-      iCelParameterBlock* params);
+      const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iPropertySeqOpFactory -----------------------
@@ -102,7 +110,6 @@ protected:
   csRef<iParameter>  pcname_param;
   csRef<iParameter>  propname_param;
   csRef<iParameter>  tag_param;
-  csRef<iParameterManager> pm;
 
   csWeakRef<iCelPropertyClass> pc;
   celDataType proptype; // must be set in all specializations.
@@ -116,12 +123,17 @@ protected:
 
 public:
   celPropertySeqOp (celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	const char* prop_par, bool rel_par);
   virtual ~celPropertySeqOp ();
   virtual void Init (iCelParameterBlock* params);
   virtual void Do (float time, iCelParameterBlock* params);
+  // We don't need to save or load anything as the sequence is totally
+  // determined by the constructor and time passed (no internal data
+  // structures to take care of).
+  virtual bool Load (iCelDataBuffer* databuf) { return true; };
+  virtual void Save (iCelDataBuffer* databuf) {};
   // virtual functions to get and set the value in type dependent way.
   // must be implemented by all specializations.
   virtual void SetCurrentValue(float time) = 0;
@@ -147,7 +159,7 @@ protected:
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-    end = end_param->GetFloat (params);
+    end = ToFloat (end_param->Get (params));
 
     start = pc->GetPropertyFloatByID(propID);
     if (relative)
@@ -156,7 +168,7 @@ protected:
   }
 public:
   celFloatPropertySeqOp (celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par, 
 	bool rel_par, const char* prop_par, const char* pfloat);
 };
@@ -174,7 +186,7 @@ class celLongPropertySeqOp : public celFloatPropertySeqOp
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-    end = end_param->GetFloat (params);
+	end = ToFloat (end_param->Get (params));
 
     start = (float)pc->GetPropertyLongByID(propID);
     if (relative)
@@ -183,7 +195,7 @@ class celLongPropertySeqOp : public celFloatPropertySeqOp
   }
 public:
   celLongPropertySeqOp (celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* pfloat) 
         : celFloatPropertySeqOp(type, params, entity_par, pc_par, tag_par,
@@ -211,8 +223,8 @@ class celVector2PropertySeqOp : public celPropertySeqOp
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-    end.x = endx_param->GetFloat (params);
-    end.y = endy_param->GetFloat (params);
+	end.x = ToFloat (endx_param->Get (params));
+	end.y = ToFloat (endy_param->Get (params));
 
     pc->GetPropertyVectorByID(propID,start);
     if (relative)
@@ -221,7 +233,7 @@ class celVector2PropertySeqOp : public celPropertySeqOp
   }
 public:
   celVector2PropertySeqOp (celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* vx, const char* vy);
 };
@@ -245,9 +257,9 @@ class celVector3PropertySeqOp : public celPropertySeqOp
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-    end.x = endy_param->GetFloat (params);
-    end.y = endy_param->GetFloat (params);
-    end.z = endy_param->GetFloat (params);
+    end.x = ToFloat (endy_param->Get (params));
+	end.y = ToFloat (endy_param->Get (params));
+	end.z = ToFloat (endy_param->Get (params));
 
     pc->GetPropertyVectorByID(propID,start);
     if (relative)
@@ -256,7 +268,7 @@ class celVector3PropertySeqOp : public celPropertySeqOp
   }
 public:
   celVector3PropertySeqOp (celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* vx, const char* vy, 
 	const char* vz);

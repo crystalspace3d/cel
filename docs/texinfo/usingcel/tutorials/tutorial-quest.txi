@@ -34,7 +34,7 @@ Here is the tutorial, focusing only on the changes to WalkTut neccesary to add a
 
 
 
-@node Tutorial QuestTest Behave Header, Tutorial QuestTest, Tutorial QuestTest Behave, Tutorial QuestTest
+@node Tutorial QuestTest Behave Header, Tutorial QuestTest Behave, Tutorial QuestTest, Tutorial QuestTest
 @subsubsection behave.h
 
 Here is the header for our behaviour layer. Here we define the behaviour
@@ -127,7 +127,7 @@ csPtr<iCelEntity> CreateQuest (const char* name);
 
 This method will create the quest.
 
-@node Tutorial QuestTest App, Tutorial QuestTest Behave Header, Tutorial QuestTest App Header, Tutorial QuestTest
+@node Tutorial QuestTest App, , Tutorial QuestTest App Header, Tutorial QuestTest
 @subsubsection app.cpp
 
 Here is our main application source file, the bulk of changes for this tutorial occur in this file.

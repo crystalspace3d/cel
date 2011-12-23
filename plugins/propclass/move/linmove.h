@@ -327,8 +327,8 @@ public:
   	float yrot, iSector *sector, csVector3& vel, csVector3& worldVel,
   	float ang_vel);
 
-  csPtr<iCelDataBuffer> Save ();
-  bool Load (iCelDataBuffer* databuf);
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
   	iCelParameterBlock* params,
   	celData& ret);

@@ -107,6 +107,21 @@ celPcDelegateCamera::~celPcDelegateCamera ()
 {
 }
 
+#define TEST_SERIAL 0
+
+csPtr<iCelDataBuffer> celPcDelegateCamera::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TEST_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcDelegateCamera::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != TEST_SERIAL) return false;
+  return true;
+}
+
 bool celPcDelegateCamera::PerformActionIndexed (int idx,
   iCelParameterBlock* params,
   celData& ret)

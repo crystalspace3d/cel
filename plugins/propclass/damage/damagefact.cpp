@@ -150,6 +150,25 @@ bool celPcDamage::GetPropertyIndexed (int idx, const char*& s)
   }
 }
 
+#define DAMAGE_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcDamage::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DAMAGE_SERIAL);
+  // @@@ TODO
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcDamage::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != DAMAGE_SERIAL) return false;
+
+  // @@@ TODO
+
+  return true;
+}
+
 bool celPcDamage::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -207,7 +226,7 @@ void celPcDamage::GetLocation (iSector*& s, csVector3& p)
     p = position;
     return;
   }
-  if (!pcmesh) pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  if (!pcmesh) pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   if (!pcmesh)
   {
     s = 0;
@@ -249,7 +268,7 @@ void celPcDamage::DoDamage (iCelEntity* ent, const csVector3& p)
   if (entity == ent)
     return;	// Ignore source of explosion.
 
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (ent);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
   if (!pcmesh) return;
   float new_amount;
   switch (falloff)
@@ -288,7 +307,7 @@ void celPcDamage::DoDamage (iCelEntity* ent, const csVector3& p)
   if (!dispatcher_hurt)
   {
     dispatcher_hurt = ent->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, pl->FetchStringID ("cel.damage.hurt"));
+	  this, "cel.damage.hurt");
     if (!dispatcher_hurt) return;
   }
   dispatcher_hurt->SendMessage (params);

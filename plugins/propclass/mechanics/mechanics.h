@@ -83,8 +83,7 @@ private:
     action_enablestepfast,
     action_disablestepfast,
     action_setsteptime,
-    action_setsimulationspeed,
-    action_setplugin
+    action_setsimulationspeed
   };
   static PropertyHolder propinfo;
 
@@ -93,12 +92,9 @@ private:
   static csStringID param_gravity;
   static csStringID param_time;
   static csStringID param_simulationspeed;
-  static csStringID param_plugin;
  
-  csString pluginName;
   csRef<iDynamics> dynamics;
   csRef<iDynamicSystem> dynsystem;
-  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys;
   bool dynsystem_error_reported;
   csRef<iVirtualClock> vc;
   csArray<celForce> forces;
@@ -158,6 +154,8 @@ public:
   virtual void EnableStepFast ();
   virtual void EnableQuickStep ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
@@ -310,7 +308,7 @@ private:
   static csStringID param_depth;
   static csStringID param_group;
 
-  csRef<celVariableParameterBlock> params;
+  celGenericParameterBlock* params;
 
   csRef<iMessageDispatcher> dispatcher_cd;
 
@@ -395,7 +393,6 @@ public:
   }
 
   virtual iRigidBody* GetBody ();
-  virtual void SetBody (iRigidBody* body);
 
   virtual void SetFriction (float friction);
 
@@ -458,6 +455,8 @@ public:
   void Collision (iRigidBody *thisbody, iRigidBody *otherbody,
 	const csVector3& pos, const csVector3& normal, float depth);
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual bool SetPropertyIndexed (int, bool v);
@@ -530,6 +529,8 @@ public:
 
   virtual iJoint* GetJoint () { return joint; }
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 };

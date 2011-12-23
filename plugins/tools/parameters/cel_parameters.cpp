@@ -21,7 +21,6 @@
 #include "cssysdef.h"
 #include "plugins/tools/parameters/cel_parameters.h"
 
-#include "csutil/scfstr.h"
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
 #include "celtool/stdparams.h"
@@ -41,29 +40,137 @@ static const celData celDataNone;
 
 static const char* ToString (csString& str, const celData* data)
 {
-  celParameterTools::ToString (*data, str);
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: return data->value.s->GetData ();
+    case CEL_DATA_BOOL: if (data->value.bo) str = "true"; else str = "false"; break;
+    case CEL_DATA_BYTE: str.Format ("%d", data->value.b); break;
+    case CEL_DATA_UBYTE: str.Format ("%d", data->value.ub); break;
+    case CEL_DATA_WORD: str.Format ("%d", data->value.w); break;
+    case CEL_DATA_UWORD: str.Format ("%d", data->value.uw); break;
+    case CEL_DATA_LONG: str.Format ("%d", data->value.l); break;
+    case CEL_DATA_ULONG: str.Format ("%d", data->value.ul); break;
+    case CEL_DATA_FLOAT: str.Format ("%g", data->value.f); break;
+    case CEL_DATA_VECTOR2: str.Format ("%g,%g", data->value.v.x, data->value.v.y); break;
+    case CEL_DATA_VECTOR3: str.Format ("%g,%g,%g",
+				 data->value.v.x, data->value.v.y, data->value.v.z);
+			     break;
+    case CEL_DATA_VECTOR4: str.Format ("%g,%g,%g,%g", data->value.v.x, data->value.v.y,
+				 data->value.v.z, data->value.v.w);
+			     break;
+    case CEL_DATA_COLOR4: str.Format ("%g,%g,%g,%g", data->value.col.red,
+				data->value.col.green, data->value.col.blue, data->value.col.alpha);
+			     break;
+    case CEL_DATA_PCLASS: str.Format ("pc(%p)", (iCelPropertyClass*)data->value.pc); break;
+    case CEL_DATA_IBASE: str.Format ("ibase(%p)", (iBase*)data->value.ibase); break;
+    case CEL_DATA_ENTITY: str.Format ("ent('%s')", data->value.ent->GetName ()); break;
+    case CEL_DATA_ACTION: str.Format ("action('%s')", data->value.s->GetData ()); break;
+    case CEL_DATA_PARAMETER: str.Format ("par('%s')", data->value.par.parname->GetData ()); break;
+    case CEL_DATA_NONE: str.Free (); break;
+    default: str = "unknown()"; break;
+  }
   return str;
 }
 
 static int32 ToLong (const celData* data)
 {
-  long l;
-  celParameterTools::ToLong (*data, l);
-  return l;
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: return atol (data->value.s->GetData ());
+    case CEL_DATA_BOOL: return data->value.bo;
+    case CEL_DATA_BYTE: return data->value.b;
+    case CEL_DATA_UBYTE: return data->value.ub;
+    case CEL_DATA_WORD: return data->value.w;
+    case CEL_DATA_UWORD: return data->value.uw;
+    case CEL_DATA_LONG: return data->value.l;
+    case CEL_DATA_ULONG: return data->value.ul;
+    case CEL_DATA_FLOAT: return (int32) data->value.f;
+    default: return 0;
+  }
 }
 
 static float ToFloat (const celData* data)
 {
-  float f;
-  celParameterTools::ToFloat (*data, f);
-  return f;
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: return atof (data->value.s->GetData ());
+    case CEL_DATA_BOOL: return (float)data->value.bo;
+    case CEL_DATA_BYTE: return (float)data->value.b;
+    case CEL_DATA_UBYTE: return (float)data->value.ub;
+    case CEL_DATA_WORD: return (float)data->value.w;
+    case CEL_DATA_UWORD: return (float)data->value.uw;
+    case CEL_DATA_LONG: return (float)data->value.l;
+    case CEL_DATA_ULONG: return (float)data->value.ul;
+    case CEL_DATA_FLOAT: return data->value.f;
+    default: return 0.0f;
+  }
 }
 
 static bool ToBool (const celData* data)
 {
-  bool b;
-  celParameterTools::ToBool (*data, b);
-  return b;
+  bool rc;
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%b", &rc);
+			  return rc;
+    case CEL_DATA_BOOL: return data->value.bo;
+    case CEL_DATA_BYTE: return data->value.b != 0;
+    case CEL_DATA_UBYTE: return data->value.ub != 0;
+    case CEL_DATA_WORD: return data->value.w != 0;
+    case CEL_DATA_UWORD: return data->value.uw != 0;
+    case CEL_DATA_LONG: return data->value.l != 0;
+    case CEL_DATA_ULONG: return data->value.ul != 0;
+    case CEL_DATA_FLOAT: return fabs (data->value.f) > 0.000001;
+    case CEL_DATA_PCLASS: return data->value.pc != 0;
+    case CEL_DATA_IBASE: return data->value.ibase != 0;
+    case CEL_DATA_ENTITY: return data->value.ent != 0;
+    default: return false;
+  }
+}
+
+static csVector2 ToVector2 (const celData* data)
+{
+  csVector2 v;
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f", &v.x, &v.y);
+			  return v;
+    case CEL_DATA_VECTOR2: v.x = data->value.v.x; v.y = data->value.v.y;
+			   return v;
+    default: v.x = v.y = 0.0f;
+	     return v;
+  }
+}
+
+static csVector3 ToVector3 (const celData* data)
+{
+  csVector3 v;
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f,%f", &v.x, &v.y, &v.z);
+			  return v;
+    case CEL_DATA_VECTOR3: v.x = data->value.v.x; v.y = data->value.v.y; v.z = data->value.v.z;
+			   return v;
+    default: v.x = v.y = v.z = 0.0f;
+	     return v;
+  }
+}
+
+static csColor ToColor (const celData* data)
+{
+  csColor v;
+  switch (data->type)
+  {
+    case CEL_DATA_STRING: csScanStr (data->value.s->GetData (), "%f,%f,%f",
+			      &v.red, &v.green, &v.blue);
+			  return v;
+    case CEL_DATA_VECTOR2: v.red = data->value.col.red;
+			   v.green = data->value.col.green;
+			   v.blue = data->value.col.blue;
+			   return v;
+    default: v.red = v.green = v.blue = 0.0f;
+	     return v;
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -77,23 +184,21 @@ bool celParameterManager::Initialize (iObjectRegistry* r)
 
 iCelExpressionParser* celParameterManager::GetParser ()
 {
-  if (expparser) return expparser;
   csRef<iObjectRegistryIterator> it = object_reg->Get (
       scfInterfaceTraits<iCelExpressionParser>::GetID (),
       scfInterfaceTraits<iCelExpressionParser>::GetVersion ());
   iBase* b = it->Next ();
-  csRef<iCelExpressionParser> parser;
   if (b)
   {
-    parser = scfQueryInterface<iCelExpressionParser> (b);
+    expparser = scfQueryInterface<iCelExpressionParser> (b);
   }
-  if (!parser)
+  if (!expparser)
   {
     csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
 	object_reg);
-    parser = csLoadPlugin<iCelExpressionParser> (plugmgr,
+    expparser = csLoadPlugin<iCelExpressionParser> (plugmgr,
       "cel.behaviourlayer.xml");
-    if (!parser)
+    if (!expparser)
 
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
@@ -101,84 +206,21 @@ iCelExpressionParser* celParameterManager::GetParser ()
 		"Can't find the expression parser!");
       return 0;
     }
-    object_reg->Register (parser, "iCelExpressionParser");
+    object_reg->Register (expparser, "iCelExpressionParser");
   }
-  expparser = parser;
   return expparser;
 }
 
 csPtr<iParameter> celParameterManager::GetParameter (
-  	iCelParameterBlock* params,
-	const char* param,
-        celDataType type)
+  	const celParams& params,
+	const char* param)
 {
-  celData data;
-  ResolveParameterData (data, params, param);
-  if (data.type == CEL_DATA_NONE) return new celConstantParameter ();
-  if (data.type == CEL_DATA_STRING)
-  {
-    const char* val = data.value.s->GetData ();
-    if (!val)
-      return new celConstantParameter ();
-    else if (*val == '@' && *(val+1) != '@')
-    {
-      csStringID dynamic_id = pl->FetchStringID (val+1);
-      return new celDynamicParameter (object_reg, dynamic_id, val+1, type);
-    }
-    else if (*val == '=' && *(val+1) != '=')
-    {
-      csRef<iCelExpression> expression = GetParser ()->Parse (val+1);
-      if (!expression)
-      {
-        csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-		  "cel.parameters.manager",
-		  "Can't parse expression '%s'!", val+1);
-        return 0;
-      }
-      // We are looking for 'this' in the parameter block. If we can find it
-      // then it indicates the name of the entity. We will find the entity for
-      // the expression so that the expression can show things local to the
-      // entity (or access properties from the current entity).
-      csStringID thisid = pl->FetchStringID ("this");
-      iCelEntity* entity = 0;
-      for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
-      {
-        celDataType t;
-        csStringID id = params->GetParameterDef (i, t);
-        if (thisid == id)
-        {
-          csString name;
-	  const celData* thisData = params->GetParameterByIndex (i);
-	  if (thisData->type == CEL_DATA_ENTITY) entity = thisData->value.ent;
-	  else
-	  {
-            celParameterTools::ToString (*thisData, name);
-            entity = pl->FindEntity (name);
-	  }
-          if (entity) break;
-        }
-      }
-      celExpressionParameter* par = new celExpressionParameter (object_reg, entity, expression, val+1, type);
-      if (rememberExpression)
-        par->SetOriginalExpression (val);
-      return par;
-    }
-    return new celConstantParameter (val, type);
-  }
-  else
-  {
-    return new celConstantParameter (data, type);
-  }
-}
-
-csPtr<iParameter> celParameterManager::GetParameter (const char* val,
-    celDataType type)
-{
+  const char* val = ResolveParameter (params, param);
   if (val == 0) return new celConstantParameter ();
-  if ((*val == '@' && *(val+1) != '@') || (*val == '$' && *(val+1) != '$'))
+  if (*val == '@' && *(val+1) != '@')
   {
     csStringID dynamic_id = pl->FetchStringID (val+1);
-    return new celDynamicParameter (object_reg, dynamic_id, val+1, type);
+    return new celDynamicParameter (object_reg, dynamic_id, val+1);
   }
   else if (*val == '=' && *(val+1) != '=')
   {
@@ -190,154 +232,112 @@ csPtr<iParameter> celParameterManager::GetParameter (const char* val,
 		"Can't parse expression '%s'!", val+1);
       return 0;
     }
-    iCelEntity* entity = 0;
-    // @@@ Can we do this somehow?
-#if 0
     // We are looking for 'this' in the parameter block. If we can find it
     // then it indicates the name of the entity. We will find the entity for
     // the expression so that the expression can show things local to the
     // entity (or access properties from the current entity).
-    csStringID thisid = pl->FetchStringID ("this");
-    for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
+    celParams::ConstGlobalIterator def_it = params.GetIterator ();
+    csStringBase it_key;
+    iCelEntity* entity = 0;
+    while (def_it.HasNext ())
     {
-      celDataType t;
-      csStringID id = params->GetParameterDef (i, t);
-      if (thisid == id)
+      const char* name = def_it.Next (it_key);
+      if (it_key == "this")
       {
-        csString name;
-        celParameterTools::ToString (*params->GetParameter (i), name);
-        entity = pl->FindEntity (name);
-	break;
+	    entity = pl->FindEntity (name);
+	    break;
       }
     }
-#endif
-    celExpressionParameter* par = new celExpressionParameter (object_reg, entity, expression, val+1, type);
-    if (rememberExpression)
-      par->SetOriginalExpression (val);
-    return par;
+    return new celExpressionParameter (object_reg, entity, expression, val+1);
   }
-  return new celConstantParameter (val, type);
-}
-
-void celParameterManager::ResolveParameterData (
-    celData& out,
-    iCelParameterBlock* params,
-    const char* param)
-{
-  if (param == 0) { out.Clear (); return; }
-  if (*param != '$') { out.Set (param); return; }
-  if (*(param+1) == '$') { out.Set (param+1); }
-  csStringID id = pl->FetchStringID (param+1);
-  const celData* data = params->GetParameter (id);
-  if (!data)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-		"cel.parameters.manager",
-		"Can't resolve parameter %s!", param);
-    return;
-  }
-
-  out = *data;
+  return new celConstantParameter (val);
 }
 
 const char* celParameterManager::ResolveParameter (
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* param)
 {
   if (param == 0) return param;
   if (*param != '$') return param;
   if (*(param+1) == '$') return param+1;	// Double $ means to quote the '$'.
-  csStringID id = pl->FetchStringID (param+1);
-  const celData* data = params->GetParameter (id);
-  if (!data)
+  const char* val = params.Get (param+1, (const char*)0);
+  if (!val)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 		"cel.parameters.manager",
 		"Can't resolve parameter %s!", param);
-    return 0;
   }
-  celParameterTools::ToString (*data, str);
-  return str;
+  return val;
 }
 
-const char* celParameterManager::ResolveEntityParameter (
-  	iCelParameterBlock* params,
-	const char* param,
-        uint& entid)
+csPtr<celVariableParameterBlock> celParameterManager::GetParameterBlock (
+  	const celParams& params,
+	const csArray<celParSpec>& parameters,
+	csRefArray<iParameter>& quest_parameters)
 {
-  entid = ~0;
-  if (param == 0) return 0;
-  if (*param != '$') return param;
-  if (*(param+1) == '$') return param+1;
+  celVariableParameterBlock *act_params = new celVariableParameterBlock ();
+  size_t i;
+  for (i = 0 ; i < parameters.GetSize () ; i++)
+  {
+    csRef<iParameter> par = GetParameter (params, parameters[i].value);
+    quest_parameters.Put (i, par);
+    act_params->SetParameterDef (i, parameters[i].id);
+  }
+  return act_params;
+}
 
-  csStringID id = pl->FetchStringID (param+1);
-  const celData* data = params->GetParameter (id);
-  if (!data)
+bool celParameterManager::FillParameterBlock (
+    iCelParameterBlock* params,
+	celVariableParameterBlock* act_params,
+	const csArray<celParSpec>& parameters,
+	const csRefArray<iParameter>& quest_parameters)
+{
+  if (parameters.GetSize () != quest_parameters.GetSize ())
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 		"cel.parameters.manager",
-		"Can't resolve parameter %s!", param);
-    return 0;
-  }
-  if (data->type == CEL_DATA_ENTITY)
-  {
-    entid = data->value.ent->GetID ();
-    return 0;
-  }
-  if (data->type == CEL_DATA_STRING)
-  {
-    celParameterTools::ToString (*data, str);
-    return str;
-  }
-  long lentid;
-  celParameterTools::ToLong (*data, lentid);
-  entid = (uint)lentid;
-  return 0;
-}
-
-iCelEntity* celParameterManager::ResolveEntityParameter (
-      iCelPlLayer* pl,
-      iCelParameterBlock* params, iParameter* param,
-      iCelEntity* ent)
-{
-  const celData* data = param->GetData (params);
-  if (data->type == CEL_DATA_ENTITY) return data->value.ent;
-  if (data->type == CEL_DATA_LONG)
-  {
-    long entid;
-    celParameterTools::ToLong (*data, entid);
-    return pl->GetEntity ((uint)entid);
+	      "Can't fill parameter blocks of different size (%zu VS %zu)!",
+	      parameters.GetSize (), quest_parameters.GetSize ());
+    return false;
   }
 
-  bool changed;
-  const char* e = param->Get (params, changed);
-  if (changed) ent = 0;
-  if (!ent) ent = pl->FindEntity (e);
-  return ent;
+  size_t i;
+  for (i = 0 ; i < quest_parameters.GetSize () ; i++)
+  {
+    iParameter* p = quest_parameters[i];
+    switch (parameters[i].type)
+    {
+      case CEL_DATA_STRING:
+	act_params->GetParameter (i).Set (p->Get (params));
+	break;
+      case CEL_DATA_LONG:
+	act_params->GetParameter (i).Set (p->GetLong (params));
+	break;
+      case CEL_DATA_FLOAT:
+	act_params->GetParameter (i).Set (ToFloat (p->GetData (params)));
+	break;
+      case CEL_DATA_BOOL:
+	act_params->GetParameter (i).Set (ToBool (p->GetData (params)));
+	break;
+      case CEL_DATA_VECTOR2:
+	act_params->GetParameter (i).Set (ToVector2 (p->GetData (params)));
+	break;
+      case CEL_DATA_VECTOR3:
+	act_params->GetParameter (i).Set (ToVector3 (p->GetData (params)));
+	break;
+      case CEL_DATA_COLOR:
+	act_params->GetParameter (i).Set (ToColor (p->GetData (params)));
+	break;
+      default:
+	//@@@?
+	break;
+    }
+  }
+
+  return true;
 }
 
 //---------------------------------------------------------------------------
-
-celConstantParameter::celConstantParameter (const celData& in, celDataType type) :
-    scfImplementationType (this)
-{
-  if (type == CEL_DATA_NONE) type = in.type;
-  celParameterTools::Convert (in, type, data);
-}
-
-celConstantParameter::celConstantParameter (const char* c, celDataType type) :
-    scfImplementationType (this)
-{
-  if (type != CEL_DATA_NONE)
-  {
-    celData in; in.Set (c);
-    celParameterTools::Convert (in, type, data);
-  }
-  else
-  {
-    data.Set (c);
-  }
-}
 
 const char* celConstantParameter::Get (iCelParameterBlock*)
 {
@@ -347,16 +347,6 @@ const char* celConstantParameter::Get (iCelParameterBlock*)
 int32 celConstantParameter::GetLong (iCelParameterBlock*)
 {
   return ToLong (&data);
-}
-
-float celConstantParameter::GetFloat (iCelParameterBlock*)
-{
-  return ToFloat (&data);
-}
-
-bool celConstantParameter::GetBool (iCelParameterBlock*)
-{
-  return ToBool (&data);
 }
 
 //---------------------------------------------------------------------------
@@ -380,13 +370,7 @@ const celData* celDynamicParameter::GetData (iCelParameterBlock* params)
 	"Cannot resolve dynamic parameter '%s'!", (const char*)parname);
     return &celDataNone;
   }
-  if (desiredType == data->type || desiredType == CEL_DATA_NONE)
-    return data;
-  else
-  {
-    celParameterTools::Convert (*data, desiredType, converted);
-    return &converted;
-  }
+  return data;
 }
 
 const char* celDynamicParameter::Get (iCelParameterBlock* params)
@@ -399,18 +383,6 @@ int32 celDynamicParameter::GetLong (iCelParameterBlock* params)
 {
   const celData* data = GetData (params);
   return ToLong (data);
-}
-
-float celDynamicParameter::GetFloat (iCelParameterBlock* params)
-{
-  const celData* data = GetData (params);
-  return ToFloat (data);
-}
-
-bool celDynamicParameter::GetBool (iCelParameterBlock* params)
-{
-  const celData* data = GetData (params);
-  return ToBool (data);
 }
 
 const char* celDynamicParameter::Get (iCelParameterBlock* params,
@@ -438,11 +410,6 @@ const celData* celExpressionParameter::GetData (iCelParameterBlock* params)
 	"Cannot execute expression '%s'!", (const char*)parname);
     return &celDataNone;
   }
-  if (desiredType != data.type && desiredType != CEL_DATA_NONE)
-  {
-    celData d = data;
-    celParameterTools::Convert (d, desiredType, data);
-  }
   return &data;
 }
 
@@ -456,18 +423,6 @@ int32 celExpressionParameter::GetLong (iCelParameterBlock* params)
 {
   const celData* data = GetData (params);
   return ToLong (data);
-}
-
-float celExpressionParameter::GetFloat (iCelParameterBlock* params)
-{
-  const celData* data = GetData (params);
-  return ToFloat (data);
-}
-
-bool celExpressionParameter::GetBool (iCelParameterBlock* params)
-{
-  const celData* data = GetData (params);
-  return ToBool (data);
 }
 
 const char* celExpressionParameter::Get (iCelParameterBlock* params,

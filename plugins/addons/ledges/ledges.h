@@ -47,7 +47,7 @@ public:
     iBase* context);
   csPtr<iLedgeGroup> Load (iDocumentNode* node);
 
-  virtual bool IsThreadSafe() { return false; }
+  virtual bool IsThreadSafe(void) { return true; }
 
 private:
   void LoadLedge (iDocumentNode* node, iLedgeGroup* ledges);

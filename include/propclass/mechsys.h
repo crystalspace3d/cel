@@ -42,7 +42,6 @@ struct iJoint;
  *
  * This property class supports the following actions (add prefix 'cel.mechanics.system.action.'
  * if you want to access this action through a message):
- * - SetPlugin: parameters 'plugin' (string).
  * - SetSystem: parameters 'dynsys' (string).
  * - SetGravity: parameters 'gravity' (float).
  * - SetStepTime: parameters 'time' (float).
@@ -351,10 +350,6 @@ struct iPcMechanicsObject : public virtual iBase
    */
   virtual iRigidBody* GetBody () = 0;
 
-  /**
-   * Manually set the body for this property class.
-   */
-  virtual void SetBody (iRigidBody* body) = 0;
 
   ////
   //Object properties.

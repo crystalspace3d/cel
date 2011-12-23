@@ -144,6 +144,22 @@ bool celPcWasdMove::GetPropertyIndexed (int idx, long& l)
   return false;
 }
 
+#define WASDMOVE_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcWasdMove::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (WASDMOVE_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcWasdMove::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != WASDMOVE_SERIAL) return false;
+
+  return true;
+}
+
 bool celPcWasdMove::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)

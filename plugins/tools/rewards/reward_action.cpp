@@ -74,7 +74,7 @@ celActionRewardFactory::~celActionRewardFactory ()
 }
 
 csPtr<iReward> celActionRewardFactory::CreateReward (
-	iQuest* q, iCelParameterBlock* params)
+	const celParams& params)
 {
   iReward* reward;
   if (!entity_par.IsEmpty())
@@ -116,9 +116,66 @@ bool celActionRewardFactory::Load (iDocumentNode* node)
     Report (type->object_reg,
       "'pc' attribute is missing for the action reward!");
   
-  // Get parameters
-  if (!celParameterTools::ParseParSpecBlock (type->object_reg, node, parameters))
-    return false;
+  // get parameters
+  iCelPlLayer* pl = type->pl;
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    if (!strcmp ("par", value))
+    {
+      const char* name = child->GetAttributeValue ("name");
+      if (!name)
+        return Report (type->object_reg,
+          "Missing name attribute in a parameter for the action reward!");
+      csStringID id = pl->FetchStringID (name);
+      const char* str_value = child->GetAttributeValue ("string");
+      if (str_value)
+      {
+	AddParameter (CEL_DATA_STRING, id, name, str_value);
+	continue;
+      }
+      const char* vec3_value = child->GetAttributeValue ("vector3");
+      if (vec3_value)
+      {
+	AddParameter (CEL_DATA_VECTOR3, id, name, vec3_value);
+	continue;
+      }
+      const char* vec2_value = child->GetAttributeValue ("vector2");
+      if (vec2_value)
+      {
+	AddParameter (CEL_DATA_VECTOR2, id, name, vec2_value);
+	continue;
+      }
+      const char* float_value = child->GetAttributeValue ("float");
+      if (float_value)
+      {
+	AddParameter (CEL_DATA_FLOAT, id, name, float_value);
+	continue;
+      }
+      const char* long_value = child->GetAttributeValue ("long");
+      if (long_value)
+      {
+	AddParameter (CEL_DATA_LONG, id, name, long_value);
+	continue;
+      }
+      const char* bool_value = child->GetAttributeValue ("bool");
+      if (bool_value)
+      {
+	AddParameter (CEL_DATA_BOOL, id, name, bool_value);
+	continue;
+      }
+      return Report (type->object_reg,
+        "Unknown parameter type for action reward!");
+    }
+    else
+    {
+      return Report (type->object_reg,
+        "Unexpected child '%s' in the action reward!", value);
+    }
+  }
   return true;
 }
 
@@ -153,11 +210,12 @@ void celActionRewardFactory::SetClassParameter (
 }
 
 void celActionRewardFactory::AddParameter (celDataType type,
-    csStringID id, const char* value)
+    csStringID id, const char* name, const char* value)
 {
   size_t idx = parameters.Push (celParSpec ());
   parameters[idx].type = type;
   parameters[idx].id = id;
+  parameters[idx].name = name;
   parameters[idx].value = value;
 }
 
@@ -165,11 +223,11 @@ void celActionRewardFactory::AddParameter (celDataType type,
 
 celActionReward::celActionReward (
 	celActionRewardFactory* factory,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par,
 	const char* id_par,
 	const char* pcclass_par,
-	const char* tag_par)
+	 const char* tag_par)
   : scfImplementationType (this), factory (factory)
 {
   pm = csQueryRegistryOrLoad<iParameterManager> 
@@ -179,8 +237,8 @@ celActionReward::celActionReward (
   tag = pm->GetParameter (params, tag_par);
   entity = pm->GetParameter (params, entity_par);
   id = pm->GetParameter (params, id_par);
-  act_params = celParameterTools::GetParameterBlock (pm, params,
-      factory->parameters, quest_parameters);
+  quest_parameters.SetSize (factory->parameters.GetSize (), 0);
+  act_params = pm->GetParameterBlock (params, factory->parameters, quest_parameters);
 }
 
 celActionReward::~celActionReward ()
@@ -191,8 +249,26 @@ void celActionReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = factory->type->pl;
 
-  ent = pm->ResolveEntityParameter (pl, params, entity, ent);
-  if (!ent) return;
+  bool changed;
+  // XXX parsing of entity has to be refactored as it is very commonly
+  // done.
+
+  const celData * data = entity->GetData (params);
+  if (data->type == CEL_DATA_ENTITY)
+  {
+    ent = data->value.ent;
+  }
+
+  else
+  {
+    const char* e = entity->Get (params, changed);
+    if (changed) ent = 0;
+    if (!ent)
+    {
+      ent = pl->FindEntity (e);
+      if (!ent) return;
+    }
+  }
   csRef<iCelPropertyClass> propertyclass;
 
   const char* pc = pcclass->Get (params);
@@ -206,8 +282,7 @@ void celActionReward::Reward (iCelParameterBlock* params)
     if (actionID)
     {
       celData ret;
-      if (!celParameterTools::FillParameterBlock (pl, params, act_params,
-	    factory->parameters, quest_parameters))
+      if (!pm->FillParameterBlock (params, act_params, factory->parameters, quest_parameters))
 	Report (factory->type->object_reg,
 		"Could not fill parameters '%s' in the specified pc!", idname);
       else
@@ -226,7 +301,7 @@ void celActionReward::Reward (iCelParameterBlock* params)
 
 celClassActionReward::celClassActionReward (
 	celActionRewardFactory* factory,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* class_par,
 	const char* id_par,
 	const char* pcclass_par,
@@ -241,8 +316,8 @@ celClassActionReward::celClassActionReward (
   clazz = pm->GetParameter (params, class_par);
   id = pm->GetParameter (params, id_par);
 
-  act_params = celParameterTools::GetParameterBlock (pm, params,
-      factory->parameters, quest_parameters);
+  quest_parameters.SetSize (factory->parameters.GetSize (), 0);
+  act_params = pm->GetParameterBlock (params, factory->parameters, quest_parameters);
   actionID = csInvalidStringID;
 }
 
@@ -281,8 +356,7 @@ void celClassActionReward::Reward (iCelParameterBlock* params)
     propertyclass = ent->GetPropertyClassList()->FindByNameAndTag (pc, t);
     if (propertyclass)
     {
-      if (!celParameterTools::FillParameterBlock (factory->type->pl, params, act_params,
-	    factory->parameters, quest_parameters))
+      if (!pm->FillParameterBlock (params, act_params, factory->parameters, quest_parameters))
 	Report (factory->type->object_reg,
 		"Could not fill parameters in the specified pc '%s' '%s'!", pc, t);
       else

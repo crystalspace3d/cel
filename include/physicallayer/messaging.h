@@ -57,7 +57,7 @@ struct iMessageChannel : public virtual iBase
    * receivers that don't match some external criterium.
    */
   virtual csRef<iMessageDispatcher> CreateMessageDispatcher (
-      iMessageSender* sender, csStringID msg_id,
+      iMessageSender* sender, const char* msg_id,
       iMessageReceiverFilter* receiver_filter = 0) = 0;
 
   /**
@@ -98,7 +98,7 @@ struct iMessageChannel : public virtual iBase
    * message receiver. If it was handled by at least one receiver then
    * this will return true.
    */
-  virtual bool SendMessage (csStringID msgid,
+  virtual bool SendMessage (const char* msgid,
       iMessageSender* sender, iCelParameterBlock* params,
       iCelDataArray* ret = 0) = 0;
 };

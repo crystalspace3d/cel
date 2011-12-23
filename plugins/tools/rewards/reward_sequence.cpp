@@ -68,7 +68,7 @@ celSequenceRewardFactory::celSequenceRewardFactory (
 }
 
 csPtr<iReward> celSequenceRewardFactory::CreateReward (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   iReward *reward;
   if (!class_par.IsEmpty())
@@ -79,15 +79,15 @@ csPtr<iReward> celSequenceRewardFactory::CreateReward (
   else
   {
     if (seq.IsValid())
-    {
-      reward = new celSequenceReward (type,
-	params, entity_par, tag_par, sequence_par, delay_par, seq);
-    }
-    else
-    {
-      reward = new celSequenceReward (type,
-	params, entity_par, tag_par, sequence_par, delay_par);
-    }
+	{
+	  reward = new celSequenceReward (type,
+  	    params, entity_par, tag_par, sequence_par, delay_par, seq);
+	}
+	else
+	{
+	  reward = new celSequenceReward (type,
+  	    params, entity_par, tag_par, sequence_par, delay_par);
+	}
   }
 
   return reward;
@@ -138,7 +138,7 @@ void celSequenceRewardFactory::SetDelayParameter (
 
 celSequenceReward::celSequenceReward (
 	celSequenceRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par,
 	const char* tag_par,
 	const char* sequence_par,
@@ -147,7 +147,7 @@ celSequenceReward::celSequenceReward (
 {
   celSequenceReward::type = type;
 
-  pm = csQueryRegistryOrLoad<iParameterManager> 
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity = pm->GetParameter (params, entity_par);
@@ -162,17 +162,21 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
 {
   if (!seq)
   {
-    iCelEntity* newent = pm->ResolveEntityParameter (type->pl, params, entity, ent);
-    if (!newent) return;
-    if (newent != ent) { quest = 0; ent = newent; }
-
     bool changed;
+    const char* e = entity->Get (params, changed);
+    if (changed) { quest = 0; ent = 0; }
     const char* t = tag->Get (params, changed);
     if (changed) quest = 0;
 
     if (!quest)
     {
-      quest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
+      if (!ent)
+      {
+        iCelPlLayer* pl = type->pl;
+        ent = pl->FindEntity (e);
+        if (!ent) return;
+      }
+      quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
       if (!quest) return;
     }
 
@@ -187,10 +191,10 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
       if (t)
         Report (type->object_reg,
       	  "Can't find sequence '%s' in entity '%s' and tag '%s'!",
-	      s, entity->Get (params), t);
+	      s, e, t);
       else
         Report (type->object_reg, "Can't find sequence '%s' in entity '%s'!",
-    	  s, entity->Get (params));
+    	  s, e);
       return;
     }
   }
@@ -208,7 +212,7 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
 
 celClassSequenceReward::celClassSequenceReward (
 	celSequenceRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* class_par,
 	const char* tag_par,
 	const char* sequence_par,
@@ -246,7 +250,7 @@ void celClassSequenceReward::Reward (iCelParameterBlock* params)
   {
     i--;
     ent = entlist->Get(i);
-    quest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
+    quest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
     if (quest)
     {
       iCelSequence* seq = quest->GetQuest()->FindSequence (s);

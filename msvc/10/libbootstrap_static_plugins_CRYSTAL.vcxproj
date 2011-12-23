@@ -76,7 +76,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">..\..\out\release10\build\libbootstrap_static_plugins_CRYSTAL\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">false</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">bootstrap_static_plugins_CRYSTAL-2.1-vc10</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">bootstrap_static_plugins_CRYSTAL-2.0-vc10</TargetName>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">..\..\out\debug10\build\libbootstrap_static_plugins_CRYSTAL\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">true</LinkIncremental>
@@ -84,7 +84,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">..\..\out\debug10\build\libbootstrap_static_plugins_CRYSTAL\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">true</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">bootstrap_static_plugins_CRYSTAL-2.1-vc10_d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">bootstrap_static_plugins_CRYSTAL-2.0-vc10_d</TargetName>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">..\..\out\release10-x64\build\libbootstrap_static_plugins_CRYSTAL\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">false</LinkIncremental>
@@ -92,7 +92,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">..\..\out\release10-x64\build\libbootstrap_static_plugins_CRYSTAL\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">false</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">bootstrap_static_plugins_CRYSTAL-2.1-vc10-x64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">bootstrap_static_plugins_CRYSTAL-2.0-vc10-x64</TargetName>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">..\..\out\debug10-x64\build\libbootstrap_static_plugins_CRYSTAL\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">true</LinkIncremental>
@@ -100,7 +100,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">..\..\out\debug10-x64\build\libbootstrap_static_plugins_CRYSTAL\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">true</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">bootstrap_static_plugins_CRYSTAL-2.1-vc10-x64_d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">bootstrap_static_plugins_CRYSTAL-2.0-vc10-x64_d</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">
     <ClCompile>
@@ -156,7 +156,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10\build\libbootstrap_static_plugins_CRYSTAL\Win32\bootstrap_static_plugins_CRYSTAL-2.1-vc10.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\..\out\release10\build\libbootstrap_static_plugins_CRYSTAL\Win32\bootstrap_static_plugins_CRYSTAL-2.0-vc10.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -174,9 +174,9 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\bootstrap_static_plugins_CRYSTAL-2.1-vc10.dll</OutputFile>
+      <OutputFile>..\..\bootstrap_static_plugins_CRYSTAL-2.0-vc10.dll</OutputFile>
       <ImportLibrary>..\..\out\release10\libs\libbootstrap_static_plugins_CRYSTAL.lib</ImportLibrary>
-      <ProgramDatabaseFile>..\..\out\release10\build\libbootstrap_static_plugins_CRYSTAL\Win32\bootstrap_static_plugins_CRYSTAL-2.1-vc10.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>..\..\out\release10\build\libbootstrap_static_plugins_CRYSTAL\Win32\bootstrap_static_plugins_CRYSTAL-2.0-vc10.pdb</ProgramDatabaseFile>
       <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -246,7 +246,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libbootstrap_static_plugins_CRYSTAL\Win32\bootstrap_static_plugins_CRYSTAL-2.1-vc10_d.pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libbootstrap_static_plugins_CRYSTAL\Win32\bootstrap_static_plugins_CRYSTAL-2.0-vc10_d.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -262,9 +262,9 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\bootstrap_static_plugins_CRYSTAL-2.1-vc10_d.dll</OutputFile>
+      <OutputFile>..\..\bootstrap_static_plugins_CRYSTAL-2.0-vc10_d.dll</OutputFile>
       <ImportLibrary>..\..\out\debug10\libs\libbootstrap_static_plugins_CRYSTAL_d.lib</ImportLibrary>
-      <ProgramDatabaseFile>..\..\out\debug10\build\libbootstrap_static_plugins_CRYSTAL\Win32\bootstrap_static_plugins_CRYSTAL-2.1-vc10_d.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>..\..\out\debug10\build\libbootstrap_static_plugins_CRYSTAL\Win32\bootstrap_static_plugins_CRYSTAL-2.0-vc10_d.pdb</ProgramDatabaseFile>
       <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -340,7 +340,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10-x64\build\libbootstrap_static_plugins_CRYSTAL\x64\bootstrap_static_plugins_CRYSTAL-2.1-vc10-x64.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\..\out\release10-x64\build\libbootstrap_static_plugins_CRYSTAL\x64\bootstrap_static_plugins_CRYSTAL-2.0-vc10-x64.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -358,9 +358,9 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\bootstrap_static_plugins_CRYSTAL-2.1-vc10-x64.dll</OutputFile>
+      <OutputFile>..\..\bootstrap_static_plugins_CRYSTAL-2.0-vc10-x64.dll</OutputFile>
       <ImportLibrary>..\..\out\release10-x64\libs\libbootstrap_static_plugins_CRYSTAL.lib</ImportLibrary>
-      <ProgramDatabaseFile>..\..\out\release10-x64\build\libbootstrap_static_plugins_CRYSTAL\x64\bootstrap_static_plugins_CRYSTAL-2.1-vc10-x64.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>..\..\out\release10-x64\build\libbootstrap_static_plugins_CRYSTAL\x64\bootstrap_static_plugins_CRYSTAL-2.0-vc10-x64.pdb</ProgramDatabaseFile>
       <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -430,7 +430,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libbootstrap_static_plugins_CRYSTAL\x64\bootstrap_static_plugins_CRYSTAL-2.1-vc10-x64_d.pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libbootstrap_static_plugins_CRYSTAL\x64\bootstrap_static_plugins_CRYSTAL-2.0-vc10-x64_d.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -446,9 +446,9 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\bootstrap_static_plugins_CRYSTAL-2.1-vc10-x64_d.dll</OutputFile>
+      <OutputFile>..\..\bootstrap_static_plugins_CRYSTAL-2.0-vc10-x64_d.dll</OutputFile>
       <ImportLibrary>..\..\out\debug10-x64\libs\libbootstrap_static_plugins_CRYSTAL_d.lib</ImportLibrary>
-      <ProgramDatabaseFile>..\..\out\debug10-x64\build\libbootstrap_static_plugins_CRYSTAL\x64\bootstrap_static_plugins_CRYSTAL-2.1-vc10-x64_d.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>..\..\out\debug10-x64\build\libbootstrap_static_plugins_CRYSTAL\x64\bootstrap_static_plugins_CRYSTAL-2.0-vc10-x64_d.pdb</ProgramDatabaseFile>
       <AdditionalOptions>libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
