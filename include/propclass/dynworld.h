@@ -140,6 +140,14 @@ struct iDynamicFactory : public virtual iBase
    * Get the maximum relative radius for this factory.
    */
   virtual float GetMaximumRadiusRelative () const = 0;
+  virtual void SetMaximumRadiusRelative (float r) = 0;
+
+  /**
+   * Get the imposter radius. If 0.0 then impostering is
+   * disabled (imposters are currently not implemented yet).
+   */
+  virtual float GetImposterRadius () const = 0;
+  virtual void SetImposterRadius (float r) = 0;
 
   /**
    * Get the bounding box in object space as reported by iObjectModel
