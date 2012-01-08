@@ -282,6 +282,9 @@ public:
       float maxradiusRelative, float imposterradius);
   virtual ~DynamicFactory () { }
   virtual float GetMaximumRadiusRelative () const { return maxradiusRelative; }
+  virtual void SetMaximumRadiusRelative (float r) { maxradiusRelative = r; }
+  virtual float GetImposterRadius () const { return imposterradius; }
+  virtual void SetImposterRadius (float r);
   virtual const csBox3& GetBBox () const { return bbox; }
   const csSphere& GetBSphere () const { return bsphere; }
 

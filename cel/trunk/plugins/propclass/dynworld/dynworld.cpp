@@ -847,7 +847,7 @@ void MeshCache::RemoveMesh (iMeshWrapper* mesh)
 DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
     float maxradiusRelative, float imposterradius) :
   scfImplementationType (this), name (name), world (world),
-  maxradiusRelative (maxradiusRelative), imposterradius (imposterradius)
+  maxradiusRelative (maxradiusRelative)
 {
   bbox.StartBoundingBox ();
   physBbox.StartBoundingBox ();
@@ -860,16 +860,7 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
     return;
   }
 
-  imposterradius = 0;
-  if (imposterradius > 0)
-  {
-    imposterFactory = scfQueryInterface<iImposterFactory> (factory);
-    imposterFactory->SetMinDistance (imposterradius * world->radius);
-    //imposterFactory->SetRotationTolerance (45.0);
-    //imposterFactory->SetCameraRotationTolerance(45.0);
-    imposterFactory->SetShader("base", "lighting_imposter");
-    imposterFactory->SetRenderReal(true);
-  }
+  SetImposterRadius (imposterradius);
 
   iObjectModel* model = factory->GetMeshObjectFactory ()->GetObjectModel ();
   if (model)
@@ -885,6 +876,24 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
   {
     printf ("WARNING! No object model for %s!\n", factory->QueryObject ()->GetName ());
     fflush (stdout);
+  }
+}
+
+void DynamicFactory::SetImposterRadius (float r)
+{
+  imposterradius = 0;	// @@@ TODO: reenable when imposters appear to be working properly.
+  if (imposterradius > 0)
+  {
+    imposterFactory = scfQueryInterface<iImposterFactory> (factory);
+    imposterFactory->SetMinDistance (imposterradius * world->radius);
+    //imposterFactory->SetRotationTolerance (45.0);
+    //imposterFactory->SetCameraRotationTolerance(45.0);
+    imposterFactory->SetShader ("base", "lighting_imposter");
+    imposterFactory->SetRenderReal (true);
+  }
+  else
+  {
+    imposterFactory = 0;
   }
 }
 
