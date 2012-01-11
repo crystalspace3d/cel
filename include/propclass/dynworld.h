@@ -371,6 +371,11 @@ struct iDynamicCell : public virtual iBase
   virtual size_t GetObjectCount () const = 0;
 
   /**
+   * Get an object.
+   */
+  virtual iDynamicObject* GetObject (size_t i) const = 0;
+
+  /**
    * Remove an object.
    */
   virtual void DeleteObject (iDynamicObject* dynobj) = 0;
