@@ -499,6 +499,7 @@ public:
   virtual iDynamicObject* AddObject (const char* factory,
       const csReversibleTransform& trans);
   virtual size_t GetObjectCount () const { return objects.GetSize (); }
+  virtual iDynamicObject* GetObject (size_t i) const { return objects[i]; }
 
   virtual void Save (iDocumentNode* node);
   virtual csRef<iString> Load (iDocumentNode* node);
