@@ -307,6 +307,169 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
   return true;
 }
 
+static csString GetTypeString (celDataType type)
+{
+  switch (type)
+  {
+    case CEL_DATA_NONE: return "value";
+    case CEL_DATA_LONG: return "long";
+    case CEL_DATA_FLOAT: return "float";
+    case CEL_DATA_BOOL: return "bool";
+    case CEL_DATA_STRING: return "string";
+    case CEL_DATA_VECTOR2: return "vector2";
+    case CEL_DATA_VECTOR3: return "vector3";
+    case CEL_DATA_COLOR: return "color";
+    default: CS_ASSERT (false);
+  }
+  return "?";
+}
+
+static void WriteData (celData& data, iDocumentNode* node)
+{
+  switch (data.type)
+  {
+    case CEL_DATA_LONG: node->SetAttributeAsInt ("long", data.value.l); break;
+    case CEL_DATA_FLOAT: node->SetAttributeAsFloat ("float", data.value.f); break;
+    case CEL_DATA_BOOL: node->SetAttributeAsInt ("bool", data.value.bo); break;
+    case CEL_DATA_STRING: node->SetAttribute ("string", data.value.s->GetData ()); break;
+    case CEL_DATA_VECTOR2:
+      {
+	csString v; v.Format ("%g,%g", data.value.v.x, data.value.v.y);
+	node->SetAttribute ("vector2", v);
+	break;
+      }
+    case CEL_DATA_VECTOR3:
+      {
+	csString v; v.Format ("%g,%g,%g", data.value.v.x, data.value.v.y, data.value.v.z);
+	node->SetAttribute ("vector3", v);
+	break;
+      }
+    case CEL_DATA_COLOR:
+      {
+	csString v; v.Format ("%g,%g,%g", data.value.col.red, data.value.col.green, data.value.col.blue);
+	node->SetAttribute ("color", v);
+	break;
+      }
+    default: CS_ASSERT (false);
+  }
+}
+
+bool celAddOnCelEntityTemplate::WriteDown (iBase* obj, iDocumentNode* parent,
+    iStreamSource* ssource)
+{
+  csRef<iCelEntityTemplate> ent = scfQueryInterface<iCelEntityTemplate> (obj);
+  if (!ent)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"cel.addons.celentitytpl",
+	"The given object is not an entity template!\n");
+    return false;
+  }
+
+  // @@@ We don't save behaviour information as that is deprecated.
+  parent->SetAttribute ("entityname", ent->GetName ());
+
+  csRef<iCelEntityTemplateIterator> parentIt = ent->GetParents ();
+  while (parentIt->HasNext ())
+  {
+    iCelEntityTemplate* p = parentIt->Next ();
+    csRef<iDocumentNode> parentNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    parentNode->SetValue ("template");
+    parentNode->SetAttribute ("name", p->GetName ());
+  }
+
+  for (size_t i = 0 ; i < ent->GetPropertyClassTemplateCount () ; i++)
+  {
+    iCelPropertyClassTemplate* pc = ent->GetPropertyClassTemplate (i);
+    csRef<iDocumentNode> pcNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    pcNode->SetValue ("propclass");
+    pcNode->SetAttribute ("name", pc->GetName ());
+    if (pc->GetTag ())
+      pcNode->SetAttribute ("tag", pc->GetTag ());
+    for (size_t j = 0 ; j < pc->GetPropertyCount () ; j++)
+    {
+      csStringID id;
+      celData data;
+      csRef<iCelParameterIterator> parIt = pc->GetProperty (i, id, data);
+      if (data.type == CEL_DATA_NONE)
+      {
+	// An action.
+        csRef<iDocumentNode> actNode = pcNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+        actNode->SetValue ("action");
+        actNode->SetAttribute ("name", pl->FetchString (id));
+        if (parIt->HasNext ())
+	{
+	  while (parIt->HasNext ())
+	  {
+	    csStringID parID;
+	    iParameter* par = parIt->Next (parID);
+	    csRef<iDocumentNode> parNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	    parNode->SetValue ("par");
+	    parNode->SetAttribute ("name", pl->FetchString (parID));
+	    parNode->SetAttribute (GetTypeString (par->GetPossibleType ()),
+		par->GetOriginalExpression ());
+	  }
+	}
+      }
+      else
+      {
+	// A property.
+        csRef<iDocumentNode> propNode = pcNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+        propNode->SetValue ("property");
+        propNode->SetAttribute ("name", pl->FetchString (id));
+	WriteData (data, propNode);
+      }
+    }
+  }
+
+  iTemplateCharacteristics* chars = ent->GetCharacteristics ();
+  csRef<iCharacteristicsIterator> charsIt = chars->GetAllCharacteristics ();
+  while (charsIt->HasNext ())
+  {
+    float value;
+    csString name = charsIt->Next (value);
+    csRef<iDocumentNode> charsNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    charsNode->SetValue ("characteristic");
+    charsNode->SetAttribute ("name", name);
+    charsNode->SetAttributeAsFloat ("value", value);
+  }
+
+  const csSet<csStringID>& classes = ent->GetClasses ();
+  csSet<csStringID>::GlobalIterator classIt = classes.GetIterator ();
+  while (classIt.HasNext ())
+  {
+    csStringID id = classIt.Next ();
+    csRef<iDocumentNode> classNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    classNode->SetValue ("class");
+    csRef<iDocumentNode> valueNode = classNode->CreateNodeBefore (CS_NODE_TEXT, 0);
+    valueNode->SetValue (pl->FetchString (id));
+  }
+
+  for (size_t i = 0 ; i < ent->GetMessageCount () ; i++)
+  {
+    csStringID id;
+    csRef<iCelParameterIterator> parIt = ent->GetMessage (i, id);
+    csRef<iDocumentNode> callNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    callNode->SetValue ("call");
+    callNode->SetAttribute ("event", pl->FetchString (id));
+    if (parIt->HasNext ())
+    {
+      while (parIt->HasNext ())
+      {
+	csStringID parID;
+	iParameter* par = parIt->Next (parID);
+        csRef<iDocumentNode> parNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	parNode->SetValue ("par");
+	parNode->SetAttribute ("name", pl->FetchString (parID));
+	parNode->SetAttribute (GetTypeString (par->GetPossibleType ()),
+	    par->GetOriginalExpression ());
+      }
+    }
+  }
+
+  return true;
+}
+
 csPtr<iBase> celAddOnCelEntityTemplate::Parse (iDocumentNode* node,
 	iStreamSource*, iLoaderContext* ldr_context, iBase*)
 {

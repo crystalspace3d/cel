@@ -22,6 +22,7 @@
 
 #include "iutil/comp.h"
 #include "imap/reader.h"
+#include "imap/writer.h"
 #include "csutil/strhash.h"
 #include "csutil/weakref.h"
 #include "tools/entitytplloader.h"
@@ -37,8 +38,8 @@ struct iCelPlLayer;
  * This is an add-on to allow adding of cel entities through a standard
  * CS map file.
  */
-class celAddOnCelEntityTemplate : public scfImplementation3<
-	celAddOnCelEntityTemplate, iLoaderPlugin, iEntityTemplateLoader,
+class celAddOnCelEntityTemplate : public scfImplementation4<
+	celAddOnCelEntityTemplate, iLoaderPlugin, iSaverPlugin, iEntityTemplateLoader,
 	iComponent>
 {
 private:
@@ -79,6 +80,9 @@ public:
   virtual iCelEntityTemplate* Load (const char* path, const char* file);
 
   virtual bool IsThreadSafe() { return false; }
+
+  virtual bool WriteDown (iBase* obj, iDocumentNode* parent,
+  	iStreamSource* ssource);
 };
 
 #endif // __CEL_ADDON_CELENTITYTPL__
