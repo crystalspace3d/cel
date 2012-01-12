@@ -415,8 +415,18 @@ void celELCM::DeactivateEntity (iCelEntity* entity)
 void celELCM::SetPlayer (iCelEntity* entity)
 {
   player = entity;
-  playerCamera = celQueryPropertyClassEntity<iPcCamera> (player);
-  playerMesh = celQueryPropertyClassEntity<iPcMesh> (player);
+  if (player)
+  {
+    playerCamera = celQueryPropertyClassEntity<iPcCamera> (player);
+    playerMesh = celQueryPropertyClassEntity<iPcMesh> (player);
+    SetPL (pl);	// Set the periodic timer.
+  }
+  else
+  {
+    playerCamera = 0;
+    playerMesh = 0;
+    SetPL (0);	// Clear the periodic timer.
+  }
   UpdateActiveEntities ();
 }
 
