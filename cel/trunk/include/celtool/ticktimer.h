@@ -45,8 +45,11 @@ public:
   void SetRepeat (bool repeat) { celPeriodicTimer::repeat = repeat; }
   void SetPL (iCelPlLayer* pl)
   {
+    if (wref_physical_layer)
+      wref_physical_layer->RemoveCallbackOnce (scfiCelTimerListener, CEL_EVENT_PRE);
     wref_physical_layer = pl;
-    pl->CallbackOnce (scfiCelTimerListener, tick, CEL_EVENT_PRE);
+    if (wref_physical_layer)
+      wref_physical_layer->CallbackOnce (scfiCelTimerListener, tick, CEL_EVENT_PRE);
   }
 
 private:
