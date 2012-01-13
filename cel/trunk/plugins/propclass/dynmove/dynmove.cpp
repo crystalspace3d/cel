@@ -18,12 +18,17 @@
 */
 
 #include "cssysdef.h"
+#include "csgeom/transfrm.h"
 #include "iutil/objreg.h"
 #include "plugins/propclass/dynmove/dynmove.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "propclass/defcam.h"
+#include "propclass/mesh.h"
+
+#include "iengine/mesh.h"
+#include "iengine/movable.h"
 
 //---------------------------------------------------------------------------
 
@@ -115,9 +120,12 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
 
   GetPCS ();
 
+  csReversibleTransform trans = pcmechobj->GetMesh ()->GetMesh ()->
+    GetMovable ()->GetFullTransform ();
+
   if (msgid == id_input_forward_down)
   {
-    pcmechobj->SetLinearVelocity (csVector3 (0, 0, -25.0f * speed));
+    pcmechobj->SetLinearVelocity (trans.This2OtherRelative (csVector3 (0, 0, -25.0f * speed)));
     return true;
   }
   else if (msgid == id_input_forward_up)
@@ -127,7 +135,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_backward_down)
   {
-    pcmechobj->SetLinearVelocity (csVector3 (0, 0, 25.0f * speed));
+    pcmechobj->SetLinearVelocity (trans.This2OtherRelative (csVector3 (0, 0, 25.0f * speed)));
     return true;
   }
   else if (msgid == id_input_backward_up)
@@ -137,7 +145,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_strafeleft_down)
   {
-    pcmechobj->SetLinearVelocity (csVector3 (25.0f * speed, 0, 0));
+    pcmechobj->SetLinearVelocity (trans.This2OtherRelative (csVector3 (25.0f * speed, 0, 0)));
     return true;
   }
   else if (msgid == id_input_strafeleft_up)
@@ -147,7 +155,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_straferight_down)
   {
-    pcmechobj->SetLinearVelocity (csVector3 (-25.0f * speed, 0, 0));
+    pcmechobj->SetLinearVelocity (trans.This2OtherRelative (csVector3 (-25.0f * speed, 0, 0)));
     return true;
   }
   else if (msgid == id_input_straferight_up)
@@ -157,7 +165,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_rotateleft_down)
   {
-    pcmechobj->SetAngularVelocity (csVector3 (0, 25.0f * speed, 0));
+    pcmechobj->SetAngularVelocity (csVector3 (0, -25.0f * speed, 0));
     return true;
   }
   else if (msgid == id_input_rotateleft_up)
@@ -167,7 +175,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_rotateright_down)
   {
-    pcmechobj->SetAngularVelocity (csVector3 (0, -25.0f * speed, 0));
+    pcmechobj->SetAngularVelocity (csVector3 (0, 25.0f * speed, 0));
     return true;
   }
   else if (msgid == id_input_rotateright_up)
