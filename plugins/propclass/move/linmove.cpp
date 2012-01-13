@@ -47,6 +47,7 @@
 #include <ivaria/collider.h>
 #include <ivaria/reporter.h>
 #include "ivaria/mapnode.h"
+#include "ivaria/dynamics.h"
 
 #include <imesh/objmodel.h>
 #include <igeom/path.h>
@@ -60,6 +61,7 @@
 #include "behaviourlayer/behave.h"
 #include "propclass/camera.h"
 #include "propclass/colldet.h"
+#include "propclass/mechsys.h"
 #include "propclass/solid.h"
 #include "celtool/stdparams.h"
 
@@ -277,6 +279,7 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   pc = databuf->GetPC ();
   pcmesh = 0;
   if (pc) pcmesh = scfQueryInterface<iPcMesh> (pc);
+  ConnectMesh ();
 
   pc = databuf->GetPC ();
   if (pc)
@@ -606,6 +609,52 @@ const csVector3 celPcLinearMovement::GetVelocity () const
   // in the OBJECT coordinate system.
   return velworld + velBody;
 }
+
+class MovLis : public scfImplementation1<MovLis, iMovableListener>
+{
+private:
+  celPcLinearMovement* linmove;
+  int recurse;
+
+public:
+  MovLis (celPcLinearMovement* linmove) : scfImplementationType (this),
+    linmove (linmove), recurse (0) { }
+  virtual ~MovLis () { }
+  virtual void MovableChanged (iMovable* movable)
+  {
+    if (recurse > 0) return;
+    recurse++;
+    linmove->MovableChanged (movable);
+    recurse--;
+  }
+  virtual void MovableDestroyed (iMovable* movable) { }
+};
+
+void celPcLinearMovement::MovableChanged (iMovable* movable)
+{
+  csVector3 fr = movable->GetTransform ().GetFront ();
+  fr.y = 0;
+  movable->GetTransform ().LookAt (fr, csVector3 (0, 1, 0));
+  movable->UpdateMove ();
+}
+
+void celPcLinearMovement::ConnectMesh ()
+{
+  if (!pcmesh) return;
+  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+  csRef<MovLis> movlis;
+  movlis.AttachNew (new MovLis (this));
+  movable->AddListener (movlis);
+}
+
+void celPcLinearMovement::DoMove ()
+{
+  if (bulletBody) bulletBody->MakeKinematic ();
+  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+  movable->UpdateMove ();
+  if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
+}
+
 // --------------------------------------------------------------------------
 //Does the actual rotation
 bool celPcLinearMovement::RotateV (float delta)
@@ -634,10 +683,15 @@ bool celPcLinearMovement::RotateV (float delta)
     }
   }
 
+  if (bulletBody) bulletBody->MakeKinematic ();
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-  movable->SetTransform (movable->GetTransform ().GetT2O () * csXRotMatrix3 (angle.x) * csYRotMatrix3 (angle.y) * csZRotMatrix3 (angle.z));
-  movable->UpdateMove ();
-  //pcmesh->GetMesh ()->GetMovable ()->Transform (rotMat);
+  movable->SetTransform (
+      movable->GetTransform ().GetT2O () *
+      csXRotMatrix3 (angle.x) *
+      csYRotMatrix3 (angle.y) *
+      csZRotMatrix3 (angle.z));
+  //DoMove ();
+  if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
   return true;
 }
 
@@ -931,6 +985,7 @@ int celPcLinearMovement::MoveV (float delta)
     newpos = anchor->GetMesh ()->GetMovable ()->GetFullTransform ()
     	.Other2This (newpos);
   }
+  if (bulletBody) bulletBody->MakeKinematic ();
   movable->GetTransform ().SetOrigin (newpos);
   movable->GetTransform ().SetT2O(
   	movable->GetTransform ().GetT2O () * transform_oldpos.GetT2O ());
@@ -941,7 +996,8 @@ int celPcLinearMovement::MoveV (float delta)
     pcmesh->GetMesh ()->PlaceMesh ();
   }
 
-  movable->UpdateMove ();
+  //DoMove ();
+  if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
 
   return ret;
 }
@@ -1109,10 +1165,12 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     path->GetInterpolatedUp (up);
     path->GetInterpolatedForward (look);
 
+    if (bulletBody) bulletBody->MakeKinematic ();
     pcmesh->GetMesh ()->GetMovable ()->GetTransform().SetOrigin (pos);
     pcmesh->GetMesh ()->GetMovable ()->GetTransform().LookAt(
     	look.Unit (), up.Unit ());
-    pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+    //DoMove ();
+    if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
 
     csRef<iSprite3DState> spstate =
     	scfQueryInterface<iSprite3DState> (pcmesh->GetMesh ()->GetMeshObject ());
@@ -1234,6 +1292,20 @@ void celPcLinearMovement::FindSiblingPropertyClasses ()
   if (HavePropertyClassesChanged ())
   {
     pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    ConnectMesh ();
+    if (!pcmechobj)
+    {
+      pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
+      if (pcmechobj)
+      {
+	bulletBody = scfQueryInterface<CS::Physics::Bullet::iRigidBody> (
+	    pcmechobj->GetBody ());
+      }
+      else bulletBody = 0;
+    }
+    if (!pccolldet)
+      pccolldet = celQueryPropertyClassEntity<iPcCollisionDetection> (entity);
+
   }
 }
 
@@ -1450,6 +1522,7 @@ void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
   {
     newpos = pos;
   }
+  if (bulletBody) bulletBody->MakeKinematic ();
   pcmesh->GetMesh ()->GetMovable ()->SetPosition ((iSector *)sector, newpos);
 
   // Rotation
@@ -1458,7 +1531,8 @@ void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
   pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
 
   // Sector
-  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+  //DoMove ();
+  if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
 }
 
 void celPcLinearMovement::SetFullPosition (const char* center_name, float yrot,
@@ -1485,6 +1559,8 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
   if (!pcmesh || !pcmesh->GetMesh ()) return;
 
   FindSiblingPropertyClasses ();
+
+  if (bulletBody) bulletBody->MakeKinematic ();
   // Position
   pcmesh->GetMesh ()->GetMovable ()->SetPosition ((iSector *)sector,pos);
 
@@ -1492,8 +1568,8 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
   csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot);
   pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
 
-  // Sector
-  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+  //DoMove ();
+  if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
 }
 
 void celPcLinearMovement::SetPosition (const char* center_name, float yrot,

@@ -36,6 +36,7 @@
 #include "csutil/stringarray.h"
 #include "cstool/collider.h"
 #include "ivaria/collider.h"
+#include "ivaria/bullet.h"
 #include "csutil/sysfunc.h"
 
 //CEL includes
@@ -65,6 +66,7 @@ class csObject;
 class csColliderWrapper;
 struct iPath;
 struct iPcCollisionDetection;
+struct iPcMechanicsObject;
 
 /* Max deviation before we need to send
    a new DR packet */
@@ -84,6 +86,8 @@ class celPcLinearMovement : public scfImplementationExt1<
 protected:
   csWeakRef<iPcMesh> pcmesh;
   csWeakRef<iPcCollisionDetection> pccolldet;
+  csWeakRef<iPcMechanicsObject> pcmechobj;
+  csRef<CS::Physics::Bullet::iRigidBody> bulletBody;
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
   csRef<iCollideSystem> cdsys;
@@ -193,6 +197,14 @@ protected:
   };
   static PropertyHolder propinfo;
 
+  // Handle the actual move of a mesh and make sure
+  // any possible associated mechanics object is updated.
+  void DoMove ();
+
+  // Connect to a mesh (make sure listener is ok and so on).
+  // Call this after setting 'pcmesh'.
+  void ConnectMesh ();
+
 public:
   celPcLinearMovement (iObjectRegistry* object_reg);
   virtual ~celPcLinearMovement ();
@@ -200,6 +212,9 @@ public:
   virtual void SetAngularVelocity (const csVector3& angle);
   virtual void SetAngularVelocity (const csVector3& angle,
   	const csVector3& angle_to_reach);
+
+  // Called when the movable is changed.
+  void MovableChanged (iMovable* movable);
 
   /// Sets a velocity for this body in body coordinates
   void SetVelocity (const csVector3& vel) { SetBodyVelocity (vel); }
