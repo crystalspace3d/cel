@@ -970,15 +970,17 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
           return false;
         }
         CEL_FETCH_STRING_PAR (syspctag,params,param_systempctag);
-        if (!p_syspctag)
-        {
-          CS_REPORT(ERROR,"Couldn't get mechanics system tag!");
-          return false;
-        }
         csRef<iCelEntity> sysent = pl->FindEntity (syspcent);
         csRef<iPcMechanicsSystem> mechsyss = 0;
-        mechsyss = celQueryPropertyClassTagEntity<iPcMechanicsSystem> (sysent, syspctag);
-        assert (mechsyss);
+	if (p_syspctag)
+          mechsyss = celQueryPropertyClassTagEntity<iPcMechanicsSystem> (sysent, syspctag);
+	else
+          mechsyss = celQueryPropertyClassEntity<iPcMechanicsSystem> (sysent);
+        if (!mechsyss)
+        {
+          CS_REPORT(ERROR,"Couldn't find entity for dynamic system!");
+          return false;
+        }
         SetMechanicsSystem (mechsyss);
 	return true;
       }
