@@ -25,6 +25,9 @@
 
 /**
  * This is a property class for dynamic movement.
+ *
+ * This property class supports the following properties:
+ * - speed (float, read/write): default 1.0, movement speed.
  */
 struct iPcDynamicMove : public virtual iBase
 {

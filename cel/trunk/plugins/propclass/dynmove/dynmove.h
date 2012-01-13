@@ -49,17 +49,35 @@ private:
   // For input messages
   static csStringID id_input_forward_down;
   static csStringID id_input_backward_down;
+  static csStringID id_input_forward_up;
+  static csStringID id_input_backward_up;
   static csStringID id_input_strafeleft_down;
   static csStringID id_input_straferight_down;
+  static csStringID id_input_strafeleft_up;
+  static csStringID id_input_straferight_up;
   static csStringID id_input_jump_down;
   static csStringID id_input_lookup_down;
   static csStringID id_input_lookup_up;
   static csStringID id_input_lookdown_down;
   static csStringID id_input_lookdown_up;
   static csStringID id_input_center_down;
+  static csStringID id_input_rotateleft_down;
+  static csStringID id_input_rotateleft_up;
+  static csStringID id_input_rotateright_down;
+  static csStringID id_input_rotateright_up;
 
   csWeakRef<iPcMechanicsObject> pcmechobj;
   void GetPCS ();
+
+  // For properties.
+  enum propids
+  {
+    propid_speed = 0
+  };
+  static PropertyHolder propinfo;
+
+  float speed;
+  uint lastTag;
 
 public:
   celPcDynamicMove (iObjectRegistry* object_reg);
@@ -68,9 +86,6 @@ public:
 
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
-
-  virtual bool SetPropertyIndexed (int idx, long b);
-  virtual bool GetPropertyIndexed (int, long&);
 
   // For iMessageReceiver.
   virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
