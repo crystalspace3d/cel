@@ -93,6 +93,7 @@ celPcDynamicMove::celPcDynamicMove (iObjectRegistry* object_reg)
   speed = 1.0f;
   jumpspeed = 1.0f;
   rotspeed = 1.0f;
+  curspeed.Set (0.0f);
 }
 
 celPcDynamicMove::~celPcDynamicMove ()
@@ -126,112 +127,70 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
 
   GetPCS ();
 
-  csReversibleTransform trans = pcmechobj->GetMesh ()->GetMesh ()->
-    GetMovable ()->GetFullTransform ();
-
   if (msgid == id_input_forward_down)
-  {
-    pcmechobj->SetLinearVelocity (trans.This2OtherRelative (csVector3 (0, 0, -25.0f * speed)));
-    return true;
-  }
+    curspeed = csVector3 (0, 0, -25.0f * speed);
   else if (msgid == id_input_forward_up)
-  {
-    pcmechobj->SetLinearVelocity (csVector3 (0));
-    return true;
-  }
+    curspeed = 0.0f;
   else if (msgid == id_input_backward_down)
-  {
-    pcmechobj->SetLinearVelocity (trans.This2OtherRelative (csVector3 (0, 0, 25.0f * speed)));
-    return true;
-  }
+    curspeed = csVector3 (0, 0, 25.0f * speed);
   else if (msgid == id_input_backward_up)
-  {
-    pcmechobj->SetLinearVelocity (csVector3 (0));
-    return true;
-  }
+    curspeed = 0.0f;
   else if (msgid == id_input_strafeleft_down)
-  {
-    pcmechobj->SetLinearVelocity (trans.This2OtherRelative (csVector3 (25.0f * speed, 0, 0)));
-    return true;
-  }
+    curspeed = csVector3 (25.0f * speed, 0, 0);
   else if (msgid == id_input_strafeleft_up)
-  {
-    pcmechobj->SetLinearVelocity (csVector3 (0));
-    return true;
-  }
+    curspeed = 0.0f;
   else if (msgid == id_input_straferight_down)
-  {
-    pcmechobj->SetLinearVelocity (trans.This2OtherRelative (csVector3 (-25.0f * speed, 0, 0)));
-    return true;
-  }
+    curspeed = csVector3 (-25.0f * speed, 0, 0);
   else if (msgid == id_input_straferight_up)
-  {
-    pcmechobj->SetLinearVelocity (csVector3 (0));
-    return true;
-  }
+    curspeed = 0.0f;
   else if (msgid == id_input_rotateleft_down)
-  {
     pcmechobj->SetAngularVelocity (csVector3 (0, -25.0f * rotspeed, 0));
-    return true;
-  }
   else if (msgid == id_input_rotateleft_up)
-  {
     pcmechobj->SetAngularVelocity (csVector3 (0));
-    return true;
-  }
   else if (msgid == id_input_rotateright_down)
-  {
     pcmechobj->SetAngularVelocity (csVector3 (0, 25.0f * rotspeed, 0));
-    return true;
-  }
   else if (msgid == id_input_rotateright_up)
-  {
     pcmechobj->SetAngularVelocity (csVector3 (0));
-    return true;
-  }
   else if (msgid == id_input_jump_down)
-  {
     pcmechobj->AddForceDuration (csVector3 (0, jumpspeed, 0), false,
       csVector3 (0, 0, 0), .2f);
-    return true;
-  }
   else if (msgid == id_input_lookup_down)
   {
     csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (1.0f);
-    return true;
   }
   else if (msgid == id_input_lookup_up)
   {
     csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (0.0f);
-    return true;
   }
   else if (msgid == id_input_lookdown_down)
   {
     csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (-1.0f);
-    return true;
   }
   else if (msgid == id_input_lookdown_up)
   {
     csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (0.0f);
-    return true;
   }
   else if (msgid == id_input_center_down)
   {
     csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
     if (pcdefcamera)
       pcdefcamera->CenterCamera ();
-    return true;
   }
+  else return false;
 
-  return false;
+  csReversibleTransform trans = pcmechobj->GetMesh ()->GetMesh ()->
+    GetMovable ()->GetFullTransform ();
+  pcmechobj->SetLinearVelocity (trans.This2OtherRelative (curspeed));
+
+  return true;
 }
 
 //---------------------------------------------------------------------------

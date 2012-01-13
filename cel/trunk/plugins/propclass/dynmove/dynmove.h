@@ -82,6 +82,8 @@ private:
   float jumpspeed;
   float rotspeed;
 
+  csVector3 curspeed;
+
 public:
   celPcDynamicMove (iObjectRegistry* object_reg);
   virtual ~celPcDynamicMove ();
