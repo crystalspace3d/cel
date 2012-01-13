@@ -83,10 +83,16 @@ celPcDynamicMove::celPcDynamicMove (iObjectRegistry* object_reg)
   }
 
   propholder = &propinfo;
-  propinfo.SetCount (1);
+  propinfo.SetCount (3);
   AddProperty (propid_speed, "speed",
 	CEL_DATA_FLOAT, false, "Movement speed", &speed);
+  AddProperty (propid_jumpspeed, "jumpspeed",
+	CEL_DATA_FLOAT, false, "Jump speed", &jumpspeed);
+  AddProperty (propid_rotspeed, "rotspeed",
+	CEL_DATA_FLOAT, false, "Rotation speed", &rotspeed);
   speed = 1.0f;
+  jumpspeed = 1.0f;
+  rotspeed = 1.0f;
 }
 
 celPcDynamicMove::~celPcDynamicMove ()
@@ -165,7 +171,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_rotateleft_down)
   {
-    pcmechobj->SetAngularVelocity (csVector3 (0, -25.0f * speed, 0));
+    pcmechobj->SetAngularVelocity (csVector3 (0, -25.0f * rotspeed, 0));
     return true;
   }
   else if (msgid == id_input_rotateleft_up)
@@ -175,7 +181,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_rotateright_down)
   {
-    pcmechobj->SetAngularVelocity (csVector3 (0, 25.0f * speed, 0));
+    pcmechobj->SetAngularVelocity (csVector3 (0, 25.0f * rotspeed, 0));
     return true;
   }
   else if (msgid == id_input_rotateright_up)
@@ -185,7 +191,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_jump_down)
   {
-    pcmechobj->AddForceDuration (csVector3 (0, 5.0f * speed, 0), false,
+    pcmechobj->AddForceDuration (csVector3 (0, jumpspeed, 0), false,
       csVector3 (0, 0, 0), .2f);
     return true;
   }
