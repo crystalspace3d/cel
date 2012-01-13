@@ -77,7 +77,6 @@ private:
   static PropertyHolder propinfo;
 
   float speed;
-  uint lastTag;
 
 public:
   celPcDynamicMove (iObjectRegistry* object_reg);
