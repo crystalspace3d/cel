@@ -72,11 +72,15 @@ private:
   // For properties.
   enum propids
   {
-    propid_speed = 0
+    propid_speed = 0,
+    propid_jumpspeed,
+    propid_rotspeed,
   };
   static PropertyHolder propinfo;
 
   float speed;
+  float jumpspeed;
+  float rotspeed;
 
 public:
   celPcDynamicMove (iObjectRegistry* object_reg);
