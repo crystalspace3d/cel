@@ -1,0 +1,6 @@
+SubDir TOP plugins tools parameters ;
+
+Plugin parameters
+       : [ Wildcard *.cpp *.h ]
+;
+ExternalLibs parameters : CRYSTAL ;

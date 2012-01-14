@@ -1,0 +1,6 @@
+SubDir TOP plugins propclass neuralnet ;
+
+Plugin pfneuralnet : [ Wildcard *.cpp *.h ] ;
+ExternalLibs pfneuralnet : CRYSTAL ;
+LinkWith pfneuralnet : celtool ;
+
