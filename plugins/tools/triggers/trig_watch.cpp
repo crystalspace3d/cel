@@ -59,7 +59,7 @@ celWatchTriggerFactory::~celWatchTriggerFactory ()
 }
 
 csPtr<iTrigger> celWatchTriggerFactory::CreateTrigger (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   celWatchTrigger* trig = new celWatchTrigger (type, params,
   	entity_par, tag_par, target_entity_par, target_tag_par,
@@ -147,7 +147,7 @@ static float ToFloat (const char* s)
 
 celWatchTrigger::celWatchTrigger (
 	celWatchTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
 	const char* time_par, const char* radius_par,
@@ -160,9 +160,9 @@ celWatchTrigger::celWatchTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
+  entity = pm->ResolveParameter (params, entity_par);
   tag = pm->ResolveParameter (params, tag_par);
-  target_entity = pm->ResolveEntityParameter (params, target_entity_par, target_entityID);
+  target_entity = pm->ResolveParameter (params, target_entity_par);
   target_tag = pm->ResolveParameter (params, target_tag_par);
   const char* t = pm->ResolveParameter (params, time_par);
   if (t)
@@ -207,25 +207,17 @@ bool celWatchTrigger::FindEntities ()
   if (!source_mesh)
   {
     iCelPlLayer* pl = type->pl;
-    iCelEntity* ent;
-    if (!entity.IsEmpty ())
-      ent = pl->FindEntity (entity);
-    else
-      ent = pl->GetEntity (entityID);
+    iCelEntity* ent = pl->FindEntity (entity);
     if (!ent) return false;
-    source_mesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
+    source_mesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
     if (!source_mesh) return false;
   }
   if (!target_mesh)
   {
     iCelPlLayer* pl = type->pl;
-    iCelEntity* ent;
-    if (!target_entity.IsEmpty ())
-      ent = pl->FindEntity (target_entity);
-    else
-      ent = pl->GetEntity (target_entityID);
+    iCelEntity* ent = pl->FindEntity (target_entity);
     if (!ent) return false;
-    target_mesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, target_tag);
+    target_mesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, target_tag);
     if (!target_mesh) return false;
   }
   return true;
@@ -292,8 +284,19 @@ printf ("check sqdistance=%g sqradius=%g closest_mesh=%s\n", rc.sqdistance, sqra
 
 void celWatchTrigger::DeactivateTrigger ()
 {
-  if (type->pl) type->pl->RemoveCallbackOnce (
-      static_cast<iCelTimerListener*> (this), CEL_EVENT_PRE);
+  iCelPlLayer* pl = type->pl;
+  pl->RemoveCallbackOnce (static_cast<iCelTimerListener*> (this),
+  	CEL_EVENT_PRE);
+}
+
+bool celWatchTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
+{
+  ActivateTrigger ();
+  return true;
+}
+
+void celWatchTrigger::SaveTriggerState (iCelDataBuffer*)
+{
 }
 
 //---------------------------------------------------------------------------

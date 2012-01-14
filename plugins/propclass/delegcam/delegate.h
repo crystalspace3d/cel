@@ -49,6 +49,8 @@ public:
   celPcDelegateCamera (iObjectRegistry* object_reg);
   virtual ~celPcDelegateCamera ();
 
+  csPtr<iCelDataBuffer> Save ();
+  bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret);
 
   void SetCurrentMode (iPcCameraMode* mode);

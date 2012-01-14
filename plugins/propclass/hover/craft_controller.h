@@ -27,9 +27,9 @@
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
-#include "celtool/ticktimer.h"
 
 #include "propclass/craft.h"
+#include "../mechanics/ticktimer.h"
 
 /**
  * Factory for hover.
@@ -47,6 +47,8 @@ public:
   celPcCraftController (iObjectRegistry* object_reg);
   virtual ~celPcCraftController ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void Tick ();

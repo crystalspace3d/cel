@@ -76,7 +76,13 @@ enum celKeyState
  */
 struct iPcCommandInput : public virtual iBase
 {
-  SCF_INTERFACE (iPcCommandInput, 0, 3, 0);
+  SCF_INTERFACE (iPcCommandInput, 0, 2, 0);
+
+  /**
+   * Activates this input property class. When activated, it will catch input
+   * events and send command messages.
+   */
+  virtual void Activate (bool activate=true) = 0;
 
   /**
    * Enable/disable sending trigger name. When this is enabled

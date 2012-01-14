@@ -53,8 +53,7 @@ celChangePropertyRewardFactory::~celChangePropertyRewardFactory ()
 {
 }
 
-csPtr<iReward> celChangePropertyRewardFactory::CreateReward (iQuest* q,
-    iCelParameterBlock* params)
+csPtr<iReward> celChangePropertyRewardFactory::CreateReward (const celParams& params)
 {
   iReward* reward;
   if (entity_par)
@@ -172,7 +171,7 @@ void celChangePropertyRewardFactory::SetToggle ()
 
 celChangePropertyRewardBase::celChangePropertyRewardBase (
 	celChangePropertyRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* prop_par,
 	const char* pc_par,
 	const char* tag_par,
@@ -405,7 +404,7 @@ void celChangePropertyRewardBase::ChangePropertyOnPcProp (iPcProperties *propert
 //----  celChangePropertyReward
 celChangePropertyReward::celChangePropertyReward (
 	celChangePropertyRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* prop_par,
 	const char* entity_par,
 	const char* pc_par,
@@ -420,7 +419,7 @@ celChangePropertyReward::celChangePropertyReward (
 				pc_par, tag_par, string_par, long_par,
 				float_par, bool_par, diff_par, do_toggle)
 {
-  pm = csQueryRegistryOrLoad<iParameterManager> 
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity = pm->GetParameter (params, entity_par);
@@ -430,13 +429,18 @@ void celChangePropertyReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = type->pl;
   // check and/or find the entity.
-  ent = pm->ResolveEntityParameter (pl, params, entity, ent);
-  if (!ent) return;
+  bool changed;
+  const char* e = entity->Get (params, changed);
+  if (changed) ent = 0;
+  if (!ent)
+  {
+    ent = pl->FindEntity (e);
+    if (!ent) return;
+  }
 
   // Generic Property class style
   if (pc)
   {
-    bool changed;
     const char* p = pc->Get (params, changed);
     if (changed) pclass = 0;
     const char* t = 0;
@@ -456,7 +460,7 @@ void celChangePropertyReward::Reward (iCelParameterBlock* params)
     if (!properties)
     {
       pclass = 0;
-      properties = celQueryPropertyClassEntity<iPcProperties> (ent);
+      properties = CEL_QUERY_PROPCLASS_ENT (ent, iPcProperties);
       if (!properties) return;
     }
     ChangePropertyOnPcProp (properties, params);
@@ -467,7 +471,7 @@ void celChangePropertyReward::Reward (iCelParameterBlock* params)
 //----  celClassChangePropertyReward
 celClassChangePropertyReward::celClassChangePropertyReward (
 	celChangePropertyRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* prop_par,
 	const char* class_par,
 	const char* pc_par,
@@ -522,7 +526,7 @@ void celClassChangePropertyReward::PcPropReward (iCelParameterBlock* params)
   {
     i--;
     ent = entlist->Get(i);
-    properties = celQueryPropertyClassEntity<iPcProperties> (ent);
+    properties = CEL_QUERY_PROPCLASS_ENT (ent, iPcProperties);
     if (properties)
       ChangePropertyOnPcProp (properties, params);
   }

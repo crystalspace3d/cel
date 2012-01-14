@@ -70,23 +70,13 @@ public:
 void celPcSoundSource::CheckPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
-    UpdateListener ();
+	  UpdateListener ();
 }
 
 void celPcSoundSource::TickEveryFrame ()
 {
   if (follow)
     CheckPropertyClasses ();
-}
-
-void celPcSoundSource::Activate ()
-{
-  // @@@ TODO
-}
-
-void celPcSoundSource::Deactivate ()
-{
-  // @@@ TODO
 }
 
 void celPcSoundSource::UpdateListener ()
@@ -102,7 +92,7 @@ void celPcSoundSource::UpdateListener ()
   if (!GetSource ()) return;
   if (follow && source3d)
   {
-    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     if (pcmesh)
     {
       movlistener.AttachNew (new celSoundSourceMovableListener (
@@ -173,7 +163,7 @@ void celPcSoundListener::PropertyClassesHaveChanged ()
   // look for pccamera and place it in separate var, so we can see if it
   // really changed.
   csWeakRef<iPcCamera> found_pccamera = 
-	celQueryPropertyClassEntity<iPcCamera> (entity);
+	CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
   if (found_pccamera == pccamera)
     return;
   // we found a new camera, so assign it to our weakref, and setup the
@@ -279,6 +269,27 @@ bool celPcSoundListener::GetPropertyIndexed (int idx, float& b)
     default:
       return false;
   }
+}
+
+#define SOUNDLISTENER_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcSoundListener::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SOUNDLISTENER_SERIAL);
+  //databuf->Add (int32 (counter));
+  //databuf->Add (int32 (max));
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcSoundListener::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != SOUNDLISTENER_SERIAL) return false;
+
+  //counter = databuf->GetInt32 ();
+  //max = databuf->GetInt32 ();
+
+  return true;
 }
 
 bool celPcSoundListener::PerformActionIndexed (int idx,
@@ -520,6 +531,27 @@ bool celPcSoundSource::GetPropertyIndexed (int idx, const char*& b)
     return true;
   }
   return false;
+}
+
+#define SOUNDSOURCE_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcSoundSource::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SOUNDSOURCE_SERIAL);
+  //databuf->Add (int32 (counter));
+  //databuf->Add (int32 (max));
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcSoundSource::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != SOUNDSOURCE_SERIAL) return false;
+
+  //counter = databuf->GetInt32 ();
+  //max = databuf->GetInt32 ();
+
+  return true;
 }
 
 bool celPcSoundSource::PerformActionIndexed (int idx,

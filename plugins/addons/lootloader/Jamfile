@@ -1,7 +1,0 @@
-SubDir TOP plugins addons lootloader ;
-
-Plugin addon_lootloader
-	: lootloader.cpp lootloader.h
-;
-ExternalLibs addon_lootloader : CRYSTAL ;
-LinkWith addon_lootloader : celtool ;

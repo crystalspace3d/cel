@@ -242,7 +242,7 @@ iPcMechanicsObject* htBehaviourActor::GetMechObject ()
 {
   if (!pcmechobj)
   {
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
     CS_ASSERT (pcmechobj != 0);
 
     // store the craft's starting position and orientation
@@ -257,7 +257,7 @@ iPcCraftController* htBehaviourActor::GetCraft ()
 {
   if (!pccraft)
   {
-    pccraft = celQueryPropertyClassEntity<iPcCraftController> (entity);
+    pccraft = CEL_QUERY_PROPCLASS_ENT (entity, iPcCraftController);
     CS_ASSERT (pccraft != 0);
   }
   return pccraft;
@@ -267,7 +267,7 @@ iPcDefaultCamera* htBehaviourActor::GetCamera ()
 {
   if (!pcdefcamera)
   {
-    pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcDefaultCamera);
     CS_ASSERT (pcdefcamera != 0);
   }
   return pcdefcamera;
@@ -277,7 +277,7 @@ iPcNeuralNet* htBehaviourActor::GetNeuralNet ()
 {
   if (!pcneuralnet)
   {
-    pcneuralnet = celQueryPropertyClassEntity<iPcNeuralNet> (entity);
+    pcneuralnet = CEL_QUERY_PROPCLASS_ENT (entity, iPcNeuralNet);
     CS_ASSERT (pcneuralnet != 0);
   }
   return pcneuralnet;
@@ -287,7 +287,7 @@ iPcEvolve* htBehaviourActor::GetEvolve ()
 {
   if (!pcevolve)
   {
-    pcevolve = celQueryPropertyClassEntity<iPcEvolve> (entity);
+    pcevolve = CEL_QUERY_PROPCLASS_ENT (entity, iPcEvolve);
   }
   return pcevolve;
 }
@@ -296,7 +296,7 @@ iPcMesh* htBehaviourActor::GetMesh ()
 {
   if (!pcmesh)
   {
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     CS_ASSERT (pcmesh != 0);
   }
   return pcmesh;

@@ -121,6 +121,38 @@ celPcAnalogMotion::~celPcAnalogMotion ()
 {
 }
 
+const size_t actorlara_serial = 8;
+
+csPtr<iCelDataBuffer> celPcAnalogMotion::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (actorlara_serial);
+  databuf->Add (target_axis.x);
+  databuf->Add (target_axis.y);
+  databuf->Add (minturnspeed);
+  databuf->Add (maxturnspeed);
+  databuf->Add (movespeed);
+  databuf->Add (moveaccel);
+  databuf->Add (movedecel);
+  databuf->Add (enabled);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcAnalogMotion::Load (iCelDataBuffer* databuf)
+{
+  size_t serialnr = databuf->GetSerialNumber ();
+  if (serialnr != actorlara_serial)
+    return false;
+  target_axis.x = databuf->GetFloat ();
+  target_axis.y = databuf->GetFloat ();
+  minturnspeed = databuf->GetFloat ();
+  maxturnspeed = databuf->GetFloat ();
+  movespeed = databuf->GetFloat ();
+  moveaccel = databuf->GetFloat ();
+  movedecel = databuf->GetFloat ();
+  enabled = databuf->GetBool ();
+  return true;
+}
+
 bool celPcAnalogMotion::PerformActionIndexed (int idx,
   iCelParameterBlock* params,
   celData& ret)

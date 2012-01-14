@@ -58,7 +58,7 @@ public:
   celInventoryTriggerFactory (celInventoryTriggerType* type);
   virtual ~celInventoryTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iInventoryTriggerFactory ----------------------
@@ -78,7 +78,6 @@ private:
   csRef<iTriggerCallback> callback;
   csWeakRef<iPcInventory> inventory;
   csString entity;
-  uint entityID;
   csString tag;
   csString child_entity;
   csRef<celOneParameterBlock> params_entity;
@@ -88,7 +87,7 @@ private:
 
 public:
   celInventoryTrigger (celInventoryTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* child_entity_par);
   virtual ~celInventoryTrigger ();
@@ -98,17 +97,12 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
-
-  virtual void Activate () { ActivateTrigger (); }
-  virtual void Deactivate () { DeactivateTrigger (); }
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   //----------------------- iPcInventoryListener ----------------------------
   virtual void AddChild (iPcInventory* inventory, iCelEntity* entity);
   virtual void RemoveChild (iPcInventory* inventory, iCelEntity* entity);
-  virtual void AddChildTemplate (iPcInventory* inventory,
-      iCelEntityTemplate* tpl, int amount);
-  virtual void RemoveChildTemplate (iPcInventory* inventory,
-      iCelEntityTemplate* tpl, int amount);
 };
 
 #endif // __CEL_TOOLS_TRIG_INVENTORY__

@@ -114,6 +114,21 @@ celPcPathFinder::~celPcPathFinder ()
   delete params;
 }
 
+#define GRAPH_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcPathFinder::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (GRAPH_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcPathFinder::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != GRAPH_SERIAL) return false;
+  return true;
+}
+
 void celPcPathFinder::SendMessage (const char* msgold, const char* msg,
     csRef<iMessageDispatcher>& dispatcher, const char* meshname)
 {
@@ -129,7 +144,7 @@ void celPcPathFinder::SendMessage (const char* msgold, const char* msg,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID (msg));
+      CreateMessageDispatcher (this, msg);
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (params);

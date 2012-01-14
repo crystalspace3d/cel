@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001-2011 by Jorrit Tyberghein
+    Copyright (C) 2001 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -32,12 +32,6 @@ struct iMessageChannel;
 struct iMessageDispatcher;
 struct iMessageSender;
 struct iObject;
-struct iStringSet;
-struct iCelCompactDataBufferWriter;
-struct iCelCompactDataBufferReader;
-
-struct iSector;
-struct iMovable;
 
 /**
  * This is an entity in the CEL layer at the PL (physical layer) side.
@@ -52,8 +46,7 @@ struct iMovable;
  */
 struct iCelEntity : public virtual iBase
 {
-  SCF_INTERFACE (iCelEntity, 0, 0, 7);
-
+  SCF_INTERFACE (iCelEntity, 0, 0, 3);
   /**
    * Get the iObject for this entity (if supported).
    * \return A pointer to the iObject for this entity if supported,
@@ -81,22 +74,11 @@ struct iCelEntity : public virtual iBase
 
   /**
    * Set the (unique) ID of the entity.
+   * @@@ UGLY! This should be removed as soon as we find another solution
+   * for this problem!!!! See history.txt entry of 23-Jan-2003.
    * \param n A uint to uniquely represent this entity.
    */
   virtual void SetID (uint n) = 0;
-
-  /**
-   * Set the ID for the template name. Normally this is not needed as this
-   * is done by the physical layer automatically if the entity is created
-   * from a template.
-   */
-  virtual void SetTemplateNameID (csStringID id) = 0;
-
-  /**
-   * Get the Id of the template that created this entity.
-   * Returns csInvalidStringID if this entity was not created from a template.
-   */
-  virtual csStringID GetTemplateNameID () const = 0;
 
   /**
    * Get the list of property classes.
@@ -153,65 +135,8 @@ struct iCelEntity : public virtual iBase
    * are property classes that have a certain tag.
    */
   virtual csRef<iMessageDispatcher> CreateTaggedMessageDispatcher (
-      iMessageSender* sender, csStringID msg_id,
+      iMessageSender* sender, const char* msg_id,
       const char* tag) = 0;
-
-  /**
-   * Returns true if this entity is 'positional'. That means that it
-   * has at least one property class which implements iCelPositionInfo.
-   */
-  virtual bool IsPositional () const = 0;
-
-  /**
-   * Activate this entity. This means it will process events again
-   * (including all property classes and other things attached to this entity).
-   * Entities are activated by default.
-   */
-  virtual void Activate () = 0;
-
-  /**
-   * Deactivate this entity. This means that events will no longer be processed
-   * and the entity will be 'frozen'.
-   */
-  virtual void Deactivate () = 0;
-
-  /**
-   * Return true if the entity is active.
-   */
-  virtual bool IsActive () const = 0;
-
-  /**
-   * Mark the baseline for this entity. This means that the status of this
-   * entity as it is now doesn't have to be saved. Only changes to the entity
-   * that happen after this baseline have to be modified. This function will
-   * delegate to the property classes.
-   */
-  virtual void MarkBaseline () = 0;
-
-  /**
-   * Return true if there is any property class that has been modified since
-   * the baseline.
-   */
-  virtual bool IsModifiedSinceBaseline () const = 0;
-
-  /**
-   * Returns true if this entity existed at the baseline.
-   */
-  virtual bool ExistedAtBaseline () const = 0;
-
-  /**
-   * Return the data that represents the information that changed after the
-   * baseline. Only the modified property classes are saved here.
-   */
-  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings) = 0;
-
-  /**
-   * Call this function if the entity is in the state as it was at the moment of
-   * the baseline. This function will put back the modifications that were made
-   * after the baseline.
-   */
-  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
-      const csHash<csString,csStringID>& strings) = 0;
 };
 
 /**

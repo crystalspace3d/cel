@@ -346,6 +346,10 @@ public:
   // sector is in and then it will activate that region.
   bool ActivateSector (iSector* sector);
 
+  virtual csPtr<iCelDataBuffer> SaveFirstPass ();
+  virtual bool LoadFirstPass (iCelDataBuffer* databuf);
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool GetPropertyIndexed (int, const char*&);
 
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,

@@ -632,6 +632,9 @@
 				RelativePath="..\..\msvc\plugin_impl.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\stdphyslayer\datatype.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\stdphyslayer\entity.cpp">
 			</File>
 			<File
@@ -645,6 +648,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\pl.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\stdphyslayer\propclas.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -664,6 +670,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\pl.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\stdphyslayer\propclas.h">
 			</File>
 		</Filter>
 		<Filter

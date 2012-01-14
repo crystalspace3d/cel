@@ -81,6 +81,21 @@ celPcJump::~celPcJump ()
 {
 }
 
+#define TEST_SERIAL 0
+
+csPtr<iCelDataBuffer> celPcJump::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TEST_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcJump::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != TEST_SERIAL) return false;
+  return true;
+}
+
 bool celPcJump::PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret)
 {
   switch (idx)
@@ -381,7 +396,7 @@ void celPcJump::UpdateMovement ()
     if (!dispatcher.landed)
     {
       dispatcher.landed = entity->QueryMessageChannel ()->
-        CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.jump.landed"));
+        CreateMessageDispatcher (this, "cel.move.jump.landed");
       if (!dispatcher.landed)
         return;
     }
@@ -420,7 +435,7 @@ void celPcJump::DoJump ()
   if (!dispatcher.started)
   {
     dispatcher.started = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.jump.started"));
+      CreateMessageDispatcher (this, "cel.move.jump.started");
     if (!dispatcher.started)
       return;
   }

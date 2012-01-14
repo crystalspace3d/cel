@@ -47,7 +47,6 @@
 #include <ivaria/collider.h>
 #include <ivaria/reporter.h>
 #include "ivaria/mapnode.h"
-#include "ivaria/dynamics.h"
 
 #include <imesh/objmodel.h>
 #include <igeom/path.h>
@@ -61,7 +60,6 @@
 #include "behaviourlayer/behave.h"
 #include "propclass/camera.h"
 #include "propclass/colldet.h"
-#include "propclass/mechsys.h"
 #include "propclass/solid.h"
 #include "celtool/stdparams.h"
 
@@ -279,7 +277,6 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   pc = databuf->GetPC ();
   pcmesh = 0;
   if (pc) pcmesh = scfQueryInterface<iPcMesh> (pc);
-  ConnectMesh ();
 
   pc = databuf->GetPC ();
   if (pc)
@@ -368,7 +365,7 @@ bool celPcLinearMovement::SetPropertyIndexed (int idx, const char* b)
     if (!ent)
       return MoveReport (object_reg,
       	"Can't find entity '%s' for property 'anchor' in pcmove.linear!", b);
-    csRef<iPcMesh> m = celQueryPropertyClassEntity<iPcMesh> (ent);
+    csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
     if (!m)
       return MoveReport (object_reg,
       	"Entity '%s' doesn't have a pcmesh (property 'anchor' in pclinmove)!",
@@ -409,7 +406,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         if (!p_body)
           return MoveReport (object_reg,
           	"Missing parameter 'body' for action InitCD!");
-        CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);
+        CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);;
         if (!p_legs)
           return MoveReport (object_reg,
           	"Missing parameter 'legs' for action InitCD!");
@@ -425,7 +422,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         if (!p_percentage)
           return MoveReport (object_reg,
           	"Missing parameter 'percentage' for action InitCDMesh!");
-        csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
         if (!pcmesh)
           return MoveReport (object_reg,
           	"Can't find pcmesh in current entity for action InitCDMesh!");
@@ -609,52 +606,6 @@ const csVector3 celPcLinearMovement::GetVelocity () const
   // in the OBJECT coordinate system.
   return velworld + velBody;
 }
-
-class MovLis : public scfImplementation1<MovLis, iMovableListener>
-{
-private:
-  celPcLinearMovement* linmove;
-  int recurse;
-
-public:
-  MovLis (celPcLinearMovement* linmove) : scfImplementationType (this),
-    linmove (linmove), recurse (0) { }
-  virtual ~MovLis () { }
-  virtual void MovableChanged (iMovable* movable)
-  {
-    if (recurse > 0) return;
-    recurse++;
-    linmove->MovableChanged (movable);
-    recurse--;
-  }
-  virtual void MovableDestroyed (iMovable* movable) { }
-};
-
-void celPcLinearMovement::MovableChanged (iMovable* movable)
-{
-  csVector3 fr = movable->GetTransform ().GetFront ();
-  fr.y = 0;
-  movable->GetTransform ().LookAt (fr, csVector3 (0, 1, 0));
-  movable->UpdateMove ();
-}
-
-void celPcLinearMovement::ConnectMesh ()
-{
-  if (!pcmesh) return;
-  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-  csRef<MovLis> movlis;
-  movlis.AttachNew (new MovLis (this));
-  movable->AddListener (movlis);
-}
-
-void celPcLinearMovement::DoMove ()
-{
-  if (bulletBody) bulletBody->MakeKinematic ();
-  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-  movable->UpdateMove ();
-  if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
-}
-
 // --------------------------------------------------------------------------
 //Does the actual rotation
 bool celPcLinearMovement::RotateV (float delta)
@@ -683,15 +634,10 @@ bool celPcLinearMovement::RotateV (float delta)
     }
   }
 
-  if (bulletBody) bulletBody->MakeKinematic ();
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-  movable->SetTransform (
-      movable->GetTransform ().GetT2O () *
-      csXRotMatrix3 (angle.x) *
-      csYRotMatrix3 (angle.y) *
-      csZRotMatrix3 (angle.z));
-  //DoMove ();
-  if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
+  movable->SetTransform (movable->GetTransform ().GetT2O () * csXRotMatrix3 (angle.x) * csYRotMatrix3 (angle.y) * csZRotMatrix3 (angle.z));
+  movable->UpdateMove ();
+  //pcmesh->GetMesh ()->GetMovable ()->Transform (rotMat);
   return true;
 }
 
@@ -985,7 +931,6 @@ int celPcLinearMovement::MoveV (float delta)
     newpos = anchor->GetMesh ()->GetMovable ()->GetFullTransform ()
     	.Other2This (newpos);
   }
-  if (bulletBody) bulletBody->MakeKinematic ();
   movable->GetTransform ().SetOrigin (newpos);
   movable->GetTransform ().SetT2O(
   	movable->GetTransform ().GetT2O () * transform_oldpos.GetT2O ());
@@ -996,8 +941,7 @@ int celPcLinearMovement::MoveV (float delta)
     pcmesh->GetMesh ()->PlaceMesh ();
   }
 
-  //DoMove ();
-  if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
+  movable->UpdateMove ();
 
   return ret;
 }
@@ -1165,12 +1109,10 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     path->GetInterpolatedUp (up);
     path->GetInterpolatedForward (look);
 
-    if (bulletBody) bulletBody->MakeKinematic ();
     pcmesh->GetMesh ()->GetMovable ()->GetTransform().SetOrigin (pos);
     pcmesh->GetMesh ()->GetMovable ()->GetTransform().LookAt(
     	look.Unit (), up.Unit ());
-    //DoMove ();
-    if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
+    pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
 
     csRef<iSprite3DState> spstate =
     	scfQueryInterface<iSprite3DState> (pcmesh->GetMesh ()->GetMeshObject ());
@@ -1192,7 +1134,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_arrived)
 	{
 	  dispatcher_arrived = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.arrived"));
+	    CreateMessageDispatcher (this, "cel.move.arrived");
 	  if (!dispatcher_arrived) return;
 	}
 	dispatcher_arrived->SendMessage (0);
@@ -1220,7 +1162,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_impossible)
 	{
 	  dispatcher_impossible = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.impossible"));
+	    CreateMessageDispatcher (this, "cel.move.impossible");
 	  if (!dispatcher_impossible) return;
 	}
 	dispatcher_impossible->SendMessage (0);
@@ -1230,7 +1172,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
 	if (!dispatcher_interrupted)
 	{
 	  dispatcher_interrupted = entity->QueryMessageChannel ()->
-	    CreateMessageDispatcher (this, pl->FetchStringID ("cel.move.interrupted"));
+	    CreateMessageDispatcher (this, "cel.move.interrupted");
 	  if (!dispatcher_interrupted) return;
 	}
 	dispatcher_interrupted->SendMessage (0);
@@ -1291,21 +1233,7 @@ void celPcLinearMovement::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-    ConnectMesh ();
-    if (!pcmechobj)
-    {
-      pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
-      if (pcmechobj)
-      {
-	bulletBody = scfQueryInterface<CS::Physics::Bullet::iRigidBody> (
-	    pcmechobj->GetBody ());
-      }
-      else bulletBody = 0;
-    }
-    if (!pccolldet)
-      pccolldet = celQueryPropertyClassEntity<iPcCollisionDetection> (entity);
-
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -1522,7 +1450,6 @@ void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
   {
     newpos = pos;
   }
-  if (bulletBody) bulletBody->MakeKinematic ();
   pcmesh->GetMesh ()->GetMovable ()->SetPosition ((iSector *)sector, newpos);
 
   // Rotation
@@ -1531,8 +1458,7 @@ void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
   pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
 
   // Sector
-  //DoMove ();
-  if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
+  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
 }
 
 void celPcLinearMovement::SetFullPosition (const char* center_name, float yrot,
@@ -1559,8 +1485,6 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
   if (!pcmesh || !pcmesh->GetMesh ()) return;
 
   FindSiblingPropertyClasses ();
-
-  if (bulletBody) bulletBody->MakeKinematic ();
   // Position
   pcmesh->GetMesh ()->GetMovable ()->SetPosition ((iSector *)sector,pos);
 
@@ -1568,8 +1492,8 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
   csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot);
   pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
 
-  //DoMove ();
-  if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
+  // Sector
+  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
 }
 
 void celPcLinearMovement::SetPosition (const char* center_name, float yrot,
@@ -1647,7 +1571,7 @@ csPtr<iCelDataBuffer> celPcLinearMovement::GetPersistentData (
 	celPersistenceType persistence_type)
 {
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
-    return 0;
+    return SaveFirstPass ();
 
   if (persistence_type == CEL_PERSIST_TYPE_RECORD)
     return Save ();
@@ -1683,6 +1607,7 @@ celPersistenceResult celPcLinearMovement::SetPersistentData (csTicks data_time,
 
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
   {
+    LoadFirstPass (databuf);
     return CEL_PERSIST_RESULT_OK;
   }
 

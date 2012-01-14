@@ -104,6 +104,24 @@ celPcRules::~celPcRules ()
   delete params;
 }
 
+#define RULES_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcRules::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (RULES_SERIAL);
+  // @@@ TODO
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcRules::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != RULES_SERIAL)
+    return Report (object_reg, "Couldn't load pcrules!");
+  // @@@ TODO
+  return true;
+}
+
 bool celPcRules::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -196,7 +214,7 @@ void celPcRules::SendModifyPar (const char* rulevar)
   if (!dispatcher_modifypar)
   {
     dispatcher_modifypar = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID ("cel.rules.modifypar"));
+      CreateMessageDispatcher (this, "cel.rules.modifypar");
     if (!dispatcher_modifypar) return;
   }
   dispatcher_modifypar->SendMessage (params);
@@ -326,7 +344,7 @@ void celPcRules::PropertyChanged (iPcProperties* pcprop, size_t idx)
 void celPcRules::GetProperties ()
 {
   if (pcprop) return;
-  pcprop = celQueryPropertyClassEntity<iPcProperties> (entity);
+  pcprop = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
   if (pcprop)
   {
     prop_listener.AttachNew (new rulePropertyListener (this));

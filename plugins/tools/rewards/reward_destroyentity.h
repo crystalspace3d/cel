@@ -53,7 +53,7 @@ public:
   celDestroyEntityRewardFactory (celDestroyEntityRewardType* type);
   virtual ~celDestroyEntityRewardFactory ();
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iReward> CreateReward (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iDestroyEntityRewardFactory -----------------------
@@ -74,7 +74,7 @@ private:
 
 public:
   celDestroyEntityReward (celDestroyEntityRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par);
   virtual ~celDestroyEntityReward ();
 
@@ -94,7 +94,7 @@ private:
 
 public:
   celDestroyClassReward (celDestroyEntityRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* class_par);
   virtual ~celDestroyClassReward ();
 

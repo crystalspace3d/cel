@@ -59,7 +59,7 @@ public:
   virtual ~celOperationTriggerFactory ();
 
   //----------------- iTriggerFactory ----------------------
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iOperationTriggerFactory ----------------------
@@ -84,8 +84,7 @@ protected:
 
 public:
   celOperationTrigger (celOperationTriggerType* type,
-        iQuest* q,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* operation_par,
         csRefArray<iTriggerFactory> &trigger_factories);
 
@@ -97,9 +96,8 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check () = 0;
   virtual void DeactivateTrigger ();
-
-  virtual void Activate () { ActivateTrigger (); }
-  virtual void Deactivate () { DeactivateTrigger (); }
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   /* iTriggerCallback */
   virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params) = 0;
@@ -109,11 +107,10 @@ class celAndOperationTrigger : public celOperationTrigger
 {
 public:
   celAndOperationTrigger (celOperationTriggerType* type,
-        iQuest* q,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* operation_par,
         csRefArray<iTriggerFactory> &trigger_factories)
-	: celOperationTrigger(type,q,params,operation_par,trigger_factories) {};
+	: celOperationTrigger(type,params,operation_par,trigger_factories) {};
   virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params);
   virtual bool Check ();
 };
@@ -121,11 +118,10 @@ class celOrOperationTrigger : public celOperationTrigger
 {
 public:
   celOrOperationTrigger (celOperationTriggerType* type,
-        iQuest* q,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* operation_par,
         csRefArray<iTriggerFactory> &trigger_factories)
-	: celOperationTrigger(type,q,params,operation_par,trigger_factories) {};
+	: celOperationTrigger(type,params,operation_par,trigger_factories) {};
   virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params);
   virtual bool Check ();
 };
@@ -133,11 +129,10 @@ class celXorOperationTrigger : public celOperationTrigger
 {
 public:
   celXorOperationTrigger (celOperationTriggerType* type,
-        iQuest* q,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* operation_par,
         csRefArray<iTriggerFactory> &trigger_factories)
-	: celOperationTrigger(type,q,params,operation_par,trigger_factories) {};
+	: celOperationTrigger(type,params,operation_par,trigger_factories) {};
   virtual void TriggerFired (iTrigger* trigger, iCelParameterBlock* params);
   virtual bool Check ();
 };

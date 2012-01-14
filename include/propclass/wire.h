@@ -64,7 +64,7 @@ struct iPcWire : public virtual iBase
    * functions that affect the parameter modifications.
    * \param msgid is a fully qualified message id which will be used to send out.
    */
-  virtual size_t AddOutput (csStringID msgid, iMessageChannel* channel = 0,
+  virtual size_t AddOutput (const char* msgid, iMessageChannel* channel = 0,
       iCelParameterBlock* extra_params = 0) = 0;
 
   /**

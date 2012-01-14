@@ -44,7 +44,7 @@ bool celBehaviourTree::Initialize (
   return true;												
 }
 
-bool celBehaviourTree::Execute (iCelParameterBlock* params)
+bool celBehaviourTree::Execute (const celParams& params)
 {
   celBehaviourTree::params = params;
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);

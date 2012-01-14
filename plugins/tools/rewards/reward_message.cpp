@@ -70,7 +70,7 @@ celMessageRewardFactory::celMessageRewardFactory (
 }
 
 csPtr<iReward> celMessageRewardFactory::CreateReward (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   iReward* reward;
   if (!entity_par.IsEmpty())
@@ -100,8 +100,65 @@ bool celMessageRewardFactory::Load (iDocumentNode* node)
     Report (type->object_reg,
       "'id' attribute is missing for the message reward!");
 
-  if (!celParameterTools::ParseParSpecBlock (type->object_reg, node, parameters))
-    return false;
+  iCelPlLayer* pl = type->pl;
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    if (!strcmp ("par", value))
+    {
+      const char* name = child->GetAttributeValue ("name");
+      if (!name)
+        return Report (type->object_reg,
+          "Missing name attribute in a parameter for the message reward!");
+      csStringID id = pl->FetchStringID (name);
+      const char* str_value = child->GetAttributeValue ("string");
+      if (str_value)
+      {
+	AddParameter (CEL_DATA_STRING, id, name, str_value);
+	continue;
+      }
+      const char* vec3_value = child->GetAttributeValue ("vector3");
+      if (vec3_value)
+      {
+	AddParameter (CEL_DATA_VECTOR3, id, name, vec3_value);
+	continue;
+      }
+      const char* vec2_value = child->GetAttributeValue ("vector2");
+      if (vec2_value)
+      {
+	AddParameter (CEL_DATA_VECTOR2, id, name, vec2_value);
+	continue;
+      }
+      const char* float_value = child->GetAttributeValue ("float");
+      if (float_value)
+      {
+	AddParameter (CEL_DATA_FLOAT, id, name, float_value);
+	continue;
+      }
+      const char* long_value = child->GetAttributeValue ("long");
+      if (long_value)
+      {
+	AddParameter (CEL_DATA_LONG, id, name, long_value);
+	continue;
+      }
+      const char* bool_value = child->GetAttributeValue ("bool");
+      if (bool_value)
+      {
+	AddParameter (CEL_DATA_BOOL, id, name, bool_value);
+	continue;
+      }
+      return Report (type->object_reg,
+        "Unknown parameter type for message reward!");
+    }
+    else
+    {
+      return Report (type->object_reg,
+        "Unexpected child '%s' in the message reward!", value);
+    }
+  }
   return true;
 }
 
@@ -124,19 +181,22 @@ void celMessageRewardFactory::SetIDParameter (
 }
 
 void celMessageRewardFactory::AddParameter (celDataType type,
-    csStringID id, const char* value)
+    csStringID id, const char* name, const char* value)
 {
   size_t idx = parameters.Push (celParSpec ());
   parameters[idx].type = type;
   parameters[idx].id = id;
+  parameters[idx].name = name;
   parameters[idx].value = value;
 }
 
 //---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
+
 celMessageReward::celMessageReward (
 	celMessageRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par,
 	const char* id_par,
 	const csArray<celParSpec>& parameters) 
@@ -150,7 +210,8 @@ celMessageReward::celMessageReward (
   msg_id = pm->GetParameter (params, id_par);
   entity = pm->GetParameter (params, entity_par);
 
-  msg_params = celParameterTools::GetParameterBlock (pm, params, parameters, quest_parameters);
+  quest_parameters.SetSize (parameters.GetSize (), 0);
+  msg_params = pm->GetParameterBlock (params, parameters, quest_parameters);
 }
 
 void celMessageReward::Reward (iCelParameterBlock* params)
@@ -158,12 +219,31 @@ void celMessageReward::Reward (iCelParameterBlock* params)
   const char* msg = msg_id->Get (params);
   if (!msg) return;
 
-  iCelEntity* newent = pm->ResolveEntityParameter (type->pl, params, entity, ent);
-  if (!newent) return;
-  if (newent != ent) { dispatcher = 0; ent = newent; }
+  bool changed;
+  // XXX parsing of entity has to be refactored as it is very commonly
+  // done.
+  const celData * data = entity->GetData(params);
+  if (data->type == CEL_DATA_ENTITY)
+  {
+    iCelEntity *new_ent = data->value.ent;
+    if (new_ent != ent)
+      dispatcher = 0;  // Clear previous dispatcher.
+    ent = new_ent;
+  }
+  else
+  {
+    const char* e = entity->Get (params, changed);
+    if (changed) { ent = 0; }
+    if (!ent)
+    {
+      dispatcher = 0;  // Clear previous dispatcher.
+      iCelPlLayer* pl = type->pl;
+      ent = pl->FindEntity (e);
+      if (!ent) return;
+    }
+  }
 
-  if (!celParameterTools::FillParameterBlock (type->pl, params, msg_params,
-	parameters, quest_parameters))
+  if (!pm->FillParameterBlock (params, msg_params, parameters, quest_parameters))
   {
     Report (type->object_reg,
 	    "Could not fill parameters for message '%s'", msg);
@@ -178,7 +258,7 @@ void celMessageReward::Reward (iCelParameterBlock* params)
   }
   if (!dispatcher)
     dispatcher = ent->QueryMessageChannel ()->CreateMessageDispatcher (
-	this, type->pl->FetchStringID (msg));
+	this, msg);
   dispatcher->SendMessage (msg_params);
 }
 
@@ -186,7 +266,7 @@ void celMessageReward::Reward (iCelParameterBlock* params)
 
 celClassMessageReward::celClassMessageReward (
 	celMessageRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* class_par,
 	const char* id_par,
 	const csArray<celParSpec>& parameters)
@@ -201,7 +281,8 @@ celClassMessageReward::celClassMessageReward (
   msg_id = pm->GetParameter (params, id_par);
   clazz = pm->GetParameter (params, class_par);
 
-  msg_params = celParameterTools::GetParameterBlock (pm, params, parameters, quest_parameters);
+  quest_parameters.SetSize (parameters.GetSize (), 0);
+  msg_params = pm->GetParameterBlock (params, parameters, quest_parameters);
 }
 
 void celClassMessageReward::Reward (iCelParameterBlock* params)
@@ -216,8 +297,7 @@ void celClassMessageReward::Reward (iCelParameterBlock* params)
     entlist = type->pl->GetClassEntitiesList (ent_class);
   }
 
-  if (!celParameterTools::FillParameterBlock (type->pl, params, msg_params,
-	parameters, quest_parameters))
+  if (!pm->FillParameterBlock (params, msg_params, parameters, quest_parameters))
   {
     Report (type->object_reg,
 	    "Could not fill parameters for message '%s'", msg);
@@ -228,6 +308,6 @@ void celClassMessageReward::Reward (iCelParameterBlock* params)
   type->pl->SendMessage (entlist, msg, msg_params);
 
   // New method for pclasses.
-  type->pl->SendMessage (type->pl->FetchStringID (msg), 0, entlist, msg_params);
+  type->pl->SendMessage (msg, 0, entlist, msg_params);
 }
 

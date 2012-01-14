@@ -21,7 +21,6 @@
 #define __CEL_PF_MESHFACT__
 
 #include "cstypes.h"
-#include "csgeom/sphere.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/csinput.h"
@@ -35,10 +34,6 @@
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 #include "csgfx/shadervar.h"
-
-#include "iengine/mesh.h"
-#include "iengine/movable.h"
-#include "iengine/sector.h"
 
 struct iCelEntity;
 struct iMeshWrapper;
@@ -61,8 +56,8 @@ CEL_DECLARE_FACTORY (MeshSelect)
 /**
  * This is a mesh property class.
  */
-class celPcMesh : public scfImplementationExt2<
-	celPcMesh, celPcCommon, iPcMesh, iCelPositionInfo>
+class celPcMesh : public scfImplementationExt1<
+	celPcMesh, celPcCommon, iPcMesh>
 {
 private:
   csRef<iMeshWrapper> mesh;
@@ -169,8 +164,6 @@ public:
   virtual void SetPath (const char* path);
   virtual bool SetMesh (const char* factname, const char* filename);
   virtual void SetMesh (iMeshWrapper* mesh, bool do_remove);
-  virtual void SetFactoryName (const char* name) { factName = name; }
-  virtual const char* GetFactoryName () const { return factName; }
   virtual void CreateEmptyThing (const char* factname);
   virtual void CreateEmptyGenmesh (const char* factname);
   virtual void CreateNullMesh (const char* factname,
@@ -221,6 +214,8 @@ public:
    */
   virtual bool IsVisible () const { return visible; }
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
   	celData& ret);
   virtual bool GetPropertyIndexed (int, csVector3&);
@@ -238,31 +233,6 @@ public:
   virtual bool AttachSocketMesh (const char* socket,
   	iMeshWrapper* meshwrapper);
   virtual bool DetachSocketMesh (const char* socket);
-
-  virtual iCelPositionInfo* QueryPositionInfo () { return this; }
-
-  virtual iSector* GetSector ()
-  {
-    if (!mesh) return 0;
-    if (!mesh->GetMovable ()->InSector ()) return 0;
-    return mesh->GetMovable ()->GetSectors ()->Get (0);
-  }
-  virtual const csVector3 GetPosition ()
-  {
-    if (!mesh) return csVector3 (0);
-    return mesh->GetMovable ()->GetTransform ().GetOrigin ();
-  }
-  virtual iMovable* GetMovable ()
-  {
-    if (!mesh) return 0;
-    return mesh->GetMovable ();
-  }
-  virtual float GetBoundingRadius ()
-  {
-    if (!mesh) return 0.0f;
-    csSphere s = mesh->GetRadius ();
-    return s.GetRadius ();
-  }
 };
 
 class celPcMeshSelect;
@@ -323,7 +293,7 @@ private:
   // If the following var is non-0 then we
   // are busy selecting a mesh and are waiting for a mouse up
   // to arrive.
-  csWeakRef<iCelEntity> sel_entity;
+  iCelEntity* sel_entity;
 
   // Set to true if we are currently on top of the selected entity
   // (in do_follow mode).
@@ -403,7 +373,7 @@ private:
   static PropertyHolder propinfo;
 
   static csStringID id_x, id_y, id_button, id_entity;
-  csRef<celVariableParameterBlock> params;
+  celGenericParameterBlock* params;
 #define MSSM_TYPE_DOWN 0
 #define MSSM_TYPE_UP 1
 #define MSSM_TYPE_MOVE 2
@@ -477,6 +447,8 @@ public:
   void FireListenersUp (int x, int y, int button, iCelEntity* entity);
   void FireListenersMove (int x, int y, int button, iCelEntity* entity);
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx, iCelParameterBlock* params,
   	celData& ret);
 

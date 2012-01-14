@@ -53,7 +53,7 @@ celOperationTriggerFactory::~celOperationTriggerFactory ()
 }
 
 csPtr<iTrigger> celOperationTriggerFactory::CreateTrigger (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
@@ -64,13 +64,16 @@ csPtr<iTrigger> celOperationTriggerFactory::CreateTrigger (
   switch (op[0])
   {
      case 'a':  // and
-  	trig = new celAndOperationTrigger (type, q, params, operation_par, triggers);
+  	trig = new celAndOperationTrigger (type,
+  	  params, operation_par, triggers);
         break;
      case 'o':  // or
-  	trig = new celOrOperationTrigger (type, q, params, operation_par, triggers);
+  	trig = new celOrOperationTrigger (type,
+  	  params, operation_par, triggers);
         break;
      case 'x':  // xor
-  	trig = new celXorOperationTrigger (type, q, params, operation_par, triggers);
+  	trig = new celXorOperationTrigger (type,
+  	  params, operation_par, triggers);
         break;
      default:
         csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -130,8 +133,7 @@ void celOperationTriggerFactory::SetOperationParameter (
 
 celOperationTrigger::celOperationTrigger (
 	celOperationTriggerType* type,
-	iQuest* q,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* operation_par,
 	csRefArray<iTriggerFactory> &trigger_factories) 
 	: scfImplementationType (this)
@@ -146,7 +148,7 @@ celOperationTrigger::celOperationTrigger (
   csRefArray<iTriggerFactory>::Iterator iter = trigger_factories.GetIterator();
   while (iter.HasNext())
   {
-    csRef<iTrigger> newtrigger = iter.Next()->CreateTrigger (q, params);
+    csRef<iTrigger> newtrigger = iter.Next()->CreateTrigger(params);
     triggers.Push(newtrigger);
   }
 }
@@ -192,6 +194,16 @@ void celOperationTrigger::DeactivateTrigger ()
   {
     iter.Next()->DeactivateTrigger();
   }
+}
+
+bool celOperationTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
+{
+  ActivateTrigger ();
+  return true;
+}
+
+void celOperationTrigger::SaveTriggerState (iCelDataBuffer*)
+{
 }
 
 //---------------------------------------------------------------------------

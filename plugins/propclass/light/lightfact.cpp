@@ -261,6 +261,61 @@ bool celPcLight::PerformActionIndexed (int idx,
   }
 }
 
+#define LIGHT_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcLight::Save ()
+{
+  // @@@ TODO: support with created.
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (LIGHT_SERIAL);
+  if (light)
+  {
+    databuf->Add (light->QueryObject ()->GetName ());
+    const csVector3& center = light->GetMovable ()->GetPosition ();
+    databuf->Add (center);
+    iSector* sector = light->GetMovable ()->GetSectors ()->Get (0);
+    databuf->Add (sector->QueryObject ()->GetName ());
+    const csColor& color = light->GetColor ();
+    databuf->Add (color);
+  }
+  else
+  {
+    databuf->Add ((const char*)0);
+  }
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcLight::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != LIGHT_SERIAL)
+    return Report (object_reg, "Serialnr != LIGHT_SERIAL.  Cannot load.");
+
+  const char* lightn = databuf->GetString ()->GetData ();
+  if (lightn)
+  {
+    if (!SetLight (lightn))
+      return Report (object_reg, "Light '%s' could not be found!", lightn);
+    csVector3 center;
+    databuf->GetVector3 (center);
+    light->GetMovable ()->SetPosition (center);
+    const char* sectorn = databuf->GetString ()->GetData ();
+    if (!sectorn)
+      return Report (object_reg, "Sector name missing for light '%s'!", lightn);
+    iSector* sector = engine->FindSector (sectorn);
+    if (!sector)
+      return Report (object_reg,
+	  "Could not find sector '%s' missing for light '%s'!",
+      	  sectorn, lightn);
+    light->GetMovable ()->SetSector (sector);
+    csColor color;
+    databuf->GetColor (color);
+    light->SetColor (color);
+  }
+
+  return true;
+}
+
 bool celPcLight::SetLight (const char* lightname)
 {
   if (light && created)

@@ -135,24 +135,27 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   AddProperty (propid_sendtrigger, "sendtrigger",
   	CEL_DATA_BOOL, false, "Send trigger.", &do_sendtrigger);
 
-  mouse_params.AttachNew (new celVariableParameterBlock (3));
-  mouse_params->AddParameter (id_x);
-  mouse_params->AddParameter (id_y);
-  mouse_params->AddParameter (id_value);
+  mouse_params = new celGenericParameterBlock (3);
+  mouse_params->SetParameterDef (0, id_x);
+  mouse_params->SetParameterDef (1, id_y);
+  mouse_params->SetParameterDef (2, id_value);
 
-  key_params.AttachNew (new celVariableParameterBlock (2));
-  key_params->AddParameter (id_trigger);
-  key_params->AddParameter (id_state);
+  key_params = new celGenericParameterBlock (2);
+  key_params->SetParameterDef (0,id_trigger);
+  key_params->SetParameterDef (1,id_state);
 
-  joy_params.AttachNew (new celOneParameterBlock ());
+  joy_params = new celOneParameterBlock ();
   joy_params->SetParameterDef (id_value);
 
-  but_params.AttachNew (new celOneParameterBlock ());
+  but_params = new celOneParameterBlock ();
   but_params->SetParameterDef (id_state);
 }
 
 celPcCommandInput::~celPcCommandInput ()
 {
+  mouse_params->DecRef ();
+  key_params->DecRef ();
+
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
@@ -203,8 +206,7 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
       {
         CEL_FETCH_BOOL_PAR (activate,params,id_activate);
         if (!p_activate) activate = true;
-	if (activate) Activate ();
-	else Deactivate ();
+        Activate (activate);
         return true;
       }
     case action_bind:
@@ -249,33 +251,100 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
   }
 }
 
-void celPcCommandInput::Activate ()
-{
-  if (scfiEventHandler)
-    return;
+#define COMMANDINPUT_SERIAL 3
 
-  csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
-  CS_ASSERT (q);
-  scfiEventHandler = new EventHandler (this);
-  csEventID esub[] = {
+csPtr<iCelDataBuffer> celPcCommandInput::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (COMMANDINPUT_SERIAL);
+  databuf->Add (do_cooked);
+  databuf->Add (screenspace);
+  int cnt = 0;
+  celKeyMap* m = keylist;
+  while (m)
+  {
+    cnt++;
+    m = m->next;
+  }
+  databuf->Add ((int32)cnt);
+
+  //TODO: Implement this for axes and buttons!
+
+  m = keylist;
+  while (m)
+  {
+    databuf->Add ((uint32)m->key);
+    databuf->Add (m->command);
+    m = m->next;
+  }
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcCommandInput::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != COMMANDINPUT_SERIAL)
+  {
+    Report (object_reg, "serialnr != COMMANDINPUT_SERIAL.  Cannot load.");
+    return false;
+  }
+  do_cooked = databuf->GetBool ();
+  screenspace = databuf->GetBool ();
+  int cnt = databuf->GetInt32 ();
+  int i;
+
+  //TODO: Implement this for axes and buttons!
+
+  for (i = 0 ; i < cnt ; i++)
+  {
+    int key = databuf->GetUInt32 ();
+    const char* cmd = databuf->GetString ()->GetData ();
+    celKeyMap* newmap = new celKeyMap ();
+    // Add a new entry to key mapping list
+    newmap->next = keylist;
+    newmap->prev = 0;
+    newmap->key = key;
+    newmap->command = new char[strlen (cmd)+2];
+    strcpy (newmap->command, cmd);
+    newmap->command_end = strchr (newmap->command, 0);
+    *(newmap->command_end+1) = 0; // Make sure there is an end there too.
+
+    if (keylist)
+      keylist->prev = newmap;
+    keylist = newmap;
+  }
+  return true;
+}
+
+void celPcCommandInput::Activate (bool activate)
+{
+  if (activate)
+  {
+    if (scfiEventHandler)
+      return;
+
+    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+    CS_ASSERT (q);
+    scfiEventHandler = new EventHandler (this);
+    csEventID esub[] = {
     	csevKeyboardEvent (object_reg),
     	csevMouseEvent (object_reg),
     	csevJoystickEvent (object_reg),
     	CS_EVENTLIST_END
     	};
-  q->RegisterListener (scfiEventHandler, esub);
-}
+    q->RegisterListener (scfiEventHandler, esub);
+  }
+  else
+  {
+    if (!scfiEventHandler)
+      return;
 
-void celPcCommandInput::Deactivate ()
-{
-  if (!scfiEventHandler)
-    return;
-
-  csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
-  CS_ASSERT (q);
-  q->RemoveListener (scfiEventHandler);
-  scfiEventHandler->DecRef ();
-  scfiEventHandler = 0;
+    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+    CS_ASSERT (q);
+    q->RemoveListener (scfiEventHandler);
+    scfiEventHandler->DecRef ();
+    scfiEventHandler = 0;
+  }
 }
 
 bool celPcCommandInput::LoadConfig (const char* prefix)
@@ -822,8 +891,7 @@ void celPcCommandInput::SendMessage (const char* command, char updown,
   if (updown == '1') cmd += ".down";
   else if (updown == '0') cmd += ".up";
   else if (updown == '_') cmd += ".repeat";
-  csStringID id = pl->FetchStringID (cmd);
-  entity->QueryMessageChannel ()->SendMessage (id, this, params);
+  entity->QueryMessageChannel ()->SendMessage (cmd, this, params);
 }
 
 void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,

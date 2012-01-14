@@ -23,8 +23,8 @@ static char const metainfo_sequences[] =
 "    <classes>"
 "      <class>"
 "        <name>cel.sequence.factory</name>"
-"        <implementation>celSequenceFactoryGenerator</implementation>"
-"        <description>CEL Sequence Factory Generator</description>"
+"        <implementation>celSequenceFactory</implementation>"
+"        <description>CEL Sequence Factory</description>"
 "      </class>"
 ""
 "      <class>"
@@ -37,12 +37,6 @@ static char const metainfo_sequences[] =
 "        <name>cel.seqops.light</name>"
 "        <implementation>celLightSeqOpType</implementation>"
 "        <description>CEL Sequence: Sequence that animates light colors</description>"
-"      </class>"
-""
-"      <class>"
-"        <name>cel.seqops.ambientmesh</name>"
-"        <implementation>celAmbientMeshSeqOpType</implementation>"
-"        <description>CEL Sequence: Sequence that animates mesh ambient colors</description>"
 "      </class>"
 ""
 "      <class>"
@@ -66,9 +60,9 @@ static char const metainfo_sequences[] =
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef celSequenceFactoryGenerator_FACTORY_REGISTER_DEFINED 
-  #define celSequenceFactoryGenerator_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celSequenceFactoryGenerator) 
+  #ifndef celSequenceFactory_FACTORY_REGISTER_DEFINED 
+  #define celSequenceFactory_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celSequenceFactory) 
   #endif
   #ifndef celDebugPrintSeqOpType_FACTORY_REGISTER_DEFINED 
   #define celDebugPrintSeqOpType_FACTORY_REGISTER_DEFINED 
@@ -77,10 +71,6 @@ static char const metainfo_sequences[] =
   #ifndef celLightSeqOpType_FACTORY_REGISTER_DEFINED 
   #define celLightSeqOpType_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celLightSeqOpType) 
-  #endif
-  #ifndef celAmbientMeshSeqOpType_FACTORY_REGISTER_DEFINED 
-  #define celAmbientMeshSeqOpType_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celAmbientMeshSeqOpType) 
   #endif
   #ifndef celMovePathSeqOpType_FACTORY_REGISTER_DEFINED 
   #define celMovePathSeqOpType_FACTORY_REGISTER_DEFINED 
@@ -98,9 +88,9 @@ static char const metainfo_sequences[] =
 class sequences
 {
 SCF_REGISTER_STATIC_LIBRARY(sequences,metainfo_sequences)
-  #ifndef celSequenceFactoryGenerator_FACTORY_REGISTERED 
-  #define celSequenceFactoryGenerator_FACTORY_REGISTERED 
-    celSequenceFactoryGenerator_StaticInit celSequenceFactoryGenerator_static_init__; 
+  #ifndef celSequenceFactory_FACTORY_REGISTERED 
+  #define celSequenceFactory_FACTORY_REGISTERED 
+    celSequenceFactory_StaticInit celSequenceFactory_static_init__; 
   #endif
   #ifndef celDebugPrintSeqOpType_FACTORY_REGISTERED 
   #define celDebugPrintSeqOpType_FACTORY_REGISTERED 
@@ -109,10 +99,6 @@ SCF_REGISTER_STATIC_LIBRARY(sequences,metainfo_sequences)
   #ifndef celLightSeqOpType_FACTORY_REGISTERED 
   #define celLightSeqOpType_FACTORY_REGISTERED 
     celLightSeqOpType_StaticInit celLightSeqOpType_static_init__; 
-  #endif
-  #ifndef celAmbientMeshSeqOpType_FACTORY_REGISTERED 
-  #define celAmbientMeshSeqOpType_FACTORY_REGISTERED 
-    celAmbientMeshSeqOpType_StaticInit celAmbientMeshSeqOpType_static_init__; 
   #endif
   #ifndef celMovePathSeqOpType_FACTORY_REGISTERED 
   #define celMovePathSeqOpType_FACTORY_REGISTERED 

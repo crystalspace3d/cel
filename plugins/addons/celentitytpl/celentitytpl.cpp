@@ -23,7 +23,6 @@
 #include "iutil/objreg.h"
 #include "iutil/document.h"
 #include "iutil/object.h"
-#include "iutil/plugin.h"
 #include "iutil/vfs.h"
 #include "ivaria/reporter.h"
 #include "imap/services.h"
@@ -34,7 +33,6 @@
 #include "physicallayer/entitytpl.h"
 #include "behaviourlayer/bl.h"
 #include "propclass/mesh.h"
-#include "propclass/chars.h"
 #include "celtool/stdparams.h"
 
 #include "celentitytpl.h"
@@ -47,13 +45,11 @@ enum
 {
   XMLTOKEN_BEHAVIOUR,
   XMLTOKEN_PROPCLASS,
-  XMLTOKEN_TEMPLATE,
-  XMLTOKEN_MERGE,
   XMLTOKEN_PROPERTY,
   XMLTOKEN_ACTION,
   XMLTOKEN_CALL,
   XMLTOKEN_CLASS,
-  XMLTOKEN_CHARACTERISTIC,
+  XMLTOKEN_PAR,
 
   XMLTOKEN_FLOAT,
   XMLTOKEN_BOOL,
@@ -95,17 +91,14 @@ bool celAddOnCelEntityTemplate::Initialize (iObjectRegistry* object_reg)
 	"Can't find physical layer!");
     return false;
   }
-  pm = csQueryRegistryOrLoad<iParameterManager> (object_reg, "cel.parameters.manager");
 
   xmltokens.Register ("behaviour", XMLTOKEN_BEHAVIOUR);
   xmltokens.Register ("propclass", XMLTOKEN_PROPCLASS);
-  xmltokens.Register ("template", XMLTOKEN_TEMPLATE);
-  xmltokens.Register ("merge", XMLTOKEN_MERGE);
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
   xmltokens.Register ("call", XMLTOKEN_CALL);
   xmltokens.Register ("class", XMLTOKEN_CLASS);
-  xmltokens.Register ("characteristic", XMLTOKEN_CHARACTERISTIC);
+  xmltokens.Register ("par", XMLTOKEN_PAR);
 
   xmltokens.Register ("float", XMLTOKEN_FLOAT);
   xmltokens.Register ("bool", XMLTOKEN_BOOL);
@@ -163,19 +156,153 @@ csStringID celAddOnCelEntityTemplate::GetAttributeID (iDocumentNode* child,
   return pl->FetchStringID ((const char*)p);
 }
 
-bool celAddOnCelEntityTemplate::ParseParameterBlock (
-    iDocumentNode* child, csHash<csRef<iParameter>, csStringID>& params)
+csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
+	(iDocumentNode* child)
 {
-  csArray<celParSpec> pars;
-  if (!celParameterTools::ParseParSpecBlock (object_reg, child, pars))
-    return false;
-
-  for (size_t i = 0 ; i < pars.GetSize () ; i++)
+  csRef<celVariableParameterBlock> params;
+  params.AttachNew (new celVariableParameterBlock ());
+  csRef<iDocumentNodeIterator> par_it = child->GetNodes ();
+  size_t par_idx = 0;
+  while (par_it->HasNext ())
   {
-    csRef<iParameter> par = pm->GetParameter (pars[i].value, pars[i].type);
-    params.PutUnique (pars[i].id, par);
+    csRef<iDocumentNode> par_child = par_it->Next ();
+    if (par_child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* par_value = par_child->GetValue ();
+    csStringID par_id = xmltokens.Request (par_value);
+    if (par_id == XMLTOKEN_PAR)
+    {
+      csStringID parid = GetAttributeID (par_child, "name");
+      if (parid == csInvalidStringID) return 0;
+      params->SetParameterDef (par_idx, parid);
+      par_idx++;
+
+      const char* str_value = par_child->GetAttributeValue ("string");
+      if (str_value)
+      {
+	if (*str_value == '$')
+          params->GetParameter (par_idx-1).SetParameter (str_value+1,
+	  	CEL_DATA_STRING);
+	else
+          params->GetParameter (par_idx-1).Set (str_value);
+	continue;
+      }
+      const char* vec_value = par_child->GetAttributeValue ("vector");
+      if (vec_value)
+      {
+	if (*vec_value == '$')
+          params->GetParameter (par_idx-1).SetParameter (vec_value+1,
+	  	CEL_DATA_VECTOR3);
+	else
+	{
+	  csVector3 v;
+	  int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);
+	  if (rc == 3)
+	    params->GetParameter (par_idx-1).Set (v);
+	  else
+	  {
+	    csVector2 v2;
+	    csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
+	    params->GetParameter (par_idx-1).Set (v2);
+	  }
+	}
+        continue;
+      }
+      const char* vec2_value = par_child->GetAttributeValue ("vector2");
+      if (vec2_value)
+      {
+	if (*vec2_value == '$')
+          params->GetParameter (par_idx-1).SetParameter (vec2_value+1,
+	  	CEL_DATA_VECTOR2);
+	else
+	{
+	  csVector2 v;
+	  csScanStr (vec2_value, "%f,%f", &v.x, &v.y);
+	  params->GetParameter (par_idx-1).Set (v);
+	}
+        continue;
+      }
+      const char* vec3_value = par_child->GetAttributeValue ("vector3");
+      if (vec3_value)
+      {
+	if (*vec3_value == '$')
+          params->GetParameter (par_idx-1).SetParameter (vec3_value+1,
+	  	CEL_DATA_VECTOR3);
+	else
+	{
+	  csVector3 v;
+	  csScanStr (vec3_value, "%f,%f,%f", &v.x, &v.y, &v.z);
+	  params->GetParameter (par_idx-1).Set (v);
+	}
+        continue;
+      }
+      const char* col_value = par_child->GetAttributeValue ("color");
+      if (col_value)
+      {
+	if (*col_value == '$')
+          params->GetParameter (par_idx-1).SetParameter (col_value+1,
+	  	CEL_DATA_COLOR);
+	else
+	{
+	  csColor v;
+	  csScanStr (col_value, "%f,%f,%f", &v.red, &v.green, &v.blue);
+	  params->GetParameter (par_idx-1).Set (v);
+	}
+        continue;
+      }
+      const char* float_value = par_child->GetAttributeValue ("float");
+      if (float_value)
+      {
+	if (*float_value == '$')
+          params->GetParameter (par_idx-1).SetParameter (float_value+1,
+	  	CEL_DATA_FLOAT);
+	else
+	{
+	  float f;
+	  csScanStr (float_value, "%f", &f);
+	  params->GetParameter (par_idx-1).Set (f);
+	}
+        continue;
+      }
+      const char* bool_value = par_child->GetAttributeValue ("bool");
+      if (bool_value)
+      {
+	if (*bool_value == '$')
+          params->GetParameter (par_idx-1).SetParameter (bool_value+1,
+	  	CEL_DATA_BOOL);
+	else
+	{
+	  bool b;
+	  csScanStr (bool_value, "%b", &b);
+	  params->GetParameter (par_idx-1).Set (b);
+        }
+        continue;
+      }
+      const char* long_value = par_child->GetAttributeValue ("long");
+      if (long_value)
+      {
+	if (*long_value == '$')
+          params->GetParameter (par_idx-1).SetParameter (long_value+1,
+	  	CEL_DATA_LONG);
+	else
+	{
+	  int l;
+	  csScanStr (long_value, "%d", &l);
+	  params->GetParameter (par_idx-1).Set ((int32)l);
+	}
+        continue;
+      }
+      synldr->ReportError (
+        "cel.addons.celentitytpl",
+        par_child, "Type for parameter not yet supported!");
+      return 0;
+    }
+    else
+    {
+      synldr->ReportBadToken (par_child);
+      return 0;
+    }
   }
-  return true;
+  return params;
 }
 
 bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
@@ -294,8 +421,8 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
         {
 	  csStringID propid = GetAttributeID (child, "name");
 	  if (propid == csInvalidStringID) return false;
-          csHash<csRef<iParameter>, csStringID> params;
-	  if (!ParseParameterBlock (child, params)) return false;
+	  csRef<celVariableParameterBlock> params = ParseParameterBlock (child);
+	  if (!params) return false;
 	  pc->PerformAction (propid, params);
 	}
 	break;
@@ -304,169 +431,6 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	break;
     }
   }
-  return true;
-}
-
-static csString GetTypeString (celDataType type)
-{
-  switch (type)
-  {
-    case CEL_DATA_NONE: return "value";
-    case CEL_DATA_LONG: return "long";
-    case CEL_DATA_FLOAT: return "float";
-    case CEL_DATA_BOOL: return "bool";
-    case CEL_DATA_STRING: return "string";
-    case CEL_DATA_VECTOR2: return "vector2";
-    case CEL_DATA_VECTOR3: return "vector3";
-    case CEL_DATA_COLOR: return "color";
-    default: CS_ASSERT (false);
-  }
-  return "?";
-}
-
-static void WriteData (celData& data, iDocumentNode* node)
-{
-  switch (data.type)
-  {
-    case CEL_DATA_LONG: node->SetAttributeAsInt ("long", data.value.l); break;
-    case CEL_DATA_FLOAT: node->SetAttributeAsFloat ("float", data.value.f); break;
-    case CEL_DATA_BOOL: node->SetAttributeAsInt ("bool", data.value.bo); break;
-    case CEL_DATA_STRING: node->SetAttribute ("string", data.value.s->GetData ()); break;
-    case CEL_DATA_VECTOR2:
-      {
-	csString v; v.Format ("%g,%g", data.value.v.x, data.value.v.y);
-	node->SetAttribute ("vector2", v);
-	break;
-      }
-    case CEL_DATA_VECTOR3:
-      {
-	csString v; v.Format ("%g,%g,%g", data.value.v.x, data.value.v.y, data.value.v.z);
-	node->SetAttribute ("vector3", v);
-	break;
-      }
-    case CEL_DATA_COLOR:
-      {
-	csString v; v.Format ("%g,%g,%g", data.value.col.red, data.value.col.green, data.value.col.blue);
-	node->SetAttribute ("color", v);
-	break;
-      }
-    default: CS_ASSERT (false);
-  }
-}
-
-bool celAddOnCelEntityTemplate::WriteDown (iBase* obj, iDocumentNode* parent,
-    iStreamSource* ssource)
-{
-  csRef<iCelEntityTemplate> ent = scfQueryInterface<iCelEntityTemplate> (obj);
-  if (!ent)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	"cel.addons.celentitytpl",
-	"The given object is not an entity template!\n");
-    return false;
-  }
-
-  // @@@ We don't save behaviour information as that is deprecated.
-  parent->SetAttribute ("entityname", ent->GetName ());
-
-  csRef<iCelEntityTemplateIterator> parentIt = ent->GetParents ();
-  while (parentIt->HasNext ())
-  {
-    iCelEntityTemplate* p = parentIt->Next ();
-    csRef<iDocumentNode> parentNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    parentNode->SetValue ("template");
-    parentNode->SetAttribute ("name", p->GetName ());
-  }
-
-  for (size_t i = 0 ; i < ent->GetPropertyClassTemplateCount () ; i++)
-  {
-    iCelPropertyClassTemplate* pc = ent->GetPropertyClassTemplate (i);
-    csRef<iDocumentNode> pcNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    pcNode->SetValue ("propclass");
-    pcNode->SetAttribute ("name", pc->GetName ());
-    if (pc->GetTag ())
-      pcNode->SetAttribute ("tag", pc->GetTag ());
-    for (size_t j = 0 ; j < pc->GetPropertyCount () ; j++)
-    {
-      csStringID id;
-      celData data;
-      csRef<iCelParameterIterator> parIt = pc->GetProperty (i, id, data);
-      if (data.type == CEL_DATA_NONE)
-      {
-	// An action.
-        csRef<iDocumentNode> actNode = pcNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-        actNode->SetValue ("action");
-        actNode->SetAttribute ("name", pl->FetchString (id));
-        if (parIt->HasNext ())
-	{
-	  while (parIt->HasNext ())
-	  {
-	    csStringID parID;
-	    iParameter* par = parIt->Next (parID);
-	    csRef<iDocumentNode> parNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-	    parNode->SetValue ("par");
-	    parNode->SetAttribute ("name", pl->FetchString (parID));
-	    parNode->SetAttribute (GetTypeString (par->GetPossibleType ()),
-		par->GetOriginalExpression ());
-	  }
-	}
-      }
-      else
-      {
-	// A property.
-        csRef<iDocumentNode> propNode = pcNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-        propNode->SetValue ("property");
-        propNode->SetAttribute ("name", pl->FetchString (id));
-	WriteData (data, propNode);
-      }
-    }
-  }
-
-  iTemplateCharacteristics* chars = ent->GetCharacteristics ();
-  csRef<iCharacteristicsIterator> charsIt = chars->GetAllCharacteristics ();
-  while (charsIt->HasNext ())
-  {
-    float value;
-    csString name = charsIt->Next (value);
-    csRef<iDocumentNode> charsNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    charsNode->SetValue ("characteristic");
-    charsNode->SetAttribute ("name", name);
-    charsNode->SetAttributeAsFloat ("value", value);
-  }
-
-  const csSet<csStringID>& classes = ent->GetClasses ();
-  csSet<csStringID>::GlobalIterator classIt = classes.GetIterator ();
-  while (classIt.HasNext ())
-  {
-    csStringID id = classIt.Next ();
-    csRef<iDocumentNode> classNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    classNode->SetValue ("class");
-    csRef<iDocumentNode> valueNode = classNode->CreateNodeBefore (CS_NODE_TEXT, 0);
-    valueNode->SetValue (pl->FetchString (id));
-  }
-
-  for (size_t i = 0 ; i < ent->GetMessageCount () ; i++)
-  {
-    csStringID id;
-    csRef<iCelParameterIterator> parIt = ent->GetMessage (i, id);
-    csRef<iDocumentNode> callNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    callNode->SetValue ("call");
-    callNode->SetAttribute ("event", pl->FetchString (id));
-    if (parIt->HasNext ())
-    {
-      while (parIt->HasNext ())
-      {
-	csStringID parID;
-	iParameter* par = parIt->Next (parID);
-        csRef<iDocumentNode> parNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-	parNode->SetValue ("par");
-	parNode->SetAttribute ("name", pl->FetchString (parID));
-	parNode->SetAttribute (GetTypeString (par->GetPossibleType ()),
-	    par->GetOriginalExpression ());
-      }
-    }
-  }
-
   return true;
 }
 
@@ -543,41 +507,6 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
-      case XMLTOKEN_MERGE:
-        {
-	  const char* tplname = child->GetAttributeValue ("name");
-          iCelEntityTemplate* tpl = pl->FindEntityTemplate (tplname);
-          if (!tplname)
-          {
-	    synldr->ReportError (
-	        "cel.addons.celentitytpl",
-	        child, "Can't find entity template '%s'!", tplname);
-	    return 0;
-          }
-          ent->Merge (tpl);
-        }
-        break;
-      case XMLTOKEN_TEMPLATE:
-        {
-	  const char* tplname = child->GetAttributeValue ("name");
-          iCelEntityTemplate* tpl = pl->FindEntityTemplate (tplname);
-          if (!tplname)
-          {
-	    synldr->ReportError (
-	        "cel.addons.celentitytpl",
-	        child, "Can't find entity template '%s'!", tplname);
-	    return 0;
-          }
-          ent->AddParent (tpl);
-        }
-        break;
-      case XMLTOKEN_CHARACTERISTIC:
-        {
-	  const char* name = child->GetAttributeValue ("name");
-	  float value = child->GetAttributeValueAsFloat ("value");
-          ent->GetCharacteristics ()->SetCharacteristic (name, value);
-        }
-        break;
       case XMLTOKEN_BEHAVIOUR:
         {
 	  const char* blname = child->GetAttributeValue ("layer");
@@ -603,23 +532,19 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
 	        child, "Name of the property class is missing!");
 	    return 0;
 	  }
-	  const char* tag = child->GetAttributeValue ("tag");
-
-          pc = ent->FindPropertyClassTemplate (name, tag);
-          if (!pc)
-          {
-	    pc = ent->CreatePropertyClassTemplate ();
-	    pc->SetName (name);
-	    pc->SetTag (tag);
-          }
+	  pc = ent->CreatePropertyClassTemplate ();
+	  pc->SetName (name);
 	  if (!ParseProperties (pc, child))
 	    return 0;
+	  const char* tag = child->GetAttributeValue ("tag");
+	  if (tag)
+	    pc->SetTag (tag);
 	}
 	break;
       case XMLTOKEN_CALL:
         {
-          csHash<csRef<iParameter>, csStringID> params;
-	  if (!ParseParameterBlock (child, params)) return false;
+	  csRef<celVariableParameterBlock> params = ParseParameterBlock (child);
+	  if (!params) return 0;
 	  const char* msgid = child->GetAttributeValue ("event");
 	  if (!msgid)
 	  {
@@ -628,7 +553,7 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
 	        child, "'event' name is missing for call!");
 	    return 0;
 	  }
-	  ent->AddMessage (pl->FetchStringID (msgid), params);
+	  ent->AddMessage (msgid, params);
 	}
         break;
       case XMLTOKEN_CLASS:

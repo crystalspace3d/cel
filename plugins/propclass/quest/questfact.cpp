@@ -87,8 +87,6 @@ celPcQuest::celPcQuest (iObjectRegistry* object_reg)
 	CEL_DATA_STRING, false, "Current State.", 0);
 
   GetQuestManager ();
-
-  quest_params.AttachNew (new celVariableParameterBlock ());
 }
 
 celPcQuest::~celPcQuest ()
@@ -121,6 +119,72 @@ bool celPcQuest::GetPropertyIndexed (int idx, const char*& b)
   }
 }
 
+#define QUEST_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcQuest::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (QUEST_SERIAL);
+
+  databuf->Add (questname);
+
+  databuf->Add ((uint32)quest_params.GetSize ());
+  celParams::GlobalIterator it = quest_params.GetIterator ();
+  while (it.HasNext ())
+  {
+    csStringBase key;
+    csStringBase value = it.Next (key);
+    databuf->Add (key);
+    databuf->Add (value);
+  }
+
+  if (quest)
+  {
+    databuf->Add (true);
+    databuf->Add (quest->GetCurrentState ());
+    quest->SaveState (databuf);
+  }
+  else
+  {
+    databuf->Add (false);
+  }
+  
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcQuest::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != QUEST_SERIAL)
+    return Report (object_reg, "Couldn't load pcquest!");
+
+  questname = databuf->GetString ()->GetData ();
+
+  celParams qp;
+  uint32 count = databuf->GetUInt32 ();
+  size_t i;
+  for (i = 0 ; i < count ; i++)
+  {
+    const char* key = databuf->GetString ()->GetData ();
+    const char* value = databuf->GetString ()->GetData ();
+    qp.Put (key, value);
+  }
+
+  bool has_quest = databuf->GetBool ();
+  if (has_quest)
+  {
+    if (!NewQuest (questname, qp))
+      return false;
+    if (!quest->LoadState (databuf->GetString ()->GetData (), databuf))
+      return false;
+  }
+  else
+  {
+    quest_params = qp;
+  }
+
+  return true;
+}
+
 bool celPcQuest::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -133,7 +197,20 @@ bool celPcQuest::PerformActionIndexed (int idx,
         if (!p_msg)
           return Report (object_reg,
       	    "Missing parameter 'name' for action NewQuest!");
-        return NewQuest (msg, params);
+        celParams par;
+        size_t i;
+        for (i = 0 ; i < params->GetParameterCount () ; i++)
+        {
+          celDataType t;
+          csStringID id = params->GetParameterDef (i, t);
+	  const char* n = pl->FetchString (id);
+          if (t == CEL_DATA_STRING && strcmp ("name", n) != 0)
+          {
+            const celData* cd = params->GetParameter (id);
+            par.Put (n, cd->value.s->GetData ());
+          }
+        }
+        return NewQuest (msg, par);
       }
     case action_stopquest:
       StopQuest ();
@@ -157,7 +234,7 @@ void celPcQuest::GetQuestManager ()
   }
 }
 
-bool celPcQuest::NewQuest (const char* name, iCelParameterBlock* params)
+bool celPcQuest::NewQuest (const char* name, celParams& params)
 {
   GetQuestManager ();
   if (!quest_mgr)
@@ -166,11 +243,11 @@ bool celPcQuest::NewQuest (const char* name, iCelParameterBlock* params)
   if (!fact)
     return Report (object_reg, "Couldn't find quest factory '%s'!", name);
   
-  quest_params.AttachNew (new celVariableParameterBlock ());
-  quest_params->AddParameter (pl->FetchStringID ("this")).Set (entity);
-  quest_params->Merge (params);
+  quest_params = params;
+  quest_params.Put ("this", entity->GetName ());
 
   quest = fact->CreateQuest (quest_params);
+  quest_params.Delete ("this", entity->GetName ());
   if (!quest)
     Report (object_reg, "Couldn't create quest from factory '%s'!", name);
   questname = name;
@@ -180,16 +257,6 @@ bool celPcQuest::NewQuest (const char* name, iCelParameterBlock* params)
 void celPcQuest::StopQuest ()
 {
   quest = 0;
-}
-
-void celPcQuest::Activate ()
-{
-  if (quest) quest->Activate ();
-}
-
-void celPcQuest::Deactivate ()
-{
-  if (quest) quest->Deactivate ();
 }
 
 //---------------------------------------------------------------------------

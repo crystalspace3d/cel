@@ -27,7 +27,6 @@
 #include "csutil/array.h"
 
 #include "physicallayer/datatype.h"
-#include "celtool/stdparams.h"
 
 struct iCelPropertyClass;
 struct iCelEntity;
@@ -242,89 +241,10 @@ struct iCelDataBuffer : public virtual iBase
     csString txt = "Data buffer:\n";
     size_t i = 0, count = GetDataCount ();
     for ( ; i < count; i++)
-      txt.AppendFmt("\t%s\n", celParameterTools::GetDebugData (GetData (i)).GetData ());
+      txt.AppendFmt("\t%s\n", GetData (i)->GetDebugInfo ().GetData ());
 
     return txt;
   }
-};
-
-/**
- * This interface describes persistable data in a very compact way.
- * Only the actual data is saved. No type information is put in the
- * buffer. That way the representation is very compact. The data is
- * kept in a cross-platform binary format which can be safely read and
- * write from/to files.
- * Since no type checking is possible with this interface you will have
- * to make sure you get the information in exactly the same order
- * and type as it was written.
- */
-struct iCelCompactDataBufferWriter : public virtual iBase
-{
-  SCF_INTERFACE (iCelCompactDataBufferWriter, 0, 0, 1);
-
-  virtual void AddBool (bool v) = 0;
-  virtual void AddInt8 (int8 v) = 0;
-  virtual void AddInt16 (int16 v) = 0;
-  virtual void AddInt32 (int32 v) = 0;
-  virtual void AddUInt8 (uint8 v) = 0;
-  virtual void AddUInt16 (uint16 v) = 0;
-  virtual void AddUInt32 (uint32 v) = 0;
-  virtual void AddID (csStringID v) = 0;
-  virtual void AddFloat (float v) = 0;
-  virtual void AddVector2 (const csVector2& v) = 0;
-  virtual void AddVector3 (const csVector3& v) = 0;
-  virtual void AddVector4 (const csVector4& v) = 0;
-  virtual void AddColor (const csColor& v) = 0;
-  virtual void AddColor4 (const csColor4& v) = 0;
-  // A string which is limited to 255 length.
-  virtual void AddString8 (const char* s) = 0;
-  // A string which is limited to 65535 length.
-  virtual void AddString16 (const char* s) = 0;
-  // An unlimited string.
-  virtual void AddString32 (const char* s) = 0;
-
-  /**
-   * Get the data we accumulated so far.
-   */
-  virtual const char* GetData () const = 0;
-  /**
-   * Get the size of the total data block.
-   */
-  virtual size_t GetSize () const = 0;
-};
-
-/**
- * This interface describes persistable data in a very compact way.
- * Only the actual data is saved. No type information is put in the
- * buffer. That way the representation is very compact. The data is
- * kept in a cross-platform binary format which can be safely read and
- * write from/to files.
- * Since no type checking is possible with this interface you will have
- * to make sure you get the information in exactly the same order
- * and type as it was written.
- */
-struct iCelCompactDataBufferReader : public virtual iBase
-{
-  SCF_INTERFACE (iCelCompactDataBufferReader, 0, 0, 1);
-
-  virtual bool GetBool () = 0;
-  virtual int8 GetInt8 () = 0;
-  virtual int16 GetInt16 () = 0;
-  virtual int32 GetInt32 () = 0;
-  virtual uint8 GetUInt8 () = 0;
-  virtual uint16 GetUInt16 () = 0;
-  virtual uint32 GetUInt32 () = 0;
-  virtual csStringID GetID () = 0;
-  virtual float GetFloat () = 0;
-  virtual void GetVector2 (csVector2& v) = 0;
-  virtual void GetVector3 (csVector3& v) = 0;
-  virtual void GetVector4 (csVector4& v) = 0;
-  virtual void GetColor (csColor& v) = 0;
-  virtual void GetColor (csColor4& v) = 0;
-  /// The returned pointer is only valid for the lifetime of the buffer.
-  virtual const char* GetString8 () = 0;
-  virtual const char* GetString16 () = 0;
-  virtual const char* GetString32 () = 0;
 };
 
 /**
