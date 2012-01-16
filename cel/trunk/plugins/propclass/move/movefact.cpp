@@ -568,7 +568,7 @@ void celPcGravity::TickEveryFrame ()
   while (dt1 > 0)
   {
     //@@@ TEMPORARY ONLY! SHOULD BE DONE WITH MORE ACCURATE CD.
-    float dt = MIN (dt1, .02);
+    float dt = csMin (dt1, .02f);
     dt1 -= dt;
     HandleForce (dt, collider, cd_list);
   }

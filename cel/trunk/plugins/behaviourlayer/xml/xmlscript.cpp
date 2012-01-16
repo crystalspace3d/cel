@@ -2236,7 +2236,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int32 pos = ArgToInt32 (a_pos);
 	  int32 len = ArgToInt32 (a_len);
 	  size_t real_len = strlen (str) - pos;
-	  real_len = MIN (real_len, (size_t)len);
+	  real_len = csMin (real_len, (size_t)len);
 	  char* newstr = new char[real_len+1];
 	  if (real_len)
 	    strncpy (newstr, str+pos, real_len);
@@ -2462,21 +2462,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      {
 	        float fa = ArgToFloat (top);
 	        float fb = ArgToFloat (elb);
-	        top.SetFloat (MIN (fa, fb));
+	        top.SetFloat (csMin (fa, fb));
 	      }
 	      break;
 	    case CEL_DATA_LONG:
 	      {
 	        int32 fa = ArgToInt32 (top);
 	        int32 fb = ArgToInt32 (elb);
-	        top.SetInt32 (MIN (fa, fb));
+	        top.SetInt32 (csMin (fa, fb));
 	      }
 	      break;
 	    case CEL_DATA_ULONG:
 	      {
 	        uint32 fa = ArgToUInt32 (top);
 	        uint32 fb = ArgToUInt32 (elb);
-	        top.SetUInt32 (MIN (fa, fb));
+	        top.SetUInt32 (csMin (fa, fb));
 	      }
 	      break;
 	    default:
@@ -2508,21 +2508,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      {
 	        float fa = ArgToFloat (top);
 	        float fb = ArgToFloat (elb);
-	        top.SetFloat (MAX (fa, fb));
+	        top.SetFloat (csMax (fa, fb));
 	      }
 	      break;
 	    case CEL_DATA_LONG:
 	      {
 	        int32 fa = ArgToInt32 (top);
 	        int32 fb = ArgToInt32 (elb);
-	        top.SetInt32 (MAX (fa, fb));
+	        top.SetInt32 (csMax (fa, fb));
 	      }
 	      break;
 	    case CEL_DATA_ULONG:
 	      {
 	        uint32 fa = ArgToUInt32 (top);
 	        uint32 fb = ArgToUInt32 (elb);
-	        top.SetUInt32 (MAX (fa, fb));
+	        top.SetUInt32 (csMax (fa, fb));
 	      }
 	      break;
 	    default:
