@@ -703,7 +703,7 @@ bool celPcLinearMovement::RotateV (float delta)
  * shouldn't be too large or you'll get unrealistic gravity
  * in some situations.
  */
-#define MAX_CD_INTERVAL 1
+#define MAX_CD_INTERVAL 1.0f
 
 /*
  * MIN_CD_INTERVAL is the minimum amount of time that can pass in a single
@@ -713,7 +713,7 @@ bool celPcLinearMovement::RotateV (float delta)
  * negative time (you will move the opposite direction until you hit an
  * obstruction.
  */
-#define MIN_CD_INTERVAL 0.01
+#define MIN_CD_INTERVAL 0.01f
 
 
 int celPcLinearMovement::MoveSprite (float delta)
@@ -750,7 +750,7 @@ int celPcLinearMovement::MoveSprite (float delta)
   csVector3 bodyVel (fulltransf.Other2ThisRelative (velWorld) + velBody);
 
   float local_max_interval =
-  	MAX (MIN (MIN ((bodyVel.y==0.0f)
+  	csMax (csMin (csMin ((bodyVel.y==0.0f)
   	? MAX_CD_INTERVAL
   	: ABS (intervalSize.y/bodyVel.y), (bodyVel.x==0.0f)
   	? MAX_CD_INTERVAL
@@ -789,7 +789,7 @@ int celPcLinearMovement::MoveSprite (float delta)
       bodyVel = fulltransf.Other2ThisRelative(velWorld) + velBody;
 
       delta -= local_max_interval;
-      local_max_interval = MAX (MIN (MIN ((bodyVel.y==0.0f)
+      local_max_interval = csMax (csMin (csMin ((bodyVel.y==0.0f)
       	? MAX_CD_INTERVAL
       	: ABS (intervalSize.y/bodyVel.y), (bodyVel.x==0.0f)
       	? MAX_CD_INTERVAL
@@ -1013,8 +1013,8 @@ void celPcLinearMovement::HugGround (const csVector3& pos, iSector* sector)
   bool hit[4];
 
   // Set minimum base dimensions of 0.5x0.5 for good aesthetics
-  float legsXlimit = MAX(bottomSize.x / 2, 0.5);
-  float legsZlimit = MAX(bottomSize.z / 2, 0.5);
+  float legsXlimit = csMax(bottomSize.x / 2.0f, 0.5f);
+  float legsZlimit = csMax(bottomSize.z / 2.0f, 0.5f);
 
   start.y = pos.y + shift.y + 0.01;
 
@@ -1261,7 +1261,7 @@ void celPcLinearMovement::TickEveryFrame ()
   // Compensate for offset
   OffsetSprite (delta);
   if (fabsf (deltaLimit) > SMALL_EPSILON)
-    delta = MIN(delta, deltaLimit);
+    delta = csMin(delta, deltaLimit);
 
   // Adjust the properties.
   ExtrapolatePosition (delta);
@@ -1341,9 +1341,9 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   topSize = body;
   bottomSize = legs;
 
-  intervalSize.x = MIN(topSize.x, bottomSize.x);
-  intervalSize.y = MIN(topSize.y, bottomSize.y);
-  intervalSize.z = MIN(topSize.z, bottomSize.z);
+  intervalSize.x = csMin(topSize.x, bottomSize.x);
+  intervalSize.y = csMin(topSize.y, bottomSize.y);
+  intervalSize.z = csMin(topSize.z, bottomSize.z);
 
   celPcLinearMovement::shift = shift;
 
