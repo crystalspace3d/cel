@@ -735,16 +735,16 @@ int celPcLinearMovement::MoveSprite (float delta)
 	 // ? MAX_CD_INTERVAL
 	 // : ABS (topSize.y/vel.y);
 
-  //float temp2=MIN (temp3, (vel.x==0.0f)
+  //float temp2=csMin (temp3, (vel.x==0.0f)
 	 // ? MAX_CD_INTERVAL
 	 // : ABS (topSize.x/vel.x));
 
-  //float temp1=MIN (temp2, (vel.z==0.0f)
+  //float temp1=csMin (temp2, (vel.z==0.0f)
 	 // ? MAX_CD_INTERVAL
 	 // : ABS (topSize.z/vel.z));
 
   //float local_max_interval =
-	 // MAX (temp1, MIN_CD_INTERVAL);
+	 // csMax (temp1, csMin_CD_INTERVAL);
 
   // Calculate the total velocity (body and world) in OBJECT space.
   csVector3 bodyVel (fulltransf.Other2ThisRelative (velWorld) + velBody);
