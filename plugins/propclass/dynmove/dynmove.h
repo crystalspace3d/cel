@@ -34,6 +34,9 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
+struct iMouseDriver;
+struct iGraphics2D;
+struct iPcDefaultCamera;
 
 /**
  * Factory for dyn movement class.
@@ -66,10 +69,16 @@ private:
   static csStringID id_input_rotateleft_up;
   static csStringID id_input_rotateright_down;
   static csStringID id_input_rotateright_up;
+  static csStringID id_input_mouselook;
 
   csWeakRef<iPcMechanicsObject> pcmechobj;
   csWeakRef<CS::Physics::Bullet::iRigidBody> bulletBody;
+  csWeakRef<iPcDefaultCamera> pcdefcamera;
   void GetPCS ();
+  void GetCam ();
+
+  csRef<iGraphics2D> g2d;
+  csRef<iMouseDriver> mouse;
 
   // For properties.
   enum propids

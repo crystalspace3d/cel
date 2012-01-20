@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "csgeom/transfrm.h"
 #include "iutil/objreg.h"
+#include "iutil/csinput.h"
 #include "plugins/propclass/dynmove/dynmove.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -30,6 +31,8 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "ivaria/dynamics.h"
+#include "ivideo/graph3d.h"
+#include "ivideo/graph2d.h"
 
 //---------------------------------------------------------------------------
 
@@ -55,6 +58,7 @@ csStringID celPcDynamicMove::id_input_rotateleft_down = csInvalidStringID;
 csStringID celPcDynamicMove::id_input_rotateleft_up = csInvalidStringID;
 csStringID celPcDynamicMove::id_input_rotateright_down = csInvalidStringID;
 csStringID celPcDynamicMove::id_input_rotateright_up = csInvalidStringID;
+csStringID celPcDynamicMove::id_input_mouselook = csInvalidStringID;
 
 PropertyHolder celPcDynamicMove::propinfo;
 
@@ -81,6 +85,7 @@ celPcDynamicMove::celPcDynamicMove (iObjectRegistry* object_reg)
     id_input_rotateleft_up = pl->FetchStringID ("cel.input.rotateleft.up");
     id_input_rotateright_down = pl->FetchStringID ("cel.input.rotateright.down");
     id_input_rotateright_up = pl->FetchStringID ("cel.input.rotateright.up");
+    id_input_mouselook = pl->FetchStringID ("cel.input.mouselook");
   }
 
   propholder = &propinfo;
@@ -98,6 +103,9 @@ celPcDynamicMove::celPcDynamicMove (iObjectRegistry* object_reg)
   rotspeed = 1.0f;
   curspeed.Set (0.0f);
   correctup = false;
+  csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  g2d = g3d->GetDriver2D ();
+  mouse = csQueryRegistry<iMouseDriver> (object_reg);
 }
 
 celPcDynamicMove::~celPcDynamicMove ()
@@ -179,6 +187,12 @@ void celPcDynamicMove::GetPCS ()
   }
 }
 
+void celPcDynamicMove::GetCam ()
+{
+  if (pcdefcamera) return;
+  pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+}
+
 bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params)
 {
@@ -187,7 +201,33 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
 
   GetPCS ();
 
-  if (msgid == id_input_forward_down)
+  if (msgid == id_input_mouselook)
+  {
+    GetCam ();
+    int x = mouse->GetLastX ();
+    int y = mouse->GetLastY ();
+    printf ("Mouselook %d,%d\n", x, y); fflush (stdout);
+    int sx = x - g2d->GetWidth () / 2;
+    int sy = y - g2d->GetHeight () / 2;
+    if (sx != 0 || sy != 0)
+    {
+      float yangle = float (sx) / 8.0f;
+      pcmechobj->SetAngularVelocity (csVector3 (0, yangle, 0));
+      if (pcdefcamera)
+      {
+        float xangle = float (sy) / 10.0f;
+        pcdefcamera->SetPitchVelocity (-xangle);
+      }
+    }
+    else
+    {
+      pcmechobj->SetAngularVelocity (csVector3 (0, 0, 0));
+      if (pcdefcamera)
+        pcdefcamera->SetPitchVelocity (0);
+    }
+    g2d->SetMousePosition (g2d->GetWidth () / 2, g2d->GetHeight () / 2);
+  }
+  else if (msgid == id_input_forward_down)
     curspeed = csVector3 (0, 0, -25.0f * speed);
   else if (msgid == id_input_forward_up)
     curspeed = 0.0f;
@@ -216,31 +256,31 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
       csVector3 (0, 0, 0), .2f);
   else if (msgid == id_input_lookup_down)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    GetCam ();
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (1.0f);
   }
   else if (msgid == id_input_lookup_up)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    GetCam ();
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (0.0f);
   }
   else if (msgid == id_input_lookdown_down)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    GetCam ();
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (-1.0f);
   }
   else if (msgid == id_input_lookdown_up)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    GetCam ();
     if (pcdefcamera)
       pcdefcamera->SetPitchVelocity (0.0f);
   }
   else if (msgid == id_input_center_down)
   {
-    csRef<iPcDefaultCamera> pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    GetCam ();
     if (pcdefcamera)
       pcdefcamera->CenterCamera ();
   }
