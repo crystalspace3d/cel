@@ -30,6 +30,7 @@
 #include "celtool/stdparams.h"
 #include "propclass/dynmove.h"
 #include "propclass/mechsys.h"
+#include "ivaria/bullet.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -67,6 +68,7 @@ private:
   static csStringID id_input_rotateright_up;
 
   csWeakRef<iPcMechanicsObject> pcmechobj;
+  csWeakRef<CS::Physics::Bullet::iRigidBody> bulletBody;
   void GetPCS ();
 
   // For properties.
@@ -75,12 +77,14 @@ private:
     propid_speed = 0,
     propid_jumpspeed,
     propid_rotspeed,
+    propid_correctup,
   };
   static PropertyHolder propinfo;
 
   float speed;
   float jumpspeed;
   float rotspeed;
+  bool correctup;
 
   csVector3 curspeed;
 
@@ -95,6 +99,13 @@ public:
   // For iMessageReceiver.
   virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params);
+
+  virtual void TickEveryFrame ();
+
+  // Override SetProperty from celPcCommon in order to provide support
+  // for the 'correctup' property.
+  virtual bool SetPropertyIndexed (int idx, bool b);
+  virtual bool GetPropertyIndexed (int, bool& b);
 };
 
 #endif // __CEL_PF_DYNMOVEFACT__
