@@ -30,6 +30,7 @@
  * - speed (float, read/write): default 1.0, movement speed.
  * - jumpspeed (float, read/write): default 1.0, jumping speed.
  * - rotspeed (float, read/write): default 1.0, rotation speed.
+ * - correctup (bool, read/write): default false, correct up vector of model.
  */
 struct iPcDynamicMove : public virtual iBase
 {
