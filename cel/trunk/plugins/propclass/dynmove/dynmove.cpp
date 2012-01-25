@@ -206,7 +206,6 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
     GetCam ();
     int x = mouse->GetLastX ();
     int y = mouse->GetLastY ();
-    printf ("Mouselook %d,%d\n", x, y); fflush (stdout);
     int sx = x - g2d->GetWidth () / 2;
     int sy = y - g2d->GetHeight () / 2;
     if (sx != 0 || sy != 0)
