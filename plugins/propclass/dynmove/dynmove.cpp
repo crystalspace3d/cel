@@ -204,6 +204,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   if (msgid == id_input_mouselook)
   {
     GetCam ();
+    g2d->SetMouseCursor (csmcNone);
     int x = mouse->GetLastX ();
     int y = mouse->GetLastY ();
     int sx = x - g2d->GetWidth () / 2;
