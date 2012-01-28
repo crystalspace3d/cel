@@ -288,7 +288,10 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
 
   csReversibleTransform trans = pcmechobj->GetMesh ()->GetMesh ()->
     GetMovable ()->GetFullTransform ();
-  pcmechobj->SetLinearVelocity (trans.This2OtherRelative (curspeed));
+  csVector3 linvel = pcmechobj->GetLinearVelocity ();
+  csVector3 newlinvel = trans.This2OtherRelative (curspeed);
+  newlinvel.y = linvel.y;
+  pcmechobj->SetLinearVelocity (newlinvel);
 
   return true;
 }
