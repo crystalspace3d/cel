@@ -163,8 +163,14 @@ bool celPcWire::PerformActionIndexed (int idx,
         CEL_FETCH_STRING_PAR (entity,params,id_entity);
 	iCelEntity* ent = this->entity;
         if (p_entity)
+	{
 	  ent = pl->FindEntity (entity);
-	// @@@ Error check on ent!
+	  if (!ent)
+	  {
+	    printf ("Can't find entity '%s'!\n", entity);
+	    return false;
+	  }
+	}
 	AddOutput (pl->FetchStringID (msgid), ent->QueryMessageChannel (), params);
         return true;
       }
