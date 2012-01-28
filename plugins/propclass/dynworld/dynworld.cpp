@@ -1456,6 +1456,8 @@ void DynamicObject::UnlinkEntity ()
 iCelEntity* DynamicObject::ForceEntity ()
 {
   celPcDynamicWorld* world = factory->GetWorld ();
+  if (world->IsInhibitEntities ()) return 0;
+
   if (!entity)
   {
     // First we check if the entity already exists.
@@ -1561,6 +1563,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   object_reg->Register (spawner, "cel.spawner");
 
   currentCell = 0;
+  inhibitEntities = false;
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
@@ -1894,9 +1897,9 @@ iDynamicObject* celPcDynamicWorld::FindObject (iMeshWrapper* mesh) const
 void celPcDynamicWorld::Dump ()
 {
   printf ("### DynWorld ###\n");
-  printf ("  Fading in=%d, out=%d\n", fadingIn.GetSize (), fadingOut.GetSize ());
-  printf ("  Visible objects=%d\n", visibleObjects.GetSize ());
-  printf ("  Safe to remove=%d\n", safeToRemove.GetSize ());
+  printf ("  Fading in=%zu, out=%zu\n", fadingIn.GetSize (), fadingOut.GetSize ());
+  printf ("  Visible objects=%zu\n", visibleObjects.GetSize ());
+  printf ("  Safe to remove=%zu\n", safeToRemove.GetSize ());
 }
 
 // ---------------------------------------------------------------------------
@@ -1927,7 +1930,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
   // Save all deleted entities.
   const csSet<uint>& deletedEntities = elcm->GetDeletedEntities ();
   buf->AddUInt32 (deletedEntities.GetSize ());
-  printf ("Save %d deleted items\n", deletedEntities.GetSize ());
+  printf ("Save %zu deleted items\n", deletedEntities.GetSize ());
   csSet<uint>::GlobalIterator delIt = deletedEntities.GetIterator ();
   while (delIt.HasNext ())
   {
@@ -2059,7 +2062,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
 
   // Restore all deleted entities.
   size_t delSize = (size_t)buf->GetUInt32 ();
-  printf ("%d to delete\n", delSize);
+  printf ("%zu to delete\n", delSize);
   for (size_t i = 0 ; i < delSize ; i++)
   {
     uint id = (uint)buf->GetUInt32 ();

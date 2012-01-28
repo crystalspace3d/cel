@@ -531,6 +531,9 @@ public:
   csRef<iELCM> elcm;
   size_t scopeIdx;
 
+  // Don't create entities if this is true.
+  bool inhibitEntities;
+
   uint lastIDBlock;
   // The following flag is set to true while we are restoring ID blocks.
   // During that time it is illegal to allocate new ID blocks.
@@ -602,6 +605,10 @@ public:
       const char* node);
 
   virtual void SetELCM (iELCM* elcm);
+
+  virtual void InhibitEntities (bool e) { inhibitEntities = e; }
+  virtual bool IsInhibitEntities () const { return inhibitEntities; }
+
   void SafeToRemove (iCelEntity* entity);
   virtual void Dump ();
 

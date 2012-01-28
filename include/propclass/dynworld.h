@@ -421,6 +421,18 @@ struct iPcDynamicWorld : public virtual iBase
    */
   virtual void SetELCM (iELCM* elcm) = 0;
 
+  /**
+   * Inhibit the creation of entities. This is useful in case you have
+   * an editor and don't want the entities to be created. Note that changing
+   * this flag has no effect on already existing dynamic objects.
+   */
+  virtual void InhibitEntities (bool e) = 0;
+
+  /**
+   * Returns true if entity creation is inhibited.
+   */
+  virtual bool IsInhibitEntities () const = 0;
+
   //------------------------------------------------------------------------------
 
   /**
