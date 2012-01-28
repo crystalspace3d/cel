@@ -21,6 +21,7 @@
 #define __CEL_PF_INPFACT__
 
 #include "cstypes.h"
+#include "csutil/parray.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
@@ -47,26 +48,22 @@ CEL_DECLARE_FACTORY (CommandInput)
 
 struct celKeyMap
 {
-  celKeyMap *next, *prev;
   utf32_char key;	// If equal to CS_UC_INVALID we catch all keys.
   uint32 modifiers;
   bool packedargs;
-  char *command;
-  char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
-  celKeyMap () : packedargs (false), command (0) { }
+  csString command;
+  celKeyMap () : packedargs (false) { }
 };
 
 struct celButtonMap
 {
-  celButtonMap *next, *prev;
   csEventID type;
   uint device;
   int numeric;
   uint32 modifiers;
   bool packedargs;
-  char *command;
-  char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
-  celButtonMap () : packedargs (false), command (0) { }
+  csString command;
+  celButtonMap () : packedargs (false) { }
 };
 
 struct celAxisMap
@@ -77,8 +74,8 @@ struct celAxisMap
   int numeric;
   uint32 modifiers;
   bool recenter;
-  char *command;
-  celAxisMap () : command (0) { }
+  csString command;
+  celAxisMap () { }
 };
 
 /**
@@ -88,8 +85,8 @@ class celPcCommandInput : public scfImplementationExt1<
 	celPcCommandInput, celPcCommon, iPcCommandInput>
 {
 private:
-  celKeyMap* keylist;
-  celButtonMap* buttonlist;
+  csPDelArray<celKeyMap> keylist;
+  csPDelArray<celButtonMap> buttonlist;
   celAxisMap* axislist;
   static csStringID id_trigger;
   static csStringID id_state;
