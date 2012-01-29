@@ -35,6 +35,7 @@
 #include "csgeom/sphere.h"
 
 #include "ivaria/dynamics.h"
+#include "ivaria/bullet.h"
 #include "imap/services.h"
 
 #include "iengine/engine.h"
@@ -350,6 +351,9 @@ private:
   CS::Geometry::KDTreeChild* child;
   uint id;
 
+  // Pivot joints.
+  csRefArray<CS::Physics::Bullet::iPivotJoint> pivotJoints;
+
   bool atBaseline;
   // A dynamic object that is at the baseline (atBaseline == true)
   // will maintain the field below so that we can discover if it has moved
@@ -398,7 +402,15 @@ public:
   virtual void SetHilight (bool hi);
   virtual bool IsHilight () const { return is_hilight; }
   virtual iMeshWrapper* GetMesh () const { return mesh; }
+
   virtual iRigidBody* GetBody () const { return body; }
+  virtual bool CreatePivotJoint (const csVector3& worldpos);
+  virtual size_t GetPivotJointCount () const { return pivotJoints.GetSize (); }
+  virtual csVector3 GetPivotJointPosition (size_t idx);
+  virtual void SetPivotJointPosition (size_t idx, const csVector3& worldpos);
+  virtual void RemovePivotJoint (size_t idx);
+  virtual void RemovePivotJoints ();
+
   const csSphere& GetBSphere () const;
   virtual void RefreshColliders ();
   virtual const csReversibleTransform& GetTransform ();
@@ -466,6 +478,7 @@ public:
 
   iSector* sector;
   csRef<iDynamicSystem> dynSys;
+  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys;
   bool createdDynSys;
   csRefArray<DynamicObject> objects;
 
@@ -508,6 +521,7 @@ public:
 
   virtual iSector* GetSector () const { return sector; }
   virtual iDynamicSystem* GetDynamicSystem () const { return dynSys; }
+  virtual CS::Physics::Bullet::iDynamicSystem* GetBulletDynamicSystem ();
 
   void SaveIDAllocations (iCelCompactDataBufferWriter* buf);
   void SaveModifications (iCelCompactDataBufferWriter* buf,
