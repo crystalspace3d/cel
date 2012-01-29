@@ -367,6 +367,14 @@ DynamicCell::~DynamicCell ()
   }
 }
 
+CS::Physics::Bullet::iDynamicSystem* DynamicCell::GetBulletDynamicSystem ()
+{
+  if (!bullet_dynSys)
+    bullet_dynSys = scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (dynSys);
+  return bullet_dynSys;
+}
+
+
 // We use an ID allocation scheme were every cell allocates blocks
 // of ID's (with size IDBLOCK_SIZE) and then generates ID from that block
 // until it is full at which point another block is requested.
@@ -450,11 +458,12 @@ void DynamicCell::Setup (iSector* sector, iDynamicSystem* ds)
     dynSys->SetRollingDampener(.995f);
     dynSys->SetGravity (csVector3 (0.0f, -9.81f, 0.0f));
 
-    csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
-      scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (dynSys);
-    bullet_dynSys = scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (dynSys);
-    bullet_dynSys->SetInternalScale (1.0f);
-    bullet_dynSys->SetStepParameters (0.005f, 2, 10);
+    csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys = GetBulletDynamicSystem ();
+    if (bullet_dynSys)
+    {
+      bullet_dynSys->SetInternalScale (1.0f);
+      bullet_dynSys->SetStepParameters (0.005f, 2, 10);
+    }
   }
 }
 
@@ -1080,6 +1089,7 @@ DynamicObject::DynamicObject (DynamicCell* cell, DynamicFactory* factory,
 
 DynamicObject::~DynamicObject ()
 {
+  RemovePivotJoints ();
 }
 
 void DynamicObject::SetID (uint id)
@@ -1399,6 +1409,48 @@ void DynamicObject::MovableChanged (iMovable* movable)
 
 void DynamicObject::MovableDestroyed (iMovable*)
 {
+}
+
+bool DynamicObject::CreatePivotJoint (const csVector3& worldpos)
+{
+  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
+    cell->GetBulletDynamicSystem ();
+  if (!bullet_dynSys) return false;
+  csRef<CS::Physics::Bullet::iPivotJoint> joint = bullet_dynSys->CreatePivotJoint ();
+  pivotJoints.Push (joint);
+  joint->Attach (GetBody (), worldpos);
+  return true;
+}
+
+csVector3 DynamicObject::GetPivotJointPosition (size_t idx)
+{
+  return pivotJoints[idx]->GetPosition ();
+}
+
+void DynamicObject::SetPivotJointPosition (size_t idx, const csVector3& worldpos)
+{
+  pivotJoints[idx]->SetPosition (worldpos);
+}
+
+void DynamicObject::RemovePivotJoint (size_t idx)
+{
+  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
+    cell->GetBulletDynamicSystem ();
+  if (!bullet_dynSys) return;
+  bullet_dynSys->RemovePivotJoint (pivotJoints[idx]);
+  pivotJoints.DeleteIndex (idx);
+}
+
+void DynamicObject::RemovePivotJoints ()
+{
+  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
+    cell->GetBulletDynamicSystem ();
+  if (!bullet_dynSys) return;
+  for (size_t i = 0 ; i < pivotJoints.GetSize () ; i++)
+  {
+    bullet_dynSys->RemovePivotJoint (pivotJoints[i]);
+  }
+  pivotJoints.DeleteAll ();
 }
 
 const csSphere& DynamicObject::GetBSphere () const
