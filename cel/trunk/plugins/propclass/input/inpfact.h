@@ -51,7 +51,7 @@ struct celKeyMap
   utf32_char key;	// If equal to CS_UC_INVALID we catch all keys.
   uint32 modifiers;
   bool packedargs;
-  csString command;
+  csString commandStr;
   celKeyMap () : packedargs (false) { }
 };
 
@@ -62,19 +62,18 @@ struct celButtonMap
   int numeric;
   uint32 modifiers;
   bool packedargs;
-  csString command;
+  csString commandStr;
   celButtonMap () : packedargs (false) { }
 };
 
 struct celAxisMap
 {
-  celAxisMap *next, *prev;
   csEventID type;
   uint device;
   int numeric;
   uint32 modifiers;
   bool recenter;
-  csString command;
+  csString commandStr;
   celAxisMap () { }
 };
 
@@ -87,7 +86,7 @@ class celPcCommandInput : public scfImplementationExt1<
 private:
   csPDelArray<celKeyMap> keylist;
   csPDelArray<celButtonMap> buttonlist;
-  celAxisMap* axislist;
+  csPDelArray<celAxisMap> axislist;
   static csStringID id_trigger;
   static csStringID id_state;
   static csStringID id_command;
