@@ -107,7 +107,7 @@ struct celBodyInfo
  */
 class DynFactJointDefinition
 {
-private:
+public:
   csOrthoTransform trans;
   bool transX, transY, transZ;
   csVector3 mindist, maxdist;
@@ -338,6 +338,11 @@ struct iDynamicFactory : public virtual iBase
    * but objects created using this factory will not be updated automatically.
    */
   virtual DynFactJointDefinition& GetJoint (size_t idx) = 0;
+
+  /**
+   * Set joint parameters.
+   */
+  virtual void SetJoint (size_t idx, const DynFactJointDefinition& def) = 0;
 
   /**
    * Remove a joint.

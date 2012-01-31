@@ -1065,6 +1065,11 @@ void DynamicFactory::RemoveJoint (size_t idx)
   joints.DeleteIndex (idx);
 }
 
+void DynamicFactory::SetJoint (size_t idx, const DynFactJointDefinition& def)
+{
+  joints[idx] = def;
+}
+
 void DynamicFactory::RemoveJoints ()
 {
   joints.DeleteAll ();
@@ -1329,6 +1334,7 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
     body->MakeStatic ();
 
   SetupPivotJoints ();
+  UpdateJoints ();
 
   ForceEntity ();
   if (!entity)
@@ -1350,6 +1356,7 @@ void DynamicObject::RemoveJoints ()
       joints[i] = 0;
     }
   }
+  UpdateJoints ();
 }
 
 void DynamicObject::UpdateJoints ()
@@ -1359,7 +1366,7 @@ void DynamicObject::UpdateJoints ()
   if (!GetBody ()) { RemoveJoints (); return; }
   for (size_t i = 0 ; i < joints.GetSize () ; i++)
   {
-    if (!joints[i] && connectedObjects[i]->GetBody ())
+    if (!joints[i] && connectedObjects[i] && connectedObjects[i]->GetBody ())
     {
       csRef<iJoint> j = cell->dynSys->CreateJoint ();
       joints[i] = j;
@@ -1387,10 +1394,23 @@ void DynamicObject::UpdateJoints ()
 
 bool DynamicObject::Connect (size_t jointIdx, iDynamicObject* obj)
 {
+  if (jointIdx >= factory->GetJointCount ()) return false;
+  connectedObjects.SetSize (factory->GetJointCount (), 0);
+  joints.SetSize (factory->GetJointCount (), 0);
+  if (joints[jointIdx])
+  {
+    cell->dynSys->RemoveJoint (joints[jointIdx]);
+    joints[jointIdx] = 0;
+  }
+  connectedObjects[jointIdx] = obj;
+  UpdateJoints ();
+  return true;
 }
 
 iDynamicObject* DynamicObject::GetConnectedObject (size_t jointIdx)
 {
+  if (jointIdx >= factory->GetJointCount ()) return 0;
+  return connectedObjects[jointIdx];
 }
 
 void DynamicObject::RefreshColliders ()
@@ -1406,6 +1426,7 @@ void DynamicObject::RefreshColliders ()
     body->MakeStatic ();
 
   SetupPivotJoints ();
+  UpdateJoints ();
 }
 
 bool DynamicObject::HasBody (iRigidBody* body)
