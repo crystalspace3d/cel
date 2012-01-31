@@ -220,6 +220,37 @@ struct iDynamicFactory : public virtual iBase
    * Delete all bodies.
    */
   virtual void DeleteBodies () = 0;
+
+  /**
+   * Create a pivot joint at a specific object space position (bullet only).
+   * Returns false if it was not possible to create a pivot.
+   */
+  virtual bool CreatePivotJoint (const csVector3& objpos) = 0;
+
+  /**
+   * Get the amount of pivot joints.
+   */
+  virtual size_t GetPivotJointCount () const = 0;
+
+  /**
+   * Get the position of a pivot joint.
+   */
+  virtual csVector3 GetPivotJointPosition (size_t idx) = 0;
+
+  /**
+   * Change the starting position of a pivot joint.
+   */
+  virtual void SetPivotJointPosition (size_t idx, const csVector3& objpos) = 0;
+
+  /**
+   * Remove a specific pivot joint.
+   */
+  virtual void RemovePivotJoint (size_t idx) = 0;
+
+  /**
+   * Remove all pivot joints.
+   */
+  virtual void RemovePivotJoints () = 0;
 };
 
 /**

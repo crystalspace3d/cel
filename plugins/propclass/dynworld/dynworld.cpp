@@ -1054,6 +1054,31 @@ void DynamicFactory::DeleteBody (size_t idx)
   UpdatePhysBBox ();
 }
 
+bool DynamicFactory::CreatePivotJoint (const csVector3& objpos)
+{
+  pivotJoints.Push (objpos);
+}
+
+csVector3 DynamicFactory::GetPivotJointPosition (size_t idx)
+{
+  return pivotJoints[idx];
+}
+
+void DynamicFactory::SetPivotJointPosition (size_t idx, const csVector3& objpos)
+{
+  pivotJoints[idx] = objpos;
+}
+
+void DynamicFactory::RemovePivotJoint (size_t idx)
+{
+  pivotJoints.DeleteIndex (idx);
+}
+
+void DynamicFactory::RemovePivotJoints ()
+{
+  pivotJoints.DeleteAll ();
+}
+
 //---------------------------------------------------------------------------------------
 
 void DynamicObject::Init (DynamicCell* cell)
@@ -1073,6 +1098,15 @@ void DynamicObject::Init (DynamicCell* cell)
   id = 0;
 }
 
+void DynamicObject::SetupFactory ()
+{
+  for (size_t i = 0 ; i < factory->GetPivotJointCount () ; i++)
+  {
+    csVector3 worldpos = GetTransform ().This2Other (factory->GetPivotJointPosition (i));
+    CreatePivotJoint (worldpos);
+  }
+}
+
 DynamicObject::DynamicObject (DynamicCell* cell) : scfImplementationType (this)
 {
   Init (cell);
@@ -1085,6 +1119,7 @@ DynamicObject::DynamicObject (DynamicCell* cell, DynamicFactory* factory,
   DynamicObject::factory = factory;
   DynamicObject::trans = trans;
   child = 0;
+  SetupFactory ();
 }
 
 DynamicObject::~DynamicObject ()
@@ -1396,6 +1431,8 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
     SetEntity (0, tmpName, 0);
   else if (factory->GetDefaultEntityTemplate ())
     SetEntity (0, factory->GetDefaultEntityTemplate (), 0);
+
+  SetupFactory ();
 
   return true;
 }
