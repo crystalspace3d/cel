@@ -379,7 +379,7 @@ private:
 
   void InstallHilight (bool hi);
   void Init (DynamicCell* cell);
-  void SetupFactory ();
+  void SetupPivotJoints ();
 
   mutable csSphere bsphere;
   mutable bool bsphereValid;
