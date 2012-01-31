@@ -1057,6 +1057,7 @@ void DynamicFactory::DeleteBody (size_t idx)
 bool DynamicFactory::CreatePivotJoint (const csVector3& objpos)
 {
   pivotJoints.Push (objpos);
+  return true;
 }
 
 csVector3 DynamicFactory::GetPivotJointPosition (size_t idx)
@@ -1986,9 +1987,9 @@ iDynamicObject* celPcDynamicWorld::FindObject (iMeshWrapper* mesh) const
 void celPcDynamicWorld::Dump ()
 {
   printf ("### DynWorld ###\n");
-  printf ("  Fading in=%zu, out=%zu\n", fadingIn.GetSize (), fadingOut.GetSize ());
-  printf ("  Visible objects=%zu\n", visibleObjects.GetSize ());
-  printf ("  Safe to remove=%zu\n", safeToRemove.GetSize ());
+  printf ("  Fading in=%d, out=%d\n", fadingIn.GetSize (), fadingOut.GetSize ());
+  printf ("  Visible objects=%d\n", visibleObjects.GetSize ());
+  printf ("  Safe to remove=%d\n", safeToRemove.GetSize ());
 }
 
 // ---------------------------------------------------------------------------
@@ -2019,7 +2020,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
   // Save all deleted entities.
   const csSet<uint>& deletedEntities = elcm->GetDeletedEntities ();
   buf->AddUInt32 (deletedEntities.GetSize ());
-  printf ("Save %zu deleted items\n", deletedEntities.GetSize ());
+  printf ("Save %d deleted items\n", deletedEntities.GetSize ());
   csSet<uint>::GlobalIterator delIt = deletedEntities.GetIterator ();
   while (delIt.HasNext ())
   {
@@ -2151,7 +2152,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
 
   // Restore all deleted entities.
   size_t delSize = (size_t)buf->GetUInt32 ();
-  printf ("%zu to delete\n", delSize);
+  printf ("%d to delete\n", delSize);
   for (size_t i = 0 ; i < delSize ; i++)
   {
     uint id = (uint)buf->GetUInt32 ();
