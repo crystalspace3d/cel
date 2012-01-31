@@ -25,6 +25,7 @@
 class csBox3;
 class csVector3;
 class csReversibleTransform;
+class csOrthoTransform;
 struct iCamera;
 struct iSector;
 struct iDynamicSystem;
@@ -99,6 +100,102 @@ struct celBodyInfo
 };
 
 /**
+ * A definition for a joint. This is used on a dynamic
+ * factory.
+ * @@@ Note: this class should not be needed if the physics library
+ * on the CS side supported the notion of 'factories'.
+ */
+class DynFactJointDefinition
+{
+private:
+  csOrthoTransform trans;
+  bool transX, transY, transZ;
+  csVector3 mindist, maxdist;
+  bool rotX, rotY, rotZ;
+  csVector3 minrot, maxrot;
+  csVector3 bounce;
+  csVector3 maxforce;
+
+public:
+  DynFactJointDefinition ()
+  {
+    SetTransConstraints (false, false, false);
+    SetRotConstraints (false, false, false);
+    SetMinMaxDistance (csVector3 (0), csVector3 (1000.0f));
+    SetMinMaxAngle (csVector3 (-100.0f), csVector3 (100.0f));
+    SetBounce (csVector3 (0));
+    SetMaxForce (csVector3 (0.1f));
+  }
+
+  /**
+   * Set the local transformation of this joint relative to the object.
+   */
+  void SetTransform (const csOrthoTransform& trans) { this->trans = trans; }
+  const csOrthoTransform& GetTransform () const { return trans; }
+
+  /**
+   * Set translation constraints.
+   */
+  void SetTransConstraints (bool x, bool y, bool z)
+  {
+    transX = x;
+    transY = y;
+    transZ = z;
+  }
+  bool IsXTransConstrained () const { return transX; }
+  bool IsYTransConstrained () const { return transY; }
+  bool IsZTransConstrained () const { return transZ; }
+
+  /**
+   * Set minimum and maximum allowed distance between the two bodies.
+   */
+  void SetMinMaxDistance (const csVector3& min, const csVector3& max)
+  {
+    mindist = min;
+    maxdist = max;
+  }
+  const csVector3& GetMinimumDistance () const { return mindist; }
+  const csVector3& GetMaximumDistance () const { return maxdist; }
+
+  /**
+   * Set rotational constraints.
+   */
+  void SetRotConstraints (bool x, bool y, bool z)
+  {
+    rotX = x;
+    rotY = y;
+    rotZ = z;
+  }
+  bool IsXRotConstrained () const { return rotX; }
+  bool IsYRotConstrained () const { return rotY; }
+  bool IsZRotConstrained () const { return rotZ; }
+
+  /**
+   * Set minimum and maximum allowed angle between the two bodies (radians).
+   */
+  void SetMinMaxAngle (const csVector3& min, const csVector3& max)
+  {
+    minrot = min;
+    maxrot = max;
+  }
+  const csVector3& GetMinimumAngle () const { return minrot; }
+  const csVector3& GetMaximumAngle () const { return maxrot; }
+
+  /**
+   * Set the restitution of the joint's stop point. This is the
+   * amount of bounciness when the joint hits a limit.
+   */
+  void SetBounce (const csVector3& bounce) { this->bounce = bounce; }
+  const csVector3& GetBounce () const { return bounce; }
+
+  /**
+   * Set the maximum force that can be applied by the joint motor.
+   */
+  void SetMaxForce (const csVector3& maxforce) { this->maxforce = maxforce; }
+  const csVector3& GetMaxForce () const { return maxforce; }
+};
+
+/**
  * A factory object in the dynamic world.
  */
 struct iDynamicFactory : public virtual iBase
@@ -161,6 +258,8 @@ struct iDynamicFactory : public virtual iBase
    */
   virtual const csBox3& GetPhysicsBBox () const = 0;
 
+  // ------------------------------------------------------------------------
+
   /**
    * Create a box rigid body.
    * If the optional index is given then this body will replace the
@@ -220,6 +319,37 @@ struct iDynamicFactory : public virtual iBase
    * Delete all bodies.
    */
   virtual void DeleteBodies () = 0;
+
+  // ------------------------------------------------------------------------
+
+  /**
+   * Create a new joint and return a reference to the data so that it
+   * can be set up.
+   */
+  virtual DynFactJointDefinition& CreateJoint () = 0;
+
+  /**
+   * Get the amount of joints.
+   */
+  virtual size_t GetJointCount () const = 0;
+
+  /**
+   * Get a specific joint. The returned reference can be modified freely
+   * but objects created using this factory will not be updated automatically.
+   */
+  virtual DynFactJointDefinition& GetJoint (size_t idx) = 0;
+
+  /**
+   * Remove a joint.
+   */
+  virtual void RemoveJoint (size_t idx) = 0;
+
+  /**
+   * Remove all joints.
+   */
+  virtual void RemoveJoints () = 0;
+
+  // ------------------------------------------------------------------------
 
   /**
    * Create a pivot joint at a specific object space position (bullet only).
@@ -353,6 +483,20 @@ struct iDynamicObject : public virtual iBase
    * Remove all pivot joints.
    */
   virtual void RemovePivotJoints () = 0;
+
+  /**
+   * Connect another object to a specific joint in this object.
+   * This only works if the factory of this object actually defines
+   * a joint with the given index. Otherwise this function returns false.
+   */
+  virtual bool Connect (size_t jointIdx, iDynamicObject* obj) = 0;
+
+  /**
+   * Get the object connected at a specific joint. If there is no
+   * such object or there is no such joint defined in the factory
+   * then this function returns 0.
+   */
+  virtual iDynamicObject* GetConnectedObject (size_t jointIdx) = 0;
 
   /**
    * Refresh the colliders for this object.

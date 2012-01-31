@@ -1054,6 +1054,22 @@ void DynamicFactory::DeleteBody (size_t idx)
   UpdatePhysBBox ();
 }
 
+DynFactJointDefinition& DynamicFactory::CreateJoint ()
+{
+  size_t idx = joints.Push (DynFactJointDefinition ());
+  return joints[idx];
+}
+
+void DynamicFactory::RemoveJoint (size_t idx)
+{
+  joints.DeleteIndex (idx);
+}
+
+void DynamicFactory::RemoveJoints ()
+{
+  joints.DeleteAll ();
+}
+
 bool DynamicFactory::CreatePivotJoint (const csVector3& objpos)
 {
   pivotJoints.Push (objpos);
@@ -1125,6 +1141,7 @@ DynamicObject::DynamicObject (DynamicCell* cell, DynamicFactory* factory,
 DynamicObject::~DynamicObject ()
 {
   RemovePivotJoints ();
+  RemoveJoints ();
 }
 
 void DynamicObject::SetID (uint id)
@@ -1321,6 +1338,59 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
     dynobjFinder::AttachDynObj (mesh, this);
   }
   MeshBodyToEntity (mesh, body);
+}
+
+void DynamicObject::RemoveJoints ()
+{
+  for (size_t i = 0 ; i < joints.GetSize () ; i++)
+  {
+    if (joints[i])
+    {
+      cell->dynSys->RemoveJoint (joints[i]);
+      joints[i] = 0;
+    }
+  }
+}
+
+void DynamicObject::UpdateJoints ()
+{
+  connectedObjects.SetSize (factory->GetJointCount (), 0);
+  joints.SetSize (factory->GetJointCount (), 0);
+  if (!GetBody ()) { RemoveJoints (); return; }
+  for (size_t i = 0 ; i < joints.GetSize () ; i++)
+  {
+    if (!joints[i] && connectedObjects[i]->GetBody ())
+    {
+      csRef<iJoint> j = cell->dynSys->CreateJoint ();
+      joints[i] = j;
+      DynFactJointDefinition& def = factory->GetJoint (i);
+      j->SetTransform (def.GetTransform ());
+      j->SetTransConstraints (def.IsXTransConstrained (), def.IsYTransConstrained (),
+	  def.IsZTransConstrained ());
+      j->SetMinimumDistance (def.GetMinimumDistance ());
+      j->SetMaximumDistance (def.GetMaximumDistance ());
+      j->SetRotConstraints (def.IsXRotConstrained (), def.IsYRotConstrained (),
+	  def.IsZRotConstrained ());
+      j->SetMinimumAngle (def.GetMinimumAngle ());
+      j->SetMaximumAngle (def.GetMaximumAngle ());
+      j->SetBounce (def.GetBounce ());
+      j->SetMaxForce (def.GetMaxForce ());
+      j->Attach (connectedObjects[i]->GetBody (), GetBody ());
+    }
+    else
+    {
+      cell->dynSys->RemoveJoint (joints[i]);
+      joints[i] = 0;
+    }
+  }
+}
+
+bool DynamicObject::Connect (size_t jointIdx, iDynamicObject* obj)
+{
+}
+
+iDynamicObject* DynamicObject::GetConnectedObject (size_t jointIdx)
+{
 }
 
 void DynamicObject::RefreshColliders ()
