@@ -318,6 +318,12 @@ struct iDynamicObject : public virtual iBase
   virtual iRigidBody* GetBody () const = 0;
 
   /**
+   * Recreate the pivot joints from the factory. This
+   * will first remove all current pivot joints on the object.
+   */
+  virtual bool RecreatePivotJoints () = 0;
+
+  /**
    * Create a pivot joint at a specific world space position (bullet only).
    * Returns false if it was not possible to create a pivot.
    */
