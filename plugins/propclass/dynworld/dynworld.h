@@ -272,6 +272,7 @@ private:
   float maxradiusRelative;
 
   csArray<csVector3> pivotJoints;
+  csArray<DynFactJointDefinition> joints;
 
   csRef<iGeometryGenerator> geometryGenerator;
   csRef<iImposterFactory> imposterFactory;
@@ -325,6 +326,12 @@ public:
   virtual void DeleteBody (size_t idx);
   virtual void DeleteBodies ();
 
+  virtual DynFactJointDefinition& CreateJoint ();
+  virtual size_t GetJointCount () const { return joints.GetSize (); }
+  virtual DynFactJointDefinition& GetJoint (size_t idx) { return joints[idx]; }
+  virtual void RemoveJoint (size_t idx);
+  virtual void RemoveJoints ();
+
   virtual bool CreatePivotJoint (const csVector3& objpos);
   virtual size_t GetPivotJointCount () const { return pivotJoints.GetSize (); }
   virtual csVector3 GetPivotJointPosition (size_t idx);
@@ -362,6 +369,14 @@ private:
 
   // Pivot joints.
   csRefArray<CS::Physics::Bullet::iPivotJoint> pivotJoints;
+
+  // Connected objects (indices are same as the indices of the factory joints).
+  csRefArray<iDynamicObject> connectedObjects;
+  csRefArray<iJoint> joints;
+
+  // Update all joints for all bodies that exist.
+  void UpdateJoints ();
+  void RemoveJoints ();
 
   bool atBaseline;
   // A dynamic object that is at the baseline (atBaseline == true)
@@ -423,6 +438,10 @@ public:
   virtual void RemovePivotJoints ();
 
   const csSphere& GetBSphere () const;
+
+  virtual bool Connect (size_t jointIdx, iDynamicObject* obj);
+  virtual iDynamicObject* GetConnectedObject (size_t jointIdx);
+
   virtual void RefreshColliders ();
   virtual const csReversibleTransform& GetTransform ();
   virtual void SetTransform (const csReversibleTransform& trans);
