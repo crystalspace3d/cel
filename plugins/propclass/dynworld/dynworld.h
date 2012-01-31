@@ -414,6 +414,7 @@ public:
   virtual iMeshWrapper* GetMesh () const { return mesh; }
 
   virtual iRigidBody* GetBody () const { return body; }
+  virtual bool RecreatePivotJoints ();
   virtual bool CreatePivotJoint (const csVector3& worldpos);
   virtual size_t GetPivotJointCount () const { return pivotJoints.GetSize (); }
   virtual csVector3 GetPivotJointPosition (size_t idx);

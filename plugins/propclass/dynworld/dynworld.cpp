@@ -1450,6 +1450,13 @@ void DynamicObject::MovableDestroyed (iMovable*)
 {
 }
 
+bool DynamicObject::RecreatePivotJoints ()
+{
+  RemovePivotJoints ();
+  SetupPivotJoints ();
+  return true;
+}
+
 bool DynamicObject::CreatePivotJoint (const csVector3& worldpos)
 {
   csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
