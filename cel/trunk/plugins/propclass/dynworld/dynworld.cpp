@@ -1099,7 +1099,7 @@ void DynamicObject::Init (DynamicCell* cell)
   id = 0;
 }
 
-void DynamicObject::SetupFactory ()
+void DynamicObject::SetupPivotJoints ()
 {
   for (size_t i = 0 ; i < factory->GetPivotJointCount () ; i++)
   {
@@ -1120,7 +1120,6 @@ DynamicObject::DynamicObject (DynamicCell* cell, DynamicFactory* factory,
   DynamicObject::factory = factory;
   DynamicObject::trans = trans;
   child = 0;
-  SetupFactory ();
 }
 
 DynamicObject::~DynamicObject ()
@@ -1312,6 +1311,8 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   if (is_static)
     body->MakeStatic ();
 
+  SetupPivotJoints ();
+
   ForceEntity ();
   if (!entity)
   {
@@ -1333,6 +1334,8 @@ void DynamicObject::RefreshColliders ()
   }
   if (is_static)
     body->MakeStatic ();
+
+  SetupPivotJoints ();
 }
 
 bool DynamicObject::HasBody (iRigidBody* body)
@@ -1432,8 +1435,6 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
     SetEntity (0, tmpName, 0);
   else if (factory->GetDefaultEntityTemplate ())
     SetEntity (0, factory->GetDefaultEntityTemplate (), 0);
-
-  SetupFactory ();
 
   return true;
 }
