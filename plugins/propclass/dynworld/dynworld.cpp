@@ -1356,7 +1356,6 @@ void DynamicObject::RemoveJoints ()
       joints[i] = 0;
     }
   }
-  UpdateJoints ();
 }
 
 void DynamicObject::UpdateJoints ()
