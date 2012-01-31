@@ -329,6 +329,7 @@ public:
   virtual DynFactJointDefinition& CreateJoint ();
   virtual size_t GetJointCount () const { return joints.GetSize (); }
   virtual DynFactJointDefinition& GetJoint (size_t idx) { return joints[idx]; }
+  virtual void SetJoint (size_t idx, const DynFactJointDefinition& def);
   virtual void RemoveJoint (size_t idx);
   virtual void RemoveJoints ();
 
