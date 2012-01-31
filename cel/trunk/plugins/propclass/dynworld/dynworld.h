@@ -271,6 +271,8 @@ private:
   csBox3 physBbox;
   float maxradiusRelative;
 
+  csArray<csVector3> pivotJoints;
+
   csRef<iGeometryGenerator> geometryGenerator;
   csRef<iImposterFactory> imposterFactory;
   float imposterradius;
@@ -323,6 +325,13 @@ public:
   virtual void DeleteBody (size_t idx);
   virtual void DeleteBodies ();
 
+  virtual bool CreatePivotJoint (const csVector3& objpos);
+  virtual size_t GetPivotJointCount () const { return pivotJoints.GetSize (); }
+  virtual csVector3 GetPivotJointPosition (size_t idx);
+  virtual void SetPivotJointPosition (size_t idx, const csVector3& objpos);
+  virtual void RemovePivotJoint (size_t idx);
+  virtual void RemovePivotJoints ();
+
   const csPDelArray<DOCollider>& GetColliders () const { return colliders; }
   iMeshFactoryWrapper* GetMeshFactory () const { return factory; }
   virtual const char* GetName () const { return name; }
@@ -370,6 +379,7 @@ private:
 
   void InstallHilight (bool hi);
   void Init (DynamicCell* cell);
+  void SetupFactory ();
 
   mutable csSphere bsphere;
   mutable bool bsphereValid;
