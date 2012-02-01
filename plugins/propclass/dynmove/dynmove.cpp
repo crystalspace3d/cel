@@ -118,6 +118,8 @@ celPcDynamicMove::~celPcDynamicMove ()
 void celPcDynamicMove::EnableMouselook (bool enable)
 {
   mouselookEnabled = enable;
+  if (mouselookEnabled)
+    g2d->SetMousePosition (g2d->GetWidth () / 2, g2d->GetHeight () / 2);
 }
 
 void celPcDynamicMove::TickEveryFrame ()
