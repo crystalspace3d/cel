@@ -35,6 +35,7 @@ struct iMeshWrapper;
 struct iELCM;
 struct iCelParameterBlock;
 struct iCelEntity;
+struct iCelEntityTemplate;
 struct iDataBuffer;
 struct iDynamicCell;
 
@@ -544,6 +545,11 @@ struct iDynamicObject : public virtual iBase
    * put the entity in some inventory so you have to delete the dynobj afterwards.
    */
   virtual void UnlinkEntity () = 0;
+
+  /**
+   * Get the entity template associated with this dynamic object.
+   */
+  virtual iCelEntityTemplate* GetEntityTemplate () const = 0;
 
   /**
    * Get the (optional) entity for this dynamic object. If the dynamic object
