@@ -502,6 +502,12 @@ void DynamicCell::DeleteObject (iDynamicObject* dynobj)
 
 void DynamicCell::DeleteObjects ()
 {
+  for (size_t i = 0 ; i < objects.GetSize () ; i++)
+  {
+    DynamicObject* obj = static_cast<DynamicObject*> (objects[i]);
+    obj->RemoveJoints ();
+    obj->RemovePivotJoints ();
+  }
   while (objects.GetSize () > 0)
   {
     csRef<DynamicObject> dynobj = objects.Pop ();
@@ -1353,7 +1359,7 @@ void DynamicObject::RemoveJoints ()
     if (joints[i])
     {
       cell->dynSys->RemoveJoint (joints[i]);
-      joints[i] = 0;
+      joints.Put (i, 0);
     }
   }
 }
@@ -1368,7 +1374,7 @@ void DynamicObject::UpdateJoints ()
     if (!joints[i] && connectedObjects[i] && connectedObjects[i]->GetBody ())
     {
       csRef<iJoint> j = cell->dynSys->CreateJoint ();
-      joints[i] = j;
+      joints.Put (i, j);
       DynFactJointDefinition& def = factory->GetJoint (i);
       j->SetTransform (def.GetTransform ());
       j->SetTransConstraints (def.IsXTransConstrained (), def.IsYTransConstrained (),
@@ -1386,7 +1392,7 @@ void DynamicObject::UpdateJoints ()
     else
     {
       cell->dynSys->RemoveJoint (joints[i]);
-      joints[i] = 0;
+      joints.Put (i, 0);
     }
   }
 }
@@ -1399,9 +1405,9 @@ bool DynamicObject::Connect (size_t jointIdx, iDynamicObject* obj)
   if (joints[jointIdx])
   {
     cell->dynSys->RemoveJoint (joints[jointIdx]);
-    joints[jointIdx] = 0;
+    joints.Put (jointIdx, 0);
   }
-  connectedObjects[jointIdx] = obj;
+  connectedObjects.Put (jointIdx, obj);
   UpdateJoints ();
   return true;
 }

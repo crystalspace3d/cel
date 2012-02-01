@@ -377,7 +377,6 @@ private:
 
   // Update all joints for all bodies that exist.
   void UpdateJoints ();
-  void RemoveJoints ();
 
   bool atBaseline;
   // A dynamic object that is at the baseline (atBaseline == true)
@@ -442,6 +441,7 @@ public:
 
   virtual bool Connect (size_t jointIdx, iDynamicObject* obj);
   virtual void RecreateJoints ();
+  void RemoveJoints ();
   virtual iDynamicObject* GetConnectedObject (size_t jointIdx);
 
   virtual void RefreshColliders ();
