@@ -493,8 +493,15 @@ struct iDynamicObject : public virtual iBase
    * Connect another object to a specific joint in this object.
    * This only works if the factory of this object actually defines
    * a joint with the given index. Otherwise this function returns false.
+   * If 'obj' is 0 then the connection will be removed.
    */
   virtual bool Connect (size_t jointIdx, iDynamicObject* obj) = 0;
+
+  /**
+   * Recreate the joints. This is useful after the joints have been
+   * modified in the dynamic factories so that they have the new information.
+   */
+  virtual void RecreateJoints () = 0;
 
   /**
    * Get the object connected at a specific joint. If there is no

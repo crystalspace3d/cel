@@ -441,6 +441,7 @@ public:
   const csSphere& GetBSphere () const;
 
   virtual bool Connect (size_t jointIdx, iDynamicObject* obj);
+  virtual void RecreateJoints ();
   virtual iDynamicObject* GetConnectedObject (size_t jointIdx);
 
   virtual void RefreshColliders ();

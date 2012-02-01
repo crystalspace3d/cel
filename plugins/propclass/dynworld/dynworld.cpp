@@ -1406,6 +1406,12 @@ bool DynamicObject::Connect (size_t jointIdx, iDynamicObject* obj)
   return true;
 }
 
+void DynamicObject::RecreateJoints ()
+{
+  RemoveJoints ();
+  UpdateJoints ();
+}
+
 iDynamicObject* DynamicObject::GetConnectedObject (size_t jointIdx)
 {
   if (jointIdx >= factory->GetJointCount ()) return 0;
