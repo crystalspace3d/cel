@@ -450,6 +450,7 @@ public:
   virtual bool SetEntity (const char* entityName, const char* entityTplName, iCelParameterBlock* params);
   virtual void LinkEntity (iCelEntity* entity);
   virtual void UnlinkEntity ();
+  virtual iCelEntityTemplate* GetEntityTemplate () const { return entityTemplate; }
   virtual iCelEntity* GetEntity () const { return entity; }
   virtual csPtr<iString> GetDescription () const;
 
