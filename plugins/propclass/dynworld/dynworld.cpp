@@ -1421,7 +1421,10 @@ iDynamicObject* DynamicObject::GetConnectedObject (size_t jointIdx)
 void DynamicObject::RefreshColliders ()
 {
   if (!body) return;
+  bsphereValid = false;
+  trans = mesh->GetMovable ()->GetTransform ();
   body->DestroyColliders ();
+  body = 0;
   const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
   for (size_t i = 0 ; i < colliders.GetSize () ; i++)
   {
@@ -1432,6 +1435,8 @@ void DynamicObject::RefreshColliders ()
 
   SetupPivotJoints ();
   UpdateJoints ();
+
+  MeshBodyToEntity (mesh, body);
 }
 
 bool DynamicObject::HasBody (iRigidBody* body)
