@@ -504,7 +504,7 @@ void DynamicCell::DeleteObjects ()
 {
   for (size_t i = 0 ; i < objects.GetSize () ; i++)
   {
-    DynamicObject* obj = static_cast<DynamicObject*> (objects[i]);
+    DynamicObject* obj = static_cast<DynamicObject*> (objects.Get (i));
     obj->RemoveJoints ();
     obj->RemovePivotJoints ();
   }

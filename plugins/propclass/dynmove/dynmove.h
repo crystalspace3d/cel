@@ -79,6 +79,7 @@ private:
 
   csRef<iGraphics2D> g2d;
   csRef<iMouseDriver> mouse;
+  bool mouselookEnabled;
 
   // For properties.
   enum propids
@@ -115,6 +116,9 @@ public:
   // for the 'correctup' property.
   virtual bool SetPropertyIndexed (int idx, bool b);
   virtual bool GetPropertyIndexed (int, bool& b);
+
+  virtual void EnableMouselook (bool enable);
+  virtual bool IsMouselookEnabled () const { return mouselookEnabled; }
 };
 
 #endif // __CEL_PF_DYNMOVEFACT__
