@@ -35,6 +35,15 @@
 struct iPcDynamicMove : public virtual iBase
 {
   SCF_INTERFACE (iPcDynamicMove, 0, 0, 1);
+
+  /**
+   * Disable/Enable mouselook.
+   * With this you can disable mouselook even if the "mouselook" message
+   * is sent. This can be useful to have temporary fine control over mouse
+   * movement (for grabbing for example).
+   */
+  virtual void EnableMouselook (bool enable) = 0;
+  virtual bool IsMouselookEnabled () const = 0;
 };
 
 #endif // __CEL_PF_DYNMOVE__

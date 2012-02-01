@@ -106,11 +106,18 @@ celPcDynamicMove::celPcDynamicMove (iObjectRegistry* object_reg)
   csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
   g2d = g3d->GetDriver2D ();
   mouse = csQueryRegistry<iMouseDriver> (object_reg);
+
+  mouselookEnabled = true;
 }
 
 celPcDynamicMove::~celPcDynamicMove ()
 {
   pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+}
+
+void celPcDynamicMove::EnableMouselook (bool enable)
+{
+  mouselookEnabled = enable;
 }
 
 void celPcDynamicMove::TickEveryFrame ()
@@ -204,6 +211,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   if (msgid == id_input_mouselook)
   {
     GetCam ();
+    if (!mouselookEnabled) return false;
     g2d->SetMouseCursor (csmcNone);
     int x = mouse->GetLastX ();
     int y = mouse->GetLastY ();
