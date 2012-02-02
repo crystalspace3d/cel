@@ -862,7 +862,7 @@ void MeshCache::RemoveMesh (iMeshWrapper* mesh)
 DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
     float maxradiusRelative, float imposterradius) :
   scfImplementationType (this), name (name), world (world),
-  maxradiusRelative (maxradiusRelative)
+  maxradiusRelative (maxradiusRelative), defaultInvisible (false)
 {
   bbox.StartBoundingBox ();
   physBbox.StartBoundingBox ();
@@ -1368,6 +1368,10 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   if (mesh) return;
   mesh = world->meshCache.AddMesh (world->engine, factory->GetMeshFactory (),
       cell->sector, trans);
+  bool invis;
+  if (world->IsInvisibleShown ()) invis = false;
+  else invis = factory->IsInvisible ();
+  mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE, invis ? CS_ENTITY_INVISIBLE : 0);
   factory->GetWorld ()->GetIdToDynObj ().Put (id, this);
   mesh->GetMovable ()->AddListener (this);
   lastUpdateNr = mesh->GetMovable ()->GetUpdateNumber ();
@@ -1815,6 +1819,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
 
   currentCell = 0;
   inhibitEntities = false;
+  showInvisible = false;
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
@@ -2409,6 +2414,28 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     CS_ASSERT (cell != 0);
     cell->RestoreModifications (buf, strings);
     cellID = buf->GetID ();
+  }
+}
+
+void celPcDynamicWorld::ShowInvisible (bool e)
+{
+  showInvisible = e;
+  csHash<csRef<DynamicCell>,csString>::GlobalIterator it = cells.GetIterator ();
+  while (it.HasNext ())
+  {
+    csString name;
+    csRef<DynamicCell> cell = it.Next (name);
+    for (size_t i = 0 ; i < cell->GetObjectCount () ; i++)
+    {
+      iDynamicObject* obj = cell->GetObject (i);
+      if (obj->GetMesh ())
+      {
+	bool invis;
+	if (showInvisible) invis = false;
+	else invis = obj->GetFactory ()->IsInvisible ();
+	obj->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE, invis ? CS_ENTITY_INVISIBLE : 0);
+      }
+    }
   }
 }
 
