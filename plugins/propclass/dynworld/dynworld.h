@@ -142,6 +142,7 @@ public:
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     body->AttachColliderMesh (mesh, t, 10, 1, 0.8f);
+    body->AdjustTotalMass (mass);
     return body;
   }
   virtual celBodyInfo GetBodyInfo ()
@@ -165,6 +166,7 @@ public:
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     body->AttachColliderConvexMesh (mesh, t, 10, 1, 0.8f);
+    body->AdjustTotalMass (mass);
     return body;
   }
   virtual celBodyInfo GetBodyInfo ()
@@ -191,6 +193,7 @@ public:
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     body->AttachColliderBox (size, t, 10, 1, 0);
+    body->AdjustTotalMass (mass);
     return body;
   }
   virtual celBodyInfo GetBodyInfo ()
@@ -219,6 +222,7 @@ public:
     csOrthoTransform t (tm, offset);
     t.RotateThis (csVector3 (1.0f, 0.0f, 0.0f), HALF_PI);
     body->AttachColliderCylinder (length, radius, t, 10, 1, 0.8f);
+    body->AdjustTotalMass (mass);
     return body;
   }
   virtual celBodyInfo GetBodyInfo ()
@@ -245,6 +249,7 @@ public:
   {
     csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
     body->AttachColliderSphere (radius, offset, 100, .5, 0);
+    body->AdjustTotalMass (mass);
     return body;
   }
   virtual celBodyInfo GetBodyInfo ()
