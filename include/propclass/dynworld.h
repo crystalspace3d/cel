@@ -239,22 +239,20 @@ struct iDynamicFactory : public virtual iBase
   /**
    * Generic attribute system.
    */
+  virtual void SetAttribute (csStringID nameID, const char* value) = 0;
   virtual void SetAttribute (const char* name, const char* value) = 0;
 
   /**
-   * Generic attribute system.
+   * Clear a given attribute.
    */
-  virtual void SetAttribute (csStringID nameID, const char* value) = 0;
-
-  /**
-   * Get an attribute.
-   */
-  virtual const char* GetAttribute (const char* name) const = 0;
+  virtual void ClearAttribute (csStringID nameID) = 0;
+  virtual void ClearAttribute (const char* name) = 0;
 
   /**
    * Get an attribute.
    */
   virtual const char* GetAttribute (csStringID nameID) const = 0;
+  virtual const char* GetAttribute (const char* name) const = 0;
 
   /**
    * Get all attributes.

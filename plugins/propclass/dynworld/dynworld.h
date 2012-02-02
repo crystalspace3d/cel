@@ -312,6 +312,8 @@ public:
   }
   virtual void SetAttribute (const char* name, const char* value);
   virtual void SetAttribute (csStringID nameID, const char* value);
+  virtual void ClearAttribute (csStringID nameID);
+  virtual void ClearAttribute (const char* name);
   virtual const char* GetAttribute (const char* name) const;
   virtual const char* GetAttribute (csStringID nameID) const;
   virtual csPtr<iAttributeIterator> GetAttributes () const;
