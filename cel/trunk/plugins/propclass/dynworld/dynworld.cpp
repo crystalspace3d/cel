@@ -922,6 +922,16 @@ void DynamicFactory::SetAttribute (const char* name, const char* value)
   SetAttribute (world->pl->FetchStringID (name), value);
 }
 
+void DynamicFactory::ClearAttribute (csStringID nameID)
+{
+  attributes.DeleteAll (nameID);
+}
+
+void DynamicFactory::ClearAttribute (const char* name)
+{
+  ClearAttribute (world->pl->FetchStringID (name));
+}
+
 const char* DynamicFactory::GetAttribute (csStringID nameID) const
 {
   return attributes.Get (nameID, (const char*)0);
