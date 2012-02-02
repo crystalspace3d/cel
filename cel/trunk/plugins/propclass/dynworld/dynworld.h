@@ -282,7 +282,7 @@ private:
   csRef<iGeometryGenerator> geometryGenerator;
   csRef<iImposterFactory> imposterFactory;
   float imposterradius;
-  csHash<csString,csString> attributes;
+  csHash<csString,csStringID> attributes;
 
   void UpdatePhysBBox ();
 
@@ -311,7 +311,10 @@ public:
     return geometryGenerator;
   }
   virtual void SetAttribute (const char* name, const char* value);
+  virtual void SetAttribute (csStringID nameID, const char* value);
   virtual const char* GetAttribute (const char* name) const;
+  virtual const char* GetAttribute (csStringID nameID) const;
+  virtual csPtr<iAttributeIterator> GetAttributes () const;
 
   virtual void AddRigidBox (const csVector3& offset, const csVector3& size,
       float mass, size_t idx = csArrayItemNotFound);
