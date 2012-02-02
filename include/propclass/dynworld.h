@@ -197,6 +197,18 @@ public:
 };
 
 /**
+ * This iterator is returned by iDynamicFactory->GetAttributes().
+ */
+struct iAttributeIterator : public virtual iBase
+{
+  SCF_INTERFACE(iAttributeIterator,0,0,1);
+
+  virtual bool HasNext () const = 0;
+  /// Returns a string ID representing the attribute.
+  virtual csStringID Next () = 0;
+};
+
+/**
  * A factory object in the dynamic world.
  */
 struct iDynamicFactory : public virtual iBase
@@ -230,9 +242,24 @@ struct iDynamicFactory : public virtual iBase
   virtual void SetAttribute (const char* name, const char* value) = 0;
 
   /**
+   * Generic attribute system.
+   */
+  virtual void SetAttribute (csStringID nameID, const char* value) = 0;
+
+  /**
    * Get an attribute.
    */
   virtual const char* GetAttribute (const char* name) const = 0;
+
+  /**
+   * Get an attribute.
+   */
+  virtual const char* GetAttribute (csStringID nameID) const = 0;
+
+  /**
+   * Get all attributes.
+   */
+  virtual csPtr<iAttributeIterator> GetAttributes () const = 0;
 
   /**
    * Get the maximum relative radius for this factory.

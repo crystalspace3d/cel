@@ -912,14 +912,50 @@ void DynamicFactory::SetImposterRadius (float r)
   }
 }
 
+void DynamicFactory::SetAttribute (csStringID nameID, const char* value)
+{
+  attributes.Put (nameID, value);
+}
+
 void DynamicFactory::SetAttribute (const char* name, const char* value)
 {
-  attributes.Put (name, value);
+  SetAttribute (world->pl->FetchStringID (name), value);
+}
+
+const char* DynamicFactory::GetAttribute (csStringID nameID) const
+{
+  return attributes.Get (nameID, (const char*)0);
 }
 
 const char* DynamicFactory::GetAttribute (const char* name) const
 {
-  return attributes.Get (name, (const char*)0);
+  return GetAttribute (world->pl->FetchStringID (name));
+}
+
+class AttributeIterator : public scfImplementation1<AttributeIterator,
+	iAttributeIterator>
+{
+private:
+  csHash<csString, csStringID>::ConstGlobalIterator it;
+
+public:
+  AttributeIterator (const csHash<csString, csStringID>::ConstGlobalIterator it) :
+	  scfImplementationType (this), it (it)
+  {
+  }
+  virtual ~AttributeIterator () { }
+  virtual bool HasNext () const { return it.HasNext (); }
+  virtual csStringID Next ()
+  {
+    csStringID key;
+    it.Next (key);
+    return key;
+  }
+};
+
+csPtr<iAttributeIterator> DynamicFactory::GetAttributes () const
+{
+  return new AttributeIterator (attributes.GetIterator ());
 }
 
 void DynamicFactory::AddRigidBox (const csVector3& offset, const csVector3& size,
