@@ -218,6 +218,14 @@ struct iDynamicFactory : public virtual iBase
   virtual const char* GetName () const = 0;
 
   /**
+   * If 'invisible' is true then dynamic objects created from this
+   * factory will be invisible. A mesh will be created (along with
+   * all the rest) but it will be marked as invisible for the engine.
+   */
+  virtual void SetInvisible (bool inv) = 0;
+  virtual bool IsInvisible () const = 0;
+
+  /**
    * Set the entity template that is linked to this factory.
    * This represents the default entity template to be used when
    * creating entities from this dynamic object.
@@ -687,6 +695,14 @@ struct iPcDynamicWorld : public virtual iBase
    * Returns true if entity creation is inhibited.
    */
   virtual bool IsInhibitEntities () const = 0;
+
+  /**
+   * Force invisible objects to be visible even when the factory
+   * says otherwise. This is useful in case you have an editor and want
+   * to see the invisible object as well.
+   */
+  virtual void ShowInvisible (bool e) = 0;
+  virtual bool IsInvisibleShown () const = 0;
 
   //------------------------------------------------------------------------------
 

@@ -49,7 +49,8 @@ enum
   XMLTOKEN_POINT,
   XMLTOKEN_EXTENSION,
   XMLTOKEN_JOINT,
-  XMLTOKEN_PIVOT
+  XMLTOKEN_PIVOT,
+  XMLTOKEN_INVISIBLE
 };
 
 //---------------------------------------------------------------------------------------
@@ -92,6 +93,7 @@ bool celAddOnDynamicWorldLoader::Initialize (iObjectRegistry *object_reg)
   xmltokens.Register ("extension", XMLTOKEN_EXTENSION);
   xmltokens.Register ("joint", XMLTOKEN_JOINT);
   xmltokens.Register ("pivot", XMLTOKEN_PIVOT);
+  xmltokens.Register ("invisible", XMLTOKEN_INVISIBLE);
 
   return true;
 }
@@ -115,6 +117,11 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
 	"Could not add factory '%s'!", name.GetData ());
     return false;
   }
+  bool invis = false;
+  if (node->GetAttribute ("invisible"))
+    invis = node->GetAttributeValueAsBool ("invisible");
+  if (invis)
+    fact->SetInvisible (invis);
   if (node->GetAttribute ("template"))
   {
     csString tmpName = node->GetAttributeValue ("template");

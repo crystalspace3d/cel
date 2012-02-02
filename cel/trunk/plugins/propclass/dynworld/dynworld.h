@@ -275,6 +275,7 @@ private:
   csBox3 bbox;
   csBox3 physBbox;
   float maxradiusRelative;
+  bool defaultInvisible;
 
   csArray<csVector3> pivotJoints;
   csArray<DynFactJointDefinition> joints;
@@ -296,6 +297,9 @@ public:
   virtual void SetImposterRadius (float r);
   virtual const csBox3& GetBBox () const { return bbox; }
   const csSphere& GetBSphere () const { return bsphere; }
+
+  virtual void SetInvisible (bool inv) { defaultInvisible = inv; }
+  virtual bool IsInvisible () const { return defaultInvisible; }
 
   virtual void SetDefaultEntityTemplate (const char* tmpName) { tplName = tmpName; }
   virtual const char* GetDefaultEntityTemplate () const { return tplName; }
@@ -590,6 +594,8 @@ public:
 
   // Don't create entities if this is true.
   bool inhibitEntities;
+  // Show invisible meshes.
+  bool showInvisible;
 
   uint lastIDBlock;
   // The following flag is set to true while we are restoring ID blocks.
@@ -665,6 +671,8 @@ public:
 
   virtual void InhibitEntities (bool e) { inhibitEntities = e; }
   virtual bool IsInhibitEntities () const { return inhibitEntities; }
+  virtual void ShowInvisible (bool e);
+  virtual bool IsInvisibleShown () const { return showInvisible; }
 
   void SafeToRemove (iCelEntity* entity);
   virtual void Dump ();
