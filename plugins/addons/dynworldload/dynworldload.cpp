@@ -47,7 +47,9 @@ enum
   XMLTOKEN_CONVEXMESH,
   XMLTOKEN_MATERIAL,
   XMLTOKEN_POINT,
-  XMLTOKEN_EXTENSION
+  XMLTOKEN_EXTENSION,
+  XMLTOKEN_JOINT,
+  XMLTOKEN_PIVOT
 };
 
 //---------------------------------------------------------------------------------------
@@ -88,6 +90,8 @@ bool celAddOnDynamicWorldLoader::Initialize (iObjectRegistry *object_reg)
   xmltokens.Register ("material", XMLTOKEN_MATERIAL);
   xmltokens.Register ("point", XMLTOKEN_POINT);
   xmltokens.Register ("extension", XMLTOKEN_EXTENSION);
+  xmltokens.Register ("joint", XMLTOKEN_JOINT);
+  xmltokens.Register ("pivot", XMLTOKEN_PIVOT);
 
   return true;
 }
@@ -128,6 +132,113 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
       case XMLTOKEN_ATTR:
 	fact->SetAttribute (child->GetAttributeValue ("name"),
 	    child->GetAttributeValue ("value"));
+	break;
+      case XMLTOKEN_PIVOT:
+	{
+	  csRef<iDocumentNode> originNode = child->GetNode ("origin");
+	  if (originNode)
+	  {
+	    csVector3 origin;
+	    if (!synldr->ParseVector (originNode, origin))
+	    {
+	      synldr->ReportError ("dynworld.loader", child,
+		  "Error parsing 'origin' for factory '%s'!", name.GetData ());
+	      return false;
+	    }
+	    fact->CreatePivotJoint (origin);
+	  }
+	}
+	break;
+      case XMLTOKEN_JOINT:
+	{
+	  DynFactJointDefinition& def = fact->CreateJoint ();
+	  csRef<iDocumentNode> originNode = child->GetNode ("origin");
+	  if (originNode)
+	  {
+	    csVector3 origin;
+	    if (!synldr->ParseVector (originNode, origin))
+	    {
+	      synldr->ReportError ("dynworld.loader", child,
+		  "Error parsing 'origin' for factory '%s'!", name.GetData ());
+	      return false;
+	    }
+	    def.trans.SetOrigin (origin);
+	  }
+	  csRef<iDocumentNode> transNode = child->GetNode ("locktrans");
+	  if (transNode)
+	  {
+	    def.transX = transNode->GetAttributeValueAsBool ("x");
+	    def.transY = transNode->GetAttributeValueAsBool ("y");
+	    def.transZ = transNode->GetAttributeValueAsBool ("z");
+	  }
+	  csRef<iDocumentNode> rotNode = child->GetNode ("lockrot");
+	  if (rotNode)
+	  {
+	    def.rotX = rotNode->GetAttributeValueAsBool ("x");
+	    def.rotY = rotNode->GetAttributeValueAsBool ("y");
+	    def.rotZ = rotNode->GetAttributeValueAsBool ("z");
+	  }
+	  csRef<iDocumentNode> mindistNode = child->GetNode ("mindist");
+	  if (mindistNode)
+	  {
+	    if (!synldr->ParseVector (mindistNode, def.mindist))
+	    {
+	      synldr->ReportError ("dynworld.loader", child,
+		  "Error parsing 'mindist' for factory '%s'!", name.GetData ());
+	      return false;
+	    }
+	  }
+	  csRef<iDocumentNode> maxdistNode = child->GetNode ("maxdist");
+	  if (maxdistNode)
+	  {
+	    if (!synldr->ParseVector (maxdistNode, def.maxdist))
+	    {
+	      synldr->ReportError ("dynworld.loader", child,
+		  "Error parsing 'maxdist' for factory '%s'!", name.GetData ());
+	      return false;
+	    }
+	  }
+	  csRef<iDocumentNode> minrotNode = child->GetNode ("minrot");
+	  if (minrotNode)
+	  {
+	    if (!synldr->ParseVector (minrotNode, def.minrot))
+	    {
+	      synldr->ReportError ("dynworld.loader", child,
+		  "Error parsing 'minrot' for factory '%s'!", name.GetData ());
+	      return false;
+	    }
+	  }
+	  csRef<iDocumentNode> maxrotNode = child->GetNode ("maxrot");
+	  if (maxrotNode)
+	  {
+	    if (!synldr->ParseVector (maxrotNode, def.maxrot))
+	    {
+	      synldr->ReportError ("dynworld.loader", child,
+		  "Error parsing 'maxrot' for factory '%s'!", name.GetData ());
+	      return false;
+	    }
+	  }
+	  csRef<iDocumentNode> bounceNode = child->GetNode ("bounce");
+	  if (bounceNode)
+	  {
+	    if (!synldr->ParseVector (bounceNode, def.bounce))
+	    {
+	      synldr->ReportError ("dynworld.loader", child,
+		  "Error parsing 'bounce' for factory '%s'!", name.GetData ());
+	      return false;
+	    }
+	  }
+	  csRef<iDocumentNode> maxforceNode = child->GetNode ("maxforce");
+	  if (maxforceNode)
+	  {
+	    if (!synldr->ParseVector (maxforceNode, def.maxforce))
+	    {
+	      synldr->ReportError ("dynworld.loader", child,
+		  "Error parsing 'maxforce' for factory '%s'!", name.GetData ());
+	      return false;
+	    }
+	  }
+	}
 	break;
       case XMLTOKEN_BOX:
 	{
