@@ -461,4 +461,207 @@ csPtr<iBase> celAddOnDynamicWorldLoader::Parse (iDocumentNode* node,
   return this;
 }
 
+bool celAddOnDynamicWorldLoader::WriteBodies (iDocumentNode* factNode, iDynamicFactory* fact)
+{
+  float mass = 0.0f;
+  for (size_t j = 0 ; j < fact->GetBodyCount () ; j++)
+  {
+    celBodyInfo info = fact->GetBody (j);
+    if (info.mass > mass) mass = info.mass;
+    switch (info.type)
+    {
+      case BODY_NONE:
+	break;
+      case BODY_BOX:
+	{
+	  csRef<iDocumentNode> bodyNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  bodyNode->SetValue ("box");
+	  csRef<iDocumentNode> offsetNode = bodyNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  offsetNode->SetValue ("offset");
+	  offsetNode->SetAttributeAsFloat ("x", info.offset.x);
+	  offsetNode->SetAttributeAsFloat ("y", info.offset.y);
+	  offsetNode->SetAttributeAsFloat ("z", info.offset.z);
+	  csRef<iDocumentNode> sizeNode = bodyNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  sizeNode->SetValue ("size");
+	  sizeNode->SetAttributeAsFloat ("x", info.size.x);
+	  sizeNode->SetAttributeAsFloat ("y", info.size.y);
+	  sizeNode->SetAttributeAsFloat ("z", info.size.z);
+	}
+	break;
+      case BODY_CYLINDER:
+	{
+	  csRef<iDocumentNode> bodyNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  bodyNode->SetValue ("cylinder");
+	  csRef<iDocumentNode> offsetNode = bodyNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  offsetNode->SetValue ("offset");
+	  offsetNode->SetAttributeAsFloat ("x", info.offset.x);
+	  offsetNode->SetAttributeAsFloat ("y", info.offset.y);
+	  offsetNode->SetAttributeAsFloat ("z", info.offset.z);
+	  bodyNode->SetAttributeAsFloat ("radius", info.radius);
+	  bodyNode->SetAttributeAsFloat ("length", info.length);
+	}
+	break;
+      case BODY_SPHERE:
+	{
+	  csRef<iDocumentNode> bodyNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  bodyNode->SetValue ("sphere");
+	  csRef<iDocumentNode> offsetNode = bodyNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  offsetNode->SetValue ("offset");
+	  offsetNode->SetAttributeAsFloat ("x", info.offset.x);
+	  offsetNode->SetAttributeAsFloat ("y", info.offset.y);
+	  offsetNode->SetAttributeAsFloat ("z", info.offset.z);
+	  bodyNode->SetAttributeAsFloat ("radius", info.radius);
+	}
+	break;
+      case BODY_CONVEXMESH:
+	{
+	  csRef<iDocumentNode> bodyNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  bodyNode->SetValue ("convexmesh");
+	  csRef<iDocumentNode> offsetNode = bodyNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  offsetNode->SetValue ("offset");
+	  offsetNode->SetAttributeAsFloat ("x", info.offset.x);
+	  offsetNode->SetAttributeAsFloat ("y", info.offset.y);
+	  offsetNode->SetAttributeAsFloat ("z", info.offset.z);
+	}
+	break;
+      case BODY_MESH:
+	{
+	  csRef<iDocumentNode> bodyNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  bodyNode->SetValue ("mesh");
+	  csRef<iDocumentNode> offsetNode = bodyNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  offsetNode->SetValue ("offset");
+	  offsetNode->SetAttributeAsFloat ("x", info.offset.x);
+	  offsetNode->SetAttributeAsFloat ("y", info.offset.y);
+	  offsetNode->SetAttributeAsFloat ("z", info.offset.z);
+	}
+	break;
+    }
+  }
+  factNode->SetAttributeAsFloat ("mass", mass);
+  return true;
+}
+
+bool celAddOnDynamicWorldLoader::WritePivots (iDocumentNode* factNode, iDynamicFactory* fact)
+{
+  for (size_t i = 0 ; i < fact->GetPivotJointCount () ; i++)
+  {
+    csVector3 pos = fact->GetPivotJointPosition (i);
+    csRef<iDocumentNode> pivotNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    pivotNode->SetValue ("pivot");
+    csRef<iDocumentNode> offsetNode = pivotNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    offsetNode->SetValue ("origin");
+    offsetNode->SetAttributeAsFloat ("x", pos.x);
+    offsetNode->SetAttributeAsFloat ("y", pos.y);
+    offsetNode->SetAttributeAsFloat ("z", pos.z);
+  }
+  return true;
+}
+
+bool celAddOnDynamicWorldLoader::WriteJoints (iDocumentNode* factNode, iDynamicFactory* fact)
+{
+  for (size_t i = 0 ; i < fact->GetJointCount () ; i++)
+  {
+    DynFactJointDefinition def = fact->GetJoint (i);
+    csRef<iDocumentNode> jointNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    jointNode->SetValue ("joint");
+    csRef<iDocumentNode> offsetNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    offsetNode->SetValue ("origin");
+    offsetNode->SetAttributeAsFloat ("x", def.trans.GetOrigin ().x);
+    offsetNode->SetAttributeAsFloat ("y", def.trans.GetOrigin ().y);
+    offsetNode->SetAttributeAsFloat ("z", def.trans.GetOrigin ().z);
+    csRef<iDocumentNode> locktransNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    locktransNode->SetValue ("locktrans");
+    locktransNode->SetAttribute ("x", def.transX ? "true" : "false");
+    locktransNode->SetAttribute ("y", def.transY ? "true" : "false");
+    locktransNode->SetAttribute ("z", def.transZ ? "true" : "false");
+    csRef<iDocumentNode> mindistNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    mindistNode->SetValue ("mindist");
+    mindistNode->SetAttributeAsFloat ("x", def.mindist.x);
+    mindistNode->SetAttributeAsFloat ("y", def.mindist.y);
+    mindistNode->SetAttributeAsFloat ("z", def.mindist.z);
+    csRef<iDocumentNode> maxdistNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    maxdistNode->SetValue ("maxdist");
+    maxdistNode->SetAttributeAsFloat ("x", def.maxdist.x);
+    maxdistNode->SetAttributeAsFloat ("y", def.maxdist.y);
+    maxdistNode->SetAttributeAsFloat ("z", def.maxdist.z);
+    csRef<iDocumentNode> lockrotNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    lockrotNode->SetValue ("lockrot");
+    lockrotNode->SetAttribute ("x", def.rotX ? "true" : "false");
+    lockrotNode->SetAttribute ("y", def.rotY ? "true" : "false");
+    lockrotNode->SetAttribute ("z", def.rotZ ? "true" : "false");
+    csRef<iDocumentNode> minrotNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    minrotNode->SetValue ("minrot");
+    minrotNode->SetAttributeAsFloat ("x", def.minrot.x);
+    minrotNode->SetAttributeAsFloat ("y", def.minrot.y);
+    minrotNode->SetAttributeAsFloat ("z", def.minrot.z);
+    csRef<iDocumentNode> maxrotNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    maxrotNode->SetValue ("maxrot");
+    maxrotNode->SetAttributeAsFloat ("x", def.maxrot.x);
+    maxrotNode->SetAttributeAsFloat ("y", def.maxrot.y);
+    maxrotNode->SetAttributeAsFloat ("z", def.maxrot.z);
+    csRef<iDocumentNode> bounceNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    bounceNode->SetValue ("bounce");
+    bounceNode->SetAttributeAsFloat ("x", def.bounce.x);
+    bounceNode->SetAttributeAsFloat ("y", def.bounce.y);
+    bounceNode->SetAttributeAsFloat ("z", def.bounce.z);
+    csRef<iDocumentNode> maxforceNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    maxforceNode->SetValue ("maxforce");
+    maxforceNode->SetAttributeAsFloat ("x", def.maxforce.x);
+    maxforceNode->SetAttributeAsFloat ("y", def.maxforce.y);
+    maxforceNode->SetAttributeAsFloat ("z", def.maxforce.z);
+  }
+  return true;
+}
+
+bool celAddOnDynamicWorldLoader::WriteDown (iBase* obj, iDocumentNode* parent,
+    iStreamSource* ssource)
+{
+  csRef<iPcDynamicWorld> dynworld = scfQueryInterface<iPcDynamicWorld> (obj);
+  if (!dynworld)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"cel.addons.celentitytpl",
+	"The given object is not a dynamic world!\n");
+    return false;
+  }
+  csRef<iCelPropertyClass> pcdynworld = scfQueryInterface<iCelPropertyClass> (dynworld);
+
+  csRef<iDocumentNode> dynworldNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+  dynworldNode->SetValue ("template");
+  iCelEntity* entity = pcdynworld->GetEntity ();
+  dynworldNode->SetAttribute ("name", entity->GetName ());
+
+  for (size_t i = 0 ; i < dynworld->GetFactoryCount () ; i++)
+  {
+    iDynamicFactory* fact = dynworld->GetFactory (i);
+    csRef<iDocumentNode> factNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    factNode->SetValue ("factory");
+    factNode->SetAttribute ("name", fact->GetName ());
+    factNode->SetAttributeAsFloat ("maxradius", fact->GetMaximumRadiusRelative ());
+    factNode->SetAttributeAsFloat ("imposterradius", fact->GetImposterRadius ());
+    if (fact->IsInvisible ())
+      factNode->SetAttribute ("invisible", "true");
+    if (fact->GetDefaultEntityTemplate ())
+      factNode->SetAttribute ("template", fact->GetDefaultEntityTemplate ());
+    csRef<iAttributeIterator> attrIt = fact->GetAttributes ();
+    while (attrIt->HasNext ())
+    {
+      csStringID nameID = attrIt->Next ();
+      csString name = pl->FetchString (nameID);
+      csString value = fact->GetAttribute (nameID);
+      csRef<iDocumentNode> attrNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+      attrNode->SetValue ("attr");
+      attrNode->SetAttribute ("name", name);
+      attrNode->SetAttribute ("value", value);
+    }
+    if (!WriteBodies (factNode, fact))
+      return false;
+    if (!WritePivots (factNode, fact))
+      return false;
+    if (!WriteJoints (factNode, fact))
+      return false;
+  }
+
+  return true;
+}
 

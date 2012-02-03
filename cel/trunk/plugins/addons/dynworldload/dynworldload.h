@@ -25,14 +25,17 @@
 #include "iutil/comp.h"
 #include "iengine/engine.h"
 #include "imap/reader.h"
+#include "imap/writer.h"
 #include "csutil/strhash.h"
 
 #include "physicallayer/pl.h"
 #include "propclass/dynworld.h"
 #include "tools/dynworldload.h"
 
-class celAddOnDynamicWorldLoader : public scfImplementation2<celAddOnDynamicWorldLoader,
-  iLoaderPlugin, iComponent>
+struct iDynamicFactory;
+
+class celAddOnDynamicWorldLoader : public scfImplementation3<celAddOnDynamicWorldLoader,
+  iLoaderPlugin, iSaverPlugin, iComponent>
 {
 private:
   iObjectRegistry* object_reg;
@@ -44,6 +47,9 @@ private:
   csRefArray<iDynamicWorldLoaderExtension> extensions;
 
   bool ParseFactory (iDocumentNode* node);
+  bool WriteBodies (iDocumentNode* factNode, iDynamicFactory* fact);
+  bool WritePivots (iDocumentNode* factNode, iDynamicFactory* fact);
+  bool WriteJoints (iDocumentNode* factNode, iDynamicFactory* fact);
 
 public:
   celAddOnDynamicWorldLoader (iBase *iParent);
@@ -55,6 +61,9 @@ public:
   	iBase* context);
 
   virtual bool IsThreadSafe() { return false; }
+
+  virtual bool WriteDown (iBase* obj, iDocumentNode* parent,
+  	iStreamSource* ssource);
 };
 
 
