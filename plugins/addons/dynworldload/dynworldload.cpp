@@ -50,7 +50,7 @@ enum
   XMLTOKEN_EXTENSION,
   XMLTOKEN_JOINT,
   XMLTOKEN_PIVOT,
-  XMLTOKEN_INVISIBLE
+  XMLTOKEN_LOGICBOX
 };
 
 //---------------------------------------------------------------------------------------
@@ -93,7 +93,7 @@ bool celAddOnDynamicWorldLoader::Initialize (iObjectRegistry *object_reg)
   xmltokens.Register ("extension", XMLTOKEN_EXTENSION);
   xmltokens.Register ("joint", XMLTOKEN_JOINT);
   xmltokens.Register ("pivot", XMLTOKEN_PIVOT);
-  xmltokens.Register ("invisible", XMLTOKEN_INVISIBLE);
+  xmltokens.Register ("logicbox", XMLTOKEN_LOGICBOX);
 
   return true;
 }
@@ -110,18 +110,48 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
   float mass = 1.0f;
   if (node->GetAttribute ("mass"))
     mass = node->GetAttributeValueAsFloat ("mass");
-  iDynamicFactory* fact = dynworld->AddFactory (name, maxradius, imposterradius);
+  bool logic = false;
+  if (node->GetAttribute ("logic"))
+    logic = node->GetAttributeValueAsBool ("logic");
+
+  csVector3 min, max;
+  if (logic)
+  {
+    csRef<iDocumentNode> boxNode = node->GetNode ("logicbox");
+    if (!boxNode)
+    {
+      synldr->ReportError ("dynworld.loader", node,
+	  "Can't find logicbox for logic factory '%s'!", name.GetData ());
+      return false;
+    }
+    csRef<iDocumentNode> minNode = boxNode->GetNode ("min");
+    if (!synldr->ParseVector (minNode, min))
+    {
+      synldr->ReportError ("dynworld.loader", node,
+	  "Error parsing 'min' for logic box for factory '%s'!", name.GetData ());
+      return false;
+    }
+    csRef<iDocumentNode> maxNode = boxNode->GetNode ("max");
+    if (!synldr->ParseVector (maxNode, max))
+    {
+      synldr->ReportError ("dynworld.loader", node,
+	  "Error parsing 'max' for logic box for factory '%s'!", name.GetData ());
+      return false;
+    }
+  }
+
+  iDynamicFactory* fact;
+  if (logic)
+    fact = dynworld->AddLogicFactory (name, maxradius, imposterradius, csBox3 (min, max));
+  else
+    fact = dynworld->AddFactory (name, maxradius, imposterradius);
+
   if (!fact)
   {
     synldr->ReportError ("dynworld.loader", node,
 	"Could not add factory '%s'!", name.GetData ());
     return false;
   }
-  bool invis = false;
-  if (node->GetAttribute ("invisible"))
-    invis = node->GetAttributeValueAsBool ("invisible");
-  if (invis)
-    fact->SetInvisible (invis);
   if (node->GetAttribute ("template"))
   {
     csString tmpName = node->GetAttributeValue ("template");
@@ -136,6 +166,9 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
     csStringID id = xmltokens.Request (child->GetValue ());
     switch (id)
     {
+      case XMLTOKEN_LOGICBOX:
+	// Ignored here, already handled above.
+	break;
       case XMLTOKEN_ATTR:
 	fact->SetAttribute (child->GetAttributeValue ("name"),
 	    child->GetAttributeValue ("value"));
@@ -620,10 +653,27 @@ bool celAddOnDynamicWorldLoader::WriteDown (iBase* obj, iDocumentNode* parent,
     factNode->SetAttribute ("name", fact->GetName ());
     factNode->SetAttributeAsFloat ("maxradius", fact->GetMaximumRadiusRelative ());
     factNode->SetAttributeAsFloat ("imposterradius", fact->GetImposterRadius ());
-    if (fact->IsInvisible ())
-      factNode->SetAttribute ("invisible", "true");
+    if (fact->IsLogicFactory ())
+      factNode->SetAttribute ("logic", "true");
     if (fact->GetDefaultEntityTemplate ())
       factNode->SetAttribute ("template", fact->GetDefaultEntityTemplate ());
+    if (fact->IsLogicFactory ())
+    {
+      const csBox3& bbox = fact->GetBBox ();
+      csRef<iDocumentNode> boxNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+      boxNode->SetValue ("logicbox");
+      csRef<iDocumentNode> minNode = boxNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+      minNode->SetValue ("min");
+      minNode->SetAttributeAsFloat ("x", bbox.MinX ());
+      minNode->SetAttributeAsFloat ("y", bbox.MinY ());
+      minNode->SetAttributeAsFloat ("z", bbox.MinZ ());
+      csRef<iDocumentNode> maxNode = boxNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+      maxNode->SetValue ("max");
+      maxNode->SetAttributeAsFloat ("x", bbox.MaxX ());
+      maxNode->SetAttributeAsFloat ("y", bbox.MaxY ());
+      maxNode->SetAttributeAsFloat ("z", bbox.MaxZ ());
+    }
+
     csRef<iAttributeIterator> attrIt = fact->GetAttributes ();
     while (attrIt->HasNext ())
     {
