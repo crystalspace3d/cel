@@ -31,6 +31,8 @@
 #include "csutil/memfile.h"
 #include "cstool/csview.h"
 #include "cstool/simplestaticlighter.h"
+#include "cstool/genmeshbuilder.h"
+#include "csgfx/imagememory.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
 #include "iutil/eventh.h"
@@ -42,6 +44,8 @@
 #include "csgeom/math3d.h"
 #include "ivaria/bullet.h"
 #include "imesh/objmodel.h"
+#include "ivideo/graph3d.h"
+#include "ivideo/txtmgr.h"
 
 #include "physicallayer/entitytpl.h"
 #include "propclass/mesh.h"
@@ -860,9 +864,9 @@ void MeshCache::RemoveMesh (iMeshWrapper* mesh)
 //---------------------------------------------------------------------------------------
 
 DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
-    float maxradiusRelative, float imposterradius) :
+    float maxradiusRelative, float imposterradius, bool isLogic) :
   scfImplementationType (this), name (name), world (world),
-  maxradiusRelative (maxradiusRelative), defaultInvisible (false)
+  maxradiusRelative (maxradiusRelative), isLogic (isLogic)
 {
   bbox.StartBoundingBox ();
   physBbox.StartBoundingBox ();
@@ -1369,9 +1373,20 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   mesh = world->meshCache.AddMesh (world->engine, factory->GetMeshFactory (),
       cell->sector, trans);
   bool invis;
-  if (world->IsInvisibleShown ()) invis = false;
-  else invis = factory->IsInvisible ();
+  if (!world->IsGameMode ()) invis = false;
+  else invis = factory->IsLogicFactory ();
   mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE, invis ? CS_ENTITY_INVISIBLE : 0);
+  if (!invis && factory->IsLogicFactory ())
+  {
+    mesh->SetRenderPriority (world->engine->GetRenderPriority ("alpha"));
+    mesh->SetZBufMode (CS_ZBUF_TEST);
+  }
+  else
+  {
+    mesh->SetRenderPriority (world->engine->GetRenderPriority ("object"));
+    mesh->SetZBufMode (CS_ZBUF_USE);
+  }
+
   factory->GetWorld ()->GetIdToDynObj ().Put (id, this);
   mesh->GetMovable ()->AddListener (this);
   lastUpdateNr = mesh->GetMovable ()->GetUpdateNumber ();
@@ -1806,6 +1821,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
 {  
   radius = 80;
   engine = csQueryRegistry<iEngine> (object_reg);
+  g3d = csQueryRegistry<iGraphics3D> (object_reg);
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
 
@@ -1819,7 +1835,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
 
   currentCell = 0;
   inhibitEntities = false;
-  showInvisible = false;
+  gameMode = true;
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
@@ -1913,6 +1929,42 @@ void celPcDynamicWorld::SafeToRemove (iCelEntity* entity)
 iDynamicFactory* celPcDynamicWorld::FindFactory (const char* factory) const
 {
   return factory_hash.Get (factory, 0);
+}
+
+iDynamicFactory* celPcDynamicWorld::AddLogicFactory (const char* factory, float maxradius,
+    float imposterradius, const csBox3& bbox)
+{
+  // We are creating a new invisible mesh.
+  using namespace CS::Geometry;
+  Box primitive (bbox);
+  csRef<iMeshFactoryWrapper> mf;
+  mf = engine->FindMeshFactory (factory);
+  if (!mf)
+  {
+    mf = GeneralMeshBuilder::CreateFactory (engine, factory, &primitive);
+
+    // Create a single color transparent material if it doesn't already exist.
+    iMaterialWrapper* mat = engine->FindMaterial ("__dynworld__blue__");
+    if (!mat)
+    {
+      csRGBpixel singlePixel (0, 255, 255, 50);
+      iTextureManager* texman = g3d->GetTextureManager();
+      int Format = texman->GetTextureFormat ();
+      csRef<iImage> image;
+      image.AttachNew (new csImageMemory (1, 1, (const void*)&singlePixel, Format));
+      iTextureWrapper* tex = engine->GetTextureList ()->NewTexture (image);
+      tex->Register (texman);
+      tex->QueryObject ()->SetName ("__dynworld__blue__");
+      mat = engine->CreateMaterial ("__dynworld__blue__", tex);
+    }
+    mf->GetMeshObjectFactory ()->SetMaterialWrapper (mat);
+  }
+
+  csRef<DynamicFactory> obj;
+  obj.AttachNew (new DynamicFactory (this, factory, maxradius, imposterradius, true));
+  factories.Push (obj);
+  factory_hash.Put (factory, obj);
+  return obj;
 }
 
 iDynamicFactory* celPcDynamicWorld::AddFactory (const char* factory, float maxradius,
@@ -2417,9 +2469,9 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
   }
 }
 
-void celPcDynamicWorld::ShowInvisible (bool e)
+void celPcDynamicWorld::EnableGameMode (bool e)
 {
-  showInvisible = e;
+  gameMode = e;
   csHash<csRef<DynamicCell>,csString>::GlobalIterator it = cells.GetIterator ();
   while (it.HasNext ())
   {
@@ -2431,9 +2483,20 @@ void celPcDynamicWorld::ShowInvisible (bool e)
       if (obj->GetMesh ())
       {
 	bool invis;
-	if (showInvisible) invis = false;
-	else invis = obj->GetFactory ()->IsInvisible ();
-	obj->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE, invis ? CS_ENTITY_INVISIBLE : 0);
+	if (!gameMode) invis = false;
+	else invis = obj->GetFactory ()->IsLogicFactory ();
+	iMeshWrapper* mesh = obj->GetMesh ();
+	mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE, invis ? CS_ENTITY_INVISIBLE : 0);
+        if (!invis && obj->GetFactory ()->IsLogicFactory ())
+	{
+	  mesh->SetRenderPriority (engine->GetRenderPriority ("alpha"));
+	  mesh->SetZBufMode (CS_ZBUF_TEST);
+	}
+	else
+	{
+	  mesh->SetRenderPriority (engine->GetRenderPriority ("object"));
+	  mesh->SetZBufMode (CS_ZBUF_USE);
+	}
       }
     }
   }

@@ -218,12 +218,10 @@ struct iDynamicFactory : public virtual iBase
   virtual const char* GetName () const = 0;
 
   /**
-   * If 'invisible' is true then dynamic objects created from this
-   * factory will be invisible. A mesh will be created (along with
-   * all the rest) but it will be marked as invisible for the engine.
+   * Return true if this dynamic factory is a logic factory
+   * (created with AddLogicFactory()).
    */
-  virtual void SetInvisible (bool inv) = 0;
-  virtual bool IsInvisible () const = 0;
+  virtual bool IsLogicFactory () const = 0;
 
   /**
    * Set the entity template that is linked to this factory.
@@ -697,12 +695,12 @@ struct iPcDynamicWorld : public virtual iBase
   virtual bool IsInhibitEntities () const = 0;
 
   /**
-   * Force invisible objects to be visible even when the factory
-   * says otherwise. This is useful in case you have an editor and want
-   * to see the invisible object as well.
+   * Enable/disable game mode. In game mode (default) logic objects are
+   * invisible. If game mode is disabled then they are visible but with
+   * a transparent texture.
    */
-  virtual void ShowInvisible (bool e) = 0;
-  virtual bool IsInvisibleShown () const = 0;
+  virtual void EnableGameMode (bool e) = 0;
+  virtual bool IsGameMode () const = 0;
 
   //------------------------------------------------------------------------------
 
@@ -759,6 +757,14 @@ struct iPcDynamicWorld : public virtual iBase
    */
   virtual iDynamicFactory* AddFactory (const char* factory, float maxradius,
       float imposterradius) = 0;
+
+  /**
+   * Add a special dynamic factory which is intended for game logic purposes.
+   * The objects created by this factory are invisible (in game mode) and
+   * can act as special containers for game logic or for connecting joints.
+   */
+  virtual iDynamicFactory* AddLogicFactory (const char* factory, float maxradius,
+      float imposterradius, const csBox3& box) = 0;
 
   /**
    * Remove a factory from the world.

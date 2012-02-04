@@ -275,7 +275,7 @@ private:
   csBox3 bbox;
   csBox3 physBbox;
   float maxradiusRelative;
-  bool defaultInvisible;
+  bool isLogic;
 
   csArray<csVector3> pivotJoints;
   csArray<DynFactJointDefinition> joints;
@@ -289,7 +289,7 @@ private:
 
 public:
   DynamicFactory (celPcDynamicWorld* world, const char* name,
-      float maxradiusRelative, float imposterradius);
+      float maxradiusRelative, float imposterradius, bool isLogic = false);
   virtual ~DynamicFactory () { }
   virtual float GetMaximumRadiusRelative () const { return maxradiusRelative; }
   virtual void SetMaximumRadiusRelative (float r) { maxradiusRelative = r; }
@@ -298,8 +298,7 @@ public:
   virtual const csBox3& GetBBox () const { return bbox; }
   const csSphere& GetBSphere () const { return bsphere; }
 
-  virtual void SetInvisible (bool inv) { defaultInvisible = inv; }
-  virtual bool IsInvisible () const { return defaultInvisible; }
+  virtual bool IsLogicFactory () const { return isLogic; }
 
   virtual void SetDefaultEntityTemplate (const char* tmpName) { tplName = tmpName; }
   virtual const char* GetDefaultEntityTemplate () const { return tplName; }
@@ -583,6 +582,7 @@ class celPcDynamicWorld : public scfImplementationExt1<celPcDynamicWorld,
 {
 public:
   csRef<iEngine> engine;
+  csRef<iGraphics3D> g3d;
   csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   csRefArray<DynamicFactory> factories;
@@ -594,8 +594,8 @@ public:
 
   // Don't create entities if this is true.
   bool inhibitEntities;
-  // Show invisible meshes.
-  bool showInvisible;
+  // Game mode.
+  bool gameMode;
 
   uint lastIDBlock;
   // The following flag is set to true while we are restoring ID blocks.
@@ -671,8 +671,8 @@ public:
 
   virtual void InhibitEntities (bool e) { inhibitEntities = e; }
   virtual bool IsInhibitEntities () const { return inhibitEntities; }
-  virtual void ShowInvisible (bool e);
-  virtual bool IsInvisibleShown () const { return showInvisible; }
+  virtual void EnableGameMode (bool e);
+  virtual bool IsGameMode () const { return gameMode; }
 
   void SafeToRemove (iCelEntity* entity);
   virtual void Dump ();
@@ -690,6 +690,8 @@ public:
 
   virtual iDynamicFactory* AddFactory (const char* factory, float maxradius,
       float imposterradius);
+  virtual iDynamicFactory* AddLogicFactory (const char* factory, float maxradius,
+      float imposterradius, const csBox3& bbox);
   virtual void RemoveFactory (iDynamicFactory* factory);
   virtual void DeleteFactories ();
   virtual size_t GetFactoryCount () const { return factories.GetSize () ; }
