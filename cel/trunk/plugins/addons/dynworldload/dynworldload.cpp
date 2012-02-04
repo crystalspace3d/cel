@@ -557,6 +557,15 @@ bool celAddOnDynamicWorldLoader::WritePivots (iDocumentNode* factNode, iDynamicF
   return true;
 }
 
+static void WriteVector (iDocumentNode* parent, const char* name, const csVector3& v)
+{
+  csRef<iDocumentNode> node = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+  node->SetValue (name);
+  node->SetAttributeAsFloat ("x", v.x);
+  node->SetAttributeAsFloat ("y", v.y);
+  node->SetAttributeAsFloat ("z", v.z);
+}
+
 bool celAddOnDynamicWorldLoader::WriteJoints (iDocumentNode* factNode, iDynamicFactory* fact)
 {
   for (size_t i = 0 ; i < fact->GetJointCount () ; i++)
@@ -564,51 +573,23 @@ bool celAddOnDynamicWorldLoader::WriteJoints (iDocumentNode* factNode, iDynamicF
     DynFactJointDefinition def = fact->GetJoint (i);
     csRef<iDocumentNode> jointNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
     jointNode->SetValue ("joint");
-    csRef<iDocumentNode> offsetNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    offsetNode->SetValue ("origin");
-    offsetNode->SetAttributeAsFloat ("x", def.trans.GetOrigin ().x);
-    offsetNode->SetAttributeAsFloat ("y", def.trans.GetOrigin ().y);
-    offsetNode->SetAttributeAsFloat ("z", def.trans.GetOrigin ().z);
+    WriteVector (jointNode, "origin", def.trans.GetOrigin ());
     csRef<iDocumentNode> locktransNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
     locktransNode->SetValue ("locktrans");
     locktransNode->SetAttribute ("x", def.transX ? "true" : "false");
     locktransNode->SetAttribute ("y", def.transY ? "true" : "false");
     locktransNode->SetAttribute ("z", def.transZ ? "true" : "false");
-    csRef<iDocumentNode> mindistNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    mindistNode->SetValue ("mindist");
-    mindistNode->SetAttributeAsFloat ("x", def.mindist.x);
-    mindistNode->SetAttributeAsFloat ("y", def.mindist.y);
-    mindistNode->SetAttributeAsFloat ("z", def.mindist.z);
-    csRef<iDocumentNode> maxdistNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    maxdistNode->SetValue ("maxdist");
-    maxdistNode->SetAttributeAsFloat ("x", def.maxdist.x);
-    maxdistNode->SetAttributeAsFloat ("y", def.maxdist.y);
-    maxdistNode->SetAttributeAsFloat ("z", def.maxdist.z);
+    WriteVector (jointNode, "mindist", def.mindist);
+    WriteVector (jointNode, "maxdist", def.maxdist);
     csRef<iDocumentNode> lockrotNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
     lockrotNode->SetValue ("lockrot");
     lockrotNode->SetAttribute ("x", def.rotX ? "true" : "false");
     lockrotNode->SetAttribute ("y", def.rotY ? "true" : "false");
     lockrotNode->SetAttribute ("z", def.rotZ ? "true" : "false");
-    csRef<iDocumentNode> minrotNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    minrotNode->SetValue ("minrot");
-    minrotNode->SetAttributeAsFloat ("x", def.minrot.x);
-    minrotNode->SetAttributeAsFloat ("y", def.minrot.y);
-    minrotNode->SetAttributeAsFloat ("z", def.minrot.z);
-    csRef<iDocumentNode> maxrotNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    maxrotNode->SetValue ("maxrot");
-    maxrotNode->SetAttributeAsFloat ("x", def.maxrot.x);
-    maxrotNode->SetAttributeAsFloat ("y", def.maxrot.y);
-    maxrotNode->SetAttributeAsFloat ("z", def.maxrot.z);
-    csRef<iDocumentNode> bounceNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    bounceNode->SetValue ("bounce");
-    bounceNode->SetAttributeAsFloat ("x", def.bounce.x);
-    bounceNode->SetAttributeAsFloat ("y", def.bounce.y);
-    bounceNode->SetAttributeAsFloat ("z", def.bounce.z);
-    csRef<iDocumentNode> maxforceNode = jointNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    maxforceNode->SetValue ("maxforce");
-    maxforceNode->SetAttributeAsFloat ("x", def.maxforce.x);
-    maxforceNode->SetAttributeAsFloat ("y", def.maxforce.y);
-    maxforceNode->SetAttributeAsFloat ("z", def.maxforce.z);
+    WriteVector (jointNode, "minrot", def.minrot);
+    WriteVector (jointNode, "maxrot", def.maxrot);
+    WriteVector (jointNode, "bounce", def.bounce);
+    WriteVector (jointNode, "maxforce", def.maxforce);
   }
   return true;
 }
@@ -627,7 +608,7 @@ bool celAddOnDynamicWorldLoader::WriteDown (iBase* obj, iDocumentNode* parent,
   csRef<iCelPropertyClass> pcdynworld = scfQueryInterface<iCelPropertyClass> (dynworld);
 
   csRef<iDocumentNode> dynworldNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-  dynworldNode->SetValue ("template");
+  dynworldNode->SetValue ("dynworld");
   iCelEntity* entity = pcdynworld->GetEntity ();
   dynworldNode->SetAttribute ("name", entity->GetName ());
 

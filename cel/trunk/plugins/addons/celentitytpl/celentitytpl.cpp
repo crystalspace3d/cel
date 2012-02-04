@@ -390,7 +390,7 @@ bool celAddOnCelEntityTemplate::WriteDown (iBase* obj, iDocumentNode* parent,
     {
       csStringID id;
       celData data;
-      csRef<iCelParameterIterator> parIt = pc->GetProperty (i, id, data);
+      csRef<iCelParameterIterator> parIt = pc->GetProperty (j, id, data);
       if (data.type == CEL_DATA_NONE)
       {
 	// An action.
@@ -403,7 +403,7 @@ bool celAddOnCelEntityTemplate::WriteDown (iBase* obj, iDocumentNode* parent,
 	  {
 	    csStringID parID;
 	    iParameter* par = parIt->Next (parID);
-	    csRef<iDocumentNode> parNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	    csRef<iDocumentNode> parNode = actNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
 	    parNode->SetValue ("par");
 	    parNode->SetAttribute ("name", pl->FetchString (parID));
 	    parNode->SetAttribute (GetTypeString (par->GetPossibleType ()),
