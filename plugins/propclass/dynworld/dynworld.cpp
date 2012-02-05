@@ -1575,7 +1575,11 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
 {
   csString factname = node->GetAttributeValue ("fact");
   factory = world->factory_hash.Get (factname, 0);
-  if (!factory) return false;
+  if (!factory)
+  {
+    printf ("Can't find factory '%s'!\n", factname.GetData ());
+    return false;
+  }
   if (!syn->ParseBoolAttribute (node, "static", is_static, false, false))
     return false;
 
