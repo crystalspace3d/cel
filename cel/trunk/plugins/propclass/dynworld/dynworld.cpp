@@ -918,7 +918,7 @@ void DynamicFactory::SetImposterRadius (float r)
 
 void DynamicFactory::SetAttribute (csStringID nameID, const char* value)
 {
-  attributes.Put (nameID, value);
+  attributes.PutUnique (nameID, value);
 }
 
 void DynamicFactory::SetAttribute (const char* name, const char* value)
