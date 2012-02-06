@@ -72,6 +72,14 @@ csPtr<iTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
   return trig;
 }
 
+bool celSequenceFinishTriggerFactory::Save (iDocumentNode* node)
+{
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
+  if (!sequence_par.IsEmpty ()) node->SetAttribute ("sequence", sequence_par);
+  return true;
+}
+
 bool celSequenceFinishTriggerFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

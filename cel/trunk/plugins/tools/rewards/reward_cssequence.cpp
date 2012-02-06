@@ -79,6 +79,13 @@ csPtr<iReward> celCsSequenceRewardFactory::CreateReward (
   return trig;
 }
 
+bool celCsSequenceRewardFactory::Save (iDocumentNode* node)
+{
+  node->SetAttribute ("sequence", sequence_par);
+  if (!delay_par.IsEmpty ()) node->SetAttribute ("delay", delay_par);
+  return true;
+}
+
 bool celCsSequenceRewardFactory::Load (iDocumentNode* node)
 {
   sequence_par = node->GetAttributeValue ("sequence");

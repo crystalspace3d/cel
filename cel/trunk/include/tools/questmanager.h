@@ -228,6 +228,13 @@ struct iQuestFactory : public virtual iBase
   virtual bool Load (iDocumentNode* node) = 0;
 
   /**
+   * Save this factory to a document node.
+   * \param node is the node of the factory to be filled.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Save (iDocumentNode* node) = 0;
+
+  /**
    * Get a state from this factory.
    * Return 0 if the state doesn't exist.
    */
@@ -265,13 +272,17 @@ struct iQuestFactory : public virtual iBase
    * Set a default parameter on this factory.
    * If the parameter exists it will be overwritten.
    */
-  virtual void SetDefaultParameter (const char* name,const char* value) = 0;
+  virtual void SetDefaultParameter (const char* name, const char* value) = 0;
   
   /**
    * Clear all default parameters on this factory.
    */
   virtual void ClearDefaultParameters () = 0;
 
+  /**
+   * Get all default parameters.
+   */
+  virtual iCelParameterBlock* GetDefaultParameters () const = 0;
 };
 
 //-------------------------------------------------------------------------
@@ -413,12 +424,19 @@ struct iQuestManager : public virtual iBase
    */
   virtual iQuestFactory* CreateQuestFactory (const char* name) = 0;
 
-   /**
+  /**
    * Load a bunch of quest factories.
    * \param node is a node containing \<quest\> children.
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;
+
+  /**
+   * Save a bunch of quest factories.
+   * \param node is a node which will be filled with \<quest\> children.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Save (iDocumentNode* node) = 0;
 
   /**
    * Convenience method to add a 'newstate' reward factory

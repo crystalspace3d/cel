@@ -81,6 +81,13 @@ csPtr<iTrigger> celMeshSelectTriggerFactory::CreateTrigger (
   return trig;
 }
 
+bool celMeshSelectTriggerFactory::Save (iDocumentNode* node)
+{
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
+  return true;
+}
+
 bool celMeshSelectTriggerFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

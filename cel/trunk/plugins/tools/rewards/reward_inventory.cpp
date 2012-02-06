@@ -81,6 +81,15 @@ csPtr<iReward> celInventoryRewardFactory::CreateReward (
   return trig;
 }
 
+bool celInventoryRewardFactory::Save (iDocumentNode* node)
+{
+  node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
+  node->SetAttribute ("child_entity", child_entity_par);
+  if (!child_tag_par.IsEmpty ()) node->SetAttribute ("child_entity_par", child_tag_par);
+  return true;
+}
+
 bool celInventoryRewardFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

@@ -61,8 +61,10 @@ public:
   celEnterSectorTriggerFactory (celEnterSectorTriggerType* type);
   virtual ~celEnterSectorTriggerFactory ();
 
+  virtual iTriggerType* GetTriggerType () const { return type; }
   virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
+  virtual bool Save (iDocumentNode* node);
 
   //----------------- iEnterSectorTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);

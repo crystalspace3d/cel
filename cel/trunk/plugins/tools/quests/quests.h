@@ -64,7 +64,7 @@ public:
 
   virtual iTriggerFactory* GetTriggerFactory () const
   {
-	return trigger_factory;
+    return trigger_factory;
   }
 
   const csRefArray<iRewardFactory>& GetRewardFactoriesInt () const
@@ -133,14 +133,23 @@ private:
   celFactorySequences sequences;
   csRef<celVariableParameterBlock> defaults;
 
+  bool SaveRewardArray (const csRefArray<iRewardFactory>& rewards, iDocumentNode* node);
   csRef<iRewardFactory> LoadReward (iDocumentNode* child);
   bool LoadRewards (iQuestStateFactory* statefact, bool oninit,
   	iDocumentNode* node);
+  bool SaveRewards (iQuestStateFactory* statefact, bool oninit,
+  	iDocumentNode* node);
   bool LoadSequenceFactory (iCelSequenceFactory* seqFact, 
+	iDocumentNode* node);
+  bool SaveSequenceFactory (iCelSequenceFactory* seqFact, 
 	iDocumentNode* node);
   bool LoadTriggerResponse (iQuestTriggerResponseFactory* respfact,
   	iTriggerFactory* trigfact, iDocumentNode* node);
+  bool SaveTriggerResponse (
+	iQuestTriggerResponseFactory* respfact,
+  	iDocumentNode* node);
   bool LoadState (iQuestStateFactory* statefact, iDocumentNode* node);
+  bool SaveState (celQuestStateFactory* statefact, iDocumentNode* node);
 
 public:
   csStringHash xmltokens;
@@ -156,14 +165,16 @@ public:
   virtual const char* GetName () const { return name; }
   virtual csPtr<iQuest> CreateQuest (iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
+  virtual bool Save (iDocumentNode* node);
   virtual iQuestStateFactory* GetState (const char* name);
   virtual iQuestStateFactory* CreateState (const char* name);
   virtual csRef<iQuestStateFactoryIterator> GetStates () const;
   virtual iCelSequenceFactory* GetSequence (const char* name);
   virtual iCelSequenceFactory* CreateSequence (const char* name);
   virtual csRef<iCelSequenceFactoryIterator> GetSequences () const;
-  virtual void SetDefaultParameter (const char* name,const char* value);
+  virtual void SetDefaultParameter (const char* name, const char* value);
   virtual void ClearDefaultParameters ();
+  virtual iCelParameterBlock* GetDefaultParameters () const { return defaults; }
 };
 
 /**
@@ -334,6 +345,7 @@ public:
   virtual void RemoveQuestFactories ();
 
   virtual bool Load (iDocumentNode* node);
+  virtual bool Save (iDocumentNode* node);
 
   virtual iRewardFactory* AddNewStateReward (
   	iQuestTriggerResponseFactory* response,

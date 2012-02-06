@@ -85,6 +85,21 @@ csPtr<iSeqOp> celMovePathSeqOpFactory::CreateSeqOp (
   return seqop;
 }
 
+bool celMovePathSeqOpFactory::Save (iDocumentNode* node)
+{
+  node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
+  for (size_t i = 0 ; i < sectors.GetSize () ; i++)
+  {
+    csRef<iDocumentNode> pathNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    pathNode->SetValue ("pathnode");
+    pathNode->SetAttribute ("sector", sectors[i]);
+    pathNode->SetAttribute ("node", nodes[i]);
+    pathNode->SetAttribute ("time", times[i]);
+  }
+  return true;
+}
+
 bool celMovePathSeqOpFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

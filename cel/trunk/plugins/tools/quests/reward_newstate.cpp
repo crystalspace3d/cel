@@ -65,6 +65,11 @@ csPtr<iReward> celNewStateRewardFactory::CreateReward (iQuest* q,
   return reward;
 }
 
+bool celNewStateRewardFactory::Save (iDocumentNode* node)
+{
+  return true;
+}
+
 bool celNewStateRewardFactory::Load (iDocumentNode* node)
 {
   state_par = node->GetAttributeValue ("state");

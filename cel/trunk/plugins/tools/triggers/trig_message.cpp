@@ -60,6 +60,13 @@ csPtr<iTrigger> celMessageTriggerFactory::CreateTrigger (
   return trig;
 }
 
+bool celMessageTriggerFactory::Save (iDocumentNode* node)
+{
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!mask_par.IsEmpty ()) node->SetAttribute ("mask", mask_par);
+  return true;
+}
+
 bool celMessageTriggerFactory::Load (iDocumentNode* node)
 {
   entity_par.Empty ();

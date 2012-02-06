@@ -228,6 +228,12 @@ public:
     iDocumentNode* node, csArray<celParSpec>& parameters);
 
   /**
+   * Write a parameter specification array to XML.
+   */
+  static bool WriteParSpecBlock (iObjectRegistry* object_reg,
+    iDocumentNode* node, const csArray<celParSpec>& parameters);
+
+  /**
    * This is a convenience function to get a parameter block which
    * knows how to recognize parameter usage (starting with '$' or '@') and will in
    * that case try to resolve the parameter by finding it in 'params'.

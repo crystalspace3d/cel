@@ -60,6 +60,12 @@ csPtr<iSeqOp> celDebugPrintSeqOpFactory::CreateSeqOp (
   return seqop;
 }
 
+bool celDebugPrintSeqOpFactory::Save (iDocumentNode* node)
+{
+  node->SetAttribute ("message", msg_par);
+  return true;
+}
+
 bool celDebugPrintSeqOpFactory::Load (iDocumentNode* node)
 {
   msg_par = node->GetAttributeValue ("message");

@@ -63,6 +63,29 @@ csPtr<iSeqOp> celLightSeqOpFactory::CreateSeqOp (
   return seqop;
 }
 
+bool celLightSeqOpFactory::Save (iDocumentNode* node)
+{
+  node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
+  if (!rel_red_par.IsEmpty () || rel_green_par.IsEmpty () || rel_blue_par.IsEmpty ())
+  {
+    csRef<iDocumentNode> relNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    relNode->SetValue ("relcolor");
+    relNode->SetAttribute ("red", rel_red_par);
+    relNode->SetAttribute ("green", rel_green_par);
+    relNode->SetAttribute ("blue", rel_blue_par);
+  }
+  if (!abs_red_par.IsEmpty () || abs_green_par.IsEmpty () || abs_blue_par.IsEmpty ())
+  {
+    csRef<iDocumentNode> absNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    absNode->SetValue ("abscolor");
+    absNode->SetAttribute ("red", abs_red_par);
+    absNode->SetAttribute ("green", abs_green_par);
+    absNode->SetAttribute ("blue", abs_blue_par);
+  }
+  return true;
+}
+
 bool celLightSeqOpFactory::Load (iDocumentNode* node)
 {
   rel_red_par.Empty ();

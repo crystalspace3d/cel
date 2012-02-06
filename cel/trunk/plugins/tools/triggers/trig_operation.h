@@ -60,7 +60,9 @@ public:
 
   //----------------- iTriggerFactory ----------------------
   virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
+  virtual iTriggerType* GetTriggerType () const { return type; }
   virtual bool Load (iDocumentNode* node);
+  virtual bool Save (iDocumentNode* node);
 
   //----------------- iOperationTriggerFactory ----------------------
   virtual void SetOperationParameter (const char* operation);

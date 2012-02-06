@@ -97,6 +97,18 @@ csPtr<iReward> celActionRewardFactory::CreateReward (
   return reward;
 }
 
+bool celActionRewardFactory::Save (iDocumentNode* node)
+{
+  node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("tag", tag_par);
+  if (!class_par.IsEmpty ()) node->SetAttribute ("class", class_par);
+  if (!pcclass_par.IsEmpty ()) node->SetAttribute ("pc", pcclass_par);
+  if (!id_par.IsEmpty ()) node->SetAttribute ("id", id_par);
+  if (!celParameterTools::WriteParSpecBlock (type->object_reg, node, parameters))
+    return false;
+  return true;
+}
+
 bool celActionRewardFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

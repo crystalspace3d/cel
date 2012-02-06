@@ -86,6 +86,16 @@ csPtr<iReward> celMessageRewardFactory::CreateReward (
   return reward;
 }
 
+bool celMessageRewardFactory::Save (iDocumentNode* node)
+{
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!class_par.IsEmpty ()) node->SetAttribute ("class", class_par);
+  if (!id_par.IsEmpty ()) node->SetAttribute ("id", id_par);
+  if (!celParameterTools::WriteParSpecBlock (type->object_reg, node, parameters))
+    return false;
+  return true;
+}
+
 bool celMessageRewardFactory::Load (iDocumentNode* node)
 {
   parameters.DeleteAll();

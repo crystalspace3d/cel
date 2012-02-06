@@ -27,6 +27,7 @@
 
 struct iQuest;
 struct iCelParameterBlock;
+struct iRewardType;
 
 //-------------------------------------------------------------------------
 // Rewards
@@ -55,6 +56,11 @@ struct iRewardFactory : public virtual iBase
   SCF_INTERFACE (iRewardFactory, 0, 0, 1);
 
   /**
+   * Get the reward type for this factory.
+   */
+  virtual iRewardType* GetRewardType () const = 0;
+
+  /**
    * Create a reward.
    * \param quest is the quest for which we are creating this reward.
    * \param params are the parameters with which this reward is
@@ -64,10 +70,17 @@ struct iRewardFactory : public virtual iBase
 
   /**
    * Load this factory from a document node.
-   * \param node is the \<reward\> node in a trigger description.
+   * \param node is the \<reward\> node in a reward description.
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;
+
+  /**
+   * Save this factory to a document node.
+   * \param node is the \<reward\> node in a reward description.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Save (iDocumentNode* node) = 0;
 };
 
 /**

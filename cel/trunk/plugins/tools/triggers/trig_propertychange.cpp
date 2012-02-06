@@ -101,6 +101,17 @@ csPtr<iTrigger> celPropertyChangeTriggerFactory::CreateTrigger (
   return trig;
 }
 
+bool celPropertyChangeTriggerFactory::Save (iDocumentNode* node)
+{
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
+  if (!prop_par.IsEmpty ()) node->SetAttribute ("property", prop_par);
+  if (value_par) node->SetAttribute ("value", value_par);
+  if (!op_par.IsEmpty ()) node->SetAttribute ("operation", op_par);
+  if (onchange_par) node->SetAttribute ("operation", "true");
+  return true;
+}
+
 bool celPropertyChangeTriggerFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

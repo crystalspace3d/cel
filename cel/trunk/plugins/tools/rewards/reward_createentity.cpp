@@ -77,6 +77,27 @@ csPtr<iReward> celCreateEntityRewardFactory::CreateReward (
   return newquest;
 }
 
+bool celCreateEntityRewardFactory::Save (iDocumentNode* node)
+{
+  node->SetAttribute ("template", template_par);
+  if (!name_par.IsEmpty ()) node->SetAttribute ("name", name_par);
+
+  for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
+  {
+    csRef<iDocumentNode> parNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    parNode->SetValue ("par");
+    celDataType t;
+    csStringID nameID = params->GetParameterDef (i, t);
+    csString name = type->pl->FetchString (nameID);
+    parNode->SetAttribute ("name", name);
+    csString value;
+    celParameterTools::ToString (*params->GetParameterByIndex (i), value);
+    parNode->SetAttribute ("value", value);
+  }
+
+  return true;
+}
+
 bool celCreateEntityRewardFactory::Load (iDocumentNode* node)
 {
   template_par.Empty ();
@@ -108,7 +129,7 @@ bool celCreateEntityRewardFactory::Load (iDocumentNode* node)
         return Report (type->object_reg,
 "Missing name or value attribute in a parameter for the createentity reward!");
       }
-      AddParameter(name,value);
+      AddParameter (name, value);
     }
   }
   return true;
