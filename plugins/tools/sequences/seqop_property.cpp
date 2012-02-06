@@ -78,6 +78,33 @@ csPtr<iSeqOp> celPropertySeqOpFactory::CreateSeqOp (
   return seqop;
 }
 
+bool celPropertySeqOpFactory::Save (iDocumentNode* node)
+{
+  node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("tag", tag_par);
+  node->SetAttribute ("pc", pc_par);
+  node->SetAttribute ("property", prop_par);
+  if (relative)
+    node->SetAttribute ("relative", "true");
+  if (!long_par.IsEmpty ())
+  {
+    node->SetAttribute ("long", long_par);
+  }
+  else if (!float_par.IsEmpty ())
+  {
+    node->SetAttribute ("float", float_par);
+  }
+  else if (!vx_par.IsEmpty ())
+  {
+    csRef<iDocumentNode> vNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    vNode->SetValue ("v");
+    vNode->SetAttribute ("x", vx_par);
+    vNode->SetAttribute ("y", vy_par);
+    vNode->SetAttribute ("z", vz_par);
+  }
+  return true;
+}
+
 bool celPropertySeqOpFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

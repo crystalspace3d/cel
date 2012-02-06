@@ -60,6 +60,14 @@ csPtr<iTrigger> celEnterSectorTriggerFactory::CreateTrigger (
   return trig;
 }
 
+bool celEnterSectorTriggerFactory::Save (iDocumentNode* node)
+{
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_par", tag_par);
+  if (!sector_par.IsEmpty ()) node->SetAttribute ("sector", sector_par);
+  return true;
+}
+
 bool celEnterSectorTriggerFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

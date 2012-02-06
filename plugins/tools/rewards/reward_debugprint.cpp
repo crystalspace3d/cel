@@ -61,6 +61,12 @@ csPtr<iReward> celDebugPrintRewardFactory::CreateReward (
   return trig;
 }
 
+bool celDebugPrintRewardFactory::Save (iDocumentNode* node)
+{
+  node->SetAttribute ("message", msg_par);
+  return true;
+}
+
 bool celDebugPrintRewardFactory::Load (iDocumentNode* node)
 {
   msg_par = node->GetAttributeValue ("message");

@@ -24,6 +24,7 @@
 
 struct iQuest;
 struct iCelParameterBlock;
+struct iSeqOpType;
 
 //-------------------------------------------------------------------------
 // Sequence operations
@@ -64,6 +65,11 @@ struct iSeqOpFactory : public virtual iBase
   SCF_INTERFACE (iSeqOpFactory, 0, 0, 1);
 
   /**
+   * Get the type for this factory.
+   */
+  virtual iSeqOpType* GetSeqOpType () const = 0;
+
+  /**
    * Create a sequence operation.
    * \param params are the parameters with which this reward is
    * instantiated.
@@ -76,6 +82,13 @@ struct iSeqOpFactory : public virtual iBase
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;
+
+  /**
+   * Save this factory to a document node.
+   * \param node is the node for the operation.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Save (iDocumentNode* node) = 0;
 };
 
 /**
@@ -201,6 +214,21 @@ struct iCelSequenceFactory : public virtual iBase
    */
   virtual void AddSeqOpFactory (iSeqOpFactory* seqopfact,
   	const char* duration) = 0;
+
+  /**
+   * Get the amount of seqop factories.
+   */
+  virtual size_t GetSeqOpFactoryCount () const = 0;
+
+  /**
+   * Get a specific seqop factory. Returns 0 if it is a delay.
+   */
+  virtual iSeqOpFactory* GetSeqOpFactory (size_t idx) const = 0;
+
+  /**
+   * Return the parameter string for the duration.
+   */
+  virtual const char* GetSeqOpFactoryDuration (size_t idx) const = 0;
 
   /**
    * Add a delay.

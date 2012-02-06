@@ -61,6 +61,14 @@ csPtr<iTrigger> celTriggerTriggerFactory::CreateTrigger (
   return trig;
 }
 
+bool celTriggerTriggerFactory::Save (iDocumentNode* node)
+{
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
+  if (do_leave) node->SetAttribute ("leave", "true");
+  return true;
+}
+
 bool celTriggerTriggerFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

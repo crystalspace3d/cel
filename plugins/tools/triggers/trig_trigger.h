@@ -60,6 +60,8 @@ public:
   virtual ~celTriggerTriggerFactory ();
 
   virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
+  virtual iTriggerType* GetTriggerType () const { return type; }
+  virtual bool Save (iDocumentNode* node);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iTriggerTriggerFactory ----------------------

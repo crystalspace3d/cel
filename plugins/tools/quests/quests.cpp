@@ -168,7 +168,7 @@ celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name) :
   InitTokenTable (xmltokens);
 }
 
-void celQuestFactory::SetDefaultParameter (const char* name,const char* value)
+void celQuestFactory::SetDefaultParameter (const char* name, const char* value)
 {
   if (!defaults)
     defaults.AttachNew (new celVariableParameterBlock ());
@@ -268,6 +268,31 @@ csRef<iRewardFactory> celQuestFactory::LoadReward (iDocumentNode* child)
   return rewardfact;
 }
 
+bool celQuestFactory::SaveRewardArray (
+    const csRefArray<iRewardFactory>& rewards, iDocumentNode* node)
+{
+  for (size_t i = 0 ; i < rewards.GetSize () ; i++)
+  {
+    csRef<iDocumentNode> rewardNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    rewardNode->SetValue ("reward");
+    rewardNode->SetAttribute ("type", rewards[i]->GetRewardType ()->GetName ());
+    if (!rewards[i]->Save (rewardNode))
+      return false;
+  }
+  return true;
+}
+
+bool celQuestFactory::SaveRewards (
+	iQuestStateFactory* statefact, bool oninit,
+  	iDocumentNode* node)
+{
+  celQuestStateFactory* statefactT = static_cast<celQuestStateFactory*> (statefact);
+  if (oninit)
+    return SaveRewardArray (statefactT->GetOninitRewardFactories (), node);
+  else
+    return SaveRewardArray (statefactT->GetOnexitRewardFactories (), node);
+}
+
 bool celQuestFactory::LoadRewards (
 	iQuestStateFactory* statefact, bool oninit,
   	iDocumentNode* node)
@@ -299,6 +324,31 @@ bool celQuestFactory::LoadRewards (
         return false;
     }
   }
+  return true;
+}
+
+bool celQuestFactory::SaveSequenceFactory (iCelSequenceFactory* seqFact,
+    iDocumentNode* node)
+{
+  for (size_t i = 0 ; i < seqFact->GetSeqOpFactoryCount () ; i++)
+  {
+    iSeqOpFactory* f = seqFact->GetSeqOpFactory (i);
+    csString duration = seqFact->GetSeqOpFactoryDuration (i);
+    if (f)
+    {
+      csRef<iDocumentNode> opNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+      opNode->SetValue ("op");
+      opNode->SetAttribute ("duration", duration);
+      opNode->SetAttribute ("type", f->GetSeqOpType ()->GetName ());
+    }
+    else
+    {
+      csRef<iDocumentNode> delayNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+      delayNode->SetValue ("delay");
+      delayNode->SetAttribute ("time", duration);
+    }
+  }
+
   return true;
 }
 
@@ -351,6 +401,19 @@ bool celQuestFactory::LoadSequenceFactory (iCelSequenceFactory* seqFact, iDocume
   return true;
 }
 
+bool celQuestFactory::SaveTriggerResponse (
+	iQuestTriggerResponseFactory* respfact,
+  	iDocumentNode* node)
+{
+  csRef<iDocumentNode> fireonNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+  fireonNode->SetValue ("fireon");
+  if (!respfact->GetTriggerFactory ()->Save (fireonNode))
+    return false;
+  celQuestTriggerResponseFactory* respfactT = static_cast<celQuestTriggerResponseFactory*> (respfact);
+  const csRefArray<iRewardFactory>& rewards = respfactT->GetRewardFactoriesInt ();
+  return SaveRewardArray (rewards, node);
+}
+
 bool celQuestFactory::LoadTriggerResponse (
 	iQuestTriggerResponseFactory* respfact,
   	iTriggerFactory* trigfact, iDocumentNode* node)
@@ -383,6 +446,28 @@ bool celQuestFactory::LoadTriggerResponse (
         return false;
     }
   }
+  return true;
+}
+
+bool celQuestFactory::SaveState (celQuestStateFactory* statefact,
+	iDocumentNode* node)
+{
+  SaveRewards (statefact, true, node);
+  SaveRewards (statefact, false, node);
+  const csRefArray<iQuestTriggerResponseFactory>& responses = statefact->GetResponses ();
+  for (size_t i = 0 ; i < responses.GetSize () ; i++)
+  {
+    csRef<iDocumentNode> trigNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    trigNode->SetValue ("trigger");
+
+    iQuestTriggerResponseFactory* resp = responses[i];
+    iTriggerType* triggertype = resp->GetTriggerFactory ()->GetTriggerType ();
+    trigNode->SetAttribute ("type", triggertype->GetName ());
+
+    if (!SaveTriggerResponse (resp, trigNode))
+      return false;
+  }
+
   return true;
 }
 
@@ -443,6 +528,54 @@ bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
   return true;
 }
 
+bool celQuestFactory::Save (iDocumentNode* node)
+{
+  if (defaults)
+  {
+    for (size_t i = 0 ; i < defaults->GetParameterCount () ; i++)
+    {
+      celDataType t;
+      csStringID parID = defaults->GetParameterDef (i, t);
+      celData& par = defaults->GetParameter (i);
+      csString parS;
+      celParameterTools::ToString (par, parS);
+
+      csRef<iDocumentNode> defaultNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+      defaultNode->SetValue ("default");
+      defaultNode->SetAttribute ("name", questmgr->pl->FetchString (parID));
+      defaultNode->SetAttribute ("value", parS);
+    }
+  }
+
+  celQuestFactoryStates::GlobalIterator stateIt = states.GetIterator ();
+  while (stateIt.HasNext ())
+  {
+    csString key;
+    celQuestStateFactory* state = stateIt.Next (key);
+    csRef<iDocumentNode> stateNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    stateNode->SetValue ("state");
+    stateNode->SetAttribute ("name", state->GetName ());
+
+    if (!SaveState (state, stateNode))
+      return false;
+  }
+
+  celFactorySequences::GlobalIterator seqIt = sequences.GetIterator ();
+  while (seqIt.HasNext ())
+  {
+    csString key;
+    iCelSequenceFactory* seq = seqIt.Next (key);
+    csRef<iDocumentNode> seqNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    seqNode->SetValue ("sequence");
+    seqNode->SetAttribute ("name", seq->GetName ());
+
+    if (!SaveSequenceFactory (seq, seqNode))
+      return false;
+  }
+
+  return true;
+}
+
 bool celQuestFactory::Load (iDocumentNode* node)
 {
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
@@ -482,7 +615,7 @@ bool celQuestFactory::Load (iDocumentNode* node)
 		"'value' missing for default quest parameter!");
 	    }
 	  }
-	  SetDefaultParameter (name,value);
+	  SetDefaultParameter (name, value);
 	}
         break;
       case XMLTOKEN_STATE:
@@ -1043,7 +1176,21 @@ iSeqOpType* celQuestManager::GetSeqOpType (const char* name)
 }
 
 
-
+bool celQuestManager::Save (iDocumentNode* node)
+{
+  csHash<csRef<celQuestFactory>,csStringBase>::GlobalIterator it = quest_factories.GetIterator ();
+  while (it.HasNext ())
+  {
+    csString name;
+    celQuestFactory* questFact = it.Next (name);
+    csRef<iDocumentNode> questNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    questNode->SetValue ("quest");
+    questNode->SetAttribute ("name", questFact->GetName ());
+    if (!questFact->Save (questNode))
+      return false;
+  }
+  return true;
+}
 
 bool celQuestManager::Load (iDocumentNode* node)
 {

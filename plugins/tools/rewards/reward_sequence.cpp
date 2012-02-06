@@ -93,6 +93,16 @@ csPtr<iReward> celSequenceRewardFactory::CreateReward (
   return reward;
 }
 
+bool celSequenceRewardFactory::Save (iDocumentNode* node)
+{
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!class_par.IsEmpty ()) node->SetAttribute ("class", class_par);
+  if (!sequence_par.IsEmpty ()) node->SetAttribute ("sequence", sequence_par);
+  if (!delay_par.IsEmpty ()) node->SetAttribute ("delay", delay_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
+  return true;
+}
+
 bool celSequenceRewardFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

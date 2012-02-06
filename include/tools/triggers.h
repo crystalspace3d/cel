@@ -32,6 +32,7 @@ struct iCelParameterBlock;
 //-------------------------------------------------------------------------
 
 struct iTrigger;
+struct iTriggerType;
 class celVariableParameterBlock;
 
 /**
@@ -113,6 +114,11 @@ struct iTriggerFactory : public virtual iBase
   SCF_INTERFACE (iTriggerFactory, 0, 0, 1);
 
   /**
+   * Get the type for this trigger factory.
+   */
+  virtual iTriggerType* GetTriggerType () const = 0;
+
+  /**
    * Create a trigger.
    * \param params are the parameters with which this reward is
    * instantiated.
@@ -126,6 +132,13 @@ struct iTriggerFactory : public virtual iBase
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;
+
+  /**
+   * Save this factory to a document node.
+   * \param node is the \<fireon\> node in a trigger description.
+   * \return false on error (reporter is used to report).
+   */
+  virtual bool Save (iDocumentNode* node) = 0;
 };
 
 /**

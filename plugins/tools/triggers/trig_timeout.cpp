@@ -63,6 +63,12 @@ csPtr<iTrigger> celTimeoutTriggerFactory::CreateTrigger (
   return trig;
 }
 
+bool celTimeoutTriggerFactory::Save (iDocumentNode* node)
+{
+  if (!timeout_par.IsEmpty ()) node->SetAttribute ("timeout", timeout_par);
+  return true;
+}
+
 bool celTimeoutTriggerFactory::Load (iDocumentNode* node)
 {
   timeout_par = node->GetAttributeValue ("timeout");

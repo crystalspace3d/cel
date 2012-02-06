@@ -78,6 +78,13 @@ csPtr<iReward> celDestroyEntityRewardFactory::CreateReward (
   return newquest;
 }
 
+bool celDestroyEntityRewardFactory::Save (iDocumentNode* node)
+{
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!class_par.IsEmpty ()) node->SetAttribute ("class", class_par);
+  return true;
+}
+
 bool celDestroyEntityRewardFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

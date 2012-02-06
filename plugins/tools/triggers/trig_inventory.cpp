@@ -82,6 +82,14 @@ csPtr<iTrigger> celInventoryTriggerFactory::CreateTrigger (
   return trig;
 }
 
+bool celInventoryTriggerFactory::Save (iDocumentNode* node)
+{
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
+  if (!child_entity_par.IsEmpty ()) node->SetAttribute ("child_entity", child_entity_par);
+  return true;
+}
+
 bool celInventoryTriggerFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

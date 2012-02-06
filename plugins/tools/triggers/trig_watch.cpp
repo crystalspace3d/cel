@@ -67,6 +67,25 @@ csPtr<iTrigger> celWatchTriggerFactory::CreateTrigger (
   return trig;
 }
 
+bool celWatchTriggerFactory::Save (iDocumentNode* node)
+{
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
+  if (!target_entity_par.IsEmpty ()) node->SetAttribute ("target", target_entity_par);
+  if (!target_tag_par.IsEmpty ()) node->SetAttribute ("target_tag", target_tag_par);
+  if (!time_par.IsEmpty ()) node->SetAttribute ("checktime", time_par);
+  if (!radius_par.IsEmpty ()) node->SetAttribute ("radius", radius_par);
+  if (!offsetx_par.IsEmpty ())
+  {
+    csRef<iDocumentNode> offsetNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    offsetNode->SetValue ("offset");
+    offsetNode->SetAttribute ("x", offsetx_par);
+    offsetNode->SetAttribute ("y", offsety_par);
+    offsetNode->SetAttribute ("z", offsetz_par);
+  }
+  return true;
+}
+
 bool celWatchTriggerFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

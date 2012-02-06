@@ -582,6 +582,31 @@ bool celParameterTools::FillParameterBlock (
   return true;
 }
 
+bool celParameterTools::WriteParSpecBlock (iObjectRegistry* object_reg,
+    iDocumentNode* node, const csArray<celParSpec>& parameters)
+{
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  for (size_t i = 0 ; i < parameters.GetSize () ; i++)
+  {
+    const celParSpec& par = parameters[i];
+    csRef<iDocumentNode> parNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    parNode->SetValue ("par");
+    parNode->SetAttribute ("name", pl->FetchString (par.id));
+    switch (par.type)
+    {
+      case CEL_DATA_ENTITY: parNode->SetAttribute ("entity", par.value); break;
+      case CEL_DATA_STRING: parNode->SetAttribute ("string", par.value); break;
+      case CEL_DATA_LONG: parNode->SetAttribute ("long", par.value); break;
+      case CEL_DATA_FLOAT: parNode->SetAttribute ("float", par.value); break;
+      case CEL_DATA_VECTOR3: parNode->SetAttribute ("vector3", par.value); break;
+      case CEL_DATA_VECTOR2: parNode->SetAttribute ("vector2", par.value); break;
+      case CEL_DATA_BOOL: parNode->SetAttribute ("bool", par.value); break;
+      default: return false;
+    }
+  }
+  return true;
+}
+
 bool celParameterTools::ParseParSpecBlock (iObjectRegistry* object_reg,
     iDocumentNode* node, csArray<celParSpec>& parameters)
 {

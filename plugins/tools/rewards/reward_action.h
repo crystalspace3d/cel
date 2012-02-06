@@ -64,6 +64,8 @@ public:
   virtual ~celActionRewardFactory ();
 
   virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
+  virtual iRewardType* GetRewardType () const { return type; }
+  virtual bool Save (iDocumentNode* node);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iActionRewardFactory -----------------------

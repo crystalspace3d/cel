@@ -64,6 +64,29 @@ csPtr<iSeqOp> celTransformSeqOpFactory::CreateSeqOp (
   return seqop;
 }
 
+bool celTransformSeqOpFactory::Save (iDocumentNode* node)
+{
+  node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
+  if (!vectorx_par.IsEmpty ())
+  {
+    csRef<iDocumentNode> vNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    vNode->SetValue ("v");
+    vNode->SetAttribute ("x", vectorx_par);
+    vNode->SetAttribute ("y", vectory_par);
+    vNode->SetAttribute ("z", vectorz_par);
+  }
+  if (!rot_angle_par.IsEmpty ())
+  {
+    csRef<iDocumentNode> rotNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    if (rot_axis == CS_AXIS_X) rotNode->SetValue ("rotx");
+    else if (rot_axis == CS_AXIS_Y) rotNode->SetValue ("roty");
+    else if (rot_axis == CS_AXIS_Z) rotNode->SetValue ("rotz");
+    rotNode->SetAttribute ("angle", rot_angle_par);
+  }
+  return true;
+}
+
 bool celTransformSeqOpFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");

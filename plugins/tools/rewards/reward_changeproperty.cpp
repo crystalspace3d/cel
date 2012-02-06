@@ -74,6 +74,22 @@ csPtr<iReward> celChangePropertyRewardFactory::CreateReward (iQuest* q,
   return reward;
 }
 
+bool celChangePropertyRewardFactory::Save (iDocumentNode* node)
+{
+  node->SetAttribute ("entity", entity_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("tag", tag_par);
+  if (!prop_par.IsEmpty ()) node->SetAttribute ("property", prop_par);
+  if (!class_par.IsEmpty ()) node->SetAttribute ("class", class_par);
+  if (!pc_par.IsEmpty ()) node->SetAttribute ("pc", pc_par);
+  if (!string_par.IsEmpty ()) node->SetAttribute ("string", string_par);
+  if (!long_par.IsEmpty ()) node->SetAttribute ("long", long_par);
+  if (!float_par.IsEmpty ()) node->SetAttribute ("float", float_par);
+  if (!bool_par.IsEmpty ()) node->SetAttribute ("bool", bool_par);
+  if (!diff_par.IsEmpty ()) node->SetAttribute ("diff", diff_par);
+  if (do_toggle) node->SetAttribute ("toggle", "true");
+  return true;
+}
+
 bool celChangePropertyRewardFactory::Load (iDocumentNode* node)
 {
   do_toggle = false;

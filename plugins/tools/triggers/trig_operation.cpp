@@ -81,6 +81,22 @@ csPtr<iTrigger> celOperationTriggerFactory::CreateTrigger (
   return trig;
 }
 
+bool celOperationTriggerFactory::Save (iDocumentNode* node)
+{
+  if (!operation_par.IsEmpty ()) node->SetAttribute ("operation", operation_par);
+  for (size_t i = 0 ; i < triggers.GetSize () ; i++)
+  {
+    csRef<iDocumentNode> triggerNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    triggerNode->SetValue ("trigger");
+    triggerNode->SetAttribute ("type", triggers[i]->GetTriggerType ()->GetName ());
+    csRef<iDocumentNode> fireonNode = triggerNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    fireonNode->SetValue ("fireon");
+    if (!triggers[i]->Save (fireonNode))
+      return false;
+  }
+  return true;
+}
+
 bool celOperationTriggerFactory::Load (iDocumentNode* node)
 {
   triggers.DeleteAll();
@@ -98,9 +114,7 @@ bool celOperationTriggerFactory::Load (iDocumentNode* node)
   {
     csRef<iDocumentNode> node = t_nodes->Next();
 
-	csRef<iPluginManager> plugin_mgr = 
-      csQueryRegistry<iPluginManager> (type->object_reg);
-    csRef<iTriggerType> ttype = csLoadPlugin<iTriggerType> (plugin_mgr,
+    csRef<iTriggerType> ttype = csLoadPluginCheck<iTriggerType> (type->object_reg,
       csString("cel.triggers.")+csString(node->GetAttributeValue("type"))); 
 
     if (ttype)
