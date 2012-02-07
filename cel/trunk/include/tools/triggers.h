@@ -581,7 +581,7 @@ struct iTriggerTriggerFactory : public virtual iBase
    * If this function is called then the trigger will fire on 'leaves'
    * instead of 'enters'.
    */
-  virtual void EnableLeave () = 0;
+  virtual void EnableLeave (bool l) = 0;
   virtual bool IsLeaveEnabled () const = 0;
 };
 
