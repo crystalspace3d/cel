@@ -67,7 +67,9 @@ public:
 
   //----------------- iMessageTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity);
+  virtual const char* GetEntity () const { return entity_par; }
   virtual void SetMaskParameter (const char* mask);
+  virtual const char* GetMask () const { return mask_par; }
 };
 
 /**

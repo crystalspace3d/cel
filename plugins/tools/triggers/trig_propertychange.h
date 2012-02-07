@@ -67,10 +67,16 @@ public:
 
   //----------------- iPropertyChangeQuestTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
+  virtual const char* GetEntity () const { return entity_par; }
+  virtual const char* GetTag () const { return tag_par; }
   virtual void SetPropertyParameter (const char* prop);
+  virtual const char* GetProperty () const { return prop_par; }
   virtual void SetValueParameter (const char* value);
+  virtual const char* GetValue () const { return value_par; }
   virtual void SetOperationParameter (const char* op);
-  virtual void SetOnChangeOnly (bool on_change) {onchange_par = on_change;};
+  virtual const char* GetOperation () const { return op_par; }
+  virtual void SetOnChangeOnly (bool on_change) { onchange_par = on_change; }
+  virtual bool IsOnChangeOnly () const { return onchange_par; }
 };
 
 /**
