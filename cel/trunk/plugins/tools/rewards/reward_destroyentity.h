@@ -60,7 +60,9 @@ public:
 
   //----------------- iDestroyEntityRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
+  virtual const char* GetEntity () const { return entity_par; }
   virtual void SetClassParameter (const char* ent_class);
+  virtual const char* GetClass () const { return class_par; }
 };
 
 /**

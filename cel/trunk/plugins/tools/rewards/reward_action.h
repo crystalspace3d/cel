@@ -70,11 +70,20 @@ public:
 
   //----------------- iActionRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
+  virtual const char* GetEntity () const { return entity_par; }
   virtual void SetClassParameter (const char* entity_class);
+  virtual const char* GetClass () const { return class_par; }
   virtual void SetIDParameter (const char* id);
+  virtual const char* GetID () const { return id_par; }
   virtual void SetPropertyClassParameter (const char* propertyclass);
+  virtual const char* GetPropertyClass () const { return pcclass_par; }
   virtual void SetTagParameter (const char* pctag);
+  virtual const char* GetTag () const { return tag_par; }
   virtual void AddParameter (celDataType type, csStringID id, const char* value);
+  virtual size_t GetParameterCount () const { return parameters.GetSize (); }
+  virtual csStringID GetParameterID (size_t idx) const { return parameters[idx].id; }
+  virtual const char* GetParameterValue (size_t idx) const { return parameters[idx].value; }
+  virtual celDataType GetParameterType (size_t idx) const { return parameters[idx].type; }
 };
 
 /**

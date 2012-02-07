@@ -68,11 +68,16 @@ public:
 
   //----------------- iSequenceRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
+  virtual const char* GetEntity () const { return entity_par; }
   virtual void SetClassParameter (const char* ent_class) {class_par=ent_class;};
+  virtual const char* GetClass () const { return class_par; }
   virtual void SetTagParameter (const char* tag) {tag_par = tag;};
+  virtual const char* GetTag () const { return tag_par; }
   virtual void SetSequenceParameter (const char* sequence);
+  virtual const char* GetSequence () const { return sequence_par; }
   virtual void SetSequence (iCelSequence* sequence);
   virtual void SetDelayParameter (const char* delay);
+  virtual const char* GetDelay () const { return delay_par; }
 };
 
 /**

@@ -158,6 +158,23 @@ void celCreateEntityRewardFactory::AddParameter (const char* name,
     params->AddParameter (id).Set (value);
 }
 
+size_t celCreateEntityRewardFactory::GetParameterCount () const
+{
+  return params->GetParameterCount ();
+}
+
+const char* celCreateEntityRewardFactory::GetParameterName (size_t idx) const
+{
+  celDataType t;
+  csStringID id = params->GetParameterDef (idx, t);
+  return type->pl->FetchString (id);
+}
+
+const char* celCreateEntityRewardFactory::GetParameterValue (size_t idx) const
+{
+  return params->GetParameterByIndex (idx)->value.s->GetData ();
+}
+
 //---------------------------------------------------------------------------
 //---------- celCreateEntityReward implementation
 

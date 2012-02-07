@@ -64,7 +64,9 @@ public:
 
   //----------------- iCsSequenceRewardFactory -----------------------
   virtual void SetSequenceParameter (const char* sequence);
+  virtual const char* GetSequence () const { return sequence_par; }
   virtual void SetDelayParameter (const char* delay);
+  virtual const char* GetDelay () const { return delay_par; }
 };
 
 /**
