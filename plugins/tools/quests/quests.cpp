@@ -1495,7 +1495,7 @@ iTriggerFactory* celQuestManager::SetTriggerTrigger (
   csRef<iTriggerTriggerFactory> newstate = 
   	scfQueryInterface<iTriggerTriggerFactory> (trigfact);
   newstate->SetEntityParameter (entity_par);
-  if (do_leave) newstate->EnableLeave ();
+  newstate->EnableLeave (do_leave);
   response->SetTriggerFactory (trigfact);
   return trigfact;
 }
