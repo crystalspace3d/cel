@@ -73,8 +73,14 @@ public:
 
   //----------------- iMovePathSeqOpFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
+  virtual const char* GetEntity () const { return entity_par; }
+  virtual const char* GetTag () const { return tag_par; }
   virtual void AddPathNode (const char* sectorname, const char* node,
   	const char* time);
+  virtual size_t GetPathCount () const { return sectors.GetSize (); }
+  virtual const char* GetPathSector (size_t idx) const { return sectors[idx]; }
+  virtual const char* GetPathNode (size_t idx) const { return nodes[idx]; }
+  virtual const char* GetPathTime (size_t idx) const { return times[idx]; }
 };
 
 /**
