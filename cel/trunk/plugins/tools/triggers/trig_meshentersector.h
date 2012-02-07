@@ -69,7 +69,10 @@ public:
 
   //----------------- iEnterSectorTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
+  virtual const char* GetEntity () const { return entity_par; }
+  virtual const char* GetTag () const { return tag_par; }
   virtual void SetSectorParameter (const char* sector);
+  virtual const char* GetSector () const { return sector_par; }
 };
 
 /**

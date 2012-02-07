@@ -200,6 +200,8 @@ struct iEnterSectorTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntity () const = 0;
+  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the sector on which this trigger will fire
@@ -208,6 +210,7 @@ struct iEnterSectorTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetSectorParameter (const char* sector) = 0;
+  virtual const char* GetSector () const = 0;
 };
 
 /**
@@ -244,6 +247,8 @@ struct iInventoryTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntity () const = 0;
+  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the entity to watch for. If this
@@ -253,6 +258,7 @@ struct iInventoryTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetChildEntityParameter (const char* child_entity) = 0;
+  virtual const char* GetChildEntity () const = 0;
 };
 
 /**
@@ -286,6 +292,8 @@ struct iMeshSelectTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntity () const = 0;
+  virtual const char* GetTag () const = 0;
 };
 
 /**
@@ -312,6 +320,7 @@ struct iMessageTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
+  virtual const char* GetEntity () const = 0;
 
   /**
    * Set the name of the message mask that we want to receive messages
@@ -320,6 +329,7 @@ struct iMessageTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetMaskParameter (const char* mask) = 0;
+  virtual const char* GetMask () const = 0;
 };
 
 
@@ -357,6 +367,8 @@ struct iOperationTriggerFactory : public virtual iBase
    * Operation must be one of 'or', 'and', or 'xor'.
    */
   virtual void SetOperationParameter (const char* operation) = 0;
+  virtual const char* GetOperation () const = 0;
+
   /**
    * Return the trigger factory list so that user can add new ones, remove
    * them or clear the list.
@@ -414,6 +426,8 @@ struct iPropertyChangeTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntity () const = 0;
+  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the property on which this trigger will fire.
@@ -421,6 +435,7 @@ struct iPropertyChangeTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetPropertyParameter (const char* prop) = 0;
+  virtual const char* GetProperty () const = 0;
 
   /**
    * Set the value of the property on which this trigger will fire. If
@@ -429,6 +444,7 @@ struct iPropertyChangeTriggerFactory : public virtual iBase
    * \param value is the value or a parameter (starts with '$').
    */
   virtual void SetValueParameter (const char* value) = 0;
+  virtual const char* GetValue () const = 0;
 
   /**
    * Set the operation this trigger will test with. If operation
@@ -436,6 +452,7 @@ struct iPropertyChangeTriggerFactory : public virtual iBase
    * \param op one of: eq, lt, gt, ne, le, ge. See above for more details.
    */
   virtual void SetOperationParameter (const char* op) = 0;
+  virtual const char* GetOperation () const = 0;
 
   /**
    * Set whether the trigger will fire only on an actual change (so the
@@ -444,6 +461,7 @@ struct iPropertyChangeTriggerFactory : public virtual iBase
    * \param on_change true for reporting only on change.
    */
   virtual void SetOnChangeOnly (bool on_change) = 0;
+  virtual bool IsOnChangeOnly () const = 0;
 };
 
 /**
@@ -476,6 +494,8 @@ struct iSequenceFinishTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntity () const = 0;
+  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the sequence. If this method is used, with no call to
@@ -485,6 +505,7 @@ struct iSequenceFinishTriggerFactory : public virtual iBase
    * with '$'). 
    */
   virtual void SetSequenceParameter (const char* sequence) = 0;
+  virtual const char* GetSequence () const = 0;
 
   /**
    * Set the sequence to observe. If this method is used, 
@@ -516,6 +537,7 @@ struct iTimeoutTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetTimeoutParameter (const char* timeout_par) = 0;
+  virtual const char* GetTimeout () const = 0;
 };
 
 
@@ -552,12 +574,15 @@ struct iTriggerTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntity () const = 0;
+  virtual const char* GetTag () const = 0;
 
   /**
    * If this function is called then the trigger will fire on 'leaves'
    * instead of 'enters'.
    */
   virtual void EnableLeave () = 0;
+  virtual bool IsLeaveEnabled () const = 0;
 };
 
 /**
@@ -598,6 +623,8 @@ struct iWatchTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntity () const = 0;
+  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the target entity containing the pcmesh property class
@@ -609,6 +636,8 @@ struct iWatchTriggerFactory : public virtual iBase
    */
   virtual void SetTargetEntityParameter (const char* entity,
       const char* tag = 0) = 0;
+  virtual const char* GetTargetEntity () const = 0;
+  virtual const char* GetTargetTag () const = 0;
 
   /**
    * Set the interval (in milliseconds) after which this trigger
@@ -618,6 +647,7 @@ struct iWatchTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetChecktimeParameter (const char* time) = 0;
+  virtual const char* GetChecktime () const = 0;
 
   /**
    * Set the maximum radius for visibility checking.
@@ -626,6 +656,7 @@ struct iWatchTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetRadiusParameter (const char* radius) = 0;
+  virtual const char* GetRadius () const = 0;
 
   /**
    * Optional offset parameter. This offset will be added to the
@@ -636,6 +667,9 @@ struct iWatchTriggerFactory : public virtual iBase
    */
   virtual void SetOffsetParameter (const char* offsetx,
       const char* offsety, const char* offsetz) = 0;
+  virtual const char* GetOffsetX () const = 0;
+  virtual const char* GetOffsetY () const = 0;
+  virtual const char* GetOffsetZ () const = 0;
 };
 
 //-------------------------------------------------------------------------

@@ -75,7 +75,10 @@ public:
 
   //----------------- iSequenceFinishTriggerFactory ---------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
+  virtual const char* GetEntity () const { return entity_par; }
+  virtual const char* GetTag () const { return tag_par; }
   virtual void SetSequenceParameter (const char* sequence);
+  virtual const char* GetSequence () const { return sequence_par; }
   virtual void SetSequence (iCelSequence* sequence);
 };
 

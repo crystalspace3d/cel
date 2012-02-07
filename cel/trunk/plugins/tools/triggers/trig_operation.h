@@ -66,6 +66,7 @@ public:
 
   //----------------- iOperationTriggerFactory ----------------------
   virtual void SetOperationParameter (const char* operation);
+  virtual const char* GetOperation () const { return operation_par; }
   virtual csRefArray<iTriggerFactory> &GetTriggerFactories () 
   { return triggers; }
 };

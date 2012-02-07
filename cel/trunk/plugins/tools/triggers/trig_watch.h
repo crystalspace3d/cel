@@ -74,12 +74,21 @@ public:
 
   //----------------- iWatchTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
+  virtual const char* GetEntity () const { return entity_par; }
+  virtual const char* GetTag () const { return tag_par; }
   virtual void SetTargetEntityParameter (const char* entity,
       const char* tag = 0);
+  virtual const char* GetTargetEntity () const { return target_entity_par; }
+  virtual const char* GetTargetTag () const { return target_tag_par; }
   virtual void SetChecktimeParameter (const char* time);
+  virtual const char* GetChecktime () const { return time_par; }
   virtual void SetRadiusParameter (const char* radius);
+  virtual const char* GetRadius () const { return radius_par; }
   virtual void SetOffsetParameter (const char* offsetx,
       const char* offsety, const char* offsetz);
+  virtual const char* GetOffsetX () const { return offsetx_par; }
+  virtual const char* GetOffsetY () const { return offsety_par; }
+  virtual const char* GetOffsetZ () const { return offsetz_par; }
 };
 
 /**

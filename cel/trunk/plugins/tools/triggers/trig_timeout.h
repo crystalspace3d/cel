@@ -61,6 +61,7 @@ public:
 
   //----------------- iTimeoutTriggerFactory ----------------------
   virtual void SetTimeoutParameter (const char* timeout_par);
+  virtual const char* GetTimeout () const { return timeout_par; }
 };
 
 /**
