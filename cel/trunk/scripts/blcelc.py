@@ -1052,6 +1052,7 @@ class celParameterTools(object):
     ToColor4 = staticmethod(_blcelc.celParameterTools_ToColor4)
     Convert = staticmethod(_blcelc.celParameterTools_Convert)
     ParseParSpecBlock = staticmethod(_blcelc.celParameterTools_ParseParSpecBlock)
+    WriteParSpecBlock = staticmethod(_blcelc.celParameterTools_WriteParSpecBlock)
     GetParameterBlock = staticmethod(_blcelc.celParameterTools_GetParameterBlock)
     FillParameterBlock = staticmethod(_blcelc.celParameterTools_FillParameterBlock)
     GetDebugData = staticmethod(_blcelc.celParameterTools_GetDebugData)
@@ -1076,6 +1077,7 @@ celParameterTools_ToColor = _blcelc.celParameterTools_ToColor
 celParameterTools_ToColor4 = _blcelc.celParameterTools_ToColor4
 celParameterTools_Convert = _blcelc.celParameterTools_Convert
 celParameterTools_ParseParSpecBlock = _blcelc.celParameterTools_ParseParSpecBlock
+celParameterTools_WriteParSpecBlock = _blcelc.celParameterTools_WriteParSpecBlock
 celParameterTools_GetParameterBlock = _blcelc.celParameterTools_GetParameterBlock
 celParameterTools_FillParameterBlock = _blcelc.celParameterTools_FillParameterBlock
 celParameterTools_GetDebugData = _blcelc.celParameterTools_GetDebugData
@@ -5141,6 +5143,7 @@ class iQuestFactory(cspace.iBase):
     def GetName(*args): return _blcelc.iQuestFactory_GetName(*args)
     def CreateQuest(*args): return _blcelc.iQuestFactory_CreateQuest(*args)
     def Load(*args): return _blcelc.iQuestFactory_Load(*args)
+    def Save(*args): return _blcelc.iQuestFactory_Save(*args)
     def GetState(*args): return _blcelc.iQuestFactory_GetState(*args)
     def CreateState(*args): return _blcelc.iQuestFactory_CreateState(*args)
     def GetStates(*args): return _blcelc.iQuestFactory_GetStates(*args)
@@ -5149,6 +5152,7 @@ class iQuestFactory(cspace.iBase):
     def GetSequences(*args): return _blcelc.iQuestFactory_GetSequences(*args)
     def SetDefaultParameter(*args): return _blcelc.iQuestFactory_SetDefaultParameter(*args)
     def ClearDefaultParameters(*args): return _blcelc.iQuestFactory_ClearDefaultParameters(*args)
+    def GetDefaultParameters(*args): return _blcelc.iQuestFactory_GetDefaultParameters(*args)
     Name = _swig_property(_blcelc.iQuestFactory_Name_get, None, None,
                     "iQuestFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestFactory::GetName()")
 
@@ -5172,6 +5176,7 @@ class iQuestManager(cspace.iBase):
     def RemoveQuestFactories(*args): return _blcelc.iQuestManager_RemoveQuestFactories(*args)
     def CreateQuestFactory(*args): return _blcelc.iQuestManager_CreateQuestFactory(*args)
     def Load(*args): return _blcelc.iQuestManager_Load(*args)
+    def Save(*args): return _blcelc.iQuestManager_Save(*args)
     def AddNewStateReward(*args): return _blcelc.iQuestManager_AddNewStateReward(*args)
     def AddDebugPrintReward(*args): return _blcelc.iQuestManager_AddDebugPrintReward(*args)
     def AddInventoryReward(*args): return _blcelc.iQuestManager_AddInventoryReward(*args)
