@@ -36,7 +36,7 @@
 /// Maintenance release / RC
 #define CEL_VERSION_BUILD CS_VER_QUOTE(0)
 /// Date of release
-#define CEL_RELEASE_DATE  CS_VER_QUOTE(Tue 5-Apr-2011)
+#define CEL_RELEASE_DATE  CS_VER_QUOTE(Tue 7-Feb-2012)
 
 /// A complete version number
 #define CEL_VERSION_NUMBER CS_VERSION_MAJOR "." CS_VERSION_MINOR "." \
