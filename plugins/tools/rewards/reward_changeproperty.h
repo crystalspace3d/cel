@@ -74,15 +74,34 @@ public:
 
   //----------------- iChangePropertyQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
+  virtual const char* GetEntity () const { return entity_par; }
   virtual void SetClassParameter (const char* ent_class);
+  virtual const char* GetClass () const { return class_par; }
   virtual void SetPropertyParameter (const char* prop);
+  virtual const char* GetProperty () const { return prop_par; }
+  virtual celDataType GetPropertyType () const
+  {
+    if (string_par) return CEL_DATA_STRING;
+    else if (long_par) return CEL_DATA_LONG;
+    else if (float_par) return CEL_DATA_FLOAT;
+    else if (bool_par) return CEL_DATA_BOOL;
+    else return CEL_DATA_NONE;
+  }
   virtual void SetPCParameter (const char* pc, const char* tag);
+  virtual const char* GetPC () const { return pc_par; }
+  virtual const char* GetPCTag () const { return tag_par; }
   virtual void SetStringParameter (const char* pstring);
+  virtual const char* GetString () const { return string_par; }
   virtual void SetLongParameter (const char* plong);
+  virtual const char* GetLong () const { return long_par; }
   virtual void SetFloatParameter (const char* pfloat);
+  virtual const char* GetFloat () const { return float_par; }
   virtual void SetBoolParameter (const char* pbool);
+  virtual const char* GetBool () const { return bool_par; }
   virtual void SetDiffParameter (const char* pdiff);
-  virtual void SetToggle ();
+  virtual const char* GetDiff () const { return diff_par; }
+  virtual void SetToggle (bool t);
+  virtual bool IsToggle () const { return do_toggle; }
 };
 
 /**

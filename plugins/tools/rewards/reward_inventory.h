@@ -66,8 +66,12 @@ public:
 
   //----------------- iInventoryQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
+  virtual const char* GetEntity () const { return entity_par; }
+  virtual const char* GetTag () const { return tag_par; }
   virtual void SetChildEntityParameter (const char* child_entity,
   	const char* tag = 0);
+  virtual const char* GetChildEntity () const { return child_entity_par; }
+  virtual const char* GetChildTag () const { return child_tag_par; }
 };
 
 /**

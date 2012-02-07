@@ -178,9 +178,9 @@ void celChangePropertyRewardFactory::SetDiffParameter (
   diff_par = str;
 }
 
-void celChangePropertyRewardFactory::SetToggle ()
+void celChangePropertyRewardFactory::SetToggle (bool t)
 {
-  do_toggle = true;
+  do_toggle = t;
 }
 
 //---------------------------------------------------------------------------
