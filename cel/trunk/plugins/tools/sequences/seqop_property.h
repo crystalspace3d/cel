@@ -73,14 +73,30 @@ public:
 
   //----------------- iPropertySeqOpFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
+  virtual const char* GetEntity () const { return entity_par; }
   virtual void SetPCParameter (const char* pc, const char* tag = 0);
+  virtual const char* GetPC () const { return pc_par; }
   virtual void SetPropertyParameter (const char* property_name);
+  virtual const char* GetProperty () const { return prop_par; }
+  virtual celDataType GetPropertyType () const
+  {
+    if (float_par) return CEL_DATA_FLOAT;
+    else if (long_par) return CEL_DATA_LONG;
+    else if (vz_par) return CEL_DATA_VECTOR3;
+    else return CEL_DATA_VECTOR2;
+  }
   virtual void SetLongParameter (const char* plong);
+  virtual const char* GetLong () const { return long_par; }
   virtual void SetFloatParameter (const char* pfloat);
+  virtual const char* GetFloat () const { return float_par; }
   virtual void SetVector2Parameter (const char* vectorx, const char* vectory);
+  virtual const char* GetVectorX () const { return vx_par; }
+  virtual const char* GetVectorY () const { return vy_par; }
   virtual void SetVector3Parameter (const char* vectorx, const char* vectory,
   	const char* vectorz);
+  virtual const char* GetVectorZ () const { return vz_par; }
   virtual void SetRelative (bool is_relative);
+  virtual bool IsRelative () const { return relative; }
 };
 
 /**

@@ -272,6 +272,7 @@ struct iDebugPrintSeqOpFactory : public virtual iBase
    * or a parameter if it starts with '$').
    */
   virtual void SetMessageParameter (const char* msg) = 0;
+  virtual const char* GetMessage () const = 0;
 };
 
 
@@ -307,18 +308,26 @@ struct iAmbientMeshSeqOpFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntity () const = 0;
+  virtual const char* GetTag () const = 0;
 
   /**
    * Set the relative color animation vector.
    */
   virtual void SetRelColorParameter (const char* red, const char* green,
   	const char* blue) = 0;
+  virtual const char* GetRelColorRed () const = 0;
+  virtual const char* GetRelColorGreen () const = 0;
+  virtual const char* GetRelColorBlue () const = 0;
 
   /**
    * Set the absolute color.
    */
   virtual void SetAbsColorParameter (const char* red, const char* green,
   	const char* blue) = 0;
+  virtual const char* GetAbsColorRed () const = 0;
+  virtual const char* GetAbsColorGreen () const = 0;
+  virtual const char* GetAbsColorBlue () const = 0;
 };
 
 /**
@@ -352,18 +361,26 @@ struct iLightSeqOpFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntity () const = 0;
+  virtual const char* GetTag () const = 0;
 
   /**
    * Set the relative color animation vector.
    */
   virtual void SetRelColorParameter (const char* red, const char* green,
   	const char* blue) = 0;
+  virtual const char* GetRelColorRed () const = 0;
+  virtual const char* GetRelColorGreen () const = 0;
+  virtual const char* GetRelColorBlue () const = 0;
 
   /**
    * Set the absolute color.
    */
   virtual void SetAbsColorParameter (const char* red, const char* green,
   	const char* blue) = 0;
+  virtual const char* GetAbsColorRed () const = 0;
+  virtual const char* GetAbsColorGreen () const = 0;
+  virtual const char* GetAbsColorBlue () const = 0;
 };
 
 /**
@@ -396,6 +413,8 @@ struct iMovePathSeqOpFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntity () const = 0;
+  virtual const char* GetTag () const = 0;
 
   /**
    * Add a node.
@@ -408,6 +427,10 @@ struct iMovePathSeqOpFactory : public virtual iBase
    */
   virtual void AddPathNode (const char* sectorname, const char* node,
   	const char* time) = 0;
+  virtual size_t GetPathCount () const = 0;
+  virtual const char* GetPathSector (size_t idx) const = 0;
+  virtual const char* GetPathNode (size_t idx) const = 0;
+  virtual const char* GetPathTime (size_t idx) const = 0;
 };
 
 /**
@@ -447,6 +470,7 @@ struct iPropertySeqOpFactory : public virtual iBase
    * or a parameter if it starts with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
+  virtual const char* GetEntity () const = 0;
 
   /**
    * Set the property class and tag to search for.
@@ -455,6 +479,7 @@ struct iPropertySeqOpFactory : public virtual iBase
    * with '$').
    */
   virtual void SetPCParameter (const char* pc, const char* tag = 0) = 0;
+  virtual const char* GetPC () const = 0;
 
   /**
    * Set the property name for this sequence.
@@ -462,6 +487,8 @@ struct iPropertySeqOpFactory : public virtual iBase
    * It can also be a parameter if it starts with '$'.
    */
   virtual void SetPropertyParameter (const char* property_name) = 0;
+  virtual const char* GetProperty () const = 0;
+  virtual celDataType GetPropertyType () const = 0;
 
   /**
    * Set the end value for the property as a float.
@@ -469,6 +496,7 @@ struct iPropertySeqOpFactory : public virtual iBase
    * It can also be a parameter if it starts with '$'.
    */
   virtual void SetFloatParameter (const char* pfloat) = 0;
+  virtual const char* GetFloat () const = 0;
 
   /**
    * Set the end value for the property as a long.
@@ -476,6 +504,7 @@ struct iPropertySeqOpFactory : public virtual iBase
    * It can also be a parameter if it starts with '$'.
    */
   virtual void SetLongParameter (const char* plong) = 0;
+  virtual const char* GetLong () const = 0;
 
   /**
    * Set the end value for the property as a vector2.
@@ -485,6 +514,8 @@ struct iPropertySeqOpFactory : public virtual iBase
    */
   virtual void SetVector2Parameter (const char* vectorx, 
 	const char* vectory) = 0;
+  virtual const char* GetVectorX () const = 0;
+  virtual const char* GetVectorY () const = 0;
 
   /**
    * Set the end value for the property as a vector3.
@@ -496,6 +527,7 @@ struct iPropertySeqOpFactory : public virtual iBase
    */
   virtual void SetVector3Parameter (const char* vectorx, const char* vectory,
         const char* vectorz) = 0;
+  virtual const char* GetVectorZ () const = 0;
 
    /**
    * Set whether the sequence will be relative:
@@ -505,6 +537,7 @@ struct iPropertySeqOpFactory : public virtual iBase
    * \param is_relative whether the sequence is relative. can't be a parameter.
    */
   virtual void SetRelative (bool is_relative) = 0;
+  virtual bool IsRelative () const = 0;
 };
 
 
@@ -542,12 +575,17 @@ struct iTransformSeqOpFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+  virtual const char* GetEntity () const = 0;
+  virtual const char* GetTag () const = 0;
 
   /**
    * Set the relative movement vector parameter.
    */
   virtual void SetVectorParameter (const char* vectorx, const char* vectory,
   	const char* vectorz) = 0;
+  virtual const char* GetVectorX () const = 0;
+  virtual const char* GetVectorY () const = 0;
+  virtual const char* GetVectorZ () const = 0;
 
   /**
    * Set the relative rotation parameter.
@@ -555,6 +593,8 @@ struct iTransformSeqOpFactory : public virtual iBase
    * \param rot_angle the amount of rotation.
    */
   virtual void SetRotationParameter (int rot_axis, const char* rot_angle) = 0;
+  virtual int GetRotationAxis () const = 0;
+  virtual const char* GetRotationAngle () const = 0;
 };
 
 //-------------------------------------------------------------------------

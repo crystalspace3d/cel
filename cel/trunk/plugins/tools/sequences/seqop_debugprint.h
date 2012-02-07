@@ -63,6 +63,7 @@ public:
 
   //----------------- iDebugPrintSeqOpFactory -----------------------
   virtual void SetMessageParameter (const char* msg);
+  virtual const char* GetMessage () const { return msg_par; }
 };
 
 /**

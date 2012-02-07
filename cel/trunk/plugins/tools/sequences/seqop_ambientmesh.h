@@ -72,10 +72,18 @@ public:
 
   //----------------- iAmbientMeshSeqOpFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
+  virtual const char* GetEntity () const { return entity_par; }
+  virtual const char* GetTag () const { return tag_par; }
   virtual void SetRelColorParameter (const char* red, const char* green,
   	const char* blue);
+  virtual const char* GetRelColorRed () const { return rel_red_par; }
+  virtual const char* GetRelColorGreen () const { return rel_green_par; }
+  virtual const char* GetRelColorBlue () const { return rel_blue_par; }
   virtual void SetAbsColorParameter (const char* red, const char* green,
   	const char* blue);
+  virtual const char* GetAbsColorRed () const { return abs_red_par; }
+  virtual const char* GetAbsColorGreen () const { return abs_green_par; }
+  virtual const char* GetAbsColorBlue () const { return abs_blue_par; }
 };
 
 /**

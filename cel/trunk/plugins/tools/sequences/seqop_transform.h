@@ -70,9 +70,16 @@ public:
 
   //----------------- iTransformQuestSeqOpFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
+  virtual const char* GetEntity () const { return entity_par; }
+  virtual const char* GetTag () const { return tag_par; }
   virtual void SetVectorParameter (const char* vectorx, const char* vectory,
   	const char* vectorz);
+  virtual const char* GetVectorX () const { return vectorx_par; }
+  virtual const char* GetVectorY () const { return vectory_par; }
+  virtual const char* GetVectorZ () const { return vectorz_par; }
   virtual void SetRotationParameter (int axis, const char* angle);
+  virtual int GetRotationAxis () const { return rot_axis; }
+  virtual const char* GetRotationAngle () const { return rot_angle_par; }
 };
 
 /**
