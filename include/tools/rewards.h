@@ -177,8 +177,9 @@ struct iActionRewardFactory : public virtual iBase
    * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
    * \param id is the id of the parameter (calculated from iCelPlLayer->FetchStringID(name)).
    * \param value is the value string or a parameter for it (starts with '$').
+   * \return true if the parameter was added or false if it was updated.
    */
-  virtual void AddParameter (celDataType type, csStringID id, const char* value) = 0;
+  virtual bool AddParameter (celDataType type, csStringID id, const char* value) = 0;
   virtual size_t GetParameterCount () const = 0;
   virtual csStringID GetParameterID (size_t idx) const = 0;
   virtual const char* GetParameterValue (size_t idx) const = 0;
@@ -345,8 +346,9 @@ struct iCreateEntityRewardFactory : public virtual iBase
    * \param name is the name for the parameter.
    * \param value is the value for the parameter or a quest manager parameter 
    * (starts with '$').
+   * \return true if the parameter was added or false if it was updated.
    */
-  virtual void AddParameter (const char* name, const char* value) = 0;
+  virtual bool AddParameter (const char* name, const char* value) = 0;
   virtual size_t GetParameterCount () const = 0;
   virtual const char* GetParameterName (size_t idx) const = 0;
   virtual const char* GetParameterValue (size_t idx) const = 0;
@@ -507,8 +509,9 @@ struct iMessageRewardFactory : public virtual iBase
    * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
    * \param id is the id of the parameter (calculated from iCelPlLayer->FetchStringID(name)).
    * \param value is the value string or a parameter for it (starts with '$').
+   * \return true if the parameter was added or false if it was updated.
    */
-  virtual void AddParameter (celDataType type, csStringID id, const char* value) = 0;
+  virtual bool AddParameter (celDataType type, csStringID id, const char* value) = 0;
   virtual size_t GetParameterCount () const = 0;
   virtual csStringID GetParameterID (size_t idx) const = 0;
   virtual const char* GetParameterValue (size_t idx) const = 0;

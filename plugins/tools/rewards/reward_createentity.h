@@ -64,7 +64,7 @@ public:
   virtual const char* GetEntityTemplate () const { return template_par; }
   virtual void SetNameParameter (const char* name);
   virtual const char* GetName () const { return name_par; }
-  virtual void AddParameter (const char* name, const char* value);
+  virtual bool AddParameter (const char* name, const char* value);
   virtual size_t GetParameterCount () const;
   virtual const char* GetParameterName (size_t idx) const;
   virtual const char* GetParameterValue (size_t idx) const;
