@@ -68,6 +68,7 @@ public:
   virtual size_t GetParameterCount () const;
   virtual const char* GetParameterName (size_t idx) const;
   virtual const char* GetParameterValue (size_t idx) const;
+  virtual void RemoveParameter (const char* name);
 };
 
 /**
