@@ -76,6 +76,7 @@ public:
   virtual const char* GetEntity () const { return entity_par; }
   virtual void SetPCParameter (const char* pc, const char* tag = 0);
   virtual const char* GetPC () const { return pc_par; }
+  virtual const char* GetPCTag () const { return tag_par; }
   virtual void SetPropertyParameter (const char* property_name);
   virtual const char* GetProperty () const { return prop_par; }
   virtual celDataType GetPropertyType () const

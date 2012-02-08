@@ -480,6 +480,7 @@ struct iPropertySeqOpFactory : public virtual iBase
    */
   virtual void SetPCParameter (const char* pc, const char* tag = 0) = 0;
   virtual const char* GetPC () const = 0;
+  virtual const char* GetPCTag () const = 0;
 
   /**
    * Set the property name for this sequence.
