@@ -231,6 +231,12 @@ struct iCelSequenceFactory : public virtual iBase
   virtual const char* GetSeqOpFactoryDuration (size_t idx) const = 0;
 
   /**
+   * Remove a seqop factory. Note that a delay also counts as
+   * such a factory.
+   */
+  virtual void RemoveSeqOpFactory (size_t idx) = 0;
+
+  /**
    * Add a delay.
    * \param delay is a the delay or a parameter.
    */

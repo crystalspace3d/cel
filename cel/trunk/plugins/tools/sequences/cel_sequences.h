@@ -145,6 +145,7 @@ public:
   virtual size_t GetSeqOpFactoryCount () const { return seqops.GetSize (); }
   virtual iSeqOpFactory* GetSeqOpFactory (size_t idx) const { return seqops[idx].seqop; }
   virtual const char* GetSeqOpFactoryDuration (size_t idx) const { return seqops[idx].duration; }
+  virtual void RemoveSeqOpFactory (size_t idx) { seqops.DeleteIndex (idx); }
   virtual void AddDelay (const char* delay);
 };
 
