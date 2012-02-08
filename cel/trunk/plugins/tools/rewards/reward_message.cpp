@@ -133,7 +133,7 @@ void celMessageRewardFactory::SetIDParameter (
   id_par = id;
 }
 
-void celMessageRewardFactory::AddParameter (celDataType type,
+bool celMessageRewardFactory::AddParameter (celDataType type,
     csStringID id, const char* value)
 {
   for (size_t i = 0 ; i < parameters.GetSize () ; i++)
@@ -141,13 +141,14 @@ void celMessageRewardFactory::AddParameter (celDataType type,
     {
       parameters[i].type = type;
       parameters[i].value = value;
-      return;
+      return false;
     }
 
   size_t idx = parameters.Push (celParSpec ());
   parameters[idx].type = type;
   parameters[idx].id = id;
   parameters[idx].value = value;
+  return true;
 }
 
 void celMessageRewardFactory::RemoveParameter (csStringID id)

@@ -79,7 +79,7 @@ public:
   virtual const char* GetPropertyClass () const { return pcclass_par; }
   virtual void SetTagParameter (const char* pctag);
   virtual const char* GetTag () const { return tag_par; }
-  virtual void AddParameter (celDataType type, csStringID id, const char* value);
+  virtual bool AddParameter (celDataType type, csStringID id, const char* value);
   virtual size_t GetParameterCount () const { return parameters.GetSize (); }
   virtual csStringID GetParameterID (size_t idx) const { return parameters[idx].id; }
   virtual const char* GetParameterValue (size_t idx) const { return parameters[idx].value; }

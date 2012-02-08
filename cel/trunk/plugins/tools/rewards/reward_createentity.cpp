@@ -147,15 +147,21 @@ void celCreateEntityRewardFactory::SetNameParameter (
   name_par = name;
 }
 
-void celCreateEntityRewardFactory::AddParameter (const char* name, 
+bool celCreateEntityRewardFactory::AddParameter (const char* name, 
 		const char* value)
 {
   csStringID id = type->pl->FetchStringID (name);
   celData* data = params->GetParameter (id);
   if (data)
+  {
     data->Set (value);
+    return false;
+  }
   else
+  {
     params->AddParameter (id).Set (value);
+    return true;
+  }
 }
 
 void celCreateEntityRewardFactory::RemoveParameter (const char* name)

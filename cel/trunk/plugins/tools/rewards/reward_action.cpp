@@ -164,7 +164,7 @@ void celActionRewardFactory::SetClassParameter (
   class_par = ent_class;
 }
 
-void celActionRewardFactory::AddParameter (celDataType type,
+bool celActionRewardFactory::AddParameter (celDataType type,
     csStringID id, const char* value)
 {
   for (size_t i = 0 ; i < parameters.GetSize () ; i++)
@@ -172,13 +172,14 @@ void celActionRewardFactory::AddParameter (celDataType type,
     {
       parameters[i].type = type;
       parameters[i].value = value;
-      return;
+      return false;
     }
 
   size_t idx = parameters.Push (celParSpec ());
   parameters[idx].type = type;
   parameters[idx].id = id;
   parameters[idx].value = value;
+  return true;
 }
 
 void celActionRewardFactory::RemoveParameter (csStringID id)
