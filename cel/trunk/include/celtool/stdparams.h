@@ -333,6 +333,19 @@ public:
   }
 
   /**
+   * Remove a parameter.
+   */
+  void RemoveParameter (csStringID id)
+  {
+    for (size_t i = 0 ; i < vars.GetSize () ; i++)
+      if (vars[i].id == id)
+      {
+	vars.DeleteIndex (i);
+	return;
+      }
+  }
+
+  /**
    * Add a new parameter and return a reference to the data.
    */
   celData& AddParameter (csStringID id)

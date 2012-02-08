@@ -173,6 +173,16 @@ void celActionRewardFactory::AddParameter (celDataType type,
   parameters[idx].value = value;
 }
 
+void celActionRewardFactory::RemoveParameter (csStringID id)
+{
+  for (size_t i = 0 ; i < parameters.GetSize () ; i++)
+    if (parameters[i].id == id)
+    {
+      parameters.DeleteIndex (i);
+      return;
+    }
+}
+
 //---------------------------------------------------------------------------
 
 celActionReward::celActionReward (

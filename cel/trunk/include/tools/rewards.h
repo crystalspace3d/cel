@@ -183,6 +183,7 @@ struct iActionRewardFactory : public virtual iBase
   virtual csStringID GetParameterID (size_t idx) const = 0;
   virtual const char* GetParameterValue (size_t idx) const = 0;
   virtual celDataType GetParameterType (size_t idx) const = 0;
+  virtual void RemoveParameter (csStringID id) = 0;
 };
 
 /**
@@ -349,6 +350,7 @@ struct iCreateEntityRewardFactory : public virtual iBase
   virtual size_t GetParameterCount () const = 0;
   virtual const char* GetParameterName (size_t idx) const = 0;
   virtual const char* GetParameterValue (size_t idx) const = 0;
+  virtual void RemoveParameter (const char* name) = 0;
 };
 
 /**
@@ -511,6 +513,7 @@ struct iMessageRewardFactory : public virtual iBase
   virtual csStringID GetParameterID (size_t idx) const = 0;
   virtual const char* GetParameterValue (size_t idx) const = 0;
   virtual celDataType GetParameterType (size_t idx) const = 0;
+  virtual void RemoveParameter (csStringID id) = 0;
 };
 
 /**
