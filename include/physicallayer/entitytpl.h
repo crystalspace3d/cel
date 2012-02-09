@@ -121,6 +121,11 @@ struct iCelEntityTemplate : public virtual iBase
   virtual iCelPropertyClassTemplate* GetPropertyClassTemplate (size_t idx) const = 0;
 
   /**
+   * Remove a specific property class template.
+   */
+  virtual void RemovePropertyClassTemplate (size_t idx) = 0;
+
+  /**
    * Set the behaviour associated with this template.
    * \param layer is the name of the behaviour layer (optional, can be 0
    * for default).
