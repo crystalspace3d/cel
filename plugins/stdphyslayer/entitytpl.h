@@ -130,6 +130,7 @@ public:
 
   virtual iCelPropertyClassTemplate* CreatePropertyClassTemplate ();
   virtual void RemovePropertyClassTemplate (size_t idx);
+  virtual void RemovePropertyClassTemplate (iCelPropertyClassTemplate* tpl);
   virtual iCelPropertyClassTemplate* FindPropertyClassTemplate (const char* name,
       const char* tag);
   virtual size_t GetPropertyClassTemplateCount () const
