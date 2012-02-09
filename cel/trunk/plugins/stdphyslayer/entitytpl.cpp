@@ -228,6 +228,11 @@ void celEntityTemplate::RemovePropertyClassTemplate (size_t idx)
   propclasses.DeleteIndex (idx);
 }
 
+void celEntityTemplate::RemovePropertyClassTemplate (iCelPropertyClassTemplate* tpl)
+{
+  propclasses.Delete (static_cast<celPropertyClassTemplate*> (tpl));
+}
+
 void celEntityTemplate::AddMessage (csStringID msgid,
       csHash<csRef<iParameter>, csStringID>& params)
 {
