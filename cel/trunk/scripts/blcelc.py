@@ -1107,6 +1107,7 @@ class celVariableParameterBlock(scfVariableParameterBlock):
     __swig_destroy__ = _blcelc.delete_celVariableParameterBlock
     __del__ = lambda self : None;
     def Clear(*args): return _blcelc.celVariableParameterBlock_Clear(*args)
+    def RemoveParameter(*args): return _blcelc.celVariableParameterBlock_RemoveParameter(*args)
     def AddParameter(*args): return _blcelc.celVariableParameterBlock_AddParameter(*args)
     def SetParameterDef(*args): return _blcelc.celVariableParameterBlock_SetParameterDef(*args)
     def GetParameterCount(*args): return _blcelc.celVariableParameterBlock_GetParameterCount(*args)
