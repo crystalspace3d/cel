@@ -116,9 +116,9 @@ struct iQuestTriggerResponseFactory : public virtual iBase
   virtual csRef<iRewardFactoryArray> GetRewardFactories () = 0;
 };
 
-struct iQuestTriggerResponseFactoryArray : public iArrayReadOnly<iQuestTriggerResponseFactory*>
+struct iQuestTriggerResponseFactoryArray : public iArrayChangeAll<iQuestTriggerResponseFactory*>
 {
-  SCF_IARRAYREADONLY_INTERFACE(iQuestTriggerResponseFactoryArray);
+  SCF_IARRAYCHANGEALL_INTERFACE(iQuestTriggerResponseFactoryArray);
 };
 
 /**
@@ -142,7 +142,7 @@ struct iQuestStateFactory : public virtual iBase
   /**
    * Get all trigger responses.
    */
-  virtual csRef<iQuestTriggerResponseFactoryArray> GetTriggerResponseFactories () const = 0;
+  virtual csRef<iQuestTriggerResponseFactoryArray> GetTriggerResponseFactories () = 0;
 
   /**
    * Add a new reward to be fired on state initialization.

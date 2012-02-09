@@ -109,7 +109,7 @@ public:
   virtual const char* GetName () const { return name; }
 
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory ();
-  virtual csRef<iQuestTriggerResponseFactoryArray> GetTriggerResponseFactories () const;
+  virtual csRef<iQuestTriggerResponseFactoryArray> GetTriggerResponseFactories ();
 
   virtual void AddInitRewardFactory (iRewardFactory* reward_fact);
   virtual csRef<iRewardFactoryArray> GetInitRewardFactories ();

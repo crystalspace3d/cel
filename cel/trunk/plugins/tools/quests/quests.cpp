@@ -82,10 +82,10 @@ iQuestTriggerResponseFactory* celQuestStateFactory::CreateTriggerResponseFactory
   return resp;
 }
 
-csRef<iQuestTriggerResponseFactoryArray> celQuestStateFactory::GetTriggerResponseFactories () const
+csRef<iQuestTriggerResponseFactoryArray> celQuestStateFactory::GetTriggerResponseFactories ()
 {
   csRef<iQuestTriggerResponseFactoryArray> array;
-  array.AttachNew (new scfArrayWrapConst<iQuestTriggerResponseFactoryArray,
+  array.AttachNew (new scfArrayWrap<iQuestTriggerResponseFactoryArray,
       csRefArray<iQuestTriggerResponseFactory> > (responses));
   return array;
 }
