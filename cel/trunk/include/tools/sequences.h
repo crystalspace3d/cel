@@ -216,6 +216,12 @@ struct iCelSequenceFactory : public virtual iBase
   	const char* duration) = 0;
 
   /**
+   * Update an operation factory at a specific index.
+   */
+  virtual void UpdateSeqOpFactory (size_t idx, iSeqOpFactory* seqopfact,
+      const char* duration) = 0;
+
+  /**
    * Get the amount of seqop factories.
    */
   virtual size_t GetSeqOpFactoryCount () const = 0;
