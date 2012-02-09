@@ -58,10 +58,10 @@ void celQuestTriggerResponseFactory::AddRewardFactory (
   reward_factories.Push (reward_fact);
 }
 
-csRef<iRewardFactoryArray> celQuestTriggerResponseFactory::GetRewardFactories () const
+csRef<iRewardFactoryArray> celQuestTriggerResponseFactory::GetRewardFactories ()
 {
   csRef<iRewardFactoryArray> array;
-  array.AttachNew (new scfArrayWrapConst<iRewardFactoryArray,
+  array.AttachNew (new scfArrayWrap<iRewardFactoryArray,
       csRefArray<iRewardFactory> > (reward_factories));
   return array;
 }
@@ -95,10 +95,10 @@ void celQuestStateFactory::AddInitRewardFactory (iRewardFactory* reward_fact)
   oninit_reward_factories.Push (reward_fact);
 }
 
-csRef<iRewardFactoryArray> celQuestStateFactory::GetInitRewardFactories () const
+csRef<iRewardFactoryArray> celQuestStateFactory::GetInitRewardFactories ()
 {
   csRef<iRewardFactoryArray> array;
-  array.AttachNew (new scfArrayWrapConst<iRewardFactoryArray,
+  array.AttachNew (new scfArrayWrap<iRewardFactoryArray,
       csRefArray<iRewardFactory> > (oninit_reward_factories));
   return array;
 }
@@ -108,10 +108,10 @@ void celQuestStateFactory::AddExitRewardFactory (iRewardFactory* reward_fact)
   onexit_reward_factories.Push (reward_fact);
 }
 
-csRef<iRewardFactoryArray> celQuestStateFactory::GetExitRewardFactories () const
+csRef<iRewardFactoryArray> celQuestStateFactory::GetExitRewardFactories ()
 {
   csRef<iRewardFactoryArray> array;
-  array.AttachNew (new scfArrayWrapConst<iRewardFactoryArray,
+  array.AttachNew (new scfArrayWrap<iRewardFactoryArray,
       csRefArray<iRewardFactory> > (onexit_reward_factories));
   return array;
 }
@@ -680,6 +680,13 @@ iQuestStateFactory* celQuestFactory::CreateState (const char* name)
   return state;
 }
 
+bool celQuestFactory::RemoveState (const char* name)
+{
+  if (!states.Contains (name)) return false;
+  states.DeleteAll (name);
+  return true;
+}
+
 csRef<iQuestStateFactoryIterator> celQuestFactory::GetStates () const
 {
   csRef<celQuestStateFactoryIterator> it;
@@ -706,6 +713,13 @@ iCelSequenceFactory* celQuestFactory::CreateSequence (const char* name)
   seq->SetName(name);
   sequences.Put (name, seq);
   return seq;
+}
+
+bool celQuestFactory::RemoveSequence (const char* name)
+{
+  if (!sequences.Contains (name)) return false;
+  sequences.DeleteAll (name);
+  return true;
 }
 
 csRef<iCelSequenceFactoryIterator> celQuestFactory::GetSequences () const

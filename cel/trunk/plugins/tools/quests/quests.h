@@ -71,7 +71,7 @@ public:
   {
     return reward_factories;
   }
-  virtual csRef<iRewardFactoryArray> GetRewardFactories () const;
+  virtual csRef<iRewardFactoryArray> GetRewardFactories ();
 
   virtual void SetTriggerFactory (iTriggerFactory* trigger_fact);
   virtual void AddRewardFactory (iRewardFactory* reward_fact);
@@ -112,9 +112,9 @@ public:
   virtual csRef<iQuestTriggerResponseFactoryArray> GetTriggerResponseFactories () const;
 
   virtual void AddInitRewardFactory (iRewardFactory* reward_fact);
-  virtual csRef<iRewardFactoryArray> GetInitRewardFactories () const;
+  virtual csRef<iRewardFactoryArray> GetInitRewardFactories ();
   virtual void AddExitRewardFactory (iRewardFactory* reward_fact);
-  virtual csRef<iRewardFactoryArray> GetExitRewardFactories () const;
+  virtual csRef<iRewardFactoryArray> GetExitRewardFactories ();
 };
 
 typedef csHash<csRef<celQuestStateFactory>,csStringBase> celQuestFactoryStates;
@@ -168,9 +168,11 @@ public:
   virtual bool Save (iDocumentNode* node);
   virtual iQuestStateFactory* GetState (const char* name);
   virtual iQuestStateFactory* CreateState (const char* name);
+  virtual bool RemoveState (const char* name);
   virtual csRef<iQuestStateFactoryIterator> GetStates () const;
   virtual iCelSequenceFactory* GetSequence (const char* name);
   virtual iCelSequenceFactory* CreateSequence (const char* name);
+  virtual bool RemoveSequence (const char* name);
   virtual csRef<iCelSequenceFactoryIterator> GetSequences () const;
   virtual void SetDefaultParameter (const char* name, const char* value);
   virtual void ClearDefaultParameters ();

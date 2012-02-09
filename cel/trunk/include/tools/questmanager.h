@@ -79,9 +79,9 @@ struct iQuest : public virtual iBase
   virtual void Deactivate () = 0;
 };
 
-struct iRewardFactoryArray : public iArrayReadOnly<iRewardFactory*>
+struct iRewardFactoryArray : public iArrayChangeAll<iRewardFactory*>
 {
-  SCF_IARRAYREADONLY_INTERFACE(iRewardFactoryArray);
+  SCF_IARRAYCHANGEALL_INTERFACE(iRewardFactoryArray);
 };
 
 /**
@@ -113,7 +113,7 @@ struct iQuestTriggerResponseFactory : public virtual iBase
   /**
    * Get the reward factories.
    */
-  virtual csRef<iRewardFactoryArray> GetRewardFactories () const = 0;
+  virtual csRef<iRewardFactoryArray> GetRewardFactories () = 0;
 };
 
 struct iQuestTriggerResponseFactoryArray : public iArrayReadOnly<iQuestTriggerResponseFactory*>
@@ -151,7 +151,7 @@ struct iQuestStateFactory : public virtual iBase
   /**
    * Get the init reward factories.
    */
-  virtual csRef<iRewardFactoryArray> GetInitRewardFactories () const = 0;
+  virtual csRef<iRewardFactoryArray> GetInitRewardFactories () = 0;
 
   /**
    * Add a new reward to be fired on state exit.
@@ -160,7 +160,7 @@ struct iQuestStateFactory : public virtual iBase
   /**
    * Get the exit reward factories.
    */
-  virtual csRef<iRewardFactoryArray> GetExitRewardFactories () const = 0;
+  virtual csRef<iRewardFactoryArray> GetExitRewardFactories () = 0;
 };
 
 /**
@@ -241,6 +241,12 @@ struct iQuestFactory : public virtual iBase
   virtual iQuestStateFactory* GetState (const char* name) = 0;
 
   /**
+   * Remove a state from this factory.
+   * Returns false if the state didn't exist.
+   */
+  virtual bool RemoveState (const char* name) = 0;
+
+  /**
    * Create a new state in this factory.
    * Return 0 on failure (name already exists).
    */
@@ -262,6 +268,12 @@ struct iQuestFactory : public virtual iBase
    * Return 0 on failure (name already exists).
    */
   virtual iCelSequenceFactory* CreateSequence (const char* name) = 0;
+
+  /**
+   * Remove a sequence from this factory.
+   * Returns false if the sequence didn't exist.
+   */
+  virtual bool RemoveSequence (const char* name) = 0;
 
   /**
    * Get an iterator over all the sequences.
