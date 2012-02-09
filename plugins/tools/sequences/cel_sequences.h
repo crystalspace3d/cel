@@ -142,6 +142,8 @@ public:
   virtual void SetName (const char* name);
   virtual void AddSeqOpFactory (iSeqOpFactory* seqopfact,
   	const char* duration);
+  virtual void UpdateSeqOpFactory (size_t idx, iSeqOpFactory* seqopfact,
+      const char* duration);
   virtual size_t GetSeqOpFactoryCount () const { return seqops.GetSize (); }
   virtual iSeqOpFactory* GetSeqOpFactory (size_t idx) const { return seqops[idx].seqop; }
   virtual const char* GetSeqOpFactoryDuration (size_t idx) const { return seqops[idx].duration; }

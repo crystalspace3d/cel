@@ -232,6 +232,13 @@ void celSequenceFactory::AddSeqOpFactory (iSeqOpFactory* seqopfact,
   seqops.Push (s);
 }
 
+void celSequenceFactory::UpdateSeqOpFactory (size_t idx,
+    iSeqOpFactory* seqopfact, const char* duration)
+{
+  seqops[idx].seqop = seqopfact;
+  seqops[idx].duration = duration;
+}
+
 void celSequenceFactory::AddDelay (const char* delay)
 {
   celSeqOpFact s;
