@@ -65,9 +65,6 @@ celInventoryTriggerFactory::celInventoryTriggerFactory (
 	celInventoryTriggerType* type) : scfImplementationType (this)
 {
   celInventoryTriggerFactory::type = type;
-  entity_par = 0;
-  tag_par = 0;
-  child_entity_par = 0;
 }
 
 celInventoryTriggerFactory::~celInventoryTriggerFactory ()
