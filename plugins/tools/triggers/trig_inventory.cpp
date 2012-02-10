@@ -245,7 +245,6 @@ void celInventoryTrigger::AddChild (iPcInventory* inventory, iCelEntity* entity)
   if (entity->GetName () && strcmp (child_entity, entity->GetName ()) == 0)
   {
     FireTrigger (entity);
-    callback->TriggerFired ((iTrigger*)this, 0);
   }
 }
 
@@ -272,7 +271,6 @@ void celInventoryTrigger::AddChildTemplate (iPcInventory* inventory,
   if (tpl->GetName () && strcmp (child_template, tpl->GetName ()) == 0)
   {
     FireTrigger (tpl);
-    callback->TriggerFired ((iTrigger*)this, 0);
   }
 }
 
