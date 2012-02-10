@@ -30,6 +30,7 @@
 
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
+#include "physicallayer/entitytpl.h"
 #include "physicallayer/propclas.h"
 
 #include "celtool/stdparams.h"
@@ -75,7 +76,7 @@ csPtr<iTrigger> celInventoryTriggerFactory::CreateTrigger (
     iQuest* q, iCelParameterBlock* params)
 {
   celInventoryTrigger* trig = new celInventoryTrigger (type,
-  	params, entity_par, tag_par, child_entity_par);
+  	params, entity_par, tag_par, child_entity_par, child_template_par);
   return trig;
 }
 
@@ -84,6 +85,7 @@ bool celInventoryTriggerFactory::Save (iDocumentNode* node)
   if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
   if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
   if (!child_entity_par.IsEmpty ()) node->SetAttribute ("child_entity", child_entity_par);
+  if (!child_template_par.IsEmpty ()) node->SetAttribute ("child_template", child_template_par);
   return true;
 }
 
@@ -95,6 +97,7 @@ bool celInventoryTriggerFactory::Load (iDocumentNode* node)
     return Report (type->object_reg,
       "'entity' attribute is missing for the inventory trigger!");
   child_entity_par = node->GetAttributeValue ("child_entity");
+  child_template_par = node->GetAttributeValue ("child_template");
   return true;
 }
 
@@ -111,13 +114,20 @@ void celInventoryTriggerFactory::SetChildEntityParameter (
   child_entity_par = entity;
 }
 
+void celInventoryTriggerFactory::SetChildTemplateParameter (
+	const char* tpl)
+{
+  child_template_par = tpl;
+}
+
 //---------------------------------------------------------------------------
 
 celInventoryTrigger::celInventoryTrigger (
 	celInventoryTriggerType* type,
   	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
-	const char* child_entity_par) : scfImplementationType (this)
+	const char* child_entity_par, const char* child_template_par)
+  : scfImplementationType (this)
 {
   celInventoryTrigger::type = type;
 
@@ -128,8 +138,10 @@ celInventoryTrigger::celInventoryTrigger (
   tag = pm->ResolveParameter (params, tag_par);
   if (child_entity_par)
     child_entity = pm->ResolveParameter (params, child_entity_par);
-  params_entity.AttachNew (new celOneParameterBlock ());
-  params_entity->SetParameterDef (type->pl->FetchStringID ("child"));
+  if (child_template_par)
+    child_template = pm->ResolveParameter (params, child_template_par);
+  params_child.AttachNew (new celOneParameterBlock ());
+  params_child->SetParameterDef (type->pl->FetchStringID ("child"));
 }
 
 celInventoryTrigger::~celInventoryTrigger ()
@@ -177,24 +189,41 @@ void celInventoryTrigger::ActivateTrigger ()
 void celInventoryTrigger::FireTrigger (iCelEntity* child)
 {
   DeactivateTrigger ();
-  params_entity->GetParameter (0).Set (child->GetName ());
-  callback->TriggerFired ((iTrigger*)this, params_entity);
+  params_child->GetParameter (0).Set (child->GetName ());
+  callback->TriggerFired ((iTrigger*)this, params_child);
+}
+
+void celInventoryTrigger::FireTrigger (iCelEntityTemplate* child)
+{
+  DeactivateTrigger ();
+  params_child->GetParameter (0).Set (child->GetName ());
+  callback->TriggerFired ((iTrigger*)this, params_child);
 }
 
 bool celInventoryTrigger::Check ()
 {
   if (!inventory) return false;
-  if (!child_entity) return false;
   size_t i;
-  for (i = 0 ; i < inventory->GetEntityCount () ; i++)
-  {
-    iCelEntity* ent = inventory->GetEntity (i);
-    if (ent->GetName () && strcmp (child_entity, ent->GetName ()) == 0)
+  if (child_entity)
+    for (i = 0 ; i < inventory->GetEntityCount () ; i++)
     {
-      FireTrigger (ent);
-      return true;
+      iCelEntity* ent = inventory->GetEntity (i);
+      if (ent->GetName () && strcmp (child_entity, ent->GetName ()) == 0)
+      {
+	FireTrigger (ent);
+	return true;
+      }
     }
-  }
+  else if (child_template)
+    for (i = 0 ; i < inventory->GetEntityTemplateCount () ; i++)
+    {
+      iCelEntityTemplate* ent = inventory->GetEntityTemplate (i);
+      if (ent->GetName () && strcmp (child_template, ent->GetName ()) == 0)
+      {
+	FireTrigger (ent);
+	return true;
+      }
+    }
   return false;
 }
 
@@ -209,7 +238,8 @@ void celInventoryTrigger::AddChild (iPcInventory* inventory, iCelEntity* entity)
   if (!child_entity)
   {
     // Always fire in case we're not monitoring a specific entity.
-    FireTrigger (entity);
+    if (!child_template)
+      FireTrigger (entity);
     return;
   }
   if (entity->GetName () && strcmp (child_entity, entity->GetName ()) == 0)
@@ -221,7 +251,7 @@ void celInventoryTrigger::AddChild (iPcInventory* inventory, iCelEntity* entity)
 
 void celInventoryTrigger::RemoveChild (iPcInventory*, iCelEntity* entity)
 {
-  if (!child_entity)
+  if (!child_entity && !child_template)
   {
     // Always fire in case we're not monitoring a specific entity.
     FireTrigger (entity);
@@ -232,13 +262,29 @@ void celInventoryTrigger::RemoveChild (iPcInventory*, iCelEntity* entity)
 void celInventoryTrigger::AddChildTemplate (iPcInventory* inventory,
       iCelEntityTemplate* tpl, int amount)
 {
-  // @@@ TODO! Support for templates!
+  if (!child_template)
+  {
+    // Always fire in case we're not monitoring a specific entity.
+    if (!child_entity)
+      FireTrigger (tpl);
+    return;
+  }
+  if (tpl->GetName () && strcmp (child_template, tpl->GetName ()) == 0)
+  {
+    FireTrigger (tpl);
+    callback->TriggerFired ((iTrigger*)this, 0);
+  }
 }
 
 void celInventoryTrigger::RemoveChildTemplate (iPcInventory* inventory,
       iCelEntityTemplate* tpl, int amount)
 {
-  // @@@ TODO! Support for templates!
+  if (!child_entity && !child_template)
+  {
+    // Always fire in case we're not monitoring a specific entity.
+    FireTrigger (tpl);
+    return;
+  }
 }
 
 //---------------------------------------------------------------------------

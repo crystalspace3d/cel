@@ -223,7 +223,7 @@ struct iEnterSectorTriggerFactory : public virtual iBase
  * The predefined name of this trigger type is 'cel.triggers.inventory'.
  *
  * This trigger sends out 'child' parameter to the reward (containing the
- * name of the entity that was added or removed).
+ * name of the entity or template that was added or removed).
  *
  * In XML, factories recognize the following attributes on the 'fireon' node:
  * - <em>entity</em>: the name of the entity that contains the
@@ -231,7 +231,10 @@ struct iEnterSectorTriggerFactory : public virtual iBase
  * - <em>entity_tag</em>: optional tag used to find the right
  *   property class from the entity.
  * - <em>child_entity</em>: the name of the entity to watch for. If this
- *   is not given then you will get triggere whenever something is
+ *   and <em>child_template</em> is not given then you will get triggere whenever something is
+ *   added or removed from the inventory.
+ * - <em>child_template</em>: the name of the template to watch for. If this
+ *   and <em>child_entity</em> is not given then you will get triggere whenever something is
  *   added or removed from the inventory.
  */
 struct iInventoryTriggerFactory : public virtual iBase
@@ -259,6 +262,16 @@ struct iInventoryTriggerFactory : public virtual iBase
    */
   virtual void SetChildEntityParameter (const char* child_entity) = 0;
   virtual const char* GetChildEntity () const = 0;
+
+  /**
+   * Set the name of the template to watch for. If this
+   * is not given then you will get triggered whenever something is
+   * added or removed from the inventory.
+   * \param child_template is the name of the template or a parameter (starts
+   * with '$').
+   */
+  virtual void SetChildTemplateParameter (const char* child_template) = 0;
+  virtual const char* GetChildTemplate () const = 0;
 };
 
 /**
