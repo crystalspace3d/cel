@@ -53,6 +53,7 @@ private:
   csString entity_par;
   csString tag_par;
   csString child_entity_par;
+  csString child_template_par;
 
 public:
   celInventoryTriggerFactory (celInventoryTriggerType* type);
@@ -69,6 +70,8 @@ public:
   virtual const char* GetTag () const { return tag_par; }
   virtual void SetChildEntityParameter (const char* entity);
   virtual const char* GetChildEntity () const { return child_entity_par; }
+  virtual void SetChildTemplateParameter (const char* child_template);
+  virtual const char* GetChildTemplate () const { return child_template_par; }
 };
 
 /**
@@ -86,16 +89,18 @@ private:
   uint entityID;
   csString tag;
   csString child_entity;
-  csRef<celOneParameterBlock> params_entity;
+  csString child_template;
+  csRef<celOneParameterBlock> params_child;
 
   void FindInventory ();
   void FireTrigger (iCelEntity* child);
+  void FireTrigger (iCelEntityTemplate* child);
 
 public:
   celInventoryTrigger (celInventoryTriggerType* type,
   	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
-	const char* child_entity_par);
+	const char* child_entity_par, const char* child_template_par);
   virtual ~celInventoryTrigger ();
 
   virtual void RegisterCallback (iTriggerCallback* callback);
