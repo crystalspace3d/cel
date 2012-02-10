@@ -134,8 +134,8 @@ void celSequence::Perform (csTicks rel)
   if (rel > total_time)
   {
     // Sequence has ended.
-    FireSequenceCallbacks ();
     Abort ();
+    FireSequenceCallbacks ();
     return;
   }
 }
