@@ -567,6 +567,11 @@ struct iDynamicObject : public virtual iBase
   virtual bool SetEntity (const char* entityName, const char* entityTplName, iCelParameterBlock* params) = 0;
 
   /**
+   * Set the optional entity name.
+   */
+  virtual void SetEntityName (const char* name) = 0;
+
+  /**
    * Get the optional entity name (only valid after SetEntity()).
    */
   virtual const char* GetEntityName () const = 0;

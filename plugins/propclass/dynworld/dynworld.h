@@ -461,6 +461,7 @@ public:
   virtual const csReversibleTransform& GetTransform ();
   virtual void SetTransform (const csReversibleTransform& trans);
   virtual bool SetEntity (const char* entityName, const char* entityTplName, iCelParameterBlock* params);
+  virtual void SetEntityName (const char* name);
   virtual const char* GetEntityName () const { return entityName; }
   virtual void LinkEntity (iCelEntity* entity);
   virtual void UnlinkEntity ();
