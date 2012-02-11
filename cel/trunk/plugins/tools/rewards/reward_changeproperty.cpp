@@ -205,19 +205,20 @@ celChangePropertyRewardBase::celChangePropertyRewardBase (
     (type->object_reg, "cel.parameters.manager");
 
   prop = pm->GetParameter (params, prop_par);
-  if (pc_par) pc = pm->GetParameter (params, pc_par);
-  if (tag_par) tag = pm->GetParameter (params, tag_par);
-  if (string_par) pstring = pm->GetParameter (params, string_par);
-  if (long_par) plong = pm->GetParameter (params, long_par);
-  if (float_par) pfloat = pm->GetParameter (params, float_par);
-  if (bool_par) pbool = pm->GetParameter (params, bool_par);
-  if (diff_par) pdiff = pm->GetParameter (params, diff_par);
+  if (pc_par && *pc_par) pc = pm->GetParameter (params, pc_par);
+  if (tag_par && *tag_par) tag = pm->GetParameter (params, tag_par);
+  if (string_par && *string_par) pstring = pm->GetParameter (params, string_par);
+  if (long_par && *long_par) plong = pm->GetParameter (params, long_par);
+  if (float_par && *float_par) pfloat = pm->GetParameter (params, float_par);
+  if (bool_par && *bool_par) pbool = pm->GetParameter (params, bool_par);
+  if (diff_par && *diff_par) pdiff = pm->GetParameter (params, diff_par);
   celChangePropertyRewardBase::do_toggle = do_toggle;
 }
 
 void celChangePropertyRewardBase::ChangePropertyOnPc (iCelPropertyClass *pclass,
     iCelParameterBlock* params)
 {
+  printf ("ChangePropertyOnPc\n"); fflush (stdout);
   const char* p = prop->Get (params);
   if (!p) return;
   iCelPlLayer* pl = type->pl;
@@ -316,6 +317,7 @@ void celChangePropertyRewardBase::ChangePropertyOnPc (iCelPropertyClass *pclass,
 void celChangePropertyRewardBase::ChangePropertyOnPcProp (iPcProperties *properties,
     iCelParameterBlock* params)
 {
+  printf ("ChangePropertyOnProp\n"); fflush (stdout);
   const char* p = prop->Get (params);
   if (!p) return;
   // Do NOT use IsEmpty() here! Empty string is valid data.
@@ -449,15 +451,23 @@ void celChangePropertyReward::Reward (iCelParameterBlock* params)
   ent = pm->ResolveEntityParameter (pl, params, entity, ent);
   if (!ent) return;
 
-  // Generic Property class style
+  const char* p = 0;
+  bool changed;
   if (pc)
   {
-    bool changed;
-    const char* p = pc->Get (params, changed);
+    p = pc->Get (params, changed);
     if (changed) pclass = 0;
+    if (p && *p == 0) p = 0;
+  }
+  // Generic Property class style
+  if (p)
+  {
     const char* t = 0;
     if (tag)
-        t = tag->Get (params, changed);
+    {
+      t = tag->Get (params, changed);
+      if (t && *t == 0) t = 0;
+    }
     if (changed) pclass = 0;
     if (!pclass)
     {
@@ -517,12 +527,13 @@ void celClassChangePropertyReward::PcReward (iCelParameterBlock* params)
     if (!p) return;
     if (tag)
     {
-        const char* t = tag->Get (params);
-        pclass = ent->GetPropertyClassList ()->FindByNameAndTag (p, t);
+      const char* t = tag->Get (params);
+      if (t && *t == 0) t = 0;
+      pclass = ent->GetPropertyClassList ()->FindByNameAndTag (p, t);
     }
     else
     {
-        pclass = ent->GetPropertyClassList ()->FindByName (p);
+      pclass = ent->GetPropertyClassList ()->FindByName (p);
     }
     if (pclass)
       ChangePropertyOnPc (pclass, params);
