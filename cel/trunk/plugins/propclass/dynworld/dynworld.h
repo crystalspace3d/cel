@@ -461,6 +461,7 @@ public:
   virtual const csReversibleTransform& GetTransform ();
   virtual void SetTransform (const csReversibleTransform& trans);
   virtual bool SetEntity (const char* entityName, const char* entityTplName, iCelParameterBlock* params);
+  virtual const char* GetEntityName () const { return entityName; }
   virtual void LinkEntity (iCelEntity* entity);
   virtual void UnlinkEntity ();
   virtual iCelEntityTemplate* GetEntityTemplate () const { return entityTemplate; }
@@ -607,6 +608,8 @@ public:
 
   // Mapping of id to dynamic objects.
   csHash<iDynamicObject*,uint> idToDynObj;
+  // Mapping of names to dynamic objects (for dynobjects having a name).
+  csHash<iDynamicObject*,csString> nameToDynObj;
 
   // Current visible objects.
   csSet<csPtrKey<DynamicObject> > visibleObjects;
@@ -656,6 +659,10 @@ public:
   csHash<iDynamicObject*,uint>& GetIdToDynObj ()
   {
     return idToDynObj;
+  }
+  csHash<iDynamicObject*,csString>& GetNameToDynObj ()
+  {
+    return nameToDynObj;
   }
   // Given an ID, find the cell which allocated this ID.
   DynamicCell* FindCellForID (uint id);
@@ -707,6 +714,7 @@ public:
   virtual iDynamicObject* FindObject (iCelEntity* entity) const;
   virtual iDynamicObject* FindObject (iRigidBody* body) const;
   virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const;
+  virtual iDynamicObject* FindObject (const char* name) const;
   iDynamicObject* FindObject (uint id) const;
 
   virtual void Save (iDocumentNode* node);

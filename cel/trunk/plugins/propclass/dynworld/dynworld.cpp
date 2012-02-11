@@ -133,7 +133,7 @@ void dynobjFinder::UnattachDynObj (iMeshWrapper* mesh, iDynamicObject* dynobj)
 
 //---------------------------------------------------------------------------
 
-static csString GetEntityName (iCelPlLayer* pl, iCelEntity* entity)
+static csString GetEntityNameInt (iCelPlLayer* pl, iCelEntity* entity)
 {
   if (!entity) return "unknown";
   else if (entity->GetName ()) return entity->GetName ();
@@ -626,7 +626,7 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
       {
         // This dynamic object represents a new entity (one that wasn't
         // present at the baseline).
-        printf ("Saving new entity '%s'!\n", GetEntityName (pl, entity).GetData ());
+        printf ("Saving new entity '%s'!\n", GetEntityNameInt (pl, entity).GetData ());
         newEntites.Delete (entity);
         iDynamicFactory* dynfact = dynobj->GetFactory ();
         buf->AddID (strings->Request (dynfact->GetName ()));
@@ -640,7 +640,7 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
       {
         // This dynamic object represents a previously existing entity
         // (belongs to a dynamic object that existed at the baseline).
-        printf ("Saving entity '%s'!\n", GetEntityName (pl, entity).GetData ());
+        printf ("Saving entity '%s'!\n", GetEntityNameInt (pl, entity).GetData ());
         buf->AddID (csInvalidStringID);	// No template.
       }
       // @@@ For now we just save the position if the entity is modified.
@@ -674,7 +674,7 @@ void DynamicCell::SaveModifications (iCelCompactDataBufferWriter* buf,
       // Perhaps this is even a good idea. Have to think about this more.
       SaveTransform (buf, dynobj->GetTransform ());
       entity->SaveModifications (buf, strings);
-      printf ("Saving new pristine entity '%s'!\n", GetEntityName (pl, entity).GetData ());
+      printf ("Saving new pristine entity '%s'!\n", GetEntityNameInt (pl, entity).GetData ());
     }
   }
   buf->AddUInt8 (MARKER_END);
@@ -752,7 +752,7 @@ void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
       dynobj = static_cast<DynamicObject*> (world->FindObject (id));
       // @@@ Can we avoid this? What if entity is baseline but dynobj is not?
       entity = dynobj->ForceEntity ();
-      printf ("Loading existing entity '%s'\n", GetEntityName (pl, entity).GetData ());
+      printf ("Loading existing entity '%s'\n", GetEntityNameInt (pl, entity).GetData ());
       csReversibleTransform trans;
       LoadTransform (buf, trans);
       dynobj->SetTransform (trans);
@@ -760,7 +760,7 @@ void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
       // @@@ What about this case?
       else
       {
-        printf ("Loading existing entity but with deleted dynobj '%s'\n", GetEntityName (pl, entity).GetData ());
+        printf ("Loading existing entity but with deleted dynobj '%s'\n", GetEntityNameInt (pl, entity).GetData ());
         ForceInvisible (dynobj);
         dynobj->UnlinkEntity ();
         DeleteObject (dynobj);
@@ -1203,6 +1203,11 @@ DynamicObject::~DynamicObject ()
 {
   RemovePivotJoints ();
   RemoveJoints ();
+  if (entityName)
+  {
+    celPcDynamicWorld* world = factory->GetWorld ();
+    world->GetNameToDynObj ().Delete (entityName, this);
+  }
 }
 
 void DynamicObject::SetID (uint id)
@@ -1244,7 +1249,7 @@ bool DynamicObject::HasMovedSufficiently ()
     if (!((trans.GetOrigin ()-meshTrans.GetOrigin ()) < 0.1f))
     {
       printf ("Object '%s' has now moved sufficiently!\n",
-	  GetEntityName (factory->GetWorld ()->pl, entity).GetData ()); fflush (stdout);
+	  GetEntityNameInt (factory->GetWorld ()->pl, entity).GetData ()); fflush (stdout);
       hasMovedSufficiently = true;
     }
     // @@@ TODO: implement further checks on transform/matrix.
@@ -1697,13 +1702,18 @@ bool DynamicObject::SetEntity (const char* entityName, const char* entityTplName
     entityTplName = factory->GetDefaultEntityTemplate ();
     if (!entityTplName) return true;	// This is not an error. There is just no entity.
   }
-  entityTemplate = factory->GetWorld ()->pl->FindEntityTemplate (entityTplName);
+  celPcDynamicWorld* world = factory->GetWorld ();
+  entityTemplate = world->pl->FindEntityTemplate (entityTplName);
   if (!entityTemplate)
   {
     printf ("Can't find entity template '%s'!\n", entityTplName);
     return false;
   }
+  if (DynamicObject::entityName)
+    world->GetNameToDynObj ().Delete (DynamicObject::entityName, this);
   DynamicObject::entityName = entityName;
+  if (DynamicObject::entityName)
+    world->GetNameToDynObj ().Put (DynamicObject::entityName, this);
   DynamicObject::params = params;
   return true;
 }
@@ -1870,6 +1880,7 @@ void celPcDynamicWorld::DeleteAll ()
   cells.DeleteAll ();
   currentCell = 0;
   idToDynObj.DeleteAll ();
+  nameToDynObj.DeleteAll ();
   hasMovedFromBaseline.DeleteAll ();
   visibleObjects.DeleteAll ();
   fadingOut.DeleteAll ();
@@ -2193,6 +2204,11 @@ iDynamicObject* celPcDynamicWorld::FindObject (iRigidBody* body) const
   return FindObject (body->GetAttachedMesh ());
 }
 
+iDynamicObject* celPcDynamicWorld::FindObject (const char* name) const
+{
+  return nameToDynObj.Get (name, 0);
+}
+
 iDynamicObject* celPcDynamicWorld::FindObject (iMeshWrapper* mesh) const
 {
   if (!mesh) return 0;
@@ -2280,7 +2296,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
       // In case 2 we also need to store how to create the entity.
       if (newEntites.Contains (entity))
       {
-        printf ("New entity without dynobj '%s'!\n", GetEntityName (pl, entity).GetData ());
+        printf ("New entity without dynobj '%s'!\n", GetEntityNameInt (pl, entity).GetData ());
         csStringID tmpID = entity->GetTemplateNameID ();
         if (tmpID != csInvalidStringID)
         {
@@ -2298,13 +2314,13 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
         }
         else
         {
-          printf ("Can't save '%s'!\n", GetEntityName (pl, entity).GetData ());
+          printf ("Can't save '%s'!\n", GetEntityNameInt (pl, entity).GetData ());
           return 0;
         }
       }
       else
       {
-        printf ("Existing entity without dynobj '%s'!\n", GetEntityName (pl, entity).GetData ());
+        printf ("Existing entity without dynobj '%s'!\n", GetEntityNameInt (pl, entity).GetData ());
         buf->AddID (csInvalidStringID);	// No template.
       }
 
@@ -2387,7 +2403,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     else
     {
       iCelEntity* entity = pl->GetEntity (id);
-      printf ("Delete entity %s\n", GetEntityName (pl, entity).GetData ());
+      printf ("Delete entity %s\n", GetEntityNameInt (pl, entity).GetData ());
       pl->RemoveEntity (entity);
     }
   }
@@ -2445,7 +2461,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
         printf ("ERROR! Can't find entity with id %d\n", id);
         return;
       }
-      printf ("Loading existing entity without dynobj '%s'\n", GetEntityName (pl, entity).GetData ()); fflush (stdout);
+      printf ("Loading existing entity without dynobj '%s'\n", GetEntityNameInt (pl, entity).GetData ()); fflush (stdout);
       // @@@ The case where hasDynObj = true is not handled here. Is
       // this even possible?
     }
