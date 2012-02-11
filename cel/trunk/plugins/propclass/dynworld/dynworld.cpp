@@ -1709,13 +1709,19 @@ bool DynamicObject::SetEntity (const char* entityName, const char* entityTplName
     printf ("Can't find entity template '%s'!\n", entityTplName);
     return false;
   }
+  SetEntityName (entityName);
+  DynamicObject::params = params;
+  return true;
+}
+
+void DynamicObject::SetEntityName (const char* name)
+{
+  celPcDynamicWorld* world = factory->GetWorld ();
   if (DynamicObject::entityName)
     world->GetNameToDynObj ().Delete (DynamicObject::entityName, this);
   DynamicObject::entityName = entityName;
   if (DynamicObject::entityName)
     world->GetNameToDynObj ().Put (DynamicObject::entityName, this);
-  DynamicObject::params = params;
-  return true;
 }
 
 void DynamicObject::LinkEntity (iCelEntity* entity)
