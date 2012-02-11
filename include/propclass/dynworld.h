@@ -567,6 +567,11 @@ struct iDynamicObject : public virtual iBase
   virtual bool SetEntity (const char* entityName, const char* entityTplName, iCelParameterBlock* params) = 0;
 
   /**
+   * Get the optional entity name (only valid after SetEntity()).
+   */
+  virtual const char* GetEntityName () const = 0;
+
+  /**
    * Link this dynamic object with the given entity.
    */
   virtual void LinkEntity (iCelEntity* entity) = 0;
@@ -835,6 +840,11 @@ struct iPcDynamicWorld : public virtual iBase
    * Find an object given its mesh.
    */
   virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const = 0;
+  /**
+   * Find an object given its entity name. This only works for dynamic
+   * objects for which a unique entity name has been given.
+   */
+  virtual iDynamicObject* FindObject (const char* name) const = 0;
 
   /**
    * Save the world to XML.
