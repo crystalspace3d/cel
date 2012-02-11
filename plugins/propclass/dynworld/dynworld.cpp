@@ -1719,7 +1719,7 @@ void DynamicObject::SetEntityName (const char* name)
   celPcDynamicWorld* world = factory->GetWorld ();
   if (DynamicObject::entityName)
     world->GetNameToDynObj ().Delete (DynamicObject::entityName, this);
-  DynamicObject::entityName = entityName;
+  DynamicObject::entityName = name;
   if (DynamicObject::entityName)
     world->GetNameToDynObj ().Put (DynamicObject::entityName, this);
 }
