@@ -1464,7 +1464,7 @@ void DynamicObject::UpdateJoints ()
       }
       j->RebuildJoint ();
     }
-    else
+    else if (joints[i])
     {
       cell->dynSys->RemoveJoint (joints[i]);
       joints.Put (i, 0);
