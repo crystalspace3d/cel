@@ -1441,23 +1441,28 @@ void DynamicObject::UpdateJoints ()
   if (!GetBody ()) { RemoveJoints (); return; }
   for (size_t i = 0 ; i < joints.GetSize () ; i++)
   {
-    if (!joints[i] && connectedObjects[i] && connectedObjects[i]->GetBody ())
+    if (connectedObjects[i] && connectedObjects[i]->GetBody ())
     {
-      csRef<iJoint> j = cell->dynSys->CreateJoint ();
-      joints.Put (i, j);
-      DynFactJointDefinition& def = factory->GetJoint (i);
-      j->SetTransform (def.GetTransform ());
-      j->SetTransConstraints (def.IsXTransConstrained (), def.IsYTransConstrained (),
-	  def.IsZTransConstrained ());
-      j->SetMinimumDistance (def.GetMinimumDistance ());
-      j->SetMaximumDistance (def.GetMaximumDistance ());
-      j->SetRotConstraints (def.IsXRotConstrained (), def.IsYRotConstrained (),
-	  def.IsZRotConstrained ());
-      j->SetMinimumAngle (def.GetMinimumAngle ());
-      j->SetMaximumAngle (def.GetMaximumAngle ());
-      j->SetBounce (def.GetBounce ());
-      j->SetMaxForce (def.GetMaxForce ());
-      j->Attach (connectedObjects[i]->GetBody (), GetBody ());
+      csRef<iJoint> j = joints[i];
+      if (!j)
+      {
+        j = cell->dynSys->CreateJoint ();
+        joints.Put (i, j);
+        DynFactJointDefinition& def = factory->GetJoint (i);
+        j->SetTransform (def.GetTransform ());
+        j->SetTransConstraints (def.IsXTransConstrained (), def.IsYTransConstrained (),
+	    def.IsZTransConstrained ());
+        j->SetMinimumDistance (def.GetMinimumDistance ());
+        j->SetMaximumDistance (def.GetMaximumDistance ());
+        j->SetRotConstraints (def.IsXRotConstrained (), def.IsYRotConstrained (),
+	    def.IsZRotConstrained ());
+        j->SetMinimumAngle (def.GetMinimumAngle ());
+        j->SetMaximumAngle (def.GetMaximumAngle ());
+        j->SetBounce (def.GetBounce ());
+        j->SetMaxForce (def.GetMaxForce ());
+        j->Attach (connectedObjects[i]->GetBody (), GetBody ());
+      }
+      j->RebuildJoint ();
     }
     else
     {
