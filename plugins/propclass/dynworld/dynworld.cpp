@@ -1401,16 +1401,6 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   InstallHilight (is_hilight);
   CS_ASSERT (hilight_installed == is_hilight);
   SetFade (fade);
-  const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
-  for (size_t i = 0 ; i < colliders.GetSize () ; i++)
-  {
-    body = colliders[i]->Create (cell->dynSys, mesh, trans, body);
-  }
-  if (is_static)
-    body->MakeStatic ();
-
-  SetupPivotJoints ();
-  UpdateJoints ();
 
   ForceEntity ();
   if (!entity)
@@ -1419,7 +1409,8 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
     // a mesh.
     dynobjFinder::AttachDynObj (mesh, this);
   }
-  MeshBodyToEntity (mesh, body);
+
+  CreateBody ();
 }
 
 void DynamicObject::RemoveJoints ()
@@ -1441,8 +1432,16 @@ void DynamicObject::UpdateJoints ()
   if (!GetBody ()) { RemoveJoints (); return; }
   for (size_t i = 0 ; i < joints.GetSize () ; i++)
   {
-    if (connectedObjects[i] && connectedObjects[i]->GetBody ())
+    if (connectedObjects[i])
     {
+      if (!connectedObjects[i]->GetBody ())
+      {
+	DynamicObject* dy = static_cast<DynamicObject*> (
+			(iDynamicObject*) connectedObjects[i]);
+        dy->PrepareMesh (factory->GetWorld ());
+        if (!connectedObjects[i]->GetBody ())
+          continue;
+      }
       csRef<iJoint> j = joints[i];
       if (!j)
       {
@@ -1499,12 +1498,12 @@ iDynamicObject* DynamicObject::GetConnectedObject (size_t jointIdx)
   return connectedObjects[jointIdx];
 }
 
-void DynamicObject::RefreshColliders ()
+void DynamicObject::CreateBody ()
 {
-  if (!body) return;
   bsphereValid = false;
   trans = mesh->GetMovable ()->GetTransform ();
-  body->DestroyColliders ();
+  if (body)
+    body->DestroyColliders ();
   body = 0;
   const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
   for (size_t i = 0 ; i < colliders.GetSize () ; i++)
@@ -1518,6 +1517,12 @@ void DynamicObject::RefreshColliders ()
   UpdateJoints ();
 
   MeshBodyToEntity (mesh, body);
+}
+
+void DynamicObject::RefreshColliders ()
+{
+  if (!body) return;
+  CreateBody ();
 }
 
 bool DynamicObject::HasBody (iRigidBody* body)
