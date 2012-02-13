@@ -65,8 +65,6 @@ celMeshSelectTriggerFactory::celMeshSelectTriggerFactory (
 	celMeshSelectTriggerType* type) : scfImplementationType (this)
 {
   celMeshSelectTriggerFactory::type = type;
-  entity_par = 0;
-  tag_par = 0;
 }
 
 celMeshSelectTriggerFactory::~celMeshSelectTriggerFactory ()
