@@ -28,6 +28,7 @@
 #include "csutil/scfstr.h"
 #include "csutil/scfstrset.h"
 #include "csutil/scanstr.h"
+#include "csutil/sysfunc.h"
 #include "csutil/memfile.h"
 #include "cstool/csview.h"
 #include "cstool/simplestaticlighter.h"
@@ -2240,10 +2241,10 @@ iDynamicObject* celPcDynamicWorld::FindObject (iMeshWrapper* mesh) const
 
 void celPcDynamicWorld::Dump ()
 {
-  printf ("### DynWorld ###\n");
-  printf ("  Fading in=%d, out=%d\n", fadingIn.GetSize (), fadingOut.GetSize ());
-  printf ("  Visible objects=%d\n", visibleObjects.GetSize ());
-  printf ("  Safe to remove=%d\n", safeToRemove.GetSize ());
+  csPrintf ("### DynWorld ###\n");
+  csPrintf ("  Fading in=%zu, out=%zu\n", fadingIn.GetSize (), fadingOut.GetSize ());
+  csPrintf ("  Visible objects=%zu\n", visibleObjects.GetSize ());
+  csPrintf ("  Safe to remove=%zu\n", safeToRemove.GetSize ());
 }
 
 // ---------------------------------------------------------------------------
@@ -2274,7 +2275,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
   // Save all deleted entities.
   const csSet<uint>& deletedEntities = elcm->GetDeletedEntities ();
   buf->AddUInt32 (deletedEntities.GetSize ());
-  printf ("Save %d deleted items\n", deletedEntities.GetSize ());
+  csPrintf ("Save %zu deleted items\n", deletedEntities.GetSize ());
   csSet<uint>::GlobalIterator delIt = deletedEntities.GetIterator ();
   while (delIt.HasNext ())
   {
@@ -2406,7 +2407,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
 
   // Restore all deleted entities.
   size_t delSize = (size_t)buf->GetUInt32 ();
-  printf ("%d to delete\n", delSize);
+  csPrintf ("%zu to delete\n", delSize);
   for (size_t i = 0 ; i < delSize ; i++)
   {
     uint id = (uint)buf->GetUInt32 ();

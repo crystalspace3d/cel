@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "csutil/scanstr.h"
+#include "csutil/sysfunc.h"
 #include "iutil/document.h"
 #include "iutil/objreg.h"
 #include "imap/services.h"
@@ -127,7 +128,7 @@ void celParameterTools::Dump (const char* title, iCelParameterBlock* params,
     celDataType t;
     csStringID id = params->GetParameterDef (i, t);
     if (pl) parName = pl->FetchString (id);
-    printf ("    %d: %d/%s -> ", i, (int)id, parName.GetData ());
+    csPrintf ("    %zu: %d/%s -> ", i, (int)id, parName.GetData ());
     const celData* data = params->GetParameterByIndex (i);
     csString debugInfo = GetDebugData (data);
     printf ("%s\n", debugInfo.GetData ());
