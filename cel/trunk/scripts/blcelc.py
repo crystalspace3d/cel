@@ -516,9 +516,6 @@ class iCelPlLayer(cspace.iBase):
     def GetClassEntitiesList(*args): return _blcelc.iCelPlLayer_GetClassEntitiesList(*args)
     def SendMessage(*args): return _blcelc.iCelPlLayer_SendMessage(*args)
     def QueryMessageSender(*args): return _blcelc.iCelPlLayer_QueryMessageSender(*args)
-    EntityTemplateCount = _swig_property(_blcelc.iCelPlLayer_EntityTemplateCount_get, None, None,
-                    "iCelPlLayer.EntityTemplateCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetEntityTemplateCount()")
-
     EntityCount = _swig_property(_blcelc.iCelPlLayer_EntityCount_get, None, None,
                     "iCelPlLayer.EntityCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetEntityCount()")
 
@@ -583,30 +580,6 @@ iCelEntityTracker_swigregister = _blcelc.iCelEntityTracker_swigregister
 iCelEntityTracker_swigregister(iCelEntityTracker)
 
 csQueryRegistry_iCelPlLayer = _blcelc.csQueryRegistry_iCelPlLayer
-class iCelEntityTemplatePlFakeArray(object):
-	def __init__(self,parent): self.parent = parent
-	def __contains__(self,obj):
-		if self.parent.FindEntityTemplate(obj): return True
-		else: return False
-	def __repr__(self): return "List of "+str("iCelEntityTemplate")
-	def __len__(self): return self.parent.GetEntityTemplateCount()
-	def __delitem__(self,val):
-		if type(val) == type(""):
-			obj = self.parent.FindEntityTemplate(val)
-			if obj: return self.parent.RemoveEntityTemplate(obj)
-			else: raise IndexError(val+" not in list")
-		else: return self.parent.RemoveEntityTemplate(val)
-	def __noappend__(self,obj):
-		print "Append not supported by this list"
-	def content_iterator(self):
-		for idx in xrange(len(self)):
-			yield self.parent.GetEntityTemplate(idx)
-	def __iter__(self): return self.content_iterator()
-	def __getitem__(self,val):
-		if type(val) == type(""): return self.parent.FindEntityTemplate(val)
-		else: return self.parent.GetEntityTemplate(val)
-	def append(self,obj): return self.parent.__noappend__(obj)
-
 class iCelEntityPlFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
@@ -5056,18 +5029,6 @@ celCreateDamage = _blcelc.celCreateDamage
 celGetSetDamage = _blcelc.celGetSetDamage
 celGetDamage = _blcelc.celGetDamage
 
-class iRewardFactoryArray(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_iRewardFactoryArray(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_iRewardFactoryArray
-    __del__ = lambda self : None;
-iRewardFactoryArray_swigregister = _blcelc.iRewardFactoryArray_swigregister
-iRewardFactoryArray_swigregister(iRewardFactoryArray)
-
 class iQuestTriggerResponseFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -5083,18 +5044,6 @@ class iQuestTriggerResponseFactory(cspace.iBase):
     __del__ = lambda self : None;
 iQuestTriggerResponseFactory_swigregister = _blcelc.iQuestTriggerResponseFactory_swigregister
 iQuestTriggerResponseFactory_swigregister(iQuestTriggerResponseFactory)
-
-class iQuestTriggerResponseFactoryArray(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_iQuestTriggerResponseFactoryArray(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_iQuestTriggerResponseFactoryArray
-    __del__ = lambda self : None;
-iQuestTriggerResponseFactoryArray_swigregister = _blcelc.iQuestTriggerResponseFactoryArray_swigregister
-iQuestTriggerResponseFactoryArray_swigregister(iQuestTriggerResponseFactoryArray)
 
 class iQuestStateFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
