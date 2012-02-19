@@ -718,7 +718,7 @@ public:
   virtual iDynamicObject* FindObject (iRigidBody* body) const;
   virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const;
   virtual iDynamicObject* FindObject (const char* name) const;
-  iDynamicObject* FindObject (uint id) const;
+  virtual iDynamicObject* FindObject (uint id) const;
 
   virtual void Save (iDocumentNode* node);
   virtual csRef<iString> Load (iDocumentNode* node);
