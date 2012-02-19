@@ -228,7 +228,6 @@
 %cs_attribute(blcelc,iBillboardManager,iSector*,Showroom,GetShowroom)
 
 /* iCelPlLayer (include/physicallayer/pl.h) */
-%cs_attribute(blcelc,iCelPlLayer,size_t,EntityTemplateCount,GetEntityTemplateCount)
 %cs_attribute(blcelc,iCelPlLayer,size_t,EntityCount,GetEntityCount)
 %cs_attribute(blcelc,iCelPlLayer,bool,EntityAddonAllowed,IsEntityAddonAllowed,SetEntityAddonAllowed)
 %cs_attribute(blcelc,iCelPlLayer,size_t,PropertyClassFactoryCount,GetPropertyClassFactoryCount)

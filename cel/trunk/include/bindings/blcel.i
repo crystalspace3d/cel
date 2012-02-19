@@ -217,10 +217,6 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 }
 %}
 // fake arrays to handle stuff managed by the physical layer.
-// iCelEntityTemplatePlFakeArray
-CEL_FAKE_ARRAY(Pl,iCelEntityTemplate,GetEntityTemplateCount,
-	GetEntityTemplate,FindEntityTemplate,RemoveEntityTemplate,__noappend__)
-
 // iCelEntityPlFakeArray
 CEL_FAKE_ARRAY(Pl,iCelEntity,GetEntityCount,GetEntityByIndex,FindEntity,RemoveEntity,__noappend__)
 
@@ -635,6 +631,8 @@ CEL_PC(iPcDamage, Damage, pclogic.damage)
 
 //-----------------------------------------------------------------------------
 
+%ignore iRewardFactoryArray;
+%ignore iQuestTriggerResponseFactoryArray;
 %include "tools/questmanager.h"
 %include "propclass/quest.h"
 CEL_PC(iPcQuest, Quest, pclogic.quest)
