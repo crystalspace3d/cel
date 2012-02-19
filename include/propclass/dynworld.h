@@ -428,6 +428,11 @@ struct iDynamicObject : public virtual iBase
   SCF_INTERFACE(iDynamicObject,0,0,1);
 
   /**
+   * Get a unique identifier for this object.
+   */
+  virtual uint GetID () const = 0;
+
+  /**
    * Get the factory from which this dynamic object was created.
    */
   virtual iDynamicFactory* GetFactory () const = 0;

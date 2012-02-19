@@ -424,7 +424,7 @@ public:
   virtual ~DynamicObject ();
 
   void SetID (uint id);
-  uint GetID () const { return id; }
+  virtual uint GetID () const { return id; }
 
   virtual iDynamicCell* GetCell () const;
   DynamicCell* GetCellInternal () const { return cell; }
