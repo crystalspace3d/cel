@@ -855,6 +855,10 @@ struct iPcDynamicWorld : public virtual iBase
    * objects for which a unique entity name has been given.
    */
   virtual iDynamicObject* FindObject (const char* name) const = 0;
+  /**
+   * Find an object given it's id.
+   */
+  virtual iDynamicObject* FindObject (uint id) const = 0;
 
   /**
    * Save the world to XML.
