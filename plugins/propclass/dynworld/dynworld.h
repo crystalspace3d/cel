@@ -148,7 +148,7 @@ public:
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
-    info.type = BODY_MESH;
+    info.type = TRIMESH_COLLIDER_GEOMETRY;
     return info;
   }
 };
@@ -172,7 +172,7 @@ public:
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
-    info.type = BODY_CONVEXMESH;
+    info.type = CONVEXMESH_COLLIDER_GEOMETRY;
     return info;
   }
 };
@@ -199,7 +199,7 @@ public:
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
-    info.type = BODY_BOX;
+    info.type = BOX_COLLIDER_GEOMETRY;
     info.size = size;
     return info;
   }
@@ -228,7 +228,37 @@ public:
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
-    info.type = BODY_CYLINDER;
+    info.type = CYLINDER_COLLIDER_GEOMETRY;
+    info.radius = radius;
+    info.length = length;
+    return info;
+  }
+};
+
+class DOColliderCapsule : public DOCollider
+{
+private:
+  float length, radius;
+
+public:
+  DOColliderCapsule (const csVector3& offset, float length, float radius, float mass) :
+    DOCollider (offset, mass), length (length), radius (radius) { }
+  virtual ~DOColliderCapsule () { }
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+      const csReversibleTransform& trans, iRigidBody* sharedBody)
+  {
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    const csMatrix3 tm;
+    csOrthoTransform t (tm, offset);
+    t.RotateThis (csVector3 (1.0f, 0.0f, 0.0f), HALF_PI);
+    body->AttachColliderCapsule (length, radius, t, 10, 1, 0.8f);
+    body->AdjustTotalMass (mass);
+    return body;
+  }
+  virtual celBodyInfo GetBodyInfo ()
+  {
+    celBodyInfo info = DOCollider::GetBodyInfo ();
+    info.type = CAPSULE_COLLIDER_GEOMETRY;
     info.radius = radius;
     info.length = length;
     return info;
@@ -255,7 +285,7 @@ public:
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
-    info.type = BODY_SPHERE;
+    info.type = SPHERE_COLLIDER_GEOMETRY;
     info.radius = radius;
     return info;
   }
@@ -326,6 +356,8 @@ public:
   virtual void AddRigidSphere (float radius, const csVector3& offset,
       float mass, size_t idx = csArrayItemNotFound);
   virtual void AddRigidCylinder (float radius, float length,
+      const csVector3& offset, float mass, size_t idx = csArrayItemNotFound);
+  virtual void AddRigidCapsule (float radius, float length,
       const csVector3& offset, float mass, size_t idx = csArrayItemNotFound);
   virtual void AddRigidMesh (const csVector3& offset, float mass,
       size_t idx = csArrayItemNotFound);
