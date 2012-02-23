@@ -22,6 +22,8 @@
 
 #include "csutil/scf.h"
 
+#include "ivaria/dynamics.h"
+
 class csBox3;
 class csVector3;
 class csReversibleTransform;
@@ -77,22 +79,12 @@ struct iDynamicCellCreator : public virtual iBase
   virtual void FillCell (iDynamicCell* cell) = 0;
 };
 
-enum celBodyType
-{
-  BODY_NONE,
-  BODY_BOX,
-  BODY_SPHERE,
-  BODY_CYLINDER,
-  BODY_CONVEXMESH,
-  BODY_MESH,
-};
-
 /**
  * Information for a body attached to a factory.
  */
 struct celBodyInfo
 {
-  celBodyType type;
+  csColliderGeometryType type;
   csVector3 offset;
   float mass;
   float radius;	// Only for cylinder and sphere.
@@ -314,6 +306,14 @@ struct iDynamicFactory : public virtual iBase
    * body that was at that specific index.
    */
   virtual void AddRigidCylinder (float radius, float length,
+      const csVector3& offset, float mass, size_t idx = csArrayItemNotFound) = 0;
+
+  /**
+   * Create a capsule rigid body.
+   * If the optional index is given then this body will replace the
+   * body that was at that specific index.
+   */
+  virtual void AddRigidCapsule (float radius, float length,
       const csVector3& offset, float mass, size_t idx = csArrayItemNotFound) = 0;
 
   /**

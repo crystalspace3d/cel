@@ -1025,6 +1025,24 @@ void DynamicFactory::AddRigidCylinder (float radius, float length,
   }
 }
 
+void DynamicFactory::AddRigidCapsule (float radius, float length,
+      const csVector3& offset, float mass, size_t idx)
+{
+  if (idx == csArrayItemNotFound)
+  {
+    csBox3 b (offset - csVector3 (radius, length/2, radius),
+        offset + csVector3 (radius, length/2, radius));
+    for (size_t i = 0 ; i < 8 ; i++)
+      physBbox.AddBoundingVertex (b.GetCorner (i));
+    colliders.Push (new DOColliderCapsule (offset, length, radius, mass));
+  }
+  else
+  {
+    colliders.Put (idx, new DOColliderCapsule (offset, length, radius, mass));
+    UpdatePhysBBox ();
+  }
+}
+
 void DynamicFactory::AddRigidMesh (const csVector3& offset, float mass,
     size_t idx)
 {
@@ -1065,14 +1083,14 @@ void DynamicFactory::UpdatePhysBBox ()
     celBodyInfo info = GetBody (i);
     switch (info.type)
     {
-      case BODY_BOX:
+      case BOX_COLLIDER_GEOMETRY:
 	{
 	  csBox3 b (-info.size / 2 + info.offset, info.size / 2 + info.offset);
 	  for (size_t i = 0 ; i < 8 ; i++)
 	    physBbox.AddBoundingVertex (b.GetCorner (i));
 	  break;
 	}
-      case BODY_SPHERE:
+      case SPHERE_COLLIDER_GEOMETRY:
 	{
 	  csBox3 b (info.offset - csVector3 (info.radius),
 	      info.offset + csVector3 (info.radius));
@@ -1080,7 +1098,8 @@ void DynamicFactory::UpdatePhysBBox ()
 	    physBbox.AddBoundingVertex (b.GetCorner (i));
 	  break;
 	}
-      case BODY_CYLINDER:
+      case CAPSULE_COLLIDER_GEOMETRY:
+      case CYLINDER_COLLIDER_GEOMETRY:
 	{
 	  csBox3 b (info.offset - csVector3 (info.radius, info.length/2, info.radius),
 	      info.offset + csVector3 (info.radius, info.length/2, info.radius));
@@ -1088,8 +1107,8 @@ void DynamicFactory::UpdatePhysBBox ()
 	    physBbox.AddBoundingVertex (b.GetCorner (i));
 	  break;
 	}
-      case BODY_MESH:
-      case BODY_CONVEXMESH:
+      case TRIMESH_COLLIDER_GEOMETRY:
+      case CONVEXMESH_COLLIDER_GEOMETRY:
 	for (size_t i = 0 ; i < 8 ; i++)
 	  physBbox.AddBoundingVertex (bbox.GetCorner (i));
 	break;

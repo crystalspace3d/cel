@@ -42,6 +42,7 @@ enum
   XMLTOKEN_ATTR,
   XMLTOKEN_BOX,
   XMLTOKEN_CYLINDER,
+  XMLTOKEN_CAPSULE,
   XMLTOKEN_SPHERE,
   XMLTOKEN_MESH,
   XMLTOKEN_CONVEXMESH,
@@ -85,6 +86,7 @@ bool celAddOnDynamicWorldLoader::Initialize (iObjectRegistry *object_reg)
   xmltokens.Register ("attr", XMLTOKEN_ATTR);
   xmltokens.Register ("box", XMLTOKEN_BOX);
   xmltokens.Register ("cylinder", XMLTOKEN_CYLINDER);
+  xmltokens.Register ("capsule", XMLTOKEN_CAPSULE);
   xmltokens.Register ("sphere", XMLTOKEN_SPHERE);
   xmltokens.Register ("mesh", XMLTOKEN_MESH);
   xmltokens.Register ("convexmesh", XMLTOKEN_CONVEXMESH);
@@ -310,6 +312,7 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
 	}
 	break;
       case XMLTOKEN_CYLINDER:
+      case XMLTOKEN_CAPSULE:
 	{
 	  float radius = -1, length = -1;
 	  csRef<iDocumentNode> offsetNode = child->GetNode ("offset");
@@ -348,7 +351,10 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
 		"Error loading 'length' for factory '%s'!", name.GetData ());
 	      return false;
 	    }
-	    fact->AddRigidCylinder (radius, length, offset, mass);
+	    if (id == XMLTOKEN_CYLINDER)
+	      fact->AddRigidCylinder (radius, length, offset, mass);
+	    else
+	      fact->AddRigidCapsule (radius, length, offset, mass);
 	  }
 	}
 	break;
@@ -503,9 +509,10 @@ bool celAddOnDynamicWorldLoader::WriteBodies (iDocumentNode* factNode, iDynamicF
     if (info.mass > mass) mass = info.mass;
     switch (info.type)
     {
-      case BODY_NONE:
+      case NO_GEOMETRY:
+      case PLANE_COLLIDER_GEOMETRY:
 	break;
-      case BODY_BOX:
+      case BOX_COLLIDER_GEOMETRY:
 	{
 	  csRef<iDocumentNode> bodyNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
 	  bodyNode->SetValue ("box");
@@ -521,7 +528,7 @@ bool celAddOnDynamicWorldLoader::WriteBodies (iDocumentNode* factNode, iDynamicF
 	  sizeNode->SetAttributeAsFloat ("z", info.size.z);
 	}
 	break;
-      case BODY_CYLINDER:
+      case CYLINDER_COLLIDER_GEOMETRY:
 	{
 	  csRef<iDocumentNode> bodyNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
 	  bodyNode->SetValue ("cylinder");
@@ -534,7 +541,20 @@ bool celAddOnDynamicWorldLoader::WriteBodies (iDocumentNode* factNode, iDynamicF
 	  bodyNode->SetAttributeAsFloat ("length", info.length);
 	}
 	break;
-      case BODY_SPHERE:
+      case CAPSULE_COLLIDER_GEOMETRY:
+	{
+	  csRef<iDocumentNode> bodyNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  bodyNode->SetValue ("capsule");
+	  csRef<iDocumentNode> offsetNode = bodyNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  offsetNode->SetValue ("offset");
+	  offsetNode->SetAttributeAsFloat ("x", info.offset.x);
+	  offsetNode->SetAttributeAsFloat ("y", info.offset.y);
+	  offsetNode->SetAttributeAsFloat ("z", info.offset.z);
+	  bodyNode->SetAttributeAsFloat ("radius", info.radius);
+	  bodyNode->SetAttributeAsFloat ("length", info.length);
+	}
+	break;
+      case SPHERE_COLLIDER_GEOMETRY:
 	{
 	  csRef<iDocumentNode> bodyNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
 	  bodyNode->SetValue ("sphere");
@@ -546,7 +566,7 @@ bool celAddOnDynamicWorldLoader::WriteBodies (iDocumentNode* factNode, iDynamicF
 	  bodyNode->SetAttributeAsFloat ("radius", info.radius);
 	}
 	break;
-      case BODY_CONVEXMESH:
+      case CONVEXMESH_COLLIDER_GEOMETRY:
 	{
 	  csRef<iDocumentNode> bodyNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
 	  bodyNode->SetValue ("convexmesh");
@@ -557,7 +577,7 @@ bool celAddOnDynamicWorldLoader::WriteBodies (iDocumentNode* factNode, iDynamicF
 	  offsetNode->SetAttributeAsFloat ("z", info.offset.z);
 	}
 	break;
-      case BODY_MESH:
+      case TRIMESH_COLLIDER_GEOMETRY:
 	{
 	  csRef<iDocumentNode> bodyNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
 	  bodyNode->SetValue ("mesh");
