@@ -16,6 +16,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 #include "navmeshtest.h"
+#include "imesh/gmeshskel2.h"
+#include "imesh/skeleton.h"
 
 inline void disposeDebugMeshes(csList<csSimpleRenderMesh>* meshes)
 {
