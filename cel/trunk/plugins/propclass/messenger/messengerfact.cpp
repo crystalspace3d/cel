@@ -177,7 +177,7 @@ void celPcMessenger::Message (const char* type, const char* id,
 {
   MessageType* mt = GetType (type);
   if (!mt) return;
-  if (mt.GetDoLog ())
+  if (mt->GetDoLog ())
   {
     // @@@ Keep message.
   }
