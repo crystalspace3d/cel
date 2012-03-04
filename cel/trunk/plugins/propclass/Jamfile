@@ -13,6 +13,7 @@ SubInclude TOP plugins propclass inv ;
 SubInclude TOP plugins propclass jump ;
 SubInclude TOP plugins propclass grab ;
 SubInclude TOP plugins propclass mesh ;
+SubInclude TOP plugins propclass messenger ;
 SubInclude TOP plugins propclass light ;
 SubInclude TOP plugins propclass portal ;
 SubInclude TOP plugins propclass move ;
