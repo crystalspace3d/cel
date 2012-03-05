@@ -73,7 +73,7 @@ csStringID celPcMessenger::id_msg6 = csInvalidStringID;
 csStringID celPcMessenger::id_msg7 = csInvalidStringID;
 csStringID celPcMessenger::id_location = csInvalidStringID;
 csStringID celPcMessenger::id_textcolor = csInvalidStringID;
-csStringID celPcMessenger::id_bgcolor = csInvalidStringID;
+csStringID celPcMessenger::id_boxcolor = csInvalidStringID;
 csStringID celPcMessenger::id_bordercolor = csInvalidStringID;
 csStringID celPcMessenger::id_border = csInvalidStringID;
 csStringID celPcMessenger::id_font = csInvalidStringID;
@@ -106,7 +106,7 @@ celPcMessenger::celPcMessenger (iObjectRegistry* object_reg)
     id_msg7 = pl->FetchStringID ("msg7");
     id_location = pl->FetchStringID ("location");
     id_textcolor = pl->FetchStringID ("textcolor");
-    id_bgcolor = pl->FetchStringID ("bgcolor");
+    id_boxcolor = pl->FetchStringID ("boxcolor");
     id_bordercolor = pl->FetchStringID ("bordercolor");
     id_border = pl->FetchStringID ("border");
     id_font = pl->FetchStringID ("font");
@@ -160,14 +160,24 @@ MessageType* celPcMessenger::GetType (const char* type) const
   return 0;
 }
 
-void celPcMessenger::Define (const char* type, MessageLocation location,
-      const csColor4& textColor, const csColor4& bgColor, const csColor4& borderColor,
-      int border, const char* font, int fontSize,
+void celPcMessenger::DefineSlot (const char* name,
+      const csVector2& position, MessageLocationAnchor positionAnchor,
+      int sizex, int sizey, int maxsizex, int maxsizey,
+      int marginx, int marginy,
+      const csColor4& boxColor, const csColor4& borderColor,
+      int borderWidth, int maxmessages, 
+      bool queue, csTicks boxfadetime)
+{
+  // @@@ TODO
+}
+
+void celPcMessenger::DefineType (const char* type, const char* slot,
+      const csColor4& textColor, const char* font, int fontSize,
       csTicks timeout, csTicks fadetime, bool click, bool log,
       CycleType cyclefirst, CycleType cyclenext)
 {
-  MessageType* mt = new MessageType (type, location, textColor, bgColor,
-      borderColor, border, font, fontSize, timeout, fadetime, click, log,
+  MessageType* mt = new MessageType (type, slot, textColor,
+      font, fontSize, timeout, fadetime, click, log,
       cyclefirst, cyclenext);
   types.Push (mt);
 }

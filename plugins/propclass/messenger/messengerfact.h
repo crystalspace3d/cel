@@ -73,15 +73,47 @@ public:
 
 //---------------------------------------------------------------------------
 
+class MessageSlot
+{
+private:
+  csString name;
+  csVector2 position;
+  MessageLocationAnchor positionAnchor;
+  csColor4 boxColor;
+  csColor4 borderColor;
+  int borderWidth;
+  int sizex, sizey;
+  int maxsizex, maxsizey;
+  int marginx, marginy;
+  int maxmessages;
+  bool queue;
+  csTicks boxfadetime;
+
+public:
+  MessageSlot (const char* name,
+      const csVector2& position, MessageLocationAnchor positionAnchor,
+      int sizex, int sizey, int maxsizex, int maxsizey,
+      int marginx, int marginy,
+      const csColor4& boxColor, const csColor4& borderColor,
+      int borderWidth, int maxmessages, 
+      bool queue, csTicks boxfadetime) :
+    name (name), position (position), positionAnchor (positionAnchor),
+    boxColor (boxColor), borderColor (borderColor),
+    borderWidth (borderWidth),
+    sizex (sizex), sizey (sizey), maxsizex (maxsizex), maxsizey (maxsizey),
+    marginx (marginx), marginy (marginy),
+    maxmessages (maxmessages),
+    queue (queue), boxfadetime (boxfadetime) { }
+};
+
+//---------------------------------------------------------------------------
+
 class MessageType
 {
 private:
   csString type;
-  MessageLocation location;
+  csString slot;
   csColor4 textColor;
-  csColor4 bgColor;
-  csColor4 borderColor;
-  int border;
   csString font;
   int fontSize;
   csTicks timeout, fadetime;
@@ -91,23 +123,18 @@ private:
   MessageLog log;
 
 public:
-  MessageType (const char* type, MessageLocation location,
-      const csColor4& textColor, const csColor4& bgColor, const csColor4& borderColor,
-      int border, const char* font, int fontSize,
+  MessageType (const char* type, const char* slot,
+      const csColor4& textColor, const char* font, int fontSize,
       csTicks timeout, csTicks fadetime, bool click, bool dolog,
       CycleType cyclefirst, CycleType cyclenext) :
-    type (type), location (location),
-    textColor (textColor), bgColor (bgColor), borderColor (borderColor),
-    border (border), font (font), fontSize (fontSize),
+    type (type), slot (slot),
+    textColor (textColor), font (font), fontSize (fontSize),
     timeout (timeout), fadetime (fadetime), click (click), dolog (dolog),
     cyclefirst (cyclefirst), cyclenext (cyclenext) { }
 
   const char* GetType () const { return type; }
-  MessageLocation GetLocation () const { return location; }
+  const char* GetSlot () const { return slot; }
   const csColor& GetTextColor () const { return textColor; }
-  const csColor& GetBgColor () const { return bgColor; }
-  const csColor& GetBorderColor () const { return borderColor; }
-  int GetBorder () const { return border; }
   const char* GetFont () const { return font; }
   int GetFontSize () const { return fontSize; }
   csTicks GetTimeout () const { return timeout; }
@@ -147,7 +174,7 @@ private:
   static csStringID id_msg7;
   static csStringID id_location;
   static csStringID id_textcolor;
-  static csStringID id_bgcolor;
+  static csStringID id_boxcolor;
   static csStringID id_bordercolor;
   static csStringID id_border;
   static csStringID id_font;
@@ -177,9 +204,15 @@ public:
 
   MessageLog* GetMessageLog (const char* type);
 
-  virtual void Define (const char* type, MessageLocation location,
-      const csColor4& textColor, const csColor4& bgColor, const csColor4& borderColor,
-      int border, const char* font, int fontSize,
+  virtual void DefineSlot (const char* name,
+      const csVector2& position, MessageLocationAnchor positionAnchor,
+      int sizex, int sizey, int maxsizex, int maxsizey,
+      int marginx, int marginy,
+      const csColor4& boxColor, const csColor4& borderColor,
+      int borderWidth, int maxmessages, 
+      bool queue, csTicks boxfadetime);
+  virtual void DefineType (const char* type, const char* slot,
+      const csColor4& textColor, const char* font, int fontSize,
       csTicks timeout, csTicks fadetime, bool click, bool log,
       CycleType cyclefirst, CycleType cyclenext);
   virtual void SetDefaultType (const char* type) { defaultType = type; }
