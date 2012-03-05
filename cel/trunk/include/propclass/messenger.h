@@ -23,11 +23,17 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-enum MessageLocation
+enum MessageLocationAnchor
 {
-  LOCATION_CENTER = 0,
-  LOCATION_NORTH,
-  LOCATION_SOUTH
+  ANCHOR_CENTER = 0,
+  ANCHOR_NORTH,
+  ANCHOR_NORTHWEST,
+  ANCHOR_WEST,
+  ANCHOR_SOUTHWEST,
+  ANCHOR_SOUTH,
+  ANCHOR_SOUTHEAST,
+  ANCHOR_EAST,
+  ANCHOR_NORTHEAST
 };
 
 enum CycleType
@@ -61,17 +67,37 @@ struct iMessageLogIterator : public virtual iBase
  * types of messages to the user. Every type of message is configurable (with
  * regards to timing, how and where it is displayed, if it is remembered or not, ...)
  *
+ * Locations on screen where messages can be put are defined as 'slots'. There
+ * is one predefined slot called 'none' which doesn't display anything. A slot
+ * has the following properties:
+ * - name
+ * - position (x,y)
+ * - positionAnchor: c, nw, n, ne, e, se, s, sw, w
+ * - sizex: if given then this box has a fixed horizontal size.
+ * - sizey: if given then this box has a fixed vertical size.
+ * - maxsizex: maximum horizontal size (not used if size is fixed).
+ * - maxsizey: maximum vertical size (not used if size is fixed).
+ * - marginx: horizontal margin.
+ * - marginy: vertical margin.
+ * - boxcolor: color of the box (specified as 'r,g,b,a' string).
+ * - bordercolor: if not given then this is equal to boxcolor.
+ * - borderwidth: width of the border in pixels.
+ * - maxmessages: maximum number of messages (not lines!) to display
+ *   in this slot at the same time.
+ * - queue: if there are more then maxmessages messages then when 'queue'
+ *   is true the messages will be kept in a queue until all of them
+ *   are displayed. If 'queue' is false then new messages will push away
+ *   older messages even if these older messages were not visible long
+ *   enough.
+ * - boxfadetime: if there are no messages left in the box then the
+ *   box itself will fade away.
+ *
  * Every type of message has the following properties:
  * - type: a string identifier indicating what kind of message this is.
- * - location: 'north', 'south', 'center': the location where this message is displayed.
+ * - slot: the location where this message is displayed.
  * - timeout: a number of miliseconds that the message is visible on screen before
  *   it starts fading away.
- * - textcolor: color of the text (specified as 'r,g,b' string). Defaults to white.
- * - bgcolor: background color (specified as 'r,b,g' string). If not given the box
- *   is transparent.
- * - bordercolor: color of the border (specified as 'r,g,b' string). If not given
- *   then the color of the border is the same as the bgcolor.
- * - border: border around the text for the box. Defaults to 0.
+ * - textcolor: color of the text (specified as 'r,g,b,a' string). Defaults to white.
  * - font: the font used for the text.
  * - fontsize: the size of the font.
  * - fadetime: number of miliseconds that the message uses to fade from visible to
@@ -98,13 +124,26 @@ struct iMessageLogIterator : public virtual iBase
  *
  * This property class supports the following actions (add prefix 'cel.messenger.action.'
  * if you want to access this action through a message):
- * - Define: parameters:
- *       'type' (string)
- *       'location' (string, default 'center')
- *       'textcolor' (color4, default white)
- *       'bgcolor' (color4, optional)
+ * - DefineSlot: parameters:
+ *       'name' (string)
+ *       'position' (string, 'x,y')
+ *       'positionAnchor' (string, one of c, nw, n, ne, e, se, s, sw, w)
+ *       'sizex' (long, default none)
+ *       'sizey' (long, default none)
+ *       'maxsizex' (long, default none)
+ *       'maxsizey' (long, default none)
+ *       'marginx' (long, default 5)
+ *       'marginy' (long, default 5)
+ *       'boxcolor' (color4, optional)
  *       'bordercolor' (color4, optional)
- *       'border' (long, default 0)
+ *       'borderwidth' (long, default 0)
+ *       'maxmessages' (long, optional)
+ *       'queue' (boolean, default true)
+ *       'boxfadetime' (long, default 0)
+ * - DefineType: parameters:
+ *       'type' (string)
+ *       'slot' (string, default 'none')
+ *       'textcolor' (color4, default white)
  *       'font' (string, optional)
  *       'fontsize' (long, optional)
  *       'timeout' (long, default 2000)
@@ -131,11 +170,22 @@ struct iPcMessenger : public virtual iBase
   SCF_INTERFACE (iPcMessenger, 0, 0, 1);
 
   /**
+   * Define a new message slot.
+   * If integer parameters are -1 they are considered as 'not given'.
+   */
+  virtual void DefineSlot (const char* name,
+      const csVector2& position, MessageLocationAnchor positionAnchor,
+      int sizex, int sizey, int maxsizex, int maxsizey,
+      int marginx, int marginy,
+      const csColor4& boxColor, const csColor4& borderColor,
+      int borderWidth, int maxmessages, 
+      bool queue, csTicks boxfadetime) = 0;
+
+  /**
    * Define a new message type.
    */
-  virtual void Define (const char* type, MessageLocation location,
-      const csColor4& textColor, const csColor4& bgColor, const csColor4& borderColor,
-      int border, const char* font, int fontSize,
+  virtual void DefineType (const char* type, const char* slot,
+      const csColor4& textColor, const char* font, int fontSize,
       csTicks timeout, csTicks fadetime, bool click, bool log,
       CycleType cyclefirst, CycleType cyclenext) = 0;
 
