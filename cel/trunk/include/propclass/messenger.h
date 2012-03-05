@@ -25,6 +25,7 @@
 
 enum MessageLocationAnchor
 {
+  ANCHOR_INVALID = -1,
   ANCHOR_CENTER = 0,
   ANCHOR_NORTH,
   ANCHOR_NORTHWEST,
@@ -77,13 +78,13 @@ struct iMessageLogIterator : public virtual iBase
  * - sizey: if given then this box has a fixed vertical size.
  * - maxsizex: maximum horizontal size (not used if size is fixed).
  * - maxsizey: maximum vertical size (not used if size is fixed).
- * - marginx: horizontal margin.
- * - marginy: vertical margin.
- * - boxcolor: color of the box (specified as 'r,g,b,a' string).
+ * - marginx: horizontal margin (default 5).
+ * - marginy: vertical margin (default 3).
+ * - boxcolor: color of the box (specified as 'r,g,b,a' string, default none).
  * - bordercolor: if not given then this is equal to boxcolor.
  * - borderwidth: width of the border in pixels.
  * - maxmessages: maximum number of messages (not lines!) to display
- *   in this slot at the same time.
+ *   in this slot at the same time. Default is unlimited.
  * - queue: if there are more then maxmessages messages then when 'queue'
  *   is true the messages will be kept in a queue until all of them
  *   are displayed. If 'queue' is false then new messages will push away
