@@ -62,8 +62,11 @@ public:
 //---------------------------------------------------------------------------
 
 csStringID celPcMessenger::id_message = csInvalidStringID;
+csStringID celPcMessenger::id_name = csInvalidStringID;
 csStringID celPcMessenger::id_type = csInvalidStringID;
 csStringID celPcMessenger::id_id = csInvalidStringID;
+csStringID celPcMessenger::id_position = csInvalidStringID;
+csStringID celPcMessenger::id_positionanchor = csInvalidStringID;
 csStringID celPcMessenger::id_msg1 = csInvalidStringID;
 csStringID celPcMessenger::id_msg2 = csInvalidStringID;
 csStringID celPcMessenger::id_msg3 = csInvalidStringID;
@@ -71,7 +74,6 @@ csStringID celPcMessenger::id_msg4 = csInvalidStringID;
 csStringID celPcMessenger::id_msg5 = csInvalidStringID;
 csStringID celPcMessenger::id_msg6 = csInvalidStringID;
 csStringID celPcMessenger::id_msg7 = csInvalidStringID;
-csStringID celPcMessenger::id_location = csInvalidStringID;
 csStringID celPcMessenger::id_textcolor = csInvalidStringID;
 csStringID celPcMessenger::id_boxcolor = csInvalidStringID;
 csStringID celPcMessenger::id_bordercolor = csInvalidStringID;
@@ -84,6 +86,16 @@ csStringID celPcMessenger::id_click = csInvalidStringID;
 csStringID celPcMessenger::id_log = csInvalidStringID;
 csStringID celPcMessenger::id_cyclefirst = csInvalidStringID;
 csStringID celPcMessenger::id_cyclenext = csInvalidStringID;
+csStringID celPcMessenger::id_sizex = csInvalidStringID;
+csStringID celPcMessenger::id_sizey = csInvalidStringID;
+csStringID celPcMessenger::id_maxsizex = csInvalidStringID;
+csStringID celPcMessenger::id_maxsizey = csInvalidStringID;
+csStringID celPcMessenger::id_marginx = csInvalidStringID;
+csStringID celPcMessenger::id_marginy = csInvalidStringID;
+csStringID celPcMessenger::id_maxmessages = csInvalidStringID;
+csStringID celPcMessenger::id_queue = csInvalidStringID;
+csStringID celPcMessenger::id_boxfadetime = csInvalidStringID;
+csStringID celPcMessenger::id_borderwidth = csInvalidStringID;
 
 
 PropertyHolder celPcMessenger::propinfo;
@@ -95,8 +107,11 @@ celPcMessenger::celPcMessenger (iObjectRegistry* object_reg)
   if (id_message == csInvalidStringID)
   {
     id_message = pl->FetchStringID ("message");
+    id_name = pl->FetchStringID ("name");
     id_type = pl->FetchStringID ("type");
     id_id = pl->FetchStringID ("id");
+    id_position = pl->FetchStringID ("position");
+    id_positionanchor = pl->FetchStringID ("positionanchor");
     id_msg1 = pl->FetchStringID ("msg1");
     id_msg2 = pl->FetchStringID ("msg2");
     id_msg3 = pl->FetchStringID ("msg3");
@@ -104,7 +119,6 @@ celPcMessenger::celPcMessenger (iObjectRegistry* object_reg)
     id_msg5 = pl->FetchStringID ("msg5");
     id_msg6 = pl->FetchStringID ("msg6");
     id_msg7 = pl->FetchStringID ("msg7");
-    id_location = pl->FetchStringID ("location");
     id_textcolor = pl->FetchStringID ("textcolor");
     id_boxcolor = pl->FetchStringID ("boxcolor");
     id_bordercolor = pl->FetchStringID ("bordercolor");
@@ -117,6 +131,16 @@ celPcMessenger::celPcMessenger (iObjectRegistry* object_reg)
     id_log = pl->FetchStringID ("log");
     id_cyclefirst = pl->FetchStringID ("cyclefirst");
     id_cyclenext = pl->FetchStringID ("cyclenext");
+    id_sizex = pl->FetchStringID ("sizex");
+    id_sizey = pl->FetchStringID ("sizey");
+    id_maxsizex = pl->FetchStringID ("maxsizex");
+    id_maxsizey = pl->FetchStringID ("maxsizey");
+    id_marginx = pl->FetchStringID ("marginx");
+    id_marginy = pl->FetchStringID ("marginy");
+    id_maxmessages = pl->FetchStringID ("maxmessages");
+    id_queue = pl->FetchStringID ("queue");
+    id_boxfadetime = pl->FetchStringID ("boxfadetime");
+    id_borderwidth = pl->FetchStringID ("borderwidth");
   }
 
   propholder = &propinfo;
@@ -125,12 +149,28 @@ celPcMessenger::celPcMessenger (iObjectRegistry* object_reg)
   if (!propinfo.actions_done)
   {
     SetActionMask ("cel.messenger.action.");
-    AddAction (action_print, "Print");
+    AddAction (action_defineslot, "DefineSlot");
   }
 }
 
 celPcMessenger::~celPcMessenger ()
 {
+}
+
+static MessageLocationAnchor StringToAnchor (const char* s)
+{
+  csString str = s;
+  str.Downcase ();
+  if (str == "c" || str == "center") return ANCHOR_CENTER;
+  else if (str == "n" || str == "north") return ANCHOR_NORTH;
+  else if (str == "nw" || str == "northwest") return ANCHOR_NORTHWEST;
+  else if (str == "w" || str == "west") return ANCHOR_WEST;
+  else if (str == "sw" || str == "southwest") return ANCHOR_SOUTHWEST;
+  else if (str == "s" || str == "south") return ANCHOR_SOUTH;
+  else if (str == "se" || str == "southeast") return ANCHOR_SOUTHEAST;
+  else if (str == "e" || str == "east") return ANCHOR_EAST;
+  else if (str == "ne" || str == "northeast") return ANCHOR_NORTHEAST;
+  else return ANCHOR_INVALID;
 }
 
 bool celPcMessenger::PerformActionIndexed (int idx,
@@ -139,11 +179,44 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 {
   switch (idx)
   {
-    case action_print:
+    case action_defineslot:
       {
-        //CEL_FETCH_STRING_PAR (msg,params,id_message);
-        //if (!p_msg) return false;
-        //Print (msg);
+	// @@@ Error reporting.
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name) return false;
+        CEL_FETCH_VECTOR2_PAR (position,params,id_position);
+        if (!p_position) return false;
+        CEL_FETCH_STRING_PAR (positionAnchor,params,id_positionanchor);
+	MessageLocationAnchor anchor = StringToAnchor (positionAnchor);
+	if (anchor == ANCHOR_INVALID) return false;
+	CEL_FETCH_LONG_PAR (sizex,params,id_sizex);
+	if (!p_sizex) sizex = -1;
+	CEL_FETCH_LONG_PAR (sizey,params,id_sizey);
+	if (!p_sizey) sizey = -1;
+	CEL_FETCH_LONG_PAR (maxsizex,params,id_maxsizex);
+	if (!p_maxsizex) maxsizex = -1;
+	CEL_FETCH_LONG_PAR (maxsizey,params,id_maxsizey);
+	if (!p_maxsizey) maxsizey = -1;
+	CEL_FETCH_LONG_PAR (marginx,params,id_marginx);
+	if (!p_marginx) marginx = 5;
+	CEL_FETCH_LONG_PAR (marginy,params,id_marginy);
+	if (!p_marginy) marginy = 3;
+	CEL_FETCH_COLOR4_PAR (boxColor,params,id_boxcolor);
+	if (!p_boxColor) boxColor.Set (0, 0, 0, 0);
+	CEL_FETCH_COLOR4_PAR (borderColor,params,id_bordercolor);
+	if (!p_borderColor) borderColor.Set (0, 0, 0, 0);
+	CEL_FETCH_LONG_PAR (borderWidth,params,id_borderwidth);
+	if (!p_borderWidth) borderWidth = 0;
+	CEL_FETCH_LONG_PAR (maxmessages,params,id_maxmessages);
+	if (!p_maxmessages) maxmessages = 1000000000;
+	CEL_FETCH_BOOL_PAR (queue,params,id_queue);
+	if (!p_queue) queue = true;
+	CEL_FETCH_LONG_PAR (boxfadetime,params,id_boxfadetime);
+	if (!p_boxfadetime) boxfadetime = 0;
+
+	DefineSlot (name, position, anchor, sizex, sizey, maxsizex, maxsizey,
+	    marginx, marginy, boxColor, borderColor,
+	    borderWidth, maxmessages, queue, boxfadetime);
         return true;
       }
     default:
@@ -160,6 +233,14 @@ MessageType* celPcMessenger::GetType (const char* type) const
   return 0;
 }
 
+MessageSlot* celPcMessenger::GetSlot (const char* name) const
+{
+  for (size_t i = 0 ; i < slots.GetSize () ; i++)
+    if (slots[i]->GetName () == name)
+      return slots[i];
+  return 0;
+}
+
 void celPcMessenger::DefineSlot (const char* name,
       const csVector2& position, MessageLocationAnchor positionAnchor,
       int sizex, int sizey, int maxsizex, int maxsizey,
@@ -168,14 +249,18 @@ void celPcMessenger::DefineSlot (const char* name,
       int borderWidth, int maxmessages, 
       bool queue, csTicks boxfadetime)
 {
-  // @@@ TODO
+  MessageSlot* slot = new MessageSlot (name, position, positionAnchor,
+      sizex, sizey, maxsizex, maxsizey, marginx, marginy, boxColor,
+      borderColor, borderWidth, maxmessages, queue, boxfadetime);
+  slots.Push (slot);
 }
 
-void celPcMessenger::DefineType (const char* type, const char* slot,
+void celPcMessenger::DefineType (const char* type, const char* slotName,
       const csColor4& textColor, const char* font, int fontSize,
       csTicks timeout, csTicks fadetime, bool click, bool log,
       CycleType cyclefirst, CycleType cyclenext)
 {
+  MessageSlot* slot = GetSlot (slotName);
   MessageType* mt = new MessageType (type, slot, textColor,
       font, fontSize, timeout, fadetime, click, log,
       cyclefirst, cyclenext);

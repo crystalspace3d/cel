@@ -104,6 +104,8 @@ public:
     marginx (marginx), marginy (marginy),
     maxmessages (maxmessages),
     queue (queue), boxfadetime (boxfadetime) { }
+
+  const char* GetName () const { return name; }
 };
 
 //---------------------------------------------------------------------------
@@ -112,7 +114,7 @@ class MessageType
 {
 private:
   csString type;
-  csString slot;
+  MessageSlot* slot;
   csColor4 textColor;
   csString font;
   int fontSize;
@@ -123,7 +125,7 @@ private:
   MessageLog log;
 
 public:
-  MessageType (const char* type, const char* slot,
+  MessageType (const char* type, MessageSlot* slot,
       const csColor4& textColor, const char* font, int fontSize,
       csTicks timeout, csTicks fadetime, bool click, bool dolog,
       CycleType cyclefirst, CycleType cyclenext) :
@@ -133,7 +135,7 @@ public:
     cyclefirst (cyclefirst), cyclenext (cyclenext) { }
 
   const char* GetType () const { return type; }
-  const char* GetSlot () const { return slot; }
+  const MessageSlot* GetSlot () const { return slot; }
   const csColor& GetTextColor () const { return textColor; }
   const char* GetFont () const { return font; }
   int GetFontSize () const { return fontSize; }
@@ -161,10 +163,12 @@ class celPcMessenger : public scfImplementationExt1<
 	celPcMessenger, celPcCommon, iPcMessenger>
 {
 private:
-  // For SendMessage parameters.
   static csStringID id_message;
+  static csStringID id_name;
   static csStringID id_type;
   static csStringID id_id;
+  static csStringID id_position;
+  static csStringID id_positionanchor;
   static csStringID id_msg1;
   static csStringID id_msg2;
   static csStringID id_msg3;
@@ -172,7 +176,6 @@ private:
   static csStringID id_msg5;
   static csStringID id_msg6;
   static csStringID id_msg7;
-  static csStringID id_location;
   static csStringID id_textcolor;
   static csStringID id_boxcolor;
   static csStringID id_bordercolor;
@@ -185,18 +188,32 @@ private:
   static csStringID id_log;
   static csStringID id_cyclefirst;
   static csStringID id_cyclenext;
+  static csStringID id_sizex;
+  static csStringID id_sizey;
+  static csStringID id_maxsizex;
+  static csStringID id_maxsizey;
+  static csStringID id_marginx;
+  static csStringID id_marginy;
+  static csStringID id_queue;
+  static csStringID id_maxmessages;
+  static csStringID id_boxfadetime;
+  static csStringID id_borderwidth;
 
   // For actions.
   enum actionids
   {
-    action_print = 0
+    action_defineslot = 0
   };
   static PropertyHolder propinfo;
 
+  // Types.
   csString defaultType;
   csPDelArray<MessageType> types;
-
   MessageType* GetType (const char* type) const;
+
+  // Slots.
+  csPDelArray<MessageSlot> slots;
+  MessageSlot* GetSlot (const char* name) const;
 
 public:
   celPcMessenger (iObjectRegistry* object_reg);
