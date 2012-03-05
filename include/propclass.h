@@ -53,6 +53,7 @@
 #include "propclass/mesh.h"
 #include "propclass/meshdeform.h"
 #include "propclass/meshsel.h"
+#include "propclass/messenger.h"
 #include "propclass/move.h"
 #include "propclass/mover.h"
 #include "propclass/neuralnet.h"

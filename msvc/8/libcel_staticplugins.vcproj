@@ -713,6 +713,9 @@
 				RelativePath="..\..\msvc\libpfmeshdeform_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfmessenger_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfmove_staticreg.cpp">
 			</File>
 			<File
@@ -924,6 +927,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\meshdeform\meshdeformfact.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\messenger\messengerfact.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\move\colldet.cpp">
@@ -1555,6 +1561,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\meshdeform\meshdeformfact.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\messenger\messengerfact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\move\colldet.h">

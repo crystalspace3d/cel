@@ -502,6 +502,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libpfmechanics_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfmesh_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfmeshdeform_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfmessenger_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfmove_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfmover_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfneuralnet_staticreg.cpp" />
@@ -573,6 +574,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\propclass\mesh\meshfact.cpp" />
     <ClCompile Include="..\..\plugins\propclass\meshdeform\deformanim.cpp" />
     <ClCompile Include="..\..\plugins\propclass\meshdeform\meshdeformfact.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\messenger\messengerfact.cpp" />
     <ClCompile Include="..\..\plugins\propclass\move\colldet.cpp" />
     <ClCompile Include="..\..\plugins\propclass\move\linmove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\move\movefact.cpp" />
@@ -764,6 +766,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\propclass\mesh\meshfact.h" />
     <ClInclude Include="..\..\plugins\propclass\meshdeform\deformanim.h" />
     <ClInclude Include="..\..\plugins\propclass\meshdeform\meshdeformfact.h" />
+    <ClInclude Include="..\..\plugins\propclass\messenger\messengerfact.h" />
     <ClInclude Include="..\..\plugins\propclass\move\colldet.h" />
     <ClInclude Include="..\..\plugins\propclass\move\linmove.h" />
     <ClInclude Include="..\..\plugins\propclass\move\movefact.h" />
