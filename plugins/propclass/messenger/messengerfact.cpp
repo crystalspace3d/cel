@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "csutil/scanstr.h"
 #include "iutil/objreg.h"
 #include "plugins/propclass/messenger/messengerfact.h"
 #include "physicallayer/pl.h"
@@ -64,6 +65,7 @@ public:
 csStringID celPcMessenger::id_message = csInvalidStringID;
 csStringID celPcMessenger::id_name = csInvalidStringID;
 csStringID celPcMessenger::id_type = csInvalidStringID;
+csStringID celPcMessenger::id_slot = csInvalidStringID;
 csStringID celPcMessenger::id_id = csInvalidStringID;
 csStringID celPcMessenger::id_position = csInvalidStringID;
 csStringID celPcMessenger::id_positionanchor = csInvalidStringID;
@@ -109,6 +111,7 @@ celPcMessenger::celPcMessenger (iObjectRegistry* object_reg)
     id_message = pl->FetchStringID ("message");
     id_name = pl->FetchStringID ("name");
     id_type = pl->FetchStringID ("type");
+    id_slot = pl->FetchStringID ("slot");
     id_id = pl->FetchStringID ("id");
     id_position = pl->FetchStringID ("position");
     id_positionanchor = pl->FetchStringID ("positionanchor");
@@ -150,6 +153,8 @@ celPcMessenger::celPcMessenger (iObjectRegistry* object_reg)
   {
     SetActionMask ("cel.messenger.action.");
     AddAction (action_defineslot, "DefineSlot");
+    AddAction (action_definetype, "DefineType");
+    AddAction (action_message, "Message");
   }
 }
 
@@ -172,6 +177,20 @@ static MessageLocationAnchor StringToAnchor (const char* s)
   else if (str == "ne" || str == "northeast") return ANCHOR_NORTHEAST;
   else return ANCHOR_INVALID;
 }
+
+static CycleType StringToCycleType (const char* s)
+{
+  csString str = s;
+  str.Downcase ();
+  if (str == "random" || str == "rand" || str == "rnd") return CYCLE_RANDOM;
+  else if (str == "sequence" || str == "seq") return CYCLE_SEQUENCE;
+  else if (str == "none" || str == "") return CYCLE_NONE;
+  int idx;
+  csScanStr (s, "%d", &idx);
+  if (idx >= 0 && idx <= 1000) return CycleType (int (CYCLE_INDEX) + idx);
+  return CYCLE_UNDEFINED;
+}
+
 
 bool celPcMessenger::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
@@ -217,6 +236,72 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	DefineSlot (name, position, anchor, sizex, sizey, maxsizex, maxsizey,
 	    marginx, marginy, boxColor, borderColor,
 	    borderWidth, maxmessages, queue, boxfadetime);
+        return true;
+      }
+    case action_definetype:
+      {
+	// @@@ Error reporting.
+        CEL_FETCH_STRING_PAR (type,params,id_type);
+        if (!p_type) return false;
+        CEL_FETCH_STRING_PAR (slot,params,id_slot);
+        if (!p_slot) slot = "none";
+	CEL_FETCH_COLOR4_PAR (textColor,params,id_textcolor);
+	if (!p_textColor) textColor.Set (1, 1, 1, 1);
+        CEL_FETCH_STRING_PAR (font,params,id_font);
+        CEL_FETCH_LONG_PAR (fontSize,params,id_fontsize);
+        CEL_FETCH_LONG_PAR (timeout,params,id_timeout);
+	if (!p_timeout) timeout = 2000;
+        CEL_FETCH_LONG_PAR (fadetime,params,id_fadetime);
+	if (!p_fadetime) timeout = 1000;
+
+	CEL_FETCH_BOOL_PAR (click,params,id_click);
+	if (!p_click) click = false;
+	CEL_FETCH_BOOL_PAR (log,params,id_log);
+	if (!p_log) log = false;
+
+	CycleType cyclefirst, cyclenext;
+        CEL_FETCH_STRING_PAR (cf,params,id_cyclefirst);
+	if (!p_cf) cyclefirst = CYCLE_RANDOM;
+	else cyclefirst = StringToCycleType (cf);
+        CEL_FETCH_STRING_PAR (cn,params,id_cyclenext);
+	if (!p_cn) cyclenext = CYCLE_UNDEFINED;
+	else cyclenext = StringToCycleType (cn);
+
+	DefineType (type, slot, textColor, font, fontSize,
+	    timeout, fadetime, click, log,
+	    cyclefirst, cyclenext);
+        return true;
+      }
+    case action_message:
+      {
+	// @@@ Error reporting.
+        CEL_FETCH_STRING_PAR (type,params,id_type);
+        if (!p_type) type = defaultType;
+        CEL_FETCH_STRING_PAR (id,params,id_id);
+	int last = -1;
+        CEL_FETCH_STRING_PAR (msg1,params,id_msg1);
+	if (p_msg1) last = 0;
+        CEL_FETCH_STRING_PAR (msg2,params,id_msg2);
+	if (p_msg2) last = 1;
+        CEL_FETCH_STRING_PAR (msg3,params,id_msg3);
+	if (p_msg3) last = 2;
+        CEL_FETCH_STRING_PAR (msg4,params,id_msg4);
+	if (p_msg4) last = 3;
+        CEL_FETCH_STRING_PAR (msg5,params,id_msg5);
+	if (p_msg5) last = 4;
+        CEL_FETCH_STRING_PAR (msg6,params,id_msg6);
+	if (p_msg6) last = 5;
+        CEL_FETCH_STRING_PAR (msg7,params,id_msg7);
+	if (p_msg7) last = 6;
+	csStringArray msgs;
+	if (last >= 0) msgs.Push (msg1);
+	if (last >= 1) msgs.Push (msg2);
+	if (last >= 2) msgs.Push (msg3);
+	if (last >= 3) msgs.Push (msg4);
+	if (last >= 4) msgs.Push (msg5);
+	if (last >= 5) msgs.Push (msg6);
+	if (last >= 6) msgs.Push (msg7);
+	Message (type, id, msgs);
         return true;
       }
     default:
@@ -268,7 +353,7 @@ void celPcMessenger::DefineType (const char* type, const char* slotName,
 }
 
 void celPcMessenger::Message (const char* type, const char* id,
-      const char* msg, ...)
+      const csStringArray& msgs)
 {
   MessageType* mt = GetType (type);
   if (!mt) return;
@@ -276,6 +361,24 @@ void celPcMessenger::Message (const char* type, const char* id,
   {
     // @@@ Keep message.
   }
+}
+
+void celPcMessenger::Message (const char* type, const char* id,
+      const char* msg, ...)
+{
+  csStringArray msgs;
+  msgs.Push (msg);
+  va_list args;
+  va_start (args, msg);
+  char const* m = va_arg (args, char*);
+  while (m != (const char*)0)
+  {
+    msgs.Push (m);
+    m = va_arg (args, char*);
+  }
+  va_end (args);
+
+  Message (type, id, msgs);
 }
 
 void celPcMessenger::ClearId (const char* id)
