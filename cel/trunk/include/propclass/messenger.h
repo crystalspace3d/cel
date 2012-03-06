@@ -206,6 +206,8 @@ struct iPcMessenger : public virtual iBase
    * 'id' can be 0 in which case this message has no id.
    */
   virtual void Message (const char* type, const char* id,
+      const csStringArray& msgs) = 0;
+  virtual void Message (const char* type, const char* id,
       const char* msg, ...) = 0;
 
   /**

@@ -166,6 +166,7 @@ private:
   static csStringID id_message;
   static csStringID id_name;
   static csStringID id_type;
+  static csStringID id_slot;
   static csStringID id_id;
   static csStringID id_position;
   static csStringID id_positionanchor;
@@ -202,7 +203,9 @@ private:
   // For actions.
   enum actionids
   {
-    action_defineslot = 0
+    action_defineslot = 0,
+    action_definetype,
+    action_message
   };
   static PropertyHolder propinfo;
 
@@ -234,6 +237,8 @@ public:
       CycleType cyclefirst, CycleType cyclenext);
   virtual void SetDefaultType (const char* type) { defaultType = type; }
   virtual const char* GetDefaultType () const { return defaultType; }
+  virtual void Message (const char* type, const char* id,
+      const csStringArray& msgs);
   virtual void Message (const char* type, const char* id,
       const char* msg, ...);
   virtual void ClearId (const char* id);
