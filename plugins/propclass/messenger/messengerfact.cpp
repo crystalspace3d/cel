@@ -24,6 +24,9 @@
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
+#include "ivideo/graph3d.h"
+#include "ivideo/graph2d.h"
+#include "ivideo/fontserv.h"
 
 //---------------------------------------------------------------------------
 
@@ -59,6 +62,53 @@ public:
     return log.GetID (idx);
   }
 };
+
+//---------------------------------------------------------------------------
+
+void MessageSlot::LayoutText ()
+{
+  int cx = marginx, cy = marginy;
+  if (sizex > 0) cursizex = sizex; else cursizex = marginx * 2;
+  if (sizey > 0) cursizey = sizey; else cursizey = marginy * 2;
+
+  layoutedLines.Empty ();
+  for (size_t i = 0 ; i < activeMessages.GetSize () ; i++)
+  {
+    TimedMessage& tm = activeMessages.Get (i);
+    csStringArray lines (tm.message, "\n");
+    for (size_t l = 0 ; l < lines.GetSize () ; l++)
+    {
+      csStringArray words (lines.Get (l), " ", csStringArray::delimIgnore);
+      for (size_t w = 0 ; w < words.GetSize () ; w++)
+	//@@@
+	;
+    }
+  }
+}
+
+void MessageSlot::Message (const char* msg, float timeout, float fadetime,
+    iFont* font, int color)
+{
+  if (activeMessages.GetSize () >= size_t (maxmessages))
+  {
+    if (queue)
+    {
+      queuedMessages.Push (TimedMessage (msg, timeout, fadetime, font,
+	    color));
+      return;
+    }
+    else
+    {
+      while (activeMessages.GetSize () >= size_t (maxmessages)
+	  && activeMessages.GetSize () > 0)
+      {
+	activeMessages.DeleteIndex (0);
+      }
+    }
+  }
+  activeMessages.Push (TimedMessage (msg, timeout, fadetime, font, color));
+  LayoutText ();
+}
 
 //---------------------------------------------------------------------------
 
@@ -155,6 +205,8 @@ celPcMessenger::celPcMessenger (iObjectRegistry* object_reg)
     AddAction (action_defineslot, "DefineSlot");
     AddAction (action_definetype, "DefineType");
     AddAction (action_message, "Message");
+    AddAction (action_setdefaulttype, "SetDefaultType");
+    AddAction (action_clearid, "ClearID");
   }
 }
 
@@ -230,8 +282,8 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	if (!p_maxmessages) maxmessages = 1000000000;
 	CEL_FETCH_BOOL_PAR (queue,params,id_queue);
 	if (!p_queue) queue = true;
-	CEL_FETCH_LONG_PAR (boxfadetime,params,id_boxfadetime);
-	if (!p_boxfadetime) boxfadetime = 0;
+	CEL_FETCH_FLOAT_PAR (boxfadetime,params,id_boxfadetime);
+	if (!p_boxfadetime) boxfadetime = 0.0f;
 
 	DefineSlot (name, position, anchor, sizex, sizey, maxsizex, maxsizey,
 	    marginx, marginy, boxColor, borderColor,
@@ -249,10 +301,10 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	if (!p_textColor) textColor.Set (1, 1, 1, 1);
         CEL_FETCH_STRING_PAR (font,params,id_font);
         CEL_FETCH_LONG_PAR (fontSize,params,id_fontsize);
-        CEL_FETCH_LONG_PAR (timeout,params,id_timeout);
-	if (!p_timeout) timeout = 2000;
-        CEL_FETCH_LONG_PAR (fadetime,params,id_fadetime);
-	if (!p_fadetime) timeout = 1000;
+        CEL_FETCH_FLOAT_PAR (timeout,params,id_timeout);
+	if (!p_timeout) timeout = 2.0f;
+        CEL_FETCH_FLOAT_PAR (fadetime,params,id_fadetime);
+	if (!p_fadetime) timeout = 1.0f;
 
 	CEL_FETCH_BOOL_PAR (click,params,id_click);
 	if (!p_click) click = false;
@@ -304,6 +356,20 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	Message (type, id, msgs);
         return true;
       }
+    case action_setdefaulttype:
+      {
+        CEL_FETCH_STRING_PAR (type,params,id_type);
+	SetDefaultType (type);
+	return true;
+      }
+    case action_clearid:
+      {
+	// @@@ Error reporting.
+        CEL_FETCH_STRING_PAR (id,params,id_id);
+	if (!p_id) return false;
+	ClearId (id);
+	return true;
+      }
     default:
       return false;
   }
@@ -332,7 +398,7 @@ void celPcMessenger::DefineSlot (const char* name,
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,
       int borderWidth, int maxmessages, 
-      bool queue, csTicks boxfadetime)
+      bool queue, float boxfadetime)
 {
   MessageSlot* slot = new MessageSlot (name, position, positionAnchor,
       sizex, sizey, maxsizex, maxsizey, marginx, marginy, boxColor,
@@ -341,13 +407,31 @@ void celPcMessenger::DefineSlot (const char* name,
 }
 
 void celPcMessenger::DefineType (const char* type, const char* slotName,
-      const csColor4& textColor, const char* font, int fontSize,
-      csTicks timeout, csTicks fadetime, bool click, bool log,
+      const csColor4& textColor, const char* fontName, int fontSize,
+      float timeout, float fadetime, bool click, bool log,
       CycleType cyclefirst, CycleType cyclenext)
 {
+  csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  iGraphics2D* g2d = g3d->GetDriver2D ();
+  iFontServer* fontServ = g2d->GetFontServer ();
+
+  csRef<iFont> font;
+  if (fontName && *fontName)
+  {
+    font = fontServ->LoadFont (fontName, fontSize);
+  }
+  else
+  {
+    font = fontServ->LoadFont (CSFONT_COURIER);
+  }
+  int tc = g2d->FindRGB (int (textColor.red * 255.4),
+      int (textColor.green * 255.4),
+      int (textColor.blue * 255.4),
+      int (textColor.alpha * 255.4));
+
   MessageSlot* slot = GetSlot (slotName);
-  MessageType* mt = new MessageType (type, slot, textColor,
-      font, fontSize, timeout, fadetime, click, log,
+  MessageType* mt = new MessageType (type, slot, tc,
+      font, timeout, fadetime, click, log,
       cyclefirst, cyclenext);
   types.Push (mt);
 }
@@ -360,6 +444,12 @@ void celPcMessenger::Message (const char* type, const char* id,
   if (mt->GetDoLog ())
   {
     // @@@ Keep message.
+  }
+  if (mt->GetSlot ())
+  {
+    // @@@ Select the right message.
+    mt->GetSlot ()->Message (msgs[0], mt->GetTimeout(), mt->GetFadetime (),
+	mt->GetFont (), mt->GetTextColor ());
   }
 }
 

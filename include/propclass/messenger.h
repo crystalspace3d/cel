@@ -180,14 +180,14 @@ struct iPcMessenger : public virtual iBase
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,
       int borderWidth, int maxmessages, 
-      bool queue, csTicks boxfadetime) = 0;
+      bool queue, float boxfadetime) = 0;
 
   /**
    * Define a new message type.
    */
   virtual void DefineType (const char* type, const char* slot,
       const csColor4& textColor, const char* font, int fontSize,
-      csTicks timeout, csTicks fadetime, bool click, bool log,
+      float timeout, float fadetime, bool click, bool log,
       CycleType cyclefirst, CycleType cyclenext) = 0;
 
   /**

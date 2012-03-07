@@ -33,6 +33,7 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
+struct iFont;
 
 //---------------------------------------------------------------------------
 
@@ -73,6 +74,24 @@ public:
 
 //---------------------------------------------------------------------------
 
+struct TimedMessage
+{
+  csString message;
+  float timeleft;
+  float fadetime;
+  iFont* font;
+  int color;
+
+  // If true this message fitted completely on screen.
+  // Only in that case will we start the countdown (timeleft).
+  bool complete;
+
+  TimedMessage (const char* msg, float timeleft, float fadetime, iFont* font,
+      int color)
+    : message (msg), timeleft (timeleft), fadetime (fadetime),
+      font (font), color (color), complete (false) { }
+};
+
 class MessageSlot
 {
 private:
@@ -87,7 +106,14 @@ private:
   int marginx, marginy;
   int maxmessages;
   bool queue;
-  csTicks boxfadetime;
+  float boxfadetime;
+
+  csArray<TimedMessage> activeMessages;
+  csArray<TimedMessage> queuedMessages;
+
+  int cursizex, cursizey;
+  csArray<TimedMessage> layoutedLines;	// Layouted version.
+  void LayoutText ();
 
 public:
   MessageSlot (const char* name,
@@ -96,7 +122,7 @@ public:
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,
       int borderWidth, int maxmessages, 
-      bool queue, csTicks boxfadetime) :
+      bool queue, float boxfadetime) :
     name (name), position (position), positionAnchor (positionAnchor),
     boxColor (boxColor), borderColor (borderColor),
     borderWidth (borderWidth),
@@ -106,6 +132,9 @@ public:
     queue (queue), boxfadetime (boxfadetime) { }
 
   const char* GetName () const { return name; }
+
+  void Message (const char* msg, float timeout, float fadetime, iFont* font,
+      int color);
 };
 
 //---------------------------------------------------------------------------
@@ -115,10 +144,9 @@ class MessageType
 private:
   csString type;
   MessageSlot* slot;
-  csColor4 textColor;
-  csString font;
-  int fontSize;
-  csTicks timeout, fadetime;
+  int textColor;
+  csRef<iFont> font;
+  float timeout, fadetime;
   bool click, dolog;
   CycleType cyclefirst, cyclenext;
 
@@ -126,21 +154,20 @@ private:
 
 public:
   MessageType (const char* type, MessageSlot* slot,
-      const csColor4& textColor, const char* font, int fontSize,
-      csTicks timeout, csTicks fadetime, bool click, bool dolog,
+      int textColor, iFont* font,
+      float timeout, float fadetime, bool click, bool dolog,
       CycleType cyclefirst, CycleType cyclenext) :
     type (type), slot (slot),
-    textColor (textColor), font (font), fontSize (fontSize),
+    textColor (textColor), font (font),
     timeout (timeout), fadetime (fadetime), click (click), dolog (dolog),
     cyclefirst (cyclefirst), cyclenext (cyclenext) { }
 
   const char* GetType () const { return type; }
-  const MessageSlot* GetSlot () const { return slot; }
-  const csColor& GetTextColor () const { return textColor; }
-  const char* GetFont () const { return font; }
-  int GetFontSize () const { return fontSize; }
-  csTicks GetTimeout () const { return timeout; }
-  csTicks GetFadetime () const { return fadetime; }
+  MessageSlot* GetSlot () const { return slot; }
+  const int GetTextColor () const { return textColor; }
+  iFont* GetFont () const { return font; }
+  float GetTimeout () const { return timeout; }
+  float GetFadetime () const { return fadetime; }
   bool GetClick () const { return click; }
   bool GetDoLog () const { return dolog; }
   CycleType GetCycleFirst () const { return cyclefirst; }
@@ -205,7 +232,9 @@ private:
   {
     action_defineslot = 0,
     action_definetype,
-    action_message
+    action_message,
+    action_setdefaulttype,
+    action_clearid
   };
   static PropertyHolder propinfo;
 
@@ -230,10 +259,10 @@ public:
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,
       int borderWidth, int maxmessages, 
-      bool queue, csTicks boxfadetime);
+      bool queue, float boxfadetime);
   virtual void DefineType (const char* type, const char* slot,
       const csColor4& textColor, const char* font, int fontSize,
-      csTicks timeout, csTicks fadetime, bool click, bool log,
+      float timeout, float fadetime, bool click, bool log,
       CycleType cyclefirst, CycleType cyclenext);
   virtual void SetDefaultType (const char* type) { defaultType = type; }
   virtual const char* GetDefaultType () const { return defaultType; }
