@@ -69,77 +69,131 @@ bool MessageSlot::LayoutWord (const TimedMessage& tm, const char* word)
 {
   int w, h;
   tm.font->GetDimensions (word, w, h);
-  if (curw + curspacew + w >= cursizex)
+
+  int neww = curw + curspacew + w;
+
+  if (neww > cursizex)
   {
     // Not enough room. Can we extend?
-    if (sizex <= 0 && curw + curspacew + w <= maxsizex)
+    if (sizex <= 0 && neww <= maxsizex)
     {
       // Yes
-      cursizex = curw + curspacew + w;
+      cursizex = neww;
     }
     else
       return false;
   }
 
-  curw += curspacew + w;
-  TimedMessage& line = layoutedLines.Get (layoutedLines.GetSize ()-1);
-  line.message += " ";
-  line.message += word;
+  curw = neww;
+  LayoutedLine& line = layoutedLines.Get (layoutedLines.GetSize ()-1);
+  line.line += " ";
+  line.line += word;
 
   return true;
 }
 
-bool MessageSlot::LayoutNewLine ()
+#define LINE_MARGIN 2
+
+bool MessageSlot::LayoutNewLine (const TimedMessage& tm)
 {
-  return false;
+  int newh = curh + LINE_MARGIN + curh;
+  if (newh > cursizey)
+  {
+    // Not enough room. Can we extend?
+    if (sizey <= 0 && newh <= maxsizey)
+    {
+      // Yes
+      cursizey = newh;
+    }
+    else
+      return false;
+  }
+
+  float timeleft = 0.0f;
+  for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
+    timeleft += layoutedLines.Get (i).timeleft;
+  timeleft = tm.timeleft - timeleft;
+  if (timeleft < 0.0f) timeleft = 0.0f;
+
+  LayoutedLine layoutline ("", timeleft, tm.fadetime, tm.font, tm.color);
+  layoutline.y = curh + LINE_MARGIN;
+  layoutedLines.Push (layoutline);
+  curh = newh;
+  curw = 0;
+  return true;
+}
+
+bool MessageSlot::LayoutLine (const TimedMessage& tm, const char* line)
+{
+  int w;
+  tm.font->GetDimensions (line, w, curh);
+  if (LayoutNewLine (tm))
+    return false;
+
+  curw = 0;
+  csStringArray words (line, " ", csStringArray::delimIgnore);
+  for (size_t w = 0 ; w < words.GetSize () ; w++)
+  {
+    if (!LayoutWord (tm, words.Get (w)))
+    {
+      // No more room for this line.
+      if (!LayoutNewLine (tm))
+	return false;
+      curw = 0;
+      if (!LayoutWord (tm, words.Get (w)))
+      {
+	// Still doesn't fit. The word may simply be too big. We just
+	// ignore it for now (needs to be handled better!)
+	// @@@
+	printf ("Ignored word '%s'!\n", (const char*)words.Get (w));
+	fflush (stdout);
+      }
+    }
+  }
+
+
+  return true;
+}
+
+bool MessageSlot::LayoutMessage (TimedMessage& tm)
+{
+  int h;
+  tm.font->GetDimensions (" ", curspacew, h);
+
+  size_t firstline = layoutedLines.GetSize ();
+  csStringArray lines (tm.message, "\n");
+  for (size_t l = tm.completedLines ; l < lines.GetSize () ; l++)
+  {
+    if (!LayoutLine (tm, lines.Get (l)))
+    {
+      // This line didn't (completely) fit. We mark all lines
+      // that we managed to layout as incomplete.
+      for (size_t i = firstline ; i < layoutedLines.GetSize () ; i++)
+	layoutedLines.Get (i).fadetime = 0.0f;
+      tm.completedLines = l;
+      return false;
+    }
+  }
+  tm.completedLines = ALL_LINES;
+  return true;
 }
 
 void MessageSlot::LayoutText ()
 {
-  int cx = 0, cy = 0;
-  int spacey = 2;
   if (sizex > 0) cursizex = sizex - marginx * 2; else cursizex = 0;
   if (sizey > 0) cursizey = sizey - marginy * 2; else cursizey = 0;
 
-  layoutedLines.Empty ();
   for (size_t mi = 0 ; mi < activeMessages.GetSize () ; mi++)
   {
     TimedMessage& tm = activeMessages.Get (mi);
-    csStringArray lines (tm.message, "\n");
-
-    size_t firstline = layoutedLines.GetSize ();
-
-    for (size_t l = 0 ; l < lines.GetSize () ; l++)
+    if (tm.completedLines != ALL_LINES)
     {
-      csString line = lines.Get (l);
-      int w, h;
-      tm.font->GetDimensions (line, w, h);
-      if (cy + spacey + h >= cursizey)
+      if (!LayoutMessage (tm))
       {
-	if (sizey <= 0 && cy + spacey + h < maxsizey)
-	{
-	  // We can extend our vertical space.
-	  cursizey = cy + spacey + h;
-	}
-	else
-	{
-	  // No more vertical room. If we have more lines in this message
-	  // then we go back and mark all layouted lines as not complete
-	  // so that we know that they don't have to fade away.
-	  if (l > 0)
-	  {
-	    tm.complete = false;
-	    for (size_t i = firstline ; i < layoutedLines.GetSize () ; i++)
-	      layoutedLines.Get (i).complete = false;
-	  }
-	  break;
-	}
+        // The message did not fit. tm.completedLines will be updated
+        // with the number of lines that we did manage to display.
+	// return;
       }
-
-      csStringArray words (line, " ", csStringArray::delimIgnore);
-      for (size_t w = 0 ; w < words.GetSize () ; w++)
-	//@@@
-	;
     }
   }
 }
@@ -166,6 +220,50 @@ void MessageSlot::Message (const char* msg, float timeout, float fadetime,
   }
   activeMessages.Push (TimedMessage (msg, timeout, fadetime, font, color));
   LayoutText ();
+}
+
+void MessageSlot::HandleElapsed (float elapsed)
+{
+  if (layoutedLines.GetSize () == 0) return;
+  LayoutedLine& line = layoutedLines.Get (0);
+  line.timeleft -= elapsed;
+  if (line.timeleft <= 0)
+  {
+    // The other messages will get removed the next frame.
+    layoutedLines.DeleteIndex (0);
+    curh = 0;
+    for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
+    {
+      layoutedLines.Get (i).y = curh;
+      curh += layoutedLines.Get (i).h + LINE_MARGIN;
+    }
+    if (curh > 0) curh -= LINE_MARGIN;
+    LayoutText ();
+  }
+}
+
+void MessageSlot::Render (iGraphics3D* g3d, iGraphics2D* g2d)
+{
+  int cx = position.x, cy = position.y;
+  switch (positionAnchor)
+  {
+    case ANCHOR_CENTER:    cx -= cursizex / 2; cy -= cursizey / 2; break;
+    case ANCHOR_NORTH:     cx -= cursizex / 2;                     break;
+    case ANCHOR_NORTHWEST:                                         break;
+    case ANCHOR_WEST:                          cy -= cursizey / 2; break;
+    case ANCHOR_SOUTHWEST:                     cy -= cursizey;     break;
+    case ANCHOR_SOUTH:     cx -= cursizex / 2; cy -= cursizey;     break;
+    case ANCHOR_SOUTHEAST: cx -= cursizex;     cy -= cursizey;     break;
+    case ANCHOR_EAST:      cx -= cursizex;     cy -= cursizey / 2; break;
+    case ANCHOR_NORTHEAST: cx -= cursizex;                         break;
+    default: break;
+  }
+  for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
+  {
+    const LayoutedLine& ll = layoutedLines.Get (i);
+    g2d->Write (ll.font, cx, cy, ll.color, -1, ll.line);
+    cy += ll.h + LINE_MARGIN;
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -266,6 +364,10 @@ celPcMessenger::celPcMessenger (iObjectRegistry* object_reg)
     AddAction (action_setdefaulttype, "SetDefaultType");
     AddAction (action_clearid, "ClearID");
   }
+
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_POST);
 }
 
 celPcMessenger::~celPcMessenger ()
@@ -568,6 +670,19 @@ MessageLog* celPcMessenger::GetMessageLog (const char* type)
   MessageType* mt = GetType (type);
   if (!mt) return 0;
   else return &(mt->GetLog ());
+}
+
+void celPcMessenger::TickEveryFrame ()
+{
+  float elapsed = vc->GetElapsedSeconds ();
+
+  g3d->BeginDraw (CSDRAW_2DGRAPHICS);
+
+  for (size_t i = 0 ; i < slots.GetSize () ; i++)
+  {
+    slots[i]->HandleElapsed (elapsed);
+    slots[i]->Render (g3d, g3d->GetDriver2D ());
+  }
 }
 
 //---------------------------------------------------------------------------
