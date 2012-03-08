@@ -22,6 +22,9 @@
 
 #include "cstypes.h"
 #include "iutil/comp.h"
+#include "iutil/virtclk.h"
+#include "ivideo/graph2d.h"
+#include "ivideo/graph3d.h"
 #include "csutil/scf.h"
 #include "csutil/parray.h"
 #include "physicallayer/propclas.h"
@@ -74,6 +77,8 @@ public:
 
 //---------------------------------------------------------------------------
 
+#define ALL_LINES 1000000000
+
 struct TimedMessage
 {
   csString message;
@@ -82,15 +87,32 @@ struct TimedMessage
   iFont* font;
   int color;
 
-  // If true this message fitted completely on screen.
-  // Only in that case will we start the countdown (timeleft).
-  bool complete;
-  int x, y;	// x,y position relative to top-left corner (inside margin).
+  // The number of lines that we were able to fit on screen completely.
+  // If a message is not completely on screen we will not start the
+  // countdown (timeleft). It is set to ALL_LINES if the message was complete.
+  int completedLines;
 
   TimedMessage (const char* msg, float timeleft, float fadetime, iFont* font,
       int color)
     : message (msg), timeleft (timeleft), fadetime (fadetime),
-      font (font), color (color), complete (false), x (0), y (0) { }
+      font (font), color (color), completedLines (0) { }
+};
+
+struct LayoutedLine
+{
+  csString line;
+  float timeleft;
+  float fadetime;
+  iFont* font;
+  int color;
+
+  int y;	// y position relative to top-left corner (inside margin).
+  int h;	// Height of this line.
+
+  LayoutedLine (const char* line, float timeleft, float fadetime, iFont* font,
+      int color)
+    : line (line), timeleft (timeleft), fadetime (fadetime), font (font),
+      color (color) { }
 };
 
 class MessageSlot
@@ -112,13 +134,14 @@ private:
   csArray<TimedMessage> activeMessages;
   csArray<TimedMessage> queuedMessages;
 
-  int curx, cury;			// Current layout position without margins.
-  int curw;				// Current line width.
+  int curw, curh;			// Current line width and height.
   int curspacew;			// Current width of a space.
   int cursizex, cursizey;		// Current size without margins.
-  csArray<TimedMessage> layoutedLines;	// Layouted version.
+  csArray<LayoutedLine> layoutedLines;	// Layouted lines.
   bool LayoutWord (const TimedMessage& tm, const char* word);
-  bool LayoutNewLine ();
+  bool LayoutNewLine (const TimedMessage& tm);
+  bool LayoutLine (const TimedMessage& tm, const char* line);
+  bool LayoutMessage (TimedMessage& tm);
   void LayoutText ();
 
 public:
@@ -135,12 +158,18 @@ public:
     sizex (sizex), sizey (sizey), maxsizex (maxsizex), maxsizey (maxsizey),
     marginx (marginx), marginy (marginy),
     maxmessages (maxmessages),
-    queue (queue), boxfadetime (boxfadetime) { }
+    queue (queue), boxfadetime (boxfadetime)
+  {
+    curw = curh = 0;
+  }
 
   const char* GetName () const { return name; }
 
   void Message (const char* msg, float timeout, float fadetime, iFont* font,
       int color);
+
+  void HandleElapsed (float elapsed);
+  void Render (iGraphics3D* g3d, iGraphics2D* g2d);
 };
 
 //---------------------------------------------------------------------------
@@ -233,6 +262,9 @@ private:
   static csStringID id_boxfadetime;
   static csStringID id_borderwidth;
 
+  csRef<iVirtualClock> vc;
+  csRef<iGraphics3D> g3d;
+
   // For actions.
   enum actionids
   {
@@ -283,6 +315,8 @@ public:
 
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
+
+  virtual void TickEveryFrame ();
 };
 
 #endif // __CEL_PF_MESSENGERFACT__
