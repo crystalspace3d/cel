@@ -85,11 +85,12 @@ struct TimedMessage
   // If true this message fitted completely on screen.
   // Only in that case will we start the countdown (timeleft).
   bool complete;
+  int x, y;	// x,y position relative to top-left corner (inside margin).
 
   TimedMessage (const char* msg, float timeleft, float fadetime, iFont* font,
       int color)
     : message (msg), timeleft (timeleft), fadetime (fadetime),
-      font (font), color (color), complete (false) { }
+      font (font), color (color), complete (false), x (0), y (0) { }
 };
 
 class MessageSlot
@@ -111,8 +112,13 @@ private:
   csArray<TimedMessage> activeMessages;
   csArray<TimedMessage> queuedMessages;
 
-  int cursizex, cursizey;
+  int curx, cury;			// Current layout position without margins.
+  int curw;				// Current line width.
+  int curspacew;			// Current width of a space.
+  int cursizex, cursizey;		// Current size without margins.
   csArray<TimedMessage> layoutedLines;	// Layouted version.
+  bool LayoutWord (const TimedMessage& tm, const char* word);
+  bool LayoutNewLine ();
   void LayoutText ();
 
 public:

@@ -65,20 +65,78 @@ public:
 
 //---------------------------------------------------------------------------
 
+bool MessageSlot::LayoutWord (const TimedMessage& tm, const char* word)
+{
+  int w, h;
+  tm.font->GetDimensions (word, w, h);
+  if (curw + curspacew + w >= cursizex)
+  {
+    // Not enough room. Can we extend?
+    if (sizex <= 0 && curw + curspacew + w <= maxsizex)
+    {
+      // Yes
+      cursizex = curw + curspacew + w;
+    }
+    else
+      return false;
+  }
+
+  curw += curspacew + w;
+  TimedMessage& line = layoutedLines.Get (layoutedLines.GetSize ()-1);
+  line.message += " ";
+  line.message += word;
+
+  return true;
+}
+
+bool MessageSlot::LayoutNewLine ()
+{
+  return false;
+}
+
 void MessageSlot::LayoutText ()
 {
-  int cx = marginx, cy = marginy;
-  if (sizex > 0) cursizex = sizex; else cursizex = marginx * 2;
-  if (sizey > 0) cursizey = sizey; else cursizey = marginy * 2;
+  int cx = 0, cy = 0;
+  int spacey = 2;
+  if (sizex > 0) cursizex = sizex - marginx * 2; else cursizex = 0;
+  if (sizey > 0) cursizey = sizey - marginy * 2; else cursizey = 0;
 
   layoutedLines.Empty ();
-  for (size_t i = 0 ; i < activeMessages.GetSize () ; i++)
+  for (size_t mi = 0 ; mi < activeMessages.GetSize () ; mi++)
   {
-    TimedMessage& tm = activeMessages.Get (i);
+    TimedMessage& tm = activeMessages.Get (mi);
     csStringArray lines (tm.message, "\n");
+
+    size_t firstline = layoutedLines.GetSize ();
+
     for (size_t l = 0 ; l < lines.GetSize () ; l++)
     {
-      csStringArray words (lines.Get (l), " ", csStringArray::delimIgnore);
+      csString line = lines.Get (l);
+      int w, h;
+      tm.font->GetDimensions (line, w, h);
+      if (cy + spacey + h >= cursizey)
+      {
+	if (sizey <= 0 && cy + spacey + h < maxsizey)
+	{
+	  // We can extend our vertical space.
+	  cursizey = cy + spacey + h;
+	}
+	else
+	{
+	  // No more vertical room. If we have more lines in this message
+	  // then we go back and mark all layouted lines as not complete
+	  // so that we know that they don't have to fade away.
+	  if (l > 0)
+	  {
+	    tm.complete = false;
+	    for (size_t i = firstline ; i < layoutedLines.GetSize () ; i++)
+	      layoutedLines.Get (i).complete = false;
+	  }
+	  break;
+	}
+      }
+
+      csStringArray words (line, " ", csStringArray::delimIgnore);
       for (size_t w = 0 ; w < words.GetSize () ; w++)
 	//@@@
 	;
