@@ -67,6 +67,10 @@ csPtr<iReward> celNewStateRewardFactory::CreateReward (iQuest* q,
 
 bool celNewStateRewardFactory::Save (iDocumentNode* node)
 {
+  if (!state_par.IsEmpty ()) node->SetAttribute ("state", state_par);
+  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!class_par.IsEmpty ()) node->SetAttribute ("class", class_par);
+  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
   return true;
 }
 
