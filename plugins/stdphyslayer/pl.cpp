@@ -397,6 +397,10 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
   celData ret;
   if (!pc->PerformAction (act.id, converted_params, ret))
   {
+    printf ("Error performing '%s' in '%s' for entity '%s' from factory '%s'!",
+          FetchString(act.id), pc->GetName (), ent->GetName (),
+          factory->GetName ());
+    fflush (stdout);
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	  "crystalspace.cel.physicallayer",
 	  "Error performing '%s' in '%s' for entity '%s' from factory '%s'!",
