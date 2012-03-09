@@ -218,13 +218,37 @@ void MessageSlot::Message (const char* msg, float timeout, float fadetime,
       }
     }
   }
+printf ("activeMessages %s\n", msg); fflush (stdout);
   activeMessages.Push (TimedMessage (msg, timeout, fadetime, font, color));
   LayoutText ();
 }
 
+void MessageSlot::CheckMessages ()
+{
+  if (queuedMessages.GetSize () > 0)
+  {
+    while (queuedMessages.GetSize () > 0 && activeMessages.GetSize () < size_t (maxmessages))
+    {
+      activeMessages.Push (queuedMessages.Get (0));
+      queuedMessages.DeleteIndex (0);
+    }
+  }
+  size_t i = 0;
+  while (i < activeMessages.GetSize ())
+  {
+    if (activeMessages.Get (i).completedLines == ALL_LINES)
+      activeMessages.DeleteIndex (0);
+    else
+      i++;
+  }
+}
+
 void MessageSlot::HandleElapsed (float elapsed)
 {
+printf ("layoutedLines.GetSize()=%d\n", layoutedLines.GetSize()); fflush (stdout);
   if (layoutedLines.GetSize () == 0) return;
+  CheckMessages ();
+
   LayoutedLine& line = layoutedLines.Get (0);
   line.timeleft -= elapsed;
   if (line.timeleft <= 0)
@@ -261,6 +285,7 @@ void MessageSlot::Render (iGraphics3D* g3d, iGraphics2D* g2d)
   for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
   {
     const LayoutedLine& ll = layoutedLines.Get (i);
+    printf ("    %d: pos=%d,%d  line=%s\n", i, cx, cy, ll.line.GetData ());
     g2d->Write (ll.font, cx, cy, ll.color, -1, ll.line);
     cy += ll.h + LINE_MARGIN;
   }
@@ -538,16 +563,20 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 
 MessageType* celPcMessenger::GetType (const char* type) const
 {
+  csString st = type;
   for (size_t i = 0 ; i < types.GetSize () ; i++)
-    if (types[i]->GetType () == type)
+  {
+    if (st == types[i]->GetType ())
       return types[i];
+  }
   return 0;
 }
 
 MessageSlot* celPcMessenger::GetSlot (const char* name) const
 {
+  csString sn = name;
   for (size_t i = 0 ; i < slots.GetSize () ; i++)
-    if (slots[i]->GetName () == name)
+    if (sn == slots[i]->GetName ())
       return slots[i];
   return 0;
 }
@@ -599,8 +628,13 @@ void celPcMessenger::DefineType (const char* type, const char* slotName,
 void celPcMessenger::Message (const char* type, const char* id,
       const csStringArray& msgs)
 {
+printf ("Message %s/%s\n", type, id); fflush (stdout);
   MessageType* mt = GetType (type);
-  if (!mt) return;
+  if (!mt)
+  {
+    printf ("Warning! Can't find message type '%s'!\n", type);
+    return;
+  }
   if (mt->GetDoLog ())
   {
     // @@@ Keep message.

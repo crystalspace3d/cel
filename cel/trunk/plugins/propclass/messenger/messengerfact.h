@@ -133,6 +133,9 @@ private:
 
   csArray<TimedMessage> activeMessages;
   csArray<TimedMessage> queuedMessages;
+  // Activate messages and clean up already displayed
+  // previous messages.
+  void CheckMessages ();
 
   int curw, curh;			// Current line width and height.
   int curspacew;			// Current width of a space.
@@ -142,6 +145,8 @@ private:
   bool LayoutNewLine (const TimedMessage& tm);
   bool LayoutLine (const TimedMessage& tm, const char* line);
   bool LayoutMessage (TimedMessage& tm);
+
+  // Update the layouted text with new lines.
   void LayoutText ();
 
 public:
