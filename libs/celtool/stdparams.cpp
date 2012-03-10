@@ -647,6 +647,19 @@ bool celParameterTools::ParseParSpecBlock (iObjectRegistry* object_reg,
 	parameters.Push (celParSpec (CEL_DATA_STRING, id, str_value));
 	continue;
       }
+      const char* col3_value = child->GetAttributeValue ("color3");
+      if (!col3_value) col3_value = child->GetAttributeValue ("color");
+      if (col3_value)
+      {
+	parameters.Push (celParSpec (CEL_DATA_COLOR, id, col3_value));
+	continue;
+      }
+      const char* col4_value = child->GetAttributeValue ("color4");
+      if (col4_value)
+      {
+	parameters.Push (celParSpec (CEL_DATA_COLOR4, id, col4_value));
+	continue;
+      }
       const char* vec3_value = child->GetAttributeValue ("vector3");
       if (!vec3_value) vec3_value = child->GetAttributeValue ("vector");
       if (vec3_value)
