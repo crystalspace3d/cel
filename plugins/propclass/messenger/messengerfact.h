@@ -27,6 +27,7 @@
 #include "ivideo/graph3d.h"
 #include "csutil/scf.h"
 #include "csutil/parray.h"
+#include "cstool/pen.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
@@ -107,7 +108,7 @@ struct LayoutedLine
   int color;
 
   int y;	// y position relative to top-left corner (inside margin).
-  int h;	// Height of this line.
+  int w, h;	// Width and height of this line.
 
   LayoutedLine (const char* line, float timeleft, float fadetime, iFont* font,
       int color)
@@ -118,9 +119,16 @@ struct LayoutedLine
 class MessageSlot
 {
 private:
+  iGraphics3D* g3d;
   csString name;
-  csVector2 position;
-  MessageLocationAnchor positionAnchor;
+
+  csVector2 position;		// Position relative to anchor.
+  MessageLocationAnchor boxAnchor;
+  MessageLocationAnchor screenAnchor;
+  csVector2 finalPosition;	// Final position depending on size.
+
+  csPen* boxPen;
+  csPen* borderPen;
   csColor4 boxColor;
   csColor4 borderColor;
   int borderWidth;
@@ -137,7 +145,7 @@ private:
   // previous messages.
   void CheckMessages ();
 
-  int curw, curh;			// Current line width and height.
+  int curh;				// Current used height.
   int curspacew;			// Current width of a space.
   int cursizex, cursizey;		// Current size without margins.
   csArray<LayoutedLine> layoutedLines;	// Layouted lines.
@@ -149,15 +157,22 @@ private:
   // Update the layouted text with new lines.
   void LayoutText ();
 
+  // Initialize the layout to empty.
+  void InitEmpty ();
+
 public:
-  MessageSlot (const char* name,
-      const csVector2& position, MessageLocationAnchor positionAnchor,
+  MessageSlot (iGraphics3D* g3d, const char* name,
+      const csVector2& position,
+      MessageLocationAnchor boxAnchor,
+      MessageLocationAnchor screenAnchor,
       int sizex, int sizey, int maxsizex, int maxsizey,
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,
       int borderWidth, int maxmessages, 
       bool queue, float boxfadetime) :
-    name (name), position (position), positionAnchor (positionAnchor),
+    g3d (g3d),
+    name (name), position (position),
+    boxAnchor (boxAnchor), screenAnchor (screenAnchor),
     boxColor (boxColor), borderColor (borderColor),
     borderWidth (borderWidth),
     sizex (sizex), sizey (sizey), maxsizex (maxsizex), maxsizey (maxsizey),
@@ -165,8 +180,13 @@ public:
     maxmessages (maxmessages),
     queue (queue), boxfadetime (boxfadetime)
   {
-    curw = curh = 0;
+    InitEmpty ();
+    boxPen = 0;
+    borderPen = 0;
   }
+  ~MessageSlot ();
+
+  void InitPen ();
 
   const char* GetName () const { return name; }
 
@@ -174,7 +194,9 @@ public:
       int color);
 
   void HandleElapsed (float elapsed);
-  void Render (iGraphics3D* g3d, iGraphics2D* g2d);
+  void Render3D (iGraphics3D* g3d, iGraphics2D* g2d);
+  void Render2D (iGraphics3D* g3d, iGraphics2D* g2d);
+  bool Needs3DRender ();
 };
 
 //---------------------------------------------------------------------------
@@ -236,7 +258,8 @@ private:
   static csStringID id_slot;
   static csStringID id_id;
   static csStringID id_position;
-  static csStringID id_positionanchor;
+  static csStringID id_boxanchor;
+  static csStringID id_screenanchor;
   static csStringID id_msg1;
   static csStringID id_msg2;
   static csStringID id_msg3;
@@ -297,7 +320,9 @@ public:
   MessageLog* GetMessageLog (const char* type);
 
   virtual void DefineSlot (const char* name,
-      const csVector2& position, MessageLocationAnchor positionAnchor,
+      const csVector2& position,
+      MessageLocationAnchor boxAnchor,
+      MessageLocationAnchor screenAnchor,
       int sizex, int sizey, int maxsizex, int maxsizey,
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,

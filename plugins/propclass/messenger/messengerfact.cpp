@@ -65,12 +65,39 @@ public:
 
 //---------------------------------------------------------------------------
 
+MessageSlot::~MessageSlot ()
+{
+  delete boxPen;
+  delete borderPen;
+}
+
+void MessageSlot::InitPen ()
+{
+  delete boxPen; boxPen = 0;
+  delete borderPen; borderPen = 0;
+  if (boxColor.alpha > 0.01f)
+  {
+    boxPen = new csPen (g3d->GetDriver2D (), g3d);
+    boxPen->SetFlag (CS_PEN_FILL);
+    boxPen->SetColor (boxColor);
+  }
+  if (borderColor.alpha > 0.01f && borderWidth > 0)
+  {
+    borderPen = new csPen (g3d->GetDriver2D (), g3d);
+    borderPen->SetColor (borderColor);
+    borderPen->SetPenWidth (borderWidth / 10.0f);
+  }
+}
+
 bool MessageSlot::LayoutWord (const TimedMessage& tm, const char* word)
 {
   int w, h;
   tm.font->GetDimensions (word, w, h);
 
-  int neww = curw + curspacew + w;
+  LayoutedLine& line = layoutedLines.Get (layoutedLines.GetSize ()-1);
+  int neww = line.w + w;
+  if (line.w > 0)
+    neww += curspacew;
 
   if (neww > cursizex)
   {
@@ -84,10 +111,10 @@ bool MessageSlot::LayoutWord (const TimedMessage& tm, const char* word)
       return false;
   }
 
-  curw = neww;
-  LayoutedLine& line = layoutedLines.Get (layoutedLines.GetSize ()-1);
-  line.line += " ";
+  if (line.w > 0)
+    line.line += " ";
   line.line += word;
+  line.w = neww;
 
   return true;
 }
@@ -96,7 +123,13 @@ bool MessageSlot::LayoutWord (const TimedMessage& tm, const char* word)
 
 bool MessageSlot::LayoutNewLine (const TimedMessage& tm)
 {
-  int newh = curh + LINE_MARGIN + curh;
+  int w, h;
+  tm.font->GetDimensions ("abcghijklABDGHIJKLM0123456789,!?", w, h);
+  int margin = 0;
+  if (layoutedLines.GetSize () > 0)
+    margin = LINE_MARGIN;
+  int newh = curh + margin + h;
+
   if (newh > cursizey)
   {
     // Not enough room. Can we extend?
@@ -116,21 +149,19 @@ bool MessageSlot::LayoutNewLine (const TimedMessage& tm)
   if (timeleft < 0.0f) timeleft = 0.0f;
 
   LayoutedLine layoutline ("", timeleft, tm.fadetime, tm.font, tm.color);
-  layoutline.y = curh + LINE_MARGIN;
+  layoutline.y = curh + margin;
+  layoutline.w = 0;
+  layoutline.h = h;
   layoutedLines.Push (layoutline);
   curh = newh;
-  curw = 0;
   return true;
 }
 
 bool MessageSlot::LayoutLine (const TimedMessage& tm, const char* line)
 {
-  int w;
-  tm.font->GetDimensions (line, w, curh);
-  if (LayoutNewLine (tm))
+  if (!LayoutNewLine (tm))
     return false;
 
-  curw = 0;
   csStringArray words (line, " ", csStringArray::delimIgnore);
   for (size_t w = 0 ; w < words.GetSize () ; w++)
   {
@@ -139,7 +170,6 @@ bool MessageSlot::LayoutLine (const TimedMessage& tm, const char* line)
       // No more room for this line.
       if (!LayoutNewLine (tm))
 	return false;
-      curw = 0;
       if (!LayoutWord (tm, words.Get (w)))
       {
 	// Still doesn't fit. The word may simply be too big. We just
@@ -170,7 +200,7 @@ bool MessageSlot::LayoutMessage (TimedMessage& tm)
       // that we managed to layout as incomplete.
       for (size_t i = firstline ; i < layoutedLines.GetSize () ; i++)
 	layoutedLines.Get (i).fadetime = 0.0f;
-      tm.completedLines = l;
+      tm.completedLines = l+1;
       return false;
     }
   }
@@ -178,24 +208,57 @@ bool MessageSlot::LayoutMessage (TimedMessage& tm)
   return true;
 }
 
-void MessageSlot::LayoutText ()
+void MessageSlot::InitEmpty ()
 {
   if (sizex > 0) cursizex = sizex - marginx * 2; else cursizex = 0;
   if (sizey > 0) cursizey = sizey - marginy * 2; else cursizey = 0;
+  layoutedLines.Empty ();
+  curh = 0;
+}
+
+void MessageSlot::LayoutText ()
+{
+  if (layoutedLines.IsEmpty ())
+    InitEmpty ();
 
   for (size_t mi = 0 ; mi < activeMessages.GetSize () ; mi++)
   {
     TimedMessage& tm = activeMessages.Get (mi);
     if (tm.completedLines != ALL_LINES)
-    {
-      if (!LayoutMessage (tm))
-      {
-        // The message did not fit. tm.completedLines will be updated
-        // with the number of lines that we did manage to display.
-	// return;
-      }
-    }
+      LayoutMessage (tm);
   }
+
+  int swidth = g3d->GetWidth ();
+  int sheight = g3d->GetHeight ();
+  int sx = swidth / 2, sy = sheight / 2;
+  switch (screenAnchor)
+  {
+    case ANCHOR_CENTER:                                            break;
+    case ANCHOR_NORTH:                         sy = 0;             break;
+    case ANCHOR_NORTHWEST: sx = 0;             sy = 0;             break;
+    case ANCHOR_WEST:      sx = 0;                                 break;
+    case ANCHOR_SOUTHWEST: sx = 0;             sy = sheight;       break;
+    case ANCHOR_SOUTH:                         sy = sheight;       break;
+    case ANCHOR_SOUTHEAST: sx = swidth;        sy = sheight;       break;
+    case ANCHOR_EAST:      sx = swidth;                            break;
+    case ANCHOR_NORTHEAST: sx = swidth;        sy = 0;             break;
+    default: break;
+  }
+  int cx = sx + position.x, cy = sy + position.y;
+  switch (boxAnchor)
+  {
+    case ANCHOR_CENTER:    cx -= cursizex / 2; cy -= cursizey / 2; break;
+    case ANCHOR_NORTH:     cx -= cursizex / 2;                     break;
+    case ANCHOR_NORTHWEST:                                         break;
+    case ANCHOR_WEST:                          cy -= cursizey / 2; break;
+    case ANCHOR_SOUTHWEST:                     cy -= cursizey;     break;
+    case ANCHOR_SOUTH:     cx -= cursizex / 2; cy -= cursizey;     break;
+    case ANCHOR_SOUTHEAST: cx -= cursizex;     cy -= cursizey;     break;
+    case ANCHOR_EAST:      cx -= cursizex;     cy -= cursizey / 2; break;
+    case ANCHOR_NORTHEAST: cx -= cursizex;                         break;
+    default: break;
+  }
+  finalPosition.Set (cx, cy);
 }
 
 void MessageSlot::Message (const char* msg, float timeout, float fadetime,
@@ -245,8 +308,8 @@ void MessageSlot::CheckMessages ()
 
 void MessageSlot::HandleElapsed (float elapsed)
 {
-printf ("layoutedLines.GetSize()=%d\n", layoutedLines.GetSize()); fflush (stdout);
   if (layoutedLines.GetSize () == 0) return;
+printf ("layoutedLines.GetSize()=%d\n", layoutedLines.GetSize()); fflush (stdout);
   CheckMessages ();
 
   LayoutedLine& line = layoutedLines.Get (0);
@@ -266,26 +329,30 @@ printf ("layoutedLines.GetSize()=%d\n", layoutedLines.GetSize()); fflush (stdout
   }
 }
 
-void MessageSlot::Render (iGraphics3D* g3d, iGraphics2D* g2d)
+bool MessageSlot::Needs3DRender ()
 {
-  int cx = position.x, cy = position.y;
-  switch (positionAnchor)
+  return boxPen || borderPen;
+}
+
+void MessageSlot::Render3D (iGraphics3D* g3d, iGraphics2D* g2d)
+{
+  int cx = finalPosition.x-marginx, cy = finalPosition.y-marginy;
+  if (boxPen)
   {
-    case ANCHOR_CENTER:    cx -= cursizex / 2; cy -= cursizey / 2; break;
-    case ANCHOR_NORTH:     cx -= cursizex / 2;                     break;
-    case ANCHOR_NORTHWEST:                                         break;
-    case ANCHOR_WEST:                          cy -= cursizey / 2; break;
-    case ANCHOR_SOUTHWEST:                     cy -= cursizey;     break;
-    case ANCHOR_SOUTH:     cx -= cursizex / 2; cy -= cursizey;     break;
-    case ANCHOR_SOUTHEAST: cx -= cursizex;     cy -= cursizey;     break;
-    case ANCHOR_EAST:      cx -= cursizex;     cy -= cursizey / 2; break;
-    case ANCHOR_NORTHEAST: cx -= cursizex;                         break;
-    default: break;
+    boxPen->DrawRect (cx, cy, cx+cursizex+marginx*2, cy+cursizey+marginy*2);
   }
+  if (borderPen)
+  {
+    borderPen->DrawRect (cx, cy, cx+cursizex+marginx*2, cy+cursizey+marginy*2);
+  }
+}
+
+void MessageSlot::Render2D (iGraphics3D* g3d, iGraphics2D* g2d)
+{
+  int cx = finalPosition.x, cy = finalPosition.y;
   for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
   {
     const LayoutedLine& ll = layoutedLines.Get (i);
-    printf ("    %d: pos=%d,%d  line=%s\n", i, cx, cy, ll.line.GetData ());
     g2d->Write (ll.font, cx, cy, ll.color, -1, ll.line);
     cy += ll.h + LINE_MARGIN;
   }
@@ -299,7 +366,8 @@ csStringID celPcMessenger::id_type = csInvalidStringID;
 csStringID celPcMessenger::id_slot = csInvalidStringID;
 csStringID celPcMessenger::id_id = csInvalidStringID;
 csStringID celPcMessenger::id_position = csInvalidStringID;
-csStringID celPcMessenger::id_positionanchor = csInvalidStringID;
+csStringID celPcMessenger::id_boxanchor = csInvalidStringID;
+csStringID celPcMessenger::id_screenanchor = csInvalidStringID;
 csStringID celPcMessenger::id_msg1 = csInvalidStringID;
 csStringID celPcMessenger::id_msg2 = csInvalidStringID;
 csStringID celPcMessenger::id_msg3 = csInvalidStringID;
@@ -345,7 +413,8 @@ celPcMessenger::celPcMessenger (iObjectRegistry* object_reg)
     id_slot = pl->FetchStringID ("slot");
     id_id = pl->FetchStringID ("id");
     id_position = pl->FetchStringID ("position");
-    id_positionanchor = pl->FetchStringID ("positionanchor");
+    id_boxanchor = pl->FetchStringID ("boxanchor");
+    id_screenanchor = pl->FetchStringID ("screenanchor");
     id_msg1 = pl->FetchStringID ("msg1");
     id_msg2 = pl->FetchStringID ("msg2");
     id_msg3 = pl->FetchStringID ("msg3");
@@ -403,7 +472,7 @@ static MessageLocationAnchor StringToAnchor (const char* s)
 {
   csString str = s;
   str.Downcase ();
-  if (str == "c" || str == "center") return ANCHOR_CENTER;
+  if (str == "" || str == "c" || str == "center") return ANCHOR_CENTER;
   else if (str == "n" || str == "north") return ANCHOR_NORTH;
   else if (str == "nw" || str == "northwest") return ANCHOR_NORTHWEST;
   else if (str == "w" || str == "west") return ANCHOR_WEST;
@@ -442,9 +511,14 @@ bool celPcMessenger::PerformActionIndexed (int idx,
         if (!p_name) return false;
         CEL_FETCH_VECTOR2_PAR (position,params,id_position);
         if (!p_position) return false;
-        CEL_FETCH_STRING_PAR (positionAnchor,params,id_positionanchor);
-	MessageLocationAnchor anchor = StringToAnchor (positionAnchor);
-	if (anchor == ANCHOR_INVALID) return false;
+
+        CEL_FETCH_STRING_PAR (boxAnchor,params,id_boxanchor);
+	MessageLocationAnchor boxAnchorV = StringToAnchor (boxAnchor);
+	if (boxAnchorV == ANCHOR_INVALID) return false;
+        CEL_FETCH_STRING_PAR (screenAnchor,params,id_screenanchor);
+	MessageLocationAnchor screenAnchorV = StringToAnchor (screenAnchor);
+	if (screenAnchorV == ANCHOR_INVALID) return false;
+
 	CEL_FETCH_LONG_PAR (sizex,params,id_sizex);
 	if (!p_sizex) sizex = -1;
 	CEL_FETCH_LONG_PAR (sizey,params,id_sizey);
@@ -470,7 +544,8 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	CEL_FETCH_FLOAT_PAR (boxfadetime,params,id_boxfadetime);
 	if (!p_boxfadetime) boxfadetime = 0.0f;
 
-	DefineSlot (name, position, anchor, sizex, sizey, maxsizex, maxsizey,
+	DefineSlot (name, position, boxAnchorV, screenAnchorV,
+	    sizex, sizey, maxsizex, maxsizey,
 	    marginx, marginy, boxColor, borderColor,
 	    borderWidth, maxmessages, queue, boxfadetime);
         return true;
@@ -582,16 +657,20 @@ MessageSlot* celPcMessenger::GetSlot (const char* name) const
 }
 
 void celPcMessenger::DefineSlot (const char* name,
-      const csVector2& position, MessageLocationAnchor positionAnchor,
+      const csVector2& position,
+      MessageLocationAnchor boxAnchor,
+      MessageLocationAnchor screenAnchor,
       int sizex, int sizey, int maxsizex, int maxsizey,
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,
       int borderWidth, int maxmessages, 
       bool queue, float boxfadetime)
 {
-  MessageSlot* slot = new MessageSlot (name, position, positionAnchor,
+  MessageSlot* slot = new MessageSlot (g3d, name, position,
+      boxAnchor, screenAnchor,
       sizex, sizey, maxsizex, maxsizey, marginx, marginy, boxColor,
       borderColor, borderWidth, maxmessages, queue, boxfadetime);
+  slot->InitPen ();
   slots.Push (slot);
 }
 
@@ -600,7 +679,6 @@ void celPcMessenger::DefineType (const char* type, const char* slotName,
       float timeout, float fadetime, bool click, bool log,
       CycleType cyclefirst, CycleType cyclenext)
 {
-  csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
   iGraphics2D* g2d = g3d->GetDriver2D ();
   iFontServer* fontServ = g2d->GetFontServer ();
 
@@ -710,13 +788,24 @@ void celPcMessenger::TickEveryFrame ()
 {
   float elapsed = vc->GetElapsedSeconds ();
 
-  g3d->BeginDraw (CSDRAW_2DGRAPHICS);
-
+  bool needs3d = false;
   for (size_t i = 0 ; i < slots.GetSize () ; i++)
   {
     slots[i]->HandleElapsed (elapsed);
-    slots[i]->Render (g3d, g3d->GetDriver2D ());
+    if (slots[i]->Needs3DRender ())
+      needs3d = true;
   }
+
+  if (needs3d)
+  {
+    g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+    for (size_t i = 0 ; i < slots.GetSize () ; i++)
+      slots[i]->Render3D (g3d, g3d->GetDriver2D ());
+  }
+
+  g3d->BeginDraw (CSDRAW_2DGRAPHICS);
+  for (size_t i = 0 ; i < slots.GetSize () ; i++)
+    slots[i]->Render2D (g3d, g3d->GetDriver2D ());
 }
 
 //---------------------------------------------------------------------------
