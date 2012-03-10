@@ -73,7 +73,8 @@ struct iMessageLogIterator : public virtual iBase
  * has the following properties:
  * - name
  * - position (x,y)
- * - positionAnchor: c, nw, n, ne, e, se, s, sw, w
+ * - boxanchor: c, nw, n, ne, e, se, s, sw, w
+ * - screenanchor: c, nw, n, ne, e, se, s, sw, w
  * - sizex: if given then this box has a fixed horizontal size.
  * - sizey: if given then this box has a fixed vertical size.
  * - maxsizex: maximum horizontal size (not used if size is fixed).
@@ -128,7 +129,8 @@ struct iMessageLogIterator : public virtual iBase
  * - DefineSlot: parameters:
  *       'name' (string)
  *       'position' (string, 'x,y')
- *       'positionAnchor' (string, one of c, nw, n, ne, e, se, s, sw, w)
+ *       'boxanchor' (string, one of c, nw, n, ne, e, se, s, sw, w)
+ *       'screenanchor' (string, one of c, nw, n, ne, e, se, s, sw, w)
  *       'sizex' (long, default none)
  *       'sizey' (long, default none)
  *       'maxsizex' (long, default none)
@@ -175,7 +177,9 @@ struct iPcMessenger : public virtual iBase
    * If integer parameters are -1 they are considered as 'not given'.
    */
   virtual void DefineSlot (const char* name,
-      const csVector2& position, MessageLocationAnchor positionAnchor,
+      const csVector2& position,
+      MessageLocationAnchor boxAnchor,
+      MessageLocationAnchor screenAnchor,
       int sizex, int sizey, int maxsizex, int maxsizey,
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,
