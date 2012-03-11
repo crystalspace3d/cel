@@ -506,43 +506,38 @@ bool celPcMessenger::PerformActionIndexed (int idx,
   {
     case action_defineslot:
       {
-	// @@@ Error reporting.
-        CEL_FETCH_STRING_PAR (name,params,id_name);
-        if (!p_name) return false;
-        CEL_FETCH_VECTOR2_PAR (position,params,id_position);
-        if (!p_position) return false;
+	csString name, boxAnchor, screenAnchor;
+	csVector2 position;
+	if (!Fetch (name, params, id_name)) return false;
 
-        CEL_FETCH_STRING_PAR (boxAnchor,params,id_boxanchor);
+	if (!Fetch (position, params, id_position)) return false;
+	if (!Fetch (boxAnchor, params, id_boxanchor, "c")) return false;
+	if (!Fetch (screenAnchor, params, id_screenanchor, "c")) return false;
 	MessageLocationAnchor boxAnchorV = StringToAnchor (boxAnchor);
 	if (boxAnchorV == ANCHOR_INVALID) return false;
-        CEL_FETCH_STRING_PAR (screenAnchor,params,id_screenanchor);
 	MessageLocationAnchor screenAnchorV = StringToAnchor (screenAnchor);
 	if (screenAnchorV == ANCHOR_INVALID) return false;
 
-	CEL_FETCH_LONG_PAR (sizex,params,id_sizex);
-	if (!p_sizex) sizex = -1;
-	CEL_FETCH_LONG_PAR (sizey,params,id_sizey);
-	if (!p_sizey) sizey = -1;
-	CEL_FETCH_LONG_PAR (maxsizex,params,id_maxsizex);
-	if (!p_maxsizex) maxsizex = -1;
-	CEL_FETCH_LONG_PAR (maxsizey,params,id_maxsizey);
-	if (!p_maxsizey) maxsizey = -1;
-	CEL_FETCH_LONG_PAR (marginx,params,id_marginx);
-	if (!p_marginx) marginx = 5;
-	CEL_FETCH_LONG_PAR (marginy,params,id_marginy);
-	if (!p_marginy) marginy = 3;
-	CEL_FETCH_COLOR4_PAR (boxColor,params,id_boxcolor);
-	if (!p_boxColor) boxColor.Set (0, 0, 0, 0);
-	CEL_FETCH_COLOR4_PAR (borderColor,params,id_bordercolor);
-	if (!p_borderColor) borderColor.Set (0, 0, 0, 0);
-	CEL_FETCH_LONG_PAR (borderWidth,params,id_borderwidth);
-	if (!p_borderWidth) borderWidth = 0;
-	CEL_FETCH_LONG_PAR (maxmessages,params,id_maxmessages);
-	if (!p_maxmessages) maxmessages = 1000000000;
-	CEL_FETCH_BOOL_PAR (queue,params,id_queue);
-	if (!p_queue) queue = true;
-	CEL_FETCH_FLOAT_PAR (boxfadetime,params,id_boxfadetime);
-	if (!p_boxfadetime) boxfadetime = 0.0f;
+	long sizex, sizey, maxsizex, maxsizey, marginx, marginy;
+	if (!Fetch (sizex, params, id_sizex, true, -1)) return false;
+	if (!Fetch (sizey, params, id_sizey, true, -1)) return false;
+	if (!Fetch (maxsizex, params, id_maxsizex, true, -1)) return false;
+	if (!Fetch (maxsizey, params, id_maxsizey, true, -1)) return false;
+	if (!Fetch (marginx, params, id_marginx, true, 5)) return false;
+	if (!Fetch (marginy, params, id_marginy, true, 3)) return false;
+
+	csColor4 boxColor, borderColor;
+	if (!Fetch (boxColor, params, id_boxcolor, true)) return false;
+	if (!Fetch (borderColor, params, id_bordercolor, true)) return false;
+
+	long borderWidth, maxmessages;
+	if (!Fetch (borderWidth, params, id_borderwidth, true, 0)) return false;
+	if (!Fetch (maxmessages, params, id_maxmessages, true, 1000000000)) return false;
+
+	bool queue;
+	if (!Fetch (queue, params, id_queue, true, true)) return false;
+	float boxfadetime;
+	if (!Fetch (boxfadetime, params, id_boxfadetime, true, 0.0f)) return false;
 
 	DefineSlot (name, position, boxAnchorV, screenAnchorV,
 	    sizex, sizey, maxsizex, maxsizey,

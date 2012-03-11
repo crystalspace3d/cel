@@ -205,6 +205,162 @@ public:
     return true;
   }
 
+  static const char* GetTypeName (celDataType type)
+  {
+    switch (type)
+    {
+      case CEL_DATA_STRING: return "string";
+      case CEL_DATA_LONG: return "long";
+      case CEL_DATA_BOOL: return "bool";
+      case CEL_DATA_FLOAT: return "float";
+      case CEL_DATA_VECTOR2: return "vector2";
+      case CEL_DATA_VECTOR3: return "vector3";
+      case CEL_DATA_VECTOR4: return "vector4";
+      case CEL_DATA_COLOR: return "color";
+      case CEL_DATA_COLOR4: return "color4";
+      case CEL_DATA_PCLASS: return "pc";
+      default: return "?";
+    }
+  }
+  static bool IsTypeCompatible (celDataType wanted, celDataType have)
+  {
+    if (wanted == have) return true;
+    if (wanted == CEL_DATA_FLOAT && have == CEL_DATA_LONG) return true;
+    if (wanted == CEL_DATA_LONG && have == CEL_DATA_FLOAT) return true;
+    if (wanted == CEL_DATA_BOOL && have == CEL_DATA_LONG) return true;
+    return false;
+  }
+
+  bool CheckTypeCompatible (celDataType wanted, celDataType have,
+      csStringID id)
+  {
+    if (!IsTypeCompatible (have, wanted))
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "Incompatible type for parameter '%s' for property class '%s/%s' and entity '%s'! Expected '%s'!\n",
+	  pl->FetchString (id), GetName (), GetTag (), GetEntity ()->GetName (),
+	  GetTypeName (wanted));
+      return false;
+    }
+    return true;
+  }
+
+  bool CheckData (const celData* data, csStringID id, bool usedef)
+  {
+    if (!data && !usedef)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "Missing parameter '%s' for property class '%s/%s' and entity '%s'!\n",
+	  pl->FetchString (id), GetName (), GetTag (), GetEntity ()->GetName ());
+      return false;
+    }
+    return true;
+  }
+
+  bool Fetch (csString& var, iCelParameterBlock* params, csStringID id,
+      const char* def = 0)
+  {
+    if (!params) return false;
+    const celData* data = params->GetParameter (id);
+    if (!CheckData (data, id, def != 0)) return false;
+    if (!data && def) { var = def; return true; }
+    if (!CheckTypeCompatible (CEL_DATA_STRING, data->type, id)) return false;
+    var = data->value.s->GetData ();
+    return true;
+  }
+  bool Fetch (long& var, iCelParameterBlock* params, csStringID id,
+      bool use_def = false, long def = 0)
+  {
+    if (!params) return false;
+    const celData* data = params->GetParameter (id);
+    if (!CheckData (data, id, use_def)) return false;
+    if (!data && use_def) { var = def; return true; }
+    if (!CheckTypeCompatible (CEL_DATA_LONG, data->type, id)) return false;
+    if (data->type == CEL_DATA_LONG) var = data->value.l;
+    else var = (long)data->value.f;
+    return true;
+  }
+  bool Fetch (float& var, iCelParameterBlock* params, csStringID id,
+      bool use_def = false, float def = 0.0f)
+  {
+    if (!params) return false;
+    const celData* data = params->GetParameter (id);
+    if (!CheckData (data, id, use_def)) return false;
+    if (!data && use_def) { var = def; return true; }
+    if (!CheckTypeCompatible (CEL_DATA_FLOAT, data->type, id)) return false;
+    if (data->type == CEL_DATA_LONG) var = float (data->value.l);
+    else var = data->value.f;
+    return true;
+  }
+  bool Fetch (bool& var, iCelParameterBlock* params, csStringID id,
+      bool use_def = false, bool def = false)
+  {
+    if (!params) return false;
+    const celData* data = params->GetParameter (id);
+    if (!CheckData (data, id, use_def)) return false;
+    if (!data && use_def) { var = def; return true; }
+    if (!CheckTypeCompatible (CEL_DATA_BOOL, data->type, id)) return false;
+    if (data->type == CEL_DATA_BOOL) var = data->value.bo;
+    else var = (bool)data->value.l;
+    return true;
+  }
+  bool Fetch (csVector2& var, iCelParameterBlock* params, csStringID id,
+      bool use_def = false, csVector2 def = csVector2 (0, 0))
+  {
+    if (!params) return false;
+    const celData* data = params->GetParameter (id);
+    if (!CheckData (data, id, use_def)) return false;
+    if (!data && use_def) { var = def; return true; }
+    if (!CheckTypeCompatible (CEL_DATA_VECTOR2, data->type, id)) return false;
+    var.Set (data->value.v.x, data->value.v.y);
+    return true;
+  }
+  bool Fetch (csVector3& var, iCelParameterBlock* params, csStringID id,
+      bool use_def = false, csVector3 def = csVector3 (0, 0, 0))
+  {
+    if (!params) return false;
+    const celData* data = params->GetParameter (id);
+    if (!CheckData (data, id, use_def)) return false;
+    if (!data && use_def) { var = def; return true; }
+    if (!CheckTypeCompatible (CEL_DATA_VECTOR3, data->type, id)) return false;
+    var.Set (data->value.v.x, data->value.v.y, data->value.v.z);
+    return true;
+  }
+  bool Fetch (csVector4& var, iCelParameterBlock* params, csStringID id,
+      bool use_def = false, csVector4 def = csVector4 (0, 0, 0, 0))
+  {
+    if (!params) return false;
+    const celData* data = params->GetParameter (id);
+    if (!CheckData (data, id, use_def)) return false;
+    if (!data && use_def) { var = def; return true; }
+    if (!CheckTypeCompatible (CEL_DATA_VECTOR4, data->type, id)) return false;
+    var.Set (data->value.v.x, data->value.v.y, data->value.v.z, data->value.v.w);
+    return true;
+  }
+  bool Fetch (csColor& var, iCelParameterBlock* params, csStringID id,
+      bool use_def = false, csColor def = csColor (0, 0, 0))
+  {
+    if (!params) return false;
+    const celData* data = params->GetParameter (id);
+    if (!CheckData (data, id, use_def)) return false;
+    if (!data && use_def) { var = def; return true; }
+    if (!CheckTypeCompatible (CEL_DATA_COLOR, data->type, id)) return false;
+    var.Set (data->value.col.red, data->value.col.green, data->value.col.blue);
+    return true;
+  }
+  bool Fetch (csColor4& var, iCelParameterBlock* params, csStringID id,
+      bool use_def = false, csColor4 def = csColor4 (0, 0, 0, 0))
+  {
+    if (!params) return false;
+    const celData* data = params->GetParameter (id);
+    if (!CheckData (data, id, use_def)) return false;
+    if (!data && use_def) { var = def; return true; }
+    if (!CheckTypeCompatible (CEL_DATA_COLOR4, data->type, id)) return false;
+    var.Set (data->value.col.red, data->value.col.green, data->value.col.blue,
+	data->value.col.alpha);
+    return true;
+  }
+
   virtual void SetTag (const char* tagname);
   virtual const char* GetTag () const { return tag; }
 
