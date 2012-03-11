@@ -413,9 +413,9 @@ bool celPcProperties::PerformActionIndexed (int idx,
       {
 	csString name, value_s;
 	if (!Fetch (name, params, id_name)) return false;
-	if (!Fetch (value_s, params, id_value, true, "")) return false;
-	if (!value_s.IsEmpty ())
-        {
+	if (ParExists (CEL_DATA_STRING, params, id_value))
+	{
+	  if (!Fetch (value_s, params, id_value)) return false;
           SetProperty (name, (const char*)value_s);
           return true;
         }
