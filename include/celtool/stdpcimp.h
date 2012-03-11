@@ -264,7 +264,7 @@ public:
     if (!params) return false;
     const celData* data = params->GetParameter (id);
     if (!data) return false;
-    return IsTypeCompatible (data->type, type);
+    return data->type == type;
   }
 
   bool Fetch (csString& var, iCelParameterBlock* params, csStringID id,
