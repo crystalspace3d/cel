@@ -97,8 +97,8 @@ bool celPcTest::PerformActionIndexed (int idx,
   {
     case action_print:
       {
-        CEL_FETCH_STRING_PAR (msg,params,id_message);
-        if (!p_msg) return false;
+	csString msg;
+	if (!Fetch (msg, params, id_message)) return false;
         Print (msg);
         return true;
       }

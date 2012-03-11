@@ -379,8 +379,9 @@ bool celPcWheeled::PerformActionIndexed (int idx,
   {
   case action_setwheelmesh:
     {
-      CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
-      CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
+      csString factname, filename;
+      if (!Fetch (factname, params, param_meshfact, true, "")) return false;
+      if (!Fetch (filename, params, param_meshfile, true, "")) return false;
       SetWheelMesh(factname,filename);
       return true;
     }
@@ -388,13 +389,10 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     {
       CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
       CEL_FETCH_VECTOR3_PAR (rotation,params, param_rotation);
-      CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
-      CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
+      csString factname, filename;
+      if (!Fetch (factname, params, param_meshfact, true, "")) return false;
+      if (!Fetch (filename, params, param_meshfile, true, "")) return false;
       csQuaternion quat;
-      if(!p_factname)
-        factname = 0;
-      if(!p_filename)
-        filename = 0;
       if (p_rotation)
         quat.SetEulerAngles(rotation);
       
@@ -455,13 +453,10 @@ bool celPcWheeled::PerformActionIndexed (int idx,
         sinvert=false;
       
       CEL_FETCH_VECTOR3_PAR (rotation,params, param_rotation);
-      CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
-      CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
+      csString factname, filename;
+      if (!Fetch (factname, params, param_meshfact, true, "")) return false;
+      if (!Fetch (filename, params, param_meshfile, true, "")) return false;
       csQuaternion quat;
-      if(!p_factname)
-        factname = 0;
-      if(!p_filename)
-        filename = 0;
       if (p_rotation)
         quat.SetEulerAngles(rotation);
       

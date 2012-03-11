@@ -142,25 +142,24 @@ bool celPcLight::PerformActionIndexed (int idx,
   {
     case action_setlight:
       {
-        CEL_FETCH_STRING_PAR (name,params,id_name);
-        if (!name)
-          return Report (object_reg, "'name' parameter missing for the light!");
+	csString name;
+	if (!Fetch (name, params, id_name)) return false;
         SetLight (name);
         return true;
       }
     case action_createlight:
       {
-        CEL_FETCH_STRING_PAR (name,params,id_name);
-        if (!name)
-          return Report (object_reg, "'name' parameter missing for the light!");
+	csString name, sector;
+	if (!Fetch (name, params, id_name)) return false;
+	if (!Fetch (sector, params, id_sector, true, "")) return false;
 	iSector* sectorptr;
-        CEL_FETCH_STRING_PAR (sector,params,id_sector);
-        if (!sector) sectorptr = 0;
+        if (sector.IsEmpty ()) sectorptr = 0;
 	else
 	{
 	  sectorptr = engine->FindSector (sector);
           if (!sectorptr)
-            return Report (object_reg, "Could not find sector '%s''!", sector);
+            return Report (object_reg, "Could not find sector '%s''!",
+		sector.GetData ());
 	}
         CEL_FETCH_VECTOR3_PAR (pos,params,id_pos);
         if (!p_pos)
@@ -186,8 +185,9 @@ bool celPcLight::PerformActionIndexed (int idx,
     case action_movelight:
       {
 	if (!light) return true;
-        CEL_FETCH_STRING_PAR (sector,params,id_sector);
-	if (sector)
+	csString sector;
+	if (!Fetch (sector, params, id_sector, true, "")) return false;
+	if (!sector.IsEmpty ())
 	{
 	  // Sector is specified. If empty then we clear the sector.
 	  if (*sector)
@@ -195,7 +195,7 @@ bool celPcLight::PerformActionIndexed (int idx,
 	    iSector* sectorptr = engine->FindSector (sector);
             if (!sectorptr)
               return Report (object_reg,
-		  "Could not find sector '%s''!", sector);
+		  "Could not find sector '%s''!", sector.GetData ());
 	    iSector* current = light->GetMovable ()->GetSectors ()->Get (0);
 	    if (current)
 	      current->GetLights ()->Remove (light);
@@ -222,19 +222,20 @@ bool celPcLight::PerformActionIndexed (int idx,
     case action_parentmesh:
       {
 	if (!light) return true;
-        CEL_FETCH_STRING_PAR (par_entity,params,id_entity);
+	csString par_entity, par_tag;
+	if (!Fetch (par_entity, params, id_entity, true, "")) return false;
 	iCelEntity* ent;
-        if (!p_par_entity) ent = entity;
+        if (par_entity.IsEmpty ()) ent = entity;
 	else
 	{
 	  ent = pl->FindEntity (par_entity);
 	  if (!ent)
 	    return Report (object_reg, "Can't find entity '%s'!",
-		par_entity);
+		par_entity.GetData ());
 	}
-        CEL_FETCH_STRING_PAR (par_tag,params,id_tag);
+	if (!Fetch (par_tag, params, id_tag, true, "")) return false;
 	csRef<iPcMesh> parent_mesh;
-	if (!p_par_tag)
+	if (par_tag.IsEmpty ())
 	  parent_mesh = celQueryPropertyClassEntity<iPcMesh> (ent);
 	else
 	  parent_mesh = celQueryPropertyClassTag<iPcMesh> (

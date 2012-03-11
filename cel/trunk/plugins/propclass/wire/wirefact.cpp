@@ -146,11 +146,11 @@ bool celPcWire::PerformActionIndexed (int idx,
   {
     case action_addinput:
       {
-        CEL_FETCH_STRING_PAR (mask,params,id_mask);
-        if (!p_mask) return false;
-        CEL_FETCH_STRING_PAR (entity,params,id_entity);
+	csString mask, entity;
+	if (!Fetch (mask, params, id_mask)) return false;
+	if (!Fetch (entity, params, id_entity, true, "")) return false;
 	iCelEntity* ent = this->entity;
-        if (p_entity)
+        if (!entity.IsEmpty ())
 	  ent = pl->FindEntity (entity);
 	// @@@ Error check on ent!
 	AddInput (mask, ent->QueryMessageChannel ());
@@ -158,16 +158,16 @@ bool celPcWire::PerformActionIndexed (int idx,
       }
     case action_addoutput:
       {
-        CEL_FETCH_STRING_PAR (msgid,params,id_msgid);
-        if (!p_msgid) return false;
-        CEL_FETCH_STRING_PAR (entity,params,id_entity);
+	csString msgid, entity;
+	if (!Fetch (msgid, params, id_msgid)) return false;
+	if (!Fetch (entity, params, id_entity, true, "")) return false;
 	iCelEntity* ent = this->entity;
-        if (p_entity)
+        if (!entity.IsEmpty ())
 	{
 	  ent = pl->FindEntity (entity);
 	  if (!ent)
 	  {
-	    printf ("Can't find entity '%s'!\n", entity);
+	    printf ("Can't find entity '%s'!\n", entity.GetData ());
 	    return false;
 	  }
 	}
@@ -178,17 +178,17 @@ bool celPcWire::PerformActionIndexed (int idx,
       {
         CEL_FETCH_LONG_PAR (id,params,id_id);
         if (!p_id) return false;
-        CEL_FETCH_STRING_PAR (dest,params,id_dest);
-        if (!p_dest) return false;
-        CEL_FETCH_STRING_PAR (expression,params,id_expression);
-        if (p_expression)
+	csString dest, expression;
+	if (!Fetch (dest, params, id_dest)) return false;
+	if (!Fetch (expression, params, id_expression, true, "")) return false;
+        if (!expression.IsEmpty ())
 	{
 	  MapParameterExpression (id, dest, expression);
 	}
 	else
 	{
-          CEL_FETCH_STRING_PAR (source,params,id_source);
-          if (!p_source) return false;
+	  csString source;
+	  if (!Fetch (source, params, id_source)) return false;
 	  MapParameter (id, source, dest);
 	}
 	return true;

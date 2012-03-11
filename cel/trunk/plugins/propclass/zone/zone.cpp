@@ -517,9 +517,8 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       return true;
     case action_activateregion:
       {
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for ActivateRegion!");
+	csString regionname;
+	if (!Fetch (regionname, params, id_regionname)) return false;
         iCelRegion* region = FindRegion (regionname);
         if (!region) return  Report (object_reg,
         	"Can't find '%s' region for ActivateRegion!",
@@ -529,49 +528,42 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       }
     case action_load:
       {
-        CEL_FETCH_STRING_PAR (path,params,id_path);
-        CEL_FETCH_STRING_PAR (file,params,id_file);
-        if (!p_file) return Report (object_reg, "File parameter missing for Load action!");
+	csString path, file;
+	if (!Fetch (path, params, id_path, true, "")) return false;
+	if (!Fetch (file, params, id_file)) return false;
         if (!Load (path, file))
           return false;
         return true;
       }
     case action_setloadingmode:
       {
-         CEL_FETCH_STRING_PAR (mode,params,id_mode);
-        if (!p_mode)
-          return Report (object_reg,
-          	"'mode' is missing for SetLoadingMode!");
-        if (!strcmp ("normal", mode))
+	csString mode;
+	if (!Fetch (mode, params, id_mode)) return false;
+        if (mode == "normal")
         {
           SetLoadingMode (CEL_ZONE_NORMAL);
           return true;
         }
-        else if (!strcmp ("keep", mode))
+        else if (mode == "keep")
         {
           SetLoadingMode (CEL_ZONE_KEEP);
           return true;
         }
-        else if (!strcmp ("loadall", mode))
+        else if (mode == "loadall")
         {
           SetLoadingMode (CEL_ZONE_LOADALL);
           return true;
         }
         else
           return Report (object_reg,
-          	"Unknown mode '%s' for SetLoadingMode!", mode);
+          	"Unknown mode '%s' for SetLoadingMode!", mode.GetData ());
       }
     case action_pointmesh:
       {
-        CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-        if (!p_entityname)
-	  return Report (object_reg, "Entity name missing for PointMesh action!");;
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname)
-	  return Report (object_reg, "Region name missing for PointMesh action!");;
-        CEL_FETCH_STRING_PAR (startname,params,id_startname);
-        if (!p_startname)
-	  return Report (object_reg, "Start name missing for PointMesh action!");;
+	csString entityname, regionname, startname;
+	if (!Fetch (entityname, params, id_entityname)) return false;
+	if (!Fetch (regionname, params, id_regionname)) return false;
+	if (!Fetch (startname, params, id_startname)) return false;
         if (PointMesh (entityname, regionname, startname) != CEL_ZONEERROR_OK)
           return Report (object_reg, "PointMesh failed (entity=%s,region=%s,start=%s)!",
 	      (const char*)entityname, (const char*)regionname, (const char*)startname);
@@ -579,24 +571,18 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       }
     case action_pointcamera:
       {
-        CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-        if (!p_entityname)
-	  return Report (object_reg, "Entity name missing for PointCamera action!");;
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname)
-	  return Report (object_reg, "Region name missing for PointCamera action!");;
-        CEL_FETCH_STRING_PAR (startname,params,id_startname);
-        if (!p_startname)
-	  return Report (object_reg, "Start name missing for PointCamera action!");;
+	csString entityname, regionname, startname;
+	if (!Fetch (entityname, params, id_entityname)) return false;
+	if (!Fetch (regionname, params, id_regionname)) return false;
+	if (!Fetch (startname, params, id_startname)) return false;
         if (PointCamera (entityname, regionname, startname) != CEL_ZONEERROR_OK)
           return Report (object_reg, "PointCamera failed!");
         return true;
       }
     case action_createregion:
       {
-        CEL_FETCH_STRING_PAR (regname,params,id_name);
-        if (!p_regname) return Report (object_reg,
-        	"'name' is missing for CreateRegion!");
+	csString regname;
+	if (!Fetch (regname, params, id_name)) return false;
         iCelRegion* region = CreateRegion (regname);
         if (!region) return Report (object_reg,
         	"Can't create region for CreateRegion!");
@@ -604,9 +590,8 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       }
     case action_removeregion:
       {
-        CEL_FETCH_STRING_PAR (regname,params,id_name);
-        if (!p_regname) return Report (object_reg,
-        	"'name' is missing for RemoveRegion!");
+	csString regname;
+	if (!Fetch (regname, params, id_name)) return false;
         iCelRegion* region = FindRegion (regname);
         if (!region) return  Report (object_reg,
         	"Can't find '%s' region for RemoveRegion!",
@@ -615,9 +600,8 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       }
     case action_createzone:
       {
-        CEL_FETCH_STRING_PAR (zoname,params,id_name);
-        if (!p_zoname) return Report (object_reg,
-        	"'name' is missing for CreateZone!");
+	csString zoname;
+	if (!Fetch (zoname, params, id_name)) return false;
         iCelZone* zone = CreateZone (zoname);
         if (!zone) return Report (object_reg,
         	"Can't create zone '%s' for CreateZone!",
@@ -626,9 +610,8 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       }
     case action_removezone:
       {
-        CEL_FETCH_STRING_PAR (zoname,params,id_name);
-        if (!p_zoname) return Report (object_reg,
-        	"'name' is missing for RemoveZone!");
+	csString zoname;
+	if (!Fetch (zoname, params, id_name)) return false;
         iCelZone* zone = FindZone (zoname);
         if (!zone) return  Report (object_reg,
         	"Can't find '%s' zone for RemoveZone!",
@@ -637,18 +620,11 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       }
     case action_createmap:
       {
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for CreateMap!");
-        CEL_FETCH_STRING_PAR (mname,params,id_name);
-        if (!p_mname) return Report (object_reg,
-        	"'name' is missing for CreateMap!");
-        CEL_FETCH_STRING_PAR (path,params,id_path);
-        if (!p_path) return Report (object_reg,
-        	"'path' is missing for CreateMap!");
-        CEL_FETCH_STRING_PAR (filename,params,id_file);
-        if (!p_filename) return Report (object_reg,
-        	"'file' is missing for CreateMap!");
+	csString regionname, mname, path, filename;
+	if (!Fetch (regionname, params, id_regionname)) return false;
+	if (!Fetch (mname, params, id_name)) return false;
+	if (!Fetch (path, params, id_path)) return false;
+	if (!Fetch (filename, params, id_file)) return false;
         iCelRegion* region = FindRegion (regionname);
         if (!region) return  Report (object_reg,
         	"Can't find '%s' region for CreateMap!",
@@ -664,12 +640,9 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       }
     case action_removemap:
       {
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for RemoveMap!");
-        CEL_FETCH_STRING_PAR (mname,params,id_name);
-        if (!p_mname) return Report (object_reg,
-        	"'name' is missing for RemoveMap!");
+	csString regionname, mname;
+	if (!Fetch (regionname, params, id_regionname)) return false;
+	if (!Fetch (mname, params, id_name)) return false;
         iCelRegion* region = FindRegion (regionname);
         if (!region) return  Report (object_reg,
         	"Can't find '%s' region for RemoveMap!",
@@ -682,12 +655,9 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       }
     case action_setcache:
       {
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for SetCache!");
-        CEL_FETCH_STRING_PAR (path,params,id_path);
-        if (!p_path) return Report (object_reg,
-        	"'path' is missing for SetCache!");
+	csString regionname, path;
+	if (!Fetch (regionname, params, id_regionname)) return false;
+	if (!Fetch (path, params, id_path)) return false;
         iCelRegion* region = FindRegion (regionname);
         if (!region) return  Report (object_reg,
         	"Can't find '%s' region for SetCache!",
@@ -697,12 +667,10 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       }
     case action_linkregion:
       {
-        CEL_FETCH_STRING_PAR (zonename,params,id_zonename);
-        if (!p_zonename) return Report (object_reg,
-        	"'zone' is missing for LinkRegion!");
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for LinkRegion!");
+	csString zonename, regionname;
+	if (!Fetch (zonename, params, id_zonename)) return false;
+	if (!Fetch (regionname, params, id_regionname)) return false;
+
         iCelRegion* region = FindRegion (regionname);
         if (!region) return  Report (object_reg,
         	"Can't find '%s' region for LinkRegion!",
@@ -716,12 +684,9 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       }
     case action_unlinkregion:
       {
-        CEL_FETCH_STRING_PAR (zonename,params,id_zonename);
-        if (!p_zonename) return Report (object_reg,
-        	"'zone' is missing for UnlinkRegion!");
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for UnlinkRegion!");
+	csString zonename, regionname;
+	if (!Fetch (zonename, params, id_zonename)) return false;
+	if (!Fetch (regionname, params, id_regionname)) return false;
         iCelRegion* region = FindRegion (regionname);
         if (!region) return  Report (object_reg,
         	"Can't find '%s' region for UnlinkRegion!",

@@ -510,8 +510,8 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       return true;
     case action_setanimation:
     {
-      CEL_FETCH_STRING_PAR (animation,params,id_animation);
-      if (!p_animation) return false;
+      csString animation;
+      if (!Fetch (animation, params, id_animation)) return false;
       CEL_FETCH_BOOL_PAR (anicycle,params,id_anicycle);
       if (!p_anicycle) anicycle = true;
       SetAnimation (animation, anicycle);
@@ -519,10 +519,9 @@ bool celPcActorMove::PerformActionIndexed (int idx,
     }
     case action_setanimationname:
     {
-      CEL_FETCH_STRING_PAR (animationid,params,id_animationid);
-      if (!p_animationid) return false;
-      CEL_FETCH_STRING_PAR (animationname,params,id_animationname);
-      if (!p_animationname) return false;
+      csString animationid, animationname;
+      if (!Fetch (animationid, params, id_animationid)) return false;
+      if (!Fetch (animationname, params, id_animationname)) return false;
 
       celAnimationName animid = static_cast<celAnimationName>(~0);
       if (strcmp(animationid,"idle") == 0)

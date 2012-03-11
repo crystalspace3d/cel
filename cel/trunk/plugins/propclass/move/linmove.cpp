@@ -438,14 +438,13 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
         if (p_yrot)
           yrotation = yrot;
-        CEL_FETCH_STRING_PAR (sector,params,id_sector);
-        if (!sector)
-          return MoveReport (object_reg,
-          	"Missing parameter 'sector' for action SetPosition!");
+	csString sector;
+	if (!Fetch (sector, params, id_sector)) return false;
         iSector* sect = engine->FindSector (sector);
         if (!sect)
           return MoveReport (object_reg,
-          	"Can't find sector '%s' for action SetPosition!", sector);
+          	"Can't find sector '%s' for action SetPosition!",
+		sector.GetData ());
         const celData* p_position = params->GetParameter (id_position);
         if (!p_position)
           return MoveReport (object_reg,

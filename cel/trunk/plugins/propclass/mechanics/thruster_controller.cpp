@@ -88,12 +88,8 @@ bool celPcMechanicsBalancedGroup::PerformActionIndexed (int idx,
   {
     case action_addthruster:
       {
-        CEL_FETCH_STRING_PAR (thruster,params,param_thruster);
-        if (!p_thruster)
-        {
-          CS_REPORT(ERROR,"Couldn't get thruster tag!");
-          return false;
-        }
+	csString thruster;
+	if (!Fetch (thruster, params, param_thruster)) return false;
         CEL_FETCH_FLOAT_PAR (mult,params,param_multiplier);
         if (!p_mult)
         {
@@ -106,7 +102,7 @@ bool celPcMechanicsBalancedGroup::PerformActionIndexed (int idx,
         {
           csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
               "cel.propclass.mechanics",
-              "Couldn't find thruster with given tag: %s", thruster);
+              "Couldn't find thruster with given tag: %s", thruster.GetData ());
           return false;
         }
         AddThruster (th, mult);
@@ -114,12 +110,8 @@ bool celPcMechanicsBalancedGroup::PerformActionIndexed (int idx,
       }
     case action_settype:
       {
-        CEL_FETCH_STRING_PAR (type,params,param_type);
-        if (!p_type)
-        {
-          CS_REPORT(ERROR,"Couldn't get thruster group type!");
-          return false;
-        }
+	csString type;
+	if (!Fetch (type, params, param_type)) return false;
         csStringID type_id = pl->FetchStringID (type);
         celAxisType gtype;
         if (type_id == type_rotation)
@@ -291,18 +283,9 @@ bool celPcMechanicsThrusterController::PerformActionIndexed (int idx,
   {
     case action_addaxis:
       {
-        CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
-        if (!p_axisname)
-        {
-          CS_REPORT(ERROR,"Couldn't get axis name!");
-          return false;
-        }
-        CEL_FETCH_STRING_PAR (axistype,params,param_axistype);
-        if (!p_axistype)
-        {
-          CS_REPORT(ERROR,"Couldn't get axis type!");
-          return false;
-        }
+	csString axisname, axistype;
+	if (!Fetch (axisname, params, param_axisname)) return false;
+	if (!Fetch (axistype, params, param_axistype)) return false;
         csStringID type_id = pl->FetchStringID (axistype);
         celAxisType atype;
         if (type_id == type_rotation)
@@ -325,12 +308,8 @@ bool celPcMechanicsThrusterController::PerformActionIndexed (int idx,
       }
     case action_applythrust:
       {
-        CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
-        if (!p_axisname)
-        {
-          CS_REPORT(ERROR,"Couldn't get axis name!");
-          return false;
-        }
+	csString axisname;
+	if (!Fetch (axisname, params, param_axisname)) return false;
         CEL_FETCH_FLOAT_PAR (thrust,params,param_thrust);
         if (!p_thrust)
         {
@@ -344,18 +323,9 @@ bool celPcMechanicsThrusterController::PerformActionIndexed (int idx,
       }
     case action_addbalancedgroup:
       {
-        CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
-        if (!p_axisname)
-        {
-          CS_REPORT(ERROR,"Couldn't get axis name!");
-          return false;
-        }
-        CEL_FETCH_STRING_PAR (balancedgrouppctag,params,param_balancedgroup);
-        if (!p_balancedgrouppctag)
-        {
-          CS_REPORT(ERROR,"Couldn't get thruster group tag!");
-          return false;
-        }
+	csString axisname, balancedgrouppctag;
+	if (!Fetch (axisname, params, param_axisname)) return false;
+	if (!Fetch (balancedgrouppctag, params, param_balancedgroup)) return false;
         csRef<iPcMechanicsBalancedGroup> tg = celQueryPropertyClassTagEntity<iPcMechanicsBalancedGroup>
 	    (GetEntity (), balancedgrouppctag);
         AddBalancedGroup (tg, axisname);
@@ -363,17 +333,14 @@ bool celPcMechanicsThrusterController::PerformActionIndexed (int idx,
       }
     case action_inittc:
       {
-        CEL_FETCH_STRING_PAR (objectpctag,params,param_object);
-        if (p_objectpctag)
-        {
-          csRef<iPcMechanicsObject> mechobj = 0;
-          mechobj = celQueryPropertyClassTagEntity<iPcMechanicsObject> (GetEntity (),
-      	    objectpctag);
-          assert (mechobj);
-          SetMechanicsObject (mechobj);
-	  return true;
-        }
-        else return false;
+	csString objectpctag;
+	if (!Fetch (objectpctag, params, param_object)) return false;
+	csRef<iPcMechanicsObject> mechobj = 0;
+	mechobj = celQueryPropertyClassTagEntity<iPcMechanicsObject> (GetEntity (),
+	  objectpctag);
+	assert (mechobj);
+	SetMechanicsObject (mechobj);
+	return true;
       }
     default:
       return false;

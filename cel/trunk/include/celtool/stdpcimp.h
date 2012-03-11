@@ -237,6 +237,7 @@ public:
     if (!IsTypeCompatible (have, wanted))
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "cel.parameter.type",
 	  "Incompatible type for parameter '%s' for property class '%s/%s' and entity '%s'! Expected '%s'!\n",
 	  pl->FetchString (id), GetName (), GetTag (), GetEntity ()->GetName (),
 	  GetTypeName (wanted));
@@ -250,6 +251,7 @@ public:
     if (!data && !usedef)
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "cel.parameter.type",
 	  "Missing parameter '%s' for property class '%s/%s' and entity '%s'!\n",
 	  pl->FetchString (id), GetName (), GetTag (), GetEntity ()->GetName ());
       return false;

@@ -208,14 +208,10 @@ bool celPcSpawn::PerformActionIndexed (int idx,
       {
         CEL_FETCH_FLOAT_PAR (chance_param,params,id_chance_param);
         if (!p_chance_param) chance_param = 0.0f;
-        CEL_FETCH_STRING_PAR (entity_param,params,id_entity_param);
-        if (!p_entity_param) entity_param = 0;
-        CEL_FETCH_STRING_PAR (template_param,params,id_template_param);
-        if (!p_template_param)
-          return Report (object_reg,
-      	    "Missing parameter 'template' for action AddEntityTemplateType!");
-        CEL_FETCH_STRING_PAR (call_param,params,id_call_param);
-        if (!p_call_param) call_param = 0;
+	csString entity_param, template_param, call_param;
+	if (!Fetch (entity_param, params, id_entity_param, true, "")) return false;
+	if (!Fetch (template_param, params, id_template_param)) return false;
+	if (!Fetch (call_param, params, id_call_param, true, "")) return false;
         AddEntityTemplateType (chance_param, template_param, entity_param,
     	    call_param, params);
         return true;
@@ -272,14 +268,12 @@ bool celPcSpawn::PerformActionIndexed (int idx,
       return true;
     case action_addspawnposition:
       {
-        CEL_FETCH_STRING_PAR (sector_param,params,id_sector_param);
-        if (!p_sector_param)
-          return Report (object_reg,
-      	    "Missing parameter 'sector' for action AddSpawnPosition!");
+	csString sector_param, position_param;
+	if (!Fetch (sector_param, params, id_sector_param)) return false;
+	if (!Fetch (position_param, params, id_position_param, true, "")) return false;
         CEL_FETCH_FLOAT_PAR (yrot_param,params,id_yrot_param);
         if (!p_yrot_param) yrot_param = 0.0f;
-        CEL_FETCH_STRING_PAR (position_param,params,id_position_param);
-        if (p_position_param)
+        if (!position_param.IsEmpty ())
         {
           AddSpawnPosition (position_param, yrot_param, sector_param);
         }

@@ -180,10 +180,9 @@ bool celPcBillboard::PerformActionIndexed (int idx,
   {
     case action_drawmesh:
       {
-        CEL_FETCH_STRING_PAR (materialname,params,id_materialname);
-        if (!p_materialname) return false;	// @@@ Error report!
-        CEL_FETCH_STRING_PAR (factory,params,id_factory);
-        if (!p_factory) return false;	// @@@ Error report!
+	csString materialname, factory;
+	if (!Fetch (materialname, params, id_materialname)) return false;
+	if (!Fetch (factory, params, id_factory)) return false;
         CEL_FETCH_FLOAT_PAR (distance,params,id_distance);
         if (!p_distance) distance = -1.0f;
         CEL_FETCH_VECTOR3_PAR (rotate,params,id_rotate);

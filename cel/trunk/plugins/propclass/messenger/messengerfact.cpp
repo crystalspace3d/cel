@@ -582,24 +582,25 @@ bool celPcMessenger::PerformActionIndexed (int idx,
     case action_message:
       {
 	// @@@ Error reporting.
-        CEL_FETCH_STRING_PAR (type,params,id_type);
-        if (!p_type) type = defaultType;
-        CEL_FETCH_STRING_PAR (id,params,id_id);
+	csString type, id;
+	if (!Fetch (type, params, id_type, true, defaultType)) return false;
+	if (!Fetch (id, params, id_id, true, "")) return false;
 	int last = -1;
-        CEL_FETCH_STRING_PAR (msg1,params,id_msg1);
-	if (p_msg1) last = 0;
-        CEL_FETCH_STRING_PAR (msg2,params,id_msg2);
-	if (p_msg2) last = 1;
-        CEL_FETCH_STRING_PAR (msg3,params,id_msg3);
-	if (p_msg3) last = 2;
-        CEL_FETCH_STRING_PAR (msg4,params,id_msg4);
-	if (p_msg4) last = 3;
-        CEL_FETCH_STRING_PAR (msg5,params,id_msg5);
-	if (p_msg5) last = 4;
-        CEL_FETCH_STRING_PAR (msg6,params,id_msg6);
-	if (p_msg6) last = 5;
-        CEL_FETCH_STRING_PAR (msg7,params,id_msg7);
-	if (p_msg7) last = 6;
+	csString msg1, msg2, msg3, msg4, msg5, msg6, msg7;
+	if (!Fetch (msg1, params, id_msg1, true, "")) return false;
+	if (!msg1.IsEmpty ()) last = 0;
+	if (!Fetch (msg2, params, id_msg2, true, "")) return false;
+	if (!msg2.IsEmpty ()) last = 1;
+	if (!Fetch (msg3, params, id_msg3, true, "")) return false;
+	if (!msg3.IsEmpty ()) last = 2;
+	if (!Fetch (msg4, params, id_msg4, true, "")) return false;
+	if (!msg4.IsEmpty ()) last = 3;
+	if (!Fetch (msg5, params, id_msg5, true, "")) return false;
+	if (!msg5.IsEmpty ()) last = 4;
+	if (!Fetch (msg6, params, id_msg6, true, "")) return false;
+	if (!msg6.IsEmpty ()) last = 5;
+	if (!Fetch (msg7, params, id_msg7, true, "")) return false;
+	if (!msg7.IsEmpty ()) last = 6;
 	csStringArray msgs;
 	if (last >= 0) msgs.Push (msg1);
 	if (last >= 1) msgs.Push (msg2);
@@ -613,15 +614,15 @@ bool celPcMessenger::PerformActionIndexed (int idx,
       }
     case action_setdefaulttype:
       {
-        CEL_FETCH_STRING_PAR (type,params,id_type);
+	csString type;
+	if (!Fetch (type, params, id_type)) return false;
 	SetDefaultType (type);
 	return true;
       }
     case action_clearid:
       {
-	// @@@ Error reporting.
-        CEL_FETCH_STRING_PAR (id,params,id_id);
-	if (!p_id) return false;
+	csString id;
+	if (!Fetch (id, params, id_id)) return false;
 	ClearId (id);
 	return true;
       }

@@ -330,8 +330,9 @@ bool celPcMechanicsSystem::PerformActionIndexed (int idx,
   {
     case action_setplugin:
       {
-        CEL_FETCH_STRING_PAR (plugin,params,param_plugin);
-        if (p_plugin)
+	csString plugin;
+	if (!Fetch (plugin, params, param_plugin, true, "")) return false;
+        if (!plugin.IsEmpty ())
         {
 	  pluginName = plugin;
         }
@@ -344,8 +345,9 @@ bool celPcMechanicsSystem::PerformActionIndexed (int idx,
       }
     case action_setsystem:
       {
-        CEL_FETCH_STRING_PAR (dynsys,params,param_dynsys);
-        if (p_dynsys)
+	csString dynsys;
+	if (!Fetch (dynsys, params, param_dynsys, true, "")) return false;
+        if (!dynsys.IsEmpty ())
         {
           SetDynamicSystem(dynsys);
         }
@@ -963,16 +965,12 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       }
     case action_setsystem:
       {
-        CEL_FETCH_STRING_PAR (syspcent,params,param_systempcent);
-        if (!p_syspcent)
-        {
-          CS_REPORT(ERROR,"Couldn't get mechanics system entity!");
-          return false;
-        }
-        CEL_FETCH_STRING_PAR (syspctag,params,param_systempctag);
+	csString syspcent, syspctag;
+	if (!Fetch (syspcent, params, param_systempcent)) return false;
+	if (!Fetch (syspctag, params, param_systempctag, true, "")) return false;
         csRef<iCelEntity> sysent = pl->FindEntity (syspcent);
         csRef<iPcMechanicsSystem> mechsyss = 0;
-	if (p_syspctag)
+	if (!syspctag.IsEmpty ())
           mechsyss = celQueryPropertyClassTagEntity<iPcMechanicsSystem> (sysent, syspctag);
 	else
           mechsyss = celQueryPropertyClassEntity<iPcMechanicsSystem> (sysent);
@@ -986,9 +984,10 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       }
     case action_setmesh:
       {
-        CEL_FETCH_STRING_PAR (meshpctag,params,param_meshpctag);
+	csString meshpctag;
+	if (!Fetch (meshpctag, params, param_meshpctag, true, "")) return false;
         csRef<iPcMesh> pcmesh;
-        if (!p_meshpctag)
+        if (meshpctag.IsEmpty ())
           pcmesh = celQueryPropertyClassEntity<iPcMesh> (GetEntity ());
         else
           pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (GetEntity (), meshpctag);
@@ -1077,8 +1076,8 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       }
     case action_addtogroup:
       {
-        CEL_FETCH_STRING_PAR (group,params,param_group);
-        if (!p_group) group = 0;
+	csString group;
+	if (!Fetch (group, params, param_group, true, "")) return false;
         AddToGroup (group);
         return true;
       }
@@ -1639,18 +1638,14 @@ bool celPcMechanicsJoint::PerformActionIndexed (int idx,
   {
     case action_setparentbody:
       {
-        CEL_FETCH_STRING_PAR (body,params,param_body);
-        if (!p_body)
-        {
-          CS_REPORT(ERROR,"'body' missing!");
-          return false;
-        }
+	csString body;
+	if (!Fetch (body, params, param_body)) return false;
         parent_body = pl->FindEntity (body);
         if (!parent_body)
         {
           csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
       	    "cel.propclass.mechanics", "Can't find entity '%s' for parent body!",
-	    body);
+	    body.GetData ());
           return false;
         }
         CreateJoint ();

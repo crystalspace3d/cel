@@ -86,18 +86,12 @@ bool celPcMechanicsThrusterReactionary::PerformActionIndexed (int idx,
 {
   if (idx == action_initthruster)
   {
-    CEL_FETCH_STRING_PAR (objectpctag,params,param_object);
-    if (p_objectpctag)
-    {
-      csRef<iPcMechanicsObject> mechobj = 0;
-      mechobj = celQueryPropertyClassTagEntity<iPcMechanicsObject> (GetEntity (), objectpctag);
-      assert (mechobj);
-      SetMechanicsObject (mechobj);
-    }
-    else
-    {
-      return false;
-    }
+    csString objectpctag;
+    if (!Fetch (objectpctag, params, param_object)) return false;
+    csRef<iPcMechanicsObject> mechobj = 0;
+    mechobj = celQueryPropertyClassTagEntity<iPcMechanicsObject> (GetEntity (), objectpctag);
+    assert (mechobj);
+    SetMechanicsObject (mechobj);
     CEL_FETCH_VECTOR3_PAR (position,params,param_position);
     if (p_position)
       SetPosition (position);

@@ -129,10 +129,8 @@ bool celPcQuest::PerformActionIndexed (int idx,
   {
     case action_newquest:
       {
-        CEL_FETCH_STRING_PAR (msg,params,id_name);
-        if (!p_msg)
-          return Report (object_reg,
-      	    "Missing parameter 'name' for action NewQuest!");
+	csString msg;
+	if (!Fetch (msg, params, id_name)) return false;
         return NewQuest (msg, params);
       }
     case action_stopquest:

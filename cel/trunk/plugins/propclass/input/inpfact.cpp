@@ -175,19 +175,17 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
       }
     case action_bind:
       {
-        CEL_FETCH_STRING_PAR (trigger,params,id_trigger);
-        if (!trigger) return false;
-        CEL_FETCH_STRING_PAR (command,params,id_command);
-        if (!command) return false;
+	csString trigger, command;
+	if (!Fetch (trigger, params, id_trigger)) return false;
+	if (!Fetch (command, params, id_command)) return false;
         Bind (trigger, command);
         return true;
       }
     case action_removebind:
       {
-        CEL_FETCH_STRING_PAR (trigger,params,id_trigger);
-        if (!trigger) return false;
-        CEL_FETCH_STRING_PAR (command,params,id_command);
-        if (!command) return false;
+	csString trigger, command;
+	if (!Fetch (trigger, params, id_trigger)) return false;
+	if (!Fetch (command, params, id_command)) return false;
         RemoveBind (trigger, command);
         return true;
       }
@@ -198,15 +196,15 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
       }
     case action_loadconfig:
       {
-        CEL_FETCH_STRING_PAR (prefix,params,id_prefix);
-        if (!prefix) return false;
+	csString prefix;
+	if (!Fetch (prefix, params, id_prefix)) return false;
         LoadConfig (prefix);
         return true;
       }
     case action_saveconfig:
       {
-        CEL_FETCH_STRING_PAR (prefix,params,id_prefix);
-        if (!prefix) return false;
+	csString prefix;
+	if (!Fetch (prefix, params, id_prefix)) return false;
         SaveConfig (prefix);
         return true;
       }

@@ -373,14 +373,12 @@ bool celPcMesh::PerformActionIndexed (int idx,
   {
     case action_setmesh:
       {
-        CEL_FETCH_STRING_PAR (name,params,id_name);
-        if (!name)
-          return Report (object_reg,
-          	"Missing parameter 'name' for action SetMesh!");
+	csString name;
+	if (!Fetch (name, params, id_name)) return false;
         iMeshWrapper* m = engine->FindMeshObject (name);
         if (!m)
           return Report (object_reg, "Can't find mesh '%s' for action SetMesh!",
-          	name);
+          	name.GetData ());
         SetMesh (m, false);
         return true;
       }
@@ -399,13 +397,12 @@ bool celPcMesh::PerformActionIndexed (int idx,
       }
     case action_setmaterial:
       {
-        CEL_FETCH_STRING_PAR (material,params,id_material);
-        if (!p_material)
-          return Report (object_reg, "'material' parameter missing for SetMaterial!");
+	csString material;
+	if (!Fetch (material, params, id_material)) return false;
         iMaterialWrapper* mat = engine->FindMaterial (material);
         if (!mat)
           return Report (object_reg, "Can't find material '%s' for SetMaterial!",
-          	material);
+          	material.GetData ());
         if (mesh)
         {
           mesh->GetMeshObject ()->SetMaterialWrapper (mat);
@@ -414,31 +411,21 @@ bool celPcMesh::PerformActionIndexed (int idx,
       }
     case action_loadmesh:
       {
-        CEL_FETCH_STRING_PAR (file,params,id_filename);
-        CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
-        if (!factory)
-          return Report (object_reg,
-          	"Missing parameter 'factoryname' for action LoadMesh!");
+	csString file, factory;
+	if (!Fetch (file, params, id_filename, true, "")) return false;
+	if (!Fetch (factory, params, id_factoryname)) return false;
         bool rc = SetMesh (factory, file);
         if (!rc)
           return Report (object_reg, "Can't load mesh '%s/%s' for action LoadMesh!",
-          	factory, file);
+          	factory.GetData (), file.GetData ());
         return true;
       }
     case action_loadmeshpath:
       {
-        CEL_FETCH_STRING_PAR (pa,params,id_path);
-        if (!pa)
-          return Report (object_reg,
-          	"Missing parameter 'path' for action LoadMeshPath!");
-        CEL_FETCH_STRING_PAR (file,params,id_filename);
-        if (!file)
-          return Report (object_reg,
-          	"Missing parameter 'filename' for action LoadMeshPath!");
-        CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
-        if (!factory)
-          return Report (object_reg,
-          	"Missing parameter 'factoryname' for action LoadMeshPath!");
+	csString pa, file, factory;
+	if (!Fetch (pa, params, id_path)) return false;
+	if (!Fetch (file, params, id_filename)) return false;
+	if (!Fetch (factory, params, id_factoryname)) return false;
         SetPath (pa);
         bool rc = SetMesh (factory, file);
         if (!rc)
@@ -449,8 +436,9 @@ bool celPcMesh::PerformActionIndexed (int idx,
       }
     case action_movemesh:
       {
-        CEL_FETCH_STRING_PAR (sector,params,id_sector);
-        if (sector && *sector == 0)
+	csString sector;
+	if (!Fetch (sector, params, id_sector, true, "")) return false;
+        if (sector.IsEmpty ())
         {
           // Special case. We simply remove the mesh from all sectors.
           if (mesh)
@@ -461,29 +449,18 @@ bool celPcMesh::PerformActionIndexed (int idx,
         }
         else
         {
-          iSector* sect = 0;
-          if (sector)
-          {
-            sect = engine->FindSector (sector);
-            if (!sect)
-              return Report (object_reg,
-              	"Can't find sector '%s' for action MoveMesh!",
-              	sector);
-          }
-          else
-          {
-            if (mesh && mesh->GetMovable ()->GetSectors ()->GetCount () > 0)
-              sect = mesh->GetMovable ()->GetSectors ()->Get (0);
-          }
+          iSector* sect = engine->FindSector (sector);
+	  if (!sect)
+	    return Report (object_reg,
+	      "Can't find sector '%s' for action MoveMesh!",
+	      sector.GetData ());
           CEL_FETCH_VECTOR3_PAR (position,params,id_position);
           if (p_position)
             MoveMesh (sect, position);
           else
           {
-            CEL_FETCH_STRING_PAR (node,params,id_position);
-            if (!p_node)
-              return Report (object_reg,
-              	"Missing parameter 'position' for action MoveMesh!");
+	    csString node;
+	    if (!Fetch (node, params, id_position)) return false;
             MoveMesh (sect, node);
           }
         }
@@ -536,10 +513,9 @@ bool celPcMesh::PerformActionIndexed (int idx,
       }
     case action_setshadervar:
       {
-        CEL_FETCH_STRING_PAR (par_name,params,id_name);
-        if (!p_par_name) return false;
-        CEL_FETCH_STRING_PAR (par_type,params,id_type);
-        if (!p_par_type) return false;
+	csString par_name, par_type;
+	if (!Fetch (par_name, params, id_name)) return false;
+	if (!Fetch (par_type, params, id_type)) return false;
 	csRef<iShaderVarStringSet> strset = csQueryRegistryTagInterface<iShaderVarStringSet> (
 	    object_reg, "crystalspace.shader.variablenameset");
         if (!strcmp(par_type,"float"))
@@ -574,19 +550,20 @@ bool celPcMesh::PerformActionIndexed (int idx,
         }
         else if (!strcmp(par_type,"libexpr"))
         {
-          CEL_FETCH_STRING_PAR (par_value,params,id_value);
-          if (!p_par_value) return false;
+	  csString par_value;
+	  if (!Fetch (par_value, params, id_value)) return false;
           return SetShaderVarExpr (strset->Request (par_name), par_value);
         }
         else
           return Report (object_reg,
-          	"Unsupported type %s for action SetShaderVar!",par_type);
+          	"Unsupported type %s for action SetShaderVar!",
+		par_type.GetData ());
         return true;
       }
     case action_setanimation:
       {
-        CEL_FETCH_STRING_PAR (par_animation,params,id_animation);
-        if (!p_par_animation) return false;
+	csString par_animation;
+	if (!Fetch (par_animation, params, id_animation)) return false;
         CEL_FETCH_BOOL_PAR (par_cycle,params,id_cycle);
         if (!p_par_cycle) par_cycle = false;
         CEL_FETCH_BOOL_PAR (par_reset,params,id_reset);
@@ -596,22 +573,22 @@ bool celPcMesh::PerformActionIndexed (int idx,
       }
     case action_createemptything:
       {
-        CEL_FETCH_STRING_PAR (par_factoryname,params,id_factoryname);
-        if (!p_par_factoryname) return false;
+	csString par_factoryname;
+	if (!Fetch (par_factoryname, params, id_factoryname)) return false;
         CreateEmptyThing (par_factoryname);
         return true;
       }
     case action_createemptygenmesh:
       {
-        CEL_FETCH_STRING_PAR (par_factoryname,params,id_factoryname);
-        if (!p_par_factoryname) return false;
+	csString par_factoryname;
+	if (!Fetch (par_factoryname, params, id_factoryname)) return false;
         CreateEmptyGenmesh (par_factoryname);
         return true;
       }
     case action_createnullmesh:
       {
-        CEL_FETCH_STRING_PAR (par_factoryname,params,id_factoryname);
-        if (!p_par_factoryname) return false;
+	csString par_factoryname;
+	if (!Fetch (par_factoryname, params, id_factoryname)) return false;
         CEL_FETCH_VECTOR3_PAR (par_min,params,id_min);
         if (!p_par_min) return false;
         CEL_FETCH_VECTOR3_PAR (par_max,params,id_max);
@@ -622,19 +599,21 @@ bool celPcMesh::PerformActionIndexed (int idx,
     case action_parentmesh:
       {
         if (!mesh) return true;
-        CEL_FETCH_STRING_PAR (par_entity,params,id_entity);
+	csString par_entity;
+	if (!Fetch (par_entity, params, id_entity, true, "")) return false;
         iCelEntity* ent;
-        if (!p_par_entity) ent = entity;
+        if (par_entity.IsEmpty ()) ent = entity;
         else
         {
           ent = pl->FindEntity (par_entity);
           if (!ent)
             return Report (object_reg, "Can't find entity '%s'!",
-            	par_entity);
+            	par_entity.GetData ());
         }
-        CEL_FETCH_STRING_PAR (par_tag,params,id_tag);
+	csString par_tag;
+	if (!Fetch (par_tag, params, id_tag, true, "")) return false;
         csRef<iPcMesh> parent_mesh;
-        if (!p_par_tag)
+        if (par_tag.IsEmpty ())
           parent_mesh = celQueryPropertyClassEntity<iPcMesh> (ent);
         else
           parent_mesh = celQueryPropertyClassTag<iPcMesh> (
@@ -657,12 +636,10 @@ bool celPcMesh::PerformActionIndexed (int idx,
       }
     case action_attachsocketmesh:
       {
-        CEL_FETCH_STRING_PAR (socket,params,id_socket);
-        if (!socket)
-          return Report (object_reg,
-          	"Missing parameter 'socket' for AttachSocketMesh!");
-        CEL_FETCH_STRING_PAR (factory,params,id_factory);
-        if (factory)
+	csString socket, factory;
+	if (!Fetch (socket, params, id_socket)) return false;
+	if (!Fetch (factory, params, id_factory, true, "")) return false;
+        if (!factory.IsEmpty ())
         {
           iMeshFactoryWrapper* meshfact = engine->GetMeshFactories ()
           	->FindByName (factory);
@@ -679,28 +656,21 @@ bool celPcMesh::PerformActionIndexed (int idx,
         }
         else
         {
-          CEL_FETCH_STRING_PAR (object,params,id_object);
-          if (object)
-          {
-            csRef<iMeshWrapper> meshobj = engine->FindMeshObject (object);
-            if (!meshobj)
-              return Report (object_reg,
-              	"Can't find meshobj '%s' in AttachSocketMesh!",
-              	(const char*)object);
-            AttachSocketMesh (socket, meshobj);
-          }
-          else
-            return Report (object_reg,
-            	"Missing parameter 'factory' or 'object' for AttachSocketMesh!");
+	  csString object;
+	  if (!Fetch (object, params, id_object)) return false;
+	  csRef<iMeshWrapper> meshobj = engine->FindMeshObject (object);
+	  if (!meshobj)
+	    return Report (object_reg,
+	      "Can't find meshobj '%s' in AttachSocketMesh!",
+	      (const char*)object);
+	  AttachSocketMesh (socket, meshobj);
         }
         return true;
       }
     case action_detachsocketmesh:
       {
-        CEL_FETCH_STRING_PAR (socket,params,id_socket);
-        if (!socket)
-          return Report (object_reg,
-          	"Missing parameter 'socket' for action DetachSocketMesh!");
+	csString socket;
+	if (!Fetch (socket, params, id_socket)) return false;
         DetachSocketMesh (socket);
         return true;
       }
@@ -1838,10 +1808,8 @@ bool celPcMeshSelect::PerformActionIndexed (int idx,
     case action_setcamera:
       {
 	pccamera = 0;
-        CEL_FETCH_STRING_PAR (entity,params,id_entity);
-        if (!entity)
-          return Report (object_reg,
-          	"Missing parameter 'entity' for action SetCamera!");
+	csString entity;
+	if (!Fetch (entity, params, id_entity)) return false;
         iCelEntity* ent = pl->FindEntity (entity);
         if (!ent)
 	{
@@ -1853,14 +1821,15 @@ bool celPcMeshSelect::PerformActionIndexed (int idx,
         if (!pccam)
           return Report (object_reg,
           	"Entity '%s' doesn't have a camera (action SetCamera)!",
-          	entity);
+          	entity.GetData ());
         SetCamera (pccam);
         return true;
       }
     case action_setmousebuttons:
       {
-        CEL_FETCH_STRING_PAR (buttons_str,params,id_buttons);
-        if (p_buttons_str)
+	csString buttons_str;
+	if (!Fetch (buttons_str, params, id_buttons, true, "")) return false;
+        if (!buttons_str.IsEmpty ())
         {
           SetMouseButtons (buttons_str);
         }

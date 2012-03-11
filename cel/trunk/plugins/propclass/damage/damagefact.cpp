@@ -174,8 +174,8 @@ bool celPcDamage::PerformActionIndexed (int idx,
       }
     case action_singledamage:
       {
-        CEL_FETCH_STRING_PAR (target,params,id_target);
-        if (!p_target) return false;	// @@@ Error!
+	csString target;
+	if (!Fetch (target, params, id_target)) return false;
         SingleDamage (target);
         return true;
       }

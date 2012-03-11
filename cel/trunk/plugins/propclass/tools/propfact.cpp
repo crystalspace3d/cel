@@ -411,10 +411,10 @@ bool celPcProperties::PerformActionIndexed (int idx,
   {
     case action_setproperty:
       {
-        CEL_FETCH_STRING_PAR (name,params,id_name);
-        if (!p_name) return false;
-        CEL_FETCH_STRING_PAR (value_s,params,id_value);
-        if (p_value_s)
+	csString name, value_s;
+	if (!Fetch (name, params, id_name)) return false;
+	if (!Fetch (value_s, params, id_value, true, "")) return false;
+	if (!value_s.IsEmpty ())
         {
           SetProperty (name, (const char*)value_s);
           return true;
