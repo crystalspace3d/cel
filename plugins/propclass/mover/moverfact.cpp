@@ -258,8 +258,8 @@ bool celPcMover::PerformActionIndexed (int idx,
       csPrintf("Start action in pcmover is deprecated. Use MoveTo instead.\n");
     case action_moveto:
       {
-        CEL_FETCH_STRING_PAR (sectorname,params,id_sectorname);
-        if (!p_sectorname) return false;
+	csString sectorname;
+	if (!Fetch (sectorname, params, id_sectorname)) return false;
         CEL_FETCH_VECTOR3_PAR (position,params,id_position);
         if (!p_position) return false;
         CEL_FETCH_FLOAT_PAR (sqradius,params,id_sqradius);

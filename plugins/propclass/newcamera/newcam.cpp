@@ -267,8 +267,8 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
   {
     case action_attachcameramode:
       {
-        CEL_FETCH_STRING_PAR (name,params,id_name);
-        if (!p_name) return true;
+	csString name;
+	if (!Fetch (name, params, id_name)) return false;
         if (!strcmp (name, "camera_firstperson"))
         {
           AttachCameraMode (iPcNewCamera::CCM_FIRST_PERSON);

@@ -124,7 +124,8 @@ bool celPcTimer::PerformActionIndexed (int idx,
         if (!p_time) return false;
         CEL_FETCH_BOOL_PAR (repeat,params,id_repeat);
         if (!p_repeat) return false;
-        CEL_FETCH_STRING_PAR (name,params,id_name);
+	csString name;
+	if (!Fetch (name, params, id_name, true, "")) return false;
         WakeUp ((csTicks)time, repeat, name);
         return true;
       }
@@ -133,7 +134,8 @@ bool celPcTimer::PerformActionIndexed (int idx,
       return true;
     case action_clear:
       {
-        CEL_FETCH_STRING_PAR (name,params,id_name);
+	csString name;
+	if (!Fetch (name, params, id_name, true, "")) return false;
         Clear (name);
       }
       return true;

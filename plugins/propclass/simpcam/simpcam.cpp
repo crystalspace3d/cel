@@ -174,12 +174,8 @@ bool celPcSimpleCamera::PerformActionIndexed (int idx,
       }
     case action_setmesh:
       {
-        CEL_FETCH_STRING_PAR (mesh,params,param_mesh);
-        if (!p_mesh)
-        {
-          Report (object_reg, "Couldn't get mesh tag!");
-          return false;
-        }
+	csString mesh;
+	if (!Fetch (mesh, params, param_mesh)) return false;
         csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (GetEntity (), mesh);
         if (!pcmesh)
         {

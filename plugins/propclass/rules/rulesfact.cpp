@@ -114,13 +114,11 @@ bool celPcRules::PerformActionIndexed (int idx,
   {
     case action_addrule:
       {
-        CEL_FETCH_STRING_PAR (name,params,id_name);
-        if (!p_name)
-          return Report (object_reg,
-      	    "Missing parameter 'name' for action AddRule!");
+	csString name;
+	if (!Fetch (name, params, id_name)) return false;
         iCelRule* rule = rulebase->FindRule (name);
         if (!rule)
-          return Report (object_reg, "Can't find rule '%s'!", name);
+          return Report (object_reg, "Can't find rule '%s'!", name.GetData ());
         CEL_FETCH_LONG_PAR (time,params,id_time);
         if (p_time)
           AddRule (rule, time);
@@ -130,13 +128,11 @@ bool celPcRules::PerformActionIndexed (int idx,
       }
     case action_deleterule:
       {
-        CEL_FETCH_STRING_PAR (name,params,id_name);
-        if (!p_name)
-          return Report (object_reg,
-      	    "Missing parameter 'name' for action AddRule!");
+	csString name;
+	if (!Fetch (name, params, id_name)) return false;
         iCelRule* rule = rulebase->FindRule (name);
         if (!rule)
-          return Report (object_reg, "Can't find rule '%s'!", name);
+          return Report (object_reg, "Can't find rule '%s'!", name.GetData ());
         DeleteRule (rule);
         return true;
       }

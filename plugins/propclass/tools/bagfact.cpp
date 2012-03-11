@@ -106,19 +106,15 @@ bool celPcBag::PerformActionIndexed (int idx,
   {
     case action_addstring:
       {
-        CEL_FETCH_STRING_PAR (value,params,id_value);
-        if (!p_value)
-	  return Report (object_reg,
-	      "Missing parameter 'value' for action AddString!");
+	csString value;
+	if (!Fetch (value, params, id_value)) return false;
 	AddString (value);
       }
       return true;
     case action_removestring:
       {
-        CEL_FETCH_STRING_PAR (value,params,id_value);
-        if (!p_value)
-	  return Report (object_reg,
-	      "Missing parameter 'value' for action RemoveString!");
+	csString value;
+	if (!Fetch (value, params, id_value)) return false;
 	RemoveString (value);
       }
       return true;
@@ -127,19 +123,15 @@ bool celPcBag::PerformActionIndexed (int idx,
       return true;
     case action_hasstring:
       {
-        CEL_FETCH_STRING_PAR (value,params,id_value);
-        if (!p_value)
-	  return Report (object_reg,
-	      "Missing parameter 'value' for action HasString!");
+	csString value;
+	if (!Fetch (value, params, id_value)) return false;
 	ret.Set (HasString (value));
       }
       return true;
     case action_sendmessage:
       {
-        CEL_FETCH_STRING_PAR (msgid,params,id_msgid);
-        if (!p_msgid)
-	  return Report (object_reg,
-	      "Missing parameter 'msgid' for action SendMessage!");
+	csString msgid;
+	if (!Fetch (msgid, params, id_msgid)) return false;
 	SendMessage (msgid, params);
       }
       return true;

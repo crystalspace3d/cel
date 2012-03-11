@@ -116,14 +116,14 @@ bool celPcInventory::PerformActionIndexed (int idx,
 {
   if (idx == action_addtemplate)
   {
-    CEL_FETCH_STRING_PAR (name,params,id_name);
+    csString name;
+    if (!Fetch (name, params, id_name)) return false;
     CEL_FETCH_LONG_PAR (amount,params,id_amount);
-    if (!p_name) return false;
     iCelEntityTemplate* tpl = pl->FindEntityTemplate (name);
     if (!tpl)
     {
       // @@@ Proper error.
-      printf ("Can't find entity template '%s'!\n", name);
+      printf ("Can't find entity template '%s'!\n", name.GetData ());
       return false;
     }
     bool rc = AddEntityTemplate (tpl, amount);
@@ -132,14 +132,14 @@ bool celPcInventory::PerformActionIndexed (int idx,
   }
   else if (idx == action_removetemplate)
   {
-    CEL_FETCH_STRING_PAR (name,params,id_name);
+    csString name;
+    if (!Fetch (name, params, id_name)) return false;
     CEL_FETCH_LONG_PAR (amount,params,id_amount);
-    if (!p_name) return false;
     iCelEntityTemplate* tpl = pl->FindEntityTemplate (name);
     if (!tpl)
     {
       // @@@ Proper error.
-      printf ("Can't find entity template '%s'!\n", name);
+      printf ("Can't find entity template '%s'!\n", name.GetData ());
       return false;
     }
     bool rc = RemoveEntityTemplate (tpl, amount);
@@ -155,13 +155,13 @@ bool celPcInventory::PerformActionIndexed (int idx,
       printf ("Can't find loot manager!\n");
       return false;
     }
-    CEL_FETCH_STRING_PAR (name,params,id_name);
-    if (!p_name) return false;
+    csString name;
+    if (!Fetch (name, params, id_name)) return false;
     iLootGenerator* gen = lootmgr->FindLootGenerator (name);
     if (!gen)
     {
       // @@@ Proper error.
-      printf ("Can't find loot generator'%s'!\n", name);
+      printf ("Can't find loot generator'%s'!\n", name.GetData ());
       return false;
     }
     SetLootGenerator (gen);
@@ -1116,8 +1116,8 @@ bool celPcCharacteristics::PerformActionIndexed (int idx,
 {
   if (idx == action_hascharacteristic)
   {
-    CEL_FETCH_STRING_PAR (name,params,id_name);
-    if (!p_name) return false;
+    csString name;
+    if (!Fetch (name, params, id_name)) return false;
     bool rc = HasCharacteristic (name);
     ret.Set (rc);
     return true;

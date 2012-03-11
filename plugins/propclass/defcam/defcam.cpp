@@ -462,14 +462,15 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
       return true;
     case action_pointcamera:
       {
-        CEL_FETCH_STRING_PAR (startname,params,id_startname);
-        if (!p_startname) return false;
+	csString startname;
+	if (!Fetch (startname, params, id_startname)) return false;
         return PointCamera (startname);
       }
     case action_setcamera:
       {
-        CEL_FETCH_STRING_PAR (modename,params,id_modename);
-        if (p_modename)
+	csString modename;
+	if (!Fetch (modename, params, id_modename, true, "")) return false;
+        if (!modename.IsEmpty ())
         {
           SetModeName (modename);
         }
@@ -536,19 +537,17 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
       }
     case action_setzonemanager:
       {
-        CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-        if (!p_entityname) return false;
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return false;
-        CEL_FETCH_STRING_PAR (startname,params,id_startname);
-        if (!p_startname) return false;
+	csString entityname, regionname, startname;
+	if (!Fetch (entityname, params, id_entityname)) return false;
+	if (!Fetch (regionname, params, id_regionname)) return false;
+	if (!Fetch (startname, params, id_startname)) return false;
         SetZoneManager (entityname, true, regionname, startname);
         return true;
       }
     case action_setfollowentity:
       {
-        CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-        if (!p_entityname) return false;
+	csString entityname;
+	if (!Fetch (entityname, params, id_entityname)) return false;
         iCelEntity* ent = pl->FindEntity (entityname);
         if (!ent) return false;
         SetFollowEntity (ent);
