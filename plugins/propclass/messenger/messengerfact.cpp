@@ -564,7 +564,7 @@ bool celPcMessenger::PerformActionIndexed (int idx,
         CEL_FETCH_FLOAT_PAR (timeout,params,id_timeout);
 	if (!p_timeout) timeout = 2.0f;
         CEL_FETCH_FLOAT_PAR (fadetime,params,id_fadetime);
-	if (!p_fadetime) timeout = 1.0f;
+	if (!p_fadetime) fadetime = 1.0f;
 
 	CEL_FETCH_BOOL_PAR (click,params,id_click);
 	if (!p_click) click = false;
