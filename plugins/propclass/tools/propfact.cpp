@@ -425,16 +425,18 @@ bool celPcProperties::PerformActionIndexed (int idx,
           SetProperty (name, (bool)value_b);
           return true;
         }
-        CEL_FETCH_FLOAT_PAR (value_f,params,id_value);
-        if (p_value_f)
+	if (ParExists (CEL_DATA_FLOAT, params, id_value))
         {
-          SetProperty (name, (float)value_f);
+	  float value_f;
+	  if (!Fetch (value_f, params, id_value)) return false;
+          SetProperty (name, value_f);
           return true;
         }
-        CEL_FETCH_LONG_PAR (value_l,params,id_value);
-        if (p_value_l)
-        {
-          SetProperty (name, (long)value_l);
+	if (ParExists (CEL_DATA_LONG, params, id_value))
+	{
+	  long value_l;
+	  if (!Fetch (value_l, params, id_value)) return false;
+          SetProperty (name, value_l);
           return true;
         }
         CEL_FETCH_VECTOR3_PAR (value_v3,params,id_value);

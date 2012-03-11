@@ -259,6 +259,14 @@ public:
     return true;
   }
 
+  bool ParExists (celDataType type, iCelParameterBlock* params, csStringID id)
+  {
+    if (!params) return false;
+    const celData* data = params->GetParameter (id);
+    if (!data) return false;
+    return IsTypeCompatible (data->type, type);
+  }
+
   bool Fetch (csString& var, iCelParameterBlock* params, csStringID id,
       bool use_def = false, const char* def = "")
   {

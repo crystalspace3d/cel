@@ -369,23 +369,15 @@ bool celPcMechanicsSystem::PerformActionIndexed (int idx,
       return true;
     case action_setsteptime:
       {
-        CEL_FETCH_FLOAT_PAR (time,params,param_time);
-        if (!p_time)
-        {
-          CS_REPORT(ERROR,"Couldn't get 'time' parameter for SetStepTime!");
-          return false;
-        }
+	float time;
+	if (!Fetch (time, params, param_time)) return false;
         SetStepTime (time);
 	return true;
       }
     case action_setsimulationspeed:
       {
-        CEL_FETCH_FLOAT_PAR (simulationspeed,params,param_simulationspeed);
-        if (!p_simulationspeed)
-        {
-          CS_REPORT(ERROR,"Couldn't get 'simulationspeed' parameter for SetSimulationSpeed!");
-          return false;
-        }
+	float simulationspeed;
+	if (!Fetch (simulationspeed, params, param_simulationspeed)) return false;
         SetSimulationSpeed (simulationspeed);
 	return true;
       }
@@ -833,12 +825,8 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
         if (!p_relative) relative = false;
         CEL_FETCH_VECTOR3_PAR (position,params,param_position);
         if (!p_position) position.Set (0, 0, 0);
-        CEL_FETCH_FLOAT_PAR (seconds,params,param_seconds);
-        if (!p_seconds)
-        {
-          CS_REPORT(ERROR,"'seconds' missing!");
-          return false;
-        }
+	float seconds;
+	if (!Fetch (seconds, params, param_seconds)) return false;
         AddForceDuration (force, relative, position, seconds);
 	return true;
       }
@@ -874,12 +862,8 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       }
     case action_removeforcetagged:
       {
-        CEL_FETCH_LONG_PAR (tag,params,param_tag);
-        if (!p_tag)
-        {
-          CS_REPORT(ERROR,"'tag' missing!");
-          return false;
-        }
+	long tag;
+	if (!Fetch (tag, params, param_tag)) return false;
         RemoveForceTagged ((uint32)tag);
 	return true;
       }
@@ -929,27 +913,45 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       }
     case action_initphys:
       {
-        CEL_FETCH_FLOAT_PAR (friction,params,param_friction);
-        if (p_friction)
+        if (ParExists (CEL_DATA_FLOAT, params, param_friction))
+	{
+          float friction;
+	  if (!Fetch (friction, params, param_friction)) return false;
           SetFriction (friction);
-        CEL_FETCH_FLOAT_PAR (mass,params,param_mass);
-        if (p_mass)
+	}
+        if (ParExists (CEL_DATA_FLOAT, params, param_mass))
+	{
+          float mass;
+	  if (!Fetch (mass, params, param_mass)) return false;
           SetMass (mass);
-        CEL_FETCH_FLOAT_PAR (elasticity,params,param_elasticity);
-        if (p_elasticity)
+	}
+        if (ParExists (CEL_DATA_FLOAT, params, param_elasticity))
+	{
+          float elasticity;
+	  if (!Fetch (elasticity, params, param_elasticity)) return false;
           SetElasticity (elasticity);
-        CEL_FETCH_FLOAT_PAR (density,params,param_density);
-        if (p_density)
+	}
+        if (ParExists (CEL_DATA_FLOAT, params, param_density))
+	{
+          float density;
+	  if (!Fetch (density, params, param_density)) return false;
           SetDensity (density);
-        CEL_FETCH_FLOAT_PAR (softness,params,param_softness);
-        if (p_softness)
+	}
+        if (ParExists (CEL_DATA_FLOAT, params, param_softness))
+	{
+          float softness;
+	  if (!Fetch (softness, params, param_softness)) return false;
           SetSoftness (softness);
+	}
         CEL_FETCH_VECTOR3_PAR (lift,params,param_lift);
         if (p_lift)
           SetLift (lift);
-        CEL_FETCH_FLOAT_PAR (drag,params,param_drag);
-        if (p_drag)
+        if (ParExists (CEL_DATA_FLOAT, params, param_drag))
+	{
+          float drag;
+	  if (!Fetch (drag, params, param_drag)) return false;
           SetDrag (drag);
+	}
 	return true;
       }
     case action_makestatic:
@@ -996,8 +998,8 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       }
     case action_setcollidersphere:
       {
-        CEL_FETCH_FLOAT_PAR (radius,params,param_radius);
-        if (!p_radius) radius = 1.0f;
+	float radius;
+	if (!Fetch (radius, params, param_radius, true, 1.0f)) return false;
         CEL_FETCH_VECTOR3_PAR (offset,params,param_offset);
         if (!p_offset) offset.Set (0, 0, 0);
         AttachColliderSphere (radius, offset);
@@ -1005,25 +1007,19 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       }
     case action_setcolliderboundingsphere:
       {
-        CEL_FETCH_FLOAT_PAR (radiusadjustment,params,param_radiusadjustment);
-        if (!p_radiusadjustment) radiusadjustment = 0.0f;
+	float radiusadjustment;
+	if (!Fetch (radiusadjustment, params, param_radiusadjustment, true, 0.0f)) return false;
         AttachColliderBoundingSphere (radiusadjustment);
         return true;
       }
     case action_setcollidercylinder:
       {
-        CEL_FETCH_FLOAT_PAR (length,params,param_length);
-        if (!p_length)
-        {
-          CS_REPORT(ERROR,"Couldn't get length!");
-          return false;
-        }
-        CEL_FETCH_FLOAT_PAR (radius,params,param_radius);
-        if (!p_radius) radius = 1.0f;
+	float length, radius, angle;
+	if (!Fetch (length, params, param_length)) return false;
+	if (!Fetch (radius, params, param_radius, true, 1.0f)) return false;
+	if (!Fetch (angle, params, param_angle, true, 0.0f)) return false;
         CEL_FETCH_VECTOR3_PAR (axis,params,param_axis);
         if (!p_axis) axis.Set (0, 0, 0);
-        CEL_FETCH_FLOAT_PAR (angle,params,param_angle);
-        if (!p_angle) angle = 0;
         CEL_FETCH_VECTOR3_PAR (offset,params,param_offset);
         if (!p_offset) offset.Set (0, 0, 0);
         AttachColliderCylinder (length, radius, csOrthoTransform (csMatrix3
@@ -1043,8 +1039,8 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
         if (!p_size) size.Set (1, 1, 1);
         CEL_FETCH_VECTOR3_PAR (axis,params,param_axis);
         if (!p_axis) axis.Set (0, 0, 0);
-        CEL_FETCH_FLOAT_PAR (angle,params,param_angle);
-        if (!p_angle) angle = 0;
+	float angle;
+	if (!Fetch (angle, params, param_angle, true, 0.0f)) return false;
         CEL_FETCH_VECTOR3_PAR (offset,params,param_offset);
         if (!p_offset) offset.Set (0, 0, 0);
         AttachColliderBox (size, csOrthoTransform (csMatrix3 (axis.x, axis.y,
@@ -1059,8 +1055,8 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
           CS_REPORT(ERROR,"Couldn't get normal!");
           return false;
         }
-        CEL_FETCH_FLOAT_PAR (offset,params,param_offset);
-        if (!p_offset) offset = 0;
+	float offset;
+	if (!Fetch (offset, params, param_offset, true, 0.0f)) return false;
         AttachColliderPlane (csPlane3 (normal, offset));
 	return true;
       }

@@ -120,10 +120,10 @@ bool celPcTimer::PerformActionIndexed (int idx,
   {
     case action_wakeup:
       {
-        CEL_FETCH_LONG_PAR (time,params,id_time);
-        if (!p_time) return false;
-        CEL_FETCH_BOOL_PAR (repeat,params,id_repeat);
-        if (!p_repeat) return false;
+	long time;
+	if (!Fetch (time, params, id_time)) return false;
+	bool repeat;
+	if (!Fetch (repeat, params, id_repeat)) return false;
 	csString name;
 	if (!Fetch (name, params, id_name, true, "")) return false;
         WakeUp ((csTicks)time, repeat, name);

@@ -193,21 +193,24 @@ bool celPcWasdMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_mouseaxis0)
   {
-    CEL_FETCH_FLOAT_PAR (x, params, id_param_x);
-    CEL_FETCH_FLOAT_PAR (y, params, id_param_y);
+    float x, y;
+    if (!Fetch (x, params, id_param_x, true, 0.0f)) return false;
+    if (!Fetch (y, params, id_param_y, true, 0.0f)) return false;
     trackcam->SetPanDirection (-x * 200);	//@@@Config
     trackcam->SetTiltDirection (-y * 200);	//@@@Config
     return true;
   }
   else if (msgid == id_input_joyaxis0)
   {
-    CEL_FETCH_FLOAT_PAR (value, params, id_param_value);
+    float value;
+    if (!Fetch (value, params, id_param_value, true, 0.0f)) return false;
     pcactor->SetAxis (0, value);
     return true;
   }
   else if (msgid == id_input_joyaxis1)
   {
-    CEL_FETCH_FLOAT_PAR (value, params, id_param_value);
+    float value;
+    if (!Fetch (value, params, id_param_value, true, 0.0f)) return false;
     pcactor->SetAxis (1, -value);
     return true;
   }
@@ -478,13 +481,15 @@ bool celPcWasdMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_tiltcam)
   {
-    CEL_FETCH_FLOAT_PAR (value, params, id_param_value);
+    float value;
+    if (!Fetch (value, params, id_param_value, true, 0.0f)) return false;
     puts ("tilting camera (not implemented)");
     return true;
   }
   else if (msgid == id_input_pancam)
   {
-    CEL_FETCH_FLOAT_PAR (value, params, id_param_value);
+    float value;
+    if (!Fetch (value, params, id_param_value, true, 0.0f)) return false;
     if (value < -EPSILON)
       trackcam->SetPanDirection (-1);
     else if (value > EPSILON)

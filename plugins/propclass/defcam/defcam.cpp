@@ -481,14 +481,16 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
           SetDampeningCoef (spring.y);
           SetSpringLength (spring.z);
         }
-        CEL_FETCH_FLOAT_PAR (turnspeed,params,id_turnspeed);
-        if (p_turnspeed)
+	if (ParExists (CEL_DATA_FLOAT, params, id_turnspeed))
         {
+	  float turnspeed;
+	  if (!Fetch (turnspeed, params, id_turnspeed)) return false;
           SetTurnSpeed (turnspeed);
         }
-        CEL_FETCH_FLOAT_PAR (swingcoef,params,id_swingcoef);
-        if (p_swingcoef)
-        {
+	if (ParExists (CEL_DATA_FLOAT, params, id_swingcoef))
+	{
+	  float swingcoef;
+	  if (!Fetch (swingcoef, params, id_swingcoef)) return false;
           SetSwingCoef (swingcoef);
         }
         CEL_FETCH_VECTOR3_PAR (fpoffset,params,id_fpoffset);
@@ -501,24 +503,28 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
         {
           thirdPersonPositionOffset = tpoffset;
         }
-        CEL_FETCH_FLOAT_PAR (pitch,params,id_pitch);
-        if (p_pitch)
-        {
+	if (ParExists (CEL_DATA_FLOAT, params, id_pitch))
+	{
+	  float pitch;
+	  if (!Fetch (pitch, params, id_pitch)) return false;
           SetPitch (pitch);
         }
-        CEL_FETCH_FLOAT_PAR (pitchvelocity,params,id_pitchvelocity);
-        if (p_pitchvelocity)
-        {
+	if (ParExists (CEL_DATA_FLOAT, params, id_pitchvelocity))
+	{
+	  float pitchvelocity;
+	  if (!Fetch (pitchvelocity, params, id_pitchvelocity)) return false;
           SetPitchVelocity (pitchvelocity);
         }
-        CEL_FETCH_FLOAT_PAR (yaw,params,id_yaw);
-        if (p_yaw)
-        {
+	if (ParExists (CEL_DATA_FLOAT, params, id_yaw))
+	{
+	  float yaw;
+	  if (!Fetch (yaw, params, id_yaw)) return false;
           SetYaw (yaw, -1);
         }
-        CEL_FETCH_FLOAT_PAR (yawvelocity,params,id_yawvelocity);
-        if (p_yawvelocity)
-        {
+	if (ParExists (CEL_DATA_FLOAT, params, id_yawvelocity))
+	{
+	  float yawvelocity;
+	  if (!Fetch (yawvelocity, params, id_yawvelocity)) return false;
           SetYawVelocity (yawvelocity);
         }
         CEL_FETCH_VECTOR3_PAR (distance,params,id_distance);
@@ -528,9 +534,10 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
           SetDistance (distance.y, -1);
           SetMaxDistance (distance.z);
         }
-        CEL_FETCH_FLOAT_PAR (distancevelocity,params,id_distancevelocity);
-        if (p_distancevelocity)
-        {
+	if (ParExists (CEL_DATA_FLOAT, params, id_distancevelocity))
+	{
+	  float distancevelocity;
+	  if (!Fetch (distancevelocity, params, id_distancevelocity)) return false;
           SetDistanceVelocity (distancevelocity);
         }
         return true;
@@ -555,23 +562,19 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
       }
     case action_setrectangle:
       {
-        CEL_FETCH_LONG_PAR (x,params,id_x);
-        if (!p_x) return false;
-        CEL_FETCH_LONG_PAR (y,params,id_y);
-        if (!p_y) return false;
-        CEL_FETCH_LONG_PAR (w,params,id_w);
-        if (!p_w) return false;
-        CEL_FETCH_LONG_PAR (h,params,id_h);
-        if (!p_h) return false;
+	long x, y, w, h;
+	if (!Fetch (x, params, id_x)) return false;
+	if (!Fetch (y, params, id_y)) return false;
+	if (!Fetch (w, params, id_w)) return false;
+	if (!Fetch (h, params, id_h)) return false;
         SetRectangle (x, y, w, h);
         return true;
       }
     case action_setperspcenter:
       {
-        CEL_FETCH_FLOAT_PAR (x,params,id_x);
-        if (!p_x) return false;
-        CEL_FETCH_FLOAT_PAR (y,params,id_y);
-        if (!p_y) return false;
+	float x, y;
+	if (!Fetch (x, params, id_x)) return false;
+	if (!Fetch (y, params, id_y)) return false;
         SetPerspectiveCenter (x, y);
         return true;
       }
@@ -581,12 +584,10 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
         if (!p_enable) return false;
         if (enable == true)
         {
-          CEL_FETCH_FLOAT_PAR (minfps,params,id_minfps);
-          if (!p_minfps) return false;
-          CEL_FETCH_FLOAT_PAR (maxfps,params,id_maxfps);
-          if (!p_maxfps) return false;
-          CEL_FETCH_FLOAT_PAR (mindist,params,id_mindist);
-          if (!p_mindist) return false;
+	  float minfps, maxfps, mindist;
+	  if (!Fetch (minfps, params, id_minfps)) return false;
+	  if (!Fetch (maxfps, params, id_maxfps)) return false;
+	  if (!Fetch (mindist, params, id_mindist)) return false;
           EnableAdaptiveDistanceClipping (minfps, maxfps, mindist);
         }
         else
@@ -599,8 +600,8 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
         if (!p_enable) return false;
         if (enable == true)
         {
-          CEL_FETCH_FLOAT_PAR (dist,params,id_dist);
-          if (!p_dist) return false;
+	  float dist;
+	  if (!Fetch (dist, params, id_dist)) return false;
           EnableFixedDistanceClipping (dist);
         }
         else

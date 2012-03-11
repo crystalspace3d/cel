@@ -120,49 +120,29 @@ bool celPcHover::PerformActionIndexed (int idx, iCelParameterBlock* params,
   {
     case action_sethbeamcutoff:
       {
-        CEL_FETCH_FLOAT_PAR (heightcutoff, params, param_hbeamcutoff);
-        if (!heightcutoff)
-        {
-          //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetHeightBeamCutoff!");
-          printf("Couldn't get 'heightcutoff' parameter for SetHeightBeamCutoff!");
-          return false;
-        }
+	float heightcutoff;
+	if (!Fetch (heightcutoff, params, param_hbeamcutoff)) return false;
         SetHeightBeamCutoff (heightcutoff);
         return true;
       }
     case action_setangoff:
       {
-        CEL_FETCH_FLOAT_PAR (offset, params, param_angoff);
-        if (!offset)
-        {
-          //CS_REPORT(ERROR,"Couldn't get 'offset' parameter for SetAngularBeamOffset!");
-          printf("Couldn't get 'offset' parameter for SetAngularBeamOffset!");
-          return false;
-        }
+	float offset;
+	if (!Fetch (offset, params, param_angoff)) return false;
         SetAngularBeamOffset (offset);
 	return true;
       }
     case action_setangheight:
       {
-        CEL_FETCH_FLOAT_PAR (angheight, params, param_angheight);
-        if (!angheight)
-        {
-          //CS_REPORT(ERROR,"Couldn't get 'angheight' parameter for SetAngularCutoffHeight!");
-          printf("Couldn't get 'angheight' parameter for SetAngularCutoffHeight!");
-          return false;
-        }
+	float angheight;
+	if (!Fetch (angheight, params, param_angheight)) return false;
         SetAngularCutoffHeight (angheight);
 	return true;
       }
     case action_setangstr:
       {
-        CEL_FETCH_FLOAT_PAR (angstrength, params, param_angstr);
-        if (!angstrength)
-        {
-          //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetAngularCorrectionStrength!");
-          printf("Couldn't get 'angstrength' parameter for SetAngularCorrectionStrength!");
-          return false;
-        }
+	float angstrength;
+	if (!Fetch (angstrength, params, param_angstr)) return false;
         SetAngularCorrectionStrength (angstrength);
 	return true;
       }
@@ -180,15 +160,17 @@ bool celPcHover::PerformActionIndexed (int idx, iCelParameterBlock* params,
       }
     case action_setfactors:
       {
-        CEL_FETCH_FLOAT_PAR (p_factor, params, param_p_factor);
-        CEL_FETCH_FLOAT_PAR (i_factor, params, param_i_factor);
-        CEL_FETCH_FLOAT_PAR (d_factor, params, param_d_factor);
+	float p_factor, i_factor, d_factor;
+	if (!Fetch (p_factor, params, param_p_factor, true, 0.0f)) return false;
+	if (!Fetch (i_factor, params, param_i_factor, true, 0.0f)) return false;
+	if (!Fetch (d_factor, params, param_d_factor, true, 0.0f)) return false;
         SetFactors (p_factor, i_factor, d_factor);
         return true;
       }
     case action_sethoverheight:
       {
-        CEL_FETCH_FLOAT_PAR (hoverheight, params, param_hoverheight);
+	float hoverheight;
+	if (!Fetch (hoverheight, params, param_hoverheight)) return false;
         SetHoverHeight (hoverheight);
       }
     default:

@@ -119,9 +119,12 @@ bool celPcRules::PerformActionIndexed (int idx,
         iCelRule* rule = rulebase->FindRule (name);
         if (!rule)
           return Report (object_reg, "Can't find rule '%s'!", name.GetData ());
-        CEL_FETCH_LONG_PAR (time,params,id_time);
-        if (p_time)
+        if (ParExists (CEL_DATA_LONG, params, id_time))
+	{
+	  long time;
+	  if (!Fetch (time, params, id_time)) return false;
           AddRule (rule, time);
+	}
         else
           AddRule (rule);
         return true;

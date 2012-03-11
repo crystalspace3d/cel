@@ -262,8 +262,8 @@ bool celPcMover::PerformActionIndexed (int idx,
 	if (!Fetch (sectorname, params, id_sectorname)) return false;
         CEL_FETCH_VECTOR3_PAR (position,params,id_position);
         if (!p_position) return false;
-        CEL_FETCH_FLOAT_PAR (sqradius,params,id_sqradius);
-        if (!p_sqradius) return false;
+	float sqradius;
+	if (!Fetch (sqradius, params, id_sqradius)) return false;
         CEL_FETCH_BOOL_PAR (checklos,params,id_checklos);
 	// if action is start we have to change checklos value to
 	// true, false is default already if not specified.
