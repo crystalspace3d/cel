@@ -404,45 +404,17 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     {
       CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
       
-      CEL_FETCH_FLOAT_PAR(turnspeed, params, param_turnspeed);
-      if(!p_turnspeed)
-        turnspeed=2.0f;
-      
-      CEL_FETCH_FLOAT_PAR(returnspeed, params, param_returnspeed);
-      if(!p_returnspeed)
-        returnspeed=4.0f;
-      
-      CEL_FETCH_FLOAT_PAR(ss, params, param_suspensionsoftness);
-      if(!p_ss)
-        ss=0.000125f;
-      
-      CEL_FETCH_FLOAT_PAR(sd, params, param_suspensiondamping);
-      if(!p_sd)
-        sd=0.125f;
-      
-      CEL_FETCH_FLOAT_PAR(brakepower, params, param_brakepower);
-      if(!p_brakepower)
-        brakepower=1.0f;
-      
-      CEL_FETCH_FLOAT_PAR(enginepower, params, param_enginepower);
-      if(!p_enginepower)
-        enginepower=1.0f;
-      
-      CEL_FETCH_FLOAT_PAR(lss, params, param_leftsteersensitivity);
-      if(!p_lss)
-        lss=1.0f;
-      
-      CEL_FETCH_FLOAT_PAR(rss, params, param_rightsteersensitivity);
-      if(!p_rss)
-        rss=1.0f;
-      
-      CEL_FETCH_FLOAT_PAR(friction, params, param_friction);
-      if(!p_friction)
-        friction=0.7f;
-      
-      CEL_FETCH_FLOAT_PAR(mass, params, param_mass);
-      if(!p_mass)
-        mass=10.0f;
+      float turnspeed, returnspeed, ss, sd, brakepower, enginepower, lss, rss, friction, mass;
+      if (!Fetch (turnspeed, params, param_turnspeed, true, 2.0f)) return false;
+      if (!Fetch (returnspeed, params, param_returnspeed, true, 4.0f)) return false;
+      if (!Fetch (ss, params, param_suspensionsoftness, true, 0.000125f)) return false;
+      if (!Fetch (sd, params, param_suspensiondamping, true, 0.125f)) return false;
+      if (!Fetch (brakepower, params, param_brakepower, true, 1.0f)) return false;
+      if (!Fetch (enginepower, params, param_enginepower, true, 1.0f)) return false;
+      if (!Fetch (lss, params, param_leftsteersensitivity, true, 1.0f)) return false;
+      if (!Fetch (rss, params, param_rightsteersensitivity, true, 1.0f)) return false;
+      if (!Fetch (friction, params, param_friction, true, 0.7f)) return false;
+      if (!Fetch (mass, params, param_mass, true, 10.0f)) return false;
       
       CEL_FETCH_BOOL_PAR(hbaffect, params, param_handbrakeaffected);
       if(!p_hbaffect)
@@ -468,8 +440,9 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     }
   case action_deletewheel:
     {
-      CEL_FETCH_LONG_PAR (num, params, param_wheelnum);
-      DeleteWheel(num);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      DeleteWheel (num);
       return true;
     }
   case action_deleteallwheels:
@@ -477,8 +450,9 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     return true;
   case action_destroywheel:
     {
-      CEL_FETCH_FLOAT_PAR (num, params, param_wheelnum);
-      DestroyWheel(int (num));
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      DestroyWheel(num);
       return true;
     }
   case action_destroyallwheels:
@@ -486,7 +460,8 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     return true;
   case action_restorewheel:
     {
-      CEL_FETCH_LONG_PAR (num, params, param_wheelnum);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
       RestoreWheel(num);
       return true;
     }
@@ -495,17 +470,15 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     return true;
   case action_steerleft:
     {
-      CEL_FETCH_FLOAT_PAR(amount, params, param_steeramount);
-      if(!p_amount)
-        amount = 1.0f;
+      float amount;
+      if (!Fetch (amount, params, param_steeramount, true, 1.0f)) return false;
       SteerLeft(amount);
       return true;
     }
   case action_steerright:
     {
-      CEL_FETCH_FLOAT_PAR(amount, params, param_steeramount);
-      if(!p_amount)
-        amount = 1.0f;
+      float amount;
+      if (!Fetch (amount, params, param_steeramount, true, 1.0f)) return false;
       SteerRight(amount);
       return true;
     }
@@ -520,44 +493,50 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     return true;
   case action_setgearsettings:
     {
-      CEL_FETCH_FLOAT_PAR(force,params,param_force);
-      CEL_FETCH_FLOAT_PAR(velocity,params,param_velocity);
-      CEL_FETCH_LONG_PAR(g,params,param_gear);
+      long g;
+      float force, velocity;
+      if (!Fetch (force, params, param_force, true, 0.0f)) return false;
+      if (!Fetch (velocity, params, param_velocity, true, 0.0f)) return false;
+      if (!Fetch (g, params, param_gear, true, 0)) return false;
       SetGearSettings(g,velocity,force);
       return true;
     }
   case action_setfrontwheelpreset:
     {
-      CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
-      CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
-      CEL_FETCH_FLOAT_PAR(ss,params,param_suspensionsoftness);
-      CEL_FETCH_FLOAT_PAR(sd,params,param_suspensiondamping);
-      CEL_FETCH_FLOAT_PAR(fr,params,param_friction);
-      CEL_FETCH_FLOAT_PAR(ma,params,param_mass);
+      float sens, power, ss, sd, fr, ma;
+      if (!Fetch (sens, params, param_steersensitivity, true, 0.0f)) return false;
+      if (!Fetch (power, params, param_enginepower, true, 0.0f)) return false;
+      if (!Fetch (ss, params, param_suspensionsoftness, true, 0.0f)) return false;
+      if (!Fetch (sd, params, param_suspensiondamping, true, 0.0f)) return false;
+      if (!Fetch (fr, params, param_friction, true, 0.0f)) return false;
+      if (!Fetch (ma, params, param_mass, true, 0.0f)) return false;
       SetFrontWheelPreset(sens,power,ss,sd,fr,ma);
       return true;
     }
   case action_setrearwheelpreset:
     {
-      CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
-      CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
-      CEL_FETCH_FLOAT_PAR(ss,params,param_suspensionsoftness);
-      CEL_FETCH_FLOAT_PAR(sd,params,param_suspensiondamping);
-      CEL_FETCH_FLOAT_PAR(fr,params,param_friction);
-      CEL_FETCH_FLOAT_PAR(ma,params,param_mass);
+      float sens, power, ss, sd, fr, ma;
+      if (!Fetch (sens, params, param_steersensitivity, true, 0.0f)) return false;
+      if (!Fetch (power, params, param_enginepower, true, 0.0f)) return false;
+      if (!Fetch (ss, params, param_suspensionsoftness, true, 0.0f)) return false;
+      if (!Fetch (sd, params, param_suspensiondamping, true, 0.0f)) return false;
+      if (!Fetch (fr, params, param_friction, true, 0.0f)) return false;
+      if (!Fetch (ma, params, param_mass, true, 0.0f)) return false;
       SetRearWheelPreset(sens,power,ss,sd,fr,ma);
       return true;
     }
   case action_setwheelposition:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
       CEL_FETCH_VECTOR3_PAR(pos,params,param_position);
       SetWheelPosition(num,pos);
       return true;
     }
   case action_setwheelrotation:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
       CEL_FETCH_VECTOR3_PAR(rotation,params,param_rotation);
       csQuaternion quat;
       if (p_rotation)
@@ -567,84 +546,106 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     }
   case action_setwheelsuspensionsoftness:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
-      CEL_FETCH_FLOAT_PAR(softness,params,param_suspensionsoftness);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      float softness;
+      if (!Fetch (softness, params, param_suspensionsoftness, true, 0.0f)) return false;
       SetWheelSuspensionSoftness(int(num),softness);
       return true;
     }
   case action_setwheelsuspensiondamping:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
-      CEL_FETCH_FLOAT_PAR(damping,params,param_suspensiondamping);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      float damping;
+      if (!Fetch (damping, params, param_suspensiondamping, true, 0.0f)) return false;
       SetWheelSuspensionDamping(num,damping);
       return true;
     }
   case action_setwheelleftsteersensitivity:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
-      CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      float sens;
+      if (!Fetch (sens, params, param_steersensitivity, true, 0.0f)) return false;
       SetWheelLeftSteerSensitivity(num,sens);
       return true;
     }
   case action_setwheelrightsteersensitivity:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
-      CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      float sens;
+      if (!Fetch (sens, params, param_steersensitivity, true, 0.0f)) return false;
       SetWheelRightSteerSensitivity(num,sens);
       return true;
     }
   case action_setwheelfriction:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
-      CEL_FETCH_FLOAT_PAR(friction,params,param_friction);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      float friction;
+      if (!Fetch (friction, params, param_friction, true, 0.0f)) return false;
       SetWheelFriction(num,friction);
       return true;
     }
   case action_setwheelmass:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
-      CEL_FETCH_FLOAT_PAR(mass,params,param_mass);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      float mass;
+      if (!Fetch (mass, params, param_mass, true, 0.0f)) return false;
       SetWheelMass(num,mass);
       return true;
     }
   case action_setwheelturnspeed:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
-      CEL_FETCH_FLOAT_PAR(speed,params,param_turnspeed);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      float speed;
+      if (!Fetch (speed, params, param_turnspeed, true, 0.0f)) return false;
       SetWheelTurnSpeed(num, speed);
       return true;
     }
   case action_setwheelreturnspeed:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
-      CEL_FETCH_FLOAT_PAR(speed,params,param_returnspeed);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      float speed;
+      if (!Fetch (speed, params, param_returnspeed, true, 0.0f)) return false;
       SetWheelReturnSpeed(num, speed);
       return true;
     }
   case action_setwheelenginepower:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
-      CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      float power;
+      if (!Fetch (power, params, param_enginepower, true, 0.0f)) return false;
       SetWheelEnginePower(num, power);
       return true;
     }
   case action_setwheelbrakepower:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
-      CEL_FETCH_FLOAT_PAR(power,params,param_brakepower);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
+      float power;
+      if (!Fetch (power, params, param_brakepower, true, 0.0f)) return false;
       SetWheelBrakePower(num,power);
       return true;
     }
   case action_setwheelsteerinverted:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
       CEL_FETCH_BOOL_PAR(invert,params,param_steerinverted);
       SetWheelSteerInverted(num, invert);
       return true;
     }
   case action_setwheelhandbrakeaffected:
     {
-      CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
+      long num;
+      if (!Fetch (num, params, param_wheelnum)) return false;
       CEL_FETCH_BOOL_PAR(affect,params,param_handbrakeaffected);
       SetWheelHandbrakeAffected(num, affect);
       return true;

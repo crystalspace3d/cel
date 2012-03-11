@@ -176,8 +176,8 @@ bool celPcWire::PerformActionIndexed (int idx,
       }
     case action_mapparameter:
       {
-        CEL_FETCH_LONG_PAR (id,params,id_id);
-        if (!p_id) return false;
+	long id;
+	if (!Fetch (id, params, id_id)) return false;
 	csString dest, expression;
 	if (!Fetch (dest, params, id_dest)) return false;
 	if (!Fetch (expression, params, id_expression, true, "")) return false;

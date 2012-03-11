@@ -129,59 +129,54 @@ bool celPcAnalogMotion::PerformActionIndexed (int idx,
   {
     case action_setaxis:
     {
-      CEL_FETCH_LONG_PAR (axis, params, id_axis);
-      CEL_FETCH_FLOAT_PAR (value, params, id_value);
-      if (!p_axis || !p_value)
-        return false;
+      long axis;
+      float value;
+      if (!Fetch (axis, params, id_axis)) return false;
+      if (!Fetch (value, params, id_value)) return false;
       SetAxis (axis, value);
       return true;
     }
     case action_addaxis:
     {
-      CEL_FETCH_LONG_PAR (axis, params, id_axis);
-      CEL_FETCH_FLOAT_PAR (value, params, id_value);
-      if (!p_axis || !p_value)
-        return false;
+      long axis;
+      float value;
+      if (!Fetch (axis, params, id_axis)) return false;
+      if (!Fetch (value, params, id_value)) return false;
       AddAxis (axis, value);
       return true;
     }
     case action_setmovespeed:
     {
-      CEL_FETCH_FLOAT_PAR (value, params, id_value);
-      if (!p_value)
-        return false;
+      float value;
+      if (!Fetch (value, params, id_value)) return false;
       SetMovementSpeed (value);
       return true;
     }
     case action_setmoveaccel:
     {
-      CEL_FETCH_FLOAT_PAR (value, params, id_value);
-      if (!p_value)
-        return false;
+      float value;
+      if (!Fetch (value, params, id_value)) return false;
       SetMovementAcceleration (value);
       return true;
     }
     case action_setmovedecel:
     {
-      CEL_FETCH_FLOAT_PAR (value, params, id_value);
-      if (!p_value)
-        return false;
+      float value;
+      if (!Fetch (value, params, id_value)) return false;
       SetMovementDeceleration (value);
       return true;
     }
     case action_setminturnspeed:
     {
-      CEL_FETCH_FLOAT_PAR (value, params, id_value);
-      if (!p_value)
-        return false;
+      float value;
+      if (!Fetch (value, params, id_value)) return false;
       SetMinimumTurningSpeed (value);
       return true;
     }
     case action_setmaxturnspeed:
     {
-      CEL_FETCH_FLOAT_PAR (value, params, id_value);
-      if (!p_value)
-        return false;
+      float value;
+      if (!Fetch (value, params, id_value)) return false;
       SetMaximumTurningSpeed (value);
       return true;
     }

@@ -866,10 +866,8 @@ bool celPcTrigger::PerformActionIndexed (int idx,
 	csString sector;
 	if (!Fetch (sector, params, id_sector)) return false;
 
-        CEL_FETCH_FLOAT_PAR (radius,params,id_radius);
-        if (!p_radius)
-          return Report (object_reg,
-          	"Missing parameter 'radius' for action SetupTriggerSphere!");
+	float radius;
+	if (!Fetch (radius, params, id_radius)) return false;
         iSector* sec = engine->FindSector (sector);
         if (!sec)
           return Report (object_reg,
@@ -941,10 +939,8 @@ bool celPcTrigger::PerformActionIndexed (int idx,
       {
 	csString entity;
 	if (!Fetch (entity, params, id_entity)) return false;
-        CEL_FETCH_FLOAT_PAR (maxdistance,params,id_maxdistance);
-        if (!p_maxdistance)
-          return Report (object_reg,
-          	"Missing parameter 'maxdistance' for action SetupTriggerAboveMesh!");
+	float maxdistance;
+	if (!Fetch (maxdistance, params, id_maxdistance)) return false;
         iCelEntity* ent = pl->FindEntity (entity);
         if (!ent)
           return Report (object_reg,

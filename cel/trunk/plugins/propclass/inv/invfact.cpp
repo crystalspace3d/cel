@@ -118,7 +118,8 @@ bool celPcInventory::PerformActionIndexed (int idx,
   {
     csString name;
     if (!Fetch (name, params, id_name)) return false;
-    CEL_FETCH_LONG_PAR (amount,params,id_amount);
+    long amount;
+    if (!Fetch (amount, params, id_amount, true, 1)) return false;
     iCelEntityTemplate* tpl = pl->FindEntityTemplate (name);
     if (!tpl)
     {
@@ -134,7 +135,8 @@ bool celPcInventory::PerformActionIndexed (int idx,
   {
     csString name;
     if (!Fetch (name, params, id_name)) return false;
-    CEL_FETCH_LONG_PAR (amount,params,id_amount);
+    long amount;
+    if (!Fetch (amount, params, id_amount, true, 1)) return false;
     iCelEntityTemplate* tpl = pl->FindEntityTemplate (name);
     if (!tpl)
     {

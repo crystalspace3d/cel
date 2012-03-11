@@ -421,10 +421,8 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
       }
     case action_initcdmesh:
       {
-        CEL_FETCH_FLOAT_PAR (percentage,params,id_percentage);
-        if (!p_percentage)
-          return MoveReport (object_reg,
-          	"Missing parameter 'percentage' for action InitCDMesh!");
+	float percentage;
+	if (!Fetch (percentage, params, id_percentage)) return false;
         csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
         if (!pcmesh)
           return MoveReport (object_reg,
@@ -434,10 +432,8 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
       }
     case action_setposition:
       {
-        float yrotation = 0.0f;
-        CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
-        if (p_yrot)
-          yrotation = yrot;
+        float yrotation;
+	if (!Fetch (yrotation, params, id_yrot, true, 0.0f)) return false;
 	csString sector;
 	if (!Fetch (sector, params, id_sector)) return false;
         iSector* sect = engine->FindSector (sector);

@@ -158,15 +158,15 @@ bool celPcDamage::PerformActionIndexed (int idx,
   {
     case action_areadamage:
       {
-        CEL_FETCH_FLOAT_PAR (radius,params,id_radius);
-        if (!p_radius) radius = 1000000000.0f;
+	float radius;
+	if (!Fetch (radius, params, id_radius, true, 1000000000.0f)) return false;
         AreaDamage (radius);
         return true;
       }
     case action_beamdamage:
       {
-        CEL_FETCH_FLOAT_PAR (maxdist,params,id_maxdist);
-        if (!p_maxdist) { maxdist = 1000000000.0f; }
+	float maxdist;
+	if (!Fetch (maxdist, params, id_maxdist, true, 1000000000.0f)) return false;
         CEL_FETCH_VECTOR3_PAR (direction,params,id_direction);
         if (!p_direction) return false; // @@@ Error!
         BeamDamage (direction, maxdist);

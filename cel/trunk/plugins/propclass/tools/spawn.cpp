@@ -206,8 +206,8 @@ bool celPcSpawn::PerformActionIndexed (int idx,
   {
     case action_addentitytpltype:
       {
-        CEL_FETCH_FLOAT_PAR (chance_param,params,id_chance_param);
-        if (!p_chance_param) chance_param = 0.0f;
+	float chance_param;
+	if (!Fetch (chance_param, params, id_chance_param, true, 0.0f)) return false;
 	csString entity_param, template_param, call_param;
 	if (!Fetch (entity_param, params, id_entity_param, true, "")) return false;
 	if (!Fetch (template_param, params, id_template_param)) return false;
@@ -218,22 +218,12 @@ bool celPcSpawn::PerformActionIndexed (int idx,
       }
     case action_settiming:
       {
-        CEL_FETCH_BOOL_PAR (repeat_param,params,id_repeat_param);
-        if (!p_repeat_param)
-          return Report (object_reg,
-      	    "Missing parameter 'repeat' for action SetTiming!");
-        CEL_FETCH_BOOL_PAR (random_param,params,id_random_param);
-        if (!p_random_param)
-          return Report (object_reg,
-      	    "Missing parameter 'random' for action SetTiming!");
-        CEL_FETCH_LONG_PAR (mindelay_param,params,id_mindelay_param);
-        if (!p_mindelay_param)
-          return Report (object_reg,
-      	    "Missing parameter 'mindelay' for action SetTiming!");
-        CEL_FETCH_LONG_PAR (maxdelay_param,params,id_maxdelay_param);
-        if (!p_maxdelay_param)
-          return Report (object_reg,
-      	    "Missing parameter 'maxdelay' for action SetTiming!");
+	bool repeat_param, random_param;
+	long mindelay_param, maxdelay_param;
+	if (!Fetch (repeat_param, params, id_repeat_param)) return false;
+	if (!Fetch (random_param, params, id_random_param)) return false;
+	if (!Fetch (mindelay_param, params, id_mindelay_param)) return false;
+	if (!Fetch (maxdelay_param, params, id_maxdelay_param)) return false;
         SetTiming (repeat_param, random_param, mindelay_param, maxdelay_param);
         return true;
       }
@@ -254,14 +244,10 @@ bool celPcSpawn::PerformActionIndexed (int idx,
       return true;
     case action_inhibit:
       {
-        bool ret = false;
-        CEL_FETCH_LONG_PAR (count_param,params,id_count_param);
-        if (p_count_param)
-        {
-          InhibitCount (count_param);
-          ret = true;
-        }
-        return ret;
+	long count_param;
+	if (!Fetch (count_param, params, id_count_param)) return false;
+        InhibitCount (count_param);
+        return true;
       }
     case action_spawn:
       Spawn ();
@@ -271,8 +257,8 @@ bool celPcSpawn::PerformActionIndexed (int idx,
 	csString sector_param, position_param;
 	if (!Fetch (sector_param, params, id_sector_param)) return false;
 	if (!Fetch (position_param, params, id_position_param, true, "")) return false;
-        CEL_FETCH_FLOAT_PAR (yrot_param,params,id_yrot_param);
-        if (!p_yrot_param) yrot_param = 0.0f;
+	float yrot_param;
+	if (!Fetch (yrot_param, params, id_yrot_param, true, 0.0f)) return false;
         if (!position_param.IsEmpty ())
         {
           AddSpawnPosition (position_param, yrot_param, sector_param);

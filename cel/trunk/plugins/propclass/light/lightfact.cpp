@@ -164,9 +164,8 @@ bool celPcLight::PerformActionIndexed (int idx,
         CEL_FETCH_VECTOR3_PAR (pos,params,id_pos);
         if (!p_pos)
           return Report (object_reg, "'pos' parameter missing!");
-        CEL_FETCH_FLOAT_PAR (radius,params,id_radius);
-        if (!p_radius)
-          return Report (object_reg, "'radius' parameter missing!");
+	float radius;
+	if (!Fetch (radius, params, id_radius)) return false;
         CEL_FETCH_COLOR_PAR (color,params,id_color);
         if (!p_color)
           return Report (object_reg, "'color' parameter missing!");

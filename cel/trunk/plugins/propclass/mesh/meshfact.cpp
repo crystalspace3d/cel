@@ -526,8 +526,8 @@ bool celPcMesh::PerformActionIndexed (int idx,
         }
         else if (!strcmp(par_type,"long"))
         {
-          CEL_FETCH_LONG_PAR (par_value,params,id_value);
-          if (!p_par_value) return false;
+	  long par_value;
+	  if (!Fetch (par_value, params, id_value)) return false;
           SetShaderVar (strset->Request (par_name), (int)par_value);
         }
         else if (!strcmp(par_type,"vector2"))
@@ -1835,10 +1835,8 @@ bool celPcMeshSelect::PerformActionIndexed (int idx,
         }
         else
         {
-          CEL_FETCH_LONG_PAR (buttons,params,id_buttons);
-          if (!p_buttons)
-            return Report (object_reg,
-            	"Missing parameter 'buttons' for action SetMouseButtons!");
+	  long buttons;
+	  if (!Fetch (buttons, params, id_buttons)) return false;
           SetMouseButtons (buttons);
         }
         return true;

@@ -407,14 +407,27 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       }
     case action_setspeed:
       {
-        CEL_FETCH_FLOAT_PAR (movement,params,id_movement);
-        if (p_movement) SetMovementSpeed (movement);
-        CEL_FETCH_FLOAT_PAR (running,params,id_running);
-        if (p_running) SetRunningSpeed (running);
-        CEL_FETCH_FLOAT_PAR (rotation,params,id_rotation);
-        if (p_rotation) SetRotationSpeed (rotation);
-        CEL_FETCH_FLOAT_PAR (jumping,params,id_jumping);
-        if (p_jumping) SetJumpingVelocity (jumping);
+	float movement, running, rotation, jumping;
+	if (ParExists (CEL_DATA_FLOAT, params, id_movement))
+	{
+	  if (!Fetch (movement, params, id_movement)) return false;
+	  SetMovementSpeed (movement);
+	}
+	if (ParExists (CEL_DATA_FLOAT, params, id_running))
+	{
+	  if (!Fetch (running, params, id_running)) return false;
+	  SetRunningSpeed (running);
+	}
+	if (ParExists (CEL_DATA_FLOAT, params, id_rotation))
+	{
+	  if (!Fetch (rotation, params, id_rotation)) return false;
+	  SetRotationSpeed (rotation);
+	}
+	if (ParExists (CEL_DATA_FLOAT, params, id_jumping))
+	{
+	  if (!Fetch (jumping, params, id_jumping)) return false;
+	  SetJumpingVelocity (jumping);
+	}
         return true;
       }
     case action_forward:
@@ -461,17 +474,16 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       }
     case action_rotateto:
       {
-        CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
-        if (!p_yrot) return false;
+	float yrot;
+	if (!Fetch (yrot, params, id_yrot)) return false;
         RotateTo (yrot);
         return true;
       }
     case action_mousemove:
       {
-        CEL_FETCH_FLOAT_PAR (x,params,id_x);
-        if (!p_x) return false;
-        CEL_FETCH_FLOAT_PAR (y,params,id_y);
-        if (!p_y) return false;
+	float x, y;
+	if (!Fetch (x, params, id_x)) return false;
+	if (!Fetch (y, params, id_y)) return false;
         MouseMove (x, y);
         return true;
       }

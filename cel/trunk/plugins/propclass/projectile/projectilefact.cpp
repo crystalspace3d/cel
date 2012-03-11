@@ -164,12 +164,11 @@ bool celPcProjectile::PerformActionIndexed (int idx,
       {
         CEL_FETCH_VECTOR3_PAR (direction,params,id_direction);
         if (!p_direction) return false;	// @@@ Error?
-        CEL_FETCH_FLOAT_PAR (speed,params,id_speed);
-        if (!p_speed) speed = 1.0f;
-        CEL_FETCH_FLOAT_PAR (maxdist,params,id_maxdist);
-        if (!p_maxdist) maxdist = 1000000000.0f;
-        CEL_FETCH_LONG_PAR (maxhits,params,id_maxhits);
-        if (!p_maxhits) maxhits = 1;
+	float speed, maxdist;
+	if (!Fetch (speed, params, id_speed, true, 1.0f)) return false;
+	if (!Fetch (maxdist, params, id_maxdist, true, 1000000000.0f)) return false;
+	long maxhits;
+	if (!Fetch (maxhits, params, id_maxhits, true, 1)) return false;
         Start (direction, speed, maxdist, maxhits);
         return true;
       }
