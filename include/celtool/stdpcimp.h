@@ -258,12 +258,12 @@ public:
   }
 
   bool Fetch (csString& var, iCelParameterBlock* params, csStringID id,
-      const char* def = 0)
+      bool use_def = false, const char* def = "")
   {
     if (!params) return false;
     const celData* data = params->GetParameter (id);
-    if (!CheckData (data, id, def != 0)) return false;
-    if (!data && def) { var = def; return true; }
+    if (!CheckData (data, id, use_def)) return false;
+    if (!data && use_def) { var = def; return true; }
     if (!CheckTypeCompatible (CEL_DATA_STRING, data->type, id)) return false;
     var = data->value.s->GetData ();
     return true;

@@ -491,6 +491,7 @@ static CycleType StringToCycleType (const char* s)
   if (str == "random" || str == "rand" || str == "rnd") return CYCLE_RANDOM;
   else if (str == "sequence" || str == "seq") return CYCLE_SEQUENCE;
   else if (str == "none" || str == "") return CYCLE_NONE;
+  else if (str == "undefined") return CYCLE_UNDEFINED;
   int idx;
   csScanStr (s, "%d", &idx);
   if (idx >= 0 && idx <= 1000) return CycleType (int (CYCLE_INDEX) + idx);
@@ -511,8 +512,8 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	if (!Fetch (name, params, id_name)) return false;
 
 	if (!Fetch (position, params, id_position)) return false;
-	if (!Fetch (boxAnchor, params, id_boxanchor, "c")) return false;
-	if (!Fetch (screenAnchor, params, id_screenanchor, "c")) return false;
+	if (!Fetch (boxAnchor, params, id_boxanchor, true, "c")) return false;
+	if (!Fetch (screenAnchor, params, id_screenanchor, true, "c")) return false;
 	MessageLocationAnchor boxAnchorV = StringToAnchor (boxAnchor);
 	if (boxAnchorV == ANCHOR_INVALID) return false;
 	MessageLocationAnchor screenAnchorV = StringToAnchor (screenAnchor);
@@ -547,32 +548,31 @@ bool celPcMessenger::PerformActionIndexed (int idx,
       }
     case action_definetype:
       {
-	// @@@ Error reporting.
-        CEL_FETCH_STRING_PAR (type,params,id_type);
-        if (!p_type) return false;
-        CEL_FETCH_STRING_PAR (slot,params,id_slot);
-        if (!p_slot) slot = "none";
-	CEL_FETCH_COLOR4_PAR (textColor,params,id_textcolor);
-	if (!p_textColor) textColor.Set (1, 1, 1, 1);
-        CEL_FETCH_STRING_PAR (font,params,id_font);
-        CEL_FETCH_LONG_PAR (fontSize,params,id_fontsize);
-        CEL_FETCH_FLOAT_PAR (timeout,params,id_timeout);
-	if (!p_timeout) timeout = 2.0f;
-        CEL_FETCH_FLOAT_PAR (fadetime,params,id_fadetime);
-	if (!p_fadetime) fadetime = 1.0f;
+	csString type, slot, font;
+	long fontSize;
 
-	CEL_FETCH_BOOL_PAR (click,params,id_click);
-	if (!p_click) click = false;
-	CEL_FETCH_BOOL_PAR (log,params,id_log);
-	if (!p_log) log = false;
+	if (!Fetch (type, params, id_type)) return false;
+	if (!Fetch (slot, params, id_slot, true, "none")) return false;
+	if (!Fetch (font, params, id_font, true, "")) return false;
+	if (!Fetch (fontSize, params, id_fontsize, true, 10)) return false;
 
+	csColor4 textColor;
+	if (!Fetch (textColor, params, id_textcolor, true, csColor4 (1, 1, 1, 1))) return false;
+
+	float timeout, fadetime;
+	if (!Fetch (timeout, params, id_timeout, true, 2.0f)) return false;
+	if (!Fetch (fadetime, params, id_fadetime, true, 1.0f)) return false;
+
+	bool click, log;
+	if (!Fetch (click, params, id_click, true, false)) return false;
+	if (!Fetch (log, params, id_log, true, false)) return false;
+
+	csString cf, cn;
 	CycleType cyclefirst, cyclenext;
-        CEL_FETCH_STRING_PAR (cf,params,id_cyclefirst);
-	if (!p_cf) cyclefirst = CYCLE_RANDOM;
-	else cyclefirst = StringToCycleType (cf);
-        CEL_FETCH_STRING_PAR (cn,params,id_cyclenext);
-	if (!p_cn) cyclenext = CYCLE_UNDEFINED;
-	else cyclenext = StringToCycleType (cn);
+	if (!Fetch (cf, params, id_cyclefirst, true, "random")) return false;
+	if (!Fetch (cn, params, id_cyclenext, true, "undefined")) return false;
+	cyclefirst = StringToCycleType (cf);
+	cyclenext = StringToCycleType (cn);
 
 	DefineType (type, slot, textColor, font, fontSize,
 	    timeout, fadetime, click, log,
