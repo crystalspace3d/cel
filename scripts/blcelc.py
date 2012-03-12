@@ -5479,6 +5479,12 @@ class celPcCommon(object):
     __swig_destroy__ = _blcelc.delete_celPcCommon
     __del__ = lambda self : None;
     def HavePropertyClassesChanged(*args): return _blcelc.celPcCommon_HavePropertyClassesChanged(*args)
+    GetTypeName = staticmethod(_blcelc.celPcCommon_GetTypeName)
+    IsTypeCompatible = staticmethod(_blcelc.celPcCommon_IsTypeCompatible)
+    def CheckTypeCompatible(*args): return _blcelc.celPcCommon_CheckTypeCompatible(*args)
+    def CheckData(*args): return _blcelc.celPcCommon_CheckData(*args)
+    def ParExists(*args): return _blcelc.celPcCommon_ParExists(*args)
+    def Fetch(*args): return _blcelc.celPcCommon_Fetch(*args)
     def SetTag(*args): return _blcelc.celPcCommon_SetTag(*args)
     def GetTag(*args): return _blcelc.celPcCommon_GetTag(*args)
     def GetName(*args): return _blcelc.celPcCommon_GetName(*args)
@@ -5523,6 +5529,8 @@ class celPcCommon(object):
     def ReceiveMessage(*args): return _blcelc.celPcCommon_ReceiveMessage(*args)
 celPcCommon_swigregister = _blcelc.celPcCommon_swigregister
 celPcCommon_swigregister(celPcCommon)
+celPcCommon_GetTypeName = _blcelc.celPcCommon_GetTypeName
+celPcCommon_IsTypeCompatible = _blcelc.celPcCommon_IsTypeCompatible
 
 class swigPcCommonFactory(iCelPropertyClassFactory):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
