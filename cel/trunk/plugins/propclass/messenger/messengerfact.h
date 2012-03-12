@@ -131,7 +131,8 @@ private:
   csPen* borderPen;
   csColor4 boxColor;
   csColor4 borderColor;
-  int borderWidth;
+  float borderWidth;
+  int roundness;
   int sizex, sizey;
   int maxsizex, maxsizey;
   int marginx, marginy;
@@ -168,13 +169,13 @@ public:
       int sizex, int sizey, int maxsizex, int maxsizey,
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,
-      int borderWidth, int maxmessages, 
+      float borderWidth, int roundness, int maxmessages, 
       bool queue, float boxfadetime) :
     g3d (g3d),
     name (name), position (position),
     boxAnchor (boxAnchor), screenAnchor (screenAnchor),
     boxColor (boxColor), borderColor (borderColor),
-    borderWidth (borderWidth),
+    borderWidth (borderWidth), roundness (roundness),
     sizex (sizex), sizey (sizey), maxsizex (maxsizex), maxsizey (maxsizey),
     marginx (marginx), marginy (marginy),
     maxmessages (maxmessages),
@@ -289,6 +290,7 @@ private:
   static csStringID id_maxmessages;
   static csStringID id_boxfadetime;
   static csStringID id_borderwidth;
+  static csStringID id_roundness;
 
   csRef<iVirtualClock> vc;
   csRef<iGraphics3D> g3d;
@@ -326,7 +328,7 @@ public:
       int sizex, int sizey, int maxsizex, int maxsizey,
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,
-      int borderWidth, int maxmessages, 
+      float borderWidth, int roundness, int maxmessages, 
       bool queue, float boxfadetime);
   virtual void DefineType (const char* type, const char* slot,
       const csColor4& textColor, const char* font, int fontSize,
