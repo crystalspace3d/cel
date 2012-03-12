@@ -234,13 +234,13 @@ bool celPcSpawn::PerformActionIndexed (int idx,
       {
 	csString sector_param, position_param;
 	if (!Fetch (sector_param, params, id_sector_param)) return false;
-	if (!Fetch (position_param, params, id_position_param, true, "")) return false;
 	float yrot_param;
 	if (!Fetch (yrot_param, params, id_yrot_param, true, 0.0f)) return false;
-        if (!position_param.IsEmpty ())
-        {
-          AddSpawnPosition (position_param, yrot_param, sector_param);
-        }
+	if (ParExists (CEL_DATA_STRING, params, id_position_param))
+	{
+	  if (!Fetch (position_param, params, id_position_param)) return false;
+	  AddSpawnPosition (position_param, yrot_param, sector_param);
+	}
         else
         {
 	  csVector3 position;
