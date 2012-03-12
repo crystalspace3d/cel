@@ -37,25 +37,6 @@
 CEL_IMPLEMENT_FACTORY_ALT (Inventory, "pctools.inventory", "pcinventory")
 CEL_IMPLEMENT_FACTORY_ALT (Characteristics, "pctools.inventory.characteristics", "pccharacteristics")
 
-void Report (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pctools.inventory",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-}
-
 //---------------------------------------------------------------------------
 
 csStringID celPcInventory::id_entity = csInvalidStringID;
@@ -122,11 +103,7 @@ bool celPcInventory::PerformActionIndexed (int idx,
     if (!Fetch (amount, params, id_amount, true, 1)) return false;
     iCelEntityTemplate* tpl = pl->FindEntityTemplate (name);
     if (!tpl)
-    {
-      // @@@ Proper error.
-      printf ("Can't find entity template '%s'!\n", name.GetData ());
-      return false;
-    }
+      return Error ("Can't find entity template '%s'!\n", name.GetData ());
     bool rc = AddEntityTemplate (tpl, amount);
     ret.Set (rc);
     return true;
@@ -139,11 +116,7 @@ bool celPcInventory::PerformActionIndexed (int idx,
     if (!Fetch (amount, params, id_amount, true, 1)) return false;
     iCelEntityTemplate* tpl = pl->FindEntityTemplate (name);
     if (!tpl)
-    {
-      // @@@ Proper error.
-      printf ("Can't find entity template '%s'!\n", name.GetData ());
-      return false;
-    }
+      return Error ("Can't find entity template '%s'!\n", name.GetData ());
     bool rc = RemoveEntityTemplate (tpl, amount);
     ret.Set (rc);
     return true;
@@ -152,20 +125,12 @@ bool celPcInventory::PerformActionIndexed (int idx,
   {
     csRef<iLootManager> lootmgr = csLoadPluginCheck<iLootManager> (object_reg, "cel.tools.lootmanager");
     if (!lootmgr)
-    {
-      // @@@ Proper error.
-      printf ("Can't find loot manager!\n");
-      return false;
-    }
+      return Error ("Can't find loot manager!\n");
     csString name;
     if (!Fetch (name, params, id_name)) return false;
     iLootGenerator* gen = lootmgr->FindLootGenerator (name);
     if (!gen)
-    {
-      // @@@ Proper error.
-      printf ("Can't find loot generator'%s'!\n", name.GetData ());
-      return false;
-    }
+      return Error ("Can't find loot generator'%s'!\n", name.GetData ());
     SetLootGenerator (gen);
     return true;
   }
@@ -219,7 +184,7 @@ void celPcInventory::RestoreModifications (iCelCompactDataBufferReader* buf,
     csRef<iLootManager> lootmgr = csLoadPluginCheck<iLootManager> (object_reg, "cel.tools.lootmanager");
     if (!lootmgr)
     {
-      printf ("Error! Couldn't find loot manager!\n");
+      Error ("Error! Couldn't find loot manager!\n");
       return;
     }
     const char* lootname = strings.Get (generatorID, (const char*)0);
@@ -252,7 +217,7 @@ void celPcInventory::RestoreModifications (iCelCompactDataBufferReader* buf,
     ts.tpl = pl->FindEntityTemplate (tplName);
     if (!ts.tpl)
     {
-      printf ("Error! Couldn't find template '%s'!\n", tplName);
+      Error ("Error! Couldn't find template '%s'!\n", tplName);
       return;
     }
     ts.amount = buf->GetInt32 ();

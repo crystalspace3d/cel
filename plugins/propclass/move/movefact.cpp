@@ -57,45 +57,6 @@ CEL_IMPLEMENT_FACTORY_ALT (Solid, "pcmove.solid", "pcsolid")
 CEL_IMPLEMENT_FACTORY_ALT (MovableConstraintCD, "pcmove.movableconst_cd", "pcmovableconst_cd")
 CEL_IMPLEMENT_FACTORY_ALT (Gravity, "pcmove.gravity", "pcgravity")
 
-bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcmove",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-  return false;
-}
-
-void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_NOTIFY, "cel.pcmove",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-}
-
 //---------------------------------------------------------------------------
 
 celPcMovable::celPcMovable (iObjectRegistry* object_reg)
@@ -285,14 +246,9 @@ bool celPcSolid::PerformActionIndexed (int idx,
       }
     case action_setupbox:
       {
-        CEL_FETCH_VECTOR3_PAR (min,params,id_min);
-        if (!p_min)
-          return MoveReport (object_reg,
-          	"'min' parameter missing for SetupBox!");
-        CEL_FETCH_VECTOR3_PAR (max,params,id_max);
-        if (!p_max)
-          return MoveReport (object_reg,
-          	"'max' parameter missing for SetupBox!");
+	csVector3 min, max;
+	if (!Fetch (min, params, id_min)) return false;
+	if (!Fetch (max, params, id_max)) return false;
         SetupBox (csBox3 (min, max));
         return true;
       }
@@ -763,8 +719,8 @@ bool celPcGravity::PerformActionIndexed (int idx,
 {
   if (idx == action_applypermanentforce)
   {
-    CEL_FETCH_VECTOR3_PAR (force,params,id_force);
-    if (!p_force) return false;
+    csVector3 force;
+    if (!Fetch (force, params, id_force)) return false;
     ApplyPermanentForce (force);
     return true;
   }

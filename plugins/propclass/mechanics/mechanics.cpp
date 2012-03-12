@@ -41,7 +41,6 @@
 #include "ivaria/ode.h"
 #include "ivaria/bullet.h"
 
-#include "plugins/propclass/mechanics/common.h"
 #include "plugins/propclass/mechanics/mechanics.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -171,7 +170,7 @@ iDynamics* celPcMechanicsSystem::GetDynamics ()
     if (!dynsystem_error_reported)
     {
       dynsystem_error_reported = true;
-      CS_REPORT(ERROR,"Can't find dynamic subsystem!");
+      Error ("Can't find dynamic subsystem!");
     }
     return 0;
   }
@@ -338,7 +337,7 @@ bool celPcMechanicsSystem::PerformActionIndexed (int idx,
         }
         else
         {
-          CS_REPORT(ERROR,"Couldn't get plugin name!");
+          Error ("Couldn't get plugin name!");
           return false;
         }
         return true;
@@ -353,7 +352,7 @@ bool celPcMechanicsSystem::PerformActionIndexed (int idx,
         }
         else
         {
-          CS_REPORT(ERROR,"Couldn't get dynamics system name!");
+          Error ("Couldn't get dynamics system name!");
           return false;
         }
         return true;
@@ -383,18 +382,11 @@ bool celPcMechanicsSystem::PerformActionIndexed (int idx,
       }
     case action_setgravity:
       {
-        CEL_FETCH_VECTOR3_PAR (gravity,params,param_gravity);
-        if (p_gravity)
-        {
-          GetDynamicSystem();
-          if (dynsystem)
-             dynsystem->SetGravity (gravity);
-        }
-        else
-        {
-          CS_REPORT(ERROR,"Couldn't get gravity!");
-          return false;
-        }
+	csVector3 gravity;
+	if (!Fetch (gravity, params, param_gravity)) return false;
+        GetDynamicSystem();
+        if (dynsystem)
+          dynsystem->SetGravity (gravity);
 	return true;
       }
     default:
@@ -778,53 +770,35 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
   {
     case action_setlinearvelocity:
       {
-        CEL_FETCH_VECTOR3_PAR (velocity,params,param_velocity);
-        if (!p_velocity)
-        {
-          CS_REPORT(ERROR,"'velocity' missing!");
-          return false;
-        }
+	csVector3 velocity;
+	if (!Fetch (velocity, params, param_velocity)) return false;
         SetLinearVelocity (velocity);
 	return true;
       }
     case action_setangularvelocity:
       {
-        CEL_FETCH_VECTOR3_PAR (velocity,params,param_velocity);
-        if (!p_velocity)
-        {
-          CS_REPORT(ERROR,"'velocity' missing!");
-          return false;
-        }
+	csVector3 velocity;
+	if (!Fetch (velocity, params, param_velocity)) return false;
         SetAngularVelocity (velocity);
 	return true;
       }
     case action_addforceonce:
       {
-        CEL_FETCH_VECTOR3_PAR (force,params,param_force);
-        if (!p_force)
-        {
-          CS_REPORT(ERROR,"'force' missing!");
-          return false;
-        }
-        CEL_FETCH_BOOL_PAR (relative,params,param_relative);
-        if (!p_relative) relative = false;
-        CEL_FETCH_VECTOR3_PAR (position,params,param_position);
-        if (!p_position) position.Set (0, 0, 0);
+	csVector3 force, position;
+	if (!Fetch (force, params, param_force)) return false;
+	if (!Fetch (position, params, param_position, true, csVector3 (0, 0, 0))) return false;
+	bool relative;
+	if (!Fetch (relative, params, param_relative, true, false)) return false;
         AddForceOnce (force, relative, position);
 	return true;
       }
     case action_addforceduration:
       {
-        CEL_FETCH_VECTOR3_PAR (force,params,param_force);
-        if (!p_force)
-        {
-          CS_REPORT(ERROR,"'force' missing!");
-          return false;
-        }
-        CEL_FETCH_BOOL_PAR (relative,params,param_relative);
-        if (!p_relative) relative = false;
-        CEL_FETCH_VECTOR3_PAR (position,params,param_position);
-        if (!p_position) position.Set (0, 0, 0);
+	csVector3 force, position;
+	if (!Fetch (force, params, param_force)) return false;
+	if (!Fetch (position, params, param_position, true, csVector3 (0, 0, 0))) return false;
+	bool relative;
+	if (!Fetch (relative, params, param_relative, true, false)) return false;
 	float seconds;
 	if (!Fetch (seconds, params, param_seconds)) return false;
         AddForceDuration (force, relative, position, seconds);
@@ -832,31 +806,21 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       }
     case action_addforceframe:
       {
-        CEL_FETCH_VECTOR3_PAR (force,params,param_force);
-        if (!p_force)
-        {
-          CS_REPORT(ERROR,"'force' missing!");
-          return false;
-        }
-        CEL_FETCH_BOOL_PAR (relative,params,param_relative);
-        if (!p_relative) relative = false;
-        CEL_FETCH_VECTOR3_PAR (position,params,param_position);
-        if (!p_position) position.Set (0, 0, 0);
+	csVector3 force, position;
+	if (!Fetch (force, params, param_force)) return false;
+	if (!Fetch (position, params, param_position, true, csVector3 (0, 0, 0))) return false;
+	bool relative;
+	if (!Fetch (relative, params, param_relative, true, false)) return false;
         AddForceFrame (force, relative, position);
 	return true;
       }
     case action_addforcetagged:
       {
-        CEL_FETCH_VECTOR3_PAR (force,params,param_force);
-        if (!p_force)
-        {
-          CS_REPORT(ERROR,"'force' missing!");
-          return false;
-        }
-        CEL_FETCH_BOOL_PAR (relative,params,param_relative);
-        if (!p_relative) relative = false;
-        CEL_FETCH_VECTOR3_PAR (position,params,param_position);
-        if (!p_position) position.Set (0, 0, 0);
+	csVector3 force, position;
+	if (!Fetch (force, params, param_force)) return false;
+	if (!Fetch (position, params, param_position, true, csVector3 (0, 0, 0))) return false;
+	bool relative;
+	if (!Fetch (relative, params, param_relative, true, false)) return false;
         last_tag = AddForceTagged (force, relative, position);
 	return true;
       }
@@ -872,12 +836,8 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       return true;
     case action_setposition:
       {
-        CEL_FETCH_VECTOR3_PAR (position,params,param_position);
-        if (!p_position)
-        {
-          CS_REPORT(ERROR,"'position' missing!");
-          return false;
-        }
+	csVector3 position;
+	if (!Fetch (position, params, param_position)) return false;
         GetBody ()->SetPosition (position);
 	return true;
       }
@@ -887,12 +847,8 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       return true;
     case action_rotate:
       {
-        CEL_FETCH_VECTOR3_PAR (rotation,params,param_rotation);
-        if (!p_rotation)
-        {
-          CS_REPORT(ERROR,"'rotation' missing!");
-          return false;
-        }
+	csVector3 rotation;
+	if (!Fetch (rotation, params, param_rotation)) return false;
         csQuaternion quat;
         quat.SetEulerAngles(rotation);
         csReversibleTransform tr (quat.GetMatrix (), csVector3 (0));
@@ -902,10 +858,9 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       }
     case action_lookat:
       {
-        CEL_FETCH_VECTOR3_PAR (forward,params,param_forward);
-        if (!p_forward) forward.Set (0, 0, 1);
-        CEL_FETCH_VECTOR3_PAR (up,params,param_up);
-        if (!p_up) up.Set (0, 1, 0);
+	csVector3 forward, up;
+	if (!Fetch (forward, params, param_forward, true, csVector3 (0, 0, 1))) return false;
+	if (!Fetch (up, params, param_up, true, csVector3 (0, 1, 0))) return false;
         csReversibleTransform t;
         t.LookAt (forward, up);
         GetBody ()->SetOrientation (t.GetO2T ());
@@ -943,9 +898,12 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
 	  if (!Fetch (softness, params, param_softness)) return false;
           SetSoftness (softness);
 	}
-        CEL_FETCH_VECTOR3_PAR (lift,params,param_lift);
-        if (p_lift)
+	if (ParExists (CEL_DATA_VECTOR3, params, param_lift))
+	{
+	  csVector3 lift;
+	  if (!Fetch (lift, params, param_lift)) return false;
           SetLift (lift);
+	}
         if (ParExists (CEL_DATA_FLOAT, params, param_drag))
 	{
           float drag;
@@ -956,12 +914,8 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       }
     case action_makestatic:
       {
-        CEL_FETCH_BOOL_PAR (makestatic,params,param_static);
-        if (!p_makestatic)
-        {
-          CS_REPORT(ERROR,"Couldn't get static!");
-          return false;
-        }
+	bool makestatic;
+	if (!Fetch (makestatic, params, param_static)) return false;
         MakeStatic (makestatic);
 	return true;
       }
@@ -978,7 +932,7 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
           mechsyss = celQueryPropertyClassEntity<iPcMechanicsSystem> (sysent);
         if (!mechsyss)
         {
-          CS_REPORT(ERROR,"Couldn't find entity for dynamic system!");
+          Error ("Couldn't find entity for dynamic system!");
           return false;
         }
         SetMechanicsSystem (mechsyss);
@@ -1000,8 +954,8 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
       {
 	float radius;
 	if (!Fetch (radius, params, param_radius, true, 1.0f)) return false;
-        CEL_FETCH_VECTOR3_PAR (offset,params,param_offset);
-        if (!p_offset) offset.Set (0, 0, 0);
+	csVector3 offset;
+	if (!Fetch (offset, params, param_offset, true, csVector3 (0, 0, 0))) return false;
         AttachColliderSphere (radius, offset);
         return true;
       }
@@ -1018,43 +972,36 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
 	if (!Fetch (length, params, param_length)) return false;
 	if (!Fetch (radius, params, param_radius, true, 1.0f)) return false;
 	if (!Fetch (angle, params, param_angle, true, 0.0f)) return false;
-        CEL_FETCH_VECTOR3_PAR (axis,params,param_axis);
-        if (!p_axis) axis.Set (0, 0, 0);
-        CEL_FETCH_VECTOR3_PAR (offset,params,param_offset);
-        if (!p_offset) offset.Set (0, 0, 0);
+	csVector3 axis, offset;
+	if (!Fetch (axis, params, param_axis, true, csVector3 (0, 0, 0))) return false;
+	if (!Fetch (offset, params, param_offset, true, csVector3 (0, 0, 0))) return false;
         AttachColliderCylinder (length, radius, csOrthoTransform (csMatrix3
 	    (axis.x, axis.y, axis.z, angle), offset));
 	return true;
       }
     case action_setcolliderboundingbox:
       {
-        CEL_FETCH_VECTOR3_PAR (sizeadjustment,params,param_sizeadjustment);
-        if (!p_sizeadjustment) sizeadjustment.Set (0, 0, 0);
+	csVector3 sizeadjustment;
+	if (!Fetch (sizeadjustment, params, param_sizeadjustment, true, csVector3 (0, 0, 0))) return false;
         AttachColliderBoundingBox (sizeadjustment);
         return true;
       }
     case action_setcolliderbox:
       {
-        CEL_FETCH_VECTOR3_PAR (size,params,param_size);
-        if (!p_size) size.Set (1, 1, 1);
-        CEL_FETCH_VECTOR3_PAR (axis,params,param_axis);
-        if (!p_axis) axis.Set (0, 0, 0);
+	csVector3 size, axis, offset;
+	if (!Fetch (size, params, param_size, true, csVector3 (1, 1, 1))) return false;
+	if (!Fetch (axis, params, param_axis, true, csVector3 (0, 0, 0))) return false;
+	if (!Fetch (offset, params, param_offset, true, csVector3 (0, 0, 0))) return false;
 	float angle;
 	if (!Fetch (angle, params, param_angle, true, 0.0f)) return false;
-        CEL_FETCH_VECTOR3_PAR (offset,params,param_offset);
-        if (!p_offset) offset.Set (0, 0, 0);
         AttachColliderBox (size, csOrthoTransform (csMatrix3 (axis.x, axis.y,
 	    axis.z, angle), offset));
 	return true;
       }
     case action_setcolliderplane:
       {
-        CEL_FETCH_VECTOR3_PAR (normal,params,param_normal);
-        if (!p_normal)
-        {
-          CS_REPORT(ERROR,"Couldn't get normal!");
-          return false;
-        }
+	csVector3 normal;
+	if (!Fetch (normal, params, param_normal)) return false;
 	float offset;
 	if (!Fetch (offset, params, param_offset, true, 0.0f)) return false;
         AttachColliderPlane (csPlane3 (normal, offset));
@@ -1143,7 +1090,7 @@ iRigidBody* celPcMechanicsObject::GetBody ()
     }
     else
     {
-      CS_REPORT(ERROR,"No mechsys!!!!!!!!!");
+      Error ("No mechsys!!!!!!!!!");
       return 0;
     }
   }
@@ -1612,16 +1559,16 @@ void celPcMechanicsJoint::CreateJoint ()
   csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
   if (!pcmechobj)
   {
-    fprintf (stderr, "Can't find pcmechobject for entity!\n"); fflush (stderr);
-    return;	// @@@ Error?
+    Error ("Can't find pcmechobject for entity!\n");
+    return;
   }
   iRigidBody* body2 = pcmechobj->GetBody ();
   csRef<iPcMechanicsSystem> mechsystem =
   	csQueryRegistry<iPcMechanicsSystem> (object_reg);
   if (!mechsystem)
   {
-    fprintf (stderr, "Can't find mechanics system!\n"); fflush (stderr);
-    return;	// @@@ Error?
+    Error ("Can't find mechanics system!\n");
+    return;
   }
   joint = mechsystem->CreateJoint (body1, body2);
 }
@@ -1638,23 +1585,14 @@ bool celPcMechanicsJoint::PerformActionIndexed (int idx,
 	if (!Fetch (body, params, param_body)) return false;
         parent_body = pl->FindEntity (body);
         if (!parent_body)
-        {
-          csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-      	    "cel.propclass.mechanics", "Can't find entity '%s' for parent body!",
-	    body.GetData ());
-          return false;
-        }
+          return Error ("Can't find entity '%s' for parent body!", body.GetData ());
         CreateJoint ();
 	return true;
       }
     case action_setposition:
       {
-        CEL_FETCH_VECTOR3_PAR (position,params,param_position);
-        if (!p_position)
-        {
-          CS_REPORT(ERROR,"'position' missing!");
-          return false;
-        }
+	csVector3 position;
+	if (!Fetch (position, params, param_position)) return false;
         CreateJoint ();
         if (joint)
         {
@@ -1666,22 +1604,19 @@ bool celPcMechanicsJoint::PerformActionIndexed (int idx,
       }
     case action_setconstraindist:
       {
-        CEL_FETCH_BOOL_PAR (x,params,param_x);
-        if (!p_x) x = false;
-        CEL_FETCH_BOOL_PAR (y,params,param_y);
-        if (!p_y) y = false;
-        CEL_FETCH_BOOL_PAR (z,params,param_z);
-        if (!p_z) z = false;
+	bool x, y, z;
+	if (!Fetch (x, params, param_x, true, false)) return false;
+	if (!Fetch (y, params, param_y, true, false)) return false;
+	if (!Fetch (z, params, param_z, true, false)) return false;
         CreateJoint ();
         if (joint) joint->SetTransConstraints (x, y, z);
 	return true;
       }
     case action_setdistances:
       {
-        CEL_FETCH_VECTOR3_PAR (min,params,param_min);
-        if (!p_min) min.Set (0, 0, 0);
-        CEL_FETCH_VECTOR3_PAR (max,params,param_max);
-        if (!p_max) max.Set (0, 0, 0);
+	csVector3 min, max;
+	if (!Fetch (min, params, param_min, true, csVector3 (0, 0, 0))) return false;
+	if (!Fetch (max, params, param_max, true, csVector3 (0, 0, 0))) return false;
         CreateJoint ();
         if (joint)
         {
@@ -1692,22 +1627,19 @@ bool celPcMechanicsJoint::PerformActionIndexed (int idx,
       }
     case action_setconstrainangle:
       {
-        CEL_FETCH_BOOL_PAR (x,params,param_x);
-        if (!p_x) x = false;
-        CEL_FETCH_BOOL_PAR (y,params,param_y);
-        if (!p_y) y = false;
-        CEL_FETCH_BOOL_PAR (z,params,param_z);
-        if (!p_z) z = false;
+	bool x, y, z;
+	if (!Fetch (x, params, param_x, true, false)) return false;
+	if (!Fetch (y, params, param_y, true, false)) return false;
+	if (!Fetch (z, params, param_z, true, false)) return false;
         CreateJoint ();
         if (joint) joint->SetRotConstraints (x, y, z);
 	return true;
       }
     case action_setangles:
       {
-        CEL_FETCH_VECTOR3_PAR (min,params,param_min);
-        if (!p_min) min.Set (0, 0, 0);
-        CEL_FETCH_VECTOR3_PAR (max,params,param_max);
-        if (!p_max) max.Set (0, 0, 0);
+	csVector3 min, max;
+	if (!Fetch (min, params, param_min, true, csVector3 (0, 0, 0))) return false;
+	if (!Fetch (max, params, param_max, true, csVector3 (0, 0, 0))) return false;
         CreateJoint ();
         if (joint)
         {

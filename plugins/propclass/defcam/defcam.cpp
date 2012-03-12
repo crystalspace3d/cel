@@ -474,9 +474,10 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
         {
           SetModeName (modename);
         }
-        CEL_FETCH_VECTOR3_PAR (spring,params,id_spring);
-        if (p_spring)
-        {
+	if (ParExists (CEL_DATA_VECTOR3, params, id_spring))
+	{
+	  csVector3 spring;
+	  if (!Fetch (spring, params, id_spring)) return false;
           SetSpringCoef (spring.x);
           SetDampeningCoef (spring.y);
           SetSpringLength (spring.z);
@@ -493,14 +494,16 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
 	  if (!Fetch (swingcoef, params, id_swingcoef)) return false;
           SetSwingCoef (swingcoef);
         }
-        CEL_FETCH_VECTOR3_PAR (fpoffset,params,id_fpoffset);
-        if (p_fpoffset)
-        {
+	if (ParExists (CEL_DATA_VECTOR3, params, id_fpoffset))
+	{
+	  csVector3 fpoffset;
+	  if (!Fetch (fpoffset, params, id_fpoffset)) return false;
           firstPersonPositionOffset = fpoffset;
         }
-        CEL_FETCH_VECTOR3_PAR (tpoffset,params,id_tpoffset);
-        if (p_tpoffset)
-        {
+	if (ParExists (CEL_DATA_VECTOR3, params, id_tpoffset))
+	{
+	  csVector3 tpoffset;
+	  if (!Fetch (tpoffset, params, id_tpoffset)) return false;
           thirdPersonPositionOffset = tpoffset;
         }
 	if (ParExists (CEL_DATA_FLOAT, params, id_pitch))
@@ -527,9 +530,10 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
 	  if (!Fetch (yawvelocity, params, id_yawvelocity)) return false;
           SetYawVelocity (yawvelocity);
         }
-        CEL_FETCH_VECTOR3_PAR (distance,params,id_distance);
-        if (p_distance)
-        {
+	if (ParExists (CEL_DATA_VECTOR3, params, id_distance))
+	{
+	  csVector3 distance;
+	  if (!Fetch (distance, params, id_distance)) return false;
           SetMinDistance (distance.x);
           SetDistance (distance.y, -1);
           SetMaxDistance (distance.z);
@@ -580,9 +584,9 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
       }
     case action_adaptiveclipping:
       {
-        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
-        if (!p_enable) return false;
-        if (enable == true)
+	bool enable;
+	if (!Fetch (enable, params, id_enable)) return false;
+        if (enable)
         {
 	  float minfps, maxfps, mindist;
 	  if (!Fetch (minfps, params, id_minfps)) return false;
@@ -596,9 +600,9 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
       }
     case action_fixedclipping:
       {
-        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
-        if (!p_enable) return false;
-        if (enable == true)
+	bool enable;
+	if (!Fetch (enable, params, id_enable)) return false;
+        if (enable)
         {
 	  float dist;
 	  if (!Fetch (dist, params, id_dist)) return false;

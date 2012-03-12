@@ -578,32 +578,3 @@ int32 celPcNeuralNet::ReadInt32(iDataBuffer *buf, size_t index)
   return csBigEndian::Int32(ptr[index]);
 }
 
-bool celPcNeuralNet::Error(char const *desc, ...) const
-{
-  va_list args;
-  va_start(args, desc);
-  csReportV(const_cast<iObjectRegistry*>(object_reg),
-	CS_REPORTER_SEVERITY_ERROR, "cel.propclass.ai.neuralnet", desc, args);
-  va_end(args);
-  return false;
-}
-
-bool celPcNeuralNet::Warning(char const *desc, ...) const
-{
-  va_list args;
-  va_start(args, desc);
-  csReportV(const_cast<iObjectRegistry*>(object_reg),
-	CS_REPORTER_SEVERITY_WARNING, "cel.propclass.ai.neuralnet", desc, args);
-  va_end(args);
-  return false;
-}
-
-bool celPcNeuralNet::Bug(char const *desc, ...) const
-{
-  va_list args;
-  va_start(args, desc);
-  csReportV(const_cast<iObjectRegistry*>(object_reg),
-	CS_REPORTER_SEVERITY_BUG, "cel.propclass.ai.neuralnet", desc, args);
-  va_end(args);
-  return false;
-}

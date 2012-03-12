@@ -99,12 +99,10 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
   cur_path = 0;
   cur_path = scfCreateInstance<iCelPath> ("cel.celpath");
   if(!cur_path)
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.propclass.pathfinder", "Loading celPath in PathFinder!");
+    Error ("Loading celPath in PathFinder!");
   //goal = 0;
   /*if(!goal)
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.propclass.pathfinder", "Loading celNode in PathFinder!");*/
+    Error ("Loading celNode in PathFinder!");*/
 }
 
 celPcPathFinder::~celPcPathFinder ()
@@ -419,12 +417,11 @@ bool celPcPathFinder::PerformActionIndexed (int idx, iCelParameterBlock* params,
     {
       csString sectorname;
       if (!Fetch (sectorname, params, id_sectorname)) return false;
-      CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-      if (!p_position)
-        return false;
+      csVector3 position;
+      if (!Fetch (position, params, id_position)) return false;
       iSector* s = engine->FindSector (sectorname);
       if (!s)
-        return false;
+        return Error ("Can't find sector '%s' for Seek!", sectorname.GetData ());
       Seek(sector, position);
       // @@@ Return value?
       return true;

@@ -260,18 +260,15 @@ bool celPcMover::PerformActionIndexed (int idx,
       {
 	csString sectorname;
 	if (!Fetch (sectorname, params, id_sectorname)) return false;
-        CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-        if (!p_position) return false;
+	csVector3 position;
+	if (!Fetch (position, params, id_position)) return false;
 	float sqradius;
 	if (!Fetch (sqradius, params, id_sqradius)) return false;
-        CEL_FETCH_BOOL_PAR (checklos,params,id_checklos);
-	// if action is start we have to change checklos value to
-	// true, false is default already if not specified.
-        if (!p_checklos && idx == action_start)
-	  checklos = true;
+	bool checklos;
+	if (!Fetch (checklos, params, id_checklos, true, idx == action_start)) return false;
         iSector* s = engine->FindSector (sectorname);
         if (!s)
-          return false;
+          return Error ("Can't find sector '%s' for MoveTo action!", sectorname.GetData ());
         MoveTo (sector, position, sqradius, checklos);
         // @@@ Return value?
         return true;

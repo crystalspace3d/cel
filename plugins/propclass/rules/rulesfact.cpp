@@ -33,26 +33,6 @@
 
 CEL_IMPLEMENT_FACTORY_ALT (Rules, "pclogic.rules", "pcrules")
 
-static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.rules",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-  return false;
-}
-
 //---------------------------------------------------------------------------
 
 void rulePropertyListener::PropertyChanged (iPcProperties* pcprop, size_t idx)
@@ -118,7 +98,7 @@ bool celPcRules::PerformActionIndexed (int idx,
 	if (!Fetch (name, params, id_name)) return false;
         iCelRule* rule = rulebase->FindRule (name);
         if (!rule)
-          return Report (object_reg, "Can't find rule '%s'!", name.GetData ());
+          return Error ("Can't find rule '%s'!", name.GetData ());
         if (ParExists (CEL_DATA_LONG, params, id_time))
 	{
 	  long time;
@@ -135,7 +115,7 @@ bool celPcRules::PerformActionIndexed (int idx,
 	if (!Fetch (name, params, id_name)) return false;
         iCelRule* rule = rulebase->FindRule (name);
         if (!rule)
-          return Report (object_reg, "Can't find rule '%s'!", name.GetData ());
+          return Error ("Can't find rule '%s'!", name.GetData ());
         DeleteRule (rule);
         return true;
       }
@@ -155,7 +135,7 @@ void celPcRules::GetRuleBase ()
     	"cel.manager.rules");
     if (!rulebase)
     {
-      Report (object_reg, "Can't find rule base plugin!");
+      Error ("Can't find rule base plugin!");
       return;
     }
   }

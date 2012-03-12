@@ -187,13 +187,6 @@ public:
   /// Destructor.
   virtual ~celPcEvolve();
 
-  /// Report error. Always returns false.
-  bool Error(char const *desc, ...) const;
-  /// Report warning. Always returns false.
-  bool Warning(char const *desc, ...) const;
-  /// Report bug. Always returns false.
-  bool Bug(char const *desc, ...) const;
-
   //--------------------------------------------------------- celPcCommon --//
   virtual bool PerformActionIndexed(int index, iCelParameterBlock *params, celData &ret);
 

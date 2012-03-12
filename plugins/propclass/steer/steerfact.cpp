@@ -439,11 +439,9 @@ bool celPcSteer::CollisionAvoidance ()
   {
     printf("collision!\n");
     /*if (rc1.mesh)
-      csReport (object_reg, CS_REPORTER_SEVERITY_DEBUG,
-        "cel.pclogic.steer", "Avoiding collision with %s",rc1.mesh->QueryObject ()->GetName ());
+      Bug ("Avoiding collision with %s",rc1.mesh->QueryObject ()->GetName ());
     else
-      csReport (object_reg, CS_REPORTER_SEVERITY_DEBUG,
-        "cel.pclogic.steer", "Avoiding collision with %s",rc2.mesh->QueryObject ()->GetName ());*/
+      Bug ("Avoiding collision with %s",rc2.mesh->QueryObject ()->GetName ());*/
     //float distance = csSquaredDist::PointPoint(cur_position, rc.isect);
     /*
      * If the collision is too far away, we don�t bother to avoid it
@@ -701,12 +699,11 @@ bool celPcSteer::PerformActionIndexed (int idx, iCelParameterBlock* params,
     {
       csString sectorname;
       if (!Fetch (sectorname, params, id_sectorname)) return false;
-      CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-      if (!p_position)
-        return false;
+      csVector3 position;
+      if (!Fetch (position, params, id_position)) return false;
       iSector* s = engine->FindSector (sectorname);
       if (!s)
-        return false;
+        return Error ("Can't find sector '%s' for Seek!", sectorname.GetData ());
       Seek(sector, position);
       // @@@ Return value?
       return true;

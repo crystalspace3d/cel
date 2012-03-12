@@ -31,7 +31,6 @@
 #include "iengine/movable.h"
 #include "ivaria/dynamics.h"
 
-#include "plugins/propclass/mechanics/common.h"
 #include "plugins/propclass/mechanics/thruster_reactionary.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -92,26 +91,14 @@ bool celPcMechanicsThrusterReactionary::PerformActionIndexed (int idx,
     mechobj = celQueryPropertyClassTagEntity<iPcMechanicsObject> (GetEntity (), objectpctag);
     assert (mechobj);
     SetMechanicsObject (mechobj);
-    CEL_FETCH_VECTOR3_PAR (position,params,param_position);
-    if (p_position)
-      SetPosition (position);
-    else
-      CS_REPORT(ERROR,"Couldn't get position for thruster!");
-    CEL_FETCH_VECTOR3_PAR (orientation,params,param_orientation);
-    if (p_orientation)
-    {
-      fflush (stdout);
-      SetOrientation (orientation);
-    }
-    else
-    {
-      CS_REPORT(ERROR,"Couldn't get orientation for thruster!");
-    }
-    CEL_FETCH_FLOAT_PAR (maxthrust,params,param_maxthrust);
-    if (p_maxthrust)
-      SetMaxThrust (maxthrust);
-    else
-      CS_REPORT(ERROR,"Couldn't get maxthrust for thruster!");
+    csVector3 position, orientation;
+    if (!Fetch (position, params, param_position)) return false;
+    SetPosition (position);
+    if (!Fetch (orientation, params, param_orientation)) return false;
+    SetOrientation (orientation);
+    float maxthrust;
+    if (!Fetch (maxthrust, params, param_maxthrust)) return false;
+    SetMaxThrust (maxthrust);
     return true;
   }
   return false;

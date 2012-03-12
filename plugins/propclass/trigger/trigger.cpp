@@ -63,26 +63,6 @@
 
 CEL_IMPLEMENT_FACTORY_ALT (Trigger, "pclogic.trigger", "pctrigger")
 
-static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.trigger",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-  return false;
-}
-
 //---------------------------------------------------------------------------
 
 class celTriggerMovableListener : public scfImplementation1<
@@ -473,7 +453,7 @@ void celPcTrigger::SetupTriggerSphere (iSector* sector,
   	sector->QueryObject (), center_name);
   if (!mapnode)
   {
-    Report (object_reg, "Can't find node '%s' for trigger!",
+    Error ("Can't find node '%s' for trigger!",
     	(const char*)center_name);
     // @@@ Function should return bool!
     return;
@@ -533,7 +513,7 @@ bool celPcTrigger::Check ()
       if (!monitoring_entity)
       {
         if (strict)
-          Report (object_reg, "Can't find monitored entity '%s'!",
+          Error ("Can't find monitored entity '%s'!",
 		monitor_entity.GetData());
         return false;
       }
@@ -605,7 +585,7 @@ void celPcTrigger::TickOnce ()
       if (!monitoring_entity)
       {
         if (strict)
-          Report (object_reg, "Can't find monitored entity '%s'!",
+          Error ("Can't find monitored entity '%s'!",
 			monitor_entity.GetData());
         goto end;
       }
@@ -870,12 +850,12 @@ bool celPcTrigger::PerformActionIndexed (int idx,
 	if (!Fetch (radius, params, id_radius)) return false;
         iSector* sec = engine->FindSector (sector);
         if (!sec)
-          return Report (object_reg,
+          return Error (
           	"Can't find sector '%s' for action SetupTriggerSphere!",
           	sector.GetData ());
         const celData* p_position = params->GetParameter (id_position);
         if (!p_position)
-          return Report (object_reg,
+          return Error (
           	"Missing parameter 'position' for action SetupTriggerSphere!");
         if (p_position->type == CEL_DATA_VECTOR3)
         {
@@ -891,7 +871,7 @@ bool celPcTrigger::PerformActionIndexed (int idx,
           SetupTriggerSphere (sec, position, radius);
         }
         else
-          return Report (object_reg,
+          return Error (
           	"'position' must be string or vector for SetupTriggerSphere!");
         return true;
       }
@@ -899,17 +879,12 @@ bool celPcTrigger::PerformActionIndexed (int idx,
       {
 	csString sector;
 	if (!Fetch (sector, params, id_sector)) return false;
-        CEL_FETCH_VECTOR3_PAR (minbox,params,id_minbox);
-        if (!p_minbox)
-          return Report (object_reg,
-          	"Missing parameter 'minbox' for action SetupTriggerBox!");
-        CEL_FETCH_VECTOR3_PAR (maxbox,params,id_maxbox);
-        if (!p_maxbox)
-          return Report (object_reg,
-          	"Missing parameter 'maxbox' for action SetupTriggerBox!");
+	csVector3 minbox, maxbox;
+	if (!Fetch (minbox, params, id_minbox)) return false;
+	if (!Fetch (maxbox, params, id_maxbox)) return false;
         iSector* sec = engine->FindSector (sector);
         if (!sec)
-          return Report (object_reg,
+          return Error (
           	"Can't find sector '%s' for action SetupTriggerBox!",
           	sector.GetData ());
         SetupTriggerBox (sec, csBox3 (minbox, maxbox));
@@ -919,17 +894,12 @@ bool celPcTrigger::PerformActionIndexed (int idx,
       {
 	csString sector;
 	if (!Fetch (sector, params, id_sector)) return false;
-        CEL_FETCH_VECTOR3_PAR (start,params,id_start);
-        if (!p_start)
-          return Report (object_reg,
-          	"Missing parameter 'start' for action SetupTriggerBeam!");
-        CEL_FETCH_VECTOR3_PAR (end,params,id_end);
-        if (!p_end)
-          return Report (object_reg,
-          	"Missing parameter 'end' for action SetupTriggerBeam!");
+	csVector3 start, end;
+	if (!Fetch (start, params, id_start)) return false;
+	if (!Fetch (end, params, id_end)) return false;
         iSector* sec = engine->FindSector (sector);
         if (!sec)
-          return Report (object_reg,
+          return Error (
           	"Can't find sector '%s' for action SetupTriggerBeam!",
           	sector.GetData ());
         SetupTriggerBeam (sec, start, end);
@@ -943,12 +913,12 @@ bool celPcTrigger::PerformActionIndexed (int idx,
 	if (!Fetch (maxdistance, params, id_maxdistance)) return false;
         iCelEntity* ent = pl->FindEntity (entity);
         if (!ent)
-          return Report (object_reg,
+          return Error (
           	"Can't find entity '%s' for action SetupTriggerAboveMesh!",
           	entity.GetData ());
         csRef<iPcMesh> m = celQueryPropertyClassEntity<iPcMesh> (ent);
         if (!m)
-          return Report (object_reg,
+          return Error (
           	"Entity '%s' doesn't support pcmesh (action SetupTriggerAboveMesh)!",
           	entity.GetData ());
         SetupTriggerAboveMesh (m, maxdistance);

@@ -43,26 +43,6 @@ CEL_IMPLEMENT_FACTORY (Bag, "pctools.bag")
 
 //---------------------------------------------------------------------------
 
-static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.bag",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-  return false;
-}
-
 csStringID celPcBag::id_value = csInvalidStringID;
 csStringID celPcBag::id_msgid = csInvalidStringID;
 

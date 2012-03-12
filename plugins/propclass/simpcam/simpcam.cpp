@@ -141,35 +141,23 @@ bool celPcSimpleCamera::PerformActionIndexed (int idx,
   {
     case action_initcam:
       {
-        CEL_FETCH_VECTOR3_PAR (campos,params,param_campos);
-        if (p_campos)
-          SetCameraOffset (campos);
-        else
-          Report (object_reg, "Couldn't get campos!");
-        CEL_FETCH_VECTOR3_PAR (lookat,params,param_lookat);
-        if (p_lookat)
-          SetLookAtOffset (lookat);
-        else
-          Report (object_reg, "Couldn't get lookat!");
-        CEL_FETCH_BOOL_PAR (drawmesh,params,param_drawmesh);
-        if (p_drawmesh)
-          SetDrawMesh (drawmesh);
-        else
-          Report (object_reg, "Couldn't get drawmesh flag!");
+	csVector3 campos, lookat;
+	if (!Fetch (campos, params, param_campos)) return false;
+        SetCameraOffset (campos);
+	if (!Fetch (lookat, params, param_lookat)) return false;
+        SetLookAtOffset (lookat);
+	bool drawmesh;
+	if (!Fetch (drawmesh, params, param_drawmesh)) return false;
+        SetDrawMesh (drawmesh);
         return true;
       }
     case action_setpos:
       {
-        CEL_FETCH_VECTOR3_PAR (campos,params,param_campos);
-        if (p_campos)
-          SetCameraOffset (campos);
-        else
-          Report (object_reg, "Couldn't get campos!");
-        CEL_FETCH_VECTOR3_PAR (lookat,params,param_lookat);
-        if (p_lookat)
-          SetLookAtOffset (lookat);
-        else
-          Report (object_reg, "Couldn't get lookat!");
+	csVector3 campos, lookat;
+	if (!Fetch (campos, params, param_campos)) return false;
+        SetCameraOffset (campos);
+	if (!Fetch (lookat, params, param_lookat)) return false;
+        SetLookAtOffset (lookat);
         return true;
       }
     case action_setmesh:
@@ -181,8 +169,7 @@ bool celPcSimpleCamera::PerformActionIndexed (int idx,
         {
           csString msg = "Couldn't find mesh with given tag: ";
           msg += mesh;
-          Report (object_reg, msg);
-          return false;
+          return Error (msg);
         }
         SetMesh (pcmesh);
         return true;

@@ -149,7 +149,8 @@ bool celPcHover::PerformActionIndexed (int idx, iCelParameterBlock* params,
     case action_hoveron:
       {
         printf ("This action (HoverOn) is temporarily disabled.\n");
-        /*CEL_FETCH_BOOL_PAR (hover, params, param_hover);
+        /*bool hover;
+	 if (!Fetch (hover, params, param_hover)) return false;
         if (hover)
         {
           //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetAngularCorrectionStrength!");

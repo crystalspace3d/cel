@@ -387,14 +387,17 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     }
   case action_addwheelauto:
     {
-      CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
-      CEL_FETCH_VECTOR3_PAR (rotation,params, param_rotation);
+      csVector3 pos, rotation;
+      if (!Fetch (pos, params, param_position)) return false;
       csString factname, filename;
       if (!Fetch (factname, params, param_meshfact, true, "")) return false;
       if (!Fetch (filename, params, param_meshfile, true, "")) return false;
       csQuaternion quat;
-      if (p_rotation)
+      if (ParExists (CEL_DATA_VECTOR3, params, param_rotation))
+      {
+        if (!Fetch (rotation, params, param_rotation)) return false;
         quat.SetEulerAngles(rotation);
+      }
       
       AddWheelAuto(pos, factname, filename, quat.GetMatrix());
       
@@ -402,7 +405,8 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     }
   case action_addwheel:
     {
-      CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
+      csVector3 pos;
+      if (!Fetch (pos, params, param_position)) return false;
       
       float turnspeed, returnspeed, ss, sd, brakepower, enginepower, lss, rss, friction, mass;
       if (!Fetch (turnspeed, params, param_turnspeed, true, 2.0f)) return false;
@@ -416,21 +420,20 @@ bool celPcWheeled::PerformActionIndexed (int idx,
       if (!Fetch (friction, params, param_friction, true, 0.7f)) return false;
       if (!Fetch (mass, params, param_mass, true, 10.0f)) return false;
       
-      CEL_FETCH_BOOL_PAR(hbaffect, params, param_handbrakeaffected);
-      if(!p_hbaffect)
-        hbaffect=false;
-      
-      CEL_FETCH_BOOL_PAR(sinvert, params, param_steerinverted);
-      if(!p_sinvert)
-        sinvert=false;
-      
-      CEL_FETCH_VECTOR3_PAR (rotation,params, param_rotation);
+      bool hbaffect, sinvert;
+      if (!Fetch (hbaffect, params, param_handbrakeaffected, true, false)) return false;
+      if (!Fetch (sinvert, params, param_steerinverted, true, false)) return false;
+
       csString factname, filename;
       if (!Fetch (factname, params, param_meshfact, true, "")) return false;
       if (!Fetch (filename, params, param_meshfile, true, "")) return false;
       csQuaternion quat;
-      if (p_rotation)
+      if (ParExists (CEL_DATA_VECTOR3, params, param_rotation))
+      {
+        csVector3 rotation;
+        if (!Fetch (rotation, params, param_rotation)) return false;
         quat.SetEulerAngles(rotation);
+      }
       
       AddWheel(pos,turnspeed,returnspeed,ss,sd,brakepower,enginepower,
            lss,rss, friction, mass, hbaffect,sinvert, factname,
@@ -529,18 +532,22 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     {
       long num;
       if (!Fetch (num, params, param_wheelnum)) return false;
-      CEL_FETCH_VECTOR3_PAR(pos,params,param_position);
-      SetWheelPosition(num,pos);
+      csVector3 pos;
+      if (!Fetch (pos, params, param_position)) return false;
+      SetWheelPosition (num,pos);
       return true;
     }
   case action_setwheelrotation:
     {
       long num;
       if (!Fetch (num, params, param_wheelnum)) return false;
-      CEL_FETCH_VECTOR3_PAR(rotation,params,param_rotation);
       csQuaternion quat;
-      if (p_rotation)
+      if (ParExists (CEL_DATA_VECTOR3, params, param_rotation))
+      {
+        csVector3 rotation;
+        if (!Fetch (rotation, params, param_rotation)) return false;
         quat.SetEulerAngles(rotation);
+      }
       SetWheelRotation(num, quat.GetMatrix());
       return true;
     }
@@ -638,7 +645,8 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     {
       long num;
       if (!Fetch (num, params, param_wheelnum)) return false;
-      CEL_FETCH_BOOL_PAR(invert,params,param_steerinverted);
+      bool invert;
+      if (!Fetch (invert, params, param_steerinverted, true, false)) return false;
       SetWheelSteerInverted(num, invert);
       return true;
     }
@@ -646,8 +654,9 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     {
       long num;
       if (!Fetch (num, params, param_wheelnum)) return false;
-      CEL_FETCH_BOOL_PAR(affect,params,param_handbrakeaffected);
-      SetWheelHandbrakeAffected(num, affect);
+      bool affect;
+      if (!Fetch (affect, params, param_handbrakeaffected, true, false)) return false;
+      SetWheelHandbrakeAffected (num, affect);
       return true;
     }
   default:
