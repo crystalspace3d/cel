@@ -81,11 +81,11 @@ void MessageSlot::InitPen ()
     boxPen->SetFlag (CS_PEN_FILL);
     boxPen->SetColor (boxColor);
   }
-  if (borderColor.alpha > 0.01f && borderWidth > 0)
+  if (borderColor.alpha > 0.01f && borderWidth > 0.0f)
   {
     borderPen = new csPen (g3d->GetDriver2D (), g3d);
     borderPen->SetColor (borderColor);
-    borderPen->SetPenWidth (borderWidth / 10.0f);
+    borderPen->SetPenWidth (borderWidth);
   }
 }
 
@@ -309,7 +309,6 @@ void MessageSlot::CheckMessages ()
 void MessageSlot::HandleElapsed (float elapsed)
 {
   if (layoutedLines.GetSize () == 0) return;
-printf ("layoutedLines.GetSize()=%d\n", layoutedLines.GetSize()); fflush (stdout);
   CheckMessages ();
 
   LayoutedLine& line = layoutedLines.Get (0);
@@ -339,11 +338,17 @@ void MessageSlot::Render3D (iGraphics3D* g3d, iGraphics2D* g2d)
   int cx = finalPosition.x-marginx, cy = finalPosition.y-marginy;
   if (boxPen)
   {
-    boxPen->DrawRect (cx, cy, cx+cursizex+marginx*2, cy+cursizey+marginy*2);
+    if (roundness > 0)
+      boxPen->DrawRoundedRect (cx, cy, cx+cursizex+marginx*2, cy+cursizey+marginy*2, roundness);
+    else
+      boxPen->DrawRect (cx, cy, cx+cursizex+marginx*2, cy+cursizey+marginy*2);
   }
   if (borderPen)
   {
-    borderPen->DrawRect (cx, cy, cx+cursizex+marginx*2, cy+cursizey+marginy*2);
+    if (roundness > 0)
+      borderPen->DrawRoundedRect (cx, cy, cx+cursizex+marginx*2, cy+cursizey+marginy*2, roundness);
+    else
+      borderPen->DrawRect (cx, cy, cx+cursizex+marginx*2, cy+cursizey+marginy*2);
   }
 }
 
@@ -397,6 +402,7 @@ csStringID celPcMessenger::id_maxmessages = csInvalidStringID;
 csStringID celPcMessenger::id_queue = csInvalidStringID;
 csStringID celPcMessenger::id_boxfadetime = csInvalidStringID;
 csStringID celPcMessenger::id_borderwidth = csInvalidStringID;
+csStringID celPcMessenger::id_roundness = csInvalidStringID;
 
 
 PropertyHolder celPcMessenger::propinfo;
@@ -444,6 +450,7 @@ celPcMessenger::celPcMessenger (iObjectRegistry* object_reg)
     id_queue = pl->FetchStringID ("queue");
     id_boxfadetime = pl->FetchStringID ("boxfadetime");
     id_borderwidth = pl->FetchStringID ("borderwidth");
+    id_roundness = pl->FetchStringID ("roundness");
   }
 
   propholder = &propinfo;
@@ -531,9 +538,11 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	if (!Fetch (boxColor, params, id_boxcolor, true)) return false;
 	if (!Fetch (borderColor, params, id_bordercolor, true)) return false;
 
-	long borderWidth, maxmessages;
-	if (!Fetch (borderWidth, params, id_borderwidth, true, 0)) return false;
+	float borderWidth;
+	if (!Fetch (borderWidth, params, id_borderwidth, true, 0.0f)) return false;
+	long maxmessages, roundness;
 	if (!Fetch (maxmessages, params, id_maxmessages, true, 1000000000)) return false;
+	if (!Fetch (roundness, params, id_roundness, true, 0)) return false;
 
 	bool queue;
 	if (!Fetch (queue, params, id_queue, true, true)) return false;
@@ -543,7 +552,7 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	DefineSlot (name, position, boxAnchorV, screenAnchorV,
 	    sizex, sizey, maxsizex, maxsizey,
 	    marginx, marginy, boxColor, borderColor,
-	    borderWidth, maxmessages, queue, boxfadetime);
+	    borderWidth, roundness, maxmessages, queue, boxfadetime);
         return true;
       }
     case action_definetype:
@@ -658,13 +667,13 @@ void celPcMessenger::DefineSlot (const char* name,
       int sizex, int sizey, int maxsizex, int maxsizey,
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,
-      int borderWidth, int maxmessages, 
+      float borderWidth, int roundness, int maxmessages, 
       bool queue, float boxfadetime)
 {
   MessageSlot* slot = new MessageSlot (g3d, name, position,
       boxAnchor, screenAnchor,
       sizex, sizey, maxsizex, maxsizey, marginx, marginy, boxColor,
-      borderColor, borderWidth, maxmessages, queue, boxfadetime);
+      borderColor, borderWidth, roundness, maxmessages, queue, boxfadetime);
   slot->InitPen ();
   slots.Push (slot);
 }

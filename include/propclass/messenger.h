@@ -83,7 +83,8 @@ struct iMessageLogIterator : public virtual iBase
  * - marginy: vertical margin (default 3).
  * - boxcolor: color of the box (specified as 'r,g,b,a' string, default none).
  * - bordercolor: if not given then this is equal to boxcolor.
- * - borderwidth: width of the border in pixels.
+ * - borderwidth: width of the border.
+ * - roundness: roundness in pixels.
  * - maxmessages: maximum number of messages (not lines!) to display
  *   in this slot at the same time. Default is unlimited.
  * - queue: if there are more then maxmessages messages then when 'queue'
@@ -139,7 +140,8 @@ struct iMessageLogIterator : public virtual iBase
  *       'marginy' (long, default 5)
  *       'boxcolor' (color4, optional)
  *       'bordercolor' (color4, optional)
- *       'borderwidth' (long, default 0)
+ *       'borderwidth' (float, default 0)
+ *       'roundness' (long, default 0)
  *       'maxmessages' (long, optional)
  *       'queue' (boolean, default true)
  *       'boxfadetime' (long, default 0)
@@ -183,7 +185,7 @@ struct iPcMessenger : public virtual iBase
       int sizex, int sizey, int maxsizex, int maxsizey,
       int marginx, int marginy,
       const csColor4& boxColor, const csColor4& borderColor,
-      int borderWidth, int maxmessages, 
+      float borderWidth, int roundness, int maxmessages, 
       bool queue, float boxfadetime) = 0;
 
   /**
