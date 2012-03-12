@@ -1731,7 +1731,9 @@ bool DynamicObject::SetEntity (const char* entityName, const char* entityTplName
   celPcDynamicWorld* world = factory->GetWorld ();
   entityTemplate = world->pl->FindEntityTemplate (entityTplName);
   if (!entityTemplate)
-    return world->Error ("Can't find entity template '%s'!\n", entityTplName);
+  {
+    printf ("Can't find entity template '%s'!\n", entityTplName);
+  }
   SetEntityName (entityName);
   DynamicObject::params = params;
   return true;
