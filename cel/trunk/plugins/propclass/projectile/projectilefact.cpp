@@ -83,8 +83,7 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   if (!vc)
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcmove.projectile", "No iVirtualClock!");
+    Error ("No iVirtualClock!");
     return;
   }
 }
@@ -162,8 +161,8 @@ bool celPcProjectile::PerformActionIndexed (int idx,
   {
     case action_start:
       {
-        CEL_FETCH_VECTOR3_PAR (direction,params,id_direction);
-        if (!p_direction) return false;	// @@@ Error?
+	csVector3 direction;
+	if (!Fetch (direction, params, id_direction)) return false;
 	float speed, maxdist;
 	if (!Fetch (speed, params, id_speed, true, 1.0f)) return false;
 	if (!Fetch (maxdist, params, id_maxdist, true, 1000000000.0f)) return false;

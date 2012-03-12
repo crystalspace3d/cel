@@ -41,26 +41,6 @@
 
 CEL_IMPLEMENT_FACTORY_ALT (Light, "pcobject.light", "pclight")
 
-static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcobject.light",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-  return false;
-}
-
 //---------------------------------------------------------------------------
 
 csStringID celPcLight::id_name = csInvalidStringID;
@@ -79,7 +59,7 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
-    Report (object_reg, "No iEngine plugin!");
+    Error ("No iEngine plugin!");
     return;
   }
   created = false;
@@ -158,25 +138,22 @@ bool celPcLight::PerformActionIndexed (int idx,
 	{
 	  sectorptr = engine->FindSector (sector);
           if (!sectorptr)
-            return Report (object_reg, "Could not find sector '%s''!",
+            return Error ("Could not find sector '%s''!",
 		sector.GetData ());
 	}
-        CEL_FETCH_VECTOR3_PAR (pos,params,id_pos);
-        if (!p_pos)
-          return Report (object_reg, "'pos' parameter missing!");
+	csVector3 pos;
+	if (!Fetch (pos, params, id_pos)) return false;
 	float radius;
 	if (!Fetch (radius, params, id_radius)) return false;
-        CEL_FETCH_COLOR_PAR (color,params,id_color);
-        if (!p_color)
-          return Report (object_reg, "'color' parameter missing!");
+	csColor color;
+	if (!Fetch (color, params, id_color)) return false;
         CreateLight (name, sectorptr, pos, radius, color);
         return true;
       }
     case action_changecolor:
       {
-        CEL_FETCH_COLOR_PAR (color,params,id_color);
-        if (!p_color)
-          return Report (object_reg, "'color' parameter missing!");
+	csColor color;
+	if (!Fetch (color, params, id_color)) return false;
 	if (light)
 	  light->SetColor (color);
         return true;
@@ -193,8 +170,7 @@ bool celPcLight::PerformActionIndexed (int idx,
 	  {
 	    iSector* sectorptr = engine->FindSector (sector);
             if (!sectorptr)
-              return Report (object_reg,
-		  "Could not find sector '%s''!", sector.GetData ());
+              return Error ("Could not find sector '%s''!", sector.GetData ());
 	    iSector* current = light->GetMovable ()->GetSectors ()->Get (0);
 	    if (current)
 	      current->GetLights ()->Remove (light);
@@ -211,10 +187,8 @@ bool celPcLight::PerformActionIndexed (int idx,
 	    light->GetMovable ()->UpdateMove ();
 	  }
 	}
-        CEL_FETCH_VECTOR3_PAR (pos,params,id_pos);
-        if (!p_pos)
-          return Report (object_reg,
-	      "'pos' parameter missing for moving the light!");
+	csVector3 pos;
+	if (!Fetch (pos, params, id_pos)) return false;
         light->GetMovable ()->SetPosition (pos);
         return true;
       }
@@ -229,8 +203,7 @@ bool celPcLight::PerformActionIndexed (int idx,
 	{
 	  ent = pl->FindEntity (par_entity);
 	  if (!ent)
-	    return Report (object_reg, "Can't find entity '%s'!",
-		par_entity.GetData ());
+	    return Error ("Can't find entity '%s'!", par_entity.GetData ());
 	}
 	if (!Fetch (par_tag, params, id_tag, true, "")) return false;
 	csRef<iPcMesh> parent_mesh;
@@ -240,7 +213,7 @@ bool celPcLight::PerformActionIndexed (int idx,
 	  parent_mesh = celQueryPropertyClassTag<iPcMesh> (
 	      ent->GetPropertyClassList (), par_tag);
 	if (!parent_mesh)
-	  return Report (object_reg, "Can't find a mesh!");
+	  return Error ("Can't find a mesh!");
 	light->QuerySceneNode ()->SetParent (parent_mesh->GetMesh ()
 	    ->QuerySceneNode ());
 	light->GetMovable ()->UpdateMove ();

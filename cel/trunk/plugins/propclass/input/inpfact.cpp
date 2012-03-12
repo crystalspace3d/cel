@@ -43,25 +43,6 @@ CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
 
 CEL_IMPLEMENT_FACTORY_ALT (CommandInput, "pcinput.standard", "pccommandinput")
 
-static void Report (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcinput.standard",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-}
-
 //---------------------------------------------------------------------------
 
 csStringID celPcCommandInput::id_trigger = csInvalidStringID;
@@ -91,7 +72,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   g2d = csQueryRegistry<iGraphics2D> (object_reg);
   if (!g2d)
   {
-    Report (object_reg, "Can't find the graphics2d plugin!");
+    Error ("Can't find the graphics2d plugin!");
     return;
   }
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
@@ -167,8 +148,8 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
   {
     case action_activate:
       {
-        CEL_FETCH_BOOL_PAR (activate,params,id_activate);
-        if (!p_activate) activate = true;
+	bool activate;
+	if (!Fetch (activate, params, id_activate, true, true)) return false;
 	if (activate) Activate ();
 	else Deactivate ();
         return true;
@@ -253,8 +234,7 @@ bool celPcCommandInput::LoadConfig (const char* prefix)
   if (!cfgit) return false;
   while (cfgit->Next ())
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-    	"cel.input.standard",
+    Warning (
     	"*.CommandInput.Bind.key = action is deprecated. Use *.Input.Bind.action = key instead.");
     Bind (cfgit->GetKey (true), cfgit->GetStr ());
   }
@@ -392,8 +372,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
   if (!csInputDefinition::ParseOther (name_reg, trig, &type, &device,
   	&numeric, &modifiers))
   {
-    Report (object_reg, "Bad input specification '%s'!", trig);
-    return false;
+    return Error ("Bad input specification '%s'!", trig);
   }
   // Key binding
   if (type == csevKeyboardEvent (object_reg))

@@ -152,7 +152,8 @@ bool celPcWire::PerformActionIndexed (int idx,
 	iCelEntity* ent = this->entity;
         if (!entity.IsEmpty ())
 	  ent = pl->FindEntity (entity);
-	// @@@ Error check on ent!
+	if (!ent)
+	  return Error ("Can't find entity '%s' for AddInput!", entity.GetData ());
 	AddInput (mask, ent->QueryMessageChannel ());
         return true;
       }
@@ -233,7 +234,7 @@ void celPcWire::MapParameter (size_t id, const char* source, const char* dest,
   output[id]->AddMapping (pl->FetchStringID (source), pl->FetchStringID (dest), expression);
 }
 
-static iCelExpressionParser* GetParser (iObjectRegistry* object_reg)
+iCelExpressionParser* celPcWire::GetParser ()
 {
   csRef<iObjectRegistryIterator> it = object_reg->Get (
       scfInterfaceTraits<iCelExpressionParser>::GetID (),
@@ -252,7 +253,7 @@ static iCelExpressionParser* GetParser (iObjectRegistry* object_reg)
       "cel.behaviourlayer.xml");
     if (!parser)
     {
-      // @@@ Error report.
+      Error ("Can't find the expression parser plugin!");
       return 0;
     }
     object_reg->Register (parser, "iCelExpressionParser");
@@ -262,14 +263,14 @@ static iCelExpressionParser* GetParser (iObjectRegistry* object_reg)
 
 void celPcWire::MapParameterExpression (size_t id, const char* dest, const char* expression)
 {
-  iCelExpressionParser* parser = GetParser (object_reg);
-  // @@@ Error?
+  iCelExpressionParser* parser = GetParser ();
   if (parser)
   {
     csRef<iCelExpression> exp = parser->Parse (expression);
-    // @@@ Error?
     if (exp)
       output[id]->AddMapping (csInvalidStringID, pl->FetchStringID (dest), exp);
+    else
+      Error ("Error parsing expression '%s'!", expression);
   }
 }
 

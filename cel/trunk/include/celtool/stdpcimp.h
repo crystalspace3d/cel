@@ -156,13 +156,8 @@ protected:
     // return if an invalid index was specified
     if (idx >= propholder->propertycount)
     {
-      csRef<iReporter> rep = csQueryRegistry<iReporter>(object_reg);
-      if (rep)
-        rep->ReportError("crystalspace.cel.physicallayer",
+      Error (
             "celPcCommon::AddProperty out of bounds %zu >= %zu!",
-            idx, propholder->propertycount);
-      else
-        csPrintf("Error: celPcCommon::AddProperty out of bounds %zu >= %zu!",
             idx, propholder->propertycount);
       return;
     }
@@ -205,6 +200,15 @@ public:
     return true;
   }
 
+  /// Report error. Always returns false.
+  bool Error (char const *desc, ...) const;
+  /// Report warning. Always returns false.
+  bool Warning (char const *desc, ...) const;
+  /// Report bug. Always returns false.
+  bool Bug (char const *desc, ...) const;
+  /// Just notify something. Always returns false.
+  bool Notify (char const *desc, ...) const;
+
   static const char* GetTypeName (celDataType type)
   {
     switch (type)
@@ -236,12 +240,10 @@ public:
   {
     if (!IsTypeCompatible (have, wanted))
     {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.parameter.type",
+      return Error (
 	  "Incompatible type for parameter '%s' for property class '%s/%s' and entity '%s'! Expected '%s'!\n",
 	  pl->FetchString (id), GetName (), GetTag (), GetEntity ()->GetName (),
 	  GetTypeName (wanted));
-      return false;
     }
     return true;
   }
@@ -250,8 +252,7 @@ public:
   {
     if (!data && !usedef)
     {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.parameter.type",
+      return Error (
 	  "Missing parameter '%s' for property class '%s/%s' and entity '%s'!\n",
 	  pl->FetchString (id), GetName (), GetTag (), GetEntity ()->GetName ());
       return false;
@@ -312,6 +313,17 @@ public:
     if (!CheckTypeCompatible (CEL_DATA_BOOL, data->type, id)) return false;
     if (data->type == CEL_DATA_BOOL) var = data->value.bo;
     else var = (bool)data->value.l;
+    return true;
+  }
+  bool Fetch (iCelPropertyClass*& var, iCelParameterBlock* params, csStringID id,
+      bool use_def = false, iCelPropertyClass* def = 0)
+  {
+    if (!params) return false;
+    const celData* data = params->GetParameter (id);
+    if (!CheckData (data, id, use_def)) return false;
+    if (!data && use_def) { var = def; return true; }
+    if (!CheckTypeCompatible (CEL_DATA_PCLASS, data->type, id)) return false;
+    var = data->value.pc;
     return true;
   }
   bool Fetch (csVector2& var, iCelParameterBlock* params, csStringID id,

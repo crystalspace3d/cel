@@ -103,8 +103,7 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pclogic.damage", "No iEngine plugin!");
+    Error ("No iEngine plugin!");
     return;
   }
 }
@@ -167,8 +166,8 @@ bool celPcDamage::PerformActionIndexed (int idx,
       {
 	float maxdist;
 	if (!Fetch (maxdist, params, id_maxdist, true, 1000000000.0f)) return false;
-        CEL_FETCH_VECTOR3_PAR (direction,params,id_direction);
-        if (!p_direction) return false; // @@@ Error!
+	csVector3 direction;
+	if (!Fetch (direction, params, id_direction)) return false;
         BeamDamage (direction, maxdist);
         return true;
       }

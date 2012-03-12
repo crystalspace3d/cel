@@ -90,8 +90,7 @@ celPcMeshDeform::celPcMeshDeform (iObjectRegistry* object_reg)
   clock = csQueryRegistry<iVirtualClock> (object_reg);
   if (!clock)
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcobject.mesh.deform", "No iVirtualClock!");
+    Error ("No iVirtualClock!");
     return;
   }
 
@@ -155,10 +154,12 @@ bool celPcMeshDeform::PerformActionIndexed (int idx,
   {
     case action_deformmesh:
       {
-        CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
-        CEL_FETCH_VECTOR3_PAR (dir, params, param_direction);
-        CEL_FETCH_BOOL_PAR (world, params, param_worldspace);
-        DeformMesh(pos, dir, world);
+	csVector3 pos, dir;
+	if (!Fetch (pos, params, param_position)) return false;
+	if (!Fetch (dir, params, param_direction)) return false;
+	bool world;
+	if (!Fetch (world, params, param_worldspace, true, false)) return false;
+        DeformMesh (pos, dir, world);
         return true;
       }
     case action_resetdeform:

@@ -32,26 +32,6 @@
 
 CEL_IMPLEMENT_FACTORY_ALT (Quest, "pclogic.quest", "pcquest")
 
-static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.quest",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-  return false;
-}
-
 //---------------------------------------------------------------------------
 
 csStringID celPcQuest::id_name = csInvalidStringID;
@@ -149,7 +129,7 @@ void celPcQuest::GetQuestManager ()
     	"cel.manager.quests");
     if (!quest_mgr)
     {
-      Report (object_reg, "Can't load quest manager plugin!");
+      Error ("Can't load quest manager plugin!");
       return;
     }
   }
@@ -159,10 +139,10 @@ bool celPcQuest::NewQuest (const char* name, iCelParameterBlock* params)
 {
   GetQuestManager ();
   if (!quest_mgr)
-    return Report (object_reg, "Couldn't find quest manager!");
+    return Error ("Couldn't find quest manager!");
   iQuestFactory* fact = quest_mgr->GetQuestFactory (name);
   if (!fact)
-    return Report (object_reg, "Couldn't find quest factory '%s'!", name);
+    return Error ("Couldn't find quest factory '%s'!", name);
   
   quest_params.AttachNew (new celVariableParameterBlock ());
   quest_params->AddParameter (pl->FetchStringID ("this")).Set (entity);
@@ -170,7 +150,7 @@ bool celPcQuest::NewQuest (const char* name, iCelParameterBlock* params)
 
   quest = fact->CreateQuest (quest_params);
   if (!quest)
-    Report (object_reg, "Couldn't create quest from factory '%s'!", name);
+    Error ("Couldn't create quest from factory '%s'!", name);
   questname = name;
   return true;
 }

@@ -56,8 +56,6 @@
 
 #include "plugins/propclass/move/colldet.h"
 
-extern bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
-
 CEL_IMPLEMENT_FACTORY_ALT (CollisionDetection, "pcobject.mesh.collisiondetection",
     "pccollisiondetection")
 
@@ -70,7 +68,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   if (!cdsys)
   {
-    MoveReport (object_reg, "iCollideSystem missing!");
+    Error ("iCollideSystem missing!");
     return;
   }
   collider_actor.SetCollideSystem (cdsys);
@@ -79,7 +77,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
-    MoveReport (object_reg, "iEngine missing!");
+    Error ("iEngine missing!");
     return;
   }
   collider_actor.SetEngine (engine);
@@ -120,7 +118,7 @@ bool celPcCollisionDetection::Init (const csVector3& body,
     pcmeshref = celQueryPropertyClassEntity<iPcMesh> (entity);
 
     if (!pcmeshref)
-      return MoveReport (object_reg, "Colldet: No Mesh found on entity!");
+      return Error ("Colldet: No Mesh found on entity!");
     else
       pcmesh = pcmeshref; // Pull ptr out of csRef
   }

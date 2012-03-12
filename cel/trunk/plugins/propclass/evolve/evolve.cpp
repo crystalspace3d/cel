@@ -309,36 +309,6 @@ bool celPcEvolve::SelectGenome(iCelParameterBlock *params)
   return true;
 }
 
-bool celPcEvolve::Error(char const *desc, ...) const
-{
-  va_list args;
-  va_start(args, desc);
-  csReportV(const_cast<iObjectRegistry*>(object_reg),
-	CS_REPORTER_SEVERITY_ERROR, "cel.propclass.ai.evolve", desc, args);
-  va_end(args);
-  return false;
-}
-
-bool celPcEvolve::Warning(char const *desc, ...) const
-{
-  va_list args;
-  va_start(args, desc);
-  csReportV(const_cast<iObjectRegistry*>(object_reg),
-	CS_REPORTER_SEVERITY_WARNING, "cel.propclass.ai.evolve", desc, args);
-  va_end(args);
-  return false;
-}
-
-bool celPcEvolve::Bug(char const *desc, ...) const
-{
-  va_list args;
-  va_start(args, desc);
-  csReportV(const_cast<iObjectRegistry*>(object_reg),
-	CS_REPORTER_SEVERITY_BUG, "cel.propclass.ai.evolve", desc, args);
-  va_end(args);
-  return false;
-}
-
 //---------------------------------------------------- celNeuralNetGenome --//
 
 void celNeuralNetGenome::Randomize()

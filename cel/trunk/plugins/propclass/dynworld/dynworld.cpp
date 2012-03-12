@@ -455,7 +455,7 @@ void DynamicCell::Setup (iSector* sector, iDynamicSystem* ds)
     dynSys = dyn->CreateSystem ();
     if (!dynSys)
     {
-      printf ("Could not create dynamics system!\n");
+      world->Error ("Could not create dynamics system!\n");
       return;
     }
     createdDynSys = true;
@@ -528,7 +528,7 @@ iDynamicObject* DynamicCell::AddObject (const char* factory,
   iDynamicFactory* ifact = world->FindFactory (factory);
   if (!ifact)
   {
-    printf ("Cannot find factory '%s' for AddObject!\n", factory);
+    world->Error ("Cannot find factory '%s' for AddObject!\n", factory);
     return 0;
   }
   DynamicFactory* fact = static_cast<DynamicFactory*> (ifact);
@@ -777,7 +777,7 @@ void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
   }
   if (marker != MARKER_END)
   {
-    printf ("Bad marker (1)!\n");
+    world->Error ("Savefile corrupt! Bad marker (1)!\n");
     return;
   }
 
@@ -801,7 +801,7 @@ void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
   }
   if (marker != MARKER_END)
   {
-    printf ("Bad marker (2)!\n");
+    world->Error ("Safefile corrupt! Bad marker (2)!\n");
     return;
   }
 }
@@ -875,8 +875,7 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
   factory = world->engine->FindMeshFactory (name);
   if (factory == 0)
   {
-    printf ("Could not find factory '%s'!\n", name);
-    fflush (stdout);
+    world->Error ("Could not find factory '%s'!\n", name);
     return;
   }
 
@@ -1611,10 +1610,7 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
   csString factname = node->GetAttributeValue ("fact");
   factory = world->factory_hash.Get (factname, 0);
   if (!factory)
-  {
-    printf ("Can't find factory '%s'!\n", factname.GetData ());
-    return false;
-  }
+    return world->Error ("Can't find factory '%s'!\n", factname.GetData ());
   if (!syn->ParseBoolAttribute (node, "static", is_static, false, false))
     return false;
 
@@ -1735,10 +1731,7 @@ bool DynamicObject::SetEntity (const char* entityName, const char* entityTplName
   celPcDynamicWorld* world = factory->GetWorld ();
   entityTemplate = world->pl->FindEntityTemplate (entityTplName);
   if (!entityTemplate)
-  {
-    printf ("Can't find entity template '%s'!\n", entityTplName);
-    return false;
-  }
+    return world->Error ("Can't find entity template '%s'!\n", entityTplName);
   SetEntityName (entityName);
   DynamicObject::params = params;
   return true;
@@ -2350,7 +2343,7 @@ csPtr<iDataBuffer> celPcDynamicWorld::SaveModifications ()
         }
         else
         {
-          printf ("Can't save '%s'!\n", GetEntityNameInt (pl, entity).GetData ());
+          Error ("Can't save '%s'!\n", GetEntityNameInt (pl, entity).GetData ());
           return 0;
         }
       }
@@ -2411,7 +2404,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     }
     if (!cell)
     {
-      printf ("Failed to find/create the cell '%s'!\n", cellName);
+      Error ("Failed to find/create the cell '%s'!\n", cellName);
       restoringIDBlocks = false;
       return;
     }
@@ -2469,7 +2462,8 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       iCelEntityTemplate* tmp = pl->FindEntityTemplate (tmpName);
       if (!tmp)
       {
-        printf ("Error locating entity template '%s'\n", tmpName);
+        Error ("Error locating entity template '%s'\n", tmpName);
+	return;
       }
       // First we see if the entity already exists.
       entity = pl->GetEntity (id);
@@ -2494,7 +2488,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
       entity = pl->GetEntity (id);
       if (!entity)
       {
-        printf ("ERROR! Can't find entity with id %d\n", id);
+        Error ("ERROR! Can't find entity with id %d\n", id);
         return;
       }
       printf ("Loading existing entity without dynobj '%s'\n", GetEntityNameInt (pl, entity).GetData ()); fflush (stdout);
@@ -2509,7 +2503,7 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
   }
   if (marker != MARKER_END)
   {
-    printf ("Bad marker (1)!\n");
+    Error ("Savefile corrupt! Bad marker (1)!\n");
     return;
   }
 
@@ -2569,15 +2563,13 @@ iCelEntity* celPcDynamicWorld::CreateSpawnedEntity (iCelEntityTemplate* tpl,
   iSector* sect = engine->FindSector (sector);
   if (!sect)
   {
-    printf ("Can't find sector %s!", sector);
-    fflush (stdout);
+    Error ("Can't find sector %s!", sector);
     return 0;
   }
 
   if (node && *node)
   {
-    printf ("Nodes not yet supported by dynworld plugin!\n");
-    fflush (stdout);
+    Error ("Nodes not yet supported by dynworld plugin!\n");
     return 0;
   }
 

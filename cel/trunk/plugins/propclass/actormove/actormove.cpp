@@ -143,8 +143,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
   if (!g3d)
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcmove.linear", "No iGraphics3D plugin!");
+    Error ("No iGraphics3D plugin!");
     return;
   }
   g2d = g3d->GetDriver2D ();
@@ -432,43 +431,43 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       }
     case action_forward:
       {
-        CEL_FETCH_BOOL_PAR (start,params,id_start);
-        if (!p_start) return false;
+	bool start;
+	if (!Fetch (start, params, id_start)) return false;
         Forward (start);
         return true;
       }
     case action_backward:
       {
-        CEL_FETCH_BOOL_PAR (start,params,id_start);
-        if (!p_start) return false;
+	bool start;
+	if (!Fetch (start, params, id_start)) return false;
         Backward (start);
         return true;
       }
     case action_strafeleft:
       {
-        CEL_FETCH_BOOL_PAR (start,params,id_start);
-        if (!p_start) return false;
+	bool start;
+	if (!Fetch (start, params, id_start)) return false;
         StrafeLeft (start);
         return true;
       }
     case action_straferight:
       {
-        CEL_FETCH_BOOL_PAR (start,params,id_start);
-        if (!p_start) return false;
+	bool start;
+	if (!Fetch (start, params, id_start)) return false;
         StrafeRight (start);
         return true;
       }
     case action_rotateleft:
       {
-        CEL_FETCH_BOOL_PAR (start,params,id_start);
-        if (!p_start) return false;
+	bool start;
+	if (!Fetch (start, params, id_start)) return false;
         RotateLeft (start);
         return true;
       }
     case action_rotateright:
       {
-        CEL_FETCH_BOOL_PAR (start,params,id_start);
-        if (!p_start) return false;
+	bool start;
+	if (!Fetch (start, params, id_start)) return false;
         RotateRight (start);
         return true;
       }
@@ -489,15 +488,15 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       }
     case action_run:
       {
-        CEL_FETCH_BOOL_PAR (start,params,id_start);
-        if (!p_start) return false;
+	bool start;
+	if (!Fetch (start, params, id_start)) return false;
         Run (start);
         return true;
       }
     case action_autorun:
       {
-        CEL_FETCH_BOOL_PAR (start,params,id_start);
-        if (!p_start) return false;
+	bool start;
+	if (!Fetch (start, params, id_start)) return false;
         AutoRun (start);
         return true;
       }
@@ -524,8 +523,8 @@ bool celPcActorMove::PerformActionIndexed (int idx,
     {
       csString animation;
       if (!Fetch (animation, params, id_animation)) return false;
-      CEL_FETCH_BOOL_PAR (anicycle,params,id_anicycle);
-      if (!p_anicycle) anicycle = true;
+      bool anicycle;
+      if (!Fetch (anicycle, params, id_anicycle)) return false;
       SetAnimation (animation, anicycle);
       return true;
     }
@@ -589,8 +588,7 @@ void celPcActorMove::RotateTo (float yrot)
 
   if (!pclinmove)
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcmove.actor.standard", "pcmove.linear is missing!");
+    Error ("pcmove.linear is missing!");
     return;
   }
 
@@ -688,15 +686,13 @@ void celPcActorMove::HandleMovement (bool jump)
   FindSiblingPropertyClasses ();
   if (!pclinmove)
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcmove.linear", "pcmove.linear is missing!");
+    Error ("pcmove.linear is missing!");
     return;
   }
   GetSpriteStates ();
   if (!pcmesh)
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcmove.linear", "pcobject.mesh is missing!");
+    Error ("pcobject.mesh is missing!");
     return;
   }
   csVector3 velocity = FindVelocity();
@@ -745,9 +741,7 @@ void celPcActorMove::ToggleCameraMode ()
   FindSiblingPropertyClasses ();
   if (!pcdefcamera && !pcnewcamera)
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcmove.linear",
-    	"Must have pccamera.standard or pccamera.old!");
+    Error ("Must have pccamera.standard or pccamera.old!");
     return;
   }
   if (pcdefcamera)
@@ -872,8 +866,7 @@ void celPcActorMove::SubscribeMessages ()
 {
   if (!entity)
   {
-    printf ("Error in actormove: no entity set!\n");
-    fflush (stdout);
+    Error ("Error in actormove: no entity set!\n");
     return;
   }
   entity->QueryMessageChannel ()->Subscribe (this, "cel.input.");

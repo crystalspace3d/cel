@@ -581,7 +581,6 @@ bool celPcMessenger::PerformActionIndexed (int idx,
       }
     case action_message:
       {
-	// @@@ Error reporting.
 	csString type, id;
 	if (!Fetch (type, params, id_type, true, defaultType)) return false;
 	if (!Fetch (id, params, id_id, true, "")) return false;
@@ -706,7 +705,7 @@ printf ("Message %s/%s\n", type, id); fflush (stdout);
   MessageType* mt = GetType (type);
   if (!mt)
   {
-    printf ("Warning! Can't find message type '%s'!\n", type);
+    Error ("Can't find message type '%s'!\n", type);
     return;
   }
   if (mt->GetDoLog ())

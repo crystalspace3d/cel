@@ -294,9 +294,7 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
           AttachCameraMode (iPcNewCamera::CCM_ISOMETRIC);
           return true;
         }
-        csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-          "cel.camera.standard",
-          "Unknown camera mode");
+        Error ("Unknown camera mode");
         return true;
       }
     case action_setcameramode:
@@ -335,9 +333,9 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
       }
     case action_adaptiveclipping:
       {
-        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
-        if (!p_enable) return false;
-        if (enable == true)
+	bool enable;
+	if (!Fetch (enable, params, id_enable)) return false;
+        if (enable)
         {
 	  float minfps, maxfps, mindist;
 	  if (!Fetch (minfps, params, id_minfps)) return false;
@@ -351,9 +349,9 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
       }
     case action_fixedclipping:
       {
-        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
-        if (!p_enable) return false;
-        if (enable == true)
+	bool enable;
+	if (!Fetch (enable, params, id_enable)) return false;
+        if (enable)
         {
 	  float dist;
 	  if (!Fetch (dist, params, id_dist)) return false;

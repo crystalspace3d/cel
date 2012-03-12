@@ -183,12 +183,11 @@ bool celPcBillboard::PerformActionIndexed (int idx,
 	csString materialname, factory;
 	if (!Fetch (materialname, params, id_materialname)) return false;
 	if (!Fetch (factory, params, id_factory)) return false;
-        CEL_FETCH_FLOAT_PAR (distance,params,id_distance);
-        if (!p_distance) distance = -1.0f;
-        CEL_FETCH_VECTOR3_PAR (rotate,params,id_rotate);
-        if (!p_rotate) rotate.Set (0, 0, 0);
-        CEL_FETCH_FLOAT_PAR (angle,params,id_angle);
-        if (!p_angle) angle = 0.0f;
+	float distance, angle;
+	if (!Fetch (distance, params, id_distance, true, -1.0f)) return false;
+	if (!Fetch (angle, params, id_angle, true, 0.0f)) return false;
+	csVector3 rotate;
+	if (!Fetch (rotate, params, id_rotate, true, csVector3 (0, 0, 0))) return false;
         GetBillboard ();
         if (billboard)
         {
@@ -813,18 +812,14 @@ iBillboard* celPcBillboard::GetBillboard ()
     	"cel.manager.billboard");
     if (!billboard_mgr)
     {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.propclass.billboard",
-	  "Couldn't load billboard manager plugin!");
+      Error ("Couldn't load billboard manager plugin!");
       return 0;
     }
   }
   billboard = billboard_mgr->CreateBillboard (billboard_name);
   if (!billboard)
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.propclass.billboard",
-	  "Couldn't create billboard '%s'!", billboard_name);
+    Error ("Couldn't create billboard '%s'!", billboard_name);
     return 0;
   }
   return billboard;

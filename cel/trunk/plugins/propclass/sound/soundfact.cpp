@@ -154,8 +154,7 @@ celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
   	"crystalspace.sndsys.renderer.software");
   if (!renderer)
   {
-    // @@@ Error report.
-    printf ("Error! No sound renderer!\n"); fflush (stdout);
+    Error ("Error! No sound renderer!\n");
     return;
   }
   listener = renderer->GetListener ();
@@ -288,10 +287,9 @@ bool celPcSoundListener::PerformActionIndexed (int idx,
   if (!listener) return false;
   if (idx == action_setdirection)
   {
-    CEL_FETCH_VECTOR3_PAR (front,params,id_front);
-    if (!p_front) return false;
-    CEL_FETCH_VECTOR3_PAR (top,params,id_top);
-    if (!p_top) return false;
+    csVector3 front, top;
+    if (!Fetch (front, params, id_front)) return false;
+    if (!Fetch (top, params, id_top)) return false;
     listener->SetDirection (front, top);
     return true;
   }
@@ -586,16 +584,13 @@ void celPcSoundSource::GetSoundWrap ()
     	object_reg, "crystalspace.sndsys.manager");
     if (!mgr)
     {
-      // @@@ Error report.
-      printf ("Error! No sound manager!\n"); fflush (stdout);
+      Error ("Error! No sound manager!\n");
       return;
     }
     soundwrap = mgr->FindSoundByName (soundname);
     if (!soundwrap)
     {
-      // @@@ Report error?
-      printf ("Can't find sound '%s'!\n", (const char*)soundname);
-      fflush (stdout);
+      Error ("Can't find sound '%s'!\n", (const char*)soundname);
     }
   }
 }
@@ -608,11 +603,7 @@ bool celPcSoundSource::GetSource ()
   csRef<iSndSysRenderer> renderer = csQueryRegistryOrLoad<iSndSysRenderer> (
   	object_reg, "crystalspace.sndsys.renderer.software");
   if (!renderer)
-  {
-    // @@@ Error report.
-    printf ("Error! No sound renderer!\n"); fflush (stdout);
-    return false;
-  }
+    return Error ("Error! No sound renderer!\n");
 
   stream = renderer->CreateStream (soundwrap->GetData (), mode);
   csRef<iSndSysSource> src = renderer->CreateSource (stream);

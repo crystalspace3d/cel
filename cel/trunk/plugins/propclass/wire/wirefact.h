@@ -88,6 +88,8 @@ private:
 
   csRefArray<celWireOutput> output;
 
+  iCelExpressionParser* GetParser ();
+
 public:
   celPcWire (iObjectRegistry* object_reg);
   virtual ~celPcWire ();

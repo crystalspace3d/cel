@@ -182,9 +182,8 @@ bool celPcAnalogMotion::PerformActionIndexed (int idx,
     }
     case action_enable:
     {
-      CEL_FETCH_BOOL_PAR (value, params, id_enabled);
-      if (!p_value)
-        value = true;
+      bool value;
+      if (!Fetch (value, params, id_enabled, true, true)) return false;
       enabled = value;
       return true;
     }

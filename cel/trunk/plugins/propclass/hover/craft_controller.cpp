@@ -207,8 +207,8 @@ bool celPcCraftController::PerformActionIndexed (int idx,
         iCelParameterBlock* params,
         celData& ret)
 {
-  CEL_FETCH_BOOL_PAR(enabled, params, id_enabled);
-  if (!p_enabled) enabled = true;
+  bool enabled;
+  if (!Fetch (enabled, params, id_enabled, true, true)) return false;
   switch (idx)
   {
     case action_sliding:

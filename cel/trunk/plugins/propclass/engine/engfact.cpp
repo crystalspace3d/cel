@@ -59,25 +59,6 @@
 
 CEL_IMPLEMENT_FACTORY_ALT (Region, "pcworld.region", "pcregion")
 
-void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcworld.region",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-}
-
 //---------------------------------------------------------------------------
 
 PropertyHolder celPcRegion::propinfo;
@@ -128,10 +109,7 @@ bool celPcRegion::PerformActionIndexed (int idx,
       if ((empty_sector || worldfile) && regionname)
         Load ();
       else
-      {
-        printf ("World filename or region name not set!\n");
-        return false;
-      }
+        return Error ("World filename or region name not set!\n");
       return true;
     }
     case action_unload:
@@ -139,10 +117,7 @@ bool celPcRegion::PerformActionIndexed (int idx,
       if ((empty_sector || worldfile) && regionname)
         Unload ();
       else
-      {
-        printf ("World filename or region name not set!\n");
-        return false;
-      }
+        return Error ("World filename or region name not set!\n");
       return true;
     }
     default:
@@ -193,24 +168,15 @@ bool celPcRegion::Load (bool allow_entity_addon)
 {
   if (loaded)
   {
-    EngReport (object_reg,"Entity '%s' already loaded.", entity->GetName ());
+    Error ("Entity '%s' already loaded.", entity->GetName ());
     return true;
   }
   if (!empty_sector && !worlddir)
-  {
-    EngReport (object_reg, "World dir not specified.");
-    return false;
-  }
+    return Error ("World dir not specified.");
   if (!worldfile)
-  {
-    EngReport (object_reg, "World file not specified.");
-    return false;
-  }
+    return Error ("World file not specified.");
   if (!regionname)
-  {
-    EngReport (object_reg, "Region name not specified.");
-    return false;
-  }
+    return Error ("Region name not specified.");
 
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   CS_ASSERT (engine != 0);
@@ -255,10 +221,9 @@ bool celPcRegion::Load (bool allow_entity_addon)
 
   if (!ret->WasSuccessful())
   {
-    EngReport (object_reg, "Could not load map file '%s/%s'.",
-    	worlddir, worldfile);
     VFS->PopDir ();
-    return false;
+    return Error ("Could not load map file '%s/%s'.",
+    	worlddir, worldfile);
   }
 
   engine->PrecacheDraw (cur_collection);

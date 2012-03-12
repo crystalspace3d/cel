@@ -354,8 +354,7 @@ void celPcProperties::RestoreModifications (iCelCompactDataBufferReader* buf,
             iCelEntity* ent = pl->GetEntity (entid);
             if (!ent)
             {
-              //@@@ Error reporting
-              printf ("Can't find entity '%d'!\n", entid);
+              Error ("Can't find entity '%d'!\n", entid);
               return;
             }
             const char* pcname = strings.Get (buf->GetID (), (const char*)0);
@@ -367,8 +366,7 @@ void celPcProperties::RestoreModifications (iCelCompactDataBufferReader* buf,
                     strings.Get (tagId, (const char*)0));
             if (!pc)
             {
-              // @@@ Error reporting
-              printf ("Can't find property class '%s' for entity '%s'!\n",
+              Error ("Can't find property class '%s' for entity '%s'!\n",
                     pcname, ent->GetName ());
               return;
             }
@@ -385,8 +383,7 @@ void celPcProperties::RestoreModifications (iCelCompactDataBufferReader* buf,
             ent = pl->GetEntity (entid);
             if (!ent)
             {
-              //@@@ Error reporting
-              printf ("Can't find entity '%d'!\n", entid);
+              Error ("Can't find entity '%d'!\n", entid);
               return;
             }
           }
@@ -419,9 +416,10 @@ bool celPcProperties::PerformActionIndexed (int idx,
           SetProperty (name, (const char*)value_s);
           return true;
         }
-        CEL_FETCH_BOOL_PAR (value_b,params,id_value);
-        if (p_value_b)
-        {
+	if (ParExists (CEL_DATA_BOOL, params, id_value))
+	{
+	  bool value_b;
+	  if (!Fetch (value_b, params, id_value)) return false;
           SetProperty (name, (bool)value_b);
           return true;
         }
@@ -439,9 +437,10 @@ bool celPcProperties::PerformActionIndexed (int idx,
           SetProperty (name, value_l);
           return true;
         }
-        CEL_FETCH_VECTOR3_PAR (value_v3,params,id_value);
-        if (p_value_v3)
-        {
+	if (ParExists (CEL_DATA_VECTOR3, params, id_value))
+	{
+	  csVector3 value_v3;
+	  if (!Fetch (value_v3, params, id_value)) return false;
           SetProperty (name, (csVector3&)value_v3);
           return true;
         }

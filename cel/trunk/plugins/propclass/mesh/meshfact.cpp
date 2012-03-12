@@ -71,26 +71,6 @@ CS_PLUGIN_NAMESPACE_BEGIN(pfMesh)
 CEL_IMPLEMENT_FACTORY_ALT (Mesh, "pcobject.mesh", "pcmesh")
 CEL_IMPLEMENT_FACTORY_ALT (MeshSelect, "pcobject.mesh.select", "pcmeshselect")
 
-static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.object.object.mesh",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-  return false;
-}
-
 static float FixAngle (float angle)
 {
   if (angle >= PI)
@@ -138,7 +118,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
-    Report (object_reg, "No iEngine plugin!");
+    Error ("No iEngine plugin!");
     return;
   }
 
@@ -377,17 +357,17 @@ bool celPcMesh::PerformActionIndexed (int idx,
 	if (!Fetch (name, params, id_name)) return false;
         iMeshWrapper* m = engine->FindMeshObject (name);
         if (!m)
-          return Report (object_reg, "Can't find mesh '%s' for action SetMesh!",
+          return Error ("Can't find mesh '%s' for action SetMesh!",
           	name.GetData ());
         SetMesh (m, false);
         return true;
       }
     case action_setvisible:
       {
-        CEL_FETCH_BOOL_PAR (visible,params,id_visible);
-        if (!p_visible) visible = true;
         if (mesh)
         {
+	  bool visible;
+	  if (!Fetch (visible, params, id_visible, true, true)) return false;
           if (visible)
             mesh->SetFlagsRecursive (CS_ENTITY_INVISIBLE, 0);
           else
@@ -401,7 +381,7 @@ bool celPcMesh::PerformActionIndexed (int idx,
 	if (!Fetch (material, params, id_material)) return false;
         iMaterialWrapper* mat = engine->FindMaterial (material);
         if (!mat)
-          return Report (object_reg, "Can't find material '%s' for SetMaterial!",
+          return Error ("Can't find material '%s' for SetMaterial!",
           	material.GetData ());
         if (mesh)
         {
@@ -416,7 +396,7 @@ bool celPcMesh::PerformActionIndexed (int idx,
 	if (!Fetch (factory, params, id_factoryname)) return false;
         bool rc = SetMesh (factory, file);
         if (!rc)
-          return Report (object_reg, "Can't load mesh '%s/%s' for action LoadMesh!",
+          return Error ("Can't load mesh '%s/%s' for action LoadMesh!",
           	factory.GetData (), file.GetData ());
         return true;
       }
@@ -429,7 +409,7 @@ bool celPcMesh::PerformActionIndexed (int idx,
         SetPath (pa);
         bool rc = SetMesh (factory, file);
         if (!rc)
-          return Report (object_reg,
+          return Error (
           	"Can't load mesh '%s/%s' (path '%s') for action LoadMeshPath!",
           	(const char*)factory, (const char*)file, (const char*)path);
         return true;
@@ -451,12 +431,15 @@ bool celPcMesh::PerformActionIndexed (int idx,
         {
           iSector* sect = engine->FindSector (sector);
 	  if (!sect)
-	    return Report (object_reg,
+	    return Error (
 	      "Can't find sector '%s' for action MoveMesh!",
 	      sector.GetData ());
-          CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-          if (p_position)
+	  if (ParExists (CEL_DATA_VECTOR3, params, id_position))
+	  {
+	    csVector3 position;
+	    if (!Fetch (position, params, id_position)) return false;
             MoveMesh (sect, position);
+	  }
           else
           {
 	    csString node;
@@ -464,9 +447,10 @@ bool celPcMesh::PerformActionIndexed (int idx,
             MoveMesh (sect, node);
           }
         }
-        CEL_FETCH_VECTOR3_PAR (rotation,params,id_rotation);
-        if (p_rotation && mesh)
-        {
+	if (mesh && ParExists (CEL_DATA_VECTOR3, params, id_rotation))
+	{
+	  csVector3 rotation;
+	  if (!Fetch (rotation, params, id_rotation)) return false;
           csQuaternion quat;
           quat.SetEulerAngles (rotation);
           mesh->GetMovable ()->SetTransform (quat.GetMatrix ());
@@ -476,11 +460,9 @@ bool celPcMesh::PerformActionIndexed (int idx,
       }
     case action_rotatemesh:
       {
-        CEL_FETCH_VECTOR3_PAR (rotation,params,id_rotation);
-        if (!p_rotation)
-          return Report (object_reg,
-          	"Missing parameter 'rotation' for action RotateMesh!");
-        else if (mesh)
+	csVector3 rotation;
+	if (!Fetch (rotation, params, id_rotation)) return false;
+        if (mesh)
         {
           iMovable* mov = mesh->GetMovable ();
           csQuaternion quat;
@@ -500,10 +482,9 @@ bool celPcMesh::PerformActionIndexed (int idx,
       return true;
     case action_lookat:
       {
-        CEL_FETCH_VECTOR3_PAR (forward,params,id_forward);
-        if (!p_forward) forward.Set (0, 0, 1);
-        CEL_FETCH_VECTOR3_PAR (up,params,id_up);
-        if (!p_up) up.Set (0, 1, 0);
+	csVector3 forward, up;
+	if (!Fetch (forward, params, id_forward, true, csVector3 (0, 0, 1))) return false;
+	if (!Fetch (up, params, id_up, true, csVector3 (0, 1, 0))) return false;
         if (mesh)
         {
           mesh->GetMovable ()->GetTransform ().LookAt (forward, up);
@@ -518,44 +499,44 @@ bool celPcMesh::PerformActionIndexed (int idx,
 	if (!Fetch (par_type, params, id_type)) return false;
 	csRef<iShaderVarStringSet> strset = csQueryRegistryTagInterface<iShaderVarStringSet> (
 	    object_reg, "crystalspace.shader.variablenameset");
-        if (!strcmp(par_type,"float"))
+        if (par_type == "float")
         {
-          CEL_FETCH_FLOAT_PAR (par_value,params,id_value);
-          if (!p_par_value) return false;
+	  float par_value;
+	  if (!Fetch (par_value, params, id_value)) return false;
           SetShaderVar (strset->Request (par_name), par_value);
         }
-        else if (!strcmp(par_type,"long"))
+        else if (par_type == "long")
         {
 	  long par_value;
 	  if (!Fetch (par_value, params, id_value)) return false;
           SetShaderVar (strset->Request (par_name), (int)par_value);
         }
-        else if (!strcmp(par_type,"vector2"))
+        else if (par_type == "vector2")
         {
-          CEL_FETCH_VECTOR2_PAR (par_value,params,id_value);
-          if (!p_par_value) return false;
+	  csVector2 par_value;
+	  if (!Fetch (par_value, params, id_value)) return false;
           SetShaderVar (strset->Request (par_name), par_value);
         }
-        else if (!strcmp(par_type,"vector3"))
+        else if (par_type == "vector3")
         {
-          CEL_FETCH_VECTOR3_PAR (par_value,params,id_value);
-          if (!p_par_value) return false;
+	  csVector3 par_value;
+	  if (!Fetch (par_value, params, id_value)) return false;
           SetShaderVar (strset->Request (par_name), par_value);
         }
-        else if (!strcmp(par_type,"vector4"))
+        else if (par_type == "vector4")
         {
-          CEL_FETCH_VECTOR4_PAR (par_value,params,id_value);
-          if (!p_par_value) return false;
+	  csVector4 par_value;
+	  if (!Fetch (par_value, params, id_value)) return false;
           SetShaderVar (strset->Request (par_name), par_value);
         }
-        else if (!strcmp(par_type,"libexpr"))
+        else if ( par_type == "libexpr")
         {
 	  csString par_value;
 	  if (!Fetch (par_value, params, id_value)) return false;
           return SetShaderVarExpr (strset->Request (par_name), par_value);
         }
         else
-          return Report (object_reg,
+          return Error (
           	"Unsupported type %s for action SetShaderVar!",
 		par_type.GetData ());
         return true;
@@ -564,10 +545,9 @@ bool celPcMesh::PerformActionIndexed (int idx,
       {
 	csString par_animation;
 	if (!Fetch (par_animation, params, id_animation)) return false;
-        CEL_FETCH_BOOL_PAR (par_cycle,params,id_cycle);
-        if (!p_par_cycle) par_cycle = false;
-        CEL_FETCH_BOOL_PAR (par_reset,params,id_reset);
-        if (!p_par_reset) par_reset = false;
+	bool par_cycle, par_reset;
+	if (!Fetch (par_cycle, params, id_cycle, true, false)) return false;
+	if (!Fetch (par_reset, params, id_reset, true, false)) return false;
         SetAnimation (par_animation, par_cycle, 1.0f, 0.1f, 0.1f, par_reset);
         return true;
       }
@@ -589,10 +569,9 @@ bool celPcMesh::PerformActionIndexed (int idx,
       {
 	csString par_factoryname;
 	if (!Fetch (par_factoryname, params, id_factoryname)) return false;
-        CEL_FETCH_VECTOR3_PAR (par_min,params,id_min);
-        if (!p_par_min) return false;
-        CEL_FETCH_VECTOR3_PAR (par_max,params,id_max);
-        if (!p_par_max) return false;
+	csVector3 par_min, par_max;
+	if (!Fetch (par_min, params, id_min)) return false;
+	if (!Fetch (par_max, params, id_max)) return false;
         CreateNullMesh (par_factoryname, csBox3 (par_min, par_max));
         return true;
       }
@@ -607,7 +586,7 @@ bool celPcMesh::PerformActionIndexed (int idx,
         {
           ent = pl->FindEntity (par_entity);
           if (!ent)
-            return Report (object_reg, "Can't find entity '%s'!",
+            return Error ("Can't find entity '%s'!",
             	par_entity.GetData ());
         }
 	csString par_tag;
@@ -619,7 +598,7 @@ bool celPcMesh::PerformActionIndexed (int idx,
           parent_mesh = celQueryPropertyClassTag<iPcMesh> (
           	ent->GetPropertyClassList (), par_tag);
         if (!parent_mesh)
-          return Report (object_reg, "Can't find a mesh!");
+          return Error ("Can't find a mesh!");
         mesh->QuerySceneNode ()->SetParent (parent_mesh->GetMesh ()
         	->QuerySceneNode ());
         mesh->GetMovable ()->UpdateMove ();
@@ -644,12 +623,12 @@ bool celPcMesh::PerformActionIndexed (int idx,
           iMeshFactoryWrapper* meshfact = engine->GetMeshFactories ()
           	->FindByName (factory);
           if (!meshfact)
-            return Report (object_reg,
+            return Error (
             	"Can't find factory '%s' for AttachSocketMesh!",
             	(const char*)factory);
           csRef<iMeshWrapper> meshobj = engine->CreateMeshWrapper (meshfact, factory);
           if (!meshobj)
-            return Report (object_reg,
+            return Error (
             	"Can't create meshobj from '%s' in AttachSocketMesh!",
             	(const char*)factory);
           AttachSocketMesh (socket, meshobj);
@@ -660,7 +639,7 @@ bool celPcMesh::PerformActionIndexed (int idx,
 	  if (!Fetch (object, params, id_object)) return false;
 	  csRef<iMeshWrapper> meshobj = engine->FindMeshObject (object);
 	  if (!meshobj)
-	    return Report (object_reg,
+	    return Error (
 	      "Can't find meshobj '%s' in AttachSocketMesh!",
 	      (const char*)object);
 	  AttachSocketMesh (socket, meshobj);
@@ -693,9 +672,7 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 
   if(!ret->WasSuccessful())
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.pfobject.mesh.loadmeshfactory",
-      "Error loading mesh object factory or library '%s'!",
+    Error ("Error loading mesh object factory or library '%s'!",
       (const char*)fileName);
     return 0;
   }
@@ -727,9 +704,7 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 
   if (imeshfact == 0)
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pfmesh.loadmeshfactory",
-    	"Error loading mesh object factory '%s'!",
+    Error ("Error loading mesh object factory '%s'!",
     	(const char*)fileName);
     return 0;
   }
@@ -898,7 +873,7 @@ void celPcMesh::MoveMesh (iSector* sector, const char* node)
     }
     else
     {
-      Report (object_reg, "Can't find current sector for MoveMesh!");
+      Error ("Can't find current sector for MoveMesh!");
     }
   }
   if (mapnode)
@@ -907,8 +882,7 @@ void celPcMesh::MoveMesh (iSector* sector, const char* node)
     mesh->GetMovable ()->UpdateMove ();
   }
   else
-    Report (object_reg, "Can't find node '%s' for MoveMesh!",
-    	(const char*)node);
+    Error ("Can't find node '%s' for MoveMesh!", (const char*)node);
 }
 
 void celPcMesh::MoveMesh (iPcMesh* other_mesh, const csVector3& offset)
@@ -1108,7 +1082,7 @@ bool celPcMesh::AttachSocketMesh (const char* socket, iMeshWrapper* meshwrapper)
         {
           iSkeletonSocket* skelsocket = skel->FindSocket (socket);
           if (!skelsocket)
-            return Report (object_reg,
+            return Error (
             	"Can't find socket '%s' for AttachSocketMesh!",
             	(const char*)socket);
           meshwrapper->QuerySceneNode ()->SetParent (
@@ -1126,7 +1100,7 @@ bool celPcMesh::AttachSocketMesh (const char* socket, iMeshWrapper* meshwrapper)
   {
     iSpriteSocket* spr3dsocket = spr3dstate->FindSocket (socket);
     if (!spr3dsocket)
-      return Report (object_reg,
+      return Error (
       	"Can't find socket '%s' for AttachSocketMesh!",
       	(const char*)socket);
     meshwrapper->QuerySceneNode ()->SetParent (GetMesh ()->QuerySceneNode ());
@@ -1140,7 +1114,7 @@ bool celPcMesh::AttachSocketMesh (const char* socket, iMeshWrapper* meshwrapper)
   {
     iSpriteCal3DSocket* cal3dsocket = cal3dstate->FindSocket (socket);
     if (!cal3dsocket)
-      return Report (object_reg,
+      return Error (
       	"Can't find socket '%s' for AttachSocketMesh!",
       	(const char*)socket);
     meshwrapper->QuerySceneNode ()->SetParent (GetMesh ()->QuerySceneNode ());
@@ -1169,7 +1143,7 @@ bool celPcMesh::DetachSocketMesh (const char* socket)
         {
           iSkeletonSocket* skelsocket = skel->FindSocket (socket);
           if (!skelsocket)
-            return Report (object_reg,
+            return Error (
             	"Can't find socket '%s' for DetachSocketMesh!",
             	(const char*)socket);
           iSceneNode* scnode = skelsocket->GetSceneNode ();
@@ -1192,7 +1166,7 @@ bool celPcMesh::DetachSocketMesh (const char* socket)
   {
     iSpriteSocket* spr3dsocket = spr3dstate->FindSocket (socket);
     if (!spr3dsocket)
-      return Report (object_reg,
+      return Error (
       	"Can't find socket '%s' for DetachMesh!", (const char*)socket);
     iMeshWrapper* spr3dmeshobj = spr3dsocket->GetMeshWrapper ();
     if (!spr3dmeshobj)
@@ -1208,7 +1182,7 @@ bool celPcMesh::DetachSocketMesh (const char* socket)
   {
     iSpriteCal3DSocket* cal3dsocket = cal3dstate->FindSocket (socket);
     if (!cal3dsocket)
-      return Report (object_reg,
+      return Error (
       	"Can't find socket '%s' for DetachMesh!", (const char*)socket);
     iMeshWrapper* cal3dmeshobj = cal3dsocket->GetMeshWrapper ();
     if (!cal3dmeshobj)
@@ -1819,7 +1793,7 @@ bool celPcMeshSelect::PerformActionIndexed (int idx,
 	}
         csRef<iPcCamera> pccam = celQueryPropertyClassEntity<iPcCamera> (ent);
         if (!pccam)
-          return Report (object_reg,
+          return Error (
           	"Entity '%s' doesn't have a camera (action SetCamera)!",
           	entity.GetData ());
         SetCamera (pccam);
@@ -1843,14 +1817,10 @@ bool celPcMeshSelect::PerformActionIndexed (int idx,
       }
     case action_setdragplanenormal:
       {
-        CEL_FETCH_BOOL_PAR (camera,params,id_camera);
-        if (!p_camera)
-          return Report (object_reg,
-          	"Missing parameter 'camera' for action SetDragPlaneNormal!");
-        CEL_FETCH_VECTOR3_PAR (normal,params,id_normal);
-        if (!p_normal)
-          return Report (object_reg,
-          	"Missing parameter 'normal' for action SetDragPlaneNormal!");
+	bool camera;
+	if (!Fetch (camera, params, id_camera)) return false;
+	csVector3 normal;
+	if (!Fetch (normal, params, id_normal)) return false;
         SetDragPlaneNormal (normal, camera);
         return true;
       }
@@ -1867,8 +1837,7 @@ bool celPcMesh::SetShaderVarExpr (CS::ShaderVarStringID name, const char* exprna
     	object_reg);
     iShaderVariableAccessor* acc = shmgr->GetShaderVariableAccessor (
     	exprname);
-    if (!acc) return Report (object_reg,
-    	"Can't find shader expression '%s'!", exprname);
+    if (!acc) return Error ("Can't find shader expression '%s'!", exprname);
 
     iShaderVariableContext* svc = mesh->GetSVContext ();
     csShaderVariable *var = svc->GetVariableAdd (name);

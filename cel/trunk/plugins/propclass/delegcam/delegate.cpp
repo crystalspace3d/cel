@@ -115,7 +115,8 @@ bool celPcDelegateCamera::PerformActionIndexed (int idx,
   {
     case action_setcurrmode:
     {
-      CEL_FETCH_PCLASS_PAR (pc, params, id_pclass);
+      iCelPropertyClass* pc;
+      if (!Fetch (pc, params, id_pclass)) return false;
       csRef<iPcCameraMode> camera = scfQueryInterface<iPcCameraMode> (pc);
       if (camera)
         currmode = camera;

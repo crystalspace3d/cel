@@ -53,26 +53,6 @@
 
 CEL_IMPLEMENT_FACTORY_ALT (Spawn, "pclogic.spawn", "pcspawn")
 
-static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.spawn",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-  return false;
-}
-
 //---------------------------------------------------------------------------
 
 csStringID celPcSpawn::id_repeat_param = csInvalidStringID;
@@ -232,10 +212,8 @@ bool celPcSpawn::PerformActionIndexed (int idx,
       return true;
     case action_setenabled:
       {
-        CEL_FETCH_BOOL_PAR (enabled_param,params,id_enabled_param);
-        if (!p_enabled_param)
-          return Report (object_reg,
-      	    "Missing parameter 'enabled' for action SetEnabled!");
+	bool enabled_param;
+	if (!Fetch (enabled_param, params, id_enabled_param)) return false;
         SetEnabled (enabled_param);
         return true;
       }
@@ -265,10 +243,8 @@ bool celPcSpawn::PerformActionIndexed (int idx,
         }
         else
         {
-          CEL_FETCH_VECTOR3_PAR (position_param,params,id_position_param);
-          if (!p_position_param)
-            return Report (object_reg,
-        	    "Missing parameter 'sector' for action AddSpawnPosition!");
+	  csVector3 position;
+	  if (!Fetch (position, params, id_position_param)) return false;
           AddSpawnPosition (position_param, yrot_param, sector_param);
         }
         return true;
@@ -351,8 +327,7 @@ void celPcSpawn::UpdateFreeUniqueEntity (iCelEntity* entity)
         atBaseline = false;
         return;
       }
-    printf ("No free slot for an entity? Impossible!!!\n");
-    fflush (stdout);
+    Error ("No free slot for an entity? Impossible!!!\n");
     CS_ASSERT (false);
   }
 }
@@ -368,8 +343,7 @@ iCelEntity* celPcSpawn::CreateNewEntity (iCelEntityTemplate* tpl,
   iSector* sect = engine->FindSector (sector);
   if (!sect)
   {
-    Report (object_reg,
-          "Can't find sector '%s' for action SetPosition!",
+    Error ("Can't find sector '%s' for action SetPosition!",
           sector);
     return 0;
   }
@@ -381,7 +355,7 @@ iCelEntity* celPcSpawn::CreateNewEntity (iCelEntityTemplate* tpl,
     if (mapnode)
       pos = mapnode->GetPosition ();
     else
-      Report (object_reg, "Can't find node '%s' for trigger!", node);
+      Error ("Can't find node '%s' for trigger!", node);
   }
 
   csRef<iPcLinearMovement> linmove = celQueryPropertyClassEntity<iPcLinearMovement> (newent);
@@ -482,7 +456,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   // First send a message to our new entity if needed.
   celData ret;
   if (spawninfo[idx].behaviour && !newent->GetBehaviour ())
-    Report (object_reg, "Error creating behaviour for entity '%s'!",
+    Error ("Error creating behaviour for entity '%s'!",
     	newent->GetName ());
   if (!spawninfo[idx].msg_id != csInvalidStringID)
   {
