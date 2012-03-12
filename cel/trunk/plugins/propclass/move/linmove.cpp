@@ -686,6 +686,7 @@ bool celPcLinearMovement::RotateV (float delta)
       csYRotMatrix3 (angle.y) *
       csZRotMatrix3 (angle.z));
   //DoMove ();
+  movable->UpdateMove ();
   if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
   return true;
 }
@@ -850,6 +851,7 @@ void celPcLinearMovement::OffsetSprite (float delta)
   newpos = oldpos + del_offset;
 
   movable->GetTransform ().SetOrigin (newpos);
+  movable->UpdateMove ();
 }
 
 // Do the actual move
@@ -984,6 +986,7 @@ int celPcLinearMovement::MoveV (float delta)
   movable->GetTransform ().SetOrigin (newpos);
   movable->GetTransform ().SetT2O(
   	movable->GetTransform ().GetT2O () * transform_oldpos.GetT2O ());
+  movable->UpdateMove ();
 
   if (pccolldet)
   {
@@ -1097,6 +1100,7 @@ void celPcLinearMovement::HugGround (const csVector3& pos, iSector* sector)
     csMatrix3 rotMat = csZRotMatrix3 (newzRot) * csXRotMatrix3 (newxRot - xRot)
     	* csZRotMatrix3 (-zRot);
     pcmesh->GetMesh ()->GetMovable ()->Transform (rotMat);
+    pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
     xRot = newxRot;
     zRot = newzRot;
   }
@@ -1165,6 +1169,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     pcmesh->GetMesh ()->GetMovable ()->GetTransform().LookAt(
     	look.Unit (), up.Unit ());
     //DoMove ();
+    pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
     if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
 
     csRef<iSprite3DState> spstate =
@@ -1527,6 +1532,7 @@ void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
 
   // Sector
   //DoMove ();
+  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
   if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
 }
 
@@ -1556,12 +1562,16 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
   FindSiblingPropertyClasses ();
 
   if (bulletBody) bulletBody->MakeKinematic ();
+
   // Position
-  pcmesh->GetMesh ()->GetMovable ()->SetPosition ((iSector *)sector,pos);
+  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+  movable->SetPosition ((iSector *)sector,pos);
 
   // Rotation
   csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot);
-  pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
+  movable->GetTransform ().SetO2T (matrix);
+
+  movable->UpdateMove ();
 
   //DoMove ();
   if (bulletBody) pcmechobj->GetBody ()->MakeDynamic ();
