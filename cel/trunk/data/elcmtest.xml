@@ -310,7 +310,7 @@
 	  <par name="factoryname" string="franky_frankie" />
 	</action>
       </propclass>
-      <template name="BasePlayer" />
+      <merge name="BasePlayer" />
       <characteristic name="weight" value="50" />
     </addon>
     <addon plugin="cel.addons.celentitytpl" entityname="Table" >
