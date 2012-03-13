@@ -502,7 +502,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\propclass\mechanics\thruster_reactionary.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\plugins\propclass\mechanics\common.h" />
     <ClInclude Include="..\..\plugins\propclass\mechanics\environment.h" />
     <ClInclude Include="..\..\plugins\propclass\mechanics\mechanics.h" />
     <ClInclude Include="..\..\plugins\propclass\mechanics\thruster_controller.h" />

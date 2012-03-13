@@ -1539,9 +1539,6 @@
 				RelativePath="..\..\plugins\propclass\light\lightfact.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\common.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\mechanics\environment.h">
 			</File>
 			<File

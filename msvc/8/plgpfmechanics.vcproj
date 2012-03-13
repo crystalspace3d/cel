@@ -645,9 +645,6 @@
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\common.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\mechanics\environment.h">
 			</File>
 			<File

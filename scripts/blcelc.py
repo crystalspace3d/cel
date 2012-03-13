@@ -5479,6 +5479,10 @@ class celPcCommon(object):
     __swig_destroy__ = _blcelc.delete_celPcCommon
     __del__ = lambda self : None;
     def HavePropertyClassesChanged(*args): return _blcelc.celPcCommon_HavePropertyClassesChanged(*args)
+    def Error(*args): return _blcelc.celPcCommon_Error(*args)
+    def Warning(*args): return _blcelc.celPcCommon_Warning(*args)
+    def Bug(*args): return _blcelc.celPcCommon_Bug(*args)
+    def Notify(*args): return _blcelc.celPcCommon_Notify(*args)
     GetTypeName = staticmethod(_blcelc.celPcCommon_GetTypeName)
     IsTypeCompatible = staticmethod(_blcelc.celPcCommon_IsTypeCompatible)
     def CheckTypeCompatible(*args): return _blcelc.celPcCommon_CheckTypeCompatible(*args)
