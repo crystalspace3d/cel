@@ -140,7 +140,9 @@ private:
   int marginx, marginy;
   int maxmessages;
   bool queue;
+
   float boxfadetime;
+  float fadetimeleft;
 
   csArray<TimedMessage> activeMessages;
   csArray<TimedMessage> queuedMessages;
@@ -186,6 +188,7 @@ public:
     InitEmpty ();
     boxPen = 0;
     borderPen = 0;
+    fadetimeleft = 0.0f;
   }
   ~MessageSlot ();
 
