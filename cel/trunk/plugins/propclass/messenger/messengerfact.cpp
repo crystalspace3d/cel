@@ -366,7 +366,7 @@ void MessageSlot::Render2D (iGraphics3D* g3d, iGraphics2D* g2d)
   for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
   {
     const LayoutedLine& ll = layoutedLines.Get (i);
-    if (ll.timeleft <= 0)
+    if (ll.timeleft <= 0 && ll.maxfadetime > 0.0f)
     {
       float alpha = 1.0f;
       alpha = (1.0f - (ll.maxfadetime - ll.fadetime) / ll.maxfadetime);
