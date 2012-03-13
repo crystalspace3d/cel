@@ -758,7 +758,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\propclass\inv\invfact.h" />
     <ClInclude Include="..\..\plugins\propclass\jump\jump.h" />
     <ClInclude Include="..\..\plugins\propclass\light\lightfact.h" />
-    <ClInclude Include="..\..\plugins\propclass\mechanics\common.h" />
     <ClInclude Include="..\..\plugins\propclass\mechanics\environment.h" />
     <ClInclude Include="..\..\plugins\propclass\mechanics\mechanics.h" />
     <ClInclude Include="..\..\plugins\propclass\mechanics\thruster_controller.h" />
