@@ -312,8 +312,16 @@ void MessageSlot::HandleElapsed (float elapsed)
   CheckMessages ();
 
   LayoutedLine& line = layoutedLines.Get (0);
-  line.timeleft -= elapsed;
+
+  bool done = false;
   if (line.timeleft <= 0)
+  {
+    line.fadetime -= elapsed;
+    if (line.fadetime <= 0) done = true;
+  }
+  else line.timeleft -= elapsed;
+
+  if (done)
   {
     // The other messages will get removed the next frame.
     layoutedLines.DeleteIndex (0);
@@ -358,7 +366,19 @@ void MessageSlot::Render2D (iGraphics3D* g3d, iGraphics2D* g2d)
   for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
   {
     const LayoutedLine& ll = layoutedLines.Get (i);
-    g2d->Write (ll.font, cx, cy, ll.color, -1, ll.line);
+    if (ll.timeleft <= 0)
+    {
+      float alpha = 1.0f;
+      alpha = (1.0f - (ll.maxfadetime - ll.fadetime) / ll.maxfadetime);
+      int r, g, b, a;
+      g2d->GetRGB (ll.color, r, g, b, a);
+      int tc = g2d->FindRGB (r, g, b, int (a * alpha));
+      g2d->Write (ll.font, cx, cy, tc, -1, ll.line);
+    }
+    else
+    {
+      g2d->Write (ll.font, cx, cy, ll.color, -1, ll.line);
+    }
     cy += ll.h + LINE_MARGIN;
   }
 }

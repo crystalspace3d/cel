@@ -104,6 +104,7 @@ struct LayoutedLine
   csString line;
   float timeleft;
   float fadetime;
+  float maxfadetime;
   iFont* font;
   int color;
 
@@ -112,8 +113,9 @@ struct LayoutedLine
 
   LayoutedLine (const char* line, float timeleft, float fadetime, iFont* font,
       int color)
-    : line (line), timeleft (timeleft), fadetime (fadetime), font (font),
-      color (color) { }
+    : line (line), timeleft (timeleft),
+      fadetime (fadetime), maxfadetime (fadetime),
+      font (font), color (color) { }
 };
 
 class MessageSlot
