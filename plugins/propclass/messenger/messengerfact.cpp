@@ -218,9 +218,6 @@ void MessageSlot::InitEmpty ()
 
 void MessageSlot::LayoutText ()
 {
-  if (layoutedLines.IsEmpty ())
-    InitEmpty ();
-
   for (size_t mi = 0 ; mi < activeMessages.GetSize () ; mi++)
   {
     TimedMessage& tm = activeMessages.Get (mi);
@@ -281,7 +278,6 @@ void MessageSlot::Message (const char* msg, float timeout, float fadetime,
       }
     }
   }
-printf ("activeMessages %s\n", msg); fflush (stdout);
   activeMessages.Push (TimedMessage (msg, timeout, fadetime, font, color));
   LayoutText ();
 }
@@ -311,20 +307,49 @@ void MessageSlot::HandleElapsed (float elapsed)
   if (layoutedLines.GetSize () == 0) return;
   CheckMessages ();
 
-  LayoutedLine& line = layoutedLines.Get (0);
+  // For the 'timeleft' calculation we use an elapsedTimeleft
+  // variable that decreases for every line because the timeleft
+  // in every line is stored cumulative.
+  // For fadetime we use the original 'timeleft'.
+  float elapsedTimeleft = elapsed;
 
-  bool done = false;
-  if (line.timeleft <= 0)
+  // If true we need to change the layout after processing all lines.
+  bool needslayout = false;
+
+  // If text is fading away then this will be the maximum fade time
+  // of all fading text items.
+  float maxfade = 0.0f;
+
+  // Set to true if all lines are fading or removed.
+  bool allfading = true;
+
+  size_t l = 0;
+  while (l < layoutedLines.GetSize ())
   {
-    line.fadetime -= elapsed;
-    if (line.fadetime <= 0) done = true;
+    LayoutedLine& line = layoutedLines.Get (l++);
+
+    // The line is ready to be removed. Check fading.
+    if (line.timeleft <= 0)
+    {
+      line.fadetime -= elapsed;
+      if (line.fadetime <= 0)
+      {
+	l--;
+        layoutedLines.DeleteIndex (l);
+        needslayout = true;
+      }
+      if (line.fadetime > maxfade) maxfade = line.fadetime;
+    }
+    else
+    {
+      allfading = false;
+      line.timeleft -= elapsedTimeleft;
+      if (line.timeleft <= 0) elapsedTimeleft = -line.timeleft;
+      else elapsedTimeleft = 0.0f;
+    }
   }
-  else line.timeleft -= elapsed;
-
-  if (done)
+  if (needslayout)
   {
-    // The other messages will get removed the next frame.
-    layoutedLines.DeleteIndex (0);
     curh = 0;
     for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
     {
@@ -334,18 +359,47 @@ void MessageSlot::HandleElapsed (float elapsed)
     if (curh > 0) curh -= LINE_MARGIN;
     LayoutText ();
   }
+
+  // Control the box fading level.
+  if (allfading && maxfade < boxfadetime)
+  {
+    fadetimeleft -= elapsed;
+    if (fadetimeleft < .000001f)
+    {
+      fadetimeleft = 0.0f;
+      InitEmpty ();
+    }
+  }
+  else if (allfading && maxfade < 0.00001f)
+  {
+    InitEmpty ();
+  }
+  else
+  {
+    fadetimeleft = boxfadetime;
+  }
 }
 
 bool MessageSlot::Needs3DRender ()
 {
-  return boxPen || borderPen;
+  return layoutedLines.GetSize () > 0 && (boxPen || borderPen);
 }
 
 void MessageSlot::Render3D (iGraphics3D* g3d, iGraphics2D* g2d)
 {
+  if (layoutedLines.GetSize () == 0) return;
+
+  float curfade = 1.0f;
+  if (boxfadetime > 0.001f) curfade = fadetimeleft / boxfadetime;
+
   int cx = finalPosition.x-marginx, cy = finalPosition.y-marginy;
   if (boxPen)
   {
+    if (curfade > 0.99999f)
+      boxPen->SetColor (boxColor);
+    else
+      boxPen->SetColor (csColor4 (
+	    boxColor.red, boxColor.green, boxColor.blue, boxColor.alpha * curfade));
     if (roundness > 0)
       boxPen->DrawRoundedRect (cx, cy, cx+cursizex+marginx*2, cy+cursizey+marginy*2, roundness);
     else
@@ -353,6 +407,11 @@ void MessageSlot::Render3D (iGraphics3D* g3d, iGraphics2D* g2d)
   }
   if (borderPen)
   {
+    if (curfade > 0.99999f)
+      borderPen->SetColor (borderColor);
+    else
+      borderPen->SetColor (csColor4 (
+	    borderColor.red, borderColor.green, borderColor.blue, borderColor.alpha * curfade));
     if (roundness > 0)
       borderPen->DrawRoundedRect (cx, cy, cx+cursizex+marginx*2, cy+cursizey+marginy*2, roundness);
     else
