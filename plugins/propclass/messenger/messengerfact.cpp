@@ -38,28 +38,31 @@ class MessageLogIterator : public scfImplementation1<MessageLogIterator,
   iMessageLogIterator>
 {
 private:
-  MessageType* mt;
-  size_t idx;
+  MessageHash::GlobalIterator it;
+  csString id;
+  size_t counter;
 
 public:
-  MessageLogIterator (MessageType* mt) :
-    scfImplementationType (this), mt (mt), idx (0) { }
+  MessageLogIterator (MessageHash::GlobalIterator it) :
+    scfImplementationType (this), it (it) { }
   virtual ~MessageLogIterator () { }
   virtual bool HasNext () const
   {
-    MessageLog& log = mt->GetLog ();
-    return idx < log.GetCount ();
+    return it.HasNext ();
   }
   virtual const char* Next ()
   {
-    MessageLog& log = mt->GetLog ();
-    idx++;
-    return log.GetMessage (idx-1);
+    MessageCounter msg = it.Next (id);
+    counter = msg.counter;
+    return msg.message;
   }
   virtual const char* GetID ()
   {
-    MessageLog& log = mt->GetLog ();
-    return log.GetID (idx);
+    return id;
+  }
+  virtual size_t GetCounter ()
+  {
+    return counter;
   }
 };
 
@@ -789,21 +792,57 @@ void celPcMessenger::DefineType (const char* type, const char* slotName,
 void celPcMessenger::Message (const char* type, const char* id,
       const csStringArray& msgs)
 {
-printf ("Message %s/%s\n", type, id); fflush (stdout);
   MessageType* mt = GetType (type);
   if (!mt)
   {
     Error ("Can't find message type '%s'!\n", type);
     return;
   }
-  if (mt->GetDoLog ())
+
+  MessageLog& log = mt->GetLog ();
+  CycleType cycleType;
+  if (!id || !*id) cycleType = mt->GetCycleFirst ();
+  else if (log.IDExists (id)) cycleType = mt->GetCycleNext ();
+  else cycleType = mt->GetCycleFirst ();
+
+  const char* msg = 0;
+  switch (cycleType)
   {
-    // @@@ Keep message.
+    case CYCLE_RANDOM: msg = msgs[rng.Get (msgs.GetSize ())]; break;
+    case CYCLE_SEQUENCE:
+      {
+	size_t counter = 0;
+        if (id && *id) counter = log.GetMessageCount (id);
+	msg = msgs[counter % msgs.GetSize ()];
+      }
+      break;
+    case CYCLE_NONE:
+      msg = 0;
+      break;
+    default:
+      if (int (cycleType) >= int (CYCLE_INDEX))
+      {
+	int idx = int (cycleType) - int (CYCLE_INDEX);
+	if (size_t (idx) >= msgs.GetSize ())
+	{
+	  printf ("Warning! Not enough messages!\n");
+	  idx = msgs.GetSize ()-1;
+	}
+	msg = msgs[idx];
+      }
+      break;
   }
-  if (mt->GetSlot ())
+
+  if (id && *id)
   {
-    // @@@ Select the right message.
-    mt->GetSlot ()->Message (msgs[0], mt->GetTimeout(), mt->GetFadetime (),
+    if (mt->GetDoLog ())
+      log.PushMessage (id, msg);
+    else
+      log.PushMessage (id, "X");	// Also log in case we have an id.
+  }
+  if (msg && mt->GetSlot ())
+  {
+    mt->GetSlot ()->Message (msg, mt->GetTimeout(), mt->GetFadetime (),
 	mt->GetFont (), mt->GetTextColor ());
   }
 }
@@ -832,10 +871,9 @@ void celPcMessenger::ClearId (const char* id)
   for (size_t i = 0 ; i < types.GetSize () ; i++)
   {
     MessageLog& log = types.Get (i)->GetLog ();
-    size_t idx = log.GetMessageIndex (id);
-    if (idx != csArrayItemNotFound)
+    if (log.IDExists (id))
     {
-      log.ClearMessage (idx);
+      log.ClearMessage (id);
       return;
     }
   }
@@ -857,7 +895,7 @@ csPtr<iMessageLogIterator> celPcMessenger::GetMessages (const char* type)
 {
   MessageType* mt = GetType (type);
   if (!mt) return 0;
-  return new MessageLogIterator (mt);
+  return new MessageLogIterator (mt->GetLog ().GetIterator ());
 }
 
 MessageLog* celPcMessenger::GetMessageLog (const char* type)

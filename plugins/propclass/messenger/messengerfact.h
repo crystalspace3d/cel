@@ -27,6 +27,7 @@
 #include "ivideo/graph3d.h"
 #include "csutil/scf.h"
 #include "csutil/parray.h"
+#include "csutil/randomgen.h"
 #include "cstool/pen.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
@@ -41,38 +42,56 @@ struct iFont;
 
 //---------------------------------------------------------------------------
 
+struct MessageCounter
+{
+  csString message;
+  size_t counter;
+  MessageCounter () : counter (0) { }
+};
+
+typedef csHash<MessageCounter,csString> MessageHash;
+
 class MessageLog
 {
 private:
-  csStringArray ids;
-  csStringArray messages;
+  MessageHash idToMessage;
 
 public:
-  size_t GetCount () { return ids.GetSize (); }
-  const char* GetID (size_t idx) const { return ids.Get (idx); }
-  const char* GetMessage (size_t idx) const { return messages.Get (idx); }
+  size_t GetCount () { return idToMessage.GetSize (); }
+  MessageHash::GlobalIterator GetIterator ()
+  {
+    return idToMessage.GetIterator ();
+  }
   void PushMessage (const char* id, const char* msg)
   {
-    ids.Push (id);
-    messages.Push (msg);
+    MessageCounter mc;
+    if (idToMessage.Contains (id))
+    {
+      idToMessage.Get (id, mc).counter++;
+    }
+    else
+    {
+      mc.message = msg;
+      mc.counter = 1;
+      idToMessage.Put (id, mc);
+    }
   }
   void ClearLog ()
   {
-    ids.DeleteAll ();
-    messages.DeleteAll ();
+    idToMessage.DeleteAll ();
   }
-  size_t GetMessageIndex (const char* id)
+  bool IDExists (const char* id)
   {
-    // @@@ Not efficient!
-    for (size_t i = 0 ; i < ids.GetSize () ; i++)
-      if (ids[i] == id)
-	return i;
-    return csArrayItemNotFound;
+    return idToMessage.Contains (id);
   }
-  void ClearMessage (size_t idx)
+  size_t GetMessageCount (const char* id)
   {
-    ids.DeleteIndex (idx);
-    messages.DeleteIndex (idx);
+    MessageCounter mc;
+    return idToMessage.Get (id, mc).counter;
+  }
+  void ClearMessage (const char* id)
+  {
+    idToMessage.DeleteAll (id);
   }
 };
 
@@ -299,6 +318,7 @@ private:
 
   csRef<iVirtualClock> vc;
   csRef<iGraphics3D> g3d;
+  csRandomGen rng;
 
   // For actions.
   enum actionids

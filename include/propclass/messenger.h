@@ -57,10 +57,15 @@ struct iMessageLogIterator : public virtual iBase
   virtual const char* Next () = 0;
 
   /**
-   * Get the id of the next message as it will be returned by Next()
+   * Get the id of the previous message as it was returned by Next()
    * but don't advance the iterator.
    */
   virtual const char* GetID () = 0;
+
+  /**
+   * Get the amount of times this message has been given to the user.
+   */
+  virtual size_t GetCounter () = 0;
 };
 
 /**
