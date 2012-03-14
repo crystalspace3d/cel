@@ -68,6 +68,154 @@ public:
 
 //---------------------------------------------------------------------------
 
+bool TimedMessage::LayoutWord (int maxwidth, const char* word)
+{
+  int w, h;
+  font->GetDimensions (word, w, h);
+
+  LayoutedLine& line = layoutedLines.Get (layoutedLines.GetSize ()-1);
+  int neww = line.w + w;
+  if (line.w > 0)
+    neww += curspacew;
+
+  if (neww > maxwidth) return false;
+
+  if (line.w > 0)
+    line.line += " ";
+  line.line += word;
+  line.w = neww;
+
+  return true;
+}
+
+void TimedMessage::LayoutNewLine ()
+{
+  int w, h;
+  font->GetDimensions ("abcghijklABDGHIJKLM0123456789,!?", w, h);
+
+  LayoutedLine layoutline ("", timeleft + fadetime, font, color);
+  layoutline.w = 0;
+  layoutline.h = h;
+  layoutedLines.Push (layoutline);
+}
+
+void TimedMessage::LayoutLine (int maxwidth, const char* line)
+{
+  LayoutNewLine ();
+
+  csStringArray words (line, " ", csStringArray::delimIgnore);
+  for (size_t w = 0 ; w < words.GetSize () ; w++)
+  {
+    if (!LayoutWord (maxwidth, words.Get (w)))
+    {
+      // No more room for this line.
+      LayoutNewLine ();
+      if (!LayoutWord (maxwidth, words.Get (w)))
+      {
+	// Still doesn't fit. The word may simply be too big. We just
+	// ignore it for now (needs to be handled better!)
+	// @@@
+	printf ("Ignored word '%s'!\n", (const char*)words.Get (w));
+	fflush (stdout);
+      }
+    }
+  }
+}
+
+void TimedMessage::Layout (int maxwidth)
+{
+  int h;
+  font->GetDimensions (" ", curspacew, h);
+
+  csStringArray lines (message, "\n");
+  for (size_t l = 0 ; l < lines.GetSize () ; l++)
+    LayoutLine (maxwidth, lines.Get (l));
+}
+
+#define LINE_MARGIN 2
+
+int TimedMessage::CalculateFittingVerticalHeight (int maxheight)
+{
+  int h = 0;
+  for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
+  {
+    LayoutedLine& line = layoutedLines.Get (i);
+    line.render = false;
+    if (line.timeleft > 0.0f)
+    {
+      int margin = h ? LINE_MARGIN : 0;
+      if (line.h + margin + h >= maxheight) return h;
+      line.render = true;
+      h += line.h + margin;
+    }
+  }
+  return h;
+}
+
+int TimedMessage::GetMaxWidth ()
+{
+  int width = 0;
+  for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
+    if (layoutedLines.Get (i).w > width)
+      width = layoutedLines.Get (i).w;
+  return width;
+}
+
+bool TimedMessage::IsMessageReady ()
+{
+  for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
+  {
+    LayoutedLine& line = layoutedLines.Get (i);
+    if (line.timeleft > 0.0f)
+      return false;
+  }
+  return true;
+}
+
+float TimedMessage::HandleElapsed (float elapsed)
+{
+  updated = false;
+  fading = 0.0f;
+
+  int part = 0;		// If this gets to 2 we have unshown lines at the end.
+  float newelapsed = elapsed;
+  for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
+  {
+    LayoutedLine& line = layoutedLines.Get (i);
+    if (line.render)
+    {
+      part = 1;
+      if (line.timeleft > 0)
+      {
+	line.timeleft -= elapsed;
+	if (line.timeleft >= fadetime) fading = 1000000000.0f;
+	else if (line.timeleft > fading) fading = line.timeleft;
+
+	if (line.timeleft <= 0)
+	{
+	  if (-line.timeleft < newelapsed)
+	  {
+	    newelapsed = -line.timeleft;
+	    if (newelapsed < 0) newelapsed = 0;
+	  }
+	}
+	else newelapsed = 0.0f;
+      }
+
+      if (line.timeleft <= 0)
+      {
+	line.render = false;
+	updated = true;
+      }
+    }
+    else if (part == 1) part = 2;
+  }
+  if (part == 2) return 0.0f;
+  return newelapsed;
+}
+
+//---------------------------------------------------------------------------
+
 MessageSlot::~MessageSlot ()
 {
   delete boxPen;
@@ -92,141 +240,36 @@ void MessageSlot::InitPen ()
   }
 }
 
-bool MessageSlot::LayoutWord (const TimedMessage& tm, const char* word)
+void MessageSlot::RecalculateCurrentSize ()
 {
-  int w, h;
-  tm.font->GetDimensions (word, w, h);
-
-  LayoutedLine& line = layoutedLines.Get (layoutedLines.GetSize ()-1);
-  int neww = line.w + w;
-  if (line.w > 0)
-    neww += curspacew;
-
-  if (neww > cursizex)
+  if (sizex > 0) cursizex = sizex - marginx * 2;
+  else
   {
-    // Not enough room. Can we extend?
-    if (sizex <= 0 && neww <= maxsizex)
+    cursizex = 0;
+    for (size_t i = 0 ; i < activeMessages.GetSize () ; i++)
     {
-      // Yes
-      cursizex = neww;
-    }
-    else
-      return false;
-  }
-
-  if (line.w > 0)
-    line.line += " ";
-  line.line += word;
-  line.w = neww;
-
-  return true;
-}
-
-#define LINE_MARGIN 2
-
-bool MessageSlot::LayoutNewLine (const TimedMessage& tm)
-{
-  int w, h;
-  tm.font->GetDimensions ("abcghijklABDGHIJKLM0123456789,!?", w, h);
-  int margin = 0;
-  if (layoutedLines.GetSize () > 0)
-    margin = LINE_MARGIN;
-  int newh = curh + margin + h;
-
-  if (newh > cursizey)
-  {
-    // Not enough room. Can we extend?
-    if (sizey <= 0 && newh <= maxsizey)
-    {
-      // Yes
-      cursizey = newh;
-    }
-    else
-      return false;
-  }
-
-  float timeleft = 0.0f;
-  for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
-    timeleft += layoutedLines.Get (i).timeleft;
-  timeleft = tm.timeleft - timeleft;
-  if (timeleft < 0.0f) timeleft = 0.0f;
-
-  LayoutedLine layoutline ("", timeleft, tm.fadetime, tm.font, tm.color);
-  layoutline.y = curh + margin;
-  layoutline.w = 0;
-  layoutline.h = h;
-  layoutedLines.Push (layoutline);
-  curh = newh;
-  return true;
-}
-
-bool MessageSlot::LayoutLine (const TimedMessage& tm, const char* line)
-{
-  if (!LayoutNewLine (tm))
-    return false;
-
-  csStringArray words (line, " ", csStringArray::delimIgnore);
-  for (size_t w = 0 ; w < words.GetSize () ; w++)
-  {
-    if (!LayoutWord (tm, words.Get (w)))
-    {
-      // No more room for this line.
-      if (!LayoutNewLine (tm))
-	return false;
-      if (!LayoutWord (tm, words.Get (w)))
-      {
-	// Still doesn't fit. The word may simply be too big. We just
-	// ignore it for now (needs to be handled better!)
-	// @@@
-	printf ("Ignored word '%s'!\n", (const char*)words.Get (w));
-	fflush (stdout);
-      }
+      TimedMessage* tm = activeMessages.Get (i);
+      int maxwidth = tm->GetMaxWidth ();
+      if (maxwidth > cursizex) cursizex = maxwidth;
     }
   }
-
-
-  return true;
-}
-
-bool MessageSlot::LayoutMessage (TimedMessage& tm)
-{
-  int h;
-  tm.font->GetDimensions (" ", curspacew, h);
-
-  size_t firstline = layoutedLines.GetSize ();
-  csStringArray lines (tm.message, "\n");
-  for (size_t l = tm.completedLines ; l < lines.GetSize () ; l++)
+  int maxheight;
+  if (sizey > 0) maxheight = sizey - marginy * 2;
+  else maxheight = maxsizey - marginy * 2;
+  cursizey = 0;
+  for (size_t i = 0 ; i < activeMessages.GetSize () ; i++)
   {
-    if (!LayoutLine (tm, lines.Get (l)))
-    {
-      // This line didn't (completely) fit. We mark all lines
-      // that we managed to layout as incomplete.
-      for (size_t i = firstline ; i < layoutedLines.GetSize () ; i++)
-	layoutedLines.Get (i).fadetime = 0.0f;
-      tm.completedLines = l+1;
-      return false;
-    }
+    TimedMessage* tm = activeMessages.Get (i);
+    int margin = cursizey ? LINE_MARGIN : 0;
+    int fitheight = tm->CalculateFittingVerticalHeight (maxheight - cursizey - margin);
+    // If we could fit no lines and we already have lines on screen then
+    // we break. If we could fit no lines and there are no lines on screen we don't
+    // break because we can be in the situation that a message has just timed out and
+    // so no lines will be visible for that message.
+    if (fitheight == 0 && cursizey != 0) break;
+    cursizey += margin + fitheight;
   }
-  tm.completedLines = ALL_LINES;
-  return true;
-}
-
-void MessageSlot::InitEmpty ()
-{
-  if (sizex > 0) cursizex = sizex - marginx * 2; else cursizex = 0;
-  if (sizey > 0) cursizey = sizey - marginy * 2; else cursizey = 0;
-  layoutedLines.Empty ();
-  curh = 0;
-}
-
-void MessageSlot::LayoutText ()
-{
-  for (size_t mi = 0 ; mi < activeMessages.GetSize () ; mi++)
-  {
-    TimedMessage& tm = activeMessages.Get (mi);
-    if (tm.completedLines != ALL_LINES)
-      LayoutMessage (tm);
-  }
+  if (sizey > 0) cursizey = sizey - marginy * 2;
 
   int swidth = g3d->GetWidth ();
   int sheight = g3d->GetHeight ();
@@ -264,12 +307,14 @@ void MessageSlot::LayoutText ()
 void MessageSlot::Message (const char* msg, float timeout, float fadetime,
     iFont* font, int color)
 {
+  TimedMessage* tm = new TimedMessage (msg, timeout, fadetime, font, color);
+  tm->Layout (maxsizex - marginx * 2);
+
   if (activeMessages.GetSize () >= size_t (maxmessages))
   {
     if (queue)
     {
-      queuedMessages.Push (TimedMessage (msg, timeout, fadetime, font,
-	    color));
+      queuedMessages.Push (tm);
       return;
     }
     else
@@ -281,116 +326,77 @@ void MessageSlot::Message (const char* msg, float timeout, float fadetime,
       }
     }
   }
-  activeMessages.Push (TimedMessage (msg, timeout, fadetime, font, color));
-  LayoutText ();
+  activeMessages.Push (tm);
+  RecalculateCurrentSize ();
 }
 
-void MessageSlot::CheckMessages ()
+void MessageSlot::CleanReadyMessages ()
 {
-  if (queuedMessages.GetSize () > 0)
-  {
-    while (queuedMessages.GetSize () > 0 && activeMessages.GetSize () < size_t (maxmessages))
-    {
-      activeMessages.Push (queuedMessages.Get (0));
-      queuedMessages.DeleteIndex (0);
-    }
-  }
   size_t i = 0;
   while (i < activeMessages.GetSize ())
   {
-    if (activeMessages.Get (i).completedLines == ALL_LINES)
-      activeMessages.DeleteIndex (0);
+    if (activeMessages.Get (i)->IsMessageReady ())
+      activeMessages.DeleteIndex (i);
     else
       i++;
   }
 }
 
+void MessageSlot::CheckNewMessages ()
+{
+  while (queuedMessages.GetSize () > 0 && activeMessages.GetSize () < size_t (maxmessages))
+  {
+    TimedMessage* tm = queuedMessages.Extract (0);
+    activeMessages.Push (tm);
+  }
+}
+
 void MessageSlot::HandleElapsed (float elapsed)
 {
-  if (layoutedLines.GetSize () == 0) return;
-  CheckMessages ();
+  if (activeMessages.GetSize () == 0 && queuedMessages.GetSize () == 0) return;
+  CleanReadyMessages ();
+  CheckNewMessages ();
+  if (activeMessages.GetSize () == 0) return;
 
-  // For the 'timeleft' calculation we use an elapsedTimeleft
-  // variable that decreases for every line because the timeleft
-  // in every line is stored cumulative.
-  // For fadetime we use the original 'timeleft'.
-  float elapsedTimeleft = elapsed;
-
-  // If true we need to change the layout after processing all lines.
-  bool needslayout = false;
-
-  // If text is fading away then this will be the maximum fade time
-  // of all fading text items.
+  bool needslayout;
   float maxfade = 0.0f;
-
-  // Set to true if all lines are fading or removed.
-  bool allfading = true;
-
-  size_t l = 0;
-  while (l < layoutedLines.GetSize ())
+  float e = elapsed;
+  for (size_t i = 0 ; i < activeMessages.GetSize () ; i++)
   {
-    LayoutedLine& line = layoutedLines.Get (l++);
-
-    // The line is ready to be removed. Check fading.
-    if (line.timeleft <= 0)
-    {
-      line.fadetime -= elapsed;
-      if (line.fadetime <= 0)
-      {
-	l--;
-        layoutedLines.DeleteIndex (l);
-        needslayout = true;
-      }
-      if (line.fadetime > maxfade) maxfade = line.fadetime;
-    }
-    else
-    {
-      allfading = false;
-      line.timeleft -= elapsedTimeleft;
-      if (line.timeleft <= 0) elapsedTimeleft = -line.timeleft;
-      else elapsedTimeleft = 0.0f;
-    }
+    TimedMessage* tm = activeMessages.Get (i);
+    e = tm->HandleElapsed (e);
+    if (tm->LinesAreFinished ()) needslayout = true;
+    if (tm->GetMaxFadeTimeLeft () > maxfade) maxfade = tm->GetMaxFadeTimeLeft ();
   }
   if (needslayout)
   {
-    curh = 0;
-    for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
-    {
-      layoutedLines.Get (i).y = curh;
-      curh += layoutedLines.Get (i).h + LINE_MARGIN;
-    }
-    if (curh > 0) curh -= LINE_MARGIN;
-    LayoutText ();
+    CleanReadyMessages ();
+    CheckNewMessages ();
+    RecalculateCurrentSize ();
   }
 
   // Control the box fading level.
-  if (allfading && maxfade < boxfadetime)
+  if (maxfade < fadetimeleft)
   {
     fadetimeleft -= elapsed;
     if (fadetimeleft < .000001f)
     {
       fadetimeleft = 0.0f;
-      InitEmpty ();
     }
   }
-  else if (allfading && maxfade < 0.00001f)
-  {
-    InitEmpty ();
-  }
-  else
-  {
+  else if (maxfade >= 0.00001f)
     fadetimeleft = boxfadetime;
-  }
 }
 
 bool MessageSlot::Needs3DRender ()
 {
-  return layoutedLines.GetSize () > 0 && (boxPen || borderPen);
+  return (activeMessages.GetSize () > 0 || queuedMessages.GetSize () > 0)
+    && (boxPen || borderPen);
 }
 
 void MessageSlot::Render3D (iGraphics3D* g3d, iGraphics2D* g2d)
 {
-  if (layoutedLines.GetSize () == 0) return;
+  if (activeMessages.GetSize () == 0) return;
 
   float curfade = 1.0f;
   if (boxfadetime > 0.001f) curfade = fadetimeleft / boxfadetime;
@@ -425,23 +431,29 @@ void MessageSlot::Render3D (iGraphics3D* g3d, iGraphics2D* g2d)
 void MessageSlot::Render2D (iGraphics3D* g3d, iGraphics2D* g2d)
 {
   int cx = finalPosition.x, cy = finalPosition.y;
-  for (size_t i = 0 ; i < layoutedLines.GetSize () ; i++)
+  for (size_t m = 0 ; m < activeMessages.GetSize () ; m++)
   {
-    const LayoutedLine& ll = layoutedLines.Get (i);
-    if (ll.timeleft <= 0 && ll.maxfadetime > 0.0f)
+    TimedMessage* tm = activeMessages.Get (m);
+    float maxfadetime = tm->GetFadeTime ();
+    for (size_t i = 0 ; i < tm->GetLayoutedLinesCount () ; i++)
     {
-      float alpha = 1.0f;
-      alpha = (1.0f - (ll.maxfadetime - ll.fadetime) / ll.maxfadetime);
-      int r, g, b, a;
-      g2d->GetRGB (ll.color, r, g, b, a);
-      int tc = g2d->FindRGB (r, g, b, int (a * alpha));
-      g2d->Write (ll.font, cx, cy, tc, -1, ll.line);
+      const LayoutedLine& ll = tm->GetLayoutedLine (i);
+      if (!ll.render) continue;
+      if (ll.timeleft < maxfadetime)
+      {
+	float alpha = 1.0f;
+	alpha = (1.0f - (maxfadetime - ll.timeleft) / maxfadetime);
+	int r, g, b, a;
+	g2d->GetRGB (ll.color, r, g, b, a);
+	int tc = g2d->FindRGB (r, g, b, int (a * alpha));
+	g2d->Write (ll.font, cx, cy, tc, -1, ll.line);
+      }
+      else
+      {
+	g2d->Write (ll.font, cx, cy, ll.color, -1, ll.line);
+      }
+      cy += ll.h + LINE_MARGIN;
     }
-    else
-    {
-      g2d->Write (ll.font, cx, cy, ll.color, -1, ll.line);
-    }
-    cy += ll.h + LINE_MARGIN;
   }
 }
 
@@ -611,8 +623,8 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	long sizex, sizey, maxsizex, maxsizey, marginx, marginy;
 	if (!Fetch (sizex, params, id_sizex, true, -1)) return false;
 	if (!Fetch (sizey, params, id_sizey, true, -1)) return false;
-	if (!Fetch (maxsizex, params, id_maxsizex, true, -1)) return false;
-	if (!Fetch (maxsizey, params, id_maxsizey, true, -1)) return false;
+	if (!Fetch (maxsizex, params, id_maxsizex, true, sizex)) return false;
+	if (!Fetch (maxsizey, params, id_maxsizey, true, sizey)) return false;
 	if (!Fetch (marginx, params, id_marginx, true, 5)) return false;
 	if (!Fetch (marginy, params, id_marginy, true, 3)) return false;
 
