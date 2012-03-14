@@ -74,97 +74,59 @@ struct iMessageLogIterator : public virtual iBase
  * regards to timing, how and where it is displayed, if it is remembered or not, ...)
  *
  * Locations on screen where messages can be put are defined as 'slots'. There
- * is one predefined slot called 'none' which doesn't display anything. A slot
- * has the following properties:
- * - name
- * - position (x,y)
- * - boxanchor: c, nw, n, ne, e, se, s, sw, w
- * - screenanchor: c, nw, n, ne, e, se, s, sw, w
- * - sizex: if given then this box has a fixed horizontal size.
- * - sizey: if given then this box has a fixed vertical size.
- * - maxsizex: maximum horizontal size (not used if size is fixed).
- * - maxsizey: maximum vertical size (not used if size is fixed).
- * - marginx: horizontal margin (default 5).
- * - marginy: vertical margin (default 3).
- * - boxcolor: color of the box (specified as 'r,g,b,a' string, default none).
- * - bordercolor: if not given then this is equal to boxcolor.
- * - borderwidth: width of the border.
- * - roundness: roundness in pixels.
- * - maxmessages: maximum number of messages (not lines!) to display
- *   in this slot at the same time. Default is unlimited.
- * - queue: if there are more then maxmessages messages then when 'queue'
- *   is true the messages will be kept in a queue until all of them
- *   are displayed. If 'queue' is false then new messages will push away
- *   older messages even if these older messages were not visible long
- *   enough.
- * - boxfadetime: if there are no messages left in the box then the
- *   box itself will fade away.
+ * is one predefined slot called 'none' which doesn't display anything.
  *
- * Every type of message has the following properties:
- * - type: a string identifier indicating what kind of message this is.
- * - slot: the location where this message is displayed.
- * - timeout: a number of miliseconds that the message is visible on screen before
- *   it starts fading away.
- * - textcolor: color of the text (specified as 'r,g,b,a' string). Defaults to white.
- * - font: the font used for the text.
- * - fontsize: the size of the font.
- * - fadetime: number of miliseconds that the message uses to fade from visible to
- *   invisible after the 'timeout' has passed.
- * - click: if true this message will go away if the user clicks (provided it
- *   hasn't timed out yet).
- * - log: if true this message is logged. The message requires a unique identifier
- *   in that case.
- * - cyclefirst: this string indicates the type of message cycling in case
- *   multiple messages are given to the message. This cycling flag is for the
- *   first message only unless 'cyclenext' is not given or unless the message
- *   has no unique identifier in which case this property class can't know if it
- *   is the first message or not. The following cycling types are possible:
- *       - random: pick a random message from the given list (default).
- *       - <number>: use the specific message from the list (first message is
- *         index 0).
- *       - sequence: cycle through all messages in sequence starting with 0.
- *       - none: no message is given
- * - cyclenext: this string indicates the type of message cycling for all message
- *   invocations except for the first. This flag is only used in case the
- *   message has a unique id.
- *   The same cycling types as for 'cyclefirst' are possible. If 'sequence' is
- *   used for 'cyclenext' then the cycling starts at message 1 (second message).
+ * Messages are grouped in types. A slot can display messages of different types
+ * but a single type can only go to one slot.
  *
  * This property class supports the following actions (add prefix 'cel.messenger.action.'
  * if you want to access this action through a message):
  * - DefineSlot: parameters:
  *       'name' (string)
- *       'position' (string, 'x,y')
+ *       'position' (vector2, a position which represents a position of the message box
+ *                   as specified by 'boxanchor'. This position is itself relative to
+ *                   the 'screenanchor').
  *       'boxanchor' (string, one of c, nw, n, ne, e, se, s, sw, w)
  *       'screenanchor' (string, one of c, nw, n, ne, e, se, s, sw, w)
- *       'sizex' (long, default none)
- *       'sizey' (long, default none)
- *       'maxsizex' (long, default none)
- *       'maxsizey' (long, default none)
- *       'marginx' (long, default 5)
- *       'marginy' (long, default 5)
- *       'boxcolor' (color4, optional)
- *       'bordercolor' (color4, optional)
- *       'borderwidth' (float, default 0)
- *       'roundness' (long, default 0)
- *       'maxmessages' (long, optional)
- *       'queue' (boolean, default true)
+ *       'sizex' (long, default none): fixed horizontal size.
+ *       'sizey' (long, default none): fixed vertical size.
+ *       'maxsizex' (long, default none): maximum horizontal size (only if sizex is not given)
+ *       'maxsizey' (long, default none): maximum vertical size (only if sizey is not given)
+ *       'marginx' (long, default 5): horizontal margin
+ *       'marginy' (long, default 5): vertical margin
+ *       'boxcolor' (color4, optional): default is no color (no box)
+ *       'bordercolor' (color4, optional): default is no border
+ *       'borderwidth' (float, default 0): the width of the border
+ *       'roundness' (long, default 0): the roundness of the box corners
+ *       'maxmessages' (long, optional): maximum number of active messages that can be
+ *                     displayed at the same time in this slot. The size of the slot can
+ *                     further restrict the actual number of visible messages).
+ *       'queue' (boolean, default true): if there are more then maxmessages messages then
+ *                     the messages are kept in a queue until they can be displayed. Otherwise
+ *                     messages push away the oldest messages.
  *       'boxfadetime' (long, default 0)
  * - DefineType: parameters:
- *       'type' (string)
+ *       'type' (string): the name of this type.
  *       'slot' (string, default 'none')
  *       'textcolor' (color4, default white)
  *       'font' (string, optional)
  *       'fontsize' (long, optional)
- *       'timeout' (long, default 2000)
- *       'fadetime' (long, default 1000)
- *       'click' (bool, default false)
- *       'log' (bool, default false)
- *       'cyclefirst' (string, default 'random')
- *       'cyclenext' (string, optional)
+ *       'timeout' (float, default 2.0): time before the message starts fading away
+ *       'fadetime' (float, default 1.0): time the message needs to fade away
+ *       'click' (bool, default false): first active messages starts fading away faster
+ *               if the player clicks.
+ *       'log' (bool, default false): log messages. If this is set the messages need a unique id.
+ *       'cyclefirst' (string, default 'random'): the message selected for the first message.
+ *             - random: pick a random message from the message list
+ *             - <number>: use a specific message from the list (first is index 0)
+ *             - sequence: cycle through all messages in sequence starting with 0. The
+ *               message will need a unique ID.
+ *             - none: no message is given
+ *       'cyclenext' (string, optional): this is used if the message has a unique ID and
+ *              for all messages except the first.
  * - Message: parameters:
  *       'type' (string, optional, if not set the default type is used)
- *       'id' (string, optional)
+ *       'id' (string, optional): required in some cases depending on the type.
  *       'msg1' (string).
  *       'msg2' (string, optional).
  *       'msg3' (string, optional).
