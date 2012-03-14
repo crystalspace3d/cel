@@ -97,44 +97,99 @@ public:
 
 //---------------------------------------------------------------------------
 
-#define ALL_LINES 1000000000
-
-struct TimedMessage
+struct LayoutedLine
 {
+  csString line;
+  float timeleft;
+  iFont* font;
+  int color;
+
+  int w, h;	// Width and height of this line.
+  bool render;	// True if this line is currently rendered.
+
+  LayoutedLine (const char* line, float timeleft, iFont* font, int color)
+    : line (line), timeleft (timeleft),
+      font (font), color (color), render (false) { }
+};
+
+/**
+ * A message.
+ */
+class TimedMessage
+{
+private:
   csString message;
   float timeleft;
   float fadetime;
   iFont* font;
   int color;
 
-  // The number of lines that we were able to fit on screen completely.
-  // If a message is not completely on screen we will not start the
-  // countdown (timeleft). It is set to ALL_LINES if the message was complete.
-  int completedLines;
+  int curspacew;			// Current width of a space.
+  bool updated;				// Set to true if a line timed out.
+  float fading;				// Time left before all lines have faded away.
 
+  csArray<LayoutedLine> layoutedLines;	// Layouted lines.
+
+  bool LayoutWord (int maxwidth, const char* word);
+  void LayoutNewLine ();
+  void LayoutLine (int maxwidth, const char* line);
+
+public:
   TimedMessage (const char* msg, float timeleft, float fadetime, iFont* font,
       int color)
     : message (msg), timeleft (timeleft), fadetime (fadetime),
-      font (font), color (color), completedLines (0) { }
-};
-
-struct LayoutedLine
-{
-  csString line;
-  float timeleft;
-  float fadetime;
-  float maxfadetime;
-  iFont* font;
-  int color;
-
-  int y;	// y position relative to top-left corner (inside margin).
-  int w, h;	// Width and height of this line.
-
-  LayoutedLine (const char* line, float timeleft, float fadetime, iFont* font,
-      int color)
-    : line (line), timeleft (timeleft),
-      fadetime (fadetime), maxfadetime (fadetime),
       font (font), color (color) { }
+
+  float GetFadeTime () const { return fadetime; }
+
+  /// Calculate the layout of this message given a certain maximum width.
+  void Layout (int maxwidth);
+
+  /// Get the amount of layouted lines.
+  size_t GetLayoutedLinesCount () const { return layoutedLines.GetSize (); }
+  const LayoutedLine& GetLayoutedLine (size_t idx) const
+  { return layoutedLines.Get (idx); }
+
+  /**
+   * Calculate the height of the active lines (lines that have been shown
+   * and are no longer visible will not be counted) that will fit a given height.
+   * This will also mark all lines that have to be rendered.
+   */
+  int CalculateFittingVerticalHeight (int maxheight);
+
+  /**
+   * Return the actual maximum width of all lines. This is only valid
+   * after calling Layout().
+   */
+  int GetMaxWidth ();
+
+  /**
+   * Return true if this message is completely ready. i.e. all lines have
+   * been displayed and faded away.
+   */
+  bool IsMessageReady ();
+
+  /**
+   * Handle elapsed time for this message. If there are still lines left
+   * to be displayed then this will eat up the elapsed time and return 0.0f
+   * so that further messages don't get processed. If all lines are displayed
+   * and are either fading away or are removed then this will return the
+   * remaining elapsed time that can be used for further messages.
+   */
+  float HandleElapsed (float elapsed);
+
+  /**
+   * Call this after HandleElapsed. It will return true if one or more lines
+   * have finished displaying and so it is time to recalculate the layout.
+   */
+  bool LinesAreFinished () const { return updated; }
+
+  /**
+   * Call this after HandleElapsed. It will return the number of seconds
+   * left before all lines have faded away. It will returns a very big number
+   * if some lines are still visible (i.e. not fading).
+   */
+  float GetMaxFadeTimeLeft () const { return fading; }
 };
 
 class MessageSlot
@@ -157,32 +212,23 @@ private:
   int sizex, sizey;
   int maxsizex, maxsizey;
   int marginx, marginy;
+
   int maxmessages;
   bool queue;
 
   float boxfadetime;
   float fadetimeleft;
 
-  csArray<TimedMessage> activeMessages;
-  csArray<TimedMessage> queuedMessages;
+  csPDelArray<TimedMessage> activeMessages;
+  csPDelArray<TimedMessage> queuedMessages;
   // Activate messages and clean up already displayed
   // previous messages.
-  void CheckMessages ();
+  void CheckNewMessages ();
+  void CleanReadyMessages ();
 
-  int curh;				// Current used height.
-  int curspacew;			// Current width of a space.
   int cursizex, cursizey;		// Current size without margins.
-  csArray<LayoutedLine> layoutedLines;	// Layouted lines.
-  bool LayoutWord (const TimedMessage& tm, const char* word);
-  bool LayoutNewLine (const TimedMessage& tm);
-  bool LayoutLine (const TimedMessage& tm, const char* line);
-  bool LayoutMessage (TimedMessage& tm);
-
-  // Update the layouted text with new lines.
-  void LayoutText ();
-
-  // Initialize the layout to empty.
-  void InitEmpty ();
+  // Recalculate the current box size based on the present messages.
+  void RecalculateCurrentSize ();
 
 public:
   MessageSlot (iGraphics3D* g3d, const char* name,
@@ -204,7 +250,6 @@ public:
     maxmessages (maxmessages),
     queue (queue), boxfadetime (boxfadetime)
   {
-    InitEmpty ();
     boxPen = 0;
     borderPen = 0;
     fadetimeleft = 0.0f;
