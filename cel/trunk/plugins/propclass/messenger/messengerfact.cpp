@@ -612,6 +612,8 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	csVector2 position;
 	if (!Fetch (name, params, id_name)) return false;
 
+	DefineSlot (name);
+
 	if (!Fetch (position, params, id_position)) return false;
 	if (!Fetch (boxAnchor, params, id_boxanchor, true, "c")) return false;
 	if (!Fetch (screenAnchor, params, id_screenanchor, true, "c")) return false;
@@ -619,6 +621,7 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	if (boxAnchorV == ANCHOR_INVALID) return false;
 	MessageLocationAnchor screenAnchorV = StringToAnchor (screenAnchor);
 	if (screenAnchorV == ANCHOR_INVALID) return false;
+	SetSlotPosition (name, position, boxAnchorV, screenAnchorV);
 
 	long sizex, sizey, maxsizex, maxsizey, marginx, marginy;
 	if (!Fetch (sizex, params, id_sizex, true, -1)) return false;
@@ -627,26 +630,24 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	if (!Fetch (maxsizey, params, id_maxsizey, true, sizey)) return false;
 	if (!Fetch (marginx, params, id_marginx, true, 5)) return false;
 	if (!Fetch (marginy, params, id_marginy, true, 3)) return false;
+	SetSlotDimensions (name, sizex, sizey, maxsizex, maxsizey, marginx, marginy);
 
 	csColor4 boxColor, borderColor;
 	if (!Fetch (boxColor, params, id_boxcolor, true)) return false;
 	if (!Fetch (borderColor, params, id_bordercolor, true)) return false;
-
-	float borderWidth;
+	float borderWidth, boxfadetime;
 	if (!Fetch (borderWidth, params, id_borderwidth, true, 0.0f)) return false;
-	long maxmessages, roundness;
-	if (!Fetch (maxmessages, params, id_maxmessages, true, 1000000000)) return false;
+	if (!Fetch (boxfadetime, params, id_boxfadetime, true, 0.0f)) return false;
+	long roundness;
 	if (!Fetch (roundness, params, id_roundness, true, 0)) return false;
+	SetSlotBoxAttributes (name, boxColor, borderColor, borderWidth, roundness, boxfadetime);
 
+	long maxmessages;
+	if (!Fetch (maxmessages, params, id_maxmessages, true, 1000000000)) return false;
 	bool queue;
 	if (!Fetch (queue, params, id_queue, true, true)) return false;
-	float boxfadetime;
-	if (!Fetch (boxfadetime, params, id_boxfadetime, true, 0.0f)) return false;
+	SetSlotMessageHandling (name, maxmessages, queue);
 
-	DefineSlot (name, position, boxAnchorV, screenAnchorV,
-	    sizex, sizey, maxsizex, maxsizey,
-	    marginx, marginy, boxColor, borderColor,
-	    borderWidth, roundness, maxmessages, queue, boxfadetime);
         return true;
       }
     case action_definetype:
@@ -754,22 +755,44 @@ MessageSlot* celPcMessenger::GetSlot (const char* name) const
   return 0;
 }
 
-void celPcMessenger::DefineSlot (const char* name,
-      const csVector2& position,
-      MessageLocationAnchor boxAnchor,
-      MessageLocationAnchor screenAnchor,
-      int sizex, int sizey, int maxsizex, int maxsizey,
-      int marginx, int marginy,
-      const csColor4& boxColor, const csColor4& borderColor,
-      float borderWidth, int roundness, int maxmessages, 
-      bool queue, float boxfadetime)
+void celPcMessenger::DefineSlot (const char* name)
 {
-  MessageSlot* slot = new MessageSlot (g3d, name, position,
-      boxAnchor, screenAnchor,
-      sizex, sizey, maxsizex, maxsizey, marginx, marginy, boxColor,
-      borderColor, borderWidth, roundness, maxmessages, queue, boxfadetime);
-  slot->InitPen ();
+  MessageSlot* slot = new MessageSlot (g3d, name);
   slots.Push (slot);
+}
+
+void celPcMessenger::SetSlotPosition (const char* name, const csVector2& position,
+      MessageLocationAnchor boxAnchor,
+      MessageLocationAnchor screenAnchor)
+{
+  MessageSlot* slot = GetSlot (name);
+  if (!slot) { printf ("Can't find slot '%s'!\n", name); return; }
+  slot->SetSlotPosition (position, boxAnchor, screenAnchor);
+}
+
+void celPcMessenger::SetSlotDimensions (const char* name,
+      int sizex, int sizey, int maxsizex, int maxsizey,
+      int marginx, int marginy)
+{
+  MessageSlot* slot = GetSlot (name);
+  if (!slot) { printf ("Can't find slot '%s'!\n", name); return; }
+  slot->SetSlotDimensions (sizex, sizey, maxsizex, maxsizey, marginx, marginy);
+}
+
+void celPcMessenger::SetSlotBoxAttributes (const char* name,
+      const csColor& boxColor, const csColor4& borderColor,
+      float borderWidth, int roundness, float boxfadetime)
+{
+  MessageSlot* slot = GetSlot (name);
+  if (!slot) { printf ("Can't find slot '%s'!\n", name); return; }
+  slot->SetSlotBoxAttributes (boxColor, borderColor, borderWidth, roundness, boxfadetime);
+}
+
+void celPcMessenger::SetSlotMessageHandling (const char* name, int maxmessages, bool queue)
+{
+  MessageSlot* slot = GetSlot (name);
+  if (!slot) { printf ("Can't find slot '%s'!\n", name); return; }
+  slot->SetSlotMessageHandling (maxmessages, queue);
 }
 
 void celPcMessenger::DefineType (const char* type, const char* slotName,

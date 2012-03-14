@@ -93,7 +93,7 @@ struct iMessageLogIterator : public virtual iBase
  *       'maxsizex' (long, default none): maximum horizontal size (only if sizex is not given)
  *       'maxsizey' (long, default none): maximum vertical size (only if sizey is not given)
  *       'marginx' (long, default 5): horizontal margin
- *       'marginy' (long, default 5): vertical margin
+ *       'marginy' (long, default 3): vertical margin
  *       'boxcolor' (color4, optional): default is no color (no box)
  *       'bordercolor' (color4, optional): default is no border
  *       'borderwidth' (float, default 0): the width of the border
@@ -143,17 +143,34 @@ struct iPcMessenger : public virtual iBase
 
   /**
    * Define a new message slot.
-   * If integer parameters are -1 they are considered as 'not given'.
    */
-  virtual void DefineSlot (const char* name,
-      const csVector2& position,
+  virtual void DefineSlot (const char* name) = 0;
+
+  /**
+   * Set the slot position.
+   */
+  virtual void SetSlotPosition (const char* name, const csVector2& position,
       MessageLocationAnchor boxAnchor,
-      MessageLocationAnchor screenAnchor,
+      MessageLocationAnchor screenAnchor) = 0;
+
+  /**
+   * Set the slot dimensions.
+   */
+  virtual void SetSlotDimensions (const char* name,
       int sizex, int sizey, int maxsizex, int maxsizey,
-      int marginx, int marginy,
-      const csColor4& boxColor, const csColor4& borderColor,
-      float borderWidth, int roundness, int maxmessages, 
-      bool queue, float boxfadetime) = 0;
+      int marginx, int marginy) = 0;
+
+  /**
+   * Set the slot box visual attributes.
+   */
+  virtual void SetSlotBoxAttributes (const char* name,
+      const csColor& boxColor, const csColor4& borderColor,
+      float borderWidth, int roundness, float boxfadetime) = 0;
+
+  /**
+   * Set the slot message handling.
+   */
+  virtual void SetSlotMessageHandling (const char* name, int maxmessages, bool queue) = 0;
 
   /**
    * Define a new message type.

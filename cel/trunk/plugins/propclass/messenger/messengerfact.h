@@ -230,25 +230,19 @@ private:
   // Recalculate the current box size based on the present messages.
   void RecalculateCurrentSize ();
 
+  void InitPen ();
+
 public:
-  MessageSlot (iGraphics3D* g3d, const char* name,
-      const csVector2& position,
-      MessageLocationAnchor boxAnchor,
-      MessageLocationAnchor screenAnchor,
-      int sizex, int sizey, int maxsizex, int maxsizey,
-      int marginx, int marginy,
-      const csColor4& boxColor, const csColor4& borderColor,
-      float borderWidth, int roundness, int maxmessages, 
-      bool queue, float boxfadetime) :
+  MessageSlot (iGraphics3D* g3d, const char* name) :
     g3d (g3d),
-    name (name), position (position),
-    boxAnchor (boxAnchor), screenAnchor (screenAnchor),
-    boxColor (boxColor), borderColor (borderColor),
-    borderWidth (borderWidth), roundness (roundness),
-    sizex (sizex), sizey (sizey), maxsizex (maxsizex), maxsizey (maxsizey),
-    marginx (marginx), marginy (marginy),
-    maxmessages (maxmessages),
-    queue (queue), boxfadetime (boxfadetime)
+    name (name), position (10, 10),
+    boxAnchor (ANCHOR_NORTHWEST), screenAnchor (ANCHOR_NORTHWEST),
+    boxColor (0, 0, 0, 0), borderColor (0, 0, 0, 0),
+    borderWidth (0.0f), roundness (0),
+    sizex (-1), sizey (-1), maxsizex (600), maxsizey (300),
+    marginx (5), marginy (3),
+    maxmessages (2),
+    queue (true), boxfadetime (0.0f)
   {
     boxPen = 0;
     borderPen = 0;
@@ -256,7 +250,41 @@ public:
   }
   ~MessageSlot ();
 
-  void InitPen ();
+  void SetSlotPosition (const csVector2& position,
+      MessageLocationAnchor boxAnchor,
+      MessageLocationAnchor screenAnchor)
+  {
+    MessageSlot::position = position;
+    MessageSlot::boxAnchor = boxAnchor;
+    MessageSlot::screenAnchor = screenAnchor;
+  }
+  void SetSlotDimensions (
+      int sizex, int sizey, int maxsizex, int maxsizey,
+      int marginx, int marginy)
+  {
+    MessageSlot::sizex = sizex;
+    MessageSlot::sizey = sizey;
+    MessageSlot::maxsizex = maxsizex;
+    MessageSlot::maxsizey = maxsizey;
+    MessageSlot::marginx = marginx;
+    MessageSlot::marginy = marginy;
+  }
+  void SetSlotBoxAttributes (
+      const csColor& boxColor, const csColor4& borderColor,
+      float borderWidth, int roundness, float boxfadetime)
+  {
+    MessageSlot::boxColor = boxColor;
+    MessageSlot::borderColor = borderColor;
+    MessageSlot::borderWidth = borderWidth;
+    MessageSlot::roundness = roundness;
+    MessageSlot::boxfadetime = boxfadetime;
+    InitPen ();
+  }
+  void SetSlotMessageHandling (int maxmessages, bool queue)
+  {
+    MessageSlot::maxmessages = maxmessages;
+    MessageSlot::queue = queue;
+  }
 
   const char* GetName () const { return name; }
 
@@ -391,15 +419,18 @@ public:
 
   MessageLog* GetMessageLog (const char* type);
 
-  virtual void DefineSlot (const char* name,
-      const csVector2& position,
+  virtual void DefineSlot (const char* name);
+  virtual void SetSlotPosition (const char* name, const csVector2& position,
       MessageLocationAnchor boxAnchor,
-      MessageLocationAnchor screenAnchor,
+      MessageLocationAnchor screenAnchor);
+  virtual void SetSlotDimensions (const char* name,
       int sizex, int sizey, int maxsizex, int maxsizey,
-      int marginx, int marginy,
-      const csColor4& boxColor, const csColor4& borderColor,
-      float borderWidth, int roundness, int maxmessages, 
-      bool queue, float boxfadetime);
+      int marginx, int marginy);
+  virtual void SetSlotBoxAttributes (const char* name,
+      const csColor& boxColor, const csColor4& borderColor,
+      float borderWidth, int roundness, float boxfadetime);
+  virtual void SetSlotMessageHandling (const char* name, int maxmessages, bool queue);
+
   virtual void DefineType (const char* type, const char* slot,
       const csColor4& textColor, const char* font, int fontSize,
       float timeout, float fadetime, bool click, bool log,
