@@ -90,8 +90,10 @@ struct iMessageLogIterator : public virtual iBase
  *       'screenanchor' (string, one of c, nw, n, ne, e, se, s, sw, w)
  *       'sizex' (long, default none): fixed horizontal size.
  *       'sizey' (long, default none): fixed vertical size.
- *       'maxsizex' (long, default none): maximum horizontal size (only if sizex is not given)
- *       'maxsizey' (long, default none): maximum vertical size (only if sizey is not given)
+ *       'maxsizex' (string, default '%90'): maximum horizontal size (only if sizex is not given)
+ *                  See SetSlotDimensions() for more information about this format.
+ *       'maxsizey' (string, default '%90'): maximum vertical size (only if sizey is not given)
+ *                  See SetSlotDimensions() for more information about this format.
  *       'marginx' (long, default 5): horizontal margin
  *       'marginy' (long, default 3): vertical margin
  *       'boxcolor' (color4, optional): default is no color (no box)
@@ -155,9 +157,17 @@ struct iPcMessenger : public virtual iBase
 
   /**
    * Set the slot dimensions.
+   * maxsizex and maxsizey are strings with the following format:
+   *   - '': empty string or 0 means no maximum given. In that case '%90' is
+   *         assumed.
+   *   - 'number': a specific dimension
+   *   - '%number': a relative dimension (to the maximum screen size). 100 is max.
+   *   - '-number': number of pixels less then maximum screen size.
+   * If sizex and/or sizey are -1 then they are considered not giving and
+   * the box can grow upto the maximum size.
    */
   virtual void SetSlotDimensions (const char* name,
-      int sizex, int sizey, int maxsizex, int maxsizey,
+      int sizex, int sizey, const char* maxsizex, const char* maxsizey,
       int marginx, int marginy) = 0;
 
   /**

@@ -240,8 +240,58 @@ void MessageSlot::InitPen ()
   }
 }
 
+void MessageSlot::UpdateScreenSize ()
+{
+  int sw = g3d->GetWidth ();
+  int sh = g3d->GetHeight ();
+  if (swidth != sw || sheight != sh)
+  {
+    swidth = sw;
+    if (maxsizex.StartsWith ('%'))
+    {
+      float percent;
+      csScanStr (maxsizex.GetData () + 1, "%f", &percent);
+      cachedMaxsizex = sw * percent / 100.0f;
+    }
+    else if (maxsizex.StartsWith ('-'))
+    {
+      int pixels;
+      csScanStr (maxsizex.GetData () + 1, "%d", &pixels);
+      cachedMaxsizex = sw - pixels;
+    }
+    else
+    {
+      int pixels;
+      csScanStr (maxsizex.GetData (), "%d", &pixels);
+      cachedMaxsizex = pixels;
+    }
+
+    sheight = sh;
+    if (maxsizey.StartsWith ('%'))
+    {
+      float percent;
+      csScanStr (maxsizey.GetData () + 1, "%f", &percent);
+      cachedMaxsizey = sh * percent / 100.0f;
+    }
+    else if (maxsizey.StartsWith ('-'))
+    {
+      int pixels;
+      csScanStr (maxsizey.GetData () + 1, "%d", &pixels);
+      cachedMaxsizey = sh - pixels;
+    }
+    else
+    {
+      int pixels;
+      csScanStr (maxsizey.GetData (), "%d", &pixels);
+      cachedMaxsizey = pixels;
+    }
+  }
+}
+
 void MessageSlot::RecalculateCurrentSize ()
 {
+  UpdateScreenSize ();
+
   if (sizex > 0) cursizex = sizex - marginx * 2;
   else
   {
@@ -255,7 +305,7 @@ void MessageSlot::RecalculateCurrentSize ()
   }
   int maxheight;
   if (sizey > 0) maxheight = sizey - marginy * 2;
-  else maxheight = maxsizey - marginy * 2;
+  else maxheight = cachedMaxsizey - marginy * 2;
   cursizey = 0;
   for (size_t i = 0 ; i < activeMessages.GetSize () ; i++)
   {
@@ -271,8 +321,6 @@ void MessageSlot::RecalculateCurrentSize ()
   }
   if (sizey > 0) cursizey = sizey - marginy * 2;
 
-  int swidth = g3d->GetWidth ();
-  int sheight = g3d->GetHeight ();
   int sx = swidth / 2, sy = sheight / 2;
   switch (screenAnchor)
   {
@@ -307,8 +355,10 @@ void MessageSlot::RecalculateCurrentSize ()
 void MessageSlot::Message (const char* msg, float timeout, float fadetime,
     iFont* font, int color)
 {
+  UpdateScreenSize ();
+
   TimedMessage* tm = new TimedMessage (msg, timeout, fadetime, font, color);
-  tm->Layout (maxsizex - marginx * 2);
+  tm->Layout (cachedMaxsizex - marginx * 2);
 
   if (activeMessages.GetSize () >= size_t (maxmessages))
   {
@@ -623,11 +673,12 @@ bool celPcMessenger::PerformActionIndexed (int idx,
 	if (screenAnchorV == ANCHOR_INVALID) return false;
 	SetSlotPosition (name, position, boxAnchorV, screenAnchorV);
 
-	long sizex, sizey, maxsizex, maxsizey, marginx, marginy;
+	csString maxsizex, maxsizey;
+	if (!Fetch (maxsizex, params, id_maxsizex, true, "%90")) return false;
+	if (!Fetch (maxsizey, params, id_maxsizey, true, "%90")) return false;
+	long sizex, sizey, marginx, marginy;
 	if (!Fetch (sizex, params, id_sizex, true, -1)) return false;
 	if (!Fetch (sizey, params, id_sizey, true, -1)) return false;
-	if (!Fetch (maxsizex, params, id_maxsizex, true, sizex)) return false;
-	if (!Fetch (maxsizey, params, id_maxsizey, true, sizey)) return false;
 	if (!Fetch (marginx, params, id_marginx, true, 5)) return false;
 	if (!Fetch (marginy, params, id_marginy, true, 3)) return false;
 	SetSlotDimensions (name, sizex, sizey, maxsizex, maxsizey, marginx, marginy);
@@ -771,7 +822,7 @@ void celPcMessenger::SetSlotPosition (const char* name, const csVector2& positio
 }
 
 void celPcMessenger::SetSlotDimensions (const char* name,
-      int sizex, int sizey, int maxsizex, int maxsizey,
+      int sizex, int sizey, const char* maxsizex, const char* maxsizey,
       int marginx, int marginy)
 {
   MessageSlot* slot = GetSlot (name);
