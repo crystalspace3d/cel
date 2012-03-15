@@ -209,8 +209,11 @@ private:
   csColor4 borderColor;
   float borderWidth;
   int roundness;
+
   int sizex, sizey;
-  int maxsizex, maxsizey;
+  csString maxsizex, maxsizey;
+  int swidth, sheight;
+  int cachedMaxsizex, cachedMaxsizey;
   int marginx, marginy;
 
   int maxmessages;
@@ -232,6 +235,8 @@ private:
 
   void InitPen ();
 
+  void UpdateScreenSize ();
+
 public:
   MessageSlot (iGraphics3D* g3d, const char* name) :
     g3d (g3d),
@@ -239,7 +244,7 @@ public:
     boxAnchor (ANCHOR_NORTHWEST), screenAnchor (ANCHOR_NORTHWEST),
     boxColor (0, 0, 0, 0), borderColor (0, 0, 0, 0),
     borderWidth (0.0f), roundness (0),
-    sizex (-1), sizey (-1), maxsizex (600), maxsizey (300),
+    sizex (-1), sizey (-1), maxsizex ("%90"), maxsizey ("%90"),
     marginx (5), marginy (3),
     maxmessages (2),
     queue (true), boxfadetime (0.0f)
@@ -247,6 +252,7 @@ public:
     boxPen = 0;
     borderPen = 0;
     fadetimeleft = 0.0f;
+    swidth = sheight = -1;
   }
   ~MessageSlot ();
 
@@ -259,7 +265,7 @@ public:
     MessageSlot::screenAnchor = screenAnchor;
   }
   void SetSlotDimensions (
-      int sizex, int sizey, int maxsizex, int maxsizey,
+      int sizex, int sizey, const char* maxsizex, const char* maxsizey,
       int marginx, int marginy)
   {
     MessageSlot::sizex = sizex;
@@ -424,7 +430,7 @@ public:
       MessageLocationAnchor boxAnchor,
       MessageLocationAnchor screenAnchor);
   virtual void SetSlotDimensions (const char* name,
-      int sizex, int sizey, int maxsizex, int maxsizey,
+      int sizex, int sizey, const char* maxsizex, const char* maxsizey,
       int marginx, int marginy);
   virtual void SetSlotBoxAttributes (const char* name,
       const csColor& boxColor, const csColor4& borderColor,
