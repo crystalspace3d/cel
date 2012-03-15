@@ -701,13 +701,41 @@ bool celPcSteer::PerformActionIndexed (int idx, iCelParameterBlock* params,
       if (!Fetch (sectorname, params, id_sectorname)) return false;
       csVector3 position;
       if (!Fetch (position, params, id_position)) return false;
-      iSector* s = engine->FindSector (sectorname);
-      if (!s)
+      iSector* sector = engine->FindSector (sectorname);
+      if (!sector)
         return Error ("Can't find sector '%s' for Seek!", sectorname.GetData ());
       Seek(sector, position);
       // @@@ Return value?
       return true;
     }
+
+    case action_pursue:
+    {
+      csString meshname;
+      if (!Fetch (meshname, params, id_meshname)) return false;
+      float max_prediction;
+      if (!Fetch (max_prediction, params, id_pursue_max_prediction)) return false; 
+      iCelEntity* pursue_target = pl->FindEntity (meshname);
+      if (!pursue_target)
+	return Error ("Can't find target '%s' for Pursue!", meshname.GetData ());
+      Pursue (pursue_target, max_prediction);
+      return true; 
+    }
+
+    case action_flee:
+    {
+      csString sectorname;
+      if (!Fetch (sectorname, params, id_sectorname)) return false;
+      csVector3 position;
+      if (!Fetch (position, params, id_position)) return false;
+      iSector* sector = engine->FindSector (sectorname);
+      if (!sector)
+        return Error ("Can't find sector '%s' for Flee!", sectorname.GetData ());
+      Flee (sector, position);
+      // @@@ Return value?
+      return true;
+    }
+
     case action_interrupt:
       Interrupt ();
       return true;
