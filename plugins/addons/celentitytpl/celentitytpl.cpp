@@ -561,7 +561,7 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
         {
 	  const char* tplname = child->GetAttributeValue ("name");
           iCelEntityTemplate* tpl = pl->FindEntityTemplate (tplname);
-          if (!tplname)
+          if (!tpl)
           {
 	    synldr->ReportError (
 	        "cel.addons.celentitytpl",
