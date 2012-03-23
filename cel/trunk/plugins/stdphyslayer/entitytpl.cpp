@@ -345,6 +345,7 @@ void celEntityTemplate::Merge (iCelEntityTemplate* tpl)
 
 void celEntityTemplate::AddParent (iCelEntityTemplate* tpl)
 {
+  CS_ASSERT (tpl);
   parents.Push (tpl);
 }
 
