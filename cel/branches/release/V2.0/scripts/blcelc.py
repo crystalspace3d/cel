@@ -347,11 +347,13 @@ class iMessageDispatcher(cspace.iBase):
     __repr__ = _swig_repr
     def SendMessage(*args): return _blcelc.iMessageDispatcher_SendMessage(*args)
     scfGetVersion = staticmethod(_blcelc.iMessageDispatcher_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iMessageDispatcher_scfGetName)
     __swig_destroy__ = _blcelc.delete_iMessageDispatcher
     __del__ = lambda self : None;
 iMessageDispatcher_swigregister = _blcelc.iMessageDispatcher_swigregister
 iMessageDispatcher_swigregister(iMessageDispatcher)
 iMessageDispatcher_scfGetVersion = _blcelc.iMessageDispatcher_scfGetVersion
+iMessageDispatcher_scfGetName = _blcelc.iMessageDispatcher_scfGetName
 
 class celEntityTemplateParams(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -530,6 +532,7 @@ class iCelPlLayer(cspace.iBase):
                     "iCelPlLayer.MessageSender -> iMessageSender*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iMessageSender* iCelPlLayer::QueryMessageSender()")
 
     scfGetVersion = staticmethod(_blcelc.iCelPlLayer_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iCelPlLayer_scfGetName)
     __swig_destroy__ = _blcelc.delete_iCelPlLayer
     __del__ = lambda self : None;
     def CreateParameterBlock(self,valdict):
@@ -553,6 +556,7 @@ class iCelPlLayer(cspace.iBase):
 iCelPlLayer_swigregister = _blcelc.iCelPlLayer_swigregister
 iCelPlLayer_swigregister(iCelPlLayer)
 iCelPlLayer_scfGetVersion = _blcelc.iCelPlLayer_scfGetVersion
+iCelPlLayer_scfGetName = _blcelc.iCelPlLayer_scfGetName
 
 class iCelEntityTracker(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -717,11 +721,13 @@ class iCelEntity(cspace.iBase):
 
     def CreateBehaviour(*args): return _blcelc.iCelEntity_CreateBehaviour(*args)
     scfGetVersion = staticmethod(_blcelc.iCelEntity_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iCelEntity_scfGetName)
     __swig_destroy__ = _blcelc.delete_iCelEntity
     __del__ = lambda self : None;
 iCelEntity_swigregister = _blcelc.iCelEntity_swigregister
 iCelEntity_swigregister(iCelEntity)
 iCelEntity_scfGetVersion = _blcelc.iCelEntity_scfGetVersion
+iCelEntity_scfGetName = _blcelc.iCelEntity_scfGetName
 
 class iCelEntityList(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -751,11 +757,13 @@ class iCelEntityList(cspace.iBase):
     def __getitem__(*args): return _blcelc.iCelEntityList___getitem__(*args)
     def __contains__(*args): return _blcelc.iCelEntityList___contains__(*args)
     scfGetVersion = staticmethod(_blcelc.iCelEntityList_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iCelEntityList_scfGetName)
     __swig_destroy__ = _blcelc.delete_iCelEntityList
     __del__ = lambda self : None;
 iCelEntityList_swigregister = _blcelc.iCelEntityList_swigregister
 iCelEntityList_swigregister(iCelEntityList)
 iCelEntityList_scfGetVersion = _blcelc.iCelEntityList_scfGetVersion
+iCelEntityList_scfGetName = _blcelc.iCelEntityList_scfGetName
 
 class iCelEntityIterator(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -849,11 +857,13 @@ class iCelBlLayer(cspace.iBase):
                     "iCelBlLayer.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelBlLayer::GetName()")
 
     scfGetVersion = staticmethod(_blcelc.iCelBlLayer_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iCelBlLayer_scfGetName)
     __swig_destroy__ = _blcelc.delete_iCelBlLayer
     __del__ = lambda self : None;
 iCelBlLayer_swigregister = _blcelc.iCelBlLayer_swigregister
 iCelBlLayer_swigregister(iCelBlLayer)
 iCelBlLayer_scfGetVersion = _blcelc.iCelBlLayer_scfGetVersion
+iCelBlLayer_scfGetName = _blcelc.iCelBlLayer_scfGetName
 
 csQueryRegistry_iCelBlLayer = _blcelc.csQueryRegistry_iCelBlLayer
 class iCelParameterBlock(cspace.iBase):
@@ -1170,6 +1180,7 @@ class iCelPropertyClass(cspace.iBase):
     def SetPropertyColor(*args): return _blcelc.iCelPropertyClass_SetPropertyColor(*args)
     def SetPropertyEntity(*args): return _blcelc.iCelPropertyClass_SetPropertyEntity(*args)
     scfGetVersion = staticmethod(_blcelc.iCelPropertyClass_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iCelPropertyClass_scfGetName)
     __swig_destroy__ = _blcelc.delete_iCelPropertyClass
     __del__ = lambda self : None;
     def GetterFallback(self,attr):
@@ -1180,6 +1191,7 @@ class iCelPropertyClass(cspace.iBase):
 iCelPropertyClass_swigregister = _blcelc.iCelPropertyClass_swigregister
 iCelPropertyClass_swigregister(iCelPropertyClass)
 iCelPropertyClass_scfGetVersion = _blcelc.iCelPropertyClass_scfGetVersion
+iCelPropertyClass_scfGetName = _blcelc.iCelPropertyClass_scfGetName
 
 class iCelPropertyClassList(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -1279,11 +1291,13 @@ class iPcMechanicsSystem(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcMechanicsSystem_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcMechanicsSystem_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsSystem
     __del__ = lambda self : None;
 iPcMechanicsSystem_swigregister = _blcelc.iPcMechanicsSystem_swigregister
 iPcMechanicsSystem_swigregister(iPcMechanicsSystem)
 iPcMechanicsSystem_scfGetVersion = _blcelc.iPcMechanicsSystem_scfGetVersion
+iPcMechanicsSystem_scfGetName = _blcelc.iPcMechanicsSystem_scfGetName
 
 class iPcMechanicsObject(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -1418,11 +1432,13 @@ class iPcMechanicsObject(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcMechanicsObject_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcMechanicsObject_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsObject
     __del__ = lambda self : None;
 iPcMechanicsObject_swigregister = _blcelc.iPcMechanicsObject_swigregister
 iPcMechanicsObject_swigregister(iPcMechanicsObject)
 iPcMechanicsObject_scfGetVersion = _blcelc.iPcMechanicsObject_scfGetVersion
+iPcMechanicsObject_scfGetName = _blcelc.iPcMechanicsObject_scfGetName
 
 class iPcMechanicsJoint(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -1449,11 +1465,13 @@ class iPcMechanicsJoint(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcMechanicsJoint_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcMechanicsJoint_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsJoint
     __del__ = lambda self : None;
 iPcMechanicsJoint_swigregister = _blcelc.iPcMechanicsJoint_swigregister
 iPcMechanicsJoint_swigregister(iPcMechanicsJoint)
 iPcMechanicsJoint_scfGetVersion = _blcelc.iPcMechanicsJoint_scfGetVersion
+iPcMechanicsJoint_scfGetName = _blcelc.iPcMechanicsJoint_scfGetName
 
 scfQuery_iPcMechanicsSystem = _blcelc.scfQuery_iPcMechanicsSystem
 scfQueryPC_iPcMechanicsSystem = _blcelc.scfQueryPC_iPcMechanicsSystem
@@ -1509,6 +1527,7 @@ class iPcMechanicsThruster(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcMechanicsThruster_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcMechanicsThruster_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsThruster
     __del__ = lambda self : None;
 iPcMechanicsThruster_swigregister = _blcelc.iPcMechanicsThruster_swigregister
@@ -1523,6 +1542,7 @@ celCreateMechanicsJoint = _blcelc.celCreateMechanicsJoint
 celGetSetMechanicsJoint = _blcelc.celGetSetMechanicsJoint
 celGetMechanicsJoint = _blcelc.celGetMechanicsJoint
 iPcMechanicsThruster_scfGetVersion = _blcelc.iPcMechanicsThruster_scfGetVersion
+iPcMechanicsThruster_scfGetName = _blcelc.iPcMechanicsThruster_scfGetName
 
 CEL_AT_NONE = _blcelc.CEL_AT_NONE
 CEL_AT_ROTATION = _blcelc.CEL_AT_ROTATION
@@ -1560,11 +1580,13 @@ class iPcMechanicsBalancedGroup(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcMechanicsBalancedGroup_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcMechanicsBalancedGroup_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsBalancedGroup
     __del__ = lambda self : None;
 iPcMechanicsBalancedGroup_swigregister = _blcelc.iPcMechanicsBalancedGroup_swigregister
 iPcMechanicsBalancedGroup_swigregister(iPcMechanicsBalancedGroup)
 iPcMechanicsBalancedGroup_scfGetVersion = _blcelc.iPcMechanicsBalancedGroup_scfGetVersion
+iPcMechanicsBalancedGroup_scfGetName = _blcelc.iPcMechanicsBalancedGroup_scfGetName
 
 class iPcMechanicsThrusterController(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -1603,11 +1625,13 @@ class iPcMechanicsThrusterController(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcMechanicsThrusterController_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcMechanicsThrusterController_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcMechanicsThrusterController
     __del__ = lambda self : None;
 iPcMechanicsThrusterController_swigregister = _blcelc.iPcMechanicsThrusterController_swigregister
 iPcMechanicsThrusterController_swigregister(iPcMechanicsThrusterController)
 iPcMechanicsThrusterController_scfGetVersion = _blcelc.iPcMechanicsThrusterController_scfGetVersion
+iPcMechanicsThrusterController_scfGetName = _blcelc.iPcMechanicsThrusterController_scfGetName
 
 scfQuery_iPcMechanicsThruster = _blcelc.scfQuery_iPcMechanicsThruster
 scfQueryPC_iPcMechanicsThruster = _blcelc.scfQueryPC_iPcMechanicsThruster
@@ -1845,11 +1869,13 @@ class iBillboardManager(cspace.iBase):
                     "iBillboardManager.Showroom -> iSector*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSector* iBillboardManager::GetShowroom()")
 
     scfGetVersion = staticmethod(_blcelc.iBillboardManager_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iBillboardManager_scfGetName)
     __swig_destroy__ = _blcelc.delete_iBillboardManager
     __del__ = lambda self : None;
 iBillboardManager_swigregister = _blcelc.iBillboardManager_swigregister
 iBillboardManager_swigregister(iBillboardManager)
 iBillboardManager_scfGetVersion = _blcelc.iBillboardManager_scfGetVersion
+iBillboardManager_scfGetName = _blcelc.iBillboardManager_scfGetName
 
 class iPcBillboard(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -1884,11 +1910,13 @@ class iPcBillboard(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcBillboard_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcBillboard_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcBillboard
     __del__ = lambda self : None;
 iPcBillboard_swigregister = _blcelc.iPcBillboard_swigregister
 iPcBillboard_swigregister(iPcBillboard)
 iPcBillboard_scfGetVersion = _blcelc.iPcBillboard_scfGetVersion
+iPcBillboard_scfGetName = _blcelc.iPcBillboard_scfGetName
 
 scfQuery_iPcBillboard = _blcelc.scfQuery_iPcBillboard
 scfQueryPC_iPcBillboard = _blcelc.scfQueryPC_iPcBillboard
@@ -1943,6 +1971,7 @@ class iPcRegion(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcRegion_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcRegion_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcRegion
     __del__ = lambda self : None;
 iPcRegion_swigregister = _blcelc.iPcRegion_swigregister
@@ -1951,6 +1980,7 @@ celCreateBillboard = _blcelc.celCreateBillboard
 celGetSetBillboard = _blcelc.celGetSetBillboard
 celGetBillboard = _blcelc.celGetBillboard
 iPcRegion_scfGetVersion = _blcelc.iPcRegion_scfGetVersion
+iPcRegion_scfGetName = _blcelc.iPcRegion_scfGetName
 
 scfQuery_iPcRegion = _blcelc.scfQuery_iPcRegion
 class iCelMapFile(cspace.iBase):
@@ -2116,11 +2146,13 @@ class iPcZoneManager(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcZoneManager_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcZoneManager_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcZoneManager
     __del__ = lambda self : None;
 iPcZoneManager_swigregister = _blcelc.iPcZoneManager_swigregister
 iPcZoneManager_swigregister(iPcZoneManager)
 iPcZoneManager_scfGetVersion = _blcelc.iPcZoneManager_scfGetVersion
+iPcZoneManager_scfGetName = _blcelc.iPcZoneManager_scfGetName
 
 scfQuery_iPcZoneManager = _blcelc.scfQuery_iPcZoneManager
 CEL_KEY_STATE_UNUSED = _blcelc.CEL_KEY_STATE_UNUSED
@@ -2178,6 +2210,7 @@ class iPcCommandInput(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcCommandInput_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcCommandInput_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcCommandInput
     __del__ = lambda self : None;
 iPcCommandInput_swigregister = _blcelc.iPcCommandInput_swigregister
@@ -2186,6 +2219,7 @@ celCreateZoneManager = _blcelc.celCreateZoneManager
 celGetSetZoneManager = _blcelc.celGetSetZoneManager
 celGetZoneManager = _blcelc.celGetZoneManager
 iPcCommandInput_scfGetVersion = _blcelc.iPcCommandInput_scfGetVersion
+iPcCommandInput_scfGetName = _blcelc.iPcCommandInput_scfGetName
 
 scfQuery_iPcCommandInput = _blcelc.scfQuery_iPcCommandInput
 class iPcGravityCallback(cspace.iBase):
@@ -2334,11 +2368,13 @@ class iPcLinearMovement(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcLinearMovement_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcLinearMovement_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcLinearMovement
     __del__ = lambda self : None;
 iPcLinearMovement_swigregister = _blcelc.iPcLinearMovement_swigregister
 iPcLinearMovement_swigregister(iPcLinearMovement)
 iPcLinearMovement_scfGetVersion = _blcelc.iPcLinearMovement_scfGetVersion
+iPcLinearMovement_scfGetName = _blcelc.iPcLinearMovement_scfGetName
 
 scfQuery_iPcLinearMovement = _blcelc.scfQuery_iPcLinearMovement
 CEL_ANIM_IDLE = _blcelc.CEL_ANIM_IDLE
@@ -2483,6 +2519,7 @@ class iPcActorMove(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcActorMove_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcActorMove_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcActorMove
     __del__ = lambda self : None;
 iPcActorMove_swigregister = _blcelc.iPcActorMove_swigregister
@@ -2491,6 +2528,7 @@ celCreateLinearMovement = _blcelc.celCreateLinearMovement
 celGetSetLinearMovement = _blcelc.celGetSetLinearMovement
 celGetLinearMovement = _blcelc.celGetLinearMovement
 iPcActorMove_scfGetVersion = _blcelc.iPcActorMove_scfGetVersion
+iPcActorMove_scfGetName = _blcelc.iPcActorMove_scfGetName
 
 scfQuery_iPcActorMove = _blcelc.scfQuery_iPcActorMove
 scfQuery_iPcActorAnalog = _blcelc.scfQuery_iPcActorAnalog
@@ -2532,6 +2570,7 @@ class iPcAnalogMotion(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcAnalogMotion_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcAnalogMotion_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcAnalogMotion
     __del__ = lambda self : None;
 iPcAnalogMotion_swigregister = _blcelc.iPcAnalogMotion_swigregister
@@ -2543,6 +2582,7 @@ celCreateActorAnalog = _blcelc.celCreateActorAnalog
 celGetSetActorAnalog = _blcelc.celGetSetActorAnalog
 celGetActorAnalog = _blcelc.celGetActorAnalog
 iPcAnalogMotion_scfGetVersion = _blcelc.iPcAnalogMotion_scfGetVersion
+iPcAnalogMotion_scfGetName = _blcelc.iPcAnalogMotion_scfGetName
 
 scfQuery_iPcAnalogMotion = _blcelc.scfQuery_iPcAnalogMotion
 class iPcJump(cspace.iBase):
@@ -2608,6 +2648,7 @@ class iPcJump(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcJump_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcJump_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcJump
     __del__ = lambda self : None;
 iPcJump_swigregister = _blcelc.iPcJump_swigregister
@@ -2616,6 +2657,7 @@ celCreateAnalogMotion = _blcelc.celCreateAnalogMotion
 celGetSetAnalogMotion = _blcelc.celGetSetAnalogMotion
 celGetAnalogMotion = _blcelc.celGetAnalogMotion
 iPcJump_scfGetVersion = _blcelc.iPcJump_scfGetVersion
+iPcJump_scfGetName = _blcelc.iPcJump_scfGetName
 
 scfQuery_iPcJump = _blcelc.scfQuery_iPcJump
 class iPcCamera(cspace.iBase):
@@ -2810,11 +2852,13 @@ class iPcDefaultCamera(iPcCamera):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcDefaultCamera_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcDefaultCamera_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcDefaultCamera
     __del__ = lambda self : None;
 iPcDefaultCamera_swigregister = _blcelc.iPcDefaultCamera_swigregister
 iPcDefaultCamera_swigregister(iPcDefaultCamera)
 iPcDefaultCamera_scfGetVersion = _blcelc.iPcDefaultCamera_scfGetVersion
+iPcDefaultCamera_scfGetName = _blcelc.iPcDefaultCamera_scfGetName
 
 scfQuery_iPcDefaultCamera = _blcelc.scfQuery_iPcDefaultCamera
 class iPcSimpleCamera(iPcCamera):
@@ -2855,6 +2899,7 @@ class iPcSimpleCamera(iPcCamera):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcSimpleCamera_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcSimpleCamera_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcSimpleCamera
     __del__ = lambda self : None;
 iPcSimpleCamera_swigregister = _blcelc.iPcSimpleCamera_swigregister
@@ -2863,6 +2908,7 @@ celCreateDefaultCamera = _blcelc.celCreateDefaultCamera
 celGetSetDefaultCamera = _blcelc.celGetSetDefaultCamera
 celGetDefaultCamera = _blcelc.celGetDefaultCamera
 iPcSimpleCamera_scfGetVersion = _blcelc.iPcSimpleCamera_scfGetVersion
+iPcSimpleCamera_scfGetName = _blcelc.iPcSimpleCamera_scfGetName
 
 scfQuery_iPcSimpleCamera = _blcelc.scfQuery_iPcSimpleCamera
 class General(cspace.iBase):
@@ -3067,11 +3113,13 @@ class iPcNewCamera(iPcCamera):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcNewCamera_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcNewCamera_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcNewCamera
     __del__ = lambda self : None;
 iPcNewCamera_swigregister = _blcelc.iPcNewCamera_swigregister
 iPcNewCamera_swigregister(iPcNewCamera)
 iPcNewCamera_scfGetVersion = _blcelc.iPcNewCamera_scfGetVersion
+iPcNewCamera_scfGetName = _blcelc.iPcNewCamera_scfGetName
 
 scfQuery_iPcNewCamera = _blcelc.scfQuery_iPcNewCamera
 class iPcCameraMode(cspace.iBase):
@@ -3117,11 +3165,13 @@ class iPcDelegateCamera(iPcCamera):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcDelegateCamera_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcDelegateCamera_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcDelegateCamera
     __del__ = lambda self : None;
 iPcDelegateCamera_swigregister = _blcelc.iPcDelegateCamera_swigregister
 iPcDelegateCamera_swigregister(iPcDelegateCamera)
 iPcDelegateCamera_scfGetVersion = _blcelc.iPcDelegateCamera_scfGetVersion
+iPcDelegateCamera_scfGetName = _blcelc.iPcDelegateCamera_scfGetName
 
 scfQuery_iPcDelegateCamera = _blcelc.scfQuery_iPcDelegateCamera
 class iPcTrackingCamera(iPcCameraMode):
@@ -3182,6 +3232,7 @@ class iPcTrackingCamera(iPcCameraMode):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcTrackingCamera_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcTrackingCamera_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcTrackingCamera
     __del__ = lambda self : None;
 iPcTrackingCamera_swigregister = _blcelc.iPcTrackingCamera_swigregister
@@ -3190,6 +3241,7 @@ celCreateDelegateCamera = _blcelc.celCreateDelegateCamera
 celGetSetDelegateCamera = _blcelc.celGetSetDelegateCamera
 celGetDelegateCamera = _blcelc.celGetDelegateCamera
 iPcTrackingCamera_scfGetVersion = _blcelc.iPcTrackingCamera_scfGetVersion
+iPcTrackingCamera_scfGetName = _blcelc.iPcTrackingCamera_scfGetName
 
 scfQuery_iPcTrackingCamera = _blcelc.scfQuery_iPcTrackingCamera
 CEL_MOUSE_BUTTON1 = _blcelc.CEL_MOUSE_BUTTON1
@@ -3292,11 +3344,13 @@ class iPcMeshSelect(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcMeshSelect_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcMeshSelect_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcMeshSelect
     __del__ = lambda self : None;
 iPcMeshSelect_swigregister = _blcelc.iPcMeshSelect_swigregister
 iPcMeshSelect_swigregister(iPcMeshSelect)
 iPcMeshSelect_scfGetVersion = _blcelc.iPcMeshSelect_scfGetVersion
+iPcMeshSelect_scfGetName = _blcelc.iPcMeshSelect_scfGetName
 
 scfQuery_iPcMeshSelect = _blcelc.scfQuery_iPcMeshSelect
 CEL_PCMESH_PROPERTY_MESH = _blcelc.CEL_PCMESH_PROPERTY_MESH
@@ -3357,6 +3411,7 @@ class iPcMesh(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcMesh_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcMesh_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcMesh
     __del__ = lambda self : None;
 iPcMesh_swigregister = _blcelc.iPcMesh_swigregister
@@ -3365,6 +3420,7 @@ celCreateMeshSelect = _blcelc.celCreateMeshSelect
 celGetSetMeshSelect = _blcelc.celGetSetMeshSelect
 celGetMeshSelect = _blcelc.celGetMeshSelect
 iPcMesh_scfGetVersion = _blcelc.iPcMesh_scfGetVersion
+iPcMesh_scfGetName = _blcelc.iPcMesh_scfGetName
 
 scfQuery_iPcMesh = _blcelc.scfQuery_iPcMesh
 class iPcTimer(cspace.iBase):
@@ -3391,6 +3447,7 @@ class iPcTimer(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcTimer_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcTimer_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcTimer
     __del__ = lambda self : None;
 iPcTimer_swigregister = _blcelc.iPcTimer_swigregister
@@ -3399,6 +3456,7 @@ celCreateMesh = _blcelc.celCreateMesh
 celGetSetMesh = _blcelc.celGetSetMesh
 celGetMesh = _blcelc.celGetMesh
 iPcTimer_scfGetVersion = _blcelc.iPcTimer_scfGetVersion
+iPcTimer_scfGetName = _blcelc.iPcTimer_scfGetName
 
 scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
 TRIGGER_NONE = _blcelc.TRIGGER_NONE
@@ -3478,11 +3536,13 @@ class iPcTrigger(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcTrigger_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcTrigger_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcTrigger
     __del__ = lambda self : None;
 iPcTrigger_swigregister = _blcelc.iPcTrigger_swigregister
 iPcTrigger_swigregister(iPcTrigger)
 iPcTrigger_scfGetVersion = _blcelc.iPcTrigger_scfGetVersion
+iPcTrigger_scfGetName = _blcelc.iPcTrigger_scfGetName
 
 scfQuery_iPcTrigger = _blcelc.scfQuery_iPcTrigger
 class iPcSteer(cspace.iBase):
@@ -3538,6 +3598,7 @@ class iPcSteer(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcSteer_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcSteer_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcSteer
     __del__ = lambda self : None;
 iPcSteer_swigregister = _blcelc.iPcSteer_swigregister
@@ -3546,6 +3607,7 @@ celCreateTrigger = _blcelc.celCreateTrigger
 celGetSetTrigger = _blcelc.celGetSetTrigger
 celGetTrigger = _blcelc.celGetTrigger
 iPcSteer_scfGetVersion = _blcelc.iPcSteer_scfGetVersion
+iPcSteer_scfGetName = _blcelc.iPcSteer_scfGetName
 
 scfQuery_iPcSteer = _blcelc.scfQuery_iPcSteer
 class iPcPathFinder(cspace.iBase):
@@ -3597,6 +3659,7 @@ class iPcPathFinder(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcPathFinder_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcPathFinder_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcPathFinder
     __del__ = lambda self : None;
 iPcPathFinder_swigregister = _blcelc.iPcPathFinder_swigregister
@@ -3605,6 +3668,7 @@ celCreateSteer = _blcelc.celCreateSteer
 celGetSetSteer = _blcelc.celGetSetSteer
 celGetSteer = _blcelc.celGetSteer
 iPcPathFinder_scfGetVersion = _blcelc.iPcPathFinder_scfGetVersion
+iPcPathFinder_scfGetName = _blcelc.iPcPathFinder_scfGetName
 
 scfQuery_iPcPathFinder = _blcelc.scfQuery_iPcPathFinder
 class iPcSpawn(cspace.iBase):
@@ -3658,6 +3722,7 @@ class iPcSpawn(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcSpawn_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcSpawn_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcSpawn
     __del__ = lambda self : None;
 iPcSpawn_swigregister = _blcelc.iPcSpawn_swigregister
@@ -3666,6 +3731,7 @@ celCreatePathFinder = _blcelc.celCreatePathFinder
 celGetSetPathFinder = _blcelc.celGetSetPathFinder
 celGetPathFinder = _blcelc.celGetPathFinder
 iPcSpawn_scfGetVersion = _blcelc.iPcSpawn_scfGetVersion
+iPcSpawn_scfGetName = _blcelc.iPcSpawn_scfGetName
 
 scfQuery_iPcSpawn = _blcelc.scfQuery_iPcSpawn
 class iPcProjectile(cspace.iBase):
@@ -3695,6 +3761,7 @@ class iPcProjectile(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcProjectile_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcProjectile_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcProjectile
     __del__ = lambda self : None;
 iPcProjectile_swigregister = _blcelc.iPcProjectile_swigregister
@@ -3703,6 +3770,7 @@ celCreateSpawn = _blcelc.celCreateSpawn
 celGetSetSpawn = _blcelc.celGetSetSpawn
 celGetSpawn = _blcelc.celGetSpawn
 iPcProjectile_scfGetVersion = _blcelc.iPcProjectile_scfGetVersion
+iPcProjectile_scfGetName = _blcelc.iPcProjectile_scfGetName
 
 scfQuery_iPcProjectile = _blcelc.scfQuery_iPcProjectile
 class iPcSolid(cspace.iBase):
@@ -3738,6 +3806,7 @@ class iPcSolid(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcSolid_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcSolid_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcSolid
     __del__ = lambda self : None;
 iPcSolid_swigregister = _blcelc.iPcSolid_swigregister
@@ -3746,6 +3815,7 @@ celCreateProjectile = _blcelc.celCreateProjectile
 celGetSetProjectile = _blcelc.celGetSetProjectile
 celGetProjectile = _blcelc.celGetProjectile
 iPcSolid_scfGetVersion = _blcelc.iPcSolid_scfGetVersion
+iPcSolid_scfGetName = _blcelc.iPcSolid_scfGetName
 
 scfQuery_iPcSolid = _blcelc.scfQuery_iPcSolid
 class iPcGravity(cspace.iBase):
@@ -3807,6 +3877,7 @@ class iPcGravity(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcGravity_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcGravity_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcGravity
     __del__ = lambda self : None;
 iPcGravity_swigregister = _blcelc.iPcGravity_swigregister
@@ -3815,6 +3886,7 @@ celCreateSolid = _blcelc.celCreateSolid
 celGetSetSolid = _blcelc.celGetSetSolid
 celGetSolid = _blcelc.celGetSolid
 iPcGravity_scfGetVersion = _blcelc.iPcGravity_scfGetVersion
+iPcGravity_scfGetName = _blcelc.iPcGravity_scfGetName
 
 scfQuery_iPcGravity = _blcelc.scfQuery_iPcGravity
 CEL_PCMOVABLE_PROPERTY_POSITION = _blcelc.CEL_PCMOVABLE_PROPERTY_POSITION
@@ -3852,6 +3924,7 @@ class iPcMovable(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcMovable_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcMovable_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcMovable
     __del__ = lambda self : None;
 iPcMovable_swigregister = _blcelc.iPcMovable_swigregister
@@ -3860,6 +3933,7 @@ celCreateGravity = _blcelc.celCreateGravity
 celGetSetGravity = _blcelc.celGetSetGravity
 celGetGravity = _blcelc.celGetGravity
 iPcMovable_scfGetVersion = _blcelc.iPcMovable_scfGetVersion
+iPcMovable_scfGetName = _blcelc.iPcMovable_scfGetName
 
 class iPcMovableConstraint(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -3983,6 +4057,7 @@ class iPcInventory(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcInventory_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcInventory_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcInventory
     __del__ = lambda self : None;
     def GetEntities(self): return iCelEntityInvFakeArray(self)
@@ -3990,6 +4065,7 @@ class iPcInventory(cspace.iBase):
 iPcInventory_swigregister = _blcelc.iPcInventory_swigregister
 iPcInventory_swigregister(iPcInventory)
 iPcInventory_scfGetVersion = _blcelc.iPcInventory_scfGetVersion
+iPcInventory_scfGetName = _blcelc.iPcInventory_scfGetName
 
 scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
 class iCelEntityInvFakeArray(object):
@@ -4050,6 +4126,7 @@ class iPcCharacteristics(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcCharacteristics_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcCharacteristics_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcCharacteristics
     __del__ = lambda self : None;
 iPcCharacteristics_swigregister = _blcelc.iPcCharacteristics_swigregister
@@ -4058,6 +4135,7 @@ celCreateInventory = _blcelc.celCreateInventory
 celGetSetInventory = _blcelc.celGetSetInventory
 celGetInventory = _blcelc.celGetInventory
 iPcCharacteristics_scfGetVersion = _blcelc.iPcCharacteristics_scfGetVersion
+iPcCharacteristics_scfGetName = _blcelc.iPcCharacteristics_scfGetName
 
 scfQuery_iPcCharacteristics = _blcelc.scfQuery_iPcCharacteristics
 CEL_TOOLTIP_LEFT = _blcelc.CEL_TOOLTIP_LEFT
@@ -4110,6 +4188,7 @@ class iPcTooltip(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcTooltip_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcTooltip_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcTooltip
     __del__ = lambda self : None;
 iPcTooltip_swigregister = _blcelc.iPcTooltip_swigregister
@@ -4118,6 +4197,7 @@ celCreateCharacteristics = _blcelc.celCreateCharacteristics
 celGetSetCharacteristics = _blcelc.celGetSetCharacteristics
 celGetCharacteristics = _blcelc.celGetCharacteristics
 iPcTooltip_scfGetVersion = _blcelc.iPcTooltip_scfGetVersion
+iPcTooltip_scfGetName = _blcelc.iPcTooltip_scfGetName
 
 scfQuery_iPcTooltip = _blcelc.scfQuery_iPcTooltip
 class iPcSoundListener(cspace.iBase):
@@ -4145,6 +4225,7 @@ class iPcSoundListener(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcSoundListener_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcSoundListener_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcSoundListener
     __del__ = lambda self : None;
 iPcSoundListener_swigregister = _blcelc.iPcSoundListener_swigregister
@@ -4153,6 +4234,7 @@ celCreateToolTip = _blcelc.celCreateToolTip
 celGetSetToolTip = _blcelc.celGetSetToolTip
 celGetToolTip = _blcelc.celGetToolTip
 iPcSoundListener_scfGetVersion = _blcelc.iPcSoundListener_scfGetVersion
+iPcSoundListener_scfGetName = _blcelc.iPcSoundListener_scfGetName
 
 class iPcSoundSource(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -4195,11 +4277,13 @@ class iPcSoundSource(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcSoundSource_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcSoundSource_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcSoundSource
     __del__ = lambda self : None;
 iPcSoundSource_swigregister = _blcelc.iPcSoundSource_swigregister
 iPcSoundSource_swigregister(iPcSoundSource)
 iPcSoundSource_scfGetVersion = _blcelc.iPcSoundSource_scfGetVersion
+iPcSoundSource_scfGetName = _blcelc.iPcSoundSource_scfGetName
 
 scfQuery_iPcSoundSource = _blcelc.scfQuery_iPcSoundSource
 scfQuery_iPcSoundListener = _blcelc.scfQuery_iPcSoundListener
@@ -4269,6 +4353,7 @@ class iPcProperties(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcProperties_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcProperties_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcProperties
     __del__ = lambda self : None;
     def GetPropertyValueIndex(*args): return _blcelc.iPcProperties_GetPropertyValueIndex(*args)
@@ -4295,6 +4380,7 @@ class iPcProperties(cspace.iBase):
 iPcProperties_swigregister = _blcelc.iPcProperties_swigregister
 iPcProperties_swigregister(iPcProperties)
 iPcProperties_scfGetVersion = _blcelc.iPcProperties_scfGetVersion
+iPcProperties_scfGetName = _blcelc.iPcProperties_scfGetName
 
 scfQuery_iPcProperties = _blcelc.scfQuery_iPcProperties
 class iPcMover(cspace.iBase):
@@ -4343,6 +4429,7 @@ class iPcMover(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcMover_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcMover_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcMover
     __del__ = lambda self : None;
 iPcMover_swigregister = _blcelc.iPcMover_swigregister
@@ -4351,6 +4438,7 @@ celCreateProperties = _blcelc.celCreateProperties
 celGetSetProperties = _blcelc.celGetSetProperties
 celGetProperties = _blcelc.celGetProperties
 iPcMover_scfGetVersion = _blcelc.iPcMover_scfGetVersion
+iPcMover_scfGetName = _blcelc.iPcMover_scfGetName
 
 scfQuery_iPcMover = _blcelc.scfQuery_iPcMover
 class iPcHover(cspace.iBase):
@@ -4404,6 +4492,7 @@ class iPcHover(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcHover_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcHover_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcHover
     __del__ = lambda self : None;
 iPcHover_swigregister = _blcelc.iPcHover_swigregister
@@ -4412,6 +4501,7 @@ celCreateMover = _blcelc.celCreateMover
 celGetSetMover = _blcelc.celGetSetMover
 celGetMover = _blcelc.celGetMover
 iPcHover_scfGetVersion = _blcelc.iPcHover_scfGetVersion
+iPcHover_scfGetName = _blcelc.iPcHover_scfGetName
 
 scfQuery_iPcHover = _blcelc.scfQuery_iPcHover
 class iPcCraftController(cspace.iBase):
@@ -4499,6 +4589,7 @@ class iPcCraftController(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcCraftController_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcCraftController_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcCraftController
     __del__ = lambda self : None;
 iPcCraftController_swigregister = _blcelc.iPcCraftController_swigregister
@@ -4507,6 +4598,7 @@ celCreateHover = _blcelc.celCreateHover
 celGetSetHover = _blcelc.celGetSetHover
 celGetHover = _blcelc.celGetHover
 iPcCraftController_scfGetVersion = _blcelc.iPcCraftController_scfGetVersion
+iPcCraftController_scfGetName = _blcelc.iPcCraftController_scfGetName
 
 scfQuery_iPcCraftController = _blcelc.scfQuery_iPcCraftController
 class iPcWheeled(cspace.iBase):
@@ -4702,6 +4794,7 @@ class iPcWheeled(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcWheeled_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcWheeled_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcWheeled
     __del__ = lambda self : None;
 iPcWheeled_swigregister = _blcelc.iPcWheeled_swigregister
@@ -4710,6 +4803,7 @@ celCreateCraftController = _blcelc.celCreateCraftController
 celGetSetCraftController = _blcelc.celGetSetCraftController
 celGetCraftController = _blcelc.celGetCraftController
 iPcWheeled_scfGetVersion = _blcelc.iPcWheeled_scfGetVersion
+iPcWheeled_scfGetName = _blcelc.iPcWheeled_scfGetName
 
 scfQuery_iPcWheeled = _blcelc.scfQuery_iPcWheeled
 class iPcMeshDeform(cspace.iBase):
@@ -4771,6 +4865,7 @@ class iPcMeshDeform(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcMeshDeform_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcMeshDeform_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcMeshDeform
     __del__ = lambda self : None;
 iPcMeshDeform_swigregister = _blcelc.iPcMeshDeform_swigregister
@@ -4779,6 +4874,7 @@ celCreateWheeled = _blcelc.celCreateWheeled
 celGetSetWheeled = _blcelc.celGetSetWheeled
 celGetWheeled = _blcelc.celGetWheeled
 iPcMeshDeform_scfGetVersion = _blcelc.iPcMeshDeform_scfGetVersion
+iPcMeshDeform_scfGetName = _blcelc.iPcMeshDeform_scfGetName
 
 scfQuery_iPcMeshDeform = _blcelc.scfQuery_iPcMeshDeform
 class iPcDamage(cspace.iBase):
@@ -4841,6 +4937,7 @@ class iPcDamage(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcDamage_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcDamage_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcDamage
     __del__ = lambda self : None;
 iPcDamage_swigregister = _blcelc.iPcDamage_swigregister
@@ -4849,6 +4946,7 @@ celCreateMeshDeform = _blcelc.celCreateMeshDeform
 celGetSetMeshDeform = _blcelc.celGetSetMeshDeform
 celGetMeshDeform = _blcelc.celGetMeshDeform
 iPcDamage_scfGetVersion = _blcelc.iPcDamage_scfGetVersion
+iPcDamage_scfGetName = _blcelc.iPcDamage_scfGetName
 
 scfQuery_iPcDamage = _blcelc.scfQuery_iPcDamage
 class iQuest(cspace.iBase):
@@ -4986,11 +5084,13 @@ class iQuestManager(cspace.iBase):
                     "iQuestManager.OperationTrigger -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iQuestManager::getmethod()\n\tset: void iQuestManager::SetOperationTrigger(...)")
 
     scfGetVersion = staticmethod(_blcelc.iQuestManager_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iQuestManager_scfGetName)
     __swig_destroy__ = _blcelc.delete_iQuestManager
     __del__ = lambda self : None;
 iQuestManager_swigregister = _blcelc.iQuestManager_swigregister
 iQuestManager_swigregister(iQuestManager)
 iQuestManager_scfGetVersion = _blcelc.iQuestManager_scfGetVersion
+iQuestManager_scfGetName = _blcelc.iQuestManager_scfGetName
 
 class iNewStateQuestRewardFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -5048,11 +5148,13 @@ class iPcQuest(cspace.iBase):
              return self.SetterFallback(attr,value)
 
     scfGetVersion = staticmethod(_blcelc.iPcQuest_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcQuest_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcQuest
     __del__ = lambda self : None;
 iPcQuest_swigregister = _blcelc.iPcQuest_swigregister
 iPcQuest_swigregister(iPcQuest)
 iPcQuest_scfGetVersion = _blcelc.iPcQuest_scfGetVersion
+iPcQuest_scfGetName = _blcelc.iPcQuest_scfGetName
 
 scfQuery_iPcQuest = _blcelc.scfQuery_iPcQuest
 class iCelEdge(cspace.iBase):
@@ -5181,11 +5283,13 @@ class iCelGraph(cspace.iBase):
     def CreateEmptyNode(*args): return _blcelc.iCelGraph_CreateEmptyNode(*args)
     def ShortestPath2(*args): return _blcelc.iCelGraph_ShortestPath2(*args)
     scfGetVersion = staticmethod(_blcelc.iCelGraph_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iCelGraph_scfGetName)
     __swig_destroy__ = _blcelc.delete_iCelGraph
     __del__ = lambda self : None;
 iCelGraph_swigregister = _blcelc.iCelGraph_swigregister
 iCelGraph_swigregister(iCelGraph)
 iCelGraph_scfGetVersion = _blcelc.iCelGraph_scfGetVersion
+iCelGraph_scfGetName = _blcelc.iCelGraph_scfGetName
 
 class iCelConsoleCommand(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -5418,11 +5522,13 @@ class iPcPython(cspace.iBase):
     def SetPythonObject(*args): return _blcelc.iPcPython_SetPythonObject(*args)
     def GetPythonObject(*args): return _blcelc.iPcPython_GetPythonObject(*args)
     scfGetVersion = staticmethod(_blcelc.iPcPython_scfGetVersion)
+    scfGetName = staticmethod(_blcelc.iPcPython_scfGetName)
     __swig_destroy__ = _blcelc.delete_iPcPython
     __del__ = lambda self : None;
 iPcPython_swigregister = _blcelc.iPcPython_swigregister
 iPcPython_swigregister(iPcPython)
 iPcPython_scfGetVersion = _blcelc.iPcPython_scfGetVersion
+iPcPython_scfGetName = _blcelc.iPcPython_scfGetName
 
 class swigPyPcCommon(PcCommon,iPcPython):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
