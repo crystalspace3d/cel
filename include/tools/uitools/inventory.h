@@ -24,6 +24,49 @@ struct iCelEntity;
 struct iCelEntityTemplate;
 struct iPcInventory;
 
+struct iString;
+struct iMeshFactoryWrapper;
+struct iTextureHandle;
+struct iGraphics3D;
+
+/**
+ * Get information about an entity/template that the inventory can use to
+ * render the entity in the inventory.
+ */
+struct iUIInventoryInfo : public virtual iBase
+{
+  SCF_INTERFACE (iUIInventoryInfo, 0, 0, 1);
+
+  /**
+   * Get the name for this entity. Can be 0.
+   */
+  virtual csRef<iString> GetName (iCelEntity* entity) = 0;
+  virtual csRef<iString> GetName (iCelEntityTemplate* tpl, int count) = 0;
+
+  /**
+   * Get the description to show for this entity. Can be 0.
+   * An inventory implementation can show this description directly in the
+   * inventory or it can show it as a tooltip.
+   */
+  virtual csRef<iString> GetDescription (iCelEntity* entity) = 0;
+  virtual csRef<iString> GetDescription (iCelEntityTemplate* tpl, int count) = 0;
+
+  /**
+   * Get a mesh factory which can be used for showing in the inventory.
+   * Can be 0.
+   */
+  virtual iMeshFactoryWrapper* GetMeshFactory (iCelEntity* entity) = 0;
+  virtual iMeshFactoryWrapper* GetMeshFactory (iCelEntityTemplate* tpl, int count) = 0;
+
+  /**
+   * Get an image which can be used for showing in the inventory. This
+   * can return 0.
+   */
+  virtual iTextureHandle* GetTexture (iCelEntity* entity) = 0;
+  virtual iTextureHandle* GetTexture (iCelEntityTemplate* tpl, int count) = 0;
+};
+
+
 /**
  * Implement this interface if you want to learn when an entity is selected.
  */
@@ -41,6 +84,13 @@ struct iUIInventorySelectionCallback : public virtual iBase
 struct iUIInventory: public virtual iBase
 {
   SCF_INTERFACE (iUIInventory, 0, 0, 1);
+
+  /**
+   * Setup a class which will be used to get information about the entities
+   * to show in the inventory. If this function is not called then there
+   * will be a default implementation that just gets the name from the entities.
+   */
+  virtual void SetInfo (iUIInventoryInfo* info) = 0;
 
   /// Open the inventory.
   virtual void Open (const char* title, iPcInventory* inventory) = 0;

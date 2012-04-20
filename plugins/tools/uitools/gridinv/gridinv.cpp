@@ -32,21 +32,23 @@
 #include "ivideo/graph3d.h"
 #include "ivaria/reporter.h"
 
-#include "inventory.h"
+#include "gridinv.h"
+#include "physicallayer/propclas.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/entitytpl.h"
+#include "propclass/mesh.h"
 
-SCF_IMPLEMENT_FACTORY (celUIInventory)
+SCF_IMPLEMENT_FACTORY (celUIGridInventory)
 
 //--------------------------------------------------------------------------
 
 class InvListener : public scfImplementation1<InvListener, iPcInventoryListener>
 {
 private:
-  celUIInventory* ui;
+  celUIGridInventory* ui;
 
 public:
-  InvListener (celUIInventory* ui) : scfImplementationType (this), ui (ui) { }
+  InvListener (celUIGridInventory* ui) : scfImplementationType (this), ui (ui) { }
   virtual ~InvListener () { }
 
   virtual void AddChild (iPcInventory* inventory, iCelEntity* entity)
@@ -95,124 +97,133 @@ csRef<iString> DefaultInfo::GetName (iCelEntityTemplate* ent, int count)
   return str;
 }
 
+iMeshFactoryWrapper* DefaultInfo::GetMeshFactory (iCelEntity* entity)
+{
+  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  if (!pcmesh) return 0;
+  if (!pcmesh->GetFactoryName ()) return 0;
+  return engine->FindMeshFactory (pcmesh->GetFactoryName ());
+}
+
+iMeshFactoryWrapper* DefaultInfo::GetMeshFactory (iCelEntityTemplate* tpl, int count)
+{
+  // @@@ Not implemented?
+  return 0;
+}
+
 //--------------------------------------------------------------------------
 
 
-celUIInventory::celUIInventory (iBase* parent)
+celUIGridInventory::celUIGridInventory (iBase* parent)
   : scfImplementationType (this, parent)
 {
-  window = 0;
+  scfiEventHandler = 0;
 }
 
-celUIInventory::~celUIInventory ()
+celUIGridInventory::~celUIGridInventory ()
 {
-}
-
-bool celUIInventory::Initialize (iObjectRegistry* object_reg)
-{
-  celUIInventory::object_reg = object_reg;
-  cegui = csQueryRegistry<iCEGUI> (object_reg);
-  if (!cegui)
+  if (scfiEventHandler)
   {
-    // @@@ Use reporter.
-    printf ("Error locating cegui!\n"); fflush (stdout);
-    return false;
+    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+    if (q)
+      q->RemoveListener (scfiEventHandler);
+    scfiEventHandler->DecRef ();
   }
+}
+
+bool celUIGridInventory::Initialize (iObjectRegistry* object_reg)
+{
+  celUIGridInventory::object_reg = object_reg;
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
-  info.AttachNew (new DefaultInfo (pl));
+  engine = csQueryRegistry<iEngine> (object_reg);
+  info.AttachNew (new DefaultInfo (pl, engine));
+  name_reg = csEventNameRegistry::GetRegistry (object_reg);
 
   return true;
 }
 
-void celUIInventory::Setup ()
+bool celUIGridInventory::HandleEvent (iEvent& ev)
 {
-  if (window) return;
-
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  window = winMgr->getWindow ("UIInventory");
-
-  CEGUI::Window* btn;
-
-  btn = winMgr->getWindow("UIInventory/OkButton");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked,
-    CEGUI::Event::Subscriber(&celUIInventory::OkButton, this));
-
-  btn = winMgr->getWindow("UIInventory/CancelButton");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked,
-    CEGUI::Event::Subscriber(&celUIInventory::CancelButton, this));
-
-  btn = winMgr->getWindow("UIInventory/InventoryList");
-  btn->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,
-    CEGUI::Event::Subscriber(&celUIInventory::Select, this));
+  if (ev.Name == csevFrame (object_reg))
+  {
+    return true;
+  }
+  else if (ev.Name == csevMouseUp (name_reg, 0))
+  {
+    return true;
+  }
+  else if (ev.Name == csevMouseDown (name_reg, 0))
+  {
+    return true;
+  }
+  return false;
 }
 
-void celUIInventory::Refresh ()
+void celUIGridInventory::Activate ()
+{
+  if (scfiEventHandler)
+    return;
+
+  csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+  CS_ASSERT (q);
+  scfiEventHandler = new EventHandler (this);
+  csEventID esub[] = {
+    	csevKeyboardEvent (object_reg),
+	csevFrame (object_reg),
+    	csevMouseEvent (object_reg),
+    	CS_EVENTLIST_END
+    	};
+  q->RegisterListener (scfiEventHandler, esub);
+}
+
+void celUIGridInventory::Deactivate ()
+{
+  if (!scfiEventHandler)
+    return;
+
+  csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+  CS_ASSERT (q);
+  q->RemoveListener (scfiEventHandler);
+  scfiEventHandler->DecRef ();
+  scfiEventHandler = 0;
+}
+
+void celUIGridInventory::Setup ()
+{
+}
+
+void celUIGridInventory::Refresh ()
 {
   UpdateLists (inventory);
 }
 
-void celUIInventory::UpdateLists (iPcInventory* inventory)
+void celUIGridInventory::UpdateLists (iPcInventory* inventory)
 {
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-
-  CEGUI::Listbox* list = (CEGUI::Listbox*)winMgr->getWindow("UIInventory/InventoryList");
-
-  list->resetList();
-
-  for (size_t i = 0 ; i < inventory->GetEntityCount () ; i++)
-  {
-    iCelEntity* ent = inventory->GetEntity (i);
-    csRef<iString> n = info->GetName (ent);
-    CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem (n->GetData ());
-    item->setTextColours(CEGUI::colour(0,0,0));
-    item->setSelectionBrushImage("ice", "TextSelectionBrush");
-    item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
-    list->addItem(item);
-  }
-
-  for (size_t i = 0 ; i < inventory->GetEntityTemplateCount () ; i++)
-  {
-    iCelEntityTemplate* ent = inventory->GetEntityTemplate (i);
-    int amount = inventory->GetEntityTemplateAmount (i);
-    csRef<iString> n = info->GetName (ent, amount);
-    CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem (n->GetData ());
-    item->setTextColours(CEGUI::colour(0,0,0));
-    item->setSelectionBrushImage("ice", "TextSelectionBrush");
-    item->setSelectionColours(CEGUI::colour(0.5f,0.5f,1));
-    list->addItem(item);
-  }
 }
 
-bool celUIInventory::OkButton (const CEGUI::EventArgs& e)
+bool celUIGridInventory::OkButton ()
 {
-  window->hide();
+  Deactivate ();
+  //window->hide();
   if (inventory && listener)
     inventory->RemoveInventoryListener (listener);
   inventory = 0;
   return true;
 }
 
-bool celUIInventory::CancelButton (const CEGUI::EventArgs& e)
+bool celUIGridInventory::CancelButton ()
 {
-  window->hide();
+  Deactivate ();
+  //window->hide();
   if (inventory && listener)
     inventory->RemoveInventoryListener (listener);
   inventory = 0;
   return true;
 }
 
-bool celUIInventory::Select (const CEGUI::EventArgs& e)
+bool celUIGridInventory::Select ()
 {
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-
-  CEGUI::Listbox* list = (CEGUI::Listbox*) winMgr->getWindow("UIInventory/InventoryList");
-  CEGUI::ListboxItem* item = list->getFirstSelectedItem();
-  if (!item) return true;
-
-  CEGUI::String text = item->getText();
-  if (text.empty()) return true;
-
-  size_t itemIdx = list->getItemIndex(item);
+  size_t itemIdx = 0;
   if (itemIdx < inventory->GetEntityCount ())
   {
     FireSelectionListeners (inventory->GetEntity (itemIdx));
@@ -224,37 +235,34 @@ bool celUIInventory::Select (const CEGUI::EventArgs& e)
   return true;
 }
 
-void celUIInventory::AddSelectionListener (iUIInventorySelectionCallback* cb)
+void celUIGridInventory::AddSelectionListener (iUIInventorySelectionCallback* cb)
 {
   callbacks.Push (cb);
 }
 
-void celUIInventory::RemoveSelectionListener (iUIInventorySelectionCallback* cb)
+void celUIGridInventory::RemoveSelectionListener (iUIInventorySelectionCallback* cb)
 {
   callbacks.Delete (cb);
 }
 
-void celUIInventory::FireSelectionListeners (iCelEntity* entity)
+void celUIGridInventory::FireSelectionListeners (iCelEntity* entity)
 {
   for (size_t i = 0 ; i < callbacks.GetSize () ; i++)
     callbacks[i]->SelectEntity (entity);
 }
 
-void celUIInventory::FireSelectionListeners (iCelEntityTemplate* tpl)
+void celUIGridInventory::FireSelectionListeners (iCelEntityTemplate* tpl)
 {
   for (size_t i = 0 ; i < callbacks.GetSize () ; i++)
     callbacks[i]->SelectTemplate (tpl);
 }
 
-void celUIInventory::Open (const char* title, iPcInventory* inventory)
+void celUIGridInventory::Open (const char* title, iPcInventory* inventory)
 {
+  Activate ();
   Setup ();
 
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn = winMgr->getWindow("UIInventory/Name");
-  btn->setProperty("Text", title);
-
-  celUIInventory::inventory = inventory;
+  celUIGridInventory::inventory = inventory;
 
   if (!listener)
     listener.AttachNew (new InvListener (this));
@@ -262,13 +270,13 @@ void celUIInventory::Open (const char* title, iPcInventory* inventory)
   inventory->AddInventoryListener (listener);
 
   UpdateLists (inventory);
-  window->show ();
+  //window->show ();
 }
 
-void celUIInventory::Close ()
+void celUIGridInventory::Close ()
 {
   Setup ();
-  window->hide();
+  //window->hide();
   if (inventory && listener)
     inventory->RemoveInventoryListener (listener);
   inventory = 0;
