@@ -800,6 +800,9 @@
 				RelativePath="..\..\msvc\libtriggers_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libui_gridinv_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libui_inventory2_staticreg.cpp">
 			</File>
 			<File
@@ -1248,6 +1251,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\triggers\trig_watch.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\uitools\gridinv\gridinv.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\uitools\inventory\inventory.cpp">
@@ -1861,6 +1867,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\triggers\trig_watch.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\uitools\gridinv\gridinv.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\uitools\inventory\inventory.h">
