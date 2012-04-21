@@ -531,6 +531,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libsequences_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libstdphyslayer_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libtriggers_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libui_gridinv_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory2_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory_staticreg.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentity\celentity.cpp" />
@@ -681,6 +682,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\tools\triggers\trig_timeout.cpp" />
     <ClCompile Include="..\..\plugins\tools\triggers\trig_trigger.cpp" />
     <ClCompile Include="..\..\plugins\tools\triggers\trig_watch.cpp" />
+    <ClCompile Include="..\..\plugins\tools\uitools\gridinv\gridinv.cpp" />
     <ClCompile Include="..\..\plugins\tools\uitools\inventory\inventory.cpp" />
     <ClCompile Include="..\..\plugins\tools\uitools\inventory2\inventory2.cpp" />
     <ClCompile Include="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
@@ -866,6 +868,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\tools\triggers\trig_timeout.h" />
     <ClInclude Include="..\..\plugins\tools\triggers\trig_trigger.h" />
     <ClInclude Include="..\..\plugins\tools\triggers\trig_watch.h" />
+    <ClInclude Include="..\..\plugins\tools\uitools\gridinv\gridinv.h" />
     <ClInclude Include="..\..\plugins\tools\uitools\inventory\inventory.h" />
     <ClInclude Include="..\..\plugins\tools\uitools\inventory2\inventory2.h" />
     <ClInclude Include="..\..\plugins\propclass\newcamera\modes\tracking.h" />
