@@ -95,6 +95,7 @@ bool Tracking::DecideCameraState ()
       break;
     case (TARGET_NONE):
     default:
+      tarpos.Set (0.0f);
       break;
   }
   // get the position of the object we are anchored to in camera space
