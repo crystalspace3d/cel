@@ -839,8 +839,8 @@ bool celHNavStruct::Update (const csBox3& boundingBox, iSector* sector)
 
 bool celHNavStruct::Update (const csOBB& boundingBox, iSector* sector)
 {
-  csVector3 min;
-  csVector3 max;
+  csVector3 min (0.0f);
+  csVector3 max (0.0f);
   for (int i = 0; i < 8; i++)
   {
     csVector3 v = boundingBox.GetCorner(i);

@@ -292,8 +292,6 @@ void celChangePropertyRewardBase::ChangePropertyOnPc (iCelPropertyClass *pclass,
       default: break;
     }
   }
-  printf ("Warning! ChangeProperty didn't change anything!\n");
-  fflush (stdout);
 }
 
 void celChangePropertyRewardBase::ChangePropertyOnPcProp (iPcProperties *properties,
@@ -396,8 +394,6 @@ void celChangePropertyRewardBase::ChangePropertyOnPcProp (iPcProperties *propert
       }
     }
   }
-  printf ("Warning! ChangeProperty didn't change anything!\n");
-  fflush (stdout);
 }
 
 //---------------------------------------------------------------------------
