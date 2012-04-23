@@ -343,7 +343,7 @@ void BehaviourBadOne::ReadPath ()
     GetPropVector (pcprop, "pos", i+1, pos);
     if (!GetPropVector (pcprop, "forward", i+1, forward)) forward.Set (1, 0, 0);
     if (!GetPropVector (pcprop, "up", i+1, up)) up.Set (0, 1, 0);
-    long time;
+    long time = 0;
     if (!GetPropLong (pcprop, "time", i+1, time)) time = 1000;
     path->SetPositionVector (i, pos);
     path->SetUpVector (i, up);

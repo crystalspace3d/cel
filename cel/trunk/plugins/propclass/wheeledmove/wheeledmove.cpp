@@ -205,7 +205,8 @@ bool celPcWheeledMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_mech_collision)
   {
-    csVector3 pos, norm;
+    csVector3 pos;
+    csVector3 norm (0.0f);
     if (!Fetch (pos, params, id_mech_par_position)) return false;
     if (!Fetch (norm, params, id_mech_par_normal)) return false;
     float depth;
