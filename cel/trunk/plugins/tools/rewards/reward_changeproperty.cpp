@@ -218,7 +218,6 @@ celChangePropertyRewardBase::celChangePropertyRewardBase (
 void celChangePropertyRewardBase::ChangePropertyOnPc (iCelPropertyClass *pclass,
     iCelParameterBlock* params)
 {
-  printf ("ChangePropertyOnPc\n"); fflush (stdout);
   const char* p = prop->Get (params);
   if (!p) return;
   iCelPlLayer* pl = type->pl;
@@ -310,14 +309,11 @@ void celChangePropertyRewardBase::ChangePropertyOnPc (iCelPropertyClass *pclass,
       default: break;
     }
   }
-  printf ("Warning! ChangeProperty didn't change anything!\n");
-  fflush (stdout);
 }
 
 void celChangePropertyRewardBase::ChangePropertyOnPcProp (iPcProperties *properties,
     iCelParameterBlock* params)
 {
-  printf ("ChangePropertyOnProp\n"); fflush (stdout);
   const char* p = prop->Get (params);
   if (!p) return;
   // Do NOT use IsEmpty() here! Empty string is valid data.
@@ -415,8 +411,6 @@ void celChangePropertyRewardBase::ChangePropertyOnPcProp (iPcProperties *propert
       }
     }
   }
-  printf ("Warning! ChangeProperty didn't change anything!\n");
-  fflush (stdout);
 }
 
 //---------------------------------------------------------------------------
