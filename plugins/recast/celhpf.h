@@ -51,7 +51,7 @@ private:
   csRef<iCelPath> hlPath; // High level path
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navMeshes;
   csArray<csRef<iCelNavMeshPath> > llPaths; // Low level paths
-  int currentllPosition; // Current position for low level paths array
+  size_t currentllPosition; // Current position for low level paths array
   csRef<iMapNode> currentNode;
   csPtrKey<iSector> currentSector;
   csRef<iMapNode> firstNode; // Optimization for celHPath::GetFirst

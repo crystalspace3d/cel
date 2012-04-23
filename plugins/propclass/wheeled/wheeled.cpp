@@ -387,7 +387,7 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     }
   case action_addwheelauto:
     {
-      csVector3 pos, rotation;
+      csVector3 pos (0.0f);
       if (!Fetch (pos, params, param_position)) return false;
       csString factname, filename;
       if (!Fetch (factname, params, param_meshfact, true, "")) return false;
@@ -395,6 +395,7 @@ bool celPcWheeled::PerformActionIndexed (int idx,
       csQuaternion quat;
       if (ParExists (CEL_DATA_VECTOR3, params, param_rotation))
       {
+	csVector3 rotation;
         if (!Fetch (rotation, params, param_rotation)) return false;
         quat.SetEulerAngles(rotation);
       }
@@ -532,7 +533,7 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     {
       long num;
       if (!Fetch (num, params, param_wheelnum)) return false;
-      csVector3 pos;
+      csVector3 pos (0.0f);
       if (!Fetch (pos, params, param_position)) return false;
       SetWheelPosition (num,pos);
       return true;
