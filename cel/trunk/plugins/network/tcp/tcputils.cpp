@@ -608,7 +608,7 @@ bool celNetworkBuffer::Write (iCelDataBuffer* db)
     return BufferReporter::ReportWrite ("iCelDataBuffer");
   if (!db)
   {
-    int32 serial_nb;
+    int32 serial_nb = 0;
     writeLong (buffer, position, serial_nb);
     uint16 size = 0;
     writeShort (buffer, position, size);
