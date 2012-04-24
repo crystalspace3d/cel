@@ -384,7 +384,7 @@ void celTCPGameServer::UpdateConnectingPlayers (csTicks snapshot_time)
       // check if the new incoming player is not a player already connected but timed out
       // TODO: does not work
       bool player_was_timedout = false;
-      celPlayerData* timeout_player_data;
+      celPlayerData* timeout_player_data = nullptr;
       csHash<celPlayerData*, uint32>::GlobalIterator timeout_player_it = 
 	players_data.GetIterator ();
       while (timeout_player_it.HasNext ())
