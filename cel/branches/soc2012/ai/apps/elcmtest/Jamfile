@@ -1,0 +1,135 @@
+SubDir TOP apps elcmtest ;
+
+if $(CEGUI.AVAILABLE) = "yes"
+{
+Application elcmtest : [ Wildcard *.cpp *.h ] ;
+CFlags elcmtest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+LinkWith elcmtest : celtool ;
+ExternalLibs elcmtest : CRYSTAL ;
+ExternalLibs elcmtest : CEGUI ;
+FileListEntryApplications elcmtest : app-demo ;
+
+if $(HAVE_STATIC_PLUGINS) = "yes"
+{
+  SubVariant static ;
+  
+  Application elcmtest_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
+  CFlags elcmtest_static : [ FDefines CS_STATIC_LINKED ] ;
+  MsvcDefine elcmtest_static : CS_STATIC_LINKED ;
+  LinkWith elcmtest_static : cel_staticplugins celtool ;
+  FileListEntryApplications elcmtest_static : app-demo-static ;
+  LinkStaticPlugins elcmtest_static :
+    addon_celentity
+    addon_celentitytpl
+    addon_questdef
+    addon_ruledef
+    addon_lootloader
+    addon_dynworldload
+    lootmgr
+    elcm
+    blxml
+    celconsole
+    mgr_quests
+    rewards
+    sequences
+    triggers
+    parameters
+    pfmechanics
+    pfwasdmove
+    pfactormove
+    pfanalogmotion
+    pfjump
+    pfgrab
+    pfdynworld
+    pfbillboard
+    pftrackingcam
+    pfdelegcam
+    pfdefcam
+    pfengine
+    pfinput
+    pfinv
+    pflight
+    pfmesh
+    pfmove
+    pfportal
+    pfquest
+    pfrules
+    pfsound
+    pftest
+    pftools
+    pftrigger
+    pfzone
+    rulebase
+    stdphyslayer
+    xmlpersist
+    ui_inventory
+    ui_inventory2
+  : blpython
+  ;
+  LinkStaticPlugins elcmtest_static : 
+    bugplug
+    freefnt2
+    bindoc
+    bodymesh
+    animesh
+    animeshldr
+    skeleton
+    skeleton2
+    skeleton2ldr
+    skelldr
+    csconin
+    csconout
+    csddsimg
+    csfont
+    csgifimg
+    csjpgimg
+    cstgaimg
+    csopcode
+    csparser
+    cspngimg
+    cssynldr
+    shaderweaver
+    engine
+    engseq
+    fontplex
+    frustvis
+    genmesh
+    gl3d 
+    glshader_arb 
+    glshader_cg
+    glshader_fixed
+    glshader_ps1
+    gmeshanim
+    gmeshldr
+    imgplex
+    nullmesh
+    particles
+    particlesldr
+    protomesh
+    protomeshldr
+    rendloop_loader
+    rendstep_std
+    reporter
+    sequence
+    shadermgr
+    rm_unshadowed
+    spr2d
+    spr2dldr
+    stdpt
+    stdrep
+    vfs
+    xmlread
+    xmlshader
+    bullet
+    cscegui
+  : glwin32 glx2d glosx2d xwin xext86vm
+    sndmanager sndsyssoft sndsysloader sndsysnull sndsysogg sndsyswav sndsyswin
+    sndsyscoreaudio sndsysoss sndsysalsa
+  : CRYSTAL
+  ;
+  ExternalLibs elcmtest_static : CRYSTAL ;
+  
+  SubVariant ;
+}
+}
+

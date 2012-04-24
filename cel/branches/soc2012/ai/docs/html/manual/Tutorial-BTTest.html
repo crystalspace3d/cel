@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer 2.1.0: 4.2.3 BTTest Tutorial</title>
+
+<meta name="description" content="Crystal Entity Layer 2.1.0: 4.2.3 BTTest Tutorial">
+<meta name="keywords" content="Crystal Entity Layer 2.1.0: 4.2.3 BTTest Tutorial">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Tutorial-BTTest"></a>
+<a name="0"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="Tutorial-QuestTest-App.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Tutorials.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<hr size="1">
+<h3 class="subsection"> 4.2.3 BTTest Tutorial </h3>
+
+<p>This is a tutorial to show how you can use a Behaviour Tree (BT) in your application.
+</p>
+<p>The source files of this tutorial can be found in the 'apps/bttest' directory that is included with CEL. The world and entity file can be found in the 'data' directory ('walktut_world' and 'walktut_entities').
+</p>
+<p>During the game you can use the following inputs: </p><ul>
+<li>
+<samp>&lsquo;arrow keys&rsquo;</samp>: movement.
+</li><li>
+<samp>&lsquo;m&rsquo;</samp>: camera mode (first person, third person, <small class="dots">...</small>).
+</li><li>
+<samp>&lsquo;left mouse button&rsquo;</samp>: pick up an item and put in inventory.
+</li><li>
+<samp>&lsquo;d&rsquo;</samp>: drop the last item picked up.
+</li></ul>
+
+<p>This tutorial adds a Behaviour Tree to the previous tutorial WalkTut. As before with the QuestTest tutorial, this tutorial will focus only on the changes to WalkTut neccesary to add a Quest. All additional code can be found in the MainApp::CreateBehaviourTree () method in app.cpp.
+</p>
+<p>A CEL behaviour tree is made up of  nodes (classes implementing iBTNode) which come in the forms of selectors, decorators and leaf nodes. Each node upon execution returns either true or false signalling its success or failure.
+</p>
+<ul>
+<li>
+Selectors are composite nodes (they have multiple child nodes) and decide which child to execute. 
+</li><li>
+Leaf nodes perform rewards (known as actions in BT literature) or check conditions. They have no children.
+</li><li>
+Decorators tend to have one child and add extra functionality to that child.
+</li></ul>
+
+<p>A behaviour tree running in CEL will execute the root node once per frame, evaluating the whole tree until the root node either fails or succeeds. The intention is that behaviour trees will be assigned to entities to model their behaviour and decide their actions.
+</p>
+<p>To create a behaviour tree, first all nodes of the tree must be created. This requires a refrence to the plugin manager that can be obtained by:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPluginManager&gt; plugin_mgr = 
+  csQueryRegistry&lt;iPluginManager&gt; (object_reg);
+</pre></td></tr></table><p>Each node is then created by a call to the method csLoadPlugin(). An example of this for a default selector is:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iBTNode&gt; root_node = 
+  csLoadPlugin&lt;iBTNode&gt; (plugin_mgr, &quot;cel.selectors.default&quot;); 
+</pre></td></tr></table><p>The default selector, executes its children in the order they were added until one succeeds. Provided one child succeeds so does the selector, but if all children fail the selector fails. Other standard BT nodes can be loaded with the following identifiers.
+</p>
+<ul>
+<li>
+<samp>&lsquo;cel.selectors.sequential&rsquo;</samp>: Executes children in order until one fails (and the selector fails) or all succeed (and the selector succeeds).
+</li><li>
+<samp>&lsquo;cel.selectors.random&rsquo;</samp>: Executes one child at random. Fails or succeeds as child selected fails or succeeds.
+</li><li>
+<samp>&lsquo;cel.decorators.executionlimit&rsquo;</samp>: Limits the number of times its child can be executed. If child executed, fails or succeeds as child does, but if execution limit reached fails and does not execute child.
+</li><li>
+<samp>&lsquo;cel.decorators.loop&rsquo;</samp>: Executes the child a set number of times. Fails if child does at any time, succeeds if all iterations of child succeed.
+</li><li>
+<samp>&lsquo;cel.behaviourtree.negatereturn&rsquo;</samp>: Executes the child and returns the opposite to the child.
+</li><li>
+<samp>&lsquo;cel.behaviourtree.btaction&rsquo;</samp>: Executes a cel reward.
+</li><li>
+<samp>&lsquo;cel.behaviourtree.triggerfired&rsquo;</samp>: Checks if a specific cel trigger has fired already. Returns true if it has, false if it has not.
+</li><li>
+<samp>&lsquo;cel.behaviourtree.parametercheck&rsquo;</samp>: Checks if a parameter equals a value. Returns true if it does, or false otherwise.
+</li></ul>
+
+<p>In the bttest application in lines 214 to 253, you will see a number of nodes set up representing each of the above types at least once. These will shortly be connected to demonstrate a working bt but first a number of specific details for certain nodes will need to be set up.
+</p>
+<p>Selectors require no further setup, other than the connection of children that will be covered later. Some decorators, however, do. For example:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iExecutionLimitDecorator&gt; explicit_execution_limit_node = 
+  scfQueryInterface&lt;iExecutionLimitDecorator&gt; (execution_limit_node); 
+explicit_execution_limit_node-&gt;SetExecutionLimit(&quot;1&quot;);
+
+</pre></td></tr></table>
+<p>This sets up the execution limit decorator to only allow its child to be executed once. Similarly, the loop decorator must be set up with the number of iterations to perform and the parameter check condition must be set up with a value and parameter to compare. Examples of this can be found in lines 260-267 of app.cpp.
+</p>
+<p>Finally the triggerfired node and btaction nodes, that act as wrappers to the recently refactored cel triggers and rewards, must be set up. The trigger fired node requires a trigger be created and assigned whilst the btaction node requires a reward to be created and assigned. This is marginally more complex as the trigger example below shows:
+</p>
+
+<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iTriggerType&gt; trigger_type = csLoadPlugin&lt;iTriggerType&gt; (plugin_mgr, 
+  &quot;cel.triggers.inventory&quot;); 
+csRef&lt;iTriggerFactory&gt; trigger_factory = trigger_type-&gt;CreateTriggerFactory (); 
+csRef&lt;iInventoryTriggerFactory&gt; explicit_trigger_factory = 
+  scfQueryInterface&lt;iInventoryTriggerFactory&gt; (trigger_factory); 
+explicit_trigger_factory-&gt;SetEntityParameter (&quot;player&quot;); 
+explicit_trigger_factory-&gt;SetChildEntityParameter (&quot;box3&quot;); 
+csRef&lt;iTrigger&gt; trigger = trigger_factory-&gt;CreateTrigger (params); 
+csRef&lt;iTriggerFiredCondition&gt; explicit_trigger_node = 
+  scfQueryInterface&lt;iTriggerFiredCondition&gt; (trigger_check_node); 
+explicit_trigger_node-&gt;SetTrigger (trigger);
+
+</pre></td></tr></table>
+<p>First a trigger type object of the required type must be loaded. This can be used to create a trigger factory, that is set up to create the required trigger. The specific setup details for the trigger factory will depend on the type of trigger used. The BT wrapper for triggers is capable of using any CEL trigger.
+</p>
+<p>A similar method is used for rewards, in lines 284-325, however as all rewards in this behaviour tree are of the same type (debug message) the type need only be loaded once and the factory only created once. After that the message parameter (for this specific reward type) can be edited and a new reward made. There is no need to repeat the loading of the type and creation of the reward factory. This method of editing the setup and not recreating the factory can also be applied to triggers where multiple instances of the same trigger type are needed.
+</p>
+
+<p>With all nodes setup they must now be connected. This is a relatively simple process whereby a child is added to a parent using the parent's AddChild () method. For example:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">root_node-&gt;AddChild (initial_sequence_node);
+</pre></td></tr></table>
+<p>The full process of connecting this tree is encapsulated in lines 325-247 of app.cpp. The connected tree's behaviour can be described as:
+</p>
+<ul>
+<li>
+The agent will look for his/her money box until the player picks it up.<br>
+<strong>Because</strong> once the player picks up the box the triggerfired node will return true, the negate return decorator will invert this and the initial sequence will then always fail.
+</li><li>
+Immediately after the player picks up the agent's money box it will get angry and then begin to calm down.<br>
+<strong>Because</strong> the next child of the default selector is the angry sequence. The angry sequence will fire angry once and then loop through the calming action three times.
+</li><li>
+The agent will never again get angry.<br>
+<strong>Because</strong> the angry sequence is guarded by an execution limit decorator with limit 1.
+</li><li>
+The agent will never win the lottery.<br>
+<strong>Because</strong> the lottery sequence begins with a parameter check that will never be true (1 != 2).
+</li><li>
+The agent will begin to act irrationally, flipping from irritable to loving at random.<br>
+<strong>Because</strong> all previous children of the default selector will now always fail, the random selector will always be executed and this will execute randomly the two final actions.
+</li></ul>
+
+
+<p>Finally, for the tree to begin execution. A final node of type behaviour tree must be loaded, the tree's root node connected as a sole child and the behaviour tree node executed. This is done by:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iBTNode&gt; tree = csLoadPlugin&lt;iBTNode&gt; (plugin_mgr, 
+  &quot;cel.behaviourtree&quot;); 
+tree-&gt;AddChild(root_node); 
+tree-&gt;Execute(params);
+</pre></td></tr></table>
+<p>And so completes this tutorial. Hopefully, by following this example you can now construct your own cel behaviour tree. The more interesting design challenges now come from how to combine these tools to create complex and fun behaviours for the characters in your game. For discussions on design choices when constructing behaviour trees, the author highly recommends <a href="http://www.aigamedev.com">http://www.aigamedev.com</a>. 
+</p>
+
+
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="Tutorial-QuestTest-App.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Property-Classes.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CEL.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Tutorials.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
