@@ -16,7 +16,6 @@
 // 3. This notice may not be removed or altered from any source distribution.
 //
 
-#include "cssysdef.h"
 #include <math.h>
 #include <float.h>
 #include <string.h>
@@ -1400,8 +1399,7 @@ int dtNavMesh::findPath(dtPolyRef startRef, dtPolyRef endRef,
 			break;
 		}
 
-		CS_ALLOC_STACK_ARRAY(float, previousEdgeMidPoint, 3);
-		for (int i = 0; i < 3; i++) previousEdgeMidPoint[i] = 0.0f;
+		float previousEdgeMidPoint[3] = { 0.0f, 0.0f, 0.0f };
 
 		// Get current poly and tile.
 		// The API input has been cheked already, skip checking internal data.
@@ -1455,8 +1453,7 @@ int dtNavMesh::findPath(dtPolyRef startRef, dtPolyRef endRef,
 			newNode.id = neighbourRef;
 
 			// Calculate cost.
-			CS_ALLOC_STACK_ARRAY(float, edgeMidPoint, 3);
-			for (int i = 0; i < 3; i++) edgeMidPoint[i] = 0.0f;
+			float edgeMidPoint[3] = { 0.0f, 0.0f, 0.0f };
 			
 			getEdgeMidPoint(bestRef, bestPoly, bestTile,
 							neighbourRef, neighbourPoly, neighbourTile, edgeMidPoint);
@@ -2240,8 +2237,7 @@ int dtNavMesh::findPolysAroundCircle(dtPolyRef centerRef, const float* centerPos
 	{
 		dtNode* bestNode = m_openList->pop();
 
-		CS_ALLOC_STACK_ARRAY(float, previousEdgeMidPoint, 3);
-		for (int i = 0; i < 3; i++) previousEdgeMidPoint[i] = 0.0f;
+		float previousEdgeMidPoint[3] = { 0.0f, 0.0f, 0.0f };
 
 		// Get poly and tile.
 		// The API input has been cheked already, skip checking internal data.
@@ -2392,8 +2388,7 @@ int	dtNavMesh::findPolysAroundShape(dtPolyRef centerRef, const float* verts, con
 	{
 		dtNode* bestNode = m_openList->pop();
 		
-		CS_ALLOC_STACK_ARRAY(float, previousEdgeMidPoint, 3);
-		for (int i = 0; i < 3; i++) previousEdgeMidPoint[i] = 0.0f;
+		float previousEdgeMidPoint[3] = { 0.0f, 0.0f, 0.0f };
 		
 		// Get poly and tile.
 		// The API input has been cheked already, skip checking internal data.
@@ -2528,8 +2523,7 @@ float dtNavMesh::findDistanceToWall(dtPolyRef centerRef, const float* centerPos,
 	{
 		dtNode* bestNode = m_openList->pop();
 		
-		CS_ALLOC_STACK_ARRAY(float, previousEdgeMidPoint, 3);
-		for (int i = 0; i < 3; i++) previousEdgeMidPoint[i] = 0.0f;
+		float previousEdgeMidPoint[3] = { 0.0f, 0.0f, 0.0f };
 		
 		// Get poly and tile.
 		// The API input has been cheked already, skip checking internal data.
@@ -2640,8 +2634,7 @@ float dtNavMesh::findDistanceToWall(dtPolyRef centerRef, const float* centerPos,
 			newNode.id = neighbourRef;
 			
 			// Cost
-			CS_ALLOC_STACK_ARRAY(float, edgeMidPoint, 3);
-			for (int i = 0; i < 3; i++) edgeMidPoint[i] = 0.0f;
+			float edgeMidPoint[3] = { 0.0f, 0.0f, 0.0f };
 			getEdgeMidPoint(bestRef, bestPoly, bestTile,
 							neighbourRef, neighbourPoly, neighbourTile, edgeMidPoint);
 
