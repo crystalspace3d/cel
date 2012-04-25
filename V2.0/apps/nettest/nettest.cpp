@@ -301,7 +301,7 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
 	const char* /*factname*/, const csVector3& /*pos*/)
 {
   // The Real Camera
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, 0, 0,
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, behaviourLayer, "playerBehaviour",
   	"pcinput.standard",
 	"pccamera.old",
 	"pcmove.actor.standard",
@@ -569,8 +569,6 @@ bool NetTest::OnInitialize (int argc, char* argv[])
 	CS_REQUEST_REPORTER,
 	CS_REQUEST_REPORTERLISTENER,
 	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
-	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test:iCelBlLayer.Test",
-		iCelBlLayer),
 	CS_REQUEST_PLUGIN ("cel.persistence.xml", iCelPersistence),
 	CS_REQUEST_PLUGIN ("cel.network.tcp", iCelGameFactory),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
@@ -623,6 +621,13 @@ bool NetTest::Application ()
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
+
+  behaviourLayer.AttachNew(new BehaviourLayer(pl, object_reg));
+  if (!object_reg->Register(behaviourLayer, "iCelBlLayer"))
+  {
+    return ReportError("Can't register our behaviour layer!");
+  }
+  pl->RegisterBehaviourLayer(behaviourLayer);
 
   // initialize game factory
   game_factory = csQueryRegistry<iCelGameFactory> (object_reg);
