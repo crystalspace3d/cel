@@ -28,6 +28,7 @@
 #include "csutil/weakref.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/nettypes.h"
+#include "behave.h"
 
 struct iEngine;
 struct iLoader;
@@ -66,6 +67,7 @@ private:
   csRef<iVirtualClock> vc;
 
   csRef<iCelPlLayer> pl;
+  csRef<BehaviourLayer> behaviourLayer;
   csRef<iCelEntity> entity_room;
   csRef<iPcZoneManager> pczonemgr;
   csRef<iCelGameFactory> game_factory;
