@@ -33,6 +33,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appceltst_static", "appcelt
 		{C5B49181-38B5-3162-C2D9-339CA43FC8B4} = {C5B49181-38B5-3162-C2D9-339CA43FC8B4}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appnettest_static", "appnettest_static.vcxproj", "{ECEE6A39-81B8-E135-B699-92DD86A4B667}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F8C56937-E665-838E-0B34-DB3EF026DE9C} = {F8C56937-E665-838E-0B34-DB3EF026DE9C}
+		{FE8C31C7-8C7C-B982-16AE-C6CA39940D52} = {FE8C31C7-8C7C-B982-16AE-C6CA39940D52}
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC} = {DDA1DA34-2863-127D-38EB-A691CB29F7BC}
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8} = {AE7B50CE-7528-87F1-92B2-72C838B0D6F8}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appquesttest_static", "appquesttest_static.vcxproj", "{9AD9C886-0B1C-5A26-29FD-3A439BE7940B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F8C56937-E665-838E-0B34-DB3EF026DE9C} = {F8C56937-E665-838E-0B34-DB3EF026DE9C}
@@ -47,6 +55,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpall_static", "grpall_sta
 		{74BD9AA9-E677-F114-2254-01F7C67C098C} = {74BD9AA9-E677-F114-2254-01F7C67C098C}
 		{7340D8F8-9361-9CB3-124C-E1358E91B6B0} = {7340D8F8-9361-9CB3-124C-E1358E91B6B0}
 		{2C74948F-1137-8200-436C-0CBAA8C81F83} = {2C74948F-1137-8200-436C-0CBAA8C81F83}
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667} = {ECEE6A39-81B8-E135-B699-92DD86A4B667}
 		{9AD9C886-0B1C-5A26-29FD-3A439BE7940B} = {9AD9C886-0B1C-5A26-29FD-3A439BE7940B}
 		{F8C56937-E665-838E-0B34-DB3EF026DE9C} = {F8C56937-E665-838E-0B34-DB3EF026DE9C}
 		{896DC11C-695E-8AA6-C95C-B1D567C50272} = {896DC11C-695E-8AA6-C95C-B1D567C50272}
@@ -59,6 +68,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpapps_static", "grpapps_s
 		{74BD9AA9-E677-F114-2254-01F7C67C098C} = {74BD9AA9-E677-F114-2254-01F7C67C098C}
 		{7340D8F8-9361-9CB3-124C-E1358E91B6B0} = {7340D8F8-9361-9CB3-124C-E1358E91B6B0}
 		{2C74948F-1137-8200-436C-0CBAA8C81F83} = {2C74948F-1137-8200-436C-0CBAA8C81F83}
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667} = {ECEE6A39-81B8-E135-B699-92DD86A4B667}
 		{9AD9C886-0B1C-5A26-29FD-3A439BE7940B} = {9AD9C886-0B1C-5A26-29FD-3A439BE7940B}
 	EndProjectSection
 EndProject
@@ -113,6 +123,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libceltst_static_plugins", 
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libceltst_static_plugins_CRYSTAL", "libceltst_static_plugins_CRYSTAL.vcxproj", "{C5B49181-38B5-3162-C2D9-339CA43FC8B4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libnettest_static_plugins", "libnettest_static_plugins.vcxproj", "{DDA1DA34-2863-127D-38EB-A691CB29F7BC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F8C56937-E665-838E-0B34-DB3EF026DE9C} = {F8C56937-E665-838E-0B34-DB3EF026DE9C}
+		{FE8C31C7-8C7C-B982-16AE-C6CA39940D52} = {FE8C31C7-8C7C-B982-16AE-C6CA39940D52}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libnettest_static_plugins_CRYSTAL", "libnettest_static_plugins_CRYSTAL.vcxproj", "{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libquesttest_static_plugins", "libquesttest_static_plugins.vcxproj", "{487B2844-4C20-B167-3BB7-1FFC2EEBBBDF}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -198,6 +216,22 @@ Global
 		{2C74948F-1137-8200-436C-0CBAA8C81F83}.ReleaseWithStaticLibs|Win32.Build.0 = ReleaseWithStaticLibs|Win32
 		{2C74948F-1137-8200-436C-0CBAA8C81F83}.ReleaseWithStaticLibs|x64.ActiveCfg = ReleaseWithStaticLibs|x64
 		{2C74948F-1137-8200-436C-0CBAA8C81F83}.ReleaseWithStaticLibs|x64.Build.0 = ReleaseWithStaticLibs|x64
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.DebugWithDlls|Win32.ActiveCfg = DebugWithDlls|Win32
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.DebugWithDlls|Win32.Build.0 = DebugWithDlls|Win32
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.DebugWithDlls|x64.ActiveCfg = DebugWithDlls|x64
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.DebugWithDlls|x64.Build.0 = DebugWithDlls|x64
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.DebugWithStaticLibs|Win32.ActiveCfg = DebugWithStaticLibs|Win32
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.DebugWithStaticLibs|Win32.Build.0 = DebugWithStaticLibs|Win32
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.DebugWithStaticLibs|x64.ActiveCfg = DebugWithStaticLibs|x64
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.DebugWithStaticLibs|x64.Build.0 = DebugWithStaticLibs|x64
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.ReleaseWithDlls|Win32.ActiveCfg = ReleaseWithDlls|Win32
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.ReleaseWithDlls|Win32.Build.0 = ReleaseWithDlls|Win32
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.ReleaseWithDlls|x64.ActiveCfg = ReleaseWithDlls|x64
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.ReleaseWithDlls|x64.Build.0 = ReleaseWithDlls|x64
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.ReleaseWithStaticLibs|Win32.ActiveCfg = ReleaseWithStaticLibs|Win32
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.ReleaseWithStaticLibs|Win32.Build.0 = ReleaseWithStaticLibs|Win32
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.ReleaseWithStaticLibs|x64.ActiveCfg = ReleaseWithStaticLibs|x64
+		{ECEE6A39-81B8-E135-B699-92DD86A4B667}.ReleaseWithStaticLibs|x64.Build.0 = ReleaseWithStaticLibs|x64
 		{9AD9C886-0B1C-5A26-29FD-3A439BE7940B}.DebugWithDlls|Win32.ActiveCfg = DebugWithDlls|Win32
 		{9AD9C886-0B1C-5A26-29FD-3A439BE7940B}.DebugWithDlls|Win32.Build.0 = DebugWithDlls|Win32
 		{9AD9C886-0B1C-5A26-29FD-3A439BE7940B}.DebugWithDlls|x64.ActiveCfg = DebugWithDlls|x64
@@ -470,6 +504,38 @@ Global
 		{C5B49181-38B5-3162-C2D9-339CA43FC8B4}.ReleaseWithStaticLibs|Win32.Build.0 = ReleaseWithStaticLibs|Win32
 		{C5B49181-38B5-3162-C2D9-339CA43FC8B4}.ReleaseWithStaticLibs|x64.ActiveCfg = ReleaseWithStaticLibs|x64
 		{C5B49181-38B5-3162-C2D9-339CA43FC8B4}.ReleaseWithStaticLibs|x64.Build.0 = ReleaseWithStaticLibs|x64
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.DebugWithDlls|Win32.ActiveCfg = DebugWithDlls|Win32
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.DebugWithDlls|Win32.Build.0 = DebugWithDlls|Win32
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.DebugWithDlls|x64.ActiveCfg = DebugWithDlls|x64
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.DebugWithDlls|x64.Build.0 = DebugWithDlls|x64
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.DebugWithStaticLibs|Win32.ActiveCfg = DebugWithStaticLibs|Win32
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.DebugWithStaticLibs|Win32.Build.0 = DebugWithStaticLibs|Win32
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.DebugWithStaticLibs|x64.ActiveCfg = DebugWithStaticLibs|x64
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.DebugWithStaticLibs|x64.Build.0 = DebugWithStaticLibs|x64
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.ReleaseWithDlls|Win32.ActiveCfg = ReleaseWithDlls|Win32
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.ReleaseWithDlls|Win32.Build.0 = ReleaseWithDlls|Win32
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.ReleaseWithDlls|x64.ActiveCfg = ReleaseWithDlls|x64
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.ReleaseWithDlls|x64.Build.0 = ReleaseWithDlls|x64
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.ReleaseWithStaticLibs|Win32.ActiveCfg = ReleaseWithStaticLibs|Win32
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.ReleaseWithStaticLibs|Win32.Build.0 = ReleaseWithStaticLibs|Win32
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.ReleaseWithStaticLibs|x64.ActiveCfg = ReleaseWithStaticLibs|x64
+		{DDA1DA34-2863-127D-38EB-A691CB29F7BC}.ReleaseWithStaticLibs|x64.Build.0 = ReleaseWithStaticLibs|x64
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.DebugWithDlls|Win32.ActiveCfg = DebugWithDlls|Win32
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.DebugWithDlls|Win32.Build.0 = DebugWithDlls|Win32
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.DebugWithDlls|x64.ActiveCfg = DebugWithDlls|x64
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.DebugWithDlls|x64.Build.0 = DebugWithDlls|x64
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.DebugWithStaticLibs|Win32.ActiveCfg = DebugWithStaticLibs|Win32
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.DebugWithStaticLibs|Win32.Build.0 = DebugWithStaticLibs|Win32
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.DebugWithStaticLibs|x64.ActiveCfg = DebugWithStaticLibs|x64
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.DebugWithStaticLibs|x64.Build.0 = DebugWithStaticLibs|x64
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.ReleaseWithDlls|Win32.ActiveCfg = ReleaseWithDlls|Win32
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.ReleaseWithDlls|Win32.Build.0 = ReleaseWithDlls|Win32
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.ReleaseWithDlls|x64.ActiveCfg = ReleaseWithDlls|x64
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.ReleaseWithDlls|x64.Build.0 = ReleaseWithDlls|x64
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.ReleaseWithStaticLibs|Win32.ActiveCfg = ReleaseWithStaticLibs|Win32
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.ReleaseWithStaticLibs|Win32.Build.0 = ReleaseWithStaticLibs|Win32
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.ReleaseWithStaticLibs|x64.ActiveCfg = ReleaseWithStaticLibs|x64
+		{AE7B50CE-7528-87F1-92B2-72C838B0D6F8}.ReleaseWithStaticLibs|x64.Build.0 = ReleaseWithStaticLibs|x64
 		{487B2844-4C20-B167-3BB7-1FFC2EEBBBDF}.DebugWithDlls|Win32.ActiveCfg = DebugWithDlls|Win32
 		{487B2844-4C20-B167-3BB7-1FFC2EEBBBDF}.DebugWithDlls|Win32.Build.0 = DebugWithDlls|Win32
 		{487B2844-4C20-B167-3BB7-1FFC2EEBBBDF}.DebugWithDlls|x64.ActiveCfg = DebugWithDlls|x64
