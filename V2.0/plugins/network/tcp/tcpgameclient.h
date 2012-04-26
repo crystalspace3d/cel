@@ -20,7 +20,7 @@
 #ifndef __CEL_GAMECLIENT_TCP__
 #define __CEL_GAMECLIENT_TCP__
 
-#include "nl.h"
+#include "hawknl/include/nl.h"
 #include "physicallayer/nettypes.h"
 #include "physicallayer/network.h"
 #include "plugins/network/tcp/tcputils.h"
