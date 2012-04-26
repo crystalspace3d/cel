@@ -4,6 +4,7 @@ Plugin tcpnetwork :
   [ Wildcard *.cpp *.h ]
   [ Wildcard hawknl include : *.h ]
   [ Wildcard hawknl src : *.c *.h ] ;
+if $(TARGET.OS) = "WIN32" { LFlags tcpnetwork : -lwsock32 ; }
+if $(TARGET.OS) = "MACOS_X" { LFlags tcpnetwork : -dylib ; }
 ExternalLibs tcpnetwork : CRYSTAL ;
 LinkWith tcpnetwork : celtool ;
-

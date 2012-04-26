@@ -23,7 +23,7 @@
 #include "csutil/cseventq.h"
 #include "csutil/event.h"
 
-#include "nl.h"
+#include "hawknl/include/nl.h"
 
 #include "physicallayer/pl.h"
 #include "plugins/network/tcp/tcputils.h"
