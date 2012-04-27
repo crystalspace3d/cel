@@ -34,6 +34,28 @@
 struct iEngine;
 class InvListener;
 
+struct InvStyle
+{
+  int buttonw, buttonh;
+  int marginhor, marginver;
+
+  InvStyle ();
+
+  bool SetStyleOption (const char* name, const char* value);
+};
+
+struct GridEntry
+{
+  int x, y;
+  csString text;
+  csRef<iTextureHandle> handle;
+
+  void SetupEntry (const InvStyle& style, iObjectRegistry* object_reg,
+      iEngine* engine, iGraphics3D* g3d, iFont* font,
+      int x, int y, const char* text, int amount,
+      iMeshFactoryWrapper* factory);
+};
+
 class DefaultInfo : public scfImplementation1<DefaultInfo,iUIInventoryInfo>
 {
 private:
@@ -67,7 +89,12 @@ private:
   csRef<iEventNameRegistry> name_reg;
   csRef<iCelPlLayer> pl;
   csRef<iEngine> engine;
+  csRef<iGraphics3D> g3d;
   csRef<iPcInventory> inventory;
+
+  InvStyle style;
+  csArray<GridEntry> grid;
+  csRef<iFont> font;
 
   csRef<InvListener> listener;
 
@@ -100,12 +127,18 @@ public:
   void Refresh ();
 
   virtual void SetInfo (iUIInventoryInfo* info) { celUIGridInventory::info = info; }
+  virtual iUIInventoryInfo* GetInfo () const { return info; }
   virtual void Open (const char* title, iPcInventory* inventory);
   virtual void Close ();
   virtual iPcInventory* GetInventory () const { return inventory; }
 
   virtual void AddSelectionListener (iUIInventorySelectionCallback* cb);
   virtual void RemoveSelectionListener (iUIInventorySelectionCallback* cb);
+
+  virtual bool SetStyleOption (const char* name, const char* value)
+  {
+    return style.SetStyleOption (name, value);
+  }
 
   class EventHandler : public scfImplementation1<EventHandler, iEventHandler>
   {

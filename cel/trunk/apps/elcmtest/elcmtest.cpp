@@ -31,6 +31,37 @@ void CeguiPrinter::TickEveryFrame ()
 
 //-----------------------------------------------------------------------
 
+class ElcmTestDefaultInfo : public scfImplementation1<ElcmTestDefaultInfo,iUIInventoryInfo>
+{
+private:
+  iCelPlLayer* pl;
+  iEngine* engine;
+  csRef<iUIInventoryInfo> pInfo;
+
+public:
+  ElcmTestDefaultInfo (iCelPlLayer* pl, iEngine* engine, iUIInventoryInfo* pInfo) :
+    scfImplementationType (this), pl (pl), engine (engine),
+    pInfo( pInfo) { }
+  virtual ~ElcmTestDefaultInfo () { }
+
+  virtual csRef<iString> GetName (iCelEntity* entity) { return pInfo->GetName (entity); }
+  virtual csRef<iString> GetName (iCelEntityTemplate* tpl, int count) { return pInfo->GetName (tpl, count); }
+
+  virtual csRef<iString> GetDescription (iCelEntity* entity) { return pInfo->GetDescription (entity); }
+  virtual csRef<iString> GetDescription (iCelEntityTemplate* tpl, int count) { return pInfo->GetDescription (tpl, count); }
+
+  virtual iMeshFactoryWrapper* GetMeshFactory (iCelEntity* entity) { return pInfo->GetMeshFactory (entity); }
+  virtual iMeshFactoryWrapper* GetMeshFactory (iCelEntityTemplate* tpl, int count)
+  {
+    return engine->FindMeshFactory (tpl->GetName ());
+  }
+
+  virtual iTextureHandle* GetTexture (iCelEntity* entity) { return pInfo->GetTexture (entity); }
+  virtual iTextureHandle* GetTexture (iCelEntityTemplate* tpl, int count) { return pInfo->GetTexture (tpl, count); }
+};
+
+//-----------------------------------------------------------------------
+
 class ElcmMessageReceiver : public scfImplementation1<ElcmMessageReceiver,
   iMessageReceiver>
 {
@@ -138,6 +169,11 @@ bool ElcmTest::InitWindowSystem ()
 
   uiInventory = csQueryRegistry<iUIInventory> (GetObjectRegistry ());
   if (!uiInventory) return ReportError ("Failed to locate UI Inventory plugin!");
+
+  csRef<ElcmTestDefaultInfo> info;
+  info.AttachNew (new ElcmTestDefaultInfo (pl, engine, uiInventory->GetInfo ()));
+  uiInventory->SetInfo (info);
+
   uiInventory2 = csQueryRegistry<iUIInventory2> (GetObjectRegistry ());
   if (!uiInventory2) return ReportError ("Failed to locate UI Double Inventory plugin!");
 
@@ -1015,7 +1051,7 @@ bool ElcmTest::OnInitialize (int argc, char* argv[])
     	CS_REQUEST_REPORTER,
     	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN ("crystalspace.cegui.wrapper", iCEGUI),
-    	CS_REQUEST_PLUGIN ("cel.ui.inventory", iUIInventory),
+    	CS_REQUEST_PLUGIN ("cel.ui.inventory.grid", iUIInventory),
     	CS_REQUEST_PLUGIN ("cel.ui.inventory2", iUIInventory2),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),

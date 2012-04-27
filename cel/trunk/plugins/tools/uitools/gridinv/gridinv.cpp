@@ -19,10 +19,12 @@
 
 #include "cssysdef.h"
 #include "cstool/initapp.h"
+#include "cstool/procmesh.h"
 #include "csutil/objreg.h"
 #include "csutil/weakref.h"
 #include "csutil/event.h"
 #include "csutil/cfgacc.h"
+#include "csutil/scanstr.h"
 #include "csgeom/math3d.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -30,7 +32,11 @@
 #include "iutil/object.h"
 #include "iutil/virtclk.h"
 #include "ivideo/graph3d.h"
+#include "ivideo/graph2d.h"
 #include "ivaria/reporter.h"
+#include "iengine/sector.h"
+#include "iengine/camera.h"
+#include "iengine/rendermanager.h"
 
 #include "gridinv.h"
 #include "physicallayer/propclas.h"
@@ -136,6 +142,7 @@ bool celUIGridInventory::Initialize (iObjectRegistry* object_reg)
   celUIGridInventory::object_reg = object_reg;
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   engine = csQueryRegistry<iEngine> (object_reg);
+  g3d = csQueryRegistry<iGraphics3D> (object_reg);
   info.AttachNew (new DefaultInfo (pl, engine));
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
 
@@ -146,6 +153,16 @@ bool celUIGridInventory::HandleEvent (iEvent& ev)
 {
   if (ev.Name == csevFrame (object_reg))
   {
+    g3d->BeginDraw (CSDRAW_2DGRAPHICS);
+    for (size_t i = 0 ; i < grid.GetSize () ; i++)
+    {
+      const GridEntry& g = grid[i];
+      if (g.handle)
+      {
+        g3d->DrawPixmap (g.handle, g.x, g.y, style.buttonw, style.buttonh,
+	    0, 0, style.buttonw, style.buttonh);
+      }
+    }
     return true;
   }
   else if (ev.Name == csevMouseUp (name_reg, 0))
@@ -188,8 +205,152 @@ void celUIGridInventory::Deactivate ()
   scfiEventHandler = 0;
 }
 
+// ------------------------------------------------------------------
+
+InvStyle::InvStyle ()
+{
+  buttonw = 128;
+  buttonh = 128;
+  marginhor = 16;
+  marginver = 16;
+}
+
+bool InvStyle::SetStyleOption (const char* name, const char* value)
+{
+  csString styleName = name;
+  if (styleName == "buttonWidth")
+  {
+    csScanStr (value, "%d", &buttonw);
+    return true;
+  }
+  if (styleName == "buttonHeight")
+  {
+    csScanStr (value, "%d", &buttonh);
+    return true;
+  }
+  if (styleName == "marginHorizontal")
+  {
+    csScanStr (value, "%d", &marginhor);
+    return true;
+  }
+  if (styleName == "marginVertical")
+  {
+    csScanStr (value, "%d", &marginver);
+    return true;
+  }
+  return false;
+}
+
+void GridEntry::SetupEntry (const InvStyle& style, iObjectRegistry* object_reg,
+    iEngine* engine, iGraphics3D* g3d, iFont* font,
+    int x, int y,
+    const char* text, int amount,
+    iMeshFactoryWrapper* factory)
+{
+  GridEntry::x = x;
+  GridEntry::y = y;
+
+  iTextureManager* txtmgr = g3d->GetTextureManager ();
+  handle = txtmgr->CreateTexture (style.buttonw, style.buttonh, csimg2D, "rgba8",
+      CS_TEXTURE_3D);
+  g3d->SetRenderTarget (handle);
+  g3d->BeginDraw (CSDRAW_2DGRAPHICS);
+
+  iGraphics2D* g2d = g3d->GetDriver2D ();
+  int color = g2d->FindRGB (0, 0, 0);
+  g2d->DrawBox (0, 0, style.buttonw, style.buttonh, color);
+
+  if (factory)
+  {
+    csMeshOnTexture* mt = new csMeshOnTexture (object_reg);
+    iSector* sector = engine->FindSector ("___gridinv__");
+    if (!sector)
+    { 
+      sector = engine->CreateSector ("___gridinv__");
+      csRef<iLight> light;
+      iLightList* ll = sector->GetLights ();
+      light = engine->CreateLight (0, csVector3 (-300, 300, -300), 1000, csColor (1, 1, 1));
+      ll->Add (light);
+      light = engine->CreateLight (0, csVector3 (300, 300, 300), 1000, csColor (1, 1, 1));
+      ll->Add (light);
+    }
+    csRef<iMeshWrapper> mesh = engine->CreateMeshWrapper (factory, "__gridmesh__", sector);
+    iCamera* cam = mt->GetView ()->GetCamera ();
+    cam->SetSector (sector);
+    mt->ScaleCamera (mesh, style.buttonw, style.buttonh);
+    cam->Move (csVector3 (.7, .7, -.5));
+    mt->ScaleCamera (mesh, style.buttonw, style.buttonh);
+    cam->GetTransform ().LookAt (-cam->GetTransform ().GetOrigin (), csVector3 (0, 1, 0));
+    float dist = sqrt (csSquaredDist::PointPoint (cam->GetTransform ().GetOrigin (),
+	  csVector3 (0, 0, 0)));
+    cam->Move (csVector3 (0, 0, - dist / 10.0f));
+    mt->Render (mesh, handle, true);
+    iRenderManager* rm = engine->GetRenderManager ();
+    rm->RenderView (mt->GetView ());
+  }
+
+
+  int fg = g2d->FindRGB (255, 255, 255);
+  printf ("text=%s\n", text); fflush (stdout);
+  if (amount)
+  {
+    csString t;
+    t.Format ("%s (%d)", text, amount);
+    g2d->Write (font, 10, 10, fg, color, t);
+  }
+  else
+    g2d->Write (font, 10, 10, fg, color, text);
+
+  g3d->FinishDraw ();
+  g3d->SetRenderTarget (0);
+}
+
+// ------------------------------------------------------------------
+
 void celUIGridInventory::Setup ()
 {
+  int w = g3d->GetWidth ();
+  int h = g3d->GetHeight ();
+  int horcount = w / (style.buttonw + style.marginhor);
+  int vercount = h / (style.buttonh + style.marginver);
+  grid.DeleteAll ();
+  grid.SetSize (horcount * vercount);
+  font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_COURIER);
+
+  int ix = 0, iy = 0;
+
+  for (size_t i = 0 ; i < inventory->GetEntityCount () ; i++)
+  {
+    iCelEntity* ent = inventory->GetEntity (i);
+    csRef<iString> n = info->GetName (ent);
+    grid[iy*horcount + ix].SetupEntry (style, object_reg, engine, g3d, font,
+	style.marginhor + ix * (style.buttonw + style.marginhor),
+	style.marginver + iy * (style.buttonh + style.marginver),
+	n->GetData (), 0, info->GetMeshFactory (ent));
+    ix++;
+    if (ix >= horcount)
+    {
+      ix = 0;
+      iy++;
+    }
+  }
+
+  for (size_t i = 0 ; i < inventory->GetEntityTemplateCount () ; i++)
+  {
+    iCelEntityTemplate* ent = inventory->GetEntityTemplate (i);
+    int amount = inventory->GetEntityTemplateAmount (i);
+    csRef<iString> n = info->GetName (ent, amount);
+    grid[iy*horcount + ix].SetupEntry (style, object_reg, engine, g3d, font,
+	style.marginhor + ix * (style.buttonw + style.marginhor),
+	style.marginver + iy * (style.buttonh + style.marginver),
+	n->GetData (), amount, info->GetMeshFactory (ent, amount));
+    ix++;
+    if (ix >= horcount)
+    {
+      ix = 0;
+      iy++;
+    }
+  }
 }
 
 void celUIGridInventory::Refresh ()
@@ -260,9 +421,10 @@ void celUIGridInventory::FireSelectionListeners (iCelEntityTemplate* tpl)
 void celUIGridInventory::Open (const char* title, iPcInventory* inventory)
 {
   Activate ();
-  Setup ();
 
   celUIGridInventory::inventory = inventory;
+
+  Setup ();
 
   if (!listener)
     listener.AttachNew (new InvListener (this));
