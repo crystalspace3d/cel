@@ -87,12 +87,15 @@ public:
   void Refresh ();
 
   virtual void SetInfo (iUIInventoryInfo* info) { celUIInventory::info = info; }
+  virtual iUIInventoryInfo* GetInfo () const { return info; }
   virtual void Open (const char* title, iPcInventory* inventory);
   virtual void Close ();
   virtual iPcInventory* GetInventory () const { return inventory; }
 
   virtual void AddSelectionListener (iUIInventorySelectionCallback* cb);
   virtual void RemoveSelectionListener (iUIInventorySelectionCallback* cb);
+
+  virtual bool SetStyleOption (const char* name, const char* value) { return false; }
 };
 
 #endif // __CEL_UITOOLS_INVENTORY_IMP__

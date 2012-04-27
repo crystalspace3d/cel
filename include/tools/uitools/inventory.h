@@ -92,6 +92,13 @@ struct iUIInventory: public virtual iBase
    */
   virtual void SetInfo (iUIInventoryInfo* info) = 0;
 
+  /**
+   * Get the current info. If you want to implement your own info class
+   * that only overrides one particular function you can delegate back to
+   * this class provided you hold a reference to it.
+   */
+  virtual iUIInventoryInfo* GetInfo () const = 0;
+
   /// Open the inventory.
   virtual void Open (const char* title, iPcInventory* inventory) = 0;
   /// Close the inventory.
@@ -102,6 +109,14 @@ struct iUIInventory: public virtual iBase
   /// Add a new selection listener.
   virtual void AddSelectionListener (iUIInventorySelectionCallback* cb) = 0;
   virtual void RemoveSelectionListener (iUIInventorySelectionCallback* cb) = 0;
+
+  /**
+   * Set a style option.
+   * Different inventory implementations can support different style options.
+   * This function returns false if a certain style option is not supported
+   * or if the value is invalid for this style.
+   */
+  virtual bool SetStyleOption (const char* name, const char* value) = 0;
 };
 
 #endif // __CEL_UITOOLS_INVENTORY__
