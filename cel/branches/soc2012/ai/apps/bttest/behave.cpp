@@ -1,3 +1,5 @@
+//GSoC2012 ToDo: Update to new behaviour trees
+
 #include <crystalspace.h>
 
 #include <physicallayer/entity.h>
