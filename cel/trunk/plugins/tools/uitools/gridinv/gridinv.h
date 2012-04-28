@@ -25,7 +25,6 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "csutil/stringarray.h"
-#include "ivaria/icegui.h"
 
 #include "physicallayer/pl.h"
 #include "propclass/inv.h"
