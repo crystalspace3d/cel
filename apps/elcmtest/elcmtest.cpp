@@ -173,6 +173,8 @@ bool ElcmTest::InitWindowSystem ()
   csRef<ElcmTestDefaultInfo> info;
   info.AttachNew (new ElcmTestDefaultInfo (pl, engine, uiInventory->GetInfo ()));
   uiInventory->SetInfo (info);
+  //uiInventory->SetStyleOption ("backgroundColor", "50, 50, 50, 60");
+  uiInventory->SetStyleOption ("backgroundImage", "/cellib/images/buttonback.png");
 
   uiInventory2 = csQueryRegistry<iUIInventory2> (GetObjectRegistry ());
   if (!uiInventory2) return ReportError ("Failed to locate UI Double Inventory plugin!");
