@@ -35,8 +35,14 @@ class InvListener;
 
 struct InvStyle
 {
+  // Dimension style parameters.
   int buttonw, buttonh;
   int marginhor, marginver;
+
+  // Button appearance parameters.
+  csString backgroundImage;
+  csRef<iTextureHandle> backgroundTexture;
+  int bgred, bggreen, bgblue, bgalpha;
 
   InvStyle ();
 

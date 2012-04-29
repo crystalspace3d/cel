@@ -213,6 +213,10 @@ InvStyle::InvStyle ()
   buttonh = 128;
   marginhor = 16;
   marginver = 16;
+  bgred = 50;
+  bggreen = 50;
+  bgblue = 50;
+  bgalpha = 255;
 }
 
 bool InvStyle::SetStyleOption (const char* name, const char* value)
@@ -238,6 +242,16 @@ bool InvStyle::SetStyleOption (const char* name, const char* value)
     csScanStr (value, "%d", &marginver);
     return true;
   }
+  if (styleName == "backgroundImage")
+  {
+    backgroundImage = value;
+  }
+  if (styleName == "backgroundColor")
+  {
+    int num = csScanStr (value, "%d,%d,%d,%d", &bgred, &bggreen, &bgblue,
+	&bgalpha);
+    if (num < 4) bgalpha = 255;
+  }
   return false;
 }
 
@@ -257,8 +271,13 @@ void GridEntry::SetupEntry (const InvStyle& style, iObjectRegistry* object_reg,
   g3d->BeginDraw (CSDRAW_2DGRAPHICS);
 
   iGraphics2D* g2d = g3d->GetDriver2D ();
-  int color = g2d->FindRGB (0, 0, 0);
+  int color = g2d->FindRGB (style.bgred, style.bggreen, style.bgblue, style.bgalpha);
   g2d->DrawBox (0, 0, style.buttonw, style.buttonh, color);
+  if (style.backgroundTexture)
+  {
+    g3d->DrawPixmap (style.backgroundTexture, 0, 0, style.buttonw, style.buttonh,
+	    0, 0, style.buttonw, style.buttonh);
+  }
 
   if (factory)
   {
@@ -316,6 +335,20 @@ void celUIGridInventory::Setup ()
   grid.DeleteAll ();
   grid.SetSize (horcount * vercount);
   font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_COURIER);
+
+  if (!style.backgroundImage.IsEmpty ())
+  {
+    iTextureWrapper* txt = engine->CreateTexture (style.backgroundImage,
+	style.backgroundImage, 0, CS_TEXTURE_3D);
+    if (!txt)
+    {
+      printf ("Error loading image '%s'!\n", style.backgroundImage.GetData ());
+      return;
+    }
+    iTextureManager* txtmgr = g3d->GetTextureManager ();
+    txt->Register (txtmgr);
+    style.backgroundTexture = txt->GetTextureHandle ();
+  }
 
   int ix = 0, iy = 0;
 
