@@ -25,6 +25,7 @@
 #include "csutil/event.h"
 #include "csutil/cfgacc.h"
 #include "csutil/scanstr.h"
+#include "csutil/inputdef.h"
 #include "csgeom/math3d.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -165,6 +166,22 @@ bool celUIGridInventory::HandleEvent (iEvent& ev)
     }
     return true;
   }
+  else if (CS_IS_KEYBOARD_EVENT (name_reg, ev))
+  {
+    utf32_char key = csKeyEventHelper::GetRawCode (&ev);
+    csKeyModifiers key_modifiers;
+    csKeyEventHelper::GetModifiers (&ev, key_modifiers);
+    uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
+    uint32 type = csKeyEventHelper::GetEventType (&ev);
+    if (type == csKeyEventTypeDown)
+    {
+      if (style.stopKey == key)
+      {
+	Close ();
+      }
+    }
+    return true;
+  }
   else if (ev.Name == csevMouseUp (name_reg, 0))
   {
     return true;
@@ -217,9 +234,11 @@ InvStyle::InvStyle ()
   bggreen = 50;
   bgblue = 50;
   bgalpha = 255;
+  stopKey = CSKEY_ESC;
 }
 
-bool InvStyle::SetStyleOption (const char* name, const char* value)
+bool InvStyle::SetStyleOption (celUIGridInventory* inv,
+    const char* name, const char* value)
 {
   csString styleName = name;
   if (styleName == "buttonWidth")
@@ -251,6 +270,12 @@ bool InvStyle::SetStyleOption (const char* name, const char* value)
     int num = csScanStr (value, "%d,%d,%d,%d", &bgred, &bggreen, &bgblue,
 	&bgalpha);
     if (num < 4) bgalpha = 255;
+  }
+  if (styleName == "stopKey")
+  {
+    utf32_char cooked;
+    csKeyModifiers modifiers;
+    csInputDefinition::ParseKey (inv->GetNameReg (), value, &stopKey, &cooked, &modifiers);
   }
   return false;
 }
@@ -465,13 +490,12 @@ void celUIGridInventory::Open (const char* title, iPcInventory* inventory)
   inventory->AddInventoryListener (listener);
 
   UpdateLists (inventory);
-  //window->show ();
 }
 
 void celUIGridInventory::Close ()
 {
-  Setup ();
-  //window->hide();
+  Deactivate ();
+
   if (inventory && listener)
     inventory->RemoveInventoryListener (listener);
   inventory = 0;

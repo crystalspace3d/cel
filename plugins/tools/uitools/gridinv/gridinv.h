@@ -32,6 +32,7 @@
 
 struct iEngine;
 class InvListener;
+class celUIGridInventory;
 
 struct InvStyle
 {
@@ -44,9 +45,12 @@ struct InvStyle
   csRef<iTextureHandle> backgroundTexture;
   int bgred, bggreen, bgblue, bgalpha;
 
+  // Control parameters.
+  utf32_char stopKey;
+
   InvStyle ();
 
-  bool SetStyleOption (const char* name, const char* value);
+  bool SetStyleOption (celUIGridInventory* inv, const char* name, const char* value);
 };
 
 struct GridEntry
@@ -129,6 +133,8 @@ public:
 
   bool HandleEvent (iEvent& ev);
 
+  iEventNameRegistry* GetNameReg () const { return name_reg; }
+
   void Refresh ();
 
   virtual void SetInfo (iUIInventoryInfo* info) { celUIGridInventory::info = info; }
@@ -142,7 +148,7 @@ public:
 
   virtual bool SetStyleOption (const char* name, const char* value)
   {
-    return style.SetStyleOption (name, value);
+    return style.SetStyleOption (this, name, value);
   }
 
   class EventHandler : public scfImplementation1<EventHandler, iEventHandler>
