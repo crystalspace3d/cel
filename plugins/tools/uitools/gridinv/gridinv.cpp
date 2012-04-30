@@ -227,6 +227,21 @@ bool celUIGridInventory::HandleEvent (iEvent& ev)
   }
   else if (ev.Name == csevMouseUp (name_reg, 0))
   {
+    int x, y;
+    x = mouse->GetLastX ();
+    y = mouse->GetLastY ();
+
+    for (size_t i = 0 ; i < grid.GetSize () ; i++)
+    {
+      GridEntry& g = grid[i];
+      int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
+      if (hi)
+      {
+	if (g.entity) FireSelectionListeners (g.entity);
+	else if (g.tpl) FireSelectionListeners (g.tpl);
+	Close ();
+      }
+    }
     return true;
   }
   else if (ev.Name == csevMouseDown (name_reg, 0))
@@ -543,11 +558,14 @@ void celUIGridInventory::Setup ()
   {
     iCelEntity* ent = inventory->GetEntity (i);
     csRef<iString> n = info->GetName (ent);
-    grid[iy*horcount + ix].SetupEntry (this,
+    GridEntry& g = grid[iy*horcount + ix];
+
+    g.entity = ent;
+    g.SetupEntry (this,
 	style.marginhor + ix * (style.buttonw + style.marginhor),
 	style.marginver + iy * (style.buttonh + style.marginver),
 	n->GetData (), 0, info->GetMeshFactory (ent), 0);
-    grid[iy*horcount + ix].SetupEntry (this,
+    g.SetupEntry (this,
 	style.marginhor + ix * (style.buttonw + style.marginhor),
 	style.marginver + iy * (style.buttonh + style.marginver),
 	n->GetData (), 0, info->GetMeshFactory (ent), 1);
@@ -564,11 +582,14 @@ void celUIGridInventory::Setup ()
     iCelEntityTemplate* ent = inventory->GetEntityTemplate (i);
     int amount = inventory->GetEntityTemplateAmount (i);
     csRef<iString> n = info->GetName (ent, amount);
-    grid[iy*horcount + ix].SetupEntry (this,
+    GridEntry& g = grid[iy*horcount + ix];
+
+    g.tpl = ent;
+    g.SetupEntry (this,
 	style.marginhor + ix * (style.buttonw + style.marginhor),
 	style.marginver + iy * (style.buttonh + style.marginver),
 	n->GetData (), amount, info->GetMeshFactory (ent, amount), 0);
-    grid[iy*horcount + ix].SetupEntry (this,
+    g.SetupEntry (this,
 	style.marginhor + ix * (style.buttonw + style.marginhor),
 	style.marginver + iy * (style.buttonh + style.marginver),
 	n->GetData (), amount, info->GetMeshFactory (ent, amount), 1);
@@ -588,40 +609,6 @@ void celUIGridInventory::Refresh ()
 
 void celUIGridInventory::UpdateLists (iPcInventory* inventory)
 {
-}
-
-bool celUIGridInventory::OkButton ()
-{
-  Deactivate ();
-  //window->hide();
-  if (inventory && listener)
-    inventory->RemoveInventoryListener (listener);
-  inventory = 0;
-  return true;
-}
-
-bool celUIGridInventory::CancelButton ()
-{
-  Deactivate ();
-  //window->hide();
-  if (inventory && listener)
-    inventory->RemoveInventoryListener (listener);
-  inventory = 0;
-  return true;
-}
-
-bool celUIGridInventory::Select ()
-{
-  size_t itemIdx = 0;
-  if (itemIdx < inventory->GetEntityCount ())
-  {
-    FireSelectionListeners (inventory->GetEntity (itemIdx));
-    return true;
-  }
-  itemIdx -= inventory->GetEntityCount ();
-  FireSelectionListeners (inventory->GetEntityTemplate (itemIdx));
-
-  return true;
 }
 
 void celUIGridInventory::AddSelectionListener (iUIInventorySelectionCallback* cb)

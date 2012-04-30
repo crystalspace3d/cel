@@ -68,6 +68,10 @@ struct GridEntry
   csReversibleTransform camtrans;
   iMeshFactoryWrapper* factory;
   csRef<iMeshWrapper> mesh;
+  iCelEntity* entity;
+  iCelEntityTemplate* tpl;
+
+  GridEntry () : entity (0), tpl (0) { }
 
   void SetupEntry (celUIGridInventory* inv,
       int x, int y, const char* text, int amount,
@@ -125,9 +129,6 @@ private:
   void FireSelectionListeners (iCelEntityTemplate* tpl);
 
   void UpdateLists (iPcInventory* inventory);
-  bool OkButton ();
-  bool CancelButton ();
-  bool Select ();
 
   void Setup ();
 
