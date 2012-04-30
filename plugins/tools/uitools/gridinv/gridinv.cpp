@@ -166,18 +166,21 @@ bool celUIGridInventory::HandlePreEvent (iEvent& ev)
 {
   if (ev.Name == csevFrame (object_reg))
   {
-    int x, y;
-    x = mouse->GetLastX ();
-    y = mouse->GetLastY ();
-
-    for (size_t i = 0 ; i < grid.GetSize () ; i++)
+    if (style.rotateHiMesh)
     {
-      GridEntry& g = grid[i];
-      int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
-      if (hi && g.handle[hi])
+      int x, y;
+      x = mouse->GetLastX ();
+      y = mouse->GetLastY ();
+
+      for (size_t i = 0 ; i < grid.GetSize () ; i++)
       {
-	g.UpdateEntry (this, 0);
-	g.UpdateEntry (this, 1);
+        GridEntry& g = grid[i];
+        int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
+        if (hi && g.handle[hi])
+        {
+	  g.UpdateEntry (this, 0);
+	  g.UpdateEntry (this, 1);
+        }
       }
     }
     return true;
@@ -289,6 +292,7 @@ InvStyle::InvStyle ()
   bgalpha[1] = 255;
   stopKey = CSKEY_ESC;
   fontSize = 10;
+  rotateHiMesh = true;
 }
 
 bool InvStyle::SetStyleOption (celUIGridInventory* inv,
@@ -354,6 +358,11 @@ bool InvStyle::SetStyleOption (celUIGridInventory* inv,
   if (styleName == "fontSize")
   {
     csScanStr (value, "%d", &fontSize);
+    return true;
+  }
+  if (styleName == "rotateHilightMesh")
+  {
+    csScanStr (value, "%b", &rotateHiMesh);
     return true;
   }
 
@@ -425,6 +434,7 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
     float dist = sqrt (csSquaredDist::PointPoint (cam->GetTransform ().GetOrigin (),
 	  csVector3 (0, 0, 0)));
     cam->Move (csVector3 (0, 0, - dist / 10.0f));
+    camtrans = cam->GetTransform ();
     mt->Render (mesh, handle[hi], true);
     iRenderManager* rm = engine->GetRenderManager ();
     rm->RenderView (mt->GetView ());
@@ -470,7 +480,7 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
     csMeshOnTexture* mt = new csMeshOnTexture (inv->GetObjectRegistry ());
     iSector* sector = engine->FindSector ("___gridinv__");
     mesh->GetMovable ()->SetSector (sector);
-    if (hi)
+    if (hi && style.rotateHiMesh)
     {
       trans.RotateThis (csVector3 (0, 1, 0), inv->GetVC ()->GetElapsedSeconds ());
     }
@@ -479,12 +489,7 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
     iCamera* cam = mt->GetView ()->GetCamera ();
     cam->SetSector (sector);
     mt->ScaleCamera (mesh, style.buttonw, style.buttonh);
-    cam->Move (csVector3 (.7, .7, -.5));
-    mt->ScaleCamera (mesh, style.buttonw, style.buttonh);
-    cam->GetTransform ().LookAt (-cam->GetTransform ().GetOrigin (), csVector3 (0, 1, 0));
-    float dist = sqrt (csSquaredDist::PointPoint (cam->GetTransform ().GetOrigin (),
-	  csVector3 (0, 0, 0)));
-    cam->Move (csVector3 (0, 0, - dist / 10.0f));
+    cam->SetTransform (camtrans);
     mt->Render (mesh, handle[hi], true);
     iRenderManager* rm = engine->GetRenderManager ();
     rm->RenderView (mt->GetView ());
