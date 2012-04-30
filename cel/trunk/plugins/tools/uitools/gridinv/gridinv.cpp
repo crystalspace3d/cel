@@ -32,12 +32,14 @@
 #include "iutil/plugin.h"
 #include "iutil/object.h"
 #include "iutil/virtclk.h"
+#include "iutil/csinput.h"
 #include "ivideo/graph3d.h"
 #include "ivideo/graph2d.h"
 #include "ivaria/reporter.h"
 #include "iengine/sector.h"
 #include "iengine/camera.h"
 #include "iengine/rendermanager.h"
+#include "iengine/movable.h"
 
 #include "gridinv.h"
 #include "physicallayer/propclas.h"
@@ -125,6 +127,7 @@ celUIGridInventory::celUIGridInventory (iBase* parent)
   : scfImplementationType (this, parent)
 {
   scfiEventHandler = 0;
+  scfiPreEventHandler = 0;
 }
 
 celUIGridInventory::~celUIGridInventory ()
@@ -136,6 +139,13 @@ celUIGridInventory::~celUIGridInventory ()
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
+  if (scfiPreEventHandler)
+  {
+    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+    if (q)
+      q->RemoveListener (scfiPreEventHandler);
+    scfiPreEventHandler->DecRef ();
+  }
 }
 
 bool celUIGridInventory::Initialize (iObjectRegistry* object_reg)
@@ -143,24 +153,54 @@ bool celUIGridInventory::Initialize (iObjectRegistry* object_reg)
   celUIGridInventory::object_reg = object_reg;
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   engine = csQueryRegistry<iEngine> (object_reg);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   g3d = csQueryRegistry<iGraphics3D> (object_reg);
   info.AttachNew (new DefaultInfo (pl, engine));
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
+  mouse = csQueryRegistry<iMouseDriver> (object_reg);
 
   return true;
+}
+
+bool celUIGridInventory::HandlePreEvent (iEvent& ev)
+{
+  if (ev.Name == csevFrame (object_reg))
+  {
+    int x, y;
+    x = mouse->GetLastX ();
+    y = mouse->GetLastY ();
+
+    for (size_t i = 0 ; i < grid.GetSize () ; i++)
+    {
+      GridEntry& g = grid[i];
+      int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
+      if (hi && g.handle[hi])
+      {
+	g.UpdateEntry (this, 0);
+	g.UpdateEntry (this, 1);
+      }
+    }
+    return true;
+  }
+  return false;
 }
 
 bool celUIGridInventory::HandleEvent (iEvent& ev)
 {
   if (ev.Name == csevFrame (object_reg))
   {
+    int x, y;
+    x = mouse->GetLastX ();
+    y = mouse->GetLastY ();
+
     g3d->BeginDraw (CSDRAW_2DGRAPHICS);
     for (size_t i = 0 ; i < grid.GetSize () ; i++)
     {
-      const GridEntry& g = grid[i];
-      if (g.handle)
+      GridEntry& g = grid[i];
+      int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
+      if (g.handle[hi])
       {
-        g3d->DrawPixmap (g.handle, g.x, g.y, style.buttonw, style.buttonh,
+        g3d->DrawPixmap (g.handle[hi], g.x, g.y, style.buttonw, style.buttonh,
 	    0, 0, style.buttonw, style.buttonh);
       }
     }
@@ -171,7 +211,7 @@ bool celUIGridInventory::HandleEvent (iEvent& ev)
     utf32_char key = csKeyEventHelper::GetRawCode (&ev);
     csKeyModifiers key_modifiers;
     csKeyEventHelper::GetModifiers (&ev, key_modifiers);
-    uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
+    //uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
     uint32 type = csKeyEventHelper::GetEventType (&ev);
     if (type == csKeyEventTypeDown)
     {
@@ -208,6 +248,12 @@ void celUIGridInventory::Activate ()
     	CS_EVENTLIST_END
     	};
   q->RegisterListener (scfiEventHandler, esub);
+  scfiPreEventHandler = new PreEventHandler (this);
+  csEventID esubPre[] = {
+	csevFrame (object_reg),
+    	CS_EVENTLIST_END
+    	};
+  q->RegisterListener (scfiPreEventHandler, esubPre);
 }
 
 void celUIGridInventory::Deactivate ()
@@ -220,6 +266,9 @@ void celUIGridInventory::Deactivate ()
   q->RemoveListener (scfiEventHandler);
   scfiEventHandler->DecRef ();
   scfiEventHandler = 0;
+  q->RemoveListener (scfiPreEventHandler);
+  scfiPreEventHandler->DecRef ();
+  scfiPreEventHandler = 0;
 }
 
 // ------------------------------------------------------------------
@@ -230,11 +279,16 @@ InvStyle::InvStyle ()
   buttonh = 128;
   marginhor = 16;
   marginver = 16;
-  bgred = 50;
-  bggreen = 50;
-  bgblue = 50;
-  bgalpha = 255;
+  bgred[0] = 50;
+  bggreen[0] = 50;
+  bgblue[0] = 50;
+  bgalpha[0] = 255;
+  bgred[1] = 80;
+  bggreen[1] = 80;
+  bgblue[1] = 80;
+  bgalpha[1] = 255;
   stopKey = CSKEY_ESC;
+  fontSize = 10;
 }
 
 bool InvStyle::SetStyleOption (celUIGridInventory* inv,
@@ -263,50 +317,85 @@ bool InvStyle::SetStyleOption (celUIGridInventory* inv,
   }
   if (styleName == "backgroundImage")
   {
-    backgroundImage = value;
+    backgroundImage[0] = value;
+    return true;
+  }
+  if (styleName == "backgroundHilightImage")
+  {
+    backgroundImage[1] = value;
+    return true;
   }
   if (styleName == "backgroundColor")
   {
-    int num = csScanStr (value, "%d,%d,%d,%d", &bgred, &bggreen, &bgblue,
-	&bgalpha);
-    if (num < 4) bgalpha = 255;
+    int num = csScanStr (value, "%d,%d,%d,%d", &bgred[0], &bggreen[0], &bgblue[0],
+	&bgalpha[0]);
+    if (num < 4) bgalpha[0] = 255;
+    return true;
+  }
+  if (styleName == "backgroundHilightColor")
+  {
+    int num = csScanStr (value, "%d,%d,%d,%d", &bgred[1], &bggreen[1], &bgblue[1],
+	&bgalpha[1]);
+    if (num < 4) bgalpha[1] = 255;
+    return true;
   }
   if (styleName == "stopKey")
   {
     utf32_char cooked;
     csKeyModifiers modifiers;
     csInputDefinition::ParseKey (inv->GetNameReg (), value, &stopKey, &cooked, &modifiers);
+    return true;
   }
+  if (styleName == "font")
+  {
+    fontName = value;
+    return true;
+  }
+  if (styleName == "fontSize")
+  {
+    csScanStr (value, "%d", &fontSize);
+    return true;
+  }
+
   return false;
 }
 
-void GridEntry::SetupEntry (const InvStyle& style, iObjectRegistry* object_reg,
-    iEngine* engine, iGraphics3D* g3d, iFont* font,
+void GridEntry::SetupEntry (celUIGridInventory* inv,
     int x, int y,
-    const char* text, int amount,
-    iMeshFactoryWrapper* factory)
+    const char* txt, int amount,
+    iMeshFactoryWrapper* factory, int hi)
 {
   GridEntry::x = x;
   GridEntry::y = y;
+  GridEntry::factory = factory;
+
+  iGraphics3D* g3d = inv->GetG3D ();
+  iGraphics2D* g2d = g3d->GetDriver2D ();
+  iEngine* engine = inv->GetEngine ();
+  const InvStyle& style = inv->GetStyle ();
 
   iTextureManager* txtmgr = g3d->GetTextureManager ();
-  handle = txtmgr->CreateTexture (style.buttonw, style.buttonh, csimg2D, "rgba8",
+
+  if (!handle[hi])
+    handle[hi] = txtmgr->CreateTexture (style.buttonw, style.buttonh, csimg2D, "rgba8",
       CS_TEXTURE_3D);
-  g3d->SetRenderTarget (handle);
+  g3d->SetRenderTarget (handle[hi]);
   g3d->BeginDraw (CSDRAW_2DGRAPHICS);
 
-  iGraphics2D* g2d = g3d->GetDriver2D ();
-  int color = g2d->FindRGB (style.bgred, style.bggreen, style.bgblue, style.bgalpha);
-  g2d->DrawBox (0, 0, style.buttonw, style.buttonh, color);
-  if (style.backgroundTexture)
+  if (style.backgroundTexture[hi])
   {
-    g3d->DrawPixmap (style.backgroundTexture, 0, 0, style.buttonw, style.buttonh,
+    g3d->DrawPixmap (style.backgroundTexture[hi], 0, 0, style.buttonw, style.buttonh,
 	    0, 0, style.buttonw, style.buttonh);
+  }
+  else
+  {
+    int color = g2d->FindRGB (style.bgred[hi], style.bggreen[hi], style.bgblue[hi], style.bgalpha[hi]);
+    g2d->DrawBox (0, 0, style.buttonw, style.buttonh, color);
   }
 
   if (factory)
   {
-    csMeshOnTexture* mt = new csMeshOnTexture (object_reg);
+    csMeshOnTexture* mt = new csMeshOnTexture (inv->GetObjectRegistry ());
     iSector* sector = engine->FindSector ("___gridinv__");
     if (!sector)
     { 
@@ -318,7 +407,15 @@ void GridEntry::SetupEntry (const InvStyle& style, iObjectRegistry* object_reg,
       light = engine->CreateLight (0, csVector3 (300, 300, 300), 1000, csColor (1, 1, 1));
       ll->Add (light);
     }
-    csRef<iMeshWrapper> mesh = engine->CreateMeshWrapper (factory, "__gridmesh__", sector);
+    csString meshName;
+    meshName.Format ("__gridmesh__%s__", factory->QueryObject ()->GetName ());
+    mesh = engine->FindMeshObject (meshName);
+    if (mesh)
+      mesh->GetMovable ()->SetSector (sector);
+    else
+      mesh = engine->CreateMeshWrapper (factory, meshName, sector);
+    mesh->GetMovable ()->SetTransform (trans);
+    mesh->GetMovable ()->UpdateMove ();
     iCamera* cam = mt->GetView ()->GetCamera ();
     cam->SetSector (sector);
     mt->ScaleCamera (mesh, style.buttonw, style.buttonh);
@@ -328,22 +425,75 @@ void GridEntry::SetupEntry (const InvStyle& style, iObjectRegistry* object_reg,
     float dist = sqrt (csSquaredDist::PointPoint (cam->GetTransform ().GetOrigin (),
 	  csVector3 (0, 0, 0)));
     cam->Move (csVector3 (0, 0, - dist / 10.0f));
-    mt->Render (mesh, handle, true);
+    mt->Render (mesh, handle[hi], true);
     iRenderManager* rm = engine->GetRenderManager ();
     rm->RenderView (mt->GetView ());
+    mesh->GetMovable ()->ClearSectors ();
+    delete mt;
   }
-
 
   int fg = g2d->FindRGB (255, 255, 255);
-  printf ("text=%s\n", text); fflush (stdout);
+  printf ("text=%s\n", txt); fflush (stdout);
   if (amount)
+    text.Format ("%s (%d)", txt, amount);
+  else
+    text = txt;
+  g2d->Write (style.font, 10, 10, fg, -1, text);
+
+  g3d->FinishDraw ();
+  g3d->SetRenderTarget (0);
+}
+
+void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
+{
+  iGraphics3D* g3d = inv->GetG3D ();
+  iGraphics2D* g2d = g3d->GetDriver2D ();
+  iEngine* engine = inv->GetEngine ();
+  const InvStyle& style = inv->GetStyle ();
+
+  g3d->SetRenderTarget (handle[hi]);
+  g3d->BeginDraw (CSDRAW_2DGRAPHICS | CSDRAW_CLEARSCREEN | CSDRAW_CLEARZBUFFER);
+
+  if (style.backgroundTexture[hi])
   {
-    csString t;
-    t.Format ("%s (%d)", text, amount);
-    g2d->Write (font, 10, 10, fg, color, t);
+    g3d->DrawPixmap (style.backgroundTexture[hi], 0, 0, style.buttonw, style.buttonh,
+	    0, 0, style.buttonw, style.buttonh);
   }
   else
-    g2d->Write (font, 10, 10, fg, color, text);
+  {
+    int color = g2d->FindRGB (style.bgred[hi], style.bggreen[hi], style.bgblue[hi], style.bgalpha[hi]);
+    g2d->DrawBox (0, 0, style.buttonw, style.buttonh, color);
+  }
+
+  if (mesh)
+  {
+    csMeshOnTexture* mt = new csMeshOnTexture (inv->GetObjectRegistry ());
+    iSector* sector = engine->FindSector ("___gridinv__");
+    mesh->GetMovable ()->SetSector (sector);
+    if (hi)
+    {
+      trans.RotateThis (csVector3 (0, 1, 0), inv->GetVC ()->GetElapsedSeconds ());
+    }
+    mesh->GetMovable ()->SetTransform (trans);
+    mesh->GetMovable ()->UpdateMove ();
+    iCamera* cam = mt->GetView ()->GetCamera ();
+    cam->SetSector (sector);
+    mt->ScaleCamera (mesh, style.buttonw, style.buttonh);
+    cam->Move (csVector3 (.7, .7, -.5));
+    mt->ScaleCamera (mesh, style.buttonw, style.buttonh);
+    cam->GetTransform ().LookAt (-cam->GetTransform ().GetOrigin (), csVector3 (0, 1, 0));
+    float dist = sqrt (csSquaredDist::PointPoint (cam->GetTransform ().GetOrigin (),
+	  csVector3 (0, 0, 0)));
+    cam->Move (csVector3 (0, 0, - dist / 10.0f));
+    mt->Render (mesh, handle[hi], true);
+    iRenderManager* rm = engine->GetRenderManager ();
+    rm->RenderView (mt->GetView ());
+    mesh->GetMovable ()->ClearSectors ();
+    delete mt;
+  }
+
+  int fg = g2d->FindRGB (255, 255, 255);
+  g2d->Write (style.font, 10, 10, fg, -1, text);
 
   g3d->FinishDraw ();
   g3d->SetRenderTarget (0);
@@ -359,20 +509,27 @@ void celUIGridInventory::Setup ()
   int vercount = h / (style.buttonh + style.marginver);
   grid.DeleteAll ();
   grid.SetSize (horcount * vercount);
-  font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_COURIER);
 
-  if (!style.backgroundImage.IsEmpty ())
+  if (style.fontName.IsEmpty ())
+    style.font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_COURIER);
+  else
+    style.font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (style.fontName, style.fontSize);
+
+  for (int hi = 0 ; hi < 2 ; hi++)
   {
-    iTextureWrapper* txt = engine->CreateTexture (style.backgroundImage,
-	style.backgroundImage, 0, CS_TEXTURE_3D);
-    if (!txt)
+    if (!style.backgroundImage[hi].IsEmpty ())
     {
-      printf ("Error loading image '%s'!\n", style.backgroundImage.GetData ());
-      return;
+      iTextureWrapper* txt = engine->CreateTexture (style.backgroundImage[hi],
+	  style.backgroundImage[hi], 0, CS_TEXTURE_3D);
+      if (!txt)
+      {
+	printf ("Error loading image '%s'!\n", style.backgroundImage[hi].GetData ());
+	return;
+      }
+      iTextureManager* txtmgr = g3d->GetTextureManager ();
+      txt->Register (txtmgr);
+      style.backgroundTexture[hi] = txt->GetTextureHandle ();
     }
-    iTextureManager* txtmgr = g3d->GetTextureManager ();
-    txt->Register (txtmgr);
-    style.backgroundTexture = txt->GetTextureHandle ();
   }
 
   int ix = 0, iy = 0;
@@ -381,10 +538,14 @@ void celUIGridInventory::Setup ()
   {
     iCelEntity* ent = inventory->GetEntity (i);
     csRef<iString> n = info->GetName (ent);
-    grid[iy*horcount + ix].SetupEntry (style, object_reg, engine, g3d, font,
+    grid[iy*horcount + ix].SetupEntry (this,
 	style.marginhor + ix * (style.buttonw + style.marginhor),
 	style.marginver + iy * (style.buttonh + style.marginver),
-	n->GetData (), 0, info->GetMeshFactory (ent));
+	n->GetData (), 0, info->GetMeshFactory (ent), 0);
+    grid[iy*horcount + ix].SetupEntry (this,
+	style.marginhor + ix * (style.buttonw + style.marginhor),
+	style.marginver + iy * (style.buttonh + style.marginver),
+	n->GetData (), 0, info->GetMeshFactory (ent), 1);
     ix++;
     if (ix >= horcount)
     {
@@ -398,10 +559,14 @@ void celUIGridInventory::Setup ()
     iCelEntityTemplate* ent = inventory->GetEntityTemplate (i);
     int amount = inventory->GetEntityTemplateAmount (i);
     csRef<iString> n = info->GetName (ent, amount);
-    grid[iy*horcount + ix].SetupEntry (style, object_reg, engine, g3d, font,
+    grid[iy*horcount + ix].SetupEntry (this,
 	style.marginhor + ix * (style.buttonw + style.marginhor),
 	style.marginver + iy * (style.buttonh + style.marginver),
-	n->GetData (), amount, info->GetMeshFactory (ent, amount));
+	n->GetData (), amount, info->GetMeshFactory (ent, amount), 0);
+    grid[iy*horcount + ix].SetupEntry (this,
+	style.marginhor + ix * (style.buttonw + style.marginhor),
+	style.marginver + iy * (style.buttonh + style.marginver),
+	n->GetData (), amount, info->GetMeshFactory (ent, amount), 1);
     ix++;
     if (ix >= horcount)
     {

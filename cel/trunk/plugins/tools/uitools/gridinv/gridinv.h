@@ -41,9 +41,14 @@ struct InvStyle
   int marginhor, marginver;
 
   // Button appearance parameters.
-  csString backgroundImage;
-  csRef<iTextureHandle> backgroundTexture;
-  int bgred, bggreen, bgblue, bgalpha;
+  csString backgroundImage[2];
+  csRef<iTextureHandle> backgroundTexture[2];
+  int bgred[2], bggreen[2], bgblue[2], bgalpha[2];
+
+  // Text parameters.
+  csString fontName;
+  int fontSize;
+  csRef<iFont> font;
 
   // Control parameters.
   utf32_char stopKey;
@@ -57,12 +62,15 @@ struct GridEntry
 {
   int x, y;
   csString text;
-  csRef<iTextureHandle> handle;
+  csRef<iTextureHandle> handle[2];
+  csReversibleTransform trans;
+  iMeshFactoryWrapper* factory;
+  csRef<iMeshWrapper> mesh;
 
-  void SetupEntry (const InvStyle& style, iObjectRegistry* object_reg,
-      iEngine* engine, iGraphics3D* g3d, iFont* font,
+  void SetupEntry (celUIGridInventory* inv,
       int x, int y, const char* text, int amount,
-      iMeshFactoryWrapper* factory);
+      iMeshFactoryWrapper* factory, int hi);
+  void UpdateEntry (celUIGridInventory* inv, int hi);
 };
 
 class DefaultInfo : public scfImplementation1<DefaultInfo,iUIInventoryInfo>
@@ -100,10 +108,11 @@ private:
   csRef<iEngine> engine;
   csRef<iGraphics3D> g3d;
   csRef<iPcInventory> inventory;
+  csRef<iMouseDriver> mouse;
+  csRef<iVirtualClock> vc;
 
   InvStyle style;
   csArray<GridEntry> grid;
-  csRef<iFont> font;
 
   csRef<InvListener> listener;
 
@@ -132,8 +141,14 @@ public:
   virtual bool Initialize (iObjectRegistry* object_reg);
 
   bool HandleEvent (iEvent& ev);
+  bool HandlePreEvent (iEvent& ev);
 
+  iObjectRegistry* GetObjectRegistry () const { return object_reg; }
+  iEngine* GetEngine () const { return engine; }
+  iGraphics3D* GetG3D () const { return g3d; }
   iEventNameRegistry* GetNameReg () const { return name_reg; }
+  iVirtualClock* GetVC () const { return vc; }
+  const InvStyle& GetStyle () const { return style; }
 
   void Refresh ();
 
@@ -151,6 +166,30 @@ public:
     return style.SetStyleOption (this, name, value);
   }
 
+  class PreEventHandler : public scfImplementation1<PreEventHandler, iEventHandler>
+  {
+  private:
+    // This is a weak ref so that we can ignore the events
+    // that occur when our parent has been deleted.
+    csWeakRef<celUIGridInventory> parent;
+
+  public:
+    PreEventHandler (celUIGridInventory* parent) : scfImplementationType (this)
+    {
+      PreEventHandler::parent = parent;
+    }
+    virtual ~PreEventHandler() { }
+
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      if (parent)
+        return parent->HandlePreEvent (ev);
+      else
+        return false;
+    }
+    CS_EVENTHANDLER_PHASE_LOGIC("cel.tools.inventory.grid.pre")
+  } *scfiPreEventHandler;
+
   class EventHandler : public scfImplementation1<EventHandler, iEventHandler>
   {
   private:
@@ -163,9 +202,7 @@ public:
     {
       EventHandler::parent = parent;
     }
-    virtual ~EventHandler()
-    {
-    }
+    virtual ~EventHandler() { }
 
     virtual bool HandleEvent (iEvent& ev)
     {
