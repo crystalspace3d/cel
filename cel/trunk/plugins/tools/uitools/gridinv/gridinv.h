@@ -44,6 +44,7 @@ struct InvStyle
   csString backgroundImage[2];
   csRef<iTextureHandle> backgroundTexture[2];
   int bgred[2], bggreen[2], bgblue[2], bgalpha[2];
+  bool rotateHiMesh;
 
   // Text parameters.
   csString fontName;
@@ -64,6 +65,7 @@ struct GridEntry
   csString text;
   csRef<iTextureHandle> handle[2];
   csReversibleTransform trans;
+  csReversibleTransform camtrans;
   iMeshFactoryWrapper* factory;
   csRef<iMeshWrapper> mesh;
 
