@@ -114,8 +114,8 @@ public:
       celData& ret, iCelParameterBlock* params);
   void SelectEntity (iCelEntity* entity, bool left);
   void SelectTemplate (iCelEntityTemplate* tpl, bool left);
-  void SelectEntity (iCelEntity* entity);
-  void SelectTemplate (iCelEntityTemplate* tpl);
+  void SelectEntity (iCelEntity* entity, const char* command);
+  void SelectTemplate (iCelEntityTemplate* tpl, const char* command);
 
   virtual bool OnInitialize (int argc, char* argv[]);
   virtual bool Application ();

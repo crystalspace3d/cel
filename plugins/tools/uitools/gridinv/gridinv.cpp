@@ -162,28 +162,109 @@ bool celUIGridInventory::Initialize (iObjectRegistry* object_reg)
   return true;
 }
 
+GridEntry* celUIGridInventory::FindGridEntry ()
+{
+  int x, y;
+  x = mouse->GetLastX ();
+  y = mouse->GetLastY ();
+
+  for (size_t i = 0 ; i < grid.GetSize () ; i++)
+  {
+    GridEntry& g = grid[i];
+    int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
+    if (hi) return &g;
+  }
+  return 0;
+}
+
 bool celUIGridInventory::HandlePreEvent (iEvent& ev)
 {
   if (ev.Name == csevFrame (object_reg))
   {
     if (style.rotateHiMesh)
     {
-      int x, y;
-      x = mouse->GetLastX ();
-      y = mouse->GetLastY ();
-
-      for (size_t i = 0 ; i < grid.GetSize () ; i++)
+      GridEntry* g = FindGridEntry ();
+      if (g  && g->handle[1])
       {
-        GridEntry& g = grid[i];
-        int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
-        if (hi && g.handle[hi])
-        {
-	  g.UpdateEntry (this, 0);
-	  g.UpdateEntry (this, 1);
-        }
+	g->UpdateEntry (this, 0);
+	g->UpdateEntry (this, 1);
       }
     }
     return true;
+  }
+  return false;
+}
+
+static bool KeyEqual (utf32_char key1, utf32_char key2)
+{
+  return (key1 == key2)
+  	|| (CSKEY_IS_MODIFIER (key1) && CSKEY_IS_MODIFIER (key2)
+  	&& CSKEY_MODIFIER_COMPARE_CODE (key1, key2));
+}
+
+bool Binding::Match (iEventNameRegistry* name_reg, iObjectRegistry* object_reg, iEvent& ev) const
+{
+  if (CS_IS_KEYBOARD_EVENT (name_reg, ev))
+  {
+    if (type != csevKeyboardEvent (object_reg))
+      return false;
+    if (csKeyEventHelper::GetEventType (&ev) != csKeyEventTypeDown)
+      return false;
+    utf32_char k = csKeyEventHelper::GetRawCode (&ev);
+    if (!KeyEqual (key, k))
+      return false;
+    csKeyModifiers key_modifiers;
+    csKeyEventHelper::GetModifiers (&ev, key_modifiers);
+    uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
+    return ((modifiers && mods) == mods);
+  }
+  else if (CS_IS_MOUSE_EVENT (name_reg, ev))
+  {
+    uint dev = csMouseEventHelper::GetNumber (&ev);
+    if (dev != device)
+      return false;
+    int modifiers = csMouseEventHelper::GetModifiers (&ev);
+    if ((modifiers && mods) != mods)
+      return false;
+    if (ev.Name == csevMouseMove (name_reg, dev))
+    {
+      csEventID mouse_id = csevMouseMove (object_reg, dev);
+      return csEventNameRegistry::IsKindOf (name_reg, type, mouse_id);
+    }
+    else if (ev.Name == csevMouseDown (object_reg, dev))
+    {
+      int button = csMouseEventHelper::GetButton (&ev);
+      if (numeric != button)
+	return false;
+      csEventID mouse_id = csevMouseButton (object_reg, dev);
+      return csEventNameRegistry::IsKindOf (name_reg, type, mouse_id);
+    }
+  }
+  else if (CS_IS_JOYSTICK_EVENT (name_reg, ev))
+  {
+    uint dev = csJoystickEventHelper::GetNumber (&ev);
+    if (dev != device)
+      return false;
+    int modifiers = csJoystickEventHelper::GetModifiers (&ev);
+    if ((modifiers && mods) != mods)
+      return false;
+    csJoystickEventData data;
+    csJoystickEventHelper::GetEventData (&ev, data);
+    if ((data.axesChanged & (1 << numeric)) == 0)
+      return false;
+    if (ev.Name == csevJoystickMove (object_reg, dev))
+    {
+      csEventID joy_id = csevJoystickMove (object_reg, dev);
+      return csEventNameRegistry::IsKindOf (name_reg, type, joy_id);
+    }
+    else
+    {
+      int button = csJoystickEventHelper::GetButton (&ev);
+      if (numeric != button)
+	return false;
+      csEventID joy_id = csevJoystickButton (object_reg, dev);
+      return csEventNameRegistry::IsKindOf (name_reg, type, joy_id);
+    }
   }
   return false;
 }
@@ -209,46 +290,23 @@ bool celUIGridInventory::HandleEvent (iEvent& ev)
     }
     return true;
   }
-  else if (CS_IS_KEYBOARD_EVENT (name_reg, ev))
-  {
-    utf32_char key = csKeyEventHelper::GetRawCode (&ev);
-    csKeyModifiers key_modifiers;
-    csKeyEventHelper::GetModifiers (&ev, key_modifiers);
-    //uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
-    uint32 type = csKeyEventHelper::GetEventType (&ev);
-    if (type == csKeyEventTypeDown)
-    {
-      if (style.stopKey == key)
-      {
-	Close ();
-      }
-    }
-    return true;
-  }
-  else if (ev.Name == csevMouseUp (name_reg, 0))
-  {
-    int x, y;
-    x = mouse->GetLastX ();
-    y = mouse->GetLastY ();
 
-    for (size_t i = 0 ; i < grid.GetSize () ; i++)
-    {
-      GridEntry& g = grid[i];
-      int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
-      if (hi)
-      {
-	if (g.entity) FireSelectionListeners (g.entity);
-	else if (g.tpl) FireSelectionListeners (g.tpl);
-	Close ();
-      }
-    }
-    return true;
-  }
-  else if (ev.Name == csevMouseDown (name_reg, 0))
+  for (size_t i = 0 ; i < bindings.GetSize () ; i++)
   {
-    return true;
+    const Binding& b = bindings[i];
+    if (b.Match (name_reg, object_reg, ev))
+    {
+      GridEntry* g = FindGridEntry ();
+      if (g)
+      {
+        if (g->entity) FireSelectionListeners (g->entity, b.command);
+        else if (g->tpl) FireSelectionListeners (g->tpl, b.command);
+      }
+      if (b.close) Close ();
+      return true;
+    }
   }
-  return false;
+  return true;
 }
 
 void celUIGridInventory::Activate ()
@@ -305,7 +363,6 @@ InvStyle::InvStyle ()
   bggreen[1] = 80;
   bgblue[1] = 80;
   bgalpha[1] = 255;
-  stopKey = CSKEY_ESC;
   fontSize = 10;
   rotateHiMesh = true;
 }
@@ -356,13 +413,6 @@ bool InvStyle::SetStyleOption (celUIGridInventory* inv,
     int num = csScanStr (value, "%d,%d,%d,%d", &bgred[1], &bggreen[1], &bgblue[1],
 	&bgalpha[1]);
     if (num < 4) bgalpha[1] = 255;
-    return true;
-  }
-  if (styleName == "stopKey")
-  {
-    utf32_char cooked;
-    csKeyModifiers modifiers;
-    csInputDefinition::ParseKey (inv->GetNameReg (), value, &stopKey, &cooked, &modifiers);
     return true;
   }
   if (styleName == "font")
@@ -621,16 +671,16 @@ void celUIGridInventory::RemoveSelectionListener (iUIInventorySelectionCallback*
   callbacks.Delete (cb);
 }
 
-void celUIGridInventory::FireSelectionListeners (iCelEntity* entity)
+void celUIGridInventory::FireSelectionListeners (iCelEntity* entity, const char* command)
 {
   for (size_t i = 0 ; i < callbacks.GetSize () ; i++)
-    callbacks[i]->SelectEntity (entity);
+    callbacks[i]->SelectEntity (entity, command);
 }
 
-void celUIGridInventory::FireSelectionListeners (iCelEntityTemplate* tpl)
+void celUIGridInventory::FireSelectionListeners (iCelEntityTemplate* tpl, const char* command)
 {
   for (size_t i = 0 ; i < callbacks.GetSize () ; i++)
-    callbacks[i]->SelectTemplate (tpl);
+    callbacks[i]->SelectTemplate (tpl, command);
 }
 
 void celUIGridInventory::Open (const char* title, iPcInventory* inventory)
@@ -657,6 +707,35 @@ void celUIGridInventory::Close ()
     inventory->RemoveInventoryListener (listener);
   inventory = 0;
 }
+
+bool celUIGridInventory::Bind (const char* eventname, const char* command, bool close)
+{
+  Binding binding;
+  csKeyModifiers modifiers;
+  binding.close = close;
+  binding.command = command;
+
+  if (!csInputDefinition::ParseOther (name_reg, eventname, &binding.type, &binding.device,
+  	&binding.numeric, &modifiers))
+  {
+    printf ("Bad input specification '%s'!", eventname);
+    return false;
+  }
+  if (binding.type == csevKeyboardEvent (object_reg))
+  {
+    csInputDefinition::ParseKey (name_reg, eventname, &binding.key, &binding.cooked, &modifiers);
+    binding.mods = csKeyEventHelper::GetModifiersBits (modifiers);
+    bindings.Push (binding);
+  }
+  else
+  {
+    binding.mods = csKeyEventHelper::GetModifiersBits (modifiers);
+    bindings.Push (binding);
+  }
+
+  return true;
+}
+
 
 //---------------------------------------------------------------------------
 

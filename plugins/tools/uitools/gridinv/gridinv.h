@@ -51,9 +51,6 @@ struct InvStyle
   int fontSize;
   csRef<iFont> font;
 
-  // Control parameters.
-  utf32_char stopKey;
-
   InvStyle ();
 
   bool SetStyleOption (celUIGridInventory* inv, const char* name, const char* value);
@@ -103,6 +100,22 @@ public:
   virtual iTextureHandle* GetTexture (iCelEntityTemplate* tpl, int count) { return 0; }
 };
 
+struct Binding
+{
+  csString eventName;
+  csEventID type;
+  uint device;
+  int numeric;
+  utf32_char key, cooked;
+  uint32 mods;
+
+  csString command;
+  bool close;
+
+  bool Match (iEventNameRegistry* name_reg, iObjectRegistry* object_reg,
+      iEvent& ev) const;
+};
+
 
 class celUIGridInventory : public scfImplementation2<celUIGridInventory,
   iUIInventory, iComponent>
@@ -121,12 +134,13 @@ private:
   csArray<GridEntry> grid;
 
   csRef<InvListener> listener;
+  csArray<Binding> bindings;
 
   csRef<iUIInventoryInfo> info;
   csRefArray<iUIInventorySelectionCallback> callbacks;
 
-  void FireSelectionListeners (iCelEntity* entity);
-  void FireSelectionListeners (iCelEntityTemplate* tpl);
+  void FireSelectionListeners (iCelEntity* entity, const char* command);
+  void FireSelectionListeners (iCelEntityTemplate* tpl, const char* command);
 
   void UpdateLists (iPcInventory* inventory);
 
@@ -137,6 +151,9 @@ private:
  
   /// Deactivate the event handler.
   void Deactivate ();
+
+  /// Find the grid entry under the mouse.
+  GridEntry* FindGridEntry ();
 
 public:
   celUIGridInventory (iBase* parent);
@@ -168,6 +185,9 @@ public:
   {
     return style.SetStyleOption (this, name, value);
   }
+  virtual bool Bind (const char* eventname, const char* command, bool close);
+
+  // --------------------------------------------------------------------
 
   class PreEventHandler : public scfImplementation1<PreEventHandler, iEventHandler>
   {

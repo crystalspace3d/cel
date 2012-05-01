@@ -74,8 +74,12 @@ struct iUIInventorySelectionCallback : public virtual iBase
 {
   SCF_INTERFACE (iUIInventorySelectionCallback, 0, 0, 1);
 
-  virtual void SelectEntity (iCelEntity* entity) = 0;
-  virtual void SelectTemplate (iCelEntityTemplate* tpl) = 0;
+  /**
+   * Call the application when something is selected. If supported the associated
+   * 'command' will be given to the application.
+   */
+  virtual void SelectEntity (iCelEntity* entity, const char* command) = 0;
+  virtual void SelectTemplate (iCelEntityTemplate* tpl, const char* command) = 0;
 };
 
 /**
@@ -117,6 +121,14 @@ struct iUIInventory: public virtual iBase
    * or if the value is invalid for this style.
    */
   virtual bool SetStyleOption (const char* name, const char* value) = 0;
+
+  /**
+   * Bind an event to some command. Returns false if this inventory doesn't support
+   * bindings or if the binding event is invalid.
+   * @param close if true then this event will close the inventory after sending the
+   * command.
+   */
+  virtual bool Bind (const char* eventname, const char* command, bool close) = 0;
 };
 
 #endif // __CEL_UITOOLS_INVENTORY__
