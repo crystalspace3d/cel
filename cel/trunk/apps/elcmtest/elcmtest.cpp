@@ -127,14 +127,14 @@ public:
     elcmTest->SelectTemplate (tpl, left);
   }
 
-  virtual void SelectEntity (iCelEntity* entity)
+  virtual void SelectEntity (iCelEntity* entity, const char* command)
   {
-    elcmTest->SelectEntity (entity);
+    elcmTest->SelectEntity (entity, command);
   }
 
-  virtual void SelectTemplate (iCelEntityTemplate* tpl)
+  virtual void SelectTemplate (iCelEntityTemplate* tpl, const char* command)
   {
-    elcmTest->SelectTemplate (tpl);
+    elcmTest->SelectTemplate (tpl, command);
   }
 };
 
@@ -176,9 +176,10 @@ bool ElcmTest::InitWindowSystem ()
   //uiInventory->SetStyleOption ("backgroundColor", "50, 50, 50, 60");
   uiInventory->SetStyleOption ("backgroundImage", "/cellib/images/buttonback.png");
   uiInventory->SetStyleOption ("backgroundHilightImage", "/cellib/images/buttonback_hi.png");
-  uiInventory->SetStyleOption ("stopKey", "esc");
   uiInventory->SetStyleOption ("font", "DejaVuSans");
   uiInventory->SetStyleOption ("fontSize", "10");
+  uiInventory->Bind ("MouseButton0", "select", true);
+  uiInventory->Bind ("i", "cancel", true);
 
   uiInventory2 = csQueryRegistry<iUIInventory2> (GetObjectRegistry ());
   if (!uiInventory2) return ReportError ("Failed to locate UI Double Inventory plugin!");
@@ -623,8 +624,11 @@ bool ElcmTest::CreatePlayer ()
   return true;
 }
 
-void ElcmTest::SelectEntity (iCelEntity* entity)
+void ElcmTest::SelectEntity (iCelEntity* entity, const char* command)
 {
+  csString cmd = "cancel";
+  if (command && cmd == command)
+    return;
   iPcInventory* inv = uiInventory->GetInventory ();
   if (!inv) return;
   csStringID tmpID = entity->GetTemplateNameID ();
@@ -647,8 +651,12 @@ void ElcmTest::SelectEntity (iCelEntity* entity)
   }
 }
 
-void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
+void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl, const char* command)
 {
+  csString cmd = "cancel";
+  if (command && cmd == command)
+    return;
+
   iPcInventory* inv = uiInventory->GetInventory ();
   if (!inv) return;
 
@@ -1000,6 +1008,7 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
         csQueryRegistry<iEventQueue> (GetObjectRegistry());
       if (q.IsValid()) q->GetEventOutlet()->Broadcast(
 	  csevQuit (GetObjectRegistry ()));
+      return true;
     }
     else if (code == '1')
     {
@@ -1008,6 +1017,7 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
       size_t size = file->Write (buf->GetData (), buf->GetSize ());
       printf ("%d bytes written to 'savefile'!\n", size);
       fflush (stdout);
+      return true;
     }
     else if (code == '2')
     {
@@ -1020,11 +1030,12 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
       csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
       pcmesh->MoveMesh (dynworld->GetCurrentCell ()->GetSector (),
 	  csVector3 (0, 3, 0));
-
+      return true;
     }
     else if (code == 'b')
     {
       debugPhysics = !debugPhysics;
+      return true;
     }
     else if (code == 'p')
     {
@@ -1034,12 +1045,14 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
       printf ("  Total entities=%d\n", pl->GetEntityCount ());
       printf ("  Total meshes=%d\n", engine->GetMeshes ()->GetCount ());
       fflush (stdout);
+      return true;
     }
     else if (code == 'i')
     {
       csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (
 	  playerEntity);
       uiInventory->Open ("Inventory for player", inventory);
+      return true;
     }
   }
   return false;
