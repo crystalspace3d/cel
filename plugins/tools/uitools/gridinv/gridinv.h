@@ -110,7 +110,7 @@ struct Binding
   uint32 mods;
 
   csString command;
-  bool close;
+  int flags;
 
   bool Match (iEventNameRegistry* name_reg, iObjectRegistry* object_reg,
       iEvent& ev) const;
@@ -185,7 +185,7 @@ public:
   {
     return style.SetStyleOption (this, name, value);
   }
-  virtual bool Bind (const char* eventname, const char* command, bool close);
+  virtual bool Bind (const char* eventname, const char* command, int flags);
 
   // --------------------------------------------------------------------
 

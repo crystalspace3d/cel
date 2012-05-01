@@ -178,8 +178,9 @@ bool ElcmTest::InitWindowSystem ()
   uiInventory->SetStyleOption ("backgroundHilightImage", "/cellib/images/buttonback_hi.png");
   uiInventory->SetStyleOption ("font", "DejaVuSans");
   uiInventory->SetStyleOption ("fontSize", "10");
-  uiInventory->Bind ("MouseButton0", "select", true);
-  uiInventory->Bind ("i", "cancel", true);
+  uiInventory->Bind ("MouseButton0", "select", INVENTORY_CLOSE | INVENTORY_NEEDSITEM);
+  uiInventory->Bind ("MouseButton1", "select", INVENTORY_NEEDSITEM);
+  uiInventory->Bind ("i", "cancel", INVENTORY_CLOSE);
 
   uiInventory2 = csQueryRegistry<iUIInventory2> (GetObjectRegistry ());
   if (!uiInventory2) return ReportError ("Failed to locate UI Double Inventory plugin!");

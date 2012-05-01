@@ -302,7 +302,16 @@ bool celUIGridInventory::HandleEvent (iEvent& ev)
         if (g->entity) FireSelectionListeners (g->entity, b.command);
         else if (g->tpl) FireSelectionListeners (g->tpl, b.command);
       }
-      if (b.close) Close ();
+      else
+      {
+        if (b.flags & INVENTORY_NEEDSITEM) return true;
+      }
+      if (b.flags & INVENTORY_CLOSE) Close ();
+      else if (g)
+      {
+	// Possibly we need to refresh our inventory.
+	Setup ();
+      }
       return true;
     }
   }
@@ -708,11 +717,11 @@ void celUIGridInventory::Close ()
   inventory = 0;
 }
 
-bool celUIGridInventory::Bind (const char* eventname, const char* command, bool close)
+bool celUIGridInventory::Bind (const char* eventname, const char* command, int flags)
 {
   Binding binding;
   csKeyModifiers modifiers;
-  binding.close = close;
+  binding.flags = flags;
   binding.command = command;
 
   if (!csInputDefinition::ParseOther (name_reg, eventname, &binding.type, &binding.device,
