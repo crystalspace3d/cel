@@ -765,6 +765,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         SendKeyMessage (found, key, key_modifiers, CEL_KEY_STATE_DOWN);
       }
     }
+    return true;
   }
   else if (CS_IS_MOUSE_EVENT(name_reg, ev) && handleMouse)
   {
@@ -779,6 +780,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       int modifiers = csMouseEventHelper::GetModifiers (&ev);
       //find mapping
       csEventID mouse_id = csevMouseMove (object_reg, device);
+      bool found = false;
       for (size_t i = 0 ; i < axislist.GetSize () ; i++)
       {
         celAxisMap *p = axislist[i];
@@ -786,6 +788,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         	((modifiers & p->modifiers) == p->modifiers) &&
         	(csEventNameRegistry::IsKindOf (name_reg, p->type, mouse_id)))
         {
+	  found = true;
           float x, y;
           x = (float) csMouseEventHelper::GetX (&ev);
           y = (float) csMouseEventHelper::GetY (&ev);
@@ -818,6 +821,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
           g2d->SetMouseCursor (csmcNone);
         }
       }
+      return found;
     }
     else
     {
@@ -849,6 +853,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         SendMessage (found->commandStr, '0', 0);
       else if (ev.Name == csevMouseDown (object_reg, device))
         SendMessage (found->commandStr, '1', 0);
+      return true;
     }
   }
   else if (CS_IS_JOYSTICK_EVENT(name_reg,ev) && handleJoystick)
@@ -890,8 +895,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 	  break;
         }
       }
-      if (!found)
-        return false;
+      return found;
     }
     else
     {
@@ -940,6 +944,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         }
         SendMessage (found->commandStr, '1', celparms);
       }
+      return true;
     }
   }
 
