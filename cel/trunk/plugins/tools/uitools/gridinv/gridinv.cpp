@@ -126,25 +126,30 @@ iMeshFactoryWrapper* DefaultInfo::GetMeshFactory (iCelEntityTemplate* tpl, int c
 celUIGridInventory::celUIGridInventory (iBase* parent)
   : scfImplementationType (this, parent)
 {
-  scfiEventHandler = 0;
-  scfiPreEventHandler = 0;
 }
 
 celUIGridInventory::~celUIGridInventory ()
 {
-  if (scfiEventHandler)
+  if (scfiRenderHandler)
   {
     csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
     if (q)
-      q->RemoveListener (scfiEventHandler);
-    scfiEventHandler->DecRef ();
+      q->RemoveListener (scfiRenderHandler);
+    scfiRenderHandler = 0;
   }
-  if (scfiPreEventHandler)
+  if (scfiLogicHandler)
   {
     csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
     if (q)
-      q->RemoveListener (scfiPreEventHandler);
-    scfiPreEventHandler->DecRef ();
+      q->RemoveListener (scfiLogicHandler);
+    scfiLogicHandler = 0;
+  }
+  if (scfiInputHandler)
+  {
+    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+    if (q)
+      q->RemoveListener (scfiInputHandler);
+    scfiInputHandler = 0;
   }
 }
 
@@ -177,7 +182,7 @@ GridEntry* celUIGridInventory::FindGridEntry ()
   return 0;
 }
 
-bool celUIGridInventory::HandlePreEvent (iEvent& ev)
+bool celUIGridInventory::HandleLogicEvent (iEvent& ev)
 {
   if (ev.Name == csevFrame (object_reg))
   {
@@ -269,28 +274,8 @@ bool Binding::Match (iEventNameRegistry* name_reg, iObjectRegistry* object_reg, 
   return false;
 }
 
-bool celUIGridInventory::HandleEvent (iEvent& ev)
+bool celUIGridInventory::HandleInputEvent (iEvent& ev)
 {
-  if (ev.Name == csevFrame (object_reg))
-  {
-    int x, y;
-    x = mouse->GetLastX ();
-    y = mouse->GetLastY ();
-
-    g3d->BeginDraw (CSDRAW_2DGRAPHICS);
-    for (size_t i = 0 ; i < grid.GetSize () ; i++)
-    {
-      GridEntry& g = grid[i];
-      int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
-      if (g.handle[hi])
-      {
-        g3d->DrawPixmap (g.handle[hi], g.x, g.y, style.buttonw, style.buttonh,
-	    0, 0, style.buttonw, style.buttonh);
-      }
-    }
-    return true;
-  }
-
   for (size_t i = 0 ; i < bindings.GetSize () ; i++)
   {
     const Binding& b = bindings[i];
@@ -318,42 +303,79 @@ bool celUIGridInventory::HandleEvent (iEvent& ev)
   return true;
 }
 
+bool celUIGridInventory::HandleRenderEvent (iEvent& ev)
+{
+  if (ev.Name == csevFrame (object_reg))
+  {
+    int x, y;
+    x = mouse->GetLastX ();
+    y = mouse->GetLastY ();
+
+    g3d->BeginDraw (CSDRAW_2DGRAPHICS);
+    for (size_t i = 0 ; i < grid.GetSize () ; i++)
+    {
+      GridEntry& g = grid[i];
+      int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
+      if (g.handle[hi])
+      {
+        g3d->DrawPixmap (g.handle[hi], g.x, g.y, style.buttonw, style.buttonh,
+	    0, 0, style.buttonw, style.buttonh);
+      }
+    }
+  }
+  return true;
+}
+
 void celUIGridInventory::Activate ()
 {
-  if (scfiEventHandler)
+  if (scfiRenderHandler)
     return;
 
   csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
   CS_ASSERT (q);
-  scfiEventHandler = new EventHandler (this);
-  csEventID esub[] = {
-    	csevKeyboardEvent (object_reg),
+
+  {
+    scfiRenderHandler.AttachNew (new RenderEventHandler (this));
+    csEventID esub[] = {
 	csevFrame (object_reg),
+    	CS_EVENTLIST_END
+    	};
+    q->RegisterListener (scfiRenderHandler, esub);
+  }
+
+  {
+    scfiLogicHandler.AttachNew (new LogicEventHandler (this));
+    csEventID esub[] = {
+	csevFrame (object_reg),
+    	CS_EVENTLIST_END
+    	};
+    q->RegisterListener (scfiLogicHandler, esub);
+  }
+
+  {
+    scfiInputHandler.AttachNew (new InputEventHandler (this));
+    csEventID esub[] = {
+    	csevKeyboardEvent (object_reg),
     	csevMouseEvent (object_reg),
     	CS_EVENTLIST_END
     	};
-  q->RegisterListener (scfiEventHandler, esub);
-  scfiPreEventHandler = new PreEventHandler (this);
-  csEventID esubPre[] = {
-	csevFrame (object_reg),
-    	CS_EVENTLIST_END
-    	};
-  q->RegisterListener (scfiPreEventHandler, esubPre);
+    q->RegisterListener (scfiInputHandler, esub);
+  }
 }
 
 void celUIGridInventory::Deactivate ()
 {
-  if (!scfiEventHandler)
+  if (!scfiRenderHandler)
     return;
 
   csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
   CS_ASSERT (q);
-  q->RemoveListener (scfiEventHandler);
-  scfiEventHandler->DecRef ();
-  scfiEventHandler = 0;
-  q->RemoveListener (scfiPreEventHandler);
-  scfiPreEventHandler->DecRef ();
-  scfiPreEventHandler = 0;
+  q->RemoveListener (scfiRenderHandler);
+  scfiRenderHandler = 0;
+  q->RemoveListener (scfiLogicHandler);
+  scfiLogicHandler = 0;
+  q->RemoveListener (scfiInputHandler);
+  scfiInputHandler = 0;
 }
 
 // ------------------------------------------------------------------

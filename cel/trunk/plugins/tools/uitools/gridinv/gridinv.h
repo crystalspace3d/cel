@@ -160,8 +160,9 @@ public:
   virtual ~celUIGridInventory ();
   virtual bool Initialize (iObjectRegistry* object_reg);
 
-  bool HandleEvent (iEvent& ev);
-  bool HandlePreEvent (iEvent& ev);
+  bool HandleRenderEvent (iEvent& ev);
+  bool HandleLogicEvent (iEvent& ev);
+  bool HandleInputEvent (iEvent& ev);
 
   iObjectRegistry* GetObjectRegistry () const { return object_reg; }
   iEngine* GetEngine () const { return engine; }
@@ -189,7 +190,7 @@ public:
 
   // --------------------------------------------------------------------
 
-  class PreEventHandler : public scfImplementation1<PreEventHandler, iEventHandler>
+  class InputEventHandler : public scfImplementation1<InputEventHandler, iEventHandler>
   {
   private:
     // This is a weak ref so that we can ignore the events
@@ -197,23 +198,47 @@ public:
     csWeakRef<celUIGridInventory> parent;
 
   public:
-    PreEventHandler (celUIGridInventory* parent) : scfImplementationType (this)
+    InputEventHandler (celUIGridInventory* parent) : scfImplementationType (this)
     {
-      PreEventHandler::parent = parent;
+      InputEventHandler::parent = parent;
     }
-    virtual ~PreEventHandler() { }
+    virtual ~InputEventHandler() { }
 
     virtual bool HandleEvent (iEvent& ev)
     {
       if (parent)
-        return parent->HandlePreEvent (ev);
+        return parent->HandleInputEvent (ev);
       else
         return false;
     }
-    CS_EVENTHANDLER_PHASE_LOGIC("cel.tools.inventory.grid.pre")
-  } *scfiPreEventHandler;
+    //CS_EVENTHANDLER_PHASE_LOGIC("cel.tools.inventory.grid.pre")
 
-  class EventHandler : public scfImplementation1<EventHandler, iEventHandler>
+    CS_EVENTHANDLER_NAMES("cel.tools.inventory.grid.input")
+
+    virtual const csHandlerID * GenericPrec (csRef<iEventHandlerRegistry> &,
+	csRef<iEventNameRegistry> &, csEventID) const
+    {
+      return 0;
+    }
+
+    /* Declare that we want to receive events *before* the input property class */
+    virtual const csHandlerID * GenericSucc (csRef<iEventHandlerRegistry> &r1, 
+      csRef<iEventNameRegistry> &r2, csEventID event) const 
+    {
+      static csHandlerID succConstraint[2];
+    
+      succConstraint[0] = r1->GetGenericID("cel.propclass.pcinput.standard");
+      succConstraint[1] = CS_HANDLERLIST_END;
+      return succConstraint;
+    }
+
+    CS_EVENTHANDLER_DEFAULT_INSTANCE_CONSTRAINTS
+  };
+  csRef<InputEventHandler> scfiInputHandler;
+
+  // --------------------------------------------------------------------
+
+  class LogicEventHandler : public scfImplementation1<LogicEventHandler, iEventHandler>
   {
   private:
     // This is a weak ref so that we can ignore the events
@@ -221,21 +246,49 @@ public:
     csWeakRef<celUIGridInventory> parent;
 
   public:
-    EventHandler (celUIGridInventory* parent) : scfImplementationType (this)
+    LogicEventHandler (celUIGridInventory* parent) : scfImplementationType (this)
     {
-      EventHandler::parent = parent;
+      LogicEventHandler::parent = parent;
     }
-    virtual ~EventHandler() { }
+    virtual ~LogicEventHandler() { }
 
     virtual bool HandleEvent (iEvent& ev)
     {
       if (parent)
-        return parent->HandleEvent (ev);
+        return parent->HandleLogicEvent (ev);
       else
         return false;
     }
-    CS_EVENTHANDLER_PHASE_2D("cel.tools.inventory.grid")
-  } *scfiEventHandler;
+    CS_EVENTHANDLER_PHASE_LOGIC("cel.tools.inventory.grid.logic")
+  };
+  csRef<LogicEventHandler> scfiLogicHandler;
+
+  // --------------------------------------------------------------------
+
+  class RenderEventHandler : public scfImplementation1<RenderEventHandler, iEventHandler>
+  {
+  private:
+    // This is a weak ref so that we can ignore the events
+    // that occur when our parent has been deleted.
+    csWeakRef<celUIGridInventory> parent;
+
+  public:
+    RenderEventHandler (celUIGridInventory* parent) : scfImplementationType (this)
+    {
+      RenderEventHandler::parent = parent;
+    }
+    virtual ~RenderEventHandler() { }
+
+    virtual bool HandleEvent (iEvent& ev)
+    {
+      if (parent)
+        return parent->HandleRenderEvent (ev);
+      else
+        return false;
+    }
+    CS_EVENTHANDLER_PHASE_2D("cel.tools.inventory.grid.render")
+  };
+  csRef<RenderEventHandler> scfiRenderHandler;
 
 };
 
