@@ -82,6 +82,9 @@ struct iUIInventorySelectionCallback : public virtual iBase
   virtual void SelectTemplate (iCelEntityTemplate* tpl, const char* command) = 0;
 };
 
+#define INVENTORY_CLOSE 1		// Close inventory on event
+#define INVENTORY_NEEDSITEM 2		// Event needs an item
+
 /**
  * The inventory itself.
  */
@@ -125,10 +128,9 @@ struct iUIInventory: public virtual iBase
   /**
    * Bind an event to some command. Returns false if this inventory doesn't support
    * bindings or if the binding event is invalid.
-   * @param close if true then this event will close the inventory after sending the
-   * command.
+   * @param flags is one or more of the INVENTORY_... flags.
    */
-  virtual bool Bind (const char* eventname, const char* command, bool close) = 0;
+  virtual bool Bind (const char* eventname, const char* command, int flags) = 0;
 };
 
 #endif // __CEL_UITOOLS_INVENTORY__
