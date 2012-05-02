@@ -518,7 +518,10 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
     if (mesh)
       mesh->GetMovable ()->SetSector (sector);
     else
+    {
       mesh = engine->CreateMeshWrapper (factory, meshName, sector);
+      mesh->SetZBufMode (CS_ZBUF_NONE);
+    }
     mesh->GetMovable ()->SetTransform (trans);
     mesh->GetMovable ()->UpdateMove ();
     iCamera* cam = mt->GetView ()->GetCamera ();
@@ -558,7 +561,7 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
   const InvStyle& style = inv->GetStyle ();
 
   g3d->SetRenderTarget (handle[hi]);
-  g3d->BeginDraw (CSDRAW_2DGRAPHICS | CSDRAW_CLEARSCREEN | CSDRAW_CLEARZBUFFER);
+  g3d->BeginDraw (CSDRAW_2DGRAPHICS);
 
   if (style.backgroundTexture[hi])
   {
