@@ -122,14 +122,63 @@ iMeshFactoryWrapper* DefaultInfo::GetMeshFactory (iCelEntityTemplate* tpl, int c
 
 //--------------------------------------------------------------------------
 
+void GridLayouter::Layout (celUIGridInventory* inv, csArray<GridEntry>& grid)
+{
+  const InvStyle& style = inv->GetStyle ();
+  iGraphics3D* g3d = inv->GetG3D ();
+  int w = g3d->GetWidth ();
+  //int h = g3d->GetHeight ();
+  int horcount = w / (style.buttonw + style.marginhor);
+  //int vercount = h / (style.buttonh + style.marginver);
+
+  int ix = 0, iy = 0;
+  for (size_t i = 0 ; i < grid.GetSize () ; i++)
+  {
+    GridEntry& g = grid[i];
+    g.x = style.marginhor + ix * (style.buttonw + style.marginhor);
+    g.y = style.marginver + iy * (style.buttonh + style.marginver);
+    ix++;
+    if (ix >= horcount)
+    {
+      ix = 0;
+      iy++;
+    }
+  }
+}
+
+void GridLayouter::Scroll (int dx, int dy)
+{
+}
+
+GridEntry* GridLayouter::GetSelected (celUIGridInventory* inv,
+    csArray<GridEntry>& grid)
+{
+  iMouseDriver* mouse = inv->GetMouseDriver ();
+  int x = mouse->GetLastX ();
+  int y = mouse->GetLastY ();
+  const InvStyle& style = inv->GetStyle ();
+
+  for (size_t i = 0 ; i < grid.GetSize () ; i++)
+  {
+    GridEntry& g = grid[i];
+    int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
+    if (hi) return &g;
+  }
+  return 0;
+}
+
+//--------------------------------------------------------------------------
 
 celUIGridInventory::celUIGridInventory (iBase* parent)
   : scfImplementationType (this, parent)
 {
+  layouter = 0;
 }
 
 celUIGridInventory::~celUIGridInventory ()
 {
+  delete layouter;
+
   if (scfiRenderHandler)
   {
     csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
@@ -164,22 +213,9 @@ bool celUIGridInventory::Initialize (iObjectRegistry* object_reg)
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
   mouse = csQueryRegistry<iMouseDriver> (object_reg);
 
+  layouter = new GridLayouter (true);
+
   return true;
-}
-
-GridEntry* celUIGridInventory::FindGridEntry ()
-{
-  int x, y;
-  x = mouse->GetLastX ();
-  y = mouse->GetLastY ();
-
-  for (size_t i = 0 ; i < grid.GetSize () ; i++)
-  {
-    GridEntry& g = grid[i];
-    int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
-    if (hi) return &g;
-  }
-  return 0;
 }
 
 bool celUIGridInventory::HandleLogicEvent (iEvent& ev)
@@ -188,7 +224,7 @@ bool celUIGridInventory::HandleLogicEvent (iEvent& ev)
   {
     if (style.rotateHiMesh)
     {
-      GridEntry* g = FindGridEntry ();
+      GridEntry* g = layouter->GetSelected (this, grid);
       if (g  && g->handle[1])
       {
 	g->UpdateEntry (this, 0);
@@ -274,6 +310,24 @@ bool Binding::Match (iEventNameRegistry* name_reg, iObjectRegistry* object_reg, 
   return false;
 }
 
+void celUIGridInventory::DoSelect (const char* args, bool close)
+{
+  GridEntry* g = layouter->GetSelected (this, grid);
+  if (g)
+  {
+    if (g->entity) FireSelectionListeners (g->entity, args);
+    else if (g->tpl) FireSelectionListeners (g->tpl, args);
+    if (close)
+      Close ();
+    else
+    {
+      // Possibly we need to refresh our inventory.
+      SetupItems ();
+      SetupLayout ();
+    }
+  }
+}
+
 bool celUIGridInventory::HandleInputEvent (iEvent& ev)
 {
   for (size_t i = 0 ; i < bindings.GetSize () ; i++)
@@ -281,21 +335,16 @@ bool celUIGridInventory::HandleInputEvent (iEvent& ev)
     const Binding& b = bindings[i];
     if (b.Match (name_reg, object_reg, ev))
     {
-      GridEntry* g = FindGridEntry ();
-      if (g)
+      switch (b.command)
       {
-        if (g->entity) FireSelectionListeners (g->entity, b.command);
-        else if (g->tpl) FireSelectionListeners (g->tpl, b.command);
-      }
-      else
-      {
-        if (b.flags & INVENTORY_NEEDSITEM) return true;
-      }
-      if (b.flags & INVENTORY_CLOSE) Close ();
-      else if (g)
-      {
-	// Possibly we need to refresh our inventory.
-	Setup ();
+	case COMMAND_CANCEL: Close (); return true;
+	case COMMAND_SELECT: DoSelect (b.args, true); return true;
+	case COMMAND_SELECT_KEEPOPEN: DoSelect (b.args, false); return true;
+	case COMMAND_SCROLL_LEFT:
+	case COMMAND_SCROLL_RIGHT:
+	case COMMAND_SCROLL_UP:
+	case COMMAND_SCROLL_DOWN:
+	  break;
       }
       return true;
     }
@@ -466,12 +515,9 @@ bool InvStyle::SetStyleOption (celUIGridInventory* inv,
 }
 
 void GridEntry::SetupEntry (celUIGridInventory* inv,
-    int x, int y,
     const char* txt, int amount,
     iMeshFactoryWrapper* factory, int hi)
 {
-  GridEntry::x = x;
-  GridEntry::y = y;
   GridEntry::factory = factory;
 
   iGraphics3D* g3d = inv->GetG3D ();
@@ -606,14 +652,9 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
 
 // ------------------------------------------------------------------
 
-void celUIGridInventory::Setup ()
+void celUIGridInventory::SetupItems ()
 {
-  int w = g3d->GetWidth ();
-  int h = g3d->GetHeight ();
-  int horcount = w / (style.buttonw + style.marginhor);
-  int vercount = h / (style.buttonh + style.marginver);
   grid.DeleteAll ();
-  grid.SetSize (horcount * vercount);
 
   if (style.fontName.IsEmpty ())
     style.font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_COURIER);
@@ -637,29 +678,16 @@ void celUIGridInventory::Setup ()
     }
   }
 
-  int ix = 0, iy = 0;
-
   for (size_t i = 0 ; i < inventory->GetEntityCount () ; i++)
   {
     iCelEntity* ent = inventory->GetEntity (i);
     csRef<iString> n = info->GetName (ent);
-    GridEntry& g = grid[iy*horcount + ix];
+    size_t idx = grid.Push (GridEntry ());
+    GridEntry& g = grid[idx];
 
     g.entity = ent;
-    g.SetupEntry (this,
-	style.marginhor + ix * (style.buttonw + style.marginhor),
-	style.marginver + iy * (style.buttonh + style.marginver),
-	n->GetData (), 0, info->GetMeshFactory (ent), 0);
-    g.SetupEntry (this,
-	style.marginhor + ix * (style.buttonw + style.marginhor),
-	style.marginver + iy * (style.buttonh + style.marginver),
-	n->GetData (), 0, info->GetMeshFactory (ent), 1);
-    ix++;
-    if (ix >= horcount)
-    {
-      ix = 0;
-      iy++;
-    }
+    g.SetupEntry (this, n->GetData (), 0, info->GetMeshFactory (ent), 0);
+    g.SetupEntry (this, n->GetData (), 0, info->GetMeshFactory (ent), 1);
   }
 
   for (size_t i = 0 ; i < inventory->GetEntityTemplateCount () ; i++)
@@ -667,24 +695,18 @@ void celUIGridInventory::Setup ()
     iCelEntityTemplate* ent = inventory->GetEntityTemplate (i);
     int amount = inventory->GetEntityTemplateAmount (i);
     csRef<iString> n = info->GetName (ent, amount);
-    GridEntry& g = grid[iy*horcount + ix];
+    size_t idx = grid.Push (GridEntry ());
+    GridEntry& g = grid[idx];
 
     g.tpl = ent;
-    g.SetupEntry (this,
-	style.marginhor + ix * (style.buttonw + style.marginhor),
-	style.marginver + iy * (style.buttonh + style.marginver),
-	n->GetData (), amount, info->GetMeshFactory (ent, amount), 0);
-    g.SetupEntry (this,
-	style.marginhor + ix * (style.buttonw + style.marginhor),
-	style.marginver + iy * (style.buttonh + style.marginver),
-	n->GetData (), amount, info->GetMeshFactory (ent, amount), 1);
-    ix++;
-    if (ix >= horcount)
-    {
-      ix = 0;
-      iy++;
-    }
+    g.SetupEntry (this, n->GetData (), amount, info->GetMeshFactory (ent, amount), 0);
+    g.SetupEntry (this, n->GetData (), amount, info->GetMeshFactory (ent, amount), 1);
   }
+}
+
+void celUIGridInventory::SetupLayout ()
+{
+  layouter->Layout (this, grid);
 }
 
 void celUIGridInventory::Refresh ()
@@ -724,7 +746,8 @@ void celUIGridInventory::Open (const char* title, iPcInventory* inventory)
 
   celUIGridInventory::inventory = inventory;
 
-  Setup ();
+  SetupItems ();
+  SetupLayout ();
 
   if (!listener)
     listener.AttachNew (new InvListener (this));
@@ -743,12 +766,24 @@ void celUIGridInventory::Close ()
   inventory = 0;
 }
 
-bool celUIGridInventory::Bind (const char* eventname, const char* command, int flags)
+bool celUIGridInventory::Bind (const char* eventname, const char* command, const char* args)
 {
   Binding binding;
   csKeyModifiers modifiers;
-  binding.flags = flags;
-  binding.command = command;
+  csString cmd = command;
+  if (cmd == "cancel") binding.command = COMMAND_CANCEL;
+  else if (cmd == "select") binding.command = COMMAND_SELECT;
+  else if (cmd == "select_keepopen") binding.command = COMMAND_SELECT_KEEPOPEN;
+  else if (cmd == "scroll_left") binding.command = COMMAND_SCROLL_LEFT;
+  else if (cmd == "scroll_right") binding.command = COMMAND_SCROLL_RIGHT;
+  else if (cmd == "scroll_up") binding.command = COMMAND_SCROLL_UP;
+  else if (cmd == "scroll_down") binding.command = COMMAND_SCROLL_DOWN;
+  else
+  {
+    printf ("Warning! Grid inventory doesn't understand command '%s'!\n", command);
+    return false;
+  }
+  binding.args = args;
 
   if (!csInputDefinition::ParseOther (name_reg, eventname, &binding.type, &binding.device,
   	&binding.numeric, &modifiers))

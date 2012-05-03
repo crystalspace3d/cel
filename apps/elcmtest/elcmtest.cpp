@@ -127,14 +127,14 @@ public:
     elcmTest->SelectTemplate (tpl, left);
   }
 
-  virtual void SelectEntity (iCelEntity* entity, const char* command)
+  virtual void SelectEntity (iCelEntity* entity, const char* argument)
   {
-    elcmTest->SelectEntity (entity, command);
+    elcmTest->SelectEntity (entity, argument);
   }
 
-  virtual void SelectTemplate (iCelEntityTemplate* tpl, const char* command)
+  virtual void SelectTemplate (iCelEntityTemplate* tpl, const char* argument)
   {
-    elcmTest->SelectTemplate (tpl, command);
+    elcmTest->SelectTemplate (tpl, argument);
   }
 };
 
@@ -178,9 +178,9 @@ bool ElcmTest::InitWindowSystem ()
   uiInventory->SetStyleOption ("backgroundHilightImage", "/cellib/images/buttonback_hi.png");
   uiInventory->SetStyleOption ("font", "DejaVuSans");
   uiInventory->SetStyleOption ("fontSize", "10");
-  uiInventory->Bind ("MouseButton0", "select", INVENTORY_CLOSE | INVENTORY_NEEDSITEM);
-  uiInventory->Bind ("MouseButton1", "select", INVENTORY_NEEDSITEM);
-  uiInventory->Bind ("i", "cancel", INVENTORY_CLOSE);
+  uiInventory->Bind ("MouseButton0", "select", 0);
+  uiInventory->Bind ("MouseButton1", "select_keepopen", 0);
+  uiInventory->Bind ("i", "cancel", 0);
 
   uiInventory2 = csQueryRegistry<iUIInventory2> (GetObjectRegistry ());
   if (!uiInventory2) return ReportError ("Failed to locate UI Double Inventory plugin!");
@@ -625,10 +625,10 @@ bool ElcmTest::CreatePlayer ()
   return true;
 }
 
-void ElcmTest::SelectEntity (iCelEntity* entity, const char* command)
+void ElcmTest::SelectEntity (iCelEntity* entity, const char* argument)
 {
   csString cmd = "cancel";
-  if (command && cmd == command)
+  if (argument && cmd == argument)
     return;
   iPcInventory* inv = uiInventory->GetInventory ();
   if (!inv) return;
@@ -652,10 +652,10 @@ void ElcmTest::SelectEntity (iCelEntity* entity, const char* command)
   }
 }
 
-void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl, const char* command)
+void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl, const char* argument)
 {
   csString cmd = "cancel";
-  if (command && cmd == command)
+  if (argument && cmd == argument)
     return;
 
   iPcInventory* inv = uiInventory->GetInventory ();
