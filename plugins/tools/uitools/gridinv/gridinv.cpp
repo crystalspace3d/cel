@@ -520,7 +520,7 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
     else
     {
       mesh = engine->CreateMeshWrapper (factory, meshName, sector);
-      mesh->SetZBufMode (CS_ZBUF_NONE);
+      //mesh->SetZBufMode (CS_ZBUF_NONE);
     }
     mesh->GetMovable ()->SetTransform (trans);
     mesh->GetMovable ()->UpdateMove ();
@@ -561,7 +561,8 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
   const InvStyle& style = inv->GetStyle ();
 
   g3d->SetRenderTarget (handle[hi]);
-  g3d->BeginDraw (CSDRAW_2DGRAPHICS);
+  g3d->BeginDraw (CSDRAW_2DGRAPHICS | CSDRAW_CLEARZBUFFER);
+  g2d->Clear (g2d->FindRGB (0, 0, 0, 0));
 
   if (style.backgroundTexture[hi])
   {
