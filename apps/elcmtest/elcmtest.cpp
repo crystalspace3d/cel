@@ -174,6 +174,8 @@ bool ElcmTest::InitWindowSystem ()
   info.AttachNew (new ElcmTestDefaultInfo (pl, engine, uiInventory->GetInfo ()));
   uiInventory->SetInfo (info);
   //uiInventory->SetStyleOption ("backgroundColor", "50, 50, 50, 60");
+  uiInventory->SetStyleOption ("buttonWidth", "256");
+  uiInventory->SetStyleOption ("buttonHeight", "256");
   uiInventory->SetStyleOption ("backgroundImage", "/cellib/images/buttonback.png");
   uiInventory->SetStyleOption ("backgroundHilightImage", "/cellib/images/buttonback_hi.png");
   uiInventory->SetStyleOption ("font", "DejaVuSans");
