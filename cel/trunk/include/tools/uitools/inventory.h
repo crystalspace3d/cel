@@ -76,14 +76,13 @@ struct iUIInventorySelectionCallback : public virtual iBase
 
   /**
    * Call the application when something is selected. If supported the associated
-   * 'command' will be given to the application.
+   * argument will be given to the application. This argument is usually given
+   * to the inventory implementation through the 'args' parameter of the
+   * Bind() method.
    */
-  virtual void SelectEntity (iCelEntity* entity, const char* command) = 0;
-  virtual void SelectTemplate (iCelEntityTemplate* tpl, const char* command) = 0;
+  virtual void SelectEntity (iCelEntity* entity, const char* argument) = 0;
+  virtual void SelectTemplate (iCelEntityTemplate* tpl, const char* argument) = 0;
 };
-
-#define INVENTORY_CLOSE 1		// Close inventory on event
-#define INVENTORY_NEEDSITEM 2		// Event needs an item
 
 /**
  * The inventory itself.
@@ -127,10 +126,22 @@ struct iUIInventory: public virtual iBase
 
   /**
    * Bind an event to some command. Returns false if this inventory doesn't support
-   * bindings or if the binding event is invalid.
-   * @param flags is one or more of the INVENTORY_... flags.
+   * bindings or if the binding event or command is invalid.
+   * @param eventname is the name for a keyboard or mouse event
+   * @param command is a inventory implementation specific command
+   * @param args is an optional argument string for the command
+   *
+   * In order to make sure that different inventory implementations can co-exist
+   * there are a few conventions for common operations:
+   * - 'select': select an item and close inventory
+   * - 'select_keepopen': select an item but keep inventory open
+   * - 'cancel': close the inventory
+   * - 'scroll_left': scroll inventory to the left
+   * - 'scroll_right': scroll inventory to the right
+   * - 'scroll_up': scroll inventory up
+   * - 'scroll_down': scroll inventory down
    */
-  virtual bool Bind (const char* eventname, const char* command, int flags) = 0;
+  virtual bool Bind (const char* eventname, const char* command, const char* args) = 0;
 };
 
 #endif // __CEL_UITOOLS_INVENTORY__

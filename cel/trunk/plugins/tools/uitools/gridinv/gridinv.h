@@ -34,6 +34,35 @@ struct iEngine;
 class InvListener;
 class celUIGridInventory;
 
+// Grid layout styles:
+//   - Horizontal only with left/right scroll
+//   - Vertical only with up/down scroll
+//   - Grid with left/right scroll
+//   - Grid with up/down scroll
+//   - Horizontal 3D circular with left/right scroll
+//   - Vertical 3D circular with up/down scroll
+//   - 2D circular
+//
+// Hilighted item choices:
+//   - Alternative image/text
+//   - Rotating mesh
+//   - Enlarged button
+//
+// Ways to select items:
+//   - Mouse hovers over selected item
+//   - Depending on grid layout the selected item is fixed depending on
+//     how the layout is scrolled. Selection happens with a keypress then
+//
+// Ways to scroll:
+//   - When mouse goes near border scroll automatically in that direction
+//   - Using keyboard
+//   - Using button
+//
+// Size and spacing of buttons:
+//   - Fixed button and margin dimensions
+//   - Dimensions depend on desired amount of visible items
+//   - Dimensions relative to screen size
+
 struct InvStyle
 {
   // Dimension style parameters.
@@ -71,10 +100,32 @@ struct GridEntry
   GridEntry () : entity (0), tpl (0) { }
 
   void SetupEntry (celUIGridInventory* inv,
-      int x, int y, const char* text, int amount,
+      const char* text, int amount,
       iMeshFactoryWrapper* factory, int hi);
   void UpdateEntry (celUIGridInventory* inv, int hi);
 };
+
+class Layouter
+{
+public:
+  virtual void Layout (celUIGridInventory* inv, csArray<GridEntry>& grid) = 0;
+  virtual void Scroll (int dx, int dy) = 0;
+  virtual GridEntry* GetSelected (celUIGridInventory* inv, csArray<GridEntry>& grid) = 0;
+};
+
+class GridLayouter : public Layouter
+{
+private:
+  bool verticalscroll;
+
+public:
+  GridLayouter (bool verticalscroll) : verticalscroll () { }
+  virtual ~GridLayouter () { }
+  virtual void Layout (celUIGridInventory* inv, csArray<GridEntry>& grid);
+  virtual void Scroll (int dx, int dy);
+  virtual GridEntry* GetSelected (celUIGridInventory* inv, csArray<GridEntry>& grid);
+};
+
 
 class DefaultInfo : public scfImplementation1<DefaultInfo,iUIInventoryInfo>
 {
@@ -100,6 +151,14 @@ public:
   virtual iTextureHandle* GetTexture (iCelEntityTemplate* tpl, int count) { return 0; }
 };
 
+#define COMMAND_CANCEL 1
+#define COMMAND_SELECT 2
+#define COMMAND_SELECT_KEEPOPEN 3
+#define COMMAND_SCROLL_LEFT 4
+#define COMMAND_SCROLL_RIGHT 5
+#define COMMAND_SCROLL_UP 6
+#define COMMAND_SCROLL_DOWN 7
+
 struct Binding
 {
   csString eventName;
@@ -109,8 +168,8 @@ struct Binding
   utf32_char key, cooked;
   uint32 mods;
 
-  csString command;
-  int flags;
+  int command;
+  csString args;
 
   bool Match (iEventNameRegistry* name_reg, iObjectRegistry* object_reg,
       iEvent& ev) const;
@@ -130,6 +189,7 @@ private:
   csRef<iMouseDriver> mouse;
   csRef<iVirtualClock> vc;
 
+  Layouter* layouter;
   InvStyle style;
   csArray<GridEntry> grid;
 
@@ -144,7 +204,8 @@ private:
 
   void UpdateLists (iPcInventory* inventory);
 
-  void Setup ();
+  void SetupItems ();
+  void SetupLayout ();
 
   /// Activate the event handler.
   void Activate ();
@@ -152,8 +213,8 @@ private:
   /// Deactivate the event handler.
   void Deactivate ();
 
-  /// Find the grid entry under the mouse.
-  GridEntry* FindGridEntry ();
+  /// Handle selected an item.
+  void DoSelect (const char* args, bool close);
 
 public:
   celUIGridInventory (iBase* parent);
@@ -169,6 +230,7 @@ public:
   iGraphics3D* GetG3D () const { return g3d; }
   iEventNameRegistry* GetNameReg () const { return name_reg; }
   iVirtualClock* GetVC () const { return vc; }
+  iMouseDriver* GetMouseDriver () const { return mouse; }
   const InvStyle& GetStyle () const { return style; }
 
   void Refresh ();
@@ -186,7 +248,7 @@ public:
   {
     return style.SetStyleOption (this, name, value);
   }
-  virtual bool Bind (const char* eventname, const char* command, int flags);
+  virtual bool Bind (const char* eventname, const char* command, const char* args);
 
   // --------------------------------------------------------------------
 

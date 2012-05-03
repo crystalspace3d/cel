@@ -96,7 +96,7 @@ public:
   virtual void RemoveSelectionListener (iUIInventorySelectionCallback* cb);
 
   virtual bool SetStyleOption (const char* name, const char* value) { return false; }
-  virtual bool Bind (const char* eventname, const char* command, int flags)
+  virtual bool Bind (const char* eventname, const char* command, const char* args)
   {
     return false;
   }
