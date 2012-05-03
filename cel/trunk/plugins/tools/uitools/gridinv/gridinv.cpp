@@ -535,8 +535,10 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
 
   if (style.backgroundTexture[hi])
   {
+    int bw, bh;
+    style.backgroundTexture[hi]->GetRendererDimensions (bw, bh);
     g3d->DrawPixmap (style.backgroundTexture[hi], 0, 0, style.buttonw, style.buttonh,
-	    0, 0, style.buttonw, style.buttonh);
+	    0, 0, bw, bh);
   }
   else
   {
@@ -612,8 +614,10 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
 
   if (style.backgroundTexture[hi])
   {
+    int bw, bh;
+    style.backgroundTexture[hi]->GetRendererDimensions (bw, bh);
     g3d->DrawPixmap (style.backgroundTexture[hi], 0, 0, style.buttonw, style.buttonh,
-	    0, 0, style.buttonw, style.buttonh);
+	    0, 0, bw, bh);
   }
   else
   {
