@@ -71,6 +71,9 @@ MsvcGenConfig PYTHON.LIBS ;
 
 # Config settings so MSVC projects reference CEGUI from cs-winlibs
 MsvcGenConfig CEGUI.AVAILABLE : yes ;
+MsvcGenConfig CEGUI.DEFINES ;
+MsvcGenConfig CEGUI.CFLAGS ;
+MsvcGenConfig CEGUI.LFLAGS ;
 MsvcGenConfig CEGUI.LIBS.8 : "CEGUIBase-vc8.lib" ;
 MsvcGenConfig CEGUI.LIBS.DEBUG.8 : "CEGUIBase-vc8_d.lib" ;
 MsvcGenConfig CEGUI.LIBS.9 : "CEGUIBase-vc9.lib" ;
