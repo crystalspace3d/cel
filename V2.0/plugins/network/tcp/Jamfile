@@ -4,7 +4,20 @@ Plugin tcpnetwork :
   [ Wildcard *.cpp *.h ]
   [ Wildcard hawknl include : *.h ]
   [ Wildcard hawknl src : *.c *.h ] ;
-if $(TARGET.OS) = "WIN32" { LFlags tcpnetwork : -lwsock32 ; }
-if $(TARGET.OS) = "MACOS_X" { LFlags tcpnetwork : -dylib ; }
+
+switch $(TARGET.OS)
+{
+  case WIN32 :
+    # For some reason, the compilation does not work under MinGW without the optimization 
+    # compilation flag
+    CFlags tcpnetwork : -O2 -DWIN32 ;
+    LFlags tcpnetwork : -lwsock32 ;
+  case MACOS_X :
+    CFlags tcpnetwork : -DMACOSX ;
+    LFlags tcpnetwork : -dylib ;
+  case UNIX :
+    CFlags tcpnetwork : -D_GNU_SOURCE ;
+}
+
 ExternalLibs tcpnetwork : CRYSTAL ;
 LinkWith tcpnetwork : celtool ;
