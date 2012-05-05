@@ -122,39 +122,73 @@ iMeshFactoryWrapper* DefaultInfo::GetMeshFactory (iCelEntityTemplate* tpl, int c
 
 //--------------------------------------------------------------------------
 
-void GridLayouter::Layout (celUIGridInventory* inv, csArray<GridEntry>& grid)
+bool GridLayouter::NextSlot ()
 {
-  const InvStyle& style = inv->GetStyle ();
-  iGraphics3D* g3d = inv->GetG3D ();
-  int w = g3d->GetWidth ();
-  int h = g3d->GetHeight ();
-  int horcount = w / (style.buttonw + style.marginhor);
-  int vercount = h / (style.buttonh + style.marginver);
-
-  for (size_t i = 0 ; i < grid.GetSize () ; i++)
-    grid[i].x = grid[i].y = -1;
-
-  int ix = 0, iy = 0;
-  for (size_t i = 0 ; i < grid.GetSize () ; i++)
+  if (verticalscroll)
   {
-    GridEntry& g = grid[i];
-    g.x = style.marginhor + ix * (style.buttonw + style.marginhor);
-    g.y = style.marginver + iy * (style.buttonh + style.marginver);
     ix++;
     if (ix >= horcount)
     {
       ix = 0;
       iy++;
       if (iy >= vercount)
-      {
-	return;
-      }
+        return false;
     }
+  }
+  else
+  {
+    iy++;
+    if (iy >= vercount)
+    {
+      iy = 0;
+      ix++;
+      if (ix >= horcount)
+        return false;
+    }
+  }
+  return true;
+}
+
+size_t GridLayouter::FirstSlot ()
+{
+  ix = 0;
+  iy = 0;
+  if (verticalscroll)
+    return firsty * horcount;
+  else
+    return firstx * vercount;
+}
+
+void GridLayouter::Layout (celUIGridInventory* inv, csArray<GridEntry>& grid)
+{
+  const InvStyle& style = inv->GetStyle ();
+  iGraphics3D* g3d = inv->GetG3D ();
+  int w = g3d->GetWidth ();
+  int h = g3d->GetHeight ();
+  horcount = w / (style.buttonw + style.marginhor);
+  vercount = h / (style.buttonh + style.marginver);
+
+  for (size_t i = 0 ; i < grid.GetSize () ; i++)
+    grid[i].x = grid[i].y = -1;
+
+  size_t i = FirstSlot ();
+  for ( ; i < grid.GetSize () ; i++)
+  {
+    GridEntry& g = grid[i];
+    g.x = style.marginhor + ix * (style.buttonw + style.marginhor);
+    g.y = style.marginver + iy * (style.buttonh + style.marginver);
+    if (!NextSlot ()) return;
   }
 }
 
 void GridLayouter::Scroll (int dx, int dy)
 {
+  if (verticalscroll) dx = 0;
+  else dy = 0;
+  firstx += dx;
+  firsty += dy;
+  if (firstx < 0) firstx = 0;
+  if (firsty < 0) firsty = 0;
 }
 
 GridEntry* GridLayouter::GetSelected (celUIGridInventory* inv,
@@ -335,6 +369,12 @@ void celUIGridInventory::DoSelect (const char* args, bool close)
   }
 }
 
+void celUIGridInventory::DoScroll (int dx, int dy)
+{
+  layouter->Scroll (dx, dy);
+  SetupLayout ();
+}
+
 bool celUIGridInventory::HandleInputEvent (iEvent& ev)
 {
   for (size_t i = 0 ; i < bindings.GetSize () ; i++)
@@ -347,11 +387,10 @@ bool celUIGridInventory::HandleInputEvent (iEvent& ev)
 	case COMMAND_CANCEL: Close (); return true;
 	case COMMAND_SELECT: DoSelect (b.args, true); return true;
 	case COMMAND_SELECT_KEEPOPEN: DoSelect (b.args, false); return true;
-	case COMMAND_SCROLL_LEFT:
-	case COMMAND_SCROLL_RIGHT:
-	case COMMAND_SCROLL_UP:
-	case COMMAND_SCROLL_DOWN:
-	  break;
+	case COMMAND_SCROLL_LEFT: DoScroll (-1, 0); return true;
+	case COMMAND_SCROLL_RIGHT: DoScroll (1, 0); return true;
+	case COMMAND_SCROLL_UP: DoScroll (0, -1); return true;
+	case COMMAND_SCROLL_DOWN: DoScroll (0, 1); return true;
       }
       return true;
     }
