@@ -117,9 +117,16 @@ class GridLayouter : public Layouter
 {
 private:
   bool verticalscroll;
+  int horcount, vercount;
+  int ix, iy;
+
+  int firstx, firsty;
+
+  size_t FirstSlot ();
+  bool NextSlot ();
 
 public:
-  GridLayouter (bool verticalscroll) : verticalscroll () { }
+  GridLayouter (bool verticalscroll) : verticalscroll (verticalscroll), firstx (0), firsty (0) { }
   virtual ~GridLayouter () { }
   virtual void Layout (celUIGridInventory* inv, csArray<GridEntry>& grid);
   virtual void Scroll (int dx, int dy);
@@ -213,8 +220,10 @@ private:
   /// Deactivate the event handler.
   void Deactivate ();
 
-  /// Handle selected an item.
+  /// Handle selecting an item.
   void DoSelect (const char* args, bool close);
+  /// Handle scrolling.
+  void DoScroll (int dx, int dy);
 
 public:
   celUIGridInventory (iBase* parent);
