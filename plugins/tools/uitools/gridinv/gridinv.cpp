@@ -127,9 +127,12 @@ void GridLayouter::Layout (celUIGridInventory* inv, csArray<GridEntry>& grid)
   const InvStyle& style = inv->GetStyle ();
   iGraphics3D* g3d = inv->GetG3D ();
   int w = g3d->GetWidth ();
-  //int h = g3d->GetHeight ();
+  int h = g3d->GetHeight ();
   int horcount = w / (style.buttonw + style.marginhor);
-  //int vercount = h / (style.buttonh + style.marginver);
+  int vercount = h / (style.buttonh + style.marginver);
+
+  for (size_t i = 0 ; i < grid.GetSize () ; i++)
+    grid[i].x = grid[i].y = -1;
 
   int ix = 0, iy = 0;
   for (size_t i = 0 ; i < grid.GetSize () ; i++)
@@ -142,6 +145,10 @@ void GridLayouter::Layout (celUIGridInventory* inv, csArray<GridEntry>& grid)
     {
       ix = 0;
       iy++;
+      if (iy >= vercount)
+      {
+	return;
+      }
     }
   }
 }
@@ -356,19 +363,20 @@ bool celUIGridInventory::HandleRenderEvent (iEvent& ev)
 {
   if (ev.Name == csevFrame (object_reg))
   {
-    int x, y;
-    x = mouse->GetLastX ();
-    y = mouse->GetLastY ();
+    GridEntry* sel = layouter->GetSelected (this, grid);
 
     g3d->BeginDraw (CSDRAW_2DGRAPHICS);
     for (size_t i = 0 ; i < grid.GetSize () ; i++)
     {
       GridEntry& g = grid[i];
-      int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
-      if (g.handle[hi])
+      if (g.x != -1 && g.y != -1)
       {
-        g3d->DrawPixmap (g.handle[hi], g.x, g.y, style.buttonw, style.buttonh,
-	    0, 0, style.buttonw, style.buttonh);
+        int hi = &g == sel;
+        if (g.handle[hi])
+        {
+          g3d->DrawPixmap (g.handle[hi], g.x, g.y, style.buttonw, style.buttonh,
+	      0, 0, style.buttonw, style.buttonh);
+        }
       }
     }
   }
@@ -536,9 +544,12 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
   if (style.backgroundTexture[hi])
   {
     int bw, bh;
-    style.backgroundTexture[hi]->GetRendererDimensions (bw, bh);
-    g3d->DrawPixmap (style.backgroundTexture[hi], 0, 0, style.buttonw, style.buttonh,
-	    0, 0, bw, bh);
+    style.backgroundTexture[hi]->GetOriginalDimensions (bw, bh);
+    // Due to a bug? we have to use the real (scaled) dimensions of the
+    // handle texture because otherwise the renderer messes up with the scale.
+    int handlew, handleh;
+    handle[hi]->GetRendererDimensions (handlew, handleh);
+    g3d->DrawPixmap (style.backgroundTexture[hi], 0, 0, handlew, handleh, 0, 0, bw, bh);
   }
   else
   {
@@ -589,7 +600,7 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
     delete mt;
   }
 
-  int fg = g2d->FindRGB (255, 255, 255);
+  int fg = g2d->FindRGB (0, 0, 255);
   printf ("text=%s\n", txt); fflush (stdout);
   if (amount)
     text.Format ("%s (%d)", txt, amount);
@@ -616,8 +627,11 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
   {
     int bw, bh;
     style.backgroundTexture[hi]->GetRendererDimensions (bw, bh);
-    g3d->DrawPixmap (style.backgroundTexture[hi], 0, 0, style.buttonw, style.buttonh,
-	    0, 0, bw, bh);
+    // Due to a bug? we have to use the real (scaled) dimensions of the
+    // handle texture because otherwise the renderer messes up with the scale.
+    int handlew, handleh;
+    handle[hi]->GetRendererDimensions (handlew, handleh);
+    g3d->DrawPixmap (style.backgroundTexture[hi], 0, 0, handlew, handleh, 0, 0, bw, bh);
   }
   else
   {
