@@ -57,11 +57,17 @@ class celUIGridInventory;
 //   - When mouse goes near border scroll automatically in that direction
 //   - Using keyboard
 //   - Using button
+//   - Wheelmouse
 //
 // Size and spacing of buttons:
 //   - Fixed button and margin dimensions
 //   - Dimensions depend on desired amount of visible items
 //   - Dimensions relative to screen size
+//
+// Scrolling options:
+//   - Immediate
+//   - Smooth movement
+//   - Fading
 
 struct InvStyle
 {
@@ -108,8 +114,11 @@ struct GridEntry
 class Layouter
 {
 public:
+  virtual void Setup (celUIGridInventory* inv, csArray<GridEntry>& grid) = 0;
   virtual void Layout (celUIGridInventory* inv, csArray<GridEntry>& grid) = 0;
-  virtual void Scroll (int dx, int dy) = 0;
+  virtual void Scroll (int d, float time) = 0;
+  virtual void UpdateScroll (celUIGridInventory* inv, csArray<GridEntry>& grid,
+      float elapsed) = 0;
   virtual GridEntry* GetSelected (celUIGridInventory* inv, csArray<GridEntry>& grid) = 0;
 };
 
@@ -121,15 +130,21 @@ private:
   int ix, iy;
 
   int firstx, firsty;
+  float scrollTime;
 
   size_t FirstSlot ();
   bool NextSlot ();
 
 public:
-  GridLayouter (bool verticalscroll) : verticalscroll (verticalscroll), firstx (0), firsty (0) { }
+  GridLayouter (bool verticalscroll) :
+    verticalscroll (verticalscroll), firstx (0), firsty (0),
+    scrollTime (0.0f) { }
   virtual ~GridLayouter () { }
+  virtual void Setup (celUIGridInventory* inv, csArray<GridEntry>& grid);
   virtual void Layout (celUIGridInventory* inv, csArray<GridEntry>& grid);
-  virtual void Scroll (int dx, int dy);
+  virtual void Scroll (int d, float time);
+  virtual void UpdateScroll (celUIGridInventory* inv, csArray<GridEntry>& grid,
+      float elapsed);
   virtual GridEntry* GetSelected (celUIGridInventory* inv, csArray<GridEntry>& grid);
 };
 
@@ -163,8 +178,6 @@ public:
 #define COMMAND_SELECT_KEEPOPEN 3
 #define COMMAND_SCROLL_LEFT 4
 #define COMMAND_SCROLL_RIGHT 5
-#define COMMAND_SCROLL_UP 6
-#define COMMAND_SCROLL_DOWN 7
 
 struct Binding
 {
@@ -223,7 +236,7 @@ private:
   /// Handle selecting an item.
   void DoSelect (const char* args, bool close);
   /// Handle scrolling.
-  void DoScroll (int dx, int dy);
+  void DoScroll (int d);
 
 public:
   celUIGridInventory (iBase* parent);

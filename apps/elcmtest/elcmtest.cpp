@@ -182,8 +182,8 @@ bool ElcmTest::InitWindowSystem ()
   uiInventory->SetStyleOption ("fontSize", "10");
   uiInventory->Bind ("MouseButton0", "select", 0);
   uiInventory->Bind ("MouseButton1", "select_keepopen", 0);
-  uiInventory->Bind ("MouseWheelUp", "scroll_up", 0);
-  uiInventory->Bind ("MouseWheelDown", "scroll_down", 0);
+  uiInventory->Bind ("MouseWheelUp", "scroll_left", 0);
+  uiInventory->Bind ("MouseWheelDown", "scroll_right", 0);
   uiInventory->Bind ("i", "cancel", 0);
 
   uiInventory2 = csQueryRegistry<iUIInventory2> (GetObjectRegistry ());
