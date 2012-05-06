@@ -136,10 +136,8 @@ struct iUIInventory: public virtual iBase
    * - 'select': select an item and close inventory
    * - 'select_keepopen': select an item but keep inventory open
    * - 'cancel': close the inventory
-   * - 'scroll_left': scroll inventory to the left
-   * - 'scroll_right': scroll inventory to the right
-   * - 'scroll_up': scroll inventory up
-   * - 'scroll_down': scroll inventory down
+   * - 'scroll_left': scroll inventory to the left or up (depending on orientation)
+   * - 'scroll_right': scroll inventory to the right or down (depending on orientation)
    */
   virtual bool Bind (const char* eventname, const char* command, const char* args) = 0;
 };

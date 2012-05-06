@@ -159,17 +159,23 @@ size_t GridLayouter::FirstSlot ()
     return firstx * vercount;
 }
 
+void GridLayouter::Setup (celUIGridInventory* inv, csArray<GridEntry>& grid)
+{
+  for (size_t i = 0 ; i < grid.GetSize () ; i++)
+    grid[i].x = grid[i].y = -1;
+}
+
 void GridLayouter::Layout (celUIGridInventory* inv, csArray<GridEntry>& grid)
 {
+  // @@@ Temporary!
+  Setup (inv, grid);
+
   const InvStyle& style = inv->GetStyle ();
   iGraphics3D* g3d = inv->GetG3D ();
   int w = g3d->GetWidth ();
   int h = g3d->GetHeight ();
   horcount = w / (style.buttonw + style.marginhor);
   vercount = h / (style.buttonh + style.marginver);
-
-  for (size_t i = 0 ; i < grid.GetSize () ; i++)
-    grid[i].x = grid[i].y = -1;
 
   size_t i = FirstSlot ();
   for ( ; i < grid.GetSize () ; i++)
@@ -181,14 +187,25 @@ void GridLayouter::Layout (celUIGridInventory* inv, csArray<GridEntry>& grid)
   }
 }
 
-void GridLayouter::Scroll (int dx, int dy)
+void GridLayouter::Scroll (int d, float time)
 {
-  if (verticalscroll) dx = 0;
-  else dy = 0;
-  firstx += dx;
-  firsty += dy;
-  if (firstx < 0) firstx = 0;
-  if (firsty < 0) firsty = 0;
+  if (verticalscroll)
+  {
+    firsty += d;
+    if (firsty < 0) firsty = 0;
+  }
+  else
+  {
+    firstx += d;
+    if (firstx < 0) firstx = 0;
+  }
+  scrollTime = time;
+}
+
+void GridLayouter::UpdateScroll (celUIGridInventory* inv, csArray<GridEntry>& grid,
+    float elapsed)
+{
+  if (scrollTime <= 0.0f) return;
 }
 
 GridEntry* GridLayouter::GetSelected (celUIGridInventory* inv,
@@ -263,6 +280,8 @@ bool celUIGridInventory::HandleLogicEvent (iEvent& ev)
 {
   if (ev.Name == csevFrame (object_reg))
   {
+    layouter->UpdateScroll (this, grid, vc->GetElapsedSeconds ());
+
     if (style.rotateHiMesh)
     {
       GridEntry* g = layouter->GetSelected (this, grid);
@@ -369,9 +388,10 @@ void celUIGridInventory::DoSelect (const char* args, bool close)
   }
 }
 
-void celUIGridInventory::DoScroll (int dx, int dy)
+void celUIGridInventory::DoScroll (int d)
 {
-  layouter->Scroll (dx, dy);
+  // @@@ Scroll time config option
+  layouter->Scroll (d, 1.0f);
   SetupLayout ();
 }
 
@@ -387,10 +407,8 @@ bool celUIGridInventory::HandleInputEvent (iEvent& ev)
 	case COMMAND_CANCEL: Close (); return true;
 	case COMMAND_SELECT: DoSelect (b.args, true); return true;
 	case COMMAND_SELECT_KEEPOPEN: DoSelect (b.args, false); return true;
-	case COMMAND_SCROLL_LEFT: DoScroll (-1, 0); return true;
-	case COMMAND_SCROLL_RIGHT: DoScroll (1, 0); return true;
-	case COMMAND_SCROLL_UP: DoScroll (0, -1); return true;
-	case COMMAND_SCROLL_DOWN: DoScroll (0, 1); return true;
+	case COMMAND_SCROLL_LEFT: DoScroll (-1); return true;
+	case COMMAND_SCROLL_RIGHT: DoScroll (1); return true;
       }
       return true;
     }
@@ -804,6 +822,7 @@ void celUIGridInventory::Open (const char* title, iPcInventory* inventory)
   celUIGridInventory::inventory = inventory;
 
   SetupItems ();
+  layouter->Setup (this, grid);
   SetupLayout ();
 
   if (!listener)
@@ -833,8 +852,6 @@ bool celUIGridInventory::Bind (const char* eventname, const char* command, const
   else if (cmd == "select_keepopen") binding.command = COMMAND_SELECT_KEEPOPEN;
   else if (cmd == "scroll_left") binding.command = COMMAND_SCROLL_LEFT;
   else if (cmd == "scroll_right") binding.command = COMMAND_SCROLL_RIGHT;
-  else if (cmd == "scroll_up") binding.command = COMMAND_SCROLL_UP;
-  else if (cmd == "scroll_down") binding.command = COMMAND_SCROLL_DOWN;
   else
   {
     printf ("Warning! Grid inventory doesn't understand command '%s'!\n", command);
