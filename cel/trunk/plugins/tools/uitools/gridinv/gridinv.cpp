@@ -192,12 +192,12 @@ void GridLayouter::Scroll (int d, float time)
   if (verticalscroll)
   {
     firsty += d;
-    if (firsty < 0) firsty = 0;
+    if (firsty < 0) { firsty = 0; return; }
   }
   else
   {
     firstx += d;
-    if (firstx < 0) firstx = 0;
+    if (firstx < 0) { firstx = 0; return; }
   }
   scrollTime = time;
 }
@@ -383,7 +383,7 @@ void celUIGridInventory::DoSelect (const char* args, bool close)
     {
       // Possibly we need to refresh our inventory.
       SetupItems ();
-      SetupLayout ();
+      layouter->Layout (this, grid);
     }
   }
 }
@@ -392,7 +392,7 @@ void celUIGridInventory::DoScroll (int d)
 {
   // @@@ Scroll time config option
   layouter->Scroll (d, 1.0f);
-  SetupLayout ();
+  layouter->Layout (this, grid);
 }
 
 bool celUIGridInventory::HandleInputEvent (iEvent& ev)
@@ -779,11 +779,6 @@ void celUIGridInventory::SetupItems ()
   }
 }
 
-void celUIGridInventory::SetupLayout ()
-{
-  layouter->Layout (this, grid);
-}
-
 void celUIGridInventory::Refresh ()
 {
   UpdateLists (inventory);
@@ -823,7 +818,7 @@ void celUIGridInventory::Open (const char* title, iPcInventory* inventory)
 
   SetupItems ();
   layouter->Setup (this, grid);
-  SetupLayout ();
+  layouter->Layout (this, grid);
 
   if (!listener)
     listener.AttachNew (new InvListener (this));
