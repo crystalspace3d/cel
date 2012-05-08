@@ -225,7 +225,6 @@ private:
   void UpdateLists (iPcInventory* inventory);
 
   void SetupItems ();
-  void SetupLayout ();
 
   /// Activate the event handler.
   void Activate ();
