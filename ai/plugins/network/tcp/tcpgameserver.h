@@ -22,7 +22,7 @@
 
 #include "iutil/comp.h"
 
-#include "nl.h"
+#include "hawknl/include/nl.h"
 
 #include "physicallayer/nettypes.h"
 #include "physicallayer/network.h"

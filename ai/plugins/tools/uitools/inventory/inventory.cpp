@@ -237,13 +237,13 @@ void celUIInventory::RemoveSelectionListener (iUIInventorySelectionCallback* cb)
 void celUIInventory::FireSelectionListeners (iCelEntity* entity)
 {
   for (size_t i = 0 ; i < callbacks.GetSize () ; i++)
-    callbacks[i]->SelectEntity (entity);
+    callbacks[i]->SelectEntity (entity, 0);
 }
 
 void celUIInventory::FireSelectionListeners (iCelEntityTemplate* tpl)
 {
   for (size_t i = 0 ; i < callbacks.GetSize () ; i++)
-    callbacks[i]->SelectTemplate (tpl);
+    callbacks[i]->SelectTemplate (tpl, 0);
 }
 
 void celUIInventory::Open (const char* title, iPcInventory* inventory)

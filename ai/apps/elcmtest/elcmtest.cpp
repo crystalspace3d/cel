@@ -31,6 +31,37 @@ void CeguiPrinter::TickEveryFrame ()
 
 //-----------------------------------------------------------------------
 
+class ElcmTestDefaultInfo : public scfImplementation1<ElcmTestDefaultInfo,iUIInventoryInfo>
+{
+private:
+  iCelPlLayer* pl;
+  iEngine* engine;
+  csRef<iUIInventoryInfo> pInfo;
+
+public:
+  ElcmTestDefaultInfo (iCelPlLayer* pl, iEngine* engine, iUIInventoryInfo* pInfo) :
+    scfImplementationType (this), pl (pl), engine (engine),
+    pInfo( pInfo) { }
+  virtual ~ElcmTestDefaultInfo () { }
+
+  virtual csRef<iString> GetName (iCelEntity* entity) { return pInfo->GetName (entity); }
+  virtual csRef<iString> GetName (iCelEntityTemplate* tpl, int count) { return pInfo->GetName (tpl, count); }
+
+  virtual csRef<iString> GetDescription (iCelEntity* entity) { return pInfo->GetDescription (entity); }
+  virtual csRef<iString> GetDescription (iCelEntityTemplate* tpl, int count) { return pInfo->GetDescription (tpl, count); }
+
+  virtual iMeshFactoryWrapper* GetMeshFactory (iCelEntity* entity) { return pInfo->GetMeshFactory (entity); }
+  virtual iMeshFactoryWrapper* GetMeshFactory (iCelEntityTemplate* tpl, int count)
+  {
+    return engine->FindMeshFactory (tpl->GetName ());
+  }
+
+  virtual iTextureHandle* GetTexture (iCelEntity* entity) { return pInfo->GetTexture (entity); }
+  virtual iTextureHandle* GetTexture (iCelEntityTemplate* tpl, int count) { return pInfo->GetTexture (tpl, count); }
+};
+
+//-----------------------------------------------------------------------
+
 class ElcmMessageReceiver : public scfImplementation1<ElcmMessageReceiver,
   iMessageReceiver>
 {
@@ -96,14 +127,14 @@ public:
     elcmTest->SelectTemplate (tpl, left);
   }
 
-  virtual void SelectEntity (iCelEntity* entity)
+  virtual void SelectEntity (iCelEntity* entity, const char* argument)
   {
-    elcmTest->SelectEntity (entity);
+    elcmTest->SelectEntity (entity, argument);
   }
 
-  virtual void SelectTemplate (iCelEntityTemplate* tpl)
+  virtual void SelectTemplate (iCelEntityTemplate* tpl, const char* argument)
   {
-    elcmTest->SelectTemplate (tpl);
+    elcmTest->SelectTemplate (tpl, argument);
   }
 };
 
@@ -138,6 +169,23 @@ bool ElcmTest::InitWindowSystem ()
 
   uiInventory = csQueryRegistry<iUIInventory> (GetObjectRegistry ());
   if (!uiInventory) return ReportError ("Failed to locate UI Inventory plugin!");
+
+  csRef<ElcmTestDefaultInfo> info;
+  info.AttachNew (new ElcmTestDefaultInfo (pl, engine, uiInventory->GetInfo ()));
+  uiInventory->SetInfo (info);
+  //uiInventory->SetStyleOption ("backgroundColor", "50, 50, 50, 60");
+  uiInventory->SetStyleOption ("buttonWidth", "300");
+  uiInventory->SetStyleOption ("buttonHeight", "300");
+  uiInventory->SetStyleOption ("backgroundImage", "/cellib/images/buttonback.png");
+  uiInventory->SetStyleOption ("backgroundHilightImage", "/cellib/images/buttonback_hi.png");
+  uiInventory->SetStyleOption ("font", "DejaVuSans");
+  uiInventory->SetStyleOption ("fontSize", "10");
+  uiInventory->Bind ("MouseButton0", "select", 0);
+  uiInventory->Bind ("MouseButton1", "select_keepopen", 0);
+  uiInventory->Bind ("MouseWheelUp", "scroll_left", 0);
+  uiInventory->Bind ("MouseWheelDown", "scroll_right", 0);
+  uiInventory->Bind ("i", "cancel", 0);
+
   uiInventory2 = csQueryRegistry<iUIInventory2> (GetObjectRegistry ());
   if (!uiInventory2) return ReportError ("Failed to locate UI Double Inventory plugin!");
 
@@ -581,8 +629,11 @@ bool ElcmTest::CreatePlayer ()
   return true;
 }
 
-void ElcmTest::SelectEntity (iCelEntity* entity)
+void ElcmTest::SelectEntity (iCelEntity* entity, const char* argument)
 {
+  csString cmd = "cancel";
+  if (argument && cmd == argument)
+    return;
   iPcInventory* inv = uiInventory->GetInventory ();
   if (!inv) return;
   csStringID tmpID = entity->GetTemplateNameID ();
@@ -605,8 +656,12 @@ void ElcmTest::SelectEntity (iCelEntity* entity)
   }
 }
 
-void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl)
+void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl, const char* argument)
 {
+  csString cmd = "cancel";
+  if (argument && cmd == argument)
+    return;
+
   iPcInventory* inv = uiInventory->GetInventory ();
   if (!inv) return;
 
@@ -958,6 +1013,7 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
         csQueryRegistry<iEventQueue> (GetObjectRegistry());
       if (q.IsValid()) q->GetEventOutlet()->Broadcast(
 	  csevQuit (GetObjectRegistry ()));
+      return true;
     }
     else if (code == '1')
     {
@@ -966,6 +1022,7 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
       size_t size = file->Write (buf->GetData (), buf->GetSize ());
       printf ("%d bytes written to 'savefile'!\n", size);
       fflush (stdout);
+      return true;
     }
     else if (code == '2')
     {
@@ -978,11 +1035,12 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
       csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
       pcmesh->MoveMesh (dynworld->GetCurrentCell ()->GetSector (),
 	  csVector3 (0, 3, 0));
-
+      return true;
     }
     else if (code == 'b')
     {
       debugPhysics = !debugPhysics;
+      return true;
     }
     else if (code == 'p')
     {
@@ -992,12 +1050,14 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
       printf ("  Total entities=%d\n", pl->GetEntityCount ());
       printf ("  Total meshes=%d\n", engine->GetMeshes ()->GetCount ());
       fflush (stdout);
+      return true;
     }
     else if (code == 'i')
     {
       csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (
 	  playerEntity);
       uiInventory->Open ("Inventory for player", inventory);
+      return true;
     }
   }
   return false;
@@ -1015,7 +1075,7 @@ bool ElcmTest::OnInitialize (int argc, char* argv[])
     	CS_REQUEST_REPORTER,
     	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN ("crystalspace.cegui.wrapper", iCEGUI),
-    	CS_REQUEST_PLUGIN ("cel.ui.inventory", iUIInventory),
+    	CS_REQUEST_PLUGIN ("cel.ui.inventory.grid", iUIInventory),
     	CS_REQUEST_PLUGIN ("cel.ui.inventory2", iUIInventory2),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),

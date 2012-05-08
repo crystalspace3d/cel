@@ -25,7 +25,7 @@
 #include "csutil/bitarray.h"
 #include "ivaria/reporter.h"
 
-#include "nl.h"
+#include "hawknl/include/nl.h"
 
 #include "physicallayer/datatype.h"
 #include "physicallayer/persist.h"

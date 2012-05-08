@@ -110,7 +110,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -157,7 +157,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -202,7 +202,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -245,7 +245,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -290,7 +290,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -337,7 +337,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -382,7 +382,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -425,7 +425,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\usr\local\include -I\usr\local\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -530,6 +530,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libselectors_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libsequences_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libstdphyslayer_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libtcpnetwork_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libtriggers_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_gridinv_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory2_staticreg.cpp" />
@@ -550,6 +551,23 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\behaviourlayer\xml\blxml.cpp" />
     <ClCompile Include="..\..\plugins\behaviourlayer\xml\token.cpp" />
     <ClCompile Include="..\..\plugins\behaviourlayer\xml\xmlscript.cpp" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\crc.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\err.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\errorstr.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\group.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\htcondition.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\hthread.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\htmutex.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\ipx.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\loopback.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\nl.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\nltime.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\sock.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\tcpgame.cpp" />
+    <ClCompile Include="..\..\plugins\network\tcp\tcpgameclient.cpp" />
+    <ClCompile Include="..\..\plugins\network\tcp\tcpgamefactory.cpp" />
+    <ClCompile Include="..\..\plugins\network\tcp\tcpgameserver.cpp" />
+    <ClCompile Include="..\..\plugins\network\tcp\tcputils.cpp" />
     <ClCompile Include="..\..\plugins\propclass\actormove\actormove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\actormove\npcmove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\analogmotion\analogmotion.cpp" />
@@ -741,6 +759,22 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\behaviourlayer\xml\blxml.h" />
     <ClInclude Include="..\..\plugins\behaviourlayer\xml\token.h" />
     <ClInclude Include="..\..\plugins\behaviourlayer\xml\xmlscript.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\hawknl\include\hawklib.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\hawknl\include\hawkthreads.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\hawknl\include\nl.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\hawknl\src\htinternal.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\hawknl\src\ipx.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\hawknl\src\loopback.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\hawknl\src\nlinternal.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\hawknl\src\parallel.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\hawknl\src\serial.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\hawknl\src\sock.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\hawknl\src\wsock.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\tcpgame.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\tcpgameclient.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\tcpgamefactory.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\tcpgameserver.h" />
+    <ClInclude Include="..\..\plugins\network\tcp\tcputils.h" />
     <ClInclude Include="..\..\plugins\propclass\actormove\actormove.h" />
     <ClInclude Include="..\..\plugins\propclass\actormove\npcmove.h" />
     <ClInclude Include="..\..\plugins\propclass\analogmotion\analogmotion.h" />

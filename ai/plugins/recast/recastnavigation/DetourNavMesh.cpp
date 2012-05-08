@@ -295,11 +295,13 @@ int dtNavMesh::findConnectingPolys(const float* va, const float* vb,
 {
 	if (!tile) return 0;
 	
-	float amin[2], amax[2];
+	float amin[2] = { 0.0f, 0.0f };
+	float amax[2] = { 0.0f, 0.0f };
 	calcSlabEndPoints(va,vb, amin,amax, side);
 
 	// Remove links pointing to 'side' and compact the links array. 
-	float bmin[2], bmax[2];
+	float bmin[2] = { 0.0f, 0.0f };
+	float bmax[2] = { 0.0f, 0.0f };
 	unsigned short m = DT_EXT_LINK | (unsigned short)side;
 	int n = 0;
 	
@@ -1179,7 +1181,7 @@ dtPolyRef dtNavMesh::findNearestPoly(const float* center, const float* extents,
 	for (int i = 0; i < polyCount; ++i)
 	{
 		dtPolyRef ref = polys[i];
-		float closestPtPoly[3];
+		float closestPtPoly[3] = { 0.0f, 0.0f, 0.0f };
 		if (!closestPointOnPoly(ref, center, closestPtPoly))
 			continue;
 		float d = dtVdistSqr(center, closestPtPoly);
@@ -1212,7 +1214,7 @@ dtPolyRef dtNavMesh::findNearestPolyInTile(const dtMeshTile* tile, const float* 
 	for (int i = 0; i < polyCount; ++i)
 	{
 		dtPolyRef ref = polys[i];
-		float closestPtPoly[3];
+		float closestPtPoly[3] = { 0.0f, 0.0f, 0.0f };
 		if (!closestPointOnPolyInTile(tile, decodePolyIdPoly(ref), center, closestPtPoly))
 			continue;
 		float d = dtVdistSqr(center, closestPtPoly);

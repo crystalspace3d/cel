@@ -74,8 +74,14 @@ struct iUIInventorySelectionCallback : public virtual iBase
 {
   SCF_INTERFACE (iUIInventorySelectionCallback, 0, 0, 1);
 
-  virtual void SelectEntity (iCelEntity* entity) = 0;
-  virtual void SelectTemplate (iCelEntityTemplate* tpl) = 0;
+  /**
+   * Call the application when something is selected. If supported the associated
+   * argument will be given to the application. This argument is usually given
+   * to the inventory implementation through the 'args' parameter of the
+   * Bind() method.
+   */
+  virtual void SelectEntity (iCelEntity* entity, const char* argument) = 0;
+  virtual void SelectTemplate (iCelEntityTemplate* tpl, const char* argument) = 0;
 };
 
 /**
@@ -92,6 +98,13 @@ struct iUIInventory: public virtual iBase
    */
   virtual void SetInfo (iUIInventoryInfo* info) = 0;
 
+  /**
+   * Get the current info. If you want to implement your own info class
+   * that only overrides one particular function you can delegate back to
+   * this class provided you hold a reference to it.
+   */
+  virtual iUIInventoryInfo* GetInfo () const = 0;
+
   /// Open the inventory.
   virtual void Open (const char* title, iPcInventory* inventory) = 0;
   /// Close the inventory.
@@ -102,6 +115,31 @@ struct iUIInventory: public virtual iBase
   /// Add a new selection listener.
   virtual void AddSelectionListener (iUIInventorySelectionCallback* cb) = 0;
   virtual void RemoveSelectionListener (iUIInventorySelectionCallback* cb) = 0;
+
+  /**
+   * Set a style option.
+   * Different inventory implementations can support different style options.
+   * This function returns false if a certain style option is not supported
+   * or if the value is invalid for this style.
+   */
+  virtual bool SetStyleOption (const char* name, const char* value) = 0;
+
+  /**
+   * Bind an event to some command. Returns false if this inventory doesn't support
+   * bindings or if the binding event or command is invalid.
+   * @param eventname is the name for a keyboard or mouse event
+   * @param command is a inventory implementation specific command
+   * @param args is an optional argument string for the command
+   *
+   * In order to make sure that different inventory implementations can co-exist
+   * there are a few conventions for common operations:
+   * - 'select': select an item and close inventory
+   * - 'select_keepopen': select an item but keep inventory open
+   * - 'cancel': close the inventory
+   * - 'scroll_left': scroll inventory to the left or up (depending on orientation)
+   * - 'scroll_right': scroll inventory to the right or down (depending on orientation)
+   */
+  virtual bool Bind (const char* eventname, const char* command, const char* args) = 0;
 };
 
 #endif // __CEL_UITOOLS_INVENTORY__

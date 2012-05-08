@@ -1,8 +1,23 @@
 SubDir TOP plugins network tcp ;
 
-if $(HAWKNL.AVAILABLE) = "yes"
+Plugin tcpnetwork :
+  [ Wildcard *.cpp *.h ]
+  [ Wildcard hawknl include : *.h ]
+  [ Wildcard hawknl src : *.c *.h ] ;
+
+switch $(TARGET.OS)
 {
-  Plugin tcpnetwork : [ Wildcard *.cpp *.h ] ;
-  ExternalLibs tcpnetwork : CRYSTAL HAWKNL ; 
-  LinkWith tcpnetwork : celtool ;
+  case WIN32 :
+    # For some reason, the compilation does not work under MinGW without the optimization 
+    # compilation flag
+    CFlags tcpnetwork : -O2 -DWIN32 ;
+    LFlags tcpnetwork : -lwsock32 ;
+  case MACOS_X :
+    CFlags tcpnetwork : -DMACOSX ;
+    LFlags tcpnetwork : -dylib ;
+  case UNIX :
+    CFlags tcpnetwork : -D_GNU_SOURCE ;
 }
+
+ExternalLibs tcpnetwork : CRYSTAL ;
+LinkWith tcpnetwork : celtool ;
