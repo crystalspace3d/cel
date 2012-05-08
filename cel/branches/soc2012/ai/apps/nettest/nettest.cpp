@@ -87,6 +87,11 @@
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
 
+#define APP_SINGLEPLAYER 0
+#define APP_SERVER 1
+#define APP_CLIENT 2
+#define APP_CLIENTSERVER 3
+
 NetTest::NetTest ()
 {
   SetApplicationName ("Network test");
@@ -301,7 +306,7 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
 	const char* /*factname*/, const csVector3& /*pos*/)
 {
   // The Real Camera
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, 0, 0,
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, behaviourLayer, "playerBehaviour",
   	"pcinput.standard",
 	"pccamera.old",
 	"pcmove.actor.standard",
@@ -431,8 +436,9 @@ csPtr<iCelEntity> NetTest::CreateActorNPC (const char* name,
   scfString regionname, startname;
   pczonemgr->GetLastStartLocation (&regionname, &startname);
 
-  if (pczonemgr->PointMesh (name, regionname, startname)
-  	!= CEL_ZONEERROR_OK)
+  if (applicationType != APP_SERVER
+      && pczonemgr->PointMesh (name, regionname, startname)
+      != CEL_ZONEERROR_OK)
   {
     ReportError ("Error finding npc start position!");
     return 0;
@@ -556,9 +562,6 @@ bool NetTest::OnInitialize (int argc, char* argv[])
 	CS_REQUEST_REPORTER,
 	CS_REQUEST_REPORTERLISTENER,
 	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
-	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test:iCelBlLayer.Test",
-		iCelBlLayer),
-	CS_REQUEST_PLUGIN ("cel.persistence.xml", iCelPersistence),
 	CS_REQUEST_PLUGIN ("cel.network.tcp", iCelGameFactory),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
@@ -610,6 +613,13 @@ bool NetTest::Application ()
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
+
+  behaviourLayer.AttachNew(new BehaviourLayer(pl, object_reg));
+  if (!object_reg->Register(behaviourLayer, "iCelBlLayer"))
+  {
+    return ReportError("Can't register our behaviour layer!");
+  }
+  pl->RegisterBehaviourLayer(behaviourLayer);
 
   // initialize game factory
   game_factory = csQueryRegistry<iCelGameFactory> (object_reg);
@@ -687,26 +697,20 @@ bool NetTest::Application ()
     //level_file = "basic_level.xml";
   }
 
-  // read client-server type of this application
-  // 0 means singleplayer, 1 means server, 2 means client, 3 means client + server + open to other players
-# define APP_SINGLEPLAYER 0
-# define APP_SERVER 1
-# define APP_CLIENT 2
-# define APP_CLIENTSERVER 3
-  //int app_type = APP_CLIENT;
-  int app_type = APP_CLIENTSERVER;
+  // read the client-server type of this application
+  applicationType = APP_CLIENTSERVER;
 
   if (cmdline->GetOption ("server") != 0)
   {
     if (cmdline->GetOption ("client") != 0)
-      app_type = APP_CLIENTSERVER;
+      applicationType = APP_CLIENTSERVER;
     else
-      app_type = APP_SERVER;
+      applicationType = APP_SERVER;
   }
   else if (cmdline->GetOption ("client") != 0)
-    app_type = APP_CLIENT;
+    applicationType = APP_CLIENT;
   else if (cmdline->GetOption ("singleplayer") != 0)
-    app_type = APP_SINGLEPLAYER;
+    applicationType = APP_SINGLEPLAYER;
 
   // read player name
   csString player_name = cmdline->GetOption ("player");
@@ -722,8 +726,7 @@ bool NetTest::Application ()
   celGameInfo game_info;
   game_info.game_name = "Test game";
   game_info.hostname = "127.0.0.1";
-  //game_info.port_nb = 25000;
-  game_info.port_nb = 25001;
+  game_info.port_nb = 25000;
   game_info.password = "nice password";
   game_info.max_players = 3;
   game_info.custom_data = pl->CreateDataBuffer (0);
@@ -736,7 +739,7 @@ bool NetTest::Application ()
   else player.player_name = "Test player";
 
   // launch networked game
-  switch (app_type)
+  switch (applicationType)
   {
     case APP_SINGLEPLAYER:
       csPrintf ("Creating singleplayer game with player %s\n",
@@ -765,6 +768,7 @@ bool NetTest::Application ()
         return false;
       break;
   }
+
   // This calls the default runloop. This will basically just keep
   // broadcasting process events to keep the game going.
   Run ();

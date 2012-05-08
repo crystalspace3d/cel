@@ -379,9 +379,6 @@ bool WheeledTest::OnInitialize (int argc, char* argv[])
        CS_REQUEST_REPORTER,
        CS_REQUEST_REPORTERLISTENER,
        CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
-       CS_REQUEST_PLUGIN ("cel.behaviourlayer.test:iCelBlLayer.Test",
-                          iCelBlLayer),
-       CS_REQUEST_PLUGIN ("cel.persistence.xml", iCelPersistence),
        CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
                           iCollideSystem),
        CS_REQUEST_END))

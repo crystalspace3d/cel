@@ -28,7 +28,7 @@
 				ProgramDataBaseFileName="..\..\out\release8\build\libcel_staticplugins\Win32\cel_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\local\include -I\usr\local\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release8\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release8\build\libcel_staticplugins\"
@@ -101,7 +101,7 @@
 				ProgramDataBaseFileName="..\..\out\release8\build\libcel_staticplugins\Win32\cel_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\local\include -I\usr\local\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release8\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release8\build\libcel_staticplugins\"
@@ -174,7 +174,7 @@
 				ProgramDataBaseFileName="..\..\out\debug8\build\libcel_staticplugins\Win32\cel_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\local\include -I\usr\local\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug8\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\libcel_staticplugins\"
@@ -245,7 +245,7 @@
 				ProgramDataBaseFileName="..\..\out\debug8\build\libcel_staticplugins\Win32\cel_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\local\include -I\usr\local\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug8\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\libcel_staticplugins\"
@@ -316,7 +316,7 @@
 				ProgramDataBaseFileName="..\..\out\release8-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\local\include -I\usr\local\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release8-x64\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release8-x64\build\libcel_staticplugins\"
@@ -389,7 +389,7 @@
 				ProgramDataBaseFileName="..\..\out\release8-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\local\include -I\usr\local\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release8-x64\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release8-x64\build\libcel_staticplugins\"
@@ -462,7 +462,7 @@
 				ProgramDataBaseFileName="..\..\out\debug8-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\local\include -I\usr\local\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug8-x64\build\libcel_staticplugins\"
@@ -533,7 +533,7 @@
 				ProgramDataBaseFileName="..\..\out\debug8-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\local\include -I\usr\local\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug8-x64\build\libcel_staticplugins\"
@@ -797,6 +797,9 @@
 				RelativePath="..\..\msvc\libstdphyslayer_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libtcpnetwork_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libtriggers_staticreg.cpp">
 			</File>
 			<File
@@ -855,6 +858,57 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\behaviourlayer\xml\xmlscript.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\crc.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\err.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\errorstr.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\group.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\htcondition.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\hthread.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\htmutex.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\ipx.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\loopback.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\nl.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\nltime.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\sock.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgame.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgameclient.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgamefactory.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgameserver.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcputils.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.cpp">
@@ -1486,6 +1540,54 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\behaviourlayer\xml\xmlscript.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\include\hawklib.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\include\hawkthreads.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\include\nl.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\htinternal.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\ipx.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\loopback.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\nlinternal.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\parallel.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\serial.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\sock.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\wsock.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgame.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgameclient.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgamefactory.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcpgameserver.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\tcputils.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.h">

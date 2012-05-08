@@ -69,6 +69,18 @@ MsvcGenConfig PYTHON.CFLAGS ;
 MsvcGenConfig PYTHON.LFLAGS ;
 MsvcGenConfig PYTHON.LIBS ;
 
+# Config settings so MSVC projects reference CEGUI from cs-winlibs
+MsvcGenConfig CEGUI.AVAILABLE : yes ;
+MsvcGenConfig CEGUI.DEFINES ;
+MsvcGenConfig CEGUI.CFLAGS ;
+MsvcGenConfig CEGUI.LFLAGS ;
+MsvcGenConfig CEGUI.LIBS.8 : "CEGUIBase-vc8.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG.8 : "CEGUIBase-vc8_d.lib" ;
+MsvcGenConfig CEGUI.LIBS.9 : "CEGUIBase-vc9.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG.9 : "CEGUIBase-vc9_d.lib" ;
+MsvcGenConfig CEGUI.LIBS.10 : "CEGUIBase-vc10.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG.10 : "CEGUIBase-vc10_d.lib" ;
+
 # Create a string combining compiler type and version.
 # Can be used for ABI identification
 if $(COMPILER.C++.VERSION_LIST)

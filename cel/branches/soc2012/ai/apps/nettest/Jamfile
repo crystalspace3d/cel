@@ -1,7 +1,5 @@
 SubDir TOP apps nettest ;
 
-if $(HAWKNL.AVAILABLE) = "yes"
-{
 Application nettest : [ Wildcard *.cpp *.h ] ;
 CFlags nettest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
 LinkWith nettest : celtool ;
@@ -99,5 +97,4 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   ExternalLibs nettest_static : CRYSTAL ;
   
   SubVariant ;
-}
 }
