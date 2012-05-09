@@ -122,7 +122,7 @@ iMeshFactoryWrapper* DefaultInfo::GetMeshFactory (iCelEntityTemplate* tpl, int c
 
 //--------------------------------------------------------------------------
 
-bool GridLayouter::NextSlot ()
+void GridLayouter::NextSlot ()
 {
   if (verticalscroll)
   {
@@ -131,8 +131,6 @@ bool GridLayouter::NextSlot ()
     {
       ix = 0;
       iy++;
-      if (iy >= vercount)
-        return false;
     }
   }
   else
@@ -142,34 +140,18 @@ bool GridLayouter::NextSlot ()
     {
       iy = 0;
       ix++;
-      if (ix >= horcount)
-        return false;
     }
   }
-  return true;
 }
 
-size_t GridLayouter::FirstSlot ()
+void GridLayouter::FirstSlot ()
 {
   ix = 0;
   iy = 0;
-  if (verticalscroll)
-    return firsty * horcount;
-  else
-    return firstx * vercount;
 }
 
-void GridLayouter::Setup (celUIGridInventory* inv, csArray<GridEntry>& grid)
+void GridLayouter::Layout ()
 {
-  for (size_t i = 0 ; i < grid.GetSize () ; i++)
-    grid[i].x = grid[i].y = -1;
-}
-
-void GridLayouter::Layout (celUIGridInventory* inv, csArray<GridEntry>& grid)
-{
-  // @@@ Temporary!
-  Setup (inv, grid);
-
   const InvStyle& style = inv->GetStyle ();
   iGraphics3D* g3d = inv->GetG3D ();
   int w = g3d->GetWidth ();
@@ -177,45 +159,82 @@ void GridLayouter::Layout (celUIGridInventory* inv, csArray<GridEntry>& grid)
   horcount = w / (style.buttonw + style.marginhor);
   vercount = h / (style.buttonh + style.marginver);
 
-  size_t i = FirstSlot ();
-  for ( ; i < grid.GetSize () ; i++)
+  csArray<GridEntry>& grid = inv->GetGrid ();
+  FirstSlot ();
+  for (size_t i = 0 ; i < grid.GetSize () ; i++)
   {
     GridEntry& g = grid[i];
-    g.x = style.marginhor + ix * (style.buttonw + style.marginhor);
-    g.y = style.marginver + iy * (style.buttonh + style.marginver);
-    if (!NextSlot ()) return;
+    g.x = ix * (style.buttonw + style.marginhor);
+    g.y = iy * (style.buttonh + style.marginver);
+    NextSlot ();
   }
 }
 
 void GridLayouter::Scroll (int d, float time)
 {
+  const InvStyle& style = inv->GetStyle ();
   if (verticalscroll)
   {
     firsty += d;
     if (firsty < 0) { firsty = 0; return; }
+    scrollDirection = (style.buttonh + style.marginver);
   }
   else
   {
     firstx += d;
     if (firstx < 0) { firstx = 0; return; }
+    scrollDirection = (style.buttonw + style.marginhor);
   }
+  if (d > 0) scrollDirection = -scrollDirection;
   scrollTime = time;
 }
 
-void GridLayouter::UpdateScroll (celUIGridInventory* inv, csArray<GridEntry>& grid,
-    float elapsed)
+void GridLayouter::UpdateScroll (float elapsed)
 {
   if (scrollTime <= 0.0f) return;
+  scrollTime -= elapsed;
+  if (scrollTime <= 0.0f) scrollTime = 0.0f;
 }
 
-GridEntry* GridLayouter::GetSelected (celUIGridInventory* inv,
-    csArray<GridEntry>& grid)
+bool GridLayouter::GetRealPosition (size_t i, int& x, int& y)
+{
+  const InvStyle& style = inv->GetStyle ();
+  iGraphics3D* g3d = inv->GetG3D ();
+  int w = g3d->GetWidth ();
+  int h = g3d->GetHeight ();
+
+  GridEntry& g = inv->GetGrid ()[i];
+  x = style.marginhor + g.x;
+  y = style.marginver + g.y;
+  g.alpha = 0;
+  if (verticalscroll)
+  {
+    y -= firsty * (style.marginver + style.buttonh) + scrollTime * scrollDirection;
+    if (y + style.buttonh <= 0) return false;
+    if (y + style.buttonh > h) return false;
+    if (y <= 0)
+      g.alpha = int (255.0 * (1.0 - scrollTime));
+  }
+  else
+  {
+    x -= firstx * (style.marginhor + style.buttonw) + scrollTime * scrollDirection;
+    if (x + style.buttonw <= 0) return false;
+    if (x + style.buttonw > w) return false;
+    if (x <= 0)
+      g.alpha = int (255.0 * (1.0 - scrollTime));
+  }
+  return true;
+}
+
+
+GridEntry* GridLayouter::GetSelected ()
 {
   iMouseDriver* mouse = inv->GetMouseDriver ();
   int x = mouse->GetLastX ();
   int y = mouse->GetLastY ();
   const InvStyle& style = inv->GetStyle ();
 
+  csArray<GridEntry>& grid = inv->GetGrid ();
   for (size_t i = 0 ; i < grid.GetSize () ; i++)
   {
     GridEntry& g = grid[i];
@@ -271,7 +290,7 @@ bool celUIGridInventory::Initialize (iObjectRegistry* object_reg)
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
   mouse = csQueryRegistry<iMouseDriver> (object_reg);
 
-  layouter = new GridLayouter (true);
+  layouter = new GridLayouter (this, true);
 
   return true;
 }
@@ -280,11 +299,11 @@ bool celUIGridInventory::HandleLogicEvent (iEvent& ev)
 {
   if (ev.Name == csevFrame (object_reg))
   {
-    layouter->UpdateScroll (this, grid, vc->GetElapsedSeconds ());
+    layouter->UpdateScroll (vc->GetElapsedSeconds ());
 
     if (style.rotateHiMesh)
     {
-      GridEntry* g = layouter->GetSelected (this, grid);
+      GridEntry* g = layouter->GetSelected ();
       if (g  && g->handle[1])
       {
 	g->UpdateEntry (this, 0);
@@ -372,7 +391,7 @@ bool Binding::Match (iEventNameRegistry* name_reg, iObjectRegistry* object_reg, 
 
 void celUIGridInventory::DoSelect (const char* args, bool close)
 {
-  GridEntry* g = layouter->GetSelected (this, grid);
+  GridEntry* g = layouter->GetSelected ();
   if (g)
   {
     if (g->entity) FireSelectionListeners (g->entity, args);
@@ -383,7 +402,7 @@ void celUIGridInventory::DoSelect (const char* args, bool close)
     {
       // Possibly we need to refresh our inventory.
       SetupItems ();
-      layouter->Layout (this, grid);
+      layouter->Layout ();
     }
   }
 }
@@ -392,7 +411,6 @@ void celUIGridInventory::DoScroll (int d)
 {
   // @@@ Scroll time config option
   layouter->Scroll (d, 1.0f);
-  layouter->Layout (this, grid);
 }
 
 bool celUIGridInventory::HandleInputEvent (iEvent& ev)
@@ -420,19 +438,20 @@ bool celUIGridInventory::HandleRenderEvent (iEvent& ev)
 {
   if (ev.Name == csevFrame (object_reg))
   {
-    GridEntry* sel = layouter->GetSelected (this, grid);
+    GridEntry* sel = layouter->GetSelected ();
 
     g3d->BeginDraw (CSDRAW_2DGRAPHICS);
     for (size_t i = 0 ; i < grid.GetSize () ; i++)
     {
-      GridEntry& g = grid[i];
-      if (g.x != -1 && g.y != -1)
+      int x, y;
+      if (layouter->GetRealPosition (i, x, y))
       {
+        GridEntry& g = grid[i];
         int hi = &g == sel;
         if (g.handle[hi])
         {
-          g3d->DrawPixmap (g.handle[hi], g.x, g.y, style.buttonw, style.buttonh,
-	      0, 0, style.buttonw, style.buttonh);
+          g3d->DrawPixmap (g.handle[hi], x, y, style.buttonw, style.buttonh,
+	      0, 0, style.buttonw, style.buttonh, g.alpha);
         }
       }
     }
@@ -817,8 +836,7 @@ void celUIGridInventory::Open (const char* title, iPcInventory* inventory)
   celUIGridInventory::inventory = inventory;
 
   SetupItems ();
-  layouter->Setup (this, grid);
-  layouter->Layout (this, grid);
+  layouter->Layout ();
 
   if (!listener)
     listener.AttachNew (new InvListener (this));

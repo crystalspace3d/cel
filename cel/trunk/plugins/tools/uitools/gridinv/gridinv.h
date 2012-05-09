@@ -102,8 +102,9 @@ struct GridEntry
   csRef<iMeshWrapper> mesh;
   iCelEntity* entity;
   iCelEntityTemplate* tpl;
+  uint8 alpha;
 
-  GridEntry () : entity (0), tpl (0) { }
+  GridEntry () : entity (0), tpl (0), alpha (0) { }
 
   void SetupEntry (celUIGridInventory* inv,
       const char* text, int amount,
@@ -114,38 +115,41 @@ struct GridEntry
 class Layouter
 {
 public:
-  virtual void Setup (celUIGridInventory* inv, csArray<GridEntry>& grid) = 0;
-  virtual void Layout (celUIGridInventory* inv, csArray<GridEntry>& grid) = 0;
+  virtual void Layout () = 0;
   virtual void Scroll (int d, float time) = 0;
-  virtual void UpdateScroll (celUIGridInventory* inv, csArray<GridEntry>& grid,
-      float elapsed) = 0;
-  virtual GridEntry* GetSelected (celUIGridInventory* inv, csArray<GridEntry>& grid) = 0;
+  virtual void UpdateScroll (float elapsed) = 0;
+  virtual GridEntry* GetSelected () = 0;
+
+  /// Get the real position of a grid entry. Returns false if not visible.
+  virtual bool GetRealPosition (size_t i, int& x, int& y) = 0;
 };
 
 class GridLayouter : public Layouter
 {
 private:
+  celUIGridInventory* inv;
+
   bool verticalscroll;
   int horcount, vercount;
   int ix, iy;
 
   int firstx, firsty;
   float scrollTime;
+  float scrollDirection;
 
-  size_t FirstSlot ();
-  bool NextSlot ();
+  void FirstSlot ();
+  void NextSlot ();
 
 public:
-  GridLayouter (bool verticalscroll) :
-    verticalscroll (verticalscroll), firstx (0), firsty (0),
+  GridLayouter (celUIGridInventory* inv, bool verticalscroll) :
+    inv (inv), verticalscroll (verticalscroll), firstx (0), firsty (0),
     scrollTime (0.0f) { }
   virtual ~GridLayouter () { }
-  virtual void Setup (celUIGridInventory* inv, csArray<GridEntry>& grid);
-  virtual void Layout (celUIGridInventory* inv, csArray<GridEntry>& grid);
+  virtual void Layout ();
   virtual void Scroll (int d, float time);
-  virtual void UpdateScroll (celUIGridInventory* inv, csArray<GridEntry>& grid,
-      float elapsed);
-  virtual GridEntry* GetSelected (celUIGridInventory* inv, csArray<GridEntry>& grid);
+  virtual void UpdateScroll (float elapsed);
+  virtual GridEntry* GetSelected ();
+  virtual bool GetRealPosition (size_t i, int& x, int& y);
 };
 
 
@@ -253,6 +257,8 @@ public:
   iVirtualClock* GetVC () const { return vc; }
   iMouseDriver* GetMouseDriver () const { return mouse; }
   const InvStyle& GetStyle () const { return style; }
+  const csArray<GridEntry>& GetGrid () const { return grid; }
+  csArray<GridEntry>& GetGrid () { return grid; }
 
   void Refresh ();
 
