@@ -214,6 +214,42 @@
 	  <par name="name" string="Money" />
 	  <par name="amount" long="100" />
 	</action>
+	<action name="AddTemplate">
+	  <par name="name" string="Barrel" />
+	  <par name="amount" long="1" />
+	</action>
+	<action name="AddTemplate">
+	  <par name="name" string="Domino" />
+	  <par name="amount" long="1" />
+	</action>
+	<action name="AddTemplate">
+	  <par name="name" string="Can" />
+	  <par name="amount" long="2" />
+	</action>
+	<action name="AddTemplate">
+	  <par name="name" string="Cup" />
+	  <par name="amount" long="2" />
+	</action>
+	<action name="AddTemplate">
+	  <par name="name" string="Milk" />
+	  <par name="amount" long="1" />
+	</action>
+	<action name="AddTemplate">
+	  <par name="name" string="Steak" />
+	  <par name="amount" long="1" />
+	</action>
+	<action name="AddTemplate">
+	  <par name="name" string="Apple" />
+	  <par name="amount" long="1" />
+	</action>
+	<action name="AddTemplate">
+	  <par name="name" string="Diamond" />
+	  <par name="amount" long="1" />
+	</action>
+	<action name="AddTemplate">
+	  <par name="name" string="Ruby" />
+	  <par name="amount" long="1" />
+	</action>
       </propclass>
       <propclass name="pccamera.delegate" />
       <propclass name="pccamera.mode.tracking">

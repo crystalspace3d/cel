@@ -116,7 +116,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\appelcmtest\Win32\elcmtest.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\appelcmtest\appelcmtest.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\appelcmtest\</AssemblerListingLocation>
@@ -135,8 +135,8 @@
       <OutputFile>..\..\elcmtest.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\release10\build\appelcmtest\Win32\elcmtest.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -165,7 +165,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\appelcmtest\Win32\elcmtest.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\appelcmtest\appelcmtest.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\appelcmtest\</AssemblerListingLocation>
@@ -184,8 +184,8 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <OutputFile>..\..\elcmtest.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\release10\build\appelcmtest\Win32\elcmtest.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -212,7 +212,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\appelcmtest\Win32\elcmtest.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\appelcmtest\appelcmtest.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\appelcmtest\</AssemblerListingLocation>
@@ -229,8 +229,8 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <OutputFile>..\..\elcmtest.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\debug10\build\appelcmtest\Win32\elcmtest.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -257,7 +257,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\appelcmtest\Win32\elcmtest.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\appelcmtest\appelcmtest.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\appelcmtest\</AssemblerListingLocation>
@@ -274,8 +274,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <OutputFile>..\..\elcmtest.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\debug10\build\appelcmtest\Win32\elcmtest.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -304,7 +304,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\appelcmtest\x64\elcmtest.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\appelcmtest\appelcmtest.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\appelcmtest\</AssemblerListingLocation>
@@ -323,8 +323,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <OutputFile>..\..\elcmtest.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\release10-x64\build\appelcmtest\x64\elcmtest.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -353,7 +353,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\appelcmtest\x64\elcmtest.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\appelcmtest\appelcmtest.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\appelcmtest\</AssemblerListingLocation>
@@ -372,8 +372,8 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <OutputFile>..\..\elcmtest.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\release10-x64\build\appelcmtest\x64\elcmtest.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -400,7 +400,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\appelcmtest\x64\elcmtest.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\appelcmtest\appelcmtest.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\appelcmtest\</AssemblerListingLocation>
@@ -417,8 +417,8 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <OutputFile>..\..\elcmtest.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\debug10-x64\build\appelcmtest\x64\elcmtest.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -445,7 +445,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\appelcmtest\x64\elcmtest.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\appelcmtest\appelcmtest.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\appelcmtest\</AssemblerListingLocation>
@@ -462,8 +462,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <OutputFile>..\..\elcmtest.exe</OutputFile>
       <ProgramDatabaseFile>..\..\out\debug10-x64\build\appelcmtest\x64\elcmtest.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
-      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>

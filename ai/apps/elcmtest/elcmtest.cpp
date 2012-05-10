@@ -180,6 +180,8 @@ bool ElcmTest::InitWindowSystem ()
   uiInventory->SetStyleOption ("backgroundHilightImage", "/cellib/images/buttonback_hi.png");
   uiInventory->SetStyleOption ("font", "DejaVuSans");
   uiInventory->SetStyleOption ("fontSize", "10");
+  uiInventory->SetStyleOption ("orientation", "horizontal");
+  uiInventory->SetStyleOption ("verticalCount", "1");
   uiInventory->Bind ("MouseButton0", "select", 0);
   uiInventory->Bind ("MouseButton1", "select_keepopen", 0);
   uiInventory->Bind ("MouseWheelUp", "scroll_left", 0);
