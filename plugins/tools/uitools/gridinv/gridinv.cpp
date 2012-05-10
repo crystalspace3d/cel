@@ -741,6 +741,7 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
     delete mt;
   }
 
+  g3d->BeginDraw (CSDRAW_2DGRAPHICS);
   int fg = g2d->FindRGB (0, 0, 255);
   printf ("text=%s\n", txt); fflush (stdout);
   if (amount)
