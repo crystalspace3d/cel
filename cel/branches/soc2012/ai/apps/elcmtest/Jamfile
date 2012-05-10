@@ -128,6 +128,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   : CRYSTAL
   ;
   ExternalLibs elcmtest_static : CRYSTAL ;
+  ExternalLibs elcmtest_static : CEGUI ;
   
   SubVariant ;
 }
