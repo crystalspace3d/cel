@@ -158,6 +158,8 @@ void GridLayouter::Layout ()
   int h = g3d->GetHeight ();
   horcount = w / (style.buttonw + style.marginhor);
   vercount = h / (style.buttonh + style.marginver);
+  totalwidth = horcount * (style.buttonw + style.marginhor) - style.marginhor;
+  totalheight = vercount * (style.buttonh + style.marginver) - style.marginver;
 
   csArray<GridEntry>& grid = inv->GetGrid ();
   FirstSlot ();
@@ -172,6 +174,7 @@ void GridLayouter::Layout ()
 
 void GridLayouter::Scroll (int d, float time)
 {
+  if (scrollTime > 0.0f) return;	// Ignore, already scrolling.
   const InvStyle& style = inv->GetStyle ();
   if (verticalscroll)
   {
@@ -187,41 +190,60 @@ void GridLayouter::Scroll (int d, float time)
   }
   if (d > 0) scrollDirection = -scrollDirection;
   scrollTime = time;
+  maxScrollTime = time;
 }
 
 void GridLayouter::UpdateScroll (float elapsed)
 {
   if (scrollTime <= 0.0f) return;
   scrollTime -= elapsed;
-  if (scrollTime <= 0.0f) scrollTime = 0.0f;
+  if (scrollTime <= 0.0f)
+  {
+    scrollDirection = 0;
+    scrollTime = 0.0f;
+  }
 }
 
 bool GridLayouter::GetRealPosition (size_t i, int& x, int& y)
 {
   const InvStyle& style = inv->GetStyle ();
-  iGraphics3D* g3d = inv->GetG3D ();
-  int w = g3d->GetWidth ();
-  int h = g3d->GetHeight ();
 
   GridEntry& g = inv->GetGrid ()[i];
   x = style.marginhor + g.x;
   y = style.marginver + g.y;
-  g.alpha = 0;
+  bool toprow = false;
+  bool botrow = false;
+  float st = scrollTime / maxScrollTime;
   if (verticalscroll)
   {
-    y -= firsty * (style.marginver + style.buttonh) + scrollTime * scrollDirection;
+    y -= firsty * (style.marginver + style.buttonh) + st * scrollDirection;
     if (y + style.buttonh <= 0) return false;
-    if (y + style.buttonh > h) return false;
-    if (y <= 0)
-      g.alpha = int (255.0 * (1.0 - scrollTime));
+    if (y >= style.marginver + totalheight) return false;
+    if (y < style.marginver) toprow = true;
+    if (y+style.buttonh > style.marginver + totalheight) botrow = true;
   }
   else
   {
-    x -= firstx * (style.marginhor + style.buttonw) + scrollTime * scrollDirection;
+    x -= firstx * (style.marginhor + style.buttonw) + st * scrollDirection;
     if (x + style.buttonw <= 0) return false;
-    if (x + style.buttonw > w) return false;
-    if (x <= 0)
-      g.alpha = int (255.0 * (1.0 - scrollTime));
+    if (x >= style.marginhor + totalwidth) return false;
+    if (x < style.marginhor) toprow = true;
+    if (x+style.buttonw > style.marginhor + totalwidth) botrow = true;
+  }
+  g.alpha = 0;
+  if (toprow)
+  {
+    if (scrollDirection < 0)
+      g.alpha = int (255.0 * (1.0 - st));
+    else
+      g.alpha = int (255.0 * st);
+  }
+  else if (botrow)
+  {
+    if (scrollDirection > 0)
+      g.alpha = int (255.0 * (1.0 - st));
+    else
+      g.alpha = int (255.0 * st);
   }
   return true;
 }
@@ -410,7 +432,7 @@ void celUIGridInventory::DoSelect (const char* args, bool close)
 void celUIGridInventory::DoScroll (int d)
 {
   // @@@ Scroll time config option
-  layouter->Scroll (d, 1.0f);
+  layouter->Scroll (d, 0.5f);
 }
 
 bool celUIGridInventory::HandleInputEvent (iEvent& ev)
