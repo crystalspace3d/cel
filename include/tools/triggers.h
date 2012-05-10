@@ -33,7 +33,6 @@ struct iCelParameterBlock;
 
 struct iTrigger;
 struct iTriggerType;
-class celVariableParameterBlock;
 
 /**
  * A trigger will get pointers to call back the quest when
