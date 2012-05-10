@@ -4,3 +4,4 @@ Plugin triggers
        : [ Wildcard *.cpp *.h ]
 ;
 ExternalLibs triggers : CRYSTAL ;
+LinkWith triggers : celtool ;
