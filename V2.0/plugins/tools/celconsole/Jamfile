@@ -4,4 +4,5 @@ Plugin celconsole
 	: celconsole.cpp celconsole.h
 ;
 ExternalLibs celconsole : CRYSTAL ;
+LinkWith celconsole : celtool ;
 
