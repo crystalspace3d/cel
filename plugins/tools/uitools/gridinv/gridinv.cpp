@@ -741,9 +741,12 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
     delete mt;
   }
 
+  g3d->FinishDraw ();
+  g3d->SetRenderTarget (0);
+
+  g3d->SetRenderTarget (handle[hi]);
   g3d->BeginDraw (CSDRAW_2DGRAPHICS);
-  int fg = g2d->FindRGB (0, 0, 255);
-  printf ("text=%s\n", txt); fflush (stdout);
+  int fg = g2d->FindRGB (255, 255, 255);
   if (amount)
     text.Format ("%s (%d)", txt, amount);
   else
@@ -803,6 +806,11 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
     delete mt;
   }
 
+  g3d->FinishDraw ();
+  g3d->SetRenderTarget (0);
+
+  g3d->SetRenderTarget (handle[hi]);
+  g3d->BeginDraw (CSDRAW_2DGRAPHICS);
   int fg = g2d->FindRGB (255, 255, 255);
   g2d->Write (style.font, 10, 10, fg, -1, text);
 
