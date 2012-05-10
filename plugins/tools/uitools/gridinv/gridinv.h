@@ -122,6 +122,7 @@ public:
 
   /// Get the real position of a grid entry. Returns false if not visible.
   virtual bool GetRealPosition (size_t i, int& x, int& y) = 0;
+  virtual bool SetStyleOption (const char* name, const char* value) = 0;
 };
 
 class GridLayouter : public Layouter
@@ -131,8 +132,13 @@ private:
 
   bool verticalscroll;
   int horcount, vercount;
+  bool horcountSet, vercountSet;
+
   // Total dimension of the inventory not including margins.
   int totalwidth, totalheight;
+  // Real left/top margin.
+  int leftmargin, topmargin;
+
   int ix, iy;
 
   int firstx, firsty;
@@ -143,15 +149,14 @@ private:
   void NextSlot ();
 
 public:
-  GridLayouter (celUIGridInventory* inv, bool verticalscroll) :
-    inv (inv), verticalscroll (verticalscroll), firstx (0), firsty (0),
-    scrollTime (0.0f), maxScrollTime (1.0f), scrollDirection (0) { }
+  GridLayouter (celUIGridInventory* inv, bool verticalscroll);
   virtual ~GridLayouter () { }
   virtual void Layout ();
   virtual void Scroll (int d, float time);
   virtual void UpdateScroll (float elapsed);
   virtual GridEntry* GetSelected ();
   virtual bool GetRealPosition (size_t i, int& x, int& y);
+  virtual bool SetStyleOption (const char* name, const char* value);
 };
 
 
@@ -275,7 +280,8 @@ public:
 
   virtual bool SetStyleOption (const char* name, const char* value)
   {
-    return style.SetStyleOption (this, name, value);
+    if (style.SetStyleOption (this, name, value)) return true;
+    return layouter->SetStyleOption (name, value);
   }
   virtual bool Bind (const char* eventname, const char* command, const char* args);
 

@@ -122,6 +122,16 @@ iMeshFactoryWrapper* DefaultInfo::GetMeshFactory (iCelEntityTemplate* tpl, int c
 
 //--------------------------------------------------------------------------
 
+GridLayouter::GridLayouter (celUIGridInventory* inv, bool verticalscroll) :
+    inv (inv),
+    verticalscroll (verticalscroll),
+    horcountSet (false), vercountSet (false),
+    firstx (0), firsty (0),
+    scrollTime (0.0f), maxScrollTime (1.0f),
+    scrollDirection (0)
+{
+}
+
 void GridLayouter::NextSlot ()
 {
   if (verticalscroll)
@@ -156,10 +166,14 @@ void GridLayouter::Layout ()
   iGraphics3D* g3d = inv->GetG3D ();
   int w = g3d->GetWidth ();
   int h = g3d->GetHeight ();
-  horcount = w / (style.buttonw + style.marginhor);
-  vercount = h / (style.buttonh + style.marginver);
+  if (!horcountSet)
+    horcount = w / (style.buttonw + style.marginhor);
+  if (!vercountSet)
+    vercount = h / (style.buttonh + style.marginver);
   totalwidth = horcount * (style.buttonw + style.marginhor) - style.marginhor;
   totalheight = vercount * (style.buttonh + style.marginver) - style.marginver;
+  leftmargin = (w-totalwidth)/2;
+  topmargin = (h-totalheight)/2;
 
   csArray<GridEntry>& grid = inv->GetGrid ();
   FirstSlot ();
@@ -209,8 +223,8 @@ bool GridLayouter::GetRealPosition (size_t i, int& x, int& y)
   const InvStyle& style = inv->GetStyle ();
 
   GridEntry& g = inv->GetGrid ()[i];
-  x = style.marginhor + g.x;
-  y = style.marginver + g.y;
+  x = leftmargin + g.x;
+  y = topmargin + g.y;
   bool toprow = false;
   bool botrow = false;
   float st = scrollTime / maxScrollTime;
@@ -218,17 +232,17 @@ bool GridLayouter::GetRealPosition (size_t i, int& x, int& y)
   {
     y -= firsty * (style.marginver + style.buttonh) + st * scrollDirection;
     if (y + style.buttonh <= 0) return false;
-    if (y >= style.marginver + totalheight) return false;
-    if (y < style.marginver) toprow = true;
-    if (y+style.buttonh > style.marginver + totalheight) botrow = true;
+    if (y >= topmargin + totalheight) return false;
+    if (y < topmargin) toprow = true;
+    if (y+style.buttonh > topmargin + totalheight) botrow = true;
   }
   else
   {
     x -= firstx * (style.marginhor + style.buttonw) + st * scrollDirection;
     if (x + style.buttonw <= 0) return false;
-    if (x >= style.marginhor + totalwidth) return false;
-    if (x < style.marginhor) toprow = true;
-    if (x+style.buttonw > style.marginhor + totalwidth) botrow = true;
+    if (x >= leftmargin + totalwidth) return false;
+    if (x < leftmargin) toprow = true;
+    if (x+style.buttonw > leftmargin + totalwidth) botrow = true;
   }
   g.alpha = 0;
   if (toprow)
@@ -259,11 +273,40 @@ GridEntry* GridLayouter::GetSelected ()
   csArray<GridEntry>& grid = inv->GetGrid ();
   for (size_t i = 0 ; i < grid.GetSize () ; i++)
   {
-    GridEntry& g = grid[i];
-    int hi = (x >= g.x && x < g.x + style.buttonw && y >= g.y && y < g.y + style.buttonh);
-    if (hi) return &g;
+    int rx, ry;
+    if (GetRealPosition (i, rx, ry))
+    {
+      int hi = (x >= rx && x < rx + style.buttonw && y >= ry && y < ry + style.buttonh);
+      if (hi) return &grid[i];
+    }
   }
   return 0;
+}
+
+bool GridLayouter::SetStyleOption (const char* name, const char* value)
+{
+  csString styleName = name;
+  if (styleName == "horizontalCount")
+  {
+    csScanStr (value, "%d", &horcount);
+    horcountSet = true;
+    return true;
+  }
+  if (styleName == "verticalCount")
+  {
+    csScanStr (value, "%d", &vercount);
+    vercountSet = true;
+    return true;
+  }
+  if (styleName == "orientation")
+  {
+    csString v = value;
+    v.Downcase ();
+    if (v == "vertical") verticalscroll = true;
+    else verticalscroll = false;
+    return true;
+  }
+  return false;
 }
 
 //--------------------------------------------------------------------------
