@@ -131,11 +131,13 @@ private:
 
   bool verticalscroll;
   int horcount, vercount;
+  // Total dimension of the inventory not including margins.
+  int totalwidth, totalheight;
   int ix, iy;
 
   int firstx, firsty;
-  float scrollTime;
-  float scrollDirection;
+  float scrollTime, maxScrollTime;
+  int scrollDirection;
 
   void FirstSlot ();
   void NextSlot ();
@@ -143,7 +145,7 @@ private:
 public:
   GridLayouter (celUIGridInventory* inv, bool verticalscroll) :
     inv (inv), verticalscroll (verticalscroll), firstx (0), firsty (0),
-    scrollTime (0.0f) { }
+    scrollTime (0.0f), maxScrollTime (1.0f), scrollDirection (0) { }
   virtual ~GridLayouter () { }
   virtual void Layout ();
   virtual void Scroll (int d, float time);
