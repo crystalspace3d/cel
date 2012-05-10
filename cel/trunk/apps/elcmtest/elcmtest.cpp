@@ -1077,7 +1077,7 @@ bool ElcmTest::OnInitialize (int argc, char* argv[])
     	CS_REQUEST_REPORTER,
     	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN ("crystalspace.cegui.wrapper", iCEGUI),
-    	CS_REQUEST_PLUGIN ("cel.ui.inventory.grid", iUIInventory),
+    	CS_REQUEST_PLUGIN ("cel.ui.inventory", iUIInventory),
     	CS_REQUEST_PLUGIN ("cel.ui.inventory2", iUIInventory2),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
