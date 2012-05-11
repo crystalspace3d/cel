@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include "wsock.h"
 
 /* Workaround an invalid inlining management of MSYS when compiled in debug mode */
@@ -41,3 +43,5 @@ int nlWSAFDIsSet(SOCKET fd, fd_set *set)
 }
 
 #endif // CS_DEBUG
+
+#endif // WIN32
