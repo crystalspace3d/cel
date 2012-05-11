@@ -11,7 +11,7 @@ switch $(TARGET.OS)
     # For some reason, the compilation does not work under MinGW without the optimization 
     # compilation flag
     CFlags tcpnetwork : -O2 -DWIN32 ;
-    LFlags tcpnetwork : -lwsock32 ;
+    LFlags tcpnetwork : -lws2_32 ;
   case MACOS_X :
     CFlags tcpnetwork : -DMACOSX ;
     LFlags tcpnetwork : -dylib ;
@@ -19,5 +19,6 @@ switch $(TARGET.OS)
     CFlags tcpnetwork : -D_GNU_SOURCE ;
 }
 
+MsvcExternalLibrary tcpnetwork : "ws2_32.lib" ;
 ExternalLibs tcpnetwork : CRYSTAL ;
 LinkWith tcpnetwork : celtool ;
