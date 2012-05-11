@@ -29,7 +29,6 @@
 //-------------------------------------------------------------------------
 
 struct iTrigger;
-class celVariableParameterBlock;
 
 /**
  * A trigger will get pointers to call back the quest when

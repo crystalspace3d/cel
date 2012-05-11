@@ -139,6 +139,12 @@ typedef struct sockaddr_ipx
 #define FD_CLR      nlFD_CLR
 
 HL_INLINE void nlFD_CLR(SOCKET fd, fd_set *set)
+
+/* Workaround an invalid inlining management of MSYS when compiled in debug mode */
+#ifdef CS_DEBUG
+;
+#else
+
 {
     u_int i;
 
@@ -157,14 +163,25 @@ HL_INLINE void nlFD_CLR(SOCKET fd, fd_set *set)
     }
 }
 
+#endif // CS_DEBUG
+
 #undef FD_SET
 #define FD_SET      nlFD_SET
 
 HL_INLINE void nlFD_SET(SOCKET fd, /*@out@*/ fd_set *set)
+
+/* Workaround an invalid inlining management of MSYS when compiled in debug mode */
+#ifdef CS_DEBUG
+;
+#else
+
 {
-    if(set->fd_count < FD_SETSIZE)
-        set->fd_array[set->fd_count++]=fd;
+  if(set->fd_count < FD_SETSIZE)
+    set->fd_array[set->fd_count++]=fd;
 }
+
+#endif // CS_DEBUG
+
 
 /* This function is inlined for speed over the Winsock function */
 
@@ -172,6 +189,12 @@ HL_INLINE void nlFD_SET(SOCKET fd, /*@out@*/ fd_set *set)
 #define FD_ISSET(fd, set)      nlWSAFDIsSet((SOCKET)(fd), set)
 
 HL_INLINE int nlWSAFDIsSet(SOCKET fd, fd_set *set)
+
+/* Workaround an invalid inlining management of MSYS when compiled in debug mode */
+#ifdef CS_DEBUG
+;
+#else
+
 {
     int i = (int)set->fd_count;
 
@@ -182,6 +205,8 @@ HL_INLINE int nlWSAFDIsSet(SOCKET fd, fd_set *set)
     }
     return 0;
 }
+
+#endif // CS_DEBUG
 
 #endif /* WSOCK_H */
 
