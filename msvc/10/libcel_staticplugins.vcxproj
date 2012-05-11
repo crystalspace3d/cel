@@ -110,7 +110,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -157,7 +157,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -202,7 +202,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -245,7 +245,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libcel_staticplugins\Win32\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -290,7 +290,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -337,7 +337,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -382,7 +382,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -425,7 +425,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libcel_staticplugins\libcel_staticplugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libcel_staticplugins\</AssemblerListingLocation>
@@ -532,6 +532,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libstdphyslayer_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libtcpnetwork_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libtriggers_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libui_gridinv_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory2_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory_staticreg.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentity\celentity.cpp" />
@@ -699,6 +700,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\tools\triggers\trig_timeout.cpp" />
     <ClCompile Include="..\..\plugins\tools\triggers\trig_trigger.cpp" />
     <ClCompile Include="..\..\plugins\tools\triggers\trig_watch.cpp" />
+    <ClCompile Include="..\..\plugins\tools\uitools\gridinv\gridinv.cpp" />
     <ClCompile Include="..\..\plugins\tools\uitools\inventory\inventory.cpp" />
     <ClCompile Include="..\..\plugins\tools\uitools\inventory2\inventory2.cpp" />
     <ClCompile Include="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
@@ -833,7 +835,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\propclass\wire\wirefact.h" />
     <ClInclude Include="..\..\plugins\propclass\zone\zone.h" />
     <ClInclude Include="..\..\plugins\recast\celhpf.h" />
-    <ClInclude Include="..\..\plugins\recast\CelHPF.h" />
     <ClInclude Include="..\..\plugins\recast\celnavmesh.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\ChunkyTriMesh.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\DebugDraw.h" />
@@ -901,6 +902,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\tools\triggers\trig_timeout.h" />
     <ClInclude Include="..\..\plugins\tools\triggers\trig_trigger.h" />
     <ClInclude Include="..\..\plugins\tools\triggers\trig_watch.h" />
+    <ClInclude Include="..\..\plugins\tools\uitools\gridinv\gridinv.h" />
     <ClInclude Include="..\..\plugins\tools\uitools\inventory\inventory.h" />
     <ClInclude Include="..\..\plugins\tools\uitools\inventory2\inventory2.h" />
     <ClInclude Include="..\..\plugins\propclass\newcamera\modes\tracking.h" />
