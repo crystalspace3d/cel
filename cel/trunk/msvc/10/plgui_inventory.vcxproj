@@ -120,7 +120,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\plgui_inventory\Win32\ui_inventory.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\plgui_inventory\plgui_inventory.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\plgui_inventory\</AssemblerListingLocation>
@@ -140,8 +140,8 @@
       <ProgramDatabaseFile>..\..\out\release10\build\plgui_inventory\Win32\ui_inventory.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\release10\build\plgui_inventory\Win32\plgui_inventory.lib</ImportLibrary>
-      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -170,7 +170,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\plgui_inventory\Win32\ui_inventory.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\plgui_inventory\plgui_inventory.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\plgui_inventory\</AssemblerListingLocation>
@@ -190,8 +190,8 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <ProgramDatabaseFile>..\..\out\release10\build\plgui_inventory\Win32\ui_inventory.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\release10\build\plgui_inventory\Win32\plgui_inventory.lib</ImportLibrary>
-      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -218,7 +218,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\plgui_inventory\Win32\ui_inventory.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\plgui_inventory\plgui_inventory.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\plgui_inventory\</AssemblerListingLocation>
@@ -236,8 +236,8 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <ProgramDatabaseFile>..\..\out\debug10\build\plgui_inventory\Win32\ui_inventory.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\debug10\build\plgui_inventory\Win32\plgui_inventory.lib</ImportLibrary>
-      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -264,7 +264,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\plgui_inventory\Win32\ui_inventory.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\plgui_inventory\plgui_inventory.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\plgui_inventory\</AssemblerListingLocation>
@@ -282,8 +282,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <ProgramDatabaseFile>..\..\out\debug10\build\plgui_inventory\Win32\ui_inventory.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\debug10\build\plgui_inventory\Win32\plgui_inventory.lib</ImportLibrary>
-      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -312,7 +312,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\plgui_inventory\x64\ui_inventory.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\plgui_inventory\plgui_inventory.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\plgui_inventory\</AssemblerListingLocation>
@@ -332,8 +332,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <ProgramDatabaseFile>..\..\out\release10-x64\build\plgui_inventory\x64\ui_inventory.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\release10-x64\build\plgui_inventory\x64\plgui_inventory.lib</ImportLibrary>
-      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -362,7 +362,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\plgui_inventory\x64\ui_inventory.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\plgui_inventory\plgui_inventory.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\plgui_inventory\</AssemblerListingLocation>
@@ -382,8 +382,8 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <ProgramDatabaseFile>..\..\out\release10-x64\build\plgui_inventory\x64\ui_inventory.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\release10-x64\build\plgui_inventory\x64\plgui_inventory.lib</ImportLibrary>
-      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -410,7 +410,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\plgui_inventory\x64\ui_inventory.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\plgui_inventory\plgui_inventory.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\plgui_inventory\</AssemblerListingLocation>
@@ -428,8 +428,8 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <ProgramDatabaseFile>..\..\out\debug10-x64\build\plgui_inventory\x64\ui_inventory.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\debug10-x64\build\plgui_inventory\x64\plgui_inventory.lib</ImportLibrary>
-      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -456,7 +456,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\plgui_inventory\x64\ui_inventory.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\plgui_inventory\plgui_inventory.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\plgui_inventory\</AssemblerListingLocation>
@@ -474,8 +474,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <ProgramDatabaseFile>..\..\out\debug10-x64\build\plgui_inventory\x64\ui_inventory.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\debug10-x64\build\plgui_inventory\x64\plgui_inventory.lib</ImportLibrary>
-      <AdditionalOptions>-L\home\cvb\Crystal\libs\CEGUI_7.5\lib -lCEGUIBase  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
