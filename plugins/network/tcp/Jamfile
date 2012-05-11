@@ -8,9 +8,7 @@ Plugin tcpnetwork :
 switch $(TARGET.OS)
 {
   case WIN32 :
-    # For some reason, the compilation does not work under MinGW without the optimization 
-    # compilation flag
-    CFlags tcpnetwork : -O2 -DWIN32 ;
+    CFlags tcpnetwork : -DWIN32 ;
     LFlags tcpnetwork : -lws2_32 ;
   case MACOS_X :
     CFlags tcpnetwork : -DMACOSX ;
