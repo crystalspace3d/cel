@@ -69,6 +69,31 @@ class celUIGridInventory;
 //   - Smooth movement
 //   - Fading
 
+struct TextStyle
+{
+  csString fontName;
+  int fontSize;		// -1 if no text must be printed.
+  csRef<iFont> font;
+  int fg[2];
+  int bg[2];
+  // The following values define the position of the text. Both horizontally
+  // and vertically. If the value is 0 the item is centered in that direction.
+  // If the value is negative the item is left aligned with the given value
+  // as the margin.
+  // If the value is positive the item is right aligned with the given value
+  // as the margin.
+  int horPos;
+  int verPos;
+
+  TextStyle () : fontSize (10) { }
+
+  bool SetStyleOption (const char* prefix, celUIGridInventory* inv,
+    const char* name, const char* value);
+
+  // Get the text position. Return true if no text should be printed.
+  bool GetTextPos (const char* txt, int& x, int& y, int w, int h) const;
+};
+
 struct InvStyle
 {
   // Dimension style parameters.
@@ -78,16 +103,16 @@ struct InvStyle
   // Button appearance parameters.
   csString backgroundImage[2];
   csRef<iTextureHandle> backgroundTexture[2];
-  int bgred[2], bggreen[2], bgblue[2], bgalpha[2];
+  int bg[2];			// Background color in case a solid box is used.
   bool rotateHiMesh;
 
   // Text parameters.
-  csString fontName;
-  int fontSize;
-  csRef<iFont> font;
+  TextStyle nameStyle;
+  TextStyle amountStyle;
 
   InvStyle ();
 
+  void Setup (iGraphics2D* g2d);
   bool SetStyleOption (celUIGridInventory* inv, const char* name, const char* value);
 };
 
@@ -95,6 +120,7 @@ struct GridEntry
 {
   int x, y;
   csString text;
+  int amount;
   csRef<iTextureHandle> handle[2];
   csReversibleTransform trans;
   csReversibleTransform camtrans;
@@ -110,6 +136,7 @@ struct GridEntry
       const char* text, int amount,
       iMeshFactoryWrapper* factory, int hi);
   void UpdateEntry (celUIGridInventory* inv, int hi);
+  void WriteText (celUIGridInventory* inv, int hi);
 };
 
 class Layouter
@@ -260,6 +287,7 @@ public:
   iObjectRegistry* GetObjectRegistry () const { return object_reg; }
   iEngine* GetEngine () const { return engine; }
   iGraphics3D* GetG3D () const { return g3d; }
+  iGraphics2D* GetG2D () const { return g3d->GetDriver2D (); }
   iEventNameRegistry* GetNameReg () const { return name_reg; }
   iVirtualClock* GetVC () const { return vc; }
   iMouseDriver* GetMouseDriver () const { return mouse; }
