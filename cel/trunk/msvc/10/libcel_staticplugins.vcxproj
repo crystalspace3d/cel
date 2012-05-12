@@ -563,6 +563,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\nl.c" />
     <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\nltime.c" />
     <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\sock.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\wsock.c" />
     <ClCompile Include="..\..\plugins\network\tcp\tcpgame.cpp" />
     <ClCompile Include="..\..\plugins\network\tcp\tcpgameclient.cpp" />
     <ClCompile Include="..\..\plugins\network\tcp\tcpgamefactory.cpp" />

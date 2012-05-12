@@ -141,7 +141,7 @@
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\release10\build\plgtcpnetwork\Win32\plgtcpnetwork.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;ws2_32.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -191,7 +191,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\release10\build\plgtcpnetwork\Win32\plgtcpnetwork.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;ws2_32.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -237,7 +237,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\debug10\build\plgtcpnetwork\Win32\plgtcpnetwork.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;ws2_32.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -283,7 +283,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\debug10\build\plgtcpnetwork\Win32\plgtcpnetwork.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;ws2_32.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -333,7 +333,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\release10-x64\build\plgtcpnetwork\x64\plgtcpnetwork.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;ws2_32.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -383,7 +383,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\release10-x64\build\plgtcpnetwork\x64\plgtcpnetwork.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;ws2_32.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -429,7 +429,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\debug10-x64\build\plgtcpnetwork\x64\plgtcpnetwork.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;ws2_32.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -475,7 +475,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ImportLibrary>..\..\out\debug10-x64\build\plgtcpnetwork\x64\plgtcpnetwork.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;ws2_32.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -509,6 +509,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\nl.c" />
     <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\nltime.c" />
     <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\sock.c" />
+    <ClCompile Include="..\..\plugins\network\tcp\hawknl\src\wsock.c" />
     <ClCompile Include="..\..\plugins\network\tcp\tcpgame.cpp" />
     <ClCompile Include="..\..\plugins\network\tcp\tcpgameclient.cpp" />
     <ClCompile Include="..\..\plugins\network\tcp\tcpgamefactory.cpp" />
