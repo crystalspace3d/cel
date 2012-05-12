@@ -56,7 +56,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release8\build\plgtcpnetwork\Win32\plgtcpnetwork.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
+				AdditionalDependencies="delayimp.lib ws2_32.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
@@ -134,7 +134,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release8\build\plgtcpnetwork\Win32\plgtcpnetwork.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
+				AdditionalDependencies="delayimp.lib ws2_32.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
@@ -209,7 +209,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\debug8\build\plgtcpnetwork\Win32\plgtcpnetwork.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
+				AdditionalDependencies="delayimp.lib ws2_32.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
@@ -284,7 +284,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\debug8\build\plgtcpnetwork\Win32\plgtcpnetwork.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
+				AdditionalDependencies="delayimp.lib ws2_32.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
@@ -362,7 +362,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release8-x64\build\plgtcpnetwork\x64\plgtcpnetwork.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
+				AdditionalDependencies="delayimp.lib ws2_32.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
@@ -440,7 +440,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release8-x64\build\plgtcpnetwork\x64\plgtcpnetwork.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
+				AdditionalDependencies="delayimp.lib ws2_32.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
@@ -515,7 +515,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\debug8-x64\build\plgtcpnetwork\x64\plgtcpnetwork.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
+				AdditionalDependencies="delayimp.lib ws2_32.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
@@ -590,7 +590,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\debug8-x64\build\plgtcpnetwork\x64\plgtcpnetwork.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
+				AdditionalDependencies="delayimp.lib ws2_32.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
@@ -666,6 +666,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\network\tcp\hawknl\src\sock.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\wsock.c">
 			</File>
 			<File
 				RelativePath="..\..\plugins\network\tcp\tcpgame.cpp">

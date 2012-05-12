@@ -896,6 +896,9 @@
 				RelativePath="..\..\plugins\network\tcp\hawknl\src\sock.c">
 			</File>
 			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\wsock.c">
+			</File>
+			<File
 				RelativePath="..\..\plugins\network\tcp\tcpgame.cpp">
 			</File>
 			<File
