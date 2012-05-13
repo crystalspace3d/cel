@@ -525,7 +525,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\plugins\recast\celhpf.h" />
-    <ClInclude Include="..\..\plugins\recast\CelHPF.h" />
     <ClInclude Include="..\..\plugins\recast\celnavmesh.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\ChunkyTriMesh.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\DebugDraw.h" />

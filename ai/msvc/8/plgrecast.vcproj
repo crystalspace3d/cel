@@ -714,9 +714,6 @@
 				RelativePath="..\..\plugins\recast\celhpf.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\recast\CelHPF.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\recast\celnavmesh.h">
 			</File>
 			<File

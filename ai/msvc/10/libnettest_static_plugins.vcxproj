@@ -128,7 +128,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcrystalspace.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -178,7 +178,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <ImportLibrary>..\..\out\release10\libs\libnettest_static_plugins.lib</ImportLibrary>
       <ProgramDatabaseFile>..\..\out\release10\build\libnettest_static_plugins\Win32\nettest_static_plugins-2.1-vc10.pdb</ProgramDatabaseFile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcrystalspace.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -220,7 +220,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcrystalspace_d.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -266,7 +266,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <ImportLibrary>..\..\out\debug10\libs\libnettest_static_plugins_d.lib</ImportLibrary>
       <ProgramDatabaseFile>..\..\out\debug10\build\libnettest_static_plugins\Win32\nettest_static_plugins-2.1-vc10_d.pdb</ProgramDatabaseFile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcrystalspace_d.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
@@ -312,7 +312,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcrystalspace.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -362,7 +362,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <ImportLibrary>..\..\out\release10-x64\libs\libnettest_static_plugins.lib</ImportLibrary>
       <ProgramDatabaseFile>..\..\out\release10-x64\build\libnettest_static_plugins\x64\nettest_static_plugins-2.1-vc10-x64.pdb</ProgramDatabaseFile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcrystalspace.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -404,7 +404,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcrystalspace_d.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
@@ -450,7 +450,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <ImportLibrary>..\..\out\debug10-x64\libs\libnettest_static_plugins_d.lib</ImportLibrary>
       <ProgramDatabaseFile>..\..\out\debug10-x64\build\libnettest_static_plugins\x64\nettest_static_plugins-2.1-vc10-x64_d.pdb</ProgramDatabaseFile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcrystalspace_d.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
