@@ -28,7 +28,7 @@
 				ProgramDataBaseFileName="..\..\out\release9\build\libcel_staticplugins\Win32\cel_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release9\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libcel_staticplugins\"
@@ -101,7 +101,7 @@
 				ProgramDataBaseFileName="..\..\out\release9\build\libcel_staticplugins\Win32\cel_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release9\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libcel_staticplugins\"
@@ -174,7 +174,7 @@
 				ProgramDataBaseFileName="..\..\out\debug9\build\libcel_staticplugins\Win32\cel_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libcel_staticplugins\"
@@ -245,7 +245,7 @@
 				ProgramDataBaseFileName="..\..\out\debug9\build\libcel_staticplugins\Win32\cel_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libcel_staticplugins\"
@@ -316,7 +316,7 @@
 				ProgramDataBaseFileName="..\..\out\release9-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libcel_staticplugins\"
@@ -389,7 +389,7 @@
 				ProgramDataBaseFileName="..\..\out\release9-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libcel_staticplugins\"
@@ -462,7 +462,7 @@
 				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libcel_staticplugins\"
@@ -533,7 +533,7 @@
 				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libcel_staticplugins\x64\cel_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\home\cvb\Crystal\libs\CEGUI_7.5\include -I\home\cvb\Crystal\libs\CEGUI_7.5\include\CEGUI "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libcel_staticplugins\"
@@ -803,6 +803,9 @@
 				RelativePath="..\..\msvc\libtriggers_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libui_gridinv_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libui_inventory2_staticreg.cpp">
 			</File>
 			<File
@@ -891,6 +894,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\network\tcp\hawknl\src\sock.c">
+			</File>
+			<File
+				RelativePath="..\..\plugins\network\tcp\hawknl\src\wsock.c">
 			</File>
 			<File
 				RelativePath="..\..\plugins\network\tcp\tcpgame.cpp">
@@ -1302,6 +1308,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\triggers\trig_watch.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\uitools\gridinv\gridinv.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\uitools\inventory\inventory.cpp">
@@ -1764,9 +1773,6 @@
 				RelativePath="..\..\plugins\recast\celhpf.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\recast\CelHPF.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\recast\celnavmesh.h">
 			</File>
 			<File
@@ -1966,6 +1972,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\triggers\trig_watch.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\uitools\gridinv\gridinv.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\uitools\inventory\inventory.h">

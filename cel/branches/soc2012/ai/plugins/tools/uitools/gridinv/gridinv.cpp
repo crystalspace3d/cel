@@ -102,7 +102,7 @@ csRef<iString> DefaultInfo::GetName (iCelEntityTemplate* ent, int count)
 {
   csRef<scfString> str;
   str.AttachNew (new scfString ());
-  str->Format ("%s (%d)", ent->GetName (), count);
+  str->Append (ent->GetName ());
   return str;
 }
 
@@ -286,19 +286,19 @@ GridEntry* GridLayouter::GetSelected ()
 bool GridLayouter::SetStyleOption (const char* name, const char* value)
 {
   csString styleName = name;
-  if (styleName == "horizontalCount")
+  if (styleName == "grid.horizontal.count")
   {
     csScanStr (value, "%d", &horcount);
     horcountSet = true;
     return true;
   }
-  if (styleName == "verticalCount")
+  if (styleName == "grid.vertical.count")
   {
     csScanStr (value, "%d", &vercount);
     vercountSet = true;
     return true;
   }
-  if (styleName == "orientation")
+  if (styleName == "grid.orientation")
   {
     csString v = value;
     v.Downcase ();
@@ -356,6 +356,7 @@ bool celUIGridInventory::Initialize (iObjectRegistry* object_reg)
   mouse = csQueryRegistry<iMouseDriver> (object_reg);
 
   layouter = new GridLayouter (this, true);
+  style.Setup (g3d->GetDriver2D ());
 
   return true;
 }
@@ -580,68 +581,71 @@ void celUIGridInventory::Deactivate ()
 
 InvStyle::InvStyle ()
 {
+}
+
+void InvStyle::Setup (iGraphics2D* g2d)
+{
   buttonw = 128;
   buttonh = 128;
   marginhor = 16;
   marginver = 16;
-  bgred[0] = 50;
-  bggreen[0] = 50;
-  bgblue[0] = 50;
-  bgalpha[0] = 255;
-  bgred[1] = 80;
-  bggreen[1] = 80;
-  bgblue[1] = 80;
-  bgalpha[1] = 255;
-  fontSize = 10;
+  bg[0] = g2d->FindRGB (50, 50, 50, 255);
+  bg[1] = g2d->FindRGB (80, 80, 80, 255);
   rotateHiMesh = true;
+
+  nameStyle.fontSize = 10;
+  nameStyle.horPos = -5;
+  nameStyle.verPos = 5;
+  nameStyle.fg[0] = g2d->FindRGB (255, 255, 255, 255);
+  nameStyle.fg[1] = g2d->FindRGB (255, 255, 0, 255);
+  nameStyle.bg[0] = -1;
+  nameStyle.bg[1] = -1;
+
+  amountStyle.fontSize = 10;
+  amountStyle.horPos = 5;
+  amountStyle.verPos = -5;
+  amountStyle.fg[0] = g2d->FindRGB (255, 255, 255, 255);
+  amountStyle.fg[1] = g2d->FindRGB (255, 255, 0, 255);
+  amountStyle.bg[0] = -1;
+  amountStyle.bg[1] = -1;
 }
 
-bool InvStyle::SetStyleOption (celUIGridInventory* inv,
+static int FindRGB (const char* value, iGraphics2D* g2d)
+{
+  csString v = value;
+  v.Downcase ();
+  if (v == "transparent") return -1;
+  int r, g, b, a;
+  int num = csScanStr (value, "%d,%d,%d,%d", &r, &g, &b, &a);
+  if (num < 4) a = 255;
+  return g2d->FindRGB (r, g, b, a);
+}
+
+bool TextStyle::SetStyleOption (const char* prefix, celUIGridInventory* inv,
     const char* name, const char* value)
 {
   csString styleName = name;
-  if (styleName == "buttonWidth")
+  if (!styleName.StartsWith (prefix)) return false;
+  styleName = styleName.Slice (strlen (prefix));
+
+  if (styleName == "color.foreground")
   {
-    csScanStr (value, "%d", &buttonw);
+    fg[0] = FindRGB (value, inv->GetG2D ());
     return true;
   }
-  if (styleName == "buttonHeight")
+  if (styleName == "color.foreground.hi")
   {
-    csScanStr (value, "%d", &buttonh);
+    fg[1] = FindRGB (value, inv->GetG2D ());
     return true;
   }
-  if (styleName == "marginHorizontal")
+  if (styleName == "color.background")
   {
-    csScanStr (value, "%d", &marginhor);
+    bg[0] = FindRGB (value, inv->GetG2D ());
     return true;
   }
-  if (styleName == "marginVertical")
+  if (styleName == "color.background.hi")
   {
-    csScanStr (value, "%d", &marginver);
-    return true;
-  }
-  if (styleName == "backgroundImage")
-  {
-    backgroundImage[0] = value;
-    return true;
-  }
-  if (styleName == "backgroundHilightImage")
-  {
-    backgroundImage[1] = value;
-    return true;
-  }
-  if (styleName == "backgroundColor")
-  {
-    int num = csScanStr (value, "%d,%d,%d,%d", &bgred[0], &bggreen[0], &bgblue[0],
-	&bgalpha[0]);
-    if (num < 4) bgalpha[0] = 255;
-    return true;
-  }
-  if (styleName == "backgroundHilightColor")
-  {
-    int num = csScanStr (value, "%d,%d,%d,%d", &bgred[1], &bggreen[1], &bgblue[1],
-	&bgalpha[1]);
-    if (num < 4) bgalpha[1] = 255;
+    bg[1] = FindRGB (value, inv->GetG2D ());
     return true;
   }
   if (styleName == "font")
@@ -649,12 +653,87 @@ bool InvStyle::SetStyleOption (celUIGridInventory* inv,
     fontName = value;
     return true;
   }
-  if (styleName == "fontSize")
+  if (styleName == "horizontal")
+  {
+    csScanStr (value, "%d", horPos);
+    return true;
+  }
+  if (styleName == "vertical")
+  {
+    csScanStr (value, "%d", verPos);
+    return true;
+  }
+  if (styleName == "font.size")
   {
     csScanStr (value, "%d", &fontSize);
     return true;
   }
-  if (styleName == "rotateHilightMesh")
+  return false;
+}
+
+bool TextStyle::GetTextPos (const char* txt, int& x, int& y, int w, int h) const
+{
+  if (fontSize <= 0) return false;
+  
+  int tw, th;
+  font->GetDimensions (txt, tw, th);
+  if (horPos < 0) x = -horPos;
+  else if (horPos > 0) x = w - tw - horPos;
+  else x = (w - tw) / 2;
+  if (verPos < 0) y = -verPos;
+  else if (verPos > 0) y = h - th - verPos;
+  else y = (h - th) / 2;
+  return true;
+}
+
+bool InvStyle::SetStyleOption (celUIGridInventory* inv,
+    const char* name, const char* value)
+{
+  if (nameStyle.SetStyleOption ("name.", inv, name, value)) return true;
+  if (amountStyle.SetStyleOption ("amount.", inv, name, value)) return true;
+
+  csString styleName = name;
+  if (styleName == "button.width")
+  {
+    csScanStr (value, "%d", &buttonw);
+    return true;
+  }
+  if (styleName == "button.height")
+  {
+    csScanStr (value, "%d", &buttonh);
+    return true;
+  }
+  if (styleName == "button.hormargin")
+  {
+    csScanStr (value, "%d", &marginhor);
+    return true;
+  }
+  if (styleName == "button.vermargin")
+  {
+    csScanStr (value, "%d", &marginver);
+    return true;
+  }
+  if (styleName == "background.image")
+  {
+    backgroundImage[0] = value;
+    return true;
+  }
+  if (styleName == "background.image.hi")
+  {
+    backgroundImage[1] = value;
+    return true;
+  }
+  if (styleName == "background.color")
+  {
+    bg[0] = FindRGB (value, inv->GetG2D ());
+    return true;
+  }
+  if (styleName == "background.color.hi")
+  {
+    bg[1] = FindRGB (value, inv->GetG2D ());
+    return true;
+  }
+  if (styleName == "hilight.rotate")
   {
     csScanStr (value, "%b", &rotateHiMesh);
     return true;
@@ -663,11 +742,49 @@ bool InvStyle::SetStyleOption (celUIGridInventory* inv,
   return false;
 }
 
+void GridEntry::WriteText (celUIGridInventory* inv, int hi)
+{
+  const InvStyle& style = inv->GetStyle ();
+  if (style.nameStyle.fontSize >= 0 || style.amountStyle.fontSize >= 0)
+  {
+    iGraphics3D* g3d = inv->GetG3D ();
+    iGraphics2D* g2d = inv->GetG2D ();
+
+    int handlew, handleh;
+    handle[hi]->GetRendererDimensions (handlew, handleh);
+
+    g3d->SetRenderTarget (handle[hi]);
+    g3d->BeginDraw (CSDRAW_2DGRAPHICS);
+
+    int x, y;
+
+    if (amount && style.amountStyle.fontSize >= 0)
+    {
+      csString t;
+      t.Format ("%d", amount);
+      if (style.amountStyle.GetTextPos (t, x, y, handlew, handleh))
+        g2d->Write (style.amountStyle.font, x, y,
+	    style.amountStyle.fg[hi], style.amountStyle.bg[hi], t);
+    }
+
+    if (style.nameStyle.GetTextPos (text, x, y, handlew, handleh))
+    {
+      g2d->Write (style.nameStyle.font, x, y,
+	  style.nameStyle.fg[hi], style.nameStyle.bg[hi], text);
+    }
+
+    g3d->FinishDraw ();
+    g3d->SetRenderTarget (0);
+  }
+}
+
 void GridEntry::SetupEntry (celUIGridInventory* inv,
     const char* txt, int amount,
     iMeshFactoryWrapper* factory, int hi)
 {
   GridEntry::factory = factory;
+  text = txt;
+  GridEntry::amount = amount;
 
   iGraphics3D* g3d = inv->GetG3D ();
   iGraphics2D* g2d = g3d->GetDriver2D ();
@@ -694,7 +811,7 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
   }
   else
   {
-    int color = g2d->FindRGB (style.bgred[hi], style.bggreen[hi], style.bgblue[hi], style.bgalpha[hi]);
+    int color = style.bg[hi];
     g2d->DrawBox (0, 0, style.buttonw, style.buttonh, color);
   }
 
@@ -744,17 +861,7 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
   g3d->FinishDraw ();
   g3d->SetRenderTarget (0);
 
-  g3d->SetRenderTarget (handle[hi]);
-  g3d->BeginDraw (CSDRAW_2DGRAPHICS);
-  int fg = g2d->FindRGB (255, 255, 255);
-  if (amount)
-    text.Format ("%s (%d)", txt, amount);
-  else
-    text = txt;
-  g2d->Write (style.font, 10, 10, fg, -1, text);
-
-  g3d->FinishDraw ();
-  g3d->SetRenderTarget (0);
+  WriteText (inv, hi);
 }
 
 void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
@@ -780,7 +887,7 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
   }
   else
   {
-    int color = g2d->FindRGB (style.bgred[hi], style.bggreen[hi], style.bgblue[hi], style.bgalpha[hi]);
+    int color = style.bg[hi];
     g2d->DrawBox (0, 0, style.buttonw, style.buttonh, color);
   }
 
@@ -809,13 +916,7 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
   g3d->FinishDraw ();
   g3d->SetRenderTarget (0);
 
-  g3d->SetRenderTarget (handle[hi]);
-  g3d->BeginDraw (CSDRAW_2DGRAPHICS);
-  int fg = g2d->FindRGB (255, 255, 255);
-  g2d->Write (style.font, 10, 10, fg, -1, text);
-
-  g3d->FinishDraw ();
-  g3d->SetRenderTarget (0);
+  WriteText (inv, hi);
 }
 
 // ------------------------------------------------------------------
@@ -824,10 +925,21 @@ void celUIGridInventory::SetupItems ()
 {
   grid.DeleteAll ();
 
-  if (style.fontName.IsEmpty ())
-    style.font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_COURIER);
-  else
-    style.font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (style.fontName, style.fontSize);
+  iGraphics2D* g2d = g3d->GetDriver2D ();
+  if (style.nameStyle.fontSize >= 0)
+  {
+    if (style.nameStyle.fontName.IsEmpty ())
+      style.nameStyle.font = g2d->GetFontServer ()->LoadFont (CSFONT_COURIER);
+    else
+      style.nameStyle.font = g2d->GetFontServer ()->LoadFont (style.nameStyle.fontName, style.nameStyle.fontSize);
+  }
+  if (style.amountStyle.fontSize >= 0)
+  {
+    if (style.amountStyle.fontName.IsEmpty ())
+      style.amountStyle.font = g2d->GetFontServer ()->LoadFont (CSFONT_COURIER);
+    else
+      style.amountStyle.font = g2d->GetFontServer ()->LoadFont (style.amountStyle.fontName, style.amountStyle.fontSize);
+  }
 
   for (int hi = 0 ; hi < 2 ; hi++)
   {
