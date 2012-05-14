@@ -844,12 +844,13 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
     iCamera* cam = mt->GetView ()->GetCamera ();
     cam->SetSector (sector);
     mt->ScaleCamera (mesh, style.buttonw, style.buttonh);
-    cam->Move (csVector3 (.7, .7, -.5));
-    mt->ScaleCamera (mesh, style.buttonw, style.buttonh);
-    cam->GetTransform ().LookAt (-cam->GetTransform ().GetOrigin (), csVector3 (0, 1, 0));
+    const csBox3 mesh_box = mesh->GetWorldBoundingBox ();
+    const csVector3 mesh_center = mesh_box.GetCenter ();
     float dist = sqrt (csSquaredDist::PointPoint (cam->GetTransform ().GetOrigin (),
-	  csVector3 (0, 0, 0)));
-    cam->Move (csVector3 (0, 0, - dist / 10.0f));
+	  mesh_center));
+    cam->Move (csVector3 (dist/1.6, dist/1.6, 0));
+    cam->GetTransform ().LookAt (mesh_center-cam->GetTransform ().GetOrigin (), csVector3 (0, 1, 0));
+    cam->Move (csVector3 (0, 0, dist/10.0));
     camtrans = cam->GetTransform ();
     mt->Render (mesh, handle[hi], true);
     iRenderManager* rm = engine->GetRenderManager ();
