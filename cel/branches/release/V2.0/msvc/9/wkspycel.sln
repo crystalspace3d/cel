@@ -317,6 +317,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgblxml", "plgblxml.vcproj
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcelconsole", "plgcelconsole.vcproj", "{98B5AC91-D6B1-1C99-9FEC-D1EEA525ED3B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FE8C31C7-8C7C-B982-16AE-C6CA39940D52} = {FE8C31C7-8C7C-B982-16AE-C6CA39940D52}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcelgraph", "plgcelgraph.vcproj", "{8BBC74D9-616A-F075-D8FC-8B101A6C5730}"
 EndProject
@@ -551,6 +554,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgtcpnetwork", "plgtcpnetw
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgtriggers", "plgtriggers.vcproj", "{AD177E14-13FA-22A4-878A-C368BD8BD997}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FE8C31C7-8C7C-B982-16AE-C6CA39940D52} = {FE8C31C7-8C7C-B982-16AE-C6CA39940D52}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgxmlpersist", "plgxmlpersist.vcproj", "{274174A0-7101-29E3-D06A-6C0B009A3DDD}"
 EndProject
