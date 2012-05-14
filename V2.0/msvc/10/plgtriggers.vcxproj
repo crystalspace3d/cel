@@ -528,6 +528,11 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
   <ItemGroup>
     <None Include="..\..\plugins\tools\triggers\triggers.csplugin" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="libceltool.vcxproj">
+      <Project>{FE8C31C7-8C7C-B982-16AE-C6CA39940D52}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
