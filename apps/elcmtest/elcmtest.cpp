@@ -177,8 +177,8 @@ bool ElcmTest::InitWindowSystem ()
   uiInventory->SetStyleOption ("grid.cachedir", "/cellib/cache/elcmtest");
   uiInventory->SetStyleOption ("grid.orientation", "horizontal");
   uiInventory->SetStyleOption ("grid.vertical.count", "1");
-  uiInventory->SetStyleOption ("button.width", "300");
-  uiInventory->SetStyleOption ("button.height", "300");
+  uiInventory->SetStyleOption ("button.width", "150");
+  uiInventory->SetStyleOption ("button.height", "150");
   uiInventory->SetStyleOption ("background.image", "/cellib/images/buttonback.png");
   uiInventory->SetStyleOption ("background.image.hi", "/cellib/images/buttonback_hi.png");
   uiInventory->SetStyleOption ("name.font", "DejaVuSans");
