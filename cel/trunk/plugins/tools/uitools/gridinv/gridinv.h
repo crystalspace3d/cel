@@ -88,7 +88,7 @@ struct TextStyle
   TextStyle () : fontSize (10) { }
 
   bool SetStyleOption (const char* prefix, celUIGridInventory* inv,
-    const char* name, const char* value);
+    const csString& name, const char* value);
 
   // Get the text position. Return true if no text should be printed.
   bool GetTextPos (const char* txt, int& x, int& y, int w, int h) const;
@@ -113,7 +113,7 @@ struct InvStyle
   InvStyle ();
 
   void Setup (iGraphics2D* g2d);
-  bool SetStyleOption (celUIGridInventory* inv, const char* name, const char* value);
+  bool SetStyleOption (celUIGridInventory* inv, const csString& name, const char* value);
 };
 
 struct GridEntry
@@ -132,11 +132,24 @@ struct GridEntry
 
   GridEntry () : entity (0), tpl (0), alpha (0) { }
 
+  iSector* SetupSector (celUIGridInventory* inv);
+  void SetupMesh (celUIGridInventory* inv, iSector* sector,
+      iMeshFactoryWrapper* factory);
+  void SetupCamera (celUIGridInventory* inv, iSector* sector,
+      csMeshOnTexture* mt);
+  void SetupBackgroundTexture (celUIGridInventory* inv, int hi);
+  // Return true if texture came from cache.
+  bool SetupTexture (celUIGridInventory* inv, int hi);
+
   void SetupEntry (celUIGridInventory* inv,
       const char* text, int amount,
       iMeshFactoryWrapper* factory, int hi);
   void UpdateEntry (celUIGridInventory* inv, int hi);
   void WriteText (celUIGridInventory* inv, int hi);
+
+  void CacheButton (celUIGridInventory* inv, int hi);
+  // Return a cached button or null if not in cache.
+  csRef<iImage> ReadCachedButton (celUIGridInventory* inv, int hi);
 };
 
 class Layouter
@@ -149,7 +162,7 @@ public:
 
   /// Get the real position of a grid entry. Returns false if not visible.
   virtual bool GetRealPosition (size_t i, int& x, int& y) = 0;
-  virtual bool SetStyleOption (const char* name, const char* value) = 0;
+  virtual bool SetStyleOption (const csString& name, const char* value) = 0;
 };
 
 class GridLayouter : public Layouter
@@ -183,7 +196,7 @@ public:
   virtual void UpdateScroll (float elapsed);
   virtual GridEntry* GetSelected ();
   virtual bool GetRealPosition (size_t i, int& x, int& y);
-  virtual bool SetStyleOption (const char* name, const char* value);
+  virtual bool SetStyleOption (const csString& name, const char* value);
 };
 
 
@@ -246,6 +259,10 @@ private:
   csRef<iPcInventory> inventory;
   csRef<iMouseDriver> mouse;
   csRef<iVirtualClock> vc;
+  csRef<iImageIO> imageio;
+  csRef<iVFS> vfs;
+
+  csString cacheDir;
 
   Layouter* layouter;
   InvStyle style;
@@ -290,10 +307,14 @@ public:
   iGraphics2D* GetG2D () const { return g3d->GetDriver2D (); }
   iEventNameRegistry* GetNameReg () const { return name_reg; }
   iVirtualClock* GetVC () const { return vc; }
+  iImageIO* GetImageIO () const { return imageio; }
+  iVFS* GetVFS () const { return vfs; }
   iMouseDriver* GetMouseDriver () const { return mouse; }
   const InvStyle& GetStyle () const { return style; }
   const csArray<GridEntry>& GetGrid () const { return grid; }
   csArray<GridEntry>& GetGrid () { return grid; }
+  const char* GetCacheDir () const
+  { return cacheDir.IsEmpty () ? (const char*)0 : cacheDir.GetData (); }
 
   void Refresh ();
 
@@ -306,11 +327,7 @@ public:
   virtual void AddSelectionListener (iUIInventorySelectionCallback* cb);
   virtual void RemoveSelectionListener (iUIInventorySelectionCallback* cb);
 
-  virtual bool SetStyleOption (const char* name, const char* value)
-  {
-    if (style.SetStyleOption (this, name, value)) return true;
-    return layouter->SetStyleOption (name, value);
-  }
+  virtual bool SetStyleOption (const char* name, const char* value);
   virtual bool Bind (const char* eventname, const char* command, const char* args);
 
   // --------------------------------------------------------------------

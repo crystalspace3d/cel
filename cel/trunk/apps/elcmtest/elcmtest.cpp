@@ -174,14 +174,15 @@ bool ElcmTest::InitWindowSystem ()
   info.AttachNew (new ElcmTestDefaultInfo (pl, engine, uiInventory->GetInfo ()));
   uiInventory->SetInfo (info);
   //uiInventory->SetStyleOption ("backgroundColor", "50, 50, 50, 60");
+  uiInventory->SetStyleOption ("grid.cachedir", "/cellib/cache/elcmtest");
+  uiInventory->SetStyleOption ("grid.orientation", "horizontal");
+  uiInventory->SetStyleOption ("grid.vertical.count", "1");
   uiInventory->SetStyleOption ("button.width", "300");
   uiInventory->SetStyleOption ("button.height", "300");
   uiInventory->SetStyleOption ("background.image", "/cellib/images/buttonback.png");
   uiInventory->SetStyleOption ("background.image.hi", "/cellib/images/buttonback_hi.png");
   uiInventory->SetStyleOption ("name.font", "DejaVuSans");
   uiInventory->SetStyleOption ("name.font.size", "10");
-  uiInventory->SetStyleOption ("grid.orientation", "horizontal");
-  uiInventory->SetStyleOption ("grid.vertical.count", "1");
   uiInventory->Bind ("MouseButton0", "select", 0);
   uiInventory->Bind ("MouseButton1", "select_keepopen", 0);
   uiInventory->Bind ("MouseWheelUp", "scroll_left", 0);
