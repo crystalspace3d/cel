@@ -754,7 +754,7 @@ void GridEntry::WriteText (celUIGridInventory* inv, int hi)
     int handlew, handleh;
     handle[hi]->GetRendererDimensions (handlew, handleh);
 
-    g3d->SetRenderTarget (handle[hi]);
+    g3d->SetRenderTarget (handle[hi], true);
     g3d->BeginDraw (CSDRAW_2DGRAPHICS);
 
     int x, y;
