@@ -105,6 +105,9 @@ struct InvStyle
   csRef<iTextureHandle> backgroundTexture[2];
   int bg[2];			// Background color in case a solid box is used.
   bool rotateHiMesh;
+  bool animateHiLight;
+  csColor animateColor;
+  float maxAnimateColorTime;
 
   // Text parameters.
   TextStyle nameStyle;
@@ -130,6 +133,9 @@ public:
   iCelEntity* entity;
   iCelEntityTemplate* tpl;
   uint8 alpha;
+  float animateColor;
+  float animateColorTime;
+  float maxAnimateColorTime;
 
 private:
   iSector* SetupSector (celUIGridInventory* inv);
@@ -146,12 +152,15 @@ private:
   csRef<iImage> ReadCachedButton (celUIGridInventory* inv, int hi);
 
 public:
-  GridEntry () : entity (0), tpl (0), alpha (0) { }
+  GridEntry ();
 
   void SetupEntry (celUIGridInventory* inv,
       const char* text, int amount,
       iMeshFactoryWrapper* factory, int hi);
-  void UpdateEntry (celUIGridInventory* inv, int hi);
+  void UpdateEntry (celUIGridInventory* inv, float elapsed, int hi);
+
+  bool NeedsUpdate ();
+  void StartColorAnim (float time);
 
   void Render (celUIGridInventory* inv, int x, int y, int hi);
 };

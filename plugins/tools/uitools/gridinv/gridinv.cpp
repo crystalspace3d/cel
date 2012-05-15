@@ -368,15 +368,21 @@ bool celUIGridInventory::HandleLogicEvent (iEvent& ev)
 {
   if (ev.Name == csevFrame (object_reg))
   {
-    layouter->UpdateScroll (vc->GetElapsedSeconds ());
+    float elapsed = vc->GetElapsedSeconds ();
+    layouter->UpdateScroll (elapsed);
 
-    if (style.rotateHiMesh)
+    if (style.rotateHiMesh || style.animateHiLight)
     {
-      GridEntry* g = layouter->GetSelected ();
-      if (g  && g->handle[1])
+      GridEntry* sel = layouter->GetSelected ();
+      for (size_t i = 0 ; i < grid.GetSize () ; i++)
       {
-	g->UpdateEntry (this, 0);
-	g->UpdateEntry (this, 1);
+        GridEntry& g = grid[i];
+	if (&g == sel || g.NeedsUpdate ())
+	{
+	  g.UpdateEntry (this, elapsed, 0);
+	  g.UpdateEntry (this, elapsed, 1);
+	  if (&g == sel) g.StartColorAnim (style.maxAnimateColorTime);
+	}
       }
     }
     return true;
@@ -591,6 +597,9 @@ void InvStyle::Setup (iGraphics2D* g2d)
   bg[0] = g2d->FindRGB (50, 50, 50, 255);
   bg[1] = g2d->FindRGB (80, 80, 80, 255);
   rotateHiMesh = true;
+  animateHiLight = true;
+  animateColor.Set (1.0f, 0.0f, 0.0f);
+  maxAnimateColorTime = 0.5f;
 
   nameStyle.fontSize = 10;
   nameStyle.horPos = -5;
@@ -735,8 +744,31 @@ bool InvStyle::SetStyleOption (celUIGridInventory* inv,
     csScanStr (value, "%b", &rotateHiMesh);
     return true;
   }
+  if (name == "hilight.animlight")
+  {
+    csScanStr (value, "%b", &animateHiLight);
+    return true;
+  }
+  if (name == "hilight.animlight.color")
+  {
+    csScanStr (value, "%f,%f,%f", &animateColor.red, &animateColor.green, &animateColor.blue);
+    return true;
+  }
+  if (name == "hilight.animlight.time")
+  {
+    csScanStr (value, "%f,%f,%f", &maxAnimateColorTime);
+    return true;
+  }
 
   return false;
+}
+
+// ------------------------------------------------------------------------
+
+GridEntry::GridEntry () :
+  entity (0), tpl (0),
+  alpha (0), animateColor (0), animateColorTime (0)
+{
 }
 
 iSector* GridEntry::SetupSector (celUIGridInventory* inv)
@@ -751,6 +783,8 @@ iSector* GridEntry::SetupSector (celUIGridInventory* inv)
     light = engine->CreateLight (0, csVector3 (-300, 300, -300), 1000, csColor (1, 1, 1));
     ll->Add (light);
     light = engine->CreateLight (0, csVector3 (300, 300, 300), 1000, csColor (1, 1, 1));
+    ll->Add (light);
+    light = engine->CreateLight ("animlight", csVector3 (0, 0, -300), 1000, csColor (0, 0, 0));
     ll->Add (light);
   }
   return sector;
@@ -931,7 +965,16 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
   delete mt;
 }
 
-void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
+void GridEntry::StartColorAnim (float time)
+{
+  if (animateColorTime == 0.0f)
+  {
+    maxAnimateColorTime = animateColorTime = time;
+    animateColor = 1.0f;
+  }
+}
+
+void GridEntry::UpdateEntry (celUIGridInventory* inv, float elapsed, int hi)
 {
   iGraphics3D* g3d = inv->GetG3D ();
   iGraphics2D* g2d = g3d->GetDriver2D ();
@@ -949,9 +992,25 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
     csMeshOnTexture* mt = new csMeshOnTexture (inv->GetObjectRegistry ());
     iSector* sector = SetupSector (inv);
     mesh->GetMovable ()->SetSector (sector);
+    if (hi && style.animateHiLight && animateColorTime > 0.0f)
+    {
+      iLight* l = sector->GetLights ()->FindByName ("animlight");
+      animateColorTime -= elapsed;
+      if (animateColorTime < 0.0f) animateColorTime = 0.0f;
+      float dt = (maxAnimateColorTime - animateColorTime) / maxAnimateColorTime;
+      float c = animateColor * dt + (1.0f - animateColor) * (1.0f - dt);
+
+      l->SetColor (style.animateColor * c);
+      if (animateColor > 0.99f && animateColorTime == 0.0f)
+      {
+	// Restart animation automatically.
+	StartColorAnim (maxAnimateColorTime);
+	animateColor = 0.0f;
+      }
+    }
     if (hi && style.rotateHiMesh)
     {
-      trans.RotateThis (csVector3 (0, 1, 0), inv->GetVC ()->GetElapsedSeconds ());
+      trans.RotateThis (csVector3 (0, 1, 0), elapsed);
     }
     mesh->GetMovable ()->SetTransform (trans);
     mesh->GetMovable ()->UpdateMove ();
@@ -967,6 +1026,11 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
 
   g3d->FinishDraw ();
   g3d->SetRenderTarget (0);
+}
+
+bool GridEntry::NeedsUpdate ()
+{
+  return animateColorTime > 0.0f;
 }
 
 void GridEntry::Render (celUIGridInventory* inv, int x, int y, int hi)
