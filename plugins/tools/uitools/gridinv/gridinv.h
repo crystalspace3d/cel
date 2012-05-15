@@ -118,6 +118,7 @@ struct InvStyle
 
 struct GridEntry
 {
+public:
   int x, y;
   csString text;
   int amount;
@@ -130,8 +131,7 @@ struct GridEntry
   iCelEntityTemplate* tpl;
   uint8 alpha;
 
-  GridEntry () : entity (0), tpl (0), alpha (0) { }
-
+private:
   iSector* SetupSector (celUIGridInventory* inv);
   void SetupMesh (celUIGridInventory* inv, iSector* sector,
       iMeshFactoryWrapper* factory);
@@ -141,15 +141,19 @@ struct GridEntry
   // Return true if texture came from cache.
   bool SetupTexture (celUIGridInventory* inv, int hi);
 
+  void CacheButton (celUIGridInventory* inv, int hi);
+  // Return a cached button or null if not in cache.
+  csRef<iImage> ReadCachedButton (celUIGridInventory* inv, int hi);
+
+public:
+  GridEntry () : entity (0), tpl (0), alpha (0) { }
+
   void SetupEntry (celUIGridInventory* inv,
       const char* text, int amount,
       iMeshFactoryWrapper* factory, int hi);
   void UpdateEntry (celUIGridInventory* inv, int hi);
-  void WriteText (celUIGridInventory* inv, int hi);
 
-  void CacheButton (celUIGridInventory* inv, int hi);
-  // Return a cached button or null if not in cache.
-  csRef<iImage> ReadCachedButton (celUIGridInventory* inv, int hi);
+  void Render (celUIGridInventory* inv, int x, int y, int hi);
 };
 
 class Layouter

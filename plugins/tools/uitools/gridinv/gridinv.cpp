@@ -517,11 +517,7 @@ bool celUIGridInventory::HandleRenderEvent (iEvent& ev)
       {
         GridEntry& g = grid[i];
         int hi = &g == sel;
-        if (g.handle[hi])
-        {
-          g3d->DrawPixmap (g.handle[hi], x, y, style.buttonw, style.buttonh,
-	      0, 0, style.buttonw, style.buttonh, g.alpha);
-        }
+	g.Render (this, x, y, hi);
       }
     }
   }
@@ -743,42 +739,6 @@ bool InvStyle::SetStyleOption (celUIGridInventory* inv,
   return false;
 }
 
-void GridEntry::WriteText (celUIGridInventory* inv, int hi)
-{
-  const InvStyle& style = inv->GetStyle ();
-  if (style.nameStyle.fontSize >= 0 || style.amountStyle.fontSize >= 0)
-  {
-    iGraphics3D* g3d = inv->GetG3D ();
-    iGraphics2D* g2d = inv->GetG2D ();
-
-    int handlew, handleh;
-    handle[hi]->GetRendererDimensions (handlew, handleh);
-
-    g3d->SetRenderTarget (handle[hi], true);
-    g3d->BeginDraw (CSDRAW_2DGRAPHICS);
-
-    int x, y;
-
-    if (amount && style.amountStyle.fontSize >= 0)
-    {
-      csString t;
-      t.Format ("%d", amount);
-      if (style.amountStyle.GetTextPos (t, x, y, handlew, handleh))
-        g2d->Write (style.amountStyle.font, x, y,
-	    style.amountStyle.fg[hi], style.amountStyle.bg[hi], t);
-    }
-
-    if (style.nameStyle.GetTextPos (text, x, y, handlew, handleh))
-    {
-      g2d->Write (style.nameStyle.font, x, y,
-	  style.nameStyle.fg[hi], style.nameStyle.bg[hi], text);
-    }
-
-    g3d->FinishDraw ();
-    g3d->SetRenderTarget (0);
-  }
-}
-
 iSector* GridEntry::SetupSector (celUIGridInventory* inv)
 {
   iEngine* engine = inv->GetEngine ();
@@ -969,8 +929,6 @@ void GridEntry::SetupEntry (celUIGridInventory* inv,
   }
 
   delete mt;
-
-  WriteText (inv, hi);
 }
 
 void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
@@ -1009,8 +967,39 @@ void GridEntry::UpdateEntry (celUIGridInventory* inv, int hi)
 
   g3d->FinishDraw ();
   g3d->SetRenderTarget (0);
+}
 
-  WriteText (inv, hi);
+void GridEntry::Render (celUIGridInventory* inv, int x, int y, int hi)
+{
+  iGraphics3D* g3d = inv->GetG3D ();
+  const InvStyle& style = inv->GetStyle ();
+  g3d->DrawPixmap (handle[hi], x, y, style.buttonw, style.buttonh,
+	      0, 0, style.buttonw, style.buttonh, alpha);
+
+  if (style.nameStyle.fontSize >= 0 || style.amountStyle.fontSize >= 0)
+  {
+    iGraphics2D* g2d = inv->GetG2D ();
+
+    int handlew, handleh;
+    handle[hi]->GetRendererDimensions (handlew, handleh);
+
+    int rx, ry;
+
+    if (amount && style.amountStyle.fontSize >= 0)
+    {
+      csString t;
+      t.Format ("%d", amount);
+      if (style.amountStyle.GetTextPos (t, rx, ry, style.buttonw, style.buttonh))
+        g2d->Write (style.amountStyle.font, x+rx, y+ry,
+	    style.amountStyle.fg[hi], style.amountStyle.bg[hi], t);
+    }
+
+    if (style.nameStyle.GetTextPos (text, rx, ry, style.buttonw, style.buttonh))
+    {
+      g2d->Write (style.nameStyle.font, x+rx, y+ry,
+	  style.nameStyle.fg[hi], style.nameStyle.bg[hi], text);
+    }
+  }
 }
 
 // ------------------------------------------------------------------
