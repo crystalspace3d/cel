@@ -865,6 +865,7 @@ void MeshCache::RemoveMesh (iMeshWrapper* mesh)
 //---------------------------------------------------------------------------------------
 
 DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
+    bool usefact,
     float maxradiusRelative, float imposterradius, bool isLogic) :
   scfImplementationType (this), name (name), world (world),
   maxradiusRelative (maxradiusRelative), isLogic (isLogic)
@@ -872,30 +873,51 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
   bbox.StartBoundingBox ();
   physBbox.StartBoundingBox ();
 
-  factory = world->engine->FindMeshFactory (name);
-  if (factory == 0)
+  factory = 0;
+  lightFactory = 0;
+
+  if (usefact)
   {
-    world->Error ("Could not find factory '%s'!\n", name);
-    return;
+    factory = world->engine->FindMeshFactory (name);
+    if (factory == 0)
+    {
+      world->Error ("Could not find factory '%s'!\n", name);
+      return;
+    }
+  }
+  else
+  {
+    lightFactory = world->engine->FindLightFactory (name);
+    if (lightFactory == 0)
+    {
+      world->Error ("Could not find light factory '%s'!\n", name);
+      return;
+    }
   }
 
   SetImposterRadius (imposterradius);
 
-  iObjectModel* model = factory->GetMeshObjectFactory ()->GetObjectModel ();
-  if (model)
+  if (factory)
   {
-    float r;
-    csVector3 c;
-    model->GetRadius (r, c);
-    bsphere.SetCenter (c);
-    bsphere.SetRadius (r);
-    bbox = model->GetObjectBoundingBox ();
+    iObjectModel* model = factory->GetMeshObjectFactory ()->GetObjectModel ();
+    if (model)
+    {
+      float r;
+      csVector3 c;
+      model->GetRadius (r, c);
+      bsphere.SetCenter (c);
+      bsphere.SetRadius (r);
+      bbox = model->GetObjectBoundingBox ();
+    }
+    else
+    {
+      printf ("WARNING! No object model for %s!\n", factory->QueryObject ()->GetName ());
+      fflush (stdout);
+    }
   }
-  else
-  {
-    printf ("WARNING! No object model for %s!\n", factory->QueryObject ()->GetName ());
-    fflush (stdout);
-  }
+  //else if (lightFactory)
+  //{
+  //}
 }
 
 void DynamicFactory::SetImposterRadius (float r)
@@ -1393,7 +1415,9 @@ void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
 
 void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
 {
+  // @@@ TODO: Support light here!
   if (mesh) return;
+  if (!factory->GetMeshFactory ()) return;
   mesh = world->meshCache.AddMesh (world->engine, factory->GetMeshFactory (),
       cell->sector, trans);
   bool invis;
@@ -1609,6 +1633,7 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
 {
   csString factname = node->GetAttributeValue ("fact");
   factory = world->factory_hash.Get (factname, 0);
+  // @@@ TODO Light factory
   if (!factory)
     return world->Error ("Can't find factory '%s'!\n", factname.GetData ());
   if (!syn->ParseBoolAttribute (node, "static", is_static, false, false))
@@ -2007,7 +2032,7 @@ iDynamicFactory* celPcDynamicWorld::AddLogicFactory (const char* factory, float 
   }
 
   csRef<DynamicFactory> obj;
-  obj.AttachNew (new DynamicFactory (this, factory, maxradius, imposterradius, true));
+  obj.AttachNew (new DynamicFactory (this, factory, true, maxradius, imposterradius, true));
   factories.Push (obj);
   factory_hash.Put (factory, obj);
   return obj;
@@ -2017,7 +2042,17 @@ iDynamicFactory* celPcDynamicWorld::AddFactory (const char* factory, float maxra
     float imposterradius)
 {
   csRef<DynamicFactory> obj;
-  obj.AttachNew (new DynamicFactory (this, factory, maxradius, imposterradius));
+  obj.AttachNew (new DynamicFactory (this, factory, true, maxradius, imposterradius));
+  factories.Push (obj);
+  factory_hash.Put (factory, obj);
+  return obj;
+}
+
+iDynamicFactory* celPcDynamicWorld::AddLightFactory (const char* factory,
+    float maxradius)
+{
+  csRef<DynamicFactory> obj;
+  obj.AttachNew (new DynamicFactory (this, factory, false, maxradius, -1));
   factories.Push (obj);
   factory_hash.Put (factory, obj);
   return obj;

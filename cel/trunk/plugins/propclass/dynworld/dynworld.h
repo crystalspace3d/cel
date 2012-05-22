@@ -55,6 +55,7 @@
  */
 CEL_DECLARE_FACTORY (DynamicWorld)
 
+struct iLightFactory;
 
 #define MARKER_NEW 0xe3
 #define MARKER_END 0x3e
@@ -300,6 +301,7 @@ private:
 
   celPcDynamicWorld* world;
   iMeshFactoryWrapper* factory;
+  iLightFactory* lightFactory;
   csPDelArray<DOCollider> colliders;
   csSphere bsphere;
   csBox3 bbox;
@@ -318,7 +320,7 @@ private:
   void UpdatePhysBBox ();
 
 public:
-  DynamicFactory (celPcDynamicWorld* world, const char* name,
+  DynamicFactory (celPcDynamicWorld* world, const char* name, bool usefact,
       float maxradiusRelative, float imposterradius, bool isLogic = false);
   virtual ~DynamicFactory () { }
   virtual float GetMaximumRadiusRelative () const { return maxradiusRelative; }
@@ -329,6 +331,7 @@ public:
   const csSphere& GetBSphere () const { return bsphere; }
 
   virtual bool IsLogicFactory () const { return isLogic; }
+  virtual bool IsLightFactory () const { return lightFactory != 0; }
 
   virtual void SetDefaultEntityTemplate (const char* tmpName) { tplName = tmpName; }
   virtual const char* GetDefaultEntityTemplate () const { return tplName; }
@@ -400,6 +403,7 @@ private:
   DynamicCell* cell;
   DynamicFactory* factory;
   csRef<iMeshWrapper> mesh;
+  csRef<iLight> light;
   // If the mesh is not prepared yet this transform is the actual
   // transform of this object. If the mesh is prepared then this
   // represents the transform at the time the mesh is prepared.
@@ -474,6 +478,7 @@ public:
   virtual void SetHilight (bool hi);
   virtual bool IsHilight () const { return is_hilight; }
   virtual iMeshWrapper* GetMesh () const { return mesh; }
+  virtual iLight* GetLight () const { return light; }
 
   virtual iRigidBody* GetBody () const { return body; }
   virtual bool RecreatePivotJoints ();
@@ -734,6 +739,7 @@ public:
       float imposterradius);
   virtual iDynamicFactory* AddLogicFactory (const char* factory, float maxradius,
       float imposterradius, const csBox3& bbox);
+  virtual iDynamicFactory* AddLightFactory (const char* factory, float maxradius);
   virtual void RemoveFactory (iDynamicFactory* factory);
   virtual void DeleteFactories ();
   virtual size_t GetFactoryCount () const { return factories.GetSize () ; }
