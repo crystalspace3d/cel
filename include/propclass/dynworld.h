@@ -216,6 +216,12 @@ struct iDynamicFactory : public virtual iBase
   virtual bool IsLogicFactory () const = 0;
 
   /**
+   * Return true if this dynamic factory is a light factory
+   * (created with AddLightFactory()).
+   */
+  virtual bool IsLightFactory () const = 0;
+
+  /**
    * Set the entity template that is linked to this factory.
    * This represents the default entity template to be used when
    * creating entities from this dynamic object.
@@ -479,9 +485,17 @@ struct iDynamicObject : public virtual iBase
 
   /**
    * Get the mesh for this object. Can be 0 if the
-   * object is currently not visible.
+   * object is currently not visible or if the factory
+   * is a light factory.
    */
   virtual iMeshWrapper* GetMesh () const = 0;
+
+  /**
+   * Get the light for this object. Can be 0 if the light
+   * is currently not visible or if the factory is a normal
+   * mesh factory.
+   */
+  virtual iLight* GetLight () const = 0;
 
   /**
    * Get the body for this object. Can be 0 if the
@@ -780,6 +794,15 @@ struct iPcDynamicWorld : public virtual iBase
    */
   virtual iDynamicFactory* AddLogicFactory (const char* factory, float maxradius,
       float imposterradius, const csBox3& box) = 0;
+
+  /**
+   * Add a new dynamic factory to the world. This version supports a light
+   * factory.
+   * @param maxradius is a relative maximum radius (0 to 1) at which point
+   * the light should become visible. It is relative to the total maximum
+   * radius maintained by this world.
+   */
+  virtual iDynamicFactory* AddLightFactory (const char* factory, float maxradius) = 0;
 
   /**
    * Remove a factory from the world.
