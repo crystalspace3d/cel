@@ -475,7 +475,7 @@ void DynamicCell::Setup (iSector* sector, iDynamicSystem* ds)
 
 void DynamicCell::DeleteObjectInt (DynamicObject* dyn)
 {
-  dyn->RemoveMesh (world);
+  dyn->RemoveCsObject (world);
   if (dyn->GetEntity ())
     pl->RemoveEntity (dyn->GetEntity ());
   // @@@ Efficient?
@@ -500,7 +500,7 @@ void DynamicCell::DeleteObject (iDynamicObject* dynobj)
   {
     if (dyn->GetChild ())
       tree->RemoveObject (dyn->GetChild ());
-    dyn->RemoveMesh (world);
+    dyn->RemoveCsObject (world);
     objects.DeleteIndex (idx);
   }
 }
@@ -1394,30 +1394,47 @@ void DynamicObject::MeshBodyToEntity (iMeshWrapper* mesh, iRigidBody* body)
     pcmechobj->SetBody (body);
 }
 
+void DynamicObject::RemoveLight (celPcDynamicWorld* world)
+{
+  world->engine->RemoveObject (light);
+  light = 0;
+}
+
 void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
 {
-  if (!mesh) return;
   InstallHilight (false);
   CS_ASSERT (hilight_installed == false);
-  if (body) cell->dynSys->RemoveBody (body);
-  body = 0;
   trans = mesh->GetMovable ()->GetTransform ();
   iImposterFactory* imposterFactory = factory->GetImposterFactory ();
   if (imposterFactory)
     imposterFactory->RemoveImposter (mesh);
   mesh->GetMovable ()->RemoveListener (this);
   world->meshCache.RemoveMesh (mesh);
-  factory->GetWorld ()->GetIdToDynObj ().Delete (id, this);
   dynobjFinder::UnattachDynObj (mesh, this);
   mesh = 0;
   MeshBodyToEntity (0, 0);
 }
 
+void DynamicObject::RemoveCsObject (celPcDynamicWorld* world)
+{
+  if (mesh)
+    RemoveMesh (world);
+  if (light)
+    RemoveLight (world);
+
+  if (body) cell->dynSys->RemoveBody (body);
+  body = 0;
+  factory->GetWorld ()->GetIdToDynObj ().Delete (id, this);
+}
+
+void DynamicObject::PrepareLight (celPcDynamicWorld* world)
+{
+  light = world->engine->CreateLight (factory->GetName (),
+      trans.GetOrigin (), factory->GetLightFactory ());
+}
+
 void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
 {
-  // @@@ TODO: Support light here!
-  if (mesh) return;
-  if (!factory->GetMeshFactory ()) return;
   mesh = world->meshCache.AddMesh (world->engine, factory->GetMeshFactory (),
       cell->sector, trans);
   bool invis;
@@ -1435,7 +1452,6 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
     mesh->SetZBufMode (CS_ZBUF_USE);
   }
 
-  factory->GetWorld ()->GetIdToDynObj ().Put (id, this);
   mesh->GetMovable ()->AddListener (this);
   lastUpdateNr = mesh->GetMovable ()->GetUpdateNumber ();
   iGeometryGenerator* ggen = factory->GetGeometryGenerator ();
@@ -1444,6 +1460,17 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   InstallHilight (is_hilight);
   CS_ASSERT (hilight_installed == is_hilight);
   SetFade (fade);
+}
+
+void DynamicObject::PrepareCsObject (celPcDynamicWorld* world)
+{
+  if (mesh || light) return;
+  if (factory->GetMeshFactory ())
+    PrepareMesh (world);
+  if (factory->GetLightFactory ())
+    PrepareLight (world);
+
+  factory->GetWorld ()->GetIdToDynObj ().Put (id, this);
 
   ForceEntity ();
   if (!entity)
@@ -1481,7 +1508,7 @@ void DynamicObject::UpdateJoints ()
       {
 	DynamicObject* dy = static_cast<DynamicObject*> (
 			(iDynamicObject*) connectedObjects[i]);
-        dy->PrepareMesh (factory->GetWorld ());
+        dy->PrepareCsObject (factory->GetWorld ());
         if (!connectedObjects[i]->GetBody ())
           continue;
       }
@@ -2072,13 +2099,13 @@ void celPcDynamicWorld::DeleteFactories ()
 
 void celPcDynamicWorld::ForceVisible (iDynamicObject* dynobj)
 {
-  static_cast<DynamicObject*> (dynobj)->PrepareMesh (this);
+  static_cast<DynamicObject*> (dynobj)->PrepareCsObject (this);
 }
 
 void celPcDynamicWorld::ForceInvisible (iDynamicObject* dynobj)
 {
   DynamicObject* dyn = static_cast<DynamicObject*> (dynobj);
-  dyn->RemoveMesh (this);
+  dyn->RemoveCsObject (this);
 }
 
 void celPcDynamicWorld::RemoveSafeEntities ()
@@ -2137,7 +2164,7 @@ void celPcDynamicWorld::ProcessFadingOut (float fade_speed)
     if (f >= 1)
     {
       f = 1;
-      dyn->RemoveMesh (this);
+      dyn->RemoveCsObject (this);
     }
     else
     {
@@ -2188,7 +2215,7 @@ void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
     DynamicObject* dyn = it2.Next ();
     if (!dyn->GetMesh ())
     {
-      dyn->PrepareMesh (this);
+      dyn->PrepareCsObject (this);
       fadingOut.Delete (dyn);
       fadingIn.Add (dyn);
     }

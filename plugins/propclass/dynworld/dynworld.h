@@ -390,6 +390,7 @@ public:
 
   const csPDelArray<DOCollider>& GetColliders () const { return colliders; }
   iMeshFactoryWrapper* GetMeshFactory () const { return factory; }
+  iLightFactory* GetLightFactory () const { return lightFactory; }
   virtual const char* GetName () const { return name; }
   const csString& GetCsName () const { return name; }
   celPcDynamicWorld* GetWorld () const { return world; }
@@ -512,7 +513,11 @@ public:
   virtual void MovableDestroyed (iMovable* movable);
 
   void PrepareMesh (celPcDynamicWorld* world);
+  void PrepareLight (celPcDynamicWorld* world);
+  void PrepareCsObject (celPcDynamicWorld* world);
   void RemoveMesh (celPcDynamicWorld* world);
+  void RemoveLight (celPcDynamicWorld* world);
+  void RemoveCsObject (celPcDynamicWorld* world);
   void Save (iDocumentNode* node, iSyntaxService* syn);
   bool Load (iDocumentNode* node, iSyntaxService* syn, celPcDynamicWorld* world);
 
