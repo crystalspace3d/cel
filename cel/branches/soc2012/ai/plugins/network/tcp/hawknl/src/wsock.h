@@ -138,7 +138,7 @@ typedef struct sockaddr_ipx
 #undef FD_CLR
 #define FD_CLR      nlFD_CLR
 
-HL_INLINE void nlFD_CLR(SOCKET fd, fd_set *set)
+inline( void nlFD_CLR(SOCKET fd, fd_set *set))
 
 /* Workaround an invalid inlining management of MSYS when compiled in debug mode */
 #ifdef CS_DEBUG
@@ -168,7 +168,7 @@ HL_INLINE void nlFD_CLR(SOCKET fd, fd_set *set)
 #undef FD_SET
 #define FD_SET      nlFD_SET
 
-HL_INLINE void nlFD_SET(SOCKET fd, /*@out@*/ fd_set *set)
+inline( void nlFD_SET(SOCKET fd, /*@out@*/ fd_set *set))
 
 /* Workaround an invalid inlining management of MSYS when compiled in debug mode */
 #ifdef CS_DEBUG
@@ -188,7 +188,7 @@ HL_INLINE void nlFD_SET(SOCKET fd, /*@out@*/ fd_set *set)
 #undef FD_ISSET
 #define FD_ISSET(fd, set)      nlWSAFDIsSet((SOCKET)(fd), set)
 
-HL_INLINE int nlWSAFDIsSet(SOCKET fd, fd_set *set)
+inline( int nlWSAFDIsSet(SOCKET fd, fd_set *set))
 
 /* Workaround an invalid inlining management of MSYS when compiled in debug mode */
 #ifdef CS_DEBUG
