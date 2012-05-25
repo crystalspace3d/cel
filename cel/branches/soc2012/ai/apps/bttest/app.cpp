@@ -252,7 +252,7 @@ void MainApp::CreateBehaviourTree ()
   //Set Up Decorator Nodes
   csRef<iExecutionLimitDecorator> explicit_execution_limit_node = 
     scfQueryInterface<iExecutionLimitDecorator> (execution_limit_node);
-  explicit_execution_limit_node->SetExecutionLimit("1");
+  explicit_execution_limit_node->SetExecutionLimit("2");
 
   csRef<iLoopDecorator> explicit_loop_node = 
     scfQueryInterface<iLoopDecorator> (loop_node);
@@ -329,7 +329,7 @@ void MainApp::CreateBehaviourTree ()
 
 
   //Connect Tree
-  root_node->AddChild (initial_sequence_node);
+  //root_node->AddChild (initial_sequence_node);
   root_node->AddChild (execution_limit_node);
   root_node->AddChild (lottery_sequence_node);
   root_node->AddChild (random_node);
@@ -354,7 +354,7 @@ void MainApp::CreateBehaviourTree ()
 
 
   //Build Tree
-  csRef<iBTNode> tree = csLoadPlugin<iBTNode> (plugin_mgr,
+  tree = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.root");
   tree->AddChild(root_node);
   tree->Execute(params);
