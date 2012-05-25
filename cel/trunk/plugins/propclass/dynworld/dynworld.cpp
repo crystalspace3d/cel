@@ -100,7 +100,16 @@ public:
 
   static void AttachDynObj (iMeshWrapper* mesh, iDynamicObject* dynobj);
   static void UnattachDynObj (iMeshWrapper* mesh, iDynamicObject* dynobj);
+  static void AttachDynObj (iLight* light, iDynamicObject* dynobj);
+  static void UnattachDynObj (iLight* light, iDynamicObject* dynobj);
 
+  static iDynamicObject* FindAttachedDynObj (iLight* light)
+  {
+    csRef<dynobjFinder> cef (CS::GetChildObject<dynobjFinder> (light->QueryObject ()));
+    if (cef)
+      return cef->GetDynamicObject ();
+    return 0;
+  }
   static iDynamicObject* FindAttachedDynObj (iMeshWrapper* mesh)
   {
     csRef<dynobjFinder> cef (CS::GetChildObject<dynobjFinder> (mesh->QueryObject ()));
@@ -109,6 +118,28 @@ public:
     return 0;
   }
 };
+
+void dynobjFinder::AttachDynObj (iLight* light, iDynamicObject* dynobj)
+{
+  iDynamicObject* old_dynobj = FindAttachedDynObj (light);
+  if (old_dynobj == dynobj) return;
+  if (old_dynobj != 0) UnattachDynObj (light, old_dynobj);
+  csRef<dynobjFinder> cef =
+    csPtr<dynobjFinder> (new dynobjFinder (dynobj));
+  csRef<iObject> cef_obj (scfQueryInterface<iObject> (cef));
+  light->QueryObject ()->ObjAdd (cef_obj);
+}
+
+void dynobjFinder::UnattachDynObj (iLight* light, iDynamicObject* dynobj)
+{
+  csRef<dynobjFinder> cef (CS::GetChildObject<dynobjFinder> (light->QueryObject ()));
+  if (cef)
+  {
+    if (cef->GetDynamicObject () != dynobj) { return; }
+    csRef<iObject> cef_obj (scfQueryInterface<iObject> (cef));
+    light->QueryObject ()->ObjRemove (cef_obj);
+  }
+}
 
 void dynobjFinder::AttachDynObj (iMeshWrapper* mesh, iDynamicObject* dynobj)
 {
@@ -1396,7 +1427,9 @@ void DynamicObject::MeshBodyToEntity (iMeshWrapper* mesh, iRigidBody* body)
 
 void DynamicObject::RemoveLight (celPcDynamicWorld* world)
 {
+  trans = light->GetMovable ()->GetTransform ();
   world->engine->RemoveObject (light);
+  dynobjFinder::UnattachDynObj (light, this);
   light = 0;
 }
 
@@ -1476,8 +1509,11 @@ void DynamicObject::PrepareCsObject (celPcDynamicWorld* world)
   if (!entity)
   {
     // There is no entity so we need another way to find the dynobj from
-    // a mesh.
-    dynobjFinder::AttachDynObj (mesh, this);
+    // a mesh or light.
+    if (mesh)
+      dynobjFinder::AttachDynObj (mesh, this);
+    if (light)
+      dynobjFinder::AttachDynObj (light, this);
   }
 
   CreateBody ();
@@ -1571,7 +1607,10 @@ iDynamicObject* DynamicObject::GetConnectedObject (size_t jointIdx)
 void DynamicObject::CreateBody ()
 {
   bsphereValid = false;
-  trans = mesh->GetMovable ()->GetTransform ();
+  if (mesh)
+    trans = mesh->GetMovable ()->GetTransform ();
+  if (light)
+    trans = light->GetMovable ()->GetTransform ();
   if (body)
     body->DestroyColliders ();
   body = 0;
