@@ -96,7 +96,8 @@ public:
 
   float GetMass () const { return mass; }
 
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
     // Create a body and attach the mesh.
@@ -115,6 +116,7 @@ public:
       body->AdjustTotalMass (mass);
       body->SetTransform (trans);
       body->AttachMesh (mesh);
+      body->AttachLight (light);
       return body;
     }
   }
@@ -136,10 +138,11 @@ public:
   DOColliderMesh (const csVector3& offset, float mass) :
     DOCollider (offset, mass) { }
   virtual ~DOColliderMesh () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     body->AttachColliderMesh (mesh, t, 10, 1, 0.8f);
@@ -160,10 +163,11 @@ public:
   DOColliderConvexMesh (const csVector3& offset, float mass) :
     DOCollider (offset, mass) { }
   virtual ~DOColliderConvexMesh () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     body->AttachColliderConvexMesh (mesh, t, 10, 1, 0.8f);
@@ -187,10 +191,11 @@ public:
   DOColliderBox (const csVector3& size, const csVector3& offset, float mass) :
     DOCollider (offset, mass), size (size) { }
   virtual ~DOColliderBox () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     body->AttachColliderBox (size, t, 10, 1, 0);
@@ -215,10 +220,11 @@ public:
   DOColliderCylinder (const csVector3& offset, float length, float radius, float mass) :
     DOCollider (offset, mass), length (length), radius (radius) { }
   virtual ~DOColliderCylinder () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     t.RotateThis (csVector3 (1.0f, 0.0f, 0.0f), HALF_PI);
@@ -245,10 +251,11 @@ public:
   DOColliderCapsule (const csVector3& offset, float length, float radius, float mass) :
     DOCollider (offset, mass), length (length), radius (radius) { }
   virtual ~DOColliderCapsule () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     t.RotateThis (csVector3 (1.0f, 0.0f, 0.0f), HALF_PI);
@@ -275,10 +282,11 @@ public:
   DOColliderSphere (const csVector3& offset, float radius, float mass) :
     DOCollider (offset, mass), radius (radius) { }
   virtual ~DOColliderSphere () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     body->AttachColliderSphere (radius, offset, 100, .5, 0);
     body->AdjustTotalMass (mass);
     return body;
