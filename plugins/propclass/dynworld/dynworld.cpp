@@ -1464,6 +1464,10 @@ void DynamicObject::PrepareLight (celPcDynamicWorld* world)
 {
   light = world->engine->CreateLight (factory->GetName (),
       trans.GetOrigin (), factory->GetLightFactory ());
+  iLightList* ll = cell->sector->GetLights ();
+  ll->Add (light);
+  light->GetMovable ()->SetTransform (trans);
+  light->GetMovable ()->UpdateMove ();
 }
 
 void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
@@ -1617,7 +1621,7 @@ void DynamicObject::CreateBody ()
   const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
   for (size_t i = 0 ; i < colliders.GetSize () ; i++)
   {
-    body = colliders[i]->Create (cell->dynSys, mesh, trans, body);
+    body = colliders[i]->Create (cell->dynSys, mesh, light, trans, body);
   }
   if (is_static)
     body->MakeStatic ();
