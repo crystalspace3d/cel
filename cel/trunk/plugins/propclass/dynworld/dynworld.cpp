@@ -907,16 +907,14 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
   factory = 0;
   lightFactory = 0;
 
-  if (usefact)
+  factory = world->engine->FindMeshFactory (name);
+  if (factory == 0)
   {
-    factory = world->engine->FindMeshFactory (name);
-    if (factory == 0)
-    {
-      world->Error ("Could not find factory '%s'!\n", name);
-      return;
-    }
+    world->Error ("Could not find factory '%s'!\n", name);
+    return;
   }
-  else
+
+  if (!usefact)
   {
     lightFactory = world->engine->FindLightFactory (name);
     if (lightFactory == 0)
@@ -1476,9 +1474,9 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
       cell->sector, trans);
   bool invis;
   if (!world->IsGameMode ()) invis = false;
-  else invis = factory->IsLogicFactory ();
+  else invis = factory->IsLogicFactory () || factory->IsLogicFactory ();
   mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE, invis ? CS_ENTITY_INVISIBLE : 0);
-  if (!invis && factory->IsLogicFactory ())
+  if (!invis && (factory->IsLogicFactory () || factory->IsLightFactory ()))
   {
     mesh->SetRenderPriority (world->engine->GetRenderPriority ("alpha"));
     mesh->SetZBufMode (CS_ZBUF_TEST);
@@ -2072,33 +2070,41 @@ iDynamicFactory* celPcDynamicWorld::FindFactory (const char* factory) const
   return factory_hash.Get (factory, 0);
 }
 
+csRef<iMeshFactoryWrapper> celPcDynamicWorld::CreateDummyFactory (
+    const char* factoryName, CS::Geometry::Primitive& primitive,
+    int r, int g, int b, int a, const char* materialName)
+{
+  using namespace CS::Geometry;
+  csRef<iMeshFactoryWrapper> mf = GeneralMeshBuilder::CreateFactory (engine, factoryName, &primitive);
+  // Create a single color transparent material if it doesn't already exist.
+  iMaterialWrapper* mat = engine->FindMaterial (materialName);
+  if (!mat)
+  {
+    csRGBpixel singlePixel (r, g, b, a);
+    iTextureManager* texman = g3d->GetTextureManager();
+    int Format = texman->GetTextureFormat ();
+    csRef<iImage> image;
+    image.AttachNew (new csImageMemory (1, 1, (const void*)&singlePixel, Format));
+    iTextureWrapper* tex = engine->GetTextureList ()->NewTexture (image);
+    tex->Register (texman);
+    tex->QueryObject ()->SetName (materialName);
+    mat = engine->CreateMaterial (materialName, tex);
+  }
+  mf->GetMeshObjectFactory ()->SetMaterialWrapper (mat);
+  return mf;
+}
+
 iDynamicFactory* celPcDynamicWorld::AddLogicFactory (const char* factory, float maxradius,
     float imposterradius, const csBox3& bbox)
 {
   // We are creating a new invisible mesh.
-  using namespace CS::Geometry;
-  Box primitive (bbox);
   csRef<iMeshFactoryWrapper> mf;
   mf = engine->FindMeshFactory (factory);
   if (!mf)
   {
-    mf = GeneralMeshBuilder::CreateFactory (engine, factory, &primitive);
-
-    // Create a single color transparent material if it doesn't already exist.
-    iMaterialWrapper* mat = engine->FindMaterial ("__dynworld__blue__");
-    if (!mat)
-    {
-      csRGBpixel singlePixel (0, 255, 255, 50);
-      iTextureManager* texman = g3d->GetTextureManager();
-      int Format = texman->GetTextureFormat ();
-      csRef<iImage> image;
-      image.AttachNew (new csImageMemory (1, 1, (const void*)&singlePixel, Format));
-      iTextureWrapper* tex = engine->GetTextureList ()->NewTexture (image);
-      tex->Register (texman);
-      tex->QueryObject ()->SetName ("__dynworld__blue__");
-      mat = engine->CreateMaterial ("__dynworld__blue__", tex);
-    }
-    mf->GetMeshObjectFactory ()->SetMaterialWrapper (mat);
+    using namespace CS::Geometry;
+    Box primitive (bbox);
+    mf = CreateDummyFactory (factory, primitive, 0, 255, 255, 50, "__dynworld__blue__");
   }
 
   csRef<DynamicFactory> obj;
@@ -2121,6 +2127,23 @@ iDynamicFactory* celPcDynamicWorld::AddFactory (const char* factory, float maxra
 iDynamicFactory* celPcDynamicWorld::AddLightFactory (const char* factory,
     float maxradius)
 {
+  // We are creating a new invisible mesh.
+  csRef<iMeshFactoryWrapper> mf;
+  mf = engine->FindMeshFactory (factory);
+  if (!mf)
+  {
+    using namespace CS::Geometry;
+    Sphere primitive (csEllipsoid (csVector3 (0, 0, 0), csVector3 (.2, .2, .2)), 8);
+    iLightFactory* lf = engine->FindLightFactory (factory);
+    const csColor& color = lf->GetColor ();
+    csString materialName;
+    int r = int (color.red * 255.1);
+    int g = int (color.green * 255.1);
+    int b = int (color.blue * 255.1);
+    materialName.Format ("__dynworld_%d_%d_%d__", r, g, b);
+    mf = CreateDummyFactory (factory, primitive, r, g, b, 50, materialName);
+  }
+
   csRef<DynamicFactory> obj;
   obj.AttachNew (new DynamicFactory (this, factory, false, maxradius, -1));
   factories.Push (obj);
@@ -2641,10 +2664,10 @@ void celPcDynamicWorld::EnableGameMode (bool e)
       {
 	bool invis;
 	if (!gameMode) invis = false;
-	else invis = obj->GetFactory ()->IsLogicFactory ();
+	else invis = (obj->GetFactory ()->IsLogicFactory () || obj->GetFactory ()->IsLightFactory ());
 	iMeshWrapper* mesh = obj->GetMesh ();
 	mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE, invis ? CS_ENTITY_INVISIBLE : 0);
-        if (!invis && obj->GetFactory ()->IsLogicFactory ())
+        if (!invis && (obj->GetFactory ()->IsLogicFactory () || obj->GetFactory ()->IsLightFactory ()))
 	{
 	  mesh->SetRenderPriority (engine->GetRenderPriority ("alpha"));
 	  mesh->SetZBufMode (CS_ZBUF_TEST);
