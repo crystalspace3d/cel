@@ -698,6 +698,11 @@ public:
   void ProcessFadingIn (float fade_speed);
   void ProcessFadingOut (float fade_speed);
 
+  // Create dummy mesh factory.
+  csRef<iMeshFactoryWrapper> CreateDummyFactory (const char* factoryName,
+      CS::Geometry::Primitive& primitive,
+      int r, int g, int b, int a, const char* materialName);
+
 public:
   celPcDynamicWorld (iObjectRegistry* object_reg);
   virtual ~celPcDynamicWorld ();
