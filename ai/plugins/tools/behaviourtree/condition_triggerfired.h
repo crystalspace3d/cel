@@ -45,7 +45,7 @@ public:
   virtual bool Initialize (iObjectRegistry*);
 
   //From iBTNode
-  virtual bool Execute (iCelParameterBlock* params);
+  virtual BTStatus Execute (iCelParameterBlock* params);
   virtual bool AddChild (iBTNode* child);
 
   //From iTriggerFiredCondition

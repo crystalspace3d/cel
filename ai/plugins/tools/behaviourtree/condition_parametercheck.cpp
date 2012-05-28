@@ -30,14 +30,18 @@ CEL_IMPLEMENT_BTNODE (ParameterCheckCondition)
 
 //---------------------------------------------------------------------------
 
-bool celParameterCheckCondition::Execute (iCelParameterBlock* params)
+BTStatus celParameterCheckCondition::Execute (iCelParameterBlock* params)
 {
   //printf("CONDITION: Parameter Check\n");
 
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (object_reg, "cel.parameters.manager");
 
-  return value == pm->ResolveParameter(params, parameter);
+  if (value == pm->ResolveParameter(params, parameter)){
+    return BT_SUCCESS;
+  } else {
+    return BT_FAIL_CLEAN;
+  }
 }
 
 bool celParameterCheckCondition::AddChild (iBTNode* child)

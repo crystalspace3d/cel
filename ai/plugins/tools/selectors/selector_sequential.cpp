@@ -29,18 +29,19 @@ CEL_IMPLEMENT_BTNODE (SequentialSelector)
 
 //---------------------------------------------------------------------------
 
-bool celSequentialSelector::Execute (iCelParameterBlock* params)
+BTStatus celSequentialSelector::Execute (iCelParameterBlock* params)
 {
   //printf("SEQUENTIAL SELECTOR");
   int noOfChildren = children.GetSize();
   for (int i = 0; i < noOfChildren; i++)
   {	
-    if (!children.Get(i)->Execute(params))
+	BTStatus childStatus = children.Get(i)->Execute(params);
+    if (childStatus != BT_SUCCESS)
     {
-	  return false;
+	  return childStatus;
 	}
   }
-  return true;
+  return BT_SUCCESS;
 }
 
 bool celSequentialSelector::AddChild (iBTNode* child)
