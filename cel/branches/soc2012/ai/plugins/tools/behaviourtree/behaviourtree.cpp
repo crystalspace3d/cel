@@ -44,11 +44,11 @@ bool celBehaviourTree::Initialize (
   return true;												
 }
 
-bool celBehaviourTree::Execute (iCelParameterBlock* params)
+BTStatus celBehaviourTree::Execute (iCelParameterBlock* params)
 {
   celBehaviourTree::params = params;
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  return true;
+  return BT_SUCCESS;
 }
 
 bool celBehaviourTree::AddChild (iBTNode* child)

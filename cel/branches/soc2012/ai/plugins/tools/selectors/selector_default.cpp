@@ -31,17 +31,17 @@ CEL_IMPLEMENT_BTNODE (DefaultSelector)
 
 //---------------------------------------------------------------------------
 
-bool celDefaultSelector::Execute (iCelParameterBlock* params)
+BTStatus celDefaultSelector::Execute (iCelParameterBlock* params)
 {
   //printf("DEFAULT SELECTOR\n");
 
   int noOfChildren = children.GetSize();
   for (int i = 0; i < noOfChildren; i++)
   {	
-    if (children.Get(i)->Execute(params))
-      return true;
+    if (children.Get(i)->Execute(params) == BT_SUCCESS)
+      return BT_SUCCESS;
   }
-  return false;
+  return BT_FAIL_CLEAN;
 }
 
 bool celDefaultSelector::AddChild (iBTNode* child)

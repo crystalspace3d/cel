@@ -24,7 +24,7 @@
 
 
 /**
- * A wrapper for rewards to use them within behaviour trees
+ * The core behaviour tree class
  */
 
 class celBehaviourTree : public scfImplementation3<		
@@ -43,7 +43,7 @@ public:
   virtual bool Initialize (iObjectRegistry*);	
 
   //From iBTNode
-  virtual bool Execute (iCelParameterBlock* params);		
+  virtual BTStatus Execute (iCelParameterBlock* params);		
   virtual bool AddChild (iBTNode* child);
 
   // From iCelTimerListener 

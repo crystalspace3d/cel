@@ -41,16 +41,16 @@ bool celTriggerFiredCondition::Initialize (
   return true;
 }
 
-bool celTriggerFiredCondition::Execute (iCelParameterBlock* params)
+BTStatus celTriggerFiredCondition::Execute (iCelParameterBlock* params)
 {
   //printf("CONDITION: Trigger Fired Check\n");
   if (!triggerFired)
-    return false;
+    return BT_FAIL_CLEAN;
 
   if (fireOnce) 
     triggerFired = false;
 
-  return true;
+  return BT_SUCCESS;
 }
 
 bool celTriggerFiredCondition::AddChild (iBTNode* child)

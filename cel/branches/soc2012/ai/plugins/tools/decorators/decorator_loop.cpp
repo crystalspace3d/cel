@@ -42,7 +42,7 @@ bool celLoopDecorator::Initialize (
   return true;												
 }
 
-bool celLoopDecorator::Execute (iCelParameterBlock* params)
+BTStatus celLoopDecorator::Execute (iCelParameterBlock* params)
 {
   if (loop_limit == 0)
   {
@@ -55,12 +55,13 @@ bool celLoopDecorator::Execute (iCelParameterBlock* params)
   for (int i = 0; i < loop_limit; i++)
   {
     //printf("Loop Decorator, iteration = %i\n", i);
-    if(!child_node->Execute(params))
+    BTStatus childStatus = child_node->Execute(params);
+	if(childStatus != BT_SUCCESS)
     {
-	return false;
+		return childStatus;
     }
   }
-  return true;
+  return BT_SUCCESS;
 }
 
 bool celLoopDecorator::AddChild (iBTNode* child)

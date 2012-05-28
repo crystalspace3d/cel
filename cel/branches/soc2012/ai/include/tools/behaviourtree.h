@@ -27,6 +27,24 @@
 #include "tools/triggers.h"
 
 //-------------------------------------------------------------------------
+// Behaviour tree statuses
+//-------------------------------------------------------------------------
+
+/**
+ * These are the possible states of a behaviour tree node
+ * They are to be returned when a nodes executes
+ * The parent node can then decide how to proceed
+ *
+*/
+
+enum BTStatus{
+	BT_SUCCESS,				// Node completed succesfully, making changes to state as expected
+	BT_FAIL_CLEAN,			// Node failed, but cleanly (typically with no changes to state)
+	BT_UNEXPECTED_ERROR,	// Node failed unexpectedly, possibly changing state (should be handled by parent)
+	BT_RUNNING				// Node is currently executing
+};
+
+//-------------------------------------------------------------------------
 // Behaviour tree nodes
 //-------------------------------------------------------------------------
 
@@ -65,7 +83,7 @@ struct iBTNode : public virtual iBase
    * Execute this node.
    * Return whether or not the execution of the node was successful.
    */
-  virtual bool Execute (iCelParameterBlock* params) = 0;
+  virtual BTStatus Execute (iCelParameterBlock* params) = 0;
 
   /**
    * Add a child node to this node
@@ -152,7 +170,7 @@ public:									\
   cel##name (iBase* parent);			                        \
   virtual ~cel##name () { }					        \
   virtual bool Initialize (iObjectRegistry*);			        \
-  virtual bool Execute (iCelParameterBlock* params);		        \
+  virtual BTStatus Execute (iCelParameterBlock* params);		        \
   virtual bool AddChild (iBTNode* child);                               \
 };
 

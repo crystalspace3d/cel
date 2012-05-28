@@ -45,7 +45,7 @@ bool celExecutionLimitDecorator::Initialize (
   return true;												
 }
 
-bool celExecutionLimitDecorator::Execute (iCelParameterBlock* params)
+BTStatus celExecutionLimitDecorator::Execute (iCelParameterBlock* params)
 {
   //printf("Execution Limit Decorator\n");
 
@@ -61,7 +61,7 @@ bool celExecutionLimitDecorator::Execute (iCelParameterBlock* params)
   
   if(execution_count >= execution_limit)
   {
-    return false;
+    return BT_FAIL_CLEAN;
   }
   execution_count++;
   return child_node->Execute(params);
