@@ -830,6 +830,26 @@ struct iPcDynamicWorld : public virtual iBase
   //------------------------------------------------------------------------------
 
   /**
+   * Update a dynamic object in case external situations change. This
+   * may recreate the physics bodies, joints, recreate the mesh and/or
+   * light if needed and so on. This is typically used by editors to
+   * be able to refresh the objects currently being edited.
+   */
+  virtual void UpdateObject (iDynamicObject* dynobj) = 0;
+
+  /**
+   * Update all objects in a cell.
+   */
+  virtual void UpdateObjects (iDynamicCell* cell) = 0;
+
+  /**
+   * Update all objects created from a factory.
+   */
+  virtual void UpdateObjects (iDynamicFactory* factory) = 0;
+
+  //------------------------------------------------------------------------------
+
+  /**
    * Force a dynamic object to be visible. This will force the
    * creation of the mesh.
    */
