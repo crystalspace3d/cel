@@ -115,6 +115,9 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
   bool logic = false;
   if (node->GetAttribute ("logic"))
     logic = node->GetAttributeValueAsBool ("logic");
+  bool light = false;
+  if (node->GetAttribute ("light"))
+    light = node->GetAttributeValueAsBool ("light");
 
   csVector3 min, max;
   if (logic)
@@ -145,6 +148,8 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
   iDynamicFactory* fact;
   if (logic)
     fact = dynworld->AddLogicFactory (name, maxradius, imposterradius, csBox3 (min, max));
+  else if (light)
+    fact = dynworld->AddLightFactory (name, maxradius);
   else
     fact = dynworld->AddFactory (name, maxradius, imposterradius);
 
@@ -675,6 +680,8 @@ bool celAddOnDynamicWorldLoader::WriteDown (iBase* obj, iDocumentNode* parent,
     factNode->SetAttributeAsFloat ("imposterradius", fact->GetImposterRadius ());
     if (fact->IsLogicFactory ())
       factNode->SetAttribute ("logic", "true");
+    if (fact->IsLightFactory ())
+      factNode->SetAttribute ("light", "true");
     if (fact->GetDefaultEntityTemplate ())
       factNode->SetAttribute ("template", fact->GetDefaultEntityTemplate ());
     if (fact->IsLogicFactory ())
