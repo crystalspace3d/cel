@@ -860,6 +860,18 @@ void MeshCache::RemoveMeshes ()
   meshFactories.DeleteAll ();
 }
 
+void MeshCache::RemoveFactory (iEngine* engine, const char* name)
+{
+  MeshCacheFactory* mcf = meshFactories.Get (name, 0);
+  if (mcf)
+  {
+    while (mcf->meshes.GetSize () > 0)
+    {
+      engine->RemoveObject (mcf->meshes.Pop ());
+    }
+  }
+}
+
 iMeshWrapper* MeshCache::AddMesh (iEngine* engine,
     iMeshFactoryWrapper* factory, iSector* sector,
     const csReversibleTransform& trans)
@@ -2094,6 +2106,25 @@ void celPcDynamicWorld::UpdateObjects (iDynamicFactory* factory)
         UpdateObject (obj);
     }
   }
+
+  if (factory->IsLightFactory ())
+  {
+    csString name = factory->GetName ();
+    meshCache.RemoveFactory (engine, name);
+    iMeshFactoryWrapper* dummyfactory = engine->FindMeshFactory (name);
+    if (dummyfactory)
+      engine->RemoveObject (dummyfactory);
+
+    using namespace CS::Geometry;
+    Sphere primitive (csEllipsoid (csVector3 (0, 0, 0), csVector3 (.2, .2, .2)), 8);
+    iLightFactory* lf = engine->FindLightFactory (name);
+    const csColor& color = lf->GetColor ();
+    int r = int (color.red * 255.1);
+    int g = int (color.green * 255.1);
+    int b = int (color.blue * 255.1);
+    iMeshFactoryWrapper* mf = CreateDummyFactory (name, primitive, r, g, b, 50);
+    (static_cast<DynamicFactory*> (factory))->ChangeFactory (mf);
+  }
 }
 
 iDynamicFactory* celPcDynamicWorld::FindFactory (const char* factory) const
@@ -2101,7 +2132,7 @@ iDynamicFactory* celPcDynamicWorld::FindFactory (const char* factory) const
   return factory_hash.Get (factory, 0);
 }
 
-csRef<iMeshFactoryWrapper> celPcDynamicWorld::CreateDummyFactory (
+iMeshFactoryWrapper* celPcDynamicWorld::CreateDummyFactory (
     const char* factoryName, CS::Geometry::Primitive& primitive,
     int r, int g, int b, int a)
 {
@@ -2139,7 +2170,7 @@ iDynamicFactory* celPcDynamicWorld::AddLogicFactory (const char* factory, float 
   {
     using namespace CS::Geometry;
     Box primitive (bbox);
-    mf = CreateDummyFactory (factory, primitive, 0, 255, 255, 50);
+    CreateDummyFactory (factory, primitive, 0, 255, 255, 50);
   }
 
   csRef<DynamicFactory> obj;
@@ -2174,7 +2205,7 @@ iDynamicFactory* celPcDynamicWorld::AddLightFactory (const char* factory,
     int r = int (color.red * 255.1);
     int g = int (color.green * 255.1);
     int b = int (color.blue * 255.1);
-    mf = CreateDummyFactory (factory, primitive, r, g, b, 50);
+    CreateDummyFactory (factory, primitive, r, g, b, 50);
   }
 
   csRef<DynamicFactory> obj;
