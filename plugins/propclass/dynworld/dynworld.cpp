@@ -2065,6 +2065,37 @@ void celPcDynamicWorld::SafeToRemove (iCelEntity* entity)
   safeToRemove.Add (entity);
 }
 
+void celPcDynamicWorld::UpdateObject (iDynamicObject* dynobj)
+{
+  dynobj->RefreshColliders ();
+  dynobj->RecreateJoints ();
+  ForceInvisible (dynobj);
+}
+
+void celPcDynamicWorld::UpdateObjects (iDynamicCell* cell)
+{
+  for (size_t i = 0 ; i < cell->GetObjectCount () ; i++)
+  {
+    iDynamicObject* obj = cell->GetObject (i);
+    UpdateObject (obj);
+  }
+}
+
+void celPcDynamicWorld::UpdateObjects (iDynamicFactory* factory)
+{
+  csRef<iDynamicCellIterator> it = GetCells ();
+  while (it->HasNext ())
+  {
+    iDynamicCell* cell = it->NextCell ();
+    for (size_t i = 0 ; i < cell->GetObjectCount () ; i++)
+    {
+      iDynamicObject* obj = cell->GetObject (i);
+      if (obj->GetFactory () == factory)
+        UpdateObject (obj);
+    }
+  }
+}
+
 iDynamicFactory* celPcDynamicWorld::FindFactory (const char* factory) const
 {
   return factory_hash.Get (factory, 0);
@@ -2072,11 +2103,15 @@ iDynamicFactory* celPcDynamicWorld::FindFactory (const char* factory) const
 
 csRef<iMeshFactoryWrapper> celPcDynamicWorld::CreateDummyFactory (
     const char* factoryName, CS::Geometry::Primitive& primitive,
-    int r, int g, int b, int a, const char* materialName)
+    int r, int g, int b, int a)
 {
   using namespace CS::Geometry;
   csRef<iMeshFactoryWrapper> mf = GeneralMeshBuilder::CreateFactory (engine, factoryName, &primitive);
   // Create a single color transparent material if it doesn't already exist.
+  csString materialName;
+  // We divide colors by 16 to limit the amount of different materials that
+  // will be created in case a light only changes slightly in an editor.
+  materialName.Format ("__dynworld_%d_%d_%d_%d__", r/16, g/16, b/16, a);
   iMaterialWrapper* mat = engine->FindMaterial (materialName);
   if (!mat)
   {
@@ -2104,7 +2139,7 @@ iDynamicFactory* celPcDynamicWorld::AddLogicFactory (const char* factory, float 
   {
     using namespace CS::Geometry;
     Box primitive (bbox);
-    mf = CreateDummyFactory (factory, primitive, 0, 255, 255, 50, "__dynworld__blue__");
+    mf = CreateDummyFactory (factory, primitive, 0, 255, 255, 50);
   }
 
   csRef<DynamicFactory> obj;
@@ -2136,12 +2171,10 @@ iDynamicFactory* celPcDynamicWorld::AddLightFactory (const char* factory,
     Sphere primitive (csEllipsoid (csVector3 (0, 0, 0), csVector3 (.2, .2, .2)), 8);
     iLightFactory* lf = engine->FindLightFactory (factory);
     const csColor& color = lf->GetColor ();
-    csString materialName;
     int r = int (color.red * 255.1);
     int g = int (color.green * 255.1);
     int b = int (color.blue * 255.1);
-    materialName.Format ("__dynworld_%d_%d_%d__", r, g, b);
-    mf = CreateDummyFactory (factory, primitive, r, g, b, 50, materialName);
+    mf = CreateDummyFactory (factory, primitive, r, g, b, 50);
   }
 
   csRef<DynamicFactory> obj;

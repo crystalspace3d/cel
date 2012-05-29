@@ -701,7 +701,7 @@ public:
   // Create dummy mesh factory.
   csRef<iMeshFactoryWrapper> CreateDummyFactory (const char* factoryName,
       CS::Geometry::Primitive& primitive,
-      int r, int g, int b, int a, const char* materialName);
+      int r, int g, int b, int a);
 
 public:
   celPcDynamicWorld (iObjectRegistry* object_reg);
@@ -752,6 +752,10 @@ public:
   {
     cellCreator = creator;
   }
+
+  virtual void UpdateObject (iDynamicObject* dynobj);
+  virtual void UpdateObjects (iDynamicCell* cell);
+  virtual void UpdateObjects (iDynamicFactory* factory);
 
   virtual iDynamicFactory* AddFactory (const char* factory, float maxradius,
       float imposterradius);
