@@ -82,6 +82,7 @@ public:
       iSector* sector, const csReversibleTransform& trans);
   void RemoveMesh (iMeshWrapper* mesh);
   void RemoveMeshes ();
+  void RemoveFactory (iEngine* engine, const char* name);
 };
 
 class DOCollider
@@ -403,6 +404,7 @@ public:
   const csString& GetCsName () const { return name; }
   celPcDynamicWorld* GetWorld () const { return world; }
   iImposterFactory* GetImposterFactory () const { return imposterFactory; }
+  void ChangeFactory (iMeshFactoryWrapper* fact) { factory = fact; }
 };
 
 class DynamicObject : public scfImplementation2<DynamicObject,
@@ -699,7 +701,7 @@ public:
   void ProcessFadingOut (float fade_speed);
 
   // Create dummy mesh factory.
-  csRef<iMeshFactoryWrapper> CreateDummyFactory (const char* factoryName,
+  iMeshFactoryWrapper* CreateDummyFactory (const char* factoryName,
       CS::Geometry::Primitive& primitive,
       int r, int g, int b, int a);
 
