@@ -93,15 +93,6 @@ bool BehaviourLevel::SendMessage (csStringID msg_id,
 BehaviourPlayer::BehaviourPlayer (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
   : BehaviourCommon (entity, bl, pl)
 {
-  id_pccommandinput_forward1 = pl->FetchStringID ("pccommandinput_forward1");
-  id_pccommandinput_forward0 = pl->FetchStringID ("pccommandinput_forward0");
-  id_pccommandinput_backward1 = pl->FetchStringID ("pccommandinput_backward1");
-  id_pccommandinput_backward0 = pl->FetchStringID ("pccommandinput_backward0");
-  id_pccommandinput_rotateleft1 = pl->FetchStringID ("pccommandinput_rotateleft1");
-  id_pccommandinput_rotateleft0 = pl->FetchStringID ("pccommandinput_rotateleft0");
-  id_pccommandinput_rotateright1 = pl->FetchStringID ("pccommandinput_rotateright1");
-  id_pccommandinput_rotateright0 = pl->FetchStringID ("pccommandinput_rotateright0");
-  id_pccommandinput_cammode1 = pl->FetchStringID ("pccommandinput_cammode1");
   id_pccommandinput_drop1 = pl->FetchStringID ("pccommandinput_drop1");
 
   id_pcinventory_addchild = pl->FetchStringID ("pcinventory_addchild");
@@ -177,25 +168,7 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
 {
   GetActorMove ();
 
-  if (msg_id == id_pccommandinput_forward1)
-    pcactormove->Forward (true);
-  else if (msg_id == id_pccommandinput_forward0)
-    pcactormove->Forward (false);
-  else if (msg_id == id_pccommandinput_backward1)
-    pcactormove->Backward (true);
-  else if (msg_id == id_pccommandinput_backward0)
-    pcactormove->Backward (false);
-  else if (msg_id == id_pccommandinput_rotateleft1)
-    pcactormove->RotateLeft (true);
-  else if (msg_id == id_pccommandinput_rotateleft0)
-    pcactormove->RotateLeft (false);
-  else if (msg_id == id_pccommandinput_rotateright1)
-    pcactormove->RotateRight (true);
-  else if (msg_id == id_pccommandinput_rotateright0)
-    pcactormove->RotateRight (false);
-  else if (msg_id == id_pccommandinput_cammode1)
-    pcactormove->ToggleCameraMode ();
-  else if (msg_id == id_pccommandinput_drop1)
+  if (msg_id == id_pccommandinput_drop1)
     Drop ();
   else if (msg_id == id_pcinventory_addchild)
   {
