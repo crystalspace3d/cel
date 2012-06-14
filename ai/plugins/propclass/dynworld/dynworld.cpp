@@ -100,7 +100,16 @@ public:
 
   static void AttachDynObj (iMeshWrapper* mesh, iDynamicObject* dynobj);
   static void UnattachDynObj (iMeshWrapper* mesh, iDynamicObject* dynobj);
+  static void AttachDynObj (iLight* light, iDynamicObject* dynobj);
+  static void UnattachDynObj (iLight* light, iDynamicObject* dynobj);
 
+  static iDynamicObject* FindAttachedDynObj (iLight* light)
+  {
+    csRef<dynobjFinder> cef (CS::GetChildObject<dynobjFinder> (light->QueryObject ()));
+    if (cef)
+      return cef->GetDynamicObject ();
+    return 0;
+  }
   static iDynamicObject* FindAttachedDynObj (iMeshWrapper* mesh)
   {
     csRef<dynobjFinder> cef (CS::GetChildObject<dynobjFinder> (mesh->QueryObject ()));
@@ -109,6 +118,28 @@ public:
     return 0;
   }
 };
+
+void dynobjFinder::AttachDynObj (iLight* light, iDynamicObject* dynobj)
+{
+  iDynamicObject* old_dynobj = FindAttachedDynObj (light);
+  if (old_dynobj == dynobj) return;
+  if (old_dynobj != 0) UnattachDynObj (light, old_dynobj);
+  csRef<dynobjFinder> cef =
+    csPtr<dynobjFinder> (new dynobjFinder (dynobj));
+  csRef<iObject> cef_obj (scfQueryInterface<iObject> (cef));
+  light->QueryObject ()->ObjAdd (cef_obj);
+}
+
+void dynobjFinder::UnattachDynObj (iLight* light, iDynamicObject* dynobj)
+{
+  csRef<dynobjFinder> cef (CS::GetChildObject<dynobjFinder> (light->QueryObject ()));
+  if (cef)
+  {
+    if (cef->GetDynamicObject () != dynobj) { return; }
+    csRef<iObject> cef_obj (scfQueryInterface<iObject> (cef));
+    light->QueryObject ()->ObjRemove (cef_obj);
+  }
+}
 
 void dynobjFinder::AttachDynObj (iMeshWrapper* mesh, iDynamicObject* dynobj)
 {
@@ -475,7 +506,7 @@ void DynamicCell::Setup (iSector* sector, iDynamicSystem* ds)
 
 void DynamicCell::DeleteObjectInt (DynamicObject* dyn)
 {
-  dyn->RemoveMesh (world);
+  dyn->RemoveCsObject (world);
   if (dyn->GetEntity ())
     pl->RemoveEntity (dyn->GetEntity ());
   // @@@ Efficient?
@@ -500,7 +531,7 @@ void DynamicCell::DeleteObject (iDynamicObject* dynobj)
   {
     if (dyn->GetChild ())
       tree->RemoveObject (dyn->GetChild ());
-    dyn->RemoveMesh (world);
+    dyn->RemoveCsObject (world);
     objects.DeleteIndex (idx);
   }
 }
@@ -829,6 +860,18 @@ void MeshCache::RemoveMeshes ()
   meshFactories.DeleteAll ();
 }
 
+void MeshCache::RemoveFactory (iEngine* engine, const char* name)
+{
+  MeshCacheFactory* mcf = meshFactories.Get (name, 0);
+  if (mcf)
+  {
+    while (mcf->meshes.GetSize () > 0)
+    {
+      engine->RemoveObject (mcf->meshes.Pop ());
+    }
+  }
+}
+
 iMeshWrapper* MeshCache::AddMesh (iEngine* engine,
     iMeshFactoryWrapper* factory, iSector* sector,
     const csReversibleTransform& trans)
@@ -865,12 +908,16 @@ void MeshCache::RemoveMesh (iMeshWrapper* mesh)
 //---------------------------------------------------------------------------------------
 
 DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
+    bool usefact,
     float maxradiusRelative, float imposterradius, bool isLogic) :
   scfImplementationType (this), name (name), world (world),
   maxradiusRelative (maxradiusRelative), isLogic (isLogic)
 {
   bbox.StartBoundingBox ();
   physBbox.StartBoundingBox ();
+
+  factory = 0;
+  lightFactory = 0;
 
   factory = world->engine->FindMeshFactory (name);
   if (factory == 0)
@@ -879,23 +926,39 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
     return;
   }
 
+  if (!usefact)
+  {
+    lightFactory = world->engine->FindLightFactory (name);
+    if (lightFactory == 0)
+    {
+      world->Error ("Could not find light factory '%s'!\n", name);
+      return;
+    }
+  }
+
   SetImposterRadius (imposterradius);
 
-  iObjectModel* model = factory->GetMeshObjectFactory ()->GetObjectModel ();
-  if (model)
+  if (factory)
   {
-    float r;
-    csVector3 c;
-    model->GetRadius (r, c);
-    bsphere.SetCenter (c);
-    bsphere.SetRadius (r);
-    bbox = model->GetObjectBoundingBox ();
+    iObjectModel* model = factory->GetMeshObjectFactory ()->GetObjectModel ();
+    if (model)
+    {
+      float r;
+      csVector3 c;
+      model->GetRadius (r, c);
+      bsphere.SetCenter (c);
+      bsphere.SetRadius (r);
+      bbox = model->GetObjectBoundingBox ();
+    }
+    else
+    {
+      printf ("WARNING! No object model for %s!\n", factory->QueryObject ()->GetName ());
+      fflush (stdout);
+    }
   }
-  else
-  {
-    printf ("WARNING! No object model for %s!\n", factory->QueryObject ()->GetName ());
-    fflush (stdout);
-  }
+  //else if (lightFactory)
+  //{
+  //}
 }
 
 void DynamicFactory::SetImposterRadius (float r)
@@ -1372,35 +1435,60 @@ void DynamicObject::MeshBodyToEntity (iMeshWrapper* mesh, iRigidBody* body)
     pcmechobj->SetBody (body);
 }
 
+void DynamicObject::RemoveLight (celPcDynamicWorld* world)
+{
+  trans = light->GetMovable ()->GetTransform ();
+  world->engine->RemoveObject (light);
+  dynobjFinder::UnattachDynObj (light, this);
+  light = 0;
+}
+
 void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
 {
-  if (!mesh) return;
   InstallHilight (false);
   CS_ASSERT (hilight_installed == false);
-  if (body) cell->dynSys->RemoveBody (body);
-  body = 0;
   trans = mesh->GetMovable ()->GetTransform ();
   iImposterFactory* imposterFactory = factory->GetImposterFactory ();
   if (imposterFactory)
     imposterFactory->RemoveImposter (mesh);
   mesh->GetMovable ()->RemoveListener (this);
   world->meshCache.RemoveMesh (mesh);
-  factory->GetWorld ()->GetIdToDynObj ().Delete (id, this);
   dynobjFinder::UnattachDynObj (mesh, this);
   mesh = 0;
   MeshBodyToEntity (0, 0);
 }
 
+void DynamicObject::RemoveCsObject (celPcDynamicWorld* world)
+{
+  if (mesh)
+    RemoveMesh (world);
+  if (light)
+    RemoveLight (world);
+
+  if (body) cell->dynSys->RemoveBody (body);
+  body = 0;
+  factory->GetWorld ()->GetIdToDynObj ().Delete (id, this);
+}
+
+void DynamicObject::PrepareLight (celPcDynamicWorld* world)
+{
+  light = world->engine->CreateLight (factory->GetName (),
+      trans.GetOrigin (), factory->GetLightFactory ());
+  iLightList* ll = cell->sector->GetLights ();
+  ll->Add (light);
+  light->GetMovable ()->SetTransform (trans);
+  light->GetMovable ()->UpdateMove ();
+}
+
 void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
 {
-  if (mesh) return;
   mesh = world->meshCache.AddMesh (world->engine, factory->GetMeshFactory (),
       cell->sector, trans);
   bool invis;
   if (!world->IsGameMode ()) invis = false;
-  else invis = factory->IsLogicFactory ();
+  else invis = factory->IsLogicFactory () || factory->IsLogicFactory ();
   mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE, invis ? CS_ENTITY_INVISIBLE : 0);
-  if (!invis && factory->IsLogicFactory ())
+  if (!invis && (factory->IsLogicFactory () || factory->IsLightFactory ()))
   {
     mesh->SetRenderPriority (world->engine->GetRenderPriority ("alpha"));
     mesh->SetZBufMode (CS_ZBUF_TEST);
@@ -1411,7 +1499,6 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
     mesh->SetZBufMode (CS_ZBUF_USE);
   }
 
-  factory->GetWorld ()->GetIdToDynObj ().Put (id, this);
   mesh->GetMovable ()->AddListener (this);
   lastUpdateNr = mesh->GetMovable ()->GetUpdateNumber ();
   iGeometryGenerator* ggen = factory->GetGeometryGenerator ();
@@ -1420,13 +1507,27 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   InstallHilight (is_hilight);
   CS_ASSERT (hilight_installed == is_hilight);
   SetFade (fade);
+}
+
+void DynamicObject::PrepareCsObject (celPcDynamicWorld* world)
+{
+  if (mesh || light) return;
+  if (factory->GetMeshFactory ())
+    PrepareMesh (world);
+  if (factory->GetLightFactory ())
+    PrepareLight (world);
+
+  factory->GetWorld ()->GetIdToDynObj ().Put (id, this);
 
   ForceEntity ();
   if (!entity)
   {
     // There is no entity so we need another way to find the dynobj from
-    // a mesh.
-    dynobjFinder::AttachDynObj (mesh, this);
+    // a mesh or light.
+    if (mesh)
+      dynobjFinder::AttachDynObj (mesh, this);
+    if (light)
+      dynobjFinder::AttachDynObj (light, this);
   }
 
   CreateBody ();
@@ -1457,7 +1558,7 @@ void DynamicObject::UpdateJoints ()
       {
 	DynamicObject* dy = static_cast<DynamicObject*> (
 			(iDynamicObject*) connectedObjects[i]);
-        dy->PrepareMesh (factory->GetWorld ());
+        dy->PrepareCsObject (factory->GetWorld ());
         if (!connectedObjects[i]->GetBody ())
           continue;
       }
@@ -1520,14 +1621,17 @@ iDynamicObject* DynamicObject::GetConnectedObject (size_t jointIdx)
 void DynamicObject::CreateBody ()
 {
   bsphereValid = false;
-  trans = mesh->GetMovable ()->GetTransform ();
+  if (mesh)
+    trans = mesh->GetMovable ()->GetTransform ();
+  if (light)
+    trans = light->GetMovable ()->GetTransform ();
   if (body)
     body->DestroyColliders ();
   body = 0;
   const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
   for (size_t i = 0 ; i < colliders.GetSize () ; i++)
   {
-    body = colliders[i]->Create (cell->dynSys, mesh, trans, body);
+    body = colliders[i]->Create (cell->dynSys, mesh, light, trans, body);
   }
   if (is_static)
     body->MakeStatic ();
@@ -1609,6 +1713,7 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
 {
   csString factname = node->GetAttributeValue ("fact");
   factory = world->factory_hash.Get (factname, 0);
+  // @@@ TODO Light factory
   if (!factory)
     return world->Error ("Can't find factory '%s'!\n", factname.GetData ());
   if (!syn->ParseBoolAttribute (node, "static", is_static, false, false))
@@ -1972,42 +2077,104 @@ void celPcDynamicWorld::SafeToRemove (iCelEntity* entity)
   safeToRemove.Add (entity);
 }
 
+void celPcDynamicWorld::UpdateObject (iDynamicObject* dynobj)
+{
+  dynobj->RefreshColliders ();
+  dynobj->RecreateJoints ();
+  ForceInvisible (dynobj);
+}
+
+void celPcDynamicWorld::UpdateObjects (iDynamicCell* cell)
+{
+  for (size_t i = 0 ; i < cell->GetObjectCount () ; i++)
+  {
+    iDynamicObject* obj = cell->GetObject (i);
+    UpdateObject (obj);
+  }
+}
+
+void celPcDynamicWorld::UpdateObjects (iDynamicFactory* factory)
+{
+  csRef<iDynamicCellIterator> it = GetCells ();
+  while (it->HasNext ())
+  {
+    iDynamicCell* cell = it->NextCell ();
+    for (size_t i = 0 ; i < cell->GetObjectCount () ; i++)
+    {
+      iDynamicObject* obj = cell->GetObject (i);
+      if (obj->GetFactory () == factory)
+        UpdateObject (obj);
+    }
+  }
+
+  if (factory->IsLightFactory ())
+  {
+    csString name = factory->GetName ();
+    meshCache.RemoveFactory (engine, name);
+    iMeshFactoryWrapper* dummyfactory = engine->FindMeshFactory (name);
+    if (dummyfactory)
+      engine->RemoveObject (dummyfactory);
+
+    using namespace CS::Geometry;
+    Sphere primitive (csEllipsoid (csVector3 (0, 0, 0), csVector3 (.2, .2, .2)), 8);
+    iLightFactory* lf = engine->FindLightFactory (name);
+    const csColor& color = lf->GetColor ();
+    int r = int (color.red * 255.1);
+    int g = int (color.green * 255.1);
+    int b = int (color.blue * 255.1);
+    iMeshFactoryWrapper* mf = CreateDummyFactory (name, primitive, r, g, b, 50);
+    (static_cast<DynamicFactory*> (factory))->ChangeFactory (mf);
+  }
+}
+
 iDynamicFactory* celPcDynamicWorld::FindFactory (const char* factory) const
 {
   return factory_hash.Get (factory, 0);
+}
+
+iMeshFactoryWrapper* celPcDynamicWorld::CreateDummyFactory (
+    const char* factoryName, CS::Geometry::Primitive& primitive,
+    int r, int g, int b, int a)
+{
+  using namespace CS::Geometry;
+  csRef<iMeshFactoryWrapper> mf = GeneralMeshBuilder::CreateFactory (engine, factoryName, &primitive);
+  // Create a single color transparent material if it doesn't already exist.
+  csString materialName;
+  // We divide colors by 16 to limit the amount of different materials that
+  // will be created in case a light only changes slightly in an editor.
+  materialName.Format ("__dynworld_%d_%d_%d_%d__", r/16, g/16, b/16, a);
+  iMaterialWrapper* mat = engine->FindMaterial (materialName);
+  if (!mat)
+  {
+    csRGBpixel singlePixel (r, g, b, a);
+    iTextureManager* texman = g3d->GetTextureManager();
+    int Format = texman->GetTextureFormat ();
+    csRef<iImage> image;
+    image.AttachNew (new csImageMemory (1, 1, (const void*)&singlePixel, Format));
+    iTextureWrapper* tex = engine->GetTextureList ()->NewTexture (image);
+    tex->Register (texman);
+    tex->QueryObject ()->SetName (materialName);
+    mat = engine->CreateMaterial (materialName, tex);
+  }
+  mf->GetMeshObjectFactory ()->SetMaterialWrapper (mat);
+  return mf;
 }
 
 iDynamicFactory* celPcDynamicWorld::AddLogicFactory (const char* factory, float maxradius,
     float imposterradius, const csBox3& bbox)
 {
   // We are creating a new invisible mesh.
-  using namespace CS::Geometry;
-  Box primitive (bbox);
   csRef<iMeshFactoryWrapper> mf;
   mf = engine->FindMeshFactory (factory);
   if (!mf)
   {
-    mf = GeneralMeshBuilder::CreateFactory (engine, factory, &primitive);
-
-    // Create a single color transparent material if it doesn't already exist.
-    iMaterialWrapper* mat = engine->FindMaterial ("__dynworld__blue__");
-    if (!mat)
-    {
-      csRGBpixel singlePixel (0, 255, 255, 50);
-      iTextureManager* texman = g3d->GetTextureManager();
-      int Format = texman->GetTextureFormat ();
-      csRef<iImage> image;
-      image.AttachNew (new csImageMemory (1, 1, (const void*)&singlePixel, Format));
-      iTextureWrapper* tex = engine->GetTextureList ()->NewTexture (image);
-      tex->Register (texman);
-      tex->QueryObject ()->SetName ("__dynworld__blue__");
-      mat = engine->CreateMaterial ("__dynworld__blue__", tex);
-    }
-    mf->GetMeshObjectFactory ()->SetMaterialWrapper (mat);
+    using namespace CS::Geometry;
+    Box primitive (bbox);
+    CreateDummyFactory (factory, primitive, 0, 255, 255, 50);
   }
 
   csRef<DynamicFactory> obj;
-  obj.AttachNew (new DynamicFactory (this, factory, maxradius, imposterradius, true));
+  obj.AttachNew (new DynamicFactory (this, factory, true, maxradius, imposterradius, true));
   factories.Push (obj);
   factory_hash.Put (factory, obj);
   return obj;
@@ -2017,7 +2184,32 @@ iDynamicFactory* celPcDynamicWorld::AddFactory (const char* factory, float maxra
     float imposterradius)
 {
   csRef<DynamicFactory> obj;
-  obj.AttachNew (new DynamicFactory (this, factory, maxradius, imposterradius));
+  obj.AttachNew (new DynamicFactory (this, factory, true, maxradius, imposterradius));
+  factories.Push (obj);
+  factory_hash.Put (factory, obj);
+  return obj;
+}
+
+iDynamicFactory* celPcDynamicWorld::AddLightFactory (const char* factory,
+    float maxradius)
+{
+  // We are creating a new invisible mesh.
+  csRef<iMeshFactoryWrapper> mf;
+  mf = engine->FindMeshFactory (factory);
+  if (!mf)
+  {
+    using namespace CS::Geometry;
+    Sphere primitive (csEllipsoid (csVector3 (0, 0, 0), csVector3 (.2, .2, .2)), 8);
+    iLightFactory* lf = engine->FindLightFactory (factory);
+    const csColor& color = lf->GetColor ();
+    int r = int (color.red * 255.1);
+    int g = int (color.green * 255.1);
+    int b = int (color.blue * 255.1);
+    CreateDummyFactory (factory, primitive, r, g, b, 50);
+  }
+
+  csRef<DynamicFactory> obj;
+  obj.AttachNew (new DynamicFactory (this, factory, false, maxradius, -1));
   factories.Push (obj);
   factory_hash.Put (factory, obj);
   return obj;
@@ -2037,13 +2229,13 @@ void celPcDynamicWorld::DeleteFactories ()
 
 void celPcDynamicWorld::ForceVisible (iDynamicObject* dynobj)
 {
-  static_cast<DynamicObject*> (dynobj)->PrepareMesh (this);
+  static_cast<DynamicObject*> (dynobj)->PrepareCsObject (this);
 }
 
 void celPcDynamicWorld::ForceInvisible (iDynamicObject* dynobj)
 {
   DynamicObject* dyn = static_cast<DynamicObject*> (dynobj);
-  dyn->RemoveMesh (this);
+  dyn->RemoveCsObject (this);
 }
 
 void celPcDynamicWorld::RemoveSafeEntities ()
@@ -2102,7 +2294,7 @@ void celPcDynamicWorld::ProcessFadingOut (float fade_speed)
     if (f >= 1)
     {
       f = 1;
-      dyn->RemoveMesh (this);
+      dyn->RemoveCsObject (this);
     }
     else
     {
@@ -2153,7 +2345,7 @@ void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
     DynamicObject* dyn = it2.Next ();
     if (!dyn->GetMesh ())
     {
-      dyn->PrepareMesh (this);
+      dyn->PrepareCsObject (this);
       fadingOut.Delete (dyn);
       fadingIn.Add (dyn);
     }
@@ -2536,10 +2728,10 @@ void celPcDynamicWorld::EnableGameMode (bool e)
       {
 	bool invis;
 	if (!gameMode) invis = false;
-	else invis = obj->GetFactory ()->IsLogicFactory ();
+	else invis = (obj->GetFactory ()->IsLogicFactory () || obj->GetFactory ()->IsLightFactory ());
 	iMeshWrapper* mesh = obj->GetMesh ();
 	mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE, invis ? CS_ENTITY_INVISIBLE : 0);
-        if (!invis && obj->GetFactory ()->IsLogicFactory ())
+        if (!invis && (obj->GetFactory ()->IsLogicFactory () || obj->GetFactory ()->IsLightFactory ()))
 	{
 	  mesh->SetRenderPriority (engine->GetRenderPriority ("alpha"));
 	  mesh->SetZBufMode (CS_ZBUF_TEST);

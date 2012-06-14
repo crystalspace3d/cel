@@ -55,6 +55,7 @@
  */
 CEL_DECLARE_FACTORY (DynamicWorld)
 
+struct iLightFactory;
 
 #define MARKER_NEW 0xe3
 #define MARKER_END 0x3e
@@ -81,6 +82,7 @@ public:
       iSector* sector, const csReversibleTransform& trans);
   void RemoveMesh (iMeshWrapper* mesh);
   void RemoveMeshes ();
+  void RemoveFactory (iEngine* engine, const char* name);
 };
 
 class DOCollider
@@ -95,7 +97,8 @@ public:
 
   float GetMass () const { return mass; }
 
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
     // Create a body and attach the mesh.
@@ -114,6 +117,7 @@ public:
       body->AdjustTotalMass (mass);
       body->SetTransform (trans);
       body->AttachMesh (mesh);
+      body->AttachLight (light);
       return body;
     }
   }
@@ -135,10 +139,11 @@ public:
   DOColliderMesh (const csVector3& offset, float mass) :
     DOCollider (offset, mass) { }
   virtual ~DOColliderMesh () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     body->AttachColliderMesh (mesh, t, 10, 1, 0.8f);
@@ -159,10 +164,11 @@ public:
   DOColliderConvexMesh (const csVector3& offset, float mass) :
     DOCollider (offset, mass) { }
   virtual ~DOColliderConvexMesh () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     body->AttachColliderConvexMesh (mesh, t, 10, 1, 0.8f);
@@ -186,10 +192,11 @@ public:
   DOColliderBox (const csVector3& size, const csVector3& offset, float mass) :
     DOCollider (offset, mass), size (size) { }
   virtual ~DOColliderBox () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     body->AttachColliderBox (size, t, 10, 1, 0);
@@ -214,10 +221,11 @@ public:
   DOColliderCylinder (const csVector3& offset, float length, float radius, float mass) :
     DOCollider (offset, mass), length (length), radius (radius) { }
   virtual ~DOColliderCylinder () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     t.RotateThis (csVector3 (1.0f, 0.0f, 0.0f), HALF_PI);
@@ -244,10 +252,11 @@ public:
   DOColliderCapsule (const csVector3& offset, float length, float radius, float mass) :
     DOCollider (offset, mass), length (length), radius (radius) { }
   virtual ~DOColliderCapsule () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     const csMatrix3 tm;
     csOrthoTransform t (tm, offset);
     t.RotateThis (csVector3 (1.0f, 0.0f, 0.0f), HALF_PI);
@@ -274,10 +283,11 @@ public:
   DOColliderSphere (const csVector3& offset, float radius, float mass) :
     DOCollider (offset, mass), radius (radius) { }
   virtual ~DOColliderSphere () { }
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys, iMeshWrapper* mesh,
+  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
+      iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
   {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, trans, sharedBody);
+    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
     body->AttachColliderSphere (radius, offset, 100, .5, 0);
     body->AdjustTotalMass (mass);
     return body;
@@ -300,6 +310,7 @@ private:
 
   celPcDynamicWorld* world;
   iMeshFactoryWrapper* factory;
+  iLightFactory* lightFactory;
   csPDelArray<DOCollider> colliders;
   csSphere bsphere;
   csBox3 bbox;
@@ -318,7 +329,7 @@ private:
   void UpdatePhysBBox ();
 
 public:
-  DynamicFactory (celPcDynamicWorld* world, const char* name,
+  DynamicFactory (celPcDynamicWorld* world, const char* name, bool usefact,
       float maxradiusRelative, float imposterradius, bool isLogic = false);
   virtual ~DynamicFactory () { }
   virtual float GetMaximumRadiusRelative () const { return maxradiusRelative; }
@@ -329,6 +340,7 @@ public:
   const csSphere& GetBSphere () const { return bsphere; }
 
   virtual bool IsLogicFactory () const { return isLogic; }
+  virtual bool IsLightFactory () const { return lightFactory != 0; }
 
   virtual void SetDefaultEntityTemplate (const char* tmpName) { tplName = tmpName; }
   virtual const char* GetDefaultEntityTemplate () const { return tplName; }
@@ -387,10 +399,12 @@ public:
 
   const csPDelArray<DOCollider>& GetColliders () const { return colliders; }
   iMeshFactoryWrapper* GetMeshFactory () const { return factory; }
+  iLightFactory* GetLightFactory () const { return lightFactory; }
   virtual const char* GetName () const { return name; }
   const csString& GetCsName () const { return name; }
   celPcDynamicWorld* GetWorld () const { return world; }
   iImposterFactory* GetImposterFactory () const { return imposterFactory; }
+  void ChangeFactory (iMeshFactoryWrapper* fact) { factory = fact; }
 };
 
 class DynamicObject : public scfImplementation2<DynamicObject,
@@ -400,6 +414,7 @@ private:
   DynamicCell* cell;
   DynamicFactory* factory;
   csRef<iMeshWrapper> mesh;
+  csRef<iLight> light;
   // If the mesh is not prepared yet this transform is the actual
   // transform of this object. If the mesh is prepared then this
   // represents the transform at the time the mesh is prepared.
@@ -474,6 +489,7 @@ public:
   virtual void SetHilight (bool hi);
   virtual bool IsHilight () const { return is_hilight; }
   virtual iMeshWrapper* GetMesh () const { return mesh; }
+  virtual iLight* GetLight () const { return light; }
 
   virtual iRigidBody* GetBody () const { return body; }
   virtual bool RecreatePivotJoints ();
@@ -507,7 +523,11 @@ public:
   virtual void MovableDestroyed (iMovable* movable);
 
   void PrepareMesh (celPcDynamicWorld* world);
+  void PrepareLight (celPcDynamicWorld* world);
+  void PrepareCsObject (celPcDynamicWorld* world);
   void RemoveMesh (celPcDynamicWorld* world);
+  void RemoveLight (celPcDynamicWorld* world);
+  void RemoveCsObject (celPcDynamicWorld* world);
   void Save (iDocumentNode* node, iSyntaxService* syn);
   bool Load (iDocumentNode* node, iSyntaxService* syn, celPcDynamicWorld* world);
 
@@ -680,6 +700,11 @@ public:
   void ProcessFadingIn (float fade_speed);
   void ProcessFadingOut (float fade_speed);
 
+  // Create dummy mesh factory.
+  iMeshFactoryWrapper* CreateDummyFactory (const char* factoryName,
+      CS::Geometry::Primitive& primitive,
+      int r, int g, int b, int a);
+
 public:
   celPcDynamicWorld (iObjectRegistry* object_reg);
   virtual ~celPcDynamicWorld ();
@@ -730,10 +755,15 @@ public:
     cellCreator = creator;
   }
 
+  virtual void UpdateObject (iDynamicObject* dynobj);
+  virtual void UpdateObjects (iDynamicCell* cell);
+  virtual void UpdateObjects (iDynamicFactory* factory);
+
   virtual iDynamicFactory* AddFactory (const char* factory, float maxradius,
       float imposterradius);
   virtual iDynamicFactory* AddLogicFactory (const char* factory, float maxradius,
       float imposterradius, const csBox3& bbox);
+  virtual iDynamicFactory* AddLightFactory (const char* factory, float maxradius);
   virtual void RemoveFactory (iDynamicFactory* factory);
   virtual void DeleteFactories ();
   virtual size_t GetFactoryCount () const { return factories.GetSize () ; }

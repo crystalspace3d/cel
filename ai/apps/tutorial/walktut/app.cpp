@@ -1,13 +1,14 @@
 #include <crystalspace.h>
 
 #include <celtool/initapp.h>
+#include <physicallayer/propclas.h>
 #include <propclass/zone.h>
 #include <propclass/camera.h>
 #include <propclass/mesh.h>
 #include <propclass/linmove.h>
 #include <propclass/actormove.h>
 #include <propclass/input.h>
-#include <physicallayer/propclas.h>
+#include <propclass/wire.h>
 
 #include "app.h"
 #include "behave.h"
@@ -100,6 +101,15 @@ bool MainApp::CreatePlayer ()
   pcinput->Bind ("right", "rotateright");
   pcinput->Bind ("m", "cammode");
   pcinput->Bind ("d", "drop");
+
+  // Setup the inputs using wires
+  csRef<iPcWire> wire=scfQueryInterface<iPcWire>(pl->CreatePropertyClass(player_entity,"pclogic.wire"));
+  wire->AddInput("cel.input.forward");
+  wire->AddInput("cel.input.backward");
+  wire->AddInput("cel.input.rotateleft");
+  wire->AddInput("cel.input.rotateright");
+  wire->AddInput("cel.input.cammode");
+  wire->AddOutput(pl->FetchStringID("cel.move.actor.action.Subscribe"),0);
 
   return true;
 }

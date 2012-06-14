@@ -216,6 +216,12 @@ struct iDynamicFactory : public virtual iBase
   virtual bool IsLogicFactory () const = 0;
 
   /**
+   * Return true if this dynamic factory is a light factory
+   * (created with AddLightFactory()).
+   */
+  virtual bool IsLightFactory () const = 0;
+
+  /**
    * Set the entity template that is linked to this factory.
    * This represents the default entity template to be used when
    * creating entities from this dynamic object.
@@ -479,9 +485,17 @@ struct iDynamicObject : public virtual iBase
 
   /**
    * Get the mesh for this object. Can be 0 if the
-   * object is currently not visible.
+   * object is currently not visible or if the factory
+   * is a light factory.
    */
   virtual iMeshWrapper* GetMesh () const = 0;
+
+  /**
+   * Get the light for this object. Can be 0 if the light
+   * is currently not visible or if the factory is a normal
+   * mesh factory.
+   */
+  virtual iLight* GetLight () const = 0;
 
   /**
    * Get the body for this object. Can be 0 if the
@@ -782,6 +796,15 @@ struct iPcDynamicWorld : public virtual iBase
       float imposterradius, const csBox3& box) = 0;
 
   /**
+   * Add a new dynamic factory to the world. This version supports a light
+   * factory.
+   * @param maxradius is a relative maximum radius (0 to 1) at which point
+   * the light should become visible. It is relative to the total maximum
+   * radius maintained by this world.
+   */
+  virtual iDynamicFactory* AddLightFactory (const char* factory, float maxradius) = 0;
+
+  /**
    * Remove a factory from the world.
    */
   virtual void RemoveFactory (iDynamicFactory* factory) = 0;
@@ -803,6 +826,26 @@ struct iPcDynamicWorld : public virtual iBase
    * Find a factory.
    */
   virtual iDynamicFactory* FindFactory (const char* name) const = 0;
+
+  //------------------------------------------------------------------------------
+
+  /**
+   * Update a dynamic object in case external situations change. This
+   * may recreate the physics bodies, joints, recreate the mesh and/or
+   * light if needed and so on. This is typically used by editors to
+   * be able to refresh the objects currently being edited.
+   */
+  virtual void UpdateObject (iDynamicObject* dynobj) = 0;
+
+  /**
+   * Update all objects in a cell.
+   */
+  virtual void UpdateObjects (iDynamicCell* cell) = 0;
+
+  /**
+   * Update all objects created from a factory.
+   */
+  virtual void UpdateObjects (iDynamicFactory* factory) = 0;
 
   //------------------------------------------------------------------------------
 
