@@ -28,44 +28,53 @@
 //CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celBehaviourTree)
+CEL_IMPLEMENT_BTNODE (BehaviourTree)
 
 //---------------------------------------------------------------------------
 
-celBehaviourTree::celBehaviourTree (				
-	iBase* parent) : scfImplementationType (this, parent),	
-	object_reg(0)											
-{															
-}															
-bool celBehaviourTree::Initialize (					
-	iObjectRegistry* object_reg)							
-{									
-  celBehaviourTree::object_reg = object_reg;			
-  pl = csQueryRegistry<iCelPlLayer> (object_reg);
-  return true;												
-}
-
-BTStatus celBehaviourTree::Execute (iCelParameterBlock* params)
+BTStatus celBehaviourTree::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
 {
-  celBehaviourTree::params = params;
+  celBehaviourTree::params = params;		
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  return BT_SUCCESS;
+  status = BT_RUNNING;
+  return status;
 }
 
 bool celBehaviourTree::AddChild (iBTNode* child)
 {
-  if (root_node.IsValid ())
-  {
-    //Tree already has a root
-    return false;
+  if (stack.IsEmpty())
+  {	
+	stack.Push(child);
+    return true; 
   }
   else
   {
-    root_node = child;
-    return true;    
+    //Tree already has a root
+    return false;   
   }
 }
 
 void celBehaviourTree::TickEveryFrame ()
 {
-  root_node->Execute (params);
+  // Execute current node in tree
+  BTStatus top_status = stack.Top()->Execute (params, &stack);
+  
+  if (top_status == BT_SUCCESS ||
+	  top_status == BT_FAIL_CLEAN ||
+	  top_status == BT_UNEXPECTED_ERROR)
+  {
+	// If node has completed,reset it and remove it from the stack
+	//stack.Top()->SetStatus(BT_NOT_STARTED);
+    stack.Pop();
+
+	if (stack.IsEmpty())
+	{
+      // If tree has completed, stop calling this method
+	  pl->RemoveCallbackEveryFrame((iCelTimerListener*)this, CEL_EVENT_PRE);
+
+	  // Note that tree has completed
+	  status = BT_SUCCESS;
+	}
+  }
 }

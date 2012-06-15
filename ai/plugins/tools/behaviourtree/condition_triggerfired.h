@@ -35,6 +35,8 @@ class celTriggerFiredCondition : public scfImplementation4<
 {		
 private: 
   iObjectRegistry* object_reg;
+  BTStatus status;
+
   csRef<iTrigger> trigger;
   bool triggerFired;
   bool fireOnce;
@@ -45,8 +47,10 @@ public:
   virtual bool Initialize (iObjectRegistry*);
 
   //From iBTNode
-  virtual BTStatus Execute (iCelParameterBlock* params);
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);
   virtual bool AddChild (iBTNode* child);
+  virtual BTStatus GetStatus ();
+  virtual void SetStatus (BTStatus newStatus);
 
   //From iTriggerFiredCondition
   virtual void SetTrigger (iTrigger* trigger);

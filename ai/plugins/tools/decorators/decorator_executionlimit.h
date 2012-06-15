@@ -34,18 +34,22 @@ class celExecutionLimitDecorator : public scfImplementation3<
 private: 
   iObjectRegistry* object_reg;						
   csRef<iBTNode> child_node; 
+  BTStatus status;
 
   const char* execution_limit_param;
   int execution_limit;
   int execution_count;
+
 public:									
   celExecutionLimitDecorator (iBase* parent);			
   virtual ~celExecutionLimitDecorator () { }					
   virtual bool Initialize (iObjectRegistry*);	
 
   //From iBTNode
-  virtual BTStatus Execute (iCelParameterBlock* params);		
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);		
   virtual bool AddChild (iBTNode* child);
+  virtual BTStatus GetStatus ();
+  virtual void SetStatus (BTStatus newStatus);
 
   //From iExecutionLimitDecorator
   virtual void SetExecutionLimit (const char* limit);
