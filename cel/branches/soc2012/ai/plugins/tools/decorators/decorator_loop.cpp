@@ -29,39 +29,75 @@ SCF_IMPLEMENT_FACTORY (celLoopDecorator)
 
 //---------------------------------------------------------------------------
 
-celLoopDecorator::celLoopDecorator (				
-	iBase* parent) : scfImplementationType (this, parent),	
-	object_reg(0)											
-{															
-}															
-bool celLoopDecorator::Initialize (					
-	iObjectRegistry* object_reg)							
-{									
-  celLoopDecorator::object_reg = object_reg;			
-  loop_limit = 0;
-  return true;												
+celLoopDecorator::celLoopDecorator (                               
+  iBase* parent) : scfImplementationType (this, parent), 
+  object_reg(0)                                                                                   
+{                                                                                                                       
 }
 
-BTStatus celLoopDecorator::Execute (iCelParameterBlock* params)
-{
-  if (loop_limit == 0)
-  {
-    csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
-      (object_reg, "cel.parameters.manager");
-    const char* s = pm->ResolveParameter (params, loop_limit_param);
-    loop_limit = atoi (s);
-  }
+bool celLoopDecorator::Initialize (                                   
+  iObjectRegistry* object_reg)                                                   
+{                                                                       
+  celLoopDecorator::object_reg = object_reg;                 
+  status = BT_NOT_STARTED;
+  loop_limit = 0;
+  return true;                                                                                         
+}
 
-  for (int i = 0; i < loop_limit; i++)
+BTStatus celLoopDecorator::GetStatus ()
+{
+  return status;
+}
+
+void celLoopDecorator::SetStatus (BTStatus newStatus)
+{
+  status = newStatus;
+}
+
+BTStatus celLoopDecorator::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
+{
+  if (status == BT_NOT_STARTED)
   {
-    //printf("Loop Decorator, iteration = %i\n", i);
-    BTStatus childStatus = child_node->Execute(params);
-	if(childStatus != BT_SUCCESS)
+    loop_count = 0;
+
+    if (loop_limit == 0)
     {
-		return childStatus;
+      csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+        (object_reg, "cel.parameters.manager");
+      const char* s = pm->ResolveParameter (params, loop_limit_param);
+      loop_limit = atoi (s);
     }
+
+    BTStack->Push(child_node);
+    child_node->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+
+    status = BT_RUNNING;
   }
-  return BT_SUCCESS;
+  
+  BTStatus child_status = child_node->GetStatus();
+
+  if (child_status == BT_SUCCESS)
+  {
+    loop_count++;
+	if (loop_count < loop_limit)
+    {
+      BTStack->Push(child_node);
+      child_node->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+    }
+    else
+    {
+      // If the loop has executed more times than the limit 
+      // without failing, it has succeeded
+      status = BT_SUCCESS;
+    } 
+  }
+  else if (child_status == BT_FAIL_CLEAN ||
+	  child_status == BT_UNEXPECTED_ERROR)
+  {
+    // If a child fails, the loop node fails
+    status = child_status;
+  }
+  return status;
 }
 
 bool celLoopDecorator::AddChild (iBTNode* child)

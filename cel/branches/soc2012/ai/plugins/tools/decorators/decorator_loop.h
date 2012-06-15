@@ -34,17 +34,22 @@ class celLoopDecorator : public scfImplementation3<
 private: 
   iObjectRegistry* object_reg;						
   csRef<iBTNode> child_node; 
+  BTStatus status;
 
   const char* loop_limit_param;
   int	loop_limit;
+  int   loop_count;
+
 public:									
   celLoopDecorator (iBase* parent);			
   virtual ~celLoopDecorator () { }					
   virtual bool Initialize (iObjectRegistry*);	
 
   //From iBTNode
-  virtual BTStatus Execute (iCelParameterBlock* params);		
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);		
   virtual bool AddChild (iBTNode* child);
+  virtual BTStatus GetStatus ();
+  virtual void SetStatus (BTStatus newStatus);
 
   //From iLoopDecorator
   virtual void SetLoopLimit (const char* limit);

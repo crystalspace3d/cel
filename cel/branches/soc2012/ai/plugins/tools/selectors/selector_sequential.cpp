@@ -29,19 +29,52 @@ CEL_IMPLEMENT_BTNODE (SequentialSelector)
 
 //---------------------------------------------------------------------------
 
-BTStatus celSequentialSelector::Execute (iCelParameterBlock* params)
+BTStatus celSequentialSelector::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
 {
-  //printf("SEQUENTIAL SELECTOR");
-  int noOfChildren = children.GetSize();
-  for (int i = 0; i < noOfChildren; i++)
-  {	
-	BTStatus childStatus = children.Get(i)->Execute(params);
-    if (childStatus != BT_SUCCESS)
-    {
-	  return childStatus;
+  if (status == BT_NOT_STARTED)
+  {
+	// On first execution push first child to top of stack and initialise other local variables
+    noOfChildren = children.GetSize();
+	if (noOfChildren > 0)
+	{
+      currentChild = 0;
+	  BTStack->Push(children.Get(currentChild));
+      children.Get(currentChild)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+	  status = BT_RUNNING;
+	}
+	else
+	{
+	  //If no children to execute raise error
+	  status = BT_UNEXPECTED_ERROR;
 	}
   }
-  return BT_SUCCESS;
+
+  BTStatus child_status = children.Get(currentChild)->GetStatus();
+
+  if (child_status == BT_SUCCESS)
+  {
+	// If child has succeeded, select next child
+    currentChild++;
+
+    if (currentChild < noOfChildren)
+    {
+	  // If currentChild is a valid index for a child, push it to the top of the stack
+      BTStack->Push(children.Get(currentChild));
+      children.Get(currentChild)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+	}
+	else
+	{
+	  // If we have tried all children, then selector has succeeded (as all children must have too)
+	  status = BT_SUCCESS;
+	}
+  }
+  else if (child_status == BT_FAIL_CLEAN || child_status == BT_UNEXPECTED_ERROR) 
+  {
+    // If child has failed, then so has selector
+	status = child_status;
+  }
+
+  return status;
 }
 
 bool celSequentialSelector::AddChild (iBTNode* child)

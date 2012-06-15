@@ -34,10 +34,26 @@ CEL_IMPLEMENT_BTNODE (RandomSelector)
 
 static csRandomGen rng (csGetTicks ());
 
-BTStatus celRandomSelector::Execute (iCelParameterBlock* params)
+BTStatus celRandomSelector::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
 {
-  int randChildIndex = rng.Get ((int) children.GetSize ());
-  return children.Get(randChildIndex)->Execute(params);
+  if (status == BT_NOT_STARTED)
+  {
+    randChildIndex = rng.Get ((int) children.GetSize ());
+	BTStack->Push(children.Get(randChildIndex));
+    children.Get(randChildIndex)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+	status = BT_RUNNING;
+  }
+
+  BTStatus child_status = children.Get(randChildIndex)->GetStatus();
+
+  if (child_status == BT_SUCCESS ||
+	  child_status == BT_FAIL_CLEAN ||
+	  child_status == BT_UNEXPECTED_ERROR)
+  {
+    status = child_status;
+  }
+
+  return status;
 }
 
 bool celRandomSelector::AddChild (iBTNode* child)

@@ -29,17 +29,31 @@ CEL_IMPLEMENT_BTNODE (NegateReturnDecorator)
 
 //---------------------------------------------------------------------------
 
-BTStatus celNegateReturnDecorator::Execute (iCelParameterBlock* params)
+BTStatus celNegateReturnDecorator::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
 {
-  //printf("Negate Return Decorator\n");
-  BTStatus childStatus = children.Get(0)->Execute(params);
-  if (childStatus = BT_SUCCESS) {
-    return BT_FAIL_CLEAN;
-  } else if (childStatus = BT_FAIL_CLEAN) {
-    return BT_SUCCESS;
-  } else {
-    return childStatus; // BT_UNEXPECTED_ERROR or BT_RUNNING
+  if (status == BT_NOT_STARTED)
+  {
+    BTStack->Push(children.Get(0));
+    children.Get(0)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+	status = BT_RUNNING;
   }
+
+  BTStatus childStatus = children.Get(0)->GetStatus();
+
+  if (childStatus = BT_SUCCESS) 
+  {
+    status =  BT_FAIL_CLEAN;
+  } 
+  else if (childStatus = BT_FAIL_CLEAN) 
+  {
+    status =  BT_SUCCESS;
+  } 
+  else if (childStatus = BT_UNEXPECTED_ERROR)
+  {
+    status = BT_UNEXPECTED_ERROR;
+  }
+
+  return status;
 }
 
 bool celNegateReturnDecorator::AddChild (iBTNode* child)

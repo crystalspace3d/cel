@@ -38,10 +38,11 @@
 */
 
 enum BTStatus{
+	BT_NOT_STARTED,			// Node has not yet started
+	BT_RUNNING,				// Node is currently executing
 	BT_SUCCESS,				// Node completed succesfully, making changes to state as expected
 	BT_FAIL_CLEAN,			// Node failed, but cleanly (typically with no changes to state)
-	BT_UNEXPECTED_ERROR,	// Node failed unexpectedly, possibly changing state (should be handled by parent)
-	BT_RUNNING				// Node is currently executing
+	BT_UNEXPECTED_ERROR	// Node failed unexpectedly, possibly changing state (should be handled by parent)
 };
 
 //-------------------------------------------------------------------------
@@ -83,12 +84,22 @@ struct iBTNode : public virtual iBase
    * Execute this node.
    * Return whether or not the execution of the node was successful.
    */
-  virtual BTStatus Execute (iCelParameterBlock* params) = 0;
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0) = 0;
 
   /**
    * Add a child node to this node
    */
   virtual bool AddChild (iBTNode* child) = 0;
+
+  /**
+   * Get the status of this node
+   */
+  virtual BTStatus GetStatus () = 0;
+
+  /**
+   * Set the status of this node
+   */
+  virtual void SetStatus (BTStatus newStatus) = 0;
 
 };
 
@@ -166,16 +177,19 @@ class cel##name : public scfImplementation2<		                \
 private:                                                                \
   iObjectRegistry* object_reg;						\
   csRefArray<iBTNode> children;                                         \
+  BTStatus status;                \
 public:									\
   cel##name (iBase* parent);			                        \
   virtual ~cel##name () { }					        \
   virtual bool Initialize (iObjectRegistry*);			        \
-  virtual BTStatus Execute (iCelParameterBlock* params);		        \
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);		        \
   virtual bool AddChild (iBTNode* child);                               \
+  virtual BTStatus GetStatus ();                               \
+  virtual void SetStatus (BTStatus newStatus);  \
 };
 
 /**
- * Convenience to implement a new reward type class.
+ * Convenience to implement a new behaviour tree node class.
  */
 #define CEL_IMPLEMENT_BTNODE(name)					\
 cel##name::cel##name (iBase* parent)			                \
@@ -186,7 +200,16 @@ bool cel##name::Initialize (					        \
 	iObjectRegistry* object_reg)					\
 {									\
   cel##name::object_reg = object_reg;			                \
+  cel##name::status = BT_NOT_STARTED;   \
   return true;								\
-}									
+}	\
+BTStatus cel##name::GetStatus ()					\
+{									\
+  return cel##name::status;								\
+}	\
+void cel##name::SetStatus (BTStatus newStatus)					\
+{									\
+  cel##name::status = newStatus;								\
+}	
 
 #endif // __CEL_BEHAVIOUR_TREE__

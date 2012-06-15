@@ -30,11 +30,12 @@ CEL_IMPLEMENT_BTNODE (BehaviourTreeAction)
 
 //---------------------------------------------------------------------------
 
-BTStatus celBehaviourTreeAction::Execute (iCelParameterBlock* params)
+BTStatus celBehaviourTreeAction::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
 {
   for (size_t i = 0; i < actions.GetSize (); i++)
     actions[i]->Reward (nullptr);
-  return BT_SUCCESS;
+  status = BT_SUCCESS;
+  return status;
 }
 
 bool celBehaviourTreeAction::AddChild (iBTNode* child)

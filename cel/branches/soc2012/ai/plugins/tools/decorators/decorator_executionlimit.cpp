@@ -31,40 +31,62 @@ SCF_IMPLEMENT_FACTORY (celExecutionLimitDecorator)
 
 //---------------------------------------------------------------------------
 
-celExecutionLimitDecorator::celExecutionLimitDecorator (				
-	iBase* parent) : scfImplementationType (this, parent),	
-	object_reg(0)											
-{															
-}															
-bool celExecutionLimitDecorator::Initialize (					
-	iObjectRegistry* object_reg)							
-{									
-  celExecutionLimitDecorator::object_reg = object_reg;			
-  execution_limit = 0;
-  execution_count = 0;
-  return true;												
+celExecutionLimitDecorator::celExecutionLimitDecorator (                               
+  iBase* parent) : scfImplementationType (this, parent), 
+  object_reg(0)                                                                                   
+{                                                                                                                       
 }
 
-BTStatus celExecutionLimitDecorator::Execute (iCelParameterBlock* params)
+bool celExecutionLimitDecorator::Initialize (                                   
+  iObjectRegistry* object_reg)                                                   
+{                                                                       
+  celExecutionLimitDecorator::object_reg = object_reg;                 
+  status = BT_NOT_STARTED;
+  execution_limit = 0;
+  execution_count = 0;
+  return true;                                                                                         
+}
+
+BTStatus celExecutionLimitDecorator::GetStatus ()
 {
-  //printf("Execution Limit Decorator\n");
+  return status;
+}
 
-  if (execution_limit == 0)
-  {
-    csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
-      (object_reg, "cel.parameters.manager");
+void celExecutionLimitDecorator::SetStatus (BTStatus newStatus)
+{
+  status = newStatus;
+}
 
-    const char* s = pm->ResolveParameter(params, execution_limit_param);
-    execution_limit = atoi (s);
+BTStatus celExecutionLimitDecorator::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
+{
+  // On first execution
+  if (status == BT_NOT_STARTED)
+  {	
+	if (execution_limit == 0)
+    {
+      csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+        (object_reg, "cel.parameters.manager");
+
+      const char* s = pm->ResolveParameter(params, execution_limit_param);
+      execution_limit = atoi (s);
+    }
+
+	status = BT_RUNNING;
   }
 
   
   if(execution_count >= execution_limit)
   {
-    return BT_FAIL_CLEAN;
+	status = BT_FAIL_CLEAN;
   }
-  execution_count++;
-  return child_node->Execute(params);
+  else
+  {
+    execution_count++;
+	BTStack->Push(child_node);
+    child_node->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+  }
+ 
+  return status;
 }
 
 bool celExecutionLimitDecorator::AddChild (iBTNode* child)

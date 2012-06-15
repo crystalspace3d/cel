@@ -33,18 +33,23 @@ class celBehaviourTree : public scfImplementation3<
 {		
 private: 
   iObjectRegistry* object_reg;	
-  csRef<iCelPlLayer> pl;					
-  csRef<iBTNode> root_node; 
+  BTStatus status;
+
+  csRef<iCelPlLayer> pl;	
   csRef<iCelParameterBlock> params;
 
-public:									
+  csRefArray<iBTNode> stack;
+
+public:		
   celBehaviourTree (iBase* parent);			
-  virtual ~celBehaviourTree () { }					
+  virtual ~celBehaviourTree () { };					
   virtual bool Initialize (iObjectRegistry*);	
 
   //From iBTNode
-  virtual BTStatus Execute (iCelParameterBlock* params);		
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);		
   virtual bool AddChild (iBTNode* child);
+  virtual BTStatus GetStatus ();
+  virtual void SetStatus (BTStatus newStatus);
 
   // From iCelTimerListener 
   virtual void TickEveryFrame ();
