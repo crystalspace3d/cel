@@ -21,6 +21,7 @@
 #include "iutil/comp.h"
 #include "csutil/randomgen.h"
 #include "csutil/sysfunc.h"
+#include <iutil/plugin.h>
 
 #include "plugins/tools/selectors/selector_random.h"
 
@@ -38,19 +39,33 @@ BTStatus celRandomSelector::Execute (iCelParameterBlock* params, csRefArray<iBTN
 {
   if (status == BT_NOT_STARTED)
   {
-    randChildIndex = rng.Get ((int) children.GetSize ());
-	BTStack->Push(children.Get(randChildIndex));
-    children.Get(randChildIndex)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
-	status = BT_RUNNING;
+    int noOfChildren = children.GetSize();
+	  if (noOfChildren == 0)
+	  {
+      csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+          "cel.selectors.random",
+          "No children nodes specified for: %s", name.GetData());
+
+      status = BT_UNEXPECTED_ERROR;
+	  }
+	  else
+	  {	  
+      randChildIndex = rng.Get (noOfChildren);
+	    BTStack->Push(children.Get(randChildIndex));
+      children.Get(randChildIndex)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+	    status = BT_RUNNING;
+	  }
   }
-
-  BTStatus child_status = children.Get(randChildIndex)->GetStatus();
-
-  if (child_status == BT_SUCCESS ||
-	  child_status == BT_FAIL_CLEAN ||
-	  child_status == BT_UNEXPECTED_ERROR)
+  else
   {
-    status = child_status;
+    BTStatus child_status = children.Get(randChildIndex)->GetStatus();
+
+    if (child_status == BT_SUCCESS ||
+	   child_status == BT_FAIL_CLEAN ||
+	   child_status == BT_UNEXPECTED_ERROR)
+    {
+      status = child_status;
+    }
   }
 
   return status;

@@ -35,6 +35,7 @@ private:
   iObjectRegistry* object_reg;						
   csRef<iBTNode> child_node; 
   BTStatus status;
+  csString name;
 
   const char* loop_limit_param;
   int	loop_limit;
@@ -50,6 +51,7 @@ public:
   virtual bool AddChild (iBTNode* child);
   virtual BTStatus GetStatus ();
   virtual void SetStatus (BTStatus newStatus);
+  virtual void SetName (csString nodeName);
 
   //From iLoopDecorator
   virtual void SetLoopLimit (const char* limit);

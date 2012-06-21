@@ -34,6 +34,7 @@ class celParameterCheckCondition : public scfImplementation3<
 private: 
   iObjectRegistry* object_reg;		
   BTStatus status;
+  csString name;
 
   csString parameter;
   csString value;
@@ -48,6 +49,7 @@ public:
   virtual bool AddChild (iBTNode* child);
   virtual BTStatus GetStatus ();
   virtual void SetStatus (BTStatus newStatus);
+  virtual void SetName (csString nodeName);
 
   //From iParameterCheckCondition
   virtual void SetParameter (const char* param);

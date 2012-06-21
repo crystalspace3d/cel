@@ -40,8 +40,9 @@ celExecutionLimitDecorator::celExecutionLimitDecorator (
 bool celExecutionLimitDecorator::Initialize (                                   
   iObjectRegistry* object_reg)                                                   
 {                                                                       
-  celExecutionLimitDecorator::object_reg = object_reg;                 
-  status = BT_NOT_STARTED;
+  celExecutionLimitDecorator::object_reg = object_reg;
+  status = BT_NOT_STARTED;  
+  name = "un-named node";               
   execution_limit = 0;
   execution_count = 0;
   return true;                                                                                         
@@ -57,35 +58,79 @@ void celExecutionLimitDecorator::SetStatus (BTStatus newStatus)
   status = newStatus;
 }
 
+void celExecutionLimitDecorator::SetName(csString nodeName)
+{
+  name = nodeName;
+}
+
 BTStatus celExecutionLimitDecorator::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
 {
   // On first execution
   if (status == BT_NOT_STARTED)
   {	
-	if (execution_limit == 0)
+    if (!child_node.IsValid())
     {
-      csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
-        (object_reg, "cel.parameters.manager");
+      csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+          "cel.decorators.executionlimit",
+          "No child node specified for: %s", name.GetData());
 
-      const char* s = pm->ResolveParameter(params, execution_limit_param);
-      execution_limit = atoi (s);
+      status = BT_UNEXPECTED_ERROR;
     }
+    else
+    {
+	    if (execution_limit == 0)
+      {
+        csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+          (object_reg, "cel.parameters.manager");
 
-	status = BT_RUNNING;
-  }
+        const char* s = pm->ResolveParameter(params, execution_limit_param);
+        if (s)
+        {
+          execution_limit = atoi (s);
+        }
+      }
 
-  
-  if(execution_count >= execution_limit)
-  {
-	status = BT_FAIL_CLEAN;
+      if (execution_limit == 0)
+      {
+        //If execution limit still 0, it has not been set - probably an error
+        csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+            "cel.decorators.executionlimit",
+            "Execution limit not set for: %s", name.GetData());
+
+        status = BT_UNEXPECTED_ERROR;
+      }
+      else
+      {
+        if(execution_count >= execution_limit)
+        {
+          // child has reached execution limits 
+	        status = BT_FAIL_CLEAN;
+        }
+        else
+        {
+          // execute child and count execution
+          execution_count++;
+          BTStack->Push(child_node);
+          child_node->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+          status = BT_RUNNING;
+        }
+      }  
+    }
   }
   else
   {
-    execution_count++;
-	BTStack->Push(child_node);
-    child_node->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+    BTStatus child_status = child_node->GetStatus();
+
+    if (child_status == BT_UNEXPECTED_ERROR)
+    {
+      status = child_status;
+    }
+    else if (child_status == BT_SUCCESS || child_status == BT_FAIL_CLEAN)
+    {
+      status = BT_SUCCESS;
+    }
   }
- 
+
   return status;
 }
 

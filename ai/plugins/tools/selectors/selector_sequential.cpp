@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include <iutil/comp.h>
+#include <iutil/plugin.h>
 
 #include "plugins/tools/selectors/selector_sequential.h"
 
@@ -33,45 +34,50 @@ BTStatus celSequentialSelector::Execute (iCelParameterBlock* params, csRefArray<
 {
   if (status == BT_NOT_STARTED)
   {
-	// On first execution push first child to top of stack and initialise other local variables
     noOfChildren = children.GetSize();
-	if (noOfChildren > 0)
-	{
+	  if (noOfChildren == 0)
+	  {
+      csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+          "cel.selectors.sequential",
+          "No children nodes specified for: %s", name.GetData());
+
+      status = BT_UNEXPECTED_ERROR;
+	  }
+	  else
+	  {
+	    // On first execution push first child to top of stack and initialise other local variables
       currentChild = 0;
-	  BTStack->Push(children.Get(currentChild));
+	    BTStack->Push(children.Get(currentChild));
       children.Get(currentChild)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
-	  status = BT_RUNNING;
-	}
-	else
-	{
-	  //If no children to execute raise error
-	  status = BT_UNEXPECTED_ERROR;
-	}
-  }
-
-  BTStatus child_status = children.Get(currentChild)->GetStatus();
-
-  if (child_status == BT_SUCCESS)
+	    status = BT_RUNNING;
+	  }
+   }
+  else
   {
-	// If child has succeeded, select next child
-    currentChild++;
+    BTStatus child_status = children.Get(currentChild)->GetStatus();
 
-    if (currentChild < noOfChildren)
+    if (child_status == BT_SUCCESS)
     {
-	  // If currentChild is a valid index for a child, push it to the top of the stack
-      BTStack->Push(children.Get(currentChild));
-      children.Get(currentChild)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
-	}
-	else
-	{
-	  // If we have tried all children, then selector has succeeded (as all children must have too)
-	  status = BT_SUCCESS;
-	}
-  }
-  else if (child_status == BT_FAIL_CLEAN || child_status == BT_UNEXPECTED_ERROR) 
-  {
-    // If child has failed, then so has selector
-	status = child_status;
+	    // If child has succeeded, select next child
+      currentChild++;
+
+      if (currentChild < noOfChildren)
+      {
+	      // If currentChild is a valid index for a child, push it to the top of the stack
+        BTStack->Push(children.Get(currentChild));
+        children.Get(currentChild)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+	    }
+	    else
+	    {
+	      // If we have tried all children, then selector has succeeded (as all children must have too)
+	      status = BT_SUCCESS;
+	    }
+    }
+    else if (child_status == BT_FAIL_CLEAN || child_status == BT_UNEXPECTED_ERROR) 
+    {
+      // If child has failed, then so has selector
+	    status = child_status;
+    }
   }
 
   return status;

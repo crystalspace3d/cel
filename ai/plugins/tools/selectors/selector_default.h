@@ -35,6 +35,7 @@ private:
   iObjectRegistry* object_reg;						
   csRefArray<iBTNode> children; 
   BTStatus status;
+  csString name;
 
   const char* execution_limit_param;
   int noOfChildren;
@@ -50,6 +51,7 @@ public:
   virtual bool AddChild (iBTNode* child);
   virtual BTStatus GetStatus ();
   virtual void SetStatus (BTStatus newStatus);
+  virtual void SetName (csString nodeName);
 
 };
 

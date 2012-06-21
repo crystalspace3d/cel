@@ -45,7 +45,7 @@ bool celBehaviourTree::AddChild (iBTNode* child)
 {
   if (stack.IsEmpty())
   {	
-	stack.Push(child);
+	  stack.Push(child);
     return true; 
   }
   else
@@ -64,17 +64,23 @@ void celBehaviourTree::TickEveryFrame ()
 	  top_status == BT_FAIL_CLEAN ||
 	  top_status == BT_UNEXPECTED_ERROR)
   {
-	// If node has completed,reset it and remove it from the stack
-	//stack.Top()->SetStatus(BT_NOT_STARTED);
+	  // If node has completed,reset it and remove it from the stack
     stack.Pop();
 
-	if (stack.IsEmpty())
-	{
+	  if (stack.IsEmpty())
+	  {
       // If tree has completed, stop calling this method
-	  pl->RemoveCallbackEveryFrame((iCelTimerListener*)this, CEL_EVENT_PRE);
+	    pl->RemoveCallbackEveryFrame((iCelTimerListener*)this, CEL_EVENT_PRE);
 
-	  // Note that tree has completed
-	  status = BT_SUCCESS;
-	}
+	    // Note that tree has completed
+	    status = top_status;
+
+      if (status == BT_UNEXPECTED_ERROR)
+      {
+        csReport(object_reg, CS_REPORTER_SEVERITY_ERROR,
+            "cel.behaviourtree.root",
+            "Behaviour tree has exited due to an unhandled unexpected error");
+      }
+	  }
   }
 }
