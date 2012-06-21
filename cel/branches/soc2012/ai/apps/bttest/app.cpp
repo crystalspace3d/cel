@@ -295,7 +295,8 @@ void MainApp::CreateBehaviourTree ()
   explicit_reward_factory->SetMessageParameter ("Looking For Money Box :s");
   // @@@ TODO: fix the quest parameter 0!
   csRef<iReward> reward = reward_factory->CreateReward(0, params);
-  explicit_action_node->AddReward (reward);
+  looking_action_node->SetName("Looking Node");
+  //explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (angry_action_node);
   explicit_reward_factory->SetMessageParameter ("ANGRY! >:");
@@ -329,7 +330,7 @@ void MainApp::CreateBehaviourTree ()
 
 
   //Connect Tree
-  //root_node->AddChild (initial_sequence_node);
+  root_node->AddChild (initial_sequence_node);
   root_node->AddChild (execution_limit_node);
   root_node->AddChild (lottery_sequence_node);
   root_node->AddChild (random_node);

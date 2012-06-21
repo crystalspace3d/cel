@@ -36,6 +36,7 @@ class celTriggerFiredCondition : public scfImplementation4<
 private: 
   iObjectRegistry* object_reg;
   BTStatus status;
+  csString name;
 
   csRef<iTrigger> trigger;
   bool triggerFired;
@@ -51,6 +52,7 @@ public:
   virtual bool AddChild (iBTNode* child);
   virtual BTStatus GetStatus ();
   virtual void SetStatus (BTStatus newStatus);
+  virtual void SetName (csString nodeName);
 
   //From iTriggerFiredCondition
   virtual void SetTrigger (iTrigger* trigger);

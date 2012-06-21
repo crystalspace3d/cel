@@ -40,6 +40,7 @@ bool celLoopDecorator::Initialize (
 {                                                                       
   celLoopDecorator::object_reg = object_reg;                 
   status = BT_NOT_STARTED;
+  name = "un-named node";     
   loop_limit = 0;
   return true;                                                                                         
 }
@@ -54,49 +55,84 @@ void celLoopDecorator::SetStatus (BTStatus newStatus)
   status = newStatus;
 }
 
+void celLoopDecorator::SetName(csString nodeName)
+{
+  name = nodeName;
+}
+
 BTStatus celLoopDecorator::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
 {
   if (status == BT_NOT_STARTED)
   {
-    loop_count = 0;
-
-    if (loop_limit == 0)
+    if (!child_node.IsValid())
     {
-      csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
-        (object_reg, "cel.parameters.manager");
-      const char* s = pm->ResolveParameter (params, loop_limit_param);
-      loop_limit = atoi (s);
-    }
+      csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+          "cel.decorators.loop",
+          "No child node specified for: %s", name.GetData());
 
-    BTStack->Push(child_node);
-    child_node->SetStatus(BT_NOT_STARTED);  // In case child has been run before
-
-    status = BT_RUNNING;
-  }
-  
-  BTStatus child_status = child_node->GetStatus();
-
-  if (child_status == BT_SUCCESS)
-  {
-    loop_count++;
-	if (loop_count < loop_limit)
-    {
-      BTStack->Push(child_node);
-      child_node->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+      status = BT_UNEXPECTED_ERROR;
     }
     else
     {
-      // If the loop has executed more times than the limit 
-      // without failing, it has succeeded
-      status = BT_SUCCESS;
-    } 
+      loop_count = 0;
+
+      if (loop_limit == 0)
+      {
+        csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+          (object_reg, "cel.parameters.manager");
+
+        const char* s = pm->ResolveParameter(params, loop_limit_param); 
+        if (s)
+        {
+          loop_limit = atoi (s);
+        }
+      }
+
+      if (loop_limit == 0)
+      {
+        //If loop limit still 0, it has not been set - probably an error
+        csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+            "cel.decorators.loop",
+            "Loop limit not set for: %s", name.GetData());
+
+        status = BT_UNEXPECTED_ERROR;
+      }
+      else
+      {  
+        BTStack->Push(child_node);
+        child_node->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+
+        status = BT_RUNNING;
+      }
+    }
   }
-  else if (child_status == BT_FAIL_CLEAN ||
-	  child_status == BT_UNEXPECTED_ERROR)
+  else
   {
-    // If a child fails, the loop node fails
-    status = child_status;
+    BTStatus child_status = child_node->GetStatus();
+
+    if (child_status == BT_SUCCESS)
+    {
+      loop_count++;
+	    if (loop_count < loop_limit)
+      {
+        BTStack->Push(child_node);
+        child_node->SetStatus(BT_NOT_STARTED);  // As child has been run before
+      }
+      else
+      {
+        // If the loop has executed more times than the limit 
+        // without failing, it has succeeded
+        status = BT_SUCCESS;
+      } 
+    }
+    else if (child_status == BT_FAIL_CLEAN ||
+	    child_status == BT_UNEXPECTED_ERROR)
+    {
+      // If a child fails, the loop node fails
+      status = child_status;
+    }
   }
+
   return status;
 }
 

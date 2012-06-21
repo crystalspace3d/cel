@@ -34,6 +34,7 @@ class celBehaviourTree : public scfImplementation3<
 private: 
   iObjectRegistry* object_reg;	
   BTStatus status;
+  csString name;
 
   csRef<iCelPlLayer> pl;	
   csRef<iCelParameterBlock> params;
@@ -50,6 +51,7 @@ public:
   virtual bool AddChild (iBTNode* child);
   virtual BTStatus GetStatus ();
   virtual void SetStatus (BTStatus newStatus);
+  virtual void SetName (csString nodeName);
 
   // From iCelTimerListener 
   virtual void TickEveryFrame ();

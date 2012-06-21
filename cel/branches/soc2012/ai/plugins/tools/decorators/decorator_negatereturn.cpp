@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include <iutil/comp.h>
+#include <iutil/plugin.h>
 
 #include "plugins/tools/decorators/decorator_negatereturn.h"
 
@@ -33,24 +34,37 @@ BTStatus celNegateReturnDecorator::Execute (iCelParameterBlock* params, csRefArr
 {
   if (status == BT_NOT_STARTED)
   {
-    BTStack->Push(children.Get(0));
-    children.Get(0)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
-	status = BT_RUNNING;
+    if (children.IsEmpty())
+    {
+      csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+          "cel.decorators.negatereturn",
+          "No child node specified for: %s", name.GetData());
+
+      status = BT_UNEXPECTED_ERROR;
+    }
+    else
+    {
+      BTStack->Push(children.Get(0));
+      children.Get(0)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+	    status = BT_RUNNING;
+    }
   }
+  else
+  {
+    BTStatus childStatus = children.Get(0)->GetStatus();
 
-  BTStatus childStatus = children.Get(0)->GetStatus();
-
-  if (childStatus = BT_SUCCESS) 
-  {
-    status =  BT_FAIL_CLEAN;
-  } 
-  else if (childStatus = BT_FAIL_CLEAN) 
-  {
-    status =  BT_SUCCESS;
-  } 
-  else if (childStatus = BT_UNEXPECTED_ERROR)
-  {
-    status = BT_UNEXPECTED_ERROR;
+    if (childStatus == BT_SUCCESS) 
+    {
+      status =  BT_FAIL_CLEAN;
+    } 
+    else if (childStatus == BT_FAIL_CLEAN) 
+    {
+      status =  BT_SUCCESS;
+    } 
+    else if (childStatus == BT_UNEXPECTED_ERROR)
+    {
+      status = BT_UNEXPECTED_ERROR;
+    }
   }
 
   return status;

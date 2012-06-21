@@ -101,6 +101,10 @@ struct iBTNode : public virtual iBase
    */
   virtual void SetStatus (BTStatus newStatus) = 0;
 
+  /**
+   * Set the name of this node for error reporting
+   */
+  virtual void SetName (csString nodeName) = 0;
 };
 
 //-------------------------------------------------------------------------
@@ -170,46 +174,53 @@ struct iTriggerFiredCondition: public virtual iBase
 /**
  * Convenience to declare a new behaviour tree node class.
  */
-#define CEL_DECLARE_BTNODE(name)					\
-class cel##name : public scfImplementation2<		                \
-		cel##name ,iBTNode, iComponent>			        \
+#define CEL_DECLARE_BTNODE(className)					\
+class cel##className : public scfImplementation2<		                \
+		cel##className ,iBTNode, iComponent>			        \
 {		                                                        \
 private:                                                                \
   iObjectRegistry* object_reg;						\
   csRefArray<iBTNode> children;                                         \
   BTStatus status;                \
+  csString name;                \
 public:									\
-  cel##name (iBase* parent);			                        \
-  virtual ~cel##name () { }					        \
+  cel##className (iBase* parent);			                        \
+  virtual ~cel##className () { }					        \
   virtual bool Initialize (iObjectRegistry*);			        \
   virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);		        \
   virtual bool AddChild (iBTNode* child);                               \
   virtual BTStatus GetStatus ();                               \
   virtual void SetStatus (BTStatus newStatus);  \
+  virtual void SetName (csString nodeName);  \
 };
 
 /**
  * Convenience to implement a new behaviour tree node class.
  */
-#define CEL_IMPLEMENT_BTNODE(name)					\
-cel##name::cel##name (iBase* parent)			                \
+#define CEL_IMPLEMENT_BTNODE(className)					\
+cel##className::cel##className (iBase* parent)			                \
  : scfImplementationType (this, parent), object_reg(0)			\
 {									\
 }									\
-bool cel##name::Initialize (					        \
+bool cel##className::Initialize (					        \
 	iObjectRegistry* object_reg)					\
 {									\
-  cel##name::object_reg = object_reg;			                \
-  cel##name::status = BT_NOT_STARTED;   \
+  cel##className::object_reg = object_reg;			                \
+  cel##className::status = BT_NOT_STARTED;   \
+  cel##className::name = "un-named node"; \
   return true;								\
 }	\
-BTStatus cel##name::GetStatus ()					\
+BTStatus cel##className::GetStatus ()					\
 {									\
-  return cel##name::status;								\
+  return cel##className::status;								\
 }	\
-void cel##name::SetStatus (BTStatus newStatus)					\
+void cel##className::SetStatus (BTStatus newStatus)					\
 {									\
-  cel##name::status = newStatus;								\
+  cel##className::status = newStatus;								\
+}	\
+void cel##className::SetName (csString nodeName)					\
+{									\
+  cel##className::name = nodeName;								\
 }	
 
 #endif // __CEL_BEHAVIOUR_TREE__

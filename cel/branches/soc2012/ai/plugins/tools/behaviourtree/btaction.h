@@ -34,6 +34,7 @@ class celBehaviourTreeAction : public scfImplementation3<
 private: 
   iObjectRegistry* object_reg;	
   BTStatus status;
+  csString name;
 
   csRefArray<iReward> actions; 
 
@@ -47,6 +48,7 @@ public:
   virtual bool AddChild (iBTNode* child);
   virtual BTStatus GetStatus ();
   virtual void SetStatus (BTStatus newStatus);
+  virtual void SetName (csString nodeName);
 
   //From iBTAction
   virtual void AddReward (iReward* reward);
