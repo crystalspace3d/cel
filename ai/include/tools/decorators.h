@@ -55,6 +55,14 @@ struct iLoopDecorator: public virtual iBase
    * with '$').
    */
   virtual void SetLoopLimit (const char* limit) = 0;
+
+  /**
+   * Sets node to loop forever whilst child is succesful 
+   * (i.e until fail clean or unexpected error)
+   * can be switched off by later call to SetLoopLimit
+   * Useful for root nodes of behaviour trees
+   */
+  virtual void MakeLoopInfinite () = 0;
 };
 
 #endif // __CEL_DECORATORS__

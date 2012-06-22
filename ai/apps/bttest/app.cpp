@@ -256,7 +256,8 @@ void MainApp::CreateBehaviourTree ()
 
   csRef<iLoopDecorator> explicit_loop_node = 
     scfQueryInterface<iLoopDecorator> (loop_node);
-  explicit_loop_node->SetLoopLimit("3");
+  //explicit_loop_node->SetLoopLimit("3");
+  explicit_loop_node->MakeLoopInfinite();
 
   csRef<iParameterCheckCondition> explicit_parameter_check_node =
     scfQueryInterface<iParameterCheckCondition> (parameter_check_node);
@@ -330,7 +331,7 @@ void MainApp::CreateBehaviourTree ()
 
 
   //Connect Tree
-  root_node->AddChild (initial_sequence_node);
+  //root_node->AddChild (initial_sequence_node);
   root_node->AddChild (execution_limit_node);
   root_node->AddChild (lottery_sequence_node);
   root_node->AddChild (random_node);
