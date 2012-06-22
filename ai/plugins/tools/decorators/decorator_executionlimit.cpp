@@ -78,21 +78,20 @@ BTStatus celExecutionLimitDecorator::Execute (iCelParameterBlock* params, csRefA
     }
     else
     {
-	    if (execution_limit == 0)
+
+      // Get execution limit from parameters
+      csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+        (object_reg, "cel.parameters.manager");
+      csRef<iParameter> p = pm->GetParameter(execution_limit_param);
+      const char* s = p->Get (params);
+      if (s)
       {
-        csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
-          (object_reg, "cel.parameters.manager");
-
-        const char* s = pm->ResolveParameter(params, execution_limit_param);
-        if (s)
-        {
-          execution_limit = atoi (s);
-        }
+        execution_limit = atoi (s);
       }
-
+      
+      //If execution limit is 0 - probably an error
       if (execution_limit == 0)
       {
-        //If execution limit still 0, it has not been set - probably an error
         csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
             "cel.decorators.executionlimit",
             "Execution limit not set for: %s", name.GetData());
