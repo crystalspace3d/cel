@@ -39,7 +39,7 @@ private:
 
   const char* loop_limit_param;
   int	loop_limit;
-  int   loop_count;
+  int loop_count;
 
 public:									
   celLoopDecorator (iBase* parent);			
@@ -55,6 +55,7 @@ public:
 
   //From iLoopDecorator
   virtual void SetLoopLimit (const char* limit);
+  virtual void MakeLoopInfinite ();
 };
 
 #endif // __CEL_TOOLS_DECORATORS_LOOP__

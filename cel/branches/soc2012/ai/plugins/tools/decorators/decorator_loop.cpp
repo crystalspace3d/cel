@@ -82,6 +82,7 @@ BTStatus celLoopDecorator::Execute (iCelParameterBlock* params, csRefArray<iBTNo
           (object_reg, "cel.parameters.manager");
 
         const char* s = pm->ResolveParameter(params, loop_limit_param); 
+
         if (s)
         {
           loop_limit = atoi (s);
@@ -113,7 +114,7 @@ BTStatus celLoopDecorator::Execute (iCelParameterBlock* params, csRefArray<iBTNo
     if (child_status == BT_SUCCESS)
     {
       loop_count++;
-	    if (loop_count < loop_limit)
+	    if (loop_count < loop_limit || loop_limit == -1)  // If loop limit == -1, loop forever
       {
         BTStack->Push(child_node);
         child_node->SetStatus(BT_NOT_STARTED);  // As child has been run before
@@ -153,4 +154,9 @@ bool celLoopDecorator::AddChild (iBTNode* child)
 void celLoopDecorator::SetLoopLimit (const char* limit)
 {
   loop_limit_param = limit;
+}
+
+void celLoopDecorator::MakeLoopInfinite ()
+{
+  loop_limit = -1;
 }
