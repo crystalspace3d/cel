@@ -76,12 +76,15 @@ BTStatus celLoopDecorator::Execute (iCelParameterBlock* params, csRefArray<iBTNo
     {
       loop_count = 0;
 
-      if (loop_limit == 0)
+      // Unless loop limit set to infinite (-1) 
+      // check parameters for current number of loops
+      if (loop_limit != -1)
       {
         csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
           (object_reg, "cel.parameters.manager");
 
-        const char* s = pm->ResolveParameter(params, loop_limit_param); 
+        csRef<iParameter> p = pm->GetParameter(loop_limit_param);
+        const char* s = p->Get (params);
 
         if (s)
         {
