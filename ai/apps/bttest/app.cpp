@@ -356,7 +356,7 @@ void MainApp::CreateBehaviourTree ()
 
   //Build Tree
   tree = csLoadPlugin<iBTNode> (plugin_mgr,
-    "cel.behaviourtree.root");
+    "cel.pcbehaviourtree");
   tree->AddChild(root_node);
   tree->Execute(params);
 }
