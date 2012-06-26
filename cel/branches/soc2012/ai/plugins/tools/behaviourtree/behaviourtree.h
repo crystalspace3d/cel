@@ -21,30 +21,53 @@
 #define __CEL_TOOLS_BT__
 
 #include "tools/behaviourtree.h"
+#include "celtool/stdpcimp.h"
+#include "physicallayer/facttmpl.h"
+
+/**
+ * Factory for behaviour tree.
+ */
+CEL_DECLARE_FACTORY(BehaviourTree)
 
 
 /**
  * The core behaviour tree class
  */
 
-class celBehaviourTree : public scfImplementation3<		
-		celBehaviourTree, 
-		iCelTimerListener, iBTNode, iComponent>			
+class celPcBehaviourTree : public scfImplementationExt1<		
+		celPcBehaviourTree, celPcCommon, iBTNode>			
 {		
 private: 
   iObjectRegistry* object_reg;	
-  BTStatus status;
-  csString name;
 
   csRef<iCelPlLayer> pl;	
-  csRef<iCelParameterBlock> params;
+  csRef<iCelParameterBlock> node_params;
 
+  BTStatus status;
+  csString name;
   csRefArray<iBTNode> stack;
+  int update_rate;
+
+  // For propclass actions
+  enum actionids
+  {
+    action_setrootnode = 0
+  };
+
+  // For propclass properties.
+  enum propids
+  {
+    propid_updaterate = 0
+  };
+
+  // Other propclass
+  static PropertyHolder propinfo;
+  //static csStringID id_updaterate;
+  //celOneParameterBlock* tree_params;
 
 public:		
-  celBehaviourTree (iBase* parent);			
-  virtual ~celBehaviourTree () { };					
-  virtual bool Initialize (iObjectRegistry*);	
+  celPcBehaviourTree (iObjectRegistry* object_reg);			
+  virtual ~celPcBehaviourTree () { };					
 
   //From iBTNode
   virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);		
@@ -55,7 +78,9 @@ public:
 
   // From iCelTimerListener 
   virtual void TickEveryFrame ();
-  virtual void TickOnce () { }
+
+  // Override celPcCommon
+  virtual bool SetPropertyIndexed (int idx, long value);
 };
 
 #endif // __CEL_TOOLS_BTACTION__

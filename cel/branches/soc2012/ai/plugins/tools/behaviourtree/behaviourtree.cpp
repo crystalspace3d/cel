@@ -25,23 +25,77 @@
 
 //---------------------------------------------------------------------------
 
-//CS_IMPLEMENT_PLUGIN
-
-SCF_IMPLEMENT_FACTORY (celBehaviourTree)
-CEL_IMPLEMENT_BTNODE (BehaviourTree)
+CEL_IMPLEMENT_FACTORY_ALT (BehaviourTree, "pclogic.behaviourtree", "pcbehaviourtree")
 
 //---------------------------------------------------------------------------
 
-BTStatus celBehaviourTree::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
+//csStringID celPcBehaviourTree::id_updaterate = csInvalidStringID;
+
+PropertyHolder celPcBehaviourTree::propinfo;
+
+celPcBehaviourTree::celPcBehaviourTree (iObjectRegistry* object_reg) 
+  : scfImplementationType (this, object_reg)                                                                             
 {
-  celBehaviourTree::params = params;		
+  // Not needed?    
+  //if (id_updaterate == csInvalidStringID)
+  //{
+  //  id_updaterate = pl->FetchStringID ("updaterate");
+  //}                                               
+  //tree_params = new celOneParameterBlock ();
+  //tree_params->SetParameterDef (id_updaterate);
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    SetActionMask ("cel.behaviourtree.action.");
+    AddAction (action_setrootnode, "SetRootNode");
+  };             
+
+  propinfo.SetCount (1);
+  AddProperty (propid_updaterate, "update rate",
+  	CEL_DATA_LONG, false, "Frequency of updates/nodes parsed in tree.", 0);  
+               
+
+  status = BT_NOT_STARTED;  
+  name = "un-named behaviour tree";      
+  update_rate = 1;                       
+}
+
+bool celPcBehaviourTree::SetPropertyIndexed (int idx, long value)
+{
+  if (idx == propid_updaterate)
+  {
+    update_rate = value;
+    return true;
+  }
+  return false;
+}
+
+BTStatus celPcBehaviourTree::GetStatus ()
+{
+  return status;
+}
+
+void celPcBehaviourTree::SetStatus (BTStatus newStatus)
+{
+  status = newStatus;
+}
+
+void celPcBehaviourTree::SetName(csString nodeName)
+{
+  name = nodeName;
+}
+
+BTStatus celPcBehaviourTree::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
+{
+  celPcBehaviourTree::node_params = params;		
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
   status = BT_RUNNING;
   return status;
 }
 
-bool celBehaviourTree::AddChild (iBTNode* child)
+bool celPcBehaviourTree::AddChild (iBTNode* child)
 {
   if (stack.IsEmpty())
   {	
@@ -55,32 +109,35 @@ bool celBehaviourTree::AddChild (iBTNode* child)
   }
 }
 
-void celBehaviourTree::TickEveryFrame ()
+void celPcBehaviourTree::TickEveryFrame ()
 {
-  // Execute current node in tree
-  BTStatus top_status = stack.Top()->Execute (params, &stack);
-  
-  if (top_status == BT_SUCCESS ||
-	  top_status == BT_FAIL_CLEAN ||
-	  top_status == BT_UNEXPECTED_ERROR)
+  for (int i = 0; i < update_rate; i++)
   {
-	  // If node has completed,reset it and remove it from the stack
-    stack.Pop();
+    // Execute current node in tree
+    BTStatus top_status = stack.Top()->Execute (node_params, &stack);
+  
+    if (top_status == BT_SUCCESS ||
+	    top_status == BT_FAIL_CLEAN ||
+	    top_status == BT_UNEXPECTED_ERROR)
+    {
+	    // If node has completed,reset it and remove it from the stack
+      stack.Pop();
 
-	  if (stack.IsEmpty())
-	  {
-      // If tree has completed, stop calling this method
-	    pl->RemoveCallbackEveryFrame((iCelTimerListener*)this, CEL_EVENT_PRE);
+	    if (stack.IsEmpty())
+	    {
+        // If tree has completed, stop calling this method
+	      pl->RemoveCallbackEveryFrame((iCelTimerListener*)this, CEL_EVENT_PRE);
 
-	    // Note that tree has completed
-	    status = top_status;
+	      // Note that tree has completed
+	      status = top_status;
 
-      if (status == BT_UNEXPECTED_ERROR)
-      {
-        csReport(object_reg, CS_REPORTER_SEVERITY_ERROR,
-            "cel.behaviourtree.root",
-            "Behaviour tree has exited due to an unhandled unexpected error");
-      }
-	  }
+        if (status == BT_UNEXPECTED_ERROR)
+        {
+          csReport(object_reg, CS_REPORTER_SEVERITY_ERROR,
+              "cel.behaviourtree.root",
+              "Behaviour tree has exited due to an unhandled unexpected error");
+        }
+	    }
+    }
   }
 }
