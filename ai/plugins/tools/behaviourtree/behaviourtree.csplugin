@@ -3,10 +3,23 @@
 <plugin>
   <scf>
     <classes>
+      <!-- @@@ to be deprecated -->
       <class>
-        <name>cel.behaviourtree.root</name>
-        <implementation>celBehaviourTree</implementation>
-        <description>Default root node for the Behaviour Tree</description>
+        <name>cel.pcfactory.behaviourtree</name>
+        <implementation>celPfBehaviourTree</implementation>
+        <description>CEL Behaviour Tree Class Factory</description>
+        <requires>
+          <class>cel.physicallayer</class>
+        </requires>
+      </class>
+
+      <class>
+        <name>cel.pcfactory.logic.behaviourtree</name>
+        <implementation>celPfBehaviourTree</implementation>
+        <description>CEL Behaviour Tree Class Factory</description>
+        <requires>
+          <class>cel.physicallayer</class>
+        </requires>
       </class>
 
       <class>

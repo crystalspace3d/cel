@@ -58,6 +58,7 @@ bool MainApp::CreatePlayer ()
     "pcmove.actor.standard",
     "pcinput.standard",
     "pctools.inventory",
+    "pclogic.behaviourtree",
     CEL_PROPCLASS_END);
   if (!player_entity)
     return ReportError ("Error creating player entity!");
@@ -256,7 +257,7 @@ void MainApp::CreateBehaviourTree ()
 
   csRef<iLoopDecorator> explicit_loop_node = 
     scfQueryInterface<iLoopDecorator> (loop_node);
-  //explicit_loop_node->SetLoopLimit("3");
+  explicit_loop_node->SetLoopLimit("3");
 
   csRef<iParameterCheckCondition> explicit_parameter_check_node =
     scfQueryInterface<iParameterCheckCondition> (parameter_check_node);
@@ -296,7 +297,7 @@ void MainApp::CreateBehaviourTree ()
   // @@@ TODO: fix the quest parameter 0!
   csRef<iReward> reward = reward_factory->CreateReward(0, params);
   looking_action_node->SetName("Looking Node");
-  //explicit_action_node->AddReward (reward);
+  explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (angry_action_node);
   explicit_reward_factory->SetMessageParameter ("ANGRY! >:");
@@ -354,9 +355,16 @@ void MainApp::CreateBehaviourTree ()
   random_node->AddChild (loving_action_node);
 
 
-  //Build Tree
-  tree = csLoadPlugin<iBTNode> (plugin_mgr,
-    "cel.pcbehaviourtree");
-  tree->AddChild(root_node);
-  tree->Execute(params);
+  if (player_entity)
+  { 
+    csRef<iBTNode> tree = celQueryPropertyClassEntity<iBTNode> (player_entity);
+    tree->AddChild(root_node);
+    tree->Execute(params);
+  }
+  else
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+              "MainApp::CreateBehaviourTree ()",
+              "Unable to make behaviour tree!");
+  }
 }
