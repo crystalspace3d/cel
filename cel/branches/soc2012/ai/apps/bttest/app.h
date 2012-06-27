@@ -23,8 +23,6 @@ private:
   csRef<iCelBlLayer> bl;
   csRef<iCelEntity> level_entity;
   csRef<iCelEntity> player_entity;
-    
-  csRef<iBTNode> tree;
 
   bool OnKeyboard (iEvent&);
   void Frame ();

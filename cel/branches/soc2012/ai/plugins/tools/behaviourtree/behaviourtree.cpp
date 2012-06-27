@@ -134,7 +134,7 @@ void celPcBehaviourTree::TickEveryFrame ()
         if (status == BT_UNEXPECTED_ERROR)
         {
           csReport(object_reg, CS_REPORTER_SEVERITY_ERROR,
-              "cel.behaviourtree.root",
+              "pclogic.behaviourtree",
               "Behaviour tree has exited due to an unhandled unexpected error");
         }
 	    }
