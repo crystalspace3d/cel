@@ -3,25 +3,6 @@
 <plugin>
   <scf>
     <classes>
-      <!-- @@@ to be deprecated -->
-      <class>
-        <name>cel.pcfactory.behaviourtree</name>
-        <implementation>celPfBehaviourTree</implementation>
-        <description>CEL Behaviour Tree Class Factory</description>
-        <requires>
-          <class>cel.physicallayer</class>
-        </requires>
-      </class>
-
-      <class>
-        <name>cel.pcfactory.logic.behaviourtree</name>
-        <implementation>celPfBehaviourTree</implementation>
-        <description>CEL Behaviour Tree Class Factory</description>
-        <requires>
-          <class>cel.physicallayer</class>
-        </requires>
-      </class>
-
       <class>
         <name>cel.behaviourtree.action</name>
         <implementation>celBehaviourTreeAction</implementation>

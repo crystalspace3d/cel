@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass behaviourtree ;
+
+Plugin pfbehaviourtree
+	: behaviourtree.cpp behaviourtree.h
+;
+ExternalLibs pfbehaviourtree : CRYSTAL ;
+LinkWith pfbehaviourtree : celtool ;
+

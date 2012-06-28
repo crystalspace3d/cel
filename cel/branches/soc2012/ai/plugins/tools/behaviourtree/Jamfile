@@ -4,4 +4,4 @@ Plugin behaviourtree
        : [ Wildcard *.cpp *.h ]
 ;
 ExternalLibs behaviourtree : CRYSTAL ;
-LinkWith behaviourtree: celtool ;
+

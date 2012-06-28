@@ -41,3 +41,4 @@ SubInclude TOP plugins propclass steer ;
 SubInclude TOP plugins propclass pathfinder ;
 SubInclude TOP plugins propclass wasdmove ;
 SubInclude TOP plugins propclass wire ;
+SubInclude TOP plugins propclass behaviourtree ;
