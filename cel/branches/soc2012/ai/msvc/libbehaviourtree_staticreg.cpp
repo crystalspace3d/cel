@@ -22,12 +22,6 @@ static char const metainfo_behaviourtree[] =
 "  <scf>"
 "    <classes>"
 "      <class>"
-"        <name>cel.behaviourtree.root</name>"
-"        <implementation>celBehaviourTree</implementation>"
-"        <description>Default root node for the Behaviour Tree</description>"
-"      </class>"
-""
-"      <class>"
 "        <name>cel.behaviourtree.action</name>"
 "        <implementation>celBehaviourTreeAction</implementation>"
 "        <description>Behaviour Tree Wrapper for Rewards</description>"
@@ -48,10 +42,6 @@ static char const metainfo_behaviourtree[] =
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef celBehaviourTree_FACTORY_REGISTER_DEFINED 
-  #define celBehaviourTree_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celBehaviourTree) 
-  #endif
   #ifndef celBehaviourTreeAction_FACTORY_REGISTER_DEFINED 
   #define celBehaviourTreeAction_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celBehaviourTreeAction) 
@@ -68,10 +58,6 @@ static char const metainfo_behaviourtree[] =
 class behaviourtree
 {
 SCF_REGISTER_STATIC_LIBRARY(behaviourtree,metainfo_behaviourtree)
-  #ifndef celBehaviourTree_FACTORY_REGISTERED 
-  #define celBehaviourTree_FACTORY_REGISTERED 
-    celBehaviourTree_StaticInit celBehaviourTree_static_init__; 
-  #endif
   #ifndef celBehaviourTreeAction_FACTORY_REGISTERED 
   #define celBehaviourTreeAction_FACTORY_REGISTERED 
     celBehaviourTreeAction_StaticInit celBehaviourTreeAction_static_init__; 

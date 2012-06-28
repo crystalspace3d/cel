@@ -485,6 +485,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libparameters_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfactormove_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfanalogmotion_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfbehaviourtree_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfbillboard_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfdamage_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfdefcam_staticreg.cpp" />
@@ -572,6 +573,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\propclass\actormove\actormove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\actormove\npcmove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\analogmotion\analogmotion.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\behaviourtree\behaviourtree.cpp" />
     <ClCompile Include="..\..\plugins\propclass\billboard\billboard.cpp" />
     <ClCompile Include="..\..\plugins\propclass\cameras\tracking\tracking.cpp" />
     <ClCompile Include="..\..\plugins\propclass\damage\damagefact.cpp" />
@@ -656,7 +658,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\stdphyslayer\etracker.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\numreg.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\pl.cpp" />
-    <ClCompile Include="..\..\plugins\tools\behaviourtree\behaviourtree.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\btaction.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\condition_triggerfired.cpp" />
@@ -779,6 +780,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\propclass\actormove\actormove.h" />
     <ClInclude Include="..\..\plugins\propclass\actormove\npcmove.h" />
     <ClInclude Include="..\..\plugins\propclass\analogmotion\analogmotion.h" />
+    <ClInclude Include="..\..\plugins\propclass\behaviourtree\behaviourtree.h" />
     <ClInclude Include="..\..\plugins\propclass\billboard\billboard.h" />
     <ClInclude Include="..\..\plugins\propclass\cameras\tracking\tracking.h" />
     <ClInclude Include="..\..\plugins\propclass\damage\damagefact.h" />
@@ -858,7 +860,6 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\stdphyslayer\etracker.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\numreg.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\pl.h" />
-    <ClInclude Include="..\..\plugins\tools\behaviourtree\behaviourtree.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\btaction.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\condition_triggerfired.h" />

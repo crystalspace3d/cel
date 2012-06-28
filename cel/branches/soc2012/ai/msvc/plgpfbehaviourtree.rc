@@ -18,7 +18,7 @@ FILEFLAGS 0x0
       VALUE "ProductVersion", "2.1"
       VALUE "FileVersion", "2.1"
       VALUE "LegalCopyright", "Copyright (C)2002-2011 Jorrit Tyberghein and others."
-      VALUE "FileDescription", "behaviourtree"
+      VALUE "FileDescription", "pfbehaviourtree"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
 #else
@@ -38,26 +38,14 @@ FILEFLAGS 0x0
 17485 RCDATA 
 {
   "<?xml version=""1.0""?>",
-  "<!-- behaviourtree.csplugin -->",
+  "<!-- pfbehaviourtree.csplugin -->",
   "<plugin>",
   "  <scf>",
   "    <classes>",
   "      <class>",
-  "        <name>cel.behaviourtree.action</name>",
-  "        <implementation>celBehaviourTreeAction</implementation>",
-  "        <description>Behaviour Tree Wrapper for Rewards</description>",
-  "      </class>",
-  "      ",
-  "      <class>",
-  "        <name>cel.behaviourtree.triggerfired</name>",
-  "        <implementation>celTriggerFiredCondition</implementation>",
-  "        <description>CEL Condition: True if trigger has already fired</description>",
-  "      </class>",
-  "  ",
-  "      <class>",
-  "        <name>cel.behaviourtree.parametercheck</name>",
-  "        <implementation>celParameterCheckCondition</implementation>",
-  "        <description>CEL Condition: True if parameter is equal to value</description>",
+  "        <name>cel.pcfactory.logic.behaviourtree</name>",
+  "        <implementation>celPfBehaviourTree</implementation>",
+  "        <description>CEL Behaviour Tree Class Factory</description>",
   "      </class>",
   "    </classes>",
   "  </scf>",
