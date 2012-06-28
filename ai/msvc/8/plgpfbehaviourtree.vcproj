@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding = "Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
-	Name="plgbehaviourtree"
-	ProjectGUID="{1AC3DE76-42B2-E418-2F72-B725312A6EEA}"
+	Version="8.00"
+	Name="plgpfbehaviourtree"
+	ProjectGUID="{FBC1D289-15BB-C3EB-8F77-7E2F27105648}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
             		<Configuration
 			Name="ReleaseWithStaticLibs|Win32"
-			OutputDirectory="..\..\out\release9\build\plgbehaviourtree\"
-			IntermediateDirectory="..\..\out\release9\build\plgbehaviourtree\"
+			OutputDirectory="..\..\out\release8\build\plgpfbehaviourtree\"
+			IntermediateDirectory="..\..\out\release8\build\plgpfbehaviourtree\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -26,14 +26,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\plgbehaviourtree\Win32\behaviourtree.pdb"
+				ProgramDataBaseFileName="..\..\out\release8\build\plgpfbehaviourtree\Win32\pfbehaviourtree.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9\build\plgbehaviourtree\plgbehaviourtree.pch"
-				AssemblerListingLocation="..\..\out\release9\build\plgbehaviourtree\"
-				ObjectFile="..\..\out\release9\build\plgbehaviourtree\"
+				PrecompiledHeaderFile="..\..\out\release8\build\plgpfbehaviourtree\plgpfbehaviourtree.pch"
+				AssemblerListingLocation="..\..\out\release8\build\plgpfbehaviourtree\"
+				ObjectFile="..\..\out\release8\build\plgpfbehaviourtree\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -50,15 +50,15 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\behaviourtree.dll"
-				ProgramDatabaseFile="..\..\out\release9\build\plgbehaviourtree\Win32\behaviourtree.pdb"
+				OutputFile="..\..\pfbehaviourtree.dll"
+				ProgramDatabaseFile="..\..\out\release8\build\plgpfbehaviourtree\Win32\pfbehaviourtree.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release9\build\plgbehaviourtree\Win32\plgbehaviourtree.lib"
+				ImportLibrary="..\..\out\release8\build\plgpfbehaviourtree\Win32\plgpfbehaviourtree.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -70,10 +70,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\plgbehaviourtree\plgbehaviourtree.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\plgpfbehaviourtree\plgpfbehaviourtree.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -81,8 +81,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -91,8 +91,8 @@
 		</Configuration>
       		<Configuration
 			Name="ReleaseWithDlls|Win32"
-			OutputDirectory="..\..\out\release9\build\plgbehaviourtree\"
-			IntermediateDirectory="..\..\out\release9\build\plgbehaviourtree\"
+			OutputDirectory="..\..\out\release8\build\plgpfbehaviourtree\"
+			IntermediateDirectory="..\..\out\release8\build\plgpfbehaviourtree\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -104,14 +104,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\plgbehaviourtree\Win32\behaviourtree.pdb"
+				ProgramDataBaseFileName="..\..\out\release8\build\plgpfbehaviourtree\Win32\pfbehaviourtree.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9\build\plgbehaviourtree\plgbehaviourtree.pch"
-				AssemblerListingLocation="..\..\out\release9\build\plgbehaviourtree\"
-				ObjectFile="..\..\out\release9\build\plgbehaviourtree\"
+				PrecompiledHeaderFile="..\..\out\release8\build\plgpfbehaviourtree\plgpfbehaviourtree.pch"
+				AssemblerListingLocation="..\..\out\release8\build\plgpfbehaviourtree\"
+				ObjectFile="..\..\out\release8\build\plgpfbehaviourtree\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -128,15 +128,15 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\behaviourtree.dll"
-				ProgramDatabaseFile="..\..\out\release9\build\plgbehaviourtree\Win32\behaviourtree.pdb"
+				OutputFile="..\..\pfbehaviourtree.dll"
+				ProgramDatabaseFile="..\..\out\release8\build\plgpfbehaviourtree\Win32\pfbehaviourtree.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release9\build\plgbehaviourtree\Win32\plgbehaviourtree.lib"
+				ImportLibrary="..\..\out\release8\build\plgpfbehaviourtree\Win32\plgpfbehaviourtree.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -148,10 +148,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\plgbehaviourtree\plgbehaviourtree.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\plgpfbehaviourtree\plgpfbehaviourtree.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -159,8 +159,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -169,8 +169,8 @@
 		</Configuration>
                 		<Configuration
 			Name="DebugWithStaticLibs|Win32"
-			OutputDirectory="..\..\out\debug9\build\plgbehaviourtree\"
-			IntermediateDirectory="..\..\out\debug9\build\plgbehaviourtree\"
+			OutputDirectory="..\..\out\debug8\build\plgpfbehaviourtree\"
+			IntermediateDirectory="..\..\out\debug8\build\plgpfbehaviourtree\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -181,14 +181,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\plgbehaviourtree\Win32\behaviourtree.pdb"
+				ProgramDataBaseFileName="..\..\out\debug8\build\plgpfbehaviourtree\Win32\pfbehaviourtree.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9\build\plgbehaviourtree\plgbehaviourtree.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\plgbehaviourtree\"
-				ObjectFile="..\..\out\debug9\build\plgbehaviourtree\"
+				PrecompiledHeaderFile="..\..\out\debug8\build\plgpfbehaviourtree\plgpfbehaviourtree.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\plgpfbehaviourtree\"
+				ObjectFile="..\..\out\debug8\build\plgpfbehaviourtree\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -203,15 +203,15 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\behaviourtree.dll"
-				ProgramDatabaseFile="..\..\out\debug9\build\plgbehaviourtree\Win32\behaviourtree.pdb"
+				OutputFile="..\..\pfbehaviourtree.dll"
+				ProgramDatabaseFile="..\..\out\debug8\build\plgpfbehaviourtree\Win32\pfbehaviourtree.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug9\build\plgbehaviourtree\Win32\plgbehaviourtree.lib"
+				ImportLibrary="..\..\out\debug8\build\plgpfbehaviourtree\Win32\plgpfbehaviourtree.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -223,10 +223,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\plgbehaviourtree\plgbehaviourtree.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\plgpfbehaviourtree\plgpfbehaviourtree.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -234,8 +234,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -244,8 +244,8 @@
 		</Configuration>
       		<Configuration
 			Name="DebugWithDlls|Win32"
-			OutputDirectory="..\..\out\debug9\build\plgbehaviourtree\"
-			IntermediateDirectory="..\..\out\debug9\build\plgbehaviourtree\"
+			OutputDirectory="..\..\out\debug8\build\plgpfbehaviourtree\"
+			IntermediateDirectory="..\..\out\debug8\build\plgpfbehaviourtree\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -256,14 +256,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\plgbehaviourtree\Win32\behaviourtree.pdb"
+				ProgramDataBaseFileName="..\..\out\debug8\build\plgpfbehaviourtree\Win32\pfbehaviourtree.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9\build\plgbehaviourtree\plgbehaviourtree.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\plgbehaviourtree\"
-				ObjectFile="..\..\out\debug9\build\plgbehaviourtree\"
+				PrecompiledHeaderFile="..\..\out\debug8\build\plgpfbehaviourtree\plgpfbehaviourtree.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\plgpfbehaviourtree\"
+				ObjectFile="..\..\out\debug8\build\plgpfbehaviourtree\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -278,15 +278,15 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\behaviourtree.dll"
-				ProgramDatabaseFile="..\..\out\debug9\build\plgbehaviourtree\Win32\behaviourtree.pdb"
+				OutputFile="..\..\pfbehaviourtree.dll"
+				ProgramDatabaseFile="..\..\out\debug8\build\plgpfbehaviourtree\Win32\pfbehaviourtree.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug9\build\plgbehaviourtree\Win32\plgbehaviourtree.lib"
+				ImportLibrary="..\..\out\debug8\build\plgpfbehaviourtree\Win32\plgpfbehaviourtree.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -298,10 +298,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\plgbehaviourtree\plgbehaviourtree.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\plgpfbehaviourtree\plgpfbehaviourtree.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -309,8 +309,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -319,8 +319,8 @@
 		</Configuration>
                         		<Configuration
 			Name="ReleaseWithStaticLibs|x64"
-			OutputDirectory="..\..\out\release9-x64\build\plgbehaviourtree\"
-			IntermediateDirectory="..\..\out\release9-x64\build\plgbehaviourtree\"
+			OutputDirectory="..\..\out\release8-x64\build\plgpfbehaviourtree\"
+			IntermediateDirectory="..\..\out\release8-x64\build\plgpfbehaviourtree\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -332,14 +332,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9-x64\build\plgbehaviourtree\x64\behaviourtree.pdb"
+				ProgramDataBaseFileName="..\..\out\release8-x64\build\plgpfbehaviourtree\x64\pfbehaviourtree.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\plgbehaviourtree\plgbehaviourtree.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\plgbehaviourtree\"
-				ObjectFile="..\..\out\release9-x64\build\plgbehaviourtree\"
+				PrecompiledHeaderFile="..\..\out\release8-x64\build\plgpfbehaviourtree\plgpfbehaviourtree.pch"
+				AssemblerListingLocation="..\..\out\release8-x64\build\plgpfbehaviourtree\"
+				ObjectFile="..\..\out\release8-x64\build\plgpfbehaviourtree\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -356,15 +356,15 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\behaviourtree.dll"
-				ProgramDatabaseFile="..\..\out\release9-x64\build\plgbehaviourtree\x64\behaviourtree.pdb"
+				OutputFile="..\..\pfbehaviourtree.dll"
+				ProgramDatabaseFile="..\..\out\release8-x64\build\plgpfbehaviourtree\x64\pfbehaviourtree.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release9-x64\build\plgbehaviourtree\x64\plgbehaviourtree.lib"
+				ImportLibrary="..\..\out\release8-x64\build\plgpfbehaviourtree\x64\plgpfbehaviourtree.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -376,10 +376,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\plgbehaviourtree\plgbehaviourtree.tlb"/>
+				TypeLibraryName="..\..\out\release8-x64\build\plgpfbehaviourtree\plgpfbehaviourtree.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\release8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8-x64\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -387,8 +387,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -397,8 +397,8 @@
 		</Configuration>
       		<Configuration
 			Name="ReleaseWithDlls|x64"
-			OutputDirectory="..\..\out\release9-x64\build\plgbehaviourtree\"
-			IntermediateDirectory="..\..\out\release9-x64\build\plgbehaviourtree\"
+			OutputDirectory="..\..\out\release8-x64\build\plgpfbehaviourtree\"
+			IntermediateDirectory="..\..\out\release8-x64\build\plgpfbehaviourtree\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -410,14 +410,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9-x64\build\plgbehaviourtree\x64\behaviourtree.pdb"
+				ProgramDataBaseFileName="..\..\out\release8-x64\build\plgpfbehaviourtree\x64\pfbehaviourtree.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\plgbehaviourtree\plgbehaviourtree.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\plgbehaviourtree\"
-				ObjectFile="..\..\out\release9-x64\build\plgbehaviourtree\"
+				PrecompiledHeaderFile="..\..\out\release8-x64\build\plgpfbehaviourtree\plgpfbehaviourtree.pch"
+				AssemblerListingLocation="..\..\out\release8-x64\build\plgpfbehaviourtree\"
+				ObjectFile="..\..\out\release8-x64\build\plgpfbehaviourtree\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -434,15 +434,15 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\behaviourtree.dll"
-				ProgramDatabaseFile="..\..\out\release9-x64\build\plgbehaviourtree\x64\behaviourtree.pdb"
+				OutputFile="..\..\pfbehaviourtree.dll"
+				ProgramDatabaseFile="..\..\out\release8-x64\build\plgpfbehaviourtree\x64\pfbehaviourtree.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release9-x64\build\plgbehaviourtree\x64\plgbehaviourtree.lib"
+				ImportLibrary="..\..\out\release8-x64\build\plgpfbehaviourtree\x64\plgpfbehaviourtree.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -454,10 +454,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\plgbehaviourtree\plgbehaviourtree.tlb"/>
+				TypeLibraryName="..\..\out\release8-x64\build\plgpfbehaviourtree\plgpfbehaviourtree.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\release8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8-x64\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -465,8 +465,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -475,8 +475,8 @@
 		</Configuration>
                 		<Configuration
 			Name="DebugWithStaticLibs|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\plgbehaviourtree\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\plgbehaviourtree\"
+			OutputDirectory="..\..\out\debug8-x64\build\plgpfbehaviourtree\"
+			IntermediateDirectory="..\..\out\debug8-x64\build\plgpfbehaviourtree\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -487,14 +487,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9-x64\build\plgbehaviourtree\x64\behaviourtree.pdb"
+				ProgramDataBaseFileName="..\..\out\debug8-x64\build\plgpfbehaviourtree\x64\pfbehaviourtree.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\plgbehaviourtree\plgbehaviourtree.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\plgbehaviourtree\"
-				ObjectFile="..\..\out\debug9-x64\build\plgbehaviourtree\"
+				PrecompiledHeaderFile="..\..\out\debug8-x64\build\plgpfbehaviourtree\plgpfbehaviourtree.pch"
+				AssemblerListingLocation="..\..\out\debug8-x64\build\plgpfbehaviourtree\"
+				ObjectFile="..\..\out\debug8-x64\build\plgpfbehaviourtree\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -509,15 +509,15 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\behaviourtree.dll"
-				ProgramDatabaseFile="..\..\out\debug9-x64\build\plgbehaviourtree\x64\behaviourtree.pdb"
+				OutputFile="..\..\pfbehaviourtree.dll"
+				ProgramDatabaseFile="..\..\out\debug8-x64\build\plgpfbehaviourtree\x64\pfbehaviourtree.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug9-x64\build\plgbehaviourtree\x64\plgbehaviourtree.lib"
+				ImportLibrary="..\..\out\debug8-x64\build\plgpfbehaviourtree\x64\plgpfbehaviourtree.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -529,10 +529,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\plgbehaviourtree\plgbehaviourtree.tlb"/>
+				TypeLibraryName="..\..\out\debug8-x64\build\plgpfbehaviourtree\plgpfbehaviourtree.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\debug8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8-x64\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -540,8 +540,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -550,8 +550,8 @@
 		</Configuration>
       		<Configuration
 			Name="DebugWithDlls|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\plgbehaviourtree\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\plgbehaviourtree\"
+			OutputDirectory="..\..\out\debug8-x64\build\plgpfbehaviourtree\"
+			IntermediateDirectory="..\..\out\debug8-x64\build\plgpfbehaviourtree\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -562,14 +562,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9-x64\build\plgbehaviourtree\x64\behaviourtree.pdb"
+				ProgramDataBaseFileName="..\..\out\debug8-x64\build\plgpfbehaviourtree\x64\pfbehaviourtree.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\plgbehaviourtree\plgbehaviourtree.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\plgbehaviourtree\"
-				ObjectFile="..\..\out\debug9-x64\build\plgbehaviourtree\"
+				PrecompiledHeaderFile="..\..\out\debug8-x64\build\plgpfbehaviourtree\plgpfbehaviourtree.pch"
+				AssemblerListingLocation="..\..\out\debug8-x64\build\plgpfbehaviourtree\"
+				ObjectFile="..\..\out\debug8-x64\build\plgpfbehaviourtree\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -584,15 +584,15 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\behaviourtree.dll"
-				ProgramDatabaseFile="..\..\out\debug9-x64\build\plgbehaviourtree\x64\behaviourtree.pdb"
+				OutputFile="..\..\pfbehaviourtree.dll"
+				ProgramDatabaseFile="..\..\out\debug8-x64\build\plgpfbehaviourtree\x64\pfbehaviourtree.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug9-x64\build\plgbehaviourtree\x64\plgbehaviourtree.lib"
+				ImportLibrary="..\..\out\debug8-x64\build\plgpfbehaviourtree\x64\plgpfbehaviourtree.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -604,10 +604,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\plgbehaviourtree\plgbehaviourtree.tlb"/>
+				TypeLibraryName="..\..\out\debug8-x64\build\plgpfbehaviourtree\plgpfbehaviourtree.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\debug8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8-x64\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -615,8 +615,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -632,40 +632,28 @@
 				RelativePath="..\..\msvc\plugin_impl.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\btaction.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\condition_parametercheck.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\condition_triggerfired.cpp">
+				RelativePath="..\..\plugins\propclass\behaviourtree\behaviourtree.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\btaction.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\condition_parametercheck.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\condition_triggerfired.h">
+				RelativePath="..\..\plugins\propclass\behaviourtree\behaviourtree.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\plgbehaviourtree.rc">
+				RelativePath="..\..\msvc\plgpfbehaviourtree.rc">
 			</File>
 		</Filter>
 		<Filter
 			Name="Other Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\behaviourtree.csplugin">
+				RelativePath="..\..\plugins\propclass\behaviourtree\pfbehaviourtree.csplugin">
 			</File>
 		</Filter>
 	</Files>
