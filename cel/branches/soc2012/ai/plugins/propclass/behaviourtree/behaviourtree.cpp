@@ -21,7 +21,7 @@
 #include <iutil/comp.h>
 #include <iutil/plugin.h>
 
-#include "plugins/tools/behaviourtree/behaviourtree.h"
+#include "plugins/propclass/behaviourtree/behaviourtree.h"
 
 //---------------------------------------------------------------------------
 
@@ -43,6 +43,8 @@ celPcBehaviourTree::celPcBehaviourTree (iObjectRegistry* object_reg)
   //}                                               
   //tree_params = new celOneParameterBlock ();
   //tree_params->SetParameterDef (id_updaterate);
+
+  celPcBehaviourTree::object_reg = object_reg;
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
