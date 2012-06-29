@@ -10,6 +10,7 @@
 #include <propclass/input.h>
 #include <physicallayer/propclas.h>
 #include <celtool/stdparams.h>
+#include "celtool/stdpcimp.h"
 
 #include "app.h"
 #include "behave.h"
@@ -358,8 +359,38 @@ void MainApp::CreateBehaviourTree ()
   if (player_entity)
   { 
     csRef<iBTNode> tree = celQueryPropertyClassEntity<iBTNode> (player_entity);
-    tree->AddChild(root_node);
-    tree->Execute(params);
+    csRef<iCelPropertyClass> tree_propclass = scfQueryInterface<iCelPropertyClass> (tree);
+    tree_propclass->SetProperty(pl->FetchStringID("update rate"), long(3));   
+    tree_propclass->SetProperty(pl->FetchStringID("root node"), root_node);  
+    tree_propclass->SetProperty(pl->FetchStringID("tree name"), "Example Tree");
+
+    celData result;  
+    tree_propclass->PerformAction(pl->FetchStringID("BT Start"), params, result);
+
+    long update_rate = 
+        tree_propclass->GetPropertyLongByID(pl->FetchStringID("update rate")); 
+    long tree_status = 
+        tree_propclass->GetPropertyLongByID(pl->FetchStringID("tree status"));
+    const char* tree_name = 
+        tree_propclass->GetPropertyStringByID(pl->FetchStringID("tree name"));
+    csRef<iBase> root_node_base = 
+        tree_propclass->GetPropertyIBaseByID(pl->FetchStringID("root node"));
+    csRef<iBTNode> root_node = scfQueryInterface<iBTNode> (root_node_base);
+    int root_node_status = root_node->GetStatus(); 
+
+    csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+        "appbttest",
+        "Tree %s: Status=%i, Update Rate=%i \n Root Node: Status=%i", 
+        tree_name, tree_status, update_rate, root_node_status);  
+
+    tree_propclass->PerformAction(pl->FetchStringID("BT Interrupt"), params, result);
+    tree_status = tree_propclass->GetPropertyLongByID(pl->FetchStringID("tree status"));   
+    if (tree_status == BT_NOT_STARTED)
+    {
+      csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+          "appbttest",
+          "Tree Interrupted Succesfully");  
+    }
   }
   else
   {
