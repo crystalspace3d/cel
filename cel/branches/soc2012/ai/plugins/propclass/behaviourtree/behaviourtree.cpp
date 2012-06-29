@@ -29,46 +29,130 @@ CEL_IMPLEMENT_FACTORY_ALT (BehaviourTree, "pclogic.behaviourtree", "pcbehaviourt
 
 //---------------------------------------------------------------------------
 
-//csStringID celPcBehaviourTree::id_updaterate = csInvalidStringID;
-
 PropertyHolder celPcBehaviourTree::propinfo;
 
 celPcBehaviourTree::celPcBehaviourTree (iObjectRegistry* object_reg) 
   : scfImplementationType (this, object_reg)                                                                             
 {
-  // Not needed?    
-  //if (id_updaterate == csInvalidStringID)
-  //{
-  //  id_updaterate = pl->FetchStringID ("updaterate");
-  //}                                               
-  //tree_params = new celOneParameterBlock ();
-  //tree_params->SetParameterDef (id_updaterate);
-
   celPcBehaviourTree::object_reg = object_reg;
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    SetActionMask ("cel.behaviourtree.action.");
-    AddAction (action_setrootnode, "SetRootNode");
-  };             
+    SetActionMask ("cel.logic.behaviourtree.action.");
+    AddAction (action_start, "BT Start");
+    AddAction (action_interrupt, "BT Interrupt");
+  }
 
-  propinfo.SetCount (1);
+  propinfo.SetCount (4);
   AddProperty (propid_updaterate, "update rate",
   	CEL_DATA_LONG, false, "Frequency of updates/nodes parsed in tree.", 0);  
+  AddProperty (propid_treestatus, "tree status",
+  	CEL_DATA_LONG, false, "Current status of tree.", 0); 
+  AddProperty (propid_treename, "tree name",
+  	CEL_DATA_STRING, false, "The name of the tree.", 0);  
+  AddProperty (propid_rootnode, "root node",
+  	CEL_DATA_IBASE, false, "The root node of the tree.", 0);  
                
 
   status = BT_NOT_STARTED;  
-  name = "un-named behaviour tree";      
+  name  = "un-named behaviour tree";      
   update_rate = 1;                       
+}
+
+bool celPcBehaviourTree::PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret)
+{
+  switch (idx) 
+  {
+    case action_start:
+      Execute (params);
+      ret.Set (status);
+      return true;
+    case action_interrupt:
+      stack.Empty ();
+      pl->RemoveCallbackEveryFrame((iCelTimerListener*)this, CEL_EVENT_PRE);
+      status = BT_NOT_STARTED;
+      ret.Set (status);
+      return true;    
+  }
+  return false;
 }
 
 bool celPcBehaviourTree::SetPropertyIndexed (int idx, long value)
 {
-  if (idx == propid_updaterate)
+  switch (idx) 
   {
-    update_rate = value;
+    case propid_updaterate:
+      update_rate = value;
+      return true;
+    case propid_treestatus:
+      if (value < 5)
+      { 
+        SetStatus(BTStatus(value));
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+  }
+  return false;
+}
+
+bool celPcBehaviourTree::SetPropertyIndexed (int idx, const char* value)
+{
+  if (idx == propid_treename)
+  {
+    SetName(value);
     return true;
+  }
+  return false;
+}
+
+bool celPcBehaviourTree::SetPropertyIndexed (int idx, iBase* ibase)
+{
+  if (idx == propid_rootnode)
+  {
+    csRef<iBTNode> node = scfQueryInterface<iBTNode> (ibase);
+    AddChild(node);
+    return true;
+  }
+  return false;
+}
+
+bool celPcBehaviourTree::GetPropertyIndexed (int idx, long& value)
+{
+  switch (idx) 
+  {
+    case propid_updaterate:
+      value = update_rate;
+      return true;
+    case propid_treestatus:
+      value = GetStatus();
+      return true;
+  }
+  return false;
+}
+
+bool celPcBehaviourTree::GetPropertyIndexed (int idx, const char*& value)
+{
+  if (idx == propid_treename)
+  {
+    value = GetName();
+    return true;
+  }
+  return false;
+}
+
+bool celPcBehaviourTree::GetPropertyIndexed (int idx, iBase*& ibase)
+{
+  if (idx == propid_rootnode)
+  {
+    if (!stack.IsEmpty())
+    {	
+      ibase = stack.Get(0);
+      return true;
+    }
   }
   return false;
 }
@@ -137,7 +221,7 @@ void celPcBehaviourTree::TickEveryFrame ()
         {
           csReport(object_reg, CS_REPORTER_SEVERITY_ERROR,
               "pclogic.behaviourtree",
-              "Behaviour tree has exited due to an unhandled unexpected error");
+              "Behaviour tree (%s) has exited due to an unhandled unexpected error", name.GetData());
         }
 	    }
     }

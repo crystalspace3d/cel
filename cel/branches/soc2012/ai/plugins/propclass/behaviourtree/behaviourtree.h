@@ -48,22 +48,24 @@ private:
   csRefArray<iBTNode> stack;
   int update_rate;
 
-  // For propclass actions
+  // For propclass actions.
   enum actionids
   {
-    action_setrootnode = 0
+    action_start = 0,
+    action_interrupt
   };
 
   // For propclass properties.
   enum propids
   {
-    propid_updaterate = 0
+    propid_updaterate = 0,
+    propid_treestatus,
+    propid_treename,
+    propid_rootnode
   };
 
   // Other propclass
   static PropertyHolder propinfo;
-  //static csStringID id_updaterate;
-  //celOneParameterBlock* tree_params;
 
 public:		
   celPcBehaviourTree (iObjectRegistry* object_reg);			
@@ -80,7 +82,13 @@ public:
   virtual void TickEveryFrame ();
 
   // Override celPcCommon
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params, celData& ret);
   virtual bool SetPropertyIndexed (int idx, long value);
+  virtual bool SetPropertyIndexed (int idx, const char* value);
+  virtual bool SetPropertyIndexed (int idx, iBase* ibase);
+  virtual bool GetPropertyIndexed (int idx, long& value);
+  virtual bool GetPropertyIndexed (int idx, const char*& value);
+  virtual bool GetPropertyIndexed (int idx, iBase*& ibase);
 };
 
 #endif // __CEL_TOOLS_BTACTION__

@@ -38,11 +38,11 @@
 */
 
 enum BTStatus{
-	BT_NOT_STARTED,			// Node has not yet started
-	BT_RUNNING,				// Node is currently executing
-	BT_SUCCESS,				// Node completed succesfully, making changes to state as expected
-	BT_FAIL_CLEAN,			// Node failed, but cleanly (typically with no changes to state)
-	BT_UNEXPECTED_ERROR	// Node failed unexpectedly, possibly changing state (should be handled by parent)
+	BT_NOT_STARTED = 0,			// Node has not yet started
+	BT_RUNNING,				      // Node is currently executing
+	BT_SUCCESS,				      // Node completed succesfully, making changes to state as expected
+	BT_FAIL_CLEAN,			    // Node failed, but cleanly (typically with no changes to state)
+	BT_UNEXPECTED_ERROR	    // Node failed unexpectedly, possibly changing state (should be handled by parent)
 };
 
 //-------------------------------------------------------------------------
