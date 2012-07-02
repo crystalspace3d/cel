@@ -46,7 +46,6 @@ celSequence::celSequence (const char* name,
   celSequence::pl = pl;
   celSequence::vc = vc;
   idx = csArrayItemNotFound;
-  deactivationTime = 0;
 }
 
 celSequence::~celSequence ()
@@ -83,8 +82,7 @@ void celSequence::Finish ()
 void celSequence::Abort ()
 {
   if (!IsRunning ()) return;
-  if (pl)
-    pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
   idx = csArrayItemNotFound;
   ops_in_progress.Empty ();
 }
@@ -134,8 +132,8 @@ void celSequence::Perform (csTicks rel)
   if (rel > total_time)
   {
     // Sequence has ended.
-    Abort ();
     FireSequenceCallbacks ();
+    Abort ();
     return;
   }
 }
@@ -148,23 +146,62 @@ void celSequence::TickEveryFrame ()
   Perform (rel);
 }
 
-void celSequence::Activate ()
+void celSequence::SaveState (iCelDataBuffer* databuf)
 {
-  if (deactivationTime == 0) return;
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  csTicks current_time = vc->GetCurrentTicks ();
-  // @@@ Problem with wrap around of ticks!
-  start_time += current_time - deactivationTime;
-  deactivationTime = 0;
+  databuf->Add ((uint32)(vc->GetCurrentTicks ()-start_time));
+
+  // Save all operations that are still in progress.
+  databuf->Add ((uint16)ops_in_progress.GetSize ());
+  size_t i;
+  for (i = 0 ; i < ops_in_progress.GetSize () ; i++)
+  {
+    databuf->Add ((uint32)ops_in_progress[i].idx);
+    ops_in_progress[i].seqop->Save (databuf);
+  }
 }
 
-void celSequence::Deactivate ()
+bool celSequence::LoadState (iCelDataBuffer* databuf)
 {
-  if (deactivationTime != 0) return;
-  deactivationTime = vc->GetCurrentTicks ();
-  if (!deactivationTime) deactivationTime++;	// Correction in rare case this would be 0.
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  // First start the sequence.
+  // @@@
+  // Params need to be saved and loaded for correct operation
+  iCelParameterBlock* params = 0;
+  Start (0, params);
+
+  csTicks current_time = vc->GetCurrentTicks ();
+  start_time = current_time - databuf->GetUInt32 ();
+  //csTicks rel = current_time - start_time;
+
+  // When loading state it is important to realize that we assume
+  // that the objects on which this sequence operates will load
+  // their own state on their own. So we don't have to actually
+  // perform the already performed operations again here. We just
+  // have to setup the right datastructures so that we can resume
+  // de sequence where we left off.
+
+  uint16 cnt_op = databuf->GetUInt16 ();
+  size_t i;
+  idx = 0;
+  for (i = 0 ; i < cnt_op ; i++)
+  {
+    uint32 id = databuf->GetUInt32 ();
+    if (id > idx) idx = id;
+    if (!seqops[id].seqop->Load (databuf))
+      return false;
+    ops_in_progress.Push (seqops[id]);
+  }
+#if 0
+  // Find all operations that have to be performed.
+  idx = 0;
+  while (idx < seqops.GetSize () && rel >= seqops[idx].start)
+  {
+    if (rel < seqops[idx].end)
+      ops_in_progress.Push (seqops[idx]);
+    idx++;
+  }
+#endif
+
+  return true;
 }
 
 void celSequence::AddSequenceCallback (iCelSequenceCallback* cb)
@@ -232,13 +269,6 @@ void celSequenceFactory::AddSeqOpFactory (iSeqOpFactory* seqopfact,
   seqops.Push (s);
 }
 
-void celSequenceFactory::UpdateSeqOpFactory (size_t idx,
-    iSeqOpFactory* seqopfact, const char* duration)
-{
-  seqops[idx].seqop = seqopfact;
-  seqops[idx].duration = duration;
-}
-
 void celSequenceFactory::AddDelay (const char* delay)
 {
   celSeqOpFact s;
@@ -256,7 +286,7 @@ static uint ToUInt (const char* s)
 }
 
 csPtr<iCelSequence> celSequenceFactory::CreateSequence (
-	iQuest* q, iCelParameterBlock* params)
+	const celParams& params)
 {
   celSequence* seq = new celSequence (name, 
     csQueryRegistry<iCelPlLayer> (object_reg), 
@@ -270,9 +300,7 @@ csPtr<iCelSequence> celSequenceFactory::CreateSequence (
     csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
       (object_reg, "cel.parameters.manager");
 
-    const char* durationPar = pm->ResolveParameter (params, seqops[i].duration);
-    csTicks duration = ToUInt (durationPar);
-
+    csTicks duration = ToUInt (pm->ResolveParameter (params, seqops[i].duration));
     if (total_time + duration > max_time) max_time = total_time + duration;
     if (seqops[i].seqop)
     {

@@ -63,23 +63,15 @@ public:
   celTransformSeqOpFactory (celTransformSeqOpType* type);
   virtual ~celTransformSeqOpFactory ();
 
-  virtual csPtr<iSeqOp> CreateSeqOp (iCelParameterBlock* params);
-  virtual iSeqOpType* GetSeqOpType () const { return type; }
-  virtual bool Save (iDocumentNode* node);
+  virtual csPtr<iSeqOp> CreateSeqOp (
+      const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iTransformQuestSeqOpFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual const char* GetEntity () const { return entity_par; }
-  virtual const char* GetTag () const { return tag_par; }
   virtual void SetVectorParameter (const char* vectorx, const char* vectory,
   	const char* vectorz);
-  virtual const char* GetVectorX () const { return vectorx_par; }
-  virtual const char* GetVectorY () const { return vectory_par; }
-  virtual const char* GetVectorZ () const { return vectorz_par; }
   virtual void SetRotationParameter (int axis, const char* angle);
-  virtual int GetRotationAxis () const { return rot_axis; }
-  virtual const char* GetRotationAngle () const { return rot_angle_par; }
 };
 
 /**
@@ -103,7 +95,6 @@ private:
   csRef<iParameter> vectory_param;
   csRef<iParameter> vectorz_param;
   csRef<iParameter> rot_angle_param;
-  csRef<iParameterManager> pm;
 
   csVector3 start;
   csMatrix3 start_matrix;
@@ -113,12 +104,14 @@ private:
 
 public:
   celTransformSeqOp (celTransformSeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* vectorx, const char* vectory, const char* vectorz,
 	int axis, const char* angle);
   virtual ~celTransformSeqOp ();
 
+  virtual bool Load (iCelDataBuffer* databuf);
+  virtual void Save (iCelDataBuffer* databuf);
   virtual void Init (iCelParameterBlock* params);
   virtual void Do (float time, iCelParameterBlock* params);
 };

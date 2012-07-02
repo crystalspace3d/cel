@@ -53,17 +53,11 @@ celDebugPrintSeqOpFactory::~celDebugPrintSeqOpFactory ()
 }
 
 csPtr<iSeqOp> celDebugPrintSeqOpFactory::CreateSeqOp (
-    iCelParameterBlock* params)
+    const celParams& params)
 {
   celDebugPrintSeqOp* seqop = new celDebugPrintSeqOp (type,
   	params, msg_par);
   return seqop;
-}
-
-bool celDebugPrintSeqOpFactory::Save (iDocumentNode* node)
-{
-  node->SetAttribute ("message", msg_par);
-  return true;
 }
 
 bool celDebugPrintSeqOpFactory::Load (iDocumentNode* node)
@@ -89,7 +83,7 @@ void celDebugPrintSeqOpFactory::SetMessageParameter (const char* msg)
 
 celDebugPrintSeqOp::celDebugPrintSeqOp (
 	celDebugPrintSeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* msg_par) : scfImplementationType (this)
 {
   celDebugPrintSeqOp::type = type;

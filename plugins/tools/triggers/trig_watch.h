@@ -67,28 +67,17 @@ public:
   celWatchTriggerFactory (celWatchTriggerType* type);
   virtual ~celWatchTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
-  virtual iTriggerType* GetTriggerType () const { return type; }
-  virtual bool Save (iDocumentNode* node);
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iWatchTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual const char* GetEntity () const { return entity_par; }
-  virtual const char* GetTag () const { return tag_par; }
   virtual void SetTargetEntityParameter (const char* entity,
       const char* tag = 0);
-  virtual const char* GetTargetEntity () const { return target_entity_par; }
-  virtual const char* GetTargetTag () const { return target_tag_par; }
   virtual void SetChecktimeParameter (const char* time);
-  virtual const char* GetChecktime () const { return time_par; }
   virtual void SetRadiusParameter (const char* radius);
-  virtual const char* GetRadius () const { return radius_par; }
   virtual void SetOffsetParameter (const char* offsetx,
       const char* offsety, const char* offsetz);
-  virtual const char* GetOffsetX () const { return offsetx_par; }
-  virtual const char* GetOffsetY () const { return offsety_par; }
-  virtual const char* GetOffsetZ () const { return offsetz_par; }
 };
 
 /**
@@ -101,10 +90,8 @@ private:
   csRef<celWatchTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
-  uint entityID;
   csString tag;
   csString target_entity;
-  uint target_entityID;
   csString target_tag;
   csTicks time;
   float radius, sqradius;
@@ -118,7 +105,7 @@ private:
 
 public:
   celWatchTrigger (celWatchTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
 	const char* time_par, const char* radius_par,
@@ -134,9 +121,8 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
-
-  virtual void Activate () { ActivateTrigger (); }
-  virtual void Deactivate () { DeactivateTrigger (); }
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 };
 
 #endif // __CEL_TOOLS_TRIG_WATCH__

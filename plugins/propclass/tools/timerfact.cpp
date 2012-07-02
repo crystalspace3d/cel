@@ -66,9 +66,9 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
     id_repeat = pl->FetchStringID ("repeat");
     id_name = pl->FetchStringID ("name");
   }
-  params.AttachNew (new celVariableParameterBlock (2));
-  params->AddParameter (id_elapsedticks);
-  params->AddParameter (id_currentticks);
+  params = new celGenericParameterBlock (2);
+  params->SetParameterDef (0, id_elapsedticks);
+  params->SetParameterDef (1, id_currentticks);
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
@@ -78,38 +78,10 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
     AddAction (action_wakeupframe, "WakeUpFrame");
     AddAction (action_clear, "Clear");
   }
-
-  deactivateTime = 0;
 }
 
 celPcTimer::~celPcTimer ()
 {
-}
-
-void celPcTimer::Activate ()
-{
-  if (deactivateTime == 0) return;
-  // @@@ wrap around of current ticks!
-  csTicks time = vc->GetCurrentTicks ();
-  for (size_t i = 0 ; i < timer_events.GetSize () ; i++)
-  {
-    timer_events[i].firetime += time - deactivateTime;
-    pl->CallbackOnce ((iCelTimerListener*)this,
-      timer_events[i].firetime - time, CEL_EVENT_PRE);
-  }
-  if (wakeupframe)
-    pl->CallbackEveryFrame ((iCelTimerListener*)this, whereframe);
-  deactivateTime = 0;
-}
-
-void celPcTimer::Deactivate ()
-{
-  if (deactivateTime != 0) return;
-
-  deactivateTime = vc->GetCurrentTicks ();
-  if (deactivateTime == 0) deactivateTime++;	// In the VERY rare event that this would be 0 we slightly correct it.
-  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, whereframe);
 }
 
 bool celPcTimer::PerformActionIndexed (int idx,
@@ -120,12 +92,11 @@ bool celPcTimer::PerformActionIndexed (int idx,
   {
     case action_wakeup:
       {
-	long time;
-	if (!Fetch (time, params, id_time)) return false;
-	bool repeat;
-	if (!Fetch (repeat, params, id_repeat)) return false;
-	csString name;
-	if (!Fetch (name, params, id_name, true, "")) return false;
+        CEL_FETCH_LONG_PAR (time,params,id_time);
+        if (!p_time) return false;
+        CEL_FETCH_BOOL_PAR (repeat,params,id_repeat);
+        if (!p_repeat) return false;
+        CEL_FETCH_STRING_PAR (name,params,id_name);
         WakeUp ((csTicks)time, repeat, name);
         return true;
       }
@@ -134,14 +105,41 @@ bool celPcTimer::PerformActionIndexed (int idx,
       return true;
     case action_clear:
       {
-	csString name;
-	if (!Fetch (name, params, id_name, true, "")) return false;
+        CEL_FETCH_STRING_PAR (name,params,id_name);
         Clear (name);
       }
       return true;
     default:
       return false;
   }
+}
+
+#define TIMER_SERIAL 3
+
+csPtr<iCelDataBuffer> celPcTimer::Save ()
+{
+  //@@@ BROKEN!
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TIMER_SERIAL);
+  databuf->Add (enabled);
+  //databuf->Add ((int32)wakeup);
+  //databuf->Add (repeat);
+  databuf->Add (wakeupframe);
+  //databuf->Add (wakeuponce);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcTimer::Load (iCelDataBuffer* databuf)
+{
+  //@@@ BROKEN!
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != TIMER_SERIAL) return false;
+  enabled = databuf->GetBool ();
+  //wakeup = databuf->GetInt32 ();
+  //repeat = databuf->GetBool ();
+  wakeupframe = databuf->GetBool ();
+  //wakeuponce = databuf->GetBool ();
+
+  return true;
 }
 
 void celPcTimer::Clear (const char* name)
@@ -231,7 +229,7 @@ void celPcTimer::TickEveryFrame ()
     if (!dispatcher_wakeupframe)
     {
       dispatcher_wakeupframe = entity->QueryMessageChannel ()
-        ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.timer.wakeup.frame"));
+        ->CreateMessageDispatcher (this, "cel.timer.wakeup.frame");
       if (!dispatcher_wakeupframe) return;
     }
     dispatcher_wakeupframe->SendMessage (params);
@@ -267,7 +265,7 @@ void celPcTimer::TickOnce ()
       csString msg = "cel.timer.";
       msg += te.name;
       te.dispatcher = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	    this, pl->FetchStringID (msg));
+	    this, msg);
       if (!te.dispatcher) return;
     }
     te.dispatcher->SendMessage (0, 0);

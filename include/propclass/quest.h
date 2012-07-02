@@ -25,8 +25,6 @@
 
 #include "tools/questmanager.h"
 
-struct iCelParameterBlock;
-
 /**
  * This property class represents a quest. It uses the quest manager
  * to manage quests. Note that this property class will automatically
@@ -55,7 +53,7 @@ struct iPcQuest : public virtual iBase
    * \return false if quest factory could not be found or if the
    * quest could not be created for another reason.
    */
-  virtual bool NewQuest (const char* name, iCelParameterBlock* params) = 0;
+  virtual bool NewQuest (const char* name, celParams& params) = 0;
 
   /**
    * Stop the current quest. Does nothing if there is no quest.

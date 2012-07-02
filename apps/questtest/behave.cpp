@@ -125,7 +125,7 @@ void BehaviourPlayer::GetActorMove ()
 {
   if (!pcactormove)
   {
-    pcactormove = celQueryPropertyClassEntity<iPcActorMove> (entity);
+    pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
   }
 }
 
@@ -133,7 +133,7 @@ void BehaviourPlayer::GetInventory ()
 {
   if (!pcinventory)
   {
-    pcinventory = celQueryPropertyClassEntity<iPcInventory> (entity);
+    pcinventory = CEL_QUERY_PROPCLASS_ENT (entity, iPcInventory);
   }
 }
 
@@ -141,7 +141,7 @@ void BehaviourPlayer::GetMesh ()
 {
   if (!pcmesh)
   {
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -167,7 +167,8 @@ void BehaviourPlayer::Drop ()
   }
   iCelEntity* child = pcinventory->GetEntity (0);
   pcinventory->RemoveEntity (child);
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (child);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (child,
+      iPcLinearMovement);
   if (pclinmove)
   {
     GetMesh ();
@@ -179,7 +180,7 @@ void BehaviourPlayer::Drop ()
     iSector* sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
     pclinmove->SetPosition (pos, 0, sector);
     pclinmove->SetBodyVelocity (csVector3 (0, .1f, 0));
-    csRef<iPcMesh> pcmesh_child = celQueryPropertyClassEntity<iPcMesh> (child);
+    csRef<iPcMesh> pcmesh_child = CEL_QUERY_PROPCLASS_ENT (child, iPcMesh);
     if (pcmesh_child) pcmesh_child->Show ();
   }
 }
@@ -241,11 +242,11 @@ BehaviourBox::BehaviourBox (iCelEntity* entity, BehaviourLayer* bl,
 void BehaviourBox::PickUp ()
 {
   if (!player) return;
-  csRef<iPcInventory> pcinv = celQueryPropertyClassEntity<iPcInventory> (player);
+  csRef<iPcInventory> pcinv = CEL_QUERY_PROPCLASS_ENT (player, iPcInventory);
   if (pcinv)
   {
     pcinv->AddEntity (entity);
-    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     if (pcmesh) pcmesh->Hide ();
   }
 }
@@ -254,10 +255,10 @@ void BehaviourBox::GetPlayer ()
 {
   if (!pcmeshsel || !player)
   {
-    pcmeshsel = celQueryPropertyClassEntity<iPcMeshSelect> (entity);
+    pcmeshsel = CEL_QUERY_PROPCLASS_ENT (entity, iPcMeshSelect);
     player = pl->FindEntity ("player");
     if (!player) return;
-    csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (player);
+    csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player, iPcCamera);
     if (pccamera)
       pcmeshsel->SetCamera (pccamera);
   }
@@ -309,7 +310,7 @@ static bool GetPropLong (iPcProperties* pcprop, const char* prefix, int i, long&
 
 void BehaviourBadOne::ReadPath ()
 {
-  csRef<iPcProperties> pcprop = celQueryPropertyClassEntity<iPcProperties> (entity);
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
 
   // Count the number of points we have.
   int count = 0;
@@ -339,7 +340,8 @@ void BehaviourBadOne::ReadPath ()
     totaltime += time;
   }
 
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcLinearMovement);
   if (pclinmove)
   {
     for (i = 0 ; i < count ; i++)
@@ -351,7 +353,8 @@ void BehaviourBadOne::ReadPath ()
 
 void BehaviourBadOne::Restart ()
 {
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcLinearMovement);
   if (pclinmove)
   {
     pclinmove->SetPath (path);

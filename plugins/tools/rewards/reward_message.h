@@ -62,24 +62,15 @@ public:
   celMessageRewardFactory (celMessageRewardType* type);
   virtual ~celMessageRewardFactory () {};
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
-  virtual iRewardType* GetRewardType () const { return type; }
-  virtual bool Save (iDocumentNode* node);
+  virtual csPtr<iReward> CreateReward (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iMessageRewardFactory -----------------------
+  //----------------- iMessageQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
-  virtual const char* GetEntity () const { return entity_par; }
   virtual void SetClassParameter (const char* ent_class);
-  virtual const char* GetClass () const { return class_par; }
   virtual void SetIDParameter (const char* id);
-  virtual const char* GetID () const { return id_par; }
-  virtual bool AddParameter (celDataType type, csStringID id, const char* value);
-  virtual size_t GetParameterCount () const { return parameters.GetSize (); }
-  virtual csStringID GetParameterID (size_t idx) const { return parameters[idx].id; }
-  virtual const char* GetParameterValue (size_t idx) const { return parameters[idx].value; }
-  virtual celDataType GetParameterType (size_t idx) const { return parameters[idx].type; }
-  virtual void RemoveParameter (csStringID id);
+  virtual void AddParameter (celDataType type, csStringID id,
+      const char* name, const char* value);
 };
 
 /**
@@ -104,7 +95,7 @@ private:
 
 public:
   celMessageReward (celMessageRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par,
 	const char* id_par,
 	const csArray<celParSpec>& parameters);
@@ -139,7 +130,7 @@ private:
 
 public:
   celClassMessageReward (celMessageRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* class_par,
 	const char* id_par,
 	const csArray<celParSpec>& parameters);

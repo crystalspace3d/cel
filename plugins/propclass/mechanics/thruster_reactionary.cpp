@@ -31,6 +31,7 @@
 #include "iengine/movable.h"
 #include "ivaria/dynamics.h"
 
+#include "plugins/propclass/mechanics/common.h"
 #include "plugins/propclass/mechanics/thruster_reactionary.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -79,26 +80,79 @@ celPcMechanicsThrusterReactionary::~celPcMechanicsThrusterReactionary ()
 {
 }
 
+#define MECHSYS_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcMechanicsThrusterReactionary::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MECHSYS_SERIAL);
+  csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (
+      mechanicsobject);
+  databuf->Add (pc);
+  databuf->Add (position);
+  databuf->Add (orientation);
+  databuf->Add (lastforceid);
+  databuf->Add (maxthrust);
+  databuf->Add (thrust);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcMechanicsThrusterReactionary::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != MECHSYS_SERIAL)
+  {
+    CS_REPORT(ERROR,"serialnr != MECHSYS_SERIAL.  Cannot load.");
+    return false;
+  }
+  csRef<iCelPropertyClass> pc = databuf->GetPC ();
+  mechanicsobject = scfQueryInterface<iPcMechanicsObject> (pc);
+  databuf->GetVector3 (position);
+  databuf->GetVector3 (orientation);
+  lastforceid = databuf->GetUInt32 ();
+  maxthrust = databuf->GetFloat ();
+  thrust = databuf->GetFloat ();
+  return true;
+}
+
 bool celPcMechanicsThrusterReactionary::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
   if (idx == action_initthruster)
   {
-    csString objectpctag;
-    if (!Fetch (objectpctag, params, param_object)) return false;
-    csRef<iPcMechanicsObject> mechobj = 0;
-    mechobj = celQueryPropertyClassTagEntity<iPcMechanicsObject> (GetEntity (), objectpctag);
-    assert (mechobj);
-    SetMechanicsObject (mechobj);
-    csVector3 position, orientation;
-    if (!Fetch (position, params, param_position)) return false;
-    SetPosition (position);
-    if (!Fetch (orientation, params, param_orientation)) return false;
-    SetOrientation (orientation);
-    float maxthrust;
-    if (!Fetch (maxthrust, params, param_maxthrust)) return false;
-    SetMaxThrust (maxthrust);
+    CEL_FETCH_STRING_PAR (objectpctag,params,param_object);
+    if (p_objectpctag)
+    {
+      csRef<iPcMechanicsObject> mechobj = 0;
+      mechobj = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),
+      	iPcMechanicsObject,objectpctag);
+      assert (mechobj);
+      SetMechanicsObject (mechobj);
+    }
+    else
+    {
+      return false;
+    }
+    CEL_FETCH_VECTOR3_PAR (position,params,param_position);
+    if (p_position)
+      SetPosition (position);
+    else
+      CS_REPORT(ERROR,"Couldn't get position for thruster!");
+    CEL_FETCH_VECTOR3_PAR (orientation,params,param_orientation);
+    if (p_orientation)
+    {
+      fflush (stdout);
+      SetOrientation (orientation);
+    }
+    else
+    {
+      CS_REPORT(ERROR,"Couldn't get orientation for thruster!");
+    }
+    CEL_FETCH_FLOAT_PAR (maxthrust,params,param_maxthrust);
+    if (p_maxthrust)
+      SetMaxThrust (maxthrust);
+    else
+      CS_REPORT(ERROR,"Couldn't get maxthrust for thruster!");
     return true;
   }
   return false;

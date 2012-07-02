@@ -57,16 +57,12 @@ public:
   celCsSequenceRewardFactory (celCsSequenceRewardType* type);
   virtual ~celCsSequenceRewardFactory ();
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
-  virtual iRewardType* GetRewardType () const { return type; }
-  virtual bool Save (iDocumentNode* node);
+  virtual csPtr<iReward> CreateReward (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iCsSequenceRewardFactory -----------------------
   virtual void SetSequenceParameter (const char* sequence);
-  virtual const char* GetSequence () const { return sequence_par; }
   virtual void SetDelayParameter (const char* delay);
-  virtual const char* GetDelay () const { return delay_par; }
 };
 
 /**
@@ -83,7 +79,7 @@ private:
 
 public:
   celCsSequenceReward (celCsSequenceRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* sequence_par,
 	const char* delay_par);
   virtual ~celCsSequenceReward ();

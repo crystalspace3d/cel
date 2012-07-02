@@ -56,14 +56,11 @@ public:
   virtual ~celDebugPrintSeqOpFactory ();
 
   virtual csPtr<iSeqOp> CreateSeqOp (
-      iCelParameterBlock* params);
-  virtual iSeqOpType* GetSeqOpType () const { return type; }
-  virtual bool Save (iDocumentNode* node);
+      const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iDebugPrintSeqOpFactory -----------------------
   virtual void SetMessageParameter (const char* msg);
-  virtual const char* GetMessage () const { return msg_par; }
 };
 
 /**
@@ -78,10 +75,12 @@ private:
 
 public:
   celDebugPrintSeqOp (celDebugPrintSeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* msg_par);
   virtual ~celDebugPrintSeqOp ();
 
+  virtual bool Load (iCelDataBuffer*) { return true; }
+  virtual void Save (iCelDataBuffer*) { }
   virtual void Init (iCelParameterBlock* params) { }
   virtual void Do (float time, iCelParameterBlock* params);
 };

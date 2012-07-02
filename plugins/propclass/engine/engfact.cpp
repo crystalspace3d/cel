@@ -59,6 +59,25 @@
 
 CEL_IMPLEMENT_FACTORY_ALT (Region, "pcworld.region", "pcregion")
 
+void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcworld.region",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+}
+
 //---------------------------------------------------------------------------
 
 PropertyHolder celPcRegion::propinfo;
@@ -98,6 +117,68 @@ celPcRegion::~celPcRegion ()
   delete[] regionname;
 }
 
+#define REGION_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcRegion::SaveFirstPass ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (REGION_SERIAL);
+
+  databuf->Add (empty_sector);
+  databuf->Add (worlddir);
+  databuf->Add (worldfile);
+  databuf->Add (regionname);
+  databuf->Add (loaded);
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcRegion::LoadFirstPass (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != REGION_SERIAL)
+  {
+    EngReport (object_reg, "serialnr != REGION_SERIAL.  Cannot load.");
+    return false;
+  }
+
+  Unload ();
+  delete[] worlddir; worlddir = 0;
+  delete[] worldfile; worldfile = 0;
+  delete[] regionname; regionname = 0;
+
+  empty_sector = databuf->GetBool ();
+  worlddir = csStrNew (databuf->GetString ()->GetData ());
+  worldfile = csStrNew (databuf->GetString ()->GetData ());
+  regionname = csStrNew (databuf->GetString ()->GetData ());
+  bool load = databuf->GetBool ();
+
+  if (load && !Load (false))
+  {
+    EngReport (object_reg,
+    	"Could not load the specified map into the region.  Cannot load.");
+    return false;
+  }
+
+  return true;
+}
+
+csPtr<iCelDataBuffer> celPcRegion::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (REGION_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcRegion::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != REGION_SERIAL)
+  {
+    EngReport (object_reg, "serialnr != REGION_SERIAL.  Cannot load.");
+    return false;
+  }
+  return true;
+}
+
 bool celPcRegion::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -109,7 +190,10 @@ bool celPcRegion::PerformActionIndexed (int idx,
       if ((empty_sector || worldfile) && regionname)
         Load ();
       else
-        return Error ("World filename or region name not set!\n");
+      {
+        printf ("World filename or region name not set!\n");
+        return false;
+      }
       return true;
     }
     case action_unload:
@@ -117,7 +201,10 @@ bool celPcRegion::PerformActionIndexed (int idx,
       if ((empty_sector || worldfile) && regionname)
         Unload ();
       else
-        return Error ("World filename or region name not set!\n");
+      {
+        printf ("World filename or region name not set!\n");
+        return false;
+      }
       return true;
     }
     default:
@@ -168,15 +255,24 @@ bool celPcRegion::Load (bool allow_entity_addon)
 {
   if (loaded)
   {
-    Error ("Entity '%s' already loaded.", entity->GetName ());
+    EngReport (object_reg,"Entity '%s' already loaded.", entity->GetName ());
     return true;
   }
   if (!empty_sector && !worlddir)
-    return Error ("World dir not specified.");
+  {
+    EngReport (object_reg, "World dir not specified.");
+    return false;
+  }
   if (!worldfile)
-    return Error ("World file not specified.");
+  {
+    EngReport (object_reg, "World file not specified.");
+    return false;
+  }
   if (!regionname)
-    return Error ("Region name not specified.");
+  {
+    EngReport (object_reg, "Region name not specified.");
+    return false;
+  }
 
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   CS_ASSERT (engine != 0);
@@ -221,9 +317,10 @@ bool celPcRegion::Load (bool allow_entity_addon)
 
   if (!ret->WasSuccessful())
   {
-    VFS->PopDir ();
-    return Error ("Could not load map file '%s/%s'.",
+    EngReport (object_reg, "Could not load map file '%s/%s'.",
     	worlddir, worldfile);
+    VFS->PopDir ();
+    return false;
   }
 
   engine->PrecacheDraw (cur_collection);

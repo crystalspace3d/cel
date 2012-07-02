@@ -104,13 +104,6 @@ public:
     virtual csStringID GetPropertyOrActionID(size_t arg0);
     virtual celDataType GetPropertyOrActionType(csStringID id);
     virtual bool IsPropertyReadOnly(csStringID arg0);
-    virtual iCelPositionInfo *QueryPositionInfo();
-    virtual void Activate();
-    virtual void Deactivate();
-    virtual void MarkBaseline();
-    virtual bool IsModifiedSinceBaseline() const;
-    virtual void SaveModifications(iCelCompactDataBufferWriter *buf, iStringSet *strings);
-    virtual void RestoreModifications(iCelCompactDataBufferReader *buf, csHash< csString,csStringID > const &strings);
     virtual void TickEveryFrame();
     virtual void TickOnce();
     virtual void MessageDispatcherRemoved(iMessageDispatcher *dispatcher);
@@ -148,7 +141,7 @@ private:
       return method;
     }
 private:
-    mutable swig::PyObject_var vtable[49];
+    mutable swig::PyObject_var vtable[42];
 #endif
 
 };
@@ -296,8 +289,6 @@ public:
     virtual ~SwigDirector_pyPcInventoryListener();
     virtual void AddChild(iPcInventory *inventory, iCelEntity *entity);
     virtual void RemoveChild(iPcInventory *inventory, iCelEntity *entity);
-    virtual void AddChildTemplate(iPcInventory *inventory, iCelEntityTemplate *tpl, int amount);
-    virtual void RemoveChildTemplate(iPcInventory *inventory, iCelEntityTemplate *tpl, int amount);
 
 
 /* Internal Director utilities */
@@ -331,7 +322,7 @@ private:
       return method;
     }
 private:
-    mutable swig::PyObject_var vtable[4];
+    mutable swig::PyObject_var vtable[2];
 #endif
 
 };

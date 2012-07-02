@@ -39,12 +39,9 @@ enum celAnimationName
  * it with pccommandinput and then in the behaviour layer send out
  * the appropriate calls here depending on the keys that are pressed.
  * This class is also aware of animation actions using animated meshes.
- * Note! Since behaviours are deprecated this property class can now also
- * listen to messages from pclinmove directly.
  *
  * This property class supports the following actions (add prefix 'cel.move.actor.action.'
  * if you want to access this action through a message):
- * - Subscribe: no parameters.
  * - SetSpeed: parameters 'movement' (float), 'running' (float),
  *   'rotation' (float) and 'jumping' (float).
  * - Forward: parameters 'start' (bool).
@@ -75,7 +72,7 @@ enum celAnimationName
  */
 struct iPcActorMove : public virtual iBase
 {
-  SCF_INTERFACE (iPcActorMove, 1, 0, 1);
+  SCF_INTERFACE (iPcActorMove, 1, 0, 0);
 
   /// Start/stop going forward.
   virtual void Forward (bool start) = 0;
@@ -183,25 +180,6 @@ struct iPcActorMove : public virtual iBase
   virtual void SetAnimation (const char *name, bool cycle = true) = 0;
   /// Set the mesh's animationname for internally used animations.
   virtual void SetAnimationMapping (celAnimationName idx, const char *name) = 0;
-
-  /**
-   * By default this property class will depend on the behaviour
-   * to listen to the pccommandinput property class and then call the
-   * right functions here. If you call this function this property class
-   * will itself listen to the correct messages.
-   * This property class will listen to the following messages:
-   *   - cel.input.forward.down
-   *   - cel.input.forward.up
-   *   - cel.input.backward.down
-   *   - cel.input.backward.up
-   *   - cel.input.rotateleft.down
-   *   - cel.input.rotateleft.up
-   *   - cel.input.rotateright.down
-   *   - cel.input.rotateright.up
-   *   - cel.input.jump.down
-   *   - cel.input.cammode.down
-   */
-  virtual void SubscribeMessages () = 0;
 };
 
 #endif // __CEL_PF_ACTORMOVE__

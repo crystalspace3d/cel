@@ -102,9 +102,11 @@ pcType * funcName (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
   CS_ASSERT (entity != 0);
   csRef<pcType> pclm;
   if (tagname)
-    pclm = celQueryPropertyClassTagEntity<pcType> (entity, tagname);
+    pclm = CEL_QUERY_PROPCLASS_TAG (
+      entity->GetPropertyClassList (), pcType, tagname);
   else
-    pclm = celQueryPropertyClassEntity<pcType> (entity);
+    pclm = CEL_QUERY_PROPCLASS (
+      entity->GetPropertyClassList (), pcType);
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc;
   if (tagname)
@@ -126,9 +128,11 @@ pcType * funcName (iCelEntity *entity, const char* tagname = 0 )
   CS_ASSERT (entity != 0);
   csRef<pcType> pc;
   if (tagname)
-    pc = celQueryPropertyClassTagEntity<pcType> (entity, tagname);
+    pc = CEL_QUERY_PROPCLASS_TAG (
+      entity->GetPropertyClassList (), pcType, tagname);
   else
-    pc = celQueryPropertyClassEntity<pcType> (entity);
+    pc = CEL_QUERY_PROPCLASS (
+      entity->GetPropertyClassList (), pcType);
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -171,6 +175,8 @@ INTERFACE_POST(pcType)
 //=============================================================================
 // RefCounted Objects
 //=============================================================================
+
+%feature("unref") celGenericParameterBlock "$this->DecRef();"
 
 //=============================================================================
 // Published interfaces and functions.
@@ -222,6 +228,10 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 }
 %}
 // fake arrays to handle stuff managed by the physical layer.
+// iCelEntityTemplatePlFakeArray
+CEL_FAKE_ARRAY(Pl,iCelEntityTemplate,GetEntityTemplateCount,
+	GetEntityTemplate,FindEntityTemplate,RemoveEntityTemplate,__noappend__)
+
 // iCelEntityPlFakeArray
 CEL_FAKE_ARRAY(Pl,iCelEntity,GetEntityCount,GetEntityByIndex,FindEntity,RemoveEntity,__noappend__)
 
@@ -332,6 +342,8 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 //-----------------------------------------------------------------------------
 
 %ignore celVariableParameterBlock::GetParameter (size_t idx);
+%ignore celGenericParameterBlock::GetParameter (size_t idx);
+%template (scfGenericParameterBlock) scfImplementation1<celGenericParameterBlock, iCelParameterBlock >;
 %template (scfVariableParameterBlock) scfImplementation1<celVariableParameterBlock,iCelParameterBlock >;
 %template (scfCombineParameterBlock) scfImplementation1<celCombineParameterBlock,iCelParameterBlock >;
 %template (scfOneParameterBlock) scfImplementation1<celOneParameterBlock,iCelParameterBlock >;
@@ -636,8 +648,6 @@ CEL_PC(iPcDamage, Damage, pclogic.damage)
 
 //-----------------------------------------------------------------------------
 
-%ignore iRewardFactoryArray;
-%ignore iQuestTriggerResponseFactoryArray;
 %include "tools/questmanager.h"
 %include "propclass/quest.h"
 CEL_PC(iPcQuest, Quest, pclogic.quest)

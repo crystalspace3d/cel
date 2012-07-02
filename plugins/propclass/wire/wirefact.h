@@ -48,7 +48,7 @@ public:
   csRef<iCelParameterBlock> extra_params;
 
 private:
-  csStringID msgid;
+  csString msgid;
   csWeakRef<iMessageChannel> channel;
   csArray<celParameterMapping> mappings;
 
@@ -56,7 +56,7 @@ private:
   csRef<iCelParameterBlock> MapParams (iCelEntity* entity, iCelParameterBlock* params);
 
 public:
-  celWireOutput (csStringID msgid, iMessageChannel* channel) :
+  celWireOutput (csString msgid, iMessageChannel* channel) :
     msgid (msgid), channel (channel) { }
   void Do (celPcWire* wire, iCelParameterBlock* params);
   void AddMapping (csStringID source, csStringID dest, iCelExpression* expression);
@@ -88,17 +88,17 @@ private:
 
   csRefArray<celWireOutput> output;
 
-  iCelExpressionParser* GetParser ();
-
 public:
   celPcWire (iObjectRegistry* object_reg);
   virtual ~celPcWire ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
 
   virtual void AddInput (const char* msg_mask, iMessageChannel* channel = 0);
-  virtual size_t AddOutput (csStringID msgid, iMessageChannel* channel = 0,
+  virtual size_t AddOutput (const char* msgid, iMessageChannel* channel = 0,
       iCelParameterBlock* extra_params = 0);
   virtual void MapParameter (size_t id, const char* source, const char* dest,
       iCelExpression* expression = 0);

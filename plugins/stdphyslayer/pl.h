@@ -32,7 +32,6 @@
 #include "plugins/stdphyslayer/numreg.h"
 
 #include "celtool/stdparams.h"
-#include "tools/parameters.h"
 
 struct iObjectRegistry;
 struct iEngine;
@@ -63,8 +62,6 @@ struct CallbackInfo
   CallbackInfo () : handling_every_frame (false) { }
 };
 
-typedef csHash<csRef<celEntityTemplate>, csStringBase> celTemplates;
-
 /**
  * Implementation of the physical layer.
  */
@@ -81,7 +78,7 @@ private:
   csHash<csRef<iCelEntityList>,csStringID> entityclasses_hash;
   bool entities_hash_dirty;
 
-  celTemplates entity_templates;
+  csHash<csRef<celEntityTemplate>, csStringBase> entity_templates;
 
   csRefArray<iCelEntityRemoveCallback> removecallbacks;
   csRefArray<iCelNewEntityCallback> newcallbacks;
@@ -113,13 +110,12 @@ private:
   csRefArray<iCelEntityTracker> trackers;
 
   csRef<celVariableParameterBlock> ConvertTemplateParams (
-    iCelEntity* entity,
-    const csHash<csRef<iParameter>, csStringID>& act_params,
-    iCelParameterBlock* params);
+    const char* entname,
+    iCelParameterBlock* act_params, const celEntityTemplateParams& params);
 
   // Perform an action from a template on a real property class.
   bool PerformActionTemplate (const ccfPropAct& act, iCelPropertyClass* pc,
-  	iCelParameterBlock* params,
+  	const celEntityTemplateParams& params,
 	iCelEntity* ent, iCelEntityTemplate* factory);
 
   // Used by CreatePropertyClass*() - makes a guess at propfact id
@@ -138,8 +134,6 @@ public:
   // For managing the names of entities (to find them faster).
   void RemoveEntityName (celEntity* ent);
   void AddEntityName (celEntity* ent);
-
-  void RegisterID (iCelEntity* entity, uint id);
 
   virtual csPtr<iCelEntity> CreateEntity ();
   virtual csPtr<iCelEntity> CreateEntityInScope (int scope);
@@ -163,22 +157,18 @@ public:
   virtual void RemoveEntityTemplate (iCelEntityTemplate* entfact);
   virtual void RemoveEntityTemplates ();
   virtual iCelEntityTemplate* FindEntityTemplate (const char* factname);
-  virtual csPtr<iCelEntityTemplateIterator> GetEntityTemplates () const;
+  virtual size_t GetEntityTemplateCount () const;
+  virtual iCelEntityTemplate* GetEntityTemplate (size_t idx) const;
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
-  	const char* name, iCelParameterBlock* params);
+  	const char* name, const celEntityTemplateParams& params);
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
   	const char* name, ...);
-  virtual bool ApplyTemplate (iCelEntity* entity, iCelEntityTemplate* factory,
-      iCelParameterBlock* params);
 
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
 	  const char* propname, const char* tagname = 0);
   virtual iCelPropertyClass* CreateTaggedPropertyClass (iCelEntity *entity,
 	  const char* propname, const char* tagname);
   virtual csPtr<iCelDataBuffer> CreateDataBuffer (long serialnr);
-  virtual csPtr<iCelCompactDataBufferWriter> CreateCompactDataBufferWriter ();
-  virtual csPtr<iCelCompactDataBufferReader> CreateCompactDataBufferReader (
-      iDataBuffer* buf);
 
   virtual void AttachEntity (iObject* object, iCelEntity* entity);
   virtual void UnattachEntity (iObject* object, iCelEntity* entity);
@@ -244,10 +234,8 @@ public:
   virtual void RemoveCallbackEveryFrame (iCelTimerListener* listener,
   	int where);
   virtual void RemoveCallbackOnce (iCelTimerListener* listener, int where);
-  virtual csTicks GetTicksLeft (iCelTimerListener* listener, int where);
 
-  virtual size_t AddScope (csString impl, int size);
-  virtual void ResetScope (size_t scope_idx);
+  virtual int AddScope (csString impl, int size);
 
   void EntityClassAdded(iCelEntity*,csStringID entclass);
   void EntityClassRemoved(iCelEntity*,csStringID entclass);
@@ -257,7 +245,7 @@ public:
         iCelParameterBlock* params, ...);
   virtual int SendMessageV (iCelEntityList *entlist, const char* msgname, 
         iCelParameterBlock* params, va_list arg);
-  virtual int SendMessage (csStringID msgid, iMessageSender* sender,
+  virtual int SendMessage (const char* msgid, iMessageSender* sender,
       iCelEntityList *entlist, iCelParameterBlock* params,
       iCelDataArray* ret = 0);
   virtual void MessageDispatcherRemoved (iMessageDispatcher*) { }

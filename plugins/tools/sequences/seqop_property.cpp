@@ -51,7 +51,7 @@ celPropertySeqOpFactory::~celPropertySeqOpFactory ()
 }
 
 csPtr<iSeqOp> celPropertySeqOpFactory::CreateSeqOp (
-    iCelParameterBlock* params)
+    const celParams& params)
 {
   celPropertySeqOp *seqop = 0;
   if (float_par)
@@ -76,33 +76,6 @@ csPtr<iSeqOp> celPropertySeqOpFactory::CreateSeqOp (
   	params, entity_par, pc_par, tag_par, relative, prop_par, vx_par, vy_par);
   }
   return seqop;
-}
-
-bool celPropertySeqOpFactory::Save (iDocumentNode* node)
-{
-  node->SetAttribute ("entity", entity_par);
-  if (!tag_par.IsEmpty ()) node->SetAttribute ("tag", tag_par);
-  node->SetAttribute ("pc", pc_par);
-  node->SetAttribute ("property", prop_par);
-  if (relative)
-    node->SetAttribute ("relative", "true");
-  if (!long_par.IsEmpty ())
-  {
-    node->SetAttribute ("long", long_par);
-  }
-  else if (!float_par.IsEmpty ())
-  {
-    node->SetAttribute ("float", float_par);
-  }
-  else if (!vx_par.IsEmpty ())
-  {
-    csRef<iDocumentNode> vNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    vNode->SetValue ("v");
-    vNode->SetAttribute ("x", vx_par);
-    vNode->SetAttribute ("y", vy_par);
-    vNode->SetAttribute ("z", vz_par);
-  }
-  return true;
 }
 
 bool celPropertySeqOpFactory::Load (iDocumentNode* node)
@@ -213,14 +186,14 @@ void celPropertySeqOpFactory::SetRelative (bool is_relative)
 
 celPropertySeqOp::celPropertySeqOp (
 	celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	const char* prop_par, bool rel_par) 
 	: scfImplementationType (this)
 {
   celPropertySeqOp::type = type;
 
-  pm = csQueryRegistryOrLoad<iParameterManager> 
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity_param = pm->GetParameter (params, entity_par);
@@ -240,24 +213,26 @@ void celPropertySeqOp::FindPCProperty (iCelParameterBlock* params)
 {
   if (prop_ok) return;
 
-  iCelEntity* ent = pm->ResolveEntityParameter (type->pl, params, entity_param, 0);
-  if (!ent) return;
-
   //Get current values of parameters
+  entity   = entity_param->Get   (params);
   pcname   = pcname_param->Get   (params);
   tag      = tag_param->Get      (params);
   propname = propname_param->Get (params);
 
-  pc = ent->GetPropertyClassList()->FindByNameAndTag(pcname,tag);
-  if (pc)
+  iCelEntity* ent = type->pl->FindEntity (entity);
+  if (ent)
   {
-    propID = type->pl->FetchStringID(propname);
-    celDataType proptype = pc->GetPropertyOrActionType(propID);
-    bool readonly = pc->IsPropertyReadOnly(propID);
-    if ((proptype == celPropertySeqOp::proptype) && (!readonly))
+    pc = ent->GetPropertyClassList()->FindByNameAndTag(pcname,tag);
+    if (pc)
     {
-      prop_ok = 1;
-      GetStartValue(params);
+      propID = type->pl->FetchStringID(propname);
+      celDataType proptype = pc->GetPropertyOrActionType(propID);
+      bool readonly = pc->IsPropertyReadOnly(propID);
+      if ((proptype == celPropertySeqOp::proptype) && (!readonly))
+      {
+        prop_ok = 1;
+        GetStartValue(params);
+      }
     }
   }
 }
@@ -282,13 +257,16 @@ void celPropertySeqOp::Do (float time, iCelParameterBlock* params)
 
 celFloatPropertySeqOp::celFloatPropertySeqOp (
 	celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* pfloat) 
         : celPropertySeqOp(type,params,entity_par,pc_par,tag_par,prop_par,
 		rel_par)
 {
   proptype = CEL_DATA_FLOAT;
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
+
   end_param = pm->GetParameter (params, pfloat);
 }
 
@@ -297,13 +275,16 @@ celFloatPropertySeqOp::celFloatPropertySeqOp (
 
 celVector2PropertySeqOp::celVector2PropertySeqOp (
 	celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* vx, const char* vy) 
         : celPropertySeqOp(type,params,entity_par,pc_par,tag_par,prop_par,
 		rel_par)
 {
   proptype = CEL_DATA_VECTOR2;
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
+
   endx_param = pm->GetParameter (params, vx);
   endy_param = pm->GetParameter (params, vy);
 }
@@ -313,7 +294,7 @@ celVector2PropertySeqOp::celVector2PropertySeqOp (
 
 celVector3PropertySeqOp::celVector3PropertySeqOp (
 	celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par,
 	const char* prop_par, const char* vx, const char* vy, const char* vz) 
@@ -321,6 +302,9 @@ celVector3PropertySeqOp::celVector3PropertySeqOp (
 		rel_par)
 {
   proptype = CEL_DATA_VECTOR3;
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
+
   endx_param = pm->GetParameter (params, vx);
   endy_param = pm->GetParameter (params, vy);
   endz_param = pm->GetParameter (params, vz);

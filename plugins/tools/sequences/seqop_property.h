@@ -31,6 +31,14 @@
 
 struct iObjectRegistry;
 
+static float ToFloat (const char* s)
+{
+  if (!s) return 0.0f;
+  float f;
+  sscanf (s, "%f", &f);
+  return f;
+}
+
 /**
  * A standard seqop type that can animate a property class property.
  * Any property can be animated this way, assuming it is of the right type
@@ -66,38 +74,20 @@ public:
   celPropertySeqOpFactory (celPropertySeqOpType* type);
   virtual ~celPropertySeqOpFactory ();
 
-  virtual csPtr<iSeqOp> CreateSeqOp (iCelParameterBlock* params);
-  virtual iSeqOpType* GetSeqOpType () const { return type; }
-  virtual bool Save (iDocumentNode* node);
+  virtual csPtr<iSeqOp> CreateSeqOp (
+      const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iPropertySeqOpFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
-  virtual const char* GetEntity () const { return entity_par; }
   virtual void SetPCParameter (const char* pc, const char* tag = 0);
-  virtual const char* GetPC () const { return pc_par; }
-  virtual const char* GetPCTag () const { return tag_par; }
   virtual void SetPropertyParameter (const char* property_name);
-  virtual const char* GetProperty () const { return prop_par; }
-  virtual celDataType GetPropertyType () const
-  {
-    if (float_par) return CEL_DATA_FLOAT;
-    else if (long_par) return CEL_DATA_LONG;
-    else if (vz_par) return CEL_DATA_VECTOR3;
-    else return CEL_DATA_VECTOR2;
-  }
   virtual void SetLongParameter (const char* plong);
-  virtual const char* GetLong () const { return long_par; }
   virtual void SetFloatParameter (const char* pfloat);
-  virtual const char* GetFloat () const { return float_par; }
   virtual void SetVector2Parameter (const char* vectorx, const char* vectory);
-  virtual const char* GetVectorX () const { return vx_par; }
-  virtual const char* GetVectorY () const { return vy_par; }
   virtual void SetVector3Parameter (const char* vectorx, const char* vectory,
   	const char* vectorz);
-  virtual const char* GetVectorZ () const { return vz_par; }
   virtual void SetRelative (bool is_relative);
-  virtual bool IsRelative () const { return relative; }
 };
 
 /**
@@ -120,7 +110,6 @@ protected:
   csRef<iParameter>  pcname_param;
   csRef<iParameter>  propname_param;
   csRef<iParameter>  tag_param;
-  csRef<iParameterManager> pm;
 
   csWeakRef<iCelPropertyClass> pc;
   celDataType proptype; // must be set in all specializations.
@@ -134,12 +123,17 @@ protected:
 
 public:
   celPropertySeqOp (celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	const char* prop_par, bool rel_par);
   virtual ~celPropertySeqOp ();
   virtual void Init (iCelParameterBlock* params);
   virtual void Do (float time, iCelParameterBlock* params);
+  // We don't need to save or load anything as the sequence is totally
+  // determined by the constructor and time passed (no internal data
+  // structures to take care of).
+  virtual bool Load (iCelDataBuffer* databuf) { return true; };
+  virtual void Save (iCelDataBuffer* databuf) {};
   // virtual functions to get and set the value in type dependent way.
   // must be implemented by all specializations.
   virtual void SetCurrentValue(float time) = 0;
@@ -165,7 +159,7 @@ protected:
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-    end = end_param->GetFloat (params);
+    end = ToFloat (end_param->Get (params));
 
     start = pc->GetPropertyFloatByID(propID);
     if (relative)
@@ -174,7 +168,7 @@ protected:
   }
 public:
   celFloatPropertySeqOp (celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par, 
 	bool rel_par, const char* prop_par, const char* pfloat);
 };
@@ -192,7 +186,7 @@ class celLongPropertySeqOp : public celFloatPropertySeqOp
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-    end = end_param->GetFloat (params);
+	end = ToFloat (end_param->Get (params));
 
     start = (float)pc->GetPropertyLongByID(propID);
     if (relative)
@@ -201,7 +195,7 @@ class celLongPropertySeqOp : public celFloatPropertySeqOp
   }
 public:
   celLongPropertySeqOp (celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* pfloat) 
         : celFloatPropertySeqOp(type, params, entity_par, pc_par, tag_par,
@@ -229,8 +223,8 @@ class celVector2PropertySeqOp : public celPropertySeqOp
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-    end.x = endx_param->GetFloat (params);
-    end.y = endy_param->GetFloat (params);
+	end.x = ToFloat (endx_param->Get (params));
+	end.y = ToFloat (endy_param->Get (params));
 
     pc->GetPropertyVectorByID(propID,start);
     if (relative)
@@ -239,7 +233,7 @@ class celVector2PropertySeqOp : public celPropertySeqOp
   }
 public:
   celVector2PropertySeqOp (celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* vx, const char* vy);
 };
@@ -263,9 +257,9 @@ class celVector3PropertySeqOp : public celPropertySeqOp
   }
   virtual void GetStartValue(iCelParameterBlock* params) 
   { 
-    end.x = endy_param->GetFloat (params);
-    end.y = endy_param->GetFloat (params);
-    end.z = endy_param->GetFloat (params);
+    end.x = ToFloat (endy_param->Get (params));
+	end.y = ToFloat (endy_param->Get (params));
+	end.z = ToFloat (endy_param->Get (params));
 
     pc->GetPropertyVectorByID(propID,start);
     if (relative)
@@ -274,7 +268,7 @@ class celVector3PropertySeqOp : public celPropertySeqOp
   }
 public:
   celVector3PropertySeqOp (celPropertySeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* pc_par, const char* tag_par,
 	bool rel_par, const char* prop_par, const char* vx, const char* vy, 
 	const char* vz);

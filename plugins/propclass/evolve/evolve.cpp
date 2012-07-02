@@ -114,10 +114,10 @@ celPcEvolve::celPcEvolve(iObjectRegistry *objreg)
     paramid[EVO_AVGFITNESS] = pl->FetchStringID("avg_fitness");
   }
 
-  params.AttachNew (new celVariableParameterBlock (3));
-  params->AddParameter (paramid[EVO_MAXFITNESS]);
-  params->AddParameter (paramid[EVO_MINFITNESS]);
-  params->AddParameter (paramid[EVO_AVGFITNESS]);
+  params.AttachNew(new celGenericParameterBlock (3));
+  params->SetParameterDef(0, paramid[EVO_MAXFITNESS]);
+  params->SetParameterDef(1, paramid[EVO_MINFITNESS]);
+  params->SetParameterDef(2, paramid[EVO_AVGFITNESS]);
 }
 
 celPcEvolve::~celPcEvolve()
@@ -219,7 +219,7 @@ void celPcEvolve::Evolve()
     if (!dispatcher_result)
     {
       dispatcher_result = entity->QueryMessageChannel ()
-	->CreateMessageDispatcher (this, pl->FetchStringID ("cel.evolve.result"));
+	->CreateMessageDispatcher (this, "cel.evolve.result");
       if (!dispatcher_result) return;
     }
     dispatcher_result->SendMessage (params);
@@ -253,7 +253,7 @@ void celPcEvolve::EvaluateFitness(size_t genome)
   if (!dispatcher_fitness)
   {
     dispatcher_fitness = entity->QueryMessageChannel ()
-      ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.evolve.fitness"));
+      ->CreateMessageDispatcher (this, "cel.evolve.fitness");
     if (!dispatcher_fitness) return;
   }
   dispatcher_fitness->SendMessage (params);
@@ -307,6 +307,36 @@ bool celPcEvolve::SelectGenome(iCelParameterBlock *params)
 
   population[index]->Store();
   return true;
+}
+
+bool celPcEvolve::Error(char const *desc, ...) const
+{
+  va_list args;
+  va_start(args, desc);
+  csReportV(const_cast<iObjectRegistry*>(object_reg),
+	CS_REPORTER_SEVERITY_ERROR, "cel.propclass.ai.evolve", desc, args);
+  va_end(args);
+  return false;
+}
+
+bool celPcEvolve::Warning(char const *desc, ...) const
+{
+  va_list args;
+  va_start(args, desc);
+  csReportV(const_cast<iObjectRegistry*>(object_reg),
+	CS_REPORTER_SEVERITY_WARNING, "cel.propclass.ai.evolve", desc, args);
+  va_end(args);
+  return false;
+}
+
+bool celPcEvolve::Bug(char const *desc, ...) const
+{
+  va_list args;
+  va_start(args, desc);
+  csReportV(const_cast<iObjectRegistry*>(object_reg),
+	CS_REPORTER_SEVERITY_BUG, "cel.propclass.ai.evolve", desc, args);
+  va_end(args);
+  return false;
 }
 
 //---------------------------------------------------- celNeuralNetGenome --//

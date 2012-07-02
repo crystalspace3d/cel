@@ -1,6 +1,0 @@
-SubDir TOP plugins tools uitools gridinv ;
-
-Plugin ui_gridinv : [ Wildcard *.cpp *.h ] ;
-ExternalLibs ui_gridinv : CRYSTAL ;
-LinkWith ui_gridinv : celtool ;
-

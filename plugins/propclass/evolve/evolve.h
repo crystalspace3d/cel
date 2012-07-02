@@ -98,7 +98,7 @@ class celPcEvolve
 : public scfImplementationExt1<celPcEvolve, celPcCommon, iPcEvolve>
 {
   static PropertyHolder propinfo;
-  csRef<celVariableParameterBlock> params;
+  csRef<celGenericParameterBlock> params;
 
   csRef<iMessageDispatcher> dispatcher_result;
   csRef<iMessageDispatcher> dispatcher_fitness;
@@ -187,8 +187,17 @@ public:
   /// Destructor.
   virtual ~celPcEvolve();
 
+  /// Report error. Always returns false.
+  bool Error(char const *desc, ...) const;
+  /// Report warning. Always returns false.
+  bool Warning(char const *desc, ...) const;
+  /// Report bug. Always returns false.
+  bool Bug(char const *desc, ...) const;
+
   //--------------------------------------------------------- celPcCommon --//
   virtual bool PerformActionIndexed(int index, iCelParameterBlock *params, celData &ret);
+  virtual csPtr<iCelDataBuffer> Save() { return pl->CreateDataBuffer(0); }
+  virtual bool Load(iCelDataBuffer *buf) { return true; }
 
   //----------------------------------------------------------- iPcEvolve --//
   virtual void SetPopulationSize(size_t size) { popSize = (int32)size; }

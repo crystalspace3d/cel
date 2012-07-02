@@ -175,6 +175,21 @@ celPcSteer::~celPcSteer ()
   delete params;
 }
 
+#define STEER_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcSteer::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (STEER_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcSteer::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != STEER_SERIAL) return false;
+  return true;
+}
+
 void celPcSteer::SendMessage (const char* msgold, const char* msg,
     csRef<iMessageDispatcher>& dispatcher, const char* meshname)
 {
@@ -191,7 +206,7 @@ void celPcSteer::SendMessage (const char* msgold, const char* msg,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID (msg));
+      CreateMessageDispatcher (this, msg);
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (meshname ? params : 0);
@@ -439,9 +454,11 @@ bool celPcSteer::CollisionAvoidance ()
   {
     printf("collision!\n");
     /*if (rc1.mesh)
-      Bug ("Avoiding collision with %s",rc1.mesh->QueryObject ()->GetName ());
+      csReport (object_reg, CS_REPORTER_SEVERITY_DEBUG,
+        "cel.pclogic.steer", "Avoiding collision with %s",rc1.mesh->QueryObject ()->GetName ());
     else
-      Bug ("Avoiding collision with %s",rc2.mesh->QueryObject ()->GetName ());*/
+      csReport (object_reg, CS_REPORTER_SEVERITY_DEBUG,
+        "cel.pclogic.steer", "Avoiding collision with %s",rc2.mesh->QueryObject ()->GetName ());*/
     //float distance = csSquaredDist::PointPoint(cur_position, rc.isect);
     /*
      * If the collision is too far away, we don�t bother to avoid it
@@ -697,45 +714,19 @@ bool celPcSteer::PerformActionIndexed (int idx, iCelParameterBlock* params,
   {
     case action_seek:
     {
-      csString sectorname;
-      if (!Fetch (sectorname, params, id_sectorname)) return false;
-      csVector3 position;
-      if (!Fetch (position, params, id_position)) return false;
-      iSector* sector = engine->FindSector (sectorname);
-      if (!sector)
-        return Error ("Can't find sector '%s' for Seek!", sectorname.GetData ());
+      CEL_FETCH_STRING_PAR (sectorname,params,id_sectorname);
+      if (!p_sectorname)
+        return false;
+      CEL_FETCH_VECTOR3_PAR (position,params,id_position);
+      if (!p_position)
+        return false;
+      iSector* s = engine->FindSector (sectorname);
+      if (!s)
+        return false;
       Seek(sector, position);
       // @@@ Return value?
       return true;
     }
-
-    case action_pursue:
-    {
-      csString meshname;
-      if (!Fetch (meshname, params, id_meshname)) return false;
-      float max_prediction;
-      if (!Fetch (max_prediction, params, id_pursue_max_prediction)) return false; 
-      iCelEntity* pursue_target = pl->FindEntity (meshname);
-      if (!pursue_target)
-	return Error ("Can't find target '%s' for Pursue!", meshname.GetData ());
-      Pursue (pursue_target, max_prediction);
-      return true; 
-    }
-
-    case action_flee:
-    {
-      csString sectorname;
-      if (!Fetch (sectorname, params, id_sectorname)) return false;
-      csVector3 position;
-      if (!Fetch (position, params, id_position)) return false;
-      iSector* sector = engine->FindSector (sectorname);
-      if (!sector)
-        return Error ("Can't find sector '%s' for Flee!", sectorname.GetData ());
-      Flee (sector, position);
-      // @@@ Return value?
-      return true;
-    }
-
     case action_interrupt:
       Interrupt ();
       return true;

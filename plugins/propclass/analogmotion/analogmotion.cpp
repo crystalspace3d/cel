@@ -121,6 +121,38 @@ celPcAnalogMotion::~celPcAnalogMotion ()
 {
 }
 
+const size_t actorlara_serial = 8;
+
+csPtr<iCelDataBuffer> celPcAnalogMotion::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (actorlara_serial);
+  databuf->Add (target_axis.x);
+  databuf->Add (target_axis.y);
+  databuf->Add (minturnspeed);
+  databuf->Add (maxturnspeed);
+  databuf->Add (movespeed);
+  databuf->Add (moveaccel);
+  databuf->Add (movedecel);
+  databuf->Add (enabled);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcAnalogMotion::Load (iCelDataBuffer* databuf)
+{
+  size_t serialnr = databuf->GetSerialNumber ();
+  if (serialnr != actorlara_serial)
+    return false;
+  target_axis.x = databuf->GetFloat ();
+  target_axis.y = databuf->GetFloat ();
+  minturnspeed = databuf->GetFloat ();
+  maxturnspeed = databuf->GetFloat ();
+  movespeed = databuf->GetFloat ();
+  moveaccel = databuf->GetFloat ();
+  movedecel = databuf->GetFloat ();
+  enabled = databuf->GetBool ();
+  return true;
+}
+
 bool celPcAnalogMotion::PerformActionIndexed (int idx,
   iCelParameterBlock* params,
   celData& ret)
@@ -129,61 +161,67 @@ bool celPcAnalogMotion::PerformActionIndexed (int idx,
   {
     case action_setaxis:
     {
-      long axis;
-      float value;
-      if (!Fetch (axis, params, id_axis)) return false;
-      if (!Fetch (value, params, id_value)) return false;
+      CEL_FETCH_LONG_PAR (axis, params, id_axis);
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_axis || !p_value)
+        return false;
       SetAxis (axis, value);
       return true;
     }
     case action_addaxis:
     {
-      long axis;
-      float value;
-      if (!Fetch (axis, params, id_axis)) return false;
-      if (!Fetch (value, params, id_value)) return false;
+      CEL_FETCH_LONG_PAR (axis, params, id_axis);
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_axis || !p_value)
+        return false;
       AddAxis (axis, value);
       return true;
     }
     case action_setmovespeed:
     {
-      float value;
-      if (!Fetch (value, params, id_value)) return false;
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_value)
+        return false;
       SetMovementSpeed (value);
       return true;
     }
     case action_setmoveaccel:
     {
-      float value;
-      if (!Fetch (value, params, id_value)) return false;
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_value)
+        return false;
       SetMovementAcceleration (value);
       return true;
     }
     case action_setmovedecel:
     {
-      float value;
-      if (!Fetch (value, params, id_value)) return false;
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_value)
+        return false;
       SetMovementDeceleration (value);
       return true;
     }
     case action_setminturnspeed:
     {
-      float value;
-      if (!Fetch (value, params, id_value)) return false;
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_value)
+        return false;
       SetMinimumTurningSpeed (value);
       return true;
     }
     case action_setmaxturnspeed:
     {
-      float value;
-      if (!Fetch (value, params, id_value)) return false;
+      CEL_FETCH_FLOAT_PAR (value, params, id_value);
+      if (!p_value)
+        return false;
       SetMaximumTurningSpeed (value);
       return true;
     }
     case action_enable:
     {
-      bool value;
-      if (!Fetch (value, params, id_enabled, true, true)) return false;
+      CEL_FETCH_BOOL_PAR (value, params, id_enabled);
+      if (!p_value)
+        value = true;
       enabled = value;
       return true;
     }

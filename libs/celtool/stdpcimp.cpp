@@ -59,46 +59,6 @@ celPcCommon::~celPcCommon ()
 {
 }
 
-bool celPcCommon::Error (char const *desc, ...) const
-{
-  va_list args;
-  va_start(args, desc);
-  csReportV (object_reg,
-	CS_REPORTER_SEVERITY_ERROR, GetName (), desc, args);
-  va_end(args);
-  return false;
-}
-
-bool celPcCommon::Warning (char const *desc, ...) const
-{
-  va_list args;
-  va_start(args, desc);
-  csReportV (object_reg,
-	CS_REPORTER_SEVERITY_WARNING, GetName (), desc, args);
-  va_end(args);
-  return false;
-}
-
-bool celPcCommon::Bug (char const *desc, ...) const
-{
-  va_list args;
-  va_start (args, desc);
-  csReportV(object_reg,
-	CS_REPORTER_SEVERITY_BUG, GetName (), desc, args);
-  va_end(args);
-  return false;
-}
-
-bool celPcCommon::Notify (char const *desc, ...) const
-{
-  va_list args;
-  va_start (args, desc);
-  csReportV(object_reg,
-	CS_REPORTER_SEVERITY_NOTIFY, GetName (), desc, args);
-  va_end(args);
-  return false;
-}
-
 void celPcCommon::SetTag (const char* tagname)
 {
   tag = tagname;
@@ -178,9 +138,11 @@ bool celPcCommon::SetPropertyTemplated (csStringID propertyId, T l,
   {
     if (!propdata[i])
     {
-      return Warning (
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
 	    "Property %s from %s is not correctly set up!",
 	    pl->FetchString (propertyId), GetName ());
+      return false;
     }
     ((T*)(propdata[i]))[0] = l;
     return true;
@@ -254,7 +216,9 @@ bool celPcCommon::SetProperty (csStringID propertyId, const char* s)
   {
     if (!propdata[i])
     {
-      return Warning ("Property %s from %s is not correctly set up!",
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
+	    "Property %s from %s is not correctly set up!",
 	    pl->FetchString (propertyId), GetName ());
       return false;
     }
@@ -323,7 +287,9 @@ T celPcCommon::GetPropertyTemplated (csStringID propertyId,
   {
     if (!propdata[i])
     {
-      Warning ("Property %s from %s is not correctly set up!",
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.getproperty",
+	    "Property %s from %s is not correctly set up!",
 	    pl->FetchString (propertyId), GetName ());
       return 0;
     }
@@ -355,7 +321,9 @@ bool celPcCommon::GetPropertyTemplated (csStringID propertyId, celDataType type,
   {
     if (!propdata[i])
     {
-      return Warning ("Property %s from %s is not correctly set up!",
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.getproperty",
+	    "Property %s from %s is not correctly set up!",
 	    pl->FetchString (propertyId), GetName ());
       return false;
     }
@@ -481,17 +449,17 @@ bool celPcCommon::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
     return false;
 
   // Check if this message is for this tag first.
-  csString msgtag;
-  if (!Fetch (msgtag, params, id_tag, true, "")) return false;
-  if (!msgtag.IsEmpty ())
+  CEL_FETCH_STRING_PAR(msgtag,params,id_tag);
+  if (msgtag && *msgtag != 0)
   {
     if (tag != msgtag) return false;
   }
 
   if (i == IDX_SETPROPERTY)
   {
-    csString property;
-    if (!Fetch (property, params, id_name)) return false;
+    // @@@ Error reporting.
+    CEL_FETCH_STRING_PAR(property,params,id_name);
+    if (!p_property) return false;
     csStringID propertyID = pl->FetchStringID (property);
     const celData* p_value = params->GetParameter (id_value);
     if (!p_value) return false;

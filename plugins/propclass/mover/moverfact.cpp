@@ -99,6 +99,21 @@ celPcMover::~celPcMover ()
   delete params;
 }
 
+#define MOVER_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcMover::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MOVER_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcMover::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != MOVER_SERIAL) return false;
+  return true;
+}
+
 void celPcMover::SendMessage (const char* msgold,
     const char* msg, csRef<iMessageDispatcher>& dispatcher,
     const char* meshname)
@@ -116,7 +131,7 @@ void celPcMover::SendMessage (const char* msgold,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	this, pl->FetchStringID (msg));
+	this, msg);
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (params);
@@ -258,17 +273,20 @@ bool celPcMover::PerformActionIndexed (int idx,
       csPrintf("Start action in pcmover is deprecated. Use MoveTo instead.\n");
     case action_moveto:
       {
-	csString sectorname;
-	if (!Fetch (sectorname, params, id_sectorname)) return false;
-	csVector3 position;
-	if (!Fetch (position, params, id_position)) return false;
-	float sqradius;
-	if (!Fetch (sqradius, params, id_sqradius)) return false;
-	bool checklos;
-	if (!Fetch (checklos, params, id_checklos, true, idx == action_start)) return false;
+        CEL_FETCH_STRING_PAR (sectorname,params,id_sectorname);
+        if (!p_sectorname) return false;
+        CEL_FETCH_VECTOR3_PAR (position,params,id_position);
+        if (!p_position) return false;
+        CEL_FETCH_FLOAT_PAR (sqradius,params,id_sqradius);
+        if (!p_sqradius) return false;
+        CEL_FETCH_BOOL_PAR (checklos,params,id_checklos);
+	// if action is start we have to change checklos value to
+	// true, false is default already if not specified.
+        if (!p_checklos && idx == action_start)
+	  checklos = true;
         iSector* s = engine->FindSector (sectorname);
         if (!s)
-          return Error ("Can't find sector '%s' for MoveTo action!", sectorname.GetData ());
+          return false;
         MoveTo (sector, position, sqradius, checklos);
         // @@@ Return value?
         return true;
@@ -321,9 +339,9 @@ void celPcMover::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pcactormove = celQueryPropertyClassEntity<iPcActorMove> (entity);
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 

@@ -48,27 +48,19 @@ private:
   csRef<celCreateEntityRewardType> type;
   csString template_par;
   csString name_par;
-  csRef<celVariableParameterBlock> params;
+  celEntityTemplateParams params;
 
 public:
   celCreateEntityRewardFactory (celCreateEntityRewardType* type);
   virtual ~celCreateEntityRewardFactory ();
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
-  virtual iRewardType* GetRewardType () const { return type; }
-  virtual bool Save (iDocumentNode* node);
+  virtual csPtr<iReward> CreateReward (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iCreateEntityRewardFactory -----------------------
   virtual void SetEntityTemplateParameter (const char* entity_tpl);
-  virtual const char* GetEntityTemplate () const { return template_par; }
   virtual void SetNameParameter (const char* name);
-  virtual const char* GetName () const { return name_par; }
-  virtual bool AddParameter (const char* name, const char* value);
-  virtual size_t GetParameterCount () const;
-  virtual const char* GetParameterName (size_t idx) const;
-  virtual const char* GetParameterValue (size_t idx) const;
-  virtual void RemoveParameter (const char* name);
+  virtual void AddParameter (const char* name, const char* value);
 };
 
 /**
@@ -81,15 +73,15 @@ private:
   csRef<celCreateEntityRewardType> type;
   csRef<iParameter> name;
   csRef<iParameter> entity_tpl;
-  csRef<celVariableParameterBlock> params;
+  celEntityTemplateParams params;
   csRef<iParameterManager> pm;
 
 public:
   celCreateEntityReward (celCreateEntityRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* template_par,
 	const char* name_par,
-        iCelParameterBlock* tpl_params);
+        const celEntityTemplateParams &tpl_params);
   virtual ~celCreateEntityReward ();
 
   virtual void Reward (iCelParameterBlock* params);

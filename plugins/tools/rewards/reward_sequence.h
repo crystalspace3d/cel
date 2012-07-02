@@ -61,23 +61,16 @@ public:
   celSequenceRewardFactory (celSequenceRewardType* type);
   virtual ~celSequenceRewardFactory () {};
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
-  virtual iRewardType* GetRewardType () const { return type; }
-  virtual bool Save (iDocumentNode* node);
+  virtual csPtr<iReward> CreateReward (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iSequenceRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual const char* GetEntity () const { return entity_par; }
   virtual void SetClassParameter (const char* ent_class) {class_par=ent_class;};
-  virtual const char* GetClass () const { return class_par; }
   virtual void SetTagParameter (const char* tag) {tag_par = tag;};
-  virtual const char* GetTag () const { return tag_par; }
   virtual void SetSequenceParameter (const char* sequence);
-  virtual const char* GetSequence () const { return sequence_par; }
   virtual void SetSequence (iCelSequence* sequence);
   virtual void SetDelayParameter (const char* delay);
-  virtual const char* GetDelay () const { return delay_par; }
 };
 
 /**
@@ -95,11 +88,10 @@ private:
   csWeakRef<iCelEntity> ent;
   csWeakRef<iPcQuest> quest;
   csWeakRef<iCelSequence> seq;
-  csRef<iParameterManager> pm;
 
 public:
   celSequenceReward (celSequenceRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par,
 	const char* tag_par,
 	const char* sequence_par,
@@ -126,7 +118,7 @@ private:
 
 public:
   celClassSequenceReward (celSequenceRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* class_par,
 	const char* tag_par,
 	const char* sequence_par,

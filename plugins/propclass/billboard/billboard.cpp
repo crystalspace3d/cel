@@ -154,10 +154,10 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
     id_y = pl->FetchStringID ("y");
     id_button = pl->FetchStringID ("button");
   }
-  params.AttachNew (new celVariableParameterBlock (3));
-  params->AddParameter (id_x);
-  params->AddParameter (id_y);
-  params->AddParameter (id_button);
+  params = new celGenericParameterBlock (3);
+  params->SetParameterDef (0, id_x);
+  params->SetParameterDef (1, id_y);
+  params->SetParameterDef (2, id_button);
 }
 
 celPcBillboard::~celPcBillboard ()
@@ -169,6 +169,7 @@ celPcBillboard::~celPcBillboard ()
     billboard_mgr->RemoveBillboard (billboard);
   }
   delete[] billboard_name;
+  delete params;
   delete scfiBillboardEventHandler;
 }
 
@@ -180,14 +181,16 @@ bool celPcBillboard::PerformActionIndexed (int idx,
   {
     case action_drawmesh:
       {
-	csString materialname, factory;
-	if (!Fetch (materialname, params, id_materialname)) return false;
-	if (!Fetch (factory, params, id_factory)) return false;
-	float distance, angle;
-	if (!Fetch (distance, params, id_distance, true, -1.0f)) return false;
-	if (!Fetch (angle, params, id_angle, true, 0.0f)) return false;
-	csVector3 rotate;
-	if (!Fetch (rotate, params, id_rotate, true, csVector3 (0, 0, 0))) return false;
+        CEL_FETCH_STRING_PAR (materialname,params,id_materialname);
+        if (!p_materialname) return false;	// @@@ Error report!
+        CEL_FETCH_STRING_PAR (factory,params,id_factory);
+        if (!p_factory) return false;	// @@@ Error report!
+        CEL_FETCH_FLOAT_PAR (distance,params,id_distance);
+        if (!p_distance) distance = -1.0f;
+        CEL_FETCH_VECTOR3_PAR (rotate,params,id_rotate);
+        if (!p_rotate) rotate.Set (0, 0, 0);
+        CEL_FETCH_FLOAT_PAR (angle,params,id_angle);
+        if (!p_angle) angle = 0.0f;
         GetBillboard ();
         if (billboard)
         {
@@ -699,7 +702,7 @@ void celPcBillboard::Select (iBillboard* billboard, int mouse_button,
   if (!dispatcher_select)
   {
     dispatcher_select = entity->QueryMessageChannel ()
-      ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.billboard.select.down"));
+      ->CreateMessageDispatcher (this, "cel.billboard.select.down");
     if (!dispatcher_select) return;
   }
   dispatcher_select->SendMessage (params);
@@ -722,7 +725,7 @@ void celPcBillboard::MouseMove (iBillboard* billboard, int mouse_button,
   if (!dispatcher_move)
   {
     dispatcher_move = entity->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, pl->FetchStringID ("cel.billboard.select.move"));
+	  this, "cel.billboard.select.move");
     if (!dispatcher_move) return;
   }
   dispatcher_move->SendMessage (params);
@@ -745,7 +748,7 @@ void celPcBillboard::MouseMoveAway (iBillboard* billboard, int mouse_button,
   if (!dispatcher_moveaway)
   {
     dispatcher_moveaway = entity->QueryMessageChannel ()
-      ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.billboard.select.moveaway"));
+      ->CreateMessageDispatcher (this, "cel.billboard.select.moveaway");
     if (!dispatcher_moveaway) return;
   }
   dispatcher_moveaway->SendMessage (params);
@@ -768,7 +771,7 @@ void celPcBillboard::Unselect (iBillboard* billboard, int mouse_button,
   if (!dispatcher_selectup)
   {
     dispatcher_selectup = entity->QueryMessageChannel ()
-      ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.billboard.select.select.up"));
+      ->CreateMessageDispatcher (this, "cel.billboard.select.select.up");
     if (!dispatcher_selectup) return;
   }
   dispatcher_selectup->SendMessage (params);
@@ -791,10 +794,71 @@ void celPcBillboard::DoubleClick (iBillboard* billboard, int mouse_button,
   if (!dispatcher_selectdbl)
   {
     dispatcher_selectdbl = entity->QueryMessageChannel ()
-      ->CreateMessageDispatcher (this, pl->FetchStringID ("cel.billboard.select.select.double"));
+      ->CreateMessageDispatcher (this, "cel.billboard.select.select.double");
     if (!dispatcher_selectdbl) return;
   }
   dispatcher_selectdbl->SendMessage (params);
+}
+
+#define BILLBOARD_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcBillboard::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BILLBOARD_SERIAL);
+  databuf->Add (billboard_name);
+  if (billboard)
+  {
+    databuf->Add (billboard->GetMaterialName ());
+    databuf->Add ((uint32)billboard->GetFlags ().Get ());
+    databuf->Add (billboard->GetColor ());
+    int x, y, w, h;
+    billboard->GetPosition (x, y);
+    billboard->GetSize (w, h);
+    databuf->Add ((int32)x);
+    databuf->Add ((int32)y);
+    databuf->Add ((int32)w);
+    databuf->Add ((int32)h);
+    databuf->Add (billboard->GetLayer ()->GetName ());
+  }
+  databuf->Add (events_enabled);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+
+bool celPcBillboard::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != BILLBOARD_SERIAL) return false;
+
+  delete[] billboard_name; billboard_name = 0;
+  billboard_name = csStrNew (databuf->GetString ()->GetData ());
+
+  GetBillboard ();
+  if (billboard)
+  {
+    billboard->SetMaterialName (databuf->GetString ()->GetData ());
+    billboard->GetFlags ().SetAll (databuf->GetUInt32 ());
+    csColor col;
+    databuf->GetColor (col);
+    billboard->SetColor (col);
+
+    int x = databuf->GetInt32 ();
+    int y = databuf->GetInt32 ();
+    int w = databuf->GetInt32 ();
+    int h = databuf->GetInt32 ();
+    billboard->SetPosition (x, y);
+    billboard->SetSize (w, h);
+
+    const char* layername = databuf->GetString ()->GetData ();
+    iBillboardLayer* layer = billboard_mgr->FindBillboardLayer (layername);
+    if (!layer)
+      layer = billboard_mgr->CreateBillboardLayer (layername);
+    billboard->SetLayer (layer);
+  }
+
+  EnableEvents (databuf->GetBool ());
+
+  return true;
 }
 
 void celPcBillboard::SetBillboardName (const char* n)
@@ -812,14 +876,18 @@ iBillboard* celPcBillboard::GetBillboard ()
     	"cel.manager.billboard");
     if (!billboard_mgr)
     {
-      Error ("Couldn't load billboard manager plugin!");
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "cel.propclass.billboard",
+	  "Couldn't load billboard manager plugin!");
       return 0;
     }
   }
   billboard = billboard_mgr->CreateBillboard (billboard_name);
   if (!billboard)
   {
-    Error ("Couldn't create billboard '%s'!", billboard_name);
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "cel.propclass.billboard",
+	  "Couldn't create billboard '%s'!", billboard_name);
     return 0;
   }
   return billboard;

@@ -22,11 +22,9 @@
 
 #include "iutil/comp.h"
 #include "imap/reader.h"
-#include "imap/writer.h"
 #include "csutil/strhash.h"
 #include "csutil/weakref.h"
 #include "tools/entitytplloader.h"
-#include "tools/parameters.h"
 
 struct iObjectRegistry;
 struct iDocumentNode;
@@ -38,15 +36,14 @@ struct iCelPlLayer;
  * This is an add-on to allow adding of cel entities through a standard
  * CS map file.
  */
-class celAddOnCelEntityTemplate : public scfImplementation4<
-	celAddOnCelEntityTemplate, iLoaderPlugin, iSaverPlugin, iEntityTemplateLoader,
+class celAddOnCelEntityTemplate : public scfImplementation3<
+	celAddOnCelEntityTemplate, iLoaderPlugin, iEntityTemplateLoader,
 	iComponent>
 {
 private:
   iObjectRegistry* object_reg;
   csWeakRef<iSyntaxService> synldr;
   csWeakRef<iCelPlLayer> pl;
-  csRef<iParameterManager> pm;
   csStringHash xmltokens;
 
   const char* GetAttributeValue (iDocumentNode* child,
@@ -56,8 +53,7 @@ private:
   csStringID GetAttributeID (iDocumentNode* child,
 	const char* prefix, const char* propname);
   bool ParseProperties (iCelPropertyClassTemplate* pc, iDocumentNode* child);
-  bool ParseParameterBlock (iDocumentNode* child,
-      csHash<csRef<iParameter>, csStringID>& params);
+  csRef<celVariableParameterBlock> ParseParameterBlock (iDocumentNode* child);
 
 public:
   celAddOnCelEntityTemplate (iBase* parent);
@@ -79,10 +75,7 @@ public:
   virtual iCelEntityTemplate* Load (iDocumentNode* node);
   virtual iCelEntityTemplate* Load (const char* path, const char* file);
 
-  virtual bool IsThreadSafe() { return false; }
-
-  virtual bool WriteDown (iBase* obj, iDocumentNode* parent,
-  	iStreamSource* ssource);
+  virtual bool IsThreadSafe(void) { return true; }
 };
 
 #endif // __CEL_ADDON_CELENTITYTPL__

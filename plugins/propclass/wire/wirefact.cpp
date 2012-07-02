@@ -138,6 +138,22 @@ celPcWire::~celPcWire ()
 {
 }
 
+#define WIRE_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcWire::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (WIRE_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcWire::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != WIRE_SERIAL) return false;
+
+  return true;
+}
+
 bool celPcWire::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -146,50 +162,43 @@ bool celPcWire::PerformActionIndexed (int idx,
   {
     case action_addinput:
       {
-	csString mask, entity;
-	if (!Fetch (mask, params, id_mask)) return false;
-	if (!Fetch (entity, params, id_entity, true, "")) return false;
+        CEL_FETCH_STRING_PAR (mask,params,id_mask);
+        if (!p_mask) return false;
+        CEL_FETCH_STRING_PAR (entity,params,id_entity);
 	iCelEntity* ent = this->entity;
-        if (!entity.IsEmpty ())
+        if (p_entity)
 	  ent = pl->FindEntity (entity);
-	if (!ent)
-	  return Error ("Can't find entity '%s' for AddInput!", entity.GetData ());
+	// @@@ Error check on ent!
 	AddInput (mask, ent->QueryMessageChannel ());
         return true;
       }
     case action_addoutput:
       {
-	csString msgid, entity;
-	if (!Fetch (msgid, params, id_msgid)) return false;
-	if (!Fetch (entity, params, id_entity, true, "")) return false;
+        CEL_FETCH_STRING_PAR (msgid,params,id_msgid);
+        if (!p_msgid) return false;
+        CEL_FETCH_STRING_PAR (entity,params,id_entity);
 	iCelEntity* ent = this->entity;
-        if (!entity.IsEmpty ())
-	{
+        if (p_entity)
 	  ent = pl->FindEntity (entity);
-	  if (!ent)
-	  {
-	    printf ("Can't find entity '%s'!\n", entity.GetData ());
-	    return false;
-	  }
-	}
-	AddOutput (pl->FetchStringID (msgid), ent->QueryMessageChannel (), params);
+	// @@@ Error check on ent!
+	AddOutput (msgid, ent->QueryMessageChannel (), params);
         return true;
       }
     case action_mapparameter:
       {
-	long id;
-	if (!Fetch (id, params, id_id)) return false;
-	csString dest, expression;
-	if (!Fetch (dest, params, id_dest)) return false;
-	if (!Fetch (expression, params, id_expression, true, "")) return false;
-        if (!expression.IsEmpty ())
+        CEL_FETCH_LONG_PAR (id,params,id_id);
+        if (!p_id) return false;
+        CEL_FETCH_STRING_PAR (dest,params,id_dest);
+        if (!p_dest) return false;
+        CEL_FETCH_STRING_PAR (expression,params,id_expression);
+        if (p_expression)
 	{
 	  MapParameterExpression (id, dest, expression);
 	}
 	else
 	{
-	  csString source;
-	  if (!Fetch (source, params, id_source)) return false;
+          CEL_FETCH_STRING_PAR (source,params,id_source);
+          if (!p_source) return false;
 	  MapParameter (id, source, dest);
 	}
 	return true;
@@ -217,7 +226,7 @@ void celPcWire::AddInput (const char* msg_mask, iMessageChannel* channel)
   channel->Subscribe (this, msg_mask);
 }
 
-size_t celPcWire::AddOutput (csStringID msgid, iMessageChannel* channel,
+size_t celPcWire::AddOutput (const char* msgid, iMessageChannel* channel,
       iCelParameterBlock* extra_params)
 {
   csRef<celWireOutput> out;
@@ -234,7 +243,7 @@ void celPcWire::MapParameter (size_t id, const char* source, const char* dest,
   output[id]->AddMapping (pl->FetchStringID (source), pl->FetchStringID (dest), expression);
 }
 
-iCelExpressionParser* celPcWire::GetParser ()
+static iCelExpressionParser* GetParser (iObjectRegistry* object_reg)
 {
   csRef<iObjectRegistryIterator> it = object_reg->Get (
       scfInterfaceTraits<iCelExpressionParser>::GetID (),
@@ -253,7 +262,7 @@ iCelExpressionParser* celPcWire::GetParser ()
       "cel.behaviourlayer.xml");
     if (!parser)
     {
-      Error ("Can't find the expression parser plugin!");
+      // @@@ Error report.
       return 0;
     }
     object_reg->Register (parser, "iCelExpressionParser");
@@ -263,14 +272,14 @@ iCelExpressionParser* celPcWire::GetParser ()
 
 void celPcWire::MapParameterExpression (size_t id, const char* dest, const char* expression)
 {
-  iCelExpressionParser* parser = GetParser ();
+  iCelExpressionParser* parser = GetParser (object_reg);
+  // @@@ Error?
   if (parser)
   {
     csRef<iCelExpression> exp = parser->Parse (expression);
+    // @@@ Error?
     if (exp)
       output[id]->AddMapping (csInvalidStringID, pl->FetchStringID (dest), exp);
-    else
-      Error ("Error parsing expression '%s'!", expression);
   }
 }
 

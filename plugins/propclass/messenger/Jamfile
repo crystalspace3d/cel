@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass messenger ;
-
-Plugin pfmessenger
-	: messengerfact.cpp messengerfact.h
-;
-ExternalLibs pfmessenger : CRYSTAL ;
-LinkWith pfmessenger : celtool ;
-

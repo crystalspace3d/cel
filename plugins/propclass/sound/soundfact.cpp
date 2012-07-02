@@ -70,23 +70,13 @@ public:
 void celPcSoundSource::CheckPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
-    UpdateListener ();
+	  UpdateListener ();
 }
 
 void celPcSoundSource::TickEveryFrame ()
 {
   if (follow)
     CheckPropertyClasses ();
-}
-
-void celPcSoundSource::Activate ()
-{
-  // @@@ TODO
-}
-
-void celPcSoundSource::Deactivate ()
-{
-  // @@@ TODO
 }
 
 void celPcSoundSource::UpdateListener ()
@@ -102,7 +92,7 @@ void celPcSoundSource::UpdateListener ()
   if (!GetSource ()) return;
   if (follow && source3d)
   {
-    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     if (pcmesh)
     {
       movlistener.AttachNew (new celSoundSourceMovableListener (
@@ -154,7 +144,8 @@ celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
   	"crystalspace.sndsys.renderer.software");
   if (!renderer)
   {
-    Error ("Error! No sound renderer!\n");
+    // @@@ Error report.
+    printf ("Error! No sound renderer!\n"); fflush (stdout);
     return;
   }
   listener = renderer->GetListener ();
@@ -172,7 +163,7 @@ void celPcSoundListener::PropertyClassesHaveChanged ()
   // look for pccamera and place it in separate var, so we can see if it
   // really changed.
   csWeakRef<iPcCamera> found_pccamera = 
-	celQueryPropertyClassEntity<iPcCamera> (entity);
+	CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
   if (found_pccamera == pccamera)
     return;
   // we found a new camera, so assign it to our weakref, and setup the
@@ -280,6 +271,27 @@ bool celPcSoundListener::GetPropertyIndexed (int idx, float& b)
   }
 }
 
+#define SOUNDLISTENER_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcSoundListener::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SOUNDLISTENER_SERIAL);
+  //databuf->Add (int32 (counter));
+  //databuf->Add (int32 (max));
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcSoundListener::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != SOUNDLISTENER_SERIAL) return false;
+
+  //counter = databuf->GetInt32 ();
+  //max = databuf->GetInt32 ();
+
+  return true;
+}
+
 bool celPcSoundListener::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -287,9 +299,10 @@ bool celPcSoundListener::PerformActionIndexed (int idx,
   if (!listener) return false;
   if (idx == action_setdirection)
   {
-    csVector3 front, top;
-    if (!Fetch (front, params, id_front)) return false;
-    if (!Fetch (top, params, id_top)) return false;
+    CEL_FETCH_VECTOR3_PAR (front,params,id_front);
+    if (!p_front) return false;
+    CEL_FETCH_VECTOR3_PAR (top,params,id_top);
+    if (!p_top) return false;
     listener->SetDirection (front, top);
     return true;
   }
@@ -520,6 +533,27 @@ bool celPcSoundSource::GetPropertyIndexed (int idx, const char*& b)
   return false;
 }
 
+#define SOUNDSOURCE_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcSoundSource::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SOUNDSOURCE_SERIAL);
+  //databuf->Add (int32 (counter));
+  //databuf->Add (int32 (max));
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcSoundSource::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != SOUNDSOURCE_SERIAL) return false;
+
+  //counter = databuf->GetInt32 ();
+  //max = databuf->GetInt32 ();
+
+  return true;
+}
+
 bool celPcSoundSource::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -584,13 +618,16 @@ void celPcSoundSource::GetSoundWrap ()
     	object_reg, "crystalspace.sndsys.manager");
     if (!mgr)
     {
-      Error ("Error! No sound manager!\n");
+      // @@@ Error report.
+      printf ("Error! No sound manager!\n"); fflush (stdout);
       return;
     }
     soundwrap = mgr->FindSoundByName (soundname);
     if (!soundwrap)
     {
-      Error ("Can't find sound '%s'!\n", (const char*)soundname);
+      // @@@ Report error?
+      printf ("Can't find sound '%s'!\n", (const char*)soundname);
+      fflush (stdout);
     }
   }
 }
@@ -603,7 +640,11 @@ bool celPcSoundSource::GetSource ()
   csRef<iSndSysRenderer> renderer = csQueryRegistryOrLoad<iSndSysRenderer> (
   	object_reg, "crystalspace.sndsys.renderer.software");
   if (!renderer)
-    return Error ("Error! No sound renderer!\n");
+  {
+    // @@@ Error report.
+    printf ("Error! No sound renderer!\n"); fflush (stdout);
+    return false;
+  }
 
   stream = renderer->CreateStream (soundwrap->GetData (), mode);
   csRef<iSndSysSource> src = renderer->CreateSource (stream);

@@ -602,13 +602,7 @@
 				RelativePath="..\..\msvc\libaddon_celgraph_staticreg.cpp">
 			</File>
 			<File
-				RelativePath="..\..\msvc\libaddon_dynworldload_staticreg.cpp">
-			</File>
-			<File
 				RelativePath="..\..\msvc\libaddon_ledges_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\msvc\libaddon_lootloader_staticreg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\msvc\libaddon_questdef_staticreg.cpp">
@@ -635,16 +629,13 @@
 				RelativePath="..\..\msvc\libcelgraph_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libcpersist_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libdecorators_staticreg.cpp">
 			</File>
 			<File
-				RelativePath="..\..\msvc\libelcm_staticreg.cpp">
-			</File>
-			<File
 				RelativePath="..\..\msvc\libledges_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\msvc\liblootmgr_staticreg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\msvc\libmgr_billboard_staticreg.cpp">
@@ -675,9 +666,6 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\libpfdynmove_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\msvc\libpfdynworld_staticreg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\msvc\libpfengine_staticreg.cpp">
@@ -711,9 +699,6 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\libpfmeshdeform_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\msvc\libpfmessenger_staticreg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\msvc\libpfmove_staticreg.cpp">
@@ -803,13 +788,7 @@
 				RelativePath="..\..\msvc\libtriggers_staticreg.cpp">
 			</File>
 			<File
-				RelativePath="..\..\msvc\libui_gridinv_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\msvc\libui_inventory2_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\msvc\libui_inventory_staticreg.cpp">
+				RelativePath="..\..\msvc\libxmlpersist_staticreg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\addons\celentity\celentity.cpp">
@@ -821,13 +800,7 @@
 				RelativePath="..\..\plugins\addons\celgraph\celgraph.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\addons\dynworldload\dynworldload.cpp">
-			</File>
-			<File
 				RelativePath="..\..\plugins\addons\ledges\ledges.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\addons\lootloader\lootloader.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\addons\questdef\questdef.cpp">
@@ -914,6 +887,12 @@
 				RelativePath="..\..\plugins\network\tcp\tcputils.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\persist\classic\cpersist.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\persist\xml\xmlpersist.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.cpp">
 			</File>
 			<File
@@ -939,9 +918,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\dynmove\dynmove.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\dynworld\dynworld.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\engine\engfact.cpp">
@@ -987,9 +963,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\meshdeform\meshdeformfact.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\messenger\messengerfact.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\move\colldet.cpp">
@@ -1160,6 +1133,9 @@
 				RelativePath="..\..\plugins\recast\recastnavigation\RecastTimer.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\stdphyslayer\datatype.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\stdphyslayer\entity.cpp">
 			</File>
 			<File
@@ -1173,6 +1149,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\pl.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\stdphyslayer\propclas.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\behaviourtree.cpp">
@@ -1197,12 +1176,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\decorators\decorator_negatereturn.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\elcm\elcm.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\loot\lootmgr.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\parameters\cel_parameters.cpp">
@@ -1259,9 +1232,6 @@
 				RelativePath="..\..\plugins\tools\sequences\cel_sequences.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\sequences\seqop_ambientmesh.cpp">
-			</File>
-			<File
 				RelativePath="..\..\plugins\tools\sequences\seqop_debugprint.cpp">
 			</File>
 			<File
@@ -1308,15 +1278,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\triggers\trig_watch.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\uitools\gridinv\gridinv.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\uitools\inventory\inventory.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\uitools\inventory2\inventory2.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
@@ -1512,13 +1473,7 @@
 				RelativePath="..\..\plugins\addons\celgraph\celgraph.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\addons\dynworldload\dynworldload.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\addons\ledges\ledges.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\addons\lootloader\lootloader.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\addons\questdef\questdef.h">
@@ -1593,6 +1548,12 @@
 				RelativePath="..\..\plugins\network\tcp\tcputils.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\persist\classic\cpersist.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\persist\xml\xmlpersist.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.h">
 			</File>
 			<File
@@ -1618,9 +1579,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\dynmove\dynmove.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\dynworld\dynworld.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\engine\engfact.h">
@@ -1650,6 +1608,9 @@
 				RelativePath="..\..\plugins\propclass\light\lightfact.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\mechanics\common.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\mechanics\environment.h">
 			</File>
 			<File
@@ -1662,6 +1623,9 @@
 				RelativePath="..\..\plugins\propclass\mechanics\thruster_reactionary.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\mechanics\ticktimer.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\mesh\meshfact.h">
 			</File>
 			<File
@@ -1669,9 +1633,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\meshdeform\meshdeformfact.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\messenger\messengerfact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\move\colldet.h">
@@ -1839,6 +1800,9 @@
 				RelativePath="..\..\plugins\stdphyslayer\pl.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\stdphyslayer\propclas.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\behaviourtree.h">
 			</File>
 			<File
@@ -1861,12 +1825,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\decorators\decorator_negatereturn.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\elcm\elcm.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\loot\lootmgr.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\parameters\cel_parameters.h">
@@ -1923,9 +1881,6 @@
 				RelativePath="..\..\plugins\tools\sequences\cel_sequences.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\sequences\seqop_ambientmesh.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\tools\sequences\seqop_debugprint.h">
 			</File>
 			<File
@@ -1972,15 +1927,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\triggers\trig_watch.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\uitools\gridinv\gridinv.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\uitools\inventory\inventory.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\uitools\inventory2\inventory2.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.h">

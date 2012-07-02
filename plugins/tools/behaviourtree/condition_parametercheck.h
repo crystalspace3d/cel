@@ -33,8 +33,8 @@ class celParameterCheckCondition : public scfImplementation3<
 {		
 private: 
   iObjectRegistry* object_reg;						
-  csString parameter;
-  csString value;
+  const char* parameter;
+  const char* value;
 
 public:									
   celParameterCheckCondition (iBase* parent);			
@@ -42,7 +42,7 @@ public:
   virtual bool Initialize (iObjectRegistry*);	
 
   //From iBTNode
-  virtual bool Execute (iCelParameterBlock* params);		
+  virtual bool Execute (const celParams& params);		
   virtual bool AddChild (iBTNode* child);
 
   //From iParameterCheckCondition

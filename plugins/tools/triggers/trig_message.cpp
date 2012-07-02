@@ -53,18 +53,11 @@ celMessageTriggerFactory::~celMessageTriggerFactory ()
 }
 
 csPtr<iTrigger> celMessageTriggerFactory::CreateTrigger (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   celMessageTrigger* trig = new celMessageTrigger (type, params,
   	entity_par, mask_par);
   return trig;
-}
-
-bool celMessageTriggerFactory::Save (iDocumentNode* node)
-{
-  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
-  if (!mask_par.IsEmpty ()) node->SetAttribute ("mask", mask_par);
-  return true;
 }
 
 bool celMessageTriggerFactory::Load (iDocumentNode* node)
@@ -109,7 +102,7 @@ void celMessageTriggerFactory::SetMaskParameter (
 
 celMessageTrigger::celMessageTrigger (
 	celMessageTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* mask_par)
 	: scfImplementationType (this)
 {
@@ -118,7 +111,7 @@ celMessageTrigger::celMessageTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
+  entity = pm->ResolveParameter (params, entity_par);
   mask = pm->ResolveParameter (params, mask_par);
 }
 
@@ -142,10 +135,7 @@ void celMessageTrigger::FindEntity ()
   if (!ent)
   {
     iCelPlLayer* pl = type->pl;
-    if (!entity.IsEmpty ())
-      ent = pl->FindEntity (entity);
-    else
-      ent = pl->GetEntity (entityID);
+    ent = pl->FindEntity (entity);
   }
 }
 
@@ -174,6 +164,16 @@ void celMessageTrigger::DeactivateTrigger ()
 {
   if (ent)
     ent->QueryMessageChannel ()->Unsubscribe (this, mask);
+}
+
+bool celMessageTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
+{
+  ActivateTrigger ();
+  return true;
+}
+
+void celMessageTrigger::SaveTriggerState (iCelDataBuffer*)
+{
 }
 
 //---------------------------------------------------------------------------

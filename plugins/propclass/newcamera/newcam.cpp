@@ -267,8 +267,8 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
   {
     case action_attachcameramode:
       {
-	csString name;
-	if (!Fetch (name, params, id_name)) return false;
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name) return true;
         if (!strcmp (name, "camera_firstperson"))
         {
           AttachCameraMode (iPcNewCamera::CCM_FIRST_PERSON);
@@ -294,13 +294,15 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
           AttachCameraMode (iPcNewCamera::CCM_ISOMETRIC);
           return true;
         }
-        Error ("Unknown camera mode");
+        csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+          "cel.camera.standard",
+          "Unknown camera mode");
         return true;
       }
     case action_setcameramode:
       {
-	long nr;
-	if (!Fetch (nr, params, id_nr)) return false;
+        CEL_FETCH_LONG_PAR (nr,params,id_nr);
+        if (!p_nr) return false;
         return SetCurrentCameraMode (nr);
       }
     case action_nextcameramode:
@@ -315,32 +317,38 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
       }
     case action_setrectangle:
       {
-	long x, y, w, h;
-	if (!Fetch (x, params, id_x)) return false;
-	if (!Fetch (y, params, id_y)) return false;
-	if (!Fetch (w, params, id_w)) return false;
-	if (!Fetch (h, params, id_h)) return false;
+        CEL_FETCH_LONG_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_LONG_PAR (y,params,id_y);
+        if (!p_y) return false;
+        CEL_FETCH_LONG_PAR (w,params,id_w);
+        if (!p_w) return false;
+        CEL_FETCH_LONG_PAR (h,params,id_h);
+        if (!p_h) return false;
         SetRectangle (x, y, w, h);
         return true;
       }
     case action_setperspcenter:
       {
-	float x, y;
-	if (!Fetch (x, params, id_x)) return false;
-	if (!Fetch (y, params, id_y)) return false;
+        CEL_FETCH_FLOAT_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_FLOAT_PAR (y,params,id_y);
+        if (!p_y) return false;
         SetPerspectiveCenter (x, y);
         return true;
       }
     case action_adaptiveclipping:
       {
-	bool enable;
-	if (!Fetch (enable, params, id_enable)) return false;
-        if (enable)
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
         {
-	  float minfps, maxfps, mindist;
-	  if (!Fetch (minfps, params, id_minfps)) return false;
-	  if (!Fetch (maxfps, params, id_maxfps)) return false;
-	  if (!Fetch (mindist, params, id_mindist)) return false;
+          CEL_FETCH_FLOAT_PAR (minfps,params,id_minfps);
+          if (!p_minfps) return false;
+          CEL_FETCH_FLOAT_PAR (maxfps,params,id_maxfps);
+          if (!p_maxfps) return false;
+          CEL_FETCH_FLOAT_PAR (mindist,params,id_mindist);
+          if (!p_mindist) return false;
           EnableAdaptiveDistanceClipping (minfps, maxfps, mindist);
         }
         else
@@ -349,12 +357,12 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
       }
     case action_fixedclipping:
       {
-	bool enable;
-	if (!Fetch (enable, params, id_enable)) return false;
-        if (enable)
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
         {
-	  float dist;
-	  if (!Fetch (dist, params, id_dist)) return false;
+          CEL_FETCH_FLOAT_PAR (dist,params,id_dist);
+          if (!p_dist) return false;
           EnableFixedDistanceClipping (dist);
         }
         else
@@ -426,7 +434,7 @@ bool celPcNewCamera::GetPropertyIndexed (int idx, float& val)
 
 bool celPcNewCamera::Reset ()
 {
-  pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   if (pcmesh && pcmesh->GetMesh ())
   {
     iMovable* movable = pcmesh->GetMesh ()->GetMovable ();

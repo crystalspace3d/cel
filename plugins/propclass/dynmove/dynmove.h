@@ -30,13 +30,9 @@
 #include "celtool/stdparams.h"
 #include "propclass/dynmove.h"
 #include "propclass/mechsys.h"
-#include "ivaria/bullet.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
-struct iMouseDriver;
-struct iGraphics2D;
-struct iPcDefaultCamera;
 
 /**
  * Factory for dyn movement class.
@@ -53,72 +49,34 @@ private:
   // For input messages
   static csStringID id_input_forward_down;
   static csStringID id_input_backward_down;
-  static csStringID id_input_forward_up;
-  static csStringID id_input_backward_up;
   static csStringID id_input_strafeleft_down;
   static csStringID id_input_straferight_down;
-  static csStringID id_input_strafeleft_up;
-  static csStringID id_input_straferight_up;
   static csStringID id_input_jump_down;
   static csStringID id_input_lookup_down;
   static csStringID id_input_lookup_up;
   static csStringID id_input_lookdown_down;
   static csStringID id_input_lookdown_up;
   static csStringID id_input_center_down;
-  static csStringID id_input_rotateleft_down;
-  static csStringID id_input_rotateleft_up;
-  static csStringID id_input_rotateright_down;
-  static csStringID id_input_rotateright_up;
-  static csStringID id_input_mouselook;
 
   csWeakRef<iPcMechanicsObject> pcmechobj;
-  csWeakRef<CS::Physics::Bullet::iRigidBody> bulletBody;
-  csWeakRef<iPcDefaultCamera> pcdefcamera;
   void GetPCS ();
-  void GetCam ();
-
-  csRef<iGraphics2D> g2d;
-  csRef<iMouseDriver> mouse;
-  bool mouselookEnabled;
-
-  // For properties.
-  enum propids
-  {
-    propid_speed = 0,
-    propid_jumpspeed,
-    propid_rotspeed,
-    propid_correctup,
-  };
-  static PropertyHolder propinfo;
-
-  float speed;
-  float jumpspeed;
-  float rotspeed;
-  bool correctup;
-
-  csVector3 curspeed;
 
 public:
   celPcDynamicMove (iObjectRegistry* object_reg);
   virtual ~celPcDynamicMove ();
   virtual void SetEntity (iCelEntity* entity);
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
+
+  virtual bool SetPropertyIndexed (int idx, long b);
+  virtual bool GetPropertyIndexed (int, long&);
 
   // For iMessageReceiver.
   virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params);
-
-  virtual void TickEveryFrame ();
-
-  // Override SetProperty from celPcCommon in order to provide support
-  // for the 'correctup' property.
-  virtual bool SetPropertyIndexed (int idx, bool b);
-  virtual bool GetPropertyIndexed (int, bool& b);
-
-  virtual void EnableMouselook (bool enable);
-  virtual bool IsMouselookEnabled () const { return mouselookEnabled; }
 };
 
 #endif // __CEL_PF_DYNMOVEFACT__

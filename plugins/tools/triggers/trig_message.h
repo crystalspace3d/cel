@@ -60,16 +60,12 @@ public:
   celMessageTriggerFactory (celMessageTriggerType* type);
   virtual ~celMessageTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
-  virtual iTriggerType* GetTriggerType () const { return type; }
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
-  virtual bool Save (iDocumentNode* node);
 
   //----------------- iMessageTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity);
-  virtual const char* GetEntity () const { return entity_par; }
   virtual void SetMaskParameter (const char* mask);
-  virtual const char* GetMask () const { return mask_par; }
 };
 
 /**
@@ -82,7 +78,6 @@ private:
   csRef<celMessageTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
-  uint entityID;
   csString mask;
   csWeakRef<iCelEntity> ent;
 
@@ -90,7 +85,7 @@ private:
 
 public:
   celMessageTrigger (celMessageTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* mask_par);
   virtual ~celMessageTrigger ();
 
@@ -99,9 +94,8 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
-
-  virtual void Activate () { ActivateTrigger (); }
-  virtual void Deactivate () { DeactivateTrigger (); }
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   //------------------------- iMessageReceiver ------------------------------
   virtual bool ReceiveMessage (csStringID msg_id, iMessageSender* sender,

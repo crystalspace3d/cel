@@ -48,7 +48,7 @@ class celPcNeuralNet : public
   scfImplementationExt1<celPcNeuralNet, celPcCommon, iPcNeuralNet>
 {
   static PropertyHolder propinfo;
-  csRef<celVariableParameterBlock> params;
+  csRef<celGenericParameterBlock> params;
 
   csRef<iMessageDispatcher> dispatcher_outputs;
 
@@ -187,8 +187,17 @@ public:
   /// Destructor.
   virtual ~celPcNeuralNet();
 
+  /// Report error. Always returns false.
+  bool Error(char const *desc, ...) const;
+  /// Report warning. Always returns false.
+  bool Warning(char const *desc, ...) const;
+  /// Report bug. Always returns false.
+  bool Bug(char const *desc, ...) const;
+
   //--------------------------------------------------------- celPcCommon --//
   virtual bool PerformActionIndexed(int index, iCelParameterBlock *params, celData &ret);
+  virtual bool Load(iCelDataBuffer *) { return true; }
+  virtual csPtr<iCelDataBuffer> Save() { return pl->CreateDataBuffer(0); }
 
   //-------------------------------------------------------- iPcNeuralNet --//
   virtual void SetSize(size_t ins, size_t outs, size_t lays)

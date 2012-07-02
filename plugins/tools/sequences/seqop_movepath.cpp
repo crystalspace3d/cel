@@ -78,26 +78,11 @@ celMovePathSeqOpFactory::~celMovePathSeqOpFactory ()
 }
 
 csPtr<iSeqOp> celMovePathSeqOpFactory::CreateSeqOp (
-    iCelParameterBlock* params)
+    const celParams& params)
 {
   celMovePathSeqOp* seqop = new celMovePathSeqOp (type,
   	params, entity_par, tag_par, sectors, nodes, times);
   return seqop;
-}
-
-bool celMovePathSeqOpFactory::Save (iDocumentNode* node)
-{
-  node->SetAttribute ("entity", entity_par);
-  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
-  for (size_t i = 0 ; i < sectors.GetSize () ; i++)
-  {
-    csRef<iDocumentNode> pathNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    pathNode->SetValue ("pathnode");
-    pathNode->SetAttribute ("sector", sectors[i]);
-    pathNode->SetAttribute ("node", nodes[i]);
-    pathNode->SetAttribute ("time", times[i]);
-  }
-  return true;
 }
 
 bool celMovePathSeqOpFactory::Load (iDocumentNode* node)
@@ -153,14 +138,14 @@ static float ToFloat (const char* s)
 
 celMovePathSeqOp::celMovePathSeqOp (
 	celMovePathSeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const csStringArray& sectors, const csStringArray& nodes,
 	const csStringArray& times) : scfImplementationType (this)
 {
   celMovePathSeqOp::type = type;
 
-  pm = csQueryRegistryOrLoad<iParameterManager> 
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity_param = pm->GetParameter (params, entity_par);
@@ -221,13 +206,28 @@ void celMovePathSeqOp::FindMesh (iCelParameterBlock* params)
 {
   if (mesh) return;
 
-  iCelEntity* ent = pm->ResolveEntityParameter (type->pl, params, entity_param, 0);
-  if (!ent) return;
+  entity = entity_param->Get (params);
   tag = tag_param->Get (params);
 
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
-  if (pcmesh)
-    mesh = pcmesh->GetMesh ();
+  // @@@ Too many queries for efficiency?
+  iCelPlLayer* pl = type->pl;
+  iCelEntity* ent = pl->FindEntity (entity);
+  if (ent)
+  {
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
+    if (pcmesh)
+      mesh = pcmesh->GetMesh ();
+  }
+}
+
+bool celMovePathSeqOp::Load (iCelDataBuffer* databuf)
+{
+  mesh = 0;
+  return true;
+}
+
+void celMovePathSeqOp::Save (iCelDataBuffer* databuf)
+{
 }
 
 void celMovePathSeqOp::Init (iCelParameterBlock* params)

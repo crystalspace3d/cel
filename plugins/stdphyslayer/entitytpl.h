@@ -25,9 +25,6 @@
 #include "physicallayer/entitytpl.h"
 #include "physicallayer/datatype.h"
 #include "plugins/stdphyslayer/pl.h"
-#include "propclass/chars.h"
-
-#include "tools/parameters.h"
 
 class celPlLayer;
 
@@ -36,13 +33,13 @@ struct ccfPropAct
   csStringID id;
   // If data.type == CEL_DATA_NONE then params will be used (action).
   celData data;
-  csHash<csRef<iParameter>, csStringID> params;
+  csRef<iCelParameterBlock> params;
 };
 
 struct ccfMessage
 {
-  csStringID msgid;
-  csHash<csRef<iParameter>, csStringID> params;
+  csString msgid;
+  csRef<iCelParameterBlock> params;
 };
 
 class celPropertyClassTemplate : public scfImplementation1<
@@ -60,18 +57,15 @@ public:
   virtual ~celPropertyClassTemplate ();
 
   const csArray<ccfPropAct>& GetProperties () const { return properties; }
-  void Merge (celPropertyClassTemplate* other);
 
   virtual void SetName (const char* name)
   {
     celPropertyClassTemplate::name = name;
   }
   virtual const char* GetName () const { return name; }
-  const csString& GetNameStr () const { return name; }
   virtual void SetTag (const char* tag) { celPropertyClassTemplate::tag = tag; }
   virtual const char* GetTag () const
   { return tag.IsEmpty () ? 0 : (const char*)tag; }
-  const csString& GetTagStr () const { return tag; }
   virtual void SetPropertyVariable (csStringID propertyID, celDataType type,
   	const char* varname);
   virtual void SetProperty (csStringID propertyID, long value);
@@ -85,33 +79,20 @@ public:
   	iCelPropertyClass* value);
   virtual void SetProperty (csStringID propertyID, iCelEntity* entity);
   virtual void PerformAction (csStringID actionID,
-  	const csHash<csRef<iParameter>, csStringID>& params);
-  virtual void ReplaceActionParameters (size_t idx,
-  	const csHash<csRef<iParameter>, csStringID>& params);
-  virtual size_t GetPropertyCount () const { return properties.GetSize (); }
-  virtual csRef<iCelParameterIterator> GetProperty (size_t idx,
-		  csStringID& id, celData& data) const;
-  virtual size_t FindProperty (csStringID id) const;
-  virtual void RemoveAllProperties ();
-  virtual void RemoveProperty (csStringID id);
-  virtual void RemovePropertyByIndex (size_t idx);
+  	iCelParameterBlock* params);
 };
 
 /**
  * Implementation of iCelEntityTemplate.
  */
-class celEntityTemplate : public scfImplementationExt2<
-	celEntityTemplate, csObject, iCelEntityTemplate, iTemplateCharacteristics>
+class celEntityTemplate : public scfImplementationExt1<
+	celEntityTemplate, csObject, iCelEntityTemplate>
 {
 private:
   csRefArray<celPropertyClassTemplate> propclasses;
   csString layer, behaviour;
   csArray<ccfMessage> messages;
   csSet<csStringID> classes;
-  csHash<float, csStringBase> characteristics;
-  csRefArray<iCelEntityTemplate> parents;
-
-  celPropertyClassTemplate* FindPCTemplate (const char* name, const char* tag);
 
 public:
   celEntityTemplate ();
@@ -119,43 +100,22 @@ public:
 
   virtual void AddClass (csStringID cls);
   virtual void RemoveClass (csStringID cls);
-  virtual void RemoveClasses ();
   virtual bool HasClass (csStringID cls);
   virtual const csSet<csStringID>& GetClasses () const { return classes; }
 
   const csArray<ccfMessage>& GetMessages () const { return messages; }
-  virtual size_t GetMessageCount () const { return messages.GetSize (); }
-  virtual csRef<iCelParameterIterator> GetMessage (size_t idx,
-		  csStringID& id) const;
 
   virtual iCelPropertyClassTemplate* CreatePropertyClassTemplate ();
-  virtual void RemovePropertyClassTemplate (size_t idx);
-  virtual void RemovePropertyClassTemplate (iCelPropertyClassTemplate* tpl);
-  virtual iCelPropertyClassTemplate* FindPropertyClassTemplate (const char* name,
-      const char* tag);
-  virtual size_t GetPropertyClassTemplateCount () const
-  {
-    return propclasses.GetSize ();
-  }
-  virtual iCelPropertyClassTemplate* GetPropertyClassTemplate (size_t idx) const
-  {
-    return propclasses[idx];
-  }
   virtual void SetBehaviour (const char* layer, const char* behaviour)
   {
     celEntityTemplate::layer = layer;
     celEntityTemplate::behaviour = behaviour;
   }
-  virtual void AddMessage (csStringID msgid,
-      csHash<csRef<iParameter>, csStringID>& params);
+  virtual void AddMessage (const char* msgid, iCelParameterBlock* params);
   virtual const char* GetBehaviourLayer () const { return layer; }
   const char* GetLayer () const { return layer; }
   virtual const char* GetBehaviour () const { return behaviour; }
-  const csRefArray<iCelEntityTemplate>& GetParentsInt () const
-  {
-    return parents;
-  }
-  const csRefArray<celPropertyClassTemplate>& GetPropClasses () const
+  const csRefArray<celPropertyClassTemplate> GetPropClasses () const
   {
     return propclasses;
   }
@@ -163,26 +123,6 @@ public:
   virtual iObject* QueryObject () { return this; }
   virtual const char* GetName () const { return csObject::GetName (); }
   virtual void SetName (const char* n) { csObject::SetName (n); }
-
-  virtual void Merge (iCelEntityTemplate* tpl);
-  virtual void AddParent (iCelEntityTemplate* tpl);
-  virtual void RemoveParent (iCelEntityTemplate* tpl);
-  virtual void RemoveParents ();
-  virtual csPtr<iCelEntityTemplateIterator> GetParents () const;
-
-  virtual iTemplateCharacteristics* GetCharacteristics ()
-  {
-    return this;
-  }
-
-  // ------ For iTemplateCharacteristics ------------------------
-
-  virtual void SetCharacteristic (const char* name, float value);
-  virtual float GetCharacteristic (const char* name) const;
-  virtual void ClearCharacteristic (const char* name);
-  virtual bool HasCharacteristic (const char* name) const;
-  virtual csPtr<iCharacteristicsIterator> GetAllCharacteristics () const;
-  virtual void ClearAll ();
 };
 
 #endif // __CEL_PLIMP_ENTITYFACT__

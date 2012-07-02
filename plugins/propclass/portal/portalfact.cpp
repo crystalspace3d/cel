@@ -39,6 +39,25 @@
 
 CEL_IMPLEMENT_FACTORY_ALT (Portal, "pcobject.portal", "pcportal")
 
+static void Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.portal",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+}
+
 //---------------------------------------------------------------------------
 
 class celPcPortalCallback : public scfImplementation1<
@@ -67,7 +86,7 @@ celPcPortal::celPcPortal (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
-    Error ("No iEngine plugin!");
+    Report (object_reg, "No iEngine plugin!");
     return;
   }
 
@@ -147,6 +166,36 @@ bool celPcPortal::GetPropertyIndexed (int idx, bool& b)
     return true;
   }
   return false;
+}
+
+#define PORTAL_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcPortal::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (PORTAL_SERIAL);
+  databuf->Add ((const char*)meshname);
+  databuf->Add ((const char*)portalname);
+  databuf->Add (closed);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcPortal::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != PORTAL_SERIAL)
+  {
+    Report (object_reg, "Serialnr != PORTAL_SERIAL.  Cannot load.");
+    return false;
+  }
+
+  portal = 0;
+  meshname = databuf->GetString ()->GetData ();
+  portalname = databuf->GetString ()->GetData ();
+  closed = databuf->GetBool ();
+
+  ResolvePortal ();
+
+  return true;
 }
 
 void celPcPortal::ResolvePortal ()

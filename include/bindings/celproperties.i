@@ -228,6 +228,7 @@
 %cs_attribute(blcelc,iBillboardManager,iSector*,Showroom,GetShowroom)
 
 /* iCelPlLayer (include/physicallayer/pl.h) */
+%cs_attribute(blcelc,iCelPlLayer,size_t,EntityTemplateCount,GetEntityTemplateCount)
 %cs_attribute(blcelc,iCelPlLayer,size_t,EntityCount,GetEntityCount)
 %cs_attribute(blcelc,iCelPlLayer,bool,EntityAddonAllowed,IsEntityAddonAllowed,SetEntityAddonAllowed)
 %cs_attribute(blcelc,iCelPlLayer,size_t,PropertyClassFactoryCount,GetPropertyClassFactoryCount)
@@ -663,6 +664,10 @@
 %cs_attribute(blcelc,iCelBehaviour,iCelBlLayer*,BehaviourLayer,GetBehaviourLayer)
 
 /* CEL_CELTOOL_EXPORT (include/celtool/stdpcimp.h) */
+
+/* celGenericParameterBlock (include/celtool/stdparams.h) */
+%cs_multi_attr_writeonly(blcelc,celGenericParameterBlock,ParameterDef,SetParameterDef)
+%cs_attribute(blcelc,celGenericParameterBlock,size_t,ParameterCount,GetParameterCount)
 
 /* celVariableParameterBlock (include/celtool/stdparams.h) */
 %cs_multi_attr_writeonly(blcelc,celVariableParameterBlock,ParameterDef,SetParameterDef)

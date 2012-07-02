@@ -25,10 +25,6 @@
 #include "tools/parameters.h"
 #include "tools/sequences.h"
 
-struct iQuest;
-struct iCelParameterBlock;
-struct iRewardType;
-
 //-------------------------------------------------------------------------
 // Rewards
 //-------------------------------------------------------------------------
@@ -56,31 +52,19 @@ struct iRewardFactory : public virtual iBase
   SCF_INTERFACE (iRewardFactory, 0, 0, 1);
 
   /**
-   * Get the reward type for this factory.
-   */
-  virtual iRewardType* GetRewardType () const = 0;
-
-  /**
    * Create a reward.
    * \param quest is the quest for which we are creating this reward.
    * \param params are the parameters with which this reward is
    * instantiated.
    */
-  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params) = 0;
+  virtual csPtr<iReward> CreateReward (const celParams& params) = 0;
 
   /**
    * Load this factory from a document node.
-   * \param node is the \<reward\> node in a reward description.
+   * \param node is the \<reward\> node in a trigger description.
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;
-
-  /**
-   * Save this factory to a document node.
-   * \param node is the \<reward\> node in a reward description.
-   * \return false on error (reporter is used to report).
-   */
-  virtual bool Save (iDocumentNode* node) = 0;
 };
 
 /**
@@ -130,7 +114,7 @@ struct iRewardType : public virtual iBase
  */
 struct iActionRewardFactory : public virtual iBase
 {
-  SCF_INTERFACE (iActionRewardFactory, 0, 1, 0);
+  SCF_INTERFACE (iActionRewardFactory, 0, 0, 1);
 
   /**
    * Set the name of the entity.
@@ -138,7 +122,6 @@ struct iActionRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
-  virtual const char* GetEntity () const = 0;
 
   /**
    * Set the name of the entity class on which this reward will work.
@@ -146,14 +129,12 @@ struct iActionRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetClassParameter (const char* ent_class) = 0;
-  virtual const char* GetClass () const = 0;
 
   /**
    * Set the action name.
    * \param id is the action name or a parameter (starts with '$').
    */
   virtual void SetIDParameter (const char* id) = 0;
-  virtual const char* GetID () const = 0;
 
   /**
    * Set the name of the property class.
@@ -161,7 +142,6 @@ struct iActionRewardFactory : public virtual iBase
    * (starts with '$').
    */
   virtual void SetPropertyClassParameter (const char* propertyclass) = 0;
-  virtual const char* GetPropertyClass () const = 0;
 
   /**
    * Set the tag for the propertyclass.
@@ -169,22 +149,17 @@ struct iActionRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetTagParameter (const char* tag) = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Add a parameter to send with the action.
    * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
    * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
    * \param id is the id of the parameter (calculated from iCelPlLayer->FetchStringID(name)).
+   * \param name is the name of the parameter.
    * \param value is the value string or a parameter for it (starts with '$').
-   * \return true if the parameter was added or false if it was updated.
    */
-  virtual bool AddParameter (celDataType type, csStringID id, const char* value) = 0;
-  virtual size_t GetParameterCount () const = 0;
-  virtual csStringID GetParameterID (size_t idx) const = 0;
-  virtual const char* GetParameterValue (size_t idx) const = 0;
-  virtual celDataType GetParameterType (size_t idx) const = 0;
-  virtual void RemoveParameter (csStringID id) = 0;
+  virtual void AddParameter (celDataType type, csStringID id,
+      const char* name, const char* value) = 0;
 };
 
 /**
@@ -225,7 +200,6 @@ struct iChangePropertyRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
-  virtual const char* GetEntity () const = 0;
 
   /**
    * Set the name of the entity class containing the property
@@ -234,7 +208,6 @@ struct iChangePropertyRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetClassParameter (const char* ent_class) = 0;
-  virtual const char* GetClass () const = 0;
 
   /**
    * Set the name of the property class and tag. If this is not
@@ -246,8 +219,6 @@ struct iChangePropertyRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetPCParameter (const char* pc, const char* tag) = 0;
-  virtual const char* GetPC () const = 0;
-  virtual const char* GetPCTag () const = 0;
 
   /**
    * Set the name of the property.
@@ -255,49 +226,41 @@ struct iChangePropertyRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetPropertyParameter (const char* prop) = 0;
-  virtual const char* GetProperty () const = 0;
-  virtual celDataType GetPropertyType () const = 0;
 
   /**
    * Set the string value.
    * \param pstring is the string or a parameter (starts with '$').
    */
   virtual void SetStringParameter (const char* pstring) = 0;
-  virtual const char* GetString () const = 0;
 
   /**
    * Set the long value.
    * \param plong is the long or a parameter (starts with '$').
    */
   virtual void SetLongParameter (const char* plong) = 0;
-  virtual const char* GetLong () const = 0;
 
   /**
    * Set the float value.
    * \param pfloat is the float or a parameter (starts with '$').
    */
   virtual void SetFloatParameter (const char* pfloat) = 0;
-  virtual const char* GetFloat () const = 0;
 
   /**
    * Set the boolean value.
    * \param pbool is the bool or a parameter (starts with '$').
    */
   virtual void SetBoolParameter (const char* pbool) = 0;
-  virtual const char* GetBool () const = 0;
 
   /**
    * Set the diff.
    * \param pdiff is the long/float or a parameter (starts with '$').
    */
   virtual void SetDiffParameter (const char* pdiff) = 0;
-  virtual const char* GetDiff () const = 0;
 
   /**
    * Set the toggle.
    */
-  virtual void SetToggle (bool toggle) = 0;
-  virtual bool IsToggle () const = 0;
+  virtual void SetToggle () = 0;
 };
 
 /**
@@ -331,7 +294,6 @@ struct iCreateEntityRewardFactory : public virtual iBase
    * (starts with '$').
    */
   virtual void SetEntityTemplateParameter (const char* entity_tpl) = 0;
-  virtual const char* GetEntityTemplate () const = 0;
 
   /**
    * Set the name of the entity that will be created.
@@ -339,20 +301,14 @@ struct iCreateEntityRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetNameParameter (const char* name) = 0;
-  virtual const char* GetName () const = 0;
 
   /**
    * Add a parameter for the template.
    * \param name is the name for the parameter.
    * \param value is the value for the parameter or a quest manager parameter 
    * (starts with '$').
-   * \return true if the parameter was added or false if it was updated.
    */
-  virtual bool AddParameter (const char* name, const char* value) = 0;
-  virtual size_t GetParameterCount () const = 0;
-  virtual const char* GetParameterName (size_t idx) const = 0;
-  virtual const char* GetParameterValue (size_t idx) const = 0;
-  virtual void RemoveParameter (const char* name) = 0;
+  virtual void AddParameter (const char* name, const char* value) = 0;
 };
 
 /**
@@ -379,7 +335,6 @@ struct iDestroyEntityRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
-  virtual const char* GetEntity () const = 0;
 
   /**
    * Set the name of the entity class on which this reward will work.
@@ -387,7 +342,8 @@ struct iDestroyEntityRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetClassParameter (const char* ent_class) = 0;
-  virtual const char* GetClass () const = 0;
+
+
 };
 
 /**
@@ -411,7 +367,6 @@ struct iDebugPrintRewardFactory : public virtual iBase
    * or a parameter if it starts with '$').
    */
   virtual void SetMessageParameter (const char* msg) = 0;
-  virtual const char* GetMessage () const = 0;
 };
 
 /**
@@ -446,8 +401,6 @@ struct iInventoryRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the entity that will be put in or out the inventory.
@@ -456,8 +409,6 @@ struct iInventoryRewardFactory : public virtual iBase
    */
   virtual void SetChildEntityParameter (const char* entity,
   	const char* tag = 0) = 0;
-  virtual const char* GetChildEntity () const = 0;
-  virtual const char* GetChildTag () const = 0;
 };
 
 /**
@@ -478,7 +429,7 @@ struct iInventoryRewardFactory : public virtual iBase
  */
 struct iMessageRewardFactory : public virtual iBase
 {
-  SCF_INTERFACE (iMessageRewardFactory, 0, 1, 0);
+  SCF_INTERFACE (iMessageRewardFactory, 0, 0, 1);
 
   /**
    * Set the name of the entity.
@@ -486,7 +437,6 @@ struct iMessageRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
-  virtual const char* GetEntity () const = 0;
 
   /**
    * Set the name of the entity class on which this reward will work.
@@ -494,29 +444,23 @@ struct iMessageRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetClassParameter (const char* ent_class) = 0;
-  virtual const char* GetClass () const = 0;
 
   /**
    * Set the message id.
    * \param id is the message id or a parameter (starts with '$').
    */
   virtual void SetIDParameter (const char* id) = 0;
-  virtual const char* GetID () const = 0;
 
   /**
    * Add a parameter to send with the message.
    * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
    * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
    * \param id is the id of the parameter (calculated from iCelPlLayer->FetchStringID(name)).
+   * \param name is the name of the parameter.
    * \param value is the value string or a parameter for it (starts with '$').
-   * \return true if the parameter was added or false if it was updated.
    */
-  virtual bool AddParameter (celDataType type, csStringID id, const char* value) = 0;
-  virtual size_t GetParameterCount () const = 0;
-  virtual csStringID GetParameterID (size_t idx) const = 0;
-  virtual const char* GetParameterValue (size_t idx) const = 0;
-  virtual celDataType GetParameterType (size_t idx) const = 0;
-  virtual void RemoveParameter (csStringID id) = 0;
+  virtual void AddParameter (celDataType type, csStringID id,
+      const char* name, const char* value) = 0;
 };
 
 /**
@@ -542,14 +486,12 @@ struct iCsSequenceRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetSequenceParameter (const char* sequence) = 0;
-  virtual const char* GetSequence () const = 0;
 
   /**
    * Set the delay.
    * \param delay is delay or a parameter (starts with '$').
    */
   virtual void SetDelayParameter (const char* delay) = 0;
-  virtual const char* GetDelay () const = 0;
 };
 
 /**
@@ -584,7 +526,6 @@ struct iSequenceRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
 
   /**
    * Set the tag of the property class this reward will apply to.
@@ -592,7 +533,6 @@ struct iSequenceRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetTagParameter (const char* tag_par) = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the entity class containing the property
@@ -601,7 +541,6 @@ struct iSequenceRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetClassParameter (const char* ent_class) = 0;
-  virtual const char* GetClass () const = 0;
 
   /**
    * Set the name of the sequence. If this method is used, with no call to
@@ -611,7 +550,6 @@ struct iSequenceRewardFactory : public virtual iBase
    * with '$'). 
    */
   virtual void SetSequenceParameter (const char* sequence) = 0;
-  virtual const char* GetSequence () const = 0;
 
   /**
    * Set the sequence to observe. If this method is used, 
@@ -625,7 +563,6 @@ struct iSequenceRewardFactory : public virtual iBase
    * \param delay is delay or a parameter (starts with '$').
    */
   virtual void SetDelayParameter (const char* delay) = 0;
-  virtual const char* GetDelay () const = 0;
 };
 
 /**
@@ -659,7 +596,6 @@ struct iSequenceFinishRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
 
   /**
    * Set the tag of the property class this reward will apply to.
@@ -667,7 +603,6 @@ struct iSequenceFinishRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetTagParameter (const char* tag_par) = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the entity class containing the property
@@ -676,7 +611,6 @@ struct iSequenceFinishRewardFactory : public virtual iBase
    * with '$').
    */
   virtual void SetClassParameter (const char* ent_class) = 0;
-  virtual const char* GetClass () const = 0;
 
   /**
    * Set the name of the sequence. If this method is used, with no call to
@@ -686,7 +620,6 @@ struct iSequenceFinishRewardFactory : public virtual iBase
    * with '$'). 
    */
   virtual void SetSequenceParameter (const char* sequence) = 0;
-  virtual const char* GetSequence () const = 0;
 
   /**
    * Set the sequence to observe. If this method is used, 

@@ -148,7 +148,7 @@ iPcMechanicsObject* htBehaviourActor::GetMechObject ()
 {
   if (!pcmechobj)
   {
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
     CS_ASSERT (pcmechobj != 0);
   }
   return pcmechobj;
@@ -158,7 +158,7 @@ iPcCraftController* htBehaviourActor::GetCraft ()
 {
   if (!pccraft)
   {
-    pccraft = celQueryPropertyClassEntity<iPcCraftController> (entity);
+    pccraft = CEL_QUERY_PROPCLASS_ENT (entity, iPcCraftController);
     CS_ASSERT (pccraft != 0);
   }
   return pccraft;
@@ -168,7 +168,7 @@ iPcDefaultCamera* htBehaviourActor::GetCamera ()
 {
   if (!pcdefcamera)
   {
-    pcdefcamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity);
+    pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcDefaultCamera);
     CS_ASSERT (pcdefcamera != 0);
   }
   return pcdefcamera;

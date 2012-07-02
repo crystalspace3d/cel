@@ -33,6 +33,26 @@
 
 CEL_IMPLEMENT_FACTORY_ALT (Rules, "pclogic.rules", "pcrules")
 
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.rules",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
+
 //---------------------------------------------------------------------------
 
 void rulePropertyListener::PropertyChanged (iPcProperties* pcprop, size_t idx)
@@ -84,6 +104,24 @@ celPcRules::~celPcRules ()
   delete params;
 }
 
+#define RULES_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcRules::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (RULES_SERIAL);
+  // @@@ TODO
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcRules::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != RULES_SERIAL)
+    return Report (object_reg, "Couldn't load pcrules!");
+  // @@@ TODO
+  return true;
+}
+
 bool celPcRules::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -94,28 +132,29 @@ bool celPcRules::PerformActionIndexed (int idx,
   {
     case action_addrule:
       {
-	csString name;
-	if (!Fetch (name, params, id_name)) return false;
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name)
+          return Report (object_reg,
+      	    "Missing parameter 'name' for action AddRule!");
         iCelRule* rule = rulebase->FindRule (name);
         if (!rule)
-          return Error ("Can't find rule '%s'!", name.GetData ());
-        if (ParExists (CEL_DATA_LONG, params, id_time))
-	{
-	  long time;
-	  if (!Fetch (time, params, id_time)) return false;
+          return Report (object_reg, "Can't find rule '%s'!", name);
+        CEL_FETCH_LONG_PAR (time,params,id_time);
+        if (p_time)
           AddRule (rule, time);
-	}
         else
           AddRule (rule);
         return true;
       }
     case action_deleterule:
       {
-	csString name;
-	if (!Fetch (name, params, id_name)) return false;
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name)
+          return Report (object_reg,
+      	    "Missing parameter 'name' for action AddRule!");
         iCelRule* rule = rulebase->FindRule (name);
         if (!rule)
-          return Error ("Can't find rule '%s'!", name.GetData ());
+          return Report (object_reg, "Can't find rule '%s'!", name);
         DeleteRule (rule);
         return true;
       }
@@ -135,7 +174,7 @@ void celPcRules::GetRuleBase ()
     	"cel.manager.rules");
     if (!rulebase)
     {
-      Error ("Can't find rule base plugin!");
+      Report (object_reg, "Can't find rule base plugin!");
       return;
     }
   }
@@ -175,7 +214,7 @@ void celPcRules::SendModifyPar (const char* rulevar)
   if (!dispatcher_modifypar)
   {
     dispatcher_modifypar = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID ("cel.rules.modifypar"));
+      CreateMessageDispatcher (this, "cel.rules.modifypar");
     if (!dispatcher_modifypar) return;
   }
   dispatcher_modifypar->SendMessage (params);
@@ -305,7 +344,7 @@ void celPcRules::PropertyChanged (iPcProperties* pcprop, size_t idx)
 void celPcRules::GetProperties ()
 {
   if (pcprop) return;
-  pcprop = celQueryPropertyClassEntity<iPcProperties> (entity);
+  pcprop = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
   if (pcprop)
   {
     prop_listener.AttachNew (new rulePropertyListener (this));

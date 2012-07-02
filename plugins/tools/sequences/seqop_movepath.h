@@ -66,21 +66,14 @@ public:
   celMovePathSeqOpFactory (celMovePathSeqOpType* type);
   virtual ~celMovePathSeqOpFactory ();
 
-  virtual csPtr<iSeqOp> CreateSeqOp (iCelParameterBlock* params);
-  virtual iSeqOpType* GetSeqOpType () const { return type; }
-  virtual bool Save (iDocumentNode* node);
+  virtual csPtr<iSeqOp> CreateSeqOp (
+      const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iMovePathSeqOpFactory -----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual const char* GetEntity () const { return entity_par; }
-  virtual const char* GetTag () const { return tag_par; }
   virtual void AddPathNode (const char* sectorname, const char* node,
   	const char* time);
-  virtual size_t GetPathCount () const { return sectors.GetSize (); }
-  virtual const char* GetPathSector (size_t idx) const { return sectors[idx]; }
-  virtual const char* GetPathNode (size_t idx) const { return nodes[idx]; }
-  virtual const char* GetPathTime (size_t idx) const { return times[idx]; }
 };
 
 /**
@@ -100,7 +93,6 @@ private:
 
   csRef<iParameter> entity_param;
   csRef<iParameter> tag_param;
-  csRef<iParameterManager> pm;
 
   csWeakRef<iMeshWrapper> mesh;
 
@@ -108,12 +100,14 @@ private:
 
 public:
   celMovePathSeqOp (celMovePathSeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const csStringArray& sectors, const csStringArray& nodes,
 	const csStringArray& times);
   virtual ~celMovePathSeqOp ();
 
+  virtual bool Load (iCelDataBuffer* databuf);
+  virtual void Save (iCelDataBuffer* databuf);
   virtual void Init (iCelParameterBlock* params);
   virtual void Do (float time, iCelParameterBlock* params);
 };

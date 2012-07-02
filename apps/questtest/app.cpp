@@ -12,7 +12,6 @@
 #include "app.h"
 #include "behave.h"
 #include "tools/rewards.h"
-#include "celtool/stdparams.h"
 
 #include <propclass/quest.h>
 
@@ -34,7 +33,8 @@ bool MainApp::LoadLevel ()
     return ReportError ("Error creating level entity!");
 
   // Now get the iPcZoneManager interface so we can setup the level.
-  csRef<iPcZoneManager> zonemgr = celQueryPropertyClassEntity<iPcZoneManager> (level_entity);
+  csRef<iPcZoneManager> zonemgr = CEL_QUERY_PROPCLASS_ENT (level_entity,
+  	iPcZoneManager);
   iCelZone* zone = zonemgr->CreateZone ("main");
   iCelRegion* region = zonemgr->CreateRegion ("main");
   zone->LinkRegion (region);
@@ -64,15 +64,16 @@ bool MainApp::CreatePlayer ()
     return ReportError ("Error creating player entity!");
 
   // Get the iPcCamera interface so that we can set the camera.
-  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (player_entity);
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player_entity, iPcCamera);
   // Get the zone manager from the level entity which should have been created
   // by now.
-  csRef<iPcZoneManager> pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (level_entity);
+  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (level_entity,
+  	iPcZoneManager);
   pccamera->SetZoneManager (pczonemgr, true, "main", "Camera");
 
   // Get the iPcMesh interface so we can load the right mesh
   // for our player.
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (player_entity);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (player_entity, iPcMesh);
   pcmesh->SetPath ("/cellib/objects");
   pcmesh->SetMesh ("test", "cally.cal3d");
   if (!pcmesh->GetMesh ())
@@ -82,21 +83,23 @@ bool MainApp::CreatePlayer ()
     return ReportError ("Can't find region or start position in region!");
 
   // Get iPcLinearMovement so we can setup the movement system.
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (player_entity);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
+  	iPcLinearMovement);
   pclinmove->InitCD (
   	csVector3 (0.5f,0.8f,0.5f),
   	csVector3 (0.5f,0.4f,0.5f),
   	csVector3 (0,0,0));
 
   // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity<iPcActorMove> (player_entity);
+  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (player_entity, iPcActorMove);
   pcactormove->SetMovementSpeed (3.0f);
   pcactormove->SetRunningSpeed (5.0f);
   pcactormove->SetRotationSpeed (1.75f);
 
   // Get iPcCommandInput so we can do key bindings. The behaviour layer
   // will interprete the commands so the actor can move.
-  csRef<iPcCommandInput> pcinput = celQueryPropertyClassEntity<iPcCommandInput> (player_entity);
+  csRef<iPcCommandInput> pcinput = CEL_QUERY_PROPCLASS_ENT (player_entity,
+  	iPcCommandInput);
   // We read the key bindings from the standard config file.
   pcinput->Bind ("up", "forward");
   pcinput->Bind ("down", "backward");
@@ -249,8 +252,7 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
   qm->AddDestroyEntityReward (init_response, "box3");
 
   qm->AddDebugPrintReward (init_response, " -Creating money box");
-  csRef<iCelParameterBlock> tpl_params;
-  tpl_params.AttachNew (new celVariableParameterBlock ());
+  const celEntityTemplateParams tpl_params;
   qm->AddCreateEntityReward (init_response, "BoxTemplate", "templateBox", tpl_params);
 
   qm->AddDebugPrintReward (init_response, " -Entering 1st State\n");
@@ -343,13 +345,12 @@ csPtr<iCelEntity> MainApp::CreateQuest (const char* name)
 
    //-----------------------------------------------------------
 
-  csRef<iPcQuest> pcquest = celQueryPropertyClassEntity<iPcQuest> (entity_quest);
-  csRef<iCelParameterBlock> params;
-  params.AttachNew (new celVariableParameterBlock ());
+  csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest, iPcQuest); 
+  celParams params;
 
   if (!pcquest->NewQuest ("testquest", params)) 
   { 
-    ReportError ("Error creating quest '%s'!", "testquest"); 
+	ReportError ("Error creating quest '%s'!", "testquest"); 
     return 0; 
   } 
 

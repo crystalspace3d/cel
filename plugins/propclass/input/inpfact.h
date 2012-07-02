@@ -21,7 +21,6 @@
 #define __CEL_PF_INPFACT__
 
 #include "cstypes.h"
-#include "csutil/parray.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "csutil/scf.h"
@@ -35,7 +34,7 @@ struct iCelEntity;
 struct iCelPlLayer;
 struct iObjectRegistry;
 struct iGraphics2D;
-class celVariableParameterBlock;
+class celGenericParameterBlock;
 class celOneParameterBlock;
 
 CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
@@ -48,33 +47,38 @@ CEL_DECLARE_FACTORY (CommandInput)
 
 struct celKeyMap
 {
+  celKeyMap *next, *prev;
   utf32_char key;	// If equal to CS_UC_INVALID we catch all keys.
   uint32 modifiers;
   bool packedargs;
-  csString commandStr;
-  celKeyMap () : packedargs (false) { }
+  char *command;
+  char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
+  celKeyMap () : packedargs (false), command (0) { }
 };
 
 struct celButtonMap
 {
+  celButtonMap *next, *prev;
   csEventID type;
   uint device;
   int numeric;
   uint32 modifiers;
   bool packedargs;
-  csString commandStr;
-  celButtonMap () : packedargs (false) { }
+  char *command;
+  char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
+  celButtonMap () : packedargs (false), command (0) { }
 };
 
 struct celAxisMap
 {
+  celAxisMap *next, *prev;
   csEventID type;
   uint device;
   int numeric;
   uint32 modifiers;
   bool recenter;
-  csString commandStr;
-  celAxisMap () { }
+  char *command;
+  celAxisMap () : command (0) { }
 };
 
 /**
@@ -84,9 +88,9 @@ class celPcCommandInput : public scfImplementationExt1<
 	celPcCommandInput, celPcCommon, iPcCommandInput>
 {
 private:
-  csPDelArray<celKeyMap> keylist;
-  csPDelArray<celButtonMap> buttonlist;
-  csPDelArray<celAxisMap> axislist;
+  celKeyMap* keylist;
+  celButtonMap* buttonlist;
+  celAxisMap* axislist;
   static csStringID id_trigger;
   static csStringID id_state;
   static csStringID id_command;
@@ -104,10 +108,10 @@ private:
   bool handleMouse;
   bool handleJoystick;
 
-  csRef<celVariableParameterBlock> mouse_params;
-  csRef<celVariableParameterBlock> key_params;
-  csRef<celOneParameterBlock> joy_params;
-  csRef<celOneParameterBlock> but_params;
+  celGenericParameterBlock* mouse_params;
+  celGenericParameterBlock* key_params;
+  celOneParameterBlock* joy_params;
+  celOneParameterBlock* but_params;
 
   // For actions.
   enum actionids
@@ -133,13 +137,14 @@ public:
   celPcCommandInput (iObjectRegistry* object_reg);
   virtual ~celPcCommandInput ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
   	celData& ret);
-  virtual void Activate ();
-  virtual void Deactivate ();
 
   bool HandleEvent (iEvent& ev);
 
+  virtual void Activate (bool activate = true);
   virtual void SetSendTrigger (bool send) { do_sendtrigger = send; }
   virtual bool IsSendTriggerEnabled () const { return do_sendtrigger; }
   virtual void SetCookedMode (bool cooked) { do_cooked = cooked; }

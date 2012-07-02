@@ -89,6 +89,27 @@ bool celPcTest::GetPropertyIndexed (int idx, long& l)
   return false;
 }
 
+#define TEST_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcTest::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TEST_SERIAL);
+  databuf->Add (int32 (counter));
+  databuf->Add (int32 (max));
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcTest::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != TEST_SERIAL) return false;
+
+  counter = databuf->GetInt32 ();
+  max = databuf->GetInt32 ();
+
+  return true;
+}
+
 bool celPcTest::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -97,8 +118,8 @@ bool celPcTest::PerformActionIndexed (int idx,
   {
     case action_print:
       {
-	csString msg;
-	if (!Fetch (msg, params, id_message)) return false;
+        CEL_FETCH_STRING_PAR (msg,params,id_message);
+        if (!p_msg) return false;
         Print (msg);
         return true;
       }
@@ -123,7 +144,7 @@ void celPcTest::Print (const char* msg)
   if (!dispatcher_print)
   {
     dispatcher_print = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID ("cel.test.print"));
+      CreateMessageDispatcher (this, "cel.test.print");
     if (!dispatcher_print) return;
   }
   dispatcher_print->SendMessage (params);

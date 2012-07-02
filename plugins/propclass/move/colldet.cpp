@@ -56,6 +56,8 @@
 
 #include "plugins/propclass/move/colldet.h"
 
+extern bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
+
 CEL_IMPLEMENT_FACTORY_ALT (CollisionDetection, "pcobject.mesh.collisiondetection",
     "pccollisiondetection")
 
@@ -64,11 +66,10 @@ CEL_IMPLEMENT_FACTORY_ALT (CollisionDetection, "pcobject.mesh.collisiondetection
 celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  colliderActorReady = false;
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   if (!cdsys)
   {
-    Error ("iCollideSystem missing!");
+    MoveReport (object_reg, "iCollideSystem missing!");
     return;
   }
   collider_actor.SetCollideSystem (cdsys);
@@ -77,7 +78,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
-    Error ("iEngine missing!");
+    MoveReport (object_reg, "iEngine missing!");
     return;
   }
   collider_actor.SetEngine (engine);
@@ -89,6 +90,35 @@ celPcCollisionDetection::~celPcCollisionDetection ()
 {
 }
 
+#define COLLDET_SERIAL 27
+
+csPtr<iCelDataBuffer> celPcCollisionDetection::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (COLLDET_SERIAL);
+
+  databuf->Add (topSize);
+  databuf->Add (bottomSize);
+  databuf->Add (shift);
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcCollisionDetection::Load (iCelDataBuffer* databuf)
+{
+  int seriallnr = databuf->GetSerialNumber ();
+  if (seriallnr != COLLDET_SERIAL)
+    return false;
+
+  databuf->GetVector3 (topSize);
+  databuf->GetVector3 (bottomSize);
+  databuf->GetVector3 (shift);
+
+  if (!Init (topSize, bottomSize, shift))
+    return false;
+
+  return true;
+}
+
 bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
                                                    csVector3& newpos,
                                                    csVector3& vel,
@@ -98,7 +128,6 @@ bool celPcCollisionDetection::AdjustForCollisions (csVector3& oldpos,
   if (!useCD)
     return true;
 
-  if (!InitActor ()) return true;
   return collider_actor.AdjustForCollisions (oldpos, newpos,
   	vel, delta);
 }
@@ -115,10 +144,10 @@ bool celPcCollisionDetection::Init (const csVector3& body,
   if (!pcmesh)
   {
     csRef<iPcMesh> pcmeshref;
-    pcmeshref = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcmeshref = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
 
     if (!pcmeshref)
-      return Error ("Colldet: No Mesh found on entity!");
+      return MoveReport (object_reg, "Colldet: No Mesh found on entity!");
     else
       pcmesh = pcmeshref; // Pull ptr out of csRef
   }
@@ -126,18 +155,9 @@ bool celPcCollisionDetection::Init (const csVector3& body,
   topSize = body;
   bottomSize = legs;
   celPcCollisionDetection::shift = _shift;
-  colliderActorReady = false;
-  useCD = true;
-  return true;
-}
-
-bool celPcCollisionDetection::InitActor ()
-{
-  if (colliderActorReady) return true;
-  if (!pcmesh->GetMesh ()) return false;
   collider_actor.InitializeColliders (pcmesh->GetMesh (),
-  	bottomSize, topSize, shift);
-  colliderActorReady = true;
+  	legs, body, shift);
+  useCD = true;
   return true;
 }
 
@@ -155,7 +175,8 @@ iCollider* celPcCollisionDetection::FindCollider (iObject* object)
     iCelEntity* ent = pl->FindAttachedEntity (object);
     if (ent)
     {
-      csRef<iPcSolid> pcsolid = celQueryPropertyClassEntity<iPcSolid> (ent);
+      csRef<iPcSolid> pcsolid = CEL_QUERY_PROPCLASS (
+            ent->GetPropertyClassList (), iPcSolid);
       if (pcsolid)
       {
 	// Calling pcsolid->GetCollider() will cause a csColliderWrapper

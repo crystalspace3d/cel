@@ -90,7 +90,8 @@ celPcMeshDeform::celPcMeshDeform (iObjectRegistry* object_reg)
   clock = csQueryRegistry<iVirtualClock> (object_reg);
   if (!clock)
   {
-    Error ("No iVirtualClock!");
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"cel.pcobject.mesh.deform", "No iVirtualClock!");
     return;
   }
 
@@ -104,6 +105,18 @@ delete controltype;
 delete controlfact;
 if (deformcontrol)
   delete deformcontrol;
+}
+
+#define TEST_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcMeshDeform::Save ()
+{
+ return 0;
+}
+
+bool celPcMeshDeform::Load (iCelDataBuffer* databuf)
+{
+ return false;
 }
 
 bool celPcMeshDeform::GetPropertyIndexed (int idx, float& f)
@@ -154,12 +167,10 @@ bool celPcMeshDeform::PerformActionIndexed (int idx,
   {
     case action_deformmesh:
       {
-	csVector3 pos, dir;
-	if (!Fetch (pos, params, param_position)) return false;
-	if (!Fetch (dir, params, param_direction)) return false;
-	bool world;
-	if (!Fetch (world, params, param_worldspace, true, false)) return false;
-        DeformMesh (pos, dir, world);
+        CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
+        CEL_FETCH_VECTOR3_PAR (dir, params, param_direction);
+        CEL_FETCH_BOOL_PAR (world, params, param_worldspace);
+        DeformMesh(pos, dir, world);
         return true;
       }
     case action_resetdeform:
@@ -190,7 +201,7 @@ void celPcMeshDeform::TryGetMesh()
 {
   if (!mesh)
   {
-    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (GetEntity());
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(GetEntity(), iPcMesh);
     if (pcmesh)
       SetMesh(pcmesh->GetMesh());
   }

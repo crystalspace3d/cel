@@ -24,15 +24,11 @@
 #include "tools/parameters.h"
 #include "tools/sequences.h"
 
-struct iQuest;
-struct iCelParameterBlock;
-
 //-------------------------------------------------------------------------
 // Triggers
 //-------------------------------------------------------------------------
 
 struct iTrigger;
-struct iTriggerType;
 
 /**
  * A trigger will get pointers to call back the quest when
@@ -55,7 +51,7 @@ struct iTriggerCallback : public virtual iBase
  */
 struct iTrigger : public virtual iBase
 {
-  SCF_INTERFACE (iTrigger, 0, 0, 2);
+  SCF_INTERFACE (iTrigger, 0, 0, 1);
 
   /**
    * Register a callback with this trigger. When the trigger fires
@@ -88,20 +84,16 @@ struct iTrigger : public virtual iBase
   virtual bool Check () = 0;
 
   /**
-   * Activate this trigger. This means it will process events again.
-   * Note that this is not equivalent to ActivateTrigger() since the
-   * this function will actually activate the trigger to the same state
-   * as it was when the trigger was deactivated. ActivateTrigger() on the
-   * other hand, just activates the trigger to its initial state.
+   * Activate the trigger and load state from databuf (persistence).
+   * \return false on failure (data in buffer doesn't match what we
+   * expect).
    */
-  virtual void Activate () = 0;
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf) = 0;
 
   /**
-   * Deactivate this trigger. This is not the same as DeactivateTrigger()
-   * since this function will remember the state when it was deactivated
-   * and allow Activate() to restore it to exactly that state.
+   * Save trigger state.
    */
-  virtual void Deactivate () = 0;
+  virtual void SaveTriggerState (iCelDataBuffer* databuf) = 0;
 };
 
 /**
@@ -113,17 +105,12 @@ struct iTriggerFactory : public virtual iBase
   SCF_INTERFACE (iTriggerFactory, 0, 0, 1);
 
   /**
-   * Get the type for this trigger factory.
-   */
-  virtual iTriggerType* GetTriggerType () const = 0;
-
-  /**
    * Create a trigger.
    * \param params are the parameters with which this reward is
    * instantiated.
    */
   virtual csPtr<iTrigger> CreateTrigger (
-  	iQuest* q, iCelParameterBlock* params) = 0;
+  	const celParams& params) = 0;
 
   /**
    * Load this factory from a document node.
@@ -131,13 +118,6 @@ struct iTriggerFactory : public virtual iBase
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;
-
-  /**
-   * Save this factory to a document node.
-   * \param node is the \<fireon\> node in a trigger description.
-   * \return false on error (reporter is used to report).
-   */
-  virtual bool Save (iDocumentNode* node) = 0;
 };
 
 /**
@@ -199,8 +179,6 @@ struct iEnterSectorTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the sector on which this trigger will fire
@@ -209,7 +187,6 @@ struct iEnterSectorTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetSectorParameter (const char* sector) = 0;
-  virtual const char* GetSector () const = 0;
 };
 
 /**
@@ -222,7 +199,7 @@ struct iEnterSectorTriggerFactory : public virtual iBase
  * The predefined name of this trigger type is 'cel.triggers.inventory'.
  *
  * This trigger sends out 'child' parameter to the reward (containing the
- * name of the entity or template that was added or removed).
+ * name of the entity that was added or removed).
  *
  * In XML, factories recognize the following attributes on the 'fireon' node:
  * - <em>entity</em>: the name of the entity that contains the
@@ -230,10 +207,7 @@ struct iEnterSectorTriggerFactory : public virtual iBase
  * - <em>entity_tag</em>: optional tag used to find the right
  *   property class from the entity.
  * - <em>child_entity</em>: the name of the entity to watch for. If this
- *   and <em>child_template</em> is not given then you will get triggere whenever something is
- *   added or removed from the inventory.
- * - <em>child_template</em>: the name of the template to watch for. If this
- *   and <em>child_entity</em> is not given then you will get triggere whenever something is
+ *   is not given then you will get triggere whenever something is
  *   added or removed from the inventory.
  */
 struct iInventoryTriggerFactory : public virtual iBase
@@ -249,8 +223,6 @@ struct iInventoryTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the entity to watch for. If this
@@ -260,17 +232,6 @@ struct iInventoryTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetChildEntityParameter (const char* child_entity) = 0;
-  virtual const char* GetChildEntity () const = 0;
-
-  /**
-   * Set the name of the template to watch for. If this
-   * is not given then you will get triggered whenever something is
-   * added or removed from the inventory.
-   * \param child_template is the name of the template or a parameter (starts
-   * with '$').
-   */
-  virtual void SetChildTemplateParameter (const char* child_template) = 0;
-  virtual const char* GetChildTemplate () const = 0;
 };
 
 /**
@@ -304,8 +265,6 @@ struct iMeshSelectTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
 };
 
 /**
@@ -332,7 +291,6 @@ struct iMessageTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
-  virtual const char* GetEntity () const = 0;
 
   /**
    * Set the name of the message mask that we want to receive messages
@@ -341,7 +299,6 @@ struct iMessageTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetMaskParameter (const char* mask) = 0;
-  virtual const char* GetMask () const = 0;
 };
 
 
@@ -379,8 +336,6 @@ struct iOperationTriggerFactory : public virtual iBase
    * Operation must be one of 'or', 'and', or 'xor'.
    */
   virtual void SetOperationParameter (const char* operation) = 0;
-  virtual const char* GetOperation () const = 0;
-
   /**
    * Return the trigger factory list so that user can add new ones, remove
    * them or clear the list.
@@ -438,8 +393,6 @@ struct iPropertyChangeTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the property on which this trigger will fire.
@@ -447,7 +400,6 @@ struct iPropertyChangeTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetPropertyParameter (const char* prop) = 0;
-  virtual const char* GetProperty () const = 0;
 
   /**
    * Set the value of the property on which this trigger will fire. If
@@ -456,7 +408,6 @@ struct iPropertyChangeTriggerFactory : public virtual iBase
    * \param value is the value or a parameter (starts with '$').
    */
   virtual void SetValueParameter (const char* value) = 0;
-  virtual const char* GetValue () const = 0;
 
   /**
    * Set the operation this trigger will test with. If operation
@@ -464,7 +415,6 @@ struct iPropertyChangeTriggerFactory : public virtual iBase
    * \param op one of: eq, lt, gt, ne, le, ge. See above for more details.
    */
   virtual void SetOperationParameter (const char* op) = 0;
-  virtual const char* GetOperation () const = 0;
 
   /**
    * Set whether the trigger will fire only on an actual change (so the
@@ -473,7 +423,6 @@ struct iPropertyChangeTriggerFactory : public virtual iBase
    * \param on_change true for reporting only on change.
    */
   virtual void SetOnChangeOnly (bool on_change) = 0;
-  virtual bool IsOnChangeOnly () const = 0;
 };
 
 /**
@@ -506,8 +455,6 @@ struct iSequenceFinishTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the sequence. If this method is used, with no call to
@@ -517,7 +464,6 @@ struct iSequenceFinishTriggerFactory : public virtual iBase
    * with '$'). 
    */
   virtual void SetSequenceParameter (const char* sequence) = 0;
-  virtual const char* GetSequence () const = 0;
 
   /**
    * Set the sequence to observe. If this method is used, 
@@ -549,7 +495,6 @@ struct iTimeoutTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetTimeoutParameter (const char* timeout_par) = 0;
-  virtual const char* GetTimeout () const = 0;
 };
 
 
@@ -586,15 +531,12 @@ struct iTriggerTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * If this function is called then the trigger will fire on 'leaves'
    * instead of 'enters'.
    */
-  virtual void EnableLeave (bool l) = 0;
-  virtual bool IsLeaveEnabled () const = 0;
+  virtual void EnableLeave () = 0;
 };
 
 /**
@@ -635,8 +577,6 @@ struct iWatchTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Set the name of the target entity containing the pcmesh property class
@@ -648,8 +588,6 @@ struct iWatchTriggerFactory : public virtual iBase
    */
   virtual void SetTargetEntityParameter (const char* entity,
       const char* tag = 0) = 0;
-  virtual const char* GetTargetEntity () const = 0;
-  virtual const char* GetTargetTag () const = 0;
 
   /**
    * Set the interval (in milliseconds) after which this trigger
@@ -659,7 +597,6 @@ struct iWatchTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetChecktimeParameter (const char* time) = 0;
-  virtual const char* GetChecktime () const = 0;
 
   /**
    * Set the maximum radius for visibility checking.
@@ -668,7 +605,6 @@ struct iWatchTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetRadiusParameter (const char* radius) = 0;
-  virtual const char* GetRadius () const = 0;
 
   /**
    * Optional offset parameter. This offset will be added to the
@@ -679,9 +615,6 @@ struct iWatchTriggerFactory : public virtual iBase
    */
   virtual void SetOffsetParameter (const char* offsetx,
       const char* offsety, const char* offsetz) = 0;
-  virtual const char* GetOffsetX () const = 0;
-  virtual const char* GetOffsetY () const = 0;
-  virtual const char* GetOffsetZ () const = 0;
 };
 
 //-------------------------------------------------------------------------

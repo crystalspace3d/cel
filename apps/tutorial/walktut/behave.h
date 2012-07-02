@@ -115,6 +115,15 @@ public:
 class BehaviourPlayer : public BehaviourCommon
 {
 private:
+  csStringID id_pccommandinput_forward1;
+  csStringID id_pccommandinput_forward0;
+  csStringID id_pccommandinput_backward1;
+  csStringID id_pccommandinput_backward0;
+  csStringID id_pccommandinput_rotateleft1;
+  csStringID id_pccommandinput_rotateleft0;
+  csStringID id_pccommandinput_rotateright1;
+  csStringID id_pccommandinput_rotateright0;
+  csStringID id_pccommandinput_cammode1;
   csStringID id_pccommandinput_drop1;
 
   csStringID id_pcinventory_addchild;

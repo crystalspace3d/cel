@@ -43,6 +43,26 @@ CEL_IMPLEMENT_FACTORY (Bag, "pctools.bag")
 
 //---------------------------------------------------------------------------
 
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.bag",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
+
 csStringID celPcBag::id_value = csInvalidStringID;
 csStringID celPcBag::id_msgid = csInvalidStringID;
 
@@ -78,6 +98,21 @@ celPcBag::~celPcBag ()
 {
 }
 
+#define BAG_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcBag::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (BAG_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcBag::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != BAG_SERIAL) return false;
+  return true;
+}
+
 bool celPcBag::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -86,15 +121,19 @@ bool celPcBag::PerformActionIndexed (int idx,
   {
     case action_addstring:
       {
-	csString value;
-	if (!Fetch (value, params, id_value)) return false;
+        CEL_FETCH_STRING_PAR (value,params,id_value);
+        if (!p_value)
+	  return Report (object_reg,
+	      "Missing parameter 'value' for action AddString!");
 	AddString (value);
       }
       return true;
     case action_removestring:
       {
-	csString value;
-	if (!Fetch (value, params, id_value)) return false;
+        CEL_FETCH_STRING_PAR (value,params,id_value);
+        if (!p_value)
+	  return Report (object_reg,
+	      "Missing parameter 'value' for action RemoveString!");
 	RemoveString (value);
       }
       return true;
@@ -103,15 +142,19 @@ bool celPcBag::PerformActionIndexed (int idx,
       return true;
     case action_hasstring:
       {
-	csString value;
-	if (!Fetch (value, params, id_value)) return false;
+        CEL_FETCH_STRING_PAR (value,params,id_value);
+        if (!p_value)
+	  return Report (object_reg,
+	      "Missing parameter 'value' for action HasString!");
 	ret.Set (HasString (value));
       }
       return true;
     case action_sendmessage:
       {
-	csString msgid;
-	if (!Fetch (msgid, params, id_msgid)) return false;
+        CEL_FETCH_STRING_PAR (msgid,params,id_msgid);
+        if (!p_msgid)
+	  return Report (object_reg,
+	      "Missing parameter 'msgid' for action SendMessage!");
 	SendMessage (msgid, params);
       }
       return true;
@@ -155,8 +198,7 @@ bool celPcBag::SendMessage (const char* msgid, iCelParameterBlock* params)
     iCelEntity* ent = pl->FindEntity (str);
     if (ent)
     {
-      bool rc = ent->QueryMessageChannel ()->SendMessage (
-		      pl->FetchStringID (msgid), this, params);
+      bool rc = ent->QueryMessageChannel ()->SendMessage (msgid, this, params);
       if (rc) total_rc = true;
     }
   }

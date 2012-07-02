@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2004-2011 by Jorrit Tyberghein
+    Copyright (C) 2004-2006 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -20,11 +20,9 @@
 #ifndef __CEL_SEQUENCES__
 #define __CEL_SEQUENCES__
 
+#include "behaviourlayer/behave.h"
 #include "tools/parameters.h"
 
-struct iQuest;
-struct iCelParameterBlock;
-struct iSeqOpType;
 
 //-------------------------------------------------------------------------
 // Sequence operations
@@ -49,6 +47,16 @@ struct iSeqOp : public virtual iBase
   virtual void Init (iCelParameterBlock* params) = 0;
 
   /**
+   * Load the sequence operation from persisted data.
+   */
+  virtual bool Load (iCelDataBuffer* databuf) = 0;
+
+  /**
+   * Save the sequence operation to persisted data.
+   */
+  virtual void Save (iCelDataBuffer* databuf) = 0;
+
+  /**
    * Do the operation. The parameter is a value between 0 and 1 which
    * will be interpolated over a specified time (specified in the sequence).
    * In case this is a single-shot operation the value will always be 1.
@@ -65,16 +73,11 @@ struct iSeqOpFactory : public virtual iBase
   SCF_INTERFACE (iSeqOpFactory, 0, 0, 1);
 
   /**
-   * Get the type for this factory.
-   */
-  virtual iSeqOpType* GetSeqOpType () const = 0;
-
-  /**
    * Create a sequence operation.
    * \param params are the parameters with which this reward is
    * instantiated.
    */
-  virtual csPtr<iSeqOp> CreateSeqOp (iCelParameterBlock* params) = 0;
+  virtual csPtr<iSeqOp> CreateSeqOp (const celParams& params) = 0;
 
   /**
    * Load this factory from a document node.
@@ -82,13 +85,6 @@ struct iSeqOpFactory : public virtual iBase
    * \return false on error (reporter is used to report).
    */
   virtual bool Load (iDocumentNode* node) = 0;
-
-  /**
-   * Save this factory to a document node.
-   * \param node is the node for the operation.
-   * \return false on error (reporter is used to report).
-   */
-  virtual bool Save (iDocumentNode* node) = 0;
 };
 
 /**
@@ -138,6 +134,15 @@ struct iCelSequence : public virtual iBase
   virtual const char* GetName () const = 0;
 
   /**
+   * Save state of this sequence.
+   */
+  virtual void SaveState (iCelDataBuffer* databuf) = 0;
+  /**
+   * Load state of this sequence.
+   */
+  virtual bool LoadState (iCelDataBuffer* databuf) = 0;
+
+  /**
    * Fire this sequence.
    * \param delay is a delay before the sequence will really start.
    * \return false if the sequence is already running.
@@ -172,16 +177,6 @@ struct iCelSequence : public virtual iBase
    * Remove a callback.
    */
   virtual void RemoveSequenceCallback (iCelSequenceCallback* cb) = 0;
-
-  /**
-   * Activate this sequence.
-   */
-  virtual void Activate () = 0;
-
-  /**
-   * Deactivate this sequence.
-   */
-  virtual void Deactivate () = 0;
 };
 
 /**
@@ -192,8 +187,7 @@ struct iCelSequenceFactory : public virtual iBase
 {
   SCF_INTERFACE (iCelSequenceFactory, 0, 0, 1);
 
-  virtual csPtr<iCelSequence> CreateSequence (iQuest* q,
-      iCelParameterBlock* params) = 0;
+  virtual csPtr<iCelSequence> CreateSequence (const celParams& params) = 0;
 
   /**
    * Get the name of this factory.
@@ -214,33 +208,6 @@ struct iCelSequenceFactory : public virtual iBase
    */
   virtual void AddSeqOpFactory (iSeqOpFactory* seqopfact,
   	const char* duration) = 0;
-
-  /**
-   * Update an operation factory at a specific index.
-   */
-  virtual void UpdateSeqOpFactory (size_t idx, iSeqOpFactory* seqopfact,
-      const char* duration) = 0;
-
-  /**
-   * Get the amount of seqop factories.
-   */
-  virtual size_t GetSeqOpFactoryCount () const = 0;
-
-  /**
-   * Get a specific seqop factory. Returns 0 if it is a delay.
-   */
-  virtual iSeqOpFactory* GetSeqOpFactory (size_t idx) const = 0;
-
-  /**
-   * Return the parameter string for the duration.
-   */
-  virtual const char* GetSeqOpFactoryDuration (size_t idx) const = 0;
-
-  /**
-   * Remove a seqop factory. Note that a delay also counts as
-   * such a factory.
-   */
-  virtual void RemoveSeqOpFactory (size_t idx) = 0;
 
   /**
    * Add a delay.
@@ -284,63 +251,8 @@ struct iDebugPrintSeqOpFactory : public virtual iBase
    * or a parameter if it starts with '$').
    */
   virtual void SetMessageParameter (const char* msg) = 0;
-  virtual const char* GetMessage () const = 0;
 };
 
-
-/**
- * This interface is implemented by the seqop that animates ambient
- * light colors for a mesh.
- * You can query this interface from the seqop factory if
- * you want to manually control this factory as opposed to loading
- * its definition from an XML document.
- *
- * The predefined name of this seqop type is 'cel.seqops.ambientmesh'.
- *
- * In XML, factories recognize the following attributes on the 'op' node:
- * - <em>entity</em>: the name of the entity containing the pcmesh
- *   property class.
- * - <em>entity_tag</em>: optional tag used to find the right
- *   property class from the entity.
- * - <em>relcolor</em>: relative color animation vector.
- *   This node has 'red', 'green, and 'blue' attributes. Each of these
- *   attributes can be a parameter.
- * - <em>abscolor</em>: absolute color.
- *   This node has 'red', 'green, and 'blue' attributes. Each of these
- *   attributes can be a parameter.
- */
-struct iAmbientMeshSeqOpFactory : public virtual iBase
-{
-  SCF_INTERFACE (iAmbientMeshSeqOpFactory, 0, 0, 1);
-
-  /**
-   * Set the entity containing the pcmesh (either entity name
-   * or a parameter if it starts with '$').
-   * \param tag is the optional tag of the entity or a parameter (starts
-   * with '$').
-   */
-  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
-
-  /**
-   * Set the relative color animation vector.
-   */
-  virtual void SetRelColorParameter (const char* red, const char* green,
-  	const char* blue) = 0;
-  virtual const char* GetRelColorRed () const = 0;
-  virtual const char* GetRelColorGreen () const = 0;
-  virtual const char* GetRelColorBlue () const = 0;
-
-  /**
-   * Set the absolute color.
-   */
-  virtual void SetAbsColorParameter (const char* red, const char* green,
-  	const char* blue) = 0;
-  virtual const char* GetAbsColorRed () const = 0;
-  virtual const char* GetAbsColorGreen () const = 0;
-  virtual const char* GetAbsColorBlue () const = 0;
-};
 
 /**
  * This interface is implemented by the seqop that animates light colors.
@@ -373,26 +285,18 @@ struct iLightSeqOpFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Set the relative color animation vector.
    */
   virtual void SetRelColorParameter (const char* red, const char* green,
   	const char* blue) = 0;
-  virtual const char* GetRelColorRed () const = 0;
-  virtual const char* GetRelColorGreen () const = 0;
-  virtual const char* GetRelColorBlue () const = 0;
 
   /**
    * Set the absolute color.
    */
   virtual void SetAbsColorParameter (const char* red, const char* green,
   	const char* blue) = 0;
-  virtual const char* GetAbsColorRed () const = 0;
-  virtual const char* GetAbsColorGreen () const = 0;
-  virtual const char* GetAbsColorBlue () const = 0;
 };
 
 /**
@@ -425,8 +329,6 @@ struct iMovePathSeqOpFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Add a node.
@@ -439,10 +341,6 @@ struct iMovePathSeqOpFactory : public virtual iBase
    */
   virtual void AddPathNode (const char* sectorname, const char* node,
   	const char* time) = 0;
-  virtual size_t GetPathCount () const = 0;
-  virtual const char* GetPathSector (size_t idx) const = 0;
-  virtual const char* GetPathNode (size_t idx) const = 0;
-  virtual const char* GetPathTime (size_t idx) const = 0;
 };
 
 /**
@@ -482,7 +380,6 @@ struct iPropertySeqOpFactory : public virtual iBase
    * or a parameter if it starts with '$').
    */
   virtual void SetEntityParameter (const char* entity) = 0;
-  virtual const char* GetEntity () const = 0;
 
   /**
    * Set the property class and tag to search for.
@@ -491,8 +388,6 @@ struct iPropertySeqOpFactory : public virtual iBase
    * with '$').
    */
   virtual void SetPCParameter (const char* pc, const char* tag = 0) = 0;
-  virtual const char* GetPC () const = 0;
-  virtual const char* GetPCTag () const = 0;
 
   /**
    * Set the property name for this sequence.
@@ -500,8 +395,6 @@ struct iPropertySeqOpFactory : public virtual iBase
    * It can also be a parameter if it starts with '$'.
    */
   virtual void SetPropertyParameter (const char* property_name) = 0;
-  virtual const char* GetProperty () const = 0;
-  virtual celDataType GetPropertyType () const = 0;
 
   /**
    * Set the end value for the property as a float.
@@ -509,7 +402,6 @@ struct iPropertySeqOpFactory : public virtual iBase
    * It can also be a parameter if it starts with '$'.
    */
   virtual void SetFloatParameter (const char* pfloat) = 0;
-  virtual const char* GetFloat () const = 0;
 
   /**
    * Set the end value for the property as a long.
@@ -517,7 +409,6 @@ struct iPropertySeqOpFactory : public virtual iBase
    * It can also be a parameter if it starts with '$'.
    */
   virtual void SetLongParameter (const char* plong) = 0;
-  virtual const char* GetLong () const = 0;
 
   /**
    * Set the end value for the property as a vector2.
@@ -527,8 +418,6 @@ struct iPropertySeqOpFactory : public virtual iBase
    */
   virtual void SetVector2Parameter (const char* vectorx, 
 	const char* vectory) = 0;
-  virtual const char* GetVectorX () const = 0;
-  virtual const char* GetVectorY () const = 0;
 
   /**
    * Set the end value for the property as a vector3.
@@ -540,7 +429,6 @@ struct iPropertySeqOpFactory : public virtual iBase
    */
   virtual void SetVector3Parameter (const char* vectorx, const char* vectory,
         const char* vectorz) = 0;
-  virtual const char* GetVectorZ () const = 0;
 
    /**
    * Set whether the sequence will be relative:
@@ -550,7 +438,6 @@ struct iPropertySeqOpFactory : public virtual iBase
    * \param is_relative whether the sequence is relative. can't be a parameter.
    */
   virtual void SetRelative (bool is_relative) = 0;
-  virtual bool IsRelative () const = 0;
 };
 
 
@@ -588,17 +475,12 @@ struct iTransformSeqOpFactory : public virtual iBase
    * with '$').
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
-  virtual const char* GetEntity () const = 0;
-  virtual const char* GetTag () const = 0;
 
   /**
    * Set the relative movement vector parameter.
    */
   virtual void SetVectorParameter (const char* vectorx, const char* vectory,
   	const char* vectorz) = 0;
-  virtual const char* GetVectorX () const = 0;
-  virtual const char* GetVectorY () const = 0;
-  virtual const char* GetVectorZ () const = 0;
 
   /**
    * Set the relative rotation parameter.
@@ -606,10 +488,7 @@ struct iTransformSeqOpFactory : public virtual iBase
    * \param rot_angle the amount of rotation.
    */
   virtual void SetRotationParameter (int rot_axis, const char* rot_angle) = 0;
-  virtual int GetRotationAxis () const = 0;
-  virtual const char* GetRotationAngle () const = 0;
 };
-
 //-------------------------------------------------------------------------
 
 /**

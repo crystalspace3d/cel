@@ -191,7 +191,8 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
       CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
-  csRef<iPcCommandInput> pcinp = celQueryPropertyClassEntity<iPcCommandInput> (entity_cam);
+  csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
+      iPcCommandInput);
   pcinp->Bind ("up", "accelerate");
   pcinp->Bind ("down", "reverse");
   pcinp->Bind ("left", "steerleft");
@@ -201,12 +202,13 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
 
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity_cam);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   pcmesh->SetMesh ("celCarBody","/cellib/objects/celcarbody");
   iSector* sector = engine->FindSector (sectorname);
   pcmesh->MoveMesh (sector, pos);
 
-  csRef<iPcDefaultCamera> pccamera = celQueryPropertyClassEntity<iPcDefaultCamera> (entity_cam);
+  csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
+      entity_cam, iPcDefaultCamera);
   pccamera->SetMode (iPcDefaultCamera::firstperson);
   pccamera->SetSpringParameters (10.0f, 0.1f, 0.01f);
   pccamera->SetMode (iPcDefaultCamera::thirdperson);
@@ -228,14 +230,15 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, -3.0f));
   pccamera->SetModeName ("thirdperson");
 
-  csRef<iPcMechanicsObject> pcmech=celQueryPropertyClassEntity<iPcMechanicsObject> (entity_cam);
+  csRef<iPcMechanicsObject> pcmech=CEL_QUERY_PROPCLASS_ENT(entity_cam,
+      iPcMechanicsObject);
   //The mass of the vehicle
   pcmech->SetMass(1000.0);
   //pcmech->SetDensity(1.0);
   pcmech->SetFriction(0.04f);
   pcmech->AttachColliderBoundingBox();
 
-  csRef<iPcWheeled> pcwheeled=celQueryPropertyClassEntity<iPcWheeled> (entity_cam);
+  csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
   pcwheeled->SetWheelMesh("celCarWheel","/cellib/objects/celcarwheel");
   //Activate this, and the vehicle will steer like a tank. Ownage!
   //pcwheeled->SetTankMode(true);
@@ -278,7 +281,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->SetGearSettings(5,100,200);
 
   csRef<iPcMeshDeform> pcmeshdeform
-    = celQueryPropertyClassEntity<iPcMeshDeform> (entity_cam);
+    = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
   pcmeshdeform->SetDeformFactor(7.0f);
 
   return csPtr<iCelEntity> (entity_cam);
@@ -325,7 +328,8 @@ bool WheeledTest::CreateMap ()
     return ReportError ("Bad file path '%s' at '%s'!", file.GetData (),
                         path.GetData ());
 
-  csRef<iPcZoneManager> pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (entity_map);
+  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity_map,
+      iPcZoneManager);
   //I need to set loadall in order to load the map NOW, so the wheels know what sector to go to.
   pczonemgr->SetLoadingMode(CEL_ZONE_LOADALL);
   if (!pczonemgr->Load (0, file))
@@ -338,24 +342,28 @@ bool WheeledTest::CreateMap ()
   entity_dummy = CreateVehicle ("vehicle", "track4", csVector3 (0,2.0f,1.0f));
   if (!entity_dummy) return false;
 
-  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (entity_dummy);
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
   if (!pccamera) return false;
   pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
   if (pczonemgr->PointMesh ("dyn", regionname, startname)
       != CEL_ZONEERROR_OK)
     return ReportError ("Error finding start position!");
 
-  csRef<iPcInventory> pcinv_map = celQueryPropertyClassEntity<iPcInventory> (entity_map);
+  csRef<iPcInventory> pcinv_map = CEL_QUERY_PROPCLASS_ENT (entity_map,
+      iPcInventory);
   if (!pcinv_map->AddEntity (entity_dummy)) return false;
 
-  csRef<iPcMechanicsSystem> pcmechsys = celQueryPropertyClassEntity<iPcMechanicsSystem> (entity_map);
+  csRef<iPcMechanicsSystem> pcmechsys = CEL_QUERY_PROPCLASS_ENT (entity_map,
+      iPcMechanicsSystem);
   pcmechsys->EnableQuickStep ();
   pcmechsys->SetStepTime (0.01f);
 
-  /*csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity_map);
+  /*csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_map,
+      iPcMesh);
   pcmesh->SetMesh(engine->FindMeshObject("Terrain"));
 
-  csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity_map);
+  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity_map,
+      iPcMechanicsObject);
   //This is sometimes neccessary to stop the map from shifting lol
   pcmechobj->SetMass(999999999999999999.0f);
   pcmechobj->SetDensity(99999999999999999999.0f);

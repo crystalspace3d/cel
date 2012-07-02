@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Behaviour Tree, PropClass Quest Manager, PropClass Spawn, Property Classes
+@node PropClass Behaviour Tree, PropClass Spawn, PropClass Quest Manager, Property Classes
 @subsection Behaviour Tree
 @cindex behaviour tree
 @cindex @code{iBTNode}

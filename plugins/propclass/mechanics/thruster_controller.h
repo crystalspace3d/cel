@@ -97,6 +97,8 @@ public:
   virtual ~celPcMechanicsBalancedGroup ();
 
   virtual const char* GetName () const { return "pcmechbalancedgroup"; }
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
@@ -214,6 +216,8 @@ public:
   virtual ~celPcMechanicsThrusterController ();
 
   virtual const char* GetName () const { return "pcmechthrustercontroller"; }
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 

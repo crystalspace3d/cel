@@ -54,17 +54,10 @@ celDebugPrintRewardFactory::~celDebugPrintRewardFactory ()
 {
 }
 
-csPtr<iReward> celDebugPrintRewardFactory::CreateReward (
-    iQuest* q, iCelParameterBlock* params)
+csPtr<iReward> celDebugPrintRewardFactory::CreateReward (const celParams& params)
 {
   celDebugPrintReward* trig = new celDebugPrintReward (type, params, msg_par);
   return trig;
-}
-
-bool celDebugPrintRewardFactory::Save (iDocumentNode* node)
-{
-  node->SetAttribute ("message", msg_par);
-  return true;
 }
 
 bool celDebugPrintRewardFactory::Load (iDocumentNode* node)
@@ -89,7 +82,7 @@ void celDebugPrintRewardFactory::SetMessageParameter (const char* msg)
 
 celDebugPrintReward::celDebugPrintReward (
 	celDebugPrintRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* msg_par) : scfImplementationType (this)
 {
   celDebugPrintReward::type = type;
@@ -97,13 +90,10 @@ celDebugPrintReward::celDebugPrintReward (
   pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  if (pm.IsValid())
-  {
-    msg = pm->GetParameter(params, msg_par);
-  }
-  else
-  {
-    printf("reward.debugprint: Failed To Load Parameter Manager");
+  if (pm.IsValid()){
+	  msg = pm->GetParameter(params, msg_par);
+  } else {
+	  printf("reward.debugprint: Failed To Load Parameter Manager");
   }
 }
 

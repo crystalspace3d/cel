@@ -177,6 +177,14 @@ public:
   celPcNewCamera (iObjectRegistry* object_reg);
   virtual ~celPcNewCamera ();
 
+  csPtr<iCelDataBuffer> Save ()
+  {
+    return 0;
+  }
+  bool Load (iCelDataBuffer* databuf)
+  {
+    return true;
+  }
   bool PerformActionIndexed (int, iCelParameterBlock* params,
   	celData& ret);
   bool SetPropertyIndexed (int, bool);

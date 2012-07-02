@@ -83,7 +83,8 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   if (!vc)
   {
-    Error ("No iVirtualClock!");
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"cel.pcmove.projectile", "No iVirtualClock!");
     return;
   }
 }
@@ -103,12 +104,29 @@ bool celPcProjectile::GetPropertyIndexed (int idx, bool& b)
   return false;
 }
 
+#define PROJECTILE_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcProjectile::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (PROJECTILE_SERIAL);
+  // @@@
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcProjectile::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != PROJECTILE_SERIAL) return false;
+  // @@@
+  return true;
+}
+
 void celPcProjectile::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -124,7 +142,7 @@ void celPcProjectile::SendMessage (const char* msgold,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID (msg));
+      CreateMessageDispatcher (this, msg);
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (0);
@@ -147,7 +165,7 @@ void celPcProjectile::SendMessage (const char* msgold, const char* msg,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID (msg));
+      CreateMessageDispatcher (this, msg);
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (params);
@@ -161,13 +179,14 @@ bool celPcProjectile::PerformActionIndexed (int idx,
   {
     case action_start:
       {
-	csVector3 direction;
-	if (!Fetch (direction, params, id_direction)) return false;
-	float speed, maxdist;
-	if (!Fetch (speed, params, id_speed, true, 1.0f)) return false;
-	if (!Fetch (maxdist, params, id_maxdist, true, 1000000000.0f)) return false;
-	long maxhits;
-	if (!Fetch (maxhits, params, id_maxhits, true, 1)) return false;
+        CEL_FETCH_VECTOR3_PAR (direction,params,id_direction);
+        if (!p_direction) return false;	// @@@ Error?
+        CEL_FETCH_FLOAT_PAR (speed,params,id_speed);
+        if (!p_speed) speed = 1.0f;
+        CEL_FETCH_FLOAT_PAR (maxdist,params,id_maxdist);
+        if (!p_maxdist) maxdist = 1000000000.0f;
+        CEL_FETCH_LONG_PAR (maxhits,params,id_maxhits);
+        if (!p_maxhits) maxhits = 1;
         Start (direction, speed, maxdist, maxhits);
         return true;
       }

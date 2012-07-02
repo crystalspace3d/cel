@@ -72,19 +72,11 @@ celMeshEnterSectorTriggerFactory::~celMeshEnterSectorTriggerFactory ()
 }
 
 csPtr<iTrigger> celMeshEnterSectorTriggerFactory::CreateTrigger (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   celMeshEnterSectorTrigger* trig = new celMeshEnterSectorTrigger (type,
   	params, entity_par, tag_par, sector_par);
   return trig;
-}
-
-bool celMeshEnterSectorTriggerFactory::Save (iDocumentNode* node)
-{
-  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
-  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
-  if (!sector_par.IsEmpty ()) node->SetAttribute ("sector", sector_par);
-  return true;
 }
 
 bool celMeshEnterSectorTriggerFactory::Load (iDocumentNode* node)
@@ -119,7 +111,7 @@ void celMeshEnterSectorTriggerFactory::SetSectorParameter (
 
 celMeshEnterSectorTrigger::celMeshEnterSectorTrigger (
 	celMeshEnterSectorTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sector_par) : scfImplementationType (this)
 {
@@ -128,7 +120,7 @@ celMeshEnterSectorTrigger::celMeshEnterSectorTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
+  entity = pm->ResolveParameter (params, entity_par);
   tag = pm->ResolveParameter (params, tag_par);
   sector = pm->ResolveParameter (params, sector_par);
 }
@@ -185,11 +177,7 @@ void celMeshEnterSectorTrigger::FindSectorAndMesh ()
     return;
   }
   iCelPlLayer* pl = type->pl;
-  iCelEntity* ent;
-  if (!entity.IsEmpty ())
-    ent = pl->FindEntity (entity);
-  else
-    ent = pl->GetEntity (entityID);
+  iCelEntity* ent = pl->FindEntity (entity);
   if (!ent)
   {
     Report (type->object_reg,
@@ -197,7 +185,7 @@ void celMeshEnterSectorTrigger::FindSectorAndMesh ()
     	(const char*)entity);
     return;
   }
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
   if (!pcmesh)
   {
     Report (type->object_reg,
@@ -237,6 +225,16 @@ void celMeshEnterSectorTrigger::DeactivateTrigger ()
 {
   if (!mesh) return;
   mesh->GetMovable ()->RemoveListener ((iMovableListener*)this);
+}
+
+bool celMeshEnterSectorTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
+{
+  ActivateTrigger ();
+  return true;
+}
+
+void celMeshEnterSectorTrigger::SaveTriggerState (iCelDataBuffer*)
+{
 }
 
 //---------------------------------------------------------------------------

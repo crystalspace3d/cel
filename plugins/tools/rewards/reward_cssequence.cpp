@@ -72,18 +72,11 @@ celCsSequenceRewardFactory::~celCsSequenceRewardFactory ()
 }
 
 csPtr<iReward> celCsSequenceRewardFactory::CreateReward (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   celCsSequenceReward* trig = new celCsSequenceReward (type,
   	params, sequence_par, delay_par);
   return trig;
-}
-
-bool celCsSequenceRewardFactory::Save (iDocumentNode* node)
-{
-  node->SetAttribute ("sequence", sequence_par);
-  if (!delay_par.IsEmpty ()) node->SetAttribute ("delay", delay_par);
-  return true;
 }
 
 bool celCsSequenceRewardFactory::Load (iDocumentNode* node)
@@ -112,7 +105,7 @@ void celCsSequenceRewardFactory::SetDelayParameter (
 
 celCsSequenceReward::celCsSequenceReward (
 	celCsSequenceRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* sequence_par,
 	const char* delay_par) : scfImplementationType (this)
 {

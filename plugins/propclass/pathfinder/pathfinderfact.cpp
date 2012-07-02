@@ -99,10 +99,12 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
   cur_path = 0;
   cur_path = scfCreateInstance<iCelPath> ("cel.celpath");
   if(!cur_path)
-    Error ("Loading celPath in PathFinder!");
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.propclass.pathfinder", "Loading celPath in PathFinder!");
   //goal = 0;
   /*if(!goal)
-    Error ("Loading celNode in PathFinder!");*/
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.propclass.pathfinder", "Loading celNode in PathFinder!");*/
 }
 
 celPcPathFinder::~celPcPathFinder ()
@@ -110,6 +112,21 @@ celPcPathFinder::~celPcPathFinder ()
   if (pl)
     pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
   delete params;
+}
+
+#define GRAPH_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcPathFinder::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (GRAPH_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcPathFinder::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != GRAPH_SERIAL) return false;
+  return true;
 }
 
 void celPcPathFinder::SendMessage (const char* msgold, const char* msg,
@@ -127,7 +144,7 @@ void celPcPathFinder::SendMessage (const char* msgold, const char* msg,
   if (!dispatcher)
   {
     dispatcher = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID (msg));
+      CreateMessageDispatcher (this, msg);
     if (!dispatcher) return;
   }
   dispatcher->SendMessage (params);
@@ -415,13 +432,15 @@ bool celPcPathFinder::PerformActionIndexed (int idx, iCelParameterBlock* params,
   {
   case action_seek:
     {
-      csString sectorname;
-      if (!Fetch (sectorname, params, id_sectorname)) return false;
-      csVector3 position;
-      if (!Fetch (position, params, id_position)) return false;
+      CEL_FETCH_STRING_PAR (sectorname,params,id_sectorname);
+      if (!p_sectorname)
+        return false;
+      CEL_FETCH_VECTOR3_PAR (position,params,id_position);
+      if (!p_position)
+        return false;
       iSector* s = engine->FindSector (sectorname);
       if (!s)
-        return Error ("Can't find sector '%s' for Seek!", sectorname.GetData ());
+        return false;
       Seek(sector, position);
       // @@@ Return value?
       return true;

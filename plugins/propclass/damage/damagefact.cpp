@@ -103,7 +103,8 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
-    Error ("No iEngine plugin!");
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"cel.pclogic.damage", "No iEngine plugin!");
     return;
   }
 }
@@ -149,6 +150,25 @@ bool celPcDamage::GetPropertyIndexed (int idx, const char*& s)
   }
 }
 
+#define DAMAGE_SERIAL 2
+
+csPtr<iCelDataBuffer> celPcDamage::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DAMAGE_SERIAL);
+  // @@@ TODO
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcDamage::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != DAMAGE_SERIAL) return false;
+
+  // @@@ TODO
+
+  return true;
+}
+
 bool celPcDamage::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -157,24 +177,24 @@ bool celPcDamage::PerformActionIndexed (int idx,
   {
     case action_areadamage:
       {
-	float radius;
-	if (!Fetch (radius, params, id_radius, true, 1000000000.0f)) return false;
+        CEL_FETCH_FLOAT_PAR (radius,params,id_radius);
+        if (!p_radius) radius = 1000000000.0f;
         AreaDamage (radius);
         return true;
       }
     case action_beamdamage:
       {
-	float maxdist;
-	if (!Fetch (maxdist, params, id_maxdist, true, 1000000000.0f)) return false;
-	csVector3 direction;
-	if (!Fetch (direction, params, id_direction)) return false;
+        CEL_FETCH_FLOAT_PAR (maxdist,params,id_maxdist);
+        if (!p_maxdist) { maxdist = 1000000000.0f; }
+        CEL_FETCH_VECTOR3_PAR (direction,params,id_direction);
+        if (!p_direction) return false; // @@@ Error!
         BeamDamage (direction, maxdist);
         return true;
       }
     case action_singledamage:
       {
-	csString target;
-	if (!Fetch (target, params, id_target)) return false;
+        CEL_FETCH_STRING_PAR (target,params,id_target);
+        if (!p_target) return false;	// @@@ Error!
         SingleDamage (target);
         return true;
       }
@@ -206,7 +226,7 @@ void celPcDamage::GetLocation (iSector*& s, csVector3& p)
     p = position;
     return;
   }
-  if (!pcmesh) pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  if (!pcmesh) pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   if (!pcmesh)
   {
     s = 0;
@@ -248,7 +268,7 @@ void celPcDamage::DoDamage (iCelEntity* ent, const csVector3& p)
   if (entity == ent)
     return;	// Ignore source of explosion.
 
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (ent);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
   if (!pcmesh) return;
   float new_amount;
   switch (falloff)
@@ -287,7 +307,7 @@ void celPcDamage::DoDamage (iCelEntity* ent, const csVector3& p)
   if (!dispatcher_hurt)
   {
     dispatcher_hurt = ent->QueryMessageChannel ()->CreateMessageDispatcher (
-	  this, pl->FetchStringID ("cel.damage.hurt"));
+	  this, "cel.damage.hurt");
     if (!dispatcher_hurt) return;
   }
   dispatcher_hurt->SendMessage (params);

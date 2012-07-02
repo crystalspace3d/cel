@@ -111,7 +111,7 @@ void celPcSimpleCamera::FindSiblingPropertyClasses ()
   {
     if (HavePropertyClassesChanged ())
     {
-      pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+      pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     }
   }
 }
@@ -141,35 +141,53 @@ bool celPcSimpleCamera::PerformActionIndexed (int idx,
   {
     case action_initcam:
       {
-	csVector3 campos, lookat;
-	if (!Fetch (campos, params, param_campos)) return false;
-        SetCameraOffset (campos);
-	if (!Fetch (lookat, params, param_lookat)) return false;
-        SetLookAtOffset (lookat);
-	bool drawmesh;
-	if (!Fetch (drawmesh, params, param_drawmesh)) return false;
-        SetDrawMesh (drawmesh);
+        CEL_FETCH_VECTOR3_PAR (campos,params,param_campos);
+        if (p_campos)
+          SetCameraOffset (campos);
+        else
+          Report (object_reg, "Couldn't get campos!");
+        CEL_FETCH_VECTOR3_PAR (lookat,params,param_lookat);
+        if (p_lookat)
+          SetLookAtOffset (lookat);
+        else
+          Report (object_reg, "Couldn't get lookat!");
+        CEL_FETCH_BOOL_PAR (drawmesh,params,param_drawmesh);
+        if (p_drawmesh)
+          SetDrawMesh (drawmesh);
+        else
+          Report (object_reg, "Couldn't get drawmesh flag!");
         return true;
       }
     case action_setpos:
       {
-	csVector3 campos, lookat;
-	if (!Fetch (campos, params, param_campos)) return false;
-        SetCameraOffset (campos);
-	if (!Fetch (lookat, params, param_lookat)) return false;
-        SetLookAtOffset (lookat);
+        CEL_FETCH_VECTOR3_PAR (campos,params,param_campos);
+        if (p_campos)
+          SetCameraOffset (campos);
+        else
+          Report (object_reg, "Couldn't get campos!");
+        CEL_FETCH_VECTOR3_PAR (lookat,params,param_lookat);
+        if (p_lookat)
+          SetLookAtOffset (lookat);
+        else
+          Report (object_reg, "Couldn't get lookat!");
         return true;
       }
     case action_setmesh:
       {
-	csString mesh;
-	if (!Fetch (mesh, params, param_mesh)) return false;
-        csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (GetEntity (), mesh);
+        CEL_FETCH_STRING_PAR (mesh,params,param_mesh);
+        if (!p_mesh)
+        {
+          Report (object_reg, "Couldn't get mesh tag!");
+          return false;
+        }
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT
+        	(GetEntity (), iPcMesh, mesh);
         if (!pcmesh)
         {
           csString msg = "Couldn't find mesh with given tag: ";
           msg += mesh;
-          return Error (msg);
+          Report (object_reg, msg);
+          return false;
         }
         SetMesh (pcmesh);
         return true;
@@ -255,9 +273,33 @@ void celPcSimpleCamera::SetMesh (iPcMesh* mesh)
   }
   else
   {
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     meshExplicitlySet = false;
   }
+}
+
+#define SIMPLE_CAMERA_SERIAL 3
+
+csPtr<iCelDataBuffer> celPcSimpleCamera::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SIMPLE_CAMERA_SERIAL);
+  SaveCommon (databuf);
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcSimpleCamera::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != SIMPLE_CAMERA_SERIAL)
+  {
+    Report (object_reg, "serialnr != SIMPLE_CAMERA_SERIAL.  Cannot load.");
+    return false;
+  }
+
+  if (!LoadCommon (databuf)) return false;
+
+  return true;
 }
 
 //---------------------------------------------------------------------------

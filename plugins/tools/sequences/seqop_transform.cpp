@@ -56,35 +56,12 @@ celTransformSeqOpFactory::~celTransformSeqOpFactory ()
 }
 
 csPtr<iSeqOp> celTransformSeqOpFactory::CreateSeqOp (
-    iCelParameterBlock* params)
+    const celParams& params)
 {
   celTransformSeqOp* seqop = new celTransformSeqOp (type,
   	params, entity_par, tag_par, vectorx_par, vectory_par, vectorz_par,
 	rot_axis, rot_angle_par);
   return seqop;
-}
-
-bool celTransformSeqOpFactory::Save (iDocumentNode* node)
-{
-  node->SetAttribute ("entity", entity_par);
-  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
-  if (!vectorx_par.IsEmpty ())
-  {
-    csRef<iDocumentNode> vNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    vNode->SetValue ("v");
-    vNode->SetAttribute ("x", vectorx_par);
-    vNode->SetAttribute ("y", vectory_par);
-    vNode->SetAttribute ("z", vectorz_par);
-  }
-  if (!rot_angle_par.IsEmpty ())
-  {
-    csRef<iDocumentNode> rotNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    if (rot_axis == CS_AXIS_X) rotNode->SetValue ("rotx");
-    else if (rot_axis == CS_AXIS_Y) rotNode->SetValue ("roty");
-    else if (rot_axis == CS_AXIS_Z) rotNode->SetValue ("rotz");
-    rotNode->SetAttribute ("angle", rot_angle_par);
-  }
-  return true;
 }
 
 bool celTransformSeqOpFactory::Load (iDocumentNode* node)
@@ -152,16 +129,24 @@ void celTransformSeqOpFactory::SetRotationParameter (int axis,
 
 //---------------------------------------------------------------------------
 
+static float ToFloat (const char* s)
+{
+  if (!s) return 0.0f;
+  float f;
+  sscanf (s, "%f", &f);
+  return f;
+}
+
 celTransformSeqOp::celTransformSeqOp (
 	celTransformSeqOpType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* vectorx, const char* vectory, const char* vectorz,
 	int axis, const char* angle) : scfImplementationType (this)
 {
   celTransformSeqOp::type = type;
 
-  pm = csQueryRegistryOrLoad<iParameterManager> 
+  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
   entity_param = pm->GetParameter (params, entity_par);
@@ -182,17 +167,45 @@ void celTransformSeqOp::FindMesh (iCelParameterBlock* params)
 {
   if (mesh) return;
 
-  iCelEntity* ent = pm->ResolveEntityParameter (type->pl, params, entity_param, 0);
-  if (!ent) return;
+  entity = entity_param->Get (params);
   tag = tag_param->Get (params);
 
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
-  if (pcmesh)
+  // @@@ To many queries for efficiency?
+  iCelPlLayer* pl = type->pl;
+  iCelEntity* ent = pl->FindEntity (entity);
+  if (ent)
   {
-    mesh = pcmesh->GetMesh ();
-    start = mesh->GetMovable ()->GetTransform ().GetOrigin ();
-    start_matrix = mesh->GetMovable ()->GetTransform ().GetO2T ();
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
+    if (pcmesh)
+    {
+      mesh = pcmesh->GetMesh ();
+      start = mesh->GetMovable ()->GetTransform ().GetOrigin ();
+      start_matrix = mesh->GetMovable ()->GetTransform ().GetO2T ();
+    }
   }
+}
+
+bool celTransformSeqOp::Load (iCelDataBuffer* databuf)
+{
+  mesh = 0;
+  databuf->GetVector3 (start);
+  csVector3 row1, row2, row3;
+  databuf->GetVector3 (row1);
+  databuf->GetVector3 (row2);
+  databuf->GetVector3 (row3);
+  start_matrix.Set (
+  	row1.x, row1.y, row1.z,
+  	row2.x, row2.y, row2.z,
+  	row3.x, row3.y, row3.z);
+  return true;
+}
+
+void celTransformSeqOp::Save (iCelDataBuffer* databuf)
+{
+  databuf->Add (start);
+  databuf->Add (start_matrix.Row1 ());
+  databuf->Add (start_matrix.Row2 ());
+  databuf->Add (start_matrix.Row3 ());
 }
 
 void celTransformSeqOp::Init (iCelParameterBlock* params)
@@ -205,9 +218,9 @@ void celTransformSeqOp::Do (float time, iCelParameterBlock* params)
 {
   if (mesh)
   {
-    vector.x = vectorx_param->GetFloat (params);
-    vector.y = vectory_param->GetFloat (params);
-    vector.z = vectorz_param->GetFloat (params);
+    vector.x = ToFloat (vectorx_param->Get (params));
+	vector.y = ToFloat (vectory_param->Get (params));
+	vector.z = ToFloat (vectorz_param->Get (params));
     do_move = !(vector < .00001f);
 
     if (do_move)
@@ -217,7 +230,7 @@ void celTransformSeqOp::Do (float time, iCelParameterBlock* params)
     }
     if (rot_axis >= 0)
     {
-      rot_angle = rot_angle_param->GetFloat (params);
+	  rot_angle = ToFloat (rot_angle_param->Get (params));
 
       csMatrix3 m = start_matrix;
       switch (rot_axis)

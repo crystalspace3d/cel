@@ -462,103 +462,93 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
       return true;
     case action_pointcamera:
       {
-	csString startname;
-	if (!Fetch (startname, params, id_startname)) return false;
+        CEL_FETCH_STRING_PAR (startname,params,id_startname);
+        if (!p_startname) return false;
         return PointCamera (startname);
       }
     case action_setcamera:
       {
-	csString modename;
-	if (!Fetch (modename, params, id_modename, true, "")) return false;
-        if (!modename.IsEmpty ())
+        CEL_FETCH_STRING_PAR (modename,params,id_modename);
+        if (p_modename)
         {
           SetModeName (modename);
         }
-	if (ParExists (CEL_DATA_VECTOR3, params, id_spring))
-	{
-	  csVector3 spring;
-	  if (!Fetch (spring, params, id_spring)) return false;
+        CEL_FETCH_VECTOR3_PAR (spring,params,id_spring);
+        if (p_spring)
+        {
           SetSpringCoef (spring.x);
           SetDampeningCoef (spring.y);
           SetSpringLength (spring.z);
         }
-	if (ParExists (CEL_DATA_FLOAT, params, id_turnspeed))
+        CEL_FETCH_FLOAT_PAR (turnspeed,params,id_turnspeed);
+        if (p_turnspeed)
         {
-	  float turnspeed;
-	  if (!Fetch (turnspeed, params, id_turnspeed)) return false;
           SetTurnSpeed (turnspeed);
         }
-	if (ParExists (CEL_DATA_FLOAT, params, id_swingcoef))
-	{
-	  float swingcoef;
-	  if (!Fetch (swingcoef, params, id_swingcoef)) return false;
+        CEL_FETCH_FLOAT_PAR (swingcoef,params,id_swingcoef);
+        if (p_swingcoef)
+        {
           SetSwingCoef (swingcoef);
         }
-	if (ParExists (CEL_DATA_VECTOR3, params, id_fpoffset))
-	{
-	  csVector3 fpoffset;
-	  if (!Fetch (fpoffset, params, id_fpoffset)) return false;
+        CEL_FETCH_VECTOR3_PAR (fpoffset,params,id_fpoffset);
+        if (p_fpoffset)
+        {
           firstPersonPositionOffset = fpoffset;
         }
-	if (ParExists (CEL_DATA_VECTOR3, params, id_tpoffset))
-	{
-	  csVector3 tpoffset;
-	  if (!Fetch (tpoffset, params, id_tpoffset)) return false;
+        CEL_FETCH_VECTOR3_PAR (tpoffset,params,id_tpoffset);
+        if (p_tpoffset)
+        {
           thirdPersonPositionOffset = tpoffset;
         }
-	if (ParExists (CEL_DATA_FLOAT, params, id_pitch))
-	{
-	  float pitch;
-	  if (!Fetch (pitch, params, id_pitch)) return false;
+        CEL_FETCH_FLOAT_PAR (pitch,params,id_pitch);
+        if (p_pitch)
+        {
           SetPitch (pitch);
         }
-	if (ParExists (CEL_DATA_FLOAT, params, id_pitchvelocity))
-	{
-	  float pitchvelocity;
-	  if (!Fetch (pitchvelocity, params, id_pitchvelocity)) return false;
+        CEL_FETCH_FLOAT_PAR (pitchvelocity,params,id_pitchvelocity);
+        if (p_pitchvelocity)
+        {
           SetPitchVelocity (pitchvelocity);
         }
-	if (ParExists (CEL_DATA_FLOAT, params, id_yaw))
-	{
-	  float yaw;
-	  if (!Fetch (yaw, params, id_yaw)) return false;
+        CEL_FETCH_FLOAT_PAR (yaw,params,id_yaw);
+        if (p_yaw)
+        {
           SetYaw (yaw, -1);
         }
-	if (ParExists (CEL_DATA_FLOAT, params, id_yawvelocity))
-	{
-	  float yawvelocity;
-	  if (!Fetch (yawvelocity, params, id_yawvelocity)) return false;
+        CEL_FETCH_FLOAT_PAR (yawvelocity,params,id_yawvelocity);
+        if (p_yawvelocity)
+        {
           SetYawVelocity (yawvelocity);
         }
-	if (ParExists (CEL_DATA_VECTOR3, params, id_distance))
-	{
-	  csVector3 distance;
-	  if (!Fetch (distance, params, id_distance)) return false;
+        CEL_FETCH_VECTOR3_PAR (distance,params,id_distance);
+        if (p_distance)
+        {
           SetMinDistance (distance.x);
           SetDistance (distance.y, -1);
           SetMaxDistance (distance.z);
         }
-	if (ParExists (CEL_DATA_FLOAT, params, id_distancevelocity))
-	{
-	  float distancevelocity;
-	  if (!Fetch (distancevelocity, params, id_distancevelocity)) return false;
+        CEL_FETCH_FLOAT_PAR (distancevelocity,params,id_distancevelocity);
+        if (p_distancevelocity)
+        {
           SetDistanceVelocity (distancevelocity);
         }
         return true;
       }
     case action_setzonemanager:
       {
-	csString entityname, regionname, startname;
-	if (!Fetch (entityname, params, id_entityname)) return false;
-	if (!Fetch (regionname, params, id_regionname)) return false;
-	if (!Fetch (startname, params, id_startname)) return false;
+        CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
+        if (!p_entityname) return false;
+        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
+        if (!p_regionname) return false;
+        CEL_FETCH_STRING_PAR (startname,params,id_startname);
+        if (!p_startname) return false;
         SetZoneManager (entityname, true, regionname, startname);
         return true;
       }
     case action_setfollowentity:
       {
-	csString entityname;
-	if (!Fetch (entityname, params, id_entityname)) return false;
+        CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
+        if (!p_entityname) return false;
         iCelEntity* ent = pl->FindEntity (entityname);
         if (!ent) return false;
         SetFollowEntity (ent);
@@ -566,32 +556,38 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
       }
     case action_setrectangle:
       {
-	long x, y, w, h;
-	if (!Fetch (x, params, id_x)) return false;
-	if (!Fetch (y, params, id_y)) return false;
-	if (!Fetch (w, params, id_w)) return false;
-	if (!Fetch (h, params, id_h)) return false;
+        CEL_FETCH_LONG_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_LONG_PAR (y,params,id_y);
+        if (!p_y) return false;
+        CEL_FETCH_LONG_PAR (w,params,id_w);
+        if (!p_w) return false;
+        CEL_FETCH_LONG_PAR (h,params,id_h);
+        if (!p_h) return false;
         SetRectangle (x, y, w, h);
         return true;
       }
     case action_setperspcenter:
       {
-	float x, y;
-	if (!Fetch (x, params, id_x)) return false;
-	if (!Fetch (y, params, id_y)) return false;
+        CEL_FETCH_FLOAT_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_FLOAT_PAR (y,params,id_y);
+        if (!p_y) return false;
         SetPerspectiveCenter (x, y);
         return true;
       }
     case action_adaptiveclipping:
       {
-	bool enable;
-	if (!Fetch (enable, params, id_enable)) return false;
-        if (enable)
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
         {
-	  float minfps, maxfps, mindist;
-	  if (!Fetch (minfps, params, id_minfps)) return false;
-	  if (!Fetch (maxfps, params, id_maxfps)) return false;
-	  if (!Fetch (mindist, params, id_mindist)) return false;
+          CEL_FETCH_FLOAT_PAR (minfps,params,id_minfps);
+          if (!p_minfps) return false;
+          CEL_FETCH_FLOAT_PAR (maxfps,params,id_maxfps);
+          if (!p_maxfps) return false;
+          CEL_FETCH_FLOAT_PAR (mindist,params,id_mindist);
+          if (!p_mindist) return false;
           EnableAdaptiveDistanceClipping (minfps, maxfps, mindist);
         }
         else
@@ -600,12 +596,12 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
       }
     case action_fixedclipping:
       {
-	bool enable;
-	if (!Fetch (enable, params, id_enable)) return false;
-        if (enable)
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
         {
-	  float dist;
-	  if (!Fetch (dist, params, id_dist)) return false;
+          CEL_FETCH_FLOAT_PAR (dist,params,id_dist);
+          if (!p_dist) return false;
           EnableFixedDistanceClipping (dist);
         }
         else
@@ -631,15 +627,15 @@ void celPcDefaultCamera::SetFollowEntity (iCelEntity* entity)
   follow_entity = entity;
   if (follow_entity)
   {
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (follow_entity);
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (follow_entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (follow_entity);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcMechanicsObject);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcMesh);
   }
   else
   {
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -648,9 +644,9 @@ void celPcDefaultCamera::FindSiblingPropertyClasses ()
   if (follow_entity) return;
   if (HavePropertyClassesChanged ())
   {
-    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
-    pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -1404,6 +1400,40 @@ iPcDefaultCamera::CameraMode celPcDefaultCamera::GetNextMode () const
     default:
       return cammode;
   }
+}
+
+#define DEFAULT_CAMERA_SERIAL 3
+
+csPtr<iCelDataBuffer> celPcDefaultCamera::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DEFAULT_CAMERA_SERIAL);
+  SaveCommon (databuf);
+
+  databuf->Add ((uint8)cammode);
+  databuf->Add (use_cd);
+
+  // @@@ TODO: save cammode specific parameters.
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcDefaultCamera::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != DEFAULT_CAMERA_SERIAL)
+  {
+    Report (object_reg, "serialnr != DEFAULT_CAMERA_SERIAL.  Cannot load.");
+    return false;
+  }
+
+  if (!LoadCommon (databuf)) return false;
+
+  iPcDefaultCamera::CameraMode mode = (iPcDefaultCamera::CameraMode)databuf
+  	->GetUInt8 ();
+  bool cd = databuf->GetBool ();
+  SetMode (mode, cd);
+
+  return true;
 }
 
 //---------------------------------------------------------------------------

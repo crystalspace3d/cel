@@ -68,17 +68,12 @@ public:
   celSequenceFinishTriggerFactory (celSequenceFinishTriggerType* type);
   virtual ~celSequenceFinishTriggerFactory ();
 
-  virtual csPtr<iTrigger> CreateTrigger (iQuest* q, iCelParameterBlock* params);
-  virtual iTriggerType* GetTriggerType () const { return type; }
+  virtual csPtr<iTrigger> CreateTrigger (const celParams& params);
   virtual bool Load (iDocumentNode* node);
-  virtual bool Save (iDocumentNode* node);
 
   //----------------- iSequenceFinishTriggerFactory ---------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual const char* GetEntity () const { return entity_par; }
-  virtual const char* GetTag () const { return tag_par; }
   virtual void SetSequenceParameter (const char* sequence);
-  virtual const char* GetSequence () const { return sequence_par; }
   virtual void SetSequence (iCelSequence* sequence);
 };
 
@@ -93,7 +88,6 @@ private:
   csRef<celSequenceFinishTriggerType> type;
   csRef<iTriggerCallback> callback;
   csString entity;
-  uint entityID;
   csString tag;
   csString sequence_name;
   csWeakRef<iCelSequence> seq;
@@ -104,7 +98,7 @@ private:
 
 public:
   celSequenceFinishTrigger (celSequenceFinishTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par,
 	iCelSequence* sequence = 0);
@@ -115,9 +109,8 @@ public:
   virtual void ActivateTrigger ();
   virtual bool Check ();
   virtual void DeactivateTrigger ();
-
-  virtual void Activate () { ActivateTrigger (); }
-  virtual void Deactivate () { DeactivateTrigger (); }
+  virtual bool LoadAndActivateTrigger (iCelDataBuffer* databuf);
+  virtual void SaveTriggerState (iCelDataBuffer* databuf);
 
   //----------------------- iSequenceCallback --------------------------
   virtual void SequenceFinished (iCelSequence* sequence);

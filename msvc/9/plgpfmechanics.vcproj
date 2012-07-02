@@ -645,6 +645,9 @@
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\..\plugins\propclass\mechanics\common.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\mechanics\environment.h">
 			</File>
 			<File
@@ -655,6 +658,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\thruster_reactionary.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\mechanics\ticktimer.h">
 			</File>
 		</Filter>
 		<Filter

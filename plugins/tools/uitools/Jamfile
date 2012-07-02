@@ -1,5 +1,0 @@
-SubDir TOP plugins tools uitools ;
-
-SubInclude TOP plugins tools uitools inventory ;
-SubInclude TOP plugins tools uitools inventory2 ;
-SubInclude TOP plugins tools uitools gridinv ;

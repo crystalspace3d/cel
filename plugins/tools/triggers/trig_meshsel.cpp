@@ -72,18 +72,11 @@ celMeshSelectTriggerFactory::~celMeshSelectTriggerFactory ()
 }
 
 csPtr<iTrigger> celMeshSelectTriggerFactory::CreateTrigger (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   celMeshSelectTrigger* trig = new celMeshSelectTrigger (type,
   	params, entity_par, tag_par);
   return trig;
-}
-
-bool celMeshSelectTriggerFactory::Save (iDocumentNode* node)
-{
-  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
-  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
-  return true;
 }
 
 bool celMeshSelectTriggerFactory::Load (iDocumentNode* node)
@@ -107,7 +100,7 @@ void celMeshSelectTriggerFactory::SetEntityParameter (
 
 celMeshSelectTrigger::celMeshSelectTrigger (
 	celMeshSelectTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par) :
 	scfImplementationType (this)
 {
@@ -116,7 +109,7 @@ celMeshSelectTrigger::celMeshSelectTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
+  entity = pm->ResolveParameter (params, entity_par);
   tag = pm->ResolveParameter (params, tag_par);
   params_entity.AttachNew (new celOneParameterBlock ());
   params_entity->SetParameterDef (type->pl->FetchStringID ("entity"));
@@ -141,13 +134,9 @@ void celMeshSelectTrigger::FindMeshSelect ()
 {
   if (meshselect) return;
   iCelPlLayer* pl = type->pl;
-  iCelEntity* ent;
-  if (!entity.IsEmpty ())
-    ent = pl->FindEntity (entity);
-  else
-    ent = pl->GetEntity (entityID);
+  iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  meshselect = celQueryPropertyClassTagEntity<iPcMeshSelect> (ent, tag);
+  meshselect = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMeshSelect, tag);
 }
 
 void celMeshSelectTrigger::ActivateTrigger ()
@@ -173,6 +162,16 @@ void celMeshSelectTrigger::DeactivateTrigger ()
 {
   if (!meshselect) return;
   meshselect->RemoveMeshSelectListener ((iPcMeshSelectListener*)this);
+}
+
+bool celMeshSelectTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
+{
+  ActivateTrigger ();
+  return true;
+}
+
+void celMeshSelectTrigger::SaveTriggerState (iCelDataBuffer*)
+{
 }
 
 void celMeshSelectTrigger::MouseDown (iPcMeshSelect*,

@@ -229,11 +229,11 @@ bool celPcNeuralNet::Validate()
   layers.SetSize(size_t(numLayers + 1));
   if (! InitLayerSizes()) return false;
 
-  params.AttachNew (new celVariableParameterBlock (numOutputs));
+  params.AttachNew(new celGenericParameterBlock (numOutputs));
   for (size_t i = 0; i < size_t(numOutputs); i++)
   {
     csString id ("output"); id << i;
-    params->AddParameter (pl->FetchStringID(id));
+    params->SetParameterDef(i, pl->FetchStringID(id));
   }
 
   valid = true;
@@ -445,7 +445,7 @@ void celPcNeuralNet::SendMessage()
   if (!dispatcher_outputs)
   {
     dispatcher_outputs = entity->QueryMessageChannel ()->
-      CreateMessageDispatcher (this, pl->FetchStringID ("cel.neuralnet.outputs"));
+      CreateMessageDispatcher (this, "cel.neuralnet.outputs");
     if (!dispatcher_outputs) return;
   }
   dispatcher_outputs->SendMessage (params);
@@ -578,3 +578,32 @@ int32 celPcNeuralNet::ReadInt32(iDataBuffer *buf, size_t index)
   return csBigEndian::Int32(ptr[index]);
 }
 
+bool celPcNeuralNet::Error(char const *desc, ...) const
+{
+  va_list args;
+  va_start(args, desc);
+  csReportV(const_cast<iObjectRegistry*>(object_reg),
+	CS_REPORTER_SEVERITY_ERROR, "cel.propclass.ai.neuralnet", desc, args);
+  va_end(args);
+  return false;
+}
+
+bool celPcNeuralNet::Warning(char const *desc, ...) const
+{
+  va_list args;
+  va_start(args, desc);
+  csReportV(const_cast<iObjectRegistry*>(object_reg),
+	CS_REPORTER_SEVERITY_WARNING, "cel.propclass.ai.neuralnet", desc, args);
+  va_end(args);
+  return false;
+}
+
+bool celPcNeuralNet::Bug(char const *desc, ...) const
+{
+  va_list args;
+  va_start(args, desc);
+  csReportV(const_cast<iObjectRegistry*>(object_reg),
+	CS_REPORTER_SEVERITY_BUG, "cel.propclass.ai.neuralnet", desc, args);
+  va_end(args);
+  return false;
+}

@@ -43,6 +43,25 @@ CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
 
 CEL_IMPLEMENT_FACTORY_ALT (CommandInput, "pcinput.standard", "pccommandinput")
 
+static void Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcinput.standard",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+}
+
 //---------------------------------------------------------------------------
 
 csStringID celPcCommandInput::id_trigger = csInvalidStringID;
@@ -61,6 +80,9 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 {
   celPcCommandInput::object_reg = object_reg;
 
+  keylist = 0;
+  axislist = 0;
+  buttonlist = 0;
   scfiEventHandler = 0;
   screenspace = false;
   do_cooked = false;
@@ -72,7 +94,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   g2d = csQueryRegistry<iGraphics2D> (object_reg);
   if (!g2d)
   {
-    Error ("Can't find the graphics2d plugin!");
+    Report (object_reg, "Can't find the graphics2d plugin!");
     return;
   }
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
@@ -113,30 +135,64 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   AddProperty (propid_sendtrigger, "sendtrigger",
   	CEL_DATA_BOOL, false, "Send trigger.", &do_sendtrigger);
 
-  mouse_params.AttachNew (new celVariableParameterBlock (3));
-  mouse_params->AddParameter (id_x);
-  mouse_params->AddParameter (id_y);
-  mouse_params->AddParameter (id_value);
+  mouse_params = new celGenericParameterBlock (3);
+  mouse_params->SetParameterDef (0, id_x);
+  mouse_params->SetParameterDef (1, id_y);
+  mouse_params->SetParameterDef (2, id_value);
 
-  key_params.AttachNew (new celVariableParameterBlock (2));
-  key_params->AddParameter (id_trigger);
-  key_params->AddParameter (id_state);
+  key_params = new celGenericParameterBlock (2);
+  key_params->SetParameterDef (0,id_trigger);
+  key_params->SetParameterDef (1,id_state);
 
-  joy_params.AttachNew (new celOneParameterBlock ());
+  joy_params = new celOneParameterBlock ();
   joy_params->SetParameterDef (id_value);
 
-  but_params.AttachNew (new celOneParameterBlock ());
+  but_params = new celOneParameterBlock ();
   but_params->SetParameterDef (id_state);
 }
 
 celPcCommandInput::~celPcCommandInput ()
 {
+  mouse_params->DecRef ();
+  key_params->DecRef ();
+
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
     if (q)
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
+  }
+
+  //delete list of key mappings
+  celKeyMap *kn, *k=keylist;
+  while (k)
+  {
+    kn = k->next;
+    delete [] k->command;
+    delete k;
+    k=kn;
+  }
+
+  //delete list of axis mappings
+  celAxisMap *an, *a=axislist;
+  while (a)
+  {
+    an = a->next;
+    delete [] a->command;
+    delete a;
+    a=an;
+  }
+
+  //delete list of button mappings
+  celButtonMap *bn, *b=buttonlist;
+  while (b)
+  {
+    bn = b->next;
+    if (b->command)
+      delete [] b->command;
+    delete b;
+    b=bn;
   }
 }
 
@@ -148,25 +204,26 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
   {
     case action_activate:
       {
-	bool activate;
-	if (!Fetch (activate, params, id_activate, true, true)) return false;
-	if (activate) Activate ();
-	else Deactivate ();
+        CEL_FETCH_BOOL_PAR (activate,params,id_activate);
+        if (!p_activate) activate = true;
+        Activate (activate);
         return true;
       }
     case action_bind:
       {
-	csString trigger, command;
-	if (!Fetch (trigger, params, id_trigger)) return false;
-	if (!Fetch (command, params, id_command)) return false;
+        CEL_FETCH_STRING_PAR (trigger,params,id_trigger);
+        if (!trigger) return false;
+        CEL_FETCH_STRING_PAR (command,params,id_command);
+        if (!command) return false;
         Bind (trigger, command);
         return true;
       }
     case action_removebind:
       {
-	csString trigger, command;
-	if (!Fetch (trigger, params, id_trigger)) return false;
-	if (!Fetch (command, params, id_command)) return false;
+        CEL_FETCH_STRING_PAR (trigger,params,id_trigger);
+        if (!trigger) return false;
+        CEL_FETCH_STRING_PAR (command,params,id_command);
+        if (!command) return false;
         RemoveBind (trigger, command);
         return true;
       }
@@ -177,15 +234,15 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
       }
     case action_loadconfig:
       {
-	csString prefix;
-	if (!Fetch (prefix, params, id_prefix)) return false;
+        CEL_FETCH_STRING_PAR (prefix,params,id_prefix);
+        if (!prefix) return false;
         LoadConfig (prefix);
         return true;
       }
     case action_saveconfig:
       {
-	csString prefix;
-	if (!Fetch (prefix, params, id_prefix)) return false;
+        CEL_FETCH_STRING_PAR (prefix,params,id_prefix);
+        if (!prefix) return false;
         SaveConfig (prefix);
         return true;
       }
@@ -194,33 +251,100 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
   }
 }
 
-void celPcCommandInput::Activate ()
-{
-  if (scfiEventHandler)
-    return;
+#define COMMANDINPUT_SERIAL 3
 
-  csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
-  CS_ASSERT (q);
-  scfiEventHandler = new EventHandler (this);
-  csEventID esub[] = {
+csPtr<iCelDataBuffer> celPcCommandInput::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (COMMANDINPUT_SERIAL);
+  databuf->Add (do_cooked);
+  databuf->Add (screenspace);
+  int cnt = 0;
+  celKeyMap* m = keylist;
+  while (m)
+  {
+    cnt++;
+    m = m->next;
+  }
+  databuf->Add ((int32)cnt);
+
+  //TODO: Implement this for axes and buttons!
+
+  m = keylist;
+  while (m)
+  {
+    databuf->Add ((uint32)m->key);
+    databuf->Add (m->command);
+    m = m->next;
+  }
+
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcCommandInput::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != COMMANDINPUT_SERIAL)
+  {
+    Report (object_reg, "serialnr != COMMANDINPUT_SERIAL.  Cannot load.");
+    return false;
+  }
+  do_cooked = databuf->GetBool ();
+  screenspace = databuf->GetBool ();
+  int cnt = databuf->GetInt32 ();
+  int i;
+
+  //TODO: Implement this for axes and buttons!
+
+  for (i = 0 ; i < cnt ; i++)
+  {
+    int key = databuf->GetUInt32 ();
+    const char* cmd = databuf->GetString ()->GetData ();
+    celKeyMap* newmap = new celKeyMap ();
+    // Add a new entry to key mapping list
+    newmap->next = keylist;
+    newmap->prev = 0;
+    newmap->key = key;
+    newmap->command = new char[strlen (cmd)+2];
+    strcpy (newmap->command, cmd);
+    newmap->command_end = strchr (newmap->command, 0);
+    *(newmap->command_end+1) = 0; // Make sure there is an end there too.
+
+    if (keylist)
+      keylist->prev = newmap;
+    keylist = newmap;
+  }
+  return true;
+}
+
+void celPcCommandInput::Activate (bool activate)
+{
+  if (activate)
+  {
+    if (scfiEventHandler)
+      return;
+
+    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+    CS_ASSERT (q);
+    scfiEventHandler = new EventHandler (this);
+    csEventID esub[] = {
     	csevKeyboardEvent (object_reg),
     	csevMouseEvent (object_reg),
     	csevJoystickEvent (object_reg),
     	CS_EVENTLIST_END
     	};
-  q->RegisterListener (scfiEventHandler, esub);
-}
+    q->RegisterListener (scfiEventHandler, esub);
+  }
+  else
+  {
+    if (!scfiEventHandler)
+      return;
 
-void celPcCommandInput::Deactivate ()
-{
-  if (!scfiEventHandler)
-    return;
-
-  csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
-  CS_ASSERT (q);
-  q->RemoveListener (scfiEventHandler);
-  scfiEventHandler->DecRef ();
-  scfiEventHandler = 0;
+    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+    CS_ASSERT (q);
+    q->RemoveListener (scfiEventHandler);
+    scfiEventHandler->DecRef ();
+    scfiEventHandler = 0;
+  }
 }
 
 bool celPcCommandInput::LoadConfig (const char* prefix)
@@ -234,7 +358,8 @@ bool celPcCommandInput::LoadConfig (const char* prefix)
   if (!cfgit) return false;
   while (cfgit->Next ())
   {
-    Warning (
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+    	"cel.input.standard",
     	"*.CommandInput.Bind.key = action is deprecated. Use *.Input.Bind.action = key instead.");
     Bind (cfgit->GetKey (true), cfgit->GetStr ());
   }
@@ -272,10 +397,10 @@ void celPcCommandInput::SaveConfig (const char* prefix)
 {
   csRef<iConfigManager> cfg = csQueryRegistry<iConfigManager> (object_reg);
   if (!cfg) return;
-  for (size_t i = 0 ; i < keylist.GetSize () ; i++)
+  celKeyMap* km = keylist;
+  while (km)
   {
-    celKeyMap* km = keylist[i];
-    csString cmdbind = km->commandStr;
+    csString cmdbind = csString (km->command);
     if (km->packedargs)
       cmdbind += ".args";
     csString strbind = csString (prefix);
@@ -292,10 +417,11 @@ void celPcCommandInput::SaveConfig (const char* prefix)
       	  name_reg, km->key, &modifiers).GetData ();
     }
     cfg->SetStr (cmdbind.GetData (), strbind.GetData ());
+    km = km->next;
   }
-  for (size_t i = 0 ; i < axislist.GetSize () ; i++)
+  celAxisMap* am = axislist;
+  while (am)
   {
-    celAxisMap* am = axislist[i];
     csString strbind = csString (prefix);
     strbind += ".Input.Bind.";
     strbind += am->device;
@@ -304,13 +430,14 @@ void celPcCommandInput::SaveConfig (const char* prefix)
     if (am->type == csevJoystickMove (name_reg, am->device))
       strbind += "JoystickAxis";
     strbind += am->numeric;
-    cfg->SetStr (am->commandStr, strbind.GetData ());
+    cfg->SetStr (am->command, strbind.GetData ());
+    am = am->next;
   }
-  for (size_t i = 0 ; i < buttonlist.GetSize () ; i++)
+  celButtonMap* bm = buttonlist;
+  while (bm)
   {
-    celButtonMap* bm = buttonlist[i];
-    csString cmdbind = bm->commandStr;
-    if (bm->packedargs)
+    csString cmdbind = csString (km->command);
+    if (km->packedargs)
       cmdbind += ".args";
     csString strbind = csString (prefix);
     strbind += ".Input.Bind.";
@@ -321,6 +448,7 @@ void celPcCommandInput::SaveConfig (const char* prefix)
       strbind += "JoystickButton";
     strbind += bm->numeric;
     cfg->SetStr (cmdbind.GetData (), strbind.GetData ());
+    bm = bm->next;
   }
   cfg->Save ();
 }
@@ -346,13 +474,21 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
     {
       newkmap = new celKeyMap;
       // Add a new entry to key mapping list
+      newkmap->next = keylist;
+      newkmap->prev = 0;
       newkmap->key = CS_UC_INVALID;
       newkmap->modifiers = 0;
       newkmap->packedargs = packedargs;
 
-      keylist.Push (newkmap);
+      if (keylist)
+        keylist->prev = newkmap;
+      keylist = newkmap;
     }
-    newkmap->commandStr = command;
+    delete [] newkmap->command;
+    newkmap->command = new char[strlen (command)+2];
+    strcpy (newkmap->command, command);
+    newkmap->command_end = strchr (newkmap->command, 0);
+    *(newkmap->command_end + 1) = 0; // Make sure there is an end there too.
     return true;
   }
   // parse and handle event type
@@ -372,7 +508,8 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
   if (!csInputDefinition::ParseOther (name_reg, trig, &type, &device,
   	&numeric, &modifiers))
   {
-    return Error ("Bad input specification '%s'!", trig);
+    Report (object_reg, "Bad input specification '%s'!", trig);
+    return false;
   }
   // Key binding
   if (type == csevKeyboardEvent (object_reg))
@@ -390,14 +527,22 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
     {
       newkmap = new celKeyMap;
       // Add a new entry to key mapping list
+      newkmap->next = keylist;
+      newkmap->prev = 0;
       newkmap->key = key;
       newkmap->modifiers = mods;        // Only used in cooked mode.
 
-      keylist.Push (newkmap);
+      if (keylist)
+        keylist->prev = newkmap;
+      keylist = newkmap;
     }
     newkmap->packedargs = packedargs;
     // fill command in mapping structure
-    newkmap->commandStr = command;
+    delete [] newkmap->command;
+    newkmap->command = new char[strlen (command) + 2];
+    strcpy (newkmap->command, command);
+    newkmap->command_end = strchr (newkmap->command, 0);
+    *(newkmap->command_end + 1) = 0; // Make sure there is an end there too.
     return true;
   }
   else
@@ -412,14 +557,21 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
       {
         newamap = new celAxisMap;
         // Add a new entry to axis mapping list
+        newamap->next = axislist;
+        newamap->prev = 0;
         newamap->type = type;
         newamap->device = device;
         newamap->numeric = numeric;
         newamap->modifiers = mods;
-	axislist.Push (newamap);
+
+        if (axislist)
+          axislist->prev = newamap;
+        axislist = newamap;
       }
+      delete [] newamap->command;
       newamap->recenter = centered;
-      newamap->commandStr = command;
+      newamap->command = new char[strlen (command) + 1];
+      strcpy (newamap->command, command);
     }
     // Joystick/Mouse button binding
     else
@@ -429,14 +581,23 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
       {
         newbmap = new celButtonMap;
         // Add a new entry to button mapping list
+        newbmap->next = buttonlist;
+        newbmap->prev = 0;
         newbmap->type = type;
         newbmap->device = device;
         newbmap->numeric = numeric;
         newbmap->modifiers = mods;
-	buttonlist.Push (newbmap);
+
+        if (buttonlist)
+          buttonlist->prev = newbmap;
+        buttonlist = newbmap;
       }
       newbmap->packedargs = packedargs;
-      newbmap->commandStr = command;
+      delete [] newbmap->command;
+      newbmap->command = new char[strlen (command) + 2];
+      strcpy (newbmap->command, command);
+      newbmap->command_end = strchr (newbmap->command, 0);
+      *(newbmap->command_end + 1) = 0; // Make sure there is an end there too.
     }
     return true;
   }
@@ -457,7 +618,7 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
     celKeyMap* map;
     if (!(map = GetMap (key, mods)))
       return 0;
-    return map->commandStr;
+    return map->command;
   }
   else if (csInputDefinition::ParseOther (name_reg, triggername, &type,
   	&device, &numeric, &modifiers))
@@ -469,14 +630,14 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
       celAxisMap* amap;
       if (!(amap = GetAxisMap (type, device, numeric, mods)))
         return 0;
-      return amap->commandStr;
+      return amap->command;
     }
     else
     {
       celButtonMap* bmap;
       if (!(bmap = GetButtonMap (type, device, numeric, mods)))
         return 0;
-      return bmap->commandStr;
+      return bmap->command;
     }
   }
   return 0;
@@ -494,14 +655,17 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
   	&cooked, &modifiers))
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
-    for (size_t i = 0 ; i < keylist.GetSize () ; i++)
+    celKeyMap *pmap = 0, *map = keylist;
+    while (map)
     {
-      celKeyMap* map = keylist[i];
       if (map->key == key && map->modifiers == mods)
       {
-	keylist.DeleteIndex (i);
+        pmap->next = map->next;
+        delete map;
         return true;
       }
+      pmap = map;
+      map = map->next;
     }
     return false;
   }
@@ -514,22 +678,35 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
     if (type == csevMouseMove (name_reg, device) ||
     	type == csevJoystickMove (name_reg, device))
     {
-      size_t i = 0;
-      while ((i < axislist.GetSize ()) && (!done || empty))
+      celAxisMap *pamap = 0, *amap = axislist, *tdmap;
+      while (amap && (!done || empty))
       {
-        celAxisMap *amap = axislist[i++];
         if (amap->type == type && amap->device == device)
         {
           if (amap->numeric == numeric && amap->modifiers == mods)
           {
-	    --i;
-	    axislist.DeleteIndex (i);
-	    done = true;
+            if (pamap)
+              pamap->next = amap->next;
+            else
+              axislist = amap->next;
+
+            tdmap = amap;
+            amap = amap->next;
+
+            delete tdmap;
+            done = true;
           }
           else
           {
             empty = false;
+            pamap = amap;
+            amap = amap->next;
           }
+        }
+        else
+        {
+          pamap = amap;
+          amap = amap->next;
         }
       }
 
@@ -541,15 +718,18 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
     }
     else
     {
-      for (size_t i = 0 ; i < buttonlist.GetSize () ; i++)
+      celButtonMap *pbmap = 0, *bmap = buttonlist;
+      while (bmap)
       {
-        celButtonMap *bmap = buttonlist[i];
         if (bmap->type == type && bmap->device == device &&
         	bmap->numeric == numeric && bmap->modifiers == mods)
         {
-	  buttonlist.DeleteIndex (i);
+          pbmap->next = bmap->next;
+          delete bmap;
           return true;
         }
+        pbmap = bmap;
+        bmap = bmap->next;
       }
       return false;
     }
@@ -559,9 +739,38 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
 
 void celPcCommandInput::RemoveAllBinds ()
 {
-  keylist.DeleteAll ();
-  axislist.DeleteAll ();
-  buttonlist.DeleteAll ();
+  celKeyMap *key, *next;
+
+  key = keylist;
+  while (key)
+  {
+    next = key->next;
+    delete key;
+    key = next;
+  }
+  keylist = 0;
+
+  celAxisMap *axis, *nexta;
+
+  axis = axislist;
+  while (axis)
+  {
+    nexta = axis->next;
+    delete axis;
+    axis = nexta;
+  }
+  axislist = 0;
+
+  celButtonMap *button, *nextb;
+
+  button = buttonlist;
+  while (button)
+  {
+    nextb = button->next;
+    delete button;
+    button = nextb;
+  }
+  buttonlist = 0;
 }
 
 void celPcCommandInput::EnableMouseEvents ()
@@ -596,39 +805,45 @@ void celPcCommandInput::DisableJoystickEvents ()
 
 celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
 {
-  for (size_t i = 0 ; i < keylist.GetSize () ; i++)
+  celKeyMap *p = keylist;
+  while (p)
   {
-    celKeyMap *p = keylist[i];
-    if (p->key == key && p->modifiers == mods) return p;
+    if (p->key == key && p->modifiers == mods)
+      break;
+    p = p->next;
   }
-  return 0;
+
+  return p;
 }
 
 celAxisMap* celPcCommandInput::GetAxisMap (csEventID type, uint device,
 	int numeric, uint32 mods) const
 {
-  for (size_t i = 0 ; i < axislist.GetSize () ; i++)
+  celAxisMap *p = axislist;
+  while (p)
   {
-    celAxisMap *p = axislist[i];
     if (p->type == type && p->device == device &&
     	p->numeric == numeric && p->modifiers == mods)
-      return p;
+      break;
+    p = p->next;
   }
-  return 0;
+
+  return p;
 }
 
 celButtonMap* celPcCommandInput::GetButtonMap (csEventID type, uint device,
 	int numeric, uint32 mods) const
 {
-  for (size_t i = 0 ; i < buttonlist.GetSize () ; i++)
+  celButtonMap *p = buttonlist;
+  while (p)
   {
-    celButtonMap *p = buttonlist[i];
     if (p->type == type && p->device == device &&
     	p->numeric == numeric && p->modifiers == mods)
-      return p;
+      break;
+    p = p->next;
   }
 
-  return 0;
+  return p;
 }
 
 void celPcCommandInput::ScreenCoordinates (bool screen)
@@ -676,8 +891,7 @@ void celPcCommandInput::SendMessage (const char* command, char updown,
   if (updown == '1') cmd += ".down";
   else if (updown == '0') cmd += ".up";
   else if (updown == '_') cmd += ".repeat";
-  csStringID id = pl->FetchStringID (cmd);
-  entity->QueryMessageChannel ()->SendMessage (id, this, params);
+  entity->QueryMessageChannel ()->SendMessage (cmd, this, params);
 }
 
 void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,
@@ -715,7 +929,7 @@ void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,
   {
     key_params->GetParameter (0).Clear ();
   }
-  SendMessage (p->commandStr, updown, key_params);
+  SendMessage (p->command, updown, key_params);
 }
 
 bool celPcCommandInput::HandleEvent (iEvent &ev)
@@ -729,21 +943,20 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     uint32 type = csKeyEventHelper::GetEventType (&ev);
     bool autorep = csKeyEventHelper::GetAutoRepeat (&ev);
 
-    // Find mapping
-    celKeyMap* found = 0;
-    for (size_t i = 0 ; i < keylist.GetSize () ; i++)
+    //find mapping
+    celKeyMap *p = keylist;
+    while (p)
     {
-      celKeyMap* p = keylist[i];
       if (p->key == CS_UC_INVALID)
         break;
       if (KeyEqual (p->key, key)
         && (!do_cooked || ((modifiers & p->modifiers) == p->modifiers)))
       {
-	found = p;
         break;
       }
+      p = p->next;
     }
-    if (!found)
+    if (!p)
       return false;
 
     // Keep a reference to the entity to prevent deletion
@@ -751,21 +964,20 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     csRef<iCelEntity> keepref = entity;
     if (type == csKeyEventTypeUp)
     {
-      SendKeyMessage (found, key, key_modifiers, CEL_KEY_STATE_UP);
+      SendKeyMessage (p, key, key_modifiers, CEL_KEY_STATE_UP);
     }
     else
     {
       if (autorep)
       {
         // Send auto-repeat message.
-        SendKeyMessage (found, key, key_modifiers, CEL_KEY_STATE_REPEAT);
+        SendKeyMessage (p, key, key_modifiers, CEL_KEY_STATE_REPEAT);
       }
       else
       {
-        SendKeyMessage (found, key, key_modifiers, CEL_KEY_STATE_DOWN);
+        SendKeyMessage (p, key, key_modifiers, CEL_KEY_STATE_DOWN);
       }
     }
-    return true;
   }
   else if (CS_IS_MOUSE_EVENT(name_reg, ev) && handleMouse)
   {
@@ -779,16 +991,14 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       //mouse move event
       int modifiers = csMouseEventHelper::GetModifiers (&ev);
       //find mapping
+      celAxisMap *p = axislist;
       csEventID mouse_id = csevMouseMove (object_reg, device);
-      bool found = false;
-      for (size_t i = 0 ; i < axislist.GetSize () ; i++)
+      while (p)
       {
-        celAxisMap *p = axislist[i];
         if ((p->device == device) &&
         	((modifiers & p->modifiers) == p->modifiers) &&
         	(csEventNameRegistry::IsKindOf (name_reg, p->type, mouse_id)))
         {
-	  found = true;
           float x, y;
           x = (float) csMouseEventHelper::GetX (&ev);
           y = (float) csMouseEventHelper::GetY (&ev);
@@ -810,7 +1020,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
             else if (p->numeric == 1)
               mouse_params->GetParameter (2).Set (ScreenToCentered (y, 1));
           }
-          SendMessage (p->commandStr, ' ', mouse_params);
+          SendMessage (p->command, ' ', mouse_params);
         }
         if (p->recenter)
         {
@@ -820,8 +1030,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
           g2d->SetMousePosition (width / 2, height / 2);
           g2d->SetMouseCursor (csmcNone);
         }
+        p = p->next;
       }
-      return found;
     }
     else
     {
@@ -829,20 +1039,19 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       int button = csMouseEventHelper::GetButton (&ev);
       uint32 modifiers = csMouseEventHelper::GetModifiers (&ev);
       //find mapping
+      celButtonMap *p = buttonlist;
       csEventID mouse_id = csevMouseButton (object_reg, device);
-      celButtonMap* found = 0;
-      for (size_t i = 0 ; i < buttonlist.GetSize () ; i++)
+      while (p)
       {
-        celButtonMap* p = buttonlist[i];
         if ((p->numeric == button) && (p->device == device) &&
         	((modifiers & p->modifiers) == p->modifiers) &&
         	csEventNameRegistry::IsKindOf (name_reg, p->type, mouse_id))
         {
-	  found = p;
           break;
         }
+        p = p->next;
       }
-      if (!found)
+      if (!p)
         return false;
 
       // Keep a reference to the entity to prevent deletion
@@ -850,10 +1059,9 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       csRef<iCelEntity> keepref = entity;
 
       if (ev.Name == csevMouseUp (object_reg, device))
-        SendMessage (found->commandStr, '0', 0);
+        SendMessage (p->command, '0', 0);
       else if (ev.Name == csevMouseDown (object_reg, device))
-        SendMessage (found->commandStr, '1', 0);
-      return true;
+        SendMessage (p->command, '1', 0);
     }
   }
   else if (CS_IS_JOYSTICK_EVENT(name_reg,ev) && handleJoystick)
@@ -870,11 +1078,10 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       csJoystickEventData data;
       csJoystickEventHelper::GetEventData (&ev, data);
       //find mapping
+      celAxisMap *p = axislist;
       csEventID joy_id = csevJoystickMove (object_reg, device);
-      bool found = false;
-      for (size_t i = 0 ; i < axislist.GetSize () ; i++)
+      while (p)
       {
-        celAxisMap* p = axislist[i];
         if ((device == p->device) &&
         	((modifiers & p->modifiers) == p->modifiers) &&
         	(csEventNameRegistry::IsKindOf (name_reg, p->type, joy_id)) &&
@@ -890,12 +1097,12 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
               	CenteredToScreen (val, p->numeric));
           else
             joy_params->GetParameter (0).Set (val);
-          SendMessage (p->commandStr, ' ', joy_params);
-	  found = true;
-	  break;
+          SendMessage (p->command, ' ', joy_params);
         }
+        p = p->next;
       }
-      return found;
+      if (!p)
+        return false;
     }
     else
     {
@@ -905,20 +1112,19 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       uint32 modifiers = csJoystickEventHelper::GetModifiers (&ev);
 
       //find mapping
+      celButtonMap *p = buttonlist;
       csEventID joy_id = csevJoystickButton (object_reg, device);
-      celButtonMap* found = 0;
-      for (size_t i = 0 ; i < buttonlist.GetSize () ; i++)
+      while (p)
       {
-        celButtonMap* p = buttonlist[i];
         if ((p->numeric == button) && (p->device == device) &&
         	((modifiers & p->modifiers) == p->modifiers) &&
         	csEventNameRegistry::IsKindOf (name_reg, p->type, joy_id))
         {
-	  found = p;
           break;
         }
+        p = p->next;
       }
-      if (!found)
+      if (!p)
         return false;
 
       // Keep a reference to the entity to prevent deletion
@@ -928,23 +1134,22 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       celOneParameterBlock* celparms = 0;
       if (ev.Name == csevJoystickUp (name_reg, device))
       {
-        if (found->packedargs)
+        if (p->packedargs)
         {
           but_params->GetParameter(0).Set (CEL_KEY_STATE_UP);
           celparms = but_params;
         }
-        SendMessage (found->commandStr, '0', celparms);
+        SendMessage (p->command, '0', celparms);
       }
       else
       {
-        if (found->packedargs)
+        if (p->packedargs)
         {
           but_params->GetParameter(0).Set (CEL_KEY_STATE_DOWN);
           celparms = but_params;
         }
-        SendMessage (found->commandStr, '1', celparms);
+        SendMessage (p->command, '1', celparms);
       }
-      return true;
     }
   }
 

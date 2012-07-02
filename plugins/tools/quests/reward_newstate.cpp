@@ -48,8 +48,8 @@ celNewStateRewardFactory::celNewStateRewardFactory (
   celNewStateRewardFactory::type = type;
 }
 
-csPtr<iReward> celNewStateRewardFactory::CreateReward (iQuest* q,
-    iCelParameterBlock* params)
+csPtr<iReward> celNewStateRewardFactory::CreateReward (
+    const celParams& params)
 {
   iReward* reward;
   if (!class_par.IsEmpty())
@@ -59,19 +59,11 @@ csPtr<iReward> celNewStateRewardFactory::CreateReward (iQuest* q,
   }
   else
   {
-    reward = new celNewStateReward (type, q, 
+    reward = new celNewStateReward (type,
+  	//q, 
 	params, state_par, entity_par, tag_par);
   }
   return reward;
-}
-
-bool celNewStateRewardFactory::Save (iDocumentNode* node)
-{
-  if (!state_par.IsEmpty ()) node->SetAttribute ("state", state_par);
-  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
-  if (!class_par.IsEmpty ()) node->SetAttribute ("class", class_par);
-  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
-  return true;
 }
 
 bool celNewStateRewardFactory::Load (iDocumentNode* node)
@@ -84,7 +76,7 @@ bool celNewStateRewardFactory::Load (iDocumentNode* node)
   if (state_par.IsEmpty())
   {
     csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "cel.questreward.newstate",
+      "cel.questreward.debugprint",
       "'state' attribute is missing for the newstate reward!");
     return false;
   }
@@ -106,8 +98,8 @@ void celNewStateRewardFactory::SetEntityParameter (const char* entity,
 //---------------------------------------------------------------------------
 
 celNewStateReward::celNewStateReward (
-	celNewStateRewardType* type, iQuest* q,
-  	iCelParameterBlock* params,
+	celNewStateRewardType* type, //iQuest* q,
+  	const celParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par)
 	: scfImplementationType (this)
@@ -117,21 +109,10 @@ celNewStateReward::celNewStateReward (
     (type->object_reg, "cel.parameters.manager");
 
   state = pm->GetParameter (params, state_par);
-  if (entity_par)
-  {
-    entity = pm->GetParameter (params, entity_par);
-    if (!entity)
-    {
-      csReport (type->object_reg, CS_REPORTER_SEVERITY_ERROR,
-        "cel.questreward.newstate",
-        "Entity (parameter '%s') could not be found for newstate reward!",
-	entity_par);
-      return;
-    }
-  }
+  if (entity_par) entity = pm->GetParameter (params, entity_par);
   if (tag_par) tag = pm->GetParameter (params, tag_par);
-  if (!entity_par && !tag_par)
-    quest = q;
+  //if (!entity_par && !tag_par)
+  //  quest = q;
 }
 
 void celNewStateReward::Reward (iCelParameterBlock* params)
@@ -165,7 +146,7 @@ void celNewStateReward::TickEveryFrame ()
     const char* t = 0;
     if (tag) 
       t = tag->Get (params);
-    csWeakRef<iPcQuest> pcquest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
+    csWeakRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
     if (!pcquest) return;
     quest = pcquest->GetQuest ();
     if (!quest) return;
@@ -180,7 +161,7 @@ void celNewStateReward::TickEveryFrame ()
 
 celClassNewStateReward::celClassNewStateReward (
 	celNewStateRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* state_par,
 	const char* class_par, const char* tag_par)
 	: scfImplementationType (this)
@@ -230,7 +211,7 @@ void celClassNewStateReward::TickEveryFrame ()
   {
     i--;
     ent = entlist->Get(i);
-    csRef<iPcQuest> pcquest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
+    csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcQuest, t);
     if (pcquest)
       pcquest->GetQuest()->SwitchState (st);
   }

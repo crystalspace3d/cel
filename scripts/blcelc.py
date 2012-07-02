@@ -197,8 +197,6 @@ class celData(object):
     def assign(*args): return _blcelc.celData_assign(*args)
     __swig_destroy__ = _blcelc.delete_celData
     __del__ = lambda self : None;
-    def Copy(*args): return _blcelc.celData_Copy(*args)
-    def __eq__(*args): return _blcelc.celData___eq__(*args)
     def Clear(*args): return _blcelc.celData_Clear(*args)
     def Set(*args): return _blcelc.celData_Set(*args)
     def SetAction(*args): return _blcelc.celData_SetAction(*args)
@@ -464,12 +462,10 @@ class iCelPlLayer(cspace.iBase):
     def RemoveEntityTemplate(*args): return _blcelc.iCelPlLayer_RemoveEntityTemplate(*args)
     def RemoveEntityTemplates(*args): return _blcelc.iCelPlLayer_RemoveEntityTemplates(*args)
     def FindEntityTemplate(*args): return _blcelc.iCelPlLayer_FindEntityTemplate(*args)
-    def GetEntityTemplates(*args): return _blcelc.iCelPlLayer_GetEntityTemplates(*args)
+    def GetEntityTemplateCount(*args): return _blcelc.iCelPlLayer_GetEntityTemplateCount(*args)
+    def GetEntityTemplate(*args): return _blcelc.iCelPlLayer_GetEntityTemplate(*args)
     def CreateEntity(*args): return _blcelc.iCelPlLayer_CreateEntity(*args)
-    def ApplyTemplate(*args): return _blcelc.iCelPlLayer_ApplyTemplate(*args)
     def CreateDataBuffer(*args): return _blcelc.iCelPlLayer_CreateDataBuffer(*args)
-    def CreateCompactDataBufferWriter(*args): return _blcelc.iCelPlLayer_CreateCompactDataBufferWriter(*args)
-    def CreateCompactDataBufferReader(*args): return _blcelc.iCelPlLayer_CreateCompactDataBufferReader(*args)
     def AttachEntity(*args): return _blcelc.iCelPlLayer_AttachEntity(*args)
     def UnattachEntity(*args): return _blcelc.iCelPlLayer_UnattachEntity(*args)
     def GetEntity(*args): return _blcelc.iCelPlLayer_GetEntity(*args)
@@ -512,12 +508,13 @@ class iCelPlLayer(cspace.iBase):
     def CallbackOnce(*args): return _blcelc.iCelPlLayer_CallbackOnce(*args)
     def RemoveCallbackEveryFrame(*args): return _blcelc.iCelPlLayer_RemoveCallbackEveryFrame(*args)
     def RemoveCallbackOnce(*args): return _blcelc.iCelPlLayer_RemoveCallbackOnce(*args)
-    def GetTicksLeft(*args): return _blcelc.iCelPlLayer_GetTicksLeft(*args)
     def AddScope(*args): return _blcelc.iCelPlLayer_AddScope(*args)
-    def ResetScope(*args): return _blcelc.iCelPlLayer_ResetScope(*args)
     def GetClassEntitiesList(*args): return _blcelc.iCelPlLayer_GetClassEntitiesList(*args)
     def SendMessage(*args): return _blcelc.iCelPlLayer_SendMessage(*args)
     def QueryMessageSender(*args): return _blcelc.iCelPlLayer_QueryMessageSender(*args)
+    EntityTemplateCount = _swig_property(_blcelc.iCelPlLayer_EntityTemplateCount_get, None, None,
+                    "iCelPlLayer.EntityTemplateCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetEntityTemplateCount()")
+
     EntityCount = _swig_property(_blcelc.iCelPlLayer_EntityCount_get, None, None,
                     "iCelPlLayer.EntityCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetEntityCount()")
 
@@ -539,9 +536,9 @@ class iCelPlLayer(cspace.iBase):
     __swig_destroy__ = _blcelc.delete_iCelPlLayer
     __del__ = lambda self : None;
     def CreateParameterBlock(self,valdict):
-    	"""Create a celVariableParameterBlock from a dict, list or
+    	"""Create a celGenericParameterBlock from a dict, list or
     	tuple"""
-    	parblock = celVariableParameterBlock(len(valdict))
+    	parblock = celGenericParameterBlock(len(valdict))
     	for idx,valkey in enumerate(valdict):
     		keyid = self.FetchStringID(valkey)
     		parblock.SetParameterDef (idx,keyid)
@@ -584,6 +581,30 @@ iCelEntityTracker_swigregister = _blcelc.iCelEntityTracker_swigregister
 iCelEntityTracker_swigregister(iCelEntityTracker)
 
 csQueryRegistry_iCelPlLayer = _blcelc.csQueryRegistry_iCelPlLayer
+class iCelEntityTemplatePlFakeArray(object):
+	def __init__(self,parent): self.parent = parent
+	def __contains__(self,obj):
+		if self.parent.FindEntityTemplate(obj): return True
+		else: return False
+	def __repr__(self): return "List of "+str("iCelEntityTemplate")
+	def __len__(self): return self.parent.GetEntityTemplateCount()
+	def __delitem__(self,val):
+		if type(val) == type(""):
+			obj = self.parent.FindEntityTemplate(val)
+			if obj: return self.parent.RemoveEntityTemplate(obj)
+			else: raise IndexError(val+" not in list")
+		else: return self.parent.RemoveEntityTemplate(val)
+	def __noappend__(self,obj):
+		print "Append not supported by this list"
+	def content_iterator(self):
+		for idx in xrange(len(self)):
+			yield self.parent.GetEntityTemplate(idx)
+	def __iter__(self): return self.content_iterator()
+	def __getitem__(self,val):
+		if type(val) == type(""): return self.parent.FindEntityTemplate(val)
+		else: return self.parent.GetEntityTemplate(val)
+	def append(self,obj): return self.parent.__noappend__(obj)
+
 class iCelEntityPlFakeArray(object):
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
@@ -665,8 +686,6 @@ class iCelEntity(cspace.iBase):
     def SetName(*args): return _blcelc.iCelEntity_SetName(*args)
     def GetID(*args): return _blcelc.iCelEntity_GetID(*args)
     def SetID(*args): return _blcelc.iCelEntity_SetID(*args)
-    def SetTemplateNameID(*args): return _blcelc.iCelEntity_SetTemplateNameID(*args)
-    def GetTemplateNameID(*args): return _blcelc.iCelEntity_GetTemplateNameID(*args)
     def GetPropertyClassList(*args): return _blcelc.iCelEntity_GetPropertyClassList(*args)
     def SetBehaviour(*args): return _blcelc.iCelEntity_SetBehaviour(*args)
     def GetBehaviour(*args): return _blcelc.iCelEntity_GetBehaviour(*args)
@@ -676,15 +695,6 @@ class iCelEntity(cspace.iBase):
     def GetClasses(*args): return _blcelc.iCelEntity_GetClasses(*args)
     def QueryMessageChannel(*args): return _blcelc.iCelEntity_QueryMessageChannel(*args)
     def CreateTaggedMessageDispatcher(*args): return _blcelc.iCelEntity_CreateTaggedMessageDispatcher(*args)
-    def IsPositional(*args): return _blcelc.iCelEntity_IsPositional(*args)
-    def Activate(*args): return _blcelc.iCelEntity_Activate(*args)
-    def Deactivate(*args): return _blcelc.iCelEntity_Deactivate(*args)
-    def IsActive(*args): return _blcelc.iCelEntity_IsActive(*args)
-    def MarkBaseline(*args): return _blcelc.iCelEntity_MarkBaseline(*args)
-    def IsModifiedSinceBaseline(*args): return _blcelc.iCelEntity_IsModifiedSinceBaseline(*args)
-    def ExistedAtBaseline(*args): return _blcelc.iCelEntity_ExistedAtBaseline(*args)
-    def SaveModifications(*args): return _blcelc.iCelEntity_SaveModifications(*args)
-    def RestoreModifications(*args): return _blcelc.iCelEntity_RestoreModifications(*args)
     Object = _swig_property(_blcelc.iCelEntity_Object_get, None, None,
                     "iCelEntity.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntity::QueryObject()")
 
@@ -769,29 +779,6 @@ iCelEntityIterator_swigregister(iCelEntityIterator)
 celRegisterPCFactory = _blcelc.celRegisterPCFactory
 celCreateEntity = _blcelc.celCreateEntity
 scfQueryInterface_iCelEntity = _blcelc.scfQueryInterface_iCelEntity
-class iCelParameterIterator(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def HasNext(*args): return _blcelc.iCelParameterIterator_HasNext(*args)
-    def Next(*args): return _blcelc.iCelParameterIterator_Next(*args)
-    __swig_destroy__ = _blcelc.delete_iCelParameterIterator
-    __del__ = lambda self : None;
-iCelParameterIterator_swigregister = _blcelc.iCelParameterIterator_swigregister
-iCelParameterIterator_swigregister(iCelParameterIterator)
-celFindNearbyEntities = _blcelc.celFindNearbyEntities
-
-class iCelEntityTemplateIterator(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def HasNext(*args): return _blcelc.iCelEntityTemplateIterator_HasNext(*args)
-    def Next(*args): return _blcelc.iCelEntityTemplateIterator_Next(*args)
-    __swig_destroy__ = _blcelc.delete_iCelEntityTemplateIterator
-    __del__ = lambda self : None;
-iCelEntityTemplateIterator_swigregister = _blcelc.iCelEntityTemplateIterator_swigregister
-iCelEntityTemplateIterator_swigregister(iCelEntityTemplateIterator)
-
 class iCelEntityTemplate(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -800,27 +787,14 @@ class iCelEntityTemplate(cspace.iBase):
     def GetName(*args): return _blcelc.iCelEntityTemplate_GetName(*args)
     def SetName(*args): return _blcelc.iCelEntityTemplate_SetName(*args)
     def CreatePropertyClassTemplate(*args): return _blcelc.iCelEntityTemplate_CreatePropertyClassTemplate(*args)
-    def FindPropertyClassTemplate(*args): return _blcelc.iCelEntityTemplate_FindPropertyClassTemplate(*args)
-    def GetPropertyClassTemplateCount(*args): return _blcelc.iCelEntityTemplate_GetPropertyClassTemplateCount(*args)
-    def GetPropertyClassTemplate(*args): return _blcelc.iCelEntityTemplate_GetPropertyClassTemplate(*args)
-    def RemovePropertyClassTemplate(*args): return _blcelc.iCelEntityTemplate_RemovePropertyClassTemplate(*args)
     def SetBehaviour(*args): return _blcelc.iCelEntityTemplate_SetBehaviour(*args)
     def GetBehaviourLayer(*args): return _blcelc.iCelEntityTemplate_GetBehaviourLayer(*args)
     def GetBehaviour(*args): return _blcelc.iCelEntityTemplate_GetBehaviour(*args)
     def AddMessage(*args): return _blcelc.iCelEntityTemplate_AddMessage(*args)
-    def GetMessageCount(*args): return _blcelc.iCelEntityTemplate_GetMessageCount(*args)
-    def GetMessage(*args): return _blcelc.iCelEntityTemplate_GetMessage(*args)
     def AddClass(*args): return _blcelc.iCelEntityTemplate_AddClass(*args)
     def RemoveClass(*args): return _blcelc.iCelEntityTemplate_RemoveClass(*args)
-    def RemoveClasses(*args): return _blcelc.iCelEntityTemplate_RemoveClasses(*args)
     def HasClass(*args): return _blcelc.iCelEntityTemplate_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntityTemplate_GetClasses(*args)
-    def Merge(*args): return _blcelc.iCelEntityTemplate_Merge(*args)
-    def AddParent(*args): return _blcelc.iCelEntityTemplate_AddParent(*args)
-    def RemoveParent(*args): return _blcelc.iCelEntityTemplate_RemoveParent(*args)
-    def RemoveParents(*args): return _blcelc.iCelEntityTemplate_RemoveParents(*args)
-    def GetParents(*args): return _blcelc.iCelEntityTemplate_GetParents(*args)
-    def GetCharacteristics(*args): return _blcelc.iCelEntityTemplate_GetCharacteristics(*args)
     Object = _swig_property(_blcelc.iCelEntityTemplate_Object_get, None, None,
                     "iCelEntityTemplate.Object -> iObject*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iObject* iCelEntityTemplate::QueryObject()")
 
@@ -841,6 +815,7 @@ class iCelEntityTemplate(cspace.iBase):
     __del__ = lambda self : None;
 iCelEntityTemplate_swigregister = _blcelc.iCelEntityTemplate_swigregister
 iCelEntityTemplate_swigregister(iCelEntityTemplate)
+celFindNearbyEntities = _blcelc.celFindNearbyEntities
 
 class iCelPropertyClassTemplate(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -853,13 +828,6 @@ class iCelPropertyClassTemplate(cspace.iBase):
     def SetPropertyVariable(*args): return _blcelc.iCelPropertyClassTemplate_SetPropertyVariable(*args)
     def SetProperty(*args): return _blcelc.iCelPropertyClassTemplate_SetProperty(*args)
     def PerformAction(*args): return _blcelc.iCelPropertyClassTemplate_PerformAction(*args)
-    def ReplaceActionParameters(*args): return _blcelc.iCelPropertyClassTemplate_ReplaceActionParameters(*args)
-    def GetPropertyCount(*args): return _blcelc.iCelPropertyClassTemplate_GetPropertyCount(*args)
-    def GetProperty(*args): return _blcelc.iCelPropertyClassTemplate_GetProperty(*args)
-    def FindProperty(*args): return _blcelc.iCelPropertyClassTemplate_FindProperty(*args)
-    def RemoveAllProperties(*args): return _blcelc.iCelPropertyClassTemplate_RemoveAllProperties(*args)
-    def RemoveProperty(*args): return _blcelc.iCelPropertyClassTemplate_RemoveProperty(*args)
-    def RemovePropertyByIndex(*args): return _blcelc.iCelPropertyClassTemplate_RemovePropertyByIndex(*args)
     Name = _swig_property(_blcelc.iCelPropertyClassTemplate_Name_get, _blcelc.iCelPropertyClassTemplate_Name_set, None,
                     "iCelPropertyClassTemplate.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClassTemplate::GetName()\n\tset: void iCelPropertyClassTemplate::SetName(const char*)")
 
@@ -964,6 +932,20 @@ class iCelBehaviour(cspace.iBase):
 iCelBehaviour_swigregister = _blcelc.iCelBehaviour_swigregister
 iCelBehaviour_swigregister(iCelBehaviour)
 
+class scfGenericParameterBlock(iCelParameterBlock):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def IncRef(*args): return _blcelc.scfGenericParameterBlock_IncRef(*args)
+    def DecRef(*args): return _blcelc.scfGenericParameterBlock_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.scfGenericParameterBlock_GetRefCount(*args)
+    def QueryInterface(*args): return _blcelc.scfGenericParameterBlock_QueryInterface(*args)
+    def AddRefOwner(*args): return _blcelc.scfGenericParameterBlock_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.scfGenericParameterBlock_RemoveRefOwner(*args)
+    def GetInterfaceMetadata(*args): return _blcelc.scfGenericParameterBlock_GetInterfaceMetadata(*args)
+scfGenericParameterBlock_swigregister = _blcelc.scfGenericParameterBlock_swigregister
+scfGenericParameterBlock_swigregister(scfGenericParameterBlock)
+
 class scfVariableParameterBlock(iCelParameterBlock):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -1006,80 +988,28 @@ class scfOneParameterBlock(iCelParameterBlock):
 scfOneParameterBlock_swigregister = _blcelc.scfOneParameterBlock_swigregister
 scfOneParameterBlock_swigregister(scfOneParameterBlock)
 
-class celParSpec(object):
+class celGenericParameterBlock(scfGenericParameterBlock):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
-    type = _swig_property(_blcelc.celParSpec_type_get, _blcelc.celParSpec_type_set)
-    id = _swig_property(_blcelc.celParSpec_id_get, _blcelc.celParSpec_id_set)
-    value = _swig_property(_blcelc.celParSpec_value_get, _blcelc.celParSpec_value_set)
     def __init__(self, *args): 
-        this = _blcelc.new_celParSpec(*args)
+        this = _blcelc.new_celGenericParameterBlock(*args)
         try: self.this.append(this)
         except: self.this = this
-    __swig_destroy__ = _blcelc.delete_celParSpec
+    __swig_destroy__ = _blcelc.delete_celGenericParameterBlock
     __del__ = lambda self : None;
-celParSpec_swigregister = _blcelc.celParSpec_swigregister
-celParSpec_swigregister(celParSpec)
+    def SetParameterDef(*args): return _blcelc.celGenericParameterBlock_SetParameterDef(*args)
+    def GetParameterCount(*args): return _blcelc.celGenericParameterBlock_GetParameterCount(*args)
+    def GetParameterDef(*args): return _blcelc.celGenericParameterBlock_GetParameterDef(*args)
+    def GetParameter(*args): return _blcelc.celGenericParameterBlock_GetParameter(*args)
+    def GetParameterByIndex(*args): return _blcelc.celGenericParameterBlock_GetParameterByIndex(*args)
+    ParameterDef = _swig_property(None, fix_args(_blcelc.celGenericParameterBlock_SetParameterDef), None,
+                    "celGenericParameterBlock.ParameterDef -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: celGenericParameterBlock::getmethod()\n\tset: void celGenericParameterBlock::SetParameterDef(...)")
 
-class celParameterTools(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    ParseParams = staticmethod(_blcelc.celParameterTools_ParseParams)
-    ToString = staticmethod(_blcelc.celParameterTools_ToString)
-    ToLong = staticmethod(_blcelc.celParameterTools_ToLong)
-    ToBool = staticmethod(_blcelc.celParameterTools_ToBool)
-    ToFloat = staticmethod(_blcelc.celParameterTools_ToFloat)
-    ToVector2 = staticmethod(_blcelc.celParameterTools_ToVector2)
-    ToVector3 = staticmethod(_blcelc.celParameterTools_ToVector3)
-    ToVector4 = staticmethod(_blcelc.celParameterTools_ToVector4)
-    ToColor = staticmethod(_blcelc.celParameterTools_ToColor)
-    ToColor4 = staticmethod(_blcelc.celParameterTools_ToColor4)
-    Convert = staticmethod(_blcelc.celParameterTools_Convert)
-    ParseParSpecBlock = staticmethod(_blcelc.celParameterTools_ParseParSpecBlock)
-    WriteParSpecBlock = staticmethod(_blcelc.celParameterTools_WriteParSpecBlock)
-    GetParameterBlock = staticmethod(_blcelc.celParameterTools_GetParameterBlock)
-    FillParameterBlock = staticmethod(_blcelc.celParameterTools_FillParameterBlock)
-    GetDebugData = staticmethod(_blcelc.celParameterTools_GetDebugData)
-    Dump = staticmethod(_blcelc.celParameterTools_Dump)
-    def __init__(self, *args): 
-        this = _blcelc.new_celParameterTools(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_celParameterTools
-    __del__ = lambda self : None;
-celParameterTools_swigregister = _blcelc.celParameterTools_swigregister
-celParameterTools_swigregister(celParameterTools)
-celParameterTools_ParseParams = _blcelc.celParameterTools_ParseParams
-celParameterTools_ToString = _blcelc.celParameterTools_ToString
-celParameterTools_ToLong = _blcelc.celParameterTools_ToLong
-celParameterTools_ToBool = _blcelc.celParameterTools_ToBool
-celParameterTools_ToFloat = _blcelc.celParameterTools_ToFloat
-celParameterTools_ToVector2 = _blcelc.celParameterTools_ToVector2
-celParameterTools_ToVector3 = _blcelc.celParameterTools_ToVector3
-celParameterTools_ToVector4 = _blcelc.celParameterTools_ToVector4
-celParameterTools_ToColor = _blcelc.celParameterTools_ToColor
-celParameterTools_ToColor4 = _blcelc.celParameterTools_ToColor4
-celParameterTools_Convert = _blcelc.celParameterTools_Convert
-celParameterTools_ParseParSpecBlock = _blcelc.celParameterTools_ParseParSpecBlock
-celParameterTools_WriteParSpecBlock = _blcelc.celParameterTools_WriteParSpecBlock
-celParameterTools_GetParameterBlock = _blcelc.celParameterTools_GetParameterBlock
-celParameterTools_FillParameterBlock = _blcelc.celParameterTools_FillParameterBlock
-celParameterTools_GetDebugData = _blcelc.celParameterTools_GetDebugData
-celParameterTools_Dump = _blcelc.celParameterTools_Dump
+    ParameterCount = _swig_property(_blcelc.celGenericParameterBlock_ParameterCount_get, None, None,
+                    "celGenericParameterBlock.ParameterCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t celGenericParameterBlock::GetParameterCount()")
 
-class celVariable(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    id = _swig_property(_blcelc.celVariable_id_get, _blcelc.celVariable_id_set)
-    data = _swig_property(_blcelc.celVariable_data_get, _blcelc.celVariable_data_set)
-    def __init__(self, *args): 
-        this = _blcelc.new_celVariable(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_celVariable
-    __del__ = lambda self : None;
-celVariable_swigregister = _blcelc.celVariable_swigregister
-celVariable_swigregister(celVariable)
+celGenericParameterBlock_swigregister = _blcelc.celGenericParameterBlock_swigregister
+celGenericParameterBlock_swigregister(celGenericParameterBlock)
 
 class celVariableParameterBlock(scfVariableParameterBlock):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -1090,15 +1020,11 @@ class celVariableParameterBlock(scfVariableParameterBlock):
         except: self.this = this
     __swig_destroy__ = _blcelc.delete_celVariableParameterBlock
     __del__ = lambda self : None;
-    def Clear(*args): return _blcelc.celVariableParameterBlock_Clear(*args)
-    def RemoveParameter(*args): return _blcelc.celVariableParameterBlock_RemoveParameter(*args)
-    def AddParameter(*args): return _blcelc.celVariableParameterBlock_AddParameter(*args)
     def SetParameterDef(*args): return _blcelc.celVariableParameterBlock_SetParameterDef(*args)
     def GetParameterCount(*args): return _blcelc.celVariableParameterBlock_GetParameterCount(*args)
     def GetParameterDef(*args): return _blcelc.celVariableParameterBlock_GetParameterDef(*args)
-    def GetParameterByIndex(*args): return _blcelc.celVariableParameterBlock_GetParameterByIndex(*args)
     def GetParameter(*args): return _blcelc.celVariableParameterBlock_GetParameter(*args)
-    def Merge(*args): return _blcelc.celVariableParameterBlock_Merge(*args)
+    def GetParameterByIndex(*args): return _blcelc.celVariableParameterBlock_GetParameterByIndex(*args)
     ParameterDef = _swig_property(None, fix_args(_blcelc.celVariableParameterBlock_SetParameterDef), None,
                     "celVariableParameterBlock.ParameterDef -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: celVariableParameterBlock::getmethod()\n\tset: void celVariableParameterBlock::SetParameterDef(...)")
 
@@ -1107,22 +1033,6 @@ class celVariableParameterBlock(scfVariableParameterBlock):
 
 celVariableParameterBlock_swigregister = _blcelc.celVariableParameterBlock_swigregister
 celVariableParameterBlock_swigregister(celVariableParameterBlock)
-
-class celEntityParameterBlock(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _blcelc.new_celEntityParameterBlock(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _blcelc.delete_celEntityParameterBlock
-    __del__ = lambda self : None;
-    def GetParameterCount(*args): return _blcelc.celEntityParameterBlock_GetParameterCount(*args)
-    def GetParameterDef(*args): return _blcelc.celEntityParameterBlock_GetParameterDef(*args)
-    def GetParameter(*args): return _blcelc.celEntityParameterBlock_GetParameter(*args)
-    def GetParameterByIndex(*args): return _blcelc.celEntityParameterBlock_GetParameterByIndex(*args)
-celEntityParameterBlock_swigregister = _blcelc.celEntityParameterBlock_swigregister
-celEntityParameterBlock_swigregister(celEntityParameterBlock)
 
 class celOneParameterBlock(scfOneParameterBlock):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -1206,19 +1116,6 @@ class iCelPropertyClassFactory(cspace.iBase):
 iCelPropertyClassFactory_swigregister = _blcelc.iCelPropertyClassFactory_swigregister
 iCelPropertyClassFactory_swigregister(iCelPropertyClassFactory)
 
-class iCelPositionInfo(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def GetSector(*args): return _blcelc.iCelPositionInfo_GetSector(*args)
-    def GetPosition(*args): return _blcelc.iCelPositionInfo_GetPosition(*args)
-    def GetMovable(*args): return _blcelc.iCelPositionInfo_GetMovable(*args)
-    def GetBoundingRadius(*args): return _blcelc.iCelPositionInfo_GetBoundingRadius(*args)
-    __swig_destroy__ = _blcelc.delete_iCelPositionInfo
-    __del__ = lambda self : None;
-iCelPositionInfo_swigregister = _blcelc.iCelPositionInfo_swigregister
-iCelPositionInfo_swigregister(iCelPositionInfo)
-
 class iCelPropertyClass(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -1230,6 +1127,10 @@ class iCelPropertyClass(cspace.iBase):
     def GetTag(*args): return _blcelc.iCelPropertyClass_GetTag(*args)
     def GetEntity(*args): return _blcelc.iCelPropertyClass_GetEntity(*args)
     def SetEntity(*args): return _blcelc.iCelPropertyClass_SetEntity(*args)
+    def SaveFirstPass(*args): return _blcelc.iCelPropertyClass_SaveFirstPass(*args)
+    def LoadFirstPass(*args): return _blcelc.iCelPropertyClass_LoadFirstPass(*args)
+    def Save(*args): return _blcelc.iCelPropertyClass_Save(*args)
+    def Load(*args): return _blcelc.iCelPropertyClass_Load(*args)
     def AddPropertyChangeCallback(*args): return _blcelc.iCelPropertyClass_AddPropertyChangeCallback(*args)
     def RemovePropertyChangeCallback(*args): return _blcelc.iCelPropertyClass_RemovePropertyChangeCallback(*args)
     def SetProperty(*args): return _blcelc.iCelPropertyClass_SetProperty(*args)
@@ -1252,13 +1153,6 @@ class iCelPropertyClass(cspace.iBase):
     def PropertyClassesHaveChanged(*args): return _blcelc.iCelPropertyClass_PropertyClassesHaveChanged(*args)
     def GetPersistentData(*args): return _blcelc.iCelPropertyClass_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.iCelPropertyClass_SetPersistentData(*args)
-    def QueryPositionInfo(*args): return _blcelc.iCelPropertyClass_QueryPositionInfo(*args)
-    def Activate(*args): return _blcelc.iCelPropertyClass_Activate(*args)
-    def Deactivate(*args): return _blcelc.iCelPropertyClass_Deactivate(*args)
-    def MarkBaseline(*args): return _blcelc.iCelPropertyClass_MarkBaseline(*args)
-    def IsModifiedSinceBaseline(*args): return _blcelc.iCelPropertyClass_IsModifiedSinceBaseline(*args)
-    def SaveModifications(*args): return _blcelc.iCelPropertyClass_SaveModifications(*args)
-    def RestoreModifications(*args): return _blcelc.iCelPropertyClass_RestoreModifications(*args)
     Name = _swig_property(_blcelc.iCelPropertyClass_Name_get, _blcelc.iCelPropertyClass_Name_set, None,
                     "iCelPropertyClass.Name -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iCelPropertyClass::GetName()\n\tset: void iCelPropertyClass::SetName(const char*)")
 
@@ -1418,7 +1312,6 @@ class iPcMechanicsObject(cspace.iBase):
     def SetMechanicsSystem(*args): return _blcelc.iPcMechanicsObject_SetMechanicsSystem(*args)
     def GetMechanicsSystem(*args): return _blcelc.iPcMechanicsObject_GetMechanicsSystem(*args)
     def GetBody(*args): return _blcelc.iPcMechanicsObject_GetBody(*args)
-    def SetBody(*args): return _blcelc.iPcMechanicsObject_SetBody(*args)
     def SetFriction(*args): return _blcelc.iPcMechanicsObject_SetFriction(*args)
     def SetMass(*args): return _blcelc.iPcMechanicsObject_SetMass(*args)
     def SetElasticity(*args): return _blcelc.iPcMechanicsObject_SetElasticity(*args)
@@ -2270,6 +2163,7 @@ class iPcCommandInput(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def Activate(*args): return _blcelc.iPcCommandInput_Activate(*args)
     def SetSendTrigger(*args): return _blcelc.iPcCommandInput_SetSendTrigger(*args)
     def IsSendTriggerEnabled(*args): return _blcelc.iPcCommandInput_IsSendTriggerEnabled(*args)
     def SetCookedMode(*args): return _blcelc.iPcCommandInput_SetCookedMode(*args)
@@ -2531,7 +2425,6 @@ class iPcActorMove(cspace.iBase):
     def GetJumpingVelocity(*args): return _blcelc.iPcActorMove_GetJumpingVelocity(*args)
     def SetAnimation(*args): return _blcelc.iPcActorMove_SetAnimation(*args)
     def SetAnimationMapping(*args): return _blcelc.iPcActorMove_SetAnimationMapping(*args)
-    def SubscribeMessages(*args): return _blcelc.iPcActorMove_SubscribeMessages(*args)
     MovingForward = _swig_property(_blcelc.iPcActorMove_MovingForward_get, _blcelc.iPcActorMove_MovingForward_set, None,
                     "iPcActorMove.MovingForward -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcActorMove::IsMovingForward()\n\tset: void iPcActorMove::Forward(bool)")
 
@@ -3467,8 +3360,6 @@ class iPcMesh(cspace.iBase):
     __repr__ = _swig_repr
     def SetPath(*args): return _blcelc.iPcMesh_SetPath(*args)
     def SetMesh(*args): return _blcelc.iPcMesh_SetMesh(*args)
-    def SetFactoryName(*args): return _blcelc.iPcMesh_SetFactoryName(*args)
-    def GetFactoryName(*args): return _blcelc.iPcMesh_GetFactoryName(*args)
     def CreateEmptyThing(*args): return _blcelc.iPcMesh_CreateEmptyThing(*args)
     def CreateEmptyGenmesh(*args): return _blcelc.iPcMesh_CreateEmptyGenmesh(*args)
     def CreateNullMesh(*args): return _blcelc.iPcMesh_CreateNullMesh(*args)
@@ -3786,6 +3677,7 @@ class iPcSpawn(cspace.iBase):
     __repr__ = _swig_repr
     def SetEnabled(*args): return _blcelc.iPcSpawn_SetEnabled(*args)
     def IsEnabled(*args): return _blcelc.iPcSpawn_IsEnabled(*args)
+    def AddEntityType(*args): return _blcelc.iPcSpawn_AddEntityType(*args)
     def AddEntityTemplateType(*args): return _blcelc.iPcSpawn_AddEntityTemplateType(*args)
     def ClearEntityList(*args): return _blcelc.iPcSpawn_ClearEntityList(*args)
     def SetTiming(*args): return _blcelc.iPcSpawn_SetTiming(*args)
@@ -3840,16 +3732,6 @@ celGetSetPathFinder = _blcelc.celGetSetPathFinder
 celGetPathFinder = _blcelc.celGetPathFinder
 iPcSpawn_scfGetVersion = _blcelc.iPcSpawn_scfGetVersion
 iPcSpawn_scfGetName = _blcelc.iPcSpawn_scfGetName
-
-class iCelSpawner(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def CreateEntity(*args): return _blcelc.iCelSpawner_CreateEntity(*args)
-    __swig_destroy__ = _blcelc.delete_iCelSpawner
-    __del__ = lambda self : None;
-iCelSpawner_swigregister = _blcelc.iCelSpawner_swigregister
-iCelSpawner_swigregister(iCelSpawner)
 
 scfQuery_iPcSpawn = _blcelc.scfQuery_iPcSpawn
 class iPcProjectile(cspace.iBase):
@@ -4070,8 +3952,6 @@ class iPcInventoryListener(cspace.iBase):
     __repr__ = _swig_repr
     def AddChild(*args): return _blcelc.iPcInventoryListener_AddChild(*args)
     def RemoveChild(*args): return _blcelc.iPcInventoryListener_RemoveChild(*args)
-    def AddChildTemplate(*args): return _blcelc.iPcInventoryListener_AddChildTemplate(*args)
-    def RemoveChildTemplate(*args): return _blcelc.iPcInventoryListener_RemoveChildTemplate(*args)
     __swig_destroy__ = _blcelc.delete_iPcInventoryListener
     __del__ = lambda self : None;
 iPcInventoryListener_swigregister = _blcelc.iPcInventoryListener_swigregister
@@ -4135,17 +4015,11 @@ class iPcInventory(cspace.iBase):
     def RemoveInventoryListener(*args): return _blcelc.iPcInventory_RemoveInventoryListener(*args)
     def AddEntity(*args): return _blcelc.iPcInventory_AddEntity(*args)
     def RemoveEntity(*args): return _blcelc.iPcInventory_RemoveEntity(*args)
-    def AddEntityTemplate(*args): return _blcelc.iPcInventory_AddEntityTemplate(*args)
-    def RemoveEntityTemplate(*args): return _blcelc.iPcInventory_RemoveEntityTemplate(*args)
     def RemoveAll(*args): return _blcelc.iPcInventory_RemoveAll(*args)
     def GetEntityCount(*args): return _blcelc.iPcInventory_GetEntityCount(*args)
     def GetEntity(*args): return _blcelc.iPcInventory_GetEntity(*args)
-    def FindEntity(*args): return _blcelc.iPcInventory_FindEntity(*args)
-    def GetEntityTemplateCount(*args): return _blcelc.iPcInventory_GetEntityTemplateCount(*args)
-    def GetEntityTemplate(*args): return _blcelc.iPcInventory_GetEntityTemplate(*args)
-    def GetEntityTemplateAmount(*args): return _blcelc.iPcInventory_GetEntityTemplateAmount(*args)
     def In(*args): return _blcelc.iPcInventory_In(*args)
-    def FindEntityTemplate(*args): return _blcelc.iPcInventory_FindEntityTemplate(*args)
+    def FindEntity(*args): return _blcelc.iPcInventory_FindEntity(*args)
     def GetEntitySlot(*args): return _blcelc.iPcInventory_GetEntitySlot(*args)
     def SetStrictCharacteristics(*args): return _blcelc.iPcInventory_SetStrictCharacteristics(*args)
     def HasStrictCharacteristics(*args): return _blcelc.iPcInventory_HasStrictCharacteristics(*args)
@@ -4159,12 +4033,6 @@ class iPcInventory(cspace.iBase):
     def Dump(*args): return _blcelc.iPcInventory_Dump(*args)
     def SetSpace(*args): return _blcelc.iPcInventory_SetSpace(*args)
     def GetSpace(*args): return _blcelc.iPcInventory_GetSpace(*args)
-    def AddAllowedClass(*args): return _blcelc.iPcInventory_AddAllowedClass(*args)
-    def ClearAllowedClasses(*args): return _blcelc.iPcInventory_ClearAllowedClasses(*args)
-    def IsClassAllowed(*args): return _blcelc.iPcInventory_IsClassAllowed(*args)
-    def SetLootGenerator(*args): return _blcelc.iPcInventory_SetLootGenerator(*args)
-    def GetLootGenerator(*args): return _blcelc.iPcInventory_GetLootGenerator(*args)
-    def GenerateLoot(*args): return _blcelc.iPcInventory_GenerateLoot(*args)
     EntityCount = _swig_property(_blcelc.iPcInventory_EntityCount_get, None, None,
                     "iPcInventory.EntityCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcInventory::GetEntityCount()")
 
@@ -4224,20 +4092,6 @@ class iCelEntityInvFakeArray(object):
 		else: return self.parent.GetEntity(val)
 	def append(self,obj): return self.parent.AddEntity(obj)
 
-class iCharacteristicsIterator(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def HasNext(*args): return _blcelc.iCharacteristicsIterator_HasNext(*args)
-    def Next(*args): return _blcelc.iCharacteristicsIterator_Next(*args)
-    __swig_destroy__ = _blcelc.delete_iCharacteristicsIterator
-    __del__ = lambda self : None;
-iCharacteristicsIterator_swigregister = _blcelc.iCharacteristicsIterator_swigregister
-iCharacteristicsIterator_swigregister(iCharacteristicsIterator)
-celCreateInventory = _blcelc.celCreateInventory
-celGetSetInventory = _blcelc.celGetSetInventory
-celGetInventory = _blcelc.celGetInventory
-
 class iPcCharacteristics(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -4277,23 +4131,11 @@ class iPcCharacteristics(cspace.iBase):
     __del__ = lambda self : None;
 iPcCharacteristics_swigregister = _blcelc.iPcCharacteristics_swigregister
 iPcCharacteristics_swigregister(iPcCharacteristics)
+celCreateInventory = _blcelc.celCreateInventory
+celGetSetInventory = _blcelc.celGetSetInventory
+celGetInventory = _blcelc.celGetInventory
 iPcCharacteristics_scfGetVersion = _blcelc.iPcCharacteristics_scfGetVersion
 iPcCharacteristics_scfGetName = _blcelc.iPcCharacteristics_scfGetName
-
-class iTemplateCharacteristics(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def SetCharacteristic(*args): return _blcelc.iTemplateCharacteristics_SetCharacteristic(*args)
-    def GetCharacteristic(*args): return _blcelc.iTemplateCharacteristics_GetCharacteristic(*args)
-    def ClearCharacteristic(*args): return _blcelc.iTemplateCharacteristics_ClearCharacteristic(*args)
-    def HasCharacteristic(*args): return _blcelc.iTemplateCharacteristics_HasCharacteristic(*args)
-    def GetAllCharacteristics(*args): return _blcelc.iTemplateCharacteristics_GetAllCharacteristics(*args)
-    def ClearAll(*args): return _blcelc.iTemplateCharacteristics_ClearAll(*args)
-    __swig_destroy__ = _blcelc.delete_iTemplateCharacteristics
-    __del__ = lambda self : None;
-iTemplateCharacteristics_swigregister = _blcelc.iTemplateCharacteristics_swigregister
-iTemplateCharacteristics_swigregister(iTemplateCharacteristics)
 
 scfQuery_iPcCharacteristics = _blcelc.scfQuery_iPcCharacteristics
 CEL_TOOLTIP_LEFT = _blcelc.CEL_TOOLTIP_LEFT
@@ -5113,9 +4955,9 @@ class iQuest(cspace.iBase):
     __repr__ = _swig_repr
     def SwitchState(*args): return _blcelc.iQuest_SwitchState(*args)
     def GetCurrentState(*args): return _blcelc.iQuest_GetCurrentState(*args)
+    def LoadState(*args): return _blcelc.iQuest_LoadState(*args)
+    def SaveState(*args): return _blcelc.iQuest_SaveState(*args)
     def FindSequence(*args): return _blcelc.iQuest_FindSequence(*args)
-    def Activate(*args): return _blcelc.iQuest_Activate(*args)
-    def Deactivate(*args): return _blcelc.iQuest_Deactivate(*args)
     CurrentState = _swig_property(_blcelc.iQuest_CurrentState_get, None, None,
                     "iQuest.CurrentState -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuest::GetCurrentState()")
 
@@ -5132,9 +4974,7 @@ class iQuestTriggerResponseFactory(cspace.iBase):
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetTriggerFactory(*args): return _blcelc.iQuestTriggerResponseFactory_SetTriggerFactory(*args)
-    def GetTriggerFactory(*args): return _blcelc.iQuestTriggerResponseFactory_GetTriggerFactory(*args)
     def AddRewardFactory(*args): return _blcelc.iQuestTriggerResponseFactory_AddRewardFactory(*args)
-    def GetRewardFactories(*args): return _blcelc.iQuestTriggerResponseFactory_GetRewardFactories(*args)
     TriggerFactory = _swig_property(None, _blcelc.iQuestTriggerResponseFactory_TriggerFactory_set, None,
                     "iQuestTriggerResponseFactory.TriggerFactory (write only) -> iQuestTriggerFactory*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iQuestTriggerResponseFactory::SetTriggerFactory(iQuestTriggerFactory*)")
 
@@ -5149,11 +4989,8 @@ class iQuestStateFactory(cspace.iBase):
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestStateFactory_GetName(*args)
     def CreateTriggerResponseFactory(*args): return _blcelc.iQuestStateFactory_CreateTriggerResponseFactory(*args)
-    def GetTriggerResponseFactories(*args): return _blcelc.iQuestStateFactory_GetTriggerResponseFactories(*args)
     def AddInitRewardFactory(*args): return _blcelc.iQuestStateFactory_AddInitRewardFactory(*args)
-    def GetInitRewardFactories(*args): return _blcelc.iQuestStateFactory_GetInitRewardFactories(*args)
     def AddExitRewardFactory(*args): return _blcelc.iQuestStateFactory_AddExitRewardFactory(*args)
-    def GetExitRewardFactories(*args): return _blcelc.iQuestStateFactory_GetExitRewardFactories(*args)
     Name = _swig_property(_blcelc.iQuestStateFactory_Name_get, None, None,
                     "iQuestStateFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestStateFactory::GetName()")
 
@@ -5161,28 +4998,6 @@ class iQuestStateFactory(cspace.iBase):
     __del__ = lambda self : None;
 iQuestStateFactory_swigregister = _blcelc.iQuestStateFactory_swigregister
 iQuestStateFactory_swigregister(iQuestStateFactory)
-
-class iQuestStateFactoryIterator(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def HasNext(*args): return _blcelc.iQuestStateFactoryIterator_HasNext(*args)
-    def Next(*args): return _blcelc.iQuestStateFactoryIterator_Next(*args)
-    __swig_destroy__ = _blcelc.delete_iQuestStateFactoryIterator
-    __del__ = lambda self : None;
-iQuestStateFactoryIterator_swigregister = _blcelc.iQuestStateFactoryIterator_swigregister
-iQuestStateFactoryIterator_swigregister(iQuestStateFactoryIterator)
-
-class iCelSequenceFactoryIterator(cspace.iBase):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
-    __repr__ = _swig_repr
-    def HasNext(*args): return _blcelc.iCelSequenceFactoryIterator_HasNext(*args)
-    def Next(*args): return _blcelc.iCelSequenceFactoryIterator_Next(*args)
-    __swig_destroy__ = _blcelc.delete_iCelSequenceFactoryIterator
-    __del__ = lambda self : None;
-iCelSequenceFactoryIterator_swigregister = _blcelc.iCelSequenceFactoryIterator_swigregister
-iCelSequenceFactoryIterator_swigregister(iCelSequenceFactoryIterator)
 
 class iQuestFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -5192,18 +5007,13 @@ class iQuestFactory(cspace.iBase):
     def GetName(*args): return _blcelc.iQuestFactory_GetName(*args)
     def CreateQuest(*args): return _blcelc.iQuestFactory_CreateQuest(*args)
     def Load(*args): return _blcelc.iQuestFactory_Load(*args)
-    def Save(*args): return _blcelc.iQuestFactory_Save(*args)
     def GetState(*args): return _blcelc.iQuestFactory_GetState(*args)
-    def RemoveState(*args): return _blcelc.iQuestFactory_RemoveState(*args)
     def CreateState(*args): return _blcelc.iQuestFactory_CreateState(*args)
-    def GetStates(*args): return _blcelc.iQuestFactory_GetStates(*args)
     def GetSequence(*args): return _blcelc.iQuestFactory_GetSequence(*args)
     def CreateSequence(*args): return _blcelc.iQuestFactory_CreateSequence(*args)
-    def RemoveSequence(*args): return _blcelc.iQuestFactory_RemoveSequence(*args)
-    def GetSequences(*args): return _blcelc.iQuestFactory_GetSequences(*args)
+    def GetDefaultParameter(*args): return _blcelc.iQuestFactory_GetDefaultParameter(*args)
     def SetDefaultParameter(*args): return _blcelc.iQuestFactory_SetDefaultParameter(*args)
     def ClearDefaultParameters(*args): return _blcelc.iQuestFactory_ClearDefaultParameters(*args)
-    def GetDefaultParameters(*args): return _blcelc.iQuestFactory_GetDefaultParameters(*args)
     Name = _swig_property(_blcelc.iQuestFactory_Name_get, None, None,
                     "iQuestFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuestFactory::GetName()")
 
@@ -5227,7 +5037,6 @@ class iQuestManager(cspace.iBase):
     def RemoveQuestFactories(*args): return _blcelc.iQuestManager_RemoveQuestFactories(*args)
     def CreateQuestFactory(*args): return _blcelc.iQuestManager_CreateQuestFactory(*args)
     def Load(*args): return _blcelc.iQuestManager_Load(*args)
-    def Save(*args): return _blcelc.iQuestManager_Save(*args)
     def AddNewStateReward(*args): return _blcelc.iQuestManager_AddNewStateReward(*args)
     def AddDebugPrintReward(*args): return _blcelc.iQuestManager_AddDebugPrintReward(*args)
     def AddInventoryReward(*args): return _blcelc.iQuestManager_AddInventoryReward(*args)
@@ -5288,13 +5097,9 @@ class iNewStateQuestRewardFactory(cspace.iBase):
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetStateParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetStateParameter(*args)
-    def GetStateParameter(*args): return _blcelc.iNewStateQuestRewardFactory_GetStateParameter(*args)
     def SetEntityParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetEntityParameter(*args)
-    def GetEntityParameter(*args): return _blcelc.iNewStateQuestRewardFactory_GetEntityParameter(*args)
     def SetTagParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetTagParameter(*args)
-    def GetTagParameter(*args): return _blcelc.iNewStateQuestRewardFactory_GetTagParameter(*args)
     def SetClassParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetClassParameter(*args)
-    def GetClassParameter(*args): return _blcelc.iNewStateQuestRewardFactory_GetClassParameter(*args)
     StateParameter = _swig_property(None, _blcelc.iNewStateQuestRewardFactory_StateParameter_set, None,
                     "iNewStateQuestRewardFactory.StateParameter (write only) -> const char*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iNewStateQuestRewardFactory::SetStateParameter(const char*)")
 
@@ -5583,16 +5388,6 @@ class celPcCommon(object):
     __swig_destroy__ = _blcelc.delete_celPcCommon
     __del__ = lambda self : None;
     def HavePropertyClassesChanged(*args): return _blcelc.celPcCommon_HavePropertyClassesChanged(*args)
-    def Error(*args): return _blcelc.celPcCommon_Error(*args)
-    def Warning(*args): return _blcelc.celPcCommon_Warning(*args)
-    def Bug(*args): return _blcelc.celPcCommon_Bug(*args)
-    def Notify(*args): return _blcelc.celPcCommon_Notify(*args)
-    GetTypeName = staticmethod(_blcelc.celPcCommon_GetTypeName)
-    IsTypeCompatible = staticmethod(_blcelc.celPcCommon_IsTypeCompatible)
-    def CheckTypeCompatible(*args): return _blcelc.celPcCommon_CheckTypeCompatible(*args)
-    def CheckData(*args): return _blcelc.celPcCommon_CheckData(*args)
-    def ParExists(*args): return _blcelc.celPcCommon_ParExists(*args)
-    def Fetch(*args): return _blcelc.celPcCommon_Fetch(*args)
     def SetTag(*args): return _blcelc.celPcCommon_SetTag(*args)
     def GetTag(*args): return _blcelc.celPcCommon_GetTag(*args)
     def GetName(*args): return _blcelc.celPcCommon_GetName(*args)
@@ -5622,23 +5417,18 @@ class celPcCommon(object):
     def PropertyClassesHaveChanged(*args): return _blcelc.celPcCommon_PropertyClassesHaveChanged(*args)
     def GetPropertyOrActionType(*args): return _blcelc.celPcCommon_GetPropertyOrActionType(*args)
     def IsPropertyReadOnly(*args): return _blcelc.celPcCommon_IsPropertyReadOnly(*args)
+    def SaveFirstPass(*args): return _blcelc.celPcCommon_SaveFirstPass(*args)
+    def LoadFirstPass(*args): return _blcelc.celPcCommon_LoadFirstPass(*args)
+    def Save(*args): return _blcelc.celPcCommon_Save(*args)
+    def Load(*args): return _blcelc.celPcCommon_Load(*args)
     def GetPersistentData(*args): return _blcelc.celPcCommon_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.celPcCommon_SetPersistentData(*args)
-    def QueryPositionInfo(*args): return _blcelc.celPcCommon_QueryPositionInfo(*args)
-    def Activate(*args): return _blcelc.celPcCommon_Activate(*args)
-    def Deactivate(*args): return _blcelc.celPcCommon_Deactivate(*args)
-    def MarkBaseline(*args): return _blcelc.celPcCommon_MarkBaseline(*args)
-    def IsModifiedSinceBaseline(*args): return _blcelc.celPcCommon_IsModifiedSinceBaseline(*args)
-    def SaveModifications(*args): return _blcelc.celPcCommon_SaveModifications(*args)
-    def RestoreModifications(*args): return _blcelc.celPcCommon_RestoreModifications(*args)
     def TickEveryFrame(*args): return _blcelc.celPcCommon_TickEveryFrame(*args)
     def TickOnce(*args): return _blcelc.celPcCommon_TickOnce(*args)
     def MessageDispatcherRemoved(*args): return _blcelc.celPcCommon_MessageDispatcherRemoved(*args)
     def ReceiveMessage(*args): return _blcelc.celPcCommon_ReceiveMessage(*args)
 celPcCommon_swigregister = _blcelc.celPcCommon_swigregister
 celPcCommon_swigregister(celPcCommon)
-celPcCommon_GetTypeName = _blcelc.celPcCommon_GetTypeName
-celPcCommon_IsTypeCompatible = _blcelc.celPcCommon_IsTypeCompatible
 
 class swigPcCommonFactory(iCelPropertyClassFactory):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -5677,6 +5467,8 @@ class PcCommon(swigPcCommon):
         except: self.this = this
     __swig_destroy__ = _blcelc.delete_PcCommon
     __del__ = lambda self : None;
+    def Save(*args): return _blcelc.PcCommon_Save(*args)
+    def Load(*args): return _blcelc.PcCommon_Load(*args)
 PcCommon_swigregister = _blcelc.PcCommon_swigregister
 PcCommon_swigregister(PcCommon)
 

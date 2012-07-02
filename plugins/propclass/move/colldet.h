@@ -70,8 +70,6 @@ protected:
   iPcMesh* pcmesh;
 
   csColliderActor collider_actor;
-  bool colliderActorReady;
-  bool InitActor ();
 
   csRef<iCollideSystem> cdsys;
   csWeakRef<iEngine> engine;
@@ -79,7 +77,7 @@ protected:
   /// Enable collision detection flag.
   bool useCD;
 
-  // Collision vars
+  //Collision vars
   csVector3 shift;
   csVector3 topSize;
   csVector3 bottomSize;
@@ -116,6 +114,9 @@ public:
                             iMovable* movable);
 
   virtual bool QueryRevert() { return false; }
+
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
 };
 
 #endif 

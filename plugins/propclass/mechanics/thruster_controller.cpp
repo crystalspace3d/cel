@@ -24,6 +24,7 @@
 #include "csgeom/transfrm.h"
 #include "ivaria/dynamics.h"
 
+#include "plugins/propclass/mechanics/common.h"
 #include "plugins/propclass/mechanics/thruster_controller.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -79,6 +80,44 @@ celPcMechanicsBalancedGroup::~celPcMechanicsBalancedGroup ()
 {
 }
 
+#define THRUSTERGROUP_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcMechanicsBalancedGroup::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (THRUSTERGROUP_SERIAL);
+  databuf->Add ((int32) grouptype);
+  databuf->Add ((int32) thrusters.GetSize ());
+  csArray<celThrusterData*>::Iterator thrustit = thrusters.GetIterator ();
+  csRef<iPcMechanicsThruster> thruster;
+  celThrusterData* td;
+  csRef<iCelPropertyClass> pc;
+  while (thrustit.HasNext ())
+  {
+    td = thrustit.Next ();
+    pc = scfQueryInterface<iCelPropertyClass> (td->thruster);
+    databuf->Add (pc);
+    databuf->Add (td->thrustcoefficient);
+  }
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcMechanicsBalancedGroup::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != THRUSTERGROUP_SERIAL) return false;
+  grouptype = (celAxisType) databuf->GetInt32 ();
+  int size = (int) databuf->GetInt32 ();
+  csRef<iPcMechanicsThruster> thruster;
+  csRef<iCelPropertyClass> pc;
+  for (int i = 1; i <= size; i++)
+  {
+    pc = databuf->GetPC ();
+    thruster = scfQueryInterface<iPcMechanicsThruster> (pc);
+    AddThruster (thruster, databuf->GetFloat ());
+  }
+  return true;
+}
+
 bool celPcMechanicsBalancedGroup::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -87,21 +126,38 @@ bool celPcMechanicsBalancedGroup::PerformActionIndexed (int idx,
   {
     case action_addthruster:
       {
-	csString thruster;
-	if (!Fetch (thruster, params, param_thruster)) return false;
-	float mult;
-	if (!Fetch (mult, params, param_multiplier)) return false;
-        csRef<iPcMechanicsThruster> th = celQueryPropertyClassTagEntity<iPcMechanicsThruster>
-	    (GetEntity (), thruster);
+        CEL_FETCH_STRING_PAR (thruster,params,param_thruster);
+        if (!p_thruster)
+        {
+          CS_REPORT(ERROR,"Couldn't get thruster tag!");
+          return false;
+        }
+        CEL_FETCH_FLOAT_PAR (mult,params,param_multiplier);
+        if (!p_mult)
+        {
+          CS_REPORT(ERROR,"Couldn't get multiplier for thruster!");
+          mult = 1.0f;
+        }
+        csRef<iPcMechanicsThruster> th = CEL_QUERY_PROPCLASS_TAG_ENT
+	    (GetEntity (), iPcMechanicsThruster, thruster);
         if (!th)
-          return Error ("Couldn't find thruster with given tag: %s", thruster.GetData ());
+        {
+          csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+              "cel.propclass.mechanics",
+              "Couldn't find thruster with given tag: %s", thruster);
+          return false;
+        }
         AddThruster (th, mult);
         return true;
       }
     case action_settype:
       {
-	csString type;
-	if (!Fetch (type, params, param_type)) return false;
+        CEL_FETCH_STRING_PAR (type,params,param_type);
+        if (!p_type)
+        {
+          CS_REPORT(ERROR,"Couldn't get thruster group type!");
+          return false;
+        }
         csStringID type_id = pl->FetchStringID (type);
         celAxisType gtype;
         if (type_id == type_rotation)
@@ -109,7 +165,10 @@ bool celPcMechanicsBalancedGroup::PerformActionIndexed (int idx,
         else if (type_id == type_translation)
           gtype = CEL_AT_TRANSLATION;
         else
-          return Error ("Invalid thruster group type!");
+        {
+          CS_REPORT(ERROR,"Invalid thruster group type!");
+          return false;
+        }
         SetType (gtype);
 	return true;
       }
@@ -262,6 +321,87 @@ celPcMechanicsThrusterController::~celPcMechanicsThrusterController ()
 {
 }
 
+#define THRUSTERCONTROLLER_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcMechanicsThrusterController::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (
+  	THRUSTERCONTROLLER_SERIAL);
+  csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (mechobject);
+  databuf->Add (pc);
+  databuf->Add ((int32) axes.GetSize ());
+  csArray<celAxisData*>::Iterator axisit = axes.GetIterator ();
+  celAxisData* ad;
+  csRef<iPcMechanicsBalancedGroup> tg;
+  while (axisit.HasNext ())
+  {
+    ad = axisit.Next ();
+    databuf->Add (ad->name.GetData ());
+    databuf->Add (ad->axis);
+    databuf->Add ((int32) ad->type);
+    databuf->Add ((int32) ad->balancedgroups.GetSize ());
+    csRefArray<iPcMechanicsBalancedGroup>::Iterator tgit =
+    	ad->balancedgroups.GetIterator ();
+    while (tgit.HasNext ())
+    {
+      tg = tgit.Next ();
+      pc = scfQueryInterface<iCelPropertyClass> (tg);
+      databuf->Add (pc);
+    }
+  }
+  databuf->Add ((int32) requests.GetSize ());
+  csArray<celThrustRequestData*>::Iterator trit = requests.GetIterator ();
+  celThrustRequestData* trd;
+  while (trit.HasNext ())
+  {
+    trd = trit.Next ();
+    pc = scfQueryInterface<iCelPropertyClass> (trd->group);
+    databuf->Add (pc);
+    databuf->Add (trd->id);
+    databuf->Add (trd->thrust);
+  }
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcMechanicsThrusterController::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != THRUSTERCONTROLLER_SERIAL) return false;
+  csRef<iCelPropertyClass> pc = databuf->GetPC ();
+  csRef<iPcMechanicsObject> mechobj = scfQueryInterface<iPcMechanicsObject> (pc);
+  int32 axessize = databuf->GetInt32 ();
+  int32 tgsize, i, j = INT_MAX;
+  csRef<iPcMechanicsBalancedGroup> tg;
+  for (i = 1; i <= axessize; i++)
+  {
+    iString* name = databuf->GetString ();
+    csVector3 axis;
+    databuf->GetVector3 (axis);
+    celAxisType type = (celAxisType) databuf->GetInt32 ();
+    AddAxis (name->GetData (), type, axis);
+    tgsize = databuf->GetInt32 ();
+    for (j = 1; j <= tgsize; j++)
+    {
+      pc = databuf->GetPC ();
+      tg = scfQueryInterface<iPcMechanicsBalancedGroup> (pc);
+      AddBalancedGroup (tg, name->GetData ());
+    }
+  }
+  int32 requestsize = databuf->GetInt32 ();
+  uint32 id;
+  float thrust;
+  csRef<iPcMechanicsBalancedGroup> group;
+  for (i = 1; j <= requestsize; i++)
+  {
+    pc = databuf->GetPC ();
+    group = scfQueryInterface<iPcMechanicsBalancedGroup> (pc);
+    id = databuf->GetUInt32 ();
+    thrust = databuf->GetFloat ();
+    ApplyThrustHelper (thrust, group, id);
+  }
+  return true;
+}
+
 bool celPcMechanicsThrusterController::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -270,9 +410,18 @@ bool celPcMechanicsThrusterController::PerformActionIndexed (int idx,
   {
     case action_addaxis:
       {
-	csString axisname, axistype;
-	if (!Fetch (axisname, params, param_axisname)) return false;
-	if (!Fetch (axistype, params, param_axistype)) return false;
+        CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
+        if (!p_axisname)
+        {
+          CS_REPORT(ERROR,"Couldn't get axis name!");
+          return false;
+        }
+        CEL_FETCH_STRING_PAR (axistype,params,param_axistype);
+        if (!p_axistype)
+        {
+          CS_REPORT(ERROR,"Couldn't get axis type!");
+          return false;
+        }
         csStringID type_id = pl->FetchStringID (axistype);
         celAxisType atype;
         if (type_id == type_rotation)
@@ -280,18 +429,33 @@ bool celPcMechanicsThrusterController::PerformActionIndexed (int idx,
         else if (type_id == type_translation)
           atype = CEL_AT_TRANSLATION;
         else
-          return Error ("Invalid axis type!");
-	csVector3 axisdir;
-	if (!Fetch (axisdir, params, param_axisdir)) return false;
+	{
+          CS_REPORT(ERROR,"Invalid axis type!");
+          return false;
+        }
+        CEL_FETCH_VECTOR3_PAR (axisdir,params,param_axisdir);
+        if (!p_axisdir)
+        {
+          CS_REPORT(ERROR,"Couldn't get axis direction!");
+          return false;
+        }
         AddAxis (axisname, atype, axisdir);
         return true;
       }
     case action_applythrust:
       {
-	csString axisname;
-	if (!Fetch (axisname, params, param_axisname)) return false;
-	float thrust;
-	if (!Fetch (thrust, params, param_thrust)) return false;
+        CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
+        if (!p_axisname)
+        {
+          CS_REPORT(ERROR,"Couldn't get axis name!");
+          return false;
+        }
+        CEL_FETCH_FLOAT_PAR (thrust,params,param_thrust);
+        if (!p_thrust)
+        {
+          CS_REPORT(ERROR,"Couldn't get thrust!");
+          return false;
+        }
         uint32 forceid;
         ApplyThrust (thrust, axisname, forceid);
         //TODO: Any way to return forceid to the caller?
@@ -299,24 +463,36 @@ bool celPcMechanicsThrusterController::PerformActionIndexed (int idx,
       }
     case action_addbalancedgroup:
       {
-	csString axisname, balancedgrouppctag;
-	if (!Fetch (axisname, params, param_axisname)) return false;
-	if (!Fetch (balancedgrouppctag, params, param_balancedgroup)) return false;
-        csRef<iPcMechanicsBalancedGroup> tg = celQueryPropertyClassTagEntity<iPcMechanicsBalancedGroup>
-	    (GetEntity (), balancedgrouppctag);
+        CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
+        if (!p_axisname)
+        {
+          CS_REPORT(ERROR,"Couldn't get axis name!");
+          return false;
+        }
+        CEL_FETCH_STRING_PAR (balancedgrouppctag,params,param_balancedgroup);
+        if (!p_balancedgrouppctag)
+        {
+          CS_REPORT(ERROR,"Couldn't get thruster group tag!");
+          return false;
+        }
+        csRef<iPcMechanicsBalancedGroup> tg = CEL_QUERY_PROPCLASS_TAG_ENT
+	    (GetEntity (), iPcMechanicsBalancedGroup, balancedgrouppctag);
         AddBalancedGroup (tg, axisname);
 	return true;
       }
     case action_inittc:
       {
-	csString objectpctag;
-	if (!Fetch (objectpctag, params, param_object)) return false;
-	csRef<iPcMechanicsObject> mechobj = 0;
-	mechobj = celQueryPropertyClassTagEntity<iPcMechanicsObject> (GetEntity (),
-	  objectpctag);
-	assert (mechobj);
-	SetMechanicsObject (mechobj);
-	return true;
+        CEL_FETCH_STRING_PAR (objectpctag,params,param_object);
+        if (p_objectpctag)
+        {
+          csRef<iPcMechanicsObject> mechobj = 0;
+          mechobj = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),
+      	    iPcMechanicsObject,objectpctag);
+          assert (mechobj);
+          SetMechanicsObject (mechobj);
+	  return true;
+        }
+        else return false;
       }
     default:
       return false;
@@ -424,7 +600,9 @@ float celPcMechanicsThrusterController::GetAxisMaxForce (const char* axisname)
       return maxstrength;
     }
   }
-  Error ("Invalid axis specified: %s", axisname);
+  csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.propclass.mechanics",
+      "Invalid axis specified: %s", axisname);
   return 0;
 }
 
@@ -456,7 +634,9 @@ float celPcMechanicsThrusterController::GetAxisMaxThrust (const char* axisname)
       return 0;
     }
   }
-  Error ("Invalid axis specified:  %s", axisname);
+  csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.propclass.mechanics",
+      "Invalid axis specified:  %s", axisname);
   return 0;
 }
 
@@ -477,7 +657,9 @@ void celPcMechanicsThrusterController::AddBalancedGroup
   if (ad)
     ad->balancedgroups.Push (balancedgroup);
   else
-    Error ("Couldn't find specified axis: %s", axisname);
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+        "cel.propclass.mechanics",
+        "Couldn't find specified axis: %s", axisname);
 }
 
 void celPcMechanicsThrusterController::RemoveBalancedGroup (const char*
@@ -525,7 +707,7 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
     {
       if (ad->balancedgroups.IsEmpty ())
       {
-        Error ("No groups in this axis!");
+        CS_REPORT(ERROR,"No groups in this axis!");
 	return;
       }
       csRefArray<iPcMechanicsBalancedGroup>::Iterator groupit
@@ -551,12 +733,14 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
       }
       else
       {
-        Error ("No best group found. Something's wrong!");
+        CS_REPORT(ERROR,"No best group found. Something's wrong!");
       }
       return;
     }
   }
-  Error ("Invalid axis specified: %s", axisname);
+  csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "cel.propclass.mechanics",
+      "Invalid axis specified: %s", axisname);
 }
 
 void celPcMechanicsThrusterController::CancelThrust (uint32 id)

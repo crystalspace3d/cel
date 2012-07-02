@@ -144,6 +144,22 @@ bool celPcWasdMove::GetPropertyIndexed (int idx, long& l)
   return false;
 }
 
+#define WASDMOVE_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcWasdMove::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (WASDMOVE_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcWasdMove::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != WASDMOVE_SERIAL) return false;
+
+  return true;
+}
+
 bool celPcWasdMove::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -193,24 +209,21 @@ bool celPcWasdMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_mouseaxis0)
   {
-    float x, y;
-    if (!Fetch (x, params, id_param_x, true, 0.0f)) return false;
-    if (!Fetch (y, params, id_param_y, true, 0.0f)) return false;
+    CEL_FETCH_FLOAT_PAR (x, params, id_param_x);
+    CEL_FETCH_FLOAT_PAR (y, params, id_param_y);
     trackcam->SetPanDirection (-x * 200);	//@@@Config
     trackcam->SetTiltDirection (-y * 200);	//@@@Config
     return true;
   }
   else if (msgid == id_input_joyaxis0)
   {
-    float value;
-    if (!Fetch (value, params, id_param_value, true, 0.0f)) return false;
+    CEL_FETCH_FLOAT_PAR (value, params, id_param_value);
     pcactor->SetAxis (0, value);
     return true;
   }
   else if (msgid == id_input_joyaxis1)
   {
-    float value;
-    if (!Fetch (value, params, id_param_value, true, 0.0f)) return false;
+    CEL_FETCH_FLOAT_PAR (value, params, id_param_value);
     pcactor->SetAxis (1, -value);
     return true;
   }
@@ -481,15 +494,13 @@ bool celPcWasdMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_input_tiltcam)
   {
-    float value;
-    if (!Fetch (value, params, id_param_value, true, 0.0f)) return false;
+    CEL_FETCH_FLOAT_PAR (value, params, id_param_value);
     puts ("tilting camera (not implemented)");
     return true;
   }
   else if (msgid == id_input_pancam)
   {
-    float value;
-    if (!Fetch (value, params, id_param_value, true, 0.0f)) return false;
+    CEL_FETCH_FLOAT_PAR (value, params, id_param_value);
     if (value < -EPSILON)
       trackcam->SetPanDirection (-1);
     else if (value > EPSILON)

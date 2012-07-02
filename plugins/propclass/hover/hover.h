@@ -27,10 +27,11 @@
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
-#include "celtool/ticktimer.h"
 
 #include "propclass/hover.h"
 #include "propclass/mesh.h"
+
+#include "../mechanics/ticktimer.h"
 
 struct iSector;
 
@@ -53,6 +54,8 @@ public:
   celPcHover (iObjectRegistry* object_reg);
   virtual ~celPcHover ();
 
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void Tick ();

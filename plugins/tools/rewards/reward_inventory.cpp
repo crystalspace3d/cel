@@ -74,20 +74,11 @@ celInventoryRewardFactory::~celInventoryRewardFactory ()
 }
 
 csPtr<iReward> celInventoryRewardFactory::CreateReward (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   celInventoryReward* trig = new celInventoryReward (type,
   	params, entity_par, tag_par, child_entity_par, child_tag_par);
   return trig;
-}
-
-bool celInventoryRewardFactory::Save (iDocumentNode* node)
-{
-  node->SetAttribute ("entity", entity_par);
-  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
-  node->SetAttribute ("child_entity", child_entity_par);
-  if (!child_tag_par.IsEmpty ()) node->SetAttribute ("child_entity_par", child_tag_par);
-  return true;
 }
 
 bool celInventoryRewardFactory::Load (iDocumentNode* node)
@@ -123,7 +114,7 @@ void celInventoryRewardFactory::SetChildEntityParameter (
 
 celInventoryReward::celInventoryReward (
 	celInventoryRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* child_entity_par, const char* child_tag_par) :
 	scfImplementationType (this)
@@ -146,17 +137,20 @@ celInventoryReward::~celInventoryReward ()
 void celInventoryReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = type->pl;
-  iCelEntity* newent = pm->ResolveEntityParameter (pl, params, entity, ent);
-  if (!newent) return;
-  if (newent != ent) { inventory = 0; ent = newent; }
-
   bool changed;
+  const char* e = entity->Get (params, changed);
+  if (changed) { ent = 0; inventory = 0; }
   const char* t = tag->Get (params, changed);
   if (changed) { inventory = 0; }
 
   if (!inventory)
   {
-    inventory = celQueryPropertyClassTagEntity<iPcInventory> (ent, t);
+    if (!ent)
+    {
+      ent = pl->FindEntity (e);
+      if (!ent) return;
+    }
+    inventory = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcInventory, t);
     if (!inventory) return;
   }
 
@@ -177,7 +171,7 @@ void celInventoryReward::Reward (iCelParameterBlock* params)
 
   // Make the mesh invisible if the entity has one.
   const char* cet = child_tag->Get (params);
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (child_ent, cet);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (child_ent, iPcMesh, cet);
   if (pcmesh)
     pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_INVISIBLE);
 

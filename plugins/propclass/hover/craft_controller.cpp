@@ -207,8 +207,8 @@ bool celPcCraftController::PerformActionIndexed (int idx,
         iCelParameterBlock* params,
         celData& ret)
 {
-  bool enabled;
-  if (!Fetch (enabled, params, id_enabled, true, true)) return false;
+  CEL_FETCH_BOOL_PAR(enabled, params, id_enabled);
+  if (!p_enabled) enabled = true;
   switch (idx)
   {
     case action_sliding:
@@ -226,6 +226,17 @@ bool celPcCraftController::PerformActionIndexed (int idx,
     default:
       return false;
   }
+}
+
+csPtr<iCelDataBuffer> celPcCraftController::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (1);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcCraftController::Load (iCelDataBuffer* databuf)
+{
+  return true;
 }
 
 void celPcCraftController::Tick ()
@@ -250,7 +261,8 @@ void celPcCraftController::DoTurningCalc (bool isturning, float &turn,
 
 void celPcCraftController::UpdateBody ()
 {
-  csRef<iPcMechanicsObject> ship_mech = celQueryPropertyClassEntity<iPcMechanicsObject> (GetEntity());
+  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(),
+        iPcMechanicsObject);
 
   DoTurningCalc (turn_left, current_turning_left, turn_acc, turn_max);
   DoTurningCalc (turn_right, current_turning_right, turn_acc, turn_max);

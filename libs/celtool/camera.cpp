@@ -131,7 +131,7 @@ bool celPcCameraCommon::SetZoneManager (const char* entityname,
 {
   region = 0;
   csRef<iCelEntity> zoneent = pl->FindEntity (entityname);
-  zonemgr = celQueryPropertyClassEntity<iPcZoneManager> (zoneent);
+  zonemgr = CEL_QUERY_PROPCLASS_ENT (zoneent, iPcZoneManager);
 
   if (point)
   {
@@ -286,6 +286,124 @@ void celPcCameraCommon::Draw ()
 void celPcCameraCommon::TickEveryFrame ()
 {
   Draw();
+}
+
+void celPcCameraCommon::SaveCommon (iCelDataBuffer* databuf)
+{
+  csRef<iCelPropertyClass> pc;
+  if (region) pc = scfQueryInterface<iCelPropertyClass> (region);
+  databuf->Add (pc);
+  if (zonemgr) pc = scfQueryInterface<iCelPropertyClass> (zonemgr);
+  databuf->Add (pc);
+  databuf->Add (view->GetCamera ()->GetSector ()->QueryObject ()->GetName ());
+  const csTransform& tr = view->GetCamera ()->GetTransform ();
+  databuf->Add (tr.GetO2TTranslation ());
+
+  databuf->Add (tr.GetO2T ().m11);
+  databuf->Add (tr.GetO2T ().m12);
+  databuf->Add (tr.GetO2T ().m13);
+  databuf->Add (tr.GetO2T ().m21);
+  databuf->Add (tr.GetO2T ().m22);
+  databuf->Add (tr.GetO2T ().m23);
+  databuf->Add (tr.GetO2T ().m31);
+  databuf->Add (tr.GetO2T ().m32);
+  databuf->Add (tr.GetO2T ().m33);
+
+  databuf->Add (rect_set);
+  databuf->Add ((uint16)rect_x);
+  databuf->Add ((uint16)rect_y);
+  databuf->Add ((uint16)rect_w);
+  databuf->Add ((uint16)rect_h);
+
+  databuf->Add (center_set);
+  databuf->Add (rect_x);
+  databuf->Add (rect_y);
+}
+
+bool celPcCameraCommon::LoadCommon (iCelDataBuffer* databuf)
+{
+  csMatrix3 m_o2t;
+  csVector3 v_o2t;
+
+  iCelPropertyClass* pc = databuf->GetPC ();
+  if (pc)
+  {
+    region = scfQueryInterface<iPcRegion> (pc);
+    if (region)
+      SetRegion (region, false, 0);
+  }
+
+  pc = databuf->GetPC ();
+  if (pc)
+  {
+    zonemgr = scfQueryInterface<iPcZoneManager> (pc);
+    if (zonemgr)
+      SetZoneManager (zonemgr, false, 0, 0);
+  }
+
+  const char* sectname = databuf->GetString ()->GetData ();
+  iSector* sector;
+  if (region) sector = region->FindSector (sectname);
+  else sector = engine->FindSector (sectname);
+  if (!sector)
+  {
+    Report (object_reg,"Illegal sector '%s' specified.  Cannot load.",
+    	sectname);
+    return false;
+  }
+  databuf->GetVector3 (v_o2t);
+
+  m_o2t.m11 = databuf->GetFloat ();
+  m_o2t.m12 = databuf->GetFloat ();
+  m_o2t.m13 = databuf->GetFloat ();
+  m_o2t.m21 = databuf->GetFloat ();
+  m_o2t.m22 = databuf->GetFloat ();
+  m_o2t.m23 = databuf->GetFloat ();
+  m_o2t.m31 = databuf->GetFloat ();
+  m_o2t.m32 = databuf->GetFloat ();
+  m_o2t.m33 = databuf->GetFloat ();
+
+  view->GetCamera ()->SetSector (sector);
+  csOrthoTransform tr (m_o2t, v_o2t);
+  view->GetCamera ()->SetTransform (tr);
+
+  rect_set = databuf->GetBool ();
+  rect_x = databuf->GetUInt16 ();
+  rect_y = databuf->GetUInt16 ();
+  rect_w = databuf->GetUInt16 ();
+  rect_h = databuf->GetUInt16 ();
+
+  center_set = databuf->GetBool ();
+  center_x = databuf->GetFloat ();
+  center_y = databuf->GetFloat ();
+
+  if (rect_set)
+    view->SetRectangle (rect_x, rect_y, rect_w, rect_h);
+
+  if (center_set)
+    GetPerspectiveCamera () -> SetPerspectiveCenter (center_x, center_y);
+
+  return true;
+}
+
+#define CAMERA_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcCameraCommon::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (CAMERA_SERIAL);
+  SaveCommon (databuf);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcCameraCommon::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != CAMERA_SERIAL)
+  {
+    Report (object_reg, "serialnr != CAMERA_SERIAL.  Cannot load.");
+    return false;
+  }
+  return LoadCommon (databuf);
 }
 
 //---------------------------------------------------------------------------

@@ -99,6 +99,22 @@ bool celPcWheeledMove::GetPropertyIndexed (int idx, long& l)
   return false;
 }
 
+#define DYNMOVE_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcWheeledMove::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (DYNMOVE_SERIAL);
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcWheeledMove::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != DYNMOVE_SERIAL) return false;
+
+  return true;
+}
+
 bool celPcWheeledMove::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -205,12 +221,9 @@ bool celPcWheeledMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else if (msgid == id_mech_collision)
   {
-    csVector3 pos;
-    csVector3 norm (0.0f);
-    if (!Fetch (pos, params, id_mech_par_position)) return false;
-    if (!Fetch (norm, params, id_mech_par_normal)) return false;
-    float depth;
-    if (!Fetch (depth, params, id_mech_par_depth, true, 0.0f)) return false;
+    CEL_FETCH_VECTOR3_PAR(pos, params, id_mech_par_position);
+    CEL_FETCH_VECTOR3_PAR(norm, params, id_mech_par_normal);
+    CEL_FETCH_FLOAT_PAR(depth, params, id_mech_par_depth);
     if (depth > 0.005f)
     {
       if (pcmeshdeform)

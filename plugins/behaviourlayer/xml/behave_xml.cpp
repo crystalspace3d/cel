@@ -66,7 +66,7 @@ iPcBillboard* celBehaviourXml::GetBillboard ()
 {
   if (!billboard)
   {
-    csRef<iPcBillboard> b = celQueryPropertyClassEntity<iPcBillboard> (entity);
+    csRef<iPcBillboard> b = CEL_QUERY_PROPCLASS_ENT (entity, iPcBillboard);
     if (!b)
     {
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcbillboard");
@@ -82,7 +82,7 @@ iPcRules* celBehaviourXml::GetRules ()
 {
   if (!rules)
   {
-    csRef<iPcRules> p = celQueryPropertyClassEntity<iPcRules> (entity);
+    csRef<iPcRules> p = CEL_QUERY_PROPCLASS_ENT (entity, iPcRules);
     if (!p)
     {
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcrules");
@@ -99,7 +99,8 @@ iPcProperties* celBehaviourXml::GetProperties ()
   if (!props)
   {
     csRef<iPcProperties> p;
-    p = celQueryPropertyClassEntity<iPcProperties> (entity);
+    p = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+    	iPcProperties);
     if (!p)
     {
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity,

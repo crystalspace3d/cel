@@ -39,9 +39,9 @@ celNavigationInfo celNavigationTools::GetNavigationInfo (
   info.success = false;
   csRef<iPcMesh> pcmesh;
   if (tag)
-    pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (navigator, tag);
+    pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (navigator, iPcMesh, tag);
   else
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (navigator);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (navigator, iPcMesh);
   if (!pcmesh) return info;
   iMeshWrapper* mesh = pcmesh->GetMesh ();
   if (!mesh) return info;
@@ -86,13 +86,13 @@ celNavigationInfo celNavigationTools::GetNavigationInfo (
   csRef<iPcMesh> navi_pcmesh;
   csRef<iPcMesh> targ_pcmesh;
   if (tag)
-    navi_pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (navigator, tag);
+    navi_pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (navigator, iPcMesh, tag);
   else
-    navi_pcmesh = celQueryPropertyClassEntity<iPcMesh> (navigator);
+    navi_pcmesh = CEL_QUERY_PROPCLASS_ENT (navigator, iPcMesh);
   if (entity_tag)
-    targ_pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (entity, entity_tag);
+    targ_pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (entity, iPcMesh, entity_tag);
   else
-    targ_pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    targ_pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   if (!navi_pcmesh || !targ_pcmesh) return info;
   iMeshWrapper* navi_mesh = navi_pcmesh->GetMesh ();
   iMeshWrapper* targ_mesh = targ_pcmesh->GetMesh ();
@@ -119,9 +119,9 @@ celNavigationInfo celNavigationTools::GetNavigationInfo (
   info.success = false;
   csRef<iPcMesh> targ_pcmesh;
   if (entity_tag)
-    targ_pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (entity, entity_tag);
+    targ_pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (entity, iPcMesh, entity_tag);
   else
-    targ_pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    targ_pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   if (!targ_pcmesh) return info;
   iMeshWrapper* navi_mesh = navigator->GetMesh ();
   iMeshWrapper* targ_mesh = targ_pcmesh->GetMesh ();
@@ -148,9 +148,9 @@ celNavigationInfo celNavigationTools::GetNavigationInfo (
   info.success = false;
   csRef<iPcMesh> pcmesh;
   if (tag)
-    pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (navigator, tag);
+    pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (navigator, iPcMesh, tag);
   else
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (navigator);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (navigator, iPcMesh);
   if (!pcmesh) return info;
   iMeshWrapper* mesh = pcmesh->GetMesh ();
   if (!mesh) return info;

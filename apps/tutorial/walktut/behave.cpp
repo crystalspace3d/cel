@@ -93,6 +93,15 @@ bool BehaviourLevel::SendMessage (csStringID msg_id,
 BehaviourPlayer::BehaviourPlayer (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
   : BehaviourCommon (entity, bl, pl)
 {
+  id_pccommandinput_forward1 = pl->FetchStringID ("pccommandinput_forward1");
+  id_pccommandinput_forward0 = pl->FetchStringID ("pccommandinput_forward0");
+  id_pccommandinput_backward1 = pl->FetchStringID ("pccommandinput_backward1");
+  id_pccommandinput_backward0 = pl->FetchStringID ("pccommandinput_backward0");
+  id_pccommandinput_rotateleft1 = pl->FetchStringID ("pccommandinput_rotateleft1");
+  id_pccommandinput_rotateleft0 = pl->FetchStringID ("pccommandinput_rotateleft0");
+  id_pccommandinput_rotateright1 = pl->FetchStringID ("pccommandinput_rotateright1");
+  id_pccommandinput_rotateright0 = pl->FetchStringID ("pccommandinput_rotateright0");
+  id_pccommandinput_cammode1 = pl->FetchStringID ("pccommandinput_cammode1");
   id_pccommandinput_drop1 = pl->FetchStringID ("pccommandinput_drop1");
 
   id_pcinventory_addchild = pl->FetchStringID ("pcinventory_addchild");
@@ -103,7 +112,7 @@ void BehaviourPlayer::GetActorMove ()
 {
   if (!pcactormove)
   {
-    pcactormove = celQueryPropertyClassEntity<iPcActorMove> (entity);
+    pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
   }
 }
 
@@ -111,7 +120,7 @@ void BehaviourPlayer::GetInventory ()
 {
   if (!pcinventory)
   {
-    pcinventory = celQueryPropertyClassEntity<iPcInventory> (entity);
+    pcinventory = CEL_QUERY_PROPCLASS_ENT (entity, iPcInventory);
   }
 }
 
@@ -119,7 +128,7 @@ void BehaviourPlayer::GetMesh ()
 {
   if (!pcmesh)
   {
-    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
@@ -145,7 +154,8 @@ void BehaviourPlayer::Drop ()
   }
   iCelEntity* child = pcinventory->GetEntity (0);
   pcinventory->RemoveEntity (child);
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (child);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (child,
+      iPcLinearMovement);
   if (pclinmove)
   {
     GetMesh ();
@@ -157,7 +167,7 @@ void BehaviourPlayer::Drop ()
     iSector* sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
     pclinmove->SetPosition (pos, 0, sector);
     pclinmove->SetBodyVelocity (csVector3 (0, .1f, 0));
-    csRef<iPcMesh> pcmesh_child = celQueryPropertyClassEntity<iPcMesh> (child);
+    csRef<iPcMesh> pcmesh_child = CEL_QUERY_PROPCLASS_ENT (child, iPcMesh);
     if (pcmesh_child) pcmesh_child->Show ();
   }
 }
@@ -168,7 +178,25 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
 {
   GetActorMove ();
 
-  if (msg_id == id_pccommandinput_drop1)
+  if (msg_id == id_pccommandinput_forward1)
+    pcactormove->Forward (true);
+  else if (msg_id == id_pccommandinput_forward0)
+    pcactormove->Forward (false);
+  else if (msg_id == id_pccommandinput_backward1)
+    pcactormove->Backward (true);
+  else if (msg_id == id_pccommandinput_backward0)
+    pcactormove->Backward (false);
+  else if (msg_id == id_pccommandinput_rotateleft1)
+    pcactormove->RotateLeft (true);
+  else if (msg_id == id_pccommandinput_rotateleft0)
+    pcactormove->RotateLeft (false);
+  else if (msg_id == id_pccommandinput_rotateright1)
+    pcactormove->RotateRight (true);
+  else if (msg_id == id_pccommandinput_rotateright0)
+    pcactormove->RotateRight (false);
+  else if (msg_id == id_pccommandinput_cammode1)
+    pcactormove->ToggleCameraMode ();
+  else if (msg_id == id_pccommandinput_drop1)
     Drop ();
   else if (msg_id == id_pcinventory_addchild)
   {
@@ -201,11 +229,11 @@ BehaviourBox::BehaviourBox (iCelEntity* entity, BehaviourLayer* bl,
 void BehaviourBox::PickUp ()
 {
   if (!player) return;
-  csRef<iPcInventory> pcinv = celQueryPropertyClassEntity<iPcInventory> (player);
+  csRef<iPcInventory> pcinv = CEL_QUERY_PROPCLASS_ENT (player, iPcInventory);
   if (pcinv)
   {
     pcinv->AddEntity (entity);
-    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     if (pcmesh) pcmesh->Hide ();
   }
 }
@@ -214,10 +242,10 @@ void BehaviourBox::GetPlayer ()
 {
   if (!pcmeshsel || !player)
   {
-    pcmeshsel = celQueryPropertyClassEntity<iPcMeshSelect> (entity);
+    pcmeshsel = CEL_QUERY_PROPCLASS_ENT (entity, iPcMeshSelect);
     player = pl->FindEntity ("player");
     if (!player) return;
-    csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (player);
+    csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player, iPcCamera);
     if (pccamera)
       pcmeshsel->SetCamera (pccamera);
   }
@@ -269,7 +297,7 @@ static bool GetPropLong (iPcProperties* pcprop, const char* prefix, int i, long&
 
 void BehaviourBadOne::ReadPath ()
 {
-  csRef<iPcProperties> pcprop = celQueryPropertyClassEntity<iPcProperties> (entity);
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
 
   // Count the number of points we have.
   int count = 0;
@@ -299,7 +327,8 @@ void BehaviourBadOne::ReadPath ()
     totaltime += time;
   }
 
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcLinearMovement);
   if (pclinmove)
   {
     for (i = 0 ; i < count ; i++)
@@ -311,7 +340,8 @@ void BehaviourBadOne::ReadPath ()
 
 void BehaviourBadOne::Restart ()
 {
-  csRef<iPcLinearMovement> pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcLinearMovement);
   if (pclinmove)
   {
     pclinmove->SetPath (path);

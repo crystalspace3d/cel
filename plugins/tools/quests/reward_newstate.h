@@ -59,20 +59,14 @@ public:
   celNewStateRewardFactory (celNewStateRewardType* type);
   virtual ~celNewStateRewardFactory () {};
 
-  virtual csPtr<iReward> CreateReward (iQuest* q, iCelParameterBlock* params);
-  virtual iRewardType* GetRewardType () const { return type; }
-  virtual bool Save (iDocumentNode* node);
+  virtual csPtr<iReward> CreateReward (const celParams& params);
   virtual bool Load (iDocumentNode* node);
 
   //----------------- iNewStateQuestRewardFactory -----------------------
   virtual void SetStateParameter (const char* state);
-  virtual const char* GetStateParameter () const { return state_par; }
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual const char* GetEntityParameter () const { return entity_par; }
   virtual void SetTagParameter (const char* tag) { tag_par = tag; };
-  virtual const char* GetTagParameter () const { return tag_par; }
   virtual void SetClassParameter (const char* pclass) { class_par = pclass; };
-  virtual const char* GetClassParameter () const { return class_par; }
 };
 
 /**
@@ -93,8 +87,8 @@ private:
 
 public:
   celNewStateReward (celNewStateRewardType* type,
-  	iQuest* q, 
-	iCelParameterBlock* params,
+  	//iQuest* q, 
+	const celParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par);
   virtual ~celNewStateReward () {};
@@ -122,7 +116,7 @@ private:
 
 public:
   celClassNewStateReward (celNewStateRewardType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par);
   virtual ~celClassNewStateReward () {};

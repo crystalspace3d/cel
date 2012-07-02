@@ -74,7 +74,7 @@ celPropertyChangeTriggerFactory::~celPropertyChangeTriggerFactory ()
 }
 
 csPtr<iTrigger> celPropertyChangeTriggerFactory::CreateTrigger (
-    iQuest* q, iCelParameterBlock* params)
+    const celParams& params)
 {
   celPropertyChangeTrigger* trig = 0;
   if (!op_par)
@@ -99,17 +99,6 @@ csPtr<iTrigger> celPropertyChangeTriggerFactory::CreateTrigger (
     trig = new celPropertyChangeTriggerLt (type,
       	 params, entity_par, tag_par, prop_par, value_par, onchange_par);
   return trig;
-}
-
-bool celPropertyChangeTriggerFactory::Save (iDocumentNode* node)
-{
-  if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
-  if (!tag_par.IsEmpty ()) node->SetAttribute ("entity_tag", tag_par);
-  if (!prop_par.IsEmpty ()) node->SetAttribute ("property", prop_par);
-  if (value_par) node->SetAttribute ("value", value_par);
-  if (!op_par.IsEmpty ()) node->SetAttribute ("operation", op_par);
-  if (onchange_par) node->SetAttribute ("operation", "true");
-  return true;
 }
 
 bool celPropertyChangeTriggerFactory::Load (iDocumentNode* node)
@@ -162,7 +151,7 @@ void celPropertyChangeTriggerFactory::SetOperationParameter (
 
 celPropertyChangeTrigger::celPropertyChangeTrigger (
 	celPropertyChangeTriggerType* type,
-  	iCelParameterBlock* params,
+  	const celParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* prop_par, const char* value_par, bool onchange)
 	: scfImplementationType (this)
@@ -172,7 +161,7 @@ celPropertyChangeTrigger::celPropertyChangeTrigger (
   csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
     (type->object_reg, "cel.parameters.manager");
 
-  entity = pm->ResolveEntityParameter (params, entity_par, entityID);
+  entity = pm->ResolveParameter (params, entity_par);
   tag = pm->ResolveParameter (params, tag_par);
   prop = pm->ResolveParameter (params, prop_par);
   if (value_par)
@@ -267,13 +256,9 @@ void celPropertyChangeTrigger::FindProperties ()
 {
   if (properties) return;
   iCelPlLayer* pl = type->pl;
-  iCelEntity* ent;
-  if (!entity.IsEmpty ())
-    ent = pl->FindEntity (entity);
-  else
-    ent = pl->GetEntity (entityID);
+  iCelEntity* ent = pl->FindEntity (entity);
   if (!ent) return;
-  properties = celQueryPropertyClassTagEntity<iPcProperties> (ent, tag);
+  properties = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcProperties, tag);
 }
 
 void celPropertyChangeTrigger::ActivateTrigger ()
@@ -330,6 +315,16 @@ void celPropertyChangeTrigger::DeactivateTrigger ()
 {
   if (!properties) return;
   properties->RemovePropertyListener ((iPcPropertyListener*)this);
+}
+
+bool celPropertyChangeTrigger::LoadAndActivateTrigger (iCelDataBuffer*)
+{
+  ActivateTrigger ();
+  return true;
+}
+
+void celPropertyChangeTrigger::SaveTriggerState (iCelDataBuffer*)
+{
 }
 
 //---------------------------------------------------------------------------
