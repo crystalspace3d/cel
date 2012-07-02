@@ -1,0 +1,6 @@
+SubDir TOP plugins tools behaviourtree ;
+
+Plugin behaviourtree
+       : [ Wildcard *.cpp *.h ]
+;
+ExternalLibs behaviourtree : CRYSTAL ;

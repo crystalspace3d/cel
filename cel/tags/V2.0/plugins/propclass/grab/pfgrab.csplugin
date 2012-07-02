@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfgrab.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.move.grab</name>
+        <implementation>celPfGrab</implementation>
+        <description>CEL Grab Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

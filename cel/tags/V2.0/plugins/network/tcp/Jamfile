@@ -1,0 +1,22 @@
+SubDir TOP plugins network tcp ;
+
+Plugin tcpnetwork :
+  [ Wildcard *.cpp *.h ]
+  [ Wildcard hawknl include : *.h ]
+  [ Wildcard hawknl src : *.c *.h ] ;
+
+switch $(TARGET.OS)
+{
+  case WIN32 :
+    CFlags tcpnetwork : -DWIN32 ;
+    LFlags tcpnetwork : -lws2_32 ;
+  case MACOS_X :
+    CFlags tcpnetwork : -DMACOSX ;
+    LFlags tcpnetwork : -dylib ;
+  case UNIX :
+    CFlags tcpnetwork : -D_GNU_SOURCE ;
+}
+
+MsvcExternalLibrary tcpnetwork : "ws2_32.lib" ;
+ExternalLibs tcpnetwork : CRYSTAL ;
+LinkWith tcpnetwork : celtool ;

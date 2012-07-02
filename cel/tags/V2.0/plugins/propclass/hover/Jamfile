@@ -1,0 +1,6 @@
+SubDir TOP plugins propclass hover ;
+
+Plugin pfhover : [ Wildcard *.cpp *.h ] ;
+ExternalLibs pfhover : CRYSTAL ;
+LinkWith pfhover : celtool ;
+

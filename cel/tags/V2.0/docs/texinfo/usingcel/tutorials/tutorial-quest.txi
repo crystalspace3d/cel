@@ -1,0 +1,370 @@
+@c -*-texinfo-*-
+@node Tutorial QuestTest, Tutorial BTTest, Tutorial WalkTut, Tutorials
+@subsection QuestTest Tutorial
+
+
+This is a tutorial to show how you can use Quests in your application.
+
+The source files of this tutorial can be found in the 'apps/questtest' directory that is included with CEL. The world and entity file can be found in the 'data' directory ('walktut_world' and 'questtest_entities').
+
+During the game you can use the following inputs: @itemize @bullet
+@item
+@samp{arrow keys}: movement.
+@item
+@samp{m}: camera mode (first person, third person, @dots{}).
+@item
+@samp{left mouse button}: pick up an item and put in inventory.
+@item
+@samp{d}: drop the last item picked up.
+@end itemize
+
+This tutorial adds a Quest to the previous tutorial WalkTut. The example Quest is a simple game involving a self destructing
+money box. If the player picks it up before it blows, they win, but if they do not the bad-one haunts them and they lose.
+
+Here is the tutorial, focusing only on the changes to WalkTut neccesary to add a Quest: 
+
+@menu
+* Tutorial QuestTest Behave Header:: behave.h
+* Tutorial QuestTest Behave:: behave.cpp
+* Tutorial QuestTest App Header:: app.h
+* Tutorial QuestTest App:: app.cpp
+@end menu
+
+
+
+
+
+@node Tutorial QuestTest Behave Header, Tutorial QuestTest Behave, Tutorial QuestTest, Tutorial QuestTest
+@subsubsection behave.h
+
+Here is the header for our behaviour layer. Here we define the behaviour
+layer and also the implementations of every behaviour.
+
+A Quest requires a behaviour and as such, one is defined here for the example Quest.
+
+@example
+class BehaviourQuest : public BehaviourCommon 
+{ 
+  public: 
+    BehaviourQuest (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl) 
+       : BehaviourCommon (entity, bl, pl) { } 
+    virtual ~BehaviourQuest () { } 
+
+    virtual const char* GetName () const { return "quest_behave"; } 
+    virtual bool SendMessage (csStringID msg_id, 
+      iCelPropertyClass* pc, 
+      celData& ret, iCelParameterBlock* params, va_list arg); 
+};
+@end example
+
+Almost identical to the existing level behaviour, this behaviour does very little.
+
+@node Tutorial QuestTest Behave, Tutorial QuestTest App Header, Tutorial QuestTest Behave Header, Tutorial QuestTest
+@subsubsection behave.cpp
+
+Here is the source for our behaviour layer. The @code{CreateBehaviour()}
+function in @code{BehaviourLayer} will compare the given name parameter
+with the possible names for behaviours and then create the appropriate
+subclass of @code{BehaviourCommon}.
+
+Given the new behaviour for the example Quest an extra else if case has been added.
+
+@example
+
+iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity,
+	const char* name)
+@{
+  iCelBehaviour* behave = 0;
+  if (!strcmp (name, "level_behave"))
+    behave = new BehaviourLevel (entity, this, pl);
+  else if (!strcmp (name, "player_behave"))
+    behave = new BehaviourPlayer (entity, this, pl);
+  else if (!strcmp (name, "box_behave"))
+    behave = new BehaviourBox (entity, this, pl);
+  else if (!strcmp (name, "badone_behave"))
+    behave = new BehaviourBadOne (entity, this, pl);
+  else if (!strcmp (name, "quest_behave"))   
+    behave = new BehaviourQuest (entity, this, pl);
+
+
+  if (behave)
+  @{
+    entity->SetBehaviour (behave);
+    // There is now a reference in the entity. We destroy
+    // our own reference here.
+    behave->DecRef ();
+  @}
+  return behave;
+@}
+@end example
+
+The Quest behaviour SendMessage must be defined. However, again like the level behaviour, the Quest behaviour does not do anything in this tutorial.
+
+@example 
+bool BehaviourQuest::SendMessage (csStringID msg_id, 
+  iCelPropertyClass* pc, 
+  celData& ret, iCelParameterBlock* params, va_list arg) 
+{ 
+  return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg); 
+}
+@end example
+
+
+
+@node Tutorial QuestTest App Header, Tutorial QuestTest App, Tutorial QuestTest Behave, Tutorial QuestTest
+@subsubsection app.h
+
+In this header file we declare our main application class. This is the class
+where we store references to commonly used modules from Crystal Space and
+Crystal Entity Layer. This is also the class that contains the main event
+handling loop.
+
+The following method declaration is added:
+
+@example
+csPtr<iCelEntity> CreateQuest (const char* name);
+@end example
+
+This method will create the quest.
+
+@node Tutorial QuestTest App, , Tutorial QuestTest App Header, Tutorial QuestTest
+@subsubsection app.cpp
+
+Here is our main application source file, the bulk of changes for this tutorial occur in this file.
+Before we can get into the details of creating a quest the following final set up must be performed in the Application ()
+method of the main app.
+
+@example
+if (!pl->LoadPropertyClassFactory ("cel.pcfactory.logic.quest")) 
+  return false; 
+
+//myQuest 
+csRef<iCelEntity> quest = CreateQuest("myquest"); 
+if (!quest) printf ("CreateQuest(""myquest"") Failed!\n");
+
+@end example
+
+This simply loads the quest factory, and calls, with rudimentary error handling, the create quest method detailed below.
+
+@example
+csPtr<iCelEntity> MainApp::CreateQuest (const char* name) 
+{ 
+  // The Quest Entity
+  entity_quest = pl->CreateEntity (name, bl, "quest_behave",
+    "pclogic.quest", "pctools.properties", CEL_PROPCLASS_END);
+
+  csRef<iQuestManager> qm = csQueryRegistryOrLoad<iQuestManager> (object_reg,
+    	"cel.manager.quests"); 
+
+  
+  //----------------------------------------------------------- 
+  // Create 'testquest'. 
+  //----------------------------------------------------------- 
+  
+  iQuestFactory* fact = qm->CreateQuestFactory ("testquest"); 
+  if (!fact)
+  {
+	printf("Factory Create Failed");
+	return 0;
+  }
+@end example
+
+A Quest is an entity, and as such must be created with a call to the physical layer method CreateEntity (...).
+
+The Quest Manager (variable qm above) is a critical component for the construction and setup of quests. For example,
+the first task of the quest manager is create a quest factory for the constuction of the example quest 'testquest'.
+
+Quests are essentially Finite State Machines and as such they are made up by a number of states. 
+Each state has responses that will occur when an assigned trigger fires if the Quest is currently in that state. 
+Each response has one trigger. When the trigger fires any rewards assigned to that response will execute. Each response 
+can have multiple rewards.
+
+As an example, below is the state definition of the initial state of the example quest. The first two method calls
+create the state, and its sole response. The remainder sets up the assigned trigger and various rewards.
+
+@example
+
+  // ---- init state ----
+  iQuestStateFactory* state_init = fact->CreateState ("init");
+  iQuestTriggerResponseFactory* init_response =
+    state_init->CreateTriggerResponseFactory ();
+	
+  qm->SetTimeoutTrigger (init_response, "10");
+  qm->AddDebugPrintReward (init_response, "\n\nWelcome To The Example Quest");
+  
+  qm->AddDebugPrintReward (init_response, " -Initalising counter parameter");
+  iChangePropertyRewardFactory* rf_changeprop = qm->AddChangePropertyReward 
+    (init_response, name, "counter");
+  rf_changeprop->SetLongParameter ("0");
+
+  qm->AddDebugPrintReward (init_response, " -Clearing all walktut boxes");
+  qm->AddDestroyEntityReward (init_response, "box1");
+  qm->AddDestroyEntityReward (init_response, "box2");
+  qm->AddDestroyEntityReward (init_response, "box3");
+
+  qm->AddDebugPrintReward (init_response, " -Creating money box");
+  const celEntityTemplateParams tpl_params;
+  qm->AddCreateEntityReward (init_response, "BoxTemplate", "templateBox", tpl_params);
+
+  qm->AddDebugPrintReward (init_response, " -Entering 1st State\n");
+  qm->AddNewStateReward (init_response, name, "start");
+@end example
+
+The sole response in this example, is fired by a time out trigger. Once the timer reaches 10 seconds the welcome message 
+is displayed and the game sets up. This state demonstrates a wide range of possible reward uses, from entity creation/deletion
+to parameter manipulation.
+
+This state makes extensive use of convenience methods available in the quest manager to simplify the process 
+of adding trigger and rewards to a response. At the time of writing all triggers and responses have a corresponding
+convenience method.
+
+The final reward moves the quest into another state. Once in the next state the above response will not occur again. However,
+if we were to later return to this state the game would begin again. A simple practical exercise to test your understanding 
+would be to implement a reset function on this small game, that would move back to this state after the winning or losing state is reached.
+
+Below is the code for the next state, which is the main part of the game logic.
+
+@example
+  // ---- start state ----
+  iQuestStateFactory* state_start = fact->CreateState ("start");
+
+  iRewardType* type = qm->GetRewardType ("cel.rewards.debugprint");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iDebugPrintRewardFactory> dbg_rewfact = scfQueryInterface<iDebugPrintRewardFactory> (rewfact);
+  dbg_rewfact->SetMessageParameter ("State Changed => The Game Has Begun");
+  state_start->AddInitRewardFactory (rewfact);
+
+  iQuestTriggerResponseFactory* start_response1 =
+	state_start->CreateTriggerResponseFactory ();
+  qm->SetTimeoutTrigger (start_response1, "10");
+
+  qm->AddDebugPrintReward (start_response1, " -Money Box Self Destuct Sequence Has Begun\n");
+  csRef<iCelSequenceFactory> destruct_seq = fact->CreateSequence("sequence_destruct");
+  csRef<iSeqOpFactory> seqopfact = qm->GetSeqOpType("cel.seqops.debugprint")->CreateSeqOpFactory();
+  csRef<iDebugPrintSeqOpFactory> destruct_seqopfact = 
+	scfQueryInterface<iDebugPrintSeqOpFactory> (seqopfact);
+  destruct_seqopfact->SetMessageParameter("Self Destruct Progress : ");
+  destruct_seq->AddSeqOpFactory(seqopfact, "1000");
+  qm->AddSequenceReward(start_response1, name, "sequence_destruct", "10");
+
+  
+  iQuestTriggerResponseFactory* start_response2 =
+    state_start->CreateTriggerResponseFactory ();
+  qm->SetMeshSelectTrigger(start_response2, "templateBox");
+  qm->AddDebugPrintReward(start_response2, "You Picked Up The Money Box & Stopped The Self Destruct\n");
+  qm->AddNewStateReward (start_response2, name, "box_pickup");
+
+
+  iQuestTriggerResponseFactory* start_response3 =
+    state_start->CreateTriggerResponseFactory ();
+  qm->SetSequenceFinishTrigger(start_response3, name, "sequence_destruct");
+  qm->AddDestroyEntityReward (start_response3, "templateBox");
+  qm->AddDebugPrintReward(start_response3, "SELF-DESTRUCT HAS OCCURRED\n");
+  qm->AddNewStateReward (start_response3, name, "box_explode");
+@end example
+
+This state starts slighlty different, with the construction of a reward without the use of the convenience methods.
+If you are using a new reward/trigger that does not have a corresponding convenience method, the factory must be created
+from the type and setup as here for the game start message.
+
+The reward factory created, however, is not assigned to a standard response. Instead it is set as the on init reward factory. This means
+the game started message will display as the state is entered. A similar method is available for the addition of on exit 
+rewards.
+
+The following three responses in this code example are regular in state responses. The first starts the self destruct sequence
+of the money box. This sequence simply uses a debug message, but the sequence tool can also be used to create effects combining any 
+seq ops. Current potential examples, include closing doors and changing light colors.
+
+The second is triggered by the money box being picked up. The player can pick up the box by clicking on it, and the mesh select
+trigger will fire upon this occuring. The quest moves into the final state where on init it stops the self destruct sequence.
+
+The final response is triggered if the sequence ends in its own time, this is then reported to the player and the quest is 
+moved into a different final state. This response is not triggered when the sequence is finished by the player
+picking up the box because the quest has moved into a different state before the sequence finish reward is executed.
+
+The two final states, denote success or failure in the game. If the player has picked up the box they will have moved into
+the box_pickup state where the counter is updated to show their success and the player informed. This makes use of the 
+property manipulation reward and a trigger that fires upon a property change. This state also includes another example of 
+the reward on init feature.
+
+However, if the player has not picked up the box the bad_one will haunt them. That is it will be added to their inventory
+to symbolise hiding in their jacket. This shows the inventory reward that can add entities to a players inventory. This response
+also makes use of the message send reward and message received trigger to announce the players failure.
+
+@example
+  // ---- box_pickup state ----
+  iQuestStateFactory* state_box_pickup = fact->CreateState ("box_pickup");
+  
+  type = qm->GetRewardType ("cel.rewards.sequencefinish");
+  csRef<iRewardFactory> seq_fin_rewfact = type->CreateRewardFactory ();
+  csRef<iSequenceFinishRewardFactory> explicit_seq_fin_rewfact = 
+  	scfQueryInterface<iSequenceFinishRewardFactory> (seq_fin_rewfact);
+  explicit_seq_fin_rewfact->SetEntityParameter (name);
+  explicit_seq_fin_rewfact->SetSequenceParameter ("sequence_destruct");
+  state_box_pickup->AddInitRewardFactory(seq_fin_rewfact);
+
+  iQuestTriggerResponseFactory* box_pickup_response1 =
+	state_box_pickup->CreateTriggerResponseFactory ();
+  qm->SetTimeoutTrigger (box_pickup_response1, "10");
+  rf_changeprop = qm->AddChangePropertyReward 
+    (box_pickup_response1, name, "counter");
+  rf_changeprop->SetLongParameter ("1");
+  
+
+  iQuestTriggerResponseFactory* box_pickup_response2 =
+    state_box_pickup->CreateTriggerResponseFactory ();
+  qm->SetPropertyChangeTrigger (box_pickup_response2, name, "counter", "1");
+  qm->AddDebugPrintReward(box_pickup_response2, "Counter Updated To Reflect Pickup => You Have Won");
+  
+
+  // ---- box_explode state ----
+  iQuestStateFactory* state_box_explode = fact->CreateState ("box_explode");
+
+  iQuestTriggerResponseFactory* box_explode_response1 =
+	state_box_explode->CreateTriggerResponseFactory ();
+  qm->SetTimeoutTrigger (box_explode_response1, "10");
+  qm->AddInventoryReward (box_explode_response1, "player", "badone");
+
+  iQuestTriggerResponseFactory* box_explode_response2 =
+    state_box_explode->CreateTriggerResponseFactory ();
+  qm->SetInventoryTrigger(box_explode_response2, "player", "badone");
+  qm->AddDebugPrintReward(box_explode_response2, "Badone Hid In Your Cloak From The Explosion");
+  
+  iQuestTriggerResponseFactory* box_explode_response3 =
+	  state_box_explode->CreateTriggerResponseFactory ();
+  qm->SetTimeoutTrigger (box_explode_response3, "50");
+  qm->AddMessageReward(box_explode_response3, "player", "You Lose");
+
+  iQuestTriggerResponseFactory* box_explode_response4 =
+	  state_box_explode->CreateTriggerResponseFactory ();
+  qm->SetMessageTrigger(box_explode_response4, "player", "You Lose");
+  qm->AddDebugPrintReward(box_explode_response4, "Message Trigger Fired => You Have Lost");
+@end example 
+
+
+Finally, the quest must be created and started.
+
+@example
+   //-----------------------------------------------------------
+
+  csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT (entity_quest, iPcQuest); 
+  celParams params;
+
+  if (!pcquest->NewQuest ("testquest", params)) 
+  { 
+	ReportError ("Error creating quest '%s'!", "testquest"); 
+    return 0; 
+  } 
+
+  pcquest->GetQuest ()->SwitchState ("init"); 
+
+  return csPtr<iCelEntity> (entity_quest); 
+} 
+@end example
+
+The NewQuest method creates the quest, with error handling to report any error that occurs.
+
+Any parameters used in the Quest must be stored in a celParams and passed to the NewQuest method. 
+However, none were used in this tutorial
+
+The Quest must then be switched to the initial state, from where it will begin execution.

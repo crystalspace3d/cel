@@ -1,0 +1,42 @@
+SubDir TOP data ;
+
+SubInclude TOP data library ;
+
+CEL_DATA =
+  [ Wildcard *.txt *.cal3d ]
+  ball
+  basic_entities
+  basic_level.xml
+  basic_world
+  box
+  celcarbody
+  celcarbody.png
+  celcarwheel
+  large
+  rock2.jpg
+  medium
+  monkey
+  portal_world
+  small
+  smallbox
+  track4.zip
+  smallhouse.zip
+  orogor
+  orogor.png
+  walktut_box
+  walktut_entities
+  walktut_world
+  ;
+
+InstallData $(CEL_DATA) : data ;
+
+InstallData [ Wildcard cally : *.caf *.cmf *.csf ] : data cally ;
+InstallConfig [ Wildcard config : *.cfg ] ;
+InstallData [ Wildcard images : *.jpg *.png *.gif ] : data images ;
+InstallData [ Wildcard sounds : *.zip ] : data sounds ;
+
+FileListEntriesData $(CEL_DATA) : : data-demo ;
+FileListEntriesData [ Wildcard cally : *.caf *.cmf *.csf ] : cally : data-demo ;
+FileListEntriesData [ Wildcard config : *.cfg ] : config : data-demo ;
+FileListEntriesData [ Wildcard images : *.jpg *.png *.gif ] : images : data-demo ;
+FileListEntriesData [ Wildcard sounds : *.zip ] : sounds : data-demo ;
