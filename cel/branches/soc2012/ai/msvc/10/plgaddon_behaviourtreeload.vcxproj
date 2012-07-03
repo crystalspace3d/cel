@@ -35,7 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1AC3DE76-42B2-E418-2F72-B725312A6EEA}</ProjectGuid>
+    <ProjectGuid>{968298FE-D947-B1CB-0886-9244D037D39F}</ProjectGuid>
     <SccProjectName />
     <SccLocalPath />
   </PropertyGroup>
@@ -71,44 +71,44 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">..\..\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">..\..\out\release10\build\plgbehaviourtree\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">..\..\out\release10\build\plgaddon_behaviourtreeload\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">false</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">behaviourtree</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">addon_behaviourtreeload</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">true</IgnoreImportLibrary>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">..\..\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">..\..\out\release10\build\plgbehaviourtree\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">..\..\out\release10\build\plgaddon_behaviourtreeload\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">false</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">behaviourtree</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">addon_behaviourtreeload</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">true</IgnoreImportLibrary>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">..\..\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">..\..\out\debug10\build\plgbehaviourtree\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">..\..\out\debug10\build\plgaddon_behaviourtreeload\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">true</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">behaviourtree</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">addon_behaviourtreeload</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">true</IgnoreImportLibrary>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">..\..\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">..\..\out\debug10\build\plgbehaviourtree\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">..\..\out\debug10\build\plgaddon_behaviourtreeload\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">true</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">behaviourtree</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">addon_behaviourtreeload</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">true</IgnoreImportLibrary>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">..\..\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">..\..\out\release10-x64\build\plgbehaviourtree\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">..\..\out\release10-x64\build\plgaddon_behaviourtreeload\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">false</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">behaviourtree</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">addon_behaviourtreeload</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">true</IgnoreImportLibrary>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">..\..\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">..\..\out\release10-x64\build\plgbehaviourtree\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">..\..\out\release10-x64\build\plgaddon_behaviourtreeload\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">false</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">behaviourtree</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">addon_behaviourtreeload</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">true</IgnoreImportLibrary>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">..\..\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">..\..\out\debug10-x64\build\plgbehaviourtree\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">true</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">behaviourtree</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">addon_behaviourtreeload</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">true</IgnoreImportLibrary>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">..\..\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">..\..\out\debug10-x64\build\plgbehaviourtree\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">true</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">behaviourtree</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">addon_behaviourtreeload</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">true</IgnoreImportLibrary>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">
@@ -118,13 +118,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10\build\plgbehaviourtree\Win32\behaviourtree.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\..\out\release10\build\plgaddon_behaviourtreeload\Win32\addon_behaviourtreeload.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10\build\plgbehaviourtree\plgbehaviourtree.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10\build\plgbehaviourtree\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10\build\plgbehaviourtree\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10\build\plgaddon_behaviourtreeload\plgaddon_behaviourtreeload.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10\build\plgaddon_behaviourtreeload\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10\build\plgaddon_behaviourtreeload\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -136,10 +136,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\behaviourtree.dll</OutputFile>
-      <ProgramDatabaseFile>..\..\out\release10\build\plgbehaviourtree\Win32\behaviourtree.pdb</ProgramDatabaseFile>
+      <OutputFile>..\..\addon_behaviourtreeload.dll</OutputFile>
+      <ProgramDatabaseFile>..\..\out\release10\build\plgaddon_behaviourtreeload\Win32\addon_behaviourtreeload.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <ImportLibrary>..\..\out\release10\build\plgbehaviourtree\Win32\plgbehaviourtree.lib</ImportLibrary>
+      <ImportLibrary>..\..\out\release10\build\plgaddon_behaviourtreeload\Win32\plgaddon_behaviourtreeload.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -157,7 +157,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\plugins\addons\behaviourtreeload;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -168,13 +168,13 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10\build\plgbehaviourtree\Win32\behaviourtree.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\..\out\release10\build\plgaddon_behaviourtreeload\Win32\addon_behaviourtreeload.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10\build\plgbehaviourtree\plgbehaviourtree.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10\build\plgbehaviourtree\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10\build\plgbehaviourtree\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10\build\plgaddon_behaviourtreeload\plgaddon_behaviourtreeload.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10\build\plgaddon_behaviourtreeload\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10\build\plgaddon_behaviourtreeload\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -186,10 +186,10 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\behaviourtree.dll</OutputFile>
-      <ProgramDatabaseFile>..\..\out\release10\build\plgbehaviourtree\Win32\behaviourtree.pdb</ProgramDatabaseFile>
+      <OutputFile>..\..\addon_behaviourtreeload.dll</OutputFile>
+      <ProgramDatabaseFile>..\..\out\release10\build\plgaddon_behaviourtreeload\Win32\addon_behaviourtreeload.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <ImportLibrary>..\..\out\release10\build\plgbehaviourtree\Win32\plgbehaviourtree.lib</ImportLibrary>
+      <ImportLibrary>..\..\out\release10\build\plgaddon_behaviourtreeload\Win32\plgaddon_behaviourtreeload.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -207,7 +207,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\plugins\addons\behaviourtreeload;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -216,13 +216,13 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\plgbehaviourtree\Win32\behaviourtree.pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\plgaddon_behaviourtreeload\Win32\addon_behaviourtreeload.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\plgbehaviourtree\plgbehaviourtree.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10\build\plgbehaviourtree\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10\build\plgbehaviourtree\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\plgaddon_behaviourtreeload\plgaddon_behaviourtreeload.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10\build\plgaddon_behaviourtreeload\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10\build\plgaddon_behaviourtreeload\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -232,10 +232,10 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\behaviourtree.dll</OutputFile>
-      <ProgramDatabaseFile>..\..\out\debug10\build\plgbehaviourtree\Win32\behaviourtree.pdb</ProgramDatabaseFile>
+      <OutputFile>..\..\addon_behaviourtreeload.dll</OutputFile>
+      <ProgramDatabaseFile>..\..\out\debug10\build\plgaddon_behaviourtreeload\Win32\addon_behaviourtreeload.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <ImportLibrary>..\..\out\debug10\build\plgbehaviourtree\Win32\plgbehaviourtree.lib</ImportLibrary>
+      <ImportLibrary>..\..\out\debug10\build\plgaddon_behaviourtreeload\Win32\plgaddon_behaviourtreeload.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -253,7 +253,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\plugins\addons\behaviourtreeload;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -262,13 +262,13 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\plgbehaviourtree\Win32\behaviourtree.pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\plgaddon_behaviourtreeload\Win32\addon_behaviourtreeload.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\plgbehaviourtree\plgbehaviourtree.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10\build\plgbehaviourtree\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10\build\plgbehaviourtree\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\plgaddon_behaviourtreeload\plgaddon_behaviourtreeload.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10\build\plgaddon_behaviourtreeload\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10\build\plgaddon_behaviourtreeload\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -278,10 +278,10 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\behaviourtree.dll</OutputFile>
-      <ProgramDatabaseFile>..\..\out\debug10\build\plgbehaviourtree\Win32\behaviourtree.pdb</ProgramDatabaseFile>
+      <OutputFile>..\..\addon_behaviourtreeload.dll</OutputFile>
+      <ProgramDatabaseFile>..\..\out\debug10\build\plgaddon_behaviourtreeload\Win32\addon_behaviourtreeload.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <ImportLibrary>..\..\out\debug10\build\plgbehaviourtree\Win32\plgbehaviourtree.lib</ImportLibrary>
+      <ImportLibrary>..\..\out\debug10\build\plgaddon_behaviourtreeload\Win32\plgaddon_behaviourtreeload.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -299,7 +299,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\plugins\addons\behaviourtreeload;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -310,13 +310,13 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10-x64\build\plgbehaviourtree\x64\behaviourtree.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\x64\addon_behaviourtreeload.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\plgbehaviourtree\plgbehaviourtree.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10-x64\build\plgbehaviourtree\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10-x64\build\plgbehaviourtree\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\plgaddon_behaviourtreeload.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -328,10 +328,10 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\behaviourtree.dll</OutputFile>
-      <ProgramDatabaseFile>..\..\out\release10-x64\build\plgbehaviourtree\x64\behaviourtree.pdb</ProgramDatabaseFile>
+      <OutputFile>..\..\addon_behaviourtreeload.dll</OutputFile>
+      <ProgramDatabaseFile>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\x64\addon_behaviourtreeload.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <ImportLibrary>..\..\out\release10-x64\build\plgbehaviourtree\x64\plgbehaviourtree.lib</ImportLibrary>
+      <ImportLibrary>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\x64\plgaddon_behaviourtreeload.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -349,7 +349,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\plugins\addons\behaviourtreeload;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -360,13 +360,13 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10-x64\build\plgbehaviourtree\x64\behaviourtree.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\x64\addon_behaviourtreeload.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\plgbehaviourtree\plgbehaviourtree.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10-x64\build\plgbehaviourtree\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10-x64\build\plgbehaviourtree\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\plgaddon_behaviourtreeload.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -378,10 +378,10 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\behaviourtree.dll</OutputFile>
-      <ProgramDatabaseFile>..\..\out\release10-x64\build\plgbehaviourtree\x64\behaviourtree.pdb</ProgramDatabaseFile>
+      <OutputFile>..\..\addon_behaviourtreeload.dll</OutputFile>
+      <ProgramDatabaseFile>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\x64\addon_behaviourtreeload.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <ImportLibrary>..\..\out\release10-x64\build\plgbehaviourtree\x64\plgbehaviourtree.lib</ImportLibrary>
+      <ImportLibrary>..\..\out\release10-x64\build\plgaddon_behaviourtreeload\x64\plgaddon_behaviourtreeload.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>delayimp.lib;libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -399,7 +399,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\plugins\addons\behaviourtreeload;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -408,13 +408,13 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\plgbehaviourtree\x64\behaviourtree.pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\x64\addon_behaviourtreeload.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\plgbehaviourtree\plgbehaviourtree.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10-x64\build\plgbehaviourtree\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10-x64\build\plgbehaviourtree\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\plgaddon_behaviourtreeload.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -424,10 +424,10 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\behaviourtree.dll</OutputFile>
-      <ProgramDatabaseFile>..\..\out\debug10-x64\build\plgbehaviourtree\x64\behaviourtree.pdb</ProgramDatabaseFile>
+      <OutputFile>..\..\addon_behaviourtreeload.dll</OutputFile>
+      <ProgramDatabaseFile>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\x64\addon_behaviourtreeload.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <ImportLibrary>..\..\out\debug10-x64\build\plgbehaviourtree\x64\plgbehaviourtree.lib</ImportLibrary>
+      <ImportLibrary>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\x64\plgaddon_behaviourtreeload.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -445,7 +445,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\plugins\addons\behaviourtreeload;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -454,13 +454,13 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\plgbehaviourtree\x64\behaviourtree.pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\x64\addon_behaviourtreeload.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\plgbehaviourtree\plgbehaviourtree.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10-x64\build\plgbehaviourtree\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10-x64\build\plgbehaviourtree\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\plgaddon_behaviourtreeload.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -470,10 +470,10 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\behaviourtree.dll</OutputFile>
-      <ProgramDatabaseFile>..\..\out\debug10-x64\build\plgbehaviourtree\x64\behaviourtree.pdb</ProgramDatabaseFile>
+      <OutputFile>..\..\addon_behaviourtreeload.dll</OutputFile>
+      <ProgramDatabaseFile>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\x64\addon_behaviourtreeload.pdb</ProgramDatabaseFile>
       <DelayLoadDLLs>;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <ImportLibrary>..\..\out\debug10-x64\build\plgbehaviourtree\x64\plgbehaviourtree.lib</ImportLibrary>
+      <ImportLibrary>..\..\out\debug10-x64\build\plgaddon_behaviourtreeload\x64\plgaddon_behaviourtreeload.lib</ImportLibrary>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>delayimp.lib;libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -491,26 +491,27 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\plugins\tools\behaviourtree;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\plugins\addons\behaviourtreeload;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\msvc\plugin_impl.cpp" />
-    <ClCompile Include="..\..\plugins\tools\behaviourtree\btaction.cpp" />
-    <ClCompile Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.cpp" />
-    <ClCompile Include="..\..\plugins\tools\behaviourtree\condition_triggerfired.cpp" />
+    <ClCompile Include="..\..\plugins\addons\behaviourtreeload\behaviourtreeload.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\plugins\tools\behaviourtree\btaction.h" />
-    <ClInclude Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.h" />
-    <ClInclude Include="..\..\plugins\tools\behaviourtree\condition_triggerfired.h" />
+    <ClInclude Include="..\..\plugins\addons\behaviourtreeload\behaviourtreeload.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\msvc\plgbehaviourtree.rc" />
+    <ResourceCompile Include="..\..\msvc\plgaddon_behaviourtreeload.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\plugins\tools\behaviourtree\behaviourtree.csplugin" />
+    <None Include="..\..\plugins\addons\behaviourtreeload\addon_behaviourtreeload.csplugin" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="libceltool.vcxproj">
+      <Project>{FE8C31C7-8C7C-B982-16AE-C6CA39940D52}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

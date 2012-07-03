@@ -1,6 +1,6 @@
 SubDir TOP plugins addons behaviourtreeload ;
 
-Plugin addon_dynworldload
+Plugin addon_behaviourtreeload
 	: behaviourtreeload.cpp behaviourtreeload.h
 ;
 ExternalLibs addon_behaviourtreeload : CRYSTAL ;

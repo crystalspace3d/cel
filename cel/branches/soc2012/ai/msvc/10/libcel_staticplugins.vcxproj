@@ -462,6 +462,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\msvc\libaddon_behaviourtreeload_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_celentity_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_celentitytpl_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_celgraph_staticreg.cpp" />
@@ -536,6 +537,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libui_gridinv_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory2_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory_staticreg.cpp" />
+    <ClCompile Include="..\..\plugins\addons\behaviourtreeload\behaviourtreeload.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentity\celentity.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentitytpl\celentitytpl.cpp" />
     <ClCompile Include="..\..\plugins\addons\celgraph\celgraph.cpp" />
@@ -747,6 +749,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\plugins\addons\behaviourtreeload\behaviourtreeload.h" />
     <ClInclude Include="..\..\plugins\addons\celentity\celentity.h" />
     <ClInclude Include="..\..\plugins\addons\celentitytpl\celentitytpl.h" />
     <ClInclude Include="..\..\plugins\addons\celgraph\celgraph.h" />

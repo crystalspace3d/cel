@@ -593,6 +593,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\libaddon_behaviourtreeload_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libaddon_celentity_staticreg.cpp">
 			</File>
 			<File
@@ -813,6 +816,9 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\libui_inventory_staticreg.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\addons\behaviourtreeload\behaviourtreeload.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\addons\celentity\celentity.cpp">
@@ -1505,6 +1511,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\plugins\addons\behaviourtreeload\behaviourtreeload.h">
+			</File>
 			<File
 				RelativePath="..\..\plugins\addons\celentity\celentity.h">
 			</File>
