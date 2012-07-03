@@ -1,0 +1,7 @@
+SubDir TOP plugins addons behaviourtreeload ;
+
+Plugin addon_dynworldload
+	: behaviourtreeload.cpp behaviourtreeload.h
+;
+ExternalLibs addon_behaviourtreeload : CRYSTAL ;
+LinkWith addon_behaviourtreeload : celtool ;
