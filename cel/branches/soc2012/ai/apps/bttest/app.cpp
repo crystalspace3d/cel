@@ -192,7 +192,7 @@ bool MainApp::Application ()
   printer.AttachNew (new FramePrinter (object_reg));
 
 
-  CreateBehaviourTree();
+  LoadBehaviourTreeFromXML();
 
 
   Run ();
@@ -203,6 +203,41 @@ bool MainApp::Application ()
 void MainApp::OnExit ()
 {
   printer.Invalidate ();
+}
+
+void MainApp::LoadBehaviourTreeFromXML ()
+{
+  csRef<iDocumentSystem> xml = 
+		csQueryRegistry<iDocumentSystem> (object_reg);
+	if (!xml)
+	  xml.AttachNew (new csTinyDocumentSystem ());
+	csRef<iDocument> doc = xml->CreateDocument ();
+
+  const char* filename = "/cellib/lev/bttest.xml";
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  csRef<iDataBuffer> xml_buf = vfs->ReadFile (filename);
+
+	const char* error = doc->Parse (xml_buf, true);
+	if (error != 0)
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		  "cel.questmanager",
+		  "Can't open file '%s': %s!", filename, error);
+  }
+
+	csRef<iDocumentNode> xml_node = doc->GetRoot ();
+
+   
+  csRef<iBTNode> tree = celQueryPropertyClassEntity<iBTNode> (player_entity);
+  csRef<iCelPropertyClass> tree_propclass = scfQueryInterface<iCelPropertyClass> (tree);
+  tree_propclass->SetProperty(pl->FetchStringID("xml"), xml_node);   
+  
+  csRef<iCelParameterBlock> params;
+  params.AttachNew (new celVariableParameterBlock ());
+
+  celData result;  
+  tree_propclass->PerformAction(pl->FetchStringID("Load BT From XML"), params, result);
+  tree_propclass->PerformAction(pl->FetchStringID("BT Start"), params, result);
 }
 
 void MainApp::CreateBehaviourTree ()
