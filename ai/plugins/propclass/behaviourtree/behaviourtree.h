@@ -47,13 +47,17 @@ private:
   csString name;
   csRefArray<iBTNode> stack;
   int update_rate;
+  csRef<iDocumentNode> xml;
 
   // For propclass actions.
   enum actionids
   {
     action_start = 0,
-    action_interrupt
+    action_interrupt,
+    action_loadFromXML
   };
+
+  bool loadFromXML (iDocumentNode* node);
 
   // For propclass properties.
   enum propids
@@ -61,7 +65,8 @@ private:
     propid_updaterate = 0,
     propid_treestatus,
     propid_treename,
-    propid_rootnode
+    propid_rootnode,
+    propid_xml
   };
 
   // Other propclass

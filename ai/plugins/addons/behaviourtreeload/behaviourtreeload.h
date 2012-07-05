@@ -20,51 +20,47 @@
 #ifndef __CEL_ADDON_BTLOAD__
 #define __CEL_ADDON_BTLOAD__
 
-#include "csutil/scf.h"
-#include "csutil/scf_implementation.h"
 #include "iutil/comp.h"
-#include "iengine/engine.h"
 #include "imap/reader.h"
-#include "imap/writer.h"
 #include "csutil/strhash.h"
+#include "csutil/weakref.h"
 
-#include "physicallayer/pl.h"
-#include "propclass/dynworld.h"
-#include "tools/dynworldload.h"
+#include "tools/behaviourtree.h"
 
-struct iDynamicFactory;
+struct iObjectRegistry;
+struct iDocumentNode;
+struct iLoaderContext;
+struct iSyntaxService;
 
-class celAddOnBehaviourTreeLoader : public scfImplementation3<celAddOnBehaviourTreeLoader,
-  iLoaderPlugin, iSaverPlugin, iComponent>
+/**
+ * This is an add-on to allow loading of behaviour trees from XML.
+ */
+class celAddOnBehaviourTreeLoader : public scfImplementation2<
+	celAddOnBehaviourTreeLoader, iLoaderPlugin, iComponent>
 {
 private:
   iObjectRegistry* object_reg;
-  csRef<iCelPlLayer> pl;
-  csRef<iPcDynamicWorld> dynworld;
-  csRef<iSyntaxService> synldr;
-  csRef<iEngine> engine;
-  csStringHash xmltokens;
-  csRefArray<iDynamicWorldLoaderExtension> extensions;
-
-  bool ParseFactory (iDocumentNode* node);
-  bool WriteBodies (iDocumentNode* factNode, iDynamicFactory* fact);
-  bool WritePivots (iDocumentNode* factNode, iDynamicFactory* fact);
-  bool WriteJoints (iDocumentNode* factNode, iDynamicFactory* fact);
+  csRef<iBTNode> root_node;
 
 public:
-  celAddOnBehaviourTreeLoader (iBase *iParent);
+  celAddOnBehaviourTreeLoader(iBase* parent);
   virtual ~celAddOnBehaviourTreeLoader ();
-  virtual bool Initialize (iObjectRegistry *object_reg);
 
+  /**
+   * Initialize this plugin.
+   */
+  virtual bool Initialize (iObjectRegistry* object_reg);
+
+  /**
+   * Parses the behaviour tree.
+   */
   virtual csPtr<iBase> Parse (iDocumentNode* node,
-  	iStreamSource* ssource, iLoaderContext* ldr_context,
+  	iStreamSource*, iLoaderContext* ldr_context,
   	iBase* context);
 
   virtual bool IsThreadSafe() { return false; }
-
-  virtual bool WriteDown (iBase* obj, iDocumentNode* parent,
-  	iStreamSource* ssource);
 };
+
 
 
 #endif // __CEL_ADDON_BTLOAD__
