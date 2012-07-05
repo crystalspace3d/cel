@@ -31,6 +31,8 @@ private:
   bool CreatePlayer ();
 
   void CreateBehaviourTree ();
+  void LoadBehaviourTreeFromXML();
+
 
 public:
   MainApp ();
