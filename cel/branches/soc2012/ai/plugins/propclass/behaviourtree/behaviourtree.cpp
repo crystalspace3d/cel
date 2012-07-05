@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include <iutil/comp.h>
 #include <iutil/plugin.h>
+#include "imap/reader.h"
 
 #include "plugins/propclass/behaviourtree/behaviourtree.h"
 
@@ -42,9 +43,10 @@ celPcBehaviourTree::celPcBehaviourTree (iObjectRegistry* object_reg)
     SetActionMask ("cel.logic.behaviourtree.action.");
     AddAction (action_start, "BT Start");
     AddAction (action_interrupt, "BT Interrupt");
+    AddAction (action_loadFromXML, "Load BT From XML");
   }
 
-  propinfo.SetCount (4);
+  propinfo.SetCount (5);
   AddProperty (propid_updaterate, "update rate",
   	CEL_DATA_LONG, false, "Frequency of updates/nodes parsed in tree.", 0);  
   AddProperty (propid_treestatus, "tree status",
@@ -53,6 +55,8 @@ celPcBehaviourTree::celPcBehaviourTree (iObjectRegistry* object_reg)
   	CEL_DATA_STRING, false, "The name of the tree.", 0);  
   AddProperty (propid_rootnode, "root node",
   	CEL_DATA_IBASE, false, "The root node of the tree.", 0);  
+  AddProperty (propid_xml, "xml",
+  	CEL_DATA_IBASE, false, "An XML definition of the tree.", 0);  
                
 
   status = BT_NOT_STARTED;  
@@ -73,7 +77,16 @@ bool celPcBehaviourTree::PerformActionIndexed (int idx, iCelParameterBlock* para
       pl->RemoveCallbackEveryFrame((iCelTimerListener*)this, CEL_EVENT_PRE);
       status = BT_NOT_STARTED;
       ret.Set (status);
-      return true;    
+      return true; 
+    case action_loadFromXML: 
+      if (xml)
+      {
+        return loadFromXML (xml);
+      }
+      else
+      {
+        return false;   
+      }
   }
   return false;
 }
@@ -111,11 +124,15 @@ bool celPcBehaviourTree::SetPropertyIndexed (int idx, const char* value)
 
 bool celPcBehaviourTree::SetPropertyIndexed (int idx, iBase* ibase)
 {
-  if (idx == propid_rootnode)
+  switch (idx) 
   {
-    csRef<iBTNode> node = scfQueryInterface<iBTNode> (ibase);
-    AddChild(node);
-    return true;
+    case propid_xml:
+      xml = scfQueryInterface<iDocumentNode> (ibase);
+      return true;
+    case propid_rootnode:
+      csRef<iBTNode> node = scfQueryInterface<iBTNode> (ibase);
+      AddChild(node);
+      return true;
   }
   return false;
 }
@@ -146,13 +163,21 @@ bool celPcBehaviourTree::GetPropertyIndexed (int idx, const char*& value)
 
 bool celPcBehaviourTree::GetPropertyIndexed (int idx, iBase*& ibase)
 {
-  if (idx == propid_rootnode)
+  switch (idx)
   {
-    if (!stack.IsEmpty())
-    {	
-      ibase = stack.Get(0);
+    case propid_rootnode:
+      if (!stack.IsEmpty())
+      {	
+        ibase = stack.Get(0);
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    case propid_xml:
+      ibase = xml;
       return true;
-    }
   }
   return false;
 }
@@ -226,4 +251,45 @@ void celPcBehaviourTree::TickEveryFrame ()
 	    }
     }
   }
+}
+
+bool celPcBehaviourTree::loadFromXML (iDocumentNode* node)
+{
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+    if (child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* value = child->GetValue ();
+    if (strcmp ("behaviour_tree", value) == 0)
+    {
+      const char* btname = child->GetAttributeValue ("name");
+      if (btname) SetName(btname);
+
+      const char* update_rate = child->GetAttributeValue ("update_rate");
+      if (update_rate) celPcBehaviourTree::update_rate = (int)update_rate; 
+
+
+      csRef<iPluginManager> plugin_mgr = 
+          csQueryRegistry<iPluginManager> (object_reg);
+      csRef<iLoaderPlugin> bt_loader = csLoadPlugin<iLoaderPlugin> (plugin_mgr, 
+          "cel.addons.behaviourtree.loader");
+      csRef<iBase> ibase = bt_loader->Parse(node, 0, 0, 0);
+      csRef<iBTNode> root_node = scfQueryInterface<iBTNode> (ibase);
+      AddChild(root_node);
+      return true;          
+    }
+    else
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+		    "pclogic.behaviourtree",
+		    "Unknown token '%s' while loading behaviour tree!",
+		    value);
+      return false;
+    }
+  }
+  csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"pclogic.behaviourtree",
+		"No behaviour tree defined!");
+  return false;
 }
