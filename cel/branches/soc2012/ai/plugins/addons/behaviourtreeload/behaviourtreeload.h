@@ -40,7 +40,8 @@ class celAddOnBehaviourTreeLoader : public scfImplementation2<
 {
 private:
   iObjectRegistry* object_reg;
-  csRef<iBTNode> root_node;
+  csRef<iPluginManager> plugin_mgr;
+  csRef<iCelParameterBlock> params;
 
 public:
   celAddOnBehaviourTreeLoader(iBase* parent);

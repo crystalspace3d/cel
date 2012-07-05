@@ -269,12 +269,13 @@ bool celPcBehaviourTree::loadFromXML (iDocumentNode* node)
       const char* update_rate = child->GetAttributeValue ("update_rate");
       if (update_rate) celPcBehaviourTree::update_rate = (int)update_rate; 
 
+      csRef<iDocumentNode> root_doc_node = child->GetNodes() ->Next();
 
       csRef<iPluginManager> plugin_mgr = 
           csQueryRegistry<iPluginManager> (object_reg);
       csRef<iLoaderPlugin> bt_loader = csLoadPlugin<iLoaderPlugin> (plugin_mgr, 
           "cel.addons.behaviourtree.loader");
-      csRef<iBase> ibase = bt_loader->Parse(node, 0, 0, 0);
+      csRef<iBase> ibase = bt_loader->Parse(root_doc_node, 0, 0, 0);
       csRef<iBTNode> root_node = scfQueryInterface<iBTNode> (ibase);
       AddChild(root_node);
       return true;          
