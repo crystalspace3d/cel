@@ -254,7 +254,7 @@ void MainApp::CreateBehaviourTree ()
   csRef<iBTNode> negatereturn_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.decorators.negatereturn");
   csRef<iBTNode> trigger_check_node =  csLoadPlugin<iBTNode> (plugin_mgr,
-	"cel.behaviourtree.triggerfired");  
+	  "cel.behaviourtree.triggerfired");  
   csRef<iBTNode> looking_action_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");  
   
@@ -274,7 +274,7 @@ void MainApp::CreateBehaviourTree ()
   csRef<iBTNode> lottery_sequence_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.selectors.sequential"); 
   csRef<iBTNode> parameter_check_node =  csLoadPlugin<iBTNode> (plugin_mgr,
-	"cel.behaviourtree.parametercheck");
+	  "cel.behaviourtree.parametercheck");
   csRef<iBTNode> lottery_action_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");
 
