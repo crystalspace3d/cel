@@ -25,7 +25,8 @@
 
 /**
  * A random selector. 
- * Executes children in a random order until one succeeds.
+ * Executes a random child.
+ * Succeeds or fails the same as child.
  */
 
 class celRandomSelector : public scfImplementation2<		

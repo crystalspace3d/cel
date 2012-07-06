@@ -324,7 +324,7 @@ void MainApp::CreateBehaviourTree ()
     "cel.rewards.debugprint");
   csRef<iRewardFactory> reward_factory = reward_type->CreateRewardFactory ();
   csRef<iDebugPrintRewardFactory> explicit_reward_factory = 
-	scfQueryInterface<iDebugPrintRewardFactory> (reward_factory);
+	  scfQueryInterface<iDebugPrintRewardFactory> (reward_factory);
 
   //Create rewards for action nodes
   csRef<iBTAction> explicit_action_node =

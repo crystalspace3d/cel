@@ -1,19 +1,28 @@
 <behaviour_tree name="testXML-BT">
-  <selector type="cel.selectors.sequential" name="sequential_root">
-    <selector type="cel.selectors.default" name="example_default_selector">
-      <decorator type="cel.decorators.loop" name="loop_limit" limit="2">
-        <decorator type="cel.decorators.executionlimit" limit="1">
-          <leaf_node type="cel.behaviourtree.parametercheck" name="Param Check" parameter="2" value="2"></leaf_node>
+  <selector type="sequential" name="sequential_root">
+    <leaf_node type="action" name="StartupMessage">
+      <reward type="debugprint" message="Welcome! This behaviour has been loaded from XML!" />
+    </leaf_node>
+    <selector type="random" name="random_example">
+      <leaf_node type="action" name="Working_Action_Example">
+        <reward type="debugprint" message="Now with functioning actions!" />
+      </leaf_node>
+      <decorator type="negatereturn">
+        <leaf_node type="parametercheck" name="Param Check" parameter="2" value="2"></leaf_node>
+      </decorator>
+    </selector>
+    <selector type="default" name="example_default_selector">
+      <decorator type="loop" name="loop_limit" limit="2">
+        <decorator type="executionlimit" limit="1">
+          <leaf_node type="parametercheck" name="Param Check" parameter="2" value="2" />
         </decorator>
       </decorator>
-      <leaf_node type="cel.behaviourtree.parametercheck" name="Param Check" parameter="2" value="3"></leaf_node>
-      <leaf_node type="cel.behaviourtree.triggerfired" name="Not Yet Working"></leaf_node>
-    </selector>
-    <selector type="cel.selectors.random" name="random_example">
-      <leaf_node type="cel.behaviourtree.action" name="Not Yet Working"></leaf_node>
-      <decorator type="cel.decorators.negatereturn">
-        <leaf_node type="cel.behaviourtree.parametercheck" name="Param Check" parameter="2" value="3"></leaf_node>
-      </decorator>
+      <leaf_node type="parametercheck" name="Param Check" parameter="2" value="3" />
+      <leaf_node type="triggerfired" name="Untested Trigger Example">
+        <trigger type="message">
+          <fireon entity="player" mask="activate" />
+        </trigger>
+      </leaf_node>
     </selector>
   </selector>
 </behaviour_tree>

@@ -66,15 +66,16 @@ csPtr<iBase> celAddOnBehaviourTreeLoader::Parse (iDocumentNode* node,
   csRef<iBTNode> current_node; 
   csRef<iDocumentNodeIterator> it;
 
-  const char* node_type = node->GetAttributeValue ("type");
-  current_node = csLoadPlugin<iBTNode> (plugin_mgr, node_type);
-
+  csString node_type = node->GetAttributeValue ("type");
   const char* node_name = node->GetAttributeValue ("name");
-  if (node_name) current_node->SetName (node_name); 
-
+  
   const char* value = node->GetValue ();
   if (strcmp ("selector", value) == 0)
   { 
+    current_node = csLoadPlugin<iBTNode> (plugin_mgr, 
+      "cel.selectors."+node_type);
+    if (node_name) current_node->SetName (node_name); 
+
     it = node->GetNodes ();
     while (it->HasNext ())
     {
@@ -87,7 +88,11 @@ csPtr<iBase> celAddOnBehaviourTreeLoader::Parse (iDocumentNode* node,
   }
   else if (strcmp ("decorator", value) == 0)
   { 
-    if (strcmp ("cel.decorators.executionlimit", node_type) == 0)
+    current_node = csLoadPlugin<iBTNode> (plugin_mgr, 
+      "cel.decorators."+node_type);
+    if (node_name) current_node->SetName (node_name); 
+
+    if (strcmp ("executionlimit", node_type) == 0)
     {  
       csRef<iExecutionLimitDecorator> explicit_execution_limit_node = 
         scfQueryInterface<iExecutionLimitDecorator> (current_node);
@@ -95,7 +100,7 @@ csPtr<iBase> celAddOnBehaviourTreeLoader::Parse (iDocumentNode* node,
       const char* node_limit = node->GetAttributeValue ("limit");
       if (node_limit) explicit_execution_limit_node->SetExecutionLimit(node_limit);
     }
-    else if (strcmp ("cel.decorators.loop", node_type) == 0)
+    else if (strcmp ("loop", node_type) == 0)
     {
       csRef<iLoopDecorator> explicit_loop_node = 
         scfQueryInterface<iLoopDecorator> (current_node);
@@ -117,21 +122,42 @@ csPtr<iBase> celAddOnBehaviourTreeLoader::Parse (iDocumentNode* node,
   }
   else if (strcmp ("leaf_node", value) == 0)
   {
-    if (strcmp ("cel.behaviourtree.action", node_type) == 0)
-    {  
-      csRef<iRewardType> reward_type = csLoadPlugin<iRewardType> (plugin_mgr,
-        "cel.rewards.debugprint");
-      csRef<iRewardFactory> reward_factory = reward_type->CreateRewardFactory ();
-      csRef<iDebugPrintRewardFactory> explicit_reward_factory = 
-	      scfQueryInterface<iDebugPrintRewardFactory> (reward_factory);
+    current_node = csLoadPlugin<iBTNode> (plugin_mgr, 
+      "cel.behaviourtree."+node_type);
+    if (node_name) current_node->SetName (node_name); 
 
-      csRef<iBTAction> explicit_action_node = scfQueryInterface<iBTAction> (current_node);
-      explicit_reward_factory->SetMessageParameter ("To do - complete celAddOnBehaviourTreeLoader::Parse for action nodes");
-      // @@@ TODO: fix the quest parameter 0!
-      csRef<iReward> reward = reward_factory->CreateReward(0, params);
-      explicit_action_node->AddReward (reward);
+    if (strcmp ("action", node_type) == 0)
+    {  
+      it = node->GetNodes ();
+      while (it->HasNext ())
+      {
+        csRef<iDocumentNode> child = it->Next ();
+        if (child->GetType () != CS_NODE_ELEMENT) continue;
+        const char* child_value = child->GetValue ();
+        if (strcmp ("reward", child_value) == 0)
+        { 
+          csString child_type = child->GetAttributeValue ("type");
+          csRef<iRewardType> reward_type = csLoadPlugin<iRewardType> (plugin_mgr,
+            "cel.rewards."+child_type);
+          csRef<iRewardFactory> reward_factory = reward_type->CreateRewardFactory ();
+          if (reward_factory->Load (child))
+          {
+            csRef<iReward> reward = reward_factory->CreateReward(0, params);
+            csRef<iBTAction> explicit_action_node =
+              scfQueryInterface<iBTAction> (current_node);
+            explicit_action_node->AddReward (reward);
+          }
+        }
+        else
+        {
+          csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+		        "cel.addons.behaviourtree.loader",
+		        "Unknown token '%s' while loading action leaf node in behaviour tree.",
+		        child_value);
+        }
+      }
     }
-    else if (strcmp ("cel.behaviourtree.parametercheck", node_type) == 0)
+    else if (strcmp ("parametercheck", node_type) == 0)
     { 
       csRef<iParameterCheckCondition> explicit_parameter_check_node =
         scfQueryInterface<iParameterCheckCondition> (current_node);
@@ -141,20 +167,57 @@ csPtr<iBase> celAddOnBehaviourTreeLoader::Parse (iDocumentNode* node,
       const char* check_value = node->GetAttributeValue ("value");
       explicit_parameter_check_node->SetValue(check_value);
     }
-    else if (strcmp ("cel.behaviourtree.triggerfired", node_type) == 0)
+    else if (strcmp ("triggerfired", node_type) == 0)
     { 
-      current_node = csLoadPlugin<iBTNode> (plugin_mgr, "cel.behaviourtree.action");
-      csRef<iRewardType> reward_type = csLoadPlugin<iRewardType> (plugin_mgr,
-        "cel.rewards.debugprint");
-      csRef<iRewardFactory> reward_factory = reward_type->CreateRewardFactory ();
-      csRef<iDebugPrintRewardFactory> explicit_reward_factory = 
-	      scfQueryInterface<iDebugPrintRewardFactory> (reward_factory);
+      bool triggerSetUp = false;
+      it = node->GetNodes ();
+      while (it->HasNext () && !triggerSetUp)
+      {
+        csRef<iDocumentNode> child = it->Next ();
+        if (child->GetType () != CS_NODE_ELEMENT) continue;
+        const char* child_value = child->GetValue ();
+        if (strcmp ("trigger", child_value) == 0)
+        { 
+          csString child_type = child->GetAttributeValue ("type");
+          csRef<iTriggerType> trigger_type = csLoadPlugin<iTriggerType> (plugin_mgr,
+            "cel.triggers."+child_type);
+          csRef<iTriggerFactory> trigger_factory = trigger_type->CreateTriggerFactory ();
 
-      csRef<iBTAction> explicit_action_node = scfQueryInterface<iBTAction> (current_node);
-      explicit_reward_factory->SetMessageParameter ("To do - complete celAddOnBehaviourTreeLoader::Parse for trigger fired nodes");
-      // @@@ TODO: fix the quest parameter 0!
-      csRef<iReward> reward = reward_factory->CreateReward(0, params);
-      explicit_action_node->AddReward (reward);
+          csRef<iDocumentNodeIterator> child_it;
+          child_it = child->GetNodes ();
+          while (child_it->HasNext () && !triggerSetUp)
+          {
+            csRef<iDocumentNode> fireon_node = child_it->Next ();
+            if (fireon_node->GetType () != CS_NODE_ELEMENT) continue;
+            const char* fireon_value = fireon_node->GetValue ();
+            if (strcmp ("fireon", fireon_value) == 0)
+            { 
+              if (trigger_factory->Load (fireon_node))
+              {
+                csRef<iTrigger> trigger = trigger_factory->CreateTrigger (0, params);
+                csRef<iTriggerFiredCondition> explicit_trigger_node =
+                  scfQueryInterface<iTriggerFiredCondition> (current_node);
+                explicit_trigger_node->SetTrigger (trigger);
+                triggerSetUp = true; // Trigger fired leaf nodes only have one trigger
+              }
+            }
+            else
+            {
+              csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+		            "cel.addons.behaviourtree.loader",
+		            "Unknown token '%s' while loading trigger.",
+		            child_value);
+            }
+          }
+        }
+        else
+        {
+          csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+		        "cel.addons.behaviourtree.loader",
+		        "Unknown token '%s' while loading trigger fired leaf node.",
+		        child_value);
+        }
+      }
     }
   }
   
