@@ -152,10 +152,8 @@ bool rcMeshLoaderObj::load(const char* filename)
 		fclose(fp);
 		return false;
 	}
-	size_t readSize = fread(buf, bufSize, 1, fp);
+	fread(buf, bufSize, 1, fp);
 	fclose(fp);
-	if (readSize != (size_t) bufSize)
-	  return false;
 
 	char* src = buf;
 	char* srcEnd = buf + bufSize;
