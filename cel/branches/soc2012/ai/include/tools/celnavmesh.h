@@ -98,15 +98,15 @@ struct iCelNavMeshParams : public virtual iBase
   /// Set maximum contour edge length
   virtual void SetMaxEdgeLength (const int length) = 0;
 
-  /// Get minimum regions size (smaller regions will be deleted)
-  virtual int GetMinRegionSize () const = 0;
-  /// Set minimum regions size (smaller regions will be deleted)
-  virtual void SetMinRegionSize (const int size) = 0;
+  /// Get minimum regions area (smaller regions will be deleted)
+  virtual int GetMinRegionArea () const = 0;
+  /// Set minimum regions area (smaller regions will be deleted)
+  virtual void SetMinRegionArea (const int area) = 0;
 
-  /// Get minimum regions size (smaller regions will be merged)
-  virtual int GetMergeRegionSize () const = 0;
-  /// Set minimum regions size (smaller regions will be merged)
-  virtual void SetMergeRegionSize (const int size) = 0;
+  /// Get minimum regions area (smaller regions will be merged)
+  virtual int GetMergeRegionArea () const = 0;
+  /// Set minimum regions area (smaller regions will be merged)
+  virtual void SetMergeRegionArea (const int area) = 0;
 
   /// Get max number of vertices per polygon
   virtual int GetMaxVertsPerPoly () const = 0;

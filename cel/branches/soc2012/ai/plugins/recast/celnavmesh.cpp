@@ -66,6 +66,11 @@ void DebugDrawCS::depthMask (bool state)
   }
 }
 
+void DebugDrawCS::texture(bool state)
+{
+
+}
+
 void DebugDrawCS::begin (duDebugDrawPrimitives prim, float size)
 {  
   currentMesh = new csSimpleRenderMesh();
@@ -95,6 +100,22 @@ void DebugDrawCS::vertex (const float* pos, unsigned int color)
 }
 
 void DebugDrawCS::vertex (const float x, const float y, const float z, unsigned int color)
+{
+  float r = (color & 0xFF) / 255.0f;
+  float g = ((color >> 8) & 0xFF) / 255.0f;
+  float b = ((color >> 16) & 0xFF) / 255.0f;
+  float a = ((color >> 24) & 0xFF) / 255.0f;
+  vertices.PushBack(csVector3(x, y, z));
+  colors.PushBack(csVector4(r, g, b, a));
+  nVertices++;
+}
+
+void DebugDrawCS::vertex (const float* pos, unsigned int color, const float* uv)
+{
+  vertex(pos[0], pos[1], pos[2], color);
+}
+
+void DebugDrawCS::vertex (const float x, const float y, const float z, unsigned int color, const float u, const float v)
 {
   float r = (color & 0xFF) / 255.0f;
   float g = ((color >> 8) & 0xFF) / 255.0f;
@@ -363,15 +384,17 @@ celNavMesh::celNavMesh (iObjectRegistry* objectRegistry) : scfImplementationType
   parameters = 0;
   sector = 0;
   detourNavMesh = 0;
-  navMeshDrawFlags = DU_DRAWNAVMESH_OFFMESHCONS;
-  filter.includeFlags = SAMPLE_POLYFLAGS_ALL;
-  filter.excludeFlags = 0;
+  detourNavMeshQuery = 0;
+  navMeshDrawFlags = DU_DRAWNAVMESH_OFFMESHCONS; 
+  filter.setIncludeFlags(SAMPLE_POLYFLAGS_ALL);
+  filter.setExcludeFlags(0);
   this->objectRegistry = objectRegistry;
 }
 
 celNavMesh::~celNavMesh ()
 {
   delete detourNavMesh;
+  delete detourNavMeshQuery;
 }
 
  // Based on Recast Sample_TileMesh::handleBuild() and Sample_TileMesh::handleSettings()
@@ -408,9 +431,18 @@ bool celNavMesh::Initialize (const iCelNavMeshParams* parameters, iSector* secto
   params.tileHeight = params.tileWidth;
   params.maxTiles = maxTiles;
   params.maxPolys = maxPolysPerTile;
-  params.maxNodes = MAX_NODES;
   detourNavMesh = new dtNavMesh;
-  return !detourNavMesh->init(&params);
+  detourNavMeshQuery = new dtNavMeshQuery();
+
+  if (detourNavMesh->init(&params)== DT_SUCCESS)
+  {
+    if (detourNavMeshQuery->init(detourNavMesh, MAX_NODES) == DT_SUCCESS)
+    {
+      return true;
+    }
+  }
+  
+  return false;
 }
 
 csArray<csPoly3D> celNavMesh::QueryPolygons(const csBox3& box) const
@@ -425,15 +457,16 @@ csArray<csPoly3D> celNavMesh::QueryPolygons(const csBox3& box) const
 
   // get polygon references
   dtPolyRef polyRefs[128];
-  int polyCount = detourNavMesh->queryPolygons(center,extent,&filter,polyRefs,128);
+  int polyCount;
+  detourNavMeshQuery->queryPolygons(center,extent,&filter,polyRefs,&polyCount,128);
 
   // process the references
   for(int i = 0; i < polyCount; i++)
   {
-    // find the title this poly belongs to and the poly itself
-    int polyIndex;
-    const dtMeshTile* tile = detourNavMesh->getTileByPolyRef(polyRefs[i], &polyIndex);
-    const dtPoly* detourPoly = &tile->polys[polyIndex];
+    // find the tile this poly belongs to and the poly itself
+    const dtMeshTile* tile;  
+    const dtPoly* detourPoly; 
+    detourNavMesh->getTileAndPolyByRef(polyRefs[i], &tile, &detourPoly);
 
     // convert detour poly to cs poly
     csPoly3D poly(detourPoly->vertCount);
@@ -467,24 +500,27 @@ iCelNavMeshPath* celNavMesh::ShortestPath (const csVector3& from, const csVector
   polyPickExt[0] = parameters->GetPolygonSearchBox()[0];
   polyPickExt[1] = parameters->GetPolygonSearchBox()[1];
   polyPickExt[2] = parameters->GetPolygonSearchBox()[2];
-  dtPolyRef startRef = detourNavMesh->findNearestPoly(startPos, polyPickExt, &filter, 0);
-  dtPolyRef endRef = detourNavMesh->findNearestPoly(endPos, polyPickExt, &filter, 0);
+  dtPolyRef startRef; 
+  detourNavMeshQuery->findNearestPoly(startPos, polyPickExt, &filter, &startRef, 0);
+  dtPolyRef endRef;
+  detourNavMeshQuery->findNearestPoly(endPos, polyPickExt, &filter, &endRef, 0);
 
   // Find the polygons that compose the path
   dtPolyRef* polys = new dtPolyRef[maxPathSize];
-  int npolys = detourNavMesh->findPath(startRef, endRef, startPos, endPos, &filter, polys, maxPathSize);
+  int npolys = 0;
+  detourNavMeshQuery->findPath(startRef, endRef, startPos, endPos, &filter, polys, &npolys, maxPathSize);
 
   // Find the actual path inside those polygons
   float* straightPath = new float[maxPathSize * 3];
   unsigned char* straightPathFlags = new unsigned char[maxPathSize];
   dtPolyRef* straightPathPolys = new dtPolyRef[maxPathSize];
   int nstraightPath = 0;
-  if (npolys)
+  if (npolys > 0)
   {
-    nstraightPath = detourNavMesh->findStraightPath(startPos, endPos, polys, npolys, straightPath, 
-                                                    straightPathFlags, straightPathPolys, maxPathSize);
+    detourNavMeshQuery->findStraightPath(startPos, endPos, polys, npolys, straightPath, 
+                                         straightPathFlags, straightPathPolys, &nstraightPath, maxPathSize);
   }
-  if (nstraightPath)
+  if (nstraightPath > 0)
   {
     path.AttachNew(new celNavMeshPath(straightPath, nstraightPath, maxPathSize, sector));
   }
@@ -541,12 +577,25 @@ bool celNavMesh::Update (const csOBB& boundingBox)
 
 bool celNavMesh::AddTile (unsigned char* data, int dataSize)
 {
-  return (detourNavMesh->addTile(data, dataSize, true) != 0);
+  dtTileRef result;
+  detourNavMesh->addTile(data, dataSize, 0, 0, &result);
+  if (result)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 bool celNavMesh::RemoveTile (int x, int y)
 {
-  return detourNavMesh->removeTile(detourNavMesh->getTileRefAt(x, y), 0, 0);
+  if (detourNavMesh->removeTile(detourNavMesh->getTileRefAt(x, y, 0), 0, 0) == DT_SUCCESS)
+  {
+    return true;
+  }
+  else return false;
 }
 
 iSector* celNavMesh::GetSector () const
@@ -642,12 +691,12 @@ bool celNavMesh::SaveToFile (iFile* file) const
   node->SetAttributeAsInt("value", parameters->GetMaxEdgeLength());
 
   node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
-  node->SetValue("minregionsize");
-  node->SetAttributeAsInt("value", parameters->GetMinRegionSize());
+  node->SetValue("minregionarea");
+  node->SetAttributeAsInt("value", parameters->GetMinRegionArea());
 
   node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
-  node->SetValue("mergeregionsize");
-  node->SetAttributeAsInt("value", parameters->GetMergeRegionSize());
+  node->SetValue("mergeregionarea");
+  node->SetAttributeAsInt("value", parameters->GetMergeRegionArea());
 
   node = parametersNode->CreateNodeBefore(CS_NODE_ELEMENT);
   node->SetValue("maxvertsperpoly");
@@ -712,9 +761,10 @@ bool celNavMesh::SaveToFile (iFile* file) const
   node->SetValue("maxpolys");
   node->SetAttributeAsInt("value", params->maxPolys);
 
-  node = paramsNode->CreateNodeBefore(CS_NODE_ELEMENT);
-  node->SetValue("maxnodes");
-  node->SetAttributeAsInt("value", params->maxNodes);
+// Correct? or refer to NavMeshQuery?
+//  node = paramsNode->CreateNodeBefore(CS_NODE_ELEMENT);
+ // node->SetValue("maxnodes");
+  //node->SetAttributeAsInt("value", params->maxNodes);
 
   // Create tiles node
   csRef<iDocumentNode> tilesNode = mainNode->CreateNodeBefore(CS_NODE_ELEMENT);
@@ -880,11 +930,11 @@ bool celNavMesh::SaveToFile (iFile* file) const
 
       node = polyNode->CreateNodeBefore(CS_NODE_ELEMENT);
       node->SetValue("area");
-      node->SetAttributeAsInt("value", polys[j].area);
+      node->SetAttributeAsInt("value", polys[j].getArea());
 
       node = polyNode->CreateNodeBefore(CS_NODE_ELEMENT);
       node->SetValue("type");
-      node->SetAttributeAsInt("value", polys[j].type);
+      node->SetAttributeAsInt("value", polys[j].getType());
     }
 
     // Create links node
@@ -1137,12 +1187,12 @@ bool celNavMesh::LoadNavMesh (iFile* file)
   node = parametersNode->GetNode("maxedgelength");
   int value2 = node->GetAttributeValueAsInt("value");
   parameters->SetMaxEdgeLength(value2);
-  node = parametersNode->GetNode("minregionsize");
+  node = parametersNode->GetNode("minregionarea");
   value2 = node->GetAttributeValueAsInt("value");
-  parameters->SetMinRegionSize(value2);
-  node = parametersNode->GetNode("mergeregionsize");
+  parameters->SetMinRegionArea(value2);
+  node = parametersNode->GetNode("mergeregionarea");
   value2 = node->GetAttributeValueAsInt("value");
-  parameters->SetMergeRegionSize(value2);
+  parameters->SetMergeRegionArea(value2);
   node = parametersNode->GetNode("maxvertsperpoly");
   value2 = node->GetAttributeValueAsInt("value");
   parameters->SetMaxVertsPerPoly(value2);
@@ -1175,8 +1225,8 @@ bool celNavMesh::LoadNavMesh (iFile* file)
   header.params.maxTiles = node->GetAttributeValueAsInt("value");
   node = paramsNode->GetNode("maxpolys");
   header.params.maxPolys = node->GetAttributeValueAsInt("value");
-  node = paramsNode->GetNode("maxnodes");
-  header.params.maxNodes = node->GetAttributeValueAsInt("value");
+//  node = paramsNode->GetNode("maxnodes");
+//  header.params.maxNodes = node->GetAttributeValueAsInt("value");
 
   if (header.magic != NAVMESHSET_MAGIC)
   {
@@ -1309,9 +1359,9 @@ bool celNavMesh::LoadNavMesh (iFile* file)
       node = polyNode->GetNode("vertcount");
       polys[index].vertCount = (unsigned char)node->GetAttributeValueAsInt("value");
       node = polyNode->GetNode("area");
-      polys[index].area = (unsigned char)node->GetAttributeValueAsInt("value");
+      polys[index].setArea((unsigned char)node->GetAttributeValueAsInt("value"));
       node = polyNode->GetNode("type");
-      polys[index].type = (unsigned char)node->GetAttributeValueAsInt("value");
+      polys[index].setType((unsigned char)node->GetAttributeValueAsInt("value"));
       index++;
     }
 
@@ -1448,8 +1498,12 @@ bool celNavMesh::LoadNavMesh (iFile* file)
       offMeshCons[index].side = (unsigned char)node->GetAttributeValueAsInt("value");
       index++;
     }
-
-    detourNavMesh->addTile(data, tileHeader.dataSize, DT_TILE_FREE_DATA, tileHeader.tileRef);
+    dtTileRef result;
+    detourNavMesh->addTile(data, tileHeader.dataSize, DT_TILE_FREE_DATA, tileHeader.tileRef, &result);
+    if (!result)
+    {
+      return false;
+    }
   }
 
   return true;
@@ -1520,8 +1574,8 @@ celNavMeshParams::celNavMeshParams (const iCelNavMeshParams* parameters) : scfIm
   detailSampleDist = parameters->GetDetailSampleDist();
   detailSampleMaxError = parameters->GetDetailSampleMaxError();
   maxEdgeLength = parameters->GetMaxEdgeLength();
-  minRegionSize = parameters->GetMinRegionSize();
-  mergeRegionSize = parameters->GetMergeRegionSize();
+  minRegionArea = parameters->GetMinRegionArea();
+  mergeRegionArea = parameters->GetMergeRegionArea();
   maxVertsPerPoly = parameters->GetMaxVertsPerPoly();
   tileSize = parameters->GetTileSize();
   borderSize = parameters->GetBorderSize();
@@ -1550,8 +1604,8 @@ void celNavMeshParams::SetSuggestedValues (float agentHeight, float agentRadius,
   detailSampleDist = 6.0f;
   detailSampleMaxError = 1.0f;
   maxEdgeLength = ((int)ceilf(agentRadius / cellSize)) * 8;  
-  minRegionSize = 20;
-  mergeRegionSize = 50;
+  minRegionArea = 20;
+  mergeRegionArea = 50;
   maxVertsPerPoly = 6;
   tileSize = 32;
   borderSize = (int)ceilf(agentRadius / cellSize) + 3;
@@ -1658,24 +1712,24 @@ void celNavMeshParams::SetMaxEdgeLength (const int length)
   maxEdgeLength = length;
 }
 
-int celNavMeshParams::GetMinRegionSize () const
+int celNavMeshParams::GetMinRegionArea () const
 {
-  return minRegionSize;
+  return minRegionArea;
 }
 
-void celNavMeshParams::SetMinRegionSize (const int size)
+void celNavMeshParams::SetMinRegionArea (const int area)
 {
-  minRegionSize = size;
+  minRegionArea = area;
 }
 
-int celNavMeshParams::GetMergeRegionSize () const
+int celNavMeshParams::GetMergeRegionArea () const
 {
-  return mergeRegionSize;
+  return mergeRegionArea;
 }
 
-void celNavMeshParams::SetMergeRegionSize (const int size)
+void celNavMeshParams::SetMergeRegionArea (const int area)
 {
-  mergeRegionSize = size;
+  mergeRegionArea = area;
 }
 
 int celNavMeshParams::GetMaxVertsPerPoly () const
@@ -2179,8 +2233,8 @@ THREADED_CALLABLE_IMPL(celNavMeshBuilder,BuildNavMesh)
   tileConfig.walkableSlopeAngle = parameters->GetAgentMaxSlopeAngle();
   tileConfig.maxEdgeLen = (int)(parameters->GetMaxEdgeLength() / cellSize);
   tileConfig.maxSimplificationError = parameters->GetMaxSimplificationError();
-  tileConfig.minRegionSize = (int)rcSqr(parameters->GetMinRegionSize());
-  tileConfig.mergeRegionSize = (int)rcSqr(parameters->GetMergeRegionSize());
+  tileConfig.minRegionArea = (int)rcSqr(parameters->GetMinRegionArea());
+  tileConfig.mergeRegionArea = (int)rcSqr(parameters->GetMergeRegionArea());
   tileConfig.maxVertsPerPoly = parameters->GetMaxVertsPerPoly();
   tileConfig.tileSize = tileSize;
   tileConfig.borderSize = tileConfig.walkableRadius + 3; // Reserve enough padding.
@@ -2267,7 +2321,7 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
     csApplicationFramework::ReportError("Out of memory building navigation mesh.");
     return 0;
   }
-  if (!rcCreateHeightfield(*solid, tileConfig.width, tileConfig.height, tileConfig.bmin, tileConfig.bmax, 
+  if (!rcCreateHeightfield(&dummy, *solid, tileConfig.width, tileConfig.height, tileConfig.bmin, tileConfig.bmax, 
                            tileConfig.cs, tileConfig.ch))
   {
     csApplicationFramework::ReportError("Failed to create Heightfield");
@@ -2290,7 +2344,7 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
   tbmax[0] = tileConfig.bmax[0];
   tbmax[1] = tileConfig.bmax[2];
   int cid[512];// TODO: Make grow when returning too many items.
-  const int ncid = rcGetChunksInRect(chunkyTriMesh, tbmin, tbmax, cid, 512);
+  const int ncid = rcGetChunksOverlappingRect(chunkyTriMesh, tbmin, tbmax, cid, 512);
   if (!ncid)
   {
     return 0;
@@ -2306,10 +2360,10 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
     tileTriangleCount += ntris;
 
     memset(triangleAreas, 0, ntris * sizeof(unsigned char));
-    rcMarkWalkableTriangles(tileConfig.walkableSlopeAngle, triangleVertices, numberOfVertices, tris, 
+    rcMarkWalkableTriangles(&dummy, tileConfig.walkableSlopeAngle, triangleVertices, numberOfVertices, tris, 
                             ntris, triangleAreas);
 
-    rcRasterizeTriangles(triangleVertices, numberOfVertices, tris, triangleAreas, ntris, *solid, 
+    rcRasterizeTriangles(&dummy, triangleVertices, numberOfVertices, tris, triangleAreas, ntris, *solid, 
                          tileConfig.walkableClimb);
   }
 
@@ -2319,9 +2373,9 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
   // Once all geoemtry is rasterized, we do initial pass of filtering to
   // remove unwanted overhangs caused by the conservative rasterization
   // as well as filter spans where the character cannot possibly stand.
-  rcFilterLowHangingWalkableObstacles(tileConfig.walkableClimb, *solid);
-  rcFilterLedgeSpans(tileConfig.walkableHeight, tileConfig.walkableClimb, *solid);
-  rcFilterWalkableLowHeightSpans(tileConfig.walkableHeight, *solid);
+  rcFilterLowHangingWalkableObstacles(&dummy, tileConfig.walkableClimb, *solid);
+  rcFilterLedgeSpans(&dummy, tileConfig.walkableHeight, tileConfig.walkableClimb, *solid);
+  rcFilterWalkableLowHeightSpans(&dummy, tileConfig.walkableHeight, *solid);
 
   // Compact the heightfield so that it is faster to handle from now on.
   // This will result more cache coherent data as well as the neighbours
@@ -2332,7 +2386,7 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
     csApplicationFramework::ReportError("Out of memory building navigation mesh.");
     return 0;
   }
-  if (!rcBuildCompactHeightfield(tileConfig.walkableHeight, tileConfig.walkableClimb, *solid, *chf))
+  if (!rcBuildCompactHeightfield(&dummy, tileConfig.walkableHeight, tileConfig.walkableClimb, *solid, *chf))
   {
     csApplicationFramework::ReportError("failed to build compact heightfield");
     return 0;
@@ -2342,7 +2396,7 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
   solid = 0;
 
   // Erode the walkable area by agent radius.
-  if (!rcErodeWalkableArea(tileConfig.walkableRadius, *chf))
+  if (!rcErodeWalkableArea(&dummy, tileConfig.walkableRadius, *chf))
   {
     csApplicationFramework::ReportError("failed to errode walkable area");
     return 0;
@@ -2351,19 +2405,19 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
   // (Optional) Mark areas.
   for (int i  = 0; i < numberOfVolumes; ++i)
   {
-    rcMarkConvexPolyArea(volumes[i].verts, volumes[i].nverts, volumes[i].hmin, volumes[i].hmax, 
+    rcMarkConvexPolyArea(&dummy, volumes[i].verts, volumes[i].nverts, volumes[i].hmin, volumes[i].hmax, 
                          (unsigned char)volumes[i].area, *chf);
   }
 
   // Prepare for region partitioning, by calculating distance field along the walkable surface.
-  if (!rcBuildDistanceField(*chf))
+  if (!rcBuildDistanceField(&dummy, *chf))
   {
     csApplicationFramework::ReportError("failed to build distance field");
     return 0;
   }
 
   // Partition the walkable surface into simple regions without holes.
-  if (!rcBuildRegions(*chf, tileConfig.borderSize, tileConfig.minRegionSize, tileConfig.mergeRegionSize))
+  if (!rcBuildRegions(&dummy, *chf, tileConfig.borderSize, tileConfig.minRegionArea, tileConfig.mergeRegionArea))
   {
     csApplicationFramework::ReportError("failed to build regions");
     return 0;
@@ -2382,7 +2436,7 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
     csApplicationFramework::ReportError("Out of memory building navigation mesh.");
     return 0;
   }
-  if (!rcBuildContours(*chf, tileConfig.maxSimplificationError, tileConfig.maxEdgeLen, *cSet))
+  if (!rcBuildContours(&dummy, *chf, tileConfig.maxSimplificationError, tileConfig.maxEdgeLen, *cSet))
   {
     csApplicationFramework::ReportError("failed to build contours");
     return 0;
@@ -2399,7 +2453,7 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
     csApplicationFramework::ReportError("Out of memory building navigation mesh.");
     return 0;
   }
-  if (!rcBuildPolyMesh(*cSet, tileConfig.maxVertsPerPoly, *pMesh))
+  if (!rcBuildPolyMesh(&dummy, *cSet, tileConfig.maxVertsPerPoly, *pMesh))
   {
     csApplicationFramework::ReportError("failed to build poly mesh");
     return 0;
@@ -2412,7 +2466,7 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
     csApplicationFramework::ReportError("Out of memory building navigation mesh.");
     return 0;
   }
-  if (!rcBuildPolyMeshDetail(*pMesh, *chf, tileConfig.detailSampleDist, tileConfig.detailSampleMaxError, *dMesh))
+  if (!rcBuildPolyMeshDetail(&dummy, *pMesh, *chf, tileConfig.detailSampleDist, tileConfig.detailSampleMaxError, *dMesh))
   {
     csApplicationFramework::ReportError("fail to build poly mesh detail");
     return 0;
@@ -2493,7 +2547,11 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
     rcVcopy(params.bmax, bmax);
     params.cs = tileConfig.cs;
     params.ch = tileConfig.ch;
-    params.tileSize = tileConfig.tileSize;
+    params.buildBvTree = true;                
+    //params.tileSize = tileConfig.tileSize;  //Obsolete?
+    //params.tileLayer?
+    //params.userID?
+    //params.offMeshConUserID?
 
     if (!dtCreateNavMeshData(&params, &navData, &navDataSize))
     {
@@ -2580,8 +2638,8 @@ bool celNavMeshBuilder::UpdateNavMesh (celNavMesh* navMesh, const csBox3& boundi
   tileConfig.walkableSlopeAngle = parameters->GetAgentMaxSlopeAngle();
   tileConfig.maxEdgeLen = (int)(parameters->GetMaxEdgeLength() / cellSize);
   tileConfig.maxSimplificationError = parameters->GetMaxSimplificationError();
-  tileConfig.minRegionSize = (int)rcSqr(parameters->GetMinRegionSize());
-  tileConfig.mergeRegionSize = (int)rcSqr(parameters->GetMergeRegionSize());
+  tileConfig.minRegionArea = (int)rcSqr(parameters->GetMinRegionArea());
+  tileConfig.mergeRegionArea = (int)rcSqr(parameters->GetMergeRegionArea());
   tileConfig.maxVertsPerPoly = parameters->GetMaxVertsPerPoly();
   tileConfig.tileSize = tileSize;
   tileConfig.borderSize = tileConfig.walkableRadius + 3; // Reserve enough padding.

@@ -115,9 +115,12 @@ public:
 
   // duDebugDraw
   virtual void depthMask (bool state);
+	virtual void texture(bool state);
   virtual void begin (duDebugDrawPrimitives prim, float size = 1.0f);
   virtual void vertex (const float* pos, unsigned int color);
   virtual void vertex (const float x, const float y, const float z, unsigned int color);
+	virtual void vertex (const float* pos, unsigned int color, const float* uv);
+	virtual void vertex (const float x, const float y, const float z, unsigned int color, const float u, const float v);
   virtual void end ();
 };
 
@@ -140,8 +143,8 @@ private:
   float detailSampleMaxError;
   float distanceThreshold;
   int maxEdgeLength;
-  int minRegionSize;
-  int mergeRegionSize;
+  int minRegionArea;
+  int mergeRegionArea;
   int maxVertsPerPoly;
   int tileSize;
   int borderSize;
@@ -175,10 +178,10 @@ public:
   virtual void SetDetailSampleMaxError (const float error);
   virtual int GetMaxEdgeLength () const;
   virtual void SetMaxEdgeLength (const int length);
-  virtual int GetMinRegionSize () const;
-  virtual void SetMinRegionSize (const int size);
-  virtual int GetMergeRegionSize () const;
-  virtual void SetMergeRegionSize (const int size);
+  virtual int GetMinRegionArea () const;
+  virtual void SetMinRegionArea (const int area);
+  virtual int GetMergeRegionArea () const;
+  virtual void SetMergeRegionArea (const int area);
   virtual int GetMaxVertsPerPoly () const;
   virtual void SetMaxVertsPerPoly (const int maxVerts);
   virtual int GetTileSize () const;
@@ -255,6 +258,7 @@ private:
   csRef<iCelNavMeshPath> path;
   dtQueryFilter filter;
   dtNavMesh* detourNavMesh;
+  dtNavMeshQuery* detourNavMeshQuery;
   csRef<iCelNavMeshParams> parameters;
   float boundingMin[3];
   float boundingMax[3];
@@ -308,6 +312,7 @@ private:
   
   // Tile specific
   unsigned char* triangleAreas;
+  rcContext dummy;
   rcHeightfield* solid;
   rcCompactHeightfield* chf;
   rcContourSet* cSet;

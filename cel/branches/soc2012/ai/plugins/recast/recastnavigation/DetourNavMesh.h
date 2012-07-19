@@ -514,10 +514,10 @@ public:
 
 	/// @}
 	
-private:
-
 	/// Returns pointer to tile in the tile array.
 	dtMeshTile* getTile(int i);
+
+private:
 
 	/// Returns neighbour tile based on side.
 	int getTilesAt(const int x, const int y,

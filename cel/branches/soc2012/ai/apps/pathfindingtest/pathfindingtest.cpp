@@ -360,7 +360,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
         // Reduce minium region size so we can see the navmeshes inside the cells in the dungeon
         // sector. The cells remain inaccessible however, since the model's bounding box is too
         // big.
-        params->SetMinRegionSize(10);
+        params->SetMinRegionArea(10);
         // This parameter sets how far from the navmesh I can click and still get an approximated
         // path (for example, clicking on walls and ceilings). It also determines how far the final
         // node of a path can be from it's intended destination (Detour always returns a path, 

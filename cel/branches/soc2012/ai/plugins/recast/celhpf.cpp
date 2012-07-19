@@ -905,12 +905,12 @@ void celHNavStruct::SaveParameters (iDocumentNode* node)
   param->SetAttributeAsInt("value", parameters->GetMaxEdgeLength());
 
   param = node->CreateNodeBefore(CS_NODE_ELEMENT);
-  param->SetValue("minregionsize");
-  param->SetAttributeAsInt("value", parameters->GetMinRegionSize());
+  param->SetValue("minregionarea");
+  param->SetAttributeAsInt("value", parameters->GetMinRegionArea());
 
   param = node->CreateNodeBefore(CS_NODE_ELEMENT);
-  param->SetValue("mergeregionsize");
-  param->SetAttributeAsInt("value", parameters->GetMergeRegionSize());
+  param->SetValue("mergeregionarea");
+  param->SetAttributeAsInt("value", parameters->GetMergeRegionArea());
 
   param = node->CreateNodeBefore(CS_NODE_ELEMENT);
   param->SetValue("maxvertsperpoly");
@@ -1199,13 +1199,13 @@ bool celHNavStructBuilder::ParseParameters (iDocumentNode* node, iCelNavMeshPara
   int value2 = param->GetAttributeValueAsInt("value");
   params->SetMaxEdgeLength(value2);
 
-  param = node->GetNode("minregionsize");
+  param = node->GetNode("minregionarea");
   value2 = param->GetAttributeValueAsInt("value");
-  params->SetMinRegionSize(value2);
+  params->SetMinRegionArea(value2);
 
-  param = node->GetNode("mergeregionsize");
+  param = node->GetNode("mergeregionarea");
   value2 = param->GetAttributeValueAsInt("value");
-  params->SetMergeRegionSize(value2);
+  params->SetMergeRegionArea(value2);
 
   param = node->GetNode("maxvertsperpoly");
   value2 = param->GetAttributeValueAsInt("value");
