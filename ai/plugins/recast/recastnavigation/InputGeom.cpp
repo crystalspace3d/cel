@@ -174,9 +174,12 @@ bool InputGeom::load(rcContext* ctx, const char* filePath)
 		fclose(fp);
 		return false;
 	}
-	fread(buf, bufSize, 1, fp);
+	size_t readSize = fread(buf, bufSize, 1, fp);
 	fclose(fp);
 	
+  if (readSize != (size_t) bufSize) 
+    return false;
+
 	m_offMeshConCount = 0;
 	m_volumeCount = 0;
 	delete m_mesh;

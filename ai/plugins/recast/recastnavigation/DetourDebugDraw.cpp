@@ -42,6 +42,8 @@ static void drawPolyBoundaries(duDebugDraw* dd, const dtMeshTile* tile,
 							   const unsigned int col, const float linew,
 							   bool inner)
 {
+  unsigned int tileBorder = duRGBA(255, 255, 100, 80);
+
 	static const float thr = 0.01f*0.01f;
 
 	dd->begin(DU_DRAW_LINES, linew);
@@ -72,7 +74,7 @@ static void drawPolyBoundaries(duDebugDraw* dd, const dtMeshTile* tile,
 						}
 					}
 					if (con)
-						c = duRGBA(255,255,255,48);
+						c = tileBorder;
 					else
 						c = duRGBA(0,0,0,48);
 				}
@@ -119,6 +121,12 @@ static void drawPolyBoundaries(duDebugDraw* dd, const dtMeshTile* tile,
 static void drawMeshTile(duDebugDraw* dd, const dtNavMesh& mesh, const dtNavMeshQuery* query,
 						 const dtMeshTile* tile, unsigned char flags)
 {
+  unsigned int polygonColor = duRGBA(255, 230, 20, 40);
+  unsigned int innerBorder = duRGBA(225, 160, 0, 80);
+  unsigned int outerBorder = duRGBA(225, 160, 0, 120);
+  float innerBorderSize = 2.0f;
+  float outerBorderSize = 3.0f;
+
 	dtPolyRef base = mesh.getPolyRefBase(tile);
 
 	int tileNum = mesh.decodePolyIdTile(base);
@@ -146,7 +154,7 @@ static void drawMeshTile(duDebugDraw* dd, const dtNavMesh& mesh, const dtNavMesh
 			else
 			{
 				if (p->getArea() == 0) // Treat zero area type as default.
-					col = duRGBA(0,192,255,64);
+					col = polygonColor;
 				else
 					col = duIntToCol(p->getArea(), 64);
 			}
@@ -167,10 +175,10 @@ static void drawMeshTile(duDebugDraw* dd, const dtNavMesh& mesh, const dtNavMesh
 	dd->end();
 	
 	// Draw inter poly boundaries
-	drawPolyBoundaries(dd, tile, duRGBA(0,48,64,32), 1.5f, true);
+	drawPolyBoundaries(dd, tile, innerBorder, innerBorderSize, true);
 	
 	// Draw outer poly boundaries
-	drawPolyBoundaries(dd, tile, duRGBA(0,48,64,220), 2.5f, false);
+	drawPolyBoundaries(dd, tile, outerBorder, outerBorderSize, false);
 
 	if (flags & DU_DRAWNAVMESH_OFFMESHCONS)
 	{
