@@ -2481,14 +2481,6 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
   int navDataSize = 0;
   if (tileConfig.maxVertsPerPoly <= DT_VERTS_PER_POLYGON)
   {
-    // Remove padding from the polymesh data. TODO: Remove this odditity.
-    for (int i = 0; i < pMesh->nverts; ++i)
-    {
-      unsigned short* v = &pMesh->verts[i * 3];
-      v[0] -= (unsigned short)tileConfig.borderSize;
-      v[2] -= (unsigned short)tileConfig.borderSize;
-    }
-
     if (pMesh->nverts >= 0xffff)
     {
       // The vertex indices are ushorts, and cannot point to more than 0xffff vertices.
@@ -2548,10 +2540,11 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
     params.cs = tileConfig.cs;
     params.ch = tileConfig.ch;
     params.buildBvTree = true;                
+    params.tileLayer = 0;
+    
     //params.tileSize = tileConfig.tileSize;  //Obsolete?
-    //params.tileLayer?
-    //params.userID?
-    //params.offMeshConUserID?
+    //params.userID?  //Unneccesarry?
+    //params.offMeshConUserID? //Unneccesarry?
 
     if (!dtCreateNavMeshData(&params, &navData, &navDataSize))
     {
