@@ -761,11 +761,6 @@ bool celNavMesh::SaveToFile (iFile* file) const
   node->SetValue("maxpolys");
   node->SetAttributeAsInt("value", params->maxPolys);
 
-// Correct? or refer to NavMeshQuery?
-//  node = paramsNode->CreateNodeBefore(CS_NODE_ELEMENT);
- // node->SetValue("maxnodes");
-  //node->SetAttributeAsInt("value", params->maxNodes);
-
   // Create tiles node
   csRef<iDocumentNode> tilesNode = mainNode->CreateNodeBefore(CS_NODE_ELEMENT);
   tilesNode->SetValue("tiles");
@@ -1225,8 +1220,6 @@ bool celNavMesh::LoadNavMesh (iFile* file)
   header.params.maxTiles = node->GetAttributeValueAsInt("value");
   node = paramsNode->GetNode("maxpolys");
   header.params.maxPolys = node->GetAttributeValueAsInt("value");
-//  node = paramsNode->GetNode("maxnodes");
-//  header.params.maxNodes = node->GetAttributeValueAsInt("value");
 
   if (header.magic != NAVMESHSET_MAGIC)
   {
@@ -1238,6 +1231,11 @@ bool celNavMesh::LoadNavMesh (iFile* file)
   }
   detourNavMesh = new dtNavMesh;
   if (!detourNavMesh || !detourNavMesh->init(&header.params))
+  {
+    return false;
+  }
+  detourNavMeshQuery = new dtNavMeshQuery;
+  if (!detourNavMeshQuery || !detourNavMeshQuery->init(detourNavMesh, MAX_NODES))
   {
     return false;
   }
