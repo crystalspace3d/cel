@@ -1119,7 +1119,7 @@ bool celHNavStructBuilder::InstantiateNavMeshBuilders ()
 
 iCelHNavStruct* celHNavStructBuilder::BuildHNavStruct ()
 {
-  if (!sectors)
+ if (!sectors)
   {
     return 0;
   }
