@@ -48,9 +48,9 @@ bool MainApp::LoadLevel ()
   mapfile->SetPath ("/cellib/lev");
   mapfile->SetFile ("walktut_world");
 
-  iCelMapFile* entitiesfile = region->CreateMapFile ();
+  /*iCelMapFile* entitiesfile = region->CreateMapFile ();
   entitiesfile->SetPath ("/cellib/lev");
-  entitiesfile->SetFile ("walktut_entities");
+  entitiesfile->SetFile ("walktut_entities");*/
 
   return true;
 }
