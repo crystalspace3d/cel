@@ -1131,7 +1131,7 @@ iCelHNavStruct* celHNavStructBuilder::BuildHNavStruct ()
   while (it.HasNext())
   {
     csRef<iCelNavMeshBuilder> builder = it.Next();
-    results.Push(builder->BuildNavMeshWait());
+    results.Push(builder->BuildNavMesh());
   }
 
   while(!results.IsEmpty())
