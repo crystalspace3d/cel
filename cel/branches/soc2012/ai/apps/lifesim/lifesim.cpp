@@ -29,8 +29,6 @@
 #include "behave.h"
 #include "lifesim.h"
 
-#define WATER_LEVEL 50.0
-
 LifeSimulator::LifeSimulator ()
   : DemoApplication ("CrystalSpace.LifeSimulator")
 {
@@ -71,11 +69,19 @@ bool LifeSimulator::Application ()
   // Create the physical and behavior layers
   physicalLayer = csQueryRegistry<iCelPlLayer> (GetObjectRegistry ());
   behaviourLayer.AttachNew (new BehaviourLayer (GetObjectRegistry (), physicalLayer));
+  
+  //Create the sound system manager
+  sndmgr = csQueryRegistryOrLoad<iSndSysManager> (
+    	GetObjectRegistry (), "crystalspace.sndsys.manager");
+		
+  loader = csQueryRegistry<iLoader> (GetObjectRegistry ());
 
   // Register the behavior layer
   if (!GetObjectRegistry ()->Register (behaviourLayer, "iCelBlLayer"))
     return ReportError ("Can't register our behaviour layer!");
   physicalLayer->RegisterBehaviourLayer (behaviourLayer);
+  
+  
 
   // Create the scene
   if (!CreateScene ())
@@ -83,13 +89,18 @@ bool LifeSimulator::Application ()
 
   // Define the available keys
   hudManager->GetKeyDescriptions ()->Push ("f: spawn a Frankie");
+  hudManager->GetKeyDescriptions ()->Push ("s: spawn a sheep");
+  hudManager->GetKeyDescriptions ()->Push ("r: spawn a ram");
+  hudManager->GetKeyDescriptions ()->Push ("t: spawn a rat");
+  hudManager->GetKeyDescriptions ()->Push ("u: spawn a butterFly");
 
+  // Create a first Frankie
   CreateFrankieEntity (csVector3 (256.0f, 66.0f, 395.0f));
 
-   // Run the application
-   Run();
+  // Run the application
+  Run();
 
-   return true;
+  return true;
 }
 
 void LifeSimulator::Frame ()
@@ -122,6 +133,45 @@ bool LifeSimulator::OnKeyboard (iEvent &ev)
       if (TraceMouseBeam (position))
 	// TODO: this doesn't work on hard cliffs...
 	CreateFrankieEntity (position + csVector3 (0.0f, 0.5f, 0.0f));
+
+      return true;
+    }
+    // Spawn a sheep
+	if (csKeyEventHelper::GetCookedCode (&ev) == 's')
+    {
+      csVector3 position;
+      if (TraceMouseBeam (position))
+	// TODO: this doesn't work on hard cliffs...
+	CreateSheepEntity (position + csVector3 (0.0f, 0.5f, 0.0f));
+
+      return true;
+    }
+	// Spawn a Ram
+	if (csKeyEventHelper::GetCookedCode (&ev) == 'r')
+    {
+      csVector3 position;
+      if (TraceMouseBeam (position))
+	// TODO: this doesn't work on hard cliffs...
+	CreateRamEntity (position + csVector3 (0.0f, 0.5f, 0.0f));
+
+      return true;
+    }
+		
+	    // Spawn a Rat
+	if (csKeyEventHelper::GetCookedCode (&ev) == 't')
+    {
+      csVector3 position;
+      if (TraceMouseBeam (position))
+	CreateRatEntity (position + csVector3 (0.0f, 0.5f, 0.0f));
+
+      return true;
+    }
+    	// Spawn a ButterFly
+	if (csKeyEventHelper::GetCookedCode (&ev) == 'u')
+    {
+      csVector3 position;
+      if (TraceMouseBeam (position))
+	CreateButterFlyEntity (position + csVector3 (0.0f, 5.5f, 0.0f));
 
       return true;
     }
