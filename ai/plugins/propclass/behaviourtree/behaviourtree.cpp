@@ -266,8 +266,9 @@ bool celPcBehaviourTree::loadFromXML (iDocumentNode* node)
       const char* btname = child->GetAttributeValue ("name");
       if (btname) SetName(btname);
 
-      const char* update_rate = child->GetAttributeValue ("update_rate");
-      if (update_rate) celPcBehaviourTree::update_rate = (int)update_rate; 
+      int update_rate = child->GetAttributeValueAsInt ("update_rate", -1);
+      if (update_rate > -1) this->update_rate = update_rate;
+      else this->update_rate = 1;
 
       csRef<iDocumentNode> root_doc_node = child->GetNodes() ->Next();
 
