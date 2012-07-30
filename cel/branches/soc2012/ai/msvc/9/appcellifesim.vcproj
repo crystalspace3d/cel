@@ -624,10 +624,22 @@
 				RelativePath="..\..\apps\lifesim\behave.cpp">
 			</File>
 			<File
+				RelativePath="..\..\apps\lifesim\butterfly.cpp">
+			</File>
+			<File
 				RelativePath="..\..\apps\lifesim\frankie.cpp">
 			</File>
 			<File
 				RelativePath="..\..\apps\lifesim\lifesim.cpp">
+			</File>
+			<File
+				RelativePath="..\..\apps\lifesim\ram.cpp">
+			</File>
+			<File
+				RelativePath="..\..\apps\lifesim\rat.cpp">
+			</File>
+			<File
+				RelativePath="..\..\apps\lifesim\sheep.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -637,10 +649,22 @@
 				RelativePath="..\..\apps\lifesim\behave.h">
 			</File>
 			<File
+				RelativePath="..\..\apps\lifesim\butterfly.h">
+			</File>
+			<File
 				RelativePath="..\..\apps\lifesim\frankie.h">
 			</File>
 			<File
 				RelativePath="..\..\apps\lifesim\lifesim.h">
+			</File>
+			<File
+				RelativePath="..\..\apps\lifesim\ram.h">
+			</File>
+			<File
+				RelativePath="..\..\apps\lifesim\rat.h">
+			</File>
+			<File
+				RelativePath="..\..\apps\lifesim\sheep.h">
 			</File>
 		</Filter>
 		<Filter
