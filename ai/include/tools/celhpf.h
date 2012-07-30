@@ -24,6 +24,8 @@
 #include <csutil/list.h>
 #include <tools/celnavmesh.h>
 
+#include "iutil/vfs.h"
+
 class csBox3;
 class csOBB;
 class csString;

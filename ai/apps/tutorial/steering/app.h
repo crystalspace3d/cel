@@ -3,6 +3,9 @@
 
 #include <physicallayer/entity.h>
 #include <physicallayer/pl.h>
+#include <tools/celnavmesh.h>
+#include <tools/celhpf.h>
+#include "behave.h"
 
 class FramePrinter;
 
@@ -19,12 +22,42 @@ private:
   csRef<FramePrinter> printer;
 
   csRef<iCelPlLayer> pl;
-  csRef<iCelBlLayer> bl;
+  csRef<BehaviourLayer> bl;
   csRef<iCelEntity> level_entity;
   csRef<iCelEntity> player_entity;
   csRef<iCelEntity> steering_entity;
 
+  // Hierarchical pathfinding
+  csRef<iCelHNavStructBuilder> navStructBuilder;  
+  csRef<iCelHPath> path;
+  csRef<iCelHNavStruct> navStruct;
+  csRef<iCelNavMeshParams> params;
+  float agentHeight;
+  float agentRadius;
+
+  // Path
+  csVector3 origin;
+  csVector3 destination;
+  csRef<iSector> originSector;  
+  csRef<iSector> destinationSector;
+  bool destinationSet;
+
+  csList<csSimpleRenderMesh>* navStructMeshes;
+  csList<csSimpleRenderMesh>* pathMeshes;
+  csList<csSimpleRenderMesh>* destinationMeshes;
+  bool clearMeshes;
+  bool updateMeshes;
+  bool updatePathMeshes;
+  bool updateDestinationMeshes;
+  bool renderNavMesh;
+  bool renderDestination;
+  bool renderPath;
+  bool updateNavmesh;
+  csBox3 updateArea;
+
   bool OnKeyboard (iEvent&);
+
+  csRef<iPcCamera> pccamera;
   void Frame ();
   
   bool LoadLevel ();

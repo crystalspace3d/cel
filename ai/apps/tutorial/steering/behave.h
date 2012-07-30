@@ -11,6 +11,8 @@
 #include <propclass/mesh.h>
 #include <propclass/camera.h>
 #include <propclass/inv.h>
+#include <tools/celhpf.h>
+#include <tools/celnavmesh.h>
 
 
 class BehaviourLayer :
@@ -19,12 +21,20 @@ class BehaviourLayer :
 private:
   iCelPlLayer* pl;
 
+  csRef<iCelHNavStruct> navStruct;
+  csRef<iCelHPath> path;
+
 public:
   BehaviourLayer (iCelPlLayer* pl);
   virtual ~BehaviourLayer ();
 
   virtual const char* GetName () const { return "behaviourlayer"; }
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
+
+  void SetNavStruct (iCelHNavStruct* navStruct);
+  iCelHNavStruct* GetNavStruct () const;
+  void SetPath (iCelHPath* path);
+  iCelHPath* GetPath () const;
 };
 
 class BehaviourCommon :
@@ -171,6 +181,9 @@ private:
 
   void ShowInventory ();
   void Drop ();
+
+  // Hierarchical pathfinding
+  csRef<iCelHPath> path;
 
 public:
   BehaviourPlayer (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl);

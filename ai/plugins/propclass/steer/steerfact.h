@@ -31,9 +31,12 @@
 #include "propclass/steer.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
+#include "propclass/mover.h"
 #include "propclass/mesh.h"
 #include "iengine/engine.h"
 #include "csutil/randomgen.h"
+#include <tools/celnavmesh.h>
+#include <tools/celhpf.h>
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -52,11 +55,15 @@ private:
   csWeakRef<iEngine> engine;
   csWeakRef<iPcLinearMovement> pclinmove;
   csWeakRef<iPcActorMove> pcactormove;
+  csWeakRef<iPcMover> pcMover;
   csWeakRef<iPcMesh> pcmesh;
 
   csRef<iMessageDispatcher> dispatcher_arrived;
   csRef<iMessageDispatcher> dispatcher_avoiding_collision;
   csRef<iMessageDispatcher> dispatcher_interrupted;
+
+  csRef<iCelHNavStruct> navStruct;
+  csRef<iCelHPath> path;
 
   // For actions.
   static csStringID id_sectorname;
@@ -207,6 +214,10 @@ public:
     celData& ret);
 
   virtual void TickOnce ();
+
+  virtual void SetNavStruct (iCelHNavStruct* navStruct);
+
+  virtual iCelHPath* GetPath ();
 };
 
 #endif // __CEL_PF_STEERFACT__
