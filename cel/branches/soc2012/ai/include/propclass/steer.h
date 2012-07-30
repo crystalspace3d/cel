@@ -23,6 +23,8 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "physicallayer/entity.h"
+#include <tools/celnavmesh.h>
+#include <tools/celhpf.h>
 
 struct iPcLinearMovement;
 
@@ -208,6 +210,17 @@ struct iPcSteer : public virtual iBase
    * Return true if currently moving.
    */
   virtual bool IsMoving () const = 0;
+
+
+  /**
+   * Set HNavStruct to be used for steering (if available)
+   */
+  virtual void SetNavStruct (iCelHNavStruct* navStruct) = 0;
+
+  /**
+   * Returns the path being followed if using recast and detour navmeshes
+   */
+  virtual iCelHPath* GetPath () = 0;
 };
 
 #endif // __CEL_PF_STEER__
