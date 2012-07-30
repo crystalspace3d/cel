@@ -22,8 +22,13 @@
 #ifndef __LIFESIMULATOR_H__
 #define __LIFESIMULATOR_H__
 
+#define WATER_LEVEL 50.0
+
 #include "cstool/demoapplication.h"
 #include "ivaria/collider.h"
+#include <isndsys/ss_manager.h>
+#include <isndsys/ss_renderer.h>
+#include <imap/loader.h>
 
 #include "physicallayer/pl.h"
 #include "behaviourlayer/bl.h"
@@ -33,12 +38,20 @@ class LifeSimulator : public CS::Utility::DemoApplication
  private:
   bool CreateScene ();
   bool CreateFrankieEntity (const csVector3 pos);
-
+  bool CreateSheepEntity (const csVector3 pos);
+  bool CreateRamEntity (const csVector3 pos);
+  bool CreateBirdEntity (const csVector3 pos);
+  bool CreateRatEntity (const csVector3 pos);
+  bool CreateButterFlyEntity (const csVector3 pos);
+  
   bool TraceMouseBeam (csVector3& position);
 
   csRef<iCelPlLayer> physicalLayer;
   csRef<iCelBlLayer> behaviourLayer;
   csRef<iCollideSystem> collideSystem;
+  csRef<iLoader> loader;
+  csRef<iSndSysRenderer> sndrdr;
+  csRef<iSndSysManager> sndmgr;
 
  public:
   LifeSimulator ();
@@ -53,4 +66,4 @@ class LifeSimulator : public CS::Utility::DemoApplication
   bool Application ();
 };
 
-#endif // __ISLAND_H__
+#endif // __LIFESIMULATOR_H__
