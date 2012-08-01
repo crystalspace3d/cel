@@ -23,6 +23,7 @@
 #include <csutil/scf.h>
 #include <csutil/list.h>
 #include <csgeom/poly3d.h>
+#include <iutil/threadmanager.h>
 
 class csBox3;
 class csOBB;
