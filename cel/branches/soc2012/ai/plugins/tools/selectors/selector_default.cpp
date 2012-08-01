@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-	Copyright (C) 2009 by Sam Devlin
+  Copyright (C) 2009 by Sam Devlin
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -36,23 +36,23 @@ BTStatus celDefaultSelector::Execute (iCelParameterBlock* params, csRefArray<iBT
 {
   if (status == BT_NOT_STARTED)
   {
-	  noOfChildren = children.GetSize();
-	  if (noOfChildren == 0)
-	  {
+    noOfChildren = children.GetSize();
+    if (noOfChildren == 0)
+    {
       csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
           "cel.selectors.default",
           "No children nodes specified for: %s", name.GetData());
 
       status = BT_UNEXPECTED_ERROR;
-	  }
-	  else
-	  {	
+    }
+    else
+    {	
       // On first execution push first child to top of stack and initialise other local variables  
       currentChild = 0;
-	    BTStack->Push(children.Get(currentChild));
+      BTStack->Push(children.Get(currentChild));
       children.Get(currentChild)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
-	    status = BT_RUNNING;
-	  }
+      status = BT_RUNNING;
+    }
   }
   else
   {
@@ -60,25 +60,25 @@ BTStatus celDefaultSelector::Execute (iCelParameterBlock* params, csRefArray<iBT
 
     if (child_status == BT_SUCCESS || child_status == BT_UNEXPECTED_ERROR)
     {
-	    // If child has succeeded or failed unexpectedly, so has selector
+      // If child has succeeded or failed unexpectedly, so has selector
       status = child_status;
     }
     else if (child_status == BT_FAIL_CLEAN) 
     {
       // If child has failed, move on to next
-	    currentChild++;
+      currentChild++;
 
       if (currentChild < noOfChildren)
       {
-	      // If currentChild is a valid index for a child, push it to the top of the stack
+        // If currentChild is a valid index for a child, push it to the top of the stack
         BTStack->Push(children.Get(currentChild));
         children.Get(currentChild)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
-	    }
-	    else
-	    {
-	      // If we have tried all children, without finding success, then selector fails
-	      status = BT_FAIL_CLEAN;
-	    }
+      }
+      else
+      {
+        // If we have tried all children, without finding success, then selector fails
+        status = BT_FAIL_CLEAN;
+      }
     }
   }
   return status;
@@ -86,6 +86,6 @@ BTStatus celDefaultSelector::Execute (iCelParameterBlock* params, csRefArray<iBT
 
 bool celDefaultSelector::AddChild (iBTNode* child)
 {
-	children.Push(child);
-	return true;
+  children.Push(child);
+  return true;
 }
