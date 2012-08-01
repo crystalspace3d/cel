@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-	Copyright (C) 2009 by Sam Devlin
+  Copyright (C) 2009 by Sam Devlin
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -40,29 +40,29 @@ BTStatus celRandomSelector::Execute (iCelParameterBlock* params, csRefArray<iBTN
   if (status == BT_NOT_STARTED)
   {
     int noOfChildren = children.GetSize();
-	  if (noOfChildren == 0)
-	  {
+    if (noOfChildren == 0)
+    {
       csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
           "cel.selectors.random",
           "No children nodes specified for: %s", name.GetData());
 
       status = BT_UNEXPECTED_ERROR;
-	  }
-	  else
-	  {	  
+    }
+    else
+    {	  
       randChildIndex = rng.Get (noOfChildren);
-	    BTStack->Push(children.Get(randChildIndex));
+      BTStack->Push(children.Get(randChildIndex));
       children.Get(randChildIndex)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
-	    status = BT_RUNNING;
-	  }
+      status = BT_RUNNING;
+    }
   }
   else
   {
     BTStatus child_status = children.Get(randChildIndex)->GetStatus();
 
     if (child_status == BT_SUCCESS ||
-	   child_status == BT_FAIL_CLEAN ||
-	   child_status == BT_UNEXPECTED_ERROR)
+     child_status == BT_FAIL_CLEAN ||
+     child_status == BT_UNEXPECTED_ERROR)
     {
       status = child_status;
     }
