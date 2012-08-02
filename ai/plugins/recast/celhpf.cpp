@@ -1136,18 +1136,17 @@ iCelHNavStruct* celHNavStructBuilder::BuildHNavStruct ()
 
   while(!results.IsEmpty())
   {
-    for(size_t i = 0; i < results.GetSize(); i++)
+    for (int i = results.GetSize() - 1; i >= 0; i--)
     {
       csRef<iThreadReturn> ret = results.Get(i);
-      if(ret->IsFinished())
+      if (ret->IsFinished())
       {
-        if(ret->WasSuccessful())
+        if (ret->WasSuccessful())
         {
           csRef<iCelNavMesh> mesh = scfQueryInterface<iCelNavMesh>(ret->GetResultRefPtr());
           navStruct->AddNavMesh(mesh);
         }
         results.DeleteIndex(i);
-        i--;
       }
     }
   }
