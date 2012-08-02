@@ -17,6 +17,8 @@
 */
 #include "pathfindingtest.h"
 
+#include <csutil/measuretime.h>
+
 inline void disposeDebugMeshes(csList<csSimpleRenderMesh>* meshes)
 {
   if (meshes)
@@ -74,7 +76,11 @@ bool MainApp::LoadLevel ()
   zone->LinkRegion(region);
 
   mapfile = region->CreateMapFile();
+
   mapfile->SetPath("/lev/castle");  
+  //vfs->Mount("/bias/", "$@data$/bias$/world.zip");
+  //mapfile->SetPath("/bias");  
+
   mapfile->SetFile("world");
   vfs->ChDir("/lev/castle");
 
@@ -140,6 +146,7 @@ bool MainApp::CreatePlayer ()
   agentRadius = csQsqrt(csSquare(x) + csSquare(z)) * 0.5f;
 
   if (pcZoneMgr->PointMesh("player", "main", "Camera"))
+  //if (pcZoneMgr->PointMesh("player", "main", "Camera.001"))
   {
     return ReportError("Can't find region or start position in region!");
   }
@@ -346,6 +353,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
     }
     else if (code == 'b') // Build navstruct
     {
+      CS::MeasureTime measure ("Total time to build the navigation structure");
       navStruct.Invalidate();
       path.Invalidate();
       destinationSet = false;
