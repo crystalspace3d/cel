@@ -80,7 +80,7 @@ public:
   virtual void Invert ();
   virtual void Restart ();
   virtual float GetDistance () const;
-  virtual csList<csSimpleRenderMesh>* GetDebugMeshes ();
+  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes ();
 };
 
 
@@ -96,6 +96,7 @@ private:
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> > navMeshes;
   csRef<iCelGraph> hlGraph; // High level graph
   csRef<celHPath> path;
+  csArray<csSimpleRenderMesh*>* meshes;
 
   // Helpers for the SaveToFile method
   void SaveParameters (iDocumentNode* node);
@@ -118,8 +119,8 @@ public:
   virtual bool Update (const csOBB& boundingBox, iSector* sector = 0);
   virtual bool SaveToFile (iVFS* vfs, const char* directory);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;
-  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const;
-  virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
+  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () const;
+  virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
                                                            int blue, int alpha) const;
 };
 
@@ -133,7 +134,7 @@ class celHNavStructBuilder : public scfImplementation2<celHNavStructBuilder, iCe
 private:
   csRef<iObjectRegistry> objectRegistry;
   csRef<iCelNavMeshParams> parameters;
-  csList<iSector*>* sectors;
+  csRefArray<iSector> sectors;
   csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> > builders;
   csRef<celHNavStruct> navStruct;
 
@@ -151,7 +152,7 @@ public:
   virtual bool Initialize (iObjectRegistry*);
 
   // API
-  virtual bool SetSectors (csList<iSector*> sectorList);
+  virtual bool SetSectors (csRefArray<iSector>* sectorList);
   virtual iCelHNavStruct* BuildHNavStruct ();
   virtual iCelHNavStruct* LoadHNavStruct (iVFS* vfs, const char* directory);
   virtual const iCelNavMeshParams* GetNavMeshParams () const;

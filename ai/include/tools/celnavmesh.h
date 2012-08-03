@@ -183,9 +183,8 @@ struct iCelNavMeshPath : public virtual iBase
 
   /**
    * Render path.
-   * \remarks The user is responsible for freeing the returned pointer.
    */
-  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const = 0;
+  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () const = 0;
 };
 
 
@@ -241,21 +240,18 @@ struct iCelNavMesh : public virtual iBase
 
   /**
    * Render navigation mesh.
-   * \remarks The user is responsible for freeing the returned pointer.
    */
-  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const = 0;
+  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () const = 0;
 
   /**
    * Render proxy agent.
-   * \remarks The user is responsible for freeing the returned pointer.
    */
-  virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos) const = 0;
+  virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos) const = 0;
 
   /**
    * Render proxy agent of the specified color.
-   * \remarks The user is responsible for freeing the returned pointer.
    */
-  virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
+  virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
                                                            int blue, int alpha) const = 0;
 };
 
