@@ -266,7 +266,7 @@ float celHPath::GetDistance () const
   return length-advanced;
 }
 
-csList<csSimpleRenderMesh>* celHPath::GetDebugMeshes ()
+csArray<csSimpleRenderMesh*>* celHPath::GetDebugMeshes ()
 {
   float halfHeight = 0.f;
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
@@ -336,10 +336,22 @@ celHNavStruct::celHNavStruct (const iCelNavMeshParams* params, iObjectRegistry* 
 {
   this->objectRegistry = objectRegistry;
   parameters.AttachNew(params->Clone());
+  meshes = new csArray<csSimpleRenderMesh*>();
 }
 
 celHNavStruct::~celHNavStruct ()
 {
+  //if (!meshes->IsEmpty())
+  //{
+  //  csArray<csSimpleRenderMesh>::Iterator it = meshes->GetIterator();
+  //  while (it.HasNext())
+  //  {
+  //    csSimpleRenderMesh mesh = it.Next();
+  //    delete [] mesh.vertices;
+  //    delete [] mesh.colors;
+  //  }
+  //}
+  delete meshes;
 }
 
 void celHNavStruct::AddNavMesh(iCelNavMesh* navMesh)
@@ -1035,25 +1047,25 @@ const iCelNavMeshParams* celHNavStruct::GetNavMeshParams () const
   return parameters;
 }
 
-csList<csSimpleRenderMesh>* celHNavStruct::GetDebugMeshes () const
-{
-  csList<csSimpleRenderMesh>* meshes = new csList<csSimpleRenderMesh>();
+csArray<csSimpleRenderMesh*>* celHNavStruct::GetDebugMeshes () const
+{  
+  meshes->DeleteAll();
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::ConstGlobalIterator it = navMeshes.GetIterator();
   while (it.HasNext())
   {
     csRef<iCelNavMesh> navMesh = it.Next();
-    csList<csSimpleRenderMesh>* tmp = navMesh->GetDebugMeshes();
-    csList<csSimpleRenderMesh>::Iterator tmpIt(*tmp);
+    csArray<csSimpleRenderMesh*>* tmp = navMesh->GetDebugMeshes();
+    csArray<csSimpleRenderMesh*>::Iterator tmpIt = tmp->GetIterator();
     while (tmpIt.HasNext())
     {
-      meshes->PushBack(tmpIt.Next());
+      meshes->Push(tmpIt.Next());
     }
     delete tmp;
   }
   return meshes;
 }
 
-csList<csSimpleRenderMesh>* celHNavStruct::GetAgentDebugMeshes (const csVector3& pos, int red, int green,
+csArray<csSimpleRenderMesh*>* celHNavStruct::GetAgentDebugMeshes (const csVector3& pos, int red, int green,
                                                                 int blue, int alpha) const
 {
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::ConstGlobalIterator it = navMeshes.GetIterator();
@@ -1081,7 +1093,7 @@ celHNavStructBuilder::celHNavStructBuilder (iBase* parent) : scfImplementationTy
 
 celHNavStructBuilder::~celHNavStructBuilder ()
 {
-  delete sectors;
+  sectors.DeleteAll();
 }
 
 bool celHNavStructBuilder::Initialize (iObjectRegistry* objectRegistry) 
@@ -1090,17 +1102,21 @@ bool celHNavStructBuilder::Initialize (iObjectRegistry* objectRegistry)
   return true;
 }
 
-bool celHNavStructBuilder::SetSectors (csList<iSector*> sectorList)
+bool celHNavStructBuilder::SetSectors (csRefArray<iSector>* sectorList)
 {
-  delete sectors;
-  sectors = new csList<iSector*>(sectorList);
+  sectors.DeleteAll();
+  csRefArray<iSector>::Iterator it = sectorList->GetIterator();
+  while (it.HasNext())
+  {
+    sectors.Push(it.Next());
+  }
   builders.Empty();
   return InstantiateNavMeshBuilders();
 }
 
 bool celHNavStructBuilder::InstantiateNavMeshBuilders ()
 {
-  csList<iSector*>::Iterator it(*sectors);
+  csRefArray<iSector>::Iterator it = sectors.GetIterator();
   while (it.HasNext())
   {
     csPtrKey<iSector> key = it.Next();
@@ -1119,7 +1135,7 @@ bool celHNavStructBuilder::InstantiateNavMeshBuilders ()
 
 iCelHNavStruct* celHNavStructBuilder::BuildHNavStruct ()
 {
- if (!sectors)
+  if (sectors.IsEmpty())
   {
     return 0;
   }
@@ -1386,7 +1402,7 @@ const iCelNavMeshParams* celHNavStructBuilder::GetNavMeshParams () const
 void celHNavStructBuilder::SetNavMeshParams (const iCelNavMeshParams* parameters)
 {
   this->parameters.AttachNew(new celNavMeshParams(parameters));
-  if (sectors)
+  if (!sectors.IsEmpty())
   {
     csHash<csRef<iCelNavMeshBuilder>, csPtrKey<iSector> >::GlobalIterator it = builders.GetIterator();
     while (it.HasNext())

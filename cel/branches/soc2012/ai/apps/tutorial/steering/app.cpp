@@ -20,22 +20,6 @@
  * pcsteer.
  */
 
-inline void disposeDebugMeshes(csList<csSimpleRenderMesh>* meshes)
-{
-  if (meshes)
-  {
-    csList<csSimpleRenderMesh>::Iterator it(*meshes);
-    while (it.HasNext())
-    {
-      csSimpleRenderMesh mesh = it.Next();
-      delete [] mesh.vertices;
-      delete [] mesh.colors;
-    }
-    delete meshes;
-  }
-}
-
-
 MainApp::MainApp ()
 {
   SetApplicationName ("Steering Test");
@@ -56,9 +40,6 @@ MainApp::MainApp ()
 
 MainApp::~MainApp ()
 {
-  disposeDebugMeshes(navStructMeshes);
-  disposeDebugMeshes(pathMeshes);
-  disposeDebugMeshes(destinationMeshes);
 }
 
 bool MainApp::LoadLevel ()
@@ -241,20 +222,20 @@ void MainApp::Frame ()
   // Render navigation structure
   if (navStructMeshes && renderNavMesh)
   {
-    csList<csSimpleRenderMesh>::Iterator it(*navStructMeshes);
+    csArray<csSimpleRenderMesh*>::Iterator it = navStructMeshes->GetIterator();
     while (it.HasNext())
     {
-      g3d->DrawSimpleMesh(it.Next());
+      g3d->DrawSimpleMesh(*it.Next());
     }
   }
 
   // Render destination agent proxy
   if (destinationMeshes && renderDestination)
   {
-    csList<csSimpleRenderMesh>::Iterator it(*destinationMeshes);
+    csArray<csSimpleRenderMesh*>::Iterator it = destinationMeshes->GetIterator();
     while (it.HasNext())
     {
-      g3d->DrawSimpleMesh(it.Next());
+      g3d->DrawSimpleMesh(*it.Next());
     }
   }
 
@@ -266,10 +247,10 @@ void MainApp::Frame ()
   path = bl->GetPath();
   if (pathMeshes && path && renderPath)
   {
-    csList<csSimpleRenderMesh>::Iterator it(*pathMeshes);
+    csArray<csSimpleRenderMesh*>::Iterator it = pathMeshes->GetIterator();
     while (it.HasNext())
     {
-      g3d->DrawSimpleMesh(it.Next());
+      g3d->DrawSimpleMesh(*it.Next());
     }
   }
 
@@ -287,7 +268,6 @@ void MainApp::Frame ()
   // while rendering a frame, causing a crash.
   if (clearMeshes || updateMeshes)
   {
-    disposeDebugMeshes(navStructMeshes);
     navStructMeshes = 0;
     if (updateMeshes)
     {
@@ -297,7 +277,6 @@ void MainApp::Frame ()
   }
   if (clearMeshes || updatePathMeshes)
   {
-    disposeDebugMeshes(pathMeshes);
     pathMeshes = 0;
     if (updatePathMeshes)
     {
@@ -307,7 +286,6 @@ void MainApp::Frame ()
   }
   if (clearMeshes || updateDestinationMeshes)
   {
-    disposeDebugMeshes(destinationMeshes);
     destinationMeshes = 0;
     destinationSet = false;
     if (updateDestinationMeshes)
@@ -365,13 +343,13 @@ bool MainApp::OnKeyboard(iEvent& ev)
         params->SetPolygonSearchBox(csVector3(2, 4, 2));
         navStructBuilder->SetNavMeshParams(params);
       }
-      csList<iSector*> sectorList;
+      csRefArray<iSector> sectorList; 
       int size = engine->GetSectors()->GetCount();
       for (int i = 0; i < size; i++)
       {
-        sectorList.PushBack(engine->GetSectors()->Get(i));    
+        sectorList.Push(engine->GetSectors()->Get(i));    
       }
-      navStructBuilder->SetSectors(sectorList);
+      navStructBuilder->SetSectors(&sectorList);
       navStruct = navStructBuilder->BuildHNavStruct();
       bl->SetNavStruct(navStruct);
       updateMeshes = true;

@@ -46,11 +46,24 @@ DebugDrawCS::DebugDrawCS ()
   currentMesh = 0;
   currentZBufMode = CS_ZBUF_USE;
   nVertices = 0;
-  meshes = new csList<csSimpleRenderMesh>();
+  meshes = new csArray<csSimpleRenderMesh*>();
 }
 
 DebugDrawCS::~DebugDrawCS ()
 {
+  //if (!meshes->IsEmpty())
+  //{
+  //  csArray<csSimpleRenderMesh*>::Iterator it = meshes->GetIterator();
+  //  while (it.HasNext())
+  //  {
+  //    csSimpleRenderMesh* mesh = it.Next();
+  //    delete [] mesh->vertices;
+  //    delete [] mesh->colors;
+  //  }
+  //}
+  //meshes->DeleteAll();
+  //delete meshes;
+
   delete currentMesh;
 }
 
@@ -74,6 +87,7 @@ void DebugDrawCS::texture(bool state)
 void DebugDrawCS::begin (duDebugDrawPrimitives prim, float size)
 {  
   currentMesh = new csSimpleRenderMesh();
+  meshes->DeleteAll();
   currentMesh->z_buf_mode = currentZBufMode;
   currentMesh->alphaType.autoAlphaMode = false;
   currentMesh->alphaType.alphaType = currentMesh->alphaType.alphaSmooth;
@@ -105,8 +119,8 @@ void DebugDrawCS::vertex (const float x, const float y, const float z, unsigned 
   float g = ((color >> 8) & 0xFF) / 255.0f;
   float b = ((color >> 16) & 0xFF) / 255.0f;
   float a = ((color >> 24) & 0xFF) / 255.0f;
-  vertices.PushBack(csVector3(x, y, z));
-  colors.PushBack(csVector4(r, g, b, a));
+  vertices.Push(csVector3(x, y, z));
+  colors.Push(csVector4(r, g, b, a));
   nVertices++;
 }
 
@@ -121,8 +135,8 @@ void DebugDrawCS::vertex (const float x, const float y, const float z, unsigned 
   float g = ((color >> 8) & 0xFF) / 255.0f;
   float b = ((color >> 16) & 0xFF) / 255.0f;
   float a = ((color >> 24) & 0xFF) / 255.0f;
-  vertices.PushBack(csVector3(x, y, z));
-  colors.PushBack(csVector4(r, g, b, a));
+  vertices.Push(csVector3(x, y, z));
+  colors.Push(csVector4(r, g, b, a));
   nVertices++;
 }
 
@@ -130,8 +144,8 @@ void DebugDrawCS::end ()
 {
   csVector3* verts = new csVector3[nVertices];
   csVector4* cols = new csVector4[nVertices];
-  csList<csVector3>::Iterator vertsIt(vertices);
-  csList<csVector4>::Iterator colsIt(colors);
+  csArray<csVector3>::Iterator vertsIt = vertices.GetIterator();
+  csArray<csVector4>::Iterator colsIt = colors.GetIterator();
   int index = 0;
   while (vertsIt.HasNext())
   {
@@ -143,7 +157,7 @@ void DebugDrawCS::end ()
   currentMesh->vertices = verts;
   currentMesh->colors = cols;
   currentMesh->vertexCount = nVertices;
-  meshes->PushBack(*currentMesh);
+  meshes->Push(currentMesh); 
 
   nVertices = 0;
   vertices.DeleteAll();
@@ -152,7 +166,7 @@ void DebugDrawCS::end ()
   currentMesh = 0;
 }
 
-csList<csSimpleRenderMesh>* DebugDrawCS::GetMeshes ()
+csArray<csSimpleRenderMesh*>* DebugDrawCS::GetMeshes ()
 {
   return meshes;
 }
@@ -342,7 +356,7 @@ int celNavMeshPath::GetNodeCount () const
 }
 
 // Based on Detour NavMeshTesterTool::handleRender()
-csList<csSimpleRenderMesh>* celNavMeshPath::GetDebugMeshes () const
+csArray<csSimpleRenderMesh*>* celNavMeshPath::GetDebugMeshes () const
 {
   if (pathSize)
   {
@@ -1508,19 +1522,19 @@ bool celNavMesh::LoadNavMesh (iFile* file)
 }
 
 
-csList<csSimpleRenderMesh>* celNavMesh::GetDebugMeshes () const
+csArray<csSimpleRenderMesh*>* celNavMesh::GetDebugMeshes () const
 {
   DebugDrawCS dd;
   duDebugDrawNavMesh(&dd, *detourNavMesh, navMeshDrawFlags);
   return dd.GetMeshes();
 }
 
-csList<csSimpleRenderMesh>* celNavMesh::GetAgentDebugMeshes (const csVector3& pos) const
+csArray<csSimpleRenderMesh*>* celNavMesh::GetAgentDebugMeshes (const csVector3& pos) const
 {
   return GetAgentDebugMeshes(pos, 51, 102, 0, 129);
 }
 
-csList<csSimpleRenderMesh>* celNavMesh::GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
+csArray<csSimpleRenderMesh*>* celNavMesh::GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
                                                              int blue, int alpha) const
 {
   DebugDrawCS dd;

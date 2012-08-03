@@ -103,15 +103,15 @@ class DebugDrawCS : public duDebugDraw
 private:
   csSimpleRenderMesh* currentMesh;
   csZBufMode currentZBufMode;
-  csList<csSimpleRenderMesh>* meshes;
-  csList<csVector3> vertices;
-  csList<csVector4> colors;
+  csArray<csSimpleRenderMesh*>* meshes;
+  csArray<csVector3> vertices;
+  csArray<csVector4> colors;
   int nVertices;
   
 public:
   DebugDrawCS ();
   virtual ~DebugDrawCS ();
-  csList<csSimpleRenderMesh>* GetMeshes ();
+  csArray<csSimpleRenderMesh*>* GetMeshes ();
 
   // duDebugDraw
   virtual void depthMask (bool state);
@@ -228,7 +228,7 @@ public:
   virtual void InsertNode (int pos, csVector3 node);
   virtual float Length () const;
   virtual int GetNodeCount () const;
-  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const;
+  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () const;
 };
 
 
@@ -287,9 +287,9 @@ public:
   virtual csBox3 GetBoundingBox() const;
   virtual csArray<csPoly3D> QueryPolygons(const csBox3& box) const;
   virtual bool SaveToFile (iFile* file) const;
-  virtual csList<csSimpleRenderMesh>* GetDebugMeshes () const;
-  virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos) const;
-  virtual csList<csSimpleRenderMesh>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
+  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () const;
+  virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos) const;
+  virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
                                                            int blue, int alpha) const;  
 };
 
