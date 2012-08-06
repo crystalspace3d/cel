@@ -66,9 +66,9 @@ private:
   csRef<iSector> destinationSector;
   bool destinationSet;
 
-  csList<csSimpleRenderMesh>* navStructMeshes;
-  csList<csSimpleRenderMesh>* pathMeshes;
-  csList<csSimpleRenderMesh>* destinationMeshes;
+  csArray<csSimpleRenderMesh*>* navStructMeshes;
+  csArray<csSimpleRenderMesh*>* pathMeshes;
+  csArray<csSimpleRenderMesh*>* destinationMeshes;
   bool clearMeshes;
   bool updateMeshes;
   bool updatePathMeshes;

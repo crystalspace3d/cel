@@ -19,21 +19,6 @@
 #include "imesh/gmeshskel2.h"
 #include "imesh/skeleton.h"
 
-inline void disposeDebugMeshes(csList<csSimpleRenderMesh>* meshes)
-{
-  if (meshes)
-  {
-    csList<csSimpleRenderMesh>::Iterator it(*meshes);
-    while (it.HasNext())
-    {
-      csSimpleRenderMesh mesh = it.Next();
-      delete [] mesh.vertices;
-      delete [] mesh.colors;
-    }
-    delete meshes;
-  }
-}
-
 MainApp::MainApp () 
 {
   SetApplicationName("Navigation Mesh Test");
@@ -52,10 +37,6 @@ MainApp::MainApp ()
 
 MainApp::~MainApp () 
 {
-  disposeDebugMeshes(navStructMeshes);
-  disposeDebugMeshes(pathMeshes);
-  disposeDebugMeshes(originMeshes);
-  disposeDebugMeshes(destinationMeshes);
 }
 
 void MainApp::Frame ()
@@ -133,38 +114,38 @@ void MainApp::Frame ()
 
   if (navStructMeshes)
   {
-    csList<csSimpleRenderMesh>::Iterator it(*navStructMeshes);
+    csArray<csSimpleRenderMesh*>::Iterator it = navStructMeshes->GetIterator();
     while (it.HasNext())
     {
-      g3d->DrawSimpleMesh(it.Next());
+      g3d->DrawSimpleMesh(*it.Next());
     }
     
   }
 
   if (originMeshes)
   {
-    csList<csSimpleRenderMesh>::Iterator it(*originMeshes);
+    csArray<csSimpleRenderMesh*>::Iterator it = originMeshes->GetIterator();
     while (it.HasNext())
     {
-      g3d->DrawSimpleMesh(it.Next());
+      g3d->DrawSimpleMesh(*it.Next());
     }
   }
 
   if (destinationMeshes)
   {
-    csList<csSimpleRenderMesh>::Iterator it(*destinationMeshes);
+    csArray<csSimpleRenderMesh*>::Iterator it = destinationMeshes->GetIterator();
     while (it.HasNext())
     {
-      g3d->DrawSimpleMesh(it.Next());
+      g3d->DrawSimpleMesh(*it.Next());
     }
   }
 
   if (pathMeshes && path)
   {
-    csList<csSimpleRenderMesh>::Iterator it(*pathMeshes);
+    csArray<csSimpleRenderMesh*>::Iterator it = pathMeshes->GetIterator();
     while (it.HasNext())
     {
-      g3d->DrawSimpleMesh(it.Next());
+      g3d->DrawSimpleMesh(*it.Next());
     }
   }
 
@@ -175,7 +156,6 @@ void MainApp::Frame ()
   // while rendering a frame, causing a crash.
   if (clearMeshes || updateMeshes)
   {
-    disposeDebugMeshes(navStructMeshes);
     navStructMeshes = 0;
     if (updateMeshes)
     {
@@ -185,7 +165,6 @@ void MainApp::Frame ()
   }
   if (clearMeshes || updatePathMeshes)
   {
-    disposeDebugMeshes(pathMeshes);
     pathMeshes = 0;
     if (updatePathMeshes)
     {
@@ -195,7 +174,6 @@ void MainApp::Frame ()
   }
   if (clearMeshes || updateOriginMeshes)
   {
-    disposeDebugMeshes(originMeshes);
     originMeshes = 0;
     originSet = false;
     if (updateOriginMeshes)
@@ -207,7 +185,6 @@ void MainApp::Frame ()
   }
   if (clearMeshes || updateDestinationMeshes)
   {
-    disposeDebugMeshes(destinationMeshes);
     destinationMeshes = 0;
     destinationSet = false;
     if (updateDestinationMeshes)
@@ -251,13 +228,13 @@ bool MainApp::OnKeyboard(iEvent& ev)
         navStructBuilder->SetNavMeshParams(params);
       }
       navStructBuilder->SetNavMeshParams(params);
-      csList<iSector*> sectorList;
+      csRefArray<iSector> sectorList;
       int size = engine->GetSectors()->GetCount();
       for (int i = 0; i < size; i++)
       {
-        sectorList.PushBack(engine->GetSectors()->Get(i));    
+        sectorList.Push(engine->GetSectors()->Get(i));    
       }
-      navStructBuilder->SetSectors(sectorList);
+      navStructBuilder->SetSectors(&sectorList);
       navStruct = navStructBuilder->BuildHNavStruct();
       updateMeshes = true;
     }

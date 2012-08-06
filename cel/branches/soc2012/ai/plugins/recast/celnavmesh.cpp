@@ -162,7 +162,7 @@ void DebugDrawCS::end ()
   nVertices = 0;
   vertices.DeleteAll();
   colors.DeleteAll();  
-  delete currentMesh;
+  //delete currentMesh;
   currentMesh = 0;
 }
 
@@ -188,11 +188,24 @@ celNavMeshPath::celNavMeshPath (float* path, int pathSize, int maxPathSize, iSec
   currentPosition = 0;
   increasePosition = 3;
   this->sector = sector;
+  debugMeshes = new csArray<csSimpleRenderMesh*>();
 }
 
 celNavMeshPath::~celNavMeshPath ()
 {
   delete [] path;
+  if (!debugMeshes->IsEmpty()) 
+  { 
+    csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
+    while (it.HasNext()) 
+    { 
+      csSimpleRenderMesh* mesh = it.Next(); 
+      delete [] mesh->vertices; 
+      delete [] mesh->colors;  
+    } 
+    debugMeshes->DeleteAll();
+  }
+  delete debugMeshes;
 }
 
 iSector* celNavMeshPath::GetSector () const
@@ -356,7 +369,7 @@ int celNavMeshPath::GetNodeCount () const
 }
 
 // Based on Detour NavMeshTesterTool::handleRender()
-csArray<csSimpleRenderMesh*>* celNavMeshPath::GetDebugMeshes () const
+csArray<csSimpleRenderMesh*>* celNavMeshPath::GetDebugMeshes ()
 {
   if (pathSize)
   {
@@ -378,7 +391,23 @@ csArray<csSimpleRenderMesh*>* celNavMeshPath::GetDebugMeshes () const
     }
     dd.end();
     dd.depthMask(true);
-    return dd.GetMeshes();
+
+    // Clear previous meshes
+    if (!debugMeshes->IsEmpty()) 
+    { 
+      csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
+      while (it.HasNext()) 
+      { 
+        csSimpleRenderMesh* mesh = it.Next(); 
+        delete [] mesh->vertices; 
+        delete [] mesh->colors; 
+      }
+      debugMeshes->DeleteAll(); 
+    }
+
+    // Update meshes
+    debugMeshes = dd.GetMeshes();
+    return debugMeshes;
   }
   return 0;
 }
@@ -403,10 +432,38 @@ celNavMesh::celNavMesh (iObjectRegistry* objectRegistry) : scfImplementationType
   filter.setIncludeFlags(SAMPLE_POLYFLAGS_ALL);
   filter.setExcludeFlags(0);
   this->objectRegistry = objectRegistry;
+  debugMeshes = new csArray<csSimpleRenderMesh*>();
+  agentDebugMeshes = new csArray<csSimpleRenderMesh*>();
 }
 
 celNavMesh::~celNavMesh ()
-{
+{  
+  if (!agentDebugMeshes->IsEmpty()) 
+  { 
+    csArray<csSimpleRenderMesh*>::Iterator it = agentDebugMeshes->GetIterator(); 
+    while (it.HasNext()) 
+    { 
+      csSimpleRenderMesh* mesh = it.Next(); 
+      delete [] mesh->vertices; 
+      delete [] mesh->colors; 
+    }
+    agentDebugMeshes->DeleteAll(); 
+  }
+  delete agentDebugMeshes;
+
+  if (!debugMeshes->IsEmpty()) 
+  { 
+    csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
+    while (it.HasNext()) 
+    { 
+      csSimpleRenderMesh* mesh = it.Next(); 
+      delete [] mesh->vertices; 
+      delete [] mesh->colors; 
+    }
+    debugMeshes->DeleteAll(); 
+  }
+  delete debugMeshes;
+
   delete detourNavMesh;
   delete detourNavMeshQuery;
 }
@@ -1522,21 +1579,50 @@ bool celNavMesh::LoadNavMesh (iFile* file)
 }
 
 
-csArray<csSimpleRenderMesh*>* celNavMesh::GetDebugMeshes () const
+csArray<csSimpleRenderMesh*>* celNavMesh::GetDebugMeshes () 
 {
+  // Clear previous debug meshes
+  if (!debugMeshes->IsEmpty()) 
+  { 
+    csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
+    while (it.HasNext()) 
+    { 
+      csSimpleRenderMesh* mesh = it.Next(); 
+      delete [] mesh->vertices; 
+      delete [] mesh->colors; 
+    }
+    debugMeshes->DeleteAll(); 
+  }
+
+  // Update debug meshes
   DebugDrawCS dd;
   duDebugDrawNavMesh(&dd, *detourNavMesh, navMeshDrawFlags);
-  return dd.GetMeshes();
+  debugMeshes = dd.GetMeshes();
+  return debugMeshes;
 }
 
-csArray<csSimpleRenderMesh*>* celNavMesh::GetAgentDebugMeshes (const csVector3& pos) const
+csArray<csSimpleRenderMesh*>* celNavMesh::GetAgentDebugMeshes (const csVector3& pos) 
 {
   return GetAgentDebugMeshes(pos, 51, 102, 0, 129);
 }
 
 csArray<csSimpleRenderMesh*>* celNavMesh::GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
-                                                             int blue, int alpha) const
+                                                             int blue, int alpha) 
 {
+  // Clear previous agent debug meshes
+  if (!agentDebugMeshes->IsEmpty()) 
+  { 
+    csArray<csSimpleRenderMesh*>::Iterator it = agentDebugMeshes->GetIterator(); 
+    while (it.HasNext()) 
+    { 
+      csSimpleRenderMesh* mesh = it.Next(); 
+      delete [] mesh->vertices; 
+      delete [] mesh->colors; 
+    }
+    agentDebugMeshes->DeleteAll(); 
+  }
+
+  // Update agent debug meshes
   DebugDrawCS dd;
   dd.depthMask (false);
 
@@ -1560,7 +1646,8 @@ csArray<csSimpleRenderMesh*>* celNavMesh::GetAgentDebugMeshes (const csVector3& 
   dd.end();
 
   dd.depthMask (true);
-  return dd.GetMeshes();
+  agentDebugMeshes = dd.GetMeshes();
+  return agentDebugMeshes;
 }
 
 
