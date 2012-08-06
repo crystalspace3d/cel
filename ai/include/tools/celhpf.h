@@ -150,13 +150,13 @@ struct iCelHNavStruct : public virtual iBase
   /**
    * Render navigation structure.
    */
-  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () const = 0;
+  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () = 0;
 
   /**
    * Render proxy agent of the specified color.
    */
   virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos, int red, int green,
-                                                           int blue, int alpha) const = 0;
+                                                           int blue, int alpha) = 0;
 };
 
 

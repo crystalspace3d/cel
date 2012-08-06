@@ -95,7 +95,7 @@ enum SamplePolyFlags
  * When the begin() method is called, a new csSimpleRenderMesh is created. After
  * that, whenever one of the vertex() methods is called, a new vertex is added to
  * a list. Finally, when the end() method is called, the vertices are copied to
- * the csSimpleRenderMesh, and this method is added to a list. This list can be
+ * the csSimpleRenderMesh, and this method is added to an array. This array can be
  * later retrieved using the GetMeshes() method.
  */
 class DebugDrawCS : public duDebugDraw
@@ -208,6 +208,7 @@ private:
   int increasePosition; // Value to be added to currentPosition to get next element
   static const int INCREASE_PATH_BY; // Increase path vector by this amount when the it gets full
   csRef<iSector> sector;
+  csArray<csSimpleRenderMesh*>* debugMeshes;
 
 public:
   celNavMeshPath (float* path, int pathSize, int maxPathSize, iSector* sector);
@@ -228,7 +229,7 @@ public:
   virtual void InsertNode (int pos, csVector3 node);
   virtual float Length () const;
   virtual int GetNodeCount () const;
-  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () const;
+  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes ();
 };
 
 
@@ -260,6 +261,8 @@ private:
   dtNavMesh* detourNavMesh;
   dtNavMeshQuery* detourNavMeshQuery;
   csRef<iCelNavMeshParams> parameters;
+  csArray<csSimpleRenderMesh*>* debugMeshes;
+  csArray<csSimpleRenderMesh*>* agentDebugMeshes;
   float boundingMin[3];
   float boundingMax[3];
   unsigned char navMeshDrawFlags;
@@ -287,10 +290,10 @@ public:
   virtual csBox3 GetBoundingBox() const;
   virtual csArray<csPoly3D> QueryPolygons(const csBox3& box) const;
   virtual bool SaveToFile (iFile* file) const;
-  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () const;
-  virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos) const;
+  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes ();
+  virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos);
   virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
-                                                           int blue, int alpha) const;  
+                                                           int blue, int alpha);  
 };
 
 

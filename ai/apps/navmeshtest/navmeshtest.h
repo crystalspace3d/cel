@@ -57,10 +57,10 @@ private:
   bool originSet;
   bool destinationSet;
 
-  csList<csSimpleRenderMesh>* navStructMeshes;
-  csList<csSimpleRenderMesh>* pathMeshes;
-  csList<csSimpleRenderMesh>* originMeshes;
-  csList<csSimpleRenderMesh>* destinationMeshes;
+  csArray<csSimpleRenderMesh*>* navStructMeshes;
+  csArray<csSimpleRenderMesh*>* pathMeshes;
+  csArray<csSimpleRenderMesh*>* originMeshes;
+  csArray<csSimpleRenderMesh*>* destinationMeshes;
   bool clearMeshes;
   bool updateMeshes;
   bool updatePathMeshes;

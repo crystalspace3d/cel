@@ -184,7 +184,7 @@ struct iCelNavMeshPath : public virtual iBase
   /**
    * Render path.
    */
-  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () const = 0;
+  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () = 0;
 };
 
 
@@ -241,18 +241,18 @@ struct iCelNavMesh : public virtual iBase
   /**
    * Render navigation mesh.
    */
-  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () const = 0;
+  virtual csArray<csSimpleRenderMesh*>* GetDebugMeshes () = 0;
 
   /**
    * Render proxy agent.
    */
-  virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos) const = 0;
+  virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos) = 0;
 
   /**
    * Render proxy agent of the specified color.
    */
   virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
-                                                           int blue, int alpha) const = 0;
+                                                           int blue, int alpha) = 0;
 };
 
 

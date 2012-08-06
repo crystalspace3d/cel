@@ -35,10 +35,23 @@ celHPath::celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navmeshes)
     : scfImplementationType (this), navMeshes(navmeshes)
 {
   reverse = false;
+  debugMeshes = new csArray<csSimpleRenderMesh*>();
 }
 
 celHPath::~celHPath ()
 {
+  //if (!debugMeshes->IsEmpty()) 
+  //{ 
+  //  csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
+  //  while (it.HasNext()) 
+  //  { 
+  //    csSimpleRenderMesh* mesh = it.Next(); 
+  //    delete [] mesh->vertices; 
+  //    delete [] mesh->colors; 
+  //  } 
+    debugMeshes->DeleteAll();
+  //}
+  delete debugMeshes;
 }
 
 void celHPath::Initialize(iCelPath* highLevelPath)
@@ -323,7 +336,23 @@ csArray<csSimpleRenderMesh*>* celHPath::GetDebugMeshes ()
     Next();
   }
 
-  return dd.GetMeshes();
+
+  // Clear previous meshes
+  if (!debugMeshes->IsEmpty()) 
+  { 
+    csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
+    while (it.HasNext()) 
+    { 
+      csSimpleRenderMesh* mesh = it.Next(); 
+      delete [] mesh->vertices; 
+      delete [] mesh->colors; 
+    }
+    debugMeshes->DeleteAll(); 
+  }
+
+  // Update meshes
+  debugMeshes = dd.GetMeshes();
+  return debugMeshes;
 }
 
 
@@ -336,22 +365,23 @@ celHNavStruct::celHNavStruct (const iCelNavMeshParams* params, iObjectRegistry* 
 {
   this->objectRegistry = objectRegistry;
   parameters.AttachNew(params->Clone());
-  meshes = new csArray<csSimpleRenderMesh*>();
+  debugMeshes = new csArray<csSimpleRenderMesh*>();
 }
 
 celHNavStruct::~celHNavStruct ()
 {
-  //if (!meshes->IsEmpty())
-  //{
-  //  csArray<csSimpleRenderMesh>::Iterator it = meshes->GetIterator();
-  //  while (it.HasNext())
-  //  {
-  //    csSimpleRenderMesh mesh = it.Next();
-  //    delete [] mesh.vertices;
-  //    delete [] mesh.colors;
-  //  }
-  //}
-  delete meshes;
+  if (!debugMeshes->IsEmpty()) 
+  { 
+    csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
+    while (it.HasNext()) 
+    { 
+      csSimpleRenderMesh* mesh = it.Next(); 
+      delete [] mesh->vertices; 
+      delete [] mesh->colors; 
+    }
+    debugMeshes->DeleteAll(); 
+  }
+  delete debugMeshes;
 }
 
 void celHNavStruct::AddNavMesh(iCelNavMesh* navMesh)
@@ -1047,10 +1077,23 @@ const iCelNavMeshParams* celHNavStruct::GetNavMeshParams () const
   return parameters;
 }
 
-csArray<csSimpleRenderMesh*>* celHNavStruct::GetDebugMeshes () const
-{  
-  meshes->DeleteAll();
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::ConstGlobalIterator it = navMeshes.GetIterator();
+csArray<csSimpleRenderMesh*>* celHNavStruct::GetDebugMeshes () 
+{ 
+  //// Clear previous meshes
+  //if (!debugMeshes->IsEmpty()) 
+  //{ 
+  //  csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
+  //  while (it.HasNext()) 
+  //  { 
+  //    csSimpleRenderMesh* mesh = it.Next(); 
+  //    delete [] mesh->vertices; 
+  //    delete [] mesh->colors; 
+    //}
+    debugMeshes->DeleteAll(); 
+  //}
+
+  // Copy meshes from all navMeshes
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
   while (it.HasNext())
   {
     csRef<iCelNavMesh> navMesh = it.Next();
@@ -1058,17 +1101,18 @@ csArray<csSimpleRenderMesh*>* celHNavStruct::GetDebugMeshes () const
     csArray<csSimpleRenderMesh*>::Iterator tmpIt = tmp->GetIterator();
     while (tmpIt.HasNext())
     {
-      meshes->Push(tmpIt.Next());
+      //csSimpleRenderMesh* copiedMesh = new csSimpleRenderMesh(*tmpIt.Next());
+      debugMeshes->Push(tmpIt.Next());
     }
     delete tmp;
   }
-  return meshes;
+  return debugMeshes;
 }
 
 csArray<csSimpleRenderMesh*>* celHNavStruct::GetAgentDebugMeshes (const csVector3& pos, int red, int green,
-                                                                int blue, int alpha) const
+                                                                int blue, int alpha) 
 {
-  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::ConstGlobalIterator it = navMeshes.GetIterator();
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
   if (it.HasNext())
   {
     csRef<iCelNavMesh> navMesh = it.Next();
