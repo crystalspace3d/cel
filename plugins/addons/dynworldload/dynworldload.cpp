@@ -118,6 +118,9 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
   bool light = false;
   if (node->GetAttribute ("light"))
     light = node->GetAttributeValueAsBool ("light");
+  bool hasCollider = false;
+  if (node->GetAttribute ("collider"))
+    hasCollider = node->GetAttributeValueAsBool ("collider");
 
   csVector3 min, max;
   if (logic)
@@ -164,6 +167,8 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
     csString tmpName = node->GetAttributeValue ("template");
     fact->SetDefaultEntityTemplate (tmpName);
   }
+
+  fact->SetColliderEnabled (hasCollider);
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -684,6 +689,8 @@ bool celAddOnDynamicWorldLoader::WriteDown (iBase* obj, iDocumentNode* parent,
       factNode->SetAttribute ("light", "true");
     if (fact->GetDefaultEntityTemplate ())
       factNode->SetAttribute ("template", fact->GetDefaultEntityTemplate ());
+    if (fact->IsColliderEnabled ())
+      factNode->SetAttribute ("collider", "true");
     if (fact->IsLogicFactory ())
     {
       const csBox3& bbox = fact->GetBBox ();
