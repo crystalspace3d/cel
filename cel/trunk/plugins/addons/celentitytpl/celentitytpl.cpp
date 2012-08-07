@@ -532,7 +532,12 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
 	"cel.addons.celentitytpl",
 	node, "'entityname' is missing for this entity template!");
   }
-  csRef<iCelEntityTemplate> ent = pl->CreateEntityTemplate (entityname);
+  csRef<iCelEntityTemplate> ent;
+  // First we see if the template already exists. Because if it does we will
+  // simply add additional stuff to it.
+  ent = pl->FindEntityTemplate (entityname);
+  if (!ent)
+    ent = pl->CreateEntityTemplate (entityname);
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
