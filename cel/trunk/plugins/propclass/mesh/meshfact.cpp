@@ -672,8 +672,8 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 
   if(!ret->WasSuccessful())
   {
-    Error ("Error loading mesh object factory or library '%s'!",
-      (const char*)fileName);
+    Error ("Error loading mesh object factory or library '%s' for factory '%s'!",
+      (const char*)fileName, (const char*)factName);
     return 0;
   }
   csRef<iBase> result = ret->GetResultRefPtr();
