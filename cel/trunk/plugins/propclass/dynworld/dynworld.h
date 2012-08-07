@@ -317,6 +317,7 @@ private:
   csBox3 physBbox;
   float maxradiusRelative;
   bool isLogic;
+  bool hasCollider;
 
   csArray<csVector3> pivotJoints;
   csArray<DynFactJointDefinition> joints;
@@ -382,6 +383,9 @@ public:
   }
   virtual void DeleteBody (size_t idx);
   virtual void DeleteBodies ();
+
+  virtual void SetColliderEnabled (bool e);
+  virtual bool IsColliderEnabled () const { return hasCollider; }
 
   virtual DynFactJointDefinition& CreateJoint ();
   virtual size_t GetJointCount () const { return joints.GetSize (); }
@@ -462,6 +466,7 @@ private:
   // Update the mesh and body in the property classes of the entity.
   void MeshBodyToEntity (iMeshWrapper* mesh, iRigidBody* body);
 
+  void CreateCollider ();
   void CreateBody ();
 
 public:
@@ -528,6 +533,8 @@ public:
   void RemoveMesh (celPcDynamicWorld* world);
   void RemoveLight (celPcDynamicWorld* world);
   void RemoveCsObject (celPcDynamicWorld* world);
+  void RemoveCollider ();
+  void RemoveBody ();
   void Save (iDocumentNode* node, iSyntaxService* syn);
   bool Load (iDocumentNode* node, iSyntaxService* syn, celPcDynamicWorld* world);
 
@@ -641,6 +648,7 @@ public:
   csRef<iGraphics3D> g3d;
   csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
+  csRef<iCollideSystem> cdsys;
   csRefArray<DynamicFactory> factories;
   csHash<DynamicFactory*,csString> factory_hash;
   MeshCache meshCache;
@@ -648,10 +656,19 @@ public:
   csRef<iELCM> elcm;
   size_t scopeIdx;
 
+  // For properties.
+  enum propids
+  {
+    propid_physics = 0
+  };
+  static PropertyHolder propinfo;
+
   // Don't create entities if this is true.
   bool inhibitEntities;
   // Game mode.
   bool gameMode;
+  // Physics.
+  bool doPhysics;
 
   uint lastIDBlock;
   // The following flag is set to true while we are restoring ID blocks.
@@ -709,6 +726,8 @@ public:
   celPcDynamicWorld (iObjectRegistry* object_reg);
   virtual ~celPcDynamicWorld ();
 
+  iCollideSystem* GetCollideSystem ();
+
   uint AllocIDBlock ()
   {
     CS_ASSERT (!restoringIDBlocks);
@@ -740,6 +759,8 @@ public:
   virtual bool IsInhibitEntities () const { return inhibitEntities; }
   virtual void EnableGameMode (bool e);
   virtual bool IsGameMode () const { return gameMode; }
+  virtual void EnablePhysics (bool e);
+  virtual bool IsPhysicsEnabled () const { return doPhysics; }
 
   void SafeToRemove (iCelEntity* entity);
   virtual void Dump ();
@@ -788,6 +809,11 @@ public:
   virtual void MarkBaseline ();
   virtual csPtr<iDataBuffer> SaveModifications ();
   virtual void RestoreModifications (iDataBuffer* buf);
+
+  // Override SetProperty from celPcCommon in order to provide support
+  // for the 'physics' property.
+  virtual bool SetPropertyIndexed (int idx, bool b);
+  virtual bool GetPropertyIndexed (int, bool&);
 };
 
 
