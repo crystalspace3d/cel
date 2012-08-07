@@ -1644,13 +1644,18 @@ void DynamicObject::CreateCollider ()
 void DynamicObject::CreateBody ()
 {
   bsphereValid = false;
+  if (body)
+  {
+    body->DestroyColliders ();
+    body = 0;
+  }
+  if (!factory->GetWorld ()->IsPhysicsEnabled ())
+    return;	// No physics, no body.
+
   if (mesh)
     trans = mesh->GetMovable ()->GetTransform ();
   if (light)
     trans = light->GetMovable ()->GetTransform ();
-  if (body)
-    body->DestroyColliders ();
-  body = 0;
   const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
   for (size_t i = 0 ; i < colliders.GetSize () ; i++)
   {
