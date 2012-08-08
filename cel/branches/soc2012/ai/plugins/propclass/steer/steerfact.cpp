@@ -239,6 +239,7 @@ bool celPcSteer::Vigilant()
 bool celPcSteer::Seek (iSector* sector, const csVector3& position)
 {
   arrived = false;
+  path = 0;
   return DoSeek(sector,position);
 }
 
@@ -248,14 +249,14 @@ bool celPcSteer::DoSeek (iSector* sector, const csVector3& position)
   if (!pclinmove || !pcactormove || !pcMover)
     return false;
 
-    //Interrupt();
+  //Interrupt();
 
-    current_action = action_seek;
+  current_action = action_seek;
 
-    celPcSteer::sector = sector;
-    celPcSteer::position = position;
+  celPcSteer::sector = sector;
+  celPcSteer::position = position;
 
-    pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
+  pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
 
   if (navStruct)
   {

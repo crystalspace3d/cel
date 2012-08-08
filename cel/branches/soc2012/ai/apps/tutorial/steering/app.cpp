@@ -23,19 +23,10 @@
 MainApp::MainApp ()
 {
   SetApplicationName ("Steering Test");
-  destinationSet = false;
   renderNavMesh = true;
-  renderDestination = true;
   renderPath = true;
-  updateNavmesh = false;
-  updateArea = csBox3(csVector3(24.3f, 1.0f, 13.7f), csVector3(25.3f, 2.0f, 21.3f));
   navStructMeshes = 0;
   pathMeshes = 0;
-  destinationMeshes = 0;
-  clearMeshes = false;
-  updateMeshes = false;
-  updatePathMeshes = false;
-  updateDestinationMeshes = false;
 }
 
 MainApp::~MainApp ()
@@ -229,22 +220,15 @@ void MainApp::Frame ()
     }
   }
 
-  // Render destination agent proxy
-  if (destinationMeshes && renderDestination)
-  {
-    csArray<csSimpleRenderMesh*>::Iterator it = destinationMeshes->GetIterator();
-    while (it.HasNext())
-    {
-      g3d->DrawSimpleMesh(*it.Next());
-    }
-  }
-
   // Render path
   if (bl->GetPath() && path != bl->GetPath())
   {
-    updatePathMeshes = true;
+    path = bl->GetPath();
+    if (path)
+    {
+      pathMeshes = path->GetDebugMeshes();
+    }
   }
-  path = bl->GetPath();
   if (pathMeshes && path && renderPath)
   {
     csArray<csSimpleRenderMesh*>::Iterator it = pathMeshes->GetIterator();
@@ -253,49 +237,6 @@ void MainApp::Frame ()
       g3d->DrawSimpleMesh(*it.Next());
     }
   }
-
-  if (!navStruct)
-    return;
-
-  // Auto-update navigation mesh
-  if (updateNavmesh)
-  {
-    navStruct->Update(updateArea, engine->FindSector("interior"));
-    updateMeshes = true;
-  }
-
-  // If we just modifying the meshes in the OnKeyboard method, they may be deleted
-  // while rendering a frame, causing a crash.
-  if (clearMeshes || updateMeshes)
-  {
-    navStructMeshes = 0;
-    if (updateMeshes)
-    {
-      navStructMeshes = navStruct->GetDebugMeshes();
-      updateMeshes = false;
-    }
-  }
-  if (clearMeshes || updatePathMeshes)
-  {
-    pathMeshes = 0;
-    if (updatePathMeshes)
-    {
-      pathMeshes = path->GetDebugMeshes();
-      updatePathMeshes = false;
-    }
-  }
-  if (clearMeshes || updateDestinationMeshes)
-  {
-    destinationMeshes = 0;
-    destinationSet = false;
-    if (updateDestinationMeshes)
-    {
-      destinationMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
-      updateDestinationMeshes = false;
-      destinationSet = true;
-    }
-  }
-  clearMeshes = false;
 }
 
 bool MainApp::OnKeyboard(iEvent& ev)
@@ -322,24 +263,11 @@ bool MainApp::OnKeyboard(iEvent& ev)
     {
       navStruct.Invalidate();
       path.Invalidate();
-      destinationSet = false;
       bl->SetPath(0);
       if (!params)
       {
         params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
         params->SetSuggestedValues(agentHeight, agentRadius, 45.0f);
-        // Our agent is tiny and the map has stairs, so lets change agentMaxClimb so she can
-        // go everywhere.
-        params->SetAgentMaxClimb(3.0f * agentHeight / 4.0f);
-        // Reduce minium region size so we can see the navmeshes inside the cells in the dungeon
-        // sector. The cells remain inaccessible however, since the model's bounding box is too
-        // big.
-        params->SetMinRegionArea(10);
-        // This parameter sets how far from the navmesh I can click and still get an approximated
-        // path (for example, clicking on walls and ceilings). It also determines how far the final
-        // node of a path can be from it's intended destination (Detour always returns a path, 
-        // either to the destination or the closest possible point. We need to see if the path reached
-        // the destination and was off by some approximation factor or didn't reach the destination at all).
         params->SetPolygonSearchBox(csVector3(2, 4, 2));
         navStructBuilder->SetNavMeshParams(params);
       }
@@ -352,18 +280,21 @@ bool MainApp::OnKeyboard(iEvent& ev)
       navStructBuilder->SetSectors(&sectorList);
       navStruct = navStructBuilder->BuildHNavStruct();
       bl->SetNavStruct(navStruct);
-      updateMeshes = true;
+
+      navStructMeshes = navStruct->GetDebugMeshes();
 
       csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
       pcsteer->SetNavStruct(navStruct);
     }
     else if (code == 'c') // Clear navstruct, positions and path
     {
+      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      pcsteer->SetNavStruct(0);
       navStruct.Invalidate();
       path.Invalidate();
-      destinationSet = false;
       bl->SetPath(0);
-      clearMeshes = true;
+      pathMeshes = 0;
+      navStructMeshes = 0;
     }
     else if (code == '6') // Switch navmesh rendering
     {

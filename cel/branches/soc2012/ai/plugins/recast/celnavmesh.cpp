@@ -51,19 +51,6 @@ DebugDrawCS::DebugDrawCS ()
 
 DebugDrawCS::~DebugDrawCS ()
 {
-  //if (!meshes->IsEmpty())
-  //{
-  //  csArray<csSimpleRenderMesh*>::Iterator it = meshes->GetIterator();
-  //  while (it.HasNext())
-  //  {
-  //    csSimpleRenderMesh* mesh = it.Next();
-  //    delete [] mesh->vertices;
-  //    delete [] mesh->colors;
-  //  }
-  //}
-  //meshes->DeleteAll();
-  //delete meshes;
-
   delete currentMesh;
 }
 
@@ -87,7 +74,7 @@ void DebugDrawCS::texture(bool state)
 void DebugDrawCS::begin (duDebugDrawPrimitives prim, float size)
 {  
   currentMesh = new csSimpleRenderMesh();
-  meshes->DeleteAll();
+  //meshes->DeleteAll();
   currentMesh->z_buf_mode = currentZBufMode;
   currentMesh->alphaType.autoAlphaMode = false;
   currentMesh->alphaType.alphaType = currentMesh->alphaType.alphaSmooth;
