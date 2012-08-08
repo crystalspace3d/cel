@@ -236,6 +236,8 @@ bool MainApp::OnKeyboard(iEvent& ev)
       }
       navStructBuilder->SetSectors(&sectorList);
       navStruct = navStructBuilder->BuildHNavStruct();
+
+      navStructMeshes = 0;
       updateMeshes = true;
     }
     else if (code == 's') // Save navstruct
@@ -307,6 +309,7 @@ void MainApp::MouseClick1Handler (iEvent& ev)
       path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
       if (path)
       {
+        pathMeshes = 0;
         updatePathMeshes = true;
       }
     }
@@ -321,6 +324,7 @@ void MainApp::MouseClick1Handler (iEvent& ev)
       path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
       if (path)
       {
+        pathMeshes = 0;
         updatePathMeshes = true;
       }
     }

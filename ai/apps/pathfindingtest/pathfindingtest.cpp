@@ -254,9 +254,10 @@ void MainApp::Frame ()
   if (behaviourLayer->GetPath() && path != behaviourLayer->GetPath())
   {
     updatePathMeshes = true;
-  }
-  path = behaviourLayer->GetPath();
-  if (pathMeshes && path && renderPath)
+    pathMeshes = 0;
+    path = behaviourLayer->GetPath();
+  }  
+  else if (pathMeshes && path && renderPath)
   {
     csArray<csSimpleRenderMesh*>::Iterator it = pathMeshes->GetIterator();
     while (it.HasNext())
@@ -360,11 +361,13 @@ bool MainApp::OnKeyboard(iEvent& ev)
       int size = engine->GetSectors()->GetCount();
       for (int i = 0; i < size; i++)
       {
-        sectorList.Push(engine->GetSectors()->Get(i));    
+        sectorList.Push(engine->GetSectors()->Get(i));
       }
       navStructBuilder->SetSectors(&sectorList);
       navStruct = navStructBuilder->BuildHNavStruct();
       behaviourLayer->SetNavStruct(navStruct);
+
+      navStructMeshes = 0;
       updateMeshes = true;
     }
     else if (code == 's') // Save navstruct

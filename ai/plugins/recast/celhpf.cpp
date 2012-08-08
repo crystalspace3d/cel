@@ -40,17 +40,17 @@ celHPath::celHPath (csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >& navmeshes)
 
 celHPath::~celHPath ()
 {
-  //if (!debugMeshes->IsEmpty()) 
-  //{ 
-  //  csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
-  //  while (it.HasNext()) 
-  //  { 
-  //    csSimpleRenderMesh* mesh = it.Next(); 
-  //    delete [] mesh->vertices; 
-  //    delete [] mesh->colors; 
-  //  } 
+  if (!debugMeshes->IsEmpty()) 
+  { 
+    csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
+    while (it.HasNext()) 
+    { 
+      csSimpleRenderMesh* mesh = it.Next(); 
+      delete [] mesh->vertices; 
+      delete [] mesh->colors; 
+    } 
     debugMeshes->DeleteAll();
-  //}
+  }
   delete debugMeshes;
 }
 
@@ -370,17 +370,6 @@ celHNavStruct::celHNavStruct (const iCelNavMeshParams* params, iObjectRegistry* 
 
 celHNavStruct::~celHNavStruct ()
 {
-  if (!debugMeshes->IsEmpty()) 
-  { 
-    csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
-    while (it.HasNext()) 
-    { 
-      csSimpleRenderMesh* mesh = it.Next(); 
-      delete [] mesh->vertices; 
-      delete [] mesh->colors; 
-    }
-    debugMeshes->DeleteAll(); 
-  }
   delete debugMeshes;
 }
 
@@ -1079,18 +1068,7 @@ const iCelNavMeshParams* celHNavStruct::GetNavMeshParams () const
 
 csArray<csSimpleRenderMesh*>* celHNavStruct::GetDebugMeshes () 
 { 
-  //// Clear previous meshes
-  //if (!debugMeshes->IsEmpty()) 
-  //{ 
-  //  csArray<csSimpleRenderMesh*>::Iterator it = debugMeshes->GetIterator(); 
-  //  while (it.HasNext()) 
-  //  { 
-  //    csSimpleRenderMesh* mesh = it.Next(); 
-  //    delete [] mesh->vertices; 
-  //    delete [] mesh->colors; 
-    //}
-    debugMeshes->DeleteAll(); 
-  //}
+  debugMeshes->DeleteAll(); 
 
   // Copy meshes from all navMeshes
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
@@ -1101,7 +1079,6 @@ csArray<csSimpleRenderMesh*>* celHNavStruct::GetDebugMeshes ()
     csArray<csSimpleRenderMesh*>::Iterator tmpIt = tmp->GetIterator();
     while (tmpIt.HasNext())
     {
-      //csSimpleRenderMesh* copiedMesh = new csSimpleRenderMesh(*tmpIt.Next());
       debugMeshes->Push(tmpIt.Next());
     }
     delete tmp;

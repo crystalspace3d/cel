@@ -36,24 +36,15 @@ private:
   float agentRadius;
 
   // Path
-  csVector3 origin;
-  csVector3 destination;
-  csRef<iSector> originSector;  
-  csRef<iSector> destinationSector;
-  bool destinationSet;
+  //csVector3 origin;
+  //csVector3 destination;
+  //csRef<iSector> originSector;  
+  //csRef<iSector> destinationSector;
 
   csArray<csSimpleRenderMesh*>* navStructMeshes;
   csArray<csSimpleRenderMesh*>* pathMeshes;
-  csArray<csSimpleRenderMesh*>* destinationMeshes;
-  bool clearMeshes;
-  bool updateMeshes;
-  bool updatePathMeshes;
-  bool updateDestinationMeshes;
   bool renderNavMesh;
-  bool renderDestination;
   bool renderPath;
-  bool updateNavmesh;
-  csBox3 updateArea;
 
   bool OnKeyboard (iEvent&);
 
