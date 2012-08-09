@@ -485,12 +485,12 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\apps\tutorial\walktut\app.cpp" />
-    <ClCompile Include="..\..\apps\tutorial\walktut\behave.cpp" />
+    <ClCompile Include="..\..\apps\tutorial\walktut\controllers.cpp" />
     <ClCompile Include="..\..\apps\tutorial\walktut\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\apps\tutorial\walktut\app.h" />
-    <ClInclude Include="..\..\apps\tutorial\walktut\behave.h" />
+    <ClInclude Include="..\..\apps\tutorial\walktut\controllers.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\msvc\appwalktut.rc" />
