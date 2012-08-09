@@ -279,7 +279,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
       }
       navStructBuilder->SetSectors(&sectorList);
       navStruct = navStructBuilder->BuildHNavStruct();
-      bl->SetNavStruct(navStruct);
+      //bl->SetNavStruct(navStruct);
 
       navStructMeshes = navStruct->GetDebugMeshes();
 

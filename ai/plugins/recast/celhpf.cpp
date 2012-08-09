@@ -370,6 +370,7 @@ celHNavStruct::celHNavStruct (const iCelNavMeshParams* params, iObjectRegistry* 
 
 celHNavStruct::~celHNavStruct ()
 {
+  debugMeshes->Empty();
   delete debugMeshes;
 }
 
@@ -1068,7 +1069,7 @@ const iCelNavMeshParams* celHNavStruct::GetNavMeshParams () const
 
 csArray<csSimpleRenderMesh*>* celHNavStruct::GetDebugMeshes () 
 { 
-  debugMeshes->DeleteAll(); 
+  debugMeshes->Empty(); 
 
   // Copy meshes from all navMeshes
   csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
@@ -1081,7 +1082,6 @@ csArray<csSimpleRenderMesh*>* celHNavStruct::GetDebugMeshes ()
     {
       debugMeshes->Push(tmpIt.Next());
     }
-    delete tmp;
   }
   return debugMeshes;
 }

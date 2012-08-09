@@ -35,12 +35,6 @@ private:
   float agentHeight;
   float agentRadius;
 
-  // Path
-  //csVector3 origin;
-  //csVector3 destination;
-  //csRef<iSector> originSector;  
-  //csRef<iSector> destinationSector;
-
   csArray<csSimpleRenderMesh*>* navStructMeshes;
   csArray<csSimpleRenderMesh*>* pathMeshes;
   bool renderNavMesh;
