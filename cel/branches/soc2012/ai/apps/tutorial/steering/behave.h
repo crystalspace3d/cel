@@ -21,7 +21,6 @@ class BehaviourLayer :
 private:
   iCelPlLayer* pl;
 
-  csRef<iCelHNavStruct> navStruct;
   csRef<iCelHPath> path;
 
 public:
@@ -31,8 +30,6 @@ public:
   virtual const char* GetName () const { return "behaviourlayer"; }
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
 
-  void SetNavStruct (iCelHNavStruct* navStruct);
-  iCelHNavStruct* GetNavStruct () const;
   void SetPath (iCelHPath* path);
   iCelHPath* GetPath () const;
 };

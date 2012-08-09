@@ -2627,10 +2627,6 @@ unsigned char* celNavMeshBuilder::BuildTile(const int tx, const int ty, const fl
     params.ch = tileConfig.ch;
     params.buildBvTree = true;                
     params.tileLayer = 0;
-    
-    //params.tileSize = tileConfig.tileSize;  //Obsolete?
-    //params.userID?  //Unneccesarry?
-    //params.offMeshConUserID? //Unneccesarry?
 
     if (!dtCreateNavMeshData(&params, &navData, &navDataSize))
     {

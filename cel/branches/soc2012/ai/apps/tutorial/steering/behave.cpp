@@ -50,16 +50,6 @@ iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity,
   return behave;
 }
 
-void BehaviourLayer::SetNavStruct(iCelHNavStruct* navStruct)
-{
-  this->navStruct = navStruct;
-}
-
-iCelHNavStruct* BehaviourLayer::GetNavStruct() const
-{ 
-  return navStruct;
-}
-
 void BehaviourLayer::SetPath (iCelHPath* path)
 {
   this->path = path;
