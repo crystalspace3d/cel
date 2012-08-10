@@ -148,53 +148,6 @@ void MainApp::Frame ()
       g3d->DrawSimpleMesh(*it.Next());
     }
   }
-
-  if (!navStruct)
-    return;
-
-  // If we just modifying the meshes in the OnKeyboard method, they may be deleted
-  // while rendering a frame, causing a crash.
-  if (clearMeshes || updateMeshes)
-  {
-    navStructMeshes = 0;
-    if (updateMeshes)
-    {
-      navStructMeshes = navStruct->GetDebugMeshes();
-      updateMeshes = false;
-    }
-  }
-  if (clearMeshes || updatePathMeshes)
-  {
-    pathMeshes = 0;
-    if (updatePathMeshes)
-    {
-      pathMeshes = path->GetDebugMeshes();
-      updatePathMeshes = false;
-    }
-  }
-  if (clearMeshes || updateOriginMeshes)
-  {
-    originMeshes = 0;
-    originSet = false;
-    if (updateOriginMeshes)
-    {
-      originMeshes = navStruct->GetAgentDebugMeshes(origin, 70, 140, 255, 150);
-      updateOriginMeshes = false;
-      originSet = true;
-    }
-  }
-  if (clearMeshes || updateDestinationMeshes)
-  {
-    destinationMeshes = 0;
-    destinationSet = false;
-    if (updateDestinationMeshes)
-    {
-      destinationMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
-      updateDestinationMeshes = false;
-      destinationSet = true;
-    }
-  }
-  clearMeshes = false;
 }
 
 bool MainApp::OnKeyboard(iEvent& ev) 
@@ -237,8 +190,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
       navStructBuilder->SetSectors(&sectorList);
       navStruct = navStructBuilder->BuildHNavStruct();
 
-      navStructMeshes = 0;
-      updateMeshes = true;
+      navStructMeshes = navStruct->GetDebugMeshes();
     }
     else if (code == 's') // Save navstruct
     {
@@ -251,7 +203,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
     {
       navStruct.Invalidate();
       navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure.zip");
-      updateMeshes = true;
+      navStructMeshes = navStruct->GetDebugMeshes();
     }
     else if (code == 'c') // Clear navstruct, positions and path
     {
@@ -259,7 +211,10 @@ bool MainApp::OnKeyboard(iEvent& ev)
       path.Invalidate();
       originSet = false;
       destinationSet = false;
-      clearMeshes = true;
+      originMeshes = 0;
+      destinationMeshes = 0;
+      pathMeshes = 0;
+      navStructMeshes = 0;
     }
   }
   return false;
@@ -285,6 +240,9 @@ bool MainApp::OnMouseClick (iEvent& ev)
 // left
 void MainApp::MouseClick1Handler (iEvent& ev)
 {
+  if (!navStruct)
+    return;
+
   csVector2 screenPoint;
   screenPoint.x = csMouseEventHelper::GetX(&ev);
   screenPoint.y = csMouseEventHelper::GetY(&ev);
@@ -301,31 +259,31 @@ void MainApp::MouseClick1Handler (iEvent& ev)
   
   if (kbd->GetKeyState(CSKEY_SHIFT))
   {
+    originSet = true;
     origin = st.isect;
     originSector = sectorList->Get(0);
-    updateOriginMeshes = true;
+    originMeshes = navStruct->GetAgentDebugMeshes(origin, 70, 140, 255, 150);
     if (destinationSet && navStruct)
     {
       path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
       if (path)
       {
-        pathMeshes = 0;
-        updatePathMeshes = true;
+        pathMeshes = path->GetDebugMeshes();
       }
     }
   }
   else
   {
+    destinationSet = true;
     destination = st.isect;
     destinationSector = sectorList->Get(0);
-    updateDestinationMeshes = true;
+    destinationMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
     if (originSet && navStruct)
     {
       path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
       if (path)
       {
-        pathMeshes = 0;
-        updatePathMeshes = true;
+        pathMeshes = path->GetDebugMeshes();
       }
     }
   }

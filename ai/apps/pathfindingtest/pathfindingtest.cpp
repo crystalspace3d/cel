@@ -22,7 +22,6 @@
 MainApp::MainApp () 
 {
   SetApplicationName("Navigation Mesh Test");
-  destinationSet = false;
   renderNavMesh = true;
   renderDestination = true;
   renderPath = true;
@@ -32,10 +31,6 @@ MainApp::MainApp ()
   navStructMeshes = 0;
   pathMeshes = 0;
   destinationMeshes = 0;
-  clearMeshes = false;
-  updateMeshes = false;
-  updatePathMeshes = false;
-  updateDestinationMeshes = false;
 }
 
 MainApp::~MainApp () 
@@ -230,6 +225,13 @@ void MainApp::Frame ()
 {
   pcCamera->Draw();
 
+  // Auto-update navigation mesh
+  if (updateNavmesh && navStruct)
+  {
+    navStruct->Update(updateArea, engine->FindSector("interior"));
+    navStructMeshes = navStruct->GetDebugMeshes();
+  }
+
   // Render navigation structure
   if (navStructMeshes && renderNavMesh)
   {
@@ -253,11 +255,13 @@ void MainApp::Frame ()
   // Render path
   if (behaviourLayer->GetPath() && path != behaviourLayer->GetPath())
   {
-    updatePathMeshes = true;
-    pathMeshes = 0;
     path = behaviourLayer->GetPath();
+    if (path)
+    {
+      pathMeshes = path->GetDebugMeshes();
+    }
   }  
-  else if (pathMeshes && path && renderPath)
+  if (pathMeshes && path && renderPath)
   {
     csArray<csSimpleRenderMesh*>::Iterator it = pathMeshes->GetIterator();
     while (it.HasNext())
@@ -265,49 +269,6 @@ void MainApp::Frame ()
       g3d->DrawSimpleMesh(*it.Next());
     }
   }
-
-  if (!navStruct)
-    return;
-
-  // Auto-update navigation mesh
-  if (updateNavmesh)
-  {
-    navStruct->Update(updateArea, engine->FindSector("interior"));
-    updateMeshes = true;
-  }
-
-  // If we just modifying the meshes in the OnKeyboard method, they may be deleted
-  // while rendering a frame, causing a crash.
-  if (clearMeshes || updateMeshes)
-  {
-    navStructMeshes = 0;
-    if (updateMeshes)
-    {
-      navStructMeshes = navStruct->GetDebugMeshes();
-      updateMeshes = false;
-    }
-  }
-  if (clearMeshes || updatePathMeshes)
-  {
-    pathMeshes = 0;
-    if (updatePathMeshes)
-    {
-      pathMeshes = path->GetDebugMeshes();
-      updatePathMeshes = false;
-    }
-  }
-  if (clearMeshes || updateDestinationMeshes)
-  {
-    destinationMeshes = 0;
-    destinationSet = false;
-    if (updateDestinationMeshes)
-    {
-      destinationMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
-      updateDestinationMeshes = false;
-      destinationSet = true;
-    }
-  }
-  clearMeshes = false;
 }
 
 bool MainApp::OnKeyboard(iEvent& ev)
@@ -336,7 +297,6 @@ bool MainApp::OnKeyboard(iEvent& ev)
       CS::MeasureTime measure ("Total time to build the navigation structure");
       navStruct.Invalidate();
       path.Invalidate();
-      destinationSet = false;
       behaviourLayer->SetPath(0);
       if (!params)
       {
@@ -363,12 +323,11 @@ bool MainApp::OnKeyboard(iEvent& ev)
       {
         sectorList.Push(engine->GetSectors()->Get(i));
       }
+
       navStructBuilder->SetSectors(&sectorList);
       navStruct = navStructBuilder->BuildHNavStruct();
       behaviourLayer->SetNavStruct(navStruct);
-
-      navStructMeshes = 0;
-      updateMeshes = true;
+      navStructMeshes = navStruct->GetDebugMeshes();
     }
     else if (code == 's') // Save navstruct
     {
@@ -382,15 +341,17 @@ bool MainApp::OnKeyboard(iEvent& ev)
       navStruct.Invalidate();
       navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure2.zip");
       behaviourLayer->SetNavStruct(navStruct);
-      updateMeshes = true;
+      navStructMeshes = navStruct->GetDebugMeshes();
     }
     else if (code == 'c') // Clear navstruct, positions and path
     {
       navStruct.Invalidate();
+      behaviourLayer->SetNavStruct(0);
       path.Invalidate();
-      destinationSet = false;
       behaviourLayer->SetPath(0);
-      clearMeshes = true;
+      navStructMeshes = 0;
+      pathMeshes = 0;
+      destinationMeshes = 0;
     }
     else if (code == '1') // Switch navmesh rendering
     {
@@ -423,7 +384,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
     else if (code == 'u') // Update navmesh now
     {
       navStruct->Update(updateArea, engine->FindSector("interior"));
-      updateMeshes = true;
+      navStructMeshes = navStruct->GetDebugMeshes();
     }
     else if (code == 'y') // Update navmesh every time the big stone block moves
     {
@@ -460,23 +421,26 @@ bool MainApp::OnMouseClick (iEvent& ev)
 // left
 void MainApp::MouseClick1Handler (iEvent& ev)
 {
-  csVector2 screenPoint;
-  screenPoint.x = csMouseEventHelper::GetX(&ev);
-  screenPoint.y = csMouseEventHelper::GetY(&ev);
-
-  csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, camera);
-  if (!st.mesh)
-    return;
-
-  csRef<iSectorList> sectorList = st.mesh->GetMovable()->GetSectors();
-  if (sectorList->GetCount() != 1)
+  if (navStruct)
   {
-    return;
-  }
+    csVector2 screenPoint;
+    screenPoint.x = csMouseEventHelper::GetX(&ev);
+    screenPoint.y = csMouseEventHelper::GetY(&ev);
 
-  destination = st.isect;
-  destinationSector = sectorList->Get(0);
-  updateDestinationMeshes = true;
+    csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, camera);
+    if (!st.mesh)
+      return;
+
+    csRef<iSectorList> sectorList = st.mesh->GetMovable()->GetSectors();
+    if (sectorList->GetCount() != 1)
+    {
+      return;
+    }
+
+    destination = st.isect;
+    destinationSector = sectorList->Get(0);
+    destinationMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
+  }
 }
 
 // right

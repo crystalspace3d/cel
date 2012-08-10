@@ -64,15 +64,12 @@ private:
   csVector3 destination;
   csRef<iSector> originSector;  
   csRef<iSector> destinationSector;
-  bool destinationSet;
 
   csArray<csSimpleRenderMesh*>* navStructMeshes;
   csArray<csSimpleRenderMesh*>* pathMeshes;
   csArray<csSimpleRenderMesh*>* destinationMeshes;
-  bool clearMeshes;
-  bool updateMeshes;
-  bool updatePathMeshes;
-  bool updateDestinationMeshes;
+  bool updateNavmesh;
+  csBox3 updateArea;
   
   csRef<iCamera> camera;
   csRef<iPcCamera> pcCamera;
@@ -86,8 +83,6 @@ private:
   bool renderDestination;
   bool renderPath;
   bool renderBox;
-  bool updateNavmesh;
-  csBox3 updateArea;
 
   void Frame ();
   bool LoadLevel ();
