@@ -1001,14 +1001,14 @@ void celHNavStruct::SaveHighLevelGraph (iDocumentNode* node1, iDocumentNode* nod
   for (size_t i = 0; i < size; i++)
   {
     csRef<iCelNode> graphNode = hlGraph->GetNode(i);
-    csRefArray<iCelEdge> edges = graphNode->GetEdges();
-    for (size_t j = 0; j < edges.GetSize(); j++)
+    csRefArray<iCelEdge>* edges = graphNode->GetEdges();
+    for (size_t j = 0; j < edges->GetSize(); j++)
     {
       csRef<iDocumentNode> e = node2->CreateNodeBefore(CS_NODE_ELEMENT);
       e->SetValue("edge");
       e->SetAttribute("from", graphNode->GetName());
-      e->SetAttribute("to", edges[j]->GetSuccessor()->GetName());
-      e->SetAttributeAsFloat("weight", edges[j]->GetWeight());
+      e->SetAttribute("to", edges->Get(j)->GetSuccessor()->GetName());
+      e->SetAttributeAsFloat("weight", edges->Get(j)->GetWeight());
     }    
   }
 }
