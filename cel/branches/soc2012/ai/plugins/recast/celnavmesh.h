@@ -294,6 +294,7 @@ public:
   virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos);
   virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
                                                            int blue, int alpha);  
+  virtual void ResetAgentDebugMeshes ();
 };
 
 

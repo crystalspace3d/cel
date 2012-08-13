@@ -1596,19 +1596,6 @@ csArray<csSimpleRenderMesh*>* celNavMesh::GetAgentDebugMeshes (const csVector3& 
 csArray<csSimpleRenderMesh*>* celNavMesh::GetAgentDebugMeshes (const csVector3& pos, int red, int green, 
                                                              int blue, int alpha) 
 {
-  // Clear previous agent debug meshes
-  if (!agentDebugMeshes->IsEmpty()) 
-  { 
-    csArray<csSimpleRenderMesh*>::Iterator it = agentDebugMeshes->GetIterator(); 
-    while (it.HasNext()) 
-    { 
-      csSimpleRenderMesh* mesh = it.Next(); 
-      delete [] mesh->vertices; 
-      delete [] mesh->colors; 
-    }
-    agentDebugMeshes->DeleteAll(); 
-  }
-
   // Update agent debug meshes
   DebugDrawCS dd;
   dd.depthMask (false);
@@ -1633,11 +1620,32 @@ csArray<csSimpleRenderMesh*>* celNavMesh::GetAgentDebugMeshes (const csVector3& 
   dd.end();
 
   dd.depthMask (true);
-  agentDebugMeshes = dd.GetMeshes();
+
+  // Add this new proxy agent to any existing
+  csArray<csSimpleRenderMesh*>* tmp = dd.GetMeshes();
+  csArray<csSimpleRenderMesh*>::Iterator tmpIt = tmp->GetIterator();
+  while (tmpIt.HasNext())
+  {
+    agentDebugMeshes->Push(tmpIt.Next());
+  }
   return agentDebugMeshes;
 }
 
-
+void celNavMesh::ResetAgentDebugMeshes ()
+{
+  // Clear previous agent debug meshes
+  if (!agentDebugMeshes->IsEmpty()) 
+  { 
+    csArray<csSimpleRenderMesh*>::Iterator it = agentDebugMeshes->GetIterator(); 
+    while (it.HasNext()) 
+    { 
+      csSimpleRenderMesh* mesh = it.Next(); 
+      delete [] mesh->vertices; 
+      delete [] mesh->colors; 
+    }
+    agentDebugMeshes->DeleteAll(); 
+  }
+}
 
 /*
  * celNavMeshParams

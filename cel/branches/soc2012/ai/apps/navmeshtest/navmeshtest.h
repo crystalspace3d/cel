@@ -59,8 +59,9 @@ private:
 
   csArray<csSimpleRenderMesh*>* navStructMeshes;
   csArray<csSimpleRenderMesh*>* pathMeshes;
-  csArray<csSimpleRenderMesh*>* originMeshes;
-  csArray<csSimpleRenderMesh*>* destinationMeshes;
+  csArray<csSimpleRenderMesh*>* pathEndMeshes;
+  //csArray<csSimpleRenderMesh*> originMeshes;
+  //csArray<csSimpleRenderMesh*> destinationMeshes;
   bool clearMeshes;
   bool updateMeshes;
   bool updatePathMeshes;

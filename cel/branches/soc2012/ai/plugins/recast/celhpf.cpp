@@ -1098,6 +1098,16 @@ csArray<csSimpleRenderMesh*>* celHNavStruct::GetAgentDebugMeshes (const csVector
   return 0;
 }
 
+void celHNavStruct::ResetAgentDebugMeshes ()
+{
+  csHash<csRef<iCelNavMesh>, csPtrKey<iSector> >::GlobalIterator it = navMeshes.GetIterator();
+  if (it.HasNext())
+  {
+    csRef<iCelNavMesh> navMesh = it.Next();
+    navMesh->ResetAgentDebugMeshes();
+  }
+}
+
 
 
 /*
