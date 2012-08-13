@@ -194,7 +194,7 @@ void celPcTimer::WakeUp (csTicks t, bool repeat, const char* name)
   te_new.firetime = current + t;
   te_new.amount = t;
   te_new.repeat = repeat;
-  te_new.name = name ? name : "wakeup";
+  te_new.name = (name && *name) ? name : "wakeup";
   timer_events.InsertSorted (te_new, CompareTimeEvent);
 
   pl->CallbackOnce ((iCelTimerListener*)this,

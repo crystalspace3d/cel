@@ -15,7 +15,11 @@
 	</action>
       </propclass>
 
-      <propclass name="pcobject.mesh.select" />
+      <propclass name="pcobject.mesh.select">
+      	<action name="SetCamera">
+	  <par name="entity" string="player" />
+	</action>
+      </propclass>
 
       <propclass name="pcmove.linear">
         <action name="InitCD">
@@ -30,7 +34,16 @@
 	</action>
       </propclass>
 
-      <behaviour name="box_behave" />
+      <propclass name="pclogic.wire">
+        <action name="AddInput">
+          <par name="mask" string="cel.mesh.select.down" />
+	</action>
+        <action name="AddOutput">
+          <par name="msgid" string="tutorial.player.action.PickUp" />
+          <par name="entity" string="player" />
+          <par name="child" string="box1" />
+        </action>
+      </propclass>
 
     </addon>
 
@@ -43,7 +56,11 @@
 	</action>
       </propclass>
 
-      <propclass name="pcobject.mesh.select" />
+      <propclass name="pcobject.mesh.select">
+      	<action name="SetCamera">
+	  <par name="entity" string="player" />
+	</action>
+      </propclass>
 
       <propclass name="pcmove.linear">
         <action name="InitCD">
@@ -58,7 +75,16 @@
 	</action>
       </propclass>
 
-      <behaviour name="box_behave" />
+      <propclass name="pclogic.wire">
+        <action name="AddInput">
+          <par name="mask" string="cel.mesh.select.down" />
+	</action>
+        <action name="AddOutput">
+          <par name="msgid" string="tutorial.player.action.PickUp" />
+          <par name="entity" string="player" />
+          <par name="child" string="box2" />
+        </action>
+      </propclass>
 
     </addon>
 
@@ -71,7 +97,11 @@
 	</action>
       </propclass>
 
-      <propclass name="pcobject.mesh.select" />
+      <propclass name="pcobject.mesh.select">
+      	<action name="SetCamera">
+	  <par name="entity" string="player" />
+	</action>
+      </propclass>
 
       <propclass name="pcmove.linear">
         <action name="InitCD">
@@ -86,7 +116,16 @@
 	</action>
       </propclass>
 
-      <behaviour name="box_behave" />
+      <propclass name="pclogic.wire">
+        <action name="AddInput">
+          <par name="mask" string="cel.mesh.select.down" />
+	</action>
+        <action name="AddOutput">
+          <par name="msgid" string="tutorial.player.action.PickUp" />
+          <par name="entity" string="player" />
+          <par name="child" string="box3" />
+        </action>
+      </propclass>
 
     </addon>
 
@@ -99,7 +138,11 @@
 	</action>
       </propclass>
 
-      <propclass name="pcobject.mesh.select" />
+      <propclass name="pcobject.mesh.select">
+      	<action name="SetCamera">
+	  <par name="entity" string="player" />
+	</action>
+      </propclass>
 
       <propclass name="pctools.properties">
         <property name="pos1" vector="9,2,8" />
@@ -130,6 +173,7 @@
 
       <propclass name="pctools.timer">
         <action name="WakeUp">
+	  <par name="name" string="monkeytime" />
 	  <par name="time" long="5000" />
 	  <par name="repeat" bool="true" />
 	</action>
@@ -148,7 +192,26 @@
 	</action>
       </propclass>
 
-      <behaviour name="badone_behave" />
+      <propclass name="tutorial.badonecontrol" />
+
+      <propclass name="pclogic.wire" tag="w1">
+        <action name="AddInput">
+          <par name="mask" string="cel.timer.monkeytime" />
+	</action>
+        <action name="AddOutput">
+          <par name="msgid" string="tutorial.badone.action.Restart" />
+        </action>
+      </propclass>
+
+      <propclass name="pclogic.wire" tag="w2">
+        <action name="AddInput">
+          <par name="mask" string="cel.mesh.select.down" />
+	</action>
+        <action name="AddOutput">
+          <par name="msgid" string="tutorial.badone.action.Restart" />
+        </action>
+      </propclass>
+
 
     </addon>
 

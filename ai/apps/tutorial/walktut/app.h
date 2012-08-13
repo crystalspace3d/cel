@@ -19,7 +19,6 @@ private:
   csRef<FramePrinter> printer;
 
   csRef<iCelPlLayer> pl;
-  csRef<iCelBlLayer> bl;
   csRef<iCelEntity> level_entity;
   csRef<iCelEntity> player_entity;
 

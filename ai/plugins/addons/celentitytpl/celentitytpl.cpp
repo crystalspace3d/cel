@@ -319,6 +319,7 @@ static csString GetTypeString (celDataType type)
     case CEL_DATA_VECTOR2: return "vector2";
     case CEL_DATA_VECTOR3: return "vector3";
     case CEL_DATA_COLOR: return "color";
+    case CEL_DATA_COLOR4: return "color4";
     default: CS_ASSERT (false);
   }
   return "?";
@@ -348,6 +349,12 @@ static void WriteData (celData& data, iDocumentNode* node)
       {
 	csString v; v.Format ("%g,%g,%g", data.value.col.red, data.value.col.green, data.value.col.blue);
 	node->SetAttribute ("color", v);
+	break;
+      }
+    case CEL_DATA_COLOR4:
+      {
+	csString v; v.Format ("%g,%g,%g,%g", data.value.col.red, data.value.col.green, data.value.col.blue, data.value.col.alpha);
+	node->SetAttribute ("color4", v);
 	break;
       }
     default: CS_ASSERT (false);
@@ -532,7 +539,12 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
 	"cel.addons.celentitytpl",
 	node, "'entityname' is missing for this entity template!");
   }
-  csRef<iCelEntityTemplate> ent = pl->CreateEntityTemplate (entityname);
+  csRef<iCelEntityTemplate> ent;
+  // First we see if the template already exists. Because if it does we will
+  // simply add additional stuff to it.
+  ent = pl->FindEntityTemplate (entityname);
+  if (!ent)
+    ent = pl->CreateEntityTemplate (entityname);
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
