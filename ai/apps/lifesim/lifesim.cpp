@@ -34,6 +34,39 @@ LifeSimulator::LifeSimulator ()
 {
 }
 
+void LifeSimulator::LoadBehaviourTreeFromXML (const char* filename, iCelEntity* entity)
+{
+  csRef<iDocumentSystem> xml = 
+		csQueryRegistry<iDocumentSystem> (object_reg);
+  if (!xml)
+    xml.AttachNew (new csTinyDocumentSystem ());
+  csRef<iDocument> doc = xml->CreateDocument ();
+
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  csRef<iDataBuffer> xml_buf = vfs->ReadFile (filename);
+
+  const char* error = doc->Parse (xml_buf, true);
+  if (error != 0)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+                "cel.questmanager",
+                "Can't open file '%s': %s!", filename, error);
+  }
+
+  csRef<iDocumentNode> xml_node = doc->GetRoot ();
+   
+  csRef<iBTNode> tree = celQueryPropertyClassEntity<iBTNode> (entity);
+  csRef<iCelPropertyClass> tree_propclass = scfQueryInterface<iCelPropertyClass> (tree);
+  tree_propclass->SetProperty(physicalLayer->FetchStringID("xml"), xml_node);   
+  
+  csRef<iCelParameterBlock> params;
+  params.AttachNew (new celVariableParameterBlock ());
+
+  celData result;  
+  tree_propclass->PerformAction(physicalLayer->FetchStringID("Load BT From XML"), params, result);
+  tree_propclass->PerformAction(physicalLayer->FetchStringID("BT Start"), params, result);
+}
+
 void LifeSimulator::PrintHelp ()
 {
   csCommandLineHelper commandLineHelper;
@@ -137,7 +170,7 @@ bool LifeSimulator::OnKeyboard (iEvent &ev)
       return true;
     }
     // Spawn a sheep
-	if (csKeyEventHelper::GetCookedCode (&ev) == 's')
+    if (csKeyEventHelper::GetCookedCode (&ev) == 's')
     {
       csVector3 position;
       if (TraceMouseBeam (position))
@@ -146,8 +179,8 @@ bool LifeSimulator::OnKeyboard (iEvent &ev)
 
       return true;
     }
-	// Spawn a Ram
-	if (csKeyEventHelper::GetCookedCode (&ev) == 'r')
+    // Spawn a Ram
+    if (csKeyEventHelper::GetCookedCode (&ev) == 'r')
     {
       csVector3 position;
       if (TraceMouseBeam (position))
@@ -157,8 +190,8 @@ bool LifeSimulator::OnKeyboard (iEvent &ev)
       return true;
     }
 		
-	    // Spawn a Rat
-	if (csKeyEventHelper::GetCookedCode (&ev) == 't')
+    // Spawn a Rat
+    if (csKeyEventHelper::GetCookedCode (&ev) == 't')
     {
       csVector3 position;
       if (TraceMouseBeam (position))
@@ -166,8 +199,8 @@ bool LifeSimulator::OnKeyboard (iEvent &ev)
 
       return true;
     }
-    	// Spawn a ButterFly
-	if (csKeyEventHelper::GetCookedCode (&ev) == 'u')
+    // Spawn a ButterFly
+    if (csKeyEventHelper::GetCookedCode (&ev) == 'u')
     {
       csVector3 position;
       if (TraceMouseBeam (position))
