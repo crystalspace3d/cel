@@ -209,24 +209,23 @@ void MainApp::LoadBehaviourTreeFromXML ()
 {
   csRef<iDocumentSystem> xml = 
 		csQueryRegistry<iDocumentSystem> (object_reg);
-	if (!xml)
-	  xml.AttachNew (new csTinyDocumentSystem ());
-	csRef<iDocument> doc = xml->CreateDocument ();
+  if (!xml)
+    xml.AttachNew (new csTinyDocumentSystem ());
+  csRef<iDocument> doc = xml->CreateDocument ();
 
   const char* filename = "/cellib/lev/bttest.xml";
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   csRef<iDataBuffer> xml_buf = vfs->ReadFile (filename);
 
-	const char* error = doc->Parse (xml_buf, true);
-	if (error != 0)
-	{
-	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-		  "cel.questmanager",
-		  "Can't open file '%s': %s!", filename, error);
+  const char* error = doc->Parse (xml_buf, true);
+  if (error != 0)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+                "cel.questmanager",
+                "Can't open file '%s': %s!", filename, error);
   }
 
-	csRef<iDocumentNode> xml_node = doc->GetRoot ();
-
+  csRef<iDocumentNode> xml_node = doc->GetRoot ();
    
   csRef<iBTNode> tree = celQueryPropertyClassEntity<iBTNode> (player_entity);
   csRef<iCelPropertyClass> tree_propclass = scfQueryInterface<iCelPropertyClass> (tree);
@@ -274,7 +273,7 @@ void MainApp::CreateBehaviourTree ()
   csRef<iBTNode> lottery_sequence_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.selectors.sequential"); 
   csRef<iBTNode> parameter_check_node =  csLoadPlugin<iBTNode> (plugin_mgr,
-	  "cel.behaviourtree.parametercheck");
+    "cel.behaviourtree.parametercheck");
   csRef<iBTNode> lottery_action_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");
 
@@ -306,7 +305,7 @@ void MainApp::CreateBehaviourTree ()
     "cel.triggers.inventory");
   csRef<iTriggerFactory> trigger_factory = trigger_type->CreateTriggerFactory ();
   csRef<iInventoryTriggerFactory> explicit_trigger_factory =
-	  scfQueryInterface<iInventoryTriggerFactory> (trigger_factory);
+    scfQueryInterface<iInventoryTriggerFactory> (trigger_factory);
   explicit_trigger_factory->SetEntityParameter ("player");
   explicit_trigger_factory->SetChildEntityParameter ("box3");
   // @@@ TODO: fix the quest parameter 0!
@@ -324,7 +323,7 @@ void MainApp::CreateBehaviourTree ()
     "cel.rewards.debugprint");
   csRef<iRewardFactory> reward_factory = reward_type->CreateRewardFactory ();
   csRef<iDebugPrintRewardFactory> explicit_reward_factory = 
-	  scfQueryInterface<iDebugPrintRewardFactory> (reward_factory);
+    scfQueryInterface<iDebugPrintRewardFactory> (reward_factory);
 
   //Create rewards for action nodes
   csRef<iBTAction> explicit_action_node =
@@ -403,13 +402,13 @@ void MainApp::CreateBehaviourTree ()
     tree_propclass->PerformAction(pl->FetchStringID("BT Start"), params, result);
 
     long update_rate = 
-        tree_propclass->GetPropertyLongByID(pl->FetchStringID("update rate")); 
+      tree_propclass->GetPropertyLongByID(pl->FetchStringID("update rate")); 
     long tree_status = 
-        tree_propclass->GetPropertyLongByID(pl->FetchStringID("tree status"));
+      tree_propclass->GetPropertyLongByID(pl->FetchStringID("tree status"));
     const char* tree_name = 
-        tree_propclass->GetPropertyStringByID(pl->FetchStringID("tree name"));
+      tree_propclass->GetPropertyStringByID(pl->FetchStringID("tree name"));
     csRef<iBase> root_node_base = 
-        tree_propclass->GetPropertyIBaseByID(pl->FetchStringID("root node"));
+      tree_propclass->GetPropertyIBaseByID(pl->FetchStringID("root node"));
     csRef<iBTNode> root_node = scfQueryInterface<iBTNode> (root_node_base);
     int root_node_status = root_node->GetStatus(); 
 
