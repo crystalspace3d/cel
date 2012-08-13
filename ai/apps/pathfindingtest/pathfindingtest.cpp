@@ -439,6 +439,7 @@ void MainApp::MouseClick1Handler (iEvent& ev)
 
     destination = st.isect;
     destinationSector = sectorList->Get(0);
+    navStruct->ResetAgentDebugMeshes();
     destinationMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
   }
 }

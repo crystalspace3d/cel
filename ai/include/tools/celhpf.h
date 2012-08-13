@@ -154,9 +154,15 @@ struct iCelHNavStruct : public virtual iBase
 
   /**
    * Render proxy agent of the specified color.
+   * Adding to any previously got since construction or reset.
    */
   virtual csArray<csSimpleRenderMesh*>* GetAgentDebugMeshes (const csVector3& pos, int red, int green,
                                                            int blue, int alpha) = 0;
+
+  /**
+   * Clear all previous proxy agents.
+   */
+  virtual void ResetAgentDebugMeshes () = 0;
 };
 
 

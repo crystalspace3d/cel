@@ -26,8 +26,7 @@ MainApp::MainApp ()
   destinationSet = false;
   navStructMeshes = 0;
   pathMeshes = 0;
-  originMeshes = 0;
-  destinationMeshes = 0;
+  pathEndMeshes = 0;
   clearMeshes = false;
   updateMeshes = false;
   updatePathMeshes = false;
@@ -122,27 +121,18 @@ void MainApp::Frame ()
     
   }
 
-  if (originMeshes)
-  {
-    csArray<csSimpleRenderMesh*>::Iterator it = originMeshes->GetIterator();
-    while (it.HasNext())
-    {
-      g3d->DrawSimpleMesh(*it.Next());
-    }
-  }
-
-  if (destinationMeshes)
-  {
-    csArray<csSimpleRenderMesh*>::Iterator it = destinationMeshes->GetIterator();
-    while (it.HasNext())
-    {
-      g3d->DrawSimpleMesh(*it.Next());
-    }
-  }
-
   if (pathMeshes && path)
   {
     csArray<csSimpleRenderMesh*>::Iterator it = pathMeshes->GetIterator();
+    while (it.HasNext())
+    {
+      g3d->DrawSimpleMesh(*it.Next());
+    }
+  }
+
+  if (pathEndMeshes)
+  {
+    csArray<csSimpleRenderMesh*>::Iterator it = pathEndMeshes->GetIterator();
     while (it.HasNext())
     {
       g3d->DrawSimpleMesh(*it.Next());
@@ -211,9 +201,8 @@ bool MainApp::OnKeyboard(iEvent& ev)
       path.Invalidate();
       originSet = false;
       destinationSet = false;
-      originMeshes = 0;
-      destinationMeshes = 0;
       pathMeshes = 0;
+      pathEndMeshes = 0;
       navStructMeshes = 0;
     }
   }
@@ -262,9 +251,13 @@ void MainApp::MouseClick1Handler (iEvent& ev)
     originSet = true;
     origin = st.isect;
     originSector = sectorList->Get(0);
-    originMeshes = navStruct->GetAgentDebugMeshes(origin, 70, 140, 255, 150);
+
+    navStruct->ResetAgentDebugMeshes();
+    pathEndMeshes = navStruct->GetAgentDebugMeshes(origin, 70, 140, 255, 150);
+
     if (destinationSet && navStruct)
     {
+      pathEndMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
       path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
       if (path)
       {
@@ -277,9 +270,13 @@ void MainApp::MouseClick1Handler (iEvent& ev)
     destinationSet = true;
     destination = st.isect;
     destinationSector = sectorList->Get(0);
-    destinationMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
+
+    navStruct->ResetAgentDebugMeshes();
+    pathEndMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
+
     if (originSet && navStruct)
     {
+      pathEndMeshes = navStruct->GetAgentDebugMeshes(origin, 70, 140, 255, 150);
       path = navStruct->ShortestPath(origin, originSector, destination, destinationSector);
       if (path)
       {
