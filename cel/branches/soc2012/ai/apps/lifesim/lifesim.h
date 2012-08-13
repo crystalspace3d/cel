@@ -29,6 +29,9 @@
 #include <isndsys/ss_manager.h>
 #include <isndsys/ss_renderer.h>
 #include <imap/loader.h>
+#include "tools/behaviourtree.h"
+#include <physicallayer/propclas.h>
+#include <csutil/xmltiny.h>
 
 #include "physicallayer/pl.h"
 #include "behaviourlayer/bl.h"
@@ -55,6 +58,7 @@ class LifeSimulator : public CS::Utility::DemoApplication
 
  public:
   LifeSimulator ();
+  void LoadBehaviourTreeFromXML (const char* filename, iCelEntity* entity);
 
   //-- CS::Utility::DemoApplication
   void PrintHelp ();

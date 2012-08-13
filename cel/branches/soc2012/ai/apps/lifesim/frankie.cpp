@@ -62,6 +62,7 @@ bool LifeSimulator::CreateFrankieEntity (const csVector3 position)
 				 "pclogic.trigger",
 				 "pcmove.steer",
 				 "pcsound.source",
+                                 "pclogic.behaviourtree",
 				 CEL_PROPCLASS_END);
   if (!entity)
     return ReportError ("Error creating player entity!");
@@ -98,12 +99,15 @@ bool LifeSimulator::CreateFrankieEntity (const csVector3 position)
   csRef<iPcSteer> pcSteer = celQueryPropertyClassEntity<iPcSteer> (entity);
   //pcSteer->CollisionAvoidanceOn(2.0f, 1.0f);
   
-   //load sound files and create sound wrappers for each one of them
-  loader->LoadSoundWrapper ("WaterSplash","/lib/YoFrankie_sounds/WaterSplash.ogg");
+  //load sound files and create sound wrappers for each one of them
+  //loader->LoadSoundWrapper ("WaterSplash","/lib/YoFrankie_sounds/WaterSplash.ogg");
 
   // Initialize the behaviour tree
-  BehaviourCommon* behaviour = static_cast<BehaviourCommon*> (entity->GetBehaviour ());
-  behaviour->CreateBehaviourTree ();
+  //BehaviourCommon* behaviour = static_cast<BehaviourCommon*> (entity->GetBehaviour ());
+  //behaviour->CreateBehaviourTree ();
+
+  // Load behaviour tree from XML
+  LoadBehaviourTreeFromXML("/cellib/lev/btFrankie.xml", entity);
 
   return true;
 }
@@ -112,9 +116,10 @@ FrankieBehaviour::FrankieBehaviour (iCelEntity* entity, BehaviourLayer* behaviou
 				    iCelPlLayer* physicalLayer)
   : BehaviourCommon ("frankie_behaviour", entity, behaviourLayer, physicalLayer)
 {
+  //Do not register as currently nothing updated
   // Register for the first wake up
-  //physicalLayer->CallbackEveryFrame (this, CEL_EVENT_PRE); 
-  physicalLayer->CallbackOnce (this, 0, CEL_EVENT_PRE);
+  // physicalLayer->CallbackEveryFrame (this, CEL_EVENT_PRE); 
+  // physicalLayer->CallbackOnce (this, 0, CEL_EVENT_PRE);
     
   className = physicalLayer->FetchStringID( "frankie");
   entity->AddClass (className);
@@ -129,6 +134,8 @@ FrankieBehaviour::FrankieBehaviour (iCelEntity* entity, BehaviourLayer* behaviou
   id_pctrigger_leavetrigger =  physicalLayer->FetchStringID ("pctrigger_leavetrigger");
   id_pcsteer_arrived = physicalLayer->FetchStringID("pcsteer_arrived");
 }
+
+
  
 void FrankieBehaviour::CreateBehaviourTree ()
 {
@@ -605,13 +612,13 @@ void FrankieBehaviour::TickEveryFrame ()
 
 void FrankieBehaviour::TickOnce ()
 {
-  // Update the behaviour tree
+  // Update parameters?
   csRef<iCelParameterBlock> params;
   params.AttachNew (new celVariableParameterBlock ());
   //params->GetParameter (physicalLayer->FetchStringID ("resetTrigger"))->Set (resetTrigger);
   //params->GetParameter (physicalLayer->FetchStringID ("meshname"))->Set (sheep_name);
   //params->GetParameter (physicalLayer->FetchStringID ("position"))->Set (position);
-  behaviourTree->Execute (params);
+
 
   // Register for the next update
   physicalLayer->CallbackOnce (this, BTREE_UPDATE_RATE, CEL_EVENT_PRE);
