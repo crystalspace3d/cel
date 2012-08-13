@@ -358,6 +358,14 @@ struct iDynamicFactory : public virtual iBase
    */
   virtual void DeleteBodies () = 0;
 
+  /**
+   * Create a collider for the CS collision detection system (not physics).
+   * This is useful if you want to make a game that doesn't use physics
+   * (see iPcDynamicWorld->EnablePhysics()).
+   */
+  virtual void SetColliderEnabled (bool e) = 0;
+  virtual bool IsColliderEnabled () const = 0;
+
   // ------------------------------------------------------------------------
 
   /**
@@ -701,6 +709,9 @@ struct iDynamicCell : public virtual iBase
 
 /**
  * Interface to the dynamic world plugin.
+ *
+ * This property class supports the following properties:
+ * - physics (bool, read/write): disable/enable physics.
  */
 struct iPcDynamicWorld : public virtual iBase
 {
@@ -730,6 +741,16 @@ struct iPcDynamicWorld : public virtual iBase
    */
   virtual void EnableGameMode (bool e) = 0;
   virtual bool IsGameMode () const = 0;
+
+  /**
+   * Enable/disable physics mode. Physics mode is enabled by default.
+   * If enabled physics bodies will be made for the objects if they have them
+   * defined. Otherwise no such bodies are created.
+   * It is safe to call this function after objects have been created already.
+   * Existing bodies will be created/removed on demand.
+   */
+  virtual void EnablePhysics (bool e) = 0;
+  virtual bool IsPhysicsEnabled () const = 0;
 
   //------------------------------------------------------------------------------
 

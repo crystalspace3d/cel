@@ -33,6 +33,7 @@
 #include "cstool/csview.h"
 #include "cstool/simplestaticlighter.h"
 #include "cstool/genmeshbuilder.h"
+#include "cstool/collider.h"
 #include "csgfx/imagememory.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
@@ -919,6 +920,8 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
   factory = 0;
   lightFactory = 0;
 
+  hasCollider = false;
+
   factory = world->engine->FindMeshFactory (name);
   if (factory == 0)
   {
@@ -1033,6 +1036,11 @@ public:
 csPtr<iAttributeIterator> DynamicFactory::GetAttributes () const
 {
   return new AttributeIterator (attributes.GetIterator ());
+}
+
+void DynamicFactory::SetColliderEnabled (bool e)
+{
+  hasCollider = e;
 }
 
 void DynamicFactory::AddRigidBox (const csVector3& offset, const csVector3& size,
@@ -1530,6 +1538,7 @@ void DynamicObject::PrepareCsObject (celPcDynamicWorld* world)
       dynobjFinder::AttachDynObj (light, this);
   }
 
+  CreateCollider ();
   CreateBody ();
 }
 
@@ -1618,22 +1627,41 @@ iDynamicObject* DynamicObject::GetConnectedObject (size_t jointIdx)
   return connectedObjects[jointIdx];
 }
 
+void DynamicObject::CreateCollider ()
+{
+  if (!mesh) return;
+  if (factory->IsColliderEnabled ())
+  {
+    csColliderWrapper* wrap = csColliderWrapper::GetColliderWrapper (mesh->QueryObject ());
+    if (wrap) return;
+    celPcDynamicWorld* world = factory->GetWorld ();
+    iCollideSystem* cdsys = world->GetCollideSystem ();
+    if (!cdsys) return;
+    csColliderHelper::InitializeCollisionWrapper (cdsys, mesh);
+  }
+}
+
 void DynamicObject::CreateBody ()
 {
   bsphereValid = false;
+  if (body)
+  {
+    body->DestroyColliders ();
+    body = 0;
+  }
+  if (!factory->GetWorld ()->IsPhysicsEnabled ())
+    return;	// No physics, no body.
+
   if (mesh)
     trans = mesh->GetMovable ()->GetTransform ();
   if (light)
     trans = light->GetMovable ()->GetTransform ();
-  if (body)
-    body->DestroyColliders ();
-  body = 0;
   const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
   for (size_t i = 0 ; i < colliders.GetSize () ; i++)
   {
     body = colliders[i]->Create (cell->dynSys, mesh, light, trans, body);
   }
-  if (is_static)
+  if (is_static && body)
     body->MakeStatic ();
 
   SetupPivotJoints ();
@@ -1642,8 +1670,25 @@ void DynamicObject::CreateBody ()
   MeshBodyToEntity (mesh, body);
 }
 
+void DynamicObject::RemoveCollider ()
+{
+  if (!mesh) return;
+  csColliderWrapper* wrap = csColliderWrapper::GetColliderWrapper (mesh->QueryObject ());
+  if (!wrap) return;
+  mesh->QueryObject ()->ObjRemove (static_cast<iObject*> (wrap));
+}
+
+void DynamicObject::RemoveBody ()
+{
+  if (!body) return;
+  body->DestroyColliders ();
+  body = 0;
+  MeshBodyToEntity (mesh, 0);
+}
+
 void DynamicObject::RefreshColliders ()
 {
+  CreateCollider ();
   if (!body) return;
   CreateBody ();
 }
@@ -1966,6 +2011,8 @@ public:
 
 //---------------------------------------------------------------------------------------
 
+PropertyHolder celPcDynamicWorld::propinfo;
+
 celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {  
@@ -1986,6 +2033,12 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   currentCell = 0;
   inhibitEntities = false;
   gameMode = true;
+  doPhysics = true;
+
+  propholder = &propinfo;
+  propinfo.SetCount (1);
+  AddProperty (propid_physics, "physics",
+	CEL_DATA_BOOL, false, "Enable physics.", 0);
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
@@ -1994,6 +2047,38 @@ celPcDynamicWorld::~celPcDynamicWorld ()
   if (scopeIdx != csArrayItemNotFound && pl)
     pl->ResetScope (scopeIdx);
 }
+
+iCollideSystem* celPcDynamicWorld::GetCollideSystem ()
+{
+  if (!cdsys)
+  {
+    cdsys = csQueryRegistry<iCollideSystem> (object_reg);
+    if (!cdsys)
+      Error ("Can't find collide system!");
+  }
+  return cdsys;
+}
+
+bool celPcDynamicWorld::SetPropertyIndexed (int idx, bool b)
+{
+  if (idx == propid_physics)
+  {
+    EnablePhysics (b);
+    return true;
+  }
+  return false;
+}
+
+bool celPcDynamicWorld::GetPropertyIndexed (int idx, bool& l)
+{
+  if (idx == propid_physics)
+  {
+    l = doPhysics;
+    return true;
+  }
+  return false;
+}
+
 
 DynamicCell* celPcDynamicWorld::FindCellForID (uint id)
 {
@@ -2741,6 +2826,29 @@ void celPcDynamicWorld::EnableGameMode (bool e)
 	  mesh->SetRenderPriority (engine->GetRenderPriority ("object"));
 	  mesh->SetZBufMode (CS_ZBUF_USE);
 	}
+      }
+    }
+  }
+}
+
+void celPcDynamicWorld::EnablePhysics (bool e)
+{
+  if (doPhysics == e) return;
+  doPhysics = e;
+
+  csRef<iDynamicCellIterator> it = GetCells ();
+  while (it->HasNext ())
+  {
+    iDynamicCell* cell = it->NextCell ();
+    if (doPhysics)
+      UpdateObjects (cell);
+    else
+    {
+      for (size_t i = 0 ; i < cell->GetObjectCount () ; i++)
+      {
+        iDynamicObject* idynobj = cell->GetObject (i);
+        DynamicObject* dynobj = static_cast<DynamicObject*> (idynobj);
+	dynobj->RemoveBody ();
       }
     }
   }

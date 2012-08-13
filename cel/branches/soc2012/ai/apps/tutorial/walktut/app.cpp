@@ -11,7 +11,7 @@
 #include <propclass/wire.h>
 
 #include "app.h"
-#include "behave.h"
+#include "controllers.h"
 
 MainApp::MainApp ()
 {
@@ -24,7 +24,7 @@ MainApp::~MainApp ()
 
 bool MainApp::LoadLevel ()
 {
-  level_entity = pl->CreateEntity ("level", bl, "level_behave",
+  level_entity = pl->CreateEntity ("level", 0, 0,
     "pcworld.zonemanager",
     CEL_PROPCLASS_END);
   if (!level_entity)
@@ -49,13 +49,14 @@ bool MainApp::LoadLevel ()
 
 bool MainApp::CreatePlayer ()
 {
-  player_entity = pl->CreateEntity ("player", bl, "player_behave",
+  player_entity = pl->CreateEntity ("player", 0, 0,
     "pccamera.old",
     "pcobject.mesh",
     "pcmove.linear",
     "pcmove.actor.standard",
     "pcinput.standard",
     "pctools.inventory",
+    "tutorial.playercontrol",
     CEL_PROPCLASS_END);
   if (!player_entity)
     return ReportError ("Error creating player entity!");
@@ -91,7 +92,7 @@ bool MainApp::CreatePlayer ()
   pcactormove->SetRunningSpeed (5.0f);
   pcactormove->SetRotationSpeed (1.75f);
 
-  // Get iPcCommandInput so we can do key bindings. The behaviour layer
+  // Get iPcCommandInput so we can do key bindings. The player controller
   // will interprete the commands so the actor can move.
   csRef<iPcCommandInput> pcinput = celQueryPropertyClassEntity<iPcCommandInput> (player_entity);
   // We read the key bindings from the standard config file.
@@ -103,13 +104,26 @@ bool MainApp::CreatePlayer ()
   pcinput->Bind ("d", "drop");
 
   // Setup the inputs using wires
-  csRef<iPcWire> wire=scfQueryInterface<iPcWire>(pl->CreatePropertyClass(player_entity,"pclogic.wire"));
+  csRef<iPcWire> wire;
+  wire = scfQueryInterface<iPcWire>(pl->CreatePropertyClass(player_entity,"pclogic.wire"));
   wire->AddInput("cel.input.forward");
   wire->AddInput("cel.input.backward");
   wire->AddInput("cel.input.rotateleft");
   wire->AddInput("cel.input.rotateright");
   wire->AddInput("cel.input.cammode");
   wire->AddOutput(pl->FetchStringID("cel.move.actor.action.Subscribe"),0);
+
+  wire = scfQueryInterface<iPcWire>(pl->CreatePropertyClass(player_entity,"pclogic.wire"));
+  wire->AddInput("cel.input.drop.down");
+  wire->AddOutput (pl->FetchStringID ("tutorial.player.action.Drop"), 0);
+
+  wire = scfQueryInterface<iPcWire>(pl->CreatePropertyClass(player_entity,"pclogic.wire"));
+  wire->AddInput("cel.entity.add");
+  wire->AddOutput (pl->FetchStringID ("tutorial.player.action.Add"), 0);
+
+  wire = scfQueryInterface<iPcWire>(pl->CreatePropertyClass(player_entity,"pclogic.wire"));
+  wire->AddInput("cel.entity.remove");
+  wire->AddOutput (pl->FetchStringID ("tutorial.player.action.Delete"), 0);
 
   return true;
 }
@@ -180,13 +194,19 @@ bool MainApp::Application ()
   kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
-  bl.AttachNew (new BehaviourLayer(pl));
 
-  // We also need to register it to the object registry.
-  if (!object_reg->Register (bl, "iCelBlLayer"))
-    return ReportError ("Can't register our behaviour layer!");
-
-  pl->RegisterBehaviourLayer (bl);
+  {
+    csRef<celPfPlayerController> pf;
+    pf.AttachNew (new celPfPlayerController (0));
+    pf->Initialize (object_reg);
+    pl->RegisterPropertyClassFactory (pf);
+  }
+  {
+    csRef<celPfBadOneController> pf;
+    pf.AttachNew (new celPfBadOneController (0));
+    pf->Initialize (object_reg);
+    pl->RegisterPropertyClassFactory (pf);
+  }
 
   if (!LoadLevel ())
     return ReportError ("Error loading level!");

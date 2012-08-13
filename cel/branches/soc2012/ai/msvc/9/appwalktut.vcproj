@@ -624,7 +624,7 @@
 				RelativePath="..\..\apps\tutorial\walktut\app.cpp">
 			</File>
 			<File
-				RelativePath="..\..\apps\tutorial\walktut\behave.cpp">
+				RelativePath="..\..\apps\tutorial\walktut\controllers.cpp">
 			</File>
 			<File
 				RelativePath="..\..\apps\tutorial\walktut\main.cpp">
@@ -637,7 +637,7 @@
 				RelativePath="..\..\apps\tutorial\walktut\app.h">
 			</File>
 			<File
-				RelativePath="..\..\apps\tutorial\walktut\behave.h">
+				RelativePath="..\..\apps\tutorial\walktut\controllers.h">
 			</File>
 		</Filter>
 		<Filter
