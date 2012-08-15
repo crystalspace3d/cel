@@ -19,6 +19,7 @@
 #define PATHFINDINGTEST_H
 
 #include <crystalspace.h>
+#include "cstool/demoapplication.h" 
 #include <celtool/initapp.h>
 #include "csutil/algorithms.h"
 #include <physicallayer/entity.h>
@@ -37,17 +38,10 @@
 
 class FramePrinter;
 
-class MainApp : public csApplicationFramework, public csBaseEventHandler
+class MainApp : public CS::Utility::DemoApplication 
 {
 private:
   // Plugins
-  csRef<iGraphics3D> g3d;
-  csRef<iEngine> engine;
-  csRef<iVirtualClock> vc;
-  csRef<iKeyboardDriver> kbd;
-  csRef<iLoader> loader;
-  csRef<iVFS> vfs;
-  csRef<FramePrinter> printer;
   csRef<iCelPlLayer> physicalLayer;
   csRef<BehaviourLayer> behaviourLayer; // iCelBlLayer
   csRef<iCelHNavStructBuilder> navStructBuilder;
@@ -104,6 +98,7 @@ public:
   MainApp ();
   virtual ~MainApp ();
 
+  void PrintHelp ();
   virtual bool OnInitialize (int argc, char* argv[]);
   virtual bool Application ();
   virtual void OnExit ();

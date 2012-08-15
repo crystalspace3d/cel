@@ -21,8 +21,8 @@
  */
 
 MainApp::MainApp ()
+  : DemoApplication ("CrystalSpace.Steering") 
 {
-  SetApplicationName ("Steering Test");
   renderNavMesh = true;
   renderPath = true;
   navStructMeshes = 0;
@@ -140,7 +140,7 @@ bool MainApp::LoadSteering ()
 				      "pcmove.linear",
 				      "pcmove.actor.standard",
 				      "pcmove.steer", 
-              "pcmove.mover",
+                                      "pcmove.mover",
 				      "pcobject.mesh",
 				      "pcinput.standard",
 				      CEL_PROPCLASS_END);
@@ -308,17 +308,22 @@ bool MainApp::OnKeyboard(iEvent& ev)
   return false;
 }
 
+void MainApp::PrintHelp () 
+{ 
+  csCommandLineHelper commandLineHelper; 
+  
+  // Printing help 
+  commandLineHelper.PrintApplicationHelp 
+  (GetObjectRegistry (), "steering", "steering", "App to demonstrate steering behaviours, both with and without navmeshes."); 
+} 
+
 bool MainApp::OnInitialize (int argc, char* argv[])
 {
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::OnInitialize (argc, argv)) 
+    return false; 
+
   if (!celInitializer::RequestPlugins (object_reg,
-        CS_REQUEST_VFS,
-    	CS_REQUEST_OPENGL3D,
-    	CS_REQUEST_ENGINE,
-    	CS_REQUEST_FONTSERVER,
-    	CS_REQUEST_IMAGELOADER,
-    	CS_REQUEST_LEVELLOADER,
-    	CS_REQUEST_REPORTER,
-    	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
     	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		    iCollideSystem),
@@ -336,15 +341,9 @@ bool MainApp::OnInitialize (int argc, char* argv[])
 
 bool MainApp::Application ()
 {
-  if (!OpenApplication (object_reg))
-    return ReportError ("Error opening system!");
-
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  engine = csQueryRegistry<iEngine> (object_reg);
-  loader = csQueryRegistry<iLoader> (object_reg);
-  vfs = csQueryRegistry<iVFS> (object_reg);
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
-  kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::Application ()) 
+    return false; 
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   bl.AttachNew (new BehaviourLayer(pl));
@@ -368,7 +367,26 @@ bool MainApp::Application ()
  if (!LoadSteering ())
     return ReportError ("Couldn't create steering entity!");
     
-  printer.AttachNew (new FramePrinter (object_reg));
+  // Define the available keys 
+  hudManager->GetKeyDescriptions ()->Empty(); 
+  hudManager->GetKeyDescriptions ()->Push ("b: build NavMesh"); 
+  hudManager->GetKeyDescriptions ()->Push ("s: seek camera"); 
+  hudManager->GetKeyDescriptions ()->Push ("p: pursue camera"); 
+  hudManager->GetKeyDescriptions ()->Push ("f: flee from camera"); 
+  hudManager->GetKeyDescriptions ()->Push ("w: wander"); 
+  hudManager->GetKeyDescriptions ()->Push ("-"); 
+  hudManager->GetKeyDescriptions ()->Push ("Without NavMesh built:");
+  hudManager->GetKeyDescriptions ()->Push ("1: switch arrival checking on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("2: switch collision avoidance on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("3: switch cohesion on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("4: switch separation on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("5: switch direction matching on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("esc: exit application"); 
+  hudManager->GetKeyDescriptions ()->Push ("-"); 
+  hudManager->GetKeyDescriptions ()->Push ("With NavMesh built/loaded:"); 
+  hudManager->GetKeyDescriptions ()->Push ("c: clear NavMesh");  
+  hudManager->GetKeyDescriptions ()->Push ("6: switch rendering NavMesh on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("7: switch rendering path on/off"); 
 
   Run ();
 

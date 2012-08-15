@@ -16,8 +16,8 @@
 #include "behave.h"
 
 MainApp::MainApp ()
+: DemoApplication ("CrystalSpace.BehaviourTreeTest") 
 {
-  SetApplicationName ("Seminar Test");
 }
 
 MainApp::~MainApp ()
@@ -138,42 +138,37 @@ bool MainApp::OnKeyboard(iEvent& ev)
   return false;
 }
 
+void MainApp::PrintHelp () 
+{ 
+  csCommandLineHelper commandLineHelper; 
+  
+  // Printing help 
+  commandLineHelper.PrintApplicationHelp 
+  (GetObjectRegistry (), "bttest", "bttest", 
+    "App to test behaviour tree nodes and load from XML. If working correctly, a welcome message should appear in the console when run."); 
+} 
+
 bool MainApp::OnInitialize (int argc, char* argv[])
 {
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::OnInitialize (argc, argv)) 
+    return false; 
+
   if (!celInitializer::RequestPlugins (object_reg,
-        CS_REQUEST_VFS,
-    	CS_REQUEST_OPENGL3D,
-    	CS_REQUEST_ENGINE,
-    	CS_REQUEST_FONTSERVER,
-    	CS_REQUEST_IMAGELOADER,
-    	CS_REQUEST_LEVELLOADER,
-    	CS_REQUEST_REPORTER,
-    	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
     	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		    iCollideSystem),
       CS_REQUEST_END))
     return ReportError ("Can't initialize plugins!");
 
-  csBaseEventHandler::Initialize(object_reg);
-
-  if (!RegisterQueue(object_reg, csevAllEvents(object_reg)))
-    return ReportError ("Can't setup event handler!");
-
   return true;
 }
 
 bool MainApp::Application ()
 {
-  if (!OpenApplication (object_reg))
-    return ReportError ("Error opening system!");
-
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  engine = csQueryRegistry<iEngine> (object_reg);
-  loader = csQueryRegistry<iLoader> (object_reg);
-  vfs = csQueryRegistry<iVFS> (object_reg);
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
-  kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::Application ()) 
+    return false; 
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   bl.AttachNew (new BehaviourLayer(pl));
@@ -189,12 +184,13 @@ bool MainApp::Application ()
   if (!CreatePlayer ())
     return ReportError ("Couldn't create player!");
 
-  printer.AttachNew (new FramePrinter (object_reg));
-
-
   LoadBehaviourTreeFromXML();
 
-
+  hudManager->GetKeyDescriptions ()->Empty(); 
+  hudManager->GetStateDescriptions ()->Push(
+    "This app tests all behaviour tree nodes and the load from XML feature.");
+  hudManager->GetStateDescriptions ()->Push(
+    "You should see a welcome message in the console if behaviour trees are working correctly.");
   Run ();
 
   return true;
