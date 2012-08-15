@@ -20,8 +20,8 @@
 #include <csutil/measuretime.h>
 
 MainApp::MainApp () 
+: DemoApplication ("CrystalSpace.PathFindingTest") 
 {
-  SetApplicationName("Navigation Mesh Test");
   renderNavMesh = true;
   renderDestination = true;
   renderPath = true;
@@ -454,17 +454,22 @@ void MainApp::MouseClick3Handler (iEvent& ev)
 {
 }
 
+void MainApp::PrintHelp () 
+{ 
+  csCommandLineHelper commandLineHelper; 
+  
+  // Printing help 
+  commandLineHelper.PrintApplicationHelp 
+  (GetObjectRegistry (), "pathfindingtest", "pathfindingtest", "App to build, save and test NavMeshes and Paths."); 
+} 
+
 bool MainApp::OnInitialize (int argc, char* argv[])
 {
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::OnInitialize (argc, argv)) 
+    return false; 
+
   if (!celInitializer::RequestPlugins(object_reg,
-        CS_REQUEST_VFS,
-    	CS_REQUEST_OPENGL3D,
-    	CS_REQUEST_ENGINE,
-    	CS_REQUEST_FONTSERVER,
-    	CS_REQUEST_IMAGELOADER,
-    	CS_REQUEST_LEVELLOADER,
-    	CS_REQUEST_REPORTER,
-    	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN("cel.physicallayer", iCelPlLayer),
     	CS_REQUEST_PLUGIN("crystalspace.collisiondetection.opcode", iCollideSystem),
         CS_REQUEST_PLUGIN("cel.hnavstructbuilder", iCelHNavStructBuilder),
@@ -473,22 +478,14 @@ bool MainApp::OnInitialize (int argc, char* argv[])
     return ReportError ("Can't initialize plugins!");
   }
 
-  csBaseEventHandler::Initialize(object_reg);
-
-  if (!RegisterQueue(object_reg, csevAllEvents(object_reg)))
-  {
-    return ReportError ("Can't setup event handler!");
-  }
-
   return true;
 }
 
 bool MainApp::Application ()
 {
-  if (!OpenApplication(object_reg))
-  {
-    return ReportError("Error opening system!");
-  }
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::Application ()) 
+    return false; 
 
   if (!LoadPlugins())
   {
@@ -507,9 +504,24 @@ bool MainApp::Application ()
   {
     return ReportError("Couldn't create box!");
   }
-  
 
-  printer.AttachNew(new FramePrinter(object_reg));
+  // Define the available keys 
+  hudManager->GetKeyDescriptions ()->Empty(); 
+  hudManager->GetKeyDescriptions ()->Push ("b: build NavMesh"); 
+  hudManager->GetKeyDescriptions ()->Push ("l: load NavMesh"); 
+  hudManager->GetKeyDescriptions ()->Push ("1: switch rendering NavMesh on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("2: switch rendering path destination on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("3: switch rendering path on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("4: switch rendering block on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("esc: exit application"); 
+  hudManager->GetKeyDescriptions ()->Push ("-"); 
+  hudManager->GetKeyDescriptions ()->Push ("With NavMesh built/loaded:"); 
+  hudManager->GetKeyDescriptions ()->Push ("c: clear NavMesh"); 
+  hudManager->GetKeyDescriptions ()->Push ("s: save NavMesh"); 
+//  hudManager->GetKeyDescriptions ()->Push ("t: test path finding algorithm");
+  hudManager->GetKeyDescriptions ()->Push ("u: update NavMesh");
+  hudManager->GetKeyDescriptions ()->Push ("y: update NavMesh every time block moves");
+  hudManager->GetKeyDescriptions ()->Push ("left mouse click: set path destination"); 
 
   Run();
 
@@ -518,42 +530,6 @@ bool MainApp::Application ()
 
 bool MainApp::LoadPlugins ()
 {
-  g3d = csQueryRegistry<iGraphics3D>(object_reg);
-  if (!g3d)
-  {
-    return ReportError("Failed to locate 3D renderer!");
-  }
-
-  engine = csQueryRegistry<iEngine>(object_reg);
-  if (!engine)
-  {
-    return ReportError("Failed to locate 3D engine!");
-  }
-
-  vc = csQueryRegistry<iVirtualClock>(object_reg);
-  if (!vc)
-  {
-    return ReportError("Failed to locate Virtual Clock!");
-  }
-
-  kbd = csQueryRegistry<iKeyboardDriver>(object_reg);
-  if (!kbd)
-  {
-    return ReportError("Failed to locate Keyboard Driver!");
-  }
-
-  loader = csQueryRegistry<iLoader>(object_reg);
-  if (!loader)
-  {
-    return ReportError("Failed to locate Loader!");
-  }
-
-  vfs = csQueryRegistry<iVFS>(object_reg);
-  if (!vfs)
-  {
-    return ReportError("Failed to locate VFS!");
-  }
-
   physicalLayer = csQueryRegistry<iCelPlLayer>(object_reg);
   if (!physicalLayer)
   {

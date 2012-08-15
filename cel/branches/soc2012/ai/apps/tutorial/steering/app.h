@@ -1,6 +1,7 @@
 #ifndef APP_H
 #define APP_H
 
+#include "cstool/demoapplication.h" 
 #include <physicallayer/entity.h>
 #include <physicallayer/pl.h>
 #include <tools/celnavmesh.h>
@@ -9,18 +10,9 @@
 
 class FramePrinter;
 
-class MainApp : public csApplicationFramework,
-                public csBaseEventHandler
+class MainApp : public CS::Utility::DemoApplication 
 {
 private:
-  csRef<iGraphics3D> g3d;
-  csRef<iEngine> engine;
-  csRef<iLoader> loader;
-  csRef<iVFS> vfs;
-  csRef<iVirtualClock> vc;
-  csRef<iKeyboardDriver> kbd;
-  csRef<FramePrinter> printer;
-
   csRef<iCelPlLayer> pl;
   csRef<BehaviourLayer> bl;
   csRef<iCelEntity> level_entity;
@@ -53,6 +45,7 @@ public:
   MainApp ();
   virtual ~MainApp ();
 
+  void PrintHelp ();
   virtual bool OnInitialize (int argc, char* argv[]);
   virtual bool Application ();
   virtual void OnExit ();

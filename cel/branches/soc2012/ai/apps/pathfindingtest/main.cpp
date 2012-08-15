@@ -21,5 +21,5 @@
 CS_IMPLEMENT_APPLICATION
 
 int main (int argc, char *argv[]) {
-  return csApplicationRunner<MainApp>::Run (argc, argv);
+  return MainApp ().Main (argc, argv);
 }
