@@ -20,8 +20,8 @@
 #include "imesh/skeleton.h"
 
 MainApp::MainApp () 
+  : DemoApplication ("CrystalSpace.NavMeshTest")
 {
-  SetApplicationName("Navigation Mesh Test");
   originSet = false;
   destinationSet = false;
   navStructMeshes = 0;
@@ -298,8 +298,22 @@ void MainApp::MouseClick3Handler (iEvent& ev)
 
 }
 
+void MainApp::PrintHelp ()
+{
+  csCommandLineHelper commandLineHelper;
+
+  // Printing help
+  commandLineHelper.PrintApplicationHelp
+    (GetObjectRegistry (), "navmeshtest", "navmeshtest <terrain||castle>", "App to build, save and test NavMeshes.");
+}
+
+
 bool MainApp::OnInitialize (int argc, char* argv[]) 
 {
+  // Default behavior from DemoApplication
+  if (!DemoApplication::OnInitialize (argc, argv))
+    return false;
+
   if (argc < 2)
   {
     mapLocation = "/lev/castle";
@@ -322,25 +336,11 @@ bool MainApp::OnInitialize (int argc, char* argv[])
   }
 
   if (!csInitializer::RequestPlugins(object_reg,
-    CS_REQUEST_VFS,
-    CS_REQUEST_OPENGL3D,
-    CS_REQUEST_ENGINE,
-    CS_REQUEST_FONTSERVER,
-    CS_REQUEST_IMAGELOADER,
-    CS_REQUEST_LEVELLOADER,
-    CS_REQUEST_REPORTER,
-    CS_REQUEST_REPORTERLISTENER,
     CS_REQUEST_PLUGIN("crystalspace.collisiondetection.opcode", iCollideSystem),
     CS_REQUEST_PLUGIN("cel.hnavstructbuilder", iCelHNavStructBuilder),    
     CS_REQUEST_END)) 
   {
       return ReportError("Failed to initialize plugins!");
-  }
-
-  csBaseEventHandler::Initialize(object_reg);
-  if (!RegisterQueue(object_reg, csevAllEvents(object_reg))) 
-  {
-    return ReportError("Failed to set up event handler!");
   }
 
   return true;
@@ -352,19 +352,14 @@ void MainApp::OnExit ()
 
 bool MainApp::Application ()
 {
-  if (!OpenApplication(object_reg))
-  {
-    return ReportError("Error opening system!");
-  }
+  // Default behavior from DemoApplication
+  if (!DemoApplication::Application ())
+    return false;
 
   if (!SetupModules())
   {
     return false;
   }
-
-  view.AttachNew(new csView(engine, g3d));
-  iGraphics2D* g2d = g3d->GetDriver2D();
-  view->SetRectangle(0, 0, g2d->GetWidth(), g2d->GetHeight());
 
   // Here we load our world from a map file.
   if (!LoadMap())
@@ -387,7 +382,17 @@ bool MainApp::Application ()
 
   collider_actor.SetGravity(0);
 
-  printer.AttachNew(new FramePrinter(object_reg));
+  // Define the available keys
+  hudManager->GetKeyDescriptions ()->Empty();
+  hudManager->GetKeyDescriptions ()->Push ("b: build NavMesh");
+  hudManager->GetKeyDescriptions ()->Push ("l: load NavMesh");
+  hudManager->GetKeyDescriptions ()->Push ("esc: exit application");
+  hudManager->GetKeyDescriptions ()->Push ("-");
+  hudManager->GetKeyDescriptions ()->Push ("With NavMesh built/loaded:");
+  hudManager->GetKeyDescriptions ()->Push ("s: save NavMesh");
+  hudManager->GetKeyDescriptions ()->Push ("c: clear NavMesh");
+  hudManager->GetKeyDescriptions ()->Push ("left mouse click: set path origin");
+  hudManager->GetKeyDescriptions ()->Push ("shift+left mouse click: set path destination");
 
   Run();
 
@@ -396,46 +401,10 @@ bool MainApp::Application ()
 
 bool MainApp::SetupModules ()
 {
-  g3d = csQueryRegistry<iGraphics3D>(object_reg);
-  if (!g3d)
-  {
-    return ReportError("Failed to locate 3D renderer!");
-  }
-
-  engine = csQueryRegistry<iEngine>(object_reg);
-  if (!engine)
-  {
-    return ReportError("Failed to locate 3D engine!");
-  }
-
-  vc = csQueryRegistry<iVirtualClock>(object_reg);
-  if (!vc)
-  {
-    return ReportError("Failed to locate Virtual Clock!");
-  }
-
-  kbd = csQueryRegistry<iKeyboardDriver>(object_reg);
-  if (!kbd)
-  {
-    return ReportError("Failed to locate Keyboard Driver!");
-  }
-
-  loader = csQueryRegistry<iLoader>(object_reg);
-  if (!loader)
-  {
-    return ReportError("Failed to locate Loader!");
-  }
-
   cdsys = csQueryRegistry<iCollideSystem>(object_reg);
   if (!cdsys)
   {
     return ReportError ("Failed to locate CD system!");
-  }
-
-  vfs = csQueryRegistry<iVFS>(object_reg);
-  if (!vfs)
-  {
-    return ReportError("Failed to locate VFS");
   }
 
   navStructBuilder = csQueryRegistry<iCelHNavStructBuilder>(object_reg);
