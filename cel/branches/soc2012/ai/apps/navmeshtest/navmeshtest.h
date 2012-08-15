@@ -18,6 +18,7 @@
 #ifndef NAVMESHTEST_H
 #define NAVMESHTEST_H
 
+#include "cstool/demoapplication.h"
 #include <crystalspace.h>
 #include <tools/celgraph.h>
 #include <tools/celnavmesh.h>
@@ -27,19 +28,11 @@
 
 class FramePrinter;
 
-class MainApp : public csApplicationFramework, public csBaseEventHandler
+class MainApp : public CS::Utility::DemoApplication
 {
 private:
-  csRef<iGraphics3D> g3d;
-  csRef<iEngine> engine;
-  csRef<iLoader> loader;
-  csRef<iVirtualClock> vc;
-  csRef<iKeyboardDriver> kbd;
   csRef<iCollideSystem> cdsys;
   csRef<iRenderManager> rm;
-  csRef<iView> view;
-  csRef<iVFS> vfs;
-  csRef<FramePrinter> printer;
 
   csRef<iSector> currentSector;
   csRef<iMeshWrapper> actor;
@@ -91,6 +84,7 @@ public:
   MainApp();
   ~MainApp();
 
+  void PrintHelp ();
   bool OnInitialize (int argc, char* argv[]);
   void OnExit ();
   bool Application ();
