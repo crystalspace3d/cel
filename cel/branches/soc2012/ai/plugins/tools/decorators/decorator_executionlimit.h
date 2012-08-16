@@ -26,7 +26,7 @@
 /**
  * A decorator limiting the number of times a child is executed.
  * Fails cleanly if child has been executed more times than execution limit
- * Succeeds if child is exectued and fails cleanly or succeeds
+ * Succeeds if child is executed and fails cleanly or succeeds
  * Returns an unexpected error if no child is specified or if child does
  */
 

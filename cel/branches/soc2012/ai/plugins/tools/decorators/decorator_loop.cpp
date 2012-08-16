@@ -117,7 +117,7 @@ BTStatus celLoopDecorator::Execute (iCelParameterBlock* params, csRefArray<iBTNo
     if (child_status == BT_SUCCESS)
     {
       loop_count++;
-	    if (loop_count < loop_limit || loop_limit == -1)  // If loop limit == -1, loop forever
+      if (loop_count < loop_limit || loop_limit == -1)  // If loop limit == -1, loop forever
       {
         BTStack->Push(child_node);
         child_node->SetStatus(BT_NOT_STARTED);  // As child has been run before
