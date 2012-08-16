@@ -116,8 +116,7 @@ have been implemented as default in CEL, they are:
 
 Again it is possible to define your own decorators by implementing the iBTNode interace. It is hoped that
 as public use of the CEL behaviour tree grows, so will the library of available decorators. Their potential
-uses covers a wide spectrum of possibilities and the more available the more powerful the tool becomes. For
-example decorators that may be of use, please see @url{http://aigamedev.com/hierarchical-logic/decorator/}.
+uses covers a wide spectrum of possibilities and the more available the more powerful the tool becomes. 
  
 
 @subsubheading Construction and Execution
