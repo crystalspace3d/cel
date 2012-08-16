@@ -21,9 +21,11 @@ During the game you can use the following inputs: @itemize @bullet
 @samp{d}: drop the last item picked up.
 @end itemize
 
-This tutorial adds a Behaviour Tree to the previous tutorial WalkTut. As before with the QuestTest tutorial, this tutorial will focus only on the changes to WalkTut neccesary to add a Quest. All additional code can be found in the MainApp::CreateBehaviourTree () method in app.cpp.
+This tutorial adds a Behaviour Tree to the previous tutorial WalkTut. As before with the QuestTest tutorial, this tutorial will focus only on the changes to WalkTut neccesary to add a behaviour tree. Most of the additional code can be found in either the @code{MainApp::CreateBehaviourTree ()} or @code{MainApp::LoadBehaviourTreeFromXML ()} methods in app.cpp.
 
-A CEL behaviour tree is made up of  nodes (classes implementing iBTNode) which come in the forms of selectors, decorators and leaf nodes. Each node upon execution returns either true or false signalling its success or failure.
+The sole exception is adding a behaviour tree to the player entity when creating it at line 55 of app.cpp. This is done by simply adding "pclogic.behaviourtree" to the list of arguments passed to @code{CreateEntity}.
+
+A CEL behaviour tree is made up of  nodes (classes implementing iBTNode) which come in the forms of selectors, decorators and leaf nodes. Each node upon completing its execution returns a @code{BTStatus} signalling its success or failure.
 
 @itemize @bullet
 @item
@@ -34,9 +36,11 @@ Leaf nodes perform rewards (known as actions in BT literature) or check conditio
 Decorators tend to have one child and add extra functionality to that child.
 @end itemize
 
-A behaviour tree running in CEL will execute the root node once per frame, evaluating the whole tree until the root node either fails or succeeds. The intention is that behaviour trees will be assigned to entities to model their behaviour and decide their actions.
+A behaviour tree running in CEL will, by default, execute one node per frame. To speed up the parsing of a behaviour tree, and so the rate of decisions, the property "update rate" can be set to change how many nodes are executed per frame.
 
-To create a behaviour tree, first all nodes of the tree must be created. This requires a refrence to the plugin manager that can be obtained by:
+By default, appbttest loads the players behaviour tree from data/bttest.xml. This example behaviour tree tests all behaviour tree nodes provided by CEL. If everything is working correctly it simply prints a welcome message to the console. The @code{MainApp::LoadBehaviourTreeFromXML ()} method loads this file, sets it as the "xml" property and loads it by performing the propclass action "Load From XML."
+
+Alternatively @code{MainApp::CreateBehaviourTree ()}, demonstrates how to code a behaviour tree, first all nodes of the tree must be created. This requires a reference to the plugin manager that can be obtained by:
 
 @example
 csRef<iPluginManager> plugin_mgr = 
@@ -55,7 +59,7 @@ The default selector, executes its children in the order they were added until o
 @item
 @samp{cel.selectors.random}: Executes one child at random. Fails or succeeds as child selected fails or succeeds.
 @item
-@samp{cel.decorators.executionlimit}: Limits the number of times its child can be executed. If child executed, fails or succeeds as child does, but if execution limit reached fails and does not execute child.
+@samp{cel.decorators.executionlimit}: Limits the number of times its child can be executed. If it's child is executed and completes, then this node succeeds, but if the execution limit has been reached the node fails and does not execute it's child.
 @item
 @samp{cel.decorators.loop}: Executes the child a set number of times. Fails if child does at any time, succeeds if all iterations of child succeed.
 @item
@@ -68,7 +72,7 @@ The default selector, executes its children in the order they were added until o
 @samp{cel.behaviourtree.parametercheck}: Checks if a parameter equals a value. Returns true if it does, or false otherwise.
 @end itemize
 
-In the bttest application in lines 214 to 253, you will see a number of nodes set up representing each of the above types at least once. These will shortly be connected to demonstrate a working bt but first a number of specific details for certain nodes will need to be set up.
+In the bttest application in lines 243 to 283, you will see a number of nodes set up representing each of the above types at least once. These will shortly be connected to demonstrate a working bt but first a number of specific details for certain nodes will need to be set up.
 
 Selectors require no further setup, other than the connection of children that will be covered later. Some decorators, however, do. For example:
 
@@ -79,7 +83,7 @@ explicit_execution_limit_node->SetExecutionLimit("1");
 
 @end example
 
-This sets up the execution limit decorator to only allow its child to be executed once. Similarly, the loop decorator must be set up with the number of iterations to perform and the parameter check condition must be set up with a value and parameter to compare. Examples of this can be found in lines 260-267 of app.cpp.
+This sets up the execution limit decorator to only allow its child to be executed once. Similarly, the loop decorator must be set up with the number of iterations to perform and the parameter check condition must be set up with a value and parameter to compare. Examples of this can be found in lines 284-297 of app.cpp.
 
 Finally the triggerfired node and btaction nodes, that act as wrappers to the recently refactored cel triggers and rewards, must be set up. The trigger fired node requires a trigger be created and assigned whilst the btaction node requires a reward to be created and assigned. This is marginally more complex as the trigger example below shows:
 
@@ -101,7 +105,7 @@ explicit_trigger_node->SetTrigger (trigger);
 
 First a trigger type object of the required type must be loaded. This can be used to create a trigger factory, that is set up to create the required trigger. The specific setup details for the trigger factory will depend on the type of trigger used. The BT wrapper for triggers is capable of using any CEL trigger.
 
-A similar method is used for rewards, in lines 284-325, however as all rewards in this behaviour tree are of the same type (debug message) the type need only be loaded once and the factory only created once. After that the message parameter (for this specific reward type) can be edited and a new reward made. There is no need to repeat the loading of the type and creation of the reward factory. This method of editing the setup and not recreating the factory can also be applied to triggers where multiple instances of the same trigger type are needed.
+A similar method is used for rewards, in lines 316-363, however as all rewards in this behaviour tree are of the same type (debug message) the type need only be loaded once and the factory only created once. After that the message parameter (for this specific reward type) can be edited and a new reward made. There is no need to repeat the loading of the type and creation of the reward factory. This method of editing the setup and not recreating the factory can also be applied to triggers where multiple instances of the same trigger type are needed.
 
 
 With all nodes setup they must now be connected. This is a relatively simple process whereby a child is added to a parent using the parent's AddChild () method. For example:
@@ -110,7 +114,7 @@ With all nodes setup they must now be connected. This is a relatively simple pro
 root_node->AddChild (initial_sequence_node);
 @end example
 
-The full process of connecting this tree is encapsulated in lines 325-247 of app.cpp. The connected tree's behaviour can be described as:
+The full process of connecting this tree is encapsulated in lines 365-386 of app.cpp. The connected tree's behaviour can be described as:
 
 @itemize @bullet
 @item
@@ -131,14 +135,7 @@ The agent will begin to act irrationally, flipping from irritable to loving at r
 @end itemize
 
 
-Finally, for the tree to begin execution. A final node of type behaviour tree must be loaded, the tree's root node connected as a sole child and the behaviour tree node executed. This is done by:
-
-@example
-csRef<iBTNode> tree = csLoadPlugin<iBTNode> (plugin_mgr, 
-  "cel.behaviourtree"); 
-tree->AddChild(root_node); 
-tree->Execute(params);
-@end example
+Finally, in lines 389-398, the root node is set as a property of the propclass and the behaviour tree is started by performing the action "BT Start".
 
 And so completes this tutorial. Hopefully, by following this example you can now construct your own cel behaviour tree. The more interesting design challenges now come from how to combine these tools to create complex and fun behaviours for the characters in your game. For discussions on design choices when constructing behaviour trees, the author highly recommends @url{http://www.aigamedev.com}. 
 

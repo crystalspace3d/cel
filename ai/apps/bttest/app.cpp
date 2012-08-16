@@ -217,7 +217,7 @@ void MainApp::LoadBehaviourTreeFromXML ()
   if (error != 0)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-                "cel.questmanager",
+                "appbttest",
                 "Can't open file '%s': %s!", filename, error);
   }
 
