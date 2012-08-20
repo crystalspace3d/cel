@@ -1644,11 +1644,8 @@ void DynamicObject::CreateCollider ()
 void DynamicObject::CreateBody ()
 {
   bsphereValid = false;
-  if (body)
-  {
-    body->DestroyColliders ();
-    body = 0;
-  }
+  RemoveBody ();
+
   if (!factory->GetWorld ()->IsPhysicsEnabled ())
     return;	// No physics, no body.
 
@@ -1688,9 +1685,19 @@ void DynamicObject::RemoveBody ()
 
 void DynamicObject::RefreshColliders ()
 {
+  bool remember_static = is_static;
+  if (!remember_static) MakeStatic ();
+
+  if (body)
+  {
+    if (factory->GetWorld ()->IsPhysicsEnabled ())
+      CreateBody ();
+    else
+      RemoveBody ();
+  }
   CreateCollider ();
-  if (!body) return;
-  CreateBody ();
+
+  if (!remember_static) MakeDynamic ();
 }
 
 bool DynamicObject::HasBody (iRigidBody* body)
@@ -2342,7 +2349,6 @@ void celPcDynamicWorld::RemoveSafeEntities ()
     }
   }
   safeToRemove.DeleteAll ();
-  fflush (stdout);
 }
 
 void celPcDynamicWorld::ProcessFadingIn (float fade_speed)
@@ -2840,17 +2846,7 @@ void celPcDynamicWorld::EnablePhysics (bool e)
   while (it->HasNext ())
   {
     iDynamicCell* cell = it->NextCell ();
-    if (doPhysics)
-      UpdateObjects (cell);
-    else
-    {
-      for (size_t i = 0 ; i < cell->GetObjectCount () ; i++)
-      {
-        iDynamicObject* idynobj = cell->GetObject (i);
-        DynamicObject* dynobj = static_cast<DynamicObject*> (idynobj);
-	dynobj->RemoveBody ();
-      }
-    }
+    UpdateObjects (cell);
   }
 }
 
