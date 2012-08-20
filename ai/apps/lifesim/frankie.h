@@ -23,43 +23,8 @@
 #define __FRANKIE_H
 
 #include "tools/behaviourtree.h"
-
-#include "behave.h"
 #include "lifesim.h"
 
 struct iBTNode;
-
-class FrankieBehaviour : public BehaviourCommon
-{
- private:
-  csRef<iBTNode> behaviourTree;
-  csStringID className;
-  
-  csStringID id_pctrigger_entityenters;
-  csStringID id_pctrigger_entityleaves;
-  csStringID id_pctrigger_entertrigger;
-  csStringID id_pctrigger_leavetrigger;
-  csStringID id_pcsteer_arrived;
-  //list of sheep entities
-  csRef<iCelEntityList> sheep_entities;
-  //list of ram entities
-  csRef<iCelEntityList> ram_entities; 
-  //position of the ram which this entity want to escape from
-  const char* sheep_name;
-  const char* position;
-  const char* resetTrigger;
- public:
-  FrankieBehaviour (iCelEntity* entity, BehaviourLayer* behaviourLayer, 
-		    iCelPlLayer* physicalLayer);
-  virtual ~FrankieBehaviour () {}
-
-  void CreateBehaviourTree ();
-
-  virtual bool SendMessage (csStringID msg_id, iCelPropertyClass* pc, celData& ret, 
-                            iCelParameterBlock* params, va_list arg);
-
-  void TickEveryFrame ();
-  void TickOnce ();
-};
 
 #endif // __FRANKIE_H
