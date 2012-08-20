@@ -41,8 +41,6 @@ iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity,
 	const char* name)
 {
   csRef<iCelBehaviour> behaviour;
-  if (!strcmp (name, "frankie_behaviour"))
-    behaviour.AttachNew (new FrankieBehaviour (entity, this, physicalLayer));
 	
   if (!strcmp (name, "sheep_behaviour"))
     behaviour.AttachNew (new SheepBehaviour (entity, this, physicalLayer));
