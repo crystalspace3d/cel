@@ -933,6 +933,8 @@ void celPcDefaultCamera::UpdateCamera ()
   GetLastFullPosition (actor_pos, actor_yrot, actor_sector);
   if (!actor_sector)
   {
+    printf ("Warning! No actor found. Can't do anything!\n");
+    fflush (stdout);
     // We have no actor, or it is not yet positioned,
     // so just keep current camera settings.
     return;	// Can't do anything.

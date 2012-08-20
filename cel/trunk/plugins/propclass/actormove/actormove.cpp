@@ -255,6 +255,8 @@ void celPcActorMove::EnableMouseMove (bool en)
 
 void celPcActorMove::TickEveryFrame ()
 {
+  FindSiblingPropertyClasses ();
+
   // handle animation changes
   if (pcmesh)
   {
