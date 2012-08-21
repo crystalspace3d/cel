@@ -85,11 +85,14 @@ private:
   // A set of all entities that were created after the baseline.
   csSet<csPtrKey<iCelEntity> > newEntities;
 
+  void Setup ();
+
 public:
   celELCM (iBase* parent);
   virtual ~celELCM ();
   virtual bool Initialize (iObjectRegistry* object_reg);
 
+  virtual void DeleteAll ();
   virtual void SetPlayer (iCelEntity* entity);
   virtual iCelEntity* GetPlayer () const { return player; }
 

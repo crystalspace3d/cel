@@ -53,7 +53,8 @@ private:
   csString tag;
   csArray<ccfPropAct> properties;
 
-  ccfPropAct& Create (csStringID id);
+  // If 'duplicate' is true then duplicate properties are allowed (mostly useful for actions).
+  ccfPropAct& Create (csStringID id, bool duplicate = false);
 
 public:
   celPropertyClassTemplate ();

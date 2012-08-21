@@ -79,11 +79,17 @@ celPropertyClassTemplate::~celPropertyClassTemplate ()
 {
 }
 
-ccfPropAct& celPropertyClassTemplate::Create (csStringID id)
+ccfPropAct& celPropertyClassTemplate::Create (csStringID id, bool duplicate)
 {
+  size_t i;
+  if (!duplicate)
+  {
+    i = FindProperty (id);
+    if (i != csArrayItemNotFound) return properties[i];
+  }
   ccfPropAct prop;
   prop.id = id;
-  size_t i = properties.Push (prop);
+  i = properties.Push (prop);
   return properties[i];
 }
 
@@ -147,7 +153,7 @@ void celPropertyClassTemplate::SetProperty (csStringID propertyID,
 void celPropertyClassTemplate::PerformAction (csStringID actionID,
     const csHash<csRef<iParameter>, csStringID>& params)
 {
-  Create (actionID).params = params;
+  Create (actionID, true).params = params;
 }
 
 void celPropertyClassTemplate::ReplaceActionParameters (size_t idx,

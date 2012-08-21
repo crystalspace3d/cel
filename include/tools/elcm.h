@@ -82,6 +82,11 @@ struct iELCM: public virtual iBase
   SCF_INTERFACE (iELCM, 0, 0, 1);
 
   /**
+   * Delete everything (useful to start over).
+   */
+  virtual void DeleteAll () = 0;
+
+  /**
    * Register the player entity. The ELCM will use this entity to find out
    * where the player is (and thus to calculate the set of active entities).
    */
