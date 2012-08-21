@@ -144,6 +144,15 @@ public:
 celELCM::celELCM (iBase* parent)
   : scfImplementationType (this, parent)
 {
+  Setup ();
+}
+
+celELCM::~celELCM ()
+{
+}
+
+void celELCM::Setup ()
+{
   activityRadius = 500;
   distanceThresshold = 20;
   checkTime = 100;
@@ -156,8 +165,18 @@ celELCM::celELCM (iBase* parent)
   activeEntities = &activeEntities1;
 }
 
-celELCM::~celELCM ()
+void celELCM::DeleteAll ()
 {
+  player = 0;
+  playerCamera = 0;
+  playerMesh = 0;
+
+  activeEntities1.DeleteAll ();
+  activeEntities2.DeleteAll ();
+  inactiveEntities.DeleteAll ();
+  deletedEntities.DeleteAll ();
+  newEntities.DeleteAll ();
+  Setup ();
 }
 
 bool celELCM::Initialize (iObjectRegistry* object_reg)

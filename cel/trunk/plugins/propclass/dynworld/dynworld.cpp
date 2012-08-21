@@ -2109,6 +2109,7 @@ void celPcDynamicWorld::DeleteAll ()
   currentCell = 0;
   idToDynObj.DeleteAll ();
   nameToDynObj.DeleteAll ();
+  safeToRemove.DeleteAll ();
   hasMovedFromBaseline.DeleteAll ();
   visibleObjects.DeleteAll ();
   fadingOut.DeleteAll ();
