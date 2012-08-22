@@ -103,6 +103,14 @@ bool celAddOnDynamicWorldLoader::Initialize (iObjectRegistry *object_reg)
 bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
 {
   csString name = node->GetAttributeValue ("name");
+  iDynamicFactory* fact = dynworld->FindFactory (name);
+  if (fact)
+  {
+    synldr->Report ("dynworld.loader", CS_REPORTER_SEVERITY_WARNING, node,
+	  "Factory '%s' is already in memory!", name.GetData ());
+    return true;
+  }
+
   float maxradius = 1.0f;
   if (node->GetAttribute ("maxradius"))
     maxradius = node->GetAttributeValueAsFloat ("maxradius");
@@ -148,7 +156,6 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
     }
   }
 
-  iDynamicFactory* fact;
   if (logic)
     fact = dynworld->AddLogicFactory (name, maxradius, imposterradius, csBox3 (min, max));
   else if (light)
