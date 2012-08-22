@@ -2104,7 +2104,6 @@ void celPcDynamicWorld::DeleteAll ()
 {
   lastIDBlock = 1000000000;
   checkForMovement.DeleteAll ();
-  meshCache.RemoveMeshes ();
   cells.DeleteAll ();
   currentCell = 0;
   idToDynObj.DeleteAll ();
@@ -2115,6 +2114,7 @@ void celPcDynamicWorld::DeleteAll ()
   fadingOut.DeleteAll ();
   fadingIn.DeleteAll ();
   safeToRemove.DeleteAll ();
+  meshCache.RemoveMeshes ();
 }
 
 void celPcDynamicWorld::SetELCM (iELCM* elcm)
