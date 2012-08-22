@@ -66,7 +66,7 @@ class DynamicCell;
 class MeshCacheFactory
 {
 public:
-  csArray<iMeshWrapper*> meshes;
+  csRefArray<iMeshWrapper> meshes;
 };
 
 class MeshCache
