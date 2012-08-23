@@ -66,12 +66,29 @@ public:
    * Parse the parameters in a 'params' node. and return
    * an implementation of iCelParameterBlock.
    * After the node comes a list of parameter pairs (a string and a
-   * celData pointer) with the parameter name being equal to CEL_PARAM_END.
+   * celData pointer) with the last parameter name being equal to CEL_PARAM_END.
    * These parameter pairs are also added to the given parameter block by
    * default.
    */
   static csRef<iCelParameterBlock> ParseParams (iObjectRegistry* object_reg,
       iDocumentNode* node, ...);
+
+  /**
+   * Write out a parameters block in a document node.
+   * Returns false on failure (with error being reported).
+   */
+  static bool WriteParams (iObjectRegistry* object_reg,
+    iDocumentNode* node, iCelParameterBlock* params);
+
+  /**
+   * Return the name of a type.
+   */
+  static csString GetTypeName (celDataType type);
+
+  /**
+   * Return a type given the name.
+   */
+  static celDataType GetType (const char* name);
 
   /**
    * Get the value of this data type as a string.
