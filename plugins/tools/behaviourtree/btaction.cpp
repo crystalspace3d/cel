@@ -30,11 +30,27 @@ CEL_IMPLEMENT_BTNODE (BehaviourTreeAction)
 
 //---------------------------------------------------------------------------
 
-bool celBehaviourTreeAction::Execute (iCelParameterBlock* params)
+BTStatus celBehaviourTreeAction::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
 {
-  for (size_t i = 0; i < actions.GetSize (); i++)
-    actions[i]->Reward (nullptr);
-  return true;
+  int num_actions = actions.GetSize ();
+
+  if (num_actions == 0)
+  {
+    csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+        "cel.behaviourtree.action",
+        "No action specified for: %s", name.GetData() );
+
+    status = BT_UNEXPECTED_ERROR;
+  }
+  else
+  {
+    for (int i = 0; i < num_actions; i++)
+    {
+      actions[i]->Reward (nullptr);
+    }
+    status = BT_SUCCESS;
+  }
+  return status;
 }
 
 bool celBehaviourTreeAction::AddChild (iBTNode* child)

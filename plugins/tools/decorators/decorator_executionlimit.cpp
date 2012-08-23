@@ -31,40 +31,106 @@ SCF_IMPLEMENT_FACTORY (celExecutionLimitDecorator)
 
 //---------------------------------------------------------------------------
 
-celExecutionLimitDecorator::celExecutionLimitDecorator (				
-	iBase* parent) : scfImplementationType (this, parent),	
-	object_reg(0)											
-{															
-}															
-bool celExecutionLimitDecorator::Initialize (					
-	iObjectRegistry* object_reg)							
-{									
-  celExecutionLimitDecorator::object_reg = object_reg;			
-  execution_limit = 0;
-  execution_count = 0;
-  return true;												
+celExecutionLimitDecorator::celExecutionLimitDecorator (                               
+  iBase* parent) : scfImplementationType (this, parent), 
+  object_reg(0)                                                                                   
+{                                                                                                                       
 }
 
-bool celExecutionLimitDecorator::Execute (iCelParameterBlock* params)
+bool celExecutionLimitDecorator::Initialize (                                   
+  iObjectRegistry* object_reg)                                                   
+{                                                                       
+  celExecutionLimitDecorator::object_reg = object_reg;
+  status = BT_NOT_STARTED;  
+  name = "un-named node";               
+  execution_limit = 0;
+  execution_count = 0;
+  return true;                                                                                         
+}
+
+BTStatus celExecutionLimitDecorator::GetStatus ()
 {
-  //printf("Execution Limit Decorator\n");
+  return status;
+}
 
-  if (execution_limit == 0)
+void celExecutionLimitDecorator::SetStatus (BTStatus newStatus)
+{
+  status = newStatus;
+}
+
+void celExecutionLimitDecorator::SetName(csString nodeName)
+{
+  name = nodeName;
+}
+
+BTStatus celExecutionLimitDecorator::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
+{
+  // On first execution
+  if (status == BT_NOT_STARTED)
+  {	
+    if (!child_node.IsValid())
+    {
+      csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+          "cel.decorators.executionlimit",
+          "No child node specified for: %s", name.GetData());
+
+      status = BT_UNEXPECTED_ERROR;
+    }
+    else
+    {
+
+      // Get execution limit from parameters
+      csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+        (object_reg, "cel.parameters.manager");
+      csRef<iParameter> p = pm->GetParameter(execution_limit_param);
+      const char* s = p->Get (params);
+      if (s)
+      {
+        execution_limit = atoi (s);
+      }
+      
+      //If execution limit is 0 - probably an error
+      if (execution_limit == 0)
+      {
+        csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+            "cel.decorators.executionlimit",
+            "Execution limit not set for: %s", name.GetData());
+
+        status = BT_UNEXPECTED_ERROR;
+      }
+      else
+      {
+        if(execution_count >= execution_limit)
+        {
+          // child has reached execution limits 
+	        status = BT_FAIL_CLEAN;
+        }
+        else
+        {
+          // execute child and count execution
+          execution_count++;
+          BTStack->Push(child_node);
+          child_node->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+          status = BT_RUNNING;
+        }
+      }  
+    }
+  }
+  else
   {
-    csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
-      (object_reg, "cel.parameters.manager");
+    BTStatus child_status = child_node->GetStatus();
 
-    const char* s = pm->ResolveParameter(params, execution_limit_param);
-    execution_limit = atoi (s);
+    if (child_status == BT_UNEXPECTED_ERROR)
+    {
+      status = child_status;
+    }
+    else if (child_status == BT_SUCCESS || child_status == BT_FAIL_CLEAN)
+    {
+      status = BT_SUCCESS;
+    }
   }
 
-  
-  if(execution_count >= execution_limit)
-  {
-    return false;
-  }
-  execution_count++;
-  return child_node->Execute(params);
+  return status;
 }
 
 bool celExecutionLimitDecorator::AddChild (iBTNode* child)

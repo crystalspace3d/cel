@@ -17,25 +17,11 @@
 */
 #include "pathfindingtest.h"
 
-inline void disposeDebugMeshes(csList<csSimpleRenderMesh>* meshes)
-{
-  if (meshes)
-  {
-    csList<csSimpleRenderMesh>::Iterator it(*meshes);
-    while (it.HasNext())
-    {
-      csSimpleRenderMesh mesh = it.Next();
-      delete [] mesh.vertices;
-      delete [] mesh.colors;
-    }
-    delete meshes;
-  }
-}
+#include <csutil/measuretime.h>
 
 MainApp::MainApp () 
+: DemoApplication ("CrystalSpace.PathFindingTest") 
 {
-  SetApplicationName("Navigation Mesh Test");
-  destinationSet = false;
   renderNavMesh = true;
   renderDestination = true;
   renderPath = true;
@@ -45,17 +31,10 @@ MainApp::MainApp ()
   navStructMeshes = 0;
   pathMeshes = 0;
   destinationMeshes = 0;
-  clearMeshes = false;
-  updateMeshes = false;
-  updatePathMeshes = false;
-  updateDestinationMeshes = false;
 }
 
 MainApp::~MainApp () 
 {
-  disposeDebugMeshes(navStructMeshes);
-  disposeDebugMeshes(pathMeshes);
-  disposeDebugMeshes(destinationMeshes);
 }
 
 bool MainApp::LoadLevel ()
@@ -74,7 +53,11 @@ bool MainApp::LoadLevel ()
   zone->LinkRegion(region);
 
   mapfile = region->CreateMapFile();
+
   mapfile->SetPath("/lev/castle");  
+  // vfs->Mount("/bias/", "$@data$/bias$/world.zip");
+  // mapfile->SetPath("/bias");  
+
   mapfile->SetFile("world");
   vfs->ChDir("/lev/castle");
 
@@ -140,6 +123,7 @@ bool MainApp::CreatePlayer ()
   agentRadius = csQsqrt(csSquare(x) + csSquare(z)) * 0.5f;
 
   if (pcZoneMgr->PointMesh("player", "main", "Camera"))
+  // if (pcZoneMgr->PointMesh("player", "main", "Camera.001"))
   {
     return ReportError("Can't find region or start position in region!");
   }
@@ -241,86 +225,50 @@ void MainApp::Frame ()
 {
   pcCamera->Draw();
 
+  // Auto-update navigation mesh
+  if (updateNavmesh && navStruct)
+  {
+    navStruct->Update(updateArea, engine->FindSector("interior"));
+    navStructMeshes = navStruct->GetDebugMeshes();
+  }
+
   // Render navigation structure
   if (navStructMeshes && renderNavMesh)
   {
-    csList<csSimpleRenderMesh>::Iterator it(*navStructMeshes);
+    csArray<csSimpleRenderMesh*>::Iterator it = navStructMeshes->GetIterator();
     while (it.HasNext())
     {
-      g3d->DrawSimpleMesh(it.Next());
+      g3d->DrawSimpleMesh(*it.Next());
     }
   }
 
   // Render destination agent proxy
   if (destinationMeshes && renderDestination)
   {
-    csList<csSimpleRenderMesh>::Iterator it(*destinationMeshes);
+    csArray<csSimpleRenderMesh*>::Iterator it = destinationMeshes->GetIterator();
     while (it.HasNext())
     {
-      g3d->DrawSimpleMesh(it.Next());
+      g3d->DrawSimpleMesh(*it.Next());
     }
   }
 
   // Render path
   if (behaviourLayer->GetPath() && path != behaviourLayer->GetPath())
   {
-    updatePathMeshes = true;
-  }
-  path = behaviourLayer->GetPath();
-  if (pathMeshes && path && renderPath)
-  {
-    csList<csSimpleRenderMesh>::Iterator it(*pathMeshes);
-    while (it.HasNext())
-    {
-      g3d->DrawSimpleMesh(it.Next());
-    }
-  }
-
-  if (!navStruct)
-    return;
-
-  // Auto-update navigation mesh
-  if (updateNavmesh)
-  {
-    navStruct->Update(updateArea, engine->FindSector("interior"));
-    updateMeshes = true;
-  }
-
-  // If we just modifying the meshes in the OnKeyboard method, they may be deleted
-  // while rendering a frame, causing a crash.
-  if (clearMeshes || updateMeshes)
-  {
-    disposeDebugMeshes(navStructMeshes);
-    navStructMeshes = 0;
-    if (updateMeshes)
-    {
-      navStructMeshes = navStruct->GetDebugMeshes();
-      updateMeshes = false;
-    }
-  }
-  if (clearMeshes || updatePathMeshes)
-  {
-    disposeDebugMeshes(pathMeshes);
-    pathMeshes = 0;
-    if (updatePathMeshes)
+    path = behaviourLayer->GetPath();
+    if (path)
     {
       pathMeshes = path->GetDebugMeshes();
-      updatePathMeshes = false;
     }
-  }
-  if (clearMeshes || updateDestinationMeshes)
+  }  
+  if (pathMeshes && path && renderPath)
   {
-    disposeDebugMeshes(destinationMeshes);
-    destinationMeshes = 0;
-    destinationSet = false;
-    if (updateDestinationMeshes)
+    csArray<csSimpleRenderMesh*>::Iterator it = pathMeshes->GetIterator();
+    while (it.HasNext())
     {
-      destinationMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
-      updateDestinationMeshes = false;
-      destinationSet = true;
+      g3d->DrawSimpleMesh(*it.Next());
     }
   }
-  clearMeshes = false;
 }
 
 bool MainApp::OnKeyboard(iEvent& ev)
@@ -346,9 +294,9 @@ bool MainApp::OnKeyboard(iEvent& ev)
     }
     else if (code == 'b') // Build navstruct
     {
+      CS::MeasureTime measure ("Total time to build the navigation structure");
       navStruct.Invalidate();
       path.Invalidate();
-      destinationSet = false;
       behaviourLayer->SetPath(0);
       if (!params)
       {
@@ -360,7 +308,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
         // Reduce minium region size so we can see the navmeshes inside the cells in the dungeon
         // sector. The cells remain inaccessible however, since the model's bounding box is too
         // big.
-        params->SetMinRegionSize(10);
+        params->SetMinRegionArea(10);
         // This parameter sets how far from the navmesh I can click and still get an approximated
         // path (for example, clicking on walls and ceilings). It also determines how far the final
         // node of a path can be from it's intended destination (Detour always returns a path, 
@@ -369,16 +317,17 @@ bool MainApp::OnKeyboard(iEvent& ev)
         params->SetPolygonSearchBox(csVector3(2, 4, 2));
         navStructBuilder->SetNavMeshParams(params);
       }
-      csList<iSector*> sectorList;
+      csRefArray<iSector> sectorList;
       int size = engine->GetSectors()->GetCount();
       for (int i = 0; i < size; i++)
       {
-        sectorList.PushBack(engine->GetSectors()->Get(i));    
+        sectorList.Push(engine->GetSectors()->Get(i));
       }
-      navStructBuilder->SetSectors(sectorList);
+
+      navStructBuilder->SetSectors(&sectorList);
       navStruct = navStructBuilder->BuildHNavStruct();
       behaviourLayer->SetNavStruct(navStruct);
-      updateMeshes = true;
+      navStructMeshes = navStruct->GetDebugMeshes();
     }
     else if (code == 's') // Save navstruct
     {
@@ -392,15 +341,17 @@ bool MainApp::OnKeyboard(iEvent& ev)
       navStruct.Invalidate();
       navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure2.zip");
       behaviourLayer->SetNavStruct(navStruct);
-      updateMeshes = true;
+      navStructMeshes = navStruct->GetDebugMeshes();
     }
     else if (code == 'c') // Clear navstruct, positions and path
     {
       navStruct.Invalidate();
+      behaviourLayer->SetNavStruct(0);
       path.Invalidate();
-      destinationSet = false;
       behaviourLayer->SetPath(0);
-      clearMeshes = true;
+      navStructMeshes = 0;
+      pathMeshes = 0;
+      destinationMeshes = 0;
     }
     else if (code == '1') // Switch navmesh rendering
     {
@@ -433,7 +384,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
     else if (code == 'u') // Update navmesh now
     {
       navStruct->Update(updateArea, engine->FindSector("interior"));
-      updateMeshes = true;
+      navStructMeshes = navStruct->GetDebugMeshes();
     }
     else if (code == 'y') // Update navmesh every time the big stone block moves
     {
@@ -470,23 +421,27 @@ bool MainApp::OnMouseClick (iEvent& ev)
 // left
 void MainApp::MouseClick1Handler (iEvent& ev)
 {
-  csVector2 screenPoint;
-  screenPoint.x = csMouseEventHelper::GetX(&ev);
-  screenPoint.y = csMouseEventHelper::GetY(&ev);
-
-  csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, camera);
-  if (!st.mesh)
-    return;
-
-  csRef<iSectorList> sectorList = st.mesh->GetMovable()->GetSectors();
-  if (sectorList->GetCount() != 1)
+  if (navStruct)
   {
-    return;
-  }
+    csVector2 screenPoint;
+    screenPoint.x = csMouseEventHelper::GetX(&ev);
+    screenPoint.y = csMouseEventHelper::GetY(&ev);
 
-  destination = st.isect;
-  destinationSector = sectorList->Get(0);
-  updateDestinationMeshes = true;
+    csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, camera);
+    if (!st.mesh)
+      return;
+
+    csRef<iSectorList> sectorList = st.mesh->GetMovable()->GetSectors();
+    if (sectorList->GetCount() != 1)
+    {
+      return;
+    }
+
+    destination = st.isect;
+    destinationSector = sectorList->Get(0);
+    navStruct->ResetAgentDebugMeshes();
+    destinationMeshes = navStruct->GetAgentDebugMeshes(destination, 50, 255, 120, 150);
+  }
 }
 
 // right
@@ -499,17 +454,22 @@ void MainApp::MouseClick3Handler (iEvent& ev)
 {
 }
 
+void MainApp::PrintHelp () 
+{ 
+  csCommandLineHelper commandLineHelper; 
+  
+  // Printing help 
+  commandLineHelper.PrintApplicationHelp 
+  (GetObjectRegistry (), "pathfindingtest", "pathfindingtest", "App to build, save and test NavMeshes and Paths."); 
+} 
+
 bool MainApp::OnInitialize (int argc, char* argv[])
 {
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::OnInitialize (argc, argv)) 
+    return false; 
+
   if (!celInitializer::RequestPlugins(object_reg,
-        CS_REQUEST_VFS,
-    	CS_REQUEST_OPENGL3D,
-    	CS_REQUEST_ENGINE,
-    	CS_REQUEST_FONTSERVER,
-    	CS_REQUEST_IMAGELOADER,
-    	CS_REQUEST_LEVELLOADER,
-    	CS_REQUEST_REPORTER,
-    	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN("cel.physicallayer", iCelPlLayer),
     	CS_REQUEST_PLUGIN("crystalspace.collisiondetection.opcode", iCollideSystem),
         CS_REQUEST_PLUGIN("cel.hnavstructbuilder", iCelHNavStructBuilder),
@@ -518,22 +478,14 @@ bool MainApp::OnInitialize (int argc, char* argv[])
     return ReportError ("Can't initialize plugins!");
   }
 
-  csBaseEventHandler::Initialize(object_reg);
-
-  if (!RegisterQueue(object_reg, csevAllEvents(object_reg)))
-  {
-    return ReportError ("Can't setup event handler!");
-  }
-
   return true;
 }
 
 bool MainApp::Application ()
 {
-  if (!OpenApplication(object_reg))
-  {
-    return ReportError("Error opening system!");
-  }
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::Application ()) 
+    return false; 
 
   if (!LoadPlugins())
   {
@@ -552,9 +504,24 @@ bool MainApp::Application ()
   {
     return ReportError("Couldn't create box!");
   }
-  
 
-  printer.AttachNew(new FramePrinter(object_reg));
+  // Define the available keys 
+  hudManager->GetKeyDescriptions ()->Empty(); 
+  hudManager->GetKeyDescriptions ()->Push ("b: build NavMesh"); 
+  hudManager->GetKeyDescriptions ()->Push ("l: load NavMesh"); 
+  hudManager->GetKeyDescriptions ()->Push ("1: switch rendering NavMesh on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("2: switch rendering path destination on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("3: switch rendering path on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("4: switch rendering block on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("esc: exit application"); 
+  hudManager->GetKeyDescriptions ()->Push ("-"); 
+  hudManager->GetKeyDescriptions ()->Push ("With NavMesh built/loaded:"); 
+  hudManager->GetKeyDescriptions ()->Push ("c: clear NavMesh"); 
+  hudManager->GetKeyDescriptions ()->Push ("s: save NavMesh"); 
+//  hudManager->GetKeyDescriptions ()->Push ("t: test path finding algorithm");
+  hudManager->GetKeyDescriptions ()->Push ("u: update NavMesh");
+  hudManager->GetKeyDescriptions ()->Push ("y: update NavMesh every time block moves");
+  hudManager->GetKeyDescriptions ()->Push ("left mouse click: set path destination"); 
 
   Run();
 
@@ -563,42 +530,6 @@ bool MainApp::Application ()
 
 bool MainApp::LoadPlugins ()
 {
-  g3d = csQueryRegistry<iGraphics3D>(object_reg);
-  if (!g3d)
-  {
-    return ReportError("Failed to locate 3D renderer!");
-  }
-
-  engine = csQueryRegistry<iEngine>(object_reg);
-  if (!engine)
-  {
-    return ReportError("Failed to locate 3D engine!");
-  }
-
-  vc = csQueryRegistry<iVirtualClock>(object_reg);
-  if (!vc)
-  {
-    return ReportError("Failed to locate Virtual Clock!");
-  }
-
-  kbd = csQueryRegistry<iKeyboardDriver>(object_reg);
-  if (!kbd)
-  {
-    return ReportError("Failed to locate Keyboard Driver!");
-  }
-
-  loader = csQueryRegistry<iLoader>(object_reg);
-  if (!loader)
-  {
-    return ReportError("Failed to locate Loader!");
-  }
-
-  vfs = csQueryRegistry<iVFS>(object_reg);
-  if (!vfs)
-  {
-    return ReportError("Failed to locate VFS!");
-  }
-
   physicalLayer = csQueryRegistry<iCelPlLayer>(object_reg);
   if (!physicalLayer)
   {

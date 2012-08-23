@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-	Copyright (C) 2009 by Sam Devlin
+  Copyright (C) 2009 by Sam Devlin
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include <iutil/comp.h>
+#include <iutil/plugin.h>
 
 #include "plugins/tools/selectors/selector_default.h"
 
@@ -31,21 +32,60 @@ CEL_IMPLEMENT_BTNODE (DefaultSelector)
 
 //---------------------------------------------------------------------------
 
-bool celDefaultSelector::Execute (iCelParameterBlock* params)
+BTStatus celDefaultSelector::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
 {
-  //printf("DEFAULT SELECTOR\n");
+  if (status == BT_NOT_STARTED)
+  {
+    noOfChildren = children.GetSize();
+    if (noOfChildren == 0)
+    {
+      csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+          "cel.selectors.default",
+          "No children nodes specified for: %s", name.GetData());
 
-  int noOfChildren = children.GetSize();
-  for (int i = 0; i < noOfChildren; i++)
-  {	
-    if (children.Get(i)->Execute(params))
-      return true;
+      status = BT_UNEXPECTED_ERROR;
+    }
+    else
+    {	
+      // On first execution push first child to top of stack and initialise other local variables  
+      currentChild = 0;
+      BTStack->Push(children.Get(currentChild));
+      children.Get(currentChild)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+      status = BT_RUNNING;
+    }
   }
-  return false;
+  else
+  {
+    BTStatus child_status = children.Get(currentChild)->GetStatus();
+
+    if (child_status == BT_SUCCESS || child_status == BT_UNEXPECTED_ERROR)
+    {
+      // If child has succeeded or failed unexpectedly, so has selector
+      status = child_status;
+    }
+    else if (child_status == BT_FAIL_CLEAN) 
+    {
+      // If child has failed, move on to next
+      currentChild++;
+
+      if (currentChild < noOfChildren)
+      {
+        // If currentChild is a valid index for a child, push it to the top of the stack
+        BTStack->Push(children.Get(currentChild));
+        children.Get(currentChild)->SetStatus(BT_NOT_STARTED);  // In case child has been run before
+      }
+      else
+      {
+        // If we have tried all children, without finding success, then selector fails
+        status = BT_FAIL_CLEAN;
+      }
+    }
+  }
+  return status;
 }
 
 bool celDefaultSelector::AddChild (iBTNode* child)
 {
-	children.Push(child);
-	return true;
+  children.Push(child);
+  return true;
 }

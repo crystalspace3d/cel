@@ -26,18 +26,64 @@
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_FACTORY (celParameterCheckCondition)
-CEL_IMPLEMENT_BTNODE (ParameterCheckCondition)
 
 //---------------------------------------------------------------------------
 
-bool celParameterCheckCondition::Execute (iCelParameterBlock* params)
+celParameterCheckCondition::celParameterCheckCondition (
+	iBase* parent) : scfImplementationType (this, parent),
+  object_reg(0)
 {
-  //printf("CONDITION: Parameter Check\n");
+}
 
-  csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
-    (object_reg, "cel.parameters.manager");
+bool celParameterCheckCondition::Initialize (
+	iObjectRegistry* object_reg)
+{
+  celParameterCheckCondition::object_reg = object_reg;
+  status = BT_NOT_STARTED;  
+  name = "un-named node";
+  parameter = "";
+  value = "";
+  return true;
+}
 
-  return value == pm->ResolveParameter(params, parameter);
+BTStatus celParameterCheckCondition::GetStatus ()
+{
+  return status;
+}
+
+void celParameterCheckCondition::SetStatus (BTStatus newStatus)
+{
+  status = newStatus;
+}
+
+void celParameterCheckCondition::SetName(csString nodeName)
+{
+  name = nodeName;
+}
+
+BTStatus celParameterCheckCondition::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
+{
+  if (parameter == "" || value == "")
+  {
+    csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+        "cel.behaviourtree.parametercheck",
+        "Parameter or Value not set for: %s", name.GetData());
+
+    status = BT_UNEXPECTED_ERROR;
+  }
+  else
+  {
+    csRef<iParameterManager> pm = csQueryRegistryOrLoad<iParameterManager> 
+      (object_reg, "cel.parameters.manager");
+
+    if (value == pm->ResolveParameter(params, parameter)){
+      status = BT_SUCCESS;
+    } else {
+      status = BT_FAIL_CLEAN;
+    }
+  }
+
+  return status;
 }
 
 bool celParameterCheckCondition::AddChild (iBTNode* child)

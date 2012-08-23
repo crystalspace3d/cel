@@ -14,6 +14,7 @@ addons.
 * Addons CelEntity:: CelEntity Addon
 * Addons CelEntityTemplate:: CelEntity Template Addon
 * Addons XmlScripts:: XML Scripts Addon
+* Addons BTLoad:: Behaviour Tree Load Addon
 * Addons QuestDef:: Quest Definition Addon
 @end menu
 
@@ -121,7 +122,7 @@ the template. In addition you can also define other parameters at the time
 you create an entity from the template. In the example above the @samp{$pos}
 parameter is used.
 
-@node Addons XmlScripts, Addons QuestDef, Addons CelEntityTemplate, Addons
+@node Addons XmlScripts, Addons BTLoad, Addons CelEntityTemplate, Addons
 @subsection XML Scripts Addon
 @cindex XML scripts addon
 
@@ -164,7 +165,45 @@ This addon allows you to do two things: first you can load a property class
 factory with the @samp{pcfactory} operation. Secondly you can create scripts
 (corresponding with behaviours) for the @sc{xml} behaviour layer.
 
-@node Addons QuestDef, , Addons XmlScripts, Addons
+@node Addons BTLoad, Addons QuestDef, Addons XmlScripts, Addons
+@subsection Behaviour Tree Load Addon
+@cindex behaviour tree load addon
+
+With the @samp{cel.addons.questdef} addon you can define behaviour trees (@pxref{PropClass Behaviour Tree}) directly in a world file.
+Here is an example:
+
+@example
+<behaviour_tree name="testXML-BT">
+  <selector type="sequential" name="sequential_root">
+    <leaf_node type="action" name="StartupMessage">
+      <reward type="debugprint" message="Welcome! This behaviour has been loaded from XML!" />
+    </leaf_node>
+    <selector type="random" name="random_example">
+      <leaf_node type="action" name="Working_Action_Example">
+        <reward type="debugprint" message="Now with functioning actions!" />
+      </leaf_node>
+      <decorator type="negatereturn">
+        <leaf_node type="parametercheck" name="Param Check" parameter="2" value="2"></leaf_node>
+      </decorator>
+    </selector>
+    <selector type="default" name="example_default_selector">
+      <decorator type="loop" name="loop_limit" limit="2">
+        <decorator type="executionlimit" limit="1">
+          <leaf_node type="parametercheck" name="Param Check" parameter="2" value="2" />
+        </decorator>
+      </decorator>
+      <leaf_node type="parametercheck" name="Param Check" parameter="2" value="3" />
+      <leaf_node type="triggerfired" name="Untested Trigger Example">
+        <trigger type="message">
+          <fireon entity="player" mask="activate" />
+        </trigger>
+      </leaf_node>
+    </selector>
+  </selector>
+</behaviour_tree>
+@end example
+
+@node Addons QuestDef, , Addons BTLoad, Addons
 @subsection Quest Definition Addon
 @cindex quest definition addon
 

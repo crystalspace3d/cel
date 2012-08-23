@@ -29,7 +29,33 @@
  * Often reffered to in behaviour tree literature as a sequence.
  */
 
-CEL_DECLARE_BTNODE(SequentialSelector)
+class celSequentialSelector : public scfImplementation2<		
+		celSequentialSelector, 
+		iBTNode, iComponent>			
+{		
+private: 
+  iObjectRegistry* object_reg;						
+  csRefArray<iBTNode> children; 
+  BTStatus status;
+  csString name;
+
+  const char* execution_limit_param;
+  int noOfChildren;
+  int currentChild;
+
+public:									
+  celSequentialSelector (iBase* parent);			
+  virtual ~celSequentialSelector () { }					
+  virtual bool Initialize (iObjectRegistry*);	
+
+  //From iBTNode
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);		
+  virtual bool AddChild (iBTNode* child);
+  virtual BTStatus GetStatus ();
+  virtual void SetStatus (BTStatus newStatus);
+  virtual void SetName (csString nodeName);
+
+};
 
 #endif // __CEL_TOOLS_SELECTORS_SEQUENTIAL__
 

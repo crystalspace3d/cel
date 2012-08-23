@@ -23,29 +23,8 @@
 #define __FRANKIE_H
 
 #include "tools/behaviourtree.h"
-
-#include "behave.h"
 #include "lifesim.h"
 
 struct iBTNode;
-
-class FrankieBehaviour : public BehaviourCommon
-{
- private:
-  csRef<iBTNode> behaviourTree;
-
- public:
-  FrankieBehaviour (iCelEntity* entity, BehaviourLayer* behaviourLayer, 
-		    iCelPlLayer* physicalLayer);
-  virtual ~FrankieBehaviour () {}
-
-  void CreateBehaviourTree ();
-
-  virtual bool SendMessage (csStringID msg_id, iCelPropertyClass* pc, celData& ret, 
-                            iCelParameterBlock* params, va_list arg);
-
-  void TickEveryFrame ();
-  void TickOnce ();
-};
 
 #endif // __FRANKIE_H

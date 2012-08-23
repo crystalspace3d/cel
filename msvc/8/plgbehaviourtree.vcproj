@@ -632,9 +632,6 @@
 				RelativePath="..\..\msvc\plugin_impl.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\behaviourtree.cpp">
-			</File>
-			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\btaction.cpp">
 			</File>
 			<File
@@ -647,9 +644,6 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
-			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\behaviourtree.h">
-			</File>
 			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\btaction.h">
 			</File>

@@ -1,0 +1,11 @@
+<behaviour_tree name="BT-Frankie-LifeSimeDemo">
+  <selector type="sequential" name="sequential_root">
+    <leaf_node type="action" name="StartupMessage">
+      <reward type="debugprint" message="A New Frankie is born!" />
+    </leaf_node>
+    <leaf_node type="action" name="BehaviourDescription">
+      <reward type="debugprint" message="Frankie's should hunt sheep and throw them in the water." />
+    </leaf_node>
+  </selector>
+</behaviour_tree>
+

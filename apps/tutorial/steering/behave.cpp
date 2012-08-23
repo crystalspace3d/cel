@@ -50,6 +50,16 @@ iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity,
   return behave;
 }
 
+void BehaviourLayer::SetPath (iCelHPath* path)
+{
+  this->path = path;
+}
+
+iCelHPath* BehaviourLayer::GetPath () const
+{
+  return path;
+}
+
 //-----------------------------------------------------------------------------
 
 BehaviourCommon::BehaviourCommon (iCelEntity* entity, BehaviourLayer* bl,
@@ -438,7 +448,9 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 
     csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
     
-    pcsteer->Seek(sector, position);
+    pcsteer->Seek (sector, position);
+
+    bl->SetPath (pcsteer->GetPath ());
     
   }
   else if (msg_id == id_pccommandinput_flee1)

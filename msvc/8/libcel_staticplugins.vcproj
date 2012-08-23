@@ -593,6 +593,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\libaddon_behaviourtreeload_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libaddon_celentity_staticreg.cpp">
 			</File>
 			<File
@@ -660,6 +663,9 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\libpfanalogmotion_staticreg.cpp">
+			</File>
+			<File
+				RelativePath="..\..\msvc\libpfbehaviourtree_staticreg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\msvc\libpfbillboard_staticreg.cpp">
@@ -812,6 +818,9 @@
 				RelativePath="..\..\msvc\libui_inventory_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\addons\behaviourtreeload\behaviourtreeload.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\addons\celentity\celentity.cpp">
 			</File>
 			<File
@@ -921,6 +930,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\analogmotion\analogmotion.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\behaviourtree\behaviourtree.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\billboard\billboard.cpp">
@@ -1112,7 +1124,16 @@
 				RelativePath="..\..\plugins\recast\recastnavigation\DetourNavMeshBuilder.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourNavMeshQuery.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\DetourNode.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourTileCache.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourTileCacheBuilder.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\InputGeom.cpp">
@@ -1142,7 +1163,7 @@
 				RelativePath="..\..\plugins\recast\recastnavigation\RecastFilter.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\recast\recastnavigation\RecastLog.cpp">
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastLayers.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\RecastMesh.cpp">
@@ -1155,9 +1176,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\RecastRegion.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\recast\recastnavigation\RecastTimer.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\entity.cpp">
@@ -1173,9 +1191,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\pl.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\behaviourtree.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\btaction.cpp">
@@ -1503,6 +1518,9 @@
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\..\plugins\addons\behaviourtreeload\behaviourtreeload.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\addons\celentity\celentity.h">
 			</File>
 			<File
@@ -1600,6 +1618,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\analogmotion\analogmotion.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\behaviourtree\behaviourtree.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\billboard\billboard.h">
@@ -1785,10 +1806,19 @@
 				RelativePath="..\..\plugins\recast\recastnavigation\DetourAlloc.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourAssert.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\DetourCommon.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourCrowd.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\DetourDebugDraw.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourLocalBoundary.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\DetourNavMesh.h">
@@ -1797,7 +1827,31 @@
 				RelativePath="..\..\plugins\recast\recastnavigation\DetourNavMeshBuilder.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourNavMeshQuery.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\DetourNode.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourObstacleAvoidance.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourPathCorridor.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourPathQueue.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourProximityGrid.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourStatus.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourTileCache.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\DetourTileCacheBuilder.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\InputGeom.h">
@@ -1812,16 +1866,13 @@
 				RelativePath="..\..\plugins\recast\recastnavigation\RecastAlloc.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\recast\recastnavigation\RecastAssert.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\RecastDebugDraw.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\recast\recastnavigation\RecastDump.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\recast\recastnavigation\RecastLog.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\recast\recastnavigation\RecastTimer.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\entity.h">
@@ -1837,9 +1888,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\pl.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\tools\behaviourtree\behaviourtree.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\behaviourtree\btaction.h">

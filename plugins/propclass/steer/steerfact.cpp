@@ -30,6 +30,7 @@
 #include "behaviourlayer/behave.h"
 #include "csgeom/matrix3.h"
 #include "ivaria/reporter.h"
+#include "ivaria/mapnode.h"
 
 #include "iengine/mesh.h"
 #include "iengine/sector.h"
@@ -166,6 +167,9 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
 
   do_move = false;
   arrived = true;
+
+  navStruct = 0;
+  path=0;
 }
 
 celPcSteer::~celPcSteer ()
@@ -235,15 +239,14 @@ bool celPcSteer::Vigilant()
 bool celPcSteer::Seek (iSector* sector, const csVector3& position)
 {
   arrived = false;
+  path = 0;
   return DoSeek(sector,position);
 }
 
 bool celPcSteer::DoSeek (iSector* sector, const csVector3& position)
 {
   FindSiblingPropertyClasses ();
-  if (!pclinmove)
-    return false;
-  if (!pcactormove)
+  if (!pclinmove || !pcactormove || !pcMover)
     return false;
 
   //Interrupt();
@@ -255,17 +258,27 @@ bool celPcSteer::DoSeek (iSector* sector, const csVector3& position)
 
   pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
 
-  // set destination y value to the same as current y value so as to
-  // check only on x and z axis.
-  cur_position.y = position.y;
+  if (navStruct)
+  {
+    path = navStruct->ShortestPath(cur_position, cur_sector, position, sector);
+    csRef<iMapNode> node = path->Next();
+    pcMover->MoveTo(node->GetSector(), node->GetPosition(), 0.005f);
+    return true;
+  }
+  else
+  {
+    // set destination y value to the same as current y value so as to
+    // check only on x and z axis.
+    cur_position.y = position.y;
 
-  cur_direction = position-cur_position;
+    cur_direction = position-cur_position;
 
-  Move();
+    Move();
 
-  pl->CallbackOnce ((iCelTimerListener*)this, delay_recheck, CEL_EVENT_PRE);
+    pl->CallbackOnce ((iCelTimerListener*)this, delay_recheck, CEL_EVENT_PRE);
  
-  return true;
+    return true;
+  }
 }
 
 bool celPcSteer::Flee (iSector* sector, const csVector3& position)
@@ -771,8 +784,18 @@ void celPcSteer::FindSiblingPropertyClasses ()
   {
     pcactormove = celQueryPropertyClassEntity<iPcActorMove> (entity);
     pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+    pcMover = celQueryPropertyClassEntity<iPcMover> (entity);
     pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
 }
 
+void celPcSteer::SetNavStruct(iCelHNavStruct* navStruct)
+{
+  this->navStruct = navStruct;
+}
+
+iCelHPath* celPcSteer::GetPath()
+{
+  return path;
+}
 //---------------------------------------------------------------------------
